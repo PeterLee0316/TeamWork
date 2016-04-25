@@ -33,6 +33,7 @@ using static LWDicer.Control.DEF_SerialPort;
 using static LWDicer.Control.DEF_PolygonScanner;
 
 using static LWDicer.Control.DEF_CtrlHandler;
+using static LWDicer.Control.DEF_CtrlLoader;
 
 namespace LWDicer.Control
 {
@@ -999,7 +1000,12 @@ namespace LWDicer.Control
             refComp.IO = m_IO;
             refComp.AxElevator = m_AxLoader;            
 
+            // IO 설정은 임시로 진행함.
             data.InDetectWafer = iUHandler_PanelDetect;
+            data.InDetectCassette[CASSETTE_DETECT_SENSOR_1] = iInterface_00;
+            data.InDetectCassette[CASSETTE_DETECT_SENSOR_2] = iInterface_00;
+            data.InDetectCassette[CASSETTE_DETECT_SENSOR_3] = iInterface_00;
+            data.InDetectCassette[CASSETTE_DETECT_SENSOR_4] = iInterface_00;
 
             data.ElevatorZone.UseSafetyMove[DEF_Z] = true;
             data.ElevatorZone.Axis[DEF_Z].ZoneAddr[(int)EHandlerZAxZone.SAFETY] = 111; // need updete io address

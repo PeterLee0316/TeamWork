@@ -80,6 +80,10 @@ namespace LWDicer.Control
         //===============================================================================
         //  Cassette Info
         public const int CASSETTE_MAX_SLOT_NUM = 20;
+        public const int CASSETTE_DETECT_SENSOR_1 = 0;
+        public const int CASSETTE_DETECT_SENSOR_2 = 1;
+        public const int CASSETTE_DETECT_SENSOR_3 = 2;
+        public const int CASSETTE_DETECT_SENSOR_4 = 3;
         public const int CASSETTE_DETECT_SENSOR_NUM = 4;
         public const double CASSETTE_DEFAULT_PITCH = 10.0;
 
@@ -220,10 +224,10 @@ namespace LWDicer.Control
             bool bUsePriority = false, int[] movePriority = null)
         {
             int iResult = SUCCESS;
-
+            bool bStatus = false;
             // safety check
-            iResult = CheckForElevatorAxisMove();
-            if (iResult != SUCCESS) return iResult;
+            iResult = CheckForElevatorAxisMove(out bStatus);
+            if (iResult != SUCCESS || bStatus==false) return iResult;
 
             // assume move Z axis if bMoveFlag is null
             if(bMoveFlag == null)
@@ -556,8 +560,9 @@ namespace LWDicer.Control
         /// </summary>
         /// <param name="sPos"> 목표 위치값</param>
         /// <param name="bResult"></param>
+        /// <param name="bCheck_XAxis"></param>
+        /// <param name="bCheck_YAxis"></param>
         /// <param name="bCheck_TAxis"></param>
-        /// <param name="bCheck_ZAxis"></param>
         /// <param name="bSkipError">위치가 틀릴경우 에러 보고할지 여부</param>
         /// <returns></returns>
         public int CompareElevatorPos(CPos_XYTZ sPos, out bool bResult, 
@@ -599,15 +604,15 @@ namespace LWDicer.Control
             return SUCCESS;
         }
 
-        public int CompareElevatorPos(int iPos, out bool bResult,out int nSlotNum, bool bSkipError = true)
+        public int CompareElevatorPos(int iPos, out bool bResult, out int nSlotNum, bool bSkipError = true)
         {
             int iResult = SUCCESS;
+            bResult = false;
 
             bool bCheck_XAxis = false;
             bool bCheck_YAxis = false;
             bool bCheck_TAxis = false;
 
-            bResult = false;
             nSlotNum = -1;
 
             CPos_XYTZ targetPos = AxElevatorInfo.GetTargetPos(iPos);
@@ -625,6 +630,10 @@ namespace LWDicer.Control
                 m_Data.CurrentSlotNum = (int)(dReferencePos / m_Data.CassetteData.dSlotPitch);
 
                 nSlotNum = m_Data.CurrentSlotNum;
+            }
+            else
+            {
+                nSlotNum = -1;
             }
 
             return SUCCESS;
@@ -677,7 +686,32 @@ namespace LWDicer.Control
 
             return SUCCESS;
         }
-        
+
+        public int IsFrameDetected(out bool bStatus)
+        {
+            int iResult = -1;
+            bool bCheck = false;
+            // Frame 감지 센서 4개를 확인함.
+            for(int i=0;i< CASSETTE_DETECT_SENSOR_NUM;i++)
+            {
+                iResult = m_RefComp.IO.IsOn(m_Data.InDetectCassette[i], out bCheck);
+
+                if (bCheck == false)
+                {
+                    bStatus = false;
+                    return SUCCESS;
+                }
+                if (iResult != SUCCESS)
+                {
+                    bStatus = false;
+                    return iResult;
+                }
+            }
+
+            bStatus = true;
+            return SUCCESS;
+        }
+
         ////////////////////////////////////////////////////////////////////////
 
         public int GetElevatorAxZone(int axis, out int curZone)
@@ -734,16 +768,21 @@ namespace LWDicer.Control
             return SUCCESS;
         }
 
-        public int CheckForElevatorAxisMove(bool bCheckVacuum = true)
+        public int CheckForElevatorAxisMove(out bool bStatus)
         {
-            bool bStatus;
+            bool bCheck;
 
             // check origin
-            int nResult = IsElevatorOrignReturn(out bStatus);
+            int nResult = IsElevatorOrignReturn(out bCheck);
 
-            if (nResult != SUCCESS) return nResult;
-            if(bStatus == false)
+            if (nResult != SUCCESS)
             {
+                bStatus = false;
+                return nResult;
+            }
+            if(bCheck == false)
+            {
+                bStatus = false;
                 return GenerateErrorCode(ERR_Elevator_NOT_ORIGIN_RETURNED);
             }
 
@@ -753,18 +792,28 @@ namespace LWDicer.Control
             bool bCassetteExist;
             bool bCassetteNone;
             nResult = CheckForElevatorCassetteExist(out bCassetteExist);
-            if (nResult != SUCCESS) return nResult;
+            if (nResult != SUCCESS)
+            {
+                bStatus = false;
+                return nResult;
+            }
 
             nResult = CheckForElevatorCassetteNone(out bCassetteNone);
-            if (nResult != SUCCESS) return nResult;
+            if (nResult != SUCCESS)
+            {
+                bStatus = false;
+                return nResult;
+            }
 
             // 전체가 On 이거나 Off되어야 동작 가능함.
             if (bCassetteExist || bCassetteNone)
             {
+                bStatus = true;
                 return SUCCESS;
             }
             else
             {
+                bStatus = false;
                 return GenerateErrorCode(ERR_Elevator_CASSETTE_NOT_READY);
             }
             
