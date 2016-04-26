@@ -26,7 +26,9 @@ using static LWDicer.Control.DEF_Cylinder;
 using static LWDicer.Control.DEF_Vacuum;
 using static LWDicer.Control.DEF_Vision;
 
+using static LWDicer.Control.DEF_MeElevator;
 using static LWDicer.Control.DEF_MeHandler;
+using static LWDicer.Control.DEF_MeStage;
 using static LWDicer.Control.DEF_MePushPull;
 using static LWDicer.Control.DEF_SerialPort;
 using static LWDicer.Control.DEF_PolygonScanner;
@@ -100,8 +102,11 @@ namespace LWDicer.Control
         public MVision m_Vision { get; set; }
 
         // Mechanical Layer
+
+        public MMeElevator m_MeElevator;            // Cassette Loader 용 Elevator
         public MMeHandler m_MeUpperHandler;         // UpperHandler of 2Layer
         public MMeHandler m_MeLowerHandler;         // LowerHandler of 2Layer
+        public MMeStage m_MeStage;         
 
         public MMePushPull m_MePushPull;
 
@@ -294,7 +299,7 @@ namespace LWDicer.Control
 
             // Stage1
             m_SystemInfo.GetObjectInfo(301, out objInfo);
-            //CreateMeStage1(objInfo);
+            CreateMeStage(objInfo);
 
             // PushPull
             m_SystemInfo.GetObjectInfo(302, out objInfo);
@@ -302,7 +307,7 @@ namespace LWDicer.Control
 
             // Elevator
             m_SystemInfo.GetObjectInfo(303, out objInfo);
-            //CreateMeElevator(objInfo);
+            CreateMeElevator(objInfo);
 
             // Coater
             m_SystemInfo.GetObjectInfo(304, out objInfo);
@@ -865,6 +870,12 @@ namespace LWDicer.Control
             //////////////////////////////////////////////////////////////////
             // Mechanical Layer
 
+            // MeElevator
+            CMeElevatorData meElevatorData;
+            m_MeElevator.GetData(out meElevatorData);
+            meElevatorData.ElevatorZone.SafetyPos = m_DataManager.SystemData.MAxSafetyPos.Elevator_Pos;
+            m_MeElevator.SetData(meElevatorData);
+
             // MeHandler
             CMeHandlerData meHandlerData;
             m_MeUpperHandler.GetData(out meHandlerData);
@@ -1026,6 +1037,23 @@ namespace LWDicer.Control
             }
         }
 
+        void CreateMeElevator(CObjectInfo objInfo)
+        {
+            CMeElevatorRefComp refComp = new CMeElevatorRefComp();
+            CMeElevatorData data = new CMeElevatorData();
+
+            refComp.IO = m_IO;
+            refComp.AxElevator = m_AxLoader;            
+
+            data.InDetectWafer = iUHandler_PanelDetect;
+
+            data.ElevatorZone.UseSafetyMove[DEF_Z] = true;
+            data.ElevatorZone.Axis[DEF_Z].ZoneAddr[(int)EHandlerZAxZone.SAFETY] = 111; // need updete io address
+
+            m_MeElevator = new MMeElevator(objInfo, refComp, data);
+
+        }
+
         void CreateMeUHandler(CObjectInfo objInfo)
         {
             CMeHandlerRefComp refComp = new CMeHandlerRefComp();
@@ -1088,5 +1116,22 @@ namespace LWDicer.Control
 
             m_MePushPull = new MMePushPull(objInfo, refComp, data);
         }
+        void CreateMeStage(CObjectInfo objInfo)
+        {
+            CMeStageRefComp refComp = new CMeStageRefComp();
+            CMeStageData data = new CMeStageData();
+
+            refComp.IO = m_IO;
+            refComp.AxStage = m_AxStage1;
+            refComp.Vacuum[(int)EStageVacuum.SELF] = m_Stage1Vac;
+            
+            data.InDetectObject = iUHandler_PanelDetect;
+
+            data.StageZone.UseSafetyMove[DEF_Z] = true;
+            data.StageZone.Axis[DEF_Z].ZoneAddr[(int)EHandlerZAxZone.SAFETY] = 111; // need updete io address
+
+            m_MeStage = new MMeStage(objInfo, refComp, data);
+        }
+
     }
 }
