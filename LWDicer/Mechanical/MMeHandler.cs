@@ -419,12 +419,12 @@ namespace LWDicer.Control
             iResult = m_RefComp.AxHandler.Move(axis, bTempFlag, dPos);
             if (iResult != SUCCESS)
             {
-                str = $"fail : move handler to safety pos [axis={axis}]";
+                str = $"fail : move Handler to safety pos [axis={axis}]";
                 WriteLog(str, ELogType.Debug, ELogWType.Error);
                 return iResult;
             }
 
-            str = $"success : move handler to safety pos [axis={axis}";
+            str = $"success : move Handler to safety pos [axis={axis}";
             WriteLog(str, ELogType.Debug, ELogWType.Normal);
 
             return SUCCESS;
@@ -470,19 +470,23 @@ namespace LWDicer.Control
             }
 
             // 1. move Z Axis to Safety Up. but when need to move z axis only, don't need to move z to safety pos
-            if (bMoveFlag[DEF_X] == false && bMoveFlag[DEF_Y] == false && bMoveFlag[DEF_T] == false
+            if (m_RefComp.AxHandler.HasAxis(DEF_Z) == true && m_Data.HandlerZone.UseSafetyMove[DEF_Z] == true)
+            {
+                if (bMoveFlag[DEF_X] == false && bMoveFlag[DEF_Y] == false && bMoveFlag[DEF_T] == false
                 && bMoveFlag[DEF_Z] == true)
-            {
-                ;
-            } else
-            {
-                bool bStatus;
-                iResult = IsHandlerAxisInSafetyZone(DEF_Z, out bStatus);
-                if (iResult != SUCCESS) return iResult;
-                if (bStatus == false)
                 {
-                    iResult = MoveHandlerToSafetyPos(DEF_Z);
+                    ;
+                }
+                else
+                {
+                    bool bStatus;
+                    iResult = IsHandlerAxisInSafetyZone(DEF_Z, out bStatus);
                     if (iResult != SUCCESS) return iResult;
+                    if (bStatus == false)
+                    {
+                        iResult = MoveHandlerToSafetyPos(DEF_Z);
+                        if (iResult != SUCCESS) return iResult;
+                    }
                 }
             }
 
@@ -500,20 +504,23 @@ namespace LWDicer.Control
                 iResult = m_RefComp.AxHandler.Move(DEF_ALL_COORDINATE, bMoveFlag, dTargetPos, bUsePriority);
                 if (iResult != SUCCESS)
                 {
-                    WriteLog("fail : move handler x y t axis", ELogType.Debug, ELogWType.Error);
+                    WriteLog("fail : move Handler x y t axis", ELogType.Debug, ELogWType.Error);
                     return iResult;
                 }
             }
 
             // 3. move Z Axis
-            if (bMoveFlag[DEF_Z] == true)
+            if (m_RefComp.AxHandler.HasAxis(DEF_Z) == true)
             {
-                bool[] bTempFlag = new bool[DEF_MAX_COORDINATE] { false, false, false, true };
-                iResult = m_RefComp.AxHandler.Move(DEF_ALL_COORDINATE, bTempFlag, dTargetPos);
-                if (iResult != SUCCESS)
+                if (bMoveFlag[DEF_Z] == true)
                 {
-                    WriteLog("fail : move handler z axis", ELogType.Debug, ELogWType.Error);
-                    return iResult;
+                    bool[] bTempFlag = new bool[DEF_MAX_COORDINATE] { false, false, false, true };
+                    iResult = m_RefComp.AxHandler.Move(DEF_ALL_COORDINATE, bTempFlag, dTargetPos);
+                    if (iResult != SUCCESS)
+                    {
+                        WriteLog("fail : move Handler z axis", ELogType.Debug, ELogWType.Error);
+                        return iResult;
+                    }
                 }
             }
 
@@ -523,7 +530,7 @@ namespace LWDicer.Control
                 AxHandlerInfo.PosInfo = iPos;
             }
 
-            string str = $"success : move handler to pos:{iPos} {sPos.ToString()}";
+            string str = $"success : move Handler to pos:{iPos} {sPos.ToString()}";
             WriteLog(str, ELogType.Debug, ELogWType.Normal);
 
             return SUCCESS;
@@ -668,7 +675,7 @@ namespace LWDicer.Control
             // skip error?
             if(bSkipError == false && bResult == false)
             {
-                string str = $"Stage의 위치비교 결과 미일치합니다. Target Pos : {sPos.ToString()}";
+                string str = $"Handler의 위치비교 결과 미일치합니다. Target Pos : {sPos.ToString()}";
                 WriteLog(str, ELogType.Debug, ELogWType.Error);
 
                 return GenerateErrorCode(ERR_HANDLER_NOT_SAME_POSITION);
@@ -696,7 +703,7 @@ namespace LWDicer.Control
         {
             posInfo = (int)EHandlerPos.NONE;
             bool bStatus;
-            int iResult = IsHandlerOrignReturn(out bStatus);
+            int iResult = IsHandlerAxisOrignReturned(out bStatus);
             if (iResult != SUCCESS) return iResult;
 
             // 실시간으로 자기 위치를 체크
@@ -722,12 +729,12 @@ namespace LWDicer.Control
             AxHandlerInfo.PosInfo = posInfo;
         }
 
-        public int IsHandlerOrignReturn(out bool bStatus)
+        public int IsHandlerAxisOrignReturned(out bool bStatus)
         {
             bool[] bAxisStatus;
-            m_RefComp.AxHandler.IsOriginReturn(DEF_ALL_COORDINATE, out bStatus, out bAxisStatus);
+            int iResult = m_RefComp.AxHandler.IsOriginReturn(DEF_ALL_COORDINATE, out bStatus, out bAxisStatus);
 
-            return SUCCESS;
+            return iResult;
         }
 
         public int IsObjectDetected(out bool bStatus)
@@ -963,7 +970,7 @@ namespace LWDicer.Control
             bool bStatus;
 
             // check origin
-            int iResult = IsHandlerOrignReturn(out bStatus);
+            int iResult = IsHandlerAxisOrignReturned(out bStatus);
             if (iResult != SUCCESS) return iResult;
             if(bStatus == false)
             {
@@ -971,13 +978,16 @@ namespace LWDicer.Control
             }
 
             // check object
-            iResult = CheckForHandlerCylMove();
-            if (iResult != SUCCESS) return iResult;
+            if(bCheckVacuum == true)
+            {
+                iResult = CheckForHandlerCylMove();
+                if (iResult != SUCCESS) return iResult;
+            }
 
             return SUCCESS;
         }
 
-        public int CheckForHandlerCylMove(bool bCheckVacuum = true)
+        public int CheckForHandlerCylMove()
         {
             bool bStatus;
 

@@ -669,6 +669,7 @@ namespace LWDicer.Control
             int length = 1;
             if (deviceNo < (int)EYMC_Device.ALL)
             {
+                // axis, null, default
                 length = 1;
             }
             else
@@ -687,7 +688,7 @@ namespace LWDicer.Control
                         length = 1;
                         break;
 
-                    case (int)EYMC_Device.C1_CENTERING:
+                    case (int)EYMC_Device.CENTERING1:
                         length = 1;
                         break;
 
@@ -703,7 +704,7 @@ namespace LWDicer.Control
                         length = 1;
                         break;
 
-                    case (int)EYMC_Device.C2_CENTERING:
+                    case (int)EYMC_Device.CENTERING2:
                         length = 1;
                         break;
 
@@ -735,6 +736,9 @@ namespace LWDicer.Control
                         length = 1;
                         break;
 
+                    default:
+                        length = 1;
+                        break;
                 }
             }
 
@@ -757,11 +761,11 @@ namespace LWDicer.Control
                     case (int)EYMC_Device.ALL:
                         axisList[index++] = (int)EYMC_Axis.LOADER_Z;
                         axisList[index++] = (int)EYMC_Axis.PUSHPULL_Y;
-                        axisList[index++] = (int)EYMC_Axis.C1_CENTERING_T;
+                        axisList[index++] = (int)EYMC_Axis.CENTERING1_X;
                         axisList[index++] = (int)EYMC_Axis.C1_CHUCK_ROTATE_T;
                         axisList[index++] = (int)EYMC_Axis.C1_CLEAN_NOZZLE_T;
                         axisList[index++] = (int)EYMC_Axis.C1_COAT_NOZZLE_T;
-                        axisList[index++] = (int)EYMC_Axis.C2_CENTERING_T;
+                        axisList[index++] = (int)EYMC_Axis.CENTERING2_X;
                         axisList[index++] = (int)EYMC_Axis.C2_CHUCK_ROTATE_T;
                         axisList[index++] = (int)EYMC_Axis.C2_CLEAN_NOZZLE_T;
                         axisList[index++] = (int)EYMC_Axis.C2_COAT_NOZZLE_T;
@@ -781,8 +785,8 @@ namespace LWDicer.Control
                         axisList[index++] = (int)EYMC_Axis.PUSHPULL_Y;
                         break;
 
-                    case (int)EYMC_Device.C1_CENTERING:
-                        axisList[index++] = (int)EYMC_Axis.C1_CENTERING_T;
+                    case (int)EYMC_Device.CENTERING1:
+                        axisList[index++] = (int)EYMC_Axis.CENTERING1_X;
                         break;
 
                     case (int)EYMC_Device.C1_ROTATE:
@@ -797,8 +801,8 @@ namespace LWDicer.Control
                         axisList[index++] = (int)EYMC_Axis.C1_COAT_NOZZLE_T;
                         break;
 
-                    case (int)EYMC_Device.C2_CENTERING:
-                        axisList[index++] = (int)EYMC_Axis.C2_CENTERING_T;
+                    case (int)EYMC_Device.CENTERING2:
+                        axisList[index++] = (int)EYMC_Axis.CENTERING2_X;
                         break;
 
                     case (int)EYMC_Device.C2_ROTATE:
@@ -829,6 +833,10 @@ namespace LWDicer.Control
 
                     case (int)EYMC_Device.LASER1:
                         axisList[index++] = (int)EYMC_Axis.LASER1_Z;
+                        break;
+
+                    default:
+                        axisList[index++] = (int)EYMC_Axis.NULL;
                         break;
                 }
             }
@@ -1405,6 +1413,8 @@ namespace LWDicer.Control
 
         public int ServoOff(int deviceNo)
         {
+            if (deviceNo == (int)EYMC_Device.NULL) return SUCCESS; // return success if device is null
+
             UInt32 rc = CMotionAPI.ymcServoControl(m_hDevice[deviceNo], (UInt16)CMotionAPI.ApiDefs.SERVO_OFF, APITimeOut);
             if (rc != CMotionAPI.MP_SUCCESS)
             {
@@ -1418,6 +1428,8 @@ namespace LWDicer.Control
 
         public int ResetAlarm(int deviceNo = (int)EYMC_Device.ALL)
         {
+            if (deviceNo == (int)EYMC_Device.NULL) return SUCCESS; // return success if device is null
+
             UInt32 rc;
 
             // Clears all the Machine Controller alarms. 
@@ -1539,6 +1551,8 @@ namespace LWDicer.Control
 
         public int JogMoveStop(int deviceNo)
         {
+            if (deviceNo == (int)EYMC_Device.NULL) return SUCCESS; // return success if device is null
+
             ushort[] WaitForCompletion;
             GetDeviceWaitCompletion(deviceNo, out WaitForCompletion);
             UInt32 rc = CMotionAPI.ymcStopJOG(m_hDevice[deviceNo], 0, "STOP", WaitForCompletion, 0);
@@ -1556,6 +1570,8 @@ namespace LWDicer.Control
 
         public int JogMoveStart(int deviceNo, bool jogDir, bool bJogFastMove = false)
         {
+            if (deviceNo == (int)EYMC_Device.NULL) return SUCCESS; // return success if device is null
+
             // check safety
             int iResult = IsSafe4Move();
             if (iResult != SUCCESS) return iResult;
@@ -1622,6 +1638,8 @@ namespace LWDicer.Control
 
         public int ServoMotionStop(int deviceNo, ushort mode = (ushort)CMotionAPI.ApiDefs.DISTRIBUTION_COMPLETED)
         {
+            if (deviceNo == (int)EYMC_Device.NULL) return SUCCESS; // return success if device is null
+
             CMotionAPI.MOTION_DATA[] MotionData;
             GetDevice_MotionData(deviceNo, out MotionData);
             ushort[] WaitForCompletion;
@@ -1655,6 +1673,8 @@ namespace LWDicer.Control
         /// <returns></returns>
         public int MoveToPos(int deviceNo, double[] pos, CMotorSpeedData[] tempSpeed = null, ushort waitMode = (ushort)CMotionAPI.ApiDefs.DISTRIBUTION_COMPLETED)
         {
+            if (deviceNo == (int)EYMC_Device.NULL) return SUCCESS; // return success if device is null
+
             // 0. init data
             CMotionAPI.POSITION_DATA[] PositionData;
             CMotionAPI.MOTION_DATA[] MotionData;
@@ -1980,6 +2000,8 @@ namespace LWDicer.Control
 
         public int OriginReturn(int deviceNo = (int)EYMC_Device.ALL)
         {
+            if (deviceNo == (int)EYMC_Device.NULL) return SUCCESS; // return success if device is null
+
             // check safety
             int iResult = IsSafe4Move();
             if (iResult != SUCCESS) return iResult;

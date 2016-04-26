@@ -26,6 +26,7 @@ using static LWDicer.Control.DEF_Cylinder;
 using static LWDicer.Control.DEF_Vacuum;
 
 using static LWDicer.Control.DEF_MeHandler;
+using static LWDicer.Control.DEF_MePushPull;
 using static LWDicer.Control.DEF_PolygonScanner;
 using static LWDicer.Control.DEF_Vision;
 
@@ -260,7 +261,7 @@ namespace LWDicer.Control
         }
 
         public class CSystemData_Axis
-                {
+        {
             // YMC Motion Axis
             public CMPMotionData[] MPMotionData = new CMPMotionData[MAX_MP_AXIS];
 
@@ -318,9 +319,20 @@ namespace LWDicer.Control
 
         public class CPositionData
         {
+            // Stage1
+
+            // PushPull
+            public CUnitPos PushPullPos = new CUnitPos((int)EPushPullPos.MAX);
+            public CUnitPos Centering1Pos = new CUnitPos((int)ECenteringPos.MAX);
+            public CUnitPos Centering2Pos = new CUnitPos((int)ECenteringPos.MAX);
+
+            // Elevator
+
             // MeHandler
             public CUnitPos UHandlerPos = new CUnitPos((int)EHandlerPos.MAX);
             public CUnitPos LHandlerPos = new CUnitPos((int)EHandlerPos.MAX);
+
+            // Coater
 
             public CPositionData()
             {
@@ -636,23 +648,23 @@ namespace LWDicer.Control
             // CSystemData
             if (system != null)
             {
-            try
-            {
+                try
+                {
                     SystemData = ObjectExtensions.Copy(system);
                     string output = JsonConvert.SerializeObject(SystemData);
 
                     if (DBManager.InsertRow(DBInfo.DBConn, DBInfo.TableSystem, "name", nameof(CSystemData), output,
                         true, DBInfo.DBConn_Backup) != true)
+                    {
+                        return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_SAVE_SYSTEM_DATA);
+                    }
+                    WriteLog("success : save CSystemData.", ELogType.SYSTEM, ELogWType.SAVE);
+                }
+                catch (Exception ex)
                 {
+                    WriteExLog(ex.ToString());
                     return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_SAVE_SYSTEM_DATA);
                 }
-                    WriteLog("success : save CSystemData.", ELogType.SYSTEM, ELogWType.SAVE);
-            }
-            catch (Exception ex)
-            {
-                WriteExLog(ex.ToString());
-                return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_SAVE_SYSTEM_DATA);
-            }
             }
 
             // CSystemData_Axis
@@ -667,7 +679,7 @@ namespace LWDicer.Control
                         true, DBInfo.DBConn_Backup) != true)
                     {
                         return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_SAVE_SYSTEM_DATA);
-        }
+                    }
                     WriteLog("success : save CSystemData_Axis.", ELogType.SYSTEM, ELogWType.SAVE);
                 }
                 catch (Exception ex)
@@ -679,9 +691,9 @@ namespace LWDicer.Control
 
             // CSystemData_Cylinder
             if (systemCylinder != null)
-        {
-            try
             {
+                try
+                {
                     SystemData_Cylinder = ObjectExtensions.Copy(systemCylinder);
                     string output = JsonConvert.SerializeObject(SystemData_Cylinder);
 
@@ -781,7 +793,18 @@ namespace LWDicer.Control
                     if (DBManager.SelectRow(DBInfo.DBConn, DBInfo.TableSystem, "name", nameof(CSystemData_Axis), out output) == true)
                     {
                         CSystemData_Axis data = JsonConvert.DeserializeObject<CSystemData_Axis>(output);
-                        SystemData_Axis = ObjectExtensions.Copy(data);
+                        if (SystemData_Axis.MPMotionData.Length == data.MPMotionData.Length)
+                        {
+                            SystemData_Axis = ObjectExtensions.Copy(data);
+                        }
+                        else
+                        {
+                            for (int i = 0; i < SystemData_Axis.MPMotionData.Length; i++)
+                            {
+                                if (i >= data.MPMotionData.Length) break;
+                                SystemData_Axis.MPMotionData[i] = ObjectExtensions.Copy(data.MPMotionData[i]);
+                            }
+                        }
                         WriteLog("success : load CSystemData_Axis.", ELogType.SYSTEM, ELogWType.LOAD);
             }
                     //else // temporarily do not return error for continuous loading
@@ -807,7 +830,19 @@ namespace LWDicer.Control
                     if (DBManager.SelectRow(DBInfo.DBConn, DBInfo.TableSystem, "name", nameof(CSystemData_Cylinder), out output) == true)
                     {
                         CSystemData_Cylinder data = JsonConvert.DeserializeObject<CSystemData_Cylinder>(output);
-                        SystemData_Cylinder = ObjectExtensions.Copy(data);
+                        if(SystemData_Cylinder.CylinderTimer.Length == data.CylinderTimer.Length)
+                        {
+                            SystemData_Cylinder = ObjectExtensions.Copy(data);
+                        }
+                        else
+                        {
+                            for(int i = 0; i < SystemData_Cylinder.CylinderTimer.Length; i++)
+                            {
+                                if (i >= data.CylinderTimer.Length) break;
+                                SystemData_Cylinder.CylinderTimer[i] = ObjectExtensions.Copy(data.CylinderTimer[i]);
+                            }
+                        }
+
                         WriteLog("success : load CSystemData_Cylinder.", ELogType.SYSTEM, ELogWType.LOAD);
                     }
                     //else // temporarily do not return error for continuous loading
@@ -830,7 +865,19 @@ namespace LWDicer.Control
                     if (DBManager.SelectRow(DBInfo.DBConn, DBInfo.TableSystem, "name", nameof(CSystemData_Vacuum), out output) == true)
                     {
                         CSystemData_Vacuum data = JsonConvert.DeserializeObject<CSystemData_Vacuum>(output);
-                        SystemData_Vacuum = ObjectExtensions.Copy(data);
+                        if (SystemData_Vacuum.VacuumTimer.Length == data.VacuumTimer.Length)
+                        {
+                            SystemData_Vacuum = ObjectExtensions.Copy(data);
+                        }
+                        else
+                        {
+                            for (int i = 0; i < SystemData_Vacuum.VacuumTimer.Length; i++)
+                            {
+                                if (i >= data.VacuumTimer.Length) break;
+                                SystemData_Vacuum.VacuumTimer[i] = ObjectExtensions.Copy(data.VacuumTimer[i]);
+                            }
+                        }
+
                         WriteLog("success : load CSystemData_Vacuum.", ELogType.SYSTEM, ELogWType.LOAD);
                     }
                     //else // temporarily do not return error for continuous loading
@@ -853,7 +900,18 @@ namespace LWDicer.Control
                     if (DBManager.SelectRow(DBInfo.DBConn, DBInfo.TableSystem, "name", nameof(CSystemData_Scanner), out output) == true)
                     {
                         CSystemData_Scanner data = JsonConvert.DeserializeObject<CSystemData_Scanner>(output);
-                        SystemData_Scanner = ObjectExtensions.Copy(data);
+                        if (SystemData_Scanner.Scanner.Length == data.Scanner.Length)
+                        {
+                            SystemData_Scanner = ObjectExtensions.Copy(data);
+                        }
+                        else
+                        {
+                            for (int i = 0; i < SystemData_Scanner.Scanner.Length; i++)
+                            {
+                                if (i >= data.Scanner.Length) break;
+                                SystemData_Scanner.Scanner[i] = ObjectExtensions.Copy(data.Scanner[i]);
+                            }
+                        }
                         WriteLog("success : load CSystemData_Scanner.", ELogType.SYSTEM, ELogWType.LOAD);
                     }
                     //else // temporarily do not return error for continuous loading
@@ -1779,12 +1837,12 @@ namespace LWDicer.Control
                 SystemData_Axis.MPMotionData[index] = ObjectExtensions.Copy(tMotion);
             }
 
-            // C1_CENTERING_T   
-            index = (int)EYMC_Axis.C1_CENTERING_T   ;
+            // CENTERING1_X   
+            index = (int)EYMC_Axis.CENTERING1_X   ;
             if (SystemData_Axis.MPMotionData[index].Name == "NotExist")
             {
                 tMotion = new CMPMotionData();
-                tMotion.Name = "C1_CENTERING_T";
+                tMotion.Name = "CENTERING1_X";
                 tMotion.Exist = true;
 
                 SystemData_Axis.MPMotionData[index] = ObjectExtensions.Copy(tMotion);
@@ -1823,12 +1881,12 @@ namespace LWDicer.Control
                 SystemData_Axis.MPMotionData[index] = ObjectExtensions.Copy(tMotion);
             }
 
-            // C2_CENTERING_T   
-            index = (int)EYMC_Axis.C2_CENTERING_T   ;
+            // CENTERING2_X   
+            index = (int)EYMC_Axis.CENTERING2_X   ;
             if (SystemData_Axis.MPMotionData[index].Name == "NotExist")
             {
                 tMotion = new CMPMotionData();
-                tMotion.Name = "C2_CENTERING_T";
+                tMotion.Name = "CENTERING2_X";
                 tMotion.Exist = true;
 
                 SystemData_Axis.MPMotionData[index] = ObjectExtensions.Copy(tMotion);
