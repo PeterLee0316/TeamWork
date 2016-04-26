@@ -679,38 +679,6 @@ namespace LWDicer.Control
             return SUCCESS;
         }
 
-        public int IsObjectDetected(out bool bStatus)
-        {
-            int iResult = m_RefComp.IO.IsOn(m_Data.InDetectWafer, out bStatus);
-            if (iResult != SUCCESS) return iResult;
-
-            return SUCCESS;
-        }
-
-        public int IsFrameDetected(out bool bStatus)
-        {
-            int iResult = -1;
-            bool bCheck = false;
-            // Frame 감지 센서 4개를 확인함.
-            for(int i=0;i< CASSETTE_DETECT_SENSOR_NUM;i++)
-            {
-                iResult = m_RefComp.IO.IsOn(m_Data.InDetectCassette[i], out bCheck);
-
-                if (bCheck == false)
-                {
-                    bStatus = false;
-                    return SUCCESS;
-                }
-                if (iResult != SUCCESS)
-                {
-                    bStatus = false;
-                    return iResult;
-                }
-            }
-
-            bStatus = true;
-            return SUCCESS;
-        }
 
         ////////////////////////////////////////////////////////////////////////
 
@@ -791,14 +759,14 @@ namespace LWDicer.Control
 
             bool bCassetteExist;
             bool bCassetteNone;
-            nResult = CheckForElevatorCassetteExist(out bCassetteExist);
+            nResult = IsElevatorCassetteExist(out bCassetteExist);
             if (nResult != SUCCESS)
             {
                 bStatus = false;
                 return nResult;
             }
 
-            nResult = CheckForElevatorCassetteNone(out bCassetteNone);
+            nResult = IsElevatorCassetteNone(out bCassetteNone);
             if (nResult != SUCCESS)
             {
                 bStatus = false;
@@ -819,7 +787,16 @@ namespace LWDicer.Control
             
         }
 
-        public int CheckForElevatorCassetteExist(out bool bExist)
+        public int IsObjectDetected(out bool bStatus)
+        {
+            int iResult = m_RefComp.IO.IsOn(m_Data.InDetectWafer, out bStatus);
+            if (iResult != SUCCESS) return iResult;
+
+            return SUCCESS;
+        }
+
+
+        public int IsElevatorCassetteExist(out bool bExist)
         {
             bExist = false;
             int nResult = -1;
@@ -831,20 +808,24 @@ namespace LWDicer.Control
                       m_RefComp.IO.IsOn(m_Data.InDetectCassette[1], out bCheckIO[1]) +
                       m_RefComp.IO.IsOn(m_Data.InDetectCassette[2], out bCheckIO[2]) +
                       m_RefComp.IO.IsOn(m_Data.InDetectCassette[3], out bCheckIO[3]);
-
-            if (nResult != SUCCESS) return nResult;
-
-            // 전체가 On 일 경우에 True
-            if (bCheckIO[0] && bCheckIO[1] && bCheckIO[2] && bCheckIO[3])
+            for(int i=0; i< CASSETTE_DETECT_SENSOR_NUM;i++)
             {
-                bExist = true;                
+                // 4개 센서를 확인한다.
+                nResult = m_RefComp.IO.IsOn(m_Data.InDetectCassette[i], out bCheckIO[i]);
+                // 읽기 실패나 Off가 된 센서가 있으면 False를 반환한다.
+                if (nResult != SUCCESS || bCheckIO[i]==false)
+                {
+                    bExist = false;
+                    return nResult;
+                }
             }
-
+           
+            bExist = true;
             return SUCCESS;
 
         }
 
-        public int CheckForElevatorCassetteNone(out bool bExist)
+        public int IsElevatorCassetteNone(out bool bExist)
         {
             bExist = false;
             int nResult = -1;
@@ -856,20 +837,23 @@ namespace LWDicer.Control
                       m_RefComp.IO.IsOn(m_Data.InDetectCassette[1], out bCheckIO[1]) +
                       m_RefComp.IO.IsOn(m_Data.InDetectCassette[2], out bCheckIO[2]) +
                       m_RefComp.IO.IsOn(m_Data.InDetectCassette[3], out bCheckIO[3]);
-
-            if (nResult != SUCCESS) return nResult;
-
-            // 전체가 Off 일 경우에 True
-            if (!bCheckIO[0] && !bCheckIO[1] && !bCheckIO[2] && !bCheckIO[3])
+            for (int i = 0; i < CASSETTE_DETECT_SENSOR_NUM; i++)
             {
-                bExist = true;
+                // 4개 센서를 확인한다.
+                nResult = m_RefComp.IO.IsOn(m_Data.InDetectCassette[i], out bCheckIO[i]);
+                // 읽기 실패나 On가 된 센서가 있으면 False를 반환한다.
+                if (nResult != SUCCESS || bCheckIO[i] == true)
+                {
+                    bExist = false;
+                    return nResult;
+                }
             }
 
+            bExist = true;
             return SUCCESS;
 
         }
-
-
+        
 
     }
 }

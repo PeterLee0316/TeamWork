@@ -5,6 +5,7 @@ using System.Text;
 
 using static LWDicer.Control.DEF_Error;
 using static LWDicer.Control.DEF_Common;
+using static LWDicer.Control.DEF_IO;
 using static LWDicer.Control.DEF_CtrlLoader;
 
 namespace LWDicer.Control
@@ -30,6 +31,7 @@ namespace LWDicer.Control
 
         public class CCtrlLoaderRefComp
         {
+            public IIO IO;
             public MMeElevator Elevator;
 
             public CCtrlLoaderRefComp()
@@ -43,6 +45,7 @@ namespace LWDicer.Control
 
         public class CCtrlLoaderData
         {
+            public int InPushPullSafety = IO_ADDR_NOT_DEFINED;
             public CCtrlLoaderData()
             {
 
@@ -77,6 +80,12 @@ namespace LWDicer.Control
             return SUCCESS;
         }
 
+        public int SetLoaderPosition(CUnitPos FixedPos, CUnitPos ModelPos, CUnitPos OffsetPos)
+        {
+            m_RefComp.Elevator.SetElevatorPosition(FixedPos, ModelPos, OffsetPos);
+            return SUCCESS;
+        }
+
         public void SetPosInfo(int posInfo)
         {
             m_RefComp.Elevator.SetElevatorPosInfo(posInfo);
@@ -96,28 +105,20 @@ namespace LWDicer.Control
 
             return SUCCESS;
         }
-
-        public int IsWaferDetected(out bool bState)
+        
+        /// <summary>
+        /// Push-Pull Gripper의 정위치 센서로 Interlock을 체크한다.
+        /// </summary>
+        /// <param name="bStatus"></param>
+        /// <returns></returns>
+        public int IsPushPullSafetyPos(out bool bStatus)
         {
-            bState = false;
-            int iResult = 0;
-
-            iResult = m_RefComp.Elevator.IsObjectDetected(out bState);
-
+            int iResult = m_RefComp.IO.IsOn(m_Data.InPushPullSafety, out bStatus);
             if (iResult != SUCCESS) return iResult;
+
             return SUCCESS;
         }
-
-        public int IsFrameDetected(out bool bState)
-        {
-            bState = false;
-            int iResult = 0;
-
-            iResult = m_RefComp.Elevator.IsFrameDetected(out bState);
-
-            if (iResult != SUCCESS) return iResult;
-            return SUCCESS;
-        }
+        
 
         public int MoveToBottomPos(bool bObsolite)
         {
@@ -223,10 +224,21 @@ namespace LWDicer.Control
             return SUCCESS;
         }
 
-        public int CheckForCassetteExist(out bool bStatus)
+        public int IsWaferDetected(out bool bState)
+        {
+            bState = false;
+            int iResult = 0;
+
+            iResult = m_RefComp.Elevator.IsObjectDetected(out bState);
+
+            if (iResult != SUCCESS) return iResult;
+            return SUCCESS;
+        }
+
+        public int IsCassetteExist(out bool bStatus)
         {
             int iResult = 0;
-            iResult = m_RefComp.Elevator.CheckForElevatorCassetteExist(out bStatus);
+            iResult = m_RefComp.Elevator.IsElevatorCassetteExist(out bStatus);
             if (iResult != SUCCESS)
             {
                 bStatus = false;
@@ -237,10 +249,10 @@ namespace LWDicer.Control
             return SUCCESS;
         }
 
-        public int CheckForCassetteNone(out bool bStatus)
+        public int IsCassetteNone(out bool bStatus)
         {
             int iResult = 0;
-            iResult = m_RefComp.Elevator.CheckForElevatorCassetteNone(out bStatus);
+            iResult = m_RefComp.Elevator.IsElevatorCassetteNone(out bStatus);
             if (iResult != SUCCESS)
             {
                 bStatus = false;

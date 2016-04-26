@@ -153,13 +153,21 @@ LWDicer의 DataManager에서 데이터를 읽어오기 위한 3가지 함수 : S
 2. 이동 및 확인에 검색에 대한 기능 구현
 3. Git Update 확인.
 
-// Version : 0.0.4
+// Version : 0.0.5
 // Grade : ★
 // Date : 2016-04-25 ~2016-04-26
 // Context
 1. MCtrlLoader : 초기 Class 제작
-2. Mechanical Layer에서 상속을 받아... 필요 함수 구현
+2. Mechanical Layer에서 상속, 필요 함수 구현
 
+// Version : 0.0.6
+// Grade : ★
+// Date : 2016-04-26 ~2016-04-26
+// Context
+1. MCtrlStage : 초기 Class 제작
+   Mechanical Layer의 MStage에서 Align 동영상을 보면서 기능을 추가적으로 삽입 필요
+   Mechanical Layer의 MVision의 기능 Plus 설정에 관련한 추가 기능 구현 필요
+2. MMeElevator & MMeStage의 함수 일부 수정(정리)
 
 ////////////////////////////////////////////////////////////////////////////////////////////
 // LHS

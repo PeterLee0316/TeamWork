@@ -34,6 +34,7 @@ using static LWDicer.Control.DEF_PolygonScanner;
 
 using static LWDicer.Control.DEF_CtrlHandler;
 using static LWDicer.Control.DEF_CtrlLoader;
+using static LWDicer.Control.DEF_CtrlStage;
 
 namespace LWDicer.Control
 {
