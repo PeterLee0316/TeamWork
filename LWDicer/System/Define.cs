@@ -51,11 +51,11 @@ namespace LWDicer.Control
             NULL = -1        ,
             LOADER_Z = 0     ,
             PUSHPULL_Y       ,
-            C1_CENTERING_T   ,     // Spinner & Coater 1
+            CENTERING1_X   ,     // Spinner & Coater 1
             C1_CHUCK_ROTATE_T,
             C1_CLEAN_NOZZLE_T,
             C1_COAT_NOZZLE_T ,
-            C2_CENTERING_T   ,     // Spinner & Coater 2
+            CENTERING2_X   ,     // Spinner & Coater 2
             C2_CHUCK_ROTATE_T,
             C2_CLEAN_NOZZLE_T,
             C2_COAT_NOZZLE_T ,
@@ -74,15 +74,16 @@ namespace LWDicer.Control
 
         public enum EYMC_Device
         {
+            NULL = -1,
             // 개별 축 제어를 위한 device, Device[index] = Axis[index]를 위해서 NULL 축까지도 선언함 
             LOADER_Z = 0,
             PUSHPULL_Y,
-            C1_CENTERING_T,     // Spinner & Coater 1
-            C1_ROTATE_T,
+            CENTERING1_X,     
+            C1_ROTATE_T,        // Spinner & Coater 1
             C1_CLEAN_NOZZLE_T,
             C1_COAT_NOZZLE_T,
-            C2_CENTERING_T,     // Spinner & Coater 2
-            C2_ROTATE_T,
+            CENTERING2_X,     
+            C2_ROTATE_T,        // Spinner & Coater 2
             C2_CLEAN_NOZZLE_T,
             C2_COAT_NOZZLE_T,
             UHANDLER_X,
@@ -100,12 +101,12 @@ namespace LWDicer.Control
             ALL,    // for control all axis at a time
             LOADER,
             PUSHPULL,
-            C1_CENTERING,     // Spinner & Coater 1
-            C1_ROTATE,
+            CENTERING1,     
+            C1_ROTATE,      // Spinner & Coater 1
             C1_CLEAN_NOZZLE,
             C1_COAT_NOZZLE,
-            C2_CENTERING,     // Spinner & Coater 2
-            C2_ROTATE,
+            CENTERING2,     
+            C2_ROTATE,      // Spinner & Coater 2
             C2_CLEAN_NOZZLE,
             C2_COAT_NOZZLE,
             UHANDLER,
@@ -183,6 +184,7 @@ namespace LWDicer.Control
         {
             UHANDLER_UD,
             UHANDLER_UD2,
+            PUSHPULL_GRIPPER,
             MAX_OBJ,
         }
 
@@ -229,9 +231,9 @@ namespace LWDicer.Control
             OBJ_HL_VISION,
 
             // Mechanical Layer
-            OBJ_ML_LIGHTENING = 40,
+            OBJ_ML_OP_PANEL = 40,
+            OBJ_ML_LIGHTENING,
             OBJ_ML_ONLINE,
-            OBJ_ML_OP_PANEL,
             OBJ_ML_BARCODE,
             OBJ_ML_RFID,
             OBJ_ML_STAGE,
@@ -241,6 +243,9 @@ namespace LWDicer.Control
             OBJ_ML_UVLAMP,
             OBJ_ML_POLYGON,
             OBJ_ML_VISION,
+            OBJ_ML_PUSHPULL,
+            OBJ_ML_ELEVATOR,
+            OBJ_ML_COATER,
 
             // Control Layer - Common
             OBJ_CL_LOADER = 70,
@@ -288,11 +293,11 @@ namespace LWDicer.Control
             ALL = -1,
             LOADER,
             PUSHPULL,
-            C1_CENTERING,     // Spinner & Coater 1
+            CENTERING1,     // Spinner & Coater 1
             C1_ROTATE,
             C1_CLEAN_NOZZLE,
             C1_COAT_NOZZLE,
-            C2_CENTERING,     // Spinner & Coater 2
+            CENTERING2,     // Spinner & Coater 2
             C2_ROTATE,
             C2_CLEAN_NOZZLE,
             C2_COAT_NOZZLE,
@@ -301,6 +306,7 @@ namespace LWDicer.Control
             CAMERA1,
             LASER1,
             STAGE1,
+            MAX,
         }
 
     }

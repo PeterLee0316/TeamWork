@@ -600,5 +600,13 @@ namespace LWDicer.Control
             return SUCCESS;
         }
 
+        public bool HasAxis(int iCoordID)
+        {
+            if(m_Data.AxisList[iCoordID] != (int)EYMC_Axis.NULL)
+            {
+                return true;
+            }
+            return false;
+        }
     }
 }

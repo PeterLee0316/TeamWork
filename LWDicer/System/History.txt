@@ -120,6 +120,15 @@ LWDicer의 DataManager에서 데이터를 읽어오기 위한 3가지 함수 : S
    실제로 상위에서 알아서 반대로 호출해야할지, ctrl에서 알아서 반대로 실행해야할지, 
    혹은 애초에 저장 pos을 다르게 해야할지는 좀더 고민하는걸로 남겨둠.
 
+// Version : 0.0.13
+// Grade : ★
+// Date : 2016-04-26
+// Context
+1. MMePushPull : 1차 작업 완료. PushPull Y축 및 Centering Unit 1,2를 가지고 있는 Mechanical Layer class
+2. MDataManager : array 형태의 data class loading시에, 현재의 배열 크기보다 작을 경우에 전체를 ObjectExtension.Copy로
+   한번에 복사할 경우에, 배열의 크기가 작아지는 문제 때문에, 배열 크기를 고려하여 load & copy 작업하는걸로 수정함
+3. MLWDicer : Mechanical Layer의 create 함수 및 object info 부분 정리
+
 ////////////////////////////////////////////////////////////////////////////////////////////
 // LJJ
 // Version : 0.0.1

@@ -565,17 +565,17 @@ namespace LWDicer.Control
 
             public CMAxisZoneCheck(int XLength, int YLength, int TLength, int ZLength)
             {
-                Axis[DEF_X] = new COneAxisZoneCheck(XLength);
-                Axis[DEF_Y] = new COneAxisZoneCheck(YLength);
-                Axis[DEF_T] = new COneAxisZoneCheck(TLength);
-                Axis[DEF_Z] = new COneAxisZoneCheck(ZLength);
+                this.Axis[DEF_X] = new COneAxisZoneCheck(XLength);
+                this.Axis[DEF_Y] = new COneAxisZoneCheck(YLength);
+                this.Axis[DEF_T] = new COneAxisZoneCheck(TLength);
+                this.Axis[DEF_Z] = new COneAxisZoneCheck(ZLength);
             }
 
             public CMAxisZoneCheck(int[] ZoneLength)
             {
                 for (int i = 0; i < DEF_XYTZ; i++)
                 {
-                    Axis[i] = new COneAxisZoneCheck(ZoneLength[i]);
+                    this.Axis[i] = new COneAxisZoneCheck(ZoneLength[i]);
                 }
             }
 
@@ -583,7 +583,7 @@ namespace LWDicer.Control
             {
                 for (int i = 0; i < DEF_XYTZ; i++)
                 {
-                    Axis[i] = ObjectExtensions.Copy(Axis[i]);
+                    this.Axis[i] = Axis[i] != null ? ObjectExtensions.Copy(Axis[i]) : null;
                 }
             }
         }

@@ -29,6 +29,7 @@ using static LWDicer.Control.DEF_Vision;
 using static LWDicer.Control.DEF_MeElevator;
 using static LWDicer.Control.DEF_MeHandler;
 using static LWDicer.Control.DEF_MeStage;
+using static LWDicer.Control.DEF_MePushPull;
 using static LWDicer.Control.DEF_SerialPort;
 using static LWDicer.Control.DEF_PolygonScanner;
 
@@ -81,6 +82,8 @@ namespace LWDicer.Control
         public ICylinder m_UHandlerUDCyl;
         public ICylinder m_UHandlerUDCyl2;
 
+        public ICylinder m_PushPullGripperCyl;
+
         // Vacuum
         public IVacuum m_Stage1Vac;
 
@@ -105,7 +108,9 @@ namespace LWDicer.Control
         public MMeElevator m_MeElevator;            // Cassette Loader 용 Elevator
         public MMeHandler m_MeUpperHandler;         // UpperHandler of 2Layer
         public MMeHandler m_MeLowerHandler;         // LowerHandler of 2Layer
-        public MMeStage m_MeStage;         // LowerHandler of 2Layer
+        public MMeStage m_MeStage;         
+
+        public MMePushPull m_MePushPull;
 
         ///////////////////////////////////////////////////////////////////////
         // Control Layer
@@ -135,7 +140,7 @@ namespace LWDicer.Control
         {
             // close handle
 
-        }
+                }
 
         public CLoginData GetLogin()
         {
@@ -188,18 +193,23 @@ namespace LWDicer.Control
             // 1. Hardware Layer
             ////////////////////////////////////////////////////////////////////////
 
+            ////////////////////////////////////////////////////////////////////////
             // Motion
             m_SystemInfo.GetObjectInfo(2, out objInfo);
             CreateYMCBoard(objInfo);
 
+            ////////////////////////////////////////////////////////////////////////
             // MultiAxes
             CreateMultiAxes_YMC();
             m_AxUpperHandler.UpdateAxisStatus();
+
+            ////////////////////////////////////////////////////////////////////////
             // IO
             m_SystemInfo.GetObjectInfo(6, out objInfo);
             m_IO = new MIO_YMC(objInfo);
             m_IO.OutputOn(oUHandler_Self_Vac_On);
 
+            ////////////////////////////////////////////////////////////////////////
             // Cylinder
             // UHandlerUDCyl
             CCylinderData cylData = new CCylinderData();
@@ -225,6 +235,19 @@ namespace LWDicer.Control
             m_SystemInfo.GetObjectInfo(101, out objInfo);
             CreateCylinder(objInfo, cylData, (int)EObjectCylinder.UHANDLER_UD2, out m_UHandlerUDCyl2);
 
+            // PushPullGripperCyl
+            cylData = new CCylinderData();
+            cylData.CylinderType = ECylinderType.UP_DOWN;
+            cylData.SolenoidType = ESolenoidType.DOUBLE_SOLENOID;
+            cylData.UpSensor[0] = iUHandler_Up1;
+            cylData.DownSensor[0] = iUHandler_Down2;
+            cylData.Solenoid[0] = oUHandler_Up1;
+            cylData.Solenoid[1] = oUHandler_Down2;
+
+            m_SystemInfo.GetObjectInfo(102, out objInfo);
+            CreateCylinder(objInfo, cylData, (int)EObjectCylinder.PUSHPULL_GRIPPER, out m_PushPullGripperCyl);
+
+            ////////////////////////////////////////////////////////////////////////
             // Vacuum
             // Stage1 Vacuum
             CVacuumData vacData = new CVacuumData();
@@ -246,6 +269,8 @@ namespace LWDicer.Control
             m_SystemInfo.GetObjectInfo(151, out objInfo);
             CreateVacuum(objInfo, vacData, (int)EObjectVacuum.UHANDLER_SELF, out m_UHandlerSelfVac);
 
+            ////////////////////////////////////////////////////////////////////////
+            // ComPort
             // Polygon Scanner Serial Com Port
             m_SystemInfo.GetObjectInfo(30, out objInfo);
             CreatePolygonSerialPort(objInfo, out m_PolygonComPort);
@@ -254,6 +279,8 @@ namespace LWDicer.Control
             m_SystemInfo.GetObjectInfo(200, out objInfo);
             CreatePolygonScanner(objInfo, PolygonIni, (int)EObjectScanner.SCANNER1, m_PolygonComPort);
 
+            ////////////////////////////////////////////////////////////////////////
+            // Vision
             // Vision System
             m_SystemInfo.GetObjectInfo(40, out objInfo);
             CreateVisionSystem(objInfo);
@@ -268,24 +295,38 @@ namespace LWDicer.Control
             // 2. Mechanical Layer
             ////////////////////////////////////////////////////////////////////////
 
-            // Cassette Loader
-            m_SystemInfo.GetObjectInfo(310, out objInfo);
-            CreateMeElevator(objInfo);
+            // OpPanel
+            m_SystemInfo.GetObjectInfo(300, out objInfo);
+            //CreateMeOpPanel(objInfo);
 
-            // Handler
-            m_SystemInfo.GetObjectInfo(318, out objInfo);
-            CreateMeUpperHandler(objInfo);
-
-            m_SystemInfo.GetObjectInfo(319, out objInfo);
-            CreateMeLowerHandler(objInfo);
-
-            // Stage
-            m_SystemInfo.GetObjectInfo(325, out objInfo);
+            // Stage1
+            m_SystemInfo.GetObjectInfo(301, out objInfo);
             CreateMeStage(objInfo);
 
+            // PushPull
+            m_SystemInfo.GetObjectInfo(302, out objInfo);
+            CreateMePushPull(objInfo);
+
+            // Elevator
+            m_SystemInfo.GetObjectInfo(303, out objInfo);
+            CreateMeElevator(objInfo);
+
+            // Coater
+            m_SystemInfo.GetObjectInfo(304, out objInfo);
+            //CreateMeCoator1(objInfo);
+
+            m_SystemInfo.GetObjectInfo(305, out objInfo);
+            //CreateMeCoator1(objInfo);
+
+            // Handler
+            m_SystemInfo.GetObjectInfo(306, out objInfo);
+            CreateMeUHandler(objInfo);
+
+            m_SystemInfo.GetObjectInfo(307, out objInfo);
+            CreateMeLHandler(objInfo);
 
             // Vision 
-            m_SystemInfo.GetObjectInfo(340, out objInfo);
+            m_SystemInfo.GetObjectInfo(308, out objInfo);
             CreateVision(objInfo);
 
             ////////////////////////////////////////////////////////////////////////
@@ -399,10 +440,10 @@ namespace LWDicer.Control
             m_SystemInfo.GetObjectInfo(252, out objInfo);
             m_AxPushPull = new MMultiAxes_YMC(objInfo, refComp, data);
 
-            // C1_CENTERING
-            deviceNo = (int)EYMC_Device.C1_CENTERING;
+            // CENTERING1
+            deviceNo = (int)EYMC_Device.CENTERING1;
             Array.Copy(initArray, axisList, initArray.Length);
-            axisList[DEF_T] = (int)EYMC_Axis.C1_CENTERING_T;
+            axisList[DEF_T] = (int)EYMC_Axis.CENTERING1_X;
             data = new CMultiAxesYMCData(deviceNo, axisList);
 
             m_SystemInfo.GetObjectInfo(253, out objInfo);
@@ -435,10 +476,10 @@ namespace LWDicer.Control
             m_SystemInfo.GetObjectInfo(256, out objInfo);
             m_AxCoatNozzle1 = new MMultiAxes_YMC(objInfo, refComp, data);
 
-            // C2_CENTERING
-            deviceNo = (int)EYMC_Device.C2_CENTERING;
+            // CENTERING2
+            deviceNo = (int)EYMC_Device.CENTERING2;
             Array.Copy(initArray, axisList, initArray.Length);
-            axisList[DEF_T] = (int)EYMC_Axis.C2_CENTERING_T;
+            axisList[DEF_T] = (int)EYMC_Axis.CENTERING2_X;
             data = new CMultiAxesYMCData(deviceNo, axisList);
 
             m_SystemInfo.GetObjectInfo(257, out objInfo);
@@ -921,6 +962,11 @@ namespace LWDicer.Control
             m_MeUpperHandler.SetHandlerPosition(FixedPos.UHandlerPos, ModelPos.UHandlerPos, OffsetPos.UHandlerPos);
             m_MeLowerHandler.SetHandlerPosition(FixedPos.LHandlerPos, ModelPos.LHandlerPos, OffsetPos.LHandlerPos);
 
+            // PushPull
+            m_MePushPull.SetPushPullPosition(FixedPos.PushPullPos, ModelPos.PushPullPos, OffsetPos.PushPullPos);
+            m_MePushPull.SetCenteringPosition(DEF_MePushPull.ECenterIndex.CENTER1, FixedPos.Centering1Pos, ModelPos.Centering1Pos, OffsetPos.Centering1Pos);
+            m_MePushPull.SetCenteringPosition(DEF_MePushPull.ECenterIndex.CENTER2, FixedPos.Centering2Pos, ModelPos.Centering2Pos, OffsetPos.Centering2Pos);
+
             //////////////////////////////////////////////////////////////////
             // Control Layer
 
@@ -1015,7 +1061,7 @@ namespace LWDicer.Control
 
         }
 
-        void CreateMeUpperHandler(CObjectInfo objInfo)
+        void CreateMeUHandler(CObjectInfo objInfo)
         {
             CMeHandlerRefComp refComp = new CMeHandlerRefComp();
             CMeHandlerData data = new CMeHandlerData();
@@ -1035,7 +1081,7 @@ namespace LWDicer.Control
             m_MeUpperHandler = new MMeHandler(objInfo, refComp, data);
         }
 
-        void CreateMeLowerHandler(CObjectInfo objInfo)
+        void CreateMeLHandler(CObjectInfo objInfo)
         {
             CMeHandlerRefComp refComp = new CMeHandlerRefComp();
             CMeHandlerData data = new CMeHandlerData();
@@ -1055,6 +1101,28 @@ namespace LWDicer.Control
             m_MeLowerHandler = new MMeHandler(objInfo, refComp, data);
         }
 
+        void CreateMePushPull(CObjectInfo objInfo)
+        {
+            CMePushPullRefComp refComp = new CMePushPullRefComp();
+            CMePushPullData data = new CMePushPullData();
+
+            refComp.IO = m_IO;
+            refComp.Gripper = m_PushPullGripperCyl;
+            refComp.AxPushPull = m_AxPushPull;
+            refComp.AxCentering[(int)ECenterIndex.CENTER1] = m_AxCentering1;
+            refComp.AxCentering[(int)ECenterIndex.CENTER2] = m_AxCentering2;
+            
+
+            data.PushPullType[DEF_Y] = EPushPullType.AXIS;
+
+            data.InDetectObject_Front = iUHandler_PanelDetect;
+            data.InDetectObject_Rear = iUHandler_PanelDetect;
+
+            data.CenteringZone[(int)ECenterIndex.CENTER1].Axis[DEF_X].ZoneAddr[(int)ECenteringXAxZone.SAFETY] = 111; // need updete io address
+            data.CenteringZone[(int)ECenterIndex.CENTER2].Axis[DEF_X].ZoneAddr[(int)ECenteringXAxZone.SAFETY] = 111; // need updete io address
+
+            m_MePushPull = new MMePushPull(objInfo, refComp, data);
+        }
         void CreateMeStage(CObjectInfo objInfo)
         {
             CMeStageRefComp refComp = new CMeStageRefComp();
