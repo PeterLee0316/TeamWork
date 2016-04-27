@@ -34,6 +34,7 @@ using static LWDicer.Control.DEF_SerialPort;
 using static LWDicer.Control.DEF_PolygonScanner;
 
 using static LWDicer.Control.DEF_CtrlHandler;
+using static LWDicer.Control.DEF_CtrlPushPull;
 
 namespace LWDicer.Control
 {
@@ -81,6 +82,7 @@ namespace LWDicer.Control
         public ICylinder m_UHandlerUDCyl2;
 
         public ICylinder m_PushPullGripperCyl;
+        public ICylinder m_PushPullUDCyl;
 
         // Vacuum
         public IVacuum m_Stage1Vac;
@@ -209,29 +211,7 @@ namespace LWDicer.Control
 
             ////////////////////////////////////////////////////////////////////////
             // Cylinder
-            // UHandlerUDCyl
-            CCylinderData cylData = new CCylinderData();
-            cylData.CylinderType = ECylinderType.UP_DOWN;
-            cylData.SolenoidType = ESolenoidType.DOUBLE_SOLENOID;
-            cylData.UpSensor[0] = iUHandler_Up1;
-            cylData.DownSensor[0] = iUHandler_Down1;
-            cylData.Solenoid[0] = oUHandler_Up1;
-            cylData.Solenoid[1] = oUHandler_Down1;
-
-            m_SystemInfo.GetObjectInfo(100, out objInfo);
-            CreateCylinder(objInfo, cylData, (int)EObjectCylinder.UHANDLER_UD, out m_UHandlerUDCyl);
-
-            // UHandlerUDCyl2
-            cylData = new CCylinderData();
-            cylData.CylinderType = ECylinderType.UP_DOWN;
-            cylData.SolenoidType = ESolenoidType.DOUBLE_SOLENOID;
-            cylData.UpSensor[0] = iUHandler_Up1;
-            cylData.DownSensor[0] = iUHandler_Down2;
-            cylData.Solenoid[0] = oUHandler_Up1;
-            cylData.Solenoid[1] = oUHandler_Down2;
-
-            m_SystemInfo.GetObjectInfo(101, out objInfo);
-            CreateCylinder(objInfo, cylData, (int)EObjectCylinder.UHANDLER_UD2, out m_UHandlerUDCyl2);
+            CCylinderData cylData;
 
             // PushPullGripperCyl
             cylData = new CCylinderData();
@@ -242,8 +222,20 @@ namespace LWDicer.Control
             cylData.Solenoid[0] = oUHandler_Up1;
             cylData.Solenoid[1] = oUHandler_Down2;
 
-            m_SystemInfo.GetObjectInfo(102, out objInfo);
+            m_SystemInfo.GetObjectInfo(100, out objInfo);
             CreateCylinder(objInfo, cylData, (int)EObjectCylinder.PUSHPULL_GRIPPER, out m_PushPullGripperCyl);
+
+            // PushPullUDCyl
+            cylData = new CCylinderData();
+            cylData.CylinderType = ECylinderType.UP_DOWN;
+            cylData.SolenoidType = ESolenoidType.DOUBLE_SOLENOID;
+            cylData.UpSensor[0] = iUHandler_Up1;
+            cylData.DownSensor[0] = iUHandler_Down2;
+            cylData.Solenoid[0] = oUHandler_Up1;
+            cylData.Solenoid[1] = oUHandler_Down2;
+
+            m_SystemInfo.GetObjectInfo(101, out objInfo);
+            CreateCylinder(objInfo, cylData, (int)EObjectCylinder.PUSHPULL_UD, out m_PushPullUDCyl);
 
             ////////////////////////////////////////////////////////////////////////
             // Vacuum
@@ -1101,6 +1093,7 @@ namespace LWDicer.Control
 
             refComp.IO = m_IO;
             refComp.Gripper = m_PushPullGripperCyl;
+            refComp.UDCyl = m_PushPullUDCyl;
             refComp.AxPushPull = m_AxPushPull;
             refComp.AxCentering[(int)ECenterIndex.CENTER1] = m_AxCentering1;
             refComp.AxCentering[(int)ECenterIndex.CENTER2] = m_AxCentering2;

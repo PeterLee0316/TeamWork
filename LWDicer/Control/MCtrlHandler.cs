@@ -234,7 +234,6 @@ namespace LWDicer.Control
                 }
             }
 
-            //	m_plogMng->WriteLog(DEF_MLOG_NORMAL_LOG_LEVEL, "Stage3의 이동 전 조건을 정상적으로 확인함: OK", __FILE__, __LINE__);
             return SUCCESS;
         }
 

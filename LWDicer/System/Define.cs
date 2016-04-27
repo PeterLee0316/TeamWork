@@ -185,6 +185,7 @@ namespace LWDicer.Control
             UHANDLER_UD,
             UHANDLER_UD2,
             PUSHPULL_GRIPPER,
+            PUSHPULL_UD,
             MAX_OBJ,
         }
 

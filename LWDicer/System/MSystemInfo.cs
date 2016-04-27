@@ -50,10 +50,10 @@ namespace LWDicer.Control
 	            // 80-99 : Reserved
 		
 	            // 100-149 : Cylinders--------------------------------------------------------------------
-	            new CObjectInfo( (int)OBJ_HL_CYLINDER, "Cylinder", 100, "Unload Handler Up/Down Cylinder", 8000, "UnloadHandlerUD", LOG_ALL, LOG_DAY ),
-                new CObjectInfo( (int)OBJ_HL_CYLINDER, "Cylinder", 101, "Unload Handler Up/Down Cylinder2", 8000, "UnloadHandlerUD2", LOG_ALL, LOG_DAY ),
-                new CObjectInfo( (int)OBJ_HL_CYLINDER, "Cylinder", 102, "PushPull Gripper Lock/Unlock Cylinder", 8000, "PushPullGripper", LOG_ALL, LOG_DAY ),
-                new CObjectInfo( (int)OBJ_HL_CYLINDER, "Cylinder", 103, "SHead1 HeightBase Forward/Backward Cylinder", 8000, "HeightBase2", LOG_ALL, LOG_DAY ),
+                new CObjectInfo( (int)OBJ_HL_CYLINDER, "Cylinder", 100, "PushPull Gripper Lock/Unlock Cylinder", 8000, "PushPullGripper", LOG_ALL, LOG_DAY ),
+                new CObjectInfo( (int)OBJ_HL_CYLINDER, "Cylinder", 101, "PushPull Up/Down Cylinder", 8000, "PushPullUD", LOG_ALL, LOG_DAY ),
+	            new CObjectInfo( (int)OBJ_HL_CYLINDER, "Cylinder", 102, "Unload Handler Up/Down Cylinder", 8000, "UnloadHandlerUD", LOG_ALL, LOG_DAY ),
+                new CObjectInfo( (int)OBJ_HL_CYLINDER, "Cylinder", 103, "Unload Handler Up/Down Cylinder2", 8000, "UnloadHandlerUD2", LOG_ALL, LOG_DAY ),
                 new CObjectInfo( (int)OBJ_HL_CYLINDER, "Cylinder", 104, "SHead1 UVCheck Cyl1 Forward/Backward Cylinder", 8000, "SHead1UVCheckCyl1", LOG_ALL, LOG_DAY ),
                 new CObjectInfo( (int)OBJ_HL_CYLINDER, "Cylinder", 105, "SHead1 UVCheck Cyl2 Forward/Backward Cylinder", 8000, "SHead1UVCheckCyl2", LOG_ALL, LOG_DAY ),
                 new CObjectInfo( (int)OBJ_HL_CYLINDER, "Cylinder", 106, "SHead1 UVCheck Cyl3 Forward/Backward Cylinder", 8000, "SHead1UVCheckCyl3", LOG_ALL, LOG_DAY ),

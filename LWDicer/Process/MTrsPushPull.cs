@@ -282,7 +282,7 @@ namespace LWDicer.Control
                                 // 0. check default status;
 
                                 // 1. if detected wafer
-                                m_RefComp.ctrlPushPull.IsWaferDetected(out bState);
+                                m_RefComp.ctrlPushPull.IsObjectDetected(out bState);
                                 if (bState)
                                 {
                                     // 1.1 unload to loader
