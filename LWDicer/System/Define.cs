@@ -185,6 +185,14 @@ namespace LWDicer.Control
             UHANDLER_UD,
             UHANDLER_UD2,
             PUSHPULL_GRIPPER,
+            COATER_UD,
+            CLEANER_UD,
+            CLEAN_DI,
+            CLEAN_N2,
+            CLEAN_RING_BLOW,
+            COAT_DI,
+            COAT_PVA,
+            COAT_RING_BLOW,
             PUSHPULL_UD,
             MAX_OBJ,
         }
@@ -195,6 +203,8 @@ namespace LWDicer.Control
             MAIN_STAGE,
             UHANDLER_SELF,  // Upper Handler
             LHANDLER_SELF,  // Lower Handler
+            COATER_SELF,
+            CLEANER_SELF,
             MAX_OBJ,
         }
 
@@ -1492,20 +1502,20 @@ namespace LWDicer.Control
         public const int oSpare2047                  = 2047;
 
         // Output Y030 
-        public const int oSpare2048                  = 2048;
-        public const int oSpare2049                  = 2049;
-        public const int oSpare2050                  = 2050;
-        public const int oSpare2051                  = 2051;
-        public const int oSpare2052                  = 2052;
-        public const int oSpare2053                  = 2053;
-        public const int oSpare2054                  = 2054;
-        public const int oSpare2055                  = 2055;
+        public const int oStage1_Up                  = 2048;
+        public const int oStage1_Down                = 2049;
+        public const int oStage2_Up                  = 2050;
+        public const int oStage2_Down                = 2051;
+        public const int oCoat_DI                    = 2052;
+        public const int oCoat_PVA                   = 2053;
+        public const int oClean_DI                   = 2054;
+        public const int oClean_N2                   = 2055;
 
-        public const int oSpare2056                  = 2056;
-        public const int oSpare2057                  = 2057;
-        public const int oSpare2058                  = 2058;
-        public const int oSpare2059                  = 2059;
-        public const int oSpare2060                  = 2060;
+        public const int oStage1_Blow                = 2056;
+        public const int oStage2_Blow                = 2057;
+        public const int oStage3_Blow                = 2058;
+        public const int oCoater_Ring_Blow           = 2059;
+        public const int oCleaner_Ring_Blow          = 2060;
         public const int oSpare2061                  = 2061;
         public const int oSpare2062                  = 2062;
         public const int oSpare2063                  = 2063;

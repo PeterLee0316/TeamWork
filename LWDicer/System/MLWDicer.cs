@@ -32,6 +32,7 @@ using static LWDicer.Control.DEF_MeStage;
 using static LWDicer.Control.DEF_MePushPull;
 using static LWDicer.Control.DEF_SerialPort;
 using static LWDicer.Control.DEF_PolygonScanner;
+using static LWDicer.Control.DEF_MeSpinner;
 
 using static LWDicer.Control.DEF_CtrlHandler;
 using static LWDicer.Control.DEF_CtrlPushPull;
@@ -84,11 +85,24 @@ namespace LWDicer.Control
         public ICylinder m_PushPullGripperCyl;
         public ICylinder m_PushPullUDCyl;
 
+        public ICylinder m_SpinCoaterUDCyl;     // Wafer Coater Up Down Cylinder [Double]
+        public ICylinder m_SpinCoaterDICyl;     // Wafer Coater DI Nozzle On Off [Single]
+        public ICylinder m_SpinCoaterPVACyl;    // Wafer Coater PVA Nozzle On Off [Single]
+        public ICylinder m_SpinCoaterRingBlow;  // Wafer Coater Ring Blow On Off [Single]
+
+        public ICylinder m_SpinCleanerUDCyl;    // Wafer Cleaner Up Down Cylinder [Double]
+        public ICylinder m_SpinCleanerDICyl;    // Wafer Cleaner DI Nozzle On Off [Single]
+        public ICylinder m_SpinCleanerN2Cyl;    // Wafer Cleaner N2 Nozzle On Off [Single]
+        public ICylinder m_SpinCleanerRingBlow; // Wafer Coater Ring Blow On Off [Single]
+
         // Vacuum
         public IVacuum m_Stage1Vac;
 
         public IVacuum m_UHandlerSelfVac;
         public IVacuum m_LHandlerSelfVac;
+
+        public IVacuum m_SpinCoaterVac;
+        public IVacuum m_SpinCleanerVac;
 
         // Serial
         public ISerialPort m_PolygonComPort;
@@ -111,6 +125,9 @@ namespace LWDicer.Control
         public MMeStage m_MeStage;         
 
         public MMePushPull m_MePushPull;
+
+        public MMeSpinner m_SpinCoater;
+        public MMeSpinner m_SpinCleaner;
 
         ///////////////////////////////////////////////////////////////////////
         // Control Layer
@@ -237,6 +254,85 @@ namespace LWDicer.Control
             m_SystemInfo.GetObjectInfo(101, out objInfo);
             CreateCylinder(objInfo, cylData, (int)EObjectCylinder.PUSHPULL_UD, out m_PushPullUDCyl);
 
+            // Spin Coater Up & Down Cylinder
+            cylData = new CCylinderData();
+            cylData.CylinderType = ECylinderType.UP_DOWN;
+            cylData.SolenoidType = ESolenoidType.DOUBLE_SOLENOID;
+            cylData.UpSensor[0] = iStage1Up;
+            cylData.DownSensor[0] = iStage1Down;
+            cylData.Solenoid[0] = oStage1_Up;
+            cylData.Solenoid[1] = oStage1_Down;
+
+            m_SystemInfo.GetObjectInfo(122, out objInfo);
+            CreateCylinder(objInfo, cylData, (int)EObjectCylinder.COATER_UD, out m_SpinCoaterUDCyl);
+
+            // Spin Cleaner Up & Down Cylinder
+            cylData = new CCylinderData();
+            cylData.CylinderType = ECylinderType.UP_DOWN;
+            cylData.SolenoidType = ESolenoidType.DOUBLE_SOLENOID;
+            cylData.UpSensor[0] = iStage2Up;
+            cylData.DownSensor[0] = iStage2Down;
+            cylData.Solenoid[0] = oStage2_Up;
+            cylData.Solenoid[1] = oStage2_Down;
+
+            m_SystemInfo.GetObjectInfo(126, out objInfo);
+            CreateCylinder(objInfo, cylData, (int)EObjectCylinder.CLEANER_UD, out m_SpinCleanerUDCyl);
+
+            // Spin Coater DI Valve Open Close Cylinder
+            cylData = new CCylinderData();
+            cylData.CylinderType = ECylinderType.OPEN_CLOSE;
+            cylData.SolenoidType = ESolenoidType.SINGLE_SOLENOID;
+            cylData.Solenoid[0] = oCoat_DI;
+
+            m_SystemInfo.GetObjectInfo(123, out objInfo);
+            CreateCylinder(objInfo, cylData, (int)EObjectCylinder.COAT_DI, out m_SpinCoaterDICyl);
+
+            // Spin Coater PVA Valve Open Close Cylinder
+            cylData = new CCylinderData();
+            cylData.CylinderType = ECylinderType.OPEN_CLOSE;
+            cylData.SolenoidType = ESolenoidType.SINGLE_SOLENOID;
+            cylData.Solenoid[0] = oCoat_PVA;
+
+            m_SystemInfo.GetObjectInfo(124, out objInfo);
+            CreateCylinder(objInfo, cylData, (int)EObjectCylinder.COAT_PVA, out m_SpinCoaterPVACyl);
+
+            // Spin Coater Ring Blow On Off
+            cylData = new CCylinderData();
+            cylData.CylinderType = ECylinderType.OPEN_CLOSE;
+            cylData.SolenoidType = ESolenoidType.SINGLE_SOLENOID;
+            cylData.Solenoid[0] = oCoater_Ring_Blow;
+
+            m_SystemInfo.GetObjectInfo(125, out objInfo);
+            CreateCylinder(objInfo, cylData, (int)EObjectCylinder.COAT_RING_BLOW, out m_SpinCoaterRingBlow);
+
+            // Spin Cleaner DI Valve Open Close Cylinder
+            cylData = new CCylinderData();
+            cylData.CylinderType = ECylinderType.OPEN_CLOSE;
+            cylData.SolenoidType = ESolenoidType.SINGLE_SOLENOID;
+            cylData.Solenoid[0] = oClean_DI;
+
+            m_SystemInfo.GetObjectInfo(127, out objInfo);
+            CreateCylinder(objInfo, cylData, (int)EObjectCylinder.CLEAN_DI, out m_SpinCleanerDICyl);
+
+            // Spin Cleaner N2 Valve Open Close Cylinder
+            cylData = new CCylinderData();
+            cylData.CylinderType = ECylinderType.OPEN_CLOSE;
+            cylData.SolenoidType = ESolenoidType.SINGLE_SOLENOID;
+            cylData.Solenoid[0] = oClean_N2;
+
+            m_SystemInfo.GetObjectInfo(128, out objInfo);
+            CreateCylinder(objInfo, cylData, (int)EObjectCylinder.CLEAN_N2, out m_SpinCleanerN2Cyl);
+
+            // Spin Cleaner Ring Blow On Off
+            cylData = new CCylinderData();
+            cylData.CylinderType = ECylinderType.OPEN_CLOSE;
+            cylData.SolenoidType = ESolenoidType.SINGLE_SOLENOID;
+            cylData.Solenoid[0] = oCleaner_Ring_Blow;
+
+            m_SystemInfo.GetObjectInfo(129, out objInfo);
+            CreateCylinder(objInfo, cylData, (int)EObjectCylinder.CLEAN_RING_BLOW, out m_SpinCleanerRingBlow);
+
+
             ////////////////////////////////////////////////////////////////////////
             // Vacuum
             // Stage1 Vacuum
@@ -258,6 +354,28 @@ namespace LWDicer.Control
 
             m_SystemInfo.GetObjectInfo(151, out objInfo);
             CreateVacuum(objInfo, vacData, (int)EObjectVacuum.UHANDLER_SELF, out m_UHandlerSelfVac);
+
+            // SPIN COATER Vacuum
+            vacData = new CVacuumData();
+            vacData.VacuumType = EVacuumType.DOUBLE_VACUUM_WBLOW;
+            vacData.Sensor[0] = iStage2_PanelDetect;
+            vacData.Solenoid[0] = oStage2_Vac_On;
+            vacData.Solenoid[1] = oStage2_Vac_Off;
+            vacData.Solenoid[2] = oStage2_Blow;
+
+            m_SystemInfo.GetObjectInfo(152, out objInfo);
+            CreateVacuum(objInfo, vacData, (int)EObjectVacuum.COATER_SELF, out m_SpinCoaterVac);
+
+            // SPIN CLEANER Vacuum
+            vacData = new CVacuumData();
+            vacData.VacuumType = EVacuumType.DOUBLE_VACUUM_WBLOW;
+            vacData.Sensor[0] = iStage3_PanelDetect;
+            vacData.Solenoid[0] = oStage3_Vac_On;
+            vacData.Solenoid[1] = oStage3_Vac_Off;
+            vacData.Solenoid[2] = oStage3_Blow;
+
+            m_SystemInfo.GetObjectInfo(153, out objInfo);
+            CreateVacuum(objInfo, vacData, (int)EObjectVacuum.CLEANER_SELF, out m_SpinCleanerVac);
 
             ////////////////////////////////////////////////////////////////////////
             // ComPort
@@ -303,10 +421,10 @@ namespace LWDicer.Control
 
             // Coater
             m_SystemInfo.GetObjectInfo(304, out objInfo);
-            //CreateMeCoator1(objInfo);
+            CreateMeCoater(objInfo);
 
             m_SystemInfo.GetObjectInfo(305, out objInfo);
-            //CreateMeCoator1(objInfo);
+            CreateMeCleaner(objInfo);
 
             // Handler
             m_SystemInfo.GetObjectInfo(306, out objInfo);
@@ -1124,6 +1242,52 @@ namespace LWDicer.Control
             data.StageZone.Axis[DEF_Z].ZoneAddr[(int)EHandlerZAxZone.SAFETY] = 111; // need updete io address
 
             m_MeStage = new MMeStage(objInfo, refComp, data);
+        }
+
+        void CreateMeCoater(CObjectInfo objInfo)
+        {
+            CMeSpinnerRefComp refCoater = new CMeSpinnerRefComp();
+            CMeSpinnerData dataCoater = new CMeSpinnerData();
+
+            refCoater.IO = m_IO;
+
+            refCoater.AxSpinRotate = m_AxRotate1;
+            refCoater.AxSpinNozzle1 = m_AxCleanNozzle1;
+            refCoater.AxSpinNozzle2 = m_AxCoatNozzle1;
+
+            refCoater.Vacuum[(int)EChuckVacuum.SELF] = m_SpinCoaterVac;
+
+            refCoater.UpDownCyl = m_SpinCoaterUDCyl;
+            refCoater.Nozzle1SolCyl = m_SpinCoaterDICyl;
+            refCoater.Nozzle2SolCyl = m_SpinCoaterPVACyl;
+            refCoater.RingBlow = m_SpinCoaterRingBlow;
+
+            dataCoater.InDetectObject = iStage2_PanelDetect;
+
+            m_SpinCoater = new MMeSpinner(objInfo, refCoater, dataCoater);
+        }
+
+        void CreateMeCleaner(CObjectInfo objInfo)
+        {
+            CMeSpinnerRefComp refCleaner = new CMeSpinnerRefComp();
+            CMeSpinnerData dataCleaner = new CMeSpinnerData();
+
+            refCleaner.IO = m_IO;
+
+            refCleaner.AxSpinRotate = m_AxRotate2;
+            refCleaner.AxSpinNozzle1 = m_AxCleanNozzle2;
+            refCleaner.AxSpinNozzle2 = m_AxCoatNozzle2;
+
+            refCleaner.Vacuum[(int)EChuckVacuum.SELF] = m_SpinCleanerVac;
+
+            refCleaner.UpDownCyl = m_SpinCleanerUDCyl;
+            refCleaner.Nozzle1SolCyl = m_SpinCleanerDICyl;
+            refCleaner.Nozzle2SolCyl = m_SpinCleanerN2Cyl;
+            refCleaner.RingBlow = m_SpinCleanerRingBlow;
+
+            dataCleaner.InDetectObject = iStage3_PanelDetect;
+
+            m_SpinCleaner = new MMeSpinner(objInfo, refCleaner, dataCleaner);
         }
 
     }

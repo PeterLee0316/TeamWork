@@ -170,6 +170,7 @@
     <Compile Include="Hardware\YMC\ymcPCFunction.cs" />
     <Compile Include="Hardware\YMC\ymcPCStruct.cs" />
     <Compile Include="Mechanical\MMeElevator.cs" />
+    <Compile Include="Mechanical\MMeSpinner.cs" />
     <Compile Include="Mechanical\MMeStage.cs" />
     <Compile Include="Mechanical\MMeHandler.cs" />
     <Compile Include="Mechanical\MMePushPull.cs" />

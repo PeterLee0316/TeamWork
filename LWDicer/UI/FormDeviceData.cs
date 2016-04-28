@@ -745,6 +745,25 @@ namespace LWDicer.UI
             }
         }
 
+        /*------------------------------------------------------------------------------------
+        * Date : 2016.04.11
+        * Author : HSLEE
+        * Function : ImageCodecInfo GetEncoderInfo(string mimeType)
+        * Description : Image File의 속성을 변경하기 위해 ImageCodec을 반환한다.
+        * Parameter : string mimeType - Image File 형식
+        * return : ImageCodecInfo codecs - 해당 Image의 codec을 반환
+        ------------------------------------------------------------------------------------*/
+        private static ImageCodecInfo GetEncoderInfo(string mimeType)
+        {
+            ImageCodecInfo[] codecs = ImageCodecInfo.GetImageEncoders();
+
+            // 입력한 String 형식의 Codec을 받아온다.
+            for (int i = 0; i < codecs.Length; i++)
+                if (codecs[i].MimeType == mimeType)
+                    return codecs[i];
+            return null;
+        }
+
         public void ImageSave(string strPath)
         {
             Bitmap bmp = new Bitmap(PicWafer.Width, PicWafer.Height);
@@ -761,7 +780,10 @@ namespace LWDicer.UI
             // 3. 원본 이미지에 단색 Bitmap 속성을 바꾼 복사본을 만든다.
             SaveImage = bmp.Clone(rectangle, PixelFormat.Format1bppIndexed);
 
-            SaveImage.Save(strPath);
+            EncoderParameters parameters = new EncoderParameters(1);
+            parameters.Param[0] = new EncoderParameter(System.Drawing.Imaging.Encoder.ColorDepth, 1);
+
+            SaveImage.Save(strPath, GetEncoderInfo("image/bmp"), parameters);
         }
     }
 }

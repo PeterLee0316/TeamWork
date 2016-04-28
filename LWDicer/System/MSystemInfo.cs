@@ -72,7 +72,17 @@ namespace LWDicer.Control
                 new CObjectInfo( (int)OBJ_HL_CYLINDER, "Cylinder", 119, "Camera2 Up/Down Cylinder", 8000, "Camera2UD", LOG_ALL, LOG_DAY ),
                 new CObjectInfo( (int)OBJ_HL_CYLINDER, "Cylinder", 120, "Workbench Forward/Backward Cylinder", 8000, "WorkbenchFB", LOG_ALL, LOG_DAY ),
                 new CObjectInfo( (int)OBJ_HL_CYLINDER, "Cylinder", 121, "Workbench Up/Down Cylinder", 8000, "WorkbenchUD", LOG_ALL, LOG_DAY ),
-		
+
+                new CObjectInfo( (int)OBJ_HL_CYLINDER, "Cylinder", 122, "Coater Up/Down Cylinder", 8000, "Coater", LOG_ALL, LOG_DAY ),
+                new CObjectInfo( (int)OBJ_HL_CYLINDER, "Cylinder", 123, "Coater DI Valve", 8000, "Coater", LOG_ALL, LOG_DAY ),
+                new CObjectInfo( (int)OBJ_HL_CYLINDER, "Cylinder", 124, "Coater PVA Valve", 8000, "Coater", LOG_ALL, LOG_DAY ),
+                new CObjectInfo( (int)OBJ_HL_CYLINDER, "Cylinder", 125, "Coater Ring Blow On & Off", 8000, "Coater", LOG_ALL, LOG_DAY ),
+
+                new CObjectInfo( (int)OBJ_HL_CYLINDER, "Cylinder", 126, "Cleaner Up/Down Cylinder", 8000, "Cleaner", LOG_ALL, LOG_DAY ),
+                new CObjectInfo( (int)OBJ_HL_CYLINDER, "Cylinder", 127, "Cleaner DI Valve", 8000, "Cleaner", LOG_ALL, LOG_DAY ),
+                new CObjectInfo( (int)OBJ_HL_CYLINDER, "Cylinder", 128, "Cleaner N2 Valve", 8000, "Cleaner", LOG_ALL, LOG_DAY ),
+                new CObjectInfo( (int)OBJ_HL_CYLINDER, "Cylinder", 129, "Cleaner Ring Blow On & Off", 8000, "Coater", LOG_ALL, LOG_DAY ),
+
 	            // 150-199 : Vacuums ------------------------------------------------------------------------------	
 	            new CObjectInfo( (int)OBJ_HL_VACUUM, "Vacuum", 150, "Stage1 Vacuum", 9000, "Stage1Vac", LOG_ALL, LOG_DAY ),
                 new CObjectInfo( (int)OBJ_HL_VACUUM, "Vacuum", 151, "Stage2 Vacuum", 9000, "Stage2Vac", LOG_ALL, LOG_DAY ),

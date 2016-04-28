@@ -224,3 +224,15 @@ LWDicer의 DataManager에서 데이터를 읽어오기 위한 3가지 함수 : S
 // * UI 변경
 // 1. Scanner Image 편집 UI 추가
 
+// Version : 0.0.6
+// Grade : ★
+// Date : 2016-04-27
+// Context
+// 1. Spinner Mechanical Layer 추가
+//  - MMeSpinner Class 추가
+// 2. Scanner Image 흑백 Bitmap 속성 변경 구문 추가
+
+
+
+
+
