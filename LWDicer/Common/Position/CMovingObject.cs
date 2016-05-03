@@ -98,7 +98,7 @@ namespace LWDicer.Control
             IsMarkAligned = false;
             AlignOffset.Init();
         }
-
+        
         public CPos_XYTZ GetTargetPos(int index)
         {
             Debug.Assert((int)EUnitPos.LOAD <= index && index < PosLength);

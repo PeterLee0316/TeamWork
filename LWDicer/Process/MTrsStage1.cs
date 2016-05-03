@@ -199,7 +199,7 @@ namespace LWDicer.Control
                             case (int)TRS_STAGE1_UNLOAD_COMPLETE: //7
                                                              //				if(!m_bWorkbench_SafetyPos) break;
 
-                                iResult = m_RefComp.ctrlStage1.MoveToWaitPos(false);
+                                iResult = m_RefComp.ctrlStage1.MoveToWaitPos();
                                 if (iResult != SUCCESS) { SendAlarmTo(iResult); break; }
 
                                 //PostMsg(TrsWorkbench, MSG_STAGE1_WORKBENCH_SAFETY_POS);

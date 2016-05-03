@@ -77,7 +77,7 @@ namespace LWDicer.UI
             CEdgeData mEdgeData = new CEdgeData();
 
             CMainFrame.LWDicer.m_Vision.SetEdgeFinderArea(iCamNo);
-            CMainFrame.LWDicer.m_Vision.FindEdge(iCamNo, ref mEdgeData);
+            CMainFrame.LWDicer.m_Vision.FindEdge(iCamNo, out mEdgeData);
 
             lblResult.Text = mEdgeData.m_strResult;
         }
@@ -126,10 +126,10 @@ namespace LWDicer.UI
 
             Rectangle ptRecSearch = new Rectangle(0, 0, iCamWidth, iCamHeight);
             Rectangle ptRecModel = new Rectangle(0, 0, 300,300);
-            Point ptPointTemp = new Point(0, 0);
+            
 
             string strModel = CMainFrame.LWDicer.m_DataManager.ModelData.Name;
-            CMainFrame.LWDicer.m_Vision.RegisterPatternMark(iCamNo,strModel, PATTERN_A, ref ptRecSearch, ref ptRecModel, ref ptPointTemp);
+            CMainFrame.LWDicer.m_Vision.RegisterPatternMark(iCamNo,strModel, PATTERN_A, ptRecSearch, ptRecModel);
             
             if (iCamNo == PRE__CAM)
                 CMainFrame.LWDicer.m_DataManager.ModelData.MacroPatternA = CMainFrame.LWDicer.m_Vision.GetSearchData(iCamNo, PATTERN_A);
@@ -150,10 +150,10 @@ namespace LWDicer.UI
 
             Rectangle ptRecSearch = new Rectangle(0, 0, iCamWidth, iCamHeight);
             Rectangle ptRecModel = new Rectangle(0, 0, 300, 300);
-            Point ptPointTemp = new Point(0, 0);
+            
 
             string strModel = CMainFrame.LWDicer.m_DataManager.ModelData.Name;
-            CMainFrame.LWDicer.m_Vision.RegisterPatternMark(iCamNo, strModel, PATTERN_B, ref ptRecSearch, ref ptRecModel, ref ptPointTemp);
+            CMainFrame.LWDicer.m_Vision.RegisterPatternMark(iCamNo, strModel, PATTERN_B, ptRecSearch, ptRecModel);
             
             if (iCamNo == PRE__CAM)
                 CMainFrame.LWDicer.m_DataManager.ModelData.MacroPatternB = CMainFrame.LWDicer.m_Vision.GetSearchData(iCamNo, PATTERN_B);

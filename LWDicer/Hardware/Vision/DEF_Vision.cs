@@ -56,12 +56,7 @@ namespace LWDicer.Control
  
         public const int PATTERN_A = 0;
         public const int PATTERN_B = 1;
-
-
-        /** Display Image Resolution */
-        public const int DEF_IMAGE_SIZE_X = 1624;
-        public const int DEF_IMAGE_SIZE_Y = 1228;
-
+        
         public const int DEF_SEARCH_MIN_WIDTH   = 30;
         public const int DEF_SEARCH_MIN_HEIGHT  = 30;
 
@@ -184,8 +179,7 @@ namespace LWDicer.Control
 
             //  Vision 좌표계를 따르는 인식 좌표
             //  Display View 좌측 상단 좌표 : (0.0, 0.0)          
-            public double m_dPixelX;
-            public double m_dPixelY;
+            public CPos_XY m_PixelPos = new CPos_XY();
 
             // Score : 인식률 
             public double m_dScore;
@@ -207,6 +201,10 @@ namespace LWDicer.Control
 
             // MIL 에서 사용하는 Search Result ID (GMF)
             public MIL_ID m_milGMFResult;
+            public CResultData()
+            {
+
+            }
 
         };
 
@@ -216,11 +214,15 @@ namespace LWDicer.Control
             public bool m_bSuccess;
 
             public int m_iEdgeNum;
-            public double[] m_dPosX;
-            public double[] m_dPosY;           
+            public CPos_XY[] EdgePos;         
 
             // Search Result 를 저장할 문자열 
             public string m_strResult;
+
+            public CEdgeData()
+            {
+
+            }
 
         };
 

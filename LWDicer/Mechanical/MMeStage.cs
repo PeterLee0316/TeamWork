@@ -18,24 +18,25 @@ namespace LWDicer.Control
         #region Data Define
 
         // Error Define
-        public const int ERR_Stage_UNABLE_TO_USE_IO                         = 1;
-        public const int ERR_Stage_UNABLE_TO_USE_CYL                        = 2;
-        public const int ERR_Stage_UNABLE_TO_USE_VCC                        = 3;
-        public const int ERR_Stage_UNABLE_TO_USE_AXIS                       = 4;
-        public const int ERR_Stage_UNABLE_TO_USE_VISION                     = 5;
-        public const int ERR_Stage_NOT_ORIGIN_RETURNED                      = 6;
-        public const int ERR_Stage_INVALID_AXIS                             = 7;
-        public const int ERR_Stage_INVALID_PRIORITY                         = 8;
-        public const int ERR_Stage_NOT_SAME_POSITION                        = 20;
-        public const int ERR_Stage_UNABLE_TO_USE_POSITION                   = 21;
-        public const int ERR_Stage_MOVE_FAIL                                = 22;
-        public const int ERR_Stage_READ_CURRENT_POSITION                    = 23;
-        public const int ERR_Stage_CASSETTE_NOT_READY                       = 24;
-        public const int ERR_Stage_VACUUM_ON_TIME_OUT                       = 40;
-        public const int ERR_Stage_VACUUM_OFF_TIME_OUT                      = 41;
-        public const int ERR_Stage_INVALID_PARAMETER                        = 42;
-        public const int ERR_Stage_OBJECT_DETECTED_BUT_NOT_ABSORBED         = 43;
-        public const int ERR_Stage_OBJECT_NOT_DETECTED_BUT_NOT_RELEASED     = 44;
+        public const int ERR_STAGE_UNABLE_TO_USE_IO                         = 1;
+        public const int ERR_STAGE_UNABLE_TO_USE_CYL                        = 2;
+        public const int ERR_STAGE_UNABLE_TO_USE_VCC                        = 3;
+        public const int ERR_STAGE_UNABLE_TO_USE_AXIS                       = 4;
+        public const int ERR_STAGE_UNABLE_TO_USE_VISION                     = 5;
+        public const int ERR_STAGE_NOT_ORIGIN_RETURNED                      = 6;
+        public const int ERR_STAGE_INVALID_AXIS                             = 7;
+        public const int ERR_STAGE_INVALID_PRIORITY                         = 8;
+        public const int ERR_STAGE_TOO_LOW_JOG_SPEED                        = 9;
+        public const int ERR_STAGE_NOT_SAME_POSITION                        = 20;
+        public const int ERR_STAGE_UNABLE_TO_USE_POSITION                   = 21;
+        public const int ERR_STAGE_MOVE_FAIL                                = 22;
+        public const int ERR_STAGE_READ_CURRENT_POSITION                    = 23;
+        public const int ERR_STAGE_CASSETTE_NOT_READY                       = 24;
+        public const int ERR_STAGE_VACUUM_ON_TIME_OUT                       = 40;
+        public const int ERR_STAGE_VACUUM_OFF_TIME_OUT                      = 41;
+        public const int ERR_STAGE_INVALID_PARAMETER                        = 42;
+        public const int ERR_STAGE_OBJECT_DETECTED_BUT_NOT_ABSORBED         = 43;
+        public const int ERR_STAGE_OBJECT_NOT_DETECTED_BUT_NOT_RELEASED     = 44;
 
         // System Define
         public const int WAFER_CLAMP_CYL_1                                  = 0;
@@ -64,6 +65,7 @@ namespace LWDicer.Control
             LOAD = 0,
             WAIT,
             UNLOAD,
+            THETA_ALIGN,          // Theta축 정렬할때 A 위치
             EDGE_ALIGN_1,           // EDGE Detect "0"도 위치
             EDGE_ALIGN_2,           // EDGE Detect "90"도 위치
             EDGE_ALIGN_3,           // EDGE Detect "180"도 위치
@@ -137,9 +139,11 @@ namespace LWDicer.Control
             public double ScreenHeight = 0.0;
             public double ScreenRotate = 45.0;
             public double StageJogSpeed = 10.0;
+            public double ThetaJogSpeed = 10.0;
 
             public double AlignMarkWidthLen = 0.0;
             public double AlignMarkWidthRatio = 0.0;
+            public CPos_XY VisionCamDistance = new CPos_XY();
             public double VisionLaserDistance = 0.0;
 
             // Detect Object Sensor Address
@@ -226,6 +230,12 @@ namespace LWDicer.Control
             return AxStageInfo.GetPosition(out FixedPos,out ModelPos,out OffsetPos);
         }
 
+        public CPos_XYTZ GetTargetPosition(int index)
+        {
+            return AxStageInfo.GetTargetPos(index);
+        }
+
+
         public int SetVccUseFlag(bool[] UseVccFlag = null)
         {
             if(UseVccFlag != null)
@@ -310,7 +320,7 @@ namespace LWDicer.Control
                         bNeedWait = true;
                         if (m_waitTimer.MoreThan(sData[i].TurningTime * 1000))
                         {
-                            return GenerateErrorCode(ERR_Stage_VACUUM_ON_TIME_OUT);
+                            return GenerateErrorCode(ERR_STAGE_VACUUM_ON_TIME_OUT);
                         }
                     }
 
@@ -372,7 +382,7 @@ namespace LWDicer.Control
                         bNeedWait = true;
                         if (m_waitTimer.MoreThan(sData[i].TurningTime * 1000))
                         {
-                            return GenerateErrorCode(ERR_Stage_VACUUM_OFF_TIME_OUT);
+                            return GenerateErrorCode(ERR_STAGE_VACUUM_OFF_TIME_OUT);
                         }
                     }
 
@@ -549,6 +559,8 @@ namespace LWDicer.Control
             return SUCCESS;
         }
 
+        
+
         /// <summary>
         /// iPos 좌표로 선택된 축들을 이동시킨다.
         /// </summary>
@@ -588,6 +600,29 @@ namespace LWDicer.Control
             return SUCCESS;
         }
 
+        public int MoveStageRelative(CPos_XYTZ sPos,bool[] bMoveFlag = null)
+        {
+            int iResult = SUCCESS;
+
+            // 이동 Position 선택
+            int iPos = (int)EStagePos.NONE;
+            bool bUsePriority = false;
+            bool bUseBacklash = false;
+            int[] movePriority = null;
+
+            // 현재 위치를 읽어옴 (Command 값을 사용하는 것이 좋을 듯)
+            CPos_XYTZ sTargetPos;
+
+            iResult = GetStageCurPos(out sTargetPos);
+            if (iResult != SUCCESS) GenerateErrorCode(ERR_STAGE_READ_CURRENT_POSITION);
+            // Index 거리를 해당 축에 더하여 거리를 산출함.
+            sTargetPos += sPos; 
+
+            iResult = MoveStagePos(sTargetPos, iPos, bMoveFlag, bUseBacklash, bUsePriority, movePriority);
+            if (iResult != SUCCESS) return iResult;
+
+            return SUCCESS;
+        }
         public int MoveStageRelative(int iAxis, double dMoveLength,  bool bUseBacklash = false)
         {
             int iResult = SUCCESS;
@@ -603,7 +638,7 @@ namespace LWDicer.Control
             CPos_XYTZ sTargetPos;
 
             iResult = GetStageCurPos(out sTargetPos);
-            if (iResult != SUCCESS) GenerateErrorCode(ERR_Stage_READ_CURRENT_POSITION);
+            if (iResult != SUCCESS) GenerateErrorCode(ERR_STAGE_READ_CURRENT_POSITION);
             // Index 거리를 해당 축에 더하여 거리를 산출함.
 
             if (iAxis == DEF_X)
@@ -850,6 +885,35 @@ namespace LWDicer.Control
             return MoveStagePos(iPos, bMoveAllAxis, bMoveXYT, bMoveZ);
         }
 
+        public int MoveStageToThetaAlignPosA(bool bMoveAllAxis = false, bool bMoveXYT = true, bool bMoveZ = false)
+        {
+            int iPos = (int)EStagePos.THETA_ALIGN;
+
+            return MoveStagePos(iPos, bMoveAllAxis, bMoveXYT, bMoveZ);
+        }
+
+        public int MoveStageToThetaAlignPosB(bool bMoveAllAxis = false, bool bMoveXYT = true, bool bMoveZ = false)
+        {
+            int iResult = -1;
+            int iPosIndex = -1;
+
+            GetStagePosInfo(out iPosIndex);
+            if (iPosIndex != (int)EStagePos.THETA_ALIGN)
+            {
+                iResult = MoveStageToThetaAlignPosA();
+                if (iResult != SUCCESS) return iResult;
+            }
+
+            // 수평으로 Align Mark 거리 만큼 이동함.
+            double dMoveDistance = m_Data.AlignMarkWidthLen;
+
+            iResult = MoveStageRelative(DEF_Y, dMoveDistance);
+            if (iResult != SUCCESS) return iResult;
+
+            return SUCCESS;
+        }
+
+
         public int MoveStageToEdgeAlignPos1(bool bMoveAllAxis = false, bool bMoveXYT = true, bool bMoveZ = false)
         {
             int iPos = (int)EStagePos.EDGE_ALIGN_1;
@@ -888,9 +952,16 @@ namespace LWDicer.Control
         public int MoveStageToMacroAlignB(bool bMoveAllAxis = false, bool bMoveXYT = true, bool bMoveZ = false)
         {
             int iResult = -1;
-            // Mark A 위치로 이동
-            iResult = MoveStageToMacroAlignA();
-            if (iResult != SUCCESS) return iResult;
+            int iPosIndex = -1;
+
+            GetStagePosInfo(out iPosIndex);
+            if (iPosIndex != (int)EStagePos.MACRO_ALIGN)
+            {
+                // Mark A 위치로 이동
+                iResult = MoveStageToMacroAlignA();
+                if (iResult != SUCCESS) return iResult;
+            }
+            
 
             // 수평으로 Align Mark 거리 만큼 이동함.
             double dMoveDistance = m_Data.AlignMarkWidthLen;
@@ -912,9 +983,16 @@ namespace LWDicer.Control
         public int MoveStageToMicroAlignB(bool bMoveAllAxis = false, bool bMoveXYT = true, bool bMoveZ = false)
         {
             int iResult = -1;
-            // Mark A 위치로 이동
-            iResult = MoveStageToMicroAlignA();
-            if (iResult != SUCCESS) return iResult;
+            int iPosIndex = -1;
+
+            GetStagePosInfo(out iPosIndex);
+            if (iPosIndex != (int)EStagePos.MICRO_ALIGN)
+            {
+                // Mark A 위치로 이동
+                iResult = MoveStageToMicroAlignA();
+                if (iResult != SUCCESS) return iResult;
+            }
+            
 
             // 수평으로 Align Mark 거리 만큼 이동함.
             double dMoveDistance = m_Data.AlignMarkWidthLen;
@@ -935,9 +1013,16 @@ namespace LWDicer.Control
         public int MoveStageToMicroAlignTurnB(bool bMoveAllAxis = false, bool bMoveXYT = true, bool bMoveZ = false)
         {
             int iResult = -1;
-            // Mark A 위치로 이동
-            iResult = MoveStageToMicroAlignTurnA();
-            if (iResult != SUCCESS) return iResult;
+            int iPosIndex = -1;
+
+            GetStagePosInfo(out iPosIndex);
+            if (iPosIndex != (int)EStagePos.MICRO_ALIGN_TURN)
+            {
+                // Mark A 위치로 이동
+                iResult = MoveStageToMicroAlignTurnA();
+                if (iResult != SUCCESS) return iResult;
+            }
+            
 
             // 수평으로 Align Mark 거리 만큼 이동함.
             double dMoveDistance = m_Data.AlignMarkWidthLen;
@@ -962,6 +1047,98 @@ namespace LWDicer.Control
             return MoveStagePos(iPos, bMoveAllAxis, bMoveXYT, bMoveZ);
         }
 
+        public int MoveChangeMicroCam()
+        {
+            int iResult = -1;
+
+            bool[] bMoveFlag = new bool[DEF_MAX_COORDINATE] { true, true, false, false };
+            CPos_XYTZ MoveDistance = new CPos_XYTZ();
+
+            // 수평으로 Align Mark 거리 만큼 이동함.
+            MoveDistance.dX = m_Data.VisionCamDistance.dX;
+            MoveDistance.dY = m_Data.VisionCamDistance.dY;
+
+            iResult = MoveStageRelative(MoveDistance,bMoveFlag);
+            if (iResult != SUCCESS) return iResult;
+
+            return SUCCESS;
+        }
+
+        public int MoveChangeMacroCam()
+        {
+            int iResult = -1;
+
+            bool[] bMoveFlag = new bool[DEF_MAX_COORDINATE] { true, true, false, false };
+            CPos_XYTZ MoveDistance = new CPos_XYTZ();
+
+            // 수평으로 Align Mark 거리 만큼 이동함.
+            MoveDistance.dX = -m_Data.VisionCamDistance.dX;
+            MoveDistance.dY = -m_Data.VisionCamDistance.dY;
+
+            iResult = MoveStageRelative(MoveDistance, bMoveFlag);
+            if (iResult != SUCCESS) return iResult;
+
+            return SUCCESS;
+        }
+
+        public int JogStageMove(int iAxis, bool dDir, double dVel)
+        {
+            int iResult = 0;
+
+            // safety check
+            iResult = CheckForStageAxisMove();
+            if (iResult != SUCCESS) return iResult;
+
+            // Limit check ???
+
+            iResult = m_RefComp.AxStage.JogMoveVelocity(iAxis, dDir, dVel);
+
+            return SUCCESS;
+        }
+
+        public int JogStageStop(int iAxis)
+        {
+            int iResult = 0;
+
+            iResult = m_RefComp.AxStage.EStop(iAxis);
+            return SUCCESS;
+        }
+
+        public int JogStagePlusX()
+        {
+            if (m_Data.StageJogSpeed < 0.1) return GenerateErrorCode(ERR_STAGE_TOO_LOW_JOG_SPEED);
+            return JogStageMove(DEF_X,true, m_Data.StageJogSpeed);
+        }
+
+        public int JogStageMinusX()
+        {
+            if (m_Data.StageJogSpeed < 0.1) return GenerateErrorCode(ERR_STAGE_TOO_LOW_JOG_SPEED);
+            return JogStageMove(DEF_X, false, m_Data.StageJogSpeed);
+        }
+
+        public int JogStagePlusY()
+        {
+            if (m_Data.StageJogSpeed < 0.1) return GenerateErrorCode(ERR_STAGE_TOO_LOW_JOG_SPEED);
+            return JogStageMove(DEF_Y, true, m_Data.StageJogSpeed);
+        }
+
+        public int JogStageMinusY()
+        {
+            if (m_Data.StageJogSpeed < 0.1) return GenerateErrorCode(ERR_STAGE_TOO_LOW_JOG_SPEED);
+            return JogStageMove(DEF_Y, false, m_Data.StageJogSpeed);
+        }
+
+        public int JogStagePlusT()
+        {
+            if (m_Data.ThetaJogSpeed < 0.1) return GenerateErrorCode(ERR_STAGE_TOO_LOW_JOG_SPEED);
+            return JogStageMove(DEF_T, true, m_Data.ThetaJogSpeed);
+        }
+
+        public int JogStageMinusT()
+        {
+            if (m_Data.ThetaJogSpeed < 0.1) return GenerateErrorCode(ERR_STAGE_TOO_LOW_JOG_SPEED);
+            return JogStageMove(DEF_T, false, m_Data.ThetaJogSpeed);
+        }
         #endregion
 
         // 모드 변경 및 Align Data Set
@@ -998,6 +1175,35 @@ namespace LWDicer.Control
         public void SetAlignDataInit()
         {
             AxStageInfo.InitAlignOffset();
+        }
+
+        public void SetWidthIndexData(double dIndexLen)
+        {
+            m_Data.IndexWidth = dIndexLen;
+        }
+        public void ClearWidthIndexData()
+        {
+            m_Data.IndexWidth = 0.0;
+        }
+
+        public void SetHeightIndexData(double dIndexLen)
+        {
+            m_Data.IndexHeight = dIndexLen;
+        }
+        public void ClearHeightIndexData()
+        {
+            m_Data.IndexHeight = 0.0;
+        }
+        public void SetThetaAlignPosA(CPos_XYTZ pPos)
+        {
+            AxStageInfo.OffsetPos.Pos[(int)EStagePos.THETA_ALIGN] = pPos;
+        }
+        public int GetThetaAlignPosA(out CPos_XYTZ pPos)
+        {
+            int index = (int)EStagePos.THETA_ALIGN;
+            pPos =  GetTargetPosition(index);
+
+            return SUCCESS;
         }
 
         #endregion
@@ -1043,7 +1249,7 @@ namespace LWDicer.Control
                 string str = $"Stage의 위치비교 결과 미일치합니다. Target Pos : {sPos.ToString()}";
                 WriteLog(str, ELogType.Debug, ELogWType.Error);
 
-                return GenerateErrorCode(ERR_Stage_NOT_SAME_POSITION);
+                return GenerateErrorCode(ERR_STAGE_NOT_SAME_POSITION);
             }
 
             return SUCCESS;
@@ -1115,7 +1321,7 @@ namespace LWDicer.Control
 
             if (UseMainCylFlag[index] == true)
             {
-                if (m_RefComp.MainCyl[index] == null) return GenerateErrorCode(ERR_Stage_UNABLE_TO_USE_CYL);
+                if (m_RefComp.MainCyl[index] == null) return GenerateErrorCode(ERR_STAGE_UNABLE_TO_USE_CYL);
                 iResult = m_RefComp.MainCyl[index].IsUp(out bStatus);
                 if (iResult != SUCCESS) return iResult;
                 if (bStatus == false) return SUCCESS;
@@ -1131,7 +1337,7 @@ namespace LWDicer.Control
 
             if (UseMainCylFlag[index] == true)
             {
-                if (m_RefComp.MainCyl[index] == null) return GenerateErrorCode(ERR_Stage_UNABLE_TO_USE_CYL);
+                if (m_RefComp.MainCyl[index] == null) return GenerateErrorCode(ERR_STAGE_UNABLE_TO_USE_CYL);
                 iResult = m_RefComp.MainCyl[index].IsDown(out bStatus);
                 if (iResult != SUCCESS) return iResult;
                 if (bStatus == false) return SUCCESS;
@@ -1149,7 +1355,7 @@ namespace LWDicer.Control
 
             if (UseMainCylFlag[index] == true)
             {
-                if (m_RefComp.MainCyl[index] == null) return GenerateErrorCode(ERR_Stage_UNABLE_TO_USE_CYL);
+                if (m_RefComp.MainCyl[index] == null) return GenerateErrorCode(ERR_STAGE_UNABLE_TO_USE_CYL);
                 iResult = m_RefComp.MainCyl[index].Up(bSkipSensor);
                 if (iResult != SUCCESS) return iResult;
             }
@@ -1166,7 +1372,7 @@ namespace LWDicer.Control
 
             if (UseMainCylFlag[index] == true)
             {
-                if (m_RefComp.MainCyl[index] == null) return GenerateErrorCode(ERR_Stage_UNABLE_TO_USE_CYL);
+                if (m_RefComp.MainCyl[index] == null) return GenerateErrorCode(ERR_STAGE_UNABLE_TO_USE_CYL);
                 iResult = m_RefComp.MainCyl[index].Down(bSkipSensor);
                 if (iResult != SUCCESS) return iResult;
             }
@@ -1314,7 +1520,7 @@ namespace LWDicer.Control
             if (iResult != SUCCESS) return iResult;
             if (bStatus == false)
             {
-                return GenerateErrorCode(ERR_Stage_NOT_ORIGIN_RETURNED);
+                return GenerateErrorCode(ERR_STAGE_NOT_ORIGIN_RETURNED);
             }
 
             // 제품이 있으면, Clamp & Absorbed 없으면 don't care
@@ -1342,7 +1548,7 @@ namespace LWDicer.Control
             //    if (iResult != SUCCESS) return iResult;
             //    if (bStatus == false)
             //    {
-            //        return GenerateErrorCode(ERR_Stage_OBJECT_DETECTED_BUT_NOT_ABSORBED);
+            //        return GenerateErrorCode(ERR_STAGE_OBJECT_DETECTED_BUT_NOT_ABSORBED);
             //    }
             //}
             //else
@@ -1351,7 +1557,7 @@ namespace LWDicer.Control
             //    if (iResult != SUCCESS) return iResult;
             //    if (bStatus == false)
             //    {
-            //        return GenerateErrorCode(ERR_Stage_OBJECT_NOT_DETECTED_BUT_NOT_RELEASED);
+            //        return GenerateErrorCode(ERR_STAGE_OBJECT_NOT_DETECTED_BUT_NOT_RELEASED);
             //    }
             //}
 

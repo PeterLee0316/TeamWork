@@ -317,9 +317,11 @@ namespace LWDicer.Control
                 pSData.m_milModel = MIL.M_NULL;
                 pSData.m_bIsModel = false;
             }
+            int ImageWidth = m_pDisplay.GetImageWidth();
+            int ImageHeight = m_pDisplay.GetImageHeight();
 
             pSData.m_pointReference = new Point(0, 0);
-            pSData.m_rectSearch = new Rectangle(3, 3, DEF_IMAGE_SIZE_X - 3, DEF_IMAGE_SIZE_Y - 3);
+            pSData.m_rectSearch = new Rectangle(3, 3, ImageWidth - 3, ImageHeight - 3);
             pSData.m_dAcceptanceThreshold = 70.0;
             pSData.m_dCertaintyThreshold = 90.0;
             

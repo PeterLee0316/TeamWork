@@ -171,12 +171,25 @@ LWDicer의 DataManager에서 데이터를 읽어오기 위한 3가지 함수 : S
 
 // Version : 0.0.6
 // Grade : ★
-// Date : 2016-04-26 ~2016-04-26
+// Date : 2016-04-26 ~2016-04-29 (27일 ACS 테스트)
+//		  2016-05-02 ~2016-05-03
 // Context
 1. MCtrlStage : 초기 Class 제작
-   Mechanical Layer의 MStage에서 Align 동영상을 보면서 기능을 추가적으로 삽입 필요
-   Mechanical Layer의 MVision의 기능 Plus 설정에 관련한 추가 기능 구현 필요
+   Mechanical Layer의 MMeStage에서 Align 동영상을 보면서 기능을 추가적으로 삽입 필요
+                      MMeVision의 기본 기능 구성
+					  MMeElevator 에러 명 변경
 2. MMeElevator & MMeStage의 함수 일부 수정(정리)
+3. MPosition의 생성자에서 변수 초기화 
+4. MCtrlStage의 Vision에서 
+	- Calibration 및 연산에 관련 기본 함수들 작성 진행
+	- ThetaAlign 동작 및 연산부 (진행중)
+
+
+
+1. MCtrlStage의 Vision에서 
+	- Calibration 및 연산에 관련 기본 함수들 작성 진행
+	- ThetaAlign 동작 및 연산부 (진행중)
+
 
 ////////////////////////////////////////////////////////////////////////////////////////////
 // LHS

@@ -15,24 +15,24 @@ namespace LWDicer.Control
 {
     public class DEF_MeElevator
     {
-        public const int ERR_Elevator_UNABLE_TO_USE_IO                           = 1;
-        public const int ERR_Elevator_UNABLE_TO_USE_CYL                          = 2;
-        public const int ERR_Elevator_UNABLE_TO_USE_VCC                          = 3;
-        public const int ERR_Elevator_UNABLE_TO_USE_AXIS                         = 4;
-        public const int ERR_Elevator_UNABLE_TO_USE_VISION                       = 5;
-        public const int ERR_Elevator_NOT_ORIGIN_RETURNED                        = 6;
-        public const int ERR_Elevator_INVALID_AXIS                               = 7;
-        public const int ERR_Elevator_INVALID_PRIORITY                           = 8;
-        public const int ERR_Elevator_NOT_SAME_POSITION                          = 20;
-        public const int ERR_Elevator_UNABLE_TO_USE_POSITION                     = 21;
-        public const int ERR_Elevator_MOVE_FAIL                                  = 22;
-        public const int ERR_Elevator_EMPTY_SLOT_MOVE_FAIL                       = 23;
-        public const int ERR_Elevator_CASSETTE_NOT_READY                         = 24;
-        public const int ERR_Elevator_VACUUM_ON_TIME_OUT                         = 40;
-        public const int ERR_Elevator_VACUUM_OFF_TIME_OUT                        = 41;
-        public const int ERR_Elevator_INVALID_PARAMETER                          = 42;
-        public const int ERR_Elevator_OBJECT_DETECTED_BUT_NOT_ABSORBED           = 43;
-        public const int ERR_Elevator_OBJECT_NOT_DETECTED_BUT_NOT_RELEASED       = 44;
+        public const int ERR_ELEVATOR_UNABLE_TO_USE_IO                           = 1;
+        public const int ERR_ELEVATOR_UNABLE_TO_USE_CYL                          = 2;
+        public const int ERR_ELEVATOR_UNABLE_TO_USE_VCC                          = 3;
+        public const int ERR_ELEVATOR_UNABLE_TO_USE_AXIS                         = 4;
+        public const int ERR_ELEVATOR_UNABLE_TO_USE_VISION                       = 5;
+        public const int ERR_ELEVATOR_NOT_ORIGIN_RETURNED                        = 6;
+        public const int ERR_ELEVATOR_INVALID_AXIS                               = 7;
+        public const int ERR_ELEVATOR_INVALID_PRIORITY                           = 8;
+        public const int ERR_ELEVATOR_NOT_SAME_POSITION                          = 20;
+        public const int ERR_ELEVATOR_UNABLE_TO_USE_POSITION                     = 21;
+        public const int ERR_ELEVATOR_MOVE_FAIL                                  = 22;
+        public const int ERR_ELEVATOR_EMPTY_SLOT_MOVE_FAIL                       = 23;
+        public const int ERR_ELEVATOR_CASSETTE_NOT_READY                         = 24;
+        public const int ERR_ELEVATOR_VACUUM_ON_TIME_OUT                         = 40;
+        public const int ERR_ELEVATOR_VACUUM_OFF_TIME_OUT                        = 41;
+        public const int ERR_ELEVATOR_INVALID_PARAMETER                          = 42;
+        public const int ERR_ELEVATOR_OBJECT_DETECTED_BUT_NOT_ABSORBED           = 43;
+        public const int ERR_ELEVATOR_OBJECT_NOT_DETECTED_BUT_NOT_RELEASED       = 44;
 
 
         public enum EElevatorPos
@@ -42,6 +42,7 @@ namespace LWDicer.Control
             LOAD,
             SLOT,
             TOP,
+            SAFETY,
             MAX,
         }
 
@@ -69,10 +70,6 @@ namespace LWDicer.Control
         public enum EElevatorZAxZone
         {
             NONE = -1,
-            BOTTOM = 0,
-            LOAD,
-            SLOT,
-            TOP,
             SAFETY,
             MAX,
         }
@@ -131,7 +128,10 @@ namespace LWDicer.Control
             public int InDetectWafer   = IO_ADDR_NOT_DEFINED;
             public int[] InDetectCassette = new int[CASSETTE_DETECT_SENSOR_NUM] 
                 {IO_ADDR_NOT_DEFINED, IO_ADDR_NOT_DEFINED, IO_ADDR_NOT_DEFINED, IO_ADDR_NOT_DEFINED };
-            
+
+            // Push-Pull 안전 Sensor
+            public int PushPullSafetyPos = IO_ADDR_NOT_DEFINED;
+
             // Physical check zone sensor. 원점복귀 여부와 상관없이 축의 물리적인 위치를 체크 및
             // 안전위치 이동 check
             public CMAxisZoneCheck ElevatorZone;
@@ -203,11 +203,11 @@ namespace LWDicer.Control
             return SUCCESS;
         }
 
-        public void SetSlevatorSlotData(int nSlotNum, ECassetteWaferInfo WaferInfo)
+        public void SetElevatorSlotData(int nSlotNum, ECassetteWaferInfo WaferInfo)
         {
             m_Data.CassetteData.nWaferData[nSlotNum] = (int)WaferInfo;
         }
-        public void GetSlevatorSlotData(int nSlotNum, out int nData)
+        public void GetElevatorSlotData(int nSlotNum, out int nData)
         {
             nData = m_Data.CassetteData.nWaferData[nSlotNum];
         }
@@ -336,7 +336,7 @@ namespace LWDicer.Control
             if(bUpdatedPosInfo == false)
             {
                 //iPos = (int)EElevatorPos.NONE;
-                return GenerateErrorCode(ERR_Elevator_UNABLE_TO_USE_POSITION);
+                return GenerateErrorCode(ERR_ELEVATOR_UNABLE_TO_USE_POSITION);
             }
             iResult = MoveElevatorPos(sTargetPos, iPos, bMoveFlag, bUseBacklash, bUsePriority, movePriority);
             if (iResult != SUCCESS) return iResult;
@@ -424,7 +424,7 @@ namespace LWDicer.Control
             GetElevatorPosInfo(out nElevatorPos, out nCurSlotNum);
 
             if (nElevatorPos != (int)EElevatorPos.SLOT)
-                GenerateErrorCode(ERR_Elevator_UNABLE_TO_USE_POSITION);
+                GenerateErrorCode(ERR_ELEVATOR_UNABLE_TO_USE_POSITION);
 
             // 현재 위치한 Slot 번호를 대입한다.
             nSlotNum = nCurSlotNum;
@@ -458,11 +458,11 @@ namespace LWDicer.Control
             }
 
             // 해당 Slot이 없을 경우 에러를 리턴함.
-            if (nSlotNum == (int)ECassetteWaferInfo.NONE) GenerateErrorCode(ERR_Elevator_UNABLE_TO_USE_POSITION);
+            if (nSlotNum == (int)ECassetteWaferInfo.NONE) GenerateErrorCode(ERR_ELEVATOR_UNABLE_TO_USE_POSITION);
 
             // 해당 위치로 이동함.
             nResult = MoveElevatorPos(nElevatorPos, nSlotNum, bMoveAllAxis, bMoveXYT, bMoveZ);
-            if(nResult != SUCCESS ) GenerateErrorCode(ERR_Elevator_MOVE_FAIL);
+            if(nResult != SUCCESS ) GenerateErrorCode(ERR_ELEVATOR_MOVE_FAIL);
 
             Sleep(500);
 
@@ -471,9 +471,9 @@ namespace LWDicer.Control
             nResult = m_RefComp.IO.IsOn(m_Data.InDetectWafer, out bStatus);
 
             // Input확인 동작 확인
-            if (nResult != SUCCESS) GenerateErrorCode(ERR_Elevator_UNABLE_TO_USE_IO);
+            if (nResult != SUCCESS) GenerateErrorCode(ERR_ELEVATOR_UNABLE_TO_USE_IO);
             // Wafer 유무 확인 ( Wafer 감지 센서 On이면 Err 리턴 )
-            if(bStatus) GenerateErrorCode(ERR_Elevator_UNABLE_TO_USE_IO);
+            if(bStatus) GenerateErrorCode(ERR_ELEVATOR_UNABLE_TO_USE_IO);
 
             return SUCCESS;
         }
@@ -496,11 +496,11 @@ namespace LWDicer.Control
             }
 
             // 해당 Slot이 없을 경우 에러를 리턴함.
-            if (nSlotNum == (int)ECassetteWaferInfo.NONE) GenerateErrorCode(ERR_Elevator_UNABLE_TO_USE_POSITION);
+            if (nSlotNum == (int)ECassetteWaferInfo.NONE) GenerateErrorCode(ERR_ELEVATOR_UNABLE_TO_USE_POSITION);
 
             // 해당 위치로 이동함.
             nResult = MoveElevatorPos(nElevatorPos, nSlotNum, bMoveAllAxis, bMoveXYT, bMoveZ);
-            if (nResult != SUCCESS) GenerateErrorCode(ERR_Elevator_MOVE_FAIL);
+            if (nResult != SUCCESS) GenerateErrorCode(ERR_ELEVATOR_MOVE_FAIL);
 
             Sleep(500);
 
@@ -509,9 +509,9 @@ namespace LWDicer.Control
             nResult = m_RefComp.IO.IsOn(m_Data.InDetectWafer, out bStatus);
 
             // Input확인 동작 확인
-            if (nResult != SUCCESS) GenerateErrorCode(ERR_Elevator_UNABLE_TO_USE_IO);
+            if (nResult != SUCCESS) GenerateErrorCode(ERR_ELEVATOR_UNABLE_TO_USE_IO);
             // Wafer 유무 확인 ( Wafer 감지 센서 Off이면 Err 리턴 )
-            if (!bStatus) GenerateErrorCode(ERR_Elevator_UNABLE_TO_USE_IO);
+            if (!bStatus) GenerateErrorCode(ERR_ELEVATOR_UNABLE_TO_USE_IO);
 
             return SUCCESS;
         }
@@ -534,7 +534,7 @@ namespace LWDicer.Control
             {
                 // 해당 위치로 이동함.
                 nResult = MoveElevatorPos(nElevatorPos, nNum, bMoveAllAxis, bMoveXYT, bMoveZ);
-                if (nResult != SUCCESS) GenerateErrorCode(ERR_Elevator_MOVE_FAIL);
+                if (nResult != SUCCESS) GenerateErrorCode(ERR_ELEVATOR_MOVE_FAIL);
 
                 // Wafer Frame 감지 센서를 확인하여 Empty 여부를 확인한다.               
                 nResult = m_RefComp.IO.IsOn(m_Data.InDetectWafer, out bStatus);
@@ -598,7 +598,7 @@ namespace LWDicer.Control
                 string str = $"Stage의 위치비교 결과 미일치합니다. Target Pos : {sPos.ToString()}";
                 WriteLog(str, ELogType.Debug, ELogWType.Error);
 
-                return GenerateErrorCode(ERR_Elevator_NOT_SAME_POSITION);
+                return GenerateErrorCode(ERR_ELEVATOR_NOT_SAME_POSITION);
             }
 
             return SUCCESS;
@@ -751,7 +751,7 @@ namespace LWDicer.Control
             if(bCheck == false)
             {
                 bStatus = false;
-                return GenerateErrorCode(ERR_Elevator_NOT_ORIGIN_RETURNED);
+                return GenerateErrorCode(ERR_ELEVATOR_NOT_ORIGIN_RETURNED);
             }
 
             // Cassette 감지 센서 확인 (정위치 확인 or Cassette없음 Check)
@@ -782,12 +782,12 @@ namespace LWDicer.Control
             else
             {
                 bStatus = false;
-                return GenerateErrorCode(ERR_Elevator_CASSETTE_NOT_READY);
+                return GenerateErrorCode(ERR_ELEVATOR_CASSETTE_NOT_READY);
             }
             
         }
 
-        public int IsObjectDetected(out bool bStatus)
+        public int IsWaferDetected(out bool bStatus)
         {
             int iResult = m_RefComp.IO.IsOn(m_Data.InDetectWafer, out bStatus);
             if (iResult != SUCCESS) return iResult;
@@ -823,6 +823,20 @@ namespace LWDicer.Control
             bExist = true;
             return SUCCESS;
 
+        }
+
+        /// <summary>
+        /// Push-Pull Unit 간섭위치 확인 (센서로 확인함)
+        /// 필요시에 말굽 센서를 추가 설치함.
+        /// </summary>
+        /// <param name="bStatus"></param>
+        /// <returns></returns>
+        public int IsPushPullSafetyPos(out bool bStatus)
+        {
+            int iResult = m_RefComp.IO.IsOn(m_Data.PushPullSafetyPos, out bStatus);
+            if (iResult != SUCCESS) return iResult;
+
+            return SUCCESS;
         }
 
         public int IsElevatorCassetteNone(out bool bExist)

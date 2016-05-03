@@ -229,7 +229,7 @@ namespace LWDicer.Control
             bState = false;
             int iResult = 0;
 
-            iResult = m_RefComp.Elevator.IsObjectDetected(out bState);
+            iResult = m_RefComp.Elevator.IsWaferDetected(out bState);
 
             if (iResult != SUCCESS) return iResult;
             return SUCCESS;

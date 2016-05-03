@@ -226,6 +226,22 @@ namespace LWDicer.Control
 
             return SUCCESS;
         }
+        public int ChangeLocalView(int iCamNo)
+        {
+#if SIMULATION_VISION
+                return SUCCESS;
+#endif
+            // Vision System이 초기화 된지를 확인함
+            if (m_bSystemInit == false) return GenerateErrorCode(ERR_VISION_SYSTEM_FAIL);
+            // 설정할 Camera 번호가 Max 를 초과 여부 확인
+            if (iCamNo > DEF_MAX_CAMERA_NO) return GenerateErrorCode(ERR_VISION_CAMERA_FAIL);
+
+            IntPtr pHandle = m_RefComp.View[iCamNo].GetViewHandle();
+            m_RefComp.View[iCamNo].SetDisplayWindow(pHandle);
+            m_iCurrentViewNum = iCamNo;
+
+            return SUCCESS;
+        }
         /// <summary>
         /// DisplayImage : MIL Image를 객체에 Dispaly함
         /// </summary>
@@ -564,9 +580,8 @@ namespace LWDicer.Control
         public int RegisterPatternMark(int iCamNo,
                                        string strModel,
                                        int iTypeNo,
-                                       ref Rectangle SearchArea,
-                                       ref Rectangle ModelArea,
-                                       ref Point ReferencePoint)
+                                       Rectangle SearchArea,
+                                       Rectangle ModelArea)
         {
 #if SIMULATION_VISION
                 return SUCCESS;
@@ -591,10 +606,11 @@ namespace LWDicer.Control
             // 등록할 Mark의 Size 및 위치를 설정함.
             pSData.m_rectModel = ModelArea;
             pSData.m_rectSearch = SearchArea;
-            pSData.m_pointReference = ReferencePoint;            
+            pSData.m_pointReference.X = ModelArea.Width/2;
+            pSData.m_pointReference.Y = ModelArea.Height/2;
 
             // 기존에 등록된 모델이 있을 경우 삭제한다.
-            if(pSData.m_milModel != MIL.M_NULL)
+            if (pSData.m_milModel != MIL.M_NULL)
             {
                 MIL.MpatFree(pSData.m_milModel);
                 pSData.m_milModel = MIL.M_NULL;
@@ -710,29 +726,33 @@ namespace LWDicer.Control
 
             // Mark Search 실행
             iResult = m_RefComp.System.SearchByNGC(iCamNo, pSData, out pSResult);
-
-            if(iResult == SUCCESS)
-            {
-                pSResult.m_strResult = string.Format("-MK:{0} P_X:{1:0.00}  P_Y:{2:0.00}  \n        Sc:{3:0.00}%% Tm:{4:0.0}ms",
-                                                    iModelNo,
-                                                    pSResult.m_dPixelX,
-                                                    pSResult.m_dPixelY,
-                                                    pSResult.m_dScore,
-                                                    pSResult.m_dTime  *1000);
-                if (pSResult.m_bSearchSuccess)
-                    pSResult.m_strResult = "OK" + pSResult.m_strResult;
-                else
-                    pSResult.m_strResult = "NG" + pSResult.m_strResult;
-
-            }
-            else
+            if (iResult != SUCCESS)
             {
                 pSResult.m_strResult = string.Format("Camera{0} : Model : {1} is Not Found! \n [sc:{2:0.00}%% Tm:{3:0.0}ms",
                                                     iCamNo,
                                                     iModelNo,
                                                     pSResult.m_dScore,
-                                                    pSResult.m_dTime  *1000);
+                                                    pSResult.m_dTime * 1000);
+
+                goto VISION_ERROR_GO;
+
             }
+
+            // 결과 내용 문자열에 저장
+            pSResult.m_PixelPos = PositionToCenter(iCamNo, pSResult.m_PixelPos);
+
+            pSResult.m_strResult = string.Format("-MK:{0} P_X:{1:0.00}  P_Y:{2:0.00}  \n        Sc:{3:0.00}%% Tm:{4:0.0}ms",
+                                                iModelNo,
+                                                pSResult.m_PixelPos.dX,
+                                                pSResult.m_PixelPos.dY,
+                                                pSResult.m_dScore,
+                                                pSResult.m_dTime  *1000);
+            if (pSResult.m_bSearchSuccess)
+                pSResult.m_strResult = "OK" + pSResult.m_strResult;
+            else
+                pSResult.m_strResult = "NG" + pSResult.m_strResult;
+
+            
             // Search 결과 대입
             pPatResult = pSResult;
 
@@ -755,6 +775,18 @@ namespace LWDicer.Control
 
             pPatResult = new CResultData();
             return GenerateErrorCode(ERR_VISION_PATTERN_SEARCH_FAIL);
+        }
+
+        private CPos_XY PositionToCenter(int iCam, CPos_XY pPos)
+        {
+            var mPos = new CPos_XY();
+            double ImageCenterX = (double)m_RefComp.View[iCam].GetImageWidth() / 2;
+            double ImageCenterY = (double)m_RefComp.View[iCam].GetImageHeight() / 2;
+
+            mPos.dX = pPos.dX - ImageCenterX;
+            mPos.dY = ImageCenterY - pPos.dY;
+
+            return mPos;
         }
 
         /// <summary>
@@ -825,7 +857,7 @@ namespace LWDicer.Control
             if (!isValidPatternMarkNo(iModelNo))
                 return 0.0;
 
-            return m_RefComp.Camera[iCamNo].GetResultData(iModelNo).m_dPixelX;
+            return m_RefComp.Camera[iCamNo].GetResultData(iModelNo).m_PixelPos.dX;
         }
 
 
@@ -849,7 +881,7 @@ namespace LWDicer.Control
             if (!isValidPatternMarkNo(iModelNo))
                 return 0.0;
 
-            return m_RefComp.Camera[iCamNo].GetResultData(iModelNo).m_dPixelY;
+            return m_RefComp.Camera[iCamNo].GetResultData(iModelNo).m_PixelPos.dY;
         }
 
         /// <summary>
@@ -975,39 +1007,38 @@ namespace LWDicer.Control
         /// <param name="dPosX"></param>
         /// <param name="dPosY"></param>
         /// <returns></returns>
-        public int FindEdge(int iCamNo, ref CEdgeData pEdgeData)
+        public int FindEdge(int iCamNo, out CEdgeData pEdgeData)
         {
+            pEdgeData = new CEdgeData();
 #if SIMULATION_VISION
             return SUCCESS;
 #endif
+            int iResult = 0;
+
             // Vision System이 초기화 된지를 확인함
             if (m_bSystemInit == false) return GenerateErrorCode(ERR_VISION_SYSTEM_FAIL);
 
             // Edge Find 지령
-            m_RefComp.System.FindEdge(iCamNo,ref pEdgeData);
+            iResult = m_RefComp.System.FindEdge(iCamNo,out pEdgeData);
 
-            if(pEdgeData.m_bSuccess)
-            {
-                pEdgeData.m_strResult = "";
-                for (int i = 0;  i < pEdgeData.m_iEdgeNum; i++)
-                {
-                    pEdgeData.m_strResult = pEdgeData.m_strResult + string.Format("-Edge No:{0} P_X:{1:0.00}  P_Y:{2:0.00} \n",
-                                                    i+1,
-                                                    pEdgeData.m_dPosX[i],
-                                                    pEdgeData.m_dPosY[i]);
-
-                }
-
-                pEdgeData.m_strResult = "Edge Search OK \n" + pEdgeData.m_strResult;
-                
-
-
-            }
-            else
+            if (iResult != SUCCESS)
             {
                 pEdgeData.m_strResult = "Edge Search Fail";
+                return iResult;
             }
-
+                        
+            // 결과 값을 String으로 표현함.
+            pEdgeData.m_strResult = "";
+            for (int i = 0;  i < pEdgeData.m_iEdgeNum; i++)
+            {
+                pEdgeData.m_strResult = pEdgeData.m_strResult + string.Format("-Edge No:{0} P_X:{1:0.00}  P_Y:{2:0.00} \n",
+                                                i+1,
+                                                pEdgeData.EdgePos[i].dX,
+                                                pEdgeData.EdgePos[i].dY);
+            }
+            pEdgeData.m_strResult = "Edge Search OK \n" + pEdgeData.m_strResult;
+                
+            
             return SUCCESS;
         }
         /// <summary>
@@ -1347,7 +1378,7 @@ namespace LWDicer.Control
             
         }
 
-        public void DrawOverLayHairLine(int Width)
+        public void DrawOverLayHairLine(int Width=0)
         {
 #if SIMULATION_VISION
             return;
@@ -1356,16 +1387,25 @@ namespace LWDicer.Control
             if (m_bSystemInit == false) return;
 
             // Hair Line의 제한값 설정
-            if (Width < DEF_HAIRLINE_MIN && Width > DEF_HAIRLINE_MAX) return;
-
-            m_iHairLineWidth = Width;
-
+            if (Width < DEF_HAIRLINE_MIN && Width > DEF_HAIRLINE_MAX) m_iHairLineWidth = Width;
+            
             // Display할 객체가 연결되어 있는지 확인
             if (m_RefComp.View[m_iCurrentViewNum].IsLocalView())
             {
                 m_RefComp.View[m_iCurrentViewNum].ClearOverlay();
                 m_RefComp.View[m_iCurrentViewNum].DrawHairLine(Width);
             }
+        }
+        public void NarrowHairLine()
+        {
+            m_iHairLineWidth++;
+            DrawOverLayHairLine(m_iHairLineWidth);
+        }
+
+        public void WidenHairLine()
+        {
+            m_iHairLineWidth--;
+            DrawOverLayHairLine(m_iHairLineWidth);
         }
 
     }
