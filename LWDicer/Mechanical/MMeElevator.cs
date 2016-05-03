@@ -76,6 +76,16 @@ namespace LWDicer.Control
             SAFETY,
             MAX,
         }
+        public enum EFrameDataNo
+        {
+            NONE = -1,
+            No1,
+            No2,
+            No3,
+            No4,
+            No5,
+            MAX,
+        }
 
         //===============================================================================
         //  Cassette Info
