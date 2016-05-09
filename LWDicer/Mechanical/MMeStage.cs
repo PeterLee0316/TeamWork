@@ -623,23 +623,29 @@ namespace LWDicer.Control
 
             return SUCCESS;
         }
+
+        public int MoveStageRelativeXYT(CPos_XYTZ sPos)
+        {
+            int iResult = SUCCESS;
+
+            // 이동 Position 선택
+            int iPos = (int)EStagePos.NONE;
+            bool[] bMoveFlag = new bool[DEF_MAX_COORDINATE] { true, true, true, false };
+
+            iResult = MoveStageRelative(sPos,bMoveFlag);
+            if (iResult != SUCCESS) return iResult;
+
+            return SUCCESS;
+        }
         public int MoveStageRelative(int iAxis, double dMoveLength,  bool bUseBacklash = false)
         {
             int iResult = SUCCESS;
 
             // 이동 Position 선택
             int iPos = (int)EStagePos.NONE;
+            CPos_XYTZ sTargetPos = new CPos_XYTZ();
 
             bool[] bMoveFlag = new bool[DEF_MAX_COORDINATE] { false, false, false, false };           
-            bool bUsePriority = false;
-            int[] movePriority = null;
-
-            // 현재 위치를 읽어옴 (Command 값을 사용하는 것이 좋을 듯)
-            CPos_XYTZ sTargetPos;
-
-            iResult = GetStageCurPos(out sTargetPos);
-            if (iResult != SUCCESS) GenerateErrorCode(ERR_STAGE_READ_CURRENT_POSITION);
-            // Index 거리를 해당 축에 더하여 거리를 산출함.
 
             if (iAxis == DEF_X)
             {
@@ -657,176 +663,120 @@ namespace LWDicer.Control
                 sTargetPos.dT += dMoveLength;
             }
             
-            iResult = MoveStagePos(sTargetPos, iPos, bMoveFlag, bUseBacklash, bUsePriority, movePriority);
+            iResult = MoveStageRelative(sTargetPos, bMoveFlag);
             if (iResult != SUCCESS) return iResult;
 
             return SUCCESS;
         }
 
+        public int MoveStageRelativeX(double dMoveLength)
+        {
+            MoveStageRelative(DEF_X, dMoveLength);
+            return SUCCESS;
+        }
+        public int MoveStageRelativeY(double dMoveLength)
+        {
+            MoveStageRelative(DEF_Y, dMoveLength);
+            return SUCCESS;
+        }
+        public int MoveStageRelativeT(double dMoveLength)
+        {
+            MoveStageRelative(DEF_T, dMoveLength);
+            return SUCCESS;
+        }
+
         public int MoveStageIndexPlusX()
         {
-            bool[] bMoveFlag = new bool[DEF_MAX_COORDINATE] { false, false, false, false };
-            double dMoveLength = 0.0;
-            
-            bMoveFlag[DEF_X] = true;
-            dMoveLength = m_Data.IndexWidth;
-
             // + 방향으로 이동
-            MoveStageRelative(DEF_X, dMoveLength);
+            MoveStageRelativeX(m_Data.IndexWidth);
 
             return SUCCESS;
         }
 
         public int MoveStageIndexPlusY()
         {
-            bool[] bMoveFlag = new bool[DEF_MAX_COORDINATE] { false, false, false, false };
-            double dMoveLength = 0.0;
-
-            bMoveFlag[DEF_Y] = true;
-            dMoveLength = m_Data.IndexWidth;
-
             // + 방향으로 이동
-            MoveStageRelative(DEF_Y, dMoveLength);
+            MoveStageRelativeX(m_Data.IndexHeight);
 
             return SUCCESS;
         }
 
         public int MoveStageIndexPlusT()
         {
-            bool[] bMoveFlag = new bool[DEF_MAX_COORDINATE] { false, false, false, false };
-            double dMoveLength = 0.0;
-
-            bMoveFlag[DEF_T] = true;
-            dMoveLength = m_Data.IndexRotate;
-
             // + 방향으로 이동
-            MoveStageRelative(DEF_Y, dMoveLength);
+            MoveStageRelativeT(m_Data.IndexRotate);
 
             return SUCCESS;
         }
 
         public int MoveStageIndexMinusX()
         {
-            bool[] bMoveFlag = new bool[DEF_MAX_COORDINATE] { false, false, false, false };
-            double dMoveLength = 0.0;
-
-            bMoveFlag[DEF_X] = true;
-            dMoveLength = m_Data.IndexWidth;
-
-            // + 방향으로 이동
-            MoveStageRelative(DEF_X, -dMoveLength);
+            // - 방향으로 이동
+            MoveStageRelativeX(-m_Data.IndexWidth);
 
             return SUCCESS;
         }
 
         public int MoveStageIndexMinusY()
         {
-            bool[] bMoveFlag = new bool[DEF_MAX_COORDINATE] { false, false, false, false };
-            double dMoveLength = 0.0;
-
-            bMoveFlag[DEF_Y] = true;
-            dMoveLength = m_Data.IndexWidth;
-
-            // + 방향으로 이동
-            MoveStageRelative(DEF_Y, -dMoveLength);
+            // - 방향으로 이동
+            MoveStageRelativeX(-m_Data.IndexHeight);
 
             return SUCCESS;
         }
 
         public int MoveStageIndexMinusT()
         {
-            bool[] bMoveFlag = new bool[DEF_MAX_COORDINATE] { false, false, false, false };
-            double dMoveLength = 0.0;
-
-            bMoveFlag[DEF_T] = true;
-            dMoveLength = m_Data.IndexRotate;
-
-            // + 방향으로 이동
-            MoveStageRelative(DEF_Y, -dMoveLength);
+            // - 방향으로 이동
+            MoveStageRelativeT(-m_Data.IndexRotate);
 
             return SUCCESS;
         }
 
         public int MoveStageScreenPlusX()
         {
-            bool[] bMoveFlag = new bool[DEF_MAX_COORDINATE] { false, false, false, false };
-            double dMoveLength = 0.0;
-
-            bMoveFlag[DEF_X] = true;
-            dMoveLength = m_Data.ScreenWidth;
-
             // + 방향으로 이동
-            MoveStageRelative(DEF_X, dMoveLength);
+            MoveStageRelativeX(m_Data.ScreenWidth);
 
             return SUCCESS;
         }
 
         public int MoveStageScreenPlusY()
         {
-            bool[] bMoveFlag = new bool[DEF_MAX_COORDINATE] { false, false, false, false };
-            double dMoveLength = 0.0;
-
-            bMoveFlag[DEF_Y] = true;
-            dMoveLength = m_Data.ScreenWidth;
-
             // + 방향으로 이동
-            MoveStageRelative(DEF_Y, dMoveLength);
+            MoveStageRelativeY(m_Data.ScreenHeight);
 
             return SUCCESS;
         }
 
         public int MoveStageScreenPlusT()
         {
-            bool[] bMoveFlag = new bool[DEF_MAX_COORDINATE] { false, false, false, false };
-            double dMoveLength = 0.0;
-
-            bMoveFlag[DEF_T] = true;
-            dMoveLength = m_Data.ScreenRotate;
-
             // + 방향으로 이동
-            MoveStageRelative(DEF_Y, dMoveLength);
+            MoveStageRelativeT(m_Data.ScreenRotate);
 
             return SUCCESS;
         }
 
         public int MoveStageScreenMinusX()
         {
-            bool[] bMoveFlag = new bool[DEF_MAX_COORDINATE] { false, false, false, false };
-            double dMoveLength = 0.0;
-
-            bMoveFlag[DEF_X] = true;
-            dMoveLength = m_Data.ScreenWidth;
-
-            // + 방향으로 이동
-            MoveStageRelative(DEF_X, -dMoveLength);
+            // - 방향으로 이동
+            MoveStageRelativeX(-m_Data.ScreenWidth);
 
             return SUCCESS;
         }
 
         public int MoveStageScreenMinusY()
         {
-            bool[] bMoveFlag = new bool[DEF_MAX_COORDINATE] { false, false, false, false };
-            double dMoveLength = 0.0;
-
-            bMoveFlag[DEF_Y] = true;
-            dMoveLength = m_Data.ScreenWidth;
-
-            // + 방향으로 이동
-            MoveStageRelative(DEF_Y, -dMoveLength);
+            // - 방향으로 이동
+            MoveStageRelativeY(-m_Data.ScreenHeight);
 
             return SUCCESS;
         }
 
         public int MoveStageScreenMinusT()
         {
-            bool[] bMoveFlag = new bool[DEF_MAX_COORDINATE] { false, false, false, false };
-            double dMoveLength = 0.0;
-
-            bMoveFlag[DEF_T] = true;
-            dMoveLength = m_Data.ScreenRotate;
-
-            // + 방향으로 이동
-            MoveStageRelative(DEF_Y, -dMoveLength);
+            // - 방향으로 이동
+            MoveStageRelativeT(-m_Data.ScreenRotate);
 
             return SUCCESS;
         }
@@ -1206,6 +1156,22 @@ namespace LWDicer.Control
             return SUCCESS;
         }
 
+        public void SetEdgeAlignOffset(int index,CPos_XYTZ pPos)
+        {
+            AxStageInfo.OffsetPos.Pos[index] = pPos;
+
+        }
+        public int GetEdgeAlignOffset(int index,out CPos_XYTZ pPos)
+        {
+            pPos = AxStageInfo.OffsetPos.Pos[index];
+
+            return SUCCESS;            
+        }
+
+        public double GetScreenIndexTheta()
+        {
+            return m_Data.ScreenRotate;
+        }
         #endregion
 
         // Stage Pos Data 확인 및 비교

@@ -182,13 +182,11 @@ LWDicer의 DataManager에서 데이터를 읽어오기 위한 3가지 함수 : S
 3. MPosition의 생성자에서 변수 초기화 
 4. MCtrlStage의 Vision에서 
 	- Calibration 및 연산에 관련 기본 함수들 작성 진행
-	- ThetaAlign 동작 및 연산부 (진행중)
+	- ThetaAlign 동작 및 연산부
+	- EdgeAlign Position 위치값 설정 동작 (Next button 기능)
+	- 카메라 위치 파악 연산 Calibration
 
 
-
-1. MCtrlStage의 Vision에서 
-	- Calibration 및 연산에 관련 기본 함수들 작성 진행
-	- ThetaAlign 동작 및 연산부 (진행중)
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////
