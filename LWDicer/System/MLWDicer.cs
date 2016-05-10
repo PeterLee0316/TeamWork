@@ -35,8 +35,7 @@ using static LWDicer.Control.DEF_PolygonScanner;
 using static LWDicer.Control.DEF_MeSpinner;
 
 using static LWDicer.Control.DEF_CtrlHandler;
-using static LWDicer.Control.DEF_CtrlCoater;
-using static LWDicer.Control.DEF_CtrlCleaner;
+using static LWDicer.Control.DEF_CtrlSpinner;
 
 namespace LWDicer.Control
 {
@@ -135,8 +134,7 @@ namespace LWDicer.Control
         public MCtrlPushPull m_ctrlPushPull { get; private set; }
         public MCtrlStage1 m_ctrlStage1 { get; private set; }
         public MCtrlHandler m_ctrlHandler { get; private set; }
-        public MCtrlCoater m_ctrlCoater { get; private set; }
-        public MCtrlCleaner m_ctrlCleaner { get; private set; }
+        public MCtrlSpinner m_ctrlSpinner { get; private set; }
 
 
         ///////////////////////////////////////////////////////////////////////
@@ -159,8 +157,7 @@ namespace LWDicer.Control
         public void Dispose()
         {
             // close handle
-
-                }
+        }
 
         public CLoginData GetLogin()
         {
@@ -466,10 +463,7 @@ namespace LWDicer.Control
             CreateCtrlHandler(objInfo);
 
             m_SystemInfo.GetObjectInfo(366, out objInfo);
-            CreateCtrlCoater(objInfo);
-
-            m_SystemInfo.GetObjectInfo(367, out objInfo);
-            CreateCtrlCleaner(objInfo);
+            CreateCtrlSpinner(objInfo);
 
             ////////////////////////////////////////////////////////////////////////
             // 4. Process Layer
@@ -535,17 +529,18 @@ namespace LWDicer.Control
         }
 
         int CreateMultiAxes_YMC()
-            {
+        {
             CObjectInfo objInfo;
             CMutliAxesYMCRefComp refComp = new CMutliAxesYMCRefComp();
             CMultiAxesYMCData data;
             int deviceNo;
             int[] axisList = new int[DEF_MAX_COORDINATE];
             int[] initArray = new int[DEF_MAX_COORDINATE];
+
             for(int i = 0; i < DEF_MAX_COORDINATE; i++)
-                {
+            {
                 initArray[i] = DEF_AXIS_NONE_ID;
-                }
+            }
 
             refComp.Motion = m_YMC;
 
@@ -857,26 +852,17 @@ namespace LWDicer.Control
             m_ctrlPushPull = new MCtrlPushPull(objInfo, refComp, data);
         }
 
-        void CreateCtrlCoater(CObjectInfo objInfo)
+        void CreateCtrlSpinner(CObjectInfo objInfo)
         {
-            CCtrlCoatingRefComp refComp = new CCtrlCoatingRefComp();
-            CCoatingData data = m_DataManager.ModelData.CoatingData;
-
-            refComp.SpinCoater = m_MeSpinCoater;
-
-            m_ctrlCoater = new MCtrlCoater(objInfo, refComp,data);
-        }
-
-        void CreateCtrlCleaner(CObjectInfo objInfo)
-        {
-            CCtrlCleaningRefComp refComp = new CCtrlCleaningRefComp();
-            CCleaningData data = m_DataManager.ModelData.CleaningData;
+            CCtrlSpinnerRefComp refComp = new CCtrlSpinnerRefComp();
+            CSpinnerData data = m_DataManager.ModelData.SpinnerData;
 
             refComp.SpinCleaner = m_MeSpinCleaner;
+            refComp.SpinCoater = m_MeSpinCoater;
 
-            m_ctrlCleaner = new MCtrlCleaner(objInfo, refComp, data);
+            m_ctrlSpinner = new MCtrlSpinner(objInfo, refComp, data);
         }
-
+        
         void CreateTrsAutoManager(CObjectInfo objInfo)
         {
             CTrsAutoManagerRefComp refComp = new CTrsAutoManagerRefComp();

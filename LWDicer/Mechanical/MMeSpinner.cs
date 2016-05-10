@@ -35,7 +35,6 @@ namespace LWDicer.Control
         public const int ERR_SPINNER_CLEANER_NOZZLE_NOT_SAFETY_POS = 17;
         public const int ERR_SPINNER_COATER_NOZZLE_NOT_SAFETY_POS = 18;
 
-
         public enum ESpinnerType
         {
             NONE = -1,
@@ -225,21 +224,21 @@ namespace LWDicer.Control
             return m_RefComp.AxSpinRotate.JogMoveVelocity(DEF_MAX_COORDINATE, false, nSpeed);
         }
 
-        public int MoveToRotateLoadPos(bool bMoveAllAxis = true, bool bMoveXYT = false, bool bMoveZ = false)
+        public int MoveRotateToLoadPos(bool bMoveAllAxis = true, bool bMoveXYT = false, bool bMoveZ = false)
         {
             int iPos = (int)ERotatePos.LOAD;
 
             return MoveRotatePos(iPos, bMoveAllAxis, bMoveXYT, bMoveZ);
         }
         
-        public int MoveToCleanNozzleSafetyPos(bool bMoveAllAxis = true, bool bMoveXYT = false, bool bMoveZ = false)
+        public int MoveCleanNozzleToSafetyPos(bool bMoveAllAxis = true, bool bMoveXYT = false, bool bMoveZ = false)
         {
             int iPos = (int)ENozzlePos.SAFETY;
 
             return MoveCleanNozzlePos(iPos, bMoveAllAxis, bMoveXYT, bMoveZ);
         }
 
-        public int MoveToCleanNozzleStartPos(bool bMoveAllAxis = true, bool bMoveXYT = false, bool bMoveZ = false)
+        public int MoveCleanNozzleToStartPos(bool bMoveAllAxis = true, bool bMoveXYT = false, bool bMoveZ = false)
         {
             int iPos = (int)ENozzlePos.START;
             bool bStatus = false;
@@ -254,7 +253,7 @@ namespace LWDicer.Control
             return MoveCleanNozzlePos(iPos, bMoveAllAxis, bMoveXYT, bMoveZ);
         }
 
-        public int MoveToCleanNozzleEndPos(bool bMoveAllAxis = true, bool bMoveXYT = false, bool bMoveZ = false)
+        public int MoveCleanNozzleToEndPos(bool bMoveAllAxis = true, bool bMoveXYT = false, bool bMoveZ = false)
         {
             int iPos = (int)ENozzlePos.END;
             bool bStatus = false;
@@ -458,14 +457,14 @@ namespace LWDicer.Control
             return MoveCoatNozzlePos(iPos, bMoveAllAxis, bMoveXYT, bMoveZ);
         }
 
-        public int MoveToCoatNozzleStartPos(bool bMoveAllAxis = true, bool bMoveXYT = false, bool bMoveZ = false)
+        public int MoveCoatNozzleToStartPos(bool bMoveAllAxis = true, bool bMoveXYT = false, bool bMoveZ = false)
         {
             int iPos = (int)ENozzlePos.START;
 
             return MoveCoatNozzlePos(iPos, bMoveAllAxis, bMoveXYT, bMoveZ);
         }
 
-        public int MoveToCoatNozzleEndPos(bool bMoveAllAxis = true, bool bMoveXYT = false, bool bMoveZ = false)
+        public int MoveCoatNozzleToEndPos(bool bMoveAllAxis = true, bool bMoveXYT = false, bool bMoveZ = false)
         {
             int iPos = (int)ENozzlePos.END;
 
@@ -727,7 +726,6 @@ namespace LWDicer.Control
             return SUCCESS;
         }
 
-
         public int CylUp(bool bSkipSensor = false)
         {
             if (CheckForCleanNozzleSafety() != SUCCESS)
@@ -876,7 +874,6 @@ namespace LWDicer.Control
 
             return SUCCESS;
         }
-
 
         public int IsObjectDetected(out bool bStatus)
         {

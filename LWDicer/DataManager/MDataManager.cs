@@ -31,6 +31,8 @@ using static LWDicer.Control.DEF_MePushPull;
 using static LWDicer.Control.DEF_MeSpinner;
 using static LWDicer.Control.DEF_PolygonScanner;
 using static LWDicer.Control.DEF_Vision;
+using static LWDicer.Control.DEF_CtrlSpinner;
+
 
 namespace LWDicer.Control
 {
@@ -293,7 +295,7 @@ namespace LWDicer.Control
         }
 
         public class CSystemData_Vacuum
-                {
+        {
             // Timer
             public CVacuumTime[] VacuumTimer = new CVacuumTime[(int)EObjectVacuum.MAX_OBJ];
 
@@ -454,6 +456,12 @@ namespace LWDicer.Control
             public double UnloadPushPullPos;
         }
 
+        public class CSpinnerData
+        {
+            public CCoatingData CoaterData = new CCoatingData();
+            public CCleaningData CleanerData = new CCleaningData();
+        }
+
         public class CCoatingData
         {
             // Coating Data
@@ -466,11 +474,28 @@ namespace LWDicer.Control
             public double CoatingArea;
 
             // Coating Sequence
-            public CCoatingOperation[] CoatSequence = new CCoatingOperation[16];
+            public CCoatingOperation[] CoatSequence = new CCoatingOperation[(int)ESpinnerStep.MAX];
+
+            public CCoatingData()
+            {
+                for (int i = 0; i < CoatSequence.Length; i++)
+                {
+                    CoatSequence[i] = new CCoatingOperation();
+                }
+            }
         }
 
         public class CCoatingOperation
         {
+            public bool Use;    
+            public int OpTime;
+            public int OpRPM;
+
+            public int CoterStep = -1;
+            public int CleanStep = -1;
+
+            public bool StopAfterOp;
+
             public int Operation;
             public int Time;
             public int RPM;
@@ -481,7 +506,15 @@ namespace LWDicer.Control
         {
             public double WashStroke;
 
-            public CCleaningSquence[] CleanSequence = new CCleaningSquence[16];
+            public CCleaningSquence[] CleanSequence = new CCleaningSquence[(int)ESpinnerStep.MAX];
+
+            public CCleaningData()
+            {
+                for (int i = 0; i < CleanSequence.Length; i++)
+                {
+                    CleanSequence[i] = new CCleaningSquence();
+                }
+            }
         }
 
         public class CCleaningSquence
@@ -559,11 +592,8 @@ namespace LWDicer.Control
             // Inspection Frame Data
             public CInspectionFrameData[] InspectionFrame = new CInspectionFrameData[(int)EFrameDataNo.MAX];
 
-            // Coating Data 
-            public CCoatingData CoatingData = new CCoatingData();
-
-            // Cleaning Data
-            public CCleaningData CleaningData = new CCleaningData();
+            // Spinner Data 
+            public CSpinnerData SpinnerData = new CSpinnerData();
 
 
             ///////////////////////////////////////////////////////////

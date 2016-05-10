@@ -272,8 +272,7 @@ namespace LWDicer.Control
             OBJ_CL_VISION_CALIBRATION,
             OBJ_CL_MANAGE_PRODUCT,
             OBJ_CL_INTERFACE_CTRL,
-            OBJ_CL_COATER,
-            OBJ_CL_CLEANER,
+            OBJ_CL_SPINNER,
 
             // Process Layer
             OBJ_PL_TRS_AUTO_MANAGER = 100,

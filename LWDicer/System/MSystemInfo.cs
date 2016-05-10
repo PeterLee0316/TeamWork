@@ -153,9 +153,7 @@ namespace LWDicer.Control
                 new CObjectInfo( (int)OBJ_CL_MANAGE_PRODUCT    , "ManageProduct",     364, "Control : Manage Product", 32300, "C_ManageProduct", LOG_ALL, LOG_DAY ),
                 new CObjectInfo( (int)OBJ_CL_INTERFACE_CTRL    , "InterfaceCtrl2",    365, "Control : Interface Ctrl2", 32400, "C_InterfaceCtrl2", LOG_ALL, LOG_DAY ),
 
-                new CObjectInfo( (int)OBJ_CL_COATER            , "CtrlCoater",        366, "Control : Coater", 32500, "C_Coater", LOG_ALL, LOG_DAY ),
-                new CObjectInfo( (int)OBJ_CL_CLEANER           , "CtrlCleaner",       367, "Control : Cleaner", 32600, "C_Cleaner", LOG_ALL, LOG_DAY ),
-
+                new CObjectInfo( (int)OBJ_CL_SPINNER            , "CtrlSpinner",        366, "Control : Spinner", 32500, "C_Spinner", LOG_ALL, LOG_DAY ),
 
 
 	            // 400-459 : Process Layer --------------------------------------------------------------------
