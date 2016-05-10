@@ -21,11 +21,13 @@ using static LWDicer.Control.DEF_DataManager;
 
 using static LWDicer.Control.DEF_Motion;
 using static LWDicer.Control.DEF_Yaskawa;
+using static LWDicer.Control.DEF_ACS;
 using static LWDicer.Control.DEF_MultiAxesYMC;
 using static LWDicer.Control.DEF_Cylinder;
 using static LWDicer.Control.DEF_Vacuum;
 using static LWDicer.Control.DEF_Vision;
 
+using static LWDicer.Control.DEF_OpPanel;
 using static LWDicer.Control.DEF_MeElevator;
 using static LWDicer.Control.DEF_MeHandler;
 using static LWDicer.Control.DEF_MeStage;
@@ -34,6 +36,7 @@ using static LWDicer.Control.DEF_SerialPort;
 using static LWDicer.Control.DEF_PolygonScanner;
 using static LWDicer.Control.DEF_MeSpinner;
 
+using static LWDicer.Control.DEF_CtrlOpPanel;
 using static LWDicer.Control.DEF_CtrlHandler;
 using static LWDicer.Control.DEF_CtrlPushPull;
 
@@ -55,6 +58,7 @@ namespace LWDicer.Control
 
         // Motion
         public MYaskawa m_YMC;
+        public MACS m_ACS;
 
         // MultiAxes
         public MMultiAxes_YMC m_AxStage1;
@@ -129,8 +133,11 @@ namespace LWDicer.Control
         public MMeSpinner m_SpinCoater;
         public MMeSpinner m_SpinCleaner;
 
+        public MOpPanel m_OpPanel;
+
         ///////////////////////////////////////////////////////////////////////
         // Control Layer
+        public MCtrlOpPanel m_ctrlOpPanel { get; private set; }
         public MCtrlLoader m_ctrlLoader { get; private set; }
         public MCtrlPushPull m_ctrlPushPull { get; private set; }
         public MCtrlStage1 m_ctrlStage1 { get; private set; }
@@ -212,8 +219,11 @@ namespace LWDicer.Control
 
             ////////////////////////////////////////////////////////////////////////
             // Motion
-            m_SystemInfo.GetObjectInfo(2, out objInfo);
+            m_SystemInfo.GetObjectInfo(3, out objInfo);
             CreateYMCBoard(objInfo);
+
+            m_SystemInfo.GetObjectInfo(4, out objInfo);
+            CreateACSBoard(objInfo);
 
             ////////////////////////////////////////////////////////////////////////
             // MultiAxes
@@ -405,7 +415,7 @@ namespace LWDicer.Control
 
             // OpPanel
             m_SystemInfo.GetObjectInfo(300, out objInfo);
-            //CreateMeOpPanel(objInfo);
+            CreateMeOpPanel(objInfo);
 
             // Stage1
             m_SystemInfo.GetObjectInfo(301, out objInfo);
@@ -451,6 +461,9 @@ namespace LWDicer.Control
 
             m_SystemInfo.GetObjectInfo(354, out objInfo);
             CreateCtrlHandler(objInfo);
+
+            m_SystemInfo.GetObjectInfo(350, out objInfo);
+            CreateCtrlOpPanel(objInfo);
 
             ////////////////////////////////////////////////////////////////////////
             // 4. Process Layer
@@ -515,8 +528,24 @@ namespace LWDicer.Control
             return SUCCESS;
         }
 
+        int CreateACSBoard(CObjectInfo objInfo)
+        {
+            CACSRefComp refComp = new CACSRefComp();
+            CACSData data = new CACSData();
+
+            m_ACS = new MACS(objInfo, refComp, data);
+            //m_ACS.SetMPMotionData(m_DataManager.SystemData_Axis.MPMotionData);
+
+#if !SIMULATION_MOTION
+            int iResult = m_ACS.OpenController();
+            if (iResult != SUCCESS) return iResult;
+#endif
+
+            return SUCCESS;
+        }
+
         int CreateMultiAxes_YMC()
-            {
+        {
             CObjectInfo objInfo;
             CMutliAxesYMCRefComp refComp = new CMutliAxesYMCRefComp();
             CMultiAxesYMCData data;
@@ -801,6 +830,17 @@ namespace LWDicer.Control
 
 #endif
 
+        }
+
+        void CreateCtrlOpPanel(CObjectInfo objInfo)
+        {
+            CCtrlOpPanelRefComp refComp = new CCtrlOpPanelRefComp();
+            CCtrlOpPanelData data = new CCtrlOpPanelData();
+
+            refComp.IO = m_IO;
+            refComp.OpPanel = m_OpPanel;
+
+            m_ctrlOpPanel = new MCtrlOpPanel(objInfo, refComp, data);
         }
 
         void CreateCtrlStage1(CObjectInfo objInfo)
@@ -1227,6 +1267,25 @@ namespace LWDicer.Control
 
             m_MePushPull = new MMePushPull(objInfo, refComp, data);
         }
+
+        void CreateMeOpPanel(CObjectInfo objInfo)
+        {
+            COpPanelRefComp refComp = new COpPanelRefComp();
+            COpPanelData data = new COpPanelData();
+
+            refComp.IO = m_IO;
+            refComp.Yaskawa_Motion = m_YMC;
+            refComp.ACS_Motion = m_ACS;
+
+            //data.bUseMaterialAlarm = 
+
+            COpPanelIOAddr sPanelIOAddr = new COpPanelIOAddr();
+
+            CJogTable sJogTable = new CJogTable();
+
+            m_OpPanel = new MOpPanel(objInfo, refComp, data, sPanelIOAddr, sJogTable);
+        }
+
         void CreateMeStage(CObjectInfo objInfo)
         {
             CMeStageRefComp refComp = new CMeStageRefComp();

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using static LWDicer.Control.DEF_Thread;
 using static LWDicer.Control.DEF_Error;
 using static LWDicer.Control.DEF_Common;
 
@@ -15,9 +16,23 @@ namespace LWDicer.Control
     /// </summary>
     public abstract class MMechanicalLayer : MObject
     {
+        protected EAutoManual AutoManual;    // EAutoManual : AUTO, MANUAL
+        protected EOpMode OpMode;            // EOpMode : NORMAL_RUN, PASS_RUN, DRY_RUN, REPAIR_RUN
+
         public MMechanicalLayer(CObjectInfo objInfo) : base(objInfo)
         {
+            AutoManual = EAutoManual.MANUAL;
+            OpMode = EOpMode.NORMAL_RUN;
+        }
 
+        public void SetOperationMode(EOpMode mode)
+        {
+            OpMode = mode;
+        }
+
+        public void SetAutoManual(EAutoManual mode)
+        {
+            AutoManual = mode;
         }
     }
 }

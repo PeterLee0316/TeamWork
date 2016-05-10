@@ -23,7 +23,8 @@ namespace LWDicer.Control
                 new CObjectInfo( (int)OBJ_DATAMANAGER, "DataManger", 1, "DataManager", 500, "DataManager", LOG_ALL, LOG_DAY ),
 
 	            new CObjectInfo( (int)OBJ_HL_MOTION_LIB, "MotionLib", 2, "MMC Board", 1000, "MotionLib", LOG_ALL, LOG_DAY ),
-	            new CObjectInfo( (int)OBJ_HL_MOTION_LIB, "MotionLib", 3, "YMC Board", 1500, "YMCLib", LOG_ALL, LOG_DAY ),
+                new CObjectInfo( (int)OBJ_HL_MOTION_LIB, "MotionLib", 3, "YMC Board", 1300, "YMCLib", LOG_ALL, LOG_DAY ),
+                new CObjectInfo( (int)OBJ_HL_MOTION_LIB, "MotionLib", 4, "ACS Board", 1600, "ACSLib", LOG_ALL, LOG_DAY ),
 
 	            new CObjectInfo( (int)OBJ_HL_IO, "IO", 6, "Device Net", 2000, "IO", LOG_ALL, LOG_DAY ),	
 		
@@ -141,7 +142,7 @@ namespace LWDicer.Control
                 new CObjectInfo( (int)OBJ_ML_DISPENSER , "GHead1",     316, "Mechanical : GHead1", 22000, "GHead1", LOG_ALL, LOG_DAY ),
 		
 	            // 350-399 : Control Layer --------------------------------------------------------------------
-	            new CObjectInfo( (int)OBJ_CL_MANAGE_OP_PANEL   , "ManageOpPanel",     350, "Control : Manage OP Panel", 32200, "C_ManageOpPanel", LOG_ALL, LOG_DAY ),
+	            new CObjectInfo( (int)OBJ_CL_OP_PANEL          , "CtrlOpPanel",       350, "Control : OPPanel", 32200, "C_OpPanel", LOG_ALL, LOG_DAY ),
                 new CObjectInfo( (int)OBJ_CL_LOADER            , "CtrlLoader",        351, "Control : Loader", 30600, "C_Loader", LOG_ALL, LOG_DAY ),
                 new CObjectInfo( (int)OBJ_CL_PUSHPULL          , "CtrlPushPull",      352, "Control : PushPull", 30700, "C_PushPull", LOG_ALL, LOG_DAY ),
                 new CObjectInfo( (int)OBJ_CL_STAGE1            , "CtrlStage1",        353, "Control : Stage1", 30500, "C_Stage1", LOG_ALL, LOG_DAY ),

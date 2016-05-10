@@ -136,6 +136,14 @@ LWDicer의 DataManager에서 데이터를 읽어오기 위한 3가지 함수 : S
 1. MMePushPull : Up/Down Cylinder 추가
 2. MCtrlPushPull : 1차 작업 완료. 각 Part 와의 인터락은 추후에 작업하는걸로.
 
+// Version : 0.0.15
+// Grade : ★
+// Date : 2016-05-10
+// Context
+1. MOpPanel : Jog부분을 뺀 1차 작업 완료.
+2. MCtrlOpPanel : MOpPanel과 비슷한 수준에서 마무리. (기존의 MManageOpPanel -> MCtrlOpPanel로 이름 변경함.)
+3. MACS : ACS 모션의 기본 class 틀만 작업해놓음.
+
 ////////////////////////////////////////////////////////////////////////////////////////////
 // LJJ
 // Version : 0.0.1

@@ -268,7 +268,7 @@ namespace LWDicer.Control
             //OBJ_CL_STAGE2,
             //OBJ_CL_STAGE3,
             OBJ_CL_HANDLER,
-            OBJ_CL_MANAGE_OP_PANEL,
+            OBJ_CL_OP_PANEL,
             OBJ_CL_HW_TEACH,
             OBJ_CL_VISION_CALIBRATION,
             OBJ_CL_MANAGE_PRODUCT,
@@ -742,6 +742,17 @@ namespace LWDicer.Control
         public const int INIT_UNIT_HANDLER   = 5;
         public const int INIT_UNIT_STAGE1    = 6;
         public const int INIT_UNIT_MAX       = 7;
+        public enum EInitUnit
+        {
+            LOADER,
+            PUSHPULL,
+            COATER1,
+            COATER2,
+            UHANDLER,
+            LHANDLER,
+            STAGE1,
+            MAX,
+        }
 
         // Common Thread Message inter Threads
         public enum EThreadMessage
@@ -1059,7 +1070,7 @@ namespace LWDicer.Control
         ////////////////////////////////////////////////////////////////////
         // Control Layer
         ////////////////////////////////////////////////////////////////////
-        // MManageOpPanel
+        // MCtrlOpPanel
         public const int ERR_MNGOPPANEL_INVALID_OBJECTID                          = 1;
         public const int ERR_MNGOPPANEL_INVALID_ERRORBASE                         = 2;
         public const int ERR_MNGOPPANEL_INVALID_POINTER                           = 3;
