@@ -174,6 +174,7 @@ LWDicer의 DataManager에서 데이터를 읽어오기 위한 3가지 함수 : S
 // Date : 2016-04-26 ~2016-04-29 (27일 ACS 테스트)
 //		  2016-05-02 ~2016-05-03
 // Context
+
 1. MCtrlStage : 초기 Class 제작
    Mechanical Layer의 MMeStage에서 Align 동영상을 보면서 기능을 추가적으로 삽입 필요
                       MMeVision의 기본 기능 구성
@@ -185,6 +186,19 @@ LWDicer의 DataManager에서 데이터를 읽어오기 위한 3가지 함수 : S
 	- ThetaAlign 동작 및 연산부
 	- EdgeAlign Position 위치값 설정 동작 (Next button 기능)
 	- 카메라 위치 파악 연산 Calibration
+
+// Version : 0.0.7
+// Grade : ★
+// Date : 2016-05-09 ~2016-05-11
+// Context
+
+1. MCtrlStage의 Vision에서 
+	- 카메라 위치 파악 연산 Calibration (Micro)
+	- 카메라 위치 설정 (Macro)
+	- Edge Align 동작 
+	- Macro Align 동작 
+	- Micro lign 동작 
+2. Teaching에 대해서 일부 추가 동작 및 추가 검증이 필요함. 우선 일단락 지음
 
 
 

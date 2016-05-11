@@ -70,6 +70,7 @@ namespace LWDicer.Control
             EDGE_ALIGN_2,           // EDGE Detect "90"도 위치
             EDGE_ALIGN_3,           // EDGE Detect "180"도 위치
             EDGE_ALIGN_4,           // EDGE Detect "270"도 위치
+            MACRO_CAM_POS,          // KEY가 MACRO CAM영상의 CENTER일때 STAGE 위치
             MACRO_ALIGN,            // MACRO Align "A" Mark 위치
             MICRO_ALIGN,            // MICRO Align "A" Mark 위치
             MICRO_ALIGN_TURN,       // MICRO Align Turn 후 "A" Mark 위치
@@ -482,7 +483,7 @@ namespace LWDicer.Control
         /// <param name="bMoveFlag"></param>
         /// <param name="bUseBacklash"></param>
         /// <returns></returns>
-        public int MoveStagePos(CPos_XYTZ sPos, int iPos, bool[] bMoveFlag = null, bool bUseBacklash = false,
+        public int MoveStagePos(CPos_XYTZ sPos, int iPos = (int)EStagePos.NONE, bool[] bMoveFlag = null, bool bUseBacklash = false,
             bool bUsePriority = false, int[] movePriority = null)
         {
             int iResult = SUCCESS;
@@ -627,7 +628,9 @@ namespace LWDicer.Control
         public int MoveStageRelativeXYT(CPos_XYTZ sPos)
         {
             int iResult = SUCCESS;
-
+            // 이동 거리가 없을 경우 Success
+            if (sPos.dX == 0.0 && sPos.dY == 0.0 && sPos.dT == 0.0 && sPos.dZ == 0.0) return SUCCESS;
+            
             // 이동 Position 선택
             int iPos = (int)EStagePos.NONE;
             bool[] bMoveFlag = new bool[DEF_MAX_COORDINATE] { true, true, true, false };
@@ -1167,6 +1170,23 @@ namespace LWDicer.Control
 
             return SUCCESS;            
         }
+        
+        public int SetMicroCamPos(CPos_XYTZ pPos)
+        {
+            int index = (int)EStagePos.MACRO_CAM_POS;
+            AxStageInfo.FixedPos.Pos[index] = pPos;
+
+            return SUCCESS;
+        }
+
+        public int GetMicroCamPos(out CPos_XYTZ pPos)
+        {
+            int index = (int)EStagePos.MACRO_CAM_POS;
+            pPos = AxStageInfo.FixedPos.Pos[index];
+
+            return SUCCESS;
+        }
+
 
         public double GetScreenIndexTheta()
         {

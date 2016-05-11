@@ -197,7 +197,7 @@ namespace LWDicer.Control
 
             // Home
             public CMotorOriginData OriginData;
-
+            
             // below list is defined in MOTION_DATA of YMCMotion
             public Int16 CoordinateSystem;      // Coordinate system specified
             public Int16 MoveType;              // Motion type

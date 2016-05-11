@@ -21,6 +21,20 @@ namespace LWDicer.Control
 
         public const int ERR_CTRLSTAGE_THETA_POS_UNSUITABLE = 10;
 
+        public const int ERR_CTRLSTAGE_CAM_CALS_CENTERMOVE_FAIL = 20;
+        public const int ERR_CTRLSTAGE_MACRO_ALIGN_FAIL = 30;
+
+
+        public const double CAM_POS_CALS_ROATE_ANGLE = 2.0;
+        public const int MACRO_ALIGN_MODE = 0;
+        public const int MICRO_ALIGN_MODE_CH1 = 1;
+        public const int MICRO_ALIGN_MODE_CH2 = 1;
+
+        public const double MACRO_POS_TOLERANCE = 0.01;
+        public const double MACRO_ANGLE_TOLERANCE = 0.001;
+        public const double MICRO_POS_TOLERANCE = 0.001;
+        public const double MICRO_ANGLE_TOLERANCE = 0.0001;
+
         // STAGE 관련 오류
 
         public class CCtrlStage1RefComp
@@ -69,12 +83,17 @@ namespace LWDicer.Control
             public int[] CurrentLightLevel = new int[(int)ELightType.NUM];
 
         }
+        public class CCtrlAlignData
+        {
+            public CPos_XY WaferPosOffset;
 
+        }
         public class CCtrlStage1Data
         {
             public CCtrlStageData Stage;
             public CCtrlVisionData Vision;
             public CCtrlLightData Light;
+            public CCtrlAlignData Align;
         }
 
     }
@@ -373,9 +392,10 @@ namespace LWDicer.Control
         public int FindEdgePoint(out CPos_XY sPos)
         {
             int iCam = PRE__CAM;
-            int iResult = 0;        
-            sPos = new CPos_XY();
-            
+            int iResult = 0;
+            CPos_XY pPos = new CPos_XY();
+            sPos = pPos;
+
             // Edge 검색
             CEdgeData pEdgeData;
             iResult = m_RefComp.Vision.FindEdge(iCam, out pEdgeData);
@@ -389,12 +409,16 @@ namespace LWDicer.Control
                 return GenerateErrorCode(ERR_CTRLSTAGE_EDGE_POINT_OVER);
             }
             // Edge 위치 결과 대입
-            sPos = pEdgeData.EdgePos[0];
+            pPos = pEdgeData.EdgePos[0];
 
             // Camera의 틀어짐 보정
             CPos_XY mCenter = new CPos_XY(); // 회전 중심은 (0,0)으로 한다
-            sPos = CoordinateRotate(m_Data.Vision.CameraTilt[iCam], sPos, mCenter);
-            
+            pPos = CoordinateRotate(m_Data.Vision.CameraTilt[iCam], pPos, mCenter);
+
+            // Pixel to Pos
+            pPos = PixelToPostion(PRE__CAM, pPos);
+
+            sPos = pPos;
             return SUCCESS;
         }
 
@@ -485,11 +509,16 @@ namespace LWDicer.Control
         #region Calculation Function
 
         private CPos_XY PixelToPostion(int iCam,CPos_XY sPos)
-        {            
-            sPos.dX = sPos.dX * m_Data.Vision.PixelResolutionX[iCam];
-            sPos.dY = sPos.dY * m_Data.Vision.PixelResolutionX[iCam];
+        {
+            CPos_XY pPos = new CPos_XY();
 
-            return sPos;
+            pPos.dX = sPos.dX * m_Data.Vision.PixelResolutionX[iCam];
+            pPos.dY = sPos.dY * m_Data.Vision.PixelResolutionX[iCam];
+
+            // 카메라 위치값을 더하여 실제 좌표의 위치를 나타냄.
+            pPos += m_Data.Vision.CameraPosition[iCam];
+
+            return pPos;
         }        
 
         private double RadToDeg(double pRad)
@@ -524,6 +553,20 @@ namespace LWDicer.Control
             mPos.dX = Math.Cos(2);
             return sPos;
         }
+        private CPos_XY CoordinateRotate(double dAngle, CPos_XY sPos, CPos_XYTZ sCenter)
+        {
+            var mPos = new CPos_XY();
+            if (dAngle == 0.0) return sPos;
+
+            // 라디안 값으로 각도 변경
+            var RadAngle = DegToRad(dAngle);
+            // 회전 변환 ( sCenter 기준으로 변환)
+            mPos.dX = (sPos.dX - sCenter.dX) * Math.Cos(RadAngle) - (sPos.dY - sCenter.dY) * Math.Sin(RadAngle) + sCenter.dX;
+            mPos.dY = (sPos.dX - sCenter.dX) * Math.Sin(RadAngle) + (sPos.dY - sCenter.dY) * Math.Cos(RadAngle) + sCenter.dY;
+
+            mPos.dX = Math.Cos(2);
+            return sPos;
+        }
 
         /// <summary>
         /// 임의의 2점의 선을 수평 기준으로 각도를 구한다.
@@ -531,14 +574,14 @@ namespace LWDicer.Control
         /// <param name="pMinusPos"></param>
         /// <param name="pPlusPos"></param>
         /// <returns></returns>
-        private double CalsRotateAngle(CPos_XY pMinusPos, CPos_XY pPlusPos)
+        private double CalsRotateAngle(CPos_XY pLeftPos, CPos_XY pRightPos)
         {
             double RotateAngle = 0.0;
-            if (pPlusPos == pMinusPos) return RotateAngle;
+            if (pRightPos == pLeftPos) return RotateAngle;
             
             // 각도 계산 
-            double dWidth  = pPlusPos.dX - pMinusPos.dX;
-            double dHeight = pPlusPos.dY - pMinusPos.dY;
+            double dWidth  = pRightPos.dX - pLeftPos.dX;
+            double dHeight = pRightPos.dY - pLeftPos.dY;
             RotateAngle = Math.Atan(dHeight / dWidth);
 
             // Degree 값으로 변환
@@ -680,6 +723,7 @@ namespace LWDicer.Control
 
             return SUCCESS;
         }
+
         public int ChangeMacroVision()
         {
             return ChangeVisionMagnitude(PRE__CAM);
@@ -690,29 +734,65 @@ namespace LWDicer.Control
             return ChangeVisionMagnitude(FINE_CAM);
         }
 
+
         // 카메라 위치 계산 및 설정
         // Fine 카메라만 자동으로 연산함
         // Pre 카메라는 Fine과 차이를 수동으로 설정함.
-
-        public int TeachMicroCamPos()
+        public int AutoTeachMicroCamPos()
         {
-            // Micro Mark A가 패턴 등록이 되어 있어야 함.
+            // Micro Key Mark가 패턴 등록이 되어 있어야 함.
+            // Key Mark 기준으로 Theta Align이 되어 있어야 함.
             // ??? 조건문 확인
 
             CPos_XYTZ CurPos = new CPos_XYTZ();
             CPos_XY StagePos = new CPos_XY();
+            CPos_XY CamPos = new CPos_XY();
             CPos_XY MarkPosA = new CPos_XY();
             CPos_XY MarkPosB = new CPos_XY();
-
+            CPos_XY TransPos = new CPos_XY();
+            CPos_XYTZ StageMovePos = new CPos_XYTZ();
             CResultData MarkData = new CResultData();
-            int iResult = 0;
 
+            int iResult = 0;
+            int iCount = 0;
+
+            /////////////////////////////////////////////////////////////////////
+            //  현재 Mark의 위치를 카메라의 중심으로 맞춘다.
+            // Mark 확인
+            do
+            {
+                // 초기엔 0,0,0 값이 들어가지 때문에 별도이동하지 않음.
+                iResult = m_RefComp.Stage.MoveStageRelativeXYT(StageMovePos);
+                if (iResult != SUCCESS) return iResult;
+
+                Sleep(500);
+            
+                // Mark  위치 확인
+                iResult = FindMicroMarkA(out MarkPosA);
+                if (iResult != SUCCESS) return iResult;
+
+                // 위치 보정값 대입
+                StageMovePos.dX = -MarkPosA.dX;
+                StageMovePos.dY = -MarkPosA.dY;                
+
+                // 5회 반복이 넘을 경우 Fail
+                if(iCount > 5) return GenerateErrorCode(ERR_CTRLSTAGE_CAM_CALS_CENTERMOVE_FAIL);
+                
+                iCount++;                
+
+            } while (Math.Abs(MarkPosA.dX) < 0.001 && Math.Abs(MarkPosA.dY) < 0.001);
+            
+
+            // 현재 Stage 위치 읽어오기
             iResult = m_RefComp.Stage.GetStageCurPos(out CurPos);
             if (iResult != SUCCESS) return iResult;
 
             StagePos.dX = CurPos.dX;
             StagePos.dY = CurPos.dY;
 
+            // Key Mark가 Micro Cam의 Center일때 Stage 위치 저장
+            iResult = m_RefComp.Stage.SetMicroCamPos(CurPos);
+            if (iResult != SUCCESS) return iResult;
             /////////////////////////////////////////////////////////////////////
             //  회전 이동하며, Mark 2 Point를 확인함
 
@@ -727,11 +807,11 @@ namespace LWDicer.Control
             if (iResult != SUCCESS) return iResult;
 
             // Screen Index Theta 원점 이동
-            iResult = m_RefComp.Stage.MoveStageScreenPlusT();
+            iResult = m_RefComp.Stage.MoveStageScreenMinusT();
             if (iResult != SUCCESS) return iResult;
 
             // Screen Index Theta - 이동
-            iResult = m_RefComp.Stage.MoveStageScreenPlusT();
+            iResult = m_RefComp.Stage.MoveStageScreenMinusT();
             if (iResult != SUCCESS) return iResult;
 
             Sleep(500);
@@ -743,29 +823,32 @@ namespace LWDicer.Control
             iResult = m_RefComp.Stage.MoveStageScreenPlusT();
             if (iResult != SUCCESS) return iResult;
 
-            // 1차 카메라의 위치를 구함.
+            // 회전 중심값을 구함
             double dAngle = m_RefComp.Stage.GetScreenIndexTheta()*2;
             CPos_XY RotatePos = new CPos_XY();
             RotatePos = CalsRotateCenter(dAngle, MarkPosA, MarkPosB);
 
-            m_Data.Vision.CameraPosition[FINE_CAM] = StagePos;
+            // Mark의 좌표는 카메라 중심 (0,0) 기준으로 확인
+            // Stage위치가 회전중심임
+            // 현재 Stage 위치에서 계산된 회전 중심을 빼면
+            // 카메라의 위치가 됨. 
+            CamPos = StagePos - RotatePos;
+
+            SetCameraPos(FINE_CAM, CamPos);
 
             /////////////////////////////////////////////////////////////////////
             //  회전 각도를 키워서.. 정확도를 높히는 동작
             //  +/- 2도를 회전 시킨다.
             //  Stage를 회전할때.. Mark가 FOV 밖에 나가므로, Stage를 이동하여 영상에 들어오게 한다.
 
-            CPos_XY TransPos = new CPos_XY();
-            TransPos = CoordinateRotate(2.0, m_Data.Vision.CameraPosition[FINE_CAM], StagePos);
 
-            CPos_XYTZ StageMovePos = new CPos_XYTZ();
-
+            // Position A 위치 확인 ------------------------------
+            TransPos = CoordinateRotate(CAM_POS_CALS_ROATE_ANGLE, m_Data.Vision.CameraPosition[FINE_CAM], StagePos);            
             // Fov에 Mark가 들기 위해.. Stage 이동 거리 대입
             StageMovePos.dX = TransPos.dX;
             StageMovePos.dY = TransPos.dY;
-            StageMovePos.dT = 2.0;
+            StageMovePos.dT = CAM_POS_CALS_ROATE_ANGLE;
             StageMovePos.dZ = 0.0;
-            
 
             // Theta + 이동
             iResult = m_RefComp.Stage.MoveStageRelativeXYT(StageMovePos);
@@ -777,19 +860,69 @@ namespace LWDicer.Control
             iResult = FindMicroMarkA(out MarkPosA);
             if (iResult != SUCCESS) return iResult;
 
+            // Position B 위치 확인 ------------------------------
+            TransPos = CoordinateRotate(-CAM_POS_CALS_ROATE_ANGLE, m_Data.Vision.CameraPosition[FINE_CAM], StagePos);
+            // Fov에 Mark가 들기 위해.. Stage 이동 거리 대입
+            StageMovePos.dX = TransPos.dX;
+            StageMovePos.dY = TransPos.dY;
+            StageMovePos.dT = -CAM_POS_CALS_ROATE_ANGLE;
+            StageMovePos.dZ = 0.0;
 
-            // Screen Index T - 이동
-            iResult = m_RefComp.Stage.MoveStageRelativeT(-2.0);
+            // Theta - 이동
+            iResult = m_RefComp.Stage.MoveStageRelativeXYT(StageMovePos);
             if (iResult != SUCCESS) return iResult;
 
             Sleep(500);
+
             // Mark 확인
             iResult = FindMicroMarkA(out MarkPosB);
             if (iResult != SUCCESS) return iResult;
 
+            // 회전 중심값을 구함
+            dAngle = CAM_POS_CALS_ROATE_ANGLE * 2;
+
+            RotatePos = CalsRotateCenter(dAngle, MarkPosA, MarkPosB);
+
+            // Mark의 좌표는 카메라 중심 (0,0) 기준으로 확인
+            // Stage위치가 회전중심임
+            // 현재 Stage 위치에서 계산된 회전 중심을 빼면
+            // 카메라의 위치가 됨. 
+            CamPos = StagePos - RotatePos;
+
+            SetCameraPos(FINE_CAM, CamPos);
+
+            // Stage 원위치
+            iResult = m_RefComp.Stage.MoveStagePos(CurPos);
+            if (iResult != SUCCESS) return iResult;
+
+            Sleep(500);
+
             return SUCCESS;
         }
 
+        public int ManualMacroCamPosSet()
+        {
+            CPos_XYTZ StageCurPos = new CPos_XYTZ();
+            CPos_XYTZ MicroCamStagePos = new CPos_XYTZ();
+            CPos_XY CamPos = new CPos_XY();
+
+            int iResult = 0;
+
+            // 현재 Stage 위치 읽어오기
+            iResult = m_RefComp.Stage.GetStageCurPos(out StageCurPos);
+            if (iResult != SUCCESS) return iResult;
+
+            // Micro에서 Key가 영상의 Center일때 Stage 위치 읽어오기
+            iResult = m_RefComp.Stage.GetMicroCamPos(out MicroCamStagePos);
+            if (iResult != SUCCESS) return iResult;
+
+            CamPos.dX = MicroCamStagePos.dX - StageCurPos.dX;
+            CamPos.dY = MicroCamStagePos.dY - StageCurPos.dY;
+
+            SetCameraPos(PRE__CAM, CamPos);
+
+            return SUCCESS;
+        }
         #endregion
 
 
@@ -858,7 +991,12 @@ namespace LWDicer.Control
             // ThetaAlignPosB로 이동한다.
             return m_RefComp.Stage.MoveStageToThetaAlignPosB();
         }
-        public int MoveThetaAlign()
+        /// <summary>
+        /// GUI에서 실행할  ThetaAlign 명령
+        /// 위치 상태에 따라서 A,B 위치를 번갈아 이동함.
+        /// </summary>
+        /// <returns></returns>
+        public int DoThetaAlign()
         {
             int iPos = 0;
             m_RefComp.Stage.GetStagePosInfo(out iPos);
@@ -870,6 +1008,14 @@ namespace LWDicer.Control
 
             return SUCCESS;
         }
+        /// <summary>
+        /// Theta Align 계산 연산
+        /// </summary>
+        /// <param name="iCam" Theta Align을 진행할 Camera></param>
+        /// <param name="pPosA" Position A : 기준되는 Point></param>
+        /// <param name="pPosB" Position B : 기준 Point에서 가로로 이동한 지점></param>
+        /// <param name="pAlignPos" 계산된 X,Y,T의 값></param>
+        /// <returns></returns>
         private int CalsThetaAlign(int iCam, CPos_XYTZ pPosA, CPos_XYTZ pPosB, out CPos_XYTZ pAlignPos)
         {
             int iResult = -1;
@@ -911,7 +1057,6 @@ namespace LWDicer.Control
         {
             m_RefComp.Stage.SetEdgeAlignOffset(index, pPos);
         }
-
         public int GetEdgePosOffset(int index, out CPos_XYTZ pPos)
         {
             return m_RefComp.Stage.GetEdgeAlignOffset(index, out pPos);
@@ -989,16 +1134,283 @@ namespace LWDicer.Control
         // Align 동작
         #region Align 동작
 
-        // Edge Align 동작
+        // Edge Align 동작=======================================
+        public int DoEdgeAlign()
+        {
+            int iResult = -1;
+            int iSleepTime = 200;
+            CPos_XY[] EdgePos = new CPos_XY[4];
+            CPos_XY WaferCenter = new CPos_XY();
+            CPos_XYTZ StageCurPos = new CPos_XYTZ();
+
+            // Edge 1번으로 이동 & Edge 확인
+            iResult = m_RefComp.Stage.MoveStageToEdgeAlignPos1();
+            if (iResult != SUCCESS) return iResult;
+
+            Sleep(iSleepTime);
+
+            iResult = FindEdgePoint(out EdgePos[0]);
+            if (iResult != SUCCESS) return iResult;
+
+            // Edge 2번으로 이동 & Edge 확인
+            iResult = m_RefComp.Stage.MoveStageToEdgeAlignPos2();
+            if (iResult != SUCCESS) return iResult;
+
+            Sleep(iSleepTime);
+
+            iResult = FindEdgePoint(out EdgePos[1]);
+            if (iResult != SUCCESS) return iResult;
+
+            // Edge 3번으로 이동 & Edge 확인
+            iResult = m_RefComp.Stage.MoveStageToEdgeAlignPos3();
+            if (iResult != SUCCESS) return iResult;
+
+            Sleep(iSleepTime);
+
+            iResult = FindEdgePoint(out EdgePos[2]);
+            if (iResult != SUCCESS) return iResult;
+
+            // Edge 4번으로 이동 & Edge 확인
+            iResult = m_RefComp.Stage.MoveStageToEdgeAlignPos4();
+            if (iResult != SUCCESS) return iResult;
+
+            Sleep(iSleepTime);
+
+            iResult = FindEdgePoint(out EdgePos[3]);
+            if (iResult != SUCCESS) return iResult;
+
+            // Edge Align 연산
+            WaferCenter.dX = (EdgePos[0].dX + EdgePos[1].dX + EdgePos[2].dX + EdgePos[3].dX) / 4;
+            WaferCenter.dY = (EdgePos[0].dY + EdgePos[1].dY + EdgePos[2].dY + EdgePos[3].dY) / 4;
+
+            // Stage 현재 위치 확인
+            iResult = m_RefComp.Stage.GetStageCurPos(out StageCurPos);
+            if (iResult != SUCCESS) return iResult;
+
+            // Wafer의 중심과 Stage의 위치 차리를 Offset으로 저장한다.
+            m_Data.Align.WaferPosOffset.dX = StageCurPos.dX - WaferCenter.dX;
+            m_Data.Align.WaferPosOffset.dY = StageCurPos.dY - WaferCenter.dY;
+
+            return SUCCESS;
+        }
+
+        public int DoAlign(int iMode)
+        {
+            int iResult = -1;
+            int iCount = 0;
+            int iSleepTime = 200;
+
+            CPos_XY MarkPosA = new CPos_XY();
+            CPos_XY MarkPosB = new CPos_XY();
+            CPos_XYTZ StageCurPos = new CPos_XYTZ();
+
+            double dTolerancePos = 0.0;
+            double dToleranceAngle = 0.0;
+
+            // Tolerance 설정
+            if (iMode == MACRO_ALIGN_MODE)  dTolerancePos   = MACRO_POS_TOLERANCE;
+            else                            dTolerancePos   = MICRO_POS_TOLERANCE;
+
+            if (iMode == MACRO_ALIGN_MODE)  dToleranceAngle = MACRO_ANGLE_TOLERANCE;
+            else                            dToleranceAngle = MICRO_ANGLE_TOLERANCE;
+
+            // 모드에 따라서 렌즈 선택
+
+            // AutoFocus 진행 (Micro Align A만 진행)
+
+            // Align 기존 값 초기화
+            m_RefComp.Stage.SetAlignDataInit();
+
+            while (true)
+            {
+                //====================================================
+                // Mark A,B의 위치 확인
+                if (iMode == MACRO_ALIGN_MODE)
+                {
+                    // Macro Mark A 위치 이동
+                    iResult = m_RefComp.Stage.MoveStageToMacroAlignA();
+                    if (iResult != SUCCESS) return iResult;
+
+                    Sleep(iSleepTime);
+
+                    iResult = FindMacroMark(out MarkPosA);
+                    if (iResult != SUCCESS) return iResult;
+
+                    // Macro Mark B 위치 이동
+                    iResult = m_RefComp.Stage.MoveStageToMacroAlignB();
+                    if (iResult != SUCCESS) return iResult;
+
+                    Sleep(iSleepTime);
+
+                    iResult = FindMacroMark(out MarkPosB);
+                    if (iResult != SUCCESS) return iResult;
+                }
+
+                if (iMode == MICRO_ALIGN_MODE_CH1)
+                {
+                    // Macro Mark A 위치 이동
+                    iResult = m_RefComp.Stage.MoveStageToMicroAlignA();
+                    if (iResult != SUCCESS) return iResult;
+
+                    Sleep(iSleepTime);
+
+                    iResult = FindMicroMarkA(out MarkPosA);
+                    if (iResult != SUCCESS) return iResult;
+
+                    // Macro Mark B 위치 이동
+                    iResult = m_RefComp.Stage.MoveStageToMicroAlignB();
+                    if (iResult != SUCCESS) return iResult;
+
+                    Sleep(iSleepTime);
+
+                    iResult = FindMicroMarkA(out MarkPosB);
+                    if (iResult != SUCCESS) return iResult;
+                }
+
+                if (iMode == MICRO_ALIGN_MODE_CH2)
+                {
+                    // Macro Mark A 위치 이동
+                    iResult = m_RefComp.Stage.MoveStageToMicroAlignTurnA();
+                    if (iResult != SUCCESS) return iResult;
+
+                    Sleep(iSleepTime);
+
+                    iResult = FindMicroMarkB(out MarkPosA);
+                    if (iResult != SUCCESS) return iResult;
+
+                    // Macro Mark B 위치 이동
+                    iResult = m_RefComp.Stage.MoveStageToMicroAlignTurnB();
+                    if (iResult != SUCCESS) return iResult;
+
+                    Sleep(iSleepTime);
+
+                    iResult = FindMicroMarkB(out MarkPosB);
+                    if (iResult != SUCCESS) return iResult;
+                }
+
+                //====================================================
+                // Align Cals
+
+                // 회전 각도 계산
+                double dAngle = CalsRotateAngle(MarkPosA, MarkPosB);
+                // 현재 Stage 위치 읽기
+                iResult = m_RefComp.Stage.GetStageCurPos(out StageCurPos);
+                if (iResult != SUCCESS) return iResult;
+
+                // Align 기준점
+                CPos_XY CamPos = new CPos_XY();
+                if (iMode == MACRO_ALIGN_MODE)  CamPos = GetCameraPos(PRE__CAM);
+                else                            CamPos = GetCameraPos(FINE_CAM);
+
+
+                CPos_XY MarkNewPos = new CPos_XY();
+                CPos_XYTZ AlignPos = new CPos_XYTZ();
+
+                // Mark A가 회전 변환했을 때 신규 좌표
+                MarkNewPos = CoordinateRotate(dAngle, MarkPosA, StageCurPos);
+
+                AlignPos.dX = CamPos.dX - MarkNewPos.dX;
+                AlignPos.dX = CamPos.dY - MarkNewPos.dX;
+                AlignPos.dT = dAngle;
+                AlignPos.dZ = 0.0;
+
+                // Align 완료 조건 확인
+                if (Math.Abs(AlignPos.dX) < dTolerancePos && Math.Abs(AlignPos.dY) < dTolerancePos && Math.Abs(AlignPos.dT) < dToleranceAngle)
+                {
+                    return SUCCESS;
+                }
+
+                // Align Adjust 설정
+                m_RefComp.Stage.SetAlignData(AlignPos);
+
+                // Mark A로 이동 및 확인
+                if (iMode == MACRO_ALIGN_MODE)
+                {
+                    // Macro Mark A 위치 이동
+                    iResult = m_RefComp.Stage.MoveStageToMacroAlignA();
+                    if (iResult != SUCCESS) return iResult;
+
+                    Sleep(iSleepTime);
+
+                    iResult = FindMacroMark(out MarkPosA);
+                    if (iResult != SUCCESS) return iResult;
+                }
+
+                if (iMode == MICRO_ALIGN_MODE_CH1)
+                {
+                    // Macro Mark A 위치 이동
+                    iResult = m_RefComp.Stage.MoveStageToMicroAlignA();
+                    if (iResult != SUCCESS) return iResult;
+
+                    Sleep(iSleepTime);
+
+                    iResult = FindMicroMarkA(out MarkPosA);
+                    if (iResult != SUCCESS) return iResult;
+                }
+
+                if (iMode == MICRO_ALIGN_MODE_CH2)
+                {
+                    // Macro Mark A 위치 이동
+                    iResult = m_RefComp.Stage.MoveStageToMicroAlignTurnA();
+                    if (iResult != SUCCESS) return iResult;
+
+                    Sleep(iSleepTime);
+
+                    iResult = FindMicroMarkB(out MarkPosA);
+                    if (iResult != SUCCESS) return iResult;
+                }
+                // Mark A의 위치의 정도 확인                
+                if (Math.Abs(MarkPosA.dX) < dTolerancePos && Math.Abs(MarkPosA.dY) < dTolerancePos)
+                {
+                    return SUCCESS;
+                }
+
+                // 5회 반복이 넘을 경우 Fail
+                if (iCount > 5) return GenerateErrorCode(ERR_CTRLSTAGE_MACRO_ALIGN_FAIL);
+
+                iCount++;
+
+            }
+
+            return SUCCESS;
+        }
 
         // Macro Align 동작
+        public int DoMacroAlign()
+        {
+            return DoAlign(MACRO_ALIGN_MODE);            
+        }
 
-        // Micro Algin 동작
+        // Micro Algin-A 동작
+        public int DoMicroAlignA()
+        {
+            return DoAlign(MICRO_ALIGN_MODE_CH1);
+        }
+        // Micro Algin-B 동작
+        public int DoMicroAlignB()
+        {
+            return DoAlign(MICRO_ALIGN_MODE_CH2);
+        }
 
+        public int DoAlignProcess()
+        {
+            int iResult = -1;
 
+            iResult = DoEdgeAlign();
+            if(iResult != SUCCESS) return iResult;
 
+            iResult = DoMacroAlign();
+            if (iResult != SUCCESS) return iResult;
 
+            iResult = DoMicroAlignA();
+            if (iResult != SUCCESS) return iResult;
+           
+            iResult = DoMicroAlignB();
+            if (iResult != SUCCESS) return iResult;
 
+            return SUCCESS;
+        }
+        
         #endregion
 
 
