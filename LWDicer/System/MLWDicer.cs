@@ -464,7 +464,7 @@ namespace LWDicer.Control
             m_SystemInfo.GetObjectInfo(354, out objInfo);
             CreateCtrlHandler(objInfo);
 
-            m_SystemInfo.GetObjectInfo(366, out objInfo);
+            m_SystemInfo.GetObjectInfo(355, out objInfo);
             CreateCtrlSpinner(objInfo);
 
             m_SystemInfo.GetObjectInfo(350, out objInfo);

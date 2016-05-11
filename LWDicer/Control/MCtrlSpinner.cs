@@ -97,7 +97,6 @@ namespace LWDicer.Control
             MAX,
         }
 
-
         public class CCtrlSpinnerRefComp
         {
             public MMeSpinner SpinCleaner;
@@ -107,6 +106,73 @@ namespace LWDicer.Control
             {
 
             }
+        }
+
+        public class CSpinnerData
+        {
+            public CCoatingData CoaterData = new CCoatingData();
+            public CCleaningData CleanerData = new CCleaningData();
+        }
+
+        public class CCoatingData
+        {
+            // Coating Data
+            public int PVAQty;
+            public int MovingPVAQty;
+            public int CoatingRate;
+            public int CenterWaitTime;
+            public int MoveMode;
+            public int MovingSpeed;
+            public double CoatingArea;
+
+            // Coating Sequence
+            public CCoatingOperation[] CoatSequence = new CCoatingOperation[(int)ESpinnerStep.MAX];
+
+            public CCoatingData()
+            {
+                for (int i = 0; i < CoatSequence.Length; i++)
+                {
+                    CoatSequence[i] = new CCoatingOperation();
+                }
+            }
+        }
+
+        public class CCoatingOperation
+        {
+            public bool Use;
+            public int OpTime;
+            public int OpRPM;
+
+            public int CoterStep = -1;
+            public int CleanStep = -1;
+
+            public bool StopAfterOp;
+
+            public int Operation;
+            public int Time;
+            public int RPM;
+        }
+
+        public class CCleaningData
+        {
+            public double WashStroke;
+
+            public CCleaningSquence[] CleanSequence = new CCleaningSquence[(int)ESpinnerStep.MAX];
+
+            public CCleaningData()
+            {
+                for (int i = 0; i < CleanSequence.Length; i++)
+                {
+                    CleanSequence[i] = new CCleaningSquence();
+                }
+            }
+        }
+
+        public class CCleaningSquence
+        {
+            public int Operation;
+            public int Time;
+            public int RPM;
         }
     }
 
