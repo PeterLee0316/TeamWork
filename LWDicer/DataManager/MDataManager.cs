@@ -26,9 +26,13 @@ using static LWDicer.Control.DEF_Cylinder;
 using static LWDicer.Control.DEF_Vacuum;
 
 using static LWDicer.Control.DEF_MeHandler;
+using static LWDicer.Control.DEF_MeElevator;
 using static LWDicer.Control.DEF_MePushPull;
+using static LWDicer.Control.DEF_MeSpinner;
 using static LWDicer.Control.DEF_PolygonScanner;
 using static LWDicer.Control.DEF_Vision;
+using static LWDicer.Control.DEF_CtrlSpinner;
+
 
 namespace LWDicer.Control
 {
@@ -291,7 +295,7 @@ namespace LWDicer.Control
         }
 
         public class CSystemData_Vacuum
-                {
+        {
             // Timer
             public CVacuumTime[] VacuumTimer = new CVacuumTime[(int)EObjectVacuum.MAX_OBJ];
 
@@ -332,6 +336,10 @@ namespace LWDicer.Control
             // MeHandler
             public CUnitPos UHandlerPos = new CUnitPos((int)EHandlerPos.MAX);
             public CUnitPos LHandlerPos = new CUnitPos((int)EHandlerPos.MAX);
+
+            public CUnitPos RotatePos = new CUnitPos((int)ERotatePos.MAX);
+            public CUnitPos CoaterPos = new CUnitPos((int)ENozzlePos.MAX);
+            public CUnitPos CleanerPos = new CUnitPos((int)ENozzlePos.MAX);
 
             // Coater
 
@@ -423,6 +431,99 @@ namespace LWDicer.Control
             public double Thickness;
         }
 
+        public class CFrameData
+        {
+            public string FrameName;
+            public double Diameter;
+            public int Slot;
+            public int CassetteSetNo;
+            public double FramePitch;
+            public double CassetteHeight;
+            public double UnloadElevatorPos;
+            public double ESZeroPoint;
+            public double CTZeroPoint;
+            public double STZeroPoint;
+            public double LoadPushPullPos;
+            public double FrameCenterPos;
+        }
+
+        public class CInspectionFrameData
+        {
+            public string FrameName;
+            public double StagePos;
+            public double UnloadElevatorPos;
+            public double LoadPushPullPos;
+            public double UnloadPushPullPos;
+        }
+
+        public class CSpinnerData
+        {
+            public CCoatingData CoaterData = new CCoatingData();
+            public CCleaningData CleanerData = new CCleaningData();
+        }
+
+        public class CCoatingData
+        {
+            // Coating Data
+            public int PVAQty;
+            public int MovingPVAQty;
+            public int CoatingRate;
+            public int CenterWaitTime;
+            public int MoveMode;
+            public int MovingSpeed;
+            public double CoatingArea;
+
+            // Coating Sequence
+            public CCoatingOperation[] CoatSequence = new CCoatingOperation[(int)ESpinnerStep.MAX];
+
+            public CCoatingData()
+            {
+                for (int i = 0; i < CoatSequence.Length; i++)
+                {
+                    CoatSequence[i] = new CCoatingOperation();
+                }
+            }
+        }
+
+        public class CCoatingOperation
+        {
+            public bool Use;    
+            public int OpTime;
+            public int OpRPM;
+
+            public int CoterStep = -1;
+            public int CleanStep = -1;
+
+            public bool StopAfterOp;
+
+            public int Operation;
+            public int Time;
+            public int RPM;
+        }
+
+
+        public class CCleaningData
+        {
+            public double WashStroke;
+
+            public CCleaningSquence[] CleanSequence = new CCleaningSquence[(int)ESpinnerStep.MAX];
+
+            public CCleaningData()
+            {
+                for (int i = 0; i < CleanSequence.Length; i++)
+                {
+                    CleanSequence[i] = new CCleaningSquence();
+                }
+            }
+        }
+
+        public class CCleaningSquence
+        {
+            public int Operation;
+            public int Time;
+            public int RPM;
+        }
+
         public class CLogParameter
         {
             public bool UseLogLevelTactTime;
@@ -484,6 +585,16 @@ namespace LWDicer.Control
             ///////////////////////////////////////////////////////////
             // Wafer Data
             public CWaferData Wafer = new CWaferData();
+
+            // Frame Data
+            public CFrameData[] Frame = new CFrameData[(int)EFrameDataNo.MAX];
+
+            // Inspection Frame Data
+            public CInspectionFrameData[] InspectionFrame = new CInspectionFrameData[(int)EFrameDataNo.MAX];
+
+            // Spinner Data 
+            public CSpinnerData SpinnerData = new CSpinnerData();
+
 
             ///////////////////////////////////////////////////////////
             // Vision Data (Pattern)

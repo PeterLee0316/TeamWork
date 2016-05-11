@@ -38,6 +38,7 @@ using static LWDicer.Control.DEF_MeSpinner;
 
 using static LWDicer.Control.DEF_CtrlOpPanel;
 using static LWDicer.Control.DEF_CtrlHandler;
+using static LWDicer.Control.DEF_CtrlSpinner;
 using static LWDicer.Control.DEF_CtrlPushPull;
 
 namespace LWDicer.Control
@@ -130,8 +131,8 @@ namespace LWDicer.Control
 
         public MMePushPull m_MePushPull;
 
-        public MMeSpinner m_SpinCoater;
-        public MMeSpinner m_SpinCleaner;
+        public MMeSpinner m_MeSpinCoater;
+        public MMeSpinner m_MeSpinCleaner;
 
         public MOpPanel m_OpPanel;
 
@@ -142,6 +143,8 @@ namespace LWDicer.Control
         public MCtrlPushPull m_ctrlPushPull { get; private set; }
         public MCtrlStage1 m_ctrlStage1 { get; private set; }
         public MCtrlHandler m_ctrlHandler { get; private set; }
+        public MCtrlSpinner m_ctrlSpinner { get; private set; }
+
 
         ///////////////////////////////////////////////////////////////////////
         // Process Layer
@@ -163,8 +166,7 @@ namespace LWDicer.Control
         public void Dispose()
         {
             // close handle
-
-                }
+        }
 
         public CLoginData GetLogin()
         {
@@ -462,6 +464,9 @@ namespace LWDicer.Control
             m_SystemInfo.GetObjectInfo(354, out objInfo);
             CreateCtrlHandler(objInfo);
 
+            m_SystemInfo.GetObjectInfo(366, out objInfo);
+            CreateCtrlSpinner(objInfo);
+
             m_SystemInfo.GetObjectInfo(350, out objInfo);
             CreateCtrlOpPanel(objInfo);
 
@@ -552,10 +557,11 @@ namespace LWDicer.Control
             int deviceNo;
             int[] axisList = new int[DEF_MAX_COORDINATE];
             int[] initArray = new int[DEF_MAX_COORDINATE];
+
             for(int i = 0; i < DEF_MAX_COORDINATE; i++)
-                {
+            {
                 initArray[i] = DEF_AXIS_NONE_ID;
-                }
+            }
 
             refComp.Motion = m_YMC;
 
@@ -878,6 +884,17 @@ namespace LWDicer.Control
             m_ctrlPushPull = new MCtrlPushPull(objInfo, refComp, data);
         }
 
+        void CreateCtrlSpinner(CObjectInfo objInfo)
+        {
+            CCtrlSpinnerRefComp refComp = new CCtrlSpinnerRefComp();
+            CSpinnerData data = m_DataManager.ModelData.SpinnerData;
+
+            refComp.SpinCleaner = m_MeSpinCleaner;
+            refComp.SpinCoater = m_MeSpinCoater;
+
+            m_ctrlSpinner = new MCtrlSpinner(objInfo, refComp, data);
+        }
+        
         void CreateTrsAutoManager(CObjectInfo objInfo)
         {
             CTrsAutoManagerRefComp refComp = new CTrsAutoManagerRefComp();
@@ -1036,8 +1053,20 @@ namespace LWDicer.Control
             meHandlerData.HandlerZone.SafetyPos = m_DataManager.SystemData.MAxSafetyPos.UHandler_Pos;
             m_MeUpperHandler.SetData(meHandlerData);
 
+            // Spin Coater
+            CMeSpinnerData meSpinnerData;
+            m_MeSpinCoater.GetData(out meSpinnerData);
+            m_MeSpinCoater.SetData(meSpinnerData);
+
+            // Spin Cleaner
+            m_MeSpinCleaner.GetData(out meSpinnerData);
+            m_MeSpinCleaner.SetData(meSpinnerData);
+
+
             //////////////////////////////////////////////////////////////////
             // Control Layer
+
+
 
             //////////////////////////////////////////////////////////////////
             // Process Layer
@@ -1082,6 +1111,9 @@ namespace LWDicer.Control
             //////////////////////////////////////////////////////////////////
             // Control Layer
 
+
+
+
             //////////////////////////////////////////////////////////////////
             // Process Layer
 
@@ -1114,6 +1146,13 @@ namespace LWDicer.Control
             m_MePushPull.SetPushPullPosition(FixedPos.PushPullPos, ModelPos.PushPullPos, OffsetPos.PushPullPos);
             m_MePushPull.SetCenteringPosition(DEF_MePushPull.ECenterIndex.CENTER1, FixedPos.Centering1Pos, ModelPos.Centering1Pos, OffsetPos.Centering1Pos);
             m_MePushPull.SetCenteringPosition(DEF_MePushPull.ECenterIndex.CENTER2, FixedPos.Centering2Pos, ModelPos.Centering2Pos, OffsetPos.Centering2Pos);
+
+            // Spinner
+            m_MeSpinCleaner.SetRotatePosition(FixedPos.RotatePos, ModelPos.RotatePos, OffsetPos.RotatePos);
+            m_MeSpinCleaner.SetCleanPosition(FixedPos.CleanerPos,ModelPos.CleanerPos,OffsetPos.CleanerPos);
+
+            m_MeSpinCoater.SetRotatePosition(FixedPos.RotatePos, ModelPos.RotatePos, OffsetPos.RotatePos);
+            m_MeSpinCoater.SetCoatPosition(FixedPos.CoaterPos, ModelPos.CoaterPos, OffsetPos.CoaterPos);
 
             //////////////////////////////////////////////////////////////////
             // Control Layer
@@ -1310,20 +1349,20 @@ namespace LWDicer.Control
 
             refCoater.IO = m_IO;
 
-            refCoater.AxSpinRotate = m_AxRotate1;
-            refCoater.AxSpinNozzle1 = m_AxCleanNozzle1;
-            refCoater.AxSpinNozzle2 = m_AxCoatNozzle1;
+            refCoater.AxSpinRotate      = m_AxRotate1;
+            refCoater.AxSpinCleanNozzle = m_AxCleanNozzle1;
+            refCoater.AxSpinCoatNozzle  = m_AxCoatNozzle1;
 
             refCoater.Vacuum[(int)EChuckVacuum.SELF] = m_SpinCoaterVac;
 
             refCoater.UpDownCyl = m_SpinCoaterUDCyl;
-            refCoater.Nozzle1SolCyl = m_SpinCoaterDICyl;
-            refCoater.Nozzle2SolCyl = m_SpinCoaterPVACyl;
-            refCoater.RingBlow = m_SpinCoaterRingBlow;
+            refCoater.CleanNozzleSolCyl = m_SpinCoaterDICyl;
+            refCoater.CoatNozzleSolCyl  = m_SpinCoaterPVACyl;
 
             dataCoater.InDetectObject = iStage2_PanelDetect;
+            dataCoater.OutRingBlow = oCoater_Ring_Blow;
 
-            m_SpinCoater = new MMeSpinner(objInfo, refCoater, dataCoater);
+            m_MeSpinCoater = new MMeSpinner(objInfo, refCoater, dataCoater);
         }
 
         void CreateMeCleaner(CObjectInfo objInfo)
@@ -1334,19 +1373,19 @@ namespace LWDicer.Control
             refCleaner.IO = m_IO;
 
             refCleaner.AxSpinRotate = m_AxRotate2;
-            refCleaner.AxSpinNozzle1 = m_AxCleanNozzle2;
-            refCleaner.AxSpinNozzle2 = m_AxCoatNozzle2;
+            refCleaner.AxSpinCleanNozzle = m_AxCleanNozzle2;
+            refCleaner.AxSpinCoatNozzle = m_AxCoatNozzle2;
 
             refCleaner.Vacuum[(int)EChuckVacuum.SELF] = m_SpinCleanerVac;
 
             refCleaner.UpDownCyl = m_SpinCleanerUDCyl;
-            refCleaner.Nozzle1SolCyl = m_SpinCleanerDICyl;
-            refCleaner.Nozzle2SolCyl = m_SpinCleanerN2Cyl;
-            refCleaner.RingBlow = m_SpinCleanerRingBlow;
+            refCleaner.CleanNozzleSolCyl = m_SpinCleanerDICyl;
+            refCleaner.CoatNozzleSolCyl = m_SpinCleanerN2Cyl;
 
             dataCleaner.InDetectObject = iStage3_PanelDetect;
+            dataCleaner.OutRingBlow = oCleaner_Ring_Blow;
 
-            m_SpinCleaner = new MMeSpinner(objInfo, refCleaner, dataCleaner);
+            m_MeSpinCleaner = new MMeSpinner(objInfo, refCleaner, dataCleaner);
         }
 
     }
