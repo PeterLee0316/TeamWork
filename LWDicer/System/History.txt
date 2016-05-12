@@ -257,3 +257,12 @@ LWDicer의 DataManager에서 데이터를 읽어오기 위한 3가지 함수 : S
 // 1. Spinner Control Layer 보완
     - MCtrlCleaner, MCtrlCoater를 MCtrlSpinner로 통합함.
 
+// Version : 0.0.9
+// Grade : ★
+// Date : 2016-05-12
+// Context
+// 1. GUI 화면전환 및 배치 변경
+//   - DISCO UI 화면전환 구조에서 Bottom Menu UI 형식으로 변경
+// 2. Spinner Controller Layer Create 함수 분리
+//   - CreateCtrlSpinner1(), CreateCtrlSpinner2()
+

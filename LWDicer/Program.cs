@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
+using System.Diagnostics;
 using LWDicer.UI;
 
 //#pragma warning disable CS0219

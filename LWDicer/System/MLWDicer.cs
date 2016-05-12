@@ -143,7 +143,8 @@ namespace LWDicer.Control
         public MCtrlPushPull m_ctrlPushPull { get; private set; }
         public MCtrlStage1 m_ctrlStage1 { get; private set; }
         public MCtrlHandler m_ctrlHandler { get; private set; }
-        public MCtrlSpinner m_ctrlSpinner { get; private set; }
+        public MCtrlSpinner m_ctrlSpinner1 { get; private set; }
+        public MCtrlSpinner m_ctrlSpinner2 { get; private set; }
 
 
         ///////////////////////////////////////////////////////////////////////
@@ -465,7 +466,10 @@ namespace LWDicer.Control
             CreateCtrlHandler(objInfo);
 
             m_SystemInfo.GetObjectInfo(355, out objInfo);
-            CreateCtrlSpinner(objInfo);
+            CreateCtrlSpinner1(objInfo);
+
+            m_SystemInfo.GetObjectInfo(356, out objInfo);
+            CreateCtrlSpinner2(objInfo);
 
             m_SystemInfo.GetObjectInfo(350, out objInfo);
             CreateCtrlOpPanel(objInfo);
@@ -884,17 +888,26 @@ namespace LWDicer.Control
             m_ctrlPushPull = new MCtrlPushPull(objInfo, refComp, data);
         }
 
-        void CreateCtrlSpinner(CObjectInfo objInfo)
+        void CreateCtrlSpinner1(CObjectInfo objInfo)
         {
             CCtrlSpinnerRefComp refComp = new CCtrlSpinnerRefComp();
             CSpinnerData data = m_DataManager.ModelData.SpinnerData;
 
             refComp.SpinCleaner = m_MeSpinCleaner;
+
+            m_ctrlSpinner1 = new MCtrlSpinner(objInfo, refComp, data);
+        }
+
+        void CreateCtrlSpinner2(CObjectInfo objInfo)
+        {
+            CCtrlSpinnerRefComp refComp = new CCtrlSpinnerRefComp();
+            CSpinnerData data = m_DataManager.ModelData.SpinnerData;
+
             refComp.SpinCoater = m_MeSpinCoater;
 
-            m_ctrlSpinner = new MCtrlSpinner(objInfo, refComp, data);
+            m_ctrlSpinner2 = new MCtrlSpinner(objInfo, refComp, data);
         }
-        
+
         void CreateTrsAutoManager(CObjectInfo objInfo)
         {
             CTrsAutoManagerRefComp refComp = new CTrsAutoManagerRefComp();

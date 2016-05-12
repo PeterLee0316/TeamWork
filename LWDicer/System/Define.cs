@@ -1682,33 +1682,37 @@ namespace LWDicer.Control
         /// <summary>
         /// Main UI
         /// </summary>
-        public static readonly int FORM_SIZE_WIDTH = 1280;
-        public static readonly int FORM_SIZE_HEIGHT = 1024;
+        public static readonly int FORM_SIZE_WIDTH = 1284;  // Main Frame은 약간 크게 
+        public static readonly int FORM_SIZE_HEIGHT = 1024; 
         public static readonly int FORM_POS_X = 0;
         public static readonly int FORM_POS_Y = 0;
 
-        public static readonly int MAIN_SIZE_WIDTH = 1280;
-        public static readonly int MAIN_SIZE_HEIGHT = 754;
+        public static readonly int MAIN_SIZE_WIDTH = 1278;
+        public static readonly int MAIN_SIZE_HEIGHT = 818;
 
         public static readonly int MAIN_POS_X = 0;
         public static readonly int MAIN_POS_Y = 100;
 
-        public static readonly int TOP_SIZE_WIDTH = 1280;
+        public static readonly int TOP_SIZE_WIDTH = 1278;
         public static readonly int TOP_SIZE_HEIGHT = 98;
 
         public static readonly int TOP_POS_X = 0;
         public static readonly int TOP_POS_Y = 0;
 
-        public static readonly int BOT_SIZE_WIDTH = 1099;
-        public static readonly int BOT_SIZE_HEIGHT = 168;
+        public static readonly int BOT_SIZE_WIDTH = 1278;
+        public static readonly int BOT_SIZE_HEIGHT = 100;
 
         public static readonly int BOT_POS_X = 0;
-        public static readonly int BOT_POS_Y = 855;
-
-        public static readonly int SUB_BOT_WIDTH = 178;
-        public static readonly int SUB_BOT_HEIGHT = 168;
-
-        public static readonly int SUB_BOT_POS_X = 1102;
-        public static readonly int SUB_BOT_POS_Y = 855;
+        public static readonly int BOT_POS_Y = 920;
+        
+        public enum SelectScreenType
+        {
+            Auto_Scr,
+            Manual_Scr,
+            Data_Scr,
+            Teach_Scr,
+            Log_Scr,
+            Help_Scr,
+        }
     }
 }

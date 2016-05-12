@@ -20,8 +20,6 @@ namespace LWDicer.Control
         SerialPort m_SerialPort;
         Queue<string> m_ReceivedQueue = new Queue<string>();
 
-        FormLaserMaint DisScanner = new FormLaserMaint();
-
         public MSerialPort(CObjectInfo objInfo, CSerialPortData data) 
             : base(objInfo)
         {
