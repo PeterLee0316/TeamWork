@@ -144,6 +144,15 @@ LWDicer의 DataManager에서 데이터를 읽어오기 위한 3가지 함수 : S
 2. MCtrlOpPanel : MOpPanel과 비슷한 수준에서 마무리. (기존의 MManageOpPanel -> MCtrlOpPanel로 이름 변경함.)
 3. MACS : ACS 모션의 기본 class 틀만 작업해놓음.
 
+// Version : 0.0.16
+// Grade : ★
+// Date : 2016-05-12
+// Context
+1. 개념 정리 : spinner, coater 개념에서 전체를 spinner로 통칭 및 인스턴스는 spinner1, spinner2로 사용
+2. Define.cs : Handler & Spinner Step 추가 및 전체 Thread Step, Message 2차 정리
+3. MTrsAutoManager : 작업중..
+
+
 ////////////////////////////////////////////////////////////////////////////////////////////
 // LJJ
 // Version : 0.0.1

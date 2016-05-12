@@ -21,7 +21,7 @@ namespace LWDicer.Control
 
         public override string ToString()
         {
-            return $"CTrsLoaderRefComp : {ctrlLoader}";
+            return $"CTrsLoaderRefComp : {this}";
         }
     }
 
@@ -164,7 +164,7 @@ namespace LWDicer.Control
                     break;
 
             }
-            return 0;
+            return DEF_Error.SUCCESS;
         }
 
         public override void ThreadProcess()

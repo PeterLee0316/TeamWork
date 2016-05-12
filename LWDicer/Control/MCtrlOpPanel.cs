@@ -279,7 +279,7 @@ namespace LWDicer.Control
             //		return GenerateErrorCode(ERR_MNGOPPANEL_CLEANER_DETECT2_ERROR);
 #endif //DEF_NEW_CLEAN_SYSTEM
 
-            return 0;
+            return SUCCESS;
         }
 
         /// <summary>
@@ -369,7 +369,7 @@ namespace LWDicer.Control
             //	if (bStatus == true)
             //		return GenerateErrorCode(ERR_MNGOPPANEL_MAIN_N2_ERROR);
 #endif
-            return 0;
+            return SUCCESS;
         }
 
         /// <summary>
