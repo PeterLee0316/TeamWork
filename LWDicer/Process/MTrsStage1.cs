@@ -23,7 +23,7 @@ namespace LWDicer.Control
 
         public override string ToString()
         {
-            return $"CTrsStage1RefComp : {ctrlStage1}";
+            return $"CTrsStage1RefComp : {this}";
         }
     }
 
@@ -76,7 +76,7 @@ namespace LWDicer.Control
             InitializeInterface();
 
             // Do Action
-            int iStep = (int)TRS_STAGE1_MOVETO_LOAD;
+            int iStep = (int)TRS_STAGE1_MOVETO_WAIT_POS;
 
             // finally
             ThreadStep = iStep;
@@ -127,7 +127,7 @@ namespace LWDicer.Control
                     break;
 
             }
-            return 0;
+            return DEF_Error.SUCCESS;
         }
 
         public override void ThreadProcess()
@@ -163,7 +163,7 @@ namespace LWDicer.Control
                         break;
 
                     case STS_CYCLE_STOP: // Cycle Stop
-                        //if (ThreadStep == TRS_STAGE1_MOVETO_LOAD)
+                        //if (ThreadStep == TRS_STAGE1_MOVETO_LOAD_POS)
                         break;
 
                     case STS_RUN: // auto run
@@ -171,7 +171,7 @@ namespace LWDicer.Control
 
                         switch (ThreadStep)
                         {
-                            case (int)TRS_STAGE1_MOVETO_LOAD:
+                            case (int)TRS_STAGE1_MOVETO_LOAD_POS:
                                 if (m_bAuto_PanelSupplyStop) break;
 
                                 PostMsg(TrsAutoManager, (int)MSG_STAGE_LOADING_END);
@@ -179,33 +179,33 @@ namespace LWDicer.Control
                                 iResult = m_RefComp.ctrlStage1.MoveToLoadPos();
                                 if (iResult != SUCCESS) { SendAlarmTo(iResult); break; }
 
-                                SetStep((int)TRS_STAGE1_WAIT_MOVETO_LOAD);
+                                //SetStep((int)TRS_STAGE1_WAIT_MOVETO_LOAD);
                                 break;
 
-                            case (int)TRS_STAGE1_WAIT_MOVETO_LOAD:
-                                if (m_bAuto_PanelSupplyStop) break;
+                            //case (int)TRS_STAGE1_WAIT_MOVETO_LOAD:
+                            //    if (m_bAuto_PanelSupplyStop) break;
 
-                                SetStep((int)TRS_STAGE1_LOAD_PANEL);
-                                break;
+                            //    SetStep((int)TRS_STAGE1_LOAD_PANEL);
+                            //    break;
 
-                            case (int)TRS_STAGE1_LOAD_PANEL: //2
+                            //case (int)TRS_STAGE1_LOAD_PANEL: //2
 
-                                PostMsg(TrsAutoManager, (int)MSG_PANEL_INPUT);
-                                PostMsg(TrsAutoManager, (int)MSG_STAGE_LOADING_END);
+                            //    PostMsg(TrsAutoManager, (int)MSG_PANEL_INPUT);
+                            //    PostMsg(TrsAutoManager, (int)MSG_STAGE_LOADING_END);
 
-                                SetStep((int)TRS_STAGE1_CAMERA_MARK_POS);
-                                break;
+                            //    SetStep((int)TRS_STAGE1_CAMERA_MARK_POS);
+                            //    break;
 
-                            case (int)TRS_STAGE1_UNLOAD_COMPLETE: //7
-                                                             //				if(!m_bWorkbench_SafetyPos) break;
+                            //case (int)TRS_STAGE1_UNLOAD_COMPLETE: //7
+                            //                                 //				if(!m_bWorkbench_SafetyPos) break;
 
-                                iResult = m_RefComp.ctrlStage1.MoveToWaitPos(false);
-                                if (iResult != SUCCESS) { SendAlarmTo(iResult); break; }
+                            //    iResult = m_RefComp.ctrlStage1.MoveToWaitPos(false);
+                            //    if (iResult != SUCCESS) { SendAlarmTo(iResult); break; }
 
-                                //PostMsg(TrsWorkbench, MSG_STAGE1_WORKBENCH_SAFETY_POS);
+                            //    //PostMsg(TrsWorkbench, MSG_STAGE1_WORKBENCH_SAFETY_POS);
 
-                                SetStep((int)TRS_STAGE1_MOVETO_LOAD);
-                                break;
+                            //    SetStep((int)TRS_STAGE1_MOVETO_LOAD_POS);
+                            //    break;
 
                             default:
                                 break;

@@ -115,7 +115,7 @@ namespace LWDicer.Control
         {
             SetOpStatus(OpStatus);
 
-            return 0;
+            return DEF_Error.SUCCESS;
         }
 
         protected bool SetOpStatus(int Status)
@@ -185,7 +185,7 @@ namespace LWDicer.Control
                     break;
 
             }
-            return 0;
+            return DEF_Error.SUCCESS;
         }
 
         public virtual void ThreadProcess()
@@ -288,7 +288,7 @@ namespace LWDicer.Control
             m_LinkedThreadArray[iChannel] = pThread;
 
             Debug.WriteLine($"[LinkThread] Channel{iChannel} : {m_LinkedThreadArray[iChannel]}");
-            return 0;
+            return DEF_Error.SUCCESS;
         }
 
         public int PostMsg(int iChannel, MEvent evnt)

@@ -7,6 +7,7 @@ using System.Threading;
 using System.Diagnostics;
 
 using static LWDicer.Control.DEF_Thread;
+using static LWDicer.Control.DEF_LCNet;
 using static LWDicer.Control.DEF_Thread.EThreadMessage;
 using static LWDicer.Control.DEF_Thread.EWindowMessage;
 using static LWDicer.Control.DEF_Thread.EOpMode;
@@ -17,7 +18,15 @@ namespace LWDicer.Control
 {
     public class CTrsAutoManagerRefComp
     {
+        public MOpPanel OpPanel;
+
+        public MCtrlOpPanel ctrlOpPanel;
         public MCtrlLoader ctrlLoader;
+        public MCtrlPushPull ctrlPushPull;
+        public MCtrlSpinner ctrlSpinner1;
+        public MCtrlSpinner ctrlSpinner2;
+        public MCtrlHandler ctrlHandler;
+        public MCtrlStage1 ctrlStage1;
 
         public MTrsLoader trsLoader;
         public MTrsPushPull trsPushPull;
@@ -28,7 +37,7 @@ namespace LWDicer.Control
         //}
         public override string ToString()
         {
-            return $"CTrsAutoManagerRefComp : {ctrlLoader}";
+            return $"CTrsAutoManagerRefComp : {this}";
         }
     }
 
@@ -83,8 +92,8 @@ namespace LWDicer.Control
         MTickTimer m_NoPanelTimer = new MTickTimer();
         MTickTimer m_DeivceIDCheck = new MTickTimer(); //NSMC
 
-        int m_iOldEqState;
-        int m_iOldEqProcessState;
+        ELCEqStates m_OldEqState            = ELCEqStates.eNormal;      // EQ State for LC
+        ELCEqProcStates m_OldEqProcState    = ELCEqProcStates.ePause;   // EQ Process State for LC
         bool m_bInitState;          // 원점잡기나, 초기화 실행하고 있는 상태이면 TRUE
         bool m_bLC_PM_Mode;         // LC에서 PM 명령이 온 상태면 TRUE
         bool m_bLC_NORMAL_Mode;     // LC에서 PM 명령이 와서 실행된 후 Normal 명령이 왔을 때 TRUE
@@ -128,6 +137,9 @@ namespace LWDicer.Control
         {
             m_RefComp = refComp;
             SetData(data);
+
+            SetSystemStatus(STS_MANUAL);	// System의 상태를 STS_MANUAL 상태로 전환한다.
+
         }
 
         public int SetData(CTrsAutoManagerData source)
@@ -149,7 +161,7 @@ namespace LWDicer.Control
 
             iResult = m_RefComp.trsLoader.Initialize();
             if (iResult != SUCCESS) return iResult;
-            //m_RefComp.m_pOpPanel.SetInitFlag(INIT_UNIT_LOADER, true);
+            m_RefComp.OpPanel.SetInitFlag(INIT_UNIT_LOADER, true);
 
 
             return iResult;
@@ -272,7 +284,7 @@ namespace LWDicer.Control
                     break;
 
             }
-            return 0;
+            return DEF_Error.SUCCESS;
         }
 
         public override void ThreadProcess()
