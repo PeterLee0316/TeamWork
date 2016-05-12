@@ -929,6 +929,58 @@ namespace LWDicer.Control
             return SUCCESS;
         }
 
+        public int IsHandlerSafetyForPushPull(out bool bStatus)
+        {
+            bStatus = false;
+            int curZone;
+
+            // check x axis
+            int iResult = GetHandlerAxZone(DEF_X, out curZone);
+            if (iResult != SUCCESS) return iResult;
+            if(curZone != (int)EHandlerXAxZone.LOAD)
+            {
+                bStatus = true;
+                return SUCCESS;
+            }
+
+            // check x axis
+            iResult = GetHandlerAxZone(DEF_Z, out curZone);
+            if (iResult != SUCCESS) return iResult;
+            if (curZone == (int)EHandlerZAxZone.SAFETY)
+            {
+                bStatus = true;
+                return SUCCESS;
+            }
+
+            return SUCCESS;
+        }
+
+        public int IsHandlerSafetyForStage(out bool bStatus)
+        {
+            bStatus = false;
+            int curZone;
+
+            // check x axis
+            int iResult = GetHandlerAxZone(DEF_X, out curZone);
+            if (iResult != SUCCESS) return iResult;
+            if (curZone != (int)EHandlerXAxZone.UNLOAD)
+            {
+                bStatus = true;
+                return SUCCESS;
+            }
+
+            // check x axis
+            iResult = GetHandlerAxZone(DEF_Z, out curZone);
+            if (iResult != SUCCESS) return iResult;
+            if (curZone == (int)EHandlerZAxZone.SAFETY)
+            {
+                bStatus = true;
+                return SUCCESS;
+            }
+
+            return SUCCESS;
+        }
+
         public int IsHandlerAxisInSafetyZone(int axis, out bool bStatus)
         {
             bStatus = false;

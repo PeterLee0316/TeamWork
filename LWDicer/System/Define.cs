@@ -185,6 +185,15 @@ namespace LWDicer.Control
             UHANDLER_UD,
             UHANDLER_UD2,
             PUSHPULL_GRIPPER,
+            COATER_UD,
+            CLEANER_UD,
+            CLEAN_DI,
+            CLEAN_N2,
+            CLEAN_RING_BLOW,
+            COAT_DI,
+            COAT_PVA,
+            COAT_RING_BLOW,
+            PUSHPULL_UD,
             MAX_OBJ,
         }
 
@@ -194,6 +203,8 @@ namespace LWDicer.Control
             MAIN_STAGE,
             UHANDLER_SELF,  // Upper Handler
             LHANDLER_SELF,  // Lower Handler
+            COATER_SELF,
+            CLEANER_SELF,
             MAX_OBJ,
         }
 
@@ -257,11 +268,12 @@ namespace LWDicer.Control
             //OBJ_CL_STAGE2,
             //OBJ_CL_STAGE3,
             OBJ_CL_HANDLER,
-            OBJ_CL_MANAGE_OP_PANEL,
+            OBJ_CL_OP_PANEL,
             OBJ_CL_HW_TEACH,
             OBJ_CL_VISION_CALIBRATION,
             OBJ_CL_MANAGE_PRODUCT,
             OBJ_CL_INTERFACE_CTRL,
+            OBJ_CL_SPINNER,
 
             // Process Layer
             OBJ_PL_TRS_AUTO_MANAGER = 100,
@@ -674,6 +686,28 @@ namespace LWDicer.Control
         }
     }
 
+    public class DEF_LCNet
+    {
+        public enum ELCEqStates
+        {
+            eEqNothing = 0,
+            eNormal = 1,
+            eFault = 2,
+            ePM = 3
+        };
+
+        public enum ELCEqProcStates
+        {
+            eEqPNothing = 0,
+            eInit = 1,
+            eIdle = 2,
+            eSetup = 3,
+            eReady = 4,
+            eExecute = 5,
+            ePause = 6
+        };
+    }
+
     public class DEF_Thread
     {
         /// <summary>
@@ -697,15 +731,15 @@ namespace LWDicer.Control
         }
 
         // Thread ID
-        public const int TrsSelfMessage      = 0;
-        public const int TrsAutoManager      = 1;
-        public const int TrsLoader           = 2;
-        public const int TrsPushPull         = 3;
-        public const int TrsCleaner          = 4;
-        public const int TrsCoater           = 5;
-        public const int TrsHandler          = 6;
-        public const int TrsStage1           = 7;
-        public const int TrsStage2           = 8;
+        public const int TrsSelfMessage       = 0;
+        public const int TrsAutoManager       = 1;
+        public const int TrsLoader            = 2;
+        public const int TrsPushPull          = 3;
+        public const int TrsCleaner1          = 4;
+        public const int TrsCleaner2          = 5;
+        public const int TrsHandler           = 6;
+        public const int TrsStage1            = 7;
+        public const int TrsStage2            = 8;
 
         public const int MAX_THREAD_CHANNEL  = 15;
 
@@ -724,13 +758,24 @@ namespace LWDicer.Control
         public const int STS_EXC_MATERIAL    = 8;    // Exchange Material
 
         // initialize thread unit index
-        public const int INIT_UNIT_LOADER    = 1;
-        public const int INIT_UNIT_PUSHPULL  = 2;
-        public const int INIT_UNIT_CLEANER   = 3;
-        public const int INIT_UNIT_COATER    = 4;
-        public const int INIT_UNIT_HANDLER   = 5;
-        public const int INIT_UNIT_STAGE1    = 6;
-        public const int INIT_UNIT_MAX       = 7;
+        public const int INIT_UNIT_LOADER       = 1;
+        public const int INIT_UNIT_PUSHPULL     = 2;
+        public const int INIT_UNIT_CLEANER1     = 3;
+        public const int INIT_UNIT_CLEANER2     = 4;
+        public const int INIT_UNIT_HANDLER      = 5;
+        public const int INIT_UNIT_STAGE1       = 6;
+        public const int INIT_UNIT_MAX          = 7;
+        public enum EInitUnit
+        {
+            LOADER,
+            PUSHPULL,
+            CLEANER1,
+            CLEANER2,
+            UHANDLER,
+            LHANDLER,
+            STAGE1,
+            MAX,
+        }
 
         // Common Thread Message inter Threads
         public enum EThreadMessage
@@ -789,19 +834,19 @@ namespace LWDicer.Control
             MSG_PUSHPULL_LOADER_START_UNLOADING,            // wafer : P -> L
             MSG_PUSHPULL_LOADER_COMPLETE_UNLOADING,         // wafer : P -> L
 
-            MSG_PUSHPULL_CLEANER_REQUEST_LOADING,           // wafer : P -> C
-            MSG_PUSHPULL_CLEANER_START_UNLOADING,           // wafer : P -> C
-            MSG_PUSHPULL_CLEANER_COMPLETE_UNLOADING,        // wafer : P -> C
-            MSG_PUSHPULL_CLEANER_READY_LOADING,             // wafer : C -> P
-            MSG_PUSHPULL_CLEANER_START_LOADING,             // wafer : C -> P
-            MSG_PUSHPULL_CLEANER_COMPLETE_LOADING,          // wafer : C -> P
+            MSG_PUSHPULL_CLEANER1_REQUEST_LOADING,           // wafer : P -> C
+            MSG_PUSHPULL_CLEANER1_START_UNLOADING,           // wafer : P -> C
+            MSG_PUSHPULL_CLEANER1_COMPLETE_UNLOADING,        // wafer : P -> C
+            MSG_PUSHPULL_CLEANER1_READY_LOADING,             // wafer : C -> P
+            MSG_PUSHPULL_CLEANER1_START_LOADING,             // wafer : C -> P
+            MSG_PUSHPULL_CLEANER1_COMPLETE_LOADING,          // wafer : C -> P
 
-            MSG_PUSHPULL_COATER_REQUEST_LOADING,            // wafer : P -> C
-            MSG_PUSHPULL_COATER_START_UNLOADING,            // wafer : P -> C
-            MSG_PUSHPULL_COATER_COMPLETE_UNLOADING,         // wafer : P -> C
-            MSG_PUSHPULL_COATER_READY_LOADING,              // wafer : C -> P
-            MSG_PUSHPULL_COATER_START_LOADING,              // wafer : C -> P
-            MSG_PUSHPULL_COATER_COMPLETE_LOADING,           // wafer : C -> P
+            MSG_PUSHPULL_CLEANER2_REQUEST_LOADING,           // wafer : P -> C
+            MSG_PUSHPULL_CLEANER2_START_UNLOADING,           // wafer : P -> C
+            MSG_PUSHPULL_CLEANER2_COMPLETE_UNLOADING,        // wafer : P -> C
+            MSG_PUSHPULL_CLEANER2_READY_LOADING,             // wafer : C -> P
+            MSG_PUSHPULL_CLEANER2_START_LOADING,             // wafer : C -> P
+            MSG_PUSHPULL_CLEANER2_COMPLETE_LOADING,          // wafer : C -> P
 
             MSG_PUSHPULL_HANDLER_REQUEST_LOADING,           // wafer : P -> H
             MSG_PUSHPULL_HANDLER_START_UNLOADING,           // wafer : P -> H
@@ -810,21 +855,21 @@ namespace LWDicer.Control
             MSG_PUSHPULL_HANDLER_START_LOADING,             // wafer : H -> P
             MSG_PUSHPULL_HANDLER_COMPLETE_LOADING,          // wafer : H -> P
 
-            // TrsCleaner Message
-            MSG_CLEANER_PUSHPULL_READY_LOADING = 300,
-            MSG_CLEANER_PUSHPULL_START_LOADING,
-            MSG_CLEANER_PUSHPULL_COMPLETE_LOADING,
-            MSG_CLEANER_PUSHPULL_READY_UNLOADING,
-            MSG_CLEANER_PUSHPULL_START_UNLOADING,
-            MSG_CLEANER_PUSHPULL_COMPLETE_UNLOADING,
+            // TrsCleaner1 Message
+            MSG_CLEANER1_PUSHPULL_READY_LOADING = 300,
+            MSG_CLEANER1_PUSHPULL_START_LOADING,
+            MSG_CLEANER1_PUSHPULL_COMPLETE_LOADING,
+            MSG_CLEANER1_PUSHPULL_READY_UNLOADING,
+            MSG_CLEANER1_PUSHPULL_START_UNLOADING,
+            MSG_CLEANER1_PUSHPULL_COMPLETE_UNLOADING,
 
-            // TrsCoater Message
-            MSG_COATER_PUSHPULL_READY_LOADING = 400,
-            MSG_COATER_PUSHPULL_START_LOADING,
-            MSG_COATER_PUSHPULL_COMPLETE_LOADING,
-            MSG_COATER_PUSHPULL_READY_UNLOADING,
-            MSG_COATER_PUSHPULL_START_UNLOADING,
-            MSG_COATER_PUSHPULL_COMPLETE_UNLOADING,
+            // TrsCleaner2 Message
+            MSG_CLEANER2_PUSHPULL_READY_LOADING = 400,
+            MSG_CLEANER2_PUSHPULL_START_LOADING,
+            MSG_CLEANER2_PUSHPULL_COMPLETE_LOADING,
+            MSG_CLEANER2_PUSHPULL_READY_UNLOADING,
+            MSG_CLEANER2_PUSHPULL_START_UNLOADING,
+            MSG_CLEANER2_PUSHPULL_COMPLETE_UNLOADING,
 
             // TrsHandler Message
             MSG_HANDLER_PUSHPULL_READY_LOADING = 500,
@@ -919,78 +964,136 @@ namespace LWDicer.Control
             TRS_PUSHPULL_MOVETO_WAIT_POS,
             TRS_PUSHPULL_WAITFOR_MESSAGE,
 
-            // with Loader
-            TRS_PUSHPULL_REQUEST_LOADER_UNLOADING,
-            TRS_PUSHPULL_WAITFOR_LOADER_READY_UNLOADING,
-            TRS_PUSHPULL_START_LOADING_FROM_LOADER,
-            TRS_PUSHPULL_WAITFOR_LOADER_COMPLETE_UNLOADING,
-            TRS_PUSHPULL_COMPLETE_LOADING_FROM_LOADER,
+            ///////////////////////////////////////////////////////////////////
+            // with loader
+            // wafer : loader -> pushpull
+            TRS_PUSHPULL_MOVETO_LOAD_LOADER_POS,          // move to load pos from loader
+            TRS_PUSHPULL_PRE_LOADING_FROM_LOADER,         // extend guide, send load ready signal to loader
+            TRS_PUSHPULL_WAITFOR_LOADER_UNLOAD_READY,     // wait for response from loader
+            TRS_PUSHPULL_LOADING_FROM_LOADER,             // withdraw guide, send load complete signal to loader
+            TRS_PUSHPULL_WAITFOR_LOADER_UNLOAD_COMPLETE,  // wait for response from loader
 
-            TRS_PUSHPULL_REQUEST_LOADER_LOADING,
-            TRS_PUSHPULL_WAITFOR_LOADER_READY_LOADING,
-            TRS_PUSHPULL_START_UNLOADING_TO_LOADER,
-            TRS_PUSHPULL_WAITFOR_LOADER_COMPLETE_LOADING,
-            TRS_PUSHPULL_COMPLETE_UNLOADING_TO_LOADER,
+            // wafer : pushpull -> loader
+            TRS_PUSHPULL_MOVETO_UNLOAD_LOADER_POS,        // move to unload pos to loader
+            TRS_PUSHPULL_REQUEST_LOADER_LOADING,          // send load request signal to loader
+            TRS_PUSHPULL_WAITFOR_LOADER_LOAD_READY,       // wait for response from loader
+            TRS_PUSHPULL_UNLOADING_TO_LOADER,             // extend guide, send unload complete signal to loader
+            TRS_PUSHPULL_WAITFOR_LOADER_LOAD_COMPLETE,    // wait for response from loader
 
-            // with cleaner
-            TRS_PUSHPULL_READY_UNLOADING_TO_CLEANER,
-            TRS_PUSHPULL_REQUEST_CLEANER_LOADING,
-            TRS_PUSHPULL_WAITFOR_CLEANER_START_LOADING,
-            TRS_PUSHPULL_UNLOAD_WAFER_TO_CLEANER,
-            TRS_PUSHPULL_WAITFOR_CLEANER_COMPLETE_LOADING,
+            ///////////////////////////////////////////////////////////////////
+            // with cleaner1
+            // wafer : spinner -> pushpull
+            TRS_PUSHPULL_MOVETO_LOAD_CLEANER1_POS,          // move to load pos from cleaner1
+            TRS_PUSHPULL_PRE_LOADING_FROM_CLEANER1,         // extend guide, send load ready signal to cleaner1
+            TRS_PUSHPULL_WAITFOR_CLEANER1_UNLOAD_READY,     // wait for response from cleaner1
+            TRS_PUSHPULL_LOADING_FROM_CLEANER1,             // withdraw guide, send load complete signal to cleaner1
+            TRS_PUSHPULL_WAITFOR_CLEANER1_UNLOAD_COMPLETE,  // wait for response from cleaner1
 
-            TRS_PUSHPULL_REQUEST_CLEANER_UNLOADING,
-            TRS_PUSHPULL_START_LOADING_FROM_CLEANER,
-            TRS_PUSHPULL_WAITFOR_CLEANER_START_UNLOADING,
-            TRS_PUSHPULL_LOAD_WAFER_FROM_CLEANER,
-            TRS_PUSHPULL_WAITFOR_CLEANER_COMPLETE_UNLOADING,
+            // wafer : pushpull -> spinner
+            TRS_PUSHPULL_MOVETO_UNLOAD_CLEANER1_POS,        // move to unload pos to cleaner1
+            TRS_PUSHPULL_REQUEST_CLEANER1_LOADING,          // send load request signal to cleaner1
+            TRS_PUSHPULL_WAITFOR_CLEANER1_LOAD_READY,       // wait for response from cleaner1
+            TRS_PUSHPULL_UNLOADING_TO_CLEANER1,             // extend guide, send unload complete signal to cleaner1
+            TRS_PUSHPULL_WAITFOR_CLEANER1_LOAD_COMPLETE,    // wait for response from cleaner1
 
-            // with coater
-            TRS_PUSHPULL_READY_UNLOADING_TO_COATER,
-            TRS_PUSHPULL_REQUEST_COATER_LOADING,
-            TRS_PUSHPULL_WAITFOR_COATER_START_LOADING,
-            TRS_PUSHPULL_UNLOAD_WAFER_TO_COATER,
-            TRS_PUSHPULL_WAITFOR_COATER_COMPLETE_LOADING,
+            ///////////////////////////////////////////////////////////////////
+            // with cleaner2
+            // wafer : spinner -> pushpull
+            TRS_PUSHPULL_MOVETO_LOAD_CLEANER2_POS,          // move to load pos from cleaner2
+            TRS_PUSHPULL_PRE_LOADING_FROM_CLEANER2,         // extend guide, send load ready signal to cleaner2
+            TRS_PUSHPULL_WAITFOR_CLEANER2_UNLOAD_READY,     // wait for response from cleaner2
+            TRS_PUSHPULL_LOADING_FROM_CLEANER2,             // withdraw guide, send load complete signal to cleaner2
+            TRS_PUSHPULL_WAITFOR_CLEANER2_UNLOAD_COMPLETE,  // wait for response from cleaner2
 
-            TRS_PUSHPULL_REQUEST_COATER_UNLOADING,
-            TRS_PUSHPULL_START_LOADING_FROM_COATER,
-            TRS_PUSHPULL_WAITFOR_COATER_START_UNLOADING,
-            TRS_PUSHPULL_LOAD_WAFER_FROM_COATER,
-            TRS_PUSHPULL_WAITFOR_COATER_COMPLETE_UNLOADING,
+            // wafer : pushpull -> spinner
+            TRS_PUSHPULL_MOVETO_UNLOAD_CLEANER2_POS,        // move to unload pos to cleaner2
+            TRS_PUSHPULL_REQUEST_CLEANER2_LOADING,          // send load request signal to cleaner2
+            TRS_PUSHPULL_WAITFOR_CLEANER2_LOAD_READY,       // wait for response from cleaner2
+            TRS_PUSHPULL_UNLOADING_TO_CLEANER2,             // extend guide, send unload complete signal to cleaner2
+            TRS_PUSHPULL_WAITFOR_CLEANER2_LOAD_COMPLETE,    // wait for response from cleaner2
 
+            ///////////////////////////////////////////////////////////////////
             // with handler
-            TRS_PUSHPULL_READY_UNLOADING_TO_HANDLER,
-            TRS_PUSHPULL_REQUEST_HANDLER_LOADING,
-            TRS_PUSHPULL_WAITFOR_HANDLER_START_LOADING,
-            TRS_PUSHPULL_UNLOAD_WAFER_TO_HANDLER,
-            TRS_PUSHPULL_WAITFOR_HANDLER_COMPLETE_LOADING,
+            // wafer : handler -> pushpull
+            TRS_PUSHPULL_MOVETO_LOAD_HANDLER_POS,          // move to load pos from handler
+            TRS_PUSHPULL_PRE_LOADING_FROM_HANDLER,         // extend guide, send load ready signal to handler
+            TRS_PUSHPULL_WAITFOR_HANDLER_UNLOAD_READY,     // wait for response from handler
+            TRS_PUSHPULL_LOADING_FROM_HANDLER,             // withdraw guide, send load complete signal to handler
+            TRS_PUSHPULL_WAITFOR_HANDLER_UNLOAD_COMPLETE,  // wait for response from handler
 
-            TRS_PUSHPULL_REQUEST_HANDLER_UNLOADING,
-            TRS_PUSHPULL_START_LOADING_FROM_HANDLER,
-            TRS_PUSHPULL_WAITFOR_HANDLER_START_UNLOADING,
-            TRS_PUSHPULL_LOAD_WAFER_FROM_HANDLER,
-            TRS_PUSHPULL_WAITFOR_HANDLER_COMPLETE_UNLOADING,
+            // wafer : pushpull -> handler
+            TRS_PUSHPULL_MOVETO_UNLOAD_HANDLER_POS,        // move to unload pos to handler
+            TRS_PUSHPULL_REQUEST_HANDLER_LOADING,          // send load request signal to handler
+            TRS_PUSHPULL_WAITFOR_HANDLER_LOAD_READY,       // wait for response from handler
+            TRS_PUSHPULL_UNLOADING_TO_HANDLER,             // extend guide, send unload complete signal to handler
+            TRS_PUSHPULL_WAITFOR_HANDLER_LOAD_COMPLETE,    // wait for response from handler
+        }
+
+        public enum ETrsHandlerStep
+        {
+            // Upper/Load Handler
+            TRS_HANDLER_LHANDLER_MOVETO_WAIT1,
+            TRS_HANDLER_LHANDLER_WAIT_MOVETO_LOAD,      // wait for load request signal from pushpull
+            TRS_HANDLER_LHANDLER_MOVETO_LOAD_POS,
+            TRS_HANDLER_LHANDLER_LOADING,
+            TRS_HANDLER_LHANDLER_WAITFOR_PUSHPULL_UNLOAD_READY,
+            TRS_HANDLER_LHANDLER_MOVETO_LOAD_UP_POS,    // after move up, send load complete signal to pushpull
+            TRS_HANDLER_LHANDLER_MOVETO_WAIT2,
+            TRS_HANDLER_LHANDLER_WAIT_MOVETO_UNLOAD,    // wait for unload request signal from stage
+            TRS_HANDLER_LHANDLER_MOVETO_UNLOAD_POS,
+            TRS_HANDLER_LHANDLER_REQUEST_STAGE_LOADING, // request stage to vacuum absorb
+            TRS_HANDLER_LHANDLER_UNLOADING,             // after vacuum release + move up, send unload complete signal to stage
+
+            // Lower/Unload Handler
+            TRS_HANDLER_UHANDLER_MOVETO_WAIT1,
+            TRS_HANDLER_UHANDLER_WAIT_MOVETO_LOAD,      // wait for load request signal from stage
+            TRS_HANDLER_UHANDLER_MOVETO_LOAD_POS,
+            TRS_HANDLER_UHANDLER_LOADING,
+            TRS_HANDLER_UHANDLER_WAITFOR_STAGE_UNLOAD_READY,
+            TRS_HANDLER_UHANDLER_MOVETO_LOAD_UP_POS,    // after move up, send load complete signal to stage
+            TRS_HANDLER_UHANDLER_MOVETO_WAIT2,
+            TRS_HANDLER_UHANDLER_WAIT_MOVETO_UNLOAD,    // wait for unload request signal from pushpull
+            TRS_HANDLER_UHANDLER_MOVETO_UNLOAD_POS,
+            TRS_HANDLER_UHANDLER_REQUEST_PUSHPULL_LOADING, // request pushpull to vacuum absorb
+            TRS_HANDLER_UHANDLER_UNLOADING,             // after vacuum release + move up, send unload complete signal to pushpull
+        }
+
+        public enum ETrsSpinnerStep
+        {
+            TRS_SPINNER_MOVETO_WAIT_POS,
+            TRS_SPINNER_WAITFOR_PUSHPULL_LOAD_REQUEST,      // request pushpull to unload wafer
+            TRS_SPINNER_MOVETO_LOAD_POS,                    //
+            TRS_SPINNER_LOADING,                            // after vacuum absorb, send load ready signal to pushpull
+            TRS_SPINNER_WAITFOR_PUSHPULL_UNLOAD_READY,      // wait for response from pushpull
+            TRS_SPINNER_MOVETO_WORK_POS,                    // move to work pos, send load complete signal to pushpull
+            TRS_SPINNER_DO_CLEAN,                           // do work if it is needed.
+            TRS_SPINNER_DO_AFTER_CLEAN,
+            TRS_SPINNER_DO_COAT,                            // do work if it is needed.
+            TRS_SPINNER_DO_AFTER_COAT,
+            TRS_SPINNER_REQUEST_PUSHPULL_LOADING,           // request pushpull to load wafer
+            TRS_SPINNER_WAITFOR_PUSHPULL_UNLOAD_REQUEST,    // wait for response from pushpull
+            TRS_SPINNER_MOVETO_UNLOAD_POS,                  // 
+            TRS_SPINNER_WAITFOR_PUSHPULL_LOAD_READY,        // wait for response from pushpull
+            TRS_SPINNER_UNLOADING,                          // after vacuum release + move to wait, send unload complete signal to pushpull
         }
 
         // TrsStage1 Step
         public enum ETrsStage1Step
         {
-            TRS_STAGE1_MOVETO_LOAD,
-            TRS_STAGE1_WAIT_MOVETO_LOAD,
-            TRS_STAGE1_LOAD_PANEL,
-            TRS_STAGE1_CAMERA_MARK_POS,
-            TRS_STAGE1_PANEL_ALIGN,
-            TRS_STAGE1_CAMERA_HOME_POS,
-            TRS_STAGE1_CHECK_PANEL_DATA,
-            TRS_STAGE1_CHECK_REPAIR_COUNT,
-            TRS_STAGE1_MOVETO_WAIT,
-            TRS_STAGE1_MOVETO_UNLOAD,
-            TRS_STAGE1_UNLOAD_PANEL,
-            TRS_STAGE1_WAITFOR_WORKBENCH_LOAD_COMPLETE,
-            TRS_STAGE1_UNLOAD_COMPLETE,
-
-            // NSMC
-            TRS_STAGE1_NSMC_MODEL_CHANGE,
+            TRS_STAGE1_MOVETO_WAIT_POS,
+            TRS_STAGE1_MOVETO_LOAD_POS,
+            TRS_STAGE1_REQUEST_HANDLER_UNLOADING,
+            TRS_STAGE1_WAITFOR_HANDLER_UNLOAD_READY,
+            TRS_STAGE1_LOADING,
+            TRS_STAGE1_WAITFOR_HANDLER_UNLOAD_COMPLETE,
+            TRS_STAGE1_MOVETO_ALIGN_POS,
+            TRS_STAGE1_DO_ALIGN,
+            TRS_STAGE1_MOVETO_DICING_POS,
+            TRS_STAGE1_DO_DICING,
+            TRS_STAGE1_MOVETO_UNLOAD_POS,
+            TRS_STAGE1_REQUEST_HANDLER_LOADING,
+            TRS_STAGE1_WAITFOR_HANDLER_LOAD_READY,
+            TRS_STAGE1_UNLOADING,
         };
 
 
@@ -1048,7 +1151,7 @@ namespace LWDicer.Control
         ////////////////////////////////////////////////////////////////////
         // Control Layer
         ////////////////////////////////////////////////////////////////////
-        // MManageOpPanel
+        // MCtrlOpPanel
         public const int ERR_MNGOPPANEL_INVALID_OBJECTID                          = 1;
         public const int ERR_MNGOPPANEL_INVALID_ERRORBASE                         = 2;
         public const int ERR_MNGOPPANEL_INVALID_POINTER                           = 3;
@@ -1491,20 +1594,20 @@ namespace LWDicer.Control
         public const int oSpare2047                  = 2047;
 
         // Output Y030 
-        public const int oSpare2048                  = 2048;
-        public const int oSpare2049                  = 2049;
-        public const int oSpare2050                  = 2050;
-        public const int oSpare2051                  = 2051;
-        public const int oSpare2052                  = 2052;
-        public const int oSpare2053                  = 2053;
-        public const int oSpare2054                  = 2054;
-        public const int oSpare2055                  = 2055;
+        public const int oStage1_Up                  = 2048;
+        public const int oStage1_Down                = 2049;
+        public const int oStage2_Up                  = 2050;
+        public const int oStage2_Down                = 2051;
+        public const int oCoat_DI                    = 2052;
+        public const int oCoat_PVA                   = 2053;
+        public const int oClean_DI                   = 2054;
+        public const int oClean_N2                   = 2055;
 
-        public const int oSpare2056                  = 2056;
-        public const int oSpare2057                  = 2057;
-        public const int oSpare2058                  = 2058;
-        public const int oSpare2059                  = 2059;
-        public const int oSpare2060                  = 2060;
+        public const int oStage1_Blow                = 2056;
+        public const int oStage2_Blow                = 2057;
+        public const int oStage3_Blow                = 2058;
+        public const int oCoater_Ring_Blow           = 2059;
+        public const int oCleaner_Ring_Blow          = 2060;
         public const int oSpare2061                  = 2061;
         public const int oSpare2062                  = 2062;
         public const int oSpare2063                  = 2063;
@@ -1659,33 +1762,37 @@ namespace LWDicer.Control
         /// <summary>
         /// Main UI
         /// </summary>
-        public static readonly int FORM_SIZE_WIDTH = 1280;
-        public static readonly int FORM_SIZE_HEIGHT = 1024;
+        public static readonly int FORM_SIZE_WIDTH = 1284;  // Main Frame은 약간 크게 
+        public static readonly int FORM_SIZE_HEIGHT = 1024; 
         public static readonly int FORM_POS_X = 0;
         public static readonly int FORM_POS_Y = 0;
 
-        public static readonly int MAIN_SIZE_WIDTH = 1280;
-        public static readonly int MAIN_SIZE_HEIGHT = 754;
+        public static readonly int MAIN_SIZE_WIDTH = 1278;
+        public static readonly int MAIN_SIZE_HEIGHT = 818;
 
         public static readonly int MAIN_POS_X = 0;
         public static readonly int MAIN_POS_Y = 100;
 
-        public static readonly int TOP_SIZE_WIDTH = 1280;
+        public static readonly int TOP_SIZE_WIDTH = 1278;
         public static readonly int TOP_SIZE_HEIGHT = 98;
 
         public static readonly int TOP_POS_X = 0;
         public static readonly int TOP_POS_Y = 0;
 
-        public static readonly int BOT_SIZE_WIDTH = 1099;
-        public static readonly int BOT_SIZE_HEIGHT = 168;
+        public static readonly int BOT_SIZE_WIDTH = 1278;
+        public static readonly int BOT_SIZE_HEIGHT = 100;
 
         public static readonly int BOT_POS_X = 0;
-        public static readonly int BOT_POS_Y = 855;
-
-        public static readonly int SUB_BOT_WIDTH = 178;
-        public static readonly int SUB_BOT_HEIGHT = 168;
-
-        public static readonly int SUB_BOT_POS_X = 1102;
-        public static readonly int SUB_BOT_POS_Y = 855;
+        public static readonly int BOT_POS_Y = 920;
+        
+        public enum SelectScreenType
+        {
+            Auto_Scr,
+            Manual_Scr,
+            Data_Scr,
+            Teach_Scr,
+            Log_Scr,
+            Help_Scr,
+        }
     }
 }

@@ -51,7 +51,7 @@ namespace LWDicer.Control
         {
             Debug.WriteLine("Process " + evnt.ToString());
 
-            return 0;
+            return DEF_Error.SUCCESS;
         }
         
         public virtual void CheckMsg(int nMsgCount = 2)

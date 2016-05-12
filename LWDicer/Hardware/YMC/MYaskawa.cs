@@ -596,7 +596,7 @@ namespace LWDicer.Control
             }
         }
 
-        public int IsSafe4Move(bool bStopMotion = false)
+        public int IsSafeForMove(bool bStopMotion = false)
         {
             int iResult = SUCCESS;
 
@@ -619,10 +619,10 @@ namespace LWDicer.Control
             return SUCCESS;
         }
 
-        public int CheckAxisState4Move(int[] axisList)
+        public int CheckAxisStateForMove(int[] axisList)
         {
             // check safety
-            int iResult = IsSafe4Move();
+            int iResult = IsSafeForMove();
             if (iResult != SUCCESS) return iResult;
 
 
@@ -1389,7 +1389,7 @@ namespace LWDicer.Control
             UInt32 rc = CMotionAPI.ymcServoControl(m_hDevice[deviceNo], (UInt16)CMotionAPI.ApiDefs.SERVO_ON, APITimeOut);
             if (rc != CMotionAPI.MP_SUCCESS)
             {
-                LastHWMessage = String.Format("Error ymcServoControl On/Off Board : ErrorCode [ 0x{0} ]", rc.ToString("X"));
+                LastHWMessage = String.Format("Error ymcServoControl ServoOn : ErrorCode [ 0x{0} ]", rc.ToString("X"));
                 WriteLog(LastHWMessage, ELogType.Debug, ELogWType.Error, true);
                 return GenerateErrorCode(ERR_YASKAWA_FAIL_SERVO_ON);
             }
@@ -1418,7 +1418,7 @@ namespace LWDicer.Control
             UInt32 rc = CMotionAPI.ymcServoControl(m_hDevice[deviceNo], (UInt16)CMotionAPI.ApiDefs.SERVO_OFF, APITimeOut);
             if (rc != CMotionAPI.MP_SUCCESS)
             {
-                LastHWMessage = String.Format("Error ymcServoControl On/Off Board : ErrorCode [ 0x{0} ]", rc.ToString("X"));
+                LastHWMessage = String.Format("Error ymcServoControl ServoOff : ErrorCode [ 0x{0} ]", rc.ToString("X"));
                 WriteLog(LastHWMessage, ELogType.Debug, ELogWType.Error, true);
                 return GenerateErrorCode(ERR_YASKAWA_FAIL_SERVO_ON);
             }
@@ -1573,7 +1573,7 @@ namespace LWDicer.Control
             if (deviceNo == (int)EYMC_Device.NULL) return SUCCESS; // return success if device is null
 
             // check safety
-            int iResult = IsSafe4Move();
+            int iResult = IsSafeForMove();
             if (iResult != SUCCESS) return iResult;
 
             // Jog함수는 multi axis device를 고려하지 않고 작성
@@ -1688,7 +1688,7 @@ namespace LWDicer.Control
             int[] axisList;
             iResult = GetDeviceAxisList(deviceNo, out axisList);
             if (iResult != SUCCESS) return iResult;
-            iResult = CheckAxisState4Move(axisList);
+            iResult = CheckAxisStateForMove(axisList);
             if (iResult != SUCCESS) return iResult;
 
             // 1. call api
@@ -1723,7 +1723,7 @@ namespace LWDicer.Control
         public int MoveToPos(int[] axisList, bool[] useAxis, double[] pos, CMotorSpeedData[] tempSpeed = null, ushort waitMode = (ushort)CMotionAPI.ApiDefs.DISTRIBUTION_COMPLETED)
         {
             // check safety
-            int iResult = IsSafe4Move();
+            int iResult = IsSafeForMove();
             if (iResult != SUCCESS) return iResult;
 
             // 0. init data
@@ -1778,7 +1778,7 @@ namespace LWDicer.Control
             }
 
             // 0.8 check axis state for move
-            iResult = CheckAxisState4Move(tAxisList);
+            iResult = CheckAxisStateForMove(tAxisList);
             if (iResult != SUCCESS) return iResult;
 
             // 1. call api
@@ -1844,7 +1844,7 @@ namespace LWDicer.Control
             while(true)
             {
                 // 1.1 check safety
-                iResult = IsSafe4Move(true);
+                iResult = IsSafeForMove(true);
                 if (iResult != SUCCESS) return iResult;
 
                 // 1.2 check all done
@@ -1908,7 +1908,7 @@ namespace LWDicer.Control
         public int StartOriginReturn(int[] axisList, bool[] useAxis)
         {
             // check safety
-            int iResult = IsSafe4Move();
+            int iResult = IsSafeForMove();
             if (iResult != SUCCESS) return iResult;
 
             // 0. init data
@@ -2003,7 +2003,7 @@ namespace LWDicer.Control
             if (deviceNo == (int)EYMC_Device.NULL) return SUCCESS; // return success if device is null
 
             // check safety
-            int iResult = IsSafe4Move();
+            int iResult = IsSafeForMove();
             if (iResult != SUCCESS) return iResult;
 
             CMotionAPI.MOTION_DATA[] MotionData;

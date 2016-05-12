@@ -21,7 +21,7 @@ namespace LWDicer.Control
 
         public override string ToString()
         {
-            return $"CTrsPushPullRefComp : {ctrlPushPull}";
+            return $"CTrsPushPullRefComp : {this}";
         }
     }
 
@@ -40,19 +40,19 @@ namespace LWDicer.Control
         bool m_bLoader_AllWaferWorked;
         bool m_bLoader_StacksFull;
 
-        bool m_bCleaner_ReadyLoading;
-        bool m_bCleaner_StartLoading;
-        bool m_bCleaner_CompleteLoading;
-        bool m_bCleaner_ReadyUnloading;
-        bool m_bCleaner_StartUnloading;
-        bool m_bCleaner_CompleteUnloading;
+        bool m_bCleaner1_ReadyLoading;
+        bool m_bCleaner1_StartLoading;
+        bool m_bCleaner1_CompleteLoading;
+        bool m_bCleaner1_ReadyUnloading;
+        bool m_bCleaner1_StartUnloading;
+        bool m_bCleaner1_CompleteUnloading;
 
-        bool m_bCoater_ReadyLoading;
-        bool m_bCoater_StartLoading;
-        bool m_bCoater_CompleteLoading;
-        bool m_bCoater_ReadyUnloading;
-        bool m_bCoater_StartUnloading;
-        bool m_bCoater_CompleteUnloading;
+        bool m_bCleaner2_ReadyLoading;
+        bool m_bCleaner2_StartLoading;
+        bool m_bCleaner2_CompleteLoading;
+        bool m_bCleaner2_ReadyUnloading;
+        bool m_bCleaner2_StartUnloading;
+        bool m_bCleaner2_CompleteUnloading;
 
         bool m_bHandler_ReadyLoading;
         bool m_bHandler_StartLoading;
@@ -104,19 +104,19 @@ namespace LWDicer.Control
             m_bLoader_AllWaferWorked = false;
             m_bLoader_StacksFull = false;
 
-            m_bCleaner_ReadyLoading = false;
-            m_bCleaner_StartLoading = false;
-            m_bCleaner_CompleteLoading = false;
-            m_bCleaner_ReadyUnloading = false;
-            m_bCleaner_StartUnloading = false;
-            m_bCleaner_CompleteUnloading = false;
+            m_bCleaner1_ReadyLoading = false;
+            m_bCleaner1_StartLoading = false;
+            m_bCleaner1_CompleteLoading = false;
+            m_bCleaner1_ReadyUnloading = false;
+            m_bCleaner1_StartUnloading = false;
+            m_bCleaner1_CompleteUnloading = false;
 
-            m_bCoater_ReadyLoading = false;
-            m_bCoater_StartLoading = false;
-            m_bCoater_CompleteLoading = false;
-            m_bCoater_ReadyUnloading = false;
-            m_bCoater_StartUnloading = false;
-            m_bCoater_CompleteUnloading = false;
+            m_bCleaner2_ReadyLoading = false;
+            m_bCleaner2_StartLoading = false;
+            m_bCleaner2_CompleteLoading = false;
+            m_bCleaner2_ReadyUnloading = false;
+            m_bCleaner2_StartUnloading = false;
+            m_bCleaner2_CompleteUnloading = false;
 
             m_bHandler_ReadyLoading = false;
             m_bHandler_StartLoading = false;
@@ -144,6 +144,7 @@ namespace LWDicer.Control
                     base.ProcessMsg(evnt);
                     break;
 
+                // with Loader
                 case (int)MSG_LOADER_PUSHPULL_READY_UNLOADING:
                     m_bLoader_ReadyUnloading = true;
                     break;
@@ -160,54 +161,57 @@ namespace LWDicer.Control
                     m_bLoader_StacksFull = true;
                     break;
 
-                case (int)MSG_CLEANER_PUSHPULL_READY_LOADING:
-                    m_bCleaner_ReadyLoading = true;
+                // with Cleaner1
+                case (int)MSG_CLEANER1_PUSHPULL_READY_LOADING:
+                    m_bCleaner1_ReadyLoading = true;
                     break;
 
-                case (int)MSG_CLEANER_PUSHPULL_START_LOADING:
-                    m_bCleaner_StartLoading = true;
+                case (int)MSG_CLEANER1_PUSHPULL_START_LOADING:
+                    m_bCleaner1_StartLoading = true;
                     break;
 
-                case (int)MSG_CLEANER_PUSHPULL_COMPLETE_LOADING:
-                    m_bCoater_CompleteLoading = true;
+                case (int)MSG_CLEANER1_PUSHPULL_COMPLETE_LOADING:
+                    m_bCleaner1_CompleteLoading = true;
                     break;
 
-                case (int)MSG_CLEANER_PUSHPULL_READY_UNLOADING:
-                    m_bCleaner_ReadyUnloading = true;
+                case (int)MSG_CLEANER1_PUSHPULL_READY_UNLOADING:
+                    m_bCleaner1_ReadyUnloading = true;
                     break;
 
-                case (int)MSG_CLEANER_PUSHPULL_START_UNLOADING:
-                    m_bCleaner_StartUnloading = true;
+                case (int)MSG_CLEANER1_PUSHPULL_START_UNLOADING:
+                    m_bCleaner1_StartUnloading = true;
                     break;
 
-                case (int)MSG_CLEANER_PUSHPULL_COMPLETE_UNLOADING:
-                    m_bCleaner_CompleteUnloading = true;
+                case (int)MSG_CLEANER1_PUSHPULL_COMPLETE_UNLOADING:
+                    m_bCleaner1_CompleteUnloading = true;
                     break;
 
-                case (int)MSG_COATER_PUSHPULL_READY_LOADING:
-                    m_bCoater_ReadyLoading = true;
+                // with Cleaner2
+                case (int)MSG_CLEANER2_PUSHPULL_READY_LOADING:
+                    m_bCleaner2_ReadyLoading = true;
                     break;
 
-                case (int)MSG_COATER_PUSHPULL_START_LOADING:
-                    m_bCoater_StartLoading = true;
+                case (int)MSG_CLEANER2_PUSHPULL_START_LOADING:
+                    m_bCleaner2_StartLoading = true;
                     break;
 
-                case (int)MSG_COATER_PUSHPULL_COMPLETE_LOADING:
-                    m_bCoater_CompleteLoading = true;
+                case (int)MSG_CLEANER2_PUSHPULL_COMPLETE_LOADING:
+                    m_bCleaner2_CompleteLoading = true;
                     break;
 
-                case (int)MSG_COATER_PUSHPULL_READY_UNLOADING:
-                    m_bCoater_ReadyUnloading = true;
+                case (int)MSG_CLEANER2_PUSHPULL_READY_UNLOADING:
+                    m_bCleaner2_ReadyUnloading = true;
                     break;
 
-                case (int)MSG_COATER_PUSHPULL_START_UNLOADING:
-                    m_bCoater_StartUnloading = true;
+                case (int)MSG_CLEANER2_PUSHPULL_START_UNLOADING:
+                    m_bCleaner2_StartUnloading = true;
                     break;
 
-                case (int)MSG_COATER_PUSHPULL_COMPLETE_UNLOADING:
-                    m_bCoater_CompleteUnloading = true;
+                case (int)MSG_CLEANER2_PUSHPULL_COMPLETE_UNLOADING:
+                    m_bCleaner2_CompleteUnloading = true;
                     break;
 
+                // with Handler
                 case (int)MSG_HANDLER_PUSHPULL_READY_LOADING:
                     m_bHandler_ReadyLoading = true;
                     break;
@@ -217,7 +221,7 @@ namespace LWDicer.Control
                     break;
 
                 case (int)MSG_HANDLER_PUSHPULL_COMPLETE_LOADING:
-                    m_bCoater_CompleteLoading = true;
+                    m_bHandler_CompleteLoading = true;
                     break;
 
                 case (int)MSG_HANDLER_PUSHPULL_READY_UNLOADING:
@@ -233,7 +237,7 @@ namespace LWDicer.Control
                     break;
 
             }
-            return 0;
+            return DEF_Error.SUCCESS;
         }
 
         public override void ThreadProcess()
@@ -282,12 +286,12 @@ namespace LWDicer.Control
                                 // 0. check default status;
 
                                 // 1. if detected wafer
-                                m_RefComp.ctrlPushPull.IsWaferDetected(out bState);
+                                m_RefComp.ctrlPushPull.IsObjectDetected(out bState);
                                 if (bState)
                                 {
                                     // 1.1 unload to loader
-                                    SetStep((int)TRS_PUSHPULL_REQUEST_LOADER_LOADING);
-                                    break;
+                                    //SetStep((int)TRS_PUSHPULL_REQUEST_LOADER_LOADING);
+                                    //break;
 
                                     //// 1.2 unload to cleaner
                                     //SetStep((int)TRS_PUSHPULL_REQUEST_CLEANER_LOADING);
@@ -305,8 +309,8 @@ namespace LWDicer.Control
                                 else
                                 {
                                     // 2.1 load from loader
-                                    SetStep((int)TRS_PUSHPULL_REQUEST_LOADER_UNLOADING);
-                                    break;
+                                    //SetStep((int)TRS_PUSHPULL_REQUEST_LOADER_UNLOADING);
+                                    //break;
 
                                     //// 2.2 load from cleaner
                                     //SetStep((int)TRS_PUSHPULL_REQUEST_CLEANER_UNLOADING);
@@ -325,38 +329,38 @@ namespace LWDicer.Control
 
                                 ///////////////////////////////////////////////////
                                 // transfer wafer to loader from wafer
-                            case (int)TRS_PUSHPULL_REQUEST_LOADER_LOADING:
-                                PostMsg(TrsLoader, (int)MSG_PUSHPULL_LOADER_REQUEST_LOADING);
+                            //case (int)TRS_PUSHPULL_REQUEST_LOADER_LOADING:
+                            //    PostMsg(TrsLoader, (int)MSG_PUSHPULL_LOADER_REQUEST_LOADING);
 
-                                SetStep((int)TRS_PUSHPULL_WAITFOR_LOADER_READY_LOADING);
-                                break;
+                            //    SetStep((int)TRS_PUSHPULL_WAITFOR_LOADER_READY_LOADING);
+                            //    break;
 
-                            case (int)TRS_PUSHPULL_WAITFOR_LOADER_READY_LOADING:
-                                if (m_bLoader_ReadyLoading == false) break;
-                                m_bLoader_ReadyLoading = false;
+                            //case (int)TRS_PUSHPULL_WAITFOR_LOADER_READY_LOADING:
+                            //    if (m_bLoader_ReadyLoading == false) break;
+                            //    m_bLoader_ReadyLoading = false;
 
-                                SetStep((int)TRS_PUSHPULL_WAITFOR_LOADER_COMPLETE_LOADING);
-                                break;
+                            //    SetStep((int)TRS_PUSHPULL_WAITFOR_LOADER_COMPLETE_LOADING);
+                            //    break;
 
-                            case (int)TRS_PUSHPULL_START_UNLOADING_TO_LOADER:
-                                // move to loader
+                            //case (int)TRS_PUSHPULL_START_UNLOADING_TO_LOADER:
+                            //    // move to loader
 
-                                PostMsg(TrsLoader, (int)MSG_PUSHPULL_LOADER_START_UNLOADING);
+                            //    PostMsg(TrsLoader, (int)MSG_PUSHPULL_LOADER_START_UNLOADING);
 
-                                SetStep((int)TRS_PUSHPULL_WAITFOR_LOADER_COMPLETE_LOADING);
-                                break;
+                            //    SetStep((int)TRS_PUSHPULL_WAITFOR_LOADER_COMPLETE_LOADING);
+                            //    break;
 
-                            case (int)TRS_PUSHPULL_WAITFOR_LOADER_COMPLETE_LOADING:
-                                PostMsg(TrsLoader, (int)MSG_PUSHPULL_LOADER_REQUEST_LOADING);
+                            //case (int)TRS_PUSHPULL_WAITFOR_LOADER_COMPLETE_LOADING:
+                            //    PostMsg(TrsLoader, (int)MSG_PUSHPULL_LOADER_REQUEST_LOADING);
 
-                                SetStep((int)TRS_PUSHPULL_COMPLETE_UNLOADING_TO_LOADER);
-                                break;
+                            //    SetStep((int)TRS_PUSHPULL_COMPLETE_UNLOADING_TO_LOADER);
+                            //    break;
 
-                            case (int)TRS_PUSHPULL_COMPLETE_UNLOADING_TO_LOADER:
-                                PostMsg(TrsLoader, (int)MSG_PUSHPULL_LOADER_REQUEST_LOADING);
+                            //case (int)TRS_PUSHPULL_COMPLETE_UNLOADING_TO_LOADER:
+                            //    PostMsg(TrsLoader, (int)MSG_PUSHPULL_LOADER_REQUEST_LOADING);
 
-                                SetStep((int)TRS_PUSHPULL_WAITFOR_MESSAGE);
-                                break;
+                            //    SetStep((int)TRS_PUSHPULL_WAITFOR_MESSAGE);
+                            //    break;
 
                             default:
                                 break;

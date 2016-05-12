@@ -129,6 +129,30 @@ LWDicer의 DataManager에서 데이터를 읽어오기 위한 3가지 함수 : S
    한번에 복사할 경우에, 배열의 크기가 작아지는 문제 때문에, 배열 크기를 고려하여 load & copy 작업하는걸로 수정함
 3. MLWDicer : Mechanical Layer의 create 함수 및 object info 부분 정리
 
+// Version : 0.0.14
+// Grade : ★
+// Date : 2016-04-27
+// Context
+1. MMePushPull : Up/Down Cylinder 추가
+2. MCtrlPushPull : 1차 작업 완료. 각 Part 와의 인터락은 추후에 작업하는걸로.
+
+// Version : 0.0.15
+// Grade : ★
+// Date : 2016-05-10
+// Context
+1. MOpPanel : Jog부분을 뺀 1차 작업 완료.
+2. MCtrlOpPanel : MOpPanel과 비슷한 수준에서 마무리. (기존의 MManageOpPanel -> MCtrlOpPanel로 이름 변경함.)
+3. MACS : ACS 모션의 기본 class 틀만 작업해놓음.
+
+// Version : 0.0.16
+// Grade : ★
+// Date : 2016-05-12
+// Context
+1. 개념 정리 : spinner, coater 개념에서 전체를 spinner로 통칭 및 인스턴스는 spinner1, spinner2로 사용
+2. Define.cs : Handler & Spinner Step 추가 및 전체 Thread Step, Message 2차 정리
+3. MTrsAutoManager : 작업중..
+
+
 ////////////////////////////////////////////////////////////////////////////////////////////
 // LJJ
 // Version : 0.0.1
@@ -256,4 +280,38 @@ LWDicer의 DataManager에서 데이터를 읽어오기 위한 3가지 함수 : S
 // Context
 // * UI 변경
 // 1. Scanner Image 편집 UI 추가
+
+// Version : 0.0.6
+// Grade : ★
+// Date : 2016-04-27
+// Context
+// 1. Spinner Mechanical Layer 추가
+//  - MMeSpinner Class 추가
+// 2. Scanner Image 흑백 Bitmap 속성 변경 구문 추가
+
+// Version : 0.0.7
+// Grade : ★
+// Date : 2016-05-03
+// Context
+// 1. Spinner Mechanical Layer 보완
+// 2. Coater, Cleaner Control Layer 추가. 
+//    - MCtrlCleaner, MCtrlCoater
+//    - Coating Process Data 추가 -> MDataManager CCoatingData
+//	  - Cleaning Process Data 추가 -> MDataManager CCleaningData 
+
+// Version : 0.0.8
+// Grade : ★
+// Date : 2016-05-10
+// Context
+// 1. Spinner Control Layer 보완
+    - MCtrlCleaner, MCtrlCoater를 MCtrlSpinner로 통합함.
+
+// Version : 0.0.9
+// Grade : ★
+// Date : 2016-05-12
+// Context
+// 1. GUI 화면전환 및 배치 변경
+//   - DISCO UI 화면전환 구조에서 Bottom Menu UI 형식으로 변경
+// 2. Spinner Controller Layer Create 함수 분리
+//   - CreateCtrlSpinner1(), CreateCtrlSpinner2()
 

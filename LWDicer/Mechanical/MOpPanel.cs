@@ -13,7 +13,7 @@ using static LWDicer.Control.DEF_Motion;
 
 namespace LWDicer.Control
 {
-    class DEF_OpPanel
+    public class DEF_OpPanel
     {
         public const int DEF_OPPANEL_NONE_PANEL_ID = 0;
 
@@ -41,181 +41,188 @@ namespace LWDicer.Control
         public const int DEF_OPPANEL_MAX_ESTOP_RELAY_NO = 2;
         public const int DEF_OPPANEL_MAX_CP_TRIP_NO = 16;
         public const int DEF_OPPANEL_MAX_DOOR_GROUP = 1;
-    }
-
-    public class CPanelIOAddr
-    {
-        // Push Switch IO Address
-        public int RunInputAddr;
-        public int StopInputAddr;
-        public int ResetInputAddr;
-        // Teaching Pendant SStop IO Address
-        public int TPStopInputAddr;
-
-        // Switch LED IO Address
-        public int RunOutputAddr;
-        public int StopOutputAddr;
-        public int ResetOutputAddr;
-
-        // Jog +,- Switch IO Address
-        public int XpInputAddr;
-        public int XnInputAddr;
-        public int YpInputAddr;
-        public int YnInputAddr;
-        public int TpInputAddr;
-        public int TnInputAddr;
-        public int ZpInputAddr;
-        public int ZnInputAddr;
-    }
-
-    /// <summary>
-    /// This structure is defined configuration of tower lamp.
-    /// </summary>
-    public class CTowerIOAddr
-    {
-        // Tower Lamp IO Address
-        public int RedLampAddr;
-        public int YellowLampAddr;
-        public int GreenLampAddr;
-        // Buzzer Operate IO Address
-        public int[] BuzzerArray/* = new int[DEF_OPPANEL_MAX_BUZZER_MODE]*/;
-
-        public CTowerIOAddr()
+        public class CPanelIOAddr
         {
-            BuzzerArray = new int[DEF_OPPANEL_MAX_BUZZER_MODE];
-        }
-        
-    }
+            // Push Switch IO Address
+            public int RunInputAddr;
+            public int StopInputAddr;
+            public int ResetInputAddr;
+            // Teaching Pendant SStop IO Address
+            public int TPStopInputAddr;
 
-    /// <summary>
-    /// This structure is defined configuration of all op-panel.
-    /// </summary>
-    public class COpPanelIOAddr
-    {
-        // Panel IO Address Table 
-        public CPanelIOAddr FrontPanel;
-        public CPanelIOAddr BackPanel;
+            // Switch LED IO Address
+            public int RunOutputAddr;
+            public int StopOutputAddr;
+            public int ResetOutputAddr;
 
-        // Tower Lamp IO Address Table 
-        public CTowerIOAddr TowerLamp;
-
-        // Touch Panel 선택 IO Address 
-        public int TouchSelectAddr;
-
-        // 판넬 마크용 외부모니터 선택 IO Address 
-        public int MarkMoniterAddr1;
-        public int MarkMoniterAddr2;
-
-        // E-STOP Switch Status IO Address 
-        public int[] EStopInputArray/* = new int[DEF_OPPANEL_MAX_ESTOP_RELAY_NO]*/;
-
-        // 안전센서 (Door) IO Address 
-        public int[,] SafeDoorArray/* = new int[DEF_OPPANEL_MAX_DOOR_GROUP, DEF_OPPANEL_MAX_DOOR_SENSOR]*/;
-
-        // 안전센서 (Door) IO Option Flag : true일 때 IO 감지 안함 
-        public bool[,] bSafeDoorFlagArray/* = new bool[DEF_OPPANEL_MAX_DOOR_GROUP, DEF_OPPANEL_MAX_DOOR_SENSOR]*/;
-
-        // Main Air Check IO Address 
-        public int MainAirAddr;
-
-        // Sub Air Check IO Address 
-        public int SubAirAddr;
-
-        // Main Vacuum Check IO Address 
-        public int MainVacuumAddr;
-
-        // Sub Vacuum Check IO Address 
-        public int SubVacuumAddr;
-
-        // Main Vacuum Check IO Address 
-        public int MainN2Addr;
-
-        // CP Trip IO Address 
-        public int[] CPTripArray/* = new int[DEF_OPPANEL_MAX_CP_TRIP_NO]*/;
-
-        // Cleaner Detect IO Address 
-        public int CleanerDetect1Addr;
-        public int CleanerDetect2Addr;
-
-        // EFD Ready Check IO Address 
-        public int EFDReadyS1Addr;
-        public int EFDReadyS2Addr;
-        public int EFDReadyG1Addr;
-        public int EFDReadyG2Addr;
-
-        // DC Power Check IO Address 
-        public int DcPowerAddr;
-
-        public COpPanelIOAddr()
-        {
-            TowerLamp          = new CTowerIOAddr();
-
-            EStopInputArray    = new int[DEF_OPPANEL_MAX_ESTOP_RELAY_NO];
-            SafeDoorArray      = new int[DEF_OPPANEL_MAX_DOOR_GROUP, DEF_OPPANEL_MAX_DOOR_SENSOR];
-            bSafeDoorFlagArray = new bool[DEF_OPPANEL_MAX_DOOR_GROUP, DEF_OPPANEL_MAX_DOOR_SENSOR];
-            CPTripArray        = new int[DEF_OPPANEL_MAX_CP_TRIP_NO];
+            // Jog +,- Switch IO Address
+            public int XpInputAddr;
+            public int XnInputAddr;
+            public int YpInputAddr;
+            public int YnInputAddr;
+            public int TpInputAddr;
+            public int TnInputAddr;
+            public int ZpInputAddr;
+            public int ZnInputAddr;
         }
 
-    }
-
-    /// <summary>
-    /// This structure is defined one configuration of jog moving table.
-    /// </summary>
-    public class CJogMotion
-    {
-        // Jog로 움직일 Motion 대상
-        public IMultiAxes m_plnkJog;
-
-        // Jog Key로 움직일 Motion 축
-        public int AxisIndex;
-    }
-
-    /// <summary>
-    /// This structure is defined one configuration of jog moving table.
-    /// </summary>
-    public class CJogMotionTable
-    {
-        // Jog Key(X +/-)로 움직일 Motion 축
-        public CJogMotion m_XKey;
-        public CJogMotion m_YKey;
-        public CJogMotion m_TKey;
-        public CJogMotion m_ZKey;
-    }
-
-    /// <summary>
-    /// This structure is defined all configuration of jog moving table.
-    /// </summary>
-    public class CJogTable
-    {
-        // Jog로 움직일 대상의 개수
-        public int ListNo;
-
-        // Jog로 움직일 Motion에 대한 정보 List
-        public CJogMotionTable[] MotionArray/* = new CJogMotionTable[DEF_OPPANEL_MAX_JOG_LIST]*/;
-
-        public CJogTable()
+        /// <summary>
+        /// This structure is defined configuration of tower lamp.
+        /// </summary>
+        public class CTowerIOAddr
         {
-            MotionArray = new CJogMotionTable[DEF_OPPANEL_MAX_JOG_LIST];
+            // Tower Lamp IO Address
+            public int RedLampAddr;
+            public int YellowLampAddr;
+            public int GreenLampAddr;
+            // Buzzer Operate IO Address
+            public int[] BuzzerArray = new int[DEF_OPPANEL_MAX_BUZZER_MODE];
 
+            public CTowerIOAddr()
+            {
+            }
+
+        }
+
+        /// <summary>
+        /// This structure is defined configuration of all op-panel.
+        /// </summary>
+        public class COpPanelIOAddr
+        {
+            // Panel IO Address Table 
+            public CPanelIOAddr FrontPanel;
+            public CPanelIOAddr BackPanel;
+
+            // Tower Lamp IO Address Table 
+            public CTowerIOAddr TowerLamp = new CTowerIOAddr();
+
+            // Touch Panel 선택 IO Address 
+            public int TouchSelectAddr;
+
+            // 판넬 마크용 외부모니터 선택 IO Address 
+            public int MarkMoniterAddr1;
+            public int MarkMoniterAddr2;
+
+            // E-STOP Switch Status IO Address 
+            public int[] EStopAddr = new int[DEF_OPPANEL_MAX_ESTOP_RELAY_NO];
+
+            // 안전센서 (Door) IO Address 
+            public int[,] SafeDoorAddr = new int[DEF_OPPANEL_MAX_DOOR_GROUP, DEF_OPPANEL_MAX_DOOR_SENSOR];
+
+            // 안전센서 (Door) IO Option Flag : true일 때 IO 감지 안함 
+            public bool[,] SafeDoorFlag = new bool[DEF_OPPANEL_MAX_DOOR_GROUP, DEF_OPPANEL_MAX_DOOR_SENSOR];
+
+            // Main Air Check IO Address 
+            public int MainAirAddr;
+
+            // Sub Air Check IO Address 
+            public int SubAirAddr;
+
+            // Main Vacuum Check IO Address 
+            public int MainVacuumAddr;
+
+            // Sub Vacuum Check IO Address 
+            public int SubVacuumAddr;
+
+            // Main Vacuum Check IO Address 
+            public int MainN2Addr;
+
+            // CP Trip IO Address 
+            public int[] CPTripArray = new int[DEF_OPPANEL_MAX_CP_TRIP_NO];
+
+            // Cleaner Detect IO Address 
+            public int CleanerDetect1Addr;
+            public int CleanerDetect2Addr;
+
+            // EFD Ready Check IO Address 
+            public int EFDReadyS1Addr;
+            public int EFDReadyS2Addr;
+            public int EFDReadyG1Addr;
+            public int EFDReadyG2Addr;
+
+            // DC Power Check IO Address 
+            public int DcPowerAddr;
+
+            public COpPanelIOAddr()
+            {
+
+            }
+
+        }
+
+        /// <summary>
+        /// This structure is defined one configuration of jog moving table.
+        /// </summary>
+        public class CJogMotion
+        {
+            // Jog로 움직일 Motion 대상
+            public IMultiAxes m_plnkJog;
+
+            // Jog Key로 움직일 Motion 축
+            public int AxisIndex;
+        }
+
+        /// <summary>
+        /// This structure is defined one configuration of jog moving table.
+        /// </summary>
+        public class CJogMotionTable
+        {
+            // Jog Key(X +/-)로 움직일 Motion 축
+            public CJogMotion m_XKey = new CJogMotion();
+            public CJogMotion m_YKey = new CJogMotion();
+            public CJogMotion m_TKey = new CJogMotion();
+            public CJogMotion m_ZKey = new CJogMotion();
+
+            public CJogMotionTable()
+            {
+
+            }
+        }
+
+        /// <summary>
+        /// This structure is defined all configuration of jog moving table.
+        /// </summary>
+        public class CJogTable
+        {
+            // Jog로 움직일 대상의 개수
+            public int ListNo;
+
+            // Jog로 움직일 Motion에 대한 정보 List
+            public CJogMotionTable[] MotionArray = new CJogMotionTable[DEF_OPPANEL_MAX_JOG_LIST];
+
+            public CJogTable()
+            {
+                for (int i = 0; i < MotionArray.Length; i++)
+                {
+                    MotionArray[i] = new CJogMotionTable();
+                }
+            }
+        }
+
+        public class COpPanelRefComp
+        {
+            public IIO IO;
+            public MYaskawa Yaskawa_Motion;
+            public MACS ACS_Motion;
+        }
+
+        public class COpPanelData
+        {
+            public bool[] bUseMaterialAlarm = new bool[DEF_MAX_TANK_NO]; // 자재 교체요청 알람 사용 여부
+            public int[] TankEmptyAddr = new int[DEF_MAX_TANK_NO];  // 탱크 주소
         }
     }
 
-
-    public class COpPanelData
+    public class MOpPanel : MMechanicalLayer
     {
-    }
-
-    public class MOpPanel : MObject
-    {
+        private COpPanelRefComp m_RefComp;
         private COpPanelData m_Data;
 
         COpPanelIOAddr m_IOAddrTable;
-        EAutoManual m_eAutoManual;
-        EOpMode m_eOpMode;
 
         CJogTable m_JogTable;
 
-        //IIO* m_plnkIO;
+        //IIO* m_RefComp.IO;
         //IMotionLib* m_pMotionLib;
 
 
@@ -248,19 +255,18 @@ namespace LWDicer.Control
         bool m_bJogZnOld;
         bool m_bJogZOld;
 
-        public MOpPanel(CObjectInfo objInfo, COpPanelData data,
+        public MOpPanel(CObjectInfo objInfo, COpPanelRefComp refComp, COpPanelData data,
             COpPanelIOAddr sPanelIOAddr, CJogTable sJogTable)
             : base(objInfo)
         {
+            m_RefComp = refComp;
             SetData(data);
-            m_IOAddrTable = sPanelIOAddr;
-            m_JogTable = sJogTable;
-
-            //m_plnkIO = pIO;
+            m_IOAddrTable = ObjectExtensions.Copy(sPanelIOAddr);
+            m_JogTable = ObjectExtensions.Copy(sJogTable);
 
             m_JogTable.ListNo = 10;
 
-            /** 사용하지 않는 정보에 대한 부분 초기화 */
+            // 사용하지 않는 정보에 대한 부분 초기화
             for (int i = m_JogTable.ListNo; i < DEF_OPPANEL_MAX_JOG_LIST; i++)
             {
                 m_JogTable.MotionArray[i].m_XKey.m_plnkJog = null;
@@ -279,37 +285,19 @@ namespace LWDicer.Control
                 m_bInitFlag[i] = false;
             }
 
-            /** Run SW 상태 (previous) */
+            // SW 상태 (previous)
             m_bRunSWOld = false;
-
-            /** Stop SW 상태 (previous) */
             m_bStopSWOld = false;
-
-            /** EStop SW 상태 (previous) */
             m_bEStopSWOld = false;
-
-            /** Reset SW 상태 (previous) */
             m_bResetSWOld = false;
-
-            /** Door Sensor 상태 (previous) */
             m_bDoorSWOld = false;
-
-            /** CP Trip 상태 (previous) */
             m_bCPTripOld = false;
-
-            /** Air Error 상태 (previous) */
             m_bAirErrOld = false;
 
-            /** Jog X 로 이동한 마지막 방향 */
+            // Jog status (previous)
             m_bJogXOld = false;
-
-            /** Jog Y 로 이동한 마지막 방향 */
             m_bJogYOld = false;
-
-            /** Jog T 로 이동한 마지막 방향 */
             m_bJogTOld = false;
-
-            /** Jog Z 로 이동한 마지막 방향 */
             m_bJogZOld = false;
         }
 
@@ -328,31 +316,23 @@ namespace LWDicer.Control
 
         public void SetIOAddress(COpPanelIOAddr opIOAddress)
         {
-            /** IO Address Table 설정 */
-            m_IOAddrTable = opIOAddress;
-
-            // 정상 동작 Log
-            //	m_plogMng.WriteLog("IO Address Table을 설정하였습니다.", __FILE__, __LINE__);
+            // IO Address Table 설정
+            m_IOAddrTable = ObjectExtensions.Copy(opIOAddress);
         }
 
         public void GetIOAddress(ref COpPanelIOAddr pOpPanelIOAddr)
         {
-            /** IO Address Table 전달 */
-            pOpPanelIOAddr = m_IOAddrTable;
-
-            // 정상 동작 Log
-            //	m_plogMng.WriteLog("IO Address Table을 읽었습니다.", __FILE__, __LINE__);
+            // IO Address Table 전달
+            pOpPanelIOAddr = ObjectExtensions.Copy(m_IOAddrTable);
         }
 
         public void SetJogTable(CJogTable sJogTable)
         {
-            int i = 0;
+            // Jog 정보 설정
+            m_JogTable = ObjectExtensions.Copy(sJogTable);
 
-            /** Jog 정보 설정 */
-            m_JogTable = sJogTable;
-
-            /** 사용하지 않는 정보에 대한 부분 초기화 */
-            for (i = m_JogTable.ListNo; i < DEF_OPPANEL_MAX_JOG_LIST; i++)
+            // 사용하지 않는 정보에 대한 부분 초기화
+            for (int i = m_JogTable.ListNo; i < DEF_OPPANEL_MAX_JOG_LIST; i++)
             {
                 m_JogTable.MotionArray[i].m_XKey.m_plnkJog = null;
                 m_JogTable.MotionArray[i].m_XKey.AxisIndex = DEF_OPPANEL_NO_JOGKEY;
@@ -363,40 +343,35 @@ namespace LWDicer.Control
                 m_JogTable.MotionArray[i].m_ZKey.m_plnkJog = null;
                 m_JogTable.MotionArray[i].m_ZKey.AxisIndex = DEF_OPPANEL_NO_JOGKEY;
             }
-
-            // 정상 동작 Log
-            //	m_plogMng.WriteLog("Jog 구성 정보를 설정하였습니다.", __FILE__, __LINE__);
         }
 
-        public void GetJogTable(out CJogTable psJogTable)
+        public void GetJogTable(out CJogTable sJogTable)
         {
-            /** Jog 정보 설정 */
-            psJogTable = m_JogTable;
+            // Jog 정보 설정
+            sJogTable = ObjectExtensions.Copy(m_JogTable);
 
-            /** 사용하지 않는 정보에 대한 부분 초기화 */
+            // 사용하지 않는 정보에 대한 부분 초기화
             for (int i = m_JogTable.ListNo; i < DEF_OPPANEL_MAX_JOG_LIST; i++)
             {
-                psJogTable.MotionArray[i].m_XKey.m_plnkJog = null;
-                psJogTable.MotionArray[i].m_XKey.AxisIndex = DEF_OPPANEL_NO_JOGKEY;
-                psJogTable.MotionArray[i].m_YKey.m_plnkJog = null;
-                psJogTable.MotionArray[i].m_YKey.AxisIndex = DEF_OPPANEL_NO_JOGKEY;
-                psJogTable.MotionArray[i].m_TKey.m_plnkJog = null;
-                psJogTable.MotionArray[i].m_TKey.AxisIndex = DEF_OPPANEL_NO_JOGKEY;
-                psJogTable.MotionArray[i].m_ZKey.m_plnkJog = null;
-                psJogTable.MotionArray[i].m_ZKey.AxisIndex = DEF_OPPANEL_NO_JOGKEY;
+                sJogTable.MotionArray[i].m_XKey.m_plnkJog = null;
+                sJogTable.MotionArray[i].m_XKey.AxisIndex = DEF_OPPANEL_NO_JOGKEY;
+                sJogTable.MotionArray[i].m_YKey.m_plnkJog = null;
+                sJogTable.MotionArray[i].m_YKey.AxisIndex = DEF_OPPANEL_NO_JOGKEY;
+                sJogTable.MotionArray[i].m_TKey.m_plnkJog = null;
+                sJogTable.MotionArray[i].m_TKey.AxisIndex = DEF_OPPANEL_NO_JOGKEY;
+                sJogTable.MotionArray[i].m_ZKey.m_plnkJog = null;
+                sJogTable.MotionArray[i].m_ZKey.AxisIndex = DEF_OPPANEL_NO_JOGKEY;
             }
-
-            // 정상 동작 Log
-            //	m_plogMng.WriteLog("Jog 구성 정보를 읽었습니다.", __FILE__, __LINE__);
         }
 
-        /**
-        * Pitch 단위의 Jog 이동 동작을 수행한다.
-        *
-        * @param	iUnitIndex : Jog로 움직일 Motion에 대한 정보 Table의 Index
-        * @param	iKey : 이동할 Jog Key 종류 (0:X, 1:Y, 2:T, 3:Z)
-        * @param	bDir : 이동할 방향 (true: +, false: -)
-        */
+        /// <summary>
+        /// Pitch 단위의 Jog 이동 동작을 수행한다.
+        /// </summary>
+        /// <param name="iUnitIndex">Jog로 움직일 Motion에 대한 정보 Table의 Index</param>
+        /// <param name="iUnitIndex2"></param>
+        /// <param name="iKey">이동할 Jog Key 종류 (0:X, 1:Y, 2:T, 3:Z)</param>
+        /// <param name="bDir">이동할 방향 (true: +, false: -)</param>
+        /// <returns></returns>
         public int MoveJogPitch(int iUnitIndex, int iUnitIndex2, int iKey, bool bDir)
         {
             int iResult = SUCCESS;
@@ -864,13 +839,14 @@ namespace LWDicer.Control
             return iResult;
         }
 
-        /**
-        * Velocity 단위의 Jog 이동 동작을 수행한다.
-        *
-        * @param	iUnitIndex : Jog로 움직일 Motion에 대한 정보 Table의 Index
-        * @param	iKey : 이동할 Jog Key 종류 (0:X, 1:Y, 2:T, 3:Z)
-        * @param	bDir : 이동할 방향 (true: +, false: -)
-        */
+        /// <summary>
+        /// Velocity 단위의 Jog 이동 동작을 수행한다.
+        /// </summary>
+        /// <param name="iUnitIndex">Jog로 움직일 Motion에 대한 정보 Table의 Index</param>
+        /// <param name="iUnitIndex2"></param>
+        /// <param name="iKey">이동할 Jog Key 종류 (0:X, 1:Y, 2:T, 3:Z)</param>
+        /// <param name="bDir">이동할 방향 (true: +, false: -)</param>
+        /// <returns></returns>
         public int MoveJogVelocity(int iUnitIndex, int iUnitIndex2, int iKey, bool bDir)
         {
             int iResult = SUCCESS;
@@ -881,7 +857,7 @@ namespace LWDicer.Control
             //if ((iUnitIndex < 0) || (iUnitIndex > m_JogTable.ListNo))
             //    return GenerateErrorCode(ERR_OPPANEL_INVALID_JOG_UNIT_INDEX);
 
-            //if (iUnitIndex2 == DEF_ManageOpPanel.DEF_MNGOPPANEL_JOG_NO_USE) // UnitIndex2가 안되어 있을때, 오류를 막기위해
+            //if (iUnitIndex2 == DEF_CtrlOpPanel.DEF_CTRLOPPANEL_JOG_NO_USE) // UnitIndex2가 안되어 있을때, 오류를 막기위해
             //    iUnitIndex2 = iUnitIndex;
 
             //// 눌려진 Jog Key에 따라 동작 
@@ -990,12 +966,13 @@ namespace LWDicer.Control
             return iResult;
         }
 
-        /**
-        * Jog로 이동한 것에 대한 정지 동작을 수행한다.
-        *
-        * @param	iUnitIndex : Jog로 움직일 Motion에 대한 정보 Table의 Index
-        * @param	iKey : 정지할 Jog Key 종류 (0:X, 1:Y, 2:T, 3:Z)
-        */
+        /// <summary>
+        /// Jog로 이동한 것에 대한 정지 동작을 수행한다.
+        /// </summary>
+        /// <param name="iUnitIndex">Jog로 움직일 Motion에 대한 정보 Table의 Index</param>
+        /// <param name="iUnitIndex2"></param>
+        /// <param name="iKey">정지할 Jog Key 종류 (0:X, 1:Y, 2:T, 3:Z)</param>
+        /// <returns></returns>
         public int StopJog(int iUnitIndex, int iUnitIndex2, int iKey)
         {
             int iResult = SUCCESS;
@@ -1006,7 +983,7 @@ namespace LWDicer.Control
             //if ((iUnitIndex < 0) || (iUnitIndex > m_JogTable.ListNo))
             //    return GenerateErrorCode(ERR_OPPANEL_INVALID_JOG_UNIT_INDEX);
 
-            //if (iUnitIndex2 == DEF_MNGOPPANEL_JOG_NO_USE) // UnitIndex2가 안되어 있을때, 오류를 막기위해
+            //if (iUnitIndex2 == DEF_CTRLOPPANEL_JOG_NO_USE) // UnitIndex2가 안되어 있을때, 오류를 막기위해
             //    iUnitIndex2 = iUnitIndex;
 
             //// 눌려진 Jog Key에 따라 동작 
@@ -1115,10 +1092,7 @@ namespace LWDicer.Control
             return iResult;
         }
 
-        /**
-        * 모든 축들에 대해 원점복귀 동작을 정지한다.
-        *
-        */
+        
         public int StopAllReturnOrigin()
         {
             int i = 0;
@@ -1139,115 +1113,62 @@ namespace LWDicer.Control
             return iResult;
         }
 
-        /**
-        * 모든 축들에 대해 Servo AMP를 Enable한다.
-        *
-        */
         public int OnAllServo()
         {
             int i = 0;
             int iResult = SUCCESS;
 
-            //for (i = 0; i < DEF_MAX_MOTION_AXIS; i++)
-            //{
-            //    // AMP Disable 
-            //    if ((iResult = m_pMotionLib.SetAmpEnable(i, false)) != ERR_MOTION_SUCCESS)
-            //        return iResult;
-            //} // Next i
-            //Sleep(10);
-            //for (i = 0; i < DEF_MAX_MOTION_AXIS; i++)
-            //{
-            //    // AMP Fault Reset 
-            //    if ((iResult = m_pMotionLib.SetAmpFaultEnable(i, false)) != ERR_MOTION_SUCCESS)
-            //        return iResult;
-            //} // Next i
-            //Sleep(10);
-            //for (i = 0; i < DEF_MAX_MOTION_AXIS; i++)
-            //{
-            //    // AMP Fault Set 
-            //    if ((iResult = m_pMotionLib.SetAmpFaultEnable(i, true)) != ERR_MOTION_SUCCESS)
-            //        return iResult;
-            //} // Next i
-            //Sleep(10);
-            //for (i = 0; i < DEF_MAX_MOTION_AXIS; i++)
-            //{
-            //    // Status Clear 
-            //    if ((iResult = m_pMotionLib.ClearStatus(i)) != ERR_MOTION_SUCCESS)
-            //        return iResult;
-            //} // Next i
-            //Sleep(10);
-            //for (i = 0; i < DEF_MAX_MOTION_AXIS; i++)
-            //{
-            //    // Frame Clear 
-            //    if ((iResult = m_pMotionLib.ClearFrames(i)) != ERR_MOTION_SUCCESS)
-            //        return iResult;
-            //} // Next i
-            //Sleep(10);
-            //for (i = 0; i < DEF_MAX_MOTION_AXIS; i++)
-            //{
-            //    // AMP Enable 
-            //    if ((iResult = m_pMotionLib.SetAmpEnable(i, true)) != ERR_MOTION_SUCCESS)
-            //        return iResult;
-            //} // Next i
+            if(m_RefComp.Yaskawa_Motion != null)
+            {
+                iResult = m_RefComp.Yaskawa_Motion.AllServoOn();
+                if (iResult != SUCCESS) return iResult;
+            }
+
+            if (m_RefComp.ACS_Motion != null)
+            {
+                //iResult = m_RefComp.ACS_Motion.AllServoOn();
+                //if (iResult != SUCCESS) return iResult;
+            }
 
             return iResult;
         }
 
-        /**
-        * 모든 축들에 대해 Servo AMP를 Disable한다.
-        *
-        */
         public int OffAllServo()
         {
             int i = 0;
             int iResult = SUCCESS;
 
-            //for (i = 0; i < DEF_MAX_MOTION_AXIS; i++)
-            //{
-            //    // AMP Disable 
-            //    if ((iResult = m_pMotionLib.SetAmpEnable(i, false)) != ERR_MOTION_SUCCESS)
-            //        return iResult;
-            //} // Next i
-            //Sleep(10);
-            //for (i = 0; i < DEF_MAX_MOTION_AXIS; i++)
-            //{
-            //    // AMP Fault Reset 
-            //    if ((iResult = m_pMotionLib.SetAmpFaultEnable(i, false)) != ERR_MOTION_SUCCESS)
-            //        return iResult;
-            //} // Next i
-            //Sleep(10);
-            //for (i = 0; i < DEF_MAX_MOTION_AXIS; i++)
-            //{
-            //    // AMP Fault Set 
-            //    if ((iResult = m_pMotionLib.SetAmpFaultEnable(i, true)) != ERR_MOTION_SUCCESS)
-            //        return iResult;
-            //} // Next i
-            //Sleep(10);
-            //for (i = 0; i < DEF_MAX_MOTION_AXIS; i++)
-            //{
-            //    // Status Clear 
-            //    if ((iResult = m_pMotionLib.ClearStatus(i)) != ERR_MOTION_SUCCESS)
-            //        return iResult;
-            //} // Next i
-            //Sleep(10);
-            //for (i = 0; i < DEF_MAX_MOTION_AXIS; i++)
-            //{
-            //    // Frame Clear 
-            //    if ((iResult = m_pMotionLib.ClearFrames(i)) != ERR_MOTION_SUCCESS)
-            //        return iResult;
-            //} // Next i
+            if (m_RefComp.Yaskawa_Motion != null)
+            {
+                iResult = m_RefComp.Yaskawa_Motion.AllServoOff();
+                if (iResult != SUCCESS) return iResult;
+            }
+
+            if (m_RefComp.ACS_Motion != null)
+            {
+                //iResult = m_RefComp.ACS_Motion.AllServoOn();
+                //if (iResult != SUCCESS) return iResult;
+            }
 
             return iResult;
         }
 
-        /**
-        * 모든 축들에 대해 동작을 ESTOP 정지한다.
-        *
-        */
         public int EStopAllAxis()
         {
             int i = 0;
             int iResult = SUCCESS;
+
+            if (m_RefComp.Yaskawa_Motion != null)
+            {
+                iResult = m_RefComp.Yaskawa_Motion.AllServoStop();
+                if (iResult != SUCCESS) return iResult;
+            }
+
+            if (m_RefComp.ACS_Motion != null)
+            {
+                //iResult = m_RefComp.ACS_Motion.AllServoOn();
+                //if (iResult != SUCCESS) return iResult;
+            }
 
             //for (i = 0; i < m_JogTable.ListNo; i++)
             //{
@@ -1280,16 +1201,23 @@ namespace LWDicer.Control
             return iResult;
         }
 
-        /**
-        * 모든 축들에 대해 동작을 정지한다.
-        *
-        */
         public int StopAllAxis()
         {
-            int i = 0;
             int iResult = SUCCESS;
 
-            //for (i = 0; i < m_JogTable.ListNo; i++)
+            if (m_RefComp.Yaskawa_Motion != null)
+            {
+                iResult = m_RefComp.Yaskawa_Motion.AllServoStop();
+                if (iResult != SUCCESS) return iResult;
+            }
+
+            if (m_RefComp.ACS_Motion != null)
+            {
+                //iResult = m_RefComp.ACS_Motion.AllServoOn();
+                //if (iResult != SUCCESS) return iResult;
+            }
+
+            //for (int i = 0; i < m_JogTable.ListNo; i++)
             //{
             //    if (m_JogTable.MotionArray[i].m_XKey.m_plnkJog != null)
             //        iResult = m_JogTable.MotionArray[i].m_XKey.m_plnkJog.VStop(DEF_ALL_COORDINATE);
@@ -1304,82 +1232,82 @@ namespace LWDicer.Control
             return iResult;
         }
 
-        /**
-        * Unit의 초기화 Flag를 설정한다.
-        *
-        * @param	int iUnitIndex : 초기화 Flag 설정할 Unit의 Index (DefSystem.h에 정의되어 있음)
-        * @param	bool bSts :  (OPTION=false) 설정할 Flag 값
-        */
+        /// <summary>
+        /// Unit의 초기화 Flag를 설정한다.
+        /// </summary>
+        /// <param name="iUnitIndex">초기화 Flag 설정할 Unit의 Index (DefSystem.h에 정의되어 있음)</param>
+        /// <param name="bSts">설정할 Flag 값</param>
+        /// <returns></returns>
         public int SetInitFlag(int iUnitIndex, bool bSts)
         {
             int iResult = SUCCESS;
 
-            if ((iUnitIndex < 0) || (iUnitIndex > INIT_UNIT_MAX))
+            if (iUnitIndex < 0 || iUnitIndex > INIT_UNIT_MAX)
+            {
                 return GenerateErrorCode(ERR_OPPANEL_INVALID_INIT_UNIT_INDEX);
+            }
 
             m_bInitFlag[iUnitIndex] = bSts;
 
             return iResult;
         }
 
-        /**
-        * Unit의 초기화 Flag를 읽는다.
-        *
-        * @param	int iUnitIndex : 초기화 Flag 설정할 Unit의 Index (DefSystem.h에 정의되어 있음)
-        * @param	bool *pbSts :  초기화 Flag 값
-        */
+        /// <summary>
+        /// Unit의 초기화 Flag를 읽는다
+        /// </summary>
+        /// <param name="iUnitIndex"></param>
+        /// <param name="pbSts"></param>
+        /// <returns></returns>
         public int GetInitFlag(int iUnitIndex, out bool pbSts)
         {
             int iResult = SUCCESS;
             pbSts = false;
 
-            if ((iUnitIndex < 0) || (iUnitIndex > INIT_UNIT_MAX))
+            if (iUnitIndex < 0 || iUnitIndex > INIT_UNIT_MAX)
+            {
                 return GenerateErrorCode(ERR_OPPANEL_INVALID_INIT_UNIT_INDEX);
+            }
 
             pbSts = m_bInitFlag[iUnitIndex];
 
             return iResult;
         }
 
-        /**
-        * 시스템의 모든 Unit들이 초기화되어 있는지 확인한다.
-        *
-        * @param	bInitSts[] : (OPTION=null) 각 Unit별로 초기화 상태 (true:초기화되어 있음, false:아님)
-        * @return	모든 Unit이 초기화되어 있으면 true, 아니면 false return
-*/
+        /// <summary>
+        /// 시스템의 모든 Unit들이 초기화되어 있는지 확인한다.
+        /// </summary>
+        /// <param name="bInitSts">각 Unit별로 초기화 상태 (true:초기화되어 있음, false:아님)</param>
+        /// <returns></returns>
         public bool CheckAllInit(out bool[] bInitSts)
         {
             bool bSts = false;
             bool bResult = true;
 
             bInitSts = new bool[INIT_UNIT_MAX];
-            //bool bEStopSts;
-            //GetEStopButtonStatus(&bEStopSts);
-            //int i = 0;
-            //for (i = 0; i < INIT_UNIT_MAX; i++)
-            //{
-            //    if (bEStopSts == true)
-            //    {
-            //        bResult = false;
-            //        SetInitFlag(i, false);
-            //    }
-            //    else
-            //    {
-            //        GetInitFlag(i, out bSts);
 
-            //        bResult &= bSts;
+            bool bEStopSts;
+            GetEStopButtonStatus(out bEStopSts);
+            for (int i = 0; i < INIT_UNIT_MAX; i++)
+            {
+                if (bEStopSts == true)
+                {
+                    bResult = false;
+                    SetInitFlag(i, false);
+                }
+                else
+                {
+                    GetInitFlag(i, out bSts);
 
-            //        if (bInitSts != null)
-            //            bInitSts[i] = bSts;
-            //    }
-            //}
+                    bResult &= bSts;
+
+                    if (bInitSts != null)
+                        bInitSts[i] = bSts;
+                }
+            }
 
             return bResult;
         }
 
-        /**
-        * Unit의 원점복귀 Flag를 설정한다.
-*/
         public void ResetAllOriginFlag()
         {
             int i = 0;
@@ -1397,11 +1325,6 @@ namespace LWDicer.Control
             }
         }
 
-        /**
-        * 축의 원점복귀 전체 상태를 읽는다.
-        *
-        * @param	bool *pbSts :  원점복귀 전체 상태
-        */
         public bool CheckAllOrigin(out bool[/*DEF_MAX_MOTION_AXIS*/] bOriginSts)
         {
             bOriginSts = new bool[1];
@@ -1528,255 +1451,240 @@ namespace LWDicer.Control
         {
             int iResult = SUCCESS;
 
-            //if ((iResult = m_plnkIO.Initialize()) != SUCCESS)
-            //{
-            //    // 오류 동작 Log
-            //    m_plogMng.WriteLog(DEF_MLOG_ERROR_LOG_LEVEL, "IO Component Object의 초기화에 실패하였습니다.", __FILE__, __LINE__);
+            if ((iResult = m_RefComp.IO.Initialize()) != SUCCESS)
+            {
+                string strLog = "IO Component Object의 초기화에 실패하였습니다.";
+                WriteLog(strLog, ELogType.Debug, ELogWType.Error);
 
-            //    return iResult;
-            //}
-
-            //// 정상 동작 Log
-            //m_plogMng.WriteLog("IO Component Object를 초기화하였습니다.", __FILE__, __LINE__);
+                return iResult;
+            }
 
             return SUCCESS;
         }
 
-        public int GetStartButtonStatus(out bool pbStatus)
+        public int GetStartButtonStatus(out bool bStatus)
         {
             string str = "Start Button";
-            return getPanelSwitchStatus(str, m_IOAddrTable.FrontPanel.RunInputAddr, m_IOAddrTable.BackPanel.RunInputAddr, out pbStatus);
+            return getPanelSwitchStatus(str, m_IOAddrTable.FrontPanel.RunInputAddr, m_IOAddrTable.BackPanel.RunInputAddr, out bStatus);
         }
 
-        public int GetStopButtonStatus(out bool pbStatus)
+        public int GetStopButtonStatus(out bool bStatus)
         {
             string str = "Stop Button";
-            return getPanelSwitchStatus(str, m_IOAddrTable.FrontPanel.StopInputAddr, m_IOAddrTable.BackPanel.StopInputAddr, out pbStatus);
+            return getPanelSwitchStatus(str, m_IOAddrTable.FrontPanel.StopInputAddr, m_IOAddrTable.BackPanel.StopInputAddr, out bStatus);
         }
 
-        public int GetResetButtonStatus(out bool pbStatus)
+        public int GetResetButtonStatus(out bool bStatus)
         {
             string str = "Reset Button";
-            return getPanelSwitchStatus(str, m_IOAddrTable.FrontPanel.ResetInputAddr, m_IOAddrTable.BackPanel.ResetInputAddr, out pbStatus);
+            return getPanelSwitchStatus(str, m_IOAddrTable.FrontPanel.ResetInputAddr, m_IOAddrTable.BackPanel.ResetInputAddr, out bStatus);
         }
 
-        /**
-        * Teaching Pendant Stop Button의 상태를 읽는다.
-        *
-        * @param	*pbStatus : Teaching Pendant Stop Button 상태 (true : ON, false : OFF)
-        */
-        public int GetTPStopButtonStatus(out bool pbStatus)
+        public int GetTPStopButtonStatus(out bool bStatus)
         {
             string str = "TP Stop Button";
-            return getPanelSwitchStatus(str, m_IOAddrTable.FrontPanel.TPStopInputAddr, m_IOAddrTable.BackPanel.TPStopInputAddr, out pbStatus);
+            return getPanelSwitchStatus(str, m_IOAddrTable.FrontPanel.TPStopInputAddr, m_IOAddrTable.BackPanel.TPStopInputAddr, out bStatus);
         }
 
-        public int GetEStopButtonStatus(out bool pbStatus)
+        public int GetEStopButtonStatus(out bool bStatus)
         {
             int iResult = SUCCESS;
-            bool bStatus1 = false;
-            bool bStatus2 = false;
-            string strLogMessage;
-
-            pbStatus = false;
-
-            //// E-Stop Relay 1의 상태 읽기 
-            //if ((iResult = m_plnkIO.IsOn(m_IOAddrTable.iEStopInputAddr[0], out bStatus1)) != SUCCESS)
-            //{
-            //    // 오류 동작 Log
-            //    strLogMessage.Format("E-Stop Realy 1의 상태를 읽는데 실패했습니다.");
-            //    m_plogMng.WriteLog(DEF_MLOG_ERROR_LOG_LEVEL, strLogMessage, __FILE__, __LINE__);
-
-            //    return iResult;
-            //}
-
-            //// E-Stop Relay 2의 상태 읽기 
-            //if ((iResult = m_plnkIO.IsOn(m_IOAddrTable.iEStopInputAddr[1], out bStatus2)) != SUCCESS)
-            //{
-            //    // 오류 동작 Log
-            //    strLogMessage.Format("E-Stop Realy 2의 상태를 읽는데 실패했습니다.");
-            //    m_plogMng.WriteLog(DEF_MLOG_ERROR_LOG_LEVEL, strLogMessage, __FILE__, __LINE__);
-
-            //    return iResult;
-            //}
-
-            //// 하나라도 감지됐으면 true Return 
-            //*pbStatus = bStatus1 || bStatus2;
+            bStatus = false;
+            for(int i = 0; i < m_IOAddrTable.EStopAddr.Length; i++)
+            {
+                iResult = m_RefComp.IO.IsOn(m_IOAddrTable.EStopAddr[i], out bStatus);
+                if (iResult != SUCCESS) return iResult;
+                if(bStatus == true) // 하나라도 감지되었다면
+                {
+                    return SUCCESS;
+                }
+            }
 
             return SUCCESS;
         }
 
-        public int GetJogYPlusButtonStatus(out bool pbStatus)
+        public int GetJogYPlusButtonStatus(out bool bStatus)
         {
             string str = "Jog Y(+) Button";
-            return getPanelSwitchStatus(str, m_IOAddrTable.FrontPanel.YpInputAddr, m_IOAddrTable.BackPanel.YpInputAddr, out pbStatus);
+            return getPanelSwitchStatus(str, m_IOAddrTable.FrontPanel.YpInputAddr, m_IOAddrTable.BackPanel.YpInputAddr, out bStatus);
         }
 
-        public int GetJogYMinusButtonStatus(out bool pbStatus)
+        public int GetJogYMinusButtonStatus(out bool bStatus)
         {
             string str = "Jog Y(-) Button";
-            return getPanelSwitchStatus(str, m_IOAddrTable.FrontPanel.YnInputAddr, m_IOAddrTable.BackPanel.YnInputAddr, out pbStatus);
+            return getPanelSwitchStatus(str, m_IOAddrTable.FrontPanel.YnInputAddr, m_IOAddrTable.BackPanel.YnInputAddr, out bStatus);
         }
 
-        public int GetJogXPlusButtonStatus(out bool pbStatus)
+        public int GetJogXPlusButtonStatus(out bool bStatus)
         {
             string str = "Jog X(+) Button";
-            return getPanelSwitchStatus(str, m_IOAddrTable.FrontPanel.XpInputAddr, m_IOAddrTable.BackPanel.XpInputAddr, out pbStatus);
+            return getPanelSwitchStatus(str, m_IOAddrTable.FrontPanel.XpInputAddr, m_IOAddrTable.BackPanel.XpInputAddr, out bStatus);
         }
 
-        public int GetJogXMinusButtonStatus(out bool pbStatus)
+        public int GetJogXMinusButtonStatus(out bool bStatus)
         {
             string str = "Jog X(-) Button";
-            return getPanelSwitchStatus(str, m_IOAddrTable.FrontPanel.XnInputAddr, m_IOAddrTable.BackPanel.XnInputAddr, out pbStatus);
+            return getPanelSwitchStatus(str, m_IOAddrTable.FrontPanel.XnInputAddr, m_IOAddrTable.BackPanel.XnInputAddr, out bStatus);
         }
 
-        public int GetJogZPlusButtonStatus(out bool pbStatus)
+        public int GetJogZPlusButtonStatus(out bool bStatus)
         {
             string str = "Jog Z(+) Button";
-            return getPanelSwitchStatus(str, m_IOAddrTable.FrontPanel.ZpInputAddr, m_IOAddrTable.BackPanel.ZpInputAddr, out pbStatus);
+            return getPanelSwitchStatus(str, m_IOAddrTable.FrontPanel.ZpInputAddr, m_IOAddrTable.BackPanel.ZpInputAddr, out bStatus);
         }
 
-        public int GetJogZMinusButtonStatus(out bool pbStatus)
+        public int GetJogZMinusButtonStatus(out bool bStatus)
         {
             string str = "Jog Z(-) Button";
-            return getPanelSwitchStatus(str, m_IOAddrTable.FrontPanel.ZnInputAddr, m_IOAddrTable.BackPanel.ZnInputAddr, out pbStatus);
+            return getPanelSwitchStatus(str, m_IOAddrTable.FrontPanel.ZnInputAddr, m_IOAddrTable.BackPanel.ZnInputAddr, out bStatus);
         }
 
-        public int GetJogTPlusButtonStatus(out bool pbStatus)
+        public int GetJogTPlusButtonStatus(out bool bStatus)
         {
             string str = "Jog T(+) Button";
-            return getPanelSwitchStatus(str, m_IOAddrTable.FrontPanel.TpInputAddr, m_IOAddrTable.BackPanel.TpInputAddr, out pbStatus);
+            return getPanelSwitchStatus(str, m_IOAddrTable.FrontPanel.TpInputAddr, m_IOAddrTable.BackPanel.TpInputAddr, out bStatus);
         }
 
-        public int GetJogTMinusButtonStatus(out bool pbStatus)
+        public int GetJogTMinusButtonStatus(out bool bStatus)
         {
             string str = "Jog T(-) Button";
-            return getPanelSwitchStatus(str, m_IOAddrTable.FrontPanel.TnInputAddr, m_IOAddrTable.BackPanel.TnInputAddr, out pbStatus);
+            return getPanelSwitchStatus(str, m_IOAddrTable.FrontPanel.TnInputAddr, m_IOAddrTable.BackPanel.TnInputAddr, out bStatus);
         }
 
-        public int GetSafeDoorStatus(out bool pbStatus, int iGroup = -1, int iIndex = -1)
+        public int GetSafeDoorStatus(out bool bStatus, int iGroup = -1, int iIndex = -1)
         {
+            int iResult = SUCCESS;
             int i, j;
             bool bResult;
-            int iResult = SUCCESS;
 
-            pbStatus = false;
+            bStatus = false;
 
-            //// 센서 그룹  전체 확인 
-            //if (iGroup == -1)
-            //{
-            //    for (i = 0; i < DEF_OPPANEL_MAX_DOOR_GROUP; i++)
-            //    {
-            //        if (iIndex == -1)
-            //        {
-            //            for (j = 0; j < DEF_OPPANEL_MAX_DOOR_SENSOR; j++)
-            //            {
-                            
-            //                if (m_IOAddrTable.iSafeDoorAddr[i][j] != 0)
-            //                {
-            //                    if (m_IOAddrTable.rgbSafeDoorFlag[i][j] == true)
-            //                    {
-            //                        if ((iResult = m_plnkIO.IsOn(m_IOAddrTable.iSafeDoorAddr[i][j], out bResult)) != SUCCESS)
-            //                            return iResult;
+            // 센서 그룹  전체 확인 
+            if (iGroup == -1)
+            {
+                for (i = 0; i < DEF_OPPANEL_MAX_DOOR_GROUP; i++)
+                {
+                    if (iIndex == -1)
+                    {
+                        for (j = 0; j < DEF_OPPANEL_MAX_DOOR_SENSOR; j++)
+                        {
+                            if (m_IOAddrTable.SafeDoorAddr[i, j] != -1)
+                            {
+                                if (m_IOAddrTable.SafeDoorFlag[i, j] == true)
+                                {
+                                    if ((iResult = m_RefComp.IO.IsOn(m_IOAddrTable.SafeDoorAddr[i, j], out bResult)) != SUCCESS)
+                                        return iResult;
 
-            //                        if (bResult == false)
-            //                        {
-            //                            *pbStatus = true;
-            //                            return iResult;
-            //                        }
-            //                    }
-            //                }
-            //                // Sensor Address가 할당되어 있지 않으면 확인 중단 
-            //                else
-            //                    j = DEF_OPPANEL_MAX_DOOR_SENSOR;
-            //            }
-            //        }
-            //        else
-            //        {
-                        
-            //            if (m_IOAddrTable.iSafeDoorAddr[i][iIndex] != 0)
-            //            {
-            //                if (m_IOAddrTable.rgbSafeDoorFlag[i][iIndex] == true)
-            //                {
-            //                    if ((iResult = m_plnkIO.IsOn(m_IOAddrTable.iSafeDoorAddr[i][iIndex], out bResult)) != SUCCESS)
-            //                        return iResult;
+                                    if (bResult == false)
+                                    {
+                                        bStatus = true;
+                                        return iResult;
+                                    }
+                                }
+                            }
+                            // Sensor Address가 할당되어 있지 않으면 확인 중단 
+                            else
+                            {
+                                j = DEF_OPPANEL_MAX_DOOR_SENSOR;
+                            }
+                        }
+                    }
+                    else
+                    {
 
-            //                    *pbStatus = !bResult;
-            //                }
-            //                else
-            //                    *pbStatus = false;
-            //            }
-            //            else
-            //                *pbStatus = false;
-            //        }
-            //    }
-            //    *pbStatus = false;
-            //}
-            //// 센서 그룹 하나만 확인 
-            //else
-            //{
-            //    if (iIndex == -1)
-            //    {
-            //        for (j = 0; j < DEF_OPPANEL_MAX_DOOR_SENSOR; j++)
-            //        {
-                        
-            //            if (m_IOAddrTable.iSafeDoorAddr[iGroup][j] != 0)
-            //            {
-            //                if (m_IOAddrTable.rgbSafeDoorFlag[iGroup][j] == true)
-            //                {
-            //                    if ((iResult = m_plnkIO.IsOn(m_IOAddrTable.iSafeDoorAddr[iGroup][j], out bResult)) != SUCCESS)
-            //                        return iResult;
+                        if (m_IOAddrTable.SafeDoorAddr[i, iIndex] != 0)
+                        {
+                            if (m_IOAddrTable.SafeDoorFlag[i, iIndex] == true)
+                            {
+                                if ((iResult = m_RefComp.IO.IsOn(m_IOAddrTable.SafeDoorAddr[i, iIndex], out bResult)) != SUCCESS)
+                                    return iResult;
 
-            //                    if (bResult == false)
-            //                    {
-            //                        *pbStatus = true;
-            //                        return iResult;
-            //                    }
-            //                }
-            //            }
-            //            // Sensor Address가 할당되어 있지 않으면 확인 중단 
-            //            else
-            //                j = DEF_OPPANEL_MAX_DOOR_SENSOR;
-            //        }
-            //    }
-            //    else
-            //    {
-                    
-            //        if (m_IOAddrTable.iSafeDoorAddr[iGroup][iIndex] != 0)
-            //        {
-            //            if (m_IOAddrTable.rgbSafeDoorFlag[iGroup][iIndex] == true)
-            //            {
-            //                if ((iResult = m_plnkIO.IsOn(m_IOAddrTable.iSafeDoorAddr[iGroup][iIndex], out bResult)) != SUCCESS)
-            //                    return iResult;
+                                bStatus = !bResult;
+                            }
+                            else
+                            {
+                                bStatus = false;
+                            }
+                        }
+                        else
+                        {
+                            bStatus = false;
+                        }
+                    }
+                }
+                bStatus = false;
+            }
+            // 센서 그룹 하나만 확인 
+            else
+            {
+                if (iIndex == -1)
+                {
+                    for (j = 0; j < DEF_OPPANEL_MAX_DOOR_SENSOR; j++)
+                    {
 
-            //                *pbStatus = !bResult;
-            //            }
-            //            else
-            //                *pbStatus = false;
-            //        }
-            //        else
-            //            *pbStatus = false;
-            //    }
-            //    *pbStatus = false;
-            //}
+                        if (m_IOAddrTable.SafeDoorAddr[iGroup, j] != 0)
+                        {
+                            if (m_IOAddrTable.SafeDoorFlag[iGroup, j] == true)
+                            {
+                                if ((iResult = m_RefComp.IO.IsOn(m_IOAddrTable.SafeDoorAddr[iGroup, j], out bResult)) != SUCCESS)
+                                    return iResult;
+
+                                if (bResult == false)
+                                {
+                                    bStatus = true;
+                                    return iResult;
+                                }
+                            }
+                        }
+                        // Sensor Address가 할당되어 있지 않으면 확인 중단 
+                        else
+                        {
+                            j = DEF_OPPANEL_MAX_DOOR_SENSOR;
+                        }
+                    }
+                }
+                else
+                {
+
+                    if (m_IOAddrTable.SafeDoorAddr[iGroup, iIndex] != 0)
+                    {
+                        if (m_IOAddrTable.SafeDoorFlag[iGroup, iIndex] == true)
+                        {
+                            if ((iResult = m_RefComp.IO.IsOn(m_IOAddrTable.SafeDoorAddr[iGroup, iIndex], out bResult)) != SUCCESS)
+                                return iResult;
+
+                            bStatus = !bResult;
+                        }
+                        else
+                        {
+                            bStatus = false;
+                        }
+                    }
+                    else
+                    {
+                        bStatus = false;
+                    }
+                }
+                bStatus = false;
+            }
 
             return iResult;
         }
-
-        /**
-        * CP Trip의 상태를 읽는다.
-        *
-        * @param	*pbStatus : CP Trip의 상태 (true : ON, false : OFF)
-        * @param	iIndex : (OPTION=-1) 몇번째 센서인지 번호 (-1이면 전체 센서를 확인하여 하나라도 ON이면 결과를 ON으로 알린다.)
-        */
-        public int GetCPTripStatus(out bool pbStatus, int iIndex)
+       
+        /// <summary>
+        /// CP Trip의 상태를 읽는다.
+        /// </summary>
+        /// <param name="bStatus">CP Trip의 상태 (true : ON, false : OFF)</param>
+        /// <param name="iIndex">몇번째 센서인지 번호 (-1이면 전체 센서를 확인하여 하나라도 ON이면 결과를 ON으로 알린다.)</param>
+        /// <returns></returns>
+        public int GetCPTripStatus(int iIndex, out bool bStatus)
         {
             int i = 0;
             bool bSts = false;
             bool bResult;
             int iResult = SUCCESS;
 
-            pbStatus = false;
+            bStatus = false;
 
             //if (iIndex == -1)
             //{
@@ -1785,244 +1693,105 @@ namespace LWDicer.Control
                     
             //        if (m_IOAddrTable.iCPTripAddr[i] != 0)
             //        {
-            //            if ((iResult = m_plnkIO.IsOn(m_IOAddrTable.iCPTripAddr[i], out bResult)) != SUCCESS)
+            //            if ((iResult = m_RefComp.IO.IsOn(m_IOAddrTable.iCPTripAddr[i], out bResult)) != SUCCESS)
             //                return iResult;
 
             //            bSts = bSts || bResult;
             //        }
-            //        /** Sensor Address가 할당되어 있지 않으면 확인 중단 */
+            //        // Sensor Address가 할당되어 있지 않으면 확인 중단
             //        else
             //            break;
             //    }
 
-            //    *pbStatus = bSts;
+            //    *bStatus = bSts;
             //}
             //else
             //{
                 
             //    if (m_IOAddrTable.iCPTripAddr[iIndex] != 0)
             //    {
-            //        if ((iResult = m_plnkIO.IsOn(m_IOAddrTable.iCPTripAddr[iIndex], out bResult)) != SUCCESS)
+            //        if ((iResult = m_RefComp.IO.IsOn(m_IOAddrTable.iCPTripAddr[iIndex], out bResult)) != SUCCESS)
             //            return iResult;
 
-            //        *pbStatus = bResult;
+            //        *bStatus = bResult;
             //    }
             //    else
-            //        *pbStatus = false;
+            //        *bStatus = false;
             //}
 
             return iResult;
         }
 
-        /**
-        * Air Error의 상태를 읽는다.
-        *
-        * @param	*pbStatus : Air Error의 상태 (true : ON, false : OFF)
-        */
-        public int GetAirErrorStatus(out bool pbStatus)
+        public int GetAirErrorStatus(out bool bStatus)
         {
-            pbStatus = false;
-            return SUCCESS;
-
-            //bool bSts = false;
-            //int iResult = SUCCESS;
-
-            //if (m_IOAddrTable.iMainAirAddr != 0)
-            //{
-            //    if ((iResult = m_plnkIO.IsOff(m_IOAddrTable.iMainAirAddr, out bSts)) != SUCCESS)
-            //        return iResult;
-            //}
-
-            //pbStatus = bSts;
-
-            //return iResult;
-        }
-
-        /**
-        * DC POWER Error의 상태를 읽는다.
-        *
-        * @param	*pbStatus : DC PW Error의 상태 (true : ON, false : OFF)
-        */
-        public int GetDcPWErrorStatus(out bool pbStatus)
-        {
-            pbStatus = false;
-            return SUCCESS;
-
-            //bool bSts = false;
-            //int iResult = SUCCESS;
-
-            //
-            //if (m_IOAddrTable.iDcPowerAddr != 0)
-            //{
-            //    if ((iResult = m_plnkIO.IsOff(m_IOAddrTable.iDcPowerAddr, out bSts)) != SUCCESS)
-            //        return iResult;
-            //}
-
-            //*pbStatus = bSts;
-
-            //return iResult;
-        }
-
-        /**
-        * EFD READY Error의 상태를 읽는다.
-        *
-        * @param	*pbStatus : EFD Error의 상태 (true : ON, false : OFF)
-        */
-        public int GetEFDErrorStatus(out bool pbStatus)
-        {
-            pbStatus = false;
-            // 2012.03.09 by ranian 여기는 그냥 이렇게 체크 안하도록 남겨둔다
-            // 건 사용 여부에 따라서 MCtrlDispenser에서 에러 체크하도록.
-            return SUCCESS;
-
-            //bool bSts = false;
-            //int iResult = SUCCESS;
-
-            //if (m_IOAddrTable.iEFDReadyS1Addr != 0)
-            //{
-            //    if ((iResult = m_plnkIO.IsOff(m_IOAddrTable.iEFDReadyS1Addr, out bSts)) != SUCCESS)
-            //        return iResult;
-            //}
-            //if (bSts == false)  // false 이면 비정상이므로 일단 하나만 안되도 안되므로
-            //    return iResult;
-            //if (m_IOAddrTable.iEFDReadyS2Addr != 0)
-            //{
-            //    if ((iResult = m_plnkIO.IsOff(m_IOAddrTable.iEFDReadyS2Addr, out bSts)) != SUCCESS)
-            //        return iResult;
-            //}
-            //if (bSts == false)  // false 이면 비정상이므로 일단 하나만 안되도 안되므로
-            //    return iResult;
-
-            //if (m_IOAddrTable.iEFDReadyG1Addr != 0)
-            //{
-            //    if ((iResult = m_plnkIO.IsOff(m_IOAddrTable.iEFDReadyG1Addr, out bSts)) != SUCCESS)
-            //        return iResult;
-            //}
-            //if (bSts == false)  // false 이면 비정상이므로 일단 하나만 안되도 안되므로
-            //    return iResult;
-
-            //if (m_IOAddrTable.iEFDReadyG2Addr != 0)
-            //{
-            //    if ((iResult = m_plnkIO.IsOff(m_IOAddrTable.iEFDReadyG2Addr, out bSts)) != SUCCESS)
-            //        return iResult;
-            //}
-            //*pbStatus = bSts;
-
-            //return iResult;
-        }
-
-        /**
-        * Vacuum Error의 상태를 읽는다.
-        *
-        * @param	*pbStatus : Vacuum Error의 상태 (true : ON, false : OFF)
-        */
-        public int GetVacuumErrorStatus(out bool pbStatus)
-        {
-            pbStatus = false;
-            return SUCCESS;
-
-            //bool bSts = false;
-            //int iResult = SUCCESS;
-
-            
-            //if (m_IOAddrTable.iMainVacuumAddr != 0)
-            //{
-            //    if ((iResult = m_plnkIO.IsOff(m_IOAddrTable.iMainVacuumAddr, out bSts)) != SUCCESS)
-            //        return iResult;
-            //}
-
-            //if (bSts == false)  // false 이면 비정상이므로 일단 하나만 안되도 안되므로
-            //    return iResult;
-
-            //if (m_IOAddrTable.iSubVacuumAddr != 0)
-            //{
-            //    if ((iResult = m_plnkIO.IsOff(m_IOAddrTable.iSubVacuumAddr, out bSts)) != SUCCESS)
-            //        return iResult;
-            //}
-
-            //*pbStatus = bSts;
-
-            //return iResult;
-        }
-
-        /**
-        * N2 Error의 상태를 읽는다.
-        *
-        * @param	*pbStatus : N2 Error의 상태 (true : ON, false : OFF)
-        */
-        public int GetN2ErrorStatus(out bool pbStatus)
-        {
-            bool bSts = false;
             int iResult = SUCCESS;
 
-            
-            if (m_IOAddrTable.MainN2Addr != 0)
+            bStatus = false;
+            if (m_IOAddrTable.MainAirAddr != 0)
             {
-                //if ((iResult = m_plnkIO.IsOff(m_IOAddrTable.iMainN2Addr, out bSts)) != SUCCESS)
-                //    return iResult;
+                if ((iResult = m_RefComp.IO.IsOff(m_IOAddrTable.MainAirAddr, out bStatus)) != SUCCESS)
+                    return iResult;
             }
 
-            pbStatus = bSts;
-
-            return iResult;
+            return SUCCESS;
         }
 
-        /**
-        * Cleaner Detect Error의 상태를 읽는다.
-        *
-        * @param	*pbStatus : Cleaner Detect Error의 상태 (true : ON, false : OFF)
-        */
-        public int GetCleanerDetect1ErrorStatus(out bool pbStatus)
+        public int GetDcPWErrorStatus(out bool bStatus)
         {
-            bool bSts = false;
             int iResult = SUCCESS;
 
-            
-            //if (m_IOAddrTable.iCleanerDetect1Addr != 0)
-            //{
-            //    if ((iResult = m_plnkIO.IsOff(m_IOAddrTable.iCleanerDetect1Addr, out bSts)) != SUCCESS)
-            //        return iResult;
-            //}
+            bStatus = false;
+            if (m_IOAddrTable.DcPowerAddr != 0)
+            {
+                if ((iResult = m_RefComp.IO.IsOff(m_IOAddrTable.DcPowerAddr, out bStatus)) != SUCCESS)
+                    return iResult;
+            }
 
-            pbStatus = bSts;
-
-            return iResult;
+            return SUCCESS;
         }
 
-        /**
-        * Cleaner Detect Error의 상태를 읽는다.
-        *
-        * @param	*pbStatus : Cleaner Detect Error의 상태 (true : ON, false : OFF)
-        */
-        public int GetCleanerDetect2ErrorStatus(out bool pbStatus)
+        public int GetVacuumErrorStatus(out bool bStatus)
         {
-            bool bSts = false;
             int iResult = SUCCESS;
+            bStatus = false;
+            if (m_IOAddrTable.MainVacuumAddr != 0)
+            {
+                if ((iResult = m_RefComp.IO.IsOff(m_IOAddrTable.MainVacuumAddr, out bStatus)) != SUCCESS)
+                    return iResult;
+            }
 
-            
-            //if (m_IOAddrTable.iCleanerDetect2Addr != 0)
-            //{
-            //    if ((iResult = m_plnkIO.IsOff(m_IOAddrTable.iCleanerDetect2Addr, out bSts)) != SUCCESS)
-            //        return iResult;
-            //}
+            if (bStatus == false)  // false 이면 비정상이므로 일단 하나만 안되도 안되므로
+                return iResult;
 
-            pbStatus = bSts;
+            if (m_IOAddrTable.SubVacuumAddr != 0)
+            {
+                if ((iResult = m_RefComp.IO.IsOff(m_IOAddrTable.SubVacuumAddr, out bStatus)) != SUCCESS)
+                    return iResult;
+            }
 
-            return iResult;
+            return SUCCESS;
         }
 
-        /**
-        * Motor AMP Fault 상태를 읽는다.
-        *
-        * @param	*pbStatus : Motor AMP Fault의 상태 (true : Fault, false : Normal)
-        */
-        public int GetMotorAmpFaultStatus(out bool pbStatus)
+        public int GetCleanerDetect1ErrorStatus(out bool bStatus)
+        {
+            int iResult = SUCCESS;
+            bStatus = false;
+            if (m_IOAddrTable.CleanerDetect1Addr != 0)
+            {
+                if ((iResult = m_RefComp.IO.IsOff(m_IOAddrTable.CleanerDetect1Addr, out bStatus)) != SUCCESS)
+                    return iResult;
+            }
+
+            return SUCCESS;
+        }
+
+        public int GetMotorAmpFaultStatus(out bool bStatus)
         {
             int i = 0;
             int iResult = SUCCESS;
             bool bFault = false;
 
-            pbStatus = true;
+            bStatus = true;
 
             //for (i = 0; i < m_JogTable.ListNo; i++)
             //{
@@ -2059,82 +1828,66 @@ namespace LWDicer.Control
             //    }
             //}
 
-            //*pbStatus = false;
+            //*bStatus = false;
 
             return iResult;
         }
 
-        /**
-         * Motion Power Relay On/Off 상태를 읽는다.
-         *
-         * @param	*pbStatus : Motion Power Relay의 상태 (true : ON, false : OFF)
-        */
-        public int GetMotionPowerRelayStatus(out bool pbStatus)
+        public int GetMotionPowerRelayStatus(out bool bStatus)
         {
             bool bSts1 = true, bSts2 = true;
             int iResult = SUCCESS;
             int iCount = 0;
 
-            
-            /*	
-                for (i=0; i<DEF_OPPANEL_MAX_MOTION_RELAY_NO; i++)
-                {
-                    if (m_IOAddrTable.iMotionRelayAddr[i] != 0)
-                    {
-                        if ((iResult = m_plnkIO.IsOn(m_IOAddrTable.iMotionRelayAddr[i], out bSts1)) != SUCCESS)
-                            return iResult;
 
-                        bSts2 = bSts2 && bSts1;
-                        iCount++;
-                    }
-                }
+            //for (i = 0; i < DEF_OPPANEL_MAX_MOTION_RELAY_NO; i++)
+            //{
+            //    if (m_IOAddrTable.iMotionRelayAddr[i] != 0)
+            //    {
+            //        if ((iResult = m_RefComp.IO.IsOn(m_IOAddrTable.iMotionRelayAddr[i], out bSts1)) != SUCCESS)
+            //            return iResult;
 
-                if (iCount != 0)
-                    *pbStatus = bSts2;
-                else
-                    *pbStatus = false;
-            */
-            pbStatus = true;
+            //        bSts2 = bSts2 && bSts1;
+            //        iCount++;
+            //    }
+            //}
+
+            //if (iCount != 0)
+            //    *bStatus = bSts2;
+            //else
+            //    *bStatus = false;
+
+            bStatus = true;
             return iResult;
         }
 
-        /**
-         * Motion Power Relay On/Off 를 설정한다.
-         *
-         * @param	bStatus : Motion Power Relay의 동작 (true : ON, false : OFF)
-         */
         public int SetMotionPowerRelayStatus(bool bStatus)
         {
             bool bSts1 = true, bSts2 = true;
             int iResult = SUCCESS;
             int iCount = 0;
 
-            
-            /*	for (i=0; i<DEF_OPPANEL_MAX_MOTION_RELAY_NO; i++)
-                {
-                    if (m_IOAddrTable.iMotionRelayAddr[i] != 0)
-                    {
-                        if (bStatus == true)
-                        {
-                            if ((iResult = m_plnkIO.OutputOn(m_IOAddrTable.iMotionRelayAddr[i])) != SUCCESS)
-                                return iResult;
-                        }
-                        else
-                        {
-                            if ((iResult = m_plnkIO.OutputOff(m_IOAddrTable.iMotionRelayAddr[i])) != SUCCESS)
-                                return iResult;
-                        }
-                    }
-                }*/
+
+            //for (i = 0; i < DEF_OPPANEL_MAX_MOTION_RELAY_NO; i++)
+            //{
+            //    if (m_IOAddrTable.iMotionRelayAddr[i] != 0)
+            //    {
+            //        if (bStatus == true)
+            //        {
+            //            if ((iResult = m_RefComp.IO.OutputOn(m_IOAddrTable.iMotionRelayAddr[i])) != SUCCESS)
+            //                return iResult;
+            //        }
+            //        else
+            //        {
+            //            if ((iResult = m_RefComp.IO.OutputOff(m_IOAddrTable.iMotionRelayAddr[i])) != SUCCESS)
+            //                return iResult;
+            //        }
+            //    }
+            //}
 
             return iResult;
         }
 
-        /**
-         * Motion 이동 속도 Mode를 설정한다.
-         *
-         * @param	rgdVelocity[] : 설정할 Motion 속도 (배열 Index 순서는 MMC 축 ID 순서)
-         */
         public void SetVelocityMode(double[/*DEF_MAX_MOTION_AXIS*/] rgdVelocity)
         {
             //. Motion 속도 수정...
@@ -2178,63 +1931,62 @@ namespace LWDicer.Control
             //}
         }
 
-        /**
-         * Door Sensor 점검여부를 설정한다.
-         *
-         * @param	bFlag : 점검 여부 (true:점검, false:무시)
-         * @param	iGroup : (OPTION=-1) Door Sensor Group 번호 (-1이면 모든 Group내 설정)
-         * @param	iIndex : (OPTION=-1) Door Snesor Group 내 Index 번호 (-1이면 Group내 모든 Index 설정)
-         */
+        /// <summary>
+        /// Door Sensor 점검여부를 설정한다.
+        /// </summary>
+        /// <param name="bFlag">점검 여부 (true:점검, false:무시)</param>
+        /// <param name="iGroup">Door Sensor Group 번호 (-1이면 모든 Group내 설정)</param>
+        /// <param name="iIndex">Door Snesor Group 내 Index 번호 (-1이면 Group내 모든 Index 설정)</param>
         public void SetDoorCheckFlag(bool bFlag, int iGroup, int iIndex)
         {
             int i, j;
             int iResult = SUCCESS;
 
-            //if (iGroup == -1)
-            //{
-            //    for (i = 0; i < DEF_OPPANEL_MAX_DOOR_GROUP; i++)
-            //    {
-            //        if (iIndex == -1)
-            //        {
-            //            for (j = 0; j < DEF_OPPANEL_MAX_DOOR_SENSOR; j++)
-            //            {
-                            
-            //                if (m_IOAddrTable.iSafeDoorAddr[i][j] != 0)
-            //                    m_IOAddrTable.rgbSafeDoorFlag[i][j] = bFlag;
-            //                // Sensor Address가 할당되어 있지 않으면 확인 중단
-            //                else
-            //                    j = DEF_OPPANEL_MAX_DOOR_SENSOR;
-            //            }
-            //        }
-            //        else
-            //        {
-                        
-            //            if (m_IOAddrTable.iSafeDoorAddr[i][iIndex] != 0)
-            //                m_IOAddrTable.rgbSafeDoorFlag[i][iIndex] = bFlag;
-            //        }
-            //    }
-            //}
-            //else
-            //{
-            //    if (iIndex == -1)
-            //    {
-            //        for (j = 0; j < DEF_OPPANEL_MAX_DOOR_SENSOR; j++)
-            //        {
-                        
-            //            if (m_IOAddrTable.iSafeDoorAddr[iGroup][j] != 0)
-            //                m_IOAddrTable.rgbSafeDoorFlag[iGroup][j] = bFlag;
-            //            // Sensor Address가 할당되어 있지 않으면 확인 중단
-            //            else
-            //                j = DEF_OPPANEL_MAX_DOOR_SENSOR;
-            //        }
-            //    }
-            //    else
-            //    {
-                    
-            //        if (m_IOAddrTable.iSafeDoorAddr[iGroup][iIndex] != 0)
-            //            m_IOAddrTable.rgbSafeDoorFlag[iGroup][iIndex] = bFlag;
-            //    }
-            //}
+            if (iGroup == -1)
+            {
+                for (i = 0; i < DEF_OPPANEL_MAX_DOOR_GROUP; i++)
+                {
+                    if (iIndex == -1)
+                    {
+                        for (j = 0; j < DEF_OPPANEL_MAX_DOOR_SENSOR; j++)
+                        {
+
+                            if (m_IOAddrTable.SafeDoorAddr[i, j] != 0)
+                                m_IOAddrTable.SafeDoorFlag[i, j] = bFlag;
+                            // Sensor Address가 할당되어 있지 않으면 확인 중단
+                            else
+                                j = DEF_OPPANEL_MAX_DOOR_SENSOR;
+                        }
+                    }
+                    else
+                    {
+
+                        if (m_IOAddrTable.SafeDoorAddr[i, iIndex] != 0)
+                            m_IOAddrTable.SafeDoorFlag[i, iIndex] = bFlag;
+                    }
+                }
+            }
+            else
+            {
+                if (iIndex == -1)
+                {
+                    for (j = 0; j < DEF_OPPANEL_MAX_DOOR_SENSOR; j++)
+                    {
+
+                        if (m_IOAddrTable.SafeDoorAddr[iGroup, j] != 0)
+                            m_IOAddrTable.SafeDoorFlag[iGroup, j] = bFlag;
+                        // Sensor Address가 할당되어 있지 않으면 확인 중단
+                        else
+                            j = DEF_OPPANEL_MAX_DOOR_SENSOR;
+                    }
+                }
+                else
+                {
+
+                    if (m_IOAddrTable.SafeDoorAddr[iGroup, iIndex] != 0)
+                        m_IOAddrTable.SafeDoorFlag[iGroup, iIndex] = bFlag;
+                }
+            }
         }
 
         public int SetStartLamp(bool bStatus)
@@ -2295,14 +2047,14 @@ namespace LWDicer.Control
         {
             int iResult = SUCCESS;
             bool bStatus = false;
-            string strLogMessage;
+            string strLog;
 
             piOpPanelID = DEF_OPPANEL_NONE_PANEL_ID;
-            //if ((iResult = m_plnkIO.IsOn(m_IOAddrTable.iTouchSelectAddr, out bStatus)) != SUCCESS)
+            //if ((iResult = m_RefComp.IO.IsOn(m_IOAddrTable.iTouchSelectAddr, out bStatus)) != SUCCESS)
             //{
             //    // 오류 동작 Log
-            //    strLogMessage.Format("Op Panel ID의 상태를 읽는데 실패했습니다.");
-            //    m_plogMng.WriteLog(DEF_MLOG_ERROR_LOG_LEVEL, strLogMessage, __FILE__, __LINE__);
+            //    strLog = String.Format("Op Panel ID의 상태를 읽는데 실패했습니다.");
+            //    WriteLog(strLog, ELogType.Debug, ELogWType.Error);
 
             //    piOpPanelID = DEF_OPPANEL_NONE_PANEL_ID;
 
@@ -2324,7 +2076,7 @@ namespace LWDicer.Control
         public int ChangeOpPanel(int iOpPanelID)
         {
             int iResult = SUCCESS;
-            string strLogMessage;
+            string strLog;
             int iCurOpPanelID;
 
             // 현재 활성화되어 있는 Touch Panel을 알아온다.
@@ -2337,33 +2089,33 @@ namespace LWDicer.Control
 
             //if (iOpPanelID == DEF_OPPANEL_FRONT_PANEL_ID)
             //{
-            //    if ((iResult = m_plnkIO.OutputOn(m_IOAddrTable.TouchSelectAddr)) != SUCCESS)
+            //    if ((iResult = m_RefComp.IO.OutputOn(m_IOAddrTable.TouchSelectAddr)) != SUCCESS)
             //    {
             //        // 오류 동작 Log
-            //        strLogMessage.Format("앞면으로 Touch Panel 사용권 전환에 실패했습니다.");
-            //        m_plogMng.WriteLog(DEF_MLOG_ERROR_LOG_LEVEL, strLogMessage, __FILE__, __LINE__);
+            //        strLog = String.Format("앞면으로 Touch Panel 사용권 전환에 실패했습니다.");
+            //        WriteLog(strLog, ELogType.Debug, ELogWType.Error);
 
             //        return iResult;
             //    }
 
             //    // 정상 동작 Log
-            //    strLogMessage.Format("앞면으로 Touch Panel 사용권 전환하였습니다.");
-            //    //		m_plogMng.WriteLog(strLogMessage, __FILE__, __LINE__);
+            //    strLog = String.Format("앞면으로 Touch Panel 사용권 전환하였습니다.");
+            //    //		m_plogMng.WriteLog(strLog, __FILE__, __LINE__);
             //}
             //else if (iOpPanelID == DEF_OPPANEL_BACK_PANEL_ID)
             //{
-            //    if ((iResult = m_plnkIO.OutputOff(m_IOAddrTable.iTouchSelectAddr)) != SUCCESS)
+            //    if ((iResult = m_RefComp.IO.OutputOff(m_IOAddrTable.iTouchSelectAddr)) != SUCCESS)
             //    {
             //        // 오류 동작 Log
-            //        strLogMessage.Format("뒷면으로 Touch Panel 사용권 전환에 실패했습니다.");
-            //        m_plogMng.WriteLog(DEF_MLOG_ERROR_LOG_LEVEL, strLogMessage, __FILE__, __LINE__);
+            //        strLog = String.Format("뒷면으로 Touch Panel 사용권 전환에 실패했습니다.");
+            //        WriteLog(strLog, ELogType.Debug, ELogWType.Error);
 
             //        return iResult;
             //    }
 
             //    // 정상 동작 Log
-            //    strLogMessage.Format("뒷면으로 Touch Panel 사용권 전환하였습니다.");
-            //    //		m_plogMng.WriteLog(strLogMessage, __FILE__, __LINE__);
+            //    strLog = String.Format("뒷면으로 Touch Panel 사용권 전환하였습니다.");
+            //    //		m_plogMng.WriteLog(strLog, __FILE__, __LINE__);
             //}
 
             return SUCCESS;
@@ -2372,7 +2124,7 @@ namespace LWDicer.Control
         public int GetOpPanelSelectSW(out int piStatus)
         {
             int iResult = SUCCESS;
-            string strLogMessage;
+            string strLog;
             bool bStatus1, bStatus2, bStatus3, bStatus4;
 
             piStatus = DEF_OPPANEL_NONE_PANEL_ID;
@@ -2380,8 +2132,8 @@ namespace LWDicer.Control
             //if ((iResult = GetJogXMinusButtonStatus(out bStatus1)) != SUCCESS)
             //{
             //    // 오류 동작 Log
-            //    //strLogMessage.Format("Touch Panel Select Switch(X-) 상태 읽기에 실패했습니다.");
-            //    //m_plogMng.WriteLog(DEF_MLOG_ERROR_LOG_LEVEL, strLogMessage, __FILE__, __LINE__);
+            //    //strLog = String.Format("Touch Panel Select Switch(X-) 상태 읽기에 실패했습니다.");
+            //    //WriteLog(strLog, ELogType.Debug, ELogWType.Error);
 
             //    piStatus = DEF_OPPANEL_NONE_PANEL_ID;
 
@@ -2391,8 +2143,8 @@ namespace LWDicer.Control
             //if ((iResult = GetJogYPlusButtonStatus(out bStatus2)) != SUCCESS)
             //{
             //    // 오류 동작 Log
-            //    strLogMessage.Format("Touch Panel Select Switch(Y+) 상태 읽기에 실패했습니다.");
-            //    m_plogMng.WriteLog(DEF_MLOG_ERROR_LOG_LEVEL, strLogMessage, __FILE__, __LINE__);
+            //    strLog = String.Format("Touch Panel Select Switch(Y+) 상태 읽기에 실패했습니다.");
+            //    WriteLog(strLog, ELogType.Debug, ELogWType.Error);
 
             //    piStatus = DEF_OPPANEL_NONE_PANEL_ID;
 
@@ -2402,8 +2154,8 @@ namespace LWDicer.Control
             //if ((iResult = GetJogXPlusButtonStatus(out bStatus3)) != SUCCESS)
             //{
             //    // 오류 동작 Log
-            //    strLogMessage.Format("Touch Panel Select Switch(X+) 상태 읽기에 실패했습니다.");
-            //    m_plogMng.WriteLog(DEF_MLOG_ERROR_LOG_LEVEL, strLogMessage, __FILE__, __LINE__);
+            //    strLog = String.Format("Touch Panel Select Switch(X+) 상태 읽기에 실패했습니다.");
+            //    WriteLog(strLog, ELogType.Debug, ELogWType.Error);
 
             //    piStatus = DEF_OPPANEL_NONE_PANEL_ID;
 
@@ -2413,8 +2165,8 @@ namespace LWDicer.Control
             //if ((iResult = GetJogYMinusButtonStatus(out bStatus4)) != SUCCESS)
             //{
             //    // 오류 동작 Log
-            //    strLogMessage.Format("Touch Panel Select Switch(Y-) 상태 읽기에 실패했습니다.");
-            //    m_plogMng.WriteLog(DEF_MLOG_ERROR_LOG_LEVEL, strLogMessage, __FILE__, __LINE__);
+            //    strLog = String.Format("Touch Panel Select Switch(Y-) 상태 읽기에 실패했습니다.");
+            //    WriteLog(strLog, ELogType.Debug, ELogWType.Error);
 
             //    piStatus = DEF_OPPANEL_NONE_PANEL_ID;
 
@@ -2427,8 +2179,8 @@ namespace LWDicer.Control
             //    *piStatus = DEF_OPPANEL_NONE_PANEL_ID;
 
             //    // 정상 동작 Log
-            //    strLogMessage.Format("Touch Panel 전환 Switch가 전부 눌렸습니다.");
-            //    //		m_plogMng.WriteLog(strLogMessage, __FILE__, __LINE__);
+            //    strLog = String.Format("Touch Panel 전환 Switch가 전부 눌렸습니다.");
+            //    //		m_plogMng.WriteLog(strLog, __FILE__, __LINE__);
 
             //    return SUCCESS;
             //}
@@ -2438,8 +2190,8 @@ namespace LWDicer.Control
             //    *piStatus = DEF_OPPANEL_FRONT_PANEL_ID;
 
             //    // 정상 동작 Log
-            //    strLogMessage.Format("앞면 Touch Panel 전환 Switch가 눌렸습니다.");
-            //    //		m_plogMng.WriteLog(strLogMessage, __FILE__, __LINE__);
+            //    strLog = String.Format("앞면 Touch Panel 전환 Switch가 눌렸습니다.");
+            //    //		m_plogMng.WriteLog(strLog, __FILE__, __LINE__);
 
             //    return SUCCESS;
             //}
@@ -2449,8 +2201,8 @@ namespace LWDicer.Control
             //    *piStatus = DEF_OPPANEL_BACK_PANEL_ID;
 
             //    // 정상 동작 Log
-            //    strLogMessage.Format("뒷면 Touch Panel 전환 Switch가 눌렸습니다.");
-            //    //		m_plogMng.WriteLog(strLogMessage, __FILE__, __LINE__);
+            //    strLog = String.Format("뒷면 Touch Panel 전환 Switch가 눌렸습니다.");
+            //    //		m_plogMng.WriteLog(strLog, __FILE__, __LINE__);
 
             //    return SUCCESS;
             //}
@@ -2465,260 +2217,233 @@ namespace LWDicer.Control
             return SUCCESS;
         }
 
-        /**
-        * 앞, 뒷 Panel의 특정 Switch의 눌려진 상태를 확인한다.
-        *
-        * @param	strLogName : Log할 때 사용할 Switch 이름
-        * @param	iFrontSWAddr : 앞 Panel의 Switch IO Address
-        * @param	iBackSWAddr : 뒷 Panel의 Switch IO Address
-        * @param	*pbStatus : 앞, 뒷 Panel의 Switch 눌려진 상태 (둘 중 하나라도 눌리면 true)
-        */
-        public int getPanelSwitchStatus(string strLogName, int iFrontSWAddr, int iBackSWAddr, out bool pbStatus)
+        /// <summary>
+        /// 앞, 뒷 Panel의 특정 Switch의 눌려진 상태를 확인한다.
+        /// </summary>
+        /// <param name="iFrontSWAddr">앞 Panel의 Switch IO Address</param>
+        /// <param name="iBackSWAddr">뒷 Panel의 Switch IO Address</param>
+        /// <param name="bStatus">앞, 뒷 Panel의 Switch 눌려진 상태 (둘 중 하나라도 눌리면 true)</param>
+        /// <returns></returns>
+        public int getPanelSwitchStatus(string strBtnName, int iFrontSWAddr, int iBackSWAddr, out bool bStatus)
         {
             int iResult = SUCCESS;
+            bStatus = false;
             bool bFrontStatus = false;
             bool bBackStatus = false;
-            string strLogMessage;
+            string strLog;
 
-            //// 앞 Panel의 Button의 상태 읽기 
-            //if ((iResult = m_plnkIO.IsOn(iFrontSWAddr, out bFrontStatus)) != SUCCESS)
-            //{
-            //    // 오류 동작 Log 
-            //    strLogMessage.Format("앞 Panel의 %s의 상태를 읽는데 실패했습니다.", strLogName);
-            //    m_plogMng.WriteLog(DEF_MLOG_ERROR_LOG_LEVEL, strLogMessage, __FILE__, __LINE__);
+            // 앞 Panel의 Button의 상태 읽기 
+            if ((iResult = m_RefComp.IO.IsOn(iFrontSWAddr, out bFrontStatus)) != SUCCESS)
+            {
+                // 오류 동작 Log 
+                strLog = String.Format("앞 Panel의 {0}의 상태를 읽는데 실패했습니다.", strBtnName);
+                WriteLog(strLog, ELogType.Debug, ELogWType.Error);
 
-            //    return iResult;
-            //}
+                return iResult;
+            }
 
-            //// 뒷 Panel의 Button의 상태 읽기 
-            //if ((iResult = m_plnkIO.IsOn(iBackSWAddr, out bBackStatus)) != SUCCESS)
-            //{
-            //    // 오류 동작 Log 
-            //    strLogMessage.Format("뒷 Panel의 %s의 상태를 읽는데 실패했습니다.", strLogName);
-            //    m_plogMng.WriteLog(DEF_MLOG_ERROR_LOG_LEVEL, strLogMessage, __FILE__, __LINE__);
+            // 뒷 Panel의 Button의 상태 읽기 
+            if ((iResult = m_RefComp.IO.IsOn(iBackSWAddr, out bBackStatus)) != SUCCESS)
+            {
+                // 오류 동작 Log 
+                strLog = String.Format("뒷 Panel의 {0}의 상태를 읽는데 실패했습니다.", strBtnName);
+                WriteLog(strLog, ELogType.Debug, ELogWType.Error);
 
-            //    return iResult;
-            //}
+                return iResult;
+            }
 
-            pbStatus = bFrontStatus || bBackStatus;
+            bStatus = bFrontStatus || bBackStatus;
 
             return SUCCESS;
         }
 
-        /**
-        * 앞, 뒷 Panel의 특정 LED의 동작을 설정한다.
-        *
-        * @param	strLogName : Log할 때 사용할 LED 이름
-        * @param	iFrontSWAddr : 앞 Panel의 LED IO Address
-        * @param	iBackSWAddr : 뒷 Panel의 LED IO Address
-        * @param	bStatus : 설정할 앞, 뒷 Panel의 LED 동작상태 (앞, 뒷면 둘다 동작)
-        */
-        public int setPanelLedStatus(string strLogName, int iFrontLedAddr, int iBackLedAddr, bool bStatus)
+        /// <summary>
+        /// 앞, 뒷 Panel의 특정 LED의 동작을 설정한다.
+        /// </summary>
+        /// <param name="strBtnName">Log할 때 사용할 LED 이름</param>
+        /// <param name="iFrontLedAddr"> 앞 Panel의 LED IO Address</param>
+        /// <param name="iBackLedAddr">뒷 Panel의 LED IO Address</param>
+        /// <param name="bStatus">설정할 앞, 뒷 Panel의 LED 동작상태 (앞, 뒷면 둘다 동작)</param>
+        /// <returns></returns>
+        public int setPanelLedStatus(string strBtnName, int iFrontLedAddr, int iBackLedAddr, bool bStatus)
         {
             int iResult = SUCCESS;
-            string strLogMessage;
+            string strLog;
 
-            //if (bStatus == true)
-            //{
-            //    if ((iResult = m_plnkIO.OutputOn(iFrontLedAddr)) != SUCCESS)
-            //    {
-            //        // 오류 동작 Log
-            //        strLogMessage.Format("앞 Panel의 %s를 ON하는데 실패했습니다.", strLogName);
-            //        m_plogMng.WriteLog(DEF_MLOG_ERROR_LOG_LEVEL, strLogMessage, __FILE__, __LINE__);
+            if (bStatus == true)
+            {
+                if ((iResult = m_RefComp.IO.OutputOn(iFrontLedAddr)) != SUCCESS)
+                {
+                    // 오류 동작 Log
+                    strLog = String.Format("앞 Panel의 {0}를 ON하는데 실패했습니다.", strBtnName);
+                    WriteLog(strLog, ELogType.Debug, ELogWType.Error);
 
-            //        return iResult;
-            //    }
-            //    // 정상 동작 Log
-            //    //.		strLogMessage.Format("앞 Panel의 %s를 ON하였습니다.", strLogName);
-            //    //.		m_plogMng.WriteLog(strLogMessage, __FILE__, __LINE__);
+                    return iResult;
+                }
+                // 정상 동작 Log
+                //.		strLog = String.Format("앞 Panel의 {0}를 ON하였습니다.", strBtnName);
+                //.		m_plogMng.WriteLog(strLog, __FILE__, __LINE__);
 
-            //    if ((iResult = m_plnkIO.OutputOn(iBackLedAddr)) != SUCCESS)
-            //    {
-            //        // 오류 동작 Log
-            //        strLogMessage.Format("뒷 Panel의 %s를 ON하는데 실패했습니다.", strLogName);
-            //        m_plogMng.WriteLog(DEF_MLOG_ERROR_LOG_LEVEL, strLogMessage, __FILE__, __LINE__);
+                if ((iResult = m_RefComp.IO.OutputOn(iBackLedAddr)) != SUCCESS)
+                {
+                    // 오류 동작 Log
+                    strLog = String.Format("뒷 Panel의 {0}를 ON하는데 실패했습니다.", strBtnName);
+                    WriteLog(strLog, ELogType.Debug, ELogWType.Error);
 
-            //        return iResult;
-            //    }
-            //    // 정상 동작 Log
-            //    //.		strLogMessage.Format("뒷 Panel의 %s를 ON하였습니다.", strLogName);
-            //    //.		m_plogMng.WriteLog(strLogMessage, __FILE__, __LINE__);
-            //}
-            //else
-            //{
-            //    if ((iResult = m_plnkIO.OutputOff(iFrontLedAddr)) != SUCCESS)
-            //    {
-            //        // 오류 동작 Log
-            //        strLogMessage.Format("앞 Panel의 %s를 OFF하는데 실패했습니다.", strLogName);
-            //        m_plogMng.WriteLog(DEF_MLOG_ERROR_LOG_LEVEL, strLogMessage, __FILE__, __LINE__);
+                    return iResult;
+                }
+                // 정상 동작 Log
+                //.		strLog = String.Format("뒷 Panel의 {0}를 ON하였습니다.", strBtnName);
+                //.		m_plogMng.WriteLog(strLog, __FILE__, __LINE__);
+            }
+            else
+            {
+                if ((iResult = m_RefComp.IO.OutputOff(iFrontLedAddr)) != SUCCESS)
+                {
+                    // 오류 동작 Log
+                    strLog = String.Format("앞 Panel의 {0}를 OFF하는데 실패했습니다.", strBtnName);
+                    WriteLog(strLog, ELogType.Debug, ELogWType.Error);
 
-            //        return iResult;
-            //    }
-            //    // 정상 동작 Log
-            //    //.		strLogMessage.Format("앞 Panel의 %s를 OFF하였습니다.", strLogName);
-            //    //.		m_plogMng.WriteLog(strLogMessage, __FILE__, __LINE__);
+                    return iResult;
+                }
+                // 정상 동작 Log
+                //.		strLog = String.Format("앞 Panel의 {0}를 OFF하였습니다.", strBtnName);
+                //.		m_plogMng.WriteLog(strLog, __FILE__, __LINE__);
 
-            //    if ((iResult = m_plnkIO.OutputOff(iBackLedAddr)) != SUCCESS)
-            //    {
-            //        // 오류 동작 Log
-            //        strLogMessage.Format("뒷 Panel의 %s를 OFF하는데 실패했습니다.", strLogName);
-            //        m_plogMng.WriteLog(DEF_MLOG_ERROR_LOG_LEVEL, strLogMessage, __FILE__, __LINE__);
+                if ((iResult = m_RefComp.IO.OutputOff(iBackLedAddr)) != SUCCESS)
+                {
+                    // 오류 동작 Log
+                    strLog = String.Format("뒷 Panel의 {0}를 OFF하는데 실패했습니다.", strBtnName);
+                    WriteLog(strLog, ELogType.Debug, ELogWType.Error);
 
-            //        return iResult;
-            //    }
-            //    // 정상 동작 Log
-            //    //.		strLogMessage.Format("뒷 Panel의 %s를 OFF하였습니다.", strLogName);
-            //    //.		m_plogMng.WriteLog(strLogMessage, __FILE__, __LINE__);
-            //}
+                    return iResult;
+                }
+                // 정상 동작 Log
+                //.		strLog = String.Format("뒷 Panel의 {0}를 OFF하였습니다.", strBtnName);
+                //.		m_plogMng.WriteLog(strLog, __FILE__, __LINE__);
+            }
 
             return SUCCESS;
         }
 
-        /**
-        * Tower Lamp의 Lamp, Buzzer의 동작을 설정한다.
-        *
-        * @param	strLogName : Log할 때 사용할 Tower Lamp 동작 요소 이름
-        * @param	iTowerAddr : 앞 Panel의 LED IO Address
-        * @param	bStatus : 설정할 Tower Lamp의 Lamp, Buzzer의 동작상태
-        */
-        public int setTowerLampStatus(string strLogName, int iTowerAddr, bool bStatus)
+        /// <summary>
+        /// Tower Lamp의 Lamp, Buzzer의 동작을 설정한다.
+        /// </summary>
+        /// <param name="strBtnName"></param>
+        /// <param name="iTowerAddr">앞 Panel의 LED IO Address</param>
+        /// <param name="bStatus">설정할 Tower Lamp의 Lamp, Buzzer의 동작상태</param>
+        /// <returns></returns>
+        public int setTowerLampStatus(string strBtnName, int iTowerAddr, bool bStatus)
         {
             int iResult = SUCCESS;
-            string strLogMessage;
+            string strLog;
 
-            //if (bStatus == true)
-            //{
-            //    if ((iResult = m_plnkIO.OutputOn(iTowerAddr)) != SUCCESS)
-            //    {
-            //        // 오류 동작 Log
-            //        strLogMessage.Format("Tower Lamp의 %s를 ON하는데 실패했습니다.", strLogName);
-            //        m_plogMng.WriteLog(DEF_MLOG_ERROR_LOG_LEVEL, strLogMessage, __FILE__, __LINE__);
+            if (bStatus == true)
+            {
+                if ((iResult = m_RefComp.IO.OutputOn(iTowerAddr)) != SUCCESS)
+                {
+                    // 오류 동작 Log
+                    strLog = String.Format("Tower Lamp의 {0}를 ON하는데 실패했습니다.", strBtnName);
+                    WriteLog(strLog, ELogType.Debug, ELogWType.Error);
 
-            //        return iResult;
-            //    }
-            //}
-            //else
-            //{
-            //    if ((iResult = m_plnkIO.OutputOff(iTowerAddr)) != SUCCESS)
-            //    {
-            //        // 오류 동작 Log
-            //        strLogMessage.Format("Tower Lamp의 %s를 OFF하는데 실패했습니다.", strLogName);
-            //        m_plogMng.WriteLog(DEF_MLOG_ERROR_LOG_LEVEL, strLogMessage, __FILE__, __LINE__);
+                    return iResult;
+                }
+            }
+            else
+            {
+                if ((iResult = m_RefComp.IO.OutputOff(iTowerAddr)) != SUCCESS)
+                {
+                    // 오류 동작 Log
+                    strLog = String.Format("Tower Lamp의 {0}를 OFF하는데 실패했습니다.", strBtnName);
+                    WriteLog(strLog, ELogType.Debug, ELogWType.Error);
 
-            //        return iResult;
-            //    }
-            //}
+                    return iResult;
+                }
+            }
 
             return SUCCESS;
         }
 
-        /**
-        * System의 Auto / Manual Mode를 반영한다.
-        * Mode 변환이 생길때마다 TrsAutoManager에 의해 각 Control들의 Mode에 반영한다.
-        *
-        * @param	EAutoManual eAutoManual (반영하고자 하는 Auto/Manual Mode)
-        * @return	void
-*/
-        public void SetAutoManual(EAutoManual eAutoManual)
-        {
-            m_eAutoManual = eAutoManual;
-        }
-
-        /**
-        * System의 운전 Mode를 반영한다.
-        * 화면에서 운전 Mode 변경 시 각 Control들의 운전 Mode에 반영한다.
-        *
-        * @param	EOpMode eOpMode (반영하고자 하는 운전 Mode)
-        * @return	void
-*/
-        public void SetOpMode(EOpMode eOpMode)
-        {
-            m_eOpMode = eOpMode;
-        }
-
-        public int CheckAllHead_Tank_Empty(out bool pbEmptyAll, out bool pbEmptyPart)
+        public int CheckAllTank_Empty(out bool bEmptyAll, out bool bEmptyPart)
         {
             int iResult = SUCCESS;
             bool bStatus1 = false;
             bool bStatus2 = false;
 
-            pbEmptyAll = false;
-            pbEmptyPart = false;
+            bEmptyAll = false;
+            bEmptyPart = false;
 
             int i = 0;
             for (i = 0; i < DEF_MAX_HEAD_NO; i++)
             {
-                iResult = CheckHead_Tank_Empty(i, out bStatus1, out bStatus2);
+                iResult = CheckTank_Empty(i, out bStatus1, out bStatus2);
                 if (iResult != SUCCESS) return iResult;
 
-                if (bStatus1 == true) pbEmptyAll = true;
-                if (bStatus2 == true) pbEmptyPart = true;
+                if (bStatus1 == true) bEmptyAll = true;
+                if (bStatus2 == true) bEmptyPart = true;
 
             }
 
             return SUCCESS;
         }
 
-        public int CheckHead_Tank_Empty(int nHeadNo, out bool pbEmptyAll, out bool pbEmptyPart)
+        public int CheckTank_Empty(int nHeadNo, out bool bEmptyAll, out bool bEmptyPart)
         {
             int iResult = SUCCESS;
 
             bool[] bStatus = new bool[DEF_MAX_TANK_NO];
 
-            pbEmptyAll = false;
-            pbEmptyPart = false;
+            bEmptyAll = false;
+            bEmptyPart = false;
             bool bInit = false;
 
-            //int i = 0;
-            //for (i = 0; i < DEF_MAX_TANK_NO; i++)
-            //{
-            //    if (m_Data.m_bUseMaterialAlarmHead[nHeadNo][i] == false) continue;
+            int i = 0;
+            for (i = 0; i < DEF_MAX_TANK_NO; i++)
+            {
+                if (m_Data.bUseMaterialAlarm[i] == false) continue;
 
-            //    iResult = m_plnkIO.IsOn(m_Data.m_nTankEmpty[nHeadNo][i], out bStatus[i]);
-            //    if (iResult != SUCCESS) return iResult;
+                iResult = m_RefComp.IO.IsOn(m_Data.TankEmptyAddr[i], out bStatus[i]);
+                if (iResult != SUCCESS) return iResult;
 
-            //    if (bInit == false)
-            //    {
-            //        bInit = true;
-            //        *pbEmptyAll = true;
-            //    }
+                if (bInit == false)
+                {
+                    bInit = true;
+                    bEmptyAll = true;
+                }
 
-            //    if (bStatus[i] == true) *pbEmptyPart = true;
+                if (bStatus[i] == true) bEmptyPart = true;
 
-            //    if (bStatus[i] == false) *pbEmptyAll = false;
-            //}
+                if (bStatus[i] == false) bEmptyAll = false;
+            }
 
             return SUCCESS;
         }
 
-        public int GetAreaFrontBackStatus(out bool pbStatus)
+        public int GetAreaFrontBackStatus(out bool bStatus)
         {
             int iResult = SUCCESS;
 
-            //bool bStatus;
+            bStatus = false;
 
-            //iResult = m_plnkIO.IsOn(iDoor_Front, out bStatus);
-            //if (bStatus == false)
-            //{
-            //    *pbStatus = false;
-            //    return iResult;
-            //}
+            iResult = m_RefComp.IO.IsOn(DEF_IO.iDoor_Front, out bStatus);
+            if (bStatus == false)
+            {
+                return iResult;
+            }
 
-            //iResult = m_plnkIO.IsOn(iDoor_Side, out bStatus);
-            //if (bStatus == false)
-            //{
-            //    *pbStatus = false;
-            //    return iResult;
-            //}
+            iResult = m_RefComp.IO.IsOn(DEF_IO.iDoor_Side, out bStatus);
+            if (bStatus == false)
+            {
+                return iResult;
+            }
 
-            //iResult = m_plnkIO.IsOn(iDoor_Back, out bStatus);
-            //if (bStatus == false)
-            //{
-            //    *pbStatus = false;
-            //    return iResult;
-            //}
+            iResult = m_RefComp.IO.IsOn(DEF_IO.iDoor_Back, out bStatus);
+            if (bStatus == false)
+            {
+                return iResult;
+            }
 
-            pbStatus = true;
+            bStatus = true;
             return iResult;
         }
 

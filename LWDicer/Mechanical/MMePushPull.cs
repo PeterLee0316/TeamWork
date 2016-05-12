@@ -126,6 +126,7 @@ namespace LWDicer.Control
             // Cylinder
             // Gripper
             public ICylinder Gripper;
+            public ICylinder UDCyl;
 
             // Vacuum
 
@@ -218,6 +219,8 @@ namespace LWDicer.Control
             return SUCCESS;
         }
 
+        //////////////////////////////////////////////////////////////////////////////
+        // Common Function
         public int SetPushPullPosition(CUnitPos FixedPos, CUnitPos ModelPos, CUnitPos OffsetPos)
         {
             AxPushPullInfo.SetPosition(FixedPos, ModelPos, OffsetPos);
@@ -251,6 +254,54 @@ namespace LWDicer.Control
         public int IsGripReleased(out bool bStatus)
         {
             int iResult = m_RefComp.Gripper.IsUp(out bStatus);
+            return iResult;
+        }
+
+        public int IsObjectDetected(out bool bStatus)
+        {
+            bStatus = true;
+            bool bStatus1, bStatus2;
+            int iResult = IsObjectDetected_Front(out bStatus1);
+            if (iResult != SUCCESS) return iResult;
+            iResult = IsObjectDetected_Rear(out bStatus2);
+            if (iResult != SUCCESS) return iResult;
+
+            // for safety, return false when all sensor is off
+            if (bStatus1 == false && bStatus2 == false) bStatus = false;
+
+            return SUCCESS;
+        }
+
+        public int IsObjectDetected_Front(out bool bStatus)
+        {
+            int iResult = m_RefComp.IO.IsOn(m_Data.InDetectObject_Front, out bStatus);
+            if (iResult != SUCCESS) return iResult;
+
+            return SUCCESS;
+        }
+
+        public int IsObjectDetected_Rear(out bool bStatus)
+        {
+            int iResult = m_RefComp.IO.IsOn(m_Data.InDetectObject_Rear, out bStatus);
+            if (iResult != SUCCESS) return iResult;
+
+            return SUCCESS;
+        }
+
+        public int IsAllAxisOrignReturned(out bool bStatus)
+        {
+            bool[] bAxisStatus;
+            int iResult = m_RefComp.AxPushPull.IsOriginReturn(DEF_ALL_COORDINATE, out bStatus, out bAxisStatus);
+            if (iResult != SUCCESS) return iResult;
+            if (bStatus == false) return SUCCESS;
+
+            for (int i = 0; i < m_RefComp.AxCentering.Length; i++)
+            {
+                iResult = m_RefComp.AxCentering[i].IsOriginReturn(DEF_ALL_COORDINATE, out bStatus, out bAxisStatus);
+                if (iResult != SUCCESS) return iResult;
+                if (bStatus == false) return SUCCESS;
+            }
+
             return iResult;
         }
 
@@ -705,6 +756,8 @@ namespace LWDicer.Control
                 }
             }
 
+            // check cylinder
+
             return SUCCESS;
         }
 
@@ -1121,58 +1174,57 @@ namespace LWDicer.Control
             return SUCCESS;
         }
 
-        //////////////////////////////////////////////////////////////////////////////
-        // Common Function
-        public int IsAllAxisOrignReturned(out bool bStatus)
+        ////////////////////////////////////////////////////////////////////////
+        /// DEF_Z
+        public int IsCylUp(out bool bStatus)
         {
-            bool[] bAxisStatus;
-            int iResult = m_RefComp.AxPushPull.IsOriginReturn(DEF_ALL_COORDINATE, out bStatus, out bAxisStatus);
-            if (iResult != SUCCESS) return iResult;
-            if (bStatus == false) return SUCCESS;
-
-            for(int i = 0; i < m_RefComp.AxCentering.Length; i++)
-            {
-                iResult = m_RefComp.AxCentering[i].IsOriginReturn(DEF_ALL_COORDINATE, out bStatus, out bAxisStatus);
-                if (iResult != SUCCESS) return iResult;
-                if (bStatus == false) return SUCCESS;
-            }
+            bStatus = false;
+            if (m_RefComp.UDCyl == null) return GenerateErrorCode(ERR_PUSHPULL_UNABLE_TO_USE_CYL);
+            int iResult = m_RefComp.UDCyl.IsUp(out bStatus);
 
             return iResult;
         }
 
-        public int IsObjectDetected(out bool bStatus)
+        public int IsCylDown(out bool bStatus)
         {
-            bStatus = true;
-            bool bStatus1, bStatus2;
-            int iResult = IsObjectDetected_Front(out bStatus1);
-            if (iResult != SUCCESS) return iResult;
-            iResult = IsObjectDetected_Rear(out bStatus2);
+            bStatus = false;
+            if (m_RefComp.UDCyl == null) return GenerateErrorCode(ERR_PUSHPULL_UNABLE_TO_USE_CYL);
+            int iResult = m_RefComp.UDCyl.IsDown(out bStatus);
+
+            return iResult;
+        }
+
+        public int CylUp(bool bSkipSensor = false)
+        {
+            // check for safety
+            int iResult = CheckForUDCylMove();
             if (iResult != SUCCESS) return iResult;
 
-            // for safety, return false when all sensor is off
-            if (bStatus1 == false && bStatus2 == false) bStatus = false;
+            if (m_RefComp.UDCyl == null) return GenerateErrorCode(ERR_PUSHPULL_UNABLE_TO_USE_CYL);
+            iResult = m_RefComp.UDCyl.Up(bSkipSensor);
+
+            return iResult;
+        }
+
+        public int CylDown(bool bSkipSensor = false, int index = DEF_Z)
+        {
+            // check for safety
+            int iResult = CheckForUDCylMove();
+            if (iResult != SUCCESS) return iResult;
+
+            if (m_RefComp.UDCyl == null) return GenerateErrorCode(ERR_PUSHPULL_UNABLE_TO_USE_CYL);
+            iResult = m_RefComp.UDCyl.Down(bSkipSensor);
+
+            return iResult;
+        }
+
+        public int CheckForUDCylMove(bool bCheckGripLock = true)
+        {
+            // check cylinder
+            // 나중에 구체적으로 정해지면 인터락 상관관계 다시한번 잡아야 하기에..
 
             return SUCCESS;
         }
-
-        public int IsObjectDetected_Front(out bool bStatus)
-        {
-            int iResult = m_RefComp.IO.IsOn(m_Data.InDetectObject_Front, out bStatus);
-            if (iResult != SUCCESS) return iResult;
-
-            return SUCCESS;
-        }
-
-        public int IsObjectDetected_Rear(out bool bStatus)
-        {
-            int iResult = m_RefComp.IO.IsOn(m_Data.InDetectObject_Rear, out bStatus);
-            if (iResult != SUCCESS) return iResult;
-
-            return SUCCESS;
-        }
-
-        ////////////////////////////////////////////////////////////////////////
-
 
     }
 }

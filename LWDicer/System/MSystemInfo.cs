@@ -23,7 +23,8 @@ namespace LWDicer.Control
                 new CObjectInfo( (int)OBJ_DATAMANAGER, "DataManger", 1, "DataManager", 500, "DataManager", LOG_ALL, LOG_DAY ),
 
 	            new CObjectInfo( (int)OBJ_HL_MOTION_LIB, "MotionLib", 2, "MMC Board", 1000, "MotionLib", LOG_ALL, LOG_DAY ),
-	            new CObjectInfo( (int)OBJ_HL_MOTION_LIB, "MotionLib", 3, "YMC Board", 1500, "YMCLib", LOG_ALL, LOG_DAY ),
+                new CObjectInfo( (int)OBJ_HL_MOTION_LIB, "MotionLib", 3, "YMC Board", 1300, "YMCLib", LOG_ALL, LOG_DAY ),
+                new CObjectInfo( (int)OBJ_HL_MOTION_LIB, "MotionLib", 4, "ACS Board", 1600, "ACSLib", LOG_ALL, LOG_DAY ),
 
 	            new CObjectInfo( (int)OBJ_HL_IO, "IO", 6, "Device Net", 2000, "IO", LOG_ALL, LOG_DAY ),	
 		
@@ -50,10 +51,10 @@ namespace LWDicer.Control
 	            // 80-99 : Reserved
 		
 	            // 100-149 : Cylinders--------------------------------------------------------------------
-	            new CObjectInfo( (int)OBJ_HL_CYLINDER, "Cylinder", 100, "Unload Handler Up/Down Cylinder", 8000, "UnloadHandlerUD", LOG_ALL, LOG_DAY ),
-                new CObjectInfo( (int)OBJ_HL_CYLINDER, "Cylinder", 101, "Unload Handler Up/Down Cylinder2", 8000, "UnloadHandlerUD2", LOG_ALL, LOG_DAY ),
-                new CObjectInfo( (int)OBJ_HL_CYLINDER, "Cylinder", 102, "PushPull Gripper Lock/Unlock Cylinder", 8000, "PushPullGripper", LOG_ALL, LOG_DAY ),
-                new CObjectInfo( (int)OBJ_HL_CYLINDER, "Cylinder", 103, "SHead1 HeightBase Forward/Backward Cylinder", 8000, "HeightBase2", LOG_ALL, LOG_DAY ),
+                new CObjectInfo( (int)OBJ_HL_CYLINDER, "Cylinder", 100, "PushPull Gripper Lock/Unlock Cylinder", 8000, "PushPullGripper", LOG_ALL, LOG_DAY ),
+                new CObjectInfo( (int)OBJ_HL_CYLINDER, "Cylinder", 101, "PushPull Up/Down Cylinder", 8000, "PushPullUD", LOG_ALL, LOG_DAY ),
+	            new CObjectInfo( (int)OBJ_HL_CYLINDER, "Cylinder", 102, "Unload Handler Up/Down Cylinder", 8000, "UnloadHandlerUD", LOG_ALL, LOG_DAY ),
+                new CObjectInfo( (int)OBJ_HL_CYLINDER, "Cylinder", 103, "Unload Handler Up/Down Cylinder2", 8000, "UnloadHandlerUD2", LOG_ALL, LOG_DAY ),
                 new CObjectInfo( (int)OBJ_HL_CYLINDER, "Cylinder", 104, "SHead1 UVCheck Cyl1 Forward/Backward Cylinder", 8000, "SHead1UVCheckCyl1", LOG_ALL, LOG_DAY ),
                 new CObjectInfo( (int)OBJ_HL_CYLINDER, "Cylinder", 105, "SHead1 UVCheck Cyl2 Forward/Backward Cylinder", 8000, "SHead1UVCheckCyl2", LOG_ALL, LOG_DAY ),
                 new CObjectInfo( (int)OBJ_HL_CYLINDER, "Cylinder", 106, "SHead1 UVCheck Cyl3 Forward/Backward Cylinder", 8000, "SHead1UVCheckCyl3", LOG_ALL, LOG_DAY ),
@@ -72,7 +73,17 @@ namespace LWDicer.Control
                 new CObjectInfo( (int)OBJ_HL_CYLINDER, "Cylinder", 119, "Camera2 Up/Down Cylinder", 8000, "Camera2UD", LOG_ALL, LOG_DAY ),
                 new CObjectInfo( (int)OBJ_HL_CYLINDER, "Cylinder", 120, "Workbench Forward/Backward Cylinder", 8000, "WorkbenchFB", LOG_ALL, LOG_DAY ),
                 new CObjectInfo( (int)OBJ_HL_CYLINDER, "Cylinder", 121, "Workbench Up/Down Cylinder", 8000, "WorkbenchUD", LOG_ALL, LOG_DAY ),
-		
+
+                new CObjectInfo( (int)OBJ_HL_CYLINDER, "Cylinder", 122, "Coater Up/Down Cylinder", 8000, "Coater", LOG_ALL, LOG_DAY ),
+                new CObjectInfo( (int)OBJ_HL_CYLINDER, "Cylinder", 123, "Coater DI Valve", 8000, "Coater", LOG_ALL, LOG_DAY ),
+                new CObjectInfo( (int)OBJ_HL_CYLINDER, "Cylinder", 124, "Coater PVA Valve", 8000, "Coater", LOG_ALL, LOG_DAY ),
+                new CObjectInfo( (int)OBJ_HL_CYLINDER, "Cylinder", 125, "Coater Ring Blow On & Off", 8000, "Coater", LOG_ALL, LOG_DAY ),
+
+                new CObjectInfo( (int)OBJ_HL_CYLINDER, "Cylinder", 126, "Cleaner Up/Down Cylinder", 8000, "Cleaner", LOG_ALL, LOG_DAY ),
+                new CObjectInfo( (int)OBJ_HL_CYLINDER, "Cylinder", 127, "Cleaner DI Valve", 8000, "Cleaner", LOG_ALL, LOG_DAY ),
+                new CObjectInfo( (int)OBJ_HL_CYLINDER, "Cylinder", 128, "Cleaner N2 Valve", 8000, "Cleaner", LOG_ALL, LOG_DAY ),
+                new CObjectInfo( (int)OBJ_HL_CYLINDER, "Cylinder", 129, "Cleaner Ring Blow On & Off", 8000, "Coater", LOG_ALL, LOG_DAY ),
+
 	            // 150-199 : Vacuums ------------------------------------------------------------------------------	
 	            new CObjectInfo( (int)OBJ_HL_VACUUM, "Vacuum", 150, "Stage1 Vacuum", 9000, "Stage1Vac", LOG_ALL, LOG_DAY ),
                 new CObjectInfo( (int)OBJ_HL_VACUUM, "Vacuum", 151, "Stage2 Vacuum", 9000, "Stage2Vac", LOG_ALL, LOG_DAY ),
@@ -131,18 +142,22 @@ namespace LWDicer.Control
                 new CObjectInfo( (int)OBJ_ML_DISPENSER , "GHead1",     316, "Mechanical : GHead1", 22000, "GHead1", LOG_ALL, LOG_DAY ),
 		
 	            // 350-399 : Control Layer --------------------------------------------------------------------
-	            new CObjectInfo( (int)OBJ_CL_MANAGE_OP_PANEL   , "ManageOpPanel",     350, "Control : Manage OP Panel", 32200, "C_ManageOpPanel", LOG_ALL, LOG_DAY ),
+	            new CObjectInfo( (int)OBJ_CL_OP_PANEL          , "CtrlOpPanel",       350, "Control : OPPanel", 32200, "C_OpPanel", LOG_ALL, LOG_DAY ),
                 new CObjectInfo( (int)OBJ_CL_LOADER            , "CtrlLoader",        351, "Control : Loader", 30600, "C_Loader", LOG_ALL, LOG_DAY ),
                 new CObjectInfo( (int)OBJ_CL_PUSHPULL          , "CtrlPushPull",      352, "Control : PushPull", 30700, "C_PushPull", LOG_ALL, LOG_DAY ),
                 new CObjectInfo( (int)OBJ_CL_STAGE1            , "CtrlStage1",        353, "Control : Stage1", 30500, "C_Stage1", LOG_ALL, LOG_DAY ),
                 new CObjectInfo( (int)OBJ_CL_HANDLER           , "CtrlHandler",       354, "Control : Handler", 30800, "C_Handler", LOG_ALL, LOG_DAY ),
+                new CObjectInfo( (int)OBJ_CL_SPINNER           , "CtrlSpinner",       355, "Control : Spinner1", 30900, "C_Spinner1", LOG_ALL, LOG_DAY ),
+                new CObjectInfo( (int)OBJ_CL_SPINNER           , "CtrlSpinner",       356, "Control : Spinner2", 30900, "C_Spinner2", LOG_ALL, LOG_DAY ),
                 new CObjectInfo( (int)OBJ_CL_VISION_CALIBRATION, "VisionCalibration", 360, "Control : Vision Calibration1", 31000, "C_VisionCalib1", LOG_ALL, LOG_DAY ),
                 new CObjectInfo( (int)OBJ_CL_VISION_CALIBRATION, "VisionCalibration", 361, "Control : Vision Calibration2", 31000, "C_VisionCalib2", LOG_ALL, LOG_DAY ),
                 new CObjectInfo( (int)OBJ_CL_HW_TEACH          , "HWTeach",           362, "Control : HW Teach", 32000, "C_HWTeach", LOG_ALL, LOG_DAY ),
                 new CObjectInfo( (int)OBJ_CL_INTERFACE_CTRL    , "InterfaceCtrl1",    363, "Control : Interface Ctrl1", 32400, "C_InterfaceCtrl1", LOG_ALL, LOG_DAY ),
                 new CObjectInfo( (int)OBJ_CL_MANAGE_PRODUCT    , "ManageProduct",     364, "Control : Manage Product", 32300, "C_ManageProduct", LOG_ALL, LOG_DAY ),
                 new CObjectInfo( (int)OBJ_CL_INTERFACE_CTRL    , "InterfaceCtrl2",    365, "Control : Interface Ctrl2", 32400, "C_InterfaceCtrl2", LOG_ALL, LOG_DAY ),
-		
+
+
+
 	            // 400-459 : Process Layer --------------------------------------------------------------------
                 new CObjectInfo( (int)OBJ_PL_TRS_AUTO_MANAGER  , "TrsAutoManager",   400, "Process : TrsAuto Manager", 40000, "TrsAutoManager", LOG_ALL, LOG_DAY ),
                 new CObjectInfo( (int)OBJ_PL_TRS_LOADER        , "TrsLoader",        401, "Process : TrsLoader", 41000, "TrsLoader", LOG_ALL, LOG_DAY ),
