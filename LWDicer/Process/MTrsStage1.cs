@@ -76,7 +76,7 @@ namespace LWDicer.Control
             InitializeInterface();
 
             // Do Action
-            int iStep = (int)TRS_STAGE1_MOVETO_LOAD;
+            int iStep = 0;// (int)TRS_STAGE1_MOVETO_LOAD;
 
             // finally
             ThreadStep = iStep;
@@ -169,47 +169,47 @@ namespace LWDicer.Control
                     case STS_RUN: // auto run
                         //m_RefComp.ctrlStage1.SetAutoManual(AUTO);
 
-                        switch (ThreadStep)
-                        {
-                            case (int)TRS_STAGE1_MOVETO_LOAD:
-                                if (m_bAuto_PanelSupplyStop) break;
+                        //switch (ThreadStep)
+                        //{
+                        //    case (int)TRS_STAGE1_MOVETO_LOAD:
+                        //        if (m_bAuto_PanelSupplyStop) break;
 
-                                PostMsg(TrsAutoManager, (int)MSG_STAGE_LOADING_END);
+                        //        PostMsg(TrsAutoManager, (int)MSG_STAGE_LOADING_END);
 
-                                iResult = m_RefComp.ctrlStage1.MoveToLoadPos();
-                                if (iResult != SUCCESS) { SendAlarmTo(iResult); break; }
+                        //        iResult = m_RefComp.ctrlStage1.MoveToLoadPos();
+                        //        if (iResult != SUCCESS) { SendAlarmTo(iResult); break; }
 
-                                SetStep((int)TRS_STAGE1_WAIT_MOVETO_LOAD);
-                                break;
+                        //        SetStep((int)TRS_STAGE1_WAIT_MOVETO_LOAD);
+                        //        break;
 
-                            case (int)TRS_STAGE1_WAIT_MOVETO_LOAD:
-                                if (m_bAuto_PanelSupplyStop) break;
+                        //    case (int)TRS_STAGE1_WAIT_MOVETO_LOAD:
+                        //        if (m_bAuto_PanelSupplyStop) break;
 
-                                SetStep((int)TRS_STAGE1_LOAD_PANEL);
-                                break;
+                        //        SetStep((int)TRS_STAGE1_LOAD_PANEL);
+                        //        break;
 
-                            case (int)TRS_STAGE1_LOAD_PANEL: //2
+                        //    case (int)TRS_STAGE1_LOAD_PANEL: //2
 
-                                PostMsg(TrsAutoManager, (int)MSG_PANEL_INPUT);
-                                PostMsg(TrsAutoManager, (int)MSG_STAGE_LOADING_END);
+                        //        PostMsg(TrsAutoManager, (int)MSG_PANEL_INPUT);
+                        //        PostMsg(TrsAutoManager, (int)MSG_STAGE_LOADING_END);
 
-                                SetStep((int)TRS_STAGE1_CAMERA_MARK_POS);
-                                break;
+                        //        SetStep((int)TRS_STAGE1_CAMERA_MARK_POS);
+                        //        break;
 
-                            case (int)TRS_STAGE1_UNLOAD_COMPLETE: //7
-                                                             //				if(!m_bWorkbench_SafetyPos) break;
+                        //    case (int)TRS_STAGE1_UNLOAD_COMPLETE: //7
+                        //                                     //				if(!m_bWorkbench_SafetyPos) break;
 
-                                iResult = m_RefComp.ctrlStage1.MoveToWaitPos();
-                                if (iResult != SUCCESS) { SendAlarmTo(iResult); break; }
+                        //        iResult = m_RefComp.ctrlStage1.MoveToWaitPos();
+                        //        if (iResult != SUCCESS) { SendAlarmTo(iResult); break; }
 
-                                //PostMsg(TrsWorkbench, MSG_STAGE1_WORKBENCH_SAFETY_POS);
+                        //        //PostMsg(TrsWorkbench, MSG_STAGE1_WORKBENCH_SAFETY_POS);
 
-                                SetStep((int)TRS_STAGE1_MOVETO_LOAD);
-                                break;
+                        //        SetStep((int)TRS_STAGE1_MOVETO_LOAD);
+                        //        break;
 
-                            default:
-                                break;
-                        }
+                        //    default:
+                        //        break;
+                        //}
                         break;
 
                     default:

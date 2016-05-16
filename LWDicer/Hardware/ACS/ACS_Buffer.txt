@@ -1,0 +1,60 @@
+﻿
+
+Motion 에서 Buffer / Ladder 프로그램을 지원하고, 사용한다면, 백업 및 참고용도로 이 파일에 관리할 용도.
+
+
+//////////////////////////////////////////////////////////////////////////
+// Buffer1
+// Last Updated 2016.05.16 by ....Lee Jae Jun
+//////////////////////////////////////////////////////////////////////////
+AUTOEXEC:
+
+GLOBAL REAL M_REAL(4)(5)
+GLOBAL INT  M_INT(4)(3)
+INT AXIS
+
+WHILE 1
+	
+	AXIS =0
+	
+	LOOP 4
+		M_REAL(AXIS)(0) = FPOS(AXIS)	! Auctual Position
+		M_REAL(AXIS)(1) = RPOS(AXIS)	! Command Position
+		M_REAL(AXIS)(2) = FVEL(AXIS)	! Current Velocity
+		M_REAL(AXIS)(3) = RMS(AXIS)		! Torque Percent
+		M_REAL(AXIS)(4) = PE(AXIS)		! Position Error
+		
+		M_INT(AXIS)(0) = MST(AXIS) 	
+						  !	0 ON  Enabled (#ENABLED)
+						  !	1 OFF Open Loop (#OPEN)
+						  !	4 OFF In Position (#INPOS)
+						  !	5 ON  Moving (#MOVE)
+						  !	6 ON  Accelerating (#ACC)
+		M_INT(AXIS)(1) = FAULT(AXIS)  			
+						  !	0 OFF Hardware Right Limit (#RL)
+						  !	1 OFF Hardware Left Limit (#LL)
+						  !	2 OFF Network Error (#NT)
+						  !	4 OFF Motor Overheat (#HOT)
+						  !	5 OFF Software Right Limit (#SRL)
+						  !	6 OFF Software Left Limit (#SLL)
+						  !	7 OFF Encoder 1 Not Connected (#ENCNC)
+						  !	8 OFF Encoder 2 Not Connected (#ENC2NC)
+						  !	9 OFF Drive Fault (#DRIVE)
+						 ! 10 OFF Encoder 1 Error (#ENC)
+						 ! 11 OFF Encoder 2 Error (#ENC2)
+						 ! 12 OFF Non-Critical Pos. Error (#PE)
+						 ! 13 OFF Critical Position Error (#CPE)
+						 ! 14 OFF Velocity Limit (#VL)
+						 ! 15 OFF Acceleration Limit (#AL)
+						 ! 16 OFF Overcurrent (#CL)
+						 ! 17 OFF Servo Processor Alarm (#SP)
+						 ! 20 OFF HSSI Not Connected (#HSSINC)
+		M_INT(AXIS)(2) = 0 ! Home Flag  	
+		
+		AXIS = AXIS+1
+	END
+END
+
+STOP
+
+//////////////////////////////////////////////////////////////////////////

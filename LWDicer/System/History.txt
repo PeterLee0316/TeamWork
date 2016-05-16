@@ -225,6 +225,16 @@ LWDicer의 DataManager에서 데이터를 읽어오기 위한 3가지 함수 : S
 2. Teaching에 대해서 일부 추가 동작 및 추가 검증이 필요함. 우선 일단락 지음
 
 
+// Version : 0.0.8
+// Grade : ★
+// Date : 2016-05-12 ~2016-05-13
+// Context
+
+1. Hardware layer
+	- MACS Class 작성
+	- MMultiAxes_ACS 작성
+	- ACS에 Buffer 프로그램 작성 -> PC에서 읽을 각 모터 Status를 2차원 Array에 Copy하는 내용
+								   PC에서는 Real 값과 Integer의 배열을 읽어옴.
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////

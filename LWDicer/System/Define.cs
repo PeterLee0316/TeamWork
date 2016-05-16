@@ -65,12 +65,10 @@ namespace LWDicer.Control
             LHANDLER_Z       ,
             CAMERA1_Z        ,
             LASER1_Z         ,
-            // Stage는 ACS 모션으로 설정할 것 같아서 일단 주석 처리
-            //STAGE1_X = 0,
-            //STAGE1_Y,
-            //STAGE1_T,
             MAX,
         }
+
+        
 
         public enum EYMC_Device
         {
@@ -115,6 +113,27 @@ namespace LWDicer.Control
             LASER1,
             //STAGE1,
             MAX,
+        }
+
+        public enum EACS_Axis
+        {
+            NULL = -1,
+            STAGE1_X = 0,
+            STAGE1_Y,
+            STAGE1_T,            
+            MAX,
+          
+            ALL
+        }
+
+        public enum EACS_Device
+        {
+            NULL = -1,
+            STAGE1_X = 0,
+            STAGE1_Y,
+            STAGE1_T,
+            
+            ALL
         }
 
         // Head 정의
