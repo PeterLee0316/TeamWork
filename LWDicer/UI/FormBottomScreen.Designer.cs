@@ -45,7 +45,7 @@
             this.BtnAuto.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.BtnAuto.ForeColor = System.Drawing.Color.MidnightBlue;
             this.BtnAuto.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.BtnAuto.Location = new System.Drawing.Point(21, 12);
+            this.BtnAuto.Location = new System.Drawing.Point(12, 12);
             this.BtnAuto.Name = "BtnAuto";
             this.BtnAuto.Size = new System.Drawing.Size(122, 76);
             this.BtnAuto.TabIndex = 3;
@@ -60,7 +60,7 @@
             this.BtnHelp.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.BtnHelp.ForeColor = System.Drawing.Color.MidnightBlue;
             this.BtnHelp.ImageAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.BtnHelp.Location = new System.Drawing.Point(771, 12);
+            this.BtnHelp.Location = new System.Drawing.Point(1144, 12);
             this.BtnHelp.Name = "BtnHelp";
             this.BtnHelp.Size = new System.Drawing.Size(122, 76);
             this.BtnHelp.TabIndex = 4;
@@ -75,7 +75,7 @@
             this.BtnManual.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.BtnManual.ForeColor = System.Drawing.Color.MidnightBlue;
             this.BtnManual.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.BtnManual.Location = new System.Drawing.Point(171, 12);
+            this.BtnManual.Location = new System.Drawing.Point(162, 12);
             this.BtnManual.Name = "BtnManual";
             this.BtnManual.Size = new System.Drawing.Size(122, 76);
             this.BtnManual.TabIndex = 5;
@@ -90,7 +90,7 @@
             this.BtnData.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.BtnData.ForeColor = System.Drawing.Color.MidnightBlue;
             this.BtnData.ImageAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.BtnData.Location = new System.Drawing.Point(321, 12);
+            this.BtnData.Location = new System.Drawing.Point(312, 12);
             this.BtnData.Name = "BtnData";
             this.BtnData.Size = new System.Drawing.Size(122, 76);
             this.BtnData.TabIndex = 7;
@@ -105,7 +105,7 @@
             this.BtnTeach.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.BtnTeach.ForeColor = System.Drawing.Color.MidnightBlue;
             this.BtnTeach.ImageAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.BtnTeach.Location = new System.Drawing.Point(471, 12);
+            this.BtnTeach.Location = new System.Drawing.Point(462, 12);
             this.BtnTeach.Name = "BtnTeach";
             this.BtnTeach.Size = new System.Drawing.Size(122, 76);
             this.BtnTeach.TabIndex = 9;
@@ -120,7 +120,7 @@
             this.BtnLog.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.BtnLog.ForeColor = System.Drawing.Color.MidnightBlue;
             this.BtnLog.ImageAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.BtnLog.Location = new System.Drawing.Point(621, 12);
+            this.BtnLog.Location = new System.Drawing.Point(994, 12);
             this.BtnLog.Name = "BtnLog";
             this.BtnLog.Size = new System.Drawing.Size(122, 76);
             this.BtnLog.TabIndex = 11;
