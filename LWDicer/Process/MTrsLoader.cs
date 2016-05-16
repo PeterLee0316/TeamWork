@@ -9,7 +9,9 @@ using System.Diagnostics;
 using static LWDicer.Control.DEF_Thread;
 using static LWDicer.Control.DEF_Thread.ETrsLoaderStep;
 using static LWDicer.Control.DEF_Thread.EThreadMessage;
+using static LWDicer.Control.DEF_Thread.EThreadChannel;
 using static LWDicer.Control.DEF_Thread.EOpMode;
+using static LWDicer.Control.DEF_Thread.EOpStatus;
 using static LWDicer.Control.DEF_Error;
 using static LWDicer.Control.DEF_Common;
 
@@ -48,9 +50,9 @@ namespace LWDicer.Control
         bool m_bSupplyCassette = false;
         bool m_bSupplyWafer = false;
 
-        public MTrsLoader(CObjectInfo objInfo, int selfChannel,
+        public MTrsLoader(CObjectInfo objInfo, EThreadChannel SelfChannelNo,
             CTrsLoaderRefComp refComp, CTrsLoaderData data)
-             : base(objInfo, selfChannel)
+             : base(objInfo, SelfChannelNo)
         {
             m_RefComp = refComp;
             SetData(data);
@@ -184,7 +186,7 @@ namespace LWDicer.Control
                 // check message from other thread
                 CheckMsg(1);
 
-                switch (OpStatus)
+                switch (eOpStatus)
                 {
                     case STS_MANUAL: // Manual Mode
                         //m_RefComp.ctrlLoader.SetAutoManual(MANUAL);

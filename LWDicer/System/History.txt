@@ -146,11 +146,12 @@ LWDicer의 DataManager에서 데이터를 읽어오기 위한 3가지 함수 : S
 
 // Version : 0.0.16
 // Grade : ★
-// Date : 2016-05-12
+// Date : 2016-05-16
 // Context
 1. 개념 정리 : spinner, coater 개념에서 전체를 spinner로 통칭 및 인스턴스는 spinner1, spinner2로 사용
 2. Define.cs : Handler & Spinner Step 추가 및 전체 Thread Step, Message 2차 정리
-3. MTrsAutoManager : 작업중..
+3. Thread Architecture 및 base function, Enum Data 정리함
+4. MTrsAutoManager : 1차 정리함.
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////

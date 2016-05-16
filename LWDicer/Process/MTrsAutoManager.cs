@@ -8,9 +8,11 @@ using System.Diagnostics;
 
 using static LWDicer.Control.DEF_Thread;
 using static LWDicer.Control.DEF_LCNet;
-using static LWDicer.Control.DEF_Thread.EThreadMessage;
 using static LWDicer.Control.DEF_Thread.EWindowMessage;
+using static LWDicer.Control.DEF_Thread.EThreadMessage;
+using static LWDicer.Control.DEF_Thread.EThreadChannel;
 using static LWDicer.Control.DEF_Thread.EOpMode;
+using static LWDicer.Control.DEF_Thread.EOpStatus;
 using static LWDicer.Control.DEF_Error;
 using static LWDicer.Control.DEF_Common;
 
@@ -65,7 +67,7 @@ namespace LWDicer.Control
 
         // Thread가 해당 상태로 전환했는지 확인하기 위한 테이블
         //  Thread에게 명령을 내려 보내기전에 Clear 한다. 
-        int[] m_ThreadStatusArray = new int[MAX_THREAD_CHANNEL];
+        EOpStatus[] m_ThreadStatusArray = new EOpStatus[MAX_THREAD_CHANNEL];
 
         // switch status
         bool m_bStartPressed;
@@ -94,9 +96,9 @@ namespace LWDicer.Control
 
         ELCEqStates m_OldEqState            = ELCEqStates.eNormal;      // EQ State for LC
         ELCEqProcStates m_OldEqProcState    = ELCEqProcStates.ePause;   // EQ Process State for LC
-        bool m_bInitState;          // 원점잡기나, 초기화 실행하고 있는 상태이면 TRUE
-        bool m_bLC_PM_Mode;         // LC에서 PM 명령이 온 상태면 TRUE
-        bool m_bLC_NORMAL_Mode;     // LC에서 PM 명령이 와서 실행된 후 Normal 명령이 왔을 때 TRUE
+        bool m_bInitState;          // 원점잡기나, 초기화 실행하고 있는 상태이면 true
+        bool m_bLC_PM_Mode;         // LC에서 PM 명령이 온 상태면 true
+        bool m_bLC_NORMAL_Mode;     // LC에서 PM 명령이 와서 실행된 후 Normal 명령이 왔을 때 true
         bool m_bCurrent_PM_Mode;        // 현재 PM 모드 상태인지
         string m_strPM_Code;
         bool m_bFaultState;//1208
@@ -131,9 +133,9 @@ namespace LWDicer.Control
         bool m_bSupplyWafer = false;
 
 
-        public MTrsAutoManager(CObjectInfo objInfo, int selfChannel,
+        public MTrsAutoManager(CObjectInfo objInfo, EThreadChannel SelfChannelNo,
             CTrsAutoManagerRefComp refComp, CTrsAutoManagerData data)
-            : base(objInfo, selfChannel)
+            : base(objInfo, SelfChannelNo)
         {
             m_RefComp = refComp;
             SetData(data);
@@ -161,7 +163,7 @@ namespace LWDicer.Control
 
             iResult = m_RefComp.trsLoader.Initialize();
             if (iResult != SUCCESS) return iResult;
-            m_RefComp.OpPanel.SetInitFlag(INIT_UNIT_LOADER, true);
+            m_RefComp.OpPanel.SetInitFlag(EUnitIndex.LOADER, true);
 
 
             return iResult;
@@ -188,6 +190,66 @@ namespace LWDicer.Control
             return SUCCESS;
         }
 
+        public override void ThreadProcess()
+        {
+            int iResult = SUCCESS;
+            bool bState = false;
+
+            // timer start if it is needed.
+            
+            while (true)
+            {
+                // if thread has been suspended
+                if (IsAlive == false)
+                {
+                    Sleep(ThreadSuspendedTime);
+                    continue;
+                }
+
+                // check message from other thread
+                CheckMsg(1);
+
+                // 
+                iResult = ProcessRealInterface();
+                if(iResult != SUCCESS)
+                {
+                    SendMsg(MSG_PROCESS_ALARM, ObjInfo.ID, iResult);
+                }
+
+                // do other job
+
+                switch (eOpStatus)
+                {
+                    case STS_MANUAL: // Manual Mode
+                        break;
+
+                    case STS_ERROR_STOP: // Error Stop
+                        break;
+
+                    case STS_STEP_STOP: // Step Stop
+                        break;
+
+                    case STS_RUN_READY: // Run Ready
+                        break;
+
+                    case STS_CYCLE_STOP: // Cycle Stop
+                        break;
+
+                    case STS_RUN: // auto run
+                        switch (ThreadStep)
+                        {
+                            default:
+                                break;
+                        }
+                        break;
+                }
+
+                Sleep(ThreadSleepTime);
+                //Debug.WriteLine(ToString() + " Thread running..");
+            }
+
+        }
+
         protected override int ProcessMsg(MEvent evnt)
         {
             Debug.WriteLine($"{ToString()} received message : {evnt}");
@@ -203,7 +265,7 @@ namespace LWDicer.Control
                     SetThreadStatus(evnt.Sender, STS_MANUAL); // 메세지를 보낸 Thread를 STS_MANUAL 상태로 놓는다.
                     if (CheckAllThreadStatus(STS_MANUAL))       // 모든 Thread가 STS_MANUAL 상태인지 확인한다.
                     {
-                        SetSystemStatus(STS_MANUAL);
+                        SetOpStatus(STS_MANUAL);
                         m_bExchangeMode = false;
                         m_bErrDispMode = false;
                         m_bBuzzerMode = false;
@@ -211,7 +273,7 @@ namespace LWDicer.Control
 
                         //setVelocityMode(VELOCITY_MODE_SLOW);	// Manual일 때 느린 속도로 이동
 
-                        SendMessageToMainWnd((int)WM_START_MANUAL_MSG);
+                        SendMessageToMainWnd(WM_START_MANUAL_MSG);
 
                         //m_RefComp.m_pManageOpPanel->SetAutoManual(MANUAL);
                     }
@@ -226,8 +288,8 @@ namespace LWDicer.Control
                     break;
 
                 case (int)MSG_START_CMD:
-                    if (OpStatus == STS_RUN_READY || OpStatus == STS_STEP_STOP ||
-                        OpStatus == STS_ERROR_STOP)
+                    if (eOpStatus == STS_RUN_READY || eOpStatus == STS_STEP_STOP ||
+                        eOpStatus == STS_ERROR_STOP)
                     {
                         SetOpStatus(STS_RUN);
 
@@ -242,7 +304,7 @@ namespace LWDicer.Control
                     break;
 
                 case (int)MSG_STEP_STOP_CMD:
-                    if (OpStatus == STS_STEP_STOP || OpStatus == STS_ERROR_STOP)
+                    if (eOpStatus == STS_STEP_STOP || eOpStatus == STS_ERROR_STOP)
                     {
                         SetOpStatus(STS_MANUAL);
                     }
@@ -287,79 +349,27 @@ namespace LWDicer.Control
             return DEF_Error.SUCCESS;
         }
 
-        public override void ThreadProcess()
+
+        void SetThreadStatus(int iIndex, EOpStatus status)
         {
-            int iResult = SUCCESS;
-            bool bState = false;
-
-            while (true)
-            {
-                // if thread has been suspended
-                if (IsAlive == false)
-                {
-                    Sleep(ThreadSuspendedTime);
-                    continue;
-                }
-
-                // check message from other thread
-                CheckMsg(1);
-
-                switch (OpStatus)
-                {
-                    case STS_MANUAL: // Manual Mode
-                        //m_RefComp.ctrlAutoManager.SetAutoManual(MANUAL);
-                        break;
-
-                    case STS_ERROR_STOP: // Error Stop
-                        break;
-
-                    case STS_STEP_STOP: // Step Stop
-                        break;
-
-                    case STS_RUN_READY: // Run Ready
-                        break;
-
-                    case STS_CYCLE_STOP: // Cycle Stop
-                        //if (ThreadStep == TRS_AUTOMANAGER_MOVETO_LOAD)
-                        break;
-
-                    case STS_RUN: // auto run
-                        //m_RefComp.ctrlAutoManager.SetAutoManual(AUTO);
-
-                        switch (ThreadStep)
-                        {
-                            default:
-                                break;
-                        }
-                        break;
-                }
-
-                Sleep(ThreadSleepTime);
-                //Debug.WriteLine(ToString() + " Thread running..");
-            }
-
-        }
-
-        void SetThreadStatus(int iIndex, int iStatus)
-        {
-            m_ThreadStatusArray[iIndex] = iStatus;
+            m_ThreadStatusArray[iIndex] = status;
         }
 
         void ClearAllThreadStatus()
         {
             for (int iIndex = 1; iIndex <= GetThreadsCount(); iIndex++)
             {
-                m_ThreadStatusArray[iIndex] = -1;
+                m_ThreadStatusArray[iIndex] = EOpStatus.NONE;
             }
         }
 
-        bool CheckAllThreadStatus(int iStatus)
+        bool CheckAllThreadStatus(EOpStatus status)
         {
             for (int iIndex = 1; iIndex <= GetThreadsCount() ; iIndex++)
             {
-                if (iIndex == TrsAutoManager) continue;
+                if (iIndex == (int)EThreadChannel.TrsAutoManager) continue;
 
-                if (m_ThreadStatusArray[iIndex] != iStatus)
+                if (m_ThreadStatusArray[iIndex] != status)
                 {
                     return false;
                 }
@@ -368,13 +378,13 @@ namespace LWDicer.Control
             return true;
         }
 
-        void SetSystemStatus(int iStatus)
+        void SetSystemStatus(EOpStatus iStatus)
         {
             if (SetOpStatus(iStatus) == false) return;
 
             bool bStatus;
 
-            if (OpStatus == STS_RUN)
+            if (eOpStatus == STS_RUN)
             {
                 // 설비가 Live 상태임을 알리는 oUpper_Alive 신호는 On
                 //m_RefComp.m_pC_InterfaceCtrl->SendInterfaceOnMsg(PRE_EQ, oUpper_Alive);
@@ -382,7 +392,7 @@ namespace LWDicer.Control
             }
             else
             {
-                if (OpStatus_Old == STS_RUN)
+                if (eOpStatus_Old == STS_RUN)
                 {
                     //// 설비가 Live 상태임을 알리는 oUpper_Alive 신호는 On
                     //m_RefComp.m_pC_InterfaceCtrl->SendInterfaceOffMsg(PRE_EQ, oUpper_Alive);
@@ -404,15 +414,92 @@ namespace LWDicer.Control
             }
         }
 
-        void SendMsg_To_MainWindow(int nMsg, int wParam = 0, int lParam = 0)
+        int ProcessRealInterface()
         {
-            //// 2010.09.29 by ranian
-            //// EqState를 메세지 처리하면서 자원낭비로 계속 들어오는것보다 차라리 ontimer에서하도록 함
-            //if (nMsg == WM_DISP_EQ_STATE || nMsg == WM_DISP_EQ_PROC_STATE)
-            //    return;
+            int iResult = SUCCESS;
+            bool bStatus;
+            // 설비가 Auto Run 상태인지 Manual, Stop 상태 인지 알림.
+            switch (eOpStatus)
+            {
+                // 수동 모드일 경우 아무것도 안함
+                case STS_MANUAL:
 
-            //if (AfxGetApp()->GetMainWnd() != NULL)
-            //    SendMessage(AfxGetApp()->GetMainWnd()->GetSafeHwnd(), nMsg, wParam, lParam);
+                    break;
+
+                // Error Stop Status에서는 Stage Auto Run 작업정지
+                case STS_ERROR_STOP:
+                    break;
+
+                // Step Stop Status에서는 Stage Auto Run 작업정지
+                case STS_STEP_STOP:
+                    break;
+
+                // Start Run Status에서는 Stage Auto Run 작업개시
+                case STS_RUN_READY:
+
+                    break;
+
+                // Cycle Stop Status에서는 Cell Loading 까지 작업을 완료함
+                case STS_CYCLE_STOP:
+                    break;
+
+                // Run Status에서는
+                case STS_RUN:
+                    break;
+            }
+
+            // 상류, 하류 설비에 MelsecNet, EStop, 유닛 포지션에 따라 IO를 이용한 신호 전송
+
+            return SUCCESS;
+        }
+
+        /// <summary>
+        /// Process에서 발생한 알람을 처리한다.
+        /// </summary>
+        /// <returns></returns>
+        private int ProcessAlarm(MEvent evAlarm)
+        {
+            int iProcessID = evAlarm.wParam;
+            int iUnitObjectID = (int)((evAlarm.lParam & 0xffff0000) >> 16);
+            int iUnitErrorBase;
+            int iUnitErrorCode;
+
+            int tt = (int)(evAlarm.lParam & 0xffff0000);
+
+            // 	if(iUnitObjectID >= 30000)
+            // 	{
+            // 		iUnitErrorBase = 30000;
+            // 		iUnitErrorCode = (evAlarm.lParam & 0x0000ffff) % 200;
+            // 	}
+            // 	else if(iUnitObjectID >= 10000)
+            // 	{
+            // 		iUnitErrorBase = 10000;
+            // 		iUnitErrorCode = (evAlarm.lParam & 0x0000ffff) % 200;
+            // 	}
+            // 	else
+            // 	{
+            iUnitErrorBase = (int)((evAlarm.lParam & 0x0000ffff) / 100 * 100.0);    //-> ErrorBase로 Component 이름 찾아오기 기능 구현 필요
+            iUnitErrorCode = (evAlarm.lParam & 0x0000ffff) % 100;
+            //	}
+
+            // View에 메세지를 보내서 처리하게 한다.
+            //bool bErrorStop;
+            //// Setup or Execute.. = run
+            //if (m_RefComp.m_pTrsLCNet->m_eEqProcState == 3 || m_RefComp.m_pTrsLCNet->m_eEqProcState == 5)
+            //    bErrorStop = true;
+            //else bErrorStop = false;
+
+            //if (m_iRunStopSts == STS_RUN) bErrorStop = true;
+            //else bErrorStop = false;
+
+            //if (bErrorStop == false) return SUCCESS;
+            //if (bErrorStop)
+            {
+                // display dialog
+                SendMessageToMainWnd(EWindowMessage.WM_ALARM_MSG, evAlarm.wParam, evAlarm.lParam);
+            }
+
+            return SUCCESS;
         }
 
     }

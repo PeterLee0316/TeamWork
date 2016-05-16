@@ -9,7 +9,9 @@ using System.Diagnostics;
 using static LWDicer.Control.DEF_Thread;
 using static LWDicer.Control.DEF_Thread.ETrsPushPullStep;
 using static LWDicer.Control.DEF_Thread.EThreadMessage;
+using static LWDicer.Control.DEF_Thread.EThreadChannel;
 using static LWDicer.Control.DEF_Thread.EOpMode;
+using static LWDicer.Control.DEF_Thread.EOpStatus;
 using static LWDicer.Control.DEF_Error;
 using static LWDicer.Control.DEF_Common;
 
@@ -61,9 +63,9 @@ namespace LWDicer.Control
         bool m_bHandler_StartUnloading;
         bool m_bHandler_CompleteUnloading;
 
-        public MTrsPushPull(CObjectInfo objInfo, int selfChannel,
+        public MTrsPushPull(CObjectInfo objInfo, EThreadChannel SelfChannelNo,
             CTrsPushPullRefComp refComp, CTrsPushPullData data)
-             : base(objInfo, selfChannel)
+             : base(objInfo, SelfChannelNo)
         {
             m_RefComp = refComp;
             SetData(data);
@@ -257,7 +259,7 @@ namespace LWDicer.Control
                 // check message from other thread
                 CheckMsg(1);
 
-                switch (OpStatus)
+                switch (eOpStatus)
                 {
                     case STS_MANUAL: // Manual Mode
                         //m_RefComp.ctrlPushPull.SetAutoManual(MANUAL);

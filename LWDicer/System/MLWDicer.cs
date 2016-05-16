@@ -41,6 +41,8 @@ using static LWDicer.Control.DEF_CtrlHandler;
 using static LWDicer.Control.DEF_CtrlSpinner;
 using static LWDicer.Control.DEF_CtrlPushPull;
 
+using static LWDicer.Control.DEF_Thread.EThreadChannel;
+
 namespace LWDicer.Control
 {
     public class MLWDicer : MObject, IDisposable
@@ -977,25 +979,25 @@ namespace LWDicer.Control
         void SetThreadChannel()
         {
             // AutoManager
-            m_trsAutoManager.LinkThread(TrsSelfMessage, m_trsAutoManager);
+            m_trsAutoManager.LinkThread(TrsSelfChannel, m_trsAutoManager);
             m_trsAutoManager.LinkThread(TrsLoader, m_trsLoader);
             m_trsAutoManager.LinkThread(TrsPushPull, m_trsPushPull);
             m_trsAutoManager.LinkThread(TrsStage1, m_trsStage1);
 
             // Loader
-            m_trsLoader.LinkThread(TrsSelfMessage, m_trsLoader);
+            m_trsLoader.LinkThread(TrsSelfChannel, m_trsLoader);
             m_trsLoader.LinkThread(TrsAutoManager, m_trsAutoManager);
             m_trsLoader.LinkThread(TrsPushPull, m_trsPushPull);
             m_trsLoader.LinkThread(TrsStage1, m_trsStage1);
 
             // PushPull
-            m_trsPushPull.LinkThread(TrsSelfMessage, m_trsPushPull);
+            m_trsPushPull.LinkThread(TrsSelfChannel, m_trsPushPull);
             m_trsPushPull.LinkThread(TrsAutoManager, m_trsAutoManager);
             m_trsPushPull.LinkThread(TrsLoader, m_trsLoader);
             m_trsPushPull.LinkThread(TrsStage1, m_trsStage1);
 
             // Stage1
-            m_trsStage1.LinkThread(TrsSelfMessage, m_trsStage1);
+            m_trsStage1.LinkThread(TrsSelfChannel, m_trsStage1);
             m_trsStage1.LinkThread(TrsAutoManager, m_trsAutoManager);
             m_trsStage1.LinkThread(TrsLoader, m_trsLoader);
             m_trsStage1.LinkThread(TrsPushPull, m_trsPushPull);

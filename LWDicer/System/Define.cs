@@ -730,49 +730,53 @@ namespace LWDicer.Control
             REPAIR_RUN,    // 수리후 운전 for Rework Panel
         }
 
-        // Thread ID
-        public const int TrsSelfMessage       = 0;
-        public const int TrsAutoManager       = 1;
-        public const int TrsLoader            = 2;
-        public const int TrsPushPull          = 3;
-        public const int TrsCleaner1          = 4;
-        public const int TrsCleaner2          = 5;
-        public const int TrsHandler           = 6;
-        public const int TrsStage1            = 7;
-        public const int TrsStage2            = 8;
+        /// <summary>
+        /// Thread Status, eOpStatus
+        /// </summary>
+        public enum EOpStatus
+        {
+            NONE = -1,
+            STS_MANUAL       = 0,    // System 수동 동작 상태
+            STS_RUN_READY       ,    // View Start 버튼이 눌러졌음
+            STS_RUN             ,    // System RUN 상태
+            STS_STEP_STOP       ,    // STEP_STOP을 진행중임
+            STS_ERROR_STOP      ,    // ERROR_STOP을 진행중미
+            STS_CYCLE_STOP      ,    // CYCLE_STOP을 진행중임
+            STS_OP_CALL         ,    // Operator CALL
+            STS_EXC_MATERIAL    ,    // Exchange Material
+        }
 
+        /// <summary>
+        /// Thread ID, List
+        /// </summary>
+        public enum EThreadChannel
+        {
+            TrsSelfChannel       = 0,
+            TrsAutoManager       ,
+            TrsLoader            ,
+            TrsPushPull          ,
+            TrsCleaner1          ,
+            TrsCleaner2          ,
+            TrsHandler           ,
+            TrsStage1            ,
+            TrsStage2            ,
+        }
         public const int MAX_THREAD_CHANNEL  = 15;
 
         // Thread Run
         public const int ThreadSleepTime     = 10;
         public const int ThreadSuspendedTime = 100;
 
-        // Thread Status
-        public const int STS_MANUAL          = 1;    // System 수동 동작 상태
-        public const int STS_RUN_READY       = 2;    // View Start 버튼이 눌러졌음
-        public const int STS_RUN             = 3;    // System RUN 상태
-        public const int STS_STEP_STOP       = 4;    // STEP_STOP을 진행중임
-        public const int STS_ERROR_STOP      = 5;    // ERROR_STOP을 진행중미
-        public const int STS_CYCLE_STOP      = 6;    // CYCLE_STOP을 진행중임
-        public const int STS_OP_CALL         = 7;    // Operator CALL
-        public const int STS_EXC_MATERIAL    = 8;    // Exchange Material
-
-        // initialize thread unit index
-        public const int INIT_UNIT_LOADER       = 1;
-        public const int INIT_UNIT_PUSHPULL     = 2;
-        public const int INIT_UNIT_CLEANER1     = 3;
-        public const int INIT_UNIT_CLEANER2     = 4;
-        public const int INIT_UNIT_HANDLER      = 5;
-        public const int INIT_UNIT_STAGE1       = 6;
-        public const int INIT_UNIT_MAX          = 7;
-        public enum EInitUnit
+        /// <summary>
+        /// initialize thread unit index
+        /// </summary>
+        public enum EUnitIndex
         {
             LOADER,
             PUSHPULL,
             CLEANER1,
             CLEANER2,
-            UHANDLER,
-            LHANDLER,
+            HANDLER,
             STAGE1,
             MAX,
         }
@@ -928,7 +932,53 @@ namespace LWDicer.Control
         public enum EWindowMessage
         {
             // message from control class to GUI
-            WM_START_MANUAL_MSG = 33,
+            WM_SW_STATUS,
+            WM_AUTO_STATUS,
+            WM_ALARM_MSG,
+            WM_STEP_DISPLAY_END,
+            WM_HEIGHT_DISPLAY_END,
+            WM_DISPLAY_HELPVIEW,
+            WM_DISPLAY_HELP_ID,
+
+            WM_MSGBOX_MSG,          // MyMessageBox 띄우기
+            WM_ALIGN_MSG,           // Align 인식 실패 시 처리하는 Dialog 띄우기
+            WM_DISPLAYUPDATE_MSG,   // Display Update Msg
+            WM_START_RUN_MSG,
+            WM_START_READY_MSG,
+            WM_START_MANUAL_MSG,
+            WM_ERRORSTOP_MSG,
+            WM_STEPSTOP_MSG,
+            WM_CHECK_ENG_DOWN_MSG,
+
+            WM_DISPLAY_STATUSBAR_1,
+            WM_DISPLAY_STATUSBAR_2,
+            WM_DISPLAY_STATUSBAR_3,
+            WM_DISPLAY_STATUSBAR_4,
+            WM_DISPLAY_STATUSBAR_5,
+            WM_DISPLAY_STATUSBAR_6,
+
+            WM_DISP_PANEL_DISTANCE_MSG,
+            WM_DISP_PANEL_DISTANCE_MSG1,
+            WM_DISP_PANEL_DISTANCE_MSG2,
+            WM_DISP_TACTTIME_MSG,
+
+            // 생산량 증가 MSG
+            WM_DISP_PRODUCT_OUT_MSG,
+            WM_DISP_PRODUCT_IN_MSG,
+
+            // LCNet
+            WM_DISP_EQ_STATE,
+            WM_DISP_EQ_PROC_STATE,
+            WM_DISP_TERMINAL_MSG,
+
+            // Panel Supply
+            WM_CELL_SUPPLY_STOP_MSG,
+
+            WM_DISP_RUN_MODE,
+            WM_DISP_EQSTOP_MSG,
+
+            WM_DISP_DISPLAY_UVLED_LIGHT,
+            WM_DISP_REPORT_AUTO_UV_CHECK,
         }
 
         // TrsLoader Step
@@ -1095,8 +1145,6 @@ namespace LWDicer.Control
             TRS_STAGE1_WAITFOR_HANDLER_LOAD_READY,
             TRS_STAGE1_UNLOADING,
         };
-
-
     }
 
     public class DEF_Error

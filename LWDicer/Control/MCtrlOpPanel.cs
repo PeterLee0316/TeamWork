@@ -1245,7 +1245,7 @@ namespace LWDicer.Control
         void ResetAllInitFlag()
         {
             int i = 0;
-            for (i = 0; i < INIT_UNIT_MAX ; i++)
+            for (i = 0; i < (int)EUnitIndex.MAX ; i++)
                 m_RefComp.OpPanel.SetInitFlag(i, false);
         }
 
