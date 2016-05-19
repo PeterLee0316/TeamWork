@@ -12,6 +12,7 @@ using Syncfusion.Windows.Forms.Grid;
 using Syncfusion.Windows.Forms;
 using Syncfusion.Windows.Forms.Tools;
 
+using static LWDicer.Control.DEF_System;
 using static LWDicer.Control.DEF_Yaskawa;
 
 namespace LWDicer.UI
@@ -65,6 +66,7 @@ namespace LWDicer.UI
 
             nCol = 29;
             nRow = 19;
+            //nRow = (int)EYMC_Axis.MAX;
 
             // Column,Row 개수
             GridMotorPara.ColCount = nCol;

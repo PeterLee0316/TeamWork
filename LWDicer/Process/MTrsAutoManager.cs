@@ -228,13 +228,13 @@ namespace LWDicer.Control
                 // check message from other thread
                 CheckMsg(1);
 
+#if SIMULATION_IO
                 // check op panel
                 iResult = ProcessOpPanel();
                 if (iResult != SUCCESS)
                 {
                     SendMsg(MSG_PROCESS_ALARM, ObjInfo.ID, iResult);
                 }
-
                 // check interface with other facility
                 iResult = ProcessRealInterface();
                 if(iResult != SUCCESS)
@@ -246,6 +246,7 @@ namespace LWDicer.Control
 
 
                 // do other job
+#endif
 
                 switch (RunStatus)
                 {

@@ -95,6 +95,7 @@ namespace LWDicer.Control
         public ICylinder m_Spinner1DICyl;     // Wafer Coater DI Nozzle On Off [Single]
         public ICylinder m_Spinner1PVACyl;    // Wafer Coater PVA Nozzle On Off [Single]
 
+        public ICylinder m_Spinner2UDCyl;     // Wafer Coater Up Down Cylinder [Double]
         public ICylinder m_Spinner2DICyl;    // Wafer Cleaner DI Nozzle On Off [Single]
         public ICylinder m_Spinner2PVACyl;    // Wafer Cleaner N2 Nozzle On Off [Single]
 
@@ -116,7 +117,7 @@ namespace LWDicer.Control
         public ISerialPort m_PolygonComPort;
 
         // Scanner
-        public IPolygonScanner[] m_Scanner = new IPolygonScanner[(int)EObjectScanner.MAX_OBJ];
+        public IPolygonScanner[] m_Scanner = new IPolygonScanner[(int)EObjectScanner.MAX];
 
         public MVisionSystem m_VisionSystem;
         public MVisionCamera[] m_VisionCamera;
@@ -207,8 +208,8 @@ namespace LWDicer.Control
             alarmInfo.ErrorBase = (int)((alarmcode & 0x0000ffff) / 100) * 100;
             alarmInfo.ErrorCode = (int)((alarmcode & 0x0000ffff) % 100);
 
-            alarmInfo.ProcessName = m_SystemInfo.GetObjectInfo(alarmInfo.ProcessID).Name;
-            alarmInfo.ObjectName = m_SystemInfo.GetObjectInfo(alarmInfo.ObjectID).Name;
+            alarmInfo.ProcessName = m_SystemInfo.GetObjectName(alarmInfo.ProcessID);
+            alarmInfo.ObjectName = m_SystemInfo.GetObjectName(alarmInfo.ObjectID);
             m_DataManager.LoadErrorInfo(alarmInfo.ErrorBase + alarmInfo.ErrorCode, out alarmInfo.ErrorInfo);
         }
 

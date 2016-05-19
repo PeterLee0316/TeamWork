@@ -193,7 +193,7 @@ namespace LWDicer.Control
             PUSHPULL_UD,
             STAGE_CLAMP1,
             STAGE_CLAMP2,
-            MAX_OBJ,
+            MAX,
         }
 
         public enum EObjectVacuum
@@ -205,7 +205,7 @@ namespace LWDicer.Control
             LHANDLER_FACTORY,
             SPINNER1,
             SPINNER2,
-            MAX_OBJ,
+            MAX,
         }
 
         public enum EObjectScanner
@@ -214,7 +214,7 @@ namespace LWDicer.Control
             SCANNER2,
             SCANNER3,
             SCANNER4,
-            MAX_OBJ,
+            MAX,
         }
 
         public enum EObjectLayer

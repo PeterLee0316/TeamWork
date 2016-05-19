@@ -201,8 +201,11 @@ namespace LWDicer.Control
         // Get & Set Bit
         public int GetBit(int addr, out bool bStatus)
         {
-            Debug.Assert(INPUT_ORIGIN <= addr && addr <= OUTPUT_END);
             bStatus = false;
+#if SIMULATION_IO
+            return SUCCESS;
+#endif
+            Debug.Assert(INPUT_ORIGIN <= addr && addr <= OUTPUT_END);
 
             Int16[] Reg_ShortData;      // W or B size register data storage variable
             Int32[] Reg_LongData;       // L size register data storage variable
@@ -242,6 +245,9 @@ namespace LWDicer.Control
 
         public int SetBit(int addr, bool bStatus)
         {
+#if SIMULATION_IO
+            return SUCCESS;
+#endif
             Debug.Assert(INPUT_ORIGIN <= addr && addr <= OUTPUT_END);
 
             UInt32 RegisterDataNumber = 1;             // Number of read-in registers
@@ -319,8 +325,11 @@ namespace LWDicer.Control
         // Get & Put value
         public int GetInt16(int addr, out Int16 value)
         {
-            Debug.Assert(INPUT_ORIGIN <= addr && addr <= OUTPUT_END);
             value = 0;
+#if SIMULATION_IO
+            return SUCCESS;
+#endif
+            Debug.Assert(INPUT_ORIGIN <= addr && addr <= OUTPUT_END);
 
             Int16[] Reg_ShortData;      // W or B size register data storage variable
             Int32[] Reg_LongData;       // L size register data storage variable
@@ -334,8 +343,11 @@ namespace LWDicer.Control
 
         public int GetInt32(int addr, out Int32 value)
         {
-            Debug.Assert(INPUT_ORIGIN <= addr && addr <= OUTPUT_END);
             value = 0;
+#if SIMULATION_IO
+            return SUCCESS;
+#endif
+            Debug.Assert(INPUT_ORIGIN <= addr && addr <= OUTPUT_END);
 
             Int16[] Reg_ShortData;      // W or B size register data storage variable
             Int32[] Reg_LongData;       // L size register data storage variable
@@ -358,6 +370,9 @@ namespace LWDicer.Control
 
         public int SetInt16(int addr, Int16 value)
         {
+#if SIMULATION_IO
+            return SUCCESS;
+#endif
             Debug.Assert(INPUT_ORIGIN <= addr && addr <= OUTPUT_END);
 
             UInt32 RegisterDataNumber = 1;             // Number of read-in registers
@@ -374,6 +389,9 @@ namespace LWDicer.Control
 
         public int SetInt32(int addr, Int32 value)
         {
+#if SIMULATION_IO
+            return SUCCESS;
+#endif
             Debug.Assert(INPUT_ORIGIN <= addr && addr <= OUTPUT_END);
 
             UInt32 RegisterDataNumber = 1;             // Number of read-in registers

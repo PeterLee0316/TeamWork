@@ -62,7 +62,7 @@ namespace LWDicer.UI
             GridCylinderData.Properties.ColHeaders = true;
 
             nCol = 5;
-            nRow = 10;
+            nRow = (int)EObjectCylinder.MAX;
 
             // Column,Row 개수
             GridCylinderData.ColCount = nCol;
@@ -174,7 +174,7 @@ namespace LWDicer.UI
 
             int i = 0;
 
-            for(i=0;i< (int)EObjectCylinder.MAX_OBJ;i++)
+            for(i=0;i< (int)EObjectCylinder.MAX;i++)
             {
                 m_data.CylinderTimer[i].MovingTime      = Convert.ToDouble(GridCylinderData[i + 1, 2].Text);
                 m_data.CylinderTimer[i].SettlingTime1   = Convert.ToDouble(GridCylinderData[i + 1, 3].Text);
@@ -218,7 +218,7 @@ namespace LWDicer.UI
             string strText = string.Empty;
             int i = 0;
 
-            for (i = 0; i < (int)EObjectCylinder.MAX_OBJ; i++)
+            for (i = 0; i < (int)EObjectCylinder.MAX; i++)
             {
                 GridCylinderData[i + 1, 2].Text = Convert.ToString(systemCylinder.CylinderTimer[i].MovingTime);
                 GridCylinderData[i + 1, 3].Text = Convert.ToString(systemCylinder.CylinderTimer[i].SettlingTime1);

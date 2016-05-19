@@ -51,16 +51,16 @@ namespace LWDicer.Control
 	            // 80-99 : Reserved
 		
 	            // 100-149 : Cylinders--------------------------------------------------------------------
-                new CObjectInfo( (int)OBJ_HL_CYLINDER, "Cylinder", 100, "PushPull Gripper Lock/Unlock Cylinder", 2000, "PushPullGripper", LOG_ALL, LOG_DAY ),
-                new CObjectInfo( (int)OBJ_HL_CYLINDER, "Cylinder", 101, "PushPull Up/Down Cylinder", 2000, "PushPullUD", LOG_ALL, LOG_DAY ),
-                new CObjectInfo( (int)OBJ_HL_CYLINDER, "Cylinder", 110, "Spinner1 Up/Down Cylinder", 2000, "Coater", LOG_ALL, LOG_DAY ),
-                new CObjectInfo( (int)OBJ_HL_CYLINDER, "Cylinder", 111, "Spinner1 DI Valve", 2000, "Coater", LOG_ALL, LOG_DAY ),
-                new CObjectInfo( (int)OBJ_HL_CYLINDER, "Cylinder", 112, "Spinner1 PVA Valve", 2000, "Coater", LOG_ALL, LOG_DAY ),
-                new CObjectInfo( (int)OBJ_HL_CYLINDER, "Cylinder", 113, "Spinner2 Up/Down Cylinder", 2000, "Cleaner", LOG_ALL, LOG_DAY ),
-                new CObjectInfo( (int)OBJ_HL_CYLINDER, "Cylinder", 114, "Spinner2 DI Valve", 2000, "Cleaner", LOG_ALL, LOG_DAY ),
-                new CObjectInfo( (int)OBJ_HL_CYLINDER, "Cylinder", 115, "Spinner2 N2 Valve", 2000, "Cleaner", LOG_ALL, LOG_DAY ),
-                new CObjectInfo( (int)OBJ_HL_CYLINDER, "Cylinder", 116, "Work Stage Clamp 1 Open & Close", 8000, "Stage", LOG_ALL, LOG_DAY ),
-                new CObjectInfo( (int)OBJ_HL_CYLINDER, "Cylinder", 117, "Work Stage Clamp 2 Open & Close", 8000, "Stage", LOG_ALL, LOG_DAY ),
+                new CObjectInfo( (int)OBJ_HL_CYLINDER, "Cylinder", 100, "PushPull Gripper Lock/Unlock", 2000, "PushPullGripper", LOG_ALL, LOG_DAY ),
+                new CObjectInfo( (int)OBJ_HL_CYLINDER, "Cylinder", 101, "PushPull Up/Down", 2000, "PushPullUD", LOG_ALL, LOG_DAY ),
+                new CObjectInfo( (int)OBJ_HL_CYLINDER, "Cylinder", 110, "Spinner1 Up/Down", 2000, "S1_UDCyl", LOG_ALL, LOG_DAY ),
+                new CObjectInfo( (int)OBJ_HL_CYLINDER, "Cylinder", 111, "Spinner1 DI Valve", 2000, "S1_DICyl", LOG_ALL, LOG_DAY ),
+                new CObjectInfo( (int)OBJ_HL_CYLINDER, "Cylinder", 112, "Spinner1 PVA Valve", 2000, "S1_PVACyl", LOG_ALL, LOG_DAY ),
+                new CObjectInfo( (int)OBJ_HL_CYLINDER, "Cylinder", 113, "Spinner2 Up/Down", 2000, "S2_UDCyl", LOG_ALL, LOG_DAY ),
+                new CObjectInfo( (int)OBJ_HL_CYLINDER, "Cylinder", 114, "Spinner2 DI Valve", 2000, "S2_DICyl", LOG_ALL, LOG_DAY ),
+                new CObjectInfo( (int)OBJ_HL_CYLINDER, "Cylinder", 115, "Spinner2 PVA Valve", 2000, "S2_PVACyl", LOG_ALL, LOG_DAY ),
+                new CObjectInfo( (int)OBJ_HL_CYLINDER, "Cylinder", 116, "Work Stage Clamp 1 Open/Close", 8000, "StageClamp1", LOG_ALL, LOG_DAY ),
+                new CObjectInfo( (int)OBJ_HL_CYLINDER, "Cylinder", 117, "Work Stage Clamp 2 Open/Close", 8000, "StageClamp2", LOG_ALL, LOG_DAY ),
 
 	            // 150-199 : Vacuums ------------------------------------------------------------------------------	
 	            new CObjectInfo( (int)OBJ_HL_VACUUM, "Vacuum", 150, "Stage1 Vacuum", 2100, "Stage1Vac", LOG_ALL, LOG_DAY ),
@@ -165,6 +165,20 @@ namespace LWDicer.Control
                 }
             }
             return objInfo;
+        }
+
+        public string GetObjectName(int ID)
+        {
+            CObjectInfo objInfo = new CObjectInfo();
+            foreach (CObjectInfo objectInfo in arrayObjectInfo)
+            {
+                if (objectInfo.ID == ID)
+                {
+                    objInfo = objectInfo;
+                    break;
+                }
+            }
+            return objInfo.Name;
         }
     }
 }

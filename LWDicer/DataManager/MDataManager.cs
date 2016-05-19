@@ -284,7 +284,7 @@ namespace LWDicer.Control
         {
 
             // Timer
-            public CCylinderTime[] CylinderTimer = new CCylinderTime[(int)EObjectCylinder.MAX_OBJ];
+            public CCylinderTime[] CylinderTimer = new CCylinderTime[(int)EObjectCylinder.MAX];
 
             public CSystemData_Cylinder()
             {
@@ -298,7 +298,7 @@ namespace LWDicer.Control
         public class CSystemData_Vacuum
         {
             // Timer
-            public CVacuumTime[] VacuumTimer = new CVacuumTime[(int)EObjectVacuum.MAX_OBJ];
+            public CVacuumTime[] VacuumTimer = new CVacuumTime[(int)EObjectVacuum.MAX];
 
             public CSystemData_Vacuum()
             {
@@ -312,7 +312,7 @@ namespace LWDicer.Control
         public class CSystemData_Scanner
         {
             // Polygon Scanner Configure ini Data
-            public CPolygonIni[] Scanner = new CPolygonIni[(int)EObjectScanner.MAX_OBJ];
+            public CPolygonIni[] Scanner = new CPolygonIni[(int)EObjectScanner.MAX];
 
             public CSystemData_Scanner()
             {
@@ -1175,7 +1175,7 @@ namespace LWDicer.Control
 
         public int DeleteModelData(string name)
         {
-            if (IsModelExist(name) == false) return SUCCESS;
+            //if (IsModelExist(name) == false) return SUCCESS;
             try
             {
                 if (DBManager.DeleteRow(DBInfo.DBConn, DBInfo.TableModel, "name", ModelData.Name, 

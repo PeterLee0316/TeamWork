@@ -29,12 +29,12 @@ namespace LWDicer.Control
         private ISerialPort m_COM;
         private CDBInfo m_DBInfo;
 
-        protected string[] IPAddress = new string[(int)EObjectScanner.MAX_OBJ];
+        protected string[] IPAddress = new string[(int)EObjectScanner.MAX];
 
-        protected string[] m_IP = new string[(int)EObjectScanner.MAX_OBJ];
-        protected string[] m_Port = new string[(int)EObjectScanner.MAX_OBJ];
+        protected string[] m_IP = new string[(int)EObjectScanner.MAX];
+        protected string[] m_Port = new string[(int)EObjectScanner.MAX];
 
-        protected CPolygonIni[] m_PolygonData = new CPolygonIni[(int)EObjectScanner.MAX_OBJ];
+        protected CPolygonIni[] m_PolygonData = new CPolygonIni[(int)EObjectScanner.MAX];
 
         protected ProcessStartInfo proInfo = new ProcessStartInfo();
         protected Process m_process = new Process();

@@ -51,7 +51,7 @@ namespace LWDicer.UI
 
             int i = 0;
 
-            for (i = 0; i < (int)EObjectVacuum.MAX_OBJ; i++)
+            for (i = 0; i < (int)EObjectVacuum.MAX; i++)
             {
                 m_data.VacuumTimer[i].TurningTime = Convert.ToDouble(GridVacuumData[i + 1, 2].Text);
                 m_data.VacuumTimer[i].OnSettlingTime = Convert.ToDouble(GridVacuumData[i + 1, 3].Text);
@@ -111,7 +111,7 @@ namespace LWDicer.UI
             GridVacuumData.Properties.ColHeaders = true;
 
             nCol = 4;
-            nRow = 5;
+            nRow = (int)EObjectVacuum.MAX;
 
             // Column,Row 개수
             GridVacuumData.ColCount = nCol;
@@ -201,7 +201,7 @@ namespace LWDicer.UI
             string strText = string.Empty;
             int i = 0;
 
-            for (i = 0; i < (int)EObjectVacuum.MAX_OBJ; i++)
+            for (i = 0; i < (int)EObjectVacuum.MAX; i++)
             {
                 GridVacuumData[i + 1, 2].Text = Convert.ToString(systemVacuum.VacuumTimer[i].TurningTime);
                 GridVacuumData[i + 1, 3].Text = Convert.ToString(systemVacuum.VacuumTimer[i].OnSettlingTime);
