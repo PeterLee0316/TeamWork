@@ -129,6 +129,7 @@
       <HintPath>..\packages\System.Data.SQLite.Linq.1.0.99.0\lib\net46\System.Data.SQLite.Linq.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="System.DirectoryServices" />
     <Reference Include="System.Messaging" />
     <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Xml.Linq" />
@@ -293,6 +294,12 @@
     <Compile Include="UI\SubDataForm\FormScannerData.Designer.cs">
       <DependentUpon>FormScannerData.cs</DependentUpon>
     </Compile>
+    <Compile Include="UI\SubDataForm\FormVacuumData.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\SubDataForm\FormVacuumData.Designer.cs">
+      <DependentUpon>FormVacuumData.cs</DependentUpon>
+    </Compile>
     <Compile Include="UI\SubDataForm\FormVisionData.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -398,6 +405,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UI\SubDataForm\FormScannerData.resx">
       <DependentUpon>FormScannerData.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\SubDataForm\FormVacuumData.resx">
+      <DependentUpon>FormVacuumData.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\SubDataForm\FormVisionData.resx">
       <DependentUpon>FormVisionData.cs</DependentUpon>

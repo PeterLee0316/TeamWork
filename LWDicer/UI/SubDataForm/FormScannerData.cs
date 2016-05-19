@@ -74,7 +74,8 @@ namespace LWDicer.UI
         {
             this.DesktopLocation = new Point(1, 100);
 
-            UpdateScreen(m_Polygon);
+            UpdateConfigureData(m_Polygon);
+            UpdateImageData();
 
         }
 
@@ -798,6 +799,76 @@ namespace LWDicer.UI
 
         private void BtnImageDataSave_Click(object sender, EventArgs e)
         {
+            if (!CMainFrame.LWDicer.DisplayMsg("Image Data를 저장 하시겠습니까?"))
+            {
+                return;
+            }
+
+            CMainFrame.LWDicer.m_DataManager.ModelData.WaferLineData.nLineCount = nLineCount;
+            CMainFrame.LWDicer.m_DataManager.ModelData.WaferLineData.nWaferSize = nWaferSize;
+
+            CMainFrame.LWDicer.m_DataManager.ModelData.WaferLineData.fPitch = Convert.ToSingle(LabelPitch.Text);
+            CMainFrame.LWDicer.m_DataManager.ModelData.WaferLineData.nShape = nShape;
+
+            CMainFrame.LWDicer.m_DataManager.ModelData.WaferLineData.fOffSetX = Convert.ToSingle(LabelOffSetX.Text);
+            CMainFrame.LWDicer.m_DataManager.ModelData.WaferLineData.fOffSetY = Convert.ToSingle(LabelOffSetY.Text);
+
+            int i = 0;
+
+            for (i = 0; i < nLineCount; i++)
+            {
+                CMainFrame.LWDicer.m_DataManager.ModelData.WaferLineData.fLineData[i, 0] = Convert.ToSingle(GridCutLine[i + 1, 1].Text);
+                CMainFrame.LWDicer.m_DataManager.ModelData.WaferLineData.fLineData[i, 1] = Convert.ToSingle(GridCutLine[i + 1, 2].Text);
+                CMainFrame.LWDicer.m_DataManager.ModelData.WaferLineData.fLineData[i, 2] = Convert.ToSingle(GridCutLine[i + 1, 3].Text);
+                CMainFrame.LWDicer.m_DataManager.ModelData.WaferLineData.fLineData[i, 3] = Convert.ToSingle(GridCutLine[i + 1, 4].Text);
+            }
+
+            CMainFrame.LWDicer.m_DataManager.SaveModelData(CMainFrame.LWDicer.m_DataManager.ModelData);
+
+            m_CutData = CMainFrame.LWDicer.m_DataManager.ModelData.WaferLineData;
+
+        }
+
+        private void UpdateImageData()
+        {
+            fPitch = CMainFrame.LWDicer.m_DataManager.ModelData.WaferLineData.fPitch;
+            fOffsetX = CMainFrame.LWDicer.m_DataManager.ModelData.WaferLineData.fOffSetX;
+            fOffsetY = CMainFrame.LWDicer.m_DataManager.ModelData.WaferLineData.fOffSetY;
+            nLineCount = CMainFrame.LWDicer.m_DataManager.ModelData.WaferLineData.nLineCount;
+
+            LabelPitch.Text = Convert.ToString(CMainFrame.LWDicer.m_DataManager.ModelData.WaferLineData.fPitch);
+            LabelOffSetX.Text = Convert.ToString(CMainFrame.LWDicer.m_DataManager.ModelData.WaferLineData.fOffSetX);
+            LabelOffSetY.Text = Convert.ToString(CMainFrame.LWDicer.m_DataManager.ModelData.WaferLineData.fOffSetY);
+
+            if (CMainFrame.LWDicer.m_DataManager.ModelData.WaferLineData.nWaferSize == SIZE_12INCH)
+            {
+                nWaferSize = SIZE_12INCH;
+                SelectInch("12 Inch");
+            }
+
+            if (CMainFrame.LWDicer.m_DataManager.ModelData.WaferLineData.nWaferSize == SIZE_8INCH)
+            {
+                nWaferSize = SIZE_8INCH;
+                SelectInch("8 Inch");
+            }
+
+            if(CMainFrame.LWDicer.m_DataManager.ModelData.WaferLineData.nShape == SHAPE_ROUND)
+            {
+                nShape = SHAPE_ROUND;
+                SelectShape(nShape);
+            }
+
+            if (CMainFrame.LWDicer.m_DataManager.ModelData.WaferLineData.nShape == SHAPE_SQUARE)
+            {
+                nShape = SHAPE_SQUARE;
+                SelectShape(nShape);
+            }
+
+            m_CutData = CMainFrame.LWDicer.m_DataManager.ModelData.WaferLineData;
+
+            UpdateCutLine(nShape, nWaferSize);
+
+            DrawCutLine(m_CutData);
 
         }
 
@@ -1005,7 +1076,7 @@ namespace LWDicer.UI
             CMainFrame.LWDicer.m_DataManager.SystemData_Scanner.Scanner[scannerIndex].strPort = LabelPort.Text;
         }
 
-        private void BtnConfigureSave_Click(object sender, EventArgs e)
+        private void BtnConfigSave_Click(object sender, EventArgs e)
         {
 
             if (!CMainFrame.LWDicer.DisplayMsg("Polygon Data를 저장 하시겠습니까?"))
@@ -1046,10 +1117,10 @@ namespace LWDicer.UI
 
             CMainFrame.LWDicer.m_Scanner[scannerIndex].SavePolygonPara(CMainFrame.LWDicer.m_DataManager.SystemData_Scanner.Scanner[scannerIndex], "config");
 
-            UpdateScreen(m_Polygon);
+            UpdateConfigureData(m_Polygon);
         }
 
-        private void UpdateScreen(CPolygonIni m_PolygonPara)
+        private void UpdateConfigureData(CPolygonIni m_PolygonPara)
         {
             // User Enable Para
             GridConfigure[1, 2].Text = string.Format("{0:f}", m_PolygonPara.InScanResolution * 1000000);
@@ -1080,49 +1151,6 @@ namespace LWDicer.UI
             GridConfigure[23, 2].Text = Convert.ToString(m_PolygonPara.StartFacet);
             GridConfigure[24, 2].Text = Convert.ToString(m_PolygonPara.AutoIncrementStartFacet);
             GridConfigure[25, 2].Text = Convert.ToString(m_PolygonPara.MotorStableTime);
-        }
-
-        private void BtnConfigSave_Click(object sender, EventArgs e)
-        {
-            if (!CMainFrame.LWDicer.DisplayMsg("Polygon Data를 저장 하시겠습니까?"))
-            {
-                return;
-            }
-
-            CMainFrame.LWDicer.m_Scanner[scannerIndex].SetPixelGridX(scannerIndex, Convert.ToDouble(GridConfigure[1, 2].Text));
-            CMainFrame.LWDicer.m_Scanner[scannerIndex].SetPixelGridY(scannerIndex, Convert.ToDouble(GridConfigure[2, 2].Text));
-            CMainFrame.LWDicer.m_Scanner[scannerIndex].SetStartOffset(scannerIndex, Convert.ToDouble(GridConfigure[3, 2].Text));
-            CMainFrame.LWDicer.m_Scanner[scannerIndex].SetMotorBetweenJob(scannerIndex, Convert.ToInt16(GridConfigure[4, 2].Text));
-            CMainFrame.LWDicer.m_Scanner[scannerIndex].SetBitMapColor(scannerIndex, Convert.ToInt16(GridConfigure[5, 2].Text));
-            CMainFrame.LWDicer.m_Scanner[scannerIndex].SetBufferTime(scannerIndex, Convert.ToInt16(GridConfigure[6, 2].Text));
-            CMainFrame.LWDicer.m_Scanner[scannerIndex].SetDummyBlankLine(scannerIndex, Convert.ToInt16(GridConfigure[7, 2].Text));
-            CMainFrame.LWDicer.m_Scanner[scannerIndex].SetSeedClock(scannerIndex, Convert.ToDouble(GridConfigure[8, 2].Text));
-            CMainFrame.LWDicer.m_Scanner[scannerIndex].SetRepRate(scannerIndex, Convert.ToDouble(GridConfigure[9, 2].Text));
-            CMainFrame.LWDicer.m_Scanner[scannerIndex].SetEncoderResol(scannerIndex, Convert.ToDouble(GridConfigure[10, 2].Text));
-            CMainFrame.LWDicer.m_Scanner[scannerIndex].SetMaxAccel(scannerIndex, Convert.ToDouble(GridConfigure[11, 2].Text));
-            CMainFrame.LWDicer.m_Scanner[scannerIndex].SetEnCarSig(scannerIndex, Convert.ToInt16(GridConfigure[12, 2].Text));
-            CMainFrame.LWDicer.m_Scanner[scannerIndex].SetSwapCarSig(scannerIndex, Convert.ToInt16(GridConfigure[13, 2].Text));
-            CMainFrame.LWDicer.m_Scanner[scannerIndex].SetLeaveRatio(scannerIndex, Convert.ToInt16(GridConfigure[14, 2].Text));
-            CMainFrame.LWDicer.m_Scanner[scannerIndex].SetSuperSync(scannerIndex, Convert.ToDouble(GridConfigure[15, 2].Text), Facet0);
-            CMainFrame.LWDicer.m_Scanner[scannerIndex].SetSuperSync(scannerIndex, Convert.ToDouble(GridConfigure[16, 2].Text), Facet1);
-            CMainFrame.LWDicer.m_Scanner[scannerIndex].SetSuperSync(scannerIndex, Convert.ToDouble(GridConfigure[17, 2].Text), Facet2);
-            CMainFrame.LWDicer.m_Scanner[scannerIndex].SetSuperSync(scannerIndex, Convert.ToDouble(GridConfigure[18, 2].Text), Facet3);
-            CMainFrame.LWDicer.m_Scanner[scannerIndex].SetSuperSync(scannerIndex, Convert.ToDouble(GridConfigure[19, 2].Text), Facet4);
-            CMainFrame.LWDicer.m_Scanner[scannerIndex].SetSuperSync(scannerIndex, Convert.ToDouble(GridConfigure[20, 2].Text), Facet5);
-            CMainFrame.LWDicer.m_Scanner[scannerIndex].SetSuperSync(scannerIndex, Convert.ToDouble(GridConfigure[21, 2].Text), Facet6);
-            CMainFrame.LWDicer.m_Scanner[scannerIndex].SetSuperSync(scannerIndex, Convert.ToDouble(GridConfigure[22, 2].Text), Facet7);
-            CMainFrame.LWDicer.m_Scanner[scannerIndex].SetStartFacet(scannerIndex, Convert.ToInt16(GridConfigure[23, 2].Text));
-            CMainFrame.LWDicer.m_Scanner[scannerIndex].SetAutoIncStartFacet(scannerIndex, Convert.ToInt16(GridConfigure[24, 2].Text));
-            CMainFrame.LWDicer.m_Scanner[scannerIndex].SetMotorStableTime(scannerIndex, Convert.ToInt16(GridConfigure[25, 2].Text));
-
-            CMainFrame.LWDicer.m_Scanner[scannerIndex].SetScannerIP(scannerIndex, LabelIP.Text);
-            CMainFrame.LWDicer.m_Scanner[scannerIndex].SetScannerPort(scannerIndex, LabelPort.Text);
-
-            CMainFrame.LWDicer.m_DataManager.SystemData_Scanner.Scanner[scannerIndex] = GetPolygonPara(scannerIndex);
-
-            CMainFrame.LWDicer.m_Scanner[scannerIndex].SavePolygonPara(CMainFrame.LWDicer.m_DataManager.SystemData_Scanner.Scanner[scannerIndex], "config");
-
-            UpdateScreen(m_Polygon);
         }
     }
 }

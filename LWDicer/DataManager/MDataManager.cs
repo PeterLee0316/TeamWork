@@ -527,6 +527,8 @@ namespace LWDicer.Control
             // Spinner Data 
             public CSpinnerData SpinnerData = new CSpinnerData();
 
+            // Wafer Image Line Data
+            public LineData WaferLineData = new LineData();
 
             ///////////////////////////////////////////////////////////
             // Vision Data (Pattern)
