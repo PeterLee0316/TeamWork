@@ -54,6 +54,7 @@
             Syncfusion.Windows.Forms.Grid.GridRangeStyle gridRangeStyle23 = new Syncfusion.Windows.Forms.Grid.GridRangeStyle();
             Syncfusion.Windows.Forms.Grid.GridRangeStyle gridRangeStyle24 = new Syncfusion.Windows.Forms.Grid.GridRangeStyle();
             Syncfusion.Windows.Forms.Grid.GridRangeStyle gridRangeStyle25 = new Syncfusion.Windows.Forms.Grid.GridRangeStyle();
+            Syncfusion.Windows.Forms.Grid.GridRangeStyle gridRangeStyle26 = new Syncfusion.Windows.Forms.Grid.GridRangeStyle();
             this.BtnExit = new System.Windows.Forms.Button();
             this.GridMotorPara = new Syncfusion.Windows.Forms.Grid.GridControl();
             this.BtnImageDataSave = new System.Windows.Forms.Button();
@@ -78,7 +79,6 @@
             // GridMotorPara
             // 
             this.GridMotorPara.ActivateCurrentCellBehavior = Syncfusion.Windows.Forms.Grid.GridCellActivateAction.None;
-            this.GridMotorPara.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.GridMotorPara.Font = new System.Drawing.Font("Tahoma", 9F);
             this.GridMotorPara.Location = new System.Drawing.Point(43, 25);
             this.GridMotorPara.Name = "GridMotorPara";
@@ -282,6 +282,14 @@
             gridRangeStyle25.StyleInfo.Font.Strikeout = false;
             gridRangeStyle25.StyleInfo.Font.Underline = false;
             gridRangeStyle25.StyleInfo.Font.Unit = System.Drawing.GraphicsUnit.Point;
+            gridRangeStyle26.Range = Syncfusion.Windows.Forms.Grid.GridRangeInfo.Table();
+            gridRangeStyle26.StyleInfo.Font.Bold = false;
+            gridRangeStyle26.StyleInfo.Font.Facename = "Tahoma";
+            gridRangeStyle26.StyleInfo.Font.Italic = false;
+            gridRangeStyle26.StyleInfo.Font.Size = 9F;
+            gridRangeStyle26.StyleInfo.Font.Strikeout = false;
+            gridRangeStyle26.StyleInfo.Font.Underline = false;
+            gridRangeStyle26.StyleInfo.Font.Unit = System.Drawing.GraphicsUnit.Point;
             this.GridMotorPara.RangeStyles.AddRange(new Syncfusion.Windows.Forms.Grid.GridRangeStyle[] {
             gridRangeStyle1,
             gridRangeStyle2,
@@ -307,7 +315,8 @@
             gridRangeStyle22,
             gridRangeStyle23,
             gridRangeStyle24,
-            gridRangeStyle25});
+            gridRangeStyle25,
+            gridRangeStyle26});
             this.GridMotorPara.SerializeCellsBehavior = Syncfusion.Windows.Forms.Grid.GridSerializeCellsBehavior.SerializeAsRangeStylesIntoCode;
             this.GridMotorPara.Size = new System.Drawing.Size(1174, 701);
             this.GridMotorPara.SmartSizeBox = false;

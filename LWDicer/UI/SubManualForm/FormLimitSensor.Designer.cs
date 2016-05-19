@@ -2639,7 +2639,7 @@
             this.BtnExit.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
             this.BtnExit.Image = ((System.Drawing.Image)(resources.GetObject("BtnExit.Image")));
             this.BtnExit.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.BtnExit.Location = new System.Drawing.Point(268, 748);
+            this.BtnExit.Location = new System.Drawing.Point(260, 748);
             this.BtnExit.Name = "BtnExit";
             this.BtnExit.Size = new System.Drawing.Size(113, 61);
             this.BtnExit.TabIndex = 746;
@@ -2652,7 +2652,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(665, 821);
+            this.ClientSize = new System.Drawing.Size(669, 821);
             this.Controls.Add(this.BtnExit);
             this.Controls.Add(this.Motor14_Alarm);
             this.Controls.Add(this.Motor13_Alarm);

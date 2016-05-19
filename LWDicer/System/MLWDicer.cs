@@ -94,12 +94,12 @@ namespace LWDicer.Control
         public ICylinder m_Spinner1UDCyl;     // Wafer Coater Up Down Cylinder [Double]
         public ICylinder m_Spinner1DICyl;     // Wafer Coater DI Nozzle On Off [Single]
         public ICylinder m_Spinner1PVACyl;    // Wafer Coater PVA Nozzle On Off [Single]
-        public ICylinder m_Spinner1RingBlow;  // Wafer Coater Ring Blow On Off [Single]
 
-        public ICylinder m_Spinner2UDCyl;    // Wafer Cleaner Up Down Cylinder [Double]
         public ICylinder m_Spinner2DICyl;    // Wafer Cleaner DI Nozzle On Off [Single]
-        public ICylinder m_Spinner2N2Cyl;    // Wafer Cleaner N2 Nozzle On Off [Single]
-        public ICylinder m_Spinner2RingBlow; // Wafer Coater Ring Blow On Off [Single]
+        public ICylinder m_Spinner2PVACyl;    // Wafer Cleaner N2 Nozzle On Off [Single]
+
+        public ICylinder m_StageClamp1;  // Work Stage Clamp 1 Cylinder [Double]
+        public ICylinder m_StageClamp2;  // Work Stage Clamp 2 Cylinder [Double]
 
         // Vacuum
         public IVacuum m_Stage1Vac;
@@ -318,15 +318,6 @@ namespace LWDicer.Control
             m_SystemInfo.GetObjectInfo(112, out objInfo);
             CreateCylinder(objInfo, cylData, (int)EObjectCylinder.SPINNER1_PVA, out m_Spinner1PVACyl);
 
-            // Spin Coater Ring Blow On Off
-            cylData = new CCylinderData();
-            cylData.CylinderType = ECylinderType.OPEN_CLOSE;
-            cylData.SolenoidType = ESolenoidType.SINGLE_SOLENOID;
-            cylData.Solenoid[0] = oCoater_Ring_Blow;
-
-            m_SystemInfo.GetObjectInfo(113, out objInfo);
-            CreateCylinder(objInfo, cylData, (int)EObjectCylinder.SPINNER1_RING_BLOW, out m_Spinner1RingBlow);
-
             // Spin Cleaner Up & Down Cylinder
             cylData = new CCylinderData();
             cylData.CylinderType = ECylinderType.UP_DOWN;
@@ -336,7 +327,7 @@ namespace LWDicer.Control
             cylData.Solenoid[0] = oStage2_Up;
             cylData.Solenoid[1] = oStage2_Down;
 
-            m_SystemInfo.GetObjectInfo(114, out objInfo);
+            m_SystemInfo.GetObjectInfo(113, out objInfo);
             CreateCylinder(objInfo, cylData, (int)EObjectCylinder.SPINNER2_UD, out m_Spinner2UDCyl);
 
 
@@ -346,7 +337,7 @@ namespace LWDicer.Control
             cylData.SolenoidType = ESolenoidType.SINGLE_SOLENOID;
             cylData.Solenoid[0] = oClean_DI;
 
-            m_SystemInfo.GetObjectInfo(115, out objInfo);
+            m_SystemInfo.GetObjectInfo(114, out objInfo);
             CreateCylinder(objInfo, cylData, (int)EObjectCylinder.SPINNER2_DI, out m_Spinner2DICyl);
 
             // Spin Cleaner N2 Valve Open Close Cylinder
@@ -355,18 +346,28 @@ namespace LWDicer.Control
             cylData.SolenoidType = ESolenoidType.SINGLE_SOLENOID;
             cylData.Solenoid[0] = oClean_N2;
 
-            m_SystemInfo.GetObjectInfo(116, out objInfo);
-            CreateCylinder(objInfo, cylData, (int)EObjectCylinder.SPINNER2_PVA, out m_Spinner2N2Cyl);
+            m_SystemInfo.GetObjectInfo(115, out objInfo);
+            CreateCylinder(objInfo, cylData, (int)EObjectCylinder.SPINNER2_PVA, out m_Spinner2PVACyl);
 
-            // Spin Cleaner Ring Blow On Off
+            // Stage Clamp 1 Open Close Cylinder
             cylData = new CCylinderData();
             cylData.CylinderType = ECylinderType.OPEN_CLOSE;
-            cylData.SolenoidType = ESolenoidType.SINGLE_SOLENOID;
-            cylData.Solenoid[0] = oCleaner_Ring_Blow;
+            cylData.SolenoidType = ESolenoidType.DOUBLE_SOLENOID;
+            cylData.Solenoid[0] = oStageClamp1_Open;
+            cylData.Solenoid[1] = oStageClamp1_Close;
+
+            m_SystemInfo.GetObjectInfo(116, out objInfo);
+            CreateCylinder(objInfo, cylData, (int)EObjectCylinder.STAGE_CLAMP1, out m_StageClamp1);
+
+            // Stage Clamp 2 Open Close Cylinder
+            cylData = new CCylinderData();
+            cylData.CylinderType = ECylinderType.OPEN_CLOSE;
+            cylData.SolenoidType = ESolenoidType.DOUBLE_SOLENOID;
+            cylData.Solenoid[0] = oStageClamp2_Open;
+            cylData.Solenoid[1] = oStageClamp2_Close;
 
             m_SystemInfo.GetObjectInfo(117, out objInfo);
-            CreateCylinder(objInfo, cylData, (int)EObjectCylinder.SPINNER2_RING_BLOW, out m_Spinner2RingBlow);
-
+            CreateCylinder(objInfo, cylData, (int)EObjectCylinder.STAGE_CLAMP2, out m_StageClamp2);
 
             ////////////////////////////////////////////////////////////////////////
             // Vacuum
@@ -1187,6 +1188,7 @@ namespace LWDicer.Control
 
             // set model data to each component
 
+
             //////////////////////////////////////////////////////////////////
             // Hardware Layer
 
@@ -1474,7 +1476,7 @@ namespace LWDicer.Control
 
             refCleaner.UpDownCyl = m_Spinner2UDCyl;
             refCleaner.CleanNozzleSolCyl = m_Spinner2DICyl;
-            refCleaner.CoatNozzleSolCyl = m_Spinner2N2Cyl;
+            refCleaner.CoatNozzleSolCyl = m_Spinner2PVACyl;
 
             dataCleaner.InDetectObject = iStage3_PanelDetect;
             dataCleaner.OutRingBlow = oCleaner_Ring_Blow;

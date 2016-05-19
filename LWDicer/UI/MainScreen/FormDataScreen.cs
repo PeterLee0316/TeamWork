@@ -27,6 +27,7 @@ namespace LWDicer.UI
         private FormCylinderData m_CylinderDataForm;
         private FormMotorData m_MotorDataForm;
         private FormVisionData m_VisionDataForm;
+        private FormVacuumData m_VacuumDataForm;
 
 
         public FormDataScreen()
@@ -41,6 +42,7 @@ namespace LWDicer.UI
             m_CylinderDataForm = new FormCylinderData();
             m_MotorDataForm = new FormMotorData();
             m_VisionDataForm = new FormVisionData();
+            m_VacuumDataForm = new FormVacuumData();
         }
 
         protected virtual void InitializeForm()
@@ -89,6 +91,11 @@ namespace LWDicer.UI
         private void BtnWaferData_Click(object sender, EventArgs e)
         {
             m_WaferDataForm.ShowDialog();
+        }
+
+        private void BtnVacuum_Click(object sender, EventArgs e)
+        {
+            m_VacuumDataForm.ShowDialog();
         }
     }
 }

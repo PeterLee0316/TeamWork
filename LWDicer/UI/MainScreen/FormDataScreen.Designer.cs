@@ -34,6 +34,7 @@
             this.BtnMotorData = new Syncfusion.Windows.Forms.ButtonAdv();
             this.BtnCylinderData = new Syncfusion.Windows.Forms.ButtonAdv();
             this.BtnVisionData = new Syncfusion.Windows.Forms.ButtonAdv();
+            this.BtnVacuum = new Syncfusion.Windows.Forms.ButtonAdv();
             this.SuspendLayout();
             // 
             // BtnModelData
@@ -76,7 +77,7 @@
             this.BtnScannerData.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.BtnScannerData.ForeColor = System.Drawing.Color.MidnightBlue;
             this.BtnScannerData.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.BtnScannerData.Location = new System.Drawing.Point(279, 12);
+            this.BtnScannerData.Location = new System.Drawing.Point(612, 12);
             this.BtnScannerData.Name = "BtnScannerData";
             this.BtnScannerData.Size = new System.Drawing.Size(128, 58);
             this.BtnScannerData.TabIndex = 11;
@@ -92,7 +93,7 @@
             this.BtnMotorData.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.BtnMotorData.ForeColor = System.Drawing.Color.MidnightBlue;
             this.BtnMotorData.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.BtnMotorData.Location = new System.Drawing.Point(279, 76);
+            this.BtnMotorData.Location = new System.Drawing.Point(226, 12);
             this.BtnMotorData.Name = "BtnMotorData";
             this.BtnMotorData.Size = new System.Drawing.Size(128, 58);
             this.BtnMotorData.TabIndex = 12;
@@ -108,7 +109,7 @@
             this.BtnCylinderData.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.BtnCylinderData.ForeColor = System.Drawing.Color.MidnightBlue;
             this.BtnCylinderData.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.BtnCylinderData.Location = new System.Drawing.Point(279, 140);
+            this.BtnCylinderData.Location = new System.Drawing.Point(226, 76);
             this.BtnCylinderData.Name = "BtnCylinderData";
             this.BtnCylinderData.Size = new System.Drawing.Size(128, 58);
             this.BtnCylinderData.TabIndex = 13;
@@ -124,13 +125,29 @@
             this.BtnVisionData.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.BtnVisionData.ForeColor = System.Drawing.Color.MidnightBlue;
             this.BtnVisionData.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.BtnVisionData.Location = new System.Drawing.Point(279, 204);
+            this.BtnVisionData.Location = new System.Drawing.Point(434, 12);
             this.BtnVisionData.Name = "BtnVisionData";
             this.BtnVisionData.Size = new System.Drawing.Size(128, 58);
             this.BtnVisionData.TabIndex = 14;
             this.BtnVisionData.Text = "Vision";
             this.BtnVisionData.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.BtnVisionData.Click += new System.EventHandler(this.BtnVisionData_Click);
+            // 
+            // BtnVacuum
+            // 
+            this.BtnVacuum.AutoEllipsis = true;
+            this.BtnVacuum.BackColor = System.Drawing.SystemColors.Control;
+            this.BtnVacuum.FlatAppearance.BorderSize = 5;
+            this.BtnVacuum.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.BtnVacuum.ForeColor = System.Drawing.Color.MidnightBlue;
+            this.BtnVacuum.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.BtnVacuum.Location = new System.Drawing.Point(226, 140);
+            this.BtnVacuum.Name = "BtnVacuum";
+            this.BtnVacuum.Size = new System.Drawing.Size(128, 58);
+            this.BtnVacuum.TabIndex = 15;
+            this.BtnVacuum.Text = "Vacuum";
+            this.BtnVacuum.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.BtnVacuum.Click += new System.EventHandler(this.BtnVacuum_Click);
             // 
             // FormDataScreen
             // 
@@ -139,6 +156,7 @@
             this.BackColor = System.Drawing.Color.Lavender;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.ClientSize = new System.Drawing.Size(1278, 817);
+            this.Controls.Add(this.BtnVacuum);
             this.Controls.Add(this.BtnVisionData);
             this.Controls.Add(this.BtnCylinderData);
             this.Controls.Add(this.BtnMotorData);
@@ -162,5 +180,6 @@
         private Syncfusion.Windows.Forms.ButtonAdv BtnMotorData;
         private Syncfusion.Windows.Forms.ButtonAdv BtnCylinderData;
         private Syncfusion.Windows.Forms.ButtonAdv BtnVisionData;
+        private Syncfusion.Windows.Forms.ButtonAdv BtnVacuum;
     }
 }

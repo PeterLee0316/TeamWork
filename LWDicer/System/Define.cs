@@ -180,20 +180,19 @@ namespace LWDicer.Control
         public const int DEF_MAX_SYSTEM_MULTIAXES_OBJ_NO = 10;
         public const int DEF_MAX_SYSTEM_LOG_ITEM = 200;
 
+
         public enum EObjectCylinder
         {
-            UHANDLER_UD,
-            UHANDLER_UD2,
             PUSHPULL_GRIPPER,
             SPINNER1_UD,
             SPINNER1_DI,
             SPINNER1_PVA,
-            SPINNER1_RING_BLOW,
             SPINNER2_UD,
             SPINNER2_DI,
             SPINNER2_PVA,
-            SPINNER2_RING_BLOW,
             PUSHPULL_UD,
+            STAGE_CLAMP1,
+            STAGE_CLAMP2,
             MAX_OBJ,
         }
 
@@ -1688,10 +1687,10 @@ namespace LWDicer.Control
         public const int oSpare2063                  = 2063;
 
         // Output Y040 
-        public const int oSHead1_UVLED_Start1        = 2064;
-        public const int oSHead1_UVLED_Start2        = 2065;
-        public const int oSHead1_UVLED_Start3        = 2066;
-        public const int oSHead1_UVLED_Start4        = 2067;
+        public const int oStageClamp1_Open           = 2064;
+        public const int oStageClamp1_Close          = 2065;
+        public const int oStageClamp2_Open           = 2066;
+        public const int oStageClamp2_Close          = 2067;
         public const int oSHead1_UVLED_Stop          = 2068;
         public const int oSHead1_UVLED_Mnl_On        = 2069;
         public const int oSHead1_UVLED_EMO_Stop      = 2070;
