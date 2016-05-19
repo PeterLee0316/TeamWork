@@ -10,8 +10,8 @@ using static LWDicer.Control.DEF_Thread;
 using static LWDicer.Control.DEF_Thread.ETrsLoaderStep;
 using static LWDicer.Control.DEF_Thread.EThreadMessage;
 using static LWDicer.Control.DEF_Thread.EThreadChannel;
-using static LWDicer.Control.DEF_Thread.EOpMode;
-using static LWDicer.Control.DEF_Thread.EOpStatus;
+using static LWDicer.Control.DEF_Thread.ERunMode;
+using static LWDicer.Control.DEF_Thread.ERunStatus;
 using static LWDicer.Control.DEF_Error;
 using static LWDicer.Control.DEF_Common;
 
@@ -186,7 +186,7 @@ namespace LWDicer.Control
                 // check message from other thread
                 CheckMsg(1);
 
-                switch (eOpStatus)
+                switch (RunStatus)
                 {
                     case STS_MANUAL: // Manual Mode
                         //m_RefComp.ctrlLoader.SetAutoManual(MANUAL);

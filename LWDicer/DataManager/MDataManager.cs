@@ -53,6 +53,7 @@ namespace LWDicer.Control
         public const int ERR_DATA_MANAGER_FAIL_LOAD_MODEL_LIST       = 13;
         public const int ERR_DATA_MANAGER_FAIL_SAVE_GENERAL_DATA     = 14;
         public const int ERR_DATA_MANAGER_FAIL_LOAD_GENERAL_DATA     = 15;
+        public const int ERR_DATA_MANAGER_FAIL_DELETE_MODEL_DATA     = 16;
 
         public const int ERR_DATA_MANAGER_IO_DATA_FILE_NOT_EXIST = 1;
         public const int ERR_DATA_MANAGER_IO_DATA_FILE_CLOSE_FAILURE = 2;
@@ -146,14 +147,14 @@ namespace LWDicer.Control
 
             public int SystemType;      // 작업변
             public bool UseSafetySensor;
-            public DEF_Thread.EOpMode eOpModeStatus;
+            public DEF_Thread.ERunMode eOpModeStatus;
             public bool UseStepDisplay;
             public string LineControllerIP;
             public int LineControllerPort;
             public int MelsecChannelNo;
             public int MelsecStationNo;
             public int SystemLanguageSelect;
-            public int VelocityMode;
+            public DEF_Common.EVelocityMode VelocityMode;
             public double PanelBacklash;
             public bool UseOnLineUse;
 
@@ -466,12 +467,18 @@ namespace LWDicer.Control
 
         }
 
+        /// <summary>
+        /// Model의 계층구조를 만들기 위해서 Header만 따로 떼어서 관리.
+        /// Folder인 경우엔 IsFolder = true & CModelData는 따로 만들지 않음.
+        /// Model인 경우엔 IsFolder = false & CModelData에 같은 이름으로 ModelData가 존재함.
+        /// </summary>
         public class CModelHeader
         {
             // Header
             public string Name        = "Default";   // unique primary key
             public string Comment     = "Default Comment";
             public string Parent      = string.Empty;  // if == "", root
+            public bool IsFolder = false; // true, if it is folder.
         }
 
         public class CModelData    // Model, Recipe
@@ -559,7 +566,7 @@ namespace LWDicer.Control
 
         // Model Data
         public CModelData ModelData { get; private set; } = new CModelData();
-        public List<CModelHeader> ModelList { get; private set; } = new List<CModelHeader>();
+        public List<CModelHeader> ModelList { get; set; } = new List<CModelHeader>();
 
         // Parameter Data
         public DEF_IO.CIOInfo[] InputArray { get; private set; } = new DEF_IO.CIOInfo[DEF_IO.MAX_IO_INPUT];
@@ -609,6 +616,7 @@ namespace LWDicer.Control
                 header.Name = $"Model{i}";
                 header.Comment = $"Comment{i}";
                 header.Parent = $"Parent{i}";
+                header.IsFolder = false;
                 ModelList.Add(header);
             }
 
@@ -973,7 +981,7 @@ namespace LWDicer.Control
             return SUCCESS;
         }
 
-        public int SavePositionData(bool bLoadFixed, EUnitObject unit = EUnitObject.ALL)
+        public int SavePositionData(bool bLoadFixed, EPositionObject unit = EPositionObject.ALL)
         {
             string key_value;
             CPositionData tData = OffsetPos;
@@ -984,16 +992,16 @@ namespace LWDicer.Control
                 suffix = "_Fixed";
             }
 
-            if (unit == EUnitObject.ALL || unit == EUnitObject.LOADER)
+            if (unit == EPositionObject.ALL || unit == EPositionObject.LOADER)
             {
 
             }
 
-            if (unit == EUnitObject.ALL || unit == EUnitObject.UHANDLER)
+            if (unit == EPositionObject.ALL || unit == EPositionObject.UHANDLER)
             {
                 try
                 {
-                    key_value = EUnitObject.UHANDLER.ToString() + suffix;
+                    key_value = EPositionObject.UHANDLER.ToString() + suffix;
                     string output = JsonConvert.SerializeObject(tData.UHandlerPos);
 
                     if (DBManager.InsertRow(DBInfo.DBConn, DBInfo.TablePos, "name", key_value, output,
@@ -1014,7 +1022,7 @@ namespace LWDicer.Control
             return SUCCESS;
         }
 
-        public int LoadPositionData(bool bLoadFixed, EUnitObject unit = EUnitObject.ALL)
+        public int LoadPositionData(bool bLoadFixed, EPositionObject unit = EPositionObject.ALL)
         {
             string output;
 
@@ -1027,16 +1035,16 @@ namespace LWDicer.Control
                 suffix = "_Fixed";
             }
 
-            if (unit == EUnitObject.ALL || unit == EUnitObject.LOADER)
+            if (unit == EPositionObject.ALL || unit == EPositionObject.LOADER)
             {
 
             }
 
-            if (unit == EUnitObject.ALL || unit == EUnitObject.UHANDLER)
+            if (unit == EPositionObject.ALL || unit == EPositionObject.UHANDLER)
             {
                 try
                 {
-                    key_value = EUnitObject.UHANDLER.ToString() + suffix;
+                    key_value = EPositionObject.UHANDLER.ToString() + suffix;
                     if (DBManager.SelectRow(DBInfo.DBConn, DBInfo.TablePos, "name", key_value, out output) == true)
                     {
                         CUnitPos data = JsonConvert.DeserializeObject<CUnitPos>(output);
@@ -1069,7 +1077,12 @@ namespace LWDicer.Control
             return SUCCESS;
         }
 
-        public int SaveModelList()
+        /// <summary>
+        /// UI에서 public 으로 선언된 ModelList를 편집한 후에 (data 무결성은 UI에서 책임)
+        /// 이 함수를 호출하여 ModelHeader List를 저장한다
+        /// </summary>
+        /// <returns></returns>
+        public int SaveModelHeaderList()
         {
             try
             {
@@ -1158,6 +1171,32 @@ namespace LWDicer.Control
             return false;
         }
 
+        public int DeleteModelData(string name)
+        {
+            if (IsModelExist(name) == false) return SUCCESS;
+            try
+            {
+                if (DBManager.DeleteRow(DBInfo.DBConn, DBInfo.TableModel, "name", ModelData.Name, 
+                    true, DBInfo.DBConn_Backup) != true)
+                {
+                    return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_DELETE_MODEL_DATA);
+                }
+            }
+            catch (Exception ex)
+            {
+                WriteExLog(ex.ToString());
+                return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_DELETE_MODEL_DATA);
+            }
+
+            WriteLog($"success : delete model [{name}].", ELogType.SYSTEM, ELogWType.SAVE);
+            return SUCCESS;
+        }
+
+        /// <summary>
+        /// Model Data 변경시에 저장 
+        /// </summary>
+        /// <param name="modelData"></param>
+        /// <returns></returns>
         public int SaveModelData(CModelData modelData)
         {
             try
@@ -1881,19 +1920,19 @@ namespace LWDicer.Control
                 SystemData_Axis.MPMotionData[index] = ObjectExtensions.Copy(tMotion);
             }
 
-            // CENTERING1_X   
-            index = (int)EYMC_Axis.CENTERING1_X   ;
+            // PUSHPULL_X1   
+            index = (int)EYMC_Axis.PUSHPULL_X1   ;
             if (SystemData_Axis.MPMotionData[index].Name == "NotExist")
             {
                 tMotion = new CMPMotionData();
-                tMotion.Name = "CENTERING1_X";
+                tMotion.Name = "PUSHPULL_X1";
                 tMotion.Exist = true;
 
                 SystemData_Axis.MPMotionData[index] = ObjectExtensions.Copy(tMotion);
             }
 
             // C1_CHUCK_ROTATE_T
-            index = (int)EYMC_Axis.C1_CHUCK_ROTATE_T;
+            index = (int)EYMC_Axis.S1_CHUCK_ROTATE_T;
             if (SystemData_Axis.MPMotionData[index].Name == "NotExist")
             {
                 tMotion = new CMPMotionData();
@@ -1904,7 +1943,7 @@ namespace LWDicer.Control
             }
 
             // C1_CLEAN_NOZZLE_T
-            index = (int)EYMC_Axis.C1_CLEAN_NOZZLE_T;
+            index = (int)EYMC_Axis.S1_CLEAN_NOZZLE_T;
             if (SystemData_Axis.MPMotionData[index].Name == "NotExist")
             {
                 tMotion = new CMPMotionData();
@@ -1915,7 +1954,7 @@ namespace LWDicer.Control
             }
 
             // C1_COAT_NOZZLE_T 
-            index = (int)EYMC_Axis.C1_COAT_NOZZLE_T ;
+            index = (int)EYMC_Axis.S1_COAT_NOZZLE_T ;
             if (SystemData_Axis.MPMotionData[index].Name == "NotExist")
             {
                 tMotion = new CMPMotionData();
@@ -1925,19 +1964,19 @@ namespace LWDicer.Control
                 SystemData_Axis.MPMotionData[index] = ObjectExtensions.Copy(tMotion);
             }
 
-            // CENTERING2_X   
-            index = (int)EYMC_Axis.CENTERING2_X   ;
+            // PUSHPULL_X2   
+            index = (int)EYMC_Axis.PUSHPULL_X2   ;
             if (SystemData_Axis.MPMotionData[index].Name == "NotExist")
             {
                 tMotion = new CMPMotionData();
-                tMotion.Name = "CENTERING2_X";
+                tMotion.Name = "PUSHPULL_X2";
                 tMotion.Exist = true;
 
                 SystemData_Axis.MPMotionData[index] = ObjectExtensions.Copy(tMotion);
             }
 
             // C2_CHUCK_ROTATE_T
-            index = (int)EYMC_Axis.C2_CHUCK_ROTATE_T;
+            index = (int)EYMC_Axis.S2_CHUCK_ROTATE_T;
             if (SystemData_Axis.MPMotionData[index].Name == "NotExist")
             {
                 tMotion = new CMPMotionData();
@@ -1948,7 +1987,7 @@ namespace LWDicer.Control
             }
 
             // C2_CLEAN_NOZZLE_T
-            index = (int)EYMC_Axis.C2_CLEAN_NOZZLE_T;
+            index = (int)EYMC_Axis.S2_CLEAN_NOZZLE_T;
             if (SystemData_Axis.MPMotionData[index].Name == "NotExist")
             {
                 tMotion = new CMPMotionData();
@@ -1959,7 +1998,7 @@ namespace LWDicer.Control
             }
 
             // C2_COAT_NOZZLE_T 
-            index = (int)EYMC_Axis.C2_COAT_NOZZLE_T ;
+            index = (int)EYMC_Axis.S2_COAT_NOZZLE_T ;
             if (SystemData_Axis.MPMotionData[index].Name == "NotExist")
             {
                 tMotion = new CMPMotionData();

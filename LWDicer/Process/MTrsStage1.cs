@@ -10,8 +10,8 @@ using static LWDicer.Control.DEF_Thread;
 using static LWDicer.Control.DEF_Thread.ETrsStage1Step;
 using static LWDicer.Control.DEF_Thread.EThreadMessage;
 using static LWDicer.Control.DEF_Thread.EThreadChannel;
-using static LWDicer.Control.DEF_Thread.EOpMode;
-using static LWDicer.Control.DEF_Thread.EOpStatus;
+using static LWDicer.Control.DEF_Thread.ERunMode;
+using static LWDicer.Control.DEF_Thread.ERunStatus;
 using static LWDicer.Control.DEF_Error;
 using static LWDicer.Control.DEF_Common;
 
@@ -149,7 +149,7 @@ namespace LWDicer.Control
                 // check message from other thread
                 CheckMsg(1);
 
-                switch (eOpStatus)
+                switch (RunStatus)
                 {
                     case STS_MANUAL: // Manual Mode
                         //m_RefComp.ctrlStage1.SetAutoManual(MANUAL);
@@ -179,7 +179,7 @@ namespace LWDicer.Control
                                 PostMsg(TrsAutoManager, (int)MSG_STAGE_LOADING_END);
 
                                 iResult = m_RefComp.ctrlStage1.MoveToLoadPos();
-                                if (iResult != SUCCESS) { SendAlarmTo(iResult); break; }
+                                if (iResult != SUCCESS) { ReportAlarm(iResult); break; }
 
                                 //SetStep((int)TRS_STAGE1_WAIT_MOVETO_LOAD);
                                 break;
@@ -202,7 +202,7 @@ namespace LWDicer.Control
                             //                                 //				if(!m_bWorkbench_SafetyPos) break;
 
                             //    iResult = m_RefComp.ctrlStage1.MoveToWaitPos(false);
-                            //    if (iResult != SUCCESS) { SendAlarmTo(iResult); break; }
+                            //    if (iResult != SUCCESS) { ReportAlarm(iResult); break; }
 
                             //    //PostMsg(TrsWorkbench, MSG_STAGE1_WORKBENCH_SAFETY_POS);
 

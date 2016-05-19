@@ -153,6 +153,16 @@ LWDicer의 DataManager에서 데이터를 읽어오기 위한 3가지 함수 : S
 3. Thread Architecture 및 base function, Enum Data 정리함
 4. MTrsAutoManager : 1차 정리함.
 
+// Version : 0.0.17
+// Grade : ★
+// Date : 2016.05.17 ~ 2016.05.19
+// Context
+1. MTrsAutoManager : 2차 정리중
+2. ModelList class에 IsFolder 란 member 추가
+3. MEvent class 수정 및 Thread간 PostMsg, ReportAlarm 함수 정비
+4. Cleaner, Coater 등등의 이름들 사용하던거 spinner1,2 로 변경
+5. DataManager class : ModelList, Model 관련하여 DeleteModelData() 추가
+6. AlarmInfo 함수 추가중..
 
 ////////////////////////////////////////////////////////////////////////////////////////////
 // LJJ

@@ -10,7 +10,7 @@ using LWDicer.UI;
 using static LWDicer.Control.DEF_Thread;
 using static LWDicer.Control.DEF_Thread.EThreadChannel;
 using static LWDicer.Control.DEF_Thread.EThreadMessage;
-using static LWDicer.Control.DEF_Thread.EOpStatus;
+using static LWDicer.Control.DEF_Thread.ERunStatus;
 using static LWDicer.Control.DEF_Error;
 using static LWDicer.Control.DEF_Common;
 
@@ -28,11 +28,11 @@ namespace LWDicer.Control
         public int ThreadID { get; private set; }
         public bool IsAlive { get; private set; }
 
-        private EThreadChannel SelfChannelNo;
-        protected EAutoManual   eAutoManual;    // EAutoManual : AUTO, MANUAL
-        protected EOpMode       eOpMode;        // EOpMode : NORMAL_RUN, PASS_RUN, DRY_RUN, REPAIR_RUN
-        protected EOpStatus     eOpStatus;      // eOpStatus : STS_MANUAL, STS_RUN_READY, STS_RUN,STS_STEP_STOP, 
-        protected EOpStatus     eOpStatus_Old;  // Old eOpStatus
+        private EThreadChannel  SelfChannelNo;
+        public EAutoManual      eAutoManual { get; protected set; } = EAutoManual.MANUAL; // AUTO, MANUAL
+        public ERunMode         RunMode { get; protected set; } = ERunMode.NORMAL_RUN; // NORMAL_RUN, PASS_RUN, DRY_RUN, REPAIR_RUN
+        public ERunStatus       RunStatus { get; private set; } = ERunStatus.STS_MANUAL; // STS_MANUAL, STS_RUN_READY, STS_RUN,STS_STEP_STOP, 
+        public ERunStatus       RunStatus_Old { get; private set; } = ERunStatus.STS_RUN; // Old RunStatus
 
         public int ThreadStep { get; protected set; } = 0;
 
@@ -42,11 +42,6 @@ namespace LWDicer.Control
 
         public MWorkerThread(CObjectInfo objInfo, EThreadChannel SelfChannelNo) : base(objInfo)
         {
-            eAutoManual   = EAutoManual.MANUAL;
-            eOpMode       = EOpMode.NORMAL_RUN;
-            eOpStatus     = EOpStatus.STS_MANUAL;
-            eOpStatus_Old = EOpStatus.STS_RUN;
-
             ThreadID = GetUniqueThreadID();
             this.SelfChannelNo = SelfChannelNo;
 
@@ -103,9 +98,9 @@ namespace LWDicer.Control
             return DEF_Error.SUCCESS;
         }
 
-        public void SetOperationMode(EOpMode mode)
+        public void SetOperationMode(ERunMode mode)
         {
-            eOpMode = mode;
+            RunMode = mode;
         }
 
         public void SetAutoManual(EAutoManual mode)
@@ -115,23 +110,24 @@ namespace LWDicer.Control
 
         protected int OnStartRun()
         {
-            SetOpStatus(eOpStatus);
+            SetRunStatus(RunStatus);
 
             return DEF_Error.SUCCESS;
         }
 
-        protected bool SetOpStatus(EOpStatus status)
-        {
-            if (eOpStatus == status) return false;
 
-            eOpStatus_Old = eOpStatus;
-            eOpStatus = status;
+        protected bool SetRunStatus(ERunStatus status)
+        {
+            if (RunStatus == status) return false;
+
+            RunStatus_Old = RunStatus;
+            RunStatus = status;
             return true;
         }
 
-        protected void SetStep(int Step)
+        protected void SetStep(int step)
         {
-            ThreadStep = Step;
+            ThreadStep = step;
         }
 
         protected override int ProcessMsg(MEvent evnt)
@@ -140,7 +136,7 @@ namespace LWDicer.Control
             switch (evnt.Msg)
             {
                 case (int)MSG_MANUAL_CMD:
-                    SetOpStatus(STS_MANUAL);
+                    SetRunStatus(STS_MANUAL);
 
                     PostMsg(TrsAutoManager, (int)MSG_MANUAL_CNF);
                     break;
@@ -153,36 +149,36 @@ namespace LWDicer.Control
                     break;
 
                 case (int)MSG_START_CMD:
-                    if (eOpStatus == STS_RUN_READY || eOpStatus == STS_STEP_STOP ||
-                        eOpStatus == STS_ERROR_STOP)
+                    if (RunStatus == STS_RUN_READY || RunStatus == STS_STEP_STOP ||
+                        RunStatus == STS_ERROR_STOP)
                     {
-                        SetOpStatus(STS_RUN);
+                        SetRunStatus(STS_RUN);
 
                         PostMsg(TrsAutoManager, (int)MSG_START_CNF);
                     }
                     break;
 
                 case (int)MSG_ERROR_STOP_CMD:
-                    SetOpStatus(STS_ERROR_STOP);
+                    SetRunStatus(STS_ERROR_STOP);
 
                     PostMsg(TrsAutoManager, (int)MSG_ERROR_STOP_CNF);
                     break;
 
                 case (int)MSG_STEP_STOP_CMD:
-                    if (eOpStatus == STS_STEP_STOP || eOpStatus == STS_ERROR_STOP)
+                    if (RunStatus == STS_STEP_STOP || RunStatus == STS_ERROR_STOP)
                     {
-                        SetOpStatus(STS_MANUAL);
+                        SetRunStatus(STS_MANUAL);
                     }
                     else
                     {
-                        SetOpStatus(STS_STEP_STOP);
+                        SetRunStatus(STS_STEP_STOP);
                     }
 
                     PostMsg(TrsAutoManager, (int)MSG_STEP_STOP_CNF);
                     break;
 
                 case (int)MSG_CYCLE_STOP_CMD:
-                    SetOpStatus(STS_CYCLE_STOP);
+                    SetRunStatus(STS_CYCLE_STOP);
                     PostMsg(TrsAutoManager, (int)MSG_CYCLE_STOP_CNF);
                     break;
 
@@ -206,7 +202,7 @@ namespace LWDicer.Control
                 // check message from other thread
                 CheckMsg(1);
 
-                switch (eOpStatus)
+                switch (RunStatus)
                 {
                     case STS_MANUAL: // Manual Mode
                         //m_RefComp.m_pC_CtrlStage1->SetAutoManual(MANUAL);
@@ -263,8 +259,16 @@ namespace LWDicer.Control
             return (MWorkerThread)stThreadList[idx];
         }
 
+        /// <summary>
+        /// 관리중인 Thread List에 Message를 전파한다.
+        /// </summary>
+        /// <param name="msg"></param>
+        /// <param name="wParam"></param>
+        /// <param name="lParam"></param>
+        /// <param name="bDirect"></param>
         public void BroadcastMsg(int msg, int wParam = 0, int lParam = 0, bool bDirect = false)
         {
+            if (wParam == 0) wParam = ThreadID; // Set Sender ID
             int i = 0;
             if (bDirect)
             {
@@ -284,6 +288,17 @@ namespace LWDicer.Control
             }
         }
 
+        public void BroadcastMsg(EThreadMessage msg, int wParam = 0, int lParam = 0, bool bDirect = false)
+        {
+            BroadcastMsg((int)msg, wParam, lParam, bDirect);
+        }
+
+        /// <summary>
+        /// Message를 보내며 통신하고 싶은 Thread를 List로 관리한다.
+        /// </summary>
+        /// <param name="channel"></param>
+        /// <param name="pThread"></param>
+        /// <returns></returns>
         public int LinkThread(int channel, MWorkerThread pThread)
         {
             if ((channel < 0) || (channel >= MAX_THREAD_CHANNEL)) return -1;
@@ -298,36 +313,42 @@ namespace LWDicer.Control
             return LinkThread((int)channel, pThread);
         }
 
-        public int PostMsg(int channel, MEvent evnt)
+        public int PostMsg(int target, MEvent evnt)
         {
-            if ((channel < 0) || (channel >= MAX_THREAD_CHANNEL)) return -1;
+            if ((target < 0) || (target >= MAX_THREAD_CHANNEL)) return -1;
 
-            if (m_LinkedThreadArray[channel] == null) return -1;
-            return (m_LinkedThreadArray[channel].PostMsg(evnt));
+            if (m_LinkedThreadArray[target] == null) return -1;
+            return (m_LinkedThreadArray[target].PostMsg(evnt));
         }
 
-        public int PostMsg(int channel, int msg, int wParam = 0, int lParam = 0)
+        public int PostMsg(int target, int msg, int wParam = 0, int lParam = 0)
         {
+            if (wParam == 0) wParam = ThreadID; // Set Sender ID
             // because when doing linkthread, link self to zero channel.
-            if(channel == (int)SelfChannelNo)
+            if (target == (int)SelfChannelNo)
             {
-                channel = 0;
+                target = 0;
             }
-            if (m_LinkedThreadArray[channel] == null) return -1;
-            return PostMsg(channel, new MEvent(msg, wParam, lParam, ThreadID));
+            if (m_LinkedThreadArray[target] == null) return -1;
+            return PostMsg(target, new MEvent(msg, wParam, lParam));
         }
 
-        public int PostMsg(EThreadChannel channel, int msg, int wParam = 0, int lParam = 0)
+        public int PostMsg(EThreadChannel target, int msg, int wParam = 0, int lParam = 0)
         {
-            return PostMsg((int)channel, msg, wParam, lParam);
+            return PostMsg((int)target, msg, wParam, lParam);
         }
 
-        public int SendAlarmTo(int iAlaramCode, int channel = (int)TrsAutoManager)
+        /// <summary>
+        /// 자신의 RunStatus를 Error Stop으로 변경 및 Alarm을 선택한 채널 (TrsAutoManager)에게 보고하는 함수
+        /// </summary>
+        /// <param name="alarm"></param>
+        /// <returns></returns>
+        public int ReportAlarm(int alarm, int target = (int)TrsAutoManager)
         {
-            eOpStatus = STS_ERROR_STOP;
+            RunStatus = STS_ERROR_STOP;
 
-            MEvent evnt = new MEvent((int)MSG_PROCESS_ALARM, iAlaramCode, channel, ThreadID);
-            return PostMsg(channel, evnt);
+            MEvent evnt = new MEvent((int)MSG_PROCESS_ALARM, wParam:ThreadID, lParam:alarm);
+            return PostMsg(target, evnt);
         }
 
         protected int GetThreadsCount()
@@ -335,15 +356,17 @@ namespace LWDicer.Control
             return stIndex;
         }
 
-        private void SendMessageToMainWnd(int msg, int wParam = 0, int lParam = 0)
+        private void SendMsgToMainWnd(int msg, int wParam = 0, int lParam = 0)
         {
+            if (wParam == 0) wParam = ThreadID; // Set Sender ID
+
             WriteLog($"send msg to main wnd : {msg}");
-            MainFrame?.Invoke(new ProcessMsgDelegate(MainFrame.ProcessMsg), new MEvent(msg, lParam, wParam, ThreadID));
+            MainFrame?.Invoke(new ProcessMsgDelegate(MainFrame.ProcessMsg), new MEvent(msg, wParam, lParam));
         }
 
-        public void SendMessageToMainWnd(EWindowMessage msg, int wParam = 0, int lParam = 0)
+        public void SendMsgToMainWnd(EWindowMessage msg, int wParam = 0, int lParam = 0)
         {
-            SendMessageToMainWnd((int)msg, wParam, lParam);
+            SendMsgToMainWnd((int)msg, wParam, lParam);
         }
 
         public void SetWindows_Form1(CMainFrame MainFrame)

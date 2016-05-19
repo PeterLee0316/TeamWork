@@ -17,15 +17,15 @@ namespace LWDicer.Control
     public abstract class MCtrlLayer : MObject
     {
         protected EAutoManual AutoManual;    // EAutoManual : AUTO, MANUAL
-        protected EOpMode OpMode;            // EOpMode : NORMAL_RUN, PASS_RUN, DRY_RUN, REPAIR_RUN
+        protected ERunMode OpMode;            // ERunMode : NORMAL_RUN, PASS_RUN, DRY_RUN, REPAIR_RUN
 
         public MCtrlLayer(CObjectInfo objInfo) : base(objInfo)
         {
             AutoManual = EAutoManual.MANUAL;
-            OpMode = EOpMode.NORMAL_RUN;
+            OpMode = ERunMode.NORMAL_RUN;
         }
 
-        public void SetOperationMode(EOpMode mode)
+        public void SetOperationMode(ERunMode mode)
         {
             OpMode = mode;
         }

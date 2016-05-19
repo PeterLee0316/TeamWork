@@ -50,6 +50,13 @@ namespace LWDicer.Control
             return DEF_Error.SUCCESS;
         }
 
+        /// <summary>
+        /// 자기 자신에게 메세지를 보냄 (자신의 Event Handler를 호출함)
+        /// </summary>
+        /// <param name="msg"></param>
+        /// <param name="wParam"></param>
+        /// <param name="lParam"></param>
+        /// <returns></returns>
         protected int SendMsg(int msg, int wParam = 0, int lParam = 0)
         { 
             return SendMsg(new MEvent(msg, wParam, lParam)); 
@@ -61,7 +68,7 @@ namespace LWDicer.Control
         }
 
         /// <summary>
-        /// event를 스스로에게 전송해서 처리할 수 있도록 하는 함수
+        /// 자기 자신에게 메세지를 보냄 (자신의 Event Handler를 호출함)
         /// </summary>
         /// <param name="evnt"></param>
         /// <returns></returns>

@@ -9,7 +9,6 @@ using static LWDicer.Control.DEF_Error;
 using static LWDicer.Control.DEF_CtrlOpPanel;
 using static LWDicer.Control.DEF_OpPanel;
 using static LWDicer.Control.DEF_Thread;
-using static LWDicer.Control.DEF_CtrlOpPanel.ETowerLampMode;
 
 namespace LWDicer.Control
 {
@@ -25,22 +24,22 @@ namespace LWDicer.Control
 
         public const double DEF_CTRLOPPANEL_BLINK_RATE = 0.5;
 
-        public enum ETowerLampMode
+        public enum ELampBuzzerMode
         {
-            TOWER_STEPSTOP,           
-            TOWER_START,              
-            TOWER_RUN,                
-            TOWER_STEPSTOP_ING,       
-            TOWER_ERRORSTOP_ING,      
-            TOWER_CYCLESTOP_ING,      
-            TOWER_PARTSEMPTY,         
-            TOWER_ERRORSTOP_NOBUZZER, 
-            TOWER_PARTSEMPTY_NOBUZZER,
-            TOWER_OP_CALL,            
-            TOWER_RUN_PANEL_NO_EXIST, 
-            TOWER_RUN_TRAFFIC_JAM,    
-            TOWER_ESTOP_PRESSED,      
-            TOWER_NCMC_BUZZER              
+            STEPSTOP,           
+            START,              
+            RUN,                
+            STEPSTOP_ING,       
+            ERRORSTOP_ING,      
+            CYCLESTOP_ING,      
+            PARTSEMPTY,         
+            ERRORSTOP_NOBUZZER, 
+            PARTSEMPTY_NOBUZZER,
+            OP_CALL,            
+            RUN_PANEL_NO_EXIST, 
+            RUN_TRAFFIC_JAM,    
+            ESTOP_PRESSED,      
+            NCMC_BUZZER              
         }
 
         public class CCtrlOpPanelRefComp
@@ -71,7 +70,7 @@ namespace LWDicer.Control
         double m_dBlinkRate;
 
         // SafeSensor Check 여부
-        bool m_bSafeSensorUse;
+        public bool UseSafeSensor { get; set; } = false;
 
         // Jog로 이동할 Motion에 대한 정보 Index
         int m_iJogIndex;
@@ -97,8 +96,10 @@ namespace LWDicer.Control
         // IO Check Dialog
         bool m_bIOCheck;
 
-        bool m_bTrafficJam;
-        bool m_bNoPanel;
+        // Panel이 정체되었을때 On
+        public bool IsTrafficJam { get; set; } = false;
+        // 설비내에 Panel이 없을때 On
+        public bool IsNoPanel { get; set; } = false;
 
 
         public MCtrlOpPanel(CObjectInfo objInfo, CCtrlOpPanelRefComp refComp, CCtrlOpPanelData data)
@@ -113,8 +114,6 @@ namespace LWDicer.Control
             // Jog로 이동할 Motion에 대한 정보 Index 
             m_iJogIndex = DEF_CTRLOPPANEL_JOG_NO_USE;
             m_iJogIndexExtra = DEF_OPPANEL_NO_JOGKEY;
-
-            m_bSafeSensorUse = false;
 
             // Blink Interval 계산을 위한 변수 
             m_bBlinkState = false;
@@ -135,8 +134,6 @@ namespace LWDicer.Control
             m_bPrevDir_T = JOG_DIR_POS;
             m_bPrevDir_Z = JOG_DIR_POS;
 
-            m_bTrafficJam = false;
-
         }
 
         public int SetData(CCtrlOpPanelData source)
@@ -152,34 +149,16 @@ namespace LWDicer.Control
             return SUCCESS;
         }
 
-        int Initialize()
+        public int Initialize()
         {
             return SUCCESS;
-        }
-
-        /// <summary>
-        /// 안전센서 감지 여부를 설정한다. 
-        /// </summary>
-        /// <param name="bSafeSensorUse">설정할 안전센서 사용 여부 (TURE:사용, false:미사용)</param>
-        void SetSafeSensorUse(bool bSafeSensorUse)
-        {
-            m_bSafeSensorUse = bSafeSensorUse;
-        }
-
-        /// <summary>
-        /// 안전센서 감지 여부를 Get한다. 
-        /// </summary>
-        /// <param name="pbSafeSensorUse">설정할 안전센서 사용 여부 (TURE:사용, false:미사용)</param>
-        void GetSafeSensorUse(out bool bSafeSensorUse)
-        {
-            bSafeSensorUse = m_bSafeSensorUse;
         }
 
         /// <summary>
         /// Motion 이동 속도 Mode를 설정한다.
         /// </summary>
         /// <param name="rgdVelocity">설정할 Motion 속도 (배열 Index 순서는 MMC 축 ID 순서)</param>
-        void SetVelocityMode(double[/*DEF_MAX_MOTION_AXIS*/] rgdVelocity)
+        public void SetVelocityMode(double[/*DEF_MAX_MOTION_AXIS*/] rgdVelocity)
         {
             m_RefComp.OpPanel.SetVelocityMode(rgdVelocity);
         }
@@ -188,7 +167,7 @@ namespace LWDicer.Control
         /// 자동운전 전의 운전 가능 상태를 읽는다.
         /// </summary>
         /// <returns></returns>
-        int CheckBeforeAutoRun()
+        public int CheckBeforeAutoRun()
         {
 #if SIMULATION_MOTION
             return SUCCESS;
@@ -216,7 +195,7 @@ namespace LWDicer.Control
             //		return GenerateErrorCode(ERR_MNGOPPANEL_CP_TRIP);
 
             // 4. Tank 잔량 확인 
-            if (OpMode != EOpMode.DRY_RUN)
+            if (OpMode != ERunMode.DRY_RUN)
             {
                 iResult = CheckSiliconeRemain(out bEmptyAll, out bEmptyPart);
                 if (iResult != SUCCESS) return iResult;
@@ -226,7 +205,7 @@ namespace LWDicer.Control
             }
 
             // 5. Door Open 확인 
-            if (m_bSafeSensorUse == true)
+            if (UseSafeSensor == true)
             {
                 iResult = GetDoorSWStatus(out bStatus);
                 if (iResult != SUCCESS) return iResult;
@@ -287,7 +266,7 @@ namespace LWDicer.Control
         /// </summary>
         /// <param name="bEmptyPart"></param>
         /// <returns></returns>
-        int CheckAutoRun(out bool bEmptyPart)
+        public int CheckAutoRun(out bool bEmptyPart)
         {
 #if SIMULATION_MOTION
             bEmptyPart = false;
@@ -307,7 +286,7 @@ namespace LWDicer.Control
             //		return GenerateErrorCode(ERR_MNGOPPANEL_CP_TRIP);
 
             // 4. Silicone 잔량 확인 
-            if (OpMode != EOpMode.DRY_RUN)
+            if (OpMode != ERunMode.DRY_RUN)
             {
                 iResult = CheckSiliconeRemain(out bEmptyAll, out bEmptyPart);
                 if (iResult != SUCCESS) return iResult;
@@ -317,7 +296,7 @@ namespace LWDicer.Control
             }
 
             // 5. Door Open 확인 
-            if (m_bSafeSensorUse == true)
+            if (UseSafeSensor == true)
             {
                 iResult = GetDoorSWStatus(out bStatus);
                 if (iResult != SUCCESS) return iResult;
@@ -330,7 +309,7 @@ namespace LWDicer.Control
 
 #if DEF_USE_AREA_SENSOR
             // 5.1 Area Sensor 확인 
-            if (m_bSafeSensorUse == true)
+            if (UseSafeSensor == true)
             {
                 iResult = GetAreaSWStatus(&bStatus1);
                 if (iResult != SUCCESS) return iResult;
@@ -377,7 +356,7 @@ namespace LWDicer.Control
         /// </summary>
         /// <param name="bStatus">Start Switch 눌린 상태 (0:OFF , 1:FRONT , 2:BACK)</param>
         /// <returns></returns>
-        int GetStartSWStatus(out bool bStatus)
+        public int GetStartSWStatus(out bool bStatus)
         {
             int iResult = SUCCESS;
 
@@ -393,7 +372,7 @@ namespace LWDicer.Control
         /// </summary>
         /// <param name="bStatus">Stop Switch 눌린 상태 (0:OFF , 1:FRONT , 2:BACK)</param>
         /// <returns></returns>
-        int GetStopSWStatus(out bool bStatus)
+        public int GetStopSWStatus(out bool bStatus)
         {
             int iResult = SUCCESS;
 
@@ -414,7 +393,7 @@ namespace LWDicer.Control
         /// </summary>
         /// <param name="bStatus">E-Stop Switch 눌린 상태 (true:ON, false:OFF)</param>
         /// <returns></returns>
-        int GetEStopSWStatus(out bool bStatus)
+        public int GetEStopSWStatus(out bool bStatus)
         {
             int iResult = SUCCESS;
 
@@ -435,7 +414,7 @@ namespace LWDicer.Control
         /// </summary>
         /// <param name="bStatus">Reset Switch 눌린 상태 (0:OFF , 1:FRONT , 2:BACK)</param>
         /// <returns></returns>
-        int GetResetSWStatus(out bool bStatus)
+        public int GetResetSWStatus(out bool bStatus)
         {
             int iResult = SUCCESS;
 
@@ -451,7 +430,7 @@ namespace LWDicer.Control
         /// </summary>
         /// <param name="bStatus">Door 상태 (true:CLOSE, false:OPEN)</param>
         /// <returns></returns>
-        int GetDoorSWStatus(out bool bStatus)
+        public int GetDoorSWStatus(out bool bStatus)
         {
             int iResult = SUCCESS;
 
@@ -467,7 +446,7 @@ namespace LWDicer.Control
         /// </summary>
         /// <param name="bStatus">Area 상태 (true:CLOSE, false:OPEN)</param>
         /// <returns></returns>
-        int GetAreaSWStatus(out bool bStatus)
+        public int GetAreaSWStatus(out bool bStatus)
         {
             int iResult = SUCCESS;
 
@@ -483,7 +462,7 @@ namespace LWDicer.Control
         /// </summary>
         /// <param name="bStatus">Motor AMP Fault의 상태 (true : Fault, false : Normal)</param>
         /// <returns></returns>
-        int GetMotorAmpFaultStatus(out bool bStatus)
+        public int GetMotorAmpFaultStatus(out bool bStatus)
         {
             return m_RefComp.OpPanel.GetMotorAmpFaultStatus(out bStatus);
         }
@@ -493,7 +472,7 @@ namespace LWDicer.Control
         /// </summary>
         /// <param name="bStatus">Motion Power Relay의 동작 (true : ON, false : OFF)</param>
         /// <returns></returns>
-        int SetMotionPowerRelayStatus(bool bStatus)
+        public int SetMotionPowerRelayStatus(bool bStatus)
         {
             return m_RefComp.OpPanel.SetMotionPowerRelayStatus(bStatus);
         }
@@ -519,7 +498,7 @@ namespace LWDicer.Control
         /// </summary>
         /// <param name="towerLampMode"></param>
         /// <returns></returns>
-        int SetOpPanel(ETowerLampMode towerLampMode)
+        public int SetOpPanel(ELampBuzzerMode towerLampMode)
         {
             int iResult = SUCCESS;
 
@@ -541,7 +520,7 @@ namespace LWDicer.Control
             switch (towerLampMode)
             {
                 // Step Stop 진행 상태 
-                case TOWER_STEPSTOP_ING:
+                case ELampBuzzerMode.STEPSTOP_ING:
                     // Start Switch LED Off 
                     iResult = m_RefComp.OpPanel.SetStartLamp(false);
                     if (iResult != SUCCESS) return iResult;
@@ -563,7 +542,7 @@ namespace LWDicer.Control
                     break;
 
                 // Step Stop 완료 상태 
-                case TOWER_STEPSTOP:
+                case ELampBuzzerMode.STEPSTOP:
                     // Start Switch LED Off 
                     iResult = m_RefComp.OpPanel.SetStartLamp(false);
                     if (iResult != SUCCESS) return iResult;
@@ -585,7 +564,7 @@ namespace LWDicer.Control
                     break;
 
                 // Cycle Stop 진행 상태 
-                case TOWER_CYCLESTOP_ING:
+                case ELampBuzzerMode.CYCLESTOP_ING:
                     // Start Switch LED On 
                     iResult = m_RefComp.OpPanel.SetStartLamp(true);
                     if (iResult != SUCCESS) return iResult;
@@ -607,7 +586,7 @@ namespace LWDicer.Control
                     break;
 
                 // Error Stop 진행 상태 
-                case TOWER_ERRORSTOP_ING:
+                case ELampBuzzerMode.ERRORSTOP_ING:
                     // Start Switch LED On 
                     iResult = m_RefComp.OpPanel.SetStartLamp(true);
                     if (iResult != SUCCESS) return iResult;
@@ -629,7 +608,7 @@ namespace LWDicer.Control
                     break;
 
                 // Error Stop 확인 상태 
-                case TOWER_ERRORSTOP_NOBUZZER:
+                case ELampBuzzerMode.ERRORSTOP_NOBUZZER:
                     // Start Switch LED On 
                     iResult = m_RefComp.OpPanel.SetStartLamp(true);
                     if (iResult != SUCCESS) return iResult;
@@ -651,7 +630,7 @@ namespace LWDicer.Control
                     break;
 
                 // Start (Run Ready) 상태 
-                case TOWER_START:
+                case ELampBuzzerMode.START:
                     // Start Switch LED On 
                     iResult = m_RefComp.OpPanel.SetStartLamp(true);
                     if (iResult != SUCCESS) return iResult;
@@ -673,7 +652,7 @@ namespace LWDicer.Control
                     break;
 
                 // Run 상태 
-                case TOWER_RUN:
+                case ELampBuzzerMode.RUN:
                     // Start Switch LED On 
                     iResult = m_RefComp.OpPanel.SetStartLamp(true);
                     if (iResult != SUCCESS) return iResult;
@@ -695,7 +674,7 @@ namespace LWDicer.Control
                     break;
 
                 // Run 상태 - but Panel non exist 
-                case TOWER_RUN_PANEL_NO_EXIST:
+                case ELampBuzzerMode.RUN_PANEL_NO_EXIST:
                     // Start Switch LED On 
                     iResult = m_RefComp.OpPanel.SetStartLamp(true);
                     if (iResult != SUCCESS) return iResult;
@@ -717,7 +696,7 @@ namespace LWDicer.Control
                     break;
 
                 // Run 상태 - but Panel Traffic Jam 
-                case TOWER_RUN_TRAFFIC_JAM:
+                case ELampBuzzerMode.RUN_TRAFFIC_JAM:
                     // Start Switch LED On 
                     iResult = m_RefComp.OpPanel.SetStartLamp(true);
                     if (iResult != SUCCESS) return iResult;
@@ -739,7 +718,7 @@ namespace LWDicer.Control
                     break;
 
                 // Run 상태 - but Panel Traffic Jam 
-                case TOWER_ESTOP_PRESSED:
+                case ELampBuzzerMode.ESTOP_PRESSED:
                     // Start Switch LED On 
                     iResult = m_RefComp.OpPanel.SetStartLamp(false);
                     if (iResult != SUCCESS) return iResult;
@@ -761,7 +740,7 @@ namespace LWDicer.Control
                     break;
 
                 // Parts Empty 상태 
-                case TOWER_PARTSEMPTY:
+                case ELampBuzzerMode.PARTSEMPTY:
                     // Start Switch LED On 
                     // 		iResult = m_RefComp.OpPanel.SetStartLamp(true);
                     // 		if(iResult) return iResult;
@@ -783,7 +762,7 @@ namespace LWDicer.Control
                     break;
 
                 // Parts Empty 상태 
-                case TOWER_PARTSEMPTY_NOBUZZER:
+                case ELampBuzzerMode.PARTSEMPTY_NOBUZZER:
                     // Start Switch LED On 
                     // 		iResult = m_RefComp.OpPanel.SetStartLamp(true);
                     // 		if(iResult) return iResult;
@@ -805,7 +784,7 @@ namespace LWDicer.Control
                     break;
 
                 // Line Controller로 부터 Op Call이 온 상태 
-                case TOWER_OP_CALL:
+                case ELampBuzzerMode.OP_CALL:
                     // Start Switch LED On 
                     iResult = m_RefComp.OpPanel.SetStartLamp(true);
                     if (iResult != SUCCESS) return iResult;
@@ -827,7 +806,7 @@ namespace LWDicer.Control
                     break;
 
                 // NSMC 상태
-                case TOWER_NCMC_BUZZER:
+                case ELampBuzzerMode.NCMC_BUZZER:
                     if ((iResult = m_RefComp.OpPanel.SetStartLamp(true)) != SUCCESS) return iResult;
                     if ((iResult = m_RefComp.OpPanel.SetStopLamp(false)) != SUCCESS) return iResult;
                     if ((iResult = m_RefComp.OpPanel.SetTowerRedLamp(m_bBlinkState)) != SUCCESS) return iResult;
@@ -846,7 +825,7 @@ namespace LWDicer.Control
         /// Jog Key 확인하여 해당 Jog 축을 이동/정지한다.
         /// </summary>
         /// <returns></returns>
-        int MoveJog()
+        public int MoveJog()
         {
             int iResult = SUCCESS;
 
@@ -1114,7 +1093,7 @@ namespace LWDicer.Control
         /// 모든 축들에 대해 원점복귀 동작을 정지한다.
         /// </summary>
         /// <returns></returns>
-        int StopAllReturnOrigin()
+        public int StopAllReturnOrigin()
         {
             return m_RefComp.OpPanel.StopAllReturnOrigin();
         }
@@ -1123,7 +1102,7 @@ namespace LWDicer.Control
         /// 모든 축들에 대해 Servo AMP를 Enable한다.
         /// </summary>
         /// <returns></returns>
-        int OnAllServo()
+        public int OnAllServo()
         {
             return m_RefComp.OpPanel.OnAllServo();
         }
@@ -1132,7 +1111,7 @@ namespace LWDicer.Control
         /// 모든 축들에 대해 Servo AMP를 Disable한다.
         /// </summary>
         /// <returns></returns>
-        int OffAllServo()
+        public int OffAllServo()
         {
             return m_RefComp.OpPanel.OffAllServo();
         }
@@ -1141,7 +1120,7 @@ namespace LWDicer.Control
         /// 모든 축들에 대해 동작을 정지한다.
         /// </summary>
         /// <returns></returns>
-        int StopAllAxis()
+        public int StopAllAxis()
         {
             return m_RefComp.OpPanel.StopAllAxis();
         }
@@ -1150,7 +1129,7 @@ namespace LWDicer.Control
         /// 모든 축들에 대해 동작을 E-STOP 정지한다.
         /// </summary>
         /// <returns></returns>
-        int EStopAllAxis()
+        public int EStopAllAxis()
         {
             return m_RefComp.OpPanel.EStopAllAxis();
         }
@@ -1159,7 +1138,7 @@ namespace LWDicer.Control
         /// Tower Lamp Blink 속도 설정하기
         /// </summary>
         /// <param name="dRate">(OPTION=0.5) 설정할 Blink 속도</param>
-        void SetBlinkRate(double dRate)
+        public void SetBlinkRate(double dRate)
         {
             m_dBlinkRate = dRate;
         }
@@ -1168,7 +1147,7 @@ namespace LWDicer.Control
         /// Jog에 사용할 Unit Index를 설정한다.
         /// </summary>
         /// <param name="iUnitIndex">(OPTION=-1) Jog에 사용할 Unit Index</param>
-        void SetJogUnit(int iUnitIndex)
+        public void SetJogUnit(int iUnitIndex)
         {
             // Jog로 이동할 Motion에 대한 정보 Index
             m_iJogIndex = iUnitIndex;
@@ -1198,7 +1177,7 @@ namespace LWDicer.Control
         /// Jog에 사용할 Unit Index를 설정한다.
         /// </summary>
         /// <param name="iUnitIndex">(OPTION=-1) Jog에 사용할 Unit Index</param>
-        void SetJogUnitExtra(int iUnitIndex)
+        public void SetJogUnitExtra(int iUnitIndex)
         {
             // Jog로 이동할 Motion에 대한 정보 Index
             if (iUnitIndex != m_iJogIndex)
@@ -1218,7 +1197,7 @@ namespace LWDicer.Control
         /// 설정된 Jog에 사용할 Unit Index를 읽는다.
         /// </summary>
         /// <returns></returns>
-        int GetJogUnit()
+        public int GetJogUnit()
         {
             // Jog로 이동할 Motion에 대한 정보 Index
             return m_iJogIndex;
@@ -1228,7 +1207,7 @@ namespace LWDicer.Control
         /// 설정된 Jog에 사용할 Unit Index를 읽는다.
         /// </summary>
         /// <returns></returns>
-        int GetJogUnitExtra()
+        public int GetJogUnitExtra()
         {
             // Jog로 이동할 Motion에 대한 정보 Index
             return m_iJogIndexExtra;
@@ -1237,19 +1216,19 @@ namespace LWDicer.Control
         /// <summary>
         /// Unit의 원점복귀 Flag를 설정한다.
         /// </summary>
-        void ResetAllOriginFlag()
+        public void ResetAllOriginFlag()
         {
             m_RefComp.OpPanel.ResetAllOriginFlag();
         }
 
-        void ResetAllInitFlag()
+        public void ResetAllInitFlag()
         {
             int i = 0;
-            for (i = 0; i < (int)EUnitIndex.MAX ; i++)
+            for (i = 0; i < (int)EInitiableUnit.MAX ; i++)
                 m_RefComp.OpPanel.SetInitFlag(i, false);
         }
 
-        int CheckSiliconeRemain(out bool pbEmptyAll, out bool pbEmptyPart)
+        public int CheckSiliconeRemain(out bool pbEmptyAll, out bool pbEmptyPart)
         {
             int iResult = SUCCESS;
 
@@ -1259,12 +1238,12 @@ namespace LWDicer.Control
             return SUCCESS;
         }
 
-        void SetIOCheck(bool bCheck)
+        public void SetIOCheck(bool bCheck)
         {
             m_bIOCheck = bCheck;
         }
 
-        int SetAlarmForAlignMsg(bool bSet)
+        public int SetAlarmForAlignMsg(bool bSet)
         {
             int iResult = SUCCESS;
             m_bIOCheck = bSet;
@@ -1278,7 +1257,7 @@ namespace LWDicer.Control
             return iResult;
         }
 
-        bool SetMotionStatus()
+        public bool SetMotionStatus()
         {
             //bool bStatus;
             //if (m_RefComp.OpPanel.SetTouchStatus(&bStatus)) return true;
@@ -1286,7 +1265,7 @@ namespace LWDicer.Control
             return true;
         }
 
-        int CheckSafetyBeforeAxisMove()
+        public int CheckSafetyBeforeAxisMove()
         {
 #if SIMULATION_MOTION
             return SUCCESS;
@@ -1300,7 +1279,7 @@ namespace LWDicer.Control
             }
 
             m_RefComp.OpPanel.GetSafeDoorStatus(out bStatus);
-            if (bStatus == true && m_bSafeSensorUse == true)
+            if (bStatus == true && UseSafeSensor == true)
             {
                 return GenerateErrorCode(ERR_MNGOPPANEL_DOOR_OPEN);
             }
@@ -1314,7 +1293,7 @@ namespace LWDicer.Control
             return SUCCESS;
         }
 
-        int CheckSafetyBeforeCylinderMove()
+        public int CheckSafetyBeforeCylinderMove()
         {
 #if SIMULATION_MOTION
             return SUCCESS;
@@ -1328,33 +1307,13 @@ namespace LWDicer.Control
             //	}
 
             m_RefComp.OpPanel.GetSafeDoorStatus(out bStatus);
-            if (bStatus == true && m_bSafeSensorUse == true)
+            if (bStatus == true && UseSafeSensor == true)
             {
                 return GenerateErrorCode(ERR_MNGOPPANEL_DOOR_OPEN);
             }
 
             return SUCCESS;
         }
-
-        void SetTrafficJam(bool bSet)
-        {
-            m_bTrafficJam = bSet;
-        }
-
-        bool GetTrafficJam()
-        {
-            return m_bTrafficJam;
-        }
-
-        void SetNoPanel(bool bSet)
-        {
-            m_bNoPanel = bSet;
-        }
-
-        bool GetNoPanel()
-        {
-            return m_bNoPanel;
-        }
-
+        
     }
 }

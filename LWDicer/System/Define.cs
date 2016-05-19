@@ -51,15 +51,15 @@ namespace LWDicer.Control
             NULL = -1        ,
             LOADER_Z = 0     ,
             PUSHPULL_Y       ,
-            CENTERING1_X   ,     // Spinner & Coater 1
-            C1_CHUCK_ROTATE_T,
-            C1_CLEAN_NOZZLE_T,
-            C1_COAT_NOZZLE_T ,
-            CENTERING2_X   ,     // Spinner & Coater 2
-            C2_CHUCK_ROTATE_T,
-            C2_CLEAN_NOZZLE_T,
-            C2_COAT_NOZZLE_T ,
-            UHANDLER_X       ,
+            PUSHPULL_X1,
+            S1_CHUCK_ROTATE_T,        // Spinner & Coater 1
+            S1_CLEAN_NOZZLE_T,
+            S1_COAT_NOZZLE_T,
+            PUSHPULL_X2,
+            S2_CHUCK_ROTATE_T,        // Spinner & Coater 2
+            S2_CLEAN_NOZZLE_T,
+            S2_COAT_NOZZLE_T,
+            UHANDLER_X,
             UHANDLER_Z       ,
             LHANDLER_X       ,
             LHANDLER_Z       ,
@@ -78,14 +78,14 @@ namespace LWDicer.Control
             // 개별 축 제어를 위한 device, Device[index] = Axis[index]를 위해서 NULL 축까지도 선언함 
             LOADER_Z = 0,
             PUSHPULL_Y,
-            CENTERING1_X,     
-            C1_ROTATE_T,        // Spinner & Coater 1
-            C1_CLEAN_NOZZLE_T,
-            C1_COAT_NOZZLE_T,
-            CENTERING2_X,     
-            C2_ROTATE_T,        // Spinner & Coater 2
-            C2_CLEAN_NOZZLE_T,
-            C2_COAT_NOZZLE_T,
+            PUSHPULL_X1,
+            S1_CHUCK_ROTATE_T,        // Spinner & Coater 1
+            S1_CLEAN_NOZZLE_T,
+            S1_COAT_NOZZLE_T,
+            PUSHPULL_X2,
+            S2_CHUCK_ROTATE_T,        // Spinner & Coater 2
+            S2_CLEAN_NOZZLE_T,
+            S2_COAT_NOZZLE_T,
             UHANDLER_X,
             UHANDLER_Z,
             LHANDLER_X,
@@ -102,13 +102,13 @@ namespace LWDicer.Control
             LOADER,
             PUSHPULL,
             CENTERING1,     
-            C1_ROTATE,      // Spinner & Coater 1
-            C1_CLEAN_NOZZLE,
-            C1_COAT_NOZZLE,
+            S1_ROTATE,      // Spinner & Coater 1
+            S1_CLEAN_NOZZLE,
+            S1_COAT_NOZZLE,
             CENTERING2,     
-            C2_ROTATE,      // Spinner & Coater 2
-            C2_CLEAN_NOZZLE,
-            C2_COAT_NOZZLE,
+            S2_ROTATE,      // Spinner & Coater 2
+            S2_CLEAN_NOZZLE,
+            S2_COAT_NOZZLE,
             UHANDLER,
             LHANDLER,
             CAMERA1,
@@ -185,14 +185,14 @@ namespace LWDicer.Control
             UHANDLER_UD,
             UHANDLER_UD2,
             PUSHPULL_GRIPPER,
-            COATER_UD,
-            CLEANER_UD,
-            CLEAN_DI,
-            CLEAN_N2,
-            CLEAN_RING_BLOW,
-            COAT_DI,
-            COAT_PVA,
-            COAT_RING_BLOW,
+            SPINNER1_UD,
+            SPINNER1_DI,
+            SPINNER1_PVA,
+            SPINNER1_RING_BLOW,
+            SPINNER2_UD,
+            SPINNER2_DI,
+            SPINNER2_PVA,
+            SPINNER2_RING_BLOW,
             PUSHPULL_UD,
             MAX_OBJ,
         }
@@ -200,11 +200,12 @@ namespace LWDicer.Control
         public enum EObjectVacuum
         {
             STAGE1,
-            MAIN_STAGE,
             UHANDLER_SELF,  // Upper Handler
+            UHANDLER_FACTORY,
             LHANDLER_SELF,  // Lower Handler
-            COATER_SELF,
-            CLEANER_SELF,
+            LHANDLER_FACTORY,
+            SPINNER1,
+            SPINNER2,
             MAX_OBJ,
         }
 
@@ -256,7 +257,7 @@ namespace LWDicer.Control
             OBJ_ML_VISION,
             OBJ_ML_PUSHPULL,
             OBJ_ML_ELEVATOR,
-            OBJ_ML_COATER,
+            OBJ_ML_SPINNER,
 
             // Control Layer - Common
             OBJ_CL_LOADER = 70,
@@ -280,11 +281,8 @@ namespace LWDicer.Control
             OBJ_PL_TRS_LOADER,
             OBJ_PL_TRS_PUSHPULL,
             OBJ_PL_TRS_STAGE1,
-            //OBJ_PL_TRS_WORKBENCH,
-            //OBJ_PL_TRS_DISPENSER,
-            //OBJ_PL_TRS_STAGE2,
-            //OBJ_PL_TRS_STAGE3,
-            //OBJ_PL_TRS_UNLOAD_HANDLER,
+            OBJ_PL_TRS_SPINNER,
+            OBJ_PL_TRS_HANDLER,
             OBJ_PL_TRS_MANAGE_PRODUCT,
             OBJ_PL_TRS_JOG,
             OBJ_PL_TRS_LCNET,
@@ -300,19 +298,19 @@ namespace LWDicer.Control
             LCNET_MAX_UNIT, // MAX UNIT
         }
 
-        public enum EUnitObject // 좌표셋을 저장할 수 있는 단위
+        public enum EPositionObject // 좌표셋을 저장할 수 있는 단위
         {
             ALL = -1,
             LOADER,
             PUSHPULL,
-            CENTERING1,     // Spinner & Coater 1
-            C1_ROTATE,
-            C1_CLEAN_NOZZLE,
-            C1_COAT_NOZZLE,
-            CENTERING2,     // Spinner & Coater 2
-            C2_ROTATE,
-            C2_CLEAN_NOZZLE,
-            C2_COAT_NOZZLE,
+            PUSHPULL_CENTER1,
+            S1_ROTATE,
+            S1_CLEAN_NOZZLE,
+            S1_COAT_NOZZLE,
+            PUSHPULL_CENTER2,     
+            S2_ROTATE,
+            S2_CLEAN_NOZZLE,
+            S2_COAT_NOZZLE,
             UHANDLER,
             LHANDLER,
             CAMERA1,
@@ -684,6 +682,13 @@ namespace LWDicer.Control
                 Description[(int)DEF_Common.ELanguage.JAPANESE] = "Parameter Description";
             }
         }
+
+        public enum EVelocityMode
+        {
+            NORMAL,
+            FAST,
+            SLOW,
+        }
     }
 
     public class DEF_LCNet
@@ -722,7 +727,7 @@ namespace LWDicer.Control
         /// <summary>
         /// define each mode when auto run
         /// </summary>
-        public enum EOpMode
+        public enum ERunMode
         {
             NORMAL_RUN,    // 정상 운전
             PASS_RUN,      // 통과 운전
@@ -731,9 +736,9 @@ namespace LWDicer.Control
         }
 
         /// <summary>
-        /// Thread Status, eOpStatus
+        /// Thread Status, RunStatus
         /// </summary>
-        public enum EOpStatus
+        public enum ERunStatus
         {
             NONE = -1,
             STS_MANUAL       = 0,    // System 수동 동작 상태
@@ -770,7 +775,7 @@ namespace LWDicer.Control
         /// <summary>
         /// initialize thread unit index
         /// </summary>
-        public enum EUnitIndex
+        public enum EInitiableUnit
         {
             LOADER,
             PUSHPULL,
@@ -784,10 +789,11 @@ namespace LWDicer.Control
         // Common Thread Message inter Threads
         public enum EThreadMessage
         {
+            // _CNF command는 _CMD command에 대한 response 임
             MSG_MANUAL_CMD = 10,                 // 수동 모드로의 전환
-            MSG_MANUAL_CNF,                      // 명령에 대한 응답
+            MSG_MANUAL_CNF,                      // 
             MSG_START_RUN_CMD,                   // 화면에서 시작 버튼을 누름
-            MSG_START_RUN_CNF,                   // 화면에서 시작 버튼을 누름
+            MSG_START_RUN_CNF,                   // 
             MSG_START_CMD,                       // OP Panel에서 시작 버튼을 누름
             MSG_START_CNF,                       //
             MSG_ERROR_STOP_CMD,                  // Error Stop 스위치를 누름
@@ -1156,10 +1162,14 @@ namespace LWDicer.Control
             E3,
         }
 
+        /// <summary>
+        /// Error 를 담을수 있는 class. 
+        /// ErrorBase와 ErrorCode 조합 형식때문에 각 ErrorBase당 ErrorCode는 최대 100개로 제한됨
+        /// </summary>
         public class CErrorInfo
         {
-            public int Index;
-            public EErrorType Type;
+            public int Index;           // Primary Key : ErrorBase + ErrorCode 조합
+            public EErrorType Type;     // Error Type
             public string[] Description = new string[(int)DEF_Common.ELanguage.MAX];
             public string[] Solution = new string[(int)DEF_Common.ELanguage.MAX];
 
@@ -1182,6 +1192,23 @@ namespace LWDicer.Control
                 Solution[(int)DEF_Common.ELanguage.JAPANESE] = "解決策";
             }
         }
+
+        /// <summary>
+        /// CErrorInfo와 달리 Alarm이 발생한 Unit & Error Info를 같이 가지고 있음.
+        /// </summary>
+        public class CAlarmInfo
+        {
+            public int ProcessID;
+            public int ObjectID;
+            public int ErrorBase;
+            public int ErrorCode;
+
+            public string ProcessName;
+            public string ObjectName;
+
+            public CErrorInfo ErrorInfo;
+        }
+
 
         public const int SUCCESS                                                  = 0;
 
