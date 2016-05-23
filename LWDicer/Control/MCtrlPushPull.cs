@@ -154,7 +154,7 @@ namespace LWDicer.Control
             // check object exist when auto run
             if (AutoManual == EAutoManual.AUTO)
             {
-                if (OpMode != EOpMode.DRY_RUN) // not dry run
+                if (OpMode != ERunMode.DRY_RUN) // not dry run
                 {
                     if (bDetected != bPanelTransfer)
                     {

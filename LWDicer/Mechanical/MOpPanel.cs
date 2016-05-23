@@ -90,8 +90,8 @@ namespace LWDicer.Control
         public class COpPanelIOAddr
         {
             // Panel IO Address Table 
-            public CPanelIOAddr FrontPanel;
-            public CPanelIOAddr BackPanel;
+            public CPanelIOAddr FrontPanel = new CPanelIOAddr();
+            public CPanelIOAddr BackPanel = new CPanelIOAddr();
 
             // Tower Lamp IO Address Table 
             public CTowerIOAddr TowerLamp = new CTowerIOAddr();
@@ -227,7 +227,7 @@ namespace LWDicer.Control
 
 
         // Unit 초기화 Flag
-        bool[] m_bInitFlag = new bool[INIT_UNIT_MAX];
+        bool[] m_bInitFlag = new bool[(int)EInitiableUnit.MAX];
 
         // Switch Status (previous)
         bool m_bRunSWOld;
@@ -280,7 +280,7 @@ namespace LWDicer.Control
             }
 
             // Unit의 초기화 Flag를 Reset해야 한다.
-            for (int i = 0; i < INIT_UNIT_MAX; i++)
+            for (int i = 0; i < (int)EInitiableUnit.MAX; i++)
             {
                 m_bInitFlag[i] = false;
             }
@@ -1195,7 +1195,7 @@ namespace LWDicer.Control
             //}
 
             //// Unit의 초기화 Flag를 Reset해야 한다.
-            //for (i = 0; i < INIT_UNIT_MAX; i++)
+            //for (i = 0; i < (int)EInitiableUnit.MAX; i++)
             //    m_bInitFlag[i] = false;
 
             return iResult;
@@ -1242,7 +1242,7 @@ namespace LWDicer.Control
         {
             int iResult = SUCCESS;
 
-            if (iUnitIndex < 0 || iUnitIndex > INIT_UNIT_MAX)
+            if (iUnitIndex < 0 || iUnitIndex > (int)EInitiableUnit.MAX)
             {
                 return GenerateErrorCode(ERR_OPPANEL_INVALID_INIT_UNIT_INDEX);
             }
@@ -1251,6 +1251,12 @@ namespace LWDicer.Control
 
             return iResult;
         }
+
+        public int SetInitFlag(EInitiableUnit index, bool bSts)
+        {
+            return SetInitFlag((int)index, bSts);
+        }
+
 
         /// <summary>
         /// Unit의 초기화 Flag를 읽는다
@@ -1263,7 +1269,7 @@ namespace LWDicer.Control
             int iResult = SUCCESS;
             pbSts = false;
 
-            if (iUnitIndex < 0 || iUnitIndex > INIT_UNIT_MAX)
+            if (iUnitIndex < 0 || iUnitIndex > (int)EInitiableUnit.MAX)
             {
                 return GenerateErrorCode(ERR_OPPANEL_INVALID_INIT_UNIT_INDEX);
             }
@@ -1283,11 +1289,11 @@ namespace LWDicer.Control
             bool bSts = false;
             bool bResult = true;
 
-            bInitSts = new bool[INIT_UNIT_MAX];
+            bInitSts = new bool[(int)EInitiableUnit.MAX];
 
             bool bEStopSts;
             GetEStopButtonStatus(out bEStopSts);
-            for (int i = 0; i < INIT_UNIT_MAX; i++)
+            for (int i = 0; i < (int)EInitiableUnit.MAX; i++)
             {
                 if (bEStopSts == true)
                 {

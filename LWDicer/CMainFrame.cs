@@ -149,7 +149,7 @@ namespace LWDicer.UI
             }
 
             this.DesktopLocation = new Point(DEF_UI.FORM_POS_X, DEF_UI.FORM_POS_Y); // 기본 모니터
-            //this.FormBorderStyle = FormBorderStyle.SizableToolWindow;
+            this.FormBorderStyle = FormBorderStyle.SizableToolWindow;
 
             this.Size = new Size(DEF_UI.FORM_SIZE_WIDTH, DEF_UI.FORM_SIZE_HEIGHT);
             this.IsMdiContainer = true;

@@ -20,11 +20,29 @@ namespace LWDicer.UI
 {
     public partial class FormDataScreen : Form
     {
+
+        private FormWaferData m_WaferDataForm;
+        private FormModelData m_ModelDataForm;
+        private FormScannerData m_ScannerDataForm;
+        private FormCylinderData m_CylinderDataForm;
+        private FormMotorData m_MotorDataForm;
+        private FormVisionData m_VisionDataForm;
+        private FormVacuumData m_VacuumDataForm;
+
+
         public FormDataScreen()
         {
             InitializeComponent();
 
             InitializeForm();
+
+            m_WaferDataForm = new FormWaferData();
+            m_ModelDataForm = new FormModelData();
+            m_ScannerDataForm = new FormScannerData();
+            m_CylinderDataForm = new FormCylinderData();
+            m_MotorDataForm = new FormMotorData();
+            m_VisionDataForm = new FormVisionData();
+            m_VacuumDataForm = new FormVacuumData();
         }
 
         protected virtual void InitializeForm()
@@ -43,6 +61,41 @@ namespace LWDicer.UI
         private void FormDataScreen_Deactivate(object sender, EventArgs e)
         {
 
+        }
+
+        private void BtnScannerData_Click(object sender, EventArgs e)
+        {
+            m_ScannerDataForm.ShowDialog();
+        }
+
+        private void BtnMotorData_Click(object sender, EventArgs e)
+        {
+            m_MotorDataForm.ShowDialog();
+        }
+
+        private void BtnCylinderData_Click(object sender, EventArgs e)
+        {
+            m_CylinderDataForm.ShowDialog();
+        }
+
+        private void BtnVisionData_Click(object sender, EventArgs e)
+        {
+            m_VisionDataForm.ShowDialog();
+        }
+
+        private void BtnModelData_Click(object sender, EventArgs e)
+        {
+            m_ModelDataForm.ShowDialog();
+        }
+
+        private void BtnWaferData_Click(object sender, EventArgs e)
+        {
+            m_WaferDataForm.ShowDialog();
+        }
+
+        private void BtnVacuum_Click(object sender, EventArgs e)
+        {
+            m_VacuumDataForm.ShowDialog();
         }
     }
 }

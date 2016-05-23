@@ -13,13 +13,15 @@ namespace LWDicer.Control
 {
     public abstract class MObject
     {
+        protected int ObjectID;
         protected CObjectInfo ObjInfo;
         protected MLog LogManager;
 
-        public MObject(CObjectInfo objInfo)
+        public MObject(CObjectInfo ObjInfo)
         {
-            this.ObjInfo = objInfo;
-            LogManager = new MLog(ObjInfo.ID);
+            ObjectID     = ObjInfo.ID;
+            this.ObjInfo = ObjInfo;
+            LogManager   = new MLog(ObjInfo.ID);
             LogManager.SetLogAttribute(ObjInfo.DebugTableName, ObjInfo.LogLevel, ObjInfo.LogDays);
             LogManager.SetDBInfo(CObjectInfo.DBInfo);
 

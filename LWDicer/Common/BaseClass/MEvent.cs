@@ -5,12 +5,18 @@ using System.Text;
 
 namespace LWDicer.Control
 {
+    /// <summary>
+    /// thread간에 event message를 전송하기 위한 class. 
+    /// 특별히 wParam, lParam으로 사용하진 않아도 되나, c++ 에서 사용하던 포맷을 유지함.
+    /// </summary>
     public class MEvent
     {
+        // Message 종류
         public int Msg { get; set; }
-        public int lParam { get; set; }
+        // 호출자 (ex. sender thread's id)
         public int wParam { get; set; }
-        public int Sender { get; set; }
+        // Message 값 (ex. alarm code : GenerateErrorCode 로 생성된 값)
+        public int lParam { get; set; }
 
         private DateTime MsgTime;
         private int Index;
@@ -18,14 +24,13 @@ namespace LWDicer.Control
         private static int stCounter = 0;
         private object _Lock = new object();
 
-        public MEvent(int Msg, int lParam, int wParam, int Sender = -1) // -1 : unknown
+        public MEvent(int Msg, int wParam, int lParam)
         {
             lock(_Lock)
             {
                 this.Msg = Msg;
-                this.lParam = lParam;
                 this.wParam = wParam;
-                this.Sender = Sender;
+                this.lParam = lParam;
                 MsgTime = DateTime.Now;
 
                 if (stCounter >= Int32.MaxValue) stCounter = 0;
@@ -35,7 +40,7 @@ namespace LWDicer.Control
 
         public override string ToString()
         {
-            return $"[Event] Idx_{Index}, Msg : {Msg}, lParam : {lParam}, wParam : { wParam}, Sender : {Sender}, Created : {MsgTime.ToString("yyyy-MM-dd HH:mm:ss.ffff")}";
+            return $"[Event] Idx_{Index}, Msg : {Msg}, wParam : { wParam}, lParam : {lParam}, Created : {MsgTime.ToString("yyyy-MM-dd HH:mm:ss.ffff")}";
         }
     }
 }

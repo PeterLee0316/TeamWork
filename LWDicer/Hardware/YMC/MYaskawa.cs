@@ -692,15 +692,15 @@ namespace LWDicer.Control
                         length = 1;
                         break;
 
-                    case (int)EYMC_Device.C1_ROTATE:
+                    case (int)EYMC_Device.S1_ROTATE:
                         length = 1;
                         break;
 
-                    case (int)EYMC_Device.C1_CLEAN_NOZZLE:
+                    case (int)EYMC_Device.S1_CLEAN_NOZZLE:
                         length = 1;
                         break;
 
-                    case (int)EYMC_Device.C1_COAT_NOZZLE:
+                    case (int)EYMC_Device.S1_COAT_NOZZLE:
                         length = 1;
                         break;
 
@@ -708,15 +708,15 @@ namespace LWDicer.Control
                         length = 1;
                         break;
 
-                    case (int)EYMC_Device.C2_ROTATE:
+                    case (int)EYMC_Device.S2_ROTATE:
                         length = 1;
                         break;
 
-                    case (int)EYMC_Device.C2_CLEAN_NOZZLE:
+                    case (int)EYMC_Device.S2_CLEAN_NOZZLE:
                         length = 1;
                         break;
 
-                    case (int)EYMC_Device.C2_COAT_NOZZLE:
+                    case (int)EYMC_Device.S2_COAT_NOZZLE:
                         length = 1;
                         break;
 
@@ -761,14 +761,14 @@ namespace LWDicer.Control
                     case (int)EYMC_Device.ALL:
                         axisList[index++] = (int)EYMC_Axis.LOADER_Z;
                         axisList[index++] = (int)EYMC_Axis.PUSHPULL_Y;
-                        axisList[index++] = (int)EYMC_Axis.CENTERING1_X;
-                        axisList[index++] = (int)EYMC_Axis.C1_CHUCK_ROTATE_T;
-                        axisList[index++] = (int)EYMC_Axis.C1_CLEAN_NOZZLE_T;
-                        axisList[index++] = (int)EYMC_Axis.C1_COAT_NOZZLE_T;
-                        axisList[index++] = (int)EYMC_Axis.CENTERING2_X;
-                        axisList[index++] = (int)EYMC_Axis.C2_CHUCK_ROTATE_T;
-                        axisList[index++] = (int)EYMC_Axis.C2_CLEAN_NOZZLE_T;
-                        axisList[index++] = (int)EYMC_Axis.C2_COAT_NOZZLE_T;
+                        axisList[index++] = (int)EYMC_Axis.PUSHPULL_X1;
+                        axisList[index++] = (int)EYMC_Axis.S1_CHUCK_ROTATE_T;
+                        axisList[index++] = (int)EYMC_Axis.S1_CLEAN_NOZZLE_T;
+                        axisList[index++] = (int)EYMC_Axis.S1_COAT_NOZZLE_T;
+                        axisList[index++] = (int)EYMC_Axis.PUSHPULL_X2;
+                        axisList[index++] = (int)EYMC_Axis.S2_CHUCK_ROTATE_T;
+                        axisList[index++] = (int)EYMC_Axis.S2_CLEAN_NOZZLE_T;
+                        axisList[index++] = (int)EYMC_Axis.S2_COAT_NOZZLE_T;
                         axisList[index++] = (int)EYMC_Axis.UHANDLER_X;
                         axisList[index++] = (int)EYMC_Axis.UHANDLER_Z;
                         axisList[index++] = (int)EYMC_Axis.LHANDLER_X;
@@ -786,35 +786,35 @@ namespace LWDicer.Control
                         break;
 
                     case (int)EYMC_Device.CENTERING1:
-                        axisList[index++] = (int)EYMC_Axis.CENTERING1_X;
+                        axisList[index++] = (int)EYMC_Axis.PUSHPULL_X1;
                         break;
 
-                    case (int)EYMC_Device.C1_ROTATE:
-                        axisList[index++] = (int)EYMC_Axis.C1_CHUCK_ROTATE_T;
+                    case (int)EYMC_Device.S1_ROTATE:
+                        axisList[index++] = (int)EYMC_Axis.S1_CHUCK_ROTATE_T;
                         break;
 
-                    case (int)EYMC_Device.C1_CLEAN_NOZZLE:
-                        axisList[index++] = (int)EYMC_Axis.C1_CLEAN_NOZZLE_T;
+                    case (int)EYMC_Device.S1_CLEAN_NOZZLE:
+                        axisList[index++] = (int)EYMC_Axis.S1_CLEAN_NOZZLE_T;
                         break;
 
-                    case (int)EYMC_Device.C1_COAT_NOZZLE:
-                        axisList[index++] = (int)EYMC_Axis.C1_COAT_NOZZLE_T;
+                    case (int)EYMC_Device.S1_COAT_NOZZLE:
+                        axisList[index++] = (int)EYMC_Axis.S1_COAT_NOZZLE_T;
                         break;
 
                     case (int)EYMC_Device.CENTERING2:
-                        axisList[index++] = (int)EYMC_Axis.CENTERING2_X;
+                        axisList[index++] = (int)EYMC_Axis.PUSHPULL_X2;
                         break;
 
-                    case (int)EYMC_Device.C2_ROTATE:
-                        axisList[index++] = (int)EYMC_Axis.C2_CHUCK_ROTATE_T;
+                    case (int)EYMC_Device.S2_ROTATE:
+                        axisList[index++] = (int)EYMC_Axis.S2_CHUCK_ROTATE_T;
                         break;
 
-                    case (int)EYMC_Device.C2_CLEAN_NOZZLE:
-                        axisList[index++] = (int)EYMC_Axis.C2_CLEAN_NOZZLE_T;
+                    case (int)EYMC_Device.S2_CLEAN_NOZZLE:
+                        axisList[index++] = (int)EYMC_Axis.S2_CLEAN_NOZZLE_T;
                         break;
 
-                    case (int)EYMC_Device.C2_COAT_NOZZLE:
-                        axisList[index++] = (int)EYMC_Axis.C2_COAT_NOZZLE_T;
+                    case (int)EYMC_Device.S2_COAT_NOZZLE:
+                        axisList[index++] = (int)EYMC_Axis.S2_COAT_NOZZLE_T;
                         break;
 
                     case (int)EYMC_Device.UHANDLER:

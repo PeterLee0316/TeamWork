@@ -133,6 +133,7 @@
       <HintPath>..\packages\System.Data.SQLite.Linq.1.0.99.0\lib\net46\System.Data.SQLite.Linq.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="System.DirectoryServices" />
     <Reference Include="System.Messaging" />
     <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Xml.Linq" />
@@ -274,6 +275,72 @@
     <Compile Include="UI\MainScreen\FormTeachScreen.designer.cs">
       <DependentUpon>FormTeachScreen.cs</DependentUpon>
     </Compile>
+    <Compile Include="UI\SubDataForm\FormCylinderData.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\SubDataForm\FormCylinderData.Designer.cs">
+      <DependentUpon>FormCylinderData.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\SubDataForm\FormModelData.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\SubDataForm\FormModelData.Designer.cs">
+      <DependentUpon>FormModelData.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\SubDataForm\FormMotorData.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\SubDataForm\FormMotorData.Designer.cs">
+      <DependentUpon>FormMotorData.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\SubDataForm\FormScannerData.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\SubDataForm\FormScannerData.Designer.cs">
+      <DependentUpon>FormScannerData.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\SubDataForm\FormVacuumData.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\SubDataForm\FormVacuumData.Designer.cs">
+      <DependentUpon>FormVacuumData.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\SubDataForm\FormVisionData.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\SubDataForm\FormVisionData.Designer.cs">
+      <DependentUpon>FormVisionData.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\SubDataForm\FormWaferData.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\SubDataForm\FormWaferData.Designer.cs">
+      <DependentUpon>FormWaferData.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\SubManualForm\FormIO.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\SubManualForm\FormIO.Designer.cs">
+      <DependentUpon>FormIO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\SubManualForm\FormLimitSensor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\SubManualForm\FormLimitSensor.Designer.cs">
+      <DependentUpon>FormLimitSensor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\SubManualForm\FormOriginReturn.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\SubManualForm\FormOriginReturn.Designer.cs">
+      <DependentUpon>FormOriginReturn.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\SubManualForm\FormUnitInit.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\SubManualForm\FormUnitInit.Designer.cs">
+      <DependentUpon>FormUnitInit.cs</DependentUpon>
+    </Compile>
     <Compile Include="UI\Utility\FormKeyBoard.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -331,6 +398,39 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UI\MainScreen\FormTeachScreen.resx">
       <DependentUpon>FormTeachScreen.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\SubDataForm\FormCylinderData.resx">
+      <DependentUpon>FormCylinderData.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\SubDataForm\FormModelData.resx">
+      <DependentUpon>FormModelData.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\SubDataForm\FormMotorData.resx">
+      <DependentUpon>FormMotorData.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\SubDataForm\FormScannerData.resx">
+      <DependentUpon>FormScannerData.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\SubDataForm\FormVacuumData.resx">
+      <DependentUpon>FormVacuumData.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\SubDataForm\FormVisionData.resx">
+      <DependentUpon>FormVisionData.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\SubDataForm\FormWaferData.resx">
+      <DependentUpon>FormWaferData.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\SubManualForm\FormIO.resx">
+      <DependentUpon>FormIO.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\SubManualForm\FormLimitSensor.resx">
+      <DependentUpon>FormLimitSensor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\SubManualForm\FormOriginReturn.resx">
+      <DependentUpon>FormOriginReturn.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\SubManualForm\FormUnitInit.resx">
+      <DependentUpon>FormUnitInit.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Utility\FormKeyBoard.resx">
       <DependentUpon>FormKeyBoard.cs</DependentUpon>

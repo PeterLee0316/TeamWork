@@ -5,14 +5,15 @@ using System.Text;
 using System.Messaging;
 using System.Diagnostics;
 
+using static LWDicer.Control.DEF_Thread;
 using static LWDicer.Control.DEF_Common;
 
 namespace LWDicer.Control
 {
     public abstract class MCmdTarget : MObject
     {
+        // Message Queue
         private Queue<MEvent>  m_eventQ;
-
         private object _Lock = new object();
 
         public MCmdTarget(CObjectInfo objInfo) : base(objInfo)
@@ -20,11 +21,23 @@ namespace LWDicer.Control
             m_eventQ = new Queue<MEvent>();
         }
 
+        /// <summary>
+        /// message 전송 함수로 event로 만들어서 전송한다.
+        /// </summary>
+        /// <param name="msg"></param>
+        /// <param name="wParam"></param>
+        /// <param name="lParam"></param>
+        /// <returns></returns>
         public int PostMsg(int msg, int wParam = 0, int lParam = 0)
 		{ 
             return PostMsg(new MEvent(msg, wParam, lParam)); 
         }
 
+        /// <summary>
+        /// 전송받은 이벤트를 이벤트 큐에 보관.
+        /// </summary>
+        /// <param name="evnt"></param>
+        /// <returns></returns>
         public int PostMsg(MEvent evnt)
         {
             lock(_Lock)
@@ -37,16 +50,38 @@ namespace LWDicer.Control
             return DEF_Error.SUCCESS;
         }
 
-        public int SendMsg(int msg, int wParam = 0, int lParam = 0)
+        /// <summary>
+        /// 자기 자신에게 메세지를 보냄 (자신의 Event Handler를 호출함)
+        /// </summary>
+        /// <param name="msg"></param>
+        /// <param name="wParam"></param>
+        /// <param name="lParam"></param>
+        /// <returns></returns>
+        protected int SendMsg(int msg, int wParam = 0, int lParam = 0)
         { 
             return SendMsg(new MEvent(msg, wParam, lParam)); 
         }
 
+        public int SendMsg(EThreadMessage msg, int wParam = 0, int lParam = 0)
+        {
+            return SendMsg((int)msg, wParam, lParam);
+        }
+
+        /// <summary>
+        /// 자기 자신에게 메세지를 보냄 (자신의 Event Handler를 호출함)
+        /// </summary>
+        /// <param name="evnt"></param>
+        /// <returns></returns>
         public int SendMsg(MEvent evnt)
         {
 	        return ProcessMsg( evnt );
         }
 
+        /// <summary>
+        /// event의 처리를 담당하는 함수 
+        /// </summary>
+        /// <param name="evnt"></param>
+        /// <returns></returns>
         protected virtual int ProcessMsg(MEvent evnt)
         {
             Debug.WriteLine("Process " + evnt.ToString());
@@ -54,6 +89,10 @@ namespace LWDicer.Control
             return DEF_Error.SUCCESS;
         }
         
+        /// <summary>
+        /// event queue를 검사하여 새로운 event가 있으면 꺼내서 처리해준다.
+        /// </summary>
+        /// <param name="nMsgCount"></param>
         public virtual void CheckMsg(int nMsgCount = 2)
         {
             while (m_eventQ.Count > 0)
@@ -72,6 +111,10 @@ namespace LWDicer.Control
             }
         }
 
+        /// <summary>
+        /// event queue에서 event를 꺼내 return
+        /// </summary>
+        /// <returns></returns>
         MEvent GetMsg() 
         {
             lock (_Lock)

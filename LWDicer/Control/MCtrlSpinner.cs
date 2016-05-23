@@ -446,7 +446,7 @@ namespace LWDicer.Control
             int iResult = 0;
             bool bStatus = false;
 
-            if(OpMode != EOpMode.DRY_RUN)
+            if(OpMode != ERunMode.DRY_RUN)
             {
                 // 1. Wafer Vac Check
                 iResult = IsAbsorbed(index, out bStatus);
@@ -510,7 +510,7 @@ namespace LWDicer.Control
             // check object exist when auto run
             if (AutoManual == EAutoManual.AUTO)
             {
-                if (OpMode != EOpMode.DRY_RUN)
+                if (OpMode != ERunMode.DRY_RUN)
                 {
                     if (bDetected != bWaferTransfer)
                     {

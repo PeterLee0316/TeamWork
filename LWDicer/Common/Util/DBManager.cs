@@ -246,13 +246,13 @@ namespace LWDicer.Control
                 if (ExecuteSelectQuery(conninfo, query, column1, column2) == false)
                     return false;
 
-                // if data are same, return ok
+                // 3. if data are same, return ok
                 if (data == column1.Value)
                 {
                     return true;
                 }
 
-                // 3. backup
+                // 4. backup
                 if (IsNullOrEmpty(column1.Value) == false)
                 {
                     create_query = $"CREATE TABLE IF NOT EXISTS {table} (name string, created datetime, modified datetime, op_number string, op_type string, data string)";
@@ -262,10 +262,58 @@ namespace LWDicer.Control
                 }
             }
 
-            // 4. delete & insert
+            // 5. delete & insert
             query = $"DELETE FROM {table} WHERE ({key} = '{key_value}')";
             string query1 = $"INSERT INTO {table} VALUES ('{key_value}', '{DateTimeSQLite(now)}', '{op_number}', '{op_type}', '{data}')";
             if (ExecuteNonQuerys(conninfo, query, query1) == false)
+                return false;
+
+            return true;
+        }
+
+        public static bool DeleteRow(string conninfo, string table, string key, string key_value, bool backup = false, string backup_conninfo = "")
+        {
+            if (IsNullOrEmpty(key_value)) return false;
+
+            // 0. initialize
+            DateTime now = DateTime.Now;
+
+            // 1. select previous row for backup
+            string create_query = $"CREATE TABLE IF NOT EXISTS {table} (name string primary key, created datetime, op_number string, op_type string, data string)";
+            if (ExecuteNonQuerys(conninfo, create_query) == false)
+                return false;
+
+            string query;
+            if (backup == true && IsNullOrEmpty(backup_conninfo) == false)
+            {
+                // 2. select previous and check change
+                query = $"SELECT * FROM {table} WHERE ({key} = '{key_value}')";
+                CDBColumn column1 = new CDBColumn();
+                column1.Name = "data";
+                CDBColumn column2 = new CDBColumn();
+                column2.Name = "created";
+
+                if (ExecuteSelectQuery(conninfo, query, column1, column2) == false)
+                    return false;
+
+                // 3. delete backup
+                query = $"DELETE FROM {table} WHERE ({key} = '{key_value}')";
+                if (ExecuteNonQuerys(backup_conninfo, query) == false)
+                    return false;
+
+                // 4. backup
+                if (IsNullOrEmpty(column1.Value) == false)
+                {
+                    create_query = $"CREATE TABLE IF NOT EXISTS {table} (name string, created datetime, modified datetime, op_number string, op_type string, data string)";
+                    query = $"INSERT INTO {table} VALUES ('{key_value}', '{column2.Value}', '{DateTimeSQLite(now)}', '{op_number}', '{op_type}', '{column1.Value}')";
+
+                    ExecuteNonQuerys(backup_conninfo, create_query, query);
+                }
+            }
+
+            // 5. delete & insert
+            query = $"DELETE FROM {table} WHERE ({key} = '{key_value}')";
+            if (ExecuteNonQuerys(conninfo, query) == false)
                 return false;
 
             return true;
