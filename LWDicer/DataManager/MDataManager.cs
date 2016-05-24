@@ -140,6 +140,8 @@ namespace LWDicer.Control
             //
             public string ModelName = "Default";
 
+            public ELanguage Language = ELanguage.KOREAN;
+
             // SafetyPos for Axis Move
             public CSystemData_MAxSafetyPos MAxSafetyPos = new CSystemData_MAxSafetyPos();
 
@@ -600,9 +602,7 @@ namespace LWDicer.Control
                 OutputArray[i] = new DEF_IO.CIOInfo(i+DEF_IO.OUTPUT_ORIGIN, DEF_IO.EIOType.DO);
             }
 
-
-            //TestFunction();
-
+            TestFunction();
 
             LoadGeneralData();
 
@@ -635,13 +635,13 @@ namespace LWDicer.Control
                 SystemData_Cylinder.CylinderTimer[1].SettlingTime2 = 2;
                 SystemData.Head_Cyl_AfterOffTime = 3.456;
                 SystemData.LineControllerIP = "122,333,444";
+
+                SaveSystemData();
+                //SaveModelList();
+                //SaveModelData();
             }
 
-            //SaveSystemData();
-            //SaveModelList();
-            //SaveModelData();
-
-            //if(false)
+            if (false)
             {
                 for (int i = 0; i < 10; i++)
                 {
@@ -838,7 +838,7 @@ namespace LWDicer.Control
                 {
                 try
                 {
-                    if (DBManager.SelectRow(DBInfo.DBConn, DBInfo.TableSystem, "name", nameof(CSystemData), out output) == true)
+                    if (DBManager.SelectRow(DBInfo.DBConn, DBInfo.TableSystem, out output, new CDBColumn("name", nameof(CSystemData))) == true)
                     {
                         CSystemData data = JsonConvert.DeserializeObject<CSystemData>(output);
                         SystemData = ObjectExtensions.Copy(data);
@@ -861,7 +861,7 @@ namespace LWDicer.Control
             {
                 try
                 {
-                    if (DBManager.SelectRow(DBInfo.DBConn, DBInfo.TableSystem, "name", nameof(CSystemData_Axis), out output) == true)
+                    if (DBManager.SelectRow(DBInfo.DBConn, DBInfo.TableSystem, out output, new CDBColumn("name", nameof(CSystemData_Axis))) == true)
                     {
                         CSystemData_Axis data = JsonConvert.DeserializeObject<CSystemData_Axis>(output);
                         if (SystemData_Axis.MPMotionData.Length == data.MPMotionData.Length)
@@ -898,7 +898,7 @@ namespace LWDicer.Control
             {
                 try
                 {
-                    if (DBManager.SelectRow(DBInfo.DBConn, DBInfo.TableSystem, "name", nameof(CSystemData_Cylinder), out output) == true)
+                    if (DBManager.SelectRow(DBInfo.DBConn, DBInfo.TableSystem, out output, new CDBColumn("name", nameof(CSystemData_Cylinder))) == true)
                     {
                         CSystemData_Cylinder data = JsonConvert.DeserializeObject<CSystemData_Cylinder>(output);
                         if(SystemData_Cylinder.CylinderTimer.Length == data.CylinderTimer.Length)
@@ -933,7 +933,7 @@ namespace LWDicer.Control
             {
                 try
                 {
-                    if (DBManager.SelectRow(DBInfo.DBConn, DBInfo.TableSystem, "name", nameof(CSystemData_Vacuum), out output) == true)
+                    if (DBManager.SelectRow(DBInfo.DBConn, DBInfo.TableSystem, out output, new CDBColumn("name", nameof(CSystemData_Vacuum))) == true)
                     {
                         CSystemData_Vacuum data = JsonConvert.DeserializeObject<CSystemData_Vacuum>(output);
                         if (SystemData_Vacuum.VacuumTimer.Length == data.VacuumTimer.Length)
@@ -968,7 +968,7 @@ namespace LWDicer.Control
             {
                 try
                 {
-                    if (DBManager.SelectRow(DBInfo.DBConn, DBInfo.TableSystem, "name", nameof(CSystemData_Scanner), out output) == true)
+                    if (DBManager.SelectRow(DBInfo.DBConn, DBInfo.TableSystem, out output, new CDBColumn("name", nameof(CSystemData_Scanner))) == true)
                     {
                         CSystemData_Scanner data = JsonConvert.DeserializeObject<CSystemData_Scanner>(output);
                         if (SystemData_Scanner.Scanner.Length == data.Scanner.Length)
@@ -1064,7 +1064,7 @@ namespace LWDicer.Control
                 try
                 {
                     key_value = EPositionObject.UHANDLER.ToString() + suffix;
-                    if (DBManager.SelectRow(DBInfo.DBConn, DBInfo.TablePos, "name", key_value, out output) == true)
+                    if (DBManager.SelectRow(DBInfo.DBConn, DBInfo.TablePos, out output, new CDBColumn("name", key_value)) == true)
                     {
                         CUnitPos data = JsonConvert.DeserializeObject<CUnitPos>(output);
                         tData.UHandlerPos = ObjectExtensions.Copy(data);
@@ -1257,7 +1257,7 @@ namespace LWDicer.Control
             {
                 // 1. load model
                 string output;
-                if (DBManager.SelectRow(DBInfo.DBConn, DBInfo.TableModel, "name", name, out output) == true)
+                if (DBManager.SelectRow(DBInfo.DBConn, DBInfo.TableModel, out output, new CDBColumn("name", name)) == true)
                 {
                     modelData = JsonConvert.DeserializeObject<CModelData>(output);
                 }
@@ -1314,7 +1314,7 @@ namespace LWDicer.Control
             {
                 // 1. load model
                 string output;
-                if (DBManager.SelectRow(DBInfo.DBConn, DBInfo.TableModel, "name", name, out output) == true)
+                if (DBManager.SelectRow(DBInfo.DBConn, DBInfo.TableModel, out output, new CDBColumn("name", name)) == true)
                 {
                     modelData = JsonConvert.DeserializeObject<CModelData>(output);
                 }
@@ -1567,31 +1567,27 @@ namespace LWDicer.Control
                         return SUCCESS;
                     }
                 }
-                WriteLog($"fail : load alarm info [index = {index}]", ELogType.Debug);
-                return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_LOAD_ALARM_INFO);
             }
-            else
-            {
-                try
-                {
-                    string output;
 
-                    // select row
-                    if (DBManager.SelectRow(DBInfo.DBConn_Info, DBInfo.TableAlarmInfo, "name", index.ToString(), out output) == true)
-                    {
-                        info = JsonConvert.DeserializeObject<CAlarmInfo>(output);
-                    }
-                    else
-                    {
-                        WriteLog($"fail : load alarm info [index = {index}]", ELogType.Debug);
-                        return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_LOAD_ALARM_INFO);
-                    }
-                }
-                catch (Exception ex)
+            try
+            {
+                string output;
+
+                // select row
+                if (DBManager.SelectRow(DBInfo.DBConn_Info, DBInfo.TableAlarmInfo, out output, new CDBColumn("name", index.ToString())) == true)
                 {
-                    WriteExLog(ex.ToString());
+                    info = JsonConvert.DeserializeObject<CAlarmInfo>(output);
+                }
+                else
+                {
+                    WriteLog($"fail : load alarm info [index = {index}]", ELogType.Debug);
                     return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_LOAD_ALARM_INFO);
                 }
+            }
+            catch (Exception ex)
+            {
+                WriteExLog(ex.ToString());
+                return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_LOAD_ALARM_INFO);
             }
 
             WriteLog($"success : load alarm info", ELogType.Debug);
@@ -1623,11 +1619,11 @@ namespace LWDicer.Control
                     string output = row["data"].ToString();
                     DEF_Common.CParaInfo info = JsonConvert.DeserializeObject<DEF_Common.CParaInfo>(output);
 
-                    // 저장할 때, Group + "__" + Name 형태로 저장하기 때문에, desirialize시에 "__" + Group + "__" + Name 환원되는 문제 해결
-                    if(info.Name.Length >= 2 && info.Name.Substring(0, 2) == "__")
-                    {
-                        info.Name = info.Name.Remove(0, 2);
-                    }
+                    //// 저장할 때, Group + "__" + Name 형태로 저장하기 때문에, desirialize시에 "__" + Group + "__" + Name 환원되는 문제 해결
+                    //if(info.Name.Length >= 2 && info.Name.Substring(0, 2) == "__")
+                    //{
+                    //    info.Name = info.Name.Remove(0, 2);
+                    //}
 
                     ParaInfoList.Add(info);
                 }
@@ -1645,18 +1641,30 @@ namespace LWDicer.Control
         public int LoadParaInfo(string group, string name, out CParaInfo info)
         {
             info = new CParaInfo(group, name);
+            if(ParaInfoList.Count > 0)
+            {
+                foreach(CParaInfo item in ParaInfoList)
+                {
+                    if(item.Group == group && item.Name == name)
+                    {
+                        info = ObjectExtensions.Copy(item);
+                        return SUCCESS;
+                    }
+                }
+            }
+
             try
             {
                 string output;
 
                 // select row
-                if (DBManager.SelectRow(DBInfo.DBConn_Info, DBInfo.TableParameter, "name", info.Name, out output) == true)
+                if (DBManager.SelectRow(DBInfo.DBConn_Info, DBInfo.TableParameter, out output, new CDBColumn("pgroup", info.Group), new CDBColumn("name", info.Name)) == true)
                 {
                     info = JsonConvert.DeserializeObject<CParaInfo>(output);
                 }
                 else
                 {
-                    WriteLog($"fail : load para info [name = {info.Name}]", ELogType.Debug);
+                    WriteLog($"fail : load para info [group = {info.Group}, name = {info.Name}]", ELogType.Debug);
                     return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_LOAD_GENERAL_DATA);
                 }
             }
@@ -1779,7 +1787,7 @@ namespace LWDicer.Control
                 string query;
 
                 // 0. create table
-                query = $"CREATE TABLE IF NOT EXISTS {DBInfo.TableParameter} (name string primary key, data string)";
+                query = $"CREATE TABLE IF NOT EXISTS {DBInfo.TableParameter} (pgroup string, name string, data string)";
                 querys.Add(query);
 
                 // 1. delete all
@@ -1791,7 +1799,7 @@ namespace LWDicer.Control
                 foreach (CParaInfo info in ParaInfoList)
                 {
                     output = JsonConvert.SerializeObject(info);
-                    query = $"INSERT INTO {DBInfo.TableParameter} VALUES ('{info.Name}', '{output}')";
+                    query = $"INSERT INTO {DBInfo.TableParameter} VALUES ('{info.Group}', '{info.Name}', '{output}')";
                     querys.Add(query);
                 }
 

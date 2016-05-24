@@ -15,6 +15,12 @@ namespace LWDicer.Control
     {
         public string Name;
         public string Value;
+
+        public CDBColumn(string Name = "", string Value = "")
+        {
+            this.Name = Name;
+            this.Value = Value;
+        }
     }
 
     public static class DBManager
@@ -319,13 +325,20 @@ namespace LWDicer.Control
             return true;
         }
 
-        public static bool SelectRow(string conninfo, string table, string key, string key_value, out string data)
+
+        public static bool SelectRow(string conninfo, string table, out string data, params CDBColumn[] conditions)
         {
             data = "";
-            if (IsNullOrEmpty(key)) return false;
-            if (IsNullOrEmpty(key_value)) return false;
+            string query = $"SELECT * FROM {table}";
+            if(conditions.Length > 0)
+            {
+                query += $" WHERE {conditions[0].Name} = '{conditions[0].Value}'";
+                for(int i = 1; i < conditions.Length; i++)
+                {
+                    query += $" AND {conditions[i].Name} = '{conditions[i].Value}'";
+                }
+            }
 
-            string query = $"SELECT * FROM {table} WHERE ({key} = '{key_value}')";
             CDBColumn column = new CDBColumn();
             column.Name = "data";
 
@@ -337,5 +350,6 @@ namespace LWDicer.Control
 
             return true;
         }
+
     }
 }

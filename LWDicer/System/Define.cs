@@ -663,20 +663,26 @@ namespace LWDicer.Control
 
         }
 
+        /// <summary>
+        /// System, Model, Laser, Scanner 등의 class에서 쓰이는 Parameter에 대한 정보를 관리하는 class
+        /// Parameter Name 중복 관리를 피하기 위해서 Group, Name 각각의 필드를 이용해서 관리
+        /// </summary>
         public class CParaInfo
         {
-            public string Name;     // DB 관리를 위해서 Group__Name 형식으로 관리. ex) Laser__InScanResolution
+            public string Group;    // ex) System, Model, Scanner, Laser, etc
+            public string Name;     // ex) Password, ModelName, InScanResolution, etc
             public string Unit;     // Unit ex) km, km/s, m/s^2 
             public EUnitType Type;  // Unit Type을 지정해서 자동으로 텍스트로 환산 및 계산하려고 하지만, 너무 많아서 일단 자리만 잡아놓고 not use
 
             public string[] DisplayName = new string[(int)DEF_Common.ELanguage.MAX];
             public string[] Description = new string[(int)DEF_Common.ELanguage.MAX];
 
-            public CParaInfo(string Group = "group", string Name = "parameter", string Unit = "[-]")
+            public CParaInfo(string Group = "group", string Name = "parameter", string Unit = "[-]", EUnitType Type = EUnitType.mm)
             {
-                this.Name = Group + "__" + Name;
+                this.Group = Group;
+                this.Name = Name;
                 this.Unit = Unit;
-                this.Type = EUnitType.mm; // temporarily 
+                this.Type = Type; // temporarily 
 
                 DisplayName[(int)DEF_Common.ELanguage.KOREAN]   = Name;
                 DisplayName[(int)DEF_Common.ELanguage.ENGLISH]  = Name;

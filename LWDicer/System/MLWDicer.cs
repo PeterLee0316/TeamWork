@@ -190,19 +190,39 @@ namespace LWDicer.Control
 
         public void TestFunction_AfterInit()
         {
-            bool bStatus;
-            m_ctrlHandler.IsObjectDetected(EHandlerIndex.LOAD_UPPER, out bStatus);
-            m_ctrlHandler.IsObjectDetected(EHandlerIndex.UNLOAD_LOWER, out bStatus);
-            m_ctrlHandler.IsObjectDetected(EHandlerIndex.LOAD_UPPER, out bStatus);
+            // test io
+            if(false)
+            {
+                bool bStatus;
+                m_ctrlHandler.IsObjectDetected(EHandlerIndex.LOAD_UPPER, out bStatus);
+                m_ctrlHandler.IsObjectDetected(EHandlerIndex.UNLOAD_LOWER, out bStatus);
+                m_ctrlHandler.IsObjectDetected(EHandlerIndex.LOAD_UPPER, out bStatus);
+            }
 
-            int iResult = m_ctrlPushPull.MoveToLoadPos(false);
-            CAlarm alarm;
-            GetAlarmInfo(0, iResult, out alarm);
+            // test load alarm info
+            if(false)
+            {
+                int iResult = m_ctrlPushPull.MoveToLoadPos(false);
+                CAlarm alarm;
+                GetAlarmInfo(0, iResult, out alarm);
 
-            iResult += 1;
-            GetAlarmInfo(0, iResult, out alarm);
+                iResult += 1;
+                GetAlarmInfo(0, iResult, out alarm);
 
-            m_DataManager.LoadAlarmHistory();
+                m_DataManager.LoadAlarmHistory();
+            }
+
+            // test load parameter
+            if (false)
+            {
+                CParaInfo pinfo;
+                GetParameterInfo("Test", "Name1", out pinfo);
+            }
+        }
+
+        public void GetParameterInfo(string group, string name, out CParaInfo pinfo)
+        {
+            m_DataManager.LoadParaInfo(group, name, out pinfo);
         }
 
         public void GetAlarmInfo(int pid, int alarmcode, out CAlarm alarm, bool saveLog = true)
@@ -578,7 +598,7 @@ namespace LWDicer.Control
             StartThreads();
 
 
-            //TestFunction_AfterInit();
+            TestFunction_AfterInit();
 
             return SUCCESS;
         }

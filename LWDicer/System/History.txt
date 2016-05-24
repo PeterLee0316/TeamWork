@@ -171,6 +171,12 @@ LWDicer의 DataManager에서 데이터를 읽어오기 위한 3가지 함수 : S
 1. add MLWDicer class's GetAlarmInfo Function. GenerateErrorCode로 받은 error를 복호화하는 함수
 2. alarm class 정리 및 alarm 관련 함수들 추가. savealarmhistory, loadalarmhistory 등등
 
+// Version : 0.0.19
+// Grade : ★
+// Date : 16.05.24
+// Context
+1. Parameter Info class 수정, LoadParameter function 추가, DataBase function에 selectraw function 수정함
+
 ////////////////////////////////////////////////////////////////////////////////////////////
 // LJJ
 // Version : 0.0.1
