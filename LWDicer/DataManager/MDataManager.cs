@@ -42,18 +42,23 @@ namespace LWDicer.Control
         public const int ERR_DATA_MANAGER_FAIL_DELETE_DB             = 2;
         public const int ERR_DATA_MANAGER_FAIL_DROP_TABLES           = 3;
         public const int ERR_DATA_MANAGER_FAIL_BACKUP_ROW            = 4;
-        public const int ERR_DATA_MANAGER_FAIL_SAVE_LOGIN_HISTORY    = 5;
-        public const int ERR_DATA_MANAGER_FAIL_SAVE_SYSTEM_DATA      = 6;
-        public const int ERR_DATA_MANAGER_FAIL_LOAD_SYSTEM_DATA      = 7;
-        public const int ERR_DATA_MANAGER_FAIL_SAVE_POSITION_DATA    = 8;
-        public const int ERR_DATA_MANAGER_FAIL_LOAD_POSITION_DATA    = 9;
-        public const int ERR_DATA_MANAGER_FAIL_SAVE_MODEL_DATA       = 10;
-        public const int ERR_DATA_MANAGER_FAIL_LOAD_MODEL_DATA       = 11;
-        public const int ERR_DATA_MANAGER_FAIL_SAVE_MODEL_LIST       = 12;
-        public const int ERR_DATA_MANAGER_FAIL_LOAD_MODEL_LIST       = 13;
-        public const int ERR_DATA_MANAGER_FAIL_SAVE_GENERAL_DATA     = 14;
-        public const int ERR_DATA_MANAGER_FAIL_LOAD_GENERAL_DATA     = 15;
-        public const int ERR_DATA_MANAGER_FAIL_DELETE_MODEL_DATA     = 16;
+        public const int ERR_DATA_MANAGER_FAIL_SAVE_SYSTEM_DATA      = 5;
+        public const int ERR_DATA_MANAGER_FAIL_LOAD_SYSTEM_DATA      = 6;
+        public const int ERR_DATA_MANAGER_FAIL_SAVE_POSITION_DATA    = 7;
+        public const int ERR_DATA_MANAGER_FAIL_LOAD_POSITION_DATA    = 8;
+        public const int ERR_DATA_MANAGER_FAIL_SAVE_MODEL_DATA       = 9;
+        public const int ERR_DATA_MANAGER_FAIL_LOAD_MODEL_DATA       = 10;
+        public const int ERR_DATA_MANAGER_FAIL_SAVE_MODEL_LIST       = 11;
+        public const int ERR_DATA_MANAGER_FAIL_LOAD_MODEL_LIST       = 12;
+        public const int ERR_DATA_MANAGER_FAIL_SAVE_GENERAL_DATA     = 13;
+        public const int ERR_DATA_MANAGER_FAIL_LOAD_GENERAL_DATA     = 14;
+        public const int ERR_DATA_MANAGER_FAIL_DELETE_MODEL_DATA     = 15;
+        public const int ERR_DATA_MANAGER_FAIL_SAVE_LOGIN_HISTORY    = 16;
+        public const int ERR_DATA_MANAGER_FAIL_LOAD_LOGIN_HISTORY    = 17;
+        public const int ERR_DATA_MANAGER_FAIL_SAVE_ALARM_INFO       = 18;
+        public const int ERR_DATA_MANAGER_FAIL_LOAD_ALARM_INFO       = 19;
+        public const int ERR_DATA_MANAGER_FAIL_SAVE_ALARM_HISTORY    = 20;
+        public const int ERR_DATA_MANAGER_FAIL_LOAD_ALARM_HISTORY    = 21;
 
         public const int ERR_DATA_MANAGER_IO_DATA_FILE_NOT_EXIST = 1;
         public const int ERR_DATA_MANAGER_IO_DATA_FILE_CLOSE_FAILURE = 2;
@@ -575,7 +580,9 @@ namespace LWDicer.Control
         public DEF_IO.CIOInfo[] OutputArray { get; private set; } = new DEF_IO.CIOInfo[DEF_IO.MAX_IO_OUTPUT];
 
         // Error Info는 필요할 때, 하나씩 불러와도 될 것 같은데, db test겸 초기화 편의성 때문에 임시로 만들어 둠
-        public List<CErrorInfo> ErrorInfoList { get; private set; } = new List<CErrorInfo>();
+        public List<CAlarmInfo> AlarmInfoList { get; private set; } = new List<CAlarmInfo>();
+        public List<CAlarm> AlarmHistory { get; private set; } = new List<CAlarm>();
+
         public List<CParaInfo> ParaInfoList { get; private set; } = new List<CParaInfo>();
 
         public MDataManager(CObjectInfo objInfo, CDBInfo dbInfo)
@@ -609,52 +616,62 @@ namespace LWDicer.Control
         public void TestFunction()
         {
             ///////////////////////////////////////
-            CModelHeader header = new CModelHeader();
-            ModelList.Add(header);
-
-            for(int i = 0; i < 3; i++)
+            if(false)
             {
-                header = new CModelHeader();
-                header.Name = $"Model{i}";
-                header.Comment = $"Comment{i}";
-                header.Parent = $"Parent{i}";
-                header.IsFolder = false;
+                CModelHeader header = new CModelHeader();
                 ModelList.Add(header);
-            }
 
-            SystemData_Cylinder.CylinderTimer[0].SettlingTime1 = 1;
-            SystemData_Cylinder.CylinderTimer[1].SettlingTime2 = 2;
-            SystemData.Head_Cyl_AfterOffTime = 3.456;
-            SystemData.LineControllerIP = "122,333,444";
+                for (int i = 0; i < 3; i++)
+                {
+                    header = new CModelHeader();
+                    header.Name = $"Model{i}";
+                    header.Comment = $"Comment{i}";
+                    header.Parent = $"Parent{i}";
+                    header.IsFolder = false;
+                    ModelList.Add(header);
+                }
+
+                SystemData_Cylinder.CylinderTimer[0].SettlingTime1 = 1;
+                SystemData_Cylinder.CylinderTimer[1].SettlingTime2 = 2;
+                SystemData.Head_Cyl_AfterOffTime = 3.456;
+                SystemData.LineControllerIP = "122,333,444";
+            }
 
             //SaveSystemData();
             //SaveModelList();
             //SaveModelData();
 
-            for(int i = 0; i < 10; i++)
+            //if(false)
             {
-                CErrorInfo errorInfo = new CErrorInfo(i);
-                errorInfo.Description[(int)DEF_Common.ELanguage.KOREAN] = $"{i}번 에러";
-                errorInfo.Solution[(int)DEF_Common.ELanguage.KOREAN] = $"{i}번 해결책";
-                ErrorInfoList.Add(errorInfo);
-            }
+                for (int i = 0; i < 10; i++)
+                {
+                    int index = 3200 + i;
+                    CAlarmInfo info = new CAlarmInfo(index);
+                    info.Description[(int)DEF_Common.ELanguage.KOREAN] = $"{index}번 에러";
+                    info.Solution[(int)DEF_Common.ELanguage.KOREAN] = $"{index}번 해결책";
+                    AlarmInfoList.Add(info);
+                }
 
-            for (int i = 0; i < 10; i++)
-            {
-                CParaInfo paraInfo = new CParaInfo("Test", "Name"+i.ToString());
-                paraInfo.Description[(int)DEF_Common.ELanguage.KOREAN] = $"Name{i} 변수";
-                ParaInfoList.Add(paraInfo);
-            }
+                for (int i = 0; i < 10; i++)
+                {
+                    CParaInfo info = new CParaInfo("Test", "Name" + i.ToString());
+                    info.Description[(int)DEF_Common.ELanguage.KOREAN] = $"Name{i} 변수";
+                    ParaInfoList.Add(info);
+                }
 
-            SaveGeneralData();
+                SaveGeneralData();
+            }
 
             ///////////////////////////////////////
 
-            Type type = typeof(CSystemData);
-            Dictionary<string, string> fieldBook = ObjectExtensions.ToStringDictionary(SystemData, type);
+            if (false)
+            {
+                Type type = typeof(CSystemData);
+                Dictionary<string, string> fieldBook = ObjectExtensions.ToStringDictionary(SystemData, type);
 
-            CSystemData systemData2 = new CSystemData();
-            ObjectExtensions.FromStringDicionary(systemData2, type, fieldBook);
+                CSystemData systemData2 = new CSystemData();
+                ObjectExtensions.FromStringDicionary(systemData2, type, fieldBook);
+            }
         }
 
         public int BackupDB()
@@ -1347,6 +1364,91 @@ namespace LWDicer.Control
             return SUCCESS;
         }
 
+        //public int SaveAlarmHistory(CAlarm alarm, CAlarmInfo info)
+        //{
+        //    // write error history
+        //    string create_query = $"CREATE TABLE IF NOT EXISTS {DBInfo.TableAlarmHistory} (occurtime datetime, resettime datetime, alarm_key string, alarm_text string, alarm_info string)";
+        //    string query = $"INSERT INTO {DBInfo.TableAlarmHistory} VALUES ('{DBManager.DateTimeSQLite(alarm.OccurTime)}', '{DBManager.DateTimeSQLite(alarm.ResetTime)}', '{alarm.GetIndex()}', '{alarm}', '{info.GetText()}')";
+
+        //    if (DBManager.ExecuteNonQuerys(DBInfo.DBConn_ELog, create_query, query) == false)
+        //    {
+        //        return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_SAVE_ALARM_HISTORY);
+        //    }
+
+        //    return SUCCESS;
+        //}
+
+        public int SaveAlarmHistory(CAlarm alarm)
+        {
+            try
+            {
+                List<string> querys = new List<string>();
+
+                // 0. create table
+                string create_query = $"CREATE TABLE IF NOT EXISTS {DBInfo.TableAlarmHistory} (occurtime datetime, resettime datetime, alarm_key string, data string)";
+                querys.Add(create_query);
+
+                // 1. delete all
+
+                // 2. save list
+                string output = JsonConvert.SerializeObject(alarm);
+                string query = $"INSERT INTO {DBInfo.TableAlarmHistory} VALUES ('{DBManager.DateTimeSQLite(alarm.OccurTime)}', '{DBManager.DateTimeSQLite(alarm.ResetTime)}', '{alarm.GetIndex()}', '{output}')";
+                querys.Add(query);
+
+                // 3. execute query
+                if (DBManager.ExecuteNonQuerys(DBInfo.DBConn_ELog, querys) != true)
+                {
+                    return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_SAVE_ALARM_HISTORY);
+                }
+            }
+            catch (Exception ex)
+            {
+                WriteExLog(ex.ToString());
+                return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_SAVE_ALARM_HISTORY);
+            }
+
+            WriteLog($"success : save alarm history", ELogType.Debug);
+            return SUCCESS;
+        }
+
+        public int LoadAlarmHistory()
+        {
+            try
+            {
+                string query;
+
+                // 0. select table
+                query = $"SELECT * FROM {DBInfo.TableAlarmHistory}";
+
+                // 1. get table
+                DataTable datatable;
+                if (DBManager.GetTable(DBInfo.DBConn_ELog, query, out datatable) != true)
+                {
+                    return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_LOAD_ALARM_HISTORY);
+                }
+
+                // 2. delete list
+                AlarmHistory.Clear();
+
+                // 3. get list
+                foreach (DataRow row in datatable.Rows)
+                {
+                    string output = row["data"].ToString();
+                    CAlarm alarm = JsonConvert.DeserializeObject<CAlarm>(output);
+
+                    AlarmHistory.Add(alarm);
+                }
+            }
+            catch (Exception ex)
+            {
+                WriteExLog(ex.ToString());
+                return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_LOAD_ALARM_HISTORY);
+            }
+
+            WriteLog($"success : load alarm history", ELogType.Debug);
+            return SUCCESS;
+        }
+
         public int LoadGeneralData()
         {
             int iResult;
@@ -1356,7 +1458,7 @@ namespace LWDicer.Control
             iResult = LoadIOList();
             //if (iResult != SUCCESS) return iResult;
 
-            iResult = LoadErrorInfoList();
+            iResult = LoadAlarmInfoList();
             //if (iResult != SUCCESS) return iResult;
 
             iResult = LoadParameterList();
@@ -1410,24 +1512,24 @@ namespace LWDicer.Control
             return SUCCESS;
         }
 
-        public int LoadErrorInfoList()
+        public int LoadAlarmInfoList()
         {
             try
             {
                 string query;
 
                 // 0. select table
-                query = $"SELECT * FROM {DBInfo.TableError}";
+                query = $"SELECT * FROM {DBInfo.TableAlarmInfo}";
 
                 // 1. get table
                 DataTable datatable;
                 if (DBManager.GetTable(DBInfo.DBConn_Info, query, out datatable) != true)
                 {
-                    return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_LOAD_GENERAL_DATA);
+                    return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_LOAD_ALARM_INFO);
                 }
 
                 // 2. delete list
-                ErrorInfoList.Clear();
+                AlarmInfoList.Clear();
 
                 // 3. get list
                 foreach (DataRow row in datatable.Rows)
@@ -1436,47 +1538,63 @@ namespace LWDicer.Control
                     if (int.TryParse(row["name"].ToString(), out index))
                     {
                         string output = row["data"].ToString();
-                        DEF_Error.CErrorInfo errorInfo = JsonConvert.DeserializeObject<DEF_Error.CErrorInfo>(output);
+                        DEF_Error.CAlarmInfo info = JsonConvert.DeserializeObject<DEF_Error.CAlarmInfo>(output);
 
-                        ErrorInfoList.Add(errorInfo);
+                        AlarmInfoList.Add(info);
                     }
                 }
             }
             catch (Exception ex)
             {
                 WriteExLog(ex.ToString());
-                return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_LOAD_GENERAL_DATA);
+                return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_LOAD_ALARM_INFO);
             }
 
-            WriteLog($"success : load error info list", ELogType.Debug);
+            WriteLog($"success : load alarm info list", ELogType.Debug);
             return SUCCESS;
         }
 
-        public int LoadErrorInfo(int index, out CErrorInfo errorInfo)
+        public int LoadAlarmInfo(int index, out CAlarmInfo info)
         {
-            errorInfo = new CErrorInfo();
-            try
+            info = new CAlarmInfo();
+            if(AlarmInfoList.Count > 0)
             {
-                string output;
-
-                // select row
-                if (DBManager.SelectRow(DBInfo.DBConn_Info, DBInfo.TableError, "name", index.ToString(), out output) == true)
+                foreach(CAlarmInfo item in AlarmInfoList)
                 {
-                    errorInfo = JsonConvert.DeserializeObject<CErrorInfo>(output);
+                    if(item.Index == index)
+                    {
+                        info = ObjectExtensions.Copy(item);
+                        return SUCCESS;
+                    }
                 }
-                else
+                WriteLog($"fail : load alarm info [index = {index}]", ELogType.Debug);
+                return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_LOAD_ALARM_INFO);
+            }
+            else
+            {
+                try
                 {
-                    WriteLog($"fail : load error info [index = {index}]", ELogType.Debug);
-                    return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_LOAD_GENERAL_DATA);
+                    string output;
+
+                    // select row
+                    if (DBManager.SelectRow(DBInfo.DBConn_Info, DBInfo.TableAlarmInfo, "name", index.ToString(), out output) == true)
+                    {
+                        info = JsonConvert.DeserializeObject<CAlarmInfo>(output);
+                    }
+                    else
+                    {
+                        WriteLog($"fail : load alarm info [index = {index}]", ELogType.Debug);
+                        return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_LOAD_ALARM_INFO);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    WriteExLog(ex.ToString());
+                    return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_LOAD_ALARM_INFO);
                 }
             }
-            catch (Exception ex)
-            {
-                WriteExLog(ex.ToString());
-                return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_LOAD_GENERAL_DATA);
-            }
 
-            WriteLog($"success : load error info", ELogType.Debug);
+            WriteLog($"success : load alarm info", ELogType.Debug);
             return SUCCESS;
         }
 
@@ -1503,15 +1621,15 @@ namespace LWDicer.Control
                 foreach (DataRow row in datatable.Rows)
                 {
                     string output = row["data"].ToString();
-                    DEF_Common.CParaInfo paraInfo = JsonConvert.DeserializeObject<DEF_Common.CParaInfo>(output);
+                    DEF_Common.CParaInfo info = JsonConvert.DeserializeObject<DEF_Common.CParaInfo>(output);
 
                     // 저장할 때, Group + "__" + Name 형태로 저장하기 때문에, desirialize시에 "__" + Group + "__" + Name 환원되는 문제 해결
-                    if(paraInfo.Name.Length >= 2 && paraInfo.Name.Substring(0, 2) == "__")
+                    if(info.Name.Length >= 2 && info.Name.Substring(0, 2) == "__")
                     {
-                        paraInfo.Name = paraInfo.Name.Remove(0, 2);
+                        info.Name = info.Name.Remove(0, 2);
                     }
 
-                    ParaInfoList.Add(paraInfo);
+                    ParaInfoList.Add(info);
                 }
             }
             catch (Exception ex)
@@ -1524,21 +1642,21 @@ namespace LWDicer.Control
             return SUCCESS;
         }
 
-        public int LoadParaInfo(string group, string name, out CParaInfo paraInfo)
+        public int LoadParaInfo(string group, string name, out CParaInfo info)
         {
-            paraInfo = new CParaInfo(group, name);
+            info = new CParaInfo(group, name);
             try
             {
                 string output;
 
                 // select row
-                if (DBManager.SelectRow(DBInfo.DBConn_Info, DBInfo.TableError, "name", paraInfo.Name, out output) == true)
+                if (DBManager.SelectRow(DBInfo.DBConn_Info, DBInfo.TableParameter, "name", info.Name, out output) == true)
                 {
-                    paraInfo = JsonConvert.DeserializeObject<CParaInfo>(output);
+                    info = JsonConvert.DeserializeObject<CParaInfo>(output);
                 }
                 else
                 {
-                    WriteLog($"fail : load para info [name = {paraInfo.Name}]", ELogType.Debug);
+                    WriteLog($"fail : load para info [name = {info.Name}]", ELogType.Debug);
                     return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_LOAD_GENERAL_DATA);
                 }
             }
@@ -1559,7 +1677,7 @@ namespace LWDicer.Control
             iResult = SaveIOList();
             //if (iResult != SUCCESS) return iResult;
 
-            iResult = SaveErrorInfoList();
+            iResult = SaveAlarmInfoList();
             //if (iResult != SUCCESS) return iResult;
 
             iResult = SaveParaInfoList();
@@ -1613,7 +1731,7 @@ namespace LWDicer.Control
             return SUCCESS;
         }
 
-        public int SaveErrorInfoList()
+        public int SaveAlarmInfoList()
         {
             try
             {
@@ -1621,19 +1739,19 @@ namespace LWDicer.Control
                 string query;
 
                 // 0. create table
-                query = $"CREATE TABLE IF NOT EXISTS {DBInfo.TableError} (name string primary key, data string)";
+                query = $"CREATE TABLE IF NOT EXISTS {DBInfo.TableAlarmInfo} (name string primary key, data string)";
                 querys.Add(query);
 
                 // 1. delete all
-                query = $"DELETE FROM {DBInfo.TableError}";
+                query = $"DELETE FROM {DBInfo.TableAlarmInfo}";
                 querys.Add(query);
 
                 // 2. save list
                 string output;
-                foreach (CErrorInfo errorInfo in ErrorInfoList)
+                foreach (CAlarmInfo info in AlarmInfoList)
                 {
-                    output = JsonConvert.SerializeObject(errorInfo);
-                    query = $"INSERT INTO {DBInfo.TableError} VALUES ('{errorInfo.Index}', '{output}')";
+                    output = JsonConvert.SerializeObject(info);
+                    query = $"INSERT INTO {DBInfo.TableAlarmInfo} VALUES ('{info.Index}', '{output}')";
                     querys.Add(query);
                 }
 
@@ -1670,10 +1788,10 @@ namespace LWDicer.Control
 
                 // 2. save list
                 string output;
-                foreach (CParaInfo paraInfo in ParaInfoList)
+                foreach (CParaInfo info in ParaInfoList)
                 {
-                    output = JsonConvert.SerializeObject(paraInfo);
-                    query = $"INSERT INTO {DBInfo.TableParameter} VALUES ('{paraInfo.Name}', '{output}')";
+                    output = JsonConvert.SerializeObject(info);
+                    query = $"INSERT INTO {DBInfo.TableParameter} VALUES ('{info.Name}', '{output}')";
                     querys.Add(query);
                 }
 

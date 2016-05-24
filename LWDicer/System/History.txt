@@ -164,6 +164,13 @@ LWDicer의 DataManager에서 데이터를 읽어오기 위한 3가지 함수 : S
 5. DataManager class : ModelList, Model 관련하여 DeleteModelData() 추가
 6. AlarmInfo 함수 추가중..
 
+// Version : 0.0.18
+// Grade : ★
+// Date : 16.05.20 ~ 16.05.23
+// Context
+1. add MLWDicer class's GetAlarmInfo Function. GenerateErrorCode로 받은 error를 복호화하는 함수
+2. alarm class 정리 및 alarm 관련 함수들 추가. savealarmhistory, loadalarmhistory 등등
+
 ////////////////////////////////////////////////////////////////////////////////////////////
 // LJJ
 // Version : 0.0.1

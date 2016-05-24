@@ -438,7 +438,7 @@ namespace LWDicer.Control
         /// <param name="bMoveFlag"></param>
         /// <param name="bUseBacklash"></param>
         /// <returns></returns>
-        public int MoveHandlerPos(CPos_XYTZ sPos, int iPos, bool[] bMoveFlag = null, bool bUseBacklash = false,
+        private int MoveHandlerPos(CPos_XYTZ sPos, int iPos, bool[] bMoveFlag = null, bool bUseBacklash = false,
             bool bUsePriority = false, int[] movePriority = null)
         {
             int iResult = SUCCESS;
@@ -451,12 +451,6 @@ namespace LWDicer.Control
             if(bMoveFlag == null)
             {
                 bMoveFlag = new bool[DEF_MAX_COORDINATE] { true, true, true, true };
-            }
-
-            // Load Position으로 가는 것이면 Align Offset을 초기화해야 한다.
-            if (iPos == (int)EHandlerPos.LOAD)
-            {
-                AxHandlerInfo.InitAlignOffset();
             }
 
             // trans to array
@@ -524,12 +518,6 @@ namespace LWDicer.Control
                 }
             }
 
-            // set working pos
-            if (iPos > (int)EHandlerPos.NONE)
-            {
-                AxHandlerInfo.PosInfo = iPos;
-            }
-
             string str = $"success : move Handler to pos:{iPos} {sPos.ToString()}";
             WriteLog(str, ELogType.Debug, ELogWType.Normal);
 
@@ -564,12 +552,12 @@ namespace LWDicer.Control
                 sTargetPos = sTargetPos + dMoveOffset;
             }
 
-            if(bUpdatedPosInfo == false)
-            {
-                iPos = (int)EHandlerPos.NONE;
-            }
             iResult = MoveHandlerPos(sTargetPos, iPos, bMoveFlag, bUseBacklash, bUsePriority, movePriority);
             if (iResult != SUCCESS) return iResult;
+            if (bUpdatedPosInfo == true)
+            {
+                AxHandlerInfo.PosInfo = iPos;
+            }
 
             return SUCCESS;
         }

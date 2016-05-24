@@ -195,22 +195,33 @@ namespace LWDicer.Control
             m_ctrlHandler.IsObjectDetected(EHandlerIndex.UNLOAD_LOWER, out bStatus);
             m_ctrlHandler.IsObjectDetected(EHandlerIndex.LOAD_UPPER, out bStatus);
 
-            //int iResult = m_ctrlPushPull.MoveToLoadPos(false);
-            //CAlarmInfo alarmInfo;
-            //GetAlarmInfo(0, iResult, out alarmInfo);
+            int iResult = m_ctrlPushPull.MoveToLoadPos(false);
+            CAlarm alarm;
+            GetAlarmInfo(0, iResult, out alarm);
+
+            iResult += 1;
+            GetAlarmInfo(0, iResult, out alarm);
+
+            m_DataManager.LoadAlarmHistory();
         }
 
-        public void GetAlarmInfo(int pid, int alarmcode, out CAlarmInfo alarmInfo)
+        public void GetAlarmInfo(int pid, int alarmcode, out CAlarm alarm, bool saveLog = true)
         {
-            alarmInfo = new CAlarmInfo();
-            alarmInfo.ProcessID = pid;
-            alarmInfo.ObjectID = (int)((alarmcode & 0xffff0000) >> 16);
-            alarmInfo.ErrorBase = (int)((alarmcode & 0x0000ffff) / 100) * 100;
-            alarmInfo.ErrorCode = (int)((alarmcode & 0x0000ffff) % 100);
+            alarm = new CAlarm();
+            alarm.ProcessID = pid;
+            alarm.ObjectID = (int)((alarmcode & 0xffff0000) >> 16);
+            alarm.ErrorBase = (int)((alarmcode & 0x0000ffff) / 100) * 100;
+            alarm.ErrorCode = (int)((alarmcode & 0x0000ffff) % 100);
 
-            alarmInfo.ProcessName = m_SystemInfo.GetObjectName(alarmInfo.ProcessID);
-            alarmInfo.ObjectName = m_SystemInfo.GetObjectName(alarmInfo.ObjectID);
-            m_DataManager.LoadErrorInfo(alarmInfo.ErrorBase + alarmInfo.ErrorCode, out alarmInfo.ErrorInfo);
+            alarm.ProcessName = m_SystemInfo.GetObjectName(alarm.ProcessID);
+            alarm.TypeName = m_SystemInfo.GetTypeName(alarm.ObjectID);
+            alarm.ObjectName = m_SystemInfo.GetObjectName(alarm.ObjectID);
+            m_DataManager.LoadAlarmInfo(alarm.GetIndex(), out alarm.Info);
+
+            if(saveLog == true)
+            {
+                m_DataManager.SaveAlarmHistory(alarm);
+            }
         }
 
         public int Initialize(CMainFrame form1 = null)
@@ -476,19 +487,19 @@ namespace LWDicer.Control
             m_SystemInfo.GetObjectInfo(300, out objInfo);
             CreateMeOpPanel(objInfo);
 
-            // Stage1
+            // Elevator
             m_SystemInfo.GetObjectInfo(301, out objInfo);
-            CreateMeStage(objInfo);
+            CreateMeElevator(objInfo);
 
             // PushPull
             m_SystemInfo.GetObjectInfo(302, out objInfo);
             CreateMePushPull(objInfo);
 
-            // Elevator
+            // Stage1
             m_SystemInfo.GetObjectInfo(303, out objInfo);
-            CreateMeElevator(objInfo);
+            CreateMeStage(objInfo);
 
-            // Coater
+            // Spinner
             m_SystemInfo.GetObjectInfo(304, out objInfo);
             CreateMeSpinner1(objInfo);
 
@@ -519,13 +530,13 @@ namespace LWDicer.Control
             CreateCtrlStage1(objInfo);
 
             m_SystemInfo.GetObjectInfo(354, out objInfo);
-            CreateCtrlHandler(objInfo);
-
-            m_SystemInfo.GetObjectInfo(355, out objInfo);
             CreateCtrlSpinner1(objInfo);
 
-            m_SystemInfo.GetObjectInfo(356, out objInfo);
+            m_SystemInfo.GetObjectInfo(355, out objInfo);
             CreateCtrlSpinner2(objInfo);
+
+            m_SystemInfo.GetObjectInfo(356, out objInfo);
+            CreateCtrlHandler(objInfo);
 
             m_SystemInfo.GetObjectInfo(350, out objInfo);
             CreateCtrlOpPanel(objInfo);
@@ -567,7 +578,7 @@ namespace LWDicer.Control
             StartThreads();
 
 
-            TestFunction_AfterInit();
+            //TestFunction_AfterInit();
 
             return SUCCESS;
         }

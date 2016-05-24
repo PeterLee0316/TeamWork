@@ -563,12 +563,12 @@ namespace LWDicer.Control
                 sTargetPos = sTargetPos + dMoveOffset;
             }
 
-            if(bUpdatedPosInfo == false)
-            {
-                iPos = (int)EStagePos.NONE;
-            }
             iResult = MoveStagePos(sTargetPos, iPos, bMoveFlag, bUseBacklash, bUsePriority, movePriority);
             if (iResult != SUCCESS) return iResult;
+            if (bUpdatedPosInfo == true)
+            {
+                AxStageInfo.PosInfo = iPos;
+            }
 
             return SUCCESS;
         }

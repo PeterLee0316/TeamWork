@@ -350,7 +350,7 @@ namespace LWDicer.Control
         /// <param name="bMoveFlag"></param>
         /// <param name="bUseBacklash"></param>
         /// <returns></returns>
-        public int MovePushPullPos(CPos_XYTZ sPos, int iPos, bool[] bMoveFlag = null, bool bUseBacklash = false,
+        private int MovePushPullPos(CPos_XYTZ sPos, int iPos, bool[] bMoveFlag = null, bool bUseBacklash = false,
             bool bUsePriority = false, int[] movePriority = null)
         {
             int iResult = SUCCESS;
@@ -363,12 +363,6 @@ namespace LWDicer.Control
             if (bMoveFlag == null)
             {
                 bMoveFlag = new bool[DEF_MAX_COORDINATE] { true, true, true, true };
-            }
-
-            // Load Position으로 가는 것이면 Align Offset을 초기화해야 한다.
-            if (iPos == (int)EPushPullPos.LOAD)
-            {
-                AxPushPullInfo.InitAlignOffset();
             }
 
             // trans to array
@@ -436,12 +430,6 @@ namespace LWDicer.Control
                 }
             }
 
-            // set working pos
-            if (iPos > (int)EPushPullPos.NONE)
-            {
-                AxPushPullInfo.PosInfo = iPos;
-            }
-
             string str = $"success : move PushPull to pos:{iPos} {sPos.ToString()}";
             WriteLog(str, ELogType.Debug, ELogWType.Normal);
 
@@ -476,12 +464,12 @@ namespace LWDicer.Control
                 sTargetPos = sTargetPos + dMoveOffset;
             }
 
-            if (bUpdatedPosInfo == false)
-            {
-                iPos = (int)EPushPullPos.NONE;
-            }
             iResult = MovePushPullPos(sTargetPos, iPos, bMoveFlag, bUseBacklash, bUsePriority, movePriority);
             if (iResult != SUCCESS) return iResult;
+            if (bUpdatedPosInfo == true)
+            {
+                AxPushPullInfo.PosInfo = iPos;
+            }
 
             return SUCCESS;
         }
@@ -811,7 +799,7 @@ namespace LWDicer.Control
         /// <param name="bMoveFlag"></param>
         /// <param name="bUseBacklash"></param>
         /// <returns></returns>
-        public int MoveCenteringPos(ECenterIndex index, CPos_XYTZ sPos, int iPos, bool[] bMoveFlag = null, bool bUseBacklash = false,
+        private int MoveCenteringPos(ECenterIndex index, CPos_XYTZ sPos, int iPos, bool[] bMoveFlag = null, bool bUseBacklash = false,
             bool bUsePriority = false, int[] movePriority = null)
         {
             int iResult = SUCCESS;
@@ -825,12 +813,6 @@ namespace LWDicer.Control
             {
                 bMoveFlag = new bool[DEF_MAX_COORDINATE] { true, false, false, false};
             }
-
-            // Load Position으로 가는 것이면 Align Offset을 초기화해야 한다.
-            //if (iPos == (int)ECenteringPos.LOAD)
-            //{
-            //    AxCenteringInfo[(int)index].InitAlignOffset();
-            //}
 
             // trans to array
             double[] dTargetPos;
@@ -897,12 +879,6 @@ namespace LWDicer.Control
                 }
             }
 
-            // set working pos
-            if (iPos > (int)ECenteringPos.NONE)
-            {
-                AxCenteringInfo[(int)index].PosInfo = iPos;
-            }
-
             string str = $"success : move Centering to pos:{iPos} {sPos.ToString()}";
             WriteLog(str, ELogType.Debug, ELogWType.Normal);
 
@@ -928,7 +904,7 @@ namespace LWDicer.Control
             // Load Position으로 가는 것이면 Align Offset을 초기화해야 한다.
             //if (iPos == (int)ECenteringPos.LOAD)
             //{
-            //    AxCenteringInfo.InitAlignOffset();
+            //    AxCenteringInfo[(int)index].InitAlignOffset();
             //}
 
             CPos_XYTZ sTargetPos = AxCenteringInfo[(int)index].GetTargetPos(iPos);
@@ -937,12 +913,12 @@ namespace LWDicer.Control
                 sTargetPos = sTargetPos + dMoveOffset;
             }
 
-            if (bUpdatedPosInfo == false)
-            {
-                iPos = (int)ECenteringPos.NONE;
-            }
             iResult = MoveCenteringPos(index, sTargetPos, iPos, bMoveFlag, bUseBacklash, bUsePriority, movePriority);
             if (iResult != SUCCESS) return iResult;
+            if (bUpdatedPosInfo == true)
+            {
+                AxCenteringInfo[(int)index].PosInfo = iPos;
+            }
 
             return SUCCESS;
         }

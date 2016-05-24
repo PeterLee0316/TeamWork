@@ -481,45 +481,52 @@ namespace LWDicer.Control
 
         public class CDBInfo
         {
-            // System and Model DB
-            public string DBDir             ; // Directory
-            public string DBName            ; // Main System and Model Database
-            public string DBName_Backup     ; // backup for main db
+            /////////////////////////////////////////////////////////////////////
+            // Database
+            private string DBDir             ; // DB Directory
+            private string DBName            ; // Main System and Model Database
+            private string DBName_Backup     ; // backup for main db
+            private string DBName_Info       ; // Information DB
+
+            private string DBDir_Log         ; // Log Directory
+            private string DBName_DLog       ; // 개발자용 Log를 남기는 DB를 따로 만들어 둠.
+            private string DBName_ELog       ; // Alarm, Login, Event 등의 History를 관리하는 DB
+
+            /////////////////////////////////////////////////////////////////////
+            // Database Connection
             public string DBConn            ; // DB Connection string
             public string DBConn_Backup     ; // DB Connection string for backup
-            public string DBName_Info       ; // Information DB
             public string DBConn_Info       ; // DB Connection string for Information
+            public string DBConn_DLog       ; // DB Connection string for DLog
+            public string DBConn_ELog       ; // DB Connection string for ELog
 
-            public string TableSystem       ; // System Data
-            public string TableModel        ; // Model Data
-            public string TableModelHeader  ; // Model and Parent directory Header
-            public string TablePos          ; // Position Data
+            /////////////////////////////////////////////////////////////////////
+            // Table
+            public string TableSystem       { get; private set; } // System Data
+            public string TableModel        { get; private set; } // Model Data
+            public string TableModelHeader  { get; private set; } // Model and Parent directory Header
+            public string TablePos          { get; private set; } // Position Data
+            public string TableIO           { get; private set; } // IO Information
+            public string TableAlarmInfo    { get; private set; } // Alarm Information
+            public string TableMsgInfo      { get; private set; } // Message Information
+            public string TableParameter    { get; private set; } // Parameter Description
 
-            // Information Database
-            public string TableIO           ; // IO Information
-            public string TableError        ; // Error Information
-            public string TableMsg          ; // Message Information
-            public string TableParameter    ; // Parameter Description
+            public string TableLoginHistory { get; private set; } // Login History
+            public string TableAlarmHistory { get; private set; } // Alarm History
+            public string TableDebugLog     { get; private set; } // 개발자용 Log
+            public string TableEventLog     { get; private set; } // Event History
 
-            // Developer's and Event Log DB
-            public string DBDir_Log         ; // Directory
-            public string DBName_DLog       ; // 개발자용 Log를 남기는 DB를 따로 만들어 둠.
-            public string DBConn_DLog       ; // Backup
-            public string DBName_ELog       ; // Error, Login, Event 등의 History를 관리하는 DB
-            public string DBConn_ELog       ; // Backup
+            /////////////////////////////////////////////////////////////////////
+            // Common Directory
+            public string SystemDir         { get; private set; } // System Data가 저장되는 디렉토리
+            public string ModelDir          { get; private set; } // Model Data가 저장되는 디렉토리 
+            public string ScannerLogDir     { get; private set; } // Poligon Scanner와의 전송에 필요한 image, ini file 저장용
+            public string ImageLogDir       { get; private set; } // Vision에서 모델에 관계없이 image file 저장할 필요가 있을때 사용
 
-            public string TableLoginHistory ; // Login History
-            public string TableDebugLog     ; // 개발자용 Log
-            public string TableEventLog     ; // Event History
-
-            public string ExcelIOList       ; // Excel File IO List
-            public string ExcelSystemData   ; // Excel System Data List
-
-            // Common Dir
-            public string SystemDir         ; // System Data가 저장되는 디렉토리
-            public string ModelDir          ; // Model Data가 저장되는 디렉토리 
-            public string ScannerLogDir     ; // Poligon Scanner와의 전송에 필요한 image, ini file 저장용
-            public string ImageLogDir       ; // Vision에서 모델에 관계없이 image file 저장할 필요가 있을때 사용
+            /////////////////////////////////////////////////////////////////////
+            // Excel
+            public string ExcelIOList       { get; private set; } // Excel File IO List
+            public string ExcelSystemData   { get; private set; } // Excel System Data List
 
             public CDBInfo()
             {
@@ -538,8 +545,8 @@ namespace LWDicer.Control
                 TablePos          = "PositionDB";
 
                 TableIO           = "IO";
-                TableError        = "Error";
-                TableMsg          = "Message";
+                TableAlarmInfo    = "AlarmInfo";
+                TableMsgInfo      = "MessageInfo";
                 TableParameter    = "Parameter";
 
                 // Developer's and Event Log DB
@@ -550,6 +557,7 @@ namespace LWDicer.Control
                 DBConn_ELog       = $"Data Source={DBDir_Log}{DBName_ELog}";
 
                 TableLoginHistory = "LoginHistory";
+                TableAlarmHistory = "AlarmHistory";
                 TableDebugLog     = "DLog";
                 TableEventLog     = "ELog";
 
@@ -1162,17 +1170,17 @@ namespace LWDicer.Control
         }
 
         /// <summary>
-        /// Error 를 담을수 있는 class. 
+        /// Alarm 에 대한 정보 class
         /// ErrorBase와 ErrorCode 조합 형식때문에 각 ErrorBase당 ErrorCode는 최대 100개로 제한됨
         /// </summary>
-        public class CErrorInfo
+        public class CAlarmInfo
         {
             public int Index;           // Primary Key : ErrorBase + ErrorCode 조합
             public EErrorType Type;     // Error Type
             public string[] Description = new string[(int)DEF_Common.ELanguage.MAX];
             public string[] Solution = new string[(int)DEF_Common.ELanguage.MAX];
 
-            public CErrorInfo(int Index = 0, EErrorType Type = EErrorType.E1)
+            public CAlarmInfo(int Index = 0, EErrorType Type = EErrorType.E1)
             {
                 this.Index = Index;
                 this.Type = Type;
@@ -1190,12 +1198,24 @@ namespace LWDicer.Control
                 Solution[(int)DEF_Common.ELanguage.CHINESE] = "解法";
                 Solution[(int)DEF_Common.ELanguage.JAPANESE] = "解決策";
             }
+
+            public string GetText(int lang = (int)DEF_Common.ELanguage.ENGLISH)
+            {
+                if(lang == (int)DEF_Common.ELanguage.ENGLISH)
+                {
+                    return $"Text : {Description[lang]}, Solution : {Solution[lang]}";
+                }
+                else
+                {
+                    return $"Text : {Description[(int)DEF_Common.ELanguage.ENGLISH]} // {Description[lang]}, Solution : {Solution[(int)DEF_Common.ELanguage.ENGLISH]} // {Solution[lang]}";
+                }
+            }
         }
 
         /// <summary>
-        /// CErrorInfo와 달리 Alarm이 발생한 Unit & Error Info를 같이 가지고 있음.
+        /// CAlarmInfo를 가지고 있는 실제 발생한 Alarm 정보
         /// </summary>
-        public class CAlarmInfo
+        public class CAlarm
         {
             public int ProcessID;
             public int ObjectID;
@@ -1203,9 +1223,23 @@ namespace LWDicer.Control
             public int ErrorCode;
 
             public string ProcessName;
+            public string TypeName;
             public string ObjectName;
 
-            public CErrorInfo ErrorInfo;
+            public DateTime OccurTime = DateTime.Now; // 발생시간
+            public DateTime ResetTime = DateTime.Now; // 조치시간 (현재는 미정)
+
+            public CAlarmInfo Info = new CAlarmInfo();
+
+            public int GetIndex()
+            {
+                return ErrorBase + ErrorCode;
+            }
+
+            public override string ToString()
+            {
+                return $"Index : {GetIndex()}, Process : {ProcessName}, Object : {ObjectName}, Type : {TypeName}";
+            }
         }
 
 

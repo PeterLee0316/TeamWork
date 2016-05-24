@@ -324,12 +324,12 @@ namespace LWDicer.Control
                 sTargetPos = sTargetPos + dMoveOffset;
             }
 
-            if (bUpdatedPosInfo == false)
-            {
-                iPos = (int)ENozzlePos.NONE;
-            }
             iResult = MoveCleanNozzlePos(sTargetPos, iPos, bMoveFlag, bUseBacklash, bUsePriority, movePriority);
             if (iResult != SUCCESS) return iResult;
+            if (bUpdatedPosInfo == true)
+            {
+                AxRotateInfo.PosInfo = iPos;
+            }
 
             return SUCCESS;
         }
@@ -415,12 +415,12 @@ namespace LWDicer.Control
                 sTargetPos = sTargetPos + dMoveOffset;
             }
 
-            if (bUpdatedPosInfo == false)
-            {
-                iPos = (int)ENozzlePos.NONE;
-            }
             iResult = MoveCleanNozzlePos(sTargetPos, iPos, bMoveFlag, bUseBacklash, bUsePriority, movePriority);
             if (iResult != SUCCESS) return iResult;
+            if (bUpdatedPosInfo == true)
+            {
+                AxCleanNozzleInfo.PosInfo = iPos;
+            }
 
             return SUCCESS;
         }
@@ -527,12 +527,12 @@ namespace LWDicer.Control
                 sTargetPos = sTargetPos + dMoveOffset;
             }
 
-            if (bUpdatedPosInfo == false)
-            {
-                iPos = (int)ENozzlePos.NONE;
-            }
             iResult = MoveCoatNozzlePos(sTargetPos, iPos, bMoveFlag, bUseBacklash, bUsePriority, movePriority);
             if (iResult != SUCCESS) return iResult;
+            if (bUpdatedPosInfo == true)
+            {
+                AxCoatNozzleInfo.PosInfo = iPos;
+            }
 
             return SUCCESS;
         }

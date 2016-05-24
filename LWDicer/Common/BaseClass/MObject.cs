@@ -29,7 +29,7 @@ namespace LWDicer.Control
             WriteLog(str);
         }
 
-        public int GenerateErrorCode(int error)
+        public int GenerateErrorCode(int error, bool writeLog = true)
         {
             if (error == SUCCESS) // Success
             {

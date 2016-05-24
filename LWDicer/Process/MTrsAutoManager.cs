@@ -989,29 +989,6 @@ namespace LWDicer.Control
         /// <returns></returns>
         private int ProcessAlarm(MEvent evAlarm)
         {
-            int iProcessID = evAlarm.wParam;
-            int iUnitObjectID = (int)((evAlarm.lParam & 0xffff0000) >> 16);
-            int iUnitErrorBase;
-            int iUnitErrorCode;
-
-            int tt = (int)(evAlarm.lParam & 0xffff0000);
-
-            // 	if(iUnitObjectID >= 30000)
-            // 	{
-            // 		iUnitErrorBase = 30000;
-            // 		iUnitErrorCode = (evAlarm.lParam & 0x0000ffff) % 200;
-            // 	}
-            // 	else if(iUnitObjectID >= 10000)
-            // 	{
-            // 		iUnitErrorBase = 10000;
-            // 		iUnitErrorCode = (evAlarm.lParam & 0x0000ffff) % 200;
-            // 	}
-            // 	else
-            // 	{
-            iUnitErrorBase = (int)((evAlarm.lParam & 0x0000ffff) / 100 * 100.0);    //. ErrorBase로 Component 이름 찾아오기 기능 구현 필요
-            iUnitErrorCode = (evAlarm.lParam & 0x0000ffff) % 100;
-            //	}
-
             // View에 메세지를 보내서 처리하게 한다.
             //bool bErrorStop;
             //// Setup or Execute.. = run

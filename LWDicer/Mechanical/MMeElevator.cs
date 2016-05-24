@@ -339,13 +339,12 @@ namespace LWDicer.Control
                 sTargetPos = sTargetPos + dMoveOffset;
             }
 
-            if(bUpdatedPosInfo == false)
-            {
-                //iPos = (int)EElevatorPos.NONE;
-                return GenerateErrorCode(ERR_Elevator_UNABLE_TO_USE_POSITION);
-            }
             iResult = MoveElevatorPos(sTargetPos, iPos, bMoveFlag, bUseBacklash, bUsePriority, movePriority);
             if (iResult != SUCCESS) return iResult;
+            if (bUpdatedPosInfo == true)
+            {
+                AxElevatorInfo.PosInfo = iPos;
+            }
 
             return SUCCESS;
         }
