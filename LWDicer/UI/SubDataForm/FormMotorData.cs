@@ -259,7 +259,7 @@ namespace LWDicer.UI
                 }
             }
 
-            CMainFrame.LWDicer.m_DataManager.SaveExcelSystemData(strPara);
+            CMainFrame.LWDicer.m_DataManager.SaveMotorDataToExcel(strPara);
 
         }
     }

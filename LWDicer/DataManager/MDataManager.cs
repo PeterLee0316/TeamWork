@@ -1955,8 +1955,31 @@ namespace LWDicer.Control
             return SUCCESS;
 
         }
-        
-        public int SaveExcelSystemData(string [,] strParameter)
+
+        public int LoadAlarmInfoFromExcel()
+        {
+            // 0. read excel
+
+            // 1. save data to db
+            return SUCCESS;
+        }
+
+        public int LoadParaInfoFromExcel()
+        {
+            return SUCCESS;
+        }
+
+        public int SaveAlarmInfoToExcel()
+        {
+            return SUCCESS;
+        }
+
+        public int SaveParaInfoToExcel()
+        {
+            return SUCCESS;
+        }
+
+        public int SaveMotorDataToExcel(string [,] strParameter)
         {
             int i = 0, j = 0, nSheetCount = 0, nCount = 0;
 
@@ -2004,7 +2027,7 @@ namespace LWDicer.Control
                 return GenerateErrorCode(ERR_DATA_MANAGER_SYSTEM_EXCEL_FILE_READ_FAIL);
             }
 
-            WriteLog($"success : Saved Motion Parameter Data", ELogType.Debug);
+            WriteLog($"success : Save Motor Data", ELogType.Debug);
             return SUCCESS;
         }
 
