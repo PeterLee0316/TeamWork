@@ -20,6 +20,7 @@ using static LWDicer.Control.DEF_OpPanel;
 using static LWDicer.Control.DEF_Thread;
 using static LWDicer.Control.DEF_DataManager;
 
+using static LWDicer.Control.DEF_ACS;
 using static LWDicer.Control.DEF_Yaskawa;
 using static LWDicer.Control.DEF_Motion;
 using static LWDicer.Control.DEF_Cylinder;
@@ -268,16 +269,26 @@ namespace LWDicer.Control
 
         public class CSystemData_Axis
         {
+            // ACS Motion Axis
+            public CACSMotionData[] ACSMotionData = new CACSMotionData[USE_AXIS_COUNT];
             // YMC Motion Axis
             public CMPMotionData[] MPMotionData = new CMPMotionData[MAX_MP_AXIS];
 
             public CSystemData_Axis()
             {
+                // ACS 모션
+                for (int i = 0; i < ACSMotionData.Length; i++)
+                {
+                    ACSMotionData[i] = new CACSMotionData();
+                }
+                // Yaskawa 모션
                 for (int i = 0; i < MPMotionData.Length; i++)
                 {
                     MPMotionData[i] = new CMPMotionData();
                 }
             }
+
+            
         }
 
         public class CSystemData_Cylinder

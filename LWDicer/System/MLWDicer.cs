@@ -249,7 +249,7 @@ namespace LWDicer.Control
             CreateYMCBoard(objInfo);
 
             m_SystemInfo.GetObjectInfo(4, out objInfo);
-            CreateACSBoard(objInfo);
+            CreateACSChannel(objInfo);
 
             ////////////////////////////////////////////////////////////////////////
             // MultiAxes
@@ -595,13 +595,13 @@ namespace LWDicer.Control
             return SUCCESS;
         }
 
-        int CreateACSBoard(CObjectInfo objInfo)
+        int CreateACSChannel(CObjectInfo objInfo)
         {
             CACSRefComp refComp = new CACSRefComp();
             CACSData data = new CACSData();
 
             m_ACS = new MACS(objInfo, refComp, data);
-            //m_ACS.SetMPMotionData(m_DataManager.SystemData_Axis.MPMotionData);
+            m_ACS.SetACSMotionData(m_DataManager.SystemData_Axis.ACSMotionData);
 
 #if !SIMULATION_MOTION
             int iResult = m_ACS.OpenController();

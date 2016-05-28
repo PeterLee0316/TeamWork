@@ -247,6 +247,20 @@ LWDicer의 DataManager에서 데이터를 읽어오기 위한 3가지 함수 : S
 	- ACS에 Buffer 프로그램 작성 -> PC에서 읽을 각 모터 Status를 2차원 Array에 Copy하는 내용
 								   PC에서는 Real 값과 Integer의 배열을 읽어옴.
 
+								   // Version : 0.0.8
+// Grade : ★
+// Date : 2016-05-26 ~2016-05-28
+// Context
+
+1. Hardware layer
+	- ACS의 모션 데이터 DB와 연결
+	- Servo 위치값,속도,토크 값 읽기 및 Status Bit 상태 확인.
+	- MoveToPos,Enable,function 구현
+
+Multi Run 동작에 대한 구현을 기존 Yaskawa대비 다르게 구현할 필요 -> 이동에 대한 명령이 다름
+현재 설정된 속도,가감속을 확인 후 이동 지령을 내림
+
+
 
 ////////////////////////////////////////////////////////////////////////////////////////////
 // LHS

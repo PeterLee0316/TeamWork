@@ -126,6 +126,12 @@ namespace LWDicer.Control
             return SUCCESS;
         }
 
+        public int IsPanelDetected(out bool bState)
+        {
+            bState = false;
+            return SUCCESS;
+        }
+
         public int SetPosition(CUnitPos FixedPos, CUnitPos ModelPos, CUnitPos OffsetPos)
         {
             return m_RefComp.Stage.SetStagePosition(FixedPos, ModelPos, OffsetPos);

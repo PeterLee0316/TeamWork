@@ -42,9 +42,9 @@ namespace LWDicer.Control
         private CMutliAxesACSRefComp m_RefComp;
         private CMultiAxesACSData m_Data;
 
-        private int[] MovePriority = new int[DEF_MAX_COORDINATE];   // 축 이동시에 우선 순위
-        private int[] OriginPriority = new int[DEF_MAX_COORDINATE];   // 축 원점복귀시에 우선 순위
-        private CServoStatus[] ServoStatus = new CServoStatus[DEF_MAX_COORDINATE];
+        private int[] MovePriority          = new int[DEF_MAX_COORDINATE];   // 축 이동시에 우선 순위
+        private int[] OriginPriority        = new int[DEF_MAX_COORDINATE];   // 축 원점복귀시에 우선 순위
+        private CServoStatus[] ServoStatus  = new CServoStatus[DEF_MAX_COORDINATE];
 
         public MMultiAxes_ACS(CObjectInfo objInfo, CMutliAxesACSRefComp refComp, CMultiAxesACSData data)
             : base(objInfo)
@@ -590,14 +590,14 @@ namespace LWDicer.Control
                 for (int i = 0; i < DEF_MAX_COORDINATE; i++)
                 {
                     if (m_Data.AxisList[i] == DEF_AXIS_NONE_ID) continue;
-                    bStatus[i] = ServoStatus[i].OriginFlag;
+                    bStatus[i] = ServoStatus[i].IsHomeComplete;
                     if (bStatus[i] == false) bResult = false;
                 }
 
             }
             else
             {
-                bStatus[0] = ServoStatus[iCoordID].OriginFlag;
+                bStatus[0] = ServoStatus[iCoordID].IsHomeComplete;
                 bResult = bStatus[0];
             }
 
