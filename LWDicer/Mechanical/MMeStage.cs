@@ -127,7 +127,7 @@ namespace LWDicer.Control
             public IVacuum[] Vacuum = new IVacuum[(int)EStageVacuum.MAX];
 
             // MultiAxes
-            public MMultiAxes_YMC AxStage;
+            public MMultiAxes_ACS AxStage;
         }
 
         public class CMeStageData
@@ -559,8 +559,6 @@ namespace LWDicer.Control
 
             return SUCCESS;
         }
-
-        
 
         /// <summary>
         /// iPos 좌표로 선택된 축들을 이동시킨다.

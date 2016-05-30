@@ -97,7 +97,8 @@ namespace LWDicer.Control
 
             public bool IsDriverFault;
             public bool IsMotorOverHeat;
-           // public bool Is;
+            public bool IsServoAlarm;
+            // public bool Is;
             public bool IsMinusSensor;
             public bool IsPlusSensor;
             public bool IsHomeSensor;
@@ -306,12 +307,10 @@ namespace LWDicer.Control
             }
 
             public void GetMotionData(int servoNo, out CACSMotionData s)
-            {               
+            {
                 s = ObjectExtensions.Copy(MotionData[servoNo]);
             }
-
-
-
+            
             public void GetSpeedData(int servoNo, out CMotorSpeedData data, int speedType = (int)EMotorSpeedACS.MANUAL_SLOW)
             {
                 MotionData[servoNo].GetSpeedData(out data);
@@ -457,7 +456,7 @@ namespace LWDicer.Control
             }
         }
 
-        public int IsSafeForMove(bool bStopMotion = false)
+        private int IsSafeForMove(bool bStopMotion = false)
         {
             int iResult = SUCCESS;
 
@@ -465,7 +464,7 @@ namespace LWDicer.Control
             return SUCCESS;
         }
 
-        public int CheckAxisStateForMove(int[] axisList)
+        private int CheckAxisStateForMove(int[] axisList)
         {
             // check safety
             int iResult = IsSafeForMove();
@@ -541,7 +540,7 @@ namespace LWDicer.Control
             return length;
         }
 
-        public int GetDeviceAxisList(int deviceNo, out int[] axisList)
+        private int GetDeviceAxisList(int deviceNo, out int[] axisList)
         {
             int length = GetDeviceLength(deviceNo);
             axisList = new int[length];
@@ -616,28 +615,14 @@ namespace LWDicer.Control
             return SUCCESS;
         }
 
-        public int GetDevice_SpeedData(int deviceNo, out CMotorSpeedData[] speedData, int speedType = (int)EMotorSpeedACS.MANUAL_SLOW)
-        {
-            int length = GetDeviceLength(deviceNo);
-            int[] axisList;
-            GetDeviceAxisList(deviceNo, out axisList);
-            speedData = new CMotorSpeedData[length];
-          
-            for (int i = 0; i < length; i++)
-            {
-                int servoNo = axisList[i];
-                if (servoNo == (int)EACS_Axis.NULL) // skip if axis not exist.
-                {
-                    continue;
-                }
-                m_Data.Motion.GetSpeedData(servoNo, out speedData[i], speedType);
-                
-            }
-
+        private int GetAxis_SpeedData(int servoNo, out CMotorSpeedData speedData, int speedType = (int)EMotorSpeedACS.MANUAL_SLOW)
+        {    
+            m_Data.Motion.GetSpeedData(servoNo, out speedData, speedType);               
+            
             return SUCCESS;
         }
 
-        public int GetDevice_TimeLimitData(int deviceNo, out CMotorTimeLimitData[] timeLimit)
+        private int GetDevice_TimeLimitData(int deviceNo, out CMotorTimeLimitData[] timeLimit)
         {
             int length = GetDeviceLength(deviceNo);
             int[] axisList;
@@ -663,7 +648,7 @@ namespace LWDicer.Control
             int length = GetDeviceLength(deviceNo);
             int[] axisList;
             GetDeviceAxisList(deviceNo, out axisList);
-            MotionData = new CACSMotionData[length];       
+            MotionData = new CACSMotionData[length];
 
             for (int i = 0; i < length; i++)
             {
@@ -674,9 +659,9 @@ namespace LWDicer.Control
                 }
                 m_Data.Motion.GetMotionData(servoNo, out MotionData[i]);
             }
-
             return SUCCESS;
         }
+
 
         public int OpenController(bool bServoOn = false)
         {
@@ -690,38 +675,7 @@ namespace LWDicer.Control
             return SUCCESS;
         }
 
-        private int DeclareDevice(int length, UInt32[] hAxis, ref UInt32 hDevice)
-        {
 
-
-            return SUCCESS;
-        }
-
-        private int DeclareTempDevice(int length, int[] axisList, bool[] useAxis, ref UInt32 tDevice)
-        {
-            int iResult;
-            UInt32[] hAxis;
-            iResult = GetAxisHandleList(axisList, out hAxis);
-            if (iResult != SUCCESS) return iResult;
-
-            UInt32[] thAxis = new UInt32[length];
-            for (int i = 0, j = 0; i < axisList.Length; i++)
-            {
-                int servoNo = axisList[i];
-                if (servoNo == (int)EACS_Axis.NULL || useAxis[i] == false) continue;
-                thAxis[j++] = hAxis[i];
-            }
-
-            iResult = DeclareDevice(length, thAxis, ref tDevice);
-            if (iResult != SUCCESS) return iResult;
-
-            return SUCCESS;
-        }
-
-        private int ClearDevice(UInt32 hDevice)
-        {
-            return SUCCESS;
-        }
 
         public int CloseController()
         {
@@ -759,6 +713,7 @@ namespace LWDicer.Control
             ServoStatus[servoNo].CommandVelocity        = CStatusArray.DoubleStatus[servoNo, (int)EStatusDouble.CMD_VELOCITY];
             ServoStatus[servoNo].CommandAcceleration    = CStatusArray.DoubleStatus[servoNo, (int)EStatusDouble.CMD_ACCELERATION];
             ServoStatus[servoNo].CommandDeceleration    = CStatusArray.DoubleStatus[servoNo, (int)EStatusDouble.CMD_DECELERATION];
+            
             // 상태 비트 적용
             int nMotorStatus = CStatusArray.IntStatus[servoNo, (int)EStatusInt.MOTOR_STATUS];
             if ((nMotorStatus & m_Data.Motion.ACS.ACSC_MST_MOVE) != 0)      ServoStatus[servoNo].IsBusy = true;         else ServoStatus[servoNo].IsBusy = false;
@@ -768,6 +723,7 @@ namespace LWDicer.Control
            
             // 알람 비트 적용
             int nMotorFault = CStatusArray.IntStatus[servoNo, (int)EStatusInt.MOTOR_FAULT];
+            if (nMotorFault > 0)                                            ServoStatus[servoNo].IsServoAlarm = true;   else ServoStatus[servoNo].IsServoAlarm = false;
             if ((nMotorFault & m_Data.Motion.ACS.ACSC_SAFETY_RL) != 0)      ServoStatus[servoNo].IsPlusSensor = true;   else ServoStatus[servoNo].IsPlusSensor = false;
             if ((nMotorFault & m_Data.Motion.ACS.ACSC_SAFETY_LL) != 0)      ServoStatus[servoNo].IsMinusSensor = true;  else ServoStatus[servoNo].IsMinusSensor = false;
             if ((nMotorFault & m_Data.Motion.ACS.ACSC_SAFETY_DRIVE) != 0)   ServoStatus[servoNo].IsDriverFault = true;  else ServoStatus[servoNo].IsDriverFault = false;
@@ -843,7 +799,7 @@ namespace LWDicer.Control
         {
             bComplete = false;
 
-            bComplete = !ServoStatus[servoNo].IsBusy;
+            bComplete = ServoStatus[servoNo].IsInPosition;
             
             return SUCCESS;
         }
@@ -950,11 +906,33 @@ namespace LWDicer.Control
 
             return SUCCESS;
         }
-
-        public int StartMoveToPos(int deviceNo, double[] pos, CMotorSpeedData[] tempSpeed = null, ushort waitMode = 0)
+        
+        private int CompareSpeedData(int AxisNo, CMotorSpeedData pSpeedData, out bool bCheck)
         {
-            return MoveToPos(deviceNo, pos, tempSpeed, waitMode);
+            if(pSpeedData.Vel == ServoStatus[AxisNo].CommandVelocity &&
+               pSpeedData.Acc == ServoStatus[AxisNo].CommandAcceleration &&
+               pSpeedData.Dec == ServoStatus[AxisNo].CommandDeceleration)
+            {
+                bCheck = true;
+            }
 
+            bCheck = false;
+
+            return SUCCESS;
+        }
+
+        private int SetSpeedData(int AxisNo, CMotorSpeedData pSpeedData)
+        {
+            m_Data.Motion.ACS.SetVelocity(AxisNo, pSpeedData.Vel);
+            m_Data.Motion.ACS.SetAcceleration(AxisNo, pSpeedData.Acc);
+            m_Data.Motion.ACS.SetDeceleration(AxisNo, pSpeedData.Dec);
+            
+            return SUCCESS;
+        }
+
+        public int StartMoveToPos(int AxisNo, double pos, CMotorSpeedData tempSpeed = null)
+        {
+            return MoveToPos(AxisNo, pos, tempSpeed);
         }
 
         /// <summary>
@@ -965,20 +943,66 @@ namespace LWDicer.Control
         /// <param name="tempSpeed"></param>
         /// <param name="waitMode"></param>
         /// <returns></returns>
-        public int MoveToPos(int deviceNo, double[] pos, CMotorSpeedData[] tempSpeed = null, ushort waitMode = 0)
+        public int MoveToPos(int AxisNo, double pos, CMotorSpeedData tempSpeed = null)
         {
-            if (deviceNo == (int)EACS_Device.NULL) return SUCCESS; // return success if device is null
+            // check safety
+            int iResult = IsSafeForMove();
+            if (iResult != SUCCESS) return iResult;
 
-            ushort[] WaitForCompletion;
+            // 선택한 axisList 확인
+            if (AxisNo == (int)EACS_Device.NULL) return GenerateErrorCode(ERR_ACS_SELECTED_AXIS_NONE);
 
+            // 0. init data
+            // 0.1 get device length            
+
+            int length = 0;
+            bool bCheck = false;
+            CMotorSpeedData[] SpeedData = new CMotorSpeedData[1];
+
+            //0.2 Motion Profile 적용
+           
+
+            // ACS에 설정된 Vel,Acc,Dec와 비교를 함
+            if (tempSpeed == null) GetAxis_SpeedData(AxisNo, out SpeedData[0]);
+
+            CompareSpeedData(AxisNo, SpeedData[0], out bCheck);
+            if (bCheck == false)
+            {
+                SetSpeedData(AxisNo, SpeedData[0]);
+                Sleep(50);
+            }
+            
+            if (length == 0)
+            {
+                return GenerateErrorCode(ERR_ACS_SELECTED_AXIS_NONE);
+            }
+
+            // 0.3 Motion Position 적용
+            m_Data.Motion.ACS.ToPoint(m_Data.Motion.ACS.ACSC_AMF_WAIT, AxisNo, pos);
+
+            // 0.4 Motion Moving 지령
+            m_Data.Motion.ACS.GoM(AxisNo);
+
+            Sleep(50);
+
+            // 0.5 Motion Complete 확인
+            int[] AxisList = new int[1];
+            AxisList[0] = AxisNo;
+            bool[] bUse = new bool[1];
+            bUse[0] = true;
+
+            iResult = Wait4Done(AxisList, bUse);
+
+            if (iResult != SUCCESS) return iResult;
+
+            return SUCCESS;
 
             return SUCCESS;
         }
 
-        public int StartMoveToPos(int[] axisList, bool[] useAxis, double[] pos, CMotorSpeedData[] tempSpeed = null, ushort waitMode = 0)
+        public int StartMoveToPos(int[] axisList, bool[] useAxis, double[] pos, CMotorSpeedData[] tempSpeed = null)
         {
-            return MoveToPos(axisList, useAxis, pos, tempSpeed, waitMode);
-
+            return MoveToPos(axisList, useAxis, pos, tempSpeed);
         }
 
         /// <summary>
@@ -990,14 +1014,60 @@ namespace LWDicer.Control
         /// <param name="tempSpeed"></param>
         /// <param name="waitMode"></param>
         /// <returns></returns>
-        public int MoveToPos(int[] axisList, bool[] useAxis, double[] pos, CMotorSpeedData[] tempSpeed = null, ushort waitMode = 0)
+        public int MoveToPos(int[] axisList, bool[] useAxis, double[] pos, CMotorSpeedData[] tempSpeed = null)
         {
             // check safety
             int iResult = IsSafeForMove();
             if (iResult != SUCCESS) return iResult;
 
-            
+            // 선택한 axisList 확인
+            if(axisList==null) return GenerateErrorCode(ERR_ACS_SELECTED_AXIS_NONE);
+
+            // 0. init data
+            // 0.1 get device length            
+
+            int length = 0;
+            bool bCheck = false;
+            CMotorSpeedData[] SpeedData = new CMotorSpeedData[1];
+
+            //0.2 Motion Profile 적용
+            for (int i = 0; i < axisList.Length; i++)
+            {
+                if (axisList[i] == (int)EACS_Axis.NULL || useAxis[i] == false) continue;
+                                
+                // ACS에 설정된 Vel,Acc,Dec와 비교를 함
+                if (tempSpeed == null) GetAxis_SpeedData(axisList[i], out SpeedData[0]);
+                
+                CompareSpeedData(axisList[i], SpeedData[0], out bCheck);
+                if (bCheck == false)
+                {
+                    SetSpeedData(axisList[i], SpeedData[0]);
+                    Sleep(50);
+                }
+
+                length++;
+            }
+
+            if (length == 0)
+            {
+                return GenerateErrorCode(ERR_ACS_SELECTED_AXIS_NONE);
+            }
+
+            // 0.3 Motion Position 적용
+            m_Data.Motion.ACS.ToPointM(m_Data.Motion.ACS.ACSC_AMF_WAIT, axisList, pos);
+
+            // 0.4 Motion Moving 지령
+            m_Data.Motion.ACS.GoM(axisList);
+
+            Sleep(50);
+
+            // 0.5 Motion Complete 확인
+            iResult = Wait4Done(axisList, useAxis);
+
+            if (iResult != SUCCESS) return iResult;
+
             return SUCCESS;
+
         }
 
         public int Wait4Done(int[] axisList, bool[] useAxis, bool bWait4Home = false)
@@ -1098,10 +1168,7 @@ namespace LWDicer.Control
 
                 Sleep(WhileSleepTime);
             }
-
-
-
-
+            
             return SUCCESS;
         }
 
@@ -1111,55 +1178,58 @@ namespace LWDicer.Control
         }
 
         public int StartOriginReturn(int[] axisList, bool[] useAxis)
+        {           
+
+            // 0. init data
+            // 0.1 get device length
+            int length = 0;
+            for (int i = 0; i < axisList.Length; i++)
+            {
+                int servoNo = axisList[i];
+                if (servoNo == (int)EACS_Axis.NULL || useAxis[i] == false) continue;
+
+                StartOriginReturn(servoNo);
+                length++;
+            }
+
+            if (length == 0)
+            {
+                return GenerateErrorCode(ERR_ACS_SELECTED_AXIS_NONE);
+            }
+
+            return SUCCESS;
+        }
+
+        public int StartOriginReturn(int servoNo)
         {
             // check safety
             int iResult = IsSafeForMove();
             if (iResult != SUCCESS) return iResult;
 
+            m_Data.Motion.ACS.RunBuffer(servoNo, null);
 
             return SUCCESS;
         }
 
         public bool IsOriginReturn(int servoNo)
         {
-            return true;
+            return ServoStatus[servoNo].IsHomeComplete;
         }
 
-        public void SetOriginFlag(int deviceNo, bool bFlag)
-        {
-
-        }
-
-        public int OriginReturn(int deviceNo = (int)EACS_Device.ALL)
-        {
-            if (deviceNo == (int)EACS_Device.NULL) return SUCCESS; // return success if device is null
-
-            // check safety
-            int iResult = IsSafeForMove();
-            if (iResult != SUCCESS) return iResult;
-
-
-            // set origin flag
-            SetOriginFlag(deviceNo, true);
-
-            return SUCCESS;
-        }
 
         public int GetServoPos(int servoNo, out double pos)
         {
             // this is obsolete because servo status is updated by thread
             pos = 0;
 
+            pos = ServoStatus[servoNo].EncoderPos;
 
             return SUCCESS;
         }
 
         public bool IsServoWarning(int servoNo)
         {
-
-            UInt32 returnValue = 0;
-
-            return Convert.ToBoolean((returnValue >> 8) & 0x1);
+            return ServoStatus[servoNo].IsServoAlarm;            
         }
     }
 }

@@ -13,6 +13,7 @@ AUTOEXEC:
 
 GLOBAL REAL M_REAL(4)(8)
 GLOBAL INT  M_INT(4)(3)
+GLOBAL INT  HomeFlag(4)
 INT AXIS
 
 WHILE 1
@@ -54,7 +55,7 @@ WHILE 1
 						 ! 16 OFF Overcurrent (#CL)
 						 ! 17 OFF Servo Processor Alarm (#SP)
 						 ! 20 OFF HSSI Not Connected (#HSSINC)
-		M_INT(AXIS)(2) = 0 ! Home Flag  	
+		M_INT(AXIS)(2) = HomeFlag(AXIS) 	
 		
 		AXIS = AXIS+1
 	END

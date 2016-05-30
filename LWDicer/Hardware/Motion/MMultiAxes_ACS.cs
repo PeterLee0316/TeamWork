@@ -238,7 +238,7 @@ namespace LWDicer.Control
             else
             {
                 // call api by each axis(one device)
-                iResult = m_RefComp.Motion.MoveToPos(m_Data.AxisList[iCoordID], dPosition, tempSpeed);
+                iResult = m_RefComp.Motion.MoveToPos(m_Data.AxisList[iCoordID], dPosition[iCoordID], tempSpeed[iCoordID]);
                 if (iResult != SUCCESS) return iResult;
             }
 
@@ -258,7 +258,7 @@ namespace LWDicer.Control
             else
             {
                 // call api by each axis(one device)
-                iResult = m_RefComp.Motion.StartMoveToPos(m_Data.AxisList[iCoordID], dPosition, tempSpeed);
+                iResult = m_RefComp.Motion.StartMoveToPos(m_Data.AxisList[iCoordID], dPosition[iCoordID], tempSpeed[iCoordID]);
                 if (iResult != SUCCESS) return iResult;
             }
 

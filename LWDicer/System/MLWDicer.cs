@@ -68,7 +68,7 @@ namespace LWDicer.Control
         public MACS m_ACS;
 
         // MultiAxes
-        public MMultiAxes_YMC m_AxStage1;
+        public MMultiAxes_ACS m_AxStage1;
         public MMultiAxes_YMC m_AxLoader;
         public MMultiAxes_YMC m_AxPushPull;
         public MMultiAxes_YMC m_AxCentering1;
