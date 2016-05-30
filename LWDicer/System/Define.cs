@@ -117,6 +117,30 @@ namespace LWDicer.Control
             MAX,
         }
 
+        public enum EExcel_Sheet
+        {
+            PARA_Info,
+            Alarm_Info,
+            IO_Info,
+            Motor_Data,
+            MAX,
+        }
+
+        public enum EAlarm_Column
+        {
+            Index,
+            Type,
+            DescKor,
+            DescEng,
+            DescChn,
+            DescJpn,
+            SoluKor,
+            SoluEng,
+            SoluChn,
+            SoluJpn,
+            MAX,
+        }
+
         // Head 정의
         public const int DEF_SHEAD1 = 0;
         public const int DEF_SHEAD2 = 1;
@@ -527,6 +551,7 @@ namespace LWDicer.Control
             // Excel
             public string ExcelIOList       { get; private set; } // Excel File IO List
             public string ExcelSystemData   { get; private set; } // Excel System Data List
+            public string ExcelSystemPara   { get; private set; } // Excel System Parameter List
 
             public CDBInfo()
             {
@@ -563,6 +588,7 @@ namespace LWDicer.Control
 
                 ExcelIOList       = "LWDicer_IO_List.xlsx";
                 ExcelSystemData   = "SystemData.xlsx";
+                ExcelSystemPara   = "SystemParaData.xlsx";
 
                 // Model Dir
                 SystemDir = ConfigurationManager.AppSettings["AppFilePath"] + @"\SystemData\";
