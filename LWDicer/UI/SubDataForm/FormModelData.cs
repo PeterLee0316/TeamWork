@@ -96,13 +96,13 @@ namespace LWDicer.UI
 
             LabelCurMaker.Text = strCurModel;
 
-            nMakerCount = CMainFrame.LWDicer.m_DataManager.ModelList.Count;
+            nMakerCount = CMainFrame.LWDicer.m_DataManager.ModelHeaderList.Count;
 
             string strMaker = string.Empty;
 
             for(i=0;i<nMakerCount;i++)
             {
-                strMaker = CMainFrame.LWDicer.m_DataManager.ModelList[i].Name;
+                strMaker = CMainFrame.LWDicer.m_DataManager.ModelHeaderList[i].Name;
 
                 MakerlTreeView.Nodes.Add(strMaker);
             }

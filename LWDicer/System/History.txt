@@ -158,10 +158,10 @@ LWDicer의 DataManager에서 데이터를 읽어오기 위한 3가지 함수 : S
 // Date : 2016.05.17 ~ 2016.05.19
 // Context
 1. MTrsAutoManager : 2차 정리중
-2. ModelList class에 IsFolder 란 member 추가
+2. ModelHeaderList class에 IsFolder 란 member 추가
 3. MEvent class 수정 및 Thread간 PostMsg, ReportAlarm 함수 정비
 4. Cleaner, Coater 등등의 이름들 사용하던거 spinner1,2 로 변경
-5. DataManager class : ModelList, Model 관련하여 DeleteModelData() 추가
+5. DataManager class : ModelHeaderList, Model 관련하여 DeleteModelData() 추가
 6. AlarmInfo 함수 추가중..
 
 // Version : 0.0.18
@@ -178,6 +178,13 @@ LWDicer의 DataManager에서 데이터를 읽어오기 위한 3가지 함수 : S
 1. Parameter Info class 수정, LoadParameter function 추가, DataBase function에 selectraw function 수정함
 2. 쓰레드간의 쉐이크핸드 메시지 수정 및 메시지 전송 함수 수정
 3. MTrsSpinner, MTrsHandler class 1차 작업, Thread 
+
+// Version : 0.0.20
+// Grade : ★
+// Date : 16.05.30
+// Context
+1. ModelHeader, ModelData 항목 조작 함수들 정비 및 추가.
+2. System 시작시에 SystemData, Model Root Folder, Default Model 있는지 검사해서 없으면 자동 생성해줌
 
 ////////////////////////////////////////////////////////////////////////////////////////////
 // LJJ

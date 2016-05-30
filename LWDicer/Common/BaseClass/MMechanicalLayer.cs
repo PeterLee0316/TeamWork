@@ -16,23 +16,23 @@ namespace LWDicer.Control
     /// </summary>
     public abstract class MMechanicalLayer : MObject
     {
-        protected EAutoManual AutoManualMode;    // EAutoManual : AUTO, MANUAL
-        protected EAutoRunMode AutoRunMode;            // EAutoRunMode : NORMAL_RUN, PASS_RUN, DRY_RUN, REPAIR_RUN
+        public EAutoManual AutoManualMode { get; private set; } = EAutoManual.MANUAL; // AUTO, MANUAL
+        public EAutoRunMode AutoRunMode { get; private set; } = EAutoRunMode.NORMAL_RUN; // NORMAL_RUN, PASS_RUN, DRY_RUN, REPAIR_RUN
 
         public MMechanicalLayer(CObjectInfo objInfo) : base(objInfo)
         {
-            AutoManualMode = EAutoManual.MANUAL;
-            AutoRunMode = EAutoRunMode.NORMAL_RUN;
         }
 
         public void SetOperationMode(EAutoRunMode mode)
         {
-            AutoRunMode = mode;
+            if (AutoRunMode != mode)
+                AutoRunMode = mode;
         }
 
         public void SetAutoManual(EAutoManual mode)
         {
-            AutoManualMode = mode;
+            if (AutoManualMode != mode)
+                AutoManualMode = mode;
         }
     }
 }

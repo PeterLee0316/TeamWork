@@ -59,6 +59,8 @@ namespace LWDicer.Control
         public const int ERR_DATA_MANAGER_FAIL_LOAD_ALARM_INFO       = 19;
         public const int ERR_DATA_MANAGER_FAIL_SAVE_ALARM_HISTORY    = 20;
         public const int ERR_DATA_MANAGER_FAIL_LOAD_ALARM_HISTORY    = 21;
+        public const int ERR_DATA_MANAGER_FAIL_DELETE_ROOT_FOLDER    = 22;
+        public const int ERR_DATA_MANAGER_FAIL_DELETE_DEFAULT_MODEL  = 23;
 
         public const int ERR_DATA_MANAGER_IO_DATA_FILE_NOT_EXIST = 1;
         public const int ERR_DATA_MANAGER_IO_DATA_FILE_CLOSE_FAILURE = 2;
@@ -138,7 +140,7 @@ namespace LWDicer.Control
         {
             // Axis, Cylinder, Vacuum 등의 class array는 별도의 class에서 처리하도록 한다.
             //
-            public string ModelName = "Default";
+            public string ModelName = NAME_DEFAULT_MODEL;
 
             public ELanguage Language = ELanguage.KOREAN;
 
@@ -474,6 +476,10 @@ namespace LWDicer.Control
 
         }
 
+        // define root folder & default model name
+        public const string NAME_ROOT_FOLDER = "root";
+        public const string NAME_DEFAULT_MODEL = "default";
+
         /// <summary>
         /// Model의 계층구조를 만들기 위해서 Header만 따로 떼어서 관리.
         /// Folder인 경우엔 IsFolder = true & CModelData는 따로 만들지 않음.
@@ -482,19 +488,36 @@ namespace LWDicer.Control
         public class CModelHeader
         {
             // Header
-            public string Name        = "Default";   // unique primary key
-            public string Comment     = "Default Comment";
-            public string Parent      = string.Empty;  // if == "", root
+            public string Name;   // unique primary key
+            public string Comment;
+            public string Parent = NAME_ROOT_FOLDER; // if == "root", root
             public bool IsFolder = false; // true, if it is folder.
+            public int TreeLevel = -1; // models = -1, root = 0, 1'st generation = 1, 2'nd generation = 2.. 3,4,5
+
+            public void SetRootFolder()
+            {
+                Name = NAME_ROOT_FOLDER;
+                Comment = "Root Folder";
+                Parent = "";
+                IsFolder = true;
+                TreeLevel = 0;
+            }
+
+            public void SetDefaultModel()
+            {
+                Name = NAME_DEFAULT_MODEL;
+                Comment = "Default Model";
+                Parent = NAME_ROOT_FOLDER;
+                IsFolder = false;
+                TreeLevel = -1;
+            }
         }
 
         public class CModelData    // Model, Recipe
         {
             ///////////////////////////////////////////////////////////
             // Header
-            public string Name = "Default";   // unique primary key
-
-
+            public string Name = NAME_DEFAULT_MODEL;   // unique primary key
 
             ///////////////////////////////////////////////////////////
             // Function Parameter
@@ -575,7 +598,7 @@ namespace LWDicer.Control
 
         // Model Data
         public CModelData ModelData { get; private set; } = new CModelData();
-        public List<CModelHeader> ModelList { get; set; } = new List<CModelHeader>();
+        public List<CModelHeader> ModelHeaderList { get; set; } = new List<CModelHeader>();
 
         // Parameter Data
         public DEF_IO.CIOInfo[] InputArray { get; private set; } = new DEF_IO.CIOInfo[DEF_IO.MAX_IO_INPUT];
@@ -610,6 +633,7 @@ namespace LWDicer.Control
             LoadSystemData();
             LoadPositionData(true);
             LoadModelList();
+            MakeDefaultModel();
             ChangeModel(SystemData.ModelName);
         }
 
@@ -619,7 +643,7 @@ namespace LWDicer.Control
             if(false)
             {
                 CModelHeader header = new CModelHeader();
-                ModelList.Add(header);
+                ModelHeaderList.Add(header);
 
                 for (int i = 0; i < 3; i++)
                 {
@@ -628,7 +652,7 @@ namespace LWDicer.Control
                     header.Comment = $"Comment{i}";
                     header.Parent = $"Parent{i}";
                     header.IsFolder = false;
-                    ModelList.Add(header);
+                    ModelHeaderList.Add(header);
                 }
 
                 SystemData_Cylinder.CylinderTimer[0].SettlingTime1 = 1;
@@ -835,7 +859,7 @@ namespace LWDicer.Control
 
             // CSystemData
             if (loadSystem == true)
-                {
+            {
                 try
                 {
                     if (DBManager.SelectRow(DBInfo.DBConn, DBInfo.TableSystem, out output, new CDBColumn("name", nameof(CSystemData))) == true)
@@ -843,17 +867,23 @@ namespace LWDicer.Control
                         CSystemData data = JsonConvert.DeserializeObject<CSystemData>(output);
                         SystemData = ObjectExtensions.Copy(data);
                         WriteLog("success : load CSystemData.", ELogType.SYSTEM, ELogWType.LOAD);
+                    }
+                    else
+                    {
+                        // temporarily do not return error for continuous loading
+                        //return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_LOAD_SYSTEM_DATA);
+
+                        // save default
+                        SystemData = new CSystemData();
+                        int iResult = SaveSystemData(SystemData);
+                        if (iResult != SUCCESS) return iResult;
+                    }
                 }
-                    //else // temporarily do not return error for continuous loading
-                //{
-                //    return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_LOAD_SYSTEM_DATA);
-                //}
-            }
-            catch (Exception ex)
-            {
-                WriteExLog(ex.ToString());
-                return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_LOAD_SYSTEM_DATA);
-            }
+                catch (Exception ex)
+                {
+                    WriteExLog(ex.ToString());
+                    return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_LOAD_SYSTEM_DATA);
+                }
             }
 
             // CSystemData_Axis
@@ -1097,7 +1127,7 @@ namespace LWDicer.Control
         }
 
         /// <summary>
-        /// UI에서 public 으로 선언된 ModelList를 편집한 후에 (data 무결성은 UI에서 책임)
+        /// UI에서 public 으로 선언된 ModelHeaderList를 편집한 후에 (data 무결성은 UI에서 책임)
         /// 이 함수를 호출하여 ModelHeader List를 저장한다
         /// </summary>
         /// <returns></returns>
@@ -1118,7 +1148,7 @@ namespace LWDicer.Control
 
                 // 2. save model list
                 string output;
-                foreach (CModelHeader header in ModelList)
+                foreach (CModelHeader header in ModelHeaderList)
                 {
                     output = JsonConvert.SerializeObject(header);
                     query = $"INSERT INTO {DBInfo.TableModelHeader} VALUES ('{header.Name}', '{output}')";
@@ -1141,6 +1171,40 @@ namespace LWDicer.Control
             return SUCCESS;
         }
 
+        public int MakeDefaultModel()
+        {
+            int iResult;
+            bool bStatus = true;
+
+            // make root folder
+            if(IsModelHeaderExist(NAME_ROOT_FOLDER) == false)
+            {
+                CModelHeader header = new CModelHeader();
+                header.SetRootFolder();
+                ModelHeaderList.Add(header);
+                iResult = SaveModelHeaderList();
+                if (iResult != SUCCESS) return iResult;
+            }
+
+            // make default model
+            if (IsModelHeaderExist(NAME_DEFAULT_MODEL) == false)
+            {
+                CModelHeader header = new CModelHeader();
+                header.SetDefaultModel();
+                ModelHeaderList.Add(header);
+                iResult = SaveModelHeaderList();
+                if (iResult != SUCCESS) return iResult;
+            }
+            if (IsModelExist(NAME_DEFAULT_MODEL) == false)
+            {
+                CModelData model = new CModelData();
+                iResult = SaveModelData(model);
+                if (iResult != SUCCESS) return iResult;
+            }
+
+            return SUCCESS;
+        }
+
         public int LoadModelList()
         {
             try
@@ -1158,14 +1222,14 @@ namespace LWDicer.Control
                 }
 
                 // 2. delete list
-                ModelList.Clear();
+                ModelHeaderList.Clear();
 
                 // 3. get list
                 foreach (DataRow row in datatable.Rows)
                 {
                     string output = row["data"].ToString();
                     CModelHeader header = JsonConvert.DeserializeObject<CModelHeader>(output);
-                    ModelList.Add(header);
+                    ModelHeaderList.Add(header);
                 }
             }
             catch (Exception ex)
@@ -1178,9 +1242,10 @@ namespace LWDicer.Control
             return SUCCESS;
         }
 
-        bool IsModelExist(string name)
+        bool IsModelHeaderExist(string name)
         {
-            foreach(CModelHeader header in ModelList)
+            if (string.IsNullOrEmpty(name)) return false;
+            foreach (CModelHeader header in ModelHeaderList)
             {
                 if(header.Name == name)
                 {
@@ -1190,9 +1255,82 @@ namespace LWDicer.Control
             return false;
         }
 
+        bool IsModelExist(string name)
+        {
+            if (string.IsNullOrEmpty(name)) return false;
+            try
+            {
+                // 1. load model
+                string output;
+                if (DBManager.SelectRow(DBInfo.DBConn, DBInfo.TableModel, out output, new CDBColumn("name", name)) == true)
+                {
+                    return true;
+                }
+            }
+            catch (Exception ex)
+            {
+                WriteExLog(ex.ToString());
+                return false;
+            }
+
+            return false;
+        }
+
+        bool IsModelFolder(string name)
+        {
+            foreach (CModelHeader header in ModelHeaderList)
+            {
+                if (header.Name == name)
+                {
+                    return header.IsFolder;
+                }
+            }
+            return false;
+        }
+
+        int GetModelTreeLevel(string name)
+        {
+            foreach (CModelHeader header in ModelHeaderList)
+            {
+                if (header.Name == name)
+                {
+                    return header.TreeLevel;
+                }
+            }
+            return 0;
+        }
+
+        public int DeleteModelHeader(string name)
+        {
+            if (name == NAME_ROOT_FOLDER) return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_DELETE_ROOT_FOLDER);
+            if (name == NAME_DEFAULT_MODEL) return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_DELETE_DEFAULT_MODEL);
+            if (IsModelHeaderExist(name) == false) return SUCCESS;
+
+            int index = 0;
+            foreach (CModelHeader header in ModelHeaderList)
+            {
+                if (header.Name == name)
+                {
+                    ModelHeaderList.RemoveAt(index);
+                    break;
+                }
+                index++;
+            }
+
+            int iResult = SaveModelHeaderList();
+            if (iResult != SUCCESS) return iResult;
+
+            return SUCCESS;
+        }
+
         public int DeleteModelData(string name)
         {
-            //if (IsModelExist(name) == false) return SUCCESS;
+            if (name == NAME_DEFAULT_MODEL) return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_DELETE_DEFAULT_MODEL);
+            if (IsModelExist(name) == false) return SUCCESS;
+
+            // cannot delete current model
+            if (name == SystemData.ModelName) return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_DELETE_DEFAULT_MODEL);
+
             try
             {
                 if (DBManager.DeleteRow(DBInfo.DBConn, DBInfo.TableModel, "name", ModelData.Name, 
@@ -1239,13 +1377,13 @@ namespace LWDicer.Control
             return SUCCESS;
         }
 
-        public int ChangeModel(string name = "")
+        public int ChangeModel(string name)
         {
             int iResult;
             // 0. check exist
             if(string.IsNullOrEmpty(name))
             {
-                name = SystemData.ModelName;
+                return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_LOAD_MODEL_DATA);
             }
             if(IsModelExist(name) == false)
             {
@@ -1297,6 +1435,9 @@ namespace LWDicer.Control
             // 4. generate model position
             iResult = GenerateModelPosition();
             if (iResult != SUCCESS) return iResult;
+
+            // 5. make model folder
+            System.IO.Directory.CreateDirectory(DBInfo.ModelDir+$"\\{name}");
 
             return SUCCESS;
         }
