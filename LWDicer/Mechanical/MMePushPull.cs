@@ -53,8 +53,8 @@ namespace LWDicer.Control
         public enum EPushPullPos
         {
             NONE = -1,
-            LOAD = 0,
             WAIT,
+            LOAD,
             UNLOAD1,    // unload for coater1
             UNLOAD2,    // unload for coater2
             TEMP_UNLOAD,

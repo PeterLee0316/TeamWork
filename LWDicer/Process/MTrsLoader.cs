@@ -10,8 +10,8 @@ using static LWDicer.Control.DEF_Thread;
 using static LWDicer.Control.DEF_Thread.ETrsLoaderStep;
 using static LWDicer.Control.DEF_Thread.EThreadMessage;
 using static LWDicer.Control.DEF_Thread.EThreadChannel;
-using static LWDicer.Control.DEF_Thread.ERunMode;
-using static LWDicer.Control.DEF_Thread.ERunStatus;
+using static LWDicer.Control.DEF_Thread.EAutoRunMode;
+using static LWDicer.Control.DEF_Thread.EAutoRunStatus;
 using static LWDicer.Control.DEF_Error;
 using static LWDicer.Control.DEF_Common;
 
@@ -71,17 +71,17 @@ namespace LWDicer.Control
             return SUCCESS;
         }
 
-        public int Initialize()
+        public override int Initialize()
         {
             // Do initialize
             InitializeMsg();
             InitializeInterface();
 
             // Do Action
-            int iStep = (int)TRS_LOADER_WAITFOR_MESSAGE;
+            int iStep1 = (int)TRS_LOADER_WAITFOR_MESSAGE;
 
             // finally
-            ThreadStep = iStep;
+            SetStep1(iStep1);
 
             return SUCCESS;
         }
@@ -169,10 +169,10 @@ namespace LWDicer.Control
             return DEF_Error.SUCCESS;
         }
 
-        public override void ThreadProcess()
+        protected override void ThreadProcess()
         {
             int iResult = SUCCESS;
-            bool bState = false;
+            bool bStatus = false;
 
             while (true)
             {
@@ -202,13 +202,14 @@ namespace LWDicer.Control
                         break;
 
                     case STS_CYCLE_STOP: // Cycle Stop
-                        //if (ThreadStep == TRS_LOADER_MOVETO_LOAD)
+                        //if (ThreadStep1 == TRS_LOADER_MOVETO_LOAD)
                         break;
 
                     case STS_RUN: // auto run
                         //m_RefComp.ctrlLoader.SetAutoManual(AUTO);
 
-                        switch (ThreadStep)
+                        // Do Thread Step
+                        switch (ThreadStep1)
                         {
                             case (int)TRS_LOADER_WAITFOR_MESSAGE:
 
@@ -217,100 +218,100 @@ namespace LWDicer.Control
                                 // 1. response to loading cassette
                                 if (m_bAuto_RequestLoadCassette && m_bSupplyCassette)
                                 {
-                                    SetStep((int)TRS_LOADER_READY_LOAD_CASSETTE);
+                                    SetStep1((int)TRS_LOADER_READY_LOAD_CASSETTE);
                                     break;
                                 }
 
                                 // 2. response to unloading cassette
                                 if (m_bAuto_RequestUnloadCassette)
                                 {
-                                    SetStep((int)TRS_LOADER_READY_UNLOAD_CASSETTE);
+                                    SetStep1((int)TRS_LOADER_READY_UNLOAD_CASSETTE);
                                     break;
                                 }
 
                                 // 3. response to loading wafer
                                 if (m_bPushPull_RequestLoading)
                                 {
-                                    SetStep((int)TRS_LOADER_READY_LOADING_WAFER);
+                                    SetStep1((int)TRS_LOADER_READY_LOADING_WAFER);
                                     break;
                                 }
 
                                 // 4. response to unloading wafer
                                 if (m_bPushPull_RequestUnloading && m_bSupplyWafer)
                                 {
-                                    SetStep((int)TRS_LOADER_READY_UNLOADING_WAFER);
+                                    SetStep1((int)TRS_LOADER_READY_UNLOADING_WAFER);
                                     break;
                                 }
                                 break;
 
                             case (int)TRS_LOADER_READY_LOAD_CASSETTE:
 
-                                SetStep((int)TRS_LOADER_WAITFOR_CASSETTE_LOADED);
+                                SetStep1((int)TRS_LOADER_WAITFOR_CASSETTE_LOADED);
                                 break;
 
                             case (int)TRS_LOADER_WAITFOR_CASSETTE_LOADED:
 
-                                SetStep((int)TRS_LOADER_LOAD_CASSETTE);
+                                SetStep1((int)TRS_LOADER_LOAD_CASSETTE);
                                 break;
 
                             case (int)TRS_LOADER_LOAD_CASSETTE:
 
-                                SetStep((int)TRS_LOADER_CHECK_STACK_OF_CASSETTE);
+                                SetStep1((int)TRS_LOADER_CHECK_STACK_OF_CASSETTE);
                                 break;
 
                             case (int)TRS_LOADER_CHECK_STACK_OF_CASSETTE:
 
-                                SetStep((int)TRS_LOADER_WAITFOR_MESSAGE);
+                                SetStep1((int)TRS_LOADER_WAITFOR_MESSAGE);
                                 break;
 
                             case (int)TRS_LOADER_READY_UNLOAD_CASSETTE:
 
-                                SetStep((int)TRS_LOADER_WAITFOR_CASSETTE_REMOVED);
+                                SetStep1((int)TRS_LOADER_WAITFOR_CASSETTE_REMOVED);
                                 break;
 
                             case (int)TRS_LOADER_WAITFOR_CASSETTE_REMOVED:
 
-                                SetStep((int)TRS_LOADER_WAITFOR_MESSAGE);
+                                SetStep1((int)TRS_LOADER_WAITFOR_MESSAGE);
                                 break;
 
                             case (int)TRS_LOADER_READY_UNLOADING_WAFER:
 
-                                SetStep((int)TRS_LOADER_WAITFOR_PUSHPULL_START_LOADING);
+                                SetStep1((int)TRS_LOADER_WAITFOR_PUSHPULL_START_LOADING);
                                 break;
 
                             case (int)TRS_LOADER_WAITFOR_PUSHPULL_START_LOADING:
 
-                                SetStep((int)TRS_LOADER_UNLOAD_WAFER);
+                                SetStep1((int)TRS_LOADER_UNLOAD_WAFER);
                                 break;
 
                             case (int)TRS_LOADER_UNLOAD_WAFER:
 
-                                SetStep((int)TRS_LOADER_WAITFOR_PUSHPULL_COMPLETE_LOADING);
+                                SetStep1((int)TRS_LOADER_WAITFOR_PUSHPULL_COMPLETE_LOADING);
                                 break;
 
                             case (int)TRS_LOADER_WAITFOR_PUSHPULL_COMPLETE_LOADING:
 
-                                SetStep((int)TRS_LOADER_WAITFOR_MESSAGE);
+                                SetStep1((int)TRS_LOADER_WAITFOR_MESSAGE);
                                 break;
 
                             case (int)TRS_LOADER_READY_LOADING_WAFER:
 
-                                SetStep((int)TRS_LOADER_WAITFOR_PUSHPULL_START_UNLOADING);
+                                SetStep1((int)TRS_LOADER_WAITFOR_PUSHPULL_START_UNLOADING);
                                 break;
 
                             case (int)TRS_LOADER_WAITFOR_PUSHPULL_START_UNLOADING:
 
-                                SetStep((int)TRS_LOADER_LOAD_WAFER);
+                                SetStep1((int)TRS_LOADER_LOAD_WAFER);
                                 break;
 
                             case (int)TRS_LOADER_LOAD_WAFER:
 
-                                SetStep((int)TRS_LOADER_WAITFOR_PUSHPULL_COMPLETE_UNLOADING);
+                                SetStep1((int)TRS_LOADER_WAITFOR_PUSHPULL_COMPLETE_UNLOADING);
                                 break;
 
                             case (int)TRS_LOADER_WAITFOR_PUSHPULL_COMPLETE_UNLOADING:
 
-                                SetStep((int)TRS_LOADER_WAITFOR_MESSAGE);
+                                SetStep1((int)TRS_LOADER_WAITFOR_MESSAGE);
                                 break;
                                 
                             default:

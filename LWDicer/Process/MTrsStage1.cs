@@ -10,8 +10,8 @@ using static LWDicer.Control.DEF_Thread;
 using static LWDicer.Control.DEF_Thread.ETrsStage1Step;
 using static LWDicer.Control.DEF_Thread.EThreadMessage;
 using static LWDicer.Control.DEF_Thread.EThreadChannel;
-using static LWDicer.Control.DEF_Thread.ERunMode;
-using static LWDicer.Control.DEF_Thread.ERunStatus;
+using static LWDicer.Control.DEF_Thread.EAutoRunMode;
+using static LWDicer.Control.DEF_Thread.EAutoRunStatus;
 using static LWDicer.Control.DEF_Error;
 using static LWDicer.Control.DEF_Common;
 
@@ -19,8 +19,6 @@ namespace LWDicer.Control
 {
     public class CTrsStage1RefComp
     {
-        public MWorkerThread worker1;
-        public MWorkerThread worker3;
         public MCtrlStage1 ctrlStage1;
 
         public override string ToString()
@@ -65,23 +63,17 @@ namespace LWDicer.Control
             return SUCCESS;
         }
 
-        public void PrintRefComp()
-        {
-
-            Debug.WriteLine(m_RefComp);
-        }
-
-        public int Initialize()
+        public override int Initialize()
         {
             // Do initialize
             InitializeMsg();
             InitializeInterface();
 
             // Do Action
-            int iStep = (int)TRS_STAGE1_MOVETO_WAIT_POS;
+            int iStep1 = (int)TRS_STAGE1_MOVETO_WAIT_POS;
 
             // finally
-            ThreadStep = iStep;
+            SetStep1(iStep1);
 
             return SUCCESS;
         }
@@ -110,16 +102,6 @@ namespace LWDicer.Control
                     base.ProcessMsg(evnt);
                     break;
 
-                case (int)MSG_WORKBENCH_STAGE1_LOAD_REQUEST: // Workbench가 Stage1에게 Panel을 Load하라고 요청
-                    m_bWorkbench_LoadRequest = true;
-                    m_bWorkbench_LoadComplete = false;
-                    break;
-
-                case (int)MSG_WORKBENCH_STAGE1_LOAD_COMPLETE: // Workbench가 Stage1에게 Panel의 진공을 흡착했음을 알림
-                    m_bWorkbench_LoadRequest = false;
-                    m_bWorkbench_LoadComplete = true;
-                    break;
-
                 case (int)MSG_PANEL_SUPPLY_STOP:
                     m_bAuto_PanelSupplyStop = true;
                     break;
@@ -132,10 +114,10 @@ namespace LWDicer.Control
             return DEF_Error.SUCCESS;
         }
 
-        public override void ThreadProcess()
+        protected override void ThreadProcess()
         {
             int iResult = SUCCESS;
-            bool bState = false;
+            bool bStatus = false;
 
             while (true)
             {
@@ -165,13 +147,14 @@ namespace LWDicer.Control
                         break;
 
                     case STS_CYCLE_STOP: // Cycle Stop
-                        //if (ThreadStep == TRS_STAGE1_MOVETO_LOAD_POS)
+                        //if (ThreadStep1 == TRS_STAGE1_MOVETO_LOAD_POS)
                         break;
 
                     case STS_RUN: // auto run
                         //m_RefComp.ctrlStage1.SetAutoManual(AUTO);
 
-                        switch (ThreadStep)
+                        // Do Thread Step
+                        switch (ThreadStep1)
                         {
                             case (int)TRS_STAGE1_MOVETO_LOAD_POS:
                                 if (m_bAuto_PanelSupplyStop) break;
@@ -181,13 +164,13 @@ namespace LWDicer.Control
                                 iResult = m_RefComp.ctrlStage1.MoveToLoadPos();
                                 if (iResult != SUCCESS) { ReportAlarm(iResult); break; }
 
-                                //SetStep((int)TRS_STAGE1_WAIT_MOVETO_LOAD);
+                                //SetStep1((int)TRS_STAGE1_WAIT_MOVETO_LOAD);
                                 break;
 
                             //case (int)TRS_STAGE1_WAIT_MOVETO_LOAD:
                             //    if (m_bAuto_PanelSupplyStop) break;
 
-                            //    SetStep((int)TRS_STAGE1_LOAD_PANEL);
+                            //    SetStep1((int)TRS_STAGE1_LOAD_PANEL);
                             //    break;
 
                             //case (int)TRS_STAGE1_LOAD_PANEL: //2
@@ -195,7 +178,7 @@ namespace LWDicer.Control
                             //    PostMsg(TrsAutoManager, (int)MSG_PANEL_INPUT);
                             //    PostMsg(TrsAutoManager, (int)MSG_STAGE_LOADING_END);
 
-                            //    SetStep((int)TRS_STAGE1_CAMERA_MARK_POS);
+                            //    SetStep1((int)TRS_STAGE1_CAMERA_MARK_POS);
                             //    break;
 
                             //case (int)TRS_STAGE1_UNLOAD_COMPLETE: //7
@@ -206,7 +189,7 @@ namespace LWDicer.Control
 
                             //    //PostMsg(TrsWorkbench, MSG_STAGE1_WORKBENCH_SAFETY_POS);
 
-                            //    SetStep((int)TRS_STAGE1_MOVETO_LOAD_POS);
+                            //    SetStep1((int)TRS_STAGE1_MOVETO_LOAD_POS);
                             //    break;
 
                             default:

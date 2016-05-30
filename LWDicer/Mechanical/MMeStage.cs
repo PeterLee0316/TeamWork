@@ -61,8 +61,8 @@ namespace LWDicer.Control
         public enum EStagePos
         {
             NONE = -1,
-            LOAD = 0,
             WAIT,
+            LOAD,
             UNLOAD,
             EDGE_ALIGN_1,           // EDGE Detect "0"도 위치
             EDGE_ALIGN_2,           // EDGE Detect "90"도 위치

@@ -48,8 +48,9 @@ namespace LWDicer.Control
 
         public enum ESpinnerIndex
         {
-            COATER,
-            CLEANER,
+            SPINNER1,
+            SPINNER2,
+            MAX,
         }
 
         public enum ECoaterOp
@@ -202,7 +203,7 @@ namespace LWDicer.Control
 
         public MMeSpinner GetSpinner(ESpinnerIndex index)
         {
-            if (index == ESpinnerIndex.CLEANER)
+            if (index == ESpinnerIndex.SPINNER1)
             {
                 return m_RefComp.SpinCleaner;
             }
@@ -214,7 +215,7 @@ namespace LWDicer.Control
 
         public MMeSpinner GetOtherSpinner(ESpinnerIndex index)
         {
-            if (index == ESpinnerIndex.CLEANER)
+            if (index == ESpinnerIndex.SPINNER1)
             {
                 return m_RefComp.SpinCleaner;
             }
@@ -269,7 +270,7 @@ namespace LWDicer.Control
         {
             if (CheckSafetyInterlock(index) != SUCCESS)
             {
-                if(index == ESpinnerIndex.CLEANER)
+                if(index == ESpinnerIndex.SPINNER1)
                 {
                     WriteLog("Cleaner의 Rotate 가동 전 Cleaner Interlock", ELogType.Debug, ELogWType.Error);
                     return GenerateErrorCode(ERR_CTRL_CLEANER_CHECK_RUN_BEFORE_FAILED);
@@ -340,7 +341,7 @@ namespace LWDicer.Control
         {
             int nTime = 0, nRPM = 0, nSpinnerOP = -1;
 
-            if (index == ESpinnerIndex.CLEANER)
+            if (index == ESpinnerIndex.SPINNER1)
             {
                 nTime = m_Data.CleanerData.CleanSequence[nSeq].Time;            // Run Time
                 nRPM = m_Data.CleanerData.CleanSequence[nSeq].RPM;              // RPM
@@ -356,7 +357,7 @@ namespace LWDicer.Control
             // 1. Vacuum & Chuck Table Check
             if (CheckSafetyInterlock(index) != SUCCESS)
             {
-                if (index == ESpinnerIndex.CLEANER)
+                if (index == ESpinnerIndex.SPINNER1)
                 {
                     WriteLog("Cleaner의 Rotate 가동 전 Cleaner Interlock", ELogType.Debug, ELogWType.Error);
                     return GenerateErrorCode(ERR_CTRL_CLEANER_CHECK_RUN_BEFORE_FAILED);
@@ -379,7 +380,7 @@ namespace LWDicer.Control
 
         private int NozzeleOperation(ESpinnerIndex index, int nSpinnerOP)
         {
-            if(index == ESpinnerIndex.COATER)
+            if(index == ESpinnerIndex.SPINNER2)
             {
                 CoaterNozzleOP(index, nSpinnerOP);
             }
@@ -446,13 +447,13 @@ namespace LWDicer.Control
             int iResult = 0;
             bool bStatus = false;
 
-            if(OpMode != ERunMode.DRY_RUN)
+            if(AutoRunMode != EAutoRunMode.DRY_RUN)
             {
                 // 1. Wafer Vac Check
                 iResult = IsAbsorbed(index, out bStatus);
                 if (iResult != SUCCESS)
                 {
-                    if (index == ESpinnerIndex.CLEANER)
+                    if (index == ESpinnerIndex.SPINNER1)
                     {
                         WriteLog("Cleaner의 Rotate Chuck Table Vacuum Off.", ELogType.Debug, ELogWType.Error);
                         return iResult;
@@ -469,7 +470,7 @@ namespace LWDicer.Control
             iResult = IsTableDown(index, out bStatus);
             if (iResult != SUCCESS)
             {
-                if (index == ESpinnerIndex.CLEANER)
+                if (index == ESpinnerIndex.SPINNER1)
                 {
                     WriteLog("Cleaner의 Rotate Chuck Table Not Down Pos.", ELogType.Debug, ELogWType.Error);
                     return iResult;
@@ -508,15 +509,15 @@ namespace LWDicer.Control
             }
 
             // check object exist when auto run
-            if (AutoManual == EAutoManual.AUTO)
+            if (AutoManualMode == EAutoManual.AUTO)
             {
-                if (OpMode != ERunMode.DRY_RUN)
+                if (AutoRunMode != EAutoRunMode.DRY_RUN)
                 {
                     if (bDetected != bWaferTransfer)
                     {
                         if (bWaferTransfer)    // Wafer Exist
                         {
-                            if (index == ESpinnerIndex.CLEANER)
+                            if (index == ESpinnerIndex.SPINNER1)
                             {
                                 WriteLog("Cleaner의 Rotate Chuck Table Vacuum Check Fail. OBJECT NOT EXIST", ELogType.Debug, ELogWType.Error);
                                 return GenerateErrorCode(ERR_CTRL_CLEANER_OBJECT_NOT_EXIST);
@@ -529,7 +530,7 @@ namespace LWDicer.Control
                         }
                         else
                         {
-                            if (index == ESpinnerIndex.CLEANER)
+                            if (index == ESpinnerIndex.SPINNER1)
                             {
                                 WriteLog("Cleaner의 Rotate Chuck Table Vacuum Check Fail. OBJECT NOT EXIST", ELogType.Debug, ELogWType.Error);
                                 return GenerateErrorCode(ERR_CTRL_CLEANER_OBJECT_EXIST);
@@ -546,7 +547,7 @@ namespace LWDicer.Control
                 {
                     if (bDetected || bAbsorbed)
                     {
-                        if (index == ESpinnerIndex.CLEANER)
+                        if (index == ESpinnerIndex.SPINNER1)
                         {
                             WriteLog("Cleaner의 Rotate Chuck Table Vacuum Check Fail. OBJECT NOT EXIST", ELogType.Debug, ELogWType.Error);
                             return GenerateErrorCode(ERR_CTRL_CLEANER_OBJECT_EXIST);
@@ -573,7 +574,7 @@ namespace LWDicer.Control
         {
             if (CheckSafetyInterlock(index) != SUCCESS)
             {
-                if (index == ESpinnerIndex.CLEANER)
+                if (index == ESpinnerIndex.SPINNER1)
                 {
                     WriteLog("Cleaner의 Rotate 가동 전 Cleaner Interlock", ELogType.Debug, ELogWType.Error);
                     return GenerateErrorCode(ERR_CTRL_CLEANER_CHECK_RUN_BEFORE_FAILED);
@@ -594,7 +595,7 @@ namespace LWDicer.Control
         {
             if (CheckSafetyInterlock(index) != SUCCESS)
             {
-                if(index == ESpinnerIndex.CLEANER)
+                if(index == ESpinnerIndex.SPINNER1)
                 {
                     WriteLog("Cleaner의 Rotate 가동 전 Cleaner Interlock", ELogType.Debug, ELogWType.Error);
                     return GenerateErrorCode(ERR_CTRL_CLEANER_CHECK_RUN_BEFORE_FAILED);
@@ -627,7 +628,7 @@ namespace LWDicer.Control
 
             if(CheckSafetyInterlock(index) != SUCCESS)
             {
-                if(index == ESpinnerIndex.CLEANER)
+                if(index == ESpinnerIndex.SPINNER1)
                 {
                     WriteLog("Cleaner의 Start 이동 전 Cleaner Interlock", ELogType.Debug, ELogWType.Error);
                     return GenerateErrorCode(ERR_CTRL_CLEANER_CHECK_RUN_BEFORE_FAILED);
@@ -648,7 +649,7 @@ namespace LWDicer.Control
 
             if (CheckSafetyInterlock(index) != SUCCESS)
             {
-                if (index == ESpinnerIndex.CLEANER)
+                if (index == ESpinnerIndex.SPINNER1)
                 {
                     WriteLog("Cleaner의 Start 이동 전 Cleaner Interlock", ELogType.Debug, ELogWType.Error);
                     return GenerateErrorCode(ERR_CTRL_CLEANER_CHECK_RUN_BEFORE_FAILED);

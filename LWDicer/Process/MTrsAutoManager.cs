@@ -11,8 +11,8 @@ using static LWDicer.Control.DEF_LCNet;
 using static LWDicer.Control.DEF_Thread.EWindowMessage;
 using static LWDicer.Control.DEF_Thread.EThreadMessage;
 using static LWDicer.Control.DEF_Thread.EThreadChannel;
-using static LWDicer.Control.DEF_Thread.ERunMode;
-using static LWDicer.Control.DEF_Thread.ERunStatus;
+using static LWDicer.Control.DEF_Thread.EAutoRunMode;
+using static LWDicer.Control.DEF_Thread.EAutoRunStatus;
 using static LWDicer.Control.DEF_Error;
 using static LWDicer.Control.DEF_Common;
 using static LWDicer.Control.DEF_DataManager;
@@ -86,7 +86,7 @@ namespace LWDicer.Control
 
         // Thread가 해당 상태로 전환했는지 확인하기 위한 테이블
         //  Thread에게 명령을 내려 보내기전에 Clear 한다. 
-        ERunStatus[] m_ThreadStatusArray = new ERunStatus[MAX_THREAD_CHANNEL];
+        EAutoRunStatus[] m_ThreadStatusArray = new EAutoRunStatus[(int)EThreadChannel.MAX];
 
         // switch status
         bool m_bStartPressed;
@@ -209,10 +209,10 @@ namespace LWDicer.Control
             return SUCCESS;
         }
 
-        public override void ThreadProcess()
+        protected override void ThreadProcess()
         {
             int iResult = SUCCESS;
-            bool bState = false;
+            bool bStatus = false;
 
             // timer start if it is needed.
             
@@ -266,7 +266,9 @@ namespace LWDicer.Control
                         break;
 
                     case STS_RUN: // auto run
-                        switch (ThreadStep)
+
+                        // Do Thread Step
+                        switch (ThreadStep1)
                         {
                             default:
                                 break;
@@ -498,7 +500,7 @@ namespace LWDicer.Control
         }
 
 
-        void SetThreadStatus(int iIndex, ERunStatus status)
+        void SetThreadStatus(int iIndex, EAutoRunStatus status)
         {
             m_ThreadStatusArray[iIndex] = status;
         }
@@ -507,11 +509,11 @@ namespace LWDicer.Control
         {
             for (int iIndex = 1; iIndex <= GetThreadsCount(); iIndex++)
             {
-                m_ThreadStatusArray[iIndex] = ERunStatus.NONE;
+                m_ThreadStatusArray[iIndex] = EAutoRunStatus.NONE;
             }
         }
 
-        bool CheckAllThreadStatus(ERunStatus status)
+        bool CheckAllThreadStatus(EAutoRunStatus status)
         {
             for (int iIndex = 1; iIndex <= GetThreadsCount() ; iIndex++)
             {
@@ -526,7 +528,7 @@ namespace LWDicer.Control
             return true;
         }
 
-        void SetSystemStatus(ERunStatus status)
+        void SetSystemStatus(EAutoRunStatus status)
         {
             if (SetRunStatus(status) == false) return;
 
@@ -654,32 +656,32 @@ namespace LWDicer.Control
             m_LampBuzzerMode = mode;
         }
 
-        private void SetLampBuzzerMode(ERunStatus status)
+        private void SetLampBuzzerMode(EAutoRunStatus status)
         {
             switch (status)
             {
-                case ERunStatus.STS_MANUAL:
+                case EAutoRunStatus.STS_MANUAL:
                     m_LampBuzzerMode = ELampBuzzerMode.STEPSTOP;
                     break;
-                case ERunStatus.STS_RUN_READY:
+                case EAutoRunStatus.STS_RUN_READY:
                     m_LampBuzzerMode = ELampBuzzerMode.START;
                     break;
-                case ERunStatus.STS_RUN:
+                case EAutoRunStatus.STS_RUN:
                     m_LampBuzzerMode = ELampBuzzerMode.RUN;
                     break;
-                case ERunStatus.STS_STEP_STOP:
+                case EAutoRunStatus.STS_STEP_STOP:
                     m_LampBuzzerMode = ELampBuzzerMode.STEPSTOP;
                     break;
-                case ERunStatus.STS_ERROR_STOP:
+                case EAutoRunStatus.STS_ERROR_STOP:
                     m_LampBuzzerMode = ELampBuzzerMode.ERRORSTOP_ING;
                     break;
-                case ERunStatus.STS_CYCLE_STOP:
+                case EAutoRunStatus.STS_CYCLE_STOP:
                     m_LampBuzzerMode = ELampBuzzerMode.CYCLESTOP_ING;
                     break;
-                case ERunStatus.STS_OP_CALL:
+                case EAutoRunStatus.STS_OP_CALL:
                     m_LampBuzzerMode = ELampBuzzerMode.OP_CALL;
                     break;
-                case ERunStatus.STS_EXC_MATERIAL:
+                case EAutoRunStatus.STS_EXC_MATERIAL:
                     m_LampBuzzerMode = ELampBuzzerMode.PARTSEMPTY;
                     break;
             }

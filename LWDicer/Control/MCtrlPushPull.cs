@@ -152,9 +152,9 @@ namespace LWDicer.Control
             if (bCheckAutoRun == true) return SUCCESS;
 
             // check object exist when auto run
-            if (AutoManual == EAutoManual.AUTO)
+            if (AutoManualMode == EAutoManual.AUTO)
             {
-                if (OpMode != ERunMode.DRY_RUN) // not dry run
+                if (AutoRunMode != EAutoRunMode.DRY_RUN) // not dry run
                 {
                     if (bDetected != bPanelTransfer)
                     {
@@ -230,7 +230,7 @@ namespace LWDicer.Control
             return SUCCESS;
         }
 
-        public int CheckSafety_forMove(int nTargetPos, bool bPanelTransfer)
+        public int CheckSafety_forMoving(int nTargetPos, bool bPanelTransfer)
         {
             int iResult = SUCCESS;
 
@@ -272,7 +272,7 @@ namespace LWDicer.Control
             double[] dMoveOffset = new double[DEF_XYTZ];
             dMoveOffset[DEF_Y] = dYMoveOffset;
 
-            int iResult = CheckSafety_forMove((int)EPushPullPos.LOAD, bPanelTransfer);
+            int iResult = CheckSafety_forMoving((int)EPushPullPos.LOAD, bPanelTransfer);
             if (iResult != SUCCESS) return iResult;
 
             iResult = m_RefComp.PushPull.MovePushPullToLoadPos(true, false, dMoveOffset);
@@ -286,7 +286,7 @@ namespace LWDicer.Control
             double[] dMoveOffset = new double[DEF_XYTZ];
             dMoveOffset[DEF_Y] = dYMoveOffset;
 
-            int iResult = CheckSafety_forMove((int)EPushPullPos.WAIT, bPanelTransfer);
+            int iResult = CheckSafety_forMoving((int)EPushPullPos.WAIT, bPanelTransfer);
             if (iResult != SUCCESS) return iResult;
 
             iResult = m_RefComp.PushPull.MovePushPullToWaitPos(true, false, dMoveOffset);
@@ -300,7 +300,7 @@ namespace LWDicer.Control
             double[] dMoveOffset = new double[DEF_XYTZ];
             dMoveOffset[DEF_Y] = dYMoveOffset;
 
-            int iResult = CheckSafety_forMove((int)EPushPullPos.UNLOAD1, bPanelTransfer);
+            int iResult = CheckSafety_forMoving((int)EPushPullPos.UNLOAD1, bPanelTransfer);
             if (iResult != SUCCESS) return iResult;
 
             iResult = m_RefComp.PushPull.MovePushPullToUnload1Pos(true, false, dMoveOffset);
@@ -314,7 +314,7 @@ namespace LWDicer.Control
             double[] dMoveOffset = new double[DEF_XYTZ];
             dMoveOffset[DEF_Y] = dYMoveOffset;
 
-            int iResult = CheckSafety_forMove((int)EPushPullPos.UNLOAD2, bPanelTransfer);
+            int iResult = CheckSafety_forMoving((int)EPushPullPos.UNLOAD2, bPanelTransfer);
             if (iResult != SUCCESS) return iResult;
 
             iResult = m_RefComp.PushPull.MovePushPullToUnload1Pos(true, false, dMoveOffset);

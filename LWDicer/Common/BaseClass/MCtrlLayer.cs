@@ -16,23 +16,29 @@ namespace LWDicer.Control
     /// </summary>
     public abstract class MCtrlLayer : MObject
     {
-        protected EAutoManual AutoManual;    // EAutoManual : AUTO, MANUAL
-        protected ERunMode OpMode;            // ERunMode : NORMAL_RUN, PASS_RUN, DRY_RUN, REPAIR_RUN
+        public EAutoManual AutoManualMode { get; private set; } = EAutoManual.MANUAL; // AUTO, MANUAL
+        public EAutoRunMode AutoRunMode { get; private set; } = EAutoRunMode.NORMAL_RUN; // NORMAL_RUN, PASS_RUN, DRY_RUN, REPAIR_RUN
 
         public MCtrlLayer(CObjectInfo objInfo) : base(objInfo)
         {
-            AutoManual = EAutoManual.MANUAL;
-            OpMode = ERunMode.NORMAL_RUN;
         }
 
-        public void SetOperationMode(ERunMode mode)
+        public void SetOperationMode(EAutoRunMode mode)
         {
-            OpMode = mode;
+            if(AutoRunMode != mode)
+            AutoRunMode = mode;
         }
 
         public void SetAutoManual(EAutoManual mode)
         {
-            AutoManual = mode;
+            if(AutoManualMode != mode)
+            AutoManualMode = mode;
         }
+
+        public virtual int Initialize()
+        {
+            return SUCCESS;
+        }
+
     }
 }

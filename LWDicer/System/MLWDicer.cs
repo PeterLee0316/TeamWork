@@ -185,7 +185,6 @@ namespace LWDicer.Control
 
         public void TestFunction_BeforeInit()
         {
-
         }
 
         public void TestFunction_AfterInit()

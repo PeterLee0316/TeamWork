@@ -21,15 +21,17 @@ namespace LWDicer.Control
         public const int ERR_CTRLHANDLER_OBJECT_NOT_ABSORBED                           = 4;
         public const int ERR_CTRLHANDLER_OBJECT_EXIST                                  = 5;
         public const int ERR_CTRLHANDLER_OBJECT_NOT_EXIST                              = 6;
-        public const int ERR_CTRLHANDLER_CHECK_RUN_BEFORE_FAILED                       = 7;
-        public const int ERR_CTRLHANDLER_CYLINDER_TIMEOUT                              = 8;
-        public const int ERR_CTRLHANDLER_NOT_UP                                        = 9;
-        public const int ERR_CTRLHANDLER_CANNOT_DETECT_POSINFO                         = 10;
-        public const int ERR_CTRLHANDLER_PCB_DOOR_OPEN                                 = 11;
-        public const int ERR_CTRLHANDLER_UHANDLER_IN_DOWN_AND_LHANDLER_IN_SAME_XZONE   = 12;
-        public const int ERR_CTRLHANDLER_UHANDLER_NEED_DOWN_AND_LHANDLER_IN_SAME_XZONE = 13;
-        public const int ERR_CTRLHANDLER_LHANDLER_NEED_MOVE_AND_UHANDLER_IN_DOWN       = 14;
-        public const int ERR_CTRLHANDLER_XAX_POS_NOT_MATCH_ZONE                        = 15;
+        public const int ERR_CTRLHANDLER_OBJECT_NOT_EXIST_BUT_ABSORBED                 = 7;
+        public const int ERR_CTRLHANDLER_CHECK_RUN_BEFORE_FAILED                       = 8;
+        public const int ERR_CTRLHANDLER_CYLINDER_TIMEOUT                              = 9;
+        public const int ERR_CTRLHANDLER_NOT_UP                                        = 10;
+        public const int ERR_CTRLHANDLER_CANNOT_DETECT_POSINFO                         = 11;
+        public const int ERR_CTRLHANDLER_PCB_DOOR_OPEN                                 = 12;
+        public const int ERR_CTRLHANDLER_UHANDLER_IN_DOWN_AND_LHANDLER_IN_SAME_XZONE   = 13;
+        public const int ERR_CTRLHANDLER_UHANDLER_NEED_DOWN_AND_LHANDLER_IN_SAME_XZONE = 14;
+        public const int ERR_CTRLHANDLER_LHANDLER_NEED_MOVE_AND_UHANDLER_IN_DOWN       = 15;
+        public const int ERR_CTRLHANDLER_XAX_POS_NOT_MATCH_ZONE                        = 16;
+        public const int ERR_CTRLHANDLER_MAY_COLLIDE_WITH_OPPOSITE_HANDLER             = 17;
 
         /// <summary>
         /// Handler가 Upper/Lower 두 종류인데, 각각 Upper = LOAD, Lower = UNLOAD 용도로 사용
@@ -179,7 +181,7 @@ namespace LWDicer.Control
         /// <param name="bPanelTransfer">Object가 있어야 되는지</param>
         /// <param name="bCheckAutoRun">AutoRun모드에서 Error 발생 여부</param>
         /// <returns></returns>
-        private int CheckVacuum_forMove(EHandlerIndex index, bool bPanelTransfer, bool bCheckAutoRun = false)
+        private int CheckVacuum_forMoving(EHandlerIndex index, bool bPanelTransfer, bool bCheckAutoRun = false)
         {
             int iResult = SUCCESS;
             bool bDetected, bAbsorbed;
@@ -206,9 +208,9 @@ namespace LWDicer.Control
             if (bCheckAutoRun == true) return SUCCESS;
 
             // check object exist when auto run
-            if (AutoManual == EAutoManual.AUTO)
+            if (AutoManualMode == EAutoManual.AUTO)
             {
-                if (OpMode != ERunMode.DRY_RUN) // not dry run
+                if (AutoRunMode != EAutoRunMode.DRY_RUN) // not dry run
                 {
                     if (bDetected != bPanelTransfer)
                     {
@@ -237,6 +239,14 @@ namespace LWDicer.Control
             return SUCCESS;
         }
 
+        /// <summary>
+        /// Handler의 현재 위치를 확인해서, position info를 리턴한다.
+        /// </summary>
+        /// <param name="index"></param>
+        /// <param name="curPos">position info</param>
+        /// <param name="firstCheckPos">특정 position info부터 체크할 필요가 있을때</param>
+        /// <param name="bCheck_ZAxis">z축도 검사할건지</param>
+        /// <returns></returns>
         public int CheckHandlerPosition(EHandlerIndex index, out int curPos, 
             int firstCheckPos = (int)EHandlerPos.NONE, bool bCheck_ZAxis = true)
         {
@@ -269,15 +279,15 @@ namespace LWDicer.Control
         {
             switch (curPos)
             {
-                case (int)EHandlerPos.LOAD:
-                    if (curZone_X != (int)EHandlerXAxZone.LOAD)
-                        return GenerateErrorCode(ERR_CTRLHANDLER_XAX_POS_NOT_MATCH_ZONE);
-                    break;
                 case (int)EHandlerPos.WAIT:
                     if (curZone_X != (int)EHandlerXAxZone.WAIT)
                         return GenerateErrorCode(ERR_CTRLHANDLER_XAX_POS_NOT_MATCH_ZONE);
                     break;
-                case (int)EHandlerPos.UNLOAD:
+                case (int)EHandlerPos.PUSHPULL:
+                    if (curZone_X != (int)EHandlerXAxZone.LOAD)
+                        return GenerateErrorCode(ERR_CTRLHANDLER_XAX_POS_NOT_MATCH_ZONE);
+                    break;
+                case (int)EHandlerPos.STAGE:
                     if (curZone_X != (int)EHandlerXAxZone.UNLOAD)
                         return GenerateErrorCode(ERR_CTRLHANDLER_XAX_POS_NOT_MATCH_ZONE);
                     break;
@@ -285,33 +295,25 @@ namespace LWDicer.Control
             return SUCCESS;
         }
 
-        public int CheckSafety_forMove(EHandlerIndex index, int nTargetPos, bool bPanelTransfer, bool bMozeZAxis)
+        /// <summary>
+        /// Handler가 이동하기전에, 반대편 Handler가 충돌 전에 있는지를 확인하여 이동 가능 여부 확인
+        /// Opposite Handler가 충돌 위치에 있을 때, 자동 운전 모드에서는 error를 return 하지 않는다.
+        /// </summary>
+        /// <param name="index"></param>
+        /// <param name="nTargetPos"></param>
+        /// <param name="bMozeZAxis"></param>
+        /// <param name="capableMove"></param>
+        /// <returns></returns>
+        public int CheckOppositeHandler_forMoving(EHandlerIndex index, int nTargetPos, bool bMozeZAxis, out bool capableMove)
         {
             int iResult = SUCCESS;
+            capableMove = false;
 
             // 0. init
             int curPos = (int)EHandlerPos.NONE;
 
-            // 0.1 check vacuum
-            iResult = CheckVacuum_forMove(index, bPanelTransfer);
-            if (iResult != SUCCESS) return iResult;
-
-            // 1 check object exist
-            bool bObjectExist = false;
-            iResult = IsObjectDetected(index, out bObjectExist);
-            if (iResult != SUCCESS) return iResult;
-
-            if(bPanelTransfer == true && bObjectExist == false)
-            {
-                return GenerateErrorCode(ERR_CTRLHANDLER_OBJECT_NOT_EXIST);
-            }
-            else if(bPanelTransfer == false && bObjectExist == true)
-            {
-                return GenerateErrorCode(ERR_CTRLHANDLER_OBJECT_EXIST);
-            }
-
-            // 2 get current pos
-            // need to decide check position interlock..
+            // 1. get current pos through motor position
+            // need to decide check position interlock.. -> don't need because handler process is only one. don't need to concern multi process
             iResult = CheckHandlerPosition(index, out curPos, nTargetPos, false);
             if (iResult != SUCCESS) return iResult;
             if (curPos == (int)EHandlerPos.NONE)
@@ -323,7 +325,7 @@ namespace LWDicer.Control
             if (other_curPos == (int)EHandlerPos.NONE)
                 return GenerateErrorCode(ERR_CTRLHANDLER_CANNOT_DETECT_POSINFO);
 
-            // 3. get current zone
+            // 2. get current zone through detect sensor
             int curZone_X, other_curZone_X;
             iResult = GetHandler(index).GetHandlerAxZone(DEF_X, out curZone_X);
             if (iResult != SUCCESS) return iResult;
@@ -336,59 +338,67 @@ namespace LWDicer.Control
             iResult = GetOtherHandler(index).GetHandlerAxZone(DEF_Z, out other_curZone_Z);
             if (iResult != SUCCESS) return iResult;
 
-            // 4. check curPos match cur zone
+            // 3. check curPos matching with cur zone
             iResult = CheckXAxMatchZone(index, curPos, curZone_X);
             if (iResult != SUCCESS) return iResult;
 
             iResult = CheckXAxMatchZone(GetOtherIndex(index), other_curPos, other_curZone_X);
             if (iResult != SUCCESS) return iResult;
 
-            // 5. check interlock within handlers
+            // 4. check interlock opposite handler
             if (index == (int)EHandlerIndex.LOAD_UPPER) // Upper Handler
             {
-                // check cur position, because uhandler may collide when z axis is in down pos.
-                if(curZone_Z != (int)EHandlerZAxZone.SAFETY)
+                // Upper Handler가 Up이 아니면서, Lower Handler도 같은 구간에 있을때, Z축이 상승하면서 충돌.
+                if (curZone_Z != (int)EHandlerZAxZone.SAFETY)
                 {
-                    if(curZone_X == other_curZone_X)
+                    if (curZone_X == other_curZone_X)
                     {
-                        return GenerateErrorCode(ERR_CTRLHANDLER_UHANDLER_IN_DOWN_AND_LHANDLER_IN_SAME_XZONE);
+                        if(AutoManualMode == EAutoManual.MANUAL)
+                            return GenerateErrorCode(ERR_CTRLHANDLER_UHANDLER_IN_DOWN_AND_LHANDLER_IN_SAME_XZONE);
                     }
                 }
 
-                // check target position,
-                if(bMozeZAxis == true && 
-                    (nTargetPos == (int)EHandlerPos.LOAD || nTargetPos == (int)EHandlerPos.UNLOAD))
+                // Z축도 이동시킬 때, Lower Handler가 목표 구간과 같은 구간에 있다면, Z축이 다운하면서 충돌.
+                if (bMozeZAxis == true &&
+                    (nTargetPos == (int)EHandlerPos.PUSHPULL || nTargetPos == (int)EHandlerPos.STAGE))
                 {
-                    if(nTargetPos == other_curPos)
+                    if (nTargetPos == other_curPos)
                     {
-                        return GenerateErrorCode(ERR_CTRLHANDLER_UHANDLER_NEED_DOWN_AND_LHANDLER_IN_SAME_XZONE);
+                        if (AutoManualMode == EAutoManual.MANUAL)
+                            return GenerateErrorCode(ERR_CTRLHANDLER_UHANDLER_NEED_DOWN_AND_LHANDLER_IN_SAME_XZONE);
                     }
                 }
             }
             else // Lower Handler
             {
-                // check cur position, because uhandler may collide when z axis is in down pos.
+                // Upper Handler의 Z축이 Up 상태라면 Lower Handler가 이동해도 충돌 발생하지 않음.
+                // 즉, Upper Handler가 다운상태일때,
                 if (other_curZone_Z != (int)EHandlerZAxZone.SAFETY)
                 {
+                    // Upper Handler가 목표 구간과 같은 구간에 있다면, 충돌.
                     if (curZone_X == other_curZone_X)
                     {
-                        return GenerateErrorCode(ERR_CTRLHANDLER_UHANDLER_IN_DOWN_AND_LHANDLER_IN_SAME_XZONE);
+                        if (AutoManualMode == EAutoManual.MANUAL)
+                            return GenerateErrorCode(ERR_CTRLHANDLER_UHANDLER_IN_DOWN_AND_LHANDLER_IN_SAME_XZONE);
                     }
 
-                    // UHandler가 중간 지점 wait zone에서 down 되어있을경우, 못 움직인다.
-                    if(other_curZone_X == (int)EHandlerXAxZone.WAIT)
+                    // Upper Handler가 중간 지점 wait zone에서 down 되어있을경우, 충돌.
+                    if (other_curZone_X == (int)EHandlerXAxZone.WAIT)
                     {
-                        return GenerateErrorCode(ERR_CTRLHANDLER_LHANDLER_NEED_MOVE_AND_UHANDLER_IN_DOWN);
+                        if (AutoManualMode == EAutoManual.MANUAL)
+                            return GenerateErrorCode(ERR_CTRLHANDLER_LHANDLER_NEED_MOVE_AND_UHANDLER_IN_DOWN);
                     }
 
-                    // 목표 위치와 UHandler가 같은 지역일때
+                    // Upper Handler가 Lower Handler와 같은 구간에 있을때, 충돌.
                     if (nTargetPos == other_curPos)
                     {
-                        return GenerateErrorCode(ERR_CTRLHANDLER_LHANDLER_NEED_MOVE_AND_UHANDLER_IN_DOWN);
+                        if (AutoManualMode == EAutoManual.MANUAL)
+                            return GenerateErrorCode(ERR_CTRLHANDLER_LHANDLER_NEED_MOVE_AND_UHANDLER_IN_DOWN);
                     }
                 }
             }
 
+            capableMove = true;
             return SUCCESS;
         }
 
@@ -397,8 +407,13 @@ namespace LWDicer.Control
             double[] dMoveOffset = new double[DEF_XYTZ];
             dMoveOffset[DEF_Z] = dZMoveOffset;
 
-            int iResult = CheckSafety_forMove(index, (int)EHandlerPos.WAIT, bPanelTransfer, bMoveZ);
+            int iResult = CheckVacuum_forMoving(index, bPanelTransfer, bMoveZ);
             if (iResult != SUCCESS) return iResult;
+
+            bool capableMove;
+            iResult = CheckOppositeHandler_forMoving(index, (int)EHandlerPos.WAIT, bMoveZ, out capableMove);
+            if (iResult != SUCCESS) return iResult;
+            if (capableMove == false) return GenerateErrorCode(ERR_CTRLHANDLER_MAY_COLLIDE_WITH_OPPOSITE_HANDLER);
 
             iResult = GetHandler(index).MoveHandlerToWaitPos(bMoveXYT, bMoveZ, dMoveOffset);
             if (iResult != SUCCESS) return iResult;
@@ -406,33 +421,93 @@ namespace LWDicer.Control
             return SUCCESS;
         }
 
-        public int MoveToLoadPos(EHandlerIndex index, bool bPanelTransfer, bool bMoveXYT = true, bool bMoveZ = true, double dZMoveOffset = 0)
+        public int MoveToPushPullPos(EHandlerIndex index, bool bPanelTransfer, bool bMoveXYT = true, bool bMoveZ = true, double dZMoveOffset = 0)
         {
             double[] dMoveOffset = new double[DEF_XYTZ];
             dMoveOffset[DEF_Z] = dZMoveOffset;
 
-            int iResult = CheckSafety_forMove(index, (int)EHandlerPos.LOAD, bPanelTransfer, bMoveZ);
+            int iResult = CheckVacuum_forMoving(index, bPanelTransfer, bMoveZ);
             if (iResult != SUCCESS) return iResult;
 
-            iResult = GetHandler(index).MoveHandlerToLoadPos(bMoveXYT, bMoveZ, dMoveOffset);
+            bool capableMove;
+            iResult = CheckOppositeHandler_forMoving(index, (int)EHandlerPos.PUSHPULL, bMoveZ, out capableMove);
+            if (iResult != SUCCESS) return iResult;
+            if (capableMove == false) return GenerateErrorCode(ERR_CTRLHANDLER_MAY_COLLIDE_WITH_OPPOSITE_HANDLER);
+
+            iResult = GetHandler(index).MoveHandlerToPushPullPos(bMoveXYT, bMoveZ, dMoveOffset);
             if (iResult != SUCCESS) return iResult;
 
             return SUCCESS;
         }
 
-        public int MoveToUnloadPos(EHandlerIndex index, bool bPanelTransfer, bool bMoveXYT = true, bool bMoveZ = true, double dZMoveOffset = 0)
+        public int MoveToStagePos(EHandlerIndex index, bool bPanelTransfer, bool bMoveXYT = true, bool bMoveZ = true, double dZMoveOffset = 0)
         {
             double[] dMoveOffset = new double[DEF_XYTZ];
             dMoveOffset[DEF_Z] = dZMoveOffset;
 
-            int iResult = CheckSafety_forMove(index, (int)EHandlerPos.UNLOAD, bPanelTransfer, bMoveZ);
+            int iResult = CheckVacuum_forMoving(index, bPanelTransfer, bMoveZ);
             if (iResult != SUCCESS) return iResult;
 
-            iResult = GetHandler(index).MoveHandlerToUnloadPos(bMoveXYT, bMoveZ, dMoveOffset);
+            bool capableMove;
+            iResult = CheckOppositeHandler_forMoving(index, (int)EHandlerPos.STAGE, bMoveZ, out capableMove);
+            if (iResult != SUCCESS) return iResult;
+            if (capableMove == false) return GenerateErrorCode(ERR_CTRLHANDLER_MAY_COLLIDE_WITH_OPPOSITE_HANDLER);
+
+            iResult = GetHandler(index).MoveHandlerToStagePos(bMoveXYT, bMoveZ, dMoveOffset);
             if (iResult != SUCCESS) return iResult;
 
             return SUCCESS;
         }
 
+        public override int Initialize()
+        {
+            int iResult;
+            bool bStatus, bStatus1;
+            // UHandler
+            // 0. check vacuum
+            EHandlerIndex index = EHandlerIndex.LOAD_UPPER;
+            iResult = IsObjectDetected(index, out bStatus);
+            if (iResult != SUCCESS) return iResult;
+
+            if(bStatus)
+            {
+                iResult = Absorb(index);
+                if (iResult != SUCCESS) return iResult;
+            }
+            else
+            {
+                iResult = IsReleased(index, out bStatus1);
+                if (iResult != SUCCESS) return iResult;
+                if (bStatus == false) return GenerateErrorCode(ERR_CTRLHANDLER_OBJECT_NOT_EXIST_BUT_ABSORBED);
+            }
+
+            // move to wait pos
+            iResult = MoveToWaitPos(index, bStatus);
+            if (iResult != SUCCESS) return iResult;
+
+            // LHandler
+            // 0. check vacuum
+            index = EHandlerIndex.UNLOAD_LOWER;
+            iResult = IsObjectDetected(index, out bStatus);
+            if (iResult != SUCCESS) return iResult;
+
+            if (bStatus)
+            {
+                iResult = Absorb(index);
+                if (iResult != SUCCESS) return iResult;
+            }
+            else
+            {
+                iResult = IsReleased(index, out bStatus1);
+                if (iResult != SUCCESS) return iResult;
+                if (bStatus == false) return GenerateErrorCode(ERR_CTRLHANDLER_OBJECT_NOT_EXIST_BUT_ABSORBED);
+            }
+
+            // move to wait pos
+            iResult = MoveToWaitPos(index, bStatus);
+            if (iResult != SUCCESS) return iResult;
+
+            return SUCCESS;
+        }
     }
 }

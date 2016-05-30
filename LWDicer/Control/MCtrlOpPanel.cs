@@ -149,7 +149,7 @@ namespace LWDicer.Control
             return SUCCESS;
         }
 
-        public int Initialize()
+        public override int Initialize()
         {
             return SUCCESS;
         }
@@ -195,7 +195,7 @@ namespace LWDicer.Control
             //		return GenerateErrorCode(ERR_MNGOPPANEL_CP_TRIP);
 
             // 4. Tank 잔량 확인 
-            if (OpMode != ERunMode.DRY_RUN)
+            if (AutoRunMode != EAutoRunMode.DRY_RUN)
             {
                 iResult = CheckSiliconeRemain(out bEmptyAll, out bEmptyPart);
                 if (iResult != SUCCESS) return iResult;
@@ -286,7 +286,7 @@ namespace LWDicer.Control
             //		return GenerateErrorCode(ERR_MNGOPPANEL_CP_TRIP);
 
             // 4. Silicone 잔량 확인 
-            if (OpMode != ERunMode.DRY_RUN)
+            if (AutoRunMode != EAutoRunMode.DRY_RUN)
             {
                 iResult = CheckSiliconeRemain(out bEmptyAll, out bEmptyPart);
                 if (iResult != SUCCESS) return iResult;

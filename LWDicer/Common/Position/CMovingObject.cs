@@ -37,8 +37,8 @@ namespace LWDicer.Control
     public enum EUnitPos
     {
         NONE = -1,
-        LOAD = 0,
         WAIT,
+        LOAD,
         UNLOAD,
     }
 

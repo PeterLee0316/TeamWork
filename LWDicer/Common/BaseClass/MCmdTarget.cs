@@ -38,7 +38,7 @@ namespace LWDicer.Control
         /// </summary>
         /// <param name="evnt"></param>
         /// <returns></returns>
-        public int PostMsg(MEvent evnt)
+        protected int PostMsg(MEvent evnt)
         {
             lock(_Lock)
             {
@@ -46,7 +46,7 @@ namespace LWDicer.Control
 
                 m_eventQ.Enqueue(evnt);
             }
-
+            Sleep(ThreadSleepTime); // for processing multi thread
             return DEF_Error.SUCCESS;
         }
 
@@ -93,7 +93,7 @@ namespace LWDicer.Control
         /// event queue를 검사하여 새로운 event가 있으면 꺼내서 처리해준다.
         /// </summary>
         /// <param name="nMsgCount"></param>
-        public virtual void CheckMsg(int nMsgCount = 2)
+        protected virtual void CheckMsg(int nMsgCount = 2)
         {
             while (m_eventQ.Count > 0)
             {

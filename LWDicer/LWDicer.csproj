@@ -177,6 +177,8 @@
     <Compile Include="Mechanical\MMeStage.cs" />
     <Compile Include="Mechanical\MMeHandler.cs" />
     <Compile Include="Mechanical\MMePushPull.cs" />
+    <Compile Include="Process\MTrsHandler.cs" />
+    <Compile Include="Process\MTrsSpinner.cs" />
     <Compile Include="System\Define.cs" />
     <Compile Include="Common\ObjectExtensions.cs" />
     <Compile Include="Common\Position\MPosition.cs" />

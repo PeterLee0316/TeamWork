@@ -52,9 +52,11 @@ namespace LWDicer.Control
         public enum EHandlerPos
         {
             NONE = -1,
-            LOAD = 0,
             WAIT,
-            UNLOAD,
+            PUSHPULL,   // Load, Unload 대신에 명확하게 하기위해 PushPull, Stage Side 로 정의
+            STAGE,
+//             LOAD = 0,
+//             UNLOAD,
             //TURN,
             // Z Safety Up Position은 System Data 에서 관리하도록 한다.
             //LOAD_Z_UP,      // Loading Pos(x,y,t) + Z Up
@@ -541,7 +543,7 @@ namespace LWDicer.Control
             int iResult = SUCCESS;
 
             // Load Position으로 가는 것이면 Align Offset을 초기화해야 한다.
-            if (iPos == (int)EHandlerPos.LOAD)
+            if (iPos == (int)EHandlerPos.PUSHPULL)
             {
                 AxHandlerInfo.InitAlignOffset();
             }
@@ -605,16 +607,16 @@ namespace LWDicer.Control
             return SUCCESS;
         }
 
-        public int MoveHandlerToLoadPos(bool bMoveXYT = false, bool bMoveZ = false, double[] dMoveOffset = null)
+        public int MoveHandlerToPushPullPos(bool bMoveXYT = false, bool bMoveZ = false, double[] dMoveOffset = null)
         {
-            int iPos = (int)EHandlerPos.LOAD;
+            int iPos = (int)EHandlerPos.PUSHPULL;
 
             return MoveHandlerPos(iPos, bMoveXYT, bMoveZ, dMoveOffset);
         }
 
-        public int MoveHandlerToUnloadPos(bool bMoveXYT = false, bool bMoveZ = false, double[] dMoveOffset = null)
+        public int MoveHandlerToStagePos(bool bMoveXYT = false, bool bMoveZ = false, double[] dMoveOffset = null)
         {
-            int iPos = (int)EHandlerPos.UNLOAD;
+            int iPos = (int)EHandlerPos.STAGE;
 
             return MoveHandlerPos(iPos, bMoveXYT, bMoveZ, dMoveOffset);
         }
