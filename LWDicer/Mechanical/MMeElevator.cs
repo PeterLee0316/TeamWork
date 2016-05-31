@@ -141,6 +141,7 @@ namespace LWDicer.Control
             // Physical check zone sensor. 원점복귀 여부와 상관없이 축의 물리적인 위치를 체크 및
             // 안전위치 이동 check
             public CMAxisZoneCheck ElevatorZone;
+            public CPos_XYTZ ElevatorSafetyPos;
 
             public CMeElevatorData(CCassetteData CassetteData = null)
             {

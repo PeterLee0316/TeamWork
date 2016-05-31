@@ -1158,20 +1158,24 @@ namespace LWDicer.Control
             {
                 CMeElevatorData data;
                 m_MeElevator.GetData(out data);
-                data.ElevatorZone.SafetyPos = m_DataManager.SystemData.MAxSafetyPos.Elevator_Pos;
+                data.ElevatorSafetyPos = m_DataManager.SystemData.MAxSafetyPos.Elevator_Pos;
                 m_MeElevator.SetData(data);
             }
 
             // MeHandler
             {
+                // Load Upper Handler
                 CMeHandlerData data;
                 m_MeUpperHandler.GetData(out data);
-                data.HandlerZone.SafetyPos = m_DataManager.SystemData.MAxSafetyPos.UHandler_Pos;
+                data.HandlerSafetyPos = m_DataManager.SystemData.MAxSafetyPos.UHandler_Pos;
+
                 m_MeUpperHandler.SetData(data);
 
-                m_MeUpperHandler.GetData(out data);
-                data.HandlerZone.SafetyPos = m_DataManager.SystemData.MAxSafetyPos.UHandler_Pos;
-                m_MeUpperHandler.SetData(data);
+                // Unload Lower Handler
+                m_MeLowerHandler.GetData(out data);
+                data.HandlerSafetyPos = m_DataManager.SystemData.MAxSafetyPos.LHandler_Pos;
+
+                m_MeLowerHandler.SetData(data);
             }
 
             // Spinner
@@ -1182,6 +1186,16 @@ namespace LWDicer.Control
 
                 m_MeSpinner2.GetData(out data);
                 m_MeSpinner2.SetData(data);
+            }
+
+            // PushPull
+            {
+                CMePushPullData data;
+                m_MePushPull.GetData(out data);
+
+                data.PushPullSafetyPos = m_DataManager.SystemData.MAxSafetyPos.PushPull_Pos;
+                data.CenteringSafetyPos = m_DataManager.SystemData.MAxSafetyPos.Centering_Pos;
+                m_MePushPull.SetData(data);
             }
 
             //////////////////////////////////////////////////////////////////
@@ -1384,8 +1398,13 @@ namespace LWDicer.Control
 
             data.InDetectObject = iUHandler_PanelDetect;
 
-            data.HandlerZone.UseSafetyMove[DEF_Z] = true;
-            data.HandlerZone.Axis[DEF_Z].ZoneAddr[(int)EHandlerZAxZone.SAFETY] = 111; // need updete io address
+            data.HandlerZoneCheck.UseSafetyMove[DEF_X] = false;
+            //data.HandlerZoneCheck.Axis[DEF_X].ZoneAddr[(int)EHandlerXAxZone.WAIT] = iUHandler_XPos_Wait;
+            //data.HandlerZoneCheck.Axis[DEF_X].ZoneAddr[(int)EHandlerXAxZone.PUSHPULL] = iUHandler_XPos_PushPull;
+            //data.HandlerZoneCheck.Axis[DEF_X].ZoneAddr[(int)EHandlerXAxZone.STAGE] = iUHandler_XPos_Stage;
+            data.HandlerZoneCheck.UseSafetyMove[DEF_Z] = true;
+            //data.HandlerZoneCheck.Axis[DEF_Z].ZoneAddr[(int)EHandlerZAxZone.SAFETY] = iUHandler_ZPos_Safety;
+
 
             m_MeUpperHandler = new MMeHandler(objInfo, refComp, data);
         }
@@ -1404,8 +1423,13 @@ namespace LWDicer.Control
 
             data.InDetectObject = iUHandler_PanelDetect;
 
-            data.HandlerZone.UseSafetyMove[DEF_Z] = true;
-            data.HandlerZone.Axis[DEF_Z].ZoneAddr[(int)EHandlerZAxZone.SAFETY] = 111; // need updete io address
+            data.HandlerZoneCheck.UseSafetyMove[DEF_X] = false;
+            //data.HandlerZoneCheck.Axis[DEF_X].ZoneAddr[(int)EHandlerXAxZone.WAIT] = iLHandler_XPos_Wait;
+            //data.HandlerZoneCheck.Axis[DEF_X].ZoneAddr[(int)EHandlerXAxZone.PUSHPULL] = iLHandler_XPos_PushPull;
+            //data.HandlerZoneCheck.Axis[DEF_X].ZoneAddr[(int)EHandlerXAxZone.STAGE] = iLHandler_XPos_Stage;
+            data.HandlerZoneCheck.UseSafetyMove[DEF_Z] = true;
+            //data.HandlerZoneCheck.Axis[DEF_Z].ZoneAddr[(int)EHandlerZAxZone.SAFETY] = iLHandler_ZPos_Safety;
+
 
             m_MeLowerHandler = new MMeHandler(objInfo, refComp, data);
         }

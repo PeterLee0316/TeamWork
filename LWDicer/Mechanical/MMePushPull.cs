@@ -151,7 +151,10 @@ namespace LWDicer.Control
             // Physical check zone sensor. 원점복귀 여부와 상관없이 축의 물리적인 위치를 체크 및
             // 안전위치 이동 check
             public CMAxisZoneCheck PushPullZone;
+            public CPos_XYTZ PushPullSafetyPos;
+
             public CMAxisZoneCheck[] CenteringZone = new CMAxisZoneCheck[(int)ECenterIndex.MAX];
+            public CPos_XYTZ CenteringSafetyPos;
 
             public CMePushPullData(EPushPullType[] PushPullType = null)
             {
@@ -322,7 +325,7 @@ namespace LWDicer.Control
             if (iResult != SUCCESS) return iResult;
 
             // 0.1 trans to array
-            double[] dPos = new double[1] { m_Data.PushPullZone.SafetyPos.GetAt(axis) };
+            double[] dPos = new double[1] { m_Data.PushPullSafetyPos.GetAt(axis) };
 
             // 0.2 set use flag
             bool[] bTempFlag = new bool[1] { true };
@@ -771,7 +774,7 @@ namespace LWDicer.Control
             if (iResult != SUCCESS) return iResult;
 
             // 0.1 trans to array
-            double[] dPos = new double[1] { m_Data.CenteringZone[(int)index].SafetyPos.GetAt(axis) };
+            double[] dPos = new double[1] { m_Data.CenteringSafetyPos.GetAt(axis) };
 
             // 0.2 set use flag
             bool[] bTempFlag = new bool[1] { true };

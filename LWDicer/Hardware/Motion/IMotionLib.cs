@@ -556,11 +556,18 @@ namespace LWDicer.Control
             }
         }
 
+        /// <summary>
+        /// Physical check zone sensor. 
+        /// 원점복귀 여부와 상관없이 축의 물리적인 위치를 체크할 수 있는 io 센서 정의 및
+        /// X,Y,T,Z 각 축이 움직일 때, 안전 위치를 경유해서 이동해야하는지 설정한다.
+        /// </summary>
         public class CMAxisZoneCheck
         {
             public COneAxisZoneCheck[] Axis = new COneAxisZoneCheck[DEF_XYTZ];
             public bool[] UseSafetyMove = new bool[DEF_XYTZ];  // Axis Moving시에 SafetyPos으로 이동후에 목표위치로 이동하는 옵션
-            public CPos_XYTZ SafetyPos;    // 안전 위치. 비간섭 position
+
+            // 160531 by sjr. SafetyPos 은 굳이 이쪽 class에서 관리할 필요가 없을듯 하다. 연관성이 부족함.
+            //public CPos_XYTZ SafetyPos;    // 안전 위치. 비간섭 position
 
 
             public CMAxisZoneCheck(int XLength, int YLength, int TLength, int ZLength)

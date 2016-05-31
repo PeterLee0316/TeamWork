@@ -552,12 +552,11 @@ namespace LWDicer.Control
             int iPos = (int)ENozzlePos.START;
             bool bStatus = false;
 
-            // Chuck Table Up Interlock
-            if (IsChuckTableUp(out bStatus) == SUCCESS)
-            {
-                WriteLog("fail : ChuckTable Cylinder Up", ELogType.Debug, ELogWType.Error);
-                return GenerateErrorCode(ERR_SPINNER_TABLE_UP_INTERLOCK);
-            }
+            // check chuck table
+            int iResult = CheckChuckTableSafetyForNozzleMoving();
+            if (iResult != SUCCESS) return iResult;
+
+            // check other nozzle
 
             return MoveCleanNozzlePos(iPos, bMoveAllAxis, bMoveXYT, bMoveZ);
         }
@@ -986,6 +985,22 @@ namespace LWDicer.Control
 
             return SUCCESS;
         }
+
+        int CheckChuckTableSafetyForNozzleMoving()
+        {
+            bool bStatus;
+            int iResult = IsChuckTableDown(out bStatus);
+            if (iResult != SUCCESS) return iResult;
+
+            if (bStatus == false)
+            {
+                WriteLog("fail : ChuckTable Cylinder Up", ELogType.Debug, ELogWType.Error);
+                return GenerateErrorCode(ERR_SPINNER_TABLE_UP_INTERLOCK);
+            }
+
+            return SUCCESS;
+        }
+
         #endregion
     }
 }

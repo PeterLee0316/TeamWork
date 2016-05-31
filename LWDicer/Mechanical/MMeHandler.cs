@@ -67,9 +67,9 @@ namespace LWDicer.Control
         public enum EHandlerXAxZone
         {
             NONE = -1,
-            LOAD,
             WAIT,
-            UNLOAD,
+            PUSHPULL,
+            STAGE,
             MAX,
         }
 
@@ -132,9 +132,13 @@ namespace LWDicer.Control
             public int OutUpCylinder    = IO_ADDR_NOT_DEFINED;
             public int OutDownCylinder  = IO_ADDR_NOT_DEFINED;
 
-            // Physical check zone sensor. 원점복귀 여부와 상관없이 축의 물리적인 위치를 체크 및
-            // 안전위치 이동 check
-            public CMAxisZoneCheck HandlerZone;
+
+            // IO Address for manual check axis zone
+            public CMAxisZoneCheck HandlerZoneCheck = new CMAxisZoneCheck((int)EHandlerXAxZone.MAX, (int)EHandlerYAxZone.MAX,
+            (int)EHandlerTAxZone.MAX, (int)EHandlerZAxZone.MAX);
+
+            // Handler Safety Position
+            public CPos_XYTZ HandlerSafetyPos;
 
             public CMeHandlerData(EHandlerType[] HandlerType = null)
             {
@@ -149,9 +153,6 @@ namespace LWDicer.Control
                 {
                     Array.Copy(HandlerType, this.HandlerType, HandlerType.Length);
                 }
-
-                HandlerZone = new CMAxisZoneCheck((int)EHandlerXAxZone.MAX, (int)EHandlerYAxZone.MAX,
-                    (int)EHandlerTAxZone.MAX, (int)EHandlerZAxZone.MAX);
             }
         }
     }
@@ -588,7 +589,7 @@ namespace LWDicer.Control
             if (iResult != SUCCESS) return iResult;
 
             // 0.1 trans to array
-            double[] dPos = new double[1] { m_Data.HandlerZone.SafetyPos.GetAt(axis) };
+            double[] dPos = new double[1] { m_Data.HandlerSafetyPos.GetAt(axis) };
 
             // 0.2 set use flag
             bool[] bTempFlag = new bool[1] { true };
@@ -642,7 +643,7 @@ namespace LWDicer.Control
             }
 
             // 1. move Z Axis to Safety Up. but when need to move z axis only, don't need to move z to safety pos
-            if (m_RefComp.AxHandler.HasAxis(DEF_Z) == true && m_Data.HandlerZone.UseSafetyMove[DEF_Z] == true)
+            if (m_RefComp.AxHandler.HasAxis(DEF_Z) == true && m_Data.HandlerZoneCheck.UseSafetyMove[DEF_Z] == true)
             {
                 if (bMoveFlag[DEF_X] == false && bMoveFlag[DEF_Y] == false && bMoveFlag[DEF_T] == false
                 && bMoveFlag[DEF_Z] == true)
@@ -903,16 +904,21 @@ namespace LWDicer.Control
             return iResult;
         }
 
-        ////////////////////////////////////////////////////////////////////////
-
+        /// <summary>
+        /// Handler 해당 축의 모터 위치를 감지할 수 있는 io sensor가 있을 경우에 sensor를 검사해서
+        /// sensor on/off에 기반한 모터가 어느 zone에 있는지를 확인해준다.
+        /// </summary>
+        /// <param name="axis"></param>
+        /// <param name="curZone"></param>
+        /// <returns></returns>
         public int GetHandlerAxZone(int axis, out int curZone)
         {
             bool bStatus;
             curZone = (int)EHandlerXAxZone.NONE;
             for(int i = 0; i < (int)EHandlerXAxZone.MAX; i++)
             {
-                if (m_Data.HandlerZone.Axis[axis].ZoneAddr[i] == -1) continue; // if io is not allocated, continue;
-                int iResult = m_RefComp.IO.IsOn(m_Data.HandlerZone.Axis[axis].ZoneAddr[i], out bStatus);
+                if (m_Data.HandlerZoneCheck.Axis[axis].ZoneAddr[i] == -1) continue; // if io is not allocated, continue;
+                int iResult = m_RefComp.IO.IsOn(m_Data.HandlerZoneCheck.Axis[axis].ZoneAddr[i], out bStatus);
                 if (iResult != SUCCESS) return iResult;
                 if (bStatus == true)
                 {

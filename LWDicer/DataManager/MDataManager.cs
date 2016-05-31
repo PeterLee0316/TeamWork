@@ -134,6 +134,8 @@ namespace LWDicer.Control
             public CPos_XYTZ Elevator_Pos;
             public CPos_XYTZ UHandler_Pos;
             public CPos_XYTZ LHandler_Pos;
+            public CPos_XYTZ PushPull_Pos;
+            public CPos_XYTZ Centering_Pos; // PushPull Centering
         }
 
         public class CSystemData
@@ -144,7 +146,9 @@ namespace LWDicer.Control
 
             public ELanguage Language = ELanguage.KOREAN;
 
-            // SafetyPos for Axis Move
+            // SafetyPos for Axis Move 
+            // Teching 화면에서 Teaching하는 UnitPos.WaitPos 과는 다른 용도로, make engineer가 
+            // 시스템적으로 지정하는 절대 안전 위치
             public CSystemData_MAxSafetyPos MAxSafetyPos = new CSystemData_MAxSafetyPos();
 
             /////////////////////////////////////////////////////////
