@@ -764,12 +764,16 @@ namespace LWDicer.Control
 
             /////////////////////////////////////////////////////////////////////
             //  현재 Mark의 위치를 카메라의 중심으로 맞춘다.
-            // Mark 확인
+
+            // Mark 확인하여.. 영상의 중심으로 Mark를 맞춘다.
             do
             {
-                // 초기엔 0,0,0 값이 들어가지 때문에 별도이동하지 않음.
-                iResult = m_RefComp.Stage.MoveStageRelativeXYT(StageMovePos);
-                if (iResult != SUCCESS) return iResult;
+                // 처음에는 Stage를 움직이지 않는다 (Mark 위치를 모름)
+                if (iCount > 0)
+                {
+                    iResult = m_RefComp.Stage.MoveStageRelativeXYT(StageMovePos);
+                    if (iResult != SUCCESS) return iResult;
+                }
 
                 Sleep(500);
             
@@ -847,12 +851,13 @@ namespace LWDicer.Control
             //  +/- 2도를 회전 시킨다.
             //  Stage를 회전할때.. Mark가 FOV 밖에 나가므로, Stage를 이동하여 영상에 들어오게 한다.
 
-
             // Position A 위치 확인 ------------------------------
+            // Fov에 Mark가 들기 위해.. 이동할 Angle로 회전 변환하고, 이때 움직이는
+            // X,Y축 이동 거리를 반대로 이동한다. 
             TransPos = CoordinateRotate(CAM_POS_CALS_ROATE_ANGLE, m_Data.Vision.CameraPosition[FINE_CAM], StagePos);            
-            // Fov에 Mark가 들기 위해.. Stage 이동 거리 대입
-            StageMovePos.dX = TransPos.dX;
-            StageMovePos.dY = TransPos.dY;
+            // Stage 이동 거리 대입
+            StageMovePos.dX = -TransPos.dX;
+            StageMovePos.dY = -TransPos.dY;
             StageMovePos.dT = CAM_POS_CALS_ROATE_ANGLE;
             StageMovePos.dZ = 0.0;
 
@@ -867,10 +872,12 @@ namespace LWDicer.Control
             if (iResult != SUCCESS) return iResult;
 
             // Position B 위치 확인 ------------------------------
+            // Fov에 Mark가 들기 위해.. 이동할 Angle로 회전 변환하고, 이때 움직이는
+            // X,Y축 이동 거리를 반대로 이동한다. 
             TransPos = CoordinateRotate(-CAM_POS_CALS_ROATE_ANGLE, m_Data.Vision.CameraPosition[FINE_CAM], StagePos);
-            // Fov에 Mark가 들기 위해.. Stage 이동 거리 대입
-            StageMovePos.dX = TransPos.dX;
-            StageMovePos.dY = TransPos.dY;
+            // Stage 이동 거리 대입
+            StageMovePos.dX = -TransPos.dX;
+            StageMovePos.dY = -TransPos.dY;
             StageMovePos.dT = -CAM_POS_CALS_ROATE_ANGLE;
             StageMovePos.dZ = 0.0;
 
@@ -929,6 +936,7 @@ namespace LWDicer.Control
 
             return SUCCESS;
         }
+
         #endregion
 
 
@@ -969,9 +977,9 @@ namespace LWDicer.Control
 
             // UI MSG Display
             // ???
-
             
             return m_RefComp.Stage.MoveStageToThetaAlignPosA();
+
         }
         /// <summary>
         /// Theta Align에서 PosA위치만 확인하고, PosB위치로 이동 명령
@@ -997,6 +1005,7 @@ namespace LWDicer.Control
             // ThetaAlignPosB로 이동한다.
             return m_RefComp.Stage.MoveStageToThetaAlignPosB();
         }
+
         /// <summary>
         /// GUI에서 실행할  ThetaAlign 명령
         /// 위치 상태에 따라서 A,B 위치를 번갈아 이동함.

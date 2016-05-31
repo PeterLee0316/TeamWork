@@ -412,7 +412,6 @@ namespace LWDicer.Control
         public int SetData(CACSData source)
         {
             m_Data = ObjectExtensions.Copy(source);
-            //InstalledAxisNo = m_Data.CpuNo * MP_AXIS_PER_CPU;
 
             return SUCCESS;
         }
@@ -570,7 +569,8 @@ namespace LWDicer.Control
                     case (int)EACS_Axis.STAGE1_T:
                         axisList[index++] = (int)EACS_Axis.STAGE1_T;
                         break;
-                        
+
+                    default:
                         break;
                 }
             }
