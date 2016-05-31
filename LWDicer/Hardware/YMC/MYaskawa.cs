@@ -549,6 +549,7 @@ namespace LWDicer.Control
 #endif
         }
 
+        #region Common : Manage Data, Position, Use Flag and Initialize
         public int SetData(CYaskawaData source)
         {
             m_Data = ObjectExtensions.Copy(source);
@@ -568,6 +569,7 @@ namespace LWDicer.Control
         {
             m_Data.SetMPMotionData(motions);
         }
+        #endregion
 
         public int ThreadStart()
         {

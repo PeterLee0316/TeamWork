@@ -186,6 +186,7 @@ namespace LWDicer.Control
             }
         }
 
+        #region Common : Manage Data, Position, Use Flag and Initialize
         public int SetData(CMeHandlerData source)
         {
             m_Data = ObjectExtensions.Copy(source);
@@ -231,7 +232,9 @@ namespace LWDicer.Control
 
             return SUCCESS;
         }
+        #endregion
 
+        #region Cylinder, Vacuum, Detect Object
         public int Absorb(bool bSkipSensor = false)
         {
             bool bStatus;
@@ -397,10 +400,183 @@ namespace LWDicer.Control
             return SUCCESS;
         }
 
+        public int IsObjectDetected(out bool bStatus)
+        {
+            int iResult = m_RefComp.IO.IsOn(m_Data.InDetectObject, out bStatus);
+            if (iResult != SUCCESS) return iResult;
+
+            return SUCCESS;
+        }
+
+        ////////////////////////////////////////////////////////////////////////
+        /// DEF_Z
+        public int IsCylUp(out bool bStatus, int index = DEF_Z)
+        {
+            int iResult;
+            bStatus = false;
+
+            if (UseMainCylFlag[index] == true)
+            {
+                if(m_RefComp.MainCyl[index] == null) return GenerateErrorCode(ERR_HANDLER_UNABLE_TO_USE_CYL);
+                iResult = m_RefComp.MainCyl[index].IsUp(out bStatus);
+                if (iResult != SUCCESS) return iResult;
+                if (bStatus == false) return SUCCESS;
+            }
+            if (UseSubCylFlag[index] == true)
+            {
+                if (m_RefComp.SubCyl[index] == null) return GenerateErrorCode(ERR_HANDLER_UNABLE_TO_USE_CYL);
+                iResult = m_RefComp.SubCyl[index].IsUp(out bStatus);
+                if (iResult != SUCCESS) return iResult;
+                if (bStatus == false) return SUCCESS;
+            }
+
+            return SUCCESS;
+        }
+
+        public int IsCylDown(out bool bStatus, int index = DEF_Z)
+        {
+            int iResult;
+            bStatus = false;
+
+            if (UseMainCylFlag[index] == true)
+            {
+                if (m_RefComp.MainCyl[index] == null) return GenerateErrorCode(ERR_HANDLER_UNABLE_TO_USE_CYL);
+                iResult = m_RefComp.MainCyl[index].IsDown(out bStatus);
+                if (iResult != SUCCESS) return iResult;
+                if (bStatus == false) return SUCCESS;
+            }
+            if (UseSubCylFlag[index] == true)
+            {
+                if (m_RefComp.SubCyl[index] == null) return GenerateErrorCode(ERR_HANDLER_UNABLE_TO_USE_CYL);
+                iResult = m_RefComp.SubCyl[index].IsDown(out bStatus);
+                if (iResult != SUCCESS) return iResult;
+                if (bStatus == false) return SUCCESS;
+            }
+
+            return SUCCESS;
+        }
+
+        public int CylUp(bool bSkipSensor = false, int index = DEF_Z)
+        {
+            // check for safety
+            int iResult = CheckForHandlerCylMove();
+            if (iResult != SUCCESS) return iResult;
+
+            if (UseMainCylFlag[index] == true)
+            {
+                if (m_RefComp.MainCyl[index] == null) return GenerateErrorCode(ERR_HANDLER_UNABLE_TO_USE_CYL);
+                iResult = m_RefComp.MainCyl[index].Up(bSkipSensor);
+                if (iResult != SUCCESS) return iResult;
+            }
+            if (UseSubCylFlag[index] == true)
+            {
+                if (m_RefComp.SubCyl[index] == null) return GenerateErrorCode(ERR_HANDLER_UNABLE_TO_USE_CYL);
+                iResult = m_RefComp.SubCyl[index].Up(bSkipSensor);
+                if (iResult != SUCCESS) return iResult;
+            }
+
+            return SUCCESS;
+        }
+
+        public int CylDown(bool bSkipSensor = false, int index = DEF_Z)
+        {
+            // check for safety
+            int iResult = CheckForHandlerCylMove();
+            if (iResult != SUCCESS) return iResult;
+
+            if (UseMainCylFlag[index] == true)
+            {
+                if (m_RefComp.MainCyl[index] == null) return GenerateErrorCode(ERR_HANDLER_UNABLE_TO_USE_CYL);
+                iResult = m_RefComp.MainCyl[index].Down(bSkipSensor);
+                if (iResult != SUCCESS) return iResult;
+            }
+            if (UseSubCylFlag[index] == true)
+            {
+                if (m_RefComp.SubCyl[index] == null) return GenerateErrorCode(ERR_HANDLER_UNABLE_TO_USE_CYL);
+                iResult = m_RefComp.SubCyl[index].Down(bSkipSensor);
+                if (iResult != SUCCESS) return iResult;
+            }
+            
+            return SUCCESS;
+        }
+
+        ////////////////////////////////////////////////////////////////////////
+        /// DEF_X
+        public int IsCylUpstr(out bool bStatus)
+        {
+            bStatus = false;
+            return IsCylUp(out bStatus, DEF_X);
+        }
+
+        public int IsCylDownstr(out bool bStatus)
+        {
+            bStatus = false;
+            return IsCylDown(out bStatus, DEF_X);
+        }
+
+        public int CylUpstr(bool bSkipSensor = false)
+        {
+            return CylUp(bSkipSensor, DEF_X);
+        }
+
+        public int CylDownstr(bool bSkipSensor = false)
+        {
+            return CylDown(bSkipSensor, DEF_X);
+        }
+
+        ////////////////////////////////////////////////////////////////////////
+        /// DEF_Y
+        public int IsCylFront(out bool bStatus)
+        {
+            bStatus = false;
+            return IsCylUp(out bStatus, DEF_Y);
+        }
+
+        public int IsCylBack(out bool bStatus)
+        {
+            bStatus = false;
+            return IsCylDown(out bStatus, DEF_Y);
+        }
+
+        public int CylFront(bool bSkipSensor = false)
+        {
+            return CylUp(bSkipSensor, DEF_Y);
+        }
+
+        public int CylBack(bool bSkipSensor = false)
+        {
+            return CylDown(bSkipSensor, DEF_Y);
+        }
+
+        ////////////////////////////////////////////////////////////////////////
+        /// DEF_T
+        public int IsCylCW(out bool bStatus)
+        {
+            bStatus = false;
+            return IsCylUp(out bStatus, DEF_T);
+        }
+
+        public int IsCylCCW(out bool bStatus)
+        {
+            bStatus = false;
+            return IsCylDown(out bStatus, DEF_T);
+        }
+
+        public int CylCW(bool bSkipSensor = false)
+        {
+            return CylUp(bSkipSensor, DEF_T);
+        }
+
+        public int CylCCW(bool bSkipSensor = false)
+        {
+            return CylDown(bSkipSensor, DEF_T);
+        }
+        #endregion
+
         public int GetHandlerCurPos(out CPos_XYTZ pos)
         {
-            m_RefComp.AxHandler.GetCurPos(out pos);
-            return SUCCESS;
+            int iResult = m_RefComp.AxHandler.GetCurPos(out pos);
+            return iResult;
         }
 
         public int MoveHandlerToSafetyPos(int axis)
@@ -408,7 +584,7 @@ namespace LWDicer.Control
             int iResult = SUCCESS;
             string str;
             // 0. safety check
-            iResult = CheckForHandlerAxisMove();
+            iResult = CheckSafetyForHandlerAxisMove();
             if (iResult != SUCCESS) return iResult;
 
             // 0.1 trans to array
@@ -446,7 +622,7 @@ namespace LWDicer.Control
             int iResult = SUCCESS;
 
             // safety check
-            iResult = CheckForHandlerAxisMove();
+            iResult = CheckSafetyForHandlerAxisMove();
             if (iResult != SUCCESS) return iResult;
 
             // assume move all axis if bMoveFlag is null
@@ -727,178 +903,6 @@ namespace LWDicer.Control
             return iResult;
         }
 
-        public int IsObjectDetected(out bool bStatus)
-        {
-            int iResult = m_RefComp.IO.IsOn(m_Data.InDetectObject, out bStatus);
-            if (iResult != SUCCESS) return iResult;
-
-            return SUCCESS;
-        }
-
-        ////////////////////////////////////////////////////////////////////////
-        /// DEF_Z
-        public int IsCylUp(out bool bStatus, int index = DEF_Z)
-        {
-            int iResult;
-            bStatus = false;
-
-            if (UseMainCylFlag[index] == true)
-            {
-                if(m_RefComp.MainCyl[index] == null) return GenerateErrorCode(ERR_HANDLER_UNABLE_TO_USE_CYL);
-                iResult = m_RefComp.MainCyl[index].IsUp(out bStatus);
-                if (iResult != SUCCESS) return iResult;
-                if (bStatus == false) return SUCCESS;
-            }
-            if (UseSubCylFlag[index] == true)
-            {
-                if (m_RefComp.SubCyl[index] == null) return GenerateErrorCode(ERR_HANDLER_UNABLE_TO_USE_CYL);
-                iResult = m_RefComp.SubCyl[index].IsUp(out bStatus);
-                if (iResult != SUCCESS) return iResult;
-                if (bStatus == false) return SUCCESS;
-            }
-
-            return SUCCESS;
-        }
-
-        public int IsCylDown(out bool bStatus, int index = DEF_Z)
-        {
-            int iResult;
-            bStatus = false;
-
-            if (UseMainCylFlag[index] == true)
-            {
-                if (m_RefComp.MainCyl[index] == null) return GenerateErrorCode(ERR_HANDLER_UNABLE_TO_USE_CYL);
-                iResult = m_RefComp.MainCyl[index].IsDown(out bStatus);
-                if (iResult != SUCCESS) return iResult;
-                if (bStatus == false) return SUCCESS;
-            }
-            if (UseSubCylFlag[index] == true)
-            {
-                if (m_RefComp.SubCyl[index] == null) return GenerateErrorCode(ERR_HANDLER_UNABLE_TO_USE_CYL);
-                iResult = m_RefComp.SubCyl[index].IsDown(out bStatus);
-                if (iResult != SUCCESS) return iResult;
-                if (bStatus == false) return SUCCESS;
-            }
-
-            return SUCCESS;
-        }
-
-        public int CylUp(bool bSkipSensor = false, int index = DEF_Z)
-        {
-            // check for safety
-            int iResult = CheckForHandlerCylMove();
-            if (iResult != SUCCESS) return iResult;
-
-            if (UseMainCylFlag[index] == true)
-            {
-                if (m_RefComp.MainCyl[index] == null) return GenerateErrorCode(ERR_HANDLER_UNABLE_TO_USE_CYL);
-                iResult = m_RefComp.MainCyl[index].Up(bSkipSensor);
-                if (iResult != SUCCESS) return iResult;
-            }
-            if (UseSubCylFlag[index] == true)
-            {
-                if (m_RefComp.SubCyl[index] == null) return GenerateErrorCode(ERR_HANDLER_UNABLE_TO_USE_CYL);
-                iResult = m_RefComp.SubCyl[index].Up(bSkipSensor);
-                if (iResult != SUCCESS) return iResult;
-            }
-
-            return SUCCESS;
-        }
-
-        public int CylDown(bool bSkipSensor = false, int index = DEF_Z)
-        {
-            // check for safety
-            int iResult = CheckForHandlerCylMove();
-            if (iResult != SUCCESS) return iResult;
-
-            if (UseMainCylFlag[index] == true)
-            {
-                if (m_RefComp.MainCyl[index] == null) return GenerateErrorCode(ERR_HANDLER_UNABLE_TO_USE_CYL);
-                iResult = m_RefComp.MainCyl[index].Down(bSkipSensor);
-                if (iResult != SUCCESS) return iResult;
-            }
-            if (UseSubCylFlag[index] == true)
-            {
-                if (m_RefComp.SubCyl[index] == null) return GenerateErrorCode(ERR_HANDLER_UNABLE_TO_USE_CYL);
-                iResult = m_RefComp.SubCyl[index].Down(bSkipSensor);
-                if (iResult != SUCCESS) return iResult;
-            }
-            
-            return SUCCESS;
-        }
-
-        ////////////////////////////////////////////////////////////////////////
-        /// DEF_X
-        public int IsCylUpstr(out bool bStatus)
-        {
-            bStatus = false;
-            return IsCylUp(out bStatus, DEF_X);
-        }
-
-        public int IsCylDownstr(out bool bStatus)
-        {
-            bStatus = false;
-            return IsCylDown(out bStatus, DEF_X);
-        }
-
-        public int CylUpstr(bool bSkipSensor = false)
-        {
-            return CylUp(bSkipSensor, DEF_X);
-        }
-
-        public int CylDownstr(bool bSkipSensor = false)
-        {
-            return CylDown(bSkipSensor, DEF_X);
-        }
-
-        ////////////////////////////////////////////////////////////////////////
-        /// DEF_Y
-        public int IsCylFront(out bool bStatus)
-        {
-            bStatus = false;
-            return IsCylUp(out bStatus, DEF_Y);
-        }
-
-        public int IsCylBack(out bool bStatus)
-        {
-            bStatus = false;
-            return IsCylDown(out bStatus, DEF_Y);
-        }
-
-        public int CylFront(bool bSkipSensor = false)
-        {
-            return CylUp(bSkipSensor, DEF_Y);
-        }
-
-        public int CylBack(bool bSkipSensor = false)
-        {
-            return CylDown(bSkipSensor, DEF_Y);
-        }
-
-        ////////////////////////////////////////////////////////////////////////
-        /// DEF_T
-        public int IsCylCW(out bool bStatus)
-        {
-            bStatus = false;
-            return IsCylUp(out bStatus, DEF_T);
-        }
-
-        public int IsCylCCW(out bool bStatus)
-        {
-            bStatus = false;
-            return IsCylDown(out bStatus, DEF_T);
-        }
-
-        public int CylCW(bool bSkipSensor = false)
-        {
-            return CylUp(bSkipSensor, DEF_T);
-        }
-
-        public int CylCCW(bool bSkipSensor = false)
-        {
-            return CylDown(bSkipSensor, DEF_T);
-        }
-
         ////////////////////////////////////////////////////////////////////////
 
         public int GetHandlerAxZone(int axis, out int curZone)
@@ -1007,7 +1011,7 @@ namespace LWDicer.Control
             return SUCCESS;
         }
 
-        public int CheckForHandlerAxisMove(bool bCheckVacuum = true)
+        public int CheckSafetyForHandlerAxisMove(bool bCheckVacuum = true)
         {
             bool bStatus;
 

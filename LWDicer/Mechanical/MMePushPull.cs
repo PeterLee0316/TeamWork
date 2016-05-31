@@ -206,6 +206,7 @@ namespace LWDicer.Control
             }
         }
 
+        #region Common : Manage Data, Position, Use Flag and Initialize
         public int SetData(CMePushPullData source)
         {
             m_Data = ObjectExtensions.Copy(source);
@@ -219,8 +220,6 @@ namespace LWDicer.Control
             return SUCCESS;
         }
 
-        //////////////////////////////////////////////////////////////////////////////
-        // Common Function
         public int SetPushPullPosition(CUnitPos FixedPos, CUnitPos ModelPos, CUnitPos OffsetPos)
         {
             AxPushPullInfo.SetPosition(FixedPos, ModelPos, OffsetPos);
@@ -232,6 +231,7 @@ namespace LWDicer.Control
             AxCenteringInfo[(int)index].SetPosition(FixedPos, ModelPos, OffsetPos);
             return SUCCESS;
         }
+        #endregion
 
         public int GripLock(bool bSkipSensor = false)
         {
@@ -309,8 +309,8 @@ namespace LWDicer.Control
         // PushPull
         public int GetPushPullCurPos(out CPos_XYTZ pos)
         {
-            m_RefComp.AxPushPull.GetCurPos(out pos);
-            return SUCCESS;
+            int iResult = m_RefComp.AxPushPull.GetCurPos(out pos);
+            return iResult;
         }
 
         public int MovePushPullToSafetyPos(int axis)
@@ -758,8 +758,8 @@ namespace LWDicer.Control
 
         public int GetCenteringCurPos(ECenterIndex index, out CPos_XYTZ pos)
         {
-            GetCenteringAx(index).GetCurPos(out pos);
-            return SUCCESS;
+            int iResult = GetCenteringAx(index).GetCurPos(out pos);
+            return iResult;
         }
 
         public int MoveCenteringToSafetyPos(ECenterIndex index, int axis)

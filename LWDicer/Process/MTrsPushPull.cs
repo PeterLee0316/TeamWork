@@ -74,6 +74,7 @@ namespace LWDicer.Control
             SetData(data);
         }
 
+        #region Common : Manage Data, Position, Use Flag and Initialize
         public int SetData(CTrsPushPullData source)
         {
             m_Data = ObjectExtensions.Copy(source);
@@ -140,6 +141,7 @@ namespace LWDicer.Control
 
             return SUCCESS;
         }
+        #endregion
 
         protected override int ProcessMsg(MEvent evnt)
         {
@@ -308,7 +310,7 @@ namespace LWDicer.Control
                 switch (RunStatus)
                 {
                     case STS_MANUAL: // Manual Mode
-                        //m_RefComp.ctrlPushPull.SetAutoManual(MANUAL);
+                        //m_RefComp.ctrlPushPull.SetAutoManual(EAutoManual.MANUAL);
                         break;
 
                     case STS_ERROR_STOP: // Error Stop
@@ -325,7 +327,7 @@ namespace LWDicer.Control
                         break;
 
                     case STS_RUN: // auto run
-                        //m_RefComp.ctrlPushPull.SetAutoManual(AUTO);
+                        //m_RefComp.ctrlPushPull.SetAutoManual(EAutoManual.AUTO);
 
                         // Do Thread Step
                         switch (ThreadStep1)

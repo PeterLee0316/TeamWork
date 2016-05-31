@@ -629,8 +629,7 @@ namespace LWDicer.Control
             return;
         }
 
-        /***************** Common Implementation *************************************/
-
+        #region Common : Manage Data, Position, Use Flag and Initialize
         public int AssignComponents(IIO pIO)
         {
             Assert(pIO != null);
@@ -653,6 +652,7 @@ namespace LWDicer.Control
 
             return SUCCESS;
         }
+        #endregion
 
     }
 }

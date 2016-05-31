@@ -36,6 +36,7 @@ namespace LWDicer.Control
             SetData(data);
         }
 
+        #region Common : Manage Data, Position, Use Flag and Initialize
         public int SetData(CCtrlLoaderData source)
         {
             m_Data = ObjectExtensions.Copy(source);
@@ -49,12 +50,15 @@ namespace LWDicer.Control
 
             return SUCCESS;
         }
+        #endregion
 
+        #region Cylinder, Vacuum, Detect Object
         public int IsPanelDetected(out bool bState)
         {
             bState = false;
             return SUCCESS;
         }
+        #endregion
 
         public int MoveToWaitPos(bool bObsolite)
         {

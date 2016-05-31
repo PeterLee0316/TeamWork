@@ -100,8 +100,7 @@ namespace LWDicer.Control
 
         public class CCtrlSpinnerRefComp
         {
-            public MMeSpinner SpinCleaner;
-            public MMeSpinner SpinCoater;
+            public MMeSpinner Spinner;
 
             public CCtrlSpinnerRefComp()
             {
@@ -189,6 +188,7 @@ namespace LWDicer.Control
             SetData(data);
         }
 
+        #region Common : Manage Data, Position, Use Flag and Initialize
         public int SetData(CSpinnerData source)
         {
             m_Data = ObjectExtensions.Copy(source);
@@ -200,40 +200,18 @@ namespace LWDicer.Control
             target = ObjectExtensions.Copy(m_Data);
             return SUCCESS;
         }
+        #endregion
 
-        public MMeSpinner GetSpinner(ESpinnerIndex index)
-        {
-            if (index == ESpinnerIndex.SPINNER1)
-            {
-                return m_RefComp.SpinCleaner;
-            }
-            else
-            {
-                return m_RefComp.SpinCoater;
-            }
-        }
-
-        public MMeSpinner GetOtherSpinner(ESpinnerIndex index)
-        {
-            if (index == ESpinnerIndex.SPINNER1)
-            {
-                return m_RefComp.SpinCleaner;
-            }
-            else
-            {
-                return m_RefComp.SpinCoater;
-            }
-        }
-
+        #region Cylinder, Vacuum, Detect Object
         public int Absorb(ESpinnerIndex index, bool bSkipSensor = false)
         {
-            int iResult = GetSpinner(index).Absorb(bSkipSensor);
+            int iResult = m_RefComp.Spinner.Absorb(bSkipSensor);
             return iResult;
         }
 
         public int Release(ESpinnerIndex index, bool bSkipSensor = false)
         {
-            int iResult = GetSpinner(index).Release(bSkipSensor);
+            int iResult = m_RefComp.Spinner.Release(bSkipSensor);
             return iResult;
         }
 
@@ -241,7 +219,7 @@ namespace LWDicer.Control
         {
             bStatus = false;
 
-            int iResult = GetSpinner(index).IsObjectDetected(out bStatus);
+            int iResult = m_RefComp.Spinner.IsObjectDetected(out bStatus);
             if (iResult != SUCCESS) return iResult;
             
             return SUCCESS;
@@ -251,7 +229,7 @@ namespace LWDicer.Control
         {
             bStatus = false;
 
-            int iResult = GetSpinner(index).IsAbsorbed(out bStatus);
+            int iResult = m_RefComp.Spinner.IsAbsorbed(out bStatus);
             if (iResult != SUCCESS) return iResult;
 
             return SUCCESS;
@@ -260,7 +238,7 @@ namespace LWDicer.Control
         public int IsReleased(ESpinnerIndex index, out bool bStatus)
         {
             bStatus = false;
-            int iResult = GetSpinner(index).IsReleased(out bStatus);
+            int iResult = m_RefComp.Spinner.IsReleased(out bStatus);
             if (iResult != SUCCESS) return iResult;
 
             return SUCCESS;
@@ -282,14 +260,14 @@ namespace LWDicer.Control
                 }
             }
 
-            int iResult = GetSpinner(index).CylUp();
+            int iResult = m_RefComp.Spinner.ChuckTableUp();
             return SUCCESS;
         }
 
 
         public int TableDown(ESpinnerIndex index, bool bSkipSensor)
         {
-            int iResult = GetSpinner(index).CylDown();
+            int iResult = m_RefComp.Spinner.ChuckTableDown();
             return SUCCESS;
         }
 
@@ -297,7 +275,7 @@ namespace LWDicer.Control
         public int IsTableUp(ESpinnerIndex index, out bool bStatus)
         {
             bStatus = false;
-            int iResult = GetSpinner(index).IsCylUp(out bStatus);
+            int iResult = m_RefComp.Spinner.IsChuckTableUp(out bStatus);
             if (iResult != SUCCESS) return iResult;
 
             return SUCCESS;
@@ -306,16 +284,16 @@ namespace LWDicer.Control
         public int IsTableDown(ESpinnerIndex index, out bool bStatus)
         {
             bStatus = false;
-            int iResult = GetSpinner(index).IsCylDown(out bStatus);
+            int iResult = m_RefComp.Spinner.IsChuckTableDown(out bStatus);
             if (iResult != SUCCESS) return iResult;
 
             return SUCCESS;
         }
-
+        #endregion
 
         public int IsRotateLoadPos(ESpinnerIndex index)
         {
-            int iResult = GetSpinner(index).CheckForRotateLoad();
+            int iResult = m_RefComp.Spinner.CheckForRotateLoad();
             if (iResult != SUCCESS) return iResult;
 
             return SUCCESS;
@@ -323,7 +301,7 @@ namespace LWDicer.Control
 
         public int IsCoatNozzleSafetyPos(ESpinnerIndex index)
         {
-            int iResult = GetSpinner(index).CheckForCoatNozzleSafety();
+            int iResult = m_RefComp.Spinner.CheckForCoatNozzleSafety();
             if (iResult != SUCCESS) return iResult;
 
             return SUCCESS;
@@ -331,7 +309,7 @@ namespace LWDicer.Control
 
         public int IsCleanNozzleSafetyPos(ESpinnerIndex index)
         {
-            int iResult = GetSpinner(index).CheckForCleanNozzleSafety();
+            int iResult = m_RefComp.Spinner.CheckForCleanNozzleSafety();
             if (iResult != SUCCESS) return iResult;
 
             return SUCCESS;
@@ -567,7 +545,7 @@ namespace LWDicer.Control
 
         public int RotateStop(ESpinnerIndex index)
         {
-            return GetSpinner(index).RotateStop();
+            return m_RefComp.Spinner.RotateStop();
         }
 
         public int StartRotateCW(ESpinnerIndex index, int nRPM)
@@ -586,7 +564,7 @@ namespace LWDicer.Control
                 }
             }
 
-            GetSpinner(index).StartRotateCW(nRPM);
+            m_RefComp.Spinner.StartRotateCW(nRPM);
 
             return SUCCESS;
         }
@@ -607,19 +585,19 @@ namespace LWDicer.Control
                 }
             }
 
-            GetSpinner(index).StartRotateCCW(nRPM);
+            m_RefComp.Spinner.StartRotateCCW(nRPM);
 
             return SUCCESS;
         }
 
         public int MoveRotateToLoadPos(ESpinnerIndex index, bool bMoveAllAxis, bool bMoveXYT, bool bMoveZ)
         {
-            return GetSpinner(index).MoveRotateToLoadPos(bMoveAllAxis, bMoveXYT, bMoveZ);
+            return m_RefComp.Spinner.MoveRotateToLoadPos(bMoveAllAxis, bMoveXYT, bMoveZ);
         }
 
         public int MoveCoatNozzleToSafetyPos(ESpinnerIndex index, bool bMoveAllAxis, bool bMoveXYT, bool bMoveZ)
         {
-            return GetSpinner(index).MoveCoatNozzletoSafetyPos(bMoveAllAxis, bMoveXYT, bMoveZ);
+            return m_RefComp.Spinner.MoveCoatNozzletoSafetyPos(bMoveAllAxis, bMoveXYT, bMoveZ);
         }
 
         public int MoveCoatNozzleToStartPos(ESpinnerIndex index, bool bMoveAllAxis, bool bMoveXYT, bool bMoveZ)
@@ -640,7 +618,7 @@ namespace LWDicer.Control
                 }
             }
 
-            return GetSpinner(index).MoveCoatNozzleToStartPos(bMoveAllAxis, bMoveXYT, bMoveZ);
+            return m_RefComp.Spinner.MoveCoatNozzleToStartPos(bMoveAllAxis, bMoveXYT, bMoveZ);
         }
 
         public int MoveCoatNozzleToEndPos(ESpinnerIndex index, bool bMoveAllAxis, bool bMoveXYT, bool bMoveZ)
@@ -661,7 +639,7 @@ namespace LWDicer.Control
                 }
             }
 
-            return GetSpinner(index).MoveCoatNozzleToEndPos(bMoveAllAxis, bMoveXYT, bMoveZ);
+            return m_RefComp.Spinner.MoveCoatNozzleToEndPos(bMoveAllAxis, bMoveXYT, bMoveZ);
         }
     }
 }

@@ -163,6 +163,7 @@ namespace LWDicer.Control
 
         }
 
+        #region Common : Manage Data, Position, Use Flag and Initialize
         public int SetData(CTrsAutoManagerData source)
         {
             m_Data = ObjectExtensions.Copy(source);
@@ -208,6 +209,7 @@ namespace LWDicer.Control
 
             return SUCCESS;
         }
+        #endregion
 
         protected override void ThreadProcess()
         {

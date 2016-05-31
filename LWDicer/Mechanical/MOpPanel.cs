@@ -301,6 +301,7 @@ namespace LWDicer.Control
             m_bJogZOld = false;
         }
 
+        #region Common : Manage Data, Position, Use Flag and Initialize
         public int SetData(COpPanelData source)
         {
             m_Data = ObjectExtensions.Copy(source);
@@ -363,6 +364,7 @@ namespace LWDicer.Control
                 sJogTable.MotionArray[i].m_ZKey.AxisIndex = DEF_OPPANEL_NO_JOGKEY;
             }
         }
+        #endregion
 
         /// <summary>
         /// Pitch 단위의 Jog 이동 동작을 수행한다.

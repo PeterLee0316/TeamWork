@@ -60,6 +60,7 @@ namespace LWDicer.Control
             }
         }
 
+        #region Common : Manage Data, Position, Use Flag and Initialize
         public int SetData(CMultiAxesYMCData source)
         {
             m_Data = ObjectExtensions.Copy(source);
@@ -73,6 +74,7 @@ namespace LWDicer.Control
 
             return SUCCESS;
         }
+        #endregion
 
         public int SetStop(int iCoordID = DEF_ALL_COORDINATE, short siType = DEF_STOP)
         {

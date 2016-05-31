@@ -36,6 +36,21 @@ namespace LWDicer.Control
             Dispose();
         }
 
+        #region Common : Manage Data, Position, Use Flag and Initialize
+        public int SetData(CSocketClientData source)
+        {
+            m_Data = ObjectExtensions.Copy(source);
+            return SUCCESS;
+        }
+
+        public int GetData(out CSocketClientData target)
+        {
+            target = ObjectExtensions.Copy(m_Data);
+
+            return SUCCESS;
+        }
+        #endregion
+
         public void Dispose()
         {
             DisconnectServer();
@@ -212,19 +227,6 @@ namespace LWDicer.Control
             m_ReceivedQueue.Clear();
         }
 
-        /***************** Common Implementation *************************************/
 
-        public int SetData(CSocketClientData source)
-        {
-            m_Data = ObjectExtensions.Copy(source);
-            return SUCCESS;
-        }
-
-        public int GetData(out CSocketClientData target)
-        {
-            target = ObjectExtensions.Copy(m_Data);
-
-            return SUCCESS;
-        }
     }
 }

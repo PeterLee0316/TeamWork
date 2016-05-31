@@ -64,6 +64,7 @@ namespace LWDicer.Control
             SetData(data);
         }
 
+        #region Common : Manage Data, Position, Use Flag and Initialize
         public int SetData(CCtrlPushPullData source)
         {
             m_Data = ObjectExtensions.Copy(source);
@@ -76,7 +77,9 @@ namespace LWDicer.Control
 
             return SUCCESS;
         }
+        #endregion
 
+        #region Cylinder, Vacuum, Detect Object
         public int GripLock(bool bSkipSensor = false)
         {
             int iResult = m_RefComp.PushPull.GripLock(bSkipSensor);
@@ -124,6 +127,7 @@ namespace LWDicer.Control
 
             return SUCCESS;
         }
+        #endregion
 
         private int CheckLock_forMove(bool bPanelTransfer, bool bCheckAutoRun = false)
         {

@@ -418,8 +418,8 @@ namespace LWDicer.Control
 
         public int GetStageCurPos(out CPos_XYTZ pos)
         {
-            m_RefComp.AxStage.GetCurPos(out pos);
-            return SUCCESS;
+            int iResult = m_RefComp.AxStage.GetCurPos(out pos);
+            return iResult;
         }
 
         public int MoveStageToSafetyPos(int axis)

@@ -85,6 +85,7 @@ namespace LWDicer.Control
             SetData(data);
         }
 
+        #region Common : Manage Data, Position, Use Flag and Initialize
         public int SetData(CCtrlHandlerData source)
         {
             m_Data = ObjectExtensions.Copy(source);
@@ -134,7 +135,9 @@ namespace LWDicer.Control
                 return EHandlerIndex.LOAD_UPPER;
             }
         }
+        #endregion
 
+        #region Cylinder, Vacuum, Detect Object
         public int IsObjectDetected(EHandlerIndex index, out bool bStatus)
         {
             bStatus = false;
@@ -173,6 +176,7 @@ namespace LWDicer.Control
             int iResult = GetHandler(index).Absorb(bSkipSensor);
             return iResult;
         }
+        #endregion
 
         /// <summary>
         /// Handler의 이동전에 Run Mode에 따라서, Object가 감지되어야 하는지 및 진공 여부를 체크

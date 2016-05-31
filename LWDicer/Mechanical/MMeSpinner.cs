@@ -68,11 +68,11 @@ namespace LWDicer.Control
         public enum EChuckVacuum
         {
             SELF,           // 자체 발생 진공
-            FACTORY,        // 공장 진공
-            OBJECT,         // LCD 패널의 PCB같은 걸 집는 용도
-            EXTRA_SELF,     // 
-            EXTRA_FACTORY,  //
-            EXTRA_OBJECT,   //
+            //FACTORY,        // 공장 진공
+            //OBJECT,         // LCD 패널의 PCB같은 걸 집는 용도
+            //EXTRA_SELF,     // 
+            //EXTRA_FACTORY,  //
+            //EXTRA_OBJECT,   //
             MAX,
         }
 
@@ -81,7 +81,7 @@ namespace LWDicer.Control
             public IIO IO;
 
             // Cylinder
-            public ICylinder UpDownCyl;
+            public ICylinder ChuckTableUDCyl;
             public ICylinder CleanNozzleSolCyl;
             public ICylinder CoatNozzleSolCyl;
 
@@ -106,9 +106,9 @@ namespace LWDicer.Control
 
             public CMeSpinnerData(ESpinnerType[] SpinnerType = null)
             {
-                if(SpinnerType == null)
+                if (SpinnerType == null)
                 {
-                    for(int i=0;i<this.SpinnerType.Length;i++)
+                    for (int i = 0; i < this.SpinnerType.Length; i++)
                     {
                         this.SpinnerType[i] = ESpinnerType.NONE;
                     }
@@ -147,9 +147,10 @@ namespace LWDicer.Control
             {
                 UseVccFlag[i] = false;
             }
-                        
+
         }
 
+        #region Common : Manage Data, Position, Use Flag and Initialize
         public int SetData(CMeSpinnerData source)
         {
             m_Data = ObjectExtensions.Copy(source);
@@ -189,23 +190,331 @@ namespace LWDicer.Control
             }
             return SUCCESS;
         }
+        #endregion
 
+        #region Cylinder, Vacuum, Detect Object
+        public int Absorb(bool bSkipSensor)
+        {
+            bool bStatus;
+            int iResult = SUCCESS;
+            bool[] bWaitFlag = new bool[(int)EChuckVacuum.MAX];
+            CVacuumTime[] sData = new CVacuumTime[(int)EChuckVacuum.MAX];
+            bool bNeedWait = false;
+
+            for (int i = 0; i < (int)EChuckVacuum.MAX; i++)
+            {
+                if (UseVccFlag[i] == false) continue;
+
+                m_RefComp.Vacuum[i].GetVacuumTime(out sData[i]);
+                iResult = m_RefComp.Vacuum[i].IsOn(out bStatus);
+                if (iResult != SUCCESS) return iResult;
+
+                // 흡착되지 않은 상태라면 흡착시킴  
+                if (bStatus == false)
+                {
+                    iResult = m_RefComp.Vacuum[i].On(true);
+                    if (iResult != SUCCESS) return iResult;
+
+                    bWaitFlag[i] = true;
+                    bNeedWait = true;
+                }
+
+                Sleep(10);
+            }
+
+            if (bSkipSensor == true) return SUCCESS;
+
+            m_waitTimer.StartTimer();
+            while (bNeedWait)
+            {
+                bNeedWait = false;
+
+                for (int i = 0; i < (int)EChuckVacuum.MAX; i++)
+                {
+                    if (bWaitFlag[i] == false) continue;
+
+                    iResult = m_RefComp.Vacuum[i].IsOn(out bStatus);
+                    if (iResult != SUCCESS) return iResult;
+
+                    if (bStatus == true) // if on
+                    {
+                        bWaitFlag[i] = false;
+                        //Sleep(sData[i].OnSettlingTime * 1000);
+                    }
+                    else // if off
+                    {
+                        bNeedWait = true;
+                        if (m_waitTimer.MoreThan(sData[i].TurningTime * 1000))
+                        {
+                            return GenerateErrorCode(ERR_SPINNER_VACUUM_ON_TIME_OUT);
+                        }
+                    }
+
+                }
+            }
+
+            return SUCCESS;
+        }
+
+        public int Release(bool bSkipSensor)
+        {
+            bool bStatus;
+            int iResult = SUCCESS;
+            bool[] bWaitFlag = new bool[(int)EChuckVacuum.MAX];
+            CVacuumTime[] sData = new CVacuumTime[(int)EChuckVacuum.MAX];
+            bool bNeedWait = false;
+
+            for (int i = 0; i < (int)EChuckVacuum.MAX; i++)
+            {
+                if (UseVccFlag[i] == false) continue;
+
+                m_RefComp.Vacuum[i].GetVacuumTime(out sData[i]);
+                iResult = m_RefComp.Vacuum[i].IsOff(out bStatus);
+                if (iResult != SUCCESS) return iResult;
+
+                if (bStatus == false)
+                {
+                    iResult = m_RefComp.Vacuum[i].Off(true);
+                    if (iResult != SUCCESS) return iResult;
+
+                    bWaitFlag[i] = true;
+                    bNeedWait = true;
+                }
+
+                Sleep(10);
+            }
+
+            if (bSkipSensor == true) return SUCCESS;
+
+            m_waitTimer.StartTimer();
+            while (bNeedWait)
+            {
+                bNeedWait = false;
+
+                for (int i = 0; i < (int)EChuckVacuum.MAX; i++)
+                {
+                    if (bWaitFlag[i] == false) continue;
+
+                    iResult = m_RefComp.Vacuum[i].IsOff(out bStatus);
+                    if (iResult != SUCCESS) return iResult;
+
+                    if (bStatus == true) // if on
+                    {
+                        bWaitFlag[i] = false;
+                        //Sleep(sData[i].OffSettlingTime * 1000);
+                    }
+                    else // if off
+                    {
+                        bNeedWait = true;
+                        if (m_waitTimer.MoreThan(sData[i].TurningTime * 1000))
+                        {
+                            return GenerateErrorCode(ERR_SPINNER_VACUUM_OFF_TIME_OUT);
+                        }
+                    }
+
+                }
+            }
+
+            return SUCCESS;
+        }
+
+        public int IsAbsorbed(out bool bStatus)
+        {
+            int iResult = SUCCESS;
+            bStatus = false;
+            bool bTemp;
+
+            for (int i = 0; i < (int)EChuckVacuum.MAX; i++)
+            {
+                if (UseVccFlag[i] == false) continue;
+
+                iResult = m_RefComp.Vacuum[i].IsOn(out bTemp);
+                if (iResult != SUCCESS) return iResult;
+
+                if (bTemp == false) return SUCCESS;
+            }
+
+            bStatus = true;
+            return SUCCESS;
+        }
+
+        public int IsReleased(out bool bStatus)
+        {
+            int iResult = SUCCESS;
+            bStatus = false;
+            bool bTemp;
+
+            for (int i = 0; i < (int)EChuckVacuum.MAX; i++)
+            {
+                if (UseVccFlag[i] == false) continue;
+
+                iResult = m_RefComp.Vacuum[i].IsOff(out bTemp);
+                if (iResult != SUCCESS) return iResult;
+
+                if (bTemp == false) return SUCCESS;
+            }
+
+            bStatus = true;
+            return SUCCESS;
+        }
+        public int ChuckTableUp(bool bSkipSensor = false)
+        {
+            if (CheckForCleanNozzleSafety() != SUCCESS)
+            {
+                WriteLog("fail : Cleaner Nozzle Not Safety Position", ELogType.Debug, ELogWType.Error);
+                return GenerateErrorCode(ERR_SPINNER_CLEANER_NOZZLE_NOT_SAFETY_POS);
+            }
+
+            if (CheckForCoatNozzleSafety() != SUCCESS)
+            {
+                WriteLog("fail : Coater Nozzle Not Safety Position", ELogType.Debug, ELogWType.Error);
+                return GenerateErrorCode(ERR_SPINNER_COATER_NOZZLE_NOT_SAFETY_POS);
+            }
+
+            int iResult = m_RefComp.ChuckTableUDCyl.Up(bSkipSensor);
+            return iResult;
+        }
+
+
+        public int ChuckTableDown(bool bSkipSensor = false)
+        {
+            int iResult = m_RefComp.ChuckTableUDCyl.Down(bSkipSensor);
+            return iResult;
+        }
+
+        public int IsChuckTableUp(out bool bStatus)
+        {
+            int iResult;
+
+            iResult = m_RefComp.ChuckTableUDCyl.IsUp(out bStatus);
+            if (iResult != SUCCESS) return iResult;
+
+            return SUCCESS;
+        }
+
+        public int IsChuckTableDown(out bool bStatus)
+        {
+            int iResult;
+
+            iResult = m_RefComp.ChuckTableUDCyl.IsUp(out bStatus);
+            if (bStatus == false) return SUCCESS;
+
+            return SUCCESS;
+        }
+
+        public int CleanNozzleValveOpen(bool bSkipSensor = false)
+        {
+            int iResult = m_RefComp.CleanNozzleSolCyl.Open(bSkipSensor);
+            return iResult;
+        }
+
+        public int CleanNozzleValveClose(bool bSkipSensor = false)
+        {
+            int iResult = m_RefComp.CleanNozzleSolCyl.Close(bSkipSensor);
+            return iResult;
+        }
+        public int IsCleanNozzleValveOpen(out bool bStatus)
+        {
+            int iResult;
+
+            iResult = m_RefComp.CleanNozzleSolCyl.IsOpen(out bStatus);
+            if (iResult != SUCCESS) return iResult;
+
+            return SUCCESS;
+        }
+
+        public int IsCleanNozzleValveClose(out bool bStatus)
+        {
+            int iResult;
+
+            iResult = m_RefComp.CleanNozzleSolCyl.IsClose(out bStatus);
+            if (iResult != SUCCESS) return iResult;
+
+            return SUCCESS;
+        }
+
+        public int CoatNozzleValveOpen(bool bSkipSensor = false)
+        {
+            int iResult = m_RefComp.CoatNozzleSolCyl.Open(bSkipSensor);
+            return iResult;
+        }
+
+        public int CoatNozzleValveClose(bool bSkipSensor = false)
+        {
+            int iResult = m_RefComp.CoatNozzleSolCyl.Close(bSkipSensor);
+            return iResult;
+        }
+
+        public int IsCoatNozzleValveOpen(out bool bStatus)
+        {
+            int iResult;
+
+            iResult = m_RefComp.CoatNozzleSolCyl.IsOpen(out bStatus);
+            if (iResult != SUCCESS) return iResult;
+
+            return SUCCESS;
+        }
+
+        public int IsCoatNozzleValveClose(out bool bStatus)
+        {
+            int iResult;
+
+            iResult = m_RefComp.CoatNozzleSolCyl.IsClose(out bStatus);
+            if (iResult != SUCCESS) return iResult;
+
+            return SUCCESS;
+        }
+
+        public void RingBlowOn()
+        {
+            m_RefComp.IO.OutputOn(m_Data.OutRingBlow);
+        }
+
+        public void RingBlowOff()
+        {
+            m_RefComp.IO.OutputOff(m_Data.OutRingBlow);
+        }
+
+        public int IsRingBlowOn(out bool bStatus)
+        {
+            m_RefComp.IO.IsOn(m_Data.OutRingBlow, out bStatus);
+
+            return SUCCESS;
+        }
+
+        public int IsRingBlowOff(out bool bStatus)
+        {
+            m_RefComp.IO.IsOff(m_Data.OutRingBlow, out bStatus);
+
+            return SUCCESS;
+        }
+
+        public int IsObjectDetected(out bool bStatus)
+        {
+            int iResult = m_RefComp.IO.IsOn(m_Data.InDetectObject, out bStatus);
+            if (iResult != SUCCESS) return iResult;
+
+            return SUCCESS;
+        }
+        #endregion
+
+        #region Axis Move, Check Interlock
         public int GetRotateCurPos(out CPos_XYTZ pos)
         {
-            m_RefComp.AxSpinRotate.GetCurPos(out pos);
-            return SUCCESS;
+            int iResult = m_RefComp.AxSpinRotate.GetCurPos(out pos);
+            return iResult;
         }
 
         public int GetCleanNozzleCurPos(out CPos_XYTZ pos)
         {
-            m_RefComp.AxSpinCleanNozzle.GetCurPos(out pos);
-            return SUCCESS;
+            int iResult = m_RefComp.AxSpinCleanNozzle.GetCurPos(out pos);
+            return iResult;
         }
 
         public int GetCoatNozzleCurPos(out CPos_XYTZ pos)
         {
-            m_RefComp.AxSpinCoatNozzle.GetCurPos(out pos);
-            return SUCCESS;
+            int iResult = m_RefComp.AxSpinCoatNozzle.GetCurPos(out pos);
+            return iResult;
         }
 
 
@@ -230,7 +539,7 @@ namespace LWDicer.Control
 
             return MoveRotatePos(iPos, bMoveAllAxis, bMoveXYT, bMoveZ);
         }
-        
+
         public int MoveCleanNozzleToSafetyPos(bool bMoveAllAxis = true, bool bMoveXYT = false, bool bMoveZ = false)
         {
             int iPos = (int)ENozzlePos.SAFETY;
@@ -244,9 +553,9 @@ namespace LWDicer.Control
             bool bStatus = false;
 
             // Chuck Table Up Interlock
-            if (IsCylUp(out bStatus) == SUCCESS)
+            if (IsChuckTableUp(out bStatus) == SUCCESS)
             {
-                WriteLog("fail : Clean Chuck Table Cylinder Up", ELogType.Debug, ELogWType.Error);
+                WriteLog("fail : ChuckTable Cylinder Up", ELogType.Debug, ELogWType.Error);
                 return GenerateErrorCode(ERR_SPINNER_TABLE_UP_INTERLOCK);
             }
 
@@ -259,9 +568,9 @@ namespace LWDicer.Control
             bool bStatus = false;
 
             // Chuck Table Up Interlock
-            if (IsCylUp(out bStatus) == SUCCESS)
+            if (IsChuckTableUp(out bStatus) == SUCCESS)
             {
-                WriteLog("fail : Clean Chuck Table Cylinder Up", ELogType.Debug, ELogWType.Error);
+                WriteLog("fail : ChuckTable Cylinder Up", ELogType.Debug, ELogWType.Error);
                 return GenerateErrorCode(ERR_SPINNER_TABLE_UP_INTERLOCK);
             }
 
@@ -391,7 +700,7 @@ namespace LWDicer.Control
                 }
             }
 
-            
+
             // set working pos
             if (iPos > (int)ENozzlePos.NONE)
             {
@@ -561,327 +870,7 @@ namespace LWDicer.Control
 
             return SUCCESS;
         }
-        public int Absorb(bool bSkipSensor)
-        {
-            bool bStatus;
-            int iResult = SUCCESS;
-            bool[] bWaitFlag = new bool[(int)EChuckVacuum.MAX];
-            CVacuumTime[] sData = new CVacuumTime[(int)EChuckVacuum.MAX];
-            bool bNeedWait = false;
 
-            for (int i = 0; i < (int)EChuckVacuum.MAX; i++)
-            {
-                if (UseVccFlag[i] == false) continue;
-
-                m_RefComp.Vacuum[i].GetVacuumTime(out sData[i]);
-                iResult = m_RefComp.Vacuum[i].IsOn(out bStatus);
-                if (iResult != SUCCESS) return iResult;
-
-                // 흡착되지 않은 상태라면 흡착시킴  
-                if (bStatus == false)
-                {
-                    iResult = m_RefComp.Vacuum[i].On(true);
-                    if (iResult != SUCCESS) return iResult;
-
-                    bWaitFlag[i] = true;
-                    bNeedWait = true;
-                }
-
-                Sleep(10);
-            }
-
-            if (bSkipSensor == true) return SUCCESS;
-
-            m_waitTimer.StartTimer();
-            while (bNeedWait)
-            {
-                bNeedWait = false;
-
-                for (int i = 0; i < (int)EChuckVacuum.MAX; i++)
-                {
-                    if (bWaitFlag[i] == false) continue;
-
-                    iResult = m_RefComp.Vacuum[i].IsOn(out bStatus);
-                    if (iResult != SUCCESS) return iResult;
-
-                    if (bStatus == true) // if on
-                    {
-                        bWaitFlag[i] = false;
-                        //Sleep(sData[i].OnSettlingTime * 1000);
-                    }
-                    else // if off
-                    {
-                        bNeedWait = true;
-                        if (m_waitTimer.MoreThan(sData[i].TurningTime * 1000))
-                        {
-                            return GenerateErrorCode(ERR_SPINNER_VACUUM_ON_TIME_OUT);
-                        }
-                    }
-
-                }
-            }
-
-            return SUCCESS;
-        }
-
-        public int Release(bool bSkipSensor)
-        {
-            bool bStatus;
-            int iResult = SUCCESS;
-            bool[] bWaitFlag = new bool[(int)EChuckVacuum.MAX];
-            CVacuumTime[] sData = new CVacuumTime[(int)EChuckVacuum.MAX];
-            bool bNeedWait = false;
-
-            for (int i = 0; i < (int)EChuckVacuum.MAX; i++)
-            {
-                if (UseVccFlag[i] == false) continue;
-
-                m_RefComp.Vacuum[i].GetVacuumTime(out sData[i]);
-                iResult = m_RefComp.Vacuum[i].IsOff(out bStatus);
-                if (iResult != SUCCESS) return iResult;
-
-                if (bStatus == false)
-                {
-                    iResult = m_RefComp.Vacuum[i].Off(true);
-                    if (iResult != SUCCESS) return iResult;
-
-                    bWaitFlag[i] = true;
-                    bNeedWait = true;
-                }
-
-                Sleep(10);
-            }
-
-            if (bSkipSensor == true) return SUCCESS;
-
-            m_waitTimer.StartTimer();
-            while (bNeedWait)
-            {
-                bNeedWait = false;
-
-                for (int i = 0; i < (int)EChuckVacuum.MAX; i++)
-                {
-                    if (bWaitFlag[i] == false) continue;
-
-                    iResult = m_RefComp.Vacuum[i].IsOff(out bStatus);
-                    if (iResult != SUCCESS) return iResult;
-
-                    if (bStatus == true) // if on
-                    {
-                        bWaitFlag[i] = false;
-                        //Sleep(sData[i].OffSettlingTime * 1000);
-                    }
-                    else // if off
-                    {
-                        bNeedWait = true;
-                        if (m_waitTimer.MoreThan(sData[i].TurningTime * 1000))
-                        {
-                            return GenerateErrorCode(ERR_SPINNER_VACUUM_OFF_TIME_OUT);
-                        }
-                    }
-
-                }
-            }
-
-            return SUCCESS;
-        }
-
-        public int IsAbsorbed(out bool bStatus)
-        {
-            int iResult = SUCCESS;
-            bStatus = false;
-            bool bTemp;
-
-            for (int i = 0; i < (int)EChuckVacuum.MAX; i++)
-            {
-                if (UseVccFlag[i] == false) continue;
-
-                iResult = m_RefComp.Vacuum[i].IsOn(out bTemp);
-                if (iResult != SUCCESS) return iResult;
-
-                if (bTemp == false) return SUCCESS;
-            }
-
-            bStatus = true;
-            return SUCCESS;
-        }
-
-        public int IsReleased(out bool bStatus)
-        {
-            int iResult = SUCCESS;
-            bStatus = false;
-            bool bTemp;
-
-            for (int i = 0; i < (int)EChuckVacuum.MAX; i++)
-            {
-                if (UseVccFlag[i] == false) continue;
-
-                iResult = m_RefComp.Vacuum[i].IsOff(out bTemp);
-                if (iResult != SUCCESS) return iResult;
-
-                if (bTemp == false) return SUCCESS;
-            }
-
-            bStatus = true;
-            return SUCCESS;
-        }
-
-        public int CylUp(bool bSkipSensor = false)
-        {
-            if (CheckForCleanNozzleSafety() != SUCCESS)
-            {
-                WriteLog("fail : Cleaner Nozzle Not Safety Position", ELogType.Debug, ELogWType.Error);
-                return GenerateErrorCode(ERR_SPINNER_CLEANER_NOZZLE_NOT_SAFETY_POS);
-            }
-
-            if (CheckForCoatNozzleSafety() != SUCCESS)
-            {
-                WriteLog("fail : Coater Nozzle Not Safety Position", ELogType.Debug, ELogWType.Error);
-                return GenerateErrorCode(ERR_SPINNER_COATER_NOZZLE_NOT_SAFETY_POS);
-            }
-
-            int iResult = m_RefComp.UpDownCyl.Up(bSkipSensor);
-            return iResult;
-        }
-
-
-        public int CylDown(bool bSkipSensor = false)
-        {
-            int iResult = m_RefComp.UpDownCyl.Down(bSkipSensor);
-            return iResult;
-        }
-
-        public int CleanNozzleValveOpen(bool bSkipSensor = false)
-        {
-            int iResult = m_RefComp.CleanNozzleSolCyl.Open(bSkipSensor);
-            return iResult;
-        }
-
-        public int CleanNozzleValveClose(bool bSkipSensor = false)
-        {
-            int iResult = m_RefComp.CleanNozzleSolCyl.Close(bSkipSensor);
-            return iResult;
-        }
-        public int CoatNozzleValveOpen(bool bSkipSensor = false)
-        {
-            int iResult = m_RefComp.CoatNozzleSolCyl.Open(bSkipSensor);
-            return iResult;
-        }
-
-        public int CoatNozzleValveClose(bool bSkipSensor = false)
-        {
-            int iResult = m_RefComp.CoatNozzleSolCyl.Close(bSkipSensor);
-            return iResult;
-        }
-
-
-        public int IsCylUp(out bool bStatus)
-        {
-            int iResult;
-
-            iResult= m_RefComp.UpDownCyl.IsUp(out bStatus);
-
-            if (iResult != SUCCESS) return iResult;
-            if (bStatus == false) return SUCCESS;
-
-            return SUCCESS;
-        }
-
-        public int IsCylDown(out bool bStatus)
-        {
-            int iResult;
-
-            iResult = m_RefComp.UpDownCyl.IsUp(out bStatus);
-
-            if (iResult != SUCCESS) return iResult;
-            if (bStatus == false) return SUCCESS;
-
-            return SUCCESS;
-        }
-
-        public int IsCleanNozzleValveOpen(out bool bStatus)
-        {
-            int iResult;
-
-            iResult = m_RefComp.CleanNozzleSolCyl.IsOpen(out bStatus);
-
-            if (iResult != SUCCESS) return iResult;
-            if (bStatus == false) return SUCCESS;
-
-            return SUCCESS;
-        }
-
-        public int IsCleanNozzleValveClose(out bool bStatus)
-        {
-            int iResult;
-
-            iResult = m_RefComp.CleanNozzleSolCyl.IsClose(out bStatus);
-
-            if (iResult != SUCCESS) return iResult;
-            if (bStatus == false) return SUCCESS;
-
-            return SUCCESS;
-        }
-
-        public int IsCoatNozzleValveOpen(out bool bStatus)
-        {
-            int iResult;
-
-            iResult = m_RefComp.CoatNozzleSolCyl.IsOpen(out bStatus);
-
-            if (iResult != SUCCESS) return iResult;
-            if (bStatus == false) return SUCCESS;
-
-            return SUCCESS;
-        }
-
-        public int IsCoatNozzleValveClose(out bool bStatus)
-        {
-            int iResult;
-
-            iResult = m_RefComp.CoatNozzleSolCyl.IsClose(out bStatus);
-
-            if (iResult != SUCCESS) return iResult;
-            if (bStatus == false) return SUCCESS;
-
-            return SUCCESS;
-        }
-
-        public void RingBlowOn(int add)
-        {
-            m_RefComp.IO.OutputOn(add);
-        }
-
-        public int IsRingBlowOn(int add)
-        {
-            bool bStatus = false;
-
-            m_RefComp.IO.IsOn(add, out bStatus);
-
-            return SUCCESS;
-        }
-
-        public void RingBlowOff(int add)
-        {
-            m_RefComp.IO.OutputOff(add);
-        }
-
-        public int IsRingBlowOff(int add)
-        {
-            bool bStatus = false;
-
-            m_RefComp.IO.IsOff(add, out bStatus);
-
-            return SUCCESS;
-        }
-
-        public int IsObjectDetected(out bool bStatus)
-        {
-            int iResult = m_RefComp.IO.IsOn(m_Data.InDetectObject, out bStatus);
-            if (iResult != SUCCESS) return iResult;
-
-            return SUCCESS;
-        }
 
         public int CheckForSpinnerCylMove(bool bCheckVacuum = true)
         {
@@ -997,5 +986,6 @@ namespace LWDicer.Control
 
             return SUCCESS;
         }
+        #endregion
     }
 }

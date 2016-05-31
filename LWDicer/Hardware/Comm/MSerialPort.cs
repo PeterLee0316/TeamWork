@@ -33,6 +33,21 @@ namespace LWDicer.Control
             Dispose();
         }
 
+        #region Common : Manage Data, Position, Use Flag and Initialize
+        public int SetData(CSerialPortData source)
+        {
+            m_Data = ObjectExtensions.Copy(source);
+            return SUCCESS;
+        }
+
+        public int GetData(out CSerialPortData target)
+        {
+            target = ObjectExtensions.Copy(m_Data);
+
+            return SUCCESS;
+        }
+        #endregion
+
         public void Dispose()
         {
             ClosePort();
@@ -177,19 +192,5 @@ namespace LWDicer.Control
             m_ReceivedQueue.Clear();
         }
 
-        /***************** Common Implementation *************************************/
-
-        public int SetData(CSerialPortData source)
-        {
-            m_Data = ObjectExtensions.Copy(source);
-            return SUCCESS;
-        }
-
-        public int GetData(out CSerialPortData target)
-        {
-            target = ObjectExtensions.Copy(m_Data);
-
-            return SUCCESS;
-        }
     }
 }

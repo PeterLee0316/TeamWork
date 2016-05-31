@@ -136,6 +136,7 @@ namespace LWDicer.Control
 
         }
 
+        #region Common : Manage Data, Position, Use Flag and Initialize
         public int SetData(CCtrlOpPanelData source)
         {
             m_Data = ObjectExtensions.Copy(source);
@@ -148,11 +149,11 @@ namespace LWDicer.Control
 
             return SUCCESS;
         }
-
         public override int Initialize()
         {
             return SUCCESS;
         }
+        #endregion
 
         /// <summary>
         /// Motion 이동 속도 Mode를 설정한다.

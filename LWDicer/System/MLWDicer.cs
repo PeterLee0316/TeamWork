@@ -984,7 +984,7 @@ namespace LWDicer.Control
             CCtrlSpinnerRefComp refComp = new CCtrlSpinnerRefComp();
             CSpinnerData data = m_DataManager.ModelData.SpinnerData;
 
-            refComp.SpinCleaner = m_MeSpinner1;
+            refComp.Spinner = m_MeSpinner1;
 
             m_ctrlSpinner1 = new MCtrlSpinner(objInfo, refComp, data);
         }
@@ -994,7 +994,7 @@ namespace LWDicer.Control
             CCtrlSpinnerRefComp refComp = new CCtrlSpinnerRefComp();
             CSpinnerData data = m_DataManager.ModelData.SpinnerData;
 
-            refComp.SpinCoater = m_MeSpinner2;
+            refComp.Spinner = m_MeSpinner2;
 
             m_ctrlSpinner2 = new MCtrlSpinner(objInfo, refComp, data);
         }
@@ -1482,7 +1482,7 @@ namespace LWDicer.Control
 
             refCoater.Vacuum[(int)EChuckVacuum.SELF] = m_Spinner1Vac;
 
-            refCoater.UpDownCyl = m_Spinner1UDCyl;
+            refCoater.ChuckTableUDCyl = m_Spinner1UDCyl;
             refCoater.CleanNozzleSolCyl = m_Spinner1DICyl;
             refCoater.CoatNozzleSolCyl  = m_Spinner1PVACyl;
 
@@ -1505,7 +1505,7 @@ namespace LWDicer.Control
 
             refCleaner.Vacuum[(int)EChuckVacuum.SELF] = m_Spinner2Vac;
 
-            refCleaner.UpDownCyl = m_Spinner2UDCyl;
+            refCleaner.ChuckTableUDCyl = m_Spinner2UDCyl;
             refCleaner.CleanNozzleSolCyl = m_Spinner2DICyl;
             refCleaner.CoatNozzleSolCyl = m_Spinner2PVACyl;
 

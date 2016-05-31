@@ -183,6 +183,7 @@ namespace LWDicer.Control
             SetData(data);
         }
 
+        #region Common : Manage Data, Position, Use Flag and Initialize
         public int SetData(CMeElevatorData source)
         {
             m_Data = ObjectExtensions.Copy(source);
@@ -205,8 +206,8 @@ namespace LWDicer.Control
         
         public int GetElevatorCurPos(out CPos_XYTZ pos)
         {
-            m_RefComp.AxElevator.GetCurPos(out pos);
-            return SUCCESS;
+            int iResult = m_RefComp.AxElevator.GetCurPos(out pos);
+            return iResult;
         }
 
         public void SetSlevatorSlotData(int nSlotNum, ECassetteWaferInfo WaferInfo)
@@ -217,6 +218,7 @@ namespace LWDicer.Control
         {
             nData = m_Data.CassetteData.nWaferData[nSlotNum];
         }
+        #endregion
 
         /// <summary>
         /// sPos으로 이동하고, PosInfo를 iPos으로 셋팅한다. Backlash는 일단 차후로.
