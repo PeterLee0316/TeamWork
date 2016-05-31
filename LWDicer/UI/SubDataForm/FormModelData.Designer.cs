@@ -30,12 +30,13 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormModelData));
+            Syncfusion.Windows.Forms.Grid.GridRangeStyle gridRangeStyle1 = new Syncfusion.Windows.Forms.Grid.GridRangeStyle();
             this.BtnExit = new System.Windows.Forms.Button();
             this.ServoTitle = new Syncfusion.Windows.Forms.Tools.GradientLabel();
             this.BtnMakerCreate = new System.Windows.Forms.Button();
             this.BtnMakerDelete = new System.Windows.Forms.Button();
             this.BtnModelSelect = new System.Windows.Forms.Button();
-            this.MakerlTreeView = new System.Windows.Forms.TreeView();
+            this.MakerTreeView = new System.Windows.Forms.TreeView();
             this.imageDir = new System.Windows.Forms.ImageList(this.components);
             this.gradientLabel1 = new Syncfusion.Windows.Forms.Tools.GradientLabel();
             this.BtnModelDelete = new System.Windows.Forms.Button();
@@ -124,17 +125,17 @@
             this.BtnModelSelect.UseVisualStyleBackColor = true;
             this.BtnModelSelect.Click += new System.EventHandler(this.BtnModelSelect_Click);
             // 
-            // MakerlTreeView
+            // MakerTreeView
             // 
-            this.MakerlTreeView.Font = new System.Drawing.Font("굴림", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.MakerlTreeView.ImageIndex = 1;
-            this.MakerlTreeView.ImageList = this.imageDir;
-            this.MakerlTreeView.Location = new System.Drawing.Point(8, 89);
-            this.MakerlTreeView.Name = "MakerlTreeView";
-            this.MakerlTreeView.SelectedImageIndex = 0;
-            this.MakerlTreeView.Size = new System.Drawing.Size(290, 537);
-            this.MakerlTreeView.TabIndex = 759;
-            this.MakerlTreeView.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.MakerlTreeView_NodeMouseClick);
+            this.MakerTreeView.Font = new System.Drawing.Font("굴림", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.MakerTreeView.ImageIndex = 1;
+            this.MakerTreeView.ImageList = this.imageDir;
+            this.MakerTreeView.Location = new System.Drawing.Point(8, 89);
+            this.MakerTreeView.Name = "MakerTreeView";
+            this.MakerTreeView.SelectedImageIndex = 0;
+            this.MakerTreeView.Size = new System.Drawing.Size(290, 537);
+            this.MakerTreeView.TabIndex = 759;
+            this.MakerTreeView.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.MakerlTreeView_NodeMouseClick);
             // 
             // imageDir
             // 
@@ -191,8 +192,20 @@
             // 
             // GridModelList
             // 
+            this.GridModelList.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.GridModelList.Font = new System.Drawing.Font("Tahoma", 11.25F, System.Drawing.FontStyle.Bold);
             this.GridModelList.Location = new System.Drawing.Point(304, 89);
             this.GridModelList.Name = "GridModelList";
+            gridRangeStyle1.Range = Syncfusion.Windows.Forms.Grid.GridRangeInfo.Table();
+            gridRangeStyle1.StyleInfo.Font.Bold = true;
+            gridRangeStyle1.StyleInfo.Font.Facename = "Tahoma";
+            gridRangeStyle1.StyleInfo.Font.Italic = false;
+            gridRangeStyle1.StyleInfo.Font.Size = 11.25F;
+            gridRangeStyle1.StyleInfo.Font.Strikeout = false;
+            gridRangeStyle1.StyleInfo.Font.Underline = false;
+            gridRangeStyle1.StyleInfo.Font.Unit = System.Drawing.GraphicsUnit.Point;
+            this.GridModelList.RangeStyles.AddRange(new Syncfusion.Windows.Forms.Grid.GridRangeStyle[] {
+            gridRangeStyle1});
             this.GridModelList.SerializeCellsBehavior = Syncfusion.Windows.Forms.Grid.GridSerializeCellsBehavior.SerializeAsRangeStylesIntoCode;
             this.GridModelList.Size = new System.Drawing.Size(461, 537);
             this.GridModelList.SmartSizeBox = false;
@@ -273,7 +286,7 @@
             this.Controls.Add(this.BtnModelDelete);
             this.Controls.Add(this.BtnModelCreate);
             this.Controls.Add(this.gradientLabel1);
-            this.Controls.Add(this.MakerlTreeView);
+            this.Controls.Add(this.MakerTreeView);
             this.Controls.Add(this.BtnModelSelect);
             this.Controls.Add(this.BtnMakerDelete);
             this.Controls.Add(this.BtnMakerCreate);
@@ -297,7 +310,7 @@
         private System.Windows.Forms.Button BtnMakerCreate;
         private System.Windows.Forms.Button BtnMakerDelete;
         private System.Windows.Forms.Button BtnModelSelect;
-        private System.Windows.Forms.TreeView MakerlTreeView;
+        private System.Windows.Forms.TreeView MakerTreeView;
         private System.Windows.Forms.ImageList imageDir;
         private Syncfusion.Windows.Forms.Tools.GradientLabel gradientLabel1;
         private System.Windows.Forms.Button BtnModelDelete;

@@ -56,7 +56,7 @@
             this.BtnExit.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
             this.BtnExit.Image = ((System.Drawing.Image)(resources.GetObject("BtnExit.Image")));
             this.BtnExit.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.BtnExit.Location = new System.Drawing.Point(404, 424);
+            this.BtnExit.Location = new System.Drawing.Point(358, 405);
             this.BtnExit.Name = "BtnExit";
             this.BtnExit.Size = new System.Drawing.Size(124, 61);
             this.BtnExit.TabIndex = 749;
@@ -67,10 +67,11 @@
             // 
             // GridCylinderData
             // 
+            this.GridCylinderData.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.GridCylinderData.Location = new System.Drawing.Point(12, 12);
             this.GridCylinderData.Name = "GridCylinderData";
             this.GridCylinderData.SerializeCellsBehavior = Syncfusion.Windows.Forms.Grid.GridSerializeCellsBehavior.SerializeAsRangeStylesIntoCode;
-            this.GridCylinderData.Size = new System.Drawing.Size(754, 393);
+            this.GridCylinderData.Size = new System.Drawing.Size(682, 376);
             this.GridCylinderData.SmartSizeBox = false;
             this.GridCylinderData.TabIndex = 750;
             this.GridCylinderData.UseRightToLeftCompatibleTextBox = true;
@@ -81,7 +82,7 @@
             this.BtnSave.Font = new System.Drawing.Font("굴림", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.BtnSave.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
             this.BtnSave.Image = ((System.Drawing.Image)(resources.GetObject("BtnSave.Image")));
-            this.BtnSave.Location = new System.Drawing.Point(274, 424);
+            this.BtnSave.Location = new System.Drawing.Point(228, 405);
             this.BtnSave.Name = "BtnSave";
             this.BtnSave.Size = new System.Drawing.Size(124, 61);
             this.BtnSave.TabIndex = 752;
@@ -95,7 +96,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(778, 508);
+            this.ClientSize = new System.Drawing.Size(709, 479);
             this.Controls.Add(this.BtnSave);
             this.Controls.Add(this.GridCylinderData);
             this.Controls.Add(this.BtnExit);

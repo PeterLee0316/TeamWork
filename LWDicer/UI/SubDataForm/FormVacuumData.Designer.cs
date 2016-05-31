@@ -40,7 +40,7 @@
             this.BtnSave.Font = new System.Drawing.Font("굴림", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.BtnSave.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
             this.BtnSave.Image = ((System.Drawing.Image)(resources.GetObject("BtnSave.Image")));
-            this.BtnSave.Location = new System.Drawing.Point(212, 242);
+            this.BtnSave.Location = new System.Drawing.Point(166, 301);
             this.BtnSave.Name = "BtnSave";
             this.BtnSave.Size = new System.Drawing.Size(124, 61);
             this.BtnSave.TabIndex = 755;
@@ -52,10 +52,11 @@
             // 
             // GridVacuumData
             // 
+            this.GridVacuumData.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.GridVacuumData.Location = new System.Drawing.Point(12, 12);
             this.GridVacuumData.Name = "GridVacuumData";
             this.GridVacuumData.SerializeCellsBehavior = Syncfusion.Windows.Forms.Grid.GridSerializeCellsBehavior.SerializeAsRangeStylesIntoCode;
-            this.GridVacuumData.Size = new System.Drawing.Size(635, 214);
+            this.GridVacuumData.Size = new System.Drawing.Size(562, 274);
             this.GridVacuumData.SmartSizeBox = false;
             this.GridVacuumData.TabIndex = 754;
             this.GridVacuumData.UseRightToLeftCompatibleTextBox = true;
@@ -67,7 +68,7 @@
             this.BtnExit.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
             this.BtnExit.Image = ((System.Drawing.Image)(resources.GetObject("BtnExit.Image")));
             this.BtnExit.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.BtnExit.Location = new System.Drawing.Point(342, 242);
+            this.BtnExit.Location = new System.Drawing.Point(296, 301);
             this.BtnExit.Name = "BtnExit";
             this.BtnExit.Size = new System.Drawing.Size(124, 61);
             this.BtnExit.TabIndex = 753;
@@ -80,7 +81,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(661, 321);
+            this.ClientSize = new System.Drawing.Size(584, 376);
             this.Controls.Add(this.BtnSave);
             this.Controls.Add(this.GridVacuumData);
             this.Controls.Add(this.BtnExit);

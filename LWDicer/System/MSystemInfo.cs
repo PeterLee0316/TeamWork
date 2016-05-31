@@ -53,14 +53,14 @@ namespace LWDicer.Control
 	            // 100-149 : Cylinders--------------------------------------------------------------------
                 new CObjectInfo( (int)OBJ_HL_CYLINDER, "Cylinder", 100, "PushPull Gripper Lock/Unlock", 2000, "PushPullGripper", LOG_ALL, LOG_DAY ),
                 new CObjectInfo( (int)OBJ_HL_CYLINDER, "Cylinder", 101, "PushPull Up/Down",             2000, "PushPullUD", LOG_ALL, LOG_DAY ),
-                new CObjectInfo( (int)OBJ_HL_CYLINDER, "Cylinder", 110, "Spinner1 Up/Down",             2000, "S1_UDCyl", LOG_ALL, LOG_DAY ),
-                new CObjectInfo( (int)OBJ_HL_CYLINDER, "Cylinder", 111, "Spinner1 DI Valve",            2000, "S1_DICyl", LOG_ALL, LOG_DAY ),
-                new CObjectInfo( (int)OBJ_HL_CYLINDER, "Cylinder", 112, "Spinner1 PVA Valve",           2000, "S1_PVACyl", LOG_ALL, LOG_DAY ),
-                new CObjectInfo( (int)OBJ_HL_CYLINDER, "Cylinder", 113, "Spinner2 Up/Down",             2000, "S2_UDCyl", LOG_ALL, LOG_DAY ),
-                new CObjectInfo( (int)OBJ_HL_CYLINDER, "Cylinder", 114, "Spinner2 DI Valve",            2000, "S2_DICyl", LOG_ALL, LOG_DAY ),
-                new CObjectInfo( (int)OBJ_HL_CYLINDER, "Cylinder", 115, "Spinner2 PVA Valve",           2000, "S2_PVACyl", LOG_ALL, LOG_DAY ),
-                new CObjectInfo( (int)OBJ_HL_CYLINDER, "Cylinder", 116, "Stage Clamp1 Open/Close",      2000, "StageClamp1", LOG_ALL, LOG_DAY ),
-                new CObjectInfo( (int)OBJ_HL_CYLINDER, "Cylinder", 117, "Stage Clamp2 Open/Close",      2000, "StageClamp2", LOG_ALL, LOG_DAY ),
+                new CObjectInfo( (int)OBJ_HL_CYLINDER, "Cylinder", 102, "Spinner1 Up/Down",             2000, "S1_UDCyl", LOG_ALL, LOG_DAY ),
+                new CObjectInfo( (int)OBJ_HL_CYLINDER, "Cylinder", 103, "Spinner1 DI Valve",            2000, "S1_DICyl", LOG_ALL, LOG_DAY ),
+                new CObjectInfo( (int)OBJ_HL_CYLINDER, "Cylinder", 104, "Spinner1 PVA Valve",           2000, "S1_PVACyl", LOG_ALL, LOG_DAY ),
+                new CObjectInfo( (int)OBJ_HL_CYLINDER, "Cylinder", 105, "Spinner2 Up/Down",             2000, "S2_UDCyl", LOG_ALL, LOG_DAY ),
+                new CObjectInfo( (int)OBJ_HL_CYLINDER, "Cylinder", 106, "Spinner2 DI Valve",            2000, "S2_DICyl", LOG_ALL, LOG_DAY ),
+                new CObjectInfo( (int)OBJ_HL_CYLINDER, "Cylinder", 107, "Spinner2 PVA Valve",           2000, "S2_PVACyl", LOG_ALL, LOG_DAY ),
+                new CObjectInfo( (int)OBJ_HL_CYLINDER, "Cylinder", 108, "Stage Clamp1 Open/Close",      2000, "StageClamp1", LOG_ALL, LOG_DAY ),
+                new CObjectInfo( (int)OBJ_HL_CYLINDER, "Cylinder", 109, "Stage Clamp2 Open/Close",      2000, "StageClamp2", LOG_ALL, LOG_DAY ),
 
 	            // 150-199 : Vacuums ------------------------------------------------------------------------------	
 	            new CObjectInfo( (int)OBJ_HL_VACUUM, "Vacuum", 150, "Stage1",           2100, "Stage1Vac", LOG_ALL, LOG_DAY ),

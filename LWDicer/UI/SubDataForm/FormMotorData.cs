@@ -46,6 +46,8 @@ namespace LWDicer.UI
         private void FormMotorData_Load(object sender, EventArgs e)
         {
             this.DesktopLocation = new Point(1, 100);
+
+            UpdateScreen();
         }
 
         private void FormMotorData_FormClosing(object sender, FormClosingEventArgs e)
@@ -215,6 +217,11 @@ namespace LWDicer.UI
                 GridMotorPara[i + 1, 27].Text = Convert.ToString(CMainFrame.LWDicer.m_DataManager.SystemData_Axis.MPMotionData[i].OriginData.FastSpeed);
                 GridMotorPara[i + 1, 28].Text = Convert.ToString(CMainFrame.LWDicer.m_DataManager.SystemData_Axis.MPMotionData[i].OriginData.SlowSpeed);
                 GridMotorPara[i + 1, 29].Text = Convert.ToString(CMainFrame.LWDicer.m_DataManager.SystemData_Axis.MPMotionData[i].OriginData.HomeOffset);
+
+                for (int j = 0; j < 26; j++)
+                {
+                    GridMotorPara[i + 1, j + 2].TextColor = Color.Black;
+                }
             }
         }
 
@@ -239,6 +246,7 @@ namespace LWDicer.UI
             }
 
             GridMotorPara[nRow, nCol].Text = strModify;
+            GridMotorPara[nRow, nCol].TextColor = Color.Red;
         }
 
         private void BtnSave_Click(object sender, EventArgs e)

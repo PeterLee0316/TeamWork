@@ -272,6 +272,12 @@
     <Compile Include="UI\MainScreen\FormTeachScreen.designer.cs">
       <DependentUpon>FormTeachScreen.cs</DependentUpon>
     </Compile>
+    <Compile Include="UI\SubDataForm\FormCreateMaker.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\SubDataForm\FormCreateMaker.designer.cs">
+      <DependentUpon>FormCreateMaker.cs</DependentUpon>
+    </Compile>
     <Compile Include="UI\SubDataForm\FormCylinderData.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -395,6 +401,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UI\MainScreen\FormTeachScreen.resx">
       <DependentUpon>FormTeachScreen.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\SubDataForm\FormCreateMaker.resx">
+      <DependentUpon>FormCreateMaker.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\SubDataForm\FormCylinderData.resx">
       <DependentUpon>FormCylinderData.cs</DependentUpon>

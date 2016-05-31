@@ -74,6 +74,8 @@ namespace LWDicer.UI
         {
             this.DesktopLocation = new Point(1, 100);
 
+            ClearPicture();
+
             UpdateConfigureData(m_Polygon);
             UpdateImageData();
 

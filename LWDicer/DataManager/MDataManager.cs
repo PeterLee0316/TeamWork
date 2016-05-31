@@ -1242,7 +1242,16 @@ namespace LWDicer.Control
             return SUCCESS;
         }
 
-        bool IsModelHeaderExist(string name)
+        public int GetModelHeaderCount()
+        {
+            int nCount = 0;
+
+            nCount = ModelHeaderList.Count;
+
+            return nCount;
+        }
+
+        public bool IsModelHeaderExist(string name)
         {
             if (string.IsNullOrEmpty(name)) return false;
             foreach (CModelHeader header in ModelHeaderList)
@@ -1255,7 +1264,7 @@ namespace LWDicer.Control
             return false;
         }
 
-        bool IsModelExist(string name)
+        public bool IsModelExist(string name)
         {
             if (string.IsNullOrEmpty(name)) return false;
             try
@@ -1276,7 +1285,7 @@ namespace LWDicer.Control
             return false;
         }
 
-        bool IsModelFolder(string name)
+        public bool IsModelFolder(string name)
         {
             foreach (CModelHeader header in ModelHeaderList)
             {
@@ -1288,7 +1297,7 @@ namespace LWDicer.Control
             return false;
         }
 
-        int GetModelTreeLevel(string name)
+        public int GetModelTreeLevel(string name)
         {
             foreach (CModelHeader header in ModelHeaderList)
             {
