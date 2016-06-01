@@ -119,6 +119,7 @@ namespace LWDicer.Control
 
         public enum EExcel_Sheet
         {
+            Skip = -1,
             PARA_Info,
             Alarm_Info,
             IO_Info,

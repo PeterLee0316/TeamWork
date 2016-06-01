@@ -28,6 +28,8 @@ namespace LWDicer.UI
         private FormMotorData m_MotorDataForm;
         private FormVisionData m_VisionDataForm;
         private FormVacuumData m_VacuumDataForm;
+        private FormSystemParaRead m_SystemParaReadForm;
+        private FormSystemData m_SystemDataForm;
 
 
         public FormDataScreen()
@@ -43,6 +45,8 @@ namespace LWDicer.UI
             m_MotorDataForm = new FormMotorData();
             m_VisionDataForm = new FormVisionData();
             m_VacuumDataForm = new FormVacuumData();
+            m_SystemParaReadForm = new FormSystemParaRead();
+            m_SystemDataForm = new FormSystemData();
         }
 
         protected virtual void InitializeForm()
@@ -96,6 +100,16 @@ namespace LWDicer.UI
         private void BtnVacuum_Click(object sender, EventArgs e)
         {
             m_VacuumDataForm.ShowDialog();
+        }
+
+        private void BtnExcelLoad_Click(object sender, EventArgs e)
+        {
+            m_SystemParaReadForm.ShowDialog();
+        }
+
+        private void BtnSystemData_Click(object sender, EventArgs e)
+        {
+            m_SystemDataForm.ShowDialog();
         }
     }
 }

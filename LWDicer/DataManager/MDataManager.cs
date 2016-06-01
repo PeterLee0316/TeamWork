@@ -1603,7 +1603,7 @@ namespace LWDicer.Control
         {
             int iResult;
 
-            LoadSystemParaExcelFile();
+            LoadSystemParaExcelFile(EExcel_Sheet.Skip);
 
             iResult = LoadIOList();
             //if (iResult != SUCCESS) return iResult;
@@ -1969,8 +1969,14 @@ namespace LWDicer.Control
             return SUCCESS;
         }
 
-        public int LoadSystemParaExcelFile()
+        public int LoadSystemParaExcelFile(EExcel_Sheet nSheet)
         {
+            if(nSheet == EExcel_Sheet.Skip)
+            {
+                WriteLog($"success : System Parameter Read Skip", ELogType.Debug);
+                return SUCCESS;
+            }
+
             int i = 0, j = 0, nSheetCount = 0, nCount = 0;
 
             string strPath = DBInfo.SystemDir + DBInfo.ExcelSystemPara;
@@ -1996,17 +2002,44 @@ namespace LWDicer.Control
                     SheetRange[i] = Sheet[i].UsedRange;
                 }
 
-                // Parameter Info
-                LoadParaInfoFromExcel(SheetRange[(int)EExcel_Sheet.PARA_Info]);
+                if(nSheet == EExcel_Sheet.PARA_Info)
+                {
+                    // Parameter Info
+                    LoadParaInfoFromExcel(SheetRange[(int)EExcel_Sheet.PARA_Info]);
+                }
 
-                // Alarm Info
-                LoadAlarmInfoFromExcel(SheetRange[(int)EExcel_Sheet.Alarm_Info]);
+                if (nSheet == EExcel_Sheet.Alarm_Info)
+                {
+                    // Alarm Info
+                    LoadAlarmInfoFromExcel(SheetRange[(int)EExcel_Sheet.Alarm_Info]);
+                }
 
-                // IO 
-                LoadExcelIOInfo(SheetRange[(int)EExcel_Sheet.IO_Info]);
+                if (nSheet == EExcel_Sheet.IO_Info)
+                {
+                    // IO 
+                    LoadExcelIOInfo(SheetRange[(int)EExcel_Sheet.IO_Info]);
+                }
 
-                // Motor Data
-                LoadMotorDataToExcel(SheetRange[(int)EExcel_Sheet.Motor_Data]);
+                if (nSheet == EExcel_Sheet.Motor_Data)
+                {
+                    // Motor Data
+                    LoadMotorDataToExcel(SheetRange[(int)EExcel_Sheet.Motor_Data]);
+                }
+
+                if(nSheet == EExcel_Sheet.MAX)
+                {
+                    // Parameter Info
+                    LoadParaInfoFromExcel(SheetRange[(int)EExcel_Sheet.PARA_Info]);
+
+                    // Alarm Info
+                    LoadAlarmInfoFromExcel(SheetRange[(int)EExcel_Sheet.Alarm_Info]);
+
+                    // IO 
+                    LoadExcelIOInfo(SheetRange[(int)EExcel_Sheet.IO_Info]);
+
+                    // Motor Data
+                    LoadMotorDataToExcel(SheetRange[(int)EExcel_Sheet.Motor_Data]);
+                }
 
                 WorkBook.Close(true);
                 ExcelApp.Quit();

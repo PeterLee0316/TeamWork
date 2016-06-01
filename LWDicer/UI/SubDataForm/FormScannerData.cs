@@ -1154,5 +1154,38 @@ namespace LWDicer.UI
             GridConfigure[24, 2].Text = Convert.ToString(m_PolygonPara.AutoIncrementStartFacet);
             GridConfigure[25, 2].Text = Convert.ToString(m_PolygonPara.MotorStableTime);
         }
+
+        private void BtnImageCreate_Click(object sender, EventArgs e)
+        {
+            string strImage = string.Empty, strIP = string.Empty, strFilePath = string.Empty;
+
+            int i = 0, nSize = 0, nYPitch = 1;
+
+            for (i = 0; i < 20; i++)
+            {
+                if (i == 0)
+                {
+                    continue;
+                }
+
+                nSize = 32 * i;
+
+                CMainFrame.LWDicer.m_Scanner[0].SetPicSize(nSize, nSize);
+
+                CMainFrame.LWDicer.m_Scanner[0].SetDrawLine(0, nYPitch, nSize, nYPitch, 5);
+
+                strImage = string.Format("ScannerImage_{0:d}", i);
+
+                CMainFrame.LWDicer.m_Scanner[0].SaveImage(strImage);
+
+                nYPitch++;
+
+                strIP = "192.168.22.123";
+
+                strFilePath = string.Format("T:\\SFA\\LWDicer\\ScannerLog\\{0:s}.bmp", strImage);
+
+                CMainFrame.LWDicer.m_Scanner[0].SendTFTPFile(strIP, strFilePath);
+            }
+        }
     }
 }
