@@ -14,37 +14,16 @@ namespace LWDicer.Control
 {
     public class DEF_CtrlSpinner
     {
-        public const int ERR_CTRL_COATER_UNABLE_TO_USE_HANDLER = 1;
-        public const int ERR_CTRL_COATER_UNABLE_TO_USE_LOG = 2;
-        public const int ERR_CTRL_COATER_OBJECT_ABSORBED = 3;
-        public const int ERR_CTRL_COATER_OBJECT_NOT_ABSORBED = 4;
-        public const int ERR_CTRL_COATER_OBJECT_EXIST = 5;
-        public const int ERR_CTRL_COATER_OBJECT_NOT_EXIST = 6;
-        public const int ERR_CTRL_COATER_CHECK_RUN_BEFORE_FAILED = 7;
-        public const int ERR_CTRL_COATER_CYLINDER_TIMEOUT = 8;
-        public const int ERR_CTRL_COATER_NOT_UP = 9;
-        public const int ERR_CTRL_COATERR_CANNOT_DETECT_POSINFO = 10;
-        public const int ERR_CTRL_COATER_PCB_DOOR_OPEN = 11;
-        public const int ERR_CTRL_COATER_UHANDLER_IN_DOWN_AND_LHANDLER_IN_SAME_XZONE = 12;
-        public const int ERR_CTRL_COATER_UHANDLER_NEED_DOWN_AND_LHANDLER_IN_SAME_XZONE = 13;
-        public const int ERR_CTRL_COATER_LHANDLER_NEED_MOVE_AND_UHANDLER_IN_DOWN = 14;
-        public const int ERR_CTRL_COATER_XAX_POS_NOT_MATCH_ZONE = 15;
+        public const int ERR_CTRL_SPINNER_UNABLE_TO_USE_SPINNER                         = 1;
+        public const int ERR_CTRL_SPINNER_UNABLE_TO_USE_LOG                             = 2;
+        public const int ERR_CTRL_SPINNER_OBJECT_ABSORBED                               = 3;
+        public const int ERR_CTRL_SPINNER_OBJECT_NOT_ABSORBED                           = 4;
+        public const int ERR_CTRL_SPINNER_OBJECT_EXIST                                  = 5;
+        public const int ERR_CTRL_SPINNER_OBJECT_NOT_EXIST                              = 6;
+        public const int ERR_CTRL_SPINNER_CHECK_RUN_BEFORE_FAILED                       = 7;
+        public const int ERR_CTRL_SPINNER_CHUCKTABLE_NOT_UP = 8;
+        public const int ERR_CTRL_SPINNER_CHUCKTABLE_NOT_DOWN = 9;
 
-        public const int ERR_CTRL_CLEANER_UNABLE_TO_USE_HANDLER = 1;
-        public const int ERR_CTRL_CLEANER_UNABLE_TO_USE_LOG = 2;
-        public const int ERR_CTRL_CLEANER_OBJECT_ABSORBED = 3;
-        public const int ERR_CTRL_CLEANER_OBJECT_NOT_ABSORBED = 4;
-        public const int ERR_CTRL_CLEANER_OBJECT_EXIST = 5;
-        public const int ERR_CTRL_CLEANER_OBJECT_NOT_EXIST = 6;
-        public const int ERR_CTRL_CLEANER_CHECK_RUN_BEFORE_FAILED = 7;
-        public const int ERR_CTRL_CLEANER_CYLINDER_TIMEOUT = 8;
-        public const int ERR_CTRL_CLEANER_NOT_UP = 9;
-        public const int ERR_CTRL_CLEANER_CANNOT_DETECT_POSINFO = 10;
-        public const int ERR_CTRL_CLEANER_PCB_DOOR_OPEN = 11;
-        public const int ERR_CTRL_CLEANER_UHANDLER_IN_DOWN_AND_LHANDLER_IN_SAME_XZONE = 12;
-        public const int ERR_CTRL_CLEANER_UHANDLER_NEED_DOWN_AND_LHANDLER_IN_SAME_XZONE = 13;
-        public const int ERR_CTRL_CLEANER_LHANDLER_NEED_MOVE_AND_UHANDLER_IN_DOWN = 14;
-        public const int ERR_CTRL_CLEANER_XAX_POS_NOT_MATCH_ZONE = 15;
 
         public enum ESpinnerIndex
         {
@@ -53,50 +32,21 @@ namespace LWDicer.Control
             MAX,
         }
 
-        public enum ECoaterOp
+        public enum ENozzleOpMode
         {
             NONE = -1,
-            P_WASH,
+            WAIT,
+            PRE_WASH,
             DRY,
             DRY_C,
             COAT,
             COAT_M,
             FCLN_E,
-            WAIT,
-            MAX,
-        }
-
-        public enum ECleanerOP
-        {
-            NONE = -1,
-            PRE_WASH,
-            WASH,
             RINS,
-            DRY,
             MAX,
         }
 
-        public enum ESpinnerStep
-        {
-            NONE = -1,
-            STEP_1 = 0,
-            STEP_2,
-            STEP_3,
-            STEP_4,
-            STEP_5,
-            STEP_6,
-            STEP_7,
-            STEP_8,
-            STEP_9,
-            STEP_10,
-            STEP_11,
-            STEP_12,
-            STEP_13,
-            STEP_14,
-            STEP_15,
-            STEP_16,
-            MAX,
-        }
+        public const int DEF_MAX_SPINNER_STEP = 16;
 
         public class CCtrlSpinnerRefComp
         {
@@ -117,62 +67,47 @@ namespace LWDicer.Control
         public class CCoatingData
         {
             // Coating Data
-            public int PVAQty;
-            public int MovingPVAQty;
-            public int CoatingRate;
-            public int CenterWaitTime;
-            public int MoveMode;
-            public int MovingSpeed;
-            public double CoatingArea;
+            public int PVAQty;          // Coating 용액량 ex)40ml
+            public int MovingPVAQty;    // Coating 용액 보관 통에서 노즐까지의 용액량 ex) 35ml
+            public int CoatingRate;     // 도포량 5ml/sec
+            public int CenterWaitTime;  // Nozzle이 도포 시작 위치에 와서, 도포하기전에 잠시 대기 시간 ex) 0
+            public int MoveMode;        // ex) manual , auto
+            public int MovingSpeed;     // Nozzle 왕복 이동 속도 ex) 6deg/sec
+            public double CoatingArea;  // wafer에서 도포 되는 영역. ex) 280mm
 
             // Coating Sequence
-            public CCoatingOperation[] CoatSequence = new CCoatingOperation[(int)ESpinnerStep.MAX];
+            public CSpinStep[] StepSequence = new CSpinStep[DEF_MAX_SPINNER_STEP];
 
             public CCoatingData()
             {
-                for (int i = 0; i < CoatSequence.Length; i++)
+                for (int i = 0; i < StepSequence.Length; i++)
                 {
-                    CoatSequence[i] = new CCoatingOperation();
+                    StepSequence[i] = new CSpinStep();
                 }
             }
         }
 
-        public class CCoatingOperation
+        public class CSpinStep
         {
-            public bool Use;
-            public int OpTime;
-            public int OpRPM;
-
-            public int CoterStep = -1;
-            public int CleanStep = -1;
-
-            public bool StopAfterOp;
-
-            public int Operation;
-            public int Time;
-            public int RPM;
+            public bool Use;              // 사용 여부
+            public ENozzleOpMode OpMode;  // 동작의 종류 ex) wash, coating, dry
+            public int OpTime;            // 스텝 지속시간 ex) 30sec when prewash, 60sec when dry
+            public int RPMSpeed;             // rotate 회전속도 ex) 500rpm when prewash, 1500rpm when dry
         }
 
         public class CCleaningData
         {
-            public double WashStroke;
+            public double WashStroke;   // Table Cleaning도 겸할 수 있도록 Nozzle의 이동거리 ex) 10mm
 
-            public CCleaningSquence[] CleanSequence = new CCleaningSquence[(int)ESpinnerStep.MAX];
+            public CSpinStep[] StepSequence = new CSpinStep[DEF_MAX_SPINNER_STEP];
 
             public CCleaningData()
             {
-                for (int i = 0; i < CleanSequence.Length; i++)
+                for (int i = 0; i < StepSequence.Length; i++)
                 {
-                    CleanSequence[i] = new CCleaningSquence();
+                    StepSequence[i] = new CSpinStep();
                 }
             }
-        }
-
-        public class CCleaningSquence
-        {
-            public int Operation;
-            public int Time;
-            public int RPM;
         }
     }
 
@@ -203,19 +138,19 @@ namespace LWDicer.Control
         #endregion
 
         #region Cylinder, Vacuum, Detect Object
-        public int Absorb(ESpinnerIndex index, bool bSkipSensor = false)
+        public int Absorb(bool bSkipSensor = false)
         {
             int iResult = m_RefComp.Spinner.Absorb(bSkipSensor);
             return iResult;
         }
 
-        public int Release(ESpinnerIndex index, bool bSkipSensor = false)
+        public int Release(bool bSkipSensor = false)
         {
             int iResult = m_RefComp.Spinner.Release(bSkipSensor);
             return iResult;
         }
 
-        public int IsObjectDetected(ESpinnerIndex index, out bool bStatus)
+        public int IsObjectDetected(out bool bStatus)
         {
             bStatus = false;
 
@@ -225,7 +160,7 @@ namespace LWDicer.Control
             return SUCCESS;
         }
 
-        public int IsAbsorbed(ESpinnerIndex index, out bool bStatus)
+        public int IsAbsorbed(out bool bStatus)
         {
             bStatus = false;
 
@@ -235,7 +170,7 @@ namespace LWDicer.Control
             return SUCCESS;
         }
 
-        public int IsReleased(ESpinnerIndex index, out bool bStatus)
+        public int IsReleased(out bool bStatus)
         {
             bStatus = false;
             int iResult = m_RefComp.Spinner.IsReleased(out bStatus);
@@ -244,402 +179,256 @@ namespace LWDicer.Control
             return SUCCESS;
         }
         
-        public int TableUp(ESpinnerIndex index, bool bSkipSensor)
+        public int TableUp(bool bSkipSensor = false)
         {
-            if (CheckSafetyInterlock(index) != SUCCESS)
-            {
-                if(index == ESpinnerIndex.SPINNER1)
-                {
-                    WriteLog("Cleaner의 Rotate 가동 전 Cleaner Interlock", ELogType.Debug, ELogWType.Error);
-                    return GenerateErrorCode(ERR_CTRL_CLEANER_CHECK_RUN_BEFORE_FAILED);
-                }
-                else
-                {
-                    WriteLog("Coater의 Rotate 가동 전 Coater Interlock", ELogType.Debug, ELogWType.Error);
-                    return GenerateErrorCode(ERR_CTRL_COATER_CHECK_RUN_BEFORE_FAILED);
-                }
-            }
+            // 0. check pushpull
 
-            int iResult = m_RefComp.Spinner.ChuckTableUp();
+            // 1. check vacuum
+            int iResult = CheckVacuumSafety();
+            if (iResult != SUCCESS) return iResult;
+
+            iResult = m_RefComp.Spinner.ChuckTableUp();
+            if (iResult != SUCCESS) return iResult;
             return SUCCESS;
         }
 
 
-        public int TableDown(ESpinnerIndex index, bool bSkipSensor)
+        public int TableDown(bool bSkipSensor = false)
         {
-            int iResult = m_RefComp.Spinner.ChuckTableDown();
+            // 0. check pushpull
+
+            // 1. check vacuum
+            int iResult = CheckVacuumSafety();
+            if (iResult != SUCCESS) return iResult;
+
+            iResult = m_RefComp.Spinner.ChuckTableDown();
+            if (iResult != SUCCESS) return iResult;
             return SUCCESS;
         }
 
-        
-        public int IsTableUp(ESpinnerIndex index, out bool bStatus)
+
+        public int IsTableUp(out bool bStatus)
         {
-            bStatus = false;
             int iResult = m_RefComp.Spinner.IsChuckTableUp(out bStatus);
             if (iResult != SUCCESS) return iResult;
 
             return SUCCESS;
         }
 
-        public int IsTableDown(ESpinnerIndex index, out bool bStatus)
+        public int IsTableDown(out bool bStatus)
         {
-            bStatus = false;
             int iResult = m_RefComp.Spinner.IsChuckTableDown(out bStatus);
             if (iResult != SUCCESS) return iResult;
 
             return SUCCESS;
         }
+
+        public override int Initialize()
+        {
+            int iResult;
+            bool bStatus;
+
+            iResult = CheckVacuumSafety();
+            if (iResult != SUCCESS) return iResult;
+
+            iResult = TableDown();
+            if (iResult != SUCCESS) return iResult;
+
+            iResult = MoveCleanNozzleToSafetyPos();
+            if (iResult != SUCCESS) return iResult;
+
+            iResult = MoveCoatNozzleToSafetyPos();
+            if (iResult != SUCCESS) return iResult;
+
+            iResult = MoveRotateToLoadPos();
+            if (iResult != SUCCESS) return iResult;
+
+            return SUCCESS;
+        }
+
         #endregion
 
-        public int IsRotateLoadPos(ESpinnerIndex index)
+        public int IsRotateInLoadPos(out bool bStatus)
         {
-            int iResult = m_RefComp.Spinner.CheckForRotateLoad();
+            int iResult = m_RefComp.Spinner.IsRotateInLoadPos(out bStatus);
             if (iResult != SUCCESS) return iResult;
 
             return SUCCESS;
         }
 
-        public int IsCoatNozzleSafetyPos(ESpinnerIndex index)
+        public int IsCoatNozzleInSafetyPos(out bool bStatus)
         {
-            int iResult = m_RefComp.Spinner.CheckForCoatNozzleSafety();
+            int iResult = m_RefComp.Spinner.CheckCoatNozzleInSafetyZone(out bStatus);
             if (iResult != SUCCESS) return iResult;
 
             return SUCCESS;
         }
 
-        public int IsCleanNozzleSafetyPos(ESpinnerIndex index)
+        public int IsCleanNozzleInSafetyPos(out bool bStatus)
         {
-            int iResult = m_RefComp.Spinner.CheckForCleanNozzleSafety();
+            int iResult = m_RefComp.Spinner.CheckCleanNozzleInSafetyZone(out bStatus);
             if (iResult != SUCCESS) return iResult;
 
             return SUCCESS;
         }
 
-        public int DoSpinnerOperation(ESpinnerIndex index, int nSeq)
+        public int DoSpinnerOperation(bool bCleanMode, int nSeq)
         {
-            int nTime = 0, nRPM = 0, nSpinnerOP = -1;
-
-            if (index == ESpinnerIndex.SPINNER1)
+            CSpinStep step;
+            if(bCleanMode)
             {
-                nTime = m_Data.CleanerData.CleanSequence[nSeq].Time;            // Run Time
-                nRPM = m_Data.CleanerData.CleanSequence[nSeq].RPM;              // RPM
-                nSpinnerOP = m_Data.CleanerData.CleanSequence[nSeq].Operation;  // Nozzle Operation
-            }
-            else
+                step = m_Data.CleanerData.StepSequence[nSeq];
+            } else
             {
-                nTime = m_Data.CoaterData.CoatSequence[nSeq].Time;              // Run Time
-                nRPM = m_Data.CoaterData.CoatSequence[nSeq].RPM;                // RPM
-                nSpinnerOP = m_Data.CoaterData.CoatSequence[nSeq].Operation;    // Nozzle Operation
+                step = m_Data.CoaterData.StepSequence[nSeq];
             }
 
-            // 1. Vacuum & Chuck Table Check
-            if (CheckSafetyInterlock(index) != SUCCESS)
-            {
-                if (index == ESpinnerIndex.SPINNER1)
-                {
-                    WriteLog("Cleaner의 Rotate 가동 전 Cleaner Interlock", ELogType.Debug, ELogWType.Error);
-                    return GenerateErrorCode(ERR_CTRL_CLEANER_CHECK_RUN_BEFORE_FAILED);
-                }
-                else
-                {
-                    WriteLog("Coater의 Rotate 가동 전 Coater Interlock", ELogType.Debug, ELogWType.Error);
-                    return GenerateErrorCode(ERR_CTRL_COATER_CHECK_RUN_BEFORE_FAILED);
-                }
-            }
+            // 1. Check Interlock
+            int iResult = CheckSafetyInterlock();
+            if (iResult != SUCCESS) return iResult;
 
             // 2. Rotate Run
-            StartRotateCW(index,nRPM);
+            StartRotateCW(step.RPMSpeed);
 
-            // 4. Nozzle Operation
-            NozzeleOperation(index, nSpinnerOP);
+            // 3. Do Nozzle Operation
+            switch (step.OpMode)
+            {
+                case ENozzleOpMode.WAIT:
+                    break;
+
+                case ENozzleOpMode.PRE_WASH:
+                    break;
+
+                case ENozzleOpMode.DRY:
+                    break;
+
+                case ENozzleOpMode.DRY_C:
+                    break;
+
+                case ENozzleOpMode.COAT:
+                    break;
+
+                case ENozzleOpMode.COAT_M:
+                    break;
+
+                case ENozzleOpMode.FCLN_E:
+                    break;
+
+                case ENozzleOpMode.RINS:
+                    break;
+            }
+            return SUCCESS;
+        }
+        
+        private int CheckSafetyInterlock()
+        {
+            int iResult;
+            bool bStatus;
+
+            // 1. check vacuum
+            iResult = CheckVacuumSafety();
+            if (iResult != SUCCESS) return iResult;
+
+            // 2. Chuck Table Down Check
+            iResult = IsTableDown(out bStatus);
+            if (iResult != SUCCESS) return iResult;
+            if (bStatus != false) return GenerateErrorCode(ERR_CTRL_SPINNER_CHUCKTABLE_NOT_DOWN);
 
             return SUCCESS;
         }
 
-        private int NozzeleOperation(ESpinnerIndex index, int nSpinnerOP)
+        private int CheckVacuumSafety()
         {
-            if(index == ESpinnerIndex.SPINNER2)
+            bool bStatus;
+            int iResult = IsObjectDetected(out bStatus);
+            if (iResult != SUCCESS) return iResult;
+            if (AutoRunMode == EAutoRunMode.DRY_RUN)
             {
-                CoaterNozzleOP(index, nSpinnerOP);
+                if (bStatus) return GenerateErrorCode(ERR_CTRL_SPINNER_OBJECT_EXIST);
+            }
+            if (bStatus)
+            {
+                iResult = Absorb();
+                if (iResult != SUCCESS) return iResult;
             }
             else
             {
-                ClenerNozzleOP(index, nSpinnerOP);
+                iResult = Release();
+                if (iResult != SUCCESS) return iResult;
             }
 
-            return SUCCESS;
-        }
-
-        private int CoaterNozzleOP(ESpinnerIndex index, int NozzleOP)
-        {
-            switch (NozzleOP)
-            {
-                case (int)ECoaterOp.P_WASH:
-                    break;
-
-                case (int)ECoaterOp.DRY:
-                    break;
-
-                case (int)ECoaterOp.DRY_C:
-                    break;
-
-                case (int)ECoaterOp.COAT:
-                    break;
-
-                case (int)ECoaterOp.COAT_M:
-                    break;
-
-                case (int)ECoaterOp.FCLN_E:
-                    break;
-
-                case (int)ECoaterOp.WAIT:
-                    break;
-            }
-
-            return SUCCESS;
-        }
-
-        private int ClenerNozzleOP(ESpinnerIndex index, int NozzleOP)
-        {
-            switch (NozzleOP)
-            {
-                case (int)ECleanerOP.PRE_WASH:
-                    break;
-
-                case (int)ECleanerOP.WASH:
-                    break;
-
-                case (int)ECleanerOP.RINS:
-                    break;
-
-                case (int)ECleanerOP.DRY:
-                    break;
-            }
 
             return SUCCESS;
         }
 
 
-        private int CheckSafetyInterlock(ESpinnerIndex index)
-        {
-            int iResult = 0;
-            bool bStatus = false;
-
-            if(AutoRunMode != EAutoRunMode.DRY_RUN)
-            {
-                // 1. Wafer Vac Check
-                iResult = IsAbsorbed(index, out bStatus);
-                if (iResult != SUCCESS)
-                {
-                    if (index == ESpinnerIndex.SPINNER1)
-                    {
-                        WriteLog("Cleaner의 Rotate Chuck Table Vacuum Off.", ELogType.Debug, ELogWType.Error);
-                        return iResult;
-                    }
-                    else
-                    {
-                        WriteLog("Coater의 Rotate Chuck Table Vacuum Off.", ELogType.Debug, ELogWType.Error);
-                        return iResult;
-                    }
-                }
-            }
-
-            // 2. Chuck Table Down Check
-            iResult = IsTableDown(index, out bStatus);
-            if (iResult != SUCCESS)
-            {
-                if (index == ESpinnerIndex.SPINNER1)
-                {
-                    WriteLog("Cleaner의 Rotate Chuck Table Not Down Pos.", ELogType.Debug, ELogWType.Error);
-                    return iResult;
-                }
-                else
-                {
-                    WriteLog("Coater의 Rotate Chuck Table Not Down Pos.", ELogType.Debug, ELogWType.Error);
-                    return iResult;
-                }
-            }
-
-            return SUCCESS;
-        }
-
-        private int CheckVacuum_forRotateMove(ESpinnerIndex index, bool bWaferTransfer)
-        {
-            int iResult = SUCCESS;
-            bool bDetected, bAbsorbed;
-
-            // check vacuum
-            iResult = IsObjectDetected(index, out bDetected);
-            if (iResult != SUCCESS) return iResult;
-
-            iResult = IsAbsorbed(index, out bAbsorbed);
-            if (iResult != SUCCESS) return iResult;
-
-            if (bWaferTransfer)
-            {
-                if (bDetected == true && bAbsorbed == false)
-                {
-                    iResult = Absorb(index);
-                    if (iResult != SUCCESS) return iResult;
-
-                    bAbsorbed = true;
-                }
-            }
-
-            // check object exist when auto run
-            if (AutoManualMode == EAutoManual.AUTO)
-            {
-                if (AutoRunMode != EAutoRunMode.DRY_RUN)
-                {
-                    if (bDetected != bWaferTransfer)
-                    {
-                        if (bWaferTransfer)    // Wafer Exist
-                        {
-                            if (index == ESpinnerIndex.SPINNER1)
-                            {
-                                WriteLog("Cleaner의 Rotate Chuck Table Vacuum Check Fail. OBJECT NOT EXIST", ELogType.Debug, ELogWType.Error);
-                                return GenerateErrorCode(ERR_CTRL_CLEANER_OBJECT_NOT_EXIST);
-                            }
-                            else
-                            {
-                                WriteLog("Coater의 Rotate Chuck Table Vacuum Check Fail. OBJECT NOT EXIST", ELogType.Debug, ELogWType.Error);
-                                return GenerateErrorCode(ERR_CTRL_COATER_OBJECT_NOT_EXIST);
-                            }
-                        }
-                        else
-                        {
-                            if (index == ESpinnerIndex.SPINNER1)
-                            {
-                                WriteLog("Cleaner의 Rotate Chuck Table Vacuum Check Fail. OBJECT NOT EXIST", ELogType.Debug, ELogWType.Error);
-                                return GenerateErrorCode(ERR_CTRL_CLEANER_OBJECT_EXIST);
-                            }
-                            else
-                            {
-                                WriteLog("Coater의 Rotate Chuck Table Vacuum Check Fail. OBJECT NOT EXIST", ELogType.Debug, ELogWType.Error);
-                                return GenerateErrorCode(ERR_CTRL_COATER_OBJECT_EXIST);
-                            }
-                        }
-                    }
-                }
-                else // dry run
-                {
-                    if (bDetected || bAbsorbed)
-                    {
-                        if (index == ESpinnerIndex.SPINNER1)
-                        {
-                            WriteLog("Cleaner의 Rotate Chuck Table Vacuum Check Fail. OBJECT NOT EXIST", ELogType.Debug, ELogWType.Error);
-                            return GenerateErrorCode(ERR_CTRL_CLEANER_OBJECT_EXIST);
-                        }
-                        else
-                        {
-                            WriteLog("Coater의 Rotate Chuck Table Vacuum Check Fail. OBJECT NOT EXIST", ELogType.Debug, ELogWType.Error);
-                            return GenerateErrorCode(ERR_CTRL_COATER_OBJECT_EXIST);
-                        }
-                    }
-                }
-            }
-
-            return SUCCESS;
-        }
-
-
-        public int RotateStop(ESpinnerIndex index)
+        public int RotateStop()
         {
             return m_RefComp.Spinner.RotateStop();
         }
 
-        public int StartRotateCW(ESpinnerIndex index, int nRPM)
+        public int StartRotateCW(int nRPM)
         {
-            if (CheckSafetyInterlock(index) != SUCCESS)
-            {
-                if (index == ESpinnerIndex.SPINNER1)
-                {
-                    WriteLog("Cleaner의 Rotate 가동 전 Cleaner Interlock", ELogType.Debug, ELogWType.Error);
-                    return GenerateErrorCode(ERR_CTRL_CLEANER_CHECK_RUN_BEFORE_FAILED);
-                }
-                else
-                {
-                    WriteLog("Coater의 Rotate 가동 전 Coater Interlock", ELogType.Debug, ELogWType.Error);
-                    return GenerateErrorCode(ERR_CTRL_COATER_CHECK_RUN_BEFORE_FAILED);
-                }
-            }
+            int iResult = CheckSafetyInterlock();
+            if (iResult != SUCCESS) return SUCCESS;
 
-            m_RefComp.Spinner.StartRotateCW(nRPM);
+            iResult = m_RefComp.Spinner.StartRotateCW(nRPM);
+            if (iResult != SUCCESS) return SUCCESS;
 
             return SUCCESS;
         }
 
-        public int StartRotateCCW(ESpinnerIndex index, int nRPM)
+        public int StartRotateCCW(int nRPM)
         {
-            if (CheckSafetyInterlock(index) != SUCCESS)
-            {
-                if(index == ESpinnerIndex.SPINNER1)
-                {
-                    WriteLog("Cleaner의 Rotate 가동 전 Cleaner Interlock", ELogType.Debug, ELogWType.Error);
-                    return GenerateErrorCode(ERR_CTRL_CLEANER_CHECK_RUN_BEFORE_FAILED);
-                }
-                else
-                {
-                    WriteLog("Coater의 Rotate 가동 전 Coater Interlock", ELogType.Debug, ELogWType.Error);
-                    return GenerateErrorCode(ERR_CTRL_COATER_CHECK_RUN_BEFORE_FAILED);
-                }
-            }
+            int iResult = CheckSafetyInterlock();
+            if (iResult != SUCCESS) return SUCCESS;
 
-            m_RefComp.Spinner.StartRotateCCW(nRPM);
+            iResult = m_RefComp.Spinner.StartRotateCCW(nRPM);
+            if (iResult != SUCCESS) return SUCCESS;
 
             return SUCCESS;
         }
 
-        public int MoveRotateToLoadPos(ESpinnerIndex index, bool bMoveAllAxis, bool bMoveXYT, bool bMoveZ)
+        public int MoveRotateToLoadPos(double dMoveOffset = 0)
         {
-            return m_RefComp.Spinner.MoveRotateToLoadPos(bMoveAllAxis, bMoveXYT, bMoveZ);
+            // Up/Down이 아닌 Rotate의 회전, Nozzle의 이동 동작 interlock은 Mechanical Layer에서 처리했음
+            return m_RefComp.Spinner.MoveRotateToLoadPos(dMoveOffset);
         }
 
-        public int MoveCoatNozzleToSafetyPos(ESpinnerIndex index, bool bMoveAllAxis, bool bMoveXYT, bool bMoveZ)
+        public int MoveCoatNozzleToSafetyPos(double dMoveOffset = 0)
         {
-            return m_RefComp.Spinner.MoveCoatNozzletoSafetyPos(bMoveAllAxis, bMoveXYT, bMoveZ);
+            // Up/Down이 아닌 Rotate의 회전, Nozzle의 이동 동작 interlock은 Mechanical Layer에서 처리했음
+            return m_RefComp.Spinner.MoveCoatNozzleToSafetyPos(dMoveOffset);
         }
 
-        public int MoveCoatNozzleToStartPos(ESpinnerIndex index, bool bMoveAllAxis, bool bMoveXYT, bool bMoveZ)
+        public int MoveCoatNozzleToStartPos(double dMoveOffset = 0)
         {
-            int iResult = 0;
-
-            if(CheckSafetyInterlock(index) != SUCCESS)
-            {
-                if(index == ESpinnerIndex.SPINNER1)
-                {
-                    WriteLog("Cleaner의 Start 이동 전 Cleaner Interlock", ELogType.Debug, ELogWType.Error);
-                    return GenerateErrorCode(ERR_CTRL_CLEANER_CHECK_RUN_BEFORE_FAILED);
-                }
-                else
-                {
-                    WriteLog("Coater의 Start 이동 전 Coater Interlock", ELogType.Debug, ELogWType.Error);
-                    return GenerateErrorCode(ERR_CTRL_COATER_CHECK_RUN_BEFORE_FAILED);
-                }
-            }
-
-            return m_RefComp.Spinner.MoveCoatNozzleToStartPos(bMoveAllAxis, bMoveXYT, bMoveZ);
+            // Up/Down이 아닌 Rotate의 회전, Nozzle의 이동 동작 interlock은 Mechanical Layer에서 처리했음
+            return m_RefComp.Spinner.MoveCoatNozzleToStartPos(dMoveOffset);
         }
 
-        public int MoveCoatNozzleToEndPos(ESpinnerIndex index, bool bMoveAllAxis, bool bMoveXYT, bool bMoveZ)
+        public int MoveCoatNozzleToEndPos(double dMoveOffset = 0)
         {
-            int iResult = 0;
+            // Up/Down이 아닌 Rotate의 회전, Nozzle의 이동 동작 interlock은 Mechanical Layer에서 처리했음
+            return m_RefComp.Spinner.MoveCoatNozzleToStartPos(dMoveOffset);
+        }
 
-            if (CheckSafetyInterlock(index) != SUCCESS)
-            {
-                if (index == ESpinnerIndex.SPINNER1)
-                {
-                    WriteLog("Cleaner의 Start 이동 전 Cleaner Interlock", ELogType.Debug, ELogWType.Error);
-                    return GenerateErrorCode(ERR_CTRL_CLEANER_CHECK_RUN_BEFORE_FAILED);
-                }
-                else
-                {
-                    WriteLog("Coater의 Start 이동 전 Coater Interlock", ELogType.Debug, ELogWType.Error);
-                    return GenerateErrorCode(ERR_CTRL_COATER_CHECK_RUN_BEFORE_FAILED);
-                }
-            }
+        public int MoveCleanNozzleToSafetyPos(double dMoveOffset = 0)
+        {
+            // Up/Down이 아닌 Rotate의 회전, Nozzle의 이동 동작 interlock은 Mechanical Layer에서 처리했음
+            return m_RefComp.Spinner.MoveCleanNozzleToSafetyPos(dMoveOffset);
+        }
 
-            return m_RefComp.Spinner.MoveCoatNozzleToEndPos(bMoveAllAxis, bMoveXYT, bMoveZ);
+        public int MoveCleanNozzleToStartPos(double dMoveOffset = 0)
+        {
+            // Up/Down이 아닌 Rotate의 회전, Nozzle의 이동 동작 interlock은 Mechanical Layer에서 처리했음
+            return m_RefComp.Spinner.MoveCleanNozzleToStartPos(dMoveOffset);
+        }
+
+        public int MoveCleanNozzleToEndPos(double dMoveOffset = 0)
+        {
+            // Up/Down이 아닌 Rotate의 회전, Nozzle의 이동 동작 interlock은 Mechanical Layer에서 처리했음
+            return m_RefComp.Spinner.MoveCleanNozzleToStartPos(dMoveOffset);
         }
     }
 }

@@ -225,11 +225,10 @@ namespace LWDicer.Control
         /// sPos으로 이동하고, PosInfo를 iPos으로 셋팅한다. Backlash는 일단 차후로.
         /// </summary>
         /// <param name="sPos"></param>
-        /// <param name="iPos"></param>
         /// <param name="bMoveFlag"></param>
         /// <param name="bUseBacklash"></param>
         /// <returns></returns>
-        public int MoveElevatorPos(CPos_XYTZ sPos, int iPos, bool[] bMoveFlag = null, bool bUseBacklash = false,
+        public int MoveElevatorPos(CPos_XYTZ sPos, bool[] bMoveFlag = null, bool bUseBacklash = false,
             bool bUsePriority = false, int[] movePriority = null)
         {
             int iResult = SUCCESS;
@@ -242,12 +241,6 @@ namespace LWDicer.Control
             if(bMoveFlag == null)
             {
                 bMoveFlag = new bool[DEF_MAX_COORDINATE] { false, false, false, true };
-            }
-
-            // Bottom Position으로 가는 것이면 Align Offset을 초기화해야 한다.
-            if (iPos == (int)EElevatorPos.BOTTOM)
-            {
-                AxElevatorInfo.InitAlignOffset();
             }
 
             // trans to array
@@ -291,13 +284,7 @@ namespace LWDicer.Control
                 }
             }
 
-            // set working pos
-            if (iPos > (int)EElevatorPos.NONE)
-            {
-                AxElevatorInfo.PosInfo = iPos;
-            }
-
-            string str = $"success : move Elevator to pos:{iPos} {sPos.ToString()}";
+            string str = $"success : move Elevator to pos:{sPos.ToString()}";
             WriteLog(str, ELogType.Debug, ELogWType.Normal);
 
             return SUCCESS;
@@ -342,7 +329,7 @@ namespace LWDicer.Control
                 sTargetPos = sTargetPos + dMoveOffset;
             }
 
-            iResult = MoveElevatorPos(sTargetPos, iPos, bMoveFlag, bUseBacklash, bUsePriority, movePriority);
+            iResult = MoveElevatorPos(sTargetPos, bMoveFlag, bUseBacklash, bUsePriority, movePriority);
             if (iResult != SUCCESS) return iResult;
             if (bUpdatedPosInfo == true)
             {

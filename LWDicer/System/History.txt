@@ -186,6 +186,15 @@ LWDicer의 DataManager에서 데이터를 읽어오기 위한 3가지 함수 : S
 1. ModelHeader, ModelData 항목 조작 함수들 정비 및 추가.
 2. System 시작시에 SystemData, Model Root Folder, Default Model 있는지 검사해서 없으면 자동 생성해줌
 
+// Version : 0.0.21
+// Grade : ★
+// Date : 160531~160602
+// Context
+1. CMAxisZoneCheck class에서 SafetyPos member 빼내서 별도로 관리 및 관련 class들 수정 (주로 Mechanical Layer)
+   MLWDicer의 Initialize에서 create class 할 때에 CMAxisZoneCheck 초기화해서 set해주는 부분 추가
+2. class 필수부분, cylinder&vacuum 부분들 #region / #endregion으로 묶어줌
+3. MeSpinner, MCtrlSpinner 1차 수정 완료.
+
 ////////////////////////////////////////////////////////////////////////////////////////////
 // LJJ
 // Version : 0.0.1

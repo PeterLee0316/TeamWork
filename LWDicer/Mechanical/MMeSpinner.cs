@@ -16,24 +16,24 @@ namespace LWDicer.Control
 {
     public class DEF_MeSpinner
     {
-        public const int ERR_SPINNER_UNABLE_TO_USE_IO = 1;
-        public const int ERR_SPINNER_UNABLE_TO_USE_CYL = 2;
-        public const int ERR_SPINNER_UNABLE_TO_USE_VCC = 3;
-        public const int ERR_SPINNER_UNABLE_TO_USE_AXIS = 4;
-        public const int ERR_SPINNER_UNABLE_TO_USE_VISION = 5;
-        public const int ERR_SPINNER_NOT_ORIGIN_RETURNED = 6;
-        public const int ERR_SPINNER_INVALID_AXIS = 7;
-        public const int ERR_SPINNER_INVALID_PRIORITY = 8;
-        public const int ERR_SPINNER_NOT_SAME_POSITION = 9;
-        public const int ERR_SPINNER_LCD_VCC_ABNORMALITY = 10;
-        public const int ERR_SPINNER_VACUUM_ON_TIME_OUT = 11;
-        public const int ERR_SPINNER_VACUUM_OFF_TIME_OUT = 12;
-        public const int ERR_SPINNER_INVALID_PARAMETER = 13;
-        public const int ERR_SPINNER_OBJECT_DETECTED_BUT_NOT_ABSORBED = 14;
+        public const int ERR_SPINNER_UNABLE_TO_USE_IO                     = 1;
+        public const int ERR_SPINNER_UNABLE_TO_USE_CYL                    = 2;
+        public const int ERR_SPINNER_UNABLE_TO_USE_VCC                    = 3;
+        public const int ERR_SPINNER_UNABLE_TO_USE_AXIS                   = 4;
+        public const int ERR_SPINNER_UNABLE_TO_USE_VISION                 = 5;
+        public const int ERR_SPINNER_NOT_ORIGIN_RETURNED                  = 6;
+        public const int ERR_SPINNER_INVALID_AXIS                         = 7;
+        public const int ERR_SPINNER_INVALID_PRIORITY                     = 8;
+        public const int ERR_SPINNER_NOT_SAME_POSITION                    = 9;
+        public const int ERR_SPINNER_LCD_VCC_ABNORMALITY                  = 10;
+        public const int ERR_SPINNER_VACUUM_ON_TIME_OUT                   = 11;
+        public const int ERR_SPINNER_VACUUM_OFF_TIME_OUT                  = 12;
+        public const int ERR_SPINNER_INVALID_PARAMETER                    = 13;
+        public const int ERR_SPINNER_OBJECT_DETECTED_BUT_NOT_ABSORBED     = 14;
         public const int ERR_SPINNER_OBJECT_NOT_DETECTED_BUT_NOT_RELEASED = 15;
-        public const int ERR_SPINNER_TABLE_UP_INTERLOCK = 16;
-        public const int ERR_SPINNER_CLEANER_NOZZLE_NOT_SAFETY_POS = 17;
-        public const int ERR_SPINNER_COATER_NOZZLE_NOT_SAFETY_POS = 18;
+        public const int ERR_SPINNER_CHUCKTABLE_NOT_DOWN                  = 16;
+        public const int ERR_SPINNER_CLEAN_NOZZLE_NOT_IN_SAFETY_ZONE      = 17;
+        public const int ERR_SPINNER_COAT_NOZZLE_NOT_IN_SAFETY_ZONE       = 18;
 
         public enum ESpinnerType
         {
@@ -100,9 +100,19 @@ namespace LWDicer.Control
             public ESpinnerType[] SpinnerType = new ESpinnerType[DEF_MAX_COORDINATE];
 
             public int InDetectObject;
-
             public int OutRingBlow;
 
+            public int InRotateLoadPos; // 회전체이기때문에 pos 값보다는 sensor를 이용하면 한바퀴안에 LoadPos으로 이동 가능하기때문에
+
+            // IO Address for manual check axis zone
+            public CMAxisZoneCheck CleanNozzleZoneCheck = new CMAxisZoneCheck((int)ENozzleAxZone.MAX, (int)ENozzleAxZone.MAX,
+            (int)ENozzleAxZone.MAX, (int)ENozzleAxZone.MAX);
+            public CMAxisZoneCheck CoatNozzleZoneCheck = new CMAxisZoneCheck((int)ENozzleAxZone.MAX, (int)ENozzleAxZone.MAX,
+            (int)ENozzleAxZone.MAX, (int)ENozzleAxZone.MAX);
+
+            // Safety Position
+            public CPos_XYTZ CleanNozzleSafetyPos;
+            public CPos_XYTZ CoatNozzleSafetyPos;
 
             public CMeSpinnerData(ESpinnerType[] SpinnerType = null)
             {
@@ -193,7 +203,7 @@ namespace LWDicer.Control
         #endregion
 
         #region Cylinder, Vacuum, Detect Object
-        public int Absorb(bool bSkipSensor)
+        public int Absorb(bool bSkipSensor = false)
         {
             bool bStatus;
             int iResult = SUCCESS;
@@ -256,7 +266,7 @@ namespace LWDicer.Control
             return SUCCESS;
         }
 
-        public int Release(bool bSkipSensor)
+        public int Release(bool bSkipSensor = false)
         {
             bool bStatus;
             int iResult = SUCCESS;
@@ -359,34 +369,26 @@ namespace LWDicer.Control
         }
         public int ChuckTableUp(bool bSkipSensor = false)
         {
-            if (CheckForCleanNozzleSafety() != SUCCESS)
-            {
-                WriteLog("fail : Cleaner Nozzle Not Safety Position", ELogType.Debug, ELogWType.Error);
-                return GenerateErrorCode(ERR_SPINNER_CLEANER_NOZZLE_NOT_SAFETY_POS);
-            }
+            int iResult = CheckForChuckCylMoving();
+            if (iResult != SUCCESS) return iResult;
 
-            if (CheckForCoatNozzleSafety() != SUCCESS)
-            {
-                WriteLog("fail : Coater Nozzle Not Safety Position", ELogType.Debug, ELogWType.Error);
-                return GenerateErrorCode(ERR_SPINNER_COATER_NOZZLE_NOT_SAFETY_POS);
-            }
-
-            int iResult = m_RefComp.ChuckTableUDCyl.Up(bSkipSensor);
+            iResult = m_RefComp.ChuckTableUDCyl.Up(bSkipSensor);
             return iResult;
         }
 
 
         public int ChuckTableDown(bool bSkipSensor = false)
         {
-            int iResult = m_RefComp.ChuckTableUDCyl.Down(bSkipSensor);
+            int iResult = CheckForChuckCylMoving();
+            if (iResult != SUCCESS) return iResult;
+
+            iResult = m_RefComp.ChuckTableUDCyl.Down(bSkipSensor);
             return iResult;
         }
 
         public int IsChuckTableUp(out bool bStatus)
         {
-            int iResult;
-
-            iResult = m_RefComp.ChuckTableUDCyl.IsUp(out bStatus);
+            int iResult = m_RefComp.ChuckTableUDCyl.IsUp(out bStatus);
             if (iResult != SUCCESS) return iResult;
 
             return SUCCESS;
@@ -394,9 +396,7 @@ namespace LWDicer.Control
 
         public int IsChuckTableDown(out bool bStatus)
         {
-            int iResult;
-
-            iResult = m_RefComp.ChuckTableUDCyl.IsUp(out bStatus);
+            int iResult = m_RefComp.ChuckTableUDCyl.IsUp(out bStatus);
             if (bStatus == false) return SUCCESS;
 
             return SUCCESS;
@@ -415,9 +415,7 @@ namespace LWDicer.Control
         }
         public int IsCleanNozzleValveOpen(out bool bStatus)
         {
-            int iResult;
-
-            iResult = m_RefComp.CleanNozzleSolCyl.IsOpen(out bStatus);
+            int iResult = m_RefComp.CleanNozzleSolCyl.IsOpen(out bStatus);
             if (iResult != SUCCESS) return iResult;
 
             return SUCCESS;
@@ -425,9 +423,7 @@ namespace LWDicer.Control
 
         public int IsCleanNozzleValveClose(out bool bStatus)
         {
-            int iResult;
-
-            iResult = m_RefComp.CleanNozzleSolCyl.IsClose(out bStatus);
+            int iResult = m_RefComp.CleanNozzleSolCyl.IsClose(out bStatus);
             if (iResult != SUCCESS) return iResult;
 
             return SUCCESS;
@@ -447,9 +443,7 @@ namespace LWDicer.Control
 
         public int IsCoatNozzleValveOpen(out bool bStatus)
         {
-            int iResult;
-
-            iResult = m_RefComp.CoatNozzleSolCyl.IsOpen(out bStatus);
+            int iResult = m_RefComp.CoatNozzleSolCyl.IsOpen(out bStatus);
             if (iResult != SUCCESS) return iResult;
 
             return SUCCESS;
@@ -457,9 +451,7 @@ namespace LWDicer.Control
 
         public int IsCoatNozzleValveClose(out bool bStatus)
         {
-            int iResult;
-
-            iResult = m_RefComp.CoatNozzleSolCyl.IsClose(out bStatus);
+            int iResult = m_RefComp.CoatNozzleSolCyl.IsClose(out bStatus);
             if (iResult != SUCCESS) return iResult;
 
             return SUCCESS;
@@ -499,6 +491,24 @@ namespace LWDicer.Control
         #endregion
 
         #region Axis Move, Check Interlock
+        public int IsAllAxisOrignReturned(out bool bStatus)
+        {
+            bool[] bAxisStatus;
+            int iResult = m_RefComp.AxSpinRotate.IsOriginReturn(DEF_ALL_COORDINATE, out bStatus, out bAxisStatus);
+            if (iResult != SUCCESS) return iResult;
+            if (bStatus == false) return SUCCESS;
+
+            iResult = m_RefComp.AxSpinCleanNozzle.IsOriginReturn(DEF_ALL_COORDINATE, out bStatus, out bAxisStatus);
+            if (iResult != SUCCESS) return iResult;
+            if (bStatus == false) return SUCCESS;
+
+            iResult = m_RefComp.AxSpinCoatNozzle.IsOriginReturn(DEF_ALL_COORDINATE, out bStatus, out bAxisStatus);
+            if (iResult != SUCCESS) return iResult;
+            if (bStatus == false) return SUCCESS;
+
+            return iResult;
+        }
+
         public int GetRotateCurPos(out CPos_XYTZ pos)
         {
             int iResult = m_RefComp.AxSpinRotate.GetCurPos(out pos);
@@ -517,6 +527,124 @@ namespace LWDicer.Control
             return iResult;
         }
 
+        public int CheckForChuckCylMoving()
+        {
+            bool bStatus;
+
+            // check origin
+            //int iResult = IsAllAxisOrignReturned(out bStatus);
+            //if (iResult != SUCCESS) return iResult;
+            //if (bStatus == false)
+            //{
+            //    return GenerateErrorCode(ERR_SPINNER_NOT_ORIGIN_RETURNED);
+            //}
+
+            // check vacuum
+            int iResult = IsObjectDetected(out bStatus);
+            if (iResult != SUCCESS) return iResult;
+            if (bStatus)
+            {
+                iResult = Absorb();
+                if (iResult != SUCCESS) return iResult;
+            }
+            else
+            {
+                iResult = Release();
+                if (iResult != SUCCESS) return iResult;
+            }
+
+            // check nozzle
+            iResult = CheckCoatNozzleInSafetyZone(out bStatus);
+            if (iResult != SUCCESS) return iResult;
+            if (bStatus == false) return GenerateErrorCode(ERR_SPINNER_COAT_NOZZLE_NOT_IN_SAFETY_ZONE);
+
+            iResult = CheckCleanNozzleInSafetyZone(out bStatus);
+            if (iResult != SUCCESS) return iResult;
+            if (bStatus == false) return GenerateErrorCode(ERR_SPINNER_CLEAN_NOZZLE_NOT_IN_SAFETY_ZONE);
+
+            return SUCCESS;
+        }
+
+        public int CheckForRotateMoving()
+        {
+            bool bStatus;
+
+            // check origin
+            int iResult = IsAllAxisOrignReturned(out bStatus);
+            if (iResult != SUCCESS) return iResult;
+            if (bStatus == false)
+            {
+                return GenerateErrorCode(ERR_SPINNER_NOT_ORIGIN_RETURNED);
+            }
+
+            // check chuck is down
+            iResult = IsChuckTableDown(out bStatus);
+            if (iResult != SUCCESS) return iResult;
+            if(bStatus == false)
+            {
+                return GenerateErrorCode(ERR_SPINNER_CHUCKTABLE_NOT_DOWN);
+            }
+
+            // check vacuum
+            iResult = IsObjectDetected(out bStatus);
+            if (iResult != SUCCESS) return iResult;
+            if (bStatus)
+            {
+                iResult = Absorb();
+                if (iResult != SUCCESS) return iResult;
+            } else
+            {
+                iResult = Release();
+                if (iResult != SUCCESS) return iResult;
+            }
+
+            // check cylinder
+
+            return SUCCESS;
+        }
+
+        public int CheckForCleanNozzleMoving()
+        {
+            bool bStatus;
+
+            // check default
+            int iResult = CheckForRotateMoving();
+            if (iResult != SUCCESS) return iResult;
+
+            // check other nozzle
+            iResult = CheckCoatNozzleInSafetyZone(out bStatus);
+            if (iResult != SUCCESS) return iResult;
+            if (bStatus == false) return GenerateErrorCode(ERR_SPINNER_COAT_NOZZLE_NOT_IN_SAFETY_ZONE);
+
+            return SUCCESS;
+        }
+
+        public int CheckForCoatNozzleMoving()
+        {
+            bool bStatus;
+
+            // check default
+            int iResult = CheckForRotateMoving();
+            if (iResult != SUCCESS) return iResult;
+
+            // check other nozzle
+            iResult = CheckCleanNozzleInSafetyZone(out bStatus);
+            if (iResult != SUCCESS) return iResult;
+            if (bStatus == false) return GenerateErrorCode(ERR_SPINNER_CLEAN_NOZZLE_NOT_IN_SAFETY_ZONE);
+
+            return SUCCESS;
+        }
+
+        public int IsRotateInLoadPos(out bool bStatus)
+        {
+            int iResult = m_RefComp.IO.IsOn(m_Data.InRotateLoadPos, out bStatus);
+            if (iResult != SUCCESS) return iResult;
+
+            return SUCCESS;
+        }
+
+        ////////////////////////////////////////////////////////////////////////////
+        // Rotate
 
         public int RotateStop()
         {
@@ -533,106 +661,63 @@ namespace LWDicer.Control
             return m_RefComp.AxSpinRotate.JogMoveVelocity(DEF_MAX_COORDINATE, false, nSpeed);
         }
 
-        public int MoveRotateToLoadPos(bool bMoveAllAxis = true, bool bMoveXYT = false, bool bMoveZ = false)
+        public int MoveRotateToLoadPos(double dMoveOffset = 0)
         {
             int iPos = (int)ERotatePos.LOAD;
 
-            return MoveRotatePos(iPos, bMoveAllAxis, bMoveXYT, bMoveZ);
+            return MoveRotatePos(iPos, true, dMoveOffset);
         }
 
-        public int MoveCleanNozzleToSafetyPos(bool bMoveAllAxis = true, bool bMoveXYT = false, bool bMoveZ = false)
-        {
-            int iPos = (int)ENozzlePos.SAFETY;
-
-            return MoveCleanNozzlePos(iPos, bMoveAllAxis, bMoveXYT, bMoveZ);
-        }
-
-        public int MoveCleanNozzleToStartPos(bool bMoveAllAxis = true, bool bMoveXYT = false, bool bMoveZ = false)
-        {
-            int iPos = (int)ENozzlePos.START;
-            bool bStatus = false;
-
-            // check chuck table
-            int iResult = CheckChuckTableSafetyForNozzleMoving();
-            if (iResult != SUCCESS) return iResult;
-
-            // check other nozzle
-
-            return MoveCleanNozzlePos(iPos, bMoveAllAxis, bMoveXYT, bMoveZ);
-        }
-
-        public int MoveCleanNozzleToEndPos(bool bMoveAllAxis = true, bool bMoveXYT = false, bool bMoveZ = false)
-        {
-            int iPos = (int)ENozzlePos.END;
-            bool bStatus = false;
-
-            // Chuck Table Up Interlock
-            if (IsChuckTableUp(out bStatus) == SUCCESS)
-            {
-                WriteLog("fail : ChuckTable Cylinder Up", ELogType.Debug, ELogWType.Error);
-                return GenerateErrorCode(ERR_SPINNER_TABLE_UP_INTERLOCK);
-            }
-
-            return MoveCleanNozzlePos(iPos, bMoveAllAxis, bMoveXYT, bMoveZ);
-        }
-
-        public int MoveRotatePos(CPos_XYTZ sPos, int iPos, bool[] bMoveFlag = null, bool bUseBacklash = false,
-            bool bUsePriority = false, int[] movePriority = null)
+        private int MoveRotatePos(CPos_XYTZ sPos, bool bUseBacklash = false)
         {
             int iResult = SUCCESS;
 
-            if (bMoveFlag == null)
-            {
-                bMoveFlag = new bool[DEF_MAX_COORDINATE] { true, true, true, true };
-            }
+            // safety check
+            iResult = CheckForRotateMoving();
+            if (iResult != SUCCESS) return iResult;
 
+            // assume move all axis if bMoveFlag is null
+            bool[] bMoveFlag = new bool[DEF_MAX_COORDINATE] { false, false, true, false };
+
+            // trans to array
             double[] dTargetPos;
             sPos.TransToArray(out dTargetPos);
 
-            // move X, Y, T
-            if (bMoveFlag[DEF_X] == true || bMoveFlag[DEF_Y] == true || bMoveFlag[DEF_T] == true)
+            // backlash
+            if (bUseBacklash)
             {
-                // set priority
-                if (bUsePriority == true && movePriority != null)
-                {
-                    m_RefComp.AxSpinCleanNozzle.SetAxesMovePriority(movePriority);
-                }
+                // 나중에 작업
+            }
 
-                // move
-                bMoveFlag[DEF_Z] = false;
-                iResult = m_RefComp.AxSpinCleanNozzle.Move(DEF_ALL_COORDINATE, bMoveFlag, dTargetPos, bUsePriority);
+            // 1. move Z Axis to Safety Up. but when need to move z axis only, don't need to move z to safety pos
+
+            // 2. move X, Y, T
+            //if (bMoveFlag[DEF_X] == true || bMoveFlag[DEF_Y] == true || bMoveFlag[DEF_T] == true)
+            {
+                iResult = m_RefComp.AxSpinRotate.Move(DEF_ALL_COORDINATE, bMoveFlag, dTargetPos);
                 if (iResult != SUCCESS)
                 {
-                    WriteLog("fail : move Nozzle x y t axis", ELogType.Debug, ELogWType.Error);
+                    WriteLog("fail : move Rotate t axis", ELogType.Debug, ELogWType.Error);
                     return iResult;
                 }
             }
 
+            // 3. move Z Axis
 
-            // set working pos
-            if (iPos > (int)ENozzlePos.NONE)
-            {
-                AxCleanNozzleInfo.PosInfo = iPos;
-            }
-
-            string str = $"success : move Nozzle to pos:{iPos} {sPos.ToString()}";
+            string str = $"success : move Rotate to pos:{sPos.ToString()}";
             WriteLog(str, ELogType.Debug, ELogWType.Normal);
 
             return SUCCESS;
         }
 
-        public int MoveRotatePos(int iPos, bool bUpdatedPosInfo = true, bool[] bMoveFlag = null, double[] dMoveOffset = null, bool bUseBacklash = false,
-            bool bUsePriority = false, int[] movePriority = null)
+        public int MoveRotatePos(int iPos, bool bUpdatedPosInfo = true, double dMoveOffset = 0, bool bUseBacklash = false)
         {
             int iResult = SUCCESS;
 
-            CPos_XYTZ sTargetPos = AxCleanNozzleInfo.GetTargetPos(iPos);
-            if (dMoveOffset != null)
-            {
-                sTargetPos = sTargetPos + dMoveOffset;
-            }
+            CPos_XYTZ sTargetPos = AxRotateInfo.GetTargetPos(iPos);
+            sTargetPos.dT += dMoveOffset;
 
-            iResult = MoveCleanNozzlePos(sTargetPos, iPos, bMoveFlag, bUseBacklash, bUsePriority, movePriority);
+            iResult = MoveRotatePos(sTargetPos, bUseBacklash);
             if (iResult != SUCCESS) return iResult;
             if (bUpdatedPosInfo == true)
             {
@@ -642,88 +727,81 @@ namespace LWDicer.Control
             return SUCCESS;
         }
 
-        public int MoveRotatePos(int iPos, bool bMoveAllAxis, bool bMoveXYT, bool bMoveZ)
+        ////////////////////////////////////////////////////////////////////////////
+        // Clean Nozzle
+
+        public int MoveCleanNozzleToSafetyPos(double dMoveOffset = 0)
         {
-            // 0. move all axis
-            if (bMoveAllAxis)
-            {
-                return MoveCleanNozzlePos(iPos);
-            }
+            int iPos = (int)ENozzlePos.SAFETY;
 
-            // 1. move xyt only
-            if (bMoveXYT)
-            {
-                bool[] bMoveFlag = new bool[DEF_MAX_COORDINATE] { true, true, true, false };
-                return MoveCleanNozzlePos(iPos, true, bMoveFlag);
-            }
-
-            // 2. move z only
-            if (bMoveZ)
-            {
-                bool[] bMoveFlag = new bool[DEF_MAX_COORDINATE] { false, false, false, true };
-                return MoveCleanNozzlePos(iPos, false, bMoveFlag);
-            }
-
-            return SUCCESS;
+            return MoveCleanNozzlePos(iPos, true, dMoveOffset);
         }
 
-        public int MoveCleanNozzlePos(CPos_XYTZ sPos, int iPos, bool[] bMoveFlag = null, bool bUseBacklash = false,
-            bool bUsePriority = false, int[] movePriority = null)
+        public int MoveCleanNozzleToStartPos(double dMoveOffset = 0)
+        {
+            int iPos = (int)ENozzlePos.START;
+
+            return MoveCleanNozzlePos(iPos, true, dMoveOffset);
+        }
+
+        public int MoveCleanNozzleToEndPos(double dMoveOffset = 0)
+        {
+            int iPos = (int)ENozzlePos.END;
+
+            return MoveCleanNozzlePos(iPos, true, dMoveOffset);
+        }
+
+
+        public int MoveCleanNozzlePos(CPos_XYTZ sPos, bool bUseBacklash = false)
         {
             int iResult = SUCCESS;
 
-            if (bMoveFlag == null)
-            {
-                bMoveFlag = new bool[DEF_MAX_COORDINATE] { true, true, true, true };
-            }
+            // safety check
+            iResult = CheckForCleanNozzleMoving();
+            if (iResult != SUCCESS) return iResult;
 
+            // assume move all axis if bMoveFlag is null
+            bool[] bMoveFlag = new bool[DEF_MAX_COORDINATE] { false, false, true, false };
+
+            // trans to array
             double[] dTargetPos;
             sPos.TransToArray(out dTargetPos);
 
-            // move X, Y, T
-            if (bMoveFlag[DEF_X] == true || bMoveFlag[DEF_Y] == true || bMoveFlag[DEF_T] == true)
+            // backlash
+            if (bUseBacklash)
             {
-                // set priority
-                if (bUsePriority == true && movePriority != null)
-                {
-                    m_RefComp.AxSpinCleanNozzle.SetAxesMovePriority(movePriority);
-                }
+                // 나중에 작업
+            }
 
-                // move
-                bMoveFlag[DEF_Z] = false;
-                iResult = m_RefComp.AxSpinCleanNozzle.Move(DEF_ALL_COORDINATE, bMoveFlag, dTargetPos, bUsePriority);
+            // 1. move Z Axis to Safety Up. but when need to move z axis only, don't need to move z to safety pos
+
+            // 2. move X, Y, T
+            //if (bMoveFlag[DEF_X] == true || bMoveFlag[DEF_Y] == true || bMoveFlag[DEF_T] == true)
+            {
+                iResult = m_RefComp.AxSpinCleanNozzle.Move(DEF_ALL_COORDINATE, bMoveFlag, dTargetPos);
                 if (iResult != SUCCESS)
                 {
-                    WriteLog("fail : move Nozzle x y t axis", ELogType.Debug, ELogWType.Error);
+                    WriteLog("fail : move CleanNozzle t axis", ELogType.Debug, ELogWType.Error);
                     return iResult;
                 }
             }
 
+            // 3. move Z Axis
 
-            // set working pos
-            if (iPos > (int)ENozzlePos.NONE)
-            {
-                AxCleanNozzleInfo.PosInfo = iPos;
-            }
-
-            string str = $"success : move Nozzle to pos:{iPos} {sPos.ToString()}";
+            string str = $"success : move CleanNozzle to pos:{sPos.ToString()}";
             WriteLog(str, ELogType.Debug, ELogWType.Normal);
 
             return SUCCESS;
         }
 
-        public int MoveCleanNozzlePos(int iPos, bool bUpdatedPosInfo = true, bool[] bMoveFlag = null, double[] dMoveOffset = null, bool bUseBacklash = false,
-            bool bUsePriority = false, int[] movePriority = null)
+        public int MoveCleanNozzlePos(int iPos, bool bUpdatedPosInfo = true, double dMoveOffset = 0, bool bUseBacklash = false)
         {
             int iResult = SUCCESS;
 
             CPos_XYTZ sTargetPos = AxCleanNozzleInfo.GetTargetPos(iPos);
-            if (dMoveOffset != null)
-            {
-                sTargetPos = sTargetPos + dMoveOffset;
-            }
+            sTargetPos.dT += dMoveOffset;
 
-            iResult = MoveCleanNozzlePos(sTargetPos, iPos, bMoveFlag, bUseBacklash, bUsePriority, movePriority);
+            iResult = MoveCleanNozzlePos(sTargetPos, bUseBacklash);
             if (iResult != SUCCESS) return iResult;
             if (bUpdatedPosInfo == true)
             {
@@ -733,109 +811,81 @@ namespace LWDicer.Control
             return SUCCESS;
         }
 
-        public int MoveCleanNozzlePos(int iPos, bool bMoveAllAxis, bool bMoveXYT, bool bMoveZ)
-        {
-            // 0. move all axis
-            if (bMoveAllAxis)
-            {
-                return MoveCleanNozzlePos(iPos);
-            }
+        ////////////////////////////////////////////////////////////////////////////
+        // Coat Nozzle
 
-            // 1. move xyt only
-            if (bMoveXYT)
-            {
-                bool[] bMoveFlag = new bool[DEF_MAX_COORDINATE] { true, true, true, false };
-                return MoveCleanNozzlePos(iPos, true, bMoveFlag);
-            }
-
-            // 2. move z only
-            if (bMoveZ)
-            {
-                bool[] bMoveFlag = new bool[DEF_MAX_COORDINATE] { false, false, false, true };
-                return MoveCleanNozzlePos(iPos, false, bMoveFlag);
-            }
-
-            return SUCCESS;
-        }
-
-        public int MoveCoatNozzletoSafetyPos(bool bMoveAllAxis = true, bool bMoveXYT = false, bool bMoveZ = false)
+        public int MoveCoatNozzleToSafetyPos(double dMoveOffset = 0)
         {
             int iPos = (int)ENozzlePos.SAFETY;
 
-            return MoveCoatNozzlePos(iPos, bMoveAllAxis, bMoveXYT, bMoveZ);
+            return MoveCoatNozzlePos(iPos, true, dMoveOffset);
         }
 
-        public int MoveCoatNozzleToStartPos(bool bMoveAllAxis = true, bool bMoveXYT = false, bool bMoveZ = false)
+        public int MoveCoatNozzleToStartPos(double dMoveOffset = 0)
         {
             int iPos = (int)ENozzlePos.START;
 
-            return MoveCoatNozzlePos(iPos, bMoveAllAxis, bMoveXYT, bMoveZ);
+            return MoveCoatNozzlePos(iPos, true, dMoveOffset);
         }
 
-        public int MoveCoatNozzleToEndPos(bool bMoveAllAxis = true, bool bMoveXYT = false, bool bMoveZ = false)
+        public int MoveCoatNozzleToEndPos(double dMoveOffset = 0)
         {
             int iPos = (int)ENozzlePos.END;
 
-            return MoveCoatNozzlePos(iPos, bMoveAllAxis, bMoveXYT, bMoveZ);
+            return MoveCoatNozzlePos(iPos, true, dMoveOffset);
         }
 
-        public int MoveCoatNozzlePos(CPos_XYTZ sPos, int iPos, bool[] bMoveFlag = null, bool bUseBacklash = false,
-            bool bUsePriority = false, int[] movePriority = null)
+
+        public int MoveCoatNozzlePos(CPos_XYTZ sPos, bool bUseBacklash = false)
         {
             int iResult = SUCCESS;
 
-            if (bMoveFlag == null)
-            {
-                bMoveFlag = new bool[DEF_MAX_COORDINATE] { true, true, true, true };
-            }
+            // safety check
+            iResult = CheckForCoatNozzleMoving();
+            if (iResult != SUCCESS) return iResult;
 
+            // assume move all axis if bMoveFlag is null
+            bool[] bMoveFlag = new bool[DEF_MAX_COORDINATE] { false, false, true, false };
+
+            // trans to array
             double[] dTargetPos;
             sPos.TransToArray(out dTargetPos);
 
-            // move X, Y, T
-            if (bMoveFlag[DEF_X] == true || bMoveFlag[DEF_Y] == true || bMoveFlag[DEF_T] == true)
+            // backlash
+            if (bUseBacklash)
             {
-                // set priority
-                if (bUsePriority == true && movePriority != null)
-                {
-                    m_RefComp.AxSpinCoatNozzle.SetAxesMovePriority(movePriority);
-                }
+                // 나중에 작업
+            }
 
-                // move
-                bMoveFlag[DEF_Z] = false;
-                iResult = m_RefComp.AxSpinCoatNozzle.Move(DEF_ALL_COORDINATE, bMoveFlag, dTargetPos, bUsePriority);
+            // 1. move Z Axis to Safety Up. but when need to move z axis only, don't need to move z to safety pos
+
+            // 2. move X, Y, T
+            //if (bMoveFlag[DEF_X] == true || bMoveFlag[DEF_Y] == true || bMoveFlag[DEF_T] == true)
+            {
+                iResult = m_RefComp.AxSpinCoatNozzle.Move(DEF_ALL_COORDINATE, bMoveFlag, dTargetPos);
                 if (iResult != SUCCESS)
                 {
-                    WriteLog("fail : move Nozzle x y t axis", ELogType.Debug, ELogWType.Error);
+                    WriteLog("fail : move CoatNozzle t axis", ELogType.Debug, ELogWType.Error);
                     return iResult;
                 }
             }
 
+            // 3. move Z Axis
 
-            // set working pos
-            if (iPos > (int)ENozzlePos.NONE)
-            {
-                AxCoatNozzleInfo.PosInfo = iPos;
-            }
-
-            string str = $"success : move Nozzle to pos:{iPos} {sPos.ToString()}";
+            string str = $"success : move CoatNozzle to pos:{sPos.ToString()}";
             WriteLog(str, ELogType.Debug, ELogWType.Normal);
 
             return SUCCESS;
         }
 
-        public int MoveCoatNozzlePos(int iPos, bool bUpdatedPosInfo = true, bool[] bMoveFlag = null, double[] dMoveOffset = null, bool bUseBacklash = false,
-            bool bUsePriority = false, int[] movePriority = null)
+        public int MoveCoatNozzlePos(int iPos, bool bUpdatedPosInfo = true, double dMoveOffset = 0, bool bUseBacklash = false)
         {
             int iResult = SUCCESS;
 
             CPos_XYTZ sTargetPos = AxCoatNozzleInfo.GetTargetPos(iPos);
-            if (dMoveOffset != null)
-            {
-                sTargetPos = sTargetPos + dMoveOffset;
-            }
+            sTargetPos.dT += dMoveOffset;
 
-            iResult = MoveCoatNozzlePos(sTargetPos, iPos, bMoveFlag, bUseBacklash, bUsePriority, movePriority);
+            iResult = MoveCoatNozzlePos(sTargetPos, bUseBacklash);
             if (iResult != SUCCESS) return iResult;
             if (bUpdatedPosInfo == true)
             {
@@ -845,158 +895,21 @@ namespace LWDicer.Control
             return SUCCESS;
         }
 
-        public int MoveCoatNozzlePos(int iPos, bool bMoveAllAxis, bool bMoveXYT, bool bMoveZ)
+        ///////////////////////////////////////////////////////////////////////////////
+        //
+
+        public int CheckCleanNozzleInSafetyZone(out bool bStatus)
         {
-            // 0. move all axis
-            if (bMoveAllAxis)
-            {
-                return MoveCoatNozzlePos(iPos);
-            }
-
-            // 1. move xyt only
-            if (bMoveXYT)
-            {
-                bool[] bMoveFlag = new bool[DEF_MAX_COORDINATE] { true, true, true, false };
-                return MoveCoatNozzlePos(iPos, true, bMoveFlag);
-            }
-
-            // 2. move z only
-            if (bMoveZ)
-            {
-                bool[] bMoveFlag = new bool[DEF_MAX_COORDINATE] { false, false, false, true };
-                return MoveCoatNozzlePos(iPos, false, bMoveFlag);
-            }
-
-            return SUCCESS;
-        }
-
-
-        public int CheckForSpinnerCylMove(bool bCheckVacuum = true)
-        {
-            bool bStatus;
-
-            // check object
-            int iResult = IsObjectDetected(out bStatus);
-            if (iResult != SUCCESS) return iResult;
-            if (bStatus)
-            {
-                IsAbsorbed(out bStatus);
-                if (iResult != SUCCESS) return iResult;
-                if (bStatus == false)
-                {
-                    return GenerateErrorCode(ERR_SPINNER_OBJECT_DETECTED_BUT_NOT_ABSORBED);
-                }
-            }
-            else
-            {
-                IsReleased(out bStatus);
-                if (iResult != SUCCESS) return iResult;
-                if (bStatus == false)
-                {
-                    return GenerateErrorCode(ERR_SPINNER_OBJECT_NOT_DETECTED_BUT_NOT_RELEASED);
-                }
-            }
-
-            return SUCCESS;
-        }
-
-
-        public int CheckForCleanNozzleSafety()
-        {
-            int iResult = SUCCESS;
-
-            CPos_XYTZ targetPos = AxCleanNozzleInfo.GetTargetPos((int)ENozzlePos.SAFETY);
-            if (iResult != SUCCESS) return iResult;
-
-            iResult = CompareCleanNozzlePos(targetPos);
+            int iResult = m_RefComp.IO.IsOn(m_Data.CleanNozzleZoneCheck.Axis[DEF_T].ZoneAddr[(int)ENozzleAxZone.SAFETY], out bStatus);
             if (iResult != SUCCESS) return iResult;
 
             return SUCCESS;
         }
 
-        public int CompareRotatePos(CPos_XYTZ sPos)
+        public int CheckCoatNozzleInSafetyZone(out bool bStatus)
         {
-            int iResult = SUCCESS;
-
-            double[] dPos;
-            sPos.TransToArray(out dPos);
-
-            bool[] bJudge = new bool[DEF_MAX_COORDINATE];
-            iResult = m_RefComp.AxSpinRotate.ComparePosition(dPos, out bJudge, DEF_ALL_COORDINATE);
+            int iResult = m_RefComp.IO.IsOn(m_Data.CoatNozzleZoneCheck.Axis[DEF_T].ZoneAddr[(int)ENozzleAxZone.SAFETY], out bStatus);
             if (iResult != SUCCESS) return iResult;
-
-            return SUCCESS;
-        }
-
-
-        public int CompareCleanNozzlePos(CPos_XYTZ sPos)
-        {
-            int iResult = SUCCESS;
-
-            double[] dPos;
-            sPos.TransToArray(out dPos);
-
-            bool[] bJudge = new bool[DEF_MAX_COORDINATE];
-            iResult = m_RefComp.AxSpinCleanNozzle.ComparePosition(dPos, out bJudge, DEF_ALL_COORDINATE);
-            if (iResult != SUCCESS) return iResult;
-
-            return SUCCESS;
-        }
-
-        public int CheckForRotateLoad()
-        {
-            int iResult = SUCCESS;
-
-            CPos_XYTZ targetPos = AxRotateInfo.GetTargetPos((int)ERotatePos.LOAD);
-
-            if (iResult != SUCCESS) return iResult;
-
-            iResult = CompareRotatePos(targetPos);
-
-            if (iResult != SUCCESS) return iResult;
-
-            return SUCCESS;
-        }
-
-
-        public int CheckForCoatNozzleSafety()
-        {
-            int iResult = SUCCESS;
-
-            CPos_XYTZ targetPos = AxCoatNozzleInfo.GetTargetPos((int)ENozzlePos.SAFETY);
-            if (iResult != SUCCESS) return iResult;
-
-            iResult = CompareCoatNozzlePos(targetPos);
-            if (iResult != SUCCESS) return iResult;
-
-            return SUCCESS;
-        }
-
-        public int CompareCoatNozzlePos(CPos_XYTZ sPos)
-        {
-            int iResult = SUCCESS;
-
-            double[] dPos;
-            sPos.TransToArray(out dPos);
-
-            bool[] bJudge = new bool[DEF_MAX_COORDINATE];
-            iResult = m_RefComp.AxSpinCoatNozzle.ComparePosition(dPos, out bJudge, DEF_ALL_COORDINATE);
-            if (iResult != SUCCESS) return iResult;
-
-            return SUCCESS;
-        }
-
-        int CheckChuckTableSafetyForNozzleMoving()
-        {
-            bool bStatus;
-            int iResult = IsChuckTableDown(out bStatus);
-            if (iResult != SUCCESS) return iResult;
-
-            if (bStatus == false)
-            {
-                WriteLog("fail : ChuckTable Cylinder Up", ELogType.Debug, ELogWType.Error);
-                return GenerateErrorCode(ERR_SPINNER_TABLE_UP_INTERLOCK);
-            }
 
             return SUCCESS;
         }

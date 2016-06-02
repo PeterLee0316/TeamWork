@@ -134,8 +134,17 @@ namespace LWDicer.Control
             public CPos_XYTZ Elevator_Pos;
             public CPos_XYTZ UHandler_Pos;
             public CPos_XYTZ LHandler_Pos;
+            public CPos_XYTZ Stage_Pos;
+
+            // PushPull
             public CPos_XYTZ PushPull_Pos;
             public CPos_XYTZ Centering_Pos; // PushPull Centering
+
+            // spinner 1, 2
+            public CPos_XYTZ CleanNozzle1_Pos;
+            public CPos_XYTZ CoatNozzle1_Pos;
+            public CPos_XYTZ CleanNozzle2_Pos;
+            public CPos_XYTZ CoatNozzle2_Pos;
         }
 
         public class CSystemData

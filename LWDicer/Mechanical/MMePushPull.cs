@@ -321,7 +321,7 @@ namespace LWDicer.Control
             int iResult = SUCCESS;
             string str;
             // 0. safety check
-            iResult = CheckForPushPullAxisMove();
+            iResult = CheckForPushPullMoving();
             if (iResult != SUCCESS) return iResult;
 
             // 0.1 trans to array
@@ -359,7 +359,7 @@ namespace LWDicer.Control
             int iResult = SUCCESS;
 
             // safety check
-            iResult = CheckForPushPullAxisMove();
+            iResult = CheckForPushPullMoving();
             if (iResult != SUCCESS) return iResult;
 
             // assume move all axis if bMoveFlag is null
@@ -520,42 +520,42 @@ namespace LWDicer.Control
             return SUCCESS;
         }
 
-        public int MovePushPullToLoadPos(bool bMoveXYT = false, bool bMoveZ = false, double[] dMoveOffset = null)
+        public int MovePushPullToLoadPos(bool bMoveXYT = true, bool bMoveZ = false, double[] dMoveOffset = null)
         {
             int iPos = (int)EPushPullPos.LOAD;
 
             return MovePushPullPos(iPos, bMoveXYT, bMoveZ, dMoveOffset);
         }
 
-        public int MovePushPullToUnload1Pos(bool bMoveXYT = false, bool bMoveZ = false, double[] dMoveOffset = null)
+        public int MovePushPullToUnload1Pos(bool bMoveXYT = true, bool bMoveZ = false, double[] dMoveOffset = null)
         {
             int iPos = (int)EPushPullPos.UNLOAD1;
 
             return MovePushPullPos(iPos, bMoveXYT, bMoveZ, dMoveOffset);
         }
 
-        public int MovePushPullToUnload2Pos(bool bMoveXYT = false, bool bMoveZ = false, double[] dMoveOffset = null)
+        public int MovePushPullToUnload2Pos(bool bMoveXYT = true, bool bMoveZ = false, double[] dMoveOffset = null)
         {
             int iPos = (int)EPushPullPos.UNLOAD2;
 
             return MovePushPullPos(iPos, bMoveXYT, bMoveZ, dMoveOffset);
         }
 
-        public int MovePushPullToTempUnloadPos(bool bMoveXYT = false, bool bMoveZ = false, double[] dMoveOffset = null)
+        public int MovePushPullToTempUnloadPos(bool bMoveXYT = true, bool bMoveZ = false, double[] dMoveOffset = null)
         {
             int iPos = (int)EPushPullPos.TEMP_UNLOAD;
 
             return MovePushPullPos(iPos, bMoveXYT, bMoveZ, dMoveOffset);
         }
 
-        public int MovePushPullToReloadPos(bool bMoveXYT = false, bool bMoveZ = false, double[] dMoveOffset = null)
+        public int MovePushPullToReloadPos(bool bMoveXYT = true, bool bMoveZ = false, double[] dMoveOffset = null)
         {
             int iPos = (int)EPushPullPos.RELOAD;
 
             return MovePushPullPos(iPos, bMoveXYT, bMoveZ, dMoveOffset);
         }
 
-        public int MovePushPullToWaitPos(bool bMoveXYT = false, bool bMoveZ = false, double[] dMoveOffset = null)
+        public int MovePushPullToWaitPos(bool bMoveXYT = true, bool bMoveZ = false, double[] dMoveOffset = null)
         {
             int iPos = (int)EPushPullPos.WAIT;
 
@@ -709,7 +709,7 @@ namespace LWDicer.Control
             return SUCCESS;
         }
 
-        public int CheckForPushPullAxisMove(bool bCheckGripLock = true)
+        public int CheckForPushPullMoving(bool bCheckGripLock = true)
         {
             bool bStatus;
 

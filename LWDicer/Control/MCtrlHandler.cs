@@ -288,11 +288,11 @@ namespace LWDicer.Control
                         return GenerateErrorCode(ERR_CTRLHANDLER_XAX_POS_NOT_MATCH_ZONE);
                     break;
                 case (int)EHandlerPos.PUSHPULL:
-                    if (curZone_X != (int)EHandlerXAxZone.LOAD)
+                    if (curZone_X != (int)EHandlerXAxZone.PUSHPULL)
                         return GenerateErrorCode(ERR_CTRLHANDLER_XAX_POS_NOT_MATCH_ZONE);
                     break;
                 case (int)EHandlerPos.STAGE:
-                    if (curZone_X != (int)EHandlerXAxZone.UNLOAD)
+                    if (curZone_X != (int)EHandlerXAxZone.STAGE)
                         return GenerateErrorCode(ERR_CTRLHANDLER_XAX_POS_NOT_MATCH_ZONE);
                     break;
             }

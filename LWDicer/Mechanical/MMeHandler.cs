@@ -613,11 +613,10 @@ namespace LWDicer.Control
         /// sPos으로 이동하고, PosInfo를 iPos으로 셋팅한다. Backlash는 일단 차후로.
         /// </summary>
         /// <param name="sPos"></param>
-        /// <param name="iPos"></param>
         /// <param name="bMoveFlag"></param>
         /// <param name="bUseBacklash"></param>
         /// <returns></returns>
-        private int MoveHandlerPos(CPos_XYTZ sPos, int iPos, bool[] bMoveFlag = null, bool bUseBacklash = false,
+        private int MoveHandlerPos(CPos_XYTZ sPos, bool[] bMoveFlag = null, bool bUseBacklash = false,
             bool bUsePriority = false, int[] movePriority = null)
         {
             int iResult = SUCCESS;
@@ -697,7 +696,7 @@ namespace LWDicer.Control
                 }
             }
 
-            string str = $"success : move Handler to pos:{iPos} {sPos.ToString()}";
+            string str = $"success : move Handler to pos:{sPos.ToString()}";
             WriteLog(str, ELogType.Debug, ELogWType.Normal);
 
             return SUCCESS;
@@ -731,7 +730,7 @@ namespace LWDicer.Control
                 sTargetPos = sTargetPos + dMoveOffset;
             }
 
-            iResult = MoveHandlerPos(sTargetPos, iPos, bMoveFlag, bUseBacklash, bUsePriority, movePriority);
+            iResult = MoveHandlerPos(sTargetPos, bMoveFlag, bUseBacklash, bUsePriority, movePriority);
             if (iResult != SUCCESS) return iResult;
             if (bUpdatedPosInfo == true)
             {
@@ -929,15 +928,16 @@ namespace LWDicer.Control
             return SUCCESS;
         }
 
-        public int IsHandlerSafetyForPushPull(out bool bStatus)
+        public int CheckHandlerSafetyForPushPull(out bool bStatus)
         {
             bStatus = false;
             int curZone;
 
             // check x axis
+            // handler가 pushpull zone에 위치하지 않으면 바로 return SUCCESS
             int iResult = GetHandlerAxZone(DEF_X, out curZone);
             if (iResult != SUCCESS) return iResult;
-            if(curZone != (int)EHandlerXAxZone.LOAD)
+            if(curZone != (int)EHandlerXAxZone.PUSHPULL)
             {
                 bStatus = true;
                 return SUCCESS;
@@ -955,7 +955,7 @@ namespace LWDicer.Control
             return SUCCESS;
         }
 
-        public int IsHandlerSafetyForStage(out bool bStatus)
+        public int CheckHandlerSafetyForStage(out bool bStatus)
         {
             bStatus = false;
             int curZone;
@@ -963,7 +963,7 @@ namespace LWDicer.Control
             // check x axis
             int iResult = GetHandlerAxZone(DEF_X, out curZone);
             if (iResult != SUCCESS) return iResult;
-            if (curZone != (int)EHandlerXAxZone.UNLOAD)
+            if (curZone != (int)EHandlerXAxZone.STAGE)
             {
                 bStatus = true;
                 return SUCCESS;

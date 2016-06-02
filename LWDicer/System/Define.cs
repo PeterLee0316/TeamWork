@@ -1743,8 +1743,8 @@ namespace LWDicer.Control
         public const int oStage1_Blow                = 2056;
         public const int oStage2_Blow                = 2057;
         public const int oStage3_Blow                = 2058;
-        public const int oCoater_Ring_Blow           = 2059;
-        public const int oCleaner_Ring_Blow          = 2060;
+        public const int oSpinner1_Ring_Blow           = 2059;
+        public const int oSpinner2_Ring_Blow          = 2060;
         public const int oSpare2061                  = 2061;
         public const int oSpare2062                  = 2062;
         public const int oSpare2063                  = 2063;

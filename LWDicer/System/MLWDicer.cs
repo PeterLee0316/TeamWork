@@ -1182,9 +1182,13 @@ namespace LWDicer.Control
             {
                 CMeSpinnerData data;
                 m_MeSpinner1.GetData(out data);
+                data.CleanNozzleSafetyPos = m_DataManager.SystemData.MAxSafetyPos.CleanNozzle1_Pos;
+                data.CoatNozzleSafetyPos = m_DataManager.SystemData.MAxSafetyPos.CoatNozzle1_Pos;
                 m_MeSpinner1.SetData(data);
 
                 m_MeSpinner2.GetData(out data);
+                data.CleanNozzleSafetyPos = m_DataManager.SystemData.MAxSafetyPos.CleanNozzle2_Pos;
+                data.CoatNozzleSafetyPos = m_DataManager.SystemData.MAxSafetyPos.CoatNozzle2_Pos;
                 m_MeSpinner2.SetData(data);
             }
 
@@ -1196,6 +1200,15 @@ namespace LWDicer.Control
                 data.PushPullSafetyPos = m_DataManager.SystemData.MAxSafetyPos.PushPull_Pos;
                 data.CenteringSafetyPos = m_DataManager.SystemData.MAxSafetyPos.Centering_Pos;
                 m_MePushPull.SetData(data);
+            }
+
+            // Stage
+            {
+                CMeStageData data;
+                m_MeStage.GetData(out data);
+
+                data.StageSafetyPos = m_DataManager.SystemData.MAxSafetyPos.Stage_Pos;
+                m_MeStage.SetData(data);
             }
 
             //////////////////////////////////////////////////////////////////
@@ -1495,48 +1508,56 @@ namespace LWDicer.Control
 
         void CreateMeSpinner1(CObjectInfo objInfo)
         {
-            CMeSpinnerRefComp refCoater = new CMeSpinnerRefComp();
-            CMeSpinnerData dataCoater = new CMeSpinnerData();
+            CMeSpinnerRefComp refComp = new CMeSpinnerRefComp();
+            CMeSpinnerData data = new CMeSpinnerData();
 
-            refCoater.IO = m_IO;
+            refComp.IO = m_IO;
 
-            refCoater.AxSpinRotate      = m_AxRotate1;
-            refCoater.AxSpinCleanNozzle = m_AxCleanNozzle1;
-            refCoater.AxSpinCoatNozzle  = m_AxCoatNozzle1;
+            refComp.AxSpinRotate      = m_AxRotate1;
+            refComp.AxSpinCleanNozzle = m_AxCleanNozzle1;
+            refComp.AxSpinCoatNozzle  = m_AxCoatNozzle1;
 
-            refCoater.Vacuum[(int)EChuckVacuum.SELF] = m_Spinner1Vac;
+            refComp.Vacuum[(int)EChuckVacuum.SELF] = m_Spinner1Vac;
 
-            refCoater.ChuckTableUDCyl = m_Spinner1UDCyl;
-            refCoater.CleanNozzleSolCyl = m_Spinner1DICyl;
-            refCoater.CoatNozzleSolCyl  = m_Spinner1PVACyl;
+            refComp.ChuckTableUDCyl = m_Spinner1UDCyl;
+            refComp.CleanNozzleSolCyl = m_Spinner1DICyl;
+            refComp.CoatNozzleSolCyl  = m_Spinner1PVACyl;
 
-            dataCoater.InDetectObject = iStage2_PanelDetect;
-            dataCoater.OutRingBlow = oCoater_Ring_Blow;
+            data.InDetectObject = iStage2_PanelDetect;
+            data.OutRingBlow = oSpinner1_Ring_Blow;
+            data.InRotateLoadPos = 111; // need updete io address
 
-            m_MeSpinner1 = new MMeSpinner(objInfo, refCoater, dataCoater);
+            data.CleanNozzleZoneCheck.Axis[DEF_T].ZoneAddr[(int)ENozzleAxZone.SAFETY] = 111; // need updete io address
+            data.CoatNozzleZoneCheck.Axis[DEF_T].ZoneAddr[(int)ENozzleAxZone.SAFETY] = 111; // need updete io address
+
+            m_MeSpinner1 = new MMeSpinner(objInfo, refComp, data);
         }
 
         void CreateMeSpinner2(CObjectInfo objInfo)
         {
-            CMeSpinnerRefComp refCleaner = new CMeSpinnerRefComp();
-            CMeSpinnerData dataCleaner = new CMeSpinnerData();
+            CMeSpinnerRefComp refComp = new CMeSpinnerRefComp();
+            CMeSpinnerData data = new CMeSpinnerData();
 
-            refCleaner.IO = m_IO;
+            refComp.IO = m_IO;
 
-            refCleaner.AxSpinRotate = m_AxRotate2;
-            refCleaner.AxSpinCleanNozzle = m_AxCleanNozzle2;
-            refCleaner.AxSpinCoatNozzle = m_AxCoatNozzle2;
+            refComp.AxSpinRotate = m_AxRotate2;
+            refComp.AxSpinCleanNozzle = m_AxCleanNozzle2;
+            refComp.AxSpinCoatNozzle = m_AxCoatNozzle2;
 
-            refCleaner.Vacuum[(int)EChuckVacuum.SELF] = m_Spinner2Vac;
+            refComp.Vacuum[(int)EChuckVacuum.SELF] = m_Spinner2Vac;
 
-            refCleaner.ChuckTableUDCyl = m_Spinner2UDCyl;
-            refCleaner.CleanNozzleSolCyl = m_Spinner2DICyl;
-            refCleaner.CoatNozzleSolCyl = m_Spinner2PVACyl;
+            refComp.ChuckTableUDCyl = m_Spinner2UDCyl;
+            refComp.CleanNozzleSolCyl = m_Spinner2DICyl;
+            refComp.CoatNozzleSolCyl = m_Spinner2PVACyl;
 
-            dataCleaner.InDetectObject = iStage3_PanelDetect;
-            dataCleaner.OutRingBlow = oCleaner_Ring_Blow;
+            data.InDetectObject = iStage3_PanelDetect;
+            data.OutRingBlow = oSpinner2_Ring_Blow;
+            data.InRotateLoadPos = 111; // need updete io address
 
-            m_MeSpinner2 = new MMeSpinner(objInfo, refCleaner, dataCleaner);
+            data.CleanNozzleZoneCheck.Axis[DEF_T].ZoneAddr[(int)ENozzleAxZone.SAFETY] = 111; // need updete io address
+            data.CoatNozzleZoneCheck.Axis[DEF_T].ZoneAddr[(int)ENozzleAxZone.SAFETY] = 111; // need updete io address
+
+            m_MeSpinner2 = new MMeSpinner(objInfo, refComp, data);
         }
 
     }

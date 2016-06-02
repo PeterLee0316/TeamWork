@@ -150,6 +150,7 @@ namespace LWDicer.Control
             // Physical check zone sensor. 원점복귀 여부와 상관없이 축의 물리적인 위치를 체크 및
             // 안전위치 이동 check 
             public CMAxisZoneCheck StageZone;
+            public CPos_XYTZ StageSafetyPos;
 
             public CMeStageData()
             {
@@ -431,7 +432,7 @@ namespace LWDicer.Control
             if (iResult != SUCCESS) return iResult;
 
             // 0.1 trans to array
-            double[] dPos = new double[1] { m_Data.StageZone.SafetyPos.GetAt(axis) };
+            double[] dPos = new double[1] { m_Data.StageSafetyPos.GetAt(axis) };
 
             // 0.2 set use flag
             bool[] bTempFlag = new bool[1] { true };
@@ -455,11 +456,10 @@ namespace LWDicer.Control
         /// sPos으로 이동하고, PosInfo를 iPos으로 셋팅한다. Backlash는 일단 차후로.
         /// </summary>
         /// <param name="sPos"></param>
-        /// <param name="iPos"></param>
         /// <param name="bMoveFlag"></param>
         /// <param name="bUseBacklash"></param>
         /// <returns></returns>
-        public int MoveStagePos(CPos_XYTZ sPos, int iPos, bool[] bMoveFlag = null, bool bUseBacklash = false,
+        public int MoveStagePos(CPos_XYTZ sPos, bool[] bMoveFlag = null, bool bUseBacklash = false,
             bool bUsePriority = false, int[] movePriority = null)
         {
             int iResult = SUCCESS;
@@ -473,12 +473,6 @@ namespace LWDicer.Control
             {
                 // Stage는 Z축이 없다 (X,Y,T축)
                 bMoveFlag = new bool[DEF_MAX_COORDINATE] { true, true, true, false };
-            }
-
-            // Load / Unload Position으로 가는 것이면 Align Offset을 초기화해야 한다.
-            if (iPos == (int)EStagePos.LOAD || iPos == (int)EStagePos.UNLOAD)
-            {
-                AxStageInfo.InitAlignOffset();
             }
 
             // trans to array
@@ -522,13 +516,7 @@ namespace LWDicer.Control
                 }
             }
 
-            // set working pos
-            if (iPos > (int)EStagePos.NONE)
-            {
-                AxStageInfo.PosInfo = iPos;
-            }
-
-            string str = $"success : move Stage to pos:{iPos} {sPos.ToString()}";
+            string str = $"success : move Stage to pos:{sPos.ToString()}";
             WriteLog(str, ELogType.Debug, ELogWType.Normal);
 
             return SUCCESS;
@@ -563,7 +551,7 @@ namespace LWDicer.Control
                 sTargetPos = sTargetPos + dMoveOffset;
             }
 
-            iResult = MoveStagePos(sTargetPos, iPos, bMoveFlag, bUseBacklash, bUsePriority, movePriority);
+            iResult = MoveStagePos(sTargetPos, bMoveFlag, bUseBacklash, bUsePriority, movePriority);
             if (iResult != SUCCESS) return iResult;
             if (bUpdatedPosInfo == true)
             {
@@ -607,7 +595,7 @@ namespace LWDicer.Control
                 sTargetPos.dT += dMoveLength;
             }
             
-            iResult = MoveStagePos(sTargetPos, iPos, bMoveFlag, bUseBacklash, bUsePriority, movePriority);
+            iResult = MoveStagePos(sTargetPos, bMoveFlag, bUseBacklash, bUsePriority, movePriority);
             if (iResult != SUCCESS) return iResult;
 
             return SUCCESS;
