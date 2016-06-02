@@ -35,6 +35,8 @@
             this.BtnCylinderData = new Syncfusion.Windows.Forms.ButtonAdv();
             this.BtnVisionData = new Syncfusion.Windows.Forms.ButtonAdv();
             this.BtnVacuum = new Syncfusion.Windows.Forms.ButtonAdv();
+            this.BtnExcelLoad = new Syncfusion.Windows.Forms.ButtonAdv();
+            this.BtnSystemData = new Syncfusion.Windows.Forms.ButtonAdv();
             this.SuspendLayout();
             // 
             // BtnModelData
@@ -61,7 +63,7 @@
             this.BtnWaferData.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.BtnWaferData.ForeColor = System.Drawing.Color.MidnightBlue;
             this.BtnWaferData.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.BtnWaferData.Location = new System.Drawing.Point(12, 76);
+            this.BtnWaferData.Location = new System.Drawing.Point(12, 140);
             this.BtnWaferData.Name = "BtnWaferData";
             this.BtnWaferData.Size = new System.Drawing.Size(128, 58);
             this.BtnWaferData.TabIndex = 10;
@@ -77,7 +79,7 @@
             this.BtnScannerData.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.BtnScannerData.ForeColor = System.Drawing.Color.MidnightBlue;
             this.BtnScannerData.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.BtnScannerData.Location = new System.Drawing.Point(612, 12);
+            this.BtnScannerData.Location = new System.Drawing.Point(471, 12);
             this.BtnScannerData.Name = "BtnScannerData";
             this.BtnScannerData.Size = new System.Drawing.Size(128, 58);
             this.BtnScannerData.TabIndex = 11;
@@ -93,7 +95,7 @@
             this.BtnMotorData.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.BtnMotorData.ForeColor = System.Drawing.Color.MidnightBlue;
             this.BtnMotorData.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.BtnMotorData.Location = new System.Drawing.Point(226, 12);
+            this.BtnMotorData.Location = new System.Drawing.Point(165, 12);
             this.BtnMotorData.Name = "BtnMotorData";
             this.BtnMotorData.Size = new System.Drawing.Size(128, 58);
             this.BtnMotorData.TabIndex = 12;
@@ -109,7 +111,7 @@
             this.BtnCylinderData.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.BtnCylinderData.ForeColor = System.Drawing.Color.MidnightBlue;
             this.BtnCylinderData.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.BtnCylinderData.Location = new System.Drawing.Point(226, 76);
+            this.BtnCylinderData.Location = new System.Drawing.Point(165, 76);
             this.BtnCylinderData.Name = "BtnCylinderData";
             this.BtnCylinderData.Size = new System.Drawing.Size(128, 58);
             this.BtnCylinderData.TabIndex = 13;
@@ -125,7 +127,7 @@
             this.BtnVisionData.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.BtnVisionData.ForeColor = System.Drawing.Color.MidnightBlue;
             this.BtnVisionData.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.BtnVisionData.Location = new System.Drawing.Point(434, 12);
+            this.BtnVisionData.Location = new System.Drawing.Point(318, 12);
             this.BtnVisionData.Name = "BtnVisionData";
             this.BtnVisionData.Size = new System.Drawing.Size(128, 58);
             this.BtnVisionData.TabIndex = 14;
@@ -141,13 +143,45 @@
             this.BtnVacuum.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.BtnVacuum.ForeColor = System.Drawing.Color.MidnightBlue;
             this.BtnVacuum.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.BtnVacuum.Location = new System.Drawing.Point(226, 140);
+            this.BtnVacuum.Location = new System.Drawing.Point(165, 140);
             this.BtnVacuum.Name = "BtnVacuum";
             this.BtnVacuum.Size = new System.Drawing.Size(128, 58);
             this.BtnVacuum.TabIndex = 15;
             this.BtnVacuum.Text = "Vacuum";
             this.BtnVacuum.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.BtnVacuum.Click += new System.EventHandler(this.BtnVacuum_Click);
+            // 
+            // BtnExcelLoad
+            // 
+            this.BtnExcelLoad.AutoEllipsis = true;
+            this.BtnExcelLoad.BackColor = System.Drawing.SystemColors.Control;
+            this.BtnExcelLoad.FlatAppearance.BorderSize = 5;
+            this.BtnExcelLoad.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.BtnExcelLoad.ForeColor = System.Drawing.Color.MidnightBlue;
+            this.BtnExcelLoad.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.BtnExcelLoad.Location = new System.Drawing.Point(12, 204);
+            this.BtnExcelLoad.Name = "BtnExcelLoad";
+            this.BtnExcelLoad.Size = new System.Drawing.Size(128, 58);
+            this.BtnExcelLoad.TabIndex = 16;
+            this.BtnExcelLoad.Text = "Process \r\nExcel File";
+            this.BtnExcelLoad.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.BtnExcelLoad.Click += new System.EventHandler(this.BtnExcelLoad_Click);
+            // 
+            // BtnSystemData
+            // 
+            this.BtnSystemData.AutoEllipsis = true;
+            this.BtnSystemData.BackColor = System.Drawing.SystemColors.Control;
+            this.BtnSystemData.FlatAppearance.BorderSize = 5;
+            this.BtnSystemData.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.BtnSystemData.ForeColor = System.Drawing.Color.MidnightBlue;
+            this.BtnSystemData.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.BtnSystemData.Location = new System.Drawing.Point(12, 76);
+            this.BtnSystemData.Name = "BtnSystemData";
+            this.BtnSystemData.Size = new System.Drawing.Size(128, 58);
+            this.BtnSystemData.TabIndex = 17;
+            this.BtnSystemData.Text = "System Data";
+            this.BtnSystemData.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.BtnSystemData.Click += new System.EventHandler(this.BtnSystemData_Click);
             // 
             // FormDataScreen
             // 
@@ -156,6 +190,8 @@
             this.BackColor = System.Drawing.Color.Lavender;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.ClientSize = new System.Drawing.Size(1278, 817);
+            this.Controls.Add(this.BtnSystemData);
+            this.Controls.Add(this.BtnExcelLoad);
             this.Controls.Add(this.BtnVacuum);
             this.Controls.Add(this.BtnVisionData);
             this.Controls.Add(this.BtnCylinderData);
@@ -181,5 +217,7 @@
         private Syncfusion.Windows.Forms.ButtonAdv BtnCylinderData;
         private Syncfusion.Windows.Forms.ButtonAdv BtnVisionData;
         private Syncfusion.Windows.Forms.ButtonAdv BtnVacuum;
+        private Syncfusion.Windows.Forms.ButtonAdv BtnExcelLoad;
+        private Syncfusion.Windows.Forms.ButtonAdv BtnSystemData;
     }
 }

@@ -423,3 +423,10 @@ LWDicer의 DataManager에서 데이터를 읽어오기 위한 3가지 함수 : S
 // Context
 // 1. Maker, Model Data UI 화면 추가
 //  - Maker 별 Model Data를 관리
+
+// Version : 0.0.14
+// Grade : ★
+// Date : 2016-06-01
+// Context
+// 1. Excel File Read UI 화면 추가
+// 2. System Data UI 화면 추가

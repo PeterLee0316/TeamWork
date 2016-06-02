@@ -307,6 +307,18 @@
     <Compile Include="UI\SubDataForm\FormScannerData.Designer.cs">
       <DependentUpon>FormScannerData.cs</DependentUpon>
     </Compile>
+    <Compile Include="UI\SubDataForm\FormSystemData.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\SubDataForm\FormSystemData.Designer.cs">
+      <DependentUpon>FormSystemData.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\SubDataForm\FormSystemParaRead.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\SubDataForm\FormSystemParaRead.Designer.cs">
+      <DependentUpon>FormSystemParaRead.cs</DependentUpon>
+    </Compile>
     <Compile Include="UI\SubDataForm\FormVacuumData.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -421,6 +433,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UI\SubDataForm\FormScannerData.resx">
       <DependentUpon>FormScannerData.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\SubDataForm\FormSystemData.resx">
+      <DependentUpon>FormSystemData.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\SubDataForm\FormSystemParaRead.resx">
+      <DependentUpon>FormSystemParaRead.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\SubDataForm\FormVacuumData.resx">
       <DependentUpon>FormVacuumData.cs</DependentUpon>
