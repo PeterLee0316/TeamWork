@@ -92,9 +92,8 @@ namespace LWDicer.Control
         int RegisterPatternMark(int iCameraNo,
                                  string strModel,
                                  int iTypeNo,                                        
-                                 ref Rectangle SearchArea,
-                                 ref Rectangle ModelArea,
-                                 ref Point ReferencePoint);
+                                 Rectangle SearchArea,
+                                 Rectangle ModelArea);
 
 	      //Reset Search Area
 	      //@param iCamNo : Camera Number
@@ -175,7 +174,7 @@ namespace LWDicer.Control
         // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
           //Related Edge Finder (Caliper Tool) Operations
          
-	     int FindEdge(int iCameraNo, ref CEdgeData pEdgeData);
+	     int FindEdge(int iCameraNo, out CEdgeData pEdgeData);
 
 	     int SetEdgeFinderPolarity(int iCameraNo, int iModelNo, double dPolarity);
 	     int SetEdgeFinderThreshold(int iCameraNo, int iModelNo, double dThreshold);

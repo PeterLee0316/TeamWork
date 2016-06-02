@@ -18,24 +18,25 @@ namespace LWDicer.Control
         #region Data Define
 
         // Error Define
-        public const int ERR_Stage_UNABLE_TO_USE_IO                         = 1;
-        public const int ERR_Stage_UNABLE_TO_USE_CYL                        = 2;
-        public const int ERR_Stage_UNABLE_TO_USE_VCC                        = 3;
-        public const int ERR_Stage_UNABLE_TO_USE_AXIS                       = 4;
-        public const int ERR_Stage_UNABLE_TO_USE_VISION                     = 5;
-        public const int ERR_Stage_NOT_ORIGIN_RETURNED                      = 6;
-        public const int ERR_Stage_INVALID_AXIS                             = 7;
-        public const int ERR_Stage_INVALID_PRIORITY                         = 8;
-        public const int ERR_Stage_NOT_SAME_POSITION                        = 20;
-        public const int ERR_Stage_UNABLE_TO_USE_POSITION                   = 21;
-        public const int ERR_Stage_MOVE_FAIL                                = 22;
-        public const int ERR_Stage_READ_CURRENT_POSITION                    = 23;
-        public const int ERR_Stage_CASSETTE_NOT_READY                       = 24;
-        public const int ERR_Stage_VACUUM_ON_TIME_OUT                       = 40;
-        public const int ERR_Stage_VACUUM_OFF_TIME_OUT                      = 41;
-        public const int ERR_Stage_INVALID_PARAMETER                        = 42;
-        public const int ERR_Stage_OBJECT_DETECTED_BUT_NOT_ABSORBED         = 43;
-        public const int ERR_Stage_OBJECT_NOT_DETECTED_BUT_NOT_RELEASED     = 44;
+        public const int ERR_STAGE_UNABLE_TO_USE_IO                         = 1;
+        public const int ERR_STAGE_UNABLE_TO_USE_CYL                        = 2;
+        public const int ERR_STAGE_UNABLE_TO_USE_VCC                        = 3;
+        public const int ERR_STAGE_UNABLE_TO_USE_AXIS                       = 4;
+        public const int ERR_STAGE_UNABLE_TO_USE_VISION                     = 5;
+        public const int ERR_STAGE_NOT_ORIGIN_RETURNED                      = 6;
+        public const int ERR_STAGE_INVALID_AXIS                             = 7;
+        public const int ERR_STAGE_INVALID_PRIORITY                         = 8;
+        public const int ERR_STAGE_TOO_LOW_JOG_SPEED                        = 9;
+        public const int ERR_STAGE_NOT_SAME_POSITION                        = 20;
+        public const int ERR_STAGE_UNABLE_TO_USE_POSITION                   = 21;
+        public const int ERR_STAGE_MOVE_FAIL                                = 22;
+        public const int ERR_STAGE_READ_CURRENT_POSITION                    = 23;
+        public const int ERR_STAGE_CASSETTE_NOT_READY                       = 24;
+        public const int ERR_STAGE_VACUUM_ON_TIME_OUT                       = 40;
+        public const int ERR_STAGE_VACUUM_OFF_TIME_OUT                      = 41;
+        public const int ERR_STAGE_INVALID_PARAMETER                        = 42;
+        public const int ERR_STAGE_OBJECT_DETECTED_BUT_NOT_ABSORBED         = 43;
+        public const int ERR_STAGE_OBJECT_NOT_DETECTED_BUT_NOT_RELEASED     = 44;
 
         // System Define
         public const int WAFER_CLAMP_CYL_1                                  = 0;
@@ -64,13 +65,15 @@ namespace LWDicer.Control
             WAIT,
             LOAD,
             UNLOAD,
+            THETA_ALIGN,          // Theta축 정렬할때 A 위치
             EDGE_ALIGN_1,           // EDGE Detect "0"도 위치
             EDGE_ALIGN_2,           // EDGE Detect "90"도 위치
             EDGE_ALIGN_3,           // EDGE Detect "180"도 위치
             EDGE_ALIGN_4,           // EDGE Detect "270"도 위치
+            MACRO_CAM_POS,          // KEY가 MACRO CAM영상의 CENTER일때 STAGE 위치
             MACRO_ALIGN,            // MACRO Align "A" Mark 위치
-            MICRO_ALIGN,           // MICRO Align "A" Mark 위치
-            MICRO_ALIGN_TURN,     // MICRO Align Turn 후 "A" Mark 위치
+            MICRO_ALIGN,            // MICRO Align "A" Mark 위치
+            MICRO_ALIGN_TURN,       // MICRO Align Turn 후 "A" Mark 위치
             LASER_PROCESS,          // Laser Cutting할 첫 위치 (가로 방향)
             LASER_PROCESS_TURN,     // Laser Cutting할 첫 위치 (세로 방향)
             MAX,
@@ -82,6 +85,7 @@ namespace LWDicer.Control
             LOAD,
             WAIT,
             UNLOAD,
+            SAFETY,
             MAX,
         }
 
@@ -91,6 +95,7 @@ namespace LWDicer.Control
             LOAD,
             WAIT,
             UNLOAD,
+            SAFETY,
             MAX,
         }
 
@@ -100,6 +105,7 @@ namespace LWDicer.Control
             LOAD,
             WAIT,
             UNLOAD,
+            SAFETY,
             MAX,
         }
 
@@ -121,7 +127,7 @@ namespace LWDicer.Control
             public IVacuum[] Vacuum = new IVacuum[(int)EStageVacuum.MAX];
 
             // MultiAxes
-            public MMultiAxes_YMC AxStage;
+            public MMultiAxes_ACS AxStage;
         }
 
         public class CMeStageData
@@ -129,8 +135,16 @@ namespace LWDicer.Control
             // Index Move Length
             public double IndexWidth = 0.0;
             public double IndexHeight = 0.0;
+            public double IndexRotate = 90.0;
+            public double ScreenWidth = 0.0;
+            public double ScreenHeight = 0.0;
+            public double ScreenRotate = 45.0;
+            public double StageJogSpeed = 10.0;
+            public double ThetaJogSpeed = 10.0;
+
             public double AlignMarkWidthLen = 0.0;
             public double AlignMarkWidthRatio = 0.0;
+            public CPos_XY VisionCamDistance = new CPos_XY();
             public double VisionLaserDistance = 0.0;
 
             // Detect Object Sensor Address
@@ -210,9 +224,19 @@ namespace LWDicer.Control
 
         public int SetStagePosition(CUnitPos FixedPos, CUnitPos ModelPos, CUnitPos OffsetPos)
         {
-            AxStageInfo.SetPosition(FixedPos, ModelPos, OffsetPos);
-            return SUCCESS;
+            return AxStageInfo.SetPosition(FixedPos, ModelPos, OffsetPos);
         }
+
+        public int GetStagePosition(out CUnitPos FixedPos, out CUnitPos ModelPos, out CUnitPos OffsetPos)
+        {
+            return AxStageInfo.GetPosition(out FixedPos,out ModelPos,out OffsetPos);
+        }
+
+        public CPos_XYTZ GetTargetPosition(int index)
+        {
+            return AxStageInfo.GetTargetPos(index);
+        }
+
 
         public int SetVccUseFlag(bool[] UseVccFlag = null)
         {
@@ -298,7 +322,7 @@ namespace LWDicer.Control
                         bNeedWait = true;
                         if (m_waitTimer.MoreThan(sData[i].TurningTime * 1000))
                         {
-                            return GenerateErrorCode(ERR_Stage_VACUUM_ON_TIME_OUT);
+                            return GenerateErrorCode(ERR_STAGE_VACUUM_ON_TIME_OUT);
                         }
                     }
 
@@ -360,7 +384,7 @@ namespace LWDicer.Control
                         bNeedWait = true;
                         if (m_waitTimer.MoreThan(sData[i].TurningTime * 1000))
                         {
-                            return GenerateErrorCode(ERR_Stage_VACUUM_OFF_TIME_OUT);
+                            return GenerateErrorCode(ERR_STAGE_VACUUM_OFF_TIME_OUT);
                         }
                     }
 
@@ -468,6 +492,8 @@ namespace LWDicer.Control
             iResult = CheckForStageAxisMove();
             if (iResult != SUCCESS) return iResult;
 
+            // Limit check ???
+
             // assume move all axis if bMoveFlag is null
             if(bMoveFlag == null)
             {
@@ -561,7 +587,7 @@ namespace LWDicer.Control
             return SUCCESS;
         }
 
-        public int MoveStageIndexPos(int iAxis, double dMoveLength,  bool bUseBacklash = false)
+        public int MoveStageRelative(CPos_XYTZ sPos,bool[] bMoveFlag = null)
         {
             int iResult = SUCCESS;
 
@@ -570,14 +596,47 @@ namespace LWDicer.Control
 
             bool[] bMoveFlag = new bool[DEF_MAX_COORDINATE] { false, false, false, false };           
             bool bUsePriority = false;
+            bool bUseBacklash = false;
             int[] movePriority = null;
 
             // 현재 위치를 읽어옴 (Command 값을 사용하는 것이 좋을 듯)
             CPos_XYTZ sTargetPos;
 
             iResult = GetStageCurPos(out sTargetPos);
-            if (iResult != SUCCESS) GenerateErrorCode(ERR_Stage_READ_CURRENT_POSITION);
+            if (iResult != SUCCESS) GenerateErrorCode(ERR_STAGE_READ_CURRENT_POSITION);
             // Index 거리를 해당 축에 더하여 거리를 산출함.
+            sTargetPos += sPos; 
+
+            iResult = MoveStagePos(sTargetPos, iPos, bMoveFlag, bUseBacklash, bUsePriority, movePriority);
+            if (iResult != SUCCESS) return iResult;
+
+            return SUCCESS;
+        }
+
+        public int MoveStageRelativeXYT(CPos_XYTZ sPos)
+        {
+            int iResult = SUCCESS;
+            // 이동 거리가 없을 경우 Success
+            if (sPos.dX == 0.0 && sPos.dY == 0.0 && sPos.dT == 0.0 && sPos.dZ == 0.0) return SUCCESS;
+            
+            // 이동 Position 선택
+            int iPos = (int)EStagePos.NONE;
+            bool[] bMoveFlag = new bool[DEF_MAX_COORDINATE] { true, true, true, false };
+
+            iResult = MoveStageRelative(sPos,bMoveFlag);
+            if (iResult != SUCCESS) return iResult;
+
+            return SUCCESS;
+        }
+        public int MoveStageRelative(int iAxis, double dMoveLength,  bool bUseBacklash = false)
+        {
+            int iResult = SUCCESS;
+
+            // 이동 Position 선택
+            int iPos = (int)EStagePos.NONE;
+            CPos_XYTZ sTargetPos = new CPos_XYTZ();
+
+            bool[] bMoveFlag = new bool[DEF_MAX_COORDINATE] { false, false, false, false };           
 
             if (iAxis == DEF_X)
             {
@@ -601,50 +660,117 @@ namespace LWDicer.Control
             return SUCCESS;
         }
 
-        public int MoveStageIndexPlus(int iAxis)
+        public int MoveStageRelativeX(double dMoveLength)
         {
-            bool[] bMoveFlag = new bool[DEF_MAX_COORDINATE] { false, false, false, false };
-            double dMoveLength = 0.0;
+            MoveStageRelative(DEF_X, dMoveLength);
+            return SUCCESS;
+        }
+        public int MoveStageRelativeY(double dMoveLength)
+        {
+            MoveStageRelative(DEF_Y, dMoveLength);
+            return SUCCESS;
+        }
+        public int MoveStageRelativeT(double dMoveLength)
+        {
+            MoveStageRelative(DEF_T, dMoveLength);
+            return SUCCESS;
+        }
 
-            if (iAxis == DEF_X)
-            {
-                bMoveFlag[DEF_X] = true;
-                dMoveLength = m_Data.IndexWidth;
-            }
-            if (iAxis == DEF_Y)
-            {
-                bMoveFlag[DEF_Y] = true;
-                dMoveLength = m_Data.IndexHeight;
-            }
-
+        public int MoveStageIndexPlusX()
+        {
             // + 방향으로 이동
-            MoveStageIndexPos(iAxis, dMoveLength);
+            MoveStageRelativeX(m_Data.IndexWidth);
 
             return SUCCESS;
         }
 
-        public int MoveStageIndexMinus(int iAxis)
+        public int MoveStageIndexPlusY()
         {
-            bool[] bMoveFlag = new bool[DEF_MAX_COORDINATE] { false, false, false, false };
-            double dMoveLength = 0.0;
-
-            if (iAxis == DEF_X)
-            {
-                bMoveFlag[DEF_X] = true;
-                dMoveLength = m_Data.IndexWidth;
-            }
-            if (iAxis == DEF_Y)
-            {
-                bMoveFlag[DEF_Y] = true;
-                dMoveLength = m_Data.IndexHeight;
-            }
-
-            // - 방향으로 이동
-            MoveStageIndexPos(iAxis, -dMoveLength);
+            // + 방향으로 이동
+            MoveStageRelativeX(m_Data.IndexHeight);
 
             return SUCCESS;
         }
 
+        public int MoveStageIndexPlusT()
+        {
+            // + 방향으로 이동
+            MoveStageRelativeT(m_Data.IndexRotate);
+
+            return SUCCESS;
+        }
+
+        public int MoveStageIndexMinusX()
+        {
+            // - 방향으로 이동
+            MoveStageRelativeX(-m_Data.IndexWidth);
+
+            return SUCCESS;
+        }
+
+        public int MoveStageIndexMinusY()
+        {
+            // - 방향으로 이동
+            MoveStageRelativeX(-m_Data.IndexHeight);
+
+            return SUCCESS;
+        }
+
+        public int MoveStageIndexMinusT()
+        {
+            // - 방향으로 이동
+            MoveStageRelativeT(-m_Data.IndexRotate);
+
+            return SUCCESS;
+        }
+
+        public int MoveStageScreenPlusX()
+        {
+            // + 방향으로 이동
+            MoveStageRelativeX(m_Data.ScreenWidth);
+
+            return SUCCESS;
+        }
+
+        public int MoveStageScreenPlusY()
+        {
+            // + 방향으로 이동
+            MoveStageRelativeY(m_Data.ScreenHeight);
+
+            return SUCCESS;
+        }
+
+        public int MoveStageScreenPlusT()
+        {
+            // + 방향으로 이동
+            MoveStageRelativeT(m_Data.ScreenRotate);
+
+            return SUCCESS;
+        }
+
+        public int MoveStageScreenMinusX()
+        {
+            // - 방향으로 이동
+            MoveStageRelativeX(-m_Data.ScreenWidth);
+
+            return SUCCESS;
+        }
+
+        public int MoveStageScreenMinusY()
+        {
+            // - 방향으로 이동
+            MoveStageRelativeY(-m_Data.ScreenHeight);
+
+            return SUCCESS;
+        }
+
+        public int MoveStageScreenMinusT()
+        {
+            // - 방향으로 이동
+            MoveStageRelativeT(-m_Data.ScreenRotate);
+
+            return SUCCESS;
+        }
         /// <summary>
         /// Stage를 LOAD, UNLOAD등의 목표위치로 이동시킬때에 좀더 편하게 이동시킬수 있도록 간편화한 함수
         /// Z축만 움직일 경우엔 Position Info를 업데이트 하지 않는다. 
@@ -700,6 +826,35 @@ namespace LWDicer.Control
             return MoveStagePos(iPos, bMoveAllAxis, bMoveXYT, bMoveZ);
         }
 
+        public int MoveStageToThetaAlignPosA(bool bMoveAllAxis = false, bool bMoveXYT = true, bool bMoveZ = false)
+        {
+            int iPos = (int)EStagePos.THETA_ALIGN;
+
+            return MoveStagePos(iPos, bMoveAllAxis, bMoveXYT, bMoveZ);
+        }
+
+        public int MoveStageToThetaAlignPosB(bool bMoveAllAxis = false, bool bMoveXYT = true, bool bMoveZ = false)
+        {
+            int iResult = -1;
+            int iPosIndex = -1;
+
+            GetStagePosInfo(out iPosIndex);
+            if (iPosIndex != (int)EStagePos.THETA_ALIGN)
+            {
+                iResult = MoveStageToThetaAlignPosA();
+                if (iResult != SUCCESS) return iResult;
+            }
+
+            // 수평으로 Align Mark 거리 만큼 이동함.
+            double dMoveDistance = m_Data.AlignMarkWidthLen;
+
+            iResult = MoveStageRelative(DEF_Y, dMoveDistance);
+            if (iResult != SUCCESS) return iResult;
+
+            return SUCCESS;
+        }
+
+
         public int MoveStageToEdgeAlignPos1(bool bMoveAllAxis = false, bool bMoveXYT = true, bool bMoveZ = false)
         {
             int iPos = (int)EStagePos.EDGE_ALIGN_1;
@@ -728,45 +883,203 @@ namespace LWDicer.Control
             return MoveStagePos(iPos, bMoveAllAxis, bMoveXYT, bMoveZ);
         }
 
-        public int MoveStageToEdgeMacroAlignA(bool bMoveAllAxis = false, bool bMoveXYT = true, bool bMoveZ = false)
+        public int MoveStageToMacroAlignA(bool bMoveAllAxis = false, bool bMoveXYT = true, bool bMoveZ = false)
         {
             int iPos = (int)EStagePos.MACRO_ALIGN;
 
             return MoveStagePos(iPos, bMoveAllAxis, bMoveXYT, bMoveZ);
         }
 
-        public int MoveStageToEdgeMacroAlignB(bool bMoveAllAxis = false, bool bMoveXYT = true, bool bMoveZ = false)
+        public int MoveStageToMacroAlignB(bool bMoveAllAxis = false, bool bMoveXYT = true, bool bMoveZ = false)
         {
             int iResult = -1;
-            // Mark A 위치로 이동
-            iResult = MoveStageToEdgeMacroAlignA();
-            if (iResult != SUCCESS) return iResult;
+            int iPosIndex = -1;
+
+            GetStagePosInfo(out iPosIndex);
+            if (iPosIndex != (int)EStagePos.MACRO_ALIGN)
+            {
+                // Mark A 위치로 이동
+                iResult = MoveStageToMacroAlignA();
+                if (iResult != SUCCESS) return iResult;
+            }
+            
 
             // 수평으로 Align Mark 거리 만큼 이동함.
             double dMoveDistance = m_Data.AlignMarkWidthLen;
 
-            iResult = MoveStageIndexPos(DEF_Y, dMoveDistance);
+            iResult = MoveStageRelative(DEF_Y, dMoveDistance);
             if (iResult != SUCCESS) return iResult;
 
             return SUCCESS;
         }
         
 
-        public int MoveStageToEdgeMicroAlignA(bool bMoveAllAxis = false, bool bMoveXYT = true, bool bMoveZ = false)
+        public int MoveStageToMicroAlignA(bool bMoveAllAxis = false, bool bMoveXYT = true, bool bMoveZ = false)
         {
             int iPos = (int)EStagePos.MICRO_ALIGN;
 
             return MoveStagePos(iPos, bMoveAllAxis, bMoveXYT, bMoveZ);
         }
-        
-        public int MoveStageToEdgeMicroAlignTurn(bool bMoveAllAxis = false, bool bMoveXYT = true, bool bMoveZ = false)
+
+        public int MoveStageToMicroAlignB(bool bMoveAllAxis = false, bool bMoveXYT = true, bool bMoveZ = false)
+        {
+            int iResult = -1;
+            int iPosIndex = -1;
+
+            GetStagePosInfo(out iPosIndex);
+            if (iPosIndex != (int)EStagePos.MICRO_ALIGN)
+            {
+                // Mark A 위치로 이동
+                iResult = MoveStageToMicroAlignA();
+                if (iResult != SUCCESS) return iResult;
+            }
+            
+
+            // 수평으로 Align Mark 거리 만큼 이동함.
+            double dMoveDistance = m_Data.AlignMarkWidthLen;
+
+            iResult = MoveStageRelative(DEF_Y, dMoveDistance);
+            if (iResult != SUCCESS) return iResult;
+
+            return SUCCESS;
+        }
+
+        public int MoveStageToMicroAlignTurnA(bool bMoveAllAxis = false, bool bMoveXYT = true, bool bMoveZ = false)
         {
             int iPos = (int)EStagePos.MICRO_ALIGN_TURN;
 
             return MoveStagePos(iPos, bMoveAllAxis, bMoveXYT, bMoveZ);
         }
 
-        
+        public int MoveStageToMicroAlignTurnB(bool bMoveAllAxis = false, bool bMoveXYT = true, bool bMoveZ = false)
+        {
+            int iResult = -1;
+            int iPosIndex = -1;
+
+            GetStagePosInfo(out iPosIndex);
+            if (iPosIndex != (int)EStagePos.MICRO_ALIGN_TURN)
+            {
+                // Mark A 위치로 이동
+                iResult = MoveStageToMicroAlignTurnA();
+                if (iResult != SUCCESS) return iResult;
+            }
+            
+
+            // 수평으로 Align Mark 거리 만큼 이동함.
+            double dMoveDistance = m_Data.AlignMarkWidthLen;
+
+            iResult = MoveStageRelative(DEF_Y, dMoveDistance);
+            if (iResult != SUCCESS) return iResult;
+
+            return SUCCESS;
+        }
+
+        public int MoveStageToProcessPos(bool bMoveAllAxis = false, bool bMoveXYT = true, bool bMoveZ = false)
+        {
+            int iPos = (int)EStagePos.LASER_PROCESS;
+
+            return MoveStagePos(iPos, bMoveAllAxis, bMoveXYT, bMoveZ);
+        }
+
+        public int MoveStageToProcessTurnPos(bool bMoveAllAxis = false, bool bMoveXYT = true, bool bMoveZ = false)
+        {
+            int iPos = (int)EStagePos.LASER_PROCESS_TURN;
+
+            return MoveStagePos(iPos, bMoveAllAxis, bMoveXYT, bMoveZ);
+        }
+
+        public int MoveChangeMicroCam()
+        {
+            int iResult = -1;
+
+            bool[] bMoveFlag = new bool[DEF_MAX_COORDINATE] { true, true, false, false };
+            CPos_XYTZ MoveDistance = new CPos_XYTZ();
+
+            // 수평으로 Align Mark 거리 만큼 이동함.
+            MoveDistance.dX = m_Data.VisionCamDistance.dX;
+            MoveDistance.dY = m_Data.VisionCamDistance.dY;
+
+            iResult = MoveStageRelative(MoveDistance,bMoveFlag);
+            if (iResult != SUCCESS) return iResult;
+
+            return SUCCESS;
+        }
+
+        public int MoveChangeMacroCam()
+        {
+            int iResult = -1;
+
+            bool[] bMoveFlag = new bool[DEF_MAX_COORDINATE] { true, true, false, false };
+            CPos_XYTZ MoveDistance = new CPos_XYTZ();
+
+            // 수평으로 Align Mark 거리 만큼 이동함.
+            MoveDistance.dX = -m_Data.VisionCamDistance.dX;
+            MoveDistance.dY = -m_Data.VisionCamDistance.dY;
+
+            iResult = MoveStageRelative(MoveDistance, bMoveFlag);
+            if (iResult != SUCCESS) return iResult;
+
+            return SUCCESS;
+        }
+
+        public int JogStageMove(int iAxis, bool dDir, double dVel)
+        {
+            int iResult = 0;
+
+            // safety check
+            iResult = CheckForStageAxisMove();
+            if (iResult != SUCCESS) return iResult;
+
+            // Limit check ???
+
+            iResult = m_RefComp.AxStage.JogMoveVelocity(iAxis, dDir, dVel);
+
+            return SUCCESS;
+        }
+
+        public int JogStageStop(int iAxis)
+        {
+            int iResult = 0;
+
+            iResult = m_RefComp.AxStage.EStop(iAxis);
+            return SUCCESS;
+        }
+
+        public int JogStagePlusX()
+        {
+            if (m_Data.StageJogSpeed < 0.1) return GenerateErrorCode(ERR_STAGE_TOO_LOW_JOG_SPEED);
+            return JogStageMove(DEF_X,true, m_Data.StageJogSpeed);
+        }
+
+        public int JogStageMinusX()
+        {
+            if (m_Data.StageJogSpeed < 0.1) return GenerateErrorCode(ERR_STAGE_TOO_LOW_JOG_SPEED);
+            return JogStageMove(DEF_X, false, m_Data.StageJogSpeed);
+        }
+
+        public int JogStagePlusY()
+        {
+            if (m_Data.StageJogSpeed < 0.1) return GenerateErrorCode(ERR_STAGE_TOO_LOW_JOG_SPEED);
+            return JogStageMove(DEF_Y, true, m_Data.StageJogSpeed);
+        }
+
+        public int JogStageMinusY()
+        {
+            if (m_Data.StageJogSpeed < 0.1) return GenerateErrorCode(ERR_STAGE_TOO_LOW_JOG_SPEED);
+            return JogStageMove(DEF_Y, false, m_Data.StageJogSpeed);
+        }
+
+        public int JogStagePlusT()
+        {
+            if (m_Data.ThetaJogSpeed < 0.1) return GenerateErrorCode(ERR_STAGE_TOO_LOW_JOG_SPEED);
+            return JogStageMove(DEF_T, true, m_Data.ThetaJogSpeed);
+        }
+
+        public int JogStageMinusT()
+        {
+            if (m_Data.ThetaJogSpeed < 0.1) return GenerateErrorCode(ERR_STAGE_TOO_LOW_JOG_SPEED);
+            return JogStageMove(DEF_T, false, m_Data.ThetaJogSpeed);
+        }
         #endregion
 
         // 모드 변경 및 Align Data Set
@@ -790,8 +1103,7 @@ namespace LWDicer.Control
             CPos_XYTZ curPos;
 
             // 현재 Align Offset 값을 읽어옴
-            iResult = GetStageCurPos(out curPos);
-            if (iResult != SUCCESS) return iResult;
+            AxStageInfo.GetAlignOffset(out curPos);
             // AlignData 적용
             curPos += offset;
 
@@ -806,6 +1118,68 @@ namespace LWDicer.Control
             AxStageInfo.InitAlignOffset();
         }
 
+        public void SetWidthIndexData(double dIndexLen)
+        {
+            m_Data.IndexWidth = dIndexLen;
+        }
+        public void ClearWidthIndexData()
+        {
+            m_Data.IndexWidth = 0.0;
+        }
+
+        public void SetHeightIndexData(double dIndexLen)
+        {
+            m_Data.IndexHeight = dIndexLen;
+        }
+        public void ClearHeightIndexData()
+        {
+            m_Data.IndexHeight = 0.0;
+        }
+        public void SetThetaAlignPosA(CPos_XYTZ pPos)
+        {
+            AxStageInfo.OffsetPos.Pos[(int)EStagePos.THETA_ALIGN] = pPos;
+        }
+        public int GetThetaAlignPosA(out CPos_XYTZ pPos)
+        {
+            int index = (int)EStagePos.THETA_ALIGN;
+            pPos =  GetTargetPosition(index);
+
+            return SUCCESS;
+        }
+
+        public void SetEdgeAlignOffset(int index,CPos_XYTZ pPos)
+        {
+            AxStageInfo.OffsetPos.Pos[index] = pPos;
+
+        }
+        public int GetEdgeAlignOffset(int index,out CPos_XYTZ pPos)
+        {
+            pPos = AxStageInfo.OffsetPos.Pos[index];
+
+            return SUCCESS;            
+        }
+        
+        public int SetMicroCamPos(CPos_XYTZ pPos)
+        {
+            int index = (int)EStagePos.MACRO_CAM_POS;
+            AxStageInfo.FixedPos.Pos[index] = pPos;
+
+            return SUCCESS;
+        }
+
+        public int GetMicroCamPos(out CPos_XYTZ pPos)
+        {
+            int index = (int)EStagePos.MACRO_CAM_POS;
+            pPos = AxStageInfo.FixedPos.Pos[index];
+
+            return SUCCESS;
+        }
+
+
+        public double GetScreenIndexTheta()
+        {
+            return m_Data.ScreenRotate;
+        }
         #endregion
 
         // Stage Pos Data 확인 및 비교
@@ -820,7 +1194,7 @@ namespace LWDicer.Control
         /// <param name="bCheck_ZAxis"></param>
         /// <param name="bSkipError">위치가 틀릴경우 에러 보고할지 여부</param>
         /// <returns></returns>
-        public int CompareStagePos(CPos_XYTZ sPos, out bool bResult, bool bCheck_TAxis, bool bCheck_ZAxis, bool bSkipError = true)
+        public int CompareStagePos(CPos_XYTZ sPos, out bool bResult, bool bCheck_ZAxis, bool bSkipError = true)
         {
             int iResult = SUCCESS;
 
@@ -833,9 +1207,7 @@ namespace LWDicer.Control
             bool[] bJudge = new bool[DEF_MAX_COORDINATE];
             iResult = m_RefComp.AxStage.ComparePosition(dPos, out bJudge, DEF_ALL_COORDINATE);
             if (iResult != SUCCESS) return iResult;
-
-            // skip axis
-            if (bCheck_TAxis == false) bJudge[DEF_T] = true;
+            
             if (bCheck_ZAxis == false) bJudge[DEF_Z] = true;
 
             // error check
@@ -851,13 +1223,13 @@ namespace LWDicer.Control
                 string str = $"Stage의 위치비교 결과 미일치합니다. Target Pos : {sPos.ToString()}";
                 WriteLog(str, ELogType.Debug, ELogWType.Error);
 
-                return GenerateErrorCode(ERR_Stage_NOT_SAME_POSITION);
+                return GenerateErrorCode(ERR_STAGE_NOT_SAME_POSITION);
             }
 
             return SUCCESS;
         }
 
-        public int CompareStagePos(int iPos, out bool bResult, bool bCheck_TAxis, bool bCheck_ZAxis, bool bSkipError = true)
+        public int CompareStagePos(int iPos, out bool bResult, bool bCheck_ZAxis, bool bSkipError = true)
         {
             int iResult = SUCCESS;
 
@@ -866,7 +1238,7 @@ namespace LWDicer.Control
             CPos_XYTZ targetPos = AxStageInfo.GetTargetPos(iPos);
             if (iResult != SUCCESS) return iResult;
 
-            iResult = CompareStagePos(targetPos, out bResult, bCheck_TAxis, bCheck_ZAxis, bSkipError);
+            iResult = CompareStagePos(targetPos, out bResult, bCheck_ZAxis, bSkipError);
             if (iResult != SUCCESS) return iResult;
 
             return SUCCESS;
@@ -923,7 +1295,7 @@ namespace LWDicer.Control
 
             if (UseMainCylFlag[index] == true)
             {
-                if (m_RefComp.MainCyl[index] == null) return GenerateErrorCode(ERR_Stage_UNABLE_TO_USE_CYL);
+                if (m_RefComp.MainCyl[index] == null) return GenerateErrorCode(ERR_STAGE_UNABLE_TO_USE_CYL);
                 iResult = m_RefComp.MainCyl[index].IsUp(out bStatus);
                 if (iResult != SUCCESS) return iResult;
                 if (bStatus == false) return SUCCESS;
@@ -939,7 +1311,7 @@ namespace LWDicer.Control
 
             if (UseMainCylFlag[index] == true)
             {
-                if (m_RefComp.MainCyl[index] == null) return GenerateErrorCode(ERR_Stage_UNABLE_TO_USE_CYL);
+                if (m_RefComp.MainCyl[index] == null) return GenerateErrorCode(ERR_STAGE_UNABLE_TO_USE_CYL);
                 iResult = m_RefComp.MainCyl[index].IsDown(out bStatus);
                 if (iResult != SUCCESS) return iResult;
                 if (bStatus == false) return SUCCESS;
@@ -957,7 +1329,7 @@ namespace LWDicer.Control
 
             if (UseMainCylFlag[index] == true)
             {
-                if (m_RefComp.MainCyl[index] == null) return GenerateErrorCode(ERR_Stage_UNABLE_TO_USE_CYL);
+                if (m_RefComp.MainCyl[index] == null) return GenerateErrorCode(ERR_STAGE_UNABLE_TO_USE_CYL);
                 iResult = m_RefComp.MainCyl[index].Up(bSkipSensor);
                 if (iResult != SUCCESS) return iResult;
             }
@@ -974,7 +1346,7 @@ namespace LWDicer.Control
 
             if (UseMainCylFlag[index] == true)
             {
-                if (m_RefComp.MainCyl[index] == null) return GenerateErrorCode(ERR_Stage_UNABLE_TO_USE_CYL);
+                if (m_RefComp.MainCyl[index] == null) return GenerateErrorCode(ERR_STAGE_UNABLE_TO_USE_CYL);
                 iResult = m_RefComp.MainCyl[index].Down(bSkipSensor);
                 if (iResult != SUCCESS) return iResult;
             }
@@ -1074,8 +1446,8 @@ namespace LWDicer.Control
         public int GetStageAxZone(int axis, out int curZone)
         {
             bool bStatus;
-            curZone = (int)EStageXAxZone.NONE;
-            for (int i = 0; i < (int)EStageXAxZone.MAX; i++)
+            curZone = (int)EStagePos.NONE;
+            for (int i = 0; i < (int)EStagePos.MAX; i++)
             {
                 if (m_Data.StageZone.Axis[axis].ZoneAddr[i] == -1) continue; // if io is not allocated, continue;
                 int iResult = m_RefComp.IO.IsOn(m_Data.StageZone.Axis[axis].ZoneAddr[i], out bStatus);
@@ -1089,58 +1461,55 @@ namespace LWDicer.Control
             return SUCCESS;
         }
 
-        public int IsStageAxisInSafetyZone(int axis, out bool bStatus)
+        public int IsStageAxisInSafetyZone(out bool bStatus)
         {
             bStatus = false;
             int curZone;
-            int iResult = GetStageAxZone(axis, out curZone);
+            int iResult;
+
+            // X축 확인
+            iResult = GetStageAxZone(DEF_X, out curZone);
             if (iResult != SUCCESS) return iResult;
+            if(curZone != (int)EStageXAxZone.SAFETY) return SUCCESS;
+         
+            // Y축 확인
+            iResult = GetStageAxZone(DEF_Y, out curZone);
+            if (iResult != SUCCESS) return iResult;
+            if (curZone != (int)EStageYAxZone.SAFETY) return SUCCESS;
+            // T축 확인
+            iResult = GetStageAxZone(DEF_T, out curZone);
+            if (iResult != SUCCESS) return iResult;
+            if (curZone != (int)EStageTAxZone.SAFETY) return SUCCESS;
 
-            switch (axis)
-            {
-                case DEF_X:
-                    break;
-
-                case DEF_Y:
-                    break;
-
-                case DEF_T:
-                    break;
-
-                case DEF_Z:
-                    if (curZone == (int)EStageZAxZone.SAFETY)
-                    {
-                        bStatus = true;
-                    }
-                    break;
-            }
+            bStatus = true;
             return SUCCESS;
         }
 
-        public int CheckForStageAxisMove(bool bCheckVacuum = true)
+        public int CheckForStageAxisMove()
         {
-            bool bStatus;
+            bool bStatus = false;
 
-            // check origin
+            // check Servo origin
             int iResult = IsStageOrignReturn(out bStatus);
             if (iResult != SUCCESS) return iResult;
             if (bStatus == false)
             {
-                return GenerateErrorCode(ERR_Stage_NOT_ORIGIN_RETURNED);
+                return GenerateErrorCode(ERR_STAGE_NOT_ORIGIN_RETURNED);
             }
 
-            // check object
+            // 제품이 있으면, Clamp & Absorbed 없으면 don't care
             iResult = CheckForStageCylMove();
             if (iResult != SUCCESS) return iResult;
 
+
+            bStatus = true;
             return SUCCESS;
         }
 
         
 
-        public int CheckForStageCylMove(bool bCheckVacuum = true)
+        public int CheckForStageCylMove()
         {
-            bool bStatus=true;
 
             // 조건없이 True
 
@@ -1153,7 +1522,7 @@ namespace LWDicer.Control
             //    if (iResult != SUCCESS) return iResult;
             //    if (bStatus == false)
             //    {
-            //        return GenerateErrorCode(ERR_Stage_OBJECT_DETECTED_BUT_NOT_ABSORBED);
+            //        return GenerateErrorCode(ERR_STAGE_OBJECT_DETECTED_BUT_NOT_ABSORBED);
             //    }
             //}
             //else
@@ -1162,7 +1531,7 @@ namespace LWDicer.Control
             //    if (iResult != SUCCESS) return iResult;
             //    if (bStatus == false)
             //    {
-            //        return GenerateErrorCode(ERR_Stage_OBJECT_NOT_DETECTED_BUT_NOT_RELEASED);
+            //        return GenerateErrorCode(ERR_STAGE_OBJECT_NOT_DETECTED_BUT_NOT_RELEASED);
             //    }
             //}
 

@@ -11,7 +11,11 @@ namespace LWDicer.Control
         public double dX;
         public double dY;
 
-        public CPos_XY() { }
+        public CPos_XY()
+        {
+            this.dX = 0.0;
+            this.dY = 0.0;
+        }
 
         public CPos_XY(double dX, double dY)
         {
@@ -173,7 +177,12 @@ namespace LWDicer.Control
         public double dY;
         public double dT;
 
-        public CPos_XYT() { }
+        public CPos_XYT()
+        {
+            this.dX = 0.0;
+            this.dY = 0.0;
+            this.dT = 0.0;
+        }
 
         public CPos_XYT(double dX, double dY, double dT)
         {
@@ -348,7 +357,13 @@ namespace LWDicer.Control
         public double dT;
         public double dZ;
 
-        public CPos_XYTZ() { }
+        public CPos_XYTZ()
+        {
+            this.dX = 0.0;
+            this.dY = 0.0;
+            this.dT = 0.0;
+            this.dZ = 0.0;
+        }
 
         public CPos_XYTZ(double dX, double dY, double dT, double dZ)
         {

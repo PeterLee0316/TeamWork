@@ -299,8 +299,9 @@ namespace LWDicer.Control
         /// <param name="dPosX"></param>
         /// <param name="dPosY"></param>
         /// <returns></returns>
-        public int FindEdge(int iCam, ref CEdgeData pEdgeData)
+        public int FindEdge(int iCam, out CEdgeData pEdgeData)
         {
+            pEdgeData = new CEdgeData();
             // Edge 검출 설정이 되어 있는지를 확인함.
             if (m_EdgeMaker == MIL.M_NULL) return ERR_VISION_ERROR;
 
@@ -328,13 +329,12 @@ namespace LWDicer.Control
             {                
                 pEdgeData.m_bSuccess = true;
                 pEdgeData.m_iEdgeNum = FindEdgeNum;
-                pEdgeData.m_dPosX = new double[FindEdgeNum];
-                pEdgeData.m_dPosY = new double[FindEdgeNum];
+                pEdgeData.EdgePos = new CPos_XY[FindEdgeNum];
 
                 // 검출된 Edge를 Overlay에 표시함.
                 MIL.MgraColor(MIL.M_DEFAULT, MIL.M_COLOR_RED);
                 MIL.MmeasDraw(MIL.M_DEFAULT, m_EdgeMaker, m_DisplayGraph, MIL.M_DRAW_POSITION, MIL.M_DEFAULT, MIL.M_RESULT);
-                MIL.MmeasGetResult(m_EdgeMaker, MIL.M_POSITION + MIL.M_EDGE_FIRST, ref pEdgeData.m_dPosX[0], ref pEdgeData.m_dPosY[0]);
+                MIL.MmeasGetResult(m_EdgeMaker, MIL.M_POSITION + MIL.M_EDGE_FIRST, ref pEdgeData.EdgePos[0].dX, ref pEdgeData.EdgePos[0].dY);
 
                 return SUCCESS;
             }
@@ -378,14 +378,15 @@ namespace LWDicer.Control
                 m_pDisplay[iCamNo].ClearOverlay();
                 MIL.MgraColor(MIL.M_DEFAULT, MIL.M_COLOR_GREEN);
                 MIL.MpatDraw(MIL.M_DEFAULT, m_SearchResult, m_DisplayGraph, MIL.M_DRAW_BOX, MIL.M_DEFAULT, MIL.M_DEFAULT);
-                //DisplaySearchResult();
-
-                MIL.MpatGetResult(m_SearchResult, MIL.M_POSITION_X, ref pResult.m_dPixelX);
-                MIL.MpatGetResult(m_SearchResult, MIL.M_POSITION_Y, ref pResult.m_dPixelY);
+                
+                // 위치값 읽어오기
+                MIL.MpatGetResult(m_SearchResult, MIL.M_POSITION_X, ref pResult.m_PixelPos.dX);
+                MIL.MpatGetResult(m_SearchResult, MIL.M_POSITION_Y, ref pResult.m_PixelPos.dY);
                 MIL.MpatGetResult(m_SearchResult, MIL.M_SCORE, ref pResult.m_dScore);
 
-                RectOffset.X = (int)pResult.m_dPixelX - pSdata.m_pointReference.X - pSdata.m_rectSearch.X;
-                RectOffset.Y = (int)pResult.m_dPixelY - pSdata.m_pointReference.Y - pSdata.m_rectSearch.Y;
+                // Search 작업 성공 결과 Model Pos. & Size  Why??
+                RectOffset.X = (int)pResult.m_PixelPos.dX - pSdata.m_pointReference.X - pSdata.m_rectSearch.X;
+                RectOffset.Y = (int)pResult.m_PixelPos.dY - pSdata.m_pointReference.Y - pSdata.m_rectSearch.Y;
 
                 pResult.m_rectFindedModel = pSdata.m_rectModel;
                 pResult.m_rectFindedModel.Offset(RectOffset);
@@ -403,8 +404,8 @@ namespace LWDicer.Control
 
             // Search Data를 초기화 한다.
             pResult.m_bSearchSuccess = false;
-            pResult.m_dPixelX = 0.0;
-            pResult.m_dPixelY = 0.0;
+            pResult.m_PixelPos.dX = 0.0;
+            pResult.m_PixelPos.dY = 0.0;
             pResult.m_rectSearch = new Rectangle(0, 0, 0, 0);
             pResult.m_rectFindedModel = new Rectangle(0, 0, 0, 0);
 
@@ -413,6 +414,8 @@ namespace LWDicer.Control
 
             return GenerateErrorCode(ERR_VISION_PATTERN_SEARCH_FAIL);
         }
+
+        
 
     }
 }

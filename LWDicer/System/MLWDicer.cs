@@ -40,6 +40,8 @@ using static LWDicer.Control.DEF_CtrlOpPanel;
 using static LWDicer.Control.DEF_CtrlHandler;
 using static LWDicer.Control.DEF_CtrlSpinner;
 using static LWDicer.Control.DEF_CtrlPushPull;
+using static LWDicer.Control.DEF_CtrlLoader;
+using static LWDicer.Control.DEF_CtrlStage;
 
 using static LWDicer.Control.DEF_TrsAutoManager;
 
@@ -66,7 +68,7 @@ namespace LWDicer.Control
         public MACS m_ACS;
 
         // MultiAxes
-        public MMultiAxes_YMC m_AxStage1;
+        public MMultiAxes_ACS m_AxStage1;
         public MMultiAxes_YMC m_AxLoader;
         public MMultiAxes_YMC m_AxPushPull;
         public MMultiAxes_YMC m_AxCentering1;
@@ -171,7 +173,7 @@ namespace LWDicer.Control
         public void Dispose()
         {
             // close handle
-        }
+                }
 
         public CLoginData GetLogin()
         {
@@ -277,7 +279,7 @@ namespace LWDicer.Control
             CreateYMCBoard(objInfo);
 
             m_SystemInfo.GetObjectInfo(4, out objInfo);
-            CreateACSBoard(objInfo);
+            CreateACSChannel(objInfo);
 
             ////////////////////////////////////////////////////////////////////////
             // MultiAxes
@@ -623,13 +625,13 @@ namespace LWDicer.Control
             return SUCCESS;
         }
 
-        int CreateACSBoard(CObjectInfo objInfo)
+        int CreateACSChannel(CObjectInfo objInfo)
         {
             CACSRefComp refComp = new CACSRefComp();
             CACSData data = new CACSData();
 
             m_ACS = new MACS(objInfo, refComp, data);
-            //m_ACS.SetMPMotionData(m_DataManager.SystemData_Axis.MPMotionData);
+            m_ACS.SetACSMotionData(m_DataManager.SystemData_Axis.ACSMotionData);
 
 #if !SIMULATION_MOTION
             int iResult = m_ACS.OpenController();
@@ -640,7 +642,7 @@ namespace LWDicer.Control
         }
 
         int CreateMultiAxes_YMC()
-        {
+            {
             CObjectInfo objInfo;
             CMutliAxesYMCRefComp refComp = new CMutliAxesYMCRefComp();
             CMultiAxesYMCData data;
@@ -649,9 +651,9 @@ namespace LWDicer.Control
             int[] initArray = new int[DEF_MAX_COORDINATE];
 
             for(int i = 0; i < DEF_MAX_COORDINATE; i++)
-            {
+                {
                 initArray[i] = DEF_AXIS_NONE_ID;
-            }
+                }
 
             refComp.Motion = m_YMC;
 
@@ -1388,7 +1390,12 @@ namespace LWDicer.Control
             refComp.IO = m_IO;
             refComp.AxElevator = m_AxLoader;            
 
+            // IO 설정은 임시로 진행함.
             data.InDetectWafer = iUHandler_PanelDetect;
+            data.InDetectCassette[CASSETTE_DETECT_SENSOR_1] = iInterface_00;
+            data.InDetectCassette[CASSETTE_DETECT_SENSOR_2] = iInterface_00;
+            data.InDetectCassette[CASSETTE_DETECT_SENSOR_3] = iInterface_00;
+            data.InDetectCassette[CASSETTE_DETECT_SENSOR_4] = iInterface_00;
 
             data.ElevatorZone.UseSafetyMove[DEF_Z] = true;
             data.ElevatorZone.Axis[DEF_Z].ZoneAddr[(int)EHandlerZAxZone.SAFETY] = 111; // need updete io address

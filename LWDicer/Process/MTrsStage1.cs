@@ -23,7 +23,7 @@ namespace LWDicer.Control
 
         public override string ToString()
         {
-            return $"CTrsStage1RefComp : {this}";
+            return $"CTrsStage1RefComp : {ctrlStage1}";
         }
     }
 
@@ -113,7 +113,7 @@ namespace LWDicer.Control
                     break;
 
             }
-            return DEF_Error.SUCCESS;
+            return 0;
         }
 
         protected override void ThreadProcess()
@@ -161,42 +161,42 @@ namespace LWDicer.Control
                             case (int)TRS_STAGE1_MOVETO_LOAD_POS:
                                 if (m_bAuto_PanelSupplyStop) break;
 
-                                PostMsg(TrsAutoManager, (int)MSG_STAGE_LOADING_END);
+                        //        PostMsg(TrsAutoManager, (int)MSG_STAGE_LOADING_END);
 
-                                iResult = m_RefComp.ctrlStage1.MoveToLoadPos();
-                                if (iResult != SUCCESS) { ReportAlarm(iResult); break; }
+                        //        iResult = m_RefComp.ctrlStage1.MoveToLoadPos();
+                        //        if (iResult != SUCCESS) { SendAlarmTo(iResult); break; }
 
                                 //SetStep1((int)TRS_STAGE1_WAIT_MOVETO_LOAD);
                                 break;
 
-                            //case (int)TRS_STAGE1_WAIT_MOVETO_LOAD:
-                            //    if (m_bAuto_PanelSupplyStop) break;
+                        //    case (int)TRS_STAGE1_WAIT_MOVETO_LOAD:
+                        //        if (m_bAuto_PanelSupplyStop) break;
 
                             //    SetStep1((int)TRS_STAGE1_LOAD_PANEL);
                             //    break;
 
-                            //case (int)TRS_STAGE1_LOAD_PANEL: //2
+                        //    case (int)TRS_STAGE1_LOAD_PANEL: //2
 
-                            //    PostMsg(TrsAutoManager, (int)MSG_PANEL_INPUT);
-                            //    PostMsg(TrsAutoManager, (int)MSG_STAGE_LOADING_END);
+                        //        PostMsg(TrsAutoManager, (int)MSG_PANEL_INPUT);
+                        //        PostMsg(TrsAutoManager, (int)MSG_STAGE_LOADING_END);
 
                             //    SetStep1((int)TRS_STAGE1_CAMERA_MARK_POS);
                             //    break;
 
-                            //case (int)TRS_STAGE1_UNLOAD_COMPLETE: //7
-                            //                                 //				if(!m_bWorkbench_SafetyPos) break;
+                        //    case (int)TRS_STAGE1_UNLOAD_COMPLETE: //7
+                        //                                     //				if(!m_bWorkbench_SafetyPos) break;
 
-                            //    iResult = m_RefComp.ctrlStage1.MoveToWaitPos(false);
-                            //    if (iResult != SUCCESS) { ReportAlarm(iResult); break; }
+                        //        iResult = m_RefComp.ctrlStage1.MoveToWaitPos();
+                        //        if (iResult != SUCCESS) { SendAlarmTo(iResult); break; }
 
-                            //    //PostMsg(TrsWorkbench, MSG_STAGE1_WORKBENCH_SAFETY_POS);
+                        //        //PostMsg(TrsWorkbench, MSG_STAGE1_WORKBENCH_SAFETY_POS);
 
                             //    SetStep1((int)TRS_STAGE1_MOVETO_LOAD_POS);
                             //    break;
 
-                            default:
-                                break;
-                        }
+                        //    default:
+                        //        break;
+                        //}
                         break;
 
                     default:
