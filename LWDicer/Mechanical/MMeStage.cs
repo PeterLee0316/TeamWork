@@ -594,7 +594,6 @@ namespace LWDicer.Control
             // 이동 Position 선택
             int iPos = (int)EStagePos.NONE;
 
-            bool[] bMoveFlag = new bool[DEF_MAX_COORDINATE] { false, false, false, false };           
             bool bUsePriority = false;
             bool bUseBacklash = false;
             int[] movePriority = null;
@@ -607,7 +606,7 @@ namespace LWDicer.Control
             // Index 거리를 해당 축에 더하여 거리를 산출함.
             sTargetPos += sPos; 
 
-            iResult = MoveStagePos(sTargetPos, iPos, bMoveFlag, bUseBacklash, bUsePriority, movePriority);
+            iResult = MoveStagePos(sTargetPos, bMoveFlag, bUseBacklash, bUsePriority, movePriority);
             if (iResult != SUCCESS) return iResult;
 
             return SUCCESS;
@@ -654,7 +653,7 @@ namespace LWDicer.Control
                 sTargetPos.dT += dMoveLength;
             }
             
-            iResult = MoveStagePos(sTargetPos, bMoveFlag, bUseBacklash, bUsePriority, movePriority);
+            iResult = MoveStagePos(sTargetPos, bMoveFlag, bUseBacklash);
             if (iResult != SUCCESS) return iResult;
 
             return SUCCESS;
