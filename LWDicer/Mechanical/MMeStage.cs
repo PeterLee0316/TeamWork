@@ -59,6 +59,22 @@ namespace LWDicer.Control
             MAX,
         }
 
+        public enum ECameraPos
+        {
+            NONE = -1,
+            WAIT,
+            WORK,
+            MAX,
+        }
+
+        public enum ELaserPos
+        {
+            NONE = -1,
+            WAIT,
+            WORK,
+            MAX,
+        }
+
         public enum EStagePos
         {
             NONE = -1,
@@ -199,6 +215,8 @@ namespace LWDicer.Control
 
         // MovingObject
         private CMovingObject AxStageInfo = new CMovingObject((int)EStagePos.MAX);
+        private CMovingObject AxCameraInfo = new CMovingObject((int)ECameraPos.MAX);
+        private CMovingObject AxLaserInfo = new CMovingObject((int)ELaserPos.MAX);
 
         // Cylinder
         private bool[] UseMainCylFlag   = new bool[WAFER_CLAMP_CYL_NUM];
@@ -245,6 +263,26 @@ namespace LWDicer.Control
         public int GetStagePosition(out CUnitPos FixedPos, out CUnitPos ModelPos, out CUnitPos OffsetPos)
         {
             return AxStageInfo.GetPosition(out FixedPos,out ModelPos,out OffsetPos);
+        }
+
+        public int SetCameraPosition(CUnitPos FixedPos, CUnitPos ModelPos, CUnitPos OffsetPos)
+        {
+            return AxCameraInfo.SetPosition(FixedPos, ModelPos, OffsetPos);
+        }
+
+        public int GetCameraPosition(out CUnitPos FixedPos, out CUnitPos ModelPos, out CUnitPos OffsetPos)
+        {
+            return AxCameraInfo.GetPosition(out FixedPos, out ModelPos, out OffsetPos);
+        }
+
+        public int SetLaserPosition(CUnitPos FixedPos, CUnitPos ModelPos, CUnitPos OffsetPos)
+        {
+            return AxLaserInfo.SetPosition(FixedPos, ModelPos, OffsetPos);
+        }
+
+        public int GetLaserPosition(out CUnitPos FixedPos, out CUnitPos ModelPos, out CUnitPos OffsetPos)
+        {
+            return AxLaserInfo.GetPosition(out FixedPos, out ModelPos, out OffsetPos);
         }
 
         public CPos_XYTZ GetTargetPosition(int index)
