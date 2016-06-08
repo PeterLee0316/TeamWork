@@ -344,21 +344,33 @@ namespace LWDicer.Control
         public enum EPositionObject // 좌표셋을 저장할 수 있는 단위
         {
             ALL = -1,
+
+            // Loader
             LOADER,
+
+            // PushPull
             PUSHPULL,
             PUSHPULL_CENTER1,
+            PUSHPULL_CENTER2,     
+
+            // Spinner1
             S1_ROTATE,
             S1_CLEAN_NOZZLE,
             S1_COAT_NOZZLE,
-            PUSHPULL_CENTER2,     
+
+            // Spinner2
             S2_ROTATE,
             S2_CLEAN_NOZZLE,
             S2_COAT_NOZZLE,
+
+            // Handler
             UHANDLER,
             LHANDLER,
+
+            // Stage
+            STAGE1,
             CAMERA1,
             LASER1,
-            STAGE1,
             MAX,
         }
 

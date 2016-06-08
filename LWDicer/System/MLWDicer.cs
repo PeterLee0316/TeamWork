@@ -1294,9 +1294,8 @@ namespace LWDicer.Control
             //////////////////////////////////////////////////////////////////
             // Mechanical Layer
 
-            // MMeHandler
-            m_MeUpperHandler.SetHandlerPosition(FixedPos.UHandlerPos, ModelPos.UHandlerPos, OffsetPos.UHandlerPos);
-            m_MeLowerHandler.SetHandlerPosition(FixedPos.LHandlerPos, ModelPos.LHandlerPos, OffsetPos.LHandlerPos);
+            // Loader
+            m_MeElevator.SetElevatorPosition(FixedPos.LoaderPos, ModelPos.LoaderPos, OffsetPos.LoaderPos);
 
             // PushPull
             m_MePushPull.SetPushPullPosition(FixedPos.PushPullPos, ModelPos.PushPullPos, OffsetPos.PushPullPos);
@@ -1304,11 +1303,22 @@ namespace LWDicer.Control
             m_MePushPull.SetCenteringPosition(DEF_MePushPull.ECenterIndex.CENTER2, FixedPos.Centering2Pos, ModelPos.Centering2Pos, OffsetPos.Centering2Pos);
 
             // Spinner
-            m_MeSpinner2.SetRotatePosition(FixedPos.RotatePos, ModelPos.RotatePos, OffsetPos.RotatePos);
-            m_MeSpinner2.SetCleanPosition(FixedPos.CleanerPos,ModelPos.CleanerPos,OffsetPos.CleanerPos);
+            m_MeSpinner1.SetRotatePosition(FixedPos.S1_RotatePos, ModelPos.S1_RotatePos, OffsetPos.S1_RotatePos);
+            m_MeSpinner1.SetCleanPosition(FixedPos.S1_CleanerPos, ModelPos.S1_CleanerPos, OffsetPos.S1_CleanerPos);
+            m_MeSpinner1.SetCoatPosition(FixedPos.S1_CoaterPos, ModelPos.S1_CoaterPos, OffsetPos.S1_CoaterPos);
 
-            m_MeSpinner1.SetRotatePosition(FixedPos.RotatePos, ModelPos.RotatePos, OffsetPos.RotatePos);
-            m_MeSpinner1.SetCoatPosition(FixedPos.CoaterPos, ModelPos.CoaterPos, OffsetPos.CoaterPos);
+            m_MeSpinner2.SetRotatePosition(FixedPos.S2_RotatePos, ModelPos.S2_RotatePos, OffsetPos.S2_RotatePos);
+            m_MeSpinner2.SetCleanPosition(FixedPos.S2_CleanerPos, ModelPos.S2_CleanerPos, OffsetPos.S2_CleanerPos);
+            m_MeSpinner2.SetCoatPosition(FixedPos.S2_CoaterPos, ModelPos.S2_CoaterPos, OffsetPos.S2_CoaterPos);
+
+            // Handler
+            m_MeUpperHandler.SetHandlerPosition(FixedPos.UHandlerPos, ModelPos.UHandlerPos, OffsetPos.UHandlerPos);
+            m_MeLowerHandler.SetHandlerPosition(FixedPos.LHandlerPos, ModelPos.LHandlerPos, OffsetPos.LHandlerPos);
+
+            // Stage
+            m_MeStage.SetStagePosition(FixedPos.Stage1Pos, ModelPos.Stage1Pos, OffsetPos.Stage1Pos);
+            m_MeStage.SetCameraPosition(FixedPos.Camera1Pos, ModelPos.Camera1Pos, OffsetPos.Camera1Pos);
+            m_MeStage.SetLaserPosition(FixedPos.Laser1Pos, ModelPos.Laser1Pos, OffsetPos.Laser1Pos);
 
             //////////////////////////////////////////////////////////////////
             // Control Layer

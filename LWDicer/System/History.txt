@@ -188,12 +188,19 @@ LWDicer의 DataManager에서 데이터를 읽어오기 위한 3가지 함수 : S
 
 // Version : 0.0.21
 // Grade : ★
-// Date : 160531~160602
+// Date : 160531~160606
 // Context
 1. CMAxisZoneCheck class에서 SafetyPos member 빼내서 별도로 관리 및 관련 class들 수정 (주로 Mechanical Layer)
    MLWDicer의 Initialize에서 create class 할 때에 CMAxisZoneCheck 초기화해서 set해주는 부분 추가
 2. class 필수부분, cylinder&vacuum 부분들 #region / #endregion으로 묶어줌
 3. MeSpinner, MCtrlSpinner 1차 수정 완료.
+
+// Version : 0.0.22
+// Grade : ★
+// Date : 160608
+// Context
+1. CPositionData 관련하여 LoadPositionData, SavePositionData 함수 정리 및 LWDicer에서 set position 하는 부분 정리.
+   MeStage class 에 Camera, Laser Position 추가
 
 ////////////////////////////////////////////////////////////////////////////////////////////
 // LJJ
