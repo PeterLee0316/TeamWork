@@ -143,7 +143,7 @@ namespace LWDicer.UI
             GridMotorPara[14, 1].Text = "TR HAND 2 Y";
             GridMotorPara[15, 1].Text = "STAGE Y";
             GridMotorPara[16, 1].Text = "STAGE X";
-            GridMotorPara[17, 1].Text = "STAGE R";
+            GridMotorPara[17, 1].Text = "STAGE T";
             GridMotorPara[18, 1].Text = "SCANNER Z";
             GridMotorPara[19, 1].Text = "CAMERA Z";
 

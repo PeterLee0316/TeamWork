@@ -441,29 +441,35 @@ namespace LWDicer.Control
             public double Thickness;
         }
 
-        public class CFrameData
+        /// <summary>
+        /// Define Wafer Cassette Data
+        /// </summary>
+        public class CWaferCassette
         {
             public string FrameName;
-            public double Diameter;
-            public int Slot;
-            public int CassetteSetNo;
-            public double FramePitch;
-            public double CassetteHeight;
-            public double UnloadElevatorPos;
-            public double ESZeroPoint;
-            public double CTZeroPoint;
-            public double STZeroPoint;
-            public double LoadPushPullPos;
-            public double FrameCenterPos;
+            public double Diameter;          // Cassette Frame 지름 ex) 380mm
+            public int Slot;                 // 슬롯갯수            ex) 13ea
+            public int CassetteSetNo;        // Cassette 갯수 ex) 2ea
+            public double FramePitch;        // Cassette Slot Fitch ex) 9.5mm
+            public double CassetteHeight;    // Cassette 높이 ex)155mm
+            public double UnloadElevatorPos; // Elevator Start Origin Position에서 Unloading을 위하여 Cassette Offset 높이 ex) -1mm 하강
+            public double ESZeroPoint;       // Elevator Start Origin Position ex) Teaching Position 258.3mm
+            public double CTZeroPoint;	     // Chuck Table Angle?
+            public double STZeroPoint;       // Spinner Table Angle?
+            public double LoadPushPullPos;   // PushPull 끝단에 설치 되어 있는 감지센서 부터 Cassette에 적재되어 있는 Wafer 까지 거리 ex) 61mm
+            public double FrameCenterPos;    // Centering Unit Wafer Centering Teaching Position ex) 52.4mm
         }
 
-        public class CInspectionFrameData
+        /// <summary>
+        /// Define Wafer Frame Data
+        /// </summary>
+        public class CWaferFrame
         {
             public string FrameName;
-            public double StagePos;
-            public double UnloadElevatorPos;
-            public double LoadPushPullPos;
-            public double UnloadPushPullPos;
+            public double StagePos;          // Inspection Stage에 적재 되어 있는 Cassette에 PushPull이 Unloading 가능한 Elevator 의 Teaching 높이 ex) 450.5mm
+            public double UnloadElevatorPos; // Elevator Start Origin Position에서 Unloading을 위하여 Cassette Offset 높이 ex) -1mm 하강
+            public double LoadPushPullPos;   // PushPull 끝단에 설치 되어 있는 감지센서 부터 Cassette에 적재되어 있는 Wafer 까지 거리 ex) 61mm
+            public double UnloadPushPullPos; // PushPull 끝단에 설치 되어 있는 감지센서 부터 Cassette에 적재되어 있는 Wafer 까지 거리 ex) 61mm
         }
 
         public class CLogParameter
@@ -556,10 +562,10 @@ namespace LWDicer.Control
             public CWaferData Wafer = new CWaferData();
 
             // Frame Data
-            public CFrameData[] Frame = new CFrameData[(int)EFrameDataNo.MAX];
+            public CWaferCassette[] Frame = new CWaferCassette[(int)EFrameDataNo.MAX];
 
             // Inspection Frame Data
-            public CInspectionFrameData[] InspectionFrame = new CInspectionFrameData[(int)EFrameDataNo.MAX];
+            public CWaferFrame[] InspectionFrame = new CWaferFrame[(int)EFrameDataNo.MAX];
 
             // Spinner Data 
             public CSpinnerData SpinnerData = new CSpinnerData();
