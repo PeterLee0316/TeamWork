@@ -201,6 +201,7 @@ LWDicer의 DataManager에서 데이터를 읽어오기 위한 3가지 함수 : S
 // Context
 1. CPositionData 관련하여 LoadPositionData, SavePositionData 함수 정리 및 LWDicer에서 set position 하는 부분 정리.
    MeStage class 에 Camera, Laser Position 추가
+2. 그동안 써오던 Laser1, Laser1_Z 등을 -----> Scanner1, Scanner1_Z 등으로 바꿈
 
 ////////////////////////////////////////////////////////////////////////////////////////////
 // LJJ

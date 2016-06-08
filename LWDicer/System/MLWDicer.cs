@@ -776,10 +776,10 @@ namespace LWDicer.Control
             m_SystemInfo.GetObjectInfo(263, out objInfo);
             m_AxCamera1 = new MMultiAxes_YMC(objInfo, refComp, data);
 
-            // LASER1
-            deviceNo = (int)EYMC_Device.LASER1;
+            // SCANNER1
+            deviceNo = (int)EYMC_Device.SCANNER1;
             Array.Copy(initArray, axisList, initArray.Length);
-            axisList[DEF_Z] = (int)EYMC_Axis.LASER1_Z;
+            axisList[DEF_Z] = (int)EYMC_Axis.SCANNER1_Z;
             data = new CMultiAxesYMCData(deviceNo, axisList);
 
             m_SystemInfo.GetObjectInfo(264, out objInfo);
@@ -1318,7 +1318,7 @@ namespace LWDicer.Control
             // Stage
             m_MeStage.SetStagePosition(FixedPos.Stage1Pos, ModelPos.Stage1Pos, OffsetPos.Stage1Pos);
             m_MeStage.SetCameraPosition(FixedPos.Camera1Pos, ModelPos.Camera1Pos, OffsetPos.Camera1Pos);
-            m_MeStage.SetLaserPosition(FixedPos.Laser1Pos, ModelPos.Laser1Pos, OffsetPos.Laser1Pos);
+            m_MeStage.SetLaserPosition(FixedPos.Scanner1Pos, ModelPos.Scanner1Pos, OffsetPos.Scanner1Pos);
 
             //////////////////////////////////////////////////////////////////
             // Control Layer

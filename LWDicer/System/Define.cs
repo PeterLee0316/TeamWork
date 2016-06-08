@@ -48,24 +48,27 @@ namespace LWDicer.Control
         }
         public enum EYMC_Axis
         {
-            NULL = -1        ,
-            LOADER_Z = 0     ,
-            PUSHPULL_Y       ,
-            PUSHPULL_X1,
-            S1_CHUCK_ROTATE_T,        // Spinner & Coater 1
-            S1_CLEAN_NOZZLE_T,
-            S1_COAT_NOZZLE_T,
-            PUSHPULL_X2,
-            S2_CHUCK_ROTATE_T,        // Spinner & Coater 2
-            S2_CLEAN_NOZZLE_T,
-            S2_COAT_NOZZLE_T,
-            UHANDLER_X,
-            UHANDLER_Z       ,
-            LHANDLER_X       ,
-            LHANDLER_Z       ,
-            CAMERA1_Z        ,
-            LASER1_Z         ,
-            MAX,
+            NULL = -1          ,
+            LOADER_Z = 0       ,
+            PUSHPULL_Y         ,
+            PUSHPULL_X1        ,
+            PUSHPULL_X2        ,
+            S1_CHUCK_ROTATE_T  ,
+            S1_CLEAN_NOZZLE_T  ,
+            S1_COAT_NOZZLE_T   ,
+            S2_CHUCK_ROTATE_T  ,
+            S2_CLEAN_NOZZLE_T  ,
+            S2_COAT_NOZZLE_T   ,
+            UHANDLER_X         ,
+            UHANDLER_Z         ,
+            LHANDLER_X         ,
+            LHANDLER_Z         ,
+            //STAGE1_X           ,
+            //STAGE1_Y           ,
+            //STAGE1_T           ,
+            CAMERA1_Z          ,
+            SCANNER1_Z         ,
+            MAX                ,
         }
 
         
@@ -74,44 +77,55 @@ namespace LWDicer.Control
         {
             NULL = -1,
             // 개별 축 제어를 위한 device, Device[index] = Axis[index]를 위해서 NULL 축까지도 선언함 
+            // Loader
             LOADER_Z = 0,
+
+            // PushPull
             PUSHPULL_Y,
             PUSHPULL_X1,
-            S1_CHUCK_ROTATE_T,        // Spinner & Coater 1
+            PUSHPULL_X2,
+
+            // Spinner1
+            S1_CHUCK_ROTATE_T,
             S1_CLEAN_NOZZLE_T,
             S1_COAT_NOZZLE_T,
-            PUSHPULL_X2,
-            S2_CHUCK_ROTATE_T,        // Spinner & Coater 2
+
+            // Spinner2
+            S2_CHUCK_ROTATE_T,
             S2_CLEAN_NOZZLE_T,
             S2_COAT_NOZZLE_T,
+
+            // Handler
             UHANDLER_X,
             UHANDLER_Z,
             LHANDLER_X,
             LHANDLER_Z,
-            CAMERA1_Z,
-            LASER1_Z,
+
+            // Stage 
             // Stage는 ACS 모션으로 사용하기로 해서 우선 주석 처리
-            //STAGE1_X = 0,
+            //STAGE1_X,
             //STAGE1_Y,
             //STAGE1_T,
+            CAMERA1_Z,
+            SCANNER1_Z,
 
             // 그룹으로 축 제어를 위해 선언, MultiAxes
             ALL,    // for control all axis at a time
             LOADER,
             PUSHPULL,
             CENTERING1,     
-            S1_ROTATE,      // Spinner & Coater 1
+            CENTERING2,     
+            S1_ROTATE,
             S1_CLEAN_NOZZLE,
             S1_COAT_NOZZLE,
-            CENTERING2,     
-            S2_ROTATE,      // Spinner & Coater 2
+            S2_ROTATE,
             S2_CLEAN_NOZZLE,
             S2_COAT_NOZZLE,
             UHANDLER,
             LHANDLER,
-            CAMERA1,
-            LASER1,
             //STAGE1,
+            CAMERA1,
+            SCANNER1,
             MAX,
         }
 
@@ -370,7 +384,7 @@ namespace LWDicer.Control
             // Stage
             STAGE1,
             CAMERA1,
-            LASER1,
+            SCANNER1,
             MAX,
         }
 

@@ -59,6 +59,10 @@ namespace LWDicer.Control
             MAX,
         }
 
+
+        /// <summary>
+        /// Camera Unit Position
+        /// </summary>
         public enum ECameraPos
         {
             NONE = -1,
@@ -67,7 +71,10 @@ namespace LWDicer.Control
             MAX,
         }
 
-        public enum ELaserPos
+        /// <summary>
+        /// Scanner Unit Position
+        /// </summary>
+        public enum EScannerPos
         {
             NONE = -1,
             WAIT,
@@ -95,19 +102,12 @@ namespace LWDicer.Control
             MAX,
         }
 
-        public enum ECameraPos
+        public enum EAlignCameraPos
         {
             NONE = -1,
             MACRO,
             MICRO,
             MAX,
-        }
-
-        public enum EScannerPos
-        {
-            NONE = -1,
-            WAIT,
-            MAX
         }
 
         public enum EStageXAxZone
@@ -216,7 +216,7 @@ namespace LWDicer.Control
         // MovingObject
         private CMovingObject AxStageInfo = new CMovingObject((int)EStagePos.MAX);
         private CMovingObject AxCameraInfo = new CMovingObject((int)ECameraPos.MAX);
-        private CMovingObject AxLaserInfo = new CMovingObject((int)ELaserPos.MAX);
+        private CMovingObject AxLaserInfo = new CMovingObject((int)EScannerPos.MAX);
 
         // Cylinder
         private bool[] UseMainCylFlag   = new bool[WAFER_CLAMP_CYL_NUM];

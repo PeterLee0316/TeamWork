@@ -52,7 +52,7 @@ namespace LWDicer.UI
         ButtonAdv[] AxisNo = new ButtonAdv[19];
         ButtonAdv[] TeachPos = new ButtonAdv[20];
 
-        private string[,] strTeachPos = new string[(int)ETeachUnit.MAX, 12];
+        private string[,] strTeachPos = new string[(int)ETeachUnit.MAX, (int)EStagePos.MAX];
 
         public FormTeaching()
         {
@@ -286,7 +286,7 @@ namespace LWDicer.UI
 
             for (i = 0; i < (int)ECameraPos.MAX; i++)
             {
-                strTeachPos[(int)ETeachUnit.CAMERA, i] = Convert.ToString(ECameraPos.MACRO + i);
+                strTeachPos[(int)ETeachUnit.CAMERA, i] = Convert.ToString(ECameraPos.WAIT + i);
             }
 
             for (i = 0; i < (int)EScannerPos.MAX; i++)
