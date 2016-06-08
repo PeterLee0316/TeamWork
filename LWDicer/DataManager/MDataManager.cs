@@ -365,7 +365,7 @@ namespace LWDicer.Control
             // Stage1
             public CUnitPos Stage1Pos = new CUnitPos((int)EStagePos.MAX);
             public CUnitPos Camera1Pos = new CUnitPos((int)ECameraPos.MAX);
-            public CUnitPos Laser1Pos = new CUnitPos((int)ELaserPos.MAX);
+            public CUnitPos Scanner1Pos = new CUnitPos((int)EScannerPos.MAX);
 
             // PushPull
             public CUnitPos PushPullPos = new CUnitPos((int)EPushPullPos.MAX);
@@ -1232,10 +1232,10 @@ namespace LWDicer.Control
                 if (iResult != SUCCESS) return iResult;
             }
 
-            if (unit == EPositionObject.ALL || unit == EPositionObject.LASER1)
+            if (unit == EPositionObject.ALL || unit == EPositionObject.SCANNER1)
             {
-                key_value = EPositionObject.LASER1.ToString() + suffix;
-                output = JsonConvert.SerializeObject(tData.Laser1Pos);
+                key_value = EPositionObject.SCANNER1.ToString() + suffix;
+                output = JsonConvert.SerializeObject(tData.Scanner1Pos);
 
                 iResult = SaveUnitPositionData(key_value, output);
                 if (iResult != SUCCESS) return iResult;
@@ -1430,14 +1430,14 @@ namespace LWDicer.Control
                 tData.Camera1Pos = ObjectExtensions.Copy(data);
             }
 
-            if (unit == EPositionObject.ALL || unit == EPositionObject.LASER1)
+            if (unit == EPositionObject.ALL || unit == EPositionObject.SCANNER1)
             {
-                key_value = EPositionObject.LASER1.ToString() + suffix;
+                key_value = EPositionObject.SCANNER1.ToString() + suffix;
                 iResult = LoadUnitPositionData(key_value, out output);
                 if (iResult != SUCCESS) return iResult;
 
                 CUnitPos data = JsonConvert.DeserializeObject<CUnitPos>(output);
-                tData.Laser1Pos = ObjectExtensions.Copy(data);
+                tData.Scanner1Pos = ObjectExtensions.Copy(data);
             }
 
             return SUCCESS;
@@ -2912,12 +2912,12 @@ namespace LWDicer.Control
                 SystemData_Axis.MPMotionData[index] = ObjectExtensions.Copy(tMotion);
             }
 
-            // LASER1_Z
-            index = (int)EYMC_Axis.LASER1_Z         ;
+            // SCANNER1_Z
+            index = (int)EYMC_Axis.SCANNER1_Z         ;
             if (SystemData_Axis.MPMotionData[index].Name == "NotExist")
             {
                 tMotion = new CMPMotionData();
-                tMotion.Name = "LASER1_Z";
+                tMotion.Name = "SCANNER1_Z";
                 tMotion.Exist = true;
 
                 SystemData_Axis.MPMotionData[index] = ObjectExtensions.Copy(tMotion);
