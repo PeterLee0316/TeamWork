@@ -95,6 +95,21 @@ namespace LWDicer.Control
             MAX,
         }
 
+        public enum ECameraPos
+        {
+            NONE = -1,
+            MACRO,
+            MICRO,
+            MAX,
+        }
+
+        public enum EScannerPos
+        {
+            NONE = -1,
+            WAIT,
+            MAX
+        }
+
         public enum EStageXAxZone
         {
             NONE = -1,
