@@ -845,6 +845,20 @@ namespace LWDicer.Control
             MAX,
         }
 
+        public enum ETeachUnit
+        {
+            LOADER,
+            PUSHPULL,
+            CLEANER1,
+            CLEANER2,
+            HANDLER,
+            STAGE,
+            CAMERA,
+            SCANNER,
+            MAX,
+        }
+
+
         // Common Thread Message inter Threads
         public enum EThreadMessage
         {
