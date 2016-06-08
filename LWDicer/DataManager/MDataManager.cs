@@ -133,20 +133,30 @@ namespace LWDicer.Control
         /// </summary>
         public class CSystemData_MAxSafetyPos
         {
+            // Loader
             public CPos_XYTZ Elevator_Pos;
-            public CPos_XYTZ UHandler_Pos;
-            public CPos_XYTZ LHandler_Pos;
-            public CPos_XYTZ Stage_Pos;
 
             // PushPull
             public CPos_XYTZ PushPull_Pos;
             public CPos_XYTZ Centering_Pos; // PushPull Centering
 
-            // spinner 1, 2
-            public CPos_XYTZ CleanNozzle1_Pos;
-            public CPos_XYTZ CoatNozzle1_Pos;
-            public CPos_XYTZ CleanNozzle2_Pos;
-            public CPos_XYTZ CoatNozzle2_Pos;
+            // Spinner
+            public CPos_XYTZ S1_Rotate_Pos;
+            public CPos_XYTZ S1_CleanNozzel_Pos;
+            public CPos_XYTZ S1_CoatNozzel_Pos;
+
+            public CPos_XYTZ S2_Rotate_Pos;
+            public CPos_XYTZ S2_CleanNozzel_Pos;
+            public CPos_XYTZ S2_CoatNozzel_Pos;
+
+            // Handler
+            public CPos_XYTZ UHandler_Pos;
+            public CPos_XYTZ LHandler_Pos;
+
+            // Stage
+            public CPos_XYTZ Stage_Pos;
+            public CPos_XYTZ Camera_Pos;
+            public CPos_XYTZ Scanner_Pos;
         }
 
         public class CSystemData
@@ -163,8 +173,8 @@ namespace LWDicer.Control
             public CSystemData_MAxSafetyPos MAxSafetyPos = new CSystemData_MAxSafetyPos();
 
             /////////////////////////////////////////////////////////
-            // 아래는 아직 미정리 내역들
-
+            // 아래는 아직 미정리 내역들. 
+            // * 혹시, 아래에서 사용하는것들은 이 주석 위로 올려주기 바람
             //
             public string PassWord;     // Engineer Password
 
@@ -734,6 +744,12 @@ namespace LWDicer.Control
                 CSystemData systemData2 = new CSystemData();
                 ObjectExtensions.FromStringDicionary(systemData2, type, fieldBook);
             }
+
+            if (false)
+            {
+                SavePositionData(true);
+                SavePositionData(false);
+            }
         }
 
         public int BackupDB()
@@ -1075,6 +1091,7 @@ namespace LWDicer.Control
                 if (DBManager.InsertRow(DBInfo.DBConn, DBInfo.TablePos, "name", key_value, output,
                     true, DBInfo.DBConn_Backup) != true)
                 {
+                    WriteLog($"fail : save {key_value} Position.", ELogType.SYSTEM, ELogWType.SAVE);
                     return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_SAVE_POSITION_DATA);
                 }
                 WriteLog($"success : save {key_value} Position.", ELogType.SYSTEM, ELogWType.SAVE);
@@ -1247,8 +1264,8 @@ namespace LWDicer.Control
         private int LoadUnitPositionData(string key_value, out string output)
         {
             // db에 없을 경우나, error가 발생했을때를 대비해서, 기본으로 초기화 시켜주기위해서
-            output = "{\"default\":\"default\"}";
-            //output = "";
+            string default_key = "{\"default\":\"default\"}";
+            output = default_key;
             try
             {
                 if (DBManager.SelectRow(DBInfo.DBConn, DBInfo.TablePos, out output, new CDBColumn("name", key_value)) == true)
@@ -1257,6 +1274,7 @@ namespace LWDicer.Control
                 }
                 else // temporarily do not return error for continuous loading
                 {
+                    output = default_key;
                     WriteLog($"fail : load {key_value} Position.", ELogType.SYSTEM, ELogWType.LOAD);
                     //return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_LOAD_POSITION_DATA);
                 }
@@ -1292,7 +1310,8 @@ namespace LWDicer.Control
                 if (iResult != SUCCESS) return iResult;
 
                 CUnitPos data = JsonConvert.DeserializeObject<CUnitPos>(output);
-                tData.LoaderPos = ObjectExtensions.Copy(data);
+                if(data != null && data.Length > 0)
+                    tData.LoaderPos = ObjectExtensions.Copy(data);
             }
 
             // PushPull
@@ -1303,7 +1322,8 @@ namespace LWDicer.Control
                 if (iResult != SUCCESS) return iResult;
 
                 CUnitPos data = JsonConvert.DeserializeObject<CUnitPos>(output);
-                tData.PushPullPos = ObjectExtensions.Copy(data);
+                if(data != null && data.Length > 0)
+                    tData.PushPullPos = ObjectExtensions.Copy(data);
             }
 
             if (unit == EPositionObject.ALL || unit == EPositionObject.PUSHPULL_CENTER1)
@@ -1313,7 +1333,8 @@ namespace LWDicer.Control
                 if (iResult != SUCCESS) return iResult;
 
                 CUnitPos data = JsonConvert.DeserializeObject<CUnitPos>(output);
-                tData.Centering1Pos = ObjectExtensions.Copy(data);
+                if(data != null && data.Length > 0)
+                    tData.Centering1Pos = ObjectExtensions.Copy(data);
             }
 
             if (unit == EPositionObject.ALL || unit == EPositionObject.PUSHPULL_CENTER2)
@@ -1323,7 +1344,8 @@ namespace LWDicer.Control
                 if (iResult != SUCCESS) return iResult;
 
                 CUnitPos data = JsonConvert.DeserializeObject<CUnitPos>(output);
-                tData.Centering2Pos = ObjectExtensions.Copy(data);
+                if(data != null && data.Length > 0)
+                    tData.Centering2Pos = ObjectExtensions.Copy(data);
             }
 
             // Spinner1
@@ -1334,7 +1356,8 @@ namespace LWDicer.Control
                 if (iResult != SUCCESS) return iResult;
 
                 CUnitPos data = JsonConvert.DeserializeObject<CUnitPos>(output);
-                tData.S1_RotatePos = ObjectExtensions.Copy(data);
+                if(data != null && data.Length > 0)
+                    tData.S1_RotatePos = ObjectExtensions.Copy(data);
             }
 
             if (unit == EPositionObject.ALL || unit == EPositionObject.S1_CLEAN_NOZZLE)
@@ -1344,7 +1367,8 @@ namespace LWDicer.Control
                 if (iResult != SUCCESS) return iResult;
 
                 CUnitPos data = JsonConvert.DeserializeObject<CUnitPos>(output);
-                tData.S1_CleanerPos = ObjectExtensions.Copy(data);
+                if(data != null && data.Length > 0)
+                    tData.S1_CleanerPos = ObjectExtensions.Copy(data);
             }
 
             if (unit == EPositionObject.ALL || unit == EPositionObject.S1_COAT_NOZZLE)
@@ -1354,7 +1378,8 @@ namespace LWDicer.Control
                 if (iResult != SUCCESS) return iResult;
 
                 CUnitPos data = JsonConvert.DeserializeObject<CUnitPos>(output);
-                tData.S1_CoaterPos = ObjectExtensions.Copy(data);
+                if(data != null && data.Length > 0)
+                    tData.S1_CoaterPos = ObjectExtensions.Copy(data);
             }
 
             // Spinner2
@@ -1365,7 +1390,8 @@ namespace LWDicer.Control
                 if (iResult != SUCCESS) return iResult;
 
                 CUnitPos data = JsonConvert.DeserializeObject<CUnitPos>(output);
-                tData.S2_RotatePos = ObjectExtensions.Copy(data);
+                if(data != null && data.Length > 0)
+                    tData.S2_RotatePos = ObjectExtensions.Copy(data);
             }
 
             if (unit == EPositionObject.ALL || unit == EPositionObject.S2_CLEAN_NOZZLE)
@@ -1375,7 +1401,8 @@ namespace LWDicer.Control
                 if (iResult != SUCCESS) return iResult;
 
                 CUnitPos data = JsonConvert.DeserializeObject<CUnitPos>(output);
-                tData.S2_CleanerPos = ObjectExtensions.Copy(data);
+                if(data != null && data.Length > 0)
+                    tData.S2_CleanerPos = ObjectExtensions.Copy(data);
             }
 
             if (unit == EPositionObject.ALL || unit == EPositionObject.S2_COAT_NOZZLE)
@@ -1385,7 +1412,8 @@ namespace LWDicer.Control
                 if (iResult != SUCCESS) return iResult;
 
                 CUnitPos data = JsonConvert.DeserializeObject<CUnitPos>(output);
-                tData.S2_CoaterPos = ObjectExtensions.Copy(data);
+                if(data != null && data.Length > 0)
+                    tData.S2_CoaterPos = ObjectExtensions.Copy(data);
             }
 
             // Handler
@@ -1396,7 +1424,8 @@ namespace LWDicer.Control
                 if (iResult != SUCCESS) return iResult;
 
                 CUnitPos data = JsonConvert.DeserializeObject<CUnitPos>(output);
-                tData.LHandlerPos = ObjectExtensions.Copy(data);
+                if(data != null && data.Length > 0)
+                    tData.LHandlerPos = ObjectExtensions.Copy(data);
             }
 
             if (unit == EPositionObject.ALL || unit == EPositionObject.UHANDLER)
@@ -1406,7 +1435,8 @@ namespace LWDicer.Control
                 if (iResult != SUCCESS) return iResult;
 
                 CUnitPos data = JsonConvert.DeserializeObject<CUnitPos>(output);
-                tData.UHandlerPos = ObjectExtensions.Copy(data);
+                if(data != null && data.Length > 0)
+                    tData.UHandlerPos = ObjectExtensions.Copy(data);
             }
 
             // Stage1
@@ -1417,7 +1447,8 @@ namespace LWDicer.Control
                 if (iResult != SUCCESS) return iResult;
 
                 CUnitPos data = JsonConvert.DeserializeObject<CUnitPos>(output);
-                tData.Stage1Pos = ObjectExtensions.Copy(data);
+                if(data != null && data.Length > 0)
+                    tData.Stage1Pos = ObjectExtensions.Copy(data);
             }
 
             if (unit == EPositionObject.ALL || unit == EPositionObject.CAMERA1)
@@ -1427,7 +1458,8 @@ namespace LWDicer.Control
                 if (iResult != SUCCESS) return iResult;
 
                 CUnitPos data = JsonConvert.DeserializeObject<CUnitPos>(output);
-                tData.Camera1Pos = ObjectExtensions.Copy(data);
+                if(data != null && data.Length > 0)
+                    tData.Camera1Pos = ObjectExtensions.Copy(data);
             }
 
             if (unit == EPositionObject.ALL || unit == EPositionObject.SCANNER1)
@@ -1437,7 +1469,8 @@ namespace LWDicer.Control
                 if (iResult != SUCCESS) return iResult;
 
                 CUnitPos data = JsonConvert.DeserializeObject<CUnitPos>(output);
-                tData.Scanner1Pos = ObjectExtensions.Copy(data);
+                if(data != null && data.Length > 0)
+                    tData.Scanner1Pos = ObjectExtensions.Copy(data);
             }
 
             return SUCCESS;

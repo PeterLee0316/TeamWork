@@ -796,6 +796,119 @@ namespace LWDicer.Control
             eExecute = 5,
             ePause = 6
         };
+
+        public enum EProcessPhase
+        {
+            PUSHPULL_LOAD,
+            SPINNER_LOAD,
+            COATING,
+            HANDLER_LOAD,
+            STAGE_LOAD,
+            DICING,
+            HANDLER_LOAD_2ND,
+            PUSHPULL_LOAD_2ND,
+            SPINNER_LOAD_2ND,
+            CLEANING,
+            PUSHPULL_LOAD_3RD,
+            PUSHPULL_UNLOAD,
+            MAX,
+        }
+
+        public class CProcessTime
+        {
+            public DateTime Time_Begin;
+            public DateTime Time_Finish;
+
+            public CProcessTime()
+            {
+                Time_Begin = DateTime.Now;
+                Time_Finish = DateTime.Now;
+            }
+
+            public void StartPhase()
+            {
+                Time_Begin = DateTime.Now;
+            }
+
+            public void FinishPhase()
+            {
+                Time_Finish = DateTime.Now;
+            }
+
+        }
+
+        public class CTactTime
+        {
+            public CProcessTime[] ProcessTime = new CProcessTime[(int)EProcessPhase.MAX];
+
+            public CTactTime()
+            {
+                for(int i = 0;i < ProcessTime.Length; i++)
+                {
+                    ProcessTime[i] = new CProcessTime();
+                }
+            }
+
+            public void StartPhase(EProcessPhase phase)
+            {
+                ProcessTime[(int)phase].StartPhase();
+            }
+
+            public void FinishPhase(EProcessPhase phase)
+            {
+                ProcessTime[(int)phase].StartPhase();
+            }
+        }
+
+        /// <summary>
+        /// Wafer, Panel 등 제품의 ID와 공정 작업 내용, 시간, 순서등을 관리하는 class
+        /// 나중에 online을 위한 sec/gem 전까지 임시 사용 용도
+        /// </summary>
+        public class CProductData
+        {
+            public string ID;
+
+            public DateTime Time_Created;
+            public CProcessTime[] ProcessTime = new CProcessTime[(int)EProcessPhase.MAX];
+            public bool[] ProcessFinished = new bool[(int)EProcessPhase.MAX];
+
+            public CProductData()
+            {
+                Time_Created = DateTime.Now;
+                for (int i = 0; i < ProcessTime.Length; i++)
+                {
+                    ProcessTime[i] = new CProcessTime();
+                }
+            }
+
+            public void GenerateID()
+            {
+                ID = $"{Time_Created}";
+            }
+
+            public void StartPhase(EProcessPhase phase)
+            {
+                ProcessFinished[(int)phase] = false;
+                ProcessTime[(int)phase].StartPhase();
+            }
+
+            public void FinishPhase(EProcessPhase phase)
+            {
+                ProcessFinished[(int)phase] = true;
+                ProcessTime[(int)phase].FinishPhase();
+            }
+
+            public void GetNextPhase(out EProcessPhase phase)
+            {
+                phase = EProcessPhase.PUSHPULL_LOAD;
+                for(int i = 0; i < (int)EProcessPhase.MAX; i++)
+                {
+                    if (ProcessFinished[i] == false) phase = EProcessPhase.PUSHPULL_LOAD+i;
+                }
+            }
+        }
+
+
     }
 
     public class DEF_Thread
