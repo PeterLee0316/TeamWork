@@ -12,7 +12,7 @@ namespace LWDicer.Control
 {
     public class CUnitPos
     {
-        private int Length;
+        public int Length { get; private set; }
         public CPos_XYTZ[] Pos;
 
         public CUnitPos(int Length)

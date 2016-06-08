@@ -1184,13 +1184,13 @@ namespace LWDicer.Control
             {
                 CMeSpinnerData data;
                 m_MeSpinner1.GetData(out data);
-                data.CleanNozzleSafetyPos = m_DataManager.SystemData.MAxSafetyPos.CleanNozzle1_Pos;
-                data.CoatNozzleSafetyPos = m_DataManager.SystemData.MAxSafetyPos.CoatNozzle1_Pos;
+                data.CleanNozzleSafetyPos = m_DataManager.SystemData.MAxSafetyPos.S1_CleanNozzel_Pos;
+                data.CoatNozzleSafetyPos = m_DataManager.SystemData.MAxSafetyPos.S1_CoatNozzel_Pos;
                 m_MeSpinner1.SetData(data);
 
                 m_MeSpinner2.GetData(out data);
-                data.CleanNozzleSafetyPos = m_DataManager.SystemData.MAxSafetyPos.CleanNozzle2_Pos;
-                data.CoatNozzleSafetyPos = m_DataManager.SystemData.MAxSafetyPos.CoatNozzle2_Pos;
+                data.CleanNozzleSafetyPos = m_DataManager.SystemData.MAxSafetyPos.S2_CleanNozzel_Pos;
+                data.CoatNozzleSafetyPos = m_DataManager.SystemData.MAxSafetyPos.S2_CoatNozzel_Pos;
                 m_MeSpinner2.SetData(data);
             }
 
