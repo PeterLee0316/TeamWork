@@ -14,6 +14,7 @@ using static LWDicer.Control.DEF_Thread.EAutoRunMode;
 using static LWDicer.Control.DEF_Thread.EAutoRunStatus;
 using static LWDicer.Control.DEF_Error;
 using static LWDicer.Control.DEF_Common;
+using static LWDicer.Control.DEF_LCNet;
 
 namespace LWDicer.Control
 {
@@ -50,9 +51,9 @@ namespace LWDicer.Control
         bool m_bSupplyCassette = false;
         bool m_bSupplyWafer = false;
 
-        public MTrsLoader(CObjectInfo objInfo, EThreadChannel SelfChannelNo,
+        public MTrsLoader(CObjectInfo objInfo, EThreadChannel SelfChannelNo, MDataManager DataManager, ELCNetUnitPos LCNetUnitPos,
             CTrsLoaderRefComp refComp, CTrsLoaderData data)
-             : base(objInfo, SelfChannelNo)
+             : base(objInfo, SelfChannelNo, DataManager, LCNetUnitPos)
         {
             m_RefComp = refComp;
             SetData(data);

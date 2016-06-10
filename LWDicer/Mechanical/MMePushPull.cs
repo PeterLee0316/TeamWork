@@ -223,13 +223,13 @@ namespace LWDicer.Control
             return SUCCESS;
         }
 
-        public int SetPushPullPosition(CUnitPos FixedPos, CUnitPos ModelPos, CUnitPos OffsetPos)
+        public int SetPushPullPosition(CPosition FixedPos, CPosition ModelPos, CPosition OffsetPos)
         {
             AxPushPullInfo.SetPosition(FixedPos, ModelPos, OffsetPos);
             return SUCCESS;
         }
 
-        public int SetCenteringPosition(ECenterIndex index, CUnitPos FixedPos, CUnitPos ModelPos, CUnitPos OffsetPos)
+        public int SetCenteringPosition(ECenterIndex index, CPosition FixedPos, CPosition ModelPos, CPosition OffsetPos)
         {
             AxCenteringInfo[(int)index].SetPosition(FixedPos, ModelPos, OffsetPos);
             return SUCCESS;

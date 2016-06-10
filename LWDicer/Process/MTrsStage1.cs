@@ -14,6 +14,7 @@ using static LWDicer.Control.DEF_Thread.EAutoRunMode;
 using static LWDicer.Control.DEF_Thread.EAutoRunStatus;
 using static LWDicer.Control.DEF_Error;
 using static LWDicer.Control.DEF_Common;
+using static LWDicer.Control.DEF_LCNet;
 
 namespace LWDicer.Control
 {
@@ -42,9 +43,9 @@ namespace LWDicer.Control
 
         bool m_bAuto_PanelSupplyStop;
 
-        public MTrsStage1(CObjectInfo objInfo, EThreadChannel SelfChannelNo,
+        public MTrsStage1(CObjectInfo objInfo, EThreadChannel SelfChannelNo, MDataManager DataManager, ELCNetUnitPos LCNetUnitPos,
             CTrsStage1RefComp refComp, CTrsStage1Data data)
-             : base(objInfo, SelfChannelNo)
+             : base(objInfo, SelfChannelNo, DataManager, LCNetUnitPos)
         {
             m_RefComp = refComp;
             SetData(data);
@@ -120,6 +121,7 @@ namespace LWDicer.Control
         {
             int iResult = SUCCESS;
             bool bStatus = false;
+            EProcessPhase processPhase;
 
             while (true)
             {

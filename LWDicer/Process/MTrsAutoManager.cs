@@ -15,6 +15,7 @@ using static LWDicer.Control.DEF_Thread.EAutoRunMode;
 using static LWDicer.Control.DEF_Thread.EAutoRunStatus;
 using static LWDicer.Control.DEF_Error;
 using static LWDicer.Control.DEF_Common;
+using static LWDicer.Control.DEF_LCNet;
 using static LWDicer.Control.DEF_DataManager;
 using static LWDicer.Control.DEF_CtrlOpPanel;
 using static LWDicer.Control.DEF_TrsAutoManager;
@@ -46,8 +47,6 @@ namespace LWDicer.Control
 
             public MTrsLoader trsLoader;
             public MTrsPushPull trsPushPull;
-
-            public MDataManager DataManager;
 
             //public CTrsAutoManagerRefComp(MCtrlLoader ctrlLoader)
             //{
@@ -152,9 +151,9 @@ namespace LWDicer.Control
         bool m_bSupplyWafer = false;
 
 
-        public MTrsAutoManager(CObjectInfo objInfo, EThreadChannel SelfChannelNo,
+        public MTrsAutoManager(CObjectInfo objInfo, EThreadChannel SelfChannelNo, MDataManager DataManager, ELCNetUnitPos LCNetUnitPos,
             CTrsAutoManagerRefComp refComp, CTrsAutoManagerData data)
-            : base(objInfo, SelfChannelNo)
+            : base(objInfo, SelfChannelNo, DataManager, LCNetUnitPos)
         {
             m_RefComp = refComp;
             SetData(data);
@@ -217,7 +216,7 @@ namespace LWDicer.Control
             bool bStatus = false;
 
             // timer start if it is needed.
-            
+
             while (true)
             {
                 // if thread has been suspended
@@ -1145,13 +1144,13 @@ namespace LWDicer.Control
             //double rgdVelocity[DEF_MAX_MOTION_AXIS_NO];
 
             // System Data의 Velocity Mode 설정
-            m_RefComp.DataManager.SystemData.VelocityMode = mode;
-            m_RefComp.DataManager.SaveSystemData(m_RefComp.DataManager.SystemData);
+            DataManager.SystemData.VelocityMode = mode;
+            DataManager.SaveSystemData(DataManager.SystemData);
 
             // Velocity Mode에 맞는 속도 Read
-            //for (int i = 0; i < m_RefComp.DataManager.SystemData_Axis.MPMotionData.Length ; i++)
+            //for (int i = 0; i < DataManager.SystemData_Axis.MPMotionData.Length ; i++)
             //{
-            //    m_RefComp.DataManager.GetMotorParameter(i, &sMotorData);
+            //    DataManager.GetMotorParameter(i, &sMotorData);
             //    // 정상 이동 속도
             //    if (mode == EVelocityMode.NORMAL)
             //        rgdVelocity[i] = sMotorData.dRunVelocity;

@@ -14,14 +14,15 @@ using static LWDicer.Control.DEF_Thread.EAutoRunMode;
 using static LWDicer.Control.DEF_Thread.EAutoRunStatus;
 using static LWDicer.Control.DEF_Error;
 using static LWDicer.Control.DEF_Common;
+using static LWDicer.Control.DEF_LCNet;
 using static LWDicer.Control.DEF_CtrlSpinner;
 
 namespace LWDicer.Control
 {
     public class CTrsSpinnerRefComp
     {
-        public MCtrlPushPull ctrlPushPull;
         public MCtrlSpinner ctrlSpinner;
+        public MCtrlPushPull ctrlPushPull;
 
         public override string ToString()
         {
@@ -55,9 +56,9 @@ namespace LWDicer.Control
         bool m_bRequest_Do_Coating;
         bool m_bRequest_Do_PostClening;
 
-        public MTrsSpinner(CObjectInfo objInfo, EThreadChannel SelfChannelNo,
+        public MTrsSpinner(CObjectInfo objInfo, EThreadChannel SelfChannelNo, MDataManager DataManager, ELCNetUnitPos LCNetUnitPos,
             CTrsSpinnerRefComp refComp, CTrsSpinnerData data)
-             : base(objInfo, SelfChannelNo)
+             : base(objInfo, SelfChannelNo, DataManager, LCNetUnitPos)
         {
             m_RefComp = refComp;
             SetData(data);
@@ -124,33 +125,39 @@ namespace LWDicer.Control
                     break;
 
                 // with PushPull
-                case (int)MSG_PUSHPULL_SPINNER1_REQUEST_LOADING:
-                case (int)MSG_PUSHPULL_SPINNER2_REQUEST_LOADING:
+                case (int)MSG_PUSHPULL_SPINNER_REQUEST_LOADING:
                     m_bPushPull_RequestLoading = true;
+                    m_bPushPull_StartUnloading = false;
+                    m_bPushPull_CompleteUnloading = false;
                     break;
 
-                case (int)MSG_PUSHPULL_SPINNER1_START_UNLOADING:
-                case (int)MSG_PUSHPULL_SPINNER2_START_UNLOADING:
+                case (int)MSG_PUSHPULL_SPINNER_START_UNLOADING:
+                    m_bPushPull_RequestLoading = false;
                     m_bPushPull_StartUnloading = true;
+                    m_bPushPull_CompleteUnloading = false;
                     break;
 
-                case (int)MSG_PUSHPULL_SPINNER1_COMPLETE_UNLOADING:
-                case (int)MSG_PUSHPULL_SPINNER2_COMPLETE_UNLOADING:
+                case (int)MSG_PUSHPULL_SPINNER_COMPLETE_UNLOADING:
+                    m_bPushPull_RequestLoading = false;
+                    m_bPushPull_StartUnloading = false;
                     m_bPushPull_CompleteUnloading = true;
                     break;
 
-                case (int)MSG_PUSHPULL_SPINNER1_READY_LOADING:
-                case (int)MSG_PUSHPULL_SPINNER2_READY_LOADING:
+                case (int)MSG_PUSHPULL_SPINNER_READY_LOADING:
                     m_bPushPull_ReadyLoading = true;
+                    m_bPushPull_StartLoading = false;
+                    m_bPushPull_CompleteLoading = false;
                     break;
 
-                case (int)MSG_PUSHPULL_SPINNER1_START_LOADING:
-                case (int)MSG_PUSHPULL_SPINNER2_START_LOADING:
+                case (int)MSG_PUSHPULL_SPINNER_START_LOADING:
+                    m_bPushPull_ReadyLoading = false;
                     m_bPushPull_StartLoading = true;
+                    m_bPushPull_CompleteLoading = false;
                     break;
 
-                case (int)MSG_PUSHPULL_SPINNER1_COMPLETE_LOADING:
-                case (int)MSG_PUSHPULL_SPINNER2_COMPLETE_LOADING:
+                case (int)MSG_PUSHPULL_SPINNER_COMPLETE_LOADING:
+                    m_bPushPull_ReadyLoading = false;
+                    m_bPushPull_StartLoading = false;
                     m_bPushPull_CompleteLoading = true;
                     break;
             }
@@ -161,6 +168,7 @@ namespace LWDicer.Control
         {
             int iResult = SUCCESS;
             bool bStatus = false;
+            EProcessPhase processPhase;
 
             while (true)
             {
@@ -326,7 +334,7 @@ namespace LWDicer.Control
             }
             else
             {
-                msg += 100; // gap between spinner 1 and spinner2
+                //msg += 100; // gap between spinner 1 and spinner2
             }
 
             return base.PostMsg(target, msg, wParam, lParam);

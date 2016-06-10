@@ -10,12 +10,12 @@ using static LWDicer.Control.DEF_Error;
 
 namespace LWDicer.Control
 {
-    public class CUnitPos
+    public class CPosition
     {
         public int Length { get; private set; }
         public CPos_XYTZ[] Pos;
 
-        public CUnitPos(int Length)
+        public CPosition(int Length)
         {
             this.Length = Length;
             Pos = new CPos_XYTZ[Length];
@@ -34,7 +34,7 @@ namespace LWDicer.Control
     /// <summary>
     /// 실제로 쓰이지는 않지만, MovingObject 들의 Position 기본 정보 처리를 위해 정의함
     /// </summary>
-    public enum EUnitPos
+    public enum EPosition
     {
         NONE = -1,
         WAIT,
@@ -48,9 +48,9 @@ namespace LWDicer.Control
     public class CMovingObject
     {
         public int PosLength;           // 좌표의 갯수
-        public CUnitPos FixedPos;       // 고정좌표
-        public CUnitPos ModelPos;       // 모델 크기에 따라 자동으로 변경되는 좌표 
-        public CUnitPos OffsetPos;      // 모델 Offset 좌표
+        public CPosition FixedPos;       // 고정좌표
+        public CPosition ModelPos;       // 모델 크기에 따라 자동으로 변경되는 좌표 
+        public CPosition OffsetPos;      // 모델 Offset 좌표
 
         public int PosInfo;             // 현재 좌표값과 일치하는 Position Index
         public bool IsMarkAligned;      // 얼라인되었는지의 여부
@@ -61,11 +61,11 @@ namespace LWDicer.Control
             Debug.Assert(0 < PosLength);
 
             this.PosLength = PosLength;
-            FixedPos = new CUnitPos(PosLength);
-            ModelPos = new CUnitPos(PosLength);
-            OffsetPos = new CUnitPos(PosLength);
+            FixedPos = new CPosition(PosLength);
+            ModelPos = new CPosition(PosLength);
+            OffsetPos = new CPosition(PosLength);
 
-            PosInfo = (int)EUnitPos.NONE;
+            PosInfo = (int)EPosition.NONE;
             AlignOffset = new CPos_XYTZ();
         }
 
@@ -77,7 +77,7 @@ namespace LWDicer.Control
             InitAlignOffset();
         }
 
-        public int SetPosition(CUnitPos FixedPos, CUnitPos ModelPos, CUnitPos OffsetPos)
+        public int SetPosition(CPosition FixedPos, CPosition ModelPos, CPosition OffsetPos)
         {
             this.FixedPos = ObjectExtensions.Copy(FixedPos);
             this.ModelPos = ObjectExtensions.Copy(ModelPos);
@@ -85,7 +85,7 @@ namespace LWDicer.Control
             return SUCCESS;
         }
 
-        public int GetPosition(out CUnitPos FixedPos, out CUnitPos ModelPos, out CUnitPos OffsetPos)
+        public int GetPosition(out CPosition FixedPos, out CPosition ModelPos, out CPosition OffsetPos)
         {
             FixedPos = ObjectExtensions.Copy(this.FixedPos);
             ModelPos = ObjectExtensions.Copy(this.ModelPos);
@@ -101,10 +101,10 @@ namespace LWDicer.Control
         
         public CPos_XYTZ GetTargetPos(int index)
         {
-            Debug.Assert((int)EUnitPos.LOAD <= index && index < PosLength);
+            Debug.Assert((int)EPosition.LOAD <= index && index < PosLength);
             CPos_XYTZ target = FixedPos.Pos[index] + ModelPos.Pos[index] + OffsetPos.Pos[index];
             // index가 Loading 위치가 아니고, 얼라인이 되어있다면 얼라인 보정값 적용
-            if(index != (int)EUnitPos.LOAD && IsMarkAligned == true)
+            if(index != (int)EPosition.LOAD && IsMarkAligned == true)
             {
                 target = target + AlignOffset;
             }

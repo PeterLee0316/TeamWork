@@ -14,6 +14,12 @@ using static LWDicer.Control.DEF_Thread.EAutoRunMode;
 using static LWDicer.Control.DEF_Thread.EAutoRunStatus;
 using static LWDicer.Control.DEF_Error;
 using static LWDicer.Control.DEF_Common;
+using static LWDicer.Control.DEF_LCNet;
+
+using static LWDicer.Control.DEF_CtrlPushPull;
+using static LWDicer.Control.DEF_CtrlLoader;
+using static LWDicer.Control.DEF_CtrlSpinner;
+using static LWDicer.Control.DEF_CtrlHandler;
 
 namespace LWDicer.Control
 {
@@ -37,24 +43,23 @@ namespace LWDicer.Control
         private CTrsPushPullData m_Data;
 
         // Message 변수
-        bool m_bLoader_ReadyUnloading;
+        // with loader
         bool m_bLoader_ReadyLoading;
+        bool m_bLoader_StartLoading;
+        bool m_bLoader_CompleteLoading;
+        bool m_bLoader_ReadyUnloading;
+        bool m_bLoader_StartUnloading;
+        bool m_bLoader_CompleteUnloading;
         bool m_bLoader_AllWaferWorked;
         bool m_bLoader_StacksFull;
 
-        bool m_bSpinner1_ReadyLoading;
-        bool m_bSpinner1_StartLoading;
-        bool m_bSpinner1_CompleteLoading;
-        bool m_bSpinner1_ReadyUnloading;
-        bool m_bSpinner1_StartUnloading;
-        bool m_bSpinner1_CompleteUnloading;
-
-        bool m_bSpinner2_ReadyLoading;
-        bool m_bSpinner2_StartLoading;
-        bool m_bSpinner2_CompleteLoading;
-        bool m_bSpinner2_ReadyUnloading;
-        bool m_bSpinner2_StartUnloading;
-        bool m_bSpinner2_CompleteUnloading;
+        // with spinner
+        bool[] m_bSpinner_ReadyLoading      = new bool[(int)ESpinnerIndex.MAX];
+        bool[] m_bSpinner_StartLoading      = new bool[(int)ESpinnerIndex.MAX];
+        bool[] m_bSpinner_CompleteLoading   = new bool[(int)ESpinnerIndex.MAX];
+        bool[] m_bSpinner_ReadyUnloading    = new bool[(int)ESpinnerIndex.MAX];
+        bool[] m_bSpinner_StartUnloading    = new bool[(int)ESpinnerIndex.MAX];
+        bool[] m_bSpinner_CompleteUnloading = new bool[(int)ESpinnerIndex.MAX];
 
         // with handler
         bool m_bLHandler_WaitLoadingStart;
@@ -66,9 +71,9 @@ namespace LWDicer.Control
         bool m_bUHandler_RequestAbsorb;
         bool m_bUHandler_CompleteUnloading;
 
-        public MTrsPushPull(CObjectInfo objInfo, EThreadChannel SelfChannelNo,
+        public MTrsPushPull(CObjectInfo objInfo, EThreadChannel SelfChannelNo, MDataManager DataManager, ELCNetUnitPos LCNetUnitPos,
             CTrsPushPullRefComp refComp, CTrsPushPullData data)
-             : base(objInfo, SelfChannelNo)
+             : base(objInfo, SelfChannelNo, DataManager, LCNetUnitPos)
         {
             m_RefComp = refComp;
             SetData(data);
@@ -110,19 +115,15 @@ namespace LWDicer.Control
             m_bLoader_AllWaferWorked = false;
             m_bLoader_StacksFull = false;
 
-            m_bSpinner1_ReadyLoading = false;
-            m_bSpinner1_StartLoading = false;
-            m_bSpinner1_CompleteLoading = false;
-            m_bSpinner1_ReadyUnloading = false;
-            m_bSpinner1_StartUnloading = false;
-            m_bSpinner1_CompleteUnloading = false;
-
-            m_bSpinner2_ReadyLoading = false;
-            m_bSpinner2_StartLoading = false;
-            m_bSpinner2_CompleteLoading = false;
-            m_bSpinner2_ReadyUnloading = false;
-            m_bSpinner2_StartUnloading = false;
-            m_bSpinner2_CompleteUnloading = false;
+            for(int i = 0; i < (int)ESpinnerIndex.MAX; i++)
+            {
+                m_bSpinner_ReadyLoading[i]      = false;
+                m_bSpinner_StartLoading[i]      = false;
+                m_bSpinner_CompleteLoading[i]   = false;
+                m_bSpinner_ReadyUnloading[i]    = false;
+                m_bSpinner_StartUnloading[i]    = false;
+                m_bSpinner_CompleteUnloading[i] = false;
+            }
 
             m_bLHandler_WaitLoadingStart = false;
             m_bLHandler_StartLoading = false;
@@ -146,6 +147,11 @@ namespace LWDicer.Control
         protected override int ProcessMsg(MEvent evnt)
         {
             Debug.WriteLine($"{ToString()} received message : {evnt}");
+
+            // spinner index 정리
+            int index = (int)ESpinnerIndex.SPINNER1;
+            if(evnt.wParam == (int)EThreadChannel.TrsSpinner2) index = (int)ESpinnerIndex.SPINNER2;
+
             switch (evnt.Msg)
             {
                 // if need to change response for common message, then add case state here.
@@ -155,131 +161,138 @@ namespace LWDicer.Control
 
                 // with Loader
                 case (int)MSG_LOADER_PUSHPULL_WAIT_LOADING_START:
+                    m_bLoader_ReadyLoading = true;
+                    m_bLoader_StartLoading = false;
+                    m_bLoader_CompleteLoading = false;
                     break;
 
                 case (int)MSG_LOADER_PUSHPULL_START_LOADING:
+                    m_bLoader_ReadyLoading = false;
+                    m_bLoader_StartLoading = true;
+                    m_bLoader_CompleteLoading = false;
                     break;
 
                 case (int)MSG_LOADER_PUSHPULL_COMPLETE_LOADING:
+                    m_bLoader_ReadyLoading = false;
+                    m_bLoader_StartLoading = false;
+                    m_bLoader_CompleteLoading = true;
                     break;
 
                 case (int)MSG_LOADER_PUSHPULL_WAIT_UNLOADING_START:
+                    m_bLoader_ReadyUnloading = true;
+                    m_bLoader_StartUnloading = false;
+                    m_bLoader_CompleteUnloading = false;
                     break;
 
                 case (int)MSG_LOADER_PUSHPULL_START_UNLOADING:
+                    m_bLoader_ReadyUnloading = false;
+                    m_bLoader_StartUnloading = true;
+                    m_bLoader_CompleteUnloading = false;
                     break;
 
                 case (int)MSG_LOADER_PUSHPULL_COMPLETE_UNLOADING:
+                    m_bLoader_ReadyUnloading = false;
+                    m_bLoader_StartUnloading = false;
+                    m_bLoader_CompleteUnloading = true;
                     break;
 
                 case (int)MSG_LOADER_PUSHPULL_ALL_WAFER_WORKED:
+                    m_bLoader_AllWaferWorked = true;
                     break;
 
                 case (int)MSG_LOADER_PUSHPULL_STACKS_FULL:
+                    m_bLoader_StacksFull = true;
                     break;
 
 
-                //// with Spinner1
-                //case (int)MSG_SPINNER1_PUSHPULL_READY_LOADING:
-                //    m_bSpinner1_ReadyLoading = true;
-                //    break;
+                //// with Spinner
+                case (int)MSG_SPINNER_PUSHPULL_WAIT_LOADING_START:
+                    m_bSpinner_ReadyLoading[index]      = true;
+                    m_bSpinner_StartLoading[index]      = false;
+                    m_bSpinner_CompleteLoading[index]   = false;
+                    break;
 
-                //case (int)MSG_SPINNER1_PUSHPULL_START_LOADING:
-                //    m_bSpinner1_StartLoading = true;
-                //    break;
+                case (int)MSG_SPINNER_PUSHPULL_START_LOADING:
+                    m_bSpinner_ReadyLoading[index]      = false;
+                    m_bSpinner_StartLoading[index]      = true;
+                    m_bSpinner_CompleteLoading[index]   = false;
+                    break;
 
-                //case (int)MSG_SPINNER1_PUSHPULL_COMPLETE_LOADING:
-                //    m_bSpinner1_CompleteLoading = true;
-                //    break;
+                case (int)MSG_SPINNER_PUSHPULL_COMPLETE_LOADING:
+                    m_bSpinner_ReadyLoading[index]      = false;
+                    m_bSpinner_StartLoading[index]      = false;
+                    m_bSpinner_CompleteLoading[index]   = true;
+                    break;
 
-                //case (int)MSG_SPINNER1_PUSHPULL_READY_UNLOADING:
-                //    m_bSpinner1_ReadyUnloading = true;
-                //    break;
+                case (int)MSG_SPINNER_PUSHPULL_WAIT_UNLOADING_START:
+                    m_bSpinner_ReadyUnloading[index]    = true;
+                    m_bSpinner_StartUnloading[index]    = false;
+                    m_bSpinner_CompleteUnloading[index] = false;
+                    break;
 
-                //case (int)MSG_SPINNER1_PUSHPULL_START_UNLOADING:
-                //    m_bSpinner1_StartUnloading = true;
-                //    break;
+                case (int)MSG_SPINNER_PUSHPULL_START_UNLOADING:
+                    m_bSpinner_ReadyUnloading[index]    = false;
+                    m_bSpinner_StartUnloading[index]    = true;
+                    m_bSpinner_CompleteUnloading[index] = false;
+                    break;
 
-                //case (int)MSG_SPINNER1_PUSHPULL_COMPLETE_UNLOADING:
-                //    m_bSpinner1_CompleteUnloading = true;
-                //    break;
-
-                //// with Spinner2
-                //case (int)MSG_SPINNER2_PUSHPULL_READY_LOADING:
-                //    m_bSpinner2_ReadyLoading = true;
-                //    break;
-
-                //case (int)MSG_SPINNER2_PUSHPULL_START_LOADING:
-                //    m_bSpinner2_StartLoading = true;
-                //    break;
-
-                //case (int)MSG_SPINNER2_PUSHPULL_COMPLETE_LOADING:
-                //    m_bSpinner2_CompleteLoading = true;
-                //    break;
-
-                //case (int)MSG_SPINNER2_PUSHPULL_READY_UNLOADING:
-                //    m_bSpinner2_ReadyUnloading = true;
-                //    break;
-
-                //case (int)MSG_SPINNER2_PUSHPULL_START_UNLOADING:
-                //    m_bSpinner2_StartUnloading = true;
-                //    break;
-
-                //case (int)MSG_SPINNER2_PUSHPULL_COMPLETE_UNLOADING:
-                //    m_bSpinner2_CompleteUnloading = true;
-                //    break;
+                case (int)MSG_SPINNER_PUSHPULL_COMPLETE_UNLOADING:
+                    m_bSpinner_ReadyUnloading[index]    = false;
+                    m_bSpinner_StartUnloading[index]    = false;
+                    m_bSpinner_CompleteUnloading[index] = true;
+                    break;
 
                 // with Handler
-                case (int)MSG_LHANDLER_PUSHPULL_WAIT_LOADING_START:
+                case (int)MSG_LOWER_HANDLER_PUSHPULL_WAIT_LOADING_START:
                     m_bLHandler_WaitLoadingStart = true;
                     m_bLHandler_StartLoading = false;
                     m_bLHandler_RequestRelease = false;
                     m_bLHandler_CompleteLoading = false;
                     break;
 
-                case (int)MSG_LHANDLER_PUSHPULL_START_LOADING:
+                case (int)MSG_LOWER_HANDLER_PUSHPULL_START_LOADING:
                     m_bLHandler_WaitLoadingStart = false;
                     m_bLHandler_StartLoading = true;
                     m_bLHandler_RequestRelease = false;
                     m_bLHandler_CompleteLoading = false;
                     break;
 
-                case (int)MSG_LHANDLER_PUSHPULL_REQUEST_RELEASE:
+                case (int)MSG_LOWER_HANDLER_PUSHPULL_REQUEST_RELEASE:
                     m_bLHandler_WaitLoadingStart = false;
                     m_bLHandler_StartLoading = false;
                     m_bLHandler_RequestRelease = true;
                     m_bLHandler_CompleteLoading = false;
                     break;
 
-                case (int)MSG_LHANDLER_PUSHPULL_COMPLETE_LOADING:
+                case (int)MSG_LOWER_HANDLER_PUSHPULL_COMPLETE_LOADING:
                     m_bLHandler_WaitLoadingStart = false;
                     m_bLHandler_StartLoading = false;
                     m_bLHandler_RequestRelease = false;
                     m_bLHandler_CompleteLoading = true;
                     break;
 
-                case (int)MSG_UHANDLER_PUSHPULL_WAIT_UNLOADING_START:
+                case (int)MSG_UPPER_HANDLER_PUSHPULL_WAIT_UNLOADING_START:
                     m_bUHandler_WaitUnloadingStart = true;
                     m_bUHandler_StartUnloading = false;
                     m_bUHandler_RequestAbsorb = false;
                     m_bUHandler_CompleteUnloading = false;
                     break;
 
-                case (int)MSG_UHANDLER_PUSHPULL_START_UNLOADING:
+                case (int)MSG_UPPER_HANDLER_PUSHPULL_START_UNLOADING:
                     m_bUHandler_WaitUnloadingStart = false;
                     m_bUHandler_StartUnloading = true;
                     m_bUHandler_RequestAbsorb = false;
                     m_bUHandler_CompleteUnloading = false;
                     break;
 
-                case (int)MSG_UHANDLER_PUSHPULL_REQUEST_ABSORB:
+                case (int)MSG_UPPER_HANDLER_PUSHPULL_REQUEST_ABSORB:
                     m_bUHandler_WaitUnloadingStart = false;
                     m_bUHandler_StartUnloading = false;
                     m_bUHandler_RequestAbsorb = true;
                     m_bUHandler_CompleteUnloading = false;
                     break;
 
-                case (int)MSG_UHANDLER_PUSHPULL_COMPLETE_UNLOADING:
+                case (int)MSG_UPPER_HANDLER_PUSHPULL_COMPLETE_UNLOADING:
                     m_bUHandler_WaitUnloadingStart = false;
                     m_bUHandler_StartUnloading = false;
                     m_bUHandler_RequestAbsorb = false;
@@ -294,6 +307,8 @@ namespace LWDicer.Control
         {
             int iResult = SUCCESS;
             bool bStatus = false;
+            EProcessPhase processPhase;
+            ESpinnerIndex spinnerIndex;
 
             while (true)
             {
@@ -340,21 +355,31 @@ namespace LWDicer.Control
                                 m_RefComp.ctrlPushPull.IsObjectDetected(out bStatus);
                                 if (bStatus)
                                 {
-                                    // 1.1 unload to loader
-                                    //SetStep1((int)TRS_PUSHPULL_REQUEST_LOADER_LOADING);
-                                    //break;
+                                    // wafer의 다음 해야할 일을 보고, 해당 unit에게 unload하는 분기점으로 이동시킨다.
+                                    GetMyWorkPiece().GetNextPhase(out processPhase);
 
-                                    //// 1.2 unload to cleaner
-                                    //SetStep1((int)TRS_PUSHPULL_REQUEST_CLEANER_LOADING);
-                                    //break;
+                                    switch (processPhase)
+                                    {
+                                        case EProcessPhase.PUSHPULL_UNLOAD_TO_COATER:
+                                            // unload to coater
+                                            //SetStep1((int)TRS_PUSHPULL_REQUEST_COATER_LOADING);
+                                            break;
 
-                                    //// 1.3 unload to coater
-                                    //SetStep1((int)TRS_PUSHPULL_REQUEST_COATER_LOADING);
-                                    //break;
+                                        case EProcessPhase.PUSHPULL_UNLOAD_TO_HANDLER:
+                                            // unload to handler
+                                            SetStep1((int)TRS_PUSHPULL_REQUEST_HANDLER_LOADING);
+                                            break;
 
-                                    //// 1.4 unload to handler
-                                    //SetStep1((int)TRS_PUSHPULL_REQUEST_HANDLER_LOADING);
-                                    //break;
+                                        case EProcessPhase.PUSHPULL_UNLOAD_TO_CLEANER:
+                                            // unload to cleaner
+                                            //SetStep1((int)TRS_PUSHPULL_REQUEST_CLEANER_LOADING);
+                                            break;
+
+                                        case EProcessPhase.PUSHPULL_UNLOAD_TO_LOADER:
+                                            // unload to loader
+                                            SetStep1((int)TRS_PUSHPULL_REQUEST_LOADER_LOADING);
+                                            break;
+                                    }
                                 }
                                 // 2. if not detected wafer
                                 else

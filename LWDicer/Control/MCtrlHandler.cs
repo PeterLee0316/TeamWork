@@ -27,9 +27,9 @@ namespace LWDicer.Control
         public const int ERR_CTRLHANDLER_NOT_UP                                        = 10;
         public const int ERR_CTRLHANDLER_CANNOT_DETECT_POSINFO                         = 11;
         public const int ERR_CTRLHANDLER_PCB_DOOR_OPEN                                 = 12;
-        public const int ERR_CTRLHANDLER_UHANDLER_IN_DOWN_AND_LHANDLER_IN_SAME_XZONE   = 13;
-        public const int ERR_CTRLHANDLER_UHANDLER_NEED_DOWN_AND_LHANDLER_IN_SAME_XZONE = 14;
-        public const int ERR_CTRLHANDLER_LHANDLER_NEED_MOVE_AND_UHANDLER_IN_DOWN       = 15;
+        public const int ERR_CTRLHANDLER_UPPER_IN_DOWN_AND_LOWER_IN_SAME_XZONE         = 13;
+        public const int ERR_CTRLHANDLER_UPPER_NEED_DOWN_AND_LOWER_IN_SAME_XZONE       = 14;
+        public const int ERR_CTRLHANDLER_LOWER_NEED_MOVE_AND_UPPER_IN_DOWN             = 15;
         public const int ERR_CTRLHANDLER_XAX_POS_NOT_MATCH_ZONE                        = 16;
         public const int ERR_CTRLHANDLER_MAY_COLLIDE_WITH_OPPOSITE_HANDLER             = 17;
 
@@ -358,7 +358,7 @@ namespace LWDicer.Control
                     if (curZone_X == other_curZone_X)
                     {
                         if(AutoManualMode == EAutoManual.MANUAL)
-                            return GenerateErrorCode(ERR_CTRLHANDLER_UHANDLER_IN_DOWN_AND_LHANDLER_IN_SAME_XZONE);
+                            return GenerateErrorCode(ERR_CTRLHANDLER_UPPER_IN_DOWN_AND_LOWER_IN_SAME_XZONE);
                     }
                 }
 
@@ -369,7 +369,7 @@ namespace LWDicer.Control
                     if (nTargetPos == other_curPos)
                     {
                         if (AutoManualMode == EAutoManual.MANUAL)
-                            return GenerateErrorCode(ERR_CTRLHANDLER_UHANDLER_NEED_DOWN_AND_LHANDLER_IN_SAME_XZONE);
+                            return GenerateErrorCode(ERR_CTRLHANDLER_UPPER_NEED_DOWN_AND_LOWER_IN_SAME_XZONE);
                     }
                 }
             }
@@ -383,21 +383,21 @@ namespace LWDicer.Control
                     if (curZone_X == other_curZone_X)
                     {
                         if (AutoManualMode == EAutoManual.MANUAL)
-                            return GenerateErrorCode(ERR_CTRLHANDLER_UHANDLER_IN_DOWN_AND_LHANDLER_IN_SAME_XZONE);
+                            return GenerateErrorCode(ERR_CTRLHANDLER_UPPER_IN_DOWN_AND_LOWER_IN_SAME_XZONE);
                     }
 
                     // Upper Handler가 중간 지점 wait zone에서 down 되어있을경우, 충돌.
                     if (other_curZone_X == (int)EHandlerXAxZone.WAIT)
                     {
                         if (AutoManualMode == EAutoManual.MANUAL)
-                            return GenerateErrorCode(ERR_CTRLHANDLER_LHANDLER_NEED_MOVE_AND_UHANDLER_IN_DOWN);
+                            return GenerateErrorCode(ERR_CTRLHANDLER_LOWER_NEED_MOVE_AND_UPPER_IN_DOWN);
                     }
 
                     // Upper Handler가 Lower Handler와 같은 구간에 있을때, 충돌.
                     if (nTargetPos == other_curPos)
                     {
                         if (AutoManualMode == EAutoManual.MANUAL)
-                            return GenerateErrorCode(ERR_CTRLHANDLER_LHANDLER_NEED_MOVE_AND_UHANDLER_IN_DOWN);
+                            return GenerateErrorCode(ERR_CTRLHANDLER_LOWER_NEED_MOVE_AND_UPPER_IN_DOWN);
                     }
                 }
             }
@@ -467,7 +467,7 @@ namespace LWDicer.Control
         {
             int iResult;
             bool bStatus, bStatus1;
-            // UHandler
+            // UpperHandler
             // 0. check vacuum
             EHandlerIndex index = EHandlerIndex.LOAD_UPPER;
             iResult = IsObjectDetected(index, out bStatus);
@@ -489,7 +489,7 @@ namespace LWDicer.Control
             iResult = MoveToWaitPos(index, bStatus);
             if (iResult != SUCCESS) return iResult;
 
-            // LHandler
+            // LowerHandler
             // 0. check vacuum
             index = EHandlerIndex.UNLOAD_LOWER;
             iResult = IsObjectDetected(index, out bStatus);

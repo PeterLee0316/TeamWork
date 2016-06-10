@@ -201,7 +201,7 @@ namespace LWDicer.Control
             return SUCCESS;
         }
 
-        public int SetHandlerPosition(CUnitPos FixedPos, CUnitPos ModelPos, CUnitPos OffsetPos)
+        public int SetHandlerPosition(CPosition FixedPos, CPosition ModelPos, CPosition OffsetPos)
         {
             AxHandlerInfo.SetPosition(FixedPos, ModelPos, OffsetPos);
             return SUCCESS;

@@ -722,11 +722,11 @@ namespace LWDicer.Control
                         length = 1;
                         break;
 
-                    case (int)EYMC_Device.UHANDLER:
+                    case (int)EYMC_Device.UPPER_HANDLER:
                         length = 2;
                         break;
 
-                    case (int)EYMC_Device.LHANDLER:
+                    case (int)EYMC_Device.LOWER_HANDLER:
                         length = 2;
                         break;
 
@@ -771,10 +771,10 @@ namespace LWDicer.Control
                         axisList[index++] = (int)EYMC_Axis.S2_CHUCK_ROTATE_T;
                         axisList[index++] = (int)EYMC_Axis.S2_CLEAN_NOZZLE_T;
                         axisList[index++] = (int)EYMC_Axis.S2_COAT_NOZZLE_T;
-                        axisList[index++] = (int)EYMC_Axis.UHANDLER_X;
-                        axisList[index++] = (int)EYMC_Axis.UHANDLER_Z;
-                        axisList[index++] = (int)EYMC_Axis.LHANDLER_X;
-                        axisList[index++] = (int)EYMC_Axis.LHANDLER_Z;
+                        axisList[index++] = (int)EYMC_Axis.UPPER_HANDLER_X;
+                        axisList[index++] = (int)EYMC_Axis.UPPER_HANDLER_Z;
+                        axisList[index++] = (int)EYMC_Axis.LOWER_HANDLER_X;
+                        axisList[index++] = (int)EYMC_Axis.LOWER_HANDLER_Z;
                         axisList[index++] = (int)EYMC_Axis.CAMERA1_Z;
                         axisList[index++] = (int)EYMC_Axis.SCANNER1_Z;
                         break;
@@ -819,14 +819,14 @@ namespace LWDicer.Control
                         axisList[index++] = (int)EYMC_Axis.S2_COAT_NOZZLE_T;
                         break;
 
-                    case (int)EYMC_Device.UHANDLER:
-                        axisList[index++] = (int)EYMC_Axis.UHANDLER_X;
-                        axisList[index++] = (int)EYMC_Axis.UHANDLER_Z;
+                    case (int)EYMC_Device.UPPER_HANDLER:
+                        axisList[index++] = (int)EYMC_Axis.UPPER_HANDLER_X;
+                        axisList[index++] = (int)EYMC_Axis.UPPER_HANDLER_Z;
                         break;
 
-                    case (int)EYMC_Device.LHANDLER:
-                        axisList[index++] = (int)EYMC_Axis.LHANDLER_X;
-                        axisList[index++] = (int)EYMC_Axis.LHANDLER_Z;
+                    case (int)EYMC_Device.LOWER_HANDLER:
+                        axisList[index++] = (int)EYMC_Axis.LOWER_HANDLER_X;
+                        axisList[index++] = (int)EYMC_Axis.LOWER_HANDLER_Z;
                         break;
 
                     case (int)EYMC_Device.CAMERA1:

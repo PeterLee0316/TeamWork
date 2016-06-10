@@ -66,14 +66,14 @@ namespace LWDicer.Control
 	            new CObjectInfo( (int)OBJ_HL_VACUUM, "Vacuum", 150, "Stage1",           2100, "Stage1Vac", LOG_ALL, LOG_DAY ),
                 new CObjectInfo( (int)OBJ_HL_VACUUM, "Vacuum", 151, "Spinner1",         2100, "Spinner1Vac", LOG_ALL, LOG_DAY ),
                 new CObjectInfo( (int)OBJ_HL_VACUUM, "Vacuum", 152, "Spinner1",         2100, "Spinner2Vac", LOG_ALL, LOG_DAY ),
-                new CObjectInfo( (int)OBJ_HL_VACUUM, "Vacuum", 153, "UHandler Self",    2100, "UHandlerSelfVac", LOG_ALL, LOG_DAY ),
-                new CObjectInfo( (int)OBJ_HL_VACUUM, "Vacuum", 154, "UHandler Factory", 2100, "UHandlerFactoryVac", LOG_ALL, LOG_DAY ),
-                new CObjectInfo( (int)OBJ_HL_VACUUM, "Vacuum", 155, "LHandler Self",    2100, "LHandlerSelfVac", LOG_ALL, LOG_DAY ),
-                new CObjectInfo( (int)OBJ_HL_VACUUM, "Vacuum", 156, "LHandler Factory", 2100, "LHandlerFactoryVac", LOG_ALL, LOG_DAY ),
+                new CObjectInfo( (int)OBJ_HL_VACUUM, "Vacuum", 153, "UpperHandler Self",    2100, "UHandlerSelfVac", LOG_ALL, LOG_DAY ),
+                new CObjectInfo( (int)OBJ_HL_VACUUM, "Vacuum", 154, "UpperHandler Factory", 2100, "UHandlerFactoryVac", LOG_ALL, LOG_DAY ),
+                new CObjectInfo( (int)OBJ_HL_VACUUM, "Vacuum", 155, "LowerHandler Self",    2100, "LHandlerSelfVac", LOG_ALL, LOG_DAY ),
+                new CObjectInfo( (int)OBJ_HL_VACUUM, "Vacuum", 156, "LowerHandler Factory", 2100, "LHandlerFactoryVac", LOG_ALL, LOG_DAY ),
 
 	            //new CObjectInfo( (int)OBJ_HL_VACUUM, "Vacuum", 153, "Workbench Inner", 2100, "WorkbenchInnerVac", LOG_ALL, LOG_DAY ),
                 //new CObjectInfo( (int)OBJ_HL_VACUUM, "Vacuum", 154, "Workbench Outer", 2100, "WorkbenchOuterVac", LOG_ALL, LOG_DAY ),
-                //new CObjectInfo( (int)OBJ_HL_VACUUM, "Vacuum", 157, "UHandler Extra", 2100, "UHandlerExtraVac", LOG_ALL, LOG_DAY ),
+                //new CObjectInfo( (int)OBJ_HL_VACUUM, "Vacuum", 157, "UpperHandler Extra", 2100, "UHandlerExtraVac", LOG_ALL, LOG_DAY ),
 		
 	            // 200-209 : Scanner & Laser  -------------------------------------------------------------	
                 new CObjectInfo( (int)OBJ_ML_POLYGON,   "PolygonScanner",    200, "Polygon Scanner",  2200, "PolygonScanner",  LOG_ALL, LOG_DAY ),
@@ -103,8 +103,8 @@ namespace LWDicer.Control
                 new CObjectInfo( (int)OBJ_ML_STAGE     , "Mechanical",   303, "Stage1",   3300, "Stage1", LOG_ALL, LOG_DAY ),
                 new CObjectInfo( (int)OBJ_ML_SPINNER   , "Mechanical",   304, "Spinner1", 3400, "Spinner1", LOG_ALL, LOG_DAY ),
                 new CObjectInfo( (int)OBJ_ML_SPINNER   , "Mechanical",   305, "Spinner2", 3400, "Spinner2", LOG_ALL, LOG_DAY ),
-                new CObjectInfo( (int)OBJ_ML_HANDLER   , "Mechanical",   306, "UHandler", 3500, "UHandler", LOG_ALL, LOG_DAY ),
-                new CObjectInfo( (int)OBJ_ML_HANDLER   , "Mechanical",   307, "LHandler", 3500, "LHandler", LOG_ALL, LOG_DAY ),
+                new CObjectInfo( (int)OBJ_ML_HANDLER   , "Mechanical",   306, "UpperHandler", 3500, "UpperHandler", LOG_ALL, LOG_DAY ),
+                new CObjectInfo( (int)OBJ_ML_HANDLER   , "Mechanical",   307, "LowerHandler", 3500, "LowerHandler", LOG_ALL, LOG_DAY ),
                 new CObjectInfo( (int)OBJ_ML_VISION    , "Mechanical",   308, "Vision",   3600, "Vision", LOG_ALL, LOG_DAY ),
 
 	            // 350-399 : Control Layer --------------------------------------------------------------------

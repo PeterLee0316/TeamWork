@@ -18,6 +18,7 @@ using static LWDicer.Control.DEF_IO;
 using static LWDicer.Control.DEF_OpPanel;
 using static LWDicer.Control.DEF_Thread;
 using static LWDicer.Control.DEF_DataManager;
+using static LWDicer.Control.DEF_LCNet;
 
 using static LWDicer.Control.DEF_Motion;
 using static LWDicer.Control.DEF_Yaskawa;
@@ -128,6 +129,7 @@ namespace LWDicer.Control
         // Vision
         public MVision m_Vision { get; set; }
 
+        ///////////////////////////////////////////////////////////////////////
         // Mechanical Layer
 
         public MMeElevator m_MeElevator;            // Cassette Loader 용 Elevator
@@ -147,10 +149,10 @@ namespace LWDicer.Control
         public MCtrlOpPanel m_ctrlOpPanel { get; private set; }
         public MCtrlLoader m_ctrlLoader { get; private set; }
         public MCtrlPushPull m_ctrlPushPull { get; private set; }
-        public MCtrlStage1 m_ctrlStage1 { get; private set; }
-        public MCtrlHandler m_ctrlHandler { get; private set; }
         public MCtrlSpinner m_ctrlSpinner1 { get; private set; }
         public MCtrlSpinner m_ctrlSpinner2 { get; private set; }
+        public MCtrlHandler m_ctrlHandler { get; private set; }
+        public MCtrlStage1 m_ctrlStage1 { get; private set; }
 
 
         ///////////////////////////////////////////////////////////////////////
@@ -158,6 +160,9 @@ namespace LWDicer.Control
         public MTrsAutoManager m_trsAutoManager { get; private set; }
         public MTrsLoader m_trsLoader { get; private set; }
         public MTrsPushPull m_trsPushPull { get; private set; }
+        public MTrsSpinner m_trsSpinner1 { get; private set; }
+        public MTrsSpinner m_trsSpinner2 { get; private set; }
+        public MTrsHandler m_trsHandler { get; private set; }
         public MTrsStage1 m_trsStage1 { get; private set; }
 
         public MLWDicer(CObjectInfo objInfo)
@@ -218,6 +223,24 @@ namespace LWDicer.Control
             {
                 CParaInfo pinfo;
                 GetParameterInfo("Test", "Name1", out pinfo);
+            }
+
+            // test process WorkPiece
+            if (false)
+            {
+                
+            }
+
+            // test post message
+            if (false)
+            {
+                m_trsSpinner1.PostMsg(EThreadChannel.TrsPushPull, DEF_Thread.EThreadMessage.MSG_SPINNER_PUSHPULL_COMPLETE_LOADING);
+                m_trsSpinner1.PostMsg(EThreadChannel.TrsPushPull, DEF_Thread.EThreadMessage.MSG_SPINNER_PUSHPULL_COMPLETE_UNLOADING);
+                m_trsSpinner1.PostMsg(EThreadChannel.TrsPushPull, DEF_Thread.EThreadMessage.MSG_SPINNER_PUSHPULL_START_UNLOADING);
+
+                m_trsSpinner2.PostMsg(EThreadChannel.TrsPushPull, DEF_Thread.EThreadMessage.MSG_SPINNER_PUSHPULL_COMPLETE_LOADING);
+                m_trsSpinner2.PostMsg(EThreadChannel.TrsPushPull, DEF_Thread.EThreadMessage.MSG_SPINNER_PUSHPULL_COMPLETE_UNLOADING);
+                m_trsSpinner2.PostMsg(EThreadChannel.TrsPushPull, DEF_Thread.EThreadMessage.MSG_SPINNER_PUSHPULL_START_UNLOADING);
             }
         }
 
@@ -414,8 +437,8 @@ namespace LWDicer.Control
             m_SystemInfo.GetObjectInfo(150, out objInfo);
             CreateVacuum(objInfo, vacData, (int)EObjectVacuum.STAGE1, out m_Stage1Vac);
 
-            // UHandler
-            // UHandler Self Vacuum
+            // UpperHandler
+            // UpperHandler Self Vacuum
             vacData = new CVacuumData();
             vacData.VacuumType = EVacuumType.SINGLE_VACUUM_WBLOW;
             vacData.Sensor[0] = iUHandler_Self_Vac_On;
@@ -423,9 +446,9 @@ namespace LWDicer.Control
             vacData.Solenoid[1] = oUHandler_Self_Vac_Off;
 
             m_SystemInfo.GetObjectInfo(151, out objInfo);
-            CreateVacuum(objInfo, vacData, (int)EObjectVacuum.UHANDLER_SELF, out m_UHandlerSelfVac);
+            CreateVacuum(objInfo, vacData, (int)EObjectVacuum.UPPER_HANDLER_SELF, out m_UHandlerSelfVac);
 
-            // UHandler Factory Vacuum
+            // UpperHandler Factory Vacuum
             vacData = new CVacuumData();
             vacData.VacuumType = EVacuumType.SINGLE_VACUUM_WBLOW;
             vacData.Sensor[0] = iUHandler_Self_Vac_On;
@@ -433,10 +456,10 @@ namespace LWDicer.Control
             vacData.Solenoid[1] = oUHandler_Self_Vac_Off;
 
             m_SystemInfo.GetObjectInfo(152, out objInfo);
-            CreateVacuum(objInfo, vacData, (int)EObjectVacuum.UHANDLER_FACTORY, out m_UHandlerSelfVac);
+            CreateVacuum(objInfo, vacData, (int)EObjectVacuum.UPPER_HANDLER_FACTORY, out m_UHandlerSelfVac);
 
-            // LHandler
-            // LHandler Self Vacuum
+            // LowerHandler
+            // LowerHandler Self Vacuum
             vacData = new CVacuumData();
             vacData.VacuumType = EVacuumType.SINGLE_VACUUM_WBLOW;
             //vacData.Sensor[0] = iLHandler_Self_Vac_On;
@@ -444,9 +467,9 @@ namespace LWDicer.Control
             //vacData.Solenoid[1] = oLHandler_Self_Vac_Off;
 
             m_SystemInfo.GetObjectInfo(153, out objInfo);
-            CreateVacuum(objInfo, vacData, (int)EObjectVacuum.UHANDLER_SELF, out m_LHandlerSelfVac);
+            CreateVacuum(objInfo, vacData, (int)EObjectVacuum.LOWER_HANDLER_SELF, out m_LHandlerSelfVac);
 
-            // LHandler Factory Vacuum
+            // LowerHandler Factory Vacuum
             vacData = new CVacuumData();
             vacData.VacuumType = EVacuumType.SINGLE_VACUUM_WBLOW;
             //vacData.Sensor[0] = iLHandler_Self_Vac_On;
@@ -454,7 +477,7 @@ namespace LWDicer.Control
             //vacData.Solenoid[1] = oLHandler_Self_Vac_Off;
 
             m_SystemInfo.GetObjectInfo(154, out objInfo);
-            CreateVacuum(objInfo, vacData, (int)EObjectVacuum.UHANDLER_FACTORY, out m_LHandlerSelfVac);
+            CreateVacuum(objInfo, vacData, (int)EObjectVacuum.LOWER_HANDLER_FACTORY, out m_LHandlerSelfVac);
 
             // Spinner1 Vacuum
             vacData = new CVacuumData();
@@ -573,6 +596,15 @@ namespace LWDicer.Control
 
             m_SystemInfo.GetObjectInfo(403, out objInfo);
             CreateTrsStage1(objInfo);
+
+            m_SystemInfo.GetObjectInfo(404, out objInfo);
+            CreateTrsSpinner1(objInfo);
+
+            m_SystemInfo.GetObjectInfo(405, out objInfo);
+            CreateTrsSpinner2(objInfo);
+
+            m_SystemInfo.GetObjectInfo(406, out objInfo);
+            CreateTrsHandler(objInfo);
 
             m_SystemInfo.GetObjectInfo(400, out objInfo);
             CreateTrsAutoManager(objInfo);
@@ -747,21 +779,21 @@ namespace LWDicer.Control
             m_SystemInfo.GetObjectInfo(260, out objInfo);
             m_AxCoatNozzle2 = new MMultiAxes_YMC(objInfo, refComp, data);
 
-            // UHANDLER
-            deviceNo = (int)EYMC_Device.UHANDLER;
+            // UPPER_HANDLER
+            deviceNo = (int)EYMC_Device.UPPER_HANDLER;
             Array.Copy(initArray, axisList, initArray.Length);
-            axisList[DEF_X] = (int)EYMC_Axis.UHANDLER_X;
-            axisList[DEF_Z] = (int)EYMC_Axis.UHANDLER_Z;
+            axisList[DEF_X] = (int)EYMC_Axis.UPPER_HANDLER_X;
+            axisList[DEF_Z] = (int)EYMC_Axis.UPPER_HANDLER_Z;
             data = new CMultiAxesYMCData(deviceNo, axisList);
 
             m_SystemInfo.GetObjectInfo(261, out objInfo);
             m_AxUpperHandler = new MMultiAxes_YMC(objInfo, refComp, data);
 
-            // LHANDLER
-            deviceNo = (int)EYMC_Device.LHANDLER;
+            // LOWER_HANDLER
+            deviceNo = (int)EYMC_Device.LOWER_HANDLER;
             Array.Copy(initArray, axisList, initArray.Length);
-            axisList[DEF_X] = (int)EYMC_Axis.LHANDLER_X;
-            axisList[DEF_Z] = (int)EYMC_Axis.LHANDLER_Z;
+            axisList[DEF_X] = (int)EYMC_Axis.LOWER_HANDLER_X;
+            axisList[DEF_Z] = (int)EYMC_Axis.LOWER_HANDLER_Z;
             data = new CMultiAxesYMCData(deviceNo, axisList);
 
             m_SystemInfo.GetObjectInfo(262, out objInfo);
@@ -1018,11 +1050,9 @@ namespace LWDicer.Control
             refComp.trsLoader = m_trsLoader;
             refComp.trsPushPull = m_trsPushPull;
 
-            refComp.DataManager = m_DataManager;
-
             CTrsAutoManagerData data = new CTrsAutoManagerData();
 
-            m_trsAutoManager = new MTrsAutoManager(objInfo, TrsAutoManager, refComp, data);
+            m_trsAutoManager = new MTrsAutoManager(objInfo, TrsAutoManager, m_DataManager, ELCNetUnitPos.NONE, refComp, data);
         }
 
         void CreateTrsLoader(CObjectInfo objInfo)
@@ -1032,7 +1062,7 @@ namespace LWDicer.Control
 
             CTrsLoaderData data = new CTrsLoaderData();
 
-            m_trsLoader = new MTrsLoader(objInfo, TrsLoader, refComp, data);
+            m_trsLoader = new MTrsLoader(objInfo, TrsLoader, m_DataManager, ELCNetUnitPos.NONE, refComp, data);
         }
 
         void CreateTrsPushPull(CObjectInfo objInfo)
@@ -1042,7 +1072,40 @@ namespace LWDicer.Control
 
             CTrsPushPullData data = new CTrsPushPullData();
 
-            m_trsPushPull = new MTrsPushPull(objInfo, TrsLoader, refComp, data);
+            m_trsPushPull = new MTrsPushPull(objInfo, TrsLoader, m_DataManager, ELCNetUnitPos.PUSHPULL, refComp, data);
+        }
+
+        void CreateTrsSpinner1(CObjectInfo objInfo)
+        {
+            CTrsSpinnerRefComp refComp = new CTrsSpinnerRefComp();
+            refComp.ctrlSpinner = m_ctrlSpinner1;
+            refComp.ctrlPushPull = m_ctrlPushPull;
+
+            CTrsSpinnerData data = new CTrsSpinnerData();
+
+            m_trsSpinner1 = new MTrsSpinner(objInfo, TrsSpinner1, m_DataManager, ELCNetUnitPos.SPINNER1, refComp, data);
+        }
+
+        void CreateTrsSpinner2(CObjectInfo objInfo)
+        {
+            CTrsSpinnerRefComp refComp = new CTrsSpinnerRefComp();
+            refComp.ctrlSpinner = m_ctrlSpinner2;
+            refComp.ctrlPushPull = m_ctrlPushPull;
+
+            CTrsSpinnerData data = new CTrsSpinnerData();
+
+            m_trsSpinner2 = new MTrsSpinner(objInfo, TrsSpinner2, m_DataManager, ELCNetUnitPos.SPINNER2, refComp, data);
+        }
+
+        void CreateTrsHandler(CObjectInfo objInfo)
+        {
+            CTrsHandlerRefComp refComp = new CTrsHandlerRefComp();
+            refComp.ctrlHandler = m_ctrlHandler;
+            refComp.ctrlPushPull = m_ctrlPushPull;
+
+            CTrsHandlerData data = new CTrsHandlerData();
+
+            m_trsHandler = new MTrsHandler(objInfo, TrsHandler, m_DataManager, ELCNetUnitPos.UPPER_HANDLER, refComp, data);
         }
 
         void CreateTrsStage1(CObjectInfo objInfo)
@@ -1052,7 +1115,7 @@ namespace LWDicer.Control
 
             CTrsStage1Data data = new CTrsStage1Data();
 
-            m_trsStage1 = new MTrsStage1(objInfo, TrsLoader, refComp, data);
+            m_trsStage1 = new MTrsStage1(objInfo, TrsLoader, m_DataManager, ELCNetUnitPos.STAGE1, refComp, data);
         }
 
         void CreatePolygonScanner(CObjectInfo objInfo, CPolygonIni PolygonIni, int objIndex, ISerialPort m_ComPort)
@@ -1098,14 +1161,29 @@ namespace LWDicer.Control
             m_trsPushPull.LinkThread(TrsSelfChannel, m_trsPushPull);
             m_trsPushPull.LinkThread(TrsAutoManager, m_trsAutoManager);
             m_trsPushPull.LinkThread(TrsLoader, m_trsLoader);
-            m_trsPushPull.LinkThread(TrsStage1, m_trsStage1);
+            m_trsPushPull.LinkThread(TrsSpinner1, m_trsSpinner1);
+            m_trsPushPull.LinkThread(TrsSpinner2, m_trsSpinner2);
+            m_trsPushPull.LinkThread(TrsHandler, m_trsHandler);
+
+            // Spinner
+            m_trsSpinner1.LinkThread(TrsSelfChannel, m_trsSpinner1);
+            m_trsSpinner1.LinkThread(TrsAutoManager, m_trsAutoManager);
+            m_trsSpinner1.LinkThread(TrsPushPull, m_trsPushPull);
+
+            m_trsSpinner2.LinkThread(TrsSelfChannel, m_trsSpinner2);
+            m_trsSpinner2.LinkThread(TrsAutoManager, m_trsAutoManager);
+            m_trsSpinner2.LinkThread(TrsPushPull, m_trsPushPull);
+
+            // Handler
+            m_trsHandler.LinkThread(TrsSelfChannel, m_trsHandler);
+            m_trsHandler.LinkThread(TrsAutoManager, m_trsAutoManager);
+            m_trsHandler.LinkThread(TrsPushPull, m_trsPushPull);
+            m_trsHandler.LinkThread(TrsStage1, m_trsStage1);
 
             // Stage1
             m_trsStage1.LinkThread(TrsSelfChannel, m_trsStage1);
             m_trsStage1.LinkThread(TrsAutoManager, m_trsAutoManager);
-            m_trsStage1.LinkThread(TrsLoader, m_trsLoader);
-            m_trsStage1.LinkThread(TrsPushPull, m_trsPushPull);
-
+            m_trsStage1.LinkThread(TrsHandler, m_trsHandler);
         }
 
         void StartThreads()

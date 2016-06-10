@@ -19,6 +19,7 @@ using static LWDicer.Control.DEF_Error;
 using static LWDicer.Control.DEF_OpPanel;
 using static LWDicer.Control.DEF_Thread;
 using static LWDicer.Control.DEF_DataManager;
+using static LWDicer.Control.DEF_LCNet;
 
 using static LWDicer.Control.DEF_ACS;
 using static LWDicer.Control.DEF_Yaskawa;
@@ -370,30 +371,30 @@ namespace LWDicer.Control
         public class CPositionData
         {
             // Loader
-            public CUnitPos LoaderPos = new CUnitPos((int)EElevatorPos.MAX);
+            public CPosition LoaderPos = new CPosition((int)EElevatorPos.MAX);
 
             // Stage1
-            public CUnitPos Stage1Pos = new CUnitPos((int)EStagePos.MAX);
-            public CUnitPos Camera1Pos = new CUnitPos((int)ECameraPos.MAX);
-            public CUnitPos Scanner1Pos = new CUnitPos((int)EScannerPos.MAX);
+            public CPosition Stage1Pos = new CPosition((int)EStagePos.MAX);
+            public CPosition Camera1Pos = new CPosition((int)ECameraPos.MAX);
+            public CPosition Scanner1Pos = new CPosition((int)EScannerPos.MAX);
 
             // PushPull
-            public CUnitPos PushPullPos = new CUnitPos((int)EPushPullPos.MAX);
-            public CUnitPos Centering1Pos = new CUnitPos((int)ECenteringPos.MAX);
-            public CUnitPos Centering2Pos = new CUnitPos((int)ECenteringPos.MAX);
+            public CPosition PushPullPos = new CPosition((int)EPushPullPos.MAX);
+            public CPosition Centering1Pos = new CPosition((int)ECenteringPos.MAX);
+            public CPosition Centering2Pos = new CPosition((int)ECenteringPos.MAX);
 
             // Handler
-            public CUnitPos LHandlerPos = new CUnitPos((int)EHandlerPos.MAX);
-            public CUnitPos UHandlerPos = new CUnitPos((int)EHandlerPos.MAX);
+            public CPosition LHandlerPos = new CPosition((int)EHandlerPos.MAX);
+            public CPosition UHandlerPos = new CPosition((int)EHandlerPos.MAX);
 
             // Spinner
-            public CUnitPos S1_RotatePos = new CUnitPos((int)ERotatePos.MAX);
-            public CUnitPos S1_CoaterPos = new CUnitPos((int)ENozzlePos.MAX);
-            public CUnitPos S1_CleanerPos = new CUnitPos((int)ENozzlePos.MAX);
+            public CPosition S1_RotatePos = new CPosition((int)ERotatePos.MAX);
+            public CPosition S1_CoaterPos = new CPosition((int)ENozzlePos.MAX);
+            public CPosition S1_CleanerPos = new CPosition((int)ENozzlePos.MAX);
 
-            public CUnitPos S2_RotatePos = new CUnitPos((int)ERotatePos.MAX);
-            public CUnitPos S2_CoaterPos = new CUnitPos((int)ENozzlePos.MAX);
-            public CUnitPos S2_CleanerPos = new CUnitPos((int)ENozzlePos.MAX);
+            public CPosition S2_RotatePos = new CPosition((int)ERotatePos.MAX);
+            public CPosition S2_CoaterPos = new CPosition((int)ENozzlePos.MAX);
+            public CPosition S2_CleanerPos = new CPosition((int)ENozzlePos.MAX);
 
             public CPositionData()
             {
@@ -628,26 +629,29 @@ namespace LWDicer.Control
     public class MDataManager : MObject
     {
         private CLoginData Login = new CLoginData();
-        CDBInfo DBInfo;
+        private CDBInfo DBInfo;
 
-        // System Data
+        /////////////////////////////////////////////////////////////////////////////////
+        // System Model Data
         public CSystemData SystemData { get; private set; } = new CSystemData();
-        public CModelData m_ModelData { get; set; } = new CModelData();
 
         public CSystemData_Axis SystemData_Axis { get; private set; } = new CSystemData_Axis();
         public CSystemData_Cylinder SystemData_Cylinder { get; private set; } = new CSystemData_Cylinder();
         public CSystemData_Vacuum SystemData_Vacuum { get; private set; } = new CSystemData_Vacuum();
         public CSystemData_Scanner SystemData_Scanner { get; private set; } = new CSystemData_Scanner();
 
+        /////////////////////////////////////////////////////////////////////////////////
         // Position Data
         public CPositionData FixedPos { get; private set; } = new CPositionData();
         public CPositionData ModelPos { get; private set; } = new CPositionData();
         public CPositionData OffsetPos { get; private set; } = new CPositionData();
 
+        /////////////////////////////////////////////////////////////////////////////////
         // Model Data
         public CModelData ModelData { get; private set; } = new CModelData();
         public List<CModelHeader> ModelHeaderList { get; set; } = new List<CModelHeader>();
 
+        /////////////////////////////////////////////////////////////////////////////////
         // Parameter Data
         public DEF_IO.CIOInfo[] InputArray { get; private set; } = new DEF_IO.CIOInfo[DEF_IO.MAX_IO_INPUT];
         public DEF_IO.CIOInfo[] OutputArray { get; private set; } = new DEF_IO.CIOInfo[DEF_IO.MAX_IO_OUTPUT];
@@ -657,6 +661,14 @@ namespace LWDicer.Control
         public List<CAlarm> AlarmHistory { get; private set; } = new List<CAlarm>();
 
         public List<CParaInfo> ParaInfoList { get; private set; } = new List<CParaInfo>();
+
+        /////////////////////////////////////////////////////////////////////////////////
+        // WorkPiece Data
+        // 설비안의 각 위치에 있는 WorkPiece의 정보를 관리
+        public CWorkPiece[] WorkPieceArray { get; private set; } = new CWorkPiece[(int)ELCNetUnitPos.MAX];
+        // 임시로 우선 공정에 들어가기 전, 후의 List를 관리하려고 선언
+        public List<CWorkPiece> WorkPieceList_NF { get; private set; } = new List<CWorkPiece>();
+        public List<CWorkPiece> WorkPieceList_Finished { get; private set; } = new List<CWorkPiece>();
 
         public MDataManager(CObjectInfo objInfo, CDBInfo dbInfo)
             : base(objInfo)
@@ -673,6 +685,11 @@ namespace LWDicer.Control
                 OutputArray[i] = new DEF_IO.CIOInfo(i+DEF_IO.OUTPUT_ORIGIN, DEF_IO.EIOType.DO);
             }
 
+            for (int i = 0; i < WorkPieceArray.Length ; i++)
+            {
+                WorkPieceArray[i] = new CWorkPiece();
+            }
+
             TestFunction();
 
             LoadGeneralData();
@@ -680,6 +697,7 @@ namespace LWDicer.Control
             // 아래의 네가지 함수 콜은 LWDicer의 Initialize에서 읽어들이는게 맞지만, 생성자에서 한번 더 읽어도 되기에.. 주석처리해도 상관없음
             LoadSystemData();
             LoadPositionData(true);
+            LoadPositionData(false);
             LoadModelList();
             MakeDefaultModel();
             ChangeModel(SystemData.ModelName);
@@ -713,6 +731,7 @@ namespace LWDicer.Control
                 //SaveModelData();
             }
 
+            // 초기에 alarm info 목록 저장 test routine
             if (false)
             {
                 for (int i = 0; i < 10; i++)
@@ -745,10 +764,91 @@ namespace LWDicer.Control
                 ObjectExtensions.FromStringDicionary(systemData2, type, fieldBook);
             }
 
+            // 프로그램 시작시에 Position Data db에 초기에 저장 test routine
             if (false)
             {
                 SavePositionData(true);
                 SavePositionData(false);
+            }
+
+            // WorkPiece and Process Phase를 한번 쭉~ test routine
+            if (false)
+            {
+                CWorkPiece pointer = WorkPieceArray[(int)ELCNetUnitPos.PUSHPULL];
+                LoadWorkPieceFromCassette();
+                ELCNetUnitPos pos = ELCNetUnitPos.PUSHPULL;
+                StartWorkPiecePhase(pos, EProcessPhase.PUSHPULL_LOAD_FROM_LOADER);
+                FinishWorkPiecePhas(pos, EProcessPhase.PUSHPULL_LOAD_FROM_LOADER);
+                StartWorkPiecePhase(pos, EProcessPhase.PUSHPULL_UNLOAD_TO_COATER);
+                FinishWorkPiecePhas(pos, EProcessPhase.PUSHPULL_UNLOAD_TO_COATER);
+
+                pos = ELCNetUnitPos.SPINNER1;
+                ChangeWorkPieceUnit(ELCNetUnitPos.PUSHPULL, pos);
+                StartWorkPiecePhase(pos, EProcessPhase.COATER_LOAD);
+                FinishWorkPiecePhas(pos, EProcessPhase.COATER_LOAD);
+                StartWorkPiecePhase(pos, EProcessPhase.COATING);
+                FinishWorkPiecePhas(pos, EProcessPhase.COATING);
+                StartWorkPiecePhase(pos, EProcessPhase.COATER_UNLOAD);
+                FinishWorkPiecePhas(pos, EProcessPhase.COATER_UNLOAD);
+
+                pos = ELCNetUnitPos.PUSHPULL;
+                ChangeWorkPieceUnit(ELCNetUnitPos.SPINNER1, pos);
+                StartWorkPiecePhase(pos, EProcessPhase.PUSHPULL_LOAD_FROM_COATER);
+                FinishWorkPiecePhas(pos, EProcessPhase.PUSHPULL_LOAD_FROM_COATER);
+                StartWorkPiecePhase(pos, EProcessPhase.PUSHPULL_UNLOAD_TO_HANDLER);
+                FinishWorkPiecePhas(pos, EProcessPhase.PUSHPULL_UNLOAD_TO_HANDLER);
+
+                pos = ELCNetUnitPos.UPPER_HANDLER;
+                ChangeWorkPieceUnit(ELCNetUnitPos.PUSHPULL, pos);
+                StartWorkPiecePhase(pos, EProcessPhase.UPPER_HANDLER_LOAD);
+                FinishWorkPiecePhas(pos, EProcessPhase.UPPER_HANDLER_LOAD);
+                StartWorkPiecePhase(pos, EProcessPhase.UPPER_HANDLER_UNLOAD);
+                FinishWorkPiecePhas(pos, EProcessPhase.UPPER_HANDLER_UNLOAD);
+
+                pos = ELCNetUnitPos.STAGE1;
+                ChangeWorkPieceUnit(ELCNetUnitPos.UPPER_HANDLER, pos);
+                StartWorkPiecePhase(pos, EProcessPhase.STAGE_LOAD);
+                FinishWorkPiecePhas(pos, EProcessPhase.STAGE_LOAD);
+                StartWorkPiecePhase(pos, EProcessPhase.MACRO_ALIGN);
+                FinishWorkPiecePhas(pos, EProcessPhase.MACRO_ALIGN);
+                StartWorkPiecePhase(pos, EProcessPhase.MICRO_ALIGN);
+                FinishWorkPiecePhas(pos, EProcessPhase.MICRO_ALIGN);
+                StartWorkPiecePhase(pos, EProcessPhase.DICING);
+                FinishWorkPiecePhas(pos, EProcessPhase.DICING);
+                StartWorkPiecePhase(pos, EProcessPhase.STAGE_UNLOAD);
+                FinishWorkPiecePhas(pos, EProcessPhase.STAGE_UNLOAD);
+
+                pos = ELCNetUnitPos.LOWER_HANDLER;
+                ChangeWorkPieceUnit(ELCNetUnitPos.STAGE1, pos);
+                StartWorkPiecePhase(pos, EProcessPhase.LOWER_HANDLER_LOAD);
+                FinishWorkPiecePhas(pos, EProcessPhase.LOWER_HANDLER_LOAD);
+                StartWorkPiecePhase(pos, EProcessPhase.LOWER_HANDLER_UNLOAD);
+                FinishWorkPiecePhas(pos, EProcessPhase.LOWER_HANDLER_UNLOAD);
+
+                pos = ELCNetUnitPos.PUSHPULL;
+                ChangeWorkPieceUnit(ELCNetUnitPos.LOWER_HANDLER, pos);
+                StartWorkPiecePhase(pos, EProcessPhase.PUSHPULL_LOAD_FROM_HANDLER);
+                FinishWorkPiecePhas(pos, EProcessPhase.PUSHPULL_LOAD_FROM_HANDLER);
+                StartWorkPiecePhase(pos, EProcessPhase.PUSHPULL_UNLOAD_TO_CLEANER);
+                FinishWorkPiecePhas(pos, EProcessPhase.PUSHPULL_UNLOAD_TO_CLEANER);
+
+                pos = ELCNetUnitPos.SPINNER1;
+                ChangeWorkPieceUnit(ELCNetUnitPos.PUSHPULL, pos);
+                StartWorkPiecePhase(pos, EProcessPhase.CLEANER_LOAD);
+                FinishWorkPiecePhas(pos, EProcessPhase.CLEANER_LOAD);
+                StartWorkPiecePhase(pos, EProcessPhase.CLEANING);
+                FinishWorkPiecePhas(pos, EProcessPhase.CLEANING);
+                StartWorkPiecePhase(pos, EProcessPhase.CLEANER_UNLOAD);
+                FinishWorkPiecePhas(pos, EProcessPhase.CLEANER_UNLOAD);
+
+                pos = ELCNetUnitPos.PUSHPULL;
+                ChangeWorkPieceUnit(ELCNetUnitPos.SPINNER1, pos);
+                StartWorkPiecePhase(pos, EProcessPhase.PUSHPULL_LOAD_FROM_CLEANER);
+                FinishWorkPiecePhas(pos, EProcessPhase.PUSHPULL_LOAD_FROM_CLEANER);
+                StartWorkPiecePhase(pos, EProcessPhase.PUSHPULL_UNLOAD_TO_LOADER);
+                FinishWorkPiecePhas(pos, EProcessPhase.PUSHPULL_UNLOAD_TO_LOADER);
+
+                LoadWorkPieceToCassette();
             }
         }
 
@@ -1212,18 +1312,18 @@ namespace LWDicer.Control
             }
 
             // Handler
-            if (unit == EPositionObject.ALL || unit == EPositionObject.LHANDLER)
+            if (unit == EPositionObject.ALL || unit == EPositionObject.LOWER_HANDLER)
             {
-                key_value = EPositionObject.LHANDLER.ToString() + suffix;
+                key_value = EPositionObject.LOWER_HANDLER.ToString() + suffix;
                 output = JsonConvert.SerializeObject(tData.LHandlerPos);
 
                 iResult = SaveUnitPositionData(key_value, output);
                 if (iResult != SUCCESS) return iResult;
             }
 
-            if (unit == EPositionObject.ALL || unit == EPositionObject.UHANDLER)
+            if (unit == EPositionObject.ALL || unit == EPositionObject.UPPER_HANDLER)
             {
-                key_value = EPositionObject.UHANDLER.ToString() + suffix;
+                key_value = EPositionObject.UPPER_HANDLER.ToString() + suffix;
                 output = JsonConvert.SerializeObject(tData.UHandlerPos);
 
                 iResult = SaveUnitPositionData(key_value, output);
@@ -1309,7 +1409,7 @@ namespace LWDicer.Control
                 iResult = LoadUnitPositionData(key_value, out output);
                 if (iResult != SUCCESS) return iResult;
 
-                CUnitPos data = JsonConvert.DeserializeObject<CUnitPos>(output);
+                CPosition data = JsonConvert.DeserializeObject<CPosition>(output);
                 if(data != null && data.Length > 0)
                     tData.LoaderPos = ObjectExtensions.Copy(data);
             }
@@ -1321,7 +1421,7 @@ namespace LWDicer.Control
                 iResult = LoadUnitPositionData(key_value, out output);
                 if (iResult != SUCCESS) return iResult;
 
-                CUnitPos data = JsonConvert.DeserializeObject<CUnitPos>(output);
+                CPosition data = JsonConvert.DeserializeObject<CPosition>(output);
                 if(data != null && data.Length > 0)
                     tData.PushPullPos = ObjectExtensions.Copy(data);
             }
@@ -1332,7 +1432,7 @@ namespace LWDicer.Control
                 iResult = LoadUnitPositionData(key_value, out output);
                 if (iResult != SUCCESS) return iResult;
 
-                CUnitPos data = JsonConvert.DeserializeObject<CUnitPos>(output);
+                CPosition data = JsonConvert.DeserializeObject<CPosition>(output);
                 if(data != null && data.Length > 0)
                     tData.Centering1Pos = ObjectExtensions.Copy(data);
             }
@@ -1343,7 +1443,7 @@ namespace LWDicer.Control
                 iResult = LoadUnitPositionData(key_value, out output);
                 if (iResult != SUCCESS) return iResult;
 
-                CUnitPos data = JsonConvert.DeserializeObject<CUnitPos>(output);
+                CPosition data = JsonConvert.DeserializeObject<CPosition>(output);
                 if(data != null && data.Length > 0)
                     tData.Centering2Pos = ObjectExtensions.Copy(data);
             }
@@ -1355,7 +1455,7 @@ namespace LWDicer.Control
                 iResult = LoadUnitPositionData(key_value, out output);
                 if (iResult != SUCCESS) return iResult;
 
-                CUnitPos data = JsonConvert.DeserializeObject<CUnitPos>(output);
+                CPosition data = JsonConvert.DeserializeObject<CPosition>(output);
                 if(data != null && data.Length > 0)
                     tData.S1_RotatePos = ObjectExtensions.Copy(data);
             }
@@ -1366,7 +1466,7 @@ namespace LWDicer.Control
                 iResult = LoadUnitPositionData(key_value, out output);
                 if (iResult != SUCCESS) return iResult;
 
-                CUnitPos data = JsonConvert.DeserializeObject<CUnitPos>(output);
+                CPosition data = JsonConvert.DeserializeObject<CPosition>(output);
                 if(data != null && data.Length > 0)
                     tData.S1_CleanerPos = ObjectExtensions.Copy(data);
             }
@@ -1377,7 +1477,7 @@ namespace LWDicer.Control
                 iResult = LoadUnitPositionData(key_value, out output);
                 if (iResult != SUCCESS) return iResult;
 
-                CUnitPos data = JsonConvert.DeserializeObject<CUnitPos>(output);
+                CPosition data = JsonConvert.DeserializeObject<CPosition>(output);
                 if(data != null && data.Length > 0)
                     tData.S1_CoaterPos = ObjectExtensions.Copy(data);
             }
@@ -1389,7 +1489,7 @@ namespace LWDicer.Control
                 iResult = LoadUnitPositionData(key_value, out output);
                 if (iResult != SUCCESS) return iResult;
 
-                CUnitPos data = JsonConvert.DeserializeObject<CUnitPos>(output);
+                CPosition data = JsonConvert.DeserializeObject<CPosition>(output);
                 if(data != null && data.Length > 0)
                     tData.S2_RotatePos = ObjectExtensions.Copy(data);
             }
@@ -1400,7 +1500,7 @@ namespace LWDicer.Control
                 iResult = LoadUnitPositionData(key_value, out output);
                 if (iResult != SUCCESS) return iResult;
 
-                CUnitPos data = JsonConvert.DeserializeObject<CUnitPos>(output);
+                CPosition data = JsonConvert.DeserializeObject<CPosition>(output);
                 if(data != null && data.Length > 0)
                     tData.S2_CleanerPos = ObjectExtensions.Copy(data);
             }
@@ -1411,30 +1511,30 @@ namespace LWDicer.Control
                 iResult = LoadUnitPositionData(key_value, out output);
                 if (iResult != SUCCESS) return iResult;
 
-                CUnitPos data = JsonConvert.DeserializeObject<CUnitPos>(output);
+                CPosition data = JsonConvert.DeserializeObject<CPosition>(output);
                 if(data != null && data.Length > 0)
                     tData.S2_CoaterPos = ObjectExtensions.Copy(data);
             }
 
             // Handler
-            if (unit == EPositionObject.ALL || unit == EPositionObject.LHANDLER)
+            if (unit == EPositionObject.ALL || unit == EPositionObject.LOWER_HANDLER)
             {
-                key_value = EPositionObject.LHANDLER.ToString() + suffix;
+                key_value = EPositionObject.LOWER_HANDLER.ToString() + suffix;
                 iResult = LoadUnitPositionData(key_value, out output);
                 if (iResult != SUCCESS) return iResult;
 
-                CUnitPos data = JsonConvert.DeserializeObject<CUnitPos>(output);
+                CPosition data = JsonConvert.DeserializeObject<CPosition>(output);
                 if(data != null && data.Length > 0)
                     tData.LHandlerPos = ObjectExtensions.Copy(data);
             }
 
-            if (unit == EPositionObject.ALL || unit == EPositionObject.UHANDLER)
+            if (unit == EPositionObject.ALL || unit == EPositionObject.UPPER_HANDLER)
             {
-                key_value = EPositionObject.UHANDLER.ToString() + suffix;
+                key_value = EPositionObject.UPPER_HANDLER.ToString() + suffix;
                 iResult = LoadUnitPositionData(key_value, out output);
                 if (iResult != SUCCESS) return iResult;
 
-                CUnitPos data = JsonConvert.DeserializeObject<CUnitPos>(output);
+                CPosition data = JsonConvert.DeserializeObject<CPosition>(output);
                 if(data != null && data.Length > 0)
                     tData.UHandlerPos = ObjectExtensions.Copy(data);
             }
@@ -1446,7 +1546,7 @@ namespace LWDicer.Control
                 iResult = LoadUnitPositionData(key_value, out output);
                 if (iResult != SUCCESS) return iResult;
 
-                CUnitPos data = JsonConvert.DeserializeObject<CUnitPos>(output);
+                CPosition data = JsonConvert.DeserializeObject<CPosition>(output);
                 if(data != null && data.Length > 0)
                     tData.Stage1Pos = ObjectExtensions.Copy(data);
             }
@@ -1457,7 +1557,7 @@ namespace LWDicer.Control
                 iResult = LoadUnitPositionData(key_value, out output);
                 if (iResult != SUCCESS) return iResult;
 
-                CUnitPos data = JsonConvert.DeserializeObject<CUnitPos>(output);
+                CPosition data = JsonConvert.DeserializeObject<CPosition>(output);
                 if(data != null && data.Length > 0)
                     tData.Camera1Pos = ObjectExtensions.Copy(data);
             }
@@ -1468,7 +1568,7 @@ namespace LWDicer.Control
                 iResult = LoadUnitPositionData(key_value, out output);
                 if (iResult != SUCCESS) return iResult;
 
-                CUnitPos data = JsonConvert.DeserializeObject<CUnitPos>(output);
+                CPosition data = JsonConvert.DeserializeObject<CPosition>(output);
                 if(data != null && data.Length > 0)
                     tData.Scanner1Pos = ObjectExtensions.Copy(data);
             }
@@ -2890,45 +2990,45 @@ namespace LWDicer.Control
                 SystemData_Axis.MPMotionData[index] = ObjectExtensions.Copy(tMotion);
             }
 
-            // UHANDLER_X       
-            index = (int)EYMC_Axis.UHANDLER_X       ;
+            // UPPER_HANDLER_X       
+            index = (int)EYMC_Axis.UPPER_HANDLER_X       ;
             if (SystemData_Axis.MPMotionData[index].Name == "NotExist")
             {
                 tMotion = new CMPMotionData();
-                tMotion.Name = "UHANDLER_X";
+                tMotion.Name = "UPPER_HANDLER_X";
                 tMotion.Exist = true;
 
                 SystemData_Axis.MPMotionData[index] = ObjectExtensions.Copy(tMotion);
             }
 
-            // UHANDLER_Z       
-            index = (int)EYMC_Axis.UHANDLER_Z       ;
+            // UPPER_HANDLER_Z       
+            index = (int)EYMC_Axis.UPPER_HANDLER_Z       ;
             if (SystemData_Axis.MPMotionData[index].Name == "NotExist")
             {
                 tMotion = new CMPMotionData();
-                tMotion.Name = "UHANDLER_Z";
+                tMotion.Name = "UPPER_HANDLER_Z";
                 tMotion.Exist = true;
 
                 SystemData_Axis.MPMotionData[index] = ObjectExtensions.Copy(tMotion);
             }
 
-            // LHANDLER_X       
-            index = (int)EYMC_Axis.LHANDLER_X;
+            // LOWER_HANDLER_X       
+            index = (int)EYMC_Axis.LOWER_HANDLER_X;
             if (SystemData_Axis.MPMotionData[index].Name == "NotExist")
             {
                 tMotion = new CMPMotionData();
-                tMotion.Name = "LHANDLER_X";
+                tMotion.Name = "LOWER_HANDLER_X";
                 tMotion.Exist = true;
 
                 SystemData_Axis.MPMotionData[index] = ObjectExtensions.Copy(tMotion);
             }
 
-            // LHANDLER_Z       
-            index = (int)EYMC_Axis.LHANDLER_Z       ;
+            // LOWER_HANDLER_Z       
+            index = (int)EYMC_Axis.LOWER_HANDLER_Z       ;
             if (SystemData_Axis.MPMotionData[index].Name == "NotExist")
             {
                 tMotion = new CMPMotionData();
-                tMotion.Name = "LHANDLER_Z";
+                tMotion.Name = "LOWER_HANDLER_Z";
                 tMotion.Exist = true;
 
                 SystemData_Axis.MPMotionData[index] = ObjectExtensions.Copy(tMotion);
@@ -2955,7 +3055,65 @@ namespace LWDicer.Control
 
                 SystemData_Axis.MPMotionData[index] = ObjectExtensions.Copy(tMotion);
             }
+        }
 
+        public int LoadWorkPieceFromCassette()
+        {
+            //WorkPieceArray[(int)ELCNetUnitPos.PUSHPULL] = new CWorkPiece();
+            WorkPieceArray[(int)ELCNetUnitPos.PUSHPULL].Init(true);
+            WorkPieceArray[(int)ELCNetUnitPos.PUSHPULL].LoadFromCassette();
+
+            return SUCCESS;
+        }
+
+        public int LoadWorkPieceToCassette()
+        {
+            WorkPieceArray[(int)ELCNetUnitPos.PUSHPULL].LoadToCassette();
+            WorkPieceList_Finished.Add(WorkPieceArray[(int)ELCNetUnitPos.PUSHPULL]);
+            //WorkPieceArray[(int)ELCNetUnitPos.PUSHPULL] = new CWorkPiece();
+            WorkPieceArray[(int)ELCNetUnitPos.PUSHPULL].Init(false);
+
+            return SUCCESS;
+        }
+
+        public int ChangeWorkPieceUnit(ELCNetUnitPos from, ELCNetUnitPos to)
+        {
+            WorkPieceArray[(int)to] = ObjectExtensions.Copy(WorkPieceArray[(int)from]);
+            WorkPieceArray[(int)from].Init();
+            return SUCCESS;
+        }
+
+        public int StartWorkPiecePhase(ELCNetUnitPos pos, EProcessPhase phase)
+        {
+            Sleep(600); // for test
+            WorkPieceArray[(int)pos].StartPhase(phase);
+            return SUCCESS;
+        }
+
+        /// <summary>
+        /// 해당 Unit에서 작업 공정의 종료시에 호출하는 함수
+        /// StartWorkPiecePhase와 글자수를 같게 하기위해서 일부러 끝에 e를 빼서 글자수를 맞췄음.
+        /// </summary>
+        /// <param name="pos"></param>
+        /// <param name="phase"></param>
+        /// <returns></returns>
+        public int FinishWorkPiecePhas(ELCNetUnitPos pos, EProcessPhase phase)
+        {
+            Sleep(600); // for test
+            WorkPieceArray[(int)pos].FinishPhase(phase);
+            return SUCCESS;
+        }
+
+        public int GetActiveWorkPieceCount(bool includePushPull)
+        {
+            int count = 0;
+            for (int i = 0; i < WorkPieceArray.Length; i++)
+            {
+                if (includePushPull == false && i == (int)ELCNetUnitPos.PUSHPULL)
+                    continue;
+                if (WorkPieceArray[i].ID != "") count++;
+            }
+            return count;
         }
     }
 }

@@ -202,7 +202,7 @@ namespace LWDicer.Control
             return SUCCESS;
         }
 
-        public int SetElevatorPosition(CUnitPos FixedPos, CUnitPos ModelPos, CUnitPos OffsetPos)
+        public int SetElevatorPosition(CPosition FixedPos, CPosition ModelPos, CPosition OffsetPos)
         {
             AxElevatorInfo.SetPosition(FixedPos, ModelPos, OffsetPos);
             
@@ -624,7 +624,7 @@ namespace LWDicer.Control
             if(iPos== (int)EElevatorPos.SLOT && bResult)
             {
                 double dReferencePos = 0.0;
-                CPos_XYTZ LoadPos = AxElevatorInfo.GetTargetPos((int)EUnitPos.LOAD);
+                CPos_XYTZ LoadPos = AxElevatorInfo.GetTargetPos((int)EPosition.LOAD);
                 dReferencePos = targetPos.dZ - LoadPos.dZ;
                 m_Data.CurrentSlotNum = (int)(dReferencePos / m_Data.CassetteData.dSlotPitch);
 

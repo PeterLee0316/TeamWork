@@ -174,19 +174,19 @@ namespace LWDicer.Control
             return SUCCESS;
         }
 
-        public int SetRotatePosition(CUnitPos FixedPos, CUnitPos ModelPos, CUnitPos OffsetPos)
+        public int SetRotatePosition(CPosition FixedPos, CPosition ModelPos, CPosition OffsetPos)
         {
             AxRotateInfo.SetPosition(FixedPos, ModelPos, OffsetPos);
             return SUCCESS;
         }
 
-        public int SetCleanPosition(CUnitPos FixedPos, CUnitPos ModelPos, CUnitPos OffsetPos)
+        public int SetCleanPosition(CPosition FixedPos, CPosition ModelPos, CPosition OffsetPos)
         {
             AxCleanNozzleInfo.SetPosition(FixedPos, ModelPos, OffsetPos);
             return SUCCESS;
         }
 
-        public int SetCoatPosition(CUnitPos FixedPos, CUnitPos ModelPos, CUnitPos OffsetPos)
+        public int SetCoatPosition(CPosition FixedPos, CPosition ModelPos, CPosition OffsetPos)
         {
             AxCoatNozzleInfo.SetPosition(FixedPos, ModelPos, OffsetPos);
             return SUCCESS;

@@ -13,6 +13,7 @@ using static LWDicer.Control.DEF_Thread.EThreadMessage;
 using static LWDicer.Control.DEF_Thread.EAutoRunStatus;
 using static LWDicer.Control.DEF_Error;
 using static LWDicer.Control.DEF_Common;
+using static LWDicer.Control.DEF_LCNet;
 
 namespace LWDicer.Control
 {
@@ -48,11 +49,18 @@ namespace LWDicer.Control
         private long LastPostTime;
         private long PostIntervalTime = 2;  // second
 
-        public MWorkerThread(CObjectInfo objInfo, EThreadChannel SelfChannelNo) : base(objInfo)
+        // DataManager and WorkPiece
+        protected MDataManager DataManager;
+        protected ELCNetUnitPos LCNetUnitPos;
+
+        public MWorkerThread(CObjectInfo objInfo, EThreadChannel SelfChannelNo
+            , MDataManager DataManager, ELCNetUnitPos LCNetUnitPos) : base(objInfo)
         {
             ThreadID = GetUniqueThreadID();
             this.SelfChannelNo = SelfChannelNo;
             stThreadList.Add(this);
+            this.DataManager = DataManager;
+            this.LCNetUnitPos = LCNetUnitPos;
 
             PostTimer.StartTimer();
             LastPostTime = PostTimer.GetElapsedTime(MTickTimer.ETimeType.TIME_SECOND);
@@ -284,7 +292,8 @@ namespace LWDicer.Control
         /// <param name="bDirect"></param>
         public void BroadcastMsg(int msg, int wParam = 0, int lParam = 0, bool bDirect = false)
         {
-            if (wParam == 0) wParam = ThreadID; // Set Sender ID
+            //if (wParam == 0) wParam = ThreadID; // Set Sender ID
+            if (wParam == 0) wParam = (int)SelfChannelNo; // Set Sender ID
             int i = 0;
             if (bDirect)
             {
@@ -339,7 +348,8 @@ namespace LWDicer.Control
 
         public int PostMsg(int target, int msg, int wParam = 0, int lParam = 0)
         {
-            if (wParam == 0) wParam = ThreadID; // Set Sender ID
+            //if (wParam == 0) wParam = ThreadID; // Set Sender ID
+            if (wParam == 0) wParam = (int)SelfChannelNo; // Set Sender ID
             // because when doing linkthread, link self to zero channel.
             if (target == (int)SelfChannelNo)
             {
@@ -396,7 +406,8 @@ namespace LWDicer.Control
 
         private void SendMsgToMainWnd(int msg, int wParam = 0, int lParam = 0)
         {
-            if (wParam == 0) wParam = ThreadID; // Set Sender ID
+            //if (wParam == 0) wParam = ThreadID; // Set Sender ID
+            if (wParam == 0) wParam = (int)SelfChannelNo; // Set Sender ID
 
             WriteLog($"send msg to main wnd : {msg}");
             MainFrame?.Invoke(new ProcessMsgDelegate(MainFrame.ProcessMsg), new MEvent(msg, wParam, lParam));
@@ -417,5 +428,14 @@ namespace LWDicer.Control
             return SUCCESS;
         }
 
+        protected CWorkPiece GetWorkPiece(ELCNetUnitPos pos)
+        {
+            return DataManager.WorkPieceArray[(int)pos];
+        }
+
+        protected CWorkPiece GetMyWorkPiece()
+        {
+            return GetWorkPiece((LCNetUnitPos != ELCNetUnitPos.NONE ? LCNetUnitPos : ELCNetUnitPos.PUSHPULL));
+        }
     }
 }

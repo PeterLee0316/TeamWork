@@ -255,32 +255,32 @@ namespace LWDicer.Control
             return SUCCESS;
         }
 
-        public int SetStagePosition(CUnitPos FixedPos, CUnitPos ModelPos, CUnitPos OffsetPos)
+        public int SetStagePosition(CPosition FixedPos, CPosition ModelPos, CPosition OffsetPos)
         {
             return AxStageInfo.SetPosition(FixedPos, ModelPos, OffsetPos);
         }
 
-        public int GetStagePosition(out CUnitPos FixedPos, out CUnitPos ModelPos, out CUnitPos OffsetPos)
+        public int GetStagePosition(out CPosition FixedPos, out CPosition ModelPos, out CPosition OffsetPos)
         {
             return AxStageInfo.GetPosition(out FixedPos,out ModelPos,out OffsetPos);
         }
 
-        public int SetCameraPosition(CUnitPos FixedPos, CUnitPos ModelPos, CUnitPos OffsetPos)
+        public int SetCameraPosition(CPosition FixedPos, CPosition ModelPos, CPosition OffsetPos)
         {
             return AxCameraInfo.SetPosition(FixedPos, ModelPos, OffsetPos);
         }
 
-        public int GetCameraPosition(out CUnitPos FixedPos, out CUnitPos ModelPos, out CUnitPos OffsetPos)
+        public int GetCameraPosition(out CPosition FixedPos, out CPosition ModelPos, out CPosition OffsetPos)
         {
             return AxCameraInfo.GetPosition(out FixedPos, out ModelPos, out OffsetPos);
         }
 
-        public int SetLaserPosition(CUnitPos FixedPos, CUnitPos ModelPos, CUnitPos OffsetPos)
+        public int SetLaserPosition(CPosition FixedPos, CPosition ModelPos, CPosition OffsetPos)
         {
             return AxLaserInfo.SetPosition(FixedPos, ModelPos, OffsetPos);
         }
 
-        public int GetLaserPosition(out CUnitPos FixedPos, out CUnitPos ModelPos, out CUnitPos OffsetPos)
+        public int GetLaserPosition(out CPosition FixedPos, out CPosition ModelPos, out CPosition OffsetPos)
         {
             return AxLaserInfo.GetPosition(out FixedPos, out ModelPos, out OffsetPos);
         }

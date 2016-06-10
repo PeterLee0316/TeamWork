@@ -1445,11 +1445,11 @@ namespace LWDicer.Control
             //    bOriginSts[DEF_AXIS_MMC_CAMERA2_X] = rgbResult[DEF_X];
             //bSts &= rgbResult[DEF_X];
 
-            //// Motion MultiAxes Component - UHANDLER 
+            //// Motion MultiAxes Component - UPPER_HANDLER 
             //for (i = 0; i < 4; i++) rgbResult[i] = false;
             //m_JogTable.MotionArray[DEF_JOG_UHANDLER].m_XKey.m_plnkJog.IsOriginReturn(0, null, rgbResult);
             //if (bOriginSts != null)
-            //    bOriginSts[DEF_AXIS_MMC_UHANDLER_X] = rgbResult[DEF_X];
+            //    bOriginSts[DEF_AXIS_MMC_UPPER_HANDLER_X] = rgbResult[DEF_X];
             //bSts &= rgbResult[DEF_X];
 
             //return bSts;

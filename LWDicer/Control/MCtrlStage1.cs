@@ -136,7 +136,7 @@ namespace LWDicer.Control
         }
         #endregion
 
-        public int SetPosition(CUnitPos FixedPos, CUnitPos ModelPos, CUnitPos OffsetPos)
+        public int SetPosition(CPosition FixedPos, CPosition ModelPos, CPosition OffsetPos)
         {
             return m_RefComp.Stage.SetStagePosition(FixedPos, ModelPos, OffsetPos);
         }
