@@ -122,8 +122,8 @@ namespace LWDicer.Control
         public IPolygonScanner[] m_Scanner = new IPolygonScanner[(int)EObjectScanner.MAX];
 
         public MVisionSystem m_VisionSystem;
-        public MVisionCamera[] m_VisionCamera;
-        public MVisionView[] m_VisionView;
+        public MVisionCamera[] m_VisionCamera = new MVisionCamera[DEF_MAX_CAMERA_NO];
+        public MVisionView[] m_VisionView = new MVisionView[DEF_MAX_CAMERA_NO];
 
         // Vision
         public MVision m_Vision { get; set; }
@@ -493,12 +493,20 @@ namespace LWDicer.Control
             // Vision System
             m_SystemInfo.GetObjectInfo(40, out objInfo);
             CreateVisionSystem(objInfo);
+
             // Vision Camera
             m_SystemInfo.GetObjectInfo(42, out objInfo);
-            CreateVisionCamera(objInfo);
+            CreateVisionCamera(objInfo,PRE__CAM);
+
+            m_SystemInfo.GetObjectInfo(43, out objInfo);
+            CreateVisionCamera(objInfo, FINE_CAM);
+
             // Vision Display
             m_SystemInfo.GetObjectInfo(46, out objInfo);
-            MVisionView(objInfo);
+            CreateVisionVisionView(objInfo, PRE__CAM);
+
+            m_SystemInfo.GetObjectInfo(47, out objInfo);
+            CreateVisionVisionView(objInfo, FINE_CAM);
 
             ////////////////////////////////////////////////////////////////////////
             // 2. Mechanical Layer
@@ -829,45 +837,33 @@ namespace LWDicer.Control
             return SUCCESS;
         }
 
-        int CreateVisionCamera(CObjectInfo objInfo)
+        int CreateVisionCamera(CObjectInfo objInfo,int iIndex)
         {
 #if SIMULATION_VISION
                 return SUCCESS;
-#endif
-            m_VisionCamera = new MVisionCamera[DEF_MAX_CAMERA_NO];
-
-            // Camera & View 를 생성함.
-            for (int iIndex = 0; iIndex < DEF_MAX_CAMERA_NO; iIndex++)
-            {
-                // Camera를 생성함.
-                m_VisionCamera[iIndex] = new MVisionCamera(objInfo);
-                // Vision Library MIL
-                m_VisionCamera[iIndex].SetMil_ID(m_VisionSystem.GetMilSystem());
-                // Camera 초기화
-                m_VisionCamera[iIndex].Initialize(iIndex, m_VisionSystem.GetSystem());
-                
-            }
+#endif                        
+            // Camera를 생성함.
+            m_VisionCamera[iIndex] = new MVisionCamera(objInfo);
+            // Vision Library MIL
+            m_VisionCamera[iIndex].SetMil_ID(m_VisionSystem.GetMilSystem());
+            // Camera 초기화
+            m_VisionCamera[iIndex].Initialize(iIndex, m_VisionSystem.GetSystem()); 
 
             return SUCCESS;
         }
-        int MVisionView(CObjectInfo objInfo)
+        int CreateVisionVisionView(CObjectInfo objInfo, int iIndex)
         {
 #if SIMULATION_VISION
                 return SUCCESS;
 #endif
-            m_VisionView = new MVisionView[DEF_MAX_CAMERA_NO];
 
-            // Camera & View 를 생성함.
-            for (int iIndex = 0; iIndex < DEF_MAX_CAMERA_NO; iIndex++)
-            {
-                // Display View 생성함.
-                m_VisionView[iIndex] = new MVisionView(objInfo);
-                // Vision Library MIL
-                m_VisionView[iIndex].SetMil_ID(m_VisionSystem.GetMilSystem());
-                // Display 초기화
-                m_VisionView[iIndex].Initialize(iIndex, m_VisionCamera[iIndex]);
-
-            }
+            // Display View 생성함.
+            m_VisionView[iIndex] = new MVisionView(objInfo);
+            // Vision Library MIL
+            m_VisionView[iIndex].SetMil_ID(m_VisionSystem.GetMilSystem());
+            // Display 초기화
+            m_VisionView[iIndex].Initialize(iIndex, m_VisionCamera[iIndex]);
+            
             return SUCCESS;
         }
 
@@ -879,7 +875,7 @@ namespace LWDicer.Control
             {
                 VisionHardwareCheck = false;
             }
-            CVisionData data = new CVisionData();
+            CCameraData data = new CCameraData();
             CVisionRefComp refComp = new CVisionRefComp();
 
             // 생성된 Vision System,Camera, View 를 RefComp로 연결
@@ -1210,6 +1206,32 @@ namespace LWDicer.Control
                 m_MeStage.GetData(out data);
 
                 data.StageSafetyPos = m_DataManager.SystemData.MAxSafetyPos.Stage_Pos;
+
+                //Screen Move Length (Camera의 FOV 대입한다)
+               
+                data.MacroScreenWidth   = m_DataManager.SystemData_Vision.Camera[(int)ECameraSelect.MACRO].CamFovX;
+                data.MacroScreenHeight  = m_DataManager.SystemData_Vision.Camera[(int)ECameraSelect.MACRO].CamFovY;
+                data.MicroScreenWidth   = m_DataManager.SystemData_Vision.Camera[(int)ECameraSelect.MICRO].CamFovX;
+                data.MicroScreenHeight  = m_DataManager.SystemData_Vision.Camera[(int)ECameraSelect.MICRO].CamFovY;
+
+                // Rotate 값을 연산값으로 적용한다.
+                double dCamPosX = m_DataManager.SystemData_Vision.Camera[(int)ECameraSelect.MACRO].Position.dX;
+                double dCamPosY = m_DataManager.SystemData_Vision.Camera[(int)ECameraSelect.MACRO].Position.dY;
+                double dDistanceCam = Math.Sqrt(dCamPosX * dCamPosX + dCamPosY * dCamPosY);
+                double dAngle = Math.Atan(data.MacroScreenHeight / dDistanceCam / 2);
+
+                data.MacroScreenRotate = 2 * dAngle * 180 / Math.PI; // (To Degree)
+
+                dCamPosX = m_DataManager.SystemData_Vision.Camera[(int)ECameraSelect.MICRO].Position.dX;
+                dCamPosY = m_DataManager.SystemData_Vision.Camera[(int)ECameraSelect.MICRO].Position.dY;
+                dDistanceCam = Math.Sqrt(dCamPosX * dCamPosX + dCamPosY * dCamPosY);
+                dAngle = Math.Atan(data.MicroScreenHeight / dDistanceCam / 2);
+
+                data.MicroScreenRotate = 2 * dAngle * 180 / Math.PI; // (To Degree)
+                
+
+                // Jog Speed
+
                 m_MeStage.SetData(data);
             }
 
@@ -1264,11 +1286,41 @@ namespace LWDicer.Control
                 m_DataManager.ModelData.MeLH_UseSubCylFlag, m_DataManager.ModelData.MeLH_UseGuideCylFlag);
             m_MeLowerHandler.SetVccUseFlag(m_DataManager.ModelData.MeLH_UseVccFlag);
 
+
+            // Stage 1
+            CMeStageData MeStageData;
+            m_MeStage.GetData(out MeStageData);
+
+            MeStageData.StageSafetyPos = m_DataManager.SystemData.MAxSafetyPos.Stage_Pos;
+
+            //Intex Move Length
+            MeStageData.IndexWidth = m_DataManager.ModelData.StageIndexWidth;
+            MeStageData.IndexHeight = m_DataManager.ModelData.StageIndexHeight;
+            MeStageData.IndexRotate = m_DataManager.ModelData.StageIndexRotate;
+
+            // Align Mark A,B의 거리를 적용한다.
+            // 비율을 설정하면 Wafer의 사이즈에 따라서.. 거리를 계산한다.
+            MeStageData.AlignMarkWidthRatio = m_DataManager.ModelData.AlignMarkWidthRatio;
+            MeStageData.AlignMarkWidthLen = m_DataManager.ModelData.Wafer.Size_X * MeStageData.AlignMarkWidthRatio;
+
+
+            m_MeStage.SetData(MeStageData);
+
+
+            // Jog Speed
+
+            
+
             //////////////////////////////////////////////////////////////////
             // Control Layer
 
+            CCtrlStage1Data CtrlStage1Data;
+            m_ctrlStage1.GetData(out CtrlStage1Data);
 
+            // System Data에 있는 Vision Data를 적용한다.
+            CtrlStage1Data.Vision = m_DataManager.SystemData_Vision;
 
+            m_ctrlStage1.SetData(CtrlStage1Data);
 
             //////////////////////////////////////////////////////////////////
             // Process Layer

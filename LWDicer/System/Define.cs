@@ -150,6 +150,27 @@ namespace LWDicer.Control
             ALL
         }
 
+        public enum ECameraSelect
+        {
+            MACRO = 0,
+            MICRO,
+            MAX,
+        }
+        public enum ELightController
+        {
+            No1 = 0,
+
+            MAX,
+        }
+        public enum ELightChannel
+        {
+            CH1=0,
+            CH2,
+            CH3,
+            CH4,
+            MAX,
+        }
+
         public enum EExcel_Sheet
         {
             Skip = -1,

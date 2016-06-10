@@ -6,6 +6,7 @@ using System.Drawing;
 using BGAPI;
 using System.Configuration;
 using Matrox.MatroxImagingLibrary;
+using static LWDicer.Control.DEF_System;
 
 namespace LWDicer.Control
 {
@@ -105,28 +106,55 @@ namespace LWDicer.Control
         //
         // @stereotype struct 
 
-        public class CVisionData
+        public class CCameraData
         {
-            // 설비에서 사용하는 Vision Board 개수
-            public int m_iNumOfSystems;
+            public int LenMagnification;
 
-            // AutoView 에서 사용하는 Vision Display View 의 개수 
-            public int m_iNumOfViews;
+            // 렌즈 Resolution & 카메라 Position
+            public int CamPixelNumX;
+            public int CamPixelNumY;
+            public double PixelResolutionX;
+            public double PixelResolutionY;
 
-            // Vision Model (Mark) Data Storage Directory Name 
-            public string m_strModelFilePath;
+            public double CamFovX; // 이 수치는 자동 계산됨
+            public double CamFovY;    // 이 수치는 자동 계산됨
 
-            // Error Image Save 기능 사용 여부 
-            public bool m_bSaveErrorImage;
+            public CPos_XY Position;
+            public double CameraTilt;
+
+            //// 설비에서 사용하는 Vision Board 개수
+            //public int m_iNumOfSystems;
+
+            //// AutoView 에서 사용하는 Vision Display View 의 개수 
+            //public int m_iNumOfViews;
+
+            //// Vision Model (Mark) Data Storage Directory Name 
+            //public string m_strModelFilePath;
+
+            //// Error Image Save 기능 사용 여부 
+            //public bool m_bSaveErrorImage;
 
         };
 
-        
-         // This structure is defined Vision Camera Data list of Vision.
-         //
-         // @stereotype struct 
-         
-        public class CCameraData
+        public class CLightData
+        {
+            // TCP/IP 통신일 경우
+            public string LightCtrlAddressIP;
+            public int TCP_PortNum;
+            
+            // 시리얼 통신일 경우
+            public string SerialBaudLate;
+            public int SerialPortNum;
+
+            public int[] DefaultLightLevel = new int[(int)ELightChannel.MAX];
+            public int[] CurrentLightLevel = new int[(int)ELightChannel.MAX];
+        }
+
+        // This structure is defined Vision Camera Data list of Vision.
+        //
+        // @stereotype struct 
+
+        public class CCameraPara
         {
             // Vision Grab 안정화 시간 : 단위 (ms) 
             public int m_iGrabSettlingTime;

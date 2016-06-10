@@ -202,17 +202,22 @@ namespace LWDicer.Control
             public bool UseAutoSearch_Panel;
             public double AutoSearchDistance_Panel;
             //	BOOL	bAutoSearch_SubMark;
+            
 
             public bool UseAlignUseSubMark;  // sub 마크로 Align 할지 여부
 
             // Stage
             /** Workbench Unit에 진출입할때의 안전한 Y Position **/
             public double Stage1LoadPos_Y;
-            public double Stage1UnloadPos_Y;
-            public double Stage2LoadPos_Y;
-            public double Stage2UnloadPos_Y;
-            public double Stage3LoadPos_Y;
-            public double Stage3UnloadPos_Y;
+            public double Stage1UnloadPos_Y;            
+            
+
+            public double Stage1IndexRotate = 90.0;
+            public double Stage1JogSpeed = 10.0;
+            public double Stage1ThetaJogSpeed = 10.0;
+
+            
+            public double VisionLaserDistance = 0.0;
 
             /** Stage의 충돌 방지 봉때문에 Workbench에 간섭을 안주는 안전한 위치의 한계를 정한다. **/
             public double Stage1PlusSafetyLimit_X;
@@ -367,6 +372,41 @@ namespace LWDicer.Control
             }
         }
 
+        public class CSystemData_Vision
+        {
+            //public int[] LenMagnification = new int[(int)ECameraSelect.MAX];
+
+            //// 렌즈 Resolution & 카메라 Position
+            //public int[] CamPixelNumX = new int[(int)ECameraSelect.MAX];
+            //public int[] CamPixelNumY = new int[(int)ECameraSelect.MAX];
+            //public double[] PixelResolutionX = new double[(int)ECameraSelect.MAX];
+            //public double[] PixelResolutionY = new double[(int)ECameraSelect.MAX];
+
+            //public double[] CamFovX = new double[(int)ECameraSelect.MAX];    // 이 수치는 자동 계산됨
+            //public double[] CamFovY = new double[(int)ECameraSelect.MAX];    // 이 수치는 자동 계산됨
+
+            //public CPos_XY[] Position = new CPos_XY[(int)ECameraSelect.MAX];            
+            //public double[] CameraTilt = new double[(int)ECameraSelect.MAX];
+
+            public CCameraData[] Camera= new CCameraData[(int)ECameraSelect.MAX];
+
+            public CSystemData_Vision()
+            {
+                for (int i = 0; i < (int)ECameraSelect.MAX; i++)
+                {
+                    Camera[i].CamFovX = Camera[i].CamPixelNumX * Camera[i].PixelResolutionX;
+                    Camera[i].CamFovY = Camera[i].CamPixelNumY * Camera[i].PixelResolutionY;
+                }
+            }
+
+        }
+
+        public class CSystemData_Light
+        {
+            public CLightData[] Light = new CLightData[(int)ELightController.MAX];
+
+        }
+
         public class CPositionData
         {
             // Loader
@@ -398,6 +438,7 @@ namespace LWDicer.Control
             public CPositionData()
             {
             }
+
         }
 
         public class CProductData
@@ -491,11 +532,12 @@ namespace LWDicer.Control
             public string FrameName;
             public double Diameter;          // Cassette Frame 지름 ex) 380mm
             public int Slot;                 // 슬롯갯수            ex) 13ea
+            public int[] SlotData = new int[CASSETTE_MAX_SLOT_NUM]; // 각 슬롯 상태 및 Wafer 처리여부 데이터
             public int CassetteSetNo;        // Cassette 갯수 ex) 2ea
             public double FramePitch;        // Cassette Slot Fitch ex) 9.5mm
             public double CassetteHeight;    // Cassette 높이 ex)155mm
             public double UnloadElevatorPos; // Elevator Start Origin Position에서 Unloading을 위하여 Cassette Offset 높이 ex) -1mm 하강
-            public double ESZeroPoint;       // Elevator Start Origin Position ex) Teaching Position 258.3mm
+           // public double ESZeroPoint;       // Elevator Start Origin Position ex) Teaching Position 258.3mm
             public double CTZeroPoint;	     // Chuck Table Angle?
             public double STZeroPoint;       // Spinner Table Angle?
             public double LoadPushPullPos;   // PushPull 끝단에 설치 되어 있는 감지센서 부터 Cassette에 적재되어 있는 Wafer 까지 거리 ex) 61mm
@@ -521,7 +563,6 @@ namespace LWDicer.Control
             public bool UseLogLevelWarning;
             public bool UseLogLevelError;
             public int LogKeepingDay;
-
         }
 
         // define root folder & default model name
@@ -604,10 +645,10 @@ namespace LWDicer.Control
             public CWaferData Wafer = new CWaferData();
 
             // Frame Data
-            public CWaferCassette[] Frame = new CWaferCassette[(int)EFrameDataNo.MAX];
+            public CWaferCassette[] Cassette = new CWaferCassette[(int)EUseCassette.MAX];
 
             // Inspection Frame Data
-            public CWaferFrame[] InspectionFrame = new CWaferFrame[(int)EFrameDataNo.MAX];
+            public CWaferFrame[] InspectionFrame = new CWaferFrame[(int)EUseCassette.MAX];
 
             // Spinner Data 
             public CSpinnerData SpinnerData = new CSpinnerData();
@@ -616,6 +657,13 @@ namespace LWDicer.Control
             public LineData WaferLineData = new LineData();
 
             ///////////////////////////////////////////////////////////
+            // Stage
+            public double StageIndexWidth = 0.0;
+            public double StageIndexHeight = 0.0;
+            public double StageIndexRotate = 90.0;
+            public double AlignMarkWidthLen = 0.0;
+            public double AlignMarkWidthRatio = 0.0;
+
             // Vision Data (Pattern)
             public CSearchData MacroPatternA = new CSearchData();
             public CSearchData MacroPatternB = new CSearchData();
@@ -632,12 +680,14 @@ namespace LWDicer.Control
 
         // System Data
         public CSystemData SystemData { get; private set; } = new CSystemData();
-        public CModelData m_ModelData { get; set; } = new CModelData();
+
 
         public CSystemData_Axis SystemData_Axis { get; private set; } = new CSystemData_Axis();
         public CSystemData_Cylinder SystemData_Cylinder { get; private set; } = new CSystemData_Cylinder();
         public CSystemData_Vacuum SystemData_Vacuum { get; private set; } = new CSystemData_Vacuum();
         public CSystemData_Scanner SystemData_Scanner { get; private set; } = new CSystemData_Scanner();
+        public CSystemData_Vision SystemData_Vision { get; private set; } = new CSystemData_Vision();
+        public CSystemData_Light SystemData_Light { get; private set; } = new CSystemData_Light();
 
         // Position Data
         public CPositionData FixedPos { get; private set; } = new CPositionData();
@@ -792,8 +842,8 @@ namespace LWDicer.Control
 
         public int SaveSystemData(CSystemData system = null, CSystemData_Axis systemAxis = null,
             CSystemData_Cylinder systemCylinder = null, CSystemData_Vacuum systemVacuum = null,
-            CSystemData_Scanner systemScanner = null)
-        {
+            CSystemData_Scanner systemScanner = null,  CSystemData_Vision SystemVision =null,
+            CSystemData_Light SystemLight = null)         {
             // CSystemData
             if (system != null)
             {
@@ -903,11 +953,56 @@ namespace LWDicer.Control
                     return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_SAVE_SYSTEM_DATA);
                 }
             }
+
+            // CSystemData_Vision
+            if (SystemVision != null)
+            {
+                try
+                {
+                    SystemData_Vision = ObjectExtensions.Copy(SystemVision);
+                    string output = JsonConvert.SerializeObject(SystemData_Vision);
+
+                    if (DBManager.InsertRow(DBInfo.DBConn, DBInfo.TableSystem, "name", nameof(CSystemData_Vision), output,
+                        true, DBInfo.DBConn_Backup) != true)
+                    {
+                        return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_SAVE_SYSTEM_DATA);
+                    }
+                    WriteLog("success : save CSystemData_Vision.", ELogType.SYSTEM, ELogWType.SAVE);
+                }
+                catch (Exception ex)
+                {
+                    WriteExLog(ex.ToString());
+                    return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_SAVE_SYSTEM_DATA);
+                }
+            }
+
+            // CSystemData_Light
+            if (SystemLight != null)
+            {
+                try
+                {
+                    SystemData_Light = ObjectExtensions.Copy(SystemLight);
+                    string output = JsonConvert.SerializeObject(SystemData_Light);
+
+                    if (DBManager.InsertRow(DBInfo.DBConn, DBInfo.TableSystem, "name", nameof(CSystemData_Light), output,
+                        true, DBInfo.DBConn_Backup) != true)
+                    {
+                        return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_SAVE_SYSTEM_DATA);
+                    }
+                    WriteLog("success : save CSystemData_Vision.", ELogType.SYSTEM, ELogWType.SAVE);
+                }
+                catch (Exception ex)
+                {
+                    WriteExLog(ex.ToString());
+                    return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_SAVE_SYSTEM_DATA);
+                }
+            }
+
             return SUCCESS;
         }
 
         public int LoadSystemData(bool loadSystem = true, bool loadAxis = true, bool loadCylinder = true,
-            bool loadVacuum = true, bool loadScanner = true)
+            bool loadVacuum = true, bool loadScanner = true, bool loadVision = true, bool loadLight = true)
         {
                 string output;
 
@@ -1068,6 +1163,74 @@ namespace LWDicer.Control
                             }
                         }
                         WriteLog("success : load CSystemData_Scanner.", ELogType.SYSTEM, ELogWType.LOAD);
+                    }
+                    //else // temporarily do not return error for continuous loading
+                    //{
+                    //    return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_LOAD_SYSTEM_DATA);
+                    //}
+                }
+                catch (Exception ex)
+                {
+                    WriteExLog(ex.ToString());
+                    return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_LOAD_SYSTEM_DATA);
+                }
+            }
+
+            // CSystemData_Vision
+            if (loadVision == true)
+            {
+                try
+                {
+                    if (DBManager.SelectRow(DBInfo.DBConn, DBInfo.TableSystem, out output, new CDBColumn("name", nameof(CSystemData_Vision))) == true)
+                    {
+                        CSystemData_Vision data = JsonConvert.DeserializeObject<CSystemData_Vision>(output);
+                        if (SystemData_Vision.Camera.Length == data.Camera.Length)
+                        {
+                            SystemData_Vision = ObjectExtensions.Copy(data);
+                        }
+                        else
+                        {
+                            for (int i = 0; i < SystemData_Vision.Camera.Length; i++)
+                            {
+                                if (i >= data.Camera.Length) break;
+                                SystemData_Vision.Camera[i] = ObjectExtensions.Copy(data.Camera[i]);
+                            }
+                        }
+                        WriteLog("success : load CSystemData_Vision.", ELogType.SYSTEM, ELogWType.LOAD);
+                    }
+                    //else // temporarily do not return error for continuous loading
+                    //{
+                    //    return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_LOAD_SYSTEM_DATA);
+                    //}
+                }
+                catch (Exception ex)
+                {
+                    WriteExLog(ex.ToString());
+                    return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_LOAD_SYSTEM_DATA);
+                }
+            }
+
+            // CSystemData_Light
+            if (loadLight == true)
+            {
+                try
+                {
+                    if (DBManager.SelectRow(DBInfo.DBConn, DBInfo.TableSystem, out output, new CDBColumn("name", nameof(CSystemData_Light))) == true)
+                    {
+                        CSystemData_Light data = JsonConvert.DeserializeObject<CSystemData_Light>(output);
+                        if (SystemData_Light.Light.Length == data.Light.Length)
+                        {
+                            SystemData_Light = ObjectExtensions.Copy(data);
+                        }
+                        else
+                        {
+                            for (int i = 0; i < SystemData_Light.Light.Length; i++)
+                            {
+                                if (i >= data.Light.Length) break;
+                                SystemData_Light.Light[i] = ObjectExtensions.Copy(data.Light[i]);
+                            }
+                        }
+                        WriteLog("success : load CSystemData_Light.", ELogType.SYSTEM, ELogWType.LOAD);
                     }
                     //else // temporarily do not return error for continuous loading
                     //{
