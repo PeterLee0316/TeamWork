@@ -35,7 +35,7 @@ namespace LWDicer.Control
         private MVisionView m_pDisplay;
 
         public Size m_CamPixelSize;
-        private CCameraData m_cCameraData;
+        private CCameraPara m_cCameraData;
         private CVisionPatternData[] m_rgsCSearchData;
         private CResultData[] m_rgsCResultData;
         private bool m_bLive;
@@ -47,7 +47,7 @@ namespace LWDicer.Control
             m_iCamID            = 0;
             m_iResult           = 0;
             m_bLive             = false;
-            m_cCameraData       = new CCameraData();
+            m_cCameraData       = new CCameraPara();
             m_rgsCSearchData    = new CVisionPatternData[iMarkNum];
             m_rgsCResultData    = new CResultData[iMarkNum];
 
@@ -181,7 +181,7 @@ namespace LWDicer.Control
         /// GetCamDeviceInfo : 카메라 정보를 반환한다.
         /// </summary>
         /// <returns></returns>
-        public CCameraData GetCamDeviceInfo()
+        public CCameraPara GetCamDeviceInfo()
         {
             return m_cCameraData;
         }

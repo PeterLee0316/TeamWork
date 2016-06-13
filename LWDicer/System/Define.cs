@@ -150,6 +150,27 @@ namespace LWDicer.Control
             ALL
         }
 
+        public enum ECameraSelect
+        {
+            MACRO = 0,
+            MICRO,
+            MAX,
+        }
+        public enum ELightController
+        {
+            No1 = 0,
+
+            MAX,
+        }
+        public enum ELightChannel
+        {
+            CH1=0,
+            CH2,
+            CH3,
+            CH4,
+            MAX,
+        }
+
         public enum EExcel_Sheet
         {
             Skip = -1,
@@ -906,7 +927,7 @@ namespace LWDicer.Control
             public void LoadToCassette()
             {
                 Time_LoadToCassette = DateTime.Now;
-            }
+    }
 
             public void StartPhase(EProcessPhase phase)
             {
@@ -1001,6 +1022,19 @@ namespace LWDicer.Control
             CLEANER2,
             HANDLER,
             STAGE1,
+            MAX,
+        }
+
+        public enum ETeachUnit
+        {
+            LOADER,
+            PUSHPULL,
+            CLEANER1,
+            CLEANER2,
+            HANDLER,
+            STAGE,
+            CAMERA,
+            SCANNER,
             MAX,
         }
 

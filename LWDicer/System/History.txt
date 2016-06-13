@@ -315,6 +315,19 @@ LWDicer의 DataManager에서 데이터를 읽어오기 위한 3가지 함수 : S
 	- Cam Calibration 수식에서 부호 바꿈 (반대 방향)
 
 
+// Grade : ★
+// Date : 2016-06-08 ~2016-06-10
+// Context
+
+1. DataManager
+	- CSystemData_Vision Create 및 Layer 계층과 연결
+	- CSystemData_Light Create
+	- Vision & Light DB에 연결함	
+	- Screen Move 값을 Camera Fov값과 연결 및 Rotate 값 연산값 적용
+
+2. MMeStage & MCtrlStage Data 정리
+3. MMeElevator & MCtrlLoader Data 정리
+
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////

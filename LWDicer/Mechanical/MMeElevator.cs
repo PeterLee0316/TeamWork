@@ -73,14 +73,12 @@ namespace LWDicer.Control
             SAFETY,
             MAX,
         }
-        public enum EFrameDataNo
+        public enum EUseCassette
         {
             NONE = -1,
             No1,
             No2,
             No3,
-            No4,
-            No5,
             MAX,
         }
 
@@ -335,6 +333,7 @@ namespace LWDicer.Control
 
             iResult = MoveElevatorPos(sTargetPos, bMoveFlag, bUseBacklash, bUsePriority, movePriority);
             if (iResult != SUCCESS) return iResult;
+
             if (bUpdatedPosInfo == true)
             {
                 AxElevatorInfo.PosInfo = iPos;
@@ -380,29 +379,29 @@ namespace LWDicer.Control
 
         public int MoveElevatorToBottomPos(bool bMoveAllAxis = false, bool bMoveXYT = false, bool bMoveZ = true)
         {
-            int iPos = (int)EElevatorPos.BOTTOM;
-            int iSlotNum = 0;
+            int nPos = (int)EElevatorPos.BOTTOM;
+            int nSlotNum = 0;
             
-            return MoveElevatorPos(iPos, iSlotNum, bMoveAllAxis, bMoveXYT, bMoveZ);
+            return MoveElevatorPos(nPos, nSlotNum, bMoveAllAxis, bMoveXYT, bMoveZ);
         }
 
         public int MoveElevatorToLoadPos(bool bMoveAllAxis = false, bool bMoveXYT = false, bool bMoveZ = true)
         {
-            int iPos = (int)EElevatorPos.LOAD;
-            int iSlotNum = 0;
-            return MoveElevatorPos(iPos, iSlotNum, bMoveAllAxis, bMoveXYT, bMoveZ);
+            int nPos = (int)EElevatorPos.LOAD;
+            int nSlotNum = 0;
+            return MoveElevatorPos(nPos, nSlotNum, bMoveAllAxis, bMoveXYT, bMoveZ);
         }
 
-        public int MoveElevatorToSlotPos(int iSlotNum=0, bool bMoveAllAxis = false, bool bMoveXYT = false, bool bMoveZ = true)
+        public int MoveElevatorToSlotPos(int nSlotNum=0, bool bMoveAllAxis = false, bool bMoveXYT = false, bool bMoveZ = true)
         {
-            int iPos = (int)EElevatorPos.SLOT;
-            return MoveElevatorPos(iPos, iSlotNum, bMoveAllAxis, bMoveXYT, bMoveZ);
+            int nPos = (int)EElevatorPos.SLOT;
+            return MoveElevatorPos(nPos, nSlotNum, bMoveAllAxis, bMoveXYT, bMoveZ);
         }
         public int MoveElevatorToTopPos(bool bMoveAllAxis = false, bool bMoveXYT = false, bool bMoveZ = true)
         {
-            int iPos = (int)EElevatorPos.TOP;
-            int iSlotNum = 0;
-            return MoveElevatorPos(iPos, iSlotNum,bMoveAllAxis, bMoveXYT, bMoveZ);
+            int nPos = (int)EElevatorPos.TOP;
+            int nSlotNum = 0;
+            return MoveElevatorPos(nPos, nSlotNum,bMoveAllAxis, bMoveXYT, bMoveZ);
         }
         /// <summary>
         /// 다음 Slot으로 이동함. 
@@ -677,7 +676,6 @@ namespace LWDicer.Control
 
             return SUCCESS;
         }
-
 
         ////////////////////////////////////////////////////////////////////////
 

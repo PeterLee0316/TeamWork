@@ -10,6 +10,7 @@ using static LWDicer.Control.DEF_MeStage;
 using static LWDicer.Control.DEF_Motion;
 using static LWDicer.Control.DEF_IO;
 using static LWDicer.Control.DEF_Vacuum;
+using static LWDicer.Control.DEF_System;
 
 namespace LWDicer.Control
 {
@@ -43,7 +44,7 @@ namespace LWDicer.Control
         public const int WAFER_CLAMP_CYL_2                                  = 1;
         public const int WAFER_CLAMP_CYL_NUM                                = 2;
 
-        public enum EStageCtlMode
+        public enum EStageCtrlMode
         {
             LASER =0,
             PC
@@ -163,20 +164,29 @@ namespace LWDicer.Control
 
         public class CMeStageData
         {
+            // Model Data ===========================================
             // Index Move Length
-            public double IndexWidth = 0.0;
-            public double IndexHeight = 0.0;
-            public double IndexRotate = 90.0;
-            public double ScreenWidth = 0.0;
-            public double ScreenHeight = 0.0;
-            public double ScreenRotate = 45.0;
-            public double StageJogSpeed = 10.0;
-            public double ThetaJogSpeed = 10.0;
+            public double IndexWidth ;
+            public double IndexHeight;
+            public double IndexRotate;
 
-            public double AlignMarkWidthLen = 0.0;
-            public double AlignMarkWidthRatio = 0.0;
+            public double AlignMarkWidthLen;
+            public double AlignMarkWidthRatio;
+
+            // System Data  =========================================
+            // Screen Move Length 
+            public double MacroScreenWidth;
+            public double MacroScreenHeight;
+            public double MacroScreenRotate;
+            public double MicroScreenWidth;
+            public double MicroScreenHeight;
+            public double MicroScreenRotate;
+
+            public double StageJogSpeed;
+            public double ThetaJogSpeed;
+
             public CPos_XY VisionCamDistance = new CPos_XY();
-            public double VisionLaserDistance = 0.0;
+            public double VisionLaserDistance;
 
             // Detect Object Sensor Address
             public int InDetectObject   = IO_ADDR_NOT_DEFINED;
@@ -711,7 +721,11 @@ namespace LWDicer.Control
 
             return SUCCESS;
         }
-
+        /// <summary>
+        /// Stage의 각축의 상대 이동
+        /// </summary>
+        /// <param name="dMoveLength"></param>
+        /// <returns></returns>
         public int MoveStageRelativeX(double dMoveLength)
         {
             MoveStageRelative(DEF_X, dMoveLength);
@@ -728,6 +742,11 @@ namespace LWDicer.Control
             return SUCCESS;
         }
 
+        /// <summary>
+        /// Stage Index Move : 지정된 Pitch거리로 이동함.
+        /// 일반적으로 Die 사이즈의 거리만큼 이동함.
+        /// </summary>
+        /// <returns></returns>
         public int MoveStageIndexPlusX()
         {
             // + 방향으로 이동
@@ -776,50 +795,72 @@ namespace LWDicer.Control
             return SUCCESS;
         }
 
-        public int MoveStageScreenPlusX()
+        /// <summary>
+        /// Stage Screen Move :Vision의 FOV 만큼 Pitch 이동함.
+        /// </summary>
+        /// <returns></returns>
+        public int MoveStageScreenPlusX(ECameraSelect eMode)
         {
             // + 방향으로 이동
-            MoveStageRelativeX(m_Data.ScreenWidth);
+            if(eMode == ECameraSelect.MACRO)
+                MoveStageRelativeX(m_Data.MacroScreenWidth);
+            if (eMode == ECameraSelect.MICRO)
+                MoveStageRelativeX(m_Data.MicroScreenWidth);
 
             return SUCCESS;
         }
 
-        public int MoveStageScreenPlusY()
+        public int MoveStageScreenPlusY(ECameraSelect eMode)
         {
             // + 방향으로 이동
-            MoveStageRelativeY(m_Data.ScreenHeight);
+            if (eMode == ECameraSelect.MACRO)
+                MoveStageRelativeY(m_Data.MacroScreenHeight);
+            if (eMode == ECameraSelect.MICRO)
+                MoveStageRelativeY(m_Data.MicroScreenHeight);
 
             return SUCCESS;
         }
 
-        public int MoveStageScreenPlusT()
+        public int MoveStageScreenPlusT(ECameraSelect eMode)
         {
             // + 방향으로 이동
-            MoveStageRelativeT(m_Data.ScreenRotate);
+            if (eMode == ECameraSelect.MACRO)
+                MoveStageRelativeT(m_Data.MacroScreenRotate);
+            if (eMode == ECameraSelect.MICRO)
+                MoveStageRelativeT(m_Data.MicroScreenRotate);
 
             return SUCCESS;
         }
 
-        public int MoveStageScreenMinusX()
+        public int MoveStageScreenMinusX(ECameraSelect eMode)
         {
             // - 방향으로 이동
-            MoveStageRelativeX(-m_Data.ScreenWidth);
+            if (eMode == ECameraSelect.MACRO)
+                MoveStageRelativeX(-m_Data.MacroScreenWidth);
+            if (eMode == ECameraSelect.MICRO)
+                MoveStageRelativeX(-m_Data.MicroScreenWidth);
 
             return SUCCESS;
         }
 
-        public int MoveStageScreenMinusY()
+        public int MoveStageScreenMinusY(ECameraSelect eMode)
         {
             // - 방향으로 이동
-            MoveStageRelativeY(-m_Data.ScreenHeight);
+            if (eMode == ECameraSelect.MACRO)
+                MoveStageRelativeY(-m_Data.MacroScreenHeight);
+            if (eMode == ECameraSelect.MICRO)
+                MoveStageRelativeY(-m_Data.MicroScreenHeight);
 
             return SUCCESS;
         }
 
-        public int MoveStageScreenMinusT()
+        public int MoveStageScreenMinusT(ECameraSelect eMode)
         {
             // - 방향으로 이동
-            MoveStageRelativeT(-m_Data.ScreenRotate);
+            if (eMode == ECameraSelect.MACRO)
+                MoveStageRelativeT(-m_Data.MacroScreenRotate);
+            if (eMode == ECameraSelect.MICRO)
+                MoveStageRelativeT(-m_Data.MicroScreenRotate);
 
             return SUCCESS;
         }
@@ -1138,12 +1179,12 @@ namespace LWDicer.Control
         #region Control Mode & Align Data Set
         public void SetStageCtlMode(int nCtlMode)
         {
-            if(nCtlMode == (int)EStageCtlMode.LASER)
+            if(nCtlMode == (int)EStageCtrlMode.LASER)
             {
                 // ACS Buffer에 모드 변경 Program을 작성... Buffer Call로 변경함.
             }
 
-            if (nCtlMode == (int)EStageCtlMode.PC)
+            if (nCtlMode == (int)EStageCtrlMode.PC)
             {
                 // ACS Buffer에 모드 변경 Program을 작성... Buffer Call로 변경함.
             }
@@ -1230,7 +1271,7 @@ namespace LWDicer.Control
 
         public double GetScreenIndexTheta()
         {
-            return m_Data.ScreenRotate;
+            return m_Data.MicroScreenRotate;
         }
         #endregion
 
@@ -1559,7 +1600,6 @@ namespace LWDicer.Control
         }
 
         
-
         public int CheckForStageCylMove()
         {
 
