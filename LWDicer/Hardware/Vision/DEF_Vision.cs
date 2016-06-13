@@ -119,8 +119,9 @@ namespace LWDicer.Control
             public double CamFovX; // 이 수치는 자동 계산됨
             public double CamFovY;    // 이 수치는 자동 계산됨
 
-            public CPos_XY Position;
+            public CPos_XY Position = new CPos_XY();
             public double CameraTilt;
+
 
             //// 설비에서 사용하는 Vision Board 개수
             //public int m_iNumOfSystems;

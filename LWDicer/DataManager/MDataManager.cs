@@ -394,6 +394,7 @@ namespace LWDicer.Control
             {
                 for (int i = 0; i < (int)ECameraSelect.MAX; i++)
                 {
+                    Camera[i] = new CCameraData();
                     Camera[i].CamFovX = Camera[i].CamPixelNumX * Camera[i].PixelResolutionX;
                     Camera[i].CamFovY = Camera[i].CamPixelNumY * Camera[i].PixelResolutionY;
                 }
