@@ -905,8 +905,7 @@ namespace LWDicer.Control
                 FinishWorkPiecePhas(pos, EProcessPhase.PUSHPULL_UNLOAD_TO_LOADER);
 
                 LoadWorkPieceToCassette();
-            }
-        }
+            }        
         }
 
         public int BackupDB()
@@ -1375,26 +1374,26 @@ namespace LWDicer.Control
             return SUCCESS;
         }
 
-        private int SaveUnitPositionData(string key_value, string output)
-        {
-            try
-            {
-                if (DBManager.InsertRow(DBInfo.DBConn, DBInfo.TablePos, "name", key_value, output,
-                    true, DBInfo.DBConn_Backup) != true)
-                {
-                    WriteLog($"fail : save {key_value} Position.", ELogType.SYSTEM, ELogWType.SAVE);
-                    return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_SAVE_POSITION_DATA);
-                }
-                WriteLog($"success : save {key_value} Position.", ELogType.SYSTEM, ELogWType.SAVE);
-            }
-            catch (Exception ex)
-            {
-                WriteLog($"fail : save {key_value} Position.", ELogType.SYSTEM, ELogWType.SAVE);
-                WriteExLog(ex.ToString());
-                return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_SAVE_POSITION_DATA);
-            }
-            return SUCCESS;
-        }
+        //private int SaveUnitPositionData(string key_value, string output)
+        //{
+        //    try
+        //    {
+        //        if (DBManager.InsertRow(DBInfo.DBConn, DBInfo.TablePos, "name", key_value, output,
+        //            true, DBInfo.DBConn_Backup) != true)
+        //        {
+        //            WriteLog($"fail : save {key_value} Position.", ELogType.SYSTEM, ELogWType.SAVE);
+        //            return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_SAVE_POSITION_DATA);
+        //        }
+        //        WriteLog($"success : save {key_value} Position.", ELogType.SYSTEM, ELogWType.SAVE);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        WriteLog($"fail : save {key_value} Position.", ELogType.SYSTEM, ELogWType.SAVE);
+        //        WriteExLog(ex.ToString());
+        //        return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_SAVE_POSITION_DATA);
+        //    }
+        //    return SUCCESS;
+        //}
 
         public int SavePositionData(bool bLoadFixed, EPositionObject unit = EPositionObject.ALL)
         {
@@ -1574,7 +1573,7 @@ namespace LWDicer.Control
             {
                 WriteLog($"fail : load {key_value} Position.", ELogType.SYSTEM, ELogWType.LOAD);
                 WriteExLog(ex.ToString());
-                return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_SAVE_POSITION_DATA)
+                return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_SAVE_POSITION_DATA);
             }
 
             return SUCCESS;

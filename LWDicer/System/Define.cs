@@ -1037,19 +1037,7 @@ namespace LWDicer.Control
             SCANNER,
             MAX,
         }
-
-        public enum ETeachUnit
-        {
-            LOADER,
-            PUSHPULL,
-            CLEANER1,
-            CLEANER2,
-            HANDLER,
-            STAGE,
-            CAMERA,
-            SCANNER,
-            MAX,
-        }
+        
 
 
         // Common Thread Message inter Threads
