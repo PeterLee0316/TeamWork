@@ -923,10 +923,19 @@ namespace LWDicer.Control
             public void GetNextPhase(out EProcessPhase phase)
             {
                 phase = EProcessPhase.PUSHPULL_LOAD_FROM_LOADER;
-                for(int i = 0; i < (int)EProcessPhase.MAX; i++)
+                for (int i = 0; i < (int)EProcessPhase.MAX; i++)
                 {
-                    if (ProcessFinished[i] == false) phase = EProcessPhase.PUSHPULL_LOAD_FROM_LOADER+i;
+                    if (ProcessFinished[i] == false) phase = EProcessPhase.PUSHPULL_LOAD_FROM_LOADER + i;
                 }
+            }
+
+            public int GetNextPhase()
+            {
+                for (int i = 0; i < (int)EProcessPhase.MAX; i++)
+                {
+                    if (ProcessFinished[i] == false) return i;
+                }
+                return (int)EProcessPhase.PUSHPULL_LOAD_FROM_LOADER;
             }
         }
     }
@@ -1112,23 +1121,23 @@ namespace LWDicer.Control
             MSG_SPINNER_PUSHPULL_COMPLETE_UNLOADING,
 
             // TrsHandler Message
-            MSG_UPPER_HANDLER_PUSHPULL_WAIT_UNLOADING_START = 400,
-            MSG_UPPER_HANDLER_PUSHPULL_START_UNLOADING,
-            MSG_UPPER_HANDLER_PUSHPULL_REQUEST_ABSORB,
-            MSG_UPPER_HANDLER_PUSHPULL_COMPLETE_UNLOADING,
-            MSG_UPPER_HANDLER_STAGE1_WAIT_LOADING_START,
-            MSG_UPPER_HANDLER_STAGE1_START_LOADING,
-            MSG_UPPER_HANDLER_STAGE1_REQUEST_RELEASE,
-            MSG_UPPER_HANDLER_STAGE1_COMPLETE_LOADING,
+            MSG_LOWER_HANDLER_PUSHPULL_WAIT_UNLOADING_START = 400,
+            MSG_LOWER_HANDLER_PUSHPULL_START_UNLOADING,
+            MSG_LOWER_HANDLER_PUSHPULL_REQUEST_ABSORB,
+            MSG_LOWER_HANDLER_PUSHPULL_COMPLETE_UNLOADING,
+            MSG_LOWER_HANDLER_STAGE1_WAIT_LOADING_START,
+            MSG_LOWER_HANDLER_STAGE1_START_LOADING,
+            MSG_LOWER_HANDLER_STAGE1_REQUEST_RELEASE,
+            MSG_LOWER_HANDLER_STAGE1_COMPLETE_LOADING,
 
-            MSG_LOWER_HANDLER_STAGE1_WAIT_UNLOADING_START,
-            MSG_LOWER_HANDLER_STAGE1_START_UNLOADING,
-            MSG_LOWER_HANDLER_STAGE1_REQUEST_ABSORB,
-            MSG_LOWER_HANDLER_STAGE1_COMPLETE_UNLOADING,
-            MSG_LOWER_HANDLER_PUSHPULL_WAIT_LOADING_START,
-            MSG_LOWER_HANDLER_PUSHPULL_START_LOADING,
-            MSG_LOWER_HANDLER_PUSHPULL_REQUEST_RELEASE,
-            MSG_LOWER_HANDLER_PUSHPULL_COMPLETE_LOADING,
+            MSG_UPPER_HANDLER_STAGE1_WAIT_UNLOADING_START,
+            MSG_UPPER_HANDLER_STAGE1_START_UNLOADING,
+            MSG_UPPER_HANDLER_STAGE1_REQUEST_ABSORB,
+            MSG_UPPER_HANDLER_STAGE1_COMPLETE_UNLOADING,
+            MSG_UPPER_HANDLER_PUSHPULL_WAIT_LOADING_START,
+            MSG_UPPER_HANDLER_PUSHPULL_START_LOADING,
+            MSG_UPPER_HANDLER_PUSHPULL_REQUEST_RELEASE,
+            MSG_UPPER_HANDLER_PUSHPULL_COMPLETE_LOADING,
 
             // TrsStage1 Message
             MSG_STAGE1_UPPER_HANDLER_REQUEST_LOADING = 500,
@@ -1280,30 +1289,30 @@ namespace LWDicer.Control
         public enum ETrsHandlerStep
         {
             // Upper/Load Handler
-            TRS_LOWER_HANDLER_MOVETO_WAIT1,
-            TRS_LOWER_HANDLER_WAIT_MOVETO_LOADING,           // wait for load request signal from pushpull
-            //TRS_LOWER_HANDLER_MOVETO_LOAD_POS,               // move to loading pos
-            TRS_LOWER_HANDLER_LOADING,                       // absorb object
-            TRS_LOWER_HANDLER_WAITFOR_PUSHPULL_UNLOAD_COMPLETE, //
-            //TRS_LOWER_HANDLER_MOVETO_LOAD_UP_POS,            // after move up, send load complete signal to pushpull
-            TRS_LOWER_HANDLER_MOVETO_WAIT2,
-            TRS_LOWER_HANDLER_WAIT_MOVETO_UNLOADING,         // wait for unload request signal from stage
-            TRS_LOWER_HANDLER_MOVETO_UNLOAD_POS,
-            TRS_LOWER_HANDLER_REQUEST_STAGE_LOADING,         // request stage to vacuum absorb
-            TRS_LOWER_HANDLER_UNLOADING,                     // after vacuum release + move up, send unload complete signal to stage
+            TRS_UPPER_HANDLER_MOVETO_WAIT1,
+            TRS_UPPER_HANDLER_WAIT_MOVETO_LOADING,           // wait for load request signal from pushpull
+            //TRS_UPPER_HANDLER_MOVETO_LOAD_POS,               // move to loading pos
+            TRS_UPPER_HANDLER_LOADING,                       // absorb object
+            TRS_UPPER_HANDLER_WAITFOR_PUSHPULL_UNLOAD_COMPLETE, //
+            //TRS_UPPER_HANDLER_MOVETO_LOAD_UP_POS,            // after move up, send load complete signal to pushpull
+            TRS_UPPER_HANDLER_MOVETO_WAIT2,
+            TRS_UPPER_HANDLER_WAIT_MOVETO_UNLOADING,         // wait for unload request signal from stage
+            TRS_UPPER_HANDLER_MOVETO_UNLOAD_POS,
+            TRS_UPPER_HANDLER_REQUEST_STAGE_LOADING,         // request stage to vacuum absorb
+            TRS_UPPER_HANDLER_UNLOADING,                     // after vacuum release + move up, send unload complete signal to stage
 
             // Lower/Unload Handler
-            TRS_UPPER_HANDLER_MOVETO_WAIT1,
-            TRS_UPPER_HANDLER_WAIT_MOVETO_LOADING,           // wait for load request signal from stage
-            TRS_UPPER_HANDLER_MOVETO_LOAD_POS,
-            TRS_UPPER_HANDLER_LOADING,
-            TRS_UPPER_HANDLER_WAITFOR_STAGE_UNLOAD_COMPLETE,    //
-            //TRS_UPPER_HANDLER_MOVETO_LOAD_UP_POS,            // after move up, send load complete signal to stage
-            TRS_UPPER_HANDLER_MOVETO_WAIT2,
-            TRS_UPPER_HANDLER_WAIT_MOVETO_UNLOADING,         // wait for unload request signal from pushpull
-            TRS_UPPER_HANDLER_MOVETO_UNLOAD_POS,
-            TRS_UPPER_HANDLER_WAITFOR_PUSHPULL_LOAD_COMPLETE,      // request pushpull to vacuum absorb
-            TRS_UPPER_HANDLER_UNLOADING,                     // after vacuum release + move up, send unload complete signal to pushpull
+            TRS_LOWER_HANDLER_MOVETO_WAIT1,
+            TRS_LOWER_HANDLER_WAIT_MOVETO_LOADING,           // wait for load request signal from stage
+            TRS_LOWER_HANDLER_MOVETO_LOAD_POS,
+            TRS_LOWER_HANDLER_LOADING,
+            TRS_LOWER_HANDLER_WAITFOR_STAGE_UNLOAD_COMPLETE,    //
+            //TRS_LOWER_HANDLER_MOVETO_LOAD_UP_POS,            // after move up, send load complete signal to stage
+            TRS_LOWER_HANDLER_MOVETO_WAIT2,
+            TRS_LOWER_HANDLER_WAIT_MOVETO_UNLOADING,         // wait for unload request signal from pushpull
+            TRS_LOWER_HANDLER_MOVETO_UNLOAD_POS,
+            TRS_LOWER_HANDLER_WAITFOR_PUSHPULL_LOAD_COMPLETE,      // request pushpull to vacuum absorb
+            TRS_LOWER_HANDLER_UNLOADING,                     // after vacuum release + move up, send unload complete signal to pushpull
         }
 
         public enum ETrsSpinnerStep

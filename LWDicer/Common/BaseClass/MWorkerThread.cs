@@ -430,7 +430,12 @@ namespace LWDicer.Control
 
         protected CWorkPiece GetWorkPiece(ELCNetUnitPos pos)
         {
-            return DataManager.WorkPieceArray[(int)pos];
+            return GetWorkPiece((int)pos);
+        }
+
+        protected CWorkPiece GetWorkPiece(int pos)
+        {
+            return DataManager.WorkPieceArray[pos];
         }
 
         protected CWorkPiece GetMyWorkPiece()

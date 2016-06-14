@@ -214,6 +214,13 @@ LWDicer의 DataManager에서 데이터를 읽어오기 위한 3가지 함수 : S
 4. Thread Step, Thread Message 정비, SetThreadChannel 함수 정리 및 Thread간 Postmessage test 완료.
    (Spinner1, Spinner2 로 두개로 나뉘어선언했던 MSG ID등을 Spinner하나로 통일해서 사용하도록 변경)
 
+// Version : 0.0.24
+// Grade : ★
+// Date : 160613~160614
+// Context
+1. MTrsHandler Lower, Upper Handler Step, Message 뒤바뀐 부분 수정 완료
+2. MTrsPushPull class 작성중...
+
 ////////////////////////////////////////////////////////////////////////////////////////////
 // LJJ
 // Version : 0.0.1

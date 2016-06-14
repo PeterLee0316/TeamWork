@@ -62,14 +62,14 @@ namespace LWDicer.Control
         bool[] m_bSpinner_CompleteUnloading = new bool[(int)ESpinnerIndex.MAX];
 
         // with handler
-        bool m_bLHandler_WaitLoadingStart;
-        bool m_bLHandler_StartLoading;
-        bool m_bLHandler_RequestRelease;
-        bool m_bLHandler_CompleteLoading;
-        bool m_bUHandler_WaitUnloadingStart;
-        bool m_bUHandler_StartUnloading;
-        bool m_bUHandler_RequestAbsorb;
-        bool m_bUHandler_CompleteUnloading;
+        bool m_bUpperHandler_WaitLoadingStart;
+        bool m_bUpperHandler_StartLoading;
+        bool m_bUpperHandler_RequestRelease;
+        bool m_bUpperHandler_CompleteLoading;
+        bool m_bLowerHandler_WaitUnloadingStart;
+        bool m_bLowerHandler_StartUnloading;
+        bool m_bLowerHandler_RequestAbsorb;
+        bool m_bLowerHandler_CompleteUnloading;
 
         public MTrsPushPull(CObjectInfo objInfo, EThreadChannel SelfChannelNo, MDataManager DataManager, ELCNetUnitPos LCNetUnitPos,
             CTrsPushPullRefComp refComp, CTrsPushPullData data)
@@ -125,14 +125,14 @@ namespace LWDicer.Control
                 m_bSpinner_CompleteUnloading[i] = false;
             }
 
-            m_bLHandler_WaitLoadingStart = false;
-            m_bLHandler_StartLoading = false;
-            m_bLHandler_RequestRelease = false;
-            m_bLHandler_CompleteLoading = false;
-            m_bUHandler_WaitUnloadingStart = false;
-            m_bUHandler_StartUnloading = false;
-            m_bUHandler_RequestAbsorb = false;
-            m_bUHandler_CompleteUnloading = false;
+            m_bUpperHandler_WaitLoadingStart = false;
+            m_bUpperHandler_StartLoading = false;
+            m_bUpperHandler_RequestRelease = false;
+            m_bUpperHandler_CompleteLoading = false;
+            m_bLowerHandler_WaitUnloadingStart = false;
+            m_bLowerHandler_StartUnloading = false;
+            m_bLowerHandler_RequestAbsorb = false;
+            m_bLowerHandler_CompleteUnloading = false;
 
             return SUCCESS;
         }
@@ -243,60 +243,60 @@ namespace LWDicer.Control
                     break;
 
                 // with Handler
-                case (int)MSG_LOWER_HANDLER_PUSHPULL_WAIT_LOADING_START:
-                    m_bLHandler_WaitLoadingStart = true;
-                    m_bLHandler_StartLoading = false;
-                    m_bLHandler_RequestRelease = false;
-                    m_bLHandler_CompleteLoading = false;
+                case (int)MSG_UPPER_HANDLER_PUSHPULL_WAIT_LOADING_START:
+                    m_bUpperHandler_WaitLoadingStart = true;
+                    m_bUpperHandler_StartLoading = false;
+                    m_bUpperHandler_RequestRelease = false;
+                    m_bUpperHandler_CompleteLoading = false;
                     break;
 
-                case (int)MSG_LOWER_HANDLER_PUSHPULL_START_LOADING:
-                    m_bLHandler_WaitLoadingStart = false;
-                    m_bLHandler_StartLoading = true;
-                    m_bLHandler_RequestRelease = false;
-                    m_bLHandler_CompleteLoading = false;
+                case (int)MSG_UPPER_HANDLER_PUSHPULL_START_LOADING:
+                    m_bUpperHandler_WaitLoadingStart = false;
+                    m_bUpperHandler_StartLoading = true;
+                    m_bUpperHandler_RequestRelease = false;
+                    m_bUpperHandler_CompleteLoading = false;
                     break;
 
-                case (int)MSG_LOWER_HANDLER_PUSHPULL_REQUEST_RELEASE:
-                    m_bLHandler_WaitLoadingStart = false;
-                    m_bLHandler_StartLoading = false;
-                    m_bLHandler_RequestRelease = true;
-                    m_bLHandler_CompleteLoading = false;
+                case (int)MSG_UPPER_HANDLER_PUSHPULL_REQUEST_RELEASE:
+                    m_bUpperHandler_WaitLoadingStart = false;
+                    m_bUpperHandler_StartLoading = false;
+                    m_bUpperHandler_RequestRelease = true;
+                    m_bUpperHandler_CompleteLoading = false;
                     break;
 
-                case (int)MSG_LOWER_HANDLER_PUSHPULL_COMPLETE_LOADING:
-                    m_bLHandler_WaitLoadingStart = false;
-                    m_bLHandler_StartLoading = false;
-                    m_bLHandler_RequestRelease = false;
-                    m_bLHandler_CompleteLoading = true;
+                case (int)MSG_UPPER_HANDLER_PUSHPULL_COMPLETE_LOADING:
+                    m_bUpperHandler_WaitLoadingStart = false;
+                    m_bUpperHandler_StartLoading = false;
+                    m_bUpperHandler_RequestRelease = false;
+                    m_bUpperHandler_CompleteLoading = true;
                     break;
 
-                case (int)MSG_UPPER_HANDLER_PUSHPULL_WAIT_UNLOADING_START:
-                    m_bUHandler_WaitUnloadingStart = true;
-                    m_bUHandler_StartUnloading = false;
-                    m_bUHandler_RequestAbsorb = false;
-                    m_bUHandler_CompleteUnloading = false;
+                case (int)MSG_LOWER_HANDLER_PUSHPULL_WAIT_UNLOADING_START:
+                    m_bLowerHandler_WaitUnloadingStart = true;
+                    m_bLowerHandler_StartUnloading = false;
+                    m_bLowerHandler_RequestAbsorb = false;
+                    m_bLowerHandler_CompleteUnloading = false;
                     break;
 
-                case (int)MSG_UPPER_HANDLER_PUSHPULL_START_UNLOADING:
-                    m_bUHandler_WaitUnloadingStart = false;
-                    m_bUHandler_StartUnloading = true;
-                    m_bUHandler_RequestAbsorb = false;
-                    m_bUHandler_CompleteUnloading = false;
+                case (int)MSG_LOWER_HANDLER_PUSHPULL_START_UNLOADING:
+                    m_bLowerHandler_WaitUnloadingStart = false;
+                    m_bLowerHandler_StartUnloading = true;
+                    m_bLowerHandler_RequestAbsorb = false;
+                    m_bLowerHandler_CompleteUnloading = false;
                     break;
 
-                case (int)MSG_UPPER_HANDLER_PUSHPULL_REQUEST_ABSORB:
-                    m_bUHandler_WaitUnloadingStart = false;
-                    m_bUHandler_StartUnloading = false;
-                    m_bUHandler_RequestAbsorb = true;
-                    m_bUHandler_CompleteUnloading = false;
+                case (int)MSG_LOWER_HANDLER_PUSHPULL_REQUEST_ABSORB:
+                    m_bLowerHandler_WaitUnloadingStart = false;
+                    m_bLowerHandler_StartUnloading = false;
+                    m_bLowerHandler_RequestAbsorb = true;
+                    m_bLowerHandler_CompleteUnloading = false;
                     break;
 
-                case (int)MSG_UPPER_HANDLER_PUSHPULL_COMPLETE_UNLOADING:
-                    m_bUHandler_WaitUnloadingStart = false;
-                    m_bUHandler_StartUnloading = false;
-                    m_bUHandler_RequestAbsorb = false;
-                    m_bUHandler_CompleteUnloading = true;
+                case (int)MSG_LOWER_HANDLER_PUSHPULL_COMPLETE_UNLOADING:
+                    m_bLowerHandler_WaitUnloadingStart = false;
+                    m_bLowerHandler_StartUnloading = false;
+                    m_bLowerHandler_RequestAbsorb = false;
+                    m_bLowerHandler_CompleteUnloading = true;
                     break;
 
             }
@@ -308,7 +308,7 @@ namespace LWDicer.Control
             int iResult = SUCCESS;
             bool bStatus = false;
             EProcessPhase processPhase;
-            ESpinnerIndex spinnerIndex;
+            int spinnerIndex;
 
             while (true)
             {
@@ -360,23 +360,23 @@ namespace LWDicer.Control
 
                                     switch (processPhase)
                                     {
+                                        // unload to coater
                                         case EProcessPhase.PUSHPULL_UNLOAD_TO_COATER:
-                                            // unload to coater
                                             //SetStep1((int)TRS_PUSHPULL_REQUEST_COATER_LOADING);
                                             break;
 
+                                        // unload to handler
                                         case EProcessPhase.PUSHPULL_UNLOAD_TO_HANDLER:
-                                            // unload to handler
                                             SetStep1((int)TRS_PUSHPULL_REQUEST_HANDLER_LOADING);
                                             break;
 
+                                        // unload to cleaner
                                         case EProcessPhase.PUSHPULL_UNLOAD_TO_CLEANER:
-                                            // unload to cleaner
                                             //SetStep1((int)TRS_PUSHPULL_REQUEST_CLEANER_LOADING);
                                             break;
 
+                                        // unload to loader
                                         case EProcessPhase.PUSHPULL_UNLOAD_TO_LOADER:
-                                            // unload to loader
                                             SetStep1((int)TRS_PUSHPULL_REQUEST_LOADER_LOADING);
                                             break;
                                     }
@@ -384,21 +384,63 @@ namespace LWDicer.Control
                                 // 2. if not detected wafer
                                 else
                                 {
-                                    // 2.1 load from loader
-                                    //SetStep1((int)TRS_PUSHPULL_REQUEST_LOADER_UNLOADING);
-                                    //break;
+                                    bool bStepBreak = false;
+                                    // 2.0.1 get spinners empty count
+                                    int nEmptyCount_Spinner = 0; 
 
-                                    //// 2.2 load from cleaner
-                                    //SetStep1((int)TRS_PUSHPULL_REQUEST_CLEANER_UNLOADING);
-                                    //break;
+                                    // 2.1 spinner가 unload ready 상태라면,
+                                    for(int i = 0; i < m_bSpinner_ReadyUnloading.Length; i++)
+                                    {
+                                        if(m_bSpinner_ReadyUnloading[i] == true)
+                                        {
+                                            // 2.1.1 spinner의 cleaning공정이 끝났다면 바로 -> loader 진행
+                                            if(GetWorkPiece((int)ELCNetUnitPos.SPINNER1 + i).GetNextPhase() == (int)EProcessPhase.CLEANER_UNLOAD)
+                                            {
+                                                bStepBreak = true;
+                                                spinnerIndex = i;
+                                                SetStep1((int)TRS_PUSHPULL_LOADING_FROM_SPINNER);
+                                                break;
+                                            }
 
-                                    //// 2.3 load from coater
-                                    //SetStep1((int)TRS_PUSHPULL_REQUEST_COATER_UNLOADING);
-                                    //break;
+                                            // 2.1.2 Spinner의 coating 공정이 끝났고, Upper Handler가 비었다면 바로 -> handler 진행
+                                            // Handler의 상태를 보는 이유는 정체를 피하기 위해서
+                                            if (GetWorkPiece((int)ELCNetUnitPos.SPINNER1 + i).GetNextPhase() == (int)EProcessPhase.COATER_UNLOAD
+                                                && m_bUpperHandler_WaitLoadingStart == true)
+                                            {
+                                                bStepBreak = true;
+                                                spinnerIndex = i;
+                                                SetStep1((int)TRS_PUSHPULL_LOADING_FROM_SPINNER);
+                                                break;
+                                            }
+                                        }
+                                    }
+                                    if (bStepBreak == true) break; // for break switch case
 
-                                    //// 2.4 load from handler
-                                    //SetStep1((int)TRS_PUSHPULL_REQUEST_HANDLER_UNLOADING);
-                                    //break;
+                                    // 2.2 Unload Handler가 Unload Ready 상태라면
+                                    if (m_bLowerHandler_WaitUnloadingStart == true)
+                                    {
+                                        // 2.2.1 Spinner에 빈자리가 있다면
+                                        if (nEmptyCount_Spinner > 0)
+                                        {
+                                            bStepBreak = true;
+                                            SetStep1((int)TRS_PUSHPULL_LOADING_FROM_HANDLER);
+                                            break;
+                                        }
+                                    }
+                                    if (bStepBreak == true) break; // for break switch case
+
+                                    // 2.3 Spinner가 두군데 모두 비어있다면, Coater작업을 위한 zone은 확보되어있으므로
+                                    if (nEmptyCount_Spinner > 1)
+                                    {
+                                        // Loader에 빈 slot이 있는지는 상세 스텝에서 질의 하는것이 맞을듯함.
+                                        bStepBreak = true;
+                                        SetStep1((int)TRS_PUSHPULL_LOADING_FROM_LOADER);
+                                        break;
+                                    }
+                                    if (bStepBreak == true) break; // for break switch case
+
+                                    // 2.4 Spinner가 한군데 비어있고, Loader가 비어있다면
+
                                 }
 
                                 break;
