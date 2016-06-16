@@ -57,6 +57,8 @@ namespace LWDicer.UI
             }
 
             CMainFrame.LWDicer.m_DataManager.LoadSystemParaExcelFile(EExcel_Sheet.Motor_Data);
+
+            CMainFrame.LWDicer.m_DataManager.SaveSystemData(null, CMainFrame.LWDicer.m_DataManager.SystemData_Axis, null,null,null);
         }
 
         private void BtnParaInfoExport_Click(object sender, EventArgs e)
