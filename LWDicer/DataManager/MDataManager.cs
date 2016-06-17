@@ -384,8 +384,8 @@ namespace LWDicer.Control
             public CPosition Centering2Pos = new CPosition((int)ECenterPos.MAX);
 
             // Handler
-            public CPosition LHandlerPos = new CPosition((int)EHandlerPos.MAX);
-            public CPosition UHandlerPos = new CPosition((int)EHandlerPos.MAX);
+            public CPosition UpperHandlerPos = new CPosition((int)EHandlerPos.MAX);
+            public CPosition LowerHandlerPos = new CPosition((int)EHandlerPos.MAX);
 
             // Spinner
             public CPosition S1_RotatePos = new CPosition((int)ERotatePos.MAX);
@@ -1348,7 +1348,7 @@ namespace LWDicer.Control
             if (unit == EPositionObject.ALL || unit == EPositionObject.LOWER_HANDLER)
             {
                 key_value = EPositionObject.LOWER_HANDLER.ToString() + suffix;
-                output = JsonConvert.SerializeObject(tData.LHandlerPos);
+                output = JsonConvert.SerializeObject(tData.UpperHandlerPos);
 
                 iResult = SaveUnitPositionData(key_value, output);
                 if (iResult != SUCCESS) return iResult;
@@ -1357,7 +1357,7 @@ namespace LWDicer.Control
             if (unit == EPositionObject.ALL || unit == EPositionObject.UPPER_HANDLER)
             {
                 key_value = EPositionObject.UPPER_HANDLER.ToString() + suffix;
-                output = JsonConvert.SerializeObject(tData.UHandlerPos);
+                output = JsonConvert.SerializeObject(tData.LowerHandlerPos);
 
                 iResult = SaveUnitPositionData(key_value, output);
                 if (iResult != SUCCESS) return iResult;
@@ -1558,7 +1558,7 @@ namespace LWDicer.Control
 
                 CPosition data = JsonConvert.DeserializeObject<CPosition>(output);
                 if(data != null && data.Length > 0)
-                    tData.LHandlerPos = ObjectExtensions.Copy(data);
+                    tData.UpperHandlerPos = ObjectExtensions.Copy(data);
             }
 
             if (unit == EPositionObject.ALL || unit == EPositionObject.UPPER_HANDLER)
@@ -1569,7 +1569,7 @@ namespace LWDicer.Control
 
                 CPosition data = JsonConvert.DeserializeObject<CPosition>(output);
                 if(data != null && data.Length > 0)
-                    tData.UHandlerPos = ObjectExtensions.Copy(data);
+                    tData.LowerHandlerPos = ObjectExtensions.Copy(data);
             }
 
             // Stage1

@@ -161,7 +161,7 @@ namespace LWDicer.UI
         {
             int nCount = 0, i = 0, j = 0;
 
-            nCount = (int)ECenteringPos.MAX;
+            nCount = (int)ECenterPos.MAX;
 
             for (i = 0; i < nCount; i++)
             {
@@ -312,10 +312,10 @@ namespace LWDicer.UI
                 PushPullPos[i].Visible = false;
             }
 
-            for (i = 0; i < (int)ECenteringPos.MAX; i++)
+            for (i = 0; i < (int)ECenterPos.MAX; i++)
             {
                 CenterPos[i].Visible = true;
-                CenterPos[i].Text = Convert.ToString(ECenteringPos.SAFETY + i);
+                CenterPos[i].Text = Convert.ToString(ECenterPos.WAIT + i);
             }
 
             for (i = 0; i < (int)EPushPullPos.MAX; i++)

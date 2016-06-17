@@ -1402,8 +1402,8 @@ namespace LWDicer.Control
             m_MeSpinner2.SetCoatPosition(FixedPos.S2_CoaterPos, ModelPos.S2_CoaterPos, OffsetPos.S2_CoaterPos);
 
             // Handler
-            m_MeUpperHandler.SetHandlerPosition(FixedPos.UHandlerPos, ModelPos.UHandlerPos, OffsetPos.UHandlerPos);
-            m_MeLowerHandler.SetHandlerPosition(FixedPos.LHandlerPos, ModelPos.LHandlerPos, OffsetPos.LHandlerPos);
+            m_MeUpperHandler.SetHandlerPosition(FixedPos.LowerHandlerPos, ModelPos.LowerHandlerPos, OffsetPos.LowerHandlerPos);
+            m_MeLowerHandler.SetHandlerPosition(FixedPos.UpperHandlerPos, ModelPos.UpperHandlerPos, OffsetPos.UpperHandlerPos);
 
             // Stage
             m_MeStage.SetStagePosition(FixedPos.Stage1Pos, ModelPos.Stage1Pos, OffsetPos.Stage1Pos);

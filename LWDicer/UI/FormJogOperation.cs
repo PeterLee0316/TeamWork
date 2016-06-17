@@ -99,10 +99,10 @@ namespace LWDicer.UI
             AxisNo[7].Text = Convert.ToString(EYMC_Axis.S2_CHUCK_ROTATE_T);
             AxisNo[8].Text = Convert.ToString(EYMC_Axis.S2_CLEAN_NOZZLE_T);
             AxisNo[9].Text = Convert.ToString(EYMC_Axis.S2_COAT_NOZZLE_T);
-            AxisNo[10].Text = Convert.ToString(EYMC_Axis.LHANDLER_X);
-            AxisNo[11].Text = Convert.ToString(EYMC_Axis.LHANDLER_Z);
-            AxisNo[12].Text = Convert.ToString(EYMC_Axis.UHANDLER_X);
-            AxisNo[13].Text = Convert.ToString(EYMC_Axis.UHANDLER_Z);
+            AxisNo[10].Text = Convert.ToString(EYMC_Axis.UPPER_HANDLER_X);
+            AxisNo[11].Text = Convert.ToString(EYMC_Axis.UPPER_HANDLER_Z);
+            AxisNo[12].Text = Convert.ToString(EYMC_Axis.LOWER_HANDLER_X);
+            AxisNo[13].Text = Convert.ToString(EYMC_Axis.LOWER_HANDLER_Z);
             AxisNo[14].Text = Convert.ToString(EYMC_Axis.CAMERA1_Z);
             AxisNo[15].Text = Convert.ToString(EYMC_Axis.SCANNER1_Z);
             AxisNo[16].Text = Convert.ToString(EACS_Axis.STAGE1_X);

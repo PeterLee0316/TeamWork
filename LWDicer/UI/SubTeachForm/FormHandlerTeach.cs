@@ -437,18 +437,18 @@ namespace LWDicer.UI
             double dFixedXPos = 0, dOffsetXPos = 0, dTargetXPos = 0, dModelXPos = 0;
             double dFixedZPos = 0, dOffsetZPos = 0, dTargetZPos = 0, dModelZPos = 0;
 
-            dFixedXPos = CMainFrame.LWDicer.m_DataManager.FixedPos.UHandlerPos.Pos[nTeachPos].dX;
-            dOffsetXPos = CMainFrame.LWDicer.m_DataManager.OffsetPos.UHandlerPos.Pos[nTeachPos].dX;
-            dModelXPos = CMainFrame.LWDicer.m_DataManager.ModelPos.UHandlerPos.Pos[nTeachPos].dX;
+            dFixedXPos = CMainFrame.LWDicer.m_DataManager.FixedPos.LowerHandlerPos.Pos[nTeachPos].dX;
+            dOffsetXPos = CMainFrame.LWDicer.m_DataManager.OffsetPos.LowerHandlerPos.Pos[nTeachPos].dX;
+            dModelXPos = CMainFrame.LWDicer.m_DataManager.ModelPos.LowerHandlerPos.Pos[nTeachPos].dX;
 
             dTargetXPos = dFixedXPos + dOffsetXPos + dModelXPos;
 
             strTargetPos = Convert.ToString(dTargetXPos);
             GridUpHandlerTeachTable[2, 1].Text = strTargetPos;
 
-            dFixedZPos = CMainFrame.LWDicer.m_DataManager.FixedPos.UHandlerPos.Pos[nTeachPos].dZ;
-            dOffsetZPos = CMainFrame.LWDicer.m_DataManager.OffsetPos.UHandlerPos.Pos[nTeachPos].dZ;
-            dModelZPos = CMainFrame.LWDicer.m_DataManager.ModelPos.UHandlerPos.Pos[nTeachPos].dZ;
+            dFixedZPos = CMainFrame.LWDicer.m_DataManager.FixedPos.LowerHandlerPos.Pos[nTeachPos].dZ;
+            dOffsetZPos = CMainFrame.LWDicer.m_DataManager.OffsetPos.LowerHandlerPos.Pos[nTeachPos].dZ;
+            dModelZPos = CMainFrame.LWDicer.m_DataManager.ModelPos.LowerHandlerPos.Pos[nTeachPos].dZ;
 
             dTargetZPos = dFixedZPos + dOffsetZPos + dModelZPos;
 
@@ -456,24 +456,24 @@ namespace LWDicer.UI
             GridUpHandlerTeachTable[2, 2].Text = strTargetPos;
 
             // FixedPos
-            strFixedPos = Convert.ToString(CMainFrame.LWDicer.m_DataManager.FixedPos.UHandlerPos.Pos[nTeachPos].dX);
+            strFixedPos = Convert.ToString(CMainFrame.LWDicer.m_DataManager.FixedPos.LowerHandlerPos.Pos[nTeachPos].dX);
             GridUpHandlerTeachTable[3, 1].Text = strFixedPos;
 
-            strFixedPos = Convert.ToString(CMainFrame.LWDicer.m_DataManager.FixedPos.UHandlerPos.Pos[nTeachPos].dZ);
+            strFixedPos = Convert.ToString(CMainFrame.LWDicer.m_DataManager.FixedPos.LowerHandlerPos.Pos[nTeachPos].dZ);
             GridUpHandlerTeachTable[3, 2].Text = strFixedPos;
 
             // ModelPos
-            strModelPos = Convert.ToString(CMainFrame.LWDicer.m_DataManager.ModelPos.UHandlerPos.Pos[nTeachPos].dX);
+            strModelPos = Convert.ToString(CMainFrame.LWDicer.m_DataManager.ModelPos.LowerHandlerPos.Pos[nTeachPos].dX);
             GridUpHandlerTeachTable[4, 1].Text = strModelPos;
 
-            strModelPos = Convert.ToString(CMainFrame.LWDicer.m_DataManager.ModelPos.UHandlerPos.Pos[nTeachPos].dZ);
+            strModelPos = Convert.ToString(CMainFrame.LWDicer.m_DataManager.ModelPos.LowerHandlerPos.Pos[nTeachPos].dZ);
             GridUpHandlerTeachTable[4, 2].Text = strModelPos;
 
             //OffsetPos
-            strOffSetPos = Convert.ToString(CMainFrame.LWDicer.m_DataManager.OffsetPos.UHandlerPos.Pos[nTeachPos].dX);
+            strOffSetPos = Convert.ToString(CMainFrame.LWDicer.m_DataManager.OffsetPos.LowerHandlerPos.Pos[nTeachPos].dX);
             GridUpHandlerTeachTable[6, 1].Text = strOffSetPos;
 
-            strOffSetPos = Convert.ToString(CMainFrame.LWDicer.m_DataManager.OffsetPos.UHandlerPos.Pos[nTeachPos].dZ);
+            strOffSetPos = Convert.ToString(CMainFrame.LWDicer.m_DataManager.OffsetPos.LowerHandlerPos.Pos[nTeachPos].dZ);
             GridUpHandlerTeachTable[6, 2].Text = strOffSetPos;
         }
 
@@ -483,18 +483,18 @@ namespace LWDicer.UI
             double dFixedXPos = 0, dOffsetXPos = 0, dTargetXPos = 0, dModelXPos = 0;
             double dFixedZPos = 0, dOffsetZPos = 0, dTargetZPos = 0, dModelZPos = 0;
 
-            dFixedXPos = CMainFrame.LWDicer.m_DataManager.FixedPos.LHandlerPos.Pos[nTeachPos].dX;
-            dOffsetXPos = CMainFrame.LWDicer.m_DataManager.OffsetPos.LHandlerPos.Pos[nTeachPos].dX;
-            dModelXPos = CMainFrame.LWDicer.m_DataManager.ModelPos.LHandlerPos.Pos[nTeachPos].dX;
+            dFixedXPos = CMainFrame.LWDicer.m_DataManager.FixedPos.UpperHandlerPos.Pos[nTeachPos].dX;
+            dOffsetXPos = CMainFrame.LWDicer.m_DataManager.OffsetPos.UpperHandlerPos.Pos[nTeachPos].dX;
+            dModelXPos = CMainFrame.LWDicer.m_DataManager.ModelPos.UpperHandlerPos.Pos[nTeachPos].dX;
 
             dTargetXPos = dFixedXPos + dOffsetXPos + dModelXPos;
 
             strTargetPos = Convert.ToString(dTargetXPos);
             GridLoHandlerTeachTable[2, 1].Text = strTargetPos;
 
-            dFixedZPos = CMainFrame.LWDicer.m_DataManager.FixedPos.LHandlerPos.Pos[nTeachPos].dZ;
-            dOffsetZPos = CMainFrame.LWDicer.m_DataManager.OffsetPos.LHandlerPos.Pos[nTeachPos].dZ;
-            dModelZPos = CMainFrame.LWDicer.m_DataManager.ModelPos.LHandlerPos.Pos[nTeachPos].dZ;
+            dFixedZPos = CMainFrame.LWDicer.m_DataManager.FixedPos.UpperHandlerPos.Pos[nTeachPos].dZ;
+            dOffsetZPos = CMainFrame.LWDicer.m_DataManager.OffsetPos.UpperHandlerPos.Pos[nTeachPos].dZ;
+            dModelZPos = CMainFrame.LWDicer.m_DataManager.ModelPos.UpperHandlerPos.Pos[nTeachPos].dZ;
 
             dTargetZPos = dFixedZPos + dOffsetZPos + dModelZPos;
 
@@ -502,24 +502,24 @@ namespace LWDicer.UI
             GridLoHandlerTeachTable[2, 2].Text = strTargetPos;
 
             // FixedPos
-            strFixedPos = Convert.ToString(CMainFrame.LWDicer.m_DataManager.FixedPos.LHandlerPos.Pos[nTeachPos].dX);
+            strFixedPos = Convert.ToString(CMainFrame.LWDicer.m_DataManager.FixedPos.UpperHandlerPos.Pos[nTeachPos].dX);
             GridLoHandlerTeachTable[3, 1].Text = strFixedPos;
 
-            strFixedPos = Convert.ToString(CMainFrame.LWDicer.m_DataManager.FixedPos.LHandlerPos.Pos[nTeachPos].dZ);
+            strFixedPos = Convert.ToString(CMainFrame.LWDicer.m_DataManager.FixedPos.UpperHandlerPos.Pos[nTeachPos].dZ);
             GridLoHandlerTeachTable[3, 2].Text = strFixedPos;
 
             // ModelPos
-            strModelPos = Convert.ToString(CMainFrame.LWDicer.m_DataManager.ModelPos.LHandlerPos.Pos[nTeachPos].dX);
+            strModelPos = Convert.ToString(CMainFrame.LWDicer.m_DataManager.ModelPos.UpperHandlerPos.Pos[nTeachPos].dX);
             GridLoHandlerTeachTable[4, 1].Text = strModelPos;
 
-            strModelPos = Convert.ToString(CMainFrame.LWDicer.m_DataManager.ModelPos.LHandlerPos.Pos[nTeachPos].dZ);
+            strModelPos = Convert.ToString(CMainFrame.LWDicer.m_DataManager.ModelPos.UpperHandlerPos.Pos[nTeachPos].dZ);
             GridLoHandlerTeachTable[4, 2].Text = strModelPos;
 
             //OffsetPos
-            strOffSetPos = Convert.ToString(CMainFrame.LWDicer.m_DataManager.OffsetPos.LHandlerPos.Pos[nTeachPos].dX);
+            strOffSetPos = Convert.ToString(CMainFrame.LWDicer.m_DataManager.OffsetPos.UpperHandlerPos.Pos[nTeachPos].dX);
             GridLoHandlerTeachTable[6, 1].Text = strOffSetPos;
 
-            strOffSetPos = Convert.ToString(CMainFrame.LWDicer.m_DataManager.OffsetPos.LHandlerPos.Pos[nTeachPos].dZ);
+            strOffSetPos = Convert.ToString(CMainFrame.LWDicer.m_DataManager.OffsetPos.UpperHandlerPos.Pos[nTeachPos].dZ);
             GridLoHandlerTeachTable[6, 2].Text = strOffSetPos;
         }
 
@@ -528,41 +528,41 @@ namespace LWDicer.UI
             // Current Position Display
             string strCurPos = string.Empty;
 
-            strCurPos = Convert.ToString(CMainFrame.LWDicer.m_YMC.ServoStatus[(int)EYMC_Axis.UHANDLER_X].EncoderPos);
+            strCurPos = Convert.ToString(CMainFrame.LWDicer.m_YMC.ServoStatus[(int)EYMC_Axis.LOWER_HANDLER_X].EncoderPos);
             GridUpHandlerTeachTable[7, 1].Text = strCurPos;
 
-            strCurPos = Convert.ToString(CMainFrame.LWDicer.m_YMC.ServoStatus[(int)EYMC_Axis.UHANDLER_Z].EncoderPos);
+            strCurPos = Convert.ToString(CMainFrame.LWDicer.m_YMC.ServoStatus[(int)EYMC_Axis.LOWER_HANDLER_Z].EncoderPos);
             GridUpHandlerTeachTable[7, 2].Text = strCurPos;
 
-            strCurPos = Convert.ToString(CMainFrame.LWDicer.m_YMC.ServoStatus[(int)EYMC_Axis.LHANDLER_X].EncoderPos);
+            strCurPos = Convert.ToString(CMainFrame.LWDicer.m_YMC.ServoStatus[(int)EYMC_Axis.UPPER_HANDLER_X].EncoderPos);
             GridLoHandlerTeachTable[7, 1].Text = strCurPos;
 
-            strCurPos = Convert.ToString(CMainFrame.LWDicer.m_YMC.ServoStatus[(int)EYMC_Axis.LHANDLER_Z].EncoderPos);
+            strCurPos = Convert.ToString(CMainFrame.LWDicer.m_YMC.ServoStatus[(int)EYMC_Axis.UPPER_HANDLER_Z].EncoderPos);
             GridLoHandlerTeachTable[7, 2].Text = strCurPos;
 
 
             // 보정값 Display
             double dValue = 0, dCurPos = 0, dTargetPos = 0;
 
-            dCurPos = CMainFrame.LWDicer.m_YMC.ServoStatus[(int)EYMC_Axis.UHANDLER_X].EncoderPos;
+            dCurPos = CMainFrame.LWDicer.m_YMC.ServoStatus[(int)EYMC_Axis.LOWER_HANDLER_X].EncoderPos;
             dTargetPos = Convert.ToDouble(GridUpHandlerTeachTable[2, 1].Text);
             dValue = dTargetPos - dCurPos;
 
             GridUpHandlerTeachTable[8, 1].Text = Convert.ToString(dValue);
 
-            dCurPos = CMainFrame.LWDicer.m_YMC.ServoStatus[(int)EYMC_Axis.UHANDLER_Z].EncoderPos;
+            dCurPos = CMainFrame.LWDicer.m_YMC.ServoStatus[(int)EYMC_Axis.LOWER_HANDLER_Z].EncoderPos;
             dTargetPos = Convert.ToDouble(GridUpHandlerTeachTable[2, 2].Text);
             dValue = dTargetPos - dCurPos;
 
             GridUpHandlerTeachTable[8, 2].Text = Convert.ToString(dValue);
 
-            dCurPos = CMainFrame.LWDicer.m_YMC.ServoStatus[(int)EYMC_Axis.LHANDLER_X].EncoderPos;
+            dCurPos = CMainFrame.LWDicer.m_YMC.ServoStatus[(int)EYMC_Axis.UPPER_HANDLER_X].EncoderPos;
             dTargetPos = Convert.ToDouble(GridLoHandlerTeachTable[2, 1].Text);
             dValue = dTargetPos - dCurPos;
 
             GridLoHandlerTeachTable[8, 1].Text = Convert.ToString(dValue);
 
-            dCurPos = CMainFrame.LWDicer.m_YMC.ServoStatus[(int)EYMC_Axis.LHANDLER_Z].EncoderPos;
+            dCurPos = CMainFrame.LWDicer.m_YMC.ServoStatus[(int)EYMC_Axis.UPPER_HANDLER_Z].EncoderPos;
             dTargetPos = Convert.ToDouble(GridLoHandlerTeachTable[2, 2].Text);
             dValue = dTargetPos - dCurPos;
 
@@ -585,7 +585,7 @@ namespace LWDicer.UI
             StrXCurrent = GridUpHandlerTeachTable[7, 1].Text;
             
             dXPos = Convert.ToDouble(StrXCurrent);
-            dOffsetXPos = CMainFrame.LWDicer.m_DataManager.OffsetPos.UHandlerPos.Pos[GetUpPosNo()].dX;
+            dOffsetXPos = CMainFrame.LWDicer.m_DataManager.OffsetPos.LowerHandlerPos.Pos[GetUpPosNo()].dX;
 
             dTargetXPos = dXPos + dOffsetXPos;
 
@@ -598,7 +598,7 @@ namespace LWDicer.UI
             StrZCurrent = GridUpHandlerTeachTable[7, 2].Text;
 
             dZPos = Convert.ToDouble(StrZCurrent);
-            dOffsetZPos = CMainFrame.LWDicer.m_DataManager.OffsetPos.UHandlerPos.Pos[GetUpPosNo()].dZ;
+            dOffsetZPos = CMainFrame.LWDicer.m_DataManager.OffsetPos.LowerHandlerPos.Pos[GetUpPosNo()].dZ;
 
             dTargetZPos = dZPos + dOffsetZPos;
 
@@ -625,7 +625,7 @@ namespace LWDicer.UI
             StrXCurrent = GridLoHandlerTeachTable[7, 1].Text;
 
             dXPos = Convert.ToDouble(StrXCurrent);
-            dOffsetXPos = CMainFrame.LWDicer.m_DataManager.OffsetPos.LHandlerPos.Pos[GetLoPosNo()].dX;
+            dOffsetXPos = CMainFrame.LWDicer.m_DataManager.OffsetPos.UpperHandlerPos.Pos[GetLoPosNo()].dX;
 
             dTargetXPos = dXPos + dOffsetXPos;
 
@@ -638,7 +638,7 @@ namespace LWDicer.UI
             StrZCurrent = GridLoHandlerTeachTable[7, 2].Text;
 
             dZPos = Convert.ToDouble(StrZCurrent);
-            dOffsetZPos = CMainFrame.LWDicer.m_DataManager.OffsetPos.LHandlerPos.Pos[GetLoPosNo()].dZ;
+            dOffsetZPos = CMainFrame.LWDicer.m_DataManager.OffsetPos.UpperHandlerPos.Pos[GetLoPosNo()].dZ;
 
             dTargetZPos = dZPos + dOffsetZPos;
 
@@ -649,7 +649,7 @@ namespace LWDicer.UI
 
         }
 
-        private void BtnUpSave_Click(object sender, EventArgs e)
+        private void BtnLoSave_Click(object sender, EventArgs e)
         {
             string strMsg = string.Empty, strData = string.Empty;
 
@@ -663,31 +663,31 @@ namespace LWDicer.UI
             if (GetDataMode() == FixedData)
             {
                 strData = GridUpHandlerTeachTable[3, 1].Text;
-                CMainFrame.LWDicer.m_DataManager.FixedPos.UHandlerPos.Pos[GetUpPosNo()].dX = Convert.ToDouble(strData);
+                CMainFrame.LWDicer.m_DataManager.FixedPos.LowerHandlerPos.Pos[GetUpPosNo()].dX = Convert.ToDouble(strData);
 
                 strData = GridUpHandlerTeachTable[3, 2].Text;
-                CMainFrame.LWDicer.m_DataManager.FixedPos.UHandlerPos.Pos[GetUpPosNo()].dZ = Convert.ToDouble(strData);
+                CMainFrame.LWDicer.m_DataManager.FixedPos.LowerHandlerPos.Pos[GetUpPosNo()].dZ = Convert.ToDouble(strData);
 
-                CMainFrame.LWDicer.m_DataManager.SavePositionData(true, EPositionObject.UHANDLER);
-                CMainFrame.LWDicer.m_DataManager.LoadPositionData(true, EPositionObject.UHANDLER);
+                CMainFrame.LWDicer.m_DataManager.SavePositionData(true, EPositionObject.LOWER_HANDLER);
+                CMainFrame.LWDicer.m_DataManager.LoadPositionData(true, EPositionObject.LOWER_HANDLER);
             }
 
             if (GetDataMode() == OffSetData)
             {
                 strData = GridUpHandlerTeachTable[6, 1].Text;
-                CMainFrame.LWDicer.m_DataManager.OffsetPos.UHandlerPos.Pos[GetUpPosNo()].dX = Convert.ToDouble(strData);
+                CMainFrame.LWDicer.m_DataManager.OffsetPos.LowerHandlerPos.Pos[GetUpPosNo()].dX = Convert.ToDouble(strData);
 
                 strData = GridUpHandlerTeachTable[6, 2].Text;
-                CMainFrame.LWDicer.m_DataManager.OffsetPos.UHandlerPos.Pos[GetUpPosNo()].dZ = Convert.ToDouble(strData);
+                CMainFrame.LWDicer.m_DataManager.OffsetPos.LowerHandlerPos.Pos[GetUpPosNo()].dZ = Convert.ToDouble(strData);
 
-                CMainFrame.LWDicer.m_DataManager.SavePositionData(false, EPositionObject.UHANDLER);
-                CMainFrame.LWDicer.m_DataManager.LoadPositionData(false, EPositionObject.UHANDLER);
+                CMainFrame.LWDicer.m_DataManager.SavePositionData(false, EPositionObject.LOWER_HANDLER);
+                CMainFrame.LWDicer.m_DataManager.LoadPositionData(false, EPositionObject.LOWER_HANDLER);
             }
 
             LoadUpTeachingData(GetUpPosNo());
         }
 
-        private void BtnLoSave_Click(object sender, EventArgs e)
+        private void BtnUpSave_Click(object sender, EventArgs e)
         {
             string strMsg = string.Empty, strData = string.Empty;
 
@@ -701,25 +701,25 @@ namespace LWDicer.UI
             if (GetDataMode() == FixedData)
             {
                 strData = GridLoHandlerTeachTable[3, 1].Text;
-                CMainFrame.LWDicer.m_DataManager.FixedPos.LHandlerPos.Pos[GetLoPosNo()].dX = Convert.ToDouble(strData);
+                CMainFrame.LWDicer.m_DataManager.FixedPos.UpperHandlerPos.Pos[GetLoPosNo()].dX = Convert.ToDouble(strData);
 
                 strData = GridLoHandlerTeachTable[3, 2].Text;
-                CMainFrame.LWDicer.m_DataManager.FixedPos.LHandlerPos.Pos[GetLoPosNo()].dZ = Convert.ToDouble(strData);
+                CMainFrame.LWDicer.m_DataManager.FixedPos.UpperHandlerPos.Pos[GetLoPosNo()].dZ = Convert.ToDouble(strData);
 
-                CMainFrame.LWDicer.m_DataManager.SavePositionData(true, EPositionObject.LHANDLER);
-                CMainFrame.LWDicer.m_DataManager.LoadPositionData(true, EPositionObject.LHANDLER);
+                CMainFrame.LWDicer.m_DataManager.SavePositionData(true, EPositionObject.UPPER_HANDLER);
+                CMainFrame.LWDicer.m_DataManager.LoadPositionData(true, EPositionObject.UPPER_HANDLER);
             }
 
             if (GetDataMode() == OffSetData)
             {
                 strData = GridLoHandlerTeachTable[6, 1].Text;
-                CMainFrame.LWDicer.m_DataManager.OffsetPos.LHandlerPos.Pos[GetLoPosNo()].dX = Convert.ToDouble(strData);
+                CMainFrame.LWDicer.m_DataManager.OffsetPos.UpperHandlerPos.Pos[GetLoPosNo()].dX = Convert.ToDouble(strData);
 
                 strData = GridLoHandlerTeachTable[6, 2].Text;
-                CMainFrame.LWDicer.m_DataManager.OffsetPos.LHandlerPos.Pos[GetLoPosNo()].dZ = Convert.ToDouble(strData);
+                CMainFrame.LWDicer.m_DataManager.OffsetPos.UpperHandlerPos.Pos[GetLoPosNo()].dZ = Convert.ToDouble(strData);
 
-                CMainFrame.LWDicer.m_DataManager.SavePositionData(false, EPositionObject.LHANDLER);
-                CMainFrame.LWDicer.m_DataManager.LoadPositionData(false, EPositionObject.LHANDLER);
+                CMainFrame.LWDicer.m_DataManager.SavePositionData(false, EPositionObject.UPPER_HANDLER);
+                CMainFrame.LWDicer.m_DataManager.LoadPositionData(false, EPositionObject.UPPER_HANDLER);
             }
 
             LoadLoTeachingData(GetLoPosNo());
@@ -745,14 +745,14 @@ namespace LWDicer.UI
 
                 if (e.ColIndex == 1)
                 {
-                    dOffsetPos = CMainFrame.LWDicer.m_DataManager.OffsetPos.UHandlerPos.Pos[GetUpPosNo()].dX;
+                    dOffsetPos = CMainFrame.LWDicer.m_DataManager.OffsetPos.LowerHandlerPos.Pos[GetUpPosNo()].dX;
 
                     dTargetPos = dPos + dOffsetPos;
                 }
 
                 if (e.ColIndex == 2)
                 {
-                    dOffsetPos = CMainFrame.LWDicer.m_DataManager.OffsetPos.UHandlerPos.Pos[GetUpPosNo()].dZ;
+                    dOffsetPos = CMainFrame.LWDicer.m_DataManager.OffsetPos.LowerHandlerPos.Pos[GetUpPosNo()].dZ;
 
                     dTargetPos = dPos + dOffsetPos;
                 }
@@ -797,14 +797,14 @@ namespace LWDicer.UI
 
                 if (e.ColIndex == 1)
                 {
-                    dOffsetPos = CMainFrame.LWDicer.m_DataManager.OffsetPos.LHandlerPos.Pos[GetUpPosNo()].dX;
+                    dOffsetPos = CMainFrame.LWDicer.m_DataManager.OffsetPos.UpperHandlerPos.Pos[GetUpPosNo()].dX;
 
                     dTargetPos = dPos + dOffsetPos;
                 }
 
                 if (e.ColIndex == 2)
                 {
-                    dOffsetPos = CMainFrame.LWDicer.m_DataManager.OffsetPos.LHandlerPos.Pos[GetUpPosNo()].dZ;
+                    dOffsetPos = CMainFrame.LWDicer.m_DataManager.OffsetPos.UpperHandlerPos.Pos[GetUpPosNo()].dZ;
 
                     dTargetPos = dPos + dOffsetPos;
                 }

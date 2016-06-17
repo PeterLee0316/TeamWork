@@ -137,10 +137,10 @@ namespace LWDicer.UI
             GridMotorPara[8, 1].Text = Convert.ToString(EYMC_Axis.S2_CHUCK_ROTATE_T);
             GridMotorPara[9, 1].Text = Convert.ToString(EYMC_Axis.S2_CLEAN_NOZZLE_T);
             GridMotorPara[10, 1].Text =Convert.ToString(EYMC_Axis.S2_COAT_NOZZLE_T);
-            GridMotorPara[11, 1].Text = Convert.ToString(EYMC_Axis.LHANDLER_X);
-            GridMotorPara[12, 1].Text = Convert.ToString(EYMC_Axis.LHANDLER_Z);
-            GridMotorPara[13, 1].Text = Convert.ToString(EYMC_Axis.UHANDLER_X);
-            GridMotorPara[14, 1].Text = Convert.ToString(EYMC_Axis.UHANDLER_Z);
+            GridMotorPara[11, 1].Text = Convert.ToString(EYMC_Axis.UPPER_HANDLER_X);
+            GridMotorPara[12, 1].Text = Convert.ToString(EYMC_Axis.UPPER_HANDLER_Z);
+            GridMotorPara[13, 1].Text = Convert.ToString(EYMC_Axis.LOWER_HANDLER_X);
+            GridMotorPara[14, 1].Text = Convert.ToString(EYMC_Axis.LOWER_HANDLER_Z);
             GridMotorPara[15, 1].Text = Convert.ToString(EYMC_Axis.CAMERA1_Z);
             GridMotorPara[16, 1].Text = Convert.ToString(EYMC_Axis.SCANNER1_Z);
             GridMotorPara[17, 1].Text = Convert.ToString(EACS_Axis.STAGE1_X);
