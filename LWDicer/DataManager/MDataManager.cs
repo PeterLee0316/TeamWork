@@ -398,6 +398,7 @@ namespace LWDicer.Control
 
             public CPositionData()
             {
+
             }
         }
 
@@ -1077,6 +1078,20 @@ namespace LWDicer.Control
                                 SystemData_Axis.MPMotionData[i] = ObjectExtensions.Copy(data.MPMotionData[i]);
                             }
                         }
+
+                        if (SystemData_Axis.ACSMotionData.Length == data.ACSMotionData.Length)
+                        {
+                            SystemData_Axis = ObjectExtensions.Copy(data);
+                        }
+                        else
+                        {
+                            for (int i = 0; i < SystemData_Axis.ACSMotionData.Length; i++)
+                            {
+                                if (i >= data.ACSMotionData.Length) break;
+                                SystemData_Axis.ACSMotionData[i] = ObjectExtensions.Copy(data.ACSMotionData[i]);
+                            }
+                        }
+
                         WriteLog("success : load CSystemData_Axis.", ELogType.SYSTEM, ELogWType.LOAD);
             }
                     //else // temporarily do not return error for continuous loading
@@ -1092,6 +1107,7 @@ namespace LWDicer.Control
 
                 // system data를 읽어왔는데, db에 이전 데이터가 저장되어 있지 않을 때, 필수적으로 초기화 해주어야 할 데이터들
                 InitMPMotionData();
+                InitACSMotionData();
             }
 
             // CSystemData_Cylinder
@@ -1589,6 +1605,8 @@ namespace LWDicer.Control
                 if(data != null && data.Length > 0)
                     tData.Scanner1Pos = ObjectExtensions.Copy(data);
             }
+
+            if (bLoadFixed) FixedPos = tData; else OffsetPos = tData;
 
             return SUCCESS;
         }
@@ -3019,7 +3037,7 @@ namespace LWDicer.Control
             try
             {
                 // Motor Data Sheet
-                for (i = 0; i < 19; i++)
+                for (i = 0; i < 16; i++)
                 {
                     // Speed
                     SystemData_Axis.MPMotionData[i].Speed[(int)EMotorSpeed.MANUAL_SLOW].Vel = Convert.ToDouble((string)(SheetRange.Cells[i + 2, 3] as Excel.Range).Text);
@@ -3060,6 +3078,49 @@ namespace LWDicer.Control
                     SystemData_Axis.MPMotionData[i].OriginData.FastSpeed = Convert.ToDouble((string)(SheetRange.Cells[i + 2, 28] as Excel.Range).Text);
                     SystemData_Axis.MPMotionData[i].OriginData.SlowSpeed = Convert.ToDouble((string)(SheetRange.Cells[i + 2, 29] as Excel.Range).Text);
                     SystemData_Axis.MPMotionData[i].OriginData.HomeOffset = Convert.ToDouble((string)(SheetRange.Cells[i + 2, 30] as Excel.Range).Text);
+                }
+
+                for (i = 0; i < 3; i++)
+                {
+                    // Speed
+                    SystemData_Axis.ACSMotionData[i].Speed[(int)EMotorSpeed.MANUAL_SLOW].Vel = Convert.ToDouble((string)(SheetRange.Cells[i + 18, 3] as Excel.Range).Text);
+                    SystemData_Axis.ACSMotionData[i].Speed[(int)EMotorSpeed.MANUAL_FAST].Vel = Convert.ToDouble((string)(SheetRange.Cells[i + 18, 4] as Excel.Range).Text);
+                    SystemData_Axis.ACSMotionData[i].Speed[(int)EMotorSpeed.AUTO_SLOW].Vel = Convert.ToDouble((string)(SheetRange.Cells[i + 18, 5] as Excel.Range).Text);
+                    SystemData_Axis.ACSMotionData[i].Speed[(int)EMotorSpeed.AUTO_FAST].Vel = Convert.ToDouble((string)(SheetRange.Cells[i + 18, 6] as Excel.Range).Text);
+                    SystemData_Axis.ACSMotionData[i].Speed[(int)EMotorSpeed.JOG_SLOW].Vel = Convert.ToDouble((string)(SheetRange.Cells[i + 18, 7] as Excel.Range).Text);
+                    SystemData_Axis.ACSMotionData[i].Speed[(int)EMotorSpeed.JOG_FAST].Vel = Convert.ToDouble((string)(SheetRange.Cells[i + 18, 8] as Excel.Range).Text);
+
+                    // Acc
+                    SystemData_Axis.ACSMotionData[i].Speed[(int)EMotorSpeed.MANUAL_SLOW].Acc = Convert.ToDouble((string)(SheetRange.Cells[i + 18, 9] as Excel.Range).Text);
+                    SystemData_Axis.ACSMotionData[i].Speed[(int)EMotorSpeed.MANUAL_FAST].Acc = Convert.ToDouble((string)(SheetRange.Cells[i + 18, 10] as Excel.Range).Text);
+                    SystemData_Axis.ACSMotionData[i].Speed[(int)EMotorSpeed.AUTO_SLOW].Acc = Convert.ToDouble((string)(SheetRange.Cells[i + 18, 11] as Excel.Range).Text);
+                    SystemData_Axis.ACSMotionData[i].Speed[(int)EMotorSpeed.AUTO_FAST].Acc = Convert.ToDouble((string)(SheetRange.Cells[i + 18, 12] as Excel.Range).Text);
+                    SystemData_Axis.ACSMotionData[i].Speed[(int)EMotorSpeed.JOG_SLOW].Acc = Convert.ToDouble((string)(SheetRange.Cells[i + 18, 13] as Excel.Range).Text);
+                    SystemData_Axis.ACSMotionData[i].Speed[(int)EMotorSpeed.JOG_FAST].Acc = Convert.ToDouble((string)(SheetRange.Cells[i + 18, 14] as Excel.Range).Text);
+
+                    // Dec
+                    SystemData_Axis.ACSMotionData[i].Speed[(int)EMotorSpeed.MANUAL_SLOW].Dec = Convert.ToDouble((string)(SheetRange.Cells[i + 18, 15] as Excel.Range).Text);
+                    SystemData_Axis.ACSMotionData[i].Speed[(int)EMotorSpeed.MANUAL_FAST].Dec = Convert.ToDouble((string)(SheetRange.Cells[i + 18, 16] as Excel.Range).Text);
+                    SystemData_Axis.ACSMotionData[i].Speed[(int)EMotorSpeed.AUTO_SLOW].Dec = Convert.ToDouble((string)(SheetRange.Cells[i + 18, 17] as Excel.Range).Text);
+                    SystemData_Axis.ACSMotionData[i].Speed[(int)EMotorSpeed.AUTO_FAST].Dec = Convert.ToDouble((string)(SheetRange.Cells[i + 18, 18] as Excel.Range).Text);
+                    SystemData_Axis.ACSMotionData[i].Speed[(int)EMotorSpeed.JOG_SLOW].Dec = Convert.ToDouble((string)(SheetRange.Cells[i + 18, 19] as Excel.Range).Text);
+                    SystemData_Axis.ACSMotionData[i].Speed[(int)EMotorSpeed.JOG_FAST].Dec = Convert.ToDouble((string)(SheetRange.Cells[i + 18, 20] as Excel.Range).Text);
+
+                    // S/W Limit
+                    SystemData_Axis.ACSMotionData[i].PosLimit.Plus = Convert.ToDouble((string)(SheetRange.Cells[i + 18, 21] as Excel.Range).Text);
+                    SystemData_Axis.ACSMotionData[i].PosLimit.Minus = Convert.ToDouble((string)(SheetRange.Cells[i + 18, 22] as Excel.Range).Text);
+
+                    // Limit Time
+                    SystemData_Axis.ACSMotionData[i].TimeLimit.tMoveLimit = Convert.ToDouble((string)(SheetRange.Cells[i + 18, 23] as Excel.Range).Text);
+                    SystemData_Axis.ACSMotionData[i].TimeLimit.tSleepAfterMove = Convert.ToDouble((string)(SheetRange.Cells[i + 18, 24] as Excel.Range).Text);
+                    SystemData_Axis.ACSMotionData[i].TimeLimit.tOriginLimit = Convert.ToDouble((string)(SheetRange.Cells[i + 18, 25] as Excel.Range).Text);
+
+                    // Home Option
+                    //SystemData_Axis.ACSMotionData[i].OriginData.Method = Convert.ToInt16((string)(SheetRange.Cells[i + 2, 26] as Excel.Range).Text);
+                    //SystemData_Axis.ACSMotionData[i].OriginData.Dir = Convert.ToInt16((string)(SheetRange.Cells[i + 2, 27] as Excel.Range).Text);
+                    //SystemData_Axis.ACSMotionData[i].OriginData.FastSpeed = Convert.ToDouble((string)(SheetRange.Cells[i + 2, 28] as Excel.Range).Text);
+                    //SystemData_Axis.ACSMotionData[i].OriginData.SlowSpeed = Convert.ToDouble((string)(SheetRange.Cells[i + 2, 29] as Excel.Range).Text);
+                    //SystemData_Axis.ACSMotionData[i].OriginData.HomeOffset = Convert.ToDouble((string)(SheetRange.Cells[i + 2, 30] as Excel.Range).Text);
                 }
             }
             catch (Exception ex)
@@ -3329,6 +3390,54 @@ namespace LWDicer.Control
             return SUCCESS;
         }
 
+        void InitACSMotionData()
+        {
+            // Excel에서 읽어오는 방식도 생각해봤으나, 축 이름과 필수적인것들만 초기화하면 될것 같아서 소스코드 내부에서 처리 
+            int index;
+            CACSMotionData tMotion;
+
+            // null check
+            for (int i = 0; i < SystemData_Axis.ACSMotionData.Length; i++)
+            {
+                if (SystemData_Axis.ACSMotionData[i] == null)
+                {
+                    SystemData_Axis.ACSMotionData[i] = new CACSMotionData();
+                }
+            }
+
+            // STAGE X
+            index = (int)EACS_Axis.STAGE1_X;
+            if (SystemData_Axis.ACSMotionData[index].Name == "NotExist")
+            {
+                tMotion = new CACSMotionData();
+                tMotion.Name = "STAGE1_X";
+                tMotion.Exist = true;
+
+                SystemData_Axis.ACSMotionData[index] = ObjectExtensions.Copy(tMotion);
+            }
+
+            // STAGE Y
+            index = (int)EACS_Axis.STAGE1_Y;
+            if (SystemData_Axis.ACSMotionData[index].Name == "NotExist")
+            {
+                tMotion = new CACSMotionData();
+                tMotion.Name = "STAGE1_Y";
+                tMotion.Exist = true;
+
+                SystemData_Axis.ACSMotionData[index] = ObjectExtensions.Copy(tMotion);
+            }
+
+            // STAGE X
+            index = (int)EACS_Axis.STAGE1_T;
+            if (SystemData_Axis.ACSMotionData[index].Name == "NotExist")
+            {
+                tMotion = new CACSMotionData();
+                tMotion.Name = "STAGE1_T";
+                tMotion.Exist = true;
+
+                SystemData_Axis.ACSMotionData[index] = ObjectExtensions.Copy(tMotion);
+            }
+        }
 
         void InitMPMotionData()
         {

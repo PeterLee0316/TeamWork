@@ -127,25 +127,25 @@ namespace LWDicer.UI
             GridMotorPara[0, 28].Text = "Home Slow Speed";
             GridMotorPara[0, 29].Text = "Home Offset";
 
-            GridMotorPara[1, 1].Text = "LIFTER";
-            GridMotorPara[2, 1].Text = "CLAMPER FEEDER";
-            GridMotorPara[3, 1].Text = "CENTERING 1";
-            GridMotorPara[4, 1].Text = "CENTERING 2";
-            GridMotorPara[5, 1].Text = "CHUCK ROTATE[SC1]";
-            GridMotorPara[6, 1].Text = "CLEANING NOZZLE[SC1]";
-            GridMotorPara[7, 1].Text = "COATING NOZZLE[SC1]";
-            GridMotorPara[8, 1].Text = "CHUCK ROTATE[SC2]";
-            GridMotorPara[9, 1].Text = "CLEANING NOZZLE[SC2]";
-            GridMotorPara[10, 1].Text = "COATING NOZZLE[SC2]";
-            GridMotorPara[11, 1].Text = "TR HAND 1 Z";
-            GridMotorPara[12, 1].Text = "TR HAND 1 Y";
-            GridMotorPara[13, 1].Text = "TR HAND 2 Z";
-            GridMotorPara[14, 1].Text = "TR HAND 2 Y";
-            GridMotorPara[15, 1].Text = "STAGE Y";
-            GridMotorPara[16, 1].Text = "STAGE X";
-            GridMotorPara[17, 1].Text = "STAGE T";
-            GridMotorPara[18, 1].Text = "SCANNER Z";
-            GridMotorPara[19, 1].Text = "CAMERA Z";
+            GridMotorPara[1, 1].Text = Convert.ToString(EYMC_Axis.LOADER_Z);
+            GridMotorPara[2, 1].Text = Convert.ToString(EYMC_Axis.PUSHPULL_Y);
+            GridMotorPara[3, 1].Text = Convert.ToString(EYMC_Axis.PUSHPULL_X1);
+            GridMotorPara[4, 1].Text = Convert.ToString(EYMC_Axis.PUSHPULL_X2);
+            GridMotorPara[5, 1].Text = Convert.ToString(EYMC_Axis.S1_CHUCK_ROTATE_T);
+            GridMotorPara[6, 1].Text = Convert.ToString(EYMC_Axis.S1_CLEAN_NOZZLE_T);
+            GridMotorPara[7, 1].Text = Convert.ToString(EYMC_Axis.S1_COAT_NOZZLE_T);
+            GridMotorPara[8, 1].Text = Convert.ToString(EYMC_Axis.S2_CHUCK_ROTATE_T);
+            GridMotorPara[9, 1].Text = Convert.ToString(EYMC_Axis.S2_CLEAN_NOZZLE_T);
+            GridMotorPara[10, 1].Text =Convert.ToString(EYMC_Axis.S2_COAT_NOZZLE_T);
+            GridMotorPara[11, 1].Text = Convert.ToString(EYMC_Axis.LHANDLER_X);
+            GridMotorPara[12, 1].Text = Convert.ToString(EYMC_Axis.LHANDLER_Z);
+            GridMotorPara[13, 1].Text = Convert.ToString(EYMC_Axis.UHANDLER_X);
+            GridMotorPara[14, 1].Text = Convert.ToString(EYMC_Axis.UHANDLER_Z);
+            GridMotorPara[15, 1].Text = Convert.ToString(EYMC_Axis.CAMERA1_Z);
+            GridMotorPara[16, 1].Text = Convert.ToString(EYMC_Axis.SCANNER1_Z);
+            GridMotorPara[17, 1].Text = Convert.ToString(EACS_Axis.STAGE1_X);
+            GridMotorPara[18, 1].Text = Convert.ToString(EACS_Axis.STAGE1_Y);
+            GridMotorPara[19, 1].Text = Convert.ToString(EACS_Axis.STAGE1_T);
 
             for (i = 0; i < nCol + 1; i++)
             {
@@ -174,9 +174,10 @@ namespace LWDicer.UI
 
         private void UpdateScreen()
         {
-            int i = 0;
+            int i = 0, j = 0;
 
-            for (i = 0; i < 19; i++)
+            // MP
+            for (i = 0; i < 16; i++)
             {
                 // Speed
                 GridMotorPara[i + 1, 2].Text = Convert.ToString(CMainFrame.LWDicer.m_DataManager.SystemData_Axis.MPMotionData[i].Speed[(int)EMotorSpeed.MANUAL_SLOW].Vel);
@@ -217,8 +218,55 @@ namespace LWDicer.UI
                 GridMotorPara[i + 1, 27].Text = Convert.ToString(CMainFrame.LWDicer.m_DataManager.SystemData_Axis.MPMotionData[i].OriginData.FastSpeed);
                 GridMotorPara[i + 1, 28].Text = Convert.ToString(CMainFrame.LWDicer.m_DataManager.SystemData_Axis.MPMotionData[i].OriginData.SlowSpeed);
                 GridMotorPara[i + 1, 29].Text = Convert.ToString(CMainFrame.LWDicer.m_DataManager.SystemData_Axis.MPMotionData[i].OriginData.HomeOffset);
+            }
 
-                for (int j = 0; j < 26; j++)
+            // ACS
+            for (i = 0; i < 3; i++)
+            {
+                // Speed
+                GridMotorPara[i + 17, 2].Text = Convert.ToString(CMainFrame.LWDicer.m_DataManager.SystemData_Axis.ACSMotionData[i].Speed[(int)EMotorSpeed.MANUAL_SLOW].Vel);
+                GridMotorPara[i + 17, 3].Text = Convert.ToString(CMainFrame.LWDicer.m_DataManager.SystemData_Axis.ACSMotionData[i].Speed[(int)EMotorSpeed.MANUAL_FAST].Vel);
+                GridMotorPara[i + 17, 4].Text = Convert.ToString(CMainFrame.LWDicer.m_DataManager.SystemData_Axis.ACSMotionData[i].Speed[(int)EMotorSpeed.AUTO_SLOW].Vel);
+                GridMotorPara[i + 17, 5].Text = Convert.ToString(CMainFrame.LWDicer.m_DataManager.SystemData_Axis.ACSMotionData[i].Speed[(int)EMotorSpeed.AUTO_FAST].Vel);
+                GridMotorPara[i + 17, 6].Text = Convert.ToString(CMainFrame.LWDicer.m_DataManager.SystemData_Axis.ACSMotionData[i].Speed[(int)EMotorSpeed.JOG_SLOW].Vel);
+                GridMotorPara[i + 17, 7].Text = Convert.ToString(CMainFrame.LWDicer.m_DataManager.SystemData_Axis.ACSMotionData[i].Speed[(int)EMotorSpeed.JOG_FAST].Vel);
+
+                // Acc
+                GridMotorPara[i + 17, 8].Text = Convert.ToString(CMainFrame.LWDicer.m_DataManager.SystemData_Axis.ACSMotionData[i].Speed[(int)EMotorSpeed.MANUAL_SLOW].Acc);
+                GridMotorPara[i + 17, 9].Text = Convert.ToString(CMainFrame.LWDicer.m_DataManager.SystemData_Axis.ACSMotionData[i].Speed[(int)EMotorSpeed.MANUAL_FAST].Acc);
+                GridMotorPara[i + 17, 10].Text = Convert.ToString(CMainFrame.LWDicer.m_DataManager.SystemData_Axis.ACSMotionData[i].Speed[(int)EMotorSpeed.AUTO_SLOW].Acc);
+                GridMotorPara[i + 17, 11].Text = Convert.ToString(CMainFrame.LWDicer.m_DataManager.SystemData_Axis.ACSMotionData[i].Speed[(int)EMotorSpeed.AUTO_FAST].Acc);
+                GridMotorPara[i + 17, 12].Text = Convert.ToString(CMainFrame.LWDicer.m_DataManager.SystemData_Axis.ACSMotionData[i].Speed[(int)EMotorSpeed.JOG_SLOW].Acc);
+                GridMotorPara[i + 17, 13].Text = Convert.ToString(CMainFrame.LWDicer.m_DataManager.SystemData_Axis.ACSMotionData[i].Speed[(int)EMotorSpeed.JOG_FAST].Acc);
+
+                // Dec
+                GridMotorPara[i + 17, 14].Text = Convert.ToString(CMainFrame.LWDicer.m_DataManager.SystemData_Axis.ACSMotionData[i].Speed[(int)EMotorSpeed.MANUAL_SLOW].Dec);
+                GridMotorPara[i + 17, 15].Text = Convert.ToString(CMainFrame.LWDicer.m_DataManager.SystemData_Axis.ACSMotionData[i].Speed[(int)EMotorSpeed.MANUAL_FAST].Dec);
+                GridMotorPara[i + 17, 16].Text = Convert.ToString(CMainFrame.LWDicer.m_DataManager.SystemData_Axis.ACSMotionData[i].Speed[(int)EMotorSpeed.AUTO_SLOW].Dec);
+                GridMotorPara[i + 17, 17].Text = Convert.ToString(CMainFrame.LWDicer.m_DataManager.SystemData_Axis.ACSMotionData[i].Speed[(int)EMotorSpeed.AUTO_FAST].Dec);
+                GridMotorPara[i + 17, 18].Text = Convert.ToString(CMainFrame.LWDicer.m_DataManager.SystemData_Axis.ACSMotionData[i].Speed[(int)EMotorSpeed.JOG_SLOW].Dec);
+                GridMotorPara[i + 17, 19].Text = Convert.ToString(CMainFrame.LWDicer.m_DataManager.SystemData_Axis.ACSMotionData[i].Speed[(int)EMotorSpeed.JOG_FAST].Dec);
+
+                // S/W Limit
+                GridMotorPara[i + 17, 20].Text = Convert.ToString(CMainFrame.LWDicer.m_DataManager.SystemData_Axis.ACSMotionData[i].PosLimit.Plus);
+                GridMotorPara[i + 17, 21].Text = Convert.ToString(CMainFrame.LWDicer.m_DataManager.SystemData_Axis.ACSMotionData[i].PosLimit.Minus);
+
+                // Limit Time
+                GridMotorPara[i + 17, 22].Text = Convert.ToString(CMainFrame.LWDicer.m_DataManager.SystemData_Axis.ACSMotionData[i].TimeLimit.tMoveLimit);
+                GridMotorPara[i + 17, 23].Text = Convert.ToString(CMainFrame.LWDicer.m_DataManager.SystemData_Axis.ACSMotionData[i].TimeLimit.tSleepAfterMove);
+                GridMotorPara[i + 17, 24].Text = Convert.ToString(CMainFrame.LWDicer.m_DataManager.SystemData_Axis.ACSMotionData[i].TimeLimit.tOriginLimit);
+
+                // Home Option
+                //GridMotorPara[i + 17, 25].Text = Convert.ToString(CMainFrame.LWDicer.m_DataManager.SystemData_Axis.ACSMotionData[i].OriginData.Method);
+                //GridMotorPara[i + 17, 26].Text = Convert.ToString(CMainFrame.LWDicer.m_DataManager.SystemData_Axis.ACSMotionData[i].OriginData.Dir);
+                //GridMotorPara[i + 17, 27].Text = Convert.ToString(CMainFrame.LWDicer.m_DataManager.SystemData_Axis.ACSMotionData[i].OriginData.FastSpeed);
+                //GridMotorPara[i + 17, 28].Text = Convert.ToString(CMainFrame.LWDicer.m_DataManager.SystemData_Axis.ACSMotionData[i].OriginData.SlowSpeed);
+                //GridMotorPara[i + 17, 29].Text = Convert.ToString(CMainFrame.LWDicer.m_DataManager.SystemData_Axis.ACSMotionData[i].OriginData.HomeOffset);
+            }
+
+            for (i = 0; i < 19; i++)
+            {
+                for (j = 0; j < 26; j++)
                 {
                     GridMotorPara[i + 1, j + 2].TextColor = Color.Black;
                 }
@@ -268,7 +316,6 @@ namespace LWDicer.UI
             }
 
             CMainFrame.LWDicer.m_DataManager.SaveMotorDataToExcel(strPara);
-
         }
     }
 }

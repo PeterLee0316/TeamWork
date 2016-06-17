@@ -55,6 +55,7 @@
             Syncfusion.Windows.Forms.Grid.GridRangeStyle gridRangeStyle24 = new Syncfusion.Windows.Forms.Grid.GridRangeStyle();
             Syncfusion.Windows.Forms.Grid.GridRangeStyle gridRangeStyle25 = new Syncfusion.Windows.Forms.Grid.GridRangeStyle();
             Syncfusion.Windows.Forms.Grid.GridRangeStyle gridRangeStyle26 = new Syncfusion.Windows.Forms.Grid.GridRangeStyle();
+            Syncfusion.Windows.Forms.Grid.GridRangeStyle gridRangeStyle27 = new Syncfusion.Windows.Forms.Grid.GridRangeStyle();
             this.BtnExit = new System.Windows.Forms.Button();
             this.GridMotorPara = new Syncfusion.Windows.Forms.Grid.GridControl();
             this.BtnImageDataSave = new System.Windows.Forms.Button();
@@ -67,7 +68,7 @@
             this.BtnExit.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
             this.BtnExit.Image = ((System.Drawing.Image)(resources.GetObject("BtnExit.Image")));
             this.BtnExit.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.BtnExit.Location = new System.Drawing.Point(1093, 811);
+            this.BtnExit.Location = new System.Drawing.Point(1091, 811);
             this.BtnExit.Name = "BtnExit";
             this.BtnExit.Size = new System.Drawing.Size(124, 61);
             this.BtnExit.TabIndex = 749;
@@ -79,6 +80,7 @@
             // GridMotorPara
             // 
             this.GridMotorPara.ActivateCurrentCellBehavior = Syncfusion.Windows.Forms.Grid.GridCellActivateAction.None;
+            this.GridMotorPara.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.GridMotorPara.Font = new System.Drawing.Font("Tahoma", 9F);
             this.GridMotorPara.Location = new System.Drawing.Point(43, 25);
             this.GridMotorPara.Name = "GridMotorPara";
@@ -290,6 +292,14 @@
             gridRangeStyle26.StyleInfo.Font.Strikeout = false;
             gridRangeStyle26.StyleInfo.Font.Underline = false;
             gridRangeStyle26.StyleInfo.Font.Unit = System.Drawing.GraphicsUnit.Point;
+            gridRangeStyle27.Range = Syncfusion.Windows.Forms.Grid.GridRangeInfo.Table();
+            gridRangeStyle27.StyleInfo.Font.Bold = false;
+            gridRangeStyle27.StyleInfo.Font.Facename = "Tahoma";
+            gridRangeStyle27.StyleInfo.Font.Italic = false;
+            gridRangeStyle27.StyleInfo.Font.Size = 9F;
+            gridRangeStyle27.StyleInfo.Font.Strikeout = false;
+            gridRangeStyle27.StyleInfo.Font.Underline = false;
+            gridRangeStyle27.StyleInfo.Font.Unit = System.Drawing.GraphicsUnit.Point;
             this.GridMotorPara.RangeStyles.AddRange(new Syncfusion.Windows.Forms.Grid.GridRangeStyle[] {
             gridRangeStyle1,
             gridRangeStyle2,
@@ -316,9 +326,10 @@
             gridRangeStyle23,
             gridRangeStyle24,
             gridRangeStyle25,
-            gridRangeStyle26});
+            gridRangeStyle26,
+            gridRangeStyle27});
             this.GridMotorPara.SerializeCellsBehavior = Syncfusion.Windows.Forms.Grid.GridSerializeCellsBehavior.SerializeAsRangeStylesIntoCode;
-            this.GridMotorPara.Size = new System.Drawing.Size(1174, 701);
+            this.GridMotorPara.Size = new System.Drawing.Size(1172, 701);
             this.GridMotorPara.SmartSizeBox = false;
             this.GridMotorPara.TabIndex = 750;
             this.GridMotorPara.UseRightToLeftCompatibleTextBox = true;
@@ -329,7 +340,7 @@
             this.BtnImageDataSave.Font = new System.Drawing.Font("굴림", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.BtnImageDataSave.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
             this.BtnImageDataSave.Image = ((System.Drawing.Image)(resources.GetObject("BtnImageDataSave.Image")));
-            this.BtnImageDataSave.Location = new System.Drawing.Point(1093, 744);
+            this.BtnImageDataSave.Location = new System.Drawing.Point(1091, 744);
             this.BtnImageDataSave.Name = "BtnImageDataSave";
             this.BtnImageDataSave.Size = new System.Drawing.Size(124, 61);
             this.BtnImageDataSave.TabIndex = 751;
