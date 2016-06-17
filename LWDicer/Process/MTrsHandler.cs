@@ -153,35 +153,66 @@ namespace LWDicer.Control
                     base.ProcessMsg(evnt);
                     break;
 
+                    //////////////////////////////////////////////////////////////////////////////
                     // with PushPull
-                case (int)MSG_PUSHPULL_LOWER_HANDLER_REQUEST_LOADING:
+                    case (int)MSG_PUSHPULL_UPPER_HANDLER_REQUEST_LOADING:         // wafer : P -> H
                     m_bPushPull_RequestLoading = true;
                     m_bPushPull_StartUnloading = false;
                     m_bPushPull_ReleaseComplete = false;
                     m_bPushPull_CompleteUnloading = false;
                     break;
 
-                case (int)MSG_PUSHPULL_LOWER_HANDLER_RELEASE_COMPLETE:
+                case (int)MSG_PUSHPULL_UPPER_HANDLER_START_UNLOADING:         // wafer : P -> H
+                    m_bPushPull_RequestLoading = false;
+                    m_bPushPull_StartUnloading = true;
+                    m_bPushPull_ReleaseComplete = false;
+                    m_bPushPull_CompleteUnloading = false;
+                    break;
+
+                case (int)MSG_PUSHPULL_UPPER_HANDLER_RELEASE_COMPLETE:        // wafer : P -> H
                     m_bPushPull_RequestLoading = false;
                     m_bPushPull_StartUnloading = false;
                     m_bPushPull_ReleaseComplete = true;
                     m_bPushPull_CompleteUnloading = false;
                     break;
 
-                case (int)MSG_PUSHPULL_UPPER_HANDLER_REQUEST_UNLOADING:
+                case (int)MSG_PUSHPULL_UPPER_HANDLER_COMPLETE_UNLOADING:      // wafer : P -> H
+                    m_bPushPull_RequestLoading = false;
+                    m_bPushPull_StartUnloading = false;
+                    m_bPushPull_ReleaseComplete = false;
+                    m_bPushPull_CompleteUnloading = true;
+                    break;
+
+                case (int)MSG_PUSHPULL_LOWER_HANDLER_REQUEST_UNLOADING:       // wafer : H -> P
                     m_bPushPull_RequestUnloading = true;
                     m_bPushPull_StartLoading = false;
                     m_bPushPull_AbsorbComplete = false;
                     m_bPushPull_CompleteLoading = false;
                     break;
 
-                case (int)MSG_PUSHPULL_UPPER_HANDLER_ABSORB_COMPLETE:
+                case (int)MSG_PUSHPULL_LOWER_HANDLER_START_LOADING:           // wafer : H -> P
+                    m_bPushPull_RequestUnloading = false;
+                    m_bPushPull_StartLoading = true;
+                    m_bPushPull_AbsorbComplete = false;
+                    m_bPushPull_CompleteLoading = false;
+                    break;
+
+                case (int)MSG_PUSHPULL_LOWER_HANDLER_ABSORB_COMPLETE:         // wafer : H -> P
                     m_bPushPull_RequestUnloading = false;
                     m_bPushPull_StartLoading = false;
                     m_bPushPull_AbsorbComplete = true;
                     m_bPushPull_CompleteLoading = false;
                     break;
 
+                case (int)MSG_PUSHPULL_LOWER_HANDLER_COMPLETE_LOADING:        // wafer : H -> P
+                    m_bPushPull_RequestUnloading = false;
+                    m_bPushPull_StartLoading = false;
+                    m_bPushPull_AbsorbComplete = false;
+                    m_bPushPull_CompleteLoading = true;
+                    break;
+
+                //////////////////////////////////////////////////////////////////////////////
+                // with stage
                 case (int)MSG_STAGE1_LOWER_HANDLER_REQUEST_UNLOADING:
                     m_bStage1_RequestUnloading = true;
                     m_bStage1_StartLoading = false;
@@ -296,7 +327,6 @@ namespace LWDicer.Control
                     iResult = m_RefComp.ctrlHandler.MoveToWaitPos(index, false);
                     if (iResult != SUCCESS) { ReportAlarm(iResult); break; }
 
-                    PostMsg(TrsPushPull, MSG_UPPER_HANDLER_PUSHPULL_WAIT_LOADING_START);
                     SetStep1((int)TRS_UPPER_HANDLER_WAIT_MOVETO_LOADING);
                     break;
 
@@ -319,7 +349,6 @@ namespace LWDicer.Control
                     iResult = m_RefComp.ctrlHandler.Absorb(index);
                     if (iResult != SUCCESS) { ReportAlarm(iResult); break; }
 
-                    PostMsg(TrsPushPull, MSG_UPPER_HANDLER_PUSHPULL_REQUEST_RELEASE);
                     SetStep1((int)TRS_UPPER_HANDLER_WAITFOR_PUSHPULL_UNLOAD_COMPLETE);
                     break;
 

@@ -1157,7 +1157,7 @@ namespace LWDicer.UI
 
         private void BtnImageCreate_Click(object sender, EventArgs e)
         {
-            string strImage = string.Empty, strIP = string.Empty, strFilePath = string.Empty;
+            string strImage, strIP, strFilePath;
 
             int i = 0, nSize = 0, nYPitch = 1;
 

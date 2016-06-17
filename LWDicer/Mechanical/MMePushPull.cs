@@ -33,8 +33,8 @@ namespace LWDicer.Control
 
         public enum ECenterIndex
         {
-            CENTER1,    // Center 1
-            CENTER2,    // Center 2
+            LEFT,       // Center 1
+            RIGHT,      // Center 2
             MAX,
         }
 
@@ -54,19 +54,20 @@ namespace LWDicer.Control
         {
             NONE = -1,
             WAIT,
-            LOAD,
-            UNLOAD1,    // unload for coater1
-            UNLOAD2,    // unload for coater2
+            LOADER,         // with loader
+            HANDLER,        // with handler
+            SPINNER1,       // with spinner1
+            SPINNER2,       // with spinner2
             TEMP_UNLOAD,
             RELOAD,     // re grip position, Load -> Temp_Unload -> Reload -> Unload2
             MAX,
         }
 
-        public enum ECenteringPos
+        public enum ECenterPos
         {
             NONE = -1,
-            SAFETY,
-            CENTERING,
+            WAIT,       // release wafer pos
+            CENTERING,  // centering wafer pos
             MAX,
         }
 
@@ -94,26 +95,26 @@ namespace LWDicer.Control
             MAX,
         }
 
-        public enum ECenteringXAxZone
+        public enum ECenterXAxZone
         {
             NONE = -1,
             SAFETY,
             MAX,
         }
 
-        public enum ECenteringYAxZone
+        public enum ECenterYAxZone
         {
             NONE = -1,
             MAX,
         }
 
-        public enum ECenteringTAxZone
+        public enum ECenterTAxZone
         {
             NONE = -1,
             MAX,
         }
 
-        public enum ECenteringZAxZone
+        public enum ECenterZAxZone
         {
             NONE = -1,
             MAX,
@@ -132,7 +133,7 @@ namespace LWDicer.Control
 
             // MultiAxes
             public MMultiAxes_YMC AxPushPull;
-            public MMultiAxes_YMC[] AxCentering = new MMultiAxes_YMC[(int)ECenterIndex.MAX];
+            public MMultiAxes_YMC[] AxCenter = new MMultiAxes_YMC[(int)ECenterIndex.MAX];
 
             // Vision Object
         }
@@ -153,8 +154,8 @@ namespace LWDicer.Control
             public CMAxisZoneCheck PushPullZone;
             public CPos_XYTZ PushPullSafetyPos;
 
-            public CMAxisZoneCheck[] CenteringZone = new CMAxisZoneCheck[(int)ECenterIndex.MAX];
-            public CPos_XYTZ CenteringSafetyPos;
+            public CMAxisZoneCheck[] CenterZone = new CMAxisZoneCheck[(int)ECenterIndex.MAX];
+            public CPos_XYTZ CenterSafetyPos;
 
             public CMePushPullData(EPushPullType[] PushPullType = null)
             {
@@ -173,10 +174,10 @@ namespace LWDicer.Control
                 PushPullZone = new CMAxisZoneCheck((int)EPushPullXAxZone.MAX, (int)EPushPullYAxZone.MAX,
                     (int)EPushPullTAxZone.MAX, (int)EPushPullZAxZone.MAX);
 
-                for(int i = 0; i < CenteringZone.Length; i++)
+                for(int i = 0; i < CenterZone.Length; i++)
                 {
-                    CenteringZone[i] = new CMAxisZoneCheck((int)ECenteringXAxZone.MAX, (int)ECenteringYAxZone.MAX,
-                    (int)ECenteringTAxZone.MAX, (int)ECenteringZAxZone.MAX);
+                    CenterZone[i] = new CMAxisZoneCheck((int)ECenterXAxZone.MAX, (int)ECenterYAxZone.MAX,
+                    (int)ECenterTAxZone.MAX, (int)ECenterZAxZone.MAX);
                 }
             }
         }
@@ -189,7 +190,7 @@ namespace LWDicer.Control
 
         // MovingObject
         private CMovingObject AxPushPullInfo = new CMovingObject((int)EPushPullPos.MAX);
-        private CMovingObject[] AxCenteringInfo = new CMovingObject[(int)ECenterIndex.MAX];
+        private CMovingObject[] AxCenterInfo = new CMovingObject[(int)ECenterIndex.MAX];
 
         // Cylinder
 
@@ -203,9 +204,9 @@ namespace LWDicer.Control
             m_RefComp = refComp;
             SetData(data);
 
-            for(int i = 0; i < AxCenteringInfo.Length; i++)
+            for(int i = 0; i < AxCenterInfo.Length; i++)
             {
-                AxCenteringInfo[i] = new CMovingObject((int)ECenteringPos.MAX);
+                AxCenterInfo[i] = new CMovingObject((int)ECenterPos.MAX);
             }
         }
 
@@ -231,7 +232,7 @@ namespace LWDicer.Control
 
         public int SetCenteringPosition(ECenterIndex index, CPosition FixedPos, CPosition ModelPos, CPosition OffsetPos)
         {
-            AxCenteringInfo[(int)index].SetPosition(FixedPos, ModelPos, OffsetPos);
+            AxCenterInfo[(int)index].SetPosition(FixedPos, ModelPos, OffsetPos);
             return SUCCESS;
         }
         #endregion
@@ -298,9 +299,9 @@ namespace LWDicer.Control
             if (iResult != SUCCESS) return iResult;
             if (bStatus == false) return SUCCESS;
 
-            for (int i = 0; i < m_RefComp.AxCentering.Length; i++)
+            for (int i = 0; i < m_RefComp.AxCenter.Length; i++)
             {
-                iResult = m_RefComp.AxCentering[i].IsOriginReturn(DEF_ALL_COORDINATE, out bStatus, out bAxisStatus);
+                iResult = m_RefComp.AxCenter[i].IsOriginReturn(DEF_ALL_COORDINATE, out bStatus, out bAxisStatus);
                 if (iResult != SUCCESS) return iResult;
                 if (bStatus == false) return SUCCESS;
             }
@@ -456,7 +457,7 @@ namespace LWDicer.Control
             int iResult = SUCCESS;
 
             // Load Position으로 가는 것이면 Align Offset을 초기화해야 한다.
-            if (iPos == (int)EPushPullPos.LOAD)
+            if (iPos == (int)EPushPullPos.LOADER)
             {
                 AxPushPullInfo.InitAlignOffset();
             }
@@ -520,23 +521,30 @@ namespace LWDicer.Control
             return SUCCESS;
         }
 
-        public int MovePushPullToLoadPos(bool bMoveXYT = true, bool bMoveZ = false, double[] dMoveOffset = null)
+        public int MovePushPullToLoaderPos(bool bMoveXYT = true, bool bMoveZ = false, double[] dMoveOffset = null)
         {
-            int iPos = (int)EPushPullPos.LOAD;
+            int iPos = (int)EPushPullPos.LOADER;
 
             return MovePushPullPos(iPos, bMoveXYT, bMoveZ, dMoveOffset);
         }
 
-        public int MovePushPullToUnload1Pos(bool bMoveXYT = true, bool bMoveZ = false, double[] dMoveOffset = null)
+        public int MovePushPullToHandlerPos(bool bMoveXYT = true, bool bMoveZ = false, double[] dMoveOffset = null)
         {
-            int iPos = (int)EPushPullPos.UNLOAD1;
+            int iPos = (int)EPushPullPos.HANDLER;
 
             return MovePushPullPos(iPos, bMoveXYT, bMoveZ, dMoveOffset);
         }
 
-        public int MovePushPullToUnload2Pos(bool bMoveXYT = true, bool bMoveZ = false, double[] dMoveOffset = null)
+        public int MovePushPullToSpinner1Pos(bool bMoveXYT = true, bool bMoveZ = false, double[] dMoveOffset = null)
         {
-            int iPos = (int)EPushPullPos.UNLOAD2;
+            int iPos = (int)EPushPullPos.SPINNER1;
+
+            return MovePushPullPos(iPos, bMoveXYT, bMoveZ, dMoveOffset);
+        }
+
+        public int MovePushPullToSpinner2Pos(bool bMoveXYT = true, bool bMoveZ = false, double[] dMoveOffset = null)
+        {
+            int iPos = (int)EPushPullPos.SPINNER2;
 
             return MovePushPullPos(iPos, bMoveXYT, bMoveZ, dMoveOffset);
         }
@@ -753,42 +761,42 @@ namespace LWDicer.Control
         }
 
         //////////////////////////////////////////////////////////////////////////////
-        // Centering
-        public MMultiAxes_YMC GetCenteringAx(ECenterIndex index)
+        // Center Unit
+        public MMultiAxes_YMC GetCenterAx(ECenterIndex index)
         {
-            return m_RefComp.AxCentering[(int)index];
+            return m_RefComp.AxCenter[(int)index];
         }
 
-        public int GetCenteringCurPos(ECenterIndex index, out CPos_XYTZ pos)
+        public int GetCenterCurPos(ECenterIndex index, out CPos_XYTZ pos)
         {
-            int iResult = GetCenteringAx(index).GetCurPos(out pos);
+            int iResult = GetCenterAx(index).GetCurPos(out pos);
             return iResult;
         }
 
-        public int MoveCenteringToSafetyPos(ECenterIndex index, int axis)
+        public int MoveCenterToSafetyPos(ECenterIndex index, int axis)
         {
             int iResult = SUCCESS;
             string str;
             // 0. safety check
-            iResult = CheckForCenteringAxisMove(index);
+            iResult = CheckForCenterAxisMove(index);
             if (iResult != SUCCESS) return iResult;
 
             // 0.1 trans to array
-            double[] dPos = new double[1] { m_Data.CenteringSafetyPos.GetAt(axis) };
+            double[] dPos = new double[1] { m_Data.CenterSafetyPos.GetAt(axis) };
 
             // 0.2 set use flag
             bool[] bTempFlag = new bool[1] { true };
 
             // 1. Move
-            iResult = GetCenteringAx(index).Move(axis, bTempFlag, dPos);
+            iResult = GetCenterAx(index).Move(axis, bTempFlag, dPos);
             if (iResult != SUCCESS)
             {
-                str = $"fail : move Centering to safety pos [axis={axis}]";
+                str = $"fail : move Center Unit to safety pos [axis={axis}]";
                 WriteLog(str, ELogType.Debug, ELogWType.Error);
                 return iResult;
             }
 
-            str = $"success : move Centering to safety pos [axis={axis}";
+            str = $"success : move Center Unit to safety pos [axis={axis}";
             WriteLog(str, ELogType.Debug, ELogWType.Normal);
 
             return SUCCESS;
@@ -797,18 +805,22 @@ namespace LWDicer.Control
         /// <summary>
         /// sPos으로 이동하고, PosInfo를 iPos으로 셋팅한다. Backlash는 일단 차후로.
         /// </summary>
+        /// <param name="index"></param>
         /// <param name="sPos"></param>
         /// <param name="iPos"></param>
+        /// <param name="bWaitDone"></param>
         /// <param name="bMoveFlag"></param>
         /// <param name="bUseBacklash"></param>
+        /// <param name="bUsePriority"></param>
+        /// <param name="movePriority"></param>
         /// <returns></returns>
-        private int MoveCenteringPos(ECenterIndex index, CPos_XYTZ sPos, int iPos, bool[] bMoveFlag = null, bool bUseBacklash = false,
+        private int MoveCenterToPos(ECenterIndex index, CPos_XYTZ sPos, int iPos, bool bWaitDone, bool[] bMoveFlag = null, bool bUseBacklash = false,
             bool bUsePriority = false, int[] movePriority = null)
         {
             int iResult = SUCCESS;
 
             // safety check
-            iResult = CheckForCenteringAxisMove(index);
+            iResult = CheckForCenterAxisMove(index);
             if (iResult != SUCCESS) return iResult;
             
             // assume move all axis if bMoveFlag is null
@@ -828,7 +840,7 @@ namespace LWDicer.Control
             }
 
             // 1. move Z Axis to Safety Up. but when need to move z axis only, don't need to move z to safety pos
-            //if (GetCenteringAx(index).HasAxis(DEF_Z) == true)
+            //if (GetCenterAx(index).HasAxis(DEF_Z) == true)
             //{
             //    if (bMoveFlag[DEF_X] == false && bMoveFlag[DEF_Y] == false && bMoveFlag[DEF_T] == false
             //        && bMoveFlag[DEF_Z] == true)
@@ -854,35 +866,66 @@ namespace LWDicer.Control
                 // set priority
                 if (bUsePriority == true && movePriority != null)
                 {
-                    GetCenteringAx(index).SetAxesMovePriority(movePriority);
+                    GetCenterAx(index).SetAxesMovePriority(movePriority);
                 }
 
                 // move
                 bMoveFlag[DEF_Z] = false;
-                iResult = GetCenteringAx(index).Move(DEF_ALL_COORDINATE, bMoveFlag, dTargetPos, bUsePriority);
+
+                if(bWaitDone == true)
+                {
+                    iResult = GetCenterAx(index).Move(DEF_ALL_COORDINATE, bMoveFlag, dTargetPos, bUsePriority);
+                } else
+                {
+                    iResult = GetCenterAx(index).StartMove(DEF_ALL_COORDINATE, bMoveFlag, dTargetPos);
+                }
                 if (iResult != SUCCESS)
                 {
-                    WriteLog("fail : move Centering x y t axis", ELogType.Debug, ELogWType.Error);
+                    WriteLog("fail : move Center Unit x y t axis", ELogType.Debug, ELogWType.Error);
                     return iResult;
                 }
             }
 
             // 3. move Z Axis
-            if (GetCenteringAx(index).HasAxis(DEF_Z) == true)
+            //if (GetCenterAx(index).HasAxis(DEF_Z) == true)
+            //{
+            //    if (bMoveFlag[DEF_Z] == true)
+            //    {
+            //        bool[] bTempFlag = new bool[DEF_MAX_COORDINATE] { false, false, false, true };
+            //        iResult = GetCenterAx(index).Move(DEF_ALL_COORDINATE, bTempFlag, dTargetPos);
+            //        if (iResult != SUCCESS)
+            //        {
+            //            WriteLog("fail : move Center Unit z axis", ELogType.Debug, ELogWType.Error);
+            //            return iResult;
+            //        }
+            //    }
+            //}
+
+            string str = $"success : move Center Unit to pos:{iPos} {sPos.ToString()}";
+            WriteLog(str, ELogType.Debug, ELogWType.Normal);
+
+            return SUCCESS;
+        }
+
+        private int WaitForMoveCenterToPos(ECenterIndex index, bool[] bMoveFlag = null)
+        {
+            int iResult = SUCCESS;
+
+            // assume move all axis if bMoveFlag is null
+            if (bMoveFlag == null)
             {
-                if (bMoveFlag[DEF_Z] == true)
-                {
-                    bool[] bTempFlag = new bool[DEF_MAX_COORDINATE] { false, false, false, true };
-                    iResult = GetCenteringAx(index).Move(DEF_ALL_COORDINATE, bTempFlag, dTargetPos);
-                    if (iResult != SUCCESS)
-                    {
-                        WriteLog("fail : move Centering z axis", ELogType.Debug, ELogWType.Error);
-                        return iResult;
-                    }
-                }
+                bMoveFlag = new bool[DEF_MAX_COORDINATE] { true, false, false, false };
             }
 
-            string str = $"success : move Centering to pos:{iPos} {sPos.ToString()}";
+            // wait for done
+            iResult = GetCenterAx(index).Wait4Done(DEF_ALL_COORDINATE, bMoveFlag);
+            if (iResult != SUCCESS)
+            {
+                WriteLog($"fail : wait for cetering unit{index} move done", ELogType.Debug, ELogWType.Error);
+                return iResult;
+            }
+
+            string str = $"success : wait for cetering unit{index} move done";
             WriteLog(str, ELogType.Debug, ELogWType.Normal);
 
             return SUCCESS;
@@ -899,40 +942,31 @@ namespace LWDicer.Control
         /// <param name="bUsePriority">우선순위 이동시킬지 여부 </param>
         /// <param name="movePriority">우선순위 </param>
         /// <returns></returns>
-        public int MoveCenteringPos(ECenterIndex index, int iPos, bool bUpdatedPosInfo = true, bool[] bMoveFlag = null, double[] dMoveOffset = null, bool bUseBacklash = false,
+        public int MoveCenterToPos(ECenterIndex index, int iPos, bool bWaitDone, bool bUpdatedPosInfo = true, bool[] bMoveFlag = null, double[] dMoveOffset = null, bool bUseBacklash = false,
             bool bUsePriority = false, int[] movePriority = null)
         {
             int iResult = SUCCESS;
 
             // Load Position으로 가는 것이면 Align Offset을 초기화해야 한다.
-            //if (iPos == (int)ECenteringPos.LOAD)
+            //if (iPos == (int)ECenterPos.LOAD)
             //{
-            //    AxCenteringInfo[(int)index].InitAlignOffset();
+            //    AxCenterInfo[(int)index].InitAlignOffset();
             //}
 
-            CPos_XYTZ sTargetPos = AxCenteringInfo[(int)index].GetTargetPos(iPos);
+            CPos_XYTZ sTargetPos = AxCenterInfo[(int)index].GetTargetPos(iPos);
             if (dMoveOffset != null)
             {
                 sTargetPos = sTargetPos + dMoveOffset;
             }
 
-            iResult = MoveCenteringPos(index, sTargetPos, iPos, bMoveFlag, bUseBacklash, bUsePriority, movePriority);
+            iResult = MoveCenterToPos(index, sTargetPos, iPos, bWaitDone, bMoveFlag, bUseBacklash, bUsePriority, movePriority);
             if (iResult != SUCCESS) return iResult;
             if (bUpdatedPosInfo == true)
             {
-                AxCenteringInfo[(int)index].PosInfo = iPos;
+                AxCenterInfo[(int)index].PosInfo = iPos;
             }
 
             return SUCCESS;
-        }
-
-        /// <summary>
-        /// Centering Z축을 안전 Up 위치로 이동
-        /// </summary>
-        /// <returns></returns>
-        public int MoveCenteringToSafetyUp(ECenterIndex index)
-        {
-            return MoveCenteringToSafetyPos(index, DEF_Z);
         }
 
         /// <summary>
@@ -944,25 +978,39 @@ namespace LWDicer.Control
         /// <param name="bMoveXYT"></param>
         /// <param name="bMoveZ"></param>
         /// <returns></returns>
-        public int MoveCenteringPos(ECenterIndex index, int iPos, double[] dMoveOffset = null)
+        public int MoveCenterToPos(ECenterIndex index, int iPos, double[] dMoveOffset = null)
         {
             // 0. move all axis
-            return MoveCenteringPos(index, iPos, dMoveOffset: dMoveOffset);
+            return MoveCenterToPos(index, iPos, bWaitDone:true, dMoveOffset:dMoveOffset);
 
         }
 
-        public int MoveCenteringToSafetyPos(ECenterIndex index, double[] dMoveOffset = null)
+        public int MoveAllCenterUnitToWaitPos(double[] dMoveOffset = null)
         {
-            int iPos = (int)ECenteringPos.SAFETY;
+            int iPos = (int)ECenterPos.WAIT;
 
-            return MoveCenteringPos(index, iPos, dMoveOffset);
+            int iResult = MoveCenterToPos(ECenterIndex.LEFT, iPos, bWaitDone:false, dMoveOffset:dMoveOffset);
+            if (iResult != SUCCESS) return iResult;
+            iResult = MoveCenterToPos(ECenterIndex.RIGHT, iPos, bWaitDone: true, dMoveOffset: dMoveOffset);
+            if (iResult != SUCCESS) return iResult;
+            iResult = WaitForMoveCenterToPos(ECenterIndex.LEFT);
+            if (iResult != SUCCESS) return iResult;
+
+            return SUCCESS;
         }
 
-        public int MoveCenteringToCenterPos(ECenterIndex index, double[] dMoveOffset = null)
+        public int MoveAllCenterUnitToCenteringPos(double[] dMoveOffset = null)
         {
-            int iPos = (int)ECenteringPos.CENTERING;
+            int iPos = (int)ECenterPos.CENTERING;
 
-            return MoveCenteringPos(index, iPos, dMoveOffset);
+            int iResult = MoveCenterToPos(ECenterIndex.LEFT, iPos, bWaitDone: false, dMoveOffset: dMoveOffset);
+            if (iResult != SUCCESS) return iResult;
+            iResult = MoveCenterToPos(ECenterIndex.RIGHT, iPos, bWaitDone: true, dMoveOffset: dMoveOffset);
+            if (iResult != SUCCESS) return iResult;
+            iResult = WaitForMoveCenterToPos(ECenterIndex.LEFT);
+            if (iResult != SUCCESS) return iResult;
+
+            return SUCCESS;
         }
 
         /// <summary>
@@ -974,7 +1022,7 @@ namespace LWDicer.Control
         /// <param name="bCheck_ZAxis"></param>
         /// <param name="bSkipError">위치가 틀릴경우 에러 보고할지 여부</param>
         /// <returns></returns>
-        public int CompareCenteringPos(ECenterIndex index, CPos_XYTZ sPos, out bool bResult, bool bCheck_TAxis, bool bCheck_ZAxis, bool bSkipError = true)
+        public int CompareCenterPos(ECenterIndex index, CPos_XYTZ sPos, out bool bResult, bool bCheck_TAxis, bool bCheck_ZAxis, bool bSkipError = true)
         {
             int iResult = SUCCESS;
 
@@ -985,7 +1033,7 @@ namespace LWDicer.Control
             sPos.TransToArray(out dPos);
 
             bool[] bJudge = new bool[DEF_MAX_COORDINATE];
-            iResult = GetCenteringAx(index).ComparePosition(dPos, out bJudge, DEF_ALL_COORDINATE);
+            iResult = GetCenterAx(index).ComparePosition(dPos, out bJudge, DEF_ALL_COORDINATE);
             if (iResult != SUCCESS) return iResult;
 
             // skip axis
@@ -1002,7 +1050,7 @@ namespace LWDicer.Control
             // skip error?
             if (bSkipError == false && bResult == false)
             {
-                string str = $"Stage의 위치비교 결과 미일치합니다. Target Pos : {sPos.ToString()}";
+                string str = $"Center Unit의 위치비교 결과 미일치합니다. Target Pos : {sPos.ToString()}";
                 WriteLog(str, ELogType.Debug, ELogWType.Error);
 
                 return GenerateErrorCode(ERR_PUSHPULL_NOT_SAME_POSITION);
@@ -1011,69 +1059,69 @@ namespace LWDicer.Control
             return SUCCESS;
         }
 
-        public int CompareCenteringPos(ECenterIndex index, int iPos, out bool bResult, bool bCheck_TAxis, bool bCheck_ZAxis, bool bSkipError = true)
+        public int CompareCenterPos(ECenterIndex index, int iPos, out bool bResult, bool bCheck_TAxis, bool bCheck_ZAxis, bool bSkipError = true)
         {
             int iResult = SUCCESS;
 
             bResult = false;
 
-            CPos_XYTZ targetPos = AxCenteringInfo[(int)index].GetTargetPos(iPos);
+            CPos_XYTZ targetPos = AxCenterInfo[(int)index].GetTargetPos(iPos);
             if (iResult != SUCCESS) return iResult;
 
-            iResult = CompareCenteringPos(index, targetPos, out bResult, bCheck_TAxis, bCheck_ZAxis, bSkipError);
+            iResult = CompareCenterPos(index, targetPos, out bResult, bCheck_TAxis, bCheck_ZAxis, bSkipError);
             if (iResult != SUCCESS) return iResult;
 
             return SUCCESS;
         }
 
-        public int GetCenteringPosInfo(ECenterIndex index, out int posInfo, bool bUpdatePos = true, bool bCheck_ZAxis = false)
+        public int GetCenterPosInfo(ECenterIndex index, out int posInfo, bool bUpdatePos = true, bool bCheck_ZAxis = false)
         {
-            posInfo = (int)ECenteringPos.NONE;
+            posInfo = (int)ECenterPos.NONE;
             bool bStatus;
-            int iResult = IsCenteringAxisOrignReturned(index, out bStatus);
+            int iResult = IsCenterAxisOrignReturned(index, out bStatus);
             if (iResult != SUCCESS) return iResult;
 
             // 실시간으로 자기 위치를 체크
             if (bUpdatePos)
             {
-                for (int i = 0; i < (int)ECenteringPos.MAX; i++)
+                for (int i = 0; i < (int)ECenterPos.MAX; i++)
                 {
-                    CompareCenteringPos(index, i, out bStatus, false, bCheck_ZAxis);
+                    CompareCenterPos(index, i, out bStatus, false, bCheck_ZAxis);
                     if (bStatus)
                     {
-                        AxCenteringInfo[(int)index].PosInfo = i;
+                        AxCenterInfo[(int)index].PosInfo = i;
                         break;
                     }
                 }
             }
 
-            posInfo = AxCenteringInfo[(int)index].PosInfo;
+            posInfo = AxCenterInfo[(int)index].PosInfo;
             return SUCCESS;
         }
 
-        public void SetCenteringPosInfo(ECenterIndex index, int posInfo)
+        public void SetCenterPosInfo(ECenterIndex index, int posInfo)
         {
-            AxCenteringInfo[(int)index].PosInfo = posInfo;
+            AxCenterInfo[(int)index].PosInfo = posInfo;
         }
 
-        public int IsCenteringAxisOrignReturned(ECenterIndex index, out bool bStatus)
+        public int IsCenterAxisOrignReturned(ECenterIndex index, out bool bStatus)
         {
             bool[] bAxisStatus;
-            int iResult = GetCenteringAx(index).IsOriginReturn(DEF_ALL_COORDINATE, out bStatus, out bAxisStatus);
+            int iResult = GetCenterAx(index).IsOriginReturn(DEF_ALL_COORDINATE, out bStatus, out bAxisStatus);
             if (iResult != SUCCESS) return iResult;
             if (bStatus == false) return SUCCESS;
 
             return iResult;
         }
 
-        public int GetCenteringAxZone(ECenterIndex index, int axis, out int curZone)
+        public int GetCenterAxZone(ECenterIndex index, int axis, out int curZone)
         {
             bool bStatus;
-            curZone = (int)ECenteringXAxZone.NONE;
-            for (int i = 0; i < (int)ECenteringXAxZone.MAX; i++)
+            curZone = (int)ECenterXAxZone.NONE;
+            for (int i = 0; i < (int)ECenterXAxZone.MAX; i++)
             {
-                if (m_Data.CenteringZone[(int)index].Axis[axis].ZoneAddr[i] == -1) continue; // if io is not allocated, continue;
-                int iResult = m_RefComp.IO.IsOn(m_Data.CenteringZone[(int)index].Axis[axis].ZoneAddr[i], out bStatus);
+                if (m_Data.CenterZone[(int)index].Axis[axis].ZoneAddr[i] == -1) continue; // if io is not allocated, continue;
+                int iResult = m_RefComp.IO.IsOn(m_Data.CenterZone[(int)index].Axis[axis].ZoneAddr[i], out bStatus);
                 if (iResult != SUCCESS) return iResult;
                 if (bStatus == true)
                 {
@@ -1084,17 +1132,17 @@ namespace LWDicer.Control
             return SUCCESS;
         }
 
-        public int IsCenteringAxisInSafetyZone(ECenterIndex index, int axis, out bool bStatus)
+        public int IsCenterAxisInSafetyZone(ECenterIndex index, int axis, out bool bStatus)
         {
             bStatus = false;
             int curZone;
-            int iResult = GetCenteringAxZone(index, axis, out curZone);
+            int iResult = GetCenterAxZone(index, axis, out curZone);
             if (iResult != SUCCESS) return iResult;
 
             switch (axis)
             {
                 case DEF_X:
-                    if (curZone == (int)ECenteringXAxZone.SAFETY)
+                    if (curZone == (int)ECenterXAxZone.SAFETY)
                     {
                         bStatus = true;
                     }
@@ -1112,7 +1160,7 @@ namespace LWDicer.Control
             return SUCCESS;
         }
 
-        public int CheckForCenteringAxisMove(ECenterIndex index, bool bCheckGripLock = true)
+        public int CheckForCenterAxisMove(ECenterIndex index, bool bCheckGripLock = true)
         {
             bool bStatus;
 

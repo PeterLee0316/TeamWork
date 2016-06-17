@@ -15,6 +15,7 @@ using Syncfusion.Windows.Forms.Tools;
 using Excel = Microsoft.Office.Interop.Excel;
 
 using static LWDicer.Control.DEF_Yaskawa;
+using static LWDicer.Control.DEF_DataManager;
 
 namespace LWDicer.UI
 {
@@ -39,7 +40,7 @@ namespace LWDicer.UI
             InitializeForm();
 
             m_WaferDataForm = new FormWaferData();
-            m_ModelDataForm = new FormModelData();
+            m_ModelDataForm = new FormModelData(EListHeaderType.MODEL);
             m_ScannerDataForm = new FormScannerData();
             m_CylinderDataForm = new FormCylinderData();
             m_MotorDataForm = new FormMotorData();

@@ -347,6 +347,12 @@ namespace LWDicer.Control
                         // Do Thread Step
                         switch (ThreadStep1)
                         {
+                            case (int)TRS_PUSHPULL_MOVETO_WAIT_POS:
+                                iResult = m_RefComp.ctrlPushPull.MoveToWaitPos(false);
+                                if (iResult != SUCCESS) { ReportAlarm(iResult); break; }
+                                SetStep1((int)TRS_PUSHPULL_WAITFOR_MESSAGE);
+                                break;
+
                             case (int)TRS_PUSHPULL_WAITFOR_MESSAGE:
 
                                 // 0. check default status;
@@ -362,22 +368,22 @@ namespace LWDicer.Control
                                     {
                                         // unload to coater
                                         case EProcessPhase.PUSHPULL_UNLOAD_TO_COATER:
-                                            //SetStep1((int)TRS_PUSHPULL_REQUEST_COATER_LOADING);
+                                            SetStep1((int)TRS_PUSHPULL_STARTING_UNLOADING_TO_SPINNER);
                                             break;
 
                                         // unload to handler
                                         case EProcessPhase.PUSHPULL_UNLOAD_TO_HANDLER:
-                                            SetStep1((int)TRS_PUSHPULL_REQUEST_HANDLER_LOADING);
+                                            SetStep1((int)TRS_PUSHPULL_STARTING_UNLOADING_TO_HANDLER);
                                             break;
 
                                         // unload to cleaner
                                         case EProcessPhase.PUSHPULL_UNLOAD_TO_CLEANER:
-                                            //SetStep1((int)TRS_PUSHPULL_REQUEST_CLEANER_LOADING);
+                                            SetStep1((int)TRS_PUSHPULL_STARTING_UNLOADING_TO_SPINNER);
                                             break;
 
                                         // unload to loader
                                         case EProcessPhase.PUSHPULL_UNLOAD_TO_LOADER:
-                                            SetStep1((int)TRS_PUSHPULL_REQUEST_LOADER_LOADING);
+                                            SetStep1((int)TRS_PUSHPULL_STARTING_UNLOADING_TO_LOADER);
                                             break;
                                     }
                                 }
@@ -398,7 +404,7 @@ namespace LWDicer.Control
                                             {
                                                 bStepBreak = true;
                                                 spinnerIndex = i;
-                                                SetStep1((int)TRS_PUSHPULL_LOADING_FROM_SPINNER);
+                                                SetStep1((int)TRS_PUSHPULL_STARTING_LOADING_FROM_SPINNER);
                                                 break;
                                             }
 
@@ -409,7 +415,7 @@ namespace LWDicer.Control
                                             {
                                                 bStepBreak = true;
                                                 spinnerIndex = i;
-                                                SetStep1((int)TRS_PUSHPULL_LOADING_FROM_SPINNER);
+                                                SetStep1((int)TRS_PUSHPULL_STARTING_LOADING_FROM_SPINNER);
                                                 break;
                                             }
                                         }
@@ -423,62 +429,188 @@ namespace LWDicer.Control
                                         if (nEmptyCount_Spinner > 0)
                                         {
                                             bStepBreak = true;
-                                            SetStep1((int)TRS_PUSHPULL_LOADING_FROM_HANDLER);
+                                            SetStep1((int)TRS_PUSHPULL_STARTING_LOADING_FROM_HANDLER);
                                             break;
                                         }
                                     }
                                     if (bStepBreak == true) break; // for break switch case
 
-                                    // 2.3 Spinner가 두군데 모두 비어있다면, Coater작업을 위한 zone은 확보되어있으므로
-                                    if (nEmptyCount_Spinner > 1)
+                                    // 2.3 Loader로부터 새로운 제품을 loading
+                                    // 조건 1 : Spinner가 두군데 모두 비어있다면, Coater작업을 위한 zone은 확보되어있으므로
+                                    // 조건 2 : Spinner가 한군데 비어있고, Load Handler가 비어있다면
+                                    if (nEmptyCount_Spinner > 1
+                                        || (nEmptyCount_Spinner == 1 && m_bUpperHandler_WaitLoadingStart))
                                     {
                                         // Loader에 빈 slot이 있는지는 상세 스텝에서 질의 하는것이 맞을듯함.
                                         bStepBreak = true;
-                                        SetStep1((int)TRS_PUSHPULL_LOADING_FROM_LOADER);
+                                        SetStep1((int)TRS_PUSHPULL_STARTING_LOADING_FROM_LOADER);
                                         break;
                                     }
                                     if (bStepBreak == true) break; // for break switch case
-
-                                    // 2.4 Spinner가 한군데 비어있고, Loader가 비어있다면
-
                                 }
-
                                 break;
 
-                                ///////////////////////////////////////////////////
-                                // transfer wafer to loader from wafer
-                            //case (int)TRS_PUSHPULL_REQUEST_LOADER_LOADING:
-                            //    PostMsg(TrsLoader, (int)MSG_PUSHPULL_LOADER_REQUEST_LOADING);
+                            ///////////////////////////////////////////////////////////////////
+                            // with loader // wafer : loader -> pushpull                  
+                            case (int)TRS_PUSHPULL_STARTING_LOADING_FROM_LOADER:      // move to load pos
+                            case (int)TRS_PUSHPULL_PRE_LOADING_FROM_LOADER:           // extend guide: send load ready signal
+                            case (int)TRS_PUSHPULL_WAITFOR_LOADER_UNLOAD_READY:       // wait for respense signal
+                            case (int)TRS_PUSHPULL_LOADING_FROM_LOADER:               // withdraw guide: send vacuum complete signal
+                            case (int)TRS_PUSHPULL_WAITFOR_LOADER_UNLOAD_COMPLETE:    // wait for respense signal
+                            case (int)TRS_PUSHPULL_FINISHING_LOADING_FROM_LOADER:     // move to wait pos: send load complete signal
+                                iResult = m_RefComp.ctrlPushPull.MoveToWaitPos(true);
+                                if (iResult != SUCCESS) { ReportAlarm(iResult); break; }
 
-                            //    SetStep1((int)TRS_PUSHPULL_WAITFOR_LOADER_READY_LOADING);
-                            //    break;
+                                SetStep1((int)TRS_PUSHPULL_WAITFOR_MESSAGE);
+                                break;
 
-                            //case (int)TRS_PUSHPULL_WAITFOR_LOADER_READY_LOADING:
-                            //    if (m_bLoader_ReadyLoading == false) break;
-                            //    m_bLoader_ReadyLoading = false;
+                            ///////////////////////////////////////////////////////////////////
+                            // with loader // wafer : pushpull -> loader                  
+                            case (int)TRS_PUSHPULL_STARTING_UNLOADING_TO_LOADER:      // move to unload pos
+                            case (int)TRS_PUSHPULL_REQUEST_LOADER_LOADING:            // send load request signal
+                            case (int)TRS_PUSHPULL_WAITFOR_LOADER_LOAD_READY:         // wait for respense signal
+                            case (int)TRS_PUSHPULL_UNLOADING_TO_LOADER:               // extend guide: send vacuum complete signal
+                            case (int)TRS_PUSHPULL_WAITFOR_LOADER_LOAD_COMPLETE:      // wait for respense signal
+                            case (int)TRS_PUSHPULL_FINISHING_UNLOADING_TO_LOADER:     // move to wait pos: send unload complete signal
+                                iResult = m_RefComp.ctrlPushPull.MoveToWaitPos(false);
+                                if (iResult != SUCCESS) { ReportAlarm(iResult); break; }
 
-                            //    SetStep1((int)TRS_PUSHPULL_WAITFOR_LOADER_COMPLETE_LOADING);
-                            //    break;
+                                SetStep1((int)TRS_PUSHPULL_WAITFOR_MESSAGE);
+                                break;
 
-                            //case (int)TRS_PUSHPULL_START_UNLOADING_TO_LOADER:
-                            //    // move to loader
+                            ///////////////////////////////////////////////////////////////////
+                            // with Spinner // wafer : spinner -> pushpull
+                            case (int)TRS_PUSHPULL_STARTING_LOADING_FROM_SPINNER:     // move to load pos
+                            case (int)TRS_PUSHPULL_PRE_LOADING_FROM_SPINNER:          // extend guide: send load ready signal
+                            case (int)TRS_PUSHPULL_WAITFOR_SPINNER_UNLOAD_READY:      // wait for respense signal
+                            case (int)TRS_PUSHPULL_LOADING_FROM_SPINNER:              // withdraw guide: send vacuum complete signal
+                            case (int)TRS_PUSHPULL_WAITFOR_SPINNER_UNLOAD_COMPLETE:   // wait for respense signal
+                            case (int)TRS_PUSHPULL_FINISHING_LOADING_FROM_SPINNER:    // move to wait pos: send load complete signal
+                                iResult = m_RefComp.ctrlPushPull.MoveToWaitPos(true);
+                                if (iResult != SUCCESS) { ReportAlarm(iResult); break; }
 
-                            //    PostMsg(TrsLoader, (int)MSG_PUSHPULL_LOADER_START_UNLOADING);
+                                SetStep1((int)TRS_PUSHPULL_WAITFOR_MESSAGE);
+                                break;
 
-                            //    SetStep1((int)TRS_PUSHPULL_WAITFOR_LOADER_COMPLETE_LOADING);
-                            //    break;
+                            ///////////////////////////////////////////////////////////////////
+                            // with Spinner // wafer : pushpull -> spinner
+                            case (int)TRS_PUSHPULL_STARTING_UNLOADING_TO_SPINNER:     // move to unload pos
+                            case (int)TRS_PUSHPULL_REQUEST_SPINNER_LOADING:           // send load request signal
+                            case (int)TRS_PUSHPULL_WAITFOR_SPINNER_LOAD_READY:        // wait for respense signal
+                            case (int)TRS_PUSHPULL_UNLOADING_TO_SPINNER:              // extend guide: send vacuum complete signal
+                            case (int)TRS_PUSHPULL_WAITFOR_SPINNER_LOAD_COMPLETE:     // wait for respense signal
+                            case (int)TRS_PUSHPULL_FINISHING_UNLOADING_TO_SPINNER:    // move to wait pos: send unload complete signal
+                                iResult = m_RefComp.ctrlPushPull.MoveToWaitPos(false);
+                                if (iResult != SUCCESS) { ReportAlarm(iResult); break; }
 
-                            //case (int)TRS_PUSHPULL_WAITFOR_LOADER_COMPLETE_LOADING:
-                            //    PostMsg(TrsLoader, (int)MSG_PUSHPULL_LOADER_REQUEST_LOADING);
+                                SetStep1((int)TRS_PUSHPULL_WAITFOR_MESSAGE);
+                                break;
 
-                            //    SetStep1((int)TRS_PUSHPULL_COMPLETE_UNLOADING_TO_LOADER);
-                            //    break;
+                            ///////////////////////////////////////////////////////////////////
+                            // with handler // wafer : handler -> pushpull
+                            case (int)TRS_PUSHPULL_STARTING_LOADING_FROM_HANDLER:     // move to load pos
+                                iResult = m_RefComp.ctrlPushPull.MoveToHandlerPos(false);
+                                if (iResult != SUCCESS) { ReportAlarm(iResult); break; }
 
-                            //case (int)TRS_PUSHPULL_COMPLETE_UNLOADING_TO_LOADER:
-                            //    PostMsg(TrsLoader, (int)MSG_PUSHPULL_LOADER_REQUEST_LOADING);
+                                iResult = m_RefComp.ctrlPushPull.GripRelease();
+                                if (iResult != SUCCESS) { ReportAlarm(iResult); break; }
 
-                            //    SetStep1((int)TRS_PUSHPULL_WAITFOR_MESSAGE);
-                            //    break;
+                                iResult = m_RefComp.ctrlPushPull.MoveAllCenterUnitToWaitPos();
+                                if (iResult != SUCCESS) { ReportAlarm(iResult); break; }
+
+                                PostMsg(TrsHandler, MSG_PUSHPULL_LOWER_HANDLER_REQUEST_UNLOADING);
+                                SetStep1((int)TRS_PUSHPULL_PRE_LOADING_FROM_HANDLER);
+                                break;
+
+                            case (int)TRS_PUSHPULL_PRE_LOADING_FROM_HANDLER:          // extend guide: send load ready signal
+                                PostMsg_Interval(TrsHandler, MSG_PUSHPULL_LOWER_HANDLER_REQUEST_UNLOADING);
+                                if (m_bLowerHandler_StartUnloading == false) break;
+
+                                PostMsg(TrsHandler, MSG_PUSHPULL_LOWER_HANDLER_START_LOADING);
+                                SetStep1((int)TRS_PUSHPULL_WAITFOR_HANDLER_UNLOAD_READY);
+                                break;
+
+                            case (int)TRS_PUSHPULL_WAITFOR_HANDLER_UNLOAD_READY:      // wait for respense signal
+                                PostMsg_Interval(TrsHandler, MSG_PUSHPULL_LOWER_HANDLER_START_LOADING);
+                                if (m_bLowerHandler_RequestAbsorb == false) break;
+
+                                SetStep1((int)TRS_PUSHPULL_LOADING_FROM_HANDLER);
+                                break;
+
+                            case (int)TRS_PUSHPULL_LOADING_FROM_HANDLER:              // withdraw guide: send vacuum complete signal
+                                iResult = m_RefComp.ctrlPushPull.GripLock();
+                                if (iResult != SUCCESS) { ReportAlarm(iResult); break; }
+
+                                PostMsg(TrsHandler, MSG_PUSHPULL_LOWER_HANDLER_ABSORB_COMPLETE);
+                                SetStep1((int)TRS_PUSHPULL_WAITFOR_HANDLER_UNLOAD_COMPLETE);
+                                break;
+
+                            case (int)TRS_PUSHPULL_WAITFOR_HANDLER_UNLOAD_COMPLETE:   // wait for respense signal
+                                PostMsg_Interval(TrsHandler, MSG_PUSHPULL_LOWER_HANDLER_ABSORB_COMPLETE);
+                                if (m_bLowerHandler_CompleteUnloading == false) break;
+
+                                iResult = m_RefComp.ctrlPushPull.MoveAllCenterUnitToCenteringPos();
+                                if (iResult != SUCCESS) { ReportAlarm(iResult); break; }
+
+                                PostMsg(TrsHandler, MSG_PUSHPULL_LOWER_HANDLER_COMPLETE_LOADING);
+                                SetStep1((int)TRS_PUSHPULL_FINISHING_LOADING_FROM_HANDLER);
+                                break;
+
+                            case (int)TRS_PUSHPULL_FINISHING_LOADING_FROM_HANDLER:    // move to wait pos: send load complete signal
+                                iResult = m_RefComp.ctrlPushPull.MoveToWaitPos(true);
+                                if (iResult != SUCCESS) { ReportAlarm(iResult); break; }
+
+                                SetStep1((int)TRS_PUSHPULL_WAITFOR_MESSAGE);
+                                break;
+
+                            ///////////////////////////////////////////////////////////////////
+                            // with handler // wafer : pushpull -> handler
+                            case (int)TRS_PUSHPULL_STARTING_UNLOADING_TO_HANDLER:     // move to unload pos
+                                iResult = m_RefComp.ctrlPushPull.MoveToHandlerPos(true);
+                                if (iResult != SUCCESS) { ReportAlarm(iResult); break; }
+
+                                PostMsg(TrsHandler, MSG_PUSHPULL_UPPER_HANDLER_REQUEST_LOADING);
+                                SetStep1((int)TRS_PUSHPULL_REQUEST_HANDLER_LOADING);
+                                break;
+
+                            case (int)TRS_PUSHPULL_REQUEST_HANDLER_LOADING:           // send load request signal
+                                PostMsg_Interval(TrsHandler, MSG_PUSHPULL_UPPER_HANDLER_REQUEST_LOADING);
+                                if (m_bUpperHandler_StartLoading == false) break;
+
+                                SetStep1((int)TRS_PUSHPULL_WAITFOR_HANDLER_LOAD_READY);
+                                break;
+
+                            case (int)TRS_PUSHPULL_WAITFOR_HANDLER_LOAD_READY:        // wait for respense signal
+                                PostMsg_Interval(TrsHandler, MSG_PUSHPULL_UPPER_HANDLER_REQUEST_LOADING);
+                                if (m_bUpperHandler_RequestRelease == false) break;
+
+                                iResult = m_RefComp.ctrlPushPull.GripRelease();
+                                if (iResult != SUCCESS) { ReportAlarm(iResult); break; }
+
+                                iResult = m_RefComp.ctrlPushPull.MoveAllCenterUnitToWaitPos();
+                                if (iResult != SUCCESS) { ReportAlarm(iResult); break; }
+
+                                SetStep1((int)TRS_PUSHPULL_UNLOADING_TO_HANDLER);
+                                break;
+
+                            case (int)TRS_PUSHPULL_UNLOADING_TO_HANDLER:              // extend guide: send vacuum complete signal
+                                PostMsg_Interval(TrsHandler, MSG_PUSHPULL_UPPER_HANDLER_RELEASE_COMPLETE);
+                                if (m_bUpperHandler_CompleteLoading == false) break;
+
+                                PostMsg(TrsHandler, MSG_PUSHPULL_UPPER_HANDLER_COMPLETE_UNLOADING);
+                                SetStep1((int)TRS_PUSHPULL_WAITFOR_HANDLER_LOAD_COMPLETE);
+                                break;
+
+                            case (int)TRS_PUSHPULL_WAITFOR_HANDLER_LOAD_COMPLETE:     // wait for respense signal
+                                SetStep1((int)TRS_PUSHPULL_FINISHING_UNLOADING_TO_HANDLER);
+                                break;
+
+                            case (int)TRS_PUSHPULL_FINISHING_UNLOADING_TO_HANDLER:    // move to wait pos: send unload complete signal
+                                iResult = m_RefComp.ctrlPushPull.MoveToWaitPos(false);
+                                if (iResult != SUCCESS) { ReportAlarm(iResult); break; }
+
+                                SetStep1((int)TRS_PUSHPULL_WAITFOR_MESSAGE);
+                                break;
 
                             default:
                                 break;

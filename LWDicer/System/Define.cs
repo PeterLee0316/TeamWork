@@ -414,7 +414,8 @@ namespace LWDicer.Control
         // Language
         public enum ELanguage
         {
-            KOREAN,
+            NONE = -1,
+            KOREAN = 0,
             ENGLISH,
             CHINESE,
             JAPANESE,
@@ -563,8 +564,12 @@ namespace LWDicer.Control
             /////////////////////////////////////////////////////////////////////
             // Table
             public string TableSystem       { get; private set; } // System Data
-            public string TableModel        { get; private set; } // Model Data
             public string TableModelHeader  { get; private set; } // Model and Parent directory Header
+            public string TableModel { get; private set; } // Model Data
+            public string TableCassetteHeader { get; private set; } // Model and Parent directory Header
+            public string TableCassette { get; private set; } // Cassette Data
+            public string TableWaferFrameHeader { get; private set; } // Model and Parent directory Header
+            public string TableWaferFrame { get; private set; } // WaferFrame Data
             public string TablePos          { get; private set; } // Position Data
             public string TableIO           { get; private set; } // IO Information
             public string TableAlarmInfo    { get; private set; } // Alarm Information
@@ -592,45 +597,49 @@ namespace LWDicer.Control
             public CDBInfo()
             {
                 // System and Model DB
-                DBDir             = ConfigurationManager.AppSettings["AppFilePath"]/* + @"\Data\"*/;
-                DBName            = "LWD_Data_v01.db3";
-                DBName_Backup     = "LWD_DataB_v01.db3";
-                DBConn            = $"Data Source={DBDir}{DBName}";
-                DBConn_Backup     = $"Data Source={DBDir}{DBName_Backup}";
-                DBName_Info       = "LWD_Info_v01.db3";
-                DBConn_Info       = $"Data Source={DBDir}{DBName_Info}";
+                DBDir                   = ConfigurationManager.AppSettings["AppFilePath"]/* + @"\Data\"*/;
+                DBName                  = "LWD_Data_v01.db3";
+                DBName_Backup           = "LWD_DataB_v01.db3";
+                DBConn                  = $"Data Source={DBDir}{DBName}";
+                DBConn_Backup           = $"Data Source={DBDir}{DBName_Backup}";
+                DBName_Info             = "LWD_Info_v01.db3";
+                DBConn_Info             = $"Data Source={DBDir}{DBName_Info}";
 
-                TableSystem       = "SystemDB";
-                TableModel        = "ModelDB";
-                TableModelHeader  = "ModelHeader";
-                TablePos          = "PositionDB";
+                TableSystem             = "SystemDB";
+                TableModelHeader        = "ModelHeader";
+                TableModel              = "ModelDB";
+                TableCassetteHeader     = "CassetteHeader";
+                TableCassette           = "CassetteDB";
+                TableWaferFrameHeader   = "WaferFrameHeader";
+                TableWaferFrame         = "WaferFrameDB";
+                TablePos                = "PositionDB";
 
-                TableIO           = "IO";
-                TableAlarmInfo    = "AlarmInfo";
-                TableMsgInfo      = "MessageInfo";
-                TableParameter    = "Parameter";
+                TableIO                 = "IO";
+                TableAlarmInfo          = "AlarmInfo";
+                TableMsgInfo            = "MessageInfo";
+                TableParameter          = "Parameter";
 
                 // Developer's and Event Log DB
-                DBDir_Log         = ConfigurationManager.AppSettings["AppFilePath"]/* + @"\Log\"*/;
-                DBName_DLog       = "LWD_DLog_v01.db3";
-                DBConn_DLog       = $"Data Source={DBDir_Log}{DBName_DLog}";
-                DBName_ELog       = "LWD_ELog_v01.db3";
-                DBConn_ELog       = $"Data Source={DBDir_Log}{DBName_ELog}";
+                DBDir_Log               = ConfigurationManager.AppSettings["AppFilePath"]/* + @"\Log\"*/;
+                DBName_DLog             = "LWD_DLog_v01.db3";
+                DBConn_DLog             = $"Data Source={DBDir_Log}{DBName_DLog}";
+                DBName_ELog             = "LWD_ELog_v01.db3";
+                DBConn_ELog             = $"Data Source={DBDir_Log}{DBName_ELog}";
 
-                TableLoginHistory = "LoginHistory";
-                TableAlarmHistory = "AlarmHistory";
-                TableDebugLog     = "DLog";
-                TableEventLog     = "ELog";
+                TableLoginHistory       = "LoginHistory";
+                TableAlarmHistory       = "AlarmHistory";
+                TableDebugLog           = "DLog";
+                TableEventLog           = "ELog";
 
-                ExcelIOList       = "LWDicer_IO_List.xlsx";
-                ExcelSystemData   = "SystemData.xlsx";
-                ExcelSystemPara   = "SystemParaData.xlsx";
+                ExcelIOList             = "LWDicer_IO_List.xlsx";
+                ExcelSystemData         = "SystemData.xlsx";
+                ExcelSystemPara         = "SystemParaData.xlsx";
 
                 // Model Dir
-                SystemDir = ConfigurationManager.AppSettings["AppFilePath"] + @"\SystemData\";
-                ModelDir = ConfigurationManager.AppSettings["AppFilePath"] + @"\ModelData\";
-                ScannerLogDir = ConfigurationManager.AppSettings["AppFilePath"] + @"\ScannerLog\";
-                ImageLogDir = ConfigurationManager.AppSettings["AppFilePath"] + @"\ImageLog\";
+                SystemDir       = ConfigurationManager.AppSettings["AppFilePath"] + @"\SystemData\";
+                ModelDir        = ConfigurationManager.AppSettings["AppFilePath"] + @"\ModelData\";
+                ScannerLogDir   = ConfigurationManager.AppSettings["AppFilePath"] + @"\ScannerLog\";
+                ImageLogDir     = ConfigurationManager.AppSettings["AppFilePath"] + @"\ImageLog\";
 
                 System.IO.Directory.CreateDirectory(DBDir);
                 System.IO.Directory.CreateDirectory(DBDir_Log);
@@ -1103,14 +1112,15 @@ namespace LWDicer.Control
             MSG_PUSHPULL_SPINNER_DO_COATING,               // request do coating
             MSG_PUSHPULL_SPINNER_DO_POST_CLEANING,         // request do post cleaning
 
-            MSG_PUSHPULL_LOWER_HANDLER_REQUEST_LOADING,          // wafer : P -> H
-            //MSG_PUSHPULL_LOWER_HANDLER_START_UNLOADING,          // wafer : P -> H
-            MSG_PUSHPULL_LOWER_HANDLER_RELEASE_COMPLETE,         // wafer : P -> H
-            //MSG_PUSHPULL_LOWER_HANDLER_COMPLETE_UNLOADING,          // wafer : P -> H
-            MSG_PUSHPULL_UPPER_HANDLER_REQUEST_UNLOADING,            // wafer : H -> P
-            //MSG_PUSHPULL_UPPER_HANDLER_START_LOADING,            // wafer : H -> P
-            MSG_PUSHPULL_UPPER_HANDLER_ABSORB_COMPLETE,          // wafer : H -> P
-            //MSG_PUSHPULL_UPPER_HANDLER_COMPLETE_LOADING,            // wafer : H -> P
+            MSG_PUSHPULL_UPPER_HANDLER_REQUEST_LOADING,         // wafer : P -> H
+            MSG_PUSHPULL_UPPER_HANDLER_START_UNLOADING,         // wafer : P -> H
+            MSG_PUSHPULL_UPPER_HANDLER_RELEASE_COMPLETE,        // wafer : P -> H
+            MSG_PUSHPULL_UPPER_HANDLER_COMPLETE_UNLOADING,      // wafer : P -> H
+
+            MSG_PUSHPULL_LOWER_HANDLER_REQUEST_UNLOADING,       // wafer : H -> P
+            MSG_PUSHPULL_LOWER_HANDLER_START_LOADING,           // wafer : H -> P
+            MSG_PUSHPULL_LOWER_HANDLER_ABSORB_COMPLETE,         // wafer : H -> P
+            MSG_PUSHPULL_LOWER_HANDLER_COMPLETE_LOADING,        // wafer : H -> P
 
             // TrsSpinner Message
             MSG_SPINNER_PUSHPULL_WAIT_LOADING_START = 300,
@@ -1238,56 +1248,63 @@ namespace LWDicer.Control
             TRS_PUSHPULL_WAITFOR_MESSAGE,
 
             ///////////////////////////////////////////////////////////////////
-            // with loader
-            // wafer : loader -> pushpull
-            TRS_PUSHPULL_MOVETO_LOAD_LOADER_POS,          // move to load pos from loader
-            TRS_PUSHPULL_PRE_LOADING_FROM_LOADER,         // extend guide, send load ready signal to loader
-            TRS_PUSHPULL_WAITFOR_LOADER_UNLOAD_READY,     // wait for response from loader
-            TRS_PUSHPULL_LOADING_FROM_LOADER,             // withdraw guide, send load complete signal to loader
-            TRS_PUSHPULL_WAITFOR_LOADER_UNLOAD_COMPLETE,  // wait for response from loader
-
-            // wafer : pushpull -> loader
-            TRS_PUSHPULL_MOVETO_UNLOAD_LOADER_POS,        // move to unload pos to loader
-            TRS_PUSHPULL_REQUEST_LOADER_LOADING,          // send load request signal to loader
-            TRS_PUSHPULL_WAITFOR_LOADER_LOAD_READY,       // wait for response from loader
-            TRS_PUSHPULL_UNLOADING_TO_LOADER,             // extend guide, send unload complete signal to loader
-            TRS_PUSHPULL_WAITFOR_LOADER_LOAD_COMPLETE,    // wait for response from loader
+            // with loader // wafer : loader -> pushpull                  
+            TRS_PUSHPULL_STARTING_LOADING_FROM_LOADER,      // move to load pos
+            TRS_PUSHPULL_PRE_LOADING_FROM_LOADER,           // extend guide, send load ready signal
+            TRS_PUSHPULL_WAITFOR_LOADER_UNLOAD_READY,       // wait for respense signal
+            TRS_PUSHPULL_LOADING_FROM_LOADER,               // withdraw guide, send vacuum complete signal
+            TRS_PUSHPULL_WAITFOR_LOADER_UNLOAD_COMPLETE,    // wait for respense signal
+            TRS_PUSHPULL_FINISHING_LOADING_FROM_LOADER,     // move to wait pos, send load complete signal
 
             ///////////////////////////////////////////////////////////////////
-            // with Spinner
-            // wafer : spinner -> pushpull
-            TRS_PUSHPULL_MOVETO_LOAD_SPINNER_POS,          // move to load pos from spinner
-            TRS_PUSHPULL_PRE_LOADING_FROM_SPINNER,         // extend guide, send load ready signal to spinner
-            TRS_PUSHPULL_WAITFOR_SPINNER_UNLOAD_READY,     // wait for response from spinner
-            TRS_PUSHPULL_LOADING_FROM_SPINNER,             // withdraw guide, send load complete signal to spinner
-            TRS_PUSHPULL_WAITFOR_SPINNER_UNLOAD_COMPLETE,  // wait for response from spinner
-
-            // wafer : pushpull -> spinner
-            TRS_PUSHPULL_MOVETO_UNLOAD_SPINNER_POS,        // move to unload pos to spinner
-            TRS_PUSHPULL_REQUEST_SPINNER_LOADING,          // send load request signal to spinner
-            TRS_PUSHPULL_WAITFOR_SPINNER_LOAD_READY,       // wait for response from spinner
-            TRS_PUSHPULL_UNLOADING_TO_SPINNER,             // extend guide, send unload complete signal to spinner
-            TRS_PUSHPULL_WAITFOR_SPINNER_LOAD_COMPLETE,    // wait for response from spinner
+            // with loader // wafer : pushpull -> loader                  
+            TRS_PUSHPULL_STARTING_UNLOADING_TO_LOADER,      // move to unload pos
+            TRS_PUSHPULL_REQUEST_LOADER_LOADING,            // send load request signal
+            TRS_PUSHPULL_WAITFOR_LOADER_LOAD_READY,         // wait for respense signal
+            TRS_PUSHPULL_UNLOADING_TO_LOADER,               // extend guide, send vacuum complete signal
+            TRS_PUSHPULL_WAITFOR_LOADER_LOAD_COMPLETE,      // wait for respense signal
+            TRS_PUSHPULL_FINISHING_UNLOADING_TO_LOADER,     // move to wait pos, send unload complete signal
 
             ///////////////////////////////////////////////////////////////////
-            // with handler
-            // wafer : handler -> pushpull
-            TRS_PUSHPULL_MOVETO_LOAD_HANDLER_POS,          // move to load pos from handler
-            TRS_PUSHPULL_PRE_LOADING_FROM_HANDLER,         // extend guide, send load ready signal to handler
-            TRS_PUSHPULL_WAITFOR_HANDLER_UNLOAD_READY,     // wait for response from handler
-            TRS_PUSHPULL_LOADING_FROM_HANDLER,             // withdraw guide, send load complete signal to handler
-            TRS_PUSHPULL_WAITFOR_HANDLER_UNLOAD_COMPLETE,  // wait for response from handler
+            // with Spinner // wafer : spinner -> pushpull
+            TRS_PUSHPULL_STARTING_LOADING_FROM_SPINNER,     // move to load pos
+            TRS_PUSHPULL_PRE_LOADING_FROM_SPINNER,          // extend guide, send load ready signal
+            TRS_PUSHPULL_WAITFOR_SPINNER_UNLOAD_READY,      // wait for respense signal
+            TRS_PUSHPULL_LOADING_FROM_SPINNER,              // withdraw guide, send vacuum complete signal
+            TRS_PUSHPULL_WAITFOR_SPINNER_UNLOAD_COMPLETE,   // wait for respense signal
+            TRS_PUSHPULL_FINISHING_LOADING_FROM_SPINNER,    // move to wait pos, send load complete signal
 
-            // wafer : pushpull -> handler
-            TRS_PUSHPULL_MOVETO_UNLOAD_HANDLER_POS,        // move to unload pos to handler
-            TRS_PUSHPULL_REQUEST_HANDLER_LOADING,          // send load request signal to handler
-            TRS_PUSHPULL_WAITFOR_HANDLER_LOAD_READY,       // wait for response from handler
-            TRS_PUSHPULL_UNLOADING_TO_HANDLER,             // extend guide, send unload complete signal to handler
-            TRS_PUSHPULL_WAITFOR_HANDLER_LOAD_COMPLETE,    // wait for response from handler
+            ///////////////////////////////////////////////////////////////////
+            // with Spinner // wafer : pushpull -> spinner
+            TRS_PUSHPULL_STARTING_UNLOADING_TO_SPINNER,     // move to unload pos
+            TRS_PUSHPULL_REQUEST_SPINNER_LOADING,           // send load request signal
+            TRS_PUSHPULL_WAITFOR_SPINNER_LOAD_READY,        // wait for respense signal
+            TRS_PUSHPULL_UNLOADING_TO_SPINNER,              // extend guide, send vacuum complete signal
+            TRS_PUSHPULL_WAITFOR_SPINNER_LOAD_COMPLETE,     // wait for respense signal
+            TRS_PUSHPULL_FINISHING_UNLOADING_TO_SPINNER,    // move to wait pos, send unload complete signal
+
+            ///////////////////////////////////////////////////////////////////
+            // with handler // wafer : handler -> pushpull
+            TRS_PUSHPULL_STARTING_LOADING_FROM_HANDLER,     // move to load pos
+            TRS_PUSHPULL_PRE_LOADING_FROM_HANDLER,          // extend guide, send load ready signal
+            TRS_PUSHPULL_WAITFOR_HANDLER_UNLOAD_READY,      // wait for respense signal
+            TRS_PUSHPULL_LOADING_FROM_HANDLER,              // withdraw guide, send vacuum complete signal
+            TRS_PUSHPULL_WAITFOR_HANDLER_UNLOAD_COMPLETE,   // wait for respense signal
+            TRS_PUSHPULL_FINISHING_LOADING_FROM_HANDLER,    // move to wait pos, send load complete signal
+
+            ///////////////////////////////////////////////////////////////////
+            // with handler // wafer : pushpull -> handler
+            TRS_PUSHPULL_STARTING_UNLOADING_TO_HANDLER,     // move to unload pos
+            TRS_PUSHPULL_REQUEST_HANDLER_LOADING,           // send load request signal
+            TRS_PUSHPULL_WAITFOR_HANDLER_LOAD_READY,        // wait for respense signal
+            TRS_PUSHPULL_UNLOADING_TO_HANDLER,              // extend guide, send vacuum complete signal
+            TRS_PUSHPULL_WAITFOR_HANDLER_LOAD_COMPLETE,     // wait for respense signal
+            TRS_PUSHPULL_FINISHING_UNLOADING_TO_HANDLER,    // move to wait pos, send unload complete signal
         }
 
         public enum ETrsHandlerStep
         {
+            ///////////////////////////////////////////////////////////////////
             // Upper/Load Handler
             TRS_UPPER_HANDLER_MOVETO_WAIT1,
             TRS_UPPER_HANDLER_WAIT_MOVETO_LOADING,           // wait for load request signal from pushpull
@@ -1296,11 +1313,13 @@ namespace LWDicer.Control
             TRS_UPPER_HANDLER_WAITFOR_PUSHPULL_UNLOAD_COMPLETE, //
             //TRS_UPPER_HANDLER_MOVETO_LOAD_UP_POS,            // after move up, send load complete signal to pushpull
             TRS_UPPER_HANDLER_MOVETO_WAIT2,
+
             TRS_UPPER_HANDLER_WAIT_MOVETO_UNLOADING,         // wait for unload request signal from stage
             TRS_UPPER_HANDLER_MOVETO_UNLOAD_POS,
             TRS_UPPER_HANDLER_REQUEST_STAGE_LOADING,         // request stage to vacuum absorb
             TRS_UPPER_HANDLER_UNLOADING,                     // after vacuum release + move up, send unload complete signal to stage
 
+            ///////////////////////////////////////////////////////////////////
             // Lower/Unload Handler
             TRS_LOWER_HANDLER_MOVETO_WAIT1,
             TRS_LOWER_HANDLER_WAIT_MOVETO_LOADING,           // wait for load request signal from stage
@@ -1309,6 +1328,7 @@ namespace LWDicer.Control
             TRS_LOWER_HANDLER_WAITFOR_STAGE_UNLOAD_COMPLETE,    //
             //TRS_LOWER_HANDLER_MOVETO_LOAD_UP_POS,            // after move up, send load complete signal to stage
             TRS_LOWER_HANDLER_MOVETO_WAIT2,
+
             TRS_LOWER_HANDLER_WAIT_MOVETO_UNLOADING,         // wait for unload request signal from pushpull
             TRS_LOWER_HANDLER_MOVETO_UNLOAD_POS,
             TRS_LOWER_HANDLER_WAITFOR_PUSHPULL_LOAD_COMPLETE,      // request pushpull to vacuum absorb

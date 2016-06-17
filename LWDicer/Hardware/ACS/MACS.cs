@@ -243,6 +243,7 @@ namespace LWDicer.Control
 
             public CACSChannel(CACSMotionData[] motions = null)
             {
+#if !SIMULATION_MOTION
                 Channel ACS = new Channel();
                 string addressTCP = "10.0.0.100";
                 int portNum = 701;
@@ -262,7 +263,7 @@ namespace LWDicer.Control
                         MotionData[i] = ObjectExtensions.Copy(motions[i]);
                     }
                 }
-
+#endif
             }
 
             public void SetAddress(string strTCP)
@@ -402,7 +403,7 @@ namespace LWDicer.Control
         public void Dispose()
         {
             ThreadStop();
-#if !SIMULATION_MOTION 
+#if !SIMULATION_MOTION
             AllServoStop();
             AllServoOff();
             CloseController();

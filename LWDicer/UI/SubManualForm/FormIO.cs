@@ -36,7 +36,7 @@ namespace LWDicer.UI
         private void UpdateIO(int nBoardNo)
         {
             int i = 0, nNo = 0;
-            string hex = string.Empty;
+            string hex;
 
             for (i = 0; i < 16; i++)
             {
@@ -161,7 +161,7 @@ namespace LWDicer.UI
 
         private void IO_Y_Click(object sender, EventArgs e)
         {
-            string strText = string.Empty;
+            string strText;
             int nNo = 0;
 
             GradientLabel OutPut = sender as GradientLabel;

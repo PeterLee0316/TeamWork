@@ -14,13 +14,29 @@ namespace LWDicer.UI
 {
     public partial class FormCreateMaker : Form
     {
-        private CModelHeader NewHeader;
+        private CListHeader NewHeader;
+        private EListHeaderType ListType;
+        private List<CListHeader> HeaderList;
 
-        public FormCreateMaker()
+        public FormCreateMaker(EListHeaderType type, string parentName)
         {
             InitializeComponent();
 
-            NewHeader = new CModelHeader();
+            NewHeader = new CListHeader();
+            ListType = type;
+            NewHeader.Parent = parentName;
+            switch (type)
+            {
+                case EListHeaderType.MODEL:
+                    HeaderList = CMainFrame.LWDicer.m_DataManager.ModelHeaderList;
+                    break;
+                case EListHeaderType.CASSETTE:
+                    HeaderList = CMainFrame.LWDicer.m_DataManager.CassetteHeaderList;
+                    break;
+                case EListHeaderType.WAFERFRAME:
+                    HeaderList = CMainFrame.LWDicer.m_DataManager.WaferFrameHeaderList;
+                    break;
+            }
         }
 
         private void LabelMakerName_Click(object sender, EventArgs e)
@@ -78,7 +94,7 @@ namespace LWDicer.UI
 
             LabelMakerDir.Text = strModify;
 
-            int nCount = CMainFrame.LWDicer.m_DataManager.ModelHeaderList.Count;
+            int nCount = HeaderList.Count;
 
             if (strModify == "1")
             {
@@ -116,24 +132,20 @@ namespace LWDicer.UI
             // Maker Name 중복 검사
             int i = 0;
 
-            for(i=0;i< CMainFrame.LWDicer.m_DataManager.ModelHeaderList.Count;i++)
+            for(i=0;i< HeaderList.Count;i++)
             {
-                if(NewHeader.Name == CMainFrame.LWDicer.m_DataManager.ModelHeaderList[i].Name)
+                if(NewHeader.Name == HeaderList[i].Name)
                 {
                     CMainFrame.LWDicer.DisplayMsg("현재 등록되어 있는 Maker 입니다.");
                     return;
                 }
             }
 
-            NewHeader.Parent = NewHeader.Name;
             NewHeader.IsFolder = true;
             NewHeader.TreeLevel = 1;
 
-            CMainFrame.LWDicer.m_DataManager.ModelHeaderList.Add(NewHeader);
-
-            CMainFrame.LWDicer.m_DataManager.SaveModelHeaderList();
-
-            CMainFrame.LWDicer.m_DataManager.LoadModelList();
+            HeaderList.Add(NewHeader);
+            CMainFrame.LWDicer.m_DataManager.SaveModelHeaderList(ListType);
 
             FormClose(DialogResult.OK);
         }
@@ -150,10 +162,10 @@ namespace LWDicer.UI
 
         private void FormCreateMaker_Load(object sender, EventArgs e)
         {
-            LabelMakerName.Text = string.Empty;
-            LabelMakerComment.Text = string.Empty;
-            LabelMakerParent.Text = string.Empty;
-            LabelMakerDir.Text = string.Empty;
+            //LabelMakerName.Text;
+            //LabelMakerComment.Text;
+            //LabelMakerParent.Text;
+            //LabelMakerDir.Text;
         }
     }
 }

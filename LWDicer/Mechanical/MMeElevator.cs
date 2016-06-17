@@ -73,16 +73,6 @@ namespace LWDicer.Control
             SAFETY,
             MAX,
         }
-        public enum EFrameDataNo
-        {
-            NONE = -1,
-            No1,
-            No2,
-            No3,
-            No4,
-            No5,
-            MAX,
-        }
 
         //===============================================================================
         //  Cassette Info
@@ -110,7 +100,7 @@ namespace LWDicer.Control
             MAX,
         }
 
-        public class CCassetteData
+        public class CCassetteData_obsolete
         {
             public int nSlotNum;
             public ECassetteWaferType nWaferType;
@@ -130,7 +120,7 @@ namespace LWDicer.Control
         public class CMeElevatorData
         {
             // Cassette Info 
-            public CCassetteData CassetteData = new CCassetteData();
+            public CCassetteData_obsolete CassetteData = new CCassetteData_obsolete();
 
             public int CurrentSlotNum = 0;
 
@@ -147,7 +137,7 @@ namespace LWDicer.Control
             public CMAxisZoneCheck ElevatorZone;
             public CPos_XYTZ ElevatorSafetyPos;
 
-            public CMeElevatorData(CCassetteData CassetteData = null)
+            public CMeElevatorData(CCassetteData_obsolete CassetteData = null)
             {
                 // Cassette Info Copy 
                 if (CassetteData == null) // Cassette Data Init

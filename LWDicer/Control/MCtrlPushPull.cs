@@ -129,7 +129,7 @@ namespace LWDicer.Control
         }
         #endregion
 
-        private int CheckLock_forMove(bool bPanelTransfer, bool bCheckAutoRun = false)
+        private int CheckLock_forMove(bool bPanelTransfer, bool bCheck_WhenAutoRun = false)
         {
             int iResult = SUCCESS;
             bool bDetected, bAbsorbed;
@@ -153,7 +153,7 @@ namespace LWDicer.Control
             }
 
             // Panel이 있든 없든 상관없는 위치들, 가령 대기, 마크 등등의 위치를 위해서
-            if (bCheckAutoRun == true) return SUCCESS;
+            if (bCheck_WhenAutoRun == true) return SUCCESS;
 
             // check object exist when auto run
             if (AutoManualMode == EAutoManual.AUTO)
@@ -234,7 +234,7 @@ namespace LWDicer.Control
             return SUCCESS;
         }
 
-        public int CheckSafety_forMoving(int nTargetPos, bool bPanelTransfer)
+        public int CheckSafety_forPushPullMoving(int nTargetPos, bool bPanelTransfer)
         {
             int iResult = SUCCESS;
 
@@ -271,15 +271,42 @@ namespace LWDicer.Control
             return SUCCESS;
         }
 
-        public int MoveToLoadPos(bool bPanelTransfer, double dYMoveOffset = 0)
+        public int CheckSafety_forCenterMoving(int nTargetPos)
+        {
+            int iResult = SUCCESS;
+
+            // 0. init
+            int curPos = (int)ECenterPos.NONE;
+
+            // 1 check object exist
+            bool bObjectExist = false;
+            iResult = IsObjectDetected(out bObjectExist);
+            if (iResult != SUCCESS) return iResult;
+
+            // 2. object가 감지될때, center unit을 wait위치로 이동시킬경우엔 
+            //    pushpull의 grip lock 혹은 handler, spinner등이 wafer를 받치고 있는지 체크해야하는데..우선은 나중으로.
+
+            // 2. check other unit
+            // 2.1 handler
+
+            // 2.2 elevator
+
+            // 2.3 coater
+
+
+
+            return SUCCESS;
+        }
+
+        public int MoveToLoaderPos(bool bPanelTransfer, double dYMoveOffset = 0)
         {
             double[] dMoveOffset = new double[DEF_XYTZ];
             dMoveOffset[DEF_Y] = dYMoveOffset;
 
-            int iResult = CheckSafety_forMoving((int)EPushPullPos.LOAD, bPanelTransfer);
+            int iResult = CheckSafety_forPushPullMoving((int)EPushPullPos.LOADER, bPanelTransfer);
             if (iResult != SUCCESS) return iResult;
 
-            iResult = m_RefComp.PushPull.MovePushPullToLoadPos(true, false, dMoveOffset);
+            iResult = m_RefComp.PushPull.MovePushPullToLoaderPos(true, false, dMoveOffset);
             if (iResult != SUCCESS) return iResult;
 
             return SUCCESS;
@@ -290,7 +317,7 @@ namespace LWDicer.Control
             double[] dMoveOffset = new double[DEF_XYTZ];
             dMoveOffset[DEF_Y] = dYMoveOffset;
 
-            int iResult = CheckSafety_forMoving((int)EPushPullPos.WAIT, bPanelTransfer);
+            int iResult = CheckSafety_forPushPullMoving((int)EPushPullPos.WAIT, bPanelTransfer);
             if (iResult != SUCCESS) return iResult;
 
             iResult = m_RefComp.PushPull.MovePushPullToWaitPos(true, false, dMoveOffset);
@@ -299,29 +326,90 @@ namespace LWDicer.Control
             return SUCCESS;
         }
 
-        public int MoveToUnload1Pos(bool bPanelTransfer, double dYMoveOffset = 0)
+        public int MoveToHandlerPos(bool bPanelTransfer, double dYMoveOffset = 0)
         {
             double[] dMoveOffset = new double[DEF_XYTZ];
             dMoveOffset[DEF_Y] = dYMoveOffset;
 
-            int iResult = CheckSafety_forMoving((int)EPushPullPos.UNLOAD1, bPanelTransfer);
+            int iResult = CheckSafety_forPushPullMoving((int)EPushPullPos.HANDLER, bPanelTransfer);
             if (iResult != SUCCESS) return iResult;
 
-            iResult = m_RefComp.PushPull.MovePushPullToUnload1Pos(true, false, dMoveOffset);
+            iResult = m_RefComp.PushPull.MovePushPullToHandlerPos(true, false, dMoveOffset);
             if (iResult != SUCCESS) return iResult;
 
             return SUCCESS;
         }
 
-        public int MoveToUnload2Pos(bool bPanelTransfer, double dYMoveOffset = 0)
+
+        public int MoveToSpinner1Pos(bool bPanelTransfer, double dYMoveOffset = 0)
         {
             double[] dMoveOffset = new double[DEF_XYTZ];
             dMoveOffset[DEF_Y] = dYMoveOffset;
 
-            int iResult = CheckSafety_forMoving((int)EPushPullPos.UNLOAD2, bPanelTransfer);
+            int iResult = CheckSafety_forPushPullMoving((int)EPushPullPos.SPINNER1, bPanelTransfer);
             if (iResult != SUCCESS) return iResult;
 
-            iResult = m_RefComp.PushPull.MovePushPullToUnload1Pos(true, false, dMoveOffset);
+            iResult = m_RefComp.PushPull.MovePushPullToSpinner1Pos(true, false, dMoveOffset);
+            if (iResult != SUCCESS) return iResult;
+
+            return SUCCESS;
+        }
+
+        public int MoveToSpinner2Pos(bool bPanelTransfer, double dYMoveOffset = 0)
+        {
+            double[] dMoveOffset = new double[DEF_XYTZ];
+            dMoveOffset[DEF_Y] = dYMoveOffset;
+
+            int iResult = CheckSafety_forPushPullMoving((int)EPushPullPos.SPINNER2, bPanelTransfer);
+            if (iResult != SUCCESS) return iResult;
+
+            iResult = m_RefComp.PushPull.MovePushPullToSpinner1Pos(true, false, dMoveOffset);
+            if (iResult != SUCCESS) return iResult;
+
+            return SUCCESS;
+        }
+
+        public int MoveCenterToPos(ECenterIndex index, int iPos, double dXMoveOffset = 0)
+        {
+            double[] dMoveOffset = new double[DEF_XYTZ];
+            dMoveOffset[DEF_X] = dXMoveOffset;
+
+            int iResult = CheckSafety_forCenterMoving(iPos);
+            if (iResult != SUCCESS) return iResult;
+
+            iResult = m_RefComp.PushPull.MoveCenterToPos(index, iPos, dMoveOffset);
+            if (iResult != SUCCESS) return iResult;
+
+            return SUCCESS;
+        }
+
+        public int MoveAllCenterUnitToWaitPos(double dXMoveOffset = 0)
+        {
+            int iPos = (int)ECenterPos.WAIT;
+
+            double[] dMoveOffset = new double[DEF_XYTZ];
+            dMoveOffset[DEF_X] = dXMoveOffset;
+
+            int iResult = CheckSafety_forCenterMoving(iPos);
+            if (iResult != SUCCESS) return iResult;
+
+            iResult = m_RefComp.PushPull.MoveAllCenterUnitToWaitPos(dMoveOffset);
+            if (iResult != SUCCESS) return iResult;
+
+            return SUCCESS;
+        }
+
+        public int MoveAllCenterUnitToCenteringPos(double dXMoveOffset = 0)
+        {
+            int iPos = (int)ECenterPos.CENTERING;
+
+            double[] dMoveOffset = new double[DEF_XYTZ];
+            dMoveOffset[DEF_X] = dXMoveOffset;
+
+            int iResult = CheckSafety_forCenterMoving(iPos);
+            if (iResult != SUCCESS) return iResult;
+
+            iResult = m_RefComp.PushPull.MoveAllCenterUnitToCenteringPos(dMoveOffset);
             if (iResult != SUCCESS) return iResult;
 
             return SUCCESS;

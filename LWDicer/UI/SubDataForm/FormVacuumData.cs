@@ -173,7 +173,7 @@ namespace LWDicer.UI
 
         private void UpdateScreen(CSystemData_Vacuum systemVacuum)
         {
-            string strText = string.Empty;
+            string strText;
             int i = 0, j = 0;
 
             for (i = 0; i < (int)EObjectVacuum.MAX; i++)

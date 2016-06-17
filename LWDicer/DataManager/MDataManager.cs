@@ -380,8 +380,8 @@ namespace LWDicer.Control
 
             // PushPull
             public CPosition PushPullPos = new CPosition((int)EPushPullPos.MAX);
-            public CPosition Centering1Pos = new CPosition((int)ECenteringPos.MAX);
-            public CPosition Centering2Pos = new CPosition((int)ECenteringPos.MAX);
+            public CPosition Centering1Pos = new CPosition((int)ECenterPos.MAX);
+            public CPosition Centering2Pos = new CPosition((int)ECenterPos.MAX);
 
             // Handler
             public CPosition LHandlerPos = new CPosition((int)EHandlerPos.MAX);
@@ -489,7 +489,7 @@ namespace LWDicer.Control
         /// </summary>
         public class CWaferCassette
         {
-            public string FrameName;
+            public string Name;
             public double Diameter;          // Cassette Frame 지름 ex) 380mm
             public int Slot;                 // 슬롯갯수            ex) 13ea
             public int CassetteSetNo;        // Cassette 갯수 ex) 2ea
@@ -508,7 +508,7 @@ namespace LWDicer.Control
         /// </summary>
         public class CWaferFrame
         {
-            public string FrameName;
+            public string Name;
             public double StagePos;          // Inspection Stage에 적재 되어 있는 Cassette에 PushPull이 Unloading 가능한 Elevator 의 Teaching 높이 ex) 450.5mm
             public double UnloadElevatorPos; // Elevator Start Origin Position에서 Unloading을 위하여 Cassette Offset 높이 ex) -1mm 하강
             public double LoadPushPullPos;   // PushPull 끝단에 설치 되어 있는 감지센서 부터 Cassette에 적재되어 있는 Wafer 까지 거리 ex) 61mm
@@ -529,12 +529,21 @@ namespace LWDicer.Control
         public const string NAME_ROOT_FOLDER = "root";
         public const string NAME_DEFAULT_MODEL = "default";
 
+
+        public enum EListHeaderType
+        {
+            MODEL = 0,
+            CASSETTE,
+            WAFERFRAME,
+            MAX,
+        }
+
         /// <summary>
-        /// Model의 계층구조를 만들기 위해서 Header만 따로 떼어서 관리.
+        /// Model, Cassette, WaferFrame Data 의 계층구조를 만들기 위해서 Header만 따로 떼어서 관리.
         /// Folder인 경우엔 IsFolder = true & CModelData는 따로 만들지 않음.
         /// Model인 경우엔 IsFolder = false & CModelData에 같은 이름으로 ModelData가 존재함.
         /// </summary>
-        public class CModelHeader
+        public class CListHeader
         {
             // Header
             public string Name;   // unique primary key
@@ -569,6 +578,25 @@ namespace LWDicer.Control
             public string Name = NAME_DEFAULT_MODEL;   // unique primary key
 
             ///////////////////////////////////////////////////////////
+            // Wafer Data
+            public CWaferData Wafer = new CWaferData();
+            public string CassetteName = NAME_DEFAULT_MODEL;    // wafer cassette
+            public string WaferFrameName = NAME_DEFAULT_MODEL;       // wafer frame
+
+            // Spinner Data 
+            public CSpinnerData SpinnerData = new CSpinnerData();
+
+            // Wafer Image Line Data
+            public LineData WaferLineData = new LineData();
+
+            ///////////////////////////////////////////////////////////
+            // Vision Data (Pattern)
+            public CSearchData MacroPatternA = new CSearchData();
+            public CSearchData MacroPatternB = new CSearchData();
+            public CSearchData MicroPatternA = new CSearchData();
+            public CSearchData MicroPatternB = new CSearchData();
+
+            ///////////////////////////////////////////////////////////
             // Function Parameter
 
             // Mechanical Layer
@@ -587,6 +615,8 @@ namespace LWDicer.Control
             // Control Layer
 
 
+            ///////////////////////////////////////////////////////////////
+            // 이하 아래부분 미정리한것들임
             public bool Use2Step_Use;
 
             // Dispenser
@@ -600,29 +630,8 @@ namespace LWDicer.Control
             public bool UseUHandler_WaitPosUseFlag; // 2014.02.21 by ranian. LP->UP 로 갈 때, WP 사용 여부
 
 
-            ///////////////////////////////////////////////////////////
-            // Wafer Data
-            public CWaferData Wafer = new CWaferData();
-
-            // Frame Data
-            public CWaferCassette[] Frame = new CWaferCassette[(int)EFrameDataNo.MAX];
-
-            // Inspection Frame Data
-            public CWaferFrame[] InspectionFrame = new CWaferFrame[(int)EFrameDataNo.MAX];
-
-            // Spinner Data 
-            public CSpinnerData SpinnerData = new CSpinnerData();
-
-            // Wafer Image Line Data
-            public LineData WaferLineData = new LineData();
-
-            ///////////////////////////////////////////////////////////
-            // Vision Data (Pattern)
-            public CSearchData MacroPatternA = new CSearchData();
-            public CSearchData MacroPatternB = new CSearchData();
-            public CSearchData MicroPatternA = new CSearchData();
-            public CSearchData MicroPatternB = new CSearchData();
         }
+
 
     }
 
@@ -649,7 +658,15 @@ namespace LWDicer.Control
         /////////////////////////////////////////////////////////////////////////////////
         // Model Data
         public CModelData ModelData { get; private set; } = new CModelData();
-        public List<CModelHeader> ModelHeaderList { get; set; } = new List<CModelHeader>();
+        public List<CListHeader> ModelHeaderList { get; set; } = new List<CListHeader>();
+
+        // Wafer Cassette Data
+        public CWaferCassette CassetteData { get; private set; } = new CWaferCassette();
+        public List<CListHeader> CassetteHeaderList { get; set; } = new List<CListHeader>();
+
+        // WaferFrame Data
+        public CWaferFrame WaferFrameData { get; private set; } = new CWaferFrame();
+        public List<CListHeader> WaferFrameHeaderList { get; set; } = new List<CListHeader>();
 
         /////////////////////////////////////////////////////////////////////////////////
         // Parameter Data
@@ -708,12 +725,12 @@ namespace LWDicer.Control
             ///////////////////////////////////////
             if(false)
             {
-                CModelHeader header = new CModelHeader();
+                CListHeader header = new CListHeader();
                 ModelHeaderList.Add(header);
 
                 for (int i = 0; i < 3; i++)
                 {
-                    header = new CModelHeader();
+                    header = new CListHeader();
                     header.Name = $"Model{i}";
                     header.Comment = $"Comment{i}";
                     header.Parent = $"Parent{i}";
@@ -1591,27 +1608,45 @@ namespace LWDicer.Control
         /// 이 함수를 호출하여 ModelHeader List를 저장한다
         /// </summary>
         /// <returns></returns>
-        public int SaveModelHeaderList()
+        public int SaveModelHeaderList(EListHeaderType type)
         {
+            List<CListHeader> headerList = ModelHeaderList;
+            string tableName = DBInfo.TableModelHeader;
+            switch (type)
+            {
+                case EListHeaderType.MODEL:
+                    headerList = ModelHeaderList;
+                    tableName = DBInfo.TableModelHeader;
+                    break;
+                case EListHeaderType.CASSETTE:
+                    headerList = CassetteHeaderList;
+                    tableName = DBInfo.TableCassetteHeader;
+                    break;
+                case EListHeaderType.WAFERFRAME:
+                    headerList = WaferFrameHeaderList;
+                    tableName = DBInfo.TableWaferFrameHeader;
+                    break;
+            }
+
             try
             {
                 List<string> querys = new List<string>();
                 string query;
 
                 // 0. create table
-                query = $"CREATE TABLE IF NOT EXISTS {DBInfo.TableModelHeader} (name string primary key, data string)";
+                query = $"CREATE TABLE IF NOT EXISTS {tableName} (name string primary key, data string)";
                 querys.Add(query);
 
                 // 1. delete all
-                query = $"DELETE FROM {DBInfo.TableModelHeader}";
+                query = $"DELETE FROM {tableName}";
                 querys.Add(query);
 
                 // 2. save model list
                 string output;
-                foreach (CModelHeader header in ModelHeaderList)
+                foreach (CListHeader header in headerList)
                 {
                     output = JsonConvert.SerializeObject(header);
-                    query = $"INSERT INTO {DBInfo.TableModelHeader} VALUES ('{header.Name}', '{output}')";
+                    query = $"INSERT INTO {tableName} VALUES ('{header.Name}', '{output}')";
                     querys.Add(query);
                 }
 
@@ -1627,7 +1662,7 @@ namespace LWDicer.Control
                 return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_SAVE_MODEL_LIST);
             }
 
-            WriteLog($"success : save model list", ELogType.Debug);
+            WriteLog($"success : save {type} header list", ELogType.Debug);
             return SUCCESS;
         }
 
@@ -1636,29 +1671,90 @@ namespace LWDicer.Control
             int iResult;
             bool bStatus = true;
 
+            ////////////////////////////////////////////////////////////////////////////////
+            // Model
+            EListHeaderType type = EListHeaderType.MODEL;
             // make root folder
-            if(IsModelHeaderExist(NAME_ROOT_FOLDER) == false)
+            if(IsModelHeaderExist(NAME_ROOT_FOLDER, type) == false)
             {
-                CModelHeader header = new CModelHeader();
+                CListHeader header = new CListHeader();
                 header.SetRootFolder();
                 ModelHeaderList.Add(header);
-                iResult = SaveModelHeaderList();
+                iResult = SaveModelHeaderList(type);
                 if (iResult != SUCCESS) return iResult;
             }
 
-            // make default model
-            if (IsModelHeaderExist(NAME_DEFAULT_MODEL) == false)
+            // make default data
+            if (IsModelHeaderExist(NAME_DEFAULT_MODEL, type) == false)
             {
-                CModelHeader header = new CModelHeader();
+                CListHeader header = new CListHeader();
                 header.SetDefaultModel();
                 ModelHeaderList.Add(header);
-                iResult = SaveModelHeaderList();
+                iResult = SaveModelHeaderList(type);
                 if (iResult != SUCCESS) return iResult;
             }
-            if (IsModelExist(NAME_DEFAULT_MODEL) == false)
+            if (IsModelExist(NAME_DEFAULT_MODEL, type) == false)
             {
-                CModelData model = new CModelData();
-                iResult = SaveModelData(model);
+                CModelData data = new CModelData();
+                iResult = SaveModelData(data);
+                if (iResult != SUCCESS) return iResult;
+            }
+
+            ////////////////////////////////////////////////////////////////////////////////
+            // WaferCassette
+            type = EListHeaderType.CASSETTE;
+            // make root folder
+            if (IsModelHeaderExist(NAME_ROOT_FOLDER, type) == false)
+            {
+                CListHeader header = new CListHeader();
+                header.SetRootFolder();
+                CassetteHeaderList.Add(header);
+                iResult = SaveModelHeaderList(type);
+                if (iResult != SUCCESS) return iResult;
+            }
+
+            // make default data
+            if (IsModelHeaderExist(NAME_DEFAULT_MODEL, type) == false)
+            {
+                CListHeader header = new CListHeader();
+                header.SetDefaultModel();
+                CassetteHeaderList.Add(header);
+                iResult = SaveModelHeaderList(type);
+                if (iResult != SUCCESS) return iResult;
+            }
+            if (IsModelExist(NAME_DEFAULT_MODEL, type) == false)
+            {
+                CWaferCassette data = new CWaferCassette();
+                iResult = SaveModelData(data);
+                if (iResult != SUCCESS) return iResult;
+            }
+
+            ////////////////////////////////////////////////////////////////////////////////
+            // WaferFrame
+            type = EListHeaderType.WAFERFRAME;
+            // make root folder
+            if (IsModelHeaderExist(NAME_ROOT_FOLDER, type) == false)
+            {
+                CListHeader header = new CListHeader();
+                header.SetRootFolder();
+                WaferFrameHeaderList.Add(header);
+                iResult = SaveModelHeaderList(type);
+                if (iResult != SUCCESS) return iResult;
+            }
+
+            // make default data
+            if (IsModelHeaderExist(NAME_DEFAULT_MODEL, type) == false)
+            {
+                CListHeader header = new CListHeader();
+                header.SetDefaultModel();
+                WaferFrameHeaderList.Add(header);
+                iResult = SaveModelHeaderList(type);
+                if (iResult != SUCCESS) return iResult;
+            }
+            if (IsModelExist(NAME_DEFAULT_MODEL, type) == false)
+            {
+                CWaferFrame data = new CWaferFrame();
+                iResult = SaveModelData(data);
                 if (iResult != SUCCESS) return iResult;
             }
 
@@ -1667,12 +1763,39 @@ namespace LWDicer.Control
 
         public int LoadModelList()
         {
+            LoadModelList(EListHeaderType.MODEL);
+            LoadModelList(EListHeaderType.CASSETTE);
+            LoadModelList(EListHeaderType.WAFERFRAME);
+
+            return SUCCESS;
+        }
+
+        public int LoadModelList(EListHeaderType type)
+        {
+            List<CListHeader> headerList = ModelHeaderList;
+            string tableName = DBInfo.TableModelHeader;
+            switch (type)
+            {
+                case EListHeaderType.MODEL:
+                    headerList = ModelHeaderList;
+                    tableName = DBInfo.TableModelHeader;
+                    break;
+                case EListHeaderType.CASSETTE:
+                    headerList = CassetteHeaderList;
+                    tableName = DBInfo.TableCassetteHeader;
+                    break;
+                case EListHeaderType.WAFERFRAME:
+                    headerList = WaferFrameHeaderList;
+                    tableName = DBInfo.TableWaferFrameHeader;
+                    break;
+            }
+
             try
             {
                 string query;
 
                 // 0. select table
-                query = $"SELECT * FROM {DBInfo.TableModelHeader}";
+                query = $"SELECT * FROM {tableName}";
 
                 // 1. get table
                 DataTable datatable;
@@ -1682,14 +1805,14 @@ namespace LWDicer.Control
                 }
 
                 // 2. delete list
-                ModelHeaderList.Clear();
+                headerList.Clear();
 
                 // 3. get list
                 foreach (DataRow row in datatable.Rows)
                 {
                     string output = row["data"].ToString();
-                    CModelHeader header = JsonConvert.DeserializeObject<CModelHeader>(output);
-                    ModelHeaderList.Add(header);
+                    CListHeader header = JsonConvert.DeserializeObject<CListHeader>(output);
+                    headerList.Add(header);
                 }
             }
             catch (Exception ex)
@@ -1698,23 +1821,66 @@ namespace LWDicer.Control
                 return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_LOAD_MODEL_LIST);
             }
 
-            WriteLog($"success : load model list", ELogType.Debug);
+            switch (type)
+            {
+                case EListHeaderType.MODEL:
+                    ModelHeaderList = ObjectExtensions.Copy(headerList);
+                    break;
+                case EListHeaderType.CASSETTE:
+                    CassetteHeaderList = ObjectExtensions.Copy(headerList);
+                    break;
+                case EListHeaderType.WAFERFRAME:
+                    WaferFrameHeaderList = ObjectExtensions.Copy(headerList);
+                    break;
+            }
+
+            WriteLog($"success : load {type} header list", ELogType.Debug);
             return SUCCESS;
         }
 
-        public int GetModelHeaderCount()
+        public int GetModelHeaderCount(EListHeaderType type)
         {
-            int nCount = 0;
+            List<CListHeader> headerList = ModelHeaderList;
+            string tableName = DBInfo.TableModelHeader;
+            switch (type)
+            {
+                case EListHeaderType.MODEL:
+                    headerList = ModelHeaderList;
+                    tableName = DBInfo.TableModelHeader;
+                    break;
+                case EListHeaderType.CASSETTE:
+                    headerList = CassetteHeaderList;
+                    tableName = DBInfo.TableCassetteHeader;
+                    break;
+                case EListHeaderType.WAFERFRAME:
+                    headerList = WaferFrameHeaderList;
+                    tableName = DBInfo.TableWaferFrameHeader;
+                    break;
+            }
 
-            nCount = ModelHeaderList.Count;
+            int nCount = headerList.Count;
 
             return nCount;
         }
 
-        public bool IsModelHeaderExist(string name)
+        public bool IsModelHeaderExist(string name, EListHeaderType type)
         {
+            List<CListHeader> headerList = ModelHeaderList;
+            switch(type)
+            {
+                case EListHeaderType.MODEL:
+                    headerList = ModelHeaderList;
+                    break;
+                case EListHeaderType.CASSETTE:
+                    headerList = CassetteHeaderList;
+                    break;
+                case EListHeaderType.WAFERFRAME:
+                    headerList = WaferFrameHeaderList;
+                    break;
+            }
+
             if (string.IsNullOrEmpty(name)) return false;
-            foreach (CModelHeader header in ModelHeaderList)
+            foreach (CListHeader header in headerList)
             {
                 if(header.Name == name)
                 {
@@ -1724,14 +1890,28 @@ namespace LWDicer.Control
             return false;
         }
 
-        public bool IsModelExist(string name)
+        public bool IsModelExist(string name, EListHeaderType type)
         {
+            string tableName = DBInfo.TableModel;
+            switch (type)
+            {
+                case EListHeaderType.MODEL:
+                    tableName = DBInfo.TableModel;
+                    break;
+                case EListHeaderType.CASSETTE:
+                    tableName = DBInfo.TableCassette;
+                    break;
+                case EListHeaderType.WAFERFRAME:
+                    tableName = DBInfo.TableWaferFrame;
+                    break;
+            }
+
             if (string.IsNullOrEmpty(name)) return false;
             try
             {
                 // 1. load model
                 string output;
-                if (DBManager.SelectRow(DBInfo.DBConn, DBInfo.TableModel, out output, new CDBColumn("name", name)) == true)
+                if (DBManager.SelectRow(DBInfo.DBConn, tableName, out output, new CDBColumn("name", name)) == true)
                 {
                     return true;
                 }
@@ -1745,9 +1925,23 @@ namespace LWDicer.Control
             return false;
         }
 
-        public bool IsModelFolder(string name)
+        public bool IsModelFolder(string name, EListHeaderType type)
         {
-            foreach (CModelHeader header in ModelHeaderList)
+            List<CListHeader> headerList = ModelHeaderList;
+            switch (type)
+            {
+                case EListHeaderType.MODEL:
+                    headerList = ModelHeaderList;
+                    break;
+                case EListHeaderType.CASSETTE:
+                    headerList = CassetteHeaderList;
+                    break;
+                case EListHeaderType.WAFERFRAME:
+                    headerList = WaferFrameHeaderList;
+                    break;
+            }
+
+            foreach (CListHeader header in headerList)
             {
                 if (header.Name == name)
                 {
@@ -1757,9 +1951,23 @@ namespace LWDicer.Control
             return false;
         }
 
-        public int GetModelTreeLevel(string name)
+        public int GetModelTreeLevel(string name, EListHeaderType type)
         {
-            foreach (CModelHeader header in ModelHeaderList)
+            List<CListHeader> headerList = ModelHeaderList;
+            switch (type)
+            {
+                case EListHeaderType.MODEL:
+                    headerList = ModelHeaderList;
+                    break;
+                case EListHeaderType.CASSETTE:
+                    headerList = CassetteHeaderList;
+                    break;
+                case EListHeaderType.WAFERFRAME:
+                    headerList = WaferFrameHeaderList;
+                    break;
+            }
+
+            foreach (CListHeader header in headerList)
             {
                 if (header.Name == name)
                 {
@@ -1769,41 +1977,87 @@ namespace LWDicer.Control
             return 0;
         }
 
-        public int DeleteModelHeader(string name)
+        public int DeleteModelHeader(string name, EListHeaderType type)
         {
+            List<CListHeader> headerList = ModelHeaderList;
+            string tableName = DBInfo.TableModelHeader;
+            switch (type)
+            {
+                case EListHeaderType.MODEL:
+                    headerList = ModelHeaderList;
+                    tableName = DBInfo.TableModelHeader;
+                    break;
+                case EListHeaderType.CASSETTE:
+                    headerList = CassetteHeaderList;
+                    tableName = DBInfo.TableCassetteHeader;
+                    break;
+                case EListHeaderType.WAFERFRAME:
+                    headerList = WaferFrameHeaderList;
+                    tableName = DBInfo.TableWaferFrameHeader;
+                    break;
+            }
+
             if (name == NAME_ROOT_FOLDER) return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_DELETE_ROOT_FOLDER);
             if (name == NAME_DEFAULT_MODEL) return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_DELETE_DEFAULT_MODEL);
-            if (IsModelHeaderExist(name) == false) return SUCCESS;
+            if (IsModelHeaderExist(name, type) == false) return SUCCESS;
 
             int index = 0;
-            foreach (CModelHeader header in ModelHeaderList)
+            foreach (CListHeader header in headerList)
             {
                 if (header.Name == name)
                 {
-                    ModelHeaderList.RemoveAt(index);
+                    headerList.RemoveAt(index);
                     break;
                 }
                 index++;
             }
 
-            int iResult = SaveModelHeaderList();
+            int iResult = SaveModelHeaderList(type);
             if (iResult != SUCCESS) return iResult;
 
             return SUCCESS;
         }
 
-        public int DeleteModelData(string name)
+        public int DeleteModelData(string name, EListHeaderType type)
         {
+            List<CListHeader> headerList = ModelHeaderList;
+            string tableName = DBInfo.TableModel;
+            switch (type)
+            {
+                case EListHeaderType.MODEL:
+                    headerList = ModelHeaderList;
+                    tableName = DBInfo.TableModel;
+                    break;
+                case EListHeaderType.CASSETTE:
+                    headerList = CassetteHeaderList;
+                    tableName = DBInfo.TableCassette;
+                    break;
+                case EListHeaderType.WAFERFRAME:
+                    headerList = WaferFrameHeaderList;
+                    tableName = DBInfo.TableWaferFrame;
+                    break;
+            }
+
             if (name == NAME_DEFAULT_MODEL) return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_DELETE_DEFAULT_MODEL);
-            if (IsModelExist(name) == false) return SUCCESS;
+            if (IsModelExist(name, type) == false) return SUCCESS;
 
             // cannot delete current model
-            if (name == SystemData.ModelName) return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_DELETE_DEFAULT_MODEL);
+            switch (type)
+            {
+                case EListHeaderType.MODEL:
+                    if (name == SystemData.ModelName) return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_DELETE_DEFAULT_MODEL);
+                    break;
+                case EListHeaderType.CASSETTE:
+                    if (name == ModelData.CassetteName) return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_DELETE_DEFAULT_MODEL);
+                    break;
+                case EListHeaderType.WAFERFRAME:
+                    if (name == ModelData.WaferFrameName) return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_DELETE_DEFAULT_MODEL);
+                    break;
+            }
 
             try
             {
-                if (DBManager.DeleteRow(DBInfo.DBConn, DBInfo.TableModel, "name", ModelData.Name, 
-                    true, DBInfo.DBConn_Backup) != true)
+                if (DBManager.DeleteRow(DBInfo.DBConn, tableName, "name", name, true, DBInfo.DBConn_Backup) != true)
                 {
                     return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_DELETE_MODEL_DATA);
                 }
@@ -1814,7 +2068,7 @@ namespace LWDicer.Control
                 return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_DELETE_MODEL_DATA);
             }
 
-            WriteLog($"success : delete model [{name}].", ELogType.SYSTEM, ELogWType.SAVE);
+            WriteLog($"success : delete {type} name : {name}.", ELogType.SYSTEM, ELogWType.SAVE);
             return SUCCESS;
         }
 
@@ -1823,14 +2077,16 @@ namespace LWDicer.Control
         /// </summary>
         /// <param name="modelData"></param>
         /// <returns></returns>
-        public int SaveModelData(CModelData modelData)
+        public int SaveModelData(CModelData data)
         {
+            EListHeaderType type = EListHeaderType.MODEL;
+            string tableName = DBInfo.TableModel;
             try
             {
-                ModelData = ObjectExtensions.Copy(modelData);
-                string output = JsonConvert.SerializeObject(ModelData);
+                ModelData = ObjectExtensions.Copy(data);
+                string output = JsonConvert.SerializeObject(data);
 
-                if (DBManager.InsertRow(DBInfo.DBConn, DBInfo.TableModel, "name", ModelData.Name, output,
+                if (DBManager.InsertRow(DBInfo.DBConn, tableName, "name", ModelData.Name, output,
                     true, DBInfo.DBConn_Backup) != true)
                 {
                     return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_SAVE_MODEL_DATA);
@@ -1842,31 +2098,82 @@ namespace LWDicer.Control
                 return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_SAVE_MODEL_DATA);
             }
 
-            WriteLog($"success : save model [{modelData.Name}].", ELogType.SYSTEM, ELogWType.SAVE);
+            WriteLog($"success : save {type} model [{data.Name}].", ELogType.SYSTEM, ELogWType.SAVE);
+            return SUCCESS;
+        }
+
+        public int SaveModelData(CWaferCassette data)
+        {
+            EListHeaderType type = EListHeaderType.MODEL;
+            string tableName = DBInfo.TableCassette;
+            try
+            {
+                CassetteData = ObjectExtensions.Copy(data);
+                string output = JsonConvert.SerializeObject(data);
+
+                if (DBManager.InsertRow(DBInfo.DBConn, tableName, "name", ModelData.Name, output,
+                    true, DBInfo.DBConn_Backup) != true)
+                {
+                    return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_SAVE_MODEL_DATA);
+                }
+            }
+            catch (Exception ex)
+            {
+                WriteExLog(ex.ToString());
+                return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_SAVE_MODEL_DATA);
+            }
+
+            WriteLog($"success : save {type} model [{data.Name}].", ELogType.SYSTEM, ELogWType.SAVE);
+            return SUCCESS;
+        }
+
+        public int SaveModelData(CWaferFrame data)
+        {
+            EListHeaderType type = EListHeaderType.WAFERFRAME;
+            string tableName = DBInfo.TableWaferFrame;
+            try
+            {
+                WaferFrameData = ObjectExtensions.Copy(data);
+                string output = JsonConvert.SerializeObject(data);
+
+                if (DBManager.InsertRow(DBInfo.DBConn, tableName, "name", ModelData.Name, output,
+                    true, DBInfo.DBConn_Backup) != true)
+                {
+                    return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_SAVE_MODEL_DATA);
+                }
+            }
+            catch (Exception ex)
+            {
+                WriteExLog(ex.ToString());
+                return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_SAVE_MODEL_DATA);
+            }
+
+            WriteLog($"success : save {type} model [{data.Name}].", ELogType.SYSTEM, ELogWType.SAVE);
             return SUCCESS;
         }
 
         public int ChangeModel(string name)
         {
+            EListHeaderType type = EListHeaderType.MODEL;
             int iResult;
             // 0. check exist
             if(string.IsNullOrEmpty(name))
             {
                 return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_LOAD_MODEL_DATA);
             }
-            if(IsModelExist(name) == false)
+            if(IsModelExist(name, type) == false)
             {
                 return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_LOAD_MODEL_DATA);
             }
 
-            CModelData modelData = null;
+            CModelData data = null;
             try
             {
-                // 1. load model
                 string output;
+                // 1. load model
                 if (DBManager.SelectRow(DBInfo.DBConn, DBInfo.TableModel, out output, new CDBColumn("name", name)) == true)
                 {
-                    modelData = JsonConvert.DeserializeObject<CModelData>(output);
+                    data = JsonConvert.DeserializeObject<CModelData>(output);
                 }
                 else
                 {
@@ -1882,19 +2189,27 @@ namespace LWDicer.Control
                     SystemData.ModelName = prev_model;
                     return iResult;
                 }
-                
+
+                // 3. set data
+                if (data != null)
+                {
+                    ModelData = ObjectExtensions.Copy(data);
+                }
+
+                // 3.1 load cassette data
+                iResult = LoadCassetteData(data.CassetteName);
+                if (iResult != SUCCESS) return iResult;
+
+                // 3.2 load waferframe data
+                iResult = LoadCassetteData(data.WaferFrameName);
+                if (iResult != SUCCESS) return iResult;
+
+                WriteLog($"success : change model : {ModelData.Name}.", ELogType.SYSTEM, ELogWType.LOAD);
             }
             catch (Exception ex)
             {
                 WriteExLog(ex.ToString());
                 return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_LOAD_MODEL_DATA);
-            }
-
-            // 2. finally, set model data
-            if(modelData != null)
-            {
-                ModelData = modelData;
-                WriteLog($"success : change model [{ModelData.Name}].", ELogType.SYSTEM, ELogWType.LOAD);
             }
 
             // 3. load model offset position
@@ -1911,11 +2226,99 @@ namespace LWDicer.Control
             return SUCCESS;
         }
 
-        public int ViewModelData(string name, out CModelData modelData)
+        public int LoadCassetteData(string name)
         {
-            modelData = new CModelData();
+            EListHeaderType type = EListHeaderType.CASSETTE;
+            int iResult;
             // 0. check exist
-            if (IsModelExist(name) == false)
+            if (string.IsNullOrEmpty(name))
+            {
+                return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_LOAD_MODEL_DATA);
+            }
+            if (IsModelExist(name, type) == false)
+            {
+                return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_LOAD_MODEL_DATA);
+            }
+
+            CWaferCassette data = null;
+            try
+            {
+                string output;
+                // 1.2. load cassette data
+                if (DBManager.SelectRow(DBInfo.DBConn, DBInfo.TableCassette, out output, new CDBColumn("name", name)) == true)
+                {
+                    data = JsonConvert.DeserializeObject<CWaferCassette>(output);
+                }
+                else
+                {
+                    //return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_LOAD_MODEL_DATA);
+                }
+
+                // 2. finally, set model data
+                if (data != null)
+                {
+                    CassetteData = ObjectExtensions.Copy(data);
+                    WriteLog($"success : change c{type} : {name}.", ELogType.SYSTEM, ELogWType.LOAD);
+                }
+            }
+            catch (Exception ex)
+            {
+                WriteExLog(ex.ToString());
+                return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_LOAD_MODEL_DATA);
+            }
+
+            return SUCCESS;
+        }
+
+        public int LoadWaferFrameData(string name)
+        {
+            EListHeaderType type = EListHeaderType.WAFERFRAME;
+            int iResult;
+            // 0. check exist
+            if (string.IsNullOrEmpty(name))
+            {
+                return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_LOAD_MODEL_DATA);
+            }
+            if (IsModelExist(name, type) == false)
+            {
+                return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_LOAD_MODEL_DATA);
+            }
+
+            CWaferFrame data = null;
+            try
+            {
+                string output;
+                // 1.3. load waferframe data
+                if (DBManager.SelectRow(DBInfo.DBConn, DBInfo.TableWaferFrame, out output, new CDBColumn("name", name)) == true)
+                {
+                    data = JsonConvert.DeserializeObject<CWaferFrame>(output);
+                }
+                else
+                {
+                    //return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_LOAD_MODEL_DATA);
+                }
+
+                // 2. finally, set model data
+                if (data != null)
+                {
+                    WaferFrameData = ObjectExtensions.Copy(data);
+                    WriteLog($"success : change c{type} : {name}.", ELogType.SYSTEM, ELogWType.LOAD);
+                }
+            }
+            catch (Exception ex)
+            {
+                WriteExLog(ex.ToString());
+                return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_LOAD_MODEL_DATA);
+            }
+
+            return SUCCESS;
+        }
+
+        public int ViewModelData(string name, out CModelData data)
+        {
+            data = new CModelData();
+            // 0. check exist
+            if (IsModelExist(name, EListHeaderType.MODEL) == false)
             {
                 return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_LOAD_MODEL_DATA);
             }
@@ -1926,7 +2329,69 @@ namespace LWDicer.Control
                 string output;
                 if (DBManager.SelectRow(DBInfo.DBConn, DBInfo.TableModel, out output, new CDBColumn("name", name)) == true)
                 {
-                    modelData = JsonConvert.DeserializeObject<CModelData>(output);
+                    data = JsonConvert.DeserializeObject<CModelData>(output);
+                }
+                else
+                {
+                    return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_LOAD_MODEL_DATA);
+                }
+            }
+            catch (Exception ex)
+            {
+                WriteExLog(ex.ToString());
+                return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_LOAD_MODEL_DATA);
+            }
+
+            return SUCCESS;
+        }
+
+        public int ViewModelData(string name, out CWaferCassette data)
+        {
+            data = new CWaferCassette();
+            // 0. check exist
+            if (IsModelExist(name, EListHeaderType.MODEL) == false)
+            {
+                return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_LOAD_MODEL_DATA);
+            }
+
+            try
+            {
+                // 1. load model
+                string output;
+                if (DBManager.SelectRow(DBInfo.DBConn, DBInfo.TableCassette, out output, new CDBColumn("name", name)) == true)
+                {
+                    data = JsonConvert.DeserializeObject<CWaferCassette>(output);
+                }
+                else
+                {
+                    return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_LOAD_MODEL_DATA);
+                }
+            }
+            catch (Exception ex)
+            {
+                WriteExLog(ex.ToString());
+                return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_LOAD_MODEL_DATA);
+            }
+
+            return SUCCESS;
+        }
+
+        public int ViewModelData(string name, out CWaferFrame data)
+        {
+            data = new CWaferFrame();
+            // 0. check exist
+            if (IsModelExist(name, EListHeaderType.MODEL) == false)
+            {
+                return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_LOAD_MODEL_DATA);
+            }
+
+            try
+            {
+                // 1. load model
+                string output;
+                if (DBManager.SelectRow(DBInfo.DBConn, DBInfo.TableWaferFrame, out output, new CDBColumn("name", name)) == true)
+                {
+                    data = JsonConvert.DeserializeObject<CWaferFrame>(output);
                 }
                 else
                 {

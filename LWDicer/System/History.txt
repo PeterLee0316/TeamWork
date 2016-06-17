@@ -216,10 +216,17 @@ LWDicer의 DataManager에서 데이터를 읽어오기 위한 3가지 함수 : S
 
 // Version : 0.0.24
 // Grade : ★
-// Date : 160613~160614
+// Date : 160613~160617
 // Context
 1. MTrsHandler Lower, Upper Handler Step, Message 뒤바뀐 부분 수정 완료
-2. MTrsPushPull class 작성중...
+2. MMePushPull, MCtrlPushPull Centering -> Center unit으로 이름 변경 및 Center Unit 동시 동작 함수등 추가
+3. MTrsPushPull class 1차 작성. 어떤 Unit과의 작업이 끝난후에, Wafer 존재 유무에 따라 다음 step을 결정하는 부분 및
+   Handler와의 Panel Handshake 부분 작성
+4. Model, Cassette, WaferFrame Data를 리스트로 관리하기 위해서 CModelHeader -> CListHeader 로 이름 변경
+5. CCassetteData 가 선언은 되어있으나 MeElevator에서만 쓰이고, DataManager에 다른 CWaferCassette가 선언되어있어
+   임시로 이름을 CCassetteData -> CCassetteData_obsolete 로 변경함. 추후 이과장이 관련부분 수정 필요함
+6. DataManager에서 Model, Cassette, WaferFrame Data를 각각 List로 관리하도록 관련함수 업데이트 및
+   FormModelData class를 공용으로 사용할 수 있도록 관련 부분 업데이트
 
 ////////////////////////////////////////////////////////////////////////////////////////////
 // LJJ

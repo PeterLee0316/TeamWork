@@ -94,7 +94,7 @@ namespace LWDicer.Control
 
                 byte[] byteData = new byte[1024];
                 int byteCount = 0;
-                string strText = string.Empty;
+                string strText = "";
                 byteCount = m_SerialPort.Read(byteData, 0, 1024);
 
                 for (int i = 0; i < byteCount; i++)

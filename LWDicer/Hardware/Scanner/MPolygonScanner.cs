@@ -1085,7 +1085,7 @@ namespace LWDicer.Control
         /// <param name="strFilePath"></param> : 전송하고자 하는 File Path
         public bool SendTFTPFile(string strIP, string strFilePath)
         {
-            string strTFTP = string.Empty;
+            string strTFTP;
 
             strTFTP = string.Format("tftp -i {0:s} put {1:s}", strIP, strFilePath);
 

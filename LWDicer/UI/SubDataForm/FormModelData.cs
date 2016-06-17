@@ -12,6 +12,7 @@ using Syncfusion.Windows.Forms.Grid;
 using Syncfusion.Windows.Forms;
 using Syncfusion.Windows.Forms.Tools;
 
+using static LWDicer.Control.DEF_Error;
 using static LWDicer.Control.DEF_DataManager;
 
 namespace LWDicer.UI
@@ -22,18 +23,37 @@ namespace LWDicer.UI
         private string strSelMakerName;
         private string strSelModelName;
 
-        private CModelHeader NewHeader;
-        private CModelData NewModel;
         private TreeNode m_node;
 
+        // 아래 4개의 멤버는 공용으로 쓸 수 있도록 added by sjr
+        private EListHeaderType ListType;
+        private List<CListHeader> HeaderList;
+        private string CurrentUsing_ModelName;
+        private string DisplayTypeName;
 
-        private FormCreateMaker m_CreateMakerForm;
-
-        public FormModelData()
+        public FormModelData(EListHeaderType type)
         {
             InitializeComponent();
 
-            m_CreateMakerForm = new FormCreateMaker();
+            ListType = type;
+            switch (type)
+            {
+                case EListHeaderType.MODEL:
+                    HeaderList = CMainFrame.LWDicer.m_DataManager.ModelHeaderList;
+                    CurrentUsing_ModelName = CMainFrame.LWDicer.m_DataManager.SystemData.ModelName;
+                    DisplayTypeName = "Model";
+                    break;
+                case EListHeaderType.CASSETTE:
+                    HeaderList = CMainFrame.LWDicer.m_DataManager.CassetteHeaderList;
+                    CurrentUsing_ModelName = CMainFrame.LWDicer.m_DataManager.ModelData.CassetteName;
+                    DisplayTypeName = "Wafer Cassette";
+                    break;
+                case EListHeaderType.WAFERFRAME:
+                    HeaderList = CMainFrame.LWDicer.m_DataManager.WaferFrameHeaderList;
+                    CurrentUsing_ModelName = CMainFrame.LWDicer.m_DataManager.ModelData.WaferFrameName;
+                    DisplayTypeName = "Wafer Frame";
+                    break;
+            }
 
             nTreeIndex = 0;
 
@@ -41,14 +61,12 @@ namespace LWDicer.UI
 
             InitGrid(0);
 
-            NewHeader = new CModelHeader();
-            NewModel = new CModelData();
             m_node = new TreeNode(NAME_ROOT_FOLDER);
 
-            string strMaker = string.Empty, strName = string.Empty;
+            string strMaker, strName;
 
             // Model List에 등록되어 있는 Model이 없으면 Return
-            if (CMainFrame.LWDicer.m_DataManager.GetModelHeaderCount() == 0)
+            if (HeaderList.Count == 0)
             {
                 return;
             }
@@ -116,8 +134,6 @@ namespace LWDicer.UI
                     GridModelList[j, i].HorizontalAlignment = GridHorizontalAlignment.Center;
                 }
             }
-
-
             // Grid Display Update
             GridModelList.Refresh();
         }
@@ -135,7 +151,7 @@ namespace LWDicer.UI
         private void FormModelData_Load(object sender, EventArgs e)
         {
             // Model List에 등록되어 있는 Model이 없으면 Return
-            if (CMainFrame.LWDicer.m_DataManager.GetModelHeaderCount() == 0)
+            if (HeaderList.Count == 0)
             {
                 return;
             }
@@ -151,9 +167,7 @@ namespace LWDicer.UI
 
         private void MakerlTreeView_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
         {
-            string strParent = string.Empty, strName = string.Empty;
-
-            int nMakerCount = 0, nModelCount = 0, i = 0;
+            int nModelCount = 0;
 
             nTreeIndex = e.Node.Index;
             strSelMakerName = e.Node.Text;
@@ -161,20 +175,16 @@ namespace LWDicer.UI
 
             InitGrid(0);
 
-            nMakerCount = CMainFrame.LWDicer.m_DataManager.GetModelHeaderCount();
-
-            for (i = 0; i < nMakerCount; i++)
+            foreach(CListHeader header in HeaderList)
             {
                 // 전체 Model List에서 사용자가 선택한 Maker Folder에 속해 있는 모든 Model을 Display 한다.
-                if (CMainFrame.LWDicer.m_DataManager.ModelHeaderList[i].Parent == strSelMakerName)
+                if (header.Parent == strSelMakerName)
                 {
-                    strName = CMainFrame.LWDicer.m_DataManager.ModelHeaderList[i].Name;
-
-                    if (CMainFrame.LWDicer.m_DataManager.IsModelFolder(strName) == false)
+                    if (CMainFrame.LWDicer.m_DataManager.IsModelFolder(header.Name, ListType) == false)
                     {
                         nModelCount++;
                         InitGrid(nModelCount);
-                        GridModelList[nModelCount, 1].Text = CMainFrame.LWDicer.m_DataManager.ModelHeaderList[i].Name;
+                        GridModelList[nModelCount, 1].Text = header.Name;
                     }
                 }
             }
@@ -182,50 +192,44 @@ namespace LWDicer.UI
 
         private void UpdateMakerNode()
         {
-            int nMakerCount = 0, nNodeCount = 0, i = 0;
-
-            string strMaker = string.Empty;
-
-            nMakerCount = CMainFrame.LWDicer.m_DataManager.GetModelHeaderCount();
+            int nNodeCount = 0;
 
             m_node.Nodes.Clear();
-
             MakerTreeView.Nodes.Clear();
 
-            for (i = 0; i < nMakerCount;i++)
+            foreach(CListHeader header in HeaderList)
             {
-                strMaker = CMainFrame.LWDicer.m_DataManager.ModelHeaderList[i].Name;
-
-                if(strMaker != NAME_ROOT_FOLDER && strMaker != NAME_DEFAULT_MODEL)
+                if(header.Name != NAME_ROOT_FOLDER && header.Name != NAME_DEFAULT_MODEL)
                 {
-                    if (CMainFrame.LWDicer.m_DataManager.ModelHeaderList[i].IsFolder == true)
+                    if (header.IsFolder == true)
                     {
-                        m_node.Nodes.Add(CMainFrame.LWDicer.m_DataManager.ModelHeaderList[i].Name);
+                        m_node.Nodes.Add(header.Name);
                     }
                 }
             }
 
             MakerTreeView.Nodes.Add(m_node);
-
             MakerTreeView.ExpandAll();
         }
 
         private void BtnMakerCreate_Click(object sender, EventArgs e)
         {
-            if (!CMainFrame.LWDicer.DisplayMsg("새로운 Maker를 생성 하시겠습니까?"))
+            if (!CMainFrame.LWDicer.DisplayMsg($"새로운 Maker를 생성 하시겠습니까?"))
             {
                 return;
             }
 
-            m_CreateMakerForm.ShowDialog();
+            // Maker는 root밑에 한세대만으로 강제 고정함
+            //FormCreateMaker dlg = new FormCreateMaker(ListType, strSelMakerName);
+            FormCreateMaker dlg = new FormCreateMaker(ListType, NAME_ROOT_FOLDER);
+            dlg.ShowDialog();
 
-            if (m_CreateMakerForm.DialogResult != DialogResult.OK)
+            if (dlg.DialogResult != DialogResult.OK)
             {
                 return;
             }
 
             UpdateMakerNode();
-            
         }
 
         private void BtnMakerDelete_Click(object sender, EventArgs e)
@@ -235,80 +239,66 @@ namespace LWDicer.UI
                 return;
             }
 
-            if (!CMainFrame.LWDicer.DisplayMsg("선택하신 Maker를 삭제 시겠습니까?"))
+            if (strSelMakerName == NAME_ROOT_FOLDER)
+            {
+                CMainFrame.LWDicer.DisplayMsg($"Root Directory는 삭제 할수 없습니다.");
+                return;
+            }
+
+            if (!CMainFrame.LWDicer.DisplayMsg($"선택하신 Maker를 삭제 시겠습니까?"))
             {
                 return;
             }
 
             // 삭제 하고자 하는 Maker에 해당하는 Model Data가 있는지 Check
-            int i = 0, nCount = 0;
-            string strCurModel = string.Empty, strName = string.Empty;
-
-            for (i = 0; i < CMainFrame.LWDicer.m_DataManager.GetModelHeaderCount(); i++)
+            int nCount = 0;
+            bool bIsCurrentParent = false;
+            List<string> childList = new List<string>();
+            foreach(CListHeader header in HeaderList)
             {
-                if (strSelMakerName == CMainFrame.LWDicer.m_DataManager.ModelHeaderList[i].Parent)
+                if (strSelMakerName == header.Parent)
                 {
-                    strName = CMainFrame.LWDicer.m_DataManager.ModelHeaderList[i].Name;
+                    nCount++;
+                    childList.Add(header.Name);
 
-                    if (CMainFrame.LWDicer.m_DataManager.IsModelFolder(strName) == false)
+                    if(header.Name == CurrentUsing_ModelName)
                     {
-                        nCount++;
-                    }
-
-                    if (CMainFrame.LWDicer.m_DataManager.SystemData.ModelName == CMainFrame.LWDicer.m_DataManager.ModelHeaderList[i].Name)
-                    {
-                        strCurModel = CMainFrame.LWDicer.m_DataManager.ModelHeaderList[i].Name;
+                        bIsCurrentParent = true;
                     }
                 }
             }
 
-            if (nCount != 0)
+            if (bIsCurrentParent)
             {
-                if (!CMainFrame.LWDicer.DisplayMsg("선택하신 Maker에 하위 Model Data가 존재 합니다. 모두 삭제 시겠습니까?"))
+                CMainFrame.LWDicer.DisplayMsg($"현재 사용중인 Model이 속한 Directory는 삭제 할수 없습니다.");
+                return;
+            }
+
+            if (nCount > 0)
+            {
+                if (!CMainFrame.LWDicer.DisplayMsg($"선택하신 Maker에 하위 {DisplayTypeName} Data가 존재 합니다. 모두 삭제 시겠습니까?"))
                 {
                     return;
                 }
             }
 
-            if (strCurModel == CMainFrame.LWDicer.m_DataManager.SystemData.ModelName)
-            {
-                CMainFrame.LWDicer.DisplayMsg("설비에 적용되어 있는 현재 Model Data는 삭제 할수 없습니다.");
-                return;
-            }
-
-            if (strSelMakerName == NAME_ROOT_FOLDER)
-            {
-                CMainFrame.LWDicer.DisplayMsg("Root Folder는 삭제 할수 없습니다.");
-                return;
-            }
-
-
             // 하위 Model Data Delete
-            RECOUNT:
-            int nModelCount = CMainFrame.LWDicer.m_DataManager.GetModelHeaderCount();
-
-            for (i = 0; i < nModelCount; i++)
+            foreach(string name in childList)
             {
-                // 하위 Model Data Delete
-                if (strSelMakerName == CMainFrame.LWDicer.m_DataManager.ModelHeaderList[i].Parent && CMainFrame.LWDicer.m_DataManager.ModelHeaderList[i].IsFolder == false)
-                {
-                    CMainFrame.LWDicer.m_DataManager.DeleteModelHeader(CMainFrame.LWDicer.m_DataManager.ModelHeaderList[i].Name);
+                CMainFrame.LWDicer.m_DataManager.DeleteModelData(name, ListType);
+                CMainFrame.LWDicer.m_DataManager.DeleteModelHeader(name, ListType);
 
-                    goto RECOUNT;
-                }
             }
-
             // 상위 Maker Delete
-            CMainFrame.LWDicer.m_DataManager.DeleteModelHeader(strSelMakerName);
+            CMainFrame.LWDicer.m_DataManager.DeleteModelHeader(strSelMakerName, ListType);
 
             UpdateMakerNode();
-
             UpdateModelData();
         }
 
         private void BtnModelCreate_Click(object sender, EventArgs e)
         {
-            if (!CMainFrame.LWDicer.DisplayMsg("새로운 Model Data를 생성 하시겠습니까?"))
+            if (!CMainFrame.LWDicer.DisplayMsg($"새로운 {DisplayTypeName} Data를 생성 하시겠습니까?"))
             {
                 return;
             }
@@ -322,93 +312,85 @@ namespace LWDicer.UI
 
             if (strModify == "" || strModify == null)
             {
-                CMainFrame.LWDicer.DisplayMsg("Model Data Name을 입력하여 주십시시오");
+                CMainFrame.LWDicer.DisplayMsg($"{DisplayTypeName} Data Name을 입력하여 주십시시오");
                 return;
             }
 
-            NewHeader.Name = strModify;
-            NewHeader.Comment = strModify;
-            NewHeader.Parent = strSelMakerName;
-            NewHeader.IsFolder = false;
-            NewHeader.TreeLevel = -1;
-
             // Model Name 중복 검사
-            int i = 0;
-            for (i = 0; i < CMainFrame.LWDicer.m_DataManager.GetModelHeaderCount(); i++)
+            if (CMainFrame.LWDicer.m_DataManager.IsModelHeaderExist(strModify, ListType))
             {
-                if (strModify == CMainFrame.LWDicer.m_DataManager.ModelHeaderList[i].Name)
-                {
-                    CMainFrame.LWDicer.DisplayMsg("현재 등록되어 있는 Model 입니다.");
-                    return;
-                }
+                CMainFrame.LWDicer.DisplayMsg($"이미 동일한 이름의 Model or Maker가 존재합니다.");
+                return;
             }
 
-            CMainFrame.LWDicer.m_DataManager.ModelHeaderList.Add(NewHeader);
+            // create model header
+            CListHeader header = new CListHeader();
+            header.Name = strModify;
+            header.Comment = strModify;
+            header.Parent = strSelMakerName;
+            header.IsFolder = false;
+            header.TreeLevel = -1;
 
-            CMainFrame.LWDicer.m_DataManager.SaveModelHeaderList();
+            HeaderList.Add(header);
+            CMainFrame.LWDicer.m_DataManager.SaveModelHeaderList(ListType);
 
-            CMainFrame.LWDicer.m_DataManager.LoadModelList();
+            // create model by using current model
+            switch (ListType)
+            {
+                case EListHeaderType.MODEL:
+                    CModelData modelData = ObjectExtensions.Copy(CMainFrame.LWDicer.m_DataManager.ModelData);
+                    modelData.Name = header.Name;
+                    CMainFrame.LWDicer.m_DataManager.SaveModelData(modelData);
+                    break;
+                case EListHeaderType.CASSETTE:
+                    CWaferCassette cassetteData = ObjectExtensions.Copy(CMainFrame.LWDicer.m_DataManager.CassetteData);
+                    cassetteData.Name = header.Name;
+                    CMainFrame.LWDicer.m_DataManager.SaveModelData(cassetteData);
+                    break;
+                case EListHeaderType.WAFERFRAME:
+                    CWaferFrame waferFrameData = ObjectExtensions.Copy(CMainFrame.LWDicer.m_DataManager.WaferFrameData);
+                    waferFrameData.Name = header.Name;
+                    CMainFrame.LWDicer.m_DataManager.SaveModelData(waferFrameData);
+                    break;
+            }
 
-            NewModel = CMainFrame.LWDicer.m_DataManager.ModelData;
-
-            NewModel.Name = NewHeader.Name;
-
-            CMainFrame.LWDicer.m_DataManager.SaveModelData(NewModel);
-
-            int nRow = 0;
-
-            nRow = GridModelList.Data.RowCount + 1;
-
+            int nRow = GridModelList.Data.RowCount + 1;
             InitGrid(nRow);
 
             GridModelList[nRow, 1].Text = strModify;
-
             UpdateModelData();
-
         }
 
         private void BtnModelDelete_Click(object sender, EventArgs e)
         {
             if (strSelModelName == "" || strSelModelName == null)
             {
-                CMainFrame.LWDicer.DisplayMsg("삭제 하고자 하는 Model Data를 선택하여 주십시시오");
+                CMainFrame.LWDicer.DisplayMsg($"삭제 하고자 하는 {DisplayTypeName} Data를 선택하여 주십시시오");
                 return;
             }
 
-            if (!CMainFrame.LWDicer.DisplayMsg("선택하신 Model Data를 삭제 시겠습니까?"))
+            if (!CMainFrame.LWDicer.DisplayMsg($"선택하신 {DisplayTypeName} Data를 삭제 시겠습니까?"))
             {
                 return;
             }
 
-            if (strSelModelName == CMainFrame.LWDicer.m_DataManager.SystemData.ModelName)
+            if (strSelModelName == CurrentUsing_ModelName)
             {
-                CMainFrame.LWDicer.DisplayMsg("설비에 적용되어 있는 현재 Model Data는 삭제 할수 없습니다.");
+                CMainFrame.LWDicer.DisplayMsg($"현재 사용중인 {DisplayTypeName} Data는 삭제 할수 없습니다.");
                 return;
             }
 
             int i = 0, nNo = 0, nCount = 0, nIndex = 0;
 
-            CMainFrame.LWDicer.m_DataManager.DeleteModelData(strSelModelName);
+            CMainFrame.LWDicer.m_DataManager.DeleteModelData(strSelModelName, ListType);
+            CMainFrame.LWDicer.m_DataManager.DeleteModelHeader(strSelModelName, ListType);
 
-            for (i = 0; i < CMainFrame.LWDicer.m_DataManager.GetModelHeaderCount(); i++)
-            {
-                if (strSelModelName == CMainFrame.LWDicer.m_DataManager.ModelHeaderList[i].Name)
-                {
-                    nNo = i;
-                    break;
-                }
-            }
-
-            CMainFrame.LWDicer.m_DataManager.ModelHeaderList.RemoveAt(nNo);
-
-            CMainFrame.LWDicer.m_DataManager.SaveModelHeaderList();
-
-            for (i = 0; i < CMainFrame.LWDicer.m_DataManager.GetModelHeaderCount(); i++)
+            for (i = 0; i < HeaderList.Count; i++)
             {
                 // 전체 Model List에서 사용자가 선택한 Maker Folder에 속해 있는 모든 Model을 Display 한다.
-                if (CMainFrame.LWDicer.m_DataManager.ModelHeaderList[i].Parent == strSelMakerName)
+                if (HeaderList[i].Parent == strSelMakerName)
                 {
-                    if (CMainFrame.LWDicer.m_DataManager.ModelHeaderList[i].IsFolder == false) // Model Data
+                    if (HeaderList[i].IsFolder == false) // Model Data
                     {
                         nCount++;
                     }
@@ -417,14 +399,14 @@ namespace LWDicer.UI
 
             InitGrid(nCount);
 
-            for (i = 0; i < CMainFrame.LWDicer.m_DataManager.GetModelHeaderCount(); i++)
+            for (i = 0; i < HeaderList.Count; i++)
             {
-                if (CMainFrame.LWDicer.m_DataManager.ModelHeaderList[i].Parent == strSelMakerName)
+                if (HeaderList[i].Parent == strSelMakerName)
                 {
-                    if (CMainFrame.LWDicer.m_DataManager.ModelHeaderList[i].IsFolder == false)
+                    if (HeaderList[i].IsFolder == false)
                     {
                         nIndex++;
-                        GridModelList[nIndex, 1].Text = CMainFrame.LWDicer.m_DataManager.ModelHeaderList[i].Name;
+                        GridModelList[nIndex, 1].Text = HeaderList[i].Name;
                     }
                 }
             }
@@ -435,17 +417,45 @@ namespace LWDicer.UI
         {
             if (strSelModelName == "" || strSelModelName == null)
             {
-                CMainFrame.LWDicer.DisplayMsg("Model을 선택해 주십시오");
+                CMainFrame.LWDicer.DisplayMsg($"Model을 선택해 주십시오");
                 return;
             }
 
-            if (!CMainFrame.LWDicer.DisplayMsg("선택하신 Model Data를 실행 하시겠습니까?"))
+            if (CurrentUsing_ModelName == strSelModelName)
+            {
+                CMainFrame.LWDicer.DisplayMsg($"현재 사용중인 Data 입니다.");
+                return;
+            }
+
+            if (!CMainFrame.LWDicer.DisplayMsg($"선택하신 {DisplayTypeName} Data로 변경 하시겠습니까?"))
             {
                 return;
             }
 
-            CMainFrame.LWDicer.m_DataManager.SystemData.ModelName = strSelModelName;
 
+            int iResult = SUCCESS;
+            // change model
+            switch (ListType)
+            {
+                case EListHeaderType.MODEL:
+                    iResult = CMainFrame.LWDicer.m_DataManager.ChangeModel(strSelModelName);
+                    break;
+                case EListHeaderType.CASSETTE:
+                    iResult = CMainFrame.LWDicer.m_DataManager.LoadCassetteData(strSelModelName);
+                    break;
+                case EListHeaderType.WAFERFRAME:
+                    iResult = CMainFrame.LWDicer.m_DataManager.LoadWaferFrameData(strSelModelName);
+                    break;
+            }
+
+            if(iResult != SUCCESS)
+            {
+                string str = CMainFrame.LWDicer.GetAlarmText(iResult);
+                CMainFrame.LWDicer.DisplayMsg(str);
+                return;
+            }
+
+            CurrentUsing_ModelName = strSelModelName;
             UpdateModelData();
         }
 
@@ -468,61 +478,36 @@ namespace LWDicer.UI
 
         private void UpdateModelData()
         {
-            int nModelNo = 0, i = 0, nCurMakerNo = 0, nModelCount = 0;
-
-            CModelData ChangeModel = new CModelData();
-
-            for (i = 0; i < CMainFrame.LWDicer.m_DataManager.GetModelHeaderCount(); i++)
-            {
-                if (CMainFrame.LWDicer.m_DataManager.ModelHeaderList[i].IsFolder == false)
-                {
-                    if (CMainFrame.LWDicer.m_DataManager.ModelHeaderList[i].Name == CMainFrame.LWDicer.m_DataManager.SystemData.ModelName)
-                    {
-                        nModelNo = i;
-                    }
-                }
-            }
-
-            ChangeModel.Name = CMainFrame.LWDicer.m_DataManager.ModelHeaderList[nModelNo].Name;
-
-            CMainFrame.LWDicer.m_DataManager.ChangeModel(ChangeModel.Name);
-
-            for (i = 0; i < CMainFrame.LWDicer.m_DataManager.GetModelHeaderCount(); i++)
-            {
-                if (CMainFrame.LWDicer.m_DataManager.SystemData.ModelName == CMainFrame.LWDicer.m_DataManager.ModelHeaderList[i].Name)
-                {
-                    nCurMakerNo = i;
-                    break;
-                }
-            }
-
             // UI Update
-            LabelCurMaker.Text = CMainFrame.LWDicer.m_DataManager.ModelHeaderList[nCurMakerNo].Parent;
-
-            strSelMakerName = CMainFrame.LWDicer.m_DataManager.ModelHeaderList[nCurMakerNo].Parent;
-
-            LabelCurModel.Text = CMainFrame.LWDicer.m_DataManager.SystemData.ModelName;
+            LabelCurMaker.Text = strSelMakerName;
+            LabelCurModel.Text = CurrentUsing_ModelName;
 
             // Model Data Update
-            for (i = 0; i < CMainFrame.LWDicer.m_DataManager.GetModelHeaderCount(); i++)
+            int nModelCount = 0;
+            foreach(CListHeader header in HeaderList)
             {
                 // 전체 Model List에서 사용자가 선택한 Maker Folder에 속해 있는 모든 Model을 Display 한다.
-                if (CMainFrame.LWDicer.m_DataManager.ModelHeaderList[nCurMakerNo].Parent == CMainFrame.LWDicer.m_DataManager.ModelHeaderList[i].Parent)
+                if (strSelMakerName == header.Parent)
                 {
-                    if (CMainFrame.LWDicer.m_DataManager.ModelHeaderList[i].IsFolder == false) // Model Data
+                    if (header.IsFolder == false) // Model Data
                     {
                         nModelCount++;
-                        InitGrid(nModelCount);
-                        GridModelList[nModelCount, 1].Text = CMainFrame.LWDicer.m_DataManager.ModelHeaderList[i].Name;
                     }
                 }
             }
 
-            for (i = 0; i < GridModelList.RowCount; i++)
+            InitGrid(nModelCount);
+            int index = 0;
+            foreach (CListHeader header in HeaderList)
             {
-                if (CMainFrame.LWDicer.m_DataManager.SystemData.ModelName == GridModelList[i + 1, 1].Text)
+                // 전체 Model List에서 사용자가 선택한 Maker Folder에 속해 있는 모든 Model을 Display 한다.
+                if (strSelMakerName == header.Parent)
                 {
-                    SelectGridCell(i + 1, 1);
+                    if (header.IsFolder == false) // Model Data
+                    {
+                        GridModelList[index+1, 1].Text = header.Name;
+                        index++;
+                    }
                 }
             }
         }

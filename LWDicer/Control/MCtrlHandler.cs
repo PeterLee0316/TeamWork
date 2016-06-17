@@ -183,9 +183,9 @@ namespace LWDicer.Control
         /// </summary>
         /// <param name="index"></param>
         /// <param name="bPanelTransfer">Object가 있어야 되는지</param>
-        /// <param name="bCheckAutoRun">AutoRun모드에서 Error 발생 여부</param>
+        /// <param name="bCheck_WhenAutoRun">AutoRun모드에서 Error 발생 여부</param>
         /// <returns></returns>
-        private int CheckVacuum_forMoving(EHandlerIndex index, bool bPanelTransfer, bool bCheckAutoRun = false)
+        private int CheckVacuum_forMoving(EHandlerIndex index, bool bPanelTransfer, bool bCheck_WhenAutoRun = false)
         {
             int iResult = SUCCESS;
             bool bDetected, bAbsorbed;
@@ -209,7 +209,7 @@ namespace LWDicer.Control
             }
 
             // Panel이 있든 없든 상관없는 위치들, 가령 대기, 마크 등등의 위치를 위해서
-            if (bCheckAutoRun == true) return SUCCESS;
+            if (bCheck_WhenAutoRun == true) return SUCCESS;
 
             // check object exist when auto run
             if (AutoManualMode == EAutoManual.AUTO)

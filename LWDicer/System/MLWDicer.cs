@@ -208,12 +208,11 @@ namespace LWDicer.Control
             // test load alarm info
             if(false)
             {
-                int iResult = m_ctrlPushPull.MoveToLoadPos(false);
-                CAlarm alarm;
-                GetAlarmInfo(0, iResult, out alarm);
+                int iResult = m_ctrlPushPull.MoveToLoaderPos(false);
+                CAlarm alarm = GetAlarmInfo(0, iResult);
 
                 iResult += 1;
-                GetAlarmInfo(0, iResult, out alarm);
+                alarm = GetAlarmInfo(0, iResult);
 
                 m_DataManager.LoadAlarmHistory();
             }
@@ -249,9 +248,9 @@ namespace LWDicer.Control
             m_DataManager.LoadParaInfo(group, name, out pinfo);
         }
 
-        public void GetAlarmInfo(int pid, int alarmcode, out CAlarm alarm, bool saveLog = true)
+        public CAlarm GetAlarmInfo(int pid, int alarmcode, bool saveLog = true)
         {
-            alarm = new CAlarm();
+            CAlarm alarm = new CAlarm();
             alarm.ProcessID = pid;
             alarm.ObjectID = (int)((alarmcode & 0xffff0000) >> 16);
             alarm.ErrorBase = (int)((alarmcode & 0x0000ffff) / 100) * 100;
@@ -266,6 +265,19 @@ namespace LWDicer.Control
             {
                 m_DataManager.SaveAlarmHistory(alarm);
             }
+            return alarm;
+        }
+
+        public string GetAlarmText(int alarmcode, ELanguage type = ELanguage.NONE)
+        {
+            CAlarm alarm = GetAlarmInfo(0, alarmcode, false);
+            return alarm.Info.Description[(int)type];
+        }
+
+        public string GetAlarmSolution(int alarmcode, ELanguage type = ELanguage.NONE)
+        {
+            CAlarm alarm = GetAlarmInfo(0, alarmcode, false);
+            return alarm.Info.Solution[(int)type];
         }
 
         public int Initialize(CMainFrame form1 = null)
@@ -1278,7 +1290,7 @@ namespace LWDicer.Control
                 m_MePushPull.GetData(out data);
 
                 data.PushPullSafetyPos = m_DataManager.SystemData.MAxSafetyPos.PushPull_Pos;
-                data.CenteringSafetyPos = m_DataManager.SystemData.MAxSafetyPos.Centering_Pos;
+                data.CenterSafetyPos = m_DataManager.SystemData.MAxSafetyPos.Centering_Pos;
                 m_MePushPull.SetData(data);
             }
 
@@ -1377,8 +1389,8 @@ namespace LWDicer.Control
 
             // PushPull
             m_MePushPull.SetPushPullPosition(FixedPos.PushPullPos, ModelPos.PushPullPos, OffsetPos.PushPullPos);
-            m_MePushPull.SetCenteringPosition(DEF_MePushPull.ECenterIndex.CENTER1, FixedPos.Centering1Pos, ModelPos.Centering1Pos, OffsetPos.Centering1Pos);
-            m_MePushPull.SetCenteringPosition(DEF_MePushPull.ECenterIndex.CENTER2, FixedPos.Centering2Pos, ModelPos.Centering2Pos, OffsetPos.Centering2Pos);
+            m_MePushPull.SetCenteringPosition(DEF_MePushPull.ECenterIndex.LEFT, FixedPos.Centering1Pos, ModelPos.Centering1Pos, OffsetPos.Centering1Pos);
+            m_MePushPull.SetCenteringPosition(DEF_MePushPull.ECenterIndex.RIGHT, FixedPos.Centering2Pos, ModelPos.Centering2Pos, OffsetPos.Centering2Pos);
 
             // Spinner
             m_MeSpinner1.SetRotatePosition(FixedPos.S1_RotatePos, ModelPos.S1_RotatePos, OffsetPos.S1_RotatePos);
@@ -1551,8 +1563,8 @@ namespace LWDicer.Control
             refComp.Gripper = m_PushPullGripperCyl;
             refComp.UDCyl = m_PushPullUDCyl;
             refComp.AxPushPull = m_AxPushPull;
-            refComp.AxCentering[(int)ECenterIndex.CENTER1] = m_AxCentering1;
-            refComp.AxCentering[(int)ECenterIndex.CENTER2] = m_AxCentering2;
+            refComp.AxCenter[(int)ECenterIndex.LEFT] = m_AxCentering1;
+            refComp.AxCenter[(int)ECenterIndex.RIGHT] = m_AxCentering2;
             
 
             data.PushPullType[DEF_Y] = EPushPullType.AXIS;
@@ -1560,8 +1572,8 @@ namespace LWDicer.Control
             data.InDetectObject_Front = iUHandler_PanelDetect;
             data.InDetectObject_Rear = iUHandler_PanelDetect;
 
-            data.CenteringZone[(int)ECenterIndex.CENTER1].Axis[DEF_X].ZoneAddr[(int)ECenteringXAxZone.SAFETY] = 111; // need updete io address
-            data.CenteringZone[(int)ECenterIndex.CENTER2].Axis[DEF_X].ZoneAddr[(int)ECenteringXAxZone.SAFETY] = 111; // need updete io address
+            data.CenterZone[(int)ECenterIndex.LEFT].Axis[DEF_X].ZoneAddr[(int)ECenterXAxZone.SAFETY] = 111; // need updete io address
+            data.CenterZone[(int)ECenterIndex.RIGHT].Axis[DEF_X].ZoneAddr[(int)ECenterXAxZone.SAFETY] = 111; // need updete io address
 
             m_MePushPull = new MMePushPull(objInfo, refComp, data);
         }

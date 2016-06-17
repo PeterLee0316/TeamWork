@@ -177,7 +177,7 @@ namespace LWDicer.UI
 
         private void UpdateScreen(CSystemData_Cylinder systemCylinder)
         {
-            string strText = string.Empty;
+            string strText;
             int i = 0, j = 0;
 
             for (i = 0; i < (int)EObjectCylinder.MAX; i++)

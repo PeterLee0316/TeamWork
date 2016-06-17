@@ -31,6 +31,7 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormModelData));
             Syncfusion.Windows.Forms.Grid.GridRangeStyle gridRangeStyle1 = new Syncfusion.Windows.Forms.Grid.GridRangeStyle();
+            Syncfusion.Windows.Forms.Grid.GridRangeStyle gridRangeStyle2 = new Syncfusion.Windows.Forms.Grid.GridRangeStyle();
             this.BtnExit = new System.Windows.Forms.Button();
             this.ServoTitle = new Syncfusion.Windows.Forms.Tools.GradientLabel();
             this.BtnMakerCreate = new System.Windows.Forms.Button();
@@ -116,11 +117,11 @@
             this.BtnModelSelect.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
             this.BtnModelSelect.Image = ((System.Drawing.Image)(resources.GetObject("BtnModelSelect.Image")));
             this.BtnModelSelect.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.BtnModelSelect.Location = new System.Drawing.Point(649, 642);
+            this.BtnModelSelect.Location = new System.Drawing.Point(602, 642);
             this.BtnModelSelect.Name = "BtnModelSelect";
-            this.BtnModelSelect.Size = new System.Drawing.Size(115, 61);
+            this.BtnModelSelect.Size = new System.Drawing.Size(171, 61);
             this.BtnModelSelect.TabIndex = 754;
-            this.BtnModelSelect.Text = "  선택";
+            this.BtnModelSelect.Text = "  선택한 모델로 변경";
             this.BtnModelSelect.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.BtnModelSelect.UseVisualStyleBackColor = true;
             this.BtnModelSelect.Click += new System.EventHandler(this.BtnModelSelect_Click);
@@ -166,7 +167,7 @@
             this.BtnModelDelete.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
             this.BtnModelDelete.Image = ((System.Drawing.Image)(resources.GetObject("BtnModelDelete.Image")));
             this.BtnModelDelete.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.BtnModelDelete.Location = new System.Drawing.Point(527, 642);
+            this.BtnModelDelete.Location = new System.Drawing.Point(481, 642);
             this.BtnModelDelete.Name = "BtnModelDelete";
             this.BtnModelDelete.Size = new System.Drawing.Size(115, 61);
             this.BtnModelDelete.TabIndex = 763;
@@ -181,7 +182,7 @@
             this.BtnModelCreate.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
             this.BtnModelCreate.Image = ((System.Drawing.Image)(resources.GetObject("BtnModelCreate.Image")));
             this.BtnModelCreate.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.BtnModelCreate.Location = new System.Drawing.Point(405, 642);
+            this.BtnModelCreate.Location = new System.Drawing.Point(359, 642);
             this.BtnModelCreate.Name = "BtnModelCreate";
             this.BtnModelCreate.Size = new System.Drawing.Size(115, 61);
             this.BtnModelCreate.TabIndex = 762;
@@ -204,8 +205,17 @@
             gridRangeStyle1.StyleInfo.Font.Strikeout = false;
             gridRangeStyle1.StyleInfo.Font.Underline = false;
             gridRangeStyle1.StyleInfo.Font.Unit = System.Drawing.GraphicsUnit.Point;
+            gridRangeStyle2.Range = Syncfusion.Windows.Forms.Grid.GridRangeInfo.Table();
+            gridRangeStyle2.StyleInfo.Font.Bold = true;
+            gridRangeStyle2.StyleInfo.Font.Facename = "Tahoma";
+            gridRangeStyle2.StyleInfo.Font.Italic = false;
+            gridRangeStyle2.StyleInfo.Font.Size = 11.25F;
+            gridRangeStyle2.StyleInfo.Font.Strikeout = false;
+            gridRangeStyle2.StyleInfo.Font.Underline = false;
+            gridRangeStyle2.StyleInfo.Font.Unit = System.Drawing.GraphicsUnit.Point;
             this.GridModelList.RangeStyles.AddRange(new Syncfusion.Windows.Forms.Grid.GridRangeStyle[] {
-            gridRangeStyle1});
+            gridRangeStyle1,
+            gridRangeStyle2});
             this.GridModelList.SerializeCellsBehavior = Syncfusion.Windows.Forms.Grid.GridSerializeCellsBehavior.SerializeAsRangeStylesIntoCode;
             this.GridModelList.Size = new System.Drawing.Size(461, 537);
             this.GridModelList.SmartSizeBox = false;
