@@ -33,7 +33,7 @@ namespace LWDicer.UI
     public partial class FormWorkStageTeach : Form
     {
         const int FixedData = 0;
-        const int OffSetData = 1;
+        const int OffsetData = 1;
 
         ButtonAdv[] StagePos = new ButtonAdv[15]; // Max Teaching Position : 15
 
@@ -145,7 +145,7 @@ namespace LWDicer.UI
             GridStageTeachTable[3, 0].Text = "고정 좌표";
             GridStageTeachTable[4, 0].Text = "모델 좌표";
             GridStageTeachTable[5, 0].Text = "Cell Mark 보정";
-            GridStageTeachTable[6, 0].Text = "OffSet 좌표";
+            GridStageTeachTable[6, 0].Text = "Offset 좌표";
             GridStageTeachTable[7, 0].Text = "현재 위치";
             GridStageTeachTable[8, 0].Text = "보정값";
 
@@ -277,7 +277,7 @@ namespace LWDicer.UI
                     if (i != 0) GridStageTeachTable[6, i].BackColor = Color.White;
                 }
 
-                if (GetDataMode() == OffSetData)
+                if (GetDataMode() == OffsetData)
                 {
                     if (i != 0) GridStageTeachTable[3, i].BackColor = Color.White;
                     if (i != 0) GridStageTeachTable[6, i].BackColor = Color.LightYellow;
@@ -303,7 +303,7 @@ namespace LWDicer.UI
 
         private void LoadStageTeachingData(int nTeachPos)
         {
-            string strFixedPos = string.Empty, strOffSetPos = string.Empty, strTargetPos = string.Empty, strModelPos = string.Empty;
+            string strFixedPos = string.Empty, strOffsetPos = string.Empty, strTargetPos = string.Empty, strModelPos = string.Empty;
             double dFixedXPos = 0, dOffsetXPos = 0, dTargetXPos = 0, dModelXPos = 0;
             double dFixedYPos = 0, dOffsetYPos = 0, dTargetYPos = 0, dModelYPos = 0;
             double dFixedTPos = 0, dOffsetTPos = 0, dTargetTPos = 0, dModelTPos = 0;
@@ -356,14 +356,14 @@ namespace LWDicer.UI
             GridStageTeachTable[4, 3].Text = strModelPos;
 
             //OffsetPos
-            strOffSetPos = Convert.ToString(CMainFrame.LWDicer.m_DataManager.OffsetPos.Stage1Pos.Pos[nTeachPos].dX);
-            GridStageTeachTable[6, 1].Text = strOffSetPos;
+            strOffsetPos = Convert.ToString(CMainFrame.LWDicer.m_DataManager.OffsetPos.Stage1Pos.Pos[nTeachPos].dX);
+            GridStageTeachTable[6, 1].Text = strOffsetPos;
 
-            strOffSetPos = Convert.ToString(CMainFrame.LWDicer.m_DataManager.OffsetPos.Stage1Pos.Pos[nTeachPos].dY);
-            GridStageTeachTable[6, 2].Text = strOffSetPos;
+            strOffsetPos = Convert.ToString(CMainFrame.LWDicer.m_DataManager.OffsetPos.Stage1Pos.Pos[nTeachPos].dY);
+            GridStageTeachTable[6, 2].Text = strOffsetPos;
 
-            strOffSetPos = Convert.ToString(CMainFrame.LWDicer.m_DataManager.OffsetPos.Stage1Pos.Pos[nTeachPos].dT);
-            GridStageTeachTable[6, 3].Text = strOffSetPos;
+            strOffsetPos = Convert.ToString(CMainFrame.LWDicer.m_DataManager.OffsetPos.Stage1Pos.Pos[nTeachPos].dT);
+            GridStageTeachTable[6, 3].Text = strOffsetPos;
         }
 
         private void GridStageTeachTable_PushButtonClick(object sender, GridCellPushButtonClickEventArgs e)
@@ -411,7 +411,7 @@ namespace LWDicer.UI
                 GridStageTeachTable[3, e.ColIndex].TextColor = Color.Red;
             }
 
-            if(GetDataMode() == OffSetData)
+            if(GetDataMode() == OffsetData)
             {
                 StrCurrent = GridStageTeachTable[6, e.ColIndex].Text;
 
@@ -451,7 +451,7 @@ namespace LWDicer.UI
                 CMainFrame.LWDicer.m_DataManager.LoadPositionData(true, EPositionObject.STAGE1);
             }
 
-            if(GetDataMode() == OffSetData)
+            if(GetDataMode() == OffsetData)
             {
                 strData = GridStageTeachTable[6, 1].Text;
                 CMainFrame.LWDicer.m_DataManager.OffsetPos.Stage1Pos.Pos[GetPosNo()].dX = Convert.ToDouble(strData);

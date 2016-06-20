@@ -21,7 +21,7 @@ namespace LWDicer.UI
     public partial class FormTeachScreen : Form
     {
         const int FixedData = 0;
-        const int OffSetData = 1;
+        const int OffsetData = 1;
 
         private FormCameraTeach m_CameraTeach;
         private FormHandlerTeach m_HandlerTeach;
@@ -105,49 +105,49 @@ namespace LWDicer.UI
 
         private void BtnModelLoader_Click(object sender, EventArgs e)
         {
-            m_LoaderTeach.SetDataMode(OffSetData);
+            m_LoaderTeach.SetDataMode(OffsetData);
             m_LoaderTeach.ShowDialog();
         }
 
         private void BtnModelPushPull_Click(object sender, EventArgs e)
         {
-            m_PushPullTeach.SetDataMode(OffSetData);
+            m_PushPullTeach.SetDataMode(OffsetData);
             m_PushPullTeach.ShowDialog();
         }
 
         private void BtnModelSpinner1_Click(object sender, EventArgs e)
         {
-            m_Spinner1Teach.SetDataMode(OffSetData);
+            m_Spinner1Teach.SetDataMode(OffsetData);
             m_Spinner1Teach.ShowDialog();
         }
 
         private void BtnModelSpinner2_Click(object sender, EventArgs e)
         {
-            m_Spinner2Teach.SetDataMode(OffSetData);
+            m_Spinner2Teach.SetDataMode(OffsetData);
             m_Spinner2Teach.ShowDialog();
         }
 
         private void BtnModelHandler_Click(object sender, EventArgs e)
         {
-            m_HandlerTeach.SetDataMode(OffSetData);
+            m_HandlerTeach.SetDataMode(OffsetData);
             m_HandlerTeach.ShowDialog();
         }
 
         private void BtnModelStage_Click(object sender, EventArgs e)
         {
-            m_WorkStageTeach.SetDataMode(OffSetData);
+            m_WorkStageTeach.SetDataMode(OffsetData);
             m_WorkStageTeach.ShowDialog();
         }
 
         private void BtnModelScanner_Click(object sender, EventArgs e)
         {
-            m_ScannerTeach.SetDataMode(OffSetData);
+            m_ScannerTeach.SetDataMode(OffsetData);
             m_ScannerTeach.ShowDialog();
         }
 
         private void BtnModelCamera_Click(object sender, EventArgs e)
         {
-            m_CameraTeach.SetDataMode(OffSetData);
+            m_CameraTeach.SetDataMode(OffsetData);
             m_CameraTeach.ShowDialog();
         }
     }

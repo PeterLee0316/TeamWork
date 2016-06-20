@@ -228,6 +228,12 @@ LWDicer의 DataManager에서 데이터를 읽어오기 위한 3가지 함수 : S
 6. DataManager에서 Model, Cassette, WaferFrame Data를 각각 List로 관리하도록 관련함수 업데이트 및
    FormModelData class를 공용으로 사용할 수 있도록 관련 부분 업데이트
 
+// Version : 0.0.25
+// Grade : ★
+// Date : 160620
+// Context
+1. Teaching Data Dialog에서 사용하기 위해 private CMovingObject를 public CMovingObject { get; private set; } 으로 변경함
+
 ////////////////////////////////////////////////////////////////////////////////////////////
 // LJJ
 // Version : 0.0.1

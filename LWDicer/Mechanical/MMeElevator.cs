@@ -167,7 +167,7 @@ namespace LWDicer.Control
         private CMeElevatorData m_Data;
 
         // MovingObject
-        private CMovingObject AxElevatorInfo = new CMovingObject((int)EElevatorPos.MAX);
+        public CMovingObject AxElevatorInfo { get; private set; } = new CMovingObject((int)EElevatorPos.MAX);
     
         MTickTimer m_waitTimer = new MTickTimer();
 

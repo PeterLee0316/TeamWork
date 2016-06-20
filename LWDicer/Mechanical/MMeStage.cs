@@ -214,9 +214,9 @@ namespace LWDicer.Control
         private CMeStageData m_Data;
 
         // MovingObject
-        private CMovingObject AxStageInfo = new CMovingObject((int)EStagePos.MAX);
-        private CMovingObject AxCameraInfo = new CMovingObject((int)ECameraPos.MAX);
-        private CMovingObject AxLaserInfo = new CMovingObject((int)EScannerPos.MAX);
+        public CMovingObject AxStageInfo { get; private set; } = new CMovingObject((int)EStagePos.MAX);
+        public CMovingObject AxCameraInfo { get; private set; } = new CMovingObject((int)ECameraPos.MAX);
+        public CMovingObject AxLaserInfo { get; private set; } = new CMovingObject((int)EScannerPos.MAX);
 
         // Cylinder
         private bool[] UseMainCylFlag   = new bool[WAFER_CLAMP_CYL_NUM];

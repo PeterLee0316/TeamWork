@@ -482,20 +482,20 @@ namespace LWDicer.UI
             }
         }
 
-        private void LabelOffSetX_Click(object sender, EventArgs e)
+        private void LabelOffsetX_Click(object sender, EventArgs e)
         {
             int nPitch = 0;
 
             string StrCurrent = "", strModify = "";
 
-            StrCurrent = LabelOffSetX.Text;
+            StrCurrent = LabelOffsetX.Text;
 
             if (!CMainFrame.LWDicer.GetKeyPad(StrCurrent, out strModify))
             {
                 return;
             }
 
-            LabelOffSetX.Text = strModify;
+            LabelOffsetX.Text = strModify;
             fOffsetX = Convert.ToSingle(strModify);
         }
 
@@ -535,20 +535,20 @@ namespace LWDicer.UI
             PointXY.Text = string.Format("X : {0:f4}   Y : {1:f4}", fX, fY);
         }
 
-        private void LabelOffSetY_Click(object sender, EventArgs e)
+        private void LabelOffsetY_Click(object sender, EventArgs e)
         {
             int nPitch = 0;
 
             string StrCurrent = "", strModify = "";
 
-            StrCurrent = LabelOffSetY.Text;
+            StrCurrent = LabelOffsetY.Text;
 
             if (!CMainFrame.LWDicer.GetKeyPad(StrCurrent, out strModify))
             {
                 return;
             }
 
-            LabelOffSetY.Text = strModify;
+            LabelOffsetY.Text = strModify;
             fOffsetY = Convert.ToSingle(strModify);
         }
 
@@ -812,8 +812,8 @@ namespace LWDicer.UI
             CMainFrame.LWDicer.m_DataManager.ModelData.WaferLineData.fPitch = Convert.ToSingle(LabelPitch.Text);
             CMainFrame.LWDicer.m_DataManager.ModelData.WaferLineData.nShape = nShape;
 
-            CMainFrame.LWDicer.m_DataManager.ModelData.WaferLineData.fOffSetX = Convert.ToSingle(LabelOffSetX.Text);
-            CMainFrame.LWDicer.m_DataManager.ModelData.WaferLineData.fOffSetY = Convert.ToSingle(LabelOffSetY.Text);
+            CMainFrame.LWDicer.m_DataManager.ModelData.WaferLineData.fOffsetX = Convert.ToSingle(LabelOffsetX.Text);
+            CMainFrame.LWDicer.m_DataManager.ModelData.WaferLineData.fOffsetY = Convert.ToSingle(LabelOffsetY.Text);
 
             int i = 0;
 
@@ -834,13 +834,13 @@ namespace LWDicer.UI
         private void UpdateImageData()
         {
             fPitch = CMainFrame.LWDicer.m_DataManager.ModelData.WaferLineData.fPitch;
-            fOffsetX = CMainFrame.LWDicer.m_DataManager.ModelData.WaferLineData.fOffSetX;
-            fOffsetY = CMainFrame.LWDicer.m_DataManager.ModelData.WaferLineData.fOffSetY;
+            fOffsetX = CMainFrame.LWDicer.m_DataManager.ModelData.WaferLineData.fOffsetX;
+            fOffsetY = CMainFrame.LWDicer.m_DataManager.ModelData.WaferLineData.fOffsetY;
             nLineCount = CMainFrame.LWDicer.m_DataManager.ModelData.WaferLineData.nLineCount;
 
             LabelPitch.Text = Convert.ToString(CMainFrame.LWDicer.m_DataManager.ModelData.WaferLineData.fPitch);
-            LabelOffSetX.Text = Convert.ToString(CMainFrame.LWDicer.m_DataManager.ModelData.WaferLineData.fOffSetX);
-            LabelOffSetY.Text = Convert.ToString(CMainFrame.LWDicer.m_DataManager.ModelData.WaferLineData.fOffSetY);
+            LabelOffsetX.Text = Convert.ToString(CMainFrame.LWDicer.m_DataManager.ModelData.WaferLineData.fOffsetX);
+            LabelOffsetY.Text = Convert.ToString(CMainFrame.LWDicer.m_DataManager.ModelData.WaferLineData.fOffsetY);
 
             if (CMainFrame.LWDicer.m_DataManager.ModelData.WaferLineData.nWaferSize == SIZE_12INCH)
             {

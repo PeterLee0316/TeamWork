@@ -36,7 +36,7 @@ namespace LWDicer.UI
         const int UpHandler = 1;
 
         const int FixedData = 0;
-        const int OffSetData = 1;
+        const int OffsetData = 1;
 
         ButtonAdv[] TeachUpPos = new ButtonAdv[15];
         ButtonAdv[] TeachLoPos = new ButtonAdv[15];
@@ -151,7 +151,7 @@ namespace LWDicer.UI
             GridUpHandlerTeachTable[3, 0].Text = "고정 좌표";
             GridUpHandlerTeachTable[4, 0].Text = "모델 좌표";
             GridUpHandlerTeachTable[5, 0].Text = "Cell Mark 보정";
-            GridUpHandlerTeachTable[6, 0].Text = "OffSet 좌표";
+            GridUpHandlerTeachTable[6, 0].Text = "Offset 좌표";
             GridUpHandlerTeachTable[7, 0].Text = "현재 위치";
             GridUpHandlerTeachTable[8, 0].Text = "보정값";
 
@@ -241,7 +241,7 @@ namespace LWDicer.UI
             GridLoHandlerTeachTable[3, 0].Text = "고정 좌표";
             GridLoHandlerTeachTable[4, 0].Text = "모델 좌표";
             GridLoHandlerTeachTable[5, 0].Text = "Cell Mark 보정";
-            GridLoHandlerTeachTable[6, 0].Text = "OffSet 좌표";
+            GridLoHandlerTeachTable[6, 0].Text = "Offset 좌표";
             GridLoHandlerTeachTable[7, 0].Text = "현재 위치";
             GridLoHandlerTeachTable[8, 0].Text = "보정값";
 
@@ -353,7 +353,7 @@ namespace LWDicer.UI
                     if (i != 0) GridUpHandlerTeachTable[6, i].BackColor = Color.White;
                 }
 
-                if (GetDataMode() == OffSetData)
+                if (GetDataMode() == OffsetData)
                 {
                     if (i != 0) GridUpHandlerTeachTable[3, i].BackColor = Color.White;
                     if (i != 0) GridUpHandlerTeachTable[6, i].BackColor = Color.LightYellow;
@@ -395,7 +395,7 @@ namespace LWDicer.UI
                     if (i != 0) GridLoHandlerTeachTable[6, i].BackColor = Color.White;
                 }
 
-                if (GetDataMode() == OffSetData)
+                if (GetDataMode() == OffsetData)
                 {
                     if (i != 0) GridLoHandlerTeachTable[3, i].BackColor = Color.White;
                     if (i != 0) GridLoHandlerTeachTable[6, i].BackColor = Color.LightYellow;
@@ -433,7 +433,7 @@ namespace LWDicer.UI
 
         private void LoadUpTeachingData(int nTeachPos)
         {
-            string strFixedPos = string.Empty, strOffSetPos = string.Empty, strTargetPos = string.Empty, strModelPos = string.Empty;
+            string strFixedPos = string.Empty, strOffsetPos = string.Empty, strTargetPos = string.Empty, strModelPos = string.Empty;
             double dFixedXPos = 0, dOffsetXPos = 0, dTargetXPos = 0, dModelXPos = 0;
             double dFixedZPos = 0, dOffsetZPos = 0, dTargetZPos = 0, dModelZPos = 0;
 
@@ -470,16 +470,16 @@ namespace LWDicer.UI
             GridUpHandlerTeachTable[4, 2].Text = strModelPos;
 
             //OffsetPos
-            strOffSetPos = Convert.ToString(CMainFrame.LWDicer.m_DataManager.OffsetPos.LowerHandlerPos.Pos[nTeachPos].dX);
-            GridUpHandlerTeachTable[6, 1].Text = strOffSetPos;
+            strOffsetPos = Convert.ToString(CMainFrame.LWDicer.m_DataManager.OffsetPos.LowerHandlerPos.Pos[nTeachPos].dX);
+            GridUpHandlerTeachTable[6, 1].Text = strOffsetPos;
 
-            strOffSetPos = Convert.ToString(CMainFrame.LWDicer.m_DataManager.OffsetPos.LowerHandlerPos.Pos[nTeachPos].dZ);
-            GridUpHandlerTeachTable[6, 2].Text = strOffSetPos;
+            strOffsetPos = Convert.ToString(CMainFrame.LWDicer.m_DataManager.OffsetPos.LowerHandlerPos.Pos[nTeachPos].dZ);
+            GridUpHandlerTeachTable[6, 2].Text = strOffsetPos;
         }
 
         private void LoadLoTeachingData(int nTeachPos)
         {
-            string strFixedPos = string.Empty, strOffSetPos = string.Empty, strTargetPos = string.Empty, strModelPos = string.Empty;
+            string strFixedPos = string.Empty, strOffsetPos = string.Empty, strTargetPos = string.Empty, strModelPos = string.Empty;
             double dFixedXPos = 0, dOffsetXPos = 0, dTargetXPos = 0, dModelXPos = 0;
             double dFixedZPos = 0, dOffsetZPos = 0, dTargetZPos = 0, dModelZPos = 0;
 
@@ -516,11 +516,11 @@ namespace LWDicer.UI
             GridLoHandlerTeachTable[4, 2].Text = strModelPos;
 
             //OffsetPos
-            strOffSetPos = Convert.ToString(CMainFrame.LWDicer.m_DataManager.OffsetPos.UpperHandlerPos.Pos[nTeachPos].dX);
-            GridLoHandlerTeachTable[6, 1].Text = strOffSetPos;
+            strOffsetPos = Convert.ToString(CMainFrame.LWDicer.m_DataManager.OffsetPos.UpperHandlerPos.Pos[nTeachPos].dX);
+            GridLoHandlerTeachTable[6, 1].Text = strOffsetPos;
 
-            strOffSetPos = Convert.ToString(CMainFrame.LWDicer.m_DataManager.OffsetPos.UpperHandlerPos.Pos[nTeachPos].dZ);
-            GridLoHandlerTeachTable[6, 2].Text = strOffSetPos;
+            strOffsetPos = Convert.ToString(CMainFrame.LWDicer.m_DataManager.OffsetPos.UpperHandlerPos.Pos[nTeachPos].dZ);
+            GridLoHandlerTeachTable[6, 2].Text = strOffsetPos;
         }
 
         private void TmrTeach_Tick(object sender, EventArgs e)
@@ -672,7 +672,7 @@ namespace LWDicer.UI
                 CMainFrame.LWDicer.m_DataManager.LoadPositionData(true, EPositionObject.LOWER_HANDLER);
             }
 
-            if (GetDataMode() == OffSetData)
+            if (GetDataMode() == OffsetData)
             {
                 strData = GridUpHandlerTeachTable[6, 1].Text;
                 CMainFrame.LWDicer.m_DataManager.OffsetPos.LowerHandlerPos.Pos[GetUpPosNo()].dX = Convert.ToDouble(strData);
@@ -710,7 +710,7 @@ namespace LWDicer.UI
                 CMainFrame.LWDicer.m_DataManager.LoadPositionData(true, EPositionObject.UPPER_HANDLER);
             }
 
-            if (GetDataMode() == OffSetData)
+            if (GetDataMode() == OffsetData)
             {
                 strData = GridLoHandlerTeachTable[6, 1].Text;
                 CMainFrame.LWDicer.m_DataManager.OffsetPos.UpperHandlerPos.Pos[GetLoPosNo()].dX = Convert.ToDouble(strData);
@@ -763,7 +763,7 @@ namespace LWDicer.UI
                 GridUpHandlerTeachTable[3, e.ColIndex].TextColor = Color.Red;
             }
 
-            if(GetDataMode() == OffSetData)
+            if(GetDataMode() == OffsetData)
             {
                 StrCurrent = GridUpHandlerTeachTable[6, e.ColIndex].Text;
 
@@ -815,7 +815,7 @@ namespace LWDicer.UI
                 GridLoHandlerTeachTable[3, e.ColIndex].TextColor = Color.Red;
             }
 
-            if(GetDataMode() == OffSetData)
+            if(GetDataMode() == OffsetData)
             {
                 StrCurrent = GridLoHandlerTeachTable[6, e.ColIndex].Text;
 

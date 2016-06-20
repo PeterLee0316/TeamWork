@@ -137,9 +137,9 @@ namespace LWDicer.Control
         private CMeSpinnerRefComp m_RefComp;
         private CMeSpinnerData m_Data;
 
-        private CMovingObject AxRotateInfo = new CMovingObject((int)ERotatePos.MAX);
-        private CMovingObject AxCleanNozzleInfo = new CMovingObject((int)ENozzlePos.MAX);
-        private CMovingObject AxCoatNozzleInfo = new CMovingObject((int)ENozzlePos.MAX);
+        public CMovingObject AxRotateInfo { get; private set; } = new CMovingObject((int)ERotatePos.MAX);
+        public CMovingObject AxCleanNozzleInfo { get; private set; } = new CMovingObject((int)ENozzlePos.MAX);
+        public CMovingObject AxCoatNozzleInfo { get; private set; } = new CMovingObject((int)ENozzlePos.MAX);
 
         // Vacuum
         private bool[] UseVccFlag = new bool[(int)EChuckVacuum.MAX];

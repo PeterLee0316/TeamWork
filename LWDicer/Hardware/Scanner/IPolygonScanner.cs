@@ -155,9 +155,9 @@ namespace LWDicer.Control
 
             public int nShape;
 
-            public float fOffSetX;
+            public float fOffsetX;
 
-            public float fOffSetY;
+            public float fOffsetY;
         }
 
     }
@@ -182,8 +182,8 @@ namespace LWDicer.Control
         void SetPixelGridX(int objIndex, double pX);
         void SetPixelGridY(int objIndex, double pY);
         void SetBitMapColor(int objIndex, int nColor);
-        void SetSuperSync(int objIndex, double OffSet, int nNo);
-        void SetStartOffset(int objIndex, double OffSet);
+        void SetSuperSync(int objIndex, double Offset, int nNo);
+        void SetStartOffset(int objIndex, double Offset);
         void SetSeedClock(int objIndex, double Frequency);
         void SetRepRate(int objIndex, double Frequency);
         void SetPixelWidth(int objIndex, double SeedClock, double RepRate);

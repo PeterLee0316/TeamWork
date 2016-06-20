@@ -33,7 +33,7 @@ namespace LWDicer.UI
     public partial class FormCameraTeach : Form
     {
         const int FixedData = 0;
-        const int OffSetData = 1;
+        const int OffsetData = 1;
 
         ButtonAdv[] TeachPos = new ButtonAdv[15];
 
@@ -157,7 +157,7 @@ namespace LWDicer.UI
             GridTeachTable[3, 0].Text = "고정 좌표";
             GridTeachTable[4, 0].Text = "모델 좌표";
             GridTeachTable[5, 0].Text = "Cell Mark 보정";
-            GridTeachTable[6, 0].Text = "OffSet 좌표";
+            GridTeachTable[6, 0].Text = "Offset 좌표";
             GridTeachTable[7, 0].Text = "현재 위치";
             GridTeachTable[8, 0].Text = "보정값";
 
@@ -236,7 +236,7 @@ namespace LWDicer.UI
                     if (i != 0) GridTeachTable[6, i].BackColor = Color.White;
                 }
 
-                if (GetDataMode() == OffSetData)
+                if (GetDataMode() == OffsetData)
                 {
                     if (i != 0) GridTeachTable[3, i].BackColor = Color.White;
                     if (i != 0) GridTeachTable[6, i].BackColor = Color.LightYellow;
@@ -276,7 +276,7 @@ namespace LWDicer.UI
                 GridTeachTable[3, e.ColIndex].TextColor = Color.Red;
             }
 
-            if(GetDataMode() == OffSetData)
+            if(GetDataMode() == OffsetData)
             {
                 StrCurrent = GridTeachTable[6, e.ColIndex].Text;
 
@@ -320,7 +320,7 @@ namespace LWDicer.UI
                 CMainFrame.LWDicer.m_DataManager.LoadPositionData(true, EPositionObject.CAMERA1);
             }
 
-            if(GetDataMode() == OffSetData)
+            if(GetDataMode() == OffsetData)
             {
                 strData = GridTeachTable[6, 1].Text;
                 CMainFrame.LWDicer.m_DataManager.OffsetPos.Camera1Pos.Pos[GetPosNo()].dZ = Convert.ToDouble(strData);
@@ -352,7 +352,7 @@ namespace LWDicer.UI
 
         private void LoadTeachingData(int nTeachPos)
         {
-            string strFixedPos = string.Empty, strOffSetPos = string.Empty, strTargetPos = string.Empty, strModelPos = string.Empty;
+            string strFixedPos = string.Empty, strOffsetPos = string.Empty, strTargetPos = string.Empty, strModelPos = string.Empty;
             double dFixedPos = 0, dOffsetPos = 0, dTargetPos = 0, dModelPos = 0;
 
             dFixedPos = CMainFrame.LWDicer.m_DataManager.FixedPos.Camera1Pos.Pos[nTeachPos].dZ;
@@ -373,8 +373,8 @@ namespace LWDicer.UI
             GridTeachTable[4, 1].Text = strModelPos;
 
             //OffsetPos
-            strOffSetPos = Convert.ToString(CMainFrame.LWDicer.m_DataManager.OffsetPos.Camera1Pos.Pos[nTeachPos].dZ);
-            GridTeachTable[6, 1].Text = strOffSetPos;
+            strOffsetPos = Convert.ToString(CMainFrame.LWDicer.m_DataManager.OffsetPos.Camera1Pos.Pos[nTeachPos].dZ);
+            GridTeachTable[6, 1].Text = strOffsetPos;
         }
 
         private void BtnChangeValue_Click(object sender, EventArgs e)

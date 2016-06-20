@@ -33,7 +33,7 @@ namespace LWDicer.UI
     public partial class FormPushPullTeach : Form
     {
         const int FixedData = 0;
-        const int OffSetData = 1;
+        const int OffsetData = 1;
 
         ButtonAdv[] PushPullPos = new ButtonAdv[15];
         ButtonAdv[] CenterPos = new ButtonAdv[15];
@@ -143,7 +143,7 @@ namespace LWDicer.UI
                     if (i != 0) GridPushPullYTeachTable[6, i].BackColor = Color.White;
                 }
 
-                if (GetDataMode() == OffSetData)
+                if (GetDataMode() == OffsetData)
                 {
                     if (i != 0) GridPushPullYTeachTable[3, i].BackColor = Color.White;
                     if (i != 0) GridPushPullYTeachTable[6, i].BackColor = Color.LightYellow;
@@ -185,7 +185,7 @@ namespace LWDicer.UI
                     if (i != 0) GridCenterXTeachTable[6, i].BackColor = Color.White;
                 }
 
-                if (GetDataMode() == OffSetData)
+                if (GetDataMode() == OffsetData)
                 {
                     if (i != 0) GridCenterXTeachTable[3, i].BackColor = Color.White;
                     if (i != 0) GridCenterXTeachTable[6, i].BackColor = Color.LightYellow;
@@ -221,7 +221,7 @@ namespace LWDicer.UI
 
         private void LoadCenterTeachingData(int nTeachPos)
         {
-            string strFixedPos = string.Empty, strOffSetPos = string.Empty, strTargetPos = string.Empty, strModelPos = string.Empty;
+            string strFixedPos = string.Empty, strOffsetPos = string.Empty, strTargetPos = string.Empty, strModelPos = string.Empty;
             double dFixedX1Pos = 0, dOffsetX1Pos = 0, dTargetX1Pos = 0, dModelX1Pos = 0;
             double dFixedX2Pos = 0, dOffsetX2Pos = 0, dTargetX2Pos = 0, dModelX2Pos = 0;
 
@@ -258,16 +258,16 @@ namespace LWDicer.UI
             GridCenterXTeachTable[4, 2].Text = strModelPos;
 
             //OffsetPos
-            strOffSetPos = Convert.ToString(CMainFrame.LWDicer.m_DataManager.OffsetPos.Centering1Pos.Pos[nTeachPos].dX);
-            GridCenterXTeachTable[6, 1].Text = strOffSetPos;
+            strOffsetPos = Convert.ToString(CMainFrame.LWDicer.m_DataManager.OffsetPos.Centering1Pos.Pos[nTeachPos].dX);
+            GridCenterXTeachTable[6, 1].Text = strOffsetPos;
 
-            strOffSetPos = Convert.ToString(CMainFrame.LWDicer.m_DataManager.OffsetPos.Centering2Pos.Pos[nTeachPos].dX);
-            GridCenterXTeachTable[6, 2].Text = strOffSetPos;
+            strOffsetPos = Convert.ToString(CMainFrame.LWDicer.m_DataManager.OffsetPos.Centering2Pos.Pos[nTeachPos].dX);
+            GridCenterXTeachTable[6, 2].Text = strOffsetPos;
         }
 
         private void LoadPushPullTeachingData(int nTeachPos)
         {
-            string strFixedPos = string.Empty, strOffSetPos = string.Empty, strTargetPos = string.Empty, strModelPos = string.Empty;
+            string strFixedPos = string.Empty, strOffsetPos = string.Empty, strTargetPos = string.Empty, strModelPos = string.Empty;
             double dFixedPos = 0, dOffsetPos = 0, dTargetPos = 0, dModelPos = 0;
 
             dFixedPos = CMainFrame.LWDicer.m_DataManager.FixedPos.PushPullPos.Pos[nTeachPos].dY;
@@ -288,8 +288,8 @@ namespace LWDicer.UI
             GridPushPullYTeachTable[4, 1].Text = strModelPos;
 
             //OffsetPos
-            strOffSetPos = Convert.ToString(CMainFrame.LWDicer.m_DataManager.OffsetPos.PushPullPos.Pos[nTeachPos].dY);
-            GridPushPullYTeachTable[6, 1].Text = strOffSetPos;
+            strOffsetPos = Convert.ToString(CMainFrame.LWDicer.m_DataManager.OffsetPos.PushPullPos.Pos[nTeachPos].dY);
+            GridPushPullYTeachTable[6, 1].Text = strOffsetPos;
         }
 
        
@@ -370,7 +370,7 @@ namespace LWDicer.UI
             GridCenterXTeachTable[3, 0].Text = "고정 좌표";
             GridCenterXTeachTable[4, 0].Text = "모델 좌표";
             GridCenterXTeachTable[5, 0].Text = "Cell Mark 보정";
-            GridCenterXTeachTable[6, 0].Text = "OffSet 좌표";
+            GridCenterXTeachTable[6, 0].Text = "Offset 좌표";
             GridCenterXTeachTable[7, 0].Text = "현재 위치";
             GridCenterXTeachTable[8, 0].Text = "보정값";
 
@@ -457,7 +457,7 @@ namespace LWDicer.UI
             GridPushPullYTeachTable[3, 0].Text = "고정 좌표";
             GridPushPullYTeachTable[4, 0].Text = "모델 좌표";
             GridPushPullYTeachTable[5, 0].Text = "Cell Mark 보정";
-            GridPushPullYTeachTable[6, 0].Text = "OffSet 좌표";
+            GridPushPullYTeachTable[6, 0].Text = "Offset 좌표";
             GridPushPullYTeachTable[7, 0].Text = "현재 위치";
             GridPushPullYTeachTable[8, 0].Text = "보정값";
 
@@ -538,7 +538,7 @@ namespace LWDicer.UI
                 GridCenterXTeachTable[3, e.ColIndex].TextColor = Color.Red;
             }
 
-            if(GetDataMode() == OffSetData)
+            if(GetDataMode() == OffsetData)
             {
                 StrCurrent = GridCenterXTeachTable[6, e.ColIndex].Text;
 
@@ -580,7 +580,7 @@ namespace LWDicer.UI
                 GridPushPullYTeachTable[3, e.ColIndex].TextColor = Color.Red;
             }
 
-            if(GetDataMode() == OffSetData)
+            if(GetDataMode() == OffsetData)
             {
                 StrCurrent = GridPushPullYTeachTable[6, e.ColIndex].Text;
 
@@ -620,7 +620,7 @@ namespace LWDicer.UI
                 CMainFrame.LWDicer.m_DataManager.LoadPositionData(true, EPositionObject.PUSHPULL_CENTER2);
             }
 
-            if(GetDataMode() == OffSetData)
+            if(GetDataMode() == OffsetData)
             {
                 strData = GridCenterXTeachTable[6, 1].Text;
                 CMainFrame.LWDicer.m_DataManager.OffsetPos.Centering1Pos.Pos[GetCenterPosNo()].dX = Convert.ToDouble(strData);
@@ -658,7 +658,7 @@ namespace LWDicer.UI
                 CMainFrame.LWDicer.m_DataManager.LoadPositionData(true, EPositionObject.PUSHPULL);
             }
 
-            if(GetDataMode() == OffSetData)
+            if(GetDataMode() == OffsetData)
             {
                 strData = GridPushPullYTeachTable[6, 1].Text;
                 CMainFrame.LWDicer.m_DataManager.OffsetPos.PushPullPos.Pos[GetPushPullPosNo()].dY = Convert.ToDouble(strData);

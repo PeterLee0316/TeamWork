@@ -36,7 +36,7 @@ namespace LWDicer.UI
         const int Spinner2 = 1;
 
         const int FixedData = 0;
-        const int OffSetData = 1;
+        const int OffsetData = 1;
 
         ButtonAdv[] RotatePos = new ButtonAdv[15];
         ButtonAdv[] NozzlePos = new ButtonAdv[15];
@@ -146,7 +146,7 @@ namespace LWDicer.UI
                     if (i != 0) GridRotateTeachTable[6, i].BackColor = Color.White;
                 }
 
-                if (GetDataMode() == OffSetData)
+                if (GetDataMode() == OffsetData)
                 {
                     if (i != 0) GridRotateTeachTable[3, i].BackColor = Color.White;
                     if (i != 0) GridRotateTeachTable[6, i].BackColor = Color.LightYellow;
@@ -188,7 +188,7 @@ namespace LWDicer.UI
                     if (i != 0) GridNozzleTeachTable[6, i].BackColor = Color.White;
                 }
 
-                if (GetDataMode() == OffSetData)
+                if (GetDataMode() == OffsetData)
                 {
                     if (i != 0) GridNozzleTeachTable[3, i].BackColor = Color.White;
                     if (i != 0) GridNozzleTeachTable[6, i].BackColor = Color.LightYellow;
@@ -224,7 +224,7 @@ namespace LWDicer.UI
 
         private void LoadNozzleTeachingData(int nTeachPos)
         {
-            string strFixedPos = string.Empty, strOffSetPos = string.Empty, strTargetPos = string.Empty, strModelPos = string.Empty;
+            string strFixedPos = string.Empty, strOffsetPos = string.Empty, strTargetPos = string.Empty, strModelPos = string.Empty;
             double dFixedN1Pos = 0, dOffsetN1Pos = 0, dTargetN1Pos = 0, dModelN1Pos = 0;
             double dFixedN2Pos = 0, dOffsetN2Pos = 0, dTargetN2Pos = 0, dModelN2Pos = 0;
 
@@ -261,16 +261,16 @@ namespace LWDicer.UI
             GridNozzleTeachTable[4, 2].Text = strModelPos;
 
             //OffsetPos
-            strOffSetPos = Convert.ToString(CMainFrame.LWDicer.m_DataManager.OffsetPos.S1_CleanerPos.Pos[nTeachPos].dT);
-            GridNozzleTeachTable[6, 1].Text = strOffSetPos;
+            strOffsetPos = Convert.ToString(CMainFrame.LWDicer.m_DataManager.OffsetPos.S1_CleanerPos.Pos[nTeachPos].dT);
+            GridNozzleTeachTable[6, 1].Text = strOffsetPos;
 
-            strOffSetPos = Convert.ToString(CMainFrame.LWDicer.m_DataManager.OffsetPos.S1_CoaterPos.Pos[nTeachPos].dT);
-            GridNozzleTeachTable[6, 2].Text = strOffSetPos;
+            strOffsetPos = Convert.ToString(CMainFrame.LWDicer.m_DataManager.OffsetPos.S1_CoaterPos.Pos[nTeachPos].dT);
+            GridNozzleTeachTable[6, 2].Text = strOffsetPos;
         }
 
         private void LoadRotateTeachingData(int nTeachPos)
         {
-            string strFixedPos = string.Empty, strOffSetPos = string.Empty, strTargetPos = string.Empty, strModelPos = string.Empty;
+            string strFixedPos = string.Empty, strOffsetPos = string.Empty, strTargetPos = string.Empty, strModelPos = string.Empty;
             double dFixedPos = 0, dOffsetPos = 0, dTargetPos = 0, dModelPos = 0;
 
             dFixedPos = CMainFrame.LWDicer.m_DataManager.FixedPos.S1_RotatePos.Pos[nTeachPos].dT;
@@ -291,8 +291,8 @@ namespace LWDicer.UI
             GridRotateTeachTable[4, 1].Text = strModelPos;
 
             //OffsetPos
-            strOffSetPos = Convert.ToString(CMainFrame.LWDicer.m_DataManager.OffsetPos.S1_RotatePos.Pos[nTeachPos].dT);
-            GridRotateTeachTable[6, 1].Text = strOffSetPos;
+            strOffsetPos = Convert.ToString(CMainFrame.LWDicer.m_DataManager.OffsetPos.S1_RotatePos.Pos[nTeachPos].dT);
+            GridRotateTeachTable[6, 1].Text = strOffsetPos;
         }
 
         private void ResouceMapping()
@@ -371,7 +371,7 @@ namespace LWDicer.UI
             GridNozzleTeachTable[3, 0].Text = "고정 좌표";
             GridNozzleTeachTable[4, 0].Text = "모델 좌표";
             GridNozzleTeachTable[5, 0].Text = "Cell Mark 보정";
-            GridNozzleTeachTable[6, 0].Text = "OffSet 좌표";
+            GridNozzleTeachTable[6, 0].Text = "Offset 좌표";
             GridNozzleTeachTable[7, 0].Text = "현재 위치";
             GridNozzleTeachTable[8, 0].Text = "보정값";
 
@@ -458,7 +458,7 @@ namespace LWDicer.UI
             GridRotateTeachTable[3, 0].Text = "고정 좌표";
             GridRotateTeachTable[4, 0].Text = "모델 좌표";
             GridRotateTeachTable[5, 0].Text = "Cell Mark 보정";
-            GridRotateTeachTable[6, 0].Text = "OffSet 좌표";
+            GridRotateTeachTable[6, 0].Text = "Offset 좌표";
             GridRotateTeachTable[7, 0].Text = "현재 위치";
             GridRotateTeachTable[8, 0].Text = "보정값";
 
@@ -537,7 +537,7 @@ namespace LWDicer.UI
                 GridNozzleTeachTable[3, e.ColIndex].TextColor = Color.Red;
             }
 
-            if(GetDataMode() == OffSetData)
+            if(GetDataMode() == OffsetData)
             {
                 StrCurrent = GridNozzleTeachTable[6, e.ColIndex].Text;
 
@@ -579,7 +579,7 @@ namespace LWDicer.UI
                 GridRotateTeachTable[3, e.ColIndex].TextColor = Color.Red;
             }
 
-            if(GetDataMode() == OffSetData)
+            if(GetDataMode() == OffsetData)
             {
                 StrCurrent = GridRotateTeachTable[6, e.ColIndex].Text;
 
@@ -619,7 +619,7 @@ namespace LWDicer.UI
                 CMainFrame.LWDicer.m_DataManager.LoadPositionData(true, EPositionObject.S1_COAT_NOZZLE);
             }
 
-            if(GetDataMode() == OffSetData)
+            if(GetDataMode() == OffsetData)
             {
                 strData = GridNozzleTeachTable[6, 1].Text;
                 CMainFrame.LWDicer.m_DataManager.OffsetPos.S1_CleanerPos.Pos[GetNozzlePosNo()].dT = Convert.ToDouble(strData);
@@ -657,7 +657,7 @@ namespace LWDicer.UI
                 CMainFrame.LWDicer.m_DataManager.LoadPositionData(true, EPositionObject.S1_ROTATE);
             }
 
-            if(GetDataMode() == OffSetData)
+            if(GetDataMode() == OffsetData)
             {
                 strData = GridRotateTeachTable[6, 1].Text;
                 CMainFrame.LWDicer.m_DataManager.OffsetPos.S1_RotatePos.Pos[GetRotatePosNo()].dT = Convert.ToDouble(strData);

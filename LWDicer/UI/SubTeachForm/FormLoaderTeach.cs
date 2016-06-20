@@ -8,6 +8,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
+using LWDicer.Control;
+using static LWDicer.Control.DEF_Motion;
 using static LWDicer.Control.MYaskawa;
 
 using static LWDicer.Control.DEF_Thread;
@@ -34,7 +36,7 @@ namespace LWDicer.UI
     public partial class FormLoaderTeach : Form
     {
         const int FixedData = 0;
-        const int OffSetData = 1;
+        const int OffsetData = 1;
 
         ButtonAdv[] TeachPos = new ButtonAdv[15];
 
@@ -160,7 +162,7 @@ namespace LWDicer.UI
             GridTeachTable[3, 0].Text = "고정 좌표";
             GridTeachTable[4, 0].Text = "모델 좌표";
             GridTeachTable[5, 0].Text = "Cell Mark 보정";
-            GridTeachTable[6, 0].Text = "OffSet 좌표";
+            GridTeachTable[6, 0].Text = "Offset 좌표";
             GridTeachTable[7, 0].Text = "현재 위치";
             GridTeachTable[8, 0].Text = "보정값";
 
@@ -236,7 +238,7 @@ namespace LWDicer.UI
                     if (i != 0) GridTeachTable[6, i].BackColor = Color.White;
                 }
 
-                if (GetDataMode() == OffSetData)
+                if (GetDataMode() == OffsetData)
                 {
                     if (i != 0) GridTeachTable[3, i].BackColor = Color.White;
                     if (i != 0) GridTeachTable[6, i].BackColor = Color.LightYellow;
@@ -276,7 +278,7 @@ namespace LWDicer.UI
                 GridTeachTable[3, e.ColIndex].TextColor = Color.Red;
             }
 
-            if(GetDataMode() == OffSetData)
+            if(GetDataMode() == OffsetData)
             {
                 StrCurrent = GridTeachTable[6, e.ColIndex].Text;
 
@@ -317,18 +319,16 @@ namespace LWDicer.UI
                 CMainFrame.LWDicer.m_DataManager.FixedPos.LoaderPos.Pos[GetPosNo()].dZ = Convert.ToDouble(strData);
 
                 CMainFrame.LWDicer.m_DataManager.SavePositionData(true, EPositionObject.LOADER);
-                CMainFrame.LWDicer.m_DataManager.LoadPositionData(true, EPositionObject.LOADER);
-
             }
 
-            if (GetDataMode() == OffSetData)
+            if (GetDataMode() == OffsetData)
             {
                 strData = GridTeachTable[6, 1].Text;
                 CMainFrame.LWDicer.m_DataManager.OffsetPos.LoaderPos.Pos[GetPosNo()].dZ = Convert.ToDouble(strData);
 
                 CMainFrame.LWDicer.m_DataManager.SavePositionData(false, EPositionObject.LOADER);
-                CMainFrame.LWDicer.m_DataManager.LoadPositionData(false, EPositionObject.LOADER);
             }
+            CMainFrame.LWDicer.SetPositionDataToComponent(EPositionObject.LOADER);
 
             LoadTeachingData(GetPosNo());
         }
@@ -353,29 +353,22 @@ namespace LWDicer.UI
 
         private void LoadTeachingData(int nTeachPos)
         {
-            string strFixedPos = string.Empty, strOffSetPos = string.Empty, strTargetPos = string.Empty, strModelPos = string.Empty;
-            double dFixedPos = 0, dOffsetPos = 0, dTargetPos = 0, dModelPos = 0;
+            string str;
+            double dFixedPos = 0, dOffsetPos = 0, dTargetPos = 0, dModelPos = 0, dAlignOffset;
 
-            dFixedPos = CMainFrame.LWDicer.m_DataManager.FixedPos.LoaderPos.Pos[nTeachPos].dZ;
-            dOffsetPos = CMainFrame.LWDicer.m_DataManager.OffsetPos.LoaderPos.Pos[nTeachPos].dZ;
-            dModelPos = CMainFrame.LWDicer.m_DataManager.ModelPos.LoaderPos.Pos[nTeachPos].dZ;
+            CMovingObject movingObject = CMainFrame.LWDicer.m_MeElevator.AxElevatorInfo;
+            dFixedPos    = movingObject.FixedPos.Pos[nTeachPos].dZ;
+            dOffsetPos   = movingObject.OffsetPos.Pos[nTeachPos].dZ;
+            dModelPos    = movingObject.ModelPos.Pos[nTeachPos].dZ;
+            dAlignOffset = movingObject.AlignOffset.dZ;
 
-            dTargetPos = dFixedPos + dOffsetPos + dModelPos;
+            dTargetPos = dFixedPos + dOffsetPos + dModelPos + dAlignOffset;
 
-            strTargetPos = Convert.ToString(dTargetPos);
-            GridTeachTable[2, 1].Text = strTargetPos;
-
-            // FixedPos
-            strFixedPos = Convert.ToString(CMainFrame.LWDicer.m_DataManager.FixedPos.LoaderPos.Pos[nTeachPos].dZ);
-            GridTeachTable[3, 1].Text = strFixedPos;
-
-            // ModelPos
-            strModelPos = Convert.ToString(CMainFrame.LWDicer.m_DataManager.ModelPos.LoaderPos.Pos[nTeachPos].dZ);
-            GridTeachTable[4, 1].Text = strModelPos;
-
-            //OffsetPos
-            strOffSetPos = Convert.ToString(CMainFrame.LWDicer.m_DataManager.OffsetPos.LoaderPos.Pos[nTeachPos].dZ);
-            GridTeachTable[6, 1].Text = strOffSetPos;
+            GridTeachTable[2, 1].Text = Convert.ToString(dTargetPos);
+            GridTeachTable[3, 1].Text = Convert.ToString(dFixedPos);
+            GridTeachTable[4, 1].Text = Convert.ToString(dModelPos);
+            GridTeachTable[5, 1].Text = Convert.ToString(dAlignOffset);
+            GridTeachTable[6, 1].Text = Convert.ToString(dOffsetPos);
         }
 
         private void BtnChangeValue_Click(object sender, EventArgs e)

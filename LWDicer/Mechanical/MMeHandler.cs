@@ -163,7 +163,7 @@ namespace LWDicer.Control
         private CMeHandlerData m_Data;
 
         // MovingObject
-        private CMovingObject AxHandlerInfo = new CMovingObject((int)EHandlerPos.MAX);
+        public CMovingObject AxHandlerInfo { get; private set; } = new CMovingObject((int)EHandlerPos.MAX);
 
         // Cylinder
         private bool[] UseMainCylFlag = new bool[DEF_MAX_COORDINATE];

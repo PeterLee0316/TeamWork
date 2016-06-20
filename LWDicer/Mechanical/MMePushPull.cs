@@ -189,8 +189,8 @@ namespace LWDicer.Control
         private CMePushPullData m_Data;
 
         // MovingObject
-        private CMovingObject AxPushPullInfo = new CMovingObject((int)EPushPullPos.MAX);
-        private CMovingObject[] AxCenterInfo = new CMovingObject[(int)ECenterIndex.MAX];
+        public CMovingObject AxPushPullInfo { get; private set; } = new CMovingObject((int)EPushPullPos.MAX);
+        public CMovingObject[] AxCenterInfo { get; private set; } = new CMovingObject[(int)ECenterIndex.MAX];
 
         // Cylinder
 
