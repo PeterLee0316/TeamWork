@@ -599,12 +599,12 @@ namespace LWDicer.Control
             if (iResult != SUCCESS)
             {
                 str = $"fail : move Handler to safety pos [axis={axis}]";
-                WriteLog(str, ELogType.Debug, ELogWType.Error);
+                WriteLog(str, ELogType.Debug, ELogWType.D_Error);
                 return iResult;
             }
 
             str = $"success : move Handler to safety pos [axis={axis}";
-            WriteLog(str, ELogType.Debug, ELogWType.Normal);
+            WriteLog(str, ELogType.Debug, ELogWType.D_Normal);
 
             return SUCCESS;
         }
@@ -676,7 +676,7 @@ namespace LWDicer.Control
                 iResult = m_RefComp.AxHandler.Move(DEF_ALL_COORDINATE, bMoveFlag, dTargetPos, bUsePriority);
                 if (iResult != SUCCESS)
                 {
-                    WriteLog("fail : move Handler x y t axis", ELogType.Debug, ELogWType.Error);
+                    WriteLog("fail : move Handler x y t axis", ELogType.Debug, ELogWType.D_Error);
                     return iResult;
                 }
             }
@@ -690,14 +690,14 @@ namespace LWDicer.Control
                     iResult = m_RefComp.AxHandler.Move(DEF_ALL_COORDINATE, bTempFlag, dTargetPos);
                     if (iResult != SUCCESS)
                     {
-                        WriteLog("fail : move Handler z axis", ELogType.Debug, ELogWType.Error);
+                        WriteLog("fail : move Handler z axis", ELogType.Debug, ELogWType.D_Error);
                         return iResult;
                     }
                 }
             }
 
             string str = $"success : move Handler to pos:{sPos.ToString()}";
-            WriteLog(str, ELogType.Debug, ELogWType.Normal);
+            WriteLog(str, ELogType.Debug, ELogWType.D_Normal);
 
             return SUCCESS;
         }
@@ -842,7 +842,7 @@ namespace LWDicer.Control
             if(bSkipError == false && bResult == false)
             {
                 string str = $"Handler의 위치비교 결과 미일치합니다. Target Pos : {sPos.ToString()}";
-                WriteLog(str, ELogType.Debug, ELogWType.Error);
+                WriteLog(str, ELogType.Debug, ELogWType.D_Error);
 
                 return GenerateErrorCode(ERR_HANDLER_NOT_SAME_POSITION);
             }

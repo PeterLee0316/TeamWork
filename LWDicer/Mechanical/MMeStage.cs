@@ -519,12 +519,12 @@ namespace LWDicer.Control
             if (iResult != SUCCESS)
             {
                 str = $"fail : move Stage to safety pos [axis={axis}]";
-                WriteLog(str, ELogType.Debug, ELogWType.Error);
+                WriteLog(str, ELogType.Debug, ELogWType.D_Error);
                 return iResult;
             }
 
             str = $"success : move Stage to safety pos [axis={axis}";
-            WriteLog(str, ELogType.Debug, ELogWType.Normal);
+            WriteLog(str, ELogType.Debug, ELogWType.D_Normal);
 
             return SUCCESS;
         }
@@ -578,7 +578,7 @@ namespace LWDicer.Control
                 iResult = m_RefComp.AxStage.Move(DEF_ALL_COORDINATE, bMoveFlag, dTargetPos, bUsePriority);
                 if (iResult != SUCCESS)
                 {
-                    WriteLog("fail : move Stage x y t axis", ELogType.Debug, ELogWType.Error);
+                    WriteLog("fail : move Stage x y t axis", ELogType.Debug, ELogWType.D_Error);
                     return iResult;
                 }
             }
@@ -590,13 +590,13 @@ namespace LWDicer.Control
                 iResult = m_RefComp.AxStage.Move(DEF_ALL_COORDINATE, bTempFlag, dTargetPos);
                 if (iResult != SUCCESS)
                 {
-                    WriteLog("fail : move Stage z axis", ELogType.Debug, ELogWType.Error);
+                    WriteLog("fail : move Stage z axis", ELogType.Debug, ELogWType.D_Error);
                     return iResult;
                 }
             }
 
             string str = $"success : move Stage to pos:{sPos.ToString()}";
-            WriteLog(str, ELogType.Debug, ELogWType.Normal);
+            WriteLog(str, ELogType.Debug, ELogWType.D_Normal);
 
             return SUCCESS;
         }
@@ -1273,7 +1273,7 @@ namespace LWDicer.Control
             if(bSkipError == false && bResult == false)
             {
                 string str = $"Stage의 위치비교 결과 미일치합니다. Target Pos : {sPos.ToString()}";
-                WriteLog(str, ELogType.Debug, ELogWType.Error);
+                WriteLog(str, ELogType.Debug, ELogWType.D_Error);
 
                 return GenerateErrorCode(ERR_STAGE_NOT_SAME_POSITION);
             }

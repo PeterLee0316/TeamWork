@@ -304,7 +304,7 @@ namespace LWDicer.Control
         public class CSystemData_Axis
         {
             // ACS Motion Axis
-            public CACSMotionData[] ACSMotionData = new CACSMotionData[USE_AXIS_COUNT];
+            public CACSMotionData[] ACSMotionData = new CACSMotionData[USE_ACS_AXIS_COUNT];
             // YMC Motion Axis
             public CMPMotionData[] MPMotionData = new CMPMotionData[MAX_MP_AXIS];
 
@@ -714,8 +714,8 @@ namespace LWDicer.Control
 
             // 아래의 네가지 함수 콜은 LWDicer의 Initialize에서 읽어들이는게 맞지만, 생성자에서 한번 더 읽어도 되기에.. 주석처리해도 상관없음
             LoadSystemData();
-            LoadPositionData(true);
-            LoadPositionData(false);
+            LoadPositionData(true, EPositionObject.ALL);
+            LoadPositionData(false, EPositionObject.ALL);
             LoadModelList();
             MakeDefaultModel();
             ChangeModel(SystemData.ModelName);
@@ -785,8 +785,8 @@ namespace LWDicer.Control
             // 프로그램 시작시에 Position Data db에 초기에 저장 test routine
             if (false)
             {
-                SavePositionData(true);
-                SavePositionData(false);
+                SavePositionData(true, EPositionGroup.ALL);
+                SavePositionData(false, EPositionGroup.ALL);
             }
 
             // WorkPiece and Process Phase를 한번 쭉~ test routine
@@ -881,7 +881,7 @@ namespace LWDicer.Control
             {
                 if (DBManager.BackupDB(source, time) == false)
                 {
-                    WriteLog("fail : backup db.", ELogType.Debug, ELogWType.Error);
+                    WriteLog("fail : backup db.", ELogType.Debug, ELogWType.D_Error);
                     return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_BACKUP_DB);
                 }
             }
@@ -899,7 +899,7 @@ namespace LWDicer.Control
             {
                 if (DBManager.DeleteDB(source) == false)
                 {
-                    WriteLog("fail : delete db.", ELogType.Debug, ELogWType.Error);
+                    WriteLog("fail : delete db.", ELogType.Debug, ELogWType.D_Error);
                     return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_DELETE_DB);
                 }
             }
@@ -1027,7 +1027,7 @@ namespace LWDicer.Control
         public int LoadSystemData(bool loadSystem = true, bool loadAxis = true, bool loadCylinder = true,
             bool loadVacuum = true, bool loadScanner = true)
         {
-                string output;
+            string output;
 
             // CSystemData
             if (loadSystem == true)
@@ -1093,7 +1093,7 @@ namespace LWDicer.Control
                         }
 
                         WriteLog("success : load CSystemData_Axis.", ELogType.SYSTEM, ELogWType.LOAD);
-            }
+                    }
                     //else // temporarily do not return error for continuous loading
                     //{
                     //    return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_LOAD_SYSTEM_DATA);
@@ -1238,7 +1238,7 @@ namespace LWDicer.Control
             return SUCCESS;
         }
 
-        public int SavePositionData(bool bLoadFixed, EPositionObject unit = EPositionObject.ALL)
+        public int SavePositionData(bool bLoadFixed, EPositionObject unit)
         {
             int iResult;
             string key_value, output;
@@ -1394,6 +1394,73 @@ namespace LWDicer.Control
             return SUCCESS;
         }
 
+        public int SavePositionData(bool bLoadFixed, EPositionGroup unit)
+        {
+            int iResult;
+
+            // Loader
+            if (unit == EPositionGroup.ALL || unit == EPositionGroup.LOADER)
+            {
+                iResult = SavePositionData(bLoadFixed, EPositionObject.LOADER);
+                if (iResult != SUCCESS) return iResult;
+            }
+
+            // PushPull
+            if (unit == EPositionGroup.ALL || unit == EPositionGroup.PUSHPULL)
+            {
+                iResult = SavePositionData(bLoadFixed, EPositionObject.PUSHPULL);
+                if (iResult != SUCCESS) return iResult;
+                iResult = SavePositionData(bLoadFixed, EPositionObject.PUSHPULL_CENTER1);
+                if (iResult != SUCCESS) return iResult;
+                iResult = SavePositionData(bLoadFixed, EPositionObject.PUSHPULL_CENTER2);
+                if (iResult != SUCCESS) return iResult;
+            }
+
+            // Spinner1
+            if (unit == EPositionGroup.ALL || unit == EPositionGroup.SPINNER1)
+            {
+                iResult = SavePositionData(bLoadFixed, EPositionObject.S1_ROTATE);
+                if (iResult != SUCCESS) return iResult;
+                iResult = SavePositionData(bLoadFixed, EPositionObject.S1_CLEAN_NOZZLE);
+                if (iResult != SUCCESS) return iResult;
+                iResult = SavePositionData(bLoadFixed, EPositionObject.S1_COAT_NOZZLE);
+                if (iResult != SUCCESS) return iResult;
+            }
+
+            // Spinner2
+            if (unit == EPositionGroup.ALL || unit == EPositionGroup.SPINNER2)
+            {
+                iResult = SavePositionData(bLoadFixed, EPositionObject.S2_ROTATE);
+                if (iResult != SUCCESS) return iResult;
+                iResult = SavePositionData(bLoadFixed, EPositionObject.S2_CLEAN_NOZZLE);
+                if (iResult != SUCCESS) return iResult;
+                iResult = SavePositionData(bLoadFixed, EPositionObject.S2_COAT_NOZZLE);
+                if (iResult != SUCCESS) return iResult;
+            }
+
+            // Handler
+            if (unit == EPositionGroup.ALL || unit == EPositionGroup.HANDLER)
+            {
+                iResult = SavePositionData(bLoadFixed, EPositionObject.LOWER_HANDLER);
+                if (iResult != SUCCESS) return iResult;
+                iResult = SavePositionData(bLoadFixed, EPositionObject.UPPER_HANDLER);
+                if (iResult != SUCCESS) return iResult;
+            }
+
+            // Stage
+            if (unit == EPositionGroup.ALL || unit == EPositionGroup.STAGE1)
+            {
+                iResult = SavePositionData(bLoadFixed, EPositionObject.STAGE1);
+                if (iResult != SUCCESS) return iResult;
+                iResult = SavePositionData(bLoadFixed, EPositionObject.CAMERA1);
+                if (iResult != SUCCESS) return iResult;
+                iResult = SavePositionData(bLoadFixed, EPositionObject.SCANNER1);
+                if (iResult != SUCCESS) return iResult;
+            }
+
+            return SUCCESS;
+        }
+
         private int LoadUnitPositionData(string key_value, out string output)
         {
             // db에 없을 경우나, error가 발생했을때를 대비해서, 기본으로 초기화 시켜주기위해서
@@ -1422,7 +1489,7 @@ namespace LWDicer.Control
             return SUCCESS;
         }
 
-        public int LoadPositionData(bool bLoadFixed, EPositionObject unit = EPositionObject.ALL)
+        public int LoadPositionData(bool bLoadFixed, EPositionObject unit)
         {
             int iResult;
             string output;
@@ -1610,6 +1677,74 @@ namespace LWDicer.Control
 
             return SUCCESS;
         }
+
+        public int LoadPositionData(bool bLoadFixed, EPositionGroup unit)
+        {
+            int iResult;
+
+            // Loader
+            if (unit == EPositionGroup.ALL || unit == EPositionGroup.LOADER)
+            {
+                iResult = LoadPositionData(bLoadFixed, EPositionObject.LOADER);
+                if (iResult != SUCCESS) return iResult;
+            }
+
+            // PushPull
+            if (unit == EPositionGroup.ALL || unit == EPositionGroup.PUSHPULL)
+            {
+                iResult = LoadPositionData(bLoadFixed, EPositionObject.PUSHPULL);
+                if (iResult != SUCCESS) return iResult;
+                iResult = LoadPositionData(bLoadFixed, EPositionObject.PUSHPULL_CENTER1);
+                if (iResult != SUCCESS) return iResult;
+                iResult = LoadPositionData(bLoadFixed, EPositionObject.PUSHPULL_CENTER2);
+                if (iResult != SUCCESS) return iResult;
+            }
+
+            // Spinner1
+            if (unit == EPositionGroup.ALL || unit == EPositionGroup.SPINNER1)
+            {
+                iResult = LoadPositionData(bLoadFixed, EPositionObject.S1_ROTATE);
+                if (iResult != SUCCESS) return iResult;
+                iResult = LoadPositionData(bLoadFixed, EPositionObject.S1_CLEAN_NOZZLE);
+                if (iResult != SUCCESS) return iResult;
+                iResult = LoadPositionData(bLoadFixed, EPositionObject.S1_COAT_NOZZLE);
+                if (iResult != SUCCESS) return iResult;
+            }
+
+            // Spinner2
+            if (unit == EPositionGroup.ALL || unit == EPositionGroup.SPINNER2)
+            {
+                iResult = LoadPositionData(bLoadFixed, EPositionObject.S2_ROTATE);
+                if (iResult != SUCCESS) return iResult;
+                iResult = LoadPositionData(bLoadFixed, EPositionObject.S2_CLEAN_NOZZLE);
+                if (iResult != SUCCESS) return iResult;
+                iResult = LoadPositionData(bLoadFixed, EPositionObject.S2_COAT_NOZZLE);
+                if (iResult != SUCCESS) return iResult;
+            }
+
+            // Handler
+            if (unit == EPositionGroup.ALL || unit == EPositionGroup.HANDLER)
+            {
+                iResult = LoadPositionData(bLoadFixed, EPositionObject.LOWER_HANDLER);
+                if (iResult != SUCCESS) return iResult;
+                iResult = LoadPositionData(bLoadFixed, EPositionObject.UPPER_HANDLER);
+                if (iResult != SUCCESS) return iResult;
+            }
+
+            // Stage
+            if (unit == EPositionGroup.ALL || unit == EPositionGroup.STAGE1)
+            {
+                iResult = LoadPositionData(bLoadFixed, EPositionObject.STAGE1);
+                if (iResult != SUCCESS) return iResult;
+                iResult = LoadPositionData(bLoadFixed, EPositionObject.CAMERA1);
+                if (iResult != SUCCESS) return iResult;
+                iResult = LoadPositionData(bLoadFixed, EPositionObject.SCANNER1);
+                if (iResult != SUCCESS) return iResult;
+            }
+
+            return SUCCESS;
+        }
+
 
         /// <summary>
         /// Model(Panel, Wafer)의 크기에 따라 자동으로 모델 좌표를 생성시켜준다.
@@ -2231,7 +2366,7 @@ namespace LWDicer.Control
             }
 
             // 3. load model offset position
-            iResult = LoadPositionData(false);
+            iResult = LoadPositionData(false, EPositionGroup.ALL);
             if (iResult != SUCCESS) return iResult;
 
             // 4. generate model position
@@ -2546,7 +2681,7 @@ namespace LWDicer.Control
         {
             int iResult;
 
-            LoadSystemParaExcelFile(EExcel_Sheet.Skip);
+            ImportDataFromExcel(EExcel_Sheet.Skip);
 
             iResult = LoadIOList();
             //if (iResult != SUCCESS) return iResult;
@@ -2912,7 +3047,7 @@ namespace LWDicer.Control
             return SUCCESS;
         }
 
-        public int LoadSystemParaExcelFile(EExcel_Sheet nSheet)
+        public int ImportDataFromExcel(EExcel_Sheet nSheet)
         {
             if(nSheet == EExcel_Sheet.Skip)
             {
@@ -2923,7 +3058,7 @@ namespace LWDicer.Control
             int i = 0, j = 0, nSheetCount = 0, nCount = 0;
 
             string strPath = DBInfo.SystemDir + DBInfo.ExcelSystemPara;
-
+            int iResult;
             try
             {
                 Excel.Application ExcelApp = new Microsoft.Office.Interop.Excel.Application();
@@ -2945,43 +3080,44 @@ namespace LWDicer.Control
                     SheetRange[i] = Sheet[i].UsedRange;
                 }
 
-                if(nSheet == EExcel_Sheet.PARA_Info)
+                if(nSheet == EExcel_Sheet.MAX || nSheet == EExcel_Sheet.PARA_Info)
                 {
                     // Parameter Info
-                    LoadParaInfoFromExcel(SheetRange[(int)EExcel_Sheet.PARA_Info]);
+                    iResult = ImportParaDataFromExcel(SheetRange[(int)EExcel_Sheet.PARA_Info]);
+                    if(iResult == SUCCESS)
+                    {
+                        SaveParaInfoList();
+                    }
                 }
 
-                if (nSheet == EExcel_Sheet.Alarm_Info)
+                if (nSheet == EExcel_Sheet.MAX || nSheet == EExcel_Sheet.Alarm_Info)
                 {
                     // Alarm Info
-                    LoadAlarmInfoFromExcel(SheetRange[(int)EExcel_Sheet.Alarm_Info]);
+                    iResult = ImportAlarmDataFromExcel(SheetRange[(int)EExcel_Sheet.Alarm_Info]);
+                    if (iResult == SUCCESS)
+                    {
+                        SaveAlarmInfoList();
+                    }
                 }
 
-                if (nSheet == EExcel_Sheet.IO_Info)
+                if (nSheet == EExcel_Sheet.MAX || nSheet == EExcel_Sheet.IO_Info)
                 {
                     // IO 
-                    LoadExcelIOInfo(SheetRange[(int)EExcel_Sheet.IO_Info]);
+                    iResult = ImportIODataFromExcel(SheetRange[(int)EExcel_Sheet.IO_Info]);
+                    if (iResult == SUCCESS)
+                    {
+                        SaveIOList();
+                    }
                 }
 
-                if (nSheet == EExcel_Sheet.Motor_Data)
+                if (nSheet == EExcel_Sheet.MAX || nSheet == EExcel_Sheet.Motor_Data)
                 {
                     // Motor Data
-                    LoadMotorDataToExcel(SheetRange[(int)EExcel_Sheet.Motor_Data]);
-                }
-
-                if(nSheet == EExcel_Sheet.MAX)
-                {
-                    // Parameter Info
-                    LoadParaInfoFromExcel(SheetRange[(int)EExcel_Sheet.PARA_Info]);
-
-                    // Alarm Info
-                    LoadAlarmInfoFromExcel(SheetRange[(int)EExcel_Sheet.Alarm_Info]);
-
-                    // IO 
-                    LoadExcelIOInfo(SheetRange[(int)EExcel_Sheet.IO_Info]);
-
-                    // Motor Data
-                    LoadMotorDataToExcel(SheetRange[(int)EExcel_Sheet.Motor_Data]);
+                    iResult = ImportMotorDataFromExcel(SheetRange[(int)EExcel_Sheet.Motor_Data]);
+                    if (iResult == SUCCESS)
+                    {
+                        SaveSystemData(systemAxis: SystemData_Axis);
+                    }
                 }
 
                 WorkBook.Close(true);
@@ -2993,11 +3129,11 @@ namespace LWDicer.Control
                 return GenerateErrorCode(ERR_DATA_MANAGER_IO_EXCEL_FILE_READ_FAIL);
             }
 
-            WriteLog($"success : System Parameter Read Completed", ELogType.Debug);
+            WriteLog($"success : Import Data from Excel", ELogType.Debug);
             return SUCCESS;
         }
 
-        public int LoadExcelIOInfo(Excel.Range SheetRange)
+        public int ImportIODataFromExcel(Excel.Range SheetRange)
         {
             int nCount = 0 , i = 0;
 
@@ -3030,7 +3166,7 @@ namespace LWDicer.Control
             return SUCCESS;
         }
 
-        public int LoadMotorDataToExcel(Excel.Range SheetRange)
+        public int ImportMotorDataFromExcel(Excel.Range SheetRange)
         {
             int i = 0;
 
@@ -3131,10 +3267,9 @@ namespace LWDicer.Control
 
             WriteLog($"success : Load Motor Data", ELogType.Debug);
             return SUCCESS;
-
         }
 
-        public int LoadAlarmInfoFromExcel(Excel.Range SheetRange)
+        public int ImportAlarmDataFromExcel(Excel.Range SheetRange)
         {
             int nRowCount = SheetRange.EntireRow.Count;
             int i = 0;
@@ -3180,7 +3315,7 @@ namespace LWDicer.Control
             return SUCCESS;
         }
 
-        public int LoadParaInfoFromExcel(Excel.Range SheetRange)
+        public int ImportParaDataFromExcel(Excel.Range SheetRange)
         {
             int nRowCount = SheetRange.EntireRow.Count;
             int i = 0, Type = 0;
@@ -3339,7 +3474,7 @@ namespace LWDicer.Control
             return SUCCESS;
         }
 
-        public int SaveMotorDataToExcel(string [,] strParameter)
+        public int ExportMotorDataFromExcel(string [,] strParameter)
         {
             int i = 0, j = 0, nSheetCount = 0, nCount = 0;
 
@@ -3454,12 +3589,13 @@ namespace LWDicer.Control
                 }
             }
 
+            // yaskawa api call 할 때, Name이 8자 제한때문에 축약해서 이름 사용함.
             // LOADER_Z
             index = (int)EYMC_Axis.LOADER_Z         ;
             if (SystemData_Axis.MPMotionData[index].Name == "NotExist")
             {
                 tMotion = new CMPMotionData();
-                tMotion.Name = "LOADER_Z";
+                tMotion.Name = "LD_Z"; //"LOADER_Z";
                 tMotion.Exist = true;
 
                 SystemData_Axis.MPMotionData[index] = ObjectExtensions.Copy(tMotion);
@@ -3470,7 +3606,7 @@ namespace LWDicer.Control
             if (SystemData_Axis.MPMotionData[index].Name == "NotExist")
             {
                 tMotion = new CMPMotionData();
-                tMotion.Name = "PUSHPULL_Y";
+                tMotion.Name = "PP_Y"; //"PUSHPULL_Y";
                 tMotion.Exist = true;
 
                 SystemData_Axis.MPMotionData[index] = ObjectExtensions.Copy(tMotion);
@@ -3481,84 +3617,84 @@ namespace LWDicer.Control
             if (SystemData_Axis.MPMotionData[index].Name == "NotExist")
             {
                 tMotion = new CMPMotionData();
-                tMotion.Name = "PUSHPULL_X1";
+                tMotion.Name = "PP_X1"; //"PUSHPULL_X1";
                 tMotion.Exist = true;
 
                 SystemData_Axis.MPMotionData[index] = ObjectExtensions.Copy(tMotion);
             }
 
-            // C1_CHUCK_ROTATE_T
+            // S1_ROTATE_T
             index = (int)EYMC_Axis.S1_CHUCK_ROTATE_T;
             if (SystemData_Axis.MPMotionData[index].Name == "NotExist")
             {
                 tMotion = new CMPMotionData();
-                tMotion.Name = "C1_CHUCK_ROTATE_T";
+                tMotion.Name = "S1_R_T"; //"C1_CHUCK_ROTATE_T";
                 tMotion.Exist = true;
 
                 SystemData_Axis.MPMotionData[index] = ObjectExtensions.Copy(tMotion);
             }
 
-            // C1_CLEAN_NOZZLE_T
+            // S1_CLEAN_NOZZLE_T
             index = (int)EYMC_Axis.S1_CLEAN_NOZZLE_T;
             if (SystemData_Axis.MPMotionData[index].Name == "NotExist")
             {
                 tMotion = new CMPMotionData();
-                tMotion.Name = "C1_CLEAN_NOZZLE_T";
+                tMotion.Name = "S1_CL_T"; //"C1_CLEAN_NOZZLE_T";
                 tMotion.Exist = true;
 
                 SystemData_Axis.MPMotionData[index] = ObjectExtensions.Copy(tMotion);
             }
 
-            // C1_COAT_NOZZLE_T 
+            // S1_COAT_NOZZLE_T 
             index = (int)EYMC_Axis.S1_COAT_NOZZLE_T ;
             if (SystemData_Axis.MPMotionData[index].Name == "NotExist")
             {
                 tMotion = new CMPMotionData();
-                tMotion.Name = "C1_COAT_NOZZLE_T";
+                tMotion.Name = "S1_CO_T"; //"C1_COAT_NOZZLE_T";
                 tMotion.Exist = true;
 
                 SystemData_Axis.MPMotionData[index] = ObjectExtensions.Copy(tMotion);
             }
 
             // PUSHPULL_X2   
-            index = (int)EYMC_Axis.PUSHPULL_X2   ;
+            index = (int)EYMC_Axis.PUSHPULL_X2;
             if (SystemData_Axis.MPMotionData[index].Name == "NotExist")
             {
                 tMotion = new CMPMotionData();
-                tMotion.Name = "PUSHPULL_X2";
+                tMotion.Name = "PP_X2"; //"PUSHPULL_X2";
                 tMotion.Exist = true;
 
                 SystemData_Axis.MPMotionData[index] = ObjectExtensions.Copy(tMotion);
             }
 
-            // C2_CHUCK_ROTATE_T
+            // S2_ROTATE_T
             index = (int)EYMC_Axis.S2_CHUCK_ROTATE_T;
             if (SystemData_Axis.MPMotionData[index].Name == "NotExist")
             {
                 tMotion = new CMPMotionData();
-                tMotion.Name = "C2_CHUCK_ROTATE_T";
+                tMotion.Name = "S2_R_T"; //"C2_CHUCK_ROTATE_T";
                 tMotion.Exist = true;
 
                 SystemData_Axis.MPMotionData[index] = ObjectExtensions.Copy(tMotion);
             }
 
-            // C2_CLEAN_NOZZLE_T
+            // S2_CLEAN_NOZZLE_T
             index = (int)EYMC_Axis.S2_CLEAN_NOZZLE_T;
             if (SystemData_Axis.MPMotionData[index].Name == "NotExist")
             {
                 tMotion = new CMPMotionData();
-                tMotion.Name = "C2_CLEAN_NOZZLE_T";
+                tMotion.Name = "S2_CL_T"; //"C2_CLEAN_NOZZLE_T";
                 tMotion.Exist = true;
 
                 SystemData_Axis.MPMotionData[index] = ObjectExtensions.Copy(tMotion);
             }
 
-            // C2_COAT_NOZZLE_T 
-            index = (int)EYMC_Axis.S2_COAT_NOZZLE_T ;
+            // S2_COAT_NOZZLE_T 
+            index = (int)EYMC_Axis.S2_COAT_NOZZLE_T;
             if (SystemData_Axis.MPMotionData[index].Name == "NotExist")
             {
                 tMotion = new CMPMotionData();
-                tMotion.Name = "C2_COAT_NOZZLE_T";
+                tMotion.Name = "S2_CO_T"; //"C2_COAT_NOZZLE_T";
                 tMotion.Exist = true;
 
                 SystemData_Axis.MPMotionData[index] = ObjectExtensions.Copy(tMotion);
@@ -3569,7 +3705,7 @@ namespace LWDicer.Control
             if (SystemData_Axis.MPMotionData[index].Name == "NotExist")
             {
                 tMotion = new CMPMotionData();
-                tMotion.Name = "UPPER_HANDLER_X";
+                tMotion.Name = "UH_X"; // "UPPER_HANDLER_X";
                 tMotion.Exist = true;
 
                 SystemData_Axis.MPMotionData[index] = ObjectExtensions.Copy(tMotion);
@@ -3580,7 +3716,7 @@ namespace LWDicer.Control
             if (SystemData_Axis.MPMotionData[index].Name == "NotExist")
             {
                 tMotion = new CMPMotionData();
-                tMotion.Name = "UPPER_HANDLER_Z";
+                tMotion.Name = "UH_Z"; // "UPPER_HANDLER_Z";
                 tMotion.Exist = true;
 
                 SystemData_Axis.MPMotionData[index] = ObjectExtensions.Copy(tMotion);
@@ -3591,7 +3727,7 @@ namespace LWDicer.Control
             if (SystemData_Axis.MPMotionData[index].Name == "NotExist")
             {
                 tMotion = new CMPMotionData();
-                tMotion.Name = "LOWER_HANDLER_X";
+                tMotion.Name = "LH_X"; // "LOWER_HANDLER_X";
                 tMotion.Exist = true;
 
                 SystemData_Axis.MPMotionData[index] = ObjectExtensions.Copy(tMotion);
@@ -3602,7 +3738,7 @@ namespace LWDicer.Control
             if (SystemData_Axis.MPMotionData[index].Name == "NotExist")
             {
                 tMotion = new CMPMotionData();
-                tMotion.Name = "LOWER_HANDLER_Z";
+                tMotion.Name = "LH_Z"; // "LOWER_HANDLER_Z";
                 tMotion.Exist = true;
 
                 SystemData_Axis.MPMotionData[index] = ObjectExtensions.Copy(tMotion);
@@ -3613,7 +3749,7 @@ namespace LWDicer.Control
             if (SystemData_Axis.MPMotionData[index].Name == "NotExist")
             {
                 tMotion = new CMPMotionData();
-                tMotion.Name = "CAMERA1_Z";
+                tMotion.Name = "CAM1_Z"; // "CAMERA1_Z";
                 tMotion.Exist = true;
 
                 SystemData_Axis.MPMotionData[index] = ObjectExtensions.Copy(tMotion);
@@ -3624,7 +3760,7 @@ namespace LWDicer.Control
             if (SystemData_Axis.MPMotionData[index].Name == "NotExist")
             {
                 tMotion = new CMPMotionData();
-                tMotion.Name = "SCANNER1_Z";
+                tMotion.Name = "SCAN1_Z"; // "SCANNER1_Z";
                 tMotion.Exist = true;
 
                 SystemData_Axis.MPMotionData[index] = ObjectExtensions.Copy(tMotion);

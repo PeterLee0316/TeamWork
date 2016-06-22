@@ -230,9 +230,12 @@ LWDicer의 DataManager에서 데이터를 읽어오기 위한 3가지 함수 : S
 
 // Version : 0.0.25
 // Grade : ★
-// Date : 160620
+// Date : 160620~160621
 // Context
 1. Teaching Data Dialog에서 사용하기 위해 private CMovingObject를 public CMovingObject { get; private set; } 으로 변경함
+2. DEF_Yaskawa, DEF_ACS에서 중복 사용중인 것들은 DEF_Motion 으로 이동시킴
+3. Yaskawa MP Motion 생성시에 Motion Name 글자수 제한(8자) 확인 및 수정
+4. Excel Data 읽어오는 부분 함수들 ImportDataFromExcel 로 수정, 반대로 내보내는 함수 이름은 ExportDataToExcel로 할 것
 
 ////////////////////////////////////////////////////////////////////////////////////////////
 // LJJ
@@ -381,7 +384,7 @@ LWDicer의 DataManager에서 데이터를 읽어오기 위한 3가지 함수 : S
 // * UI 변경
 // 1. Axis Operation UI 추가
 // 2. Motor Parameter UI 추가 / Motor Parameter Excel File Load,Save 구문 추가
-//  - MDataManager -> SaveMotorDataToExcel(string [,] strParameter)
+//  - MDataManager -> ExportMotorDataFromExcel(string [,] strParameter)
 //  - Motor Data 경로 SFA\LWDicer\SystemData\SystemData.xlsx
 
 // Version : 0.0.5

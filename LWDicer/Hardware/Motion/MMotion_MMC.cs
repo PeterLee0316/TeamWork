@@ -8,6 +8,7 @@ using MotionYMC;
 using static LWDicer.Control.DEF_Common;
 using static LWDicer.Control.DEF_Error;
 using static LWDicer.Control.DEF_Motion;
+using static LWDicer.Control.DEF_MMCMMI;
 
 namespace LWDicer.Control
 {

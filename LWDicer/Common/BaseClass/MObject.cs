@@ -45,12 +45,17 @@ namespace LWDicer.Control
             return $"[Object] ID : {ObjInfo.ID}, Name : {ObjInfo.Name}";
         }
 
-        public int WriteLog(string strLog, ELogType logType = ELogType.Debug, ELogWType writeType = ELogWType.Normal, bool ShowOutputWindow = false, int skipFrames = 2)
+        public int WriteLog(string strLog, ELogType logType = ELogType.Debug, ELogWType writeType = ELogWType.D_Normal, bool ShowOutputWindow = false, int skipFrames = 2)
         {
+            // for break when error occured
+            if(logType == ELogType.Debug && writeType == ELogWType.D_Error)
+            {
+                int i = 0;
+            }
             return LogManager.WriteLog(strLog, logType, writeType, ShowOutputWindow, skipFrames);
         }
 
-        public void WriteExLog(string strLog, ELogType logType = ELogType.Debug, ELogWType writeType = ELogWType.Error, bool ShowOutputWindow = true, int skipFrames = 3)
+        public void WriteExLog(string strLog, ELogType logType = ELogType.Debug, ELogWType writeType = ELogWType.D_Error, bool ShowOutputWindow = true, int skipFrames = 3)
         {
             LogManager.WriteLog(strLog, logType, writeType, ShowOutputWindow, skipFrames);
         }

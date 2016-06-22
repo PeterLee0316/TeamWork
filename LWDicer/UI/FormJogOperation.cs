@@ -15,6 +15,7 @@ using Syncfusion.Windows.Forms.Tools;
 using static LWDicer.Control.DEF_System;
 
 using static LWDicer.Control.MYaskawa;
+using static LWDicer.Control.DEF_Motion;
 using static LWDicer.Control.DEF_Yaskawa;
 using static LWDicer.Control.DEF_ACS;
 
@@ -349,7 +350,7 @@ namespace LWDicer.UI
                 if (GetAxis() < 16)
                 {
                     // MP
-                    LWDicer.Control.DEF_Yaskawa.CMotorSpeedData[] AxisSpeed = new Control.DEF_Yaskawa.CMotorSpeedData[1];
+                    CMotorSpeedData[] AxisSpeed = new CMotorSpeedData[1];
 
                     if (GetVelocity() == true)
                     {
@@ -371,7 +372,7 @@ namespace LWDicer.UI
                     // ACS
                     nAcsAxis = GetAxis() - 16;
 
-                    LWDicer.Control.DEF_ACS.CMotorSpeedData AxisSpeed = new Control.DEF_ACS.CMotorSpeedData();
+                    CMotorSpeedData AxisSpeed = new CMotorSpeedData();
 
                     if (GetVelocity() == true)
                     {
@@ -444,7 +445,7 @@ namespace LWDicer.UI
                 if (GetAxis() < 16)
                 {
                     // MP
-                    LWDicer.Control.DEF_Yaskawa.CMotorSpeedData[] AxisSpeed = new Control.DEF_Yaskawa.CMotorSpeedData[1];
+                    CMotorSpeedData[] AxisSpeed = new CMotorSpeedData[1];
 
                     if (GetVelocity() == true)
                     {
@@ -467,7 +468,7 @@ namespace LWDicer.UI
                     // ACS
                     nAcsAxis = GetAxis() - 16;
 
-                    LWDicer.Control.DEF_ACS.CMotorSpeedData AxisSpeed = new Control.DEF_ACS.CMotorSpeedData();
+                    CMotorSpeedData AxisSpeed = new CMotorSpeedData();
 
                     if (GetVelocity() == true)
                     {
@@ -519,7 +520,7 @@ namespace LWDicer.UI
 
             if (GetAxis() < 16)
             {
-                LWDicer.Control.DEF_Yaskawa.CMotorSpeedData[] AxisSpeed = new Control.DEF_Yaskawa.CMotorSpeedData[1];
+                CMotorSpeedData[] AxisSpeed = new CMotorSpeedData[1];
 
                 // MP
                 if (GetVelocity() == true)
@@ -542,7 +543,7 @@ namespace LWDicer.UI
                 // ACS
                 nAcsAxis = GetAxis() - 16;
 
-                LWDicer.Control.DEF_ACS.CMotorSpeedData AxisSpeed = new Control.DEF_ACS.CMotorSpeedData();
+                CMotorSpeedData AxisSpeed = new CMotorSpeedData();
 
                 if (GetVelocity() == true)
                 {

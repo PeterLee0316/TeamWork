@@ -336,12 +336,12 @@ namespace LWDicer.Control
             if (iResult != SUCCESS)
             {
                 str = $"fail : move PushPull to safety pos [axis={axis}]";
-                WriteLog(str, ELogType.Debug, ELogWType.Error);
+                WriteLog(str, ELogType.Debug, ELogWType.D_Error);
                 return iResult;
             }
 
             str = $"success : move PushPull to safety pos [axis={axis}";
-            WriteLog(str, ELogType.Debug, ELogWType.Normal);
+            WriteLog(str, ELogType.Debug, ELogWType.D_Normal);
 
             return SUCCESS;
         }
@@ -414,7 +414,7 @@ namespace LWDicer.Control
                 iResult = m_RefComp.AxPushPull.Move(DEF_ALL_COORDINATE, bMoveFlag, dTargetPos, bUsePriority);
                 if (iResult != SUCCESS)
                 {
-                    WriteLog("fail : move PushPull x y t axis", ELogType.Debug, ELogWType.Error);
+                    WriteLog("fail : move PushPull x y t axis", ELogType.Debug, ELogWType.D_Error);
                     return iResult;
                 }
             }
@@ -428,14 +428,14 @@ namespace LWDicer.Control
                     iResult = m_RefComp.AxPushPull.Move(DEF_ALL_COORDINATE, bTempFlag, dTargetPos);
                     if (iResult != SUCCESS)
                     {
-                        WriteLog("fail : move PushPull z axis", ELogType.Debug, ELogWType.Error);
+                        WriteLog("fail : move PushPull z axis", ELogType.Debug, ELogWType.D_Error);
                         return iResult;
                     }
                 }
             }
 
             string str = $"success : move PushPull to pos:{iPos} {sPos.ToString()}";
-            WriteLog(str, ELogType.Debug, ELogWType.Normal);
+            WriteLog(str, ELogType.Debug, ELogWType.D_Normal);
 
             return SUCCESS;
         }
@@ -608,7 +608,7 @@ namespace LWDicer.Control
             if (bSkipError == false && bResult == false)
             {
                 string str = $"Stage의 위치비교 결과 미일치합니다. Target Pos : {sPos.ToString()}";
-                WriteLog(str, ELogType.Debug, ELogWType.Error);
+                WriteLog(str, ELogType.Debug, ELogWType.D_Error);
 
                 return GenerateErrorCode(ERR_PUSHPULL_NOT_SAME_POSITION);
             }
@@ -792,12 +792,12 @@ namespace LWDicer.Control
             if (iResult != SUCCESS)
             {
                 str = $"fail : move Center Unit to safety pos [axis={axis}]";
-                WriteLog(str, ELogType.Debug, ELogWType.Error);
+                WriteLog(str, ELogType.Debug, ELogWType.D_Error);
                 return iResult;
             }
 
             str = $"success : move Center Unit to safety pos [axis={axis}";
-            WriteLog(str, ELogType.Debug, ELogWType.Normal);
+            WriteLog(str, ELogType.Debug, ELogWType.D_Normal);
 
             return SUCCESS;
         }
@@ -881,7 +881,7 @@ namespace LWDicer.Control
                 }
                 if (iResult != SUCCESS)
                 {
-                    WriteLog("fail : move Center Unit x y t axis", ELogType.Debug, ELogWType.Error);
+                    WriteLog("fail : move Center Unit x y t axis", ELogType.Debug, ELogWType.D_Error);
                     return iResult;
                 }
             }
@@ -895,14 +895,14 @@ namespace LWDicer.Control
             //        iResult = GetCenterAx(index).Move(DEF_ALL_COORDINATE, bTempFlag, dTargetPos);
             //        if (iResult != SUCCESS)
             //        {
-            //            WriteLog("fail : move Center Unit z axis", ELogType.Debug, ELogWType.Error);
+            //            WriteLog("fail : move Center Unit z axis", ELogType.Debug, ELogWType.D_Error);
             //            return iResult;
             //        }
             //    }
             //}
 
             string str = $"success : move Center Unit to pos:{iPos} {sPos.ToString()}";
-            WriteLog(str, ELogType.Debug, ELogWType.Normal);
+            WriteLog(str, ELogType.Debug, ELogWType.D_Normal);
 
             return SUCCESS;
         }
@@ -921,12 +921,12 @@ namespace LWDicer.Control
             iResult = GetCenterAx(index).Wait4Done(DEF_ALL_COORDINATE, bMoveFlag);
             if (iResult != SUCCESS)
             {
-                WriteLog($"fail : wait for cetering unit{index} move done", ELogType.Debug, ELogWType.Error);
+                WriteLog($"fail : wait for cetering unit{index} move done", ELogType.Debug, ELogWType.D_Error);
                 return iResult;
             }
 
             string str = $"success : wait for cetering unit{index} move done";
-            WriteLog(str, ELogType.Debug, ELogWType.Normal);
+            WriteLog(str, ELogType.Debug, ELogWType.D_Normal);
 
             return SUCCESS;
         }
@@ -1051,7 +1051,7 @@ namespace LWDicer.Control
             if (bSkipError == false && bResult == false)
             {
                 string str = $"Center Unit의 위치비교 결과 미일치합니다. Target Pos : {sPos.ToString()}";
-                WriteLog(str, ELogType.Debug, ELogWType.Error);
+                WriteLog(str, ELogType.Debug, ELogWType.D_Error);
 
                 return GenerateErrorCode(ERR_PUSHPULL_NOT_SAME_POSITION);
             }

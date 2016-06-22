@@ -47,23 +47,19 @@ namespace LWDicer.UI
                 return;
             }
 
-            CSystemData_Vacuum m_data = new CSystemData_Vacuum();
+            CSystemData_Vacuum data = new CSystemData_Vacuum();
 
             int i = 0;
 
             for (i = 0; i < (int)EObjectVacuum.MAX; i++)
             {
-                m_data.VacuumTimer[i].TurningTime = Convert.ToDouble(GridVacuumData[i + 1, 1].Text);
-                m_data.VacuumTimer[i].OnSettlingTime = Convert.ToDouble(GridVacuumData[i + 1, 2].Text);
-                m_data.VacuumTimer[i].OffSettlingTime = Convert.ToDouble(GridVacuumData[i + 1, 3].Text);
+                data.VacuumTimer[i].TurningTime = Convert.ToDouble(GridVacuumData[i + 1, 1].Text);
+                data.VacuumTimer[i].OnSettlingTime = Convert.ToDouble(GridVacuumData[i + 1, 2].Text);
+                data.VacuumTimer[i].OffSettlingTime = Convert.ToDouble(GridVacuumData[i + 1, 3].Text);
             }
 
-            CMainFrame.LWDicer.SaveSystemData(null, null, null, m_data, null);
-
-            // 저장하고 다시 Loading 하자
-            CMainFrame.LWDicer.m_DataManager.LoadSystemData(false, false, false, true, false);
-
-            UpdateScreen(m_data);
+            CMainFrame.LWDicer.SaveSystemData(systemVacuum: data);
+            UpdateScreen(data);
         }
 
         private void GridVacuumData_CellClick(object sender, Syncfusion.Windows.Forms.Grid.GridCellClickEventArgs e)

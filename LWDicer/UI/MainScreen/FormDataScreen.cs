@@ -22,32 +22,12 @@ namespace LWDicer.UI
     public partial class FormDataScreen : Form
     {
 
-        private FormWaferData m_WaferDataForm;
-        private FormModelData m_ModelDataForm;
-        private FormScannerData m_ScannerDataForm;
-        private FormCylinderData m_CylinderDataForm;
-        private FormMotorData m_MotorDataForm;
-        private FormVisionData m_VisionDataForm;
-        private FormVacuumData m_VacuumDataForm;
-        private FormSystemParaRead m_SystemParaReadForm;
-        private FormSystemData m_SystemDataForm;
-
-
         public FormDataScreen()
         {
             InitializeComponent();
 
             InitializeForm();
 
-            m_WaferDataForm = new FormWaferData();
-            m_ModelDataForm = new FormModelData(EListHeaderType.MODEL);
-            m_ScannerDataForm = new FormScannerData();
-            m_CylinderDataForm = new FormCylinderData();
-            m_MotorDataForm = new FormMotorData();
-            m_VisionDataForm = new FormVisionData();
-            m_VacuumDataForm = new FormVacuumData();
-            m_SystemParaReadForm = new FormSystemParaRead();
-            m_SystemDataForm = new FormSystemData();
         }
 
         protected virtual void InitializeForm()
@@ -70,47 +50,56 @@ namespace LWDicer.UI
 
         private void BtnScannerData_Click(object sender, EventArgs e)
         {
-            m_ScannerDataForm.ShowDialog();
+            FormScannerData dlg = new FormScannerData();
+            dlg.ShowDialog();
         }
 
         private void BtnMotorData_Click(object sender, EventArgs e)
         {
-            m_MotorDataForm.ShowDialog();
+            FormMotorData dlg = new FormMotorData();
+            dlg.ShowDialog();
         }
 
         private void BtnCylinderData_Click(object sender, EventArgs e)
         {
-            m_CylinderDataForm.ShowDialog();
+            FormCylinderData dlg = new FormCylinderData();
+            dlg.ShowDialog();
         }
 
         private void BtnVisionData_Click(object sender, EventArgs e)
         {
-            m_VisionDataForm.ShowDialog();
+            FormVisionData dlg = new FormVisionData();
+            dlg.ShowDialog();
         }
 
         private void BtnModelData_Click(object sender, EventArgs e)
         {
-            m_ModelDataForm.ShowDialog();
+            FormModelData dlg = new FormModelData(EListHeaderType.MODEL);
+            dlg.ShowDialog();
         }
 
         private void BtnWaferData_Click(object sender, EventArgs e)
         {
-            m_WaferDataForm.ShowDialog();
+            FormWaferData dlg = new FormWaferData();
+            dlg.ShowDialog();
         }
 
         private void BtnVacuum_Click(object sender, EventArgs e)
         {
-            m_VacuumDataForm.ShowDialog();
+            FormVacuumData dlg = new FormVacuumData();
+            dlg.ShowDialog();
         }
 
         private void BtnExcelLoad_Click(object sender, EventArgs e)
         {
-            m_SystemParaReadForm.ShowDialog();
+            FormSystemParaRead dlg = new FormSystemParaRead();
+            dlg.ShowDialog();
         }
 
         private void BtnSystemData_Click(object sender, EventArgs e)
         {
-            m_SystemDataForm.ShowDialog();
+            FormSystemData dlg = new FormSystemData();
+            dlg.ShowDialog();
         }
     }
 }

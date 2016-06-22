@@ -26,7 +26,7 @@ namespace LWDicer.UI
                 return;
             }
 
-            CMainFrame.LWDicer.m_DataManager.LoadSystemParaExcelFile(EExcel_Sheet.PARA_Info);
+            CMainFrame.LWDicer.m_DataManager.ImportDataFromExcel(EExcel_Sheet.PARA_Info);
         }
 
         private void BtnAlarmInfoImport_Click(object sender, EventArgs e)
@@ -36,7 +36,7 @@ namespace LWDicer.UI
                 return;
             }
 
-            CMainFrame.LWDicer.m_DataManager.LoadSystemParaExcelFile(EExcel_Sheet.Alarm_Info);
+            CMainFrame.LWDicer.m_DataManager.ImportDataFromExcel(EExcel_Sheet.Alarm_Info);
         }
 
         private void BtnIOInfoImport_Click(object sender, EventArgs e)
@@ -46,7 +46,7 @@ namespace LWDicer.UI
                 return;
             }
 
-            CMainFrame.LWDicer.m_DataManager.LoadSystemParaExcelFile(EExcel_Sheet.IO_Info);
+            CMainFrame.LWDicer.m_DataManager.ImportDataFromExcel(EExcel_Sheet.IO_Info);
         }
 
         private void BtnMotorDataImport_Click(object sender, EventArgs e)
@@ -56,7 +56,7 @@ namespace LWDicer.UI
                 return;
             }
 
-            CMainFrame.LWDicer.m_DataManager.LoadSystemParaExcelFile(EExcel_Sheet.Motor_Data);
+            CMainFrame.LWDicer.m_DataManager.ImportDataFromExcel(EExcel_Sheet.Motor_Data);
 
             CMainFrame.LWDicer.m_DataManager.SaveSystemData(null, CMainFrame.LWDicer.m_DataManager.SystemData_Axis, null,null,null);
         }

@@ -328,7 +328,7 @@ namespace LWDicer.UI
 
                 CMainFrame.LWDicer.m_DataManager.SavePositionData(false, EPositionObject.LOADER);
             }
-            CMainFrame.LWDicer.SetPositionDataToComponent(EPositionObject.LOADER);
+            CMainFrame.LWDicer.SetPositionDataToComponent(EPositionGroup.ALL);
 
             LoadTeachingData(GetPosNo());
         }

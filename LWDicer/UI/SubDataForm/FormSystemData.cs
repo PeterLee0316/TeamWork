@@ -9,15 +9,18 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 
 using static LWDicer.Control.DEF_Common;
+using static LWDicer.Control.DEF_DataManager;
 
 namespace LWDicer.UI
 {
     public partial class FormSystemData : Form
     {
         private int SelLanguage;
+        private CSystemData SystemData;
 
         public FormSystemData()
         {
+            SystemData = ObjectExtensions.Copy(CMainFrame.LWDicer.m_DataManager.SystemData);
             InitializeComponent();
 
             ComboLanguage.Items.Add("KOREAN");
@@ -48,15 +51,15 @@ namespace LWDicer.UI
                 return;
             }
 
-            CMainFrame.LWDicer.m_DataManager.SystemData.Language = (ELanguage)SelLanguage;
+            SystemData.Language = (ELanguage)SelLanguage;
 
-            CMainFrame.LWDicer.m_DataManager.SaveSystemData(CMainFrame.LWDicer.m_DataManager.SystemData,null,null,null,null);
+            CMainFrame.LWDicer.m_DataManager.SaveSystemData(SystemData);
         }
 
         private void FormSystemData_Load(object sender, EventArgs e)
         {
             // Model Name
-            LabelModelName.Text = CMainFrame.LWDicer.m_DataManager.SystemData.ModelName;
+            LabelModelName.Text = SystemData.ModelName;
 
             // System Display Language
             UpdateComboLanguage();
@@ -72,7 +75,7 @@ namespace LWDicer.UI
 
         private void UpdateComboLanguage()
         {
-            switch(CMainFrame.LWDicer.m_DataManager.SystemData.Language)
+            switch(SystemData.Language)
             {
                 case ELanguage.KOREAN:
                     ComboLanguage.SelectedIndex = (int)ELanguage.KOREAN;

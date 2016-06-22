@@ -71,8 +71,6 @@ namespace LWDicer.Control
             MAX                ,
         }
 
-        
-
         public enum EYMC_Device
         {
             NULL = -1,
@@ -238,7 +236,6 @@ namespace LWDicer.Control
         public const int DEF_MAX_SYSTEM_MULTIAXES_OBJ_NO = 10;
         public const int DEF_MAX_SYSTEM_LOG_ITEM = 200;
 
-
         public enum EObjectCylinder
         {
             PUSHPULL_GRIPPER,
@@ -378,6 +375,34 @@ namespace LWDicer.Control
             MAX,
         }
 
+        /// <summary>
+        /// EPositionObject를 save/load/set 할 때, 각각을 저장하려니 번거로와서
+        /// 그룹으로 만들어서 그룹단위로 저장하도록 추가함
+        /// </summary>
+        public enum EPositionGroup // 좌표셋을 저장할 수 있는 단위
+        {
+            ALL = -1,
+
+            // Loader
+            LOADER,
+
+            // PushPull
+            PUSHPULL,
+
+            // Spinner1
+            SPINNER1,
+
+            // Spinner2
+            SPINNER2,
+
+            // Handler
+            HANDLER,
+
+            // Stage
+            STAGE1,
+
+            MAX,
+        }
     }
 
     public class DEF_Common
@@ -490,9 +515,9 @@ namespace LWDicer.Control
         {
             // 기본 Debug에서 쓰이는 3ea type
             // 소문자 Error는 Debug.Error이고, 대문자 ERROR는 자동운전중의 ERROR로 일단 구분해놓음
-            Normal,
-            Warning,
-            Error,
+            D_Normal,
+            D_Warning,
+            D_Error,
 
             // 이하, 각 LogType에서 쓰이는 상세 type
             LOGIN,
@@ -500,7 +525,7 @@ namespace LWDicer.Control
             SAVE,
             LOAD,
             FAIL,
-            ERROR,
+            ALARM, //ERROR, // Error와의 혼동때문에 자동운전중의 ERROR -> ALARM 으로 변경
             START,
             COMPLETE,
         }
@@ -563,23 +588,23 @@ namespace LWDicer.Control
 
             /////////////////////////////////////////////////////////////////////
             // Table
-            public string TableSystem       { get; private set; } // System Data
-            public string TableModelHeader  { get; private set; } // Model and Parent directory Header
-            public string TableModel { get; private set; } // Model Data
-            public string TableCassetteHeader { get; private set; } // Model and Parent directory Header
-            public string TableCassette { get; private set; } // Cassette Data
+            public string TableSystem           { get; private set; } // System Data
+            public string TableModelHeader      { get; private set; } // Model and Parent directory Header
+            public string TableModel            { get; private set; } // Model Data
+            public string TableCassetteHeader   { get; private set; } // Model and Parent directory Header
+            public string TableCassette         { get; private set; } // Cassette Data
             public string TableWaferFrameHeader { get; private set; } // Model and Parent directory Header
-            public string TableWaferFrame { get; private set; } // WaferFrame Data
-            public string TablePos          { get; private set; } // Position Data
-            public string TableIO           { get; private set; } // IO Information
-            public string TableAlarmInfo    { get; private set; } // Alarm Information
-            public string TableMsgInfo      { get; private set; } // Message Information
-            public string TableParameter    { get; private set; } // Parameter Description
+            public string TableWaferFrame       { get; private set; } // WaferFrame Data
+            public string TablePos              { get; private set; } // Position Data
+            public string TableIO               { get; private set; } // IO Information
+            public string TableAlarmInfo        { get; private set; } // Alarm Information
+            public string TableMsgInfo          { get; private set; } // Message Information
+            public string TableParameter        { get; private set; } // Parameter Description
 
-            public string TableLoginHistory { get; private set; } // Login History
-            public string TableAlarmHistory { get; private set; } // Alarm History
-            public string TableDebugLog     { get; private set; } // 개발자용 Log
-            public string TableEventLog     { get; private set; } // Event History
+            public string TableLoginHistory     { get; private set; } // Login History
+            public string TableAlarmHistory     { get; private set; } // Alarm History
+            public string TableDebugLog         { get; private set; } // 개발자용 Log
+            public string TableEventLog         { get; private set; } // Event History
 
             /////////////////////////////////////////////////////////////////////
             // Common Directory

@@ -261,7 +261,7 @@ namespace LWDicer.Control
                 iResult = m_RefComp.AxElevator.Move(DEF_ALL_COORDINATE, bMoveFlag, dTargetPos, bUsePriority);
                 if (iResult != SUCCESS)
                 {
-                    WriteLog("fail : move Elevator x y t axis", ELogType.Debug, ELogWType.Error);
+                    WriteLog("fail : move Elevator x y t axis", ELogType.Debug, ELogWType.D_Error);
                     return iResult;
                 }
             }
@@ -273,13 +273,13 @@ namespace LWDicer.Control
                 iResult = m_RefComp.AxElevator.Move(DEF_ALL_COORDINATE, bTempFlag, dTargetPos);
                 if (iResult != SUCCESS)
                 {
-                    WriteLog("fail : move Elevator z axis", ELogType.Debug, ELogWType.Error);
+                    WriteLog("fail : move Elevator z axis", ELogType.Debug, ELogWType.D_Error);
                     return iResult;
                 }
             }
 
             string str = $"success : move Elevator to pos:{sPos.ToString()}";
-            WriteLog(str, ELogType.Debug, ELogWType.Normal);
+            WriteLog(str, ELogType.Debug, ELogWType.D_Normal);
 
             return SUCCESS;
         }
@@ -585,7 +585,7 @@ namespace LWDicer.Control
             if(bSkipError == false && bResult == false)
             {
                 string str = $"Stage의 위치비교 결과 미일치합니다. Target Pos : {sPos.ToString()}";
-                WriteLog(str, ELogType.Debug, ELogWType.Error);
+                WriteLog(str, ELogType.Debug, ELogWType.D_Error);
 
                 return GenerateErrorCode(ERR_ELEVATOR_NOT_SAME_POSITION);
             }

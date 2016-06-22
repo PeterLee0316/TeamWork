@@ -220,12 +220,12 @@ namespace LWDicer.Control
                     {
                         if (bPanelTransfer)    // Panel이 있어야 할 상황일경우
                         {
-                            WriteLog("CtrlHandler의 이동 전 조건을 정상적으로 확인하지 못함. OBJECT NOT EXIST", ELogType.Debug, ELogWType.Error);
+                            WriteLog("CtrlHandler의 이동 전 조건을 정상적으로 확인하지 못함. OBJECT NOT EXIST", ELogType.Debug, ELogWType.D_Error);
                             return GenerateErrorCode(ERR_CTRLHANDLER_OBJECT_NOT_EXIST);
                         }
                         else
                         {
-                            WriteLog("CtrlHandler의 이동 전 조건을 정상적으로 확인하지 못함. OBJECT EXIST", ELogType.Debug, ELogWType.Error);
+                            WriteLog("CtrlHandler의 이동 전 조건을 정상적으로 확인하지 못함. OBJECT EXIST", ELogType.Debug, ELogWType.D_Error);
                             return GenerateErrorCode(ERR_CTRLHANDLER_OBJECT_EXIST);
                         }
                     }
@@ -234,7 +234,7 @@ namespace LWDicer.Control
                 {
                     if (bDetected || bAbsorbed)
                     {
-                        WriteLog("CtrlHandler의 이동 전 조건을 정상적으로 확인하지 못함. OBJECT EXIST", ELogType.Debug, ELogWType.Error);
+                        WriteLog("CtrlHandler의 이동 전 조건을 정상적으로 확인하지 못함. OBJECT EXIST", ELogType.Debug, ELogWType.D_Error);
                         return GenerateErrorCode(ERR_CTRLHANDLER_OBJECT_EXIST);
                     }
                 }

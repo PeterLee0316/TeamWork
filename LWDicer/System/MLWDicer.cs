@@ -661,7 +661,7 @@ namespace LWDicer.Control
             m_YMC = new MYaskawa(objInfo, refComp, data);
             m_YMC.SetMPMotionData(m_DataManager.SystemData_Axis.MPMotionData);
 
-#if !SIMULATION_MOTION
+#if !SIMULATION_MOTION_YMC
             int iResult = m_YMC.OpenController();
             if (iResult != SUCCESS) return iResult;
 #endif
@@ -677,7 +677,7 @@ namespace LWDicer.Control
             m_ACS = new MACS(objInfo, refComp, data);
             m_ACS.SetACSMotionData(m_DataManager.SystemData_Axis.ACSMotionData);
 
-#if !SIMULATION_MOTION
+#if !SIMULATION_MOTION_ACS
             int iResult = m_ACS.OpenController();
             if (iResult != SUCCESS) return iResult;
 #endif
@@ -1366,7 +1366,7 @@ namespace LWDicer.Control
 
         }
 
-        public void SetPositionDataToComponent(EPositionObject unit = EPositionObject.ALL)
+        public void SetPositionDataToComponent(EPositionGroup unit = EPositionGroup.ALL)
         {
             m_DataManager.LoadPositionData(true, unit);
             m_DataManager.LoadPositionData(false, unit);
@@ -1385,30 +1385,48 @@ namespace LWDicer.Control
             // Mechanical Layer
 
             // Loader
-            m_MeElevator.SetElevatorPosition(FixedPos.LoaderPos, ModelPos.LoaderPos, OffsetPos.LoaderPos);
+            if (unit == EPositionGroup.ALL || unit == EPositionGroup.LOADER)
+            {
+                m_MeElevator.SetElevatorPosition(FixedPos.LoaderPos, ModelPos.LoaderPos, OffsetPos.LoaderPos);
+            }
 
             // PushPull
-            m_MePushPull.SetPushPullPosition(FixedPos.PushPullPos, ModelPos.PushPullPos, OffsetPos.PushPullPos);
-            m_MePushPull.SetCenteringPosition(DEF_MePushPull.ECenterIndex.LEFT, FixedPos.Centering1Pos, ModelPos.Centering1Pos, OffsetPos.Centering1Pos);
-            m_MePushPull.SetCenteringPosition(DEF_MePushPull.ECenterIndex.RIGHT, FixedPos.Centering2Pos, ModelPos.Centering2Pos, OffsetPos.Centering2Pos);
+            if (unit == EPositionGroup.ALL || unit == EPositionGroup.PUSHPULL)
+            {
+                m_MePushPull.SetPushPullPosition(FixedPos.PushPullPos, ModelPos.PushPullPos, OffsetPos.PushPullPos);
+                m_MePushPull.SetCenteringPosition(DEF_MePushPull.ECenterIndex.LEFT, FixedPos.Centering1Pos, ModelPos.Centering1Pos, OffsetPos.Centering1Pos);
+                m_MePushPull.SetCenteringPosition(DEF_MePushPull.ECenterIndex.RIGHT, FixedPos.Centering2Pos, ModelPos.Centering2Pos, OffsetPos.Centering2Pos);
+            }
 
             // Spinner
-            m_MeSpinner1.SetRotatePosition(FixedPos.S1_RotatePos, ModelPos.S1_RotatePos, OffsetPos.S1_RotatePos);
-            m_MeSpinner1.SetCleanPosition(FixedPos.S1_CleanerPos, ModelPos.S1_CleanerPos, OffsetPos.S1_CleanerPos);
-            m_MeSpinner1.SetCoatPosition(FixedPos.S1_CoaterPos, ModelPos.S1_CoaterPos, OffsetPos.S1_CoaterPos);
+            if (unit == EPositionGroup.ALL || unit == EPositionGroup.SPINNER1)
+            {
+                m_MeSpinner1.SetRotatePosition(FixedPos.S1_RotatePos, ModelPos.S1_RotatePos, OffsetPos.S1_RotatePos);
+                m_MeSpinner1.SetCleanPosition(FixedPos.S1_CleanerPos, ModelPos.S1_CleanerPos, OffsetPos.S1_CleanerPos);
+                m_MeSpinner1.SetCoatPosition(FixedPos.S1_CoaterPos, ModelPos.S1_CoaterPos, OffsetPos.S1_CoaterPos);
+            }
 
-            m_MeSpinner2.SetRotatePosition(FixedPos.S2_RotatePos, ModelPos.S2_RotatePos, OffsetPos.S2_RotatePos);
-            m_MeSpinner2.SetCleanPosition(FixedPos.S2_CleanerPos, ModelPos.S2_CleanerPos, OffsetPos.S2_CleanerPos);
-            m_MeSpinner2.SetCoatPosition(FixedPos.S2_CoaterPos, ModelPos.S2_CoaterPos, OffsetPos.S2_CoaterPos);
+            if (unit == EPositionGroup.ALL || unit == EPositionGroup.SPINNER2)
+            {
+                m_MeSpinner2.SetRotatePosition(FixedPos.S2_RotatePos, ModelPos.S2_RotatePos, OffsetPos.S2_RotatePos);
+                m_MeSpinner2.SetCleanPosition(FixedPos.S2_CleanerPos, ModelPos.S2_CleanerPos, OffsetPos.S2_CleanerPos);
+                m_MeSpinner2.SetCoatPosition(FixedPos.S2_CoaterPos, ModelPos.S2_CoaterPos, OffsetPos.S2_CoaterPos);
+            }
 
             // Handler
-            m_MeUpperHandler.SetHandlerPosition(FixedPos.LowerHandlerPos, ModelPos.LowerHandlerPos, OffsetPos.LowerHandlerPos);
-            m_MeLowerHandler.SetHandlerPosition(FixedPos.UpperHandlerPos, ModelPos.UpperHandlerPos, OffsetPos.UpperHandlerPos);
+            if (unit == EPositionGroup.ALL || unit == EPositionGroup.HANDLER)
+            {
+                m_MeUpperHandler.SetHandlerPosition(FixedPos.LowerHandlerPos, ModelPos.LowerHandlerPos, OffsetPos.LowerHandlerPos);
+                m_MeLowerHandler.SetHandlerPosition(FixedPos.UpperHandlerPos, ModelPos.UpperHandlerPos, OffsetPos.UpperHandlerPos);
+            }
 
             // Stage
-            m_MeStage.SetStagePosition(FixedPos.Stage1Pos, ModelPos.Stage1Pos, OffsetPos.Stage1Pos);
-            m_MeStage.SetCameraPosition(FixedPos.Camera1Pos, ModelPos.Camera1Pos, OffsetPos.Camera1Pos);
-            m_MeStage.SetLaserPosition(FixedPos.Scanner1Pos, ModelPos.Scanner1Pos, OffsetPos.Scanner1Pos);
+            if (unit == EPositionGroup.ALL || unit == EPositionGroup.STAGE1)
+            {
+                m_MeStage.SetStagePosition(FixedPos.Stage1Pos, ModelPos.Stage1Pos, OffsetPos.Stage1Pos);
+                m_MeStage.SetCameraPosition(FixedPos.Camera1Pos, ModelPos.Camera1Pos, OffsetPos.Camera1Pos);
+                m_MeStage.SetLaserPosition(FixedPos.Scanner1Pos, ModelPos.Scanner1Pos, OffsetPos.Scanner1Pos);
+            }
 
             //////////////////////////////////////////////////////////////////
             // Control Layer

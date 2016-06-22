@@ -123,9 +123,9 @@ namespace LWDicer.Control
             // 1. write log
             if (logType == ELogType.Debug) // Debug
             {
-                if (writeType == ELogWType.Normal && IsWriteLog_Normal == false) return SUCCESS;
-                if (writeType == ELogWType.Warning && IsWriteLog_Warning == false) return SUCCESS;
-                if (writeType == ELogWType.Error && IsWriteLog_Error == false) return SUCCESS;
+                if (writeType == ELogWType.D_Normal && IsWriteLog_Normal == false) return SUCCESS;
+                if (writeType == ELogWType.D_Warning && IsWriteLog_Warning == false) return SUCCESS;
+                if (writeType == ELogWType.D_Error && IsWriteLog_Error == false) return SUCCESS;
 
                 string create_query = $"CREATE TABLE IF NOT EXISTS {DBInfo.TableDebugLog} (Time datetime, Name string, Type string, Comment string, File string, Line string)";
                 string query = $"INSERT INTO {DBInfo.TableDebugLog} VALUES ('{DBManager.DateTimeSQLite(now)}', '{DebugTableName}', '{writeType.ToString()}', '{strLog}', '{sfFileName}', '{sfErrLine.ToString()}')";

@@ -1462,7 +1462,7 @@ namespace LWDicer.Control
             if ((iResult = m_RefComp.IO.Initialize()) != SUCCESS)
             {
                 string strLog = "IO Component Object의 초기화에 실패하였습니다.";
-                WriteLog(strLog, ELogType.Debug, ELogWType.Error);
+                WriteLog(strLog, ELogType.Debug, ELogWType.D_Error);
 
                 return iResult;
             }
@@ -2062,7 +2062,7 @@ namespace LWDicer.Control
             //{
             //    // 오류 동작 Log
             //    strLog = String.Format("Op Panel ID의 상태를 읽는데 실패했습니다.");
-            //    WriteLog(strLog, ELogType.Debug, ELogWType.Error);
+            //    WriteLog(strLog, ELogType.Debug, ELogWType.D_Error);
 
             //    piOpPanelID = DEF_OPPANEL_NONE_PANEL_ID;
 
@@ -2101,7 +2101,7 @@ namespace LWDicer.Control
             //    {
             //        // 오류 동작 Log
             //        strLog = String.Format("앞면으로 Touch Panel 사용권 전환에 실패했습니다.");
-            //        WriteLog(strLog, ELogType.Debug, ELogWType.Error);
+            //        WriteLog(strLog, ELogType.Debug, ELogWType.D_Error);
 
             //        return iResult;
             //    }
@@ -2116,7 +2116,7 @@ namespace LWDicer.Control
             //    {
             //        // 오류 동작 Log
             //        strLog = String.Format("뒷면으로 Touch Panel 사용권 전환에 실패했습니다.");
-            //        WriteLog(strLog, ELogType.Debug, ELogWType.Error);
+            //        WriteLog(strLog, ELogType.Debug, ELogWType.D_Error);
 
             //        return iResult;
             //    }
@@ -2141,7 +2141,7 @@ namespace LWDicer.Control
             //{
             //    // 오류 동작 Log
             //    //strLog = String.Format("Touch Panel Select Switch(X-) 상태 읽기에 실패했습니다.");
-            //    //WriteLog(strLog, ELogType.Debug, ELogWType.Error);
+            //    //WriteLog(strLog, ELogType.Debug, ELogWType.D_Error);
 
             //    piStatus = DEF_OPPANEL_NONE_PANEL_ID;
 
@@ -2152,7 +2152,7 @@ namespace LWDicer.Control
             //{
             //    // 오류 동작 Log
             //    strLog = String.Format("Touch Panel Select Switch(Y+) 상태 읽기에 실패했습니다.");
-            //    WriteLog(strLog, ELogType.Debug, ELogWType.Error);
+            //    WriteLog(strLog, ELogType.Debug, ELogWType.D_Error);
 
             //    piStatus = DEF_OPPANEL_NONE_PANEL_ID;
 
@@ -2163,7 +2163,7 @@ namespace LWDicer.Control
             //{
             //    // 오류 동작 Log
             //    strLog = String.Format("Touch Panel Select Switch(X+) 상태 읽기에 실패했습니다.");
-            //    WriteLog(strLog, ELogType.Debug, ELogWType.Error);
+            //    WriteLog(strLog, ELogType.Debug, ELogWType.D_Error);
 
             //    piStatus = DEF_OPPANEL_NONE_PANEL_ID;
 
@@ -2174,7 +2174,7 @@ namespace LWDicer.Control
             //{
             //    // 오류 동작 Log
             //    strLog = String.Format("Touch Panel Select Switch(Y-) 상태 읽기에 실패했습니다.");
-            //    WriteLog(strLog, ELogType.Debug, ELogWType.Error);
+            //    WriteLog(strLog, ELogType.Debug, ELogWType.D_Error);
 
             //    piStatus = DEF_OPPANEL_NONE_PANEL_ID;
 
@@ -2245,7 +2245,7 @@ namespace LWDicer.Control
             {
                 // 오류 동작 Log 
                 strLog = String.Format("앞 Panel의 {0}의 상태를 읽는데 실패했습니다.", strBtnName);
-                WriteLog(strLog, ELogType.Debug, ELogWType.Error);
+                WriteLog(strLog, ELogType.Debug, ELogWType.D_Error);
 
                 return iResult;
             }
@@ -2255,7 +2255,7 @@ namespace LWDicer.Control
             {
                 // 오류 동작 Log 
                 strLog = String.Format("뒷 Panel의 {0}의 상태를 읽는데 실패했습니다.", strBtnName);
-                WriteLog(strLog, ELogType.Debug, ELogWType.Error);
+                WriteLog(strLog, ELogType.Debug, ELogWType.D_Error);
 
                 return iResult;
             }
@@ -2284,7 +2284,7 @@ namespace LWDicer.Control
                 {
                     // 오류 동작 Log
                     strLog = String.Format("앞 Panel의 {0}를 ON하는데 실패했습니다.", strBtnName);
-                    WriteLog(strLog, ELogType.Debug, ELogWType.Error);
+                    WriteLog(strLog, ELogType.Debug, ELogWType.D_Error);
 
                     return iResult;
                 }
@@ -2296,7 +2296,7 @@ namespace LWDicer.Control
                 {
                     // 오류 동작 Log
                     strLog = String.Format("뒷 Panel의 {0}를 ON하는데 실패했습니다.", strBtnName);
-                    WriteLog(strLog, ELogType.Debug, ELogWType.Error);
+                    WriteLog(strLog, ELogType.Debug, ELogWType.D_Error);
 
                     return iResult;
                 }
@@ -2310,7 +2310,7 @@ namespace LWDicer.Control
                 {
                     // 오류 동작 Log
                     strLog = String.Format("앞 Panel의 {0}를 OFF하는데 실패했습니다.", strBtnName);
-                    WriteLog(strLog, ELogType.Debug, ELogWType.Error);
+                    WriteLog(strLog, ELogType.Debug, ELogWType.D_Error);
 
                     return iResult;
                 }
@@ -2322,7 +2322,7 @@ namespace LWDicer.Control
                 {
                     // 오류 동작 Log
                     strLog = String.Format("뒷 Panel의 {0}를 OFF하는데 실패했습니다.", strBtnName);
-                    WriteLog(strLog, ELogType.Debug, ELogWType.Error);
+                    WriteLog(strLog, ELogType.Debug, ELogWType.D_Error);
 
                     return iResult;
                 }
@@ -2352,7 +2352,7 @@ namespace LWDicer.Control
                 {
                     // 오류 동작 Log
                     strLog = String.Format("Tower Lamp의 {0}를 ON하는데 실패했습니다.", strBtnName);
-                    WriteLog(strLog, ELogType.Debug, ELogWType.Error);
+                    WriteLog(strLog, ELogType.Debug, ELogWType.D_Error);
 
                     return iResult;
                 }
@@ -2363,7 +2363,7 @@ namespace LWDicer.Control
                 {
                     // 오류 동작 Log
                     strLog = String.Format("Tower Lamp의 {0}를 OFF하는데 실패했습니다.", strBtnName);
-                    WriteLog(strLog, ELogType.Debug, ELogWType.Error);
+                    WriteLog(strLog, ELogType.Debug, ELogWType.D_Error);
 
                     return iResult;
                 }

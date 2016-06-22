@@ -5,43 +5,15 @@ using System.Text;
 using System.Threading.Tasks;
 
 using static LWDicer.Control.DEF_Motion;
+using static LWDicer.Control.DEF_MMCMMI;
 
 namespace LWDicer.Control
 {
+    /// <summary>
+    /// MMC, MMI, Yaskawa, ACS 등의 Motion Library에서 공통적으로 사용하는 자료형을 정의
+    /// </summary>
     public class DEF_Motion
     {
-        // 
-        public const int DEF_MAX_AXIS_PER_SAXIS = 4;    // DEF_XYTZ
-
-        // Board에 따른 축 수
-        public const int DEF_AXIS_NO_PER_BRD    = 8; // Motion Board가 Full-Size이면 8개
-
-        // Board Value
-        public const int DEF_NON_BOARD_TYPE     = 0; // Motion Board No-Use
-        public const int DEF_MMC_BOARD_TYPE     = 1; // MMC Motion Board Use
-        public const int DEF_MEI_BOARD_TYPE     = 2; // MEI Motion Board Use
-
-        public const int DEF_0AXIS_BOARD        = 0; // 0축을 갖는 Motion Board
-        public const int DEF_4AXIS_BOARD        = 4; // 4축을 갖는 Motion Board
-        public const int DEF_8AXIS_BOARD        = 8; // 8축을 갖는 Motion Board
-
-        public const int DEF_MAX_MOTION_BD      = 8; // Motion Board Max. Number
-        public const int DEF_NON_MOTION_BD      = 0; // Motion Board No-Use Number
-        public const int DEF_NON_MOTION_BD_ID   = -1;// Motion Board Non-Config
-
-        public const int DEF_ALL_MOTION_BD_ID   = -1;// Motion Board ID ALL
-        public const int DEF_MOTION_BD_ID1      = 0; // Motion Board ID #1
-        public const int DEF_MOTION_BD_ID2      = 1; // Motion Board ID #2
-        public const int DEF_MOTION_BD_ID3      = 2; // Motion Board ID #3
-        public const int DEF_MOTION_BD_ID4      = 3; // Motion Board ID #4
-        public const int DEF_MOTION_BD_ID5      = 4; // Motion Board ID #5
-        public const int DEF_MOTION_BD_ID6      = 5; // Motion Board ID #6
-        public const int DEF_MOTION_BD_ID7      = 6; // Motion Board ID #7
-        public const int DEF_MOTION_BD_ID8      = 7; // Motion Board ID #8
-
-        public const bool DEF_AUTO_CP_NON       = false; // 자동 가,감속 미사용
-        public const bool DEF_AUTO_CP_USE       = true;  // 자동 가,감속 사  용
-
         // 축 수
         public const int DEF_MAX_AXIS_NO        = DEF_AXIS_NO_PER_BRD * DEF_MAX_MOTION_BD;
         public const int DEF_MIN_AXIS_NO        = 0;
@@ -58,10 +30,10 @@ namespace LWDicer.Control
         public const int DEF_AXIS_NONE_ID        = -1; // 축 ID 미할당 (축 미구성)
 
         // X,Y,T 코드 정의
-        public const int DEF_X = 0;
-        public const int DEF_Y = 1;
-        public const int DEF_T = 2;
-        public const int DEF_Z = 3;
+        public const int DEF_X    = 0;
+        public const int DEF_Y    = 1;
+        public const int DEF_T    = 2;
+        public const int DEF_Z    = 3;
         public const int DEF_XYTZ = 4;
 
         // Left / Right 코드 정의
@@ -188,12 +160,7 @@ namespace LWDicer.Control
         public const bool DEF_NEGATIVE_SW    = false; // S/W Negative Limit
 
         // Level 종류
-        //#ifdef DEF_3_4LINE
         public const bool DEF_HIGH = true;         // High Level
-                                                   //#else
-                                                   //const	bool	DEF_HIGH				= false;			// High Level
-                                                   //#endif
-
         public const bool DEF_LOW = false;     // Low Level
 
         // Event 종류
@@ -231,25 +198,6 @@ namespace LWDicer.Control
         // Pulse 종류
         public const int DEF_TWO_PULSE                = 0; // Two Pulse, CW+CCW
         public const int DEF_SIGN_PULSE               = 1; // Sign + Pulse
-
-        // PC10 정의
-        public const int DEF_PC_INDEXSEL_0            = 0; // IndexSel 없음
-        public const int DEF_PC_INDEXSEL_1            = 1; // IndexSel 1축
-        public const int DEF_PC_INDEXSEL_2            = 2; // IndexSel 2축
-
-        public const int DEF_PC_INDEX_MAX_NO          = 8; // Position Compare를 실시할 Index 최대 번호
-        public const int DEF_PC_INDEX_MIN_NO          = 1;
-
-        public const bool DEF_PC_TRANSPARENT          = false; // Transparent Mode
-        public const bool DEF_PC_LATCH                = true;  // Latch Mode
-
-        public const int DEF_PC_EQUAL                 = 1; // Equal
-        public const int DEF_PC_GT                    = 2; // >
-        public const int DEF_PC_LT                    = 3; // <
-
-        public const int DEF_PC_OUT_NON               = 0; // 축별 ON/OFF
-        public const int DEF_PC_OUT_AND               = 1; // 두 축 AND
-        public const int DEF_PC_OUT_OR                = 2; // 두 축 OR
 
         // I/O 정의
         public const int DEF_MAX_IO_PER_BOARD         = 32; // Board당 I/O Bit 수
@@ -331,38 +279,6 @@ namespace LWDicer.Control
         public const int DEF_SPLINE_MOVE_PATH_MAX_NO  = 500;
         public const int DEF_SPLINE_MOVE_PATH_MIN_NO  = 1;
 
-        // Event Source Status defines
-        public const int DEF_ST_NONE                  = 0x0000;
-        public const int DEF_ST_HOME_SWITCH           = 0x0001;
-        public const int DEF_ST_POS_LIMIT             = 0x0002;
-        public const int DEF_ST_NEG_LIMIT             = 0x0004;
-        public const int DEF_ST_AMP_FAULT             = 0x0008;
-        public const int DEF_ST_A_LIMIT               = 0x0010;
-        public const int DEF_ST_V_LIMIT               = 0x0020;
-        public const int DEF_ST_X_NEG_LIMIT           = 0x0040;
-        public const int DEF_ST_X_POS_LIMIT           = 0x0080;
-        public const int DEF_ST_ERROR_LIMIT           = 0x0100;
-        public const int DEF_ST_PC_COMMAND            = 0x0200;
-        public const int DEF_ST_OUT_OF_FRAMES         = 0x0400;
-        public const int DEF_ST_AMP_POWER_ONOFF       = 0x0800;
-        public const int DEF_ST_ABS_COMM_ERROR        = 0x1000;
-        public const int DEF_ST_INPOSITION_STATUS     = 0x2000;
-        public const int DEF_ST_RUN_STOP_COMMAND      = 0x4000;
-        public const int DEF_ST_COLLISION_STATE       = 0x8000;
-
-        // 원점복귀 Step
-        public const int DEF_ORIGIN_START_STEP        = 0;  // START
-        public const int DEF_ORIGIN_FIRST_SET_STEP    = 10; // FIRST SETTING
-        public const int DEF_ORIGIN_1ST_MOVE_STEP     = 20; // MOVE 1st
-        public const int DEF_ORIGIN_2ND_MOVE_STEP     = 30; // MOVE 2nd
-        public const int DEF_ORIGIN_3RD_MOVE_STEP     = 40; // MOVE 3rd
-        public const int DEF_ORIGIN_4TH_MOVE_STEP     = 50; // MOVE 4th
-        public const int DEF_ORIGIN_STOP_MOVE_STEP    = 60; // STOP MOVE
-        public const int DEF_ORIGIN_LAST_SET_STEP     = 70; // LAST SETTING
-        public const int DEF_ORIGIN_SET_ORIGIN_STEP   = 80; // SET ORIGIN
-        public const int DEF_ORIGIN_ERROR_STEP        = 999; // ERROR
-        public const int DEF_ORIGIN_FINISH_STEP       = 1000; // FINISH
-
         // 기타
         public const bool DEF_ENABLE                  = true;  // Enable
         public const bool DEF_DISABLE                 = false; // Disable
@@ -372,169 +288,6 @@ namespace LWDicer.Control
         public const bool DEF_COLLISION_ADD_POS       = true;  // Collision Prevent 시 두 축 값의 합을 사용
         public const bool DEF_COLLISION_LESSTHAN      = false; // Collision Prevent 시 기준값이 두 축 값다 작을 때 정지
         public const bool DEF_COLLISION_GREATTHAN     = true;  // Collision Prevent 시 기준값이 두 축 값다 클 때 정지
-
-        // MAX Frame
-        public const int DEF_MAX_FRAME_NUM            = 100;   // For use in Call frames_left Function
-
-        /// <summary>
-        /// Axis attribute class
-        /// </summary>
-        public class CMotionAxis
-        {
-            /** Motor Type (0:속도형 Servo, 1:Stepper, 2:Micro Stepper or 위치형 Servo) - 2번만 지원 */
-            public int iMotorType;
-            /** Loop Type (0:Open Loop, 1:Closed Loop) */
-            public bool bLoopType;
-            /** Feedback Device Type (0:Encoder, 1:Unipolar, 2:Bipolar) */
-            public int iFeedbackType;
-            /** 속도형 Servo 제어모드 (false:속도제어, true:토크제어) */
-            public bool bVServoControl;
-            /** 속도형 Servo 출력모드 (true:Uni-Polar, false:Bi-Polar) */
-            public bool bVServoPolar;
-            /** Stepper Pulse 분주비 */
-            public int iStepperPulseR;
-            /** Stepper 전자기어비 */
-            public double dStepperEGear;
-            /** Motor Pulse Type (0:Two-Pulse(CW+CCW), 1:Sign+Pulse) */
-            public bool bPulseType;
-            /** Encoder 방향 () */
-            public bool bEncoderDir;
-            /** 좌표 방향 () */
-            public bool bCoordinateDir;
-            /** AMP Enable Level (true:HIGH, false:LOW) */
-            public bool bAmpEnableLevel;
-            /** AMP Reset Level (true:HIGH, false:LOW) */
-            public bool bAmpResetLevel;
-            /** AMP Fault Level (true:HIGH, false:LOW) */
-            public bool bAmpFaultLevel;
-            /** In-Position Level (true:HIGH, false:LOW) */
-            public bool bInpositionLevel;
-            /** In-Position Level Required (true, false) */
-            public bool bInpositionLevelRequired;
-            /** Positive Sensor Level (true:HIGH, false:LOW) */
-            public bool bPositiveLevel;
-            /** Negative Sensor Level (true:HIGH, false:LOW) */
-            public bool bNegativeLevel;
-            /** Home Sensor Level (true:HIGH, false:LOW) */
-            public bool bHomeLevel;
-            /** AMP Fault Event */
-            public int iAmpFaultEvent;
-            /** Positive Sensor Event */
-            public int iPositiveEvent;
-            /** Negative Sensor Event */
-            public int iNegativeEvent;
-            /** Home Sensor Event */
-            public int iHomeEvent;
-            /** Positive SW Limit */
-            public double dPositiveSWLimit;
-            /** Negative SW Limit */
-            public double dNegativeSWLimit;
-            /** Positive SW Limit Event */
-            public int iPositiveSWEvent;
-            /** Negative SW Limit Event */
-            public int iNegativeSWEvent;
-            /** In-Position Error */
-            public double dInpositionError;
-        }
-
-        /// <summary>
-        /// MotionBoard for MMC, MMI
-        /// </summary>
-        public class CMBType_MMC
-        {
-            // Motion Board - 초기 구성 장착된 Board 개수 (0:미구성, 1 ~ 8)
-            public int iMaxBoardNo;                        // Initialize()에서 기록
-                                                           /** Motion Board DPRAM Address */
-            public long[] lAddress = new long[DEF_MAX_MOTION_BD];     // Initialize()에서 기록
-                                                                      /** 자동 가,감속 설정 여부 (true:자동) */
-            public bool[] bAutoCP = new bool[DEF_MAX_MOTION_BD];      // SetAutoCP()에서 기록
-                                                                      /** 원점복귀 대기 시간 (초단위) */
-            //double	dOriginWaitTime;
-
-            /** MMC-PC10 Option Board IndexSel */
-            public int[] iPC10IndexSel = new int[DEF_MAX_MOTION_BD];
-            /** MMC-PC10 Option Board 사용 축 */
-            public int[,] iPC10Axis = new int[DEF_MAX_MOTION_BD, 2];
-        }
-
-        /// <summary>
-        /// Motor에 대한 특성 정보
-        /// </summary>
-        public class CAxis1
-        {
-            /** 축 ID (-1:미사용, 0 ~ 64) */
-            public int iAxisID;
-            /** 축 이름 (최대 32문자) */
-            string Name;
-            /** 동시 이동 시 우선 순위 지정 (1 ~ 64, 0:미사용) */
-            public int iMovePriority;
-            /** 원점복귀 동시 이동 시 우선 순위 지정 (1 ~ 64, 0:미사용) */
-            public int iOriginPriority;
-            /** 원점위치 */
-            public double dHomePosition;
-            /** S/W (-)방향 이동 제한 위치 */
-            public double dNegativeLimitPosition;
-            /** S/W (+)방향 이동 제한 위치 */
-            public double dPositiveLimitPosition;
-            /** 이동 속도 */
-            public double dMovingVelocity;
-            /** 이동 가속도 */
-            public int iMovingAccelerate;
-            /** 이동 감속도 */
-            public int iMovingDecelerate;
-            /** Coarse 속도 */
-            public double dCoarseVelocity;
-            /** Coarse 가속도 */
-            public int iCoarseAccelerate;
-            /** Fine 속도 */
-            public double dFineVelocity;
-            /** Fine 가속도 */
-            public int iFineAccelerate;
-            /** Jog 속도 */
-            public double dJogVelocity;
-            /** Jog Pitch */
-            public double dJogPitch;
-            /** 축 이동방향 (true:+, false:-) */
-            public bool bSign;
-            /** 축 원점복귀 진행방향(Coarse 속도 구간) (true:+, false:-) */
-            public bool bOriginDir;
-            /** 축 원점복귀 진행방향(Fine 속도 구간) (TRUEL+, false:-) */
-            public bool bOriginFineDir;
-            /** C상 사용여부 (true:사용함) */
-            public bool bCPhaseUse;
-            /** 이동 값에 대한 Scale (default:1.0) */
-            public double dScale;
-            /** 이동 지연 시간 */
-            public double dMoveTime;
-            /** 이동후 안정화 시간 */
-            public double dMoveAfterTime;
-            /** Tolerance - 위치 허용 오차 */
-            public double dTolerance;
-            /** 원점복귀 대기 시간 (초단위) */
-            public double dOriginWaitTime;
-        }
-
-        /// <summary>
-        /// 원점복귀 Thread에 전달할 인수에 대한 Data를 관리
-        /// </summary>
-        public class COriginThread
-        {
-            /** 원점복귀할 좌표, -1             = All Axis */
-            public int iCID;
-            /** 원점복귀할 축 지정, iCoordinateID=-1일때만 사용
-             * iCoordinateID가 -1이 아니면 사용안함 (null)
-             * 배열구조에 사용하고자하는 축 위치에 true지정 */
-            public bool[] bUse = new bool[DEF_MAX_COORDINATE];
-            /** 원점복귀 시 이동할 지 여부, true    =이동 포함 */
-            public bool bMoveOpt;
-            /** 원점복귀하기 전 Limit Sensor Event 설정 값 */
-            public int[] iPositiveLimit = new int[DEF_MAX_AXIS_NO];
-            public int[] iNegativeLimit = new int[DEF_MAX_AXIS_NO];
-            public int[] iHomeLimit = new int[DEF_MAX_AXIS_NO];
-            public bool[] bPositiveLevel = new bool[DEF_MAX_AXIS_NO];
-            public bool[] bNegativeLevel = new bool[DEF_MAX_AXIS_NO];
-            public bool[] bHomeLevel = new bool[DEF_MAX_AXIS_NO];
-        }
 
         /// <summary>
         /// 원점복귀 여부와 상관없이 해당 축의 물리적인 위치를 체크하기 위한 센서들을 관리하는 class
@@ -569,7 +322,6 @@ namespace LWDicer.Control
             // 160531 by sjr. SafetyPos 은 굳이 이쪽 class에서 관리할 필요가 없을듯 하다. 연관성이 부족함.
             //public CPos_XYTZ SafetyPos;    // 안전 위치. 비간섭 position
 
-
             public CMAxisZoneCheck(int XLength, int YLength, int TLength, int ZLength)
             {
                 this.Axis[DEF_X] = new COneAxisZoneCheck(XLength);
@@ -594,6 +346,323 @@ namespace LWDicer.Control
                 }
             }
         }
+
+        /// <summary>
+        /// Motor 이동 시에 사용할 속도 및 가감속 셋
+        /// </summary>
+        public class CMotorSpeedData
+        {
+            public double Vel;  // Feeding speed [reference unit/s], Offset speed
+            public double Acc;  // Acceleration [reference unit/s2], acceleration time constant [ms]
+            public double Dec;  // Deceleration [reference unit/s2], deceleration time constant [ms]
+
+            public CMotorSpeedData(double Vel = 0, double Acc = 0, double Dec = 0)
+            {
+                this.Vel = Vel;
+                this.Acc = Acc;
+                this.Dec = Dec;
+            }
+        }
+
+        public class CMotorTimeLimitData
+        {
+            public double tMoveLimit;        // Time Limit for Moving           
+            public double tSleepAfterMove;   // Sleep Time after Moving
+            public double tOriginLimit;      // Time Limit for Origin Return
+
+            public CMotorTimeLimitData(double tMoveLimit = 0, double tSleepAfterMove = 0, double tOriginLimit = 0)
+            {
+                this.tMoveLimit = tMoveLimit;
+                this.tSleepAfterMove = tSleepAfterMove;
+                this.tOriginLimit = tOriginLimit;
+            }
+        }
+
+        /// <summary>
+        /// Axis의 Software Limit을 정의
+        /// </summary>
+        public class CMotorSWLimit
+        {
+            public double Plus;     // software + Limit
+            public double Minus;    // software - Limit
+
+            public CMotorSWLimit(double Plus = 100, double Minus = -100)
+            {
+                this.Plus = Plus;
+                this.Minus = Minus;
+            }
+        }
+
+        public enum EMotorSpeed // Motor speed type
+        {
+            MANUAL_SLOW,
+            MANUAL_FAST,
+            AUTO_SLOW,
+            AUTO_FAST,
+            JOG_SLOW,
+            JOG_FAST,
+            MAX,
+        }
+
+
+    }
+
+    /// <summary>
+    /// MMC, MMI Motion 보드 사용할 때에 필요한 정의
+    /// </summary>
+    public class DEF_MMCMMI
+    {
+        // 
+        public const int DEF_MAX_AXIS_PER_SAXIS = 4;    // DEF_XYTZ
+
+        // Board에 따른 축 수
+        public const int DEF_AXIS_NO_PER_BRD = 8; // Motion Board가 Full-Size이면 8개
+
+        // Board Value
+        public const int DEF_NON_BOARD_TYPE = 0; // Motion Board No-Use
+        public const int DEF_MMC_BOARD_TYPE = 1; // MMC Motion Board Use
+        public const int DEF_MEI_BOARD_TYPE = 2; // MEI Motion Board Use
+
+        public const int DEF_0AXIS_BOARD = 0; // 0축을 갖는 Motion Board
+        public const int DEF_4AXIS_BOARD = 4; // 4축을 갖는 Motion Board
+        public const int DEF_8AXIS_BOARD = 8; // 8축을 갖는 Motion Board
+
+        public const int DEF_MAX_MOTION_BD = 8; // Motion Board Max. Number
+        public const int DEF_NON_MOTION_BD = 0; // Motion Board No-Use Number
+        public const int DEF_NON_MOTION_BD_ID = -1;// Motion Board Non-Config
+
+        public const int DEF_ALL_MOTION_BD_ID = -1;// Motion Board ID ALL
+        public const int DEF_MOTION_BD_ID1 = 0; // Motion Board ID #1
+        public const int DEF_MOTION_BD_ID2 = 1; // Motion Board ID #2
+        public const int DEF_MOTION_BD_ID3 = 2; // Motion Board ID #3
+        public const int DEF_MOTION_BD_ID4 = 3; // Motion Board ID #4
+        public const int DEF_MOTION_BD_ID5 = 4; // Motion Board ID #5
+        public const int DEF_MOTION_BD_ID6 = 5; // Motion Board ID #6
+        public const int DEF_MOTION_BD_ID7 = 6; // Motion Board ID #7
+        public const int DEF_MOTION_BD_ID8 = 7; // Motion Board ID #8
+
+        public const bool DEF_AUTO_CP_NON = false; // 자동 가,감속 미사용
+        public const bool DEF_AUTO_CP_USE = true;  // 자동 가,감속 사  용
+
+        // 축 수
+        public const int DEF_MAX_AXIS_NO = DEF_AXIS_NO_PER_BRD * DEF_MAX_MOTION_BD;
+        public const int DEF_MIN_AXIS_NO = 0;
+
+        // PC10 정의
+        public const int DEF_PC_INDEXSEL_0 = 0; // IndexSel 없음
+        public const int DEF_PC_INDEXSEL_1 = 1; // IndexSel 1축
+        public const int DEF_PC_INDEXSEL_2 = 2; // IndexSel 2축
+
+        public const int DEF_PC_INDEX_MAX_NO = 8; // Position Compare를 실시할 Index 최대 번호
+        public const int DEF_PC_INDEX_MIN_NO = 1;
+
+        public const bool DEF_PC_TRANSPARENT = false; // Transparent Mode
+        public const bool DEF_PC_LATCH = true;  // Latch Mode
+
+        public const int DEF_PC_EQUAL = 1; // Equal
+        public const int DEF_PC_GT = 2; // >
+        public const int DEF_PC_LT = 3; // <
+
+        public const int DEF_PC_OUT_NON = 0; // 축별 ON/OFF
+        public const int DEF_PC_OUT_AND = 1; // 두 축 AND
+        public const int DEF_PC_OUT_OR = 2; // 두 축 OR
+
+        // MAX Frame
+        public const int DEF_MAX_FRAME_NUM = 100;   // For use in Call frames_left Function
+
+        // Event Source Status defines
+        public const int DEF_ST_NONE = 0x0000;
+        public const int DEF_ST_HOME_SWITCH = 0x0001;
+        public const int DEF_ST_POS_LIMIT = 0x0002;
+        public const int DEF_ST_NEG_LIMIT = 0x0004;
+        public const int DEF_ST_AMP_FAULT = 0x0008;
+        public const int DEF_ST_A_LIMIT = 0x0010;
+        public const int DEF_ST_V_LIMIT = 0x0020;
+        public const int DEF_ST_X_NEG_LIMIT = 0x0040;
+        public const int DEF_ST_X_POS_LIMIT = 0x0080;
+        public const int DEF_ST_ERROR_LIMIT = 0x0100;
+        public const int DEF_ST_PC_COMMAND = 0x0200;
+        public const int DEF_ST_OUT_OF_FRAMES = 0x0400;
+        public const int DEF_ST_AMP_POWER_ONOFF = 0x0800;
+        public const int DEF_ST_ABS_COMM_ERROR = 0x1000;
+        public const int DEF_ST_INPOSITION_STATUS = 0x2000;
+        public const int DEF_ST_RUN_STOP_COMMAND = 0x4000;
+        public const int DEF_ST_COLLISION_STATE = 0x8000;
+
+        // 원점복귀 Step
+        public const int DEF_ORIGIN_START_STEP = 0;  // START
+        public const int DEF_ORIGIN_FIRST_SET_STEP = 10; // FIRST SETTING
+        public const int DEF_ORIGIN_1ST_MOVE_STEP = 20; // MOVE 1st
+        public const int DEF_ORIGIN_2ND_MOVE_STEP = 30; // MOVE 2nd
+        public const int DEF_ORIGIN_3RD_MOVE_STEP = 40; // MOVE 3rd
+        public const int DEF_ORIGIN_4TH_MOVE_STEP = 50; // MOVE 4th
+        public const int DEF_ORIGIN_STOP_MOVE_STEP = 60; // STOP MOVE
+        public const int DEF_ORIGIN_LAST_SET_STEP = 70; // LAST SETTING
+        public const int DEF_ORIGIN_SET_ORIGIN_STEP = 80; // SET ORIGIN
+        public const int DEF_ORIGIN_ERROR_STEP = 999; // ERROR
+        public const int DEF_ORIGIN_FINISH_STEP = 1000; // FINISH
+
+        /// <summary>
+        /// Axis attribute class
+        /// </summary>
+        public class CMotionAxis
+        {
+            // Motor Type (0:속도형 Servo, 1:Stepper, 2:Micro Stepper or 위치형 Servo) - 2번만 지원
+            public int iMotorType;
+            // Loop Type (0:Open Loop, 1:Closed Loop)
+            public bool bLoopType;
+            // Feedback Device Type (0:Encoder, 1:Unipolar, 2:Bipolar)
+            public int iFeedbackType;
+            // 속도형 Servo 제어모드 (false:속도제어, true:토크제어)
+            public bool bVServoControl;
+            // 속도형 Servo 출력모드 (true:Uni-Polar, false:Bi-Polar)
+            public bool bVServoPolar;
+            // Stepper Pulse 분주비
+            public int iStepperPulseR;
+            // Stepper 전자기어비
+            public double dStepperEGear;
+            // Motor Pulse Type (0:Two-Pulse(CW+CCW), 1:Sign+Pulse)
+            public bool bPulseType;
+            // Encoder 방향 ()
+            public bool bEncoderDir;
+            // 좌표 방향 ()
+            public bool bCoordinateDir;
+            // AMP Enable Level (true:HIGH, false:LOW)
+            public bool bAmpEnableLevel;
+            // AMP Reset Level (true:HIGH, false:LOW)
+            public bool bAmpResetLevel;
+            // AMP Fault Level (true:HIGH, false:LOW)
+            public bool bAmpFaultLevel;
+            // In-Position Level (true:HIGH, false:LOW)
+            public bool bInpositionLevel;
+            // In-Position Level Required (true, false)
+            public bool bInpositionLevelRequired;
+            // Positive Sensor Level (true:HIGH, false:LOW)
+            public bool bPositiveLevel;
+            // Negative Sensor Level (true:HIGH, false:LOW)
+            public bool bNegativeLevel;
+            // Home Sensor Level (true:HIGH, false:LOW)
+            public bool bHomeLevel;
+            // AMP Fault Event
+            public int iAmpFaultEvent;
+            // Positive Sensor Event
+            public int iPositiveEvent;
+            // Negative Sensor Event
+            public int iNegativeEvent;
+            // Home Sensor Event
+            public int iHomeEvent;
+            // Positive SW Limit
+            public double dPositiveSWLimit;
+            // Negative SW Limit
+            public double dNegativeSWLimit;
+            // Positive SW Limit Event
+            public int iPositiveSWEvent;
+            // Negative SW Limit Event
+            public int iNegativeSWEvent;
+            // In-Position Error
+            public double dInpositionError;
+        }
+
+        /// <summary>
+        /// MotionBoard for MMC, MMI
+        /// </summary>
+        public class CMBType_MMC
+        {
+            // Motion Board - 초기 구성 장착된 Board 개수 (0:미구성, 1 ~ 8)
+            public int iMaxBoardNo;                        // Initialize()에서 기록
+                                                           /** Motion Board DPRAM Address */
+            public long[] lAddress = new long[DEF_MAX_MOTION_BD];     // Initialize()에서 기록
+                                                                      /** 자동 가,감속 설정 여부 (true:자동) */
+            public bool[] bAutoCP = new bool[DEF_MAX_MOTION_BD];      // SetAutoCP()에서 기록
+                                                                      /** 원점복귀 대기 시간 (초단위) */
+            //double	dOriginWaitTime;
+
+            // MMC-PC10 Option Board IndexSel
+            public int[] iPC10IndexSel = new int[DEF_MAX_MOTION_BD];
+            // MMC-PC10 Option Board 사용 축
+            public int[,] iPC10Axis = new int[DEF_MAX_MOTION_BD, 2];
+        }
+
+        /// <summary>
+        /// Motor에 대한 특성 정보
+        /// </summary>
+        public class CAxis1
+        {
+            // 축 ID (-1:미사용, 0 ~ 64)
+            public int iAxisID;
+            // 축 이름 (최대 32문자)
+            string Name;
+            // 동시 이동 시 우선 순위 지정 (1 ~ 64, 0:미사용)
+            public int iMovePriority;
+            // 원점복귀 동시 이동 시 우선 순위 지정 (1 ~ 64, 0:미사용)
+            public int iOriginPriority;
+            // 원점위치
+            public double dHomePosition;
+            // S/W (-)방향 이동 제한 위치
+            public double dNegativeLimitPosition;
+            // S/W (+)방향 이동 제한 위치
+            public double dPositiveLimitPosition;
+            // 이동 속도
+            public double dMovingVelocity;
+            // 이동 가속도
+            public int iMovingAccelerate;
+            // 이동 감속도
+            public int iMovingDecelerate;
+            // Coarse 속도
+            public double dCoarseVelocity;
+            // Coarse 가속도
+            public int iCoarseAccelerate;
+            // Fine 속도
+            public double dFineVelocity;
+            // Fine 가속도
+            public int iFineAccelerate;
+            // Jog 속도
+            public double dJogVelocity;
+            // Jog Pitch
+            public double dJogPitch;
+            // 축 이동방향 (true:+, false:-)
+            public bool bSign;
+            // 축 원점복귀 진행방향(Coarse 속도 구간) (true:+, false:-)
+            public bool bOriginDir;
+            // 축 원점복귀 진행방향(Fine 속도 구간) (TRUEL+, false:-)
+            public bool bOriginFineDir;
+            // C상 사용여부 (true:사용함)
+            public bool bCPhaseUse;
+            // 이동 값에 대한 Scale (default:1.0)
+            public double dScale;
+            // 이동 지연 시간
+            public double dMoveTime;
+            // 이동후 안정화 시간
+            public double dMoveAfterTime;
+            // Tolerance - 위치 허용 오차
+            public double dTolerance;
+            // 원점복귀 대기 시간 (초단위)
+            public double dOriginWaitTime;
+        }
+
+        /// <summary>
+        /// 원점복귀 Thread에 전달할 인수에 대한 Data를 관리
+        /// </summary>
+        public class COriginThread
+        {
+            // 원점복귀할 좌표, -1             = All Axis
+            public int iCID;
+            // 원점복귀할 축 지정, iCoordinateID=-1일때만 사용
+            // iCoordinateID가 -1이 아니면 사용안함(null)
+            // 배열구조에 사용하고자하는 축 위치에 true지정
+            public bool[] bUse = new bool[DEF_MAX_COORDINATE];
+            // 원점복귀 시 이동할 지 여부, true    =이동 포함
+            public bool bMoveOpt;
+            // 원점복귀하기 전 Limit Sensor Event 설정 값
+            public int[] iPositiveLimit = new int[DEF_MAX_AXIS_NO];
+            public int[] iNegativeLimit = new int[DEF_MAX_AXIS_NO];
+            public int[] iHomeLimit = new int[DEF_MAX_AXIS_NO];
+            public bool[] bPositiveLevel = new bool[DEF_MAX_AXIS_NO];
+            public bool[] bNegativeLevel = new bool[DEF_MAX_AXIS_NO];
+            public bool[] bHomeLevel = new bool[DEF_MAX_AXIS_NO];
+        }
+
+
     }
 
     interface IMotionLib
