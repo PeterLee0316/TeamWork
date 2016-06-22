@@ -73,14 +73,6 @@ namespace LWDicer.Control
             SAFETY,
             MAX,
         }
-        public enum EUseCassette
-        {
-            NONE = -1,
-            No1,
-            No2,
-            No3,
-            MAX,
-        }
 
         //===============================================================================
         //  Cassette Info
@@ -108,7 +100,7 @@ namespace LWDicer.Control
             MAX,
         }
 
-        public class CCassetteData
+        public class CCassetteData_obsolete
         {
             public int nSlotNum;
             public ECassetteWaferType nWaferType;
@@ -128,7 +120,7 @@ namespace LWDicer.Control
         public class CMeElevatorData
         {
             // Cassette Info 
-            public CCassetteData CassetteData = new CCassetteData();
+            public CCassetteData_obsolete CassetteData = new CCassetteData_obsolete();
 
             public int CurrentSlotNum = 0;
 
@@ -145,7 +137,7 @@ namespace LWDicer.Control
             public CMAxisZoneCheck ElevatorZone;
             public CPos_XYTZ ElevatorSafetyPos;
 
-            public CMeElevatorData(CCassetteData CassetteData = null)
+            public CMeElevatorData(CCassetteData_obsolete CassetteData = null)
             {
                 // Cassette Info Copy 
                 if (CassetteData == null) // Cassette Data Init
@@ -175,7 +167,7 @@ namespace LWDicer.Control
         private CMeElevatorData m_Data;
 
         // MovingObject
-        private CMovingObject AxElevatorInfo = new CMovingObject((int)EElevatorPos.MAX);
+        public CMovingObject AxElevatorInfo { get; private set; } = new CMovingObject((int)EElevatorPos.MAX);
     
         MTickTimer m_waitTimer = new MTickTimer();
 
@@ -269,7 +261,7 @@ namespace LWDicer.Control
                 iResult = m_RefComp.AxElevator.Move(DEF_ALL_COORDINATE, bMoveFlag, dTargetPos, bUsePriority);
                 if (iResult != SUCCESS)
                 {
-                    WriteLog("fail : move Elevator x y t axis", ELogType.Debug, ELogWType.Error);
+                    WriteLog("fail : move Elevator x y t axis", ELogType.Debug, ELogWType.D_Error);
                     return iResult;
                 }
             }
@@ -281,13 +273,13 @@ namespace LWDicer.Control
                 iResult = m_RefComp.AxElevator.Move(DEF_ALL_COORDINATE, bTempFlag, dTargetPos);
                 if (iResult != SUCCESS)
                 {
-                    WriteLog("fail : move Elevator z axis", ELogType.Debug, ELogWType.Error);
+                    WriteLog("fail : move Elevator z axis", ELogType.Debug, ELogWType.D_Error);
                     return iResult;
                 }
             }
 
             string str = $"success : move Elevator to pos:{sPos.ToString()}";
-            WriteLog(str, ELogType.Debug, ELogWType.Normal);
+            WriteLog(str, ELogType.Debug, ELogWType.D_Normal);
 
             return SUCCESS;
         }
@@ -594,7 +586,7 @@ namespace LWDicer.Control
             if(bSkipError == false && bResult == false)
             {
                 string str = $"Stage의 위치비교 결과 미일치합니다. Target Pos : {sPos.ToString()}";
-                WriteLog(str, ELogType.Debug, ELogWType.Error);
+                WriteLog(str, ELogType.Debug, ELogWType.D_Error);
 
                 return GenerateErrorCode(ERR_ELEVATOR_NOT_SAME_POSITION);
             }

@@ -313,7 +313,7 @@ namespace LWDicer.Control
         public class CSystemData_Axis
         {
             // ACS Motion Axis
-            public CACSMotionData[] ACSMotionData = new CACSMotionData[USE_AXIS_COUNT];
+            public CACSMotionData[] ACSMotionData = new CACSMotionData[USE_ACS_AXIS_COUNT];
             // YMC Motion Axis
             public CMPMotionData[] MPMotionData = new CMPMotionData[MAX_MP_AXIS];
 
@@ -425,12 +425,12 @@ namespace LWDicer.Control
 
             // PushPull
             public CPosition PushPullPos = new CPosition((int)EPushPullPos.MAX);
-            public CPosition Centering1Pos = new CPosition((int)ECenteringPos.MAX);
-            public CPosition Centering2Pos = new CPosition((int)ECenteringPos.MAX);
+            public CPosition Centering1Pos = new CPosition((int)ECenterPos.MAX);
+            public CPosition Centering2Pos = new CPosition((int)ECenterPos.MAX);
 
             // Handler
-            public CPosition LHandlerPos = new CPosition((int)EHandlerPos.MAX);
-            public CPosition UHandlerPos = new CPosition((int)EHandlerPos.MAX);
+            public CPosition UpperHandlerPos = new CPosition((int)EHandlerPos.MAX);
+            public CPosition LowerHandlerPos = new CPosition((int)EHandlerPos.MAX);
 
             // Spinner
             public CPosition S1_RotatePos = new CPosition((int)ERotatePos.MAX);
@@ -443,6 +443,7 @@ namespace LWDicer.Control
 
             public CPositionData()
             {
+
             }
 
         }
@@ -535,7 +536,7 @@ namespace LWDicer.Control
         /// </summary>
         public class CWaferCassette
         {
-            public string FrameName;
+            public string Name;
             public double Diameter;          // Cassette Frame 지름 ex) 380mm
             public int Slot;                 // 슬롯갯수            ex) 13ea
             public int[] SlotData = new int[CASSETTE_MAX_SLOT_NUM]; // 각 슬롯 상태 및 Wafer 처리여부 데이터
@@ -555,7 +556,7 @@ namespace LWDicer.Control
         /// </summary>
         public class CWaferFrame
         {
-            public string FrameName;
+            public string Name;
             public double StagePos;          // Inspection Stage에 적재 되어 있는 Cassette에 PushPull이 Unloading 가능한 Elevator 의 Teaching 높이 ex) 450.5mm
             public double UnloadElevatorPos; // Elevator Start Origin Position에서 Unloading을 위하여 Cassette Offset 높이 ex) -1mm 하강
             public double LoadPushPullPos;   // PushPull 끝단에 설치 되어 있는 감지센서 부터 Cassette에 적재되어 있는 Wafer 까지 거리 ex) 61mm
@@ -575,12 +576,21 @@ namespace LWDicer.Control
         public const string NAME_ROOT_FOLDER = "root";
         public const string NAME_DEFAULT_MODEL = "default";
 
+
+        public enum EListHeaderType
+        {
+            MODEL = 0,
+            CASSETTE,
+            WAFERFRAME,
+            MAX,
+        }
+
         /// <summary>
-        /// Model의 계층구조를 만들기 위해서 Header만 따로 떼어서 관리.
+        /// Model, Cassette, WaferFrame Data 의 계층구조를 만들기 위해서 Header만 따로 떼어서 관리.
         /// Folder인 경우엔 IsFolder = true & CModelData는 따로 만들지 않음.
         /// Model인 경우엔 IsFolder = false & CModelData에 같은 이름으로 ModelData가 존재함.
         /// </summary>
-        public class CModelHeader
+        public class CListHeader
         {
             // Header
             public string Name;   // unique primary key
@@ -615,6 +625,25 @@ namespace LWDicer.Control
             public string Name = NAME_DEFAULT_MODEL;   // unique primary key
 
             ///////////////////////////////////////////////////////////
+            // Wafer Data
+            public CWaferData Wafer = new CWaferData();
+            public string CassetteName = NAME_DEFAULT_MODEL;    // wafer cassette
+            public string WaferFrameName = NAME_DEFAULT_MODEL;       // wafer frame
+
+            // Spinner Data 
+            public CSpinnerData SpinnerData = new CSpinnerData();
+
+            // Wafer Image Line Data
+            public LineData WaferLineData = new LineData();
+
+            ///////////////////////////////////////////////////////////
+            // Vision Data (Pattern)
+            public CSearchData MacroPatternA = new CSearchData();
+            public CSearchData MacroPatternB = new CSearchData();
+            public CSearchData MicroPatternA = new CSearchData();
+            public CSearchData MicroPatternB = new CSearchData();
+
+            ///////////////////////////////////////////////////////////
             // Function Parameter
 
             // Mechanical Layer
@@ -633,6 +662,8 @@ namespace LWDicer.Control
             // Control Layer
 
 
+            ///////////////////////////////////////////////////////////////
+            // 이하 아래부분 미정리한것들임
             public bool Use2Step_Use;
 
             // Dispenser
@@ -646,38 +677,12 @@ namespace LWDicer.Control
             public bool UseUHandler_WaitPosUseFlag; // 2014.02.21 by ranian. LP->UP 로 갈 때, WP 사용 여부
 
 
-            ///////////////////////////////////////////////////////////
-            // Wafer Data
-            public CWaferData Wafer = new CWaferData();
+        }
 
             // Frame Data
             public CWaferCassette[] Cassette = new CWaferCassette[(int)EUseCassette.MAX];
 
-            // Inspection Frame Data
-            public CWaferFrame[] InspectionFrame = new CWaferFrame[(int)EUseCassette.MAX];
-
-            // Spinner Data 
-            public CSpinnerData SpinnerData = new CSpinnerData();
-
-            // Wafer Image Line Data
-            public LineData WaferLineData = new LineData();
-
-            ///////////////////////////////////////////////////////////
-            // Stage
-            public double StageIndexWidth = 0.0;
-            public double StageIndexHeight = 0.0;
-            public double StageIndexRotate = 90.0;
-            public double AlignMarkWidthLen = 0.0;
-            public double AlignMarkWidthRatio = 0.0;
-
-            // Vision Data (Pattern)
-            public CSearchData MacroPatternA = new CSearchData();
-            public CSearchData MacroPatternB = new CSearchData();
-            public CSearchData MicroPatternA = new CSearchData();
-            public CSearchData MicroPatternB = new CSearchData();
         }
-
-    }
 
     public class MDataManager : MObject
     {
@@ -705,7 +710,15 @@ namespace LWDicer.Control
         /////////////////////////////////////////////////////////////////////////////////
         // Model Data
         public CModelData ModelData { get; private set; } = new CModelData();
-        public List<CModelHeader> ModelHeaderList { get; set; } = new List<CModelHeader>();
+        public List<CListHeader> ModelHeaderList { get; set; } = new List<CListHeader>();
+
+        // Wafer Cassette Data
+        public CWaferCassette CassetteData { get; private set; } = new CWaferCassette();
+        public List<CListHeader> CassetteHeaderList { get; set; } = new List<CListHeader>();
+
+        // WaferFrame Data
+        public CWaferFrame WaferFrameData { get; private set; } = new CWaferFrame();
+        public List<CListHeader> WaferFrameHeaderList { get; set; } = new List<CListHeader>();
 
         /////////////////////////////////////////////////////////////////////////////////
         // Parameter Data
@@ -752,8 +765,8 @@ namespace LWDicer.Control
 
             // 아래의 네가지 함수 콜은 LWDicer의 Initialize에서 읽어들이는게 맞지만, 생성자에서 한번 더 읽어도 되기에.. 주석처리해도 상관없음
             LoadSystemData();
-            LoadPositionData(true);
-            LoadPositionData(false);
+            LoadPositionData(true, EPositionObject.ALL);
+            LoadPositionData(false, EPositionObject.ALL);
             LoadModelList();
             MakeDefaultModel();
             ChangeModel(SystemData.ModelName);
@@ -764,12 +777,12 @@ namespace LWDicer.Control
             ///////////////////////////////////////
             if(false)
             {
-                CModelHeader header = new CModelHeader();
+                CListHeader header = new CListHeader();
                 ModelHeaderList.Add(header);
 
                 for (int i = 0; i < 3; i++)
                 {
-                    header = new CModelHeader();
+                    header = new CListHeader();
                     header.Name = $"Model{i}";
                     header.Comment = $"Comment{i}";
                     header.Parent = $"Parent{i}";
@@ -823,8 +836,8 @@ namespace LWDicer.Control
             // 프로그램 시작시에 Position Data db에 초기에 저장 test routine
             if (false)
             {
-                SavePositionData(true);
-                SavePositionData(false);
+                SavePositionData(true, EPositionGroup.ALL);
+                SavePositionData(false, EPositionGroup.ALL);
             }
 
             // WorkPiece and Process Phase를 한번 쭉~ test routine
@@ -905,7 +918,7 @@ namespace LWDicer.Control
                 FinishWorkPiecePhas(pos, EProcessPhase.PUSHPULL_UNLOAD_TO_LOADER);
 
                 LoadWorkPieceToCassette();
-            }        
+            }
         }
 
         public int BackupDB()
@@ -919,7 +932,7 @@ namespace LWDicer.Control
             {
                 if (DBManager.BackupDB(source, time) == false)
                 {
-                    WriteLog("fail : backup db.", ELogType.Debug, ELogWType.Error);
+                    WriteLog("fail : backup db.", ELogType.Debug, ELogWType.D_Error);
                     return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_BACKUP_DB);
                 }
             }
@@ -937,7 +950,7 @@ namespace LWDicer.Control
             {
                 if (DBManager.DeleteDB(source) == false)
                 {
-                    WriteLog("fail : delete db.", ELogType.Debug, ELogWType.Error);
+                    WriteLog("fail : delete db.", ELogType.Debug, ELogWType.D_Error);
                     return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_DELETE_DB);
                 }
             }
@@ -1161,6 +1174,20 @@ namespace LWDicer.Control
                                 SystemData_Axis.MPMotionData[i] = ObjectExtensions.Copy(data.MPMotionData[i]);
                             }
                         }
+
+                        if (SystemData_Axis.ACSMotionData.Length == data.ACSMotionData.Length)
+                        {
+                            SystemData_Axis = ObjectExtensions.Copy(data);
+                        }
+                        else
+                        {
+                            for (int i = 0; i < SystemData_Axis.ACSMotionData.Length; i++)
+                            {
+                                if (i >= data.ACSMotionData.Length) break;
+                                SystemData_Axis.ACSMotionData[i] = ObjectExtensions.Copy(data.ACSMotionData[i]);
+                            }
+                        }
+
                         WriteLog("success : load CSystemData_Axis.", ELogType.SYSTEM, ELogWType.LOAD);
             }
                     //else // temporarily do not return error for continuous loading
@@ -1176,6 +1203,7 @@ namespace LWDicer.Control
 
                 // system data를 읽어왔는데, db에 이전 데이터가 저장되어 있지 않을 때, 필수적으로 초기화 해주어야 할 데이터들
                 InitMPMotionData();
+                InitACSMotionData();
             }
 
             // CSystemData_Cylinder
@@ -1374,28 +1402,7 @@ namespace LWDicer.Control
             return SUCCESS;
         }
 
-        //private int SaveUnitPositionData(string key_value, string output)
-        //{
-        //    try
-        //    {
-        //        if (DBManager.InsertRow(DBInfo.DBConn, DBInfo.TablePos, "name", key_value, output,
-        //            true, DBInfo.DBConn_Backup) != true)
-        //        {
-        //            WriteLog($"fail : save {key_value} Position.", ELogType.SYSTEM, ELogWType.SAVE);
-        //            return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_SAVE_POSITION_DATA);
-        //        }
-        //        WriteLog($"success : save {key_value} Position.", ELogType.SYSTEM, ELogWType.SAVE);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        WriteLog($"fail : save {key_value} Position.", ELogType.SYSTEM, ELogWType.SAVE);
-        //        WriteExLog(ex.ToString());
-        //        return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_SAVE_POSITION_DATA);
-        //    }
-        //    return SUCCESS;
-        //}
-
-        public int SavePositionData(bool bLoadFixed, EPositionObject unit = EPositionObject.ALL)
+        public int SavePositionData(bool bLoadFixed, EPositionObject unit)
         {
             int iResult;
             string key_value, output;
@@ -1505,7 +1512,7 @@ namespace LWDicer.Control
             if (unit == EPositionObject.ALL || unit == EPositionObject.LOWER_HANDLER)
             {
                 key_value = EPositionObject.LOWER_HANDLER.ToString() + suffix;
-                output = JsonConvert.SerializeObject(tData.LHandlerPos);
+                output = JsonConvert.SerializeObject(tData.UpperHandlerPos);
 
                 iResult = SaveUnitPositionData(key_value, output);
                 if (iResult != SUCCESS) return iResult;
@@ -1514,7 +1521,7 @@ namespace LWDicer.Control
             if (unit == EPositionObject.ALL || unit == EPositionObject.UPPER_HANDLER)
             {
                 key_value = EPositionObject.UPPER_HANDLER.ToString() + suffix;
-                output = JsonConvert.SerializeObject(tData.UHandlerPos);
+                output = JsonConvert.SerializeObject(tData.LowerHandlerPos);
 
                 iResult = SaveUnitPositionData(key_value, output);
                 if (iResult != SUCCESS) return iResult;
@@ -1522,7 +1529,7 @@ namespace LWDicer.Control
 
             // Stage
             if (unit == EPositionObject.ALL || unit == EPositionObject.STAGE1)
-                {
+            {
                 key_value = EPositionObject.STAGE1.ToString() + suffix;
                 output = JsonConvert.SerializeObject(tData.Stage1Pos);
 
@@ -1531,13 +1538,13 @@ namespace LWDicer.Control
             }
 
             if (unit == EPositionObject.ALL || unit == EPositionObject.CAMERA1)
-                    {
+            {
                 key_value = EPositionObject.CAMERA1.ToString() + suffix;
                 output = JsonConvert.SerializeObject(tData.Camera1Pos);
 
                 iResult = SaveUnitPositionData(key_value, output);
                 if (iResult != SUCCESS) return iResult;
-                    }
+            }
 
             if (unit == EPositionObject.ALL || unit == EPositionObject.SCANNER1)
             {
@@ -1546,7 +1553,74 @@ namespace LWDicer.Control
 
                 iResult = SaveUnitPositionData(key_value, output);
                 if (iResult != SUCCESS) return iResult;
-                }
+            }
+
+            return SUCCESS;
+        }
+
+        public int SavePositionData(bool bLoadFixed, EPositionGroup unit)
+        {
+            int iResult;
+
+            // Loader
+            if (unit == EPositionGroup.ALL || unit == EPositionGroup.LOADER)
+            {
+                iResult = SavePositionData(bLoadFixed, EPositionObject.LOADER);
+                if (iResult != SUCCESS) return iResult;
+            }
+
+            // PushPull
+            if (unit == EPositionGroup.ALL || unit == EPositionGroup.PUSHPULL)
+            {
+                iResult = SavePositionData(bLoadFixed, EPositionObject.PUSHPULL);
+                if (iResult != SUCCESS) return iResult;
+                iResult = SavePositionData(bLoadFixed, EPositionObject.PUSHPULL_CENTER1);
+                if (iResult != SUCCESS) return iResult;
+                iResult = SavePositionData(bLoadFixed, EPositionObject.PUSHPULL_CENTER2);
+                if (iResult != SUCCESS) return iResult;
+            }
+
+            // Spinner1
+            if (unit == EPositionGroup.ALL || unit == EPositionGroup.SPINNER1)
+            {
+                iResult = SavePositionData(bLoadFixed, EPositionObject.S1_ROTATE);
+                if (iResult != SUCCESS) return iResult;
+                iResult = SavePositionData(bLoadFixed, EPositionObject.S1_CLEAN_NOZZLE);
+                if (iResult != SUCCESS) return iResult;
+                iResult = SavePositionData(bLoadFixed, EPositionObject.S1_COAT_NOZZLE);
+                if (iResult != SUCCESS) return iResult;
+            }
+
+            // Spinner2
+            if (unit == EPositionGroup.ALL || unit == EPositionGroup.SPINNER2)
+            {
+                iResult = SavePositionData(bLoadFixed, EPositionObject.S2_ROTATE);
+                if (iResult != SUCCESS) return iResult;
+                iResult = SavePositionData(bLoadFixed, EPositionObject.S2_CLEAN_NOZZLE);
+                if (iResult != SUCCESS) return iResult;
+                iResult = SavePositionData(bLoadFixed, EPositionObject.S2_COAT_NOZZLE);
+                if (iResult != SUCCESS) return iResult;
+            }
+
+            // Handler
+            if (unit == EPositionGroup.ALL || unit == EPositionGroup.HANDLER)
+            {
+                iResult = SavePositionData(bLoadFixed, EPositionObject.LOWER_HANDLER);
+                if (iResult != SUCCESS) return iResult;
+                iResult = SavePositionData(bLoadFixed, EPositionObject.UPPER_HANDLER);
+                if (iResult != SUCCESS) return iResult;
+            }
+
+            // Stage
+            if (unit == EPositionGroup.ALL || unit == EPositionGroup.STAGE1)
+            {
+                iResult = SavePositionData(bLoadFixed, EPositionObject.STAGE1);
+                if (iResult != SUCCESS) return iResult;
+                iResult = SavePositionData(bLoadFixed, EPositionObject.CAMERA1);
+                if (iResult != SUCCESS) return iResult;
+                iResult = SavePositionData(bLoadFixed, EPositionObject.SCANNER1);
+                if (iResult != SUCCESS) return iResult;
+            }
 
             return SUCCESS;
         }
@@ -1579,7 +1653,7 @@ namespace LWDicer.Control
             return SUCCESS;
         }
 
-        public int LoadPositionData(bool bLoadFixed, EPositionObject unit = EPositionObject.ALL)
+        public int LoadPositionData(bool bLoadFixed, EPositionObject unit)
         {
             int iResult;
             string output;
@@ -1715,7 +1789,7 @@ namespace LWDicer.Control
 
                 CPosition data = JsonConvert.DeserializeObject<CPosition>(output);
                 if(data != null && data.Length > 0)
-                    tData.LHandlerPos = ObjectExtensions.Copy(data);
+                    tData.UpperHandlerPos = ObjectExtensions.Copy(data);
             }
 
             if (unit == EPositionObject.ALL || unit == EPositionObject.UPPER_HANDLER)
@@ -1726,8 +1800,8 @@ namespace LWDicer.Control
 
                 CPosition data = JsonConvert.DeserializeObject<CPosition>(output);
                 if(data != null && data.Length > 0)
-                        tData.UHandlerPos = ObjectExtensions.Copy(data);
-                    }
+                    tData.LowerHandlerPos = ObjectExtensions.Copy(data);
+            }
 
             // Stage1
             if (unit == EPositionObject.ALL || unit == EPositionObject.STAGE1)
@@ -1739,10 +1813,10 @@ namespace LWDicer.Control
                 CPosition data = JsonConvert.DeserializeObject<CPosition>(output);
                 if(data != null && data.Length > 0)
                     tData.Stage1Pos = ObjectExtensions.Copy(data);
-                }
+            }
 
             if (unit == EPositionObject.ALL || unit == EPositionObject.CAMERA1)
-                {
+            {
                 key_value = EPositionObject.CAMERA1.ToString() + suffix;
                 iResult = LoadUnitPositionData(key_value, out output);
                 if (iResult != SUCCESS) return iResult;
@@ -1750,7 +1824,7 @@ namespace LWDicer.Control
                 CPosition data = JsonConvert.DeserializeObject<CPosition>(output);
                 if(data != null && data.Length > 0)
                     tData.Camera1Pos = ObjectExtensions.Copy(data);
-                }
+            }
 
             if (unit == EPositionObject.ALL || unit == EPositionObject.SCANNER1)
             {
@@ -1763,8 +1837,78 @@ namespace LWDicer.Control
                     tData.Scanner1Pos = ObjectExtensions.Copy(data);
             }
 
+            if (bLoadFixed) FixedPos = tData; else OffsetPos = tData;
+
             return SUCCESS;
         }
+
+        public int LoadPositionData(bool bLoadFixed, EPositionGroup unit)
+        {
+            int iResult;
+
+            // Loader
+            if (unit == EPositionGroup.ALL || unit == EPositionGroup.LOADER)
+            {
+                iResult = LoadPositionData(bLoadFixed, EPositionObject.LOADER);
+                if (iResult != SUCCESS) return iResult;
+            }
+
+            // PushPull
+            if (unit == EPositionGroup.ALL || unit == EPositionGroup.PUSHPULL)
+            {
+                iResult = LoadPositionData(bLoadFixed, EPositionObject.PUSHPULL);
+                if (iResult != SUCCESS) return iResult;
+                iResult = LoadPositionData(bLoadFixed, EPositionObject.PUSHPULL_CENTER1);
+                if (iResult != SUCCESS) return iResult;
+                iResult = LoadPositionData(bLoadFixed, EPositionObject.PUSHPULL_CENTER2);
+                if (iResult != SUCCESS) return iResult;
+            }
+
+            // Spinner1
+            if (unit == EPositionGroup.ALL || unit == EPositionGroup.SPINNER1)
+            {
+                iResult = LoadPositionData(bLoadFixed, EPositionObject.S1_ROTATE);
+                if (iResult != SUCCESS) return iResult;
+                iResult = LoadPositionData(bLoadFixed, EPositionObject.S1_CLEAN_NOZZLE);
+                if (iResult != SUCCESS) return iResult;
+                iResult = LoadPositionData(bLoadFixed, EPositionObject.S1_COAT_NOZZLE);
+                if (iResult != SUCCESS) return iResult;
+            }
+
+            // Spinner2
+            if (unit == EPositionGroup.ALL || unit == EPositionGroup.SPINNER2)
+            {
+                iResult = LoadPositionData(bLoadFixed, EPositionObject.S2_ROTATE);
+                if (iResult != SUCCESS) return iResult;
+                iResult = LoadPositionData(bLoadFixed, EPositionObject.S2_CLEAN_NOZZLE);
+                if (iResult != SUCCESS) return iResult;
+                iResult = LoadPositionData(bLoadFixed, EPositionObject.S2_COAT_NOZZLE);
+                if (iResult != SUCCESS) return iResult;
+            }
+
+            // Handler
+            if (unit == EPositionGroup.ALL || unit == EPositionGroup.HANDLER)
+            {
+                iResult = LoadPositionData(bLoadFixed, EPositionObject.LOWER_HANDLER);
+                if (iResult != SUCCESS) return iResult;
+                iResult = LoadPositionData(bLoadFixed, EPositionObject.UPPER_HANDLER);
+                if (iResult != SUCCESS) return iResult;
+            }
+
+            // Stage
+            if (unit == EPositionGroup.ALL || unit == EPositionGroup.STAGE1)
+            {
+                iResult = LoadPositionData(bLoadFixed, EPositionObject.STAGE1);
+                if (iResult != SUCCESS) return iResult;
+                iResult = LoadPositionData(bLoadFixed, EPositionObject.CAMERA1);
+                if (iResult != SUCCESS) return iResult;
+                iResult = LoadPositionData(bLoadFixed, EPositionObject.SCANNER1);
+                if (iResult != SUCCESS) return iResult;
+            }
+
+            return SUCCESS;
+        }
+
 
         /// <summary>
         /// Model(Panel, Wafer)의 크기에 따라 자동으로 모델 좌표를 생성시켜준다.
@@ -1781,27 +1925,45 @@ namespace LWDicer.Control
         /// 이 함수를 호출하여 ModelHeader List를 저장한다
         /// </summary>
         /// <returns></returns>
-        public int SaveModelHeaderList()
+        public int SaveModelHeaderList(EListHeaderType type)
         {
+            List<CListHeader> headerList = ModelHeaderList;
+            string tableName = DBInfo.TableModelHeader;
+            switch (type)
+            {
+                case EListHeaderType.MODEL:
+                    headerList = ModelHeaderList;
+                    tableName = DBInfo.TableModelHeader;
+                    break;
+                case EListHeaderType.CASSETTE:
+                    headerList = CassetteHeaderList;
+                    tableName = DBInfo.TableCassetteHeader;
+                    break;
+                case EListHeaderType.WAFERFRAME:
+                    headerList = WaferFrameHeaderList;
+                    tableName = DBInfo.TableWaferFrameHeader;
+                    break;
+            }
+
             try
             {
                 List<string> querys = new List<string>();
                 string query;
 
                 // 0. create table
-                query = $"CREATE TABLE IF NOT EXISTS {DBInfo.TableModelHeader} (name string primary key, data string)";
+                query = $"CREATE TABLE IF NOT EXISTS {tableName} (name string primary key, data string)";
                 querys.Add(query);
 
                 // 1. delete all
-                query = $"DELETE FROM {DBInfo.TableModelHeader}";
+                query = $"DELETE FROM {tableName}";
                 querys.Add(query);
 
                 // 2. save model list
                 string output;
-                foreach (CModelHeader header in ModelHeaderList)
+                foreach (CListHeader header in headerList)
                 {
                     output = JsonConvert.SerializeObject(header);
-                    query = $"INSERT INTO {DBInfo.TableModelHeader} VALUES ('{header.Name}', '{output}')";
+                    query = $"INSERT INTO {tableName} VALUES ('{header.Name}', '{output}')";
                     querys.Add(query);
                 }
 
@@ -1817,7 +1979,7 @@ namespace LWDicer.Control
                 return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_SAVE_MODEL_LIST);
             }
 
-            WriteLog($"success : save model list", ELogType.Debug);
+            WriteLog($"success : save {type} header list", ELogType.Debug);
             return SUCCESS;
         }
 
@@ -1826,29 +1988,90 @@ namespace LWDicer.Control
             int iResult;
             bool bStatus = true;
 
+            ////////////////////////////////////////////////////////////////////////////////
+            // Model
+            EListHeaderType type = EListHeaderType.MODEL;
             // make root folder
-            if(IsModelHeaderExist(NAME_ROOT_FOLDER) == false)
+            if(IsModelHeaderExist(NAME_ROOT_FOLDER, type) == false)
             {
-                CModelHeader header = new CModelHeader();
+                CListHeader header = new CListHeader();
                 header.SetRootFolder();
                 ModelHeaderList.Add(header);
-                iResult = SaveModelHeaderList();
+                iResult = SaveModelHeaderList(type);
                 if (iResult != SUCCESS) return iResult;
             }
 
-            // make default model
-            if (IsModelHeaderExist(NAME_DEFAULT_MODEL) == false)
+            // make default data
+            if (IsModelHeaderExist(NAME_DEFAULT_MODEL, type) == false)
             {
-                CModelHeader header = new CModelHeader();
+                CListHeader header = new CListHeader();
                 header.SetDefaultModel();
                 ModelHeaderList.Add(header);
-                iResult = SaveModelHeaderList();
+                iResult = SaveModelHeaderList(type);
                 if (iResult != SUCCESS) return iResult;
             }
-            if (IsModelExist(NAME_DEFAULT_MODEL) == false)
+            if (IsModelExist(NAME_DEFAULT_MODEL, type) == false)
             {
-                CModelData model = new CModelData();
-                iResult = SaveModelData(model);
+                CModelData data = new CModelData();
+                iResult = SaveModelData(data);
+                if (iResult != SUCCESS) return iResult;
+            }
+
+            ////////////////////////////////////////////////////////////////////////////////
+            // WaferCassette
+            type = EListHeaderType.CASSETTE;
+            // make root folder
+            if (IsModelHeaderExist(NAME_ROOT_FOLDER, type) == false)
+            {
+                CListHeader header = new CListHeader();
+                header.SetRootFolder();
+                CassetteHeaderList.Add(header);
+                iResult = SaveModelHeaderList(type);
+                if (iResult != SUCCESS) return iResult;
+            }
+
+            // make default data
+            if (IsModelHeaderExist(NAME_DEFAULT_MODEL, type) == false)
+            {
+                CListHeader header = new CListHeader();
+                header.SetDefaultModel();
+                CassetteHeaderList.Add(header);
+                iResult = SaveModelHeaderList(type);
+                if (iResult != SUCCESS) return iResult;
+            }
+            if (IsModelExist(NAME_DEFAULT_MODEL, type) == false)
+            {
+                CWaferCassette data = new CWaferCassette();
+                iResult = SaveModelData(data);
+                if (iResult != SUCCESS) return iResult;
+            }
+
+            ////////////////////////////////////////////////////////////////////////////////
+            // WaferFrame
+            type = EListHeaderType.WAFERFRAME;
+            // make root folder
+            if (IsModelHeaderExist(NAME_ROOT_FOLDER, type) == false)
+            {
+                CListHeader header = new CListHeader();
+                header.SetRootFolder();
+                WaferFrameHeaderList.Add(header);
+                iResult = SaveModelHeaderList(type);
+                if (iResult != SUCCESS) return iResult;
+            }
+
+            // make default data
+            if (IsModelHeaderExist(NAME_DEFAULT_MODEL, type) == false)
+            {
+                CListHeader header = new CListHeader();
+                header.SetDefaultModel();
+                WaferFrameHeaderList.Add(header);
+                iResult = SaveModelHeaderList(type);
+                if (iResult != SUCCESS) return iResult;
+            }
+            if (IsModelExist(NAME_DEFAULT_MODEL, type) == false)
+            {
+                CWaferFrame data = new CWaferFrame();
+                iResult = SaveModelData(data);
                 if (iResult != SUCCESS) return iResult;
             }
 
@@ -1857,12 +2080,39 @@ namespace LWDicer.Control
 
         public int LoadModelList()
         {
+            LoadModelList(EListHeaderType.MODEL);
+            LoadModelList(EListHeaderType.CASSETTE);
+            LoadModelList(EListHeaderType.WAFERFRAME);
+
+            return SUCCESS;
+        }
+
+        public int LoadModelList(EListHeaderType type)
+        {
+            List<CListHeader> headerList = ModelHeaderList;
+            string tableName = DBInfo.TableModelHeader;
+            switch (type)
+            {
+                case EListHeaderType.MODEL:
+                    headerList = ModelHeaderList;
+                    tableName = DBInfo.TableModelHeader;
+                    break;
+                case EListHeaderType.CASSETTE:
+                    headerList = CassetteHeaderList;
+                    tableName = DBInfo.TableCassetteHeader;
+                    break;
+                case EListHeaderType.WAFERFRAME:
+                    headerList = WaferFrameHeaderList;
+                    tableName = DBInfo.TableWaferFrameHeader;
+                    break;
+            }
+
             try
             {
                 string query;
 
                 // 0. select table
-                query = $"SELECT * FROM {DBInfo.TableModelHeader}";
+                query = $"SELECT * FROM {tableName}";
 
                 // 1. get table
                 DataTable datatable;
@@ -1872,14 +2122,14 @@ namespace LWDicer.Control
                 }
 
                 // 2. delete list
-                ModelHeaderList.Clear();
+                headerList.Clear();
 
                 // 3. get list
                 foreach (DataRow row in datatable.Rows)
                 {
                     string output = row["data"].ToString();
-                    CModelHeader header = JsonConvert.DeserializeObject<CModelHeader>(output);
-                    ModelHeaderList.Add(header);
+                    CListHeader header = JsonConvert.DeserializeObject<CListHeader>(output);
+                    headerList.Add(header);
                 }
             }
             catch (Exception ex)
@@ -1888,23 +2138,66 @@ namespace LWDicer.Control
                 return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_LOAD_MODEL_LIST);
             }
 
-            WriteLog($"success : load model list", ELogType.Debug);
+            switch (type)
+            {
+                case EListHeaderType.MODEL:
+                    ModelHeaderList = ObjectExtensions.Copy(headerList);
+                    break;
+                case EListHeaderType.CASSETTE:
+                    CassetteHeaderList = ObjectExtensions.Copy(headerList);
+                    break;
+                case EListHeaderType.WAFERFRAME:
+                    WaferFrameHeaderList = ObjectExtensions.Copy(headerList);
+                    break;
+            }
+
+            WriteLog($"success : load {type} header list", ELogType.Debug);
             return SUCCESS;
         }
 
-        public int GetModelHeaderCount()
+        public int GetModelHeaderCount(EListHeaderType type)
         {
-            int nCount = 0;
+            List<CListHeader> headerList = ModelHeaderList;
+            string tableName = DBInfo.TableModelHeader;
+            switch (type)
+            {
+                case EListHeaderType.MODEL:
+                    headerList = ModelHeaderList;
+                    tableName = DBInfo.TableModelHeader;
+                    break;
+                case EListHeaderType.CASSETTE:
+                    headerList = CassetteHeaderList;
+                    tableName = DBInfo.TableCassetteHeader;
+                    break;
+                case EListHeaderType.WAFERFRAME:
+                    headerList = WaferFrameHeaderList;
+                    tableName = DBInfo.TableWaferFrameHeader;
+                    break;
+            }
 
-            nCount = ModelHeaderList.Count;
+            int nCount = headerList.Count;
 
             return nCount;
         }
 
-        public bool IsModelHeaderExist(string name)
+        public bool IsModelHeaderExist(string name, EListHeaderType type)
         {
+            List<CListHeader> headerList = ModelHeaderList;
+            switch(type)
+            {
+                case EListHeaderType.MODEL:
+                    headerList = ModelHeaderList;
+                    break;
+                case EListHeaderType.CASSETTE:
+                    headerList = CassetteHeaderList;
+                    break;
+                case EListHeaderType.WAFERFRAME:
+                    headerList = WaferFrameHeaderList;
+                    break;
+            }
+
             if (string.IsNullOrEmpty(name)) return false;
-            foreach (CModelHeader header in ModelHeaderList)
+            foreach (CListHeader header in headerList)
             {
                 if(header.Name == name)
                 {
@@ -1914,14 +2207,28 @@ namespace LWDicer.Control
             return false;
         }
 
-        public bool IsModelExist(string name)
+        public bool IsModelExist(string name, EListHeaderType type)
         {
+            string tableName = DBInfo.TableModel;
+            switch (type)
+            {
+                case EListHeaderType.MODEL:
+                    tableName = DBInfo.TableModel;
+                    break;
+                case EListHeaderType.CASSETTE:
+                    tableName = DBInfo.TableCassette;
+                    break;
+                case EListHeaderType.WAFERFRAME:
+                    tableName = DBInfo.TableWaferFrame;
+                    break;
+            }
+
             if (string.IsNullOrEmpty(name)) return false;
             try
             {
                 // 1. load model
                 string output;
-                if (DBManager.SelectRow(DBInfo.DBConn, DBInfo.TableModel, out output, new CDBColumn("name", name)) == true)
+                if (DBManager.SelectRow(DBInfo.DBConn, tableName, out output, new CDBColumn("name", name)) == true)
                 {
                     return true;
                 }
@@ -1935,9 +2242,23 @@ namespace LWDicer.Control
             return false;
         }
 
-        public bool IsModelFolder(string name)
+        public bool IsModelFolder(string name, EListHeaderType type)
         {
-            foreach (CModelHeader header in ModelHeaderList)
+            List<CListHeader> headerList = ModelHeaderList;
+            switch (type)
+            {
+                case EListHeaderType.MODEL:
+                    headerList = ModelHeaderList;
+                    break;
+                case EListHeaderType.CASSETTE:
+                    headerList = CassetteHeaderList;
+                    break;
+                case EListHeaderType.WAFERFRAME:
+                    headerList = WaferFrameHeaderList;
+                    break;
+            }
+
+            foreach (CListHeader header in headerList)
             {
                 if (header.Name == name)
                 {
@@ -1947,9 +2268,23 @@ namespace LWDicer.Control
             return false;
         }
 
-        public int GetModelTreeLevel(string name)
+        public int GetModelTreeLevel(string name, EListHeaderType type)
         {
-            foreach (CModelHeader header in ModelHeaderList)
+            List<CListHeader> headerList = ModelHeaderList;
+            switch (type)
+            {
+                case EListHeaderType.MODEL:
+                    headerList = ModelHeaderList;
+                    break;
+                case EListHeaderType.CASSETTE:
+                    headerList = CassetteHeaderList;
+                    break;
+                case EListHeaderType.WAFERFRAME:
+                    headerList = WaferFrameHeaderList;
+                    break;
+            }
+
+            foreach (CListHeader header in headerList)
             {
                 if (header.Name == name)
                 {
@@ -1959,41 +2294,87 @@ namespace LWDicer.Control
             return 0;
         }
 
-        public int DeleteModelHeader(string name)
+        public int DeleteModelHeader(string name, EListHeaderType type)
         {
+            List<CListHeader> headerList = ModelHeaderList;
+            string tableName = DBInfo.TableModelHeader;
+            switch (type)
+        {
+                case EListHeaderType.MODEL:
+                    headerList = ModelHeaderList;
+                    tableName = DBInfo.TableModelHeader;
+                    break;
+                case EListHeaderType.CASSETTE:
+                    headerList = CassetteHeaderList;
+                    tableName = DBInfo.TableCassetteHeader;
+                    break;
+                case EListHeaderType.WAFERFRAME:
+                    headerList = WaferFrameHeaderList;
+                    tableName = DBInfo.TableWaferFrameHeader;
+                    break;
+            }
+
             if (name == NAME_ROOT_FOLDER) return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_DELETE_ROOT_FOLDER);
             if (name == NAME_DEFAULT_MODEL) return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_DELETE_DEFAULT_MODEL);
-            if (IsModelHeaderExist(name) == false) return SUCCESS;
+            if (IsModelHeaderExist(name, type) == false) return SUCCESS;
 
             int index = 0;
-            foreach (CModelHeader header in ModelHeaderList)
+            foreach (CListHeader header in headerList)
             {
                 if (header.Name == name)
                 {
-                    ModelHeaderList.RemoveAt(index);
+                    headerList.RemoveAt(index);
                     break;
                 }
                 index++;
             }
 
-            int iResult = SaveModelHeaderList();
+            int iResult = SaveModelHeaderList(type);
             if (iResult != SUCCESS) return iResult;
 
             return SUCCESS;
         }
 
-        public int DeleteModelData(string name)
+        public int DeleteModelData(string name, EListHeaderType type)
         {
+            List<CListHeader> headerList = ModelHeaderList;
+            string tableName = DBInfo.TableModel;
+            switch (type)
+        {
+                case EListHeaderType.MODEL:
+                    headerList = ModelHeaderList;
+                    tableName = DBInfo.TableModel;
+                    break;
+                case EListHeaderType.CASSETTE:
+                    headerList = CassetteHeaderList;
+                    tableName = DBInfo.TableCassette;
+                    break;
+                case EListHeaderType.WAFERFRAME:
+                    headerList = WaferFrameHeaderList;
+                    tableName = DBInfo.TableWaferFrame;
+                    break;
+            }
+
             if (name == NAME_DEFAULT_MODEL) return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_DELETE_DEFAULT_MODEL);
-            if (IsModelExist(name) == false) return SUCCESS;
+            if (IsModelExist(name, type) == false) return SUCCESS;
 
             // cannot delete current model
+            switch (type)
+            {
+                case EListHeaderType.MODEL:
             if (name == SystemData.ModelName) return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_DELETE_DEFAULT_MODEL);
+                    break;
+                case EListHeaderType.CASSETTE:
+                    if (name == ModelData.CassetteName) return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_DELETE_DEFAULT_MODEL);
+                    break;
+                case EListHeaderType.WAFERFRAME:
+                    if (name == ModelData.WaferFrameName) return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_DELETE_DEFAULT_MODEL);
+                    break;
+            }
 
             try
             {
-                if (DBManager.DeleteRow(DBInfo.DBConn, DBInfo.TableModel, "name", ModelData.Name, 
-                    true, DBInfo.DBConn_Backup) != true)
+                if (DBManager.DeleteRow(DBInfo.DBConn, tableName, "name", name, true, DBInfo.DBConn_Backup) != true)
                 {
                     return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_DELETE_MODEL_DATA);
                 }
@@ -2004,7 +2385,7 @@ namespace LWDicer.Control
                 return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_DELETE_MODEL_DATA);
             }
 
-            WriteLog($"success : delete model [{name}].", ELogType.SYSTEM, ELogWType.SAVE);
+            WriteLog($"success : delete {type} name : {name}.", ELogType.SYSTEM, ELogWType.SAVE);
             return SUCCESS;
         }
 
@@ -2013,14 +2394,16 @@ namespace LWDicer.Control
         /// </summary>
         /// <param name="modelData"></param>
         /// <returns></returns>
-        public int SaveModelData(CModelData modelData)
+        public int SaveModelData(CModelData data)
         {
+            EListHeaderType type = EListHeaderType.MODEL;
+            string tableName = DBInfo.TableModel;
             try
             {
-                ModelData = ObjectExtensions.Copy(modelData);
-                string output = JsonConvert.SerializeObject(ModelData);
+                ModelData = ObjectExtensions.Copy(data);
+                string output = JsonConvert.SerializeObject(data);
 
-                if (DBManager.InsertRow(DBInfo.DBConn, DBInfo.TableModel, "name", ModelData.Name, output,
+                if (DBManager.InsertRow(DBInfo.DBConn, tableName, "name", ModelData.Name, output,
                     true, DBInfo.DBConn_Backup) != true)
                 {
                     return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_SAVE_MODEL_DATA);
@@ -2032,31 +2415,82 @@ namespace LWDicer.Control
                 return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_SAVE_MODEL_DATA);
             }
 
-            WriteLog($"success : save model [{modelData.Name}].", ELogType.SYSTEM, ELogWType.SAVE);
+            WriteLog($"success : save {type} model [{data.Name}].", ELogType.SYSTEM, ELogWType.SAVE);
+            return SUCCESS;
+        }
+
+        public int SaveModelData(CWaferCassette data)
+        {
+            EListHeaderType type = EListHeaderType.MODEL;
+            string tableName = DBInfo.TableCassette;
+            try
+            {
+                CassetteData = ObjectExtensions.Copy(data);
+                string output = JsonConvert.SerializeObject(data);
+
+                if (DBManager.InsertRow(DBInfo.DBConn, tableName, "name", ModelData.Name, output,
+                    true, DBInfo.DBConn_Backup) != true)
+                {
+                    return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_SAVE_MODEL_DATA);
+                }
+            }
+            catch (Exception ex)
+            {
+                WriteExLog(ex.ToString());
+                return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_SAVE_MODEL_DATA);
+            }
+
+            WriteLog($"success : save {type} model [{data.Name}].", ELogType.SYSTEM, ELogWType.SAVE);
+            return SUCCESS;
+        }
+
+        public int SaveModelData(CWaferFrame data)
+        {
+            EListHeaderType type = EListHeaderType.WAFERFRAME;
+            string tableName = DBInfo.TableWaferFrame;
+            try
+            {
+                WaferFrameData = ObjectExtensions.Copy(data);
+                string output = JsonConvert.SerializeObject(data);
+
+                if (DBManager.InsertRow(DBInfo.DBConn, tableName, "name", ModelData.Name, output,
+                    true, DBInfo.DBConn_Backup) != true)
+                {
+                    return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_SAVE_MODEL_DATA);
+                }
+            }
+            catch (Exception ex)
+            {
+                WriteExLog(ex.ToString());
+                return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_SAVE_MODEL_DATA);
+            }
+
+            WriteLog($"success : save {type} model [{data.Name}].", ELogType.SYSTEM, ELogWType.SAVE);
             return SUCCESS;
         }
 
         public int ChangeModel(string name)
         {
+            EListHeaderType type = EListHeaderType.MODEL;
             int iResult;
             // 0. check exist
             if(string.IsNullOrEmpty(name))
             {
                 return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_LOAD_MODEL_DATA);
             }
-            if(IsModelExist(name) == false)
+            if(IsModelExist(name, type) == false)
             {
                 return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_LOAD_MODEL_DATA);
             }
 
-            CModelData modelData = null;
+            CModelData data = null;
             try
             {
-                // 1. load model
                 string output;
+                // 1. load model
                 if (DBManager.SelectRow(DBInfo.DBConn, DBInfo.TableModel, out output, new CDBColumn("name", name)) == true)
                 {
-                    modelData = JsonConvert.DeserializeObject<CModelData>(output);
+                    data = JsonConvert.DeserializeObject<CModelData>(output);
                 }
                 else
                 {
@@ -2072,7 +2506,22 @@ namespace LWDicer.Control
                     SystemData.ModelName = prev_model;
                     return iResult;
                 }
+
+                // 3. set data
+                if (data != null)
+                {
+                    ModelData = ObjectExtensions.Copy(data);
+                }
                 
+                // 3.1 load cassette data
+                iResult = LoadCassetteData(data.CassetteName);
+                if (iResult != SUCCESS) return iResult;
+
+                // 3.2 load waferframe data
+                iResult = LoadCassetteData(data.WaferFrameName);
+                if (iResult != SUCCESS) return iResult;
+
+                WriteLog($"success : change model : {ModelData.Name}.", ELogType.SYSTEM, ELogWType.LOAD);
             }
             catch (Exception ex)
             {
@@ -2080,15 +2529,8 @@ namespace LWDicer.Control
                 return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_LOAD_MODEL_DATA);
             }
 
-            // 2. finally, set model data
-            if(modelData != null)
-            {
-                ModelData = modelData;
-                WriteLog($"success : change model [{ModelData.Name}].", ELogType.SYSTEM, ELogWType.LOAD);
-            }
-
             // 3. load model offset position
-            iResult = LoadPositionData(false);
+            iResult = LoadPositionData(false, EPositionGroup.ALL);
             if (iResult != SUCCESS) return iResult;
 
             // 4. generate model position
@@ -2101,11 +2543,99 @@ namespace LWDicer.Control
             return SUCCESS;
         }
 
-        public int ViewModelData(string name, out CModelData modelData)
+        public int LoadCassetteData(string name)
         {
-            modelData = new CModelData();
+            EListHeaderType type = EListHeaderType.CASSETTE;
+            int iResult;
             // 0. check exist
-            if (IsModelExist(name) == false)
+            if (string.IsNullOrEmpty(name))
+            {
+                return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_LOAD_MODEL_DATA);
+            }
+            if (IsModelExist(name, type) == false)
+            {
+                return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_LOAD_MODEL_DATA);
+            }
+
+            CWaferCassette data = null;
+            try
+            {
+                string output;
+                // 1.2. load cassette data
+                if (DBManager.SelectRow(DBInfo.DBConn, DBInfo.TableCassette, out output, new CDBColumn("name", name)) == true)
+                {
+                    data = JsonConvert.DeserializeObject<CWaferCassette>(output);
+                }
+                else
+                {
+                    //return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_LOAD_MODEL_DATA);
+                }
+
+                // 2. finally, set model data
+                if (data != null)
+                {
+                    CassetteData = ObjectExtensions.Copy(data);
+                    WriteLog($"success : change c{type} : {name}.", ELogType.SYSTEM, ELogWType.LOAD);
+                }
+            }
+            catch (Exception ex)
+            {
+                WriteExLog(ex.ToString());
+                return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_LOAD_MODEL_DATA);
+            }
+
+            return SUCCESS;
+        }
+
+        public int LoadWaferFrameData(string name)
+        {
+            EListHeaderType type = EListHeaderType.WAFERFRAME;
+            int iResult;
+            // 0. check exist
+            if (string.IsNullOrEmpty(name))
+            {
+                return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_LOAD_MODEL_DATA);
+            }
+            if (IsModelExist(name, type) == false)
+            {
+                return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_LOAD_MODEL_DATA);
+            }
+
+            CWaferFrame data = null;
+            try
+            {
+                string output;
+                // 1.3. load waferframe data
+                if (DBManager.SelectRow(DBInfo.DBConn, DBInfo.TableWaferFrame, out output, new CDBColumn("name", name)) == true)
+                {
+                    data = JsonConvert.DeserializeObject<CWaferFrame>(output);
+                }
+                else
+                {
+                    //return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_LOAD_MODEL_DATA);
+                }
+
+                // 2. finally, set model data
+                if (data != null)
+                {
+                    WaferFrameData = ObjectExtensions.Copy(data);
+                    WriteLog($"success : change c{type} : {name}.", ELogType.SYSTEM, ELogWType.LOAD);
+                }
+            }
+            catch (Exception ex)
+            {
+                WriteExLog(ex.ToString());
+                return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_LOAD_MODEL_DATA);
+            }
+
+            return SUCCESS;
+        }
+
+        public int ViewModelData(string name, out CModelData data)
+        {
+            data = new CModelData();
+            // 0. check exist
+            if (IsModelExist(name, EListHeaderType.MODEL) == false)
             {
                 return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_LOAD_MODEL_DATA);
             }
@@ -2116,7 +2646,69 @@ namespace LWDicer.Control
                 string output;
                 if (DBManager.SelectRow(DBInfo.DBConn, DBInfo.TableModel, out output, new CDBColumn("name", name)) == true)
                 {
-                    modelData = JsonConvert.DeserializeObject<CModelData>(output);
+                    data = JsonConvert.DeserializeObject<CModelData>(output);
+                }
+                else
+                {
+                    return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_LOAD_MODEL_DATA);
+                }
+            }
+            catch (Exception ex)
+            {
+                WriteExLog(ex.ToString());
+                return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_LOAD_MODEL_DATA);
+            }
+
+            return SUCCESS;
+        }
+
+        public int ViewModelData(string name, out CWaferCassette data)
+        {
+            data = new CWaferCassette();
+            // 0. check exist
+            if (IsModelExist(name, EListHeaderType.MODEL) == false)
+            {
+                return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_LOAD_MODEL_DATA);
+            }
+
+            try
+            {
+                // 1. load model
+                string output;
+                if (DBManager.SelectRow(DBInfo.DBConn, DBInfo.TableCassette, out output, new CDBColumn("name", name)) == true)
+                {
+                    data = JsonConvert.DeserializeObject<CWaferCassette>(output);
+                }
+                else
+                {
+                    return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_LOAD_MODEL_DATA);
+                }
+            }
+            catch (Exception ex)
+            {
+                WriteExLog(ex.ToString());
+                return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_LOAD_MODEL_DATA);
+            }
+
+            return SUCCESS;
+        }
+
+        public int ViewModelData(string name, out CWaferFrame data)
+        {
+            data = new CWaferFrame();
+            // 0. check exist
+            if (IsModelExist(name, EListHeaderType.MODEL) == false)
+            {
+                return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_LOAD_MODEL_DATA);
+            }
+
+            try
+            {
+                // 1. load model
+                string output;
+                if (DBManager.SelectRow(DBInfo.DBConn, DBInfo.TableWaferFrame, out output, new CDBColumn("name", name)) == true)
+                {
+                    data = JsonConvert.DeserializeObject<CWaferFrame>(output);
                 }
                 else
                 {
@@ -2253,7 +2845,7 @@ namespace LWDicer.Control
         {
             int iResult;
 
-            LoadSystemParaExcelFile(EExcel_Sheet.Skip);
+            ImportDataFromExcel(EExcel_Sheet.Skip);
 
             iResult = LoadIOList();
             //if (iResult != SUCCESS) return iResult;
@@ -2619,7 +3211,7 @@ namespace LWDicer.Control
             return SUCCESS;
         }
 
-        public int LoadSystemParaExcelFile(EExcel_Sheet nSheet)
+        public int ImportDataFromExcel(EExcel_Sheet nSheet)
         {
             if(nSheet == EExcel_Sheet.Skip)
             {
@@ -2630,7 +3222,7 @@ namespace LWDicer.Control
             int i = 0, j = 0, nSheetCount = 0, nCount = 0;
 
             string strPath = DBInfo.SystemDir + DBInfo.ExcelSystemPara;
-
+            int iResult;
             try
             {
                 Excel.Application ExcelApp = new Microsoft.Office.Interop.Excel.Application();
@@ -2652,43 +3244,44 @@ namespace LWDicer.Control
                     SheetRange[i] = Sheet[i].UsedRange;
                 }
 
-                if(nSheet == EExcel_Sheet.PARA_Info)
+                if(nSheet == EExcel_Sheet.MAX || nSheet == EExcel_Sheet.PARA_Info)
                 {
                     // Parameter Info
-                    LoadParaInfoFromExcel(SheetRange[(int)EExcel_Sheet.PARA_Info]);
+                    iResult = ImportParaDataFromExcel(SheetRange[(int)EExcel_Sheet.PARA_Info]);
+                    if(iResult == SUCCESS)
+                    {
+                        SaveParaInfoList();
+                    }
                 }
 
-                if (nSheet == EExcel_Sheet.Alarm_Info)
+                if (nSheet == EExcel_Sheet.MAX || nSheet == EExcel_Sheet.Alarm_Info)
                 {
                     // Alarm Info
-                    LoadAlarmInfoFromExcel(SheetRange[(int)EExcel_Sheet.Alarm_Info]);
+                    iResult = ImportAlarmDataFromExcel(SheetRange[(int)EExcel_Sheet.Alarm_Info]);
+                    if (iResult == SUCCESS)
+                    {
+                        SaveAlarmInfoList();
+                    }
                 }
 
-                if (nSheet == EExcel_Sheet.IO_Info)
+                if (nSheet == EExcel_Sheet.MAX || nSheet == EExcel_Sheet.IO_Info)
                 {
                     // IO 
-                    LoadExcelIOInfo(SheetRange[(int)EExcel_Sheet.IO_Info]);
+                    iResult = ImportIODataFromExcel(SheetRange[(int)EExcel_Sheet.IO_Info]);
+                    if (iResult == SUCCESS)
+                    {
+                        SaveIOList();
+                    }
                 }
 
-                if (nSheet == EExcel_Sheet.Motor_Data)
+                if (nSheet == EExcel_Sheet.MAX || nSheet == EExcel_Sheet.Motor_Data)
                 {
                     // Motor Data
-                    LoadMotorDataToExcel(SheetRange[(int)EExcel_Sheet.Motor_Data]);
+                    iResult = ImportMotorDataFromExcel(SheetRange[(int)EExcel_Sheet.Motor_Data]);
+                    if (iResult == SUCCESS)
+                    {
+                        SaveSystemData(systemAxis: SystemData_Axis);
                 }
-
-                if(nSheet == EExcel_Sheet.MAX)
-                {
-                    // Parameter Info
-                    LoadParaInfoFromExcel(SheetRange[(int)EExcel_Sheet.PARA_Info]);
-
-                    // Alarm Info
-                    LoadAlarmInfoFromExcel(SheetRange[(int)EExcel_Sheet.Alarm_Info]);
-
-                    // IO 
-                    LoadExcelIOInfo(SheetRange[(int)EExcel_Sheet.IO_Info]);
-
-                    // Motor Data
-                    LoadMotorDataToExcel(SheetRange[(int)EExcel_Sheet.Motor_Data]);
                 }
 
                 WorkBook.Close(true);
@@ -2700,11 +3293,11 @@ namespace LWDicer.Control
                 return GenerateErrorCode(ERR_DATA_MANAGER_IO_EXCEL_FILE_READ_FAIL);
             }
 
-            WriteLog($"success : System Parameter Read Completed", ELogType.Debug);
+            WriteLog($"success : Import Data from Excel", ELogType.Debug);
             return SUCCESS;
         }
 
-        public int LoadExcelIOInfo(Excel.Range SheetRange)
+        public int ImportIODataFromExcel(Excel.Range SheetRange)
         {
             int nCount = 0 , i = 0;
 
@@ -2737,14 +3330,14 @@ namespace LWDicer.Control
             return SUCCESS;
         }
 
-        public int LoadMotorDataToExcel(Excel.Range SheetRange)
+        public int ImportMotorDataFromExcel(Excel.Range SheetRange)
         {
             int i = 0;
 
             try
             {
                 // Motor Data Sheet
-                for (i = 0; i < 19; i++)
+                for (i = 0; i < 16; i++)
                 {
                     // Speed
                     SystemData_Axis.MPMotionData[i].Speed[(int)EMotorSpeed.MANUAL_SLOW].Vel = Convert.ToDouble((string)(SheetRange.Cells[i + 2, 3] as Excel.Range).Text);
@@ -2786,6 +3379,49 @@ namespace LWDicer.Control
                     SystemData_Axis.MPMotionData[i].OriginData.SlowSpeed = Convert.ToDouble((string)(SheetRange.Cells[i + 2, 29] as Excel.Range).Text);
                     SystemData_Axis.MPMotionData[i].OriginData.HomeOffset = Convert.ToDouble((string)(SheetRange.Cells[i + 2, 30] as Excel.Range).Text);
                 }
+
+                for (i = 0; i < 3; i++)
+                {
+                    // Speed
+                    SystemData_Axis.ACSMotionData[i].Speed[(int)EMotorSpeed.MANUAL_SLOW].Vel = Convert.ToDouble((string)(SheetRange.Cells[i + 18, 3] as Excel.Range).Text);
+                    SystemData_Axis.ACSMotionData[i].Speed[(int)EMotorSpeed.MANUAL_FAST].Vel = Convert.ToDouble((string)(SheetRange.Cells[i + 18, 4] as Excel.Range).Text);
+                    SystemData_Axis.ACSMotionData[i].Speed[(int)EMotorSpeed.AUTO_SLOW].Vel = Convert.ToDouble((string)(SheetRange.Cells[i + 18, 5] as Excel.Range).Text);
+                    SystemData_Axis.ACSMotionData[i].Speed[(int)EMotorSpeed.AUTO_FAST].Vel = Convert.ToDouble((string)(SheetRange.Cells[i + 18, 6] as Excel.Range).Text);
+                    SystemData_Axis.ACSMotionData[i].Speed[(int)EMotorSpeed.JOG_SLOW].Vel = Convert.ToDouble((string)(SheetRange.Cells[i + 18, 7] as Excel.Range).Text);
+                    SystemData_Axis.ACSMotionData[i].Speed[(int)EMotorSpeed.JOG_FAST].Vel = Convert.ToDouble((string)(SheetRange.Cells[i + 18, 8] as Excel.Range).Text);
+
+                    // Acc
+                    SystemData_Axis.ACSMotionData[i].Speed[(int)EMotorSpeed.MANUAL_SLOW].Acc = Convert.ToDouble((string)(SheetRange.Cells[i + 18, 9] as Excel.Range).Text);
+                    SystemData_Axis.ACSMotionData[i].Speed[(int)EMotorSpeed.MANUAL_FAST].Acc = Convert.ToDouble((string)(SheetRange.Cells[i + 18, 10] as Excel.Range).Text);
+                    SystemData_Axis.ACSMotionData[i].Speed[(int)EMotorSpeed.AUTO_SLOW].Acc = Convert.ToDouble((string)(SheetRange.Cells[i + 18, 11] as Excel.Range).Text);
+                    SystemData_Axis.ACSMotionData[i].Speed[(int)EMotorSpeed.AUTO_FAST].Acc = Convert.ToDouble((string)(SheetRange.Cells[i + 18, 12] as Excel.Range).Text);
+                    SystemData_Axis.ACSMotionData[i].Speed[(int)EMotorSpeed.JOG_SLOW].Acc = Convert.ToDouble((string)(SheetRange.Cells[i + 18, 13] as Excel.Range).Text);
+                    SystemData_Axis.ACSMotionData[i].Speed[(int)EMotorSpeed.JOG_FAST].Acc = Convert.ToDouble((string)(SheetRange.Cells[i + 18, 14] as Excel.Range).Text);
+
+                    // Dec
+                    SystemData_Axis.ACSMotionData[i].Speed[(int)EMotorSpeed.MANUAL_SLOW].Dec = Convert.ToDouble((string)(SheetRange.Cells[i + 18, 15] as Excel.Range).Text);
+                    SystemData_Axis.ACSMotionData[i].Speed[(int)EMotorSpeed.MANUAL_FAST].Dec = Convert.ToDouble((string)(SheetRange.Cells[i + 18, 16] as Excel.Range).Text);
+                    SystemData_Axis.ACSMotionData[i].Speed[(int)EMotorSpeed.AUTO_SLOW].Dec = Convert.ToDouble((string)(SheetRange.Cells[i + 18, 17] as Excel.Range).Text);
+                    SystemData_Axis.ACSMotionData[i].Speed[(int)EMotorSpeed.AUTO_FAST].Dec = Convert.ToDouble((string)(SheetRange.Cells[i + 18, 18] as Excel.Range).Text);
+                    SystemData_Axis.ACSMotionData[i].Speed[(int)EMotorSpeed.JOG_SLOW].Dec = Convert.ToDouble((string)(SheetRange.Cells[i + 18, 19] as Excel.Range).Text);
+                    SystemData_Axis.ACSMotionData[i].Speed[(int)EMotorSpeed.JOG_FAST].Dec = Convert.ToDouble((string)(SheetRange.Cells[i + 18, 20] as Excel.Range).Text);
+
+                    // S/W Limit
+                    SystemData_Axis.ACSMotionData[i].PosLimit.Plus = Convert.ToDouble((string)(SheetRange.Cells[i + 18, 21] as Excel.Range).Text);
+                    SystemData_Axis.ACSMotionData[i].PosLimit.Minus = Convert.ToDouble((string)(SheetRange.Cells[i + 18, 22] as Excel.Range).Text);
+
+                    // Limit Time
+                    SystemData_Axis.ACSMotionData[i].TimeLimit.tMoveLimit = Convert.ToDouble((string)(SheetRange.Cells[i + 18, 23] as Excel.Range).Text);
+                    SystemData_Axis.ACSMotionData[i].TimeLimit.tSleepAfterMove = Convert.ToDouble((string)(SheetRange.Cells[i + 18, 24] as Excel.Range).Text);
+                    SystemData_Axis.ACSMotionData[i].TimeLimit.tOriginLimit = Convert.ToDouble((string)(SheetRange.Cells[i + 18, 25] as Excel.Range).Text);
+
+                    // Home Option
+                    //SystemData_Axis.ACSMotionData[i].OriginData.Method = Convert.ToInt16((string)(SheetRange.Cells[i + 2, 26] as Excel.Range).Text);
+                    //SystemData_Axis.ACSMotionData[i].OriginData.Dir = Convert.ToInt16((string)(SheetRange.Cells[i + 2, 27] as Excel.Range).Text);
+                    //SystemData_Axis.ACSMotionData[i].OriginData.FastSpeed = Convert.ToDouble((string)(SheetRange.Cells[i + 2, 28] as Excel.Range).Text);
+                    //SystemData_Axis.ACSMotionData[i].OriginData.SlowSpeed = Convert.ToDouble((string)(SheetRange.Cells[i + 2, 29] as Excel.Range).Text);
+                    //SystemData_Axis.ACSMotionData[i].OriginData.HomeOffset = Convert.ToDouble((string)(SheetRange.Cells[i + 2, 30] as Excel.Range).Text);
+                }
             }
             catch (Exception ex)
             {
@@ -2795,10 +3431,9 @@ namespace LWDicer.Control
 
             WriteLog($"success : Load Motor Data", ELogType.Debug);
             return SUCCESS;
-
         }
 
-        public int LoadAlarmInfoFromExcel(Excel.Range SheetRange)
+        public int ImportAlarmDataFromExcel(Excel.Range SheetRange)
         {
             int nRowCount = SheetRange.EntireRow.Count;
             int i = 0;
@@ -2844,7 +3479,7 @@ namespace LWDicer.Control
             return SUCCESS;
         }
 
-        public int LoadParaInfoFromExcel(Excel.Range SheetRange)
+        public int ImportParaDataFromExcel(Excel.Range SheetRange)
         {
             int nRowCount = SheetRange.EntireRow.Count;
             int i = 0, Type = 0;
@@ -3003,7 +3638,7 @@ namespace LWDicer.Control
             return SUCCESS;
         }
 
-        public int SaveMotorDataToExcel(string [,] strParameter)
+        public int ExportMotorDataFromExcel(string [,] strParameter)
         {
             int i = 0, j = 0, nSheetCount = 0, nCount = 0;
 
@@ -3054,6 +3689,54 @@ namespace LWDicer.Control
             return SUCCESS;
         }
 
+        void InitACSMotionData()
+        {
+            // Excel에서 읽어오는 방식도 생각해봤으나, 축 이름과 필수적인것들만 초기화하면 될것 같아서 소스코드 내부에서 처리 
+            int index;
+            CACSMotionData tMotion;
+
+            // null check
+            for (int i = 0; i < SystemData_Axis.ACSMotionData.Length; i++)
+            {
+                if (SystemData_Axis.ACSMotionData[i] == null)
+                {
+                    SystemData_Axis.ACSMotionData[i] = new CACSMotionData();
+                }
+            }
+
+            // STAGE X
+            index = (int)EACS_Axis.STAGE1_X;
+            if (SystemData_Axis.ACSMotionData[index].Name == "NotExist")
+            {
+                tMotion = new CACSMotionData();
+                tMotion.Name = "STAGE1_X";
+                tMotion.Exist = true;
+
+                SystemData_Axis.ACSMotionData[index] = ObjectExtensions.Copy(tMotion);
+            }
+
+            // STAGE Y
+            index = (int)EACS_Axis.STAGE1_Y;
+            if (SystemData_Axis.ACSMotionData[index].Name == "NotExist")
+            {
+                tMotion = new CACSMotionData();
+                tMotion.Name = "STAGE1_Y";
+                tMotion.Exist = true;
+
+                SystemData_Axis.ACSMotionData[index] = ObjectExtensions.Copy(tMotion);
+            }
+
+            // STAGE X
+            index = (int)EACS_Axis.STAGE1_T;
+            if (SystemData_Axis.ACSMotionData[index].Name == "NotExist")
+            {
+                tMotion = new CACSMotionData();
+                tMotion.Name = "STAGE1_T";
+                tMotion.Exist = true;
+
+                SystemData_Axis.ACSMotionData[index] = ObjectExtensions.Copy(tMotion);
+            }
+        }
 
         void InitMPMotionData()
         {
@@ -3070,12 +3753,13 @@ namespace LWDicer.Control
                 }
             }
 
+            // yaskawa api call 할 때, Name이 8자 제한때문에 축약해서 이름 사용함.
             // LOADER_Z
             index = (int)EYMC_Axis.LOADER_Z         ;
             if (SystemData_Axis.MPMotionData[index].Name == "NotExist")
             {
                 tMotion = new CMPMotionData();
-                tMotion.Name = "LOADER_Z";
+                tMotion.Name = "LD_Z"; //"LOADER_Z";
                 tMotion.Exist = true;
 
                 SystemData_Axis.MPMotionData[index] = ObjectExtensions.Copy(tMotion);
@@ -3086,7 +3770,7 @@ namespace LWDicer.Control
             if (SystemData_Axis.MPMotionData[index].Name == "NotExist")
             {
                 tMotion = new CMPMotionData();
-                tMotion.Name = "PUSHPULL_Y";
+                tMotion.Name = "PP_Y"; //"PUSHPULL_Y";
                 tMotion.Exist = true;
 
                 SystemData_Axis.MPMotionData[index] = ObjectExtensions.Copy(tMotion);
@@ -3097,84 +3781,84 @@ namespace LWDicer.Control
             if (SystemData_Axis.MPMotionData[index].Name == "NotExist")
             {
                 tMotion = new CMPMotionData();
-                tMotion.Name = "PUSHPULL_X1";
+                tMotion.Name = "PP_X1"; //"PUSHPULL_X1";
                 tMotion.Exist = true;
 
                 SystemData_Axis.MPMotionData[index] = ObjectExtensions.Copy(tMotion);
             }
 
-            // C1_CHUCK_ROTATE_T
+            // S1_ROTATE_T
             index = (int)EYMC_Axis.S1_CHUCK_ROTATE_T;
             if (SystemData_Axis.MPMotionData[index].Name == "NotExist")
             {
                 tMotion = new CMPMotionData();
-                tMotion.Name = "C1_CHUCK_ROTATE_T";
+                tMotion.Name = "S1_R_T"; //"C1_CHUCK_ROTATE_T";
                 tMotion.Exist = true;
 
                 SystemData_Axis.MPMotionData[index] = ObjectExtensions.Copy(tMotion);
             }
 
-            // C1_CLEAN_NOZZLE_T
+            // S1_CLEAN_NOZZLE_T
             index = (int)EYMC_Axis.S1_CLEAN_NOZZLE_T;
             if (SystemData_Axis.MPMotionData[index].Name == "NotExist")
             {
                 tMotion = new CMPMotionData();
-                tMotion.Name = "C1_CLEAN_NOZZLE_T";
+                tMotion.Name = "S1_CL_T"; //"C1_CLEAN_NOZZLE_T";
                 tMotion.Exist = true;
 
                 SystemData_Axis.MPMotionData[index] = ObjectExtensions.Copy(tMotion);
             }
 
-            // C1_COAT_NOZZLE_T 
+            // S1_COAT_NOZZLE_T 
             index = (int)EYMC_Axis.S1_COAT_NOZZLE_T ;
             if (SystemData_Axis.MPMotionData[index].Name == "NotExist")
             {
                 tMotion = new CMPMotionData();
-                tMotion.Name = "C1_COAT_NOZZLE_T";
+                tMotion.Name = "S1_CO_T"; //"C1_COAT_NOZZLE_T";
                 tMotion.Exist = true;
 
                 SystemData_Axis.MPMotionData[index] = ObjectExtensions.Copy(tMotion);
             }
 
             // PUSHPULL_X2   
-            index = (int)EYMC_Axis.PUSHPULL_X2   ;
+            index = (int)EYMC_Axis.PUSHPULL_X2;
             if (SystemData_Axis.MPMotionData[index].Name == "NotExist")
             {
                 tMotion = new CMPMotionData();
-                tMotion.Name = "PUSHPULL_X2";
+                tMotion.Name = "PP_X2"; //"PUSHPULL_X2";
                 tMotion.Exist = true;
 
                 SystemData_Axis.MPMotionData[index] = ObjectExtensions.Copy(tMotion);
             }
 
-            // C2_CHUCK_ROTATE_T
+            // S2_ROTATE_T
             index = (int)EYMC_Axis.S2_CHUCK_ROTATE_T;
             if (SystemData_Axis.MPMotionData[index].Name == "NotExist")
             {
                 tMotion = new CMPMotionData();
-                tMotion.Name = "C2_CHUCK_ROTATE_T";
+                tMotion.Name = "S2_R_T"; //"C2_CHUCK_ROTATE_T";
                 tMotion.Exist = true;
 
                 SystemData_Axis.MPMotionData[index] = ObjectExtensions.Copy(tMotion);
             }
 
-            // C2_CLEAN_NOZZLE_T
+            // S2_CLEAN_NOZZLE_T
             index = (int)EYMC_Axis.S2_CLEAN_NOZZLE_T;
             if (SystemData_Axis.MPMotionData[index].Name == "NotExist")
             {
                 tMotion = new CMPMotionData();
-                tMotion.Name = "C2_CLEAN_NOZZLE_T";
+                tMotion.Name = "S2_CL_T"; //"C2_CLEAN_NOZZLE_T";
                 tMotion.Exist = true;
 
                 SystemData_Axis.MPMotionData[index] = ObjectExtensions.Copy(tMotion);
             }
 
-            // C2_COAT_NOZZLE_T 
-            index = (int)EYMC_Axis.S2_COAT_NOZZLE_T ;
+            // S2_COAT_NOZZLE_T 
+            index = (int)EYMC_Axis.S2_COAT_NOZZLE_T;
             if (SystemData_Axis.MPMotionData[index].Name == "NotExist")
             {
                 tMotion = new CMPMotionData();
-                tMotion.Name = "C2_COAT_NOZZLE_T";
+                tMotion.Name = "S2_CO_T"; //"C2_COAT_NOZZLE_T";
                 tMotion.Exist = true;
 
                 SystemData_Axis.MPMotionData[index] = ObjectExtensions.Copy(tMotion);
@@ -3185,7 +3869,7 @@ namespace LWDicer.Control
             if (SystemData_Axis.MPMotionData[index].Name == "NotExist")
             {
                 tMotion = new CMPMotionData();
-                tMotion.Name = "UPPER_HANDLER_X";
+                tMotion.Name = "UH_X"; // "UPPER_HANDLER_X";
                 tMotion.Exist = true;
 
                 SystemData_Axis.MPMotionData[index] = ObjectExtensions.Copy(tMotion);
@@ -3196,7 +3880,7 @@ namespace LWDicer.Control
             if (SystemData_Axis.MPMotionData[index].Name == "NotExist")
             {
                 tMotion = new CMPMotionData();
-                tMotion.Name = "UPPER_HANDLER_Z";
+                tMotion.Name = "UH_Z"; // "UPPER_HANDLER_Z";
                 tMotion.Exist = true;
 
                 SystemData_Axis.MPMotionData[index] = ObjectExtensions.Copy(tMotion);
@@ -3207,7 +3891,7 @@ namespace LWDicer.Control
             if (SystemData_Axis.MPMotionData[index].Name == "NotExist")
             {
                 tMotion = new CMPMotionData();
-                tMotion.Name = "LOWER_HANDLER_X";
+                tMotion.Name = "LH_X"; // "LOWER_HANDLER_X";
                 tMotion.Exist = true;
 
                 SystemData_Axis.MPMotionData[index] = ObjectExtensions.Copy(tMotion);
@@ -3218,7 +3902,7 @@ namespace LWDicer.Control
             if (SystemData_Axis.MPMotionData[index].Name == "NotExist")
             {
                 tMotion = new CMPMotionData();
-                tMotion.Name = "LOWER_HANDLER_Z";
+                tMotion.Name = "LH_Z"; // "LOWER_HANDLER_Z";
                 tMotion.Exist = true;
 
                 SystemData_Axis.MPMotionData[index] = ObjectExtensions.Copy(tMotion);
@@ -3229,7 +3913,7 @@ namespace LWDicer.Control
             if (SystemData_Axis.MPMotionData[index].Name == "NotExist")
             {
                 tMotion = new CMPMotionData();
-                tMotion.Name = "CAMERA1_Z";
+                tMotion.Name = "CAM1_Z"; // "CAMERA1_Z";
                 tMotion.Exist = true;
 
                 SystemData_Axis.MPMotionData[index] = ObjectExtensions.Copy(tMotion);
@@ -3240,7 +3924,7 @@ namespace LWDicer.Control
             if (SystemData_Axis.MPMotionData[index].Name == "NotExist")
             {
                 tMotion = new CMPMotionData();
-                tMotion.Name = "SCANNER1_Z";
+                tMotion.Name = "SCAN1_Z"; // "SCANNER1_Z";
                 tMotion.Exist = true;
 
                 SystemData_Axis.MPMotionData[index] = ObjectExtensions.Copy(tMotion);

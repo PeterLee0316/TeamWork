@@ -361,9 +361,7 @@
     <Compile Include="UI\SubManualForm\FormUnitInit.Designer.cs">
       <DependentUpon>FormUnitInit.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\SubTeachForm\FormTeaching.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="UI\SubTeachForm\FormTeaching.cs" />
     <Compile Include="UI\SubTeachForm\FormTeaching.Designer.cs">
       <DependentUpon>FormTeaching.cs</DependentUpon>
     </Compile>

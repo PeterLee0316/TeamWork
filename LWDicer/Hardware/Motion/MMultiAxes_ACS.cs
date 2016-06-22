@@ -44,7 +44,7 @@ namespace LWDicer.Control
 
         private int[] MovePriority          = new int[DEF_MAX_COORDINATE];   // 축 이동시에 우선 순위
         private int[] OriginPriority        = new int[DEF_MAX_COORDINATE];   // 축 원점복귀시에 우선 순위
-        private CServoStatus[] ServoStatus  = new CServoStatus[DEF_MAX_COORDINATE];
+        private CACSServoStatus[] ServoStatus  = new CACSServoStatus[DEF_MAX_COORDINATE];
 
         public MMultiAxes_ACS(CObjectInfo objInfo, CMutliAxesACSRefComp refComp, CMultiAxesACSData data)
             : base(objInfo)
@@ -54,7 +54,7 @@ namespace LWDicer.Control
 
             for (int i = 0; i < DEF_MAX_COORDINATE; i++)
             {
-                ServoStatus[i] = new CServoStatus();
+                ServoStatus[i] = new CACSServoStatus();
             }
         }
 

@@ -79,10 +79,10 @@
             this.BtnLayout = new System.Windows.Forms.Button();
             this.BtnClear = new System.Windows.Forms.Button();
             this.BtnDraw = new System.Windows.Forms.Button();
-            this.TitleOffSetY = new Syncfusion.Windows.Forms.Tools.GradientLabel();
-            this.LabelOffSetY = new Syncfusion.Windows.Forms.Tools.GradientLabel();
-            this.TitleOffSetX = new Syncfusion.Windows.Forms.Tools.GradientLabel();
-            this.LabelOffSetX = new Syncfusion.Windows.Forms.Tools.GradientLabel();
+            this.TitleOffsetY = new Syncfusion.Windows.Forms.Tools.GradientLabel();
+            this.LabelOffsetY = new Syncfusion.Windows.Forms.Tools.GradientLabel();
+            this.TitleOffsetX = new Syncfusion.Windows.Forms.Tools.GradientLabel();
+            this.LabelOffsetX = new Syncfusion.Windows.Forms.Tools.GradientLabel();
             this.BtnSquare = new System.Windows.Forms.Button();
             this.BtnCycle = new System.Windows.Forms.Button();
             this.Btn12Inch = new System.Windows.Forms.Button();
@@ -132,10 +132,10 @@
             this.LaserMaintTab1.Controls.Add(this.BtnLayout);
             this.LaserMaintTab1.Controls.Add(this.BtnClear);
             this.LaserMaintTab1.Controls.Add(this.BtnDraw);
-            this.LaserMaintTab1.Controls.Add(this.TitleOffSetY);
-            this.LaserMaintTab1.Controls.Add(this.LabelOffSetY);
-            this.LaserMaintTab1.Controls.Add(this.TitleOffSetX);
-            this.LaserMaintTab1.Controls.Add(this.LabelOffSetX);
+            this.LaserMaintTab1.Controls.Add(this.TitleOffsetY);
+            this.LaserMaintTab1.Controls.Add(this.LabelOffsetY);
+            this.LaserMaintTab1.Controls.Add(this.TitleOffsetX);
+            this.LaserMaintTab1.Controls.Add(this.LabelOffsetX);
             this.LaserMaintTab1.Controls.Add(this.BtnSquare);
             this.LaserMaintTab1.Controls.Add(this.BtnCycle);
             this.LaserMaintTab1.Controls.Add(this.Btn12Inch);
@@ -246,67 +246,67 @@
             this.BtnDraw.UseVisualStyleBackColor = true;
             this.BtnDraw.Click += new System.EventHandler(this.BtnDraw_Click);
             // 
-            // TitleOffSetY
+            // TitleOffsetY
             // 
-            this.TitleOffSetY.BackgroundColor = new Syncfusion.Drawing.BrushInfo(System.Drawing.Color.LightSteelBlue);
-            this.TitleOffSetY.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
+            this.TitleOffsetY.BackgroundColor = new Syncfusion.Drawing.BrushInfo(System.Drawing.Color.LightSteelBlue);
+            this.TitleOffsetY.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
             | System.Windows.Forms.Border3DSide.Right) 
             | System.Windows.Forms.Border3DSide.Bottom)));
-            this.TitleOffSetY.BorderStyle = System.Windows.Forms.Border3DStyle.Raised;
-            this.TitleOffSetY.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.TitleOffSetY.ForeColor = System.Drawing.Color.Black;
-            this.TitleOffSetY.Location = new System.Drawing.Point(1074, 75);
-            this.TitleOffSetY.Name = "TitleOffSetY";
-            this.TitleOffSetY.Size = new System.Drawing.Size(83, 32);
-            this.TitleOffSetY.TabIndex = 455;
-            this.TitleOffSetY.Text = "Offset Y";
-            this.TitleOffSetY.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.TitleOffsetY.BorderStyle = System.Windows.Forms.Border3DStyle.Raised;
+            this.TitleOffsetY.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.TitleOffsetY.ForeColor = System.Drawing.Color.Black;
+            this.TitleOffsetY.Location = new System.Drawing.Point(1074, 75);
+            this.TitleOffsetY.Name = "TitleOffsetY";
+            this.TitleOffsetY.Size = new System.Drawing.Size(83, 32);
+            this.TitleOffsetY.TabIndex = 455;
+            this.TitleOffsetY.Text = "Offset Y";
+            this.TitleOffsetY.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // LabelOffSetY
+            // LabelOffsetY
             // 
-            this.LabelOffSetY.BackgroundColor = new Syncfusion.Drawing.BrushInfo(System.Drawing.Color.White);
-            this.LabelOffSetY.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
+            this.LabelOffsetY.BackgroundColor = new Syncfusion.Drawing.BrushInfo(System.Drawing.Color.White);
+            this.LabelOffsetY.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
             | System.Windows.Forms.Border3DSide.Right) 
             | System.Windows.Forms.Border3DSide.Bottom)));
-            this.LabelOffSetY.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.LabelOffSetY.ForeColor = System.Drawing.Color.Black;
-            this.LabelOffSetY.Location = new System.Drawing.Point(1160, 75);
-            this.LabelOffSetY.Name = "LabelOffSetY";
-            this.LabelOffSetY.Size = new System.Drawing.Size(83, 32);
-            this.LabelOffSetY.TabIndex = 454;
-            this.LabelOffSetY.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.LabelOffSetY.Click += new System.EventHandler(this.LabelOffSetY_Click);
+            this.LabelOffsetY.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.LabelOffsetY.ForeColor = System.Drawing.Color.Black;
+            this.LabelOffsetY.Location = new System.Drawing.Point(1160, 75);
+            this.LabelOffsetY.Name = "LabelOffsetY";
+            this.LabelOffsetY.Size = new System.Drawing.Size(83, 32);
+            this.LabelOffsetY.TabIndex = 454;
+            this.LabelOffsetY.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.LabelOffsetY.Click += new System.EventHandler(this.LabelOffsetY_Click);
             // 
-            // TitleOffSetX
+            // TitleOffsetX
             // 
-            this.TitleOffSetX.BackgroundColor = new Syncfusion.Drawing.BrushInfo(System.Drawing.Color.LightSteelBlue);
-            this.TitleOffSetX.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
+            this.TitleOffsetX.BackgroundColor = new Syncfusion.Drawing.BrushInfo(System.Drawing.Color.LightSteelBlue);
+            this.TitleOffsetX.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
             | System.Windows.Forms.Border3DSide.Right) 
             | System.Windows.Forms.Border3DSide.Bottom)));
-            this.TitleOffSetX.BorderStyle = System.Windows.Forms.Border3DStyle.Raised;
-            this.TitleOffSetX.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.TitleOffSetX.ForeColor = System.Drawing.Color.Black;
-            this.TitleOffSetX.Location = new System.Drawing.Point(1074, 42);
-            this.TitleOffSetX.Name = "TitleOffSetX";
-            this.TitleOffSetX.Size = new System.Drawing.Size(83, 32);
-            this.TitleOffSetX.TabIndex = 453;
-            this.TitleOffSetX.Text = "Offset X";
-            this.TitleOffSetX.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.TitleOffsetX.BorderStyle = System.Windows.Forms.Border3DStyle.Raised;
+            this.TitleOffsetX.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.TitleOffsetX.ForeColor = System.Drawing.Color.Black;
+            this.TitleOffsetX.Location = new System.Drawing.Point(1074, 42);
+            this.TitleOffsetX.Name = "TitleOffsetX";
+            this.TitleOffsetX.Size = new System.Drawing.Size(83, 32);
+            this.TitleOffsetX.TabIndex = 453;
+            this.TitleOffsetX.Text = "Offset X";
+            this.TitleOffsetX.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // LabelOffSetX
+            // LabelOffsetX
             // 
-            this.LabelOffSetX.BackgroundColor = new Syncfusion.Drawing.BrushInfo(System.Drawing.Color.White);
-            this.LabelOffSetX.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
+            this.LabelOffsetX.BackgroundColor = new Syncfusion.Drawing.BrushInfo(System.Drawing.Color.White);
+            this.LabelOffsetX.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
             | System.Windows.Forms.Border3DSide.Right) 
             | System.Windows.Forms.Border3DSide.Bottom)));
-            this.LabelOffSetX.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.LabelOffSetX.ForeColor = System.Drawing.Color.Black;
-            this.LabelOffSetX.Location = new System.Drawing.Point(1160, 42);
-            this.LabelOffSetX.Name = "LabelOffSetX";
-            this.LabelOffSetX.Size = new System.Drawing.Size(83, 32);
-            this.LabelOffSetX.TabIndex = 452;
-            this.LabelOffSetX.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.LabelOffSetX.Click += new System.EventHandler(this.LabelOffSetX_Click);
+            this.LabelOffsetX.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.LabelOffsetX.ForeColor = System.Drawing.Color.Black;
+            this.LabelOffsetX.Location = new System.Drawing.Point(1160, 42);
+            this.LabelOffsetX.Name = "LabelOffsetX";
+            this.LabelOffsetX.Size = new System.Drawing.Size(83, 32);
+            this.LabelOffsetX.TabIndex = 452;
+            this.LabelOffsetX.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.LabelOffsetX.Click += new System.EventHandler(this.LabelOffsetX_Click);
             // 
             // BtnSquare
             // 
@@ -1013,10 +1013,10 @@
         private Syncfusion.Windows.Forms.Tools.TabControlAdv TabCtlLaserMaint;
         private Syncfusion.Windows.Forms.Tools.TabPageAdv LaserMaintTab1;
         private Syncfusion.Windows.Forms.Tools.TabPageAdv LaserMaintTab2;
-        private Syncfusion.Windows.Forms.Tools.GradientLabel TitleOffSetY;
-        private Syncfusion.Windows.Forms.Tools.GradientLabel LabelOffSetY;
-        private Syncfusion.Windows.Forms.Tools.GradientLabel TitleOffSetX;
-        private Syncfusion.Windows.Forms.Tools.GradientLabel LabelOffSetX;
+        private Syncfusion.Windows.Forms.Tools.GradientLabel TitleOffsetY;
+        private Syncfusion.Windows.Forms.Tools.GradientLabel LabelOffsetY;
+        private Syncfusion.Windows.Forms.Tools.GradientLabel TitleOffsetX;
+        private Syncfusion.Windows.Forms.Tools.GradientLabel LabelOffsetX;
         private System.Windows.Forms.Button BtnSquare;
         private System.Windows.Forms.Button BtnCycle;
         private System.Windows.Forms.Button Btn12Inch;

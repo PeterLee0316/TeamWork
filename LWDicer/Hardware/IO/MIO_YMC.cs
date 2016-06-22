@@ -116,7 +116,7 @@ namespace LWDicer.Control
             if (rc != CMotionAPI.MP_SUCCESS)
             {
                 string str = $"Error ymcGetRegisterDataHandle ML \nErrorCode [ 0x{rc.ToString("X")} ]";
-                WriteLog(str, ELogType.Debug, ELogWType.Error, true);
+                WriteLog(str, ELogType.Debug, ELogWType.D_Error, true);
                 return GenerateErrorCode(ERR_YMC_FAIL_GET_DATA_HANDLE);
             }
 
@@ -154,7 +154,7 @@ namespace LWDicer.Control
             if (rc != CMotionAPI.MP_SUCCESS)
             {
                 string str = $"Error ymcGetRegisterData MB \nErrorCode [ 0x{rc.ToString("X")} ]";
-                WriteLog(str, ELogType.Debug, ELogWType.Error, true);
+                WriteLog(str, ELogType.Debug, ELogWType.D_Error, true);
                 return GenerateErrorCode(ERR_YMC_FAIL_GET_DATA);
             }
 
@@ -190,7 +190,7 @@ namespace LWDicer.Control
             if (rc != CMotionAPI.MP_SUCCESS)
             {
                 string str = $"Error ymcSetRegisterData MB \nErrorCode [ 0x{rc.ToString("X")} ]";
-                WriteLog(str, ELogType.Debug, ELogWType.Error, true);
+                WriteLog(str, ELogType.Debug, ELogWType.D_Error, true);
                 return GenerateErrorCode(ERR_YMC_FAIL_SET_DATA);
             }
 

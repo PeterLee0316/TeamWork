@@ -58,7 +58,7 @@ namespace LWDicer.Control
 
         public const int UNIT_REF = 1000;// 0.001 Reference Unit( 1mm )
 
-        public enum ERegister
+        public enum EMPRegister
         {
             S,  // System
             M,  // Data
@@ -68,7 +68,7 @@ namespace LWDicer.Control
             D,  // D Register
         }
 
-        public enum EData
+        public enum EMPData
         {
             B,  // bit
             W,  // int
@@ -76,6 +76,9 @@ namespace LWDicer.Control
             F,  // float
         }
 
+        /// <summary>
+        /// Yaskawa Motion Bord Type
+        /// </summary>
         public enum EMPBoard
         {
             // cpu 갯수는 board의 갯수
@@ -89,81 +92,32 @@ namespace LWDicer.Control
             MP2101TM,   // cpu 1, port 2
         }
 
-        public enum EMotorSpeed // Motor speed type
-        {
-            MANUAL_SLOW,
-            MANUAL_FAST,
-            AUTO_SLOW,
-            AUTO_FAST,
-            JOG_SLOW,
-            JOG_FAST,
-            MAX,
-        }
-
         /// <summary>
-        /// Motor 이동 시에 사용할 속도 및 가감속 셋
+        /// Motor의 원점 복귀에 필요한 설정을 정의
         /// </summary>
-        public class CMotorSpeedData
+        public class CMPMotorOriginData
         {
-            public double Vel;  // Feeding speed [reference unit/s], Offset speed
-            public double Acc;  // Acceleration [reference unit/s2], acceleration time constant [ms]
-            public double Dec;  // Deceleration [reference unit/s2], deceleration time constant [ms]
-
-            public CMotorSpeedData(double Vel = 0, double Acc= 0, double Dec= 0)
-            {
-                this.Vel = Vel;
-                this.Acc = Acc;
-                this.Dec = Dec;
-            }
-        }
-
-        public class CMotorTimeLimitData
-        {
-            public double tMoveLimit;        // Time Limit for Moving           
-            public double tSleepAfterMove;   // Sleep Time after Moving
-            public double tOriginLimit;      // Time Limit for Origin Return
-
-            public CMotorTimeLimitData(double tMoveLimit = 0, double tSleepAfterMove = 0, double tOriginLimit = 0)
-            {
-                this.tMoveLimit = tMoveLimit;
-                this.tSleepAfterMove = tSleepAfterMove;
-                this.tOriginLimit = tOriginLimit;
-            }
-        }
-
-        public class CMotorSWLimit
-        {
-            // PosLimit
-            public double Plus;              // software + Limit
-            public double Minus;              // software - Limit
-
-            public CMotorSWLimit(double Plus = 100, double Minus = -100)
-            {
-                this.Plus = Plus;
-                this.Minus = Minus;
-            }
-        }
-
-        public class CMotorOriginData
-        {
-            public int Method;       // = (UInt16)CMotionAPI.ApiDefs.HMETHOD_INPUT_C;
-            public int Dir;          // = (UInt16)CMotionAPI.ApiDefs.DIRECTION_NEGATIVE; // Home Direction
+            public int Method;          // = (UInt16)CMotionAPI.ApiDefs.HMETHOD_INPUT_C;
+            public int Dir;             // = (UInt16)CMotionAPI.ApiDefs.DIRECTION_NEGATIVE; // Home Direction
             public double FastSpeed;    // Approach speed [reference unit/s], 원점복귀 접근 속도
             public double SlowSpeed;    // Creep speed [reference unit/s], C상 pulse rising -> falling 이동 속도
             public double HomeOffset;   // C상 pulse falling후의 원점 복귀 offset
 
-            public CMotorOriginData(double FastSpeed = 5, double SlowSpeed = 1, double HomeOffset = 10,
+            public CMPMotorOriginData(double FastSpeed = 5, double SlowSpeed = 1, double HomeOffset = 10,
                 int Dir = (int)CMotionAPI.ApiDefs.DIRECTION_NEGATIVE, int Method = (int)CMotionAPI.ApiDefs.HMETHOD_INPUT_C)
             {
-                this.Method     = Method;
-                this.Dir        = Dir;
-                this.FastSpeed  = FastSpeed;
-                this.SlowSpeed  = SlowSpeed;
+                this.Method = Method;
+                this.Dir = Dir;
+                this.FastSpeed = FastSpeed;
+                this.SlowSpeed = SlowSpeed;
                 this.HomeOffset = HomeOffset;
             }
         }
 
-        public class CServoStatus
+        /// <summary>
+        /// Servo Motor 의 현재 상태를 정의한다.
+        /// </summary>
+        public class CMPServoStatus
         {
             public double EncoderPos;
             public double Velocity;     //Servo 현재 속도
@@ -178,12 +132,15 @@ namespace LWDicer.Control
             public bool OriginFlag;       // origin return flag
         }
 
+        /// <summary>
+        /// Yaskawa Motion Board에 연결되는 각각의 Motion (Axis)를 정의
+        /// </summary>
         public class CMPMotionData
         {
             // General
-            public string Name; // Name of Axis
-            public bool Exist;    // Use of Axis. if false, Axis not exist.
-            public double Tolerance;            // Position Tolerance
+            public string Name;         // Name of Axis, YMC API Call 할 때, Max 8자 제한 있음
+            public bool Exist;          // Use of Axis. if false, Axis not exist.
+            public double Tolerance;    // Position Tolerance
 
             // Software Limit
             public CMotorSWLimit PosLimit;
@@ -196,7 +153,7 @@ namespace LWDicer.Control
             public CMotorTimeLimitData TimeLimit;
 
             // Home
-            public CMotorOriginData OriginData;
+            public CMPMotorOriginData OriginData;
             
             // below list is defined in MOTION_DATA of YMCMotion
             public Int16 CoordinateSystem;      // Coordinate system specified
@@ -234,7 +191,7 @@ namespace LWDicer.Control
                 TimeLimit = new CMotorTimeLimitData(10, 0.01, 20);
 
                 // Home
-                OriginData = new CMotorOriginData();
+                OriginData = new CMPMotorOriginData();
 
                 // MOTION_DATA
                 CoordinateSystem = (Int16)CMotionAPI.ApiDefs.WORK_SYSTEM;
@@ -312,6 +269,10 @@ namespace LWDicer.Control
 
         }
 
+        /// <summary>
+        /// Yaskawa Motion의 Module Configurator에서 구성하는 CPU, IO, SVC, SVR 등의 각 Unit의
+        /// 위치 설정을 정의
+        /// </summary>
         public class CMPRackTable
         {
             public int RackNo = 1;
@@ -324,11 +285,14 @@ namespace LWDicer.Control
 
         }
 
+        /// <summary>
+        /// Yaskawa Motion Board 정의
+        /// </summary>
         public class CMPBoard
         {
-            public int CPUIndex = 1;
-            public EMPBoard Type = EMPBoard.MP2101TM;
-            public int SlotLength;
+            public int CPUIndex = 1;                    // CPU 개수
+            public EMPBoard Type = EMPBoard.MP2101TM;   // Board Type
+            public int SlotLength;                      // Board 뒷면의 slot 개수
 
             public CMPMotionData[] MotionData = new CMPMotionData[MP_AXIS_PER_CPU];
 
@@ -514,7 +478,7 @@ namespace LWDicer.Control
         UInt32[] m_hController = new UInt32[MAX_MP_CPU];    // Yaskawa controller handle
         UInt32[] m_hAxis = new UInt32[MAX_MP_AXIS];         // Axis handle
         UInt32[] m_hDevice = new UInt32[MAX_MP_AXIS];       // Device handle
-        public CServoStatus[] ServoStatus = new CServoStatus[MAX_MP_AXIS];
+        public CMPServoStatus[] ServoStatus = new CMPServoStatus[MAX_MP_AXIS];
 
         //
         Thread m_hThread;   // Thread Handle
@@ -530,7 +494,7 @@ namespace LWDicer.Control
 
             for(int i = 0; i < MAX_MP_AXIS; i++)
             {
-                ServoStatus[i] = new CServoStatus();
+                ServoStatus[i] = new CMPServoStatus();
             }
         }
 
@@ -542,7 +506,7 @@ namespace LWDicer.Control
         public void Dispose()
         {
             ThreadStop();
-#if !SIMULATION_MOTION 
+#if !SIMULATION_MOTION_YMC 
             AllServoStop();
             AllServoOff();
             CloseController();
@@ -590,7 +554,7 @@ namespace LWDicer.Control
         {
             while (true)
             {
-#if !SIMULATION_MOTION
+#if !SIMULATION_MOTION_YMC
                 GetAllServoStatus();
 #endif
 
@@ -1068,7 +1032,7 @@ namespace LWDicer.Control
                 if (rc != CMotionAPI.MP_SUCCESS)
                 {
                     LastHWMessage = String.Format("Error ymcOpenController Board {0} ErrorCode [ 0x{1} ]", i, rc.ToString("X"));
-                    WriteLog(LastHWMessage, ELogType.Debug, ELogWType.Error, true);
+                    WriteLog(LastHWMessage, ELogType.Debug, ELogWType.D_Error, true);
                     return GenerateErrorCode(ERR_YASKAWA_FAIL_OPEN_YMC);
                 }
 
@@ -1077,7 +1041,7 @@ namespace LWDicer.Control
                 if (rc != CMotionAPI.MP_SUCCESS)
                 {
                     LastHWMessage = String.Format("Error ymcSetAPITimeoutValue ErrorCode [ 0x{0} ]", rc.ToString("X"));
-                    WriteLog(LastHWMessage, ELogType.Debug, ELogWType.Error, true);
+                    WriteLog(LastHWMessage, ELogType.Debug, ELogWType.D_Error, true);
                     return GenerateErrorCode(ERR_YASKAWA_FAIL_SET_TIMEOUT);
                 }
 
@@ -1089,7 +1053,7 @@ namespace LWDicer.Control
                 if (rc != CMotionAPI.MP_SUCCESS)
                 {
                     LastHWMessage = String.Format("Error ClearAllAxes  Board ErrorCode [ 0x{0} ]", rc.ToString("X"));
-                    WriteLog(LastHWMessage, ELogType.Debug, ELogWType.Error, true);
+                    WriteLog(LastHWMessage, ELogType.Debug, ELogWType.D_Error, true);
                     return GenerateErrorCode(ERR_YASKAWA_FAIL_CLEAR_AXIS);
                 }
 
@@ -1115,7 +1079,7 @@ namespace LWDicer.Control
                     if (rc != CMotionAPI.MP_SUCCESS)
                     {
                         LastHWMessage = String.Format("Error ymcDeclareAxis Board  ErrorCode [ 0x{0} ]", rc.ToString("X"));
-                        WriteLog(LastHWMessage, ELogType.Debug, ELogWType.Error, true);
+                        WriteLog(LastHWMessage, ELogType.Debug, ELogWType.D_Error, true);
                         return GenerateErrorCode(ERR_YASKAWA_FAIL_DECLARE_AXIS);
                     }
                 }
@@ -1148,7 +1112,7 @@ namespace LWDicer.Control
             if (rc != CMotionAPI.MP_SUCCESS)
             {
                 LastHWMessage = String.Format("Error ymcDeclareDevice  Board ErrorCode [ 0x{0} ]", rc.ToString("X"));
-                WriteLog(LastHWMessage, ELogType.Debug, ELogWType.Error, true);
+                WriteLog(LastHWMessage, ELogType.Debug, ELogWType.D_Error, true);
                 return GenerateErrorCode(ERR_YASKAWA_FAIL_DECLARE_DEVICE);
             }
 
@@ -1182,7 +1146,7 @@ namespace LWDicer.Control
             if (rc != CMotionAPI.MP_SUCCESS)
             {
                 LastHWMessage = String.Format("Error ymcClearDevice ErrorCode [ 0x{0} ]", rc.ToString("X"));
-                WriteLog(LastHWMessage, ELogType.Debug, ELogWType.Error, true);
+                WriteLog(LastHWMessage, ELogType.Debug, ELogWType.D_Error, true);
                 return GenerateErrorCode(ERR_YASKAWA_FAIL_CLEAR_DEVICE);
             }
 
@@ -1198,7 +1162,7 @@ namespace LWDicer.Control
                 if (rc != CMotionAPI.MP_SUCCESS)
                 {
                     LastHWMessage = String.Format("Error ymcCloseController Board {0} ErrorCode [ 0x{1} ]", i, rc.ToString("X"));
-                    WriteLog(LastHWMessage, ELogType.Debug, ELogWType.Error, true);
+                    WriteLog(LastHWMessage, ELogType.Debug, ELogWType.D_Error, true);
                 }
             }
 
@@ -1225,7 +1189,7 @@ namespace LWDicer.Control
             if (rc != CMotionAPI.MP_SUCCESS)
             {
                 LastHWMessage = String.Format("Error ymcGetController Board : ErrorCode [ 0x{0} ]", rc.ToString("X"));
-                WriteLog(LastHWMessage, ELogType.Debug, ELogWType.Error, true);
+                WriteLog(LastHWMessage, ELogType.Debug, ELogWType.D_Error, true);
                 return GenerateErrorCode(ERR_YASKAWA_FAIL_CHANGE_CONTROLLER);
             }
             if (hCurrent == m_hController[cpuIndex]) return SUCCESS;
@@ -1234,7 +1198,7 @@ namespace LWDicer.Control
             if (rc != CMotionAPI.MP_SUCCESS)
             {
                 LastHWMessage = String.Format("Error ymcSetController Board : ErrorCode [ 0x{0} ]", rc.ToString("X"));
-                WriteLog(LastHWMessage, ELogType.Debug, ELogWType.Error, true);
+                WriteLog(LastHWMessage, ELogType.Debug, ELogWType.D_Error, true);
                 return GenerateErrorCode(ERR_YASKAWA_FAIL_CHANGE_CONTROLLER);
             }
 
@@ -1392,7 +1356,7 @@ namespace LWDicer.Control
             if (rc != CMotionAPI.MP_SUCCESS)
             {
                 LastHWMessage = String.Format("Error ymcServoControl ServoOn : ErrorCode [ 0x{0} ]", rc.ToString("X"));
-                WriteLog(LastHWMessage, ELogType.Debug, ELogWType.Error, true);
+                WriteLog(LastHWMessage, ELogType.Debug, ELogWType.D_Error, true);
                 return GenerateErrorCode(ERR_YASKAWA_FAIL_SERVO_ON);
             }
 
@@ -1421,7 +1385,7 @@ namespace LWDicer.Control
             if (rc != CMotionAPI.MP_SUCCESS)
             {
                 LastHWMessage = String.Format("Error ymcServoControl ServoOff : ErrorCode [ 0x{0} ]", rc.ToString("X"));
-                WriteLog(LastHWMessage, ELogType.Debug, ELogWType.Error, true);
+                WriteLog(LastHWMessage, ELogType.Debug, ELogWType.D_Error, true);
                 return GenerateErrorCode(ERR_YASKAWA_FAIL_SERVO_ON);
             }
 
@@ -1440,7 +1404,7 @@ namespace LWDicer.Control
             {
                 //MessageBox.Show(String.Format("Error ymcClearAlarm ErrorCode [ 0x{0} ]", rc.ToString("X"));
                 LastHWMessage = String.Format("Error ymcClearAlarm ErrorCode [ 0x{0} ]", rc.ToString("X"));
-                WriteLog(LastHWMessage, ELogType.Debug, ELogWType.Error, true);
+                WriteLog(LastHWMessage, ELogType.Debug, ELogWType.D_Error, true);
                 return GenerateErrorCode(ERR_YASKAWA_FAIL_RESET_ALARM);
             }
 
@@ -1465,7 +1429,7 @@ namespace LWDicer.Control
                 {
                     //MessageBox.Show(String.Format("Error ymcClearServoAlarm ErrorCode [ 0x{0} ]", rc.ToString("X"));
                     LastHWMessage = String.Format("Error ymcClearServoAlarm ErrorCode [ 0x{0} ]", rc.ToString("X"));
-                    WriteLog(LastHWMessage, ELogType.Debug, ELogWType.Error, true);
+                    WriteLog(LastHWMessage, ELogType.Debug, ELogWType.D_Error, true);
                     return GenerateErrorCode(ERR_YASKAWA_FAIL_RESET_ALARM);
                 }
             }
@@ -1491,7 +1455,7 @@ namespace LWDicer.Control
             {
                 //MessageBox.Show(String.Format("Error ymcGetMotionParameterValue ErrorCode [ 0x{0} ]", rc.ToString("X"));
                 LastHWMessage = String.Format("Error ymcGetMotionParameterValue ErrorCode [ 0x{0} ]", rc.ToString("X"));
-                WriteLog(LastHWMessage, ELogType.Debug, ELogWType.Error, true);
+                WriteLog(LastHWMessage, ELogType.Debug, ELogWType.D_Error, true);
                 return GenerateErrorCode(ERR_YASKAWA_FAIL_GET_MOTION_PARAM);
             }
 
@@ -1562,7 +1526,7 @@ namespace LWDicer.Control
             {
                 //MessageBox.Show(String.Format("Error ymcStopJOG ErrorCode [ 0x{0} ]", rc.ToString("X"));
                 LastHWMessage = String.Format("Error ymcStopJOG ErrorCode [ 0x{0} ]", rc.ToString("X"));
-                WriteLog(LastHWMessage, ELogType.Debug, ELogWType.Error, true);
+                WriteLog(LastHWMessage, ELogType.Debug, ELogWType.D_Error, true);
 
                 return GenerateErrorCode(ERR_YASKAWA_FAIL_SERVO_STOP);
             }
@@ -1596,7 +1560,7 @@ namespace LWDicer.Control
                     if (ServoStatus[deviceNo].DetectPlusSensor)
                     {
                         LastHWMessage = "Servo No[" + deviceNo + "] : + Limit";
-                        WriteLog(LastHWMessage, ELogType.Debug, ELogWType.Warning, true);
+                        WriteLog(LastHWMessage, ELogType.Debug, ELogWType.D_Warning, true);
                         return GenerateErrorCode(ERR_YASKAWA_DETECTED_PLUS_LIMIT);
                     }
                     else
@@ -1613,7 +1577,7 @@ namespace LWDicer.Control
                     if (ServoStatus[deviceNo].DetectMinusSensor)
                     {
                         LastHWMessage = "Servo No[" + deviceNo + "] : - Limit";
-                        WriteLog(LastHWMessage, ELogType.Debug, ELogWType.Warning, true);
+                        WriteLog(LastHWMessage, ELogType.Debug, ELogWType.D_Warning, true);
                         return GenerateErrorCode(ERR_YASKAWA_DETECTED_MINUS_LIMIT);
                     }
                     else
@@ -1631,7 +1595,7 @@ namespace LWDicer.Control
             if (rc != CMotionAPI.MP_SUCCESS)
             {
                 LastHWMessage = String.Format("Error ymcMoveJOG ErrorCode [ 0x{0} ]", rc.ToString("X"));
-                WriteLog(LastHWMessage, ELogType.Debug, ELogWType.Error, true);
+                WriteLog(LastHWMessage, ELogType.Debug, ELogWType.D_Error, true);
                 return GenerateErrorCode(ERR_YASKAWA_FAIL_SERVO_MOVE_JOG);
             }
 
@@ -1652,7 +1616,7 @@ namespace LWDicer.Control
             {
                 //MessageBox.Show(String.Format("Error ymcStopMotion ErrorCode [ 0x{0} ]", rc.ToString("X"));
                 LastHWMessage = String.Format("Error ymcStopMotion ErrorCode [ 0x{0} ]", rc.ToString("X"));
-                WriteLog(LastHWMessage, ELogType.Debug, ELogWType.Error, true);
+                WriteLog(LastHWMessage, ELogType.Debug, ELogWType.D_Error, true);
                 return GenerateErrorCode(ERR_YASKAWA_FAIL_SERVO_STOP);
             }
 
@@ -1700,7 +1664,7 @@ namespace LWDicer.Control
             {
                 //MessageBox.Show(String.Format("Error ymcMoveDriverPositioning ErrorCode [ 0x{0} ]",rc.ToString("X")));
                 LastHWMessage = String.Format("Error ymcMoveDriverPositioning ErrorCode [ 0x{0} ]", rc.ToString("X"));
-                WriteLog(LastHWMessage, ELogType.Debug, ELogWType.Error, true);
+                WriteLog(LastHWMessage, ELogType.Debug, ELogWType.D_Error, true);
                 return GenerateErrorCode(ERR_YASKAWA_FAIL_SERVO_MOVE_DRIVING_POSITIONING);
             }
 
@@ -1790,7 +1754,7 @@ namespace LWDicer.Control
             {
                 //MessageBox.Show(String.Format("Error ymcMoveDriverPositioning ErrorCode [ 0x{0} ]",rc.ToString("X")));
                 LastHWMessage = String.Format("Error ymcMoveDriverPositioning ErrorCode [ 0x{0} ]", rc.ToString("X"));
-                WriteLog(LastHWMessage, ELogType.Debug, ELogWType.Error, true);
+                WriteLog(LastHWMessage, ELogType.Debug, ELogWType.D_Error, true);
                 return GenerateErrorCode(ERR_YASKAWA_FAIL_SERVO_MOVE_DRIVING_POSITIONING);
             }
 
@@ -1969,7 +1933,7 @@ namespace LWDicer.Control
             {
                 //MessageBox.Show(String.Format("Error ymcMoveHomePositioning ErrorCode [ 0x{0} ]", rc.ToString("X"));
                 LastHWMessage = String.Format("Error ymcMoveHomePositioning ErrorCode [ 0x{0} ]", rc.ToString("X"));
-                WriteLog(LastHWMessage, ELogType.Debug, ELogWType.Error, true);
+                WriteLog(LastHWMessage, ELogType.Debug, ELogWType.D_Error, true);
                 return GenerateErrorCode(ERR_YASKAWA_FAIL_SERVO_MOVE_HOME);
             }
 
@@ -2025,7 +1989,7 @@ namespace LWDicer.Control
             {
                 //MessageBox.Show(String.Format("Error ymcMoveHomePositioning ErrorCode [ 0x{0} ]", rc.ToString("X"));
                 LastHWMessage = String.Format("Error ymcMoveHomePositioning ErrorCode [ 0x{0} ]", rc.ToString("X"));
-                WriteLog(LastHWMessage, ELogType.Debug, ELogWType.Error, true);
+                WriteLog(LastHWMessage, ELogType.Debug, ELogWType.D_Error, true);
                 return GenerateErrorCode(ERR_YASKAWA_FAIL_SERVO_MOVE_HOME);
             }
 
@@ -2047,7 +2011,7 @@ namespace LWDicer.Control
             if (rc != CMotionAPI.MP_SUCCESS)
             {
                 LastHWMessage = String.Format("Error ymcGetMotionParameterValue ErrorCode [ 0x{0} ]", rc.ToString("X"));
-                WriteLog(LastHWMessage, ELogType.Debug, ELogWType.Error, true);
+                WriteLog(LastHWMessage, ELogType.Debug, ELogWType.D_Error, true);
                 return GenerateErrorCode(ERR_YASKAWA_FAIL_SERVO_GET_POS);
             }
             pos = servoPosi / UNIT_REF;

@@ -137,9 +137,9 @@ namespace LWDicer.Control
         private CMeSpinnerRefComp m_RefComp;
         private CMeSpinnerData m_Data;
 
-        private CMovingObject AxRotateInfo = new CMovingObject((int)ERotatePos.MAX);
-        private CMovingObject AxCleanNozzleInfo = new CMovingObject((int)ENozzlePos.MAX);
-        private CMovingObject AxCoatNozzleInfo = new CMovingObject((int)ENozzlePos.MAX);
+        public CMovingObject AxRotateInfo { get; private set; } = new CMovingObject((int)ERotatePos.MAX);
+        public CMovingObject AxCleanNozzleInfo { get; private set; } = new CMovingObject((int)ENozzlePos.MAX);
+        public CMovingObject AxCoatNozzleInfo { get; private set; } = new CMovingObject((int)ENozzlePos.MAX);
 
         // Vacuum
         private bool[] UseVccFlag = new bool[(int)EChuckVacuum.MAX];
@@ -697,7 +697,7 @@ namespace LWDicer.Control
                 iResult = m_RefComp.AxSpinRotate.Move(DEF_ALL_COORDINATE, bMoveFlag, dTargetPos);
                 if (iResult != SUCCESS)
                 {
-                    WriteLog("fail : move Rotate t axis", ELogType.Debug, ELogWType.Error);
+                    WriteLog("fail : move Rotate t axis", ELogType.Debug, ELogWType.D_Error);
                     return iResult;
                 }
             }
@@ -705,7 +705,7 @@ namespace LWDicer.Control
             // 3. move Z Axis
 
             string str = $"success : move Rotate to pos:{sPos.ToString()}";
-            WriteLog(str, ELogType.Debug, ELogWType.Normal);
+            WriteLog(str, ELogType.Debug, ELogWType.D_Normal);
 
             return SUCCESS;
         }
@@ -781,7 +781,7 @@ namespace LWDicer.Control
                 iResult = m_RefComp.AxSpinCleanNozzle.Move(DEF_ALL_COORDINATE, bMoveFlag, dTargetPos);
                 if (iResult != SUCCESS)
                 {
-                    WriteLog("fail : move CleanNozzle t axis", ELogType.Debug, ELogWType.Error);
+                    WriteLog("fail : move CleanNozzle t axis", ELogType.Debug, ELogWType.D_Error);
                     return iResult;
                 }
             }
@@ -789,7 +789,7 @@ namespace LWDicer.Control
             // 3. move Z Axis
 
             string str = $"success : move CleanNozzle to pos:{sPos.ToString()}";
-            WriteLog(str, ELogType.Debug, ELogWType.Normal);
+            WriteLog(str, ELogType.Debug, ELogWType.D_Normal);
 
             return SUCCESS;
         }
@@ -865,7 +865,7 @@ namespace LWDicer.Control
                 iResult = m_RefComp.AxSpinCoatNozzle.Move(DEF_ALL_COORDINATE, bMoveFlag, dTargetPos);
                 if (iResult != SUCCESS)
                 {
-                    WriteLog("fail : move CoatNozzle t axis", ELogType.Debug, ELogWType.Error);
+                    WriteLog("fail : move CoatNozzle t axis", ELogType.Debug, ELogWType.D_Error);
                     return iResult;
                 }
             }
@@ -873,7 +873,7 @@ namespace LWDicer.Control
             // 3. move Z Axis
 
             string str = $"success : move CoatNozzle to pos:{sPos.ToString()}";
-            WriteLog(str, ELogType.Debug, ELogWType.Normal);
+            WriteLog(str, ELogType.Debug, ELogWType.D_Normal);
 
             return SUCCESS;
         }

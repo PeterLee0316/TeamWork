@@ -5,6 +5,7 @@ using System.Text;
 using System.Runtime.InteropServices;
 
 using static LWDicer.Control.DEF_Motion;
+using static LWDicer.Control.DEF_MMCMMI;
 
 namespace LWDicer.Control
 {

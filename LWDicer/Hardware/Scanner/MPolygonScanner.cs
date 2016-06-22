@@ -527,41 +527,41 @@ namespace LWDicer.Control
         /*------------------------------------------------------------------------------------
          * Date : 2016.02.24
          * Author : HSLEE
-         * Function : SetSuperSync(int scannerIndex, double OffSet, int nNo)
+         * Function : SetSuperSync(int scannerIndex, double Offset, int nNo)
          * Description : Scanner 내부 8개의 각 Mirror scanline의 시작위치 값의 미세 조정
          *               사용자 입력 단위 - um    
          *               Scanner 단위 - m
          * Parameter : int scannerIndex - Scanner No.
-         *             double OffSet - 미세조정 OffSet Data
+         *             double Offset - 미세조정 Offset Data
          *             int nNo -  Mirror No
          ------------------------------------------------------------------------------------*/
-        public void SetSuperSync(int scannerIndex, double OffSet, int nNo)
+        public void SetSuperSync(int scannerIndex, double Offset, int nNo)
         {
             switch(nNo)
             {
                 case 0:
-                    m_PolygonData[scannerIndex].FacetFineDelayOffset0 = 0.000001 * OffSet;
+                    m_PolygonData[scannerIndex].FacetFineDelayOffset0 = 0.000001 * Offset;
                     break;
                 case 1:
-                    m_PolygonData[scannerIndex].FacetFineDelayOffset1 = 0.000001 * OffSet;
+                    m_PolygonData[scannerIndex].FacetFineDelayOffset1 = 0.000001 * Offset;
                     break;
                 case 2:
-                    m_PolygonData[scannerIndex].FacetFineDelayOffset2 = 0.000001 * OffSet;
+                    m_PolygonData[scannerIndex].FacetFineDelayOffset2 = 0.000001 * Offset;
                     break;
                 case 3:
-                    m_PolygonData[scannerIndex].FacetFineDelayOffset3 = 0.000001 * OffSet;
+                    m_PolygonData[scannerIndex].FacetFineDelayOffset3 = 0.000001 * Offset;
                     break;
                 case 4:
-                    m_PolygonData[scannerIndex].FacetFineDelayOffset4 = 0.000001 * OffSet;
+                    m_PolygonData[scannerIndex].FacetFineDelayOffset4 = 0.000001 * Offset;
                     break;
                 case 5:
-                    m_PolygonData[scannerIndex].FacetFineDelayOffset5 = 0.000001 * OffSet;
+                    m_PolygonData[scannerIndex].FacetFineDelayOffset5 = 0.000001 * Offset;
                     break;
                 case 6:
-                    m_PolygonData[scannerIndex].FacetFineDelayOffset6 = 0.000001 * OffSet;
+                    m_PolygonData[scannerIndex].FacetFineDelayOffset6 = 0.000001 * Offset;
                     break;
                 case 7:
-                    m_PolygonData[scannerIndex].FacetFineDelayOffset7 = 0.000001 * OffSet;
+                    m_PolygonData[scannerIndex].FacetFineDelayOffset7 = 0.000001 * Offset;
                     break;
             }
         }
@@ -569,16 +569,16 @@ namespace LWDicer.Control
         /*------------------------------------------------------------------------------------
          * Date : 2016.02.24
          * Author : HSLEE
-         * Function : SetStartOffset(int scannerIndex, double OffSet)
+         * Function : SetStartOffset(int scannerIndex, double Offset)
          * Description : 모든 Scanline의 X축 시작 위치를 조정
          *               사용자 입력 단위 - um    
          *               Scanner 단위 - m
          * Parameter :   int scannerIndex - Scanner No.
-         *               double OffSet
+         *               double Offset
          ------------------------------------------------------------------------------------*/
-        public void SetStartOffset(int scannerIndex, double OffSet)
+        public void SetStartOffset(int scannerIndex, double Offset)
         {
-            m_PolygonData[scannerIndex].InScanOffset = 0.000001 * OffSet;
+            m_PolygonData[scannerIndex].InScanOffset = 0.000001 * Offset;
         }
 
 
@@ -1085,7 +1085,7 @@ namespace LWDicer.Control
         /// <param name="strFilePath"></param> : 전송하고자 하는 File Path
         public bool SendTFTPFile(string strIP, string strFilePath)
         {
-            string strTFTP = string.Empty;
+            string strTFTP;
 
             strTFTP = string.Format("tftp -i {0:s} put {1:s}", strIP, strFilePath);
 

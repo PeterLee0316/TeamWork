@@ -130,24 +130,20 @@ namespace LWDicer.UI
                 return;
             }
 
-            CSystemData_Cylinder m_data = new CSystemData_Cylinder();
+            CSystemData_Cylinder data = new CSystemData_Cylinder();
 
             int i = 0;
 
             for (i = 0; i < (int)EObjectCylinder.MAX; i++)
             {
-                m_data.CylinderTimer[i].MovingTime = Convert.ToDouble(GridCylinderData[i + 1, 1].Text);
-                m_data.CylinderTimer[i].SettlingTime1 = Convert.ToDouble(GridCylinderData[i + 1, 2].Text);
-                m_data.CylinderTimer[i].SettlingTime1 = Convert.ToDouble(GridCylinderData[i + 1, 3].Text);
-                m_data.CylinderTimer[i].NoSenMovingTime = Convert.ToDouble(GridCylinderData[i + 1, 4].Text);
+                data.CylinderTimer[i].MovingTime = Convert.ToDouble(GridCylinderData[i + 1, 1].Text);
+                data.CylinderTimer[i].SettlingTime1 = Convert.ToDouble(GridCylinderData[i + 1, 2].Text);
+                data.CylinderTimer[i].SettlingTime1 = Convert.ToDouble(GridCylinderData[i + 1, 3].Text);
+                data.CylinderTimer[i].NoSenMovingTime = Convert.ToDouble(GridCylinderData[i + 1, 4].Text);
             }
 
-            CMainFrame.LWDicer.SaveSystemData(null, null, m_data, null, null);
-
-            // 저장하고 다시 Loading 하자
-            CMainFrame.LWDicer.m_DataManager.LoadSystemData(false, false, true, false, false);
-
-            UpdateScreen(m_data);
+            CMainFrame.LWDicer.SaveSystemData(systemCylinder:data);
+            UpdateScreen(data);
         }
 
         private void GridCylinderData_CellClick(object sender, GridCellClickEventArgs e)
@@ -177,7 +173,7 @@ namespace LWDicer.UI
 
         private void UpdateScreen(CSystemData_Cylinder systemCylinder)
         {
-            string strText = string.Empty;
+            string strText;
             int i = 0, j = 0;
 
             for (i = 0; i < (int)EObjectCylinder.MAX; i++)
