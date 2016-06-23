@@ -11,6 +11,7 @@ using static LWDicer.Control.DEF_Motion;
 using static LWDicer.Control.DEF_IO;
 using static LWDicer.Control.DEF_Vacuum;
 using static LWDicer.Control.DEF_DataManager;
+
 namespace LWDicer.Control
 {
     public class DEF_MeElevator
