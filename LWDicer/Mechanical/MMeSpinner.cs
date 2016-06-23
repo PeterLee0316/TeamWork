@@ -494,15 +494,15 @@ namespace LWDicer.Control
         public int IsAllAxisOrignReturned(out bool bStatus)
         {
             bool[] bAxisStatus;
-            int iResult = m_RefComp.AxSpinRotate.IsOriginReturn(DEF_ALL_COORDINATE, out bStatus, out bAxisStatus);
+            int iResult = m_RefComp.AxSpinRotate.IsOriginReturned(DEF_ALL_COORDINATE, out bStatus, out bAxisStatus);
             if (iResult != SUCCESS) return iResult;
             if (bStatus == false) return SUCCESS;
 
-            iResult = m_RefComp.AxSpinCleanNozzle.IsOriginReturn(DEF_ALL_COORDINATE, out bStatus, out bAxisStatus);
+            iResult = m_RefComp.AxSpinCleanNozzle.IsOriginReturned(DEF_ALL_COORDINATE, out bStatus, out bAxisStatus);
             if (iResult != SUCCESS) return iResult;
             if (bStatus == false) return SUCCESS;
 
-            iResult = m_RefComp.AxSpinCoatNozzle.IsOriginReturn(DEF_ALL_COORDINATE, out bStatus, out bAxisStatus);
+            iResult = m_RefComp.AxSpinCoatNozzle.IsOriginReturned(DEF_ALL_COORDINATE, out bStatus, out bAxisStatus);
             if (iResult != SUCCESS) return iResult;
             if (bStatus == false) return SUCCESS;
 

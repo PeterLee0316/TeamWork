@@ -99,12 +99,11 @@ namespace LWDicer.Control
             public bool IsMotorOverHeat;
             public bool IsServoAlarm;
             // public bool Is;
-            public bool IsMinusSensor;
-            public bool IsPlusSensor;
-            public bool IsHomeSensor;
+            public bool DetectMinusSensor;
+            public bool DetectPlusSensor;
+            public bool DetectHomeSensor;
             
-            
-            public bool IsHomeComplete;       // origin return flag
+            public bool IsOriginReturned;       // origin return flag
         }
 
         public class CACSMotionData
@@ -325,7 +324,7 @@ namespace LWDicer.Control
         UInt32[] m_hAxis = new UInt32[USE_ACS_AXIS_COUNT];         // Axis handle
         UInt32[] m_hDevice = new UInt32[USE_ACS_AXIS_COUNT];       // Device handle
 
-        public CACSServoStatus[] ServoStatus = new CACSServoStatus[USE_ACS_AXIS_COUNT];
+        public CACSServoStatus[] ServoStatus { get; private set; } = new CACSServoStatus[USE_ACS_AXIS_COUNT];
 
         Thread m_hThread;   // Thread Handle
 
@@ -436,19 +435,19 @@ namespace LWDicer.Control
                 }
 
                 // origin return
-                if (ServoStatus[i].IsHomeComplete == false)
+                if (ServoStatus[i].IsOriginReturned == false)
                 {
                     return GenerateErrorCode(ERR_ACS_NOT_ORIGIN_RETURNED);
                 }
 
                 // plus limit
-                if (ServoStatus[i].IsPlusSensor)
+                if (ServoStatus[i].DetectPlusSensor)
                 {
                     return GenerateErrorCode(ERR_ACS_DETECTED_PLUS_LIMIT);
                 }
 
                 // alarm
-                if (ServoStatus[i].IsMinusSensor)
+                if (ServoStatus[i].DetectMinusSensor)
                 {
                     return GenerateErrorCode(ERR_ACS_DETECTED_MINUS_LIMIT);
                 }
@@ -673,14 +672,14 @@ namespace LWDicer.Control
             // 알람 비트 적용
             int nMotorFault = CStatusArray.IntStatus[servoNo, (int)EACSStatusInt.MOTOR_FAULT];
             if (nMotorFault > 0)                                            ServoStatus[servoNo].IsServoAlarm = true;   else ServoStatus[servoNo].IsServoAlarm = false;
-            if ((nMotorFault & m_Data.Motion.ACS.ACSC_SAFETY_RL) != 0)      ServoStatus[servoNo].IsPlusSensor = true;   else ServoStatus[servoNo].IsPlusSensor = false;
-            if ((nMotorFault & m_Data.Motion.ACS.ACSC_SAFETY_LL) != 0)      ServoStatus[servoNo].IsMinusSensor = true;  else ServoStatus[servoNo].IsMinusSensor = false;
+            if ((nMotorFault & m_Data.Motion.ACS.ACSC_SAFETY_RL) != 0)      ServoStatus[servoNo].DetectPlusSensor = true;   else ServoStatus[servoNo].DetectPlusSensor = false;
+            if ((nMotorFault & m_Data.Motion.ACS.ACSC_SAFETY_LL) != 0)      ServoStatus[servoNo].DetectMinusSensor = true;  else ServoStatus[servoNo].DetectMinusSensor = false;
             if ((nMotorFault & m_Data.Motion.ACS.ACSC_SAFETY_DRIVE) != 0)   ServoStatus[servoNo].IsDriverFault = true;  else ServoStatus[servoNo].IsDriverFault = false;
             if ((nMotorFault & m_Data.Motion.ACS.ACSC_SAFETY_HOT) != 0)     ServoStatus[servoNo].IsMotorOverHeat = true;else ServoStatus[servoNo].IsMotorOverHeat = false;
 
             // Home Flag 비트 적용
             int nMotorHome = CStatusArray.IntStatus[servoNo, (int)EACSStatusInt.HOME_FLAG];
-            if(nMotorHome != 0) ServoStatus[servoNo].IsHomeComplete = true; else ServoStatus[servoNo].IsHomeComplete = false;
+            if(nMotorHome != 0) ServoStatus[servoNo].IsOriginReturned = true; else ServoStatus[servoNo].IsOriginReturned = false;
 
         }
 
@@ -739,7 +738,7 @@ namespace LWDicer.Control
         {
             bComplete = false;
 
-            bComplete = ServoStatus[servoNo].IsHomeComplete;
+            bComplete = ServoStatus[servoNo].IsOriginReturned;
 
             return SUCCESS;
         }
@@ -1160,9 +1159,9 @@ namespace LWDicer.Control
             return SUCCESS;
         }
 
-        public bool IsOriginReturn(int servoNo)
+        public bool IsOriginReturned(int servoNo)
         {
-            return ServoStatus[servoNo].IsHomeComplete;
+            return ServoStatus[servoNo].IsOriginReturned;
         }
 
 

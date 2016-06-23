@@ -200,6 +200,14 @@ namespace LWDicer.Control
             if(false)
             {
                 bool bStatus;
+                int addr = oUHandler_Self_Vac_On;
+                m_IO.OutputOn(addr);
+                m_IO.IsOn(addr, out bStatus);
+                m_IO.OutputOff(addr);
+                m_IO.IsOn(addr, out bStatus);
+                m_IO.OutputOn(addr);
+                m_IO.IsOn(addr, out bStatus);
+
                 m_ctrlHandler.IsObjectDetected(EHandlerIndex.LOAD_UPPER, out bStatus);
                 m_ctrlHandler.IsObjectDetected(EHandlerIndex.UNLOAD_LOWER, out bStatus);
                 m_ctrlHandler.IsObjectDetected(EHandlerIndex.LOAD_UPPER, out bStatus);
@@ -268,20 +276,27 @@ namespace LWDicer.Control
             return alarm;
         }
 
-        public string GetAlarmText(int alarmcode, ELanguage type = ELanguage.NONE)
+        public string GetAlarmText(int alarmcode, ELanguage type = ELanguage.ENGLISH)
         {
             CAlarm alarm = GetAlarmInfo(0, alarmcode, false);
             return alarm.Info.Description[(int)type];
         }
 
-        public string GetAlarmSolution(int alarmcode, ELanguage type = ELanguage.NONE)
+        public string GetAlarmSolution(int alarmcode, ELanguage type = ELanguage.ENGLISH)
         {
             CAlarm alarm = GetAlarmInfo(0, alarmcode, false);
             return alarm.Info.Solution[(int)type];
         }
 
+        public void ShowAlarmWhileInit(int alarmcode)
+        {
+            string str = GetAlarmText(alarmcode);
+            DisplayMsg(str);
+        }
+
         public int Initialize(CMainFrame form1 = null)
         {
+            int iResult = SUCCESS;
             TestFunction_BeforeInit();
 
             ////////////////////////////////////////////////////////////////////////
@@ -311,21 +326,23 @@ namespace LWDicer.Control
             ////////////////////////////////////////////////////////////////////////
             // Motion
             m_SystemInfo.GetObjectInfo(3, out objInfo);
-            CreateYMCBoard(objInfo);
+            iResult = CreateYMCBoard(objInfo);
+            //if (iResult != SUCCESS) return iResult;
 
             m_SystemInfo.GetObjectInfo(4, out objInfo);
-            CreateACSChannel(objInfo);
+            iResult = CreateACSChannel(objInfo);
+            //if (iResult != SUCCESS) return iResult;
 
             ////////////////////////////////////////////////////////////////////////
             // MultiAxes
-            CreateMultiAxes_YMC();
+            iResult = CreateMultiAxes_YMC();
+            //if (iResult != SUCCESS) return iResult;
             m_AxUpperHandler.UpdateAxisStatus();
 
             ////////////////////////////////////////////////////////////////////////
             // IO
             m_SystemInfo.GetObjectInfo(6, out objInfo);
             m_IO = new MIO_YMC(objInfo);
-            m_IO.OutputOn(oUHandler_Self_Vac_On);
 
             ////////////////////////////////////////////////////////////////////////
             // Cylinder
@@ -517,11 +534,11 @@ namespace LWDicer.Control
             // ComPort
             // Polygon Scanner Serial Com Port
             m_SystemInfo.GetObjectInfo(30, out objInfo);
-            CreatePolygonSerialPort(objInfo, out m_PolygonComPort);
+            iResult = CreatePolygonSerialPort(objInfo, out m_PolygonComPort);
 
             CPolygonIni PolygonIni = new CPolygonIni();
             m_SystemInfo.GetObjectInfo(200, out objInfo);
-            CreatePolygonScanner(objInfo, PolygonIni, (int)EObjectScanner.SCANNER1, m_PolygonComPort);
+            iResult = CreatePolygonScanner(objInfo, PolygonIni, (int)EObjectScanner.SCANNER1, m_PolygonComPort);
 
             ////////////////////////////////////////////////////////////////////////
             // Vision
@@ -1130,7 +1147,7 @@ namespace LWDicer.Control
             m_trsStage1 = new MTrsStage1(objInfo, TrsLoader, m_DataManager, ELCNetUnitPos.STAGE1, refComp, data);
         }
 
-        void CreatePolygonScanner(CObjectInfo objInfo, CPolygonIni PolygonIni, int objIndex, ISerialPort m_ComPort)
+        int CreatePolygonScanner(CObjectInfo objInfo, CPolygonIni PolygonIni, int objIndex, ISerialPort m_ComPort)
         {
             m_DataManager.SystemData_Scanner.Scanner[objIndex] = PolygonIni;
 
@@ -1138,9 +1155,10 @@ namespace LWDicer.Control
             m_DataManager.SystemData_Scanner.Scanner[objIndex].strPort = "70";
 
             m_Scanner[objIndex] = new MPolygonScanner(objInfo, m_DataManager.SystemData_Scanner.Scanner[objIndex], objIndex, m_ComPort);
+            return SUCCESS;
         }
 
-        void CreatePolygonSerialPort(CObjectInfo objInfo, out ISerialPort pComport)
+        int CreatePolygonSerialPort(CObjectInfo objInfo, out ISerialPort pComport)
         {
             // Polygon Scanner Serial Port 
             string PortName = "COM3";
@@ -1153,6 +1171,7 @@ namespace LWDicer.Control
 
             pComport = new MSerialPort(objInfo, SerialCom);
 
+            return SUCCESS;
         }
 
         void SetThreadChannel()

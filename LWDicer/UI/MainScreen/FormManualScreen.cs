@@ -18,22 +18,11 @@ namespace LWDicer.UI
         const int INPUT = 0;
         const int OUTPUT = 1;
 
-        private FormIO m_IOScreen;
-        private FormLimitSensor m_LimitSensor;
-        private FormOriginReturn m_OriginReturn;
-        private FormUnitInit m_UnitInit;
-
         public FormManualScreen()
         {
             InitializeComponent();
 
             InitializeForm();
-
-            m_IOScreen = new FormIO();
-            m_LimitSensor = new FormLimitSensor();
-            m_OriginReturn = new FormOriginReturn();
-            m_UnitInit = new FormUnitInit();
-
         }
         protected virtual void InitializeForm()
         {
@@ -45,22 +34,26 @@ namespace LWDicer.UI
 
         private void BtnInput_Click(object sender, EventArgs e)
         {
-            m_IOScreen.ShowDialog();
+            FormIO dlg = new FormIO();
+            dlg.ShowDialog();
         }
 
         private void BtnLimitSensor_Click(object sender, EventArgs e)
         {
-            m_LimitSensor.ShowDialog();
+            FormLimitSensor dlg = new FormLimitSensor();
+            dlg.ShowDialog();
         }
 
         private void BtnOriginReturn_Click(object sender, EventArgs e)
         {
-            m_OriginReturn.ShowDialog();
+            FormOriginReturn dlg = new FormOriginReturn();
+            dlg.ShowDialog();
         }
 
         private void BtnUnitInit_Click(object sender, EventArgs e)
         {
-            m_UnitInit.ShowDialog();
+            FormUnitInit dlg = new FormUnitInit();
+            dlg.ShowDialog();
         }
     }
 }

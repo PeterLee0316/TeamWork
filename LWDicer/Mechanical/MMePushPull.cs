@@ -295,13 +295,13 @@ namespace LWDicer.Control
         public int IsAllAxisOrignReturned(out bool bStatus)
         {
             bool[] bAxisStatus;
-            int iResult = m_RefComp.AxPushPull.IsOriginReturn(DEF_ALL_COORDINATE, out bStatus, out bAxisStatus);
+            int iResult = m_RefComp.AxPushPull.IsOriginReturned(DEF_ALL_COORDINATE, out bStatus, out bAxisStatus);
             if (iResult != SUCCESS) return iResult;
             if (bStatus == false) return SUCCESS;
 
             for (int i = 0; i < m_RefComp.AxCenter.Length; i++)
             {
-                iResult = m_RefComp.AxCenter[i].IsOriginReturn(DEF_ALL_COORDINATE, out bStatus, out bAxisStatus);
+                iResult = m_RefComp.AxCenter[i].IsOriginReturned(DEF_ALL_COORDINATE, out bStatus, out bAxisStatus);
                 if (iResult != SUCCESS) return iResult;
                 if (bStatus == false) return SUCCESS;
             }
@@ -664,7 +664,7 @@ namespace LWDicer.Control
         public int IsPushPullAxisOrignReturned(out bool bStatus)
         {
             bool[] bAxisStatus;
-            int iResult = m_RefComp.AxPushPull.IsOriginReturn(DEF_ALL_COORDINATE, out bStatus, out bAxisStatus);
+            int iResult = m_RefComp.AxPushPull.IsOriginReturned(DEF_ALL_COORDINATE, out bStatus, out bAxisStatus);
             if (iResult != SUCCESS) return iResult;
             if (bStatus == false) return SUCCESS;
 
@@ -1107,7 +1107,7 @@ namespace LWDicer.Control
         public int IsCenterAxisOrignReturned(ECenterIndex index, out bool bStatus)
         {
             bool[] bAxisStatus;
-            int iResult = GetCenterAx(index).IsOriginReturn(DEF_ALL_COORDINATE, out bStatus, out bAxisStatus);
+            int iResult = GetCenterAx(index).IsOriginReturned(DEF_ALL_COORDINATE, out bStatus, out bAxisStatus);
             if (iResult != SUCCESS) return iResult;
             if (bStatus == false) return SUCCESS;
 

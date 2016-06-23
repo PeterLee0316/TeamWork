@@ -898,7 +898,7 @@ namespace LWDicer.Control
         public int IsHandlerAxisOrignReturned(out bool bStatus)
         {
             bool[] bAxisStatus;
-            int iResult = m_RefComp.AxHandler.IsOriginReturn(DEF_ALL_COORDINATE, out bStatus, out bAxisStatus);
+            int iResult = m_RefComp.AxHandler.IsOriginReturned(DEF_ALL_COORDINATE, out bStatus, out bAxisStatus);
 
             return iResult;
         }

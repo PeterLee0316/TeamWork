@@ -1344,7 +1344,7 @@ namespace LWDicer.Control
 
             //// Motion MultiAxes Component - STAGE1
             //for (i = 0; i < 4; i++) rgbResult[i] = false;
-            //m_JogTable.MotionArray[DEF_JOG_STAGE1].m_XKey.m_plnkJog.IsOriginReturn(-1, rgbUse, rgbResult);
+            //m_JogTable.MotionArray[DEF_JOG_STAGE1].m_XKey.m_plnkJog.IsOriginReturned(-1, rgbUse, rgbResult);
             //if (bOriginSts != null)
             //    bOriginSts[DEF_AXIS_MMC_STAGE1_X] = rgbResult[DEF_X];
             //bSts &= rgbResult[DEF_X];
@@ -1360,7 +1360,7 @@ namespace LWDicer.Control
 
             //// Motion MultiAxes Component - STAGE2
             //for (i = 0; i < 4; i++) rgbResult[i] = false;
-            //m_JogTable.MotionArray[DEF_JOG_STAGE2].m_XKey.m_plnkJog.IsOriginReturn(-1, rgbUse, rgbResult);
+            //m_JogTable.MotionArray[DEF_JOG_STAGE2].m_XKey.m_plnkJog.IsOriginReturned(-1, rgbUse, rgbResult);
             //if (bOriginSts != null)
             //    bOriginSts[DEF_AXIS_MMC_STAGE2_X] = rgbResult[DEF_X];
             //bSts &= rgbResult[DEF_X];
@@ -1370,7 +1370,7 @@ namespace LWDicer.Control
 
             //// Motion MultiAxes Component - STAGE3
             //for (i = 0; i < 4; i++) rgbResult[i] = false;
-            //m_JogTable.MotionArray[DEF_JOG_STAGE3].m_YKey.m_plnkJog.IsOriginReturn(-1, rgbUse, rgbResult);
+            //m_JogTable.MotionArray[DEF_JOG_STAGE3].m_YKey.m_plnkJog.IsOriginReturned(-1, rgbUse, rgbResult);
             //if (bOriginSts != null)
             //    bOriginSts[DEF_AXIS_MMC_STAGE3_Y] = rgbResult[DEF_Y];
             //bSts &= rgbResult[DEF_Y];
@@ -1380,14 +1380,14 @@ namespace LWDicer.Control
 
             //// Motion MultiAxes Component - WORKBENCH1 
             //// 	for (i = 0; i < 4; i++) rgbResult[i] = false;
-            //// 	m_JogTable.MotionArray[DEF_JOG_WORKBENCH].m_YKey.m_plnkJog.IsOriginReturn(0, null, rgbResult);
+            //// 	m_JogTable.MotionArray[DEF_JOG_WORKBENCH].m_YKey.m_plnkJog.IsOriginReturned(0, null, rgbResult);
             //// 	if (bOriginSts != null)
             //// 		bOriginSts[DEF_AXIS_MMC_WORKBENCH_Y] = rgbResult[DEF_X];
             //// 	bSts &= rgbResult[DEF_X];
 
             //// Motion MultiAxes Component - SHEAD1 
             //for (i = 0; i < 4; i++) rgbResult[i] = false;
-            //m_JogTable.MotionArray[DEF_JOG_SHEAD1].m_YKey.m_plnkJog.IsOriginReturn(-1, null, rgbResult);
+            //m_JogTable.MotionArray[DEF_JOG_SHEAD1].m_YKey.m_plnkJog.IsOriginReturned(-1, null, rgbResult);
             //if (bOriginSts != null)
             //    bOriginSts[DEF_AXIS_MMC_SHEAD1_Y] = rgbResult[DEF_Y];
             //bSts &= rgbResult[DEF_Y];
@@ -1397,7 +1397,7 @@ namespace LWDicer.Control
 
             //// Motion MultiAxes Component - SHEAD2 
             //for (i = 0; i < 4; i++) rgbResult[i] = false;
-            //m_JogTable.MotionArray[DEF_JOG_SHEAD2].m_YKey.m_plnkJog.IsOriginReturn(-1, null, rgbResult);
+            //m_JogTable.MotionArray[DEF_JOG_SHEAD2].m_YKey.m_plnkJog.IsOriginReturned(-1, null, rgbResult);
             //if (bOriginSts != null)
             //    bOriginSts[DEF_AXIS_MMC_SHEAD2_Y] = rgbResult[DEF_Y];
             //bSts &= rgbResult[DEF_Y];
@@ -1407,7 +1407,7 @@ namespace LWDicer.Control
 
             //// Motion MultiAxes Component - GHEAD1 
             //for (i = 0; i < 4; i++) rgbResult[i] = false;
-            //m_JogTable.MotionArray[DEF_JOG_GHEAD1].m_XKey.m_plnkJog.IsOriginReturn(-1, null, rgbResult);
+            //m_JogTable.MotionArray[DEF_JOG_GHEAD1].m_XKey.m_plnkJog.IsOriginReturned(-1, null, rgbResult);
             //if (bOriginSts != null)
             //    bOriginSts[DEF_AXIS_MMC_GHEAD1_X] = rgbResult[DEF_X];
             //bSts &= rgbResult[DEF_X];
@@ -1420,7 +1420,7 @@ namespace LWDicer.Control
 
             //// Motion MultiAxes Component - GHEAD2 
             //for (i = 0; i < 4; i++) rgbResult[i] = false;
-            //m_JogTable.MotionArray[DEF_JOG_GHEAD2].m_XKey.m_plnkJog.IsOriginReturn(-1, null, rgbResult);
+            //m_JogTable.MotionArray[DEF_JOG_GHEAD2].m_XKey.m_plnkJog.IsOriginReturned(-1, null, rgbResult);
             //if (bOriginSts != null)
             //    bOriginSts[DEF_AXIS_MMC_GHEAD2_X] = rgbResult[DEF_X];
             //bSts &= rgbResult[DEF_X];
@@ -1433,21 +1433,21 @@ namespace LWDicer.Control
 
             //// Motion MultiAxes Component - CAMERA1 
             //for (i = 0; i < 4; i++) rgbResult[i] = false;
-            //m_JogTable.MotionArray[DEF_JOG_CAMERA1].m_XKey.m_plnkJog.IsOriginReturn(0, null, rgbResult);
+            //m_JogTable.MotionArray[DEF_JOG_CAMERA1].m_XKey.m_plnkJog.IsOriginReturned(0, null, rgbResult);
             //if (bOriginSts != null)
             //    bOriginSts[DEF_AXIS_MMC_CAMERA1_X] = rgbResult[DEF_X];
             //bSts &= rgbResult[DEF_X];
 
             //// Motion MultiAxes Component - CAMERA2 
             //for (i = 0; i < 4; i++) rgbResult[i] = false;
-            //m_JogTable.MotionArray[DEF_JOG_CAMERA2].m_XKey.m_plnkJog.IsOriginReturn(0, null, rgbResult);
+            //m_JogTable.MotionArray[DEF_JOG_CAMERA2].m_XKey.m_plnkJog.IsOriginReturned(0, null, rgbResult);
             //if (bOriginSts != null)
             //    bOriginSts[DEF_AXIS_MMC_CAMERA2_X] = rgbResult[DEF_X];
             //bSts &= rgbResult[DEF_X];
 
             //// Motion MultiAxes Component - UPPER_HANDLER 
             //for (i = 0; i < 4; i++) rgbResult[i] = false;
-            //m_JogTable.MotionArray[DEF_JOG_UHANDLER].m_XKey.m_plnkJog.IsOriginReturn(0, null, rgbResult);
+            //m_JogTable.MotionArray[DEF_JOG_UHANDLER].m_XKey.m_plnkJog.IsOriginReturned(0, null, rgbResult);
             //if (bOriginSts != null)
             //    bOriginSts[DEF_AXIS_MMC_UPPER_HANDLER_X] = rgbResult[DEF_X];
             //bSts &= rgbResult[DEF_X];

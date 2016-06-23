@@ -8,18 +8,25 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
+using LWDicer.Control;
+using static LWDicer.Control.DEF_IO;
 using Syncfusion.Windows.Forms.Tools;
 
 namespace LWDicer.UI
 {
     public partial class FormIO : Form
     {
-        private GradientLabel[] X_Title = new GradientLabel[16];
-        private GradientLabel[] X_Name = new GradientLabel[16];
-        private GradientLabel[] Y_Title = new GradientLabel[16];
-        private GradientLabel[] Y_Name = new GradientLabel[16];
+        private const int MaxRowSize = 16;
+        private const int MaxPageSize = 15;
+        private GradientLabel[] X_Title = new GradientLabel[MaxRowSize];
+        private GradientLabel[] X_Name = new GradientLabel[MaxRowSize];
+        private GradientLabel[] Y_Title = new GradientLabel[MaxRowSize];
+        private GradientLabel[] Y_Name = new GradientLabel[MaxRowSize];
 
         private int nIOPage = 0;
+
+        private Syncfusion.Drawing.BrushInfo brushOn = new Syncfusion.Drawing.BrushInfo(Color.Yellow);
+        private Syncfusion.Drawing.BrushInfo brushOff = new Syncfusion.Drawing.BrushInfo(Color.White);
 
         public FormIO()
         {
@@ -30,7 +37,23 @@ namespace LWDicer.UI
 
         private void tmr_IO_Tick(object sender, EventArgs e)
         {
+            string str;
+            int addr;
+            bool bStatus;
+            for (int i = 0; i < MaxRowSize; i++)
+            {
+                str = X_Title[i].Text.Substring(1);
+                addr = INPUT_ORIGIN + Convert.ToInt32(str, 16);
+                CMainFrame.LWDicer.m_IO.IsOn(addr, out bStatus);
+                if (bStatus) X_Name[i].BackgroundColor = brushOn;
+                else X_Name[i].BackgroundColor = brushOff;
 
+                str = Y_Title[i].Text.Substring(1);
+                addr = OUTPUT_ORIGIN + Convert.ToInt32(str, 16);
+                CMainFrame.LWDicer.m_IO.IsOn(addr, out bStatus);
+                if (bStatus) Y_Name[i].BackgroundColor = brushOn;
+                else Y_Name[i].BackgroundColor = brushOff;
+            }
         }
 
         private void UpdateIO(int nBoardNo)
@@ -38,11 +61,11 @@ namespace LWDicer.UI
             int i = 0, nNo = 0;
             string hex;
 
-            for (i = 0; i < 16; i++)
+            for (i = 0; i < MaxRowSize; i++)
             {
                 if (nBoardNo > 0)
                 {
-                    nNo = i + (nBoardNo * 16);
+                    nNo = i + (nBoardNo * MaxRowSize);
                 }
                 else
                 {
@@ -50,13 +73,10 @@ namespace LWDicer.UI
                 }
 
                 X_Title[i].Text = string.Format("X{0:X4}", nNo);
-
                 X_Name[i].Text = CMainFrame.LWDicer.m_DataManager.InputArray[nNo].Name[0];
 
                 Y_Title[i].Text = string.Format("Y{0:X4}", nNo);
-
                 Y_Name[i].Text = CMainFrame.LWDicer.m_DataManager.OutputArray[nNo].Name[0];
-
             }
         }
 
@@ -151,7 +171,7 @@ namespace LWDicer.UI
 
         private void BtnNext_Click(object sender, EventArgs e)
         {
-            if (nIOPage < 15)
+            if (nIOPage < MaxPageSize)
             {
                 nIOPage++;
             }
@@ -168,7 +188,7 @@ namespace LWDicer.UI
 
             nNo = Convert.ToInt16(OutPut.Tag);
 
-            strText = string.Format("{0:s} 강제 출력하시겠습니까?", OutPut.Text);
+            strText = string.Format("{0:s} 출력을 강제로 Toggle 하시겠습니까?", OutPut.Text);
 
             if (!CMainFrame.LWDicer.DisplayMsg(strText))
             {
@@ -176,7 +196,9 @@ namespace LWDicer.UI
             }
 
             // Output 출력
-
+            string str = OutPut.Text.Substring(1);
+            int addr = OUTPUT_ORIGIN + Convert.ToInt32(str, 16);
+            CMainFrame.LWDicer.m_IO.OutputToggle(addr);
         }
 
         private void FormClose()
@@ -205,7 +227,7 @@ namespace LWDicer.UI
 
         private void BtnEnd_Click(object sender, EventArgs e)
         {
-            nIOPage = 14;
+            nIOPage = MaxPageSize - 1;
             UpdateIO(nIOPage);
         }
     }

@@ -102,14 +102,14 @@ namespace LWDicer.Control
 
             string registerName;
             // register type
-            if (addr < OUTPUT_ORIGIN) registerName = EYMCRegisterType.I.ToString();
-            else registerName = EYMCRegisterType.O.ToString();
-
-            // data type
-            registerName += type.ToString();
-
-            // address 계산 부분
-            registerName += "0000";
+            if (addr < OUTPUT_ORIGIN)
+            {
+                registerName = String.Format($"{EYMCRegisterType.I}{type}{(addr - INPUT_ORIGIN).ToString("D4")}");
+            }
+            else
+            {
+                registerName = String.Format($"{EYMCRegisterType.O}{type}{(addr - OUTPUT_ORIGIN).ToString("D4")}");
+            }
 
             // get handle
             uint rc = CMotionAPI.ymcGetRegisterDataHandle(registerName, ref hDataHandle);

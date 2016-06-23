@@ -470,7 +470,7 @@ namespace LWDicer.Control
          * @param	*pbResult        : (OPTION = null) 축에 대한 원점복귀 여부 종합 상태
          * @param   *pbStatus        : (OPTION = null) 각 축마다 원점복귀 여부 읽기, iCoordinateID=-1이면 배열로 제공
          */
-        int IsOriginReturn(int iCoordinateID, out bool[] pbResult, out bool[] pbStatus);
+        int IsOriginReturned(int iCoordinateID, out bool[] pbResult, out bool[] pbStatus);
 
 
         /**

@@ -471,7 +471,7 @@ namespace LWDicer.Control
             bStatus = new bool[GetCoordLength(iCoordID)];
             for (int i = 0; i < GetCoordLength(iCoordID); i++)
             {
-                bStatus[i] = ServoStatus[i].IsHomeSensor;
+                bStatus[i] = ServoStatus[i].DetectHomeSensor;
             }
 
             return SUCCESS;
@@ -483,7 +483,7 @@ namespace LWDicer.Control
             bStatus = new bool[GetCoordLength(iCoordID)];
             for (int i = 0; i < GetCoordLength(iCoordID); i++)
             {
-                bStatus[i] = ServoStatus[i].IsPlusSensor;
+                bStatus[i] = ServoStatus[i].DetectPlusSensor;
             }
 
             return SUCCESS;
@@ -495,7 +495,7 @@ namespace LWDicer.Control
             bStatus = new bool[GetCoordLength(iCoordID)];
             for (int i = 0; i < GetCoordLength(iCoordID); i++)
             {
-                bStatus[i] = ServoStatus[i].IsMinusSensor;
+                bStatus[i] = ServoStatus[i].DetectMinusSensor;
             }
 
             return SUCCESS;
@@ -579,7 +579,7 @@ namespace LWDicer.Control
             return SUCCESS;
         }
 
-        public int IsOriginReturn(int iCoordID, out bool bResult, out bool[] bStatus)
+        public int IsOriginReturned(int iCoordID, out bool bResult, out bool[] bStatus)
         {
             UpdateAxisStatus();
             bStatus = new bool[GetCoordLength(iCoordID)];
@@ -590,14 +590,14 @@ namespace LWDicer.Control
                 for (int i = 0; i < DEF_MAX_COORDINATE; i++)
                 {
                     if (m_Data.AxisList[i] == DEF_AXIS_NONE_ID) continue;
-                    bStatus[i] = ServoStatus[i].IsHomeComplete;
+                    bStatus[i] = ServoStatus[i].IsOriginReturned;
                     if (bStatus[i] == false) bResult = false;
                 }
 
             }
             else
             {
-                bStatus[0] = ServoStatus[iCoordID].IsHomeComplete;
+                bStatus[0] = ServoStatus[iCoordID].IsOriginReturned;
                 bResult = bStatus[0];
             }
 

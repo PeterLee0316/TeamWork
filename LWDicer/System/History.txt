@@ -230,12 +230,18 @@ LWDicer의 DataManager에서 데이터를 읽어오기 위한 3가지 함수 : S
 
 // Version : 0.0.25
 // Grade : ★
-// Date : 160620~160621
+// Date : 160620~160622
 // Context
 1. Teaching Data Dialog에서 사용하기 위해 private CMovingObject를 public CMovingObject { get; private set; } 으로 변경함
 2. DEF_Yaskawa, DEF_ACS에서 중복 사용중인 것들은 DEF_Motion 으로 이동시킴
 3. Yaskawa MP Motion 생성시에 Motion Name 글자수 제한(8자) 확인 및 수정
 4. Excel Data 읽어오는 부분 함수들 ImportDataFromExcel 로 수정, 반대로 내보내는 함수 이름은 ExportDataToExcel로 할 것
+5. IO class 수정, 동작 확인 및 IO dialog 
+6. ymc libraray error code & text 를 dictionary로 만들어, 에러 로그 기록할 때에 같이 기록할수 있도록 추가함.
+7. limitsensor dialog 상태 표시하는 부분 추가 및 CMPServoStatus & CACSServoStatus 비슷한 변수들 이름 통일함.
+
+// for Project setting
+// WIN32,  SIMULATION_VISION, SIMULATION_MOTION_ACS, SIMULATION_MOTION_YMC, SIMULATION_IO
 
 ////////////////////////////////////////////////////////////////////////////////////////////
 // LJJ

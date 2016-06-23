@@ -663,7 +663,7 @@ namespace LWDicer.Control
         public int IsElevatorOrignReturn(out bool bStatus)
         {
             bool[] bAxisStatus;
-            m_RefComp.AxElevator.IsOriginReturn(DEF_ALL_COORDINATE, out bStatus, out bAxisStatus);
+            m_RefComp.AxElevator.IsOriginReturned(DEF_ALL_COORDINATE, out bStatus, out bAxisStatus);
 
             return SUCCESS;
         }

@@ -50,7 +50,10 @@ namespace LWDicer.UI
 
         public CMainFrame()
         {
-            InitializeLWDicer();
+            bool bRtn = InitializeLWDicer();
+            if(bRtn == false)
+            {
+            }
 
             InitializeComponent();
 
@@ -198,6 +201,8 @@ namespace LWDicer.UI
             if (iResult != SUCCESS)
             {
                 // Show Error Message & 프로그램 종료?
+                LWDicer.ShowAlarmWhileInit(iResult);
+                return false;
             }
             return true;
         }

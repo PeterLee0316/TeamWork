@@ -1429,13 +1429,13 @@ namespace LWDicer.Control
                 //{
                 //    Name[i] = "reserved";
                 //}
-                Description[(int)DEF_Common.ELanguage.KOREAN] = "예약";
-                Description[(int)DEF_Common.ELanguage.ENGLISH] = "reserved";
+                Description[(int)DEF_Common.ELanguage.KOREAN] = "에러메시지가 정의되지 않았습니다.";
+                Description[(int)DEF_Common.ELanguage.ENGLISH] = "Error text is not defined";
                 Description[(int)DEF_Common.ELanguage.CHINESE] = "预留";
                 Description[(int)DEF_Common.ELanguage.JAPANESE] = "リザーブド";
 
-                Solution[(int)DEF_Common.ELanguage.KOREAN] = "해결방법";
-                Solution[(int)DEF_Common.ELanguage.ENGLISH] = "solution";
+                Solution[(int)DEF_Common.ELanguage.KOREAN] = "해결방법이 정의되지 않았습니다.";
+                Solution[(int)DEF_Common.ELanguage.ENGLISH] = "Solution text is not defined";
                 Solution[(int)DEF_Common.ELanguage.CHINESE] = "解法";
                 Solution[(int)DEF_Common.ELanguage.JAPANESE] = "解決策";
             }

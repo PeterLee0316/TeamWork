@@ -504,7 +504,7 @@ namespace LWDicer.Control
             bStatus = new bool[GetCoordLength(iCoordID)];
             for (int i = 0; i < GetCoordLength(iCoordID); i++)
             {
-                if (ServoStatus[i].Alarm == false && ServoStatus[i].Ready == true)
+                if (ServoStatus[i].IsAlarm == false && ServoStatus[i].IsReady == true)
                     bStatus[i] = true;
                 else bStatus[i] = false;
             }
@@ -551,7 +551,7 @@ namespace LWDicer.Control
             alarmCode = new int[GetCoordLength(iCoordID)];
             for (int i = 0; i < GetCoordLength(iCoordID); i++)
             {
-                alarm[i] = ServoStatus[i].Alarm;
+                alarm[i] = ServoStatus[i].IsAlarm;
                 alarmCode[i] = ServoStatus[i].AlarmCode;
             }
 
@@ -577,7 +577,7 @@ namespace LWDicer.Control
             return SUCCESS;
         }
 
-        public int IsOriginReturn(int iCoordID, out bool bResult, out bool[] bStatus)
+        public int IsOriginReturned(int iCoordID, out bool bResult, out bool[] bStatus)
         {
             UpdateAxisStatus();
             bStatus = new bool[GetCoordLength(iCoordID)];
@@ -588,14 +588,14 @@ namespace LWDicer.Control
                 for (int i = 0; i < DEF_MAX_COORDINATE; i++)
                 {
                     if (m_Data.AxisList[i] == DEF_AXIS_NONE_ID) continue;
-                    bStatus[i] = ServoStatus[i].OriginFlag;
+                    bStatus[i] = ServoStatus[i].IsOriginReturned;
                     if (bStatus[i] == false) bResult = false;
                 }
 
             }
             else
             {
-                bStatus[0] = ServoStatus[iCoordID].OriginFlag;
+                bStatus[0] = ServoStatus[iCoordID].IsOriginReturned;
                 bResult = bStatus[0];
             }
 

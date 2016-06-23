@@ -1329,7 +1329,7 @@ namespace LWDicer.Control
         public int IsStageOrignReturn(out bool bStatus)
         {
             bool[] bAxisStatus;
-            m_RefComp.AxStage.IsOriginReturn(DEF_ALL_COORDINATE, out bStatus, out bAxisStatus);
+            m_RefComp.AxStage.IsOriginReturned(DEF_ALL_COORDINATE, out bStatus, out bAxisStatus);
 
             return SUCCESS;
         }
