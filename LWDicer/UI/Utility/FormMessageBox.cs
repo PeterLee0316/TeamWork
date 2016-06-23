@@ -34,7 +34,7 @@ namespace LWDicer.UI
 
         private void FormUtilMsg_Load(object sender, EventArgs e)
         {
-            TextMsg.Text = strText;
+            LabelText.Text = strText;
         }
 
         private void BtnOK_Click(object sender, EventArgs e)

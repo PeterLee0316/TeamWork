@@ -8,6 +8,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
+using LWDicer.Control;
+
 using static LWDicer.Control.MYaskawa;
 
 using static LWDicer.Control.DEF_Thread;
@@ -32,14 +34,13 @@ namespace LWDicer.UI
 {
     public partial class FormCameraTeach : Form
     {
-        const int FixedData = 0;
-        const int OffsetData = 1;
-
         ButtonAdv[] TeachPos = new ButtonAdv[15];
 
         private int nTeachPos = 0;
 
         private int nDataMode = 0;
+
+        private CMovingObject movingObject = CMainFrame.LWDicer.m_MeStage.AxCameraInfo;
 
         public FormCameraTeach()
         {
@@ -267,7 +268,7 @@ namespace LWDicer.UI
                 }
 
                 dPos = Convert.ToDouble(strModify);
-                dOffsetPos = CMainFrame.LWDicer.m_DataManager.OffsetPos.Camera1Pos.Pos[nTeachPos].dZ;
+                dOffsetPos = movingObject.OffsetPos.Pos[nTeachPos].dZ;
 
                 dTargetPos = dPos + dOffsetPos;
                 GridTeachTable[2, e.ColIndex].Text = Convert.ToString(dTargetPos);
@@ -314,20 +315,20 @@ namespace LWDicer.UI
             if(GetDataMode() == FixedData)
             {
                 strData = GridTeachTable[3, 1].Text;
-                CMainFrame.LWDicer.m_DataManager.FixedPos.Camera1Pos.Pos[GetPosNo()].dZ = Convert.ToDouble(strData);
 
+                CMainFrame.LWDicer.m_DataManager.FixedPos.Camera1Pos.Pos[GetPosNo()].dZ = Convert.ToDouble(strData);
                 CMainFrame.LWDicer.m_DataManager.SavePositionData(true, EPositionObject.CAMERA1);
-                CMainFrame.LWDicer.m_DataManager.LoadPositionData(true, EPositionObject.CAMERA1);
             }
 
             if(GetDataMode() == OffsetData)
             {
                 strData = GridTeachTable[6, 1].Text;
-                CMainFrame.LWDicer.m_DataManager.OffsetPos.Camera1Pos.Pos[GetPosNo()].dZ = Convert.ToDouble(strData);
 
+                CMainFrame.LWDicer.m_DataManager.OffsetPos.Camera1Pos.Pos[GetPosNo()].dZ = Convert.ToDouble(strData);
                 CMainFrame.LWDicer.m_DataManager.SavePositionData(false, EPositionObject.CAMERA1);
-                CMainFrame.LWDicer.m_DataManager.LoadPositionData(false, EPositionObject.CAMERA1);
             }
+
+            CMainFrame.LWDicer.SetPositionDataToComponent(EPositionObject.CAMERA1);
 
             LoadTeachingData(GetPosNo());
         }
@@ -352,29 +353,21 @@ namespace LWDicer.UI
 
         private void LoadTeachingData(int nTeachPos)
         {
-            string strFixedPos = string.Empty, strOffsetPos = string.Empty, strTargetPos = string.Empty, strModelPos = string.Empty;
-            double dFixedPos = 0, dOffsetPos = 0, dTargetPos = 0, dModelPos = 0;
+            string str;
+            double dFixedPos = 0, dOffsetPos = 0, dTargetPos = 0, dModelPos = 0, dAlignOffset;
+                        
+            dFixedPos = movingObject.FixedPos.Pos[nTeachPos].dZ;
+            dOffsetPos = movingObject.OffsetPos.Pos[nTeachPos].dZ;
+            dModelPos = movingObject.ModelPos.Pos[nTeachPos].dZ;
+            dAlignOffset = movingObject.AlignOffset.dZ;
 
-            dFixedPos = CMainFrame.LWDicer.m_DataManager.FixedPos.Camera1Pos.Pos[nTeachPos].dZ;
-            dOffsetPos = CMainFrame.LWDicer.m_DataManager.OffsetPos.Camera1Pos.Pos[nTeachPos].dZ;
-            dModelPos = CMainFrame.LWDicer.m_DataManager.ModelPos.Camera1Pos.Pos[nTeachPos].dZ;
+            dTargetPos = dFixedPos + dOffsetPos + dModelPos + dAlignOffset;
 
-            dTargetPos = dFixedPos + dOffsetPos + dModelPos;
-
-            strTargetPos = Convert.ToString(dTargetPos);
-            GridTeachTable[2, 1].Text = strTargetPos;
-
-            // FixedPos
-            strFixedPos = Convert.ToString(CMainFrame.LWDicer.m_DataManager.FixedPos.Camera1Pos.Pos[nTeachPos].dZ);
-            GridTeachTable[3, 1].Text = strFixedPos;
-
-            // ModelPos
-            strModelPos = Convert.ToString(CMainFrame.LWDicer.m_DataManager.ModelPos.Camera1Pos.Pos[nTeachPos].dZ);
-            GridTeachTable[4, 1].Text = strModelPos;
-
-            //OffsetPos
-            strOffsetPos = Convert.ToString(CMainFrame.LWDicer.m_DataManager.OffsetPos.Camera1Pos.Pos[nTeachPos].dZ);
-            GridTeachTable[6, 1].Text = strOffsetPos;
+            GridTeachTable[2, 1].Text = Convert.ToString(dTargetPos);
+            GridTeachTable[3, 1].Text = Convert.ToString(dFixedPos);
+            GridTeachTable[4, 1].Text = Convert.ToString(dModelPos);
+            GridTeachTable[5, 1].Text = Convert.ToString(dAlignOffset);
+            GridTeachTable[6, 1].Text = Convert.ToString(dOffsetPos);
         }
 
         private void BtnChangeValue_Click(object sender, EventArgs e)
@@ -392,7 +385,7 @@ namespace LWDicer.UI
             StrCurrent = GridTeachTable[7, 1].Text;
 
             dPos = Convert.ToDouble(StrCurrent);
-            dOffsetPos = CMainFrame.LWDicer.m_DataManager.OffsetPos.Camera1Pos.Pos[nTeachPos].dZ;
+            dOffsetPos = movingObject.OffsetPos.Pos[nTeachPos].dZ;
 
             dTargetPos = dPos + dOffsetPos;
 

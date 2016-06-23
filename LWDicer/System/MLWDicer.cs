@@ -1482,6 +1482,13 @@ namespace LWDicer.Control
             }
         }
 
+        public void AlarmDisplay(int nCodeNo)
+        {
+            FormAlarmDisplay Alarm = new FormAlarmDisplay();
+            Alarm.SetAlarmCode(nCodeNo);
+            Alarm.ShowDialog();
+        }
+
         void CreateMeElevator(CObjectInfo objInfo)
         {
             CMeElevatorRefComp refComp = new CMeElevatorRefComp();

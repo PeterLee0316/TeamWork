@@ -38,16 +38,6 @@ namespace LWDicer.UI
             InitializeComponent();
 
             InitializeForm();
-
-            m_WaferDataForm = new FormWaferData();
-            m_ModelDataForm = new FormModelData(EListHeaderType.MODEL);
-            m_ScannerDataForm = new FormScannerData();
-            m_CylinderDataForm = new FormCylinderData();
-            m_MotorDataForm = new FormMotorData();
-            m_VisionDataForm = new FormVisionData();
-            m_VacuumDataForm = new FormVacuumData();
-            m_SystemParaReadForm = new FormSystemParaRead();
-            m_SystemDataForm = new FormSystemData();
         }
 
         protected virtual void InitializeForm()
@@ -70,46 +60,55 @@ namespace LWDicer.UI
 
         private void BtnScannerData_Click(object sender, EventArgs e)
         {
+            m_ScannerDataForm = new FormScannerData();
             m_ScannerDataForm.ShowDialog();
         }
 
         private void BtnMotorData_Click(object sender, EventArgs e)
         {
+            m_MotorDataForm = new FormMotorData();
             m_MotorDataForm.ShowDialog();
         }
 
         private void BtnCylinderData_Click(object sender, EventArgs e)
         {
+            m_CylinderDataForm = new FormCylinderData();
             m_CylinderDataForm.ShowDialog();
         }
 
         private void BtnVisionData_Click(object sender, EventArgs e)
         {
+            m_VisionDataForm = new FormVisionData();
             m_VisionDataForm.ShowDialog();
         }
 
         private void BtnModelData_Click(object sender, EventArgs e)
         {
+            m_ModelDataForm = new FormModelData(EListHeaderType.MODEL);
             m_ModelDataForm.ShowDialog();
         }
 
         private void BtnWaferData_Click(object sender, EventArgs e)
         {
+            m_WaferDataForm = new FormWaferData();
             m_WaferDataForm.ShowDialog();
         }
 
         private void BtnVacuum_Click(object sender, EventArgs e)
         {
+            m_VacuumDataForm = new FormVacuumData();
             m_VacuumDataForm.ShowDialog();
         }
 
         private void BtnExcelLoad_Click(object sender, EventArgs e)
         {
+            m_SystemParaReadForm = new FormSystemParaRead();
             m_SystemParaReadForm.ShowDialog();
         }
 
         private void BtnSystemData_Click(object sender, EventArgs e)
         {
+            m_SystemDataForm = new FormSystemData();
             m_SystemDataForm.ShowDialog();
         }
     }

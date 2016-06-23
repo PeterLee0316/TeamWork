@@ -2457,20 +2457,6 @@ namespace LWDicer.Control
             return SUCCESS;
         }
 
-        //public int SaveAlarmHistory(CAlarm alarm, CAlarmInfo info)
-        //{
-        //    // write error history
-        //    string create_query = $"CREATE TABLE IF NOT EXISTS {DBInfo.TableAlarmHistory} (occurtime datetime, resettime datetime, alarm_key string, alarm_text string, alarm_info string)";
-        //    string query = $"INSERT INTO {DBInfo.TableAlarmHistory} VALUES ('{DBManager.DateTimeSQLite(alarm.OccurTime)}', '{DBManager.DateTimeSQLite(alarm.ResetTime)}', '{alarm.GetIndex()}', '{alarm}', '{info.GetText()}')";
-
-        //    if (DBManager.ExecuteNonQuerys(DBInfo.DBConn_ELog, create_query, query) == false)
-        //    {
-        //        return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_SAVE_ALARM_HISTORY);
-        //    }
-
-        //    return SUCCESS;
-        //}
-
         public int SaveAlarmHistory(CAlarm alarm)
         {
             try
@@ -3139,12 +3125,12 @@ namespace LWDicer.Control
             int nRowCount = SheetRange.EntireRow.Count;
             int i = 0;
 
-            CAlarmInfo AlarmInfo = new CAlarmInfo();
-
             AlarmInfoList.Clear();
 
             for (i = 0; i < nRowCount - 1; i++)
             {
+                CAlarmInfo AlarmInfo = new CAlarmInfo();
+
                 AlarmInfo.Index = (int)(SheetRange.Cells[i + 2, 1] as Excel.Range).Value2; // Index
 
                 switch (((int)(SheetRange.Cells[i + 2, 2] as Excel.Range).Value2)) // Type
