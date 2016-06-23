@@ -1383,15 +1383,15 @@ namespace LWDicer.Control
 
             MeStageData.StageSafetyPos = m_DataManager.SystemData.MAxSafetyPos.Stage_Pos;
 
-            //Intex Move Length
-            MeStageData.IndexWidth = m_DataManager.ModelData.StageIndexWidth;
-            MeStageData.IndexHeight = m_DataManager.ModelData.StageIndexHeight;
-            MeStageData.IndexRotate = m_DataManager.ModelData.StageIndexRotate;
+            ////Intex Move Length  // LJJ 수정
+            //MeStageData.IndexWidth = m_DataManager.ModelData.StageIndexWidth;
+            //MeStageData.IndexHeight = m_DataManager.ModelData.StageIndexHeight;
+            //MeStageData.IndexRotate = m_DataManager.ModelData.StageIndexRotate;
 
-            // Align Mark A,B의 거리를 적용한다.
-            // 비율을 설정하면 Wafer의 사이즈에 따라서.. 거리를 계산한다.
-            MeStageData.AlignMarkWidthRatio = m_DataManager.ModelData.AlignMarkWidthRatio;
-            MeStageData.AlignMarkWidthLen = m_DataManager.ModelData.Wafer.Size_X * MeStageData.AlignMarkWidthRatio;
+            //// Align Mark A,B의 거리를 적용한다.
+            //// 비율을 설정하면 Wafer의 사이즈에 따라서.. 거리를 계산한다.
+            //MeStageData.AlignMarkWidthRatio = m_DataManager.ModelData.AlignMarkWidthRatio;
+            //MeStageData.AlignMarkWidthLen = m_DataManager.ModelData.Wafer.Size_X * MeStageData.AlignMarkWidthRatio;
 
 
             m_MeStage.SetData(MeStageData);

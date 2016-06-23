@@ -675,12 +675,11 @@ namespace LWDicer.Control
 
 	        public bool UseUHandler_ExtraVccUseFlag; // 2014.02.21 by ranian. Extra Vcc 추가
             public bool UseUHandler_WaitPosUseFlag; // 2014.02.21 by ranian. LP->UP 로 갈 때, WP 사용 여부
-
-
+            
         }
 
-            // Frame Data
-            public CWaferCassette[] Cassette = new CWaferCassette[(int)EUseCassette.MAX];
+            // Frame Data  LJJ 수정
+            public CWaferCassette[] Cassette = new CWaferCassette[5];
 
         }
 

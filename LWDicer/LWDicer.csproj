@@ -38,7 +38,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;WIN32,  SIMULATION_MOTION, SIMULATION_IO, SIMULATION_VISION</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;WIN32,  SIMULATION_MOTION_YMC,SIMULATION_MOTION_ACS,SIMULATION_IO, SIMULATION_VISION</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>2</WarningLevel>
     <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
@@ -235,6 +235,12 @@
     <Compile Include="UI\FormIntro.designer.cs">
       <DependentUpon>FormIntro.cs</DependentUpon>
     </Compile>
+    <Compile Include="UI\FormJogOperation.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\FormJogOperation.Designer.cs">
+      <DependentUpon>FormJogOperation.cs</DependentUpon>
+    </Compile>
     <Compile Include="UI\FormTopScreen.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -337,6 +343,12 @@
     <Compile Include="UI\SubDataForm\FormWaferData.Designer.cs">
       <DependentUpon>FormWaferData.cs</DependentUpon>
     </Compile>
+    <Compile Include="UI\SubManualForm\FormHandlerManualOP.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\SubManualForm\FormHandlerManualOP.Designer.cs">
+      <DependentUpon>FormHandlerManualOP.cs</DependentUpon>
+    </Compile>
     <Compile Include="UI\SubManualForm\FormIO.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -355,15 +367,77 @@
     <Compile Include="UI\SubManualForm\FormOriginReturn.Designer.cs">
       <DependentUpon>FormOriginReturn.cs</DependentUpon>
     </Compile>
+    <Compile Include="UI\SubManualForm\FormPushPullManualOP.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\SubManualForm\FormPushPullManualOP.Designer.cs">
+      <DependentUpon>FormPushPullManualOP.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\SubManualForm\FormSpinnerManualOP.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\SubManualForm\FormSpinnerManualOP.Designer.cs">
+      <DependentUpon>FormSpinnerManualOP.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\SubManualForm\FormStageManualOP.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\SubManualForm\FormStageManualOP.Designer.cs">
+      <DependentUpon>FormStageManualOP.cs</DependentUpon>
+    </Compile>
     <Compile Include="UI\SubManualForm\FormUnitInit.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="UI\SubManualForm\FormUnitInit.Designer.cs">
       <DependentUpon>FormUnitInit.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\SubTeachForm\FormTeaching.cs" />
-    <Compile Include="UI\SubTeachForm\FormTeaching.Designer.cs">
-      <DependentUpon>FormTeaching.cs</DependentUpon>
+    <Compile Include="UI\SubTeachForm\FormCameraTeach.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\SubTeachForm\FormCameraTeach.Designer.cs">
+      <DependentUpon>FormCameraTeach.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\SubTeachForm\FormHandlerTeach.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\SubTeachForm\FormHandlerTeach.Designer.cs">
+      <DependentUpon>FormHandlerTeach.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\SubTeachForm\FormLoaderTeach.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\SubTeachForm\FormLoaderTeach.Designer.cs">
+      <DependentUpon>FormLoaderTeach.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\SubTeachForm\FormPushPullTeach.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\SubTeachForm\FormPushPullTeach.Designer.cs">
+      <DependentUpon>FormPushPullTeach.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\SubTeachForm\FormScannerTeach.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\SubTeachForm\FormScannerTeach.Designer.cs">
+      <DependentUpon>FormScannerTeach.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\SubTeachForm\FormSpinner1Teach.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\SubTeachForm\FormSpinner1Teach.Designer.cs">
+      <DependentUpon>FormSpinner1Teach.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\SubTeachForm\FormSpinner2Teach.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\SubTeachForm\FormSpinner2Teach.Designer.cs">
+      <DependentUpon>FormSpinner2Teach.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\SubTeachForm\FormWorkStageTeach.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\SubTeachForm\FormWorkStageTeach.Designer.cs">
+      <DependentUpon>FormWorkStageTeach.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\Utility\FormKeyBoard.cs">
       <SubType>Form</SubType>
@@ -401,6 +475,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UI\FormIntro.resx">
       <DependentUpon>FormIntro.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\FormJogOperation.resx">
+      <DependentUpon>FormJogOperation.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\FormTopScreen.resx">
       <DependentUpon>FormTopScreen.cs</DependentUpon>
@@ -453,6 +530,9 @@
     <EmbeddedResource Include="UI\SubDataForm\FormWaferData.resx">
       <DependentUpon>FormWaferData.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="UI\SubManualForm\FormHandlerManualOP.resx">
+      <DependentUpon>FormHandlerManualOP.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UI\SubManualForm\FormIO.resx">
       <DependentUpon>FormIO.cs</DependentUpon>
     </EmbeddedResource>
@@ -462,11 +542,41 @@
     <EmbeddedResource Include="UI\SubManualForm\FormOriginReturn.resx">
       <DependentUpon>FormOriginReturn.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="UI\SubManualForm\FormPushPullManualOP.resx">
+      <DependentUpon>FormPushPullManualOP.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\SubManualForm\FormSpinnerManualOP.resx">
+      <DependentUpon>FormSpinnerManualOP.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\SubManualForm\FormStageManualOP.resx">
+      <DependentUpon>FormStageManualOP.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UI\SubManualForm\FormUnitInit.resx">
       <DependentUpon>FormUnitInit.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\SubTeachForm\FormTeaching.resx">
-      <DependentUpon>FormTeaching.cs</DependentUpon>
+    <EmbeddedResource Include="UI\SubTeachForm\FormCameraTeach.resx">
+      <DependentUpon>FormCameraTeach.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\SubTeachForm\FormHandlerTeach.resx">
+      <DependentUpon>FormHandlerTeach.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\SubTeachForm\FormLoaderTeach.resx">
+      <DependentUpon>FormLoaderTeach.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\SubTeachForm\FormPushPullTeach.resx">
+      <DependentUpon>FormPushPullTeach.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\SubTeachForm\FormScannerTeach.resx">
+      <DependentUpon>FormScannerTeach.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\SubTeachForm\FormSpinner1Teach.resx">
+      <DependentUpon>FormSpinner1Teach.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\SubTeachForm\FormSpinner2Teach.resx">
+      <DependentUpon>FormSpinner2Teach.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\SubTeachForm\FormWorkStageTeach.resx">
+      <DependentUpon>FormWorkStageTeach.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Utility\FormKeyBoard.resx">
       <DependentUpon>FormKeyBoard.cs</DependentUpon>
