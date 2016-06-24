@@ -1523,14 +1523,14 @@ namespace LWDicer.Control
         /// <returns></returns>
         public int MoveStageToSafetyUp()
         {
-            int nResult = -1;
+            int iResult = -1;
 
-            nResult = MoveStageToSafetyPos(DEF_X);
-            if (nResult != SUCCESS) return nResult;
-            nResult = MoveStageToSafetyPos(DEF_Y);
-            if (nResult != SUCCESS) return nResult;
-            nResult = MoveStageToSafetyPos(DEF_T);
-            if (nResult != SUCCESS) return nResult;
+            iResult = MoveStageToSafetyPos(DEF_X);
+            if (iResult != SUCCESS) return iResult;
+            iResult = MoveStageToSafetyPos(DEF_Y);
+            if (iResult != SUCCESS) return iResult;
+            iResult = MoveStageToSafetyPos(DEF_T);
+            if (iResult != SUCCESS) return iResult;
 
             return SUCCESS;
         }

@@ -429,7 +429,7 @@ namespace LWDicer.Control
             bool bMoveXYT = false;
             bool bMoveZ = true;
 
-            int nResult = 0;
+            int iResult = 0;
             int nElevatorPos = (int)EElevatorPos.SLOT;
             int Slot = (int)ECassetteWaferInfo.NONE;
             int nCurSlotNum = 0;
@@ -444,17 +444,17 @@ namespace LWDicer.Control
             if (Slot == (int)ECassetteWaferInfo.NONE) GenerateErrorCode(ERR_ELEVATOR_UNABLE_TO_USE_POSITION);
 
             // 해당 위치로 이동함.
-            nResult = MoveElevatorPos(nElevatorPos, Slot, bMoveAllAxis, bMoveXYT, bMoveZ);
-            if(nResult != SUCCESS ) GenerateErrorCode(ERR_ELEVATOR_MOVE_FAIL);
+            iResult = MoveElevatorPos(nElevatorPos, Slot, bMoveAllAxis, bMoveXYT, bMoveZ);
+            if(iResult != SUCCESS ) GenerateErrorCode(ERR_ELEVATOR_MOVE_FAIL);
 
             Sleep(500);
 
             // Wafer Frame 감지 센서를 확인하여 Empty 여부를 확인한다.
             bool bStatus;
-            nResult = m_RefComp.IO.IsOn(m_Data.InDetectWafer, out bStatus);
+            iResult = m_RefComp.IO.IsOn(m_Data.InDetectWafer, out bStatus);
 
             // Input확인 동작 확인
-            if (nResult != SUCCESS) GenerateErrorCode(ERR_ELEVATOR_UNABLE_TO_USE_IO);
+            if (iResult != SUCCESS) GenerateErrorCode(ERR_ELEVATOR_UNABLE_TO_USE_IO);
             // Wafer 유무 확인 ( Wafer 감지 센서 On이면 Err 리턴 )
             if(bStatus) GenerateErrorCode(ERR_ELEVATOR_UNABLE_TO_USE_IO);
 
@@ -467,7 +467,7 @@ namespace LWDicer.Control
             bool bMoveXYT = false;
             bool bMoveZ = true;
 
-            int nResult = 0;
+            int iResult = 0;
             int nElevatorPos = (int)EElevatorPos.SLOT;
             int Slot = (int)ECassetteWaferInfo.NONE;
             int nCurSlotNum = 0;
@@ -482,17 +482,17 @@ namespace LWDicer.Control
             if (Slot == (int)ECassetteWaferInfo.NONE) GenerateErrorCode(ERR_ELEVATOR_UNABLE_TO_USE_POSITION);
 
             // 해당 위치로 이동함.
-            nResult = MoveElevatorPos(nElevatorPos, Slot, bMoveAllAxis, bMoveXYT, bMoveZ);
-            if (nResult != SUCCESS) GenerateErrorCode(ERR_ELEVATOR_MOVE_FAIL);
+            iResult = MoveElevatorPos(nElevatorPos, Slot, bMoveAllAxis, bMoveXYT, bMoveZ);
+            if (iResult != SUCCESS) GenerateErrorCode(ERR_ELEVATOR_MOVE_FAIL);
 
             Sleep(500);
 
             // Wafer Frame 감지 센서를 확인하여 Empty 여부를 확인한다.
             bool bStatus;
-            nResult = m_RefComp.IO.IsOn(m_Data.InDetectWafer, out bStatus);
+            iResult = m_RefComp.IO.IsOn(m_Data.InDetectWafer, out bStatus);
 
             // Input확인 동작 확인
-            if (nResult != SUCCESS) GenerateErrorCode(ERR_ELEVATOR_UNABLE_TO_USE_IO);
+            if (iResult != SUCCESS) GenerateErrorCode(ERR_ELEVATOR_UNABLE_TO_USE_IO);
             // Wafer 유무 확인 ( Wafer 감지 센서 Off이면 Err 리턴 )
             if (!bStatus) GenerateErrorCode(ERR_ELEVATOR_UNABLE_TO_USE_IO);
 
@@ -506,7 +506,7 @@ namespace LWDicer.Control
             bool bMoveZ = true;
             bool bStatus = false;
 
-            int nResult = -1;
+            int iResult = -1;
             int nElevatorPos = (int)EElevatorPos.SLOT;
 
             // Cassette 유무를 확인한다.
@@ -516,12 +516,12 @@ namespace LWDicer.Control
             for (int nNum = 0; nNum < m_Data.CassetteData.Slot; nNum++)
             {
                 // 해당 위치로 이동함.
-                nResult = MoveElevatorPos(nElevatorPos, nNum, bMoveAllAxis, bMoveXYT, bMoveZ);
-                if (nResult != SUCCESS) GenerateErrorCode(ERR_ELEVATOR_MOVE_FAIL);
+                iResult = MoveElevatorPos(nElevatorPos, nNum, bMoveAllAxis, bMoveXYT, bMoveZ);
+                if (iResult != SUCCESS) GenerateErrorCode(ERR_ELEVATOR_MOVE_FAIL);
 
                 // Wafer Frame 감지 센서를 확인하여 Empty 여부를 확인한다.               
-                nResult = m_RefComp.IO.IsOn(m_Data.InDetectWafer, out bStatus);
-                if (nResult != SUCCESS) return nResult;
+                iResult = m_RefComp.IO.IsOn(m_Data.InDetectWafer, out bStatus);
+                if (iResult != SUCCESS) return iResult;
 
                 if (bStatus)
                 {
@@ -723,12 +723,12 @@ namespace LWDicer.Control
             bool bCheck;
 
             // check origin
-            int nResult = IsElevatorOrignReturn(out bCheck);
+            int iResult = IsElevatorOrignReturn(out bCheck);
 
-            if (nResult != SUCCESS)
+            if (iResult != SUCCESS)
             {
                 bStatus = false;
-                return nResult;
+                return iResult;
             }
             if(bCheck == false)
             {
@@ -741,18 +741,18 @@ namespace LWDicer.Control
 
             bool bCassetteExist;
             bool bCassetteNone;
-            nResult = IsElevatorCassetteExist(out bCassetteExist);
-            if (nResult != SUCCESS)
+            iResult = IsElevatorCassetteExist(out bCassetteExist);
+            if (iResult != SUCCESS)
             {
                 bStatus = false;
-                return nResult;
+                return iResult;
             }
 
-            nResult = IsElevatorCassetteNone(out bCassetteNone);
-            if (nResult != SUCCESS)
+            iResult = IsElevatorCassetteNone(out bCassetteNone);
+            if (iResult != SUCCESS)
             {
                 bStatus = false;
-                return nResult;
+                return iResult;
             }
 
             // 전체가 On 이거나 Off되어야 동작 가능함.
@@ -781,24 +781,24 @@ namespace LWDicer.Control
         public int IsElevatorCassetteExist(out bool bExist)
         {
             bExist = false;
-            int nResult = -1;
+            int iResult = -1;
 
             // Wafer Frame 감지 센서 확인
             bool[] bCheckIO = new bool[CASSETTE_DETECT_SENSOR_NUM];
 
-            nResult = m_RefComp.IO.IsOn(m_Data.InDetectCassette[0], out bCheckIO[0]) +
+            iResult = m_RefComp.IO.IsOn(m_Data.InDetectCassette[0], out bCheckIO[0]) +
                       m_RefComp.IO.IsOn(m_Data.InDetectCassette[1], out bCheckIO[1]) +
                       m_RefComp.IO.IsOn(m_Data.InDetectCassette[2], out bCheckIO[2]) +
                       m_RefComp.IO.IsOn(m_Data.InDetectCassette[3], out bCheckIO[3]);
             for(int i=0; i< CASSETTE_DETECT_SENSOR_NUM;i++)
             {
                 // 4개 센서를 확인한다.
-                nResult = m_RefComp.IO.IsOn(m_Data.InDetectCassette[i], out bCheckIO[i]);
+                iResult = m_RefComp.IO.IsOn(m_Data.InDetectCassette[i], out bCheckIO[i]);
                 // 읽기 실패나 Off가 된 센서가 있으면 False를 반환한다.
-                if (nResult != SUCCESS || bCheckIO[i]==false)
+                if (iResult != SUCCESS || bCheckIO[i]==false)
                 {
                     bExist = false;
-                    return nResult;
+                    return iResult;
                 }
             }
            
@@ -824,24 +824,24 @@ namespace LWDicer.Control
         public int IsElevatorCassetteNone(out bool bExist)
         {
             bExist = false;
-            int nResult = -1;
+            int iResult = -1;
 
             // Wafer Frame 감지 센서 확인
             bool[] bCheckIO = new bool[CASSETTE_DETECT_SENSOR_NUM];
 
-            nResult = m_RefComp.IO.IsOn(m_Data.InDetectCassette[0], out bCheckIO[0]) +
+            iResult = m_RefComp.IO.IsOn(m_Data.InDetectCassette[0], out bCheckIO[0]) +
                       m_RefComp.IO.IsOn(m_Data.InDetectCassette[1], out bCheckIO[1]) +
                       m_RefComp.IO.IsOn(m_Data.InDetectCassette[2], out bCheckIO[2]) +
                       m_RefComp.IO.IsOn(m_Data.InDetectCassette[3], out bCheckIO[3]);
             for (int i = 0; i < CASSETTE_DETECT_SENSOR_NUM; i++)
             {
                 // 4개 센서를 확인한다.
-                nResult = m_RefComp.IO.IsOn(m_Data.InDetectCassette[i], out bCheckIO[i]);
+                iResult = m_RefComp.IO.IsOn(m_Data.InDetectCassette[i], out bCheckIO[i]);
                 // 읽기 실패나 On가 된 센서가 있으면 False를 반환한다.
-                if (nResult != SUCCESS || bCheckIO[i] == true)
+                if (iResult != SUCCESS || bCheckIO[i] == true)
                 {
                     bExist = false;
-                    return nResult;
+                    return iResult;
                 }
             }
 
