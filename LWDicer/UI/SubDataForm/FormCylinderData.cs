@@ -149,7 +149,7 @@ namespace LWDicer.UI
         private void GridCylinderData_CellClick(object sender, GridCellClickEventArgs e)
         {
             int nCol = 0, nRow = 0;
-            string StrCurrent = "", strModify = "";
+            string strCurrent = "", strModify = "";
 
             nCol = e.ColIndex;
             nRow = e.RowIndex;
@@ -159,9 +159,9 @@ namespace LWDicer.UI
                 return;
             }
 
-            StrCurrent = GridCylinderData[nRow, nCol].Text;
+            strCurrent = GridCylinderData[nRow, nCol].Text;
 
-            if (!CMainFrame.LWDicer.GetKeyPad(StrCurrent, out strModify))
+            if (!CMainFrame.LWDicer.GetKeyPad(strCurrent, out strModify))
             {
                 return;
             }

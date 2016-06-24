@@ -85,9 +85,9 @@ namespace LWDicer.UI
 
         private void LabelMakerDir_Click(object sender, EventArgs e)
         {
-            string StrCurrent = "", strModify = "";
+            string strCurrent = "", strModify = "";
 
-            if (!CMainFrame.LWDicer.GetKeyPad(StrCurrent, out strModify))
+            if (!CMainFrame.LWDicer.GetKeyPad(strCurrent, out strModify))
             {
                 return;
             }

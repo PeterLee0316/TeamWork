@@ -65,7 +65,7 @@ namespace LWDicer.UI
         private void GridVacuumData_CellClick(object sender, Syncfusion.Windows.Forms.Grid.GridCellClickEventArgs e)
         {
             int nCol = 0, nRow = 0;
-            string StrCurrent = "", strModify = "";
+            string strCurrent = "", strModify = "";
 
             nCol = e.ColIndex;
             nRow = e.RowIndex;
@@ -75,9 +75,9 @@ namespace LWDicer.UI
                 return;
             }
 
-            StrCurrent = GridVacuumData[nRow, nCol].Text;
+            strCurrent = GridVacuumData[nRow, nCol].Text;
 
-            if (!CMainFrame.LWDicer.GetKeyPad(StrCurrent, out strModify))
+            if (!CMainFrame.LWDicer.GetKeyPad(strCurrent, out strModify))
             {
                 return;
             }

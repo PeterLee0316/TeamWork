@@ -270,11 +270,11 @@ namespace LWDicer.UI
 
         private void LabelTarget_Click(object sender, EventArgs e)
         {
-            string StrCurrent = "", strModify = "";
+            string strCurrent = "", strModify = "";
 
-            StrCurrent = LabelTarget.Text;
+            strCurrent = LabelTarget.Text;
 
-            if (!CMainFrame.LWDicer.GetKeyPad(StrCurrent, out strModify))
+            if (!CMainFrame.LWDicer.GetKeyPad(strCurrent, out strModify))
             {
                 return;
             }

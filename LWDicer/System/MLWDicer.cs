@@ -1455,10 +1455,10 @@ namespace LWDicer.Control
 
         }
 
-        public bool GetKeyPad(string StrCurrent, out string strModify)
+        public bool GetKeyPad(string strCurrent, out string strModify)
         {
             FormKeyPad KeyPad = new FormKeyPad();
-            KeyPad.SetValue(StrCurrent);
+            KeyPad.SetValue(strCurrent);
             KeyPad.ShowDialog();
 
             if (KeyPad.DialogResult == DialogResult.OK)
@@ -1474,7 +1474,7 @@ namespace LWDicer.Control
             }
             else
             {
-                strModify = StrCurrent;
+                strModify = strCurrent;
                 KeyPad.Dispose();
                 return false;
             }

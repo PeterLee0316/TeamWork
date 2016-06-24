@@ -499,14 +499,14 @@ namespace LWDicer.UI
         {
             if (e.ColIndex == 3 || e.ColIndex == 4) return;
 
-            string StrCurrent = "", strModify = "";
+            string strCurrent = "", strModify = "";
             double dPos = 0, dOffsetPos = 0, dTargetPos = 0;
 
             if(GetDataMode() == FixedData)
             {
-                StrCurrent = GridNozzleTeachTable[3, e.ColIndex].Text;
+                strCurrent = GridNozzleTeachTable[3, e.ColIndex].Text;
 
-                if (!CMainFrame.LWDicer.GetKeyPad(StrCurrent, out strModify))
+                if (!CMainFrame.LWDicer.GetKeyPad(strCurrent, out strModify))
                 {
                     return;
                 }
@@ -535,9 +535,9 @@ namespace LWDicer.UI
 
             if(GetDataMode() == OffsetData)
             {
-                StrCurrent = GridNozzleTeachTable[6, e.ColIndex].Text;
+                strCurrent = GridNozzleTeachTable[6, e.ColIndex].Text;
 
-                if (!CMainFrame.LWDicer.GetKeyPad(StrCurrent, out strModify))
+                if (!CMainFrame.LWDicer.GetKeyPad(strCurrent, out strModify))
                 {
                     return;
                 }
@@ -551,14 +551,14 @@ namespace LWDicer.UI
         {
             if (e.ColIndex == 2 || e.ColIndex == 3 || e.ColIndex == 4) return;
 
-            string StrCurrent = "", strModify = "";
+            string strCurrent = "", strModify = "";
             double dPos = 0, dOffsetPos = 0, dTargetPos = 0;
 
             if(GetDataMode() == FixedData)
             {
-                StrCurrent = GridRotateTeachTable[3, e.ColIndex].Text;
+                strCurrent = GridRotateTeachTable[3, e.ColIndex].Text;
 
-                if (!CMainFrame.LWDicer.GetKeyPad(StrCurrent, out strModify))
+                if (!CMainFrame.LWDicer.GetKeyPad(strCurrent, out strModify))
                 {
                     return;
                 }
@@ -577,9 +577,9 @@ namespace LWDicer.UI
 
             if(GetDataMode() == OffsetData)
             {
-                StrCurrent = GridRotateTeachTable[6, e.ColIndex].Text;
+                strCurrent = GridRotateTeachTable[6, e.ColIndex].Text;
 
-                if (!CMainFrame.LWDicer.GetKeyPad(StrCurrent, out strModify))
+                if (!CMainFrame.LWDicer.GetKeyPad(strCurrent, out strModify))
                 {
                     return;
                 }
@@ -624,8 +624,7 @@ namespace LWDicer.UI
                 CMainFrame.LWDicer.m_DataManager.SavePositionData(false, EPositionObject.S1_COAT_NOZZLE);
             }
 
-            CMainFrame.LWDicer.SetPositionDataToComponent(EPositionObject.S1_CLEAN_NOZZLE);
-            CMainFrame.LWDicer.SetPositionDataToComponent(EPositionObject.S1_COAT_NOZZLE);
+            CMainFrame.LWDicer.SetPositionDataToComponent(EPositionGroup.SPINNER1);
 
             LoadNozzleTeachingData(GetNozzlePosNo());
         }
@@ -657,7 +656,7 @@ namespace LWDicer.UI
                 CMainFrame.LWDicer.m_DataManager.SavePositionData(false, EPositionObject.S1_ROTATE);
             }
 
-            CMainFrame.LWDicer.SetPositionDataToComponent(EPositionObject.S1_ROTATE);
+            CMainFrame.LWDicer.SetPositionDataToComponent(EPositionGroup.SPINNER1);
 
             LoadRotateTeachingData(GetRotatePosNo());
         }
@@ -703,7 +702,7 @@ namespace LWDicer.UI
 
         private void BtnRotateChangeValue_Click(object sender, EventArgs e)
         {
-            string StrCurrent = "", strMsg = string.Empty;
+            string strCurrent = "", strMsg = string.Empty;
             double dPos = 0, dOffsetPos = 0, dTargetPos = 0;
 
             strMsg = RotatePos[GetRotatePosNo()].Text + " 목표 위치를 현재 위치로 변경하시겠습니까?";
@@ -713,9 +712,9 @@ namespace LWDicer.UI
                 return;
             }
 
-            StrCurrent = GridRotateTeachTable[7, 1].Text;
+            strCurrent = GridRotateTeachTable[7, 1].Text;
 
-            dPos = Convert.ToDouble(StrCurrent);
+            dPos = Convert.ToDouble(strCurrent);
             dOffsetPos = movingRotateObject.OffsetPos.Pos[GetRotatePosNo()].dT;
 
             dTargetPos = dPos + dOffsetPos;

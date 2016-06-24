@@ -502,14 +502,14 @@ namespace LWDicer.UI
         {
             if (e.ColIndex == 3 || e.ColIndex == 4) return;
 
-            string StrCurrent = "", strModify = "";
+            string strCurrent = "", strModify = "";
             double dPos = 0, dOffsetPos = 0, dTargetPos = 0;
 
             if(GetDataMode() == FixedData)
             {
-                StrCurrent = GridCenterXTeachTable[3, e.ColIndex].Text;
+                strCurrent = GridCenterXTeachTable[3, e.ColIndex].Text;
 
-                if (!CMainFrame.LWDicer.GetKeyPad(StrCurrent, out strModify))
+                if (!CMainFrame.LWDicer.GetKeyPad(strCurrent, out strModify))
                 {
                     return;
                 }
@@ -538,9 +538,9 @@ namespace LWDicer.UI
 
             if(GetDataMode() == OffsetData)
             {
-                StrCurrent = GridCenterXTeachTable[6, e.ColIndex].Text;
+                strCurrent = GridCenterXTeachTable[6, e.ColIndex].Text;
 
-                if (!CMainFrame.LWDicer.GetKeyPad(StrCurrent, out strModify))
+                if (!CMainFrame.LWDicer.GetKeyPad(strCurrent, out strModify))
                 {
                     return;
                 }
@@ -554,14 +554,14 @@ namespace LWDicer.UI
         {
             if (e.ColIndex == 2 || e.ColIndex == 3 || e.ColIndex == 4) return;
 
-            string StrCurrent = "", strModify = "";
+            string strCurrent = "", strModify = "";
             double dPos = 0, dOffsetPos = 0, dTargetPos = 0;
 
             if(GetDataMode() == FixedData)
             {
-                StrCurrent = GridPushPullYTeachTable[3, e.ColIndex].Text;
+                strCurrent = GridPushPullYTeachTable[3, e.ColIndex].Text;
 
-                if (!CMainFrame.LWDicer.GetKeyPad(StrCurrent, out strModify))
+                if (!CMainFrame.LWDicer.GetKeyPad(strCurrent, out strModify))
                 {
                     return;
                 }
@@ -580,9 +580,9 @@ namespace LWDicer.UI
 
             if(GetDataMode() == OffsetData)
             {
-                StrCurrent = GridPushPullYTeachTable[6, e.ColIndex].Text;
+                strCurrent = GridPushPullYTeachTable[6, e.ColIndex].Text;
 
-                if (!CMainFrame.LWDicer.GetKeyPad(StrCurrent, out strModify))
+                if (!CMainFrame.LWDicer.GetKeyPad(strCurrent, out strModify))
                 {
                     return;
                 }
@@ -627,8 +627,7 @@ namespace LWDicer.UI
                 CMainFrame.LWDicer.m_DataManager.SavePositionData(false, EPositionObject.PUSHPULL_CENTER2);
             }
 
-            CMainFrame.LWDicer.SetPositionDataToComponent(EPositionObject.PUSHPULL_CENTER1);
-            CMainFrame.LWDicer.SetPositionDataToComponent(EPositionObject.PUSHPULL_CENTER2);
+            CMainFrame.LWDicer.SetPositionDataToComponent(EPositionGroup.PUSHPULL);
 
             LoadCenterTeachingData(GetCenterPosNo());
         }
@@ -660,7 +659,7 @@ namespace LWDicer.UI
                 CMainFrame.LWDicer.m_DataManager.SavePositionData(false, EPositionObject.PUSHPULL);
             }
 
-            CMainFrame.LWDicer.SetPositionDataToComponent(EPositionObject.PUSHPULL);
+            CMainFrame.LWDicer.SetPositionDataToComponent(EPositionGroup.PUSHPULL);
 
             LoadPushPullTeachingData(GetPushPullPosNo());
         }

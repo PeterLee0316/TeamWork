@@ -64,42 +64,42 @@ namespace LWDicer.UI
 
         private void BtnManualPushPull_Click(object sender, EventArgs e)
         {
-            m_PushPullManualOP = new FormPushPullManualOP();
-            m_PushPullManualOP.ShowDialog();
+            var dlg = new FormPushPullManualOP();
+            dlg.ShowDialog();
         }
 
         private void BtnManualUpHandler_Click(object sender, EventArgs e)
         {
-            m_HandlerManualOP = new FormHandlerManualOP();
-            m_HandlerManualOP.SetHandler(UpHandler);
-            m_HandlerManualOP.ShowDialog();
+            var dlg = new FormHandlerManualOP();
+            dlg.SetHandler(UpHandler);
+            dlg.ShowDialog();
         }
 
         private void BtnManualLoHandler_Click(object sender, EventArgs e)
         {
-            m_HandlerManualOP = new FormHandlerManualOP();
-            m_HandlerManualOP.SetHandler(LoHandler);
-            m_HandlerManualOP.ShowDialog();
+            var dlg = new FormHandlerManualOP();
+            dlg.SetHandler(LoHandler);
+            dlg.ShowDialog();
         }
 
         private void BtnManualSpinner1_Click(object sender, EventArgs e)
         {
-            m_SpinnerManualOP = new FormSpinnerManualOP();
-            m_SpinnerManualOP.SetSpinner(Spinner1);
-            m_SpinnerManualOP.ShowDialog();
+            var dlg = new FormSpinnerManualOP();
+            dlg.SetSpinner(Spinner1);
+            dlg.ShowDialog();
         }
 
         private void BtnManualSpinner2_Click(object sender, EventArgs e)
         {
-            m_SpinnerManualOP = new FormSpinnerManualOP();
-            m_SpinnerManualOP.SetSpinner(Spinner2);
-            m_SpinnerManualOP.ShowDialog();
+            var dlg = new FormSpinnerManualOP();
+            dlg.SetSpinner(Spinner2);
+            dlg.ShowDialog();
         }
 
         private void BtnManualStage_Click(object sender, EventArgs e)
         {
-            m_StageManualOP = new FormStageManualOP();
-            m_StageManualOP.ShowDialog();
+            var dlg = new FormStageManualOP();
+            dlg.ShowDialog();
         }
     }
 }

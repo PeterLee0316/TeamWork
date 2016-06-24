@@ -37,7 +37,6 @@ namespace LWDicer.UI
             }
 
             CMainFrame.LWDicer.m_DataManager.ImportDataFromExcel(EExcel_Sheet.Alarm_Info);
-            CMainFrame.LWDicer.m_DataManager.SaveAlarmInfoList();
         }
 
         private void BtnIOInfoImport_Click(object sender, EventArgs e)

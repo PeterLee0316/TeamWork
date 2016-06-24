@@ -360,14 +360,14 @@ namespace LWDicer.UI
         {
             if (e.ColIndex == 4) return;
 
-            string StrCurrent = "", strModify = "";
+            string strCurrent = "", strModify = "";
             double dPos = 0, dOffsetPos = 0, dTargetPos = 0;
 
             if(GetDataMode() == FixedData)
             {
-                StrCurrent = GridStageTeachTable[3, e.ColIndex].Text;
+                strCurrent = GridStageTeachTable[3, e.ColIndex].Text;
 
-                if (!CMainFrame.LWDicer.GetKeyPad(StrCurrent, out strModify))
+                if (!CMainFrame.LWDicer.GetKeyPad(strCurrent, out strModify))
                 {
                     return;
                 }
@@ -403,9 +403,9 @@ namespace LWDicer.UI
 
             if(GetDataMode() == OffsetData)
             {
-                StrCurrent = GridStageTeachTable[6, e.ColIndex].Text;
+                strCurrent = GridStageTeachTable[6, e.ColIndex].Text;
 
-                if (!CMainFrame.LWDicer.GetKeyPad(StrCurrent, out strModify))
+                if (!CMainFrame.LWDicer.GetKeyPad(strCurrent, out strModify))
                 {
                     return;
                 }
@@ -454,7 +454,7 @@ namespace LWDicer.UI
                 CMainFrame.LWDicer.m_DataManager.SavePositionData(false, EPositionObject.STAGE1);
             }
 
-            CMainFrame.LWDicer.SetPositionDataToComponent(EPositionObject.STAGE1);
+            CMainFrame.LWDicer.SetPositionDataToComponent(EPositionGroup.STAGE1);
 
             LoadStageTeachingData(GetPosNo());
         }

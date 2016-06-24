@@ -680,7 +680,7 @@ namespace LWDicer.UI
                 CMainFrame.LWDicer.m_DataManager.SavePositionData(false, EPositionObject.LOWER_HANDLER);
             }
 
-            CMainFrame.LWDicer.SetPositionDataToComponent(EPositionObject.LOWER_HANDLER);
+            CMainFrame.LWDicer.SetPositionDataToComponent(EPositionGroup.HANDLER);
 
             LoadUpTeachingData(GetLoPosNo());
         }
@@ -718,7 +718,7 @@ namespace LWDicer.UI
                 CMainFrame.LWDicer.m_DataManager.SavePositionData(false, EPositionObject.UPPER_HANDLER);
             }
 
-            CMainFrame.LWDicer.SetPositionDataToComponent(EPositionObject.UPPER_HANDLER);
+            CMainFrame.LWDicer.SetPositionDataToComponent(EPositionGroup.HANDLER);
 
             LoadLoTeachingData(GetUpPosNo());
         }
@@ -727,14 +727,14 @@ namespace LWDicer.UI
         {
             if (e.ColIndex == 3 || e.ColIndex == 4) return;
 
-            string StrCurrent = "", strModify = "";
+            string strCurrent = "", strModify = "";
             double dPos = 0, dOffsetPos = 0, dTargetPos = 0;
 
             if (GetDataMode() == FixedData)
             {
-                StrCurrent = GridUpHandlerTeachTable[3, e.ColIndex].Text;
+                strCurrent = GridUpHandlerTeachTable[3, e.ColIndex].Text;
 
-                if (!CMainFrame.LWDicer.GetKeyPad(StrCurrent, out strModify))
+                if (!CMainFrame.LWDicer.GetKeyPad(strCurrent, out strModify))
                 {
                     return;
                 }
@@ -763,9 +763,9 @@ namespace LWDicer.UI
 
             if(GetDataMode() == OffsetData)
             {
-                StrCurrent = GridUpHandlerTeachTable[6, e.ColIndex].Text;
+                strCurrent = GridUpHandlerTeachTable[6, e.ColIndex].Text;
 
-                if (!CMainFrame.LWDicer.GetKeyPad(StrCurrent, out strModify))
+                if (!CMainFrame.LWDicer.GetKeyPad(strCurrent, out strModify))
                 {
                     return;
                 }
@@ -779,14 +779,14 @@ namespace LWDicer.UI
         {
             if (e.ColIndex == 3 || e.ColIndex == 4) return;
 
-            string StrCurrent = "", strModify = "";
+            string strCurrent = "", strModify = "";
             double dPos = 0, dOffsetPos = 0, dTargetPos = 0;
 
             if(GetDataMode() == FixedData)
             {
-                StrCurrent = GridLoHandlerTeachTable[3, e.ColIndex].Text;
+                strCurrent = GridLoHandlerTeachTable[3, e.ColIndex].Text;
 
-                if (!CMainFrame.LWDicer.GetKeyPad(StrCurrent, out strModify))
+                if (!CMainFrame.LWDicer.GetKeyPad(strCurrent, out strModify))
                 {
                     return;
                 }
@@ -815,9 +815,9 @@ namespace LWDicer.UI
 
             if(GetDataMode() == OffsetData)
             {
-                StrCurrent = GridLoHandlerTeachTable[6, e.ColIndex].Text;
+                strCurrent = GridLoHandlerTeachTable[6, e.ColIndex].Text;
 
-                if (!CMainFrame.LWDicer.GetKeyPad(StrCurrent, out strModify))
+                if (!CMainFrame.LWDicer.GetKeyPad(strCurrent, out strModify))
                 {
                     return;
                 }

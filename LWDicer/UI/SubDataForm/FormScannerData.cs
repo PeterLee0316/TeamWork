@@ -96,7 +96,7 @@ namespace LWDicer.UI
         private void GridDeviceData_CellClick(object sender, Syncfusion.Windows.Forms.Grid.GridCellClickEventArgs e)
         {
             int nCol = 0, nRow = 0;
-            string StrCurrent = "", strModify = "";
+            string strCurrent = "", strModify = "";
             nCol = e.ColIndex;
             nRow = e.RowIndex;
 
@@ -105,9 +105,9 @@ namespace LWDicer.UI
                 return;
             }
 
-            StrCurrent = GridCutLine[nRow, nCol].Text;
+            strCurrent = GridCutLine[nRow, nCol].Text;
 
-            if (!CMainFrame.LWDicer.GetKeyPad(StrCurrent, out strModify))
+            if (!CMainFrame.LWDicer.GetKeyPad(strCurrent, out strModify))
             {
                 return;
             }
@@ -160,11 +160,11 @@ namespace LWDicer.UI
         {
             int nPitch = 0;
 
-            string StrCurrent = "", strModify = "";
+            string strCurrent = "", strModify = "";
 
-            StrCurrent = LabelPitch.Text;
+            strCurrent = LabelPitch.Text;
 
-            if (!CMainFrame.LWDicer.GetKeyPad(StrCurrent, out strModify))
+            if (!CMainFrame.LWDicer.GetKeyPad(strCurrent, out strModify))
             {
                 return;
             }
@@ -486,11 +486,11 @@ namespace LWDicer.UI
         {
             int nPitch = 0;
 
-            string StrCurrent = "", strModify = "";
+            string strCurrent = "", strModify = "";
 
-            StrCurrent = LabelOffsetX.Text;
+            strCurrent = LabelOffsetX.Text;
 
-            if (!CMainFrame.LWDicer.GetKeyPad(StrCurrent, out strModify))
+            if (!CMainFrame.LWDicer.GetKeyPad(strCurrent, out strModify))
             {
                 return;
             }
@@ -539,11 +539,11 @@ namespace LWDicer.UI
         {
             int nPitch = 0;
 
-            string StrCurrent = "", strModify = "";
+            string strCurrent = "", strModify = "";
 
-            StrCurrent = LabelOffsetY.Text;
+            strCurrent = LabelOffsetY.Text;
 
-            if (!CMainFrame.LWDicer.GetKeyPad(StrCurrent, out strModify))
+            if (!CMainFrame.LWDicer.GetKeyPad(strCurrent, out strModify))
             {
                 return;
             }
@@ -1027,7 +1027,7 @@ namespace LWDicer.UI
         private void GridConfigure_CellClick(object sender, GridCellClickEventArgs e)
         {
             int nCol = 0, nRow = 0;
-            string StrCurrent = "", strModify = "";
+            string strCurrent = "", strModify = "";
 
             nCol = e.ColIndex;
             nRow = e.RowIndex;
@@ -1037,9 +1037,9 @@ namespace LWDicer.UI
                 return;
             }
 
-            StrCurrent = GridConfigure[nRow, nCol].Text;
+            strCurrent = GridConfigure[nRow, nCol].Text;
 
-            if (!CMainFrame.LWDicer.GetKeyPad(StrCurrent, out strModify))
+            if (!CMainFrame.LWDicer.GetKeyPad(strCurrent, out strModify))
             {
                 return;
             }
@@ -1064,11 +1064,11 @@ namespace LWDicer.UI
 
         private void LabelPort_Click(object sender, EventArgs e)
         {
-            string StrCurrent = "", strModify = "";
+            string strCurrent = "", strModify = "";
 
-            StrCurrent = LabelPort.Text;
+            strCurrent = LabelPort.Text;
 
-            if (!CMainFrame.LWDicer.GetKeyPad(StrCurrent, out strModify))
+            if (!CMainFrame.LWDicer.GetKeyPad(strCurrent, out strModify))
             {
                 return;
             }
