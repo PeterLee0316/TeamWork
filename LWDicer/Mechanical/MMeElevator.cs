@@ -10,6 +10,7 @@ using static LWDicer.Control.DEF_MeElevator;
 using static LWDicer.Control.DEF_Motion;
 using static LWDicer.Control.DEF_IO;
 using static LWDicer.Control.DEF_Vacuum;
+using static LWDicer.Control.DEF_DataManager;
 
 namespace LWDicer.Control
 {
@@ -100,13 +101,6 @@ namespace LWDicer.Control
             MAX,
         }
 
-        public class CCassetteData_obsolete
-        {
-            public int nSlotNum;
-            public ECassetteWaferType nWaferType;
-            public double dSlotPitch;
-            public int[] nWaferData = new int[CASSETTE_MAX_SLOT_NUM];
-        }
 
         //===============================================================================
 
@@ -120,7 +114,7 @@ namespace LWDicer.Control
         public class CMeElevatorData
         {
             // Cassette Info 
-            public CCassetteData_obsolete CassetteData = new CCassetteData_obsolete();
+            public CWaferCassette CassetteData = new CWaferCassette();
 
             public int CurrentSlotNum = 0;
 
@@ -137,17 +131,16 @@ namespace LWDicer.Control
             public CMAxisZoneCheck ElevatorZone;
             public CPos_XYTZ ElevatorSafetyPos;
 
-            public CMeElevatorData(CCassetteData_obsolete CassetteData = null)
+            public CMeElevatorData(CWaferCassette CassetteData = null)
             {
                 // Cassette Info Copy 
                 if (CassetteData == null) // Cassette Data Init
                 {   
-                    this.CassetteData.nWaferType = ECassetteWaferType.INCH_12;
-                    this.CassetteData.nSlotNum = CASSETTE_MAX_SLOT_NUM;
-                    this.CassetteData.dSlotPitch = CASSETTE_DEFAULT_PITCH;
-                    for (int i = 0; i < this.CassetteData.nWaferData.Length; i++)
+                    this.CassetteData.Slot = CASSETTE_MAX_SLOT_NUM;
+                    this.CassetteData.FramePitch = CASSETTE_DEFAULT_PITCH;
+                    for (int i = 0; i < this.CassetteData.SlotData.Length; i++)
                     {
-                        this.CassetteData.nWaferData[i] = (int)ECassetteWaferInfo.NONE;
+                        this.CassetteData.SlotData[i] = (int)ECassetteWaferInfo.NONE;
                     }
                 }
                 else  // Cassette Data Copy
@@ -205,13 +198,13 @@ namespace LWDicer.Control
             return iResult;
         }
 
-        public void SetElevatorSlotData(int nSlotNum, ECassetteWaferInfo WaferInfo)
+        public void SetElevatorSlotData(int Slot, ECassetteWaferInfo WaferInfo)
         {
-            m_Data.CassetteData.nWaferData[nSlotNum] = (int)WaferInfo;
+            m_Data.CassetteData.SlotData[Slot] = (int)WaferInfo;
         }
-        public void GetElevatorSlotData(int nSlotNum, out int nData)
+        public void GetElevatorSlotData(int Slot, out int nData)
         {
-            nData = m_Data.CassetteData.nWaferData[nSlotNum];
+            nData = m_Data.CassetteData.SlotData[Slot];
         }
         #endregion
 
@@ -313,7 +306,7 @@ namespace LWDicer.Control
                 dMoveOffset[DEF_X] = 0.0;
                 dMoveOffset[DEF_Y] = 0.0;
                 dMoveOffset[DEF_T] = 0.0;
-                dMoveOffset[DEF_Z] = (double)SlotNum * m_Data.CassetteData.dSlotPitch;
+                dMoveOffset[DEF_Z] = (double)SlotNum * m_Data.CassetteData.FramePitch;
 
             }
             // 이동할 위치의 값을 읽어옴.
@@ -325,6 +318,7 @@ namespace LWDicer.Control
 
             iResult = MoveElevatorPos(sTargetPos, bMoveFlag, bUseBacklash, bUsePriority, movePriority);
             if (iResult != SUCCESS) return iResult;
+
             if (bUpdatedPosInfo == true)
             {
                 AxElevatorInfo.PosInfo = iPos;
@@ -370,29 +364,29 @@ namespace LWDicer.Control
 
         public int MoveElevatorToBottomPos(bool bMoveAllAxis = false, bool bMoveXYT = false, bool bMoveZ = true)
         {
-            int iPos = (int)EElevatorPos.BOTTOM;
-            int iSlotNum = 0;
+            int nPos = (int)EElevatorPos.BOTTOM;
+            int Slot = 0;
             
-            return MoveElevatorPos(iPos, iSlotNum, bMoveAllAxis, bMoveXYT, bMoveZ);
+            return MoveElevatorPos(nPos, Slot, bMoveAllAxis, bMoveXYT, bMoveZ);
         }
 
         public int MoveElevatorToLoadPos(bool bMoveAllAxis = false, bool bMoveXYT = false, bool bMoveZ = true)
         {
-            int iPos = (int)EElevatorPos.LOAD;
-            int iSlotNum = 0;
-            return MoveElevatorPos(iPos, iSlotNum, bMoveAllAxis, bMoveXYT, bMoveZ);
+            int nPos = (int)EElevatorPos.LOAD;
+            int Slot = 0;
+            return MoveElevatorPos(nPos, Slot, bMoveAllAxis, bMoveXYT, bMoveZ);
         }
 
-        public int MoveElevatorToSlotPos(int iSlotNum=0, bool bMoveAllAxis = false, bool bMoveXYT = false, bool bMoveZ = true)
+        public int MoveElevatorToSlotPos(int Slot=0, bool bMoveAllAxis = false, bool bMoveXYT = false, bool bMoveZ = true)
         {
-            int iPos = (int)EElevatorPos.SLOT;
-            return MoveElevatorPos(iPos, iSlotNum, bMoveAllAxis, bMoveXYT, bMoveZ);
+            int nPos = (int)EElevatorPos.SLOT;
+            return MoveElevatorPos(nPos, Slot, bMoveAllAxis, bMoveXYT, bMoveZ);
         }
         public int MoveElevatorToTopPos(bool bMoveAllAxis = false, bool bMoveXYT = false, bool bMoveZ = true)
         {
-            int iPos = (int)EElevatorPos.TOP;
-            int iSlotNum = 0;
-            return MoveElevatorPos(iPos, iSlotNum,bMoveAllAxis, bMoveXYT, bMoveZ);
+            int nPos = (int)EElevatorPos.TOP;
+            int Slot = 0;
+            return MoveElevatorPos(nPos, Slot,bMoveAllAxis, bMoveXYT, bMoveZ);
         }
         /// <summary>
         /// 다음 Slot으로 이동함. 
@@ -406,7 +400,7 @@ namespace LWDicer.Control
             bool bMoveZ = true;
 
             int nElevatorPos;
-            int nSlotNum = 0;
+            int Slot = 0;
             int nCurSlotNum = 0;
             
             // 현재 위치를 읽어옴
@@ -416,13 +410,13 @@ namespace LWDicer.Control
                 GenerateErrorCode(ERR_ELEVATOR_UNABLE_TO_USE_POSITION);
 
             // 현재 위치한 Slot 번호를 대입한다.
-            nSlotNum = nCurSlotNum;
+            Slot = nCurSlotNum;
 
             // 방향에 따라 +1 / -1을 함.
-            if (bDirect) nSlotNum++;
-            else nSlotNum--;
+            if (bDirect) Slot++;
+            else Slot--;
 
-            return MoveElevatorPos(nElevatorPos, nSlotNum, bMoveAllAxis, bMoveXYT, bMoveZ);
+            return MoveElevatorPos(nElevatorPos, Slot, bMoveAllAxis, bMoveXYT, bMoveZ);
         }
 
         /// <summary>
@@ -437,20 +431,20 @@ namespace LWDicer.Control
 
             int nResult = 0;
             int nElevatorPos = (int)EElevatorPos.SLOT;
-            int nSlotNum = (int)ECassetteWaferInfo.NONE;
+            int Slot = (int)ECassetteWaferInfo.NONE;
             int nCurSlotNum = 0;
 
             // Cassette의 Wafer Data를 아래부터 읽어 Empty Slot를 찾는다.
-            for(int nNum=0; nNum < m_Data.CassetteData.nSlotNum; nNum++ )
+            for(int nNum=0; nNum < m_Data.CassetteData.Slot; nNum++ )
             {
-                if (m_Data.CassetteData.nWaferData[nNum] == (int)ECassetteWaferInfo.EMPTY) nSlotNum = nNum;
+                if (m_Data.CassetteData.SlotData[nNum] == (int)ECassetteWaferInfo.EMPTY) Slot = nNum;
             }
 
             // 해당 Slot이 없을 경우 에러를 리턴함.
-            if (nSlotNum == (int)ECassetteWaferInfo.NONE) GenerateErrorCode(ERR_ELEVATOR_UNABLE_TO_USE_POSITION);
+            if (Slot == (int)ECassetteWaferInfo.NONE) GenerateErrorCode(ERR_ELEVATOR_UNABLE_TO_USE_POSITION);
 
             // 해당 위치로 이동함.
-            nResult = MoveElevatorPos(nElevatorPos, nSlotNum, bMoveAllAxis, bMoveXYT, bMoveZ);
+            nResult = MoveElevatorPos(nElevatorPos, Slot, bMoveAllAxis, bMoveXYT, bMoveZ);
             if(nResult != SUCCESS ) GenerateErrorCode(ERR_ELEVATOR_MOVE_FAIL);
 
             Sleep(500);
@@ -475,20 +469,20 @@ namespace LWDicer.Control
 
             int nResult = 0;
             int nElevatorPos = (int)EElevatorPos.SLOT;
-            int nSlotNum = (int)ECassetteWaferInfo.NONE;
+            int Slot = (int)ECassetteWaferInfo.NONE;
             int nCurSlotNum = 0;
 
             // Cassette의 Wafer Data를 아래부터 읽어 Empty Slot를 찾는다.
-            for (int nNum = 0; nNum < m_Data.CassetteData.nSlotNum; nNum++)
+            for (int nNum = 0; nNum < m_Data.CassetteData.Slot; nNum++)
             {
-                if (m_Data.CassetteData.nWaferData[nNum] == (int)ECassetteWaferInfo.PRE_PROCESS) nSlotNum = nNum;
+                if (m_Data.CassetteData.SlotData[nNum] == (int)ECassetteWaferInfo.PRE_PROCESS) Slot = nNum;
             }
 
             // 해당 Slot이 없을 경우 에러를 리턴함.
-            if (nSlotNum == (int)ECassetteWaferInfo.NONE) GenerateErrorCode(ERR_ELEVATOR_UNABLE_TO_USE_POSITION);
+            if (Slot == (int)ECassetteWaferInfo.NONE) GenerateErrorCode(ERR_ELEVATOR_UNABLE_TO_USE_POSITION);
 
             // 해당 위치로 이동함.
-            nResult = MoveElevatorPos(nElevatorPos, nSlotNum, bMoveAllAxis, bMoveXYT, bMoveZ);
+            nResult = MoveElevatorPos(nElevatorPos, Slot, bMoveAllAxis, bMoveXYT, bMoveZ);
             if (nResult != SUCCESS) GenerateErrorCode(ERR_ELEVATOR_MOVE_FAIL);
 
             Sleep(500);
@@ -519,7 +513,7 @@ namespace LWDicer.Control
 
 
             // Slot 위치를 확인하며 Wafer의 유무를 확인한다.            
-            for (int nNum = 0; nNum < m_Data.CassetteData.nSlotNum; nNum++)
+            for (int nNum = 0; nNum < m_Data.CassetteData.Slot; nNum++)
             {
                 // 해당 위치로 이동함.
                 nResult = MoveElevatorPos(nElevatorPos, nNum, bMoveAllAxis, bMoveXYT, bMoveZ);
@@ -531,11 +525,11 @@ namespace LWDicer.Control
 
                 if (bStatus)
                 {
-                    m_Data.CassetteData.nWaferData[nNum] = (int)ECassetteWaferInfo.PRE_PROCESS;
+                    m_Data.CassetteData.SlotData[nNum] = (int)ECassetteWaferInfo.PRE_PROCESS;
                 }
                 else
                 {
-                    m_Data.CassetteData.nWaferData[nNum] = (int)ECassetteWaferInfo.EMPTY;
+                    m_Data.CassetteData.SlotData[nNum] = (int)ECassetteWaferInfo.EMPTY;
                 }
 
                 Sleep(100);
@@ -593,7 +587,7 @@ namespace LWDicer.Control
             return SUCCESS;
         }
 
-        public int CompareElevatorPos(int iPos, out bool bResult, out int nSlotNum, bool bSkipError = true)
+        public int CompareElevatorPos(int iPos, out bool bResult, out int Slot, bool bSkipError = true)
         {
             int iResult = SUCCESS;
             bResult = false;
@@ -602,7 +596,7 @@ namespace LWDicer.Control
             bool bCheck_YAxis = false;
             bool bCheck_TAxis = false;
 
-            nSlotNum = -1;
+            Slot = -1;
 
             CPos_XYTZ targetPos = AxElevatorInfo.GetTargetPos(iPos);
             if (iResult != SUCCESS) return iResult;
@@ -616,22 +610,22 @@ namespace LWDicer.Control
                 double dReferencePos = 0.0;
                 CPos_XYTZ LoadPos = AxElevatorInfo.GetTargetPos((int)EPosition.LOAD);
                 dReferencePos = targetPos.dZ - LoadPos.dZ;
-                m_Data.CurrentSlotNum = (int)(dReferencePos / m_Data.CassetteData.dSlotPitch);
+                m_Data.CurrentSlotNum = (int)(dReferencePos / m_Data.CassetteData.FramePitch);
 
-                nSlotNum = m_Data.CurrentSlotNum;
+                Slot = m_Data.CurrentSlotNum;
             }
             else
             {
-                nSlotNum = -1;
+                Slot = -1;
             }
 
             return SUCCESS;
         }
 
-        public int GetElevatorPosInfo(out int posInfo, out int nSlotNum, bool bUpdatePos = true, bool bSkipError = false)
+        public int GetElevatorPosInfo(out int posInfo, out int Slot, bool bUpdatePos = true, bool bSkipError = false)
         {
             posInfo = (int)EElevatorPos.NONE;
-            nSlotNum = -1;
+            Slot = -1;
 
             bool bStatus;
             int iResult = IsElevatorOrignReturn(out bStatus);
@@ -642,7 +636,7 @@ namespace LWDicer.Control
             {
                 for (int i = 0; i < (int)EElevatorPos.MAX; i++)
                 {
-                    CompareElevatorPos(i, out bStatus, out nSlotNum, bSkipError);
+                    CompareElevatorPos(i, out bStatus, out Slot, bSkipError);
                     if (bStatus)
                     {
                         AxElevatorInfo.PosInfo = i;
@@ -667,7 +661,6 @@ namespace LWDicer.Control
 
             return SUCCESS;
         }
-
 
         ////////////////////////////////////////////////////////////////////////
 

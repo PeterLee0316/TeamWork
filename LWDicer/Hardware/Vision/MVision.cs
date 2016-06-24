@@ -26,9 +26,9 @@ namespace LWDicer.Control
         public int m_iMarkROIHeight { get; set; }
 
         private CVisionRefComp m_RefComp;
-        private CVisionData m_Data;
+        private CCameraData m_Data;
 
-        public MVision(CObjectInfo objInfo, CVisionRefComp refComp,CVisionData data)
+        public MVision(CObjectInfo objInfo, CVisionRefComp refComp,CCameraData data)
             : base(objInfo)
         {
             m_RefComp           = refComp;            
@@ -54,7 +54,7 @@ namespace LWDicer.Control
         {
             Dispose();
         }
-        public int SetData(CVisionData source)
+        public int SetData(CCameraData source)
         {
             m_Data = ObjectExtensions.Copy(source);
             return SUCCESS;

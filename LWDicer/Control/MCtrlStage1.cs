@@ -4,11 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Diagnostics;
 
+using static LWDicer.Control.DEF_System;
 using static LWDicer.Control.DEF_Error;
 using static LWDicer.Control.DEF_Common;
 using static LWDicer.Control.DEF_Vision;
 using static LWDicer.Control.DEF_MeStage;
 using static LWDicer.Control.DEF_CtrlStage;
+using static LWDicer.Control.DEF_DataManager;
 
 namespace LWDicer.Control
 {
@@ -52,37 +54,7 @@ namespace LWDicer.Control
             }
         }
 
-        public enum ELightType
-        {
-            DIRECT = 0,
-            RING,
-            NUM,
-        }
-        public class CCtrlStageData
-        {
-            public double ThetaAdjSpeedAxisX;
 
-        }
-
-        public class CCtrlVisionData
-        {
-            public int[] PixelSizeX         = new int[DEF_MAX_CAMERA_NO];
-            public int[] PixelSizeY         = new int[DEF_MAX_CAMERA_NO];
-            public int[] LenMagnification   = new int[DEF_MAX_CAMERA_NO];
-            
-            // 렌즈 Resolution & 카메라 Position
-            public double[] PixelResolutionX = new double[DEF_MAX_CAMERA_NO];
-            public double[] PixelResolutionY = new double[DEF_MAX_CAMERA_NO];
-            public CPos_XY[] CameraPosition = new CPos_XY[DEF_MAX_CAMERA_NO];
-            public double[] CameraTilt = new double[DEF_MAX_CAMERA_NO];
-            
-        }
-        public class CCtrlLightData
-        {
-            public int[] DefaultLightLevel = new int[(int)ELightType.NUM];
-            public int[] CurrentLightLevel = new int[(int)ELightType.NUM];
-
-        }
         public class CCtrlAlignData
         {
             public CPos_XY WaferPosOffset;
@@ -90,9 +62,8 @@ namespace LWDicer.Control
         }
         public class CCtrlStage1Data
         {
-            public CCtrlStageData Stage;
-            public CCtrlVisionData Vision;
-            public CCtrlLightData Light;
+            public CSystemData_Vision Vision;
+            public CSystemData_Light Light;
             public CCtrlAlignData Align;
         }
 
@@ -205,13 +176,13 @@ namespace LWDicer.Control
 
         public void SetCtlModePC()
         {
-            int nCtlMode = (int)EStageCtlMode.PC;
+            int nCtlMode = (int)EStageCtrlMode.PC;
             m_RefComp.Stage.SetStageCtlMode(nCtlMode);
         }
 
         public void SetCtlModeLaser()
         {
-            int nCtlMode = (int)EStageCtlMode.LASER;
+            int nCtlMode = (int)EStageCtrlMode.LASER;
             m_RefComp.Stage.SetStageCtlMode(nCtlMode);
         }
 
@@ -335,31 +306,57 @@ namespace LWDicer.Control
         {
             m_RefComp.Stage.MoveStageIndexMinusT();
         }
-        public void MoveScreenPlusX()
+        public void MoveMacroScreenPlusX()
         {
-            m_RefComp.Stage.MoveStageScreenPlusX();
+            m_RefComp.Stage.MoveStageScreenPlusX(ECameraSelect.MACRO);
         }
 
-        public void MoveScreenPlusY()
+        public void MoveMacroScreenPlusY()
         {
-            m_RefComp.Stage.MoveStageScreenPlusY();
+            m_RefComp.Stage.MoveStageScreenPlusY(ECameraSelect.MACRO);
         }
 
-        public void MoveScreenPlusT()
+        public void MoveMacroScreenPlusT()
         {
-            m_RefComp.Stage.MoveStageScreenPlusT();
+            m_RefComp.Stage.MoveStageScreenPlusT(ECameraSelect.MACRO);
         }
-        public void MoveScreenMinusX()
+        public void MoveMacroScreenMinusX()
         {
-            m_RefComp.Stage.MoveStageScreenMinusX();
+            m_RefComp.Stage.MoveStageScreenMinusX(ECameraSelect.MACRO);
         }
-        public void MoveScreenMinusY()
+        public void MoveMacroScreenMinusY()
         {
-            m_RefComp.Stage.MoveStageScreenMinusY();
+            m_RefComp.Stage.MoveStageScreenMinusY(ECameraSelect.MACRO);
         }
-        public void MoveScreenMinusT()
+        public void MoveMacroScreenMinusT()
         {
-            m_RefComp.Stage.MoveStageScreenMinusT();
+            m_RefComp.Stage.MoveStageScreenMinusT(ECameraSelect.MACRO);
+        }
+        public void MoveMicroScreenPlusX()
+        {
+            m_RefComp.Stage.MoveStageScreenPlusX(ECameraSelect.MICRO);
+        }
+
+        public void MoveMicroScreenPlusY()
+        {
+            m_RefComp.Stage.MoveStageScreenPlusY(ECameraSelect.MICRO);
+        }
+
+        public void MoveMicroScreenPlusT()
+        {
+            m_RefComp.Stage.MoveStageScreenPlusT(ECameraSelect.MICRO);
+        }
+        public void MoveMicroScreenMinusX()
+        {
+            m_RefComp.Stage.MoveStageScreenMinusX(ECameraSelect.MICRO);
+        }
+        public void MoveMicroScreenMinusY()
+        {
+            m_RefComp.Stage.MoveStageScreenMinusY(ECameraSelect.MICRO);
+        }
+        public void MoveMicroScreenMinusT()
+        {
+            m_RefComp.Stage.MoveStageScreenMinusT(ECameraSelect.MICRO);
         }
         public void JogMovePlusX()
         {
@@ -423,7 +420,7 @@ namespace LWDicer.Control
 
             // Camera의 틀어짐 보정
             CPos_XY mCenter = new CPos_XY(); // 회전 중심은 (0,0)으로 한다
-            pPos = CoordinateRotate(m_Data.Vision.CameraTilt[iCam], pPos, mCenter);
+            pPos = CoordinateRotate(m_Data.Vision.Camera[iCam].CameraTilt, pPos, mCenter);
 
             // Pixel to Pos
             pPos = PixelToPostion(PRE__CAM, pPos);
@@ -446,7 +443,7 @@ namespace LWDicer.Control
 
             // Camera의 틀어짐 보정
             CPos_XY mCenter = new CPos_XY(); // 회전 중심은 (0,0)으로 한다
-            sPos = CoordinateRotate(m_Data.Vision.CameraTilt[iCam], sPos, mCenter);
+            sPos = CoordinateRotate(m_Data.Vision.Camera[iCam].CameraTilt, sPos, mCenter);
             // Pixel값을 실제 위치값으로 변환한다.
             sPos = PixelToPostion(iCam,pResult.m_PixelPos);
 
@@ -467,7 +464,7 @@ namespace LWDicer.Control
 
             // Camera의 틀어짐 보정
             CPos_XY mCenter = new CPos_XY(); // 회전 중심은 (0,0)으로 한다
-            sPos = CoordinateRotate(m_Data.Vision.CameraTilt[iCam], sPos, mCenter);
+            sPos = CoordinateRotate(m_Data.Vision.Camera[iCam].CameraTilt, sPos, mCenter);
             // Pixel값을 실제 위치값으로 변환한다.
             sPos = PixelToPostion(iCam, pResult.m_PixelPos);
 
@@ -488,7 +485,7 @@ namespace LWDicer.Control
 
             // Camera의 틀어짐 보정
             CPos_XY mCenter = new CPos_XY(); // 회전 중심은 (0,0)으로 한다
-            sPos = CoordinateRotate(m_Data.Vision.CameraTilt[iCam], sPos, mCenter);
+            sPos = CoordinateRotate(m_Data.Vision.Camera[iCam].CameraTilt, sPos, mCenter);
             // Pixel값을 실제 위치값으로 변환한다.
             sPos = PixelToPostion(iCam, pResult.m_PixelPos);
 
@@ -522,11 +519,11 @@ namespace LWDicer.Control
         {
             CPos_XY pPos = new CPos_XY();
 
-            pPos.dX = sPos.dX * m_Data.Vision.PixelResolutionX[iCam];
-            pPos.dY = sPos.dY * m_Data.Vision.PixelResolutionX[iCam];
+            pPos.dX = sPos.dX * m_Data.Vision.Camera[iCam].PixelResolutionX;
+            pPos.dY = sPos.dY * m_Data.Vision.Camera[iCam].PixelResolutionY;
 
             // 카메라 위치값을 더하여 실제 좌표의 위치를 나타냄.
-            pPos += m_Data.Vision.CameraPosition[iCam];
+            pPos += m_Data.Vision.Camera[iCam].Position;
 
             return pPos;
         }        
@@ -674,11 +671,11 @@ namespace LWDicer.Control
         /// <param name="pCamPos"></param>
         public void SetCameraPos(int iCam, CPos_XY pCamPos)
         {
-            m_Data.Vision.CameraPosition[iCam] = pCamPos;
+            m_Data.Vision.Camera[iCam].Position= pCamPos;
         }
         public CPos_XY GetCameraPos(int iCam)
         {
-            return m_Data.Vision.CameraPosition[iCam];
+            return m_Data.Vision.Camera[iCam].Position;
         }
 
         /// <summary>
@@ -811,7 +808,7 @@ namespace LWDicer.Control
             //  회전 이동하며, Mark 2 Point를 확인함
 
             // Screen Index Theta + 이동
-            iResult = m_RefComp.Stage.MoveStageScreenPlusT();
+            iResult = m_RefComp.Stage.MoveStageScreenPlusT(ECameraSelect.MICRO);
             if (iResult != SUCCESS) return iResult;
 
             Sleep(500);
@@ -821,11 +818,11 @@ namespace LWDicer.Control
             if (iResult != SUCCESS) return iResult;
 
             // Screen Index Theta 원점 이동
-            iResult = m_RefComp.Stage.MoveStageScreenMinusT();
+            iResult = m_RefComp.Stage.MoveStageScreenMinusT(ECameraSelect.MICRO);
             if (iResult != SUCCESS) return iResult;
 
             // Screen Index Theta - 이동
-            iResult = m_RefComp.Stage.MoveStageScreenMinusT();
+            iResult = m_RefComp.Stage.MoveStageScreenMinusT(ECameraSelect.MICRO);
             if (iResult != SUCCESS) return iResult;
 
             Sleep(500);
@@ -834,7 +831,7 @@ namespace LWDicer.Control
             if (iResult != SUCCESS) return iResult;
 
             // Screen Index Theta 원점 이동
-            iResult = m_RefComp.Stage.MoveStageScreenPlusT();
+            iResult = m_RefComp.Stage.MoveStageScreenPlusT(ECameraSelect.MICRO);
             if (iResult != SUCCESS) return iResult;
 
             // 회전 중심값을 구함
@@ -858,7 +855,8 @@ namespace LWDicer.Control
             // Position A 위치 확인 ------------------------------
             // Fov에 Mark가 들기 위해.. 이동할 Angle로 회전 변환하고, 이때 움직이는
             // X,Y축 이동 거리를 반대로 이동한다. 
-            TransPos = CoordinateRotate(CAM_POS_CALS_ROATE_ANGLE, m_Data.Vision.CameraPosition[FINE_CAM], StagePos);            
+            TransPos = CoordinateRotate(CAM_POS_CALS_ROATE_ANGLE, 
+                                        m_Data.Vision.Camera[(int)ECameraSelect.MICRO].Position, StagePos);            
             // Stage 이동 거리 대입
             StageMovePos.dX = -TransPos.dX;
             StageMovePos.dY = -TransPos.dY;
@@ -878,7 +876,8 @@ namespace LWDicer.Control
             // Position B 위치 확인 ------------------------------
             // Fov에 Mark가 들기 위해.. 이동할 Angle로 회전 변환하고, 이때 움직이는
             // X,Y축 이동 거리를 반대로 이동한다. 
-            TransPos = CoordinateRotate(-CAM_POS_CALS_ROATE_ANGLE, m_Data.Vision.CameraPosition[FINE_CAM], StagePos);
+            TransPos = CoordinateRotate(-CAM_POS_CALS_ROATE_ANGLE, 
+                                        m_Data.Vision.Camera[(int)ECameraSelect.MICRO].Position, StagePos);
             // Stage 이동 거리 대입
             StageMovePos.dX = -TransPos.dX;
             StageMovePos.dY = -TransPos.dY;
@@ -1052,7 +1051,7 @@ namespace LWDicer.Control
             // A Pos 기준으로 Cam의 중심 위치를 회전변환한다.
             CPos_XY mCamPos = new CPos_XY();            
             // 선택 카메라에 따라 카메라 위치값 대입
-            mCamPos = m_Data.Vision.CameraPosition[iCam];
+            mCamPos = m_Data.Vision.Camera[iCam].Position;
             // 회전 중심값 대입 
             CPos_XY RotateCenter = new CPos_XY();
             RotateCenter.dX = pPosA.dX;
@@ -1062,8 +1061,8 @@ namespace LWDicer.Control
 
             // Align 결과 값 대입
             // 
-            mAlignPos.dX = -(mCamPos.dX - m_Data.Vision.CameraPosition[iCam].dX);
-            mAlignPos.dY = -(mCamPos.dY - m_Data.Vision.CameraPosition[iCam].dY);
+            mAlignPos.dX = -(mCamPos.dX - m_Data.Vision.Camera[iCam].Position.dX);
+            mAlignPos.dY = -(mCamPos.dY - m_Data.Vision.Camera[iCam].Position.dY);
             mAlignPos.dT = -dAngle;
             mAlignPos.dZ = 0.0;
 
@@ -1206,7 +1205,7 @@ namespace LWDicer.Control
             iResult = m_RefComp.Stage.GetStageCurPos(out StageCurPos);
             if (iResult != SUCCESS) return iResult;
 
-            // Wafer의 중심과 Stage의 위치 차리를 Offset으로 저장한다.
+            // Wafer의 중심과 Stage의 위치 차이를 Offset으로 저장한다.
             m_Data.Align.WaferPosOffset.dX = StageCurPos.dX - WaferCenter.dX;
             m_Data.Align.WaferPosOffset.dY = StageCurPos.dY - WaferCenter.dY;
 

@@ -7,6 +7,7 @@ using static LWDicer.Control.DEF_Error;
 using static LWDicer.Control.DEF_Common;
 using static LWDicer.Control.DEF_IO;
 using static LWDicer.Control.DEF_CtrlLoader;
+using static LWDicer.Control.DEF_DataManager;
 
 namespace LWDicer.Control
 {
