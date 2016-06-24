@@ -68,7 +68,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Interop.SPIIPLUSCOM660Lib">
-      <HintPath>C:\SFA\LWDicer\dll\ACS\Interop.SPIIPLUSCOM660Lib.dll</HintPath>
+      <HintPath>..\..\..\SFA\LWDicer\dll\ACS\Interop.SPIIPLUSCOM660Lib.dll</HintPath>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
     <Reference Include="Matrox.MatroxImagingLibrary, Version=10.0.2564.1, Culture=neutral, PublicKeyToken=5a83d419d44a9d98, processorArchitecture=x86">
@@ -439,6 +439,12 @@
     <Compile Include="UI\SubTeachForm\FormWorkStageTeach.Designer.cs">
       <DependentUpon>FormWorkStageTeach.cs</DependentUpon>
     </Compile>
+    <Compile Include="UI\Utility\FormAlarmDisplay.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\Utility\FormAlarmDisplay.Designer.cs">
+      <DependentUpon>FormAlarmDisplay.cs</DependentUpon>
+    </Compile>
     <Compile Include="UI\Utility\FormKeyBoard.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -578,6 +584,9 @@
     <EmbeddedResource Include="UI\SubTeachForm\FormWorkStageTeach.resx">
       <DependentUpon>FormWorkStageTeach.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="UI\Utility\FormAlarmDisplay.resx">
+      <DependentUpon>FormAlarmDisplay.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UI\Utility\FormKeyBoard.resx">
       <DependentUpon>FormKeyBoard.cs</DependentUpon>
     </EmbeddedResource>
@@ -624,6 +633,11 @@
   <ItemGroup>
     <Content Include="Hardware\ACS\ACS_Buffer.txt" />
     <Content Include="Hardware\YMC\YMC_Buffer.txt" />
+    <EmbeddedResource Include="Image\Handler.png" />
+    <EmbeddedResource Include="Image\LaserScanner.png" />
+    <EmbeddedResource Include="Image\PushPull.png" />
+    <EmbeddedResource Include="Image\Spinner.png" />
+    <EmbeddedResource Include="Image\Loader.png" />
     <Content Include="System\History.txt" />
   </ItemGroup>
   <ItemGroup>

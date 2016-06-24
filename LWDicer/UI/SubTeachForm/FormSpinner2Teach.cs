@@ -8,6 +8,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
+using LWDicer.Control;
+
 using static LWDicer.Control.MYaskawa;
 
 using static LWDicer.Control.DEF_Thread;
@@ -35,9 +37,6 @@ namespace LWDicer.UI
         const int Spinner1 = 0;
         const int Spinner2 = 1;
 
-        const int FixedData = 0;
-        const int OffsetData = 1;
-
         ButtonAdv[] RotatePos = new ButtonAdv[15];
         ButtonAdv[] NozzlePos = new ButtonAdv[15];
 
@@ -47,6 +46,10 @@ namespace LWDicer.UI
         private int nDataMode = 0;
 
         private FormSpinnerManualOP m_SpinnerManualOP = new FormSpinnerManualOP();
+
+        private CMovingObject movingCleanObject = CMainFrame.LWDicer.m_MeSpinner2.AxCleanNozzleInfo;
+        private CMovingObject movingCoatObject = CMainFrame.LWDicer.m_MeSpinner2.AxCoatNozzleInfo;
+        private CMovingObject movingRotateObject = CMainFrame.LWDicer.m_MeSpinner2.AxRotateInfo;
 
         public FormSpinner2Teach()
         {
@@ -224,75 +227,68 @@ namespace LWDicer.UI
 
         private void LoadNozzleTeachingData(int nTeachPos)
         {
-            string strFixedPos = string.Empty, strOffsetPos = string.Empty, strTargetPos = string.Empty, strModelPos = string.Empty;
-            double dFixedN1Pos = 0, dOffsetN1Pos = 0, dTargetN1Pos = 0, dModelN1Pos = 0;
-            double dFixedN2Pos = 0, dOffsetN2Pos = 0, dTargetN2Pos = 0, dModelN2Pos = 0;
+            double dFixedN1Pos = 0, dOffsetN1Pos = 0, dTargetN1Pos = 0, dModelN1Pos = 0, dAlignN1Offset;
+            double dFixedN2Pos = 0, dOffsetN2Pos = 0, dTargetN2Pos = 0, dModelN2Pos = 0, dAlignN2Offset;
 
-            dFixedN1Pos = CMainFrame.LWDicer.m_DataManager.FixedPos.S2_CleanerPos.Pos[nTeachPos].dT;
-            dOffsetN1Pos = CMainFrame.LWDicer.m_DataManager.OffsetPos.S2_CleanerPos.Pos[nTeachPos].dT;
-            dModelN1Pos = CMainFrame.LWDicer.m_DataManager.ModelPos.S2_CleanerPos.Pos[nTeachPos].dT;
+            dFixedN1Pos = movingCleanObject.FixedPos.Pos[nTeachPos].dT;
+            dOffsetN1Pos = movingCleanObject.OffsetPos.Pos[nTeachPos].dT;
+            dModelN1Pos = movingCleanObject.ModelPos.Pos[nTeachPos].dT;
+            dAlignN1Offset = movingCleanObject.AlignOffset.dT;
 
-            dTargetN1Pos = dFixedN1Pos + dOffsetN1Pos + dModelN1Pos;
+            dTargetN1Pos = dFixedN1Pos + dOffsetN1Pos + dModelN1Pos + dAlignN1Offset;
 
-            strTargetPos = Convert.ToString(dTargetN1Pos);
-            GridNozzleTeachTable[2, 1].Text = strTargetPos;
+            GridNozzleTeachTable[2, 1].Text = Convert.ToString(dTargetN1Pos);
 
-            dFixedN2Pos = CMainFrame.LWDicer.m_DataManager.FixedPos.S2_CoaterPos.Pos[nTeachPos].dT;
-            dOffsetN2Pos = CMainFrame.LWDicer.m_DataManager.OffsetPos.S2_CoaterPos.Pos[nTeachPos].dT;
-            dModelN2Pos = CMainFrame.LWDicer.m_DataManager.ModelPos.S2_CoaterPos.Pos[nTeachPos].dT;
+            dFixedN2Pos = movingCoatObject.FixedPos.Pos[nTeachPos].dT;
+            dOffsetN2Pos = movingCoatObject.OffsetPos.Pos[nTeachPos].dT;
+            dModelN2Pos = movingCoatObject.ModelPos.Pos[nTeachPos].dT;
+            dAlignN2Offset = movingCoatObject.AlignOffset.dT;
 
-            dTargetN2Pos = dFixedN2Pos + dOffsetN2Pos + dModelN2Pos;
+            dTargetN2Pos = dFixedN2Pos + dOffsetN2Pos + dModelN2Pos + dAlignN2Offset;
 
-            strTargetPos = Convert.ToString(dTargetN2Pos);
-            GridNozzleTeachTable[2, 2].Text = strTargetPos;
+            GridNozzleTeachTable[2, 2].Text = Convert.ToString(dTargetN2Pos);
 
             // FixedPos
-            strFixedPos = Convert.ToString(CMainFrame.LWDicer.m_DataManager.FixedPos.S2_CleanerPos.Pos[nTeachPos].dT);
-            GridNozzleTeachTable[3, 1].Text = strFixedPos;
-
-            strFixedPos = Convert.ToString(CMainFrame.LWDicer.m_DataManager.FixedPos.S2_CoaterPos.Pos[nTeachPos].dT);
-            GridNozzleTeachTable[3, 2].Text = strFixedPos;
+            GridNozzleTeachTable[3, 1].Text = Convert.ToString(dFixedN1Pos);
+            GridNozzleTeachTable[3, 2].Text = Convert.ToString(dFixedN2Pos);
 
             // ModelPos
-            strModelPos = Convert.ToString(CMainFrame.LWDicer.m_DataManager.ModelPos.S2_CleanerPos.Pos[nTeachPos].dT);
-            GridNozzleTeachTable[4, 1].Text = strModelPos;
+            GridNozzleTeachTable[4, 1].Text = Convert.ToString(dModelN1Pos);
+            GridNozzleTeachTable[4, 2].Text = Convert.ToString(dModelN2Pos);
 
-            strModelPos = Convert.ToString(CMainFrame.LWDicer.m_DataManager.ModelPos.S2_CoaterPos.Pos[nTeachPos].dT);
-            GridNozzleTeachTable[4, 2].Text = strModelPos;
+            // Align Offset
+            GridNozzleTeachTable[5, 1].Text = Convert.ToString(dAlignN1Offset);
+            GridNozzleTeachTable[5, 2].Text = Convert.ToString(dAlignN2Offset);
 
             //OffsetPos
-            strOffsetPos = Convert.ToString(CMainFrame.LWDicer.m_DataManager.OffsetPos.S2_CleanerPos.Pos[nTeachPos].dT);
-            GridNozzleTeachTable[6, 1].Text = strOffsetPos;
-
-            strOffsetPos = Convert.ToString(CMainFrame.LWDicer.m_DataManager.OffsetPos.S2_CoaterPos.Pos[nTeachPos].dT);
-            GridNozzleTeachTable[6, 2].Text = strOffsetPos;
+            GridNozzleTeachTable[6, 1].Text = Convert.ToString(dOffsetN1Pos);
+            GridNozzleTeachTable[6, 2].Text = Convert.ToString(dOffsetN2Pos);
         }
 
         private void LoadRotateTeachingData(int nTeachPos)
         {
-            string strFixedPos = string.Empty, strOffsetPos = string.Empty, strTargetPos = string.Empty, strModelPos = string.Empty;
-            double dFixedPos = 0, dOffsetPos = 0, dTargetPos = 0, dModelPos = 0;
+            double dFixedPos = 0, dOffsetPos = 0, dTargetPos = 0, dModelPos = 0, dAlignOffset;
 
-            dFixedPos = CMainFrame.LWDicer.m_DataManager.FixedPos.S2_RotatePos.Pos[nTeachPos].dT;
-            dOffsetPos = CMainFrame.LWDicer.m_DataManager.OffsetPos.S2_RotatePos.Pos[nTeachPos].dT;
-            dModelPos = CMainFrame.LWDicer.m_DataManager.ModelPos.S2_RotatePos.Pos[nTeachPos].dT;
+            dFixedPos = movingRotateObject.FixedPos.Pos[nTeachPos].dT;
+            dOffsetPos = movingRotateObject.OffsetPos.Pos[nTeachPos].dT;
+            dModelPos = movingRotateObject.ModelPos.Pos[nTeachPos].dT;
+            dAlignOffset = movingRotateObject.AlignOffset.dT;
 
-            dTargetPos = dFixedPos + dOffsetPos + dModelPos;
+            dTargetPos = dFixedPos + dOffsetPos + dModelPos + dAlignOffset;
 
-            strTargetPos = Convert.ToString(dTargetPos);
-            GridRotateTeachTable[2, 1].Text = strTargetPos;
+            GridRotateTeachTable[2, 1].Text = Convert.ToString(dTargetPos);
 
             // FixedPos
-            strFixedPos = Convert.ToString(CMainFrame.LWDicer.m_DataManager.FixedPos.S2_RotatePos.Pos[nTeachPos].dT);
-            GridRotateTeachTable[3, 1].Text = strFixedPos;
+            GridRotateTeachTable[3, 1].Text = Convert.ToString(dFixedPos);
 
             // ModelPos
-            strModelPos = Convert.ToString(CMainFrame.LWDicer.m_DataManager.ModelPos.S2_RotatePos.Pos[nTeachPos].dT);
-            GridRotateTeachTable[4, 1].Text = strModelPos;
+            GridRotateTeachTable[4, 1].Text = Convert.ToString(dModelPos);
+
+            // AlignOffsetPos
+            GridRotateTeachTable[5, 1].Text = Convert.ToString(dModelPos);
 
             //OffsetPos
-            strOffsetPos = Convert.ToString(CMainFrame.LWDicer.m_DataManager.OffsetPos.S2_RotatePos.Pos[nTeachPos].dT);
-            GridRotateTeachTable[6, 1].Text = strOffsetPos;
+            GridRotateTeachTable[6, 1].Text = Convert.ToString(dOffsetPos);
         }
 
         private void ResouceMapping()
@@ -519,14 +515,14 @@ namespace LWDicer.UI
 
                 if (e.ColIndex == 1)
                 {
-                    dOffsetPos = CMainFrame.LWDicer.m_DataManager.OffsetPos.S2_CleanerPos.Pos[GetNozzlePosNo()].dT;
+                    dOffsetPos = movingCleanObject.OffsetPos.Pos[GetNozzlePosNo()].dT;
 
                     dTargetPos = dPos + dOffsetPos;
                 }
 
                 if (e.ColIndex == 2)
                 {
-                    dOffsetPos = CMainFrame.LWDicer.m_DataManager.OffsetPos.S2_CoaterPos.Pos[GetNozzlePosNo()].dT;
+                    dOffsetPos = movingCoatObject.OffsetPos.Pos[GetNozzlePosNo()].dT;
 
                     dTargetPos = dPos + dOffsetPos;
                 }
@@ -569,7 +565,7 @@ namespace LWDicer.UI
 
                 dPos = Convert.ToDouble(strModify);
 
-                dOffsetPos = CMainFrame.LWDicer.m_DataManager.OffsetPos.S2_RotatePos.Pos[GetRotatePosNo()].dT;
+                dOffsetPos = movingRotateObject.OffsetPos.Pos[GetRotatePosNo()].dT;
 
                 dTargetPos = dPos + dOffsetPos;
 
@@ -613,10 +609,7 @@ namespace LWDicer.UI
                 CMainFrame.LWDicer.m_DataManager.FixedPos.S2_CoaterPos.Pos[GetNozzlePosNo()].dT = Convert.ToDouble(strData);
 
                 CMainFrame.LWDicer.m_DataManager.SavePositionData(true, EPositionObject.S2_CLEAN_NOZZLE);
-                CMainFrame.LWDicer.m_DataManager.LoadPositionData(true, EPositionObject.S2_CLEAN_NOZZLE);
-
                 CMainFrame.LWDicer.m_DataManager.SavePositionData(true, EPositionObject.S2_COAT_NOZZLE);
-                CMainFrame.LWDicer.m_DataManager.LoadPositionData(true, EPositionObject.S2_COAT_NOZZLE);
             }
 
             if (GetDataMode() == OffsetData)
@@ -628,11 +621,11 @@ namespace LWDicer.UI
                 CMainFrame.LWDicer.m_DataManager.OffsetPos.S2_CoaterPos.Pos[GetNozzlePosNo()].dT = Convert.ToDouble(strData);
 
                 CMainFrame.LWDicer.m_DataManager.SavePositionData(false, EPositionObject.S2_CLEAN_NOZZLE);
-                CMainFrame.LWDicer.m_DataManager.LoadPositionData(false, EPositionObject.S2_CLEAN_NOZZLE);
-
                 CMainFrame.LWDicer.m_DataManager.SavePositionData(false, EPositionObject.S2_COAT_NOZZLE);
-                CMainFrame.LWDicer.m_DataManager.LoadPositionData(false, EPositionObject.S2_COAT_NOZZLE);
             }
+
+            CMainFrame.LWDicer.SetPositionDataToComponent(EPositionObject.S2_CLEAN_NOZZLE);
+            CMainFrame.LWDicer.SetPositionDataToComponent(EPositionObject.S2_COAT_NOZZLE);
 
             LoadNozzleTeachingData(GetNozzlePosNo());
         }
@@ -654,7 +647,6 @@ namespace LWDicer.UI
                 CMainFrame.LWDicer.m_DataManager.FixedPos.S2_RotatePos.Pos[GetRotatePosNo()].dT = Convert.ToDouble(strData);
 
                 CMainFrame.LWDicer.m_DataManager.SavePositionData(true, EPositionObject.S2_ROTATE);
-                CMainFrame.LWDicer.m_DataManager.LoadPositionData(true, EPositionObject.S2_ROTATE);
             }
 
             if (GetDataMode() == OffsetData)
@@ -663,8 +655,9 @@ namespace LWDicer.UI
                 CMainFrame.LWDicer.m_DataManager.OffsetPos.S2_RotatePos.Pos[GetRotatePosNo()].dT = Convert.ToDouble(strData);
 
                 CMainFrame.LWDicer.m_DataManager.SavePositionData(false, EPositionObject.S2_ROTATE);
-                CMainFrame.LWDicer.m_DataManager.LoadPositionData(false, EPositionObject.S2_ROTATE);
             }
+
+            CMainFrame.LWDicer.SetPositionDataToComponent(EPositionObject.S2_ROTATE);
 
             LoadRotateTeachingData(GetRotatePosNo());
         }
@@ -685,7 +678,7 @@ namespace LWDicer.UI
             StrN1Current = GridNozzleTeachTable[7, 1].Text;
 
             dX1Pos = Convert.ToDouble(StrN1Current);
-            dOffsetN1Pos = CMainFrame.LWDicer.m_DataManager.OffsetPos.S2_CleanerPos.Pos[GetNozzlePosNo()].dT;
+            dOffsetN1Pos = movingCleanObject.OffsetPos.Pos[GetNozzlePosNo()].dT;
 
             dTargetN1Pos = dX1Pos + dOffsetN1Pos;
 
@@ -698,7 +691,7 @@ namespace LWDicer.UI
             StrN2Current = GridNozzleTeachTable[7, 2].Text;
 
             dX2Pos = Convert.ToDouble(StrN2Current);
-            dOffsetX2Pos = CMainFrame.LWDicer.m_DataManager.OffsetPos.S2_CoaterPos.Pos[GetNozzlePosNo()].dT;
+            dOffsetX2Pos = movingCoatObject.OffsetPos.Pos[GetNozzlePosNo()].dT;
 
             dTargetX2Pos = dX2Pos + dOffsetX2Pos;
 
@@ -723,7 +716,7 @@ namespace LWDicer.UI
             StrCurrent = GridRotateTeachTable[7, 1].Text;
 
             dPos = Convert.ToDouble(StrCurrent);
-            dOffsetPos = CMainFrame.LWDicer.m_DataManager.OffsetPos.S2_RotatePos.Pos[GetRotatePosNo()].dT;
+            dOffsetPos = movingRotateObject.OffsetPos.Pos[GetRotatePosNo()].dT;
 
             dTargetPos = dPos + dOffsetPos;
 

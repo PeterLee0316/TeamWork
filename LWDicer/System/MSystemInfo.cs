@@ -65,7 +65,7 @@ namespace LWDicer.Control
 	            // 150-199 : Vacuums ------------------------------------------------------------------------------	
 	            new CObjectInfo( (int)OBJ_HL_VACUUM, "Vacuum", 150, "Stage1",           2100, "Stage1Vac", LOG_ALL, LOG_DAY ),
                 new CObjectInfo( (int)OBJ_HL_VACUUM, "Vacuum", 151, "Spinner1",         2100, "Spinner1Vac", LOG_ALL, LOG_DAY ),
-                new CObjectInfo( (int)OBJ_HL_VACUUM, "Vacuum", 152, "Spinner1",         2100, "Spinner2Vac", LOG_ALL, LOG_DAY ),
+                new CObjectInfo( (int)OBJ_HL_VACUUM, "Vacuum", 152, "Spinner2",         2100, "Spinner2Vac", LOG_ALL, LOG_DAY ),
                 new CObjectInfo( (int)OBJ_HL_VACUUM, "Vacuum", 153, "UpperHandler Self",    2100, "UHandlerSelfVac", LOG_ALL, LOG_DAY ),
                 new CObjectInfo( (int)OBJ_HL_VACUUM, "Vacuum", 154, "UpperHandler Factory", 2100, "UHandlerFactoryVac", LOG_ALL, LOG_DAY ),
                 new CObjectInfo( (int)OBJ_HL_VACUUM, "Vacuum", 155, "LowerHandler Self",    2100, "LHandlerSelfVac", LOG_ALL, LOG_DAY ),

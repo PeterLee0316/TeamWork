@@ -45,10 +45,10 @@
             this.BtnModelCamera = new Syncfusion.Windows.Forms.ButtonAdv();
             this.BtnModelLoader = new Syncfusion.Windows.Forms.ButtonAdv();
             this.BtnModelScanner = new Syncfusion.Windows.Forms.ButtonAdv();
-            this.gradientPanel1 = new Syncfusion.Windows.Forms.Tools.GradientPanel();
             this.autoLabel1 = new Syncfusion.Windows.Forms.Tools.AutoLabel();
-            this.gradientPanel2 = new Syncfusion.Windows.Forms.Tools.GradientPanel();
             this.autoLabel2 = new Syncfusion.Windows.Forms.Tools.AutoLabel();
+            this.gradientPanel1 = new Syncfusion.Windows.Forms.Tools.GradientPanel();
+            this.gradientPanel2 = new Syncfusion.Windows.Forms.Tools.GradientPanel();
             ((System.ComponentModel.ISupportInitialize)(this.gradientPanel1)).BeginInit();
             this.gradientPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gradientPanel2)).BeginInit();
@@ -63,7 +63,7 @@
             this.BtnTeachLoader.FlatAppearance.BorderSize = 5;
             this.BtnTeachLoader.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.BtnTeachLoader.ForeColor = System.Drawing.Color.MidnightBlue;
-            this.BtnTeachLoader.Location = new System.Drawing.Point(166, 171);
+            this.BtnTeachLoader.Location = new System.Drawing.Point(35, 66);
             this.BtnTeachLoader.Name = "BtnTeachLoader";
             this.BtnTeachLoader.Size = new System.Drawing.Size(152, 78);
             this.BtnTeachLoader.TabIndex = 11;
@@ -79,7 +79,7 @@
             this.BtnTeachPushPull.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.BtnTeachPushPull.ForeColor = System.Drawing.Color.MidnightBlue;
             this.BtnTeachPushPull.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.BtnTeachPushPull.Location = new System.Drawing.Point(344, 171);
+            this.BtnTeachPushPull.Location = new System.Drawing.Point(203, 66);
             this.BtnTeachPushPull.Name = "BtnTeachPushPull";
             this.BtnTeachPushPull.Size = new System.Drawing.Size(152, 78);
             this.BtnTeachPushPull.TabIndex = 12;
@@ -95,7 +95,7 @@
             this.BtnTeachSpinner1.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.BtnTeachSpinner1.ForeColor = System.Drawing.Color.MidnightBlue;
             this.BtnTeachSpinner1.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.BtnTeachSpinner1.Location = new System.Drawing.Point(166, 277);
+            this.BtnTeachSpinner1.Location = new System.Drawing.Point(35, 150);
             this.BtnTeachSpinner1.Name = "BtnTeachSpinner1";
             this.BtnTeachSpinner1.Size = new System.Drawing.Size(152, 78);
             this.BtnTeachSpinner1.TabIndex = 13;
@@ -111,7 +111,7 @@
             this.BtnTeachSpinner2.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.BtnTeachSpinner2.ForeColor = System.Drawing.Color.MidnightBlue;
             this.BtnTeachSpinner2.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.BtnTeachSpinner2.Location = new System.Drawing.Point(344, 277);
+            this.BtnTeachSpinner2.Location = new System.Drawing.Point(203, 150);
             this.BtnTeachSpinner2.Name = "BtnTeachSpinner2";
             this.BtnTeachSpinner2.Size = new System.Drawing.Size(152, 78);
             this.BtnTeachSpinner2.TabIndex = 14;
@@ -127,7 +127,7 @@
             this.BtnTeachHandler.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.BtnTeachHandler.ForeColor = System.Drawing.Color.MidnightBlue;
             this.BtnTeachHandler.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.BtnTeachHandler.Location = new System.Drawing.Point(166, 383);
+            this.BtnTeachHandler.Location = new System.Drawing.Point(35, 234);
             this.BtnTeachHandler.Name = "BtnTeachHandler";
             this.BtnTeachHandler.Size = new System.Drawing.Size(152, 78);
             this.BtnTeachHandler.TabIndex = 15;
@@ -143,7 +143,7 @@
             this.BtnTeachStage.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.BtnTeachStage.ForeColor = System.Drawing.Color.MidnightBlue;
             this.BtnTeachStage.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.BtnTeachStage.Location = new System.Drawing.Point(344, 383);
+            this.BtnTeachStage.Location = new System.Drawing.Point(203, 234);
             this.BtnTeachStage.Name = "BtnTeachStage";
             this.BtnTeachStage.Size = new System.Drawing.Size(152, 78);
             this.BtnTeachStage.TabIndex = 16;
@@ -159,7 +159,7 @@
             this.BtnCamera.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.BtnCamera.ForeColor = System.Drawing.Color.MidnightBlue;
             this.BtnCamera.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.BtnCamera.Location = new System.Drawing.Point(344, 487);
+            this.BtnCamera.Location = new System.Drawing.Point(203, 318);
             this.BtnCamera.Name = "BtnCamera";
             this.BtnCamera.Size = new System.Drawing.Size(152, 78);
             this.BtnCamera.TabIndex = 17;
@@ -175,7 +175,7 @@
             this.BtnScanner.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.BtnScanner.ForeColor = System.Drawing.Color.MidnightBlue;
             this.BtnScanner.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.BtnScanner.Location = new System.Drawing.Point(166, 487);
+            this.BtnScanner.Location = new System.Drawing.Point(35, 318);
             this.BtnScanner.Name = "BtnScanner";
             this.BtnScanner.Size = new System.Drawing.Size(152, 78);
             this.BtnScanner.TabIndex = 18;
@@ -191,7 +191,7 @@
             this.BtnModelSpinner2.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.BtnModelSpinner2.ForeColor = System.Drawing.Color.MidnightBlue;
             this.BtnModelSpinner2.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.BtnModelSpinner2.Location = new System.Drawing.Point(226, 181);
+            this.BtnModelSpinner2.Location = new System.Drawing.Point(202, 150);
             this.BtnModelSpinner2.Name = "BtnModelSpinner2";
             this.BtnModelSpinner2.Size = new System.Drawing.Size(152, 78);
             this.BtnModelSpinner2.TabIndex = 22;
@@ -207,7 +207,7 @@
             this.BtnModelHandler.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.BtnModelHandler.ForeColor = System.Drawing.Color.MidnightBlue;
             this.BtnModelHandler.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.BtnModelHandler.Location = new System.Drawing.Point(48, 287);
+            this.BtnModelHandler.Location = new System.Drawing.Point(30, 234);
             this.BtnModelHandler.Name = "BtnModelHandler";
             this.BtnModelHandler.Size = new System.Drawing.Size(152, 78);
             this.BtnModelHandler.TabIndex = 23;
@@ -223,7 +223,7 @@
             this.BtnModelSpinner1.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.BtnModelSpinner1.ForeColor = System.Drawing.Color.MidnightBlue;
             this.BtnModelSpinner1.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.BtnModelSpinner1.Location = new System.Drawing.Point(48, 181);
+            this.BtnModelSpinner1.Location = new System.Drawing.Point(30, 150);
             this.BtnModelSpinner1.Name = "BtnModelSpinner1";
             this.BtnModelSpinner1.Size = new System.Drawing.Size(152, 78);
             this.BtnModelSpinner1.TabIndex = 21;
@@ -239,7 +239,7 @@
             this.BtnModelStage.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.BtnModelStage.ForeColor = System.Drawing.Color.MidnightBlue;
             this.BtnModelStage.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.BtnModelStage.Location = new System.Drawing.Point(226, 287);
+            this.BtnModelStage.Location = new System.Drawing.Point(202, 234);
             this.BtnModelStage.Name = "BtnModelStage";
             this.BtnModelStage.Size = new System.Drawing.Size(152, 78);
             this.BtnModelStage.TabIndex = 24;
@@ -256,7 +256,7 @@
             this.BtnModelPushPull.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.BtnModelPushPull.ForeColor = System.Drawing.Color.MidnightBlue;
             this.BtnModelPushPull.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.BtnModelPushPull.Location = new System.Drawing.Point(226, 75);
+            this.BtnModelPushPull.Location = new System.Drawing.Point(202, 66);
             this.BtnModelPushPull.Name = "BtnModelPushPull";
             this.BtnModelPushPull.Size = new System.Drawing.Size(152, 78);
             this.BtnModelPushPull.TabIndex = 20;
@@ -272,7 +272,7 @@
             this.BtnModelCamera.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.BtnModelCamera.ForeColor = System.Drawing.Color.MidnightBlue;
             this.BtnModelCamera.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.BtnModelCamera.Location = new System.Drawing.Point(226, 391);
+            this.BtnModelCamera.Location = new System.Drawing.Point(202, 318);
             this.BtnModelCamera.Name = "BtnModelCamera";
             this.BtnModelCamera.Size = new System.Drawing.Size(152, 78);
             this.BtnModelCamera.TabIndex = 25;
@@ -288,7 +288,7 @@
             this.BtnModelLoader.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.BtnModelLoader.ForeColor = System.Drawing.Color.MidnightBlue;
             this.BtnModelLoader.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.BtnModelLoader.Location = new System.Drawing.Point(48, 75);
+            this.BtnModelLoader.Location = new System.Drawing.Point(30, 66);
             this.BtnModelLoader.Name = "BtnModelLoader";
             this.BtnModelLoader.Size = new System.Drawing.Size(152, 78);
             this.BtnModelLoader.TabIndex = 19;
@@ -304,7 +304,7 @@
             this.BtnModelScanner.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.BtnModelScanner.ForeColor = System.Drawing.Color.MidnightBlue;
             this.BtnModelScanner.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.BtnModelScanner.Location = new System.Drawing.Point(48, 391);
+            this.BtnModelScanner.Location = new System.Drawing.Point(30, 318);
             this.BtnModelScanner.Name = "BtnModelScanner";
             this.BtnModelScanner.Size = new System.Drawing.Size(152, 78);
             this.BtnModelScanner.TabIndex = 26;
@@ -312,55 +312,65 @@
             this.BtnModelScanner.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.BtnModelScanner.Click += new System.EventHandler(this.BtnModelScanner_Click);
             // 
+            // autoLabel1
+            // 
+            this.autoLabel1.BackColor = System.Drawing.Color.Transparent;
+            this.autoLabel1.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.autoLabel1.Location = new System.Drawing.Point(125, 8);
+            this.autoLabel1.Name = "autoLabel1";
+            this.autoLabel1.Size = new System.Drawing.Size(150, 15);
+            this.autoLabel1.TabIndex = 30;
+            this.autoLabel1.Text = "고정 좌표 Teaching";
+            // 
+            // autoLabel2
+            // 
+            this.autoLabel2.BackColor = System.Drawing.Color.Transparent;
+            this.autoLabel2.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.autoLabel2.Location = new System.Drawing.Point(121, 8);
+            this.autoLabel2.Name = "autoLabel2";
+            this.autoLabel2.Size = new System.Drawing.Size(150, 15);
+            this.autoLabel2.TabIndex = 31;
+            this.autoLabel2.Text = "모델 좌표 Teaching";
+            // 
             // gradientPanel1
             // 
             this.gradientPanel1.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("gradientPanel1.BackgroundImage")));
             this.gradientPanel1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.gradientPanel1.Border3DStyle = System.Windows.Forms.Border3DStyle.Raised;
+            this.gradientPanel1.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.gradientPanel1.Controls.Add(this.autoLabel1);
-            this.gradientPanel1.Location = new System.Drawing.Point(124, 96);
+            this.gradientPanel1.Controls.Add(this.BtnCamera);
+            this.gradientPanel1.Controls.Add(this.BtnTeachLoader);
+            this.gradientPanel1.Controls.Add(this.BtnTeachPushPull);
+            this.gradientPanel1.Controls.Add(this.BtnTeachSpinner1);
+            this.gradientPanel1.Controls.Add(this.BtnTeachSpinner2);
+            this.gradientPanel1.Controls.Add(this.BtnTeachHandler);
+            this.gradientPanel1.Controls.Add(this.BtnTeachStage);
+            this.gradientPanel1.Controls.Add(this.BtnScanner);
+            this.gradientPanel1.Location = new System.Drawing.Point(162, 96);
             this.gradientPanel1.Name = "gradientPanel1";
-            this.gradientPanel1.Size = new System.Drawing.Size(425, 500);
+            this.gradientPanel1.Size = new System.Drawing.Size(389, 437);
             this.gradientPanel1.TabIndex = 28;
-            // 
-            // autoLabel1
-            // 
-            this.autoLabel1.BackColor = System.Drawing.Color.Transparent;
-            this.autoLabel1.Font = new System.Drawing.Font("굴림", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.autoLabel1.Location = new System.Drawing.Point(46, 15);
-            this.autoLabel1.Name = "autoLabel1";
-            this.autoLabel1.Size = new System.Drawing.Size(162, 16);
-            this.autoLabel1.TabIndex = 30;
-            this.autoLabel1.Text = "고정 좌표 Teaching";
             // 
             // gradientPanel2
             // 
             this.gradientPanel2.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("gradientPanel2.BackgroundImage")));
             this.gradientPanel2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.gradientPanel2.Border3DStyle = System.Windows.Forms.Border3DStyle.Raised;
+            this.gradientPanel2.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.gradientPanel2.Controls.Add(this.autoLabel2);
-            this.gradientPanel2.Controls.Add(this.BtnModelScanner);
-            this.gradientPanel2.Controls.Add(this.BtnModelLoader);
-            this.gradientPanel2.Controls.Add(this.BtnModelSpinner2);
-            this.gradientPanel2.Controls.Add(this.BtnModelHandler);
             this.gradientPanel2.Controls.Add(this.BtnModelCamera);
-            this.gradientPanel2.Controls.Add(this.BtnModelSpinner1);
+            this.gradientPanel2.Controls.Add(this.BtnModelScanner);
+            this.gradientPanel2.Controls.Add(this.BtnModelHandler);
             this.gradientPanel2.Controls.Add(this.BtnModelStage);
+            this.gradientPanel2.Controls.Add(this.BtnModelLoader);
             this.gradientPanel2.Controls.Add(this.BtnModelPushPull);
-            this.gradientPanel2.Location = new System.Drawing.Point(709, 96);
+            this.gradientPanel2.Controls.Add(this.BtnModelSpinner1);
+            this.gradientPanel2.Controls.Add(this.BtnModelSpinner2);
+            this.gradientPanel2.Location = new System.Drawing.Point(720, 96);
             this.gradientPanel2.Name = "gradientPanel2";
-            this.gradientPanel2.Size = new System.Drawing.Size(425, 500);
-            this.gradientPanel2.TabIndex = 29;
-            // 
-            // autoLabel2
-            // 
-            this.autoLabel2.BackColor = System.Drawing.Color.Transparent;
-            this.autoLabel2.Font = new System.Drawing.Font("굴림", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.autoLabel2.Location = new System.Drawing.Point(48, 15);
-            this.autoLabel2.Name = "autoLabel2";
-            this.autoLabel2.Size = new System.Drawing.Size(162, 16);
-            this.autoLabel2.TabIndex = 31;
-            this.autoLabel2.Text = "모델 좌표 Teaching";
+            this.gradientPanel2.Size = new System.Drawing.Size(389, 437);
+            this.gradientPanel2.TabIndex = 32;
             // 
             // FormTeachScreen
             // 
@@ -369,16 +379,8 @@
             this.BackColor = System.Drawing.Color.Lavender;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.ClientSize = new System.Drawing.Size(1278, 817);
-            this.Controls.Add(this.BtnTeachPushPull);
-            this.Controls.Add(this.BtnTeachLoader);
-            this.Controls.Add(this.BtnTeachSpinner1);
-            this.Controls.Add(this.BtnTeachSpinner2);
-            this.Controls.Add(this.BtnScanner);
-            this.Controls.Add(this.BtnTeachHandler);
-            this.Controls.Add(this.BtnCamera);
-            this.Controls.Add(this.BtnTeachStage);
-            this.Controls.Add(this.gradientPanel1);
             this.Controls.Add(this.gradientPanel2);
+            this.Controls.Add(this.gradientPanel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "FormTeachScreen";
             this.Text = "Teach Screen";
@@ -410,9 +412,9 @@
         private Syncfusion.Windows.Forms.ButtonAdv BtnModelCamera;
         private Syncfusion.Windows.Forms.ButtonAdv BtnModelLoader;
         private Syncfusion.Windows.Forms.ButtonAdv BtnModelScanner;
-        private Syncfusion.Windows.Forms.Tools.GradientPanel gradientPanel1;
-        private Syncfusion.Windows.Forms.Tools.GradientPanel gradientPanel2;
         private Syncfusion.Windows.Forms.Tools.AutoLabel autoLabel1;
         private Syncfusion.Windows.Forms.Tools.AutoLabel autoLabel2;
+        private Syncfusion.Windows.Forms.Tools.GradientPanel gradientPanel1;
+        private Syncfusion.Windows.Forms.Tools.GradientPanel gradientPanel2;
     }
 }

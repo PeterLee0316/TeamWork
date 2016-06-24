@@ -173,6 +173,9 @@ namespace LWDicer.Control
             MAX,
         }
 
+        public const int FixedData = 0;
+        public const int OffsetData = 1;
+
         // Head 정의
         public const int DEF_SHEAD1 = 0;
         public const int DEF_SHEAD2 = 1;

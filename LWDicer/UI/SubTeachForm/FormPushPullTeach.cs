@@ -8,6 +8,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
+using LWDicer.Control;
+
 using static LWDicer.Control.MYaskawa;
 
 using static LWDicer.Control.DEF_Thread;
@@ -32,9 +34,6 @@ namespace LWDicer.UI
 {
     public partial class FormPushPullTeach : Form
     {
-        const int FixedData = 0;
-        const int OffsetData = 1;
-
         ButtonAdv[] PushPullPos = new ButtonAdv[15];
         ButtonAdv[] CenterPos = new ButtonAdv[15];
 
@@ -45,9 +44,17 @@ namespace LWDicer.UI
 
         private FormPushPullManualOP m_PushPullManualOP = new FormPushPullManualOP();
 
+        private CMovingObject movingPushPullObject = CMainFrame.LWDicer.m_MePushPull.AxPushPullInfo;
+        private CMovingObject[] movingCenterObject = new CMovingObject[(int)ECenterPos.MAX];
+
         public FormPushPullTeach()
         {
             InitializeComponent();
+
+            for(int i=0;i< (int)ECenterPos.MAX;i++)
+            {
+                movingCenterObject[i] = CMainFrame.LWDicer.m_MePushPull.AxCenterInfo[i];
+            }
 
             InitCenterXGrid();
             InitPushPullGrid();
@@ -221,78 +228,69 @@ namespace LWDicer.UI
 
         private void LoadCenterTeachingData(int nTeachPos)
         {
-            string strFixedPos = string.Empty, strOffsetPos = string.Empty, strTargetPos = string.Empty, strModelPos = string.Empty;
-            double dFixedX1Pos = 0, dOffsetX1Pos = 0, dTargetX1Pos = 0, dModelX1Pos = 0;
-            double dFixedX2Pos = 0, dOffsetX2Pos = 0, dTargetX2Pos = 0, dModelX2Pos = 0;
+            double dFixedX1Pos = 0, dOffsetX1Pos = 0, dTargetX1Pos = 0, dModelX1Pos = 0, dAlignX1Offset;
+            double dFixedX2Pos = 0, dOffsetX2Pos = 0, dTargetX2Pos = 0, dModelX2Pos = 0, dAlignX2Offset;
 
-            dFixedX1Pos = CMainFrame.LWDicer.m_DataManager.FixedPos.Centering1Pos.Pos[nTeachPos].dX;
-            dOffsetX1Pos = CMainFrame.LWDicer.m_DataManager.OffsetPos.Centering1Pos.Pos[nTeachPos].dX;
-            dModelX1Pos = CMainFrame.LWDicer.m_DataManager.ModelPos.Centering1Pos.Pos[nTeachPos].dX;
+            dFixedX1Pos = movingCenterObject[0].FixedPos.Pos[nTeachPos].dX;
+            dOffsetX1Pos = movingCenterObject[0].OffsetPos.Pos[nTeachPos].dX;
+            dModelX1Pos = movingCenterObject[0].ModelPos.Pos[nTeachPos].dX;
+            dAlignX1Offset = movingCenterObject[0].AlignOffset.dX;
 
-            dTargetX1Pos = dFixedX1Pos + dOffsetX1Pos + dModelX1Pos;
+            dTargetX1Pos = dFixedX1Pos + dOffsetX1Pos + dModelX1Pos + dAlignX1Offset;
 
-            strTargetPos = Convert.ToString(dTargetX1Pos);
-            GridCenterXTeachTable[2, 1].Text = strTargetPos;
+            GridCenterXTeachTable[2, 1].Text = Convert.ToString(dTargetX1Pos);
 
-            dFixedX2Pos = CMainFrame.LWDicer.m_DataManager.FixedPos.Centering2Pos.Pos[nTeachPos].dX;
-            dOffsetX2Pos = CMainFrame.LWDicer.m_DataManager.OffsetPos.Centering2Pos.Pos[nTeachPos].dX;
-            dModelX2Pos = CMainFrame.LWDicer.m_DataManager.ModelPos.Centering2Pos.Pos[nTeachPos].dX;
+            dFixedX2Pos = movingCenterObject[1].FixedPos.Pos[nTeachPos].dX;
+            dOffsetX2Pos = movingCenterObject[1].OffsetPos.Pos[nTeachPos].dX;
+            dModelX2Pos = movingCenterObject[1].ModelPos.Pos[nTeachPos].dX;
+            dAlignX2Offset = movingCenterObject[1].AlignOffset.dX;
 
-            dTargetX2Pos = dFixedX2Pos + dOffsetX2Pos + dModelX2Pos;
+            dTargetX2Pos = dFixedX2Pos + dOffsetX2Pos + dModelX2Pos + dAlignX2Offset;
 
-            strTargetPos = Convert.ToString(dTargetX2Pos);
-            GridCenterXTeachTable[2, 2].Text = strTargetPos;
+            GridCenterXTeachTable[2, 2].Text = Convert.ToString(dTargetX2Pos);
 
             // FixedPos
-            strFixedPos = Convert.ToString(CMainFrame.LWDicer.m_DataManager.FixedPos.Centering1Pos.Pos[nTeachPos].dX);
-            GridCenterXTeachTable[3, 1].Text = strFixedPos;
-
-            strFixedPos = Convert.ToString(CMainFrame.LWDicer.m_DataManager.FixedPos.Centering2Pos.Pos[nTeachPos].dX);
-            GridCenterXTeachTable[3, 2].Text = strFixedPos;
+            GridCenterXTeachTable[3, 1].Text = Convert.ToString(dFixedX1Pos);
+            GridCenterXTeachTable[3, 2].Text = Convert.ToString(dFixedX2Pos);
 
             // ModelPos
-            strModelPos = Convert.ToString(CMainFrame.LWDicer.m_DataManager.ModelPos.Centering1Pos.Pos[nTeachPos].dX);
-            GridCenterXTeachTable[4, 1].Text = strModelPos;
+            GridCenterXTeachTable[4, 1].Text = Convert.ToString(dModelX1Pos);
+            GridCenterXTeachTable[4, 2].Text = Convert.ToString(dModelX2Pos);
 
-            strModelPos = Convert.ToString(CMainFrame.LWDicer.m_DataManager.ModelPos.Centering2Pos.Pos[nTeachPos].dX);
-            GridCenterXTeachTable[4, 2].Text = strModelPos;
+            // Align Offset
+            GridCenterXTeachTable[5, 1].Text = Convert.ToString(dAlignX1Offset);
+            GridCenterXTeachTable[5, 2].Text = Convert.ToString(dAlignX2Offset);
 
             //OffsetPos
-            strOffsetPos = Convert.ToString(CMainFrame.LWDicer.m_DataManager.OffsetPos.Centering1Pos.Pos[nTeachPos].dX);
-            GridCenterXTeachTable[6, 1].Text = strOffsetPos;
-
-            strOffsetPos = Convert.ToString(CMainFrame.LWDicer.m_DataManager.OffsetPos.Centering2Pos.Pos[nTeachPos].dX);
-            GridCenterXTeachTable[6, 2].Text = strOffsetPos;
+            GridCenterXTeachTable[6, 1].Text = Convert.ToString(dOffsetX1Pos);
+            GridCenterXTeachTable[6, 2].Text = Convert.ToString(dOffsetX2Pos);
         }
 
         private void LoadPushPullTeachingData(int nTeachPos)
         {
-            string strFixedPos = string.Empty, strOffsetPos = string.Empty, strTargetPos = string.Empty, strModelPos = string.Empty;
-            double dFixedPos = 0, dOffsetPos = 0, dTargetPos = 0, dModelPos = 0;
+            double dFixedPos = 0, dOffsetPos = 0, dTargetPos = 0, dModelPos = 0, dAlignOffset;
 
-            dFixedPos = CMainFrame.LWDicer.m_DataManager.FixedPos.PushPullPos.Pos[nTeachPos].dY;
-            dOffsetPos = CMainFrame.LWDicer.m_DataManager.OffsetPos.PushPullPos.Pos[nTeachPos].dY;
-            dModelPos = CMainFrame.LWDicer.m_DataManager.ModelPos.PushPullPos.Pos[nTeachPos].dY;
+            dFixedPos = movingPushPullObject.FixedPos.Pos[nTeachPos].dY;
+            dOffsetPos = movingPushPullObject.OffsetPos.Pos[nTeachPos].dY;
+            dModelPos = movingPushPullObject.ModelPos.Pos[nTeachPos].dY;
+            dAlignOffset = movingPushPullObject.AlignOffset.dY;
 
-            dTargetPos = dFixedPos + dOffsetPos + dModelPos;
+            dTargetPos = dFixedPos + dOffsetPos + dModelPos + dAlignOffset;
 
-            strTargetPos = Convert.ToString(dTargetPos);
-            GridPushPullYTeachTable[2, 1].Text = strTargetPos;
+            GridPushPullYTeachTable[2, 1].Text = Convert.ToString(dTargetPos);
 
             // FixedPos
-            strFixedPos = Convert.ToString(CMainFrame.LWDicer.m_DataManager.FixedPos.PushPullPos.Pos[nTeachPos].dY);
-            GridPushPullYTeachTable[3, 1].Text = strFixedPos;
+            GridPushPullYTeachTable[3, 1].Text = Convert.ToString(dFixedPos);
 
             // ModelPos
-            strModelPos = Convert.ToString(CMainFrame.LWDicer.m_DataManager.ModelPos.PushPullPos.Pos[nTeachPos].dY);
-            GridPushPullYTeachTable[4, 1].Text = strModelPos;
+            GridPushPullYTeachTable[4, 1].Text = Convert.ToString(dModelPos);
+
+            // AlignOffsetPos
+            GridPushPullYTeachTable[5, 1].Text = Convert.ToString(dAlignOffset);
 
             //OffsetPos
-            strOffsetPos = Convert.ToString(CMainFrame.LWDicer.m_DataManager.OffsetPos.PushPullPos.Pos[nTeachPos].dY);
-            GridPushPullYTeachTable[6, 1].Text = strOffsetPos;
+            GridPushPullYTeachTable[6, 1].Text = Convert.ToString(dOffsetPos);
         }
-
-       
 
         private void ResouceMapping()
         {
@@ -520,14 +518,14 @@ namespace LWDicer.UI
 
                 if (e.ColIndex == 1)
                 {
-                    dOffsetPos = CMainFrame.LWDicer.m_DataManager.OffsetPos.Centering1Pos.Pos[GetCenterPosNo()].dX;
+                    dOffsetPos = movingCenterObject[0].OffsetPos.Pos[GetCenterPosNo()].dX;
 
                     dTargetPos = dPos + dOffsetPos;
                 }
 
                 if (e.ColIndex == 2)
                 {
-                    dOffsetPos = CMainFrame.LWDicer.m_DataManager.OffsetPos.Centering2Pos.Pos[GetCenterPosNo()].dX;
+                    dOffsetPos = movingCenterObject[1].OffsetPos.Pos[GetCenterPosNo()].dX;
 
                     dTargetPos = dPos + dOffsetPos;
                 }
@@ -570,7 +568,7 @@ namespace LWDicer.UI
 
                 dPos = Convert.ToDouble(strModify);
 
-                dOffsetPos = CMainFrame.LWDicer.m_DataManager.OffsetPos.PushPullPos.Pos[GetCenterPosNo()].dY;
+                dOffsetPos = movingPushPullObject.OffsetPos.Pos[GetCenterPosNo()].dY;
 
                 dTargetPos = dPos + dOffsetPos;
 
@@ -614,10 +612,7 @@ namespace LWDicer.UI
                 CMainFrame.LWDicer.m_DataManager.FixedPos.Centering2Pos.Pos[GetCenterPosNo()].dX = Convert.ToDouble(strData);
 
                 CMainFrame.LWDicer.m_DataManager.SavePositionData(true, EPositionObject.PUSHPULL_CENTER1);
-                CMainFrame.LWDicer.m_DataManager.LoadPositionData(true, EPositionObject.PUSHPULL_CENTER1);
-
                 CMainFrame.LWDicer.m_DataManager.SavePositionData(true, EPositionObject.PUSHPULL_CENTER2);
-                CMainFrame.LWDicer.m_DataManager.LoadPositionData(true, EPositionObject.PUSHPULL_CENTER2);
             }
 
             if(GetDataMode() == OffsetData)
@@ -629,11 +624,11 @@ namespace LWDicer.UI
                 CMainFrame.LWDicer.m_DataManager.OffsetPos.Centering2Pos.Pos[GetCenterPosNo()].dX = Convert.ToDouble(strData);
 
                 CMainFrame.LWDicer.m_DataManager.SavePositionData(false, EPositionObject.PUSHPULL_CENTER1);
-                CMainFrame.LWDicer.m_DataManager.LoadPositionData(false, EPositionObject.PUSHPULL_CENTER1);
-
                 CMainFrame.LWDicer.m_DataManager.SavePositionData(false, EPositionObject.PUSHPULL_CENTER2);
-                CMainFrame.LWDicer.m_DataManager.LoadPositionData(false, EPositionObject.PUSHPULL_CENTER2);
             }
+
+            CMainFrame.LWDicer.SetPositionDataToComponent(EPositionObject.PUSHPULL_CENTER1);
+            CMainFrame.LWDicer.SetPositionDataToComponent(EPositionObject.PUSHPULL_CENTER2);
 
             LoadCenterTeachingData(GetCenterPosNo());
         }
@@ -652,20 +647,20 @@ namespace LWDicer.UI
             if(GetDataMode() == FixedData)
             {
                 strData = GridPushPullYTeachTable[3, 1].Text;
-                CMainFrame.LWDicer.m_DataManager.FixedPos.PushPullPos.Pos[GetPushPullPosNo()].dY = Convert.ToDouble(strData);
 
+                CMainFrame.LWDicer.m_DataManager.FixedPos.PushPullPos.Pos[GetPushPullPosNo()].dY = Convert.ToDouble(strData);
                 CMainFrame.LWDicer.m_DataManager.SavePositionData(true, EPositionObject.PUSHPULL);
-                CMainFrame.LWDicer.m_DataManager.LoadPositionData(true, EPositionObject.PUSHPULL);
             }
 
             if(GetDataMode() == OffsetData)
             {
                 strData = GridPushPullYTeachTable[6, 1].Text;
-                CMainFrame.LWDicer.m_DataManager.OffsetPos.PushPullPos.Pos[GetPushPullPosNo()].dY = Convert.ToDouble(strData);
 
+                CMainFrame.LWDicer.m_DataManager.OffsetPos.PushPullPos.Pos[GetPushPullPosNo()].dY = Convert.ToDouble(strData);
                 CMainFrame.LWDicer.m_DataManager.SavePositionData(false, EPositionObject.PUSHPULL);
-                CMainFrame.LWDicer.m_DataManager.LoadPositionData(false, EPositionObject.PUSHPULL);
             }
+
+            CMainFrame.LWDicer.SetPositionDataToComponent(EPositionObject.PUSHPULL);
 
             LoadPushPullTeachingData(GetPushPullPosNo());
         }
@@ -686,7 +681,7 @@ namespace LWDicer.UI
             StrX1Current = GridCenterXTeachTable[7, 1].Text;
 
             dX1Pos = Convert.ToDouble(StrX1Current);
-            dOffsetX1Pos = CMainFrame.LWDicer.m_DataManager.OffsetPos.Centering1Pos.Pos[GetCenterPosNo()].dX;
+            dOffsetX1Pos = movingCenterObject[0].OffsetPos.Pos[GetCenterPosNo()].dX;
 
             dTargetX1Pos = dX1Pos + dOffsetX1Pos;
 
@@ -699,7 +694,7 @@ namespace LWDicer.UI
             StrX2Current = GridCenterXTeachTable[7, 2].Text;
 
             dX2Pos = Convert.ToDouble(StrX2Current);
-            dOffsetX2Pos = CMainFrame.LWDicer.m_DataManager.OffsetPos.Centering2Pos.Pos[GetCenterPosNo()].dX;
+            dOffsetX2Pos = movingCenterObject[1].OffsetPos.Pos[GetCenterPosNo()].dX;
 
             dTargetX2Pos = dX2Pos + dOffsetX2Pos;
 
@@ -724,7 +719,7 @@ namespace LWDicer.UI
             StrX1Current = GridPushPullYTeachTable[7, 1].Text;
 
             dYPos = Convert.ToDouble(StrX1Current);
-            dOffsetYPos = CMainFrame.LWDicer.m_DataManager.OffsetPos.PushPullPos.Pos[GetCenterPosNo()].dY;
+            dOffsetYPos = movingPushPullObject.OffsetPos.Pos[GetCenterPosNo()].dY;
 
             dTargetYPos = dYPos + dOffsetYPos;
 

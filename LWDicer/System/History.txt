@@ -491,3 +491,13 @@ LWDicer의 DataManager에서 데이터를 읽어오기 위한 3가지 함수 : S
 // Context
 // 1. Teaching Data 처리 UI 작성
 // 2. Motion Jog Operation UI 작성
+
+
+// Version : 0.0.17
+// Grade : ★
+// Date : 2016-06-23
+// Context
+// 1.Alarm Message UI 추가
+// 2.Manual Screen UI 초안 작성
+// 3.Teaching Screen Code 최적화
+

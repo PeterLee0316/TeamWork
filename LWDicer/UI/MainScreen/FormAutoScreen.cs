@@ -8,6 +8,9 @@ using System.Text;
 using System.Windows.Forms;
 using LWDicer.Control;
 
+using Syncfusion.Windows.Forms;
+using Syncfusion.Windows.Forms.Tools;
+
 namespace LWDicer.UI
 {
     public partial class FormAutoScreen : Form
@@ -39,6 +42,13 @@ namespace LWDicer.UI
         private void FormAutoScreen_Shown(object sender, EventArgs e)
         {
             this.Activate();
+        }
+
+        private void BtnAlarmTest_Click(object sender, EventArgs e)
+        {
+            ButtonAdv BtnAlarm = sender as ButtonAdv;
+
+            CMainFrame.LWDicer.AlarmDisplay(Convert.ToInt16(BtnAlarm.Tag));
         }
     }
 }
