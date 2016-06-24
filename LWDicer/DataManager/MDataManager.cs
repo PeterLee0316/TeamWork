@@ -60,10 +60,12 @@ namespace LWDicer.Control
         public const int ERR_DATA_MANAGER_FAIL_LOAD_LOGIN_HISTORY    = 17;
         public const int ERR_DATA_MANAGER_FAIL_SAVE_ALARM_INFO       = 18;
         public const int ERR_DATA_MANAGER_FAIL_LOAD_ALARM_INFO       = 19;
-        public const int ERR_DATA_MANAGER_FAIL_SAVE_ALARM_HISTORY    = 20;
-        public const int ERR_DATA_MANAGER_FAIL_LOAD_ALARM_HISTORY    = 21;
-        public const int ERR_DATA_MANAGER_FAIL_DELETE_ROOT_FOLDER    = 22;
-        public const int ERR_DATA_MANAGER_FAIL_DELETE_DEFAULT_MODEL  = 23;
+        public const int ERR_DATA_MANAGER_FAIL_SAVE_MESSAGE_INFO     = 20;
+        public const int ERR_DATA_MANAGER_FAIL_LOAD_MESSAGE_INFO     = 21;
+        public const int ERR_DATA_MANAGER_FAIL_SAVE_ALARM_HISTORY    = 22;
+        public const int ERR_DATA_MANAGER_FAIL_LOAD_ALARM_HISTORY    = 23;
+        public const int ERR_DATA_MANAGER_FAIL_DELETE_ROOT_FOLDER    = 24;
+        public const int ERR_DATA_MANAGER_FAIL_DELETE_DEFAULT_MODEL  = 25;
 
         public const int ERR_DATA_MANAGER_IO_DATA_FILE_NOT_EXIST = 1;
         public const int ERR_DATA_MANAGER_IO_DATA_FILE_CLOSE_FAILURE = 2;
@@ -720,14 +722,19 @@ namespace LWDicer.Control
         public List<CListHeader> WaferFrameHeaderList { get; set; } = new List<CListHeader>();
 
         /////////////////////////////////////////////////////////////////////////////////
-        // Parameter Data
+        // General Information Data 
+        // IO Name
         public DEF_IO.CIOInfo[] InputArray { get; private set; } = new DEF_IO.CIOInfo[DEF_IO.MAX_IO_INPUT];
         public DEF_IO.CIOInfo[] OutputArray { get; private set; } = new DEF_IO.CIOInfo[DEF_IO.MAX_IO_OUTPUT];
 
-        // Error Info는 필요할 때, 하나씩 불러와도 될 것 같은데, db test겸 초기화 편의성 때문에 임시로 만들어 둠
+        // Alarm Information & History
         public List<CAlarmInfo> AlarmInfoList { get; private set; } = new List<CAlarmInfo>();
         public List<CAlarm> AlarmHistory { get; private set; } = new List<CAlarm>();
 
+        // Message Information for Message 표시할 때..
+        public List<CMessageInfo> MessageInfoList { get; private set; } = new List<CMessageInfo>();
+
+        // Parameter Information for Display에 보여줄때 다국어 지원을 위해서 관리
         public List<CParaInfo> ParaInfoList { get; private set; } = new List<CParaInfo>();
 
         /////////////////////////////////////////////////////////////////////////////////
@@ -2838,7 +2845,11 @@ namespace LWDicer.Control
             iResult = LoadAlarmInfoList();
             //if (iResult != SUCCESS) return iResult;
 
+            iResult = LoadMessageInfoList();
+            //if (iResult != SUCCESS) return iResult;
+
             iResult = LoadParameterList();
+            //if (iResult != SUCCESS) return iResult;
 
             return SUCCESS;
         }
@@ -2971,6 +2982,88 @@ namespace LWDicer.Control
             return SUCCESS;
         }
 
+        public int LoadMessageInfoList()
+        {
+            try
+            {
+                string query;
+
+                // 0. select table
+                query = $"SELECT * FROM {DBInfo.TableMessageInfo}";
+
+                // 1. get table
+                DataTable datatable;
+                if (DBManager.GetTable(DBInfo.DBConn_Info, query, out datatable) != true)
+                {
+                    return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_LOAD_MESSAGE_INFO);
+                }
+
+                // 2. delete list
+                MessageInfoList.Clear();
+
+                // 3. get list
+                foreach (DataRow row in datatable.Rows)
+                {
+                    int index;
+                    if (int.TryParse(row["name"].ToString(), out index))
+                    {
+                        string output = row["data"].ToString();
+                        CMessageInfo info = JsonConvert.DeserializeObject<CMessageInfo>(output);
+
+                        MessageInfoList.Add(info);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                WriteExLog(ex.ToString());
+                return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_LOAD_MESSAGE_INFO);
+            }
+
+            WriteLog($"success : load message info list", ELogType.Debug);
+            return SUCCESS;
+        }
+
+        public int LoadMessageInfo(int index, out CMessageInfo info)
+        {
+            info = new CMessageInfo();
+            if (MessageInfoList.Count > 0)
+            {
+                foreach (CMessageInfo item in MessageInfoList)
+                {
+                    if (item.Index == index)
+                    {
+                        info = ObjectExtensions.Copy(item);
+                        return SUCCESS;
+                    }
+                }
+            }
+
+            try
+            {
+                string output;
+
+                // select row
+                if (DBManager.SelectRow(DBInfo.DBConn_Info, DBInfo.TableMessageInfo, out output, new CDBColumn("name", index.ToString())) == true)
+                {
+                    info = JsonConvert.DeserializeObject<CMessageInfo>(output);
+                }
+                else
+                {
+                    WriteLog($"fail : load message info [index = {index}]", ELogType.Debug);
+                    return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_LOAD_MESSAGE_INFO);
+                }
+            }
+            catch (Exception ex)
+            {
+                WriteExLog(ex.ToString());
+                return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_LOAD_MESSAGE_INFO);
+            }
+
+            WriteLog($"success : load message info", ELogType.Debug);
+            return SUCCESS;
+        }
+
         public int LoadParameterList()
         {
             try
@@ -3065,7 +3158,11 @@ namespace LWDicer.Control
             iResult = SaveAlarmInfoList();
             //if (iResult != SUCCESS) return iResult;
 
+            iResult = SaveMessageInfoList();
+            //if (iResult != SUCCESS) return iResult;
+
             iResult = SaveParaInfoList();
+            //if (iResult != SUCCESS) return iResult;
 
             return SUCCESS;
         }
@@ -3152,7 +3249,47 @@ namespace LWDicer.Control
                 return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_SAVE_GENERAL_DATA);
             }
 
-            WriteLog($"success : save error info list", ELogType.Debug);
+            WriteLog($"success : save alarm info list", ELogType.Debug);
+            return SUCCESS;
+        }
+
+        public int SaveMessageInfoList()
+        {
+            try
+            {
+                List<string> querys = new List<string>();
+                string query;
+
+                // 0. create table
+                query = $"CREATE TABLE IF NOT EXISTS {DBInfo.TableMessageInfo} (name string primary key, data string)";
+                querys.Add(query);
+
+                // 1. delete all
+                query = $"DELETE FROM {DBInfo.TableMessageInfo}";
+                querys.Add(query);
+
+                // 2. save list
+                string output;
+                foreach (CMessageInfo info in MessageInfoList)
+                {
+                    output = JsonConvert.SerializeObject(info);
+                    query = $"INSERT INTO {DBInfo.TableMessageInfo} VALUES ('{info.Index}', '{output}')";
+                    querys.Add(query);
+                }
+
+                // 3. execute query
+                if (DBManager.ExecuteNonQuerys(DBInfo.DBConn_Info, querys) != true)
+                {
+                    return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_SAVE_GENERAL_DATA);
+                }
+            }
+            catch (Exception ex)
+            {
+                WriteExLog(ex.ToString());
+                return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_SAVE_GENERAL_DATA);
+            }
+
+            WriteLog($"success : save message info list", ELogType.Debug);
             return SUCCESS;
         }
 
@@ -3246,6 +3383,16 @@ namespace LWDicer.Control
                     if (iResult == SUCCESS)
                     {
                         SaveAlarmInfoList();
+                    }
+                }
+
+                if (nSheet == EExcel_Sheet.MAX || nSheet == EExcel_Sheet.Message_Info)
+                {
+                    // Message Info
+                    iResult = ImportMessageDataFromExcel(SheetRange[(int)EExcel_Sheet.Message_Info]);
+                    if (iResult == SUCCESS)
+                    {
+                        SaveMessageInfoList();
                     }
                 }
 
@@ -3460,6 +3607,12 @@ namespace LWDicer.Control
             }
 
             SaveAlarmInfoList();
+
+            return SUCCESS;
+        }
+
+        public int ImportMessageDataFromExcel(Excel.Range SheetRange)
+        {
 
             return SUCCESS;
         }

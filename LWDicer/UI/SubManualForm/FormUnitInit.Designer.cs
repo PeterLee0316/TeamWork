@@ -35,8 +35,7 @@
             this.BtnSpinner1 = new Syncfusion.Windows.Forms.ButtonAdv();
             this.BtnSpinner2 = new Syncfusion.Windows.Forms.ButtonAdv();
             this.BtnStage = new Syncfusion.Windows.Forms.ButtonAdv();
-            this.BtnUpperTR = new Syncfusion.Windows.Forms.ButtonAdv();
-            this.BtnLowerTR = new Syncfusion.Windows.Forms.ButtonAdv();
+            this.BtnHandler = new Syncfusion.Windows.Forms.ButtonAdv();
             this.BtnSelectAll = new Syncfusion.Windows.Forms.ButtonAdv();
             this.BtnCancelAll = new Syncfusion.Windows.Forms.ButtonAdv();
             this.BtnExit = new System.Windows.Forms.Button();
@@ -109,31 +108,18 @@
             this.BtnStage.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.BtnStage.Click += new System.EventHandler(this.BtnInitPart_Click);
             // 
-            // BtnUpperTR
+            // BtnHandler
             // 
-            this.BtnUpperTR.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.BtnUpperTR.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.BtnUpperTR.Location = new System.Drawing.Point(276, 85);
-            this.BtnUpperTR.Name = "BtnUpperTR";
-            this.BtnUpperTR.Size = new System.Drawing.Size(120, 67);
-            this.BtnUpperTR.TabIndex = 13;
-            this.BtnUpperTR.Tag = "5";
-            this.BtnUpperTR.Text = " Upper TR";
-            this.BtnUpperTR.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.BtnUpperTR.Click += new System.EventHandler(this.BtnInitPart_Click);
-            // 
-            // BtnLowerTR
-            // 
-            this.BtnLowerTR.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.BtnLowerTR.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.BtnLowerTR.Location = new System.Drawing.Point(276, 12);
-            this.BtnLowerTR.Name = "BtnLowerTR";
-            this.BtnLowerTR.Size = new System.Drawing.Size(120, 67);
-            this.BtnLowerTR.TabIndex = 12;
-            this.BtnLowerTR.Tag = "4";
-            this.BtnLowerTR.Text = " Lower TR";
-            this.BtnLowerTR.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.BtnLowerTR.Click += new System.EventHandler(this.BtnInitPart_Click);
+            this.BtnHandler.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.BtnHandler.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.BtnHandler.Location = new System.Drawing.Point(276, 12);
+            this.BtnHandler.Name = "BtnHandler";
+            this.BtnHandler.Size = new System.Drawing.Size(120, 67);
+            this.BtnHandler.TabIndex = 12;
+            this.BtnHandler.Tag = "4";
+            this.BtnHandler.Text = "Handler";
+            this.BtnHandler.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.BtnHandler.Click += new System.EventHandler(this.BtnInitPart_Click);
             // 
             // BtnSelectAll
             // 
@@ -200,8 +186,7 @@
             this.Controls.Add(this.BtnCancelAll);
             this.Controls.Add(this.BtnExit);
             this.Controls.Add(this.BtnStage);
-            this.Controls.Add(this.BtnUpperTR);
-            this.Controls.Add(this.BtnLowerTR);
+            this.Controls.Add(this.BtnHandler);
             this.Controls.Add(this.BtnSpinner2);
             this.Controls.Add(this.BtnSpinner1);
             this.Controls.Add(this.BtnPushPull);
@@ -221,8 +206,7 @@
         private Syncfusion.Windows.Forms.ButtonAdv BtnSpinner1;
         private Syncfusion.Windows.Forms.ButtonAdv BtnSpinner2;
         private Syncfusion.Windows.Forms.ButtonAdv BtnStage;
-        private Syncfusion.Windows.Forms.ButtonAdv BtnUpperTR;
-        private Syncfusion.Windows.Forms.ButtonAdv BtnLowerTR;
+        private Syncfusion.Windows.Forms.ButtonAdv BtnHandler;
         private Syncfusion.Windows.Forms.ButtonAdv BtnSelectAll;
         private Syncfusion.Windows.Forms.ButtonAdv BtnCancelAll;
         private System.Windows.Forms.Button BtnExit;

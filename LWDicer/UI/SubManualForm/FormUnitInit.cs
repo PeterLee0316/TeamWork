@@ -9,27 +9,17 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 
 using Syncfusion.Windows.Forms;
+using LWDicer.Control;
+using static LWDicer.Control.DEF_Thread;
 
 namespace LWDicer.UI
 {
     public partial class FormUnitInit : Form
     {
 
-        enum EPart
-        {
-            LOADER = 0,
-            PUSHPULL,
-            SPINNER1,
-            SPINNER2,
-            LOWER_TR,
-            UPPER_TR,
-            STAGE,
-            MAX,
-        }
+        private bool[] SelectedPart = new bool[(int)EInitiableUnit.MAX];
 
-        private bool[] nSelPart = new bool[(int)EPart.MAX];
-
-        private ButtonAdv[] InitPart = new ButtonAdv[(int)EPart.MAX];
+        private ButtonAdv[] BtnList = new ButtonAdv[(int)EInitiableUnit.MAX];
 
         public FormUnitInit()
         {
@@ -47,58 +37,57 @@ namespace LWDicer.UI
         {
             int nNo = 0;
 
-            ButtonAdv InitPart = sender as ButtonAdv;
+            ButtonAdv BtnList = sender as ButtonAdv;
 
-            nNo = Convert.ToInt16(InitPart.Tag);
+            nNo = Convert.ToInt16(BtnList.Tag);
 
             SelectPart(nNo);
         }
 
         private void ResouceMapping()
         {
-            InitPart[0] = BtnLoader;
-            InitPart[1] = BtnPushPull;
-            InitPart[2] = BtnSpinner1;
-            InitPart[3] = BtnSpinner2;
-            InitPart[4] = BtnLowerTR;
-            InitPart[5] = BtnUpperTR;
-            InitPart[6] = BtnStage;
+            BtnList[0] = BtnLoader;
+            BtnList[1] = BtnPushPull;
+            BtnList[2] = BtnSpinner1;
+            BtnList[3] = BtnSpinner2;
+            BtnList[4] = BtnHandler;
+            BtnList[5] = BtnStage;
 
-            for(int i=0;i< (int)EPart.MAX; i++)
+            for(int i=0;i< (int)EInitiableUnit.MAX; i++)
             {
-                InitPart[i].Image = Image.Images[0];
+                BtnList[i].Image = Image.Images[0];
             }
         }
 
         private void SelectPart(int nNo)
         {
-            if (nSelPart[nNo] == false)
+            if (SelectedPart[nNo] == false)
             {
-                nSelPart[nNo] = true;
-                InitPart[nNo].Image = Image.Images[1];
+                SelectedPart[nNo] = true;
+                BtnList[nNo].Image = Image.Images[1];
             }
             else
             {
-                nSelPart[nNo] = false;
-                InitPart[nNo].Image = Image.Images[0];
+                SelectedPart[nNo] = false;
+                BtnList[nNo].Image = Image.Images[0];
             }
         }
 
         private void BtnSelectAll_Click(object sender, EventArgs e)
         {
-            for (int i = 0; i < (int)EPart.MAX; i++)
+            for (int i = 0; i < (int)EInitiableUnit.MAX; i++)
             {
-                nSelPart[i] = true;
-                InitPart[i].Image = Image.Images[1];
+                SelectedPart[i] = true;
+                BtnList[i].Image = Image.Images[1];
             }
         }
 
         private void BtnCancelAll_Click(object sender, EventArgs e)
         {
-            for (int i = 0; i < (int)EPart.MAX; i++)
+            for (int i = 0; i < (int)EInitiableUnit.MAX; i++)
             {
-                nSelPart[i] = false;
-                InitPart[i].Image = Image.Images[0];
+                SelectedPart[i] = false;
+                BtnList[i].Image = Image.Images[0];
             }
         }
 
@@ -107,6 +96,11 @@ namespace LWDicer.UI
             if (!CMainFrame.LWDicer.DisplayMsg("선택한 Part를 초기화 하시겠습니까?"))
             {
                 return;
+            }
+
+            if(SelectedPart[(int)EInitiableUnit.LOADER] == true)
+            {
+                //CMainFrame.LWDicer.m_trs
             }
         }
     }

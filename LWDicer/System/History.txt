@@ -240,6 +240,8 @@ LWDicer의 DataManager에서 데이터를 읽어오기 위한 3가지 함수 : S
 6. ymc libraray error code & text 를 dictionary로 만들어, 에러 로그 기록할 때에 같이 기록할수 있도록 추가함.
 7. limitsensor dialog 상태 표시하는 부분 추가 및 CMPServoStatus & CACSServoStatus 비슷한 변수들 이름 통일함.
 8. Teaching dialog에서 목표위치 keyin & 현재위치를 목표위치로 셋팅하는 부분의 계산식 변경 및 확인 완료.
+9. CMessageInfo class 작성 및 DB 연결함
+10. FormUnitInit dialog 수정중...
 
 // for Project setting
 // WIN32, SIMULATION_VISION, SIMULATION_MOTION_ACS, SIMULATION_MOTION_YMC, SIMULATION_IO

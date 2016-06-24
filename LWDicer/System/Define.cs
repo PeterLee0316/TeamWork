@@ -174,6 +174,7 @@ namespace LWDicer.Control
             Skip = -1,
             PARA_Info,
             Alarm_Info,
+            Message_Info,
             IO_Info,
             Motor_Data,
             MAX,
@@ -622,7 +623,7 @@ namespace LWDicer.Control
             public string TablePos              { get; private set; } // Position Data
             public string TableIO               { get; private set; } // IO Information
             public string TableAlarmInfo        { get; private set; } // Alarm Information
-            public string TableMsgInfo          { get; private set; } // Message Information
+            public string TableMessageInfo      { get; private set; } // Message Information
             public string TableParameter        { get; private set; } // Parameter Description
 
             public string TableLoginHistory     { get; private set; } // Login History
@@ -665,7 +666,7 @@ namespace LWDicer.Control
 
                 TableIO                 = "IO";
                 TableAlarmInfo          = "AlarmInfo";
-                TableMsgInfo            = "MessageInfo";
+                TableMessageInfo        = "MessageInfo";
                 TableParameter          = "Parameter";
 
                 // Developer's and Event Log DB
@@ -813,6 +814,24 @@ namespace LWDicer.Control
                 Description[(int)DEF_Common.ELanguage.ENGLISH]  = "Parameter Description";
                 Description[(int)DEF_Common.ELanguage.CHINESE]  = "Parameter Description";
                 Description[(int)DEF_Common.ELanguage.JAPANESE] = "Parameter Description";
+            }
+        }
+
+        /// <summary>
+        /// Message Information
+        /// </summary>
+        public class CMessageInfo
+        {
+            public int Index = 0;
+
+            public string[] Message = new string[(int)DEF_Common.ELanguage.MAX];
+
+            public CMessageInfo()
+            {
+                Message[(int)DEF_Common.ELanguage.KOREAN]   = "Undefined Message";
+                Message[(int)DEF_Common.ELanguage.ENGLISH]  = "Undefined Message";
+                Message[(int)DEF_Common.ELanguage.CHINESE]  = "Undefined Message";
+                Message[(int)DEF_Common.ELanguage.JAPANESE] = "Undefined Message";
             }
         }
 
@@ -1064,8 +1083,8 @@ namespace LWDicer.Control
         {
             LOADER,
             PUSHPULL,
-            CLEANER1,
-            CLEANER2,
+            SPINNER1,
+            SPINNER2,
             HANDLER,
             STAGE1,
             MAX,
