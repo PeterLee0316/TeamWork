@@ -230,7 +230,7 @@ LWDicer의 DataManager에서 데이터를 읽어오기 위한 3가지 함수 : S
 
 // Version : 0.0.25
 // Grade : ★
-// Date : 160620~160622
+// Date : 160620~160624
 // Context
 1. Teaching Data Dialog에서 사용하기 위해 private CMovingObject를 public CMovingObject { get; private set; } 으로 변경함
 2. DEF_Yaskawa, DEF_ACS에서 중복 사용중인 것들은 DEF_Motion 으로 이동시킴
