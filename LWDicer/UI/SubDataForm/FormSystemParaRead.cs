@@ -21,7 +21,7 @@ namespace LWDicer.UI
 
         private void BtnParaInfoImport_Click(object sender, EventArgs e)
         {
-            if (!CMainFrame.LWDicer.DisplayMsg("Parameter Data를 Loading 하시겠습니까?"))
+            if (!CMainFrame.LWDicer.DisplayMsg("Parameter Data를 Import 하시겠습니까?"))
             {
                 return;
             }
@@ -31,7 +31,7 @@ namespace LWDicer.UI
 
         private void BtnAlarmInfoImport_Click(object sender, EventArgs e)
         {
-            if (!CMainFrame.LWDicer.DisplayMsg("Alarm Info Data를 Loading 하시겠습니까?"))
+            if (!CMainFrame.LWDicer.DisplayMsg("Alarm Info Data를 Import 하시겠습니까?"))
             {
                 return;
             }
@@ -41,7 +41,7 @@ namespace LWDicer.UI
 
         private void BtnIOInfoImport_Click(object sender, EventArgs e)
         {
-            if (!CMainFrame.LWDicer.DisplayMsg("I/O Info Data를 Loading 하시겠습니까?"))
+            if (!CMainFrame.LWDicer.DisplayMsg("I/O Info Data를 Import 하시겠습니까?"))
             {
                 return;
             }
@@ -51,7 +51,7 @@ namespace LWDicer.UI
 
         private void BtnMotorDataImport_Click(object sender, EventArgs e)
         {
-            if (!CMainFrame.LWDicer.DisplayMsg("Motor Data를 Loading 하시겠습니까?"))
+            if (!CMainFrame.LWDicer.DisplayMsg("Motor Data를 Import 하시겠습니까?"))
             {
                 return;
             }
@@ -68,7 +68,7 @@ namespace LWDicer.UI
 
         private void BtnAlarmInfoExport_Click(object sender, EventArgs e)
         {
-
+            CMainFrame.LWDicer.m_DataManager.ExportDataToExcel(EExcel_Sheet.Alarm_Info);
         }
 
         private void BtnIOInfoExport_Click(object sender, EventArgs e)
@@ -78,7 +78,7 @@ namespace LWDicer.UI
 
         private void BtnMotorDataExport_Click(object sender, EventArgs e)
         {
-
+            CMainFrame.LWDicer.m_DataManager.ExportDataToExcel(EExcel_Sheet.Motor_Data);
         }
 
         private void BtnConfigureExit_Click(object sender, EventArgs e)

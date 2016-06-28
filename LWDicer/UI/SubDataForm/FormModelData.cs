@@ -241,7 +241,7 @@ namespace LWDicer.UI
 
             if (strSelMakerName == NAME_ROOT_FOLDER)
             {
-                CMainFrame.LWDicer.DisplayMsg($"Root Directory는 삭제 할수 없습니다.");
+                CMainFrame.LWDicer.DisplayMsg($"Root Directory는 삭제 할수 없습니다.", false);
                 return;
             }
 
@@ -270,7 +270,7 @@ namespace LWDicer.UI
 
             if (bIsCurrentParent)
             {
-                CMainFrame.LWDicer.DisplayMsg($"현재 사용중인 Model이 속한 Directory는 삭제 할수 없습니다.");
+                CMainFrame.LWDicer.DisplayMsg($"현재 사용중인 Model이 속한 Directory는 삭제 할수 없습니다.", false);
                 return;
             }
 
@@ -312,14 +312,14 @@ namespace LWDicer.UI
 
             if (strModify == "" || strModify == null)
             {
-                CMainFrame.LWDicer.DisplayMsg($"{DisplayTypeName} Data Name을 입력하여 주십시시오");
+                CMainFrame.LWDicer.DisplayMsg($"{DisplayTypeName} Data Name을 입력하여 주십시시오",false);
                 return;
             }
 
             // Model Name 중복 검사
             if (CMainFrame.LWDicer.m_DataManager.IsModelHeaderExist(strModify, ListType))
             {
-                CMainFrame.LWDicer.DisplayMsg($"이미 동일한 이름의 Model or Maker가 존재합니다.");
+                CMainFrame.LWDicer.DisplayMsg($"이미 동일한 이름의 Model or Maker가 존재합니다.",false);
                 return;
             }
 
@@ -365,7 +365,7 @@ namespace LWDicer.UI
         {
             if (strSelModelName == "" || strSelModelName == null)
             {
-                CMainFrame.LWDicer.DisplayMsg($"삭제 하고자 하는 {DisplayTypeName} Data를 선택하여 주십시시오");
+                CMainFrame.LWDicer.DisplayMsg($"삭제 하고자 하는 {DisplayTypeName} Data를 선택하여 주십시시오",false);
                 return;
             }
 
@@ -376,7 +376,7 @@ namespace LWDicer.UI
 
             if (strSelModelName == CurrentUsing_ModelName)
             {
-                CMainFrame.LWDicer.DisplayMsg($"현재 사용중인 {DisplayTypeName} Data는 삭제 할수 없습니다.");
+                CMainFrame.LWDicer.DisplayMsg($"현재 사용중인 {DisplayTypeName} Data는 삭제 할수 없습니다.",false);
                 return;
             }
 
@@ -417,13 +417,13 @@ namespace LWDicer.UI
         {
             if (strSelModelName == "" || strSelModelName == null)
             {
-                CMainFrame.LWDicer.DisplayMsg($"Model을 선택해 주십시오");
+                CMainFrame.LWDicer.DisplayMsg($"Model을 선택해 주십시오",false);
                 return;
             }
 
             if (CurrentUsing_ModelName == strSelModelName)
             {
-                CMainFrame.LWDicer.DisplayMsg($"현재 사용중인 Data 입니다.");
+                CMainFrame.LWDicer.DisplayMsg($"현재 사용중인 Data 입니다.",false);
                 return;
             }
 
@@ -451,7 +451,7 @@ namespace LWDicer.UI
             if(iResult != SUCCESS)
             {
                 string str = CMainFrame.LWDicer.GetAlarmText(iResult);
-                CMainFrame.LWDicer.DisplayMsg(str);
+                CMainFrame.LWDicer.DisplayMsg(str,false);
                 return;
             }
 

@@ -68,7 +68,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Interop.SPIIPLUSCOM660Lib">
-      <HintPath>C:\SFA\LWDicer\dll\ACS\Interop.SPIIPLUSCOM660Lib.dll</HintPath>
+      <HintPath>..\..\..\SFA\LWDicer\dll\ACS\Interop.SPIIPLUSCOM660Lib.dll</HintPath>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
     <Reference Include="Matrox.MatroxImagingLibrary, Version=10.0.2564.1, Culture=neutral, PublicKeyToken=5a83d419d44a9d98, processorArchitecture=x86">
@@ -445,6 +445,12 @@
     <Compile Include="UI\Utility\FormAlarmDisplay.Designer.cs">
       <DependentUpon>FormAlarmDisplay.cs</DependentUpon>
     </Compile>
+    <Compile Include="UI\Utility\FormAlarmEdit.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\Utility\FormAlarmEdit.Designer.cs">
+      <DependentUpon>FormAlarmEdit.cs</DependentUpon>
+    </Compile>
     <Compile Include="UI\Utility\FormKeyBoard.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -586,6 +592,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Utility\FormAlarmDisplay.resx">
       <DependentUpon>FormAlarmDisplay.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Utility\FormAlarmEdit.resx">
+      <DependentUpon>FormAlarmEdit.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Utility\FormKeyBoard.resx">
       <DependentUpon>FormKeyBoard.cs</DependentUpon>

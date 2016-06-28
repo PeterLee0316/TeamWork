@@ -569,9 +569,7 @@ namespace LWDicer.UI
 
         private void BtnUpChangeValue_Click(object sender, EventArgs e)
         {
-            string StrXCurrent = "", StrZCurrent = "", strMsg = string.Empty;
-            double dXPos = 0, dOffsetXPos = 0, dTargetXPos = 0;
-            double dZPos = 0, dOffsetZPos = 0, dTargetZPos = 0;
+            string strCurrent = "", strMsg = string.Empty;
 
             strMsg = TeachUpPos[GetUpPosNo()].Text + " 목표 위치를 현재 위치로 변경하시겠습니까?";
 
@@ -580,70 +578,30 @@ namespace LWDicer.UI
                 return;
             }
 
-            StrXCurrent = GridUpHandlerTeachTable[7, 1].Text;
-            
-            dXPos = Convert.ToDouble(StrXCurrent);
-            dOffsetXPos = movingUpperObject.OffsetPos.Pos[GetUpPosNo()].dX;
+            strCurrent = GridUpHandlerTeachTable[7, 1].Text;
+            ChangeUpHandlerTargetPos(strCurrent, 1);
 
-            dTargetXPos = dXPos + dOffsetXPos;
-
-            GridUpHandlerTeachTable[2, 1].Text = Convert.ToString(dTargetXPos);
-
-            GridUpHandlerTeachTable[3, 1].Text = Convert.ToString(dXPos);
-            GridUpHandlerTeachTable[3, 1].TextColor = Color.Red;
-
-
-            StrZCurrent = GridUpHandlerTeachTable[7, 2].Text;
-
-            dZPos = Convert.ToDouble(StrZCurrent);
-            dOffsetZPos = movingUpperObject.OffsetPos.Pos[GetUpPosNo()].dZ;
-
-            dTargetZPos = dZPos + dOffsetZPos;
-
-            GridUpHandlerTeachTable[2, 2].Text = Convert.ToString(dTargetZPos);
-
-            GridUpHandlerTeachTable[3, 2].Text = Convert.ToString(dZPos);
-            GridUpHandlerTeachTable[3, 2].TextColor = Color.Red;
+            strCurrent = GridUpHandlerTeachTable[7, 2].Text;
+            ChangeUpHandlerTargetPos(strCurrent, 2);
 
         }
 
         private void BtnLoChangeValue_Click(object sender, EventArgs e)
         {
-            string StrXCurrent = "", StrZCurrent = "", strMsg = string.Empty;
-            double dXPos = 0, dOffsetXPos = 0, dTargetXPos = 0;
-            double dZPos = 0, dOffsetZPos = 0, dTargetZPos = 0;
+            string strCurrent = "", strMsg = string.Empty;
 
-            strMsg = TeachLoPos[GetLoPosNo()].Text + " 목표 위치를 현재 위치로 변경하시겠습니까?";
+            strMsg = TeachLoPos[GetUpPosNo()].Text + " 목표 위치를 현재 위치로 변경하시겠습니까?";
 
             if (!CMainFrame.LWDicer.DisplayMsg(strMsg))
             {
                 return;
             }
 
-            StrXCurrent = GridLoHandlerTeachTable[7, 1].Text;
+            strCurrent = GridLoHandlerTeachTable[7, 1].Text;
+            ChangeLoHandlerTargetPos(strCurrent, 1);
 
-            dXPos = Convert.ToDouble(StrXCurrent);
-            dOffsetXPos = movingLowerObject.OffsetPos.Pos[GetLoPosNo()].dX;
-
-            dTargetXPos = dXPos + dOffsetXPos;
-
-            GridLoHandlerTeachTable[2, 1].Text = Convert.ToString(dTargetXPos);
-
-            GridLoHandlerTeachTable[3, 1].Text = Convert.ToString(dXPos);
-            GridLoHandlerTeachTable[3, 1].TextColor = Color.Red;
-
-
-            StrZCurrent = GridLoHandlerTeachTable[7, 2].Text;
-
-            dZPos = Convert.ToDouble(StrZCurrent);
-            dOffsetZPos = movingLowerObject.OffsetPos.Pos[GetLoPosNo()].dZ;
-
-            dTargetZPos = dZPos + dOffsetZPos;
-
-            GridLoHandlerTeachTable[2, 2].Text = Convert.ToString(dTargetZPos);
-
-            GridLoHandlerTeachTable[3, 2].Text = Convert.ToString(dZPos);
-            GridLoHandlerTeachTable[3, 2].TextColor = Color.Red;
+            strCurrent = GridLoHandlerTeachTable[7, 2].Text;
+            ChangeLoHandlerTargetPos(strCurrent, 2);
 
         }
 
@@ -728,104 +686,79 @@ namespace LWDicer.UI
             if (e.ColIndex == 3 || e.ColIndex == 4) return;
 
             string strCurrent = "", strModify = "";
-            double dPos = 0, dOffsetPos = 0, dTargetPos = 0;
+
+            strCurrent = GridUpHandlerTeachTable[2, e.ColIndex].Text;
+            if (!CMainFrame.LWDicer.GetKeyPad(strCurrent, out strModify))
+            {
+                return;
+            }
+
+            ChangeUpHandlerTargetPos(strModify, e.ColIndex);
+        }
+
+
+        private void ChangeUpHandlerTargetPos(string strTarget, int index)
+        {
+            double dTargetPos = Convert.ToDouble(strTarget);
+            double dOtherSum = Convert.ToDouble(GridUpHandlerTeachTable[4, index].Text) // Model Pos
+                + Convert.ToDouble(GridUpHandlerTeachTable[5, index].Text); // + Align Mark Pos
 
             if (GetDataMode() == FixedData)
             {
-                strCurrent = GridUpHandlerTeachTable[3, e.ColIndex].Text;
-
-                if (!CMainFrame.LWDicer.GetKeyPad(strCurrent, out strModify))
-                {
-                    return;
-                }
-
-                dPos = Convert.ToDouble(strModify);
-
-                if (e.ColIndex == 1)
-                {
-                    dOffsetPos = movingUpperObject.OffsetPos.Pos[GetUpPosNo()].dX;
-
-                    dTargetPos = dPos + dOffsetPos;
-                }
-
-                if (e.ColIndex == 2)
-                {
-                    dOffsetPos = movingUpperObject.OffsetPos.Pos[GetUpPosNo()].dZ;
-
-                    dTargetPos = dPos + dOffsetPos;
-                }
-
-                GridUpHandlerTeachTable[2, e.ColIndex].Text = Convert.ToString(dTargetPos);
-
-                GridUpHandlerTeachTable[3, e.ColIndex].Text = strModify;
-                GridUpHandlerTeachTable[3, e.ColIndex].TextColor = Color.Red;
+                dOtherSum += Convert.ToDouble(GridUpHandlerTeachTable[6, index].Text); // Offset Pos
+                double dPos = dTargetPos - dOtherSum;
+                GridUpHandlerTeachTable[2, index].Text = Convert.ToString(dTargetPos);
+                GridUpHandlerTeachTable[3, index].Text = Convert.ToString(dPos);
+                GridUpHandlerTeachTable[3, index].TextColor = Color.Red;
             }
-
-            if(GetDataMode() == OffsetData)
+            else
             {
-                strCurrent = GridUpHandlerTeachTable[6, e.ColIndex].Text;
-
-                if (!CMainFrame.LWDicer.GetKeyPad(strCurrent, out strModify))
-                {
-                    return;
-                }
-
-                GridUpHandlerTeachTable[6, e.ColIndex].Text = strModify;
-                GridUpHandlerTeachTable[6, e.ColIndex].TextColor = Color.Red;
+                dOtherSum += Convert.ToDouble(GridUpHandlerTeachTable[3, index].Text); // Fixed Pos
+                double dPos = dTargetPos - dOtherSum;
+                GridUpHandlerTeachTable[2, index].Text = Convert.ToString(dTargetPos);
+                GridUpHandlerTeachTable[6, index].Text = Convert.ToString(dPos);
+                GridUpHandlerTeachTable[6, index].TextColor = Color.Red;
             }
         }
+
+        private void ChangeLoHandlerTargetPos(string strTarget, int index)
+        {
+            double dTargetPos = Convert.ToDouble(strTarget);
+            double dOtherSum = Convert.ToDouble(GridLoHandlerTeachTable[4, index].Text) // Model Pos
+                + Convert.ToDouble(GridLoHandlerTeachTable[5, index].Text); // + Align Mark Pos
+
+            if (GetDataMode() == FixedData)
+            {
+                dOtherSum += Convert.ToDouble(GridLoHandlerTeachTable[6, index].Text); // Offset Pos
+                double dPos = dTargetPos - dOtherSum;
+                GridLoHandlerTeachTable[2, index].Text = Convert.ToString(dTargetPos);
+                GridLoHandlerTeachTable[3, index].Text = Convert.ToString(dPos);
+                GridLoHandlerTeachTable[3, index].TextColor = Color.Red;
+            }
+            else
+            {
+                dOtherSum += Convert.ToDouble(GridLoHandlerTeachTable[3, index].Text); // Fixed Pos
+                double dPos = dTargetPos - dOtherSum;
+                GridLoHandlerTeachTable[2, index].Text = Convert.ToString(dTargetPos);
+                GridLoHandlerTeachTable[6, index].Text = Convert.ToString(dPos);
+                GridLoHandlerTeachTable[6, index].TextColor = Color.Red;
+            }
+        }
+
 
         private void GridLoHandlerTeachTable_PushButtonClick(object sender, GridCellPushButtonClickEventArgs e)
         {
             if (e.ColIndex == 3 || e.ColIndex == 4) return;
 
             string strCurrent = "", strModify = "";
-            double dPos = 0, dOffsetPos = 0, dTargetPos = 0;
 
-            if(GetDataMode() == FixedData)
+            strCurrent = GridLoHandlerTeachTable[2, e.ColIndex].Text;
+            if (!CMainFrame.LWDicer.GetKeyPad(strCurrent, out strModify))
             {
-                strCurrent = GridLoHandlerTeachTable[3, e.ColIndex].Text;
-
-                if (!CMainFrame.LWDicer.GetKeyPad(strCurrent, out strModify))
-                {
-                    return;
-                }
-
-                dPos = Convert.ToDouble(strModify);
-
-                if (e.ColIndex == 1)
-                {
-                    dOffsetPos = movingLowerObject.OffsetPos.Pos[GetUpPosNo()].dX;
-
-                    dTargetPos = dPos + dOffsetPos;
-                }
-
-                if (e.ColIndex == 2)
-                {
-                    dOffsetPos = movingLowerObject.OffsetPos.Pos[GetUpPosNo()].dZ;
-
-                    dTargetPos = dPos + dOffsetPos;
-                }
-
-                GridLoHandlerTeachTable[2, e.ColIndex].Text = Convert.ToString(dTargetPos);
-
-                GridLoHandlerTeachTable[3, e.ColIndex].Text = strModify;
-                GridLoHandlerTeachTable[3, e.ColIndex].TextColor = Color.Red;
+                return;
             }
 
-            if(GetDataMode() == OffsetData)
-            {
-                strCurrent = GridLoHandlerTeachTable[6, e.ColIndex].Text;
-
-                if (!CMainFrame.LWDicer.GetKeyPad(strCurrent, out strModify))
-                {
-                    return;
-                }
-
-                GridLoHandlerTeachTable[6, e.ColIndex].Text = strModify;
-                GridLoHandlerTeachTable[6, e.ColIndex].TextColor = Color.Red;
-            }
-            
+            ChangeLoHandlerTargetPos(strModify, e.ColIndex);
         }
 
         private void BtnUpTeachMove_Click(object sender, EventArgs e)

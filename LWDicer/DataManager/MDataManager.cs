@@ -91,18 +91,22 @@ namespace LWDicer.Control
         public const int ERR_MODEL_DATA_MAIN_MODEL_NAME_NULL = 31;
         public const int ERR_MODEL_DATA_MANAGER_NO_SECTIONNAME = 32;
 
-
         public const int DEF_MAX_SYSTEM_SECTION = 7;
         public const int DEF_MAX_FIXED_POSITION_SECTION = 14;
         public const int DEF_MAX_OFFSET_POSITION_SECTION = 14;
         public const int DEF_MAX_AXIS_NUM = 4;
 
+        public const int ERR_DATA_MANAGER_EXCEL_FILE_READ_FAIL = 1;
+        public const int ERR_DATA_MANAGER_IO_EXCEL_FILE_READ_FAIL = 2;
+        public const int ERR_DATA_MANAGER_MOTOR_EXCEL_FILE_READ_FAIL = 3;
+        public const int ERR_DATA_MANAGER_ALARM_EXCEL_FILE_READ_FAIL = 4;
+        public const int ERR_DATA_MANAGER_SYSTEM_EXCEL_FILE_READ_FAIL = 5;
 
-        public const int ERR_DATA_MANAGER_IO_EXCEL_FILE_READ_FAIL = 1;
-        public const int ERR_DATA_MANAGER_SYSTEM_EXCEL_FILE_READ_FAIL = 2;
-        public const int ERR_DATA_MANAGER_SYSTEM_EXCEL_FILE_SAVE_FAIL = 3;
-
-
+        public const int ERR_DATA_MANAGER_EXCEL_FILE_WRITE_FAIL = 1;
+        public const int ERR_DATA_MANAGER_IO_EXCEL_FILE_WRITE_FAIL = 2;
+        public const int ERR_DATA_MANAGER_MOTOR_EXCEL_FILE_WRITE_FAIL = 3;
+        public const int ERR_DATA_MANAGER_ALARM_EXCEL_FILE_WRITE_FAIL = 4;
+        public const int ERR_DATA_MANAGER_SYSTEM_EXCEL_FILE_WRITE_FAIL = 5;
 
         public class CSystemDataFileNames
         {
@@ -3422,7 +3426,7 @@ namespace LWDicer.Control
             catch (Exception ex)
             {
                 WriteExLog(ex.ToString());
-                return GenerateErrorCode(ERR_DATA_MANAGER_IO_EXCEL_FILE_READ_FAIL);
+                return GenerateErrorCode(ERR_DATA_MANAGER_EXCEL_FILE_READ_FAIL);
             }
 
             WriteLog($"success : Import Data from Excel", ELogType.Debug);
@@ -3458,7 +3462,7 @@ namespace LWDicer.Control
                 return GenerateErrorCode(ERR_DATA_MANAGER_IO_EXCEL_FILE_READ_FAIL);
             }
 
-            WriteLog($"success : IO Excel File Read Completed", ELogType.Debug);
+            WriteLog($"success : Import IO Data From Excel", ELogType.Debug);
             return SUCCESS;
         }
 
@@ -3558,10 +3562,10 @@ namespace LWDicer.Control
             catch (Exception ex)
             {
                 WriteExLog(ex.ToString());
-                return GenerateErrorCode(ERR_DATA_MANAGER_SYSTEM_EXCEL_FILE_READ_FAIL);
+                return GenerateErrorCode(ERR_DATA_MANAGER_MOTOR_EXCEL_FILE_READ_FAIL);
             }
 
-            WriteLog($"success : Load Motor Data", ELogType.Debug);
+            WriteLog($"success : Import Motor Data From Excel", ELogType.Debug);
             return SUCCESS;
         }
 
@@ -3569,45 +3573,68 @@ namespace LWDicer.Control
         {
             int nRowCount = SheetRange.EntireRow.Count;
             int i = 0;
+            string strGroup;
 
-            AlarmInfoList.Clear();
-
-            for (i = 0; i < nRowCount - 1; i++)
+            try
             {
-                CAlarmInfo AlarmInfo = new CAlarmInfo();
+                AlarmInfoList.Clear();
 
-                AlarmInfo.Index = (int)(SheetRange.Cells[i + 2, 1] as Excel.Range).Value2; // Index
-
-                switch (((int)(SheetRange.Cells[i + 2, 2] as Excel.Range).Value2)) // Type
+                for (i = 0; i < nRowCount - 1; i++)
                 {
-                    case (int)EErrorType.E1:
-                        AlarmInfo.Type = EErrorType.E1;
-                        break;
+                    CAlarmInfo AlarmInfo = new CAlarmInfo();
 
-                    case (int)EErrorType.E2:
-                        AlarmInfo.Type = EErrorType.E2;
-                        break;
+                    strGroup = (string)(SheetRange.Cells[i + 2, 1] as Excel.Range).Value2; // Group
 
-                    case (int)EErrorType.E3:
-                        AlarmInfo.Type = EErrorType.E3;
-                        break;
+                    if (strGroup == Convert.ToString(EAlarmGroup.SYSTEM)) AlarmInfo.Group = EAlarmGroup.SYSTEM;
+                    if (strGroup == Convert.ToString(EAlarmGroup.LOADER)) AlarmInfo.Group = EAlarmGroup.LOADER;
+                    if (strGroup == Convert.ToString(EAlarmGroup.PUSHPULL)) AlarmInfo.Group = EAlarmGroup.PUSHPULL;
+                    if (strGroup == Convert.ToString(EAlarmGroup.HANDLER)) AlarmInfo.Group = EAlarmGroup.HANDLER;
+                    if (strGroup == Convert.ToString(EAlarmGroup.SPINNER)) AlarmInfo.Group = EAlarmGroup.SPINNER;
+                    if (strGroup == Convert.ToString(EAlarmGroup.STAGE)) AlarmInfo.Group = EAlarmGroup.STAGE;
+                    if (strGroup == Convert.ToString(EAlarmGroup.SCANNER)) AlarmInfo.Group = EAlarmGroup.SCANNER;
+                    if (strGroup == Convert.ToString(EAlarmGroup.LASER)) AlarmInfo.Group = EAlarmGroup.LASER;
+
+                    AlarmInfo.Esc = (string)(SheetRange.Cells[i + 2, 2] as Excel.Range).Value2; // ESC
+
+                    AlarmInfo.Index = (int)(SheetRange.Cells[i + 2, 3] as Excel.Range).Value2; // Index
+
+                    switch (((int)(SheetRange.Cells[i + 2, 4] as Excel.Range).Value2)) // Type
+                    {
+                        case (int)EErrorType.E1:
+                            AlarmInfo.Type = EErrorType.E1;
+                            break;
+
+                        case (int)EErrorType.E2:
+                            AlarmInfo.Type = EErrorType.E2;
+                            break;
+
+                        case (int)EErrorType.E3:
+                            AlarmInfo.Type = EErrorType.E3;
+                            break;
+                    }
+
+                    AlarmInfo.Description[(int)DEF_Common.ELanguage.KOREAN] = (string)(SheetRange.Cells[i + 2, 5] as Excel.Range).Value2; // Description Kor
+                    AlarmInfo.Description[(int)DEF_Common.ELanguage.ENGLISH] = (string)(SheetRange.Cells[i + 2, 6] as Excel.Range).Value2; // Description Eng
+                    AlarmInfo.Description[(int)DEF_Common.ELanguage.CHINESE] = (string)(SheetRange.Cells[i + 2, 7] as Excel.Range).Value2; // Description Chn
+                    AlarmInfo.Description[(int)DEF_Common.ELanguage.JAPANESE] = (string)(SheetRange.Cells[i + 2, 8] as Excel.Range).Value2; // Description Jpn
+
+                    AlarmInfo.Solution[(int)DEF_Common.ELanguage.KOREAN] = (string)(SheetRange.Cells[i + 2, 9] as Excel.Range).Value2; // Solution Kor
+                    AlarmInfo.Solution[(int)DEF_Common.ELanguage.ENGLISH] = (string)(SheetRange.Cells[i + 2, 10] as Excel.Range).Value2; // Solution Eng
+                    AlarmInfo.Solution[(int)DEF_Common.ELanguage.CHINESE] = (string)(SheetRange.Cells[i + 2, 11] as Excel.Range).Value2; // Solution Chn
+                    AlarmInfo.Solution[(int)DEF_Common.ELanguage.JAPANESE] = (string)(SheetRange.Cells[i + 2, 12] as Excel.Range).Value2; // Solution Jpn
+
+                    AlarmInfoList.Add(AlarmInfo);
                 }
 
-                AlarmInfo.Description[(int)DEF_Common.ELanguage.KOREAN] = (string)(SheetRange.Cells[i + 2, 3] as Excel.Range).Value2; // Description Kor
-                AlarmInfo.Description[(int)DEF_Common.ELanguage.ENGLISH] = (string)(SheetRange.Cells[i + 2, 4] as Excel.Range).Value2; // Description Eng
-                AlarmInfo.Description[(int)DEF_Common.ELanguage.CHINESE] = (string)(SheetRange.Cells[i + 2, 5] as Excel.Range).Value2; // Description Chn
-                AlarmInfo.Description[(int)DEF_Common.ELanguage.JAPANESE] = (string)(SheetRange.Cells[i + 2, 6] as Excel.Range).Value2; // Description Jpn
-
-                AlarmInfo.Solution[(int)DEF_Common.ELanguage.KOREAN] = (string)(SheetRange.Cells[i + 2, 7] as Excel.Range).Value2; // Solution Kor
-                AlarmInfo.Solution[(int)DEF_Common.ELanguage.ENGLISH] = (string)(SheetRange.Cells[i + 2, 8] as Excel.Range).Value2; // Solution Eng
-                AlarmInfo.Solution[(int)DEF_Common.ELanguage.CHINESE] = (string)(SheetRange.Cells[i + 2, 9] as Excel.Range).Value2; // Solution Chn
-                AlarmInfo.Solution[(int)DEF_Common.ELanguage.JAPANESE] = (string)(SheetRange.Cells[i + 2, 10] as Excel.Range).Value2; // Solution Jpn
-
-                AlarmInfoList.Add(AlarmInfo);
+                SaveAlarmInfoList();
+            }
+            catch (Exception ex)
+            {
+                WriteExLog(ex.ToString());
+                return GenerateErrorCode(ERR_DATA_MANAGER_ALARM_EXCEL_FILE_READ_FAIL);
             }
 
-            SaveAlarmInfoList();
-
+            WriteLog($"success : Import Alarm Infoa From Excel", ELogType.Debug);
             return SUCCESS;
         }
 
@@ -3651,11 +3678,36 @@ namespace LWDicer.Control
             return SUCCESS;
         }
 
-        public int SaveAlarmInfoToExcel()
+        public int ExportDataToExcel(EExcel_Sheet nSheet)
         {
-            int i = 0, nSheetCount = 0, nCount = 0;
+            if (nSheet == EExcel_Sheet.MAX || nSheet == EExcel_Sheet.PARA_Info)
+            {
+                // Parameter Info
+                ExportParaDataToExcel();
+            }
 
-            string strPath = DBInfo.SystemDir + DBInfo.ExcelSystemPara;
+            if (nSheet == EExcel_Sheet.MAX || nSheet == EExcel_Sheet.Alarm_Info)
+            {
+                // Alarm Info
+                ExportAlarmInfoToExcel();
+            }
+
+            if (nSheet == EExcel_Sheet.MAX || nSheet == EExcel_Sheet.Motor_Data)
+            {
+                // Motor Data
+                ExportMotorDataToExcel();
+            }
+
+            return SUCCESS;
+        }
+
+
+        public int ExportAlarmInfoToExcel()
+        {
+            int i = 0, j = 0, nSheetCount = 0, nCount = 0;
+
+            string strPath = DBInfo.SystemDir + DBInfo.ExcelSystemPara, strGroup=string.Empty;
+            int iResult;
 
             try
             {
@@ -3682,19 +3734,32 @@ namespace LWDicer.Control
 
                 for (i=0;i<nCount;i++)
                 {
-                    (SheetRange[(int)EExcel_Sheet.Alarm_Info].Cells[i + 2, 1] as Excel.Range).Value2 = AlarmInfoList[i].Index;
+                    if (AlarmInfoList[i].Group == EAlarmGroup.SYSTEM) strGroup = Convert.ToString(EAlarmGroup.SYSTEM);
+                    if (AlarmInfoList[i].Group == EAlarmGroup.LOADER) strGroup = Convert.ToString(EAlarmGroup.LOADER);
+                    if (AlarmInfoList[i].Group == EAlarmGroup.PUSHPULL) strGroup = Convert.ToString(EAlarmGroup.PUSHPULL);
+                    if (AlarmInfoList[i].Group == EAlarmGroup.HANDLER) strGroup = Convert.ToString(EAlarmGroup.HANDLER);
+                    if (AlarmInfoList[i].Group == EAlarmGroup.SPINNER) strGroup = Convert.ToString(EAlarmGroup.SPINNER);
+                    if (AlarmInfoList[i].Group == EAlarmGroup.STAGE) strGroup = Convert.ToString(EAlarmGroup.STAGE);
+                    if (AlarmInfoList[i].Group == EAlarmGroup.SCANNER) strGroup = Convert.ToString(EAlarmGroup.SCANNER);
+                    if (AlarmInfoList[i].Group == EAlarmGroup.LASER) strGroup = Convert.ToString(EAlarmGroup.LASER);
 
-                    (SheetRange[(int)EExcel_Sheet.Alarm_Info].Cells[i + 2, 2] as Excel.Range).Value2 = AlarmInfoList[i].Type;
+                    (SheetRange[(int)EExcel_Sheet.Alarm_Info].Cells[i + 2, 1] as Excel.Range).Value2 = strGroup;
 
-                    (SheetRange[(int)EExcel_Sheet.Alarm_Info].Cells[i + 2, 3] as Excel.Range).Value2 = AlarmInfoList[i].Description[(int)DEF_Common.ELanguage.KOREAN];
-                    (SheetRange[(int)EExcel_Sheet.Alarm_Info].Cells[i + 2, 4] as Excel.Range).Value2 = AlarmInfoList[i].Description[(int)DEF_Common.ELanguage.ENGLISH];
-                    (SheetRange[(int)EExcel_Sheet.Alarm_Info].Cells[i + 2, 5] as Excel.Range).Value2 = AlarmInfoList[i].Description[(int)DEF_Common.ELanguage.CHINESE];
-                    (SheetRange[(int)EExcel_Sheet.Alarm_Info].Cells[i + 2, 6] as Excel.Range).Value2 = AlarmInfoList[i].Description[(int)DEF_Common.ELanguage.JAPANESE];
+                    (SheetRange[(int)EExcel_Sheet.Alarm_Info].Cells[i + 2, 2] as Excel.Range).Value2 = AlarmInfoList[i].Esc;
 
-                    (SheetRange[(int)EExcel_Sheet.Alarm_Info].Cells[i + 2, 7] as Excel.Range).Value2 = AlarmInfoList[i].Solution[(int)DEF_Common.ELanguage.KOREAN];
-                    (SheetRange[(int)EExcel_Sheet.Alarm_Info].Cells[i + 2, 8] as Excel.Range).Value2 = AlarmInfoList[i].Solution[(int)DEF_Common.ELanguage.ENGLISH];
-                    (SheetRange[(int)EExcel_Sheet.Alarm_Info].Cells[i + 2, 9] as Excel.Range).Value2 = AlarmInfoList[i].Solution[(int)DEF_Common.ELanguage.CHINESE];
-                    (SheetRange[(int)EExcel_Sheet.Alarm_Info].Cells[i + 2, 10] as Excel.Range).Value2 = AlarmInfoList[i].Solution[(int)DEF_Common.ELanguage.JAPANESE];
+                    (SheetRange[(int)EExcel_Sheet.Alarm_Info].Cells[i + 2, 3] as Excel.Range).Value2 = AlarmInfoList[i].Index;
+
+                    (SheetRange[(int)EExcel_Sheet.Alarm_Info].Cells[i + 2, 4] as Excel.Range).Value2 = AlarmInfoList[i].Type;
+
+                    (SheetRange[(int)EExcel_Sheet.Alarm_Info].Cells[i + 2, 5] as Excel.Range).Value2 = AlarmInfoList[i].Description[(int)DEF_Common.ELanguage.KOREAN];
+                    (SheetRange[(int)EExcel_Sheet.Alarm_Info].Cells[i + 2, 6] as Excel.Range).Value2 = AlarmInfoList[i].Description[(int)DEF_Common.ELanguage.ENGLISH];
+                    (SheetRange[(int)EExcel_Sheet.Alarm_Info].Cells[i + 2, 7] as Excel.Range).Value2 = AlarmInfoList[i].Description[(int)DEF_Common.ELanguage.CHINESE];
+                    (SheetRange[(int)EExcel_Sheet.Alarm_Info].Cells[i + 2, 8] as Excel.Range).Value2 = AlarmInfoList[i].Description[(int)DEF_Common.ELanguage.JAPANESE];
+
+                    (SheetRange[(int)EExcel_Sheet.Alarm_Info].Cells[i + 2, 9] as Excel.Range).Value2 = AlarmInfoList[i].Solution[(int)DEF_Common.ELanguage.KOREAN];
+                    (SheetRange[(int)EExcel_Sheet.Alarm_Info].Cells[i + 2, 10] as Excel.Range).Value2 = AlarmInfoList[i].Solution[(int)DEF_Common.ELanguage.ENGLISH];
+                    (SheetRange[(int)EExcel_Sheet.Alarm_Info].Cells[i + 2, 11] as Excel.Range).Value2 = AlarmInfoList[i].Solution[(int)DEF_Common.ELanguage.CHINESE];
+                    (SheetRange[(int)EExcel_Sheet.Alarm_Info].Cells[i + 2, 12] as Excel.Range).Value2 = AlarmInfoList[i].Solution[(int)DEF_Common.ELanguage.JAPANESE];
                 }
 
                 WorkBook.Save();
@@ -3705,20 +3770,19 @@ namespace LWDicer.Control
             catch (Exception ex)
             {
                 WriteExLog(ex.ToString());
-                return GenerateErrorCode(ERR_DATA_MANAGER_SYSTEM_EXCEL_FILE_READ_FAIL);
+                return GenerateErrorCode(ERR_DATA_MANAGER_ALARM_EXCEL_FILE_WRITE_FAIL);
             }
 
-            WriteLog($"success : Save Alarm Info", ELogType.Debug);
-
+            WriteLog($"success : Export Alarm Info Data to Excel", ELogType.Debug);
             return SUCCESS;
         }
 
-        public int SaveParaInfoToExcel()
+        public int ExportParaDataToExcel()
         {
             int i = 0, j = 0, nSheetCount = 0, nCount = 0;
 
             string strPath = DBInfo.SystemDir + DBInfo.ExcelSystemPara;
-
+            int iResult;
             try
             {
                 Excel.Application ExcelApp = new Microsoft.Office.Interop.Excel.Application();
@@ -3744,20 +3808,20 @@ namespace LWDicer.Control
 
                 for (i = 0; i < nCount; i++)
                 {
-                    (SheetRange[(int)EExcel_Sheet.Alarm_Info].Cells[i + 2, 1] as Excel.Range).Value2 = ParaInfoList[i].Group;
-                    (SheetRange[(int)EExcel_Sheet.Alarm_Info].Cells[i + 2, 2] as Excel.Range).Value2 = ParaInfoList[i].Name;
-                    (SheetRange[(int)EExcel_Sheet.Alarm_Info].Cells[i + 2, 3] as Excel.Range).Value2 = ParaInfoList[i].Unit;
-                    (SheetRange[(int)EExcel_Sheet.Alarm_Info].Cells[i + 2, 4] as Excel.Range).Value2 = ParaInfoList[i].Type;
+                    (SheetRange[(int)EExcel_Sheet.PARA_Info].Cells[i + 2, 1] as Excel.Range).Value2 = ParaInfoList[i].Group;
+                    (SheetRange[(int)EExcel_Sheet.PARA_Info].Cells[i + 2, 2] as Excel.Range).Value2 = ParaInfoList[i].Name;
+                    (SheetRange[(int)EExcel_Sheet.PARA_Info].Cells[i + 2, 3] as Excel.Range).Value2 = ParaInfoList[i].Unit;
+                    (SheetRange[(int)EExcel_Sheet.PARA_Info].Cells[i + 2, 4] as Excel.Range).Value2 = ParaInfoList[i].Type;
 
-                    (SheetRange[(int)EExcel_Sheet.Alarm_Info].Cells[i + 2, 5] as Excel.Range).Value2 = ParaInfoList[i].DisplayName[(int)DEF_Common.ELanguage.KOREAN];
-                    (SheetRange[(int)EExcel_Sheet.Alarm_Info].Cells[i + 2, 6] as Excel.Range).Value2 = ParaInfoList[i].DisplayName[(int)DEF_Common.ELanguage.ENGLISH];
-                    (SheetRange[(int)EExcel_Sheet.Alarm_Info].Cells[i + 2, 7] as Excel.Range).Value2 = ParaInfoList[i].DisplayName[(int)DEF_Common.ELanguage.CHINESE];
-                    (SheetRange[(int)EExcel_Sheet.Alarm_Info].Cells[i + 2, 8] as Excel.Range).Value2 = ParaInfoList[i].DisplayName[(int)DEF_Common.ELanguage.JAPANESE];
+                    (SheetRange[(int)EExcel_Sheet.PARA_Info].Cells[i + 2, 5] as Excel.Range).Value2 = ParaInfoList[i].DisplayName[(int)DEF_Common.ELanguage.KOREAN];
+                    (SheetRange[(int)EExcel_Sheet.PARA_Info].Cells[i + 2, 6] as Excel.Range).Value2 = ParaInfoList[i].DisplayName[(int)DEF_Common.ELanguage.ENGLISH];
+                    (SheetRange[(int)EExcel_Sheet.PARA_Info].Cells[i + 2, 7] as Excel.Range).Value2 = ParaInfoList[i].DisplayName[(int)DEF_Common.ELanguage.CHINESE];
+                    (SheetRange[(int)EExcel_Sheet.PARA_Info].Cells[i + 2, 8] as Excel.Range).Value2 = ParaInfoList[i].DisplayName[(int)DEF_Common.ELanguage.JAPANESE];
 
-                    (SheetRange[(int)EExcel_Sheet.Alarm_Info].Cells[i + 2, 9] as Excel.Range).Value2 = ParaInfoList[i].Description[(int)DEF_Common.ELanguage.KOREAN];
-                    (SheetRange[(int)EExcel_Sheet.Alarm_Info].Cells[i + 2, 10] as Excel.Range).Value2 = ParaInfoList[i].Description[(int)DEF_Common.ELanguage.ENGLISH];
-                    (SheetRange[(int)EExcel_Sheet.Alarm_Info].Cells[i + 2, 11] as Excel.Range).Value2 = ParaInfoList[i].Description[(int)DEF_Common.ELanguage.CHINESE];
-                    (SheetRange[(int)EExcel_Sheet.Alarm_Info].Cells[i + 2, 12] as Excel.Range).Value2 = ParaInfoList[i].Description[(int)DEF_Common.ELanguage.JAPANESE];
+                    (SheetRange[(int)EExcel_Sheet.PARA_Info].Cells[i + 2, 9] as Excel.Range).Value2 = ParaInfoList[i].Description[(int)DEF_Common.ELanguage.KOREAN];
+                    (SheetRange[(int)EExcel_Sheet.PARA_Info].Cells[i + 2, 10] as Excel.Range).Value2 = ParaInfoList[i].Description[(int)DEF_Common.ELanguage.ENGLISH];
+                    (SheetRange[(int)EExcel_Sheet.PARA_Info].Cells[i + 2, 11] as Excel.Range).Value2 = ParaInfoList[i].Description[(int)DEF_Common.ELanguage.CHINESE];
+                    (SheetRange[(int)EExcel_Sheet.PARA_Info].Cells[i + 2, 12] as Excel.Range).Value2 = ParaInfoList[i].Description[(int)DEF_Common.ELanguage.JAPANESE];
                 }
 
                 WorkBook.Save();
@@ -3768,15 +3832,15 @@ namespace LWDicer.Control
             catch (Exception ex)
             {
                 WriteExLog(ex.ToString());
-                return GenerateErrorCode(ERR_DATA_MANAGER_SYSTEM_EXCEL_FILE_READ_FAIL);
+                return GenerateErrorCode(ERR_DATA_MANAGER_SYSTEM_EXCEL_FILE_WRITE_FAIL);
             }
 
-            WriteLog($"success : Save System Parameter Info", ELogType.Debug);
-
+            WriteLog($"success : Export Parameter Data to Excel", ELogType.Debug);
             return SUCCESS;
+
         }
 
-        public int ExportMotorDataFromExcel(string [,] strParameter)
+        public int ExportMotorDataToExcel()
         {
             int i = 0, j = 0, nSheetCount = 0, nCount = 0;
 
@@ -3804,12 +3868,83 @@ namespace LWDicer.Control
                 }
 
                 // Motor Data Sheet
-                for (i = 0; i < 19; i++)
+                for (i = 0; i < 16; i++)
                 {
-                    for(j=0;j<28;j++)
-                    {
-                        (SheetRange[(int)EExcel_Sheet.Motor_Data].Cells[i + 2, j+3] as Excel.Range).Value2 = strParameter[i,j];
-                    }
+                    // Speed
+                    (SheetRange[(int)EExcel_Sheet.Motor_Data].Cells[i + 2, 3] as Excel.Range).Value2 = SystemData_Axis.MPMotionData[i].Speed[(int)EMotorSpeed.MANUAL_SLOW].Vel;
+                    (SheetRange[(int)EExcel_Sheet.Motor_Data].Cells[i + 2, 4] as Excel.Range).Value2 = SystemData_Axis.MPMotionData[i].Speed[(int)EMotorSpeed.MANUAL_FAST].Vel;
+                    (SheetRange[(int)EExcel_Sheet.Motor_Data].Cells[i + 2, 5] as Excel.Range).Value2 = SystemData_Axis.MPMotionData[i].Speed[(int)EMotorSpeed.AUTO_SLOW].Vel;
+                    (SheetRange[(int)EExcel_Sheet.Motor_Data].Cells[i + 2, 6] as Excel.Range).Value2 = SystemData_Axis.MPMotionData[i].Speed[(int)EMotorSpeed.AUTO_FAST].Vel;
+                    (SheetRange[(int)EExcel_Sheet.Motor_Data].Cells[i + 2, 7] as Excel.Range).Value2 = SystemData_Axis.MPMotionData[i].Speed[(int)EMotorSpeed.JOG_SLOW].Vel;
+                    (SheetRange[(int)EExcel_Sheet.Motor_Data].Cells[i + 2, 8] as Excel.Range).Value2 = SystemData_Axis.MPMotionData[i].Speed[(int)EMotorSpeed.JOG_FAST].Vel;
+
+                    // Acc
+                    (SheetRange[(int)EExcel_Sheet.Motor_Data].Cells[i + 2, 9] as Excel.Range).Value2 = SystemData_Axis.MPMotionData[i].Speed[(int)EMotorSpeed.MANUAL_SLOW].Acc;
+                    (SheetRange[(int)EExcel_Sheet.Motor_Data].Cells[i + 2, 10] as Excel.Range).Value2 = SystemData_Axis.MPMotionData[i].Speed[(int)EMotorSpeed.MANUAL_FAST].Acc;
+                    (SheetRange[(int)EExcel_Sheet.Motor_Data].Cells[i + 2, 11] as Excel.Range).Value2 = SystemData_Axis.MPMotionData[i].Speed[(int)EMotorSpeed.AUTO_SLOW].Acc;
+                    (SheetRange[(int)EExcel_Sheet.Motor_Data].Cells[i + 2, 12] as Excel.Range).Value2 = SystemData_Axis.MPMotionData[i].Speed[(int)EMotorSpeed.AUTO_FAST].Acc;
+                    (SheetRange[(int)EExcel_Sheet.Motor_Data].Cells[i + 2, 13] as Excel.Range).Value2 = SystemData_Axis.MPMotionData[i].Speed[(int)EMotorSpeed.JOG_SLOW].Acc;
+                    (SheetRange[(int)EExcel_Sheet.Motor_Data].Cells[i + 2, 14] as Excel.Range).Value2 = SystemData_Axis.MPMotionData[i].Speed[(int)EMotorSpeed.JOG_FAST].Acc;
+
+                    // Dec
+                    (SheetRange[(int)EExcel_Sheet.Motor_Data].Cells[i + 2, 15] as Excel.Range).Value2 = SystemData_Axis.MPMotionData[i].Speed[(int)EMotorSpeed.MANUAL_SLOW].Dec;
+                    (SheetRange[(int)EExcel_Sheet.Motor_Data].Cells[i + 2, 16] as Excel.Range).Value2 = SystemData_Axis.MPMotionData[i].Speed[(int)EMotorSpeed.MANUAL_FAST].Dec;
+                    (SheetRange[(int)EExcel_Sheet.Motor_Data].Cells[i + 2, 17] as Excel.Range).Value2 = SystemData_Axis.MPMotionData[i].Speed[(int)EMotorSpeed.AUTO_SLOW].Dec;
+                    (SheetRange[(int)EExcel_Sheet.Motor_Data].Cells[i + 2, 18] as Excel.Range).Value2 = SystemData_Axis.MPMotionData[i].Speed[(int)EMotorSpeed.AUTO_FAST].Dec;
+                    (SheetRange[(int)EExcel_Sheet.Motor_Data].Cells[i + 2, 19] as Excel.Range).Value2 = SystemData_Axis.MPMotionData[i].Speed[(int)EMotorSpeed.JOG_SLOW].Dec;
+                    (SheetRange[(int)EExcel_Sheet.Motor_Data].Cells[i + 2, 20] as Excel.Range).Value2 = SystemData_Axis.MPMotionData[i].Speed[(int)EMotorSpeed.JOG_FAST].Dec;
+
+                    // S/W Limit
+                    (SheetRange[(int)EExcel_Sheet.Motor_Data].Cells[i + 2, 21] as Excel.Range).Value2 = SystemData_Axis.MPMotionData[i].PosLimit.Plus;
+                    (SheetRange[(int)EExcel_Sheet.Motor_Data].Cells[i + 2, 22] as Excel.Range).Value2 = SystemData_Axis.MPMotionData[i].PosLimit.Minus;
+
+                    // Limit Time
+                    (SheetRange[(int)EExcel_Sheet.Motor_Data].Cells[i + 2, 23] as Excel.Range).Value2 = SystemData_Axis.MPMotionData[i].TimeLimit.tMoveLimit;
+                    (SheetRange[(int)EExcel_Sheet.Motor_Data].Cells[i + 2, 24] as Excel.Range).Value2 = SystemData_Axis.MPMotionData[i].TimeLimit.tSleepAfterMove;
+                    (SheetRange[(int)EExcel_Sheet.Motor_Data].Cells[i + 2, 25] as Excel.Range).Value2 = SystemData_Axis.MPMotionData[i].TimeLimit.tOriginLimit;
+
+                    // Home Option
+                    (SheetRange[(int)EExcel_Sheet.Motor_Data].Cells[i + 2, 26] as Excel.Range).Value2 = SystemData_Axis.MPMotionData[i].OriginData.Method;
+                    (SheetRange[(int)EExcel_Sheet.Motor_Data].Cells[i + 2, 27] as Excel.Range).Value2 = SystemData_Axis.MPMotionData[i].OriginData.Dir;
+                    (SheetRange[(int)EExcel_Sheet.Motor_Data].Cells[i + 2, 28] as Excel.Range).Value2 = SystemData_Axis.MPMotionData[i].OriginData.FastSpeed;
+                    (SheetRange[(int)EExcel_Sheet.Motor_Data].Cells[i + 2, 29] as Excel.Range).Value2 = SystemData_Axis.MPMotionData[i].OriginData.SlowSpeed;
+                    (SheetRange[(int)EExcel_Sheet.Motor_Data].Cells[i + 2, 30] as Excel.Range).Value2 = SystemData_Axis.MPMotionData[i].OriginData.HomeOffset;
+                }
+
+                for (i = 0; i < 3; i++)
+                {
+                    // Speed
+                    (SheetRange[(int)EExcel_Sheet.Motor_Data].Cells[i + 18, 3] as Excel.Range).Value2 = SystemData_Axis.ACSMotionData[i].Speed[(int)EMotorSpeed.MANUAL_SLOW].Vel;
+                    (SheetRange[(int)EExcel_Sheet.Motor_Data].Cells[i + 18, 4] as Excel.Range).Value2 = SystemData_Axis.ACSMotionData[i].Speed[(int)EMotorSpeed.MANUAL_FAST].Vel;
+                    (SheetRange[(int)EExcel_Sheet.Motor_Data].Cells[i + 18, 5] as Excel.Range).Value2 = SystemData_Axis.ACSMotionData[i].Speed[(int)EMotorSpeed.AUTO_SLOW].Vel;
+                    (SheetRange[(int)EExcel_Sheet.Motor_Data].Cells[i + 18, 6] as Excel.Range).Value2 = SystemData_Axis.ACSMotionData[i].Speed[(int)EMotorSpeed.AUTO_FAST].Vel;
+                    (SheetRange[(int)EExcel_Sheet.Motor_Data].Cells[i + 18, 7] as Excel.Range).Value2 = SystemData_Axis.ACSMotionData[i].Speed[(int)EMotorSpeed.JOG_SLOW].Vel;
+                    (SheetRange[(int)EExcel_Sheet.Motor_Data].Cells[i + 18, 8] as Excel.Range).Value2 = SystemData_Axis.ACSMotionData[i].Speed[(int)EMotorSpeed.JOG_FAST].Vel;
+                                                                        
+                    // Acc                                              
+                    (SheetRange[(int)EExcel_Sheet.Motor_Data].Cells[i + 18, 9] as Excel.Range).Value2 = SystemData_Axis.ACSMotionData[i].Speed[(int)EMotorSpeed.MANUAL_SLOW].Acc;
+                    (SheetRange[(int)EExcel_Sheet.Motor_Data].Cells[i + 18, 10] as Excel.Range).Value2 = SystemData_Axis.ACSMotionData[i].Speed[(int)EMotorSpeed.MANUAL_FAST].Acc;
+                    (SheetRange[(int)EExcel_Sheet.Motor_Data].Cells[i + 18, 11] as Excel.Range).Value2 = SystemData_Axis.ACSMotionData[i].Speed[(int)EMotorSpeed.AUTO_SLOW].Acc;
+                    (SheetRange[(int)EExcel_Sheet.Motor_Data].Cells[i + 18, 12] as Excel.Range).Value2 = SystemData_Axis.ACSMotionData[i].Speed[(int)EMotorSpeed.AUTO_FAST].Acc;
+                    (SheetRange[(int)EExcel_Sheet.Motor_Data].Cells[i + 18, 13] as Excel.Range).Value2 = SystemData_Axis.ACSMotionData[i].Speed[(int)EMotorSpeed.JOG_SLOW].Acc;
+                    (SheetRange[(int)EExcel_Sheet.Motor_Data].Cells[i + 18, 14] as Excel.Range).Value2 = SystemData_Axis.ACSMotionData[i].Speed[(int)EMotorSpeed.JOG_FAST].Acc;
+                                                                        
+                    // Dec                                              
+                    (SheetRange[(int)EExcel_Sheet.Motor_Data].Cells[i + 18, 15] as Excel.Range).Value2 = SystemData_Axis.ACSMotionData[i].Speed[(int)EMotorSpeed.MANUAL_SLOW].Dec;
+                    (SheetRange[(int)EExcel_Sheet.Motor_Data].Cells[i + 18, 16] as Excel.Range).Value2 = SystemData_Axis.ACSMotionData[i].Speed[(int)EMotorSpeed.MANUAL_FAST].Dec;
+                    (SheetRange[(int)EExcel_Sheet.Motor_Data].Cells[i + 18, 17] as Excel.Range).Value2 = SystemData_Axis.ACSMotionData[i].Speed[(int)EMotorSpeed.AUTO_SLOW].Dec;
+                    (SheetRange[(int)EExcel_Sheet.Motor_Data].Cells[i + 18, 18] as Excel.Range).Value2 = SystemData_Axis.ACSMotionData[i].Speed[(int)EMotorSpeed.AUTO_FAST].Dec;
+                    (SheetRange[(int)EExcel_Sheet.Motor_Data].Cells[i + 18, 19] as Excel.Range).Value2 = SystemData_Axis.ACSMotionData[i].Speed[(int)EMotorSpeed.JOG_SLOW].Dec;
+                    (SheetRange[(int)EExcel_Sheet.Motor_Data].Cells[i + 18, 20] as Excel.Range).Value2 = SystemData_Axis.ACSMotionData[i].Speed[(int)EMotorSpeed.JOG_FAST].Dec;
+                                                                        
+                    // S/W Limit                                        
+                    (SheetRange[(int)EExcel_Sheet.Motor_Data].Cells[i + 18, 21] as Excel.Range).Value2 = SystemData_Axis.ACSMotionData[i].PosLimit.Plus;
+                    (SheetRange[(int)EExcel_Sheet.Motor_Data].Cells[i + 18, 22] as Excel.Range).Value2 = SystemData_Axis.ACSMotionData[i].PosLimit.Minus;
+                                                                        
+                    // Limit Time                                       
+                    (SheetRange[(int)EExcel_Sheet.Motor_Data].Cells[i + 18, 23] as Excel.Range).Value2 = SystemData_Axis.ACSMotionData[i].TimeLimit.tMoveLimit;
+                    (SheetRange[(int)EExcel_Sheet.Motor_Data].Cells[i + 18, 24] as Excel.Range).Value2 = SystemData_Axis.ACSMotionData[i].TimeLimit.tSleepAfterMove;
+                    (SheetRange[(int)EExcel_Sheet.Motor_Data].Cells[i + 18, 25] as Excel.Range).Value2 = SystemData_Axis.ACSMotionData[i].TimeLimit.tOriginLimit;
                 }
 
                 WorkBook.Save();
@@ -3820,10 +3955,10 @@ namespace LWDicer.Control
             catch (Exception ex)
             {
                 WriteExLog(ex.ToString());
-                return GenerateErrorCode(ERR_DATA_MANAGER_SYSTEM_EXCEL_FILE_READ_FAIL);
+                return GenerateErrorCode(ERR_DATA_MANAGER_MOTOR_EXCEL_FILE_WRITE_FAIL);
             }
 
-            WriteLog($"success : Save Motor Data", ELogType.Debug);
+            WriteLog($"success : Export Motor Data to Excel", ELogType.Debug);
             return SUCCESS;
         }
 

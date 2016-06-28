@@ -30,40 +30,27 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormAlarmDisplay));
-            this.LabelAlarmText = new Syncfusion.Windows.Forms.Tools.GradientLabel();
             this.BtnBuzzerOff = new Syncfusion.Windows.Forms.ButtonAdv();
             this.BtnReset = new Syncfusion.Windows.Forms.ButtonAdv();
             this.BtnExit = new Syncfusion.Windows.Forms.ButtonAdv();
-            this.LabelTrouble = new Syncfusion.Windows.Forms.Tools.GradientLabel();
+            this.TmrAlarm = new System.Windows.Forms.Timer(this.components);
+            this.BtnEdit = new Syncfusion.Windows.Forms.ButtonAdv();
+            this.BtnSave = new Syncfusion.Windows.Forms.ButtonAdv();
             this.gradientPanel1 = new Syncfusion.Windows.Forms.Tools.GradientPanel();
+            this.LabelTrouble2 = new Syncfusion.Windows.Forms.Tools.GradientLabel();
             this.autoLabel1 = new Syncfusion.Windows.Forms.Tools.AutoLabel();
+            this.LabelTrouble1 = new Syncfusion.Windows.Forms.Tools.GradientLabel();
             this.gradientPanel2 = new Syncfusion.Windows.Forms.Tools.GradientPanel();
+            this.LabelAlarmText2 = new Syncfusion.Windows.Forms.Tools.GradientLabel();
             this.PicAlarmPos = new System.Windows.Forms.PictureBox();
             this.LabelAlarmCode = new Syncfusion.Windows.Forms.Tools.AutoLabel();
-            this.BtnKor = new Syncfusion.Windows.Forms.ButtonAdv();
-            this.BtnEng = new Syncfusion.Windows.Forms.ButtonAdv();
-            this.BtnChn = new Syncfusion.Windows.Forms.ButtonAdv();
-            this.BtnJpn = new Syncfusion.Windows.Forms.ButtonAdv();
-            this.TmrAlarm = new System.Windows.Forms.Timer(this.components);
+            this.LabelAlarmText1 = new Syncfusion.Windows.Forms.Tools.GradientLabel();
             ((System.ComponentModel.ISupportInitialize)(this.gradientPanel1)).BeginInit();
             this.gradientPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gradientPanel2)).BeginInit();
             this.gradientPanel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PicAlarmPos)).BeginInit();
             this.SuspendLayout();
-            // 
-            // LabelAlarmText
-            // 
-            this.LabelAlarmText.BackgroundColor = new Syncfusion.Drawing.BrushInfo();
-            this.LabelAlarmText.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
-            | System.Windows.Forms.Border3DSide.Right) 
-            | System.Windows.Forms.Border3DSide.Bottom)));
-            this.LabelAlarmText.Font = new System.Drawing.Font("굴림", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.LabelAlarmText.Location = new System.Drawing.Point(16, 37);
-            this.LabelAlarmText.Name = "LabelAlarmText";
-            this.LabelAlarmText.Size = new System.Drawing.Size(598, 64);
-            this.LabelAlarmText.TabIndex = 0;
-            this.LabelAlarmText.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // BtnBuzzerOff
             // 
@@ -102,19 +89,33 @@
             this.BtnExit.Text = "Exit";
             this.BtnExit.Click += new System.EventHandler(this.BtnExit_Click);
             // 
-            // LabelTrouble
+            // TmrAlarm
             // 
-            this.LabelTrouble.BackgroundColor = new Syncfusion.Drawing.BrushInfo();
-            this.LabelTrouble.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
-            | System.Windows.Forms.Border3DSide.Right) 
-            | System.Windows.Forms.Border3DSide.Bottom)));
-            this.LabelTrouble.Font = new System.Drawing.Font("굴림", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.LabelTrouble.Location = new System.Drawing.Point(12, 43);
-            this.LabelTrouble.Name = "LabelTrouble";
-            this.LabelTrouble.Padding = new System.Windows.Forms.Padding(10);
-            this.LabelTrouble.Size = new System.Drawing.Size(364, 373);
-            this.LabelTrouble.TabIndex = 5;
-            this.LabelTrouble.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.TmrAlarm.Tick += new System.EventHandler(this.TmrAlarm_Tick);
+            // 
+            // BtnEdit
+            // 
+            this.BtnEdit.BackColor = System.Drawing.Color.LightGray;
+            this.BtnEdit.BorderStyleAdv = Syncfusion.Windows.Forms.ButtonAdvBorderStyle.Solid;
+            this.BtnEdit.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.BtnEdit.Location = new System.Drawing.Point(783, 455);
+            this.BtnEdit.Name = "BtnEdit";
+            this.BtnEdit.Size = new System.Drawing.Size(119, 50);
+            this.BtnEdit.TabIndex = 31;
+            this.BtnEdit.Text = "Edit";
+            this.BtnEdit.Click += new System.EventHandler(this.BtnEdit_Click);
+            // 
+            // BtnSave
+            // 
+            this.BtnSave.BackColor = System.Drawing.Color.LightGray;
+            this.BtnSave.BorderStyleAdv = Syncfusion.Windows.Forms.ButtonAdvBorderStyle.Solid;
+            this.BtnSave.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.BtnSave.Location = new System.Drawing.Point(905, 455);
+            this.BtnSave.Name = "BtnSave";
+            this.BtnSave.Size = new System.Drawing.Size(119, 50);
+            this.BtnSave.TabIndex = 32;
+            this.BtnSave.Text = "Save";
+            this.BtnSave.Click += new System.EventHandler(this.BtnSave_Click);
             // 
             // gradientPanel1
             // 
@@ -122,12 +123,27 @@
             this.gradientPanel1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.gradientPanel1.Border3DStyle = System.Windows.Forms.Border3DStyle.Raised;
             this.gradientPanel1.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.gradientPanel1.Controls.Add(this.LabelTrouble2);
             this.gradientPanel1.Controls.Add(this.autoLabel1);
-            this.gradientPanel1.Controls.Add(this.LabelTrouble);
-            this.gradientPanel1.Location = new System.Drawing.Point(645, 70);
+            this.gradientPanel1.Controls.Add(this.LabelTrouble1);
+            this.gradientPanel1.Location = new System.Drawing.Point(645, 12);
             this.gradientPanel1.Name = "gradientPanel1";
             this.gradientPanel1.Size = new System.Drawing.Size(389, 437);
             this.gradientPanel1.TabIndex = 29;
+            // 
+            // LabelTrouble2
+            // 
+            this.LabelTrouble2.BackgroundColor = new Syncfusion.Drawing.BrushInfo();
+            this.LabelTrouble2.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
+            | System.Windows.Forms.Border3DSide.Right) 
+            | System.Windows.Forms.Border3DSide.Bottom)));
+            this.LabelTrouble2.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.LabelTrouble2.Location = new System.Drawing.Point(12, 230);
+            this.LabelTrouble2.Name = "LabelTrouble2";
+            this.LabelTrouble2.Padding = new System.Windows.Forms.Padding(10);
+            this.LabelTrouble2.Size = new System.Drawing.Size(364, 187);
+            this.LabelTrouble2.TabIndex = 31;
+            this.LabelTrouble2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // autoLabel1
             // 
@@ -139,30 +155,60 @@
             this.autoLabel1.TabIndex = 30;
             this.autoLabel1.Text = "Troubleshooting";
             // 
+            // LabelTrouble1
+            // 
+            this.LabelTrouble1.BackgroundColor = new Syncfusion.Drawing.BrushInfo();
+            this.LabelTrouble1.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
+            | System.Windows.Forms.Border3DSide.Right) 
+            | System.Windows.Forms.Border3DSide.Bottom)));
+            this.LabelTrouble1.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.LabelTrouble1.Location = new System.Drawing.Point(12, 43);
+            this.LabelTrouble1.Name = "LabelTrouble1";
+            this.LabelTrouble1.Padding = new System.Windows.Forms.Padding(10);
+            this.LabelTrouble1.Size = new System.Drawing.Size(364, 187);
+            this.LabelTrouble1.TabIndex = 5;
+            this.LabelTrouble1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // gradientPanel2
             // 
             this.gradientPanel2.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("gradientPanel2.BackgroundImage")));
             this.gradientPanel2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.gradientPanel2.Border3DStyle = System.Windows.Forms.Border3DStyle.Raised;
             this.gradientPanel2.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.gradientPanel2.Controls.Add(this.LabelAlarmText2);
             this.gradientPanel2.Controls.Add(this.PicAlarmPos);
             this.gradientPanel2.Controls.Add(this.LabelAlarmCode);
-            this.gradientPanel2.Controls.Add(this.LabelAlarmText);
+            this.gradientPanel2.Controls.Add(this.LabelAlarmText1);
             this.gradientPanel2.Location = new System.Drawing.Point(12, 12);
             this.gradientPanel2.Name = "gradientPanel2";
             this.gradientPanel2.Size = new System.Drawing.Size(627, 573);
             this.gradientPanel2.TabIndex = 30;
+            // 
+            // LabelAlarmText2
+            // 
+            this.LabelAlarmText2.BackgroundColor = new Syncfusion.Drawing.BrushInfo();
+            this.LabelAlarmText2.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
+            | System.Windows.Forms.Border3DSide.Right) 
+            | System.Windows.Forms.Border3DSide.Bottom)));
+            this.LabelAlarmText2.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.LabelAlarmText2.Location = new System.Drawing.Point(16, 85);
+            this.LabelAlarmText2.Name = "LabelAlarmText2";
+            this.LabelAlarmText2.Padding = new System.Windows.Forms.Padding(5);
+            this.LabelAlarmText2.Size = new System.Drawing.Size(598, 48);
+            this.LabelAlarmText2.TabIndex = 33;
+            this.LabelAlarmText2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // PicAlarmPos
             // 
             this.PicAlarmPos.BackColor = System.Drawing.Color.White;
             this.PicAlarmPos.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.PicAlarmPos.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.PicAlarmPos.Location = new System.Drawing.Point(16, 104);
+            this.PicAlarmPos.Location = new System.Drawing.Point(16, 137);
             this.PicAlarmPos.Name = "PicAlarmPos";
-            this.PicAlarmPos.Size = new System.Drawing.Size(598, 452);
+            this.PicAlarmPos.Size = new System.Drawing.Size(598, 421);
             this.PicAlarmPos.TabIndex = 32;
             this.PicAlarmPos.TabStop = false;
+            this.PicAlarmPos.MouseClick += new System.Windows.Forms.MouseEventHandler(this.PicAlarmPos_MouseClick);
             // 
             // LabelAlarmCode
             // 
@@ -174,67 +220,27 @@
             this.LabelAlarmCode.TabIndex = 31;
             this.LabelAlarmCode.Text = "Alarm Code";
             // 
-            // BtnKor
+            // LabelAlarmText1
             // 
-            this.BtnKor.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
-            this.BtnKor.BorderStyleAdv = Syncfusion.Windows.Forms.ButtonAdvBorderStyle.Solid;
-            this.BtnKor.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.BtnKor.Location = new System.Drawing.Point(660, 9);
-            this.BtnKor.Name = "BtnKor";
-            this.BtnKor.Size = new System.Drawing.Size(90, 57);
-            this.BtnKor.TabIndex = 31;
-            this.BtnKor.Text = "KOR";
-            this.BtnKor.Click += new System.EventHandler(this.BtnLanguage_Click);
-            // 
-            // BtnEng
-            // 
-            this.BtnEng.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
-            this.BtnEng.BorderStyleAdv = Syncfusion.Windows.Forms.ButtonAdvBorderStyle.Solid;
-            this.BtnEng.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.BtnEng.Location = new System.Drawing.Point(751, 9);
-            this.BtnEng.Name = "BtnEng";
-            this.BtnEng.Size = new System.Drawing.Size(90, 57);
-            this.BtnEng.TabIndex = 32;
-            this.BtnEng.Text = "ENG";
-            this.BtnEng.Click += new System.EventHandler(this.BtnLanguage_Click);
-            // 
-            // BtnChn
-            // 
-            this.BtnChn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
-            this.BtnChn.BorderStyleAdv = Syncfusion.Windows.Forms.ButtonAdvBorderStyle.Solid;
-            this.BtnChn.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.BtnChn.Location = new System.Drawing.Point(842, 9);
-            this.BtnChn.Name = "BtnChn";
-            this.BtnChn.Size = new System.Drawing.Size(90, 57);
-            this.BtnChn.TabIndex = 33;
-            this.BtnChn.Text = "CHN";
-            this.BtnChn.Click += new System.EventHandler(this.BtnLanguage_Click);
-            // 
-            // BtnJpn
-            // 
-            this.BtnJpn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
-            this.BtnJpn.BorderStyleAdv = Syncfusion.Windows.Forms.ButtonAdvBorderStyle.Solid;
-            this.BtnJpn.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.BtnJpn.Location = new System.Drawing.Point(933, 9);
-            this.BtnJpn.Name = "BtnJpn";
-            this.BtnJpn.Size = new System.Drawing.Size(90, 57);
-            this.BtnJpn.TabIndex = 34;
-            this.BtnJpn.Text = "JPN";
-            this.BtnJpn.Click += new System.EventHandler(this.BtnLanguage_Click);
-            // 
-            // TmrAlarm
-            // 
-            this.TmrAlarm.Tick += new System.EventHandler(this.TmrAlarm_Tick);
+            this.LabelAlarmText1.BackgroundColor = new Syncfusion.Drawing.BrushInfo();
+            this.LabelAlarmText1.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
+            | System.Windows.Forms.Border3DSide.Right) 
+            | System.Windows.Forms.Border3DSide.Bottom)));
+            this.LabelAlarmText1.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.LabelAlarmText1.Location = new System.Drawing.Point(16, 37);
+            this.LabelAlarmText1.Name = "LabelAlarmText1";
+            this.LabelAlarmText1.Padding = new System.Windows.Forms.Padding(5);
+            this.LabelAlarmText1.Size = new System.Drawing.Size(598, 48);
+            this.LabelAlarmText1.TabIndex = 0;
+            this.LabelAlarmText1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // FormAlarmDisplay
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1043, 598);
-            this.Controls.Add(this.BtnJpn);
-            this.Controls.Add(this.BtnChn);
-            this.Controls.Add(this.BtnEng);
-            this.Controls.Add(this.BtnKor);
+            this.Controls.Add(this.BtnSave);
+            this.Controls.Add(this.BtnEdit);
             this.Controls.Add(this.gradientPanel1);
             this.Controls.Add(this.BtnExit);
             this.Controls.Add(this.BtnReset);
@@ -259,20 +265,20 @@
 
         #endregion
 
-        private Syncfusion.Windows.Forms.Tools.GradientLabel LabelAlarmText;
+        private Syncfusion.Windows.Forms.Tools.GradientLabel LabelAlarmText1;
         private Syncfusion.Windows.Forms.ButtonAdv BtnBuzzerOff;
         private Syncfusion.Windows.Forms.ButtonAdv BtnReset;
         private Syncfusion.Windows.Forms.ButtonAdv BtnExit;
-        private Syncfusion.Windows.Forms.Tools.GradientLabel LabelTrouble;
+        private Syncfusion.Windows.Forms.Tools.GradientLabel LabelTrouble1;
         private Syncfusion.Windows.Forms.Tools.GradientPanel gradientPanel1;
         private Syncfusion.Windows.Forms.Tools.AutoLabel autoLabel1;
         private Syncfusion.Windows.Forms.Tools.GradientPanel gradientPanel2;
         private Syncfusion.Windows.Forms.Tools.AutoLabel LabelAlarmCode;
-        private Syncfusion.Windows.Forms.ButtonAdv BtnKor;
-        private Syncfusion.Windows.Forms.ButtonAdv BtnEng;
-        private Syncfusion.Windows.Forms.ButtonAdv BtnChn;
-        private Syncfusion.Windows.Forms.ButtonAdv BtnJpn;
         private System.Windows.Forms.Timer TmrAlarm;
         private System.Windows.Forms.PictureBox PicAlarmPos;
+        private Syncfusion.Windows.Forms.Tools.GradientLabel LabelTrouble2;
+        private Syncfusion.Windows.Forms.Tools.GradientLabel LabelAlarmText2;
+        private Syncfusion.Windows.Forms.ButtonAdv BtnEdit;
+        private Syncfusion.Windows.Forms.ButtonAdv BtnSave;
     }
 }
