@@ -1264,19 +1264,19 @@ namespace LWDicer.Control
         /// Unit의 초기화 Flag를 읽는다
         /// </summary>
         /// <param name="iUnitIndex"></param>
-        /// <param name="pbSts"></param>
+        /// <param name="bStatus"></param>
         /// <returns></returns>
-        public int GetInitFlag(int iUnitIndex, out bool pbSts)
+        public int GetInitFlag(int iUnitIndex, out bool bStatus)
         {
             int iResult = SUCCESS;
-            pbSts = false;
+            bStatus = false;
 
             if (iUnitIndex < 0 || iUnitIndex > (int)EInitiableUnit.MAX)
             {
                 return GenerateErrorCode(ERR_OPPANEL_INVALID_INIT_UNIT_INDEX);
             }
 
-            pbSts = m_bInitFlag[iUnitIndex];
+            bStatus = m_bInitFlag[iUnitIndex];
 
             return iResult;
         }
@@ -1333,9 +1333,25 @@ namespace LWDicer.Control
             }
         }
 
+        public int GetOriginFlag(int iUnitIndex, out bool bStatus)
+        {
+            int iResult = SUCCESS;
+            bStatus = false;
+
+            //if (iUnitIndex < 0 || iUnitIndex > (int)EAxis.MAX)
+            //{
+            //    return GenerateErrorCode(ERR_OPPANEL_INVALID_INIT_AXIS_INDEX);
+            //}
+
+            //bStatus = m_bInitFlag[iUnitIndex];
+
+            return iResult;
+        }
+
         public bool CheckAllOrigin(out bool[/*DEF_MAX_MOTION_AXIS*/] bOriginSts)
         {
-            bOriginSts = new bool[1];
+            bOriginSts = new bool[(int)EAxis.MAX];
+            //m_JogTable.MotionArray[]
             return false;
             //int i = 0;
             //bool rgbResult[4] = { false, false, false, false };
@@ -2129,13 +2145,13 @@ namespace LWDicer.Control
             return SUCCESS;
         }
 
-        public int GetOpPanelSelectSW(out int piStatus)
+        public int GetOpPanelSelectSW(out int iStatus)
         {
             int iResult = SUCCESS;
             string strLog;
             bool bStatus1, bStatus2, bStatus3, bStatus4;
 
-            piStatus = DEF_OPPANEL_NONE_PANEL_ID;
+            iStatus = DEF_OPPANEL_NONE_PANEL_ID;
 
             //if ((iResult = GetJogXMinusButtonStatus(out bStatus1)) != SUCCESS)
             //{
@@ -2143,7 +2159,7 @@ namespace LWDicer.Control
             //    //strLog = String.Format("Touch Panel Select Switch(X-) 상태 읽기에 실패했습니다.");
             //    //WriteLog(strLog, ELogType.Debug, ELogWType.D_Error);
 
-            //    piStatus = DEF_OPPANEL_NONE_PANEL_ID;
+            //    iStatus = DEF_OPPANEL_NONE_PANEL_ID;
 
             //    return iResult;
             //}
@@ -2154,7 +2170,7 @@ namespace LWDicer.Control
             //    strLog = String.Format("Touch Panel Select Switch(Y+) 상태 읽기에 실패했습니다.");
             //    WriteLog(strLog, ELogType.Debug, ELogWType.D_Error);
 
-            //    piStatus = DEF_OPPANEL_NONE_PANEL_ID;
+            //    iStatus = DEF_OPPANEL_NONE_PANEL_ID;
 
             //    return iResult;
             //}
@@ -2165,7 +2181,7 @@ namespace LWDicer.Control
             //    strLog = String.Format("Touch Panel Select Switch(X+) 상태 읽기에 실패했습니다.");
             //    WriteLog(strLog, ELogType.Debug, ELogWType.D_Error);
 
-            //    piStatus = DEF_OPPANEL_NONE_PANEL_ID;
+            //    iStatus = DEF_OPPANEL_NONE_PANEL_ID;
 
             //    return iResult;
             //}
@@ -2176,7 +2192,7 @@ namespace LWDicer.Control
             //    strLog = String.Format("Touch Panel Select Switch(Y-) 상태 읽기에 실패했습니다.");
             //    WriteLog(strLog, ELogType.Debug, ELogWType.D_Error);
 
-            //    piStatus = DEF_OPPANEL_NONE_PANEL_ID;
+            //    iStatus = DEF_OPPANEL_NONE_PANEL_ID;
 
             //    return iResult;
             //}
@@ -2184,7 +2200,7 @@ namespace LWDicer.Control
             //// X(-)와 Y(+)가 동시에 눌려졌으면 - 앞면으로 전환 
             //if ((bStatus1 && bStatus2 && bStatus3 && bStatus4) == true)
             //{
-            //    *piStatus = DEF_OPPANEL_NONE_PANEL_ID;
+            //    *iStatus = DEF_OPPANEL_NONE_PANEL_ID;
 
             //    // 정상 동작 Log
             //    strLog = String.Format("Touch Panel 전환 Switch가 전부 눌렸습니다.");
@@ -2195,7 +2211,7 @@ namespace LWDicer.Control
             //// X(-)와 Y(+)가 동시에 눌려졌으면 - 앞면으로 전환 
             //else if ((bStatus1 && bStatus2) == true)
             //{
-            //    *piStatus = DEF_OPPANEL_FRONT_PANEL_ID;
+            //    *iStatus = DEF_OPPANEL_FRONT_PANEL_ID;
 
             //    // 정상 동작 Log
             //    strLog = String.Format("앞면 Touch Panel 전환 Switch가 눌렸습니다.");
@@ -2206,7 +2222,7 @@ namespace LWDicer.Control
             //// X(+)와 Y(-)가 동시에 눌려졌으면 - 뒷면으로 전환 
             //else if ((bStatus3 && bStatus4) == true)
             //{
-            //    *piStatus = DEF_OPPANEL_BACK_PANEL_ID;
+            //    *iStatus = DEF_OPPANEL_BACK_PANEL_ID;
 
             //    // 정상 동작 Log
             //    strLog = String.Format("뒷면 Touch Panel 전환 Switch가 눌렸습니다.");
@@ -2217,7 +2233,7 @@ namespace LWDicer.Control
             //// 해당 사항 없을 때 
             //else
             //{
-            //    *piStatus = DEF_OPPANEL_NONE_PANEL_ID;
+            //    *iStatus = DEF_OPPANEL_NONE_PANEL_ID;
 
             //    return SUCCESS;
             //}

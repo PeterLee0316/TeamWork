@@ -9,38 +9,19 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 
 using Syncfusion.Windows.Forms;
+using LWDicer.Control;
+using static LWDicer.Control.DEF_System;
+using static LWDicer.Control.DEF_Common;
+using static LWDicer.Control.DEF_Thread;
+using static LWDicer.Control.DEF_Error;
 
 namespace LWDicer.UI
 {
     public partial class FormOriginReturn : Form
     {
-        enum EAxis
-        {
-            LIFTER=0,
-            FEEDER,
-            CENTERING1,
-            CENTERING2,
-            SP1_ROTATE,
-            SP1_NOZZLE1,
-            SP1_NOZZLE2,
-            SP2_ROTATE,
-            SP2_NOZZLE1,
-            SP2_NOZZLE2,
-            UPTR_Z,
-            UPTR_Y,
-            LOTR_Z,
-            LOTR_Y,
-            STAGE_X,
-            STAGE_Z,
-            STAGE_T,
-            SCANNER_Z,
-            CAMERA_Z,
-            MAX,
-        }
+        private bool [] SelectedAxis = new bool[(int)EAxis.MAX];
 
-        private bool [] nSelAxis = new bool[(int)EAxis.MAX];
-
-        private ButtonAdv[] Axis = new ButtonAdv[(int)EAxis.MAX];
+        private ButtonAdv[] BtnList = new ButtonAdv[(int)EAxis.MAX];
 
 
         public FormOriginReturn()
@@ -52,48 +33,49 @@ namespace LWDicer.UI
 
         private void ResouceMapping()
         {
-            Axis[0]  = BtnAxis1;  Axis[1]  = BtnAxis2;  Axis[2]  = BtnAxis3;  Axis[3]  = BtnAxis4;  Axis[4]  = BtnAxis5;
-            Axis[5]  = BtnAxis6;  Axis[6]  = BtnAxis7;  Axis[7]  = BtnAxis8;  Axis[8]  = BtnAxis9;  Axis[9]  = BtnAxis10;
-            Axis[10] = BtnAxis11; Axis[11] = BtnAxis12; Axis[12] = BtnAxis13; Axis[13] = BtnAxis14; Axis[14] = BtnAxis15;
-            Axis[15] = BtnAxis16; Axis[16] = BtnAxis17; Axis[17] = BtnAxis18; Axis[18] = BtnAxis19;
+            BtnList[0]  = BtnAxis1;  BtnList[1]  = BtnAxis2;  BtnList[2]  = BtnAxis3;  BtnList[3]  = BtnAxis4;  BtnList[4]  = BtnAxis5;
+            BtnList[5]  = BtnAxis6;  BtnList[6]  = BtnAxis7;  BtnList[7]  = BtnAxis8;  BtnList[8]  = BtnAxis9;  BtnList[9]  = BtnAxis10;
+            BtnList[10] = BtnAxis11; BtnList[11] = BtnAxis12; BtnList[12] = BtnAxis13; BtnList[13] = BtnAxis14; BtnList[14] = BtnAxis15;
+            BtnList[15] = BtnAxis16; BtnList[16] = BtnAxis17; BtnList[17] = BtnAxis18; BtnList[18] = BtnAxis19;
 
             for (int i = 0; i < (int)EAxis.MAX; i++)
             {
-                Axis[i].Image = Image.Images[0];
+                BtnList[i].Tag = i;
+                BtnList[i].Image = Image.Images[0];
             }
         }
+
         private void BtnAxis_Click(object sender, EventArgs e)
         {
             int nNo = 0;
 
-            ButtonAdv Axis = sender as ButtonAdv;
+            ButtonAdv BtnList = sender as ButtonAdv;
 
-            nNo = Convert.ToInt16(Axis.Tag);
+            nNo = Convert.ToInt16(BtnList.Tag);
 
             SelectAxis(nNo);
         }
 
         private void SelectAxis(int nNo)
         {
-            if(nSelAxis[nNo] == false)
+            if(SelectedAxis[nNo] == false)
             {
-                nSelAxis[nNo] = true;
-                Axis[nNo].Image = Image.Images[1];
+                SelectedAxis[nNo] = true;
+                BtnList[nNo].Image = Image.Images[1];
             }
             else
             {
-                nSelAxis[nNo] = false;
-                Axis[nNo].Image = Image.Images[0];
+                SelectedAxis[nNo] = false;
+                BtnList[nNo].Image = Image.Images[0];
             }
         }
-
 
         private void BtnSelectAll_Click(object sender, EventArgs e)
         {
             for(int i=0;i< (int)EAxis.MAX; i++)
             {
-                nSelAxis[i] = true;
-                Axis[i].Image = Image.Images[1];
+                SelectedAxis[i] = true;
+                BtnList[i].Image = Image.Images[1];
             }
 
         }
@@ -102,8 +84,25 @@ namespace LWDicer.UI
         {
             for (int i = 0; i < (int)EAxis.MAX; i++)
             {
-                nSelAxis[i] = false;
-                Axis[i].Image = Image.Images[0];
+                SelectedAxis[i] = false;
+                BtnList[i].Image = Image.Images[0];
+            }
+        }
+
+        void UpdateUnitStatus()
+        {
+            bool bStatus;
+            for (int i = 0; i < (int)EAxis.MAX; i++)
+            {
+                CMainFrame.LWDicer.m_OpPanel.GetOriginFlag(i, out bStatus);
+                if (bStatus == true)
+                {
+                    BtnList[i].BackColor = Color.Yellow;
+                }
+                else
+                {
+                    BtnList[i].BackColor = Color.AntiqueWhite;
+                }
             }
         }
 
@@ -113,7 +112,67 @@ namespace LWDicer.UI
             {
                 return;
             }
+
+            // 0. set init state to true
+            CMainFrame.LWDicer.m_trsAutoManager.IsInitState = true;
+
+            // 1.
+            InitRun();
+
+            // 2.
+            UpdateUnitStatus();
+
+            // 3. set init state to false
+            CMainFrame.LWDicer.m_trsAutoManager.IsInitState = false;
+
         }
+
+        private void ShowStepInform(string inform)
+        {
+            //m_lblStatus.SetWindowText(inform);
+            //m_lblStatus.Refresh();
+        }
+
+        private void InitRun()
+        {
+            int i = 0;
+            int iResult = SUCCESS;
+            string strTemp;
+            bool bSts = false;
+            bool bRtnSts = false;
+            //	bool rgbOriginSts[DEF_MAX_MOTION_AXIS_NO];
+
+            string strErr;
+            // EStop 및 모든 축 원점 복귀 체크
+            if (CMainFrame.LWDicer.IsSafeForAxisMove() == false)
+                return;
+
+            ShowStepInform("진행 상황 : 인터페이스 신호 초기화");
+
+            // 0. Loader
+            ShowStepInform("진행 상황 : LOADER");
+            int part = (int)EAxis.LOADER_Z;
+            if (SelectedAxis[part] == true)
+            {
+                // LOADER Unit 초기화 
+                if ((iResult = CMainFrame.LWDicer.m_trsLoader.Initialize()) != SUCCESS)
+                {
+                    // Display Alarm
+
+                    SetInitFlag(part, false);
+                    return;
+                }
+                else
+                {
+                    SetInitFlag(part, true);
+                }
+            }
+
+
+            // Last.
+            CMainFrame.LWDicer.DisplayMsg("초기화가 완료되었습니다.");
+        }
+
 
         private void BtnServoOn_Click(object sender, EventArgs e)
         {
@@ -133,8 +192,9 @@ namespace LWDicer.UI
 
         private void FormOriginReturn_Load(object sender, EventArgs e)
         {
-            int i=0;
-            i++;   
+            timer1.Enabled = true;
+            timer1.Interval = 100;
+            timer1.Start();
         }
 
         private void FormClose()
@@ -151,5 +211,17 @@ namespace LWDicer.UI
         {
             FormClose();
         }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            UpdateUnitStatus();
+        }
+
+        void SetInitFlag(int sel, bool flag)
+        {
+            CMainFrame.LWDicer.m_OpPanel.SetInitFlag(sel, flag);
+            SelectAxis(sel);
+        }
+
     }
 }

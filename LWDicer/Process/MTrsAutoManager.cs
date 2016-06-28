@@ -114,7 +114,8 @@ namespace LWDicer.Control
 
         ELCEqStates m_OldEqState            = ELCEqStates.eNormal;      // EQ State for LC
         ELCEqProcStates m_OldEqProcState    = ELCEqProcStates.ePause;   // EQ Process State for LC
-        bool m_bInitState;          // 원점잡기나, 초기화 실행하고 있는 상태이면 true
+
+        public bool IsInitState;          // 원점잡기나, 초기화 실행하고 있는 상태이면 true
         bool m_bLC_PM_Mode;         // LC에서 PM 명령이 온 상태면 true
         bool m_bLC_NORMAL_Mode;     // LC에서 PM 명령이 와서 실행된 후 Normal 명령이 왔을 때 true
         bool m_bCurrent_PM_Mode;        // 현재 PM 모드 상태인지

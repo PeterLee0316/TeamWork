@@ -41,13 +41,14 @@
             this.BtnExit = new System.Windows.Forms.Button();
             this.BtnExecuteIni = new Syncfusion.Windows.Forms.ButtonAdv();
             this.Image = new System.Windows.Forms.ImageList(this.components);
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.SuspendLayout();
             // 
             // BtnLoader
             // 
             this.BtnLoader.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.BtnLoader.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.BtnLoader.Location = new System.Drawing.Point(12, 12);
+            this.BtnLoader.Location = new System.Drawing.Point(12, 60);
             this.BtnLoader.Name = "BtnLoader";
             this.BtnLoader.Size = new System.Drawing.Size(120, 67);
             this.BtnLoader.TabIndex = 8;
@@ -60,11 +61,11 @@
             // 
             this.BtnPushPull.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.BtnPushPull.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.BtnPushPull.Location = new System.Drawing.Point(12, 85);
+            this.BtnPushPull.Location = new System.Drawing.Point(12, 133);
             this.BtnPushPull.Name = "BtnPushPull";
             this.BtnPushPull.Size = new System.Drawing.Size(120, 67);
             this.BtnPushPull.TabIndex = 9;
-            this.BtnPushPull.Tag = "1";
+            this.BtnPushPull.Tag = "4";
             this.BtnPushPull.Text = " Push Pull";
             this.BtnPushPull.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.BtnPushPull.Click += new System.EventHandler(this.BtnInitPart_Click);
@@ -73,11 +74,11 @@
             // 
             this.BtnSpinner1.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.BtnSpinner1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.BtnSpinner1.Location = new System.Drawing.Point(144, 12);
+            this.BtnSpinner1.Location = new System.Drawing.Point(144, 60);
             this.BtnSpinner1.Name = "BtnSpinner1";
             this.BtnSpinner1.Size = new System.Drawing.Size(120, 67);
             this.BtnSpinner1.TabIndex = 10;
-            this.BtnSpinner1.Tag = "2";
+            this.BtnSpinner1.Tag = "1";
             this.BtnSpinner1.Text = " Spinner 1";
             this.BtnSpinner1.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.BtnSpinner1.Click += new System.EventHandler(this.BtnInitPart_Click);
@@ -86,11 +87,11 @@
             // 
             this.BtnSpinner2.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.BtnSpinner2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.BtnSpinner2.Location = new System.Drawing.Point(144, 85);
+            this.BtnSpinner2.Location = new System.Drawing.Point(411, 60);
             this.BtnSpinner2.Name = "BtnSpinner2";
             this.BtnSpinner2.Size = new System.Drawing.Size(120, 67);
             this.BtnSpinner2.TabIndex = 11;
-            this.BtnSpinner2.Tag = "3";
+            this.BtnSpinner2.Tag = "2";
             this.BtnSpinner2.Text = " Spinner 2";
             this.BtnSpinner2.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.BtnSpinner2.Click += new System.EventHandler(this.BtnInitPart_Click);
@@ -99,11 +100,11 @@
             // 
             this.BtnStage.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.BtnStage.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.BtnStage.Location = new System.Drawing.Point(408, 12);
+            this.BtnStage.Location = new System.Drawing.Point(144, 133);
             this.BtnStage.Name = "BtnStage";
             this.BtnStage.Size = new System.Drawing.Size(120, 67);
             this.BtnStage.TabIndex = 14;
-            this.BtnStage.Tag = "6";
+            this.BtnStage.Tag = "";
             this.BtnStage.Text = " Stage";
             this.BtnStage.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.BtnStage.Click += new System.EventHandler(this.BtnInitPart_Click);
@@ -112,11 +113,11 @@
             // 
             this.BtnHandler.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.BtnHandler.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.BtnHandler.Location = new System.Drawing.Point(276, 12);
+            this.BtnHandler.Location = new System.Drawing.Point(276, 60);
             this.BtnHandler.Name = "BtnHandler";
             this.BtnHandler.Size = new System.Drawing.Size(120, 67);
             this.BtnHandler.TabIndex = 12;
-            this.BtnHandler.Tag = "4";
+            this.BtnHandler.Tag = "";
             this.BtnHandler.Text = "Handler";
             this.BtnHandler.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.BtnHandler.Click += new System.EventHandler(this.BtnInitPart_Click);
@@ -125,7 +126,7 @@
             // 
             this.BtnSelectAll.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.BtnSelectAll.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.BtnSelectAll.Location = new System.Drawing.Point(80, 181);
+            this.BtnSelectAll.Location = new System.Drawing.Point(80, 229);
             this.BtnSelectAll.Name = "BtnSelectAll";
             this.BtnSelectAll.Size = new System.Drawing.Size(115, 63);
             this.BtnSelectAll.TabIndex = 752;
@@ -136,7 +137,7 @@
             // 
             this.BtnCancelAll.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.BtnCancelAll.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.BtnCancelAll.Location = new System.Drawing.Point(212, 181);
+            this.BtnCancelAll.Location = new System.Drawing.Point(212, 229);
             this.BtnCancelAll.Name = "BtnCancelAll";
             this.BtnCancelAll.Size = new System.Drawing.Size(115, 63);
             this.BtnCancelAll.TabIndex = 751;
@@ -149,7 +150,7 @@
             this.BtnExit.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
             this.BtnExit.Image = ((System.Drawing.Image)(resources.GetObject("BtnExit.Image")));
             this.BtnExit.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.BtnExit.Location = new System.Drawing.Point(213, 262);
+            this.BtnExit.Location = new System.Drawing.Point(213, 310);
             this.BtnExit.Name = "BtnExit";
             this.BtnExit.Size = new System.Drawing.Size(115, 63);
             this.BtnExit.TabIndex = 750;
@@ -162,7 +163,7 @@
             // 
             this.BtnExecuteIni.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.BtnExecuteIni.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.BtnExecuteIni.Location = new System.Drawing.Point(344, 181);
+            this.BtnExecuteIni.Location = new System.Drawing.Point(344, 229);
             this.BtnExecuteIni.Name = "BtnExecuteIni";
             this.BtnExecuteIni.Size = new System.Drawing.Size(115, 63);
             this.BtnExecuteIni.TabIndex = 753;
@@ -176,11 +177,15 @@
             this.Image.Images.SetKeyName(0, "Led_Off.png");
             this.Image.Images.SetKeyName(1, "Led_On.png");
             // 
+            // timer1
+            // 
+            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            // 
             // FormUnitInit
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(543, 341);
+            this.ClientSize = new System.Drawing.Size(543, 412);
             this.Controls.Add(this.BtnExecuteIni);
             this.Controls.Add(this.BtnSelectAll);
             this.Controls.Add(this.BtnCancelAll);
@@ -195,6 +200,7 @@
             this.Name = "FormUnitInit";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Unit Initialize Screen";
+            this.Load += new System.EventHandler(this.FormUnitInit_Load);
             this.ResumeLayout(false);
 
         }
@@ -212,5 +218,6 @@
         private System.Windows.Forms.Button BtnExit;
         private Syncfusion.Windows.Forms.ButtonAdv BtnExecuteIni;
         private System.Windows.Forms.ImageList Image;
+        private System.Windows.Forms.Timer timer1;
     }
 }

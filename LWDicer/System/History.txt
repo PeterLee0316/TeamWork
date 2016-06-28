@@ -243,6 +243,12 @@ LWDicer의 DataManager에서 데이터를 읽어오기 위한 3가지 함수 : S
 9. CMessageInfo class 작성 및 DB 연결함
 10. FormUnitInit dialog 수정중...
 
+// Version : 0.0.26
+// Grade : ★
+// Date : 160627~160628
+// Context
+1. FormUnitInit, FormOriginReturn dialog 수정중...
+
 // for Project setting
 // WIN32, SIMULATION_VISION, SIMULATION_MOTION_ACS, SIMULATION_MOTION_YMC, SIMULATION_IO
 

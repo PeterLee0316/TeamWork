@@ -38,6 +38,35 @@ namespace LWDicer.Control
         public const string SYSTEM_VER = "Ver 0.0.3";
 
         // Motion
+
+        /// <summary>
+        /// YMC, ACS Axis를 통합하여 index define
+        /// </summary>
+        public enum EAxis
+        {
+            NULL = -1,
+            LOADER_Z = 0,
+            PUSHPULL_Y,
+            PUSHPULL_X1,
+            PUSHPULL_X2,
+            S1_CHUCK_ROTATE_T,
+            S1_CLEAN_NOZZLE_T,
+            S1_COAT_NOZZLE_T,
+            S2_CHUCK_ROTATE_T,
+            S2_CLEAN_NOZZLE_T,
+            S2_COAT_NOZZLE_T,
+            UPPER_HANDLER_X,
+            UPPER_HANDLER_Z,
+            LOWER_HANDLER_X,
+            LOWER_HANDLER_Z,
+            CAMERA1_Z,
+            SCANNER1_Z,
+            STAGE1_X,
+            STAGE1_Y,
+            STAGE1_T,
+            MAX,
+        }
+
         public enum EYMC_Board
         {
             BOARD1,
@@ -63,11 +92,11 @@ namespace LWDicer.Control
             UPPER_HANDLER_Z         ,
             LOWER_HANDLER_X         ,
             LOWER_HANDLER_Z         ,
+            CAMERA1_Z          ,
+            SCANNER1_Z         ,
             //STAGE1_X           ,
             //STAGE1_Y           ,
             //STAGE1_T           ,
-            CAMERA1_Z          ,
-            SCANNER1_Z         ,
             MAX                ,
         }
 
@@ -100,12 +129,12 @@ namespace LWDicer.Control
             LOWER_HANDLER_Z,
 
             // Stage 
+            CAMERA1_Z,
+            SCANNER1_Z,
             // Stage는 ACS 모션으로 사용하기로 해서 우선 주석 처리
             //STAGE1_X,
             //STAGE1_Y,
             //STAGE1_T,
-            CAMERA1_Z,
-            SCANNER1_Z,
 
             // 그룹으로 축 제어를 위해 선언, MultiAxes
             ALL,    // for control all axis at a time
@@ -121,9 +150,9 @@ namespace LWDicer.Control
             S2_COAT_NOZZLE,
             UPPER_HANDLER,
             LOWER_HANDLER,
-            //STAGE1,
             CAMERA1,
             SCANNER1,
+            //STAGE1,
             MAX,
         }
 
@@ -1082,10 +1111,10 @@ namespace LWDicer.Control
         public enum EInitiableUnit
         {
             LOADER,
-            PUSHPULL,
             SPINNER1,
             SPINNER2,
             HANDLER,
+            PUSHPULL,
             STAGE1,
             MAX,
         }

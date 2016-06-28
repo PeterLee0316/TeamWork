@@ -1763,5 +1763,32 @@ namespace LWDicer.Control
             m_MeSpinner2 = new MMeSpinner(objInfo, refComp, data);
         }
 
+        public bool IsSafeForAxisMove(bool bDisplayMsg = true)
+        {
+            int iResult = m_ctrlOpPanel.CheckSafetyBeforeAxisMove();
+            if (iResult != SUCCESS)
+            {
+                if(bDisplayMsg == true)
+                {
+
+                }
+                return false;
+            }
+            return true;
+        }
+
+        public bool IsSafeForCylinderMove(bool bDisplayMsg = true)
+        {
+            int iResult = m_ctrlOpPanel.CheckSafetyBeforeCylinderMove();
+            if (iResult != SUCCESS)
+            {
+                if (bDisplayMsg == true)
+                {
+
+                }
+                return false;
+            }
+            return true;
+        }
     }
 }
