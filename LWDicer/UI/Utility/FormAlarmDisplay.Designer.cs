@@ -60,7 +60,7 @@
             this.BtnBuzzerOff.Location = new System.Drawing.Point(660, 511);
             this.BtnBuzzerOff.Name = "BtnBuzzerOff";
             this.BtnBuzzerOff.Size = new System.Drawing.Size(119, 74);
-            this.BtnBuzzerOff.TabIndex = 2;
+            this.BtnBuzzerOff.TabIndex = 0;
             this.BtnBuzzerOff.Text = "Buzzer Off";
             this.BtnBuzzerOff.Click += new System.EventHandler(this.BtnBuzzerOff_Click);
             // 
@@ -73,7 +73,7 @@
             this.BtnReset.Location = new System.Drawing.Point(783, 511);
             this.BtnReset.Name = "BtnReset";
             this.BtnReset.Size = new System.Drawing.Size(119, 74);
-            this.BtnReset.TabIndex = 3;
+            this.BtnReset.TabIndex = 1;
             this.BtnReset.Text = "Reset";
             this.BtnReset.Click += new System.EventHandler(this.BtnReset_Click);
             // 
@@ -85,7 +85,7 @@
             this.BtnExit.Location = new System.Drawing.Point(905, 511);
             this.BtnExit.Name = "BtnExit";
             this.BtnExit.Size = new System.Drawing.Size(119, 74);
-            this.BtnExit.TabIndex = 4;
+            this.BtnExit.TabIndex = 2;
             this.BtnExit.Text = "Exit";
             this.BtnExit.Click += new System.EventHandler(this.BtnExit_Click);
             // 
@@ -101,7 +101,7 @@
             this.BtnEdit.Location = new System.Drawing.Point(783, 455);
             this.BtnEdit.Name = "BtnEdit";
             this.BtnEdit.Size = new System.Drawing.Size(119, 50);
-            this.BtnEdit.TabIndex = 31;
+            this.BtnEdit.TabIndex = 3;
             this.BtnEdit.Text = "Edit";
             this.BtnEdit.Click += new System.EventHandler(this.BtnEdit_Click);
             // 
@@ -113,7 +113,7 @@
             this.BtnSave.Location = new System.Drawing.Point(905, 455);
             this.BtnSave.Name = "BtnSave";
             this.BtnSave.Size = new System.Drawing.Size(119, 50);
-            this.BtnSave.TabIndex = 32;
+            this.BtnSave.TabIndex = 4;
             this.BtnSave.Text = "Save";
             this.BtnSave.Click += new System.EventHandler(this.BtnSave_Click);
             // 

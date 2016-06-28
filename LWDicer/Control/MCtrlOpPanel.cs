@@ -538,7 +538,7 @@ namespace LWDicer.Control
                     iResult = m_RefComp.OpPanel.SetTowerGreenLamp(true);
                     if (iResult != SUCCESS) return iResult;
                     // Tower Lamp Buzzer Off 
-                    iResult = m_RefComp.OpPanel.SetBuzzerStatus(DEF_OPPANEL_BUZZER_ALL, false);
+                    iResult = m_RefComp.OpPanel.SetBuzzerStatus(false, DEF_OPPANEL_BUZZER_ALL);
                     if (iResult != SUCCESS) return iResult;
                     break;
 
@@ -560,7 +560,7 @@ namespace LWDicer.Control
                     iResult = m_RefComp.OpPanel.SetTowerGreenLamp(false);
                     if (iResult != SUCCESS) return iResult;
                     // Tower Lamp Buzzer Off 
-                    iResult = m_RefComp.OpPanel.SetBuzzerStatus(DEF_OPPANEL_BUZZER_ALL, false);
+                    iResult = m_RefComp.OpPanel.SetBuzzerStatus(false, DEF_OPPANEL_BUZZER_ALL);
                     if (iResult != SUCCESS) return iResult;
                     break;
 
@@ -582,7 +582,7 @@ namespace LWDicer.Control
                     iResult = m_RefComp.OpPanel.SetTowerGreenLamp(m_bBlinkState);
                     if (iResult != SUCCESS) return iResult;
                     // Tower Lamp Buzzer Off 
-                    iResult = m_RefComp.OpPanel.SetBuzzerStatus(DEF_OPPANEL_BUZZER_ALL, false);
+                    iResult = m_RefComp.OpPanel.SetBuzzerStatus(false, DEF_OPPANEL_BUZZER_ALL);
                     if (iResult != SUCCESS) return iResult;
                     break;
 
@@ -604,7 +604,7 @@ namespace LWDicer.Control
                     iResult = m_RefComp.OpPanel.SetTowerGreenLamp(false);
                     if (iResult != SUCCESS) return iResult;
                     // Tower Lamp Buzzer On 
-                    iResult = m_RefComp.OpPanel.SetBuzzerStatus(DEF_OPPANEL_BUZZER_K2, true);
+                    iResult = m_RefComp.OpPanel.SetBuzzerStatus(true, DEF_OPPANEL_BUZZER_K2);
                     if (iResult != SUCCESS) return iResult;
                     break;
 
@@ -626,7 +626,7 @@ namespace LWDicer.Control
                     iResult = m_RefComp.OpPanel.SetTowerGreenLamp(false);
                     if (iResult != SUCCESS) return iResult;
                     // Tower Lamp Buzzer On 
-                    iResult = m_RefComp.OpPanel.SetBuzzerStatus(DEF_OPPANEL_BUZZER_ALL, false);
+                    iResult = m_RefComp.OpPanel.SetBuzzerStatus(false, DEF_OPPANEL_BUZZER_ALL);
                     if (iResult != SUCCESS) return iResult;
                     break;
 
@@ -648,7 +648,7 @@ namespace LWDicer.Control
                     iResult = m_RefComp.OpPanel.SetTowerGreenLamp(true);
                     if (iResult != SUCCESS) return iResult;
                     // Tower Lamp Buzzer Off 
-                    iResult = m_RefComp.OpPanel.SetBuzzerStatus(DEF_OPPANEL_BUZZER_ALL, false);
+                    iResult = m_RefComp.OpPanel.SetBuzzerStatus(false, DEF_OPPANEL_BUZZER_ALL);
                     if (iResult != SUCCESS) return iResult;
                     break;
 
@@ -670,7 +670,7 @@ namespace LWDicer.Control
                     iResult = m_RefComp.OpPanel.SetTowerGreenLamp(true);
                     if (iResult != SUCCESS) return iResult;
                     // Tower Lamp Buzzer Off 
-                    iResult = m_RefComp.OpPanel.SetBuzzerStatus(DEF_OPPANEL_BUZZER_ALL, false);
+                    iResult = m_RefComp.OpPanel.SetBuzzerStatus(false, DEF_OPPANEL_BUZZER_ALL);
                     if (iResult != SUCCESS) return iResult;
                     break;
 
@@ -692,7 +692,7 @@ namespace LWDicer.Control
                     iResult = m_RefComp.OpPanel.SetTowerGreenLamp(false);
                     if (iResult != SUCCESS) return iResult;
                     // Tower Lamp Buzzer Off 
-                    iResult = m_RefComp.OpPanel.SetBuzzerStatus(DEF_OPPANEL_BUZZER_ALL, false);
+                    iResult = m_RefComp.OpPanel.SetBuzzerStatus(false, DEF_OPPANEL_BUZZER_ALL);
                     if (iResult != SUCCESS) return iResult;
                     break;
 
@@ -714,7 +714,7 @@ namespace LWDicer.Control
                     iResult = m_RefComp.OpPanel.SetTowerGreenLamp(false);
                     if (iResult != SUCCESS) return iResult;
                     // Tower Lamp Buzzer Off 
-                    iResult = m_RefComp.OpPanel.SetBuzzerStatus(DEF_OPPANEL_BUZZER_ALL, false);
+                    iResult = m_RefComp.OpPanel.SetBuzzerStatus(false, DEF_OPPANEL_BUZZER_ALL);
                     if (iResult != SUCCESS) return iResult;
                     break;
 
@@ -736,7 +736,7 @@ namespace LWDicer.Control
                     iResult = m_RefComp.OpPanel.SetTowerGreenLamp(false);
                     if (iResult != SUCCESS) return iResult;
                     // Tower Lamp Buzzer Off 
-                    iResult = m_RefComp.OpPanel.SetBuzzerStatus(DEF_OPPANEL_BUZZER_ALL, false);
+                    iResult = m_RefComp.OpPanel.SetBuzzerStatus(false, DEF_OPPANEL_BUZZER_ALL);
                     if (iResult != SUCCESS) return iResult;
                     break;
 
@@ -758,7 +758,7 @@ namespace LWDicer.Control
                     iResult = m_RefComp.OpPanel.SetTowerGreenLamp(true);
                     if (iResult != SUCCESS) return iResult;
                     // Tower Lamp Buzzer On 
-                    iResult = m_RefComp.OpPanel.SetBuzzerStatus(DEF_OPPANEL_BUZZER_K4, true);
+                    iResult = m_RefComp.OpPanel.SetBuzzerStatus(true, DEF_OPPANEL_BUZZER_K4);
                     if (iResult != SUCCESS) return iResult;
                     break;
 
@@ -780,7 +780,7 @@ namespace LWDicer.Control
                     iResult = m_RefComp.OpPanel.SetTowerGreenLamp(true);
                     if (iResult != SUCCESS) return iResult;
                     // Tower Lamp Buzzer On 
-                    iResult = m_RefComp.OpPanel.SetBuzzerStatus(DEF_OPPANEL_BUZZER_ALL, false);
+                    iResult = m_RefComp.OpPanel.SetBuzzerStatus(false, DEF_OPPANEL_BUZZER_ALL);
                     if (iResult != SUCCESS) return iResult;
                     break;
 
@@ -802,7 +802,7 @@ namespace LWDicer.Control
                     iResult = m_RefComp.OpPanel.SetTowerGreenLamp(m_bBlinkState);
                     if (iResult != SUCCESS) return iResult;
                     // Tower Lamp Buzzer On 
-                    iResult = m_RefComp.OpPanel.SetBuzzerStatus(DEF_OPPANEL_BUZZER_K2, true);
+                    iResult = m_RefComp.OpPanel.SetBuzzerStatus(true, DEF_OPPANEL_BUZZER_K2);
                     if (iResult != SUCCESS) return iResult;
                     break;
 
@@ -813,7 +813,7 @@ namespace LWDicer.Control
                     if ((iResult = m_RefComp.OpPanel.SetTowerRedLamp(m_bBlinkState)) != SUCCESS) return iResult;
                     if ((iResult = m_RefComp.OpPanel.SetTowerYellowLamp(m_bBlinkState)) != SUCCESS) return iResult;
                     if ((iResult = m_RefComp.OpPanel.SetTowerGreenLamp(m_bBlinkState)) != SUCCESS) return iResult;
-                    if ((iResult = m_RefComp.OpPanel.SetBuzzerStatus(DEF_OPPANEL_BUZZER_K2, true)) != SUCCESS) return iResult;
+                    if ((iResult = m_RefComp.OpPanel.SetBuzzerStatus(true, DEF_OPPANEL_BUZZER_K2)) != SUCCESS) return iResult;
                     break;
                 default:
                     return GenerateErrorCode(ERR_MNGOPPANEL_INVALID_SET_OPPANEL_STATE);
@@ -1251,7 +1251,7 @@ namespace LWDicer.Control
             if (bSet == true)
             {
                 // Tower Lamp Buzzer On
-                iResult = m_RefComp.OpPanel.SetBuzzerStatus(DEF_OPPANEL_BUZZER_K3, true);
+                iResult = m_RefComp.OpPanel.SetBuzzerStatus(true, DEF_OPPANEL_BUZZER_K3);
                 if (iResult != SUCCESS) return iResult;
             }
 

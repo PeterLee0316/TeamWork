@@ -45,8 +45,6 @@ namespace LWDicer.UI
 
         private int nDataMode = 0;
 
-        private FormSpinnerManualOP m_SpinnerManualOP = new FormSpinnerManualOP();
-
         private CMovingObject movingCleanObject = CMainFrame.LWDicer.m_MeSpinner2.AxCleanNozzleInfo;
         private CMovingObject movingCoatObject = CMainFrame.LWDicer.m_MeSpinner2.AxCoatNozzleInfo;
         private CMovingObject movingRotateObject = CMainFrame.LWDicer.m_MeSpinner2.AxRotateInfo;
@@ -103,8 +101,8 @@ namespace LWDicer.UI
 
         private void BtnJog_Click(object sender, EventArgs e)
         {
-            FormJogOperation m_Jog = new FormJogOperation();
-            m_Jog.ShowDialog();
+            FormJogOperation dlg = new FormJogOperation();
+            dlg.ShowDialog();
         }
 
         private void BtnRotatePos_Click(object sender, EventArgs e)
@@ -579,7 +577,7 @@ namespace LWDicer.UI
 
             strMsg = GridNozzleTeachTable[1, 0].Text + " Unit에 " + NozzlePos[GetNozzlePosNo()].Text + " Teaching Data를 저장하시겠습니까?";
 
-            if (!CMainFrame.LWDicer.DisplayMsg(strMsg))
+            if (!CMainFrame.LWDicer.DisplayMsg("", strMsg))
             {
                 return;
             }
@@ -619,7 +617,7 @@ namespace LWDicer.UI
 
             strMsg = GridRotateTeachTable[1, 0].Text + " Unit에 " + RotatePos[GetRotatePosNo()].Text + " Teaching Data를 저장하시겠습니까?";
 
-            if (!CMainFrame.LWDicer.DisplayMsg(strMsg))
+            if (!CMainFrame.LWDicer.DisplayMsg("", strMsg))
             {
                 return;
             }
@@ -651,7 +649,7 @@ namespace LWDicer.UI
 
             strMsg = NozzlePos[GetNozzlePosNo()].Text + " 목표 위치를 현재 위치로 변경하시겠습니까?";
 
-            if (!CMainFrame.LWDicer.DisplayMsg(strMsg))
+            if (!CMainFrame.LWDicer.DisplayMsg("", strMsg))
             {
                 return;
             }
@@ -669,7 +667,7 @@ namespace LWDicer.UI
 
             strMsg = RotatePos[GetRotatePosNo()].Text + " 목표 위치를 현재 위치로 변경하시겠습니까?";
 
-            if (!CMainFrame.LWDicer.DisplayMsg(strMsg))
+            if (!CMainFrame.LWDicer.DisplayMsg("", strMsg))
             {
                 return;
             }
@@ -720,7 +718,7 @@ namespace LWDicer.UI
 
             strMsg = NozzlePos[GetNozzlePosNo()].Text + " 목표 위치로 이동하시겠습니까?";
 
-            if (!CMainFrame.LWDicer.DisplayMsg(strMsg))
+            if (!CMainFrame.LWDicer.DisplayMsg("", strMsg))
             {
                 return;
             }
@@ -732,7 +730,7 @@ namespace LWDicer.UI
 
             strMsg = RotatePos[GetRotatePosNo()].Text + " 목표 위치로 이동하시겠습니까?";
 
-            if (!CMainFrame.LWDicer.DisplayMsg(strMsg))
+            if (!CMainFrame.LWDicer.DisplayMsg("", strMsg))
             {
                 return;
             }
@@ -740,8 +738,9 @@ namespace LWDicer.UI
 
         private void BtnManualOP_Click(object sender, EventArgs e)
         {
-            m_SpinnerManualOP.SetSpinner(Spinner2);
-            m_SpinnerManualOP.ShowDialog();
+            var dlg = new FormSpinnerManualOP();
+            dlg.SetSpinner(Spinner2);
+            dlg.ShowDialog();
         }
     }
 }

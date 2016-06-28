@@ -291,7 +291,7 @@ namespace LWDicer.Control
         public void ShowAlarmWhileInit(int alarmcode)
         {
             string str = GetAlarmText(alarmcode);
-            DisplayMsg(str,false);
+            DisplayMsg(str, "", false);
         }
 
         public int Initialize(CMainFrame form1 = null)
@@ -1509,73 +1509,79 @@ namespace LWDicer.Control
 
         public bool GetKeyPad(string strCurrent, out string strModify)
         {
-            FormKeyPad KeyPad = new FormKeyPad();
-            KeyPad.SetValue(strCurrent);
-            KeyPad.ShowDialog();
+            var dlg = new FormKeyPad();
+            dlg.SetValue(strCurrent);
+            dlg.ShowDialog();
 
-            if (KeyPad.DialogResult == DialogResult.OK)
+            if (dlg.DialogResult == DialogResult.OK)
             {
-                if (KeyPad.ModifyNo.Text == "")
+                if (dlg.ModifyNo.Text == "")
                 {
                     strModify = "0";
                 }
                 else
                 {
-                    strModify = KeyPad.ModifyNo.Text;
+                    strModify = dlg.ModifyNo.Text;
                 }
             }
             else
             {
                 strModify = strCurrent;
-                KeyPad.Dispose();
+                dlg.Dispose();
                 return false;
             }
-            KeyPad.Dispose();
+            dlg.Dispose();
             return true;
         }
 
         public bool GetKeyboard(out string strModify)
         {
-            FormKeyBoard Keyboard = new FormKeyBoard();
-            Keyboard.ShowDialog();
+            FormKeyBoard dlg = new FormKeyBoard();
+            dlg.ShowDialog();
 
-            if (Keyboard.DialogResult == DialogResult.OK)
+            if (dlg.DialogResult == DialogResult.OK)
             {
-                strModify = Keyboard.PresentNo.Text;
+                strModify = dlg.PresentNo.Text;
             }
             else
             {
                 strModify = "";
-                Keyboard.Dispose();
+                dlg.Dispose();
                 return false;
             }
-            Keyboard.Dispose();
+            dlg.Dispose();
             return true;
         }
 
-        public bool DisplayMsg(string strMsg, bool bOkCancel = true)
+        public bool DisplayMsg(string strMsg_Eng, string strMsg_System, bool bOkCancel = true)
         {
-            FormMessageBox Msg = new FormMessageBox();
-            Msg.SetMessage(strMsg, bOkCancel);
-            Msg.ShowDialog();
+            FormMessageBox dlg = new FormMessageBox();
+            dlg.SetMessage(strMsg_Eng, strMsg_System, bOkCancel);
+            dlg.ShowDialog();
 
-            if (Msg.DialogResult == DialogResult.OK || Msg.DialogResult == DialogResult.Yes)
+            if (dlg.DialogResult == DialogResult.OK || dlg.DialogResult == DialogResult.Yes)
             {
-                Msg.Dispose();
+                dlg.Dispose();
                 return true;
             }
             else
             {
-                Msg.Dispose();
+                dlg.Dispose();
                 return false;
             }
         }
 
-        public void AlarmDisplay(EAlarmGroup AlarmGroup, int nCodeNo)
+        public void AlarmDisplay(int code, EAlarmGroup group = EAlarmGroup.SYSTEM)
         {
-            FormAlarmDisplay Alarm = new FormAlarmDisplay();
-            Alarm.SetAlarmCode(AlarmGroup, nCodeNo);
-            Alarm.ShowDialog();
+            if (code == SUCCESS)
+            {
+                CMainFrame.LWDicer.DisplayMsg("", "요청한 작업이 성공했습니다.", false);
+
+            } else
+            {
+                FormAlarmDisplay Alarm = new FormAlarmDisplay(code, group);
+                Alarm.ShowDialog();
+            }
         }
 
         void CreateMeElevator(CObjectInfo objInfo)

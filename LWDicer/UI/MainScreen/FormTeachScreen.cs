@@ -21,15 +21,6 @@ namespace LWDicer.UI
 {
     public partial class FormTeachScreen : Form
     {
-        private FormCameraTeach m_CameraTeach;
-        private FormHandlerTeach m_HandlerTeach;
-        private FormLoaderTeach m_LoaderTeach;
-        private FormPushPullTeach m_PushPullTeach;
-        private FormScannerTeach m_ScannerTeach;
-        private FormSpinner1Teach m_Spinner1Teach;
-        private FormSpinner2Teach m_Spinner2Teach;
-        private FormWorkStageTeach m_WorkStageTeach;
-
         public FormTeachScreen()
         {
             InitializeComponent();
@@ -46,114 +37,114 @@ namespace LWDicer.UI
 
         private void BtnTeachLoader_Click(object sender, EventArgs e)
         {
-            m_LoaderTeach = new FormLoaderTeach();
-            m_LoaderTeach.SetDataMode(FixedData);
-            m_LoaderTeach.ShowDialog();
+            var dlg = new FormLoaderTeach();
+            dlg.SetDataMode(FixedData);
+            dlg.ShowDialog();
         }
 
         private void BtnTeachPushPull_Click(object sender, EventArgs e)
         {
-            m_PushPullTeach = new FormPushPullTeach();
-            m_PushPullTeach.SetDataMode(FixedData);
-            m_PushPullTeach.ShowDialog();
+            var dlg = new FormPushPullTeach();
+            dlg.SetDataMode(FixedData);
+            dlg.ShowDialog();
         }
 
         private void BtnTeachSpinner1_Click(object sender, EventArgs e)
         {
-            m_Spinner1Teach = new FormSpinner1Teach();
-            m_Spinner1Teach.SetDataMode(FixedData);
-            m_Spinner1Teach.ShowDialog();
+            var dlg = new FormSpinner1Teach();
+            dlg.SetDataMode(FixedData);
+            dlg.ShowDialog();
         }
 
         private void BtnTeachSpinner2_Click(object sender, EventArgs e)
         {
-            m_Spinner2Teach = new FormSpinner2Teach();
-            m_Spinner2Teach.SetDataMode(FixedData);
-            m_Spinner2Teach.ShowDialog();
+            var dlg = new FormSpinner2Teach();
+            dlg.SetDataMode(FixedData);
+            dlg.ShowDialog();
         }
 
         private void BtnTeachHandler_Click(object sender, EventArgs e)
         {
-            m_HandlerTeach = new FormHandlerTeach();
-            m_HandlerTeach.SetDataMode(FixedData);
-            m_HandlerTeach.ShowDialog();
+            var dlg = new FormHandlerTeach();
+            dlg.SetDataMode(FixedData);
+            dlg.ShowDialog();
         }
 
         private void BtnTeachStage_Click(object sender, EventArgs e)
         {
-            m_WorkStageTeach = new FormWorkStageTeach();
-            m_WorkStageTeach.SetDataMode(FixedData);
-            m_WorkStageTeach.ShowDialog();
+            var dlg = new FormWorkStageTeach();
+            dlg.SetDataMode(FixedData);
+            dlg.ShowDialog();
         }
 
         private void BtnCameraScanner_Click(object sender, EventArgs e)
         {
-            m_CameraTeach = new FormCameraTeach();
-            m_CameraTeach.SetDataMode(FixedData);
-            m_CameraTeach.ShowDialog();
+            var dlg = new FormCameraTeach();
+            dlg.SetDataMode(FixedData);
+            dlg.ShowDialog();
         }
 
         private void BtnScanner_Click(object sender, EventArgs e)
         {
-            m_ScannerTeach = new FormScannerTeach();
-            m_ScannerTeach.SetDataMode(FixedData);
-            m_ScannerTeach.ShowDialog();
+            var dlg = new FormScannerTeach();
+            dlg.SetDataMode(FixedData);
+            dlg.ShowDialog();
         }
 
         private void BtnModelLoader_Click(object sender, EventArgs e)
         {
-            m_LoaderTeach = new FormLoaderTeach();
-            m_LoaderTeach.SetDataMode(OffsetData);
-            m_LoaderTeach.ShowDialog();
+            var dlg = new FormLoaderTeach();
+            dlg.SetDataMode(OffsetData);
+            dlg.ShowDialog();
         }
 
         private void BtnModelPushPull_Click(object sender, EventArgs e)
         {
-            m_PushPullTeach = new FormPushPullTeach();
-            m_PushPullTeach.SetDataMode(OffsetData);
-            m_PushPullTeach.ShowDialog();
+            var dlg = new FormPushPullTeach();
+            dlg.SetDataMode(OffsetData);
+            dlg.ShowDialog();
         }
 
         private void BtnModelSpinner1_Click(object sender, EventArgs e)
         {
-            m_Spinner1Teach = new FormSpinner1Teach();
-            m_Spinner1Teach.SetDataMode(OffsetData);
-            m_Spinner1Teach.ShowDialog();
+            var dlg = new FormSpinner1Teach();
+            dlg.SetDataMode(OffsetData);
+            dlg.ShowDialog();
         }
 
         private void BtnModelSpinner2_Click(object sender, EventArgs e)
         {
-            m_Spinner2Teach = new FormSpinner2Teach();
-            m_Spinner2Teach.SetDataMode(OffsetData);
-            m_Spinner2Teach.ShowDialog();
+            var dlg = new FormSpinner2Teach();
+            dlg.SetDataMode(OffsetData);
+            dlg.ShowDialog();
         }
 
         private void BtnModelHandler_Click(object sender, EventArgs e)
         {
-            m_HandlerTeach = new FormHandlerTeach();
-            m_HandlerTeach.SetDataMode(OffsetData);
-            m_HandlerTeach.ShowDialog();
+            var dlg = new FormHandlerTeach();
+            dlg.SetDataMode(OffsetData);
+            dlg.ShowDialog();
         }
 
         private void BtnModelStage_Click(object sender, EventArgs e)
         {
-            m_WorkStageTeach = new FormWorkStageTeach();
-            m_WorkStageTeach.SetDataMode(OffsetData);
-            m_WorkStageTeach.ShowDialog();
+            var dlg = new FormWorkStageTeach();
+            dlg.SetDataMode(OffsetData);
+            dlg.ShowDialog();
         }
 
         private void BtnModelScanner_Click(object sender, EventArgs e)
         {
-            m_ScannerTeach = new FormScannerTeach();
-            m_ScannerTeach.SetDataMode(OffsetData);
-            m_ScannerTeach.ShowDialog();
+            var dlg = new FormScannerTeach();
+            dlg.SetDataMode(OffsetData);
+            dlg.ShowDialog();
         }
 
         private void BtnModelCamera_Click(object sender, EventArgs e)
         {
-            m_CameraTeach = new FormCameraTeach();
-            m_CameraTeach.SetDataMode(OffsetData);
-            m_CameraTeach.ShowDialog();
+            var dlg = new FormCameraTeach();
+            dlg.SetDataMode(OffsetData);
+            dlg.ShowDialog();
         }
     }
 }

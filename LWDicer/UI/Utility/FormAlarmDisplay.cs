@@ -25,8 +25,8 @@ namespace LWDicer.UI
         public Graphics m_Grapic;
         public Image Image;
 
-        private int nAlarmCode;
-        private EAlarmGroup Group;
+        private int AlarmCode;
+        private EAlarmGroup AlarmGroup;
 
         private bool bToggle;
 
@@ -34,30 +34,17 @@ namespace LWDicer.UI
 
         Point MousePoint;
 
-        public FormAlarmDisplay()
+        public FormAlarmDisplay(int AlarmCode, EAlarmGroup AlarmGroup)
         {
             InitializeComponent();
+
+            this.AlarmCode = AlarmCode;
+            this.AlarmGroup = AlarmGroup;
 
             this.DesktopLocation = new Point(110, 196);
 
             TmrAlarm.Enabled = true;
             TmrAlarm.Interval = 500;
-        }
-
-        public void SetAlarmCode(EAlarmGroup AlarmGroup, int nCode)
-        {
-            nAlarmCode = nCode;
-            Group = AlarmGroup;
-        }
-
-        public int GetAlarmCode()
-        {
-            return nAlarmCode;
-        }
-
-        public EAlarmGroup GetAlarmGroup()
-        {
-            return Group;
         }
 
         private void FormClose()
@@ -70,6 +57,7 @@ namespace LWDicer.UI
 
         private void BtnBuzzerOff_Click(object sender, EventArgs e)
         {
+            CMainFrame.LWDicer.m_OpPanel.SetBuzzerStatus(false);
 
         }
 
@@ -88,26 +76,26 @@ namespace LWDicer.UI
             FormClose();
         }
 
-        private void BtnLanguage_Click(object sender, EventArgs e)
-        {
-            Button BtnLanguage = sender as Button;
+        //private void BtnLanguage_Click(object sender, EventArgs e)
+        //{
+        //    Button BtnLanguage = sender as Button;
 
-            switch(BtnLanguage.Text)
-            {
-                case "KOR":
-                    UpdateAlarmText(ELanguage.KOREAN, GetAlarmCode());
-                    break;
-                case "ENG":
-                    UpdateAlarmText(ELanguage.ENGLISH, GetAlarmCode());
-                    break;
-                case "CHN":
-                    UpdateAlarmText(ELanguage.CHINESE, GetAlarmCode());
-                    break;
-                case "JPN":
-                    UpdateAlarmText(ELanguage.JAPANESE, GetAlarmCode());
-                    break;
-            }
-        }
+        //    switch(BtnLanguage.Text)
+        //    {
+        //        case "KOR":
+        //            UpdateAlarmText(ELanguage.KOREAN, AlarmCode);
+        //            break;
+        //        case "ENG":
+        //            UpdateAlarmText(ELanguage.ENGLISH, AlarmCode);
+        //            break;
+        //        case "CHN":
+        //            UpdateAlarmText(ELanguage.CHINESE, AlarmCode);
+        //            break;
+        //        case "JPN":
+        //            UpdateAlarmText(ELanguage.JAPANESE, AlarmCode);
+        //            break;
+        //    }
+        //}
 
         private void DrawAlarmPos(Color LineColor, float fX, float fY)
         {
@@ -131,33 +119,13 @@ namespace LWDicer.UI
 
             foreach(CAlarmInfo info in AlarmInfo)
             {
-                if(info.Index == GetAlarmCode())
+                if(info.Index == AlarmCode)
                 {
                     LabelAlarmText1.Text = info.Description[(int)ELanguage.ENGLISH];
                     LabelTrouble1.Text = info.Solution[(int)ELanguage.ENGLISH];
 
-                    switch (Language)
-                    {
-                        case ELanguage.KOREAN:
-                            LabelAlarmText2.Text = info.Description[(int)ELanguage.KOREAN];
-                            LabelTrouble2.Text = info.Solution[(int)ELanguage.KOREAN];
-                            break;
-
-                        case ELanguage.ENGLISH:
-                            LabelAlarmText2.Text = info.Description[(int)ELanguage.ENGLISH];
-                            LabelTrouble2.Text = info.Solution[(int)ELanguage.ENGLISH];
-                            break;
-
-                        case ELanguage.CHINESE:
-                            LabelAlarmText2.Text = info.Description[(int)ELanguage.CHINESE];
-                            LabelTrouble2.Text = info.Solution[(int)ELanguage.CHINESE];
-                            break;
-
-                        case ELanguage.JAPANESE:
-                            LabelAlarmText2.Text = info.Description[(int)ELanguage.JAPANESE];
-                            LabelTrouble2.Text = info.Solution[(int)ELanguage.JAPANESE];
-                            break;
-                    }
+                    LabelAlarmText2.Text = info.Description[(int)Language];
+                    LabelTrouble2.Text = info.Solution[(int)Language];
 
                     strAlarmCode = "Alarm Code : " + Convert.ToString(info.Index);
                     LabelAlarmCode.Text = strAlarmCode;
@@ -179,7 +147,7 @@ namespace LWDicer.UI
                     dYPos = Convert.ToInt16(strPos[1]);
 
                     //Alarm 위치를 위한 Base Image
-                    switch (GetAlarmGroup())
+                    switch (AlarmGroup)
                     {
                         case EAlarmGroup.SYSTEM:
                             PicAlarmPos.BackgroundImage = null;
@@ -214,53 +182,49 @@ namespace LWDicer.UI
 
         private void FormAlarmDisplay_Load(object sender, EventArgs e)
         {
-            switch (CMainFrame.LWDicer.m_DataManager.SystemData.Language)
-            {
-                case ELanguage.KOREAN:
-                    UpdateAlarmText((int)ELanguage.KOREAN, GetAlarmCode());
-                    break;
-                case ELanguage.ENGLISH:
-                    UpdateAlarmText(ELanguage.ENGLISH, GetAlarmCode());
-                    break;
-                case ELanguage.CHINESE:
-                    UpdateAlarmText(ELanguage.CHINESE, GetAlarmCode());
-                    break;
-                case ELanguage.JAPANESE:
-                    UpdateAlarmText(ELanguage.JAPANESE, GetAlarmCode());
-                    break;
-            }
+            UpdateAlarmText(CMainFrame.LWDicer.m_DataManager.SystemData.Language, AlarmCode);
 
             TmrAlarm.Start();
         }
 
         private void BtnEdit_Click(object sender, EventArgs e)
         {
-            if(!CMainFrame.LWDicer.DisplayMsg("Alarm 내용을 수정을 하시겠습니까?"))
+            if(!CMainFrame.LWDicer.DisplayMsg("", "Alarm 내용을 수정을 하시겠습니까?"))
             {
                 return;
             }
 
             string strAlarm, strTrouble;
 
-            FormAlarmEdit AlarmEdit = new FormAlarmEdit();
-            AlarmEdit.SetAlarmText(LabelAlarmText2.Text, LabelTrouble2.Text);
-            AlarmEdit.ShowDialog();
+            FormAlarmEdit dlg = new FormAlarmEdit();
+            dlg.SetAlarmText(LabelAlarmText1.Text, LabelAlarmText2.Text, LabelTrouble1.Text, LabelTrouble2.Text);
+            dlg.ShowDialog();
 
-            if(AlarmEdit.DialogResult != DialogResult.OK)
+            if(dlg.DialogResult != DialogResult.OK)
             {
                 return;
             }
 
-            strAlarm = AlarmEdit.GetNewAlarmText();
-            strTrouble = AlarmEdit.GetNewTroubleText();
+            if(CMainFrame.LWDicer.m_DataManager.SystemData.Language == ELanguage.ENGLISH)
+            {
+                LabelAlarmText1.Text = dlg.strAlarm_Eng;
+                LabelTrouble1.Text = dlg.strTrouble_Eng;
 
-            LabelAlarmText2.Text = strAlarm;
-            LabelTrouble2.Text = strTrouble;
+                LabelAlarmText2.Text = dlg.strAlarm_Eng;
+                LabelTrouble2.Text = dlg.strTrouble_Eng;
+            } else
+            {
+                LabelAlarmText1.Text = dlg.strAlarm_Eng;
+                LabelTrouble1.Text = dlg.strTrouble_Eng;
+
+                LabelAlarmText2.Text = dlg.strAlarm_System;
+                LabelTrouble2.Text = dlg.strTrouble_System;
+            }
         }
 
         private void BtnSave_Click(object sender, EventArgs e)
         {
-            if (!CMainFrame.LWDicer.DisplayMsg("수정된 Alarm 내용을 저장 하시겠습니까?"))
+            if (!CMainFrame.LWDicer.DisplayMsg("", "수정된 Alarm 내용을 저장 하시겠습니까?"))
             {
                 return;
             }
@@ -271,12 +235,15 @@ namespace LWDicer.UI
 
             foreach (CAlarmInfo info in AlarmInfo)
             {
-                if (info.Group == GetAlarmGroup())
+                if (info.Group == AlarmGroup)
                 {
-                    if (info.Index == GetAlarmCode())
+                    if (info.Index == AlarmCode)
                     {
                         strPos = string.Format("X:{0:d},Y:{1:d}", dXPos, dYPos);
                         info.Esc = strPos;
+
+                        info.Description[(int)ELanguage.ENGLISH] = LabelAlarmText1.Text;
+                        info.Solution[(int)ELanguage.ENGLISH] = LabelTrouble1.Text;
 
                         info.Description[(int)CMainFrame.LWDicer.m_DataManager.SystemData.Language] = LabelAlarmText2.Text;
                         info.Solution[(int)CMainFrame.LWDicer.m_DataManager.SystemData.Language] = LabelTrouble2.Text;

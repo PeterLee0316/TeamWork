@@ -296,7 +296,7 @@ namespace LWDicer.UI
         {
             int i = 0;
 
-            if (!CMainFrame.LWDicer.DisplayMsg("Motor Data를 저장 하시겠습니까?"))
+            if (!CMainFrame.LWDicer.DisplayMsg("", "Motor Data를 저장 하시겠습니까?"))
             {
                 return;
             }

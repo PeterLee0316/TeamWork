@@ -771,20 +771,20 @@ namespace LWDicer.UI
         {
             string strFile = "";
 
-            SaveFileDialog SaveImageFile = new SaveFileDialog();
+            SaveFileDialog dlg = new SaveFileDialog();
 
-            SaveImageFile.Title = "이미지 파일저장";
-            SaveImageFile.OverwritePrompt = true;
-            SaveImageFile.Filter = "Bitmap Image|*.bmp";
+            dlg.Title = "이미지 파일저장";
+            dlg.OverwritePrompt = true;
+            dlg.Filter = "Bitmap Image|*.bmp";
 
-            SaveImageFile.InitialDirectory = m_DBInfo.ScannerLogDir;
-            SaveImageFile.RestoreDirectory = true;
+            dlg.InitialDirectory = m_DBInfo.ScannerLogDir;
+            dlg.RestoreDirectory = true;
 
-            DialogResult result = SaveImageFile.ShowDialog();
+            DialogResult result = dlg.ShowDialog();
 
             if (result == DialogResult.OK)
             {
-                strFile = SaveImageFile.FileName;
+                strFile = dlg.FileName;
                 ImageSave(strFile);
             }
         }
@@ -801,7 +801,7 @@ namespace LWDicer.UI
 
         private void BtnImageDataSave_Click(object sender, EventArgs e)
         {
-            if (!CMainFrame.LWDicer.DisplayMsg("Image Data를 저장 하시겠습니까?"))
+            if (!CMainFrame.LWDicer.DisplayMsg("", "Image Data를 저장 하시겠습니까?"))
             {
                 return;
             }
@@ -1081,7 +1081,7 @@ namespace LWDicer.UI
         private void BtnConfigSave_Click(object sender, EventArgs e)
         {
 
-            if (!CMainFrame.LWDicer.DisplayMsg("Polygon Data를 저장 하시겠습니까?"))
+            if (!CMainFrame.LWDicer.DisplayMsg("", "Polygon Data를 저장 하시겠습니까?"))
             {
                 return;
             }

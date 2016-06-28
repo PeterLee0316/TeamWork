@@ -107,8 +107,8 @@ namespace LWDicer.UI
         private void FormKeyPad_Load(object sender, EventArgs e)
         {
             PresentNo.Text = strCurrent;
-            ModifyNo.Text = strCurrent;
-            strInput = strCurrent;
+            //ModifyNo.Text = strCurrent;
+            //strInput = strCurrent;
         }
     }
 }

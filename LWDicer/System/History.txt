@@ -248,6 +248,9 @@ LWDicer의 DataManager에서 데이터를 읽어오기 위한 3가지 함수 : S
 // Date : 160627~160628
 // Context
 1. FormUnitInit, FormOriginReturn dialog 수정중...
+2. Alarm, Message Display Dialog 수정.
+3. Dialog 생성 부분을 찾아서 var dlg = new XXX() 형식으로 바꿈.
+4. Display 쪽에서 iResult = DoSomething()으로 받아서 CMainFrame.LWDicer.AlarmDisplay(iResult); 로 호출하면 되도록 변경함.
 
 // for Project setting
 // WIN32, SIMULATION_VISION, SIMULATION_MOTION_ACS, SIMULATION_MOTION_YMC, SIMULATION_IO

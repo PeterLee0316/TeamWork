@@ -11,8 +11,8 @@ namespace LWDicer.UI
 {
     public partial class FormMessageBox : Form
     {
-        private string strTextKor, strTextEng;
-        private bool bBtnOption;
+        private string strMsg_Eng, strMsg_System;
+        private bool bMode_OkCancel;
 
         public FormMessageBox()
         {
@@ -28,28 +28,31 @@ namespace LWDicer.UI
             FormBorderStyle = FormBorderStyle.Fixed3D;
         }
 
-        public void SetMessage(string strMsg, bool bOkCancel)
+        public void SetMessage(string strMsg_Eng, string strMsg_System, bool bMode_OkCancel)
         {
-            bBtnOption = bOkCancel;
-            strTextKor = strMsg;
+            this.bMode_OkCancel = bMode_OkCancel;
+            this.strMsg_Eng = strMsg_Eng;
+            this.strMsg_System = strMsg_System;
         }
 
         private void FormUtilMsg_Load(object sender, EventArgs e)
         {
-            LabelTextKor.Text = strTextKor;
-            LabelTextEng.Text = strTextEng;
+            LabelTextEng.Text = strMsg_Eng;
+            LabelTextSystem.Text = strMsg_System;
 
-            if (bBtnOption == true)
+            if (bMode_OkCancel == true)
             {
-                BtnConfirm.Visible = false;
-                BtnOK.Visible = true;
-                BtnCancel.Visible = true;
+                BtnConfirm.Visible = true;
+                //BtnOK.Visible = true;
+                //BtnCancel.Visible = true;
+                BtnCancel.Text = "Cancel";
             }
             else
             {
-                BtnOK.Visible = false;
-                BtnCancel.Visible = false;
-                BtnConfirm.Visible = true;
+                BtnConfirm.Visible = false;
+                //BtnOK.Visible = false;
+                //BtnCancel.Visible = false;
+                BtnCancel.Text = "Ok";
             }
         }
 
@@ -67,7 +70,8 @@ namespace LWDicer.UI
 
         private void BtnCancel_Click(object sender, EventArgs e)
         {
-            this.DialogResult = DialogResult.Cancel;
+            if(bMode_OkCancel) this.DialogResult = DialogResult.Cancel;
+            else this.DialogResult = DialogResult.OK;
             this.Close();
         }
     }

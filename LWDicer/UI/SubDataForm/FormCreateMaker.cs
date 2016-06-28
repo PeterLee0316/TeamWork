@@ -125,7 +125,7 @@ namespace LWDicer.UI
         {
             if(LabelMakerName.Text == "" || LabelMakerName.Text == null)
             {
-                CMainFrame.LWDicer.DisplayMsg("Maker Name을 입력 하십시오", false);
+                CMainFrame.LWDicer.DisplayMsg("", "Maker Name을 입력 하십시오", false);
                 return;
             }
 
@@ -136,7 +136,7 @@ namespace LWDicer.UI
             {
                 if(NewHeader.Name == HeaderList[i].Name)
                 {
-                    CMainFrame.LWDicer.DisplayMsg("현재 등록되어 있는 Maker 입니다.",false);
+                    CMainFrame.LWDicer.DisplayMsg("", "현재 등록되어 있는 Maker 입니다.",false);
                     return;
                 }
             }

@@ -40,8 +40,6 @@ namespace LWDicer.UI
 
         private int nDataMode = 0;
 
-        private FormStageManualOP m_StageManualOP = new FormStageManualOP();
-
         private CMovingObject movingObject = CMainFrame.LWDicer.m_MeStage.AxStageInfo;
 
         public FormWorkStageTeach()
@@ -94,8 +92,8 @@ namespace LWDicer.UI
 
         private void BtnJog_Click(object sender, EventArgs e)
         {
-            FormJogOperation m_Jog = new FormJogOperation();
-            m_Jog.ShowDialog();
+            FormJogOperation dlg = new FormJogOperation();
+            dlg.ShowDialog();
         }
 
         private void InitGrid()
@@ -421,7 +419,7 @@ namespace LWDicer.UI
 
             strMsg = GridStageTeachTable[1, 0].Text + " Unit에 " + StagePos[GetPosNo()].Text + " Teaching Data를 저장하시겠습니까?";
 
-            if (!CMainFrame.LWDicer.DisplayMsg(strMsg))
+            if (!CMainFrame.LWDicer.DisplayMsg("", strMsg))
             {
                 return;
             }
@@ -468,7 +466,7 @@ namespace LWDicer.UI
 
             strMsg = StagePos[GetPosNo()].Text + " 목표 위치를 현재 위치로 변경하시겠습니까?";
 
-            if (!CMainFrame.LWDicer.DisplayMsg(strMsg))
+            if (!CMainFrame.LWDicer.DisplayMsg("", strMsg))
             {
                 return;
             }
@@ -523,7 +521,7 @@ namespace LWDicer.UI
 
             strMsg = StagePos[GetPosNo()].Text + " 목표 위치로 이동하시겠습니까?";
 
-            if (!CMainFrame.LWDicer.DisplayMsg(strMsg))
+            if (!CMainFrame.LWDicer.DisplayMsg("", strMsg))
             {
                 return;
             }
@@ -531,7 +529,8 @@ namespace LWDicer.UI
 
         private void BtnManualOP_Click(object sender, EventArgs e)
         {
-            m_StageManualOP.ShowDialog();
+            var dlg = new FormStageManualOP();
+            dlg.ShowDialog();
         }
     }
 }

@@ -3417,7 +3417,7 @@ namespace LWDicer.Control
                     if (iResult == SUCCESS)
                     {
                         SaveSystemData(systemAxis: SystemData_Axis);
-                }
+                    }
                 }
 
                 WorkBook.Close(true);

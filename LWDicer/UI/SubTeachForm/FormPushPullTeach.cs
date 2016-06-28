@@ -42,8 +42,6 @@ namespace LWDicer.UI
 
         private int nDataMode = 0;
 
-        private FormPushPullManualOP m_PushPullManualOP = new FormPushPullManualOP();
-
         private CMovingObject movingPushPullObject = CMainFrame.LWDicer.m_MePushPull.AxPushPullInfo;
         private CMovingObject[] movingCenterObject = new CMovingObject[(int)ECenterPos.MAX];
 
@@ -104,8 +102,8 @@ namespace LWDicer.UI
 
         private void BtnJog_Click(object sender, EventArgs e)
         {
-            FormJogOperation m_Jog = new FormJogOperation();
-            m_Jog.ShowDialog();
+            FormJogOperation dlg = new FormJogOperation();
+            dlg.ShowDialog();
         }
 
         private void BtnPushPullPos_Click(object sender, EventArgs e)
@@ -598,7 +596,7 @@ namespace LWDicer.UI
 
             strMsg = GridCenterXTeachTable[1, 0].Text + " Unit에 " + CenterPos[GetCenterPosNo()].Text + " Teaching Data를 저장하시겠습니까?";
 
-            if (!CMainFrame.LWDicer.DisplayMsg(strMsg))
+            if (!CMainFrame.LWDicer.DisplayMsg("", strMsg))
             {
                 return;
             }
@@ -638,7 +636,7 @@ namespace LWDicer.UI
 
             strMsg = GridPushPullYTeachTable[1, 0].Text + " Unit에 " + PushPullPos[GetPushPullPosNo()].Text + " Teaching Data를 저장하시겠습니까?";
 
-            if (!CMainFrame.LWDicer.DisplayMsg(strMsg))
+            if (!CMainFrame.LWDicer.DisplayMsg("", strMsg))
             {
                 return;
             }
@@ -672,7 +670,7 @@ namespace LWDicer.UI
 
             strMsg = CenterPos[GetCenterPosNo()].Text + " 목표 위치를 현재 위치로 변경하시겠습니까?";
 
-            if (!CMainFrame.LWDicer.DisplayMsg(strMsg))
+            if (!CMainFrame.LWDicer.DisplayMsg("", strMsg))
             {
                 return;
             }
@@ -710,7 +708,7 @@ namespace LWDicer.UI
 
             strMsg = PushPullPos[GetPushPullPosNo()].Text + " 목표 위치를 현재 위치로 변경하시겠습니까?";
 
-            if (!CMainFrame.LWDicer.DisplayMsg(strMsg))
+            if (!CMainFrame.LWDicer.DisplayMsg("", strMsg))
             {
                 return;
             }
@@ -771,7 +769,7 @@ namespace LWDicer.UI
 
             strMsg = CenterPos[GetCenterPosNo()].Text + " 목표 위치로 이동하시겠습니까?";
 
-            if (!CMainFrame.LWDicer.DisplayMsg(strMsg))
+            if (!CMainFrame.LWDicer.DisplayMsg("", strMsg))
             {
                 return;
             }
@@ -783,7 +781,7 @@ namespace LWDicer.UI
 
             strMsg = PushPullPos[GetPushPullPosNo()].Text + " 목표 위치로 이동하시겠습니까?";
 
-            if (!CMainFrame.LWDicer.DisplayMsg(strMsg))
+            if (!CMainFrame.LWDicer.DisplayMsg("", strMsg))
             {
                 return;
             }
@@ -791,7 +789,8 @@ namespace LWDicer.UI
 
         private void BtnManualOP_Click(object sender, EventArgs e)
         {
-            m_PushPullManualOP.ShowDialog();
+            var dlg = new FormPushPullManualOP();
+            dlg.ShowDialog();
         }
     }
 }

@@ -45,8 +45,6 @@ namespace LWDicer.UI
 
         private int nDataMode = 0;
 
-        private FormHandlerManualOP m_HandlerManualOP = new FormHandlerManualOP();
-
         private CMovingObject movingUpperObject = CMainFrame.LWDicer.m_MeUpperHandler.AxHandlerInfo;
         private CMovingObject movingLowerObject = CMainFrame.LWDicer.m_MeLowerHandler.AxHandlerInfo;
 
@@ -309,8 +307,8 @@ namespace LWDicer.UI
 
         private void BtnJog_Click(object sender, EventArgs e)
         {
-            FormJogOperation m_Jog = new FormJogOperation();
-            m_Jog.ShowDialog();
+            FormJogOperation dlg = new FormJogOperation();
+            dlg.ShowDialog();
         }
 
         private void BtnUpPos_Click(object sender, EventArgs e)
@@ -573,7 +571,7 @@ namespace LWDicer.UI
 
             strMsg = TeachUpPos[GetUpPosNo()].Text + " 목표 위치를 현재 위치로 변경하시겠습니까?";
 
-            if (!CMainFrame.LWDicer.DisplayMsg(strMsg))
+            if (!CMainFrame.LWDicer.DisplayMsg("", strMsg))
             {
                 return;
             }
@@ -592,7 +590,7 @@ namespace LWDicer.UI
 
             strMsg = TeachLoPos[GetUpPosNo()].Text + " 목표 위치를 현재 위치로 변경하시겠습니까?";
 
-            if (!CMainFrame.LWDicer.DisplayMsg(strMsg))
+            if (!CMainFrame.LWDicer.DisplayMsg("", strMsg))
             {
                 return;
             }
@@ -611,7 +609,7 @@ namespace LWDicer.UI
 
             strMsg = GridLoHandlerTeachTable[1, 0].Text + " Unit에 " + TeachLoPos[GetLoPosNo()].Text + " Teaching Data를 저장하시겠습니까?";
 
-            if (!CMainFrame.LWDicer.DisplayMsg(strMsg))
+            if (!CMainFrame.LWDicer.DisplayMsg("", strMsg))
             {
                 return;
             }
@@ -649,7 +647,7 @@ namespace LWDicer.UI
 
             strMsg = GridUpHandlerTeachTable[1, 0].Text + " Unit에 " + TeachUpPos[GetUpPosNo()].Text + " Teaching Data를 저장하시겠습니까?";
 
-            if (!CMainFrame.LWDicer.DisplayMsg(strMsg))
+            if (!CMainFrame.LWDicer.DisplayMsg("", strMsg))
             {
                 return;
             }
@@ -767,7 +765,7 @@ namespace LWDicer.UI
 
             strMsg = TeachUpPos[GetUpPosNo()].Text + " 목표 위치로 이동하시겠습니까?";
 
-            if (!CMainFrame.LWDicer.DisplayMsg(strMsg))
+            if (!CMainFrame.LWDicer.DisplayMsg("", strMsg))
             {
                 return;
             }
@@ -779,7 +777,7 @@ namespace LWDicer.UI
 
             strMsg = TeachLoPos[GetLoPosNo()].Text + " 목표 위치로 이동하시겠습니까?";
 
-            if (!CMainFrame.LWDicer.DisplayMsg(strMsg))
+            if (!CMainFrame.LWDicer.DisplayMsg("", strMsg))
             {
                 return;
             }
@@ -788,18 +786,16 @@ namespace LWDicer.UI
         private void BtnManualOP_Click(object sender, EventArgs e)
         {
             Button Handler = sender as Button;
+            var dlg = new FormHandlerManualOP();
 
             if(Handler.Name == "BtnUpperManualOP")
             {
-                m_HandlerManualOP.SetHandler(UpHandler);
-                m_HandlerManualOP.ShowDialog();
-            }
-
-            if (Handler.Name == "BtnLowerManualOP")
+                dlg.SetHandler(UpHandler);
+            } else
             {
-                m_HandlerManualOP.SetHandler(LoHandler);
-                m_HandlerManualOP.ShowDialog();
+                dlg.SetHandler(LoHandler);
             }
+            dlg.ShowDialog();
         }
     }
 }

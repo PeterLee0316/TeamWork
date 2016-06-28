@@ -50,13 +50,14 @@ namespace LWDicer.UI
         {
             ButtonAdv BtnAlarm = sender as ButtonAdv;
 
-            if (Convert.ToInt16(BtnAlarm.Tag) == 100) CMainFrame.LWDicer.AlarmDisplay(EAlarmGroup.LOADER, Convert.ToInt16(BtnAlarm.Tag));
-            if (Convert.ToInt16(BtnAlarm.Tag) == 200) CMainFrame.LWDicer.AlarmDisplay(EAlarmGroup.PUSHPULL, Convert.ToInt16(BtnAlarm.Tag));
-            if (Convert.ToInt16(BtnAlarm.Tag) == 300) CMainFrame.LWDicer.AlarmDisplay(EAlarmGroup.HANDLER, Convert.ToInt16(BtnAlarm.Tag));
-            if (Convert.ToInt16(BtnAlarm.Tag) == 400) CMainFrame.LWDicer.AlarmDisplay(EAlarmGroup.HANDLER, Convert.ToInt16(BtnAlarm.Tag));
-            if (Convert.ToInt16(BtnAlarm.Tag) == 500) CMainFrame.LWDicer.AlarmDisplay(EAlarmGroup.SPINNER, Convert.ToInt16(BtnAlarm.Tag));
-            if (Convert.ToInt16(BtnAlarm.Tag) == 600) CMainFrame.LWDicer.AlarmDisplay(EAlarmGroup.SPINNER, Convert.ToInt16(BtnAlarm.Tag));
-            if (Convert.ToInt16(BtnAlarm.Tag) == 700) CMainFrame.LWDicer.AlarmDisplay(EAlarmGroup.STAGE, Convert.ToInt16(BtnAlarm.Tag));
+            int code = Convert.ToInt16(BtnAlarm.Tag);
+            if (Convert.ToInt16(BtnAlarm.Tag) == 100) CMainFrame.LWDicer.AlarmDisplay(code, EAlarmGroup.LOADER);
+            if (Convert.ToInt16(BtnAlarm.Tag) == 200) CMainFrame.LWDicer.AlarmDisplay(code, EAlarmGroup.PUSHPULL);
+            if (Convert.ToInt16(BtnAlarm.Tag) == 300) CMainFrame.LWDicer.AlarmDisplay(code, EAlarmGroup.HANDLER);
+            if (Convert.ToInt16(BtnAlarm.Tag) == 400) CMainFrame.LWDicer.AlarmDisplay(code, EAlarmGroup.HANDLER);
+            if (Convert.ToInt16(BtnAlarm.Tag) == 500) CMainFrame.LWDicer.AlarmDisplay(code, EAlarmGroup.SPINNER);
+            if (Convert.ToInt16(BtnAlarm.Tag) == 600) CMainFrame.LWDicer.AlarmDisplay(code, EAlarmGroup.SPINNER);
+            if (Convert.ToInt16(BtnAlarm.Tag) == 700) CMainFrame.LWDicer.AlarmDisplay(code, EAlarmGroup.STAGE);
         }
     }
 }

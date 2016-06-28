@@ -2043,7 +2043,7 @@ namespace LWDicer.Control
             return setTowerLampStatus("GREEN Lamp", m_IOAddrTable.TowerLamp.GreenLampAddr, bStatus);
         }
 
-        public int SetBuzzerStatus(int iMode, bool bStatus)
+        public int SetBuzzerStatus(bool bStatus, int iMode = DEF_OPPANEL_BUZZER_ALL)
         {
             int i = 0;
             int iResult = SUCCESS;
