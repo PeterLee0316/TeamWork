@@ -502,3 +502,17 @@ LWDicer의 DataManager에서 데이터를 읽어오기 위한 3가지 함수 : S
 // 2.Manual Screen UI 초안 작성
 // 3.Teaching Screen Code 최적화
 
+// Version : 0.0.18
+// Grade : ★
+// Date : 2016-06-28
+// Context
+// 1.Alarm Display Message 추가
+//  - Alarm Text, Troubleshooting Text 편집 Edit 창 추가로 Text 관리
+// 2.Excel Import, Export 수정 
+//  - Alarm Info, Motor Data    
+// 3.Message Box 수정
+//  - OK, CANCEL, CONFIRM 버튼 
+
+
+
+

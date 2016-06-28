@@ -132,25 +132,15 @@ namespace LWDicer.UI
             GridMotorPara[0, 28].Text = "Home Slow Speed";
             GridMotorPara[0, 29].Text = "Home Offset";
 
-            GridMotorPara[1, 1].Text = Convert.ToString(EYMC_Axis.LOADER_Z);
-            GridMotorPara[2, 1].Text = Convert.ToString(EYMC_Axis.PUSHPULL_Y);
-            GridMotorPara[3, 1].Text = Convert.ToString(EYMC_Axis.PUSHPULL_X1);
-            GridMotorPara[4, 1].Text = Convert.ToString(EYMC_Axis.PUSHPULL_X2);
-            GridMotorPara[5, 1].Text = Convert.ToString(EYMC_Axis.S1_CHUCK_ROTATE_T);
-            GridMotorPara[6, 1].Text = Convert.ToString(EYMC_Axis.S1_CLEAN_NOZZLE_T);
-            GridMotorPara[7, 1].Text = Convert.ToString(EYMC_Axis.S1_COAT_NOZZLE_T);
-            GridMotorPara[8, 1].Text = Convert.ToString(EYMC_Axis.S2_CHUCK_ROTATE_T);
-            GridMotorPara[9, 1].Text = Convert.ToString(EYMC_Axis.S2_CLEAN_NOZZLE_T);
-            GridMotorPara[10, 1].Text =Convert.ToString(EYMC_Axis.S2_COAT_NOZZLE_T);
-            GridMotorPara[11, 1].Text = Convert.ToString(EYMC_Axis.UPPER_HANDLER_X);
-            GridMotorPara[12, 1].Text = Convert.ToString(EYMC_Axis.UPPER_HANDLER_Z);
-            GridMotorPara[13, 1].Text = Convert.ToString(EYMC_Axis.LOWER_HANDLER_X);
-            GridMotorPara[14, 1].Text = Convert.ToString(EYMC_Axis.LOWER_HANDLER_Z);
-            GridMotorPara[15, 1].Text = Convert.ToString(EYMC_Axis.CAMERA1_Z);
-            GridMotorPara[16, 1].Text = Convert.ToString(EYMC_Axis.SCANNER1_Z);
-            GridMotorPara[17, 1].Text = Convert.ToString(EACS_Axis.STAGE1_X);
-            GridMotorPara[18, 1].Text = Convert.ToString(EACS_Axis.STAGE1_Y);
-            GridMotorPara[19, 1].Text = Convert.ToString(EACS_Axis.STAGE1_T);
+            for(i=0;i< (int)EYMC_Axis.MAX;i++)
+            {
+                GridMotorPara[i+1, 1].Text = Convert.ToString(EYMC_Axis.LOADER_Z+i);
+            }
+
+            for (i = 0; i < (int)EACS_Axis.MAX; i++)
+            {
+                GridMotorPara[i + 17, 1].Text = Convert.ToString(EACS_Axis.STAGE1_X + i);
+            }
 
             for (i = 0; i < nCol + 1; i++)
             {
@@ -304,24 +294,94 @@ namespace LWDicer.UI
 
         private void BtnSave_Click(object sender, EventArgs e)
         {
-            int i = 0, j = 0;
-            string[,] strPara = new string[19, 28];
+            int i = 0;
 
             if (!CMainFrame.LWDicer.DisplayMsg("Motor Data를 저장 하시겠습니까?"))
             {
                 return;
             }
 
-            for (i = 0; i < 19; i++)
+            // Motor Data Sheet
+            for (i = 0; i < 16; i++)
             {
-                for (j = 0; j < 28; j++)
-                {
-                    strPara[i, j] = GridMotorPara[i + 1, j + 2].Text;
-                }
+                // Speed
+                SystemData_Axis.MPMotionData[i].Speed[(int)EMotorSpeed.MANUAL_SLOW].Vel = Convert.ToDouble(GridMotorPara[i + 1, 2].Text);
+                SystemData_Axis.MPMotionData[i].Speed[(int)EMotorSpeed.MANUAL_FAST].Vel = Convert.ToDouble(GridMotorPara[i + 1, 3].Text);
+                SystemData_Axis.MPMotionData[i].Speed[(int)EMotorSpeed.AUTO_SLOW].Vel = Convert.ToDouble(GridMotorPara[i + 1, 4].Text);
+                SystemData_Axis.MPMotionData[i].Speed[(int)EMotorSpeed.AUTO_FAST].Vel = Convert.ToDouble(GridMotorPara[i + 1, 5].Text);
+                SystemData_Axis.MPMotionData[i].Speed[(int)EMotorSpeed.JOG_SLOW].Vel = Convert.ToDouble(GridMotorPara[i + 1, 6].Text);
+                SystemData_Axis.MPMotionData[i].Speed[(int)EMotorSpeed.JOG_FAST].Vel = Convert.ToDouble(GridMotorPara[i + 1, 7].Text);
+
+                // Acc
+                SystemData_Axis.MPMotionData[i].Speed[(int)EMotorSpeed.MANUAL_SLOW].Acc = Convert.ToDouble(GridMotorPara[i + 1, 8].Text);
+                SystemData_Axis.MPMotionData[i].Speed[(int)EMotorSpeed.MANUAL_FAST].Acc = Convert.ToDouble(GridMotorPara[i + 1, 9].Text);
+                SystemData_Axis.MPMotionData[i].Speed[(int)EMotorSpeed.AUTO_SLOW].Acc = Convert.ToDouble(GridMotorPara[i + 1, 10].Text);
+                SystemData_Axis.MPMotionData[i].Speed[(int)EMotorSpeed.AUTO_FAST].Acc = Convert.ToDouble(GridMotorPara[i + 1, 11].Text);
+                SystemData_Axis.MPMotionData[i].Speed[(int)EMotorSpeed.JOG_SLOW].Acc = Convert.ToDouble(GridMotorPara[i + 1, 12].Text);
+                SystemData_Axis.MPMotionData[i].Speed[(int)EMotorSpeed.JOG_FAST].Acc = Convert.ToDouble(GridMotorPara[i + 1, 13].Text);
+
+                // Dec
+                SystemData_Axis.MPMotionData[i].Speed[(int)EMotorSpeed.MANUAL_SLOW].Dec = Convert.ToDouble(GridMotorPara[i + 1, 14].Text);
+                SystemData_Axis.MPMotionData[i].Speed[(int)EMotorSpeed.MANUAL_FAST].Dec = Convert.ToDouble(GridMotorPara[i + 1, 15].Text);
+                SystemData_Axis.MPMotionData[i].Speed[(int)EMotorSpeed.AUTO_SLOW].Dec = Convert.ToDouble(GridMotorPara[i + 1, 16].Text);
+                SystemData_Axis.MPMotionData[i].Speed[(int)EMotorSpeed.AUTO_FAST].Dec = Convert.ToDouble(GridMotorPara[i + 1, 17].Text);
+                SystemData_Axis.MPMotionData[i].Speed[(int)EMotorSpeed.JOG_SLOW].Dec = Convert.ToDouble(GridMotorPara[i + 1, 18].Text);
+                SystemData_Axis.MPMotionData[i].Speed[(int)EMotorSpeed.JOG_FAST].Dec = Convert.ToDouble(GridMotorPara[i + 1, 19].Text);
+
+                // S/W Limit
+                SystemData_Axis.MPMotionData[i].PosLimit.Plus = Convert.ToDouble(GridMotorPara[i + 1, 20].Text);
+                SystemData_Axis.MPMotionData[i].PosLimit.Minus = Convert.ToDouble(GridMotorPara[i + 1, 21].Text);
+
+                // Limit Time
+                SystemData_Axis.MPMotionData[i].TimeLimit.tMoveLimit = Convert.ToDouble(GridMotorPara[i + 1, 22].Text);
+                SystemData_Axis.MPMotionData[i].TimeLimit.tSleepAfterMove = Convert.ToDouble(GridMotorPara[i + 1, 23].Text);
+                SystemData_Axis.MPMotionData[i].TimeLimit.tOriginLimit = Convert.ToDouble(GridMotorPara[i + 1, 24].Text);
+
+                // Home Option
+                SystemData_Axis.MPMotionData[i].OriginData.Method = Convert.ToInt16(GridMotorPara[i + 1, 25].Text);
+                SystemData_Axis.MPMotionData[i].OriginData.Dir = Convert.ToInt16(GridMotorPara[i + 1, 26].Text);
+                SystemData_Axis.MPMotionData[i].OriginData.FastSpeed = Convert.ToDouble(GridMotorPara[i + 1, 27].Text);
+                SystemData_Axis.MPMotionData[i].OriginData.SlowSpeed = Convert.ToDouble(GridMotorPara[i + 1, 28].Text);
+                SystemData_Axis.MPMotionData[i].OriginData.HomeOffset = Convert.ToDouble(GridMotorPara[i + 1, 29].Text);
             }
 
-            CMainFrame.LWDicer.m_DataManager.ExportMotorDataFromExcel(strPara);
-            CMainFrame.LWDicer.m_DataManager.ImportDataFromExcel(EExcel_Sheet.Motor_Data);
+            for (i = 0; i < 3; i++)
+            {
+                // Speed
+                SystemData_Axis.ACSMotionData[i].Speed[(int)EMotorSpeed.MANUAL_SLOW].Vel = Convert.ToDouble(GridMotorPara[i + 17, 2].Text);
+                SystemData_Axis.ACSMotionData[i].Speed[(int)EMotorSpeed.MANUAL_FAST].Vel = Convert.ToDouble(GridMotorPara[i + 17, 3].Text);
+                SystemData_Axis.ACSMotionData[i].Speed[(int)EMotorSpeed.AUTO_SLOW].Vel = Convert.ToDouble(GridMotorPara[i + 17, 4].Text);
+                SystemData_Axis.ACSMotionData[i].Speed[(int)EMotorSpeed.AUTO_FAST].Vel = Convert.ToDouble(GridMotorPara[i + 17, 5].Text);
+                SystemData_Axis.ACSMotionData[i].Speed[(int)EMotorSpeed.JOG_SLOW].Vel = Convert.ToDouble(GridMotorPara[i + 17, 6].Text);
+                SystemData_Axis.ACSMotionData[i].Speed[(int)EMotorSpeed.JOG_FAST].Vel = Convert.ToDouble(GridMotorPara[i + 17, 7].Text);
+
+                // Acc
+                SystemData_Axis.ACSMotionData[i].Speed[(int)EMotorSpeed.MANUAL_SLOW].Acc = Convert.ToDouble(GridMotorPara[i + 17, 8].Text);
+                SystemData_Axis.ACSMotionData[i].Speed[(int)EMotorSpeed.MANUAL_FAST].Acc = Convert.ToDouble(GridMotorPara[i + 17, 9].Text);
+                SystemData_Axis.ACSMotionData[i].Speed[(int)EMotorSpeed.AUTO_SLOW].Acc = Convert.ToDouble(GridMotorPara[i + 17, 10].Text);
+                SystemData_Axis.ACSMotionData[i].Speed[(int)EMotorSpeed.AUTO_FAST].Acc = Convert.ToDouble(GridMotorPara[i + 17, 11].Text);
+                SystemData_Axis.ACSMotionData[i].Speed[(int)EMotorSpeed.JOG_SLOW].Acc = Convert.ToDouble(GridMotorPara[i + 17, 12].Text);
+                SystemData_Axis.ACSMotionData[i].Speed[(int)EMotorSpeed.JOG_FAST].Acc = Convert.ToDouble(GridMotorPara[i + 17, 13].Text);
+
+                // Dec
+                SystemData_Axis.ACSMotionData[i].Speed[(int)EMotorSpeed.MANUAL_SLOW].Dec = Convert.ToDouble(GridMotorPara[i + 17, 14].Text);
+                SystemData_Axis.ACSMotionData[i].Speed[(int)EMotorSpeed.MANUAL_FAST].Dec = Convert.ToDouble(GridMotorPara[i + 17, 15].Text); 
+                SystemData_Axis.ACSMotionData[i].Speed[(int)EMotorSpeed.AUTO_SLOW].Dec = Convert.ToDouble(GridMotorPara[i + 17, 16].Text);
+                SystemData_Axis.ACSMotionData[i].Speed[(int)EMotorSpeed.AUTO_FAST].Dec = Convert.ToDouble(GridMotorPara[i + 17, 17].Text);
+                SystemData_Axis.ACSMotionData[i].Speed[(int)EMotorSpeed.JOG_SLOW].Dec = Convert.ToDouble(GridMotorPara[i + 17, 18].Text); 
+                SystemData_Axis.ACSMotionData[i].Speed[(int)EMotorSpeed.JOG_FAST].Dec = Convert.ToDouble(GridMotorPara[i + 17, 19].Text);
+
+                // S/W Limit
+                SystemData_Axis.ACSMotionData[i].PosLimit.Plus = Convert.ToDouble(GridMotorPara[i + 17, 20].Text);
+                SystemData_Axis.ACSMotionData[i].PosLimit.Minus = Convert.ToDouble(GridMotorPara[i + 17, 21].Text);
+
+                // Limit Time
+                SystemData_Axis.ACSMotionData[i].TimeLimit.tMoveLimit = Convert.ToDouble(GridMotorPara[i + 17, 22].Text);
+                SystemData_Axis.ACSMotionData[i].TimeLimit.tSleepAfterMove = Convert.ToDouble(GridMotorPara[i + 17, 23].Text);
+                SystemData_Axis.ACSMotionData[i].TimeLimit.tOriginLimit = Convert.ToDouble(GridMotorPara[i + 17, 24].Text);
+            }
+
+            CMainFrame.LWDicer.m_DataManager.SaveSystemData(systemAxis: SystemData_Axis);
         }
     }
 }

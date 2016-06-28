@@ -291,7 +291,7 @@ namespace LWDicer.Control
         public void ShowAlarmWhileInit(int alarmcode)
         {
             string str = GetAlarmText(alarmcode);
-            DisplayMsg(str);
+            DisplayMsg(str,false);
         }
 
         public int Initialize(CMainFrame form1 = null)
@@ -1501,13 +1501,13 @@ namespace LWDicer.Control
             return true;
         }
 
-        public bool DisplayMsg(string strMsg)
+        public bool DisplayMsg(string strMsg, bool bOkCancel = true)
         {
             FormMessageBox Msg = new FormMessageBox();
-            Msg.SetText(strMsg);
+            Msg.SetMessage(strMsg, bOkCancel);
             Msg.ShowDialog();
 
-            if (Msg.DialogResult == DialogResult.OK)
+            if (Msg.DialogResult == DialogResult.OK || Msg.DialogResult == DialogResult.Yes)
             {
                 Msg.Dispose();
                 return true;
@@ -1519,10 +1519,10 @@ namespace LWDicer.Control
             }
         }
 
-        public void AlarmDisplay(int nCodeNo)
+        public void AlarmDisplay(EAlarmGroup AlarmGroup, int nCodeNo)
         {
             FormAlarmDisplay Alarm = new FormAlarmDisplay();
-            Alarm.SetAlarmCode(nCodeNo);
+            Alarm.SetAlarmCode(AlarmGroup, nCodeNo);
             Alarm.ShowDialog();
         }
 

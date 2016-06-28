@@ -22,33 +22,17 @@ namespace LWDicer.UI
 {
     public partial class FormAlarmDisplay : Form
     {
-
-        enum EAlarmUnit
-        {
-            NONE = -1,
-            SYSTEM,
-            LOADER,
-            PUSHPULL,
-            LO_HANDLER,
-            UP_HANDLER,
-            SPINNER1,
-            SPINNER2,
-            STAGE,
-            SCANNER,
-            LASER,
-            MAX,
-        }
-
         public Graphics m_Grapic;
         public Image Image;
 
         private int nAlarmCode;
+        private EAlarmGroup Group;
 
         private bool bToggle;
 
-        private float fXPos, fYPos;
+        private int dXPos, dYPos;
 
-        Button[] BtnLanguage = new Button[(int)ELanguage.MAX];
+        Point MousePoint;
 
         public FormAlarmDisplay()
         {
@@ -56,20 +40,24 @@ namespace LWDicer.UI
 
             this.DesktopLocation = new Point(110, 196);
 
-            ResouceMapping();
-                       
             TmrAlarm.Enabled = true;
             TmrAlarm.Interval = 500;
         }
 
-        public void SetAlarmCode(int nCode)
+        public void SetAlarmCode(EAlarmGroup AlarmGroup, int nCode)
         {
             nAlarmCode = nCode;
+            Group = AlarmGroup;
         }
 
         public int GetAlarmCode()
         {
             return nAlarmCode;
+        }
+
+        public EAlarmGroup GetAlarmGroup()
+        {
+            return Group;
         }
 
         private void FormClose()
@@ -78,11 +66,6 @@ namespace LWDicer.UI
             TmrAlarm.Enabled = false;
 
             this.Hide();
-        }
-
-        private void ResouceMapping()
-        {
-            BtnLanguage[0] = BtnKor; BtnLanguage[1] = BtnEng; BtnLanguage[2] = BtnChn; BtnLanguage[3] = BtnJpn;
         }
 
         private void BtnBuzzerOff_Click(object sender, EventArgs e)
@@ -134,103 +117,92 @@ namespace LWDicer.UI
             m_Grapic = Graphics.FromImage(Image);
             PicAlarmPos.Image = Image;
 
-            m_Grapic.DrawEllipse(m_Pen, fX, fY, 40, 40);
+            m_Grapic.DrawEllipse(m_Pen, fX-20, fY-20, 40, 40);
         }
 
 
         private void UpdateAlarmText(ELanguage Language, int nCode)
         {
-            string strAlarmText, strTroubles, strAlarmCode;
+            string strAlarmText, strTroubles, strAlarmCode, strESC;
 
             int i;
 
             List<CAlarmInfo> AlarmInfo = CMainFrame.LWDicer.m_DataManager.AlarmInfoList;
 
-            for(i=0;i<(int)ELanguage.MAX;i++)
-            {
-                BtnLanguage[i].BackColor = Color.LightSlateGray;
-            }
-
             foreach(CAlarmInfo info in AlarmInfo)
             {
                 if(info.Index == GetAlarmCode())
                 {
+                    LabelAlarmText1.Text = info.Description[(int)ELanguage.ENGLISH];
+                    LabelTrouble1.Text = info.Solution[(int)ELanguage.ENGLISH];
+
                     switch (Language)
                     {
                         case ELanguage.KOREAN:
-                            LabelAlarmText.Text = info.Description[(int)ELanguage.KOREAN];
-                            LabelTrouble.Text = info.Solution[(int)ELanguage.KOREAN];
-                            BtnLanguage[(int)ELanguage.KOREAN].BackColor = Color.Tan;
+                            LabelAlarmText2.Text = info.Description[(int)ELanguage.KOREAN];
+                            LabelTrouble2.Text = info.Solution[(int)ELanguage.KOREAN];
                             break;
 
                         case ELanguage.ENGLISH:
-                            LabelAlarmText.Text = info.Description[(int)ELanguage.ENGLISH];
-                            LabelTrouble.Text = info.Solution[(int)ELanguage.ENGLISH];
-                            BtnLanguage[(int)ELanguage.ENGLISH].BackColor = Color.Tan;
+                            LabelAlarmText2.Text = info.Description[(int)ELanguage.ENGLISH];
+                            LabelTrouble2.Text = info.Solution[(int)ELanguage.ENGLISH];
                             break;
 
                         case ELanguage.CHINESE:
-                            LabelAlarmText.Text = info.Description[(int)ELanguage.CHINESE];
-                            LabelTrouble.Text = info.Solution[(int)ELanguage.CHINESE];
-                            BtnLanguage[(int)ELanguage.CHINESE].BackColor = Color.Tan;
+                            LabelAlarmText2.Text = info.Description[(int)ELanguage.CHINESE];
+                            LabelTrouble2.Text = info.Solution[(int)ELanguage.CHINESE];
                             break;
 
                         case ELanguage.JAPANESE:
-                            LabelAlarmText.Text = info.Description[(int)ELanguage.JAPANESE];
-                            LabelTrouble.Text = info.Solution[(int)ELanguage.JAPANESE];
-                            BtnLanguage[(int)ELanguage.JAPANESE].BackColor = Color.Tan;
+                            LabelAlarmText2.Text = info.Description[(int)ELanguage.JAPANESE];
+                            LabelTrouble2.Text = info.Solution[(int)ELanguage.JAPANESE];
                             break;
                     }
 
                     strAlarmCode = "Alarm Code : " + Convert.ToString(info.Index);
                     LabelAlarmCode.Text = strAlarmCode;
 
-                    LabelTrouble.TextAlign = ContentAlignment.TopLeft;
+                    LabelTrouble1.TextAlign = ContentAlignment.TopLeft;
+                    LabelTrouble2.TextAlign = ContentAlignment.TopLeft;
 
                     PicAlarmPos.BackgroundImageLayout = ImageLayout.Center;
 
+                    strESC = info.Esc;
+
+                    strESC = strESC.Replace("X:","");
+                    strESC = strESC.Replace("Y:", "");
+
+                    // Data를 ',' 구분하여 잘라냄
+                    string[] strPos = strESC.Split(',');
+
+                    dXPos = Convert.ToInt16(strPos[0]);
+                    dYPos = Convert.ToInt16(strPos[1]);
 
                     //Alarm 위치를 위한 Base Image
-                    switch (GetAlarmUnit(GetAlarmCode()))
+                    switch (GetAlarmGroup())
                     {
-                        case (int)EAlarmUnit.SYSTEM:
-                            fXPos = 10; fYPos = 10;
+                        case EAlarmGroup.SYSTEM:
                             PicAlarmPos.BackgroundImage = null;
                             break;
-                        case (int)EAlarmUnit.LOADER:
-                            fXPos = 345; fYPos = 330;
+                        case EAlarmGroup.LOADER:
                             PicAlarmPos.BackgroundImage = Properties.Resources.Loader;
                             break;
-                        case (int)EAlarmUnit.PUSHPULL:
-                            fXPos = 353; fYPos = 145;
+                        case EAlarmGroup.PUSHPULL:
                             PicAlarmPos.BackgroundImage = Properties.Resources.PushPull;
                             break;
-                        case (int)EAlarmUnit.LO_HANDLER:
-                            fXPos = 370; fYPos = 340;
+                        case EAlarmGroup.HANDLER:
                             PicAlarmPos.BackgroundImage = Properties.Resources.Handler;
                             break;
-                        case (int)EAlarmUnit.UP_HANDLER:
-                            fXPos = 100; fYPos = 185;
-                            PicAlarmPos.BackgroundImage = Properties.Resources.Handler;
-                            break;
-                        case (int)EAlarmUnit.SPINNER1:
-                            fXPos = 210; fYPos = 320;
+                        case EAlarmGroup.SPINNER:
                             PicAlarmPos.BackgroundImage = Properties.Resources.Spinner;
                             break;
-                        case (int)EAlarmUnit.SPINNER2:
-                            fXPos = 325; fYPos = 365;
-                            PicAlarmPos.BackgroundImage = Properties.Resources.Spinner;
-                            break;
-                        case (int)EAlarmUnit.STAGE:
-                            fXPos = 290; fYPos = 280; 
+                        case EAlarmGroup.STAGE:
                             PicAlarmPos.BackgroundImage = Properties.Resources.LaserScanner;
                             break;
-                        case (int)EAlarmUnit.SCANNER:
-                            fXPos = 290; fYPos = 220; 
+                        case EAlarmGroup.SCANNER:
                             PicAlarmPos.BackgroundImage = Properties.Resources.LaserScanner;
                             break;
-                        case (int)EAlarmUnit.LASER:
-                            fXPos = 220; fYPos = 130; 
+                        case EAlarmGroup.LASER:
                             PicAlarmPos.BackgroundImage = Properties.Resources.LaserScanner;
                             break;
                     }
@@ -238,23 +210,6 @@ namespace LWDicer.UI
                     break;
                 }
             }
-        }
-
-        private int GetAlarmUnit(int nCodeNo)
-        {
-            // Alarm 영역
-            if (nCodeNo >= 0 && nCodeNo <= 99) return (int)EAlarmUnit.SYSTEM;
-            if (nCodeNo >= 100 && nCodeNo <= 199) return (int)EAlarmUnit.LOADER;
-            if (nCodeNo >= 200 && nCodeNo <= 299) return (int)EAlarmUnit.PUSHPULL;
-            if (nCodeNo >= 300 && nCodeNo <= 399) return (int)EAlarmUnit.LO_HANDLER;
-            if (nCodeNo >= 400 && nCodeNo <= 499) return (int)EAlarmUnit.UP_HANDLER;
-            if (nCodeNo >= 500 && nCodeNo <= 599) return (int)EAlarmUnit.SPINNER1;
-            if (nCodeNo >= 600 && nCodeNo <= 699) return (int)EAlarmUnit.SPINNER2;
-            if (nCodeNo >= 700 && nCodeNo <= 799) return (int)EAlarmUnit.STAGE;
-            if (nCodeNo >= 800 && nCodeNo <= 899) return (int)EAlarmUnit.SCANNER;
-            if (nCodeNo >= 900 && nCodeNo <= 1000) return (int)EAlarmUnit.LASER;
-
-            return (int)EAlarmUnit.NONE;
         }
 
         private void FormAlarmDisplay_Load(object sender, EventArgs e)
@@ -278,17 +233,82 @@ namespace LWDicer.UI
             TmrAlarm.Start();
         }
 
+        private void BtnEdit_Click(object sender, EventArgs e)
+        {
+            if(!CMainFrame.LWDicer.DisplayMsg("Alarm 내용을 수정을 하시겠습니까?"))
+            {
+                return;
+            }
+
+            string strAlarm, strTrouble;
+
+            FormAlarmEdit AlarmEdit = new FormAlarmEdit();
+            AlarmEdit.SetAlarmText(LabelAlarmText2.Text, LabelTrouble2.Text);
+            AlarmEdit.ShowDialog();
+
+            if(AlarmEdit.DialogResult != DialogResult.OK)
+            {
+                return;
+            }
+
+            strAlarm = AlarmEdit.GetNewAlarmText();
+            strTrouble = AlarmEdit.GetNewTroubleText();
+
+            LabelAlarmText2.Text = strAlarm;
+            LabelTrouble2.Text = strTrouble;
+        }
+
+        private void BtnSave_Click(object sender, EventArgs e)
+        {
+            if (!CMainFrame.LWDicer.DisplayMsg("수정된 Alarm 내용을 저장 하시겠습니까?"))
+            {
+                return;
+            }
+
+            string strPos;
+
+            List<CAlarmInfo> AlarmInfo = CMainFrame.LWDicer.m_DataManager.AlarmInfoList;
+
+            foreach (CAlarmInfo info in AlarmInfo)
+            {
+                if (info.Group == GetAlarmGroup())
+                {
+                    if (info.Index == GetAlarmCode())
+                    {
+                        strPos = string.Format("X:{0:d},Y:{1:d}", dXPos, dYPos);
+                        info.Esc = strPos;
+
+                        info.Description[(int)CMainFrame.LWDicer.m_DataManager.SystemData.Language] = LabelAlarmText2.Text;
+                        info.Solution[(int)CMainFrame.LWDicer.m_DataManager.SystemData.Language] = LabelTrouble2.Text;
+
+                        CMainFrame.LWDicer.m_DataManager.AlarmInfoList.RemoveAt(info.Index);
+                        CMainFrame.LWDicer.m_DataManager.AlarmInfoList.Insert(info.Index, info);
+
+                        break;
+                    }
+                }
+            }
+
+            CMainFrame.LWDicer.m_DataManager.SaveAlarmInfoList();
+        }
+
+        private void PicAlarmPos_MouseClick(object sender, MouseEventArgs e)
+        {
+            dXPos = e.X;
+            dYPos = e.Y;
+        }
+
         private void TmrAlarm_Tick(object sender, EventArgs e)
         {
             if (bToggle)
             {
                 bToggle = false;
-                DrawAlarmPos(Color.DarkRed, fXPos, fYPos);
+                DrawAlarmPos(Color.DarkRed, dXPos, dYPos);
             }
             else
             {
                 bToggle = true;
-                DrawAlarmPos(Color.LightBlue, fXPos, fYPos);
+                DrawAlarmPos(Color.LightBlue, dXPos, dYPos);
             }
         }
     }

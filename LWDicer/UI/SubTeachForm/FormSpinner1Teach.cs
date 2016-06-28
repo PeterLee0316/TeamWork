@@ -500,50 +500,37 @@ namespace LWDicer.UI
             if (e.ColIndex == 3 || e.ColIndex == 4) return;
 
             string strCurrent = "", strModify = "";
-            double dPos = 0, dOffsetPos = 0, dTargetPos = 0;
 
-            if(GetDataMode() == FixedData)
+            strCurrent = GridNozzleTeachTable[2, e.ColIndex].Text;
+            if (!CMainFrame.LWDicer.GetKeyPad(strCurrent, out strModify))
             {
-                strCurrent = GridNozzleTeachTable[3, e.ColIndex].Text;
-
-                if (!CMainFrame.LWDicer.GetKeyPad(strCurrent, out strModify))
-                {
-                    return;
-                }
-
-                dPos = Convert.ToDouble(strModify);
-
-                if (e.ColIndex == 1)
-                {
-                    dOffsetPos = movingCleanObject.OffsetPos.Pos[GetNozzlePosNo()].dT;
-
-                    dTargetPos = dPos + dOffsetPos;
-                }
-
-                if (e.ColIndex == 2)
-                {
-                    dOffsetPos = movingCoatObject.OffsetPos.Pos[GetNozzlePosNo()].dT;
-
-                    dTargetPos = dPos + dOffsetPos;
-                }
-
-                GridNozzleTeachTable[2, e.ColIndex].Text = Convert.ToString(dTargetPos);
-
-                GridNozzleTeachTable[3, e.ColIndex].Text = strModify;
-                GridNozzleTeachTable[3, e.ColIndex].TextColor = Color.Red;
+                return;
             }
 
-            if(GetDataMode() == OffsetData)
+            ChangeNozzleTargetPos(strModify, e.ColIndex);
+        }
+
+        private void ChangeNozzleTargetPos(string strTarget, int index)
+        {
+            double dTargetPos = Convert.ToDouble(strTarget);
+            double dOtherSum = Convert.ToDouble(GridNozzleTeachTable[4, index].Text) // Model Pos
+                + Convert.ToDouble(GridNozzleTeachTable[5, index].Text); // + Align Mark Pos
+
+            if (GetDataMode() == FixedData)
             {
-                strCurrent = GridNozzleTeachTable[6, e.ColIndex].Text;
-
-                if (!CMainFrame.LWDicer.GetKeyPad(strCurrent, out strModify))
-                {
-                    return;
-                }
-
-                GridNozzleTeachTable[6, e.ColIndex].Text = strModify;
-                GridNozzleTeachTable[6, e.ColIndex].TextColor = Color.Red;
+                dOtherSum += Convert.ToDouble(GridNozzleTeachTable[6, index].Text); // Offset Pos
+                double dPos = dTargetPos - dOtherSum;
+                GridNozzleTeachTable[2, index].Text = Convert.ToString(dTargetPos);
+                GridNozzleTeachTable[3, index].Text = Convert.ToString(dPos);
+                GridNozzleTeachTable[3, index].TextColor = Color.Red;
+            }
+            else
+            {
+                dOtherSum += Convert.ToDouble(GridNozzleTeachTable[3, index].Text); // Fixed Pos
+                double dPos = dTargetPos - dOtherSum;
+                GridNozzleTeachTable[2, index].Text = Convert.ToString(dTargetPos);
+                GridNozzleTeachTable[6, index].Text = Convert.ToString(dPos);
+                GridNozzleTeachTable[6, index].TextColor = Color.Red;
             }
         }
 
@@ -552,40 +539,37 @@ namespace LWDicer.UI
             if (e.ColIndex == 2 || e.ColIndex == 3 || e.ColIndex == 4) return;
 
             string strCurrent = "", strModify = "";
-            double dPos = 0, dOffsetPos = 0, dTargetPos = 0;
 
-            if(GetDataMode() == FixedData)
+            strCurrent = GridRotateTeachTable[2, e.ColIndex].Text;
+            if (!CMainFrame.LWDicer.GetKeyPad(strCurrent, out strModify))
             {
-                strCurrent = GridRotateTeachTable[3, e.ColIndex].Text;
-
-                if (!CMainFrame.LWDicer.GetKeyPad(strCurrent, out strModify))
-                {
-                    return;
-                }
-
-                dPos = Convert.ToDouble(strModify);
-
-                dOffsetPos = movingRotateObject.OffsetPos.Pos[GetRotatePosNo()].dT;
-
-                dTargetPos = dPos + dOffsetPos;
-
-                GridRotateTeachTable[2, e.ColIndex].Text = Convert.ToString(dTargetPos);
-
-                GridRotateTeachTable[3, e.ColIndex].Text = strModify;
-                GridRotateTeachTable[3, e.ColIndex].TextColor = Color.Red;
+                return;
             }
 
-            if(GetDataMode() == OffsetData)
+            ChangeRotateTargetPos(strModify, e.ColIndex);
+        }
+
+        private void ChangeRotateTargetPos(string strTarget, int index)
+        {
+            double dTargetPos = Convert.ToDouble(strTarget);
+            double dOtherSum = Convert.ToDouble(GridRotateTeachTable[4, index].Text) // Model Pos
+                + Convert.ToDouble(GridRotateTeachTable[5, index].Text); // + Align Mark Pos
+
+            if (GetDataMode() == FixedData)
             {
-                strCurrent = GridRotateTeachTable[6, e.ColIndex].Text;
-
-                if (!CMainFrame.LWDicer.GetKeyPad(strCurrent, out strModify))
-                {
-                    return;
-                }
-
-                GridRotateTeachTable[6, e.ColIndex].Text = strModify;
-                GridRotateTeachTable[6, e.ColIndex].TextColor = Color.Red;
+                dOtherSum += Convert.ToDouble(GridRotateTeachTable[6, index].Text); // Offset Pos
+                double dPos = dTargetPos - dOtherSum;
+                GridRotateTeachTable[2, index].Text = Convert.ToString(dTargetPos);
+                GridRotateTeachTable[3, index].Text = Convert.ToString(dPos);
+                GridRotateTeachTable[3, index].TextColor = Color.Red;
+            }
+            else
+            {
+                dOtherSum += Convert.ToDouble(GridRotateTeachTable[3, index].Text); // Fixed Pos
+                double dPos = dTargetPos - dOtherSum;
+                GridRotateTeachTable[2, index].Text = Convert.ToString(dTargetPos);
+                GridRotateTeachTable[6, index].Text = Convert.ToString(dPos);
+                GridRotateTeachTable[6, index].TextColor = Color.Red;
             }
         }
 
@@ -663,9 +647,7 @@ namespace LWDicer.UI
 
         private void BtnNozzleChangeValue_Click(object sender, EventArgs e)
         {
-            string StrN1Current = "", StrN2Current = "", strMsg = string.Empty;
-            double dX1Pos = 0, dOffsetN1Pos = 0, dTargetN1Pos = 0;
-            double dX2Pos = 0, dOffsetX2Pos = 0, dTargetX2Pos = 0;
+            string strCurrent = "", strMsg = string.Empty;
 
             strMsg = NozzlePos[GetNozzlePosNo()].Text + " 목표 위치를 현재 위치로 변경하시겠습니까?";
 
@@ -674,36 +656,16 @@ namespace LWDicer.UI
                 return;
             }
 
-            StrN1Current = GridNozzleTeachTable[7, 1].Text;
+            strCurrent = GridNozzleTeachTable[7, 1].Text;
+            ChangeNozzleTargetPos(strCurrent, 1);
 
-            dX1Pos = Convert.ToDouble(StrN1Current);
-            dOffsetN1Pos = movingCleanObject.OffsetPos.Pos[GetNozzlePosNo()].dT;
-
-            dTargetN1Pos = dX1Pos + dOffsetN1Pos;
-
-            GridNozzleTeachTable[2, 1].Text = Convert.ToString(dTargetN1Pos);
-
-            GridNozzleTeachTable[3, 1].Text = Convert.ToString(dX1Pos);
-            GridNozzleTeachTable[3, 1].TextColor = Color.Red;
-
-
-            StrN2Current = GridNozzleTeachTable[7, 2].Text;
-
-            dX2Pos = Convert.ToDouble(StrN2Current);
-            dOffsetX2Pos = movingCoatObject.OffsetPos.Pos[GetNozzlePosNo()].dT;
-
-            dTargetX2Pos = dX2Pos + dOffsetX2Pos;
-
-            GridNozzleTeachTable[2, 2].Text = Convert.ToString(dTargetX2Pos);
-
-            GridNozzleTeachTable[3, 2].Text = Convert.ToString(dX2Pos);
-            GridNozzleTeachTable[3, 2].TextColor = Color.Red;
+            strCurrent = GridNozzleTeachTable[7, 2].Text;
+            ChangeNozzleTargetPos(strCurrent, 2);
         }
 
         private void BtnRotateChangeValue_Click(object sender, EventArgs e)
         {
             string strCurrent = "", strMsg = string.Empty;
-            double dPos = 0, dOffsetPos = 0, dTargetPos = 0;
 
             strMsg = RotatePos[GetRotatePosNo()].Text + " 목표 위치를 현재 위치로 변경하시겠습니까?";
 
@@ -713,16 +675,7 @@ namespace LWDicer.UI
             }
 
             strCurrent = GridRotateTeachTable[7, 1].Text;
-
-            dPos = Convert.ToDouble(strCurrent);
-            dOffsetPos = movingRotateObject.OffsetPos.Pos[GetRotatePosNo()].dT;
-
-            dTargetPos = dPos + dOffsetPos;
-
-            GridRotateTeachTable[2, 1].Text = Convert.ToString(dTargetPos);
-
-            GridRotateTeachTable[3, 1].Text = Convert.ToString(dPos);
-            GridRotateTeachTable[3, 1].TextColor = Color.Red;
+            ChangeRotateTargetPos(strCurrent, 1);
         }
 
         private void TmrTeach_Tick(object sender, EventArgs e)

@@ -256,7 +256,6 @@ namespace LWDicer.UI
             if (e.ColIndex == 2 || e.ColIndex == 3 || e.ColIndex == 4) return;
 
             string strCurrent = "", strModify = "";
-            double dPos = 0, dOffsetPos = 0, dTargetPos = 0;
 
             strCurrent = GridTeachTable[2, e.ColIndex].Text;
             if (!CMainFrame.LWDicer.GetKeyPad(strCurrent, out strModify))
@@ -372,7 +371,6 @@ namespace LWDicer.UI
         private void BtnChangeValue_Click(object sender, EventArgs e)
         {
             string strCurrent = "", strMsg = string.Empty;
-            double dPos = 0, dOffsetPos = 0, dTargetPos = 0;
 
             strMsg = TeachPos[GetPosNo()].Text + " 목표 위치를 현재 위치로 변경하시겠습니까?";
 

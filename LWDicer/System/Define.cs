@@ -1414,6 +1414,23 @@ namespace LWDicer.Control
         }
 
         /// <summary>
+        /// 
+        /// </summary>
+        public enum EAlarmGroup
+        {
+            NONE = -1,
+            SYSTEM,
+            LOADER,
+            PUSHPULL,
+            HANDLER,
+            SPINNER,
+            STAGE,
+            SCANNER,
+            LASER,
+            MAX,
+        }
+
+        /// <summary>
         /// Alarm 에 대한 정보 class
         /// ErrorBase와 ErrorCode 조합 형식때문에 각 ErrorBase당 ErrorCode는 최대 100개로 제한됨
         /// </summary>
@@ -1421,13 +1438,17 @@ namespace LWDicer.Control
         {
             public int Index;           // Primary Key : ErrorBase + ErrorCode 조합
             public EErrorType Type;     // Error Type
+            public EAlarmGroup Group;
+            public string Esc;
+
             public string[] Description = new string[(int)DEF_Common.ELanguage.MAX];
             public string[] Solution = new string[(int)DEF_Common.ELanguage.MAX];
 
-            public CAlarmInfo(int Index = 0, EErrorType Type = EErrorType.E1)
+            public CAlarmInfo(int Index = 0, EErrorType Type = EErrorType.E1, EAlarmGroup Group = EAlarmGroup.NONE)
             {
                 this.Index = Index;
                 this.Type = Type;
+                this.Group = Group;
                 //for (int i = 0; i < (int)DEF_Common.ELanguage.MAX; i++)
                 //{
                 //    Name[i] = "reserved";

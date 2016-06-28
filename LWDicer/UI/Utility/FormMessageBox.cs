@@ -11,7 +11,8 @@ namespace LWDicer.UI
 {
     public partial class FormMessageBox : Form
     {
-        string strText = "";
+        private string strTextKor, strTextEng;
+        private bool bBtnOption;
 
         public FormMessageBox()
         {
@@ -27,19 +28,40 @@ namespace LWDicer.UI
             FormBorderStyle = FormBorderStyle.Fixed3D;
         }
 
-        public void SetText(string strMsg)
+        public void SetMessage(string strMsg, bool bOkCancel)
         {
-            strText = strMsg;
+            bBtnOption = bOkCancel;
+            strTextKor = strMsg;
         }
 
         private void FormUtilMsg_Load(object sender, EventArgs e)
         {
-            LabelText.Text = strText;
+            LabelTextKor.Text = strTextKor;
+            LabelTextEng.Text = strTextEng;
+
+            if (bBtnOption == true)
+            {
+                BtnConfirm.Visible = false;
+                BtnOK.Visible = true;
+                BtnCancel.Visible = true;
+            }
+            else
+            {
+                BtnOK.Visible = false;
+                BtnCancel.Visible = false;
+                BtnConfirm.Visible = true;
+            }
         }
 
         private void BtnOK_Click(object sender, EventArgs e)
         {
             this.DialogResult = DialogResult.OK;
+            this.Close();
+        }
+
+        private void BtnConfirm_Click(object sender, EventArgs e)
+        {
+            this.DialogResult = DialogResult.Yes;
             this.Close();
         }
 
