@@ -3846,10 +3846,11 @@ namespace LWDicer.Control
 
             string strPath = DBInfo.SystemDir + DBInfo.ExcelSystemPara;
 
+            Excel.Application ExcelApp = new Microsoft.Office.Interop.Excel.Application();
+            Excel.Workbook WorkBook = ExcelApp.Workbooks.Open(strPath);
             try
             {
-                Excel.Application ExcelApp = new Microsoft.Office.Interop.Excel.Application();
-                Excel.Workbook WorkBook = ExcelApp.Workbooks.Open(strPath);
+                WorkBook = ExcelApp.Workbooks.Open(strPath);
 
                 // 1. Open 한 Excel File에 Sheet Count
                 nSheetCount = WorkBook.Worksheets.Count;
@@ -3954,6 +3955,7 @@ namespace LWDicer.Control
             }
             catch (Exception ex)
             {
+                ExcelApp.Quit();
                 WriteExLog(ex.ToString());
                 return GenerateErrorCode(ERR_DATA_MANAGER_MOTOR_EXCEL_FILE_WRITE_FAIL);
             }

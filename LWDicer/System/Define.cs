@@ -203,9 +203,9 @@ namespace LWDicer.Control
             Skip = -1,
             PARA_Info,
             Alarm_Info,
-            Message_Info,
             IO_Info,
             Motor_Data,
+            Message_Info,
             MAX,
         }
 
