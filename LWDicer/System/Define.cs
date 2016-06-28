@@ -846,12 +846,21 @@ namespace LWDicer.Control
             }
         }
 
+        public enum EMessageType
+        {
+            OK,
+            OK_Cancel,
+            Confirm_Cancel,
+            MAX,
+        }
+
         /// <summary>
         /// Message Information
         /// </summary>
         public class CMessageInfo
         {
             public int Index = 0;
+            public EMessageType Type = EMessageType.OK;
 
             public string[] Message = new string[(int)DEF_Common.ELanguage.MAX];
 
