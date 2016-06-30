@@ -189,7 +189,7 @@ namespace LWDicer.UI
 
         private void BtnEdit_Click(object sender, EventArgs e)
         {
-            if(!CMainFrame.LWDicer.DisplayMsg("", "Alarm 내용을 수정을 하시겠습니까?"))
+            if (!CMainFrame.LWDicer.DisplayMsg("",31))
             {
                 return;
             }
@@ -224,7 +224,7 @@ namespace LWDicer.UI
 
         private void BtnSave_Click(object sender, EventArgs e)
         {
-            if (!CMainFrame.LWDicer.DisplayMsg("", "수정된 Alarm 내용을 저장 하시겠습니까?"))
+            if (!CMainFrame.LWDicer.DisplayMsg("",32))
             {
                 return;
             }

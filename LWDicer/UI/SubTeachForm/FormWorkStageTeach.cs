@@ -419,12 +419,12 @@ namespace LWDicer.UI
 
             strMsg = GridStageTeachTable[1, 0].Text + " Unit에 " + StagePos[GetPosNo()].Text + " Teaching Data를 저장하시겠습니까?";
 
-            if (!CMainFrame.LWDicer.DisplayMsg("", strMsg))
+            if (!CMainFrame.LWDicer.DisplayMsg(strMsg))
             {
                 return;
             }
 
-            if(GetDataMode()==FixedData)
+            if (GetDataMode()==FixedData)
             {
                 strData = GridStageTeachTable[3, 1].Text;
                 CMainFrame.LWDicer.m_DataManager.FixedPos.Stage1Pos.Pos[GetPosNo()].dX = Convert.ToDouble(strData);
@@ -466,7 +466,7 @@ namespace LWDicer.UI
 
             strMsg = StagePos[GetPosNo()].Text + " 목표 위치를 현재 위치로 변경하시겠습니까?";
 
-            if (!CMainFrame.LWDicer.DisplayMsg("", strMsg))
+            if (!CMainFrame.LWDicer.DisplayMsg(strMsg))
             {
                 return;
             }
@@ -521,7 +521,7 @@ namespace LWDicer.UI
 
             strMsg = StagePos[GetPosNo()].Text + " 목표 위치로 이동하시겠습니까?";
 
-            if (!CMainFrame.LWDicer.DisplayMsg("", strMsg))
+            if (!CMainFrame.LWDicer.DisplayMsg(strMsg))
             {
                 return;
             }

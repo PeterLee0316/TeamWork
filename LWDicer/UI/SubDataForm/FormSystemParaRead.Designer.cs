@@ -42,6 +42,9 @@
             this.TitleAlarmInfo = new Syncfusion.Windows.Forms.Tools.GradientLabel();
             this.TitleIOInfo = new Syncfusion.Windows.Forms.Tools.GradientLabel();
             this.TitleMotorData = new Syncfusion.Windows.Forms.Tools.GradientLabel();
+            this.TitleMsgInfo = new Syncfusion.Windows.Forms.Tools.GradientLabel();
+            this.BtnMsgInfoExport = new System.Windows.Forms.Button();
+            this.BtnMsgInfoImport = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // BtnConfigureExit
@@ -50,7 +53,7 @@
             this.BtnConfigureExit.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
             this.BtnConfigureExit.Image = ((System.Drawing.Image)(resources.GetObject("BtnConfigureExit.Image")));
             this.BtnConfigureExit.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.BtnConfigureExit.Location = new System.Drawing.Point(347, 290);
+            this.BtnConfigureExit.Location = new System.Drawing.Point(348, 380);
             this.BtnConfigureExit.Name = "BtnConfigureExit";
             this.BtnConfigureExit.Size = new System.Drawing.Size(124, 61);
             this.BtnConfigureExit.TabIndex = 751;
@@ -185,7 +188,6 @@
             this.TitleParaInfo.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
             | System.Windows.Forms.Border3DSide.Right) 
             | System.Windows.Forms.Border3DSide.Bottom)));
-            this.TitleParaInfo.BorderStyle = System.Windows.Forms.Border3DStyle.Raised;
             this.TitleParaInfo.Font = new System.Drawing.Font("굴림", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.TitleParaInfo.ForeColor = System.Drawing.Color.Gainsboro;
             this.TitleParaInfo.Location = new System.Drawing.Point(12, 12);
@@ -201,7 +203,6 @@
             this.TitleAlarmInfo.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
             | System.Windows.Forms.Border3DSide.Right) 
             | System.Windows.Forms.Border3DSide.Bottom)));
-            this.TitleAlarmInfo.BorderStyle = System.Windows.Forms.Border3DStyle.Raised;
             this.TitleAlarmInfo.Font = new System.Drawing.Font("굴림", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.TitleAlarmInfo.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
             this.TitleAlarmInfo.Location = new System.Drawing.Point(12, 79);
@@ -217,7 +218,6 @@
             this.TitleIOInfo.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
             | System.Windows.Forms.Border3DSide.Right) 
             | System.Windows.Forms.Border3DSide.Bottom)));
-            this.TitleIOInfo.BorderStyle = System.Windows.Forms.Border3DStyle.Raised;
             this.TitleIOInfo.Font = new System.Drawing.Font("굴림", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.TitleIOInfo.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
             this.TitleIOInfo.Location = new System.Drawing.Point(12, 146);
@@ -233,7 +233,6 @@
             this.TitleMotorData.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
             | System.Windows.Forms.Border3DSide.Right) 
             | System.Windows.Forms.Border3DSide.Bottom)));
-            this.TitleMotorData.BorderStyle = System.Windows.Forms.Border3DStyle.Raised;
             this.TitleMotorData.Font = new System.Drawing.Font("굴림", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.TitleMotorData.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.TitleMotorData.Location = new System.Drawing.Point(12, 213);
@@ -243,11 +242,59 @@
             this.TitleMotorData.Text = "Motor Data";
             this.TitleMotorData.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // TitleMsgInfo
+            // 
+            this.TitleMsgInfo.BackgroundColor = new Syncfusion.Drawing.BrushInfo(System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(64)))), ((int)(((byte)(0))))));
+            this.TitleMsgInfo.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
+            | System.Windows.Forms.Border3DSide.Right) 
+            | System.Windows.Forms.Border3DSide.Bottom)));
+            this.TitleMsgInfo.Font = new System.Drawing.Font("굴림", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.TitleMsgInfo.ForeColor = System.Drawing.Color.White;
+            this.TitleMsgInfo.Location = new System.Drawing.Point(12, 280);
+            this.TitleMsgInfo.Name = "TitleMsgInfo";
+            this.TitleMsgInfo.Size = new System.Drawing.Size(200, 61);
+            this.TitleMsgInfo.TabIndex = 766;
+            this.TitleMsgInfo.Text = "Message Info";
+            this.TitleMsgInfo.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // BtnMsgInfoExport
+            // 
+            this.BtnMsgInfoExport.Font = new System.Drawing.Font("굴림", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.BtnMsgInfoExport.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.BtnMsgInfoExport.Image = ((System.Drawing.Image)(resources.GetObject("BtnMsgInfoExport.Image")));
+            this.BtnMsgInfoExport.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.BtnMsgInfoExport.Location = new System.Drawing.Point(347, 280);
+            this.BtnMsgInfoExport.Name = "BtnMsgInfoExport";
+            this.BtnMsgInfoExport.Size = new System.Drawing.Size(124, 61);
+            this.BtnMsgInfoExport.TabIndex = 765;
+            this.BtnMsgInfoExport.Text = " Export";
+            this.BtnMsgInfoExport.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.BtnMsgInfoExport.UseVisualStyleBackColor = true;
+            this.BtnMsgInfoExport.Click += new System.EventHandler(this.BtnMsgInfoExport_Click);
+            // 
+            // BtnMsgInfoImport
+            // 
+            this.BtnMsgInfoImport.Font = new System.Drawing.Font("굴림", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.BtnMsgInfoImport.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.BtnMsgInfoImport.Image = ((System.Drawing.Image)(resources.GetObject("BtnMsgInfoImport.Image")));
+            this.BtnMsgInfoImport.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.BtnMsgInfoImport.Location = new System.Drawing.Point(217, 280);
+            this.BtnMsgInfoImport.Name = "BtnMsgInfoImport";
+            this.BtnMsgInfoImport.Size = new System.Drawing.Size(124, 61);
+            this.BtnMsgInfoImport.TabIndex = 764;
+            this.BtnMsgInfoImport.Text = " Import";
+            this.BtnMsgInfoImport.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.BtnMsgInfoImport.UseVisualStyleBackColor = true;
+            this.BtnMsgInfoImport.Click += new System.EventHandler(this.BtnMsgInfoImport_Click);
+            // 
             // FormSystemParaRead
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(484, 362);
+            this.ClientSize = new System.Drawing.Size(484, 453);
+            this.Controls.Add(this.TitleMsgInfo);
+            this.Controls.Add(this.BtnMsgInfoExport);
+            this.Controls.Add(this.BtnMsgInfoImport);
             this.Controls.Add(this.TitleMotorData);
             this.Controls.Add(this.TitleIOInfo);
             this.Controls.Add(this.TitleAlarmInfo);
@@ -284,5 +331,8 @@
         private Syncfusion.Windows.Forms.Tools.GradientLabel TitleAlarmInfo;
         private Syncfusion.Windows.Forms.Tools.GradientLabel TitleIOInfo;
         private Syncfusion.Windows.Forms.Tools.GradientLabel TitleMotorData;
+        private Syncfusion.Windows.Forms.Tools.GradientLabel TitleMsgInfo;
+        private System.Windows.Forms.Button BtnMsgInfoExport;
+        private System.Windows.Forms.Button BtnMsgInfoImport;
     }
 }

@@ -114,7 +114,7 @@ namespace LWDicer.UI
 
         private void BtnExecuteIni_Click(object sender, EventArgs e)
         {
-            if (!CMainFrame.LWDicer.DisplayMsg("", "선택한 Part를 초기화 하시겠습니까?"))
+            if (!CMainFrame.LWDicer.DisplayMsg("", 30))
             {
                 return;
             }
@@ -180,7 +180,7 @@ namespace LWDicer.UI
 
 
             // Last.
-            CMainFrame.LWDicer.DisplayMsg("", "초기화가 완료되었습니다.");
+            CMainFrame.LWDicer.DisplayMsg("", 27);
         }
 
         private void timer1_Tick(object sender, EventArgs e)

@@ -46,7 +46,7 @@ namespace LWDicer.UI
 
         private void BtnSave_Click(object sender, EventArgs e)
         {
-            if (!CMainFrame.LWDicer.DisplayMsg("", "System Data를 저장 하시겠습니까?"))
+            if (!CMainFrame.LWDicer.DisplayMsg("",14))
             {
                 return;
             }

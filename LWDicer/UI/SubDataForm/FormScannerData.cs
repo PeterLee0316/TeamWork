@@ -801,7 +801,7 @@ namespace LWDicer.UI
 
         private void BtnImageDataSave_Click(object sender, EventArgs e)
         {
-            if (!CMainFrame.LWDicer.DisplayMsg("", "Image Data를 저장 하시겠습니까?"))
+            if (!CMainFrame.LWDicer.DisplayMsg("", 12))
             {
                 return;
             }
@@ -1081,7 +1081,7 @@ namespace LWDicer.UI
         private void BtnConfigSave_Click(object sender, EventArgs e)
         {
 
-            if (!CMainFrame.LWDicer.DisplayMsg("", "Polygon Data를 저장 하시겠습니까?"))
+            if (!CMainFrame.LWDicer.DisplayMsg("", 13))
             {
                 return;
             }

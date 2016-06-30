@@ -291,7 +291,7 @@ namespace LWDicer.Control
         public void ShowAlarmWhileInit(int alarmcode)
         {
             string str = GetAlarmText(alarmcode);
-            DisplayMsg(str, "", false);
+            DisplayMsg(str);
         }
 
         public int Initialize(CMainFrame form1 = null)
@@ -1553,10 +1553,11 @@ namespace LWDicer.Control
             return true;
         }
 
-        public bool DisplayMsg(string strMsg_Eng, string strMsg_System, bool bOkCancel = true)
+      
+        public bool DisplayMsg(string strText, int nIndex = 0)
         {
             FormMessageBox dlg = new FormMessageBox();
-            dlg.SetMessage(strMsg_Eng, strMsg_System, bOkCancel);
+            dlg.SetMessage(strText, nIndex);
             dlg.ShowDialog();
 
             if (dlg.DialogResult == DialogResult.OK || dlg.DialogResult == DialogResult.Yes)
@@ -1575,7 +1576,7 @@ namespace LWDicer.Control
         {
             if (code == SUCCESS)
             {
-                CMainFrame.LWDicer.DisplayMsg("", "요청한 작업이 성공했습니다.", false);
+                CMainFrame.LWDicer.DisplayMsg("", 0);
 
             } else
             {
