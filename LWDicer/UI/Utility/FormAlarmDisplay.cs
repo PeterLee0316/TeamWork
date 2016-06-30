@@ -22,24 +22,19 @@ namespace LWDicer.UI
 {
     public partial class FormAlarmDisplay : Form
     {
-        public Graphics m_Grapic;
-        public Image Image;
-
-        private int AlarmCode;
-        private EAlarmGroup AlarmGroup;
+        private CAlarm Alarm;
 
         private bool bToggle;
-
         private int dXPos, dYPos;
 
-        Point MousePoint;
+        private bool IsEdited = false;
 
-        public FormAlarmDisplay(int AlarmCode, EAlarmGroup AlarmGroup)
+
+        public FormAlarmDisplay(CAlarm Alarm)
         {
             InitializeComponent();
 
-            this.AlarmCode = AlarmCode;
-            this.AlarmGroup = AlarmGroup;
+            this.Alarm = Alarm;
 
             this.DesktopLocation = new Point(110, 196);
 
@@ -68,6 +63,15 @@ namespace LWDicer.UI
 
         private void BtnExit_Click(object sender, EventArgs e)
         {
+            if(IsEdited == true)
+            {
+                if (!CMainFrame.DisplayMsg("", "수정된 Alarm 내용이 저장되지 않았습니다. 계속하시겠습니까?"))
+                {
+                    return;
+                }
+
+            }
+
             FormClose();
         }
 
@@ -99,102 +103,90 @@ namespace LWDicer.UI
 
         private void DrawAlarmPos(Color LineColor, float fX, float fY)
         {
-            Pen m_Pen = new Pen(LineColor, 5);
+            Pen pen = new Pen(LineColor, 5);
+            PicAlarmPos.Image = new Bitmap(PicAlarmPos.Width, PicAlarmPos.Height);
+            Graphics graphic = Graphics.FromImage(PicAlarmPos.Image);
 
-            Image = new Bitmap(PicAlarmPos.Width, PicAlarmPos.Height);
-            m_Grapic = Graphics.FromImage(Image);
-            PicAlarmPos.Image = Image;
-
-            m_Grapic.DrawEllipse(m_Pen, fX-20, fY-20, 40, 40);
+            graphic.DrawEllipse(pen, fX-20, fY-20, 40, 40);
         }
 
 
-        private void UpdateAlarmText(ELanguage Language, int nCode)
+        private void UpdateAlarmText(ELanguage language)
         {
-            string strAlarmText, strTroubles, strAlarmCode, strESC;
+            TextProcessName.Text = String.Format($"[{Alarm.ProcessType}] {Alarm.ProcessName}");
+            TextObjectName.Text  = String.Format($"[{Alarm.ObjectType}] {Alarm.ObjectName}");
 
-            int i;
+            LabelAlarmText1.Text = Alarm.Info.Description[(int)ELanguage.ENGLISH];
+            LabelTrouble1.Text   = Alarm.Info.Solution[(int)ELanguage.ENGLISH];
 
-            List<CAlarmInfo> AlarmInfo = CMainFrame.LWDicer.m_DataManager.AlarmInfoList;
+            LabelAlarmText2.Text = Alarm.Info.Description[(int)language];
+            LabelTrouble2.Text   = Alarm.Info.Solution[(int)language];
 
-            foreach(CAlarmInfo info in AlarmInfo)
+            string str = "Alarm Code : " + Alarm.GetIndex();
+            LabelAlarmCode.Text = str;
+
+            LabelTrouble1.TextAlign = ContentAlignment.TopLeft;
+            LabelTrouble2.TextAlign = ContentAlignment.TopLeft;
+
+            PicAlarmPos.BackgroundImageLayout = ImageLayout.Center;
+
+            str = Alarm.Info.Esc;
+            if(str != null)
             {
-                if(info.Index == AlarmCode)
-                {
-                    LabelAlarmText1.Text = info.Description[(int)ELanguage.ENGLISH];
-                    LabelTrouble1.Text = info.Solution[(int)ELanguage.ENGLISH];
+                str = str.Replace("X:", "");
+                str = str.Replace("Y:", "");
 
-                    LabelAlarmText2.Text = info.Description[(int)Language];
-                    LabelTrouble2.Text = info.Solution[(int)Language];
+                // Data를 ',' 구분하여 잘라냄
+                string[] strPos = str.Split(',');
 
-                    strAlarmCode = "Alarm Code : " + Convert.ToString(info.Index);
-                    LabelAlarmCode.Text = strAlarmCode;
-
-                    LabelTrouble1.TextAlign = ContentAlignment.TopLeft;
-                    LabelTrouble2.TextAlign = ContentAlignment.TopLeft;
-
-                    PicAlarmPos.BackgroundImageLayout = ImageLayout.Center;
-
-                    strESC = info.Esc;
-
-                    strESC = strESC.Replace("X:","");
-                    strESC = strESC.Replace("Y:", "");
-
-                    // Data를 ',' 구분하여 잘라냄
-                    string[] strPos = strESC.Split(',');
-
-                    dXPos = Convert.ToInt16(strPos[0]);
-                    dYPos = Convert.ToInt16(strPos[1]);
-
-                    //Alarm 위치를 위한 Base Image
-                    switch (AlarmGroup)
-                    {
-                        case EAlarmGroup.SYSTEM:
-                            PicAlarmPos.BackgroundImage = null;
-                            break;
-                        case EAlarmGroup.LOADER:
-                            PicAlarmPos.BackgroundImage = Properties.Resources.Loader;
-                            break;
-                        case EAlarmGroup.PUSHPULL:
-                            PicAlarmPos.BackgroundImage = Properties.Resources.PushPull;
-                            break;
-                        case EAlarmGroup.HANDLER:
-                            PicAlarmPos.BackgroundImage = Properties.Resources.Handler;
-                            break;
-                        case EAlarmGroup.SPINNER:
-                            PicAlarmPos.BackgroundImage = Properties.Resources.Spinner;
-                            break;
-                        case EAlarmGroup.STAGE:
-                            PicAlarmPos.BackgroundImage = Properties.Resources.LaserScanner;
-                            break;
-                        case EAlarmGroup.SCANNER:
-                            PicAlarmPos.BackgroundImage = Properties.Resources.LaserScanner;
-                            break;
-                        case EAlarmGroup.LASER:
-                            PicAlarmPos.BackgroundImage = Properties.Resources.LaserScanner;
-                            break;
-                    }
-
-                    break;
-                }
+                dXPos = Convert.ToInt16(strPos[0]);
+                dYPos = Convert.ToInt16(strPos[1]);
             }
+
+            //Alarm 위치를 위한 Base Image
+            switch (Alarm.Info.Group)
+            {
+                case EAlarmGroup.SYSTEM:
+                    PicAlarmPos.BackgroundImage = null;
+                    break;
+                case EAlarmGroup.LOADER:
+                    PicAlarmPos.BackgroundImage = Properties.Resources.Loader;
+                    break;
+                case EAlarmGroup.PUSHPULL:
+                    PicAlarmPos.BackgroundImage = Properties.Resources.PushPull;
+                    break;
+                case EAlarmGroup.HANDLER:
+                    PicAlarmPos.BackgroundImage = Properties.Resources.Handler;
+                    break;
+                case EAlarmGroup.SPINNER:
+                    PicAlarmPos.BackgroundImage = Properties.Resources.Spinner;
+                    break;
+                case EAlarmGroup.STAGE:
+                    PicAlarmPos.BackgroundImage = Properties.Resources.LaserScanner;
+                    break;
+                case EAlarmGroup.SCANNER:
+                    PicAlarmPos.BackgroundImage = Properties.Resources.LaserScanner;
+                    break;
+                case EAlarmGroup.LASER:
+                    PicAlarmPos.BackgroundImage = Properties.Resources.LaserScanner;
+                    break;
+            }
+
         }
 
         private void FormAlarmDisplay_Load(object sender, EventArgs e)
         {
-            UpdateAlarmText(CMainFrame.LWDicer.m_DataManager.SystemData.Language, AlarmCode);
+            UpdateAlarmText(CMainFrame.LWDicer.m_DataManager.SystemData.Language);
 
             TmrAlarm.Start();
         }
 
         private void BtnEdit_Click(object sender, EventArgs e)
         {
-            if(!CMainFrame.LWDicer.DisplayMsg("", "Alarm 내용을 수정을 하시겠습니까?"))
+            if(!CMainFrame.DisplayMsg("", "Alarm 내용을 수정을 하시겠습니까?"))
             {
                 return;
             }
-
-            string strAlarm, strTrouble;
 
             FormAlarmEdit dlg = new FormAlarmEdit();
             dlg.SetAlarmText(LabelAlarmText1.Text, LabelAlarmText2.Text, LabelTrouble1.Text, LabelTrouble2.Text);
@@ -205,6 +197,7 @@ namespace LWDicer.UI
                 return;
             }
 
+            IsEdited = true;
             if(CMainFrame.LWDicer.m_DataManager.SystemData.Language == ELanguage.ENGLISH)
             {
                 LabelAlarmText1.Text = dlg.strAlarm_Eng;
@@ -224,39 +217,23 @@ namespace LWDicer.UI
 
         private void BtnSave_Click(object sender, EventArgs e)
         {
-            if (!CMainFrame.LWDicer.DisplayMsg("", "수정된 Alarm 내용을 저장 하시겠습니까?"))
+            if (!CMainFrame.DisplayMsg("", "수정된 Alarm 내용을 저장 하시겠습니까?"))
             {
                 return;
             }
 
-            string strPos;
+            IsEdited = false;
+            string strPos = string.Format("X:{0:d},Y:{1:d}", dXPos, dYPos);
+            Alarm.Info.Esc = strPos;
 
-            List<CAlarmInfo> AlarmInfo = CMainFrame.LWDicer.m_DataManager.AlarmInfoList;
+            Alarm.Info.Description[(int)ELanguage.ENGLISH] = LabelAlarmText1.Text;
+            Alarm.Info.Solution[(int)ELanguage.ENGLISH] = LabelTrouble1.Text;
 
-            foreach (CAlarmInfo info in AlarmInfo)
-            {
-                if (info.Group == AlarmGroup)
-                {
-                    if (info.Index == AlarmCode)
-                    {
-                        strPos = string.Format("X:{0:d},Y:{1:d}", dXPos, dYPos);
-                        info.Esc = strPos;
+            Alarm.Info.Description[(int)CMainFrame.LWDicer.m_DataManager.SystemData.Language] = LabelAlarmText2.Text;
+            Alarm.Info.Solution[(int)CMainFrame.LWDicer.m_DataManager.SystemData.Language] = LabelTrouble2.Text;
 
-                        info.Description[(int)ELanguage.ENGLISH] = LabelAlarmText1.Text;
-                        info.Solution[(int)ELanguage.ENGLISH] = LabelTrouble1.Text;
-
-                        info.Description[(int)CMainFrame.LWDicer.m_DataManager.SystemData.Language] = LabelAlarmText2.Text;
-                        info.Solution[(int)CMainFrame.LWDicer.m_DataManager.SystemData.Language] = LabelTrouble2.Text;
-
-                        CMainFrame.LWDicer.m_DataManager.AlarmInfoList.RemoveAt(info.Index);
-                        CMainFrame.LWDicer.m_DataManager.AlarmInfoList.Insert(info.Index, info);
-
-                        break;
-                    }
-                }
-            }
-
-            CMainFrame.LWDicer.m_DataManager.SaveAlarmInfoList();
+            int iResult = CMainFrame.LWDicer.m_DataManager.UpdateAlarmInfo(Alarm.Info);
+            CMainFrame.DisplayAlarm(iResult);
         }
 
         private void PicAlarmPos_MouseClick(object sender, MouseEventArgs e)

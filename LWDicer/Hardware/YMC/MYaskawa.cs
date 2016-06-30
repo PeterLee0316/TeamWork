@@ -513,7 +513,7 @@ namespace LWDicer.Control
         {
             ThreadStop();
 #if !SIMULATION_MOTION_YMC 
-            AllServoStop();
+            StopAllServo();
             AllServoOff();
             CloseController();
 #endif
@@ -583,7 +583,7 @@ namespace LWDicer.Control
             //{
             //    if(bStopMotion)
             //    {
-            //        AllServoStop();
+            //        StopAllServo();
             //    }
             //    return GenerateErrorCode(ERR_YASKAWA_DETECTED_DOOR_OPEN);
             //}
@@ -1524,14 +1524,14 @@ namespace LWDicer.Control
             return SUCCESS;
         }
 
-        public int AllServoStop()
+        public int StopAllServo()
         {
-            int iResult = ServoMotionStop((int)EYMC_Device.ALL);
+            int iResult = StopServoMotion((int)EYMC_Device.ALL);
             if (iResult != SUCCESS) return iResult;
             return SUCCESS;
         }
 
-        public int JogMoveStop(int deviceNo)
+        public int StopJogMove(int deviceNo)
         {
             if (deviceNo == (int)EYMC_Device.NULL) return SUCCESS; // return success if device is null
 
@@ -1550,7 +1550,7 @@ namespace LWDicer.Control
             return SUCCESS;
         }
 
-        public int JogMoveStart(int deviceNo, bool jogDir, bool bJogFastMove = false)
+        public int StartJogMove(int deviceNo, bool jogDir, bool bJogFastMove = false)
         {
             if (deviceNo == (int)EYMC_Device.NULL) return SUCCESS; // return success if device is null
 
@@ -1618,7 +1618,7 @@ namespace LWDicer.Control
             return SUCCESS;
         }
 
-        public int ServoMotionStop(int deviceNo, ushort mode = (ushort)CMotionAPI.ApiDefs.DISTRIBUTION_COMPLETED)
+        public int StopServoMotion(int deviceNo, ushort mode = (ushort)CMotionAPI.ApiDefs.DISTRIBUTION_COMPLETED)
         {
             if (deviceNo == (int)EYMC_Device.NULL) return SUCCESS; // return success if device is null
 

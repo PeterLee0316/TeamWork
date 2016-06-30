@@ -45,6 +45,10 @@
             this.PicAlarmPos = new System.Windows.Forms.PictureBox();
             this.LabelAlarmCode = new Syncfusion.Windows.Forms.Tools.AutoLabel();
             this.LabelAlarmText1 = new Syncfusion.Windows.Forms.Tools.GradientLabel();
+            this.gradientLabel2 = new Syncfusion.Windows.Forms.Tools.GradientLabel();
+            this.gradientLabel1 = new Syncfusion.Windows.Forms.Tools.GradientLabel();
+            this.TextObjectName = new System.Windows.Forms.TextBox();
+            this.TextProcessName = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.gradientPanel1)).BeginInit();
             this.gradientPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gradientPanel2)).BeginInit();
@@ -57,7 +61,7 @@
             this.BtnBuzzerOff.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
             this.BtnBuzzerOff.BorderStyleAdv = Syncfusion.Windows.Forms.ButtonAdvBorderStyle.Solid;
             this.BtnBuzzerOff.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.BtnBuzzerOff.Location = new System.Drawing.Point(660, 511);
+            this.BtnBuzzerOff.Location = new System.Drawing.Point(660, 545);
             this.BtnBuzzerOff.Name = "BtnBuzzerOff";
             this.BtnBuzzerOff.Size = new System.Drawing.Size(119, 74);
             this.BtnBuzzerOff.TabIndex = 0;
@@ -70,7 +74,7 @@
             this.BtnReset.BorderStyleAdv = Syncfusion.Windows.Forms.ButtonAdvBorderStyle.Solid;
             this.BtnReset.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.BtnReset.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
-            this.BtnReset.Location = new System.Drawing.Point(783, 511);
+            this.BtnReset.Location = new System.Drawing.Point(783, 545);
             this.BtnReset.Name = "BtnReset";
             this.BtnReset.Size = new System.Drawing.Size(119, 74);
             this.BtnReset.TabIndex = 1;
@@ -82,7 +86,7 @@
             this.BtnExit.BackColor = System.Drawing.Color.Tan;
             this.BtnExit.BorderStyleAdv = Syncfusion.Windows.Forms.ButtonAdvBorderStyle.Solid;
             this.BtnExit.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.BtnExit.Location = new System.Drawing.Point(905, 511);
+            this.BtnExit.Location = new System.Drawing.Point(905, 545);
             this.BtnExit.Name = "BtnExit";
             this.BtnExit.Size = new System.Drawing.Size(119, 74);
             this.BtnExit.TabIndex = 2;
@@ -98,7 +102,7 @@
             this.BtnEdit.BackColor = System.Drawing.Color.LightGray;
             this.BtnEdit.BorderStyleAdv = Syncfusion.Windows.Forms.ButtonAdvBorderStyle.Solid;
             this.BtnEdit.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.BtnEdit.Location = new System.Drawing.Point(783, 455);
+            this.BtnEdit.Location = new System.Drawing.Point(783, 489);
             this.BtnEdit.Name = "BtnEdit";
             this.BtnEdit.Size = new System.Drawing.Size(119, 50);
             this.BtnEdit.TabIndex = 3;
@@ -110,7 +114,7 @@
             this.BtnSave.BackColor = System.Drawing.Color.LightGray;
             this.BtnSave.BorderStyleAdv = Syncfusion.Windows.Forms.ButtonAdvBorderStyle.Solid;
             this.BtnSave.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.BtnSave.Location = new System.Drawing.Point(905, 455);
+            this.BtnSave.Location = new System.Drawing.Point(905, 489);
             this.BtnSave.Name = "BtnSave";
             this.BtnSave.Size = new System.Drawing.Size(119, 50);
             this.BtnSave.TabIndex = 4;
@@ -126,7 +130,7 @@
             this.gradientPanel1.Controls.Add(this.LabelTrouble2);
             this.gradientPanel1.Controls.Add(this.autoLabel1);
             this.gradientPanel1.Controls.Add(this.LabelTrouble1);
-            this.gradientPanel1.Location = new System.Drawing.Point(645, 12);
+            this.gradientPanel1.Location = new System.Drawing.Point(645, 46);
             this.gradientPanel1.Name = "gradientPanel1";
             this.gradientPanel1.Size = new System.Drawing.Size(389, 437);
             this.gradientPanel1.TabIndex = 29;
@@ -179,7 +183,7 @@
             this.gradientPanel2.Controls.Add(this.PicAlarmPos);
             this.gradientPanel2.Controls.Add(this.LabelAlarmCode);
             this.gradientPanel2.Controls.Add(this.LabelAlarmText1);
-            this.gradientPanel2.Location = new System.Drawing.Point(12, 12);
+            this.gradientPanel2.Location = new System.Drawing.Point(12, 46);
             this.gradientPanel2.Name = "gradientPanel2";
             this.gradientPanel2.Size = new System.Drawing.Size(627, 573);
             this.gradientPanel2.TabIndex = 30;
@@ -234,11 +238,63 @@
             this.LabelAlarmText1.TabIndex = 0;
             this.LabelAlarmText1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // gradientLabel2
+            // 
+            this.gradientLabel2.BackgroundColor = new Syncfusion.Drawing.BrushInfo(System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255))))));
+            this.gradientLabel2.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
+            | System.Windows.Forms.Border3DSide.Right) 
+            | System.Windows.Forms.Border3DSide.Bottom)));
+            this.gradientLabel2.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.gradientLabel2.Location = new System.Drawing.Point(468, 14);
+            this.gradientLabel2.Name = "gradientLabel2";
+            this.gradientLabel2.Size = new System.Drawing.Size(171, 25);
+            this.gradientLabel2.TabIndex = 34;
+            this.gradientLabel2.Text = "Object Information";
+            this.gradientLabel2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // gradientLabel1
+            // 
+            this.gradientLabel1.BackgroundColor = new Syncfusion.Drawing.BrushInfo(System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(224)))), ((int)(((byte)(192))))));
+            this.gradientLabel1.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
+            | System.Windows.Forms.Border3DSide.Right) 
+            | System.Windows.Forms.Border3DSide.Bottom)));
+            this.gradientLabel1.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.gradientLabel1.Location = new System.Drawing.Point(12, 14);
+            this.gradientLabel1.Name = "gradientLabel1";
+            this.gradientLabel1.Size = new System.Drawing.Size(171, 25);
+            this.gradientLabel1.TabIndex = 33;
+            this.gradientLabel1.Text = "Process Information";
+            this.gradientLabel1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // TextObjectName
+            // 
+            this.TextObjectName.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.TextObjectName.Location = new System.Drawing.Point(647, 14);
+            this.TextObjectName.Margin = new System.Windows.Forms.Padding(5);
+            this.TextObjectName.Name = "TextObjectName";
+            this.TextObjectName.Size = new System.Drawing.Size(257, 25);
+            this.TextObjectName.TabIndex = 32;
+            this.TextObjectName.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // TextProcessName
+            // 
+            this.TextProcessName.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.TextProcessName.Location = new System.Drawing.Point(191, 14);
+            this.TextProcessName.Margin = new System.Windows.Forms.Padding(5);
+            this.TextProcessName.Name = "TextProcessName";
+            this.TextProcessName.Size = new System.Drawing.Size(257, 25);
+            this.TextProcessName.TabIndex = 31;
+            this.TextProcessName.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
             // FormAlarmDisplay
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1043, 598);
+            this.ClientSize = new System.Drawing.Size(1043, 623);
+            this.Controls.Add(this.gradientLabel2);
+            this.Controls.Add(this.gradientLabel1);
+            this.Controls.Add(this.TextObjectName);
+            this.Controls.Add(this.TextProcessName);
             this.Controls.Add(this.BtnSave);
             this.Controls.Add(this.BtnEdit);
             this.Controls.Add(this.gradientPanel1);
@@ -260,6 +316,7 @@
             this.gradientPanel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PicAlarmPos)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -280,5 +337,9 @@
         private Syncfusion.Windows.Forms.Tools.GradientLabel LabelAlarmText2;
         private Syncfusion.Windows.Forms.ButtonAdv BtnEdit;
         private Syncfusion.Windows.Forms.ButtonAdv BtnSave;
+        private Syncfusion.Windows.Forms.Tools.GradientLabel gradientLabel2;
+        private Syncfusion.Windows.Forms.Tools.GradientLabel gradientLabel1;
+        private System.Windows.Forms.TextBox TextObjectName;
+        private System.Windows.Forms.TextBox TextProcessName;
     }
 }

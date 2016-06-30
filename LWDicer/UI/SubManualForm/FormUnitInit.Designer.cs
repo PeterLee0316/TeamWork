@@ -42,6 +42,7 @@
             this.BtnExecuteIni = new Syncfusion.Windows.Forms.ButtonAdv();
             this.Image = new System.Windows.Forms.ImageList(this.components);
             this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.LabelProgress = new Syncfusion.Windows.Forms.Tools.GradientLabel();
             this.SuspendLayout();
             // 
             // BtnLoader
@@ -126,7 +127,7 @@
             // 
             this.BtnSelectAll.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.BtnSelectAll.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.BtnSelectAll.Location = new System.Drawing.Point(80, 229);
+            this.BtnSelectAll.Location = new System.Drawing.Point(111, 285);
             this.BtnSelectAll.Name = "BtnSelectAll";
             this.BtnSelectAll.Size = new System.Drawing.Size(115, 63);
             this.BtnSelectAll.TabIndex = 752;
@@ -137,7 +138,7 @@
             // 
             this.BtnCancelAll.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.BtnCancelAll.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.BtnCancelAll.Location = new System.Drawing.Point(212, 229);
+            this.BtnCancelAll.Location = new System.Drawing.Point(243, 285);
             this.BtnCancelAll.Name = "BtnCancelAll";
             this.BtnCancelAll.Size = new System.Drawing.Size(115, 63);
             this.BtnCancelAll.TabIndex = 751;
@@ -150,7 +151,7 @@
             this.BtnExit.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
             this.BtnExit.Image = ((System.Drawing.Image)(resources.GetObject("BtnExit.Image")));
             this.BtnExit.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.BtnExit.Location = new System.Drawing.Point(213, 310);
+            this.BtnExit.Location = new System.Drawing.Point(509, 285);
             this.BtnExit.Name = "BtnExit";
             this.BtnExit.Size = new System.Drawing.Size(115, 63);
             this.BtnExit.TabIndex = 750;
@@ -163,7 +164,7 @@
             // 
             this.BtnExecuteIni.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.BtnExecuteIni.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.BtnExecuteIni.Location = new System.Drawing.Point(344, 229);
+            this.BtnExecuteIni.Location = new System.Drawing.Point(375, 285);
             this.BtnExecuteIni.Name = "BtnExecuteIni";
             this.BtnExecuteIni.Size = new System.Drawing.Size(115, 63);
             this.BtnExecuteIni.TabIndex = 753;
@@ -181,11 +182,26 @@
             // 
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
+            // LabelProgress
+            // 
+            this.LabelProgress.BackgroundColor = new Syncfusion.Drawing.BrushInfo(System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(224)))), ((int)(((byte)(192))))));
+            this.LabelProgress.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
+            | System.Windows.Forms.Border3DSide.Right) 
+            | System.Windows.Forms.Border3DSide.Bottom)));
+            this.LabelProgress.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.LabelProgress.Location = new System.Drawing.Point(12, 9);
+            this.LabelProgress.Name = "LabelProgress";
+            this.LabelProgress.Size = new System.Drawing.Size(612, 34);
+            this.LabelProgress.TabIndex = 754;
+            this.LabelProgress.Text = "Progress : ";
+            this.LabelProgress.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // FormUnitInit
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(543, 412);
+            this.ClientSize = new System.Drawing.Size(636, 360);
+            this.Controls.Add(this.LabelProgress);
             this.Controls.Add(this.BtnExecuteIni);
             this.Controls.Add(this.BtnSelectAll);
             this.Controls.Add(this.BtnCancelAll);
@@ -219,5 +235,6 @@
         private Syncfusion.Windows.Forms.ButtonAdv BtnExecuteIni;
         private System.Windows.Forms.ImageList Image;
         private System.Windows.Forms.Timer timer1;
+        private Syncfusion.Windows.Forms.Tools.GradientLabel LabelProgress;
     }
 }

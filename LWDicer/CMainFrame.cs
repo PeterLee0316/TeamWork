@@ -35,18 +35,18 @@ namespace LWDicer.UI
 
         public static DEF_UI.SelectScreenType nPrevScr;
 
-        public DisplayManager m_DisPlayManager = null;
+        public CDisplayManager DisplayManager = new CDisplayManager();
 
-        private FormTopScreen m_FormTopScreen;
+        private FormTopScreen TopScreen;
 
-        private FormAutoScreen m_FormAutoScreen;
-        private FormManualScreen m_FormManualScreen;
-        private FormDataScreen m_FormDataScreen;
-        private FormTeachScreen m_FormTeachScreen;
-        private FormLogScreen m_FormLogScreen;
-        private FormHelpScreen m_FormHelpScreen;
+        private FormAutoScreen AutoScreen;
+        private FormManualScreen ManualScreen;
+        private FormDataScreen DataScreen;
+        private FormTeachScreen TeachScreen;
+        private FormLogScreen LogScreen;
+        private FormHelpScreen HelpScreen;
 
-        private FormBottomScreen m_FormBottomScreen;
+        private FormBottomScreen BottomScreen;
 
         public CMainFrame()
         {
@@ -69,13 +69,11 @@ namespace LWDicer.UI
 
         public void InitScreen()
         {
-            m_DisPlayManager = new DisplayManager();
-
             AttachEventHandlers();
 
-            m_FormTopScreen.Show();
+            TopScreen.Show();
 
-            m_FormBottomScreen.Show();
+            BottomScreen.Show();
 
             SelectFormChange(DEF_UI.SelectScreenType.Auto_Scr);
         }
@@ -83,47 +81,47 @@ namespace LWDicer.UI
 
         private void AttachEventHandlers()
         {
-            m_DisPlayManager.m_FormSelectEvent += new FormSelectEventHandler(SelectFormChange);
+            DisplayManager.FormHandler += new FormSelectEventHandler(SelectFormChange);
         }
 
         private void DetachEventHandlers()
         {
-            m_DisPlayManager.m_FormSelectEvent -= new FormSelectEventHandler(SelectFormChange);
+            DisplayManager.FormHandler -= new FormSelectEventHandler(SelectFormChange);
         }
 
         private void SelectFormChange(DEF_UI.SelectScreenType type)
         {
-            if (nPrevScr == DEF_UI.SelectScreenType.Auto_Scr) { m_FormAutoScreen.Hide(); }
-            if (nPrevScr == DEF_UI.SelectScreenType.Manual_Scr) { m_FormManualScreen.Hide(); }
-            if (nPrevScr == DEF_UI.SelectScreenType.Data_Scr) { m_FormDataScreen.Hide(); }
-            if (nPrevScr == DEF_UI.SelectScreenType.Teach_Scr) { m_FormTeachScreen.Hide(); }
-            if (nPrevScr == DEF_UI.SelectScreenType.Log_Scr) { m_FormLogScreen.Hide(); }
-            if (nPrevScr == DEF_UI.SelectScreenType.Help_Scr) { m_FormHelpScreen.Hide(); }
+            if (nPrevScr == DEF_UI.SelectScreenType.Auto_Scr) { AutoScreen.Hide(); }
+            if (nPrevScr == DEF_UI.SelectScreenType.Manual_Scr) { ManualScreen.Hide(); }
+            if (nPrevScr == DEF_UI.SelectScreenType.Data_Scr) { DataScreen.Hide(); }
+            if (nPrevScr == DEF_UI.SelectScreenType.Teach_Scr) { TeachScreen.Hide(); }
+            if (nPrevScr == DEF_UI.SelectScreenType.Log_Scr) { LogScreen.Hide(); }
+            if (nPrevScr == DEF_UI.SelectScreenType.Help_Scr) { HelpScreen.Hide(); }
 
             switch (type)
             {
                 case DEF_UI.SelectScreenType.Auto_Scr:
-                    m_FormAutoScreen.Show();
+                    AutoScreen.Show();
                     nPrevScr = type;
                     break;
                 case DEF_UI.SelectScreenType.Manual_Scr:
-                    m_FormManualScreen.Show();
+                    ManualScreen.Show();
                     nPrevScr = type;
                     break;
                 case DEF_UI.SelectScreenType.Data_Scr:
-                    m_FormDataScreen.Show();
+                    DataScreen.Show();
                     nPrevScr = type;
                     break;
                 case DEF_UI.SelectScreenType.Teach_Scr:
-                    m_FormTeachScreen.Show();
+                    TeachScreen.Show();
                     nPrevScr = type;
                     break;
                 case DEF_UI.SelectScreenType.Log_Scr:
-                    m_FormLogScreen.Show();
+                    LogScreen.Show();
                     nPrevScr = type;
                     break;
                 case DEF_UI.SelectScreenType.Help_Scr:
-                    m_FormHelpScreen.Show();
+                    HelpScreen.Show();
                     nPrevScr = type;
                     break;
             }
@@ -161,28 +159,28 @@ namespace LWDicer.UI
 
         private void CreateForms()
         {
-            m_FormTopScreen = new FormTopScreen();
+            TopScreen = new FormTopScreen();
 
-            m_FormAutoScreen = new FormAutoScreen();
-            m_FormManualScreen = new FormManualScreen();
-            m_FormDataScreen = new FormDataScreen();
-            m_FormTeachScreen = new FormTeachScreen();
-            m_FormLogScreen = new FormLogScreen();
-            m_FormHelpScreen = new FormHelpScreen();
+            AutoScreen = new FormAutoScreen();
+            ManualScreen = new FormManualScreen();
+            DataScreen = new FormDataScreen();
+            TeachScreen = new FormTeachScreen();
+            LogScreen = new FormLogScreen();
+            HelpScreen = new FormHelpScreen();
 
-            m_FormBottomScreen = new FormBottomScreen();
+            BottomScreen = new FormBottomScreen();
 
 
-            SetProperty(m_FormTopScreen);
+            SetProperty(TopScreen);
 
-            SetProperty(m_FormAutoScreen);
-            SetProperty(m_FormManualScreen);
-            SetProperty(m_FormDataScreen);
-            SetProperty(m_FormTeachScreen);
-            SetProperty(m_FormLogScreen);
-            SetProperty(m_FormHelpScreen);
+            SetProperty(AutoScreen);
+            SetProperty(ManualScreen);
+            SetProperty(DataScreen);
+            SetProperty(TeachScreen);
+            SetProperty(LogScreen);
+            SetProperty(HelpScreen);
 
-            SetProperty(m_FormBottomScreen);
+            SetProperty(BottomScreen);
         }
 
         private void SetProperty(Form TargetForm)
@@ -219,19 +217,51 @@ namespace LWDicer.UI
             this.Dispose();
             this.Close();
         }
+
+        static public void DisplayAlarm(int alarmcode, int pid = 0, bool saveLog = true)
+        {
+            if (alarmcode == SUCCESS)
+            {
+                DisplayMsg("", "요청한 작업이 성공했습니다.", false);
+
+            }
+            else
+            {
+                CAlarm alarm = LWDicer.GetAlarmInfo(alarmcode, pid, saveLog);
+                var dlg = new FormAlarmDisplay(alarm);
+                dlg.ShowDialog();
+            }
+        }
+
+        static public bool DisplayMsg(string strMsg_Eng, string strMsg_System, bool bOkCancel = true)
+        {
+            FormMessageBox dlg = new FormMessageBox();
+            dlg.SetMessage(strMsg_Eng, strMsg_System, bOkCancel);
+            dlg.ShowDialog();
+
+            if (dlg.DialogResult == DialogResult.OK || dlg.DialogResult == DialogResult.Yes)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
     }
 
     public delegate void FormSelectEventHandler(DEF_UI.SelectScreenType type);
 
-    public class DisplayManager
+    public class CDisplayManager
     {
-        public event FormSelectEventHandler m_FormSelectEvent = null;
+        public event FormSelectEventHandler FormHandler = null;
 
         public void FormSelectChange(DEF_UI.SelectScreenType type)
         {
-            if (m_FormSelectEvent != null)
+            if (FormHandler != null)
             {
-                m_FormSelectEvent(type);
+                FormHandler(type);
             }
         }
     }

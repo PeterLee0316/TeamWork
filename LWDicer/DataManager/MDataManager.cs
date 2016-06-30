@@ -2946,6 +2946,21 @@ namespace LWDicer.Control
             return SUCCESS;
         }
 
+        public int UpdateAlarmInfo(CAlarmInfo info)
+        {
+            for(int i = 0; i < AlarmInfoList.Count; i++)
+            {
+                if(AlarmInfoList[i].Index == info.Index)
+                {
+                    AlarmInfoList.RemoveAt(i);
+                    break;
+                }
+            }
+
+            AlarmInfoList.Add(info);
+            return SaveAlarmInfoList();
+        }
+
         public int LoadAlarmInfo(int index, out CAlarmInfo info)
         {
             info = new CAlarmInfo();
@@ -2982,7 +2997,7 @@ namespace LWDicer.Control
                 return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_LOAD_ALARM_INFO);
             }
 
-            WriteLog($"success : load alarm info", ELogType.Debug);
+            //WriteLog($"success : load alarm info", ELogType.Debug);
             return SUCCESS;
         }
 
@@ -3024,8 +3039,23 @@ namespace LWDicer.Control
                 return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_LOAD_MESSAGE_INFO);
             }
 
-            WriteLog($"success : load message info list", ELogType.Debug);
+            //WriteLog($"success : load message info list", ELogType.Debug);
             return SUCCESS;
+        }
+
+        public int UpdateMessageInfo(CMessageInfo info)
+        {
+            for (int i = 0; i < MessageInfoList.Count; i++)
+            {
+                if (MessageInfoList[i].Index == info.Index)
+                {
+                    MessageInfoList.RemoveAt(i);
+                    break;
+                }
+            }
+
+            MessageInfoList.Add(info);
+            return SaveMessageInfoList();
         }
 
         public int LoadMessageInfo(int index, out CMessageInfo info)
@@ -3111,6 +3141,22 @@ namespace LWDicer.Control
             WriteLog($"success : load para info list", ELogType.Debug);
             return SUCCESS;
         }
+
+        public int UpdateParaInfo(CParaInfo info)
+        {
+            for (int i = 0; i < ParaInfoList.Count; i++)
+            {
+                if (ParaInfoList[i].Name == info.Name && ParaInfoList[i].Group == info.Group)
+                {
+                    ParaInfoList.RemoveAt(i);
+                    break;
+                }
+            }
+
+            ParaInfoList.Add(info);
+            return SaveParaInfoList();
+        }
+
 
         public int LoadParaInfo(string group, string name, out CParaInfo info)
         {
@@ -3634,7 +3680,7 @@ namespace LWDicer.Control
                 return GenerateErrorCode(ERR_DATA_MANAGER_ALARM_EXCEL_FILE_READ_FAIL);
             }
 
-            WriteLog($"success : Import Alarm Infoa From Excel", ELogType.Debug);
+            WriteLog($"success : Import Alarm Info From Excel", ELogType.Debug);
             return SUCCESS;
         }
 

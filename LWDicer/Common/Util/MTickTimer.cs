@@ -13,12 +13,12 @@ namespace LWDicer.Control
     {
         public enum ETimeType
         {
-            TIME_100NANOSECOND,
-            TIME_MICROSECOND,
-            TIME_MILLISECOND,
-            TIME_SECOND,
-            TIME_MINUTE,
-            TIME_HOUR,
+            NANOSECOND,
+            MICROSECOND,
+            MILLISECOND,
+            SECOND,
+            MINUTE,
+            HOUR,
         }
 
         Stopwatch Timer;
@@ -45,53 +45,53 @@ namespace LWDicer.Control
             return SUCCESS;
         }
 
-        public long GetElapsedTime(ETimeType type = TIME_MILLISECOND)
+        public long GetElapsedTime(ETimeType type = MILLISECOND)
         {
             long gap = Timer.ElapsedTicks;
 
             switch(type)
             {
-                case TIME_100NANOSECOND:
+                case NANOSECOND:
                     break;
 
-                case TIME_MICROSECOND:
+                case MICROSECOND:
                     gap /= 10;
                     break;
 
-                case TIME_MILLISECOND:
+                case MILLISECOND:
                     gap = Timer.ElapsedMilliseconds;
                     break;
 
-                case TIME_SECOND:
+                case SECOND:
                     gap = Timer.ElapsedMilliseconds / (1000);
                     break;
 
-                case TIME_MINUTE:
+                case MINUTE:
                     gap = Timer.ElapsedMilliseconds / (1000 * 60);
                     break;
 
-                case TIME_HOUR:
+                case HOUR:
                     gap = Timer.ElapsedMilliseconds / (1000 * 60 * 60);
                     break;
             }
             return gap;
         }
 
-        public bool LessThan(long CompareTime, ETimeType type = TIME_MILLISECOND)
+        public bool LessThan(long CompareTime, ETimeType type = MILLISECOND)
         {
             long gap = GetElapsedTime(type);
             if (gap < CompareTime) return true;
             else return false;
         }
 
-        public bool MoreThan(long CompareTime, ETimeType type = TIME_MILLISECOND)
+        public bool MoreThan(long CompareTime, ETimeType type = MILLISECOND)
         {
             long gap = GetElapsedTime(type);
             if (gap > CompareTime) return true;
             else return false;
         }
 
-        public bool LessThan(double CompareTime, ETimeType type = TIME_MILLISECOND)
+        public bool LessThan(double CompareTime, ETimeType type = MILLISECOND)
         {
             CompareTime = (long)CompareTime;
             long gap = GetElapsedTime(type);
@@ -99,12 +99,17 @@ namespace LWDicer.Control
             else return false;
         }
 
-        public bool MoreThan(double CompareTime, ETimeType type = TIME_MILLISECOND)
+        public bool MoreThan(double CompareTime, ETimeType type = MILLISECOND)
         {
             CompareTime = (long)CompareTime;
             long gap = GetElapsedTime(type);
             if (gap > CompareTime) return true;
             else return false;
+        }
+
+        public override string ToString()
+        {
+            return $"{GetElapsedTime(HOUR)}:{GetElapsedTime(MINUTE)%60:00}:{GetElapsedTime(SECOND)%60:00}.{GetElapsedTime(MILLISECOND)%1000:000}";
         }
     }
 }

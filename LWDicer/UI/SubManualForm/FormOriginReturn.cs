@@ -22,6 +22,7 @@ namespace LWDicer.UI
         private bool [] SelectedAxis = new bool[(int)EAxis.MAX];
 
         private ButtonAdv[] BtnList = new ButtonAdv[(int)EAxis.MAX];
+        private MTickTimer m_waitTimer = new MTickTimer();
 
 
         public FormOriginReturn()
@@ -108,12 +109,13 @@ namespace LWDicer.UI
 
         private void BtnOriginReturn_Click(object sender, EventArgs e)
         {
-            if (!CMainFrame.LWDicer.DisplayMsg("", "선택한 축에 대해 원점 복귀를 하시겠습니까?"))
+            if (!CMainFrame.DisplayMsg("", "선택한 축에 대해 원점 복귀를 하시겠습니까?"))
             {
                 return;
             }
 
-            // 0. set init state to true
+            // 0. init
+            m_waitTimer.StartTimer();
             CMainFrame.LWDicer.m_trsAutoManager.IsInitState = true;
 
             // 1.
@@ -122,15 +124,15 @@ namespace LWDicer.UI
             // 2.
             UpdateUnitStatus();
 
-            // 3. set init state to false
+            // 3. 
             CMainFrame.LWDicer.m_trsAutoManager.IsInitState = false;
 
         }
 
-        private void ShowStepInform(string inform)
+        private void ShowStepInform(string str)
         {
-            //m_lblStatus.SetWindowText(inform);
-            //m_lblStatus.Refresh();
+            LabelProgress.Text  = String.Format($"ElapsedTime : {m_waitTimer},  Progress : {str}");
+            LabelProgress.Refresh();
         }
 
         private void InitRun()
@@ -141,16 +143,18 @@ namespace LWDicer.UI
             bool bSts = false;
             bool bRtnSts = false;
             //	bool rgbOriginSts[DEF_MAX_MOTION_AXIS_NO];
-
             string strErr;
+
+            ShowStepInform("Check Safety");
+            
             // EStop 및 모든 축 원점 복귀 체크
             if (CMainFrame.LWDicer.IsSafeForAxisMove() == false)
                 return;
 
-            ShowStepInform("진행 상황 : 인터페이스 신호 초기화");
+            ShowStepInform("인터페이스 신호 초기화");
 
             // 0. Loader
-            ShowStepInform("진행 상황 : LOADER");
+            ShowStepInform("LOADER");
             int part = (int)EAxis.LOADER_Z;
             if (SelectedAxis[part] == true)
             {
@@ -170,23 +174,37 @@ namespace LWDicer.UI
 
 
             // Last.
-            CMainFrame.LWDicer.DisplayMsg("", "초기화가 완료되었습니다.");
+            CMainFrame.DisplayMsg("", "초기화가 완료되었습니다.");
         }
 
 
         private void BtnServoOn_Click(object sender, EventArgs e)
         {
-            if(!CMainFrame.LWDicer.DisplayMsg("", "선택한 축을 Servo On 하시겠습니까?"))
+            if(!CMainFrame.DisplayMsg("", "선택한 축을 Servo On 하시겠습니까?"))
             {
                 return;
+            }
+
+            for(int i = 0; i < (int)EAxis.MAX; i++)
+            {
+                if (SelectedAxis[i] == false) continue;
+                int iResult = CMainFrame.LWDicer.m_ctrlOpPanel.ServoOn(i);
+                CMainFrame.DisplayAlarm(iResult);
             }
         }
 
         private void BtnServoOff_Click(object sender, EventArgs e)
         {
-            if (!CMainFrame.LWDicer.DisplayMsg("", "선택한 축을 Servo Off 하시겠습니까?"))
+            if (!CMainFrame.DisplayMsg("", "선택한 축을 Servo Off 하시겠습니까?"))
             {
                 return;
+            }
+
+            for (int i = 0; i < (int)EAxis.MAX; i++)
+            {
+                if (SelectedAxis[i] == false) continue;
+                int iResult = CMainFrame.LWDicer.m_ctrlOpPanel.ServoOff(i);
+                CMainFrame.DisplayAlarm(iResult);
             }
         }
 

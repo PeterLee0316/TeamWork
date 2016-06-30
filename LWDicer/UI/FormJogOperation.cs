@@ -310,12 +310,12 @@ namespace LWDicer.UI
 
             if (GetAxis() < 16)
             {
-                CMainFrame.LWDicer.m_YMC.ServoMotionStop(GetAxis(), (int)CMotionAPI.ApiDefs.DISTRIBUTION_COMPLETED);
+                CMainFrame.LWDicer.m_YMC.StopServoMotion(GetAxis(), (int)CMotionAPI.ApiDefs.DISTRIBUTION_COMPLETED);
             }
             else
             {
                 nAcsAxis = GetAxis() - 16;
-                CMainFrame.LWDicer.m_ACS.ServoMotionStop(nAcsAxis);
+                CMainFrame.LWDicer.m_ACS.StopServoMotion(nAcsAxis);
             }
         }
 
@@ -330,13 +330,13 @@ namespace LWDicer.UI
                 if (GetAxis() < 16)
                 {
                     // MP
-                    CMainFrame.LWDicer.m_YMC.JogMoveStart(GetAxis(), JOG_DIR_POS, GetVelocity());
+                    CMainFrame.LWDicer.m_YMC.StartJogMove(GetAxis(), JOG_DIR_POS, GetVelocity());
                 }
                 else
                 {
                     // ACS
                     nAcsAxis = GetAxis() - 16;
-                    CMainFrame.LWDicer.m_ACS.JogMoveStart(nAcsAxis, JOG_DIR_POS, GetVelocity());
+                    CMainFrame.LWDicer.m_ACS.StartJogMove(nAcsAxis, JOG_DIR_POS, GetVelocity());
                 }
             }
 
@@ -403,13 +403,13 @@ namespace LWDicer.UI
                 if (GetAxis() < 16)
                 {
                     // MP
-                    CMainFrame.LWDicer.m_YMC.JogMoveStop(GetAxis());
+                    CMainFrame.LWDicer.m_YMC.StopJogMove(GetAxis());
                 }
                 else
                 {
                     // ACS
                     nAcsAxis = GetAxis() - 16;
-                    CMainFrame.LWDicer.m_ACS.JogMoveStop(nAcsAxis);
+                    CMainFrame.LWDicer.m_ACS.StopJogMove(nAcsAxis);
                 }
             }
         }
@@ -425,13 +425,13 @@ namespace LWDicer.UI
                 if (GetAxis() < 16)
                 {
                     // MP
-                    CMainFrame.LWDicer.m_YMC.JogMoveStart(GetAxis(), JOG_DIR_NEG, GetVelocity());
+                    CMainFrame.LWDicer.m_YMC.StartJogMove(GetAxis(), JOG_DIR_NEG, GetVelocity());
                 }
                 else
                 {
                     // ACS
                     nAcsAxis = GetAxis() - 16;
-                    CMainFrame.LWDicer.m_ACS.JogMoveStart(nAcsAxis, JOG_DIR_NEG, GetVelocity());
+                    CMainFrame.LWDicer.m_ACS.StartJogMove(nAcsAxis, JOG_DIR_NEG, GetVelocity());
                 }
             }
 
@@ -499,13 +499,13 @@ namespace LWDicer.UI
                 if (GetAxis() < 16)
                 {
                     // MP
-                    CMainFrame.LWDicer.m_YMC.JogMoveStop(GetAxis());
+                    CMainFrame.LWDicer.m_YMC.StopJogMove(GetAxis());
                 }
                 else
                 {
                     // ACS
                     nAcsAxis = GetAxis() - 16;
-                    CMainFrame.LWDicer.m_ACS.JogMoveStop(nAcsAxis);
+                    CMainFrame.LWDicer.m_ACS.StopJogMove(nAcsAxis);
                 }
             }
         }

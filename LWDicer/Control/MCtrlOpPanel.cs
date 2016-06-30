@@ -1103,18 +1103,28 @@ namespace LWDicer.Control
         /// 모든 축들에 대해 Servo AMP를 Enable한다.
         /// </summary>
         /// <returns></returns>
-        public int OnAllServo()
+        public int AllServoOn()
         {
-            return m_RefComp.OpPanel.OnAllServo();
+            return m_RefComp.OpPanel.AllServoOn();
         }
 
         /// <summary>
         /// 모든 축들에 대해 Servo AMP를 Disable한다.
         /// </summary>
         /// <returns></returns>
-        public int OffAllServo()
+        public int AllServoOff()
         {
-            return m_RefComp.OpPanel.OffAllServo();
+            return m_RefComp.OpPanel.AllServoOff();
+        }
+
+        public int ServoOn(int index)
+        {
+            return m_RefComp.OpPanel.ServoOn(index);
+        }
+
+        public int ServoOff(int index)
+        {
+            return m_RefComp.OpPanel.ServoOff(index);
         }
 
         /// <summary>

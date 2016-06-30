@@ -63,7 +63,7 @@ namespace LWDicer.Control
             this.LCNetUnitPos = LCNetUnitPos;
 
             PostTimer.StartTimer();
-            LastPostTime = PostTimer.GetElapsedTime(MTickTimer.ETimeType.TIME_SECOND);
+            LastPostTime = PostTimer.GetElapsedTime(MTickTimer.ETimeType.SECOND);
 
             Debug.WriteLine(ToString());
         }
@@ -379,7 +379,7 @@ namespace LWDicer.Control
         /// <returns></returns>
         public int PostMsg_Interval(EThreadChannel target, EThreadMessage msg, int wParam = 0, int lParam = 0)
         {
-            if (PostTimer.MoreThan(LastPostTime + PostIntervalTime, MTickTimer.ETimeType.TIME_SECOND) == false)
+            if (PostTimer.MoreThan(LastPostTime + PostIntervalTime, MTickTimer.ETimeType.SECOND) == false)
                 return SUCCESS;
 
             LastPostTime += PostIntervalTime;

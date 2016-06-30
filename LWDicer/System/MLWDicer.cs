@@ -256,7 +256,7 @@ namespace LWDicer.Control
             m_DataManager.LoadParaInfo(group, name, out pinfo);
         }
 
-        public CAlarm GetAlarmInfo(int pid, int alarmcode, bool saveLog = true)
+        public CAlarm GetAlarmInfo(int alarmcode, int pid = 0, bool saveLog = true)
         {
             CAlarm alarm = new CAlarm();
             alarm.ProcessID = pid;
@@ -265,8 +265,9 @@ namespace LWDicer.Control
             alarm.ErrorCode = (int)((alarmcode & 0x0000ffff) % 100);
 
             alarm.ProcessName = m_SystemInfo.GetObjectName(alarm.ProcessID);
-            alarm.TypeName = m_SystemInfo.GetTypeName(alarm.ObjectID);
+            alarm.ProcessType = m_SystemInfo.GetTypeName(alarm.ProcessID);
             alarm.ObjectName = m_SystemInfo.GetObjectName(alarm.ObjectID);
+            alarm.ObjectType = m_SystemInfo.GetTypeName(alarm.ObjectID);
             m_DataManager.LoadAlarmInfo(alarm.GetIndex(), out alarm.Info);
 
             if(saveLog == true)
@@ -276,22 +277,22 @@ namespace LWDicer.Control
             return alarm;
         }
 
-        public string GetAlarmText(int alarmcode, ELanguage type = ELanguage.ENGLISH)
+        public string GetAlarmText(int alarmcode, ELanguage language = ELanguage.ENGLISH)
         {
-            CAlarm alarm = GetAlarmInfo(0, alarmcode, false);
-            return alarm.Info.Description[(int)type];
+            CAlarm alarm = GetAlarmInfo(alarmcode, 0, false);
+            return alarm.Info.Description[(int)language];
         }
 
-        public string GetAlarmSolution(int alarmcode, ELanguage type = ELanguage.ENGLISH)
+        public string GetAlarmSolution(int alarmcode, ELanguage language = ELanguage.ENGLISH)
         {
-            CAlarm alarm = GetAlarmInfo(0, alarmcode, false);
-            return alarm.Info.Solution[(int)type];
+            CAlarm alarm = GetAlarmInfo(alarmcode, 0, false);
+            return alarm.Info.Solution[(int)language];
         }
 
         public void ShowAlarmWhileInit(int alarmcode)
         {
             string str = GetAlarmText(alarmcode);
-            DisplayMsg(str, "", false);
+            CMainFrame.DisplayMsg(str, "", false);
         }
 
         public int Initialize(CMainFrame form1 = null)
@@ -1553,37 +1554,6 @@ namespace LWDicer.Control
             return true;
         }
 
-        public bool DisplayMsg(string strMsg_Eng, string strMsg_System, bool bOkCancel = true)
-        {
-            FormMessageBox dlg = new FormMessageBox();
-            dlg.SetMessage(strMsg_Eng, strMsg_System, bOkCancel);
-            dlg.ShowDialog();
-
-            if (dlg.DialogResult == DialogResult.OK || dlg.DialogResult == DialogResult.Yes)
-            {
-                dlg.Dispose();
-                return true;
-            }
-            else
-            {
-                dlg.Dispose();
-                return false;
-            }
-        }
-
-        public void AlarmDisplay(int code, EAlarmGroup group = EAlarmGroup.SYSTEM)
-        {
-            if (code == SUCCESS)
-            {
-                CMainFrame.LWDicer.DisplayMsg("", "요청한 작업이 성공했습니다.", false);
-
-            } else
-            {
-                FormAlarmDisplay Alarm = new FormAlarmDisplay(code, group);
-                Alarm.ShowDialog();
-            }
-        }
-
         void CreateMeElevator(CObjectInfo objInfo)
         {
             CMeElevatorRefComp refComp = new CMeElevatorRefComp();
@@ -1774,10 +1744,7 @@ namespace LWDicer.Control
             int iResult = m_ctrlOpPanel.CheckSafetyBeforeAxisMove();
             if (iResult != SUCCESS)
             {
-                if(bDisplayMsg == true)
-                {
-
-                }
+                if(bDisplayMsg == true) CMainFrame.DisplayAlarm(iResult);
                 return false;
             }
             return true;
@@ -1788,10 +1755,7 @@ namespace LWDicer.Control
             int iResult = m_ctrlOpPanel.CheckSafetyBeforeCylinderMove();
             if (iResult != SUCCESS)
             {
-                if (bDisplayMsg == true)
-                {
-
-                }
+                if (bDisplayMsg == true) CMainFrame.DisplayAlarm(iResult);
                 return false;
             }
             return true;

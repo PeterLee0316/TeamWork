@@ -80,7 +80,7 @@ namespace LWDicer.Control
                 //iResult = m_RefComp.Motion.ServoMotionStopAll()
                 ;
             else
-                //iResult = m_RefComp.Motion.ServoMotionStop(iCoordID)
+                //iResult = m_RefComp.Motion.StopServoMotion(iCoordID)
                 ;
 
 
@@ -379,7 +379,7 @@ namespace LWDicer.Control
             }
             else
             {
-                iResult = m_RefComp.Motion.JogMoveStart(m_Data.AxisList[iCoordID], bDir, false);
+                iResult = m_RefComp.Motion.StartJogMove(m_Data.AxisList[iCoordID], bDir, false);
             }
 
             return iResult;
@@ -395,7 +395,7 @@ namespace LWDicer.Control
             }
             else
             {
-                iResult = m_RefComp.Motion.JogMoveStart(m_Data.AxisList[iCoordID], bDir, true);
+                iResult = m_RefComp.Motion.StartJogMove(m_Data.AxisList[iCoordID], bDir, true);
             }
 
             return iResult;
@@ -407,11 +407,11 @@ namespace LWDicer.Control
 
             if (iCoordID == DEF_ALL_COORDINATE)
             {
-                iResult = m_RefComp.Motion.AllServoMotionStop();
+                iResult = m_RefComp.Motion.StopAllServoMotion();
             }
             else
             {
-                iResult = m_RefComp.Motion.ServoMotionStop(m_Data.AxisList[iCoordID]);
+                iResult = m_RefComp.Motion.StopServoMotion(m_Data.AxisList[iCoordID]);
             }
 
             return SUCCESS;

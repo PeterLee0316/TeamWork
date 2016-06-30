@@ -57,6 +57,7 @@
             this.BtnServoOff = new Syncfusion.Windows.Forms.ButtonAdv();
             this.Image = new System.Windows.Forms.ImageList(this.components);
             this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.LabelProgress = new Syncfusion.Windows.Forms.Tools.GradientLabel();
             this.SuspendLayout();
             // 
             // BtnAxis1
@@ -68,7 +69,7 @@
             this.BtnAxis1.Size = new System.Drawing.Size(120, 67);
             this.BtnAxis1.TabIndex = 0;
             this.BtnAxis1.Tag = "0";
-            this.BtnAxis1.Text = "   Lifter";
+            this.BtnAxis1.Text = "Loader Z";
             this.BtnAxis1.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.BtnAxis1.Click += new System.EventHandler(this.BtnAxis_Click);
             // 
@@ -81,7 +82,7 @@
             this.BtnAxis2.Size = new System.Drawing.Size(120, 67);
             this.BtnAxis2.TabIndex = 1;
             this.BtnAxis2.Tag = "1";
-            this.BtnAxis2.Text = "   Feeder";
+            this.BtnAxis2.Text = "PushPull Y";
             this.BtnAxis2.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.BtnAxis2.Click += new System.EventHandler(this.BtnAxis_Click);
             // 
@@ -94,7 +95,7 @@
             this.BtnAxis3.Size = new System.Drawing.Size(120, 67);
             this.BtnAxis3.TabIndex = 2;
             this.BtnAxis3.Tag = "2";
-            this.BtnAxis3.Text = " Centering 1";
+            this.BtnAxis3.Text = "PushPull Centering X1";
             this.BtnAxis3.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.BtnAxis3.Click += new System.EventHandler(this.BtnAxis_Click);
             // 
@@ -107,7 +108,7 @@
             this.BtnAxis4.Size = new System.Drawing.Size(120, 67);
             this.BtnAxis4.TabIndex = 3;
             this.BtnAxis4.Tag = "3";
-            this.BtnAxis4.Text = " Centering 2";
+            this.BtnAxis4.Text = "PushPull Centering X2";
             this.BtnAxis4.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.BtnAxis4.Click += new System.EventHandler(this.BtnAxis_Click);
             // 
@@ -120,7 +121,7 @@
             this.BtnAxis5.Size = new System.Drawing.Size(120, 67);
             this.BtnAxis5.TabIndex = 4;
             this.BtnAxis5.Tag = "4";
-            this.BtnAxis5.Text = "Rotate";
+            this.BtnAxis5.Text = "Spinner1 Rotate T";
             this.BtnAxis5.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.BtnAxis5.Click += new System.EventHandler(this.BtnAxis_Click);
             // 
@@ -133,7 +134,7 @@
             this.BtnAxis6.Size = new System.Drawing.Size(120, 67);
             this.BtnAxis6.TabIndex = 5;
             this.BtnAxis6.Tag = "5";
-            this.BtnAxis6.Text = "Clean Nozzle";
+            this.BtnAxis6.Text = "Spinner1 Clean Nozzle";
             this.BtnAxis6.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.BtnAxis6.Click += new System.EventHandler(this.BtnAxis_Click);
             // 
@@ -146,7 +147,7 @@
             this.BtnAxis7.Size = new System.Drawing.Size(120, 67);
             this.BtnAxis7.TabIndex = 6;
             this.BtnAxis7.Tag = "6";
-            this.BtnAxis7.Text = "Coat Nozzle";
+            this.BtnAxis7.Text = "Spinner1  Coat Nozzle";
             this.BtnAxis7.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.BtnAxis7.Click += new System.EventHandler(this.BtnAxis_Click);
             // 
@@ -159,7 +160,7 @@
             this.BtnAxis10.Size = new System.Drawing.Size(120, 67);
             this.BtnAxis10.TabIndex = 9;
             this.BtnAxis10.Tag = "9";
-            this.BtnAxis10.Text = "Coat Nozzle";
+            this.BtnAxis10.Text = "Spinner2  Coat Nozzle";
             this.BtnAxis10.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.BtnAxis10.Click += new System.EventHandler(this.BtnAxis_Click);
             // 
@@ -172,7 +173,7 @@
             this.BtnAxis9.Size = new System.Drawing.Size(120, 67);
             this.BtnAxis9.TabIndex = 8;
             this.BtnAxis9.Tag = "8";
-            this.BtnAxis9.Text = "Clean Nozzle";
+            this.BtnAxis9.Text = "Spinner2 Clean Nozzle";
             this.BtnAxis9.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.BtnAxis9.Click += new System.EventHandler(this.BtnAxis_Click);
             // 
@@ -185,7 +186,7 @@
             this.BtnAxis8.Size = new System.Drawing.Size(120, 67);
             this.BtnAxis8.TabIndex = 7;
             this.BtnAxis8.Tag = "7";
-            this.BtnAxis8.Text = "Rotate";
+            this.BtnAxis8.Text = "Spinner2 Rotate T";
             this.BtnAxis8.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.BtnAxis8.Click += new System.EventHandler(this.BtnAxis_Click);
             // 
@@ -198,7 +199,7 @@
             this.BtnAxis12.Size = new System.Drawing.Size(120, 67);
             this.BtnAxis12.TabIndex = 11;
             this.BtnAxis12.Tag = "11";
-            this.BtnAxis12.Text = " Upper TR Y";
+            this.BtnAxis12.Text = "Upper Handler Z";
             this.BtnAxis12.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.BtnAxis12.Click += new System.EventHandler(this.BtnAxis_Click);
             // 
@@ -211,7 +212,7 @@
             this.BtnAxis11.Size = new System.Drawing.Size(120, 67);
             this.BtnAxis11.TabIndex = 10;
             this.BtnAxis11.Tag = "10";
-            this.BtnAxis11.Text = " Upper TR Z";
+            this.BtnAxis11.Text = "Upper Handler X";
             this.BtnAxis11.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.BtnAxis11.Click += new System.EventHandler(this.BtnAxis_Click);
             // 
@@ -224,7 +225,7 @@
             this.BtnAxis14.Size = new System.Drawing.Size(120, 67);
             this.BtnAxis14.TabIndex = 13;
             this.BtnAxis14.Tag = "13";
-            this.BtnAxis14.Text = " Lower TR Y";
+            this.BtnAxis14.Text = "Lower Handler Z";
             this.BtnAxis14.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.BtnAxis14.Click += new System.EventHandler(this.BtnAxis_Click);
             // 
@@ -237,7 +238,7 @@
             this.BtnAxis13.Size = new System.Drawing.Size(120, 67);
             this.BtnAxis13.TabIndex = 12;
             this.BtnAxis13.Tag = "12";
-            this.BtnAxis13.Text = " Lower TR Z";
+            this.BtnAxis13.Text = "Lower Handler X";
             this.BtnAxis13.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.BtnAxis13.Click += new System.EventHandler(this.BtnAxis_Click);
             // 
@@ -250,7 +251,7 @@
             this.BtnAxis15.Size = new System.Drawing.Size(120, 67);
             this.BtnAxis15.TabIndex = 14;
             this.BtnAxis15.Tag = "14";
-            this.BtnAxis15.Text = "  Stage X";
+            this.BtnAxis15.Text = "Camera Z";
             this.BtnAxis15.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.BtnAxis15.Click += new System.EventHandler(this.BtnAxis_Click);
             // 
@@ -263,7 +264,7 @@
             this.BtnAxis16.Size = new System.Drawing.Size(120, 67);
             this.BtnAxis16.TabIndex = 15;
             this.BtnAxis16.Tag = "15";
-            this.BtnAxis16.Text = "  Stage Y";
+            this.BtnAxis16.Text = "Scanner Z";
             this.BtnAxis16.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.BtnAxis16.Click += new System.EventHandler(this.BtnAxis_Click);
             // 
@@ -271,12 +272,12 @@
             // 
             this.BtnAxis17.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.BtnAxis17.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.BtnAxis17.Location = new System.Drawing.Point(340, 442);
+            this.BtnAxis17.Location = new System.Drawing.Point(504, 296);
             this.BtnAxis17.Name = "BtnAxis17";
             this.BtnAxis17.Size = new System.Drawing.Size(120, 67);
             this.BtnAxis17.TabIndex = 16;
             this.BtnAxis17.Tag = "16";
-            this.BtnAxis17.Text = "  Stage T";
+            this.BtnAxis17.Text = "Stage X";
             this.BtnAxis17.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.BtnAxis17.Click += new System.EventHandler(this.BtnAxis_Click);
             // 
@@ -284,12 +285,12 @@
             // 
             this.BtnAxis18.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.BtnAxis18.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.BtnAxis18.Location = new System.Drawing.Point(504, 296);
+            this.BtnAxis18.Location = new System.Drawing.Point(504, 369);
             this.BtnAxis18.Name = "BtnAxis18";
             this.BtnAxis18.Size = new System.Drawing.Size(120, 67);
             this.BtnAxis18.TabIndex = 17;
             this.BtnAxis18.Tag = "17";
-            this.BtnAxis18.Text = " Scanner Z";
+            this.BtnAxis18.Text = "Stage Y";
             this.BtnAxis18.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.BtnAxis18.Click += new System.EventHandler(this.BtnAxis_Click);
             // 
@@ -297,12 +298,12 @@
             // 
             this.BtnAxis19.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.BtnAxis19.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.BtnAxis19.Location = new System.Drawing.Point(504, 369);
+            this.BtnAxis19.Location = new System.Drawing.Point(504, 442);
             this.BtnAxis19.Name = "BtnAxis19";
             this.BtnAxis19.Size = new System.Drawing.Size(120, 67);
             this.BtnAxis19.TabIndex = 18;
             this.BtnAxis19.Tag = "18";
-            this.BtnAxis19.Text = " Camera  Z";
+            this.BtnAxis19.Text = "Stage T";
             this.BtnAxis19.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.BtnAxis19.Click += new System.EventHandler(this.BtnAxis_Click);
             // 
@@ -312,7 +313,7 @@
             this.BtnExit.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
             this.BtnExit.Image = ((System.Drawing.Image)(resources.GetObject("BtnExit.Image")));
             this.BtnExit.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.BtnExit.Location = new System.Drawing.Point(256, 624);
+            this.BtnExit.Location = new System.Drawing.Point(498, 631);
             this.BtnExit.Name = "BtnExit";
             this.BtnExit.Size = new System.Drawing.Size(126, 67);
             this.BtnExit.TabIndex = 747;
@@ -387,11 +388,26 @@
             // 
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
+            // LabelProgress
+            // 
+            this.LabelProgress.BackgroundColor = new Syncfusion.Drawing.BrushInfo(System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(224)))), ((int)(((byte)(192))))));
+            this.LabelProgress.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
+            | System.Windows.Forms.Border3DSide.Right) 
+            | System.Windows.Forms.Border3DSide.Bottom)));
+            this.LabelProgress.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.LabelProgress.Location = new System.Drawing.Point(12, 9);
+            this.LabelProgress.Name = "LabelProgress";
+            this.LabelProgress.Size = new System.Drawing.Size(612, 34);
+            this.LabelProgress.TabIndex = 753;
+            this.LabelProgress.Text = "Progress : ";
+            this.LabelProgress.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // FormOriginReturn
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(639, 735);
+            this.ClientSize = new System.Drawing.Size(646, 712);
+            this.Controls.Add(this.LabelProgress);
             this.Controls.Add(this.BtnServoOff);
             this.Controls.Add(this.BtnServoOn);
             this.Controls.Add(this.BtnOriginReturn);
@@ -456,5 +472,6 @@
         private Syncfusion.Windows.Forms.ButtonAdv BtnServoOff;
         private System.Windows.Forms.ImageList Image;
         private System.Windows.Forms.Timer timer1;
+        private Syncfusion.Windows.Forms.Tools.GradientLabel LabelProgress;
     }
 }

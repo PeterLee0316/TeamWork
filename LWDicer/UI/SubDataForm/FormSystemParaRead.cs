@@ -22,90 +22,90 @@ namespace LWDicer.UI
 
         private void BtnParaInfoImport_Click(object sender, EventArgs e)
         {
-            if (!CMainFrame.LWDicer.DisplayMsg("", "Parameter Data를 Import 하시겠습니까?"))
+            if (!CMainFrame.DisplayMsg("", "Parameter Data를 Import 하시겠습니까?"))
             {
                 return;
             }
 
             int iResult = CMainFrame.LWDicer.m_DataManager.ImportDataFromExcel(EExcel_Sheet.PARA_Info);
-            CMainFrame.LWDicer.AlarmDisplay(iResult);
+            CMainFrame.DisplayAlarm(iResult);
         }
 
         private void BtnAlarmInfoImport_Click(object sender, EventArgs e)
         {
-            if (!CMainFrame.LWDicer.DisplayMsg("", "Alarm Info Data를 Import 하시겠습니까?"))
+            if (!CMainFrame.DisplayMsg("", "Alarm Info Data를 Import 하시겠습니까?"))
             {
                 return;
             }
 
             int iResult = CMainFrame.LWDicer.m_DataManager.ImportDataFromExcel(EExcel_Sheet.Alarm_Info);
-            CMainFrame.LWDicer.AlarmDisplay(iResult);
+            CMainFrame.DisplayAlarm(iResult);
         }
 
         private void BtnIOInfoImport_Click(object sender, EventArgs e)
         {
-            if (!CMainFrame.LWDicer.DisplayMsg("", "I/O Info Data를 Import 하시겠습니까?"))
+            if (!CMainFrame.DisplayMsg("", "I/O Info Data를 Import 하시겠습니까?"))
             {
                 return;
             }
 
             int iResult = CMainFrame.LWDicer.m_DataManager.ImportDataFromExcel(EExcel_Sheet.IO_Info);
-            CMainFrame.LWDicer.AlarmDisplay(iResult);
+            CMainFrame.DisplayAlarm(iResult);
         }
 
         private void BtnMotorDataImport_Click(object sender, EventArgs e)
         {
-            if (!CMainFrame.LWDicer.DisplayMsg("", "Motor Data를 Import 하시겠습니까?"))
+            if (!CMainFrame.DisplayMsg("", "Motor Data를 Import 하시겠습니까?"))
             {
                 return;
             }
 
             int iResult = CMainFrame.LWDicer.m_DataManager.ImportDataFromExcel(EExcel_Sheet.Motor_Data);
-            CMainFrame.LWDicer.AlarmDisplay(iResult);
+            CMainFrame.DisplayAlarm(iResult);
         }
 
         private void BtnParaInfoExport_Click(object sender, EventArgs e)
         {
-            if (!CMainFrame.LWDicer.DisplayMsg("", "Parameter Data를 Export 하시겠습니까?"))
+            if (!CMainFrame.DisplayMsg("", "Parameter Data를 Export 하시겠습니까?"))
             {
                 return;
             }
 
             int iResult = SUCCESS;
-            CMainFrame.LWDicer.AlarmDisplay(iResult);
+            CMainFrame.DisplayAlarm(iResult);
         }
 
         private void BtnAlarmInfoExport_Click(object sender, EventArgs e)
         {
-            if (!CMainFrame.LWDicer.DisplayMsg("", "Alarm Info Data를 Export 하시겠습니까?"))
+            if (!CMainFrame.DisplayMsg("", "Alarm Info Data를 Export 하시겠습니까?"))
             {
                 return;
             }
 
             int iResult = CMainFrame.LWDicer.m_DataManager.ExportDataToExcel(EExcel_Sheet.Alarm_Info);
-            CMainFrame.LWDicer.AlarmDisplay(iResult);
+            CMainFrame.DisplayAlarm(iResult);
         }
 
         private void BtnIOInfoExport_Click(object sender, EventArgs e)
         {
-            if (!CMainFrame.LWDicer.DisplayMsg("", "I/O Info Data를 Export 하시겠습니까?"))
+            if (!CMainFrame.DisplayMsg("", "I/O Info Data를 Export 하시겠습니까?"))
             {
                 return;
             }
 
             int iResult = SUCCESS;
-            CMainFrame.LWDicer.AlarmDisplay(iResult);
+            CMainFrame.DisplayAlarm(iResult);
         }
 
         private void BtnMotorDataExport_Click(object sender, EventArgs e)
         {
-            if (!CMainFrame.LWDicer.DisplayMsg("", "Motor Data를 Export 하시겠습니까?"))
+            if (!CMainFrame.DisplayMsg("", "Motor Data를 Export 하시겠습니까?"))
             {
                 return;
             }
 
             int iResult = CMainFrame.LWDicer.m_DataManager.ExportDataToExcel(EExcel_Sheet.Motor_Data);
-            CMainFrame.LWDicer.AlarmDisplay(iResult);
+            CMainFrame.DisplayAlarm(iResult);
         }
 
         private void BtnConfigureExit_Click(object sender, EventArgs e)

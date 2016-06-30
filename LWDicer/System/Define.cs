@@ -1518,7 +1518,7 @@ namespace LWDicer.Control
             public int Index;           // Primary Key : ErrorBase + ErrorCode 조합
             public EErrorType Type;     // Error Type
             public EAlarmGroup Group;
-            public string Esc;
+            public string Esc = "X:0,Y:0";
 
             public string[] Description = new string[(int)DEF_Common.ELanguage.MAX];
             public string[] Solution = new string[(int)DEF_Common.ELanguage.MAX];
@@ -1562,13 +1562,19 @@ namespace LWDicer.Control
         public class CAlarm
         {
             public int ProcessID;
+
+            // Alarm Code = (ObjectID << 16) + ErrorBase + ErrorCode
             public int ObjectID;
             public int ErrorBase;
             public int ErrorCode;
 
+            // Alarm을 보고한 Process의 정보
             public string ProcessName;
-            public string TypeName;
+            public string ProcessType;
+
+            // 실제 Alarm이 발생한 Object의 정보
             public string ObjectName;
+            public string ObjectType;
 
             public DateTime OccurTime = DateTime.Now; // 발생시간
             public DateTime ResetTime = DateTime.Now; // 조치시간 (현재는 미정)
@@ -1582,7 +1588,7 @@ namespace LWDicer.Control
 
             public override string ToString()
             {
-                return $"Index : {GetIndex()}, Process : {ProcessName}, Object : {ObjectName}, Type : {TypeName}";
+                return $"Index : {GetIndex()}, Process : [{ProcessType}]{ProcessName}, Object : [{ObjectType}]{ObjectName}";
             }
         }
 

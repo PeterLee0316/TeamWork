@@ -19,7 +19,7 @@ namespace LWDicer.Control
             arrayObjectInfo = new CObjectInfo[]
             {
                 // 0-39 : Common & Hardware
-                new CObjectInfo( (int)OBJ_SYSTEM, "System", 0, "MLWDicer", 0, "System", LOG_ALL, LOG_DAY ),
+                new CObjectInfo( (int)OBJ_SYSTEM, "System", 0, "LWDicer", 0, "System", LOG_ALL, LOG_DAY ),
                 new CObjectInfo( (int)OBJ_DATAMANAGER, "DataManger", 1, "DataManager", 100, "DataManager", LOG_ALL, LOG_DAY ),
 
 	            new CObjectInfo( (int)OBJ_HL_MOTION_LIB, "MotionLib", 2, "MMC", 500, "MotionLib", LOG_ALL, LOG_DAY ),

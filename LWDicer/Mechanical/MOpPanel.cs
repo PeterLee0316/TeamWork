@@ -1097,10 +1097,9 @@ namespace LWDicer.Control
         
         public int StopAllReturnOrigin()
         {
-            int i = 0;
             int iResult = SUCCESS;
 
-            for (i = 0; i < m_JogTable.ListNo; i++)
+            for (int i = 0; i < m_JogTable.ListNo; i++)
             {
                 if (m_JogTable.MotionArray[i].m_XKey.m_plnkJog != null)
                     iResult = m_JogTable.MotionArray[i].m_XKey.m_plnkJog.StopReturnOrigin();
@@ -1115,9 +1114,46 @@ namespace LWDicer.Control
             return iResult;
         }
 
-        public int OnAllServo()
+        private int AdjustToACSIndex(int servoIndex)
         {
-            int i = 0;
+            return servoIndex - (int)EYMC_Axis.MAX;
+        }
+
+        public int ServoOn(int servoIndex)
+        {
+            int iResult = SUCCESS;
+
+            if(servoIndex < (int)EYMC_Axis.MAX)
+            {
+                iResult = m_RefComp.Yaskawa_Motion.ServoOn(servoIndex);
+            } else
+            {
+                servoIndex = AdjustToACSIndex(servoIndex);
+                iResult = m_RefComp.ACS_Motion.ServoOn(servoIndex);
+            }
+
+            return iResult;
+        }
+
+        public int ServoOff(int servoIndex)
+        {
+            int iResult = SUCCESS;
+
+            if (servoIndex < (int)EYMC_Axis.MAX)
+            {
+                iResult = m_RefComp.Yaskawa_Motion.ServoOff(servoIndex);
+            }
+            else
+            {
+                servoIndex = AdjustToACSIndex(servoIndex);
+                iResult = m_RefComp.ACS_Motion.ServoOff(servoIndex);
+            }
+
+            return iResult;
+        }
+
+        public int AllServoOn()
+        {
             int iResult = SUCCESS;
 
             if(m_RefComp.Yaskawa_Motion != null)
@@ -1128,16 +1164,15 @@ namespace LWDicer.Control
 
             if (m_RefComp.ACS_Motion != null)
             {
-                //iResult = m_RefComp.ACS_Motion.AllServoOn();
-                //if (iResult != SUCCESS) return iResult;
+                iResult = m_RefComp.ACS_Motion.AllServoOn();
+                if (iResult != SUCCESS) return iResult;
             }
 
             return iResult;
         }
 
-        public int OffAllServo()
+        public int AllServoOff()
         {
-            int i = 0;
             int iResult = SUCCESS;
 
             if (m_RefComp.Yaskawa_Motion != null)
@@ -1148,8 +1183,8 @@ namespace LWDicer.Control
 
             if (m_RefComp.ACS_Motion != null)
             {
-                //iResult = m_RefComp.ACS_Motion.AllServoOn();
-                //if (iResult != SUCCESS) return iResult;
+                iResult = m_RefComp.ACS_Motion.AllServoOff();
+                if (iResult != SUCCESS) return iResult;
             }
 
             return iResult;
@@ -1157,19 +1192,18 @@ namespace LWDicer.Control
 
         public int EStopAllAxis()
         {
-            int i = 0;
             int iResult = SUCCESS;
 
             if (m_RefComp.Yaskawa_Motion != null)
             {
-                iResult = m_RefComp.Yaskawa_Motion.AllServoStop();
+                iResult = m_RefComp.Yaskawa_Motion.StopAllServo();
                 if (iResult != SUCCESS) return iResult;
             }
 
             if (m_RefComp.ACS_Motion != null)
             {
-                //iResult = m_RefComp.ACS_Motion.AllServoOn();
-                //if (iResult != SUCCESS) return iResult;
+                iResult = m_RefComp.ACS_Motion.StopAllServo();
+                if (iResult != SUCCESS) return iResult;
             }
 
             //for (i = 0; i < m_JogTable.ListNo; i++)
@@ -1209,14 +1243,14 @@ namespace LWDicer.Control
 
             if (m_RefComp.Yaskawa_Motion != null)
             {
-                iResult = m_RefComp.Yaskawa_Motion.AllServoStop();
+                iResult = m_RefComp.Yaskawa_Motion.StopAllServo();
                 if (iResult != SUCCESS) return iResult;
             }
 
             if (m_RefComp.ACS_Motion != null)
             {
-                //iResult = m_RefComp.ACS_Motion.AllServoOn();
-                //if (iResult != SUCCESS) return iResult;
+                iResult = m_RefComp.ACS_Motion.StopAllServo();
+                if (iResult != SUCCESS) return iResult;
             }
 
             //for (int i = 0; i < m_JogTable.ListNo; i++)
