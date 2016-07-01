@@ -55,6 +55,7 @@ namespace LWDicer.Control
         // static common data
         public static bool bUseOnline { get; private set; }
         public static bool bInSfaTest { get; private set; }
+        public static ELanguage Language { get; private set; } = ELanguage.KOREAN;
 
         ///////////////////////////////////////////////////////////////////////
         // Common Class
@@ -292,7 +293,7 @@ namespace LWDicer.Control
         public void ShowAlarmWhileInit(int alarmcode)
         {
             string str = GetAlarmText(alarmcode);
-            CMainFrame.DisplayMsg(str, "", false);
+            CMainFrame.DisplayMsg(str);
         }
 
         public int Initialize(CMainFrame form1 = null)
@@ -1253,6 +1254,7 @@ namespace LWDicer.Control
 
             MLWDicer.bInSfaTest = m_DataManager.SystemData.UseInSfaTest;
             MLWDicer.bUseOnline = m_DataManager.SystemData.UseOnLineUse;
+            MLWDicer.Language = m_DataManager.SystemData.Language;
 
             // set system data to each component
 

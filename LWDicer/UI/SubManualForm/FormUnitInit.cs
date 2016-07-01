@@ -115,7 +115,7 @@ namespace LWDicer.UI
 
         private void BtnExecuteIni_Click(object sender, EventArgs e)
         {
-            if (!CMainFrame.LWDicer.DisplayMsg("", 30))
+            if (!CMainFrame.DisplayMsg(30))
             {
                 return;
             }
@@ -179,7 +179,7 @@ namespace LWDicer.UI
 
 
             // Last.
-            CMainFrame.LWDicer.DisplayMsg("", 27);
+            CMainFrame.DisplayMsg(27);
         }
 
         private void timer1_Tick(object sender, EventArgs e)

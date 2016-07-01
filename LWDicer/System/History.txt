@@ -256,6 +256,7 @@ LWDicer의 DataManager에서 데이터를 읽어오기 위한 3가지 함수 : S
 7. 수정된 information data를 쉽게 처리할 수 있도록 UpdateAlarmInfo, MessageInfo, ParaInfo 함수 추가.. 
 8. display Process, Object information on AlarmDisplay dialog.
 9. MACS class : ACS? null 처리. public CACSChannel Motion; 를 CACSData -> CACSRefComp로 위치 변경 적용
+10. MLWDicer.Language 로 단축 생성. FormMessageBox class 및 MessageInfo class 관련 작업 완료
 
 // for Project setting
 // WIN32, SIMULATION_VISION, SIMULATION_MOTION_ACS, SIMULATION_MOTION_YMC, SIMULATION_IO

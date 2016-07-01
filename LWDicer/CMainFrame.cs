@@ -222,7 +222,7 @@ namespace LWDicer.UI
         {
             if (alarmcode == SUCCESS)
             {
-                DisplayMsg("", "요청한 작업이 성공했습니다.", false);
+                DisplayMsg("요청한 작업이 성공했습니다.");
 
             }
             else
@@ -233,10 +233,10 @@ namespace LWDicer.UI
             }
         }
 
-        static public bool DisplayMsg(string strMsg_Eng, string strMsg_System, bool bOkCancel = true)
+        static public bool DisplayMsg(string strMsg, EMessageType type = EMessageType.OK_Cancel)
         {
             FormMessageBox dlg = new FormMessageBox();
-            dlg.SetMessage(strMsg_Eng, strMsg_System, bOkCancel);
+            dlg.SetMessage(strMsg, type);
             dlg.ShowDialog();
 
             if (dlg.DialogResult == DialogResult.OK || dlg.DialogResult == DialogResult.Yes)
@@ -249,6 +249,21 @@ namespace LWDicer.UI
             }
         }
 
+        static public bool DisplayMsg(int index)
+        {
+            FormMessageBox dlg = new FormMessageBox();
+            dlg.SetMessage(index);
+            dlg.ShowDialog();
+
+            if (dlg.DialogResult == DialogResult.OK || dlg.DialogResult == DialogResult.Yes)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
     }
 
     public delegate void FormSelectEventHandler(DEF_UI.SelectScreenType type);

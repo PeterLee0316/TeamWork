@@ -22,7 +22,7 @@ namespace LWDicer.UI
 
         private void BtnParaInfoImport_Click(object sender, EventArgs e)
         {
-            if (!CMainFrame.LWDicer.DisplayMsg("",15))
+            if (!CMainFrame.DisplayMsg(15))
             {
                 return;
             }
@@ -33,7 +33,7 @@ namespace LWDicer.UI
 
         private void BtnAlarmInfoImport_Click(object sender, EventArgs e)
         {
-            if (!CMainFrame.LWDicer.DisplayMsg("",16))
+            if (!CMainFrame.DisplayMsg(16))
             {
                 return;
             }
@@ -44,7 +44,7 @@ namespace LWDicer.UI
 
         private void BtnIOInfoImport_Click(object sender, EventArgs e)
         {
-            if (!CMainFrame.LWDicer.DisplayMsg("", 17))
+            if (!CMainFrame.DisplayMsg(17))
             {
                 return;
             }
@@ -55,7 +55,7 @@ namespace LWDicer.UI
 
         private void BtnMotorDataImport_Click(object sender, EventArgs e)
         {
-            if (!CMainFrame.LWDicer.DisplayMsg("", 18))
+            if (!CMainFrame.DisplayMsg(18))
             {
                 return;
             }
@@ -66,7 +66,7 @@ namespace LWDicer.UI
 
         private void BtnParaInfoExport_Click(object sender, EventArgs e)
         {
-            if (!CMainFrame.LWDicer.DisplayMsg("", 19))
+            if (!CMainFrame.DisplayMsg(19))
             {
                 return;
             }
@@ -77,7 +77,7 @@ namespace LWDicer.UI
 
         private void BtnAlarmInfoExport_Click(object sender, EventArgs e)
         {
-            if (!CMainFrame.LWDicer.DisplayMsg("", 20))
+            if (!CMainFrame.DisplayMsg(20))
             {
                 return;
             }
@@ -88,7 +88,7 @@ namespace LWDicer.UI
 
         private void BtnIOInfoExport_Click(object sender, EventArgs e)
         {
-            if (!CMainFrame.LWDicer.DisplayMsg("", 21))
+            if (!CMainFrame.DisplayMsg(21))
             {
                 return;
             }
@@ -99,7 +99,7 @@ namespace LWDicer.UI
 
         private void BtnMotorDataExport_Click(object sender, EventArgs e)
         {
-            if (!CMainFrame.LWDicer.DisplayMsg("",22))
+            if (!CMainFrame.DisplayMsg(22))
             {
                 return;
             }
@@ -125,24 +125,24 @@ namespace LWDicer.UI
 
         private void BtnMsgInfoImport_Click(object sender, EventArgs e)
         {
-            //if (!CMainFrame.LWDicer.DisplayMsg("", 23))
+            //if (!CMainFrame.DisplayMsg(23))
             //{
             //    return;
             //}
 
             int iResult = CMainFrame.LWDicer.m_DataManager.ImportDataFromExcel(EExcel_Sheet.Message_Info);
-            CMainFrame.LWDicer.AlarmDisplay(iResult);
+            CMainFrame.DisplayAlarm(iResult);
         }
 
         private void BtnMsgInfoExport_Click(object sender, EventArgs e)
         {
-            if (!CMainFrame.LWDicer.DisplayMsg("", 24))
+            if (!CMainFrame.DisplayMsg(24))
             {
                 return;
             }
 
             int iResult = CMainFrame.LWDicer.m_DataManager.ExportDataToExcel(EExcel_Sheet.Message_Info);
-            CMainFrame.LWDicer.AlarmDisplay(iResult);
+            CMainFrame.DisplayAlarm(iResult);
         }
     }
 }

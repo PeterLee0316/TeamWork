@@ -21,9 +21,8 @@ namespace LWDicer.UI
 {
     public partial class FormMessageBox : Form
     {
-        private int nMsgCode;
-        private string strMsg_Eng, StrMsg_Sys;
-        private EMessageType msgtype;
+        private CMessageInfo MsgInfo = new CMessageInfo();
+        private bool IsUpdated = false;
 
         public FormMessageBox()
         {
@@ -39,122 +38,105 @@ namespace LWDicer.UI
             FormBorderStyle = FormBorderStyle.Fixed3D;
         }
 
-        public void SetMessage(string strText, int nCode = 0)
+        public void SetMessage(int index)
         {
-            bool bExist = false;
+            MsgInfo.Index = index;
+            int iResult = CMainFrame.LWDicer.m_DataManager.LoadMessageInfo(index, out MsgInfo);
+            if(iResult != SUCCESS) BtnSave.Text = "Add New";
+            else BtnSave.Text = "Update";
+        }
 
-            if(strText != "")
+
+        public void SetMessage(string strMsg, EMessageType type = EMessageType.OK)
+        {
+            int iResult = CMainFrame.LWDicer.m_DataManager.LoadMessageInfo(strMsg, out MsgInfo);
+            if (iResult != SUCCESS)
             {
-                List<CMessageInfo> MessageInfo = CMainFrame.LWDicer.m_DataManager.MessageInfoList;
-
-                // 사용자가 입력한 Text가 Message List에 있는지 검색
-                foreach (CMessageInfo info in MessageInfo)
-                {
-                    // Messgae List에 있는 경우
-                    if (info.Message[(int)CMainFrame.LWDicer.m_DataManager.SystemData.Language] == strText)
-                    {
-                        nMsgCode = info.Index;
-                        strMsg_Eng = info.Message[(int)ELanguage.ENGLISH];
-                        StrMsg_Sys = info.Message[(int)CMainFrame.LWDicer.m_DataManager.SystemData.Language];
-
-                        this.msgtype = CMainFrame.LWDicer.m_DataManager.MessageInfoList[nMsgCode].Type;
-                        bExist = true;
-                        break;
-                    }
-                    else
-                    {
-                        bExist = false;
-                    }
-                }
-
-                // Messgae List에 없는 경우
-                if (bExist == false)
-                {
-                    nMsgCode = CMainFrame.LWDicer.m_DataManager.MessageInfoList.Count;
-                    StrMsg_Sys = strText;
-                    strMsg_Eng = strText;
-                    this.msgtype = EMessageType.OK_Cancel;
-
-                    BtnSave.Text = "Add New";
-                }
-            }
-            else
+                MsgInfo.Message[(int)ELanguage.ENGLISH] = strMsg;
+                MsgInfo.Message[(int)MLWDicer.Language] = strMsg;
+                MsgInfo.Type = type;
+                BtnSave.Text = "Add New";
+            } else
             {
-                nMsgCode = nCode;
-                StrMsg_Sys = CMainFrame.LWDicer.m_DataManager.MessageInfoList[nMsgCode].Message[(int)CMainFrame.LWDicer.m_DataManager.SystemData.Language];
-                strMsg_Eng = CMainFrame.LWDicer.m_DataManager.MessageInfoList[nMsgCode].Message[(int)ELanguage.ENGLISH];
-                this.msgtype = CMainFrame.LWDicer.m_DataManager.MessageInfoList[nCode].Type;
-
                 BtnSave.Text = "Save";
             }
         }
 
-
         private void FormUtilMsg_Load(object sender, EventArgs e)
         {
-            TextEng.Text = strMsg_Eng;
-            TextSystem.Text = StrMsg_Sys;
+            TextEng.Text = MsgInfo.GetMessage(ELanguage.ENGLISH);
+            TextSystem.Text = MsgInfo.GetMessage(MLWDicer.Language);
+            this.Text = $"Message : {MsgInfo.Index}";
 
-            if (msgtype == EMessageType.OK) { BtnConfirm.Visible = true; BtnCancel.Visible = false; BtnConfirm.Text = "OK"; }
-            if (msgtype == EMessageType.OK_Cancel) { BtnConfirm.Visible = true; BtnCancel.Visible = true; BtnConfirm.Text = "OK"; BtnCancel.Text = "Cancel"; }
-            if (msgtype == EMessageType.Confirm_Cancel) { BtnConfirm.Visible = true; BtnCancel.Visible = true; BtnConfirm.Text = "Confirm"; BtnCancel.Text = "Cancel"; }
+            if(MLWDicer.Language == ELanguage.ENGLISH)
+            {
+                Label_System.Visible = false;
+                TextSystem.Visible = false;
+            }
 
-            this.Text = string.Format("Message : {0:d}", nMsgCode);
+            BtnConfirm.Visible = true;
+            BtnCancel.Text = "Cancel";
+            switch (MsgInfo.Type)
+            {
+                case EMessageType.OK:
+                    BtnCancel.Visible = false; BtnConfirm.Text = "OK";
+                    break;
+
+                case EMessageType.OK_Cancel:
+                    BtnCancel.Visible = true; BtnConfirm.Text = "OK";
+                    break;
+
+                case EMessageType.Confirm_Cancel:
+                    BtnCancel.Visible = true; BtnConfirm.Text = "Confirm";
+                    break;
+            }
+
+            timer1.Start();
         }
-
        
         private void BtnConfirm_Click(object sender, EventArgs e)
         {
+            if(IsUpdated == true)
+            {
+                if (MessageBox.Show("Message is updated, but not updated. is it ok?", "Confirm", MessageBoxButtons.OKCancel) != DialogResult.OK)
+                    return;
+            }
+
             this.DialogResult = DialogResult.OK;
             this.Close();
         }
 
         private void BtnSave_Click(object sender, EventArgs e)
         {
-            bool bExist = false;
-
-            List<CMessageInfo> MessageInfo = CMainFrame.LWDicer.m_DataManager.MessageInfoList;
-
-            foreach (CMessageInfo info in MessageInfo)
-            {
-                if(info.Index == nMsgCode)
-                {
-                    info.Message[(int)ELanguage.ENGLISH] = TextEng.Text;
-                    info.Message[(int)CMainFrame.LWDicer.m_DataManager.SystemData.Language] = TextSystem.Text;
-
-                    CMainFrame.LWDicer.m_DataManager.MessageInfoList.RemoveAt(info.Index);
-                    CMainFrame.LWDicer.m_DataManager.MessageInfoList.Insert(info.Index, info);
-
-                    bExist = true;
-
-                    break;
-                }
-                else
-                {
-                    bExist = false;
-                }
-            }
-
-            // 신규등록
-            if(bExist==false)
-            {
-                CMessageInfo MsgInfo = new CMessageInfo();
-
-                MsgInfo.Index = nMsgCode;
-                MsgInfo.Type = EMessageType.OK_Cancel;
-                MsgInfo.Message[(int)ELanguage.ENGLISH] = TextEng.Text;
-                MsgInfo.Message[(int)CMainFrame.LWDicer.m_DataManager.SystemData.Language] = TextSystem.Text;
-
-                CMainFrame.LWDicer.m_DataManager.MessageInfoList.Add(MsgInfo);
-            }
-
-            CMainFrame.LWDicer.m_DataManager.SaveMessageInfoList();
+            MsgInfo.Message[(int)ELanguage.ENGLISH] = TextEng.Text;
+            MsgInfo.Message[(int)MLWDicer.Language] = TextSystem.Text;
+            CMainFrame.LWDicer.m_DataManager.UpdateMessageInfo(MsgInfo);
         }
 
         private void BtnCancel_Click(object sender, EventArgs e)
         {
+            if (IsUpdated == true)
+            {
+                if (MessageBox.Show("Message is updated, but not updated. is it ok?", "Confirm", MessageBoxButtons.OKCancel) != DialogResult.OK)
+                    return;
+            }
+
             this.DialogResult = DialogResult.Cancel;
             this.Close();
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            if(TextEng.Text != MsgInfo.GetMessage() 
+                || TextSystem.Text != MsgInfo.GetMessage(MLWDicer.Language))
+            {
+                BtnSave.Visible = true;
+                IsUpdated = true;
+            } else
+            {
+                BtnSave.Visible = false;
+                IsUpdated = false;
+            }
         }
     }
 }

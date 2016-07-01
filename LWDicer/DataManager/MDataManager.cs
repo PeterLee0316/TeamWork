@@ -2967,6 +2967,7 @@ namespace LWDicer.Control
         public int LoadAlarmInfo(int index, out CAlarmInfo info)
         {
             info = new CAlarmInfo();
+            info.Index = index;
             if(AlarmInfoList.Count > 0)
             {
                 foreach(CAlarmInfo item in AlarmInfoList)
@@ -2987,11 +2988,7 @@ namespace LWDicer.Control
                 if (DBManager.SelectRow(DBInfo.DBConn_Info, DBInfo.TableAlarmInfo, out output, new CDBColumn("name", index.ToString())) == true)
                 {
                     info = JsonConvert.DeserializeObject<CAlarmInfo>(output);
-                }
-                else
-                {
-                    WriteLog($"fail : load alarm info [index = {index}]", ELogType.Debug);
-                    return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_LOAD_ALARM_INFO);
+                    return SUCCESS;
                 }
             }
             catch (Exception ex)
@@ -3000,8 +2997,8 @@ namespace LWDicer.Control
                 return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_LOAD_ALARM_INFO);
             }
 
-            //WriteLog($"success : load alarm info", ELogType.Debug);
-            return SUCCESS;
+            WriteLog($"fail : load alarm info [index = {index}]", ELogType.Debug);
+            return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_LOAD_ALARM_INFO);
         }
 
         public int LoadMessageInfoList()
@@ -3064,6 +3061,7 @@ namespace LWDicer.Control
         public int LoadMessageInfo(int index, out CMessageInfo info)
         {
             info = new CMessageInfo();
+            info.Index = index;
             if (MessageInfoList.Count > 0)
             {
                 foreach (CMessageInfo item in MessageInfoList)
@@ -3084,11 +3082,7 @@ namespace LWDicer.Control
                 if (DBManager.SelectRow(DBInfo.DBConn_Info, DBInfo.TableMessageInfo, out output, new CDBColumn("name", index.ToString())) == true)
                 {
                     info = JsonConvert.DeserializeObject<CMessageInfo>(output);
-                }
-                else
-                {
-                    WriteLog($"fail : load message info [index = {index}]", ELogType.Debug);
-                    return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_LOAD_MESSAGE_INFO);
+                    return SUCCESS;
                 }
             }
             catch (Exception ex)
@@ -3097,8 +3091,38 @@ namespace LWDicer.Control
                 return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_LOAD_MESSAGE_INFO);
             }
 
-            WriteLog($"success : load message info", ELogType.Debug);
-            return SUCCESS;
+            WriteLog($"fail : load message info [index = {index}]", ELogType.Debug);
+            return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_LOAD_MESSAGE_INFO);
+        }
+
+        public int LoadMessageInfo(string strMsg, out CMessageInfo info)
+        {
+            info = new CMessageInfo();
+            info.Index = GetNextMessageIndex();
+            if (MessageInfoList.Count > 0)
+            {
+                foreach (CMessageInfo item in MessageInfoList)
+                {
+                    if (item.IsEqual(strMsg))
+                    {
+                        info = ObjectExtensions.Copy(item);
+                        return SUCCESS;
+                    }
+                }
+            }
+
+            WriteLog($"fail : load message info", ELogType.Debug);
+            return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_LOAD_MESSAGE_INFO);
+        }
+
+        public int GetNextMessageIndex(int nStartAfter = 0)
+        {
+            int index = nStartAfter + 1;
+            foreach (CMessageInfo item in MessageInfoList)
+            {
+                if (item.Index > index) index = item.Index + 1;
+            }
+            return index;
         }
 
         public int LoadParameterList()
@@ -3184,11 +3208,7 @@ namespace LWDicer.Control
                 if (DBManager.SelectRow(DBInfo.DBConn_Info, DBInfo.TableParameter, out output, new CDBColumn("pgroup", info.Group), new CDBColumn("name", info.Name)) == true)
                 {
                     info = JsonConvert.DeserializeObject<CParaInfo>(output);
-                }
-                else
-                {
-                    WriteLog($"fail : load para info [group = {info.Group}, name = {info.Name}]", ELogType.Debug);
-                    return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_LOAD_GENERAL_DATA);
+                    return SUCCESS;
                 }
             }
             catch (Exception ex)
@@ -3197,8 +3217,8 @@ namespace LWDicer.Control
                 return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_LOAD_GENERAL_DATA);
             }
 
-            WriteLog($"success : load para info", ELogType.Debug);
-            return SUCCESS;
+            WriteLog($"fail : load para info [group = {info.Group}, name = {info.Name}]", ELogType.Debug);
+            return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_LOAD_GENERAL_DATA);
         }
 
         public int SaveGeneralData()

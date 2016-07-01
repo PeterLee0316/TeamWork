@@ -125,7 +125,7 @@ namespace LWDicer.UI
 
         private void BtnSave_Click(object sender, EventArgs e)
         {
-            if (!CMainFrame.LWDicer.DisplayMsg("", 3))
+            if (!CMainFrame.DisplayMsg(3))
             {
                 return;
             }

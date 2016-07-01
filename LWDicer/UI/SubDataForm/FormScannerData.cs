@@ -801,7 +801,7 @@ namespace LWDicer.UI
 
         private void BtnImageDataSave_Click(object sender, EventArgs e)
         {
-            if (!CMainFrame.LWDicer.DisplayMsg("", 12))
+            if (!CMainFrame.DisplayMsg(12))
             {
                 return;
             }
@@ -1081,7 +1081,7 @@ namespace LWDicer.UI
         private void BtnConfigSave_Click(object sender, EventArgs e)
         {
 
-            if (!CMainFrame.LWDicer.DisplayMsg("", 13))
+            if (!CMainFrame.DisplayMsg(13))
             {
                 return;
             }

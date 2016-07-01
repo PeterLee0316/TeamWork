@@ -9,13 +9,9 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 
 using LWDicer.Control;
-
 using static LWDicer.Control.DEF_Common;
-
 using static LWDicer.Control.MDataManager;
-
 using static LWDicer.Control.DEF_DataManager;
-
 using static LWDicer.Control.DEF_Error;
 
 namespace LWDicer.UI
@@ -65,7 +61,7 @@ namespace LWDicer.UI
         {
             if(IsEdited == true)
             {
-                if (!CMainFrame.DisplayMsg("", "수정된 Alarm 내용이 저장되지 않았습니다. 계속하시겠습니까?"))
+                if (!CMainFrame.DisplayMsg("수정된 Alarm 내용이 저장되지 않았습니다. 계속하시겠습니까?"))
                 {
                     return;
                 }
@@ -176,14 +172,21 @@ namespace LWDicer.UI
 
         private void FormAlarmDisplay_Load(object sender, EventArgs e)
         {
-            UpdateAlarmText(CMainFrame.LWDicer.m_DataManager.SystemData.Language);
+            UpdateAlarmText(MLWDicer.Language);
+
+            if(MLWDicer.Language == ELanguage.ENGLISH)
+            {
+                Label_System.Visible = false;
+                LabelAlarmText2.Visible = false;
+                LabelTrouble2.Visible = false;
+            }
 
             TmrAlarm.Start();
         }
 
         private void BtnEdit_Click(object sender, EventArgs e)
         {
-            if (!CMainFrame.LWDicer.DisplayMsg("",31))
+            if (!CMainFrame.DisplayMsg(31))
             {
                 return;
             }
@@ -198,7 +201,7 @@ namespace LWDicer.UI
             }
 
             IsEdited = true;
-            if(CMainFrame.LWDicer.m_DataManager.SystemData.Language == ELanguage.ENGLISH)
+            if(MLWDicer.Language == ELanguage.ENGLISH)
             {
                 LabelAlarmText1.Text = dlg.strAlarm_Eng;
                 LabelTrouble1.Text = dlg.strTrouble_Eng;
@@ -217,7 +220,7 @@ namespace LWDicer.UI
 
         private void BtnSave_Click(object sender, EventArgs e)
         {
-            if (!CMainFrame.LWDicer.DisplayMsg("",32))
+            if (!CMainFrame.DisplayMsg(32))
             {
                 return;
             }
@@ -229,8 +232,8 @@ namespace LWDicer.UI
             Alarm.Info.Description[(int)ELanguage.ENGLISH] = LabelAlarmText1.Text;
             Alarm.Info.Solution[(int)ELanguage.ENGLISH] = LabelTrouble1.Text;
 
-            Alarm.Info.Description[(int)CMainFrame.LWDicer.m_DataManager.SystemData.Language] = LabelAlarmText2.Text;
-            Alarm.Info.Solution[(int)CMainFrame.LWDicer.m_DataManager.SystemData.Language] = LabelTrouble2.Text;
+            Alarm.Info.Description[(int)MLWDicer.Language] = LabelAlarmText2.Text;
+            Alarm.Info.Solution[(int)MLWDicer.Language] = LabelTrouble2.Text;
 
             int iResult = CMainFrame.LWDicer.m_DataManager.UpdateAlarmInfo(Alarm.Info);
             CMainFrame.DisplayAlarm(iResult);

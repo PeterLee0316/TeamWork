@@ -125,7 +125,7 @@ namespace LWDicer.UI
         {
             if(LabelMakerName.Text == "" || LabelMakerName.Text == null)
             {
-                CMainFrame.LWDicer.DisplayMsg("",1);
+                CMainFrame.DisplayMsg(1);
                 return;
             }
 
@@ -136,7 +136,7 @@ namespace LWDicer.UI
             {
                 if(NewHeader.Name == HeaderList[i].Name)
                 {
-                    CMainFrame.LWDicer.DisplayMsg("", 2);
+                    CMainFrame.DisplayMsg(2);
                     return;
                 }
             }

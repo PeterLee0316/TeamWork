@@ -844,6 +844,17 @@ namespace LWDicer.Control
                 Description[(int)DEF_Common.ELanguage.CHINESE]  = "Parameter Description";
                 Description[(int)DEF_Common.ELanguage.JAPANESE] = "Parameter Description";
             }
+
+            public string GetDisplayName(DEF_Common.ELanguage lang = DEF_Common.ELanguage.ENGLISH)
+            {
+                return DisplayName[(int)lang];
+            }
+
+            public string GetDescription(DEF_Common.ELanguage lang = DEF_Common.ELanguage.ENGLISH)
+            {
+                return Description[(int)lang];
+            }
+
         }
 
         public enum EMessageType
@@ -870,6 +881,20 @@ namespace LWDicer.Control
                 Message[(int)DEF_Common.ELanguage.ENGLISH]  = "Undefined Message";
                 Message[(int)DEF_Common.ELanguage.CHINESE]  = "Undefined Message";
                 Message[(int)DEF_Common.ELanguage.JAPANESE] = "Undefined Message";
+            }
+
+            public string GetMessage(DEF_Common.ELanguage lang = DEF_Common.ELanguage.ENGLISH)
+            {
+                return Message[(int)lang];
+            }
+
+            public bool IsEqual(string strMsg)
+            {
+                foreach (string str in Message)
+                {
+                    if (str == strMsg) return true;
+                }
+                return false;
             }
         }
 
@@ -1543,16 +1568,19 @@ namespace LWDicer.Control
                 Solution[(int)DEF_Common.ELanguage.JAPANESE] = "解決策";
             }
 
-            public string GetText(int lang = (int)DEF_Common.ELanguage.ENGLISH)
+            public string GetAlarmText(DEF_Common.ELanguage lang = DEF_Common.ELanguage.ENGLISH)
             {
-                if(lang == (int)DEF_Common.ELanguage.ENGLISH)
-                {
-                    return $"Text : {Description[lang]}, Solution : {Solution[lang]}";
-                }
-                else
-                {
-                    return $"Text : {Description[(int)DEF_Common.ELanguage.ENGLISH]} // {Description[lang]}, Solution : {Solution[(int)DEF_Common.ELanguage.ENGLISH]} // {Solution[lang]}";
-                }
+                return Description[(int)lang];
+            }
+
+            public string GetSolutionText(DEF_Common.ELanguage lang = DEF_Common.ELanguage.ENGLISH)
+            {
+                return Solution[(int)lang];
+            }
+
+            public override string ToString()
+            {
+                return $"Alarm : {GetAlarmText()}, Solution : {GetSolutionText()}";
             }
         }
 
@@ -1693,6 +1721,11 @@ namespace LWDicer.Control
                 Name[(int)DEF_Common.ELanguage.ENGLISH]  = "reserved";
                 Name[(int)DEF_Common.ELanguage.CHINESE]  = "预留";
                 Name[(int)DEF_Common.ELanguage.JAPANESE] = "リザーブド";
+            }
+
+            public string GetName(DEF_Common.ELanguage lang = DEF_Common.ELanguage.ENGLISH)
+            {
+                return Name[(int)lang];
             }
         }
 

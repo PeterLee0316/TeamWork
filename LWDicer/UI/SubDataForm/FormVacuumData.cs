@@ -42,7 +42,7 @@ namespace LWDicer.UI
 
         private void BtnSave_Click(object sender, EventArgs e)
         {
-            if (!CMainFrame.LWDicer.DisplayMsg("", 25))
+            if (!CMainFrame.DisplayMsg(25))
             {
                 return;
             }

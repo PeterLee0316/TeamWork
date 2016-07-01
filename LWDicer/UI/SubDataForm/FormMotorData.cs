@@ -296,7 +296,7 @@ namespace LWDicer.UI
         {
             int i = 0;
 
-            if (!CMainFrame.LWDicer.DisplayMsg("", 11))
+            if (!CMainFrame.DisplayMsg(11))
             {
                 return;
             }

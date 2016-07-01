@@ -8,6 +8,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
+using LWDicer.Control;
+using static LWDicer.Control.DEF_Common;
+
 namespace LWDicer.UI
 {
     public partial class FormAlarmEdit : Form
@@ -31,9 +34,19 @@ namespace LWDicer.UI
         private void FormAlarmEdit_Load(object sender, EventArgs e)
         {
             TextAlarm_Eng.Text      = strAlarm_Eng;
-            TextAlarm_System.Text   = strAlarm_System;
             TextTrouble_Eng.Text    = strTrouble_Eng;
+
+            TextAlarm_System.Text   = strAlarm_System;
             TextTrouble_System.Text = strTrouble_System;
+
+            if (MLWDicer.Language == ELanguage.ENGLISH)
+            {
+                LabelAlarm_System.Visible = false;
+                LabelTrouble_System.Visible = false;
+
+                TextAlarm_System.Visible = false;
+                TextTrouble_System.Visible = false;
+            }
         }
 
         private void FormAlarmEdit_FormClosing(object sender, FormClosingEventArgs e)

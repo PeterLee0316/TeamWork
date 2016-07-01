@@ -214,7 +214,7 @@ namespace LWDicer.UI
 
         private void BtnMakerCreate_Click(object sender, EventArgs e)
         {
-            if (!CMainFrame.LWDicer.DisplayMsg("", 4))
+            if (!CMainFrame.DisplayMsg(4))
             {
                 return;
             }
@@ -241,11 +241,11 @@ namespace LWDicer.UI
 
             if (strSelMakerName == NAME_ROOT_FOLDER)
             {
-                CMainFrame.LWDicer.DisplayMsg("",5);
+                CMainFrame.DisplayMsg(5);
                 return;
             }
 
-            if (!CMainFrame.LWDicer.DisplayMsg("",6))
+            if (!CMainFrame.DisplayMsg(6))
             {
                 return;
             }
@@ -270,13 +270,13 @@ namespace LWDicer.UI
 
             if (bIsCurrentParent)
             {
-                CMainFrame.LWDicer.DisplayMsg("",7);
+                CMainFrame.DisplayMsg(7);
                 return;
             }
 
             if (nCount > 0)
             {
-                if (!CMainFrame.LWDicer.DisplayMsg(string.Format("선택하신 Maker에 하위 {0:s} Data가 존재 합니다. 모두 삭제 시겠습니까?",DisplayTypeName)))
+                if (!CMainFrame.DisplayMsg($"선택하신 Maker에 하위 {DisplayTypeName} Data가 존재 합니다. 모두 삭제 시겠습니까?"))
                 {
                     return;
                 }
@@ -298,7 +298,7 @@ namespace LWDicer.UI
 
         private void BtnModelCreate_Click(object sender, EventArgs e)
         {
-            if (!CMainFrame.LWDicer.DisplayMsg(string.Format("새로운 {0:s} Data를 생성 하시겠습니까?", DisplayTypeName)))
+            if (!CMainFrame.DisplayMsg($"새로운 {DisplayTypeName} Data를 생성 하시겠습니까?"))
             {
                 return;
             }
@@ -312,14 +312,14 @@ namespace LWDicer.UI
 
             if (strModify == "" || strModify == null)
             {
-                CMainFrame.LWDicer.DisplayMsg(string.Format("{0:s} Data Name을 입력하여 주십시시오", DisplayTypeName));
+                CMainFrame.DisplayMsg($"{DisplayTypeName} Data Name을 입력하여 주십시시오");
                 return;
             }
 
             // Model Name 중복 검사
             if (CMainFrame.LWDicer.m_DataManager.IsModelHeaderExist(strModify, ListType))
             {
-                CMainFrame.LWDicer.DisplayMsg("", 8);
+                CMainFrame.DisplayMsg(8);
                 return;
             }
 
@@ -365,18 +365,18 @@ namespace LWDicer.UI
         {
             if (strSelModelName == "" || strSelModelName == null)
             {
-                CMainFrame.LWDicer.DisplayMsg(string.Format("삭제 하고자 하는 {0:s} Data를 선택하여 주십시시오", DisplayTypeName));
+                CMainFrame.DisplayMsg($"삭제 하고자 하는 {DisplayTypeName} Data를 선택하여 주십시시오");
                 return;
             }
 
-            if (!CMainFrame.LWDicer.DisplayMsg(string.Format("선택하신 {0:s} Data를 삭제 시겠습니까?",DisplayTypeName)))
+            if (!CMainFrame.DisplayMsg($"선택하신 {DisplayTypeName} Data를 삭제 시겠습니까?"))
             {
                 return;
             }
 
             if (strSelModelName == CurrentUsing_ModelName)
             {
-                CMainFrame.LWDicer.DisplayMsg(string.Format("현재 사용중인 {0:s} Data는 삭제 할수 없습니다.", DisplayTypeName));
+                CMainFrame.DisplayMsg($"현재 사용중인 {DisplayTypeName} Data는 삭제 할수 없습니다.");
                 return;
             }
 
@@ -417,17 +417,17 @@ namespace LWDicer.UI
         {
             if (strSelModelName == "" || strSelModelName == null)
             {
-                CMainFrame.LWDicer.DisplayMsg("",9);
+                CMainFrame.DisplayMsg(9);
                 return;
             }
 
             if (CurrentUsing_ModelName == strSelModelName)
             {
-                CMainFrame.LWDicer.DisplayMsg("", 10);
+                CMainFrame.DisplayMsg(10);
                 return;
             }
 
-            if (!CMainFrame.LWDicer.DisplayMsg(string.Format("선택하신 {0:s} Data로 변경 하시겠습니까?", DisplayTypeName)))
+            if (!CMainFrame.DisplayMsg($"선택하신 {DisplayTypeName} Data로 변경 하시겠습니까?"))
             {
                 return;
             }

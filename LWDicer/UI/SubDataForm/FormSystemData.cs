@@ -46,14 +46,14 @@ namespace LWDicer.UI
 
         private void BtnSave_Click(object sender, EventArgs e)
         {
-            if (!CMainFrame.LWDicer.DisplayMsg("",14))
+            if (!CMainFrame.DisplayMsg(14))
             {
                 return;
             }
 
             SystemData.Language = (ELanguage)SelLanguage;
 
-            CMainFrame.LWDicer.m_DataManager.SaveSystemData(SystemData);
+            CMainFrame.LWDicer.SaveSystemData(SystemData);
         }
 
         private void FormSystemData_Load(object sender, EventArgs e)

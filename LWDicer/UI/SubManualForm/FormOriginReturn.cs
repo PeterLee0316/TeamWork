@@ -109,7 +109,7 @@ namespace LWDicer.UI
 
         private void BtnOriginReturn_Click(object sender, EventArgs e)
         {
-            if (!CMainFrame.LWDicer.DisplayMsg("", 26))
+            if (!CMainFrame.DisplayMsg(26))
             {
                 return;
             }
@@ -174,13 +174,13 @@ namespace LWDicer.UI
 
 
             // Last.
-            CMainFrame.LWDicer.DisplayMsg("", 27);
+            CMainFrame.DisplayMsg(27);
         }
 
 
         private void BtnServoOn_Click(object sender, EventArgs e)
         {
-            if (!CMainFrame.LWDicer.DisplayMsg("", 28))
+            if (!CMainFrame.DisplayMsg(28))
             {
                 return;
             }
@@ -195,7 +195,7 @@ namespace LWDicer.UI
 
         private void BtnServoOff_Click(object sender, EventArgs e)
         {
-            if (!CMainFrame.LWDicer.DisplayMsg("", 29))
+            if (!CMainFrame.DisplayMsg(29))
             {
                 return;
             }
