@@ -75,6 +75,14 @@ namespace LWDicer.UI
             MotorAlarm[5]   = Motor6_Alarm; MotorAlarm[6] = Motor7_Alarm; MotorAlarm[7] = Motor8_Alarm; MotorAlarm[8] = Motor9_Alarm; MotorAlarm[9] = Motor10_Alarm;
             MotorAlarm[10]  = Motor11_Alarm; MotorAlarm[11] = Motor12_Alarm; MotorAlarm[12] = Motor13_Alarm; MotorAlarm[13] = Motor14_Alarm; MotorAlarm[14] = Motor15_Alarm;
             MotorAlarm[15]  = Motor16_Alarm; MotorAlarm[16] = Motor17_Alarm; MotorAlarm[17] = Motor18_Alarm; MotorAlarm[18] = Motor19_Alarm;
+
+            for(int i=0;i<MaxRowSize;i++)
+            {
+                if(i<16) { MotorNo[i].Text = Convert.ToString(EYMC_Axis.LOADER_Z + i); }
+                else if (i == 16) { MotorNo[i].Text = Convert.ToString(EACS_Axis.STAGE1_X); }
+                else if (i == 17) { MotorNo[i].Text = Convert.ToString(EACS_Axis.STAGE1_Y); }
+                else if (i == 18) { MotorNo[i].Text = Convert.ToString(EACS_Axis.STAGE1_T); }
+            }
         }
 
         private void FormLimitSensor_Load(object sender, EventArgs e)

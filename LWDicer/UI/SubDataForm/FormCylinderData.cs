@@ -125,7 +125,7 @@ namespace LWDicer.UI
 
         private void BtnSave_Click(object sender, EventArgs e)
         {
-            if (!CMainFrame.DisplayMsg("", "Cylinder Data를 저장 하시겠습니까?"))
+            if (!CMainFrame.LWDicer.DisplayMsg("", 3))
             {
                 return;
             }

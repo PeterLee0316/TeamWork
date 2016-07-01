@@ -577,7 +577,7 @@ namespace LWDicer.UI
 
             strMsg = GridNozzleTeachTable[1, 0].Text + " Unit에 " + NozzlePos[GetNozzlePosNo()].Text + " Teaching Data를 저장하시겠습니까?";
 
-            if (!CMainFrame.DisplayMsg("", strMsg))
+            if (!CMainFrame.LWDicer.DisplayMsg(strMsg))
             {
                 return;
             }
@@ -617,12 +617,12 @@ namespace LWDicer.UI
 
             strMsg = GridRotateTeachTable[1, 0].Text + " Unit에 " + RotatePos[GetRotatePosNo()].Text + " Teaching Data를 저장하시겠습니까?";
 
-            if (!CMainFrame.DisplayMsg("", strMsg))
+            if (!CMainFrame.LWDicer.DisplayMsg(strMsg))
             {
                 return;
             }
 
-            if(GetDataMode() == FixedData)
+            if (GetDataMode() == FixedData)
             {
                 strData = GridRotateTeachTable[3, 1].Text;
                 CMainFrame.LWDicer.m_DataManager.FixedPos.S1_RotatePos.Pos[GetRotatePosNo()].dT = Convert.ToDouble(strData);
@@ -649,7 +649,7 @@ namespace LWDicer.UI
 
             strMsg = NozzlePos[GetNozzlePosNo()].Text + " 목표 위치를 현재 위치로 변경하시겠습니까?";
 
-            if (!CMainFrame.DisplayMsg("", strMsg))
+            if (!CMainFrame.LWDicer.DisplayMsg(strMsg))
             {
                 return;
             }
@@ -667,7 +667,7 @@ namespace LWDicer.UI
 
             strMsg = RotatePos[GetRotatePosNo()].Text + " 목표 위치를 현재 위치로 변경하시겠습니까?";
 
-            if (!CMainFrame.DisplayMsg("", strMsg))
+            if (!CMainFrame.LWDicer.DisplayMsg(strMsg))
             {
                 return;
             }
@@ -718,7 +718,7 @@ namespace LWDicer.UI
 
             strMsg = NozzlePos[GetNozzlePosNo()].Text + " 목표 위치로 이동하시겠습니까?";
 
-            if (!CMainFrame.DisplayMsg("", strMsg))
+            if (!CMainFrame.LWDicer.DisplayMsg(strMsg))
             {
                 return;
             }
@@ -730,7 +730,7 @@ namespace LWDicer.UI
 
             strMsg = RotatePos[GetRotatePosNo()].Text + " 목표 위치로 이동하시겠습니까?";
 
-            if (!CMainFrame.DisplayMsg("", strMsg))
+            if (!CMainFrame.LWDicer.DisplayMsg(strMsg))
             {
                 return;
             }

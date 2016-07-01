@@ -596,12 +596,12 @@ namespace LWDicer.UI
 
             strMsg = GridCenterXTeachTable[1, 0].Text + " Unit에 " + CenterPos[GetCenterPosNo()].Text + " Teaching Data를 저장하시겠습니까?";
 
-            if (!CMainFrame.DisplayMsg("", strMsg))
+            if (!CMainFrame.LWDicer.DisplayMsg(strMsg))
             {
                 return;
             }
 
-            if(GetDataMode() == FixedData)
+            if (GetDataMode() == FixedData)
             {
                 strData = GridCenterXTeachTable[3, 1].Text;
                 CMainFrame.LWDicer.m_DataManager.FixedPos.Centering1Pos.Pos[GetCenterPosNo()].dX = Convert.ToDouble(strData);
@@ -636,12 +636,12 @@ namespace LWDicer.UI
 
             strMsg = GridPushPullYTeachTable[1, 0].Text + " Unit에 " + PushPullPos[GetPushPullPosNo()].Text + " Teaching Data를 저장하시겠습니까?";
 
-            if (!CMainFrame.DisplayMsg("", strMsg))
+            if (!CMainFrame.LWDicer.DisplayMsg(strMsg))
             {
                 return;
             }
 
-            if(GetDataMode() == FixedData)
+            if (GetDataMode() == FixedData)
             {
                 strData = GridPushPullYTeachTable[3, 1].Text;
 
@@ -670,7 +670,7 @@ namespace LWDicer.UI
 
             strMsg = CenterPos[GetCenterPosNo()].Text + " 목표 위치를 현재 위치로 변경하시겠습니까?";
 
-            if (!CMainFrame.DisplayMsg("", strMsg))
+            if (!CMainFrame.LWDicer.DisplayMsg(strMsg))
             {
                 return;
             }
@@ -708,7 +708,7 @@ namespace LWDicer.UI
 
             strMsg = PushPullPos[GetPushPullPosNo()].Text + " 목표 위치를 현재 위치로 변경하시겠습니까?";
 
-            if (!CMainFrame.DisplayMsg("", strMsg))
+            if (!CMainFrame.LWDicer.DisplayMsg(strMsg))
             {
                 return;
             }
@@ -769,7 +769,7 @@ namespace LWDicer.UI
 
             strMsg = CenterPos[GetCenterPosNo()].Text + " 목표 위치로 이동하시겠습니까?";
 
-            if (!CMainFrame.DisplayMsg("", strMsg))
+            if (!CMainFrame.LWDicer.DisplayMsg(strMsg))
             {
                 return;
             }
@@ -781,7 +781,7 @@ namespace LWDicer.UI
 
             strMsg = PushPullPos[GetPushPullPosNo()].Text + " 목표 위치로 이동하시겠습니까?";
 
-            if (!CMainFrame.DisplayMsg("", strMsg))
+            if (!CMainFrame.LWDicer.DisplayMsg(strMsg))
             {
                 return;
             }

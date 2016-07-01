@@ -109,7 +109,7 @@ namespace LWDicer.UI
 
         private void BtnOriginReturn_Click(object sender, EventArgs e)
         {
-            if (!CMainFrame.DisplayMsg("", "선택한 축에 대해 원점 복귀를 하시겠습니까?"))
+            if (!CMainFrame.LWDicer.DisplayMsg("", 26))
             {
                 return;
             }
@@ -174,13 +174,13 @@ namespace LWDicer.UI
 
 
             // Last.
-            CMainFrame.DisplayMsg("", "초기화가 완료되었습니다.");
+            CMainFrame.LWDicer.DisplayMsg("", 27);
         }
 
 
         private void BtnServoOn_Click(object sender, EventArgs e)
         {
-            if(!CMainFrame.DisplayMsg("", "선택한 축을 Servo On 하시겠습니까?"))
+            if (!CMainFrame.LWDicer.DisplayMsg("", 28))
             {
                 return;
             }
@@ -195,7 +195,7 @@ namespace LWDicer.UI
 
         private void BtnServoOff_Click(object sender, EventArgs e)
         {
-            if (!CMainFrame.DisplayMsg("", "선택한 축을 Servo Off 하시겠습니까?"))
+            if (!CMainFrame.LWDicer.DisplayMsg("", 29))
             {
                 return;
             }

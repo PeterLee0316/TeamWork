@@ -101,12 +101,15 @@ namespace LWDicer.Control
         public const int ERR_DATA_MANAGER_MOTOR_EXCEL_FILE_READ_FAIL = 3;
         public const int ERR_DATA_MANAGER_ALARM_EXCEL_FILE_READ_FAIL = 4;
         public const int ERR_DATA_MANAGER_SYSTEM_EXCEL_FILE_READ_FAIL = 5;
+        public const int ERR_DATA_MANAGER_MSG_INFO_EXCEL_FILE_READ_FAIL = 6;
+
 
         public const int ERR_DATA_MANAGER_EXCEL_FILE_WRITE_FAIL = 1;
         public const int ERR_DATA_MANAGER_IO_EXCEL_FILE_WRITE_FAIL = 2;
         public const int ERR_DATA_MANAGER_MOTOR_EXCEL_FILE_WRITE_FAIL = 3;
         public const int ERR_DATA_MANAGER_ALARM_EXCEL_FILE_WRITE_FAIL = 4;
         public const int ERR_DATA_MANAGER_SYSTEM_EXCEL_FILE_WRITE_FAIL = 5;
+        public const int ERR_DATA_MANAGER_MSG_INFO_EXCEL_FILE_WRITE_FAIL = 6;
 
         public class CSystemDataFileNames
         {
@@ -3382,6 +3385,7 @@ namespace LWDicer.Control
             WriteLog($"success : save para info list", ELogType.Debug);
             return SUCCESS;
         }
+               
 
         public int ImportDataFromExcel(EExcel_Sheet nSheet)
         {
@@ -3466,6 +3470,16 @@ namespace LWDicer.Control
                     }
                 }
 
+                if (nSheet == EExcel_Sheet.MAX || nSheet == EExcel_Sheet.Message_Info)
+                {
+                    // Message Info
+                    iResult = ImportMessageInfoFromExcel(SheetRange[(int)EExcel_Sheet.Message_Info]);
+                    if (iResult == SUCCESS)
+                    {
+                        SaveMessageInfoList();
+                    }
+                }
+
                 WorkBook.Close(true);
                 ExcelApp.Quit();
             }
@@ -3509,6 +3523,45 @@ namespace LWDicer.Control
             }
 
             WriteLog($"success : Import IO Data From Excel", ELogType.Debug);
+            return SUCCESS;
+        }
+
+        public int ImportMessageInfoFromExcel(Excel.Range SheetRange)
+        {
+            int nCount = SheetRange.EntireRow.Count, i;
+
+            try
+            {
+                MessageInfoList.Clear();
+
+                for (i = 0; i < nCount - 1; i++)
+                {
+                    CMessageInfo MessageInfo = new CMessageInfo();
+
+                    // Index
+                    MessageInfo.Index = (int)(SheetRange.Cells[i + 2, 1] as Excel.Range).Value2;
+
+                    // Type
+                    if ((string)(SheetRange.Cells[i + 2, 2] as Excel.Range).Value2 == Convert.ToString(EMessageType.OK)) MessageInfo.Type = EMessageType.OK;
+                    if ((string)(SheetRange.Cells[i + 2, 2] as Excel.Range).Value2 == Convert.ToString(EMessageType.OK_Cancel)) MessageInfo.Type = EMessageType.OK_Cancel;
+                    if ((string)(SheetRange.Cells[i + 2, 2] as Excel.Range).Value2 == Convert.ToString(EMessageType.Confirm_Cancel)) MessageInfo.Type = EMessageType.Confirm_Cancel;
+
+                    // Message
+                    MessageInfo.Message[(int)DEF_Common.ELanguage.KOREAN] = (string)(SheetRange.Cells[i + 2, 3] as Excel.Range).Value2;
+                    MessageInfo.Message[(int)DEF_Common.ELanguage.ENGLISH] = (string)(SheetRange.Cells[i + 2, 4] as Excel.Range).Value2;
+                    MessageInfo.Message[(int)DEF_Common.ELanguage.CHINESE] = (string)(SheetRange.Cells[i + 2, 5] as Excel.Range).Value2;
+                    MessageInfo.Message[(int)DEF_Common.ELanguage.JAPANESE] = (string)(SheetRange.Cells[i + 2, 6] as Excel.Range).Value2;
+
+                    MessageInfoList.Add(MessageInfo);
+                }
+            }
+            catch (Exception ex)
+            {
+                WriteExLog(ex.ToString());
+                return GenerateErrorCode(ERR_DATA_MANAGER_MSG_INFO_EXCEL_FILE_READ_FAIL);
+            }
+
+            WriteLog($"success : Import Message Info From Excel", ELogType.Debug);
             return SUCCESS;
         }
 
@@ -3628,7 +3681,7 @@ namespace LWDicer.Control
                 for (i = 0; i < nRowCount - 1; i++)
                 {
                     CAlarmInfo AlarmInfo = new CAlarmInfo();
-
+                                      
                     strGroup = (string)(SheetRange.Cells[i + 2, 1] as Excel.Range).Value2; // Group
 
                     if (strGroup == Convert.ToString(EAlarmGroup.SYSTEM)) AlarmInfo.Group = EAlarmGroup.SYSTEM;
@@ -3742,6 +3795,12 @@ namespace LWDicer.Control
             {
                 // Motor Data
                 ExportMotorDataToExcel();
+            }
+
+            if (nSheet == EExcel_Sheet.MAX || nSheet == EExcel_Sheet.Message_Info)
+            {
+                // Message Info
+                ExportMsgInfoToExcel();
             }
 
             return SUCCESS;
@@ -4004,6 +4063,67 @@ namespace LWDicer.Control
                 ExcelApp.Quit();
                 WriteExLog(ex.ToString());
                 return GenerateErrorCode(ERR_DATA_MANAGER_MOTOR_EXCEL_FILE_WRITE_FAIL);
+            }
+
+            WriteLog($"success : Export Motor Data to Excel", ELogType.Debug);
+            return SUCCESS;
+        }
+
+        public int ExportMsgInfoToExcel()
+        {
+            int i = 0, j = 0, nSheetCount = 0, nCount = 0;
+
+            string strPath = DBInfo.SystemDir + DBInfo.ExcelSystemPara;
+
+            Excel.Application ExcelApp = new Microsoft.Office.Interop.Excel.Application();
+            Excel.Workbook WorkBook = ExcelApp.Workbooks.Open(strPath);
+            try
+            {
+                WorkBook = ExcelApp.Workbooks.Open(strPath);
+
+                // 1. Open 한 Excel File에 Sheet Count
+                nSheetCount = WorkBook.Worksheets.Count;
+
+                // 2. Excel Sheet Row, Column 접근을 위한 Range 생성
+                Excel.Range[] SheetRange = new Excel.Range[nSheetCount];
+
+                // 3. Excel Sheet Item Data 획득을 위한 Worksheet 생성
+                Excel.Worksheet[] Sheet = new Excel.Worksheet[nSheetCount];
+
+                // 4. Excel Sheet 정보를 불러 온다.
+                for (i = 0; i < nSheetCount; i++)
+                {
+                    Sheet[i] = (Excel.Worksheet)WorkBook.Worksheets.get_Item(i + 1);
+                    SheetRange[i] = Sheet[i].UsedRange;
+                }
+
+                nCount = MessageInfoList.Count;
+
+                // Message Info
+                for(i=0;i<nCount;i++)
+                {
+                    (SheetRange[(int)EExcel_Sheet.Message_Info].Cells[i + 2, 1] as Excel.Range).Value2 = MessageInfoList[i].Index;
+
+                    if (MessageInfoList[i].Type == EMessageType.OK) (SheetRange[(int)EExcel_Sheet.Message_Info].Cells[i + 2, 2] as Excel.Range).Value2 = Convert.ToString(EMessageType.OK);
+                    if (MessageInfoList[i].Type == EMessageType.OK_Cancel) (SheetRange[(int)EExcel_Sheet.Message_Info].Cells[i + 2, 2] as Excel.Range).Value2 = Convert.ToString(EMessageType.OK_Cancel);
+                    if (MessageInfoList[i].Type == EMessageType.Confirm_Cancel) (SheetRange[(int)EExcel_Sheet.Message_Info].Cells[i + 2, 2] as Excel.Range).Value2 = Convert.ToString(EMessageType.Confirm_Cancel);
+
+                    (SheetRange[(int)EExcel_Sheet.Message_Info].Cells[i + 2, 3] as Excel.Range).Value2 = MessageInfoList[i].Message[(int)DEF_Common.ELanguage.KOREAN];
+                    (SheetRange[(int)EExcel_Sheet.Message_Info].Cells[i + 2, 4] as Excel.Range).Value2 = MessageInfoList[i].Message[(int)DEF_Common.ELanguage.ENGLISH];
+                    (SheetRange[(int)EExcel_Sheet.Message_Info].Cells[i + 2, 5] as Excel.Range).Value2 = MessageInfoList[i].Message[(int)DEF_Common.ELanguage.CHINESE];
+                    (SheetRange[(int)EExcel_Sheet.Message_Info].Cells[i + 2, 6] as Excel.Range).Value2 = MessageInfoList[i].Message[(int)DEF_Common.ELanguage.JAPANESE];
+                }
+
+                WorkBook.Save();
+                WorkBook.Close(true);
+                ExcelApp.Quit();
+
+            }
+            catch (Exception ex)
+            {
+                ExcelApp.Quit();
+                WriteExLog(ex.ToString());
+                return GenerateErrorCode(ERR_DATA_MANAGER_MSG_INFO_EXCEL_FILE_WRITE_FAIL);
             }
 
             WriteLog($"success : Export Motor Data to Excel", ELogType.Debug);

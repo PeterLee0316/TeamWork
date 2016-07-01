@@ -571,7 +571,7 @@ namespace LWDicer.UI
 
             strMsg = TeachUpPos[GetUpPosNo()].Text + " 목표 위치를 현재 위치로 변경하시겠습니까?";
 
-            if (!CMainFrame.DisplayMsg("", strMsg))
+            if (!CMainFrame.LWDicer.DisplayMsg(strMsg))
             {
                 return;
             }
@@ -590,7 +590,7 @@ namespace LWDicer.UI
 
             strMsg = TeachLoPos[GetUpPosNo()].Text + " 목표 위치를 현재 위치로 변경하시겠습니까?";
 
-            if (!CMainFrame.DisplayMsg("", strMsg))
+            if (!CMainFrame.LWDicer.DisplayMsg(strMsg))
             {
                 return;
             }
@@ -609,7 +609,7 @@ namespace LWDicer.UI
 
             strMsg = GridLoHandlerTeachTable[1, 0].Text + " Unit에 " + TeachLoPos[GetLoPosNo()].Text + " Teaching Data를 저장하시겠습니까?";
 
-            if (!CMainFrame.DisplayMsg("", strMsg))
+            if (!CMainFrame.LWDicer.DisplayMsg(strMsg))
             {
                 return;
             }
@@ -647,7 +647,7 @@ namespace LWDicer.UI
 
             strMsg = GridUpHandlerTeachTable[1, 0].Text + " Unit에 " + TeachUpPos[GetUpPosNo()].Text + " Teaching Data를 저장하시겠습니까?";
 
-            if (!CMainFrame.DisplayMsg("", strMsg))
+            if (!CMainFrame.LWDicer.DisplayMsg(strMsg))
             {
                 return;
             }
@@ -765,7 +765,7 @@ namespace LWDicer.UI
 
             strMsg = TeachUpPos[GetUpPosNo()].Text + " 목표 위치로 이동하시겠습니까?";
 
-            if (!CMainFrame.DisplayMsg("", strMsg))
+            if (!CMainFrame.LWDicer.DisplayMsg(strMsg))
             {
                 return;
             }
@@ -777,7 +777,7 @@ namespace LWDicer.UI
 
             strMsg = TeachLoPos[GetLoPosNo()].Text + " 목표 위치로 이동하시겠습니까?";
 
-            if (!CMainFrame.DisplayMsg("", strMsg))
+            if (!CMainFrame.LWDicer.DisplayMsg(strMsg))
             {
                 return;
             }

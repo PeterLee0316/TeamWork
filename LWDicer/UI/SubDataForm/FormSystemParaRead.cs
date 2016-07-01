@@ -22,7 +22,7 @@ namespace LWDicer.UI
 
         private void BtnParaInfoImport_Click(object sender, EventArgs e)
         {
-            if (!CMainFrame.DisplayMsg("", "Parameter Data를 Import 하시겠습니까?"))
+            if (!CMainFrame.LWDicer.DisplayMsg("",15))
             {
                 return;
             }
@@ -33,7 +33,7 @@ namespace LWDicer.UI
 
         private void BtnAlarmInfoImport_Click(object sender, EventArgs e)
         {
-            if (!CMainFrame.DisplayMsg("", "Alarm Info Data를 Import 하시겠습니까?"))
+            if (!CMainFrame.LWDicer.DisplayMsg("",16))
             {
                 return;
             }
@@ -44,7 +44,7 @@ namespace LWDicer.UI
 
         private void BtnIOInfoImport_Click(object sender, EventArgs e)
         {
-            if (!CMainFrame.DisplayMsg("", "I/O Info Data를 Import 하시겠습니까?"))
+            if (!CMainFrame.LWDicer.DisplayMsg("", 17))
             {
                 return;
             }
@@ -55,7 +55,7 @@ namespace LWDicer.UI
 
         private void BtnMotorDataImport_Click(object sender, EventArgs e)
         {
-            if (!CMainFrame.DisplayMsg("", "Motor Data를 Import 하시겠습니까?"))
+            if (!CMainFrame.LWDicer.DisplayMsg("", 18))
             {
                 return;
             }
@@ -66,7 +66,7 @@ namespace LWDicer.UI
 
         private void BtnParaInfoExport_Click(object sender, EventArgs e)
         {
-            if (!CMainFrame.DisplayMsg("", "Parameter Data를 Export 하시겠습니까?"))
+            if (!CMainFrame.LWDicer.DisplayMsg("", 19))
             {
                 return;
             }
@@ -77,7 +77,7 @@ namespace LWDicer.UI
 
         private void BtnAlarmInfoExport_Click(object sender, EventArgs e)
         {
-            if (!CMainFrame.DisplayMsg("", "Alarm Info Data를 Export 하시겠습니까?"))
+            if (!CMainFrame.LWDicer.DisplayMsg("", 20))
             {
                 return;
             }
@@ -88,7 +88,7 @@ namespace LWDicer.UI
 
         private void BtnIOInfoExport_Click(object sender, EventArgs e)
         {
-            if (!CMainFrame.DisplayMsg("", "I/O Info Data를 Export 하시겠습니까?"))
+            if (!CMainFrame.LWDicer.DisplayMsg("", 21))
             {
                 return;
             }
@@ -99,7 +99,7 @@ namespace LWDicer.UI
 
         private void BtnMotorDataExport_Click(object sender, EventArgs e)
         {
-            if (!CMainFrame.DisplayMsg("", "Motor Data를 Export 하시겠습니까?"))
+            if (!CMainFrame.LWDicer.DisplayMsg("",22))
             {
                 return;
             }
@@ -121,6 +121,28 @@ namespace LWDicer.UI
         private void FormSystemParaRead_FormClosing(object sender, FormClosingEventArgs e)
         {
             FormClose();
+        }
+
+        private void BtnMsgInfoImport_Click(object sender, EventArgs e)
+        {
+            //if (!CMainFrame.LWDicer.DisplayMsg("", 23))
+            //{
+            //    return;
+            //}
+
+            int iResult = CMainFrame.LWDicer.m_DataManager.ImportDataFromExcel(EExcel_Sheet.Message_Info);
+            CMainFrame.LWDicer.AlarmDisplay(iResult);
+        }
+
+        private void BtnMsgInfoExport_Click(object sender, EventArgs e)
+        {
+            if (!CMainFrame.LWDicer.DisplayMsg("", 24))
+            {
+                return;
+            }
+
+            int iResult = CMainFrame.LWDicer.m_DataManager.ExportDataToExcel(EExcel_Sheet.Message_Info);
+            CMainFrame.LWDicer.AlarmDisplay(iResult);
         }
     }
 }

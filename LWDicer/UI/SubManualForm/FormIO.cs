@@ -190,7 +190,7 @@ namespace LWDicer.UI
 
             strText = string.Format("{0:s} 출력을 강제로 Toggle 하시겠습니까?", OutPut.Text);
 
-            if (!CMainFrame.DisplayMsg("", strText))
+            if (!CMainFrame.LWDicer.DisplayMsg(strText))
             {
                 return;
             }
