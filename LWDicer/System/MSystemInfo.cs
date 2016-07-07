@@ -91,8 +91,8 @@ namespace LWDicer.Control
                 new CObjectInfo( (int)OBJ_HL_MULTIAXES_YMC, "MultiAxes_YMC", 258, "Coater2 ChuckRotate",  2500, "MA_Chuck2",        LOG_ALL, LOG_DAY ),
                 new CObjectInfo( (int)OBJ_HL_MULTIAXES_YMC, "MultiAxes_YMC", 259, "Coater2 CleanNozzle",  2500, "MA_CleanNozzle2",  LOG_ALL, LOG_DAY ),
                 new CObjectInfo( (int)OBJ_HL_MULTIAXES_YMC, "MultiAxes_YMC", 260, "Coater2 CoatNozzle",   2500, "MA_CoatNozzle2",   LOG_ALL, LOG_DAY ),
-	            new CObjectInfo( (int)OBJ_HL_MULTIAXES_YMC, "MultiAxes_YMC", 261, "Handler1",             2500, "MA_Handler1",      LOG_ALL, LOG_DAY ),
-                new CObjectInfo( (int)OBJ_HL_MULTIAXES_YMC, "MultiAxes_YMC", 262, "Handler2",             2500, "MA_Handler2",      LOG_ALL, LOG_DAY ),
+	            new CObjectInfo( (int)OBJ_HL_MULTIAXES_YMC, "MultiAxes_YMC", 261, "UpperHandler",         2500, "MA_UpperHandler",  LOG_ALL, LOG_DAY ),
+                new CObjectInfo( (int)OBJ_HL_MULTIAXES_YMC, "MultiAxes_YMC", 262, "LowerHandler",         2500, "MA_LowerHandler",  LOG_ALL, LOG_DAY ),
                 new CObjectInfo( (int)OBJ_HL_MULTIAXES_YMC, "MultiAxes_YMC", 263, "Camera1",              2500, "MA_Camera1",       LOG_ALL, LOG_DAY ),
                 new CObjectInfo( (int)OBJ_HL_MULTIAXES_YMC, "MultiAxes_YMC", 264, "Laser1",               2500, "MA_Laser1",        LOG_ALL, LOG_DAY ),
 		

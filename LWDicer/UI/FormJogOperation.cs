@@ -13,11 +13,13 @@ using Syncfusion.Windows.Forms.Grid;
 using Syncfusion.Windows.Forms.Tools;
 
 using static LWDicer.Control.DEF_System;
+using static LWDicer.Control.DEF_Common;
 
 using static LWDicer.Control.MYaskawa;
 using static LWDicer.Control.DEF_Motion;
 using static LWDicer.Control.DEF_Yaskawa;
 using static LWDicer.Control.DEF_ACS;
+using static LWDicer.Control.DEF_Error;
 
 using MotionYMC;
 
@@ -33,20 +35,18 @@ namespace LWDicer.UI
             MAX,
         }
 
-        private int SelOption = 0;
+        CMotorSpeedData AxisSpeedData = new CMotorSpeedData();
 
-        private double TargetPos = 0;
+        private int AxisMoveOption;
 
-        private int SelAxis = 0;
+        private double TargetPos;
 
-        private bool bAxisVelocity = false;
+        private int SelectedAxis;
+
+        private bool IsFastMove = false;
 
         ButtonAdv[] AxisNo = new ButtonAdv[19];
         ButtonAdv[] Velocity = new ButtonAdv[2];
-
-        // Jog
-        public const bool JOG_DIR_POS = true;
-        public const bool JOG_DIR_NEG = false;
 
 
         public FormJogOperation()
@@ -89,7 +89,7 @@ namespace LWDicer.UI
 
             Velocity[0] = BtnFastVel;
             Velocity[1] = BtnSlowVel;
-
+            
             AxisNo[0].Text = Convert.ToString(EYMC_Axis.LOADER_Z);
             AxisNo[1].Text = Convert.ToString(EYMC_Axis.PUSHPULL_Y);
             AxisNo[2].Text = Convert.ToString(EYMC_Axis.PUSHPULL_X1);
@@ -115,9 +115,10 @@ namespace LWDicer.UI
         {
              this.Text = "Jog Operation";
 
+            IsFastMove = false;
             SetAxis((int)EYMC_Axis.LOADER_Z);
             SetOption(EMoveOption.JOG);
-            SetVelocity((int)EYMC_Axis.LOADER_Z, true);
+            SetVelocity();
 
             TmrJog.Start();
         }
@@ -132,50 +133,38 @@ namespace LWDicer.UI
             FormClose();
         }
 
-        private bool GetVelocity()
+        private void SetVelocity()
         {
-            return bAxisVelocity;
-        }
-
-        private void SetVelocity(int nAxis, bool bVelocity)
-        {
-            if (bVelocity == true)
+            int speedIndex = (int)EMotorSpeed.MANUAL_SLOW;
+            if (AxisMoveOption == (int)EMoveOption.JOG)
             {
-                // Slow Velocity
-                Velocity[0].Image = Image.Images[0];
-                Velocity[1].Image = Image.Images[1];
+                speedIndex = IsFastMove ? (int)EMotorSpeed.JOG_FAST: (int)EMotorSpeed.JOG_SLOW;
+            } else
+            {
+                speedIndex = IsFastMove ? (int)EMotorSpeed.MANUAL_FAST: (int)EMotorSpeed.MANUAL_SLOW;
+            }
 
-                if (nAxis > 15)
-                {
-                    // ACS
-                    LabelVelocity.Text = Convert.ToString(CMainFrame.LWDicer.m_DataManager.SystemData_Axis.ACSMotionData[nAxis - 16].Speed[(int)EMotorSpeed.MANUAL_SLOW].Vel);
-                }
-                else
-                {
-                    // MP
-                    LabelVelocity.Text = Convert.ToString(CMainFrame.LWDicer.m_DataManager.SystemData_Axis.MPMotionData[nAxis].Speed[(int)EMotorSpeed.MANUAL_SLOW].Vel);
-                }
-
-                bAxisVelocity = true;
+            if (SelectedAxis < (int)EYMC_Axis.MAX)
+            {
+                AxisSpeedData = CMainFrame.LWDicer.m_DataManager.SystemData_Axis.MPMotionData[SelectedAxis].Speed[speedIndex];
             }
             else
+            {
+                AxisSpeedData = CMainFrame.LWDicer.m_DataManager.SystemData_Axis.ACSMotionData[SelectedAxis].Speed[speedIndex - (int)EYMC_Axis.MAX];
+            }
+            LabelVelocity.Text = Convert.ToString(AxisSpeedData.Vel);
+
+            if (IsFastMove == true)
             {
                 // Fast Velocity
                 Velocity[0].Image = Image.Images[1];
                 Velocity[1].Image = Image.Images[0];
-
-                if (nAxis > 15)
-                {
-                    // ACS
-                    LabelVelocity.Text = Convert.ToString(CMainFrame.LWDicer.m_DataManager.SystemData_Axis.ACSMotionData[nAxis - 16].Speed[(int)EMotorSpeed.MANUAL_FAST].Vel);
-                }
-                else
-                {
-                    // MP
-                    LabelVelocity.Text = Convert.ToString(CMainFrame.LWDicer.m_DataManager.SystemData_Axis.MPMotionData[nAxis].Speed[(int)EMotorSpeed.MANUAL_FAST].Vel);
-                }
-
-                bAxisVelocity = false;
+            }
+            else
+            {
+                // Slow Velocity
+                Velocity[0].Image = Image.Images[0];
+                Velocity[1].Image = Image.Images[1];
             }
         }
 
@@ -184,8 +173,7 @@ namespace LWDicer.UI
             ButtonAdv Axis = sender as ButtonAdv;
 
             SetAxis(Convert.ToInt16(Axis.Tag));
-
-            SetVelocity(GetAxis(), true);
+            SetVelocity();
         }
 
         private void BtnVel_Click(object sender, EventArgs e)
@@ -194,38 +182,21 @@ namespace LWDicer.UI
 
             ButtonAdv Vel = sender as ButtonAdv;
 
-            strText = Vel.Text;
-
-            strText = strText.Trim();
-
-            if (strText == "Slow")
-            {
-                SetVelocity(GetAxis(), true);
-            }
-
-            if (strText == "Fast")
-            {
-                SetVelocity(GetAxis(), false);
-            }
+            strText = Vel.Text.Trim();
+            IsFastMove = (strText == "Fast") ? true : false;
+            SetVelocity();
         }
 
         private void SetAxis(int nAxis)
         {
-            int i = 0;
-
-            for (i = 0; i < 19; i++)
+            for (int i = 0; i < AxisNo.Length; i++)
             {
                 AxisNo[i].BackColor = Color.FromArgb(224, 224, 224);
             }
 
             AxisNo[nAxis].BackColor = Color.YellowGreen;
 
-            SelAxis = nAxis;
-        }
-
-        private int GetAxis()
-        {
-            return SelAxis;
+            SelectedAxis = nAxis;
         }
 
         private void SetOption(EMoveOption nOption)
@@ -242,10 +213,8 @@ namespace LWDicer.UI
 
                 BtnSelJog.BackColor = Color.GreenYellow;
 
-                SelOption = (int)EMoveOption.JOG;
-            }
-
-            if (nOption == EMoveOption.ABS)
+                AxisMoveOption = (int)EMoveOption.JOG;
+            } else if (nOption == EMoveOption.ABS)
             {
                 BtnAbsMove.Show();
                 BtnPlus.Hide();
@@ -253,10 +222,8 @@ namespace LWDicer.UI
 
                 BtnSelAbs.BackColor = Color.GreenYellow;
 
-                SelOption = (int)EMoveOption.ABS;
-            }
-
-            if (nOption == EMoveOption.INC)
+                AxisMoveOption = (int)EMoveOption.ABS;
+            } else if (nOption == EMoveOption.INC)
             {
                 BtnAbsMove.Hide();
                 BtnPlus.Show();
@@ -264,8 +231,10 @@ namespace LWDicer.UI
 
                 BtnSelInc.BackColor = Color.GreenYellow;
 
-                SelOption = (int)EMoveOption.INC;
+                AxisMoveOption = (int)EMoveOption.INC;
             }
+
+            SetVelocity();
         }
 
         private void LabelTarget_Click(object sender, EventArgs e)
@@ -288,277 +257,139 @@ namespace LWDicer.UI
         {
             ButtonAdv Option = sender as ButtonAdv;
 
+            LabelTarget.Text = "0";
             if (Option.Text == "Jog Move")
             {
+                LabelTitleTarget.Text = "Target Pos";
                 SetOption(EMoveOption.JOG);
-            }
-
-            if (Option.Text == "Abs Move")
+            } else if (Option.Text == "Abs Move")
             {
+                LabelTitleTarget.Text = "Target Pos";
                 SetOption(EMoveOption.ABS);
-            }
-
-            if (Option.Text == "Inc Move")
+            } else if (Option.Text == "Inc Move")
             {
+                LabelTitleTarget.Text = "Increment Value";
                 SetOption(EMoveOption.INC);
             }
         }
 
         private void BtnStop_Click(object sender, EventArgs e)
         {
-            int nAcsAxis = 0;
+            StopAxis();
+        }
 
-            if (GetAxis() < 16)
+        private void MoveAxis(bool bDirection)
+        {
+            int iResult = SUCCESS;
+            if (AxisMoveOption == (int)EMoveOption.JOG)
             {
-                CMainFrame.LWDicer.m_YMC.StopServoMotion(GetAxis(), (int)CMotionAPI.ApiDefs.DISTRIBUTION_COMPLETED);
+                if (SelectedAxis < (int)EYMC_Axis.MAX)
+                {
+                    iResult = CMainFrame.LWDicer.m_YMC.StartJogMove(SelectedAxis, bDirection, IsFastMove);
+                }
+                else
+                {
+                    iResult = CMainFrame.LWDicer.m_ACS.StartJogMove(SelectedAxis - (int)EYMC_Axis.MAX, bDirection, IsFastMove);
+                }
             }
-            else
+            else if (AxisMoveOption == (int)EMoveOption.INC)
             {
-                nAcsAxis = GetAxis() - 16;
-                CMainFrame.LWDicer.m_ACS.StopServoMotion(nAcsAxis);
+                double[] dTargetPos = new double[1];
+                if(bDirection == DIR_POSITIVE)
+                    dTargetPos[0] = Convert.ToDouble(LabelCurrent.Text) + Convert.ToDouble(LabelTarget.Text);
+                else dTargetPos[0] = Convert.ToDouble(LabelCurrent.Text) - Convert.ToDouble(LabelTarget.Text);
+
+                if (SelectedAxis < (int)EYMC_Axis.MAX)
+                {
+                    CMotorSpeedData[] tSpeed = new CMotorSpeedData[1];
+                    tSpeed[0] = AxisSpeedData;
+                    iResult = CMainFrame.LWDicer.m_YMC.MoveToPos(SelectedAxis, dTargetPos, tSpeed, (int)CMotionAPI.ApiDefs.DISTRIBUTION_COMPLETED);
+                }
+                else
+                {
+                    iResult = CMainFrame.LWDicer.m_ACS.MoveToPos(SelectedAxis - (int)EYMC_Axis.MAX, dTargetPos[0], AxisSpeedData);
+                }
+            }
+            if (iResult != SUCCESS)
+            {
+                CMainFrame.DisplayAlarm(iResult);
+            }
+        }
+
+        private void StopAxis()
+        {
+            int iResult = SUCCESS;
+
+            if (AxisMoveOption == (int)EMoveOption.JOG)
+            {
+                if (SelectedAxis < (int)EYMC_Axis.MAX)
+                {
+                    iResult = CMainFrame.LWDicer.m_YMC.StopJogMove(SelectedAxis);
+                }
+                else
+                {
+                    CMainFrame.LWDicer.m_ACS.StopJogMove(SelectedAxis - (int)EYMC_Axis.MAX);
+                }
+            } else
+            {
+                if (SelectedAxis < (int)EYMC_Axis.MAX)
+                {
+                    iResult = CMainFrame.LWDicer.m_YMC.StopServoMotion(SelectedAxis);
+                }
+                else
+                {
+                    CMainFrame.LWDicer.m_ACS.StopServoMotion(SelectedAxis - (int)EYMC_Axis.MAX);
+                }
+            }
+            if (iResult != SUCCESS)
+            {
+                CMainFrame.DisplayAlarm(iResult);
             }
         }
 
         private void BtnPlus_MouseDown(object sender, MouseEventArgs e)
         {
-            int nAcsAxis = 0;
-
-            if (SelOption == (int)EMoveOption.JOG)
-            {
-                BtnPlus.BackColor = Color.LightGoldenrodYellow;
-
-                if (GetAxis() < 16)
-                {
-                    // MP
-                    CMainFrame.LWDicer.m_YMC.StartJogMove(GetAxis(), JOG_DIR_POS, GetVelocity());
-                }
-                else
-                {
-                    // ACS
-                    nAcsAxis = GetAxis() - 16;
-                    CMainFrame.LWDicer.m_ACS.StartJogMove(nAcsAxis, JOG_DIR_POS, GetVelocity());
-                }
-            }
-
-            if (SelOption == (int)EMoveOption.INC)
-            {
-                double[] dMPIncPos = new double[1];
-                double dACSIncPos = 0;
-
-                BtnPlus.BackColor = Color.DarkGoldenrod;
-
-                if (GetAxis() < 16)
-                {
-                    // MP
-                    CMotorSpeedData[] AxisSpeed = new CMotorSpeedData[1];
-
-                    if (GetVelocity() == true)
-                    {
-                        // Slow
-                        AxisSpeed[0] = CMainFrame.LWDicer.m_DataManager.SystemData_Axis.MPMotionData[GetAxis()].Speed[(int)EMotorSpeed.JOG_SLOW];
-                    }
-                    else
-                    {
-                        // Fast
-                        AxisSpeed[0] = CMainFrame.LWDicer.m_DataManager.SystemData_Axis.MPMotionData[GetAxis()].Speed[(int)EMotorSpeed.JOG_FAST];
-                    }
-
-                    dMPIncPos[0] = CMainFrame.LWDicer.m_YMC.ServoStatus[GetAxis()].EncoderPos + TargetPos;
-
-                    CMainFrame.LWDicer.m_YMC.MoveToPos(GetAxis(), dMPIncPos, AxisSpeed, (int)CMotionAPI.ApiDefs.DISTRIBUTION_COMPLETED);
-                }
-                else
-                {
-                    // ACS
-                    nAcsAxis = GetAxis() - 16;
-
-                    CMotorSpeedData AxisSpeed = new CMotorSpeedData();
-
-                    if (GetVelocity() == true)
-                    {
-                        // Slow
-                        AxisSpeed = CMainFrame.LWDicer.m_DataManager.SystemData_Axis.ACSMotionData[nAcsAxis].Speed[(int)EMotorSpeed.JOG_SLOW];
-                    }
-                    else
-                    {
-                        // Fast
-                        AxisSpeed = CMainFrame.LWDicer.m_DataManager.SystemData_Axis.ACSMotionData[nAcsAxis].Speed[(int)EMotorSpeed.JOG_FAST];
-                    }
-
-                    dACSIncPos = CMainFrame.LWDicer.m_ACS.ServoStatus[nAcsAxis].EncoderPos + TargetPos;
-
-                    CMainFrame.LWDicer.m_ACS.MoveToPos(nAcsAxis, dACSIncPos, AxisSpeed);
-                }
-            }
+            BtnPlus.BackColor = Color.LightGoldenrodYellow;
+            MoveAxis(DIR_POSITIVE);
         }
 
         private void BtnPlus_MouseUp(object sender, MouseEventArgs e)
         {
-            int nAcsAxis = 0;
-
-            if (SelOption == (int)EMoveOption.JOG)
-            {
-                BtnPlus.BackColor = Color.DarkGoldenrod;
-
-                if (GetAxis() < 16)
-                {
-                    // MP
-                    CMainFrame.LWDicer.m_YMC.StopJogMove(GetAxis());
-                }
-                else
-                {
-                    // ACS
-                    nAcsAxis = GetAxis() - 16;
-                    CMainFrame.LWDicer.m_ACS.StopJogMove(nAcsAxis);
-                }
-            }
+            BtnPlus.BackColor = Color.DarkGoldenrod;
+            StopAxis();
         }
 
         private void BtnMinus_MouseDown(object sender, MouseEventArgs e)
         {
-            int nAcsAxis = 0;
-
-            if (SelOption == (int)EMoveOption.JOG)
-            {
-                BtnMinus.BackColor = Color.LightGoldenrodYellow;
-
-                if (GetAxis() < 16)
-                {
-                    // MP
-                    CMainFrame.LWDicer.m_YMC.StartJogMove(GetAxis(), JOG_DIR_NEG, GetVelocity());
-                }
-                else
-                {
-                    // ACS
-                    nAcsAxis = GetAxis() - 16;
-                    CMainFrame.LWDicer.m_ACS.StartJogMove(nAcsAxis, JOG_DIR_NEG, GetVelocity());
-                }
-            }
-
-            if (SelOption == (int)EMoveOption.INC)
-            {
-                double[] dMPIncPos = new double[1];
-                double dACSIncPos = 0;
-
-                BtnMinus.BackColor = Color.DarkGoldenrod;
-
-                if (GetAxis() < 16)
-                {
-                    // MP
-                    CMotorSpeedData[] AxisSpeed = new CMotorSpeedData[1];
-
-                    if (GetVelocity() == true)
-                    {
-                        // Slow
-                        AxisSpeed[0] = CMainFrame.LWDicer.m_DataManager.SystemData_Axis.MPMotionData[GetAxis()].Speed[(int)EMotorSpeed.JOG_SLOW];
-                    }
-                    else
-                    {
-                        // Fast
-                        AxisSpeed[0] = CMainFrame.LWDicer.m_DataManager.SystemData_Axis.MPMotionData[GetAxis()].Speed[(int)EMotorSpeed.JOG_FAST];
-                    }
-
-                    dMPIncPos[0] = CMainFrame.LWDicer.m_YMC.ServoStatus[GetAxis()].EncoderPos - TargetPos;
-
-                    CMainFrame.LWDicer.m_YMC.MoveToPos(GetAxis(), dMPIncPos, AxisSpeed, (int)CMotionAPI.ApiDefs.DISTRIBUTION_COMPLETED);
-
-                }
-                else
-                {
-                    // ACS
-                    nAcsAxis = GetAxis() - 16;
-
-                    CMotorSpeedData AxisSpeed = new CMotorSpeedData();
-
-                    if (GetVelocity() == true)
-                    {
-                        // Slow
-                        AxisSpeed = CMainFrame.LWDicer.m_DataManager.SystemData_Axis.ACSMotionData[nAcsAxis].Speed[(int)EMotorSpeed.JOG_SLOW];
-                    }
-                    else
-                    {
-                        // Fast
-                        AxisSpeed = CMainFrame.LWDicer.m_DataManager.SystemData_Axis.ACSMotionData[nAcsAxis].Speed[(int)EMotorSpeed.JOG_FAST];
-                    }
-
-                    dACSIncPos = CMainFrame.LWDicer.m_ACS.ServoStatus[nAcsAxis].EncoderPos - TargetPos;
-
-                    CMainFrame.LWDicer.m_ACS.MoveToPos(nAcsAxis, dACSIncPos, AxisSpeed);
-                }
-            }
+            BtnMinus.BackColor = Color.LightGoldenrodYellow;
+            MoveAxis(DIR_NEGATIVE);
         }
 
         private void BtnMinus_MouseUp(object sender, MouseEventArgs e)
         {
-            int nAcsAxis = 0;
-
-            if (SelOption == (int)EMoveOption.JOG)
-            {
-                BtnMinus.BackColor = Color.DarkGoldenrod;
-
-                if (GetAxis() < 16)
-                {
-                    // MP
-                    CMainFrame.LWDicer.m_YMC.StopJogMove(GetAxis());
-                }
-                else
-                {
-                    // ACS
-                    nAcsAxis = GetAxis() - 16;
-                    CMainFrame.LWDicer.m_ACS.StopJogMove(nAcsAxis);
-                }
-            }
+            BtnMinus.BackColor = Color.DarkGoldenrod;
+            StopAxis();
         }
 
         private void BtnAbsMove_MouseClick(object sender, MouseEventArgs e)
-        { 
-            int nAcsAxis = 0;
-            double[] dMPAbsPos = new double[1];
-            double dACSAbsPos = 0;
+        {
+            int iResult = SUCCESS;
 
-            BtnMinus.BackColor = Color.DarkGoldenrod;
-
-            if (GetAxis() < 16)
+            double[] dTargetPos = new double[1];
+            dTargetPos[0] = Convert.ToDouble(LabelTarget.Text);
+            if (SelectedAxis < (int)EYMC_Axis.MAX)
             {
-                CMotorSpeedData[] AxisSpeed = new CMotorSpeedData[1];
-
-                // MP
-                if (GetVelocity() == true)
-                {
-                    // Slow
-                    AxisSpeed[0] = CMainFrame.LWDicer.m_DataManager.SystemData_Axis.MPMotionData[GetAxis()].Speed[(int)EMotorSpeed.JOG_SLOW];
-                }
-                else
-                {
-                    // Fast
-                    AxisSpeed[0] = CMainFrame.LWDicer.m_DataManager.SystemData_Axis.MPMotionData[GetAxis()].Speed[(int)EMotorSpeed.JOG_FAST];
-                }
-
-                dMPAbsPos[0] = TargetPos;
-
-                CMainFrame.LWDicer.m_YMC.MoveToPos(GetAxis(), dMPAbsPos, AxisSpeed, (int)CMotionAPI.ApiDefs.DISTRIBUTION_COMPLETED);
+                CMotorSpeedData[] tSpeed = new CMotorSpeedData[1];
+                tSpeed[0] = AxisSpeedData;
+                iResult = CMainFrame.LWDicer.m_YMC.MoveToPos(SelectedAxis, dTargetPos, tSpeed, (int)CMotionAPI.ApiDefs.DISTRIBUTION_COMPLETED);
             }
             else
             {
-                // ACS
-                nAcsAxis = GetAxis() - 16;
-
-                CMotorSpeedData AxisSpeed = new CMotorSpeedData();
-
-                if (GetVelocity() == true)
-                {
-                    // Slow
-                    AxisSpeed = CMainFrame.LWDicer.m_DataManager.SystemData_Axis.ACSMotionData[nAcsAxis].Speed[(int)EMotorSpeed.JOG_SLOW];
-                }
-                else
-                {
-                    // Fast
-                    AxisSpeed = CMainFrame.LWDicer.m_DataManager.SystemData_Axis.ACSMotionData[nAcsAxis].Speed[(int)EMotorSpeed.JOG_FAST];
-                }
-
-                dACSAbsPos = TargetPos;
-
-                CMainFrame.LWDicer.m_ACS.MoveToPos(nAcsAxis, dACSAbsPos, AxisSpeed);
+                iResult = CMainFrame.LWDicer.m_ACS.MoveToPos(SelectedAxis - (int)EYMC_Axis.MAX, dTargetPos[0], AxisSpeedData);
+            }
+            if (iResult != SUCCESS)
+            {
+                CMainFrame.DisplayAlarm(iResult);
             }
         }
 
@@ -567,26 +398,12 @@ namespace LWDicer.UI
             string strCurPos = string.Empty;
 
             // Jog Operation Servo Encoder Position
-            if (AxisNo[GetAxis()].Text == "STAGE X" || AxisNo[GetAxis()].Text == "STAGE Y" || AxisNo[GetAxis()].Text == "STAGE T")
+            if (SelectedAxis < (int)EYMC_Axis.MAX)
             {
-                if (AxisNo[GetAxis()].Text == "STAGE X")
-                {
-                    LabelCurrent.Text = Convert.ToString(CMainFrame.LWDicer.m_ACS.ServoStatus[(int)EACS_Axis.STAGE1_X].EncoderPos);
-                }
-
-                if (AxisNo[GetAxis()].Text == "STAGE Y")
-                {
-                    LabelCurrent.Text = Convert.ToString(CMainFrame.LWDicer.m_ACS.ServoStatus[(int)EACS_Axis.STAGE1_Y].EncoderPos);
-                }
-
-                if (AxisNo[GetAxis()].Text == "STAGE T")
-                {
-                    LabelCurrent.Text = Convert.ToString(CMainFrame.LWDicer.m_ACS.ServoStatus[(int)EACS_Axis.STAGE1_T].EncoderPos);
-                }
-            }
-            else
+                LabelCurrent.Text = Convert.ToString(CMainFrame.LWDicer.m_YMC.ServoStatus[SelectedAxis].EncoderPos);
+            } else
             {
-                LabelCurrent.Text = Convert.ToString(CMainFrame.LWDicer.m_YMC.ServoStatus[GetAxis()].EncoderPos);
+                LabelCurrent.Text = Convert.ToString(CMainFrame.LWDicer.m_ACS.ServoStatus[SelectedAxis - (int)EYMC_Axis.MAX].EncoderPos);
             }
         }
     }

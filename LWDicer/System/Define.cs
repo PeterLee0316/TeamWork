@@ -477,8 +477,8 @@ namespace LWDicer.Control
         public const bool SET_USE               = true;
 
         // Jog
-        public const bool JOG_DIR_POS = true;
-        public const bool JOG_DIR_NEG = false;
+        public const bool DIR_POSITIVE = true;
+        public const bool DIR_NEGATIVE = false;
 
         public const int JOG_KEY_X = 0;
         public const int JOG_KEY_Y = 1;
@@ -1127,10 +1127,10 @@ namespace LWDicer.Control
             TrsAutoManager       ,
             TrsLoader            ,
             TrsPushPull          ,
+            TrsStage1            ,
             TrsSpinner1          ,
             TrsSpinner2          ,
             TrsHandler           ,
-            TrsStage1            ,
             MAX,
         }
         //public const int (int)EThreadChannel.MAX  = 15;

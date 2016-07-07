@@ -129,10 +129,10 @@ namespace LWDicer.Control
             m_iPrevJogVal_T = JOG_KEY_NON;
             m_iPrevJogVal_Z = JOG_KEY_NON;
 
-            m_bPrevDir_X = JOG_DIR_POS;
-            m_bPrevDir_Y = JOG_DIR_POS;
-            m_bPrevDir_T = JOG_DIR_POS;
-            m_bPrevDir_Z = JOG_DIR_POS;
+            m_bPrevDir_X = DIR_POSITIVE;
+            m_bPrevDir_Y = DIR_POSITIVE;
+            m_bPrevDir_T = DIR_POSITIVE;
+            m_bPrevDir_Z = DIR_POSITIVE;
 
         }
 
@@ -876,11 +876,11 @@ namespace LWDicer.Control
                     if (m_iPrevJogVal_X != JOG_KEY_POS)
                     {
                         m_iPrevJogVal_X = JOG_KEY_POS;
-                        m_bPrevDir_X = JOG_DIR_POS;
+                        m_bPrevDir_X = DIR_POSITIVE;
                         //m_RefComp.OpPanel.StopJog(m_iJogIndex, m_iJogIndexExtra, JOG_KEY_X);
                     }
                     // X(+) 방향으로 Pitch 이동 실시 
-                    m_RefComp.OpPanel.MoveJogPitch(m_iJogIndex, m_iJogIndexExtra, JOG_KEY_X, JOG_DIR_POS);
+                    m_RefComp.OpPanel.MoveJogPitch(m_iJogIndex, m_iJogIndexExtra, JOG_KEY_X, DIR_POSITIVE);
                 }
                 // X(-) Pitch 이동 
                 else if (!bXpStatus && bXnStatus)
@@ -889,11 +889,11 @@ namespace LWDicer.Control
                     if (m_iPrevJogVal_X != JOG_KEY_POS)
                     {
                         m_iPrevJogVal_X = JOG_KEY_POS;
-                        m_bPrevDir_X = JOG_DIR_NEG;
+                        m_bPrevDir_X = DIR_NEGATIVE;
                         //m_RefComp.OpPanel.StopJog(m_iJogIndex, m_iJogIndexExtra, JOG_KEY_X);
                     }
                     // X(-) 방향으로 Pitch 이동 실시 
-                    m_RefComp.OpPanel.MoveJogPitch(m_iJogIndex, m_iJogIndexExtra, JOG_KEY_X, JOG_DIR_NEG);
+                    m_RefComp.OpPanel.MoveJogPitch(m_iJogIndex, m_iJogIndexExtra, JOG_KEY_X, DIR_NEGATIVE);
                 }
                 // X(+/-) Velocity 이동 
                 else if (bXpStatus && bXnStatus)
@@ -926,11 +926,11 @@ namespace LWDicer.Control
                     if (m_iPrevJogVal_Y != JOG_KEY_POS)
                     {
                         m_iPrevJogVal_Y = JOG_KEY_POS;
-                        m_bPrevDir_Y = JOG_DIR_POS;
+                        m_bPrevDir_Y = DIR_POSITIVE;
                         //m_RefComp.OpPanel.StopJog(m_iJogIndex, m_iJogIndexExtra, JOG_KEY_Y);
                     }
                     // Y(+) 방향으로 Pitch 이동 실시 
-                    m_RefComp.OpPanel.MoveJogPitch(m_iJogIndex, m_iJogIndexExtra, JOG_KEY_Y, JOG_DIR_POS);
+                    m_RefComp.OpPanel.MoveJogPitch(m_iJogIndex, m_iJogIndexExtra, JOG_KEY_Y, DIR_POSITIVE);
                 }
                 // Y(-) Pitch 이동 
                 else if (!bYpStatus && bYnStatus)
@@ -939,11 +939,11 @@ namespace LWDicer.Control
                     if (m_iPrevJogVal_Y != JOG_KEY_POS)
                     {
                         m_iPrevJogVal_Y = JOG_KEY_POS;
-                        m_bPrevDir_Y = JOG_DIR_NEG;
+                        m_bPrevDir_Y = DIR_NEGATIVE;
                         //m_RefComp.OpPanel.StopJog(m_iJogIndex, m_iJogIndexExtra, JOG_KEY_Y);
                     }
                     // Y(-) 방향으로 Pitch 이동 실시 
-                    m_RefComp.OpPanel.MoveJogPitch(m_iJogIndex, m_iJogIndexExtra, JOG_KEY_Y, JOG_DIR_NEG);
+                    m_RefComp.OpPanel.MoveJogPitch(m_iJogIndex, m_iJogIndexExtra, JOG_KEY_Y, DIR_NEGATIVE);
                 }
                 // Y(+/-) Velocity 이동 
                 else if (bYpStatus && bYnStatus)
@@ -976,11 +976,11 @@ namespace LWDicer.Control
                     if (m_iPrevJogVal_T != JOG_KEY_POS)
                     {
                         m_iPrevJogVal_T = JOG_KEY_POS;
-                        m_bPrevDir_T = JOG_DIR_POS;
+                        m_bPrevDir_T = DIR_POSITIVE;
                         //m_RefComp.OpPanel.StopJog(m_iJogIndex, m_iJogIndexExtra, JOG_KEY_T);
                     }
                     // T(+) 방향으로 Pitch 이동 실시 
-                    m_RefComp.OpPanel.MoveJogPitch(m_iJogIndex, m_iJogIndexExtra, JOG_KEY_T, JOG_DIR_POS);
+                    m_RefComp.OpPanel.MoveJogPitch(m_iJogIndex, m_iJogIndexExtra, JOG_KEY_T, DIR_POSITIVE);
                 }
                 // T(-) Pitch 이동 
                 else if (!bTpStatus && bTnStatus)
@@ -989,11 +989,11 @@ namespace LWDicer.Control
                     if (m_iPrevJogVal_T != JOG_KEY_POS)
                     {
                         m_iPrevJogVal_T = JOG_KEY_POS;
-                        m_bPrevDir_T = JOG_DIR_NEG;
+                        m_bPrevDir_T = DIR_NEGATIVE;
                         //m_RefComp.OpPanel.StopJog(m_iJogIndex, m_iJogIndexExtra, JOG_KEY_T);
                     }
                     // T(-) 방향으로 Pitch 이동 실시 
-                    m_RefComp.OpPanel.MoveJogPitch(m_iJogIndex, m_iJogIndexExtra, JOG_KEY_T, JOG_DIR_NEG);
+                    m_RefComp.OpPanel.MoveJogPitch(m_iJogIndex, m_iJogIndexExtra, JOG_KEY_T, DIR_NEGATIVE);
                 }
                 // T(+/-) Velocity 이동 
                 else if (bTpStatus && bTnStatus)
@@ -1026,11 +1026,11 @@ namespace LWDicer.Control
                     if (m_iPrevJogVal_Z != JOG_KEY_POS)
                     {
                         m_iPrevJogVal_Z = JOG_KEY_POS;
-                        m_bPrevDir_Z = JOG_DIR_POS;
+                        m_bPrevDir_Z = DIR_POSITIVE;
                         //				m_RefComp.OpPanel.StopJog(m_iJogIndex, m_iJogIndexExtra, JOG_KEY_Z);
                     }
                     // Z(+) 방향으로 Pitch 이동 실시 
-                    m_RefComp.OpPanel.MoveJogPitch(m_iJogIndex, m_iJogIndexExtra, JOG_KEY_Z, JOG_DIR_POS);
+                    m_RefComp.OpPanel.MoveJogPitch(m_iJogIndex, m_iJogIndexExtra, JOG_KEY_Z, DIR_POSITIVE);
                 }
                 // Z(-) Pitch 이동 
                 else if (!bZpStatus && bZnStatus)
@@ -1039,11 +1039,11 @@ namespace LWDicer.Control
                     if (m_iPrevJogVal_Z != JOG_KEY_POS)
                     {
                         m_iPrevJogVal_Z = JOG_KEY_POS;
-                        m_bPrevDir_Z = JOG_DIR_NEG;
+                        m_bPrevDir_Z = DIR_NEGATIVE;
                         //				m_RefComp.OpPanel.StopJog(m_iJogIndex, m_iJogIndexExtra, JOG_KEY_Z);
                     }
                     // Z(-) 방향으로 Pitch 이동 실시 
-                    m_RefComp.OpPanel.MoveJogPitch(m_iJogIndex, m_iJogIndexExtra, JOG_KEY_Z, JOG_DIR_NEG);
+                    m_RefComp.OpPanel.MoveJogPitch(m_iJogIndex, m_iJogIndexExtra, JOG_KEY_Z, DIR_NEGATIVE);
                 }
                 // Z(+/-) Velocity 이동 
                 else if (bZpStatus && bZnStatus)
