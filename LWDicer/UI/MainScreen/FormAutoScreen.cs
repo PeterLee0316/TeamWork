@@ -45,28 +45,5 @@ namespace LWDicer.UI
         {
             this.Activate();
         }
-
-        private void BtnAlarmTest_Click(object sender, EventArgs e)
-        {
-            ButtonAdv BtnAlarm = sender as ButtonAdv;
-
-            int code = Convert.ToInt16(BtnAlarm.Tag);
-            //if (Convert.ToInt16(BtnAlarm.Tag) == 100) CMainFrame.DisplayAlarm(code, EAlarmGroup.LOADER);
-            //if (Convert.ToInt16(BtnAlarm.Tag) == 200) CMainFrame.DisplayAlarm(code, EAlarmGroup.PUSHPULL);
-            //if (Convert.ToInt16(BtnAlarm.Tag) == 300) CMainFrame.DisplayAlarm(code, EAlarmGroup.HANDLER);
-            //if (Convert.ToInt16(BtnAlarm.Tag) == 400) CMainFrame.DisplayAlarm(code, EAlarmGroup.HANDLER);
-            //if (Convert.ToInt16(BtnAlarm.Tag) == 500) CMainFrame.DisplayAlarm(code, EAlarmGroup.SPINNER);
-            //if (Convert.ToInt16(BtnAlarm.Tag) == 600) CMainFrame.DisplayAlarm(code, EAlarmGroup.SPINNER);
-            //if (Convert.ToInt16(BtnAlarm.Tag) == 700) CMainFrame.DisplayAlarm(code, EAlarmGroup.STAGE);
-
-            code = 1;
-            if (Convert.ToInt16(BtnAlarm.Tag) == 100) CMainFrame.DisplayAlarm(CMainFrame.LWDicer.m_ctrlLoader.GenerateErrorCode(code));
-            if (Convert.ToInt16(BtnAlarm.Tag) == 200) CMainFrame.DisplayAlarm(CMainFrame.LWDicer.m_ctrlPushPull.GenerateErrorCode(code));
-            if (Convert.ToInt16(BtnAlarm.Tag) == 300) CMainFrame.DisplayAlarm(CMainFrame.LWDicer.m_ctrlHandler.GenerateErrorCode(code));
-            if (Convert.ToInt16(BtnAlarm.Tag) == 400) CMainFrame.DisplayAlarm(CMainFrame.LWDicer.m_ctrlHandler.GenerateErrorCode(code));
-            if (Convert.ToInt16(BtnAlarm.Tag) == 500) CMainFrame.DisplayAlarm(CMainFrame.LWDicer.m_ctrlSpinner1.GenerateErrorCode(code));
-            if (Convert.ToInt16(BtnAlarm.Tag) == 600) CMainFrame.DisplayAlarm(CMainFrame.LWDicer.m_ctrlSpinner2.GenerateErrorCode(code));
-            if (Convert.ToInt16(BtnAlarm.Tag) == 700) CMainFrame.DisplayAlarm(CMainFrame.LWDicer.m_ctrlStage1.GenerateErrorCode(code));
-        }
     }
 }

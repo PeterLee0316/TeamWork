@@ -550,3 +550,14 @@ LWDicer의 DataManager에서 데이터를 읽어오기 위한 3가지 함수 : S
 // 1.Message Box 수정
 //  - SystemParaData Excel 파일 Message Info Sheet 추가
 //  - Message Info Excel Import, Export 추가
+
+// Version : 0.0.19
+// Grade : ★
+// Date : 2016-07-01 ~ 2016-07-07
+// Context
+// 1.Wafer Cassette Data UI 추가
+// 2.Model Data UI 추가
+// 3.Coating Data UI 추가
+// 4.Cleaning Data UI 추가
+
+

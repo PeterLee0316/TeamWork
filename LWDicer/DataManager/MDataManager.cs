@@ -102,6 +102,7 @@ namespace LWDicer.Control
         public const int ERR_DATA_MANAGER_ALARM_EXCEL_FILE_READ_FAIL = 4;
         public const int ERR_DATA_MANAGER_SYSTEM_EXCEL_FILE_READ_FAIL = 5;
         public const int ERR_DATA_MANAGER_MSG_INFO_EXCEL_FILE_READ_FAIL = 6;
+        public const int ERR_DATA_MANAGER_PARA_INFO_EXCEL_FILE_READ_FAIL = 7;
 
 
         public const int ERR_DATA_MANAGER_EXCEL_FILE_WRITE_FAIL = 1;
@@ -110,6 +111,7 @@ namespace LWDicer.Control
         public const int ERR_DATA_MANAGER_ALARM_EXCEL_FILE_WRITE_FAIL = 4;
         public const int ERR_DATA_MANAGER_SYSTEM_EXCEL_FILE_WRITE_FAIL = 5;
         public const int ERR_DATA_MANAGER_MSG_INFO_EXCEL_FILE_WRITE_FAIL = 6;
+        public const int ERR_DATA_MANAGER_PARA_INFO_EXCEL_FILE_WRITE_FAIL = 6;
 
         public class CSystemDataFileNames
         {
@@ -834,7 +836,7 @@ namespace LWDicer.Control
 
                 SaveGeneralData();
             }
-
+            
             ///////////////////////////////////////
 
             if (false)
@@ -2441,8 +2443,7 @@ namespace LWDicer.Control
                 CassetteData = ObjectExtensions.Copy(data);
                 string output = JsonConvert.SerializeObject(data);
 
-                if (DBManager.InsertRow(DBInfo.DBConn, tableName, "name", ModelData.Name, output,
-                    true, DBInfo.DBConn_Backup) != true)
+                if (DBManager.InsertRow(DBInfo.DBConn, tableName, "name", CassetteData.Name, output, true, DBInfo.DBConn_Backup) != true)
                 {
                     return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_SAVE_MODEL_DATA);
                 }
@@ -2466,7 +2467,7 @@ namespace LWDicer.Control
                 WaferFrameData = ObjectExtensions.Copy(data);
                 string output = JsonConvert.SerializeObject(data);
 
-                if (DBManager.InsertRow(DBInfo.DBConn, tableName, "name", ModelData.Name, output,
+                if (DBManager.InsertRow(DBInfo.DBConn, tableName, "name", WaferFrameData.Name, output,
                     true, DBInfo.DBConn_Backup) != true)
                 {
                     return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_SAVE_MODEL_DATA);
@@ -2571,9 +2572,11 @@ namespace LWDicer.Control
             }
 
             CWaferCassette data = null;
+
             try
             {
-                string output;
+
+                    string output;
                 // 1.2. load cassette data
                 if (DBManager.SelectRow(DBInfo.DBConn, DBInfo.TableCassette, out output, new CDBColumn("name", name)) == true)
                 {
@@ -3768,32 +3771,44 @@ namespace LWDicer.Control
             int nRowCount = SheetRange.EntireRow.Count;
             int i = 0, Type = 0;
 
-            CParaInfo ParaInfo = new CParaInfo();
-
-            ParaInfoList.Clear();
-
-            for (i = 0; i < nRowCount - 1; i++)
+            try
             {
-                ParaInfo.Group = (string)(SheetRange.Cells[i + 2, 1] as Excel.Range).Value2; // Group
-                ParaInfo.Name = (string)(SheetRange.Cells[i + 2, 2] as Excel.Range).Value2; // Name
+                ParaInfoList.Clear();
 
-                ParaInfo.Unit = (string)(SheetRange.Cells[i + 2, 3] as Excel.Range).Value2; // Unit
+                for (i = 0; i < nRowCount - 1; i++)
+                {
+                    CParaInfo ParaInfo = new CParaInfo();
 
-                ParaInfo.Type = (EUnitType)(SheetRange.Cells[i + 2, 4] as Excel.Range).Value2; // Type
+                    ParaInfo.Group = (string)(SheetRange.Cells[i + 2, 1] as Excel.Range).Value2; // Group
+                    ParaInfo.Name = (string)(SheetRange.Cells[i + 2, 2] as Excel.Range).Value2; // Name
 
-                ParaInfo.DisplayName[(int)DEF_Common.ELanguage.KOREAN] = (string)(SheetRange.Cells[i + 2, 5] as Excel.Range).Value2;
-                ParaInfo.DisplayName[(int)DEF_Common.ELanguage.ENGLISH] = (string)(SheetRange.Cells[i + 2, 6] as Excel.Range).Value2;
-                ParaInfo.DisplayName[(int)DEF_Common.ELanguage.CHINESE] = (string)(SheetRange.Cells[i + 2, 7] as Excel.Range).Value2;
-                ParaInfo.DisplayName[(int)DEF_Common.ELanguage.JAPANESE] = (string)(SheetRange.Cells[i + 2, 8] as Excel.Range).Value2;
+                    ParaInfo.Unit = (string)(SheetRange.Cells[i + 2, 3] as Excel.Range).Value2; // Unit
 
-                ParaInfo.Description[(int)DEF_Common.ELanguage.KOREAN] = (string)(SheetRange.Cells[i + 2, 9] as Excel.Range).Value2;
-                ParaInfo.Description[(int)DEF_Common.ELanguage.ENGLISH] = (string)(SheetRange.Cells[i + 2, 10] as Excel.Range).Value2;
-                ParaInfo.Description[(int)DEF_Common.ELanguage.CHINESE] = (string)(SheetRange.Cells[i + 2, 11] as Excel.Range).Value2;
-                ParaInfo.Description[(int)DEF_Common.ELanguage.JAPANESE] = (string)(SheetRange.Cells[i + 2, 12] as Excel.Range).Value2;
+                    ParaInfo.Type = (EUnitType)(SheetRange.Cells[i + 2, 4] as Excel.Range).Value2; // Type
 
-                ParaInfoList.Add(ParaInfo);
+                    ParaInfo.DisplayName[(int)DEF_Common.ELanguage.KOREAN] = (string)(SheetRange.Cells[i + 2, 5] as Excel.Range).Value2;
+                    ParaInfo.DisplayName[(int)DEF_Common.ELanguage.ENGLISH] = (string)(SheetRange.Cells[i + 2, 6] as Excel.Range).Value2;
+                    ParaInfo.DisplayName[(int)DEF_Common.ELanguage.CHINESE] = (string)(SheetRange.Cells[i + 2, 7] as Excel.Range).Value2;
+                    ParaInfo.DisplayName[(int)DEF_Common.ELanguage.JAPANESE] = (string)(SheetRange.Cells[i + 2, 8] as Excel.Range).Value2;
+
+                    ParaInfo.Description[(int)DEF_Common.ELanguage.KOREAN] = (string)(SheetRange.Cells[i + 2, 9] as Excel.Range).Value2;
+                    ParaInfo.Description[(int)DEF_Common.ELanguage.ENGLISH] = (string)(SheetRange.Cells[i + 2, 10] as Excel.Range).Value2;
+                    ParaInfo.Description[(int)DEF_Common.ELanguage.CHINESE] = (string)(SheetRange.Cells[i + 2, 11] as Excel.Range).Value2;
+                    ParaInfo.Description[(int)DEF_Common.ELanguage.JAPANESE] = (string)(SheetRange.Cells[i + 2, 12] as Excel.Range).Value2;
+
+                    ParaInfoList.Add(ParaInfo);
+                }
+
+                SaveParaInfoList();
+
+            }
+            catch (Exception ex)
+            {
+                WriteExLog(ex.ToString());
+                return GenerateErrorCode(ERR_DATA_MANAGER_PARA_INFO_EXCEL_FILE_READ_FAIL);
             }
 
+            WriteLog($"success : Import Para Info From Excel", ELogType.Debug);
             return SUCCESS;
         }
 

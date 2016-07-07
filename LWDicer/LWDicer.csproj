@@ -247,6 +247,12 @@
     <Compile Include="UI\FormTopScreen.designer.cs">
       <DependentUpon>FormTopScreen.cs</DependentUpon>
     </Compile>
+    <Compile Include="UI\FormWaferCassette.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\FormWaferCassette.Designer.cs">
+      <DependentUpon>FormWaferCassette.cs</DependentUpon>
+    </Compile>
     <Compile Include="UI\MainScreen\FormAutoScreen.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -283,6 +289,18 @@
     <Compile Include="UI\MainScreen\FormTeachScreen.designer.cs">
       <DependentUpon>FormTeachScreen.cs</DependentUpon>
     </Compile>
+    <Compile Include="UI\SubDataForm\FormCleanerData.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\SubDataForm\FormCleanerData.Designer.cs">
+      <DependentUpon>FormCleanerData.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\SubDataForm\FormCoaterData.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\SubDataForm\FormCoaterData.Designer.cs">
+      <DependentUpon>FormCoaterData.cs</DependentUpon>
+    </Compile>
     <Compile Include="UI\SubDataForm\FormCreateMaker.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -300,6 +318,12 @@
     </Compile>
     <Compile Include="UI\SubDataForm\FormModelData.Designer.cs">
       <DependentUpon>FormModelData.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\SubDataForm\FormModelList.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\SubDataForm\FormModelList.Designer.cs">
+      <DependentUpon>FormModelList.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\SubDataForm\FormMotorData.cs">
       <SubType>Form</SubType>
@@ -336,6 +360,12 @@
     </Compile>
     <Compile Include="UI\SubDataForm\FormVisionData.Designer.cs">
       <DependentUpon>FormVisionData.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\SubDataForm\FormWaferCassetteData.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\SubDataForm\FormWaferCassetteData.Designer.cs">
+      <DependentUpon>FormWaferCassetteData.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\SubDataForm\FormWaferData.cs">
       <SubType>Form</SubType>
@@ -494,6 +524,9 @@
     <EmbeddedResource Include="UI\FormTopScreen.resx">
       <DependentUpon>FormTopScreen.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="UI\FormWaferCassette.resx">
+      <DependentUpon>FormWaferCassette.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UI\MainScreen\FormAutoScreen.resx">
       <DependentUpon>FormAutoScreen.cs</DependentUpon>
     </EmbeddedResource>
@@ -512,6 +545,12 @@
     <EmbeddedResource Include="UI\MainScreen\FormTeachScreen.resx">
       <DependentUpon>FormTeachScreen.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="UI\SubDataForm\FormCleanerData.resx">
+      <DependentUpon>FormCleanerData.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\SubDataForm\FormCoaterData.resx">
+      <DependentUpon>FormCoaterData.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UI\SubDataForm\FormCreateMaker.resx">
       <DependentUpon>FormCreateMaker.cs</DependentUpon>
     </EmbeddedResource>
@@ -520,6 +559,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UI\SubDataForm\FormModelData.resx">
       <DependentUpon>FormModelData.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\SubDataForm\FormModelList.resx">
+      <DependentUpon>FormModelList.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\SubDataForm\FormMotorData.resx">
       <DependentUpon>FormMotorData.cs</DependentUpon>
@@ -538,6 +580,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UI\SubDataForm\FormVisionData.resx">
       <DependentUpon>FormVisionData.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\SubDataForm\FormWaferCassetteData.resx">
+      <DependentUpon>FormWaferCassetteData.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\SubDataForm\FormWaferData.resx">
       <DependentUpon>FormWaferData.cs</DependentUpon>

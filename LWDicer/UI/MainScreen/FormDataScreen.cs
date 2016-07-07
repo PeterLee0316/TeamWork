@@ -72,16 +72,15 @@ namespace LWDicer.UI
             dlg.ShowDialog();
         }
 
-        private void BtnModelData_Click(object sender, EventArgs e)
+        private void BtnModelList_Click(object sender, EventArgs e)
         {
-            FormModelData dlg = new FormModelData(EListHeaderType.MODEL);
+            FormModelList dlg = new FormModelList(EListHeaderType.MODEL);
             dlg.ShowDialog();
         }
 
-        private void BtnWaferData_Click(object sender, EventArgs e)
+        private void BtnWaferList_Click(object sender, EventArgs e)
         {
-            FormWaferData dlg = new FormWaferData();
-            dlg.ShowDialog();
+            
         }
 
         private void BtnVacuum_Click(object sender, EventArgs e)
@@ -99,6 +98,42 @@ namespace LWDicer.UI
         private void BtnSystemData_Click(object sender, EventArgs e)
         {
             FormSystemData dlg = new FormSystemData();
+            dlg.ShowDialog();
+        }
+
+        private void BtnCassetteData_Click(object sender, EventArgs e)
+        {
+            FormWaferCassetteData dlg = new FormWaferCassetteData();
+            dlg.ShowDialog();
+        }
+
+        private void BtnCassetteList_Click(object sender, EventArgs e)
+        {
+            FormModelList dlg = new FormModelList(EListHeaderType.CASSETTE);
+            dlg.ShowDialog();
+        }
+
+        private void BtnModelData_Click(object sender, EventArgs e)
+        {
+            FormModelData dlg = new FormModelData();
+            dlg.ShowDialog();
+        }
+
+        private void BtnWaferData_Click(object sender, EventArgs e)
+        {
+            FormWaferData dlg = new FormWaferData();
+            dlg.ShowDialog();
+        }
+
+        private void BtnCleaner_Click(object sender, EventArgs e)
+        {
+            FormCleanerData dlg = new FormCleanerData();
+            dlg.ShowDialog();
+        }
+
+        private void BtnCoater_Click(object sender, EventArgs e)
+        {
+            FormCoaterData dlg = new FormCoaterData();
             dlg.ShowDialog();
         }
     }
