@@ -245,7 +245,7 @@ LWDicer의 DataManager에서 데이터를 읽어오기 위한 3가지 함수 : S
 
 // Version : 0.0.26
 // Grade : ★
-// Date : 160627~160628
+// Date : 160627~160701
 // Context
 1. FormUnitInit, FormOriginReturn dialog 수정중...
 2. Alarm, Message Display Dialog 수정.
@@ -257,6 +257,15 @@ LWDicer의 DataManager에서 데이터를 읽어오기 위한 3가지 함수 : S
 8. display Process, Object information on AlarmDisplay dialog.
 9. MACS class : ACS? null 처리. public CACSChannel Motion; 를 CACSData -> CACSRefComp로 위치 변경 적용
 10. MLWDicer.Language 로 단축 생성. FormMessageBox class 및 MessageInfo class 관련 작업 완료
+
+// Version : 0.0.27
+// Grade : ★
+// Date : 160704~160708
+// Context
+1. GenerateError + ReportAlarm 등을 테스트하기 위해서 FormTest class 추가 및 알람 발생 테스트 함수 추가
+2. MLWDicer의 Initialize 함수에서 object id 미일치 부분 수정함.
+3. Jog Dialog 수정 완료 및 동작 관련 Motion 함수 부분 수정함
+0. CreateMultiAxes_ACS 함수만 만듬. 나중에 ljj 과장에게 요청필요.
 
 // for Project setting
 // WIN32, SIMULATION_VISION, SIMULATION_MOTION_ACS, SIMULATION_MOTION_YMC, SIMULATION_IO

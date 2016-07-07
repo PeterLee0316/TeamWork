@@ -1016,6 +1016,9 @@ namespace LWDicer.Control
 
         public int OpenController(bool bServoOn = false)
         {
+#if SIMULATION_MOTION_YMC
+            return SUCCESS;
+#endif
             // 0. init
             int iResult;
             UInt32 rc;
@@ -1114,6 +1117,9 @@ namespace LWDicer.Control
 
         private int DeclareDevice(int length, UInt32[] hAxis, ref UInt32 hDevice)
         {
+#if SIMULATION_MOTION_YMC
+            return SUCCESS;
+#endif
             UInt32 rc = CMotionAPI.ymcDeclareDevice((UInt16)length, hAxis, ref hDevice);
             if (rc != CMotionAPI.MP_SUCCESS)
             {
@@ -1148,6 +1154,9 @@ namespace LWDicer.Control
 
         private int ClearDevice(UInt32 hDevice)
         {
+#if SIMULATION_MOTION_YMC
+            return SUCCESS;
+#endif
             UInt32 rc = CMotionAPI.ymcClearDevice(hDevice);
             if (rc != CMotionAPI.MP_SUCCESS)
             {
@@ -1161,6 +1170,9 @@ namespace LWDicer.Control
 
         public int CloseController()
         {
+#if SIMULATION_MOTION_YMC
+            return SUCCESS;
+#endif
             for (int i = 0; i < m_Data.CpuNo; i++)
             {
                 if (m_hController[i] == 0) continue;
@@ -1185,6 +1197,9 @@ namespace LWDicer.Control
         /// <returns></returns>
         private int ChangeController(int cpuIndex)
         {
+#if SIMULATION_MOTION_YMC
+            return SUCCESS;
+#endif
             return SUCCESS;
 
             if (cpuIndex >= m_hController.Length || m_hController[cpuIndex] == 0)
@@ -1365,6 +1380,9 @@ namespace LWDicer.Control
 
         public int ServoOn(int deviceNo)
         {
+#if SIMULATION_MOTION_YMC
+            return SUCCESS;
+#endif
             int iResult = ResetAlarm(deviceNo);
             if (iResult != SUCCESS) return iResult;
 
@@ -1395,6 +1413,9 @@ namespace LWDicer.Control
 
         public int ServoOff(int deviceNo)
         {
+#if SIMULATION_MOTION_YMC
+            return SUCCESS;
+#endif
             if (deviceNo == (int)EYMC_Device.NULL) return SUCCESS; // return success if device is null
 
             UInt32 rc = CMotionAPI.ymcServoControl(m_hDevice[deviceNo], (UInt16)CMotionAPI.ApiDefs.SERVO_OFF, APITimeOut);
@@ -1410,10 +1431,12 @@ namespace LWDicer.Control
 
         public int ResetAlarm(int deviceNo = (int)EYMC_Device.ALL)
         {
+#if SIMULATION_MOTION_YMC
+            return SUCCESS;
+#endif
             if (deviceNo == (int)EYMC_Device.NULL) return SUCCESS; // return success if device is null
 
             UInt32 rc;
-
             // Clears all the Machine Controller alarms. 
             rc = CMotionAPI.ymcClearAlarm(0);
             if (rc != CMotionAPI.MP_SUCCESS)
@@ -1460,6 +1483,10 @@ namespace LWDicer.Control
 
         public int CheckMoveComplete(int servoNo, out bool bComplete)
         {
+#if SIMULATION_MOTION_YMC
+            bComplete = true;
+            return SUCCESS;
+#endif
             UInt32 returnValue = 0;
             bComplete = false;
 
@@ -1533,6 +1560,9 @@ namespace LWDicer.Control
 
         public int StopJogMove(int deviceNo)
         {
+#if SIMULATION_MOTION_YMC
+            return SUCCESS;
+#endif
             if (deviceNo == (int)EYMC_Device.NULL) return SUCCESS; // return success if device is null
 
             ushort[] WaitForCompletion;
@@ -1568,7 +1598,7 @@ namespace LWDicer.Control
             Int16[] Direction = new Int16[1];
             UInt16[] TimeOut = new UInt16[1] { APIJogTime };
 
-            if (jogDir == JOG_DIR_POS)
+            if (jogDir == DIR_POSITIVE)
             {
                 //Jog +
                 if (ServoStatus[deviceNo].IsReady && ServoStatus[deviceNo].IsServoOn)
@@ -1583,6 +1613,9 @@ namespace LWDicer.Control
                     {
                         Direction[0] = (Int16)CMotionAPI.ApiDefs.DIRECTION_POSITIVE;
                     }
+                } else
+                {
+                    return GenerateErrorCode(ERR_YASKAWA_NOT_SERVO_ON);
                 }
             }
             else
@@ -1601,12 +1634,21 @@ namespace LWDicer.Control
                         Direction[0] = (Int16)CMotionAPI.ApiDefs.DIRECTION_NEGATIVE;
                     }
                 }
+                else
+                {
+                    return GenerateErrorCode(ERR_YASKAWA_NOT_SERVO_ON);
+                }
             }
 
             ushort TimeOut1 = 0;
             CMotionAPI.MOTION_DATA[] MotionData;
             int speedType = (bJogFastMove == true) ? (int)EMotorSpeed.JOG_FAST : (int)EMotorSpeed.JOG_SLOW;
             GetDevice_MotionData(deviceNo, out MotionData, speedType);
+
+#if SIMULATION_MOTION_YMC
+            return SUCCESS;
+#endif
+
             UInt32 rc = CMotionAPI.ymcMoveJOG(m_hDevice[deviceNo], MotionData, Direction, TimeOut, 0, "JOG", 0);
             if (rc != CMotionAPI.MP_SUCCESS)
             {
@@ -1626,6 +1668,10 @@ namespace LWDicer.Control
             GetDevice_MotionData(deviceNo, out MotionData);
             ushort[] WaitForCompletion;
             GetDeviceWaitCompletion(deviceNo, out WaitForCompletion, mode);
+
+#if SIMULATION_MOTION_YMC
+            return SUCCESS;
+#endif
 
             UInt32 rc = CMotionAPI.ymcStopMotion(m_hDevice[deviceNo], MotionData, "STOP", WaitForCompletion, 0);
             if (rc != CMotionAPI.MP_SUCCESS)
@@ -1673,6 +1719,9 @@ namespace LWDicer.Control
             iResult = CheckAxisStateForMove(axisList);
             if (iResult != SUCCESS) return iResult;
 
+#if SIMULATION_MOTION_YMC
+            return SUCCESS;
+#endif
             // 1. call api
             // ymcMovePositioning 함수는 motion controller 가 부하를 담당하고, ymcMoveDriverPositioning는 driver가 부하를 담당
             UInt32 rc = CMotionAPI.ymcMoveDriverPositioning(m_hDevice[deviceNo], MotionData, PositionData, 0, "Move", WaitForCompletion, 0);
@@ -1763,6 +1812,9 @@ namespace LWDicer.Control
             iResult = CheckAxisStateForMove(tAxisList);
             if (iResult != SUCCESS) return iResult;
 
+#if SIMULATION_MOTION_YMC
+            return SUCCESS;
+#endif
             // 1. call api
             // ymcMovePositioning 함수는 motion controller 가 부하를 담당하고, ymcMoveDriverPositioning는 driver가 부하를 담당
             UInt32 rc = CMotionAPI.ymcMoveDriverPositioning(tDevice, MotionData, PositionData, 0, "Move", WaitForCompletion, 0);
@@ -1943,6 +1995,10 @@ namespace LWDicer.Control
                 j++;
             }
 
+#if SIMULATION_MOTION_YMC
+            return SUCCESS;
+#endif
+
             // 1. call api
             UInt32 rc = CMotionAPI.ymcMoveHomePosition(tDevice, MotionData, PositionData, Method, Dir, 0, null, WaitForCompletion, 0);
             if (rc != CMotionAPI.MP_SUCCESS)
@@ -2000,6 +2056,7 @@ namespace LWDicer.Control
             SetOriginFlag(deviceNo, false);
 
             // home return
+#if !SIMULATION_MOTION_YMC
             UInt32 rc = CMotionAPI.ymcMoveHomePosition(m_hDevice[deviceNo], MotionData, PositionData, Method, Dir, 0, null, WaitForCompletion, 0);
             if (rc != CMotionAPI.MP_SUCCESS)
             {
@@ -2008,6 +2065,7 @@ namespace LWDicer.Control
                 WriteLog(LastHWMessage, ELogType.Debug, ELogWType.D_Error, true);
                 return GenerateErrorCode(ERR_YASKAWA_FAIL_SERVO_MOVE_HOME);
             }
+#endif
 
             // set origin flag
             SetOriginFlag(deviceNo, true);
@@ -2021,6 +2079,7 @@ namespace LWDicer.Control
             pos = 0;
             return GenerateErrorCode(ERR_YASKAWA_OBSOLETE_FUNCTION);
 
+#if !SIMULATION_MOTION_YMC
             UInt32 servoPosi = 0;
             UInt32 rc = CMotionAPI.ymcGetMotionParameterValue(m_hAxis[servoNo], (UInt16)CMotionAPI.ApiDefs.MONITOR_PARAMETER,
                  (UInt16)CMotionAPI.ApiDefs_MonPrm.SER_APOS, ref servoPosi);
@@ -2031,15 +2090,17 @@ namespace LWDicer.Control
                 return GenerateErrorCode(ERR_YASKAWA_FAIL_SERVO_GET_POS);
             }
             pos = servoPosi / UNIT_REF;
+#endif
 
             return SUCCESS;
         }
 
         public bool IsServoWarning(int servoNo)
         {
-
+#if SIMULATION_MOTION_YMC
+            return false;
+#endif
             UInt32 returnValue = 0;
-
             UInt32 rc = CMotionAPI.ymcGetMotionParameterValue(m_hAxis[servoNo],
                                                           (UInt16)CMotionAPI.ApiDefs.MONITOR_PARAMETER,
                                                           (UInt16)CMotionAPI.ApiDefs_MonPrm.SER_WARNING,

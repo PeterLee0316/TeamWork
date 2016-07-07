@@ -96,10 +96,6 @@ namespace LWDicer.Control
         {
             Debug.Assert(INPUT_ORIGIN <= addr && addr <= OUTPUT_END);
             hDataHandle = 0;
-#if SIMULATION_IO
-            return SUCCESS;
-#endif
-
             string registerName;
             // register type
             if (addr < OUTPUT_ORIGIN)
@@ -111,6 +107,7 @@ namespace LWDicer.Control
                 registerName = String.Format($"{EYMCRegisterType.O}{type}{(addr - OUTPUT_ORIGIN).ToString("D4")}");
             }
 
+#if !SIMULATION_IO
             // get handle
             uint rc = CMotionAPI.ymcGetRegisterDataHandle(registerName, ref hDataHandle);
             if (rc != CMotionAPI.MP_SUCCESS)
@@ -119,6 +116,7 @@ namespace LWDicer.Control
                 WriteLog(str, ELogType.Debug, ELogWType.D_Error, true);
                 return GenerateErrorCode(ERR_YMC_FAIL_GET_DATA_HANDLE);
             }
+#endif
 
             return SUCCESS;
         }

@@ -528,7 +528,7 @@
             this.BtnMinus.TabIndex = 836;
             this.BtnMinus.Text = "-";
             this.BtnMinus.MouseDown += new System.Windows.Forms.MouseEventHandler(this.BtnMinus_MouseDown);
-            this.BtnMinus.MouseUp += new System.Windows.Forms.MouseEventHandler(this.BtnPlus_MouseUp);
+            this.BtnMinus.MouseUp += new System.Windows.Forms.MouseEventHandler(this.BtnMinus_MouseUp);
             // 
             // Image
             // 

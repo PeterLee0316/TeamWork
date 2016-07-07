@@ -341,6 +341,11 @@ namespace LWDicer.Control
         public int PostMsg(int target, MEvent evnt)
         {
             if ((target < 0) || (target >= (int)EThreadChannel.MAX)) return -1;
+            // because when doing linkthread, link self to zero channel.
+            if (target == (int)SelfChannelNo)
+            {
+                target = 0;
+            }
 
             if (m_LinkedThreadArray[target] == null) return -1;
             return (m_LinkedThreadArray[target].PostMsg(evnt));
@@ -391,11 +396,11 @@ namespace LWDicer.Control
         /// </summary>
         /// <param name="alarm"></param>
         /// <returns></returns>
-        protected int ReportAlarm(int alarm, int target = (int)TrsAutoManager)
+        public int ReportAlarm(int alarm, int target = (int)TrsAutoManager)
         {
             RunStatus = STS_ERROR_STOP;
 
-            MEvent evnt = new MEvent((int)MSG_PROCESS_ALARM, wParam:ThreadID, lParam:alarm);
+            MEvent evnt = new MEvent((int)MSG_PROCESS_ALARM, wParam:(int)SelfChannelNo, lParam:alarm);
             return PostMsg(target, evnt);
         }
 

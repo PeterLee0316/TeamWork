@@ -220,10 +220,10 @@ namespace LWDicer.UI
 
         private void BtnSave_Click(object sender, EventArgs e)
         {
-            if (!CMainFrame.DisplayMsg(32))
-            {
-                return;
-            }
+            //if (!CMainFrame.DisplayMsg(32))
+            //{
+            //    return;
+            //}
 
             IsEdited = false;
             string strPos = string.Format("X:{0:d},Y:{1:d}", dXPos, dYPos);

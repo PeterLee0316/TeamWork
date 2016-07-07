@@ -383,6 +383,7 @@
             this.Controls.Add(this.gradientPanel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "FormTeachScreen";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             this.Text = "Teach Screen";
             ((System.ComponentModel.ISupportInitialize)(this.gradientPanel1)).EndInit();
             this.gradientPanel1.ResumeLayout(false);

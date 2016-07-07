@@ -33,5 +33,11 @@ namespace LWDicer.UI
             this.Size = new Size(DEF_UI.MAIN_SIZE_WIDTH, DEF_UI.MAIN_SIZE_HEIGHT);
             this.FormBorderStyle = FormBorderStyle.None;
         }
+
+        private void BtnTestFunction_Click(object sender, EventArgs e)
+        {
+            var dlg = new FormTest();
+            dlg.ShowDialog();
+        }
     }
 }

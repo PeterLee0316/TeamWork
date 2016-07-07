@@ -129,9 +129,17 @@ namespace LWDicer.UI
 
         public void ProcessMsg(MEvent evnt)
         {
-            string msg = "Get Message from Control : " + evnt;
+            string msg = "MainFrame got message from control : " + evnt;
             Debug.WriteLine("===================================================");
             Debug.WriteLine(msg);
+            Debug.WriteLine("===================================================");
+
+            switch(evnt.Msg)
+            {
+                case (int)EWindowMessage.WM_ALARM_MSG:
+                    DisplayAlarm(evnt.lParam, evnt.wParam);
+                    break;
+            }
         }
 
         protected virtual void InitializeForm()
@@ -195,7 +203,8 @@ namespace LWDicer.UI
 
         public bool InitializeLWDicer()
         {
-            int iResult = LWDicer.Initialize(MainFrame);
+            //int iResult = LWDicer.Initialize(MainFrame);
+            int iResult = LWDicer.Initialize(this);
             if (iResult != SUCCESS)
             {
                 // Show Error Message & 프로그램 종료?
