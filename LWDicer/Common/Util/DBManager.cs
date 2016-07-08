@@ -35,9 +35,9 @@ namespace LWDicer.Control
             op_type = type;
         }
 
-        private static bool IsNullOrEmpty(string str)
+        private static bool IsNullOrWhiteSpace(string str)
         {
-            if (string.IsNullOrEmpty(str) || str.ToLower() == "null") return true;
+            if (string.IsNullOrWhiteSpace(str) || str.ToLower() == "null") return true;
 
             return false;
         }
@@ -228,8 +228,8 @@ namespace LWDicer.Control
         public static bool InsertRow(string conninfo, string table, string key, string key_value, string data,
             bool backup = false, string backup_conninfo = "")
         {
-            if (IsNullOrEmpty(key_value)) return false;
-            if (IsNullOrEmpty(data)) return false;
+            if (IsNullOrWhiteSpace(key_value)) return false;
+            if (IsNullOrWhiteSpace(data)) return false;
 
             // 0. initialize
             DateTime now = DateTime.Now;
@@ -240,7 +240,7 @@ namespace LWDicer.Control
                 return false;
 
             string query;
-            if(backup == true && IsNullOrEmpty(backup_conninfo) == false)
+            if(backup == true && IsNullOrWhiteSpace(backup_conninfo) == false)
             {
                 // 2. select previous and check change
                 query = $"SELECT * FROM {table} WHERE ({key} = '{key_value}')";
@@ -259,7 +259,7 @@ namespace LWDicer.Control
                 }
 
                 // 4. backup
-                if (IsNullOrEmpty(column1.Value) == false)
+                if (IsNullOrWhiteSpace(column1.Value) == false)
                 {
                     create_query = $"CREATE TABLE IF NOT EXISTS {table} (name string, created datetime, modified datetime, op_number string, op_type string, data string)";
                     query = $"INSERT INTO {table} VALUES ('{key_value}', '{column2.Value}', '{DateTimeSQLite(now)}', '{op_number}', '{op_type}', '{column1.Value}')";
@@ -279,7 +279,7 @@ namespace LWDicer.Control
 
         public static bool DeleteRow(string conninfo, string table, string key, string key_value, bool backup = false, string backup_conninfo = "")
         {
-            if (IsNullOrEmpty(key_value)) return false;
+            if (IsNullOrWhiteSpace(key_value)) return false;
 
             // 0. initialize
             DateTime now = DateTime.Now;
@@ -290,7 +290,7 @@ namespace LWDicer.Control
                 return false;
 
             string query;
-            if (backup == true && IsNullOrEmpty(backup_conninfo) == false)
+            if (backup == true && IsNullOrWhiteSpace(backup_conninfo) == false)
             {
                 // 2. select previous and check change
                 query = $"SELECT * FROM {table} WHERE ({key} = '{key_value}')";
@@ -308,7 +308,7 @@ namespace LWDicer.Control
                     return false;
 
                 // 4. backup
-                if (IsNullOrEmpty(column1.Value) == false)
+                if (IsNullOrWhiteSpace(column1.Value) == false)
                 {
                     create_query = $"CREATE TABLE IF NOT EXISTS {table} (name string, created datetime, modified datetime, op_number string, op_type string, data string)";
                     query = $"INSERT INTO {table} VALUES ('{key_value}', '{column2.Value}', '{DateTimeSQLite(now)}', '{op_number}', '{op_type}', '{column1.Value}')";
@@ -346,7 +346,7 @@ namespace LWDicer.Control
                 return false;
 
             data = column.Value;
-            if (IsNullOrEmpty(data)) return false;
+            if (IsNullOrWhiteSpace(data)) return false;
 
             return true;
         }

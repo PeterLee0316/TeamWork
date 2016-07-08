@@ -461,6 +461,9 @@ namespace LWDicer.Control
 
     public class DEF_Common
     {
+        public const int SUCCESS = 0;
+        public const string MSG_UNDEFINED = "undefined";
+
         //
         public const int WhileSleepTime         = 10; // while interval time
 
@@ -834,15 +837,11 @@ namespace LWDicer.Control
                 this.Unit = Unit;
                 this.Type = Type; // temporarily 
 
-                DisplayName[(int)DEF_Common.ELanguage.KOREAN]   = Name;
-                DisplayName[(int)DEF_Common.ELanguage.ENGLISH]  = Name;
-                DisplayName[(int)DEF_Common.ELanguage.CHINESE]  = Name;
-                DisplayName[(int)DEF_Common.ELanguage.JAPANESE] = Name;
-
-                Description[(int)DEF_Common.ELanguage.KOREAN]   = "Parameter Description";
-                Description[(int)DEF_Common.ELanguage.ENGLISH]  = "Parameter Description";
-                Description[(int)DEF_Common.ELanguage.CHINESE]  = "Parameter Description";
-                Description[(int)DEF_Common.ELanguage.JAPANESE] = "Parameter Description";
+                for (int i = 0; i < (int)ELanguage.MAX; i++)
+                {
+                    DisplayName[i] = MSG_UNDEFINED;
+                    Description[i] = MSG_UNDEFINED;
+                }
             }
 
             public string GetDisplayName(DEF_Common.ELanguage lang = DEF_Common.ELanguage.ENGLISH)
@@ -855,10 +854,41 @@ namespace LWDicer.Control
                 return Description[(int)lang];
             }
 
+            public bool Update(CParaInfo info)
+            {
+                bool bUpdated = false;
+                string str;
+                for (int i = 0; i < (int)ELanguage.MAX; i++)
+                {
+                    str = info.Description[i];
+                    if (str != MSG_UNDEFINED && string.IsNullOrWhiteSpace(str) == false
+                        && Description[i] != str)
+                    {
+                        bUpdated = true;
+                        Description[i] = str;
+                    }
+
+                    str = info.DisplayName[i];
+                    if (str != MSG_UNDEFINED && string.IsNullOrWhiteSpace(str) == false
+                        && DisplayName[i] != str)
+                    {
+                        bUpdated = true;
+                        DisplayName[i] = str;
+                    }
+                }
+
+                //if(bUpdated)
+                {
+                    Type = info.Type;
+                    Unit = info.Unit;
+                }
+                return bUpdated;
+            }
         }
 
         public enum EMessageType
         {
+            NONE = -1,
             OK,
             OK_Cancel,
             Confirm_Cancel,
@@ -877,10 +907,10 @@ namespace LWDicer.Control
 
             public CMessageInfo()
             {
-                Message[(int)DEF_Common.ELanguage.KOREAN]   = "Undefined Message";
-                Message[(int)DEF_Common.ELanguage.ENGLISH]  = "Undefined Message";
-                Message[(int)DEF_Common.ELanguage.CHINESE]  = "Undefined Message";
-                Message[(int)DEF_Common.ELanguage.JAPANESE] = "Undefined Message";
+                for (int i = 0; i < (int)ELanguage.MAX; i++)
+                {
+                    Message[i] = MSG_UNDEFINED;
+                }
             }
 
             public string GetMessage(DEF_Common.ELanguage lang = DEF_Common.ELanguage.ENGLISH)
@@ -890,11 +920,38 @@ namespace LWDicer.Control
 
             public bool IsEqual(string strMsg)
             {
+                strMsg = strMsg.ToLower();
                 foreach (string str in Message)
                 {
-                    if (str == strMsg) return true;
+                    string str1 = str.ToLower();
+
+                    // Message 특성상 마침표등의 문제로 문자열을 포함하면 같은 메세지인걸로 판단하도록.
+                    if (str1 == strMsg || str1.IndexOf(strMsg) >= 0 || strMsg.IndexOf(str1) >= 0)
+                        return true;
                 }
                 return false;
+            }
+
+            public bool Update(CMessageInfo info)
+            {
+                bool bUpdated = false;
+                string str;
+                for (int i = 0; i < (int)ELanguage.MAX; i++)
+                {
+                    str = info.Message[i];
+                    if (str != MSG_UNDEFINED && string.IsNullOrWhiteSpace(str) == false
+                        && Message[i] != str)
+                    {
+                        bUpdated = true;
+                        Message[i] = str;
+                    }
+                }
+
+                //if(bUpdated)
+                {
+                    Type = info.Type;
+                }
+                return bUpdated;
             }
         }
 
@@ -903,6 +960,150 @@ namespace LWDicer.Control
             NORMAL,
             FAST,
             SLOW,
+        }
+
+        public enum EErrorType
+        {
+            E1, // Error의 경알람 중알람 등등을 정의?
+            E2,
+            E3,
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public enum EAlarmGroup
+        {
+            NONE = -1,
+            SYSTEM,
+            LOADER,
+            PUSHPULL,
+            HANDLER,
+            SPINNER,
+            STAGE,
+            SCANNER,
+            LASER,
+            MAX,
+        }
+
+        /// <summary>
+        /// Alarm 에 대한 정보 class
+        /// ErrorBase와 ErrorCode 조합 형식때문에 각 ErrorBase당 ErrorCode는 최대 100개로 제한됨
+        /// </summary>
+        public class CAlarmInfo
+        {
+            public int Index;           // Primary Key : ErrorBase + ErrorCode 조합
+            public EErrorType Type;     // Error Type
+            public EAlarmGroup Group;
+            public string Esc = "X:0,Y:0";
+
+            public string[] Description = new string[(int)DEF_Common.ELanguage.MAX];
+            public string[] Solution = new string[(int)DEF_Common.ELanguage.MAX];
+
+            public CAlarmInfo(int Index = 0, EErrorType Type = EErrorType.E1, EAlarmGroup Group = EAlarmGroup.NONE)
+            {
+                this.Index = Index;
+                this.Type = Type;
+                this.Group = Group;
+                //Description[(int)DEF_Common.ELanguage.KOREAN]   = "에러메시지가 정의되지 않았습니다.";
+                //Description[(int)DEF_Common.ELanguage.ENGLISH]  = "Error text is not defined";
+                //Description[(int)DEF_Common.ELanguage.CHINESE]  = "预留";
+                //Description[(int)DEF_Common.ELanguage.JAPANESE] = "リザーブド";
+
+                //Solution[(int)DEF_Common.ELanguage.KOREAN]      = "해결방법이 정의되지 않았습니다.";
+                //Solution[(int)DEF_Common.ELanguage.ENGLISH]     = "Solution text is not defined";
+                //Solution[(int)DEF_Common.ELanguage.CHINESE]     = "解法";
+                //Solution[(int)DEF_Common.ELanguage.JAPANESE]    = "解決策";
+
+                for(int i = 0; i < (int)ELanguage.MAX; i++)
+                {
+                    Description[i] = MSG_UNDEFINED;
+                    Solution[i] = MSG_UNDEFINED;
+                }
+            }
+
+            public string GetAlarmText(DEF_Common.ELanguage lang = DEF_Common.ELanguage.ENGLISH)
+            {
+                return Description[(int)lang];
+            }
+
+            public string GetSolutionText(DEF_Common.ELanguage lang = DEF_Common.ELanguage.ENGLISH)
+            {
+                return Solution[(int)lang];
+            }
+
+            public override string ToString()
+            {
+                return $"Alarm : {GetAlarmText()}, Solution : {GetSolutionText()}";
+            }
+
+            public bool Update(CAlarmInfo info)
+            {
+                bool bUpdated = false;
+                string str;
+                for (int i = 0; i < (int)ELanguage.MAX; i++)
+                {
+                    str = info.Description[i];
+                    if (str != MSG_UNDEFINED && string.IsNullOrWhiteSpace(str) == false
+                        && Description[i] != str)
+                    {
+                        bUpdated = true;
+                        Description[i] = str;
+                    }
+
+                    str = info.Solution[i];
+                    if (str != MSG_UNDEFINED && string.IsNullOrWhiteSpace(str) == false
+                        && Solution[i] != str)
+                    {
+                        bUpdated = true;
+                        Solution[i] = str;
+                    }
+                }
+
+                //if(bUpdated)
+                {
+                    Type = info.Type;
+                    Group = info.Group;
+                    if (info.Esc != "X:0,Y:0") Esc = info.Esc;
+                }
+                return bUpdated;
+            }
+        }
+
+        /// <summary>
+        /// CAlarmInfo를 가지고 있는 실제 발생한 Alarm 정보
+        /// </summary>
+        public class CAlarm
+        {
+            public int ProcessID;
+
+            // Alarm Code = (ObjectID << 16) + ErrorBase + ErrorCode
+            public int ObjectID;
+            public int ErrorBase;
+            public int ErrorCode;
+
+            // Alarm을 보고한 Process의 정보
+            public string ProcessName;
+            public string ProcessType;
+
+            // 실제 Alarm이 발생한 Object의 정보
+            public string ObjectName;
+            public string ObjectType;
+
+            public DateTime OccurTime = DateTime.Now; // 발생시간
+            public DateTime ResetTime = DateTime.Now; // 조치시간 (현재는 미정)
+
+            public CAlarmInfo Info = new CAlarmInfo();
+
+            public int GetIndex()
+            {
+                return ErrorBase + ErrorCode;
+            }
+
+            public override string ToString()
+            {
+                return $"Index : {GetIndex()}, Process : [{ProcessType}]{ProcessName}, Object : [{ObjectType}]{ObjectName}";
+            }
         }
     }
 
@@ -1510,119 +1711,6 @@ namespace LWDicer.Control
 
     public class DEF_Error
     {
-        public enum EErrorType
-        {
-            E1, // Error의 경알람 중알람 등등을 정의?
-            E2,
-            E3,
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public enum EAlarmGroup
-        {
-            NONE = -1,
-            SYSTEM,
-            LOADER,
-            PUSHPULL,
-            HANDLER,
-            SPINNER,
-            STAGE,
-            SCANNER,
-            LASER,
-            MAX,
-        }
-
-        /// <summary>
-        /// Alarm 에 대한 정보 class
-        /// ErrorBase와 ErrorCode 조합 형식때문에 각 ErrorBase당 ErrorCode는 최대 100개로 제한됨
-        /// </summary>
-        public class CAlarmInfo
-        {
-            public int Index;           // Primary Key : ErrorBase + ErrorCode 조합
-            public EErrorType Type;     // Error Type
-            public EAlarmGroup Group;
-            public string Esc = "X:0,Y:0";
-
-            public string[] Description = new string[(int)DEF_Common.ELanguage.MAX];
-            public string[] Solution = new string[(int)DEF_Common.ELanguage.MAX];
-
-            public CAlarmInfo(int Index = 0, EErrorType Type = EErrorType.E1, EAlarmGroup Group = EAlarmGroup.NONE)
-            {
-                this.Index = Index;
-                this.Type = Type;
-                this.Group = Group;
-                //for (int i = 0; i < (int)DEF_Common.ELanguage.MAX; i++)
-                //{
-                //    Name[i] = "reserved";
-                //}
-                Description[(int)DEF_Common.ELanguage.KOREAN] = "에러메시지가 정의되지 않았습니다.";
-                Description[(int)DEF_Common.ELanguage.ENGLISH] = "Error text is not defined";
-                Description[(int)DEF_Common.ELanguage.CHINESE] = "预留";
-                Description[(int)DEF_Common.ELanguage.JAPANESE] = "リザーブド";
-
-                Solution[(int)DEF_Common.ELanguage.KOREAN] = "해결방법이 정의되지 않았습니다.";
-                Solution[(int)DEF_Common.ELanguage.ENGLISH] = "Solution text is not defined";
-                Solution[(int)DEF_Common.ELanguage.CHINESE] = "解法";
-                Solution[(int)DEF_Common.ELanguage.JAPANESE] = "解決策";
-            }
-
-            public string GetAlarmText(DEF_Common.ELanguage lang = DEF_Common.ELanguage.ENGLISH)
-            {
-                return Description[(int)lang];
-            }
-
-            public string GetSolutionText(DEF_Common.ELanguage lang = DEF_Common.ELanguage.ENGLISH)
-            {
-                return Solution[(int)lang];
-            }
-
-            public override string ToString()
-            {
-                return $"Alarm : {GetAlarmText()}, Solution : {GetSolutionText()}";
-            }
-        }
-
-        /// <summary>
-        /// CAlarmInfo를 가지고 있는 실제 발생한 Alarm 정보
-        /// </summary>
-        public class CAlarm
-        {
-            public int ProcessID;
-
-            // Alarm Code = (ObjectID << 16) + ErrorBase + ErrorCode
-            public int ObjectID;
-            public int ErrorBase;
-            public int ErrorCode;
-
-            // Alarm을 보고한 Process의 정보
-            public string ProcessName;
-            public string ProcessType;
-
-            // 실제 Alarm이 발생한 Object의 정보
-            public string ObjectName;
-            public string ObjectType;
-
-            public DateTime OccurTime = DateTime.Now; // 발생시간
-            public DateTime ResetTime = DateTime.Now; // 조치시간 (현재는 미정)
-
-            public CAlarmInfo Info = new CAlarmInfo();
-
-            public int GetIndex()
-            {
-                return ErrorBase + ErrorCode;
-            }
-
-            public override string ToString()
-            {
-                return $"Index : {GetIndex()}, Process : [{ProcessType}]{ProcessName}, Object : [{ObjectType}]{ObjectName}";
-            }
-        }
-
-
-        public const int SUCCESS                                                  = 0;
-
         ////////////////////////////////////////////////////////////////////
         // Process Layer
         ////////////////////////////////////////////////////////////////////

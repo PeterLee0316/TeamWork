@@ -161,7 +161,7 @@ namespace LWDicer.Control
                     m_bPushPull_CompleteLoading = true;
                     break;
             }
-            return DEF_Error.SUCCESS;
+            return SUCCESS;
         }
 
         protected override void ThreadProcess()

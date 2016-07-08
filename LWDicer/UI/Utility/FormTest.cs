@@ -94,7 +94,7 @@ namespace LWDicer.UI
             comboControll.Items.Add("AxLaser1            ");
             comboControll.SelectedIndex = 0;
 
-            CtrlList.Add((MObject)CMainFrame.LWDicer.m_DataManager         );
+            CtrlList.Add((MObject)CMainFrame.DataManager         );
             CtrlList.Add((MObject)CMainFrame.LWDicer.m_ctrlLoader          );
             CtrlList.Add((MObject)CMainFrame.LWDicer.m_ctrlPushPull        );
             CtrlList.Add((MObject)CMainFrame.LWDicer.m_ctrlStage1          );

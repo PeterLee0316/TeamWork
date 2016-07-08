@@ -24,9 +24,9 @@ namespace LWDicer.UI
         {
             InitializeComponent();
 
-            modelData = ObjectExtensions.Copy(CMainFrame.LWDicer.m_DataManager.ModelData);
+            modelData = ObjectExtensions.Copy(CMainFrame.DataManager.ModelData);
 
-            foreach (CListHeader info in CMainFrame.LWDicer.m_DataManager.CassetteHeaderList)
+            foreach (CListHeader info in CMainFrame.DataManager.CassetteHeaderList)
             {
                 if (info.IsFolder == false)
                 {
@@ -51,14 +51,14 @@ namespace LWDicer.UI
 
         private void BtnSave_Click(object sender, EventArgs e)
         {
-            if (!CMainFrame.DisplayMsg(34))
+            if (!CMainFrame.DisplayMsg("Save Data?"))
             {
                 return;
             }
 
             modelData.CassetteName = strCassette;
 
-            CMainFrame.LWDicer.m_DataManager.SaveModelData(modelData);
+            CMainFrame.DataManager.SaveModelData(modelData);
         }
 
         private void BtnExit_Click(object sender, EventArgs e)

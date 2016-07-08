@@ -62,14 +62,14 @@ namespace LWDicer.Control
             m_hThread = new Thread(ThreadProcess);
             m_hThread.Start();
 
-            return DEF_Error.SUCCESS;
+            return SUCCESS;
         }
 
         public int ThreadStop()
         {
             m_hThread.Abort();
 
-            return DEF_Error.SUCCESS;
+            return SUCCESS;
         }
 
         public void ThreadProcess()

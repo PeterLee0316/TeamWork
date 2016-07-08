@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Diagnostics;
 
-using static LWDicer.Control.DEF_Error;
+using static LWDicer.Control.DEF_Common;
 using static LWDicer.Control.MTickTimer.ETimeType;
 
 namespace LWDicer.Control

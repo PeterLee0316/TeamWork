@@ -88,7 +88,7 @@ namespace LWDicer.Control
             m_hThread = new Thread(ThreadProcess);
             m_hThread.Start();
 
-            return DEF_Error.SUCCESS;
+            return SUCCESS;
         }
 
         public int ThreadStop()
@@ -96,7 +96,7 @@ namespace LWDicer.Control
             IsAlive = false;
             m_hThread.Abort();
 
-            return DEF_Error.SUCCESS;
+            return SUCCESS;
         }
 
         public int Suspend()
@@ -104,7 +104,7 @@ namespace LWDicer.Control
             IsAlive = false;
             //m_hThread.Suspend();
 
-            return DEF_Error.SUCCESS;
+            return SUCCESS;
         }
 
         public int Resume()
@@ -112,7 +112,7 @@ namespace LWDicer.Control
             IsAlive = true;
             //m_hThread.Resume();
 
-            return DEF_Error.SUCCESS;
+            return SUCCESS;
         }
 
         public void SetOperationMode(EAutoRunMode mode)
@@ -131,7 +131,7 @@ namespace LWDicer.Control
         {
             SetRunStatus(RunStatus);
 
-            return DEF_Error.SUCCESS;
+            return SUCCESS;
         }
 
 
@@ -207,7 +207,7 @@ namespace LWDicer.Control
                     break;
 
             }
-            return DEF_Error.SUCCESS;
+            return SUCCESS;
         }
 
         protected virtual void ThreadProcess()
@@ -330,7 +330,7 @@ namespace LWDicer.Control
             m_LinkedThreadArray[channel] = pThread;
 
             Debug.WriteLine($"[LinkThread] Channel{channel} : {m_LinkedThreadArray[channel]}");
-            return DEF_Error.SUCCESS;
+            return SUCCESS;
         }
 
         public int LinkThread(EThreadChannel channel, MWorkerThread pThread)

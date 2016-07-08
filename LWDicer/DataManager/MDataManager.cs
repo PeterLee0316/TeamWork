@@ -45,73 +45,61 @@ namespace LWDicer.Control
         public const int ERR_DATA_MANAGER_FAIL_DELETE_DB             = 2;
         public const int ERR_DATA_MANAGER_FAIL_DROP_TABLES           = 3;
         public const int ERR_DATA_MANAGER_FAIL_BACKUP_ROW            = 4;
-        public const int ERR_DATA_MANAGER_FAIL_SAVE_SYSTEM_DATA      = 5;
-        public const int ERR_DATA_MANAGER_FAIL_LOAD_SYSTEM_DATA      = 6;
-        public const int ERR_DATA_MANAGER_FAIL_SAVE_POSITION_DATA    = 7;
-        public const int ERR_DATA_MANAGER_FAIL_LOAD_POSITION_DATA    = 8;
-        public const int ERR_DATA_MANAGER_FAIL_SAVE_MODEL_DATA       = 9;
-        public const int ERR_DATA_MANAGER_FAIL_LOAD_MODEL_DATA       = 10;
-        public const int ERR_DATA_MANAGER_FAIL_SAVE_MODEL_LIST       = 11;
-        public const int ERR_DATA_MANAGER_FAIL_LOAD_MODEL_LIST       = 12;
-        public const int ERR_DATA_MANAGER_FAIL_SAVE_GENERAL_DATA     = 13;
-        public const int ERR_DATA_MANAGER_FAIL_LOAD_GENERAL_DATA     = 14;
-        public const int ERR_DATA_MANAGER_FAIL_DELETE_MODEL_DATA     = 15;
+        public const int ERR_DATA_MANAGER_FAIL_SAVE_GENERAL_DATA     = 5;
+        public const int ERR_DATA_MANAGER_FAIL_LOAD_GENERAL_DATA     = 6;
+        public const int ERR_DATA_MANAGER_FAIL_SAVE_SYSTEM_DATA      = 7;
+        public const int ERR_DATA_MANAGER_FAIL_LOAD_SYSTEM_DATA      = 8;
+        public const int ERR_DATA_MANAGER_FAIL_SAVE_POSITION_DATA    = 9;
+        public const int ERR_DATA_MANAGER_FAIL_LOAD_POSITION_DATA    = 10;
+        public const int ERR_DATA_MANAGER_FAIL_SAVE_MODEL_DATA       = 11;
+        public const int ERR_DATA_MANAGER_FAIL_LOAD_MODEL_DATA       = 12;
+        public const int ERR_DATA_MANAGER_FAIL_SAVE_MODEL_LIST       = 13;
+        public const int ERR_DATA_MANAGER_FAIL_DELETE_MODEL_DATA     = 14;
+        public const int ERR_DATA_MANAGER_FAIL_LOAD_MODEL_LIST       = 15;
         public const int ERR_DATA_MANAGER_FAIL_SAVE_LOGIN_HISTORY    = 16;
         public const int ERR_DATA_MANAGER_FAIL_LOAD_LOGIN_HISTORY    = 17;
         public const int ERR_DATA_MANAGER_FAIL_SAVE_ALARM_INFO       = 18;
         public const int ERR_DATA_MANAGER_FAIL_LOAD_ALARM_INFO       = 19;
         public const int ERR_DATA_MANAGER_FAIL_SAVE_MESSAGE_INFO     = 20;
         public const int ERR_DATA_MANAGER_FAIL_LOAD_MESSAGE_INFO     = 21;
-        public const int ERR_DATA_MANAGER_FAIL_SAVE_ALARM_HISTORY    = 22;
-        public const int ERR_DATA_MANAGER_FAIL_LOAD_ALARM_HISTORY    = 23;
-        public const int ERR_DATA_MANAGER_FAIL_DELETE_ROOT_FOLDER    = 24;
-        public const int ERR_DATA_MANAGER_FAIL_DELETE_DEFAULT_MODEL  = 25;
-
-        public const int ERR_DATA_MANAGER_IO_DATA_FILE_NOT_EXIST = 1;
-        public const int ERR_DATA_MANAGER_IO_DATA_FILE_CLOSE_FAILURE = 2;
-        public const int ERR_DATA_MANAGER_CAMERA_NO_OUT_RANGE = 3;
-        public const int ERR_DATA_MANAGER_TEACHING_INFO_FILE_NOT_EXIST = 4;
-        public const int ERR_DATA_MANAGER_UNIT_INDEX_OUT_RANGE = 5;
-        public const int ERR_DATA_MANAGER_POS_INDEX_OUT_RANGE = 6;
-        public const int ERR_DATA_MANAGER_ARG_NULL_POINTER = 7;
-        public const int ERR_DATA_MANAGER_POS_INFO_FILE_CLOSE_FAILURE = 8;
-        public const int ERR_DATA_MANAGER_VACUUM_INDEX_OUT_RANGE = 9;
-        public const int ERR_DATA_MANAGER_IO_NOT_INITIALIZED = 10;
-        public const int ERR_DATA_MANAGER_MODEL_NAME_NULL = 11;
-        public const int ERR_DATA_MANAGER_MODEL_FILE_NOT_EXIST = 12;
-        public const int ERR_DATA_MANAGER_MODEL_CHANGE_FAIL = 13;
-        public const int ERR_DATA_MANAGER_DELETE_CURRENT_MODEL_FAIL = 14;
-        public const int ERR_DATA_MANAGER_COPY_SELF_MODEL_INCORRECT = 15;
-        public const int ERR_DATA_MANAGER_CREATE_MODEL_FAIL = 16;
-        public const int ERR_DATA_MANAGER_INVALID_FIXEDCOORD_UNIT_ID = 17;
-
-        public const int ERR_SYSTEM_DATA_MANAGER_FILE_SAVE_FAIL = 20;
-        public const int ERR_SYSTEM_DATA_MANAGER_NO_SECTIONNAME = 21;
-
-        public const int ERR_MODEL_DATA_MAIN_MODEL_NAME_NULL = 31;
-        public const int ERR_MODEL_DATA_MANAGER_NO_SECTIONNAME = 32;
-
-        public const int DEF_MAX_SYSTEM_SECTION = 7;
-        public const int DEF_MAX_FIXED_POSITION_SECTION = 14;
-        public const int DEF_MAX_OFFSET_POSITION_SECTION = 14;
-        public const int DEF_MAX_AXIS_NUM = 4;
-
-        public const int ERR_DATA_MANAGER_EXCEL_FILE_READ_FAIL = 1;
-        public const int ERR_DATA_MANAGER_IO_EXCEL_FILE_READ_FAIL = 2;
-        public const int ERR_DATA_MANAGER_MOTOR_EXCEL_FILE_READ_FAIL = 3;
-        public const int ERR_DATA_MANAGER_ALARM_EXCEL_FILE_READ_FAIL = 4;
-        public const int ERR_DATA_MANAGER_SYSTEM_EXCEL_FILE_READ_FAIL = 5;
-        public const int ERR_DATA_MANAGER_MSG_INFO_EXCEL_FILE_READ_FAIL = 6;
-        public const int ERR_DATA_MANAGER_PARA_INFO_EXCEL_FILE_READ_FAIL = 7;
+        public const int ERR_DATA_MANAGER_FAIL_SAVE_PARAMETER_INFO   = 22;
+        public const int ERR_DATA_MANAGER_FAIL_LOAD_PARAMETER_INFO   = 23;
+        public const int ERR_DATA_MANAGER_FAIL_SAVE_ALARM_HISTORY    = 24;
+        public const int ERR_DATA_MANAGER_FAIL_LOAD_ALARM_HISTORY    = 25;
+        public const int ERR_DATA_MANAGER_FAIL_DELETE_ROOT_FOLDER    = 26;
+        public const int ERR_DATA_MANAGER_FAIL_DELETE_DEFAULT_MODEL  = 27;
+        public const int ERR_DATA_MANAGER_FAIL_EXCEL_IMPORT          = 28;
+        public const int ERR_DATA_MANAGER_FAIL_EXCEL_EXPORT          = 29;
 
 
-        public const int ERR_DATA_MANAGER_EXCEL_FILE_WRITE_FAIL = 1;
-        public const int ERR_DATA_MANAGER_IO_EXCEL_FILE_WRITE_FAIL = 2;
-        public const int ERR_DATA_MANAGER_MOTOR_EXCEL_FILE_WRITE_FAIL = 3;
-        public const int ERR_DATA_MANAGER_ALARM_EXCEL_FILE_WRITE_FAIL = 4;
-        public const int ERR_DATA_MANAGER_SYSTEM_EXCEL_FILE_WRITE_FAIL = 5;
-        public const int ERR_DATA_MANAGER_MSG_INFO_EXCEL_FILE_WRITE_FAIL = 6;
-        public const int ERR_DATA_MANAGER_PARA_INFO_EXCEL_FILE_WRITE_FAIL = 6;
+        //public const int ERR_DATA_MANAGER_IO_DATA_FILE_NOT_EXIST = 1;
+        //public const int ERR_DATA_MANAGER_IO_DATA_FILE_CLOSE_FAILURE = 2;
+        //public const int ERR_DATA_MANAGER_CAMERA_NO_OUT_RANGE = 3;
+        //public const int ERR_DATA_MANAGER_TEACHING_INFO_FILE_NOT_EXIST = 4;
+        //public const int ERR_DATA_MANAGER_UNIT_INDEX_OUT_RANGE = 5;
+        //public const int ERR_DATA_MANAGER_POS_INDEX_OUT_RANGE = 6;
+        //public const int ERR_DATA_MANAGER_ARG_NULL_POINTER = 7;
+        //public const int ERR_DATA_MANAGER_POS_INFO_FILE_CLOSE_FAILURE = 8;
+        //public const int ERR_DATA_MANAGER_VACUUM_INDEX_OUT_RANGE = 9;
+        //public const int ERR_DATA_MANAGER_IO_NOT_INITIALIZED = 10;
+        //public const int ERR_DATA_MANAGER_MODEL_NAME_NULL = 11;
+        //public const int ERR_DATA_MANAGER_MODEL_FILE_NOT_EXIST = 12;
+        //public const int ERR_DATA_MANAGER_MODEL_CHANGE_FAIL = 13;
+        //public const int ERR_DATA_MANAGER_DELETE_CURRENT_MODEL_FAIL = 14;
+        //public const int ERR_DATA_MANAGER_COPY_SELF_MODEL_INCORRECT = 15;
+        //public const int ERR_DATA_MANAGER_CREATE_MODEL_FAIL = 16;
+        //public const int ERR_DATA_MANAGER_INVALID_FIXEDCOORD_UNIT_ID = 17;
+
+        //public const int ERR_SYSTEM_DATA_MANAGER_FILE_SAVE_FAIL = 20;
+        //public const int ERR_SYSTEM_DATA_MANAGER_NO_SECTIONNAME = 21;
+
+        //public const int ERR_MODEL_DATA_MAIN_MODEL_NAME_NULL = 31;
+        //public const int ERR_MODEL_DATA_MANAGER_NO_SECTIONNAME = 32;
+
+        //public const int DEF_MAX_SYSTEM_SECTION = 7;
+        //public const int DEF_MAX_FIXED_POSITION_SECTION = 14;
+        //public const int DEF_MAX_OFFSET_POSITION_SECTION = 14;
+        //public const int DEF_MAX_AXIS_NUM = 4;
 
         public class CSystemDataFileNames
         {
@@ -697,7 +685,7 @@ namespace LWDicer.Control
     public class MDataManager : MObject
     {
         private CLoginData Login = new CLoginData();
-        private CDBInfo DBInfo;
+        public CDBInfo DBInfo { get; private set; }
 
         /////////////////////////////////////////////////////////////////////////////////
         // System Model Data
@@ -956,12 +944,19 @@ namespace LWDicer.Control
             return SUCCESS;
         }
 
-        public int DeleteDB()
+        public int DeleteDB(string dbConn = "")
         {
-            string[] dblist = new string[] { $"{DBInfo.DBConn}", $"{DBInfo.DBConn_Backup}",
+            string[] dblist;
+            if (dbConn == "")
+            {
+                dblist = new string[] { $"{DBInfo.DBConn}", $"{DBInfo.DBConn_Backup}",
                 $"{DBInfo.DBConn_Info}", $"{DBInfo.DBConn_DLog}", $"{DBInfo.DBConn_ELog}" };
+            } else
+            {
+                dblist = new string[] { $"{dbConn}"};
+            }
 
-            foreach(string source in dblist)
+            foreach (string source in dblist)
             {
                 if (DBManager.DeleteDB(source) == false)
                 {
@@ -2211,7 +2206,7 @@ namespace LWDicer.Control
                     break;
             }
 
-            if (string.IsNullOrEmpty(name)) return false;
+            if (string.IsNullOrWhiteSpace(name)) return false;
             foreach (CListHeader header in headerList)
             {
                 if(header.Name == name)
@@ -2238,7 +2233,7 @@ namespace LWDicer.Control
                     break;
             }
 
-            if (string.IsNullOrEmpty(name)) return false;
+            if (string.IsNullOrWhiteSpace(name)) return false;
             try
             {
                 // 1. load model
@@ -2488,7 +2483,7 @@ namespace LWDicer.Control
             EListHeaderType type = EListHeaderType.MODEL;
             int iResult;
             // 0. check exist
-            if(string.IsNullOrEmpty(name))
+            if(string.IsNullOrWhiteSpace(name))
             {
                 return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_LOAD_MODEL_DATA);
             }
@@ -2562,7 +2557,7 @@ namespace LWDicer.Control
             EListHeaderType type = EListHeaderType.CASSETTE;
             int iResult;
             // 0. check exist
-            if (string.IsNullOrEmpty(name))
+            if (string.IsNullOrWhiteSpace(name))
             {
                 return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_LOAD_MODEL_DATA);
             }
@@ -2608,7 +2603,7 @@ namespace LWDicer.Control
             EListHeaderType type = EListHeaderType.WAFERFRAME;
             int iResult;
             // 0. check exist
-            if (string.IsNullOrEmpty(name))
+            if (string.IsNullOrWhiteSpace(name))
             {
                 return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_LOAD_MODEL_DATA);
             }
@@ -2936,7 +2931,7 @@ namespace LWDicer.Control
                     if (int.TryParse(row["name"].ToString(), out index))
                     {
                         string output = row["data"].ToString();
-                        DEF_Error.CAlarmInfo info = JsonConvert.DeserializeObject<DEF_Error.CAlarmInfo>(output);
+                        CAlarmInfo info = JsonConvert.DeserializeObject<CAlarmInfo>(output);
 
                         AlarmInfoList.Add(info);
                     }
@@ -2952,18 +2947,29 @@ namespace LWDicer.Control
             return SUCCESS;
         }
 
-        public int UpdateAlarmInfo(CAlarmInfo info)
+        public int UpdateAlarmInfo(CAlarmInfo info, bool bMerge = true, bool bSaveToDB = true)
         {
+            CAlarmInfo prevInfo = new CAlarmInfo();
             for(int i = 0; i < AlarmInfoList.Count; i++)
             {
                 if(AlarmInfoList[i].Index == info.Index)
                 {
+                    prevInfo = ObjectExtensions.Copy(AlarmInfoList[i]);
                     AlarmInfoList.RemoveAt(i);
                     break;
                 }
             }
 
-            AlarmInfoList.Add(info);
+            if(bMerge)
+            {
+                prevInfo.Update(info);
+                AlarmInfoList.Add(prevInfo);
+            } else
+            {
+                AlarmInfoList.Add(info);
+            }
+
+            if (bSaveToDB == false) return SUCCESS;
             return SaveAlarmInfoList();
         }
 
@@ -3046,18 +3052,30 @@ namespace LWDicer.Control
             return SUCCESS;
         }
 
-        public int UpdateMessageInfo(CMessageInfo info)
+        public int UpdateMessageInfo(CMessageInfo info, bool bMerge = true, bool bSaveToDB = true)
         {
+            CMessageInfo prevInfo = new CMessageInfo();
             for (int i = 0; i < MessageInfoList.Count; i++)
             {
                 if (MessageInfoList[i].Index == info.Index)
                 {
+                    prevInfo = ObjectExtensions.Copy(MessageInfoList[i]);
                     MessageInfoList.RemoveAt(i);
                     break;
                 }
             }
 
-            MessageInfoList.Add(info);
+            if (bMerge)
+            {
+                prevInfo.Update(info);
+                MessageInfoList.Add(prevInfo);
+            }
+            else
+            {
+                MessageInfoList.Add(info);
+            }
+
+            if (bSaveToDB == false) return SUCCESS;
             return SaveMessageInfoList();
         }
 
@@ -3141,7 +3159,7 @@ namespace LWDicer.Control
                 DataTable datatable;
                 if (DBManager.GetTable(DBInfo.DBConn_Info, query, out datatable) != true)
                 {
-                    return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_LOAD_GENERAL_DATA);
+                    return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_LOAD_PARAMETER_INFO);
                 }
 
                 // 2. delete list
@@ -3165,25 +3183,37 @@ namespace LWDicer.Control
             catch (Exception ex)
             {
                 WriteExLog(ex.ToString());
-                return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_LOAD_GENERAL_DATA);
+                return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_LOAD_PARAMETER_INFO);
             }
 
             WriteLog($"success : load para info list", ELogType.Debug);
             return SUCCESS;
         }
 
-        public int UpdateParaInfo(CParaInfo info)
+        public int UpdateParaInfo(CParaInfo info, bool bMerge = true, bool bSaveToDB = true)
         {
+            CParaInfo prevInfo = new CParaInfo();
             for (int i = 0; i < ParaInfoList.Count; i++)
             {
                 if (ParaInfoList[i].Name == info.Name && ParaInfoList[i].Group == info.Group)
                 {
+                    prevInfo = ObjectExtensions.Copy(ParaInfoList[i]);
                     ParaInfoList.RemoveAt(i);
                     break;
                 }
             }
 
-            ParaInfoList.Add(info);
+            if (bMerge)
+            {
+                prevInfo.Update(info);
+                ParaInfoList.Add(prevInfo);
+            }
+            else
+            {
+                ParaInfoList.Add(info);
+            }
+
+            if (bSaveToDB == false) return SUCCESS;
             return SaveParaInfoList();
         }
 
@@ -3217,11 +3247,11 @@ namespace LWDicer.Control
             catch (Exception ex)
             {
                 WriteExLog(ex.ToString());
-                return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_LOAD_GENERAL_DATA);
+                return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_LOAD_PARAMETER_INFO);
             }
 
             WriteLog($"fail : load para info [group = {info.Group}, name = {info.Name}]", ELogType.Debug);
-            return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_LOAD_GENERAL_DATA);
+            return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_LOAD_PARAMETER_INFO);
         }
 
         public int SaveGeneralData()
@@ -3316,13 +3346,13 @@ namespace LWDicer.Control
                 // 3. execute query
                 if (DBManager.ExecuteNonQuerys(DBInfo.DBConn_Info, querys) != true)
                 {
-                    return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_SAVE_GENERAL_DATA);
+                    return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_SAVE_ALARM_INFO);
                 }
             }
             catch (Exception ex)
             {
                 WriteExLog(ex.ToString());
-                return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_SAVE_GENERAL_DATA);
+                return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_SAVE_ALARM_INFO);
             }
 
             WriteLog($"success : save alarm info list", ELogType.Debug);
@@ -3356,16 +3386,55 @@ namespace LWDicer.Control
                 // 3. execute query
                 if (DBManager.ExecuteNonQuerys(DBInfo.DBConn_Info, querys) != true)
                 {
-                    return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_SAVE_GENERAL_DATA);
+                    return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_SAVE_MESSAGE_INFO);
                 }
             }
             catch (Exception ex)
             {
                 WriteExLog(ex.ToString());
-                return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_SAVE_GENERAL_DATA);
+                return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_SAVE_MESSAGE_INFO);
             }
 
             WriteLog($"success : save message info list", ELogType.Debug);
+            return SUCCESS;
+        }
+
+        public int DeleteInfoTable(string table)
+        {
+            if(table == DBInfo.TableAlarmInfo)
+            {
+                AlarmInfoList.Clear();
+            } else if (table == DBInfo.TableMessageInfo)
+            {
+                MessageInfoList.Clear();
+            }
+            else if (table == DBInfo.TableParameter)
+            {
+                ParaInfoList.Clear();
+            }
+
+            try
+            {
+                List<string> querys = new List<string>();
+                string query;
+
+                // 0. drop table
+                query = $"DROP TABLE IF EXISTS {table}";
+                querys.Add(query);
+
+                // 3. execute query
+                if (DBManager.ExecuteNonQuerys(DBInfo.DBConn_Info, querys) != true)
+                {
+                    return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_DROP_TABLES);
+                }
+            }
+            catch (Exception ex)
+            {
+                WriteExLog(ex.ToString());
+                return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_DROP_TABLES);
+            }
+
+            WriteLog($"success : drop info table", ELogType.Debug);
             return SUCCESS;
         }
 
@@ -3396,13 +3465,13 @@ namespace LWDicer.Control
                 // 3. execute query
                 if (DBManager.ExecuteNonQuerys(DBInfo.DBConn_Info, querys) != true)
                 {
-                    return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_SAVE_GENERAL_DATA);
+                    return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_SAVE_PARAMETER_INFO);
                 }
             }
             catch (Exception ex)
             {
                 WriteExLog(ex.ToString());
-                return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_SAVE_GENERAL_DATA);
+                return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_SAVE_PARAMETER_INFO);
             }
 
             WriteLog($"success : save para info list", ELogType.Debug);
@@ -3493,23 +3562,13 @@ namespace LWDicer.Control
                     }
                 }
 
-                if (nSheet == EExcel_Sheet.MAX || nSheet == EExcel_Sheet.Message_Info)
-                {
-                    // Message Info
-                    iResult = ImportMessageInfoFromExcel(SheetRange[(int)EExcel_Sheet.Message_Info]);
-                    if (iResult == SUCCESS)
-                    {
-                        SaveMessageInfoList();
-                    }
-                }
-
                 WorkBook.Close(true);
                 ExcelApp.Quit();
             }
             catch (Exception ex)
             {
                 WriteExLog(ex.ToString());
-                return GenerateErrorCode(ERR_DATA_MANAGER_EXCEL_FILE_READ_FAIL);
+                return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_EXCEL_IMPORT);
             }
 
             WriteLog($"success : Import Data from Excel", ELogType.Debug);
@@ -3542,49 +3601,10 @@ namespace LWDicer.Control
             catch (Exception ex)
             {
                 WriteExLog(ex.ToString());
-                return GenerateErrorCode(ERR_DATA_MANAGER_IO_EXCEL_FILE_READ_FAIL);
+                return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_EXCEL_IMPORT);
             }
 
             WriteLog($"success : Import IO Data From Excel", ELogType.Debug);
-            return SUCCESS;
-        }
-
-        public int ImportMessageInfoFromExcel(Excel.Range SheetRange)
-        {
-            int nCount = SheetRange.EntireRow.Count, i;
-
-            try
-            {
-                MessageInfoList.Clear();
-
-                for (i = 0; i < nCount - 1; i++)
-                {
-                    CMessageInfo MessageInfo = new CMessageInfo();
-
-                    // Index
-                    MessageInfo.Index = (int)(SheetRange.Cells[i + 2, 1] as Excel.Range).Value2;
-
-                    // Type
-                    if ((string)(SheetRange.Cells[i + 2, 2] as Excel.Range).Value2 == Convert.ToString(EMessageType.OK)) MessageInfo.Type = EMessageType.OK;
-                    if ((string)(SheetRange.Cells[i + 2, 2] as Excel.Range).Value2 == Convert.ToString(EMessageType.OK_Cancel)) MessageInfo.Type = EMessageType.OK_Cancel;
-                    if ((string)(SheetRange.Cells[i + 2, 2] as Excel.Range).Value2 == Convert.ToString(EMessageType.Confirm_Cancel)) MessageInfo.Type = EMessageType.Confirm_Cancel;
-
-                    // Message
-                    MessageInfo.Message[(int)DEF_Common.ELanguage.KOREAN] = (string)(SheetRange.Cells[i + 2, 3] as Excel.Range).Value2;
-                    MessageInfo.Message[(int)DEF_Common.ELanguage.ENGLISH] = (string)(SheetRange.Cells[i + 2, 4] as Excel.Range).Value2;
-                    MessageInfo.Message[(int)DEF_Common.ELanguage.CHINESE] = (string)(SheetRange.Cells[i + 2, 5] as Excel.Range).Value2;
-                    MessageInfo.Message[(int)DEF_Common.ELanguage.JAPANESE] = (string)(SheetRange.Cells[i + 2, 6] as Excel.Range).Value2;
-
-                    MessageInfoList.Add(MessageInfo);
-                }
-            }
-            catch (Exception ex)
-            {
-                WriteExLog(ex.ToString());
-                return GenerateErrorCode(ERR_DATA_MANAGER_MSG_INFO_EXCEL_FILE_READ_FAIL);
-            }
-
-            WriteLog($"success : Import Message Info From Excel", ELogType.Debug);
             return SUCCESS;
         }
 
@@ -3684,7 +3704,7 @@ namespace LWDicer.Control
             catch (Exception ex)
             {
                 WriteExLog(ex.ToString());
-                return GenerateErrorCode(ERR_DATA_MANAGER_MOTOR_EXCEL_FILE_READ_FAIL);
+                return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_EXCEL_IMPORT);
             }
 
             WriteLog($"success : Import Motor Data From Excel", ELogType.Debug);
@@ -3699,7 +3719,7 @@ namespace LWDicer.Control
 
             try
             {
-                AlarmInfoList.Clear();
+                //AlarmInfoList.Clear();
 
                 for (i = 0; i < nRowCount - 1; i++)
                 {
@@ -3745,15 +3765,14 @@ namespace LWDicer.Control
                     AlarmInfo.Solution[(int)DEF_Common.ELanguage.CHINESE] = (string)(SheetRange.Cells[i + 2, 11] as Excel.Range).Value2; // Solution Chn
                     AlarmInfo.Solution[(int)DEF_Common.ELanguage.JAPANESE] = (string)(SheetRange.Cells[i + 2, 12] as Excel.Range).Value2; // Solution Jpn
 
-                    AlarmInfoList.Add(AlarmInfo);
+                    //AlarmInfoList.Add(AlarmInfo);
+                    UpdateAlarmInfo(AlarmInfo, false, false);
                 }
-
-                SaveAlarmInfoList();
             }
             catch (Exception ex)
             {
                 WriteExLog(ex.ToString());
-                return GenerateErrorCode(ERR_DATA_MANAGER_ALARM_EXCEL_FILE_READ_FAIL);
+                return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_EXCEL_IMPORT);
             }
 
             WriteLog($"success : Import Alarm Info From Excel", ELogType.Debug);
@@ -3762,7 +3781,41 @@ namespace LWDicer.Control
 
         public int ImportMessageDataFromExcel(Excel.Range SheetRange)
         {
+            int nCount = SheetRange.EntireRow.Count, i;
 
+            try
+            {
+                //MessageInfoList.Clear();
+
+                for (i = 0; i < nCount - 1; i++)
+                {
+                    CMessageInfo MessageInfo = new CMessageInfo();
+
+                    // Index
+                    MessageInfo.Index = (int)(SheetRange.Cells[i + 2, 1] as Excel.Range).Value2;
+
+                    // Type
+                    if ((string)(SheetRange.Cells[i + 2, 2] as Excel.Range).Value2 == Convert.ToString(EMessageType.OK)) MessageInfo.Type = EMessageType.OK;
+                    if ((string)(SheetRange.Cells[i + 2, 2] as Excel.Range).Value2 == Convert.ToString(EMessageType.OK_Cancel)) MessageInfo.Type = EMessageType.OK_Cancel;
+                    if ((string)(SheetRange.Cells[i + 2, 2] as Excel.Range).Value2 == Convert.ToString(EMessageType.Confirm_Cancel)) MessageInfo.Type = EMessageType.Confirm_Cancel;
+
+                    // Message
+                    MessageInfo.Message[(int)DEF_Common.ELanguage.KOREAN] = (string)(SheetRange.Cells[i + 2, 3] as Excel.Range).Value2;
+                    MessageInfo.Message[(int)DEF_Common.ELanguage.ENGLISH] = (string)(SheetRange.Cells[i + 2, 4] as Excel.Range).Value2;
+                    MessageInfo.Message[(int)DEF_Common.ELanguage.CHINESE] = (string)(SheetRange.Cells[i + 2, 5] as Excel.Range).Value2;
+                    MessageInfo.Message[(int)DEF_Common.ELanguage.JAPANESE] = (string)(SheetRange.Cells[i + 2, 6] as Excel.Range).Value2;
+
+                    //MessageInfoList.Add(MessageInfo);
+                    UpdateMessageInfo(MessageInfo, false, false);
+                }
+            }
+            catch (Exception ex)
+            {
+                WriteExLog(ex.ToString());
+                return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_EXCEL_IMPORT);
+            }
+
+            WriteLog($"success : Import Message Info From Excel", ELogType.Debug);
             return SUCCESS;
         }
 
@@ -3773,7 +3826,7 @@ namespace LWDicer.Control
 
             try
             {
-                ParaInfoList.Clear();
+                //ParaInfoList.Clear();
 
                 for (i = 0; i < nRowCount - 1; i++)
                 {
@@ -3796,16 +3849,14 @@ namespace LWDicer.Control
                     ParaInfo.Description[(int)DEF_Common.ELanguage.CHINESE] = (string)(SheetRange.Cells[i + 2, 11] as Excel.Range).Value2;
                     ParaInfo.Description[(int)DEF_Common.ELanguage.JAPANESE] = (string)(SheetRange.Cells[i + 2, 12] as Excel.Range).Value2;
 
-                    ParaInfoList.Add(ParaInfo);
+                    //ParaInfoList.Add(ParaInfo);
+                    UpdateParaInfo(ParaInfo, false, false);
                 }
-
-                SaveParaInfoList();
-
             }
             catch (Exception ex)
             {
                 WriteExLog(ex.ToString());
-                return GenerateErrorCode(ERR_DATA_MANAGER_PARA_INFO_EXCEL_FILE_READ_FAIL);
+                return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_EXCEL_IMPORT);
             }
 
             WriteLog($"success : Import Para Info From Excel", ELogType.Debug);
@@ -3910,7 +3961,7 @@ namespace LWDicer.Control
             catch (Exception ex)
             {
                 WriteExLog(ex.ToString());
-                return GenerateErrorCode(ERR_DATA_MANAGER_ALARM_EXCEL_FILE_WRITE_FAIL);
+                return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_EXCEL_EXPORT);
             }
 
             WriteLog($"success : Export Alarm Info Data to Excel", ELogType.Debug);
@@ -3972,7 +4023,7 @@ namespace LWDicer.Control
             catch (Exception ex)
             {
                 WriteExLog(ex.ToString());
-                return GenerateErrorCode(ERR_DATA_MANAGER_SYSTEM_EXCEL_FILE_WRITE_FAIL);
+                return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_EXCEL_EXPORT);
             }
 
             WriteLog($"success : Export Parameter Data to Excel", ELogType.Debug);
@@ -4097,7 +4148,7 @@ namespace LWDicer.Control
             {
                 ExcelApp.Quit();
                 WriteExLog(ex.ToString());
-                return GenerateErrorCode(ERR_DATA_MANAGER_MOTOR_EXCEL_FILE_WRITE_FAIL);
+                return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_EXCEL_EXPORT);
             }
 
             WriteLog($"success : Export Motor Data to Excel", ELogType.Debug);
@@ -4158,7 +4209,7 @@ namespace LWDicer.Control
             {
                 ExcelApp.Quit();
                 WriteExLog(ex.ToString());
-                return GenerateErrorCode(ERR_DATA_MANAGER_MSG_INFO_EXCEL_FILE_WRITE_FAIL);
+                return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_EXCEL_EXPORT);
             }
 
             WriteLog($"success : Export Motor Data to Excel", ELogType.Debug);

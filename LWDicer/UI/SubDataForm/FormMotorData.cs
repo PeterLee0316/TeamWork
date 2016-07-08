@@ -25,7 +25,7 @@ namespace LWDicer.UI
 
         public FormMotorData()
         {
-            SystemData_Axis = ObjectExtensions.Copy(CMainFrame.LWDicer.m_DataManager.SystemData_Axis);
+            SystemData_Axis = ObjectExtensions.Copy(CMainFrame.DataManager.SystemData_Axis);
 
             InitializeComponent();
             InitializeForm();
@@ -296,7 +296,7 @@ namespace LWDicer.UI
         {
             int i = 0;
 
-            if (!CMainFrame.DisplayMsg(11))
+            if (!CMainFrame.DisplayMsg("Save Data?"))
             {
                 return;
             }
@@ -381,7 +381,7 @@ namespace LWDicer.UI
                 SystemData_Axis.ACSMotionData[i].TimeLimit.tOriginLimit = Convert.ToDouble(GridMotorPara[i + 17, 24].Text);
             }
 
-            CMainFrame.LWDicer.m_DataManager.SaveSystemData(systemAxis: SystemData_Axis);
+            CMainFrame.DataManager.SaveSystemData(systemAxis: SystemData_Axis);
         }
     }
 }

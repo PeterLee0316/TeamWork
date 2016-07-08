@@ -61,7 +61,7 @@ namespace LWDicer.UI
         {
             if(IsEdited == true)
             {
-                if (!CMainFrame.DisplayMsg("수정된 Alarm 내용이 저장되지 않았습니다. 계속하시겠습니까?"))
+                if (!CMainFrame.DisplayMsg("Alarm data is not saved. Continue?"))
                 {
                     return;
                 }
@@ -186,12 +186,12 @@ namespace LWDicer.UI
 
         private void BtnEdit_Click(object sender, EventArgs e)
         {
-            if (!CMainFrame.DisplayMsg(31))
+            if (!CMainFrame.DisplayMsg("Edit Alarm Information?"))
             {
                 return;
             }
 
-            FormAlarmEdit dlg = new FormAlarmEdit();
+            var dlg = new FormAlarmEdit();
             dlg.SetAlarmText(LabelAlarmText1.Text, LabelAlarmText2.Text, LabelTrouble1.Text, LabelTrouble2.Text);
             dlg.ShowDialog();
 
@@ -220,7 +220,7 @@ namespace LWDicer.UI
 
         private void BtnSave_Click(object sender, EventArgs e)
         {
-            //if (!CMainFrame.DisplayMsg(32))
+            //if (!CMainFrame.DisplayMsg("Save Alarm Information?"))
             //{
             //    return;
             //}
@@ -235,7 +235,7 @@ namespace LWDicer.UI
             Alarm.Info.Description[(int)MLWDicer.Language] = LabelAlarmText2.Text;
             Alarm.Info.Solution[(int)MLWDicer.Language] = LabelTrouble2.Text;
 
-            int iResult = CMainFrame.LWDicer.m_DataManager.UpdateAlarmInfo(Alarm.Info);
+            int iResult = CMainFrame.DataManager.UpdateAlarmInfo(Alarm.Info);
             CMainFrame.DisplayAlarm(iResult);
         }
 

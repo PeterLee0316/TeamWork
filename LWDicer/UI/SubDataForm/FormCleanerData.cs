@@ -29,13 +29,13 @@ namespace LWDicer.UI
         {
             InitializeComponent();
 
-            CleanerData = ObjectExtensions.Copy(CMainFrame.LWDicer.m_DataManager.ModelData);
+            CleanerData = ObjectExtensions.Copy(CMainFrame.DataManager.ModelData);
 
             InitGrid();
 
             UpdateData();
 
-            this.Text = $"Cleaner Data [ Current Model : {CMainFrame.LWDicer.m_DataManager.ModelData.Name} ]";
+            this.Text = $"Cleaner Data [ Current Model : {CMainFrame.DataManager.ModelData.Name} ]";
         }
 
         private void InitGrid()
@@ -159,7 +159,7 @@ namespace LWDicer.UI
 
         private void BtnSave_Click(object sender, EventArgs e)
         {
-            if (!CMainFrame.DisplayMsg(38))
+            if (!CMainFrame.DisplayMsg("Save Data?"))
             {
                 return;
             }
@@ -183,7 +183,7 @@ namespace LWDicer.UI
 
             CleanerData.SpinnerData.CleanerData.WashStroke = Convert.ToDouble(LabelStroke.Text);
 
-            CMainFrame.LWDicer.m_DataManager.SaveModelData(CleanerData);
+            CMainFrame.DataManager.SaveModelData(CleanerData);
 
             UpdateData();
 

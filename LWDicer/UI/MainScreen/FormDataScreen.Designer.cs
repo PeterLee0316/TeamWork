@@ -70,7 +70,7 @@
             this.BtnModelList.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.BtnModelList.ForeColor = System.Drawing.Color.MidnightBlue;
             this.BtnModelList.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.BtnModelList.Location = new System.Drawing.Point(20, 49);
+            this.BtnModelList.Location = new System.Drawing.Point(20, 120);
             this.BtnModelList.Name = "BtnModelList";
             this.BtnModelList.Size = new System.Drawing.Size(124, 67);
             this.BtnModelList.TabIndex = 9;
@@ -86,7 +86,7 @@
             this.BtnWaferList.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.BtnWaferList.ForeColor = System.Drawing.Color.MidnightBlue;
             this.BtnWaferList.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.BtnWaferList.Location = new System.Drawing.Point(20, 189);
+            this.BtnWaferList.Location = new System.Drawing.Point(20, 260);
             this.BtnWaferList.Name = "BtnWaferList";
             this.BtnWaferList.Size = new System.Drawing.Size(124, 67);
             this.BtnWaferList.TabIndex = 10;
@@ -182,7 +182,7 @@
             this.BtnExcelLoad.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.BtnExcelLoad.ForeColor = System.Drawing.Color.MidnightBlue;
             this.BtnExcelLoad.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.BtnExcelLoad.Location = new System.Drawing.Point(20, 262);
+            this.BtnExcelLoad.Location = new System.Drawing.Point(150, 49);
             this.BtnExcelLoad.Name = "BtnExcelLoad";
             this.BtnExcelLoad.Size = new System.Drawing.Size(124, 67);
             this.BtnExcelLoad.TabIndex = 16;
@@ -198,7 +198,7 @@
             this.BtnSystemData.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.BtnSystemData.ForeColor = System.Drawing.Color.MidnightBlue;
             this.BtnSystemData.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.BtnSystemData.Location = new System.Drawing.Point(150, 262);
+            this.BtnSystemData.Location = new System.Drawing.Point(20, 49);
             this.BtnSystemData.Name = "BtnSystemData";
             this.BtnSystemData.Size = new System.Drawing.Size(124, 67);
             this.BtnSystemData.TabIndex = 17;
@@ -210,11 +210,11 @@
             // 
             this.autoLabel1.BackColor = System.Drawing.Color.Transparent;
             this.autoLabel1.Font = new System.Drawing.Font("굴림", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.autoLabel1.Location = new System.Drawing.Point(98, 11);
+            this.autoLabel1.Location = new System.Drawing.Point(75, 11);
             this.autoLabel1.Name = "autoLabel1";
-            this.autoLabel1.Size = new System.Drawing.Size(104, 16);
+            this.autoLabel1.Size = new System.Drawing.Size(146, 16);
             this.autoLabel1.TabIndex = 30;
-            this.autoLabel1.Text = "Motion 설정";
+            this.autoLabel1.Text = "Motion, Actuator";
             // 
             // gradientPanel1
             // 
@@ -263,9 +263,6 @@
             this.gradientPanel4.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.gradientPanel4.Controls.Add(this.BtnSystemData);
             this.gradientPanel4.Controls.Add(this.BtnExcelLoad);
-            this.gradientPanel4.Controls.Add(this.BtnWaferData);
-            this.gradientPanel4.Controls.Add(this.BtnModelData);
-            this.gradientPanel4.Controls.Add(this.BtnCassetteData);
             this.gradientPanel4.Controls.Add(this.autoLabel4);
             this.gradientPanel4.Controls.Add(this.BtnModelList);
             this.gradientPanel4.Controls.Add(this.BtnWaferList);
@@ -283,7 +280,7 @@
             this.BtnWaferData.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.BtnWaferData.ForeColor = System.Drawing.Color.MidnightBlue;
             this.BtnWaferData.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.BtnWaferData.Location = new System.Drawing.Point(150, 189);
+            this.BtnWaferData.Location = new System.Drawing.Point(150, 119);
             this.BtnWaferData.Name = "BtnWaferData";
             this.BtnWaferData.Size = new System.Drawing.Size(124, 67);
             this.BtnWaferData.TabIndex = 38;
@@ -299,7 +296,7 @@
             this.BtnModelData.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.BtnModelData.ForeColor = System.Drawing.Color.MidnightBlue;
             this.BtnModelData.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.BtnModelData.Location = new System.Drawing.Point(150, 49);
+            this.BtnModelData.Location = new System.Drawing.Point(20, 46);
             this.BtnModelData.Name = "BtnModelData";
             this.BtnModelData.Size = new System.Drawing.Size(124, 67);
             this.BtnModelData.TabIndex = 37;
@@ -315,7 +312,7 @@
             this.BtnCassetteData.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.BtnCassetteData.ForeColor = System.Drawing.Color.MidnightBlue;
             this.BtnCassetteData.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.BtnCassetteData.Location = new System.Drawing.Point(150, 119);
+            this.BtnCassetteData.Location = new System.Drawing.Point(20, 119);
             this.BtnCassetteData.Name = "BtnCassetteData";
             this.BtnCassetteData.Size = new System.Drawing.Size(124, 67);
             this.BtnCassetteData.TabIndex = 36;
@@ -328,11 +325,11 @@
             this.autoLabel4.BackColor = System.Drawing.Color.Transparent;
             this.autoLabel4.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.autoLabel4.ForeColor = System.Drawing.Color.Black;
-            this.autoLabel4.Location = new System.Drawing.Point(63, 11);
+            this.autoLabel4.Location = new System.Drawing.Point(100, 11);
             this.autoLabel4.Name = "autoLabel4";
-            this.autoLabel4.Size = new System.Drawing.Size(167, 15);
+            this.autoLabel4.Size = new System.Drawing.Size(102, 15);
             this.autoLabel4.TabIndex = 35;
-            this.autoLabel4.Text = "Model && System 설정";
+            this.autoLabel4.Text = "System Data";
             // 
             // BtnCassetteList
             // 
@@ -342,7 +339,7 @@
             this.BtnCassetteList.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.BtnCassetteList.ForeColor = System.Drawing.Color.MidnightBlue;
             this.BtnCassetteList.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.BtnCassetteList.Location = new System.Drawing.Point(20, 119);
+            this.BtnCassetteList.Location = new System.Drawing.Point(20, 190);
             this.BtnCassetteList.Name = "BtnCassetteList";
             this.BtnCassetteList.Size = new System.Drawing.Size(124, 67);
             this.BtnCassetteList.TabIndex = 37;
@@ -358,7 +355,7 @@
             this.BtnCleaner.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.BtnCleaner.ForeColor = System.Drawing.Color.MidnightBlue;
             this.BtnCleaner.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.BtnCleaner.Location = new System.Drawing.Point(16, 49);
+            this.BtnCleaner.Location = new System.Drawing.Point(20, 192);
             this.BtnCleaner.Name = "BtnCleaner";
             this.BtnCleaner.Size = new System.Drawing.Size(124, 67);
             this.BtnCleaner.TabIndex = 33;
@@ -374,7 +371,7 @@
             this.BtnCoater.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.BtnCoater.ForeColor = System.Drawing.Color.MidnightBlue;
             this.BtnCoater.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.BtnCoater.Location = new System.Drawing.Point(146, 49);
+            this.BtnCoater.Location = new System.Drawing.Point(150, 192);
             this.BtnCoater.Name = "BtnCoater";
             this.BtnCoater.Size = new System.Drawing.Size(124, 67);
             this.BtnCoater.TabIndex = 34;
@@ -390,7 +387,10 @@
             this.gradientPanel2.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.gradientPanel2.Controls.Add(this.autoLabel2);
             this.gradientPanel2.Controls.Add(this.BtnCoater);
+            this.gradientPanel2.Controls.Add(this.BtnWaferData);
             this.gradientPanel2.Controls.Add(this.BtnCleaner);
+            this.gradientPanel2.Controls.Add(this.BtnModelData);
+            this.gradientPanel2.Controls.Add(this.BtnCassetteData);
             this.gradientPanel2.Location = new System.Drawing.Point(40, 426);
             this.gradientPanel2.Name = "gradientPanel2";
             this.gradientPanel2.Size = new System.Drawing.Size(287, 347);
@@ -402,9 +402,9 @@
             this.autoLabel2.Font = new System.Drawing.Font("굴림", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.autoLabel2.Location = new System.Drawing.Point(83, 11);
             this.autoLabel2.Name = "autoLabel2";
-            this.autoLabel2.Size = new System.Drawing.Size(144, 16);
+            this.autoLabel2.Size = new System.Drawing.Size(100, 16);
             this.autoLabel2.TabIndex = 30;
-            this.autoLabel2.Text = "Spin Coater 설정";
+            this.autoLabel2.Text = "Model Data";
             // 
             // FormDataScreen
             // 
@@ -422,6 +422,7 @@
             this.Text = "Data Screen";
             this.Activated += new System.EventHandler(this.FormDataScreen_Activated);
             this.Deactivate += new System.EventHandler(this.FormDataScreen_Deactivate);
+            this.Load += new System.EventHandler(this.FormDataScreen_Load);
             ((System.ComponentModel.ISupportInitialize)(this.gradientPanel1)).EndInit();
             this.gradientPanel1.ResumeLayout(false);
             this.gradientPanel1.PerformLayout();

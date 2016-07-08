@@ -45,6 +45,11 @@
             this.TitleMsgInfo = new Syncfusion.Windows.Forms.Tools.GradientLabel();
             this.BtnMsgInfoExport = new System.Windows.Forms.Button();
             this.BtnMsgInfoImport = new System.Windows.Forms.Button();
+            this.BtnMsgInfoDelete = new System.Windows.Forms.Button();
+            this.BtnMotorDataDelete = new System.Windows.Forms.Button();
+            this.BtnIOInfoDelete = new System.Windows.Forms.Button();
+            this.BtnAlarmInfoDelete = new System.Windows.Forms.Button();
+            this.BtnParaInfoDelete = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // BtnConfigureExit
@@ -53,7 +58,7 @@
             this.BtnConfigureExit.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
             this.BtnConfigureExit.Image = ((System.Drawing.Image)(resources.GetObject("BtnConfigureExit.Image")));
             this.BtnConfigureExit.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.BtnConfigureExit.Location = new System.Drawing.Point(348, 380);
+            this.BtnConfigureExit.Location = new System.Drawing.Point(478, 381);
             this.BtnConfigureExit.Name = "BtnConfigureExit";
             this.BtnConfigureExit.Size = new System.Drawing.Size(124, 61);
             this.BtnConfigureExit.TabIndex = 751;
@@ -68,7 +73,7 @@
             this.BtnParaInfoImport.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
             this.BtnParaInfoImport.Image = ((System.Drawing.Image)(resources.GetObject("BtnParaInfoImport.Image")));
             this.BtnParaInfoImport.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.BtnParaInfoImport.Location = new System.Drawing.Point(217, 12);
+            this.BtnParaInfoImport.Location = new System.Drawing.Point(348, 277);
             this.BtnParaInfoImport.Name = "BtnParaInfoImport";
             this.BtnParaInfoImport.Size = new System.Drawing.Size(124, 61);
             this.BtnParaInfoImport.TabIndex = 752;
@@ -83,7 +88,7 @@
             this.BtnParaInfoExport.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
             this.BtnParaInfoExport.Image = ((System.Drawing.Image)(resources.GetObject("BtnParaInfoExport.Image")));
             this.BtnParaInfoExport.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.BtnParaInfoExport.Location = new System.Drawing.Point(347, 12);
+            this.BtnParaInfoExport.Location = new System.Drawing.Point(478, 277);
             this.BtnParaInfoExport.Name = "BtnParaInfoExport";
             this.BtnParaInfoExport.Size = new System.Drawing.Size(124, 61);
             this.BtnParaInfoExport.TabIndex = 753;
@@ -98,7 +103,7 @@
             this.BtnAlarmInfoExport.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
             this.BtnAlarmInfoExport.Image = ((System.Drawing.Image)(resources.GetObject("BtnAlarmInfoExport.Image")));
             this.BtnAlarmInfoExport.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.BtnAlarmInfoExport.Location = new System.Drawing.Point(347, 79);
+            this.BtnAlarmInfoExport.Location = new System.Drawing.Point(478, 143);
             this.BtnAlarmInfoExport.Name = "BtnAlarmInfoExport";
             this.BtnAlarmInfoExport.Size = new System.Drawing.Size(124, 61);
             this.BtnAlarmInfoExport.TabIndex = 755;
@@ -113,7 +118,7 @@
             this.BtnAlarmInfoImport.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
             this.BtnAlarmInfoImport.Image = ((System.Drawing.Image)(resources.GetObject("BtnAlarmInfoImport.Image")));
             this.BtnAlarmInfoImport.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.BtnAlarmInfoImport.Location = new System.Drawing.Point(217, 79);
+            this.BtnAlarmInfoImport.Location = new System.Drawing.Point(348, 143);
             this.BtnAlarmInfoImport.Name = "BtnAlarmInfoImport";
             this.BtnAlarmInfoImport.Size = new System.Drawing.Size(124, 61);
             this.BtnAlarmInfoImport.TabIndex = 754;
@@ -128,7 +133,7 @@
             this.BtnIOInfoExport.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
             this.BtnIOInfoExport.Image = ((System.Drawing.Image)(resources.GetObject("BtnIOInfoExport.Image")));
             this.BtnIOInfoExport.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.BtnIOInfoExport.Location = new System.Drawing.Point(347, 146);
+            this.BtnIOInfoExport.Location = new System.Drawing.Point(478, 76);
             this.BtnIOInfoExport.Name = "BtnIOInfoExport";
             this.BtnIOInfoExport.Size = new System.Drawing.Size(124, 61);
             this.BtnIOInfoExport.TabIndex = 757;
@@ -143,7 +148,7 @@
             this.BtnIOInfoImport.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
             this.BtnIOInfoImport.Image = ((System.Drawing.Image)(resources.GetObject("BtnIOInfoImport.Image")));
             this.BtnIOInfoImport.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.BtnIOInfoImport.Location = new System.Drawing.Point(217, 146);
+            this.BtnIOInfoImport.Location = new System.Drawing.Point(348, 76);
             this.BtnIOInfoImport.Name = "BtnIOInfoImport";
             this.BtnIOInfoImport.Size = new System.Drawing.Size(124, 61);
             this.BtnIOInfoImport.TabIndex = 756;
@@ -158,7 +163,7 @@
             this.BtnMotorDataExport.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
             this.BtnMotorDataExport.Image = ((System.Drawing.Image)(resources.GetObject("BtnMotorDataExport.Image")));
             this.BtnMotorDataExport.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.BtnMotorDataExport.Location = new System.Drawing.Point(347, 213);
+            this.BtnMotorDataExport.Location = new System.Drawing.Point(478, 9);
             this.BtnMotorDataExport.Name = "BtnMotorDataExport";
             this.BtnMotorDataExport.Size = new System.Drawing.Size(124, 61);
             this.BtnMotorDataExport.TabIndex = 759;
@@ -173,7 +178,7 @@
             this.BtnMotorDataImport.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
             this.BtnMotorDataImport.Image = ((System.Drawing.Image)(resources.GetObject("BtnMotorDataImport.Image")));
             this.BtnMotorDataImport.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.BtnMotorDataImport.Location = new System.Drawing.Point(217, 213);
+            this.BtnMotorDataImport.Location = new System.Drawing.Point(348, 9);
             this.BtnMotorDataImport.Name = "BtnMotorDataImport";
             this.BtnMotorDataImport.Size = new System.Drawing.Size(124, 61);
             this.BtnMotorDataImport.TabIndex = 758;
@@ -190,7 +195,7 @@
             | System.Windows.Forms.Border3DSide.Bottom)));
             this.TitleParaInfo.Font = new System.Drawing.Font("굴림", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.TitleParaInfo.ForeColor = System.Drawing.Color.Gainsboro;
-            this.TitleParaInfo.Location = new System.Drawing.Point(12, 12);
+            this.TitleParaInfo.Location = new System.Drawing.Point(12, 277);
             this.TitleParaInfo.Name = "TitleParaInfo";
             this.TitleParaInfo.Size = new System.Drawing.Size(200, 61);
             this.TitleParaInfo.TabIndex = 760;
@@ -205,7 +210,7 @@
             | System.Windows.Forms.Border3DSide.Bottom)));
             this.TitleAlarmInfo.Font = new System.Drawing.Font("굴림", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.TitleAlarmInfo.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.TitleAlarmInfo.Location = new System.Drawing.Point(12, 79);
+            this.TitleAlarmInfo.Location = new System.Drawing.Point(12, 143);
             this.TitleAlarmInfo.Name = "TitleAlarmInfo";
             this.TitleAlarmInfo.Size = new System.Drawing.Size(200, 61);
             this.TitleAlarmInfo.TabIndex = 761;
@@ -220,7 +225,7 @@
             | System.Windows.Forms.Border3DSide.Bottom)));
             this.TitleIOInfo.Font = new System.Drawing.Font("굴림", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.TitleIOInfo.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
-            this.TitleIOInfo.Location = new System.Drawing.Point(12, 146);
+            this.TitleIOInfo.Location = new System.Drawing.Point(12, 76);
             this.TitleIOInfo.Name = "TitleIOInfo";
             this.TitleIOInfo.Size = new System.Drawing.Size(200, 61);
             this.TitleIOInfo.TabIndex = 762;
@@ -235,7 +240,7 @@
             | System.Windows.Forms.Border3DSide.Bottom)));
             this.TitleMotorData.Font = new System.Drawing.Font("굴림", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.TitleMotorData.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.TitleMotorData.Location = new System.Drawing.Point(12, 213);
+            this.TitleMotorData.Location = new System.Drawing.Point(12, 9);
             this.TitleMotorData.Name = "TitleMotorData";
             this.TitleMotorData.Size = new System.Drawing.Size(200, 61);
             this.TitleMotorData.TabIndex = 763;
@@ -250,7 +255,7 @@
             | System.Windows.Forms.Border3DSide.Bottom)));
             this.TitleMsgInfo.Font = new System.Drawing.Font("굴림", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.TitleMsgInfo.ForeColor = System.Drawing.Color.White;
-            this.TitleMsgInfo.Location = new System.Drawing.Point(12, 280);
+            this.TitleMsgInfo.Location = new System.Drawing.Point(12, 210);
             this.TitleMsgInfo.Name = "TitleMsgInfo";
             this.TitleMsgInfo.Size = new System.Drawing.Size(200, 61);
             this.TitleMsgInfo.TabIndex = 766;
@@ -263,7 +268,7 @@
             this.BtnMsgInfoExport.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
             this.BtnMsgInfoExport.Image = ((System.Drawing.Image)(resources.GetObject("BtnMsgInfoExport.Image")));
             this.BtnMsgInfoExport.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.BtnMsgInfoExport.Location = new System.Drawing.Point(347, 280);
+            this.BtnMsgInfoExport.Location = new System.Drawing.Point(478, 210);
             this.BtnMsgInfoExport.Name = "BtnMsgInfoExport";
             this.BtnMsgInfoExport.Size = new System.Drawing.Size(124, 61);
             this.BtnMsgInfoExport.TabIndex = 765;
@@ -278,7 +283,7 @@
             this.BtnMsgInfoImport.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
             this.BtnMsgInfoImport.Image = ((System.Drawing.Image)(resources.GetObject("BtnMsgInfoImport.Image")));
             this.BtnMsgInfoImport.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.BtnMsgInfoImport.Location = new System.Drawing.Point(217, 280);
+            this.BtnMsgInfoImport.Location = new System.Drawing.Point(348, 210);
             this.BtnMsgInfoImport.Name = "BtnMsgInfoImport";
             this.BtnMsgInfoImport.Size = new System.Drawing.Size(124, 61);
             this.BtnMsgInfoImport.TabIndex = 764;
@@ -287,11 +292,92 @@
             this.BtnMsgInfoImport.UseVisualStyleBackColor = true;
             this.BtnMsgInfoImport.Click += new System.EventHandler(this.BtnMsgInfoImport_Click);
             // 
+            // BtnMsgInfoDelete
+            // 
+            this.BtnMsgInfoDelete.Font = new System.Drawing.Font("굴림", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.BtnMsgInfoDelete.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.BtnMsgInfoDelete.Image = ((System.Drawing.Image)(resources.GetObject("BtnMsgInfoDelete.Image")));
+            this.BtnMsgInfoDelete.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.BtnMsgInfoDelete.Location = new System.Drawing.Point(218, 210);
+            this.BtnMsgInfoDelete.Name = "BtnMsgInfoDelete";
+            this.BtnMsgInfoDelete.Size = new System.Drawing.Size(124, 61);
+            this.BtnMsgInfoDelete.TabIndex = 771;
+            this.BtnMsgInfoDelete.Text = "Delete DB";
+            this.BtnMsgInfoDelete.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.BtnMsgInfoDelete.UseVisualStyleBackColor = true;
+            this.BtnMsgInfoDelete.Click += new System.EventHandler(this.BtnMsgInfoDelete_Click);
+            // 
+            // BtnMotorDataDelete
+            // 
+            this.BtnMotorDataDelete.Font = new System.Drawing.Font("굴림", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.BtnMotorDataDelete.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.BtnMotorDataDelete.Image = ((System.Drawing.Image)(resources.GetObject("BtnMotorDataDelete.Image")));
+            this.BtnMotorDataDelete.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.BtnMotorDataDelete.Location = new System.Drawing.Point(218, 9);
+            this.BtnMotorDataDelete.Name = "BtnMotorDataDelete";
+            this.BtnMotorDataDelete.Size = new System.Drawing.Size(124, 61);
+            this.BtnMotorDataDelete.TabIndex = 770;
+            this.BtnMotorDataDelete.Text = "Delete DB";
+            this.BtnMotorDataDelete.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.BtnMotorDataDelete.UseVisualStyleBackColor = true;
+            this.BtnMotorDataDelete.Visible = false;
+            this.BtnMotorDataDelete.Click += new System.EventHandler(this.BtnMotorDataDelete_Click);
+            // 
+            // BtnIOInfoDelete
+            // 
+            this.BtnIOInfoDelete.Font = new System.Drawing.Font("굴림", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.BtnIOInfoDelete.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.BtnIOInfoDelete.Image = ((System.Drawing.Image)(resources.GetObject("BtnIOInfoDelete.Image")));
+            this.BtnIOInfoDelete.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.BtnIOInfoDelete.Location = new System.Drawing.Point(218, 76);
+            this.BtnIOInfoDelete.Name = "BtnIOInfoDelete";
+            this.BtnIOInfoDelete.Size = new System.Drawing.Size(124, 61);
+            this.BtnIOInfoDelete.TabIndex = 769;
+            this.BtnIOInfoDelete.Text = "Delete DB";
+            this.BtnIOInfoDelete.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.BtnIOInfoDelete.UseVisualStyleBackColor = true;
+            this.BtnIOInfoDelete.Click += new System.EventHandler(this.BtnIOInfoDelete_Click);
+            // 
+            // BtnAlarmInfoDelete
+            // 
+            this.BtnAlarmInfoDelete.Font = new System.Drawing.Font("굴림", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.BtnAlarmInfoDelete.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.BtnAlarmInfoDelete.Image = ((System.Drawing.Image)(resources.GetObject("BtnAlarmInfoDelete.Image")));
+            this.BtnAlarmInfoDelete.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.BtnAlarmInfoDelete.Location = new System.Drawing.Point(218, 143);
+            this.BtnAlarmInfoDelete.Name = "BtnAlarmInfoDelete";
+            this.BtnAlarmInfoDelete.Size = new System.Drawing.Size(124, 61);
+            this.BtnAlarmInfoDelete.TabIndex = 768;
+            this.BtnAlarmInfoDelete.Text = "Delete DB";
+            this.BtnAlarmInfoDelete.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.BtnAlarmInfoDelete.UseVisualStyleBackColor = true;
+            this.BtnAlarmInfoDelete.Click += new System.EventHandler(this.BtnAlarmInfoDelete_Click);
+            // 
+            // BtnParaInfoDelete
+            // 
+            this.BtnParaInfoDelete.Font = new System.Drawing.Font("굴림", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.BtnParaInfoDelete.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.BtnParaInfoDelete.Image = ((System.Drawing.Image)(resources.GetObject("BtnParaInfoDelete.Image")));
+            this.BtnParaInfoDelete.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.BtnParaInfoDelete.Location = new System.Drawing.Point(218, 277);
+            this.BtnParaInfoDelete.Name = "BtnParaInfoDelete";
+            this.BtnParaInfoDelete.Size = new System.Drawing.Size(124, 61);
+            this.BtnParaInfoDelete.TabIndex = 767;
+            this.BtnParaInfoDelete.Text = "Delete DB";
+            this.BtnParaInfoDelete.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.BtnParaInfoDelete.UseVisualStyleBackColor = true;
+            this.BtnParaInfoDelete.Click += new System.EventHandler(this.BtnParaInfoDelete_Click);
+            // 
             // FormSystemParaRead
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(484, 453);
+            this.ClientSize = new System.Drawing.Size(615, 457);
+            this.Controls.Add(this.BtnMsgInfoDelete);
+            this.Controls.Add(this.BtnMotorDataDelete);
+            this.Controls.Add(this.BtnIOInfoDelete);
+            this.Controls.Add(this.BtnAlarmInfoDelete);
+            this.Controls.Add(this.BtnParaInfoDelete);
             this.Controls.Add(this.TitleMsgInfo);
             this.Controls.Add(this.BtnMsgInfoExport);
             this.Controls.Add(this.BtnMsgInfoImport);
@@ -334,5 +420,10 @@
         private Syncfusion.Windows.Forms.Tools.GradientLabel TitleMsgInfo;
         private System.Windows.Forms.Button BtnMsgInfoExport;
         private System.Windows.Forms.Button BtnMsgInfoImport;
+        private System.Windows.Forms.Button BtnMsgInfoDelete;
+        private System.Windows.Forms.Button BtnMotorDataDelete;
+        private System.Windows.Forms.Button BtnIOInfoDelete;
+        private System.Windows.Forms.Button BtnAlarmInfoDelete;
+        private System.Windows.Forms.Button BtnParaInfoDelete;
     }
 }

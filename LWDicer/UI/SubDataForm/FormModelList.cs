@@ -12,6 +12,7 @@ using Syncfusion.Windows.Forms.Grid;
 using Syncfusion.Windows.Forms;
 using Syncfusion.Windows.Forms.Tools;
 
+using static LWDicer.Control.DEF_Common;
 using static LWDicer.Control.DEF_Error;
 using static LWDicer.Control.DEF_DataManager;
 
@@ -39,8 +40,8 @@ namespace LWDicer.UI
             switch (type)
             {
                 case EListHeaderType.MODEL:
-                    HeaderList = CMainFrame.LWDicer.m_DataManager.ModelHeaderList;
-                    CurrentUsing_ModelName = CMainFrame.LWDicer.m_DataManager.SystemData.ModelName;
+                    HeaderList = CMainFrame.DataManager.ModelHeaderList;
+                    CurrentUsing_ModelName = CMainFrame.DataManager.SystemData.ModelName;
                     DisplayTypeName = "Model";
                     this.Text = "Model Data";
 
@@ -53,8 +54,8 @@ namespace LWDicer.UI
                     break;
 
                 case EListHeaderType.CASSETTE:
-                    HeaderList = CMainFrame.LWDicer.m_DataManager.CassetteHeaderList;
-                    CurrentUsing_ModelName = CMainFrame.LWDicer.m_DataManager.ModelData.CassetteName;
+                    HeaderList = CMainFrame.DataManager.CassetteHeaderList;
+                    CurrentUsing_ModelName = CMainFrame.DataManager.ModelData.CassetteName;
                     DisplayTypeName = "Wafer Cassette";
                     this.Text = "Wafer Cassette Data";
 
@@ -67,8 +68,8 @@ namespace LWDicer.UI
                     break;
 
                 case EListHeaderType.WAFERFRAME:
-                    HeaderList = CMainFrame.LWDicer.m_DataManager.WaferFrameHeaderList;
-                    CurrentUsing_ModelName = CMainFrame.LWDicer.m_DataManager.ModelData.WaferFrameName;
+                    HeaderList = CMainFrame.DataManager.WaferFrameHeaderList;
+                    CurrentUsing_ModelName = CMainFrame.DataManager.ModelData.WaferFrameName;
                     DisplayTypeName = "Wafer Frame";
                     this.Text = "Wafer Frame Data";
 
@@ -206,7 +207,7 @@ namespace LWDicer.UI
                 // 전체 Model List에서 사용자가 선택한 Maker Folder에 속해 있는 모든 Model을 Display 한다.
                 if (header.Parent == strSelMakerName)
                 {
-                    if (CMainFrame.LWDicer.m_DataManager.IsModelFolder(header.Name, ListType) == false)
+                    if (CMainFrame.DataManager.IsModelFolder(header.Name, ListType) == false)
                     {
                         nModelCount++;
                         InitGrid(nModelCount);
@@ -244,19 +245,19 @@ namespace LWDicer.UI
             switch(ListType)
             {
                 case EListHeaderType.MODEL:
-                    if (!CMainFrame.DisplayMsg(4))
+                    if (!CMainFrame.DisplayMsg("Create new maker?"))
                     {
                         return;
                     }
                     break;
                 case EListHeaderType.CASSETTE:
-                    if (!CMainFrame.DisplayMsg(35))
+                    if (!CMainFrame.DisplayMsg("Make new folder?"))
                     {
                         return;
                     }
                     break;
                 case EListHeaderType.WAFERFRAME:
-                    if (!CMainFrame.DisplayMsg(36))
+                    if (!CMainFrame.DisplayMsg("Make new folder?"))
                     {
                         return;
                     }
@@ -265,8 +266,8 @@ namespace LWDicer.UI
             }
 
             // Maker는 root밑에 한세대만으로 강제 고정함
-            //FormCreateMaker dlg = new FormCreateMaker(ListType, strSelMakerName);
-            FormCreateMaker dlg = new FormCreateMaker(ListType, NAME_ROOT_FOLDER);
+            //var dlg = new FormCreateMaker(ListType, strSelMakerName);
+            var dlg = new FormCreateMaker(ListType, NAME_ROOT_FOLDER);
             dlg.ShowDialog();
 
             if (dlg.DialogResult != DialogResult.OK)
@@ -286,11 +287,11 @@ namespace LWDicer.UI
 
             if (strSelMakerName == NAME_ROOT_FOLDER)
             {
-                CMainFrame.DisplayMsg(5);
+                CMainFrame.DisplayMsg("Cannot delete Root Directory.");
                 return;
             }
 
-            if (!CMainFrame.DisplayMsg(6))
+            if (!CMainFrame.DisplayMsg("Delete selected Maker?"))
             {
                 return;
             }
@@ -315,13 +316,13 @@ namespace LWDicer.UI
 
             if (bIsCurrentParent)
             {
-                CMainFrame.DisplayMsg(7);
+                CMainFrame.DisplayMsg("Cannot delete Directory that include current model.");
                 return;
             }
 
             if (nCount > 0)
             {
-                if (!CMainFrame.DisplayMsg($"선택하신 Maker에 하위 {DisplayTypeName} Data가 존재 합니다. 모두 삭제 시겠습니까?"))
+                if (!CMainFrame.DisplayMsg($"data exist in selected maker. Delete all?"))
                 {
                     return;
                 }
@@ -330,12 +331,12 @@ namespace LWDicer.UI
             // 하위 Model Data Delete
             foreach (string name in childList)
             {
-                CMainFrame.LWDicer.m_DataManager.DeleteModelData(name, ListType);
-                CMainFrame.LWDicer.m_DataManager.DeleteModelHeader(name, ListType);
+                CMainFrame.DataManager.DeleteModelData(name, ListType);
+                CMainFrame.DataManager.DeleteModelHeader(name, ListType);
 
             }
             // 상위 Maker Delete
-            CMainFrame.LWDicer.m_DataManager.DeleteModelHeader(strSelMakerName, ListType);
+            CMainFrame.DataManager.DeleteModelHeader(strSelMakerName, ListType);
 
             UpdateMakerNode();
             UpdateModelData();
@@ -343,7 +344,7 @@ namespace LWDicer.UI
 
         private void BtnModelCreate_Click(object sender, EventArgs e)
         {
-            if (!CMainFrame.DisplayMsg($"새로운 {DisplayTypeName} Data를 생성 하시겠습니까?"))
+            if (!CMainFrame.DisplayMsg($"Create new data?"))
             {
                 return;
             }
@@ -357,14 +358,14 @@ namespace LWDicer.UI
 
             if (strModify == "" || strModify == null)
             {
-                CMainFrame.DisplayMsg($"{DisplayTypeName} Data Name을 입력하여 주십시시오");
+                CMainFrame.DisplayMsg($"Input data name.");
                 return;
             }
 
             // Model Name 중복 검사
-            if (CMainFrame.LWDicer.m_DataManager.IsModelHeaderExist(strModify, ListType))
+            if (CMainFrame.DataManager.IsModelHeaderExist(strModify, ListType))
             {
-                CMainFrame.DisplayMsg(8);
+                CMainFrame.DisplayMsg("already exist same name[Model or Maker]");
                 return;
             }
 
@@ -377,25 +378,25 @@ namespace LWDicer.UI
             header.TreeLevel = -1;
 
             HeaderList.Add(header);
-            CMainFrame.LWDicer.m_DataManager.SaveModelHeaderList(ListType);
+            CMainFrame.DataManager.SaveModelHeaderList(ListType);
 
             // create model by using current model
             switch (ListType)
             {
                 case EListHeaderType.MODEL:
-                    CModelData modelData = ObjectExtensions.Copy(CMainFrame.LWDicer.m_DataManager.ModelData);
+                    CModelData modelData = ObjectExtensions.Copy(CMainFrame.DataManager.ModelData);
                     modelData.Name = header.Name;
-                    CMainFrame.LWDicer.m_DataManager.SaveModelData(modelData);
+                    CMainFrame.DataManager.SaveModelData(modelData);
                     break;
                 case EListHeaderType.CASSETTE:
-                    CWaferCassette cassetteData = ObjectExtensions.Copy(CMainFrame.LWDicer.m_DataManager.CassetteData);
+                    CWaferCassette cassetteData = ObjectExtensions.Copy(CMainFrame.DataManager.CassetteData);
                     cassetteData.Name = header.Name;
-                    CMainFrame.LWDicer.m_DataManager.SaveModelData(cassetteData);
+                    CMainFrame.DataManager.SaveModelData(cassetteData);
                     break;
                 case EListHeaderType.WAFERFRAME:
-                    CWaferFrame waferFrameData = ObjectExtensions.Copy(CMainFrame.LWDicer.m_DataManager.WaferFrameData);
+                    CWaferFrame waferFrameData = ObjectExtensions.Copy(CMainFrame.DataManager.WaferFrameData);
                     waferFrameData.Name = header.Name;
-                    CMainFrame.LWDicer.m_DataManager.SaveModelData(waferFrameData);
+                    CMainFrame.DataManager.SaveModelData(waferFrameData);
                     break;
             }
 
@@ -410,25 +411,25 @@ namespace LWDicer.UI
         {
             if (strSelModelName == "" || strSelModelName == null)
             {
-                CMainFrame.DisplayMsg($"삭제 하고자 하는 {DisplayTypeName} Data를 선택하여 주십시시오");
+                CMainFrame.DisplayMsg($"Need select data.");
                 return;
             }
 
-            if (!CMainFrame.DisplayMsg($"선택하신 {DisplayTypeName} Data를 삭제 시겠습니까?"))
+            if (!CMainFrame.DisplayMsg($"Delete selected data?"))
             {
                 return;
             }
 
             if (strSelModelName == CurrentUsing_ModelName)
             {
-                CMainFrame.DisplayMsg($"현재 사용중인 {DisplayTypeName} Data는 삭제 할수 없습니다.");
+                CMainFrame.DisplayMsg($"Cannot delete current using model.");
                 return;
             }
 
             int i = 0, nNo = 0, nCount = 0, nIndex = 0;
 
-            CMainFrame.LWDicer.m_DataManager.DeleteModelData(strSelModelName, ListType);
-            CMainFrame.LWDicer.m_DataManager.DeleteModelHeader(strSelModelName, ListType);
+            CMainFrame.DataManager.DeleteModelData(strSelModelName, ListType);
+            CMainFrame.DataManager.DeleteModelHeader(strSelModelName, ListType);
 
             for (i = 0; i < HeaderList.Count; i++)
             {
@@ -462,17 +463,17 @@ namespace LWDicer.UI
         {
             if (strSelModelName == "" || strSelModelName == null)
             {
-                CMainFrame.DisplayMsg(9);
+                CMainFrame.DisplayMsg("Need select Model.");
                 return;
             }
 
             if (CurrentUsing_ModelName == strSelModelName)
             {
-                CMainFrame.DisplayMsg(10);
+                CMainFrame.DisplayMsg("already using selected Model.");
                 return;
             }
 
-            if (!CMainFrame.DisplayMsg($"선택하신 {DisplayTypeName} Data로 변경 하시겠습니까?"))
+            if (!CMainFrame.DisplayMsg($"Change selected model?"))
             {
                 return;
             }
@@ -483,13 +484,13 @@ namespace LWDicer.UI
             switch (ListType)
             {
                 case EListHeaderType.MODEL:
-                    iResult = CMainFrame.LWDicer.m_DataManager.ChangeModel(strSelModelName);
+                    iResult = CMainFrame.DataManager.ChangeModel(strSelModelName);
                     break;
                 case EListHeaderType.CASSETTE:
-                    iResult = CMainFrame.LWDicer.m_DataManager.LoadCassetteData(strSelModelName);
+                    iResult = CMainFrame.DataManager.LoadCassetteData(strSelModelName);
                     break;
                 case EListHeaderType.WAFERFRAME:
-                    iResult = CMainFrame.LWDicer.m_DataManager.LoadWaferFrameData(strSelModelName);
+                    iResult = CMainFrame.DataManager.LoadWaferFrameData(strSelModelName);
                     break;
             }
 

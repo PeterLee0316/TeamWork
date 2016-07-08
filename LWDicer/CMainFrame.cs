@@ -30,6 +30,7 @@ namespace LWDicer.UI
     public partial class CMainFrame : Form
     {
         public static MLWDicer LWDicer = new MLWDicer(new CObjectInfo());
+        public static MDataManager DataManager;
 
         public static CMainFrame MainFrame = null;
 
@@ -211,6 +212,7 @@ namespace LWDicer.UI
                 LWDicer.ShowAlarmWhileInit(iResult);
                 return false;
             }
+            DataManager = LWDicer.m_DataManager;
             return true;
         }
 
@@ -242,37 +244,34 @@ namespace LWDicer.UI
             }
         }
 
-        static public bool DisplayMsg(string strMsg, EMessageType type = EMessageType.OK_Cancel)
+        static public bool DisplayMsg(string strMsg, EMessageType type = EMessageType.NONE)
         {
-            FormMessageBox dlg = new FormMessageBox();
+            var dlg = new FormMessageBox();
             dlg.SetMessage(strMsg, type);
             dlg.ShowDialog();
 
             if (dlg.DialogResult == DialogResult.OK || dlg.DialogResult == DialogResult.Yes)
-            {
                 return true;
-            }
-            else
-            {
-                return false;
-            }
+            else return false;
         }
 
-        static public bool DisplayMsg(int index)
-        {
-            FormMessageBox dlg = new FormMessageBox();
-            dlg.SetMessage(index);
-            dlg.ShowDialog();
+        /// <summary>
+        /// Message Index Number를 이용해서 MessageInfo 를 Loading
+        /// index를 이용해서 호출하면, 실제 프로그램 코드에선 알아보기가 힘들것 같아서
+        /// 일부러 주석처리하고 사용하지 않기로 함
+        /// </summary>
+        /// <param name="index"></param>
+        /// <returns></returns>
+        //static public bool DisplayMsg(int index)
+        //{
+        //    var dlg = new FormMessageBox();
+        //    dlg.SetMessage(index);
+        //    dlg.ShowDialog();
 
-            if (dlg.DialogResult == DialogResult.OK || dlg.DialogResult == DialogResult.Yes)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
+        //    if (dlg.DialogResult == DialogResult.OK || dlg.DialogResult == DialogResult.Yes)
+        //        return true;
+        //    else return false;
+        //}
     }
 
     public delegate void FormSelectEventHandler(DEF_UI.SelectScreenType type);

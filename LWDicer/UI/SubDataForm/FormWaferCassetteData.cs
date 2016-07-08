@@ -27,7 +27,7 @@ namespace LWDicer.UI
 
             InitGrid();
 
-            foreach (CListHeader info in CMainFrame.LWDicer.m_DataManager.CassetteHeaderList)
+            foreach (CListHeader info in CMainFrame.DataManager.CassetteHeaderList)
             {
                 if(info.IsFolder == false)
                 {
@@ -35,9 +35,9 @@ namespace LWDicer.UI
                 }
             }
 
-            ComboCassette.SelectedIndex = ComboCassette.Items.IndexOf(CMainFrame.LWDicer.m_DataManager.ModelData.CassetteName);
+            ComboCassette.SelectedIndex = ComboCassette.Items.IndexOf(CMainFrame.DataManager.ModelData.CassetteName);
 
-            this.Text = $"Wafer Cassette Data [ Current Model : {CMainFrame.LWDicer.m_DataManager.ModelData.Name} ]";
+            this.Text = $"Wafer Cassette Data [ Current Model : {CMainFrame.DataManager.ModelData.Name} ]";
 
         }
 
@@ -79,12 +79,12 @@ namespace LWDicer.UI
             GridWaferframe[0, 3].Text = "Description";
 
             ELanguage language;
-            language = CMainFrame.LWDicer.m_DataManager.SystemData.Language;
+            language = CMainFrame.DataManager.SystemData.Language;
 
             int nIndex = 1;
 
             // Cassette Group 검색
-            foreach (CParaInfo info in CMainFrame.LWDicer.m_DataManager.ParaInfoList)
+            foreach (CParaInfo info in CMainFrame.DataManager.ParaInfoList)
             {
                 if(info.Group == "Cassette")
                 {
@@ -158,7 +158,7 @@ namespace LWDicer.UI
 
         private void BtnSave_Click(object sender, EventArgs e)
         {
-            if (!CMainFrame.DisplayMsg(33))
+            if (!CMainFrame.DisplayMsg("Save Data?"))
             {
                 return;
             }
@@ -178,9 +178,9 @@ namespace LWDicer.UI
             cassetteData.LoadPushPullPos =  Convert.ToDouble(GridWaferframe[10, 2].Text);
             cassetteData.FrameCenterPos =   Convert.ToDouble(GridWaferframe[11, 2].Text);
 
-            CMainFrame.LWDicer.m_DataManager.SaveModelData(cassetteData);
+            CMainFrame.DataManager.SaveModelData(cassetteData);
 
-            CMainFrame.LWDicer.m_DataManager.LoadCassetteData(ComboCassette.Text);
+            CMainFrame.DataManager.LoadCassetteData(ComboCassette.Text);
 
             UpdateCassetteData(cassetteData);
         }
@@ -225,9 +225,9 @@ namespace LWDicer.UI
 
             string strCassette = ComboCassette.Text;
 
-            CMainFrame.LWDicer.m_DataManager.LoadCassetteData(strCassette);
+            CMainFrame.DataManager.LoadCassetteData(strCassette);
 
-            CWaferCassette cassetteData = ObjectExtensions.Copy(CMainFrame.LWDicer.m_DataManager.CassetteData);
+            CWaferCassette cassetteData = ObjectExtensions.Copy(CMainFrame.DataManager.CassetteData);
 
             UpdateCassetteData(cassetteData);
         }

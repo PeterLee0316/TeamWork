@@ -146,11 +146,11 @@ namespace LWDicer.UI
 
             if (SelectedAxis < (int)EYMC_Axis.MAX)
             {
-                AxisSpeedData = CMainFrame.LWDicer.m_DataManager.SystemData_Axis.MPMotionData[SelectedAxis].Speed[speedIndex];
+                AxisSpeedData = CMainFrame.DataManager.SystemData_Axis.MPMotionData[SelectedAxis].Speed[speedIndex];
             }
             else
             {
-                AxisSpeedData = CMainFrame.LWDicer.m_DataManager.SystemData_Axis.ACSMotionData[SelectedAxis].Speed[speedIndex - (int)EYMC_Axis.MAX];
+                AxisSpeedData = CMainFrame.DataManager.SystemData_Axis.ACSMotionData[SelectedAxis].Speed[speedIndex - (int)EYMC_Axis.MAX];
             }
             LabelVelocity.Text = Convert.ToString(AxisSpeedData.Vel);
 

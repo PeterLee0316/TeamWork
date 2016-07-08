@@ -102,7 +102,7 @@ namespace LWDicer.UI
 
         private void BtnJog_Click(object sender, EventArgs e)
         {
-            FormJogOperation dlg = new FormJogOperation();
+            var dlg = new FormJogOperation();
             dlg.ShowDialog();
         }
 
@@ -604,25 +604,25 @@ namespace LWDicer.UI
             if (GetDataMode() == FixedData)
             {
                 strData = GridCenterXTeachTable[3, 1].Text;
-                CMainFrame.LWDicer.m_DataManager.FixedPos.Centering1Pos.Pos[GetCenterPosNo()].dX = Convert.ToDouble(strData);
+                CMainFrame.DataManager.FixedPos.Centering1Pos.Pos[GetCenterPosNo()].dX = Convert.ToDouble(strData);
 
                 strData = GridCenterXTeachTable[3, 2].Text;
-                CMainFrame.LWDicer.m_DataManager.FixedPos.Centering2Pos.Pos[GetCenterPosNo()].dX = Convert.ToDouble(strData);
+                CMainFrame.DataManager.FixedPos.Centering2Pos.Pos[GetCenterPosNo()].dX = Convert.ToDouble(strData);
 
-                CMainFrame.LWDicer.m_DataManager.SavePositionData(true, EPositionObject.PUSHPULL_CENTER1);
-                CMainFrame.LWDicer.m_DataManager.SavePositionData(true, EPositionObject.PUSHPULL_CENTER2);
+                CMainFrame.DataManager.SavePositionData(true, EPositionObject.PUSHPULL_CENTER1);
+                CMainFrame.DataManager.SavePositionData(true, EPositionObject.PUSHPULL_CENTER2);
             }
 
             if(GetDataMode() == OffsetData)
             {
                 strData = GridCenterXTeachTable[6, 1].Text;
-                CMainFrame.LWDicer.m_DataManager.OffsetPos.Centering1Pos.Pos[GetCenterPosNo()].dX = Convert.ToDouble(strData);
+                CMainFrame.DataManager.OffsetPos.Centering1Pos.Pos[GetCenterPosNo()].dX = Convert.ToDouble(strData);
 
                 strData = GridCenterXTeachTable[6, 2].Text;
-                CMainFrame.LWDicer.m_DataManager.OffsetPos.Centering2Pos.Pos[GetCenterPosNo()].dX = Convert.ToDouble(strData);
+                CMainFrame.DataManager.OffsetPos.Centering2Pos.Pos[GetCenterPosNo()].dX = Convert.ToDouble(strData);
 
-                CMainFrame.LWDicer.m_DataManager.SavePositionData(false, EPositionObject.PUSHPULL_CENTER1);
-                CMainFrame.LWDicer.m_DataManager.SavePositionData(false, EPositionObject.PUSHPULL_CENTER2);
+                CMainFrame.DataManager.SavePositionData(false, EPositionObject.PUSHPULL_CENTER1);
+                CMainFrame.DataManager.SavePositionData(false, EPositionObject.PUSHPULL_CENTER2);
             }
 
             CMainFrame.LWDicer.SetPositionDataToComponent(EPositionGroup.PUSHPULL);
@@ -645,16 +645,16 @@ namespace LWDicer.UI
             {
                 strData = GridPushPullYTeachTable[3, 1].Text;
 
-                CMainFrame.LWDicer.m_DataManager.FixedPos.PushPullPos.Pos[GetPushPullPosNo()].dY = Convert.ToDouble(strData);
-                CMainFrame.LWDicer.m_DataManager.SavePositionData(true, EPositionObject.PUSHPULL);
+                CMainFrame.DataManager.FixedPos.PushPullPos.Pos[GetPushPullPosNo()].dY = Convert.ToDouble(strData);
+                CMainFrame.DataManager.SavePositionData(true, EPositionObject.PUSHPULL);
             }
 
             if(GetDataMode() == OffsetData)
             {
                 strData = GridPushPullYTeachTable[6, 1].Text;
 
-                CMainFrame.LWDicer.m_DataManager.OffsetPos.PushPullPos.Pos[GetPushPullPosNo()].dY = Convert.ToDouble(strData);
-                CMainFrame.LWDicer.m_DataManager.SavePositionData(false, EPositionObject.PUSHPULL);
+                CMainFrame.DataManager.OffsetPos.PushPullPos.Pos[GetPushPullPosNo()].dY = Convert.ToDouble(strData);
+                CMainFrame.DataManager.SavePositionData(false, EPositionObject.PUSHPULL);
             }
 
             CMainFrame.LWDicer.SetPositionDataToComponent(EPositionGroup.PUSHPULL);

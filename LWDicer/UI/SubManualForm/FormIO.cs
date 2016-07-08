@@ -73,10 +73,10 @@ namespace LWDicer.UI
                 }
 
                 X_Title[i].Text = string.Format("X{0:X4}", nNo);
-                X_Name[i].Text = CMainFrame.LWDicer.m_DataManager.InputArray[nNo].Name[0];
+                X_Name[i].Text = CMainFrame.DataManager.InputArray[nNo].Name[0];
 
                 Y_Title[i].Text = string.Format("Y{0:X4}", nNo);
-                Y_Name[i].Text = CMainFrame.LWDicer.m_DataManager.OutputArray[nNo].Name[0];
+                Y_Name[i].Text = CMainFrame.DataManager.OutputArray[nNo].Name[0];
             }
         }
 

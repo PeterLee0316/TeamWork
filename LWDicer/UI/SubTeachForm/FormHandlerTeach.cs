@@ -307,7 +307,7 @@ namespace LWDicer.UI
 
         private void BtnJog_Click(object sender, EventArgs e)
         {
-            FormJogOperation dlg = new FormJogOperation();
+            var dlg = new FormJogOperation();
             dlg.ShowDialog();
         }
 
@@ -617,23 +617,23 @@ namespace LWDicer.UI
             if (GetDataMode() == FixedData)
             {
                 strData = GridLoHandlerTeachTable[3, 1].Text;
-                CMainFrame.LWDicer.m_DataManager.FixedPos.LowerHandlerPos.Pos[GetLoPosNo()].dX = Convert.ToDouble(strData);
+                CMainFrame.DataManager.FixedPos.LowerHandlerPos.Pos[GetLoPosNo()].dX = Convert.ToDouble(strData);
 
                 strData = GridLoHandlerTeachTable[3, 2].Text;
-                CMainFrame.LWDicer.m_DataManager.FixedPos.LowerHandlerPos.Pos[GetLoPosNo()].dZ = Convert.ToDouble(strData);
+                CMainFrame.DataManager.FixedPos.LowerHandlerPos.Pos[GetLoPosNo()].dZ = Convert.ToDouble(strData);
 
-                CMainFrame.LWDicer.m_DataManager.SavePositionData(true, EPositionObject.LOWER_HANDLER);
+                CMainFrame.DataManager.SavePositionData(true, EPositionObject.LOWER_HANDLER);
             }
 
             if (GetDataMode() == OffsetData)
             {
                 strData = GridLoHandlerTeachTable[6, 1].Text;
-                CMainFrame.LWDicer.m_DataManager.OffsetPos.LowerHandlerPos.Pos[GetLoPosNo()].dX = Convert.ToDouble(strData);
+                CMainFrame.DataManager.OffsetPos.LowerHandlerPos.Pos[GetLoPosNo()].dX = Convert.ToDouble(strData);
 
                 strData = GridLoHandlerTeachTable[6, 2].Text;
-                CMainFrame.LWDicer.m_DataManager.OffsetPos.LowerHandlerPos.Pos[GetLoPosNo()].dZ = Convert.ToDouble(strData);
+                CMainFrame.DataManager.OffsetPos.LowerHandlerPos.Pos[GetLoPosNo()].dZ = Convert.ToDouble(strData);
 
-                CMainFrame.LWDicer.m_DataManager.SavePositionData(false, EPositionObject.LOWER_HANDLER);
+                CMainFrame.DataManager.SavePositionData(false, EPositionObject.LOWER_HANDLER);
             }
 
             CMainFrame.LWDicer.SetPositionDataToComponent(EPositionGroup.HANDLER);
@@ -655,23 +655,23 @@ namespace LWDicer.UI
             if (GetDataMode() == FixedData)
             {
                 strData = GridUpHandlerTeachTable[3, 1].Text;
-                CMainFrame.LWDicer.m_DataManager.FixedPos.UpperHandlerPos.Pos[GetUpPosNo()].dX = Convert.ToDouble(strData);
+                CMainFrame.DataManager.FixedPos.UpperHandlerPos.Pos[GetUpPosNo()].dX = Convert.ToDouble(strData);
 
                 strData = GridUpHandlerTeachTable[3, 2].Text;
-                CMainFrame.LWDicer.m_DataManager.FixedPos.UpperHandlerPos.Pos[GetUpPosNo()].dZ = Convert.ToDouble(strData);
+                CMainFrame.DataManager.FixedPos.UpperHandlerPos.Pos[GetUpPosNo()].dZ = Convert.ToDouble(strData);
 
-                CMainFrame.LWDicer.m_DataManager.SavePositionData(true, EPositionObject.UPPER_HANDLER);
+                CMainFrame.DataManager.SavePositionData(true, EPositionObject.UPPER_HANDLER);
             }
 
             if (GetDataMode() == OffsetData)
             {
                 strData = GridUpHandlerTeachTable[6, 1].Text;
-                CMainFrame.LWDicer.m_DataManager.OffsetPos.UpperHandlerPos.Pos[GetUpPosNo()].dX = Convert.ToDouble(strData);
+                CMainFrame.DataManager.OffsetPos.UpperHandlerPos.Pos[GetUpPosNo()].dX = Convert.ToDouble(strData);
 
                 strData = GridUpHandlerTeachTable[6, 2].Text;
-                CMainFrame.LWDicer.m_DataManager.OffsetPos.UpperHandlerPos.Pos[GetUpPosNo()].dZ = Convert.ToDouble(strData);
+                CMainFrame.DataManager.OffsetPos.UpperHandlerPos.Pos[GetUpPosNo()].dZ = Convert.ToDouble(strData);
 
-                CMainFrame.LWDicer.m_DataManager.SavePositionData(false, EPositionObject.UPPER_HANDLER);
+                CMainFrame.DataManager.SavePositionData(false, EPositionObject.UPPER_HANDLER);
             }
 
             CMainFrame.LWDicer.SetPositionDataToComponent(EPositionGroup.HANDLER);

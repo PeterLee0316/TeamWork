@@ -101,7 +101,7 @@ namespace LWDicer.UI
 
         private void BtnJog_Click(object sender, EventArgs e)
         {
-            FormJogOperation dlg = new FormJogOperation();
+            var dlg = new FormJogOperation();
             dlg.ShowDialog();
         }
         
@@ -585,25 +585,25 @@ namespace LWDicer.UI
             if (GetDataMode() == FixedData)
             {
                 strData = GridNozzleTeachTable[3, 1].Text;
-                CMainFrame.LWDicer.m_DataManager.FixedPos.S1_CleanerPos.Pos[GetNozzlePosNo()].dT = Convert.ToDouble(strData);
+                CMainFrame.DataManager.FixedPos.S1_CleanerPos.Pos[GetNozzlePosNo()].dT = Convert.ToDouble(strData);
 
                 strData = GridNozzleTeachTable[3, 2].Text;
-                CMainFrame.LWDicer.m_DataManager.FixedPos.S1_CoaterPos.Pos[GetNozzlePosNo()].dT = Convert.ToDouble(strData);
+                CMainFrame.DataManager.FixedPos.S1_CoaterPos.Pos[GetNozzlePosNo()].dT = Convert.ToDouble(strData);
 
-                CMainFrame.LWDicer.m_DataManager.SavePositionData(true, EPositionObject.S1_CLEAN_NOZZLE);
-                CMainFrame.LWDicer.m_DataManager.SavePositionData(true, EPositionObject.S1_COAT_NOZZLE);
+                CMainFrame.DataManager.SavePositionData(true, EPositionObject.S1_CLEAN_NOZZLE);
+                CMainFrame.DataManager.SavePositionData(true, EPositionObject.S1_COAT_NOZZLE);
             }
 
             if(GetDataMode() == OffsetData)
             {
                 strData = GridNozzleTeachTable[6, 1].Text;
-                CMainFrame.LWDicer.m_DataManager.OffsetPos.S1_CleanerPos.Pos[GetNozzlePosNo()].dT = Convert.ToDouble(strData);
+                CMainFrame.DataManager.OffsetPos.S1_CleanerPos.Pos[GetNozzlePosNo()].dT = Convert.ToDouble(strData);
 
                 strData = GridNozzleTeachTable[6, 2].Text;
-                CMainFrame.LWDicer.m_DataManager.OffsetPos.S1_CoaterPos.Pos[GetNozzlePosNo()].dT = Convert.ToDouble(strData);
+                CMainFrame.DataManager.OffsetPos.S1_CoaterPos.Pos[GetNozzlePosNo()].dT = Convert.ToDouble(strData);
 
-                CMainFrame.LWDicer.m_DataManager.SavePositionData(false, EPositionObject.S1_CLEAN_NOZZLE);
-                CMainFrame.LWDicer.m_DataManager.SavePositionData(false, EPositionObject.S1_COAT_NOZZLE);
+                CMainFrame.DataManager.SavePositionData(false, EPositionObject.S1_CLEAN_NOZZLE);
+                CMainFrame.DataManager.SavePositionData(false, EPositionObject.S1_COAT_NOZZLE);
             }
 
             CMainFrame.LWDicer.SetPositionDataToComponent(EPositionGroup.SPINNER1);
@@ -625,17 +625,17 @@ namespace LWDicer.UI
             if (GetDataMode() == FixedData)
             {
                 strData = GridRotateTeachTable[3, 1].Text;
-                CMainFrame.LWDicer.m_DataManager.FixedPos.S1_RotatePos.Pos[GetRotatePosNo()].dT = Convert.ToDouble(strData);
+                CMainFrame.DataManager.FixedPos.S1_RotatePos.Pos[GetRotatePosNo()].dT = Convert.ToDouble(strData);
 
-                CMainFrame.LWDicer.m_DataManager.SavePositionData(true, EPositionObject.S1_ROTATE);
+                CMainFrame.DataManager.SavePositionData(true, EPositionObject.S1_ROTATE);
             }
 
             if(GetDataMode() == OffsetData)
             {
                 strData = GridRotateTeachTable[6, 1].Text;
-                CMainFrame.LWDicer.m_DataManager.OffsetPos.S1_RotatePos.Pos[GetRotatePosNo()].dT = Convert.ToDouble(strData);
+                CMainFrame.DataManager.OffsetPos.S1_RotatePos.Pos[GetRotatePosNo()].dT = Convert.ToDouble(strData);
 
-                CMainFrame.LWDicer.m_DataManager.SavePositionData(false, EPositionObject.S1_ROTATE);
+                CMainFrame.DataManager.SavePositionData(false, EPositionObject.S1_ROTATE);
             }
 
             CMainFrame.LWDicer.SetPositionDataToComponent(EPositionGroup.SPINNER1);

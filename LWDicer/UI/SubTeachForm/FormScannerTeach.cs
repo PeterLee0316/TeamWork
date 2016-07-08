@@ -92,7 +92,7 @@ namespace LWDicer.UI
 
         private void BtnJog_Click(object sender, EventArgs e)
         {
-            FormJogOperation dlg = new FormJogOperation();
+            var dlg = new FormJogOperation();
             dlg.ShowDialog();
         }
 
@@ -314,16 +314,16 @@ namespace LWDicer.UI
             {
                 strData = GridTeachTable[3, 1].Text;
 
-                CMainFrame.LWDicer.m_DataManager.FixedPos.Scanner1Pos.Pos[GetPosNo()].dZ = Convert.ToDouble(strData);
-                CMainFrame.LWDicer.m_DataManager.SavePositionData(true, EPositionObject.SCANNER1);
+                CMainFrame.DataManager.FixedPos.Scanner1Pos.Pos[GetPosNo()].dZ = Convert.ToDouble(strData);
+                CMainFrame.DataManager.SavePositionData(true, EPositionObject.SCANNER1);
             }
 
             if (GetDataMode() == OffsetData)
             {
                 strData = GridTeachTable[6, 1].Text;
 
-                CMainFrame.LWDicer.m_DataManager.OffsetPos.Scanner1Pos.Pos[GetPosNo()].dZ = Convert.ToDouble(strData);
-                CMainFrame.LWDicer.m_DataManager.SavePositionData(false, EPositionObject.SCANNER1);
+                CMainFrame.DataManager.OffsetPos.Scanner1Pos.Pos[GetPosNo()].dZ = Convert.ToDouble(strData);
+                CMainFrame.DataManager.SavePositionData(false, EPositionObject.SCANNER1);
             }
 
             CMainFrame.LWDicer.SetPositionDataToComponent(EPositionGroup.STAGE1);

@@ -109,7 +109,7 @@ namespace LWDicer.UI
 
         private void BtnOriginReturn_Click(object sender, EventArgs e)
         {
-            if (!CMainFrame.DisplayMsg(26))
+            if (!CMainFrame.DisplayMsg("Do axis home retrurn?"))
             {
                 return;
             }
@@ -174,13 +174,13 @@ namespace LWDicer.UI
 
 
             // Last.
-            CMainFrame.DisplayMsg(27);
+            CMainFrame.DisplayMsg("Initialization completed.");
         }
 
 
         private void BtnServoOn_Click(object sender, EventArgs e)
         {
-            if (!CMainFrame.DisplayMsg(28))
+            if (!CMainFrame.DisplayMsg("On selected servo?"))
             {
                 return;
             }
@@ -195,7 +195,7 @@ namespace LWDicer.UI
 
         private void BtnServoOff_Click(object sender, EventArgs e)
         {
-            if (!CMainFrame.DisplayMsg(29))
+            if (!CMainFrame.DisplayMsg("Off selected servo?"))
             {
                 return;
             }

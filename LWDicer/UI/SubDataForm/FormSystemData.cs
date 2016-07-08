@@ -20,7 +20,7 @@ namespace LWDicer.UI
 
         public FormSystemData()
         {
-            SystemData = ObjectExtensions.Copy(CMainFrame.LWDicer.m_DataManager.SystemData);
+            SystemData = ObjectExtensions.Copy(CMainFrame.DataManager.SystemData);
             InitializeComponent();
 
             ComboLanguage.Items.Add("KOREAN");
@@ -46,7 +46,7 @@ namespace LWDicer.UI
 
         private void BtnSave_Click(object sender, EventArgs e)
         {
-            if (!CMainFrame.DisplayMsg(14))
+            if (!CMainFrame.DisplayMsg("Save Data?"))
             {
                 return;
             }

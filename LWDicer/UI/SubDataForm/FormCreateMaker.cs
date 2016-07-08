@@ -28,13 +28,13 @@ namespace LWDicer.UI
             switch (type)
             {
                 case EListHeaderType.MODEL:
-                    HeaderList = CMainFrame.LWDicer.m_DataManager.ModelHeaderList;
+                    HeaderList = CMainFrame.DataManager.ModelHeaderList;
                     break;
                 case EListHeaderType.CASSETTE:
-                    HeaderList = CMainFrame.LWDicer.m_DataManager.CassetteHeaderList;
+                    HeaderList = CMainFrame.DataManager.CassetteHeaderList;
                     break;
                 case EListHeaderType.WAFERFRAME:
-                    HeaderList = CMainFrame.LWDicer.m_DataManager.WaferFrameHeaderList;
+                    HeaderList = CMainFrame.DataManager.WaferFrameHeaderList;
                     break;
             }
         }
@@ -125,7 +125,7 @@ namespace LWDicer.UI
         {
             if(LabelMakerName.Text == "" || LabelMakerName.Text == null)
             {
-                CMainFrame.DisplayMsg(1);
+                CMainFrame.DisplayMsg("Input Maker Name.");
                 return;
             }
 
@@ -136,7 +136,7 @@ namespace LWDicer.UI
             {
                 if(NewHeader.Name == HeaderList[i].Name)
                 {
-                    CMainFrame.DisplayMsg(2);
+                    CMainFrame.DisplayMsg("Maker is already exist.");
                     return;
                 }
             }
@@ -145,7 +145,7 @@ namespace LWDicer.UI
             NewHeader.TreeLevel = 1;
 
             HeaderList.Add(NewHeader);
-            CMainFrame.LWDicer.m_DataManager.SaveModelHeaderList(ListType);
+            CMainFrame.DataManager.SaveModelHeaderList(ListType);
 
             FormClose(DialogResult.OK);
         }

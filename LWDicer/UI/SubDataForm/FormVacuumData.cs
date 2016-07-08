@@ -27,7 +27,7 @@ namespace LWDicer.UI
 
             InitGrid();
 
-            UpdateScreen(CMainFrame.LWDicer.m_DataManager.SystemData_Vacuum);
+            UpdateScreen(CMainFrame.DataManager.SystemData_Vacuum);
         }
 
         private void FormClose()
@@ -42,7 +42,7 @@ namespace LWDicer.UI
 
         private void BtnSave_Click(object sender, EventArgs e)
         {
-            if (!CMainFrame.DisplayMsg(25))
+            if (!CMainFrame.DisplayMsg("Save Data?"))
             {
                 return;
             }
@@ -88,7 +88,7 @@ namespace LWDicer.UI
 
         private void FormVacuumData_Load(object sender, EventArgs e)
         {
-            UpdateScreen(CMainFrame.LWDicer.m_DataManager.SystemData_Vacuum);
+            UpdateScreen(CMainFrame.DataManager.SystemData_Vacuum);
         }
 
         private void FormVacuumData_FormClosing(object sender, FormClosingEventArgs e)

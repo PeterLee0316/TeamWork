@@ -50,31 +50,31 @@ namespace LWDicer.UI
 
         private void BtnScannerData_Click(object sender, EventArgs e)
         {
-            FormScannerData dlg = new FormScannerData();
+            var dlg = new FormScannerData();
             dlg.ShowDialog();
         }
 
         private void BtnMotorData_Click(object sender, EventArgs e)
         {
-            FormMotorData dlg = new FormMotorData();
+            var dlg = new FormMotorData();
             dlg.ShowDialog();
         }
 
         private void BtnCylinderData_Click(object sender, EventArgs e)
         {
-            FormCylinderData dlg = new FormCylinderData();
+            var dlg = new FormCylinderData();
             dlg.ShowDialog();
         }
 
         private void BtnVisionData_Click(object sender, EventArgs e)
         {
-            FormVisionData dlg = new FormVisionData();
+            var dlg = new FormVisionData();
             dlg.ShowDialog();
         }
 
         private void BtnModelList_Click(object sender, EventArgs e)
         {
-            FormModelList dlg = new FormModelList(EListHeaderType.MODEL);
+            var dlg = new FormModelList(EListHeaderType.MODEL);
             dlg.ShowDialog();
         }
 
@@ -85,56 +85,61 @@ namespace LWDicer.UI
 
         private void BtnVacuum_Click(object sender, EventArgs e)
         {
-            FormVacuumData dlg = new FormVacuumData();
+            var dlg = new FormVacuumData();
             dlg.ShowDialog();
         }
 
         private void BtnExcelLoad_Click(object sender, EventArgs e)
         {
-            FormSystemParaRead dlg = new FormSystemParaRead();
+            var dlg = new FormSystemParaRead();
             dlg.ShowDialog();
         }
 
         private void BtnSystemData_Click(object sender, EventArgs e)
         {
-            FormSystemData dlg = new FormSystemData();
+            var dlg = new FormSystemData();
             dlg.ShowDialog();
         }
 
         private void BtnCassetteData_Click(object sender, EventArgs e)
         {
-            FormWaferCassetteData dlg = new FormWaferCassetteData();
+            var dlg = new FormWaferCassetteData();
             dlg.ShowDialog();
         }
 
         private void BtnCassetteList_Click(object sender, EventArgs e)
         {
-            FormModelList dlg = new FormModelList(EListHeaderType.CASSETTE);
+            var dlg = new FormModelList(EListHeaderType.CASSETTE);
             dlg.ShowDialog();
         }
 
         private void BtnModelData_Click(object sender, EventArgs e)
         {
-            FormModelData dlg = new FormModelData();
+            var dlg = new FormModelData();
             dlg.ShowDialog();
         }
 
         private void BtnWaferData_Click(object sender, EventArgs e)
         {
-            FormWaferData dlg = new FormWaferData();
+            var dlg = new FormWaferData();
             dlg.ShowDialog();
         }
 
         private void BtnCleaner_Click(object sender, EventArgs e)
         {
-            FormCleanerData dlg = new FormCleanerData();
+            var dlg = new FormCleanerData();
             dlg.ShowDialog();
         }
 
         private void BtnCoater_Click(object sender, EventArgs e)
         {
-            FormCoaterData dlg = new FormCoaterData();
+            var dlg = new FormCoaterData();
             dlg.ShowDialog();
+        }
+
+        private void FormDataScreen_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

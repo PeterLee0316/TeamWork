@@ -498,7 +498,7 @@ namespace LWDicer.Control
                     break;
             }
 
-            return DEF_Error.SUCCESS;
+            return SUCCESS;
         }
 
 

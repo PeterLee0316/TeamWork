@@ -315,16 +315,16 @@ namespace LWDicer.UI
             {
                 strData = GridTeachTable[3, 1].Text;
 
-                CMainFrame.LWDicer.m_DataManager.FixedPos.Camera1Pos.Pos[GetPosNo()].dZ = Convert.ToDouble(strData);
-                CMainFrame.LWDicer.m_DataManager.SavePositionData(true, EPositionObject.CAMERA1);
+                CMainFrame.DataManager.FixedPos.Camera1Pos.Pos[GetPosNo()].dZ = Convert.ToDouble(strData);
+                CMainFrame.DataManager.SavePositionData(true, EPositionObject.CAMERA1);
             }
 
             if(GetDataMode() == OffsetData)
             {
                 strData = GridTeachTable[6, 1].Text;
 
-                CMainFrame.LWDicer.m_DataManager.OffsetPos.Camera1Pos.Pos[GetPosNo()].dZ = Convert.ToDouble(strData);
-                CMainFrame.LWDicer.m_DataManager.SavePositionData(false, EPositionObject.CAMERA1);
+                CMainFrame.DataManager.OffsetPos.Camera1Pos.Pos[GetPosNo()].dZ = Convert.ToDouble(strData);
+                CMainFrame.DataManager.SavePositionData(false, EPositionObject.CAMERA1);
             }
 
             CMainFrame.LWDicer.SetPositionDataToComponent(EPositionGroup.STAGE1);

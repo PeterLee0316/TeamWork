@@ -47,7 +47,7 @@ namespace LWDicer.Control
                 m_eventQ.Enqueue(evnt);
             }
             Sleep(ThreadSleepTime); // for processing multi thread
-            return DEF_Error.SUCCESS;
+            return SUCCESS;
         }
 
         /// <summary>
@@ -86,7 +86,7 @@ namespace LWDicer.Control
         {
             Debug.WriteLine("Process " + evnt.ToString());
 
-            return DEF_Error.SUCCESS;
+            return SUCCESS;
         }
         
         /// <summary>

@@ -265,7 +265,16 @@ LWDicer의 DataManager에서 데이터를 읽어오기 위한 3가지 함수 : S
 1. GenerateError + ReportAlarm 등을 테스트하기 위해서 FormTest class 추가 및 알람 발생 테스트 함수 추가
 2. MLWDicer의 Initialize 함수에서 object id 미일치 부분 수정함.
 3. Jog Dialog 수정 완료 및 동작 관련 Motion 함수 부분 수정함
-0. CreateMultiAxes_ACS 함수만 만듬. 나중에 ljj 과장에게 요청필요.
+4. string.IsNullOrEmpty -> string.IsNullOrWhiteSpace 로 사용 변경함.
+5. ImportXXXDataFromExcel함수에서 데이터 읽어왔을때, 무조건 덮어쓰는 대신에 기존 데이터와 비교하여 
+undefined 가 아닌 부분만 업데이트함. & 두번씩 저장하던 부분 수정.
+6. 5번과 연계하기 위해서 Import&Export dialog에 delete db 부분도 추가함.
+7. XXX dlg = new XXX() -----> var dlg = new XXX() 로 수정함.
+8. 자주 쓰이는데 이름이 길어져서 CMainFrame.LWDicer.m_DataManager -> CMainFrame.DataManager 로 변경함.
+9. CMainFrame.DisplayMsg 함수 호출할때 string으로만 호출하도록 변경. (index로 호출시에 소스코드에서 알아보기 어려움.)
+   관련 부분 수정 및 message.IsEqual 함수 판단 부분 수정
+10. Image directory에 dispenser project에서 쓰이던 icon file 추가함
+-. CreateMultiAxes_ACS 함수만 만듬. 나중에 ljj 과장에게 요청필요.
 
 // for Project setting
 // WIN32, SIMULATION_VISION, SIMULATION_MOTION_ACS, SIMULATION_MOTION_YMC, SIMULATION_IO

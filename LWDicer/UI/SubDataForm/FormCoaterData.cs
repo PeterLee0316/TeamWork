@@ -42,14 +42,14 @@ namespace LWDicer.UI
             LabelCoatData[4] = LabelMovingSpeed;
             LabelCoatData[5] = LabelCoatingArea;
 
-            CoatData = ObjectExtensions.Copy(CMainFrame.LWDicer.m_DataManager.ModelData);
+            CoatData = ObjectExtensions.Copy(CMainFrame.DataManager.ModelData);
 
             InitGrid();
 
             UpdateData();
 
 
-            this.Text = $"Coater Data [ Current Model : {CMainFrame.LWDicer.m_DataManager.ModelData.Name} ]";
+            this.Text = $"Coater Data [ Current Model : {CMainFrame.DataManager.ModelData.Name} ]";
         }
 
         private void InitGrid()
@@ -184,7 +184,7 @@ namespace LWDicer.UI
 
         private void BtnSave_Click(object sender, EventArgs e)
         {
-            if (!CMainFrame.DisplayMsg(37))
+            if (!CMainFrame.DisplayMsg("Save Data?"))
             {
                 return;
             }
@@ -214,7 +214,7 @@ namespace LWDicer.UI
             CoatData.SpinnerData.CoaterData.CoatingArea = Convert.ToDouble(LabelCoatData[5].Text);
             CoatData.SpinnerData.CoaterData.MoveMode = selMode;
 
-            CMainFrame.LWDicer.m_DataManager.SaveModelData(CoatData);
+            CMainFrame.DataManager.SaveModelData(CoatData);
 
             UpdateData();
         }

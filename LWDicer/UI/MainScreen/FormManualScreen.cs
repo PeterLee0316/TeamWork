@@ -40,25 +40,25 @@ namespace LWDicer.UI
 
         private void BtnInput_Click(object sender, EventArgs e)
         {
-            FormIO dlg = new FormIO();
+            var dlg = new FormIO();
             dlg.ShowDialog();
         }
 
         private void BtnLimitSensor_Click(object sender, EventArgs e)
         {
-            FormLimitSensor dlg = new FormLimitSensor();
+            var dlg = new FormLimitSensor();
             dlg.ShowDialog();
         }
 
         private void BtnOriginReturn_Click(object sender, EventArgs e)
         {
-            FormOriginReturn dlg = new FormOriginReturn();
+            var dlg = new FormOriginReturn();
             dlg.ShowDialog();
         }
 
         private void BtnUnitInit_Click(object sender, EventArgs e)
         {
-            FormUnitInit dlg = new FormUnitInit();
+            var dlg = new FormUnitInit();
             dlg.ShowDialog();
         }
 

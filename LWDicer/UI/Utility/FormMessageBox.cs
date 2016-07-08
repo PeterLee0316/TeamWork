@@ -38,26 +38,33 @@ namespace LWDicer.UI
             FormBorderStyle = FormBorderStyle.Fixed3D;
         }
 
+        /// <summary>
+        /// Message Index Number를 이용해서 MessageInfo 를 Loading
+        /// index를 이용해서 호출하면, 실제 프로그램 코드에선 알아보기가 힘들것 같아서
+        /// 일부러 주석처리하고 사용하지 않기로 함
+        /// </summary>
+        /// <param name="index"></param>
         public void SetMessage(int index)
         {
             MsgInfo.Index = index;
-            int iResult = CMainFrame.LWDicer.m_DataManager.LoadMessageInfo(index, out MsgInfo);
-            if(iResult != SUCCESS) BtnSave.Text = "Add New";
+            int iResult = CMainFrame.DataManager.LoadMessageInfo(index, out MsgInfo);
+            if (iResult != SUCCESS) BtnSave.Text = "Add New";
             else BtnSave.Text = "Update";
         }
 
 
-        public void SetMessage(string strMsg, EMessageType type = EMessageType.OK)
+        public void SetMessage(string strMsg, EMessageType type = EMessageType.NONE)
         {
-            int iResult = CMainFrame.LWDicer.m_DataManager.LoadMessageInfo(strMsg, out MsgInfo);
+            int iResult = CMainFrame.DataManager.LoadMessageInfo(strMsg, out MsgInfo);
             if (iResult != SUCCESS)
             {
                 MsgInfo.Message[(int)ELanguage.ENGLISH] = strMsg;
                 MsgInfo.Message[(int)MLWDicer.Language] = strMsg;
-                MsgInfo.Type = type;
+                if(type != EMessageType.NONE) MsgInfo.Type = type;
                 BtnSave.Text = "Add New";
             } else
             {
+                if(type != EMessageType.NONE) MsgInfo.Type = type;
                 BtnSave.Text = "Save";
             }
         }
@@ -110,7 +117,7 @@ namespace LWDicer.UI
         {
             MsgInfo.Message[(int)ELanguage.ENGLISH] = TextEng.Text;
             MsgInfo.Message[(int)MLWDicer.Language] = TextSystem.Text;
-            CMainFrame.LWDicer.m_DataManager.UpdateMessageInfo(MsgInfo);
+            CMainFrame.DataManager.UpdateMessageInfo(MsgInfo);
         }
 
         private void BtnCancel_Click(object sender, EventArgs e)

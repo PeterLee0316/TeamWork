@@ -92,7 +92,7 @@ namespace LWDicer.UI
 
         private void BtnJog_Click(object sender, EventArgs e)
         {
-            FormJogOperation dlg = new FormJogOperation();
+            var dlg = new FormJogOperation();
             dlg.ShowDialog();
         }
 
@@ -427,29 +427,29 @@ namespace LWDicer.UI
             if (GetDataMode()==FixedData)
             {
                 strData = GridStageTeachTable[3, 1].Text;
-                CMainFrame.LWDicer.m_DataManager.FixedPos.Stage1Pos.Pos[GetPosNo()].dX = Convert.ToDouble(strData);
+                CMainFrame.DataManager.FixedPos.Stage1Pos.Pos[GetPosNo()].dX = Convert.ToDouble(strData);
 
                 strData = GridStageTeachTable[3, 2].Text;
-                CMainFrame.LWDicer.m_DataManager.FixedPos.Stage1Pos.Pos[GetPosNo()].dY = Convert.ToDouble(strData);
+                CMainFrame.DataManager.FixedPos.Stage1Pos.Pos[GetPosNo()].dY = Convert.ToDouble(strData);
 
                 strData = GridStageTeachTable[3, 3].Text;
-                CMainFrame.LWDicer.m_DataManager.FixedPos.Stage1Pos.Pos[GetPosNo()].dT = Convert.ToDouble(strData);
+                CMainFrame.DataManager.FixedPos.Stage1Pos.Pos[GetPosNo()].dT = Convert.ToDouble(strData);
 
-                CMainFrame.LWDicer.m_DataManager.SavePositionData(true, EPositionObject.STAGE1);
+                CMainFrame.DataManager.SavePositionData(true, EPositionObject.STAGE1);
             }
 
             if(GetDataMode() == OffsetData)
             {
                 strData = GridStageTeachTable[6, 1].Text;
-                CMainFrame.LWDicer.m_DataManager.OffsetPos.Stage1Pos.Pos[GetPosNo()].dX = Convert.ToDouble(strData);
+                CMainFrame.DataManager.OffsetPos.Stage1Pos.Pos[GetPosNo()].dX = Convert.ToDouble(strData);
 
                 strData = GridStageTeachTable[6, 2].Text;
-                CMainFrame.LWDicer.m_DataManager.OffsetPos.Stage1Pos.Pos[GetPosNo()].dY = Convert.ToDouble(strData);
+                CMainFrame.DataManager.OffsetPos.Stage1Pos.Pos[GetPosNo()].dY = Convert.ToDouble(strData);
 
                 strData = GridStageTeachTable[6, 3].Text;
-                CMainFrame.LWDicer.m_DataManager.OffsetPos.Stage1Pos.Pos[GetPosNo()].dT = Convert.ToDouble(strData);
+                CMainFrame.DataManager.OffsetPos.Stage1Pos.Pos[GetPosNo()].dT = Convert.ToDouble(strData);
 
-                CMainFrame.LWDicer.m_DataManager.SavePositionData(false, EPositionObject.STAGE1);
+                CMainFrame.DataManager.SavePositionData(false, EPositionObject.STAGE1);
             }
 
             CMainFrame.LWDicer.SetPositionDataToComponent(EPositionGroup.STAGE1);

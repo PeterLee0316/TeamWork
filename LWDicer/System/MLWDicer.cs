@@ -192,6 +192,24 @@ namespace LWDicer.Control
 
         public void TestFunction_BeforeInit()
         {
+            if(false)
+            {
+                string a1 = "";
+                string a2 = "     ";
+                string a3 = "null";
+                string a4 = null;
+
+                bool b;
+                b = string.IsNullOrEmpty(a1);
+                b = string.IsNullOrEmpty(a2);
+                b = string.IsNullOrEmpty(a3);
+                b = string.IsNullOrEmpty(a4);
+
+                b = string.IsNullOrWhiteSpace(a1);
+                b = string.IsNullOrWhiteSpace(a2);
+                b = string.IsNullOrWhiteSpace(a3);
+                b = string.IsNullOrWhiteSpace(a4);
+            }
         }
 
         public void TestFunction_AfterInit()
@@ -1552,7 +1570,7 @@ namespace LWDicer.Control
 
         public bool GetKeyboard(out string strModify)
         {
-            FormKeyBoard dlg = new FormKeyBoard();
+            var dlg = new FormKeyBoard();
             dlg.ShowDialog();
 
             if (dlg.DialogResult == DialogResult.OK)

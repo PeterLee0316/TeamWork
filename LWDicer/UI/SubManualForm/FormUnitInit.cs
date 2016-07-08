@@ -115,7 +115,7 @@ namespace LWDicer.UI
 
         private void BtnExecuteIni_Click(object sender, EventArgs e)
         {
-            if (!CMainFrame.DisplayMsg(30))
+            if (!CMainFrame.DisplayMsg("Do part initialization?"))
             {
                 return;
             }
@@ -179,7 +179,7 @@ namespace LWDicer.UI
 
 
             // Last.
-            CMainFrame.DisplayMsg(27);
+            CMainFrame.DisplayMsg("Initialization completed.");
         }
 
         private void timer1_Tick(object sender, EventArgs e)
