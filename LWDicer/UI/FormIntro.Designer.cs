@@ -30,7 +30,7 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormIntro));
             this.StatusBar = new System.Windows.Forms.ProgressBar();
-            this.LabelStatus = new Syncfusion.Windows.Forms.Tools.GradientLabel();
+            this.LabelStatus = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // StatusBar
@@ -43,20 +43,14 @@
             // 
             // LabelStatus
             // 
-            this.LabelStatus.BackgroundColor = new Syncfusion.Drawing.BrushInfo();
-            this.LabelStatus.BorderAppearance = System.Windows.Forms.BorderStyle.None;
-            this.LabelStatus.BorderColor = System.Drawing.Color.Transparent;
-            this.LabelStatus.BorderSides = ((System.Windows.Forms.Border3DSide)(((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
-            | System.Windows.Forms.Border3DSide.Right) 
-            | System.Windows.Forms.Border3DSide.Bottom) 
-            | System.Windows.Forms.Border3DSide.Middle)));
-            this.LabelStatus.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.LabelStatus.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.LabelStatus.Location = new System.Drawing.Point(356, 436);
+            this.LabelStatus.AutoSize = true;
+            this.LabelStatus.BackColor = System.Drawing.Color.Transparent;
+            this.LabelStatus.Font = new System.Drawing.Font("맑은 고딕", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.LabelStatus.Location = new System.Drawing.Point(531, 437);
             this.LabelStatus.Name = "LabelStatus";
-            this.LabelStatus.Size = new System.Drawing.Size(390, 18);
-            this.LabelStatus.TabIndex = 32;
-            this.LabelStatus.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.LabelStatus.Size = new System.Drawing.Size(40, 20);
+            this.LabelStatus.TabIndex = 5;
+            this.LabelStatus.Text = "Text";
             // 
             // FormIntro
             // 
@@ -67,17 +61,19 @@
             this.ClientSize = new System.Drawing.Size(806, 554);
             this.Controls.Add(this.LabelStatus);
             this.Controls.Add(this.StatusBar);
+            this.ForeColor = System.Drawing.Color.DarkRed;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "FormIntro";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "FormIntro";
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
         #endregion
 
         private System.Windows.Forms.ProgressBar StatusBar;
-        private Syncfusion.Windows.Forms.Tools.GradientLabel LabelStatus;
+        private System.Windows.Forms.Label LabelStatus;
     }
 }

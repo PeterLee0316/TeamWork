@@ -15,8 +15,6 @@ namespace LWDicer.UI
         public FormIntro()
         {
             InitializeComponent();
-            StatusBar.Enabled = true;
-            LabelStatus.Enabled = true;
         }
 
         public void SetStatus(string strText, int nProgress)
@@ -28,6 +26,9 @@ namespace LWDicer.UI
         private void FormIntro_Load(object sender, EventArgs e)
         {
             CUtils.AnimateEffect.AnimateWindow(this.Handle, 1500, CUtils.AnimateEffect.AW_ACTIVATE | CUtils.AnimateEffect.AW_BLEND);
+
+            StatusBar.Value = 5;
+            LabelStatus.Text = "Start Wafer Dicing Program";
         }
     }
 }

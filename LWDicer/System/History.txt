@@ -578,4 +578,10 @@ undefined 가 아닌 부분만 업데이트함. & 두번씩 저장하던 부분 
 // 3.Coating Data UI 추가
 // 4.Cleaning Data UI 추가
 
+// Version : 0.0.20
+// Grade : ★
+// Date : 2016-07-08 ~ 2016-07-12
+// Context
+// 1.Log Screen UI 추가
+
 

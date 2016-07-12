@@ -165,6 +165,8 @@ namespace LWDicer.Control
         public MTrsHandler m_trsHandler { get; private set; }
         public MTrsStage1 m_trsStage1 { get; private set; }
 
+        public FormIntro intro = new FormIntro();
+
         public MLWDicer(CObjectInfo objInfo)
             : base(objInfo)
         {
@@ -319,6 +321,9 @@ namespace LWDicer.Control
             int iResult = SUCCESS;
             TestFunction_BeforeInit();
 
+            intro.Show();
+            intro.SetStatus("Init Common Class", 10);
+
             ////////////////////////////////////////////////////////////////////////
             // 0. Common Class
             ////////////////////////////////////////////////////////////////////////
@@ -338,6 +343,8 @@ namespace LWDicer.Control
             // DataManager
             m_SystemInfo.GetObjectInfo(1, out objInfo);
             m_DataManager = new MDataManager(objInfo, dbInfo);
+
+            intro.SetStatus("Init Hardware Layer", 20);
 
             ////////////////////////////////////////////////////////////////////////
             // 1. Hardware Layer
@@ -580,6 +587,8 @@ namespace LWDicer.Control
             m_SystemInfo.GetObjectInfo(47, out objInfo);
             CreateVisionVisionView(objInfo, FINE_CAM);
 
+            intro.SetStatus("Init Mechanical Layer", 30);
+
             ////////////////////////////////////////////////////////////////////////
             // 2. Mechanical Layer
             ////////////////////////////////////////////////////////////////////////
@@ -618,6 +627,8 @@ namespace LWDicer.Control
             m_SystemInfo.GetObjectInfo(308, out objInfo);
             CreateVision(objInfo);
 
+            intro.SetStatus("Init Control Layer", 40);
+
             ////////////////////////////////////////////////////////////////////////
             // 3. Control Layer
             ////////////////////////////////////////////////////////////////////////
@@ -641,6 +652,8 @@ namespace LWDicer.Control
 
             m_SystemInfo.GetObjectInfo(350, out objInfo);
             CreateCtrlOpPanel(objInfo);
+
+            intro.SetStatus("Init Process Layer", 50);
 
             ////////////////////////////////////////////////////////////////////////
             // 4. Process Layer
@@ -678,8 +691,13 @@ namespace LWDicer.Control
             ////////////////////////////////////////////////////////////////////////
             // 5. Set Data
             ////////////////////////////////////////////////////////////////////////
+            intro.SetStatus("Loading System Data", 60);
             SetSystemDataToComponent();
+
+            intro.SetStatus("Loading Model Data", 70);
             SetModelDataToComponent();
+
+            intro.SetStatus("Loading Position Data", 80);
             SetPositionDataToComponent();
 
             ////////////////////////////////////////////////////////////////////////
@@ -687,11 +705,14 @@ namespace LWDicer.Control
             ////////////////////////////////////////////////////////////////////////
             m_YMC.ThreadStart();
 
+            intro.SetStatus("Process Start", 90);
+
             SetThreadChannel();
             StartThreads();
 
-
             TestFunction_AfterInit();
+
+            intro.Hide();
 
             return SUCCESS;
         }
