@@ -138,7 +138,7 @@ namespace LWDicer.UI
             {
                 data.CylinderTimer[i].MovingTime = Convert.ToDouble(GridCylinderData[i + 1, 1].Text);
                 data.CylinderTimer[i].SettlingTime1 = Convert.ToDouble(GridCylinderData[i + 1, 2].Text);
-                data.CylinderTimer[i].SettlingTime1 = Convert.ToDouble(GridCylinderData[i + 1, 3].Text);
+                data.CylinderTimer[i].SettlingTime2 = Convert.ToDouble(GridCylinderData[i + 1, 3].Text);
                 data.CylinderTimer[i].NoSenMovingTime = Convert.ToDouble(GridCylinderData[i + 1, 4].Text);
             }
 

@@ -16,7 +16,8 @@ using Syncfusion.Windows.Forms.Grid;
 
 using static LWDicer.Control.DEF_Common;
 using static LWDicer.Control.DEF_Error;
-
+using static LWDicer.Control.MDataManager;
+using static LWDicer.Control.DEF_DataManager;
 
 namespace LWDicer.UI
 {
@@ -27,13 +28,21 @@ namespace LWDicer.UI
 
         private List<CAlarm> m_AlarmList;
 
+        private int [] nProcessID;
+
+        int nLogOption;
+
+        const int SelAlarm = 0;
+        const int SelEvent = 1;
+        const int SelDev = 2;
+
         public FormLogScreen()
         {
             InitializeComponent();
 
             InitializeForm();
 
-            InitGrid();
+            InitGrid(SelAlarm);
 
             DateStart.Value = DateTime.Today;
             DateEnd.Value = DateTime.Today;
@@ -42,6 +51,9 @@ namespace LWDicer.UI
             m_EndDate = DateTime.Today;
 
             m_AlarmList = CMainFrame.LWDicer.m_DataManager.AlarmHistory;
+
+            SetLogOption(BtnSelectAlarm);
+
         }
 
         protected virtual void InitializeForm()
@@ -52,130 +64,261 @@ namespace LWDicer.UI
             this.FormBorderStyle = FormBorderStyle.None;
         }
 
-        private void InitGrid(int nCount = 0)
+        private void InitGrid(int nLogOption)
         {
             int i = 0, j = 0, nCol = 0, nRow = 0;
 
             // Cell Click 시 커서가 생성되지 않게함.
-            GridEvent.ActivateCurrentCellBehavior = GridCellActivateAction.None;
+            GridCont.ActivateCurrentCellBehavior = GridCellActivateAction.None;
 
             // Header
-            GridEvent.Properties.RowHeaders = true;
-            GridEvent.Properties.ColHeaders = true;
+            GridCont.Properties.RowHeaders = true;
+            GridCont.Properties.ColHeaders = true;
 
-            nCol = 7;
-            nRow = nCount;
-
-            // Column,Row 개수
-            GridEvent.ColCount = nCol;
-            GridEvent.RowCount = nRow;
-
-            // Column 가로 크기설정
-            GridEvent.ColWidths.SetSize(0, 40);   // No.
-            GridEvent.ColWidths.SetSize(1, 100);  // Process Name
-            GridEvent.ColWidths.SetSize(2, 100);  // Obj.Name
-            GridEvent.ColWidths.SetSize(3, 40);  // Code
-            GridEvent.ColWidths.SetSize(4, 40);  // Type
-            GridEvent.ColWidths.SetSize(5, 147);   // 발생시간  
-            GridEvent.ColWidths.SetSize(6, 147);  // 해제시간
-            GridEvent.ColWidths.SetSize(7, 325);   // 내용
-
-            for (i = 0; i < nRow + 1; i++)
+            switch (nLogOption)
             {
-                GridEvent.RowHeights[i] = 30;
-            }
+                case SelAlarm:
+                    nCol = 7;
+                    nRow = 0;
 
-            // Text Display
-            GridEvent[0, 0].Text = "No";
-            GridEvent[0, 1].Text = "Pro.Name";
-            GridEvent[0, 2].Text = "Obj.Name";
-            GridEvent[0, 3].Text = "Code";
-            GridEvent[0, 4].Text = "Type";
-            GridEvent[0, 5].Text = "발생시간";
-            GridEvent[0, 6].Text = "해제시간";
-            GridEvent[0, 7].Text = "내                           용";
+                    // Column,Row 개수
+                    GridCont.ColCount = nCol;
+                    GridCont.RowCount = nRow;
+
+                    // Column 가로 크기설정
+                    GridCont.ColWidths.SetSize(0, 40);   // No.
+                    GridCont.ColWidths.SetSize(1, 120);  // Process Name
+                    GridCont.ColWidths.SetSize(2, 120);  // Obj.Name
+                    GridCont.ColWidths.SetSize(3, 60);  // Code
+                    GridCont.ColWidths.SetSize(4, 60);  // Type
+                    GridCont.ColWidths.SetSize(5, 170);   // 발생시간  
+                    GridCont.ColWidths.SetSize(6, 170);  // 해제시간
+                    GridCont.ColWidths.SetSize(7, 495);   // 내용
+
+                    for (i = 0; i < nRow + 1; i++)
+                    {
+                        GridCont.RowHeights[i] = 30;
+                    }
+
+                    // Text Display
+                    GridCont[0, 0].Text = "No";
+                    GridCont[0, 1].Text = "Pro.Name";
+                    GridCont[0, 2].Text = "Obj.Name";
+                    GridCont[0, 3].Text = "Code";
+                    GridCont[0, 4].Text = "Type";
+                    GridCont[0, 5].Text = "발생시간";
+                    GridCont[0, 6].Text = "해제시간";
+                    GridCont[0, 7].Text = "내                           용";
+                    break;
+
+
+                case SelEvent:
+                case SelDev:
+                    nCol = 6;
+                    nRow = 0;
+
+                    // Column,Row 개수
+                    GridCont.ColCount = nCol;
+                    GridCont.RowCount = nRow;
+
+                    // Column 가로 크기설정
+                    GridCont.ColWidths.SetSize(0, 60);   // No.
+                    GridCont.ColWidths.SetSize(1, 170);  // Time
+                    GridCont.ColWidths.SetSize(2, 140);  // Name
+                    GridCont.ColWidths.SetSize(3, 100);  // Type
+                    GridCont.ColWidths.SetSize(4, 500);  // Comment
+                    GridCont.ColWidths.SetSize(5, 150);   // File  
+                    GridCont.ColWidths.SetSize(6, 100);   // Line  
+
+                    for (i = 0; i < nRow + 1; i++)
+                    {
+                        GridCont.RowHeights[i] = 30;
+                    }
+
+                    // Text Display
+                    GridCont[0, 0].Text = "No";
+                    GridCont[0, 1].Text = "Time";
+                    GridCont[0, 2].Text = "Name";
+                    GridCont[0, 3].Text = "Type";
+                    GridCont[0, 4].Text = "Comment";
+                    GridCont[0, 5].Text = "File";
+                    GridCont[0, 6].Text = "Line";
+                    break;
+            }
 
             for (i = 0; i < nCol + 1; i++)
             {
                 for (j = 0; j < nRow + 1; j++)
                 {
                     // Font Style - Bold
-                    GridEvent[j, i].Font.Bold = true;
+                    GridCont[j, i].Font.Bold = true;
 
-                    GridEvent[j, i].VerticalAlignment = GridVerticalAlignment.Middle;
+                    GridCont[j, i].VerticalAlignment = GridVerticalAlignment.Middle;
 
                     if (i == 6 && j > 0)
                     {
-                        GridEvent[j, i].HorizontalAlignment = GridHorizontalAlignment.Left;
+                        GridCont[j, i].HorizontalAlignment = GridHorizontalAlignment.Left;
                     }
                     else
                     {
-                        GridEvent[j, i].HorizontalAlignment = GridHorizontalAlignment.Center;
+                        GridCont[j, i].HorizontalAlignment = GridHorizontalAlignment.Center;
                     }
                 }
             }
 
-            GridEvent.GridVisualStyles = GridVisualStyles.Office2007Blue;
-            GridEvent.ResizeColsBehavior = 0;
-            GridEvent.ResizeRowsBehavior = 0;
+            GridCont.GridVisualStyles = GridVisualStyles.Office2007Blue;
+            GridCont.ResizeColsBehavior = 0;
+            GridCont.ResizeRowsBehavior = 0;
 
             // Grid Display Update
-            GridEvent.Refresh();
+            GridCont.Refresh();
 
         }
 
-        private void UpdataScreen()
+        private void UpdataScreen(int nOption)
+        {
+            InitGrid(nOption);
+
+            switch (nOption)
+            {
+                case SelAlarm:
+                    UpdataAlarm();
+                    break;
+
+                case SelEvent:
+                case SelDev:
+                    UpdataEvent(nOption);
+                    break;
+            }
+        }
+
+        private void UpdataAlarm()
         {
             int nEventCount = 0;
 
             CMainFrame.LWDicer.m_DataManager.LoadAlarmHistory();
 
+            nProcessID = new int[m_AlarmList.Count];
+
             foreach (CAlarm AlarmInfo in m_AlarmList)
             {
-                if(AlarmInfo.OccurTime.Date >= m_StartDate.Date && AlarmInfo.OccurTime.Date <= m_EndDate.Date)
+                if (AlarmInfo.OccurTime.Date >= m_StartDate.Date && AlarmInfo.OccurTime.Date <= m_EndDate.Date)
                 {
+                    nProcessID[nEventCount] = AlarmInfo.ProcessID;
+
                     nEventCount++;
 
-                    GridEvent.RowCount = nEventCount;
+                    GridCont.RowCount = nEventCount;
 
-                    GridEvent[nEventCount, 0].Text = Convert.ToString(nEventCount);
-                    GridEvent[nEventCount, 1].Text = Convert.ToString(AlarmInfo.ProcessName);
-                    GridEvent[nEventCount, 2].Text = Convert.ToString(AlarmInfo.ObjectName);
-                    GridEvent[nEventCount, 3].Text = Convert.ToString(AlarmInfo.Info.Index);
-                    GridEvent[nEventCount, 4].Text = Convert.ToString(AlarmInfo.Info.Type);
-                    GridEvent[nEventCount, 5].Text = Convert.ToString(AlarmInfo.OccurTime);
-                    GridEvent[nEventCount, 5].Font.Size = 8;
-                    GridEvent[nEventCount, 6].Text = Convert.ToString(AlarmInfo.ResetTime);
-                    GridEvent[nEventCount, 6].Font.Size = 8;
-                    GridEvent[nEventCount, 7].Text = Convert.ToString(AlarmInfo.Info.Description[(int)CMainFrame.LWDicer.m_DataManager.SystemData.Language]);
+                    GridCont[nEventCount, 0].Text = Convert.ToString(nEventCount);
+                    GridCont[nEventCount, 1].Text = Convert.ToString(AlarmInfo.ProcessName);
+                    GridCont[nEventCount, 2].Text = Convert.ToString(AlarmInfo.ObjectName);
+                    GridCont[nEventCount, 3].Text = Convert.ToString(AlarmInfo.Info.Index);
+                    GridCont[nEventCount, 4].Text = Convert.ToString(AlarmInfo.Info.Type);
+                    GridCont[nEventCount, 5].Text = Convert.ToString(AlarmInfo.OccurTime);
+                    GridCont[nEventCount, 6].Text = Convert.ToString(AlarmInfo.ResetTime);
+                    GridCont[nEventCount, 7].Text = Convert.ToString(AlarmInfo.Info.Description[(int)CMainFrame.LWDicer.m_DataManager.SystemData.Language]);
 
-                    GridEvent[nEventCount, 0].VerticalAlignment = GridVerticalAlignment.Middle;
-                    GridEvent[nEventCount, 0].HorizontalAlignment = GridHorizontalAlignment.Center;
+                    GridCont[nEventCount, 0].VerticalAlignment = GridVerticalAlignment.Middle;
+                    GridCont[nEventCount, 0].HorizontalAlignment = GridHorizontalAlignment.Center;
 
-                    GridEvent.RowStyles[nEventCount].HorizontalAlignment = GridHorizontalAlignment.Center;
-                    GridEvent.RowStyles[nEventCount].VerticalAlignment = GridVerticalAlignment.Middle;
+                    GridCont.RowStyles[nEventCount].HorizontalAlignment = GridHorizontalAlignment.Center;
+                    GridCont.RowStyles[nEventCount].VerticalAlignment = GridVerticalAlignment.Middle;
 
-                    GridEvent[nEventCount, 1].BackColor = Color.FromArgb(230, 210, 255);
-                    GridEvent[nEventCount, 2].BackColor = Color.FromArgb(230, 210, 255);
-                    GridEvent[nEventCount, 3].BackColor = Color.FromArgb(230, 210, 255);
-                    GridEvent[nEventCount, 4].BackColor = Color.FromArgb(230, 210, 255);
-                    GridEvent[nEventCount, 5].BackColor = Color.FromArgb(255, 230, 255);
-                    GridEvent[nEventCount, 6].BackColor = Color.FromArgb(255, 230, 255);
+                    GridCont[nEventCount, 1].BackColor = Color.FromArgb(230, 210, 255);
+                    GridCont[nEventCount, 2].BackColor = Color.FromArgb(230, 210, 255);
+                    GridCont[nEventCount, 3].BackColor = Color.FromArgb(230, 210, 255);
+                    GridCont[nEventCount, 4].BackColor = Color.FromArgb(230, 210, 255);
+                    GridCont[nEventCount, 5].BackColor = Color.FromArgb(255, 230, 255);
+                    GridCont[nEventCount, 6].BackColor = Color.FromArgb(255, 230, 255);
 
-                    GridEvent.RowHeights[nEventCount] = 30;
+                    GridCont.RowHeights[nEventCount] = 30;
                 }
             }
 
             LabelCount.Text = Convert.ToString(nEventCount);
 
-            GridEvent.GridVisualStyles = GridVisualStyles.Office2007Blue;
-            GridEvent.ResizeColsBehavior = 0;
-            GridEvent.ResizeRowsBehavior = 0;
+            GridCont.GridVisualStyles = GridVisualStyles.Office2007Blue;
+            GridCont.ResizeColsBehavior = 0;
+            GridCont.ResizeRowsBehavior = 0;
 
             // Grid Display Update
-            GridEvent.Refresh();
+            GridCont.Refresh();
         }
 
+        private int UpdataEvent(int nOption)
+        {
+            int nEventCount = 0;
+
+            DataTable datatable;
+
+            if (nOption == SelEvent)
+            {
+                string query = $"SELECT * FROM {CMainFrame.LWDicer.m_DataManager.DBInfo.TableEventLog}";
+                
+                if (DBManager.GetTable(CMainFrame.LWDicer.m_DataManager.DBInfo.DBConn_ELog, query, out datatable) != true)
+                {
+                    return CMainFrame.LWDicer.GenerateErrorCode(ERR_DATA_MANAGER_FAIL_LOAD_MODEL_LIST);
+                }
+            }
+            else
+            {
+                string query = $"SELECT * FROM {CMainFrame.LWDicer.m_DataManager.DBInfo.TableDebugLog}";
+
+                if (DBManager.GetTable(CMainFrame.LWDicer.m_DataManager.DBInfo.DBConn_DLog, query, out datatable) != true)
+                {
+                    return CMainFrame.LWDicer.GenerateErrorCode(ERR_DATA_MANAGER_FAIL_LOAD_MODEL_LIST);
+                }
+            }
+
+            foreach (DataRow row in datatable.Rows)
+            {
+                string strTime = row["Time"].ToString();
+
+                DateTime dt = Convert.ToDateTime(strTime);
+
+                if (dt.Date >= m_StartDate.Date && dt.Date <= m_EndDate.Date)
+                {
+                    nEventCount++;
+
+                    GridCont.RowCount = nEventCount;
+
+                    GridCont[nEventCount, 0].Text = Convert.ToString(nEventCount);
+                    GridCont[nEventCount, 1].Text = Convert.ToString(row["Time"].ToString());
+                    GridCont[nEventCount, 2].Text = Convert.ToString(row["Name"].ToString());
+                    GridCont[nEventCount, 3].Text = Convert.ToString(row["Type"].ToString());
+                    GridCont[nEventCount, 4].Text = Convert.ToString(row["Comment"].ToString());
+                    GridCont[nEventCount, 5].Text = Convert.ToString(row["File"].ToString());
+                    GridCont[nEventCount, 6].Text = Convert.ToString(row["Line"].ToString());
+
+                    GridCont[nEventCount, 0].VerticalAlignment = GridVerticalAlignment.Middle;
+                    GridCont[nEventCount, 0].HorizontalAlignment = GridHorizontalAlignment.Center;
+
+                    GridCont.RowStyles[nEventCount].HorizontalAlignment = GridHorizontalAlignment.Center;
+                    GridCont.RowStyles[nEventCount].VerticalAlignment = GridVerticalAlignment.Middle;
+
+                    GridCont[nEventCount, 1].BackColor = Color.FromArgb(230, 210, 255);
+                    GridCont[nEventCount, 2].BackColor = Color.FromArgb(230, 210, 255);
+                    GridCont[nEventCount, 3].BackColor = Color.FromArgb(230, 210, 255);
+                    GridCont[nEventCount, 4].BackColor = Color.White;
+                    GridCont[nEventCount, 5].BackColor = Color.FromArgb(255, 230, 255);
+                    GridCont[nEventCount, 6].BackColor = Color.FromArgb(255, 230, 255);
+
+                    GridCont.RowHeights[nEventCount] = 30;
+                }
+            }
+
+            LabelCount.Text = Convert.ToString(nEventCount);
+
+            GridCont.GridVisualStyles = GridVisualStyles.Office2007Blue;
+            GridCont.ResizeColsBehavior = 0;
+            GridCont.ResizeRowsBehavior = 0;
+
+            // Grid Display Update
+            GridCont.Refresh();
+
+            return SUCCESS;
+        }
 
         private void FormLogScreen_Activated(object sender, EventArgs e)
         {
@@ -184,7 +327,7 @@ namespace LWDicer.UI
 
         private void BtnSerch_Click(object sender, EventArgs e)
         {
-            UpdataScreen();
+            UpdataScreen(nLogOption);
         }
 
         private void DateStart_ValueChanged(object sender, EventArgs e)
@@ -200,16 +343,18 @@ namespace LWDicer.UI
         private void BtnClear_Click(object sender, EventArgs e)
         {
             LabelCount.Text = "";
-            GridEvent.RowCount = 0;
+            GridCont.RowCount = 0;
         }
 
         private void BtnExport_Click(object sender, EventArgs e)
         {
             int iRow;
             int iCol;
-            String strBuf, strFileName;
+            String strBuf, strFileName=string.Empty;
 
-            strFileName = $"Alarm_{m_StartDate.Year}{m_StartDate.Month}{m_StartDate.Day}_{m_EndDate.Year}{m_EndDate.Month}{m_EndDate.Day}";
+            if (nLogOption == SelAlarm) strFileName = $"Alarm_{m_StartDate.Year}{m_StartDate.Month}{m_StartDate.Day}_{m_EndDate.Year}{m_EndDate.Month}{m_EndDate.Day}";
+            if (nLogOption == SelEvent) strFileName = $"Event_{m_StartDate.Year}{m_StartDate.Month}{m_StartDate.Day}_{m_EndDate.Year}{m_EndDate.Month}{m_EndDate.Day}";
+            if (nLogOption == SelDev) strFileName = $"Dev_{m_StartDate.Year}{m_StartDate.Month}{m_StartDate.Day}_{m_EndDate.Year}{m_EndDate.Month}{m_EndDate.Day}";
 
             //  저장할 경로 확인...
             SaveFileDialog savefile = new SaveFileDialog();
@@ -229,10 +374,10 @@ namespace LWDicer.UI
                 {
                     StreamWriter sw = new StreamWriter(savefile.FileName, true, Encoding.GetEncoding("ks_c_5601-1987"));
 
-                    for (iRow = 0; iRow <= GridEvent.RowCount; iRow++)
+                    for (iRow = 0; iRow <= GridCont.RowCount; iRow++)
                     {
                         strBuf = "";
-                        for (iCol = 0; iCol <= GridEvent.ColCount; iCol++)
+                        for (iCol = 0; iCol <= GridCont.ColCount; iCol++)
                         {
                             if (iCol == 0 && iRow != 0)
                             {
@@ -240,7 +385,7 @@ namespace LWDicer.UI
                             }
                             else
                             {
-                                strBuf += GridEvent[iRow, iCol].Text;
+                                strBuf += GridCont[iRow, iCol].Text;
                             }
 
                             strBuf += " ,";
@@ -257,24 +402,40 @@ namespace LWDicer.UI
                 }
             }
         }
-
-        private void GridEvent_CellClick(object sender, GridCellClickEventArgs e)
+      
+        private void GridEvent_CellDoubleClick(object sender, GridCellClickEventArgs e)
         {
-            if(e.ColIndex == 0 || e.RowIndex == 0)
+            if(e.RowIndex == 0 || e.ColIndex == 0 || nLogOption != SelAlarm)
             {
                 return;
             }
 
-            if(CMainFrame.LWDicer.m_DataManager.AlarmInfoList.Count < Convert.ToInt16(GridEvent[e.RowIndex, 3].Text))
-            {
-                LabelTrouble.Text = "";
-                return;
-            }
+            int nCode = Convert.ToInt16(GridCont[e.RowIndex, 3].Text);
 
-            LabelTrouble.TextAlign = ContentAlignment.TopLeft;
+            CAlarm alarm = CMainFrame.LWDicer.GetAlarmInfo(nCode, nProcessID[e.RowIndex-1], false);
+            var dlg = new FormAlarmDisplay(alarm);
+            dlg.ShowDialog();
+        }
 
-            LabelTrouble.Text = 
-                CMainFrame.LWDicer.m_DataManager.AlarmInfoList[Convert.ToInt16(GridEvent[e.RowIndex, 3].Text)].Solution[(int)CMainFrame.LWDicer.m_DataManager.SystemData.Language];
+        private void BtnSelect_Click(object sender, EventArgs e)
+        {
+            Button BtnSel = sender as Button;
+            SetLogOption(BtnSel);
+        }
+
+        private void SetLogOption(Button BtnSel)
+        {
+            BtnSelectAlarm.Image = Image.Images[0]; BtnSelectAlarm.BackColor = Color.LightGray;
+            BtnSelectEvent.Image = Image.Images[0]; BtnSelectEvent.BackColor = Color.LightGray;
+            BtnSelectDev.Image = Image.Images[0];   BtnSelectDev.BackColor = Color.LightGray;
+
+            BtnSel.Image = Image.Images[1];
+            BtnSel.BackColor = Color.LightSalmon;
+
+            if (BtnSelectAlarm.Name == BtnSel.Name) { nLogOption = SelAlarm; };
+            if (BtnSelectEvent.Name == BtnSel.Name) { nLogOption = SelEvent; };
+            if (BtnSelectDev.Name == BtnSel.Name) { nLogOption = SelDev; };
+                        
         }
     }
 }

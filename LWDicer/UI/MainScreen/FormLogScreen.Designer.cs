@@ -28,8 +28,12 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormLogScreen));
             Syncfusion.Windows.Forms.Grid.GridRangeStyle gridRangeStyle1 = new Syncfusion.Windows.Forms.Grid.GridRangeStyle();
+            Syncfusion.Windows.Forms.Grid.GridRangeStyle gridRangeStyle2 = new Syncfusion.Windows.Forms.Grid.GridRangeStyle();
+            Syncfusion.Windows.Forms.Grid.GridRangeStyle gridRangeStyle3 = new Syncfusion.Windows.Forms.Grid.GridRangeStyle();
+            Syncfusion.Windows.Forms.Grid.GridRangeStyle gridRangeStyle4 = new Syncfusion.Windows.Forms.Grid.GridRangeStyle();
             this.BtnExport = new System.Windows.Forms.Button();
             this.TitleCount = new Syncfusion.Windows.Forms.Tools.GradientLabel();
             this.LabelCount = new Syncfusion.Windows.Forms.Tools.GradientLabel();
@@ -38,13 +42,12 @@
             this.BtnSerch = new System.Windows.Forms.Button();
             this.DateEnd = new System.Windows.Forms.DateTimePicker();
             this.DateStart = new System.Windows.Forms.DateTimePicker();
-            this.GridEvent = new Syncfusion.Windows.Forms.Grid.GridControl();
-            this.gradientPanel1 = new Syncfusion.Windows.Forms.Tools.GradientPanel();
-            this.LabelTrouble = new Syncfusion.Windows.Forms.Tools.GradientLabel();
-            this.autoLabel1 = new Syncfusion.Windows.Forms.Tools.AutoLabel();
-            ((System.ComponentModel.ISupportInitialize)(this.GridEvent)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.gradientPanel1)).BeginInit();
-            this.gradientPanel1.SuspendLayout();
+            this.GridCont = new Syncfusion.Windows.Forms.Grid.GridControl();
+            this.BtnSelectAlarm = new System.Windows.Forms.Button();
+            this.BtnSelectEvent = new System.Windows.Forms.Button();
+            this.BtnSelectDev = new System.Windows.Forms.Button();
+            this.Image = new System.Windows.Forms.ImageList(this.components);
+            ((System.ComponentModel.ISupportInitialize)(this.GridCont)).BeginInit();
             this.SuspendLayout();
             // 
             // BtnExport
@@ -144,13 +147,13 @@
             this.DateStart.TabIndex = 773;
             this.DateStart.ValueChanged += new System.EventHandler(this.DateStart_ValueChanged);
             // 
-            // GridEvent
+            // GridCont
             // 
-            this.GridEvent.ActivateCurrentCellBehavior = Syncfusion.Windows.Forms.Grid.GridCellActivateAction.None;
-            this.GridEvent.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.GridEvent.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold);
-            this.GridEvent.Location = new System.Drawing.Point(4, 87);
-            this.GridEvent.Name = "GridEvent";
+            this.GridCont.ActivateCurrentCellBehavior = Syncfusion.Windows.Forms.Grid.GridCellActivateAction.None;
+            this.GridCont.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.GridCont.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold);
+            this.GridCont.Location = new System.Drawing.Point(9, 93);
+            this.GridCont.Name = "GridCont";
             gridRangeStyle1.Range = Syncfusion.Windows.Forms.Grid.GridRangeInfo.Table();
             gridRangeStyle1.StyleInfo.Font.Bold = true;
             gridRangeStyle1.StyleInfo.Font.Facename = "Tahoma";
@@ -159,51 +162,87 @@
             gridRangeStyle1.StyleInfo.Font.Strikeout = false;
             gridRangeStyle1.StyleInfo.Font.Underline = false;
             gridRangeStyle1.StyleInfo.Font.Unit = System.Drawing.GraphicsUnit.Point;
-            this.GridEvent.RangeStyles.AddRange(new Syncfusion.Windows.Forms.Grid.GridRangeStyle[] {
-            gridRangeStyle1});
-            this.GridEvent.SerializeCellsBehavior = Syncfusion.Windows.Forms.Grid.GridSerializeCellsBehavior.SerializeAsRangeStylesIntoCode;
-            this.GridEvent.Size = new System.Drawing.Size(962, 721);
-            this.GridEvent.SmartSizeBox = false;
-            this.GridEvent.TabIndex = 772;
-            this.GridEvent.UseRightToLeftCompatibleTextBox = true;
-            this.GridEvent.CellClick += new Syncfusion.Windows.Forms.Grid.GridCellClickEventHandler(this.GridEvent_CellClick);
+            gridRangeStyle2.Range = Syncfusion.Windows.Forms.Grid.GridRangeInfo.Table();
+            gridRangeStyle2.StyleInfo.Font.Bold = true;
+            gridRangeStyle2.StyleInfo.Font.Facename = "Tahoma";
+            gridRangeStyle2.StyleInfo.Font.Italic = false;
+            gridRangeStyle2.StyleInfo.Font.Size = 8.25F;
+            gridRangeStyle2.StyleInfo.Font.Strikeout = false;
+            gridRangeStyle2.StyleInfo.Font.Underline = false;
+            gridRangeStyle2.StyleInfo.Font.Unit = System.Drawing.GraphicsUnit.Point;
+            gridRangeStyle3.Range = Syncfusion.Windows.Forms.Grid.GridRangeInfo.Table();
+            gridRangeStyle3.StyleInfo.Font.Bold = true;
+            gridRangeStyle3.StyleInfo.Font.Facename = "Tahoma";
+            gridRangeStyle3.StyleInfo.Font.Italic = false;
+            gridRangeStyle3.StyleInfo.Font.Size = 8.25F;
+            gridRangeStyle3.StyleInfo.Font.Strikeout = false;
+            gridRangeStyle3.StyleInfo.Font.Underline = false;
+            gridRangeStyle3.StyleInfo.Font.Unit = System.Drawing.GraphicsUnit.Point;
+            gridRangeStyle4.Range = Syncfusion.Windows.Forms.Grid.GridRangeInfo.Table();
+            gridRangeStyle4.StyleInfo.Font.Bold = true;
+            gridRangeStyle4.StyleInfo.Font.Facename = "Tahoma";
+            gridRangeStyle4.StyleInfo.Font.Italic = false;
+            gridRangeStyle4.StyleInfo.Font.Size = 8.25F;
+            gridRangeStyle4.StyleInfo.Font.Strikeout = false;
+            gridRangeStyle4.StyleInfo.Font.Underline = false;
+            gridRangeStyle4.StyleInfo.Font.Unit = System.Drawing.GraphicsUnit.Point;
+            this.GridCont.RangeStyles.AddRange(new Syncfusion.Windows.Forms.Grid.GridRangeStyle[] {
+            gridRangeStyle1,
+            gridRangeStyle2,
+            gridRangeStyle3,
+            gridRangeStyle4});
+            this.GridCont.SerializeCellsBehavior = Syncfusion.Windows.Forms.Grid.GridSerializeCellsBehavior.SerializeAsRangeStylesIntoCode;
+            this.GridCont.Size = new System.Drawing.Size(1258, 721);
+            this.GridCont.SmartSizeBox = false;
+            this.GridCont.TabIndex = 772;
+            this.GridCont.UseRightToLeftCompatibleTextBox = true;
+            this.GridCont.CellDoubleClick += new Syncfusion.Windows.Forms.Grid.GridCellClickEventHandler(this.GridEvent_CellDoubleClick);
             // 
-            // gradientPanel1
+            // BtnSelectAlarm
             // 
-            this.gradientPanel1.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("gradientPanel1.BackgroundImage")));
-            this.gradientPanel1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.gradientPanel1.Border3DStyle = System.Windows.Forms.Border3DStyle.Raised;
-            this.gradientPanel1.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.gradientPanel1.Controls.Add(this.LabelTrouble);
-            this.gradientPanel1.Controls.Add(this.autoLabel1);
-            this.gradientPanel1.Location = new System.Drawing.Point(970, 87);
-            this.gradientPanel1.Name = "gradientPanel1";
-            this.gradientPanel1.Size = new System.Drawing.Size(306, 323);
-            this.gradientPanel1.TabIndex = 781;
+            this.BtnSelectAlarm.BackColor = System.Drawing.Color.LightSalmon;
+            this.BtnSelectAlarm.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.BtnSelectAlarm.Location = new System.Drawing.Point(978, 13);
+            this.BtnSelectAlarm.Name = "BtnSelectAlarm";
+            this.BtnSelectAlarm.Size = new System.Drawing.Size(95, 57);
+            this.BtnSelectAlarm.TabIndex = 782;
+            this.BtnSelectAlarm.Text = " Alarm";
+            this.BtnSelectAlarm.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.BtnSelectAlarm.UseVisualStyleBackColor = false;
+            this.BtnSelectAlarm.Click += new System.EventHandler(this.BtnSelect_Click);
             // 
-            // LabelTrouble
+            // BtnSelectEvent
             // 
-            this.LabelTrouble.BackgroundColor = new Syncfusion.Drawing.BrushInfo();
-            this.LabelTrouble.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
-            | System.Windows.Forms.Border3DSide.Right) 
-            | System.Windows.Forms.Border3DSide.Bottom)));
-            this.LabelTrouble.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.LabelTrouble.Location = new System.Drawing.Point(8, 35);
-            this.LabelTrouble.Name = "LabelTrouble";
-            this.LabelTrouble.Padding = new System.Windows.Forms.Padding(10);
-            this.LabelTrouble.Size = new System.Drawing.Size(291, 269);
-            this.LabelTrouble.TabIndex = 31;
-            this.LabelTrouble.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.BtnSelectEvent.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.BtnSelectEvent.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.BtnSelectEvent.Location = new System.Drawing.Point(1074, 13);
+            this.BtnSelectEvent.Name = "BtnSelectEvent";
+            this.BtnSelectEvent.Size = new System.Drawing.Size(95, 57);
+            this.BtnSelectEvent.TabIndex = 783;
+            this.BtnSelectEvent.Text = " Event";
+            this.BtnSelectEvent.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.BtnSelectEvent.UseVisualStyleBackColor = false;
+            this.BtnSelectEvent.Click += new System.EventHandler(this.BtnSelect_Click);
             // 
-            // autoLabel1
+            // BtnSelectDev
             // 
-            this.autoLabel1.BackColor = System.Drawing.Color.Transparent;
-            this.autoLabel1.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.autoLabel1.Location = new System.Drawing.Point(25, 4);
-            this.autoLabel1.Name = "autoLabel1";
-            this.autoLabel1.Size = new System.Drawing.Size(127, 15);
-            this.autoLabel1.TabIndex = 30;
-            this.autoLabel1.Text = "Troubleshooting";
+            this.BtnSelectDev.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.BtnSelectDev.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.BtnSelectDev.Location = new System.Drawing.Point(1170, 13);
+            this.BtnSelectDev.Name = "BtnSelectDev";
+            this.BtnSelectDev.Size = new System.Drawing.Size(95, 57);
+            this.BtnSelectDev.TabIndex = 784;
+            this.BtnSelectDev.Text = " Dev";
+            this.BtnSelectDev.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.BtnSelectDev.UseVisualStyleBackColor = false;
+            this.BtnSelectDev.Click += new System.EventHandler(this.BtnSelect_Click);
+            // 
+            // Image
+            // 
+            this.Image.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("Image.ImageStream")));
+            this.Image.TransparentColor = System.Drawing.Color.Transparent;
+            this.Image.Images.SetKeyName(0, "Led_Off.png");
+            this.Image.Images.SetKeyName(1, "Led_On.png");
             // 
             // FormLogScreen
             // 
@@ -212,7 +251,9 @@
             this.BackColor = System.Drawing.Color.Lavender;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.ClientSize = new System.Drawing.Size(1278, 817);
-            this.Controls.Add(this.gradientPanel1);
+            this.Controls.Add(this.BtnSelectDev);
+            this.Controls.Add(this.BtnSelectEvent);
+            this.Controls.Add(this.BtnSelectAlarm);
             this.Controls.Add(this.BtnExport);
             this.Controls.Add(this.TitleCount);
             this.Controls.Add(this.LabelCount);
@@ -221,15 +262,12 @@
             this.Controls.Add(this.BtnSerch);
             this.Controls.Add(this.DateEnd);
             this.Controls.Add(this.DateStart);
-            this.Controls.Add(this.GridEvent);
+            this.Controls.Add(this.GridCont);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "FormLogScreen";
             this.Text = "Log Screen";
             this.Activated += new System.EventHandler(this.FormLogScreen_Activated);
-            ((System.ComponentModel.ISupportInitialize)(this.GridEvent)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.gradientPanel1)).EndInit();
-            this.gradientPanel1.ResumeLayout(false);
-            this.gradientPanel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.GridCont)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -245,9 +283,10 @@
         private System.Windows.Forms.Button BtnSerch;
         private System.Windows.Forms.DateTimePicker DateEnd;
         private System.Windows.Forms.DateTimePicker DateStart;
-        private Syncfusion.Windows.Forms.Grid.GridControl GridEvent;
-        private Syncfusion.Windows.Forms.Tools.GradientPanel gradientPanel1;
-        private Syncfusion.Windows.Forms.Tools.GradientLabel LabelTrouble;
-        private Syncfusion.Windows.Forms.Tools.AutoLabel autoLabel1;
+        private Syncfusion.Windows.Forms.Grid.GridControl GridCont;
+        private System.Windows.Forms.Button BtnSelectAlarm;
+        private System.Windows.Forms.Button BtnSelectEvent;
+        private System.Windows.Forms.Button BtnSelectDev;
+        private System.Windows.Forms.ImageList Image;
     }
 }
