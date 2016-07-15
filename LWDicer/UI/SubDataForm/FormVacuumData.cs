@@ -53,9 +53,9 @@ namespace LWDicer.UI
 
             for (i = 0; i < (int)EObjectVacuum.MAX; i++)
             {
-                data.VacuumTimer[i].TurningTime = Convert.ToDouble(GridVacuumData[i + 1, 1].Text);
-                data.VacuumTimer[i].OnSettlingTime = Convert.ToDouble(GridVacuumData[i + 1, 2].Text);
-                data.VacuumTimer[i].OffSettlingTime = Convert.ToDouble(GridVacuumData[i + 1, 3].Text);
+                data.VacuumTimer[i].TurningTime = Convert.ToDouble(GridCtrl[i + 1, 1].Text);
+                data.VacuumTimer[i].OnSettlingTime = Convert.ToDouble(GridCtrl[i + 1, 2].Text);
+                data.VacuumTimer[i].OffSettlingTime = Convert.ToDouble(GridCtrl[i + 1, 3].Text);
             }
 
             CMainFrame.LWDicer.SaveSystemData(systemVacuum: data);
@@ -75,15 +75,26 @@ namespace LWDicer.UI
                 return;
             }
 
-            strCurrent = GridVacuumData[nRow, nCol].Text;
+            strCurrent = GridCtrl[nRow, nCol].Text;
 
             if (!CMainFrame.LWDicer.GetKeyPad(strCurrent, out strModify))
             {
                 return;
             }
 
-            GridVacuumData[nRow, nCol].Text = strModify;
-            GridVacuumData[nRow, nCol].TextColor = Color.Red;
+            if (checkBoxAll.Checked == true)
+            {
+                for (int i = 1; i < GridCtrl.RowCount + 1; i++)
+                {
+                    GridCtrl[i, nCol].Text = strModify;
+                    GridCtrl[i, nCol].TextColor = Color.Blue;
+                }
+            }
+            else
+            {
+                GridCtrl[nRow, nCol].Text = strModify;
+                GridCtrl[nRow, nCol].TextColor = Color.Blue;
+            }
         }
 
         private void FormVacuumData_Load(object sender, EventArgs e)
@@ -101,41 +112,41 @@ namespace LWDicer.UI
             int i = 0, j = 0, nCol = 0, nRow = 0;
 
             // Cell Click 시 커서가 생성되지 않게함.
-            GridVacuumData.ActivateCurrentCellBehavior = GridCellActivateAction.None;
+            GridCtrl.ActivateCurrentCellBehavior = GridCellActivateAction.None;
 
             // Header
-            GridVacuumData.Properties.RowHeaders = true;
-            GridVacuumData.Properties.ColHeaders = true;
+            GridCtrl.Properties.RowHeaders = true;
+            GridCtrl.Properties.ColHeaders = true;
 
             nCol = 3;
             nRow = (int)EObjectVacuum.MAX;
 
             // Column,Row 개수
-            GridVacuumData.ColCount = nCol;
-            GridVacuumData.RowCount = nRow;
+            GridCtrl.ColCount = nCol;
+            GridCtrl.RowCount = nRow;
 
             // Column 가로 크기설정
             for (i = 0; i < nCol + 1; i++)
             {
-                GridVacuumData.ColWidths.SetSize(i, 120);
+                GridCtrl.ColWidths.SetSize(i, 120);
             }
 
-            GridVacuumData.ColWidths.SetSize(0, 200);
+            GridCtrl.ColWidths.SetSize(0, 200);
 
             for (i = 0; i < nRow + 1; i++)
             {
-                GridVacuumData.RowHeights[i] = 34;
+                GridCtrl.RowHeights[i] = 34;
             }
 
             // Text Display
-            GridVacuumData[0, 0].Text = "Unit";
-            GridVacuumData[0, 1].Text = "동작 제한 시간";
-            GridVacuumData[0, 2].Text = "After On         Wait Time";
-            GridVacuumData[0, 3].Text = "After Off         Wait Time";
+            GridCtrl[0, 0].Text = "Unit";
+            GridCtrl[0, 1].Text = "동작 제한 시간";
+            GridCtrl[0, 2].Text = "After On         Wait Time";
+            GridCtrl[0, 3].Text = "After Off         Wait Time";
 
             for (i = 0; i < (int)EObjectVacuum.MAX; i++)
             {
-                GridVacuumData[i + 1, 0].Text = CMainFrame.LWDicer.m_SystemInfo.GetObjectName(150 + i);
+                GridCtrl[i + 1, 0].Text = CMainFrame.LWDicer.m_SystemInfo.GetObjectName(150 + i);
             }
 
             for (i = 0; i < nCol + 1; i++)
@@ -143,10 +154,10 @@ namespace LWDicer.UI
                 for (j = 0; j < nRow + 1; j++)
                 {
                     // Font Style - Bold
-                    GridVacuumData[j, i].Font.Bold = true;
+                    GridCtrl[j, i].Font.Bold = true;
 
-                    GridVacuumData[j, i].VerticalAlignment = GridVerticalAlignment.Middle;
-                    GridVacuumData[j, i].HorizontalAlignment = GridHorizontalAlignment.Center;
+                    GridCtrl[j, i].VerticalAlignment = GridVerticalAlignment.Middle;
+                    GridCtrl[j, i].HorizontalAlignment = GridHorizontalAlignment.Center;
                 }
             }
 
@@ -154,16 +165,16 @@ namespace LWDicer.UI
             {
                 for (j = 1; j < nRow + 1; j++)
                 {
-                    GridVacuumData[j, i].BackColor = Color.FromArgb(220, 220, 255);
+                    GridCtrl[j, i].BackColor = Color.FromArgb(220, 220, 255);
                 }
             }
 
-            GridVacuumData.GridVisualStyles = GridVisualStyles.Office2007Blue;
-            GridVacuumData.ResizeColsBehavior = 0;
-            GridVacuumData.ResizeRowsBehavior = 0;
+            GridCtrl.GridVisualStyles = GridVisualStyles.Office2007Blue;
+            GridCtrl.ResizeColsBehavior = 0;
+            GridCtrl.ResizeRowsBehavior = 0;
 
             // Grid Display Update
-            GridVacuumData.Refresh();
+            GridCtrl.Refresh();
 
         }
 
@@ -174,13 +185,13 @@ namespace LWDicer.UI
 
             for (i = 0; i < (int)EObjectVacuum.MAX; i++)
             {
-                GridVacuumData[i + 1, 1].Text = Convert.ToString(systemVacuum.VacuumTimer[i].TurningTime);
-                GridVacuumData[i + 1, 2].Text = Convert.ToString(systemVacuum.VacuumTimer[i].OnSettlingTime);
-                GridVacuumData[i + 1, 3].Text = Convert.ToString(systemVacuum.VacuumTimer[i].OffSettlingTime);
+                GridCtrl[i + 1, 1].Text = Convert.ToString(systemVacuum.VacuumTimer[i].TurningTime);
+                GridCtrl[i + 1, 2].Text = Convert.ToString(systemVacuum.VacuumTimer[i].OnSettlingTime);
+                GridCtrl[i + 1, 3].Text = Convert.ToString(systemVacuum.VacuumTimer[i].OffSettlingTime);
 
                 for (j = 0; j < 3; j++)
                 {
-                    GridVacuumData[i + 1, j + 1].TextColor = Color.Black;
+                    GridCtrl[i + 1, j + 1].TextColor = Color.Black;
                 }
             }
         }

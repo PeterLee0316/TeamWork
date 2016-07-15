@@ -43,15 +43,16 @@
             this.gradientPanel3 = new Syncfusion.Windows.Forms.Tools.GradientPanel();
             this.autoLabel3 = new Syncfusion.Windows.Forms.Tools.AutoLabel();
             this.gradientPanel4 = new Syncfusion.Windows.Forms.Tools.GradientPanel();
+            this.autoLabel4 = new Syncfusion.Windows.Forms.Tools.AutoLabel();
+            this.BtnCassetteList = new Syncfusion.Windows.Forms.ButtonAdv();
             this.BtnWaferData = new Syncfusion.Windows.Forms.ButtonAdv();
             this.BtnModelData = new Syncfusion.Windows.Forms.ButtonAdv();
             this.BtnCassetteData = new Syncfusion.Windows.Forms.ButtonAdv();
-            this.autoLabel4 = new Syncfusion.Windows.Forms.Tools.AutoLabel();
-            this.BtnCassetteList = new Syncfusion.Windows.Forms.ButtonAdv();
             this.BtnCleaner = new Syncfusion.Windows.Forms.ButtonAdv();
             this.BtnCoater = new Syncfusion.Windows.Forms.ButtonAdv();
             this.gradientPanel2 = new Syncfusion.Windows.Forms.Tools.GradientPanel();
             this.autoLabel2 = new Syncfusion.Windows.Forms.Tools.AutoLabel();
+            this.BtnUserList = new Syncfusion.Windows.Forms.ButtonAdv();
             ((System.ComponentModel.ISupportInitialize)(this.gradientPanel1)).BeginInit();
             this.gradientPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gradientPanel3)).BeginInit();
@@ -166,7 +167,7 @@
             this.BtnVacuum.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.BtnVacuum.ForeColor = System.Drawing.Color.MidnightBlue;
             this.BtnVacuum.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.BtnVacuum.Location = new System.Drawing.Point(19, 119);
+            this.BtnVacuum.Location = new System.Drawing.Point(19, 120);
             this.BtnVacuum.Name = "BtnVacuum";
             this.BtnVacuum.Size = new System.Drawing.Size(124, 67);
             this.BtnVacuum.TabIndex = 15;
@@ -261,6 +262,7 @@
             this.gradientPanel4.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.gradientPanel4.Border3DStyle = System.Windows.Forms.Border3DStyle.Raised;
             this.gradientPanel4.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.gradientPanel4.Controls.Add(this.BtnUserList);
             this.gradientPanel4.Controls.Add(this.BtnSystemData);
             this.gradientPanel4.Controls.Add(this.BtnExcelLoad);
             this.gradientPanel4.Controls.Add(this.autoLabel4);
@@ -271,6 +273,33 @@
             this.gradientPanel4.Name = "gradientPanel4";
             this.gradientPanel4.Size = new System.Drawing.Size(287, 347);
             this.gradientPanel4.TabIndex = 32;
+            // 
+            // autoLabel4
+            // 
+            this.autoLabel4.BackColor = System.Drawing.Color.Transparent;
+            this.autoLabel4.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.autoLabel4.ForeColor = System.Drawing.Color.Black;
+            this.autoLabel4.Location = new System.Drawing.Point(100, 11);
+            this.autoLabel4.Name = "autoLabel4";
+            this.autoLabel4.Size = new System.Drawing.Size(102, 15);
+            this.autoLabel4.TabIndex = 35;
+            this.autoLabel4.Text = "System Data";
+            // 
+            // BtnCassetteList
+            // 
+            this.BtnCassetteList.AutoEllipsis = true;
+            this.BtnCassetteList.BackColor = System.Drawing.SystemColors.Control;
+            this.BtnCassetteList.FlatAppearance.BorderSize = 5;
+            this.BtnCassetteList.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.BtnCassetteList.ForeColor = System.Drawing.Color.MidnightBlue;
+            this.BtnCassetteList.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.BtnCassetteList.Location = new System.Drawing.Point(20, 190);
+            this.BtnCassetteList.Name = "BtnCassetteList";
+            this.BtnCassetteList.Size = new System.Drawing.Size(124, 67);
+            this.BtnCassetteList.TabIndex = 37;
+            this.BtnCassetteList.Text = "Cassette List";
+            this.BtnCassetteList.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.BtnCassetteList.Click += new System.EventHandler(this.BtnCassetteList_Click);
             // 
             // BtnWaferData
             // 
@@ -319,33 +348,6 @@
             this.BtnCassetteData.Text = "Cassette Data";
             this.BtnCassetteData.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.BtnCassetteData.Click += new System.EventHandler(this.BtnCassetteData_Click);
-            // 
-            // autoLabel4
-            // 
-            this.autoLabel4.BackColor = System.Drawing.Color.Transparent;
-            this.autoLabel4.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.autoLabel4.ForeColor = System.Drawing.Color.Black;
-            this.autoLabel4.Location = new System.Drawing.Point(100, 11);
-            this.autoLabel4.Name = "autoLabel4";
-            this.autoLabel4.Size = new System.Drawing.Size(102, 15);
-            this.autoLabel4.TabIndex = 35;
-            this.autoLabel4.Text = "System Data";
-            // 
-            // BtnCassetteList
-            // 
-            this.BtnCassetteList.AutoEllipsis = true;
-            this.BtnCassetteList.BackColor = System.Drawing.SystemColors.Control;
-            this.BtnCassetteList.FlatAppearance.BorderSize = 5;
-            this.BtnCassetteList.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.BtnCassetteList.ForeColor = System.Drawing.Color.MidnightBlue;
-            this.BtnCassetteList.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.BtnCassetteList.Location = new System.Drawing.Point(20, 190);
-            this.BtnCassetteList.Name = "BtnCassetteList";
-            this.BtnCassetteList.Size = new System.Drawing.Size(124, 67);
-            this.BtnCassetteList.TabIndex = 37;
-            this.BtnCassetteList.Text = "Cassette List";
-            this.BtnCassetteList.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.BtnCassetteList.Click += new System.EventHandler(this.BtnCassetteList_Click);
             // 
             // BtnCleaner
             // 
@@ -406,6 +408,22 @@
             this.autoLabel2.TabIndex = 30;
             this.autoLabel2.Text = "Model Data";
             // 
+            // BtnUserList
+            // 
+            this.BtnUserList.AutoEllipsis = true;
+            this.BtnUserList.BackColor = System.Drawing.SystemColors.Control;
+            this.BtnUserList.FlatAppearance.BorderSize = 5;
+            this.BtnUserList.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.BtnUserList.ForeColor = System.Drawing.Color.MidnightBlue;
+            this.BtnUserList.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.BtnUserList.Location = new System.Drawing.Point(150, 120);
+            this.BtnUserList.Name = "BtnUserList";
+            this.BtnUserList.Size = new System.Drawing.Size(124, 67);
+            this.BtnUserList.TabIndex = 38;
+            this.BtnUserList.Text = "User List";
+            this.BtnUserList.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.BtnUserList.Click += new System.EventHandler(this.BtnUserList_Click);
+            // 
             // FormDataScreen
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
@@ -464,5 +482,6 @@
         private Syncfusion.Windows.Forms.ButtonAdv BtnCoater;
         private Syncfusion.Windows.Forms.Tools.GradientPanel gradientPanel2;
         private Syncfusion.Windows.Forms.Tools.AutoLabel autoLabel2;
+        private Syncfusion.Windows.Forms.ButtonAdv BtnUserList;
     }
 }

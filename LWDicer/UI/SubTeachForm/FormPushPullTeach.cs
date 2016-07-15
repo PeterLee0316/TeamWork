@@ -531,7 +531,7 @@ namespace LWDicer.UI
                 GridCenterXTeachTable[2, e.ColIndex].Text = Convert.ToString(dTargetPos);
 
                 GridCenterXTeachTable[3, e.ColIndex].Text = strModify;
-                GridCenterXTeachTable[3, e.ColIndex].TextColor = Color.Red;
+                GridCenterXTeachTable[3, e.ColIndex].TextColor = Color.Blue;
             }
 
             if(GetDataMode() == OffsetData)
@@ -544,7 +544,7 @@ namespace LWDicer.UI
                 }
 
                 GridCenterXTeachTable[6, e.ColIndex].Text = strModify;
-                GridCenterXTeachTable[6, e.ColIndex].TextColor = Color.Red;
+                GridCenterXTeachTable[6, e.ColIndex].TextColor = Color.Blue;
             }
         }
 
@@ -573,7 +573,7 @@ namespace LWDicer.UI
                 GridPushPullYTeachTable[2, e.ColIndex].Text = Convert.ToString(dTargetPos);
 
                 GridPushPullYTeachTable[3, e.ColIndex].Text = strModify;
-                GridPushPullYTeachTable[3, e.ColIndex].TextColor = Color.Red;
+                GridPushPullYTeachTable[3, e.ColIndex].TextColor = Color.Blue;
             }
 
             if(GetDataMode() == OffsetData)
@@ -586,7 +586,7 @@ namespace LWDicer.UI
                 }
 
                 GridPushPullYTeachTable[6, e.ColIndex].Text = strModify;
-                GridPushPullYTeachTable[6, e.ColIndex].TextColor = Color.Red;
+                GridPushPullYTeachTable[6, e.ColIndex].TextColor = Color.Blue;
             }
         }
 
@@ -685,7 +685,7 @@ namespace LWDicer.UI
             GridCenterXTeachTable[2, 1].Text = Convert.ToString(dTargetX1Pos);
 
             GridCenterXTeachTable[3, 1].Text = Convert.ToString(dX1Pos);
-            GridCenterXTeachTable[3, 1].TextColor = Color.Red;
+            GridCenterXTeachTable[3, 1].TextColor = Color.Blue;
 
 
             StrX2Current = GridCenterXTeachTable[7, 2].Text;
@@ -698,7 +698,7 @@ namespace LWDicer.UI
             GridCenterXTeachTable[2, 2].Text = Convert.ToString(dTargetX2Pos);
 
             GridCenterXTeachTable[3, 2].Text = Convert.ToString(dX2Pos);
-            GridCenterXTeachTable[3, 2].TextColor = Color.Red;
+            GridCenterXTeachTable[3, 2].TextColor = Color.Blue;
         }
 
         private void BtnYChangeValue_Click(object sender, EventArgs e)
@@ -723,7 +723,7 @@ namespace LWDicer.UI
             GridPushPullYTeachTable[2, 1].Text = Convert.ToString(dTargetYPos);
 
             GridPushPullYTeachTable[3, 1].Text = Convert.ToString(dYPos);
-            GridPushPullYTeachTable[3, 1].TextColor = Color.Red;
+            GridPushPullYTeachTable[3, 1].TextColor = Color.Blue;
         }
 
         private void TmrTeach_Tick(object sender, EventArgs e)

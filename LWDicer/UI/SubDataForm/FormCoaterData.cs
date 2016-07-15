@@ -58,21 +58,21 @@ namespace LWDicer.UI
             int i = 0, j = 0;
 
             // Cell Click 시 커서가 생성되지 않게함.
-            GridSpinner.ActivateCurrentCellBehavior = GridCellActivateAction.None;
+            GridCtrl.ActivateCurrentCellBehavior = GridCellActivateAction.None;
 
             // Header
-            GridSpinner.Properties.RowHeaders = true;
-            GridSpinner.Properties.ColHeaders = true;
+            GridCtrl.Properties.RowHeaders = true;
+            GridCtrl.Properties.ColHeaders = true;
 
             // Column,Row 개수
-            GridSpinner.ColCount = 3;
-            GridSpinner.RowCount = DEF_MAX_SPINNER_STEP;
+            GridCtrl.ColCount = 3;
+            GridCtrl.RowCount = DEF_MAX_SPINNER_STEP;
 
             // Column 가로 크기설정
-            GridSpinner.ColWidths.SetSize(0, 50);
-            GridSpinner.ColWidths.SetSize(1, 200);
-            GridSpinner.ColWidths.SetSize(2, 110);
-            GridSpinner.ColWidths.SetSize(3, 110);
+            GridCtrl.ColWidths.SetSize(0, 50);
+            GridCtrl.ColWidths.SetSize(1, 200);
+            GridCtrl.ColWidths.SetSize(2, 110);
+            GridCtrl.ColWidths.SetSize(3, 110);
 
             for(i=0;i<(int)ENozzleOpMode.MAX;i++)
             {
@@ -83,56 +83,56 @@ namespace LWDicer.UI
 
             strColl.AddRange(strOP);
 
-            for (i = 0; i < GridSpinner.RowCount + 1; i++)
+            for (i = 0; i < GridCtrl.RowCount + 1; i++)
             {
-                GridSpinner.RowHeights[i] = 35;
+                GridCtrl.RowHeights[i] = 35;
             }
 
-            for (i=0;i< GridSpinner.RowCount;i++)
+            for (i=0;i< GridCtrl.RowCount;i++)
             {
-                GridStyleInfo style = GridSpinner.Model[i+1,1];
+                GridStyleInfo style = GridCtrl.Model[i+1,1];
 
                 style.CellType = GridCellTypeName.ComboBox;
 
                 style.ChoiceList = strColl;
 
-                GridSpinner[i + 1, 1].DropDownStyle = GridDropDownStyle.Exclusive;
+                GridCtrl[i + 1, 1].DropDownStyle = GridDropDownStyle.Exclusive;
             }
 
-            GridComboBoxCellModel model = this.GridSpinner.Model.CellModels["ComboBox"] as GridComboBoxCellModel;
+            GridComboBoxCellModel model = this.GridCtrl.Model.CellModels["ComboBox"] as GridComboBoxCellModel;
             model.ButtonBarSize = new Size(70, 30);
 
             // Text Display
-            GridSpinner[0, 0].Text = "Seq.";
-            GridSpinner[0, 1].Text = "Operation";
-            GridSpinner[0, 2].Text = "Time [sec]";
-            GridSpinner[0, 3].Text = "RPM / min";
+            GridCtrl[0, 0].Text = "Seq.";
+            GridCtrl[0, 1].Text = "Operation";
+            GridCtrl[0, 2].Text = "Time [sec]";
+            GridCtrl[0, 3].Text = "RPM / min";
 
 
-            for (i = 0; i < GridSpinner.ColCount + 1; i++)
+            for (i = 0; i < GridCtrl.ColCount + 1; i++)
             {
-                for (j = 0; j < GridSpinner.RowCount + 1; j++)
+                for (j = 0; j < GridCtrl.RowCount + 1; j++)
                 {
                     // Font Style - Bold
-                    GridSpinner[j, i].Font.Bold = true;
+                    GridCtrl[j, i].Font.Bold = true;
 
-                    GridSpinner[j, i].VerticalAlignment = GridVerticalAlignment.Middle;
-                    GridSpinner[j, i].HorizontalAlignment = GridHorizontalAlignment.Center;
+                    GridCtrl[j, i].VerticalAlignment = GridVerticalAlignment.Middle;
+                    GridCtrl[j, i].HorizontalAlignment = GridHorizontalAlignment.Center;
                 }
             }
 
-            GridSpinner.GridVisualStyles = GridVisualStyles.Office2007Blue;
-            GridSpinner.ResizeColsBehavior = 0;
-            GridSpinner.ResizeRowsBehavior = 0;
+            GridCtrl.GridVisualStyles = GridVisualStyles.Office2007Blue;
+            GridCtrl.ResizeColsBehavior = 0;
+            GridCtrl.ResizeRowsBehavior = 0;
 
-            for (i = 0; i < GridSpinner.RowCount; i++)
+            for (i = 0; i < GridCtrl.RowCount; i++)
             {
-                GridSpinner[i + 1, 2].BackColor = Color.FromArgb(230, 210, 255);
-                GridSpinner[i + 1, 3].BackColor = Color.FromArgb(255, 230, 255);
+                GridCtrl[i + 1, 2].BackColor = Color.FromArgb(230, 210, 255);
+                GridCtrl[i + 1, 3].BackColor = Color.FromArgb(255, 230, 255);
             }
 
             // Grid Display Update
-            GridSpinner.Refresh();
+            GridCtrl.Refresh();
         }
 
         private void UpdateData()
@@ -141,14 +141,14 @@ namespace LWDicer.UI
 
             for (i=0;i< DEF_MAX_SPINNER_STEP;i++)
             {
-                GridSpinner[i + 1, 1].Text = strOP[(int)CoatData.SpinnerData.CoaterData.StepSequence[i].OpMode];
-                GridSpinner[i + 1, 1].TextColor = Color.Black;
+                GridCtrl[i + 1, 1].Text = strOP[(int)CoatData.SpinnerData.CoaterData.StepSequence[i].OpMode];
+                GridCtrl[i + 1, 1].TextColor = Color.Black;
 
-                GridSpinner[i + 1, 2].Text = Convert.ToString(CoatData.SpinnerData.CoaterData.StepSequence[i].OpTime);
-                GridSpinner[i + 1, 2].TextColor = Color.Black;
+                GridCtrl[i + 1, 2].Text = Convert.ToString(CoatData.SpinnerData.CoaterData.StepSequence[i].OpTime);
+                GridCtrl[i + 1, 2].TextColor = Color.Black;
 
-                GridSpinner[i + 1, 3].Text = Convert.ToString(CoatData.SpinnerData.CoaterData.StepSequence[i].RPMSpeed);
-                GridSpinner[i + 1, 3].TextColor = Color.Black;
+                GridCtrl[i + 1, 3].Text = Convert.ToString(CoatData.SpinnerData.CoaterData.StepSequence[i].RPMSpeed);
+                GridCtrl[i + 1, 3].TextColor = Color.Black;
             }
 
             LabelCoatData[0].Text = Convert.ToString(CoatData.SpinnerData.CoaterData.PVAQty);
@@ -195,15 +195,15 @@ namespace LWDicer.UI
             {
                 for(nOP = 0; nOP < (int)ENozzleOpMode.MAX ; nOP++)
                 {
-                    if (GridSpinner[i + 1, 1].Text == Convert.ToString(ENozzleOpMode.WAIT + nOP))
+                    if (GridCtrl[i + 1, 1].Text == Convert.ToString(ENozzleOpMode.WAIT + nOP))
                     {
                         CoatData.SpinnerData.CoaterData.StepSequence[i].OpMode = (ENozzleOpMode.WAIT+ nOP);
                         break;
                     }
                 }
 
-                CoatData.SpinnerData.CoaterData.StepSequence[i].OpTime = Convert.ToInt16(GridSpinner[i + 1, 2].Text);
-                CoatData.SpinnerData.CoaterData.StepSequence[i].RPMSpeed = Convert.ToInt16(GridSpinner[i + 1, 3].Text);
+                CoatData.SpinnerData.CoaterData.StepSequence[i].OpTime = Convert.ToInt16(GridCtrl[i + 1, 2].Text);
+                CoatData.SpinnerData.CoaterData.StepSequence[i].RPMSpeed = Convert.ToInt16(GridCtrl[i + 1, 3].Text);
             }
 
             CoatData.SpinnerData.CoaterData.PVAQty = Convert.ToInt16(LabelCoatData[0].Text);
@@ -232,15 +232,15 @@ namespace LWDicer.UI
                 return;
             }
 
-            strCurrent = GridSpinner[nRow, nCol].Text;
+            strCurrent = GridCtrl[nRow, nCol].Text;
 
             if (!CMainFrame.LWDicer.GetKeyPad(strCurrent, out strModify))
             {
                 return;
             }
 
-            GridSpinner[nRow, nCol].Text = strModify;
-            GridSpinner[nRow, nCol].TextColor = Color.Red;
+            GridCtrl[nRow, nCol].Text = strModify;
+            GridCtrl[nRow, nCol].TextColor = Color.Blue;
         }
 
         private void GridSpinner_CurrentCellShowedDropDown(object sender, EventArgs e)
@@ -251,7 +251,7 @@ namespace LWDicer.UI
             {
                 GridCurrentCell CurCell = grid.CurrentCell;
 
-                GridSpinner[CurCell.RowIndex, CurCell.ColIndex].TextColor = Color.Red;
+                GridCtrl[CurCell.RowIndex, CurCell.ColIndex].TextColor = Color.Blue;
             }
         }
 

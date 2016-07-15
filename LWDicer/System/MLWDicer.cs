@@ -182,14 +182,14 @@ namespace LWDicer.Control
             // close handle
                 }
 
-        public CLoginData GetLogin()
+        public CLoginInfo GetLogin()
         {
             return m_DataManager?.GetLogin();
         }
 
-        public void SetLogin(CLoginData login)
+        public void SetLogin()
         {
-            m_DataManager?.SetLogin(login);
+            m_DataManager?.SetLogin();
         }
 
         public void TestFunction_BeforeInit()
@@ -710,6 +710,7 @@ namespace LWDicer.Control
             SetThreadChannel();
             StartThreads();
 
+            SetLogin();
             TestFunction_AfterInit();
 
             intro.Hide();
@@ -1589,23 +1590,21 @@ namespace LWDicer.Control
             return true;
         }
 
-        public bool GetKeyboard(out string strModify)
+        public bool GetKeyboard(out string strModify, string title = "Input")
         {
-            var dlg = new FormKeyBoard();
+            var dlg = new FormKeyBoard(title);
             dlg.ShowDialog();
 
             if (dlg.DialogResult == DialogResult.OK)
             {
                 strModify = dlg.PresentNo.Text;
+                return true;
             }
             else
             {
                 strModify = "";
-                dlg.Dispose();
                 return false;
             }
-            dlg.Dispose();
-            return true;
         }
 
         void CreateMeElevator(CObjectInfo objInfo)

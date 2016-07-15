@@ -30,10 +30,12 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormModelList));
+            Syncfusion.Windows.Forms.Grid.GridRangeStyle gridRangeStyle1 = new Syncfusion.Windows.Forms.Grid.GridRangeStyle();
+            Syncfusion.Windows.Forms.Grid.GridRangeStyle gridRangeStyle2 = new Syncfusion.Windows.Forms.Grid.GridRangeStyle();
+            Syncfusion.Windows.Forms.Grid.GridRangeStyle gridRangeStyle3 = new Syncfusion.Windows.Forms.Grid.GridRangeStyle();
+            Syncfusion.Windows.Forms.Grid.GridRangeStyle gridRangeStyle4 = new Syncfusion.Windows.Forms.Grid.GridRangeStyle();
             Syncfusion.Windows.Forms.Grid.GridRangeStyle gridRangeStyle5 = new Syncfusion.Windows.Forms.Grid.GridRangeStyle();
             Syncfusion.Windows.Forms.Grid.GridRangeStyle gridRangeStyle6 = new Syncfusion.Windows.Forms.Grid.GridRangeStyle();
-            Syncfusion.Windows.Forms.Grid.GridRangeStyle gridRangeStyle7 = new Syncfusion.Windows.Forms.Grid.GridRangeStyle();
-            Syncfusion.Windows.Forms.Grid.GridRangeStyle gridRangeStyle8 = new Syncfusion.Windows.Forms.Grid.GridRangeStyle();
             this.BtnExit = new System.Windows.Forms.Button();
             this.LabelModel = new Syncfusion.Windows.Forms.Tools.GradientLabel();
             this.BtnMakerCreate = new System.Windows.Forms.Button();
@@ -44,12 +46,12 @@
             this.LabelMaker = new Syncfusion.Windows.Forms.Tools.GradientLabel();
             this.BtnModelDelete = new System.Windows.Forms.Button();
             this.BtnModelCreate = new System.Windows.Forms.Button();
-            this.GridModelList = new Syncfusion.Windows.Forms.Grid.GridControl();
+            this.GridCtrl = new Syncfusion.Windows.Forms.Grid.GridControl();
             this.TitleCurModel = new Syncfusion.Windows.Forms.Tools.GradientLabel();
             this.LabelCurModel = new Syncfusion.Windows.Forms.Tools.GradientLabel();
             this.TitleCurMaker = new Syncfusion.Windows.Forms.Tools.GradientLabel();
             this.LabelCurMaker = new Syncfusion.Windows.Forms.Tools.GradientLabel();
-            ((System.ComponentModel.ISupportInitialize)(this.GridModelList)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.GridCtrl)).BeginInit();
             this.SuspendLayout();
             // 
             // BtnExit
@@ -89,7 +91,7 @@
             this.BtnMakerCreate.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
             this.BtnMakerCreate.Image = ((System.Drawing.Image)(resources.GetObject("BtnMakerCreate.Image")));
             this.BtnMakerCreate.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.BtnMakerCreate.Location = new System.Drawing.Point(54, 642);
+            this.BtnMakerCreate.Location = new System.Drawing.Point(8, 641);
             this.BtnMakerCreate.Name = "BtnMakerCreate";
             this.BtnMakerCreate.Size = new System.Drawing.Size(115, 61);
             this.BtnMakerCreate.TabIndex = 752;
@@ -104,7 +106,7 @@
             this.BtnMakerDelete.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
             this.BtnMakerDelete.Image = ((System.Drawing.Image)(resources.GetObject("BtnMakerDelete.Image")));
             this.BtnMakerDelete.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.BtnMakerDelete.Location = new System.Drawing.Point(188, 642);
+            this.BtnMakerDelete.Location = new System.Drawing.Point(129, 641);
             this.BtnMakerDelete.Name = "BtnMakerDelete";
             this.BtnMakerDelete.Size = new System.Drawing.Size(115, 61);
             this.BtnMakerDelete.TabIndex = 753;
@@ -119,7 +121,7 @@
             this.BtnModelSelect.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
             this.BtnModelSelect.Image = ((System.Drawing.Image)(resources.GetObject("BtnModelSelect.Image")));
             this.BtnModelSelect.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.BtnModelSelect.Location = new System.Drawing.Point(602, 642);
+            this.BtnModelSelect.Location = new System.Drawing.Point(602, 641);
             this.BtnModelSelect.Name = "BtnModelSelect";
             this.BtnModelSelect.Size = new System.Drawing.Size(171, 61);
             this.BtnModelSelect.TabIndex = 754;
@@ -169,7 +171,7 @@
             this.BtnModelDelete.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
             this.BtnModelDelete.Image = ((System.Drawing.Image)(resources.GetObject("BtnModelDelete.Image")));
             this.BtnModelDelete.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.BtnModelDelete.Location = new System.Drawing.Point(481, 642);
+            this.BtnModelDelete.Location = new System.Drawing.Point(481, 641);
             this.BtnModelDelete.Name = "BtnModelDelete";
             this.BtnModelDelete.Size = new System.Drawing.Size(115, 61);
             this.BtnModelDelete.TabIndex = 763;
@@ -184,7 +186,7 @@
             this.BtnModelCreate.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
             this.BtnModelCreate.Image = ((System.Drawing.Image)(resources.GetObject("BtnModelCreate.Image")));
             this.BtnModelCreate.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.BtnModelCreate.Location = new System.Drawing.Point(359, 642);
+            this.BtnModelCreate.Location = new System.Drawing.Point(359, 641);
             this.BtnModelCreate.Name = "BtnModelCreate";
             this.BtnModelCreate.Size = new System.Drawing.Size(115, 61);
             this.BtnModelCreate.TabIndex = 762;
@@ -193,12 +195,44 @@
             this.BtnModelCreate.UseVisualStyleBackColor = true;
             this.BtnModelCreate.Click += new System.EventHandler(this.BtnModelCreate_Click);
             // 
-            // GridModelList
+            // GridCtrl
             // 
-            this.GridModelList.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.GridModelList.Font = new System.Drawing.Font("Tahoma", 11.25F, System.Drawing.FontStyle.Bold);
-            this.GridModelList.Location = new System.Drawing.Point(359, 89);
-            this.GridModelList.Name = "GridModelList";
+            this.GridCtrl.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.GridCtrl.Font = new System.Drawing.Font("Tahoma", 11.25F, System.Drawing.FontStyle.Bold);
+            this.GridCtrl.Location = new System.Drawing.Point(359, 89);
+            this.GridCtrl.Name = "GridCtrl";
+            gridRangeStyle1.Range = Syncfusion.Windows.Forms.Grid.GridRangeInfo.Table();
+            gridRangeStyle1.StyleInfo.Font.Bold = true;
+            gridRangeStyle1.StyleInfo.Font.Facename = "Tahoma";
+            gridRangeStyle1.StyleInfo.Font.Italic = false;
+            gridRangeStyle1.StyleInfo.Font.Size = 11.25F;
+            gridRangeStyle1.StyleInfo.Font.Strikeout = false;
+            gridRangeStyle1.StyleInfo.Font.Underline = false;
+            gridRangeStyle1.StyleInfo.Font.Unit = System.Drawing.GraphicsUnit.Point;
+            gridRangeStyle2.Range = Syncfusion.Windows.Forms.Grid.GridRangeInfo.Table();
+            gridRangeStyle2.StyleInfo.Font.Bold = true;
+            gridRangeStyle2.StyleInfo.Font.Facename = "Tahoma";
+            gridRangeStyle2.StyleInfo.Font.Italic = false;
+            gridRangeStyle2.StyleInfo.Font.Size = 11.25F;
+            gridRangeStyle2.StyleInfo.Font.Strikeout = false;
+            gridRangeStyle2.StyleInfo.Font.Underline = false;
+            gridRangeStyle2.StyleInfo.Font.Unit = System.Drawing.GraphicsUnit.Point;
+            gridRangeStyle3.Range = Syncfusion.Windows.Forms.Grid.GridRangeInfo.Table();
+            gridRangeStyle3.StyleInfo.Font.Bold = true;
+            gridRangeStyle3.StyleInfo.Font.Facename = "Tahoma";
+            gridRangeStyle3.StyleInfo.Font.Italic = false;
+            gridRangeStyle3.StyleInfo.Font.Size = 11.25F;
+            gridRangeStyle3.StyleInfo.Font.Strikeout = false;
+            gridRangeStyle3.StyleInfo.Font.Underline = false;
+            gridRangeStyle3.StyleInfo.Font.Unit = System.Drawing.GraphicsUnit.Point;
+            gridRangeStyle4.Range = Syncfusion.Windows.Forms.Grid.GridRangeInfo.Table();
+            gridRangeStyle4.StyleInfo.Font.Bold = true;
+            gridRangeStyle4.StyleInfo.Font.Facename = "Tahoma";
+            gridRangeStyle4.StyleInfo.Font.Italic = false;
+            gridRangeStyle4.StyleInfo.Font.Size = 11.25F;
+            gridRangeStyle4.StyleInfo.Font.Strikeout = false;
+            gridRangeStyle4.StyleInfo.Font.Underline = false;
+            gridRangeStyle4.StyleInfo.Font.Unit = System.Drawing.GraphicsUnit.Point;
             gridRangeStyle5.Range = Syncfusion.Windows.Forms.Grid.GridRangeInfo.Table();
             gridRangeStyle5.StyleInfo.Font.Bold = true;
             gridRangeStyle5.StyleInfo.Font.Facename = "Tahoma";
@@ -215,33 +249,19 @@
             gridRangeStyle6.StyleInfo.Font.Strikeout = false;
             gridRangeStyle6.StyleInfo.Font.Underline = false;
             gridRangeStyle6.StyleInfo.Font.Unit = System.Drawing.GraphicsUnit.Point;
-            gridRangeStyle7.Range = Syncfusion.Windows.Forms.Grid.GridRangeInfo.Table();
-            gridRangeStyle7.StyleInfo.Font.Bold = true;
-            gridRangeStyle7.StyleInfo.Font.Facename = "Tahoma";
-            gridRangeStyle7.StyleInfo.Font.Italic = false;
-            gridRangeStyle7.StyleInfo.Font.Size = 11.25F;
-            gridRangeStyle7.StyleInfo.Font.Strikeout = false;
-            gridRangeStyle7.StyleInfo.Font.Underline = false;
-            gridRangeStyle7.StyleInfo.Font.Unit = System.Drawing.GraphicsUnit.Point;
-            gridRangeStyle8.Range = Syncfusion.Windows.Forms.Grid.GridRangeInfo.Table();
-            gridRangeStyle8.StyleInfo.Font.Bold = true;
-            gridRangeStyle8.StyleInfo.Font.Facename = "Tahoma";
-            gridRangeStyle8.StyleInfo.Font.Italic = false;
-            gridRangeStyle8.StyleInfo.Font.Size = 11.25F;
-            gridRangeStyle8.StyleInfo.Font.Strikeout = false;
-            gridRangeStyle8.StyleInfo.Font.Underline = false;
-            gridRangeStyle8.StyleInfo.Font.Unit = System.Drawing.GraphicsUnit.Point;
-            this.GridModelList.RangeStyles.AddRange(new Syncfusion.Windows.Forms.Grid.GridRangeStyle[] {
+            this.GridCtrl.RangeStyles.AddRange(new Syncfusion.Windows.Forms.Grid.GridRangeStyle[] {
+            gridRangeStyle1,
+            gridRangeStyle2,
+            gridRangeStyle3,
+            gridRangeStyle4,
             gridRangeStyle5,
-            gridRangeStyle6,
-            gridRangeStyle7,
-            gridRangeStyle8});
-            this.GridModelList.SerializeCellsBehavior = Syncfusion.Windows.Forms.Grid.GridSerializeCellsBehavior.SerializeAsRangeStylesIntoCode;
-            this.GridModelList.Size = new System.Drawing.Size(563, 537);
-            this.GridModelList.SmartSizeBox = false;
-            this.GridModelList.TabIndex = 764;
-            this.GridModelList.UseRightToLeftCompatibleTextBox = true;
-            this.GridModelList.CellClick += new Syncfusion.Windows.Forms.Grid.GridCellClickEventHandler(this.GridModelList_CellClick);
+            gridRangeStyle6});
+            this.GridCtrl.SerializeCellsBehavior = Syncfusion.Windows.Forms.Grid.GridSerializeCellsBehavior.SerializeAsRangeStylesIntoCode;
+            this.GridCtrl.Size = new System.Drawing.Size(563, 537);
+            this.GridCtrl.SmartSizeBox = false;
+            this.GridCtrl.TabIndex = 764;
+            this.GridCtrl.UseRightToLeftCompatibleTextBox = true;
+            this.GridCtrl.CellClick += new Syncfusion.Windows.Forms.Grid.GridCellClickEventHandler(this.GridModelList_CellClick);
             // 
             // TitleCurModel
             // 
@@ -312,7 +332,7 @@
             this.Controls.Add(this.LabelCurModel);
             this.Controls.Add(this.TitleCurMaker);
             this.Controls.Add(this.LabelCurMaker);
-            this.Controls.Add(this.GridModelList);
+            this.Controls.Add(this.GridCtrl);
             this.Controls.Add(this.BtnModelDelete);
             this.Controls.Add(this.BtnModelCreate);
             this.Controls.Add(this.LabelMaker);
@@ -328,7 +348,7 @@
             this.Text = "Model Data";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormModelData_FormClosing);
             this.Load += new System.EventHandler(this.FormModelData_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.GridModelList)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.GridCtrl)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -345,7 +365,7 @@
         private Syncfusion.Windows.Forms.Tools.GradientLabel LabelMaker;
         private System.Windows.Forms.Button BtnModelDelete;
         private System.Windows.Forms.Button BtnModelCreate;
-        private Syncfusion.Windows.Forms.Grid.GridControl GridModelList;
+        private Syncfusion.Windows.Forms.Grid.GridControl GridCtrl;
         private Syncfusion.Windows.Forms.Tools.GradientLabel TitleCurModel;
         private Syncfusion.Windows.Forms.Tools.GradientLabel LabelCurModel;
         private Syncfusion.Windows.Forms.Tools.GradientLabel TitleCurMaker;

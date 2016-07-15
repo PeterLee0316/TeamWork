@@ -31,10 +31,10 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormWaferCassetteData));
             this.BtnExit = new System.Windows.Forms.Button();
             this.BtnSave = new System.Windows.Forms.Button();
-            this.GridWaferframe = new Syncfusion.Windows.Forms.Grid.GridControl();
+            this.GridCtrl = new Syncfusion.Windows.Forms.Grid.GridControl();
             this.ComboCassette = new System.Windows.Forms.ComboBox();
             this.LabelCassetteName = new Syncfusion.Windows.Forms.Tools.GradientLabel();
-            ((System.ComponentModel.ISupportInitialize)(this.GridWaferframe)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.GridCtrl)).BeginInit();
             this.SuspendLayout();
             // 
             // BtnExit
@@ -67,17 +67,17 @@
             this.BtnSave.UseVisualStyleBackColor = true;
             this.BtnSave.Click += new System.EventHandler(this.BtnSave_Click);
             // 
-            // GridWaferframe
+            // GridCtrl
             // 
-            this.GridWaferframe.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.GridWaferframe.Location = new System.Drawing.Point(12, 59);
-            this.GridWaferframe.Name = "GridWaferframe";
-            this.GridWaferframe.SerializeCellsBehavior = Syncfusion.Windows.Forms.Grid.GridSerializeCellsBehavior.SerializeAsRangeStylesIntoCode;
-            this.GridWaferframe.Size = new System.Drawing.Size(973, 422);
-            this.GridWaferframe.SmartSizeBox = false;
-            this.GridWaferframe.TabIndex = 838;
-            this.GridWaferframe.UseRightToLeftCompatibleTextBox = true;
-            this.GridWaferframe.CellClick += new Syncfusion.Windows.Forms.Grid.GridCellClickEventHandler(this.GridWaferframe_CellClick);
+            this.GridCtrl.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.GridCtrl.Location = new System.Drawing.Point(12, 59);
+            this.GridCtrl.Name = "GridCtrl";
+            this.GridCtrl.SerializeCellsBehavior = Syncfusion.Windows.Forms.Grid.GridSerializeCellsBehavior.SerializeAsRangeStylesIntoCode;
+            this.GridCtrl.Size = new System.Drawing.Size(973, 422);
+            this.GridCtrl.SmartSizeBox = false;
+            this.GridCtrl.TabIndex = 838;
+            this.GridCtrl.UseRightToLeftCompatibleTextBox = true;
+            this.GridCtrl.CellClick += new Syncfusion.Windows.Forms.Grid.GridCellClickEventHandler(this.GridWaferframe_CellClick);
             // 
             // ComboCassette
             // 
@@ -116,7 +116,7 @@
             this.ClientSize = new System.Drawing.Size(997, 574);
             this.Controls.Add(this.ComboCassette);
             this.Controls.Add(this.LabelCassetteName);
-            this.Controls.Add(this.GridWaferframe);
+            this.Controls.Add(this.GridCtrl);
             this.Controls.Add(this.BtnSave);
             this.Controls.Add(this.BtnExit);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
@@ -124,7 +124,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Wafer Cassette Data";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormWaferCassetteData_FormClosing);
-            ((System.ComponentModel.ISupportInitialize)(this.GridWaferframe)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.GridCtrl)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -133,7 +133,7 @@
 
         private System.Windows.Forms.Button BtnExit;
         private System.Windows.Forms.Button BtnSave;
-        private Syncfusion.Windows.Forms.Grid.GridControl GridWaferframe;
+        private Syncfusion.Windows.Forms.Grid.GridControl GridCtrl;
         private System.Windows.Forms.ComboBox ComboCassette;
         private Syncfusion.Windows.Forms.Tools.GradientLabel LabelCassetteName;
     }

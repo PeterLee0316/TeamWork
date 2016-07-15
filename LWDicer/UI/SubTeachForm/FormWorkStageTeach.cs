@@ -396,7 +396,7 @@ namespace LWDicer.UI
                 GridStageTeachTable[2, e.ColIndex].Text = Convert.ToString(dTargetPos);
 
                 GridStageTeachTable[3, e.ColIndex].Text = strModify;
-                GridStageTeachTable[3, e.ColIndex].TextColor = Color.Red;
+                GridStageTeachTable[3, e.ColIndex].TextColor = Color.Blue;
             }
 
             if(GetDataMode() == OffsetData)
@@ -409,7 +409,7 @@ namespace LWDicer.UI
                 }
 
                 GridStageTeachTable[6, e.ColIndex].Text = strModify;
-                GridStageTeachTable[6, e.ColIndex].TextColor = Color.Red;
+                GridStageTeachTable[6, e.ColIndex].TextColor = Color.Blue;
             }
         }
 
@@ -481,7 +481,7 @@ namespace LWDicer.UI
             GridStageTeachTable[2, 1].Text = Convert.ToString(dTargetXPos);
 
             GridStageTeachTable[3, 1].Text = Convert.ToString(dXPos);
-            GridStageTeachTable[3, 1].TextColor = Color.Red;
+            GridStageTeachTable[3, 1].TextColor = Color.Blue;
 
 
             StrYCurrent = GridStageTeachTable[7, 2].Text;
@@ -494,7 +494,7 @@ namespace LWDicer.UI
             GridStageTeachTable[2, 2].Text = Convert.ToString(dTargetYPos);
 
             GridStageTeachTable[3, 2].Text = Convert.ToString(dYPos);
-            GridStageTeachTable[3, 2].TextColor = Color.Red;
+            GridStageTeachTable[3, 2].TextColor = Color.Blue;
 
             StrTCurrent = GridStageTeachTable[7, 3].Text;
 
@@ -506,7 +506,7 @@ namespace LWDicer.UI
             GridStageTeachTable[2, 3].Text = Convert.ToString(dTargetTPos);
 
             GridStageTeachTable[3, 3].Text = Convert.ToString(dTPos);
-            GridStageTeachTable[3, 3].TextColor = Color.Red;
+            GridStageTeachTable[3, 3].TextColor = Color.Blue;
         }
         private void BtnPos_Click(object sender, EventArgs e)
         {

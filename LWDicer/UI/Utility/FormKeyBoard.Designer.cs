@@ -76,13 +76,14 @@
             this.BtnNo3 = new System.Windows.Forms.Button();
             this.BtnNo2 = new System.Windows.Forms.Button();
             this.BtnNo1 = new System.Windows.Forms.Button();
+            this.BtnTitle = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // btn_SP
             // 
             this.btn_SP.BackColor = System.Drawing.Color.DarkGray;
             this.btn_SP.Font = new System.Drawing.Font("굴림체", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.btn_SP.Location = new System.Drawing.Point(22, 251);
+            this.btn_SP.Location = new System.Drawing.Point(22, 292);
             this.btn_SP.Name = "btn_SP";
             this.btn_SP.Size = new System.Drawing.Size(73, 61);
             this.btn_SP.TabIndex = 119;
@@ -95,7 +96,7 @@
             // 
             this.btn_UnderBar.BackColor = System.Drawing.Color.DarkGray;
             this.btn_UnderBar.Font = new System.Drawing.Font("굴림체", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.btn_UnderBar.Location = new System.Drawing.Point(792, 251);
+            this.btn_UnderBar.Location = new System.Drawing.Point(792, 292);
             this.btn_UnderBar.Name = "btn_UnderBar";
             this.btn_UnderBar.Size = new System.Drawing.Size(73, 61);
             this.btn_UnderBar.TabIndex = 118;
@@ -108,7 +109,7 @@
             // 
             this.btn_Dash.BackColor = System.Drawing.Color.DarkGray;
             this.btn_Dash.Font = new System.Drawing.Font("굴림체", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.btn_Dash.Location = new System.Drawing.Point(715, 251);
+            this.btn_Dash.Location = new System.Drawing.Point(715, 292);
             this.btn_Dash.Name = "btn_Dash";
             this.btn_Dash.Size = new System.Drawing.Size(73, 61);
             this.btn_Dash.TabIndex = 117;
@@ -121,7 +122,7 @@
             // 
             this.btn_Dot.BackColor = System.Drawing.Color.DarkGray;
             this.btn_Dot.Font = new System.Drawing.Font("굴림체", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.btn_Dot.Location = new System.Drawing.Point(638, 251);
+            this.btn_Dot.Location = new System.Drawing.Point(638, 292);
             this.btn_Dot.Name = "btn_Dot";
             this.btn_Dot.Size = new System.Drawing.Size(73, 61);
             this.btn_Dot.TabIndex = 116;
@@ -134,7 +135,7 @@
             // 
             this.btn_M.BackColor = System.Drawing.Color.DarkGray;
             this.btn_M.Font = new System.Drawing.Font("굴림체", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.btn_M.Location = new System.Drawing.Point(561, 251);
+            this.btn_M.Location = new System.Drawing.Point(561, 292);
             this.btn_M.Name = "btn_M";
             this.btn_M.Size = new System.Drawing.Size(73, 61);
             this.btn_M.TabIndex = 115;
@@ -147,7 +148,7 @@
             // 
             this.btn_N.BackColor = System.Drawing.Color.DarkGray;
             this.btn_N.Font = new System.Drawing.Font("굴림체", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.btn_N.Location = new System.Drawing.Point(484, 251);
+            this.btn_N.Location = new System.Drawing.Point(484, 292);
             this.btn_N.Name = "btn_N";
             this.btn_N.Size = new System.Drawing.Size(73, 61);
             this.btn_N.TabIndex = 114;
@@ -160,7 +161,7 @@
             // 
             this.btn_B.BackColor = System.Drawing.Color.DarkGray;
             this.btn_B.Font = new System.Drawing.Font("굴림체", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.btn_B.Location = new System.Drawing.Point(407, 251);
+            this.btn_B.Location = new System.Drawing.Point(407, 292);
             this.btn_B.Name = "btn_B";
             this.btn_B.Size = new System.Drawing.Size(73, 61);
             this.btn_B.TabIndex = 113;
@@ -173,7 +174,7 @@
             // 
             this.btn_V.BackColor = System.Drawing.Color.DarkGray;
             this.btn_V.Font = new System.Drawing.Font("굴림체", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.btn_V.Location = new System.Drawing.Point(330, 251);
+            this.btn_V.Location = new System.Drawing.Point(330, 292);
             this.btn_V.Name = "btn_V";
             this.btn_V.Size = new System.Drawing.Size(73, 61);
             this.btn_V.TabIndex = 112;
@@ -186,7 +187,7 @@
             // 
             this.btn_C.BackColor = System.Drawing.Color.DarkGray;
             this.btn_C.Font = new System.Drawing.Font("굴림체", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.btn_C.Location = new System.Drawing.Point(253, 251);
+            this.btn_C.Location = new System.Drawing.Point(253, 292);
             this.btn_C.Name = "btn_C";
             this.btn_C.Size = new System.Drawing.Size(73, 61);
             this.btn_C.TabIndex = 111;
@@ -199,7 +200,7 @@
             // 
             this.btn_X.BackColor = System.Drawing.Color.DarkGray;
             this.btn_X.Font = new System.Drawing.Font("굴림체", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.btn_X.Location = new System.Drawing.Point(176, 251);
+            this.btn_X.Location = new System.Drawing.Point(176, 292);
             this.btn_X.Name = "btn_X";
             this.btn_X.Size = new System.Drawing.Size(73, 61);
             this.btn_X.TabIndex = 110;
@@ -212,7 +213,7 @@
             // 
             this.btn_Z.BackColor = System.Drawing.Color.DarkGray;
             this.btn_Z.Font = new System.Drawing.Font("굴림체", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.btn_Z.Location = new System.Drawing.Point(99, 251);
+            this.btn_Z.Location = new System.Drawing.Point(99, 292);
             this.btn_Z.Name = "btn_Z";
             this.btn_Z.Size = new System.Drawing.Size(73, 61);
             this.btn_Z.TabIndex = 109;
@@ -225,7 +226,7 @@
             // 
             this.btn_Colon.BackColor = System.Drawing.Color.DarkGray;
             this.btn_Colon.Font = new System.Drawing.Font("굴림체", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.btn_Colon.Location = new System.Drawing.Point(758, 187);
+            this.btn_Colon.Location = new System.Drawing.Point(758, 228);
             this.btn_Colon.Name = "btn_Colon";
             this.btn_Colon.Size = new System.Drawing.Size(73, 61);
             this.btn_Colon.TabIndex = 108;
@@ -238,7 +239,7 @@
             // 
             this.btn_L.BackColor = System.Drawing.Color.DarkGray;
             this.btn_L.Font = new System.Drawing.Font("굴림체", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.btn_L.Location = new System.Drawing.Point(681, 187);
+            this.btn_L.Location = new System.Drawing.Point(681, 228);
             this.btn_L.Name = "btn_L";
             this.btn_L.Size = new System.Drawing.Size(73, 61);
             this.btn_L.TabIndex = 107;
@@ -251,7 +252,7 @@
             // 
             this.btn_K.BackColor = System.Drawing.Color.DarkGray;
             this.btn_K.Font = new System.Drawing.Font("굴림체", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.btn_K.Location = new System.Drawing.Point(604, 187);
+            this.btn_K.Location = new System.Drawing.Point(604, 228);
             this.btn_K.Name = "btn_K";
             this.btn_K.Size = new System.Drawing.Size(73, 61);
             this.btn_K.TabIndex = 106;
@@ -264,7 +265,7 @@
             // 
             this.btn_J.BackColor = System.Drawing.Color.DarkGray;
             this.btn_J.Font = new System.Drawing.Font("굴림체", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.btn_J.Location = new System.Drawing.Point(527, 187);
+            this.btn_J.Location = new System.Drawing.Point(527, 228);
             this.btn_J.Name = "btn_J";
             this.btn_J.Size = new System.Drawing.Size(73, 61);
             this.btn_J.TabIndex = 105;
@@ -277,7 +278,7 @@
             // 
             this.btn_H.BackColor = System.Drawing.Color.DarkGray;
             this.btn_H.Font = new System.Drawing.Font("굴림체", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.btn_H.Location = new System.Drawing.Point(450, 187);
+            this.btn_H.Location = new System.Drawing.Point(450, 228);
             this.btn_H.Name = "btn_H";
             this.btn_H.Size = new System.Drawing.Size(73, 61);
             this.btn_H.TabIndex = 104;
@@ -290,7 +291,7 @@
             // 
             this.btn_G.BackColor = System.Drawing.Color.DarkGray;
             this.btn_G.Font = new System.Drawing.Font("굴림체", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.btn_G.Location = new System.Drawing.Point(373, 187);
+            this.btn_G.Location = new System.Drawing.Point(373, 228);
             this.btn_G.Name = "btn_G";
             this.btn_G.Size = new System.Drawing.Size(73, 61);
             this.btn_G.TabIndex = 103;
@@ -303,7 +304,7 @@
             // 
             this.btn_F.BackColor = System.Drawing.Color.DarkGray;
             this.btn_F.Font = new System.Drawing.Font("굴림체", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.btn_F.Location = new System.Drawing.Point(296, 187);
+            this.btn_F.Location = new System.Drawing.Point(296, 228);
             this.btn_F.Name = "btn_F";
             this.btn_F.Size = new System.Drawing.Size(73, 61);
             this.btn_F.TabIndex = 102;
@@ -316,7 +317,7 @@
             // 
             this.btn_D.BackColor = System.Drawing.Color.DarkGray;
             this.btn_D.Font = new System.Drawing.Font("굴림체", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.btn_D.Location = new System.Drawing.Point(219, 187);
+            this.btn_D.Location = new System.Drawing.Point(219, 228);
             this.btn_D.Name = "btn_D";
             this.btn_D.Size = new System.Drawing.Size(73, 61);
             this.btn_D.TabIndex = 101;
@@ -329,7 +330,7 @@
             // 
             this.btn_S.BackColor = System.Drawing.Color.DarkGray;
             this.btn_S.Font = new System.Drawing.Font("굴림체", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.btn_S.Location = new System.Drawing.Point(142, 187);
+            this.btn_S.Location = new System.Drawing.Point(142, 228);
             this.btn_S.Name = "btn_S";
             this.btn_S.Size = new System.Drawing.Size(73, 61);
             this.btn_S.TabIndex = 100;
@@ -342,7 +343,7 @@
             // 
             this.btn_A.BackColor = System.Drawing.Color.DarkGray;
             this.btn_A.Font = new System.Drawing.Font("굴림체", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.btn_A.Location = new System.Drawing.Point(65, 187);
+            this.btn_A.Location = new System.Drawing.Point(65, 228);
             this.btn_A.Name = "btn_A";
             this.btn_A.Size = new System.Drawing.Size(73, 61);
             this.btn_A.TabIndex = 99;
@@ -355,7 +356,7 @@
             // 
             this.btn_Won.BackColor = System.Drawing.Color.DarkGray;
             this.btn_Won.Font = new System.Drawing.Font("굴림체", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.btn_Won.Location = new System.Drawing.Point(812, 122);
+            this.btn_Won.Location = new System.Drawing.Point(812, 163);
             this.btn_Won.Name = "btn_Won";
             this.btn_Won.Size = new System.Drawing.Size(73, 61);
             this.btn_Won.TabIndex = 98;
@@ -368,7 +369,7 @@
             // 
             this.btn_P.BackColor = System.Drawing.Color.DarkGray;
             this.btn_P.Font = new System.Drawing.Font("굴림체", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.btn_P.Location = new System.Drawing.Point(735, 122);
+            this.btn_P.Location = new System.Drawing.Point(735, 163);
             this.btn_P.Name = "btn_P";
             this.btn_P.Size = new System.Drawing.Size(73, 61);
             this.btn_P.TabIndex = 97;
@@ -381,7 +382,7 @@
             // 
             this.btn_O.BackColor = System.Drawing.Color.DarkGray;
             this.btn_O.Font = new System.Drawing.Font("굴림체", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.btn_O.Location = new System.Drawing.Point(658, 122);
+            this.btn_O.Location = new System.Drawing.Point(658, 163);
             this.btn_O.Name = "btn_O";
             this.btn_O.Size = new System.Drawing.Size(73, 61);
             this.btn_O.TabIndex = 96;
@@ -394,7 +395,7 @@
             // 
             this.btn_I.BackColor = System.Drawing.Color.DarkGray;
             this.btn_I.Font = new System.Drawing.Font("굴림체", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.btn_I.Location = new System.Drawing.Point(581, 122);
+            this.btn_I.Location = new System.Drawing.Point(581, 163);
             this.btn_I.Name = "btn_I";
             this.btn_I.Size = new System.Drawing.Size(73, 61);
             this.btn_I.TabIndex = 95;
@@ -407,7 +408,7 @@
             // 
             this.btn_U.BackColor = System.Drawing.Color.DarkGray;
             this.btn_U.Font = new System.Drawing.Font("굴림체", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.btn_U.Location = new System.Drawing.Point(504, 122);
+            this.btn_U.Location = new System.Drawing.Point(504, 163);
             this.btn_U.Name = "btn_U";
             this.btn_U.Size = new System.Drawing.Size(73, 61);
             this.btn_U.TabIndex = 94;
@@ -420,7 +421,7 @@
             // 
             this.btn_Y.BackColor = System.Drawing.Color.DarkGray;
             this.btn_Y.Font = new System.Drawing.Font("굴림체", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.btn_Y.Location = new System.Drawing.Point(427, 122);
+            this.btn_Y.Location = new System.Drawing.Point(427, 163);
             this.btn_Y.Name = "btn_Y";
             this.btn_Y.Size = new System.Drawing.Size(73, 61);
             this.btn_Y.TabIndex = 93;
@@ -433,7 +434,7 @@
             // 
             this.btn_T.BackColor = System.Drawing.Color.DarkGray;
             this.btn_T.Font = new System.Drawing.Font("굴림체", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.btn_T.Location = new System.Drawing.Point(350, 122);
+            this.btn_T.Location = new System.Drawing.Point(350, 163);
             this.btn_T.Name = "btn_T";
             this.btn_T.Size = new System.Drawing.Size(73, 61);
             this.btn_T.TabIndex = 92;
@@ -446,7 +447,7 @@
             // 
             this.btn_R.BackColor = System.Drawing.Color.DarkGray;
             this.btn_R.Font = new System.Drawing.Font("굴림체", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.btn_R.Location = new System.Drawing.Point(273, 122);
+            this.btn_R.Location = new System.Drawing.Point(273, 163);
             this.btn_R.Name = "btn_R";
             this.btn_R.Size = new System.Drawing.Size(73, 61);
             this.btn_R.TabIndex = 91;
@@ -459,7 +460,7 @@
             // 
             this.btn_E.BackColor = System.Drawing.Color.DarkGray;
             this.btn_E.Font = new System.Drawing.Font("굴림체", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.btn_E.Location = new System.Drawing.Point(196, 122);
+            this.btn_E.Location = new System.Drawing.Point(196, 163);
             this.btn_E.Name = "btn_E";
             this.btn_E.Size = new System.Drawing.Size(73, 61);
             this.btn_E.TabIndex = 90;
@@ -472,7 +473,7 @@
             // 
             this.btn_W.BackColor = System.Drawing.Color.DarkGray;
             this.btn_W.Font = new System.Drawing.Font("굴림체", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.btn_W.Location = new System.Drawing.Point(119, 122);
+            this.btn_W.Location = new System.Drawing.Point(119, 163);
             this.btn_W.Name = "btn_W";
             this.btn_W.Size = new System.Drawing.Size(73, 61);
             this.btn_W.TabIndex = 89;
@@ -485,7 +486,7 @@
             // 
             this.btn_Q.BackColor = System.Drawing.Color.DarkGray;
             this.btn_Q.Font = new System.Drawing.Font("굴림체", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.btn_Q.Location = new System.Drawing.Point(42, 122);
+            this.btn_Q.Location = new System.Drawing.Point(42, 163);
             this.btn_Q.Name = "btn_Q";
             this.btn_Q.Size = new System.Drawing.Size(73, 61);
             this.btn_Q.TabIndex = 88;
@@ -500,7 +501,7 @@
             this.PresentNo.Enabled = false;
             this.PresentNo.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.PresentNo.Font = new System.Drawing.Font("굴림체", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.PresentNo.Location = new System.Drawing.Point(9, 9);
+            this.PresentNo.Location = new System.Drawing.Point(9, 50);
             this.PresentNo.Name = "PresentNo";
             this.PresentNo.Size = new System.Drawing.Size(956, 41);
             this.PresentNo.TabIndex = 87;
@@ -511,7 +512,7 @@
             this.BtnCancel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
             this.BtnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.BtnCancel.Font = new System.Drawing.Font("굴림체", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.BtnCancel.Location = new System.Drawing.Point(870, 251);
+            this.BtnCancel.Location = new System.Drawing.Point(870, 292);
             this.BtnCancel.Name = "BtnCancel";
             this.BtnCancel.Size = new System.Drawing.Size(95, 61);
             this.BtnCancel.TabIndex = 86;
@@ -524,7 +525,7 @@
             this.BtnOK.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(224)))), ((int)(((byte)(192)))));
             this.BtnOK.DialogResult = System.Windows.Forms.DialogResult.OK;
             this.BtnOK.Font = new System.Drawing.Font("굴림체", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.BtnOK.Location = new System.Drawing.Point(835, 187);
+            this.BtnOK.Location = new System.Drawing.Point(835, 228);
             this.BtnOK.Name = "BtnOK";
             this.BtnOK.Size = new System.Drawing.Size(130, 61);
             this.BtnOK.TabIndex = 85;
@@ -536,7 +537,7 @@
             // 
             this.BtnClear.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
             this.BtnClear.Font = new System.Drawing.Font("굴림체", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.BtnClear.Location = new System.Drawing.Point(889, 122);
+            this.BtnClear.Location = new System.Drawing.Point(889, 163);
             this.BtnClear.Name = "BtnClear";
             this.BtnClear.Size = new System.Drawing.Size(76, 61);
             this.BtnClear.TabIndex = 84;
@@ -549,7 +550,7 @@
             // 
             this.BtnBack.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
             this.BtnBack.Font = new System.Drawing.Font("굴림체", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.BtnBack.Location = new System.Drawing.Point(855, 59);
+            this.BtnBack.Location = new System.Drawing.Point(855, 100);
             this.BtnBack.Name = "BtnBack";
             this.BtnBack.Size = new System.Drawing.Size(110, 61);
             this.BtnBack.TabIndex = 83;
@@ -562,7 +563,7 @@
             // 
             this.btn_Equal.BackColor = System.Drawing.Color.DarkGray;
             this.btn_Equal.Font = new System.Drawing.Font("굴림체", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.btn_Equal.Location = new System.Drawing.Point(778, 59);
+            this.btn_Equal.Location = new System.Drawing.Point(778, 100);
             this.btn_Equal.Name = "btn_Equal";
             this.btn_Equal.Size = new System.Drawing.Size(73, 61);
             this.btn_Equal.TabIndex = 82;
@@ -575,7 +576,7 @@
             // 
             this.BtnNo0.BackColor = System.Drawing.Color.DarkGray;
             this.BtnNo0.Font = new System.Drawing.Font("굴림체", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.BtnNo0.Location = new System.Drawing.Point(701, 59);
+            this.BtnNo0.Location = new System.Drawing.Point(701, 100);
             this.BtnNo0.Name = "BtnNo0";
             this.BtnNo0.Size = new System.Drawing.Size(73, 61);
             this.BtnNo0.TabIndex = 81;
@@ -588,7 +589,7 @@
             // 
             this.BtnNo9.BackColor = System.Drawing.Color.DarkGray;
             this.BtnNo9.Font = new System.Drawing.Font("굴림체", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.BtnNo9.Location = new System.Drawing.Point(624, 59);
+            this.BtnNo9.Location = new System.Drawing.Point(624, 100);
             this.BtnNo9.Name = "BtnNo9";
             this.BtnNo9.Size = new System.Drawing.Size(73, 61);
             this.BtnNo9.TabIndex = 80;
@@ -601,7 +602,7 @@
             // 
             this.BtnNo8.BackColor = System.Drawing.Color.DarkGray;
             this.BtnNo8.Font = new System.Drawing.Font("굴림체", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.BtnNo8.Location = new System.Drawing.Point(547, 59);
+            this.BtnNo8.Location = new System.Drawing.Point(547, 100);
             this.BtnNo8.Name = "BtnNo8";
             this.BtnNo8.Size = new System.Drawing.Size(73, 61);
             this.BtnNo8.TabIndex = 79;
@@ -614,7 +615,7 @@
             // 
             this.BtnNo7.BackColor = System.Drawing.Color.DarkGray;
             this.BtnNo7.Font = new System.Drawing.Font("굴림체", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.BtnNo7.Location = new System.Drawing.Point(470, 59);
+            this.BtnNo7.Location = new System.Drawing.Point(470, 100);
             this.BtnNo7.Name = "BtnNo7";
             this.BtnNo7.Size = new System.Drawing.Size(73, 61);
             this.BtnNo7.TabIndex = 78;
@@ -627,7 +628,7 @@
             // 
             this.BtnNo6.BackColor = System.Drawing.Color.DarkGray;
             this.BtnNo6.Font = new System.Drawing.Font("굴림체", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.BtnNo6.Location = new System.Drawing.Point(393, 59);
+            this.BtnNo6.Location = new System.Drawing.Point(393, 100);
             this.BtnNo6.Name = "BtnNo6";
             this.BtnNo6.Size = new System.Drawing.Size(73, 61);
             this.BtnNo6.TabIndex = 77;
@@ -640,7 +641,7 @@
             // 
             this.BtnNo5.BackColor = System.Drawing.Color.DarkGray;
             this.BtnNo5.Font = new System.Drawing.Font("굴림체", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.BtnNo5.Location = new System.Drawing.Point(316, 59);
+            this.BtnNo5.Location = new System.Drawing.Point(316, 100);
             this.BtnNo5.Name = "BtnNo5";
             this.BtnNo5.Size = new System.Drawing.Size(73, 61);
             this.BtnNo5.TabIndex = 76;
@@ -653,7 +654,7 @@
             // 
             this.BtnNo4.BackColor = System.Drawing.Color.DarkGray;
             this.BtnNo4.Font = new System.Drawing.Font("굴림체", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.BtnNo4.Location = new System.Drawing.Point(239, 59);
+            this.BtnNo4.Location = new System.Drawing.Point(239, 100);
             this.BtnNo4.Name = "BtnNo4";
             this.BtnNo4.Size = new System.Drawing.Size(73, 61);
             this.BtnNo4.TabIndex = 75;
@@ -666,7 +667,7 @@
             // 
             this.BtnNo3.BackColor = System.Drawing.Color.DarkGray;
             this.BtnNo3.Font = new System.Drawing.Font("굴림체", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.BtnNo3.Location = new System.Drawing.Point(162, 59);
+            this.BtnNo3.Location = new System.Drawing.Point(162, 100);
             this.BtnNo3.Name = "BtnNo3";
             this.BtnNo3.Size = new System.Drawing.Size(73, 61);
             this.BtnNo3.TabIndex = 74;
@@ -679,7 +680,7 @@
             // 
             this.BtnNo2.BackColor = System.Drawing.Color.DarkGray;
             this.BtnNo2.Font = new System.Drawing.Font("굴림체", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.BtnNo2.Location = new System.Drawing.Point(85, 59);
+            this.BtnNo2.Location = new System.Drawing.Point(85, 100);
             this.BtnNo2.Name = "BtnNo2";
             this.BtnNo2.Size = new System.Drawing.Size(73, 61);
             this.BtnNo2.TabIndex = 73;
@@ -692,7 +693,7 @@
             // 
             this.BtnNo1.BackColor = System.Drawing.Color.DarkGray;
             this.BtnNo1.Font = new System.Drawing.Font("굴림체", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.BtnNo1.Location = new System.Drawing.Point(8, 59);
+            this.BtnNo1.Location = new System.Drawing.Point(8, 100);
             this.BtnNo1.Name = "BtnNo1";
             this.BtnNo1.Size = new System.Drawing.Size(73, 61);
             this.BtnNo1.TabIndex = 72;
@@ -701,11 +702,24 @@
             this.BtnNo1.UseVisualStyleBackColor = false;
             this.BtnNo1.Click += new System.EventHandler(this.BtnNo_Click);
             // 
+            // BtnTitle
+            // 
+            this.BtnTitle.BackColor = System.Drawing.Color.Aqua;
+            this.BtnTitle.Enabled = false;
+            this.BtnTitle.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.BtnTitle.Font = new System.Drawing.Font("굴림체", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.BtnTitle.Location = new System.Drawing.Point(9, 3);
+            this.BtnTitle.Name = "BtnTitle";
+            this.BtnTitle.Size = new System.Drawing.Size(956, 41);
+            this.BtnTitle.TabIndex = 120;
+            this.BtnTitle.UseVisualStyleBackColor = false;
+            // 
             // FormKeyBoard
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(975, 321);
+            this.ClientSize = new System.Drawing.Size(975, 363);
+            this.Controls.Add(this.BtnTitle);
             this.Controls.Add(this.btn_SP);
             this.Controls.Add(this.btn_UnderBar);
             this.Controls.Add(this.btn_Dash);
@@ -810,5 +824,6 @@
         private System.Windows.Forms.Button BtnNo3;
         private System.Windows.Forms.Button BtnNo2;
         private System.Windows.Forms.Button BtnNo1;
+        public System.Windows.Forms.Button BtnTitle;
     }
 }

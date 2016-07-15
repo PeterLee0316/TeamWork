@@ -30,16 +30,17 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormCleanerData));
             Syncfusion.Windows.Forms.Grid.GridRangeStyle gridRangeStyle1 = new Syncfusion.Windows.Forms.Grid.GridRangeStyle();
+            Syncfusion.Windows.Forms.Grid.GridRangeStyle gridRangeStyle2 = new Syncfusion.Windows.Forms.Grid.GridRangeStyle();
             this.BtnSave = new System.Windows.Forms.Button();
             this.BtnExit = new System.Windows.Forms.Button();
-            this.GridSpinner = new Syncfusion.Windows.Forms.Grid.GridControl();
+            this.GridCtrl = new Syncfusion.Windows.Forms.Grid.GridControl();
             this.gradientLabel17 = new Syncfusion.Windows.Forms.Tools.GradientLabel();
             this.autoLabel5 = new Syncfusion.Windows.Forms.Tools.AutoLabel();
             this.autoLabel4 = new Syncfusion.Windows.Forms.Tools.AutoLabel();
             this.LabelStroke = new Syncfusion.Windows.Forms.Tools.GradientLabel();
             this.gradientPanel2 = new Syncfusion.Windows.Forms.Tools.GradientPanel();
             this.autoLabel14 = new Syncfusion.Windows.Forms.Tools.AutoLabel();
-            ((System.ComponentModel.ISupportInitialize)(this.GridSpinner)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.GridCtrl)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gradientPanel2)).BeginInit();
             this.gradientPanel2.SuspendLayout();
             this.SuspendLayout();
@@ -74,13 +75,13 @@
             this.BtnExit.UseVisualStyleBackColor = true;
             this.BtnExit.Click += new System.EventHandler(this.BtnExit_Click);
             // 
-            // GridSpinner
+            // GridCtrl
             // 
-            this.GridSpinner.ActivateCurrentCellBehavior = Syncfusion.Windows.Forms.Grid.GridCellActivateAction.None;
-            this.GridSpinner.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.GridSpinner.Font = new System.Drawing.Font("맑은 고딕", 11.25F, System.Drawing.FontStyle.Bold);
-            this.GridSpinner.Location = new System.Drawing.Point(461, 50);
-            this.GridSpinner.Name = "GridSpinner";
+            this.GridCtrl.ActivateCurrentCellBehavior = Syncfusion.Windows.Forms.Grid.GridCellActivateAction.None;
+            this.GridCtrl.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.GridCtrl.Font = new System.Drawing.Font("맑은 고딕", 11.25F, System.Drawing.FontStyle.Bold);
+            this.GridCtrl.Location = new System.Drawing.Point(461, 50);
+            this.GridCtrl.Name = "GridCtrl";
             gridRangeStyle1.Range = Syncfusion.Windows.Forms.Grid.GridRangeInfo.Table();
             gridRangeStyle1.StyleInfo.Font.Bold = true;
             gridRangeStyle1.StyleInfo.Font.Facename = "맑은 고딕";
@@ -89,15 +90,24 @@
             gridRangeStyle1.StyleInfo.Font.Strikeout = false;
             gridRangeStyle1.StyleInfo.Font.Underline = false;
             gridRangeStyle1.StyleInfo.Font.Unit = System.Drawing.GraphicsUnit.Point;
-            this.GridSpinner.RangeStyles.AddRange(new Syncfusion.Windows.Forms.Grid.GridRangeStyle[] {
-            gridRangeStyle1});
-            this.GridSpinner.SerializeCellsBehavior = Syncfusion.Windows.Forms.Grid.GridSerializeCellsBehavior.SerializeAsRangeStylesIntoCode;
-            this.GridSpinner.Size = new System.Drawing.Size(476, 600);
-            this.GridSpinner.SmartSizeBox = false;
-            this.GridSpinner.TabIndex = 755;
-            this.GridSpinner.UseRightToLeftCompatibleTextBox = true;
-            this.GridSpinner.CurrentCellShowedDropDown += new System.EventHandler(this.GridSpinner_CurrentCellShowedDropDown);
-            this.GridSpinner.CellClick += new Syncfusion.Windows.Forms.Grid.GridCellClickEventHandler(this.GridSpinner_CellClick);
+            gridRangeStyle2.Range = Syncfusion.Windows.Forms.Grid.GridRangeInfo.Table();
+            gridRangeStyle2.StyleInfo.Font.Bold = true;
+            gridRangeStyle2.StyleInfo.Font.Facename = "맑은 고딕";
+            gridRangeStyle2.StyleInfo.Font.Italic = false;
+            gridRangeStyle2.StyleInfo.Font.Size = 11.25F;
+            gridRangeStyle2.StyleInfo.Font.Strikeout = false;
+            gridRangeStyle2.StyleInfo.Font.Underline = false;
+            gridRangeStyle2.StyleInfo.Font.Unit = System.Drawing.GraphicsUnit.Point;
+            this.GridCtrl.RangeStyles.AddRange(new Syncfusion.Windows.Forms.Grid.GridRangeStyle[] {
+            gridRangeStyle1,
+            gridRangeStyle2});
+            this.GridCtrl.SerializeCellsBehavior = Syncfusion.Windows.Forms.Grid.GridSerializeCellsBehavior.SerializeAsRangeStylesIntoCode;
+            this.GridCtrl.Size = new System.Drawing.Size(476, 600);
+            this.GridCtrl.SmartSizeBox = false;
+            this.GridCtrl.TabIndex = 755;
+            this.GridCtrl.UseRightToLeftCompatibleTextBox = true;
+            this.GridCtrl.CurrentCellShowedDropDown += new System.EventHandler(this.GridSpinner_CurrentCellShowedDropDown);
+            this.GridCtrl.CellClick += new Syncfusion.Windows.Forms.Grid.GridCellClickEventHandler(this.GridSpinner_CellClick);
             // 
             // gradientLabel17
             // 
@@ -184,7 +194,7 @@
             this.Controls.Add(this.LabelStroke);
             this.Controls.Add(this.gradientPanel2);
             this.Controls.Add(this.gradientLabel17);
-            this.Controls.Add(this.GridSpinner);
+            this.Controls.Add(this.GridCtrl);
             this.Controls.Add(this.BtnSave);
             this.Controls.Add(this.BtnExit);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
@@ -192,7 +202,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "FormCleanerData";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormCleanerData_FormClosing);
-            ((System.ComponentModel.ISupportInitialize)(this.GridSpinner)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.GridCtrl)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gradientPanel2)).EndInit();
             this.gradientPanel2.ResumeLayout(false);
             this.gradientPanel2.PerformLayout();
@@ -205,7 +215,7 @@
 
         private System.Windows.Forms.Button BtnSave;
         private System.Windows.Forms.Button BtnExit;
-        private Syncfusion.Windows.Forms.Grid.GridControl GridSpinner;
+        private Syncfusion.Windows.Forms.Grid.GridControl GridCtrl;
         private Syncfusion.Windows.Forms.Tools.GradientLabel gradientLabel17;
         private Syncfusion.Windows.Forms.Tools.AutoLabel autoLabel5;
         private Syncfusion.Windows.Forms.Tools.AutoLabel autoLabel4;
