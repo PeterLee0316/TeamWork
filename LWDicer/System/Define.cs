@@ -519,16 +519,58 @@ namespace LWDicer.Control
             public static readonly String MAKER    = "MAKER";
         }
 
-        public class CLoginData
+        public class CUserInfo
         {
-            public string Number      = "Default";              // unique primary key
-            public string Name        = "SystemStart Default";
-            public ELoginType Type    = ELoginType.OPERATOR;    // 필수
-            public DateTime LoginTime = DateTime.Now;
+            public string Name          = "default";              // unique primary key
+            public string Comment       = "default";
+            public string Password      = "";
+            public ELoginType Type      = ELoginType.OPERATOR;    // 필수
+            // if User is Maker, get password = String.Format($"{DateTime.Now.Day - 1,00}{DateTime.Now.Month - 1,00}");
+
+            public CUserInfo()
+            { }
+
+            public CUserInfo(string Name, string Comment, string Password, ELoginType Type = ELoginType.OPERATOR)
+            {
+                this.Name       = Name;
+                this.Comment    = Comment;
+                this.Password   = Password;
+                this.Type       = Type;
+            }
 
             public override string ToString()
             {
-                return $"{Type}, {Number}, {Name}";
+                return $"{Type}, {Name}, {Comment}";
+            }
+
+            public void SetMaker()
+            {
+                Name    = "Maker";
+                Comment = "Maker";
+                Type    = ELoginType.MAKER;
+            }
+        }
+
+        public class CLoginInfo
+        {
+            public CUserInfo User = new CUserInfo();
+            public DateTime AccessTime = DateTime.Now;
+            public bool AccessType = true; // true : login, false : logoff
+
+            public CLoginInfo(CUserInfo User)
+            {
+                this.User = User;
+            }
+
+            public string GetAccessType()
+            {
+                string str = (AccessType == true) ? "login" : "logoff";
+                return str;
+            }
+
+            public override string ToString()
+            {
+                return $"{User}, {GetAccessType()}, {AccessTime}";
             }
         }
 
@@ -646,6 +688,9 @@ namespace LWDicer.Control
             /////////////////////////////////////////////////////////////////////
             // Table
             public string TableSystem           { get; private set; } // System Data
+            public string TableUserInfoHeader   { get; private set; } // User directory Header
+            public string TableUserInfo         { get; private set; } // User
+
             public string TableModelHeader      { get; private set; } // Model and Parent directory Header
             public string TableModel            { get; private set; } // Model Data
             public string TableCassetteHeader   { get; private set; } // Model and Parent directory Header
@@ -688,6 +733,10 @@ namespace LWDicer.Control
                 DBConn_Info             = $"Data Source={DBDir}{DBName_Info}";
 
                 TableSystem             = "SystemDB";
+
+                TableUserInfoHeader     = "UserInfoHeader";
+                TableUserInfo           = "UserDB";
+
                 TableModelHeader        = "ModelHeader";
                 TableModel              = "ModelDB";
                 TableCassetteHeader     = "CassetteHeader";
@@ -708,7 +757,7 @@ namespace LWDicer.Control
                 DBName_ELog             = "LWD_ELog_v01.db3";
                 DBConn_ELog             = $"Data Source={DBDir_Log}{DBName_ELog}";
 
-                TableLoginHistory       = "LoginHistory";
+                TableLoginHistory       = "LoginHistory2";
                 TableAlarmHistory       = "AlarmHistory";
                 TableDebugLog           = "DLog";
                 TableEventLog           = "ELog";

@@ -55,44 +55,44 @@ namespace LWDicer.UI
             int i = 0, j = 0, nCol = 0, nRow = 0;
 
             // Cell Click 시 커서가 생성되지 않게함.
-            GridCylinderData.ActivateCurrentCellBehavior = GridCellActivateAction.None;
+            GridCtrl.ActivateCurrentCellBehavior = GridCellActivateAction.None;
 
             // Header
-            GridCylinderData.Properties.RowHeaders = true;
-            GridCylinderData.Properties.ColHeaders = true;
+            GridCtrl.Properties.RowHeaders = true;
+            GridCtrl.Properties.ColHeaders = true;
 
             nCol = 4;
             nRow = (int)EObjectCylinder.MAX;
 
             // Column,Row 개수
-            GridCylinderData.ColCount = nCol;
-            GridCylinderData.RowCount = nRow;
+            GridCtrl.ColCount = nCol;
+            GridCtrl.RowCount = nRow;
 
             // Column 가로 크기설정
             for (i = 0; i < nCol + 1; i++)
             {
-                GridCylinderData.ColWidths.SetSize(i, 120);
+                GridCtrl.ColWidths.SetSize(i, 120);
             }
 
-            GridCylinderData.ColWidths.SetSize(0, 200);
+            GridCtrl.ColWidths.SetSize(0, 200);
 
             for (i = 0; i < nRow + 1; i++)
             {
-                GridCylinderData.RowHeights[i] = 34;
+                GridCtrl.RowHeights[i] = 34;
 
             }
 
             // Text Display
-            GridCylinderData[0, 0].Text = "Cylinder";
-            GridCylinderData[0, 1].Text = "동작 제한 시간";
-            GridCylinderData[0, 2].Text = "Wait Time 1";
-            GridCylinderData[0, 3].Text = "Wait Time 2";
-            GridCylinderData[0, 4].Text = "No Sensor         Wait Time";
+            GridCtrl[0, 0].Text = "Cylinder";
+            GridCtrl[0, 1].Text = "동작 제한 시간";
+            GridCtrl[0, 2].Text = "Wait Time 1";
+            GridCtrl[0, 3].Text = "Wait Time 2";
+            GridCtrl[0, 4].Text = "No Sensor         Wait Time";
 
 
             for (i = 0; i < (int)EObjectCylinder.MAX; i++)
             {
-                GridCylinderData[i + 1, 0].Text = CMainFrame.LWDicer.m_SystemInfo.GetObjectName(100 + i);
+                GridCtrl[i + 1, 0].Text = CMainFrame.LWDicer.m_SystemInfo.GetObjectName(100 + i);
             }
 
             for (i = 0; i < nCol + 1; i++)
@@ -100,10 +100,10 @@ namespace LWDicer.UI
                 for (j = 0; j < nRow + 1; j++)
                 {
                     // Font Style - Bold
-                    GridCylinderData[j, i].Font.Bold = true;
+                    GridCtrl[j, i].Font.Bold = true;
 
-                    GridCylinderData[j, i].VerticalAlignment = GridVerticalAlignment.Middle;
-                    GridCylinderData[j, i].HorizontalAlignment = GridHorizontalAlignment.Center;
+                    GridCtrl[j, i].VerticalAlignment = GridVerticalAlignment.Middle;
+                    GridCtrl[j, i].HorizontalAlignment = GridHorizontalAlignment.Center;
                 }
             }
 
@@ -111,16 +111,16 @@ namespace LWDicer.UI
             {
                 for (j = 1; j < nRow + 1; j++)
                 {
-                    GridCylinderData[j, i].BackColor = Color.FromArgb(220, 220, 255);
+                    GridCtrl[j, i].BackColor = Color.FromArgb(220, 220, 255);
                 }
             }
 
-            GridCylinderData.GridVisualStyles = GridVisualStyles.Office2007Blue;
-            GridCylinderData.ResizeColsBehavior = 0;
-            GridCylinderData.ResizeRowsBehavior = 0;
+            GridCtrl.GridVisualStyles = GridVisualStyles.Office2007Blue;
+            GridCtrl.ResizeColsBehavior = 0;
+            GridCtrl.ResizeRowsBehavior = 0;
 
             // Grid Display Update
-            GridCylinderData.Refresh();
+            GridCtrl.Refresh();
         }
 
         private void BtnSave_Click(object sender, EventArgs e)
@@ -132,14 +132,12 @@ namespace LWDicer.UI
 
             CSystemData_Cylinder data = new CSystemData_Cylinder();
 
-            int i = 0;
-
-            for (i = 0; i < (int)EObjectCylinder.MAX; i++)
+            for (int i = 0; i < (int)EObjectCylinder.MAX; i++)
             {
-                data.CylinderTimer[i].MovingTime = Convert.ToDouble(GridCylinderData[i + 1, 1].Text);
-                data.CylinderTimer[i].SettlingTime1 = Convert.ToDouble(GridCylinderData[i + 1, 2].Text);
-                data.CylinderTimer[i].SettlingTime1 = Convert.ToDouble(GridCylinderData[i + 1, 3].Text);
-                data.CylinderTimer[i].NoSenMovingTime = Convert.ToDouble(GridCylinderData[i + 1, 4].Text);
+                data.CylinderTimer[i].MovingTime = Convert.ToDouble(GridCtrl[i + 1, 1].Text);
+                data.CylinderTimer[i].SettlingTime1 = Convert.ToDouble(GridCtrl[i + 1, 2].Text);
+                data.CylinderTimer[i].SettlingTime2 = Convert.ToDouble(GridCtrl[i + 1, 3].Text);
+                data.CylinderTimer[i].NoSenMovingTime = Convert.ToDouble(GridCtrl[i + 1, 4].Text);
             }
 
             CMainFrame.LWDicer.SaveSystemData(systemCylinder:data);
@@ -159,15 +157,26 @@ namespace LWDicer.UI
                 return;
             }
 
-            strCurrent = GridCylinderData[nRow, nCol].Text;
+            strCurrent = GridCtrl[nRow, nCol].Text;
 
             if (!CMainFrame.LWDicer.GetKeyPad(strCurrent, out strModify))
             {
                 return;
             }
 
-            GridCylinderData[nRow, nCol].Text = strModify;
-            GridCylinderData[nRow, nCol].TextColor = Color.Red;
+            if (checkBoxAll.Checked == true)
+            {
+                for(int i = 1; i < GridCtrl.RowCount + 1; i++)
+                {
+                    GridCtrl[i, nCol].Text = strModify;
+                    GridCtrl[i, nCol].TextColor = Color.Blue;
+                }
+            }
+            else
+            {
+                GridCtrl[nRow, nCol].Text = strModify;
+                GridCtrl[nRow, nCol].TextColor = Color.Blue;
+            }
 
         }
 
@@ -178,14 +187,14 @@ namespace LWDicer.UI
 
             for (i = 0; i < (int)EObjectCylinder.MAX; i++)
             {
-                GridCylinderData[i + 1, 1].Text = Convert.ToString(systemCylinder.CylinderTimer[i].MovingTime);
-                GridCylinderData[i + 1, 2].Text = Convert.ToString(systemCylinder.CylinderTimer[i].SettlingTime1);
-                GridCylinderData[i + 1, 3].Text = Convert.ToString(systemCylinder.CylinderTimer[i].SettlingTime2);
-                GridCylinderData[i + 1, 4].Text = Convert.ToString(systemCylinder.CylinderTimer[i].NoSenMovingTime);
+                GridCtrl[i + 1, 1].Text = Convert.ToString(systemCylinder.CylinderTimer[i].MovingTime);
+                GridCtrl[i + 1, 2].Text = Convert.ToString(systemCylinder.CylinderTimer[i].SettlingTime1);
+                GridCtrl[i + 1, 3].Text = Convert.ToString(systemCylinder.CylinderTimer[i].SettlingTime2);
+                GridCtrl[i + 1, 4].Text = Convert.ToString(systemCylinder.CylinderTimer[i].NoSenMovingTime);
 
                 for (j = 0; j < 4; j++)
                 {
-                    GridCylinderData[i + 1, j + 1].TextColor = Color.Black;
+                    GridCtrl[i + 1, j + 1].TextColor = Color.Black;
                 }
             }
         }

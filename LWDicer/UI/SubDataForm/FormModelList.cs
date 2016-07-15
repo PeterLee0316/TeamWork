@@ -45,7 +45,7 @@ namespace LWDicer.UI
                     DisplayTypeName = "Model";
                     this.Text = "Model Data";
 
-                    TitleCurModel.Text = "현재 Model";
+                    TitleCurModel.Text = "current Model";
                     LabelMaker.Text = "Maker List";
                     LabelModel.Text = "Model List";
 
@@ -59,7 +59,7 @@ namespace LWDicer.UI
                     DisplayTypeName = "Wafer Cassette";
                     this.Text = "Wafer Cassette Data";
 
-                    TitleCurModel.Text = "현재 Cassette";
+                    TitleCurModel.Text = "current Cassette";
                     LabelMaker.Text = "Cassette Folder";
                     LabelModel.Text = "Cassette List";
 
@@ -73,11 +73,29 @@ namespace LWDicer.UI
                     DisplayTypeName = "Wafer Frame";
                     this.Text = "Wafer Frame Data";
 
-                    TitleCurModel.Text = "현재 Wafer Frame";
+                    TitleCurModel.Text = "current Wafer Frame";
                     LabelMaker.Text = "Wafer Frame Folder";
                     LabelModel.Text = "Wafer Frame List";
 
                     BtnModelSelect.Visible = false;
+
+                    break;
+
+                case EListHeaderType.USERINFO:
+                    HeaderList = CMainFrame.DataManager.UserInfoHeaderList;
+                    CurrentUsing_ModelName = CMainFrame.DataManager.GetLogin().User.Name;
+                    DisplayTypeName = "User Info";
+                    this.Text = "User Info Data";
+
+                    TitleCurMaker.Visible = false;
+                    LabelCurMaker.Visible = false;
+                    TitleCurModel.Text = "current user info";
+                    LabelMaker.Text = "User Group";
+                    LabelModel.Text = "User List";
+
+                    BtnModelSelect.Visible = false;
+                    BtnMakerCreate.Visible = false;
+                    BtnMakerDelete.Visible = false;
 
                     break;
             }
@@ -123,46 +141,46 @@ namespace LWDicer.UI
             int i = 0, j = 0, nCol = 0, nRow = 0;
 
             // Cell Click 시 커서가 생성되지 않게함.
-            GridModelList.ActivateCurrentCellBehavior = GridCellActivateAction.None;
+            GridCtrl.ActivateCurrentCellBehavior = GridCellActivateAction.None;
 
             // Header
-            GridModelList.Properties.RowHeaders = false;
-            GridModelList.Properties.ColHeaders = false;
+            GridCtrl.Properties.RowHeaders = false;
+            GridCtrl.Properties.ColHeaders = false;
 
             nCol = 1;
             nRow = nRowCount;
 
             // Column,Row 개수
-            GridModelList.ColCount = nCol;
-            GridModelList.RowCount = nRow;
+            GridCtrl.ColCount = nCol;
+            GridCtrl.RowCount = nRow;
 
-            GridModelList.ColWidths.SetSize(1, 560);
+            GridCtrl.ColWidths.SetSize(1, 560);
 
             for (i = 0; i < nRow + 1; i++)
             {
-                GridModelList.RowHeights[i] = 40;
+                GridCtrl.RowHeights[i] = 40;
             }
 
-            GridModelList.GridVisualStyles = GridVisualStyles.Office2007Blue;
-            GridModelList.ResizeColsBehavior = 0;
-            GridModelList.ResizeRowsBehavior = 0;
+            GridCtrl.GridVisualStyles = GridVisualStyles.Office2007Blue;
+            GridCtrl.ResizeColsBehavior = 0;
+            GridCtrl.ResizeRowsBehavior = 0;
 
             //GridModelList.VScrollBehavior = GridScrollbarMode.Disabled;
-            GridModelList.HScrollBehavior = GridScrollbarMode.Disabled;
+            GridCtrl.HScrollBehavior = GridScrollbarMode.Disabled;
 
             for (i = 0; i < nCol + 1; i++)
             {
                 for (j = 0; j < nRow + 1; j++)
                 {
                     // Font Style - Bold
-                    GridModelList[j, i].Font.Bold = true;
+                    GridCtrl[j, i].Font.Bold = true;
 
-                    GridModelList[j, i].VerticalAlignment = GridVerticalAlignment.Middle;
-                    GridModelList[j, i].HorizontalAlignment = GridHorizontalAlignment.Center;
+                    GridCtrl[j, i].VerticalAlignment = GridVerticalAlignment.Middle;
+                    GridCtrl[j, i].HorizontalAlignment = GridHorizontalAlignment.Center;
                 }
             }
             // Grid Display Update
-            GridModelList.Refresh();
+            GridCtrl.Refresh();
         }
 
         private void FormClose()
@@ -198,23 +216,9 @@ namespace LWDicer.UI
 
             nTreeIndex = e.Node.Index;
             strSelMakerName = e.Node.Text;
-            strSelModelName = null;
+            strSelModelName = "";
 
-            InitGrid(0);
-
-            foreach(CListHeader header in HeaderList)
-            {
-                // 전체 Model List에서 사용자가 선택한 Maker Folder에 속해 있는 모든 Model을 Display 한다.
-                if (header.Parent == strSelMakerName)
-                {
-                    if (CMainFrame.DataManager.IsModelFolder(header.Name, ListType) == false)
-                    {
-                        nModelCount++;
-                        InitGrid(nModelCount);
-                        GridModelList[nModelCount, 1].Text = header.Name;
-                    }
-                }
-            }
+            UpdateModelData();
         }
 
         private void UpdateMakerNode()
@@ -344,35 +348,63 @@ namespace LWDicer.UI
 
         private void BtnModelCreate_Click(object sender, EventArgs e)
         {
+            if (ListType == EListHeaderType.USERINFO)
+            {
+                if(!(strSelMakerName == NAME_OPERATOR_FOLDER || strSelMakerName == NAME_ENGINEER_FOLDER))
+                    return;
+            }
+
             if (!CMainFrame.DisplayMsg($"Create new data?"))
             {
                 return;
             }
 
             string strModify = "";
+            string strName, strComment, strPass1 = "", strPass2;
 
-            if (!CMainFrame.LWDicer.GetKeyboard(out strModify))
+            // Name
+            if (!CMainFrame.LWDicer.GetKeyboard(out strModify, "Input Name"))
+                return;
+
+            if (String.IsNullOrWhiteSpace(strModify))
             {
+                CMainFrame.DisplayMsg($"Input Name.");
                 return;
             }
-
-            if (strModify == "" || strModify == null)
-            {
-                CMainFrame.DisplayMsg($"Input data name.");
-                return;
-            }
+            strName = strModify;
 
             // Model Name 중복 검사
-            if (CMainFrame.DataManager.IsModelHeaderExist(strModify, ListType))
+            if (CMainFrame.DataManager.IsModelHeaderExist(strName, ListType))
             {
                 CMainFrame.DisplayMsg("already exist same name[Model or Maker]");
                 return;
             }
 
+            // Password
+            if(ListType == EListHeaderType.USERINFO)
+            {
+                CMainFrame.LWDicer.GetKeyboard(out strModify, "Input Password");
+                strPass1 = strModify;
+
+                CMainFrame.LWDicer.GetKeyboard(out strModify, "Input Password Repeat");
+                strPass2 = strModify;
+
+                if(strPass1 != strPass2)
+                {
+                    CMainFrame.DisplayMsg("Password is not same.");
+                    return;
+                }
+            }
+
+            // Comment
+            CMainFrame.LWDicer.GetKeyboard(out strModify, "Input Comment");
+            strComment = strModify;
+
+
             // create model header
             CListHeader header = new CListHeader();
-            header.Name = strModify;
-            header.Comment = strModify;
+            header.Name = strName;
+            header.Comment = strComment;
             header.Parent = strSelMakerName;
             header.IsFolder = false;
             header.TreeLevel = -1;
@@ -398,12 +430,16 @@ namespace LWDicer.UI
                     waferFrameData.Name = header.Name;
                     CMainFrame.DataManager.SaveModelData(waferFrameData);
                     break;
+                case EListHeaderType.USERINFO:
+                    CUserInfo userInfoData = new CUserInfo(strName, strComment, strPass1);
+                    CMainFrame.DataManager.SaveModelData(userInfoData);
+                    break;
             }
 
-            int nRow = GridModelList.Data.RowCount + 1;
+            int nRow = GridCtrl.Data.RowCount + 1;
             InitGrid(nRow);
 
-            GridModelList[nRow, 1].Text = strModify;
+            GridCtrl[nRow, 1].Text = strModify;
             UpdateModelData();
         }
 
@@ -431,32 +467,7 @@ namespace LWDicer.UI
             CMainFrame.DataManager.DeleteModelData(strSelModelName, ListType);
             CMainFrame.DataManager.DeleteModelHeader(strSelModelName, ListType);
 
-            for (i = 0; i < HeaderList.Count; i++)
-            {
-                // 전체 Model List에서 사용자가 선택한 Maker Folder에 속해 있는 모든 Model을 Display 한다.
-                if (HeaderList[i].Parent == strSelMakerName)
-                {
-                    if (HeaderList[i].IsFolder == false) // Model Data
-                    {
-                        nCount++;
-                    }
-                }
-            }
-
-            InitGrid(nCount);
-
-            for (i = 0; i < HeaderList.Count; i++)
-            {
-                if (HeaderList[i].Parent == strSelMakerName)
-                {
-                    if (HeaderList[i].IsFolder == false)
-                    {
-                        nIndex++;
-                        GridModelList[nIndex, 1].Text = HeaderList[i].Name;
-                    }
-                }
-            }
-
+            UpdateModelData();
         }
 
         private void BtnModelSelect_Click(object sender, EventArgs e)
@@ -506,19 +517,19 @@ namespace LWDicer.UI
 
         private void GridModelList_CellClick(object sender, GridCellClickEventArgs e)
         {
-            strSelModelName = GridModelList[e.RowIndex, e.ColIndex].Text;
+            strSelModelName = GridCtrl[e.RowIndex, e.ColIndex].Text;
 
             SelectGridCell(e.RowIndex, e.ColIndex);
         }
 
         private void SelectGridCell(int nRow, int nCol)
         {
-            for (int i = 0; i < GridModelList.RowCount; i++)
+            for (int i = 0; i < GridCtrl.RowCount; i++)
             {
-                GridModelList[i + 1, 1].BackColor = Color.White;
+                GridCtrl[i + 1, 1].BackColor = Color.White;
             }
 
-            GridModelList[nRow, nCol].BackColor = Color.LightSteelBlue;
+            GridCtrl[nRow, nCol].BackColor = Color.LightSteelBlue;
         }
 
         private void UpdateModelData()
@@ -529,9 +540,9 @@ namespace LWDicer.UI
 
             // Model Data Update
             int nModelCount = 0;
+            // 전체 Model List에서 사용자가 선택한 Maker Folder에 속해 있는 모든 Model을 Display 한다.
             foreach(CListHeader header in HeaderList)
             {
-                // 전체 Model List에서 사용자가 선택한 Maker Folder에 속해 있는 모든 Model을 Display 한다.
                 if (strSelMakerName == header.Parent)
                 {
                     if (header.IsFolder == false) // Model Data
@@ -550,7 +561,7 @@ namespace LWDicer.UI
                 {
                     if (header.IsFolder == false) // Model Data
                     {
-                        GridModelList[index+1, 1].Text = header.Name;
+                        GridCtrl[index+1, 1].Text = header.Name;
                         index++;
                     }
                 }

@@ -56,10 +56,13 @@
             Syncfusion.Windows.Forms.Grid.GridRangeStyle gridRangeStyle25 = new Syncfusion.Windows.Forms.Grid.GridRangeStyle();
             Syncfusion.Windows.Forms.Grid.GridRangeStyle gridRangeStyle26 = new Syncfusion.Windows.Forms.Grid.GridRangeStyle();
             Syncfusion.Windows.Forms.Grid.GridRangeStyle gridRangeStyle27 = new Syncfusion.Windows.Forms.Grid.GridRangeStyle();
+            Syncfusion.Windows.Forms.Grid.GridRangeStyle gridRangeStyle28 = new Syncfusion.Windows.Forms.Grid.GridRangeStyle();
             this.BtnExit = new System.Windows.Forms.Button();
-            this.GridMotorPara = new Syncfusion.Windows.Forms.Grid.GridControl();
+            this.GridCtrl = new Syncfusion.Windows.Forms.Grid.GridControl();
             this.BtnImageDataSave = new System.Windows.Forms.Button();
-            ((System.ComponentModel.ISupportInitialize)(this.GridMotorPara)).BeginInit();
+            this.checkBoxAll = new Syncfusion.Windows.Forms.Tools.CheckBoxAdv();
+            ((System.ComponentModel.ISupportInitialize)(this.GridCtrl)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.checkBoxAll)).BeginInit();
             this.SuspendLayout();
             // 
             // BtnExit
@@ -68,7 +71,7 @@
             this.BtnExit.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
             this.BtnExit.Image = ((System.Drawing.Image)(resources.GetObject("BtnExit.Image")));
             this.BtnExit.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.BtnExit.Location = new System.Drawing.Point(1091, 811);
+            this.BtnExit.Location = new System.Drawing.Point(1091, 744);
             this.BtnExit.Name = "BtnExit";
             this.BtnExit.Size = new System.Drawing.Size(124, 61);
             this.BtnExit.TabIndex = 749;
@@ -77,13 +80,13 @@
             this.BtnExit.UseVisualStyleBackColor = true;
             this.BtnExit.Click += new System.EventHandler(this.BtnExit_Click);
             // 
-            // GridMotorPara
+            // GridCtrl
             // 
-            this.GridMotorPara.ActivateCurrentCellBehavior = Syncfusion.Windows.Forms.Grid.GridCellActivateAction.None;
-            this.GridMotorPara.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.GridMotorPara.Font = new System.Drawing.Font("Tahoma", 9F);
-            this.GridMotorPara.Location = new System.Drawing.Point(43, 25);
-            this.GridMotorPara.Name = "GridMotorPara";
+            this.GridCtrl.ActivateCurrentCellBehavior = Syncfusion.Windows.Forms.Grid.GridCellActivateAction.None;
+            this.GridCtrl.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.GridCtrl.Font = new System.Drawing.Font("Tahoma", 9F);
+            this.GridCtrl.Location = new System.Drawing.Point(43, 25);
+            this.GridCtrl.Name = "GridCtrl";
             gridRangeStyle1.Range = Syncfusion.Windows.Forms.Grid.GridRangeInfo.Table();
             gridRangeStyle1.StyleInfo.Font.Bold = false;
             gridRangeStyle1.StyleInfo.Font.Facename = "Tahoma";
@@ -300,7 +303,15 @@
             gridRangeStyle27.StyleInfo.Font.Strikeout = false;
             gridRangeStyle27.StyleInfo.Font.Underline = false;
             gridRangeStyle27.StyleInfo.Font.Unit = System.Drawing.GraphicsUnit.Point;
-            this.GridMotorPara.RangeStyles.AddRange(new Syncfusion.Windows.Forms.Grid.GridRangeStyle[] {
+            gridRangeStyle28.Range = Syncfusion.Windows.Forms.Grid.GridRangeInfo.Table();
+            gridRangeStyle28.StyleInfo.Font.Bold = false;
+            gridRangeStyle28.StyleInfo.Font.Facename = "Tahoma";
+            gridRangeStyle28.StyleInfo.Font.Italic = false;
+            gridRangeStyle28.StyleInfo.Font.Size = 9F;
+            gridRangeStyle28.StyleInfo.Font.Strikeout = false;
+            gridRangeStyle28.StyleInfo.Font.Underline = false;
+            gridRangeStyle28.StyleInfo.Font.Unit = System.Drawing.GraphicsUnit.Point;
+            this.GridCtrl.RangeStyles.AddRange(new Syncfusion.Windows.Forms.Grid.GridRangeStyle[] {
             gridRangeStyle1,
             gridRangeStyle2,
             gridRangeStyle3,
@@ -327,20 +338,21 @@
             gridRangeStyle24,
             gridRangeStyle25,
             gridRangeStyle26,
-            gridRangeStyle27});
-            this.GridMotorPara.SerializeCellsBehavior = Syncfusion.Windows.Forms.Grid.GridSerializeCellsBehavior.SerializeAsRangeStylesIntoCode;
-            this.GridMotorPara.Size = new System.Drawing.Size(1172, 701);
-            this.GridMotorPara.SmartSizeBox = false;
-            this.GridMotorPara.TabIndex = 750;
-            this.GridMotorPara.UseRightToLeftCompatibleTextBox = true;
-            this.GridMotorPara.CellClick += new Syncfusion.Windows.Forms.Grid.GridCellClickEventHandler(this.GridMotorPara_CellClick);
+            gridRangeStyle27,
+            gridRangeStyle28});
+            this.GridCtrl.SerializeCellsBehavior = Syncfusion.Windows.Forms.Grid.GridSerializeCellsBehavior.SerializeAsRangeStylesIntoCode;
+            this.GridCtrl.Size = new System.Drawing.Size(1172, 701);
+            this.GridCtrl.SmartSizeBox = false;
+            this.GridCtrl.TabIndex = 750;
+            this.GridCtrl.UseRightToLeftCompatibleTextBox = true;
+            this.GridCtrl.CellClick += new Syncfusion.Windows.Forms.Grid.GridCellClickEventHandler(this.GridMotorPara_CellClick);
             // 
             // BtnImageDataSave
             // 
             this.BtnImageDataSave.Font = new System.Drawing.Font("굴림", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.BtnImageDataSave.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
             this.BtnImageDataSave.Image = ((System.Drawing.Image)(resources.GetObject("BtnImageDataSave.Image")));
-            this.BtnImageDataSave.Location = new System.Drawing.Point(1091, 744);
+            this.BtnImageDataSave.Location = new System.Drawing.Point(950, 744);
             this.BtnImageDataSave.Name = "BtnImageDataSave";
             this.BtnImageDataSave.Size = new System.Drawing.Size(124, 61);
             this.BtnImageDataSave.TabIndex = 751;
@@ -350,20 +362,40 @@
             this.BtnImageDataSave.UseVisualStyleBackColor = true;
             this.BtnImageDataSave.Click += new System.EventHandler(this.BtnSave_Click);
             // 
+            // checkBoxAll
+            // 
+            this.checkBoxAll.Border3DStyle = System.Windows.Forms.Border3DStyle.RaisedInner;
+            this.checkBoxAll.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.checkBoxAll.CheckedImage = ((System.Drawing.Image)(resources.GetObject("checkBoxAll.CheckedImage")));
+            this.checkBoxAll.Font = new System.Drawing.Font("굴림", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.checkBoxAll.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.checkBoxAll.ImageCheckBox = true;
+            this.checkBoxAll.ImageCheckBoxSize = new System.Drawing.Size(35, 35);
+            this.checkBoxAll.Location = new System.Drawing.Point(43, 744);
+            this.checkBoxAll.Name = "checkBoxAll";
+            this.checkBoxAll.Size = new System.Drawing.Size(124, 61);
+            this.checkBoxAll.Style = Syncfusion.Windows.Forms.Tools.CheckBoxAdvStyle.Office2007;
+            this.checkBoxAll.TabIndex = 755;
+            this.checkBoxAll.Text = "Input All";
+            this.checkBoxAll.ThemesEnabled = false;
+            this.checkBoxAll.UncheckedImage = ((System.Drawing.Image)(resources.GetObject("checkBoxAll.UncheckedImage")));
+            // 
             // FormMotorData
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1260, 884);
+            this.ClientSize = new System.Drawing.Size(1260, 815);
+            this.Controls.Add(this.checkBoxAll);
             this.Controls.Add(this.BtnImageDataSave);
-            this.Controls.Add(this.GridMotorPara);
+            this.Controls.Add(this.GridCtrl);
             this.Controls.Add(this.BtnExit);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "FormMotorData";
             this.Text = "Motor Data";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormMotorData_FormClosing);
             this.Load += new System.EventHandler(this.FormMotorData_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.GridMotorPara)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.GridCtrl)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.checkBoxAll)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -371,7 +403,8 @@
         #endregion
 
         private System.Windows.Forms.Button BtnExit;
-        private Syncfusion.Windows.Forms.Grid.GridControl GridMotorPara;
+        private Syncfusion.Windows.Forms.Grid.GridControl GridCtrl;
         private System.Windows.Forms.Button BtnImageDataSave;
+        private Syncfusion.Windows.Forms.Tools.CheckBoxAdv checkBoxAll;
     }
 }

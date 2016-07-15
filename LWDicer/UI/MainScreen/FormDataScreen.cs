@@ -80,7 +80,8 @@ namespace LWDicer.UI
 
         private void BtnWaferList_Click(object sender, EventArgs e)
         {
-            
+            var dlg = new FormModelList(EListHeaderType.WAFERFRAME);
+            dlg.ShowDialog();
         }
 
         private void BtnVacuum_Click(object sender, EventArgs e)
@@ -139,6 +140,13 @@ namespace LWDicer.UI
 
         private void FormDataScreen_Load(object sender, EventArgs e)
         {
+
+        }
+
+        private void BtnUserList_Click(object sender, EventArgs e)
+        {
+            var dlg = new FormModelList(EListHeaderType.USERINFO);
+            dlg.ShowDialog();
 
         }
     }

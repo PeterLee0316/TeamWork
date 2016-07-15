@@ -277,7 +277,7 @@ namespace LWDicer.UI
                 double dPos = dTargetPos - dOtherSum;
                 GridTeachTable[2, index].Text = Convert.ToString(dTargetPos);
                 GridTeachTable[3, index].Text = Convert.ToString(dPos);
-                GridTeachTable[3, index].TextColor = Color.Red;
+                GridTeachTable[3, index].TextColor = Color.Blue;
             }
             else
             {
@@ -285,7 +285,7 @@ namespace LWDicer.UI
                 double dPos = dTargetPos - dOtherSum;
                 GridTeachTable[2, index].Text = Convert.ToString(dTargetPos);
                 GridTeachTable[6, index].Text = Convert.ToString(dPos);
-                GridTeachTable[6, index].TextColor = Color.Red;
+                GridTeachTable[6, index].TextColor = Color.Blue;
             }
         }
 

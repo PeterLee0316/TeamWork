@@ -31,9 +31,11 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormCylinderData));
             this.BtnImageDataSave = new System.Windows.Forms.Button();
             this.BtnExit = new System.Windows.Forms.Button();
-            this.GridCylinderData = new Syncfusion.Windows.Forms.Grid.GridControl();
+            this.GridCtrl = new Syncfusion.Windows.Forms.Grid.GridControl();
             this.BtnSave = new System.Windows.Forms.Button();
-            ((System.ComponentModel.ISupportInitialize)(this.GridCylinderData)).BeginInit();
+            this.checkBoxAll = new Syncfusion.Windows.Forms.Tools.CheckBoxAdv();
+            ((System.ComponentModel.ISupportInitialize)(this.GridCtrl)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.checkBoxAll)).BeginInit();
             this.SuspendLayout();
             // 
             // BtnImageDataSave
@@ -56,7 +58,7 @@
             this.BtnExit.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
             this.BtnExit.Image = ((System.Drawing.Image)(resources.GetObject("BtnExit.Image")));
             this.BtnExit.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.BtnExit.Location = new System.Drawing.Point(358, 405);
+            this.BtnExit.Location = new System.Drawing.Point(570, 406);
             this.BtnExit.Name = "BtnExit";
             this.BtnExit.Size = new System.Drawing.Size(124, 61);
             this.BtnExit.TabIndex = 749;
@@ -65,24 +67,24 @@
             this.BtnExit.UseVisualStyleBackColor = true;
             this.BtnExit.Click += new System.EventHandler(this.BtnExit_Click);
             // 
-            // GridCylinderData
+            // GridCtrl
             // 
-            this.GridCylinderData.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.GridCylinderData.Location = new System.Drawing.Point(12, 12);
-            this.GridCylinderData.Name = "GridCylinderData";
-            this.GridCylinderData.SerializeCellsBehavior = Syncfusion.Windows.Forms.Grid.GridSerializeCellsBehavior.SerializeAsRangeStylesIntoCode;
-            this.GridCylinderData.Size = new System.Drawing.Size(682, 376);
-            this.GridCylinderData.SmartSizeBox = false;
-            this.GridCylinderData.TabIndex = 750;
-            this.GridCylinderData.UseRightToLeftCompatibleTextBox = true;
-            this.GridCylinderData.CellClick += new Syncfusion.Windows.Forms.Grid.GridCellClickEventHandler(this.GridCylinderData_CellClick);
+            this.GridCtrl.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.GridCtrl.Location = new System.Drawing.Point(12, 12);
+            this.GridCtrl.Name = "GridCtrl";
+            this.GridCtrl.SerializeCellsBehavior = Syncfusion.Windows.Forms.Grid.GridSerializeCellsBehavior.SerializeAsRangeStylesIntoCode;
+            this.GridCtrl.Size = new System.Drawing.Size(682, 376);
+            this.GridCtrl.SmartSizeBox = false;
+            this.GridCtrl.TabIndex = 750;
+            this.GridCtrl.UseRightToLeftCompatibleTextBox = true;
+            this.GridCtrl.CellClick += new Syncfusion.Windows.Forms.Grid.GridCellClickEventHandler(this.GridCylinderData_CellClick);
             // 
             // BtnSave
             // 
             this.BtnSave.Font = new System.Drawing.Font("굴림", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.BtnSave.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
             this.BtnSave.Image = ((System.Drawing.Image)(resources.GetObject("BtnSave.Image")));
-            this.BtnSave.Location = new System.Drawing.Point(228, 405);
+            this.BtnSave.Location = new System.Drawing.Point(440, 406);
             this.BtnSave.Name = "BtnSave";
             this.BtnSave.Size = new System.Drawing.Size(124, 61);
             this.BtnSave.TabIndex = 752;
@@ -92,13 +94,32 @@
             this.BtnSave.UseVisualStyleBackColor = true;
             this.BtnSave.Click += new System.EventHandler(this.BtnSave_Click);
             // 
+            // checkBoxAll
+            // 
+            this.checkBoxAll.Border3DStyle = System.Windows.Forms.Border3DStyle.RaisedInner;
+            this.checkBoxAll.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.checkBoxAll.CheckedImage = ((System.Drawing.Image)(resources.GetObject("checkBoxAll.CheckedImage")));
+            this.checkBoxAll.Font = new System.Drawing.Font("굴림", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.checkBoxAll.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.checkBoxAll.ImageCheckBox = true;
+            this.checkBoxAll.ImageCheckBoxSize = new System.Drawing.Size(35, 35);
+            this.checkBoxAll.Location = new System.Drawing.Point(12, 406);
+            this.checkBoxAll.Name = "checkBoxAll";
+            this.checkBoxAll.Size = new System.Drawing.Size(124, 61);
+            this.checkBoxAll.Style = Syncfusion.Windows.Forms.Tools.CheckBoxAdvStyle.Office2007;
+            this.checkBoxAll.TabIndex = 754;
+            this.checkBoxAll.Text = "Input All";
+            this.checkBoxAll.ThemesEnabled = false;
+            this.checkBoxAll.UncheckedImage = ((System.Drawing.Image)(resources.GetObject("checkBoxAll.UncheckedImage")));
+            // 
             // FormCylinderData
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(709, 479);
+            this.Controls.Add(this.checkBoxAll);
             this.Controls.Add(this.BtnSave);
-            this.Controls.Add(this.GridCylinderData);
+            this.Controls.Add(this.GridCtrl);
             this.Controls.Add(this.BtnExit);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "FormCylinderData";
@@ -106,7 +127,8 @@
             this.Text = "Cylinder Data";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormCylinderData_FormClosing);
             this.Load += new System.EventHandler(this.FormCylinderData_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.GridCylinderData)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.GridCtrl)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.checkBoxAll)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -115,7 +137,8 @@
 
         private System.Windows.Forms.Button BtnImageDataSave;
         private System.Windows.Forms.Button BtnExit;
-        private Syncfusion.Windows.Forms.Grid.GridControl GridCylinderData;
+        private Syncfusion.Windows.Forms.Grid.GridControl GridCtrl;
         private System.Windows.Forms.Button BtnSave;
+        private Syncfusion.Windows.Forms.Tools.CheckBoxAdv checkBoxAll;
     }
 }

@@ -46,37 +46,37 @@ namespace LWDicer.UI
             int i = 0, j = 0, nCol = 0, nRow = 0;
 
             // Cell Click 시 커서가 생성되지 않게함.
-            GridWaferframe.ActivateCurrentCellBehavior = GridCellActivateAction.None;
+            GridCtrl.ActivateCurrentCellBehavior = GridCellActivateAction.None;
 
             // Header
-            GridWaferframe.Properties.RowHeaders = true;
-            GridWaferframe.Properties.ColHeaders = true;
+            GridCtrl.Properties.RowHeaders = true;
+            GridCtrl.Properties.ColHeaders = true;
 
             nCol = 3;
             nRow = 11;
 
             // Column,Row 개수
-            GridWaferframe.ColCount = nCol;
-            GridWaferframe.RowCount = nRow;
+            GridCtrl.ColCount = nCol;
+            GridCtrl.RowCount = nRow;
 
             // Column 가로 크기설정
 
-            GridWaferframe.ColWidths.SetSize(0, 170);
-            GridWaferframe.ColWidths.SetSize(1, 70);
-            GridWaferframe.ColWidths.SetSize(2, 80);
-            GridWaferframe.ColWidths.SetSize(3, 650);
+            GridCtrl.ColWidths.SetSize(0, 170);
+            GridCtrl.ColWidths.SetSize(1, 70);
+            GridCtrl.ColWidths.SetSize(2, 80);
+            GridCtrl.ColWidths.SetSize(3, 650);
 
             for (i = 0; i < nRow + 1; i++)
             {
-                GridWaferframe.RowHeights[i] = 35;
+                GridCtrl.RowHeights[i] = 35;
 
             }
 
             // Text Display
-            GridWaferframe[0, 0].Text = "Item";
-            GridWaferframe[0, 1].Text = "Unit";
-            GridWaferframe[0, 2].Text = "Data";
-            GridWaferframe[0, 3].Text = "Description";
+            GridCtrl[0, 0].Text = "Item";
+            GridCtrl[0, 1].Text = "Unit";
+            GridCtrl[0, 2].Text = "Data";
+            GridCtrl[0, 3].Text = "Description";
 
             ELanguage language;
             language = CMainFrame.DataManager.SystemData.Language;
@@ -88,9 +88,9 @@ namespace LWDicer.UI
             {
                 if(info.Group == "Cassette")
                 {
-                    GridWaferframe[nIndex, 0].Text = info.DisplayName[(int)language];
-                    GridWaferframe[nIndex, 1].Text = info.Unit;
-                    GridWaferframe[nIndex, 3].Text = info.Description[(int)language];
+                    GridCtrl[nIndex, 0].Text = info.DisplayName[(int)language];
+                    GridCtrl[nIndex, 1].Text = info.Unit;
+                    GridCtrl[nIndex, 3].Text = info.Description[(int)language];
 
                     nIndex++;
                 }
@@ -101,53 +101,53 @@ namespace LWDicer.UI
                 for (j = 0; j < nRow + 1; j++)
                 {
                     // Font Style - Bold
-                    GridWaferframe[j, i].Font.Bold = true;
+                    GridCtrl[j, i].Font.Bold = true;
 
-                    GridWaferframe[j, i].VerticalAlignment = GridVerticalAlignment.Middle;
+                    GridCtrl[j, i].VerticalAlignment = GridVerticalAlignment.Middle;
 
                     if (i != 3)
                     {
-                        GridWaferframe[j, i].HorizontalAlignment = GridHorizontalAlignment.Center;
+                        GridCtrl[j, i].HorizontalAlignment = GridHorizontalAlignment.Center;
                     }
 
                     if (i != 0 && i != 1 && j != 0)
                     {
-                        GridWaferframe[j, i].TextColor = Color.Black;
+                        GridCtrl[j, i].TextColor = Color.Black;
                     }
                 }
             }
 
             for(i=0;i<nRow;i++)
             {
-                GridWaferframe[i + 1, 1].BackColor = Color.FromArgb(230, 210, 255);
-                GridWaferframe[i + 1, 3].BackColor = Color.FromArgb(255, 230, 255);
+                GridCtrl[i + 1, 1].BackColor = Color.FromArgb(230, 210, 255);
+                GridCtrl[i + 1, 3].BackColor = Color.FromArgb(255, 230, 255);
             }
 
-            GridWaferframe.GridVisualStyles = GridVisualStyles.Office2007Blue;
-            GridWaferframe.ResizeColsBehavior = 0;
-            GridWaferframe.ResizeRowsBehavior = 0;
+            GridCtrl.GridVisualStyles = GridVisualStyles.Office2007Blue;
+            GridCtrl.ResizeColsBehavior = 0;
+            GridCtrl.ResizeRowsBehavior = 0;
 
             // Grid Display Update
-            GridWaferframe.Refresh();
+            GridCtrl.Refresh();
         }
 
         private void UpdateCassetteData(CWaferCassette data)
         {
-            GridWaferframe[1, 2].Text = Convert.ToString(data.Diameter);
-            GridWaferframe[2, 2].Text = Convert.ToString(data.Slot);
-            GridWaferframe[3, 2].Text = Convert.ToString(data.CassetteSetNo);
-            GridWaferframe[4, 2].Text = Convert.ToString(data.FramePitch);
-            GridWaferframe[5, 2].Text = Convert.ToString(data.CassetteHeight);
-            GridWaferframe[6, 2].Text = Convert.ToString(data.ESZeroPoint);
-            GridWaferframe[7, 2].Text = Convert.ToString(data.UnloadElevatorPos);
-            GridWaferframe[8, 2].Text = Convert.ToString(data.CTZeroPoint);
-            GridWaferframe[9, 2].Text = Convert.ToString(data.STZeroPoint);
-            GridWaferframe[10, 2].Text = Convert.ToString(data.LoadPushPullPos);
-            GridWaferframe[11, 2].Text = Convert.ToString(data.FrameCenterPos);
+            GridCtrl[1, 2].Text = Convert.ToString(data.Diameter);
+            GridCtrl[2, 2].Text = Convert.ToString(data.Slot);
+            GridCtrl[3, 2].Text = Convert.ToString(data.CassetteSetNo);
+            GridCtrl[4, 2].Text = Convert.ToString(data.FramePitch);
+            GridCtrl[5, 2].Text = Convert.ToString(data.CassetteHeight);
+            GridCtrl[6, 2].Text = Convert.ToString(data.ESZeroPoint);
+            GridCtrl[7, 2].Text = Convert.ToString(data.UnloadElevatorPos);
+            GridCtrl[8, 2].Text = Convert.ToString(data.CTZeroPoint);
+            GridCtrl[9, 2].Text = Convert.ToString(data.STZeroPoint);
+            GridCtrl[10, 2].Text = Convert.ToString(data.LoadPushPullPos);
+            GridCtrl[11, 2].Text = Convert.ToString(data.FrameCenterPos);
 
-            for(int i=0;i< GridWaferframe.RowCount;i++)
+            for(int i=0;i< GridCtrl.RowCount;i++)
             {
-                GridWaferframe[i + 1, 2].TextColor = Color.Black;
+                GridCtrl[i + 1, 2].TextColor = Color.Black;
             }
         }
 
@@ -166,17 +166,17 @@ namespace LWDicer.UI
             CWaferCassette cassetteData = new CWaferCassette();
 
             cassetteData.Name =             ComboCassette.Text;
-            cassetteData.Diameter =         Convert.ToDouble(GridWaferframe[1, 2].Text);
-            cassetteData.Slot =             Convert.ToInt16(GridWaferframe[2, 2].Text);
-            cassetteData.CassetteSetNo =    Convert.ToInt16(GridWaferframe[3, 2].Text);
-            cassetteData.FramePitch =       Convert.ToDouble(GridWaferframe[4, 2].Text);
-            cassetteData.CassetteHeight =   Convert.ToDouble(GridWaferframe[5, 2].Text);
-            cassetteData.ESZeroPoint =      Convert.ToDouble(GridWaferframe[6, 2].Text);
-            cassetteData.UnloadElevatorPos = Convert.ToDouble(GridWaferframe[7, 2].Text);
-            cassetteData.CTZeroPoint =      Convert.ToDouble(GridWaferframe[8, 2].Text);
-            cassetteData.STZeroPoint =      Convert.ToDouble(GridWaferframe[9, 2].Text);
-            cassetteData.LoadPushPullPos =  Convert.ToDouble(GridWaferframe[10, 2].Text);
-            cassetteData.FrameCenterPos =   Convert.ToDouble(GridWaferframe[11, 2].Text);
+            cassetteData.Diameter =         Convert.ToDouble(GridCtrl[1, 2].Text);
+            cassetteData.Slot =             Convert.ToInt16(GridCtrl[2, 2].Text);
+            cassetteData.CassetteSetNo =    Convert.ToInt16(GridCtrl[3, 2].Text);
+            cassetteData.FramePitch =       Convert.ToDouble(GridCtrl[4, 2].Text);
+            cassetteData.CassetteHeight =   Convert.ToDouble(GridCtrl[5, 2].Text);
+            cassetteData.ESZeroPoint =      Convert.ToDouble(GridCtrl[6, 2].Text);
+            cassetteData.UnloadElevatorPos = Convert.ToDouble(GridCtrl[7, 2].Text);
+            cassetteData.CTZeroPoint =      Convert.ToDouble(GridCtrl[8, 2].Text);
+            cassetteData.STZeroPoint =      Convert.ToDouble(GridCtrl[9, 2].Text);
+            cassetteData.LoadPushPullPos =  Convert.ToDouble(GridCtrl[10, 2].Text);
+            cassetteData.FrameCenterPos =   Convert.ToDouble(GridCtrl[11, 2].Text);
 
             CMainFrame.DataManager.SaveModelData(cassetteData);
 
@@ -208,15 +208,15 @@ namespace LWDicer.UI
                 return;
             }
 
-            strCurrent = GridWaferframe[nRow, nCol].Text;
+            strCurrent = GridCtrl[nRow, nCol].Text;
 
             if (!CMainFrame.LWDicer.GetKeyPad(strCurrent, out strModify))
             {
                 return;
             }
 
-            GridWaferframe[nRow, nCol].Text = strModify;
-            GridWaferframe[nRow, nCol].TextColor = Color.Red;
+            GridCtrl[nRow, nCol].Text = strModify;
+            GridCtrl[nRow, nCol].TextColor = Color.Blue;
         }
 
         private void ComboCassette_SelectedIndexChanged(object sender, EventArgs e)

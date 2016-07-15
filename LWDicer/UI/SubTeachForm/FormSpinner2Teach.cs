@@ -520,7 +520,7 @@ namespace LWDicer.UI
                 double dPos = dTargetPos - dOtherSum;
                 GridNozzleTeachTable[2, index].Text = Convert.ToString(dTargetPos);
                 GridNozzleTeachTable[3, index].Text = Convert.ToString(dPos);
-                GridNozzleTeachTable[3, index].TextColor = Color.Red;
+                GridNozzleTeachTable[3, index].TextColor = Color.Blue;
             }
             else
             {
@@ -528,7 +528,7 @@ namespace LWDicer.UI
                 double dPos = dTargetPos - dOtherSum;
                 GridNozzleTeachTable[2, index].Text = Convert.ToString(dTargetPos);
                 GridNozzleTeachTable[6, index].Text = Convert.ToString(dPos);
-                GridNozzleTeachTable[6, index].TextColor = Color.Red;
+                GridNozzleTeachTable[6, index].TextColor = Color.Blue;
             }
         }
 
@@ -559,7 +559,7 @@ namespace LWDicer.UI
                 double dPos = dTargetPos - dOtherSum;
                 GridRotateTeachTable[2, index].Text = Convert.ToString(dTargetPos);
                 GridRotateTeachTable[3, index].Text = Convert.ToString(dPos);
-                GridRotateTeachTable[3, index].TextColor = Color.Red;
+                GridRotateTeachTable[3, index].TextColor = Color.Blue;
             }
             else
             {
@@ -567,7 +567,7 @@ namespace LWDicer.UI
                 double dPos = dTargetPos - dOtherSum;
                 GridRotateTeachTable[2, index].Text = Convert.ToString(dTargetPos);
                 GridRotateTeachTable[6, index].Text = Convert.ToString(dPos);
-                GridRotateTeachTable[6, index].TextColor = Color.Red;
+                GridRotateTeachTable[6, index].TextColor = Color.Blue;
             }
         }
 

@@ -14,10 +14,8 @@ namespace LWDicer.UI
     {
         string strInput = "";
 
-        public FormKeyBoard()
+        public FormKeyBoard(string title)
         {
-            SetValue("");
-
             InitializeComponent();
 
             StartPosition = FormStartPosition.CenterScreen;
@@ -27,11 +25,10 @@ namespace LWDicer.UI
             MinimizeBox = false;
 
             CUtils.AnimateEffect.AnimateWindow(this.Handle, 300, CUtils.AnimateEffect.AW_ACTIVATE | CUtils.AnimateEffect.AW_BLEND);
-        }
 
-        public void SetValue(string strValue)
-        {
-            strInput = strValue;
+            if (String.IsNullOrWhiteSpace(title)) BtnTitle.Visible = false;
+            BtnTitle.Text = title;
+            strInput = "";
         }
 
         private void BtnNo_Click(object sender, EventArgs e)
