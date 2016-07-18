@@ -283,6 +283,7 @@ undefined 가 아닌 부분만 업데이트함. & 두번씩 저장하던 부분 
 1. Motor, Cylidner, Vacuum 등의 dialog에 select all 버튼 추가함
 2. User & Login/Logout 정보 및 목록 관련 부분 UI, DB 추가.
 3. Keyboard에 title 추가
+4. MainForm 전환시에 Form의 위치 틀어지는 문제 수정 및 FormArray형태로 코드 단순화
 
 // for Project setting
 // WIN32, SIMULATION_VISION, SIMULATION_MOTION_ACS, SIMULATION_MOTION_YMC, SIMULATION_IO

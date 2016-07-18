@@ -2413,14 +2413,15 @@ namespace LWDicer.Control
         public static readonly int BOT_POS_X = 0;
         public static readonly int BOT_POS_Y = 920;
         
-        public enum SelectScreenType
+        public enum EFormType
         {
-            Auto_Scr,
-            Manual_Scr,
-            Data_Scr,
-            Teach_Scr,
-            Log_Scr,
-            Help_Scr,
+            AUTO,
+            MANUAL,
+            DATA,
+            TEACH,
+            LOG,
+            HELP,
+            MAX,
         }
     }
 }

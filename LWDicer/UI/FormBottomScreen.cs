@@ -86,7 +86,7 @@ namespace LWDicer.UI
 
             ButtonDisplay((int)EBtnNo.Auto, EBtnOption.Select);
 
-            CMainFrame.MainFrame.DisplayManager.FormSelectChange(DEF_UI.SelectScreenType.Auto_Scr);
+            CMainFrame.MainFrame.DisplayManager.FormSelectChange(DEF_UI.EFormType.AUTO);
         }
 
         private void BtnManual_Click(object sender, EventArgs e)
@@ -98,7 +98,7 @@ namespace LWDicer.UI
 
             ButtonDisplay((int)EBtnNo.Manual, EBtnOption.Select);
 
-            CMainFrame.MainFrame.DisplayManager.FormSelectChange(DEF_UI.SelectScreenType.Manual_Scr);
+            CMainFrame.MainFrame.DisplayManager.FormSelectChange(DEF_UI.EFormType.MANUAL);
         }
 
         private void BtnData_Click(object sender, EventArgs e)
@@ -110,7 +110,7 @@ namespace LWDicer.UI
 
             ButtonDisplay((int)EBtnNo.Data, EBtnOption.Select);
 
-            CMainFrame.MainFrame.DisplayManager.FormSelectChange(DEF_UI.SelectScreenType.Data_Scr);
+            CMainFrame.MainFrame.DisplayManager.FormSelectChange(DEF_UI.EFormType.DATA);
         }
 
         private void BtnTeach_Click(object sender, EventArgs e)
@@ -122,7 +122,7 @@ namespace LWDicer.UI
 
             ButtonDisplay((int)EBtnNo.Teach, EBtnOption.Select);
 
-            CMainFrame.MainFrame.DisplayManager.FormSelectChange(DEF_UI.SelectScreenType.Teach_Scr);
+            CMainFrame.MainFrame.DisplayManager.FormSelectChange(DEF_UI.EFormType.TEACH);
         }
 
         private void BtnLog_Click(object sender, EventArgs e)
@@ -134,7 +134,7 @@ namespace LWDicer.UI
 
             ButtonDisplay((int)EBtnNo.Log, EBtnOption.Select);
 
-            CMainFrame.MainFrame.DisplayManager.FormSelectChange(DEF_UI.SelectScreenType.Log_Scr);
+            CMainFrame.MainFrame.DisplayManager.FormSelectChange(DEF_UI.EFormType.LOG);
         }
 
         private void BtnHelp_Click(object sender, EventArgs e)
@@ -146,7 +146,7 @@ namespace LWDicer.UI
 
             ButtonDisplay((int)EBtnNo.Help, EBtnOption.Select);
 
-            CMainFrame.MainFrame.DisplayManager.FormSelectChange(DEF_UI.SelectScreenType.Help_Scr);
+            CMainFrame.MainFrame.DisplayManager.FormSelectChange(DEF_UI.EFormType.HELP);
         }
     }
 }

@@ -23,6 +23,8 @@ using static LWDicer.Control.DEF_Cylinder;
 using static LWDicer.Control.DEF_SerialPort;
 using static LWDicer.Control.DEF_Vision;
 
+using static LWDicer.Control.DEF_UI;
+
 //#pragma warning disable CS0219
 
 namespace LWDicer.UI
@@ -34,20 +36,19 @@ namespace LWDicer.UI
 
         public static CMainFrame MainFrame = null;
 
-        public static DEF_UI.SelectScreenType nPrevScr;
-
+        public static EFormType PrevScreen;
         public CDisplayManager DisplayManager = new CDisplayManager();
 
         private FormTopScreen TopScreen;
-
-        private FormAutoScreen AutoScreen;
-        private FormManualScreen ManualScreen;
-        private FormDataScreen DataScreen;
-        private FormTeachScreen TeachScreen;
-        private FormLogScreen LogScreen;
-        private FormHelpScreen HelpScreen;
-
         private FormBottomScreen BottomScreen;
+
+        //private FormAutoScreen AutoScreen;
+        //private FormManualScreen ManualScreen;
+        //private FormDataScreen DataScreen;
+        //private FormTeachScreen TeachScreen;
+        //private FormLogScreen LogScreen;
+        //private FormHelpScreen HelpScreen;
+        private Form[] MainFormArray = new Form[(int)EFormType.MAX];
 
         public CMainFrame()
         {
@@ -61,11 +62,9 @@ namespace LWDicer.UI
             InitializeForm();
 
             CreateForms();
-
             InitScreen();
 
             MainFrame = this;            
-
         }
 
         public void InitScreen()
@@ -73,10 +72,8 @@ namespace LWDicer.UI
             AttachEventHandlers();
 
             TopScreen.Show();
-
             BottomScreen.Show();
-
-            SelectFormChange(DEF_UI.SelectScreenType.Auto_Scr);
+            SelectFormChange(EFormType.AUTO);
         }
 
 
@@ -90,42 +87,12 @@ namespace LWDicer.UI
             DisplayManager.FormHandler -= new FormSelectEventHandler(SelectFormChange);
         }
 
-        private void SelectFormChange(DEF_UI.SelectScreenType type)
+        private void SelectFormChange(EFormType type)
         {
-            if (nPrevScr == DEF_UI.SelectScreenType.Auto_Scr) { AutoScreen.Hide(); }
-            if (nPrevScr == DEF_UI.SelectScreenType.Manual_Scr) { ManualScreen.Hide(); }
-            if (nPrevScr == DEF_UI.SelectScreenType.Data_Scr) { DataScreen.Hide(); }
-            if (nPrevScr == DEF_UI.SelectScreenType.Teach_Scr) { TeachScreen.Hide(); }
-            if (nPrevScr == DEF_UI.SelectScreenType.Log_Scr) { LogScreen.Hide(); }
-            if (nPrevScr == DEF_UI.SelectScreenType.Help_Scr) { HelpScreen.Hide(); }
-
-            switch (type)
-            {
-                case DEF_UI.SelectScreenType.Auto_Scr:
-                    AutoScreen.Show();
-                    nPrevScr = type;
-                    break;
-                case DEF_UI.SelectScreenType.Manual_Scr:
-                    ManualScreen.Show();
-                    nPrevScr = type;
-                    break;
-                case DEF_UI.SelectScreenType.Data_Scr:
-                    DataScreen.Show();
-                    nPrevScr = type;
-                    break;
-                case DEF_UI.SelectScreenType.Teach_Scr:
-                    TeachScreen.Show();
-                    nPrevScr = type;
-                    break;
-                case DEF_UI.SelectScreenType.Log_Scr:
-                    LogScreen.Show();
-                    nPrevScr = type;
-                    break;
-                case DEF_UI.SelectScreenType.Help_Scr:
-                    HelpScreen.Show();
-                    nPrevScr = type;
-                    break;
-            }
+            MainFormArray[(int)PrevScreen].Hide();
+            MainFormArray[(int)type].Top = TopScreen.Location.Y + TopScreen.Height + 2;
+            MainFormArray[(int)type].Show();
+            PrevScreen = type;
         }
 
         public void ProcessMsg(MEvent evnt)
@@ -151,17 +118,17 @@ namespace LWDicer.UI
 
             if (sc.Length > 1)
             {
-                this.DesktopLocation = new Point(DEF_UI.FORM_POS_X + sc[0].Bounds.Width, DEF_UI.FORM_POS_Y); // 다중 모니터
+                this.DesktopLocation = new Point(FORM_POS_X + sc[0].Bounds.Width, FORM_POS_Y); // 다중 모니터
             }
             else
             {
-                this.DesktopLocation = new Point(DEF_UI.FORM_POS_X, DEF_UI.FORM_POS_Y); // 기본 모니터
+                this.DesktopLocation = new Point(FORM_POS_X, FORM_POS_Y); // 기본 모니터
             }
 
-            this.DesktopLocation = new Point(DEF_UI.FORM_POS_X, DEF_UI.FORM_POS_Y); // 기본 모니터
+            this.DesktopLocation = new Point(FORM_POS_X, FORM_POS_Y); // 기본 모니터
             this.FormBorderStyle = FormBorderStyle.SizableToolWindow;
 
-            this.Size = new Size(DEF_UI.FORM_SIZE_WIDTH, DEF_UI.FORM_SIZE_HEIGHT);
+            this.Size = new Size(FORM_SIZE_WIDTH, FORM_SIZE_HEIGHT);
             this.IsMdiContainer = true;
             
         }
@@ -169,38 +136,31 @@ namespace LWDicer.UI
         private void CreateForms()
         {
             TopScreen = new FormTopScreen();
-
-            AutoScreen = new FormAutoScreen();
-            ManualScreen = new FormManualScreen();
-            DataScreen = new FormDataScreen();
-            TeachScreen = new FormTeachScreen();
-            LogScreen = new FormLogScreen();
-            HelpScreen = new FormHelpScreen();
-
             BottomScreen = new FormBottomScreen();
 
+            MainFormArray[(int)EFormType.AUTO]   = new FormAutoScreen();
+            MainFormArray[(int)EFormType.MANUAL] = new FormManualScreen();
+            MainFormArray[(int)EFormType.DATA]   = new FormDataScreen();
+            MainFormArray[(int)EFormType.TEACH]  = new FormTeachScreen();
+            MainFormArray[(int)EFormType.LOG]    = new FormLogScreen();
+            MainFormArray[(int)EFormType.HELP]   = new FormHelpScreen();
 
             SetProperty(TopScreen);
-
-            SetProperty(AutoScreen);
-            SetProperty(ManualScreen);
-            SetProperty(DataScreen);
-            SetProperty(TeachScreen);
-            SetProperty(LogScreen);
-            SetProperty(HelpScreen);
-
             SetProperty(BottomScreen);
+
+            foreach(Form form in MainFormArray)
+            {
+                SetProperty(form);
+            }
         }
 
-        private void SetProperty(Form TargetForm)
+        private void SetProperty(Form form)
         {
-            TargetForm.TopLevel = false;
-            TargetForm.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-            TargetForm.Dock = DockStyle.Fill;
-            TargetForm.MdiParent = this;
-
+            form.TopLevel = false;
+            form.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            form.Dock = DockStyle.Fill;
+            form.MdiParent = this;
         }
-
 
         public bool InitializeLWDicer()
         {
@@ -234,7 +194,6 @@ namespace LWDicer.UI
             if (alarmcode == SUCCESS)
             {
                 DisplayMsg("요청한 작업이 성공했습니다.");
-
             }
             else
             {
@@ -274,13 +233,13 @@ namespace LWDicer.UI
         //}
     }
 
-    public delegate void FormSelectEventHandler(DEF_UI.SelectScreenType type);
+    public delegate void FormSelectEventHandler(EFormType type);
 
     public class CDisplayManager
     {
         public event FormSelectEventHandler FormHandler = null;
 
-        public void FormSelectChange(DEF_UI.SelectScreenType type)
+        public void FormSelectChange(EFormType type)
         {
             if (FormHandler != null)
             {
