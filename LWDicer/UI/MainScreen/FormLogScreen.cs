@@ -30,6 +30,10 @@ namespace LWDicer.UI
 
         private int [] nProcessID;
 
+        private int nPageNo;
+
+        private DataTable datatable;
+
         int nLogOption;
 
         const int SelAlarm = 0;
@@ -91,9 +95,9 @@ namespace LWDicer.UI
                     GridCont.ColWidths.SetSize(2, 120);  // Obj.Name
                     GridCont.ColWidths.SetSize(3, 60);  // Code
                     GridCont.ColWidths.SetSize(4, 60);  // Type
-                    GridCont.ColWidths.SetSize(5, 170);   // 발생시간  
-                    GridCont.ColWidths.SetSize(6, 170);  // 해제시간
-                    GridCont.ColWidths.SetSize(7, 495);   // 내용
+                    GridCont.ColWidths.SetSize(5, 160);   // 발생시간  
+                    GridCont.ColWidths.SetSize(6, 160);  // 해제시간
+                    GridCont.ColWidths.SetSize(7, 455);   // 내용
 
                     for (i = 0; i < nRow + 1; i++)
                     {
@@ -123,12 +127,12 @@ namespace LWDicer.UI
 
                     // Column 가로 크기설정
                     GridCont.ColWidths.SetSize(0, 60);   // No.
-                    GridCont.ColWidths.SetSize(1, 170);  // Time
+                    GridCont.ColWidths.SetSize(1, 160);  // Time
                     GridCont.ColWidths.SetSize(2, 140);  // Name
-                    GridCont.ColWidths.SetSize(3, 100);  // Type
+                    GridCont.ColWidths.SetSize(3, 75);  // Type
                     GridCont.ColWidths.SetSize(4, 500);  // Comment
-                    GridCont.ColWidths.SetSize(5, 150);   // File  
-                    GridCont.ColWidths.SetSize(6, 100);   // Line  
+                    GridCont.ColWidths.SetSize(5, 140);   // File  
+                    GridCont.ColWidths.SetSize(6, 75);   // Line  
 
                     for (i = 0; i < nRow + 1; i++)
                     {
@@ -248,14 +252,14 @@ namespace LWDicer.UI
 
         private int UpdataEvent(int nOption)
         {
-            int nEventCount = 0;
-
-            DataTable datatable;
+            // 뭔지 모르겠으나 Query 문 검색 스타트 날자 조건이 걸리지 않아 강제로 하루를 늦춤
+            DateTime time = m_StartDate.AddDays(-1);
+            m_StartDate = time;
 
             if (nOption == SelEvent)
             {
-                string query = $"SELECT * FROM {CMainFrame.LWDicer.m_DataManager.DBInfo.TableEventLog}";
-                
+                string query = $"SELECT * FROM {CMainFrame.LWDicer.m_DataManager.DBInfo.TableEventLog} WHERE Time BETWEEN '{m_StartDate.Date}' AND '{m_EndDate.Date}' ORDER BY Time DESC";
+
                 if (DBManager.GetTable(CMainFrame.LWDicer.m_DataManager.DBInfo.DBConn_ELog, query, out datatable) != true)
                 {
                     return CMainFrame.LWDicer.GenerateErrorCode(ERR_DATA_MANAGER_FAIL_LOAD_MODEL_LIST);
@@ -263,7 +267,7 @@ namespace LWDicer.UI
             }
             else
             {
-                string query = $"SELECT * FROM {CMainFrame.LWDicer.m_DataManager.DBInfo.TableDebugLog}";
+                string query = $"SELECT * FROM {CMainFrame.LWDicer.m_DataManager.DBInfo.TableDebugLog} WHERE Time BETWEEN '{m_StartDate.Date}' AND '{m_EndDate.Date}' ORDER BY Time DESC";
 
                 if (DBManager.GetTable(CMainFrame.LWDicer.m_DataManager.DBInfo.DBConn_DLog, query, out datatable) != true)
                 {
@@ -271,44 +275,53 @@ namespace LWDicer.UI
                 }
             }
 
-            foreach (DataRow row in datatable.Rows)
+            DisplayGrid(0);
+
+            return SUCCESS;
+        }
+
+        private void DisplayGrid(int nPage)
+        {
+            int nEventCount = 0;
+            int nTotalPage;
+
+            GridCont.RowCount = 23;
+            GridCont.Clear(true);
+
+            nTotalPage = datatable.Rows.Count / GridCont.RowCount;
+
+            for(int i=0;i< GridCont.RowCount;i++)
             {
-                string strTime = row["Time"].ToString();
-
-                DateTime dt = Convert.ToDateTime(strTime);
-
-                if (dt.Date >= m_StartDate.Date && dt.Date <= m_EndDate.Date)
+                if(datatable.Rows[i + (nPage * GridCont.RowCount)]["Time"].ToString() == "")
                 {
-                    nEventCount++;
-
-                    GridCont.RowCount = nEventCount;
-
-                    GridCont[nEventCount, 0].Text = Convert.ToString(nEventCount);
-                    GridCont[nEventCount, 1].Text = Convert.ToString(row["Time"].ToString());
-                    GridCont[nEventCount, 2].Text = Convert.ToString(row["Name"].ToString());
-                    GridCont[nEventCount, 3].Text = Convert.ToString(row["Type"].ToString());
-                    GridCont[nEventCount, 4].Text = Convert.ToString(row["Comment"].ToString());
-                    GridCont[nEventCount, 5].Text = Convert.ToString(row["File"].ToString());
-                    GridCont[nEventCount, 6].Text = Convert.ToString(row["Line"].ToString());
-
-                    GridCont[nEventCount, 0].VerticalAlignment = GridVerticalAlignment.Middle;
-                    GridCont[nEventCount, 0].HorizontalAlignment = GridHorizontalAlignment.Center;
-
-                    GridCont.RowStyles[nEventCount].HorizontalAlignment = GridHorizontalAlignment.Center;
-                    GridCont.RowStyles[nEventCount].VerticalAlignment = GridVerticalAlignment.Middle;
-
-                    GridCont[nEventCount, 1].BackColor = Color.FromArgb(230, 210, 255);
-                    GridCont[nEventCount, 2].BackColor = Color.FromArgb(230, 210, 255);
-                    GridCont[nEventCount, 3].BackColor = Color.FromArgb(230, 210, 255);
-                    GridCont[nEventCount, 4].BackColor = Color.White;
-                    GridCont[nEventCount, 5].BackColor = Color.FromArgb(255, 230, 255);
-                    GridCont[nEventCount, 6].BackColor = Color.FromArgb(255, 230, 255);
-
-                    GridCont.RowHeights[nEventCount] = 30;
+                    break;
                 }
+
+                GridCont[i + 1, 0].Text = Convert.ToString(i + (nPage * GridCont.RowCount));
+                GridCont[i+1, 1].Text = Convert.ToString(datatable.Rows[i + (nPage * GridCont.RowCount)]["Time"].ToString());
+                GridCont[i + 1, 2].Text = Convert.ToString(datatable.Rows[i + (nPage* GridCont.RowCount)]["Name"].ToString());
+                GridCont[i + 1, 3].Text = Convert.ToString(datatable.Rows[i + (nPage* GridCont.RowCount)]["Type"].ToString());
+                GridCont[i + 1, 4].Text = Convert.ToString(datatable.Rows[i + (nPage* GridCont.RowCount)]["Comment"].ToString());
+                GridCont[i + 1, 5].Text = Convert.ToString(datatable.Rows[i + (nPage* GridCont.RowCount)]["File"].ToString());
+                GridCont[i + 1, 6].Text = Convert.ToString(datatable.Rows[i + (nPage * GridCont.RowCount)]["Line"].ToString());
+
+                GridCont[i + 1, 0].VerticalAlignment = GridVerticalAlignment.Middle;
+                GridCont[i + 1, 0].HorizontalAlignment = GridHorizontalAlignment.Center;
+
+                GridCont.RowStyles[i + 1].HorizontalAlignment = GridHorizontalAlignment.Center;
+                GridCont.RowStyles[i + 1].VerticalAlignment = GridVerticalAlignment.Middle;
+
+                GridCont[i + 1, 1].BackColor = Color.FromArgb(230, 210, 255);
+                GridCont[i + 1, 2].BackColor = Color.FromArgb(230, 210, 255);
+                GridCont[i + 1, 3].BackColor = Color.FromArgb(230, 210, 255);
+                GridCont[i + 1, 4].BackColor = Color.White;
+                GridCont[i + 1, 5].BackColor = Color.FromArgb(255, 230, 255);
+                GridCont[i + 1, 6].BackColor = Color.FromArgb(255, 230, 255);
+
+                GridCont.RowHeights[i + 1] = 30;
             }
 
-            LabelCount.Text = Convert.ToString(nEventCount);
+            LabelCount.Text = Convert.ToString(datatable.Rows.Count);
 
             GridCont.GridVisualStyles = GridVisualStyles.Office2007Blue;
             GridCont.ResizeColsBehavior = 0;
@@ -316,8 +329,6 @@ namespace LWDicer.UI
 
             // Grid Display Update
             GridCont.Refresh();
-
-            return SUCCESS;
         }
 
         private void FormLogScreen_Activated(object sender, EventArgs e)
@@ -436,6 +447,46 @@ namespace LWDicer.UI
             if (BtnSelectEvent.Name == BtnSel.Name) { nLogOption = SelEvent; };
             if (BtnSelectDev.Name == BtnSel.Name) { nLogOption = SelDev; };
                         
+        }
+
+        private void BtnPageTop_Click(object sender, EventArgs e)
+        {
+            nPageNo = 0;
+            DisplayGrid(nPageNo);
+        }
+
+        private void BtnPageUp_Click(object sender, EventArgs e)
+        {
+            nPageNo--;
+
+            if (nPageNo < 0)
+            {
+                nPageNo = 0;
+                return;
+            }
+
+            DisplayGrid(nPageNo);
+        }
+
+        private void BtnPageDown_Click(object sender, EventArgs e)
+        {
+            int nTotalPage;
+            nTotalPage = datatable.Rows.Count / GridCont.RowCount;
+
+            if(nTotalPage < nPageNo)
+            {
+                return;
+            }
+
+            nPageNo++;
+            DisplayGrid(nPageNo);
+        }
+
+        private void BtnPageBot_Click(object sender, EventArgs e)
+        {
+            nPageNo = (datatable.Rows.Count / GridCont.RowCount) - 1;
+
+            DisplayGrid(nPageNo);
         }
     }
 }

@@ -522,6 +522,7 @@ namespace LWDicer.Control
 
         public class CWaferData
         {
+            public double WaferSize;
             public double Size_X;
             public double Size_Y;
             public CPanelMarkPos FiduMarkXu = new CPanelMarkPos();
@@ -530,7 +531,8 @@ namespace LWDicer.Control
             //public SPanelMarkPos sFiduMarkYr;
             //public EInputDirection eInputDirection;
             //public EOutputDirection eOutputDirection;
-            public double Thickness;
+            public double WaferThickness;
+            public double TapeThickness;
         }
 
         /// <summary>
@@ -2909,7 +2911,7 @@ namespace LWDicer.Control
                 string query;
 
                 // 0. select table
-                query = $"SELECT * FROM {DBInfo.TableAlarmHistory}";
+                query = $"SELECT * FROM {DBInfo.TableAlarmHistory} WHERE occurtime ORDER BY occurtime DESC";
 
                 // 1. get table
                 DataTable datatable;

@@ -599,4 +599,15 @@ undefined 가 아닌 부분만 업데이트함. & 두번씩 저장하던 부분 
 // 1.Log Screen UI
 //  - Event, Dev Log Option 추가
 
+// Version : 0.0.22
+// Grade : ★
+// Date : 2016-07-15 ~ 2016-07-21
+// Context
+// 1.Log Screen UI
+//  - 검색 조건 변경 : 시간별로 DESC 순으로 변경
+//  - 한페이지 23 라인 DISPLAY / 버튼식 페이지 전환
+// 2.User Login 화면 추가.
+// 3.Password 변경 화면 추가.
+// 4.Wafer Data 초안 작성.
+
 

@@ -431,7 +431,12 @@ namespace LWDicer.UI
                     CMainFrame.DataManager.SaveModelData(waferFrameData);
                     break;
                 case EListHeaderType.USERINFO:
-                    CUserInfo userInfoData = new CUserInfo(strName, strComment, strPass1);
+                    ELoginType Login = ELoginType.OPERATOR;
+
+                    if (strSelMakerName == "Operator") Login = ELoginType.OPERATOR;
+                    if (strSelMakerName == "Engineer") Login = ELoginType.ENGINEER;
+
+                    CUserInfo userInfoData = new CUserInfo(strName, strComment, strPass1, Login);
                     CMainFrame.DataManager.SaveModelData(userInfoData);
                     break;
             }
