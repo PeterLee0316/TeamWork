@@ -32,17 +32,28 @@ namespace LWDicer.Control
             MAX,
         }
 
-        public enum ENozzleOpMode
+        public enum ECleanMode
         {
-            NONE = -1,
+            NO_USE,
+            WAIT,
+            PRE_WASH,
+            WASH,
+            RINSE,
+            DRY,
+            MAX,
+        }
+
+        public enum ECoatMode
+        {
+            NO_USE,
             WAIT,
             PRE_WASH,
             DRY,
             DRY_C,
             COAT,
             COAT_M,
+            FCLN_S,
             FCLN_E,
-            RINS,
             MAX,
         }
 
@@ -64,6 +75,14 @@ namespace LWDicer.Control
             public CCleaningData CleanerData = new CCleaningData();
         }
 
+        public class CCoatStep
+        {
+            public bool Use;            // 사용 여부
+            public ECoatMode Mode;      // 동작의 종류 ex) wash, coating, dry
+            public int OpTime;          // 스텝 지속시간 ex) 30sec when prewash, 60sec when dry
+            public int RPMSpeed;        // rotate 회전속도 ex) 500rpm when prewash, 1500rpm when dry
+        }
+
         public class CCoatingData
         {
             // Coating Data
@@ -76,36 +95,36 @@ namespace LWDicer.Control
             public double CoatingArea;  // wafer에서 도포 되는 영역. ex) 280mm
 
             // Coating Sequence
-            public CSpinStep[] StepSequence = new CSpinStep[DEF_MAX_SPINNER_STEP];
+            public CCoatStep[] Steps = new CCoatStep[DEF_MAX_SPINNER_STEP];
 
             public CCoatingData()
             {
-                for (int i = 0; i < StepSequence.Length; i++)
+                for (int i = 0; i < Steps.Length; i++)
                 {
-                    StepSequence[i] = new CSpinStep();
+                    Steps[i] = new CCoatStep();
                 }
             }
         }
 
-        public class CSpinStep
+        public class CCleanStep
         {
-            public bool Use;              // 사용 여부
-            public ENozzleOpMode OpMode;  // 동작의 종류 ex) wash, coating, dry
-            public int OpTime;            // 스텝 지속시간 ex) 30sec when prewash, 60sec when dry
-            public int RPMSpeed;             // rotate 회전속도 ex) 500rpm when prewash, 1500rpm when dry
+            public bool Use;            // 사용 여부
+            public ECleanMode Mode;     // 동작의 종류 ex) wash, coating, dry
+            public int OpTime;          // 스텝 지속시간 ex) 30sec when prewash, 60sec when dry
+            public int RPMSpeed;        // rotate 회전속도 ex) 500rpm when prewash, 1500rpm when dry
         }
 
         public class CCleaningData
         {
             public double WashStroke;   // Table Cleaning도 겸할 수 있도록 Nozzle의 이동거리 ex) 10mm
 
-            public CSpinStep[] StepSequence = new CSpinStep[DEF_MAX_SPINNER_STEP];
+            public CCleanStep[] Steps = new CCleanStep[DEF_MAX_SPINNER_STEP];
 
             public CCleaningData()
             {
-                for (int i = 0; i < StepSequence.Length; i++)
+                for (int i = 0; i < Steps.Length; i++)
                 {
-                    StepSequence[i] = new CSpinStep();
+                    Steps[i] = new CCleanStep();
                 }
             }
         }
@@ -272,16 +291,9 @@ namespace LWDicer.Control
             return SUCCESS;
         }
 
-        public int DoSpinnerOperation(bool bCleanMode, int nSeq)
+        public int DoCleanOperation(int nSeq)
         {
-            CSpinStep step;
-            if(bCleanMode)
-            {
-                step = m_Data.CleanerData.StepSequence[nSeq];
-            } else
-            {
-                step = m_Data.CoaterData.StepSequence[nSeq];
-            }
+            CCleanStep step = m_Data.CleanerData.Steps[nSeq];
 
             // 1. Check Interlock
             int iResult = CheckSafetyInterlock();
@@ -291,35 +303,64 @@ namespace LWDicer.Control
             StartRotateCW(step.RPMSpeed);
 
             // 3. Do Nozzle Operation
-            switch (step.OpMode)
+            switch (step.Mode)
             {
-                case ENozzleOpMode.WAIT:
+                case ECleanMode.WAIT:
                     break;
 
-                case ENozzleOpMode.PRE_WASH:
+                case ECleanMode.PRE_WASH:
                     break;
 
-                case ENozzleOpMode.DRY:
+                case ECleanMode.WASH:
                     break;
 
-                case ENozzleOpMode.DRY_C:
+                case ECleanMode.DRY:
                     break;
 
-                case ENozzleOpMode.COAT:
-                    break;
-
-                case ENozzleOpMode.COAT_M:
-                    break;
-
-                case ENozzleOpMode.FCLN_E:
-                    break;
-
-                case ENozzleOpMode.RINS:
+                case ECleanMode.RINSE:
                     break;
             }
             return SUCCESS;
         }
-        
+
+        public int DoCoatOperation(int nSeq)
+        {
+            CCoatStep step = m_Data.CoaterData.Steps[nSeq];
+
+            // 1. Check Interlock
+            int iResult = CheckSafetyInterlock();
+            if (iResult != SUCCESS) return iResult;
+
+            // 2. Rotate Run
+            StartRotateCW(step.RPMSpeed);
+
+            // 3. Do Nozzle Operation
+            switch (step.Mode)
+            {
+                case ECoatMode.WAIT:
+                    break;
+
+                case ECoatMode.PRE_WASH:
+                    break;
+
+                case ECoatMode.DRY:
+                    break;
+
+                case ECoatMode.DRY_C:
+                    break;
+
+                case ECoatMode.COAT:
+                    break;
+
+                case ECoatMode.COAT_M:
+                    break;
+
+                case ECoatMode.FCLN_E:
+                    break;
+            }
+            return SUCCESS;
+        }
+
         private int CheckSafetyInterlock()
         {
             int iResult;

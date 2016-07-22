@@ -689,15 +689,11 @@ namespace LWDicer.Control
 
             public double ThicknessValue; // 판넬 두께
 
-	        public bool UseUHandler_ExtraVccUseFlag; // 2014.02.21 by ranian. Extra Vcc 추가
+            public bool UseUHandler_ExtraVccUseFlag; // 2014.02.21 by ranian. Extra Vcc 추가
             public bool UseUHandler_WaitPosUseFlag; // 2014.02.21 by ranian. LP->UP 로 갈 때, WP 사용 여부
-            
-        }
-
-            // Frame Data  LJJ 수정
-            public CWaferCassette[] Cassette = new CWaferCassette[5];
 
         }
+    }
 
     public class MDataManager : MObject
     {
@@ -2569,7 +2565,7 @@ namespace LWDicer.Control
                 if (iResult != SUCCESS) return iResult;
 
                 // 3.2 load waferframe data
-                iResult = LoadCassetteData(data.WaferFrameName);
+                iResult = LoadWaferFrameData(data.WaferFrameName);
                 if (iResult != SUCCESS) return iResult;
 
                 WriteLog($"success : change model : {ModelData.Name}.", ELogType.SYSTEM, ELogWType.LOAD);

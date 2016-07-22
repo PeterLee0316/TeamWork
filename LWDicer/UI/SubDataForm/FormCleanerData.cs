@@ -21,7 +21,7 @@ namespace LWDicer.UI
 {
     public partial class FormCleanerData : Form
     {
-        string[] strOP = new string[(int)ENozzleOpMode.MAX];
+        string[] strOP = new string[(int)ECleanMode.MAX];
 
         private CModelData CleanerData;
 
@@ -60,9 +60,9 @@ namespace LWDicer.UI
             GridCtrl.ColWidths.SetSize(2, 110);
             GridCtrl.ColWidths.SetSize(3, 110);
 
-            for (i = 0; i < (int)ENozzleOpMode.MAX; i++)
+            for (i = 0; i < (int)ECleanMode.MAX; i++)
             {
-                strOP[i] = Convert.ToString(ENozzleOpMode.WAIT + i);
+                strOP[i] = Convert.ToString(ECleanMode.NO_USE + i);
             }
 
             StringCollection strColl = new StringCollection();
@@ -127,13 +127,13 @@ namespace LWDicer.UI
 
             for (i = 0; i < DEF_MAX_SPINNER_STEP; i++)
             {
-                GridCtrl[i + 1, 1].Text = strOP[(int)CleanerData.SpinnerData.CleanerData.StepSequence[i].OpMode];
+                GridCtrl[i + 1, 1].Text = strOP[(int)CleanerData.SpinnerData.CleanerData.Steps[i].Mode];
                 GridCtrl[i + 1, 1].TextColor = Color.Black;
 
-                GridCtrl[i + 1, 2].Text = Convert.ToString(CleanerData.SpinnerData.CleanerData.StepSequence[i].OpTime);
+                GridCtrl[i + 1, 2].Text = Convert.ToString(CleanerData.SpinnerData.CleanerData.Steps[i].OpTime);
                 GridCtrl[i + 1, 2].TextColor = Color.Black;
 
-                GridCtrl[i + 1, 3].Text = Convert.ToString(CleanerData.SpinnerData.CleanerData.StepSequence[i].RPMSpeed);
+                GridCtrl[i + 1, 3].Text = Convert.ToString(CleanerData.SpinnerData.CleanerData.Steps[i].RPMSpeed);
                 GridCtrl[i + 1, 3].TextColor = Color.Black;
             }
 
@@ -164,21 +164,19 @@ namespace LWDicer.UI
                 return;
             }
 
-            int i, nOP;
-
-            for (i = 0; i < DEF_MAX_SPINNER_STEP; i++)
+            for (int i = 0; i < DEF_MAX_SPINNER_STEP; i++)
             {
-                for (nOP = 0; nOP < (int)ENozzleOpMode.MAX; nOP++)
+                for (int nOP = 0; nOP < (int)ECleanMode.MAX; nOP++)
                 {
-                    if (GridCtrl[i + 1, 1].Text == Convert.ToString(ENozzleOpMode.WAIT + nOP))
+                    if (GridCtrl[i + 1, 1].Text == Convert.ToString(ECleanMode.NO_USE + nOP))
                     {
-                        CleanerData.SpinnerData.CleanerData.StepSequence[i].OpMode = (ENozzleOpMode.WAIT + nOP);
+                        CleanerData.SpinnerData.CleanerData.Steps[i].Mode = (ECleanMode.NO_USE + nOP);
                         break;
                     }
                 }
 
-                CleanerData.SpinnerData.CleanerData.StepSequence[i].OpTime = Convert.ToInt16(GridCtrl[i + 1, 2].Text);
-                CleanerData.SpinnerData.CleanerData.StepSequence[i].RPMSpeed = Convert.ToInt16(GridCtrl[i + 1, 3].Text);
+                CleanerData.SpinnerData.CleanerData.Steps[i].OpTime = Convert.ToInt16(GridCtrl[i + 1, 2].Text);
+                CleanerData.SpinnerData.CleanerData.Steps[i].RPMSpeed = Convert.ToInt16(GridCtrl[i + 1, 3].Text);
             }
 
             CleanerData.SpinnerData.CleanerData.WashStroke = Convert.ToDouble(LabelStroke.Text);

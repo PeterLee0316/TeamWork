@@ -285,6 +285,14 @@ undefined 가 아닌 부분만 업데이트함. & 두번씩 저장하던 부분 
 3. Keyboard에 title 추가
 4. MainForm 전환시에 Form의 위치 틀어지는 문제 수정 및 FormArray형태로 코드 단순화
 
+// Version : 0.0.29
+// Grade : ★
+// Date : 160718~160722
+// Context
+1. ENozzleOpMode가 coating만의 스텝을 담당하고 있었기에, ECleanMode / ECoatMode 로 분리하고
+CSpinStep class -> CCleanStep / CCoatStep class 로 분리
+2. Yaskawa IO class 수정. 아진 보드를 위해 MP2100 보드 셋팅 및 출력 부분 확인 완료.
+
 // for Project setting
 // WIN32, SIMULATION_VISION, SIMULATION_MOTION_ACS, SIMULATION_MOTION_YMC, SIMULATION_IO
 

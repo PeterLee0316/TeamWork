@@ -232,5 +232,15 @@ namespace LWDicer.UI
                 CMainFrame.LWDicer.m_MeSpinner2.CoatNozzleValveClose();
             }
         }
+
+        private void BtnCleaningJobStart_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void BtnCoatingJobStart_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

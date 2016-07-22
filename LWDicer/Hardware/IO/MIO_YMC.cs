@@ -97,14 +97,33 @@ namespace LWDicer.Control
             Debug.Assert(INPUT_ORIGIN <= addr && addr <= OUTPUT_END);
             hDataHandle = 0;
             string registerName;
+
+            // 160721 by sjr. 아진의 io board를 사용하는데, 아진의 io board는 메모리의 선두 4바이트가 다른용도로 사용되기때문에
+            // 한번에 메모리를 연속적으로 읽을수 없어서, 한국야스카와 전기의 박영섭 대리를 통해서 H Ladder & function 을 받아서
+            // I, O 번지를 -> M 레지스터로 배치 copy하기 때문에, 소스 프로그램에서는 M 레지스터를 이용하는것으로 변경함
+            // I -> M1000, O -> M2000에 mapping 함
+            // 즉, 아진의 io board는 선두 2워드를 건너뜀. module configuration에서 io 모듈의 input address : 0010-0017(H), 
+            // output address : 0020-0027(H) 라면, 실제로 register list에서 모니터링할때에는 IB00120, OB00220부터 읽어야하고, 
+            // 이때의 M register는 MB010000, MB020000 
             // register type
-            if (addr < OUTPUT_ORIGIN)
+            //if (addr < OUTPUT_ORIGIN)
+            //{
+            //    registerName = String.Format($"{EYMCRegisterType.I}{type}{(addr - INPUT_ORIGIN).ToString("D4")}");
+            //}
+            //else
+            //{
+            //    registerName = String.Format($"{EYMCRegisterType.O}{type}{(addr - OUTPUT_ORIGIN).ToString("D4")}");
+            //}
+            string s1;
+            if (addr < OUTPUT_ORIGIN) s1 = "1";
+            else s1 = "2";
+            addr = addr % 1000;
+            if(type == EYMCDataType.B)
             {
-                registerName = String.Format($"{EYMCRegisterType.I}{type}{(addr - INPUT_ORIGIN).ToString("D4")}");
-            }
-            else
+                registerName = String.Format($"{EYMCRegisterType.M}{type}{s1}{(addr).ToString("X4")}");
+            } else
             {
-                registerName = String.Format($"{EYMCRegisterType.O}{type}{(addr - OUTPUT_ORIGIN).ToString("D4")}");
+                registerName = String.Format($"{EYMCRegisterType.M}{type}{s1}{(addr).ToString("X3")}");
             }
 
 #if !SIMULATION_IO
