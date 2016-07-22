@@ -92,11 +92,14 @@
       <HintPath>..\..\..\..\..\SFA\LWDicer\dll\Syncfusion\Syncfusion.Grid.Base.dll</HintPath>
       <EmbedInteropTypes>False</EmbedInteropTypes>
     </Reference>
+    <Reference Include="Syncfusion.Grid.Grouping.Base, Version=8.304.0.21, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89" />
+    <Reference Include="Syncfusion.Grid.Grouping.Windows, Version=8.304.0.21, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL" />
     <Reference Include="Syncfusion.Grid.Windows, Version=8.303.0.21, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\..\SFA\LWDicer\dll\Syncfusion\Syncfusion.Grid.Windows.dll</HintPath>
       <EmbedInteropTypes>False</EmbedInteropTypes>
     </Reference>
+    <Reference Include="Syncfusion.Grouping.Base, Version=8.304.0.21, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89" />
     <Reference Include="Syncfusion.Shared.Base, Version=8.303.0.21, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\..\SFA\LWDicer\dll\Syncfusion\Syncfusion.Shared.Base.dll</HintPath>
@@ -133,6 +136,7 @@
       <HintPath>..\packages\System.Data.SQLite.Linq.1.0.99.0\lib\net46\System.Data.SQLite.Linq.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="System.Design" />
     <Reference Include="System.DirectoryServices" />
     <Reference Include="System.Messaging" />
     <Reference Include="System.Web.Extensions" />
@@ -229,6 +233,12 @@
     <Compile Include="UI\FormBottomScreen.designer.cs">
       <DependentUpon>FormBottomScreen.cs</DependentUpon>
     </Compile>
+    <Compile Include="UI\FormChangePassword.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\FormChangePassword.designer.cs">
+      <DependentUpon>FormChangePassword.cs</DependentUpon>
+    </Compile>
     <Compile Include="UI\FormIntro.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -246,6 +256,12 @@
     </Compile>
     <Compile Include="UI\FormTopScreen.designer.cs">
       <DependentUpon>FormTopScreen.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\FormUserLogin.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\FormUserLogin.Designer.cs">
+      <DependentUpon>FormUserLogin.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\FormWaferCassette.cs">
       <SubType>Form</SubType>
@@ -521,6 +537,9 @@
     <EmbeddedResource Include="UI\FormBottomScreen.resx">
       <DependentUpon>FormBottomScreen.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="UI\FormChangePassword.resx">
+      <DependentUpon>FormChangePassword.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UI\FormIntro.resx">
       <DependentUpon>FormIntro.cs</DependentUpon>
     </EmbeddedResource>
@@ -529,6 +548,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UI\FormTopScreen.resx">
       <DependentUpon>FormTopScreen.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\FormUserLogin.resx">
+      <DependentUpon>FormUserLogin.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\FormWaferCassette.resx">
       <DependentUpon>FormWaferCassette.cs</DependentUpon>

@@ -30,10 +30,12 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormLogScreen));
-            Syncfusion.Windows.Forms.Grid.GridRangeStyle gridRangeStyle1 = new Syncfusion.Windows.Forms.Grid.GridRangeStyle();
-            Syncfusion.Windows.Forms.Grid.GridRangeStyle gridRangeStyle2 = new Syncfusion.Windows.Forms.Grid.GridRangeStyle();
-            Syncfusion.Windows.Forms.Grid.GridRangeStyle gridRangeStyle3 = new Syncfusion.Windows.Forms.Grid.GridRangeStyle();
-            Syncfusion.Windows.Forms.Grid.GridRangeStyle gridRangeStyle4 = new Syncfusion.Windows.Forms.Grid.GridRangeStyle();
+            Syncfusion.Windows.Forms.Grid.GridRangeStyle gridRangeStyle25 = new Syncfusion.Windows.Forms.Grid.GridRangeStyle();
+            Syncfusion.Windows.Forms.Grid.GridRangeStyle gridRangeStyle26 = new Syncfusion.Windows.Forms.Grid.GridRangeStyle();
+            Syncfusion.Windows.Forms.Grid.GridRangeStyle gridRangeStyle27 = new Syncfusion.Windows.Forms.Grid.GridRangeStyle();
+            Syncfusion.Windows.Forms.Grid.GridRangeStyle gridRangeStyle28 = new Syncfusion.Windows.Forms.Grid.GridRangeStyle();
+            Syncfusion.Windows.Forms.Grid.GridRangeStyle gridRangeStyle29 = new Syncfusion.Windows.Forms.Grid.GridRangeStyle();
+            Syncfusion.Windows.Forms.Grid.GridRangeStyle gridRangeStyle30 = new Syncfusion.Windows.Forms.Grid.GridRangeStyle();
             this.BtnExport = new System.Windows.Forms.Button();
             this.TitleCount = new Syncfusion.Windows.Forms.Tools.GradientLabel();
             this.LabelCount = new Syncfusion.Windows.Forms.Tools.GradientLabel();
@@ -47,6 +49,10 @@
             this.BtnSelectEvent = new System.Windows.Forms.Button();
             this.BtnSelectDev = new System.Windows.Forms.Button();
             this.Image = new System.Windows.Forms.ImageList(this.components);
+            this.BtnPageTop = new System.Windows.Forms.Button();
+            this.BtnPageBot = new System.Windows.Forms.Button();
+            this.BtnPageUp = new System.Windows.Forms.Button();
+            this.BtnPageDown = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.GridCont)).BeginInit();
             this.SuspendLayout();
             // 
@@ -154,45 +160,63 @@
             this.GridCont.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold);
             this.GridCont.Location = new System.Drawing.Point(9, 93);
             this.GridCont.Name = "GridCont";
-            gridRangeStyle1.Range = Syncfusion.Windows.Forms.Grid.GridRangeInfo.Table();
-            gridRangeStyle1.StyleInfo.Font.Bold = true;
-            gridRangeStyle1.StyleInfo.Font.Facename = "Tahoma";
-            gridRangeStyle1.StyleInfo.Font.Italic = false;
-            gridRangeStyle1.StyleInfo.Font.Size = 8.25F;
-            gridRangeStyle1.StyleInfo.Font.Strikeout = false;
-            gridRangeStyle1.StyleInfo.Font.Underline = false;
-            gridRangeStyle1.StyleInfo.Font.Unit = System.Drawing.GraphicsUnit.Point;
-            gridRangeStyle2.Range = Syncfusion.Windows.Forms.Grid.GridRangeInfo.Table();
-            gridRangeStyle2.StyleInfo.Font.Bold = true;
-            gridRangeStyle2.StyleInfo.Font.Facename = "Tahoma";
-            gridRangeStyle2.StyleInfo.Font.Italic = false;
-            gridRangeStyle2.StyleInfo.Font.Size = 8.25F;
-            gridRangeStyle2.StyleInfo.Font.Strikeout = false;
-            gridRangeStyle2.StyleInfo.Font.Underline = false;
-            gridRangeStyle2.StyleInfo.Font.Unit = System.Drawing.GraphicsUnit.Point;
-            gridRangeStyle3.Range = Syncfusion.Windows.Forms.Grid.GridRangeInfo.Table();
-            gridRangeStyle3.StyleInfo.Font.Bold = true;
-            gridRangeStyle3.StyleInfo.Font.Facename = "Tahoma";
-            gridRangeStyle3.StyleInfo.Font.Italic = false;
-            gridRangeStyle3.StyleInfo.Font.Size = 8.25F;
-            gridRangeStyle3.StyleInfo.Font.Strikeout = false;
-            gridRangeStyle3.StyleInfo.Font.Underline = false;
-            gridRangeStyle3.StyleInfo.Font.Unit = System.Drawing.GraphicsUnit.Point;
-            gridRangeStyle4.Range = Syncfusion.Windows.Forms.Grid.GridRangeInfo.Table();
-            gridRangeStyle4.StyleInfo.Font.Bold = true;
-            gridRangeStyle4.StyleInfo.Font.Facename = "Tahoma";
-            gridRangeStyle4.StyleInfo.Font.Italic = false;
-            gridRangeStyle4.StyleInfo.Font.Size = 8.25F;
-            gridRangeStyle4.StyleInfo.Font.Strikeout = false;
-            gridRangeStyle4.StyleInfo.Font.Underline = false;
-            gridRangeStyle4.StyleInfo.Font.Unit = System.Drawing.GraphicsUnit.Point;
+            gridRangeStyle25.Range = Syncfusion.Windows.Forms.Grid.GridRangeInfo.Table();
+            gridRangeStyle25.StyleInfo.Font.Bold = true;
+            gridRangeStyle25.StyleInfo.Font.Facename = "Tahoma";
+            gridRangeStyle25.StyleInfo.Font.Italic = false;
+            gridRangeStyle25.StyleInfo.Font.Size = 8.25F;
+            gridRangeStyle25.StyleInfo.Font.Strikeout = false;
+            gridRangeStyle25.StyleInfo.Font.Underline = false;
+            gridRangeStyle25.StyleInfo.Font.Unit = System.Drawing.GraphicsUnit.Point;
+            gridRangeStyle26.Range = Syncfusion.Windows.Forms.Grid.GridRangeInfo.Table();
+            gridRangeStyle26.StyleInfo.Font.Bold = true;
+            gridRangeStyle26.StyleInfo.Font.Facename = "Tahoma";
+            gridRangeStyle26.StyleInfo.Font.Italic = false;
+            gridRangeStyle26.StyleInfo.Font.Size = 8.25F;
+            gridRangeStyle26.StyleInfo.Font.Strikeout = false;
+            gridRangeStyle26.StyleInfo.Font.Underline = false;
+            gridRangeStyle26.StyleInfo.Font.Unit = System.Drawing.GraphicsUnit.Point;
+            gridRangeStyle27.Range = Syncfusion.Windows.Forms.Grid.GridRangeInfo.Table();
+            gridRangeStyle27.StyleInfo.Font.Bold = true;
+            gridRangeStyle27.StyleInfo.Font.Facename = "Tahoma";
+            gridRangeStyle27.StyleInfo.Font.Italic = false;
+            gridRangeStyle27.StyleInfo.Font.Size = 8.25F;
+            gridRangeStyle27.StyleInfo.Font.Strikeout = false;
+            gridRangeStyle27.StyleInfo.Font.Underline = false;
+            gridRangeStyle27.StyleInfo.Font.Unit = System.Drawing.GraphicsUnit.Point;
+            gridRangeStyle28.Range = Syncfusion.Windows.Forms.Grid.GridRangeInfo.Table();
+            gridRangeStyle28.StyleInfo.Font.Bold = true;
+            gridRangeStyle28.StyleInfo.Font.Facename = "Tahoma";
+            gridRangeStyle28.StyleInfo.Font.Italic = false;
+            gridRangeStyle28.StyleInfo.Font.Size = 8.25F;
+            gridRangeStyle28.StyleInfo.Font.Strikeout = false;
+            gridRangeStyle28.StyleInfo.Font.Underline = false;
+            gridRangeStyle28.StyleInfo.Font.Unit = System.Drawing.GraphicsUnit.Point;
+            gridRangeStyle29.Range = Syncfusion.Windows.Forms.Grid.GridRangeInfo.Table();
+            gridRangeStyle29.StyleInfo.Font.Bold = true;
+            gridRangeStyle29.StyleInfo.Font.Facename = "Tahoma";
+            gridRangeStyle29.StyleInfo.Font.Italic = false;
+            gridRangeStyle29.StyleInfo.Font.Size = 8.25F;
+            gridRangeStyle29.StyleInfo.Font.Strikeout = false;
+            gridRangeStyle29.StyleInfo.Font.Underline = false;
+            gridRangeStyle29.StyleInfo.Font.Unit = System.Drawing.GraphicsUnit.Point;
+            gridRangeStyle30.Range = Syncfusion.Windows.Forms.Grid.GridRangeInfo.Table();
+            gridRangeStyle30.StyleInfo.Font.Bold = true;
+            gridRangeStyle30.StyleInfo.Font.Facename = "Tahoma";
+            gridRangeStyle30.StyleInfo.Font.Italic = false;
+            gridRangeStyle30.StyleInfo.Font.Size = 8.25F;
+            gridRangeStyle30.StyleInfo.Font.Strikeout = false;
+            gridRangeStyle30.StyleInfo.Font.Underline = false;
+            gridRangeStyle30.StyleInfo.Font.Unit = System.Drawing.GraphicsUnit.Point;
             this.GridCont.RangeStyles.AddRange(new Syncfusion.Windows.Forms.Grid.GridRangeStyle[] {
-            gridRangeStyle1,
-            gridRangeStyle2,
-            gridRangeStyle3,
-            gridRangeStyle4});
+            gridRangeStyle25,
+            gridRangeStyle26,
+            gridRangeStyle27,
+            gridRangeStyle28,
+            gridRangeStyle29,
+            gridRangeStyle30});
             this.GridCont.SerializeCellsBehavior = Syncfusion.Windows.Forms.Grid.GridSerializeCellsBehavior.SerializeAsRangeStylesIntoCode;
-            this.GridCont.Size = new System.Drawing.Size(1258, 721);
+            this.GridCont.Size = new System.Drawing.Size(1177, 721);
             this.GridCont.SmartSizeBox = false;
             this.GridCont.TabIndex = 772;
             this.GridCont.UseRightToLeftCompatibleTextBox = true;
@@ -244,6 +268,54 @@
             this.Image.Images.SetKeyName(0, "Led_Off.png");
             this.Image.Images.SetKeyName(1, "Led_On.png");
             // 
+            // BtnPageTop
+            // 
+            this.BtnPageTop.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.BtnPageTop.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.BtnPageTop.Location = new System.Drawing.Point(1190, 93);
+            this.BtnPageTop.Name = "BtnPageTop";
+            this.BtnPageTop.Size = new System.Drawing.Size(83, 95);
+            this.BtnPageTop.TabIndex = 785;
+            this.BtnPageTop.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.BtnPageTop.UseVisualStyleBackColor = false;
+            this.BtnPageTop.Click += new System.EventHandler(this.BtnPageTop_Click);
+            // 
+            // BtnPageBot
+            // 
+            this.BtnPageBot.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.BtnPageBot.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.BtnPageBot.Location = new System.Drawing.Point(1190, 717);
+            this.BtnPageBot.Name = "BtnPageBot";
+            this.BtnPageBot.Size = new System.Drawing.Size(83, 95);
+            this.BtnPageBot.TabIndex = 786;
+            this.BtnPageBot.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.BtnPageBot.UseVisualStyleBackColor = false;
+            this.BtnPageBot.Click += new System.EventHandler(this.BtnPageBot_Click);
+            // 
+            // BtnPageUp
+            // 
+            this.BtnPageUp.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.BtnPageUp.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.BtnPageUp.Location = new System.Drawing.Point(1190, 189);
+            this.BtnPageUp.Name = "BtnPageUp";
+            this.BtnPageUp.Size = new System.Drawing.Size(83, 263);
+            this.BtnPageUp.TabIndex = 787;
+            this.BtnPageUp.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.BtnPageUp.UseVisualStyleBackColor = false;
+            this.BtnPageUp.Click += new System.EventHandler(this.BtnPageUp_Click);
+            // 
+            // BtnPageDown
+            // 
+            this.BtnPageDown.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.BtnPageDown.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.BtnPageDown.Location = new System.Drawing.Point(1190, 453);
+            this.BtnPageDown.Name = "BtnPageDown";
+            this.BtnPageDown.Size = new System.Drawing.Size(83, 263);
+            this.BtnPageDown.TabIndex = 788;
+            this.BtnPageDown.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.BtnPageDown.UseVisualStyleBackColor = false;
+            this.BtnPageDown.Click += new System.EventHandler(this.BtnPageDown_Click);
+            // 
             // FormLogScreen
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
@@ -251,6 +323,10 @@
             this.BackColor = System.Drawing.Color.Lavender;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.ClientSize = new System.Drawing.Size(1278, 817);
+            this.Controls.Add(this.BtnPageDown);
+            this.Controls.Add(this.BtnPageUp);
+            this.Controls.Add(this.BtnPageBot);
+            this.Controls.Add(this.BtnPageTop);
             this.Controls.Add(this.BtnSelectDev);
             this.Controls.Add(this.BtnSelectEvent);
             this.Controls.Add(this.BtnSelectAlarm);
@@ -288,5 +364,9 @@
         private System.Windows.Forms.Button BtnSelectEvent;
         private System.Windows.Forms.Button BtnSelectDev;
         private System.Windows.Forms.ImageList Image;
+        private System.Windows.Forms.Button BtnPageTop;
+        private System.Windows.Forms.Button BtnPageBot;
+        private System.Windows.Forms.Button BtnPageUp;
+        private System.Windows.Forms.Button BtnPageDown;
     }
 }

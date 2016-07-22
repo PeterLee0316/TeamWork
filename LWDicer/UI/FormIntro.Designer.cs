@@ -65,7 +65,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "FormIntro";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "FormIntro";
+            this.Text = "Intro";
             this.ResumeLayout(false);
             this.PerformLayout();
 

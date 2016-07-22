@@ -38,6 +38,8 @@ namespace LWDicer.UI
         private void tmFormTop_Tick(object sender, EventArgs e)
         {
             TextTime.Text = DateTime.Now.ToString("yyyy-MM-dd [ddd] <tt> HH:mm:ss");
+
+            LabelCurUser.Text = $"Current User : {CMainFrame.DataManager.GetLogin().User.Name}";
         }
 
         public void SetMessage(string strMsg)
@@ -45,5 +47,10 @@ namespace LWDicer.UI
             TextMessage.Text = strMsg;
         }
 
+        private void BtnUserLogin_Click(object sender, EventArgs e)
+        {
+            FormUserLogin dlg = new FormUserLogin();
+            dlg.ShowDialog();
+        }
     }
 }
