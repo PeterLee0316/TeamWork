@@ -168,8 +168,6 @@ namespace LWDicer.Control
 
             public ELanguage Language = ELanguage.KOREAN;
 
-            public string UserName = NAME_DEFAULT_OPERATOR;
-
             // SafetyPos for Axis Move 
             // Teching 화면에서 Teaching하는 UnitPos.WaitPos 과는 다른 용도로, make engineer가 
             // 시스템적으로 지정하는 절대 안전 위치
@@ -577,11 +575,12 @@ namespace LWDicer.Control
         }
 
         // define root folder & default model name
-        public const string NAME_ROOT_FOLDER          = "root";
-        public const string NAME_DEFAULT_MODEL        = "default";
-        public const string NAME_ENGINEER_FOLDER      = "Engineer";
-        public const string NAME_OPERATOR_FOLDER      = "Operator";
-        public const string NAME_DEFAULT_OPERATOR     = "OP0001";
+        public const string NAME_ROOT_FOLDER            = "root";
+        public const string NAME_DEFAULT_MODEL          = "default";
+        //public const string NAME_ENGINEER_FOLDER      = "Engineer";
+        //public const string NAME_OPERATOR_FOLDER      = "Operator";
+        public const string NAME_DEFAULT_OPERATOR       = "Operator";
+        public const string NAME_MAKER                  = "Maker";
 
 
         public enum EListHeaderType
@@ -721,7 +720,7 @@ namespace LWDicer.Control
 
         /////////////////////////////////////////////////////////////////////////////////
         // User Info
-        private CLoginInfo LoginInfo;
+        public CLoginInfo LoginInfo { get; private set; }
         public List<CListHeader> UserInfoHeaderList { get; set; } = new List<CListHeader>();
 
         /////////////////////////////////////////////////////////////////////////////////
@@ -765,7 +764,7 @@ namespace LWDicer.Control
             : base(objInfo)
         {
             DBInfo = dbInfo;
-            SetLogin(true);
+            Login("", true);
 
             for(int i = 0; i < DEF_IO.MAX_IO_INPUT; i++)
             {
@@ -2084,6 +2083,7 @@ namespace LWDicer.Control
             ////////////////////////////////////////////////////////////////////////////////
             // UserInfo
             type = EListHeaderType.USERINFO;
+
             // make root folder
             if (IsModelHeaderExist(NAME_ROOT_FOLDER, type) == false)
             {
@@ -2093,24 +2093,38 @@ namespace LWDicer.Control
                 //iResult = SaveModelHeaderList(type);
                 //if (iResult != SUCCESS) return iResult;
             }
+            
             // make engineer folder
-            if (IsModelHeaderExist(NAME_ENGINEER_FOLDER, type) == false)
+            if (IsModelHeaderExist(ELoginType.ENGINEER.ToString(), type) == false)
             {
                 CListHeader header = new CListHeader();
-                header.SetFolder(NAME_ENGINEER_FOLDER, "", NAME_ROOT_FOLDER);
+                header.SetFolder(ELoginType.ENGINEER.ToString(), "", NAME_ROOT_FOLDER);
                 UserInfoHeaderList.Add(header);
                 //iResult = SaveModelHeaderList(type);
                 //if (iResult != SUCCESS) return iResult;
             }
+
             // make operator folder
-            if (IsModelHeaderExist(NAME_OPERATOR_FOLDER, type) == false)
+            if (IsModelHeaderExist(ELoginType.OPERATOR.ToString(), type) == false)
             {
                 CListHeader header = new CListHeader();
-                header.SetFolder(NAME_OPERATOR_FOLDER, "", NAME_ROOT_FOLDER);
+                header.SetFolder(ELoginType.OPERATOR.ToString(), "", NAME_ROOT_FOLDER);
                 UserInfoHeaderList.Add(header);
                 //iResult = SaveModelHeaderList(type);
                 //if (iResult != SUCCESS) return iResult;
             }
+
+            // make maker folder
+            if (IsModelHeaderExist(ELoginType.MAKER.ToString(), type) == false)
+            {
+                CListHeader header = new CListHeader();
+                header.SetFolder(ELoginType.MAKER.ToString(), "", NAME_ROOT_FOLDER);
+                UserInfoHeaderList.Add(header);
+                //iResult = SaveModelHeaderList(type);
+                //if (iResult != SUCCESS) return iResult;
+            }
+
+            // save header list
             iResult = SaveModelHeaderList(type);
             if (iResult != SUCCESS) return iResult;
 
@@ -2118,14 +2132,31 @@ namespace LWDicer.Control
             if (IsModelHeaderExist(NAME_DEFAULT_OPERATOR, type) == false)
             {
                 CListHeader header = new CListHeader();
-                header.SetModel(NAME_DEFAULT_OPERATOR, NAME_DEFAULT_OPERATOR, NAME_OPERATOR_FOLDER);
+                header.SetModel(NAME_DEFAULT_OPERATOR, NAME_DEFAULT_OPERATOR, ELoginType.OPERATOR.ToString());
                 UserInfoHeaderList.Add(header);
                 iResult = SaveModelHeaderList(type);
                 if (iResult != SUCCESS) return iResult;
             }
+
             if (IsModelExist(NAME_DEFAULT_OPERATOR, type) == false)
             {
-                CUserInfo data = new CUserInfo(NAME_DEFAULT_OPERATOR, NAME_DEFAULT_OPERATOR, "");
+                CUserInfo data = new CUserInfo(NAME_DEFAULT_OPERATOR, NAME_DEFAULT_OPERATOR, "", ELoginType.OPERATOR);
+                iResult = SaveModelData(data);
+                if (iResult != SUCCESS) return iResult;
+            }
+
+            // make maker
+            if (IsModelHeaderExist(NAME_MAKER, type) == false)
+            {
+                CListHeader header = new CListHeader();
+                header.SetModel(NAME_MAKER, NAME_MAKER, ELoginType.MAKER.ToString());
+                UserInfoHeaderList.Add(header);
+                iResult = SaveModelHeaderList(type);
+                if (iResult != SUCCESS) return iResult;
+            }
+            if (IsModelExist(NAME_MAKER, type) == false)
+            {
+                CUserInfo data = new CUserInfo(NAME_MAKER, NAME_MAKER, "", ELoginType.MAKER);
                 iResult = SaveModelData(data);
                 if (iResult != SUCCESS) return iResult;
             }
@@ -2810,32 +2841,38 @@ namespace LWDicer.Control
             return SUCCESS;
         }
 
-        public CLoginInfo GetLogin()
+        public int Logout()
         {
-            return LoginInfo;
+            int iResult = Login(NAME_DEFAULT_OPERATOR);
+            return iResult;
         }
 
-        public int SetLogin(bool IsSystemStart = false)
+        public int Login(string name, bool IsSystemStart = false)
         {
             CUserInfo user = new CUserInfo();
             if(IsSystemStart == false)
             {
-                if (LoginInfo.User.Name == SystemData.UserName)
+                if (LoginInfo.User.Name == name)
                     return SUCCESS;
-
-                LoadUserInfo(SystemData.UserName, out user);
 
                 // 1. logout and save
                 LoginInfo.AccessTime = DateTime.Now;
                 LoginInfo.AccessType = false;
                 SaveLoginHistory(LoginInfo);
+                DBManager.SetOperator(LoginInfo.User.Name, LoginInfo.User.Type.ToString());
+                WriteLog($"{LoginInfo}", ELogType.LOGINOUT, ELogWType.LOGOUT);
 
                 // 2. login and save
+                LoadUserInfo(name, out user);
                 LoginInfo = new CLoginInfo(user);
                 LoginInfo.AccessTime = DateTime.Now;
                 LoginInfo.AccessType = true;
                 SaveLoginHistory(LoginInfo);
-            } else
+                DBManager.SetOperator(user.Name, user.Type.ToString());
+                WriteLog($"{LoginInfo}", ELogType.LOGINOUT, ELogWType.LOGIN);
+
+            }
+            else
             {
                 user.SetMaker();
 
@@ -2844,11 +2881,9 @@ namespace LWDicer.Control
                 LoginInfo.AccessTime = DateTime.Now;
                 LoginInfo.AccessType = true;
                 SaveLoginHistory(LoginInfo);
+                DBManager.SetOperator(user.Name, user.Type.ToString());
+                WriteLog($"{LoginInfo}", ELogType.LOGINOUT, ELogWType.LOGIN);
             }
-
-
-            DBManager.SetOperator(user.Name, user.Type.ToString());
-            WriteLog($"login : {LoginInfo}", ELogType.LOGIN, ELogWType.LOGIN);
 
             return SUCCESS;
         }

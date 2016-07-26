@@ -12,9 +12,10 @@ namespace LWDicer.UI
 {
     public partial class FormKeyBoard : Form
     {
-        string strInput = "";
+        public string InputString = "";
+        bool SecretMode;
 
-        public FormKeyBoard(string title)
+        public FormKeyBoard(string title, bool SecretMode = false)
         {
             InitializeComponent();
 
@@ -28,7 +29,7 @@ namespace LWDicer.UI
 
             if (String.IsNullOrWhiteSpace(title)) BtnTitle.Visible = false;
             BtnTitle.Text = title;
-            strInput = "";
+            this.SecretMode = SecretMode;
         }
 
         private void BtnNo_Click(object sender, EventArgs e)
@@ -38,39 +39,46 @@ namespace LWDicer.UI
 
             dTag = Convert.ToDouble(Btn.Tag);
 
-            strInput = strInput + Convert.ToDouble(dTag);
+            InputString = InputString + Convert.ToDouble(dTag);
 
-            UpdateDisplay(strInput);
+            UpdateDisplay(InputString);
         }
         private void btn_Char_Click(object sender, EventArgs e)
         {
             Button Btn = sender as Button;
-            strInput = strInput + Btn.Text;
-            UpdateDisplay(strInput);
+            InputString = InputString + Btn.Text;
+            UpdateDisplay(InputString);
 
         }
 
         private void UpdateDisplay(string strNo)
         {
-            PresentNo.Text = strNo;
+            string str = strNo;
+            if(SecretMode)
+            {
+                str = "";
+                for (int i = 0; i < strNo.Length; i++)
+                    str += "*";
+            }
+            PresentNo.Text = str;
         }
 
         private void BtnBack_Click(object sender, EventArgs e)
         {
             int nNo = 0;
 
-            if (strInput == "")
+            if (InputString == "")
                 return;
 
-            nNo = strInput.Length - 1;
-            strInput = strInput.Remove(nNo, 1);
-            UpdateDisplay(strInput);
+            nNo = InputString.Length - 1;
+            InputString = InputString.Remove(nNo, 1);
+            UpdateDisplay(InputString);
         }
 
         private void BtnClear_Click(object sender, EventArgs e)
         {
-            strInput = "";
-            UpdateDisplay(strInput);
+            InputString = "";
+            UpdateDisplay(InputString);
         }
     }
 }

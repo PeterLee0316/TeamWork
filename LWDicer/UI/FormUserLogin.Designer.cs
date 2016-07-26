@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormUserLogin));
-            this.BtnSave = new System.Windows.Forms.Button();
+            this.BtnLogin = new System.Windows.Forms.Button();
             this.BtnExit = new System.Windows.Forms.Button();
             this.ComboUser = new System.Windows.Forms.ComboBox();
             this.LabelUser = new Syncfusion.Windows.Forms.Tools.GradientLabel();
@@ -38,22 +38,23 @@
             this.LabelComment = new Syncfusion.Windows.Forms.Tools.GradientLabel();
             this.LabelType = new Syncfusion.Windows.Forms.Tools.GradientLabel();
             this.BtnChangePW = new System.Windows.Forms.Button();
+            this.BtnLogout = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
-            // BtnSave
+            // BtnLogin
             // 
-            this.BtnSave.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.BtnSave.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.BtnSave.Image = ((System.Drawing.Image)(resources.GetObject("BtnSave.Image")));
-            this.BtnSave.Location = new System.Drawing.Point(211, 154);
-            this.BtnSave.Name = "BtnSave";
-            this.BtnSave.Size = new System.Drawing.Size(124, 61);
-            this.BtnSave.TabIndex = 754;
-            this.BtnSave.Text = " Login";
-            this.BtnSave.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.BtnSave.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.BtnSave.UseVisualStyleBackColor = true;
-            this.BtnSave.Click += new System.EventHandler(this.BtnSave_Click);
+            this.BtnLogin.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.BtnLogin.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.BtnLogin.Image = ((System.Drawing.Image)(resources.GetObject("BtnLogin.Image")));
+            this.BtnLogin.Location = new System.Drawing.Point(152, 173);
+            this.BtnLogin.Name = "BtnLogin";
+            this.BtnLogin.Size = new System.Drawing.Size(124, 61);
+            this.BtnLogin.TabIndex = 754;
+            this.BtnLogin.Text = " Login";
+            this.BtnLogin.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.BtnLogin.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.BtnLogin.UseVisualStyleBackColor = true;
+            this.BtnLogin.Click += new System.EventHandler(this.BtnLogin_Click);
             // 
             // BtnExit
             // 
@@ -61,7 +62,7 @@
             this.BtnExit.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
             this.BtnExit.Image = ((System.Drawing.Image)(resources.GetObject("BtnExit.Image")));
             this.BtnExit.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.BtnExit.Location = new System.Drawing.Point(341, 154);
+            this.BtnExit.Location = new System.Drawing.Point(410, 173);
             this.BtnExit.Name = "BtnExit";
             this.BtnExit.Size = new System.Drawing.Size(124, 61);
             this.BtnExit.TabIndex = 753;
@@ -80,7 +81,7 @@
             this.ComboUser.IntegralHeight = false;
             this.ComboUser.Location = new System.Drawing.Point(151, 26);
             this.ComboUser.Name = "ComboUser";
-            this.ComboUser.Size = new System.Drawing.Size(314, 27);
+            this.ComboUser.Size = new System.Drawing.Size(383, 27);
             this.ComboUser.TabIndex = 842;
             this.ComboUser.SelectedIndexChanged += new System.EventHandler(this.ComboUser_SelectedIndexChanged);
             // 
@@ -129,7 +130,7 @@
             this.gradientLabel2.Name = "gradientLabel2";
             this.gradientLabel2.Size = new System.Drawing.Size(135, 31);
             this.gradientLabel2.TabIndex = 844;
-            this.gradientLabel2.Text = "Type";
+            this.gradientLabel2.Text = "Group";
             this.gradientLabel2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // LabelComment
@@ -142,7 +143,7 @@
             this.LabelComment.ForeColor = System.Drawing.Color.Black;
             this.LabelComment.Location = new System.Drawing.Point(151, 60);
             this.LabelComment.Name = "LabelComment";
-            this.LabelComment.Size = new System.Drawing.Size(314, 31);
+            this.LabelComment.Size = new System.Drawing.Size(383, 31);
             this.LabelComment.TabIndex = 845;
             this.LabelComment.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
@@ -156,7 +157,7 @@
             this.LabelType.ForeColor = System.Drawing.Color.Black;
             this.LabelType.Location = new System.Drawing.Point(151, 96);
             this.LabelType.Name = "LabelType";
-            this.LabelType.Size = new System.Drawing.Size(314, 31);
+            this.LabelType.Size = new System.Drawing.Size(383, 31);
             this.LabelType.TabIndex = 846;
             this.LabelType.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
@@ -165,21 +166,37 @@
             this.BtnChangePW.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.BtnChangePW.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
             this.BtnChangePW.Image = ((System.Drawing.Image)(resources.GetObject("BtnChangePW.Image")));
-            this.BtnChangePW.Location = new System.Drawing.Point(81, 154);
+            this.BtnChangePW.Location = new System.Drawing.Point(23, 173);
             this.BtnChangePW.Name = "BtnChangePW";
             this.BtnChangePW.Size = new System.Drawing.Size(124, 61);
             this.BtnChangePW.TabIndex = 847;
-            this.BtnChangePW.Text = "암호 변경";
-            this.BtnChangePW.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.BtnChangePW.Text = "Change Password";
+            this.BtnChangePW.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.BtnChangePW.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.BtnChangePW.UseVisualStyleBackColor = true;
             this.BtnChangePW.Click += new System.EventHandler(this.BtnChangePW_Click);
+            // 
+            // BtnLogout
+            // 
+            this.BtnLogout.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.BtnLogout.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.BtnLogout.Image = ((System.Drawing.Image)(resources.GetObject("BtnLogout.Image")));
+            this.BtnLogout.Location = new System.Drawing.Point(281, 173);
+            this.BtnLogout.Name = "BtnLogout";
+            this.BtnLogout.Size = new System.Drawing.Size(124, 61);
+            this.BtnLogout.TabIndex = 848;
+            this.BtnLogout.Text = " Logout";
+            this.BtnLogout.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.BtnLogout.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.BtnLogout.UseVisualStyleBackColor = true;
+            this.BtnLogout.Click += new System.EventHandler(this.BtnLogout_Click);
             // 
             // FormUserLogin
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(482, 232);
+            this.ClientSize = new System.Drawing.Size(546, 247);
+            this.Controls.Add(this.BtnLogout);
             this.Controls.Add(this.BtnChangePW);
             this.Controls.Add(this.LabelType);
             this.Controls.Add(this.LabelComment);
@@ -187,7 +204,7 @@
             this.Controls.Add(this.gradientLabel1);
             this.Controls.Add(this.ComboUser);
             this.Controls.Add(this.LabelUser);
-            this.Controls.Add(this.BtnSave);
+            this.Controls.Add(this.BtnLogin);
             this.Controls.Add(this.BtnExit);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "FormUserLogin";
@@ -200,7 +217,7 @@
 
         #endregion
 
-        private System.Windows.Forms.Button BtnSave;
+        private System.Windows.Forms.Button BtnLogin;
         private System.Windows.Forms.Button BtnExit;
         private System.Windows.Forms.ComboBox ComboUser;
         private Syncfusion.Windows.Forms.Tools.GradientLabel LabelUser;
@@ -209,5 +226,6 @@
         private Syncfusion.Windows.Forms.Tools.GradientLabel LabelComment;
         private Syncfusion.Windows.Forms.Tools.GradientLabel LabelType;
         private System.Windows.Forms.Button BtnChangePW;
+        private System.Windows.Forms.Button BtnLogout;
     }
 }

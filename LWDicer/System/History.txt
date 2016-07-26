@@ -293,6 +293,13 @@ undefined 가 아닌 부분만 업데이트함. & 두번씩 저장하던 부분 
 CSpinStep class -> CCleanStep / CCoatStep class 로 분리
 2. Yaskawa IO class 수정. 아진 보드를 위해 MP2100 보드 셋팅 및 출력 부분 확인 완료.
 
+// Version : 0.0.29
+// Grade : ★
+// Date : 160725~
+// Context
+1. User Login & Manage User List UI & DB 수정
+2. Log 조회화면 수정. (엑셀 export부분은 추가 수정 필요)
+
 // for Project setting
 // WIN32, SIMULATION_VISION, SIMULATION_MOTION_ACS, SIMULATION_MOTION_YMC, SIMULATION_IO
 

@@ -15,8 +15,10 @@ namespace LWDicer.UI
 {
     public partial class FormChangePassword : Form
     {
-        public FormChangePassword()
+        string UserName;
+        public FormChangePassword(string name)
         {
+            UserName = name;
             InitializeComponent();
         }
 
@@ -27,31 +29,35 @@ namespace LWDicer.UI
 
         private void BtnChange_Click(object sender, EventArgs e)
         {
+            CUserInfo info;
+            CMainFrame.DataManager.LoadUserInfo(UserName, out info);
+            if (info.Password != CurrentPW.Text)
+            {
+                CMainFrame.DisplayMsg("current password is wrong");
+                return;
+            }
+
+
             if (NewPW1.Text != NewPW2.Text)
             {
-                NewPW1.Text = "";
-                NewPW2.Text = "";
-                CMainFrame.DisplayMsg("The new password was not matched.");
+                CMainFrame.DisplayMsg("new password are not matched.");
                 return;
             }
 
-            if (NewPW1.Text == "" || NewPW2.Text == "")
+            if (String.IsNullOrWhiteSpace(NewPW1.Text))
             {
-                NewPW1.Text = "";
-                NewPW2.Text = "";
-                CMainFrame.DisplayMsg("Please input new password.");
+                CMainFrame.DisplayMsg("input new password.");
                 return;
             }
 
-            if (!CMainFrame.DisplayMsg("Do you like to change the new password?"))
+            if (!CMainFrame.DisplayMsg("Do you like to change password?"))
             {
                 return;
             }
 
-            CMainFrame.DataManager.GetLogin().User.Password = NewPW2.Text;
-
-            CUserInfo userInfoData = new CUserInfo(CMainFrame.DataManager.GetLogin().User.Name, CMainFrame.DataManager.GetLogin().User.Comment, CMainFrame.DataManager.GetLogin().User.Password, CMainFrame.DataManager.GetLogin().User.Type);
-            CMainFrame.DataManager.SaveModelData(userInfoData);
+            info.Password = NewPW2.Text;
+            int iResult = CMainFrame.DataManager.SaveModelData(info);
+            CMainFrame.DisplayAlarm(iResult);
         }
 
         private void BtnExit_Click(object sender, EventArgs e)
@@ -68,16 +74,9 @@ namespace LWDicer.UI
         {
             string strModify;
 
-            if (!CMainFrame.LWDicer.GetKeyboard(out strModify, "Input Current Password"))
+            if (!CMainFrame.LWDicer.GetKeyboard(out strModify, "Input Current Password", true))
             {
-                CurrentPW.Text = ""; NewPW1.Text = ""; NewPW2.Text = "";
-                return;
-            }
-
-            if (CMainFrame.DataManager.GetLogin().User.Password != strModify)
-            {
-                CurrentPW.Text = ""; NewPW1.Text = ""; NewPW2.Text = "";
-                CMainFrame.DisplayMsg("You have inputted the wrong password.");
+                //CurrentPW.Text = ""; NewPW1.Text = ""; NewPW2.Text = "";
                 return;
             }
 
@@ -88,42 +87,34 @@ namespace LWDicer.UI
         {
             string strModify;
 
-            if(CurrentPW.Text == "" || CMainFrame.DataManager.GetLogin().User.Password != CurrentPW.Text)
-            {
-                NewPW1.Text = ""; NewPW2.Text = "";
-                return;
-            }
+            //if(CurrentPW.Text == "" || CMainFrame.DataManager.LoginInfo.User.Password != CurrentPW.Text)
+            //{
+            //    NewPW1.Text = "";
+            //    return;
+            //}
 
-            if (!CMainFrame.LWDicer.GetKeyboard(out strModify, "Input New Password"))
+            if (!CMainFrame.LWDicer.GetKeyboard(out strModify, "Input New Password", true))
             {
-                NewPW1.Text = ""; NewPW2.Text = "";
+                NewPW1.Text = "";
                 return;
             }
 
             NewPW1.Text = strModify;
-            NewPW2.Text = "";
         }
 
         private void NewPW2_Click(object sender, EventArgs e)
         {
             string strModify;
 
-            if (CurrentPW.Text == "" || NewPW1.Text == "")
-            {
-                NewPW2.Text = "";
-                return;
-            }
+            //if (CurrentPW.Text == "" || NewPW1.Text == "")
+            //{
+            //    NewPW2.Text = "";
+            //    return;
+            //}
 
-            if (!CMainFrame.LWDicer.GetKeyboard(out strModify, "Confirm New Password"))
+            if (!CMainFrame.LWDicer.GetKeyboard(out strModify, "Confirm New Password", true))
             {
                 NewPW2.Text = "";
-                return;
-            }
-
-            if(NewPW1.Text != strModify)
-            {
-                NewPW2.Text = "";
-                CMainFrame.DisplayMsg("The new password was not matched.");
                 return;
             }
 

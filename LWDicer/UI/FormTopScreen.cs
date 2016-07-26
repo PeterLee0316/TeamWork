@@ -39,7 +39,8 @@ namespace LWDicer.UI
         {
             TextTime.Text = DateTime.Now.ToString("yyyy-MM-dd [ddd] <tt> HH:mm:ss");
 
-            LabelCurUser.Text = $"Current User : {CMainFrame.DataManager.GetLogin().User.Name}";
+            //LabelCurUser.Text = $"Current User : {CMainFrame.DataManager.LoginInfo.User.Name}";
+            BtnUserLogin.Text = $"Login : {CMainFrame.DataManager.LoginInfo.User.Name}";
         }
 
         public void SetMessage(string strMsg)

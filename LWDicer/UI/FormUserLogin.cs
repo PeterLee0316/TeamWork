@@ -16,55 +16,35 @@ namespace LWDicer.UI
 {
     public partial class FormUserLogin : Form
     {
-        private List<CListHeader> HeaderList;
-
-        private CUserInfo userinfo = new CUserInfo();
-
-        private string[] StrUser;
-
-        private int selectindex;
+        private List<CListHeader> InfoHeaderList;
+        private string[] UserList;
 
 
         public FormUserLogin()
         {
-            int nCount=0, i, curIndex=0;
-
-            string strName;
-
             InitializeComponent();
 
-            HeaderList = CMainFrame.DataManager.UserInfoHeaderList;
+            InfoHeaderList = CMainFrame.DataManager.UserInfoHeaderList;
+            UserList = new string[InfoHeaderList.Count];
 
-            StrUser = new string[HeaderList.Count];
+            // add user
+            int nCount=0;
+            AddUserToList(ref nCount, ELoginType.OPERATOR.ToString());
+            AddUserToList(ref nCount, ELoginType.ENGINEER.ToString());
+            AddUserToList(ref nCount, ELoginType.MAKER.ToString());
 
-            for(i=0;i<HeaderList.Count;i++)
+            // Default Operator
+            if (CMainFrame.DataManager.LoginInfo.User.Name == NAME_DEFAULT_OPERATOR)
             {
-                StrUser[i] = "";
+                BtnLogout.Enabled = false;
+            }
+            else
+            {
+                BtnLogout.Enabled = true;
             }
 
-            foreach (CListHeader info in CMainFrame.DataManager.UserInfoHeaderList)
-            {
-                if (info.IsFolder == false)
-                {
-                    if (CMainFrame.DataManager.GetLogin().User.Name == info.Name) curIndex = nCount;
 
-                    strName = $"{info.Parent} : {info.Name}";
-
-                    ComboUser.Items.Add(strName);
-
-                    StrUser[nCount] = info.Name;
-
-                    nCount++;
-                }
-            }
-
-            ComboUser.SelectedIndex = curIndex;
-
-            LabelComment.Text = CMainFrame.DataManager.GetLogin().User.Comment;
-            LabelType.Text = Convert.ToString(CMainFrame.DataManager.GetLogin().User.Type);
-
-            this.Text = $"User Login [ Current Model : {CMainFrame.DataManager.ModelData.Name} ]";
-
+            //this.Text = $"User Login [ Current Model : {CMainFrame.DataManager.ModelData.Name} ]";
         }
 
         private void FormClose()
@@ -72,9 +52,32 @@ namespace LWDicer.UI
             this.Hide();
         }
 
-        private void BtnSave_Click(object sender, EventArgs e)
+        private void AddUserToList(ref int nCount, string strParent)
         {
-            if (!CMainFrame.DisplayMsg("Do you like to change user mode?"))
+            string strName;
+
+            foreach (CListHeader info in InfoHeaderList)
+            {
+                if (info.Parent != strParent) continue;
+                if (info.IsFolder == false)
+                {
+                    strName = $"[{info.Parent}] : {info.Name}";
+
+                    ComboUser.Items.Add(strName);
+                    UserList[nCount] = info.Name;
+                    nCount++;
+
+                    if (CMainFrame.DataManager.LoginInfo.User.Name == info.Name)
+                    {
+                        ComboUser.SelectedIndex = nCount - 1;
+                    }
+                }
+            }
+        }
+
+        private void BtnLogin_Click(object sender, EventArgs e)
+        {
+            if (!CMainFrame.DisplayMsg("Login selected user?"))
             {
                 return;
             }
@@ -82,22 +85,21 @@ namespace LWDicer.UI
             // Password Check
             string strModify;
 
-            if (!CMainFrame.LWDicer.GetKeyboard(out strModify, $"Input {CMainFrame.DataManager.GetLogin().User.Name} Password"))
+            if (!CMainFrame.LWDicer.GetKeyboard(out strModify, $"Input Password", true))
             {
                 return;
             }
 
-            if (strModify != CMainFrame.DataManager.GetLogin().User.Password)
+            CUserInfo info;
+            int iResult = CMainFrame.DataManager.LoadUserInfo(UserList[ComboUser.SelectedIndex], out info);
+            string password = info.Name == NAME_MAKER ? info.GetMakerPassword() : info.Password;
+            if (strModify != password)
             {
-                CMainFrame.DisplayMsg("You have inputted the wrong password.");
+                CMainFrame.DisplayMsg("You have inputted wrong password.");
                 return;
             }
 
-            CMainFrame.LWDicer.m_DataManager.SystemData.UserName = StrUser[selectindex];
-
-            CMainFrame.DataManager.SetLogin();
-
-            CMainFrame.LWDicer.m_DataManager.SaveSystemData(CMainFrame.LWDicer.m_DataManager.SystemData);
+            CMainFrame.DataManager.Login(info.Name);
 
             FormClose();
         }
@@ -109,18 +111,33 @@ namespace LWDicer.UI
 
         private void ComboUser_SelectedIndexChanged(object sender, EventArgs e)
         {
-            ComboBox User = (ComboBox)sender;
-
-            selectindex = User.SelectedIndex;
-
-            foreach (CListHeader info in CMainFrame.DataManager.UserInfoHeaderList)
+            foreach (CListHeader info in InfoHeaderList)
             {
                 if (info.IsFolder == false)
                 {
-                    if(StrUser[selectindex] == info.Name)
+                    if(UserList[ComboUser.SelectedIndex] == info.Name)
                     {
                         LabelComment.Text = info.Comment;
                         LabelType.Text = info.Parent;
+
+                        // Maker
+                        if(info.Name == NAME_MAKER || info.Name == NAME_DEFAULT_OPERATOR)
+                        {
+                            BtnChangePW.Enabled = false;
+                        } else
+                        {
+                            BtnChangePW.Enabled = true;
+                        }
+
+                        // Current User
+                        if(CMainFrame.DataManager.LoginInfo.User.Name == info.Name)
+                        {
+                            BtnLogin.Enabled = false;
+                        } else
+                        {
+                            BtnLogin.Enabled = true;
+                        }
+
                         break;
                     }
                 }
@@ -134,9 +151,57 @@ namespace LWDicer.UI
 
         private void BtnChangePW_Click(object sender, EventArgs e)
         {
-            
-            FormChangePassword dlg = new FormChangePassword();
-            dlg.ShowDialog();
+
+            //FormChangePassword dlg = new FormChangePassword(UserList[ComboUser.SelectedIndex]);
+            //dlg.ShowDialog();
+            CUserInfo info;
+            CMainFrame.DataManager.LoadUserInfo(UserList[ComboUser.SelectedIndex], out info);
+
+            string strModify;
+
+            // check current. if maker, not check current
+            if(CMainFrame.DataManager.LoginInfo.User.Type != ELoginType.MAKER)
+            {
+                if (!CMainFrame.LWDicer.GetKeyboard(out strModify, "Input Current Password", true))
+                    return;
+                if (info.Password != strModify)
+                {
+                    CMainFrame.DisplayMsg("current password is wrong");
+                    return;
+                }
+            }
+
+            // check new
+            if (!CMainFrame.LWDicer.GetKeyboard(out strModify, "Input New Password", true))
+                return;
+
+            if(string.IsNullOrWhiteSpace(strModify))
+            {
+                CMainFrame.DisplayMsg("input password is null or white space");
+                return;
+            }
+            info.Password = strModify;
+
+            // check confirm
+            if (!CMainFrame.LWDicer.GetKeyboard(out strModify, "Confirm New Password", true))
+                return;
+
+            if (info.Password != strModify)
+            {
+                CMainFrame.DisplayMsg("new password are not matched.");
+                return;
+            }
+
+            // save
+            int iResult = CMainFrame.DataManager.SaveModelData(info);
+            CMainFrame.DisplayAlarm(iResult);
+
+        }
+
+        private void BtnLogout_Click(object sender, EventArgs e)
+        {
+            CMainFrame.DataManager.Logout();
+            FormClose();
         }
     }
 }

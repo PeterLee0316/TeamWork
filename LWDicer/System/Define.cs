@@ -512,12 +512,12 @@ namespace LWDicer.Control
             MAKER,
         }
 
-        public class USERTYPE
-        {
-            public static readonly String OPERATOR = "OPERATOR";
-            public static readonly String ENGINEER = "ENGINEER";
-            public static readonly String MAKER    = "MAKER";
-        }
+        //public class USERTYPE
+        //{
+        //    public static readonly String OPERATOR = "OPERATOR";
+        //    public static readonly String ENGINEER = "ENGINEER";
+        //    public static readonly String MAKER    = "MAKER";
+        //}
 
         public class CUserInfo
         {
@@ -525,7 +525,6 @@ namespace LWDicer.Control
             public string Comment       = "default";
             public string Password      = "";
             public ELoginType Type      = ELoginType.OPERATOR;    // 필수
-            // if User is Maker, get password = String.Format($"{DateTime.Now.Day - 1,00}{DateTime.Now.Month - 1,00}");
 
             public CUserInfo()
             { }
@@ -540,14 +539,21 @@ namespace LWDicer.Control
 
             public override string ToString()
             {
-                return $"{Type}, {Name}, {Comment}";
+                return $"[{Type}] {Name}, {Comment}";
             }
 
             public void SetMaker()
             {
-                Name    = "Maker";
-                Comment = "Maker";
+                Name    = ELoginType.MAKER.ToString();
+                Comment = ELoginType.MAKER.ToString();
                 Type    = ELoginType.MAKER;
+            }
+
+            public string GetMakerPassword()
+            {
+                // if User is Maker, 
+                string str = $"{(DateTime.Now.Day - 1).ToString("D2")}{(DateTime.Now.Month - 1).ToString("D2")}";
+                return str;
             }
         }
 
@@ -564,13 +570,13 @@ namespace LWDicer.Control
 
             public string GetAccessType()
             {
-                string str = (AccessType == true) ? "login" : "logoff";
+                string str = (AccessType == true) ? "login" : "logout";
                 return str;
             }
 
             public override string ToString()
             {
-                return $"{User}, {GetAccessType()}, {AccessTime}";
+                return $"{GetAccessType()} : {User}, {AccessTime}";
             }
         }
 
@@ -601,7 +607,7 @@ namespace LWDicer.Control
             Tact,
 
             // 이하의 DB는 ELog에 저장하는 형태로
-            LOGIN,
+            LOGINOUT,
             SECGEM,
             SYSTEM,
             RUN,
@@ -757,7 +763,7 @@ namespace LWDicer.Control
                 DBName_ELog             = "LWD_ELog_v01.db3";
                 DBConn_ELog             = $"Data Source={DBDir_Log}{DBName_ELog}";
 
-                TableLoginHistory       = "LoginHistory2";
+                TableLoginHistory       = "LoginHistory";
                 TableAlarmHistory       = "AlarmHistory";
                 TableDebugLog           = "DLog";
                 TableEventLog           = "ELog";

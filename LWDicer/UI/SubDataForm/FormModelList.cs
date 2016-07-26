@@ -83,7 +83,7 @@ namespace LWDicer.UI
 
                 case EListHeaderType.USERINFO:
                     HeaderList = CMainFrame.DataManager.UserInfoHeaderList;
-                    CurrentUsing_ModelName = CMainFrame.DataManager.GetLogin().User.Name;
+                    CurrentUsing_ModelName = CMainFrame.DataManager.LoginInfo.User.Name;
                     DisplayTypeName = "User Info";
                     this.Text = "User Info Data";
 
@@ -350,7 +350,7 @@ namespace LWDicer.UI
         {
             if (ListType == EListHeaderType.USERINFO)
             {
-                if(!(strSelMakerName == NAME_OPERATOR_FOLDER || strSelMakerName == NAME_ENGINEER_FOLDER))
+                if(!(strSelMakerName == ELoginType.OPERATOR.ToString() || strSelMakerName == ELoginType.ENGINEER.ToString()))
                     return;
             }
 
@@ -383,15 +383,15 @@ namespace LWDicer.UI
             // Password
             if(ListType == EListHeaderType.USERINFO)
             {
-                CMainFrame.LWDicer.GetKeyboard(out strModify, "Input Password");
+                CMainFrame.LWDicer.GetKeyboard(out strModify, "Input Password", true);
                 strPass1 = strModify;
 
-                CMainFrame.LWDicer.GetKeyboard(out strModify, "Input Password Repeat");
+                CMainFrame.LWDicer.GetKeyboard(out strModify, "Input Password Repeat", true);
                 strPass2 = strModify;
 
                 if(strPass1 != strPass2)
                 {
-                    CMainFrame.DisplayMsg("Password is not same.");
+                    CMainFrame.DisplayMsg("Password are not same.");
                     return;
                 }
             }
@@ -433,8 +433,8 @@ namespace LWDicer.UI
                 case EListHeaderType.USERINFO:
                     ELoginType Login = ELoginType.OPERATOR;
 
-                    if (strSelMakerName == "Operator") Login = ELoginType.OPERATOR;
-                    if (strSelMakerName == "Engineer") Login = ELoginType.ENGINEER;
+                    if (strSelMakerName == ELoginType.OPERATOR.ToString()) Login = ELoginType.OPERATOR;
+                    if (strSelMakerName == ELoginType.ENGINEER.ToString()) Login = ELoginType.ENGINEER;
 
                     CUserInfo userInfoData = new CUserInfo(strName, strComment, strPass1, Login);
                     CMainFrame.DataManager.SaveModelData(userInfoData);

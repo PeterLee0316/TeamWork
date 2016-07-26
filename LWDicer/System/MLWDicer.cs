@@ -180,16 +180,6 @@ namespace LWDicer.Control
         public void Dispose()
         {
             // close handle
-                }
-
-        public CLoginInfo GetLogin()
-        {
-            return m_DataManager?.GetLogin();
-        }
-
-        public void SetLogin()
-        {
-            m_DataManager?.SetLogin();
         }
 
         public void TestFunction_BeforeInit()
@@ -281,6 +271,14 @@ namespace LWDicer.Control
             CAlarm alarm = new CAlarm();
             // Process ID가 400부터 시작하기 때문에
             alarm.ProcessID = (pid == 0) ? 400 : pid + 400 - 1; 
+            if(pid < 400)
+            {
+                if (pid == 0) alarm.ProcessID = 400;
+                else alarm.ProcessID = pid + 400 - 1;
+            } else
+            {
+                alarm.ProcessID = pid;
+            }
             alarm.ObjectID = (int)((alarmcode & 0xffff0000) >> 16);
             alarm.ErrorBase = (int)((alarmcode & 0x0000ffff) / 100) * 100;
             alarm.ErrorCode = (int)((alarmcode & 0x0000ffff) % 100);
@@ -710,10 +708,11 @@ namespace LWDicer.Control
             SetThreadChannel();
             StartThreads();
 
-            SetLogin();
             TestFunction_AfterInit();
 
             intro.Hide();
+
+            m_DataManager.Logout(); // logoff maker
 
             return SUCCESS;
         }
@@ -1590,14 +1589,14 @@ namespace LWDicer.Control
             return true;
         }
 
-        public bool GetKeyboard(out string strModify, string title = "Input")
+        public bool GetKeyboard(out string strModify, string title = "Input", bool SecretMode = false)
         {
-            var dlg = new FormKeyBoard(title);
+            var dlg = new FormKeyBoard(title, SecretMode);
             dlg.ShowDialog();
 
             if (dlg.DialogResult == DialogResult.OK)
             {
-                strModify = dlg.PresentNo.Text;
+                strModify = dlg.InputString;
                 return true;
             }
             else

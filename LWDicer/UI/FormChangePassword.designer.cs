@@ -76,9 +76,9 @@
             | System.Windows.Forms.Border3DSide.Right) 
             | System.Windows.Forms.Border3DSide.Bottom)));
             this.CurrentPW.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.CurrentPW.Location = new System.Drawing.Point(224, 9);
+            this.CurrentPW.Location = new System.Drawing.Point(242, 9);
             this.CurrentPW.Name = "CurrentPW";
-            this.CurrentPW.Size = new System.Drawing.Size(320, 40);
+            this.CurrentPW.Size = new System.Drawing.Size(302, 40);
             this.CurrentPW.TabIndex = 758;
             this.CurrentPW.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.CurrentPW.Click += new System.EventHandler(this.CurrentPW_Click);
@@ -90,9 +90,9 @@
             | System.Windows.Forms.Border3DSide.Right) 
             | System.Windows.Forms.Border3DSide.Bottom)));
             this.NewPW1.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.NewPW1.Location = new System.Drawing.Point(224, 53);
+            this.NewPW1.Location = new System.Drawing.Point(242, 53);
             this.NewPW1.Name = "NewPW1";
-            this.NewPW1.Size = new System.Drawing.Size(320, 40);
+            this.NewPW1.Size = new System.Drawing.Size(302, 40);
             this.NewPW1.TabIndex = 759;
             this.NewPW1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.NewPW1.Click += new System.EventHandler(this.NewPW1_Click);
@@ -104,9 +104,9 @@
             | System.Windows.Forms.Border3DSide.Right) 
             | System.Windows.Forms.Border3DSide.Bottom)));
             this.NewPW2.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.NewPW2.Location = new System.Drawing.Point(224, 97);
+            this.NewPW2.Location = new System.Drawing.Point(242, 97);
             this.NewPW2.Name = "NewPW2";
-            this.NewPW2.Size = new System.Drawing.Size(320, 40);
+            this.NewPW2.Size = new System.Drawing.Size(302, 40);
             this.NewPW2.TabIndex = 760;
             this.NewPW2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.NewPW2.Click += new System.EventHandler(this.NewPW2_Click);
@@ -120,9 +120,9 @@
             this.gradientLabel4.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.gradientLabel4.Location = new System.Drawing.Point(14, 9);
             this.gradientLabel4.Name = "gradientLabel4";
-            this.gradientLabel4.Size = new System.Drawing.Size(206, 40);
+            this.gradientLabel4.Size = new System.Drawing.Size(222, 40);
             this.gradientLabel4.TabIndex = 761;
-            this.gradientLabel4.Text = "1. 기존 Password";
+            this.gradientLabel4.Text = "1. Old Password";
             this.gradientLabel4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // gradientLabel1
@@ -134,9 +134,9 @@
             this.gradientLabel1.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.gradientLabel1.Location = new System.Drawing.Point(14, 53);
             this.gradientLabel1.Name = "gradientLabel1";
-            this.gradientLabel1.Size = new System.Drawing.Size(206, 40);
+            this.gradientLabel1.Size = new System.Drawing.Size(222, 40);
             this.gradientLabel1.TabIndex = 762;
-            this.gradientLabel1.Text = "2. 새로운 Password";
+            this.gradientLabel1.Text = "2. New Password";
             this.gradientLabel1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // gradientLabel2
@@ -148,12 +148,12 @@
             this.gradientLabel2.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.gradientLabel2.Location = new System.Drawing.Point(14, 97);
             this.gradientLabel2.Name = "gradientLabel2";
-            this.gradientLabel2.Size = new System.Drawing.Size(206, 40);
+            this.gradientLabel2.Size = new System.Drawing.Size(222, 40);
             this.gradientLabel2.TabIndex = 763;
-            this.gradientLabel2.Text = "3. 새로운 Password 확인";
+            this.gradientLabel2.Text = "3. New Password Confirm";
             this.gradientLabel2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // FormInputPassword
+            // FormChangePassword
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -167,7 +167,7 @@
             this.Controls.Add(this.BtnExit);
             this.Controls.Add(this.BtnChange);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
-            this.Name = "FormInputPassword";
+            this.Name = "FormChangePassword";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Input Password";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormInputPassword_FormClosing);
