@@ -36,12 +36,8 @@ namespace LWDicer.UI
 
         private DataTable datatable;
 
-        //int nLogOption;
         ELogDisplayType LogType;
 
-        //const int SelAlarm = 0;
-        //const int SelEvent = 1;
-        //const int SelDev = 2;
         const int ResultRowCount = 23;
 
         enum ELogDisplayType
@@ -57,7 +53,6 @@ namespace LWDicer.UI
             InitializeComponent();
 
             InitializeForm();
-
 
             DateStart.Value = DateTime.Today;
             DateEnd.Value = DateTime.Today;
@@ -78,7 +73,7 @@ namespace LWDicer.UI
             }
             ComboType.SelectedIndex = 0;
 
-            //InitGrid(SelAlarm);
+            InitGrid();
         }
 
         protected virtual void InitializeForm()
@@ -118,8 +113,8 @@ namespace LWDicer.UI
                     GridCont.ColWidths.SetSize(4, 60);  // Type
                     GridCont.ColWidths.SetSize(5, 160);   // 발생시간  
                     GridCont.ColWidths.SetSize(6, 160);  // 해제시간
-                    GridCont.ColWidths.SetSize(7, 455);   // 내용
-                    GridCont.ColWidths.SetSize(8, 1);   // pid
+                    GridCont.ColWidths.SetSize(7, 400);   // 내용
+                    GridCont.ColWidths.SetSize(8, 55);   // pid
 
                     for (i = 0; i < nRow + 1; i++)
                     {
@@ -135,7 +130,7 @@ namespace LWDicer.UI
                     GridCont[0, 5].Text = "발생시간";
                     GridCont[0, 6].Text = "해제시간";
                     GridCont[0, 7].Text = "내                           용";
-                    GridCont[0, 8].Text = "";
+                    GridCont[0, 8].Text = "P.ID";
                     break;
 
                 case ELogDisplayType.EVENT:
@@ -234,72 +229,6 @@ namespace LWDicer.UI
         {
             InitGrid();
             UpdataEvent();
-
-            //switch (LogType)
-            //{
-            //    case ELogDisplayType.ALARM:
-            //        UpdataAlarm();
-            //        break;
-
-            //    case ELogDisplayType.EVENT:
-            //    case ELogDisplayType.DEVELOPER:
-            //        UpdataEvent();
-            //        break;
-            //}
-        }
-
-        private void UpdataAlarm()
-        {
-            int nEventCount = 0;
-
-            CMainFrame.LWDicer.m_DataManager.LoadAlarmHistory();
-
-            nProcessID = new int[m_AlarmList.Count];
-
-            foreach (CAlarm alarm in m_AlarmList)
-            {
-                if (alarm.OccurTime.Date >= m_StartDate.Date && alarm.OccurTime.Date <= m_EndDate.Date)
-                {
-                    nProcessID[nEventCount] = alarm.ProcessID;
-
-                    nEventCount++;
-
-                    GridCont.RowCount = nEventCount;
-
-                    GridCont[nEventCount, 0].Text = Convert.ToString(nEventCount);
-                    GridCont[nEventCount, 1].Text = Convert.ToString(alarm.ProcessName);
-                    GridCont[nEventCount, 2].Text = Convert.ToString(alarm.ObjectName);
-                    GridCont[nEventCount, 3].Text = Convert.ToString(alarm.Info.Index);
-                    GridCont[nEventCount, 4].Text = Convert.ToString(alarm.Info.Type);
-                    GridCont[nEventCount, 5].Text = Convert.ToString(alarm.OccurTime);
-                    GridCont[nEventCount, 6].Text = Convert.ToString(alarm.ResetTime);
-                    GridCont[nEventCount, 7].Text = Convert.ToString(alarm.Info.Description[(int)CMainFrame.LWDicer.m_DataManager.SystemData.Language]);
-
-                    GridCont[nEventCount, 0].VerticalAlignment = GridVerticalAlignment.Middle;
-                    GridCont[nEventCount, 0].HorizontalAlignment = GridHorizontalAlignment.Center;
-
-                    GridCont.RowStyles[nEventCount].HorizontalAlignment = GridHorizontalAlignment.Center;
-                    GridCont.RowStyles[nEventCount].VerticalAlignment = GridVerticalAlignment.Middle;
-
-                    GridCont[nEventCount, 1].BackColor = Color.FromArgb(230, 210, 255);
-                    GridCont[nEventCount, 2].BackColor = Color.FromArgb(230, 210, 255);
-                    GridCont[nEventCount, 3].BackColor = Color.FromArgb(230, 210, 255);
-                    GridCont[nEventCount, 4].BackColor = Color.FromArgb(230, 210, 255);
-                    GridCont[nEventCount, 5].BackColor = Color.FromArgb(255, 230, 255);
-                    GridCont[nEventCount, 6].BackColor = Color.FromArgb(255, 230, 255);
-
-                    GridCont.RowHeights[nEventCount] = 30;
-                }
-            }
-
-            LabelCount.Text = Convert.ToString(nEventCount);
-
-            GridCont.GridVisualStyles = GridVisualStyles.Office2007Blue;
-            GridCont.ResizeColsBehavior = 0;
-            GridCont.ResizeRowsBehavior = 0;
-
-            // Grid Display Update
-            GridCont.Refresh();
         }
 
         private void UpdataEvent()
@@ -368,7 +297,6 @@ namespace LWDicer.UI
             {
                 int nIndex = i + (nPageNo * GridCont.RowCount);
 
-                //if (datatable.Rows[nIndex]["Time"].ToString() == "")
                 if(nIndex >= datatable.Rows.Count)
                 {
                     GridCont.Rows.RemoveRange(i + 1, GridCont.RowCount);
@@ -489,7 +417,9 @@ namespace LWDicer.UI
             int iCol;
             String strBuf, strFileName = $"_{m_StartDate.Year}{m_StartDate.Month}{m_StartDate.Day}_{m_EndDate.Year}{m_EndDate.Month}{m_EndDate.Day}";
 
-            switch(LogType)
+            if (datatable == null) return;
+
+            switch (LogType)
             {
                 case ELogDisplayType.ALARM:
                     strFileName = "Alarm" + strFileName;
@@ -526,25 +456,67 @@ namespace LWDicer.UI
             {
                 StreamWriter sw = new StreamWriter(savefile.FileName, true, Encoding.GetEncoding("ks_c_5601-1987"));
 
-                for (iRow = 0; iRow <= GridCont.RowCount; iRow++)
+                if (LogType == ELogDisplayType.DEVELOPER || LogType == ELogDisplayType.EVENT)
                 {
-                    strBuf = "";
-                    for (iCol = 0; iCol <= GridCont.ColCount; iCol++)
-                    {
-                        if (iCol == 0 && iRow != 0)
-                        {
-                            strBuf += Convert.ToString(iRow);
-                        }
-                        else
-                        {
-                            //strBuf += GridCont[iRow, iCol].Text;
-                            // for csv
-                            strBuf += GridCont[iRow, iCol].Text.Replace(",", ".");
-                        }
-
-                        strBuf += " ,";
-                    }
+                    // 첫줄 타이틀
+                    strBuf = "Time," + "Name," + "Type," + "Comment," + "File," + "Line,";
                     sw.WriteLine(strBuf);
+
+                    for (iRow = 0 ; iRow < datatable.Rows.Count ; iRow++)
+                    {
+                        strBuf = "";
+                        strBuf = strBuf + Convert.ToString(datatable.Rows[iRow]["Time"].ToString()) + " ,";
+                        strBuf = strBuf + Convert.ToString(datatable.Rows[iRow]["Name"].ToString()) + " ,";
+                        strBuf = strBuf + Convert.ToString(datatable.Rows[iRow]["Type"].ToString()) + " ,";
+                        strBuf = strBuf + Convert.ToString(datatable.Rows[iRow]["Comment"].ToString()).Replace(",", ".") + " ,";
+                        strBuf = strBuf + Convert.ToString(datatable.Rows[iRow]["File"].ToString()) + " ,";
+                        strBuf = strBuf + Convert.ToString(datatable.Rows[iRow]["Line"].ToString()) + " ,";
+
+                        sw.WriteLine(strBuf);
+                    }
+                }
+
+                if (LogType == ELogDisplayType.LOGIN)
+                {
+                    // 첫줄 타이틀
+                    strBuf = "Access Time," + "Access Type," + "Name," + "Comment," + "Group,";
+                    sw.WriteLine(strBuf);
+
+                    for (iRow = 0; iRow < datatable.Rows.Count; iRow++)
+                    {
+                        strBuf = "";
+                        strBuf = strBuf + Convert.ToString(datatable.Rows[iRow]["accesstime"].ToString()) + " ,";
+                        strBuf = strBuf + Convert.ToString(datatable.Rows[iRow]["accesstype"].ToString()) + " ,";
+                        strBuf = strBuf + Convert.ToString(datatable.Rows[iRow]["name"].ToString()) + " ,";
+                        strBuf = strBuf + Convert.ToString(datatable.Rows[iRow]["Comment"].ToString()).Replace(",", ".") + " ,";
+                        strBuf = strBuf + Convert.ToString(datatable.Rows[iRow]["type"].ToString()) + " ,";
+
+                        sw.WriteLine(strBuf);
+                    }
+                }
+
+                if (LogType == ELogDisplayType.ALARM)
+                {
+                    // 첫줄 타이틀
+                    strBuf = "Pro.Name," + "Obj.Name," + "Code," + "Type," + "발생시간," + "해제시간," + "내용," + "Process ID,";
+                    sw.WriteLine(strBuf);
+
+                    for (iRow = 0; iRow < datatable.Rows.Count; iRow++)
+                    {
+                        CAlarm alarm = JsonConvert.DeserializeObject<CAlarm>(datatable.Rows[iRow]["data"].ToString());
+
+                        strBuf = "";
+                        strBuf = strBuf + Convert.ToString(alarm.ProcessName) + " ,";
+                        strBuf = strBuf + Convert.ToString(alarm.ObjectName) + " ,";
+                        strBuf = strBuf + Convert.ToString(alarm.Info.Index) + " ,";
+                        strBuf = strBuf + Convert.ToString(alarm.Info.Type) + " ,";
+                        strBuf = strBuf + Convert.ToString(alarm.OccurTime) + " ,";
+                        strBuf = strBuf + Convert.ToString(alarm.ResetTime) + " ,";
+                        strBuf = strBuf + Convert.ToString(alarm.Info.Description[(int)CMainFrame.LWDicer.m_DataManager.SystemData.Language]).Replace(",", ".") + " ,";
+                        strBuf = strBuf + Convert.ToString(alarm.ProcessID) + " ,";
+
+                        sw.WriteLine(strBuf);
+                    }
                 }
 
                 sw.Close();
@@ -568,27 +540,6 @@ namespace LWDicer.UI
             CAlarm alarm = CMainFrame.LWDicer.GetAlarmInfo(nCode, nPID, false);
             var dlg = new FormAlarmDisplay(alarm);
             dlg.ShowDialog();
-        }
-
-        private void BtnSelect_Click(object sender, EventArgs e)
-        {
-            Button BtnSel = sender as Button;
-            SetLogOption(BtnSel);
-        }
-
-        private void SetLogOption(Button BtnSel)
-        {
-            //BtnSelectAlarm.Image = Image.Images[0]; BtnSelectAlarm.BackColor = Color.LightGray;
-            //BtnSelectEvent.Image = Image.Images[0]; BtnSelectEvent.BackColor = Color.LightGray;
-            //BtnSelectDev.Image = Image.Images[0];   BtnSelectDev.BackColor = Color.LightGray;
-
-            //BtnSel.Image = Image.Images[1];
-            //BtnSel.BackColor = Color.LightSalmon;
-
-            //if (BtnSelectAlarm.Name == BtnSel.Name) { LogType = ELogDisplayType.ALARM; };
-            //if (BtnSelectEvent.Name == BtnSel.Name) { LogType = ELogDisplayType.EVENT; };
-            //if (BtnSelectDev.Name == BtnSel.Name) { LogType = ELogDisplayType.DEVELOPER; };
-                        
         }
 
         private void BtnPageTop_Click(object sender, EventArgs e)
@@ -643,7 +594,6 @@ namespace LWDicer.UI
             if (ComboType.SelectedIndex == 3) LogType = ELogDisplayType.DEVELOPER;
 
             bool bVisible = true;
-            //if (ComboType.SelectedIndex == 0) bVisible = false;
 
             BtnPageTop.Visible = bVisible;
             BtnPageUp.Visible = bVisible;

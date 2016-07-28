@@ -627,3 +627,10 @@ CSpinStep class -> CCleanStep / CCoatStep class 로 분리
 // 4.Wafer Data 초안 작성.
 
 
+// Version : 0.0.23
+// Grade : ★
+// Date : 2016-07-27 ~ 2016-07-28
+// Context
+// 1.Log Screen Excel Export 구문 수정
+
+

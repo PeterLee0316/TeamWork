@@ -38,6 +38,8 @@
             Syncfusion.Windows.Forms.Grid.GridRangeStyle gridRangeStyle6 = new Syncfusion.Windows.Forms.Grid.GridRangeStyle();
             Syncfusion.Windows.Forms.Grid.GridRangeStyle gridRangeStyle7 = new Syncfusion.Windows.Forms.Grid.GridRangeStyle();
             Syncfusion.Windows.Forms.Grid.GridRangeStyle gridRangeStyle8 = new Syncfusion.Windows.Forms.Grid.GridRangeStyle();
+            Syncfusion.Windows.Forms.Grid.GridRangeStyle gridRangeStyle9 = new Syncfusion.Windows.Forms.Grid.GridRangeStyle();
+            Syncfusion.Windows.Forms.Grid.GridRangeStyle gridRangeStyle10 = new Syncfusion.Windows.Forms.Grid.GridRangeStyle();
             this.BtnExport = new System.Windows.Forms.Button();
             this.TitleCount = new Syncfusion.Windows.Forms.Tools.GradientLabel();
             this.LabelCount = new Syncfusion.Windows.Forms.Tools.GradientLabel();
@@ -60,7 +62,7 @@
             // 
             this.BtnExport.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.BtnExport.Image = ((System.Drawing.Image)(resources.GetObject("BtnExport.Image")));
-            this.BtnExport.Location = new System.Drawing.Point(830, 12);
+            this.BtnExport.Location = new System.Drawing.Point(1055, 13);
             this.BtnExport.Name = "BtnExport";
             this.BtnExport.Size = new System.Drawing.Size(129, 57);
             this.BtnExport.TabIndex = 780;
@@ -103,7 +105,7 @@
             // 
             this.BtnClear.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.BtnClear.Image = ((System.Drawing.Image)(resources.GetObject("BtnClear.Image")));
-            this.BtnClear.Location = new System.Drawing.Point(699, 12);
+            this.BtnClear.Location = new System.Drawing.Point(924, 13);
             this.BtnClear.Name = "BtnClear";
             this.BtnClear.Size = new System.Drawing.Size(129, 57);
             this.BtnClear.TabIndex = 777;
@@ -116,7 +118,7 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("맑은 고딕", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.label1.Location = new System.Drawing.Point(456, 13);
+            this.label1.Location = new System.Drawing.Point(523, 29);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(26, 25);
             this.label1.TabIndex = 776;
@@ -126,7 +128,7 @@
             // 
             this.BtnSerch.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.BtnSerch.Image = ((System.Drawing.Image)(resources.GetObject("BtnSerch.Image")));
-            this.BtnSerch.Location = new System.Drawing.Point(568, 12);
+            this.BtnSerch.Location = new System.Drawing.Point(793, 13);
             this.BtnSerch.Name = "BtnSerch";
             this.BtnSerch.Size = new System.Drawing.Size(129, 57);
             this.BtnSerch.TabIndex = 775;
@@ -138,7 +140,7 @@
             // DateEnd
             // 
             this.DateEnd.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.DateEnd.Location = new System.Drawing.Point(336, 46);
+            this.DateEnd.Location = new System.Drawing.Point(555, 27);
             this.DateEnd.Name = "DateEnd";
             this.DateEnd.Size = new System.Drawing.Size(223, 29);
             this.DateEnd.TabIndex = 774;
@@ -147,7 +149,7 @@
             // DateStart
             // 
             this.DateStart.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.DateStart.Location = new System.Drawing.Point(228, 12);
+            this.DateStart.Location = new System.Drawing.Point(294, 27);
             this.DateStart.Name = "DateStart";
             this.DateStart.Size = new System.Drawing.Size(223, 29);
             this.DateStart.TabIndex = 773;
@@ -224,6 +226,22 @@
             gridRangeStyle8.StyleInfo.Font.Strikeout = false;
             gridRangeStyle8.StyleInfo.Font.Underline = false;
             gridRangeStyle8.StyleInfo.Font.Unit = System.Drawing.GraphicsUnit.Point;
+            gridRangeStyle9.Range = Syncfusion.Windows.Forms.Grid.GridRangeInfo.Table();
+            gridRangeStyle9.StyleInfo.Font.Bold = true;
+            gridRangeStyle9.StyleInfo.Font.Facename = "Tahoma";
+            gridRangeStyle9.StyleInfo.Font.Italic = false;
+            gridRangeStyle9.StyleInfo.Font.Size = 8.25F;
+            gridRangeStyle9.StyleInfo.Font.Strikeout = false;
+            gridRangeStyle9.StyleInfo.Font.Underline = false;
+            gridRangeStyle9.StyleInfo.Font.Unit = System.Drawing.GraphicsUnit.Point;
+            gridRangeStyle10.Range = Syncfusion.Windows.Forms.Grid.GridRangeInfo.Table();
+            gridRangeStyle10.StyleInfo.Font.Bold = true;
+            gridRangeStyle10.StyleInfo.Font.Facename = "Tahoma";
+            gridRangeStyle10.StyleInfo.Font.Italic = false;
+            gridRangeStyle10.StyleInfo.Font.Size = 8.25F;
+            gridRangeStyle10.StyleInfo.Font.Strikeout = false;
+            gridRangeStyle10.StyleInfo.Font.Underline = false;
+            gridRangeStyle10.StyleInfo.Font.Unit = System.Drawing.GraphicsUnit.Point;
             this.GridCont.RangeStyles.AddRange(new Syncfusion.Windows.Forms.Grid.GridRangeStyle[] {
             gridRangeStyle1,
             gridRangeStyle2,
@@ -232,7 +250,9 @@
             gridRangeStyle5,
             gridRangeStyle6,
             gridRangeStyle7,
-            gridRangeStyle8});
+            gridRangeStyle8,
+            gridRangeStyle9,
+            gridRangeStyle10});
             this.GridCont.SerializeCellsBehavior = Syncfusion.Windows.Forms.Grid.GridSerializeCellsBehavior.SerializeAsRangeStylesIntoCode;
             this.GridCont.Size = new System.Drawing.Size(1177, 733);
             this.GridCont.SmartSizeBox = false;
@@ -251,9 +271,10 @@
             // 
             this.BtnPageTop.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.BtnPageTop.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.BtnPageTop.Location = new System.Drawing.Point(1190, 93);
+            this.BtnPageTop.Image = ((System.Drawing.Image)(resources.GetObject("BtnPageTop.Image")));
+            this.BtnPageTop.Location = new System.Drawing.Point(1190, 81);
             this.BtnPageTop.Name = "BtnPageTop";
-            this.BtnPageTop.Size = new System.Drawing.Size(83, 95);
+            this.BtnPageTop.Size = new System.Drawing.Size(83, 100);
             this.BtnPageTop.TabIndex = 785;
             this.BtnPageTop.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.BtnPageTop.UseVisualStyleBackColor = false;
@@ -263,9 +284,10 @@
             // 
             this.BtnPageBot.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.BtnPageBot.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.BtnPageBot.Location = new System.Drawing.Point(1190, 717);
+            this.BtnPageBot.Image = ((System.Drawing.Image)(resources.GetObject("BtnPageBot.Image")));
+            this.BtnPageBot.Location = new System.Drawing.Point(1190, 714);
             this.BtnPageBot.Name = "BtnPageBot";
-            this.BtnPageBot.Size = new System.Drawing.Size(83, 95);
+            this.BtnPageBot.Size = new System.Drawing.Size(83, 100);
             this.BtnPageBot.TabIndex = 786;
             this.BtnPageBot.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.BtnPageBot.UseVisualStyleBackColor = false;
@@ -275,9 +297,10 @@
             // 
             this.BtnPageUp.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.BtnPageUp.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.BtnPageUp.Location = new System.Drawing.Point(1190, 189);
+            this.BtnPageUp.Image = ((System.Drawing.Image)(resources.GetObject("BtnPageUp.Image")));
+            this.BtnPageUp.Location = new System.Drawing.Point(1190, 182);
             this.BtnPageUp.Name = "BtnPageUp";
-            this.BtnPageUp.Size = new System.Drawing.Size(83, 263);
+            this.BtnPageUp.Size = new System.Drawing.Size(83, 265);
             this.BtnPageUp.TabIndex = 787;
             this.BtnPageUp.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.BtnPageUp.UseVisualStyleBackColor = false;
@@ -287,9 +310,10 @@
             // 
             this.BtnPageDown.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.BtnPageDown.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.BtnPageDown.Location = new System.Drawing.Point(1190, 453);
+            this.BtnPageDown.Image = ((System.Drawing.Image)(resources.GetObject("BtnPageDown.Image")));
+            this.BtnPageDown.Location = new System.Drawing.Point(1190, 448);
             this.BtnPageDown.Name = "BtnPageDown";
-            this.BtnPageDown.Size = new System.Drawing.Size(83, 263);
+            this.BtnPageDown.Size = new System.Drawing.Size(83, 265);
             this.BtnPageDown.TabIndex = 788;
             this.BtnPageDown.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.BtnPageDown.UseVisualStyleBackColor = false;
@@ -305,7 +329,7 @@
             this.ComboType.IntegralHeight = false;
             this.ComboType.Location = new System.Drawing.Point(12, 5);
             this.ComboType.Name = "ComboType";
-            this.ComboType.Size = new System.Drawing.Size(210, 27);
+            this.ComboType.Size = new System.Drawing.Size(206, 27);
             this.ComboType.TabIndex = 843;
             this.ComboType.SelectedIndexChanged += new System.EventHandler(this.ComboType_SelectedIndexChanged);
             // 
