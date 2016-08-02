@@ -83,6 +83,7 @@ namespace LWDicer.UI
 
         private void BtnSign_Click(object sender, EventArgs e)
         {
+            if (strInput == "") return;
             double nNo = 0;
 
             nNo = Convert.ToDouble(strInput);

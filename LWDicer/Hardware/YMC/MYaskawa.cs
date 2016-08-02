@@ -745,8 +745,8 @@ namespace LWDicer.Control
                         axisList[index++] = (int)EYMC_Axis.UPPER_HANDLER_Z;
                         axisList[index++] = (int)EYMC_Axis.LOWER_HANDLER_X;
                         axisList[index++] = (int)EYMC_Axis.LOWER_HANDLER_Z;
-                        axisList[index++] = (int)EYMC_Axis.CAMERA1_Z;
-                        axisList[index++] = (int)EYMC_Axis.SCANNER1_Z;
+                        axisList[index++] = (int)EACS_Axis.SCANNER_Z1;
+                        axisList[index++] = (int)EACS_Axis.CAMERA_Z;
                         break;
 
                     case (int)EYMC_Device.LOADER:
@@ -800,11 +800,11 @@ namespace LWDicer.Control
                         break;
 
                     case (int)EYMC_Device.CAMERA1:
-                        axisList[index++] = (int)EYMC_Axis.CAMERA1_Z;
+                        axisList[index++] = (int)EACS_Axis.SCANNER_Z1;
                         break;
 
                     case (int)EYMC_Device.SCANNER1:
-                        axisList[index++] = (int)EYMC_Axis.SCANNER1_Z;
+                        axisList[index++] = (int)EACS_Axis.CAMERA_Z;
                         break;
 
                     default:

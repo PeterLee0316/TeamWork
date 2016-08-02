@@ -137,7 +137,8 @@ namespace LWDicer.UI
                 GridCtrl[i+1, 1].Text = Convert.ToString(EYMC_Axis.LOADER_Z+i);
             }
 
-            for (i = 0; i < (int)EACS_Axis.MAX; i++)
+            //for (i = 0; i < (int)EACS_Axis.MAX; i++)
+            for (i = 0; i < 3; i++)
             {
                 GridCtrl[i + 17, 1].Text = Convert.ToString(EACS_Axis.STAGE1_X + i);
             }

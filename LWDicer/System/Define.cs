@@ -92,8 +92,8 @@ namespace LWDicer.Control
             UPPER_HANDLER_Z         ,
             LOWER_HANDLER_X         ,
             LOWER_HANDLER_Z         ,
-            CAMERA1_Z          ,
-            SCANNER1_Z         ,
+            //CAMERA1_Z          ,
+            //SCANNER1_Z         ,
             //STAGE1_X           ,
             //STAGE1_Y           ,
             //STAGE1_T           ,
@@ -156,10 +156,17 @@ namespace LWDicer.Control
             MAX,
         }
 
+        public const int ACS_START_NUM = 20;
+
         public enum EACS_Axis
         {
             NULL = -1,
-            STAGE1_X = 0,
+            SCANNER_Z1  = 0,
+            SCANNER_Z2,
+            CAMERA_Z,
+            SPARE_1,
+            STAGE1_X,
+            POLYGON,
             STAGE1_Y,
             STAGE1_T,            
             MAX,

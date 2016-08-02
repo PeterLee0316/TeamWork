@@ -48,6 +48,7 @@ namespace LWDicer.UI
         //private FormTeachScreen TeachScreen;
         //private FormLogScreen LogScreen;
         //private FormHelpScreen HelpScreen;
+
         private Form[] MainFormArray = new Form[(int)EFormType.MAX];
 
         public CMainFrame()
@@ -180,9 +181,7 @@ namespace LWDicer.UI
         {
             // Program 종료를 위해 Thread Kill
             LWDicer.StopThreads();
-
-            LWDicer.m_Scanner[0].LSEPortClose();
-
+            
             DetachEventHandlers();
 
             this.Dispose();

@@ -337,13 +337,13 @@ namespace LWDicer.UI
             // Current Position Display
             string strCurPos = string.Empty;
 
-            strCurPos = Convert.ToString(CMainFrame.LWDicer.m_YMC.ServoStatus[(int)EYMC_Axis.CAMERA1_Z].EncoderPos);
+            strCurPos = Convert.ToString(CMainFrame.LWDicer.m_YMC.ServoStatus[(int)EACS_Axis.SCANNER_Z1].EncoderPos);
             GridTeachTable[7, 1].Text = strCurPos;
 
             // 보정값 Display
             double dValue = 0, dCurPos = 0, dTargetPos = 0;
 
-            dCurPos = CMainFrame.LWDicer.m_YMC.ServoStatus[(int)EYMC_Axis.CAMERA1_Z].EncoderPos;
+            dCurPos = CMainFrame.LWDicer.m_YMC.ServoStatus[(int)EACS_Axis.SCANNER_Z1].EncoderPos;
             dTargetPos = Convert.ToDouble(GridTeachTable[2,1].Text);
             dValue = dTargetPos - dCurPos;
 

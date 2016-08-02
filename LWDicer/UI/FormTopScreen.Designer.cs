@@ -35,6 +35,7 @@
             this.tmFormTop = new System.Windows.Forms.Timer(this.components);
             this.BtnUserLogin = new System.Windows.Forms.Button();
             this.LabelCurUser = new System.Windows.Forms.Label();
+            this.btnExit = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // TextMessage
@@ -87,6 +88,18 @@
             this.LabelCurUser.TabIndex = 4;
             this.LabelCurUser.Text = "Current User : ";
             // 
+            // btnExit
+            // 
+            this.btnExit.BackColor = System.Drawing.Color.Transparent;
+            this.btnExit.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.btnExit.Location = new System.Drawing.Point(471, 1);
+            this.btnExit.Name = "btnExit";
+            this.btnExit.Size = new System.Drawing.Size(94, 60);
+            this.btnExit.TabIndex = 5;
+            this.btnExit.Text = "종료";
+            this.btnExit.UseVisualStyleBackColor = false;
+            this.btnExit.Click += new System.EventHandler(this.btnExit_Click);
+            // 
             // FormTopScreen
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
@@ -94,6 +107,7 @@
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.ClientSize = new System.Drawing.Size(1278, 98);
+            this.Controls.Add(this.btnExit);
             this.Controls.Add(this.LabelCurUser);
             this.Controls.Add(this.BtnUserLogin);
             this.Controls.Add(this.TextTime);
@@ -113,5 +127,6 @@
         private System.Windows.Forms.Timer tmFormTop;
         private System.Windows.Forms.Button BtnUserLogin;
         private System.Windows.Forms.Label LabelCurUser;
+        private System.Windows.Forms.Button btnExit;
     }
 }

@@ -13,7 +13,6 @@ using Syncfusion.Windows.Forms;
 using LWDicer.UI;
 using LWDicer.Control;
 
-using static LWDicer.Control.DEF_PolygonScanner;
 using static LWDicer.Control.DEF_Thread;
 using static LWDicer.Control.DEF_System;
 

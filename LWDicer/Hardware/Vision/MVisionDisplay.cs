@@ -399,24 +399,26 @@ namespace LWDicer.Control
         }
         
 
-        public void DrawBox(Rectangle recBox)
+        public void DrawBox(Size recBox)
         {
             // Overlay DC를 가져 온다
             if (GetOverlayDC() == false) return;
+
+            Point recCenter = new Point(0, 0);
 
             //==================================================
             // Pen Type 설정
             m_DrawPen.DashStyle = System.Drawing.Drawing2D.DashStyle.Solid;
             m_DrawPen.Color = Color.Red;
             m_DrawPen.Width = 4;
-            
+
             // 0 위치를 화면의 중앙으로 설정함.
-            recBox.X = m_ImageWidth / 2;
-            recBox.Y = m_ImageHeight / 2;
-
+            recCenter.X = m_ImageWidth / 2 - recBox.Width / 2;
+            recCenter.Y = m_ImageHeight/ 2 - recBox.Height / 2;
+            
             //Draw할 Rec을 생성한다.
-            Rectangle pRec = new Rectangle(recBox.X - recBox.Width / 2, recBox.Y - recBox.Height / 2, recBox.Width, recBox.Height);           
-
+            Rectangle pRec = new Rectangle(recCenter.X, recCenter.Y, recBox.Width, recBox.Height);           
+            
             m_DrawGraph.DrawRectangle(m_DrawPen, pRec);
 
             // Overlay 화면 갱신
@@ -485,8 +487,7 @@ namespace LWDicer.Control
             m_ptDrawStart.Y = ((int)m_ImageHeight / 2);
             m_ptDrawEnd.X = (int)m_ImageWidth;
             m_ptDrawEnd.Y = ((int)m_ImageHeight / 2);
-            GraphDrawLine(m_ptDrawStart, m_ptDrawEnd, m_DrawPen);
-            
+            GraphDrawLine(m_ptDrawStart, m_ptDrawEnd, m_DrawPen);            
 
             //==================================================
             // Pen Type 설정
@@ -521,6 +522,7 @@ namespace LWDicer.Control
         {
             double ZoomX;
             double ZoomY;
+            if (pDisplayObject == null) return;
             // Display하는 Panel의 사이즈를 읽어온다.
             Size DisplaySize = ContainerControl.FromHandle(pDisplayObject).Size;
 

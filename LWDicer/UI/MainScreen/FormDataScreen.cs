@@ -69,7 +69,8 @@ namespace LWDicer.UI
         private void BtnVisionData_Click(object sender, EventArgs e)
         {
             var dlg = new FormVisionData();
-            dlg.ShowDialog();
+            //dlg.ShowDialog();
+            dlg.Show();
         }
 
         private void BtnModelList_Click(object sender, EventArgs e)

@@ -305,6 +305,7 @@ namespace LWDicer.Control
 
             return m_RefComp.View[iViewNo].GetImage();
         }
+
         //        public void DisplayMarkImage(int iViewNo, IntPtr pDisplayHandle )
         //        {
         //#if SIMULATION_VISION
@@ -316,6 +317,7 @@ namespace LWDicer.Control
         //            m_RefComp.View[iViewNo].GetMarkModelImage();
         //        }
         
+
         /// <summary>
         /// ConnectCam : Camera 와 View Window 를 연결한다.
         /// </summary>
@@ -604,6 +606,7 @@ namespace LWDicer.Control
             CVisionPatternData pSData = m_RefComp.Camera[iCamNo].GetSearchData(iTypeNo);
 
             // 등록할 Mark의 Size 및 위치를 설정함.
+           //pSData.m_strFileName = strModel;
             pSData.m_rectModel = ModelArea;
             pSData.m_rectSearch = SearchArea;
             pSData.m_pointReference.X = ModelArea.Width/2;
@@ -1247,7 +1250,7 @@ namespace LWDicer.Control
         /// <param name="iCamNo"></param>
         /// <param name="rect"></param>
 
-        public void DrawOverlayAreaRect(int iCamNo, Rectangle rect)
+        public void DrawOverlayAreaRect(int iCamNo, Size rect)
         {
 #if SIMULATION_VISION
             return;
@@ -1261,7 +1264,18 @@ namespace LWDicer.Control
             //return 0;
         }
 
-        public void DrawOverlayAreaRect(Rectangle rect)
+        public Size GetOverlayAreaRect(int iCamNo)
+        {
+            var sizeRect = new Size(0, 0);
+
+            sizeRect.Width = m_iMarkROIWidth;
+            sizeRect.Height = m_iMarkROIHeight;
+
+            return sizeRect;
+
+        }
+
+        public void DrawOverlayAreaRect(Size rect)
         {
 #if SIMULATION_VISION
             return;
@@ -1271,6 +1285,7 @@ namespace LWDicer.Control
 
             if (m_iCurrentViewNum > DEF_MAX_CAMERA_NO) return;
 
+            m_RefComp.View[m_iCurrentViewNum].ClearOverlay();
             m_RefComp.View[m_iCurrentViewNum].DrawBox(rect);
             //return 0;
         }
@@ -1398,14 +1413,41 @@ namespace LWDicer.Control
         }
         public void NarrowHairLine()
         {
-            m_iHairLineWidth++;
+            m_iHairLineWidth--;
             DrawOverLayHairLine(m_iHairLineWidth);
         }
 
         public void WidenHairLine()
         {
-            m_iHairLineWidth--;
+            m_iHairLineWidth++;
             DrawOverLayHairLine(m_iHairLineWidth);
+        }
+        public void NarrowRoiWidth()
+        {
+            m_iMarkROIWidth--;
+            Size recSize= new Size(m_iMarkROIWidth, m_iMarkROIHeight);
+            DrawOverlayAreaRect(recSize);
+        }
+
+        public void WidenRoiWidth()
+        {
+            m_iMarkROIWidth++;
+            Size recSize = new Size(m_iMarkROIWidth, m_iMarkROIHeight);
+            DrawOverlayAreaRect(recSize);
+        }
+
+        public void NarrowRoiHeight()
+        {
+            m_iMarkROIHeight--;
+            Size recSize = new Size(m_iMarkROIWidth, m_iMarkROIHeight);
+            DrawOverlayAreaRect(recSize);
+        }
+
+        public void WidenRoiHeight()
+        {
+            m_iMarkROIHeight++;
+            Size recSize = new Size(m_iMarkROIWidth, m_iMarkROIHeight);
+            DrawOverlayAreaRect(recSize);
         }
 
     }

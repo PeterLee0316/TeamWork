@@ -96,7 +96,7 @@
             this.BtnAxis19.Name = "BtnAxis19";
             this.BtnAxis19.Size = new System.Drawing.Size(118, 51);
             this.BtnAxis19.TabIndex = 864;
-            this.BtnAxis19.Tag = "18";
+            this.BtnAxis19.Tag = "27";
             this.BtnAxis19.Click += new System.EventHandler(this.BtnAxis_Click);
             // 
             // BtnAxis18
@@ -112,7 +112,7 @@
             this.BtnAxis18.Name = "BtnAxis18";
             this.BtnAxis18.Size = new System.Drawing.Size(118, 51);
             this.BtnAxis18.TabIndex = 863;
-            this.BtnAxis18.Tag = "17";
+            this.BtnAxis18.Tag = "26";
             this.BtnAxis18.Click += new System.EventHandler(this.BtnAxis_Click);
             // 
             // BtnAxis17
@@ -128,7 +128,7 @@
             this.BtnAxis17.Name = "BtnAxis17";
             this.BtnAxis17.Size = new System.Drawing.Size(118, 51);
             this.BtnAxis17.TabIndex = 862;
-            this.BtnAxis17.Tag = "16";
+            this.BtnAxis17.Tag = "24";
             this.BtnAxis17.Click += new System.EventHandler(this.BtnAxis_Click);
             // 
             // BtnAxis16
@@ -144,7 +144,7 @@
             this.BtnAxis16.Name = "BtnAxis16";
             this.BtnAxis16.Size = new System.Drawing.Size(118, 51);
             this.BtnAxis16.TabIndex = 861;
-            this.BtnAxis16.Tag = "15";
+            this.BtnAxis16.Tag = "22";
             this.BtnAxis16.Click += new System.EventHandler(this.BtnAxis_Click);
             // 
             // BtnAxis15
@@ -160,7 +160,7 @@
             this.BtnAxis15.Name = "BtnAxis15";
             this.BtnAxis15.Size = new System.Drawing.Size(118, 51);
             this.BtnAxis15.TabIndex = 860;
-            this.BtnAxis15.Tag = "14";
+            this.BtnAxis15.Tag = "20";
             this.BtnAxis15.Click += new System.EventHandler(this.BtnAxis_Click);
             // 
             // BtnAxis14
@@ -522,11 +522,12 @@
             this.BtnMinus.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
             this.BtnMinus.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
             this.BtnMinus.Font = new System.Drawing.Font("굴림", 48F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.BtnMinus.Location = new System.Drawing.Point(143, 493);
+            this.BtnMinus.Location = new System.Drawing.Point(140, 493);
             this.BtnMinus.Name = "BtnMinus";
             this.BtnMinus.Size = new System.Drawing.Size(118, 72);
             this.BtnMinus.TabIndex = 836;
             this.BtnMinus.Text = "-";
+            this.BtnMinus.Click += new System.EventHandler(this.BtnMinus_Click);
             this.BtnMinus.MouseDown += new System.Windows.Forms.MouseEventHandler(this.BtnMinus_MouseDown);
             this.BtnMinus.MouseUp += new System.Windows.Forms.MouseEventHandler(this.BtnMinus_MouseUp);
             // 
@@ -555,6 +556,7 @@
             this.BtnAbsMove.Size = new System.Drawing.Size(236, 72);
             this.BtnAbsMove.TabIndex = 845;
             this.BtnAbsMove.Text = "Move";
+            this.BtnAbsMove.Click += new System.EventHandler(this.BtnAbsMove_Click);
             this.BtnAbsMove.MouseClick += new System.Windows.Forms.MouseEventHandler(this.BtnAbsMove_MouseClick);
             // 
             // BtnPlus
@@ -566,11 +568,12 @@
             this.BtnPlus.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
             this.BtnPlus.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
             this.BtnPlus.Font = new System.Drawing.Font("굴림", 48F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.BtnPlus.Location = new System.Drawing.Point(25, 493);
+            this.BtnPlus.Location = new System.Drawing.Point(24, 493);
             this.BtnPlus.Name = "BtnPlus";
             this.BtnPlus.Size = new System.Drawing.Size(118, 72);
             this.BtnPlus.TabIndex = 835;
             this.BtnPlus.Text = "+";
+            this.BtnPlus.Click += new System.EventHandler(this.BtnPlus_Click);
             this.BtnPlus.MouseDown += new System.Windows.Forms.MouseEventHandler(this.BtnPlus_MouseDown);
             this.BtnPlus.MouseUp += new System.Windows.Forms.MouseEventHandler(this.BtnPlus_MouseUp);
             // 

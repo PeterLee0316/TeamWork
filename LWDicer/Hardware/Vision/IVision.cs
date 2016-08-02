@@ -222,7 +222,7 @@ namespace LWDicer.Control
 	    // Draw Rectangle on the Overlay Display
 	        
 	        
-	     void DrawOverlayAreaRect(int iCamNo, Rectangle rect) ;
+	     void DrawOverlayAreaRect(int iCamNo, Size rect) ;
 
 	    // Draw Grid On the Overlay Display      
 	     void DrawOverlayGrid(int iCamNo) ;

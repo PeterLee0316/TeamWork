@@ -104,8 +104,8 @@ namespace LWDicer.UI
             AxisNo[11].Text = Convert.ToString(EYMC_Axis.UPPER_HANDLER_Z);
             AxisNo[12].Text = Convert.ToString(EYMC_Axis.LOWER_HANDLER_X);
             AxisNo[13].Text = Convert.ToString(EYMC_Axis.LOWER_HANDLER_Z);
-            AxisNo[14].Text = Convert.ToString(EYMC_Axis.CAMERA1_Z);
-            AxisNo[15].Text = Convert.ToString(EYMC_Axis.SCANNER1_Z);
+            AxisNo[14].Text = Convert.ToString(EACS_Axis.SCANNER_Z1);
+            AxisNo[15].Text = Convert.ToString(EACS_Axis.CAMERA_Z);
             AxisNo[16].Text = Convert.ToString(EACS_Axis.STAGE1_X);
             AxisNo[17].Text = Convert.ToString(EACS_Axis.STAGE1_Y);
             AxisNo[18].Text = Convert.ToString(EACS_Axis.STAGE1_T);
@@ -150,7 +150,9 @@ namespace LWDicer.UI
             }
             else
             {
-                AxisSpeedData = CMainFrame.DataManager.SystemData_Axis.ACSMotionData[SelectedAxis].Speed[speedIndex - (int)EYMC_Axis.MAX];
+                int selectAxis = SelectedAxis - ACS_START_NUM - 4;
+                if (selectAxis < 0) selectAxis = 0;
+                AxisSpeedData = CMainFrame.DataManager.SystemData_Axis.ACSMotionData[selectAxis].Speed[speedIndex];
             }
             LabelVelocity.Text = Convert.ToString(AxisSpeedData.Vel);
 
@@ -194,7 +196,7 @@ namespace LWDicer.UI
                 AxisNo[i].BackColor = Color.FromArgb(224, 224, 224);
             }
 
-            AxisNo[nAxis].BackColor = Color.YellowGreen;
+           // AxisNo[nAxis].BackColor = Color.YellowGreen;
 
             SelectedAxis = nAxis;
         }
@@ -289,7 +291,7 @@ namespace LWDicer.UI
                 }
                 else
                 {
-                    iResult = CMainFrame.LWDicer.m_ACS.StartJogMove(SelectedAxis - (int)EYMC_Axis.MAX, bDirection, IsFastMove);
+                    iResult = CMainFrame.LWDicer.m_ACS.StartJogMove(SelectedAxis - ACS_START_NUM, bDirection, IsFastMove);
                 }
             }
             else if (AxisMoveOption == (int)EMoveOption.INC)
@@ -307,7 +309,7 @@ namespace LWDicer.UI
                 }
                 else
                 {
-                    iResult = CMainFrame.LWDicer.m_ACS.MoveToPos(SelectedAxis - (int)EYMC_Axis.MAX, dTargetPos[0], AxisSpeedData);
+                    iResult = CMainFrame.LWDicer.m_ACS.MoveToPos(SelectedAxis - ACS_START_NUM, dTargetPos[0], AxisSpeedData);
                 }
             }
             if (iResult != SUCCESS)
@@ -328,7 +330,7 @@ namespace LWDicer.UI
                 }
                 else
                 {
-                    CMainFrame.LWDicer.m_ACS.StopJogMove(SelectedAxis - (int)EYMC_Axis.MAX);
+                    CMainFrame.LWDicer.m_ACS.StopJogMove(SelectedAxis - ACS_START_NUM);
                 }
             } else
             {
@@ -338,7 +340,7 @@ namespace LWDicer.UI
                 }
                 else
                 {
-                    CMainFrame.LWDicer.m_ACS.StopServoMotion(SelectedAxis - (int)EYMC_Axis.MAX);
+                    CMainFrame.LWDicer.m_ACS.StopServoMotion(SelectedAxis - ACS_START_NUM);
                 }
             }
             if (iResult != SUCCESS)
@@ -356,7 +358,8 @@ namespace LWDicer.UI
         private void BtnPlus_MouseUp(object sender, MouseEventArgs e)
         {
             BtnPlus.BackColor = Color.DarkGoldenrod;
-            StopAxis();
+            if (AxisMoveOption == (int)EMoveOption.JOG)
+                StopAxis();
         }
 
         private void BtnMinus_MouseDown(object sender, MouseEventArgs e)
@@ -368,7 +371,8 @@ namespace LWDicer.UI
         private void BtnMinus_MouseUp(object sender, MouseEventArgs e)
         {
             BtnMinus.BackColor = Color.DarkGoldenrod;
-            StopAxis();
+            if (AxisMoveOption == (int)EMoveOption.JOG)
+                StopAxis();
         }
 
         private void BtnAbsMove_MouseClick(object sender, MouseEventArgs e)
@@ -385,7 +389,7 @@ namespace LWDicer.UI
             }
             else
             {
-                iResult = CMainFrame.LWDicer.m_ACS.MoveToPos(SelectedAxis - (int)EYMC_Axis.MAX, dTargetPos[0], AxisSpeedData);
+                iResult = CMainFrame.LWDicer.m_ACS.MoveToPos(SelectedAxis - ACS_START_NUM, dTargetPos[0], AxisSpeedData);
             }
             if (iResult != SUCCESS)
             {
@@ -400,11 +404,28 @@ namespace LWDicer.UI
             // Jog Operation Servo Encoder Position
             if (SelectedAxis < (int)EYMC_Axis.MAX)
             {
-                LabelCurrent.Text = Convert.ToString(CMainFrame.LWDicer.m_YMC.ServoStatus[SelectedAxis].EncoderPos);
+                //LabelCurrent.Text = Convert.ToString(CMainFrame.LWDicer.m_YMC.ServoStatus[SelectedAxis].EncoderPos);
+                LabelCurrent.Text = string.Format("{0:F4}",CMainFrame.LWDicer.m_YMC.ServoStatus[SelectedAxis].EncoderPos);
             } else
             {
-                LabelCurrent.Text = Convert.ToString(CMainFrame.LWDicer.m_ACS.ServoStatus[SelectedAxis - (int)EYMC_Axis.MAX].EncoderPos);
+                //LabelCurrent.Text = Convert.ToString(CMainFrame.LWDicer.m_ACS.ServoStatus[SelectedAxis - ACS_START_NUM].EncoderPos);
+                LabelCurrent.Text = string.Format("{0:F4}", CMainFrame.LWDicer.m_ACS.ServoStatus[SelectedAxis - ACS_START_NUM].EncoderPos);
             }
+        }
+
+        private void BtnPlus_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void BtnMinus_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void BtnAbsMove_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

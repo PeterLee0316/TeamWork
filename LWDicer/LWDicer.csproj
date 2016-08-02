@@ -38,7 +38,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;WIN32, SIMULATION_VISION, SIMULATION_MOTION_ACS, SIMULATION_MOTION_YMC, SIMULATION_IO</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;WIN32,SIMULATION_VISION,SIMULATION_MOTION_ACS,  SIMULATION_MOTION_YMC, SIMULATION_IO</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>2</WarningLevel>
     <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
@@ -67,9 +67,10 @@
       <HintPath>..\packages\EntityFramework.6.0.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Interop.SPIIPLUSCOM660Lib">
-      <HintPath>..\..\..\SFA\LWDicer\dll\ACS\Interop.SPIIPLUSCOM660Lib.dll</HintPath>
+    <Reference Include="Interop.SPIIPLUSCOM660Lib, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
       <EmbedInteropTypes>True</EmbedInteropTypes>
+      <HintPath>..\..\..\SFA\LWDicer\dll\ACS\86\Interop.SPIIPLUSCOM660Lib.dll</HintPath>
     </Reference>
     <Reference Include="Matrox.MatroxImagingLibrary, Version=10.0.2564.1, Culture=neutral, PublicKeyToken=5a83d419d44a9d98, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
@@ -165,11 +166,9 @@
     <Compile Include="Hardware\IO\MIO_YMC.cs" />
     <Compile Include="Hardware\Motion\MMultiAxes_ACS.cs" />
     <Compile Include="Hardware\Motion\MMultiAxes_YMC.cs" />
-    <Compile Include="Hardware\Scanner\IPolygonScanner.cs" />
     <Compile Include="Hardware\Motion\IMotionLib.cs" />
     <Compile Include="Hardware\Motion\MMotionBoard.cs" />
     <Compile Include="Hardware\Motion\MMotion_MMC.cs" />
-    <Compile Include="Hardware\Scanner\MPolygonScanner.cs" />
     <Compile Include="Hardware\Vision\DEF_Vision.cs" />
     <Compile Include="Hardware\Vision\IVision.cs" />
     <Compile Include="Hardware\Vision\MVision.cs" />
@@ -523,6 +522,7 @@
     </Compile>
     <EmbeddedResource Include="CMainFrame.resx">
       <DependentUpon>CMainFrame.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -605,6 +605,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UI\SubDataForm\FormVacuumData.resx">
       <DependentUpon>FormVacuumData.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\SubDataForm\FormVisionData.resx">
       <DependentUpon>FormVisionData.cs</DependentUpon>
@@ -656,6 +657,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UI\SubTeachForm\FormSpinner1Teach.resx">
       <DependentUpon>FormSpinner1Teach.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\SubTeachForm\FormSpinner2Teach.resx">
       <DependentUpon>FormSpinner2Teach.cs</DependentUpon>
@@ -728,7 +730,6 @@
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\System.Data.SQLite.Core.1.0.99.0\build\net46\System.Data.SQLite.Core.targets" Condition="Exists('..\packages\System.Data.SQLite.Core.1.0.99.0\build\net46\System.Data.SQLite.Core.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
