@@ -70,7 +70,7 @@
             this.BtnUserLogin.Image = ((System.Drawing.Image)(resources.GetObject("BtnUserLogin.Image")));
             this.BtnUserLogin.Location = new System.Drawing.Point(1136, 4);
             this.BtnUserLogin.Name = "BtnUserLogin";
-            this.BtnUserLogin.Size = new System.Drawing.Size(135, 67);
+            this.BtnUserLogin.Size = new System.Drawing.Size(130, 67);
             this.BtnUserLogin.TabIndex = 3;
             this.BtnUserLogin.Text = " User  Log-In";
             this.BtnUserLogin.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
@@ -92,9 +92,9 @@
             // 
             this.btnExit.BackColor = System.Drawing.Color.Transparent;
             this.btnExit.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.btnExit.Location = new System.Drawing.Point(471, 1);
+            this.btnExit.Location = new System.Drawing.Point(1082, 4);
             this.btnExit.Name = "btnExit";
-            this.btnExit.Size = new System.Drawing.Size(94, 60);
+            this.btnExit.Size = new System.Drawing.Size(48, 66);
             this.btnExit.TabIndex = 5;
             this.btnExit.Text = "종료";
             this.btnExit.UseVisualStyleBackColor = false;

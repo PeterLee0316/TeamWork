@@ -139,7 +139,7 @@ namespace LWDicer.UI
             CtrlList.Add((MObject)CMainFrame.LWDicer.m_AxUpperHandler      );
             CtrlList.Add((MObject)CMainFrame.LWDicer.m_AxLowerHandler      );
             CtrlList.Add((MObject)CMainFrame.LWDicer.m_AxCamera1           );
-            CtrlList.Add((MObject)CMainFrame.LWDicer.m_AxLaser1            );
+            CtrlList.Add((MObject)CMainFrame.LWDicer.m_AxScannerZ1         );
 
         }
 

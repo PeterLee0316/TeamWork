@@ -89,7 +89,7 @@ namespace LWDicer.Control
             WAIT,
             LOAD,
             UNLOAD,
-            THETA_ALIGN,          // Theta축 정렬할때 A 위치
+            THETA_ALIGN,            // Theta축 정렬할때 A 위치
             EDGE_ALIGN_1,           // EDGE Detect "0"도 위치
             EDGE_ALIGN_2,           // EDGE Detect "90"도 위치
             EDGE_ALIGN_3,           // EDGE Detect "180"도 위치

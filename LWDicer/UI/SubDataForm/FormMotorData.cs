@@ -137,11 +137,15 @@ namespace LWDicer.UI
                 GridCtrl[i+1, 1].Text = Convert.ToString(EYMC_Axis.LOADER_Z+i);
             }
 
-            //for (i = 0; i < (int)EACS_Axis.MAX; i++)
-            for (i = 0; i < 3; i++)
-            {
-                GridCtrl[i + 17, 1].Text = Convert.ToString(EACS_Axis.STAGE1_X + i);
-            }
+            //for (i = 0; i < (int)EACS_Axis.MAX; i++)            
+            //{
+            //    GridCtrl[i + 17, 1].Text = Convert.ToString(EACS_Axis.STAGE1_X + i);
+            //}
+            GridCtrl[15, 1].Text = Convert.ToString(EACS_Axis.SCANNER_Z1);
+            GridCtrl[16, 1].Text = Convert.ToString(EACS_Axis.CAMERA_Z);
+            GridCtrl[17, 1].Text = Convert.ToString(EACS_Axis.STAGE1_X);
+            GridCtrl[18, 1].Text = Convert.ToString(EACS_Axis.STAGE1_Y);
+            GridCtrl[19, 1].Text = Convert.ToString(EACS_Axis.STAGE1_T);
 
             for (i = 0; i < nCol + 1; i++)
             {

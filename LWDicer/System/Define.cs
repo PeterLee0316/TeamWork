@@ -39,6 +39,11 @@ namespace LWDicer.Control
 
         // Motion
 
+        public enum EMotionSelect
+        {
+            ACS = 0,
+            YMC,
+        }
         /// <summary>
         /// YMC, ACS Axis를 통합하여 index define
         /// </summary>
@@ -59,9 +64,13 @@ namespace LWDicer.Control
             UPPER_HANDLER_Z,
             LOWER_HANDLER_X,
             LOWER_HANDLER_Z,
-            CAMERA1_Z,
+            
             SCANNER1_Z,
+            SCANNER2_Z,
+            CAMERA1_Z,
+            SPARE_AXIS_1,
             STAGE1_X,
+            SPARE_AXIS_2,
             STAGE1_Y,
             STAGE1_T,
             MAX,
@@ -129,8 +138,8 @@ namespace LWDicer.Control
             LOWER_HANDLER_Z,
 
             // Stage 
-            CAMERA1_Z,
-            SCANNER1_Z,
+            //CAMERA1_Z,
+            //SCANNER1_Z,
             // Stage는 ACS 모션으로 사용하기로 해서 우선 주석 처리
             //STAGE1_X,
             //STAGE1_Y,
@@ -150,13 +159,12 @@ namespace LWDicer.Control
             S2_COAT_NOZZLE,
             UPPER_HANDLER,
             LOWER_HANDLER,
-            CAMERA1,
-            SCANNER1,
+            //CAMERA1,
+            //SCANNER1,
             //STAGE1,
             MAX,
         }
-
-        public const int ACS_START_NUM = 20;
+        
 
         public enum EACS_Axis
         {
@@ -177,11 +185,21 @@ namespace LWDicer.Control
         public enum EACS_Device
         {
             NULL = -1,
-            STAGE1_X = 0,
-            STAGE1_Y,
-            STAGE1_T,
+            // Stage 
             
-            ALL
+            SCANNER1_Z=0,
+            SCANNER2_Z,
+            CAMERA1_Z,
+            STAGE1_X=4,
+            STAGE1_Y=6,
+            STAGE1_T=7,
+
+            ALL,
+            
+            SCANNER1,
+            CAMERA1,
+            STAGE1,
+            
         }
 
         public enum ECameraSelect

@@ -1123,10 +1123,12 @@ namespace LWDicer.Control
         {
             int iResult = SUCCESS;
 
-            if(servoIndex < (int)EYMC_Axis.MAX)
+            if (servoIndex < (int)EYMC_Axis.MAX)
             {
                 iResult = m_RefComp.Yaskawa_Motion.ServoOn(servoIndex);
-            } else
+                
+            }
+            else
             {
                 servoIndex = AdjustToACSIndex(servoIndex);
                 iResult = m_RefComp.ACS_Motion.ServoOn(servoIndex);
@@ -1268,6 +1270,25 @@ namespace LWDicer.Control
             return iResult;
         }
 
+        public int OriginReturn(int servoIndex)
+        {
+            int iResult = SUCCESS;
+
+            if (servoIndex < (int)EYMC_Axis.MAX)
+            {
+                iResult = m_RefComp.Yaskawa_Motion.OriginReturn(servoIndex);
+
+            }
+            else
+            {
+                servoIndex = AdjustToACSIndex(servoIndex);
+                if (servoIndex == 1) return GenerateErrorCode(ERR_OPPANEL_INVALID_INIT_UNIT_INDEX);
+
+                iResult = m_RefComp.ACS_Motion.OriginReturn(servoIndex);
+            }
+
+            return iResult;
+        }
         /// <summary>
         /// Unit의 초기화 Flag를 설정한다.
         /// </summary>

@@ -1224,6 +1224,10 @@ namespace LWDicer.Control
             return m_iJogIndexExtra;
         }
 
+        public int OriginReturn(int index)
+        {
+            return m_RefComp.OpPanel.OriginReturn(index);
+        }
         /// <summary>
         /// Unit의 원점복귀 Flag를 설정한다.
         /// </summary>

@@ -71,6 +71,8 @@ namespace LWDicer.Control
 
         // MultiAxes
         public MMultiAxes_ACS m_AxStage1      ;
+        public MMultiAxes_ACS m_AxScannerZ1;
+        public MMultiAxes_ACS m_AxCamera1;
         public MMultiAxes_YMC m_AxLoader      ;
         public MMultiAxes_YMC m_AxPushPull    ;
         public MMultiAxes_YMC m_AxCentering1  ;
@@ -83,8 +85,8 @@ namespace LWDicer.Control
         public MMultiAxes_YMC m_AxCoatNozzle2 ;
         public MMultiAxes_YMC m_AxUpperHandler;
         public MMultiAxes_YMC m_AxLowerHandler;
-        public MMultiAxes_YMC m_AxCamera1     ;
-        public MMultiAxes_YMC m_AxLaser1      ;
+        //public MMultiAxes_YMC m_AxCamera1     ;
+        //public MMultiAxes_YMC m_AxLaser1      ;
 
         // IO
         public IIO m_IO { get; private set; }
@@ -359,6 +361,8 @@ namespace LWDicer.Control
             iResult = CreateMultiAxes_YMC();
             //if (iResult != SUCCESS) return iResult;
             m_AxUpperHandler.UpdateAxisStatus();
+
+            iResult = CreateMultiAxes_ACS();
 
             ////////////////////////////////////////////////////////////////////////
             // IO
@@ -743,13 +747,7 @@ namespace LWDicer.Control
 
             return SUCCESS;
         }
-
-        int CreateMultiAxes_ACS()
-        {
-           
-            return SUCCESS;
-        }
-
+        
         int CreateMultiAxes_YMC()
         {
             CObjectInfo objInfo;
@@ -891,9 +889,56 @@ namespace LWDicer.Control
             //axisList[DEF_Z] = (int)EACS_Axis.CAMERA_Z;
             //data = new CMultiAxesYMCData(deviceNo, axisList);
 
-            m_SystemInfo.GetObjectInfo(264, out objInfo);
-            m_AxLaser1 = new MMultiAxes_YMC(objInfo, refComp, data);
+            //m_SystemInfo.GetObjectInfo(264, out objInfo);
+            //m_AxLaser1 = new MMultiAxes_YMC(objInfo, refComp, data);
 
+            return SUCCESS;
+        }
+
+        int CreateMultiAxes_ACS()
+        {
+            CObjectInfo objInfo;
+            CMutliAxesACSRefComp refComp = new CMutliAxesACSRefComp();
+            CMultiAxesACSData data;
+            int deviceNo;
+            int[] axisList = new int[DEF_MAX_COORDINATE];
+            int[] initArray = new int[DEF_MAX_COORDINATE];
+
+            for (int i = 0; i < DEF_MAX_COORDINATE; i++)
+            {
+                initArray[i] = DEF_AXIS_NONE_ID;
+            }
+
+            refComp.Motion = m_ACS;
+
+            // Scanner Z
+            deviceNo = (int)EACS_Device.SCANNER1;
+            Array.Copy(initArray, axisList, initArray.Length);
+            axisList[DEF_Z] = (int)EACS_Device.SCANNER1;
+            data = new CMultiAxesACSData(deviceNo, axisList);
+
+            m_SystemInfo.GetObjectInfo(270, out objInfo);
+            m_AxScannerZ1 = new MMultiAxes_ACS(objInfo, refComp, data);
+            
+
+            // Camera Z
+            deviceNo = (int)EACS_Device.CAMERA1;
+            Array.Copy(initArray, axisList, initArray.Length);
+            axisList[DEF_Z] = (int)EACS_Device.CAMERA1;
+            data = new CMultiAxesACSData(deviceNo, axisList);
+
+            m_SystemInfo.GetObjectInfo(271, out objInfo);
+            m_AxCamera1 = new MMultiAxes_ACS(objInfo, refComp, data);
+
+            // Stage
+            deviceNo = (int)EACS_Device.STAGE1;
+            Array.Copy(initArray, axisList, initArray.Length);
+            axisList[DEF_Z] = (int)EACS_Device.STAGE1;
+            data = new CMultiAxesACSData(deviceNo, axisList);
+
+            m_SystemInfo.GetObjectInfo(272, out objInfo);
+            m_AxStage1 = new MMultiAxes_ACS(objInfo, refComp, data);
+            
             return SUCCESS;
         }
 
@@ -1046,6 +1091,8 @@ namespace LWDicer.Control
         {
             CCtrlStage1RefComp refComp = new CCtrlStage1RefComp();
             CCtrlStage1Data data = new CCtrlStage1Data();
+
+            refComp.Stage = m_MeStage;
 
             m_ctrlStage1 = new MCtrlStage1(objInfo, refComp, data);
         }
