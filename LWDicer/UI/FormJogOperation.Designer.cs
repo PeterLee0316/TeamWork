@@ -92,7 +92,7 @@
             this.BtnAxis19.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
             this.BtnAxis19.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
             this.BtnAxis19.Font = new System.Drawing.Font("맑은 고딕", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.BtnAxis19.Location = new System.Drawing.Point(143, 318);
+            this.BtnAxis19.Location = new System.Drawing.Point(261, 319);
             this.BtnAxis19.Name = "BtnAxis19";
             this.BtnAxis19.Size = new System.Drawing.Size(118, 51);
             this.BtnAxis19.TabIndex = 864;
@@ -108,7 +108,7 @@
             this.BtnAxis18.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
             this.BtnAxis18.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
             this.BtnAxis18.Font = new System.Drawing.Font("맑은 고딕", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.BtnAxis18.Location = new System.Drawing.Point(25, 318);
+            this.BtnAxis18.Location = new System.Drawing.Point(143, 319);
             this.BtnAxis18.Name = "BtnAxis18";
             this.BtnAxis18.Size = new System.Drawing.Size(118, 51);
             this.BtnAxis18.TabIndex = 863;
@@ -124,7 +124,7 @@
             this.BtnAxis17.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
             this.BtnAxis17.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
             this.BtnAxis17.Font = new System.Drawing.Font("맑은 고딕", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.BtnAxis17.Location = new System.Drawing.Point(261, 267);
+            this.BtnAxis17.Location = new System.Drawing.Point(25, 319);
             this.BtnAxis17.Name = "BtnAxis17";
             this.BtnAxis17.Size = new System.Drawing.Size(118, 51);
             this.BtnAxis17.TabIndex = 862;

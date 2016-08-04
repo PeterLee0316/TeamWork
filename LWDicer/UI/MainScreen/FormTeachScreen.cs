@@ -145,5 +145,29 @@ namespace LWDicer.UI
             dlg.SetDataMode(OffsetData);
             dlg.ShowDialog();
         }
+
+        private void btnThetaAlign_Click(object sender, EventArgs e)
+        {
+            var dlg = new FormThetaAlignTeach();
+            dlg.ShowDialog();
+        }
+
+        private void btnEdgeAlign_Click(object sender, EventArgs e)
+        {
+            var dlg = new FormEdgeAlignTeach();
+            dlg.ShowDialog();
+        }
+
+        private void btnMacroAlgin_Click(object sender, EventArgs e)
+        {
+            var dlg = new FormMacroAlignTeach();
+            dlg.ShowDialog();
+        }
+
+        private void btnMicroAlign_Click(object sender, EventArgs e)
+        {
+            var dlg = new FormMicroAlignTeach();
+            dlg.ShowDialog();
+        }
     }
 }

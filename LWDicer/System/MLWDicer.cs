@@ -71,8 +71,8 @@ namespace LWDicer.Control
 
         // MultiAxes
         public MMultiAxes_ACS m_AxStage1      ;
-        public MMultiAxes_ACS m_AxScannerZ1;
-        public MMultiAxes_ACS m_AxCamera1;
+        public MMultiAxes_ACS m_AxScannerZ1   ;
+        public MMultiAxes_ACS m_AxCamera1     ;
         public MMultiAxes_YMC m_AxLoader      ;
         public MMultiAxes_YMC m_AxPushPull    ;
         public MMultiAxes_YMC m_AxCentering1  ;
@@ -933,7 +933,9 @@ namespace LWDicer.Control
             // Stage
             deviceNo = (int)EACS_Device.STAGE1;
             Array.Copy(initArray, axisList, initArray.Length);
-            axisList[DEF_Z] = (int)EACS_Device.STAGE1;
+            axisList[DEF_X] = (int)EACS_Device.STAGE1_X;
+            axisList[DEF_Y] = (int)EACS_Device.STAGE1_Y;
+            axisList[DEF_T] = (int)EACS_Device.STAGE1_T;
             data = new CMultiAxesACSData(deviceNo, axisList);
 
             m_SystemInfo.GetObjectInfo(272, out objInfo);

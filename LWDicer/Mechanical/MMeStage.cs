@@ -1587,7 +1587,7 @@ namespace LWDicer.Control
             if (iResult != SUCCESS) return iResult;
             if (bStatus == false)
             {
-                return GenerateErrorCode(ERR_STAGE_NOT_ORIGIN_RETURNED);
+                //return GenerateErrorCode(ERR_STAGE_NOT_ORIGIN_RETURNED);
             }
 
             // 제품이 있으면, Clamp & Absorbed 없으면 don't care

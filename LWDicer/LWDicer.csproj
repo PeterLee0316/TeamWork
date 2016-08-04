@@ -38,7 +38,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;WIN32,SIMULATION_VISION,SIMULATION_MOTION_ACS,  SIMULATION_MOTION_YMC, SIMULATION_IO</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;WIN32,SIMULATION_VISION, SIMULATION_MOTION_ACS, SIMULATION_MOTION_YMC, SIMULATION_IO</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>2</WarningLevel>
     <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
@@ -70,7 +70,7 @@
     <Reference Include="Interop.SPIIPLUSCOM660Lib, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
       <EmbedInteropTypes>True</EmbedInteropTypes>
-      <HintPath>..\..\..\SFA\LWDicer\dll\ACS\86\Interop.SPIIPLUSCOM660Lib.dll</HintPath>
+      <HintPath>..\..\..\SFA\LWDicer\dll\ACS\Interop.SPIIPLUSCOM660Lib.dll</HintPath>
     </Reference>
     <Reference Include="Matrox.MatroxImagingLibrary, Version=10.0.2564.1, Culture=neutral, PublicKeyToken=5a83d419d44a9d98, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
@@ -93,14 +93,11 @@
       <HintPath>..\..\..\..\..\SFA\LWDicer\dll\Syncfusion\Syncfusion.Grid.Base.dll</HintPath>
       <EmbedInteropTypes>False</EmbedInteropTypes>
     </Reference>
-    <Reference Include="Syncfusion.Grid.Grouping.Base, Version=8.304.0.21, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89" />
-    <Reference Include="Syncfusion.Grid.Grouping.Windows, Version=8.304.0.21, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL" />
     <Reference Include="Syncfusion.Grid.Windows, Version=8.303.0.21, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\..\SFA\LWDicer\dll\Syncfusion\Syncfusion.Grid.Windows.dll</HintPath>
       <EmbedInteropTypes>False</EmbedInteropTypes>
     </Reference>
-    <Reference Include="Syncfusion.Grouping.Base, Version=8.304.0.21, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89" />
     <Reference Include="Syncfusion.Shared.Base, Version=8.303.0.21, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\..\SFA\LWDicer\dll\Syncfusion\Syncfusion.Shared.Base.dll</HintPath>
@@ -442,6 +439,12 @@
     <Compile Include="UI\SubTeachForm\FormCameraTeach.Designer.cs">
       <DependentUpon>FormCameraTeach.cs</DependentUpon>
     </Compile>
+    <Compile Include="UI\SubTeachForm\FormEdgeAlignTeach.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\SubTeachForm\FormEdgeAlignTeach.Designer.cs">
+      <DependentUpon>FormEdgeAlignTeach.cs</DependentUpon>
+    </Compile>
     <Compile Include="UI\SubTeachForm\FormHandlerTeach.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -453,6 +456,18 @@
     </Compile>
     <Compile Include="UI\SubTeachForm\FormLoaderTeach.Designer.cs">
       <DependentUpon>FormLoaderTeach.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\SubTeachForm\FormMacroAlignTeach.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\SubTeachForm\FormMacroAlignTeach.Designer.cs">
+      <DependentUpon>FormMacroAlignTeach.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\SubTeachForm\FormMicroAlignTeach.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\SubTeachForm\FormMicroAlignTeach.Designer.cs">
+      <DependentUpon>FormMicroAlignTeach.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\SubTeachForm\FormPushPullTeach.cs">
       <SubType>Form</SubType>
@@ -477,6 +492,12 @@
     </Compile>
     <Compile Include="UI\SubTeachForm\FormSpinner2Teach.Designer.cs">
       <DependentUpon>FormSpinner2Teach.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\SubTeachForm\FormThetaAlignTeach.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\SubTeachForm\FormThetaAlignTeach.Designer.cs">
+      <DependentUpon>FormThetaAlignTeach.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\SubTeachForm\FormWorkStageTeach.cs">
       <SubType>Form</SubType>
@@ -643,11 +664,20 @@
     <EmbeddedResource Include="UI\SubTeachForm\FormCameraTeach.resx">
       <DependentUpon>FormCameraTeach.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="UI\SubTeachForm\FormEdgeAlignTeach.resx">
+      <DependentUpon>FormEdgeAlignTeach.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UI\SubTeachForm\FormHandlerTeach.resx">
       <DependentUpon>FormHandlerTeach.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\SubTeachForm\FormLoaderTeach.resx">
       <DependentUpon>FormLoaderTeach.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\SubTeachForm\FormMacroAlignTeach.resx">
+      <DependentUpon>FormMacroAlignTeach.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\SubTeachForm\FormMicroAlignTeach.resx">
+      <DependentUpon>FormMicroAlignTeach.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\SubTeachForm\FormPushPullTeach.resx">
       <DependentUpon>FormPushPullTeach.cs</DependentUpon>
@@ -661,6 +691,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UI\SubTeachForm\FormSpinner2Teach.resx">
       <DependentUpon>FormSpinner2Teach.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\SubTeachForm\FormThetaAlignTeach.resx">
+      <DependentUpon>FormThetaAlignTeach.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\SubTeachForm\FormWorkStageTeach.resx">
       <DependentUpon>FormWorkStageTeach.cs</DependentUpon>

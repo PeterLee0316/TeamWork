@@ -55,7 +55,7 @@ namespace LWDicer.Control
         public const int MAX_ACS_AXIS_COUNT = 32;
         public const int MAX_ACS_BUFFER_CNT = 64;
 
-        public const int USE_ACS_AXIS_COUNT = 8;
+        public const int USE_ACS_AXIS_COUNT = (int)EACS_Axis.MAX;
 
         public enum EACSStatusInt
         {
@@ -191,7 +191,9 @@ namespace LWDicer.Control
 
             public CACSChannel(CACSMotionData[] motions = null)
             {
-#if !SIMULATION_MOTION_ACS
+#if SIMULATION_MOTION_ACS
+                return;
+#endif
                 ACS = new Channel();
                 addressTCP = "10.0.0.100";
                 portNum = 701;
@@ -211,7 +213,7 @@ namespace LWDicer.Control
                         MotionData[i] = ObjectExtensions.Copy(motions[i]);
                     }
                 }
-#endif
+
             }
 
             public void SetAddress(string strTCP)
@@ -248,30 +250,38 @@ namespace LWDicer.Control
                 object doubleMatrix;
                 object[,] objectArray = new object[USE_ACS_AXIS_COUNT, (int)EACSStatusDouble.REAL_AXIS_STATUS];
 
-                doubleMatrix = ACS?.ReadVariableAsMatrix("M_REAL", ACS.ACSC_NONE, 0, USE_ACS_AXIS_COUNT-1, 0, (int)EACSStatusDouble.REAL_AXIS_STATUS-1);
-                //d_Matrix = ACS?.ReadVariableAsMatrix("M_REAL", ACS.ACSC_NONE, 0, 7, 0, 7);
-                if (doubleMatrix == null) return;
+                try
+                {
+                    doubleMatrix = ACS?.ReadVariableAsMatrix("M_REAL", ACS.ACSC_NONE, 0, USE_ACS_AXIS_COUNT - 1, 0, (int)EACSStatusDouble.REAL_AXIS_STATUS - 1);
+                    //d_Matrix = ACS?.ReadVariableAsMatrix("M_REAL", ACS.ACSC_NONE, 0, 7, 0, 7);
+                    if (doubleMatrix == null) return;
 
-                objectArray = doubleMatrix as object[,];
+                    objectArray = doubleMatrix as object[,];
 
-                for (int i = 0; i < USE_ACS_AXIS_COUNT; i++)
-                    for (int j = 0; j < (int)EACSStatusDouble.REAL_AXIS_STATUS; j++)
-                        CStatusArray.DoubleStatus[i, j] = (double)objectArray[i, j];
-
+                    for (int i = 0; i < USE_ACS_AXIS_COUNT; i++)
+                        for (int j = 0; j < (int)EACSStatusDouble.REAL_AXIS_STATUS; j++)
+                            CStatusArray.DoubleStatus[i, j] = (double)objectArray[i, j];
+                }
+                catch
+                { }
 
                 object intMatrix;
                 object[,] objectIntArray = new object[USE_ACS_AXIS_COUNT, (int)EACSStatusInt.INT_AXIS_STATUS];
 
-                intMatrix = ACS?.ReadVariableAsMatrix("M_INT", ACS.ACSC_NONE, 0, USE_ACS_AXIS_COUNT-1, 0, (int)EACSStatusInt.INT_AXIS_STATUS-1);
-                //d_Matrix = ACS?.ReadVariableAsMatrix("M_INT", ACS.ACSC_NONE, 0, 7, 0, 2);
-                if (intMatrix == null) return;
+                try
+                {
+                    intMatrix = ACS?.ReadVariableAsMatrix("M_INT", ACS.ACSC_NONE, 0, USE_ACS_AXIS_COUNT-1, 0, (int)EACSStatusInt.INT_AXIS_STATUS-1);
+                    //d_Matrix = ACS?.ReadVariableAsMatrix("M_INT", ACS.ACSC_NONE, 0, 7, 0, 2);
+                    if (intMatrix == null) return;
 
-                objectIntArray = intMatrix as object[,];
+                    objectIntArray = intMatrix as object[,];
 
-                for (int i = 0; i < USE_ACS_AXIS_COUNT; i++)
-                    for (int j = 0; j < (int)EACSStatusInt.INT_AXIS_STATUS; j++)
-                        CStatusArray.IntStatus[i, j] = (int)objectIntArray[i, j];
-
+                    for (int i = 0; i < USE_ACS_AXIS_COUNT; i++)
+                        for (int j = 0; j < (int)EACSStatusInt.INT_AXIS_STATUS; j++)
+                            CStatusArray.IntStatus[i, j] = (int)objectIntArray[i, j];
+                }
+                catch
+                { }
 #endif
             }
 
@@ -321,8 +331,8 @@ namespace LWDicer.Control
         //
         private CACSRefComp m_RefComp;
         private CACSData m_Data;
-        public int InstalledAxisNo; // System에 Install된 max axis
         public CACSChannel m_AcsMotion;
+        public int InstalledAxisNo; // System에 Install된 max axis
 
         // remember speed type in this class for easy controlling
         public int SpeedType { get; set; } = (int)EMotorSpeed.MANUAL_SLOW;
@@ -983,7 +993,7 @@ namespace LWDicer.Control
         /// <returns></returns>
         public int MoveToPos(int[] axisList, bool[] useAxis, double[] pos, CMotorSpeedData[] tempSpeed = null)
         {
-#if !SIMULATION_MOTION_ACS
+
             // check safety
             int iResult = IsSafeForMove();
             if (iResult != SUCCESS) return iResult;
@@ -1021,6 +1031,9 @@ namespace LWDicer.Control
                 return GenerateErrorCode(ERR_ACS_SELECTED_AXIS_NONE);
             }
 
+#if SIMULATION_MOTION_ACS
+            return SUCCESS;
+#endif
             // 0.3 Motion Position 적용
             m_AcsMotion.ACS?.ToPointM(m_AcsMotion.ACS.ACSC_AMF_WAIT, axisList, pos);
 
@@ -1034,7 +1047,6 @@ namespace LWDicer.Control
 
             if (iResult != SUCCESS) return iResult;
 
-#endif
             return SUCCESS;
 
         }
