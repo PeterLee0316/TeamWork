@@ -196,6 +196,12 @@ namespace LWDicer.Control
             return m_RefComp.Stage.ClampClose();
         }
         
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="iPos"></param>
+        /// <param name="bDir"></param>
+        /// <returns></returns>
         public int MoveStageRelative(int iPos,bool bDir=true)
         {
             CPos_XYTZ sTargetPos = new CPos_XYTZ();
