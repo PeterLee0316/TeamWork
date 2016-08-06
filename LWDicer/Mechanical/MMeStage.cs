@@ -69,6 +69,9 @@ namespace LWDicer.Control
             NONE = -1,
             WAIT,
             WORK,
+            FOCUS_1,
+            FOCUS_2,
+            FOCUS_3,
             MAX,
         }
 
@@ -100,6 +103,8 @@ namespace LWDicer.Control
             MICRO_ALIGN_TURN,       // MICRO Align Turn 후 "A" Mark 위치
             LASER_PROCESS,          // Laser Cutting할 첫 위치 (가로 방향)
             LASER_PROCESS_TURN,     // Laser Cutting할 첫 위치 (세로 방향)
+
+            VISION_LASER_GAP,
             MAX,
         }
 
@@ -160,6 +165,9 @@ namespace LWDicer.Control
 
             // MultiAxes
             public MMultiAxes_ACS AxStage;
+            public MMultiAxes_ACS AxCamera;
+            public MMultiAxes_ACS AxScanner;
+
         }
 
         public class CMeStageData
@@ -169,7 +177,6 @@ namespace LWDicer.Control
             public double IndexWidth ;
             public double IndexHeight;
             public double IndexRotate;
-
             public double AlignMarkWidthLen;
             public double AlignMarkWidthRatio;
 
@@ -226,7 +233,7 @@ namespace LWDicer.Control
         // MovingObject
         public CMovingObject AxStageInfo { get; private set; } = new CMovingObject((int)EStagePos.MAX);
         public CMovingObject AxCameraInfo { get; private set; } = new CMovingObject((int)ECameraPos.MAX);
-        public CMovingObject AxLaserInfo { get; private set; } = new CMovingObject((int)EScannerPos.MAX);
+        public CMovingObject AxScannerInfo { get; private set; } = new CMovingObject((int)EScannerPos.MAX);
 
         // Cylinder
         private bool[] UseMainCylFlag   = new bool[WAFER_CLAMP_CYL_NUM];
@@ -285,21 +292,21 @@ namespace LWDicer.Control
             return AxCameraInfo.GetPosition(out FixedPos, out ModelPos, out OffsetPos);
         }
 
-        public int SetLaserPosition(CPosition FixedPos, CPosition ModelPos, CPosition OffsetPos)
+        public int SetScannerPosition(CPosition FixedPos, CPosition ModelPos, CPosition OffsetPos)
         {
-            return AxLaserInfo.SetPosition(FixedPos, ModelPos, OffsetPos);
+            return AxScannerInfo.SetPosition(FixedPos, ModelPos, OffsetPos);
         }
 
-        public int GetLaserPosition(out CPosition FixedPos, out CPosition ModelPos, out CPosition OffsetPos)
+        public int GetScannerPosition(out CPosition FixedPos, out CPosition ModelPos, out CPosition OffsetPos)
         {
-            return AxLaserInfo.GetPosition(out FixedPos, out ModelPos, out OffsetPos);
+            return AxScannerInfo.GetPosition(out FixedPos, out ModelPos, out OffsetPos);
         }
 
         public CPos_XYTZ GetTargetPosition(int index)
         {
             return AxStageInfo.GetTargetPos(index);
         }
-
+        
 
         public int SetVccUseFlag(bool[] UseVccFlag = null)
         {
@@ -976,6 +983,13 @@ namespace LWDicer.Control
             return MoveStagePos(iPos, bMoveAllAxis, bMoveXYT, bMoveZ);
         }
 
+        public int MoveStageToMacroCam(bool bMoveAllAxis = false, bool bMoveXYT = true, bool bMoveZ = false)
+        {
+            int iPos = (int)EStagePos.MACRO_CAM_POS;
+
+            return MoveStagePos(iPos, bMoveAllAxis, bMoveXYT, bMoveZ);
+        }
+
         public int MoveStageToMacroAlignA(bool bMoveAllAxis = false, bool bMoveXYT = true, bool bMoveZ = false)
         {
             int iPos = (int)EStagePos.MACRO_ALIGN;
@@ -1173,6 +1187,488 @@ namespace LWDicer.Control
             if (m_Data.ThetaJogSpeed < 0.1) return GenerateErrorCode(ERR_STAGE_TOO_LOW_JOG_SPEED);
             return JogStageMove(DEF_T, false, m_Data.ThetaJogSpeed);
         }
+        #endregion
+
+        // Camera Servo 구동
+        #region Camera Move 동작
+
+        public int GetCameraCurPos(out CPos_XYTZ pos)
+        {
+            int iResult = m_RefComp.AxCamera.GetCurPos(out pos);
+            return iResult;
+        }
+
+        public int MoveCameraToSafetyPos(int axis)
+        {
+            int iResult = SUCCESS;
+            string str;
+            // 0. safety check
+            iResult = CheckForCameraAxisMove();
+            if (iResult != SUCCESS) return iResult;
+
+            // 0.1 trans to array
+            double[] dPos = new double[1] { m_Data.StageSafetyPos.GetAt(axis) };
+
+            // 0.2 set use flag
+            bool[] bTempFlag = new bool[1] { true };
+
+            // 1. Move
+            iResult = m_RefComp.AxCamera.Move(axis, bTempFlag, dPos);
+            if (iResult != SUCCESS)
+            {
+                str = $"fail : move Camera to safety pos [axis={axis}]";
+                WriteLog(str, ELogType.Debug, ELogWType.D_Error);
+                return iResult;
+            }
+
+            str = $"success : move Camera to safety pos [axis={axis}";
+            WriteLog(str, ELogType.Debug, ELogWType.D_Normal);
+
+            return SUCCESS;
+
+        }
+
+        /// <summary>
+        /// sPos으로 이동하고, PosInfo를 iPos으로 셋팅한다. Backlash는 일단 차후로.
+        /// </summary>
+        /// <param name="sPos"></param>
+        /// <param name="bMoveFlag"></param>
+        /// <param name="bUseBacklash"></param>
+        /// <returns></returns>
+        public int MoveCameraPos(CPos_XYTZ sPos, bool[] bMoveFlag = null, bool bUseBacklash = false,
+            bool bUsePriority = false, int[] movePriority = null)
+        {
+            int iResult = SUCCESS;
+
+            // safety check
+            iResult = CheckForCameraAxisMove();
+            if (iResult != SUCCESS) return iResult;
+
+            // Limit check ???
+
+
+            // trans to array
+            double[] dTargetPos;
+            sPos.TransToArray(out dTargetPos);
+
+            // backlash
+            if (bUseBacklash)
+            {
+                // 나중에 작업
+            }
+           
+            bool[] bTempFlag = new bool[DEF_MAX_COORDINATE] { false, false, false, true };
+            iResult = m_RefComp.AxCamera.Move(DEF_ALL_COORDINATE, bTempFlag, dTargetPos);
+            if (iResult != SUCCESS)
+            {
+                WriteLog("fail : move Camera z axis", ELogType.Debug, ELogWType.D_Error);
+                return iResult;
+            }           
+
+            string str = $"success : move Camera to pos:{sPos.ToString()}";
+            WriteLog(str, ELogType.Debug, ELogWType.D_Normal);
+
+            return SUCCESS;
+        }
+
+        /// <summary>
+        /// iPos 좌표로 선택된 축들을 이동시킨다.
+        /// </summary>
+        /// <param name="iPos">목표 위치</param>
+        /// <param name="bUpdatedPosInfo">목표위치값을 update 할지의 여부</param>
+        /// <param name="bMoveFlag">이동시킬 축 선택 </param>
+        /// <param name="dMoveOffset">임시 옵셋값 </param>
+        /// <param name="bUseBacklash"></param>
+        /// <param name="bUsePriority">우선순위 이동시킬지 여부 </param>
+        /// <param name="movePriority">우선순위 </param>
+        /// <returns></returns>
+        public int MoveCameraPos(int iPos, bool bUpdatedPosInfo = true, bool[] bMoveFlag = null, double[] dMoveOffset = null, bool bUseBacklash = false,
+            bool bUsePriority = false, int[] movePriority = null)
+        {
+            int iResult = SUCCESS;
+            
+
+            CPos_XYTZ sTargetPos = AxCameraInfo.GetTargetPos(iPos);
+
+            if (dMoveOffset != null)
+            {
+                sTargetPos = sTargetPos + dMoveOffset;
+            }
+
+            iResult = MoveCameraPos(sTargetPos, bMoveFlag, bUseBacklash, bUsePriority, movePriority);
+            if (iResult != SUCCESS) return iResult;
+            if (bUpdatedPosInfo == true)
+            {
+                AxCameraInfo.PosInfo = iPos;
+            }
+
+            return SUCCESS;
+        }
+
+        public int MoveCameraRelative(CPos_XYTZ sPos, bool[] bMoveFlag = null)
+        {
+            int iResult = SUCCESS;
+
+            // 이동 Position 선택
+            int iPos = (int)EStagePos.NONE;
+
+            bool bUsePriority = false;
+            bool bUseBacklash = false;
+            int[] movePriority = null;
+
+            // 현재 위치를 읽어옴 (Command 값을 사용하는 것이 좋을 듯)
+            CPos_XYTZ sTargetPos;
+
+            iResult = GetCameraCurPos(out sTargetPos);
+            if (iResult != SUCCESS) GenerateErrorCode(ERR_STAGE_READ_CURRENT_POSITION);
+            // Index 거리를 해당 축에 더하여 거리를 산출함.
+            sTargetPos += sPos;
+
+            iResult = MoveCameraPos(sTargetPos, bMoveFlag, bUseBacklash, bUsePriority, movePriority);
+            if (iResult != SUCCESS) return iResult;
+
+            return SUCCESS;
+        }
+
+        public int MoveCameraRelative(int iAxis, double dMoveLength, bool bUseBacklash = false)
+        {
+            int iResult = SUCCESS;
+
+            // 이동 Position 선택
+            int iPos = (int)EStagePos.NONE;
+            CPos_XYTZ sTargetPos = new CPos_XYTZ();
+
+            bool[] bMoveFlag = new bool[DEF_MAX_COORDINATE] { false, false, false, false };
+
+            if (iAxis == DEF_X)
+            {
+                bMoveFlag[DEF_X] = true;
+                sTargetPos.dX += dMoveLength;
+            }
+            if (iAxis == DEF_Y)
+            {
+                bMoveFlag[DEF_Y] = true;
+                sTargetPos.dY += dMoveLength;
+            }
+            if (iAxis == DEF_T)
+            {
+                bMoveFlag[DEF_T] = true;
+                sTargetPos.dT += dMoveLength;
+            }
+
+            if (iAxis == DEF_Z)
+            {
+                bMoveFlag[DEF_Z] = true;
+                sTargetPos.dT += dMoveLength;
+            }
+
+            iResult = MoveCameraPos(sTargetPos, bMoveFlag, bUseBacklash);
+            if (iResult != SUCCESS) return iResult;
+
+            return SUCCESS;
+        }
+        /// <summary>
+        /// Stage의 각축의 상대 이동
+        /// </summary>
+        /// <param name="dMoveLength"></param>
+        /// <returns></returns>
+
+        public int MoveCameraRelative(double dMoveLength)
+        {
+            MoveStageRelative(DEF_Z, dMoveLength);
+            return SUCCESS;
+        }
+
+        /// <summary>
+        /// Camera를 LOAD, UNLOAD등의 목표위치로 이동시킬때에 좀더 편하게 이동시킬수 있도록 간편화한 함수
+        /// Z축만 움직일 경우엔 Position Info를 업데이트 하지 않는다. 
+        /// </summary>
+        /// <param name="iPos"></param>
+        /// <param name="bMoveAllAxis"></param>
+        /// <param name="bMoveXYT"></param>
+        /// <param name="bMoveZ"></param>
+        /// <returns></returns>
+        public int MoveCameraPos(int iPos)
+        {            
+            bool[] bMoveFlag = new bool[DEF_MAX_COORDINATE] { false, false, false, true };
+            return MoveCameraPos(iPos, false, bMoveFlag);            
+
+            return SUCCESS;
+        }
+
+        public int MoveCameraToWaitPos()
+        {
+            int iPos = (int)ECameraPos.WAIT;
+
+            return MoveCameraPos(iPos);
+        }        
+
+        public int JogCameraMove(bool dDir, double dVel)
+        {
+            int iResult = 0;
+            int iAxis = DEF_Z;
+
+            // safety check
+            iResult = CheckForCameraAxisMove();
+            if (iResult != SUCCESS) return iResult;
+
+            // Limit check ???
+
+            iResult = m_RefComp.AxCamera.JogMoveVelocity(iAxis, dDir, dVel);
+
+            return SUCCESS;
+        }
+
+        public int JogCameraStop(int iAxis)
+        {
+            int iResult = 0;
+
+            iResult = m_RefComp.AxCamera.EStop(iAxis);
+            return SUCCESS;
+        }
+
+        #endregion
+
+        // Scanner Servo 구동
+        #region Scanner Move 동작
+
+        public int GetScannerCurPos(out CPos_XYTZ pos)
+        {
+            int iResult = m_RefComp.AxScanner.GetCurPos(out pos);
+            return iResult;
+        }
+
+        public int MoveScannerToSafetyPos(int axis)
+        {
+            int iResult = SUCCESS;
+            string str;
+            // 0. safety check
+            iResult = CheckForScannerAxisMove();
+            if (iResult != SUCCESS) return iResult;
+
+            // 0.1 trans to array
+            double[] dPos = new double[1] { m_Data.StageSafetyPos.GetAt(axis) };
+
+            // 0.2 set use flag
+            bool[] bTempFlag = new bool[1] { true };
+
+            // 1. Move
+            iResult = m_RefComp.AxScanner.Move(axis, bTempFlag, dPos);
+            if (iResult != SUCCESS)
+            {
+                str = $"fail : move Scanner to safety pos [axis={axis}]";
+                WriteLog(str, ELogType.Debug, ELogWType.D_Error);
+                return iResult;
+            }
+
+            str = $"success : move Scanner to safety pos [axis={axis}";
+            WriteLog(str, ELogType.Debug, ELogWType.D_Normal);
+
+            return SUCCESS;
+
+        }
+
+        /// <summary>
+        /// sPos으로 이동하고, PosInfo를 iPos으로 셋팅한다. Backlash는 일단 차후로.
+        /// </summary>
+        /// <param name="sPos"></param>
+        /// <param name="bMoveFlag"></param>
+        /// <param name="bUseBacklash"></param>
+        /// <returns></returns>
+        public int MoveScannerPos(CPos_XYTZ sPos, bool[] bMoveFlag = null, bool bUseBacklash = false,
+            bool bUsePriority = false, int[] movePriority = null)
+        {
+            int iResult = SUCCESS;
+
+            // safety check
+            iResult = CheckForScannerAxisMove();
+            if (iResult != SUCCESS) return iResult;
+
+            // Limit check ???
+
+
+            // trans to array
+            double[] dTargetPos;
+            sPos.TransToArray(out dTargetPos);
+
+            // backlash
+            if (bUseBacklash)
+            {
+                // 나중에 작업
+            }
+
+            bool[] bTempFlag = new bool[DEF_MAX_COORDINATE] { false, false, false, true };
+            iResult = m_RefComp.AxScanner.Move(DEF_ALL_COORDINATE, bTempFlag, dTargetPos);
+            if (iResult != SUCCESS)
+            {
+                WriteLog("fail : move Scanner z axis", ELogType.Debug, ELogWType.D_Error);
+                return iResult;
+            }
+
+            string str = $"success : move Scanner to pos:{sPos.ToString()}";
+            WriteLog(str, ELogType.Debug, ELogWType.D_Normal);
+
+            return SUCCESS;
+        }
+
+        /// <summary>
+        /// iPos 좌표로 선택된 축들을 이동시킨다.
+        /// </summary>
+        /// <param name="iPos">목표 위치</param>
+        /// <param name="bUpdatedPosInfo">목표위치값을 update 할지의 여부</param>
+        /// <param name="bMoveFlag">이동시킬 축 선택 </param>
+        /// <param name="dMoveOffset">임시 옵셋값 </param>
+        /// <param name="bUseBacklash"></param>
+        /// <param name="bUsePriority">우선순위 이동시킬지 여부 </param>
+        /// <param name="movePriority">우선순위 </param>
+        /// <returns></returns>
+        public int MoveScannerPos(int iPos, bool bUpdatedPosInfo = true, bool[] bMoveFlag = null, double[] dMoveOffset = null, bool bUseBacklash = false,
+            bool bUsePriority = false, int[] movePriority = null)
+        {
+            int iResult = SUCCESS;
+
+
+            CPos_XYTZ sTargetPos = AxScannerInfo.GetTargetPos(iPos);
+
+            if (dMoveOffset != null)
+            {
+                sTargetPos = sTargetPos + dMoveOffset;
+            }
+
+            iResult = MoveScannerPos(sTargetPos, bMoveFlag, bUseBacklash, bUsePriority, movePriority);
+            if (iResult != SUCCESS) return iResult;
+            if (bUpdatedPosInfo == true)
+            {
+                AxScannerInfo.PosInfo = iPos;
+            }
+
+            return SUCCESS;
+        }
+
+        public int MoveScannerRelative(CPos_XYTZ sPos, bool[] bMoveFlag = null)
+        {
+            int iResult = SUCCESS;
+
+            // 이동 Position 선택
+            int iPos = (int)EStagePos.NONE;
+
+            bool bUsePriority = false;
+            bool bUseBacklash = false;
+            int[] movePriority = null;
+
+            // 현재 위치를 읽어옴 (Command 값을 사용하는 것이 좋을 듯)
+            CPos_XYTZ sTargetPos;
+
+            iResult = GetScannerCurPos(out sTargetPos);
+            if (iResult != SUCCESS) GenerateErrorCode(ERR_STAGE_READ_CURRENT_POSITION);
+            // Index 거리를 해당 축에 더하여 거리를 산출함.
+            sTargetPos += sPos;
+
+            iResult = MoveScannerPos(sTargetPos, bMoveFlag, bUseBacklash, bUsePriority, movePriority);
+            if (iResult != SUCCESS) return iResult;
+
+            return SUCCESS;
+        }
+
+        public int MoveScannerRelative(int iAxis, double dMoveLength, bool bUseBacklash = false)
+        {
+            int iResult = SUCCESS;
+
+            // 이동 Position 선택
+            int iPos = (int)EStagePos.NONE;
+            CPos_XYTZ sTargetPos = new CPos_XYTZ();
+
+            bool[] bMoveFlag = new bool[DEF_MAX_COORDINATE] { false, false, false, false };
+
+            if (iAxis == DEF_X)
+            {
+                bMoveFlag[DEF_X] = true;
+                sTargetPos.dX += dMoveLength;
+            }
+            if (iAxis == DEF_Y)
+            {
+                bMoveFlag[DEF_Y] = true;
+                sTargetPos.dY += dMoveLength;
+            }
+            if (iAxis == DEF_T)
+            {
+                bMoveFlag[DEF_T] = true;
+                sTargetPos.dT += dMoveLength;
+            }
+
+            if (iAxis == DEF_Z)
+            {
+                bMoveFlag[DEF_Z] = true;
+                sTargetPos.dT += dMoveLength;
+            }
+
+            iResult = MoveScannerPos(sTargetPos, bMoveFlag, bUseBacklash);
+            if (iResult != SUCCESS) return iResult;
+
+            return SUCCESS;
+        }
+        /// <summary>
+        /// Stage의 각축의 상대 이동
+        /// </summary>
+        /// <param name="dMoveLength"></param>
+        /// <returns></returns>
+
+        public int MoveScannerRelative(double dMoveLength)
+        {
+            MoveStageRelative(DEF_Z, dMoveLength);
+            return SUCCESS;
+        }
+
+        /// <summary>
+        /// Scanner를 LOAD, UNLOAD등의 목표위치로 이동시킬때에 좀더 편하게 이동시킬수 있도록 간편화한 함수
+        /// Z축만 움직일 경우엔 Position Info를 업데이트 하지 않는다. 
+        /// </summary>
+        /// <param name="iPos"></param>
+        /// <param name="bMoveAllAxis"></param>
+        /// <param name="bMoveXYT"></param>
+        /// <param name="bMoveZ"></param>
+        /// <returns></returns>
+        public int MoveScannerPos(int iPos)
+        {
+            bool[] bMoveFlag = new bool[DEF_MAX_COORDINATE] { false, false, false, true };
+            return MoveScannerPos(iPos, false, bMoveFlag);
+
+            return SUCCESS;
+        }
+
+
+        public int MoveScannerToWaitPos()
+        {
+            int iPos = (int)EScannerPos.WAIT;
+
+            return MoveScannerPos(iPos);
+        }
+
+
+        public int JogScannerMove(bool dDir, double dVel)
+        {
+            int iResult = 0;
+            int iAxis = DEF_Z;
+
+            // safety check
+            iResult = CheckForScannerAxisMove();
+            if (iResult != SUCCESS) return iResult;
+
+            // Limit check ???
+
+            iResult = m_RefComp.AxScanner.JogMoveVelocity(iAxis, dDir, dVel);
+
+            return SUCCESS;
+        }
+
+        public int JogScannerStop(int iAxis)
+        {
+            int iResult = 0;
+
+            iResult = m_RefComp.AxScanner.EStop(iAxis);
+            return SUCCESS;
+        }
+
         #endregion
 
         // 모드 변경 및 Align Data Set
@@ -1599,7 +2095,48 @@ namespace LWDicer.Control
             return SUCCESS;
         }
 
-        
+        public int CheckForCameraAxisMove()
+        {
+            bool bStatus = false;
+
+            // check Servo origin
+            int iResult = IsStageOrignReturn(out bStatus);
+            if (iResult != SUCCESS) return iResult;
+            if (bStatus == false)
+            {
+                //return GenerateErrorCode(ERR_STAGE_NOT_ORIGIN_RETURNED);
+            }
+
+            // 제품이 있으면, Clamp & Absorbed 없으면 don't care
+            iResult = CheckForStageCylMove();
+            if (iResult != SUCCESS) return iResult;
+
+
+            bStatus = true;
+            return SUCCESS;
+        }
+
+        public int CheckForScannerAxisMove()
+        {
+            bool bStatus = false;
+
+            // check Servo origin
+            int iResult = IsStageOrignReturn(out bStatus);
+            if (iResult != SUCCESS) return iResult;
+            if (bStatus == false)
+            {
+                //return GenerateErrorCode(ERR_STAGE_NOT_ORIGIN_RETURNED);
+            }
+
+            // 제품이 있으면, Clamp & Absorbed 없으면 don't care
+            iResult = CheckForStageCylMove();
+            if (iResult != SUCCESS) return iResult;
+
+
+            bStatus = true;
+            return SUCCESS;
+        }
+
         public int CheckForStageCylMove()
         {
 

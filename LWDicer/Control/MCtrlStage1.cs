@@ -170,7 +170,7 @@ namespace LWDicer.Control
 
         #endregion
         
-        // Stage 구동 관련된 지령
+        // Stage 위치 구동 지령
         #region Stage 구동
         
 
@@ -195,18 +195,37 @@ namespace LWDicer.Control
         {
             return m_RefComp.Stage.ClampClose();
         }
+        
+        public int MoveStageRelative(int iPos,bool bDir=true)
+        {
+            CPos_XYTZ sTargetPos = new CPos_XYTZ();
+            CPosition fixedPos;
+            CPosition modelPos;
+            CPosition offsetPos;
+            m_RefComp.Stage.GetStagePosition(out fixedPos, out modelPos,out offsetPos);
 
-        public int MoveToWaitPos()
+            if (bDir)
+                sTargetPos = fixedPos.Pos[iPos];
+            else
+            {
+                sTargetPos.dX = -fixedPos.Pos[iPos].dX;
+                sTargetPos.dY = -fixedPos.Pos[iPos].dY;
+                sTargetPos.dT = -fixedPos.Pos[iPos].dT;
+            }
+            return m_RefComp.Stage.MoveStageRelativeXYT(sTargetPos);            
+        }
+
+        public int MoveToStageWaitPos()
         {
             return m_RefComp.Stage.MoveStageToWaitPos();
         }
         
-        public int MoveToLoadPos()
+        public int MoveToStageLoadPos()
         {
             return m_RefComp.Stage.MoveStageToLoadPos();
         }
 
-        public int MoveToUnloadPos()
+        public int MoveToStageUnloadPos()
         {
             return m_RefComp.Stage.MoveStageToUnloadPos();
         }
@@ -239,6 +258,11 @@ namespace LWDicer.Control
         public int MoveToEdgeAlignPos4()
         {
             return m_RefComp.Stage.MoveStageToEdgeAlignPos4();
+        }
+
+        public int MoveToMacroCam()
+        {
+            return m_RefComp.Stage.MoveStageToMacroCam();
         }
 
         public int MoveToMacroAlignA()
@@ -387,6 +411,24 @@ namespace LWDicer.Control
 
         #endregion
 
+        // Camera 위치 구동 지령
+        #region Camera 구동
+
+        public int MoveToCameraWaitPos()
+        {
+            return m_RefComp.Stage.MoveCameraToWaitPos();
+        }
+
+        public int MoveToCameraLoadPos()
+        {
+            return m_RefComp.Stage.MoveStageToLoadPos();
+        }
+
+        public int MoveToCameraUnloadPos()
+        {
+            return m_RefComp.Stage.MoveStageToUnloadPos();
+        }
+        #endregion
         // Vision 동작
         #region Vision 동작
 

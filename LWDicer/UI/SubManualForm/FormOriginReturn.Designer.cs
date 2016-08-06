@@ -273,12 +273,12 @@
             // 
             this.BtnAxis17.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.BtnAxis17.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.BtnAxis17.Location = new System.Drawing.Point(504, 296);
+            this.BtnAxis17.Location = new System.Drawing.Point(507, 369);
             this.BtnAxis17.Name = "BtnAxis17";
             this.BtnAxis17.Size = new System.Drawing.Size(120, 67);
             this.BtnAxis17.TabIndex = 16;
             this.BtnAxis17.Tag = "18";
-            this.BtnAxis17.Text = "Stage X";
+            this.BtnAxis17.Text = "Stage Y";
             this.BtnAxis17.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.BtnAxis17.Click += new System.EventHandler(this.BtnAxis_Click);
             // 
@@ -286,12 +286,12 @@
             // 
             this.BtnAxis18.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.BtnAxis18.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.BtnAxis18.Location = new System.Drawing.Point(504, 369);
+            this.BtnAxis18.Location = new System.Drawing.Point(507, 296);
             this.BtnAxis18.Name = "BtnAxis18";
             this.BtnAxis18.Size = new System.Drawing.Size(120, 67);
             this.BtnAxis18.TabIndex = 17;
             this.BtnAxis18.Tag = "20";
-            this.BtnAxis18.Text = "Stage Y";
+            this.BtnAxis18.Text = "Stage X";
             this.BtnAxis18.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.BtnAxis18.Click += new System.EventHandler(this.BtnAxis_Click);
             // 
@@ -299,7 +299,7 @@
             // 
             this.BtnAxis19.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.BtnAxis19.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.BtnAxis19.Location = new System.Drawing.Point(504, 442);
+            this.BtnAxis19.Location = new System.Drawing.Point(507, 442);
             this.BtnAxis19.Name = "BtnAxis19";
             this.BtnAxis19.Size = new System.Drawing.Size(120, 67);
             this.BtnAxis19.TabIndex = 18;

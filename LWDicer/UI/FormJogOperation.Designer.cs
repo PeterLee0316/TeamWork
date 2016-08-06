@@ -112,7 +112,7 @@
             this.BtnAxis18.Name = "BtnAxis18";
             this.BtnAxis18.Size = new System.Drawing.Size(118, 51);
             this.BtnAxis18.TabIndex = 863;
-            this.BtnAxis18.Tag = "6";
+            this.BtnAxis18.Tag = "4";
             this.BtnAxis18.Click += new System.EventHandler(this.BtnACSAxis_Click);
             // 
             // BtnAxis17
@@ -128,7 +128,7 @@
             this.BtnAxis17.Name = "BtnAxis17";
             this.BtnAxis17.Size = new System.Drawing.Size(118, 51);
             this.BtnAxis17.TabIndex = 862;
-            this.BtnAxis17.Tag = "4";
+            this.BtnAxis17.Tag = "6";
             this.BtnAxis17.Click += new System.EventHandler(this.BtnACSAxis_Click);
             // 
             // BtnAxis16

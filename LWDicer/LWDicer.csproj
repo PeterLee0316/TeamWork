@@ -38,7 +38,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;WIN32,SIMULATION_VISION, SIMULATION_MOTION_ACS, SIMULATION_MOTION_YMC, SIMULATION_IO</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;WIN32,SIMULATION_VISION, SIMULATION_MOTION_YMC, SIMULATION_IO</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>2</WarningLevel>
     <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
@@ -246,6 +246,12 @@
     </Compile>
     <Compile Include="UI\FormJogOperation.Designer.cs">
       <DependentUpon>FormJogOperation.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\FormJogStage.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\FormJogStage.Designer.cs">
+      <DependentUpon>FormJogStage.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\FormTopScreen.cs">
       <SubType>Form</SubType>
@@ -566,6 +572,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UI\FormJogOperation.resx">
       <DependentUpon>FormJogOperation.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\FormJogStage.resx">
+      <DependentUpon>FormJogStage.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\FormTopScreen.resx">
       <DependentUpon>FormTopScreen.cs</DependentUpon>

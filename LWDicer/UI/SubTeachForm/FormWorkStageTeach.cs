@@ -216,36 +216,40 @@ namespace LWDicer.UI
         {
             // Current Position Display
             string strCurPos = string.Empty;
+            try
+            {
+                strCurPos = string.Format("{0:F4}", CMainFrame.LWDicer.m_ACS.ServoStatus[(int)EACS_Axis.STAGE1_X].EncoderPos);
+                GridStageTeachTable[7, 1].Text = strCurPos;
 
-            strCurPos = string.Format("{0:F4}", CMainFrame.LWDicer.m_ACS.ServoStatus[(int)EACS_Axis.STAGE1_X].EncoderPos);
-            GridStageTeachTable[7, 1].Text = strCurPos;
+                strCurPos = string.Format("{0:F4}", CMainFrame.LWDicer.m_ACS.ServoStatus[(int)EACS_Axis.STAGE1_Y].EncoderPos);
+                GridStageTeachTable[7, 2].Text = strCurPos;
 
-            strCurPos = string.Format("{0:F4}", CMainFrame.LWDicer.m_ACS.ServoStatus[(int)EACS_Axis.STAGE1_Y].EncoderPos);
-            GridStageTeachTable[7, 2].Text = strCurPos;
+                strCurPos = string.Format("{0:F4}", CMainFrame.LWDicer.m_ACS.ServoStatus[(int)EACS_Axis.STAGE1_T].EncoderPos);
+                GridStageTeachTable[7, 3].Text = strCurPos;
 
-            strCurPos = string.Format("{0:F4}", CMainFrame.LWDicer.m_ACS.ServoStatus[(int)EACS_Axis.STAGE1_T].EncoderPos);
-            GridStageTeachTable[7, 3].Text = strCurPos;
+                // 보정값 Display
+                double dValue = 0, dCurPos = 0, dTargetPos = 0;
 
-            // 보정값 Display
-            double dValue = 0, dCurPos = 0, dTargetPos = 0;
+                dCurPos = CMainFrame.LWDicer.m_ACS.ServoStatus[(int)EACS_Axis.STAGE1_X].EncoderPos;
+                dTargetPos = Convert.ToDouble(GridStageTeachTable[2, 1].Text);
+                dValue = dTargetPos - dCurPos;
 
-            dCurPos = CMainFrame.LWDicer.m_ACS.ServoStatus[(int)EACS_Axis.STAGE1_X].EncoderPos;
-            dTargetPos = Convert.ToDouble(GridStageTeachTable[2, 1].Text);
-            dValue = dTargetPos - dCurPos;
+                GridStageTeachTable[8, 1].Text = string.Format("{0:F4}", dValue);
 
-            GridStageTeachTable[8, 1].Text = string.Format("{0:F4}", dValue);
+                dCurPos = CMainFrame.LWDicer.m_ACS.ServoStatus[(int)EACS_Axis.STAGE1_Y].EncoderPos;
+                dTargetPos = Convert.ToDouble(GridStageTeachTable[2, 2].Text);
+                dValue = dTargetPos - dCurPos;
 
-            dCurPos = CMainFrame.LWDicer.m_ACS.ServoStatus[(int)EACS_Axis.STAGE1_Y].EncoderPos;
-            dTargetPos = Convert.ToDouble(GridStageTeachTable[2, 2].Text);
-            dValue = dTargetPos - dCurPos;
+                GridStageTeachTable[8, 2].Text = string.Format("{0:F4}", dValue);
 
-            GridStageTeachTable[8, 2].Text = string.Format("{0:F4}", dValue);
+                dCurPos = CMainFrame.LWDicer.m_ACS.ServoStatus[(int)EACS_Axis.STAGE1_T].EncoderPos;
+                dTargetPos = Convert.ToDouble(GridStageTeachTable[2, 3].Text);
+                dValue = dTargetPos - dCurPos;
 
-            dCurPos = CMainFrame.LWDicer.m_ACS.ServoStatus[(int)EACS_Axis.STAGE1_T].EncoderPos;
-            dTargetPos = Convert.ToDouble(GridStageTeachTable[2, 3].Text);
-            dValue = dTargetPos - dCurPos;
-
-            GridStageTeachTable[8, 3].Text = string.Format("{0:F4}", dValue);
+                GridStageTeachTable[8, 3].Text = string.Format("{0:F4}", dValue);
+            }
+            catch
+            { }
         }
 
         private void UpdateStageTeachPos(int PosNo)
@@ -304,6 +308,8 @@ namespace LWDicer.UI
 
         private void LoadStageTeachingData(int nTeachPos)
         {
+            if (movingObject.FixedPos.Pos.Length <= nTeachPos) return;
+
             double dFixedXPos = 0, dOffsetXPos = 0, dTargetXPos = 0, dModelXPos = 0, dAlignXOffset;
             double dFixedYPos = 0, dOffsetYPos = 0, dTargetYPos = 0, dModelYPos = 0, dAlignYOffset;
             double dFixedTPos = 0, dOffsetTPos = 0, dTargetTPos = 0, dModelTPos = 0, dAlignTOffset;
@@ -427,7 +433,7 @@ namespace LWDicer.UI
             }
 
             if (GetDataMode()==FixedData)
-            {
+            {                
                 strData = GridStageTeachTable[3, 1].Text;
                 CMainFrame.DataManager.FixedPos.Stage1Pos.Pos[GetPosNo()].dX = Convert.ToDouble(strData);
 
@@ -528,15 +534,15 @@ namespace LWDicer.UI
                 return;
             }
 
-            if (StagePos[GetPosNo()].Text == Convert.ToString(EStagePos.WAIT))              CMainFrame.LWDicer.m_ctrlStage1.MoveToWaitPos();
-            if (StagePos[GetPosNo()].Text == Convert.ToString(EStagePos.LOAD))              CMainFrame.LWDicer.m_ctrlStage1.MoveToLoadPos();
-            if (StagePos[GetPosNo()].Text == Convert.ToString(EStagePos.UNLOAD))            CMainFrame.LWDicer.m_ctrlStage1.MoveToUnloadPos();
+            if (StagePos[GetPosNo()].Text == Convert.ToString(EStagePos.WAIT))              CMainFrame.LWDicer.m_ctrlStage1.MoveToStageWaitPos();
+            if (StagePos[GetPosNo()].Text == Convert.ToString(EStagePos.LOAD))              CMainFrame.LWDicer.m_ctrlStage1.MoveToStageLoadPos();
+            if (StagePos[GetPosNo()].Text == Convert.ToString(EStagePos.UNLOAD))            CMainFrame.LWDicer.m_ctrlStage1.MoveToStageUnloadPos();
             if (StagePos[GetPosNo()].Text == Convert.ToString(EStagePos.THETA_ALIGN))       CMainFrame.LWDicer.m_ctrlStage1.MoveToThetaAlignPosA();
             if (StagePos[GetPosNo()].Text == Convert.ToString(EStagePos.EDGE_ALIGN_1))      CMainFrame.LWDicer.m_ctrlStage1.MoveToEdgeAlignPos1();
             if (StagePos[GetPosNo()].Text == Convert.ToString(EStagePos.EDGE_ALIGN_2))      CMainFrame.LWDicer.m_ctrlStage1.MoveToEdgeAlignPos2();
             if (StagePos[GetPosNo()].Text == Convert.ToString(EStagePos.EDGE_ALIGN_3))      CMainFrame.LWDicer.m_ctrlStage1.MoveToEdgeAlignPos3();
             if (StagePos[GetPosNo()].Text == Convert.ToString(EStagePos.EDGE_ALIGN_4))      CMainFrame.LWDicer.m_ctrlStage1.MoveToEdgeAlignPos4();
-            if (StagePos[GetPosNo()].Text == Convert.ToString(EStagePos.MACRO_CAM_POS))     CMainFrame.LWDicer.m_ctrlStage1.MoveToMacroAlignA();
+            if (StagePos[GetPosNo()].Text == Convert.ToString(EStagePos.MACRO_CAM_POS))     CMainFrame.LWDicer.m_ctrlStage1.MoveToMacroCam();
             if (StagePos[GetPosNo()].Text == Convert.ToString(EStagePos.MACRO_ALIGN))       CMainFrame.LWDicer.m_ctrlStage1.MoveToMacroAlignA();
             if (StagePos[GetPosNo()].Text == Convert.ToString(EStagePos.MICRO_ALIGN))       CMainFrame.LWDicer.m_ctrlStage1.MoveToMicroAlignA();
             if (StagePos[GetPosNo()].Text == Convert.ToString(EStagePos.MICRO_ALIGN_TURN))  CMainFrame.LWDicer.m_ctrlStage1.MoveToMicroAlignTurnA();
@@ -549,6 +555,16 @@ namespace LWDicer.UI
         {
             var dlg = new FormStageManualOP();
             dlg.ShowDialog();
+        }
+
+        private void btnMoveToLaser_Click(object sender, EventArgs e)
+        {
+            CMainFrame.LWDicer.m_ctrlStage1.MoveStageRelative((int)EStagePos.VISION_LASER_GAP);
+        }
+
+        private void btnMoveToVision_Click(object sender, EventArgs e)
+        {
+            CMainFrame.LWDicer.m_ctrlStage1.MoveStageRelative((int)EStagePos.VISION_LASER_GAP,false);
         }
     }
 }

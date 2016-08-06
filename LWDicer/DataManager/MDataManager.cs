@@ -409,7 +409,9 @@ namespace LWDicer.Control
 
             // Stage1
             public CPosition Stage1Pos = new CPosition((int)EStagePos.MAX);
+            // Camera1
             public CPosition Camera1Pos = new CPosition((int)ECameraPos.MAX);
+            // Scanner1
             public CPosition Scanner1Pos = new CPosition((int)EScannerPos.MAX);
 
             // PushPull
@@ -421,18 +423,22 @@ namespace LWDicer.Control
             public CPosition UpperHandlerPos = new CPosition((int)EHandlerPos.MAX);
             public CPosition LowerHandlerPos = new CPosition((int)EHandlerPos.MAX);
 
-            // Spinner
+            // Spinner1
             public CPosition S1_RotatePos = new CPosition((int)ERotatePos.MAX);
             public CPosition S1_CoaterPos = new CPosition((int)ENozzlePos.MAX);
             public CPosition S1_CleanerPos = new CPosition((int)ENozzlePos.MAX);
 
+            // Spinner2
             public CPosition S2_RotatePos = new CPosition((int)ERotatePos.MAX);
             public CPosition S2_CoaterPos = new CPosition((int)ENozzlePos.MAX);
             public CPosition S2_CleanerPos = new CPosition((int)ENozzlePos.MAX);
 
             public CPositionData()
             {
-
+                for(int i=0; i< (int)EStagePos.MAX;i++)
+                {
+                    Stage1Pos.Pos[i] = new CPos_XYTZ();
+                }
             }
 
         }
@@ -1774,6 +1780,21 @@ namespace LWDicer.Control
                 CPosition data = JsonConvert.DeserializeObject<CPosition>(output);
                 if(data != null && data.Length > 0)
                     tData.Stage1Pos = ObjectExtensions.Copy(data);
+
+
+                /////////////////////////////////////////////////////////////////////
+                // Copy될때 Array의 크기가 변함.
+                if(tData.Stage1Pos.Pos.Length < (int)EStagePos.MAX)
+                {
+                    Array.Resize(ref tData.Stage1Pos.Pos, (int)EStagePos.MAX);
+                    
+                    for(int i= tData.Stage1Pos.Length; i < (int)EStagePos.MAX;i++)
+                    {
+                            tData.Stage1Pos.Pos[i] = new CPos_XYTZ();
+                    }
+                }
+                /////////////////////////////////////////////////////////////////////
+
             }
 
             if (unit == EPositionObject.ALL || unit == EPositionObject.CAMERA1)

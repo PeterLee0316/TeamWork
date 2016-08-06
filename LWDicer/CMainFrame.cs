@@ -206,6 +206,7 @@ namespace LWDicer.UI
         {
             var dlg = new FormMessageBox();
             dlg.SetMessage(strMsg, type);
+            dlg.TopMost = true;
             dlg.ShowDialog();
 
             if (dlg.DialogResult == DialogResult.OK || dlg.DialogResult == DialogResult.Yes)

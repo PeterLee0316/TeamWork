@@ -40,7 +40,7 @@ namespace LWDicer.UI
 
         private int nDataMode = 0;
 
-        private CMovingObject movingObject = CMainFrame.LWDicer.m_MeStage.AxLaserInfo;
+        private CMovingObject movingObject = CMainFrame.LWDicer.m_MeStage.AxScannerInfo;
 
         public FormScannerTeach()
         {

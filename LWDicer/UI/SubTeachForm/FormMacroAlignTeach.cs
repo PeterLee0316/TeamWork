@@ -16,5 +16,16 @@ namespace LWDicer.UI
         {
             InitializeComponent();
         }
+
+        private void FormClose()
+        {
+            this.Hide();
+        }
+
+
+        private void BtnExit_Click(object sender, EventArgs e)
+        {
+            FormClose();
+        }
     }
 }

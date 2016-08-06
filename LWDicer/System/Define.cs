@@ -173,9 +173,9 @@ namespace LWDicer.Control
             SCANNER_Z2,
             CAMERA_Z,
             SPARE_1,
-            STAGE1_X,
-            POLYGON,
             STAGE1_Y,
+            POLYGON,
+            STAGE1_X,
             STAGE1_T,            
             MAX,
           
@@ -190,8 +190,8 @@ namespace LWDicer.Control
             SCANNER1_Z=0,
             SCANNER2_Z,
             CAMERA1_Z,
-            STAGE1_X=4,
-            STAGE1_Y=6,
+            STAGE1_X=6,
+            STAGE1_Y=4,
             STAGE1_T=7,
 
             ALL,

@@ -71,8 +71,8 @@ namespace LWDicer.Control
 
         // MultiAxes
         public MMultiAxes_ACS m_AxStage1      ;
-        public MMultiAxes_ACS m_AxScannerZ1   ;
         public MMultiAxes_ACS m_AxCamera1     ;
+        public MMultiAxes_ACS m_AxScannerZ1   ;        
         public MMultiAxes_YMC m_AxLoader      ;
         public MMultiAxes_YMC m_AxPushPull    ;
         public MMultiAxes_YMC m_AxCentering1  ;
@@ -110,12 +110,10 @@ namespace LWDicer.Control
 
         // Vacuum
         public IVacuum m_Stage1Vac           ;
-
         public IVacuum m_UHandlerSelfVac     ;
         public IVacuum m_UHandlerFactoryVac  ;
         public IVacuum m_LHandlerSelfVac     ;
         public IVacuum m_LHandlerFactoryVac  ;
-
         public IVacuum m_Spinner1Vac         ;
         public IVacuum m_Spinner2Vac         ;
         
@@ -1017,7 +1015,9 @@ namespace LWDicer.Control
 
         void CreateVision(CObjectInfo objInfo)
         {
-#if !SIMULATION_VISION
+#if SIMULATION_VISION
+            return;
+#endif
             bool VisionHardwareCheck = true;
             if(m_VisionSystem.m_iResult != SUCCESS)
             {
@@ -1073,9 +1073,7 @@ namespace LWDicer.Control
                 m_Vision.ReLoadPatternMark(FINE_CAM, PATTERN_A, m_DataManager.ModelData.MicroPatternA);
                 m_Vision.ReLoadPatternMark(FINE_CAM, PATTERN_B, m_DataManager.ModelData.MicroPatternB);
             }
-
-#endif
-
+            
         }
 
         void CreateCtrlOpPanel(CObjectInfo objInfo)
@@ -1235,9 +1233,7 @@ namespace LWDicer.Control
 
             m_trsStage1 = new MTrsStage1(objInfo, EThreadChannel.TrsStage1, m_DataManager, ELCNetUnitPos.STAGE1, refComp, data);
         }
-
-
-
+        
         void SetThreadChannel()
         {
             // AutoManager
@@ -1568,7 +1564,7 @@ namespace LWDicer.Control
             {
                 m_MeStage.SetStagePosition(FixedPos.Stage1Pos, ModelPos.Stage1Pos, OffsetPos.Stage1Pos);
                 m_MeStage.SetCameraPosition(FixedPos.Camera1Pos, ModelPos.Camera1Pos, OffsetPos.Camera1Pos);
-                m_MeStage.SetLaserPosition(FixedPos.Scanner1Pos, ModelPos.Scanner1Pos, OffsetPos.Scanner1Pos);
+                m_MeStage.SetScannerPosition(FixedPos.Scanner1Pos, ModelPos.Scanner1Pos, OffsetPos.Scanner1Pos);
             }
 
             //////////////////////////////////////////////////////////////////
@@ -1583,6 +1579,7 @@ namespace LWDicer.Control
         {
             var dlg = new FormKeyPad();
             dlg.SetValue(strCurrent);
+            dlg.TopMost = true;
             dlg.ShowDialog();
 
             if (dlg.DialogResult == DialogResult.OK)
@@ -1609,6 +1606,7 @@ namespace LWDicer.Control
         public bool GetKeyboard(out string strModify, string title = "Input")
         {
             var dlg = new FormKeyBoard(title);
+            dlg.TopMost = true;
             dlg.ShowDialog();
 
             if (dlg.DialogResult == DialogResult.OK)
@@ -1744,6 +1742,9 @@ namespace LWDicer.Control
 
             refComp.IO = m_IO;
             refComp.AxStage = m_AxStage1;
+            refComp.AxCamera = m_AxCamera1;
+            refComp.AxScanner = m_AxScannerZ1;
+
             refComp.Vacuum[(int)EStageVacuum.SELF] = m_Stage1Vac;
             
             data.InDetectObject = iUHandler_PanelDetect;

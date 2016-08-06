@@ -62,6 +62,8 @@
             this.gradientLabel9 = new Syncfusion.Windows.Forms.Tools.GradientLabel();
             this.BtnStageManualOP = new System.Windows.Forms.Button();
             this.BtnPos15 = new Syncfusion.Windows.Forms.ButtonAdv();
+            this.btnMoveToLaser = new System.Windows.Forms.Button();
+            this.btnMoveToVision = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.GridStageTeachTable)).BeginInit();
             this.SuspendLayout();
             // 
@@ -552,11 +554,41 @@
             this.BtnPos15.Tag = "14";
             this.BtnPos15.Click += new System.EventHandler(this.BtnPos_Click);
             // 
+            // btnMoveToLaser
+            // 
+            this.btnMoveToLaser.Font = new System.Drawing.Font("굴림", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.btnMoveToLaser.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.btnMoveToLaser.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnMoveToLaser.Location = new System.Drawing.Point(383, 701);
+            this.btnMoveToLaser.Name = "btnMoveToLaser";
+            this.btnMoveToLaser.Size = new System.Drawing.Size(117, 64);
+            this.btnMoveToLaser.TabIndex = 935;
+            this.btnMoveToLaser.Text = "Laser 이동";
+            this.btnMoveToLaser.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.btnMoveToLaser.UseVisualStyleBackColor = true;
+            this.btnMoveToLaser.Click += new System.EventHandler(this.btnMoveToLaser_Click);
+            // 
+            // btnMoveToVision
+            // 
+            this.btnMoveToVision.Font = new System.Drawing.Font("굴림", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.btnMoveToVision.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.btnMoveToVision.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnMoveToVision.Location = new System.Drawing.Point(504, 701);
+            this.btnMoveToVision.Name = "btnMoveToVision";
+            this.btnMoveToVision.Size = new System.Drawing.Size(117, 64);
+            this.btnMoveToVision.TabIndex = 936;
+            this.btnMoveToVision.Text = "Vision 이동";
+            this.btnMoveToVision.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.btnMoveToVision.UseVisualStyleBackColor = true;
+            this.btnMoveToVision.Click += new System.EventHandler(this.btnMoveToVision_Click);
+            // 
             // FormWorkStageTeach
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1260, 884);
+            this.Controls.Add(this.btnMoveToVision);
+            this.Controls.Add(this.btnMoveToLaser);
             this.Controls.Add(this.BtnPos15);
             this.Controls.Add(this.BtnStageManualOP);
             this.Controls.Add(this.gradientLabel9);
@@ -633,5 +665,7 @@
         private Syncfusion.Windows.Forms.Tools.GradientLabel gradientLabel9;
         private System.Windows.Forms.Button BtnStageManualOP;
         private Syncfusion.Windows.Forms.ButtonAdv BtnPos15;
+        private System.Windows.Forms.Button btnMoveToLaser;
+        private System.Windows.Forms.Button btnMoveToVision;
     }
 }

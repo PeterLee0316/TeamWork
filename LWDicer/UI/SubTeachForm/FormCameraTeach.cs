@@ -398,8 +398,11 @@ namespace LWDicer.UI
                 return;
             }
 
-            //if (TeachPos[GetPosNo()].Text == Convert.ToString(EStagePos.WAIT)) CMainFrame.LWDicer.m_ctrlStage1.MoveToWaitPos();
-            //if (TeachPos[GetPosNo()].Text == Convert.ToString(EStagePos.LOAD)) CMainFrame.LWDicer.m_ctrlStage1.MoveToLoadPos();
+            //if (TeachPos[GetPosNo()].Text == Convert.ToString(ECameraPos.WAIT))    CMainFrame.LWDicer.m_ctrlStage1.MoveToWaitPos();
+            //if (TeachPos[GetPosNo()].Text == Convert.ToString(ECameraPos.WORK))    CMainFrame.LWDicer.m_ctrlStage1.MoveToLoadPos();
+            //if (TeachPos[GetPosNo()].Text == Convert.ToString(ECameraPos.FOCUS_1)) CMainFrame.LWDicer.m_ctrlStage1.MoveToLoadPos();
+            //if (TeachPos[GetPosNo()].Text == Convert.ToString(ECameraPos.FOCUS_2)) CMainFrame.LWDicer.m_ctrlStage1.MoveToLoadPos();
+            //if (TeachPos[GetPosNo()].Text == Convert.ToString(ECameraPos.FOCUS_3)) CMainFrame.LWDicer.m_ctrlStage1.MoveToLoadPos();
         }
     }
 }

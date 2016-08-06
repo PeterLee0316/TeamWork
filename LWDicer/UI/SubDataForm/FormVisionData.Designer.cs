@@ -32,6 +32,10 @@
             this.BtnExit = new System.Windows.Forms.Button();
             this.picVision = new System.Windows.Forms.Panel();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.btnSearchMarkB = new System.Windows.Forms.Button();
+            this.btnSearchMarkA = new System.Windows.Forms.Button();
+            this.btnRegisterMarkB = new System.Windows.Forms.Button();
+            this.btnRegisterMarkA = new System.Windows.Forms.Button();
             this.btnSelectAxis = new System.Windows.Forms.Button();
             this.btnSizeNarrow = new System.Windows.Forms.Button();
             this.btnSizeWide = new System.Windows.Forms.Button();
@@ -41,10 +45,6 @@
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.picPatternMarkB = new System.Windows.Forms.PictureBox();
             this.picPatternMarkA = new System.Windows.Forms.PictureBox();
-            this.btnRegisterMarkA = new System.Windows.Forms.Button();
-            this.btnRegisterMarkB = new System.Windows.Forms.Button();
-            this.btnSearchMarkA = new System.Windows.Forms.Button();
-            this.btnSearchMarkB = new System.Windows.Forms.Button();
             this.groupBox4.SuspendLayout();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picPatternMarkB)).BeginInit();
@@ -70,7 +70,7 @@
             // 
             this.picVision.Location = new System.Drawing.Point(12, 1);
             this.picVision.Name = "picVision";
-            this.picVision.Size = new System.Drawing.Size(1011, 756);
+            this.picVision.Size = new System.Drawing.Size(802, 600);
             this.picVision.TabIndex = 750;
             // 
             // groupBox4
@@ -85,12 +85,72 @@
             this.groupBox4.Controls.Add(this.btnShowMarkLine);
             this.groupBox4.Controls.Add(this.btnShowHairLine);
             this.groupBox4.Controls.Add(this.btnChangeCam);
-            this.groupBox4.Location = new System.Drawing.Point(1029, 1);
+            this.groupBox4.Location = new System.Drawing.Point(820, 1);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(219, 393);
+            this.groupBox4.Size = new System.Drawing.Size(428, 393);
             this.groupBox4.TabIndex = 758;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Vision Control";
+            // 
+            // btnSearchMarkB
+            // 
+            this.btnSearchMarkB.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.btnSearchMarkB.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.btnSearchMarkB.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.btnSearchMarkB.Location = new System.Drawing.Point(87, 335);
+            this.btnSearchMarkB.Name = "btnSearchMarkB";
+            this.btnSearchMarkB.Size = new System.Drawing.Size(75, 54);
+            this.btnSearchMarkB.TabIndex = 768;
+            this.btnSearchMarkB.Text = "Mark Search B";
+            this.btnSearchMarkB.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.btnSearchMarkB.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.btnSearchMarkB.UseVisualStyleBackColor = true;
+            this.btnSearchMarkB.Click += new System.EventHandler(this.btnSearchMarkB_Click);
+            // 
+            // btnSearchMarkA
+            // 
+            this.btnSearchMarkA.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.btnSearchMarkA.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.btnSearchMarkA.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.btnSearchMarkA.Location = new System.Drawing.Point(6, 335);
+            this.btnSearchMarkA.Name = "btnSearchMarkA";
+            this.btnSearchMarkA.Size = new System.Drawing.Size(75, 54);
+            this.btnSearchMarkA.TabIndex = 767;
+            this.btnSearchMarkA.Text = "Mark Search A";
+            this.btnSearchMarkA.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.btnSearchMarkA.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.btnSearchMarkA.UseVisualStyleBackColor = true;
+            this.btnSearchMarkA.Click += new System.EventHandler(this.btnSearchMarkA_Click);
+            // 
+            // btnRegisterMarkB
+            // 
+            this.btnRegisterMarkB.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.btnRegisterMarkB.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.btnRegisterMarkB.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.btnRegisterMarkB.Location = new System.Drawing.Point(87, 275);
+            this.btnRegisterMarkB.Name = "btnRegisterMarkB";
+            this.btnRegisterMarkB.Size = new System.Drawing.Size(75, 54);
+            this.btnRegisterMarkB.TabIndex = 766;
+            this.btnRegisterMarkB.Text = "Mark 등록 B";
+            this.btnRegisterMarkB.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.btnRegisterMarkB.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.btnRegisterMarkB.UseVisualStyleBackColor = true;
+            this.btnRegisterMarkB.Click += new System.EventHandler(this.btnRegisterMarkB_Click);
+            // 
+            // btnRegisterMarkA
+            // 
+            this.btnRegisterMarkA.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.btnRegisterMarkA.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.btnRegisterMarkA.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.btnRegisterMarkA.Location = new System.Drawing.Point(6, 275);
+            this.btnRegisterMarkA.Name = "btnRegisterMarkA";
+            this.btnRegisterMarkA.Size = new System.Drawing.Size(75, 54);
+            this.btnRegisterMarkA.TabIndex = 765;
+            this.btnRegisterMarkA.Text = "Mark 등록 A";
+            this.btnRegisterMarkA.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.btnRegisterMarkA.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.btnRegisterMarkA.UseVisualStyleBackColor = true;
+            this.btnRegisterMarkA.Click += new System.EventHandler(this.btnRegisterMarkA_Click);
             // 
             // btnSelectAxis
             // 
@@ -186,16 +246,16 @@
             // 
             this.groupBox1.Controls.Add(this.picPatternMarkB);
             this.groupBox1.Controls.Add(this.picPatternMarkA);
-            this.groupBox1.Location = new System.Drawing.Point(1029, 400);
+            this.groupBox1.Location = new System.Drawing.Point(820, 400);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(219, 357);
+            this.groupBox1.Size = new System.Drawing.Size(428, 201);
             this.groupBox1.TabIndex = 759;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Pattern Mark";
             // 
             // picPatternMarkB
             // 
-            this.picPatternMarkB.Location = new System.Drawing.Point(25, 194);
+            this.picPatternMarkB.Location = new System.Drawing.Point(227, 34);
             this.picPatternMarkB.Name = "picPatternMarkB";
             this.picPatternMarkB.Size = new System.Drawing.Size(173, 154);
             this.picPatternMarkB.TabIndex = 1;
@@ -208,66 +268,6 @@
             this.picPatternMarkA.Size = new System.Drawing.Size(173, 154);
             this.picPatternMarkA.TabIndex = 0;
             this.picPatternMarkA.TabStop = false;
-            // 
-            // btnRegisterMarkA
-            // 
-            this.btnRegisterMarkA.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.btnRegisterMarkA.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.btnRegisterMarkA.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.btnRegisterMarkA.Location = new System.Drawing.Point(6, 275);
-            this.btnRegisterMarkA.Name = "btnRegisterMarkA";
-            this.btnRegisterMarkA.Size = new System.Drawing.Size(75, 54);
-            this.btnRegisterMarkA.TabIndex = 765;
-            this.btnRegisterMarkA.Text = "Mark 등록 A";
-            this.btnRegisterMarkA.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.btnRegisterMarkA.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.btnRegisterMarkA.UseVisualStyleBackColor = true;
-            this.btnRegisterMarkA.Click += new System.EventHandler(this.btnRegisterMarkA_Click);
-            // 
-            // btnRegisterMarkB
-            // 
-            this.btnRegisterMarkB.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.btnRegisterMarkB.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.btnRegisterMarkB.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.btnRegisterMarkB.Location = new System.Drawing.Point(87, 275);
-            this.btnRegisterMarkB.Name = "btnRegisterMarkB";
-            this.btnRegisterMarkB.Size = new System.Drawing.Size(75, 54);
-            this.btnRegisterMarkB.TabIndex = 766;
-            this.btnRegisterMarkB.Text = "Mark 등록 B";
-            this.btnRegisterMarkB.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.btnRegisterMarkB.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.btnRegisterMarkB.UseVisualStyleBackColor = true;
-            this.btnRegisterMarkB.Click += new System.EventHandler(this.btnRegisterMarkB_Click);
-            // 
-            // btnSearchMarkA
-            // 
-            this.btnSearchMarkA.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.btnSearchMarkA.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.btnSearchMarkA.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.btnSearchMarkA.Location = new System.Drawing.Point(6, 335);
-            this.btnSearchMarkA.Name = "btnSearchMarkA";
-            this.btnSearchMarkA.Size = new System.Drawing.Size(75, 54);
-            this.btnSearchMarkA.TabIndex = 767;
-            this.btnSearchMarkA.Text = "Mark Search A";
-            this.btnSearchMarkA.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.btnSearchMarkA.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.btnSearchMarkA.UseVisualStyleBackColor = true;
-            this.btnSearchMarkA.Click += new System.EventHandler(this.btnSearchMarkA_Click);
-            // 
-            // btnSearchMarkB
-            // 
-            this.btnSearchMarkB.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.btnSearchMarkB.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.btnSearchMarkB.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.btnSearchMarkB.Location = new System.Drawing.Point(87, 335);
-            this.btnSearchMarkB.Name = "btnSearchMarkB";
-            this.btnSearchMarkB.Size = new System.Drawing.Size(75, 54);
-            this.btnSearchMarkB.TabIndex = 768;
-            this.btnSearchMarkB.Text = "Mark Search B";
-            this.btnSearchMarkB.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.btnSearchMarkB.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.btnSearchMarkB.UseVisualStyleBackColor = true;
-            this.btnSearchMarkB.Click += new System.EventHandler(this.btnSearchMarkB_Click);
             // 
             // FormVisionData
             // 
