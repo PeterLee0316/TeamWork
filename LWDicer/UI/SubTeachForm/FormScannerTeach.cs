@@ -40,7 +40,7 @@ namespace LWDicer.UI
 
         private int nDataMode = 0;
 
-        private CMovingObject movingObject = CMainFrame.LWDicer.m_MeStage.AxLaserInfo;
+        private CMovingObject movingObject = CMainFrame.LWDicer.m_MeStage.AxScannerInfo;
 
         public FormScannerTeach()
         {
@@ -336,17 +336,17 @@ namespace LWDicer.UI
             // Current Position Display
             string strCurPos = string.Empty;
 
-            strCurPos = Convert.ToString(CMainFrame.LWDicer.m_YMC.ServoStatus[(int)EYMC_Axis.SCANNER1_Z].EncoderPos);
+            strCurPos = string.Format("{0:F4}", CMainFrame.LWDicer.m_ACS.ServoStatus[(int)EACS_Axis.SCANNER_Z1].EncoderPos);
             GridTeachTable[7, 1].Text = strCurPos;
 
             // 보정값 Display
             double dValue = 0, dCurPos = 0, dTargetPos = 0;
 
-            dCurPos = CMainFrame.LWDicer.m_YMC.ServoStatus[(int)EYMC_Axis.SCANNER1_Z].EncoderPos;
+            dCurPos = CMainFrame.LWDicer.m_ACS.ServoStatus[(int)EACS_Axis.SCANNER_Z1].EncoderPos;
             dTargetPos = Convert.ToDouble(GridTeachTable[2, 1].Text);
             dValue = dTargetPos - dCurPos;
 
-            GridTeachTable[8, 1].Text = Convert.ToString(dValue);
+            GridTeachTable[8, 1].Text = string.Format("{0:F4}", dValue);
         }
 
         private void LoadTeachingData(int nTeachPos)
@@ -393,6 +393,12 @@ namespace LWDicer.UI
             {
                 return;
             }
+
+            if (TeachPos[GetPosNo()].Text == Convert.ToString(EScannerPos.WAIT)) CMainFrame.LWDicer.m_ctrlStage1.MoveToScannerWaitPos();
+            if (TeachPos[GetPosNo()].Text == Convert.ToString(EScannerPos.WORK)) CMainFrame.LWDicer.m_ctrlStage1.MoveToScannerWorkPos();
+            if (TeachPos[GetPosNo()].Text == Convert.ToString(EScannerPos.FOCUS_1)) CMainFrame.LWDicer.m_ctrlStage1.MoveToScannerFocusPos1();
+            if (TeachPos[GetPosNo()].Text == Convert.ToString(EScannerPos.FOCUS_2)) CMainFrame.LWDicer.m_ctrlStage1.MoveToScannerFocusPos2();
+            if (TeachPos[GetPosNo()].Text == Convert.ToString(EScannerPos.FOCUS_3)) CMainFrame.LWDicer.m_ctrlStage1.MoveToScannerFocusPos3();
         }
     }
 }

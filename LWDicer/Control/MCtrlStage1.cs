@@ -170,7 +170,7 @@ namespace LWDicer.Control
 
         #endregion
         
-        // Stage 구동 관련된 지령
+        // Stage 위치 구동 지령
         #region Stage 구동
         
 
@@ -195,18 +195,43 @@ namespace LWDicer.Control
         {
             return m_RefComp.Stage.ClampClose();
         }
+        
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="iPos"></param>
+        /// <param name="bDir"></param>
+        /// <returns></returns>
+        public int MoveStageRelative(int iPos,bool bDir=true)
+        {
+            CPos_XYTZ sTargetPos = new CPos_XYTZ();
+            CPosition fixedPos;
+            CPosition modelPos;
+            CPosition offsetPos;
+            m_RefComp.Stage.GetStagePosition(out fixedPos, out modelPos,out offsetPos);
 
-        public int MoveToWaitPos()
+            if (bDir)
+                sTargetPos = fixedPos.Pos[iPos];
+            else
+            {
+                sTargetPos.dX = -fixedPos.Pos[iPos].dX;
+                sTargetPos.dY = -fixedPos.Pos[iPos].dY;
+                sTargetPos.dT = -fixedPos.Pos[iPos].dT;
+            }
+            return m_RefComp.Stage.MoveStageRelativeXYT(sTargetPos);            
+        }
+
+        public int MoveToStageWaitPos()
         {
             return m_RefComp.Stage.MoveStageToWaitPos();
         }
         
-        public int MoveToLoadPos()
+        public int MoveToStageLoadPos()
         {
             return m_RefComp.Stage.MoveStageToLoadPos();
         }
 
-        public int MoveToUnloadPos()
+        public int MoveToStageUnloadPos()
         {
             return m_RefComp.Stage.MoveStageToUnloadPos();
         }
@@ -239,6 +264,11 @@ namespace LWDicer.Control
         public int MoveToEdgeAlignPos4()
         {
             return m_RefComp.Stage.MoveStageToEdgeAlignPos4();
+        }
+
+        public int MoveToMacroCam()
+        {
+            return m_RefComp.Stage.MoveStageToMacroCam();
         }
 
         public int MoveToMacroAlignA()
@@ -386,6 +416,66 @@ namespace LWDicer.Control
         }
 
         #endregion
+
+        // Camera 위치 구동 지령
+        #region Camera 구동
+
+        public int MoveToCameraWaitPos()
+        {
+            return m_RefComp.Stage.MoveCameraToWaitPos();
+        }
+
+        public int MoveToCameraWorkPos()
+        {
+            return m_RefComp.Stage.MoveCameraToWorkPos();
+        }
+
+        public int MoveToCameraFocusPos1()
+        {
+            return m_RefComp.Stage.MoveCameraToFocusPos1();
+        }
+
+        public int MoveToCameraFocusPos2()
+        {
+            return m_RefComp.Stage.MoveCameraToFocusPos2();
+        }
+
+        public int MoveToCameraFocusPos3()
+        {
+            return m_RefComp.Stage.MoveCameraToFocusPos3();
+        }
+        #endregion
+
+        // Scanner 위치 구동 지령
+        #region Scanner 구동
+
+        public int MoveToScannerWaitPos()
+        {
+            return m_RefComp.Stage.MoveScannerToWaitPos();
+        }
+
+        public int MoveToScannerWorkPos()
+        {
+            return m_RefComp.Stage.MoveScannerToWorkPos();
+        }
+
+        public int MoveToScannerFocusPos1()
+        {
+            return m_RefComp.Stage.MoveScannerToFocusPos1();
+        }
+
+        public int MoveToScannerFocusPos2()
+        {
+            return m_RefComp.Stage.MoveScannerToFocusPos2();
+        }
+
+        public int MoveToScannerFocusPos3()
+        {
+            return m_RefComp.Stage.MoveScannerToFocusPos3();
+        }
+
+        #endregion
+
 
         // Vision 동작
         #region Vision 동작

@@ -32,7 +32,6 @@ using static LWDicer.Control.DEF_MeHandler;
 using static LWDicer.Control.DEF_MeElevator;
 using static LWDicer.Control.DEF_MePushPull;
 using static LWDicer.Control.DEF_MeSpinner;
-using static LWDicer.Control.DEF_PolygonScanner;
 using static LWDicer.Control.DEF_Vision;
 using static LWDicer.Control.DEF_CtrlSpinner;
 
@@ -363,19 +362,7 @@ namespace LWDicer.Control
             }
         }
 
-        public class CSystemData_Scanner
-        {
-            // Polygon Scanner Configure ini Data
-            public CPolygonIni[] Scanner = new CPolygonIni[(int)EObjectScanner.MAX];
 
-            public CSystemData_Scanner()
-            {
-                for (int i = 0; i < Scanner.Length; i++)
-                {
-                    Scanner[i] = new CPolygonIni();
-                }
-            }
-        }
 
         public class CSystemData_Vision
         {
@@ -420,7 +407,9 @@ namespace LWDicer.Control
 
             // Stage1
             public CPosition Stage1Pos = new CPosition((int)EStagePos.MAX);
+            // Camera1
             public CPosition Camera1Pos = new CPosition((int)ECameraPos.MAX);
+            // Scanner1
             public CPosition Scanner1Pos = new CPosition((int)EScannerPos.MAX);
 
             // PushPull
@@ -432,18 +421,22 @@ namespace LWDicer.Control
             public CPosition UpperHandlerPos = new CPosition((int)EHandlerPos.MAX);
             public CPosition LowerHandlerPos = new CPosition((int)EHandlerPos.MAX);
 
-            // Spinner
+            // Spinner1
             public CPosition S1_RotatePos = new CPosition((int)ERotatePos.MAX);
             public CPosition S1_CoaterPos = new CPosition((int)ENozzlePos.MAX);
             public CPosition S1_CleanerPos = new CPosition((int)ENozzlePos.MAX);
 
+            // Spinner2
             public CPosition S2_RotatePos = new CPosition((int)ERotatePos.MAX);
             public CPosition S2_CoaterPos = new CPosition((int)ENozzlePos.MAX);
             public CPosition S2_CleanerPos = new CPosition((int)ENozzlePos.MAX);
 
             public CPositionData()
             {
-
+                for(int i=0; i< (int)EStagePos.MAX;i++)
+                {
+                    Stage1Pos.Pos[i] = new CPos_XYTZ();
+                }
             }
 
         }
@@ -650,8 +643,6 @@ namespace LWDicer.Control
             // Spinner Data 
             public CSpinnerData SpinnerData = new CSpinnerData();
 
-            // Wafer Image Line Data
-            public LineData WaferLineData = new LineData();
 
             ///////////////////////////////////////////////////////////
             // Vision Data (Pattern)
@@ -708,7 +699,6 @@ namespace LWDicer.Control
         public CSystemData_Axis SystemData_Axis { get; private set; } = new CSystemData_Axis();
         public CSystemData_Cylinder SystemData_Cylinder { get; private set; } = new CSystemData_Cylinder();
         public CSystemData_Vacuum SystemData_Vacuum { get; private set; } = new CSystemData_Vacuum();
-        public CSystemData_Scanner SystemData_Scanner { get; private set; } = new CSystemData_Scanner();
         public CSystemData_Vision SystemData_Vision { get; private set; } = new CSystemData_Vision();
         public CSystemData_Light SystemData_Light { get; private set; } = new CSystemData_Light();
 
@@ -789,7 +779,7 @@ namespace LWDicer.Control
             LoadPositionData(true, EPositionObject.ALL);
             LoadPositionData(false, EPositionObject.ALL);
             LoadModelList();
-            MakeDefaultModel();
+           // MakeDefaultModel();
             ChangeModel(SystemData.ModelName);
         }
 
@@ -989,8 +979,7 @@ namespace LWDicer.Control
 
         public int SaveSystemData(CSystemData system = null, CSystemData_Axis systemAxis = null,
             CSystemData_Cylinder systemCylinder = null, CSystemData_Vacuum systemVacuum = null,
-            CSystemData_Scanner systemScanner = null,  CSystemData_Vision systemVision =null,
-            CSystemData_Light systemLight = null)
+            CSystemData_Vision systemVision =null, CSystemData_Light systemLight = null)
         {
             // CSystemData
             if (system != null)
@@ -1080,27 +1069,7 @@ namespace LWDicer.Control
                 }
             }
 
-            // CSystemData_Scanner
-            if (systemScanner != null)
-            {
-                try
-                {
-                    SystemData_Scanner = ObjectExtensions.Copy(systemScanner);
-                    string output = JsonConvert.SerializeObject(SystemData_Scanner);
 
-                    if (DBManager.InsertRow(DBInfo.DBConn, DBInfo.TableSystem, "name", nameof(CSystemData_Scanner), output,
-                        true, DBInfo.DBConn_Backup) != true)
-                    {
-                        return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_SAVE_SYSTEM_DATA);
-                    }
-                    WriteLog("success : save CSystemData_Scanner.", ELogType.SYSTEM, ELogWType.SAVE);
-                }
-                catch (Exception ex)
-                {
-                    WriteExLog(ex.ToString());
-                    return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_SAVE_SYSTEM_DATA);
-                }
-            }
 
             // CSystemData_Vision
             if (systemVision != null)
@@ -1305,39 +1274,7 @@ namespace LWDicer.Control
                 }
             }
 
-            // CSystemData_Scanner
-            if (loadScanner == true)
-            {
-                try
-                {
-                    if (DBManager.SelectRow(DBInfo.DBConn, DBInfo.TableSystem, out output, new CDBColumn("name", nameof(CSystemData_Scanner))) == true)
-                    {
-                        CSystemData_Scanner data = JsonConvert.DeserializeObject<CSystemData_Scanner>(output);
-                        if (SystemData_Scanner.Scanner.Length == data.Scanner.Length)
-                        {
-                            SystemData_Scanner = ObjectExtensions.Copy(data);
-                        }
-                        else
-                        {
-                            for (int i = 0; i < SystemData_Scanner.Scanner.Length; i++)
-                            {
-                                if (i >= data.Scanner.Length) break;
-                                SystemData_Scanner.Scanner[i] = ObjectExtensions.Copy(data.Scanner[i]);
-                            }
-                        }
-                        WriteLog("success : load CSystemData_Scanner.", ELogType.SYSTEM, ELogWType.LOAD);
-                    }
-                    //else // temporarily do not return error for continuous loading
-                    //{
-                    //    return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_LOAD_SYSTEM_DATA);
-                    //}
-                }
-                catch (Exception ex)
-                {
-                    WriteExLog(ex.ToString());
-                    return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_LOAD_SYSTEM_DATA);
-                }
-            }
+            
 
             // CSystemData_Vision
             if (loadVision == true)
@@ -1842,6 +1779,21 @@ namespace LWDicer.Control
                 CPosition data = JsonConvert.DeserializeObject<CPosition>(output);
                 if(data != null && data.Length > 0)
                     tData.Stage1Pos = ObjectExtensions.Copy(data);
+
+
+                /////////////////////////////////////////////////////////////////////
+                // Copy될때 Array의 크기가 변함.
+                if(tData.Stage1Pos.Pos.Length < (int)EStagePos.MAX)
+                {
+                    Array.Resize(ref tData.Stage1Pos.Pos, (int)EStagePos.MAX);
+                    
+                    for(int i= tData.Stage1Pos.Length; i < (int)EStagePos.MAX;i++)
+                    {
+                            tData.Stage1Pos.Pos[i] = new CPos_XYTZ();
+                    }
+                }
+                /////////////////////////////////////////////////////////////////////
+
             }
 
             if (unit == EPositionObject.ALL || unit == EPositionObject.CAMERA1)
@@ -1853,6 +1805,19 @@ namespace LWDicer.Control
                 CPosition data = JsonConvert.DeserializeObject<CPosition>(output);
                 if(data != null && data.Length > 0)
                     tData.Camera1Pos = ObjectExtensions.Copy(data);
+
+                /////////////////////////////////////////////////////////////////////
+                // Copy될때 Array의 크기가 변함.
+                if (tData.Camera1Pos.Pos.Length < (int)ECameraPos.MAX)
+                {
+                    Array.Resize(ref tData.Camera1Pos.Pos, (int)ECameraPos.MAX);
+
+                    for (int i = tData.Camera1Pos.Length; i < (int)ECameraPos.MAX; i++)
+                    {
+                        tData.Camera1Pos.Pos[i] = new CPos_XYTZ();
+                    }
+                }
+                /////////////////////////////////////////////////////////////////////
             }
 
             if (unit == EPositionObject.ALL || unit == EPositionObject.SCANNER1)
@@ -1864,6 +1829,19 @@ namespace LWDicer.Control
                 CPosition data = JsonConvert.DeserializeObject<CPosition>(output);
                 if(data != null && data.Length > 0)
                     tData.Scanner1Pos = ObjectExtensions.Copy(data);
+
+                /////////////////////////////////////////////////////////////////////
+                // Copy될때 Array의 크기가 변함.
+                if (tData.Scanner1Pos.Pos.Length < (int)EScannerPos.MAX)
+                {
+                    Array.Resize(ref tData.Scanner1Pos.Pos, (int)EScannerPos.MAX);
+
+                    for (int i = tData.Scanner1Pos.Length; i < (int)EScannerPos.MAX; i++)
+                    {
+                        tData.Scanner1Pos.Pos[i] = new CPos_XYTZ();
+                    }
+                }
+                /////////////////////////////////////////////////////////////////////
             }
 
             if (bLoadFixed) FixedPos = tData; else OffsetPos = tData;
@@ -4000,31 +3978,32 @@ namespace LWDicer.Control
 
         public int ExportDataToExcel(EExcel_Sheet nSheet)
         {
+            int iResult = -1;
             if (nSheet == EExcel_Sheet.MAX || nSheet == EExcel_Sheet.PARA_Info)
             {
                 // Parameter Info
-                ExportParaDataToExcel();
+                iResult = ExportParaDataToExcel();
             }
 
             if (nSheet == EExcel_Sheet.MAX || nSheet == EExcel_Sheet.Alarm_Info)
             {
                 // Alarm Info
-                ExportAlarmInfoToExcel();
+                iResult = ExportAlarmInfoToExcel();
             }
 
             if (nSheet == EExcel_Sheet.MAX || nSheet == EExcel_Sheet.Motor_Data)
             {
                 // Motor Data
-                ExportMotorDataToExcel();
+                iResult = ExportMotorDataToExcel();
             }
 
             if (nSheet == EExcel_Sheet.MAX || nSheet == EExcel_Sheet.Message_Info)
             {
                 // Message Info
-                ExportMsgInfoToExcel();
+                iResult = ExportMsgInfoToExcel();
             }
 
-            return SUCCESS;
+            return iResult;
         }
 
 
@@ -4169,11 +4148,10 @@ namespace LWDicer.Control
         public int ExportMotorDataToExcel()
         {
             int i = 0, j = 0, nSheetCount = 0, nCount = 0;
-
             string strPath = DBInfo.SystemDir + DBInfo.ExcelSystemPara;
-
             Excel.Application ExcelApp = new Microsoft.Office.Interop.Excel.Application();
-            Excel.Workbook WorkBook = ExcelApp.Workbooks.Open(strPath);
+            Excel.Workbook WorkBook;        
+
             try
             {
                 WorkBook = ExcelApp.Workbooks.Open(strPath);
@@ -4297,7 +4275,8 @@ namespace LWDicer.Control
             string strPath = DBInfo.SystemDir + DBInfo.ExcelSystemPara;
 
             Excel.Application ExcelApp = new Microsoft.Office.Interop.Excel.Application();
-            Excel.Workbook WorkBook = ExcelApp.Workbooks.Open(strPath);
+            Excel.Workbook WorkBook;
+
             try
             {
                 WorkBook = ExcelApp.Workbooks.Open(strPath);
@@ -4571,7 +4550,7 @@ namespace LWDicer.Control
             }
 
             // CAMERA1_Z                                           
-            index = (int)EYMC_Axis.CAMERA1_Z        ;
+            index = (int)EACS_Axis.SCANNER_Z1        ;
             if (SystemData_Axis.MPMotionData[index].Name == "NotExist")
             {
                 tMotion = new CMPMotionData();
@@ -4582,7 +4561,7 @@ namespace LWDicer.Control
             }
 
             // SCANNER1_Z
-            index = (int)EYMC_Axis.SCANNER1_Z         ;
+            index = (int)EACS_Axis.CAMERA_Z         ;
             if (SystemData_Axis.MPMotionData[index].Name == "NotExist")
             {
                 tMotion = new CMPMotionData();

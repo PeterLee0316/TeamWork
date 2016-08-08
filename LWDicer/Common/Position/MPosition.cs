@@ -455,6 +455,7 @@ namespace LWDicer.Control
 
         public static bool operator ==(CPos_XYTZ s1, CPos_XYTZ s2)
         {
+
             return Math.Equals(s1.dX, s2.dX) && Math.Equals(s1.dY, s2.dY)
                  && Math.Equals(s1.dT, s2.dT) && Math.Equals(s1.dZ, s2.dZ);
         }

@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace LWDicer.UI
 {
-    public partial class FormScannerData : Form
+    public partial class FormJogStage : Form
     {
-        public FormScannerData()
+        public FormJogStage()
         {
             InitializeComponent();
         }

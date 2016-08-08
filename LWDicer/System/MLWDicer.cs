@@ -35,7 +35,6 @@ using static LWDicer.Control.DEF_MeHandler;
 using static LWDicer.Control.DEF_MeStage;
 using static LWDicer.Control.DEF_MePushPull;
 using static LWDicer.Control.DEF_SerialPort;
-using static LWDicer.Control.DEF_PolygonScanner;
 using static LWDicer.Control.DEF_MeSpinner;
 
 using static LWDicer.Control.DEF_CtrlOpPanel;
@@ -72,6 +71,8 @@ namespace LWDicer.Control
 
         // MultiAxes
         public MMultiAxes_ACS m_AxStage1      ;
+        public MMultiAxes_ACS m_AxCamera1     ;
+        public MMultiAxes_ACS m_AxScannerZ1   ;        
         public MMultiAxes_YMC m_AxLoader      ;
         public MMultiAxes_YMC m_AxPushPull    ;
         public MMultiAxes_YMC m_AxCentering1  ;
@@ -84,8 +85,8 @@ namespace LWDicer.Control
         public MMultiAxes_YMC m_AxCoatNozzle2 ;
         public MMultiAxes_YMC m_AxUpperHandler;
         public MMultiAxes_YMC m_AxLowerHandler;
-        public MMultiAxes_YMC m_AxCamera1     ;
-        public MMultiAxes_YMC m_AxLaser1      ;
+        //public MMultiAxes_YMC m_AxCamera1     ;
+        //public MMultiAxes_YMC m_AxLaser1      ;
 
         // IO
         public IIO m_IO { get; private set; }
@@ -109,20 +110,13 @@ namespace LWDicer.Control
 
         // Vacuum
         public IVacuum m_Stage1Vac           ;
-
         public IVacuum m_UHandlerSelfVac     ;
         public IVacuum m_UHandlerFactoryVac  ;
         public IVacuum m_LHandlerSelfVac     ;
         public IVacuum m_LHandlerFactoryVac  ;
-
         public IVacuum m_Spinner1Vac         ;
         public IVacuum m_Spinner2Vac         ;
-
-        // Serial
-        public ISerialPort m_PolygonComPort;
-
-        // Scanner
-        public IPolygonScanner[] m_Scanner = new IPolygonScanner[(int)EObjectScanner.MAX];
+        
 
         public MVisionSystem m_VisionSystem;
         public MVisionCamera[] m_VisionCamera = new MVisionCamera[DEF_MAX_CAMERA_NO];
@@ -364,6 +358,8 @@ namespace LWDicer.Control
             //if (iResult != SUCCESS) return iResult;
             m_AxUpperHandler.UpdateAxisStatus();
 
+            iResult = CreateMultiAxes_ACS();
+
             ////////////////////////////////////////////////////////////////////////
             // IO
             m_SystemInfo.GetObjectInfo(6, out objInfo);
@@ -555,25 +551,17 @@ namespace LWDicer.Control
             m_SystemInfo.GetObjectInfo(156, out objInfo);
             CreateVacuum(objInfo, vacData, (int)EObjectVacuum.LOWER_HANDLER_FACTORY, out m_LHandlerFactoryVac);
 
-            ////////////////////////////////////////////////////////////////////////
-            // ComPort
-            // Polygon Scanner Serial Com Port
-            m_SystemInfo.GetObjectInfo(30, out objInfo);
-            iResult = CreatePolygonSerialPort(objInfo, out m_PolygonComPort);
-
-            CPolygonIni PolygonIni = new CPolygonIni();
-            m_SystemInfo.GetObjectInfo(200, out objInfo);
-            iResult = CreatePolygonScanner(objInfo, PolygonIni, (int)EObjectScanner.SCANNER1, m_PolygonComPort);
 
             ////////////////////////////////////////////////////////////////////////
             // Vision
             // Vision System
+#if !SIMULATION_VISION
             m_SystemInfo.GetObjectInfo(40, out objInfo);
             CreateVisionSystem(objInfo);
 
             // Vision Camera
             m_SystemInfo.GetObjectInfo(42, out objInfo);
-            CreateVisionCamera(objInfo,PRE__CAM);
+            CreateVisionCamera(objInfo, PRE__CAM);
 
             m_SystemInfo.GetObjectInfo(43, out objInfo);
             CreateVisionCamera(objInfo, FINE_CAM);
@@ -584,6 +572,7 @@ namespace LWDicer.Control
 
             m_SystemInfo.GetObjectInfo(47, out objInfo);
             CreateVisionVisionView(objInfo, FINE_CAM);
+#endif
 
             intro.SetStatus("Init Mechanical Layer", 30);
 
@@ -622,8 +611,10 @@ namespace LWDicer.Control
             CreateMeLHandler(objInfo);
 
             // Vision 
+#if !SIMULATION_VISION
             m_SystemInfo.GetObjectInfo(308, out objInfo);
             CreateVision(objInfo);
+#endif
 
             intro.SetStatus("Init Control Layer", 40);
 
@@ -753,13 +744,7 @@ namespace LWDicer.Control
 
             return SUCCESS;
         }
-
-        int CreateMultiAxes_ACS()
-        {
-           
-            return SUCCESS;
-        }
-
+        
         int CreateMultiAxes_YMC()
         {
             CObjectInfo objInfo;
@@ -887,23 +872,72 @@ namespace LWDicer.Control
             m_AxLowerHandler = new MMultiAxes_YMC(objInfo, refComp, data);
 
             // CAMERA1
-            deviceNo = (int)EYMC_Device.CAMERA1;
+            //deviceNo = (int)EYMC_Device.CAMERA1;
+            //Array.Copy(initArray, axisList, initArray.Length);
+            //axisList[DEF_Z] = (int)EACS_Axis.SCANNER_Z1;
+            //data = new CMultiAxesYMCData(deviceNo, axisList);
+
+            //m_SystemInfo.GetObjectInfo(263, out objInfo);
+            //m_AxCamera1 = new MMultiAxes_YMC(objInfo, refComp, data);
+
+            //// SCANNER1
+            //deviceNo = (int)EYMC_Device.SCANNER1;
+            //Array.Copy(initArray, axisList, initArray.Length);
+            //axisList[DEF_Z] = (int)EACS_Axis.CAMERA_Z;
+            //data = new CMultiAxesYMCData(deviceNo, axisList);
+
+            //m_SystemInfo.GetObjectInfo(264, out objInfo);
+            //m_AxLaser1 = new MMultiAxes_YMC(objInfo, refComp, data);
+
+            return SUCCESS;
+        }
+
+        int CreateMultiAxes_ACS()
+        {
+            CObjectInfo objInfo;
+            CMutliAxesACSRefComp refComp = new CMutliAxesACSRefComp();
+            CMultiAxesACSData data;
+            int deviceNo;
+            int[] axisList = new int[DEF_MAX_COORDINATE];
+            int[] initArray = new int[DEF_MAX_COORDINATE];
+
+            for (int i = 0; i < DEF_MAX_COORDINATE; i++)
+            {
+                initArray[i] = DEF_AXIS_NONE_ID;
+            }
+
+            refComp.Motion = m_ACS;
+
+            // Scanner Z
+            deviceNo = (int)EACS_Device.SCANNER1_Z;
             Array.Copy(initArray, axisList, initArray.Length);
-            axisList[DEF_Z] = (int)EYMC_Axis.CAMERA1_Z;
-            data = new CMultiAxesYMCData(deviceNo, axisList);
+            axisList[DEF_Z] = (int)EACS_Device.SCANNER1_Z;
+            data = new CMultiAxesACSData(deviceNo, axisList);
 
-            m_SystemInfo.GetObjectInfo(263, out objInfo);
-            m_AxCamera1 = new MMultiAxes_YMC(objInfo, refComp, data);
+            m_SystemInfo.GetObjectInfo(270, out objInfo);
+            m_AxScannerZ1 = new MMultiAxes_ACS(objInfo, refComp, data);
+            
 
-            // SCANNER1
-            deviceNo = (int)EYMC_Device.SCANNER1;
+            // Camera Z
+            deviceNo = (int)EACS_Device.CAMERA1_Z;
             Array.Copy(initArray, axisList, initArray.Length);
-            axisList[DEF_Z] = (int)EYMC_Axis.SCANNER1_Z;
-            data = new CMultiAxesYMCData(deviceNo, axisList);
+            axisList[DEF_Z] = (int)EACS_Device.CAMERA1_Z;
+            data = new CMultiAxesACSData(deviceNo, axisList);
 
-            m_SystemInfo.GetObjectInfo(264, out objInfo);
-            m_AxLaser1 = new MMultiAxes_YMC(objInfo, refComp, data);
+            m_SystemInfo.GetObjectInfo(271, out objInfo);
+            m_AxCamera1 = new MMultiAxes_ACS(objInfo, refComp, data);
 
+            // Stage
+            deviceNo = (int)EACS_Device.STAGE1;
+            Array.Copy(initArray, axisList, initArray.Length);
+            axisList[DEF_X] = (int)EACS_Device.STAGE1_X;
+            axisList[DEF_Y] = (int)EACS_Device.STAGE1_Y;
+            axisList[DEF_T] = (int)EACS_Device.STAGE1_T;
+            data = new CMultiAxesACSData(deviceNo, axisList);
+
+            m_SystemInfo.GetObjectInfo(272, out objInfo);
+            m_AxStage1 = new MMultiAxes_ACS(objInfo, refComp, data);
+            
             return SUCCESS;
         }
 
@@ -948,39 +982,41 @@ namespace LWDicer.Control
             return SUCCESS;
         }
 
-        int CreateVisionCamera(CObjectInfo objInfo,int iIndex)
+        int CreateVisionCamera(CObjectInfo objInfo,int iNum)
         {
 #if SIMULATION_VISION
                 return SUCCESS;
 #endif
                 // Camera를 생성함.
-                m_VisionCamera[iIndex] = new MVisionCamera(objInfo);
+                m_VisionCamera[iNum] = new MVisionCamera(objInfo);
                 // Vision Library MIL
-                m_VisionCamera[iIndex].SetMil_ID(m_VisionSystem.GetMilSystem());
+                m_VisionCamera[iNum].SetMil_ID(m_VisionSystem.GetMilSystem());
                 // Camera 초기화
-                m_VisionCamera[iIndex].Initialize(iIndex, m_VisionSystem.GetSystem());
+                m_VisionCamera[iNum].Initialize(iNum, m_VisionSystem.GetSystem());
                 
             return SUCCESS;
         }
-        int CreateVisionVisionView(CObjectInfo objInfo, int iIndex)
+        int CreateVisionVisionView(CObjectInfo objInfo, int iNum)
         {
 #if SIMULATION_VISION
                 return SUCCESS;
 #endif
 
                 // Display View 생성함.
-                m_VisionView[iIndex] = new MVisionView(objInfo);
+                m_VisionView[iNum] = new MVisionView(objInfo);
                 // Vision Library MIL
-                m_VisionView[iIndex].SetMil_ID(m_VisionSystem.GetMilSystem());
+                m_VisionView[iNum].SetMil_ID(m_VisionSystem.GetMilSystem());
                 // Display 초기화
-                m_VisionView[iIndex].Initialize(iIndex, m_VisionCamera[iIndex]);
+                m_VisionView[iNum].Initialize(iNum, m_VisionCamera[iNum]);
 
             return SUCCESS;
         }
 
         void CreateVision(CObjectInfo objInfo)
         {
-#if !SIMULATION_VISION
+#if SIMULATION_VISION
+            return;
+#endif
             bool VisionHardwareCheck = true;
             if(m_VisionSystem.m_iResult != SUCCESS)
             {
@@ -992,20 +1028,20 @@ namespace LWDicer.Control
             // 생성된 Vision System,Camera, View 를 RefComp로 연결
             refComp.System = m_VisionSystem;
 
-            for (int iIndex = 0; iIndex < DEF_MAX_CAMERA_NO; iIndex++)
+            for (int iNum = 0; iNum < DEF_MAX_CAMERA_NO; iNum++)
             {
-                if(m_VisionCamera[iIndex].m_iResult != SUCCESS || m_VisionView[iIndex].m_iResult != SUCCESS)
+                if(m_VisionCamera[iNum].m_iResult != SUCCESS || m_VisionView[iNum].m_iResult != SUCCESS)
                 {
                     VisionHardwareCheck = false;
                     break;
                 }
-                refComp.Camera[iIndex] = m_VisionCamera[iIndex];
-                refComp.View[iIndex]   = m_VisionView[iIndex];
+                refComp.Camera[iNum] = m_VisionCamera[iNum];
+                refComp.View[iNum]   = m_VisionView[iNum];
 
                 // Display와 Camera와 System을 연결
-                refComp.Camera[iIndex].SelectView(refComp.View[iIndex]);
-                refComp.System.SelectCamera(refComp.Camera[iIndex]);
-                refComp.System.SelectView(refComp.View[iIndex]);
+                refComp.Camera[iNum].SelectView(refComp.View[iNum]);
+                refComp.System.SelectCamera(refComp.Camera[iNum]);
+                refComp.System.SelectView(refComp.View[iNum]);
             }
 
             m_Vision = new MVision(objInfo, refComp, data);
@@ -1026,15 +1062,17 @@ namespace LWDicer.Control
             // Pattern Model Data Read & Apply
             CModelData pModelData;
             m_DataManager.ViewModelData("Default", out pModelData);
-            m_DataManager.m_ModelData = pModelData;
+            
+            int iResult = SaveModelData(pModelData);
 
-            m_Vision.ReLoadPatternMark(PRE__CAM, PATTERN_A, m_DataManager.m_ModelData.MacroPatternA);
-            m_Vision.ReLoadPatternMark(PRE__CAM, PATTERN_B, m_DataManager.m_ModelData.MacroPatternB);
-            m_Vision.ReLoadPatternMark(FINE_CAM, PATTERN_A, m_DataManager.m_ModelData.MicroPatternA);
-            m_Vision.ReLoadPatternMark(FINE_CAM, PATTERN_B, m_DataManager.m_ModelData.MicroPatternB);
-
-#endif
-
+            if (iResult == SUCCESS)
+            {
+                m_Vision.ReLoadPatternMark(PRE__CAM, PATTERN_A, m_DataManager.ModelData.MacroPatternA);
+                m_Vision.ReLoadPatternMark(PRE__CAM, PATTERN_B, m_DataManager.ModelData.MacroPatternB);
+                m_Vision.ReLoadPatternMark(FINE_CAM, PATTERN_A, m_DataManager.ModelData.MicroPatternA);
+                m_Vision.ReLoadPatternMark(FINE_CAM, PATTERN_B, m_DataManager.ModelData.MicroPatternB);
+            }
+            
         }
 
         void CreateCtrlOpPanel(CObjectInfo objInfo)
@@ -1052,6 +1090,8 @@ namespace LWDicer.Control
         {
             CCtrlStage1RefComp refComp = new CCtrlStage1RefComp();
             CCtrlStage1Data data = new CCtrlStage1Data();
+
+            refComp.Stage = m_MeStage;
 
             m_ctrlStage1 = new MCtrlStage1(objInfo, refComp, data);
         }
@@ -1192,34 +1232,7 @@ namespace LWDicer.Control
 
             m_trsStage1 = new MTrsStage1(objInfo, EThreadChannel.TrsStage1, m_DataManager, ELCNetUnitPos.STAGE1, refComp, data);
         }
-
-        int CreatePolygonScanner(CObjectInfo objInfo, CPolygonIni PolygonIni, int objIndex, ISerialPort m_ComPort)
-        {
-            m_DataManager.SystemData_Scanner.Scanner[objIndex] = PolygonIni;
-
-            m_DataManager.SystemData_Scanner.Scanner[objIndex].strIP = "192.168.1.161";
-            m_DataManager.SystemData_Scanner.Scanner[objIndex].strPort = "70";
-
-            m_Scanner[objIndex] = new MPolygonScanner(objInfo, m_DataManager.SystemData_Scanner.Scanner[objIndex], objIndex, m_ComPort);
-            return SUCCESS;
-        }
-
-        int CreatePolygonSerialPort(CObjectInfo objInfo, out ISerialPort pComport)
-        {
-            // Polygon Scanner Serial Port 
-            string PortName = "COM3";
-            int BaudRate = 57600;
-            Parity _Parity = Parity.None;
-            int DataBits = 8;
-            StopBits _StopBits = StopBits.One;
-
-            CSerialPortData SerialCom = new CSerialPortData(PortName, BaudRate, _Parity, DataBits, _StopBits);
-
-            pComport = new MSerialPort(objInfo, SerialCom);
-
-            return SUCCESS;
-        }
-
+        
         void SetThreadChannel()
         {
             // AutoManager
@@ -1284,13 +1297,12 @@ namespace LWDicer.Control
         }
 
         public int SaveSystemData(CSystemData system = null, CSystemData_Axis systemAxis = null,
-            CSystemData_Cylinder systemCylinder = null, CSystemData_Vacuum systemVacuum = null,
-            CSystemData_Scanner systemScanner = null)
+            CSystemData_Cylinder systemCylinder = null, CSystemData_Vacuum systemVacuum = null)
         {
             int iResult;
 
             // save
-            iResult = m_DataManager.SaveSystemData(system, systemAxis, systemCylinder, systemVacuum, systemScanner);
+            iResult = m_DataManager.SaveSystemData(system, systemAxis, systemCylinder, systemVacuum);
             if (iResult != SUCCESS) return SUCCESS;
 
             // set
@@ -1479,12 +1491,12 @@ namespace LWDicer.Control
             // Control Layer
 
             CCtrlStage1Data CtrlStage1Data;
-            m_ctrlStage1.GetData(out CtrlStage1Data);
+           // m_ctrlStage1.GetData(out CtrlStage1Data);
 
             // System Data에 있는 Vision Data를 적용한다.
-            CtrlStage1Data.Vision = m_DataManager.SystemData_Vision;
+            //CtrlStage1Data.Vision = m_DataManager.SystemData_Vision;
 
-            m_ctrlStage1.SetData(CtrlStage1Data);
+            //m_ctrlStage1.SetData(CtrlStage1Data);
 
             //////////////////////////////////////////////////////////////////
             // Process Layer
@@ -1551,7 +1563,7 @@ namespace LWDicer.Control
             {
                 m_MeStage.SetStagePosition(FixedPos.Stage1Pos, ModelPos.Stage1Pos, OffsetPos.Stage1Pos);
                 m_MeStage.SetCameraPosition(FixedPos.Camera1Pos, ModelPos.Camera1Pos, OffsetPos.Camera1Pos);
-                m_MeStage.SetLaserPosition(FixedPos.Scanner1Pos, ModelPos.Scanner1Pos, OffsetPos.Scanner1Pos);
+                m_MeStage.SetScannerPosition(FixedPos.Scanner1Pos, ModelPos.Scanner1Pos, OffsetPos.Scanner1Pos);
             }
 
             //////////////////////////////////////////////////////////////////
@@ -1566,6 +1578,7 @@ namespace LWDicer.Control
         {
             var dlg = new FormKeyPad();
             dlg.SetValue(strCurrent);
+            dlg.TopMost = true;
             dlg.ShowDialog();
 
             if (dlg.DialogResult == DialogResult.OK)
@@ -1592,6 +1605,7 @@ namespace LWDicer.Control
         public bool GetKeyboard(out string strModify, string title = "Input", bool SecretMode = false)
         {
             var dlg = new FormKeyBoard(title, SecretMode);
+            dlg.TopMost = true;
             dlg.ShowDialog();
 
             if (dlg.DialogResult == DialogResult.OK)
@@ -1727,6 +1741,9 @@ namespace LWDicer.Control
 
             refComp.IO = m_IO;
             refComp.AxStage = m_AxStage1;
+            refComp.AxCamera = m_AxCamera1;
+            refComp.AxScanner = m_AxScannerZ1;
+
             refComp.Vacuum[(int)EStageVacuum.SELF] = m_Stage1Vac;
             
             data.InDetectObject = iUHandler_PanelDetect;

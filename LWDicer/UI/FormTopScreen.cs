@@ -53,5 +53,14 @@ namespace LWDicer.UI
             FormUserLogin dlg = new FormUserLogin();
             dlg.ShowDialog();
         }
+
+        private void btnExit_Click(object sender, EventArgs e)
+        {
+            if(CMainFrame.DisplayMsg("Exit System"))
+            {
+                Environment.Exit(0);
+                System.Diagnostics.Process.GetCurrentProcess().Kill();
+            }
+        }
     }
 }

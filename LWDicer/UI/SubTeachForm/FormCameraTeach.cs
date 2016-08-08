@@ -337,17 +337,20 @@ namespace LWDicer.UI
             // Current Position Display
             string strCurPos = string.Empty;
 
-            strCurPos = Convert.ToString(CMainFrame.LWDicer.m_YMC.ServoStatus[(int)EYMC_Axis.CAMERA1_Z].EncoderPos);
+            // Jog Operation Servo Encoder Position
+            strCurPos = string.Format("{0:F4}", CMainFrame.LWDicer.m_ACS.ServoStatus[(int)EACS_Axis.CAMERA_Z].EncoderPos);
             GridTeachTable[7, 1].Text = strCurPos;
+
+
 
             // 보정값 Display
             double dValue = 0, dCurPos = 0, dTargetPos = 0;
 
-            dCurPos = CMainFrame.LWDicer.m_YMC.ServoStatus[(int)EYMC_Axis.CAMERA1_Z].EncoderPos;
+            dCurPos = CMainFrame.LWDicer.m_YMC.ServoStatus[(int)EACS_Axis.CAMERA_Z].EncoderPos;
             dTargetPos = Convert.ToDouble(GridTeachTable[2,1].Text);
             dValue = dTargetPos - dCurPos;
 
-            GridTeachTable[8, 1].Text = Convert.ToString(dValue);
+            GridTeachTable[8, 1].Text = string.Format("{0:F4}", dValue);
         }
 
         private void LoadTeachingData(int nTeachPos)
@@ -394,6 +397,12 @@ namespace LWDicer.UI
             {
                 return;
             }
+
+            if (TeachPos[GetPosNo()].Text == Convert.ToString(ECameraPos.WAIT)) CMainFrame.LWDicer.m_ctrlStage1.MoveToCameraWaitPos();
+            if (TeachPos[GetPosNo()].Text == Convert.ToString(ECameraPos.WORK)) CMainFrame.LWDicer.m_ctrlStage1.MoveToCameraWorkPos();
+            if (TeachPos[GetPosNo()].Text == Convert.ToString(ECameraPos.FOCUS_1)) CMainFrame.LWDicer.m_ctrlStage1.MoveToCameraFocusPos1();
+            if (TeachPos[GetPosNo()].Text == Convert.ToString(ECameraPos.FOCUS_2)) CMainFrame.LWDicer.m_ctrlStage1.MoveToCameraFocusPos2();
+            if (TeachPos[GetPosNo()].Text == Convert.ToString(ECameraPos.FOCUS_3)) CMainFrame.LWDicer.m_ctrlStage1.MoveToCameraFocusPos3();
         }
     }
 }

@@ -70,7 +70,8 @@ namespace LWDicer.Control
 
         public void Dispose()
         {
-            if(m_hThread.IsAlive == true)
+            if (m_hThread == null) return;
+            if (m_hThread.IsAlive == true)
             {
                 m_hThread.Abort();
             }

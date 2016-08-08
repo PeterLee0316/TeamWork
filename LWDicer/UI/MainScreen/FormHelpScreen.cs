@@ -13,7 +13,6 @@ using Syncfusion.Windows.Forms;
 
 using Syncfusion.Windows.Forms.Tools;
 
-using static LWDicer.Control.DEF_PolygonScanner;
 
 namespace LWDicer.UI
 {

@@ -16,7 +16,7 @@ using Matrox.MatroxImagingLibrary;
 
 namespace LWDicer.Control
 {
-    public class MVisionSystem: MObject
+    public class MVisionSystem: MObject,IDisposable
     {        
         private int m_iSystemNo;
         private int m_iSystemIndex;
@@ -59,6 +59,17 @@ namespace LWDicer.Control
             m_MilApp = MIL.M_NULL;
             m_MilSystem = MIL.M_NULL;            
         }
+
+        ~MVisionSystem()
+        {
+            Dispose();
+        }
+
+        public void Dispose()
+        {
+            freeSystems();
+        }
+
 
         // Gig-E System을 초기화 한다.
         public int Initialize()

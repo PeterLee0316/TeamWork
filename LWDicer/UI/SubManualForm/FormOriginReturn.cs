@@ -16,7 +16,7 @@ using static LWDicer.Control.DEF_Thread;
 using static LWDicer.Control.DEF_Error;
 
 namespace LWDicer.UI
-{
+{  
     public partial class FormOriginReturn : Form
     {
         private bool [] SelectedAxis = new bool[(int)EAxis.MAX];
@@ -37,11 +37,12 @@ namespace LWDicer.UI
             BtnList[0]  = BtnAxis1;  BtnList[1]  = BtnAxis2;  BtnList[2]  = BtnAxis3;  BtnList[3]  = BtnAxis4;  BtnList[4]  = BtnAxis5;
             BtnList[5]  = BtnAxis6;  BtnList[6]  = BtnAxis7;  BtnList[7]  = BtnAxis8;  BtnList[8]  = BtnAxis9;  BtnList[9]  = BtnAxis10;
             BtnList[10] = BtnAxis11; BtnList[11] = BtnAxis12; BtnList[12] = BtnAxis13; BtnList[13] = BtnAxis14; BtnList[14] = BtnAxis15;
-            BtnList[15] = BtnAxis16; BtnList[16] = BtnAxis17; BtnList[17] = BtnAxis18; BtnList[18] = BtnAxis19;
+            BtnList[15] = BtnAxis16; BtnList[16] = BtnAxis17; BtnList[17] = BtnAxis18; BtnList[18] = BtnAxis19; BtnList[19] = BtnAxis20;
 
             for (int i = 0; i < (int)EAxis.MAX; i++)
             {
-                BtnList[i].Tag = i;
+                //BtnList[i].Tag = i;
+                if (BtnList[i] == null) continue;
                 BtnList[i].Image = Image.Images[0];
             }
         }
@@ -52,22 +53,32 @@ namespace LWDicer.UI
 
             ButtonAdv BtnList = sender as ButtonAdv;
 
+            if (BtnList == null) return;
+
             nNo = Convert.ToInt16(BtnList.Tag);
 
             SelectAxis(nNo);
+
+            if (SelectedAxis[nNo] == true)
+            {
+                BtnList.Image = Image.Images[1];
+            }
+            else
+            {
+                BtnList.Image = Image.Images[0];
+            }
         }
+        
 
         private void SelectAxis(int nNo)
         {
             if(SelectedAxis[nNo] == false)
             {
                 SelectedAxis[nNo] = true;
-                BtnList[nNo].Image = Image.Images[1];
             }
             else
             {
                 SelectedAxis[nNo] = false;
-                BtnList[nNo].Image = Image.Images[0];
             }
         }
 
@@ -76,9 +87,9 @@ namespace LWDicer.UI
             for(int i=0;i< (int)EAxis.MAX; i++)
             {
                 SelectedAxis[i] = true;
+                if (BtnList[i] == null) continue;
                 BtnList[i].Image = Image.Images[1];
             }
-
         }
 
         private void BtnCancelAll_Click(object sender, EventArgs e)
@@ -86,6 +97,7 @@ namespace LWDicer.UI
             for (int i = 0; i < (int)EAxis.MAX; i++)
             {
                 SelectedAxis[i] = false;
+                if (BtnList[i] == null) continue;
                 BtnList[i].Image = Image.Images[0];
             }
         }
@@ -95,6 +107,7 @@ namespace LWDicer.UI
             bool bStatus;
             for (int i = 0; i < (int)EAxis.MAX; i++)
             {
+                if (BtnList[i] == null) continue;
                 CMainFrame.LWDicer.m_OpPanel.GetOriginFlag(i, out bStatus);
                 if (bStatus == true)
                 {
@@ -119,10 +132,10 @@ namespace LWDicer.UI
             CMainFrame.LWDicer.m_trsAutoManager.IsInitState = true;
 
             // 1.
-            InitRun();
-
+            //InitRun();
+            OriginReturn();
             // 2.
-            UpdateUnitStatus();
+            //UpdateUnitStatus();
 
             // 3. 
             CMainFrame.LWDicer.m_trsAutoManager.IsInitState = false;
@@ -135,6 +148,22 @@ namespace LWDicer.UI
             LabelProgress.Refresh();
         }
 
+        private void OriginReturn()
+        {
+            bool bRunCheckBit = false;
+
+            for (int i = 0; i < (int)EAxis.MAX; i++)
+            {
+                if (SelectedAxis[i] == false) continue;
+
+                bRunCheckBit = true;
+                int iResult = CMainFrame.LWDicer.m_ctrlOpPanel.OriginReturn(i);
+                if (iResult != SUCCESS)
+                    CMainFrame.DisplayAlarm(iResult);
+            }
+
+            if (bRunCheckBit) CMainFrame.DisplayAlarm(SUCCESS);
+        }
         private void InitRun()
         {
             int i = 0;
@@ -153,25 +182,23 @@ namespace LWDicer.UI
 
             ShowStepInform("인터페이스 신호 초기화");
 
-            // 0. Loader
-            ShowStepInform("LOADER");
-            int part = (int)EAxis.LOADER_Z;
-            if (SelectedAxis[part] == true)
-            {
-                // LOADER Unit 초기화 
-                if ((iResult = CMainFrame.LWDicer.m_trsLoader.Initialize()) != SUCCESS)
-                {
-                    // Display Alarm
-
-                    SetInitFlag(part, false);
-                    return;
-                }
-                else
-                {
-                    SetInitFlag(part, true);
-                }
-            }
-
+            //// 0. Loader
+            //ShowStepInform("LOADER");
+            //int part = (int)EAxis.LOADER_Z;
+            //if (SelectedAxis[part] == true)
+            //{
+            //    // LOADER Unit 초기화 
+            //    if ((iResult = CMainFrame.LWDicer.m_trsLoader.Initialize()) != SUCCESS)
+            //    {
+            //        // Display Alarm
+            //        SetInitFlag(part, false);
+            //        return;
+            //    }
+            //    else
+            //    {
+            //        SetInitFlag(part, true);
+            //    }
+            //}
 
             // Last.
             CMainFrame.DisplayMsg("Initialization completed.");
@@ -180,6 +207,7 @@ namespace LWDicer.UI
 
         private void BtnServoOn_Click(object sender, EventArgs e)
         {
+            bool bRunCheckBit = false;
             if (!CMainFrame.DisplayMsg("On selected servo?"))
             {
                 return;
@@ -188,13 +216,19 @@ namespace LWDicer.UI
             for(int i = 0; i < (int)EAxis.MAX; i++)
             {
                 if (SelectedAxis[i] == false) continue;
+
+                bRunCheckBit = true;
+
                 int iResult = CMainFrame.LWDicer.m_ctrlOpPanel.ServoOn(i);
-                CMainFrame.DisplayAlarm(iResult);
+                if(iResult != SUCCESS) CMainFrame.DisplayAlarm(iResult);
             }
+            if(bRunCheckBit)  CMainFrame.DisplayAlarm(SUCCESS);
         }
 
         private void BtnServoOff_Click(object sender, EventArgs e)
         {
+            bool bRunCheckBit = false;
+
             if (!CMainFrame.DisplayMsg("Off selected servo?"))
             {
                 return;
@@ -203,9 +237,12 @@ namespace LWDicer.UI
             for (int i = 0; i < (int)EAxis.MAX; i++)
             {
                 if (SelectedAxis[i] == false) continue;
+
+                bRunCheckBit = true;
                 int iResult = CMainFrame.LWDicer.m_ctrlOpPanel.ServoOff(i);
-                CMainFrame.DisplayAlarm(iResult);
+                if (iResult != SUCCESS)  CMainFrame.DisplayAlarm(iResult);
             }
+            if (bRunCheckBit) CMainFrame.DisplayAlarm(SUCCESS);
         }
 
         private void FormOriginReturn_Load(object sender, EventArgs e)
@@ -240,6 +277,5 @@ namespace LWDicer.UI
             CMainFrame.LWDicer.m_OpPanel.SetInitFlag(sel, flag);
             SelectAxis(sel);
         }
-
     }
 }

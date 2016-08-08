@@ -10,11 +10,22 @@ using System.Windows.Forms;
 
 namespace LWDicer.UI
 {
-    public partial class FormScannerData : Form
+    public partial class FormEdgeAlignTeach : Form
     {
-        public FormScannerData()
+        public FormEdgeAlignTeach()
         {
             InitializeComponent();
+        }
+
+        private void FormClose()
+        {
+            this.Hide();
+        }
+
+
+        private void BtnExit_Click(object sender, EventArgs e)
+        {
+            FormClose();
         }
     }
 }

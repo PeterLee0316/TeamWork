@@ -74,7 +74,7 @@
             this.BtnExit.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
             this.BtnExit.Image = ((System.Drawing.Image)(resources.GetObject("BtnExit.Image")));
             this.BtnExit.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.BtnExit.Location = new System.Drawing.Point(140, 634);
+            this.BtnExit.Location = new System.Drawing.Point(255, 626);
             this.BtnExit.Name = "BtnExit";
             this.BtnExit.Size = new System.Drawing.Size(124, 61);
             this.BtnExit.TabIndex = 756;
@@ -92,12 +92,12 @@
             this.BtnAxis19.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
             this.BtnAxis19.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
             this.BtnAxis19.Font = new System.Drawing.Font("맑은 고딕", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.BtnAxis19.Location = new System.Drawing.Point(25, 318);
+            this.BtnAxis19.Location = new System.Drawing.Point(261, 319);
             this.BtnAxis19.Name = "BtnAxis19";
             this.BtnAxis19.Size = new System.Drawing.Size(118, 51);
             this.BtnAxis19.TabIndex = 864;
-            this.BtnAxis19.Tag = "18";
-            this.BtnAxis19.Click += new System.EventHandler(this.BtnAxis_Click);
+            this.BtnAxis19.Tag = "7";
+            this.BtnAxis19.Click += new System.EventHandler(this.BtnACSAxis_Click);
             // 
             // BtnAxis18
             // 
@@ -108,12 +108,12 @@
             this.BtnAxis18.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
             this.BtnAxis18.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
             this.BtnAxis18.Font = new System.Drawing.Font("맑은 고딕", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.BtnAxis18.Location = new System.Drawing.Point(261, 267);
+            this.BtnAxis18.Location = new System.Drawing.Point(143, 319);
             this.BtnAxis18.Name = "BtnAxis18";
             this.BtnAxis18.Size = new System.Drawing.Size(118, 51);
             this.BtnAxis18.TabIndex = 863;
-            this.BtnAxis18.Tag = "17";
-            this.BtnAxis18.Click += new System.EventHandler(this.BtnAxis_Click);
+            this.BtnAxis18.Tag = "4";
+            this.BtnAxis18.Click += new System.EventHandler(this.BtnACSAxis_Click);
             // 
             // BtnAxis17
             // 
@@ -124,12 +124,12 @@
             this.BtnAxis17.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
             this.BtnAxis17.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
             this.BtnAxis17.Font = new System.Drawing.Font("맑은 고딕", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.BtnAxis17.Location = new System.Drawing.Point(143, 267);
+            this.BtnAxis17.Location = new System.Drawing.Point(25, 319);
             this.BtnAxis17.Name = "BtnAxis17";
             this.BtnAxis17.Size = new System.Drawing.Size(118, 51);
             this.BtnAxis17.TabIndex = 862;
-            this.BtnAxis17.Tag = "16";
-            this.BtnAxis17.Click += new System.EventHandler(this.BtnAxis_Click);
+            this.BtnAxis17.Tag = "6";
+            this.BtnAxis17.Click += new System.EventHandler(this.BtnACSAxis_Click);
             // 
             // BtnAxis16
             // 
@@ -140,12 +140,12 @@
             this.BtnAxis16.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
             this.BtnAxis16.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
             this.BtnAxis16.Font = new System.Drawing.Font("맑은 고딕", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.BtnAxis16.Location = new System.Drawing.Point(25, 267);
+            this.BtnAxis16.Location = new System.Drawing.Point(143, 267);
             this.BtnAxis16.Name = "BtnAxis16";
             this.BtnAxis16.Size = new System.Drawing.Size(118, 51);
             this.BtnAxis16.TabIndex = 861;
-            this.BtnAxis16.Tag = "15";
-            this.BtnAxis16.Click += new System.EventHandler(this.BtnAxis_Click);
+            this.BtnAxis16.Tag = "2";
+            this.BtnAxis16.Click += new System.EventHandler(this.BtnACSAxis_Click);
             // 
             // BtnAxis15
             // 
@@ -156,12 +156,12 @@
             this.BtnAxis15.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
             this.BtnAxis15.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
             this.BtnAxis15.Font = new System.Drawing.Font("맑은 고딕", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.BtnAxis15.Location = new System.Drawing.Point(261, 216);
+            this.BtnAxis15.Location = new System.Drawing.Point(25, 267);
             this.BtnAxis15.Name = "BtnAxis15";
             this.BtnAxis15.Size = new System.Drawing.Size(118, 51);
             this.BtnAxis15.TabIndex = 860;
-            this.BtnAxis15.Tag = "14";
-            this.BtnAxis15.Click += new System.EventHandler(this.BtnAxis_Click);
+            this.BtnAxis15.Tag = "0";
+            this.BtnAxis15.Click += new System.EventHandler(this.BtnACSAxis_Click);
             // 
             // BtnAxis14
             // 
@@ -172,12 +172,12 @@
             this.BtnAxis14.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
             this.BtnAxis14.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
             this.BtnAxis14.Font = new System.Drawing.Font("맑은 고딕", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.BtnAxis14.Location = new System.Drawing.Point(143, 216);
+            this.BtnAxis14.Location = new System.Drawing.Point(143, 210);
             this.BtnAxis14.Name = "BtnAxis14";
             this.BtnAxis14.Size = new System.Drawing.Size(118, 51);
             this.BtnAxis14.TabIndex = 859;
             this.BtnAxis14.Tag = "13";
-            this.BtnAxis14.Click += new System.EventHandler(this.BtnAxis_Click);
+            this.BtnAxis14.Click += new System.EventHandler(this.BtnYMCAxis_Click);
             // 
             // BtnAxis13
             // 
@@ -188,12 +188,12 @@
             this.BtnAxis13.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
             this.BtnAxis13.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
             this.BtnAxis13.Font = new System.Drawing.Font("맑은 고딕", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.BtnAxis13.Location = new System.Drawing.Point(25, 216);
+            this.BtnAxis13.Location = new System.Drawing.Point(25, 210);
             this.BtnAxis13.Name = "BtnAxis13";
             this.BtnAxis13.Size = new System.Drawing.Size(118, 51);
             this.BtnAxis13.TabIndex = 858;
             this.BtnAxis13.Tag = "12";
-            this.BtnAxis13.Click += new System.EventHandler(this.BtnAxis_Click);
+            this.BtnAxis13.Click += new System.EventHandler(this.BtnYMCAxis_Click);
             // 
             // BtnAxis12
             // 
@@ -204,12 +204,12 @@
             this.BtnAxis12.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
             this.BtnAxis12.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
             this.BtnAxis12.Font = new System.Drawing.Font("맑은 고딕", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.BtnAxis12.Location = new System.Drawing.Point(261, 165);
+            this.BtnAxis12.Location = new System.Drawing.Point(261, 159);
             this.BtnAxis12.Name = "BtnAxis12";
             this.BtnAxis12.Size = new System.Drawing.Size(118, 51);
             this.BtnAxis12.TabIndex = 857;
             this.BtnAxis12.Tag = "11";
-            this.BtnAxis12.Click += new System.EventHandler(this.BtnAxis_Click);
+            this.BtnAxis12.Click += new System.EventHandler(this.BtnYMCAxis_Click);
             // 
             // BtnAxis11
             // 
@@ -220,12 +220,12 @@
             this.BtnAxis11.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
             this.BtnAxis11.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
             this.BtnAxis11.Font = new System.Drawing.Font("맑은 고딕", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.BtnAxis11.Location = new System.Drawing.Point(143, 165);
+            this.BtnAxis11.Location = new System.Drawing.Point(143, 159);
             this.BtnAxis11.Name = "BtnAxis11";
             this.BtnAxis11.Size = new System.Drawing.Size(118, 51);
             this.BtnAxis11.TabIndex = 856;
             this.BtnAxis11.Tag = "10";
-            this.BtnAxis11.Click += new System.EventHandler(this.BtnAxis_Click);
+            this.BtnAxis11.Click += new System.EventHandler(this.BtnYMCAxis_Click);
             // 
             // BtnAxis10
             // 
@@ -236,12 +236,12 @@
             this.BtnAxis10.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
             this.BtnAxis10.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
             this.BtnAxis10.Font = new System.Drawing.Font("맑은 고딕", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.BtnAxis10.Location = new System.Drawing.Point(25, 165);
+            this.BtnAxis10.Location = new System.Drawing.Point(25, 159);
             this.BtnAxis10.Name = "BtnAxis10";
             this.BtnAxis10.Size = new System.Drawing.Size(118, 51);
             this.BtnAxis10.TabIndex = 855;
             this.BtnAxis10.Tag = "9";
-            this.BtnAxis10.Click += new System.EventHandler(this.BtnAxis_Click);
+            this.BtnAxis10.Click += new System.EventHandler(this.BtnYMCAxis_Click);
             // 
             // BtnAxis9
             // 
@@ -252,12 +252,12 @@
             this.BtnAxis9.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
             this.BtnAxis9.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
             this.BtnAxis9.Font = new System.Drawing.Font("맑은 고딕", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.BtnAxis9.Location = new System.Drawing.Point(261, 114);
+            this.BtnAxis9.Location = new System.Drawing.Point(261, 108);
             this.BtnAxis9.Name = "BtnAxis9";
             this.BtnAxis9.Size = new System.Drawing.Size(118, 51);
             this.BtnAxis9.TabIndex = 854;
             this.BtnAxis9.Tag = "8";
-            this.BtnAxis9.Click += new System.EventHandler(this.BtnAxis_Click);
+            this.BtnAxis9.Click += new System.EventHandler(this.BtnYMCAxis_Click);
             // 
             // BtnAxis8
             // 
@@ -268,12 +268,12 @@
             this.BtnAxis8.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
             this.BtnAxis8.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
             this.BtnAxis8.Font = new System.Drawing.Font("맑은 고딕", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.BtnAxis8.Location = new System.Drawing.Point(143, 114);
+            this.BtnAxis8.Location = new System.Drawing.Point(143, 108);
             this.BtnAxis8.Name = "BtnAxis8";
             this.BtnAxis8.Size = new System.Drawing.Size(118, 51);
             this.BtnAxis8.TabIndex = 853;
             this.BtnAxis8.Tag = "7";
-            this.BtnAxis8.Click += new System.EventHandler(this.BtnAxis_Click);
+            this.BtnAxis8.Click += new System.EventHandler(this.BtnYMCAxis_Click);
             // 
             // BtnAxis7
             // 
@@ -284,12 +284,12 @@
             this.BtnAxis7.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
             this.BtnAxis7.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
             this.BtnAxis7.Font = new System.Drawing.Font("맑은 고딕", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.BtnAxis7.Location = new System.Drawing.Point(25, 114);
+            this.BtnAxis7.Location = new System.Drawing.Point(25, 108);
             this.BtnAxis7.Name = "BtnAxis7";
             this.BtnAxis7.Size = new System.Drawing.Size(118, 51);
             this.BtnAxis7.TabIndex = 852;
             this.BtnAxis7.Tag = "6";
-            this.BtnAxis7.Click += new System.EventHandler(this.BtnAxis_Click);
+            this.BtnAxis7.Click += new System.EventHandler(this.BtnYMCAxis_Click);
             // 
             // BtnAxis6
             // 
@@ -300,12 +300,12 @@
             this.BtnAxis6.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
             this.BtnAxis6.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
             this.BtnAxis6.Font = new System.Drawing.Font("맑은 고딕", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.BtnAxis6.Location = new System.Drawing.Point(261, 63);
+            this.BtnAxis6.Location = new System.Drawing.Point(261, 57);
             this.BtnAxis6.Name = "BtnAxis6";
             this.BtnAxis6.Size = new System.Drawing.Size(118, 51);
             this.BtnAxis6.TabIndex = 851;
             this.BtnAxis6.Tag = "5";
-            this.BtnAxis6.Click += new System.EventHandler(this.BtnAxis_Click);
+            this.BtnAxis6.Click += new System.EventHandler(this.BtnYMCAxis_Click);
             // 
             // BtnAxis5
             // 
@@ -316,12 +316,12 @@
             this.BtnAxis5.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
             this.BtnAxis5.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
             this.BtnAxis5.Font = new System.Drawing.Font("맑은 고딕", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.BtnAxis5.Location = new System.Drawing.Point(143, 63);
+            this.BtnAxis5.Location = new System.Drawing.Point(143, 57);
             this.BtnAxis5.Name = "BtnAxis5";
             this.BtnAxis5.Size = new System.Drawing.Size(118, 51);
             this.BtnAxis5.TabIndex = 850;
             this.BtnAxis5.Tag = "4";
-            this.BtnAxis5.Click += new System.EventHandler(this.BtnAxis_Click);
+            this.BtnAxis5.Click += new System.EventHandler(this.BtnYMCAxis_Click);
             // 
             // BtnAxis4
             // 
@@ -332,12 +332,12 @@
             this.BtnAxis4.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
             this.BtnAxis4.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
             this.BtnAxis4.Font = new System.Drawing.Font("맑은 고딕", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.BtnAxis4.Location = new System.Drawing.Point(25, 63);
+            this.BtnAxis4.Location = new System.Drawing.Point(25, 57);
             this.BtnAxis4.Name = "BtnAxis4";
             this.BtnAxis4.Size = new System.Drawing.Size(118, 51);
             this.BtnAxis4.TabIndex = 849;
             this.BtnAxis4.Tag = "3";
-            this.BtnAxis4.Click += new System.EventHandler(this.BtnAxis_Click);
+            this.BtnAxis4.Click += new System.EventHandler(this.BtnYMCAxis_Click);
             // 
             // BtnAxis3
             // 
@@ -348,12 +348,12 @@
             this.BtnAxis3.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
             this.BtnAxis3.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
             this.BtnAxis3.Font = new System.Drawing.Font("맑은 고딕", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.BtnAxis3.Location = new System.Drawing.Point(261, 12);
+            this.BtnAxis3.Location = new System.Drawing.Point(261, 6);
             this.BtnAxis3.Name = "BtnAxis3";
             this.BtnAxis3.Size = new System.Drawing.Size(118, 51);
             this.BtnAxis3.TabIndex = 848;
             this.BtnAxis3.Tag = "2";
-            this.BtnAxis3.Click += new System.EventHandler(this.BtnAxis_Click);
+            this.BtnAxis3.Click += new System.EventHandler(this.BtnYMCAxis_Click);
             // 
             // BtnAxis2
             // 
@@ -364,12 +364,12 @@
             this.BtnAxis2.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
             this.BtnAxis2.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
             this.BtnAxis2.Font = new System.Drawing.Font("맑은 고딕", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.BtnAxis2.Location = new System.Drawing.Point(143, 12);
+            this.BtnAxis2.Location = new System.Drawing.Point(143, 6);
             this.BtnAxis2.Name = "BtnAxis2";
             this.BtnAxis2.Size = new System.Drawing.Size(118, 51);
             this.BtnAxis2.TabIndex = 847;
             this.BtnAxis2.Tag = "1";
-            this.BtnAxis2.Click += new System.EventHandler(this.BtnAxis_Click);
+            this.BtnAxis2.Click += new System.EventHandler(this.BtnYMCAxis_Click);
             // 
             // BtnAxis1
             // 
@@ -380,12 +380,12 @@
             this.BtnAxis1.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
             this.BtnAxis1.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
             this.BtnAxis1.Font = new System.Drawing.Font("맑은 고딕", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.BtnAxis1.Location = new System.Drawing.Point(25, 12);
+            this.BtnAxis1.Location = new System.Drawing.Point(25, 6);
             this.BtnAxis1.Name = "BtnAxis1";
             this.BtnAxis1.Size = new System.Drawing.Size(118, 51);
             this.BtnAxis1.TabIndex = 846;
             this.BtnAxis1.Tag = "0";
-            this.BtnAxis1.Click += new System.EventHandler(this.BtnAxis_Click);
+            this.BtnAxis1.Click += new System.EventHandler(this.BtnYMCAxis_Click);
             // 
             // LabelCurrent
             // 
@@ -522,11 +522,12 @@
             this.BtnMinus.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
             this.BtnMinus.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
             this.BtnMinus.Font = new System.Drawing.Font("굴림", 48F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.BtnMinus.Location = new System.Drawing.Point(143, 493);
+            this.BtnMinus.Location = new System.Drawing.Point(140, 493);
             this.BtnMinus.Name = "BtnMinus";
             this.BtnMinus.Size = new System.Drawing.Size(118, 72);
             this.BtnMinus.TabIndex = 836;
             this.BtnMinus.Text = "-";
+            this.BtnMinus.Click += new System.EventHandler(this.BtnMinus_Click);
             this.BtnMinus.MouseDown += new System.Windows.Forms.MouseEventHandler(this.BtnMinus_MouseDown);
             this.BtnMinus.MouseUp += new System.Windows.Forms.MouseEventHandler(this.BtnMinus_MouseUp);
             // 
@@ -555,6 +556,7 @@
             this.BtnAbsMove.Size = new System.Drawing.Size(236, 72);
             this.BtnAbsMove.TabIndex = 845;
             this.BtnAbsMove.Text = "Move";
+            this.BtnAbsMove.Click += new System.EventHandler(this.BtnAbsMove_Click);
             this.BtnAbsMove.MouseClick += new System.Windows.Forms.MouseEventHandler(this.BtnAbsMove_MouseClick);
             // 
             // BtnPlus
@@ -566,11 +568,12 @@
             this.BtnPlus.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
             this.BtnPlus.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
             this.BtnPlus.Font = new System.Drawing.Font("굴림", 48F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.BtnPlus.Location = new System.Drawing.Point(25, 493);
+            this.BtnPlus.Location = new System.Drawing.Point(24, 493);
             this.BtnPlus.Name = "BtnPlus";
             this.BtnPlus.Size = new System.Drawing.Size(118, 72);
             this.BtnPlus.TabIndex = 835;
             this.BtnPlus.Text = "+";
+            this.BtnPlus.Click += new System.EventHandler(this.BtnPlus_Click);
             this.BtnPlus.MouseDown += new System.Windows.Forms.MouseEventHandler(this.BtnPlus_MouseDown);
             this.BtnPlus.MouseUp += new System.Windows.Forms.MouseEventHandler(this.BtnPlus_MouseUp);
             // 
@@ -628,7 +631,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(402, 720);
+            this.ClientSize = new System.Drawing.Size(384, 690);
             this.Controls.Add(this.BtnPlus);
             this.Controls.Add(this.BtnSlowVel);
             this.Controls.Add(this.BtnAxis19);
