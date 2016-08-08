@@ -956,8 +956,13 @@ namespace LWDicer.Control
                 Sleep(50);
             }
 
-            // 0.3 Motion Position 적용
-            m_AcsMotion.ACS.ToPoint(0, AxisNo, pos);
+            try
+            {
+                // 0.3 Motion Position 적용
+                m_AcsMotion.ACS.ToPoint(0, AxisNo, pos);
+            }
+            catch
+            { }
 
             // 0.4 Motion Moving 지령
             //m_AcsMotion.ACS.GoM(AxisNo);
@@ -1034,11 +1039,16 @@ namespace LWDicer.Control
 #if SIMULATION_MOTION_ACS
             return SUCCESS;
 #endif
-            // 0.3 Motion Position 적용
-            m_AcsMotion.ACS?.ToPointM(m_AcsMotion.ACS.ACSC_AMF_WAIT, axisList, pos);
+            try
+            {
+                // 0.3 Motion Position 적용
+                m_AcsMotion.ACS?.ToPointM(m_AcsMotion.ACS.ACSC_AMF_WAIT, axisList, pos);
 
-            // 0.4 Motion Moving 지령
-            m_AcsMotion.ACS?.GoM(axisList);
+                // 0.4 Motion Moving 지령
+                m_AcsMotion.ACS?.GoM(axisList);
+            }
+            catch
+            { }
 
             Sleep(50);
 

@@ -393,6 +393,12 @@ namespace LWDicer.UI
             {
                 return;
             }
+
+            if (TeachPos[GetPosNo()].Text == Convert.ToString(EScannerPos.WAIT)) CMainFrame.LWDicer.m_ctrlStage1.MoveToScannerWaitPos();
+            if (TeachPos[GetPosNo()].Text == Convert.ToString(EScannerPos.WORK)) CMainFrame.LWDicer.m_ctrlStage1.MoveToScannerWorkPos();
+            if (TeachPos[GetPosNo()].Text == Convert.ToString(EScannerPos.FOCUS_1)) CMainFrame.LWDicer.m_ctrlStage1.MoveToScannerFocusPos1();
+            if (TeachPos[GetPosNo()].Text == Convert.ToString(EScannerPos.FOCUS_2)) CMainFrame.LWDicer.m_ctrlStage1.MoveToScannerFocusPos2();
+            if (TeachPos[GetPosNo()].Text == Convert.ToString(EScannerPos.FOCUS_3)) CMainFrame.LWDicer.m_ctrlStage1.MoveToScannerFocusPos3();
         }
     }
 }

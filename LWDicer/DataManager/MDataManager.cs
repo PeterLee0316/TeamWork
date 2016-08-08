@@ -1806,6 +1806,19 @@ namespace LWDicer.Control
                 CPosition data = JsonConvert.DeserializeObject<CPosition>(output);
                 if(data != null && data.Length > 0)
                     tData.Camera1Pos = ObjectExtensions.Copy(data);
+
+                /////////////////////////////////////////////////////////////////////
+                // Copy될때 Array의 크기가 변함.
+                if (tData.Camera1Pos.Pos.Length < (int)ECameraPos.MAX)
+                {
+                    Array.Resize(ref tData.Camera1Pos.Pos, (int)ECameraPos.MAX);
+
+                    for (int i = tData.Camera1Pos.Length; i < (int)ECameraPos.MAX; i++)
+                    {
+                        tData.Camera1Pos.Pos[i] = new CPos_XYTZ();
+                    }
+                }
+                /////////////////////////////////////////////////////////////////////
             }
 
             if (unit == EPositionObject.ALL || unit == EPositionObject.SCANNER1)
@@ -1817,6 +1830,19 @@ namespace LWDicer.Control
                 CPosition data = JsonConvert.DeserializeObject<CPosition>(output);
                 if(data != null && data.Length > 0)
                     tData.Scanner1Pos = ObjectExtensions.Copy(data);
+
+                /////////////////////////////////////////////////////////////////////
+                // Copy될때 Array의 크기가 변함.
+                if (tData.Scanner1Pos.Pos.Length < (int)EScannerPos.MAX)
+                {
+                    Array.Resize(ref tData.Scanner1Pos.Pos, (int)EScannerPos.MAX);
+
+                    for (int i = tData.Scanner1Pos.Length; i < (int)EScannerPos.MAX; i++)
+                    {
+                        tData.Scanner1Pos.Pos[i] = new CPos_XYTZ();
+                    }
+                }
+                /////////////////////////////////////////////////////////////////////
             }
 
             if (bLoadFixed) FixedPos = tData; else OffsetPos = tData;

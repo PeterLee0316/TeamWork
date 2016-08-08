@@ -425,16 +425,58 @@ namespace LWDicer.Control
             return m_RefComp.Stage.MoveCameraToWaitPos();
         }
 
-        public int MoveToCameraLoadPos()
+        public int MoveToCameraWorkPos()
         {
-            return m_RefComp.Stage.MoveStageToLoadPos();
+            return m_RefComp.Stage.MoveCameraToWorkPos();
         }
 
-        public int MoveToCameraUnloadPos()
+        public int MoveToCameraFocusPos1()
         {
-            return m_RefComp.Stage.MoveStageToUnloadPos();
+            return m_RefComp.Stage.MoveCameraToFocusPos1();
+        }
+
+        public int MoveToCameraFocusPos2()
+        {
+            return m_RefComp.Stage.MoveCameraToFocusPos2();
+        }
+
+        public int MoveToCameraFocusPos3()
+        {
+            return m_RefComp.Stage.MoveCameraToFocusPos3();
         }
         #endregion
+
+        // Scanner 위치 구동 지령
+        #region Scanner 구동
+
+        public int MoveToScannerWaitPos()
+        {
+            return m_RefComp.Stage.MoveScannerToWaitPos();
+        }
+
+        public int MoveToScannerWorkPos()
+        {
+            return m_RefComp.Stage.MoveScannerToWorkPos();
+        }
+
+        public int MoveToScannerFocusPos1()
+        {
+            return m_RefComp.Stage.MoveScannerToFocusPos1();
+        }
+
+        public int MoveToScannerFocusPos2()
+        {
+            return m_RefComp.Stage.MoveScannerToFocusPos2();
+        }
+
+        public int MoveToScannerFocusPos3()
+        {
+            return m_RefComp.Stage.MoveScannerToFocusPos3();
+        }
+
+        #endregion
+
+
         // Vision 동작
         #region Vision 동작
 

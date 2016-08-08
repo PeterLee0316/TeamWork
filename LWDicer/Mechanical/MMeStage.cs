@@ -83,6 +83,9 @@ namespace LWDicer.Control
             NONE = -1,
             WAIT,
             WORK,
+            FOCUS_1,
+            FOCUS_2,
+            FOCUS_3,
             MAX,
         }
 
@@ -1258,7 +1261,7 @@ namespace LWDicer.Control
             }
            
             bool[] bTempFlag = new bool[DEF_MAX_COORDINATE] { false, false, false, true };
-            iResult = m_RefComp.AxCamera.Move(DEF_ALL_COORDINATE, bTempFlag, dTargetPos);
+            iResult = m_RefComp.AxCamera.Move(DEF_Z, bTempFlag, dTargetPos);
             if (iResult != SUCCESS)
             {
                 WriteLog("fail : move Camera z axis", ELogType.Debug, ELogWType.D_Error);
@@ -1401,7 +1404,34 @@ namespace LWDicer.Control
             int iPos = (int)ECameraPos.WAIT;
 
             return MoveCameraPos(iPos);
-        }        
+        }
+        public int MoveCameraToWorkPos()
+        {
+            int iPos = (int)ECameraPos.WORK;
+
+            return MoveCameraPos(iPos);
+        }
+
+        public int MoveCameraToFocusPos1()
+        {
+            int iPos = (int)ECameraPos.FOCUS_1;
+
+            return MoveCameraPos(iPos);
+        }
+
+        public int MoveCameraToFocusPos2()
+        {
+            int iPos = (int)ECameraPos.FOCUS_2;
+
+            return MoveCameraPos(iPos);
+        }
+
+        public int MoveCameraToFocusPos3()
+        {
+            int iPos = (int)ECameraPos.FOCUS_3;
+
+            return MoveCameraPos(iPos);
+        }
 
         public int JogCameraMove(bool dDir, double dVel)
         {
@@ -1498,7 +1528,7 @@ namespace LWDicer.Control
             }
 
             bool[] bTempFlag = new bool[DEF_MAX_COORDINATE] { false, false, false, true };
-            iResult = m_RefComp.AxScanner.Move(DEF_ALL_COORDINATE, bTempFlag, dTargetPos);
+            iResult = m_RefComp.AxScanner.Move(DEF_Z, bTempFlag, dTargetPos);
             if (iResult != SUCCESS)
             {
                 WriteLog("fail : move Scanner z axis", ELogType.Debug, ELogWType.D_Error);
@@ -1640,6 +1670,34 @@ namespace LWDicer.Control
         public int MoveScannerToWaitPos()
         {
             int iPos = (int)EScannerPos.WAIT;
+
+            return MoveScannerPos(iPos);
+        }
+
+        public int MoveScannerToWorkPos()
+        {
+            int iPos = (int)EScannerPos.WORK;
+
+            return MoveScannerPos(iPos);
+        }
+
+        public int MoveScannerToFocusPos1()
+        {
+            int iPos = (int)EScannerPos.FOCUS_1;
+
+            return MoveScannerPos(iPos);
+        }
+
+        public int MoveScannerToFocusPos2()
+        {
+            int iPos = (int)EScannerPos.FOCUS_2;
+
+            return MoveScannerPos(iPos);
+        }
+
+        public int MoveScannerToFocusPos3()
+        {
+            int iPos = (int)EScannerPos.FOCUS_3;
 
             return MoveScannerPos(iPos);
         }

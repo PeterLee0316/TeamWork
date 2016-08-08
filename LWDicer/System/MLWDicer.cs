@@ -910,9 +910,9 @@ namespace LWDicer.Control
             refComp.Motion = m_ACS;
 
             // Scanner Z
-            deviceNo = (int)EACS_Device.SCANNER1;
+            deviceNo = (int)EACS_Device.SCANNER1_Z;
             Array.Copy(initArray, axisList, initArray.Length);
-            axisList[DEF_Z] = (int)EACS_Device.SCANNER1;
+            axisList[DEF_Z] = (int)EACS_Device.SCANNER1_Z;
             data = new CMultiAxesACSData(deviceNo, axisList);
 
             m_SystemInfo.GetObjectInfo(270, out objInfo);
@@ -920,9 +920,9 @@ namespace LWDicer.Control
             
 
             // Camera Z
-            deviceNo = (int)EACS_Device.CAMERA1;
+            deviceNo = (int)EACS_Device.CAMERA1_Z;
             Array.Copy(initArray, axisList, initArray.Length);
-            axisList[DEF_Z] = (int)EACS_Device.CAMERA1;
+            axisList[DEF_Z] = (int)EACS_Device.CAMERA1_Z;
             data = new CMultiAxesACSData(deviceNo, axisList);
 
             m_SystemInfo.GetObjectInfo(271, out objInfo);

@@ -328,7 +328,7 @@
             this.BtnPos3.Name = "BtnPos3";
             this.BtnPos3.Size = new System.Drawing.Size(117, 64);
             this.BtnPos3.TabIndex = 932;
-            this.BtnPos3.Tag = "3";
+            this.BtnPos3.Tag = "2";
             this.BtnPos3.Click += new System.EventHandler(this.BtnPos_Click);
             // 
             // BtnPos4
@@ -344,7 +344,7 @@
             this.BtnPos4.Name = "BtnPos4";
             this.BtnPos4.Size = new System.Drawing.Size(117, 64);
             this.BtnPos4.TabIndex = 933;
-            this.BtnPos4.Tag = "4";
+            this.BtnPos4.Tag = "3";
             this.BtnPos4.Click += new System.EventHandler(this.BtnPos_Click);
             // 
             // BtnPos5
@@ -360,7 +360,7 @@
             this.BtnPos5.Name = "BtnPos5";
             this.BtnPos5.Size = new System.Drawing.Size(117, 64);
             this.BtnPos5.TabIndex = 934;
-            this.BtnPos5.Tag = "5";
+            this.BtnPos5.Tag = "4";
             this.BtnPos5.Click += new System.EventHandler(this.BtnPos_Click);
             // 
             // BtnPos10
@@ -376,7 +376,7 @@
             this.BtnPos10.Name = "BtnPos10";
             this.BtnPos10.Size = new System.Drawing.Size(117, 64);
             this.BtnPos10.TabIndex = 939;
-            this.BtnPos10.Tag = "10";
+            this.BtnPos10.Tag = "9";
             this.BtnPos10.Click += new System.EventHandler(this.BtnPos_Click);
             // 
             // BtnPos9
@@ -392,7 +392,7 @@
             this.BtnPos9.Name = "BtnPos9";
             this.BtnPos9.Size = new System.Drawing.Size(117, 64);
             this.BtnPos9.TabIndex = 938;
-            this.BtnPos9.Tag = "9";
+            this.BtnPos9.Tag = "8";
             this.BtnPos9.Click += new System.EventHandler(this.BtnPos_Click);
             // 
             // BtnPos8
@@ -408,7 +408,7 @@
             this.BtnPos8.Name = "BtnPos8";
             this.BtnPos8.Size = new System.Drawing.Size(117, 64);
             this.BtnPos8.TabIndex = 937;
-            this.BtnPos8.Tag = "8";
+            this.BtnPos8.Tag = "7";
             this.BtnPos8.Click += new System.EventHandler(this.BtnPos_Click);
             // 
             // BtnPos7
@@ -424,7 +424,7 @@
             this.BtnPos7.Name = "BtnPos7";
             this.BtnPos7.Size = new System.Drawing.Size(117, 64);
             this.BtnPos7.TabIndex = 936;
-            this.BtnPos7.Tag = "7";
+            this.BtnPos7.Tag = "6";
             this.BtnPos7.Click += new System.EventHandler(this.BtnPos_Click);
             // 
             // BtnPos6
@@ -440,7 +440,7 @@
             this.BtnPos6.Name = "BtnPos6";
             this.BtnPos6.Size = new System.Drawing.Size(117, 64);
             this.BtnPos6.TabIndex = 935;
-            this.BtnPos6.Tag = "6";
+            this.BtnPos6.Tag = "5";
             this.BtnPos6.Click += new System.EventHandler(this.BtnPos_Click);
             // 
             // BtnPos15
@@ -456,7 +456,7 @@
             this.BtnPos15.Name = "BtnPos15";
             this.BtnPos15.Size = new System.Drawing.Size(117, 64);
             this.BtnPos15.TabIndex = 944;
-            this.BtnPos15.Tag = "15";
+            this.BtnPos15.Tag = "14";
             this.BtnPos15.Click += new System.EventHandler(this.BtnPos_Click);
             // 
             // BtnPos14
@@ -472,7 +472,7 @@
             this.BtnPos14.Name = "BtnPos14";
             this.BtnPos14.Size = new System.Drawing.Size(117, 64);
             this.BtnPos14.TabIndex = 943;
-            this.BtnPos14.Tag = "14";
+            this.BtnPos14.Tag = "13";
             this.BtnPos14.Click += new System.EventHandler(this.BtnPos_Click);
             // 
             // BtnPos13
@@ -488,7 +488,7 @@
             this.BtnPos13.Name = "BtnPos13";
             this.BtnPos13.Size = new System.Drawing.Size(117, 64);
             this.BtnPos13.TabIndex = 942;
-            this.BtnPos13.Tag = "13";
+            this.BtnPos13.Tag = "12";
             this.BtnPos13.Click += new System.EventHandler(this.BtnPos_Click);
             // 
             // BtnPos12
@@ -504,7 +504,7 @@
             this.BtnPos12.Name = "BtnPos12";
             this.BtnPos12.Size = new System.Drawing.Size(117, 64);
             this.BtnPos12.TabIndex = 941;
-            this.BtnPos12.Tag = "12";
+            this.BtnPos12.Tag = "11";
             this.BtnPos12.Click += new System.EventHandler(this.BtnPos_Click);
             // 
             // BtnPos11
@@ -520,7 +520,7 @@
             this.BtnPos11.Name = "BtnPos11";
             this.BtnPos11.Size = new System.Drawing.Size(117, 64);
             this.BtnPos11.TabIndex = 940;
-            this.BtnPos11.Tag = "11";
+            this.BtnPos11.Tag = "10";
             this.BtnPos11.Click += new System.EventHandler(this.BtnPos_Click);
             // 
             // FormCameraTeach
