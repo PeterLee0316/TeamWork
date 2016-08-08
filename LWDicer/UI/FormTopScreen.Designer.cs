@@ -34,7 +34,6 @@
             this.TextTime = new System.Windows.Forms.TextBox();
             this.tmFormTop = new System.Windows.Forms.Timer(this.components);
             this.BtnUserLogin = new System.Windows.Forms.Button();
-            this.LabelCurUser = new System.Windows.Forms.Label();
             this.btnExit = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
@@ -77,22 +76,11 @@
             this.BtnUserLogin.UseVisualStyleBackColor = true;
             this.BtnUserLogin.Click += new System.EventHandler(this.BtnUserLogin_Click);
             // 
-            // LabelCurUser
-            // 
-            this.LabelCurUser.AutoSize = true;
-            this.LabelCurUser.BackColor = System.Drawing.Color.Transparent;
-            this.LabelCurUser.Font = new System.Drawing.Font("맑은 고딕", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.LabelCurUser.Location = new System.Drawing.Point(1061, 73);
-            this.LabelCurUser.Name = "LabelCurUser";
-            this.LabelCurUser.Size = new System.Drawing.Size(114, 20);
-            this.LabelCurUser.TabIndex = 4;
-            this.LabelCurUser.Text = "Current User : ";
-            // 
             // btnExit
             // 
             this.btnExit.BackColor = System.Drawing.Color.Transparent;
             this.btnExit.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.btnExit.Location = new System.Drawing.Point(1082, 4);
+            this.btnExit.Location = new System.Drawing.Point(1070, 4);
             this.btnExit.Name = "btnExit";
             this.btnExit.Size = new System.Drawing.Size(48, 66);
             this.btnExit.TabIndex = 5;
@@ -108,7 +96,6 @@
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.ClientSize = new System.Drawing.Size(1278, 98);
             this.Controls.Add(this.btnExit);
-            this.Controls.Add(this.LabelCurUser);
             this.Controls.Add(this.BtnUserLogin);
             this.Controls.Add(this.TextTime);
             this.Controls.Add(this.TextMessage);
@@ -126,7 +113,6 @@
         private System.Windows.Forms.TextBox TextTime;
         private System.Windows.Forms.Timer tmFormTop;
         private System.Windows.Forms.Button BtnUserLogin;
-        private System.Windows.Forms.Label LabelCurUser;
         private System.Windows.Forms.Button btnExit;
     }
 }
