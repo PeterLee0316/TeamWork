@@ -1160,7 +1160,8 @@ namespace LWDicer.Control
                     if (DBManager.SelectRow(DBInfo.DBConn, DBInfo.TableSystem, out output, new CDBColumn("name", nameof(CSystemData_Axis))) == true)
                     {
                         CSystemData_Axis data = JsonConvert.DeserializeObject<CSystemData_Axis>(output);
-                        if (SystemData_Axis.MPMotionData.Length == data.MPMotionData.Length)
+                        if (SystemData_Axis.MPMotionData.Length == data.MPMotionData.Length
+                            && SystemData_Axis.ACSMotionData.Length == data.ACSMotionData.Length)
                         {
                             SystemData_Axis = ObjectExtensions.Copy(data);
                         }
@@ -1171,14 +1172,7 @@ namespace LWDicer.Control
                                 if (i >= data.MPMotionData.Length) break;
                                 SystemData_Axis.MPMotionData[i] = ObjectExtensions.Copy(data.MPMotionData[i]);
                             }
-                        }
 
-                        if (SystemData_Axis.ACSMotionData.Length == data.ACSMotionData.Length)
-                        {
-                            SystemData_Axis = ObjectExtensions.Copy(data);
-                        }
-                        else
-                        {
                             for (int i = 0; i < SystemData_Axis.ACSMotionData.Length; i++)
                             {
                                 if (i >= data.ACSMotionData.Length) break;
