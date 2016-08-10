@@ -89,11 +89,11 @@ namespace LWDicer.UI
                     BtnCancel.Visible = false; BtnConfirm.Text = "OK";
                     break;
 
-                case EMessageType.OK_Cancel:
+                case EMessageType.OK_CANCEL:
                     BtnCancel.Visible = true; BtnConfirm.Text = "OK";
                     break;
 
-                case EMessageType.Confirm_Cancel:
+                case EMessageType.CONFIRM_CANCEL:
                     BtnCancel.Visible = true; BtnConfirm.Text = "Confirm";
                     break;
             }

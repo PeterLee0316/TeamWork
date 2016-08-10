@@ -745,8 +745,10 @@ namespace LWDicer.Control
                         axisList[index++] = (int)EYMC_Axis.UPPER_HANDLER_Z;
                         axisList[index++] = (int)EYMC_Axis.LOWER_HANDLER_X;
                         axisList[index++] = (int)EYMC_Axis.LOWER_HANDLER_Z;
-                        axisList[index++] = (int)EACS_Axis.SCANNER_Z1;
-                        axisList[index++] = (int)EACS_Axis.CAMERA_Z;
+#if EQUIP_DICING_DEV
+                        axisList[index++] = (int)EYMC_Axis.CAMERA1_Z;
+                        axisList[index++] = (int)EYMC_Axis.SCANNER_Z1;
+#endif
                         break;
 
                     case (int)EYMC_Device.LOADER:
@@ -799,13 +801,15 @@ namespace LWDicer.Control
                         axisList[index++] = (int)EYMC_Axis.LOWER_HANDLER_Z;
                         break;
 
-                    //case (int)EYMC_Device.CAMERA1:
-                    //    axisList[index++] = (int)EACS_Axis.SCANNER_Z1;
-                    //    break;
+#if EQUIP_DICING_DEV
+                    case (int)EYMC_Device.CAMERA1:
+                        axisList[index++] = (int)EYMC_Axis.CAMERA1_Z;
+                        break;
 
-                    //case (int)EYMC_Device.SCANNER1:
-                    //    axisList[index++] = (int)EACS_Axis.CAMERA_Z;
-                    //    break;
+                    case (int)EYMC_Device.SCANNER1:
+                        axisList[index++] = (int)EYMC_Axis.SCANNER_Z1;
+                        break;
+#endif
 
                     default:
                         axisList[index++] = (int)EYMC_Axis.NULL;

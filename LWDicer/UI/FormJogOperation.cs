@@ -91,25 +91,42 @@ namespace LWDicer.UI
             Velocity[0] = BtnFastVel;
             Velocity[1] = BtnSlowVel;
             
-            AxisNo[0].Text = Convert.ToString(EYMC_Axis.LOADER_Z);
-            AxisNo[1].Text = Convert.ToString(EYMC_Axis.PUSHPULL_Y);
-            AxisNo[2].Text = Convert.ToString(EYMC_Axis.PUSHPULL_X1);
-            AxisNo[3].Text = Convert.ToString(EYMC_Axis.PUSHPULL_X2);
-            AxisNo[4].Text = Convert.ToString(EYMC_Axis.S1_CHUCK_ROTATE_T);
-            AxisNo[5].Text = Convert.ToString(EYMC_Axis.S1_CLEAN_NOZZLE_T);
-            AxisNo[6].Text = Convert.ToString(EYMC_Axis.S1_COAT_NOZZLE_T);
-            AxisNo[7].Text = Convert.ToString(EYMC_Axis.S2_CHUCK_ROTATE_T);
-            AxisNo[8].Text = Convert.ToString(EYMC_Axis.S2_CLEAN_NOZZLE_T);
-            AxisNo[9].Text = Convert.ToString(EYMC_Axis.S2_COAT_NOZZLE_T);
-            AxisNo[10].Text = Convert.ToString(EYMC_Axis.UPPER_HANDLER_X);
-            AxisNo[11].Text = Convert.ToString(EYMC_Axis.UPPER_HANDLER_Z);
-            AxisNo[12].Text = Convert.ToString(EYMC_Axis.LOWER_HANDLER_X);
-            AxisNo[13].Text = Convert.ToString(EYMC_Axis.LOWER_HANDLER_Z);
-            AxisNo[14].Text = Convert.ToString(EACS_Axis.SCANNER_Z1);
-            AxisNo[15].Text = Convert.ToString(EACS_Axis.CAMERA_Z);
-            AxisNo[16].Text = Convert.ToString(EACS_Axis.STAGE1_X);
-            AxisNo[17].Text = Convert.ToString(EACS_Axis.STAGE1_Y);
-            AxisNo[18].Text = Convert.ToString(EACS_Axis.STAGE1_T);
+            AxisNo[0].Text  = Convert.ToString(EAxis.LOADER_Z);
+            AxisNo[1].Text  = Convert.ToString(EAxis.PUSHPULL_Y);
+            AxisNo[2].Text  = Convert.ToString(EAxis.PUSHPULL_X1);
+            AxisNo[3].Text  = Convert.ToString(EAxis.PUSHPULL_X2);
+            AxisNo[4].Text  = Convert.ToString(EAxis.S1_CHUCK_ROTATE_T);
+            AxisNo[5].Text  = Convert.ToString(EAxis.S1_CLEAN_NOZZLE_T);
+            AxisNo[6].Text  = Convert.ToString(EAxis.S1_COAT_NOZZLE_T);
+            AxisNo[7].Text  = Convert.ToString(EAxis.S2_CHUCK_ROTATE_T);
+            AxisNo[8].Text  = Convert.ToString(EAxis.S2_CLEAN_NOZZLE_T);
+            AxisNo[9].Text  = Convert.ToString(EAxis.S2_COAT_NOZZLE_T);
+            AxisNo[10].Text = Convert.ToString(EAxis.UPPER_HANDLER_X);
+            AxisNo[11].Text = Convert.ToString(EAxis.UPPER_HANDLER_Z);
+            AxisNo[12].Text = Convert.ToString(EAxis.LOWER_HANDLER_X);
+            AxisNo[13].Text = Convert.ToString(EAxis.LOWER_HANDLER_Z);
+            AxisNo[14].Text = Convert.ToString(EAxis.CAMERA1_Z);
+            AxisNo[15].Text = Convert.ToString(EAxis.SCANNER_Z1);
+            AxisNo[16].Text = Convert.ToString(EAxis.STAGE1_X);
+            AxisNo[17].Text = Convert.ToString(EAxis.STAGE1_Y);
+            AxisNo[18].Text = Convert.ToString(EAxis.STAGE1_T);
+
+#if EQUIP_266_DEV
+            AxisNo[15].Text = Convert.ToString(EAxis.CAMERA1_Z);
+            AxisNo[14].Text = Convert.ToString(EAxis.SCANNER_Z1);
+
+            BtnAxis15.Tag = 0;
+            BtnAxis15.Click -= BtnYMCAxis_Click;
+            BtnAxis15.Click += BtnACSAxis_Click;
+
+            BtnAxis16.Tag = 2;
+            BtnAxis16.Click -= BtnYMCAxis_Click;
+            BtnAxis16.Click += BtnACSAxis_Click;
+
+            BtnAxis17.Tag = 6;
+            BtnAxis18.Tag = 4;
+            BtnAxis19.Tag = 7;
+#endif
         }
 
         private void FormJogOperation_Load(object sender, EventArgs e)
@@ -272,7 +289,7 @@ namespace LWDicer.UI
 
             strCurrent = LabelTarget.Text;
 
-            if (!CMainFrame.LWDicer.GetKeyPad(strCurrent, out strModify))
+            if (!CMainFrame.GetKeyPad(strCurrent, out strModify))
             {
                 return;
             }

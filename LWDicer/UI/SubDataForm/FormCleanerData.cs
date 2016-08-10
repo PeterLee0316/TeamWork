@@ -159,7 +159,7 @@ namespace LWDicer.UI
 
         private void BtnSave_Click(object sender, EventArgs e)
         {
-            if (!CMainFrame.DisplayMsg("Save Data?"))
+            if (!CMainFrame.InquireMsg("Save Data?"))
             {
                 return;
             }
@@ -202,7 +202,7 @@ namespace LWDicer.UI
 
             strCurrent = GridCtrl[nRow, nCol].Text;
 
-            if (!CMainFrame.LWDicer.GetKeyPad(strCurrent, out strModify))
+            if (!CMainFrame.GetKeyPad(strCurrent, out strModify))
             {
                 return;
             }
@@ -230,7 +230,7 @@ namespace LWDicer.UI
 
             strCurrent = LabelStroke.Text;
 
-            if (!CMainFrame.LWDicer.GetKeyPad(strCurrent, out strModify))
+            if (!CMainFrame.GetKeyPad(strCurrent, out strModify))
             {
                 return;
             }

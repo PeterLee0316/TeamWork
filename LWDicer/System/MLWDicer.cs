@@ -70,9 +70,6 @@ namespace LWDicer.Control
         public MACS m_ACS;
 
         // MultiAxes
-        public MMultiAxes_ACS m_AxStage1      ;
-        public MMultiAxes_ACS m_AxCamera1     ;
-        public MMultiAxes_ACS m_AxScannerZ1   ;        
         public MMultiAxes_YMC m_AxLoader      ;
         public MMultiAxes_YMC m_AxPushPull    ;
         public MMultiAxes_YMC m_AxCentering1  ;
@@ -85,8 +82,17 @@ namespace LWDicer.Control
         public MMultiAxes_YMC m_AxCoatNozzle2 ;
         public MMultiAxes_YMC m_AxUpperHandler;
         public MMultiAxes_YMC m_AxLowerHandler;
-        //public MMultiAxes_YMC m_AxCamera1     ;
-        //public MMultiAxes_YMC m_AxLaser1      ;
+        public MMultiAxes_ACS m_AxStage1      ;
+
+#if EQUIP_DICING_DEV
+        public MMultiAxes_YMC m_AxCamera1;
+        public MMultiAxes_YMC m_AxScanner1;
+#endif
+
+#if EQUIP_266_DEV
+        public MMultiAxes_ACS m_AxCamera1     ;
+        public MMultiAxes_ACS m_AxScannerZ1   ;
+#endif
 
         // IO
         public IIO m_IO { get; private set; }
@@ -681,7 +687,7 @@ namespace LWDicer.Control
             // 5. Set Data
             ////////////////////////////////////////////////////////////////////////
             intro.SetStatus("Loading System Data", 60);
-            SetSystemDataToComponent();
+            SetSystemDataToComponent(false);
 
             intro.SetStatus("Loading Model Data", 70);
             SetModelDataToComponent();
@@ -871,23 +877,25 @@ namespace LWDicer.Control
             m_SystemInfo.GetObjectInfo(262, out objInfo);
             m_AxLowerHandler = new MMultiAxes_YMC(objInfo, refComp, data);
 
+#if EQUIP_DICING_DEV
             // CAMERA1
-            //deviceNo = (int)EYMC_Device.CAMERA1;
-            //Array.Copy(initArray, axisList, initArray.Length);
-            //axisList[DEF_Z] = (int)EACS_Axis.SCANNER_Z1;
-            //data = new CMultiAxesYMCData(deviceNo, axisList);
+            deviceNo = (int)EYMC_Device.CAMERA1;
+            Array.Copy(initArray, axisList, initArray.Length);
+            axisList[DEF_Z] = (int)EYMC_Axis.CAMERA1_Z;
+            data = new CMultiAxesYMCData(deviceNo, axisList);
 
-            //m_SystemInfo.GetObjectInfo(263, out objInfo);
-            //m_AxCamera1 = new MMultiAxes_YMC(objInfo, refComp, data);
+            m_SystemInfo.GetObjectInfo(263, out objInfo);
+            m_AxCamera1 = new MMultiAxes_YMC(objInfo, refComp, data);
 
             //// SCANNER1
-            //deviceNo = (int)EYMC_Device.SCANNER1;
-            //Array.Copy(initArray, axisList, initArray.Length);
-            //axisList[DEF_Z] = (int)EACS_Axis.CAMERA_Z;
-            //data = new CMultiAxesYMCData(deviceNo, axisList);
+            deviceNo = (int)EYMC_Device.SCANNER1;
+            Array.Copy(initArray, axisList, initArray.Length);
+            axisList[DEF_Z] = (int)EYMC_Axis.SCANNER_Z1;
+            data = new CMultiAxesYMCData(deviceNo, axisList);
 
-            //m_SystemInfo.GetObjectInfo(264, out objInfo);
-            //m_AxLaser1 = new MMultiAxes_YMC(objInfo, refComp, data);
+            m_SystemInfo.GetObjectInfo(264, out objInfo);
+            m_AxScanner1 = new MMultiAxes_YMC(objInfo, refComp, data);
+#endif
 
             return SUCCESS;
         }
@@ -908,15 +916,15 @@ namespace LWDicer.Control
 
             refComp.Motion = m_ACS;
 
+#if EQUIP_266_DEV
             // Scanner Z
-            deviceNo = (int)EACS_Device.SCANNER1_Z;
+            deviceNo = (int)EACS_Device.SCANNER_Z1;
             Array.Copy(initArray, axisList, initArray.Length);
-            axisList[DEF_Z] = (int)EACS_Device.SCANNER1_Z;
+            axisList[DEF_Z] = (int)EACS_Device.SCANNER_Z1;
             data = new CMultiAxesACSData(deviceNo, axisList);
 
             m_SystemInfo.GetObjectInfo(270, out objInfo);
             m_AxScannerZ1 = new MMultiAxes_ACS(objInfo, refComp, data);
-            
 
             // Camera Z
             deviceNo = (int)EACS_Device.CAMERA1_Z;
@@ -926,6 +934,7 @@ namespace LWDicer.Control
 
             m_SystemInfo.GetObjectInfo(271, out objInfo);
             m_AxCamera1 = new MMultiAxes_ACS(objInfo, refComp, data);
+#endif
 
             // Stage
             deviceNo = (int)EACS_Device.STAGE1;
@@ -937,7 +946,7 @@ namespace LWDicer.Control
 
             m_SystemInfo.GetObjectInfo(272, out objInfo);
             m_AxStage1 = new MMultiAxes_ACS(objInfo, refComp, data);
-            
+
             return SUCCESS;
         }
 
@@ -1311,10 +1320,13 @@ namespace LWDicer.Control
             return SUCCESS;
         }
 
-        private void SetSystemDataToComponent()
+        private void SetSystemDataToComponent(bool bLoadFromDB = true)
         {
-            m_DataManager.LoadSystemData();
-            m_DataManager.LoadModelList();
+            if(bLoadFromDB)
+            {
+                m_DataManager.LoadSystemData();
+                m_DataManager.LoadModelList();
+            }
 
             MLWDicer.bInSfaTest = m_DataManager.SystemData.UseInSfaTest;
             MLWDicer.bUseOnline = m_DataManager.SystemData.UseOnLineUse;
@@ -1442,7 +1454,7 @@ namespace LWDicer.Control
 
         public void SetModelDataToComponent()
         {
-            m_DataManager.ChangeModel(m_DataManager.SystemData.ModelName);
+            //m_DataManager.ChangeModel(m_DataManager.SystemData.ModelName);
 
             // set model data to each component
 
@@ -1574,52 +1586,6 @@ namespace LWDicer.Control
 
         }
 
-        public bool GetKeyPad(string strCurrent, out string strModify)
-        {
-            var dlg = new FormKeyPad();
-            dlg.SetValue(strCurrent);
-            dlg.TopMost = true;
-            dlg.ShowDialog();
-
-            if (dlg.DialogResult == DialogResult.OK)
-            {
-                if (dlg.ModifyNo.Text == "")
-                {
-                    strModify = "0";
-                }
-                else
-                {
-                    strModify = dlg.ModifyNo.Text;
-                }
-            }
-            else
-            {
-                strModify = strCurrent;
-                dlg.Dispose();
-                return false;
-            }
-            dlg.Dispose();
-            return true;
-        }
-
-        public bool GetKeyboard(out string strModify, string title = "Input", bool SecretMode = false)
-        {
-            var dlg = new FormKeyBoard(title, SecretMode);
-            dlg.TopMost = true;
-            dlg.ShowDialog();
-
-            if (dlg.DialogResult == DialogResult.OK)
-            {
-                strModify = dlg.InputString;
-                return true;
-            }
-            else
-            {
-                strModify = "";
-                return false;
-            }
-        }
-
         void CreateMeElevator(CObjectInfo objInfo)
         {
             CMeElevatorRefComp refComp = new CMeElevatorRefComp();
@@ -1742,7 +1708,7 @@ namespace LWDicer.Control
             refComp.IO = m_IO;
             refComp.AxStage = m_AxStage1;
             refComp.AxCamera = m_AxCamera1;
-            refComp.AxScanner = m_AxScannerZ1;
+            refComp.AxScanner = m_AxScanner1;
 
             refComp.Vacuum[(int)EStageVacuum.SELF] = m_Stage1Vac;
             

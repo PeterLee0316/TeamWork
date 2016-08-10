@@ -295,13 +295,21 @@ CSpinStep class -> CCleanStep / CCoatStep class 로 분리
 
 // Version : 0.0.29
 // Grade : ★
-// Date : 160725~
+// Date : 160725~160729
 // Context
 1. User Login & Manage User List UI & DB 수정
 2. Log 조회화면 수정. (엑셀 export부분은 추가 수정 필요)
 
-// for Project setting
-// WIN32, SIMULATION_VISION, SIMULATION_MOTION_ACS, SIMULATION_MOTION_YMC, SIMULATION_IO
+// Version : 0.0.30
+// Grade : ★
+// Date : 160808~160812
+// Context
+1. SetSystemParameter 등의 함수에서 프로그램 시작시에 두번 읽는 부분 없앰.
+2. 266 레이저 테스트 설비에 scanner를 이식하고, 그 장비에도 본 프로그램을 사용하기 시작하면서 생기게 된
+하드웨어 구성 불일치로 인해 pre define 추가 : EQUIP_DICING_DEV, EQUIP_266_DEV
+3. Jog Dialog 호출을 CMainFrame.DisplayJog 로 변경
+4. DisplayMsg 함수에서 유저의 선택을 기다리는 함수는 InquireMsg로 따로 호출하도록 변경함
+5. GetKeyPad, GetKeyboard 함수를 LWDicer class -> CMainFrame class 로 위치 변경함.(ui 관련 함수는 ui쪽에 배치)
 
 ////////////////////////////////////////////////////////////////////////////////////////////
 // LJJ

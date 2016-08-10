@@ -3903,8 +3903,8 @@ namespace LWDicer.Control
 
                     // Type
                     if ((string)(SheetRange.Cells[i + 2, 2] as Excel.Range).Value2 == Convert.ToString(EMessageType.OK)) MessageInfo.Type = EMessageType.OK;
-                    if ((string)(SheetRange.Cells[i + 2, 2] as Excel.Range).Value2 == Convert.ToString(EMessageType.OK_Cancel)) MessageInfo.Type = EMessageType.OK_Cancel;
-                    if ((string)(SheetRange.Cells[i + 2, 2] as Excel.Range).Value2 == Convert.ToString(EMessageType.Confirm_Cancel)) MessageInfo.Type = EMessageType.Confirm_Cancel;
+                    if ((string)(SheetRange.Cells[i + 2, 2] as Excel.Range).Value2 == Convert.ToString(EMessageType.OK_CANCEL)) MessageInfo.Type = EMessageType.OK_CANCEL;
+                    if ((string)(SheetRange.Cells[i + 2, 2] as Excel.Range).Value2 == Convert.ToString(EMessageType.CONFIRM_CANCEL)) MessageInfo.Type = EMessageType.CONFIRM_CANCEL;
 
                     // Message
                     MessageInfo.Message[(int)DEF_Common.ELanguage.KOREAN] = (string)(SheetRange.Cells[i + 2, 3] as Excel.Range).Value2;
@@ -4299,8 +4299,8 @@ namespace LWDicer.Control
                     (SheetRange[(int)EExcel_Sheet.Message_Info].Cells[i + 2, 1] as Excel.Range).Value2 = MessageInfoList[i].Index;
 
                     if (MessageInfoList[i].Type == EMessageType.OK) (SheetRange[(int)EExcel_Sheet.Message_Info].Cells[i + 2, 2] as Excel.Range).Value2 = Convert.ToString(EMessageType.OK);
-                    if (MessageInfoList[i].Type == EMessageType.OK_Cancel) (SheetRange[(int)EExcel_Sheet.Message_Info].Cells[i + 2, 2] as Excel.Range).Value2 = Convert.ToString(EMessageType.OK_Cancel);
-                    if (MessageInfoList[i].Type == EMessageType.Confirm_Cancel) (SheetRange[(int)EExcel_Sheet.Message_Info].Cells[i + 2, 2] as Excel.Range).Value2 = Convert.ToString(EMessageType.Confirm_Cancel);
+                    if (MessageInfoList[i].Type == EMessageType.OK_CANCEL) (SheetRange[(int)EExcel_Sheet.Message_Info].Cells[i + 2, 2] as Excel.Range).Value2 = Convert.ToString(EMessageType.OK_CANCEL);
+                    if (MessageInfoList[i].Type == EMessageType.CONFIRM_CANCEL) (SheetRange[(int)EExcel_Sheet.Message_Info].Cells[i + 2, 2] as Excel.Range).Value2 = Convert.ToString(EMessageType.CONFIRM_CANCEL);
 
                     (SheetRange[(int)EExcel_Sheet.Message_Info].Cells[i + 2, 3] as Excel.Range).Value2 = MessageInfoList[i].Message[(int)DEF_Common.ELanguage.KOREAN];
                     (SheetRange[(int)EExcel_Sheet.Message_Info].Cells[i + 2, 4] as Excel.Range).Value2 = MessageInfoList[i].Message[(int)DEF_Common.ELanguage.ENGLISH];
@@ -4361,7 +4361,7 @@ namespace LWDicer.Control
                 SystemData_Axis.ACSMotionData[index] = ObjectExtensions.Copy(tMotion);
             }
 
-            // STAGE X
+            // STAGE T
             index = (int)EACS_Axis.STAGE1_T;
             if (SystemData_Axis.ACSMotionData[index].Name == "NotExist")
             {
@@ -4543,8 +4543,9 @@ namespace LWDicer.Control
                 SystemData_Axis.MPMotionData[index] = ObjectExtensions.Copy(tMotion);
             }
 
+#if EQUIP_DICING_DEV
             // CAMERA1_Z                                           
-            index = (int)EACS_Axis.SCANNER_Z1        ;
+            index = (int)EYMC_Axis.CAMERA1_Z;
             if (SystemData_Axis.MPMotionData[index].Name == "NotExist")
             {
                 tMotion = new CMPMotionData();
@@ -4554,16 +4555,17 @@ namespace LWDicer.Control
                 SystemData_Axis.MPMotionData[index] = ObjectExtensions.Copy(tMotion);
             }
 
-            // SCANNER1_Z
-            index = (int)EACS_Axis.CAMERA_Z         ;
+            // SCANNER_Z1
+            index = (int)EYMC_Axis.SCANNER_Z1;
             if (SystemData_Axis.MPMotionData[index].Name == "NotExist")
             {
                 tMotion = new CMPMotionData();
-                tMotion.Name = "SCAN1_Z"; // "SCANNER1_Z";
+                tMotion.Name = "SCAN_Z1"; // "SCANNER_Z1";
                 tMotion.Exist = true;
 
                 SystemData_Axis.MPMotionData[index] = ObjectExtensions.Copy(tMotion);
             }
+#endif
         }
 
         public int LoadWorkPieceFromCassette()

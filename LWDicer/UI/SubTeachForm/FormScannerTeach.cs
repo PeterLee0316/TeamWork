@@ -92,8 +92,7 @@ namespace LWDicer.UI
 
         private void BtnJog_Click(object sender, EventArgs e)
         {
-            var dlg = new FormJogOperation();
-            dlg.ShowDialog();
+            CMainFrame.DisplayJog();
         }
 
         private void ResouceMapping()
@@ -257,7 +256,7 @@ namespace LWDicer.UI
             string strCurrent = "", strModify = "";
 
             strCurrent = GridTeachTable[2, e.ColIndex].Text;
-            if (!CMainFrame.LWDicer.GetKeyPad(strCurrent, out strModify))
+            if (!CMainFrame.GetKeyPad(strCurrent, out strModify))
             {
                 return;
             }
@@ -305,7 +304,7 @@ namespace LWDicer.UI
 
             strMsg = GridTeachTable[1, 0].Text + " Unit에 " + TeachPos[GetPosNo()].Text + " Teaching Data를 저장하시겠습니까?";
 
-            if (!CMainFrame.DisplayMsg(strMsg))
+            if (!CMainFrame.InquireMsg(strMsg))
             {
                 return;
             }
@@ -335,14 +334,19 @@ namespace LWDicer.UI
         {
             // Current Position Display
             string strCurPos = string.Empty;
+            double dValue = 0, dCurPos = 0, dTargetPos = 0;
 
+#if EQUIP_DICING_DEV
+            strCurPos = string.Format("{0:F4}", CMainFrame.LWDicer.m_YMC.ServoStatus[(int)EYMC_Axis.SCANNER_Z1].EncoderPos);
+            dCurPos = CMainFrame.LWDicer.m_YMC.ServoStatus[(int)EYMC_Axis.SCANNER_Z1].EncoderPos;
+#else
             strCurPos = string.Format("{0:F4}", CMainFrame.LWDicer.m_ACS.ServoStatus[(int)EACS_Axis.SCANNER_Z1].EncoderPos);
+            dCurPos = CMainFrame.LWDicer.m_ACS.ServoStatus[(int)EACS_Axis.SCANNER_Z1].EncoderPos;
+#endif
             GridTeachTable[7, 1].Text = strCurPos;
 
             // 보정값 Display
-            double dValue = 0, dCurPos = 0, dTargetPos = 0;
 
-            dCurPos = CMainFrame.LWDicer.m_ACS.ServoStatus[(int)EACS_Axis.SCANNER_Z1].EncoderPos;
             dTargetPos = Convert.ToDouble(GridTeachTable[2, 1].Text);
             dValue = dTargetPos - dCurPos;
 
@@ -374,7 +378,7 @@ namespace LWDicer.UI
 
             strMsg = TeachPos[GetPosNo()].Text + " 목표 위치를 현재 위치로 변경하시겠습니까?";
 
-            if (!CMainFrame.DisplayMsg(strMsg))
+            if (!CMainFrame.InquireMsg(strMsg))
             {
                 return;
             }
@@ -389,7 +393,7 @@ namespace LWDicer.UI
 
             strMsg = TeachPos[GetPosNo()].Text + " 목표 위치로 이동하시겠습니까?";
 
-            if (!CMainFrame.DisplayMsg(strMsg))
+            if (!CMainFrame.InquireMsg(strMsg))
             {
                 return;
             }

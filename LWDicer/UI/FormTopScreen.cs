@@ -56,7 +56,7 @@ namespace LWDicer.UI
 
         private void btnExit_Click(object sender, EventArgs e)
         {
-            if(CMainFrame.DisplayMsg("Exit System"))
+            if (CMainFrame.InquireMsg("Exit System?"))
             {
                 Environment.Exit(0);
                 System.Diagnostics.Process.GetCurrentProcess().Kill();

@@ -249,19 +249,19 @@ namespace LWDicer.UI
             switch(ListType)
             {
                 case EListHeaderType.MODEL:
-                    if (!CMainFrame.DisplayMsg("Create new maker?"))
+                    if (!CMainFrame.InquireMsg("Create new maker?"))
                     {
                         return;
                     }
                     break;
                 case EListHeaderType.CASSETTE:
-                    if (!CMainFrame.DisplayMsg("Make new folder?"))
+                    if (!CMainFrame.InquireMsg("Make new folder?"))
                     {
                         return;
                     }
                     break;
                 case EListHeaderType.WAFERFRAME:
-                    if (!CMainFrame.DisplayMsg("Make new folder?"))
+                    if (!CMainFrame.InquireMsg("Make new folder?"))
                     {
                         return;
                     }
@@ -295,7 +295,7 @@ namespace LWDicer.UI
                 return;
             }
 
-            if (!CMainFrame.DisplayMsg("Delete selected Maker?"))
+            if (!CMainFrame.InquireMsg("Delete selected Maker?"))
             {
                 return;
             }
@@ -326,7 +326,7 @@ namespace LWDicer.UI
 
             if (nCount > 0)
             {
-                if (!CMainFrame.DisplayMsg($"data exist in selected maker. Delete all?"))
+                if (!CMainFrame.InquireMsg($"data exist in selected maker. Delete all?"))
                 {
                     return;
                 }
@@ -354,7 +354,7 @@ namespace LWDicer.UI
                     return;
             }
 
-            if (!CMainFrame.DisplayMsg($"Create new data?"))
+            if (!CMainFrame.InquireMsg($"Create new data?"))
             {
                 return;
             }
@@ -363,7 +363,7 @@ namespace LWDicer.UI
             string strName, strComment, strPass1 = "", strPass2;
 
             // Name
-            if (!CMainFrame.LWDicer.GetKeyboard(out strModify, "Input Name"))
+            if (!CMainFrame.GetKeyboard(out strModify, "Input Name"))
                 return;
 
             if (String.IsNullOrWhiteSpace(strModify))
@@ -383,10 +383,10 @@ namespace LWDicer.UI
             // Password
             if(ListType == EListHeaderType.USERINFO)
             {
-                CMainFrame.LWDicer.GetKeyboard(out strModify, "Input Password", true);
+                CMainFrame.GetKeyboard(out strModify, "Input Password", true);
                 strPass1 = strModify;
 
-                CMainFrame.LWDicer.GetKeyboard(out strModify, "Input Password Repeat", true);
+                CMainFrame.GetKeyboard(out strModify, "Input Password Repeat", true);
                 strPass2 = strModify;
 
                 if(strPass1 != strPass2)
@@ -397,7 +397,7 @@ namespace LWDicer.UI
             }
 
             // Comment
-            CMainFrame.LWDicer.GetKeyboard(out strModify, "Input Comment");
+            CMainFrame.GetKeyboard(out strModify, "Input Comment");
             strComment = strModify;
 
 
@@ -456,7 +456,7 @@ namespace LWDicer.UI
                 return;
             }
 
-            if (!CMainFrame.DisplayMsg($"Delete selected data?"))
+            if (!CMainFrame.InquireMsg($"Delete selected data?"))
             {
                 return;
             }
@@ -489,7 +489,7 @@ namespace LWDicer.UI
                 return;
             }
 
-            if (!CMainFrame.DisplayMsg($"Change selected model?"))
+            if (!CMainFrame.InquireMsg($"Change selected model?"))
             {
                 return;
             }

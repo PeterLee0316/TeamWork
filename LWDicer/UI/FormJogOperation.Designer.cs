@@ -96,7 +96,7 @@
             this.BtnAxis19.Name = "BtnAxis19";
             this.BtnAxis19.Size = new System.Drawing.Size(118, 51);
             this.BtnAxis19.TabIndex = 864;
-            this.BtnAxis19.Tag = "7";
+            this.BtnAxis19.Tag = "2";
             this.BtnAxis19.Click += new System.EventHandler(this.BtnACSAxis_Click);
             // 
             // BtnAxis18
@@ -112,7 +112,7 @@
             this.BtnAxis18.Name = "BtnAxis18";
             this.BtnAxis18.Size = new System.Drawing.Size(118, 51);
             this.BtnAxis18.TabIndex = 863;
-            this.BtnAxis18.Tag = "4";
+            this.BtnAxis18.Tag = "1";
             this.BtnAxis18.Click += new System.EventHandler(this.BtnACSAxis_Click);
             // 
             // BtnAxis17
@@ -128,7 +128,7 @@
             this.BtnAxis17.Name = "BtnAxis17";
             this.BtnAxis17.Size = new System.Drawing.Size(118, 51);
             this.BtnAxis17.TabIndex = 862;
-            this.BtnAxis17.Tag = "6";
+            this.BtnAxis17.Tag = "0";
             this.BtnAxis17.Click += new System.EventHandler(this.BtnACSAxis_Click);
             // 
             // BtnAxis16
@@ -144,8 +144,8 @@
             this.BtnAxis16.Name = "BtnAxis16";
             this.BtnAxis16.Size = new System.Drawing.Size(118, 51);
             this.BtnAxis16.TabIndex = 861;
-            this.BtnAxis16.Tag = "2";
-            this.BtnAxis16.Click += new System.EventHandler(this.BtnACSAxis_Click);
+            this.BtnAxis16.Tag = "15";
+            this.BtnAxis16.Click += new System.EventHandler(this.BtnYMCAxis_Click);
             // 
             // BtnAxis15
             // 
@@ -160,8 +160,8 @@
             this.BtnAxis15.Name = "BtnAxis15";
             this.BtnAxis15.Size = new System.Drawing.Size(118, 51);
             this.BtnAxis15.TabIndex = 860;
-            this.BtnAxis15.Tag = "0";
-            this.BtnAxis15.Click += new System.EventHandler(this.BtnACSAxis_Click);
+            this.BtnAxis15.Tag = "14";
+            this.BtnAxis15.Click += new System.EventHandler(this.BtnYMCAxis_Click);
             // 
             // BtnAxis14
             // 

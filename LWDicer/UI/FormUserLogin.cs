@@ -77,7 +77,7 @@ namespace LWDicer.UI
 
         private void BtnLogin_Click(object sender, EventArgs e)
         {
-            if (!CMainFrame.DisplayMsg("Login selected user?"))
+            if (!CMainFrame.InquireMsg("Login selected user?"))
             {
                 return;
             }
@@ -85,7 +85,7 @@ namespace LWDicer.UI
             // Password Check
             string strModify;
 
-            if (!CMainFrame.LWDicer.GetKeyboard(out strModify, $"Input Password", true))
+            if (!CMainFrame.GetKeyboard(out strModify, $"Input Password", true))
             {
                 return;
             }
@@ -162,7 +162,7 @@ namespace LWDicer.UI
             // check current. if maker, not check current
             if(CMainFrame.DataManager.LoginInfo.User.Type != ELoginType.MAKER)
             {
-                if (!CMainFrame.LWDicer.GetKeyboard(out strModify, "Input Current Password", true))
+                if (!CMainFrame.GetKeyboard(out strModify, "Input Current Password", true))
                     return;
                 if (info.Password != strModify)
                 {
@@ -172,7 +172,7 @@ namespace LWDicer.UI
             }
 
             // check new
-            if (!CMainFrame.LWDicer.GetKeyboard(out strModify, "Input New Password", true))
+            if (!CMainFrame.GetKeyboard(out strModify, "Input New Password", true))
                 return;
 
             if(string.IsNullOrWhiteSpace(strModify))
@@ -183,7 +183,7 @@ namespace LWDicer.UI
             info.Password = strModify;
 
             // check confirm
-            if (!CMainFrame.LWDicer.GetKeyboard(out strModify, "Confirm New Password", true))
+            if (!CMainFrame.GetKeyboard(out strModify, "Confirm New Password", true))
                 return;
 
             if (info.Password != strModify)

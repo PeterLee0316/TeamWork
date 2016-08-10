@@ -496,7 +496,7 @@ namespace LWDicer.Control
                     length = (int)EACS_Axis.MAX;
                     break;
 
-                case (int)EACS_Device.STAGE1_X:
+               case (int)EACS_Device.STAGE1_X:
                     length = 1;
                     break;
 
@@ -506,7 +506,7 @@ namespace LWDicer.Control
 
                 case (int)EACS_Device.STAGE1_T:
                     length = 1;
-                    break;                        
+                    break;
 
                 default:
                     length = 1;

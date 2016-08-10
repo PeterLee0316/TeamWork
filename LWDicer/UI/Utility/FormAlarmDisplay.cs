@@ -61,7 +61,7 @@ namespace LWDicer.UI
         {
             if(IsEdited == true)
             {
-                if (!CMainFrame.DisplayMsg("Alarm data is not saved. Continue?"))
+                if (!CMainFrame.InquireMsg("Alarm data is not saved. Continue?"))
                 {
                     return;
                 }
@@ -186,7 +186,7 @@ namespace LWDicer.UI
 
         private void BtnEdit_Click(object sender, EventArgs e)
         {
-            if (!CMainFrame.DisplayMsg("Edit Alarm Information?"))
+            if (!CMainFrame.InquireMsg("Edit Alarm Information?"))
             {
                 return;
             }
@@ -220,7 +220,7 @@ namespace LWDicer.UI
 
         private void BtnSave_Click(object sender, EventArgs e)
         {
-            //if (!CMainFrame.DisplayMsg("Save Alarm Information?"))
+            //if (!CMainFrame.InquireMsg("Save Alarm Information?"))
             //{
             //    return;
             //}

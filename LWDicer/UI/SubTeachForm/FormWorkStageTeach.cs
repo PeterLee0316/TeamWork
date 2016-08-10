@@ -92,10 +92,7 @@ namespace LWDicer.UI
 
         private void BtnJog_Click(object sender, EventArgs e)
         {
-            var dlg = new FormJogOperation();
-            dlg.TopMost = true;
-            dlg.Show();
-            
+            CMainFrame.DisplayJog();
         }
 
         private void InitGrid()
@@ -218,6 +215,8 @@ namespace LWDicer.UI
             string strCurPos = string.Empty;
             try
             {
+                double dValue = 0, dCurPos = 0, dTargetPos = 0;
+
                 strCurPos = string.Format("{0:F4}", CMainFrame.LWDicer.m_ACS.ServoStatus[(int)EACS_Axis.STAGE1_X].EncoderPos);
                 GridStageTeachTable[7, 1].Text = strCurPos;
 
@@ -228,24 +227,19 @@ namespace LWDicer.UI
                 GridStageTeachTable[7, 3].Text = strCurPos;
 
                 // 보정값 Display
-                double dValue = 0, dCurPos = 0, dTargetPos = 0;
-
                 dCurPos = CMainFrame.LWDicer.m_ACS.ServoStatus[(int)EACS_Axis.STAGE1_X].EncoderPos;
                 dTargetPos = Convert.ToDouble(GridStageTeachTable[2, 1].Text);
                 dValue = dTargetPos - dCurPos;
-
                 GridStageTeachTable[8, 1].Text = string.Format("{0:F4}", dValue);
 
                 dCurPos = CMainFrame.LWDicer.m_ACS.ServoStatus[(int)EACS_Axis.STAGE1_Y].EncoderPos;
                 dTargetPos = Convert.ToDouble(GridStageTeachTable[2, 2].Text);
                 dValue = dTargetPos - dCurPos;
-
                 GridStageTeachTable[8, 2].Text = string.Format("{0:F4}", dValue);
 
                 dCurPos = CMainFrame.LWDicer.m_ACS.ServoStatus[(int)EACS_Axis.STAGE1_T].EncoderPos;
                 dTargetPos = Convert.ToDouble(GridStageTeachTable[2, 3].Text);
                 dValue = dTargetPos - dCurPos;
-
                 GridStageTeachTable[8, 3].Text = string.Format("{0:F4}", dValue);
             }
             catch
@@ -373,7 +367,7 @@ namespace LWDicer.UI
             {
                 strCurrent = GridStageTeachTable[3, e.ColIndex].Text;
 
-                if (!CMainFrame.LWDicer.GetKeyPad(strCurrent, out strModify))
+                if (!CMainFrame.GetKeyPad(strCurrent, out strModify))
                 {
                     return;
                 }
@@ -411,7 +405,7 @@ namespace LWDicer.UI
             {
                 strCurrent = GridStageTeachTable[6, e.ColIndex].Text;
 
-                if (!CMainFrame.LWDicer.GetKeyPad(strCurrent, out strModify))
+                if (!CMainFrame.GetKeyPad(strCurrent, out strModify))
                 {
                     return;
                 }
@@ -427,7 +421,7 @@ namespace LWDicer.UI
 
             strMsg = GridStageTeachTable[1, 0].Text + " Unit에 " + StagePos[GetPosNo()].Text + " Teaching Data를 저장하시겠습니까?";
 
-            if (!CMainFrame.DisplayMsg(strMsg))
+            if (!CMainFrame.InquireMsg(strMsg))
             {
                 return;
             }
@@ -474,7 +468,7 @@ namespace LWDicer.UI
 
             strMsg = StagePos[GetPosNo()].Text + " 목표 위치를 현재 위치로 변경하시겠습니까?";
 
-            if (!CMainFrame.DisplayMsg(strMsg))
+            if (!CMainFrame.InquireMsg(strMsg))
             {
                 return;
             }
@@ -529,7 +523,7 @@ namespace LWDicer.UI
 
             strMsg = StagePos[GetPosNo()].Text + " 목표 위치로 이동하시겠습니까?";
 
-            if (!CMainFrame.DisplayMsg(strMsg))
+            if (!CMainFrame.InquireMsg(strMsg))
             {
                 return;
             }

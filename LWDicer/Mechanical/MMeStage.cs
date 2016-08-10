@@ -168,8 +168,15 @@ namespace LWDicer.Control
 
             // MultiAxes
             public MMultiAxes_ACS AxStage;
+#if EQUIP_DICING_DEV
+            public MMultiAxes_YMC AxCamera;
+            public MMultiAxes_YMC AxScanner;
+#endif
+
+#if EQUIP_266_DEV
             public MMultiAxes_ACS AxCamera;
             public MMultiAxes_ACS AxScanner;
+#endif
 
         }
 
@@ -225,7 +232,7 @@ namespace LWDicer.Control
             
         }
 
-        #endregion
+#endregion
     }
 
     public class MMeStage : MMechanicalLayer
@@ -261,7 +268,7 @@ namespace LWDicer.Control
         }
 
         // Data & Flag 설정
-        #region Data & Flag 설정
+#region Data & Flag 설정
         public int SetData(CMeStageData source)
         {
             m_Data = ObjectExtensions.Copy(source);
@@ -338,10 +345,10 @@ namespace LWDicer.Control
             return SUCCESS;
         }
 
-        #endregion
+#endregion
 
         // Air 흡착 관련 
-        #region Air Vaccum 동작
+#region Air Vaccum 동작
         public int Absorb(bool bSkipSensor)
         {
             bool bStatus;
@@ -509,10 +516,10 @@ namespace LWDicer.Control
 
         //===============================================================================================
 
-        #endregion
+#endregion
         
         // Stage Servo 구동
-        #region Stage Move 동작
+#region Stage Move 동작
 
         public int GetStageCurPos(out CPos_XYTZ pos)
         {
@@ -1190,10 +1197,10 @@ namespace LWDicer.Control
             if (m_Data.ThetaJogSpeed < 0.1) return GenerateErrorCode(ERR_STAGE_TOO_LOW_JOG_SPEED);
             return JogStageMove(DEF_T, false, m_Data.ThetaJogSpeed);
         }
-        #endregion
+#endregion
 
         // Camera Servo 구동
-        #region Camera Move 동작
+#region Camera Move 동작
 
         public int GetCameraCurPos(out CPos_XYTZ pos)
         {
@@ -1457,10 +1464,10 @@ namespace LWDicer.Control
             return SUCCESS;
         }
 
-        #endregion
+#endregion
 
         // Scanner Servo 구동
-        #region Scanner Move 동작
+#region Scanner Move 동작
 
         public int GetScannerCurPos(out CPos_XYTZ pos)
         {
@@ -1727,10 +1734,10 @@ namespace LWDicer.Control
             return SUCCESS;
         }
 
-        #endregion
+#endregion
 
         // 모드 변경 및 Align Data Set
-        #region Control Mode & Align Data Set
+#region Control Mode & Align Data Set
         public void SetStageCtlMode(int nCtlMode)
         {
             if(nCtlMode == (int)EStageCtrlMode.LASER)
@@ -1827,10 +1834,10 @@ namespace LWDicer.Control
         {
             return m_Data.MicroScreenRotate;
         }
-        #endregion
+#endregion
 
         // Stage Pos Data 확인 및 비교
-        #region Stage Pos Data
+#region Stage Pos Data
 
         /// <summary>
         /// 현재 위치와 목표위치의 위치차이 Tolerance check
@@ -1929,10 +1936,10 @@ namespace LWDicer.Control
             return SUCCESS;
         }
 
-        #endregion
+#endregion
 
         // Stage Wafer Clamp 동작
-        #region Wafer Clamp
+#region Wafer Clamp
 
         /// Cylinder
         public int IsCylUp(out bool bStatus, int index = DEF_Z)
@@ -2059,10 +2066,10 @@ namespace LWDicer.Control
         }
 
         ////////////////////////////////////////////////////////////////////////
-        #endregion
+#endregion
 
         // Interlock 조건 확인
-        #region Interlock 확인
+#region Interlock 확인
         public int IsObjectDetected(out bool bStatus)
         {
             int iResult = m_RefComp.IO.IsOn(m_Data.InDetectObject, out bStatus);
@@ -2225,7 +2232,7 @@ namespace LWDicer.Control
             return SUCCESS;
         }
 
-        #endregion
+#endregion
 
     }
 }

@@ -115,7 +115,7 @@ namespace LWDicer.UI
 
         private void BtnExecuteIni_Click(object sender, EventArgs e)
         {
-            if (!CMainFrame.DisplayMsg("Do part initialization?"))
+            if (!CMainFrame.InquireMsg("Do part initialization?"))
             {
                 return;
             }

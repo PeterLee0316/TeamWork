@@ -43,7 +43,7 @@ namespace LWDicer.UI
         {
             string strModify = "";
 
-            if (!CMainFrame.LWDicer.GetKeyboard(out strModify))
+            if (!CMainFrame.GetKeyboard(out strModify))
             {
                 return;
             }
@@ -57,7 +57,7 @@ namespace LWDicer.UI
         {
             string strModify = "";
 
-            if (!CMainFrame.LWDicer.GetKeyboard(out strModify))
+            if (!CMainFrame.GetKeyboard(out strModify))
             {
                 return;
             }
@@ -72,7 +72,7 @@ namespace LWDicer.UI
         {
             string strModify = "";
 
-            if (!CMainFrame.LWDicer.GetKeyboard(out strModify))
+            if (!CMainFrame.GetKeyboard(out strModify))
             {
                 return;
             }
@@ -87,7 +87,7 @@ namespace LWDicer.UI
         {
             string strCurrent = "", strModify = "";
 
-            if (!CMainFrame.LWDicer.GetKeyPad(strCurrent, out strModify))
+            if (!CMainFrame.GetKeyPad(strCurrent, out strModify))
             {
                 return;
             }

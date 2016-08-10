@@ -34,10 +34,19 @@ namespace LWDicer.UI
 
         private void ResouceMapping()
         {
-            BtnList[0]  = BtnAxis1;  BtnList[1]  = BtnAxis2;  BtnList[2]  = BtnAxis3;  BtnList[3]  = BtnAxis4;  BtnList[4]  = BtnAxis5;
-            BtnList[5]  = BtnAxis6;  BtnList[6]  = BtnAxis7;  BtnList[7]  = BtnAxis8;  BtnList[8]  = BtnAxis9;  BtnList[9]  = BtnAxis10;
-            BtnList[10] = BtnAxis11; BtnList[11] = BtnAxis12; BtnList[12] = BtnAxis13; BtnList[13] = BtnAxis14; BtnList[14] = BtnAxis15;
-            BtnList[15] = BtnAxis16; BtnList[16] = BtnAxis17; BtnList[17] = BtnAxis18; BtnList[18] = BtnAxis19; BtnList[19] = BtnAxis20;
+            int index = 0;
+            BtnList[index++]  = BtnAxis1;  BtnList[index++]  = BtnAxis2;  BtnList[index++]  = BtnAxis3;  BtnList[index++]  = BtnAxis4;  BtnList[index++]  = BtnAxis5;
+            BtnList[index++]  = BtnAxis6;  BtnList[index++]  = BtnAxis7;  BtnList[index++]  = BtnAxis8;  BtnList[index++]  = BtnAxis9;  BtnList[index++]  = BtnAxis10;
+            BtnList[index++] = BtnAxis11; BtnList[index++] = BtnAxis12; BtnList[index++] = BtnAxis13; BtnList[index++] = BtnAxis14; BtnList[index++] = BtnAxis15;
+            BtnList[index++] = BtnAxis16; BtnList[index++] = BtnAxis17; BtnList[index++] = BtnAxis18; BtnList[index++] = BtnAxis19;
+
+            if(BtnList.Length > index)
+            {
+                BtnList[index++] = BtnAxis20;
+            } else
+            {
+                BtnAxis20.Visible = false;
+            }
 
             for (int i = 0; i < (int)EAxis.MAX; i++)
             {
@@ -122,7 +131,7 @@ namespace LWDicer.UI
 
         private void BtnOriginReturn_Click(object sender, EventArgs e)
         {
-            if (!CMainFrame.DisplayMsg("Do axis home retrurn?"))
+            if (!CMainFrame.InquireMsg("Do axis home retrurn?"))
             {
                 return;
             }
@@ -208,7 +217,7 @@ namespace LWDicer.UI
         private void BtnServoOn_Click(object sender, EventArgs e)
         {
             bool bRunCheckBit = false;
-            if (!CMainFrame.DisplayMsg("On selected servo?"))
+            if (!CMainFrame.InquireMsg("On selected servo?"))
             {
                 return;
             }
@@ -229,7 +238,7 @@ namespace LWDicer.UI
         {
             bool bRunCheckBit = false;
 
-            if (!CMainFrame.DisplayMsg("Off selected servo?"))
+            if (!CMainFrame.InquireMsg("Off selected servo?"))
             {
                 return;
             }

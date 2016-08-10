@@ -157,7 +157,7 @@ namespace LWDicer.UI
 
         private void SetProperty(Form form)
         {
-            form.TopLevel = false;
+            form.TopLevel = true;
             form.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             form.Dock = DockStyle.Fill;
             form.MdiParent = this;
@@ -202,16 +202,81 @@ namespace LWDicer.UI
             }
         }
 
-        static public bool DisplayMsg(string strMsg, EMessageType type = EMessageType.NONE)
+        static public bool DisplayMsg(string strMsg)
         {
             var dlg = new FormMessageBox();
-            dlg.SetMessage(strMsg, type);
+            dlg.SetMessage(strMsg, EMessageType.OK);
             dlg.TopMost = true;
             dlg.ShowDialog();
 
             if (dlg.DialogResult == DialogResult.OK || dlg.DialogResult == DialogResult.Yes)
                 return true;
             else return false;
+        }
+
+        static public bool InquireMsg(string strMsg)
+        {
+            var dlg = new FormMessageBox();
+            dlg.SetMessage(strMsg, EMessageType.OK_CANCEL);
+            dlg.TopMost = true;
+            dlg.ShowDialog();
+
+            if (dlg.DialogResult == DialogResult.OK || dlg.DialogResult == DialogResult.Yes)
+                return true;
+            else return false;
+        }
+
+        static public void DisplayJog()
+        {
+            var dlg = new FormJogOperation();
+            dlg.TopMost = true;
+            dlg.Show();
+        }
+
+        static public bool GetKeyPad(string strCurrent, out string strModify)
+        {
+            var dlg = new FormKeyPad();
+            dlg.SetValue(strCurrent);
+            dlg.TopMost = true;
+            dlg.ShowDialog();
+
+            if (dlg.DialogResult == DialogResult.OK)
+            {
+                if (dlg.ModifyNo.Text == "")
+                {
+                    strModify = "0";
+                }
+                else
+                {
+                    strModify = dlg.ModifyNo.Text;
+                }
+            }
+            else
+            {
+                strModify = strCurrent;
+                dlg.Dispose();
+                return false;
+            }
+            dlg.Dispose();
+            return true;
+        }
+
+        static public bool GetKeyboard(out string strModify, string title = "Input", bool SecretMode = false)
+        {
+            var dlg = new FormKeyBoard(title, SecretMode);
+            dlg.TopMost = true;
+            dlg.ShowDialog();
+
+            if (dlg.DialogResult == DialogResult.OK)
+            {
+                strModify = dlg.InputString;
+                return true;
+            }
+            else
+            {
+                strModify = "";
+                return false;
+            }
         }
 
         /// <summary>

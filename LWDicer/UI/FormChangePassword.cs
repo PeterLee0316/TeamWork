@@ -50,7 +50,7 @@ namespace LWDicer.UI
                 return;
             }
 
-            if (!CMainFrame.DisplayMsg("Do you like to change password?"))
+            if (!CMainFrame.InquireMsg("Do you like to change password?"))
             {
                 return;
             }
@@ -74,7 +74,7 @@ namespace LWDicer.UI
         {
             string strModify;
 
-            if (!CMainFrame.LWDicer.GetKeyboard(out strModify, "Input Current Password", true))
+            if (!CMainFrame.GetKeyboard(out strModify, "Input Current Password", true))
             {
                 //CurrentPW.Text = ""; NewPW1.Text = ""; NewPW2.Text = "";
                 return;
@@ -93,7 +93,7 @@ namespace LWDicer.UI
             //    return;
             //}
 
-            if (!CMainFrame.LWDicer.GetKeyboard(out strModify, "Input New Password", true))
+            if (!CMainFrame.GetKeyboard(out strModify, "Input New Password", true))
             {
                 NewPW1.Text = "";
                 return;
@@ -112,7 +112,7 @@ namespace LWDicer.UI
             //    return;
             //}
 
-            if (!CMainFrame.LWDicer.GetKeyboard(out strModify, "Confirm New Password", true))
+            if (!CMainFrame.GetKeyboard(out strModify, "Confirm New Password", true))
             {
                 NewPW2.Text = "";
                 return;

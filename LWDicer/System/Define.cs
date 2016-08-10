@@ -1,26 +1,11 @@
-﻿
-// define구문은 실제로는 프로젝트 속성에서 정의해야 함
-/*
-#define SIMULATION_MOTION
-#define SIMULATION_IO
-#define SIMULATION_VISION
-#define SIMULATION_SECGEM
+﻿// define구문은 실제로는 프로젝트 속성에서 정의해야 함
 
-#define WRITE_LOG_ON_FILE
-
-#define DEF_LINE_1
-//#define DEF_LINE_2
-
-#if DEF_LINE_1
-#define DEF_NORMAL_LINE
-#endif
-
-#if DEF_LINE_2
-#define DEF_MIRROR_LINE
-#endif
-*/
-
-#define SIMULATION_VISION
+// PRE_DEFINE for Project setting
+// EQUIP_DICING_DEV : Grooving & Dicing 개발 설비 (2016.08 기준)
+//                    Camera, Scanner 축은 YMC, Stage 축은 ACS 로 구성
+// EQUIP_266_DEV : 예전에 있었던 266레이저 설비에 scanner를 이식하여 진행하는 설비 (2016.08 기준)
+//                 Camera, Scanner, Stage 축은 ACS 로 구성
+// WIN32, SIMULATION_VISION, SIMULATION_MOTION_ACS, SIMULATION_MOTION_YMC, SIMULATION_IO, 
 
 using System;
 using System.Collections.Generic;
@@ -64,15 +49,24 @@ namespace LWDicer.Control
             UPPER_HANDLER_Z,
             LOWER_HANDLER_X,
             LOWER_HANDLER_Z,
-            
-            SCANNER1_Z,
-            SCANNER2_Z,
+
+#if EQUIP_DICING_DEV
+            CAMERA1_Z,
+            SCANNER_Z1,
+            STAGE1_X,
+            STAGE1_Y,
+            STAGE1_T,
+#endif
+#if EQUIP_266_DEV
+            SCANNER_Z1,
+            SCANNER_Z2,
             CAMERA1_Z,
             SPARE_AXIS_1,
             STAGE1_X,
             SPARE_AXIS_2,
             STAGE1_Y,
             STAGE1_T,
+#endif
             MAX,
         }
 
@@ -101,12 +95,17 @@ namespace LWDicer.Control
             UPPER_HANDLER_Z         ,
             LOWER_HANDLER_X         ,
             LOWER_HANDLER_Z         ,
-            //CAMERA1_Z          ,
-            //SCANNER1_Z         ,
-            //STAGE1_X           ,
-            //STAGE1_Y           ,
-            //STAGE1_T           ,
-            MAX                ,
+#if EQUIP_DICING_DEV
+            CAMERA1_Z,
+            SCANNER_Z1         ,
+#endif
+
+#if EQUIP_266_DEV
+            STAGE1_X,
+            STAGE1_Y           ,
+            STAGE1_T           ,
+#endif
+            MAX,
         }
 
         public enum EYMC_Device
@@ -138,12 +137,17 @@ namespace LWDicer.Control
             LOWER_HANDLER_Z,
 
             // Stage 
-            //CAMERA1_Z,
-            //SCANNER1_Z,
+#if EQUIP_DICING_DEV
+            CAMERA1_Z,
+            SCANNER_Z1,
+#endif
+
+#if EQUIP_266_DEV
             // Stage는 ACS 모션으로 사용하기로 해서 우선 주석 처리
-            //STAGE1_X,
-            //STAGE1_Y,
-            //STAGE1_T,
+            STAGE1_X,
+            STAGE1_Y,
+            STAGE1_T,
+#endif
 
             // 그룹으로 축 제어를 위해 선언, MultiAxes
             ALL,    // for control all axis at a time
@@ -159,9 +163,13 @@ namespace LWDicer.Control
             S2_COAT_NOZZLE,
             UPPER_HANDLER,
             LOWER_HANDLER,
-            //CAMERA1,
-            //SCANNER1,
-            //STAGE1,
+#if EQUIP_DICING_DEV
+            CAMERA1,
+            SCANNER1,
+#endif
+#if EQUIP_266_DEV
+            STAGE1,
+#endif
             MAX,
         }
         
@@ -169,16 +177,23 @@ namespace LWDicer.Control
         public enum EACS_Axis
         {
             NULL = -1,
-            SCANNER_Z1  = 0,
+#if EQUIP_266
+            SCANNER_Z1 = 0,
             SCANNER_Z2,
-            CAMERA_Z,
+            CAMERA1_Z,
             SPARE_1,
+
             STAGE1_Y,
             POLYGON,
             STAGE1_X,
-            STAGE1_T,            
+            STAGE1_T,
+#else
+            STAGE1_X,
+            STAGE1_Y,
+            STAGE1_T,
+#endif
             MAX,
-          
+
             ALL
         }
 
@@ -186,20 +201,32 @@ namespace LWDicer.Control
         {
             NULL = -1,
             // Stage 
+
+#if EQUIP_DICING_DEV
+            STAGE1_X =0,
+            STAGE1_Y,
+            STAGE1_T,
+
+            ALL,
             
-            SCANNER1_Z=0,
-            SCANNER2_Z,
+            STAGE1,
+#endif
+
+#if EQUIP_266_DEV
+            SCANNER_Z1 = 0,
+            SCANNER_Z2,
             CAMERA1_Z,
-            STAGE1_X=6,
-            STAGE1_Y=4,
-            STAGE1_T=7,
+            STAGE1_X = 6,
+            STAGE1_Y = 4,
+            STAGE1_T = 7,
 
             ALL,
             
             SCANNER1,
             CAMERA1,
             STAGE1,
-            
+#endif
+
         }
 
         public enum ECameraSelect
@@ -970,8 +997,8 @@ namespace LWDicer.Control
         {
             NONE = -1,
             OK,
-            OK_Cancel,
-            Confirm_Cancel,
+            OK_CANCEL,
+            CONFIRM_CANCEL,
             MAX,
         }
 

@@ -142,11 +142,11 @@ namespace LWDicer.UI
             //{
             //    GridCtrl[i + 17, 1].Text = Convert.ToString(EACS_Axis.STAGE1_X + i);
             //}
-            GridCtrl[15, 1].Text = Convert.ToString(EACS_Axis.SCANNER_Z1);
-            GridCtrl[16, 1].Text = Convert.ToString(EACS_Axis.CAMERA_Z);
-            GridCtrl[17, 1].Text = Convert.ToString(EACS_Axis.STAGE1_X);
-            GridCtrl[18, 1].Text = Convert.ToString(EACS_Axis.STAGE1_Y);
-            GridCtrl[19, 1].Text = Convert.ToString(EACS_Axis.STAGE1_T);
+            GridCtrl[15, 1].Text = Convert.ToString(EAxis.CAMERA1_Z);
+            GridCtrl[16, 1].Text = Convert.ToString(EAxis.SCANNER_Z1);
+            GridCtrl[17, 1].Text = Convert.ToString(EAxis.STAGE1_X);
+            GridCtrl[18, 1].Text = Convert.ToString(EAxis.STAGE1_Y);
+            GridCtrl[19, 1].Text = Convert.ToString(EAxis.STAGE1_T);
 
             for (i = 0; i < nCol + 1; i++)
             {
@@ -299,7 +299,7 @@ namespace LWDicer.UI
 
             strCurrent = GridCtrl[nRow, nCol].Text;
 
-            if (!CMainFrame.LWDicer.GetKeyPad(strCurrent, out strModify))
+            if (!CMainFrame.GetKeyPad(strCurrent, out strModify))
             {
                 return;
             }
@@ -324,7 +324,7 @@ namespace LWDicer.UI
             int i = 0;
             int gridIndex = 1;
 
-            if (!CMainFrame.DisplayMsg("Save Data?"))
+            if (!CMainFrame.InquireMsg("Save Data?"))
             {
                 return;
             }

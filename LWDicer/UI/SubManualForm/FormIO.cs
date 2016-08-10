@@ -191,7 +191,7 @@ namespace LWDicer.UI
             //strText = string.Format("{0:s} 출력을 강제로 Toggle 하시겠습니까?", OutPut.Text);
             strText = string.Format("Toggle Ouput?");
 
-            if (!CMainFrame.DisplayMsg(strText, DEF_Common.EMessageType.OK_Cancel))
+            if (!CMainFrame.InquireMsg(strText))
             {
                 return;
             }

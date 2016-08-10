@@ -23,7 +23,7 @@ namespace LWDicer.UI
 
         private void BtnParaInfoImport_Click(object sender, EventArgs e)
         {
-            if (!CMainFrame.DisplayMsg("Import data from excel?"))
+            if (!CMainFrame.InquireMsg("Import data from excel?"))
             {
                 return;
             }
@@ -34,7 +34,7 @@ namespace LWDicer.UI
 
         private void BtnAlarmInfoImport_Click(object sender, EventArgs e)
         {
-            if (!CMainFrame.DisplayMsg("Import data from excel?"))
+            if (!CMainFrame.InquireMsg("Import data from excel?"))
             {
                 return;
             }
@@ -45,7 +45,7 @@ namespace LWDicer.UI
 
         private void BtnIOInfoImport_Click(object sender, EventArgs e)
         {
-            if (!CMainFrame.DisplayMsg("Import data from excel?"))
+            if (!CMainFrame.InquireMsg("Import data from excel?"))
             {
                 return;
             }
@@ -56,7 +56,7 @@ namespace LWDicer.UI
 
         private void BtnMotorDataImport_Click(object sender, EventArgs e)
         {
-            if (!CMainFrame.DisplayMsg("Import data from excel?"))
+            if (!CMainFrame.InquireMsg("Import data from excel?"))
             {
                 return;
             }
@@ -67,7 +67,7 @@ namespace LWDicer.UI
 
         private void BtnParaInfoExport_Click(object sender, EventArgs e)
         {
-            if (!CMainFrame.DisplayMsg("Export data to excel?"))
+            if (!CMainFrame.InquireMsg("Export data to excel?"))
             {
                 return;
             }
@@ -78,7 +78,7 @@ namespace LWDicer.UI
 
         private void BtnAlarmInfoExport_Click(object sender, EventArgs e)
         {
-            if (!CMainFrame.DisplayMsg("Export data to excel?"))
+            if (!CMainFrame.InquireMsg("Export data to excel?"))
             {
                 return;
             }
@@ -89,7 +89,7 @@ namespace LWDicer.UI
 
         private void BtnIOInfoExport_Click(object sender, EventArgs e)
         {
-            if (!CMainFrame.DisplayMsg("Export data to excel?"))
+            if (!CMainFrame.InquireMsg("Export data to excel?"))
             {
                 return;
             }
@@ -100,7 +100,7 @@ namespace LWDicer.UI
 
         private void BtnMotorDataExport_Click(object sender, EventArgs e)
         {
-            if (!CMainFrame.DisplayMsg("Export data to excel?"))
+            if (!CMainFrame.InquireMsg("Export data to excel?"))
             {
                 return;
             }
@@ -126,7 +126,7 @@ namespace LWDicer.UI
 
         private void BtnMsgInfoImport_Click(object sender, EventArgs e)
         {
-            //if (!CMainFrame.DisplayMsg("Import data from excel?"))
+            //if (!CMainFrame.InquireMsg("Import data from excel?"))
             //{
             //    return;
             //}
@@ -137,7 +137,7 @@ namespace LWDicer.UI
 
         private void BtnMsgInfoExport_Click(object sender, EventArgs e)
         {
-            if (!CMainFrame.DisplayMsg("Export data to excel?"))
+            if (!CMainFrame.InquireMsg("Export data to excel?"))
             {
                 return;
             }
@@ -152,7 +152,7 @@ namespace LWDicer.UI
 
         private void BtnIOInfoDelete_Click(object sender, EventArgs e)
         {
-            if (!CMainFrame.DisplayMsg("Delete all data in database?")) return;
+            if (!CMainFrame.InquireMsg("Delete all data in database?")) return;
 
             int iResult = CMainFrame.DataManager.DeleteInfoTable(CMainFrame.DataManager.DBInfo.TableIO);
             CMainFrame.DisplayAlarm(iResult);
@@ -160,7 +160,7 @@ namespace LWDicer.UI
 
         private void BtnAlarmInfoDelete_Click(object sender, EventArgs e)
         {
-            if (!CMainFrame.DisplayMsg("Delete all data in database?")) return;
+            if (!CMainFrame.InquireMsg("Delete all data in database?")) return;
 
             int iResult = CMainFrame.DataManager.DeleteInfoTable(CMainFrame.DataManager.DBInfo.TableAlarmInfo);
             CMainFrame.DisplayAlarm(iResult);
@@ -168,7 +168,7 @@ namespace LWDicer.UI
 
         private void BtnMsgInfoDelete_Click(object sender, EventArgs e)
         {
-            if (!CMainFrame.DisplayMsg("Delete all data in database?")) return;
+            if (!CMainFrame.InquireMsg("Delete all data in database?")) return;
 
             int iResult = CMainFrame.DataManager.DeleteInfoTable(CMainFrame.DataManager.DBInfo.TableMessageInfo);
             CMainFrame.DisplayAlarm(iResult);
@@ -176,7 +176,7 @@ namespace LWDicer.UI
 
         private void BtnParaInfoDelete_Click(object sender, EventArgs e)
         {
-            if (!CMainFrame.DisplayMsg("Delete all data in database?")) return;
+            if (!CMainFrame.InquireMsg("Delete all data in database?")) return;
 
             int iResult = CMainFrame.DataManager.DeleteInfoTable(CMainFrame.DataManager.DBInfo.TableParameter);
             CMainFrame.DisplayAlarm(iResult);
