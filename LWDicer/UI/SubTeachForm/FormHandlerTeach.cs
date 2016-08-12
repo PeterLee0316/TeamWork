@@ -566,16 +566,10 @@ namespace LWDicer.UI
 
         private void BtnUpChangeValue_Click(object sender, EventArgs e)
         {
-            string strCurrent = "", strMsg = string.Empty;
+            string strMsg = "Change target position to current position?";
+            if (!CMainFrame.InquireMsg(strMsg)) return;
 
-            strMsg = TeachUpPos[GetUpPosNo()].Text + " 목표 위치를 현재 위치로 변경하시겠습니까?";
-
-            if (!CMainFrame.InquireMsg(strMsg))
-            {
-                return;
-            }
-
-            strCurrent = GridUpHandlerTeachTable[7, 1].Text;
+            string strCurrent = GridUpHandlerTeachTable[7, 1].Text;
             ChangeUpHandlerTargetPos(strCurrent, 1);
 
             strCurrent = GridUpHandlerTeachTable[7, 2].Text;
@@ -588,11 +582,7 @@ namespace LWDicer.UI
             string strCurrent = "", strMsg = string.Empty;
 
             strMsg = TeachLoPos[GetUpPosNo()].Text + " 목표 위치를 현재 위치로 변경하시겠습니까?";
-
-            if (!CMainFrame.InquireMsg(strMsg))
-            {
-                return;
-            }
+            if (!CMainFrame.InquireMsg(strMsg)) return;
 
             strCurrent = GridLoHandlerTeachTable[7, 1].Text;
             ChangeLoHandlerTargetPos(strCurrent, 1);
@@ -604,14 +594,9 @@ namespace LWDicer.UI
 
         private void BtnLoSave_Click(object sender, EventArgs e)
         {
-            string strMsg = string.Empty, strData = string.Empty;
-
-            strMsg = GridLoHandlerTeachTable[1, 0].Text + " Unit에 " + TeachLoPos[GetLoPosNo()].Text + " Teaching Data를 저장하시겠습니까?";
-
-            if (!CMainFrame.InquireMsg(strMsg))
-            {
-                return;
-            }
+            string strData = string.Empty;
+            string strMsg = "Save teaching data?";
+            if (!CMainFrame.InquireMsg(strMsg)) return;
 
             if (GetDataMode() == FixedData)
             {
@@ -642,14 +627,9 @@ namespace LWDicer.UI
 
         private void BtnUpSave_Click(object sender, EventArgs e)
         {
-            string strMsg = string.Empty, strData = string.Empty;
-
-            strMsg = GridUpHandlerTeachTable[1, 0].Text + " Unit에 " + TeachUpPos[GetUpPosNo()].Text + " Teaching Data를 저장하시겠습니까?";
-
-            if (!CMainFrame.InquireMsg(strMsg))
-            {
-                return;
-            }
+            string strData = string.Empty;
+            string strMsg = "Save teaching data?";
+            if (!CMainFrame.InquireMsg(strMsg)) return;
 
             if (GetDataMode() == FixedData)
             {
@@ -760,26 +740,14 @@ namespace LWDicer.UI
 
         private void BtnUpTeachMove_Click(object sender, EventArgs e)
         {
-            string strMsg = string.Empty;
-
-            strMsg = TeachUpPos[GetUpPosNo()].Text + " 목표 위치로 이동하시겠습니까?";
-
-            if (!CMainFrame.InquireMsg(strMsg))
-            {
-                return;
-            }
+            string strMsg = "Move to selected position?";
+            if (!CMainFrame.InquireMsg(strMsg)) return;
         }
 
         private void BtnLoTeachMove_Click(object sender, EventArgs e)
         {
-            string strMsg = string.Empty;
-
-            strMsg = TeachLoPos[GetLoPosNo()].Text + " 목표 위치로 이동하시겠습니까?";
-
-            if (!CMainFrame.InquireMsg(strMsg))
-            {
-                return;
-            }
+            string strMsg = "Move to selected position?";
+            if (!CMainFrame.InquireMsg(strMsg)) return;
         }
 
         private void BtnManualOP_Click(object sender, EventArgs e)

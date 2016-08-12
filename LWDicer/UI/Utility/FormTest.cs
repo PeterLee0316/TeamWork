@@ -141,6 +141,7 @@ namespace LWDicer.UI
             CtrlList.Add((MObject)CMainFrame.LWDicer.m_AxCamera1           );
             CtrlList.Add((MObject)CMainFrame.LWDicer.m_AxScanner1         );
 
+            TextTest1.Text = "0";
         }
 
         private void buttonAdv1_Click(object sender, EventArgs e)
@@ -153,6 +154,13 @@ namespace LWDicer.UI
                 alarm = CtrlList[comboControll.SelectedIndex].GenerateErrorCode(Convert.ToInt32(TextAlarmIndex.Text));
                 ((MWorkerThread)ProcessList[comboProcess.SelectedIndex]).ReportAlarm(alarm);
             }
+        }
+
+        private void LabelTest1_Click(object sender, EventArgs e)
+        {
+      
+            int servoNo = Convert.ToInt32(TextTest1.Text);
+            CMainFrame.LWDicer.m_YMC.GetServoStatus(servoNo);
         }
     }
 }

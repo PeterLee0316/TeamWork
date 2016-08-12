@@ -42,14 +42,14 @@ namespace MotionYMC
         // Function name: ymcDeclareAxis (Declaring axis handle)
         [DllImport(DllName)]
         public static extern UInt32 ymcDeclareAxis(
-            UInt16 RackNo,
-            UInt16 SlotNo,
-            UInt16 SubslotNo,
-            UInt16 AxisNo,
-            UInt16 LogicalAxisNo,
-            UInt16 AxisType,
-            String pAxisName,
-            ref UInt32 phAxis);
+            UInt16 RackNo,          // 
+            UInt16 SlotNo,          // 
+            UInt16 SubslotNo,       // 
+            UInt16 AxisNo,          // Each connected axis is defined by the link Assignment of SVB/SVC which a controller has buit-in. Please set a station number (number of the chart below red frame) that an applicable axis is defined.
+            UInt16 LogicalAxisNo,   // Sets the logical axis number for the axis number specified in AxisNo. Set an integer between 1 and 255.
+            UInt16 AxisType,        // Specifies the axis type. 
+            String pAxisName,       // Specifies the axis name for the axis number specified in AxisNo. 
+            ref UInt32 phAxis);     // Specifies the pointer to get a Axis Handle.
 
         // Function name: ymcClearAxis (Deleting axis definition)
         [DllImport(DllName)]
@@ -497,7 +497,7 @@ namespace MotionYMC
         // Function name: ymcClearAlarm (Clearing alarm)
         [DllImport(DllName)]
         public static extern UInt32 ymcClearAlarm(
-            UInt32 hAlarm);
+            UInt32 hAlarm);     // Specifies the Alarm Handle to be cleared. Specifying "0" will clear all the alarms in the Machine Controller. 
 
         // Function name: ymcClearServoAlarm (Clearing alarm)
         [DllImport(DllName)]

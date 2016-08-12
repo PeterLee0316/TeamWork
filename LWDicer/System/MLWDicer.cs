@@ -1161,6 +1161,8 @@ namespace LWDicer.Control
         {
             CTrsAutoManagerRefComp refComp = new CTrsAutoManagerRefComp();
             refComp.IO = m_IO;
+            refComp.YMC = m_YMC;
+            refComp.ACS = m_ACS;
             refComp.OpPanel = m_OpPanel;
 
             refComp.ctrlOpPanel = m_ctrlOpPanel;

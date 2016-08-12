@@ -198,6 +198,7 @@ namespace LWDicer.UI
             {
                 CAlarm alarm = LWDicer.GetAlarmInfo(alarmcode, pid, saveLog);
                 var dlg = new FormAlarmDisplay(alarm);
+                dlg.TopMost = true;
                 dlg.ShowDialog();
             }
         }

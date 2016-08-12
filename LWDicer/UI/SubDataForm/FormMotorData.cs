@@ -124,9 +124,9 @@ namespace LWDicer.UI
             GridCtrl[0, 19].Text = "Jog Fast Dec";
             GridCtrl[0, 20].Text = "S/W P Limit";
             GridCtrl[0, 21].Text = "S/W N Limit";
-            GridCtrl[0, 22].Text = "Move Limit";
-            GridCtrl[0, 23].Text = "After Move";
-            GridCtrl[0, 24].Text = "Origin Limit";
+            GridCtrl[0, 22].Text = "Move Limit (sec)";
+            GridCtrl[0, 23].Text = "After Move (sec)";
+            GridCtrl[0, 24].Text = "Origin Limit (sec)";
             GridCtrl[0, 25].Text = "Home Method";
             GridCtrl[0, 26].Text = "Home Dir";
             GridCtrl[0, 27].Text = "Home Fast Speed";
