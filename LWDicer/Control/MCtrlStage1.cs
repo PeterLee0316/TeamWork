@@ -195,7 +195,31 @@ namespace LWDicer.Control
         {
             return m_RefComp.Stage.ClampClose();
         }
-        
+
+        public int LaserProcessMof()
+        {
+            return m_RefComp.Stage.LaserProcess(EScannerMode.MOF);
+        }
+
+        public int LaserProcessStill()
+        {
+            MoveToStageWaitPos();
+            m_RefComp.Stage.LaserProcess(EScannerMode.STILL);
+
+            MoveToStageLoadPos();
+            m_RefComp.Stage.LaserProcess(EScannerMode.STILL);
+
+            MoveToMacroCam();
+            m_RefComp.Stage.LaserProcess(EScannerMode.STILL);
+
+            MoveToProcessPos();
+            m_RefComp.Stage.LaserProcess(EScannerMode.STILL);
+
+
+            return SUCCESS;
+        }
+
+
         /// <summary>
         /// 
         /// </summary>

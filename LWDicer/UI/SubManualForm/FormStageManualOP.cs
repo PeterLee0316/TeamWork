@@ -83,5 +83,53 @@ namespace LWDicer.UI
         {
             CMainFrame.LWDicer.m_MeStage.ClampClose();
         }
+
+        private void btnLaserProcessMof_Click(object sender, EventArgs e)
+        {
+            CMainFrame.LWDicer.m_ctrlStage1.LaserProcessMof();
+        }
+
+        private void btnLaserProcessStep_Click(object sender, EventArgs e)
+        {
+            CMainFrame.LWDicer.m_ctrlStage1.LaserProcessStill();
+        }
+
+        private void lblProcessCount_Click(object sender, EventArgs e)
+        {
+            string strCurrent = "", strModify = "";
+
+            strCurrent = lblProcessCount.Text;
+
+            if (!CMainFrame.GetKeyPad(strCurrent, out strModify))
+            {
+                return;
+            }
+            
+            lblProcessCount.Text = strModify;
+
+            CMainFrame.LWDicer.m_MeStage.LaserProcessCount(Convert.ToInt32(strModify));
+        }
+
+        private void TmrManualOP_Tick_1(object sender, EventArgs e)
+        {
+            if (CMainFrame.LWDicer.m_MeStage.IsScannerBusy()) ChangeLabelText(lblProcessExpoBusy, "On");
+            else ChangeLabelText(lblProcessExpoBusy, "Off");
+
+            if (CMainFrame.LWDicer.m_MeStage.IsScannerJobStart()) ChangeLabelText(lblProcessJobStart, "On");
+            else ChangeLabelText(lblProcessJobStart, "Off");
+
+            ChangeLabelText(lblProcessCountRead, Convert.ToString(CMainFrame.LWDicer.m_MeStage.GetScannerRunCount())); 
+        }
+
+        private void ChangeLabelText(Syncfusion.Windows.Forms.Tools.GradientLabel objectLabel, string strMsg)        
+        {
+            if (objectLabel.Text == strMsg)
+                return;
+            else
+            {
+                objectLabel.Text = strMsg;
+            }
+
+        }
     }
 }

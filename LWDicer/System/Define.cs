@@ -22,6 +22,35 @@ namespace LWDicer.Control
         // SYSTEM_VER 및 개인의 작업 내용에 대한 History 관리는 History.txt 에 기록합니다.
         public const string SYSTEM_VER = "Ver 0.0.3";
 
+        // Scanner
+        public enum EScannerMode
+        {
+            MOF = 0,
+            STILL,
+        }
+        public enum EScannerStatus
+        {
+            EXPO_BUSY = 0,
+            JOB_START,
+            PRO_COUNT,
+            MAX,
+        }
+        public enum EPolygonPara
+        {
+            CONFIG,
+            ISN,
+            CSN,
+        }
+
+        public enum EVisionMode
+        {
+            CALIBRATION,
+            MEASUREMENT,
+        }
+
+        public const int DEF_SCANNER_MOF_RUN = 11;
+        public const int DEF_SCANNER_STILL_RUN = 12;
+
         // Motion
 
         public enum EMotionSelect
@@ -63,7 +92,7 @@ namespace LWDicer.Control
             CAMERA1_Z,
             SPARE_AXIS_1,
             STAGE1_X,
-            SPARE_AXIS_2,
+            SCANNER_CMD,
             STAGE1_Y,
             STAGE1_T,
 #endif
@@ -100,11 +129,11 @@ namespace LWDicer.Control
             SCANNER_Z1         ,
 #endif
 
-#if EQUIP_266_DEV
-            STAGE1_X,
-            STAGE1_Y           ,
-            STAGE1_T           ,
-#endif
+//#if EQUIP_266_DEV
+//            STAGE1_X,
+//            STAGE1_Y           ,
+//            STAGE1_T           ,
+//#endif
             MAX,
         }
 
@@ -177,7 +206,7 @@ namespace LWDicer.Control
         public enum EACS_Axis
         {
             NULL = -1,
-#if EQUIP_266
+#if EQUIP_266_DEV
             SCANNER_Z1 = 0,
             SCANNER_Z2,
             CAMERA1_Z,
@@ -513,7 +542,8 @@ namespace LWDicer.Control
 
     public class DEF_Common
     {
-        public const int SUCCESS = 0;
+        public const int SUCCESS  = 0;
+        public const int RUN_FAIL = 1;
         public const string MSG_UNDEFINED = "undefined";
 
         //
@@ -771,7 +801,10 @@ namespace LWDicer.Control
             public string SystemDir         { get; private set; } // System Data가 저장되는 디렉토리
             public string ModelDir          { get; private set; } // Model Data가 저장되는 디렉토리 
             public string ScannerLogDir     { get; private set; } // Poligon Scanner와의 전송에 필요한 image, ini file 저장용
+            public string ScannerDataDir { get; private set; } // Poligon Scanner와의 전송에 필요한 image, ini file 저장용
             public string ImageLogDir       { get; private set; } // Vision에서 모델에 관계없이 image file 저장할 필요가 있을때 사용
+            public string ImageDataDir { get; private set; } // Vision에서 모델에 관계없이 image file 저장할 필요가 있을때 사용
+
 
             /////////////////////////////////////////////////////////////////////
             // Excel
@@ -828,14 +861,18 @@ namespace LWDicer.Control
                 SystemDir       = ConfigurationManager.AppSettings["AppFilePath"] + @"\SystemData\";
                 ModelDir        = ConfigurationManager.AppSettings["AppFilePath"] + @"\ModelData\";
                 ScannerLogDir   = ConfigurationManager.AppSettings["AppFilePath"] + @"\ScannerLog\";
+                ScannerDataDir  = ConfigurationManager.AppSettings["AppFilePath"] + @"ScannerData\";
                 ImageLogDir     = ConfigurationManager.AppSettings["AppFilePath"] + @"\ImageLog\";
+                ImageDataDir = ConfigurationManager.AppSettings["AppFilePath"] + @"\ImageData\";
 
                 System.IO.Directory.CreateDirectory(DBDir);
                 System.IO.Directory.CreateDirectory(DBDir_Log);
                 System.IO.Directory.CreateDirectory(SystemDir);
                 System.IO.Directory.CreateDirectory(ModelDir);
                 System.IO.Directory.CreateDirectory(ScannerLogDir);
+                System.IO.Directory.CreateDirectory(ScannerDataDir);
                 System.IO.Directory.CreateDirectory(ImageLogDir);
+                System.IO.Directory.CreateDirectory(ImageDataDir);
             }
         }
 
@@ -1876,7 +1913,8 @@ namespace LWDicer.Control
         public const int ERR_OPPANEL_INVALID_JOG_KEY_TYPE                         = 4;
         public const int ERR_OPPANEL_INVALID_JOG_UNIT_INDEX                       = 5;
         public const int ERR_OPPANEL_INVALID_INIT_UNIT_INDEX                      = 6;
-        public const int ERR_OPPANEL_AMP_FAULT                                    = 7;
+        public const int ERR_OPPANEL_INVALID_SERVO_UNIT_INDEX                     = 7;
+        public const int ERR_OPPANEL_AMP_FAULT                                    = 8;
 
         ////////////////////////////////////////////////////////////////////
         // Hardware Layer

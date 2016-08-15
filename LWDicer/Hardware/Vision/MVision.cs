@@ -462,6 +462,21 @@ namespace LWDicer.Control
 
         }
 
+        public int SaveImage(int iCamNo, string strFileName)
+        {
+#if SIMULATION_VISION
+            return SUCCESS;
+#endif
+            // Vision System이 초기화 된지를 확인함
+            if (m_bSystemInit == false) return GenerateErrorCode(ERR_VISION_SYSTEM_FAIL);
+
+
+
+            m_RefComp.View[iCamNo].SaveImage(strFileName + $"_CAM_{iCamNo}.bmp");
+
+            return SUCCESS;
+        }
+
         /// <summary>
         /// SaveModelImage: Model Image를 저장함.
         /// </summary>

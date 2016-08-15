@@ -309,7 +309,7 @@ CSpinStep class -> CCleanStep / CCoatStep class 로 분리
 하드웨어 구성 불일치로 인해 pre define 추가 : EQUIP_DICING_DEV, EQUIP_266_DEV
 3. Jog Dialog 호출을 CMainFrame.DisplayJog 로 변경
 4. DisplayMsg 함수에서 유저의 선택을 기다리는 함수는 InquireMsg로 따로 호출하도록 변경함
-5. GetKeyPad, GetKeyboard 함수를 LWDicer class -> CMainFrame class 로 위치 변경함.(ui 관련 함수는 ui쪽에 배치)
+5. CMainFrame.GetKeyPad, GetKeyboard 함수를 LWDicer class -> CMainFrame class 로 위치 변경함.(ui 관련 함수는 ui쪽에 배치)
 
 ////////////////////////////////////////////////////////////////////////////////////////////
 // LJJ
@@ -425,7 +425,24 @@ CSpinStep class -> CCleanStep / CCoatStep class 로 분리
 2. MMeStage & MCtrlStage Data 정리
 3. MMeElevator & MCtrlLoader Data 정리
 
+// Grade : ★
+// Date : 2016-08-08 ~2016-08-12
+// Context
 
+1. MACS
+	- HomeReturn의 지령인 Buffer 실행을 외부 함수로 변경함
+	- Laser Process 함수 추가 (Buffer 실행 함수를 사용함)
+	- Buffer 의 내부 메모리에 데이터 Write 기능 추가
+2. MOpPanel
+	- Home Return의 확인 부분 수정 
+	  ACS의 HomeFlag Bit가 정상 동작으로 해당 기능을 Enable함. 
+
+// Grade : ★
+// Date : 2016-08-15
+// Context
+
+1. Scanner 프로그램을 합체함
+	- Scanner Form 구성 및 Class를 첨부해서 error부분 수정함.
 
 ////////////////////////////////////////////////////////////////////////////////////////////
 // LHS

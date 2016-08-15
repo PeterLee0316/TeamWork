@@ -516,10 +516,48 @@ namespace LWDicer.Control
 
         //===============================================================================================
 
-#endregion
-        
+        #endregion
+
+        // Laser Process 구동
+        #region Laser Process 동작
+        public int LaserProcess(EScannerMode processMode)
+        {
+            int bufferNum = 0;
+
+            if (processMode == EScannerMode.MOF) bufferNum = DEF_SCANNER_MOF_RUN;
+            if (processMode == EScannerMode.STILL) bufferNum = DEF_SCANNER_STILL_RUN;
+
+            int iResult = m_RefComp.AxStage.LaserProcess(bufferNum);
+
+            return iResult;
+        }
+
+        public int LaserProcessCount(int countSet)
+        {
+            int iResult = m_RefComp.AxStage.LaserProcessCount(countSet);
+
+            return iResult;
+        }
+
+        public bool IsScannerBusy()
+        {
+            return m_RefComp.AxStage.IsScannerBusy();
+        }
+
+        public bool IsScannerJobStart()
+        {
+            return m_RefComp.AxStage.IsScannerJobStart();
+        }
+
+        public int GetScannerRunCount()
+        {
+            return m_RefComp.AxStage.GetScannerRunCount();
+        }
+
+
+        #endregion
         // Stage Servo 구동
-#region Stage Move 동작
+        #region Stage Move 동작
 
         public int GetStageCurPos(out CPos_XYTZ pos)
         {

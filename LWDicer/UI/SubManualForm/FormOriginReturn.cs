@@ -144,7 +144,7 @@ namespace LWDicer.UI
             //InitRun();
             OriginReturn();
             // 2.
-            //UpdateUnitStatus();
+            UpdateUnitStatus();
 
             // 3. 
             CMainFrame.LWDicer.m_trsAutoManager.IsInitState = false;

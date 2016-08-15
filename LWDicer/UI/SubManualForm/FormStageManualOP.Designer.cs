@@ -42,6 +42,17 @@
             this.gradientLabel1 = new Syncfusion.Windows.Forms.Tools.GradientLabel();
             this.LabelClampTime = new Syncfusion.Windows.Forms.Tools.GradientLabel();
             this.gradientLabel4 = new Syncfusion.Windows.Forms.Tools.GradientLabel();
+            this.gradientLabel2 = new Syncfusion.Windows.Forms.Tools.GradientLabel();
+            this.btnLaserProcessMof = new Syncfusion.Windows.Forms.ButtonAdv();
+            this.btnLaserProcessStep = new Syncfusion.Windows.Forms.ButtonAdv();
+            this.lblProcessCount = new Syncfusion.Windows.Forms.Tools.GradientLabel();
+            this.gradientLabel5 = new Syncfusion.Windows.Forms.Tools.GradientLabel();
+            this.gradientLabel6 = new Syncfusion.Windows.Forms.Tools.GradientLabel();
+            this.lblProcessCountRead = new Syncfusion.Windows.Forms.Tools.GradientLabel();
+            this.gradientLabel7 = new Syncfusion.Windows.Forms.Tools.GradientLabel();
+            this.lblProcessExpoBusy = new Syncfusion.Windows.Forms.Tools.GradientLabel();
+            this.gradientLabel9 = new Syncfusion.Windows.Forms.Tools.GradientLabel();
+            this.lblProcessJobStart = new Syncfusion.Windows.Forms.Tools.GradientLabel();
             this.SuspendLayout();
             // 
             // BtnExit
@@ -58,6 +69,10 @@
             this.BtnExit.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.BtnExit.UseVisualStyleBackColor = true;
             this.BtnExit.Click += new System.EventHandler(this.BtnExit_Click);
+            // 
+            // TmrManualOP
+            // 
+            this.TmrManualOP.Tick += new System.EventHandler(this.TmrManualOP_Tick_1);
             // 
             // gradientLabel3
             // 
@@ -221,11 +236,201 @@
             this.gradientLabel4.Text = "수행 시간";
             this.gradientLabel4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // gradientLabel2
+            // 
+            this.gradientLabel2.BackgroundColor = new Syncfusion.Drawing.BrushInfo(Syncfusion.Drawing.GradientStyle.ForwardDiagonal, System.Drawing.Color.White, System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255))))));
+            this.gradientLabel2.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
+            | System.Windows.Forms.Border3DSide.Right) 
+            | System.Windows.Forms.Border3DSide.Bottom)));
+            this.gradientLabel2.BorderStyle = System.Windows.Forms.Border3DStyle.Bump;
+            this.gradientLabel2.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.gradientLabel2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.gradientLabel2.Location = new System.Drawing.Point(292, 189);
+            this.gradientLabel2.Name = "gradientLabel2";
+            this.gradientLabel2.Size = new System.Drawing.Size(142, 126);
+            this.gradientLabel2.TabIndex = 963;
+            this.gradientLabel2.Text = "Laser Process";
+            this.gradientLabel2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // btnLaserProcessMof
+            // 
+            this.btnLaserProcessMof.BackColor = System.Drawing.Color.LightGray;
+            this.btnLaserProcessMof.BorderStyleAdv = Syncfusion.Windows.Forms.ButtonAdvBorderStyle.Solid;
+            this.btnLaserProcessMof.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.btnLaserProcessMof.FlatAppearance.BorderSize = 5;
+            this.btnLaserProcessMof.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
+            this.btnLaserProcessMof.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
+            this.btnLaserProcessMof.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.btnLaserProcessMof.Location = new System.Drawing.Point(440, 188);
+            this.btnLaserProcessMof.Name = "btnLaserProcessMof";
+            this.btnLaserProcessMof.Size = new System.Drawing.Size(135, 64);
+            this.btnLaserProcessMof.TabIndex = 962;
+            this.btnLaserProcessMof.Tag = "0";
+            this.btnLaserProcessMof.Text = "MOF Run";
+            this.btnLaserProcessMof.Click += new System.EventHandler(this.btnLaserProcessMof_Click);
+            // 
+            // btnLaserProcessStep
+            // 
+            this.btnLaserProcessStep.BackColor = System.Drawing.Color.LightGray;
+            this.btnLaserProcessStep.BorderStyleAdv = Syncfusion.Windows.Forms.ButtonAdvBorderStyle.Solid;
+            this.btnLaserProcessStep.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.btnLaserProcessStep.FlatAppearance.BorderSize = 5;
+            this.btnLaserProcessStep.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
+            this.btnLaserProcessStep.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
+            this.btnLaserProcessStep.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.btnLaserProcessStep.Location = new System.Drawing.Point(440, 252);
+            this.btnLaserProcessStep.Name = "btnLaserProcessStep";
+            this.btnLaserProcessStep.Size = new System.Drawing.Size(135, 64);
+            this.btnLaserProcessStep.TabIndex = 964;
+            this.btnLaserProcessStep.Tag = "0";
+            this.btnLaserProcessStep.Text = "Still Run";
+            this.btnLaserProcessStep.Click += new System.EventHandler(this.btnLaserProcessStep_Click);
+            // 
+            // lblProcessCount
+            // 
+            this.lblProcessCount.BackgroundColor = new Syncfusion.Drawing.BrushInfo();
+            this.lblProcessCount.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
+            | System.Windows.Forms.Border3DSide.Right) 
+            | System.Windows.Forms.Border3DSide.Bottom)));
+            this.lblProcessCount.BorderStyle = System.Windows.Forms.Border3DStyle.Bump;
+            this.lblProcessCount.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.lblProcessCount.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.lblProcessCount.Location = new System.Drawing.Point(204, 189);
+            this.lblProcessCount.Name = "lblProcessCount";
+            this.lblProcessCount.Size = new System.Drawing.Size(84, 38);
+            this.lblProcessCount.TabIndex = 965;
+            this.lblProcessCount.Text = "1";
+            this.lblProcessCount.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lblProcessCount.Click += new System.EventHandler(this.lblProcessCount_Click);
+            // 
+            // gradientLabel5
+            // 
+            this.gradientLabel5.BackgroundColor = new Syncfusion.Drawing.BrushInfo(Syncfusion.Drawing.GradientStyle.ForwardDiagonal, System.Drawing.Color.White, System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255))))));
+            this.gradientLabel5.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
+            | System.Windows.Forms.Border3DSide.Right) 
+            | System.Windows.Forms.Border3DSide.Bottom)));
+            this.gradientLabel5.BorderStyle = System.Windows.Forms.Border3DStyle.Bump;
+            this.gradientLabel5.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.gradientLabel5.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.gradientLabel5.Location = new System.Drawing.Point(12, 189);
+            this.gradientLabel5.Name = "gradientLabel5";
+            this.gradientLabel5.Size = new System.Drawing.Size(186, 38);
+            this.gradientLabel5.TabIndex = 966;
+            this.gradientLabel5.Text = "Process Count Write";
+            this.gradientLabel5.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // gradientLabel6
+            // 
+            this.gradientLabel6.BackgroundColor = new Syncfusion.Drawing.BrushInfo(Syncfusion.Drawing.GradientStyle.ForwardDiagonal, System.Drawing.Color.White, System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255))))));
+            this.gradientLabel6.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
+            | System.Windows.Forms.Border3DSide.Right) 
+            | System.Windows.Forms.Border3DSide.Bottom)));
+            this.gradientLabel6.BorderStyle = System.Windows.Forms.Border3DStyle.Bump;
+            this.gradientLabel6.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.gradientLabel6.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.gradientLabel6.Location = new System.Drawing.Point(12, 227);
+            this.gradientLabel6.Name = "gradientLabel6";
+            this.gradientLabel6.Size = new System.Drawing.Size(186, 38);
+            this.gradientLabel6.TabIndex = 968;
+            this.gradientLabel6.Text = "Process Count Read";
+            this.gradientLabel6.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lblProcessCountRead
+            // 
+            this.lblProcessCountRead.BackgroundColor = new Syncfusion.Drawing.BrushInfo();
+            this.lblProcessCountRead.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
+            | System.Windows.Forms.Border3DSide.Right) 
+            | System.Windows.Forms.Border3DSide.Bottom)));
+            this.lblProcessCountRead.BorderStyle = System.Windows.Forms.Border3DStyle.Bump;
+            this.lblProcessCountRead.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.lblProcessCountRead.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.lblProcessCountRead.Location = new System.Drawing.Point(204, 227);
+            this.lblProcessCountRead.Name = "lblProcessCountRead";
+            this.lblProcessCountRead.Size = new System.Drawing.Size(84, 38);
+            this.lblProcessCountRead.TabIndex = 967;
+            this.lblProcessCountRead.Text = "1";
+            this.lblProcessCountRead.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // gradientLabel7
+            // 
+            this.gradientLabel7.BackgroundColor = new Syncfusion.Drawing.BrushInfo(Syncfusion.Drawing.GradientStyle.ForwardDiagonal, System.Drawing.Color.White, System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255))))));
+            this.gradientLabel7.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
+            | System.Windows.Forms.Border3DSide.Right) 
+            | System.Windows.Forms.Border3DSide.Bottom)));
+            this.gradientLabel7.BorderStyle = System.Windows.Forms.Border3DStyle.Bump;
+            this.gradientLabel7.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.gradientLabel7.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.gradientLabel7.Location = new System.Drawing.Point(12, 303);
+            this.gradientLabel7.Name = "gradientLabel7";
+            this.gradientLabel7.Size = new System.Drawing.Size(186, 38);
+            this.gradientLabel7.TabIndex = 972;
+            this.gradientLabel7.Text = "Process Exposure Busy";
+            this.gradientLabel7.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lblProcessExpoBusy
+            // 
+            this.lblProcessExpoBusy.BackgroundColor = new Syncfusion.Drawing.BrushInfo();
+            this.lblProcessExpoBusy.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
+            | System.Windows.Forms.Border3DSide.Right) 
+            | System.Windows.Forms.Border3DSide.Bottom)));
+            this.lblProcessExpoBusy.BorderStyle = System.Windows.Forms.Border3DStyle.Bump;
+            this.lblProcessExpoBusy.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.lblProcessExpoBusy.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.lblProcessExpoBusy.Location = new System.Drawing.Point(204, 303);
+            this.lblProcessExpoBusy.Name = "lblProcessExpoBusy";
+            this.lblProcessExpoBusy.Size = new System.Drawing.Size(84, 38);
+            this.lblProcessExpoBusy.TabIndex = 971;
+            this.lblProcessExpoBusy.Text = "1";
+            this.lblProcessExpoBusy.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // gradientLabel9
+            // 
+            this.gradientLabel9.BackgroundColor = new Syncfusion.Drawing.BrushInfo(Syncfusion.Drawing.GradientStyle.ForwardDiagonal, System.Drawing.Color.White, System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255))))));
+            this.gradientLabel9.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
+            | System.Windows.Forms.Border3DSide.Right) 
+            | System.Windows.Forms.Border3DSide.Bottom)));
+            this.gradientLabel9.BorderStyle = System.Windows.Forms.Border3DStyle.Bump;
+            this.gradientLabel9.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.gradientLabel9.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.gradientLabel9.Location = new System.Drawing.Point(12, 265);
+            this.gradientLabel9.Name = "gradientLabel9";
+            this.gradientLabel9.Size = new System.Drawing.Size(186, 38);
+            this.gradientLabel9.TabIndex = 970;
+            this.gradientLabel9.Text = "Process Job Start";
+            this.gradientLabel9.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lblProcessJobStart
+            // 
+            this.lblProcessJobStart.BackgroundColor = new Syncfusion.Drawing.BrushInfo();
+            this.lblProcessJobStart.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
+            | System.Windows.Forms.Border3DSide.Right) 
+            | System.Windows.Forms.Border3DSide.Bottom)));
+            this.lblProcessJobStart.BorderStyle = System.Windows.Forms.Border3DStyle.Bump;
+            this.lblProcessJobStart.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.lblProcessJobStart.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.lblProcessJobStart.Location = new System.Drawing.Point(204, 265);
+            this.lblProcessJobStart.Name = "lblProcessJobStart";
+            this.lblProcessJobStart.Size = new System.Drawing.Size(84, 38);
+            this.lblProcessJobStart.TabIndex = 969;
+            this.lblProcessJobStart.Text = "1";
+            this.lblProcessJobStart.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // FormStageManualOP
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(584, 466);
+            this.Controls.Add(this.gradientLabel7);
+            this.Controls.Add(this.lblProcessExpoBusy);
+            this.Controls.Add(this.gradientLabel9);
+            this.Controls.Add(this.lblProcessJobStart);
+            this.Controls.Add(this.gradientLabel6);
+            this.Controls.Add(this.lblProcessCountRead);
+            this.Controls.Add(this.gradientLabel5);
+            this.Controls.Add(this.lblProcessCount);
+            this.Controls.Add(this.btnLaserProcessStep);
+            this.Controls.Add(this.gradientLabel2);
+            this.Controls.Add(this.btnLaserProcessMof);
             this.Controls.Add(this.LabelClampTime);
             this.Controls.Add(this.gradientLabel4);
             this.Controls.Add(this.LabelVACTime);
@@ -261,5 +466,16 @@
         private Syncfusion.Windows.Forms.Tools.GradientLabel gradientLabel1;
         private Syncfusion.Windows.Forms.Tools.GradientLabel LabelClampTime;
         private Syncfusion.Windows.Forms.Tools.GradientLabel gradientLabel4;
+        private Syncfusion.Windows.Forms.Tools.GradientLabel gradientLabel2;
+        private Syncfusion.Windows.Forms.ButtonAdv btnLaserProcessMof;
+        private Syncfusion.Windows.Forms.ButtonAdv btnLaserProcessStep;
+        private Syncfusion.Windows.Forms.Tools.GradientLabel lblProcessCount;
+        private Syncfusion.Windows.Forms.Tools.GradientLabel gradientLabel5;
+        private Syncfusion.Windows.Forms.Tools.GradientLabel gradientLabel6;
+        private Syncfusion.Windows.Forms.Tools.GradientLabel lblProcessCountRead;
+        private Syncfusion.Windows.Forms.Tools.GradientLabel gradientLabel7;
+        private Syncfusion.Windows.Forms.Tools.GradientLabel lblProcessExpoBusy;
+        private Syncfusion.Windows.Forms.Tools.GradientLabel gradientLabel9;
+        private Syncfusion.Windows.Forms.Tools.GradientLabel lblProcessJobStart;
     }
 }

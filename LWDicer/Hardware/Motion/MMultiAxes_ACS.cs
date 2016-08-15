@@ -446,7 +446,40 @@ namespace LWDicer.Control
                 iResult = m_RefComp.Motion.ServoOff(m_Data.AxisList[iCoordID]);
             }
 
-            return SUCCESS;
+            return iResult;
+        }
+        public int LaserProcess(int bufferNum)
+        {
+            int iResult = SUCCESS;
+
+            iResult = m_RefComp.Motion.LaserProcess(bufferNum);
+
+            return iResult;
+        }
+
+        public int LaserProcessCount(int countNum)
+        {
+            int iResult = SUCCESS;
+            string strVariable = "ProcessSet";
+
+            iResult = m_RefComp.Motion.WriteBufferMemory(strVariable,countNum);
+
+            return iResult;
+        }
+
+        public bool IsScannerBusy()
+        {
+            return m_RefComp.Motion.IsScannerBusy();
+        }
+
+        public bool IsScannerJobStart()
+        {
+            return m_RefComp.Motion.IsScannerJobStart();
+        }
+
+        public int GetScannerRunCount()
+        {
+            return m_RefComp.Motion.GetScannerRunCount();
         }
 
         public void UpdateAxisStatus()

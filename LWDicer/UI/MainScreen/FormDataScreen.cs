@@ -50,8 +50,9 @@ namespace LWDicer.UI
 
         private void BtnScannerData_Click(object sender, EventArgs e)
         {
-            var dlg = new FormScannerData();
-            dlg.ShowDialog();
+            var dlg = new FormPolygon();
+
+            dlg.Show();
         }
 
         private void BtnMotorData_Click(object sender, EventArgs e)

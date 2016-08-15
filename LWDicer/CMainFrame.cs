@@ -33,6 +33,7 @@ namespace LWDicer.UI
     {
         public static MLWDicer LWDicer = new MLWDicer(new CObjectInfo());
         public static MDataManager DataManager;
+        public static CDBInfo DBInfo;
 
         public static CMainFrame MainFrame = null;
 
@@ -209,7 +210,7 @@ namespace LWDicer.UI
             dlg.TopMost = true;
             dlg.ShowDialog();
 
-            if (dlg.DialogResult == DialogResult.OK || dlg.DialogResult == DialogResult.Yes)
+            if (dlg.DialogResult == DialogResult.OK || dlg.DialogResult == DialogResult.OK)
                 return true;
             else return false;
         }
@@ -221,7 +222,7 @@ namespace LWDicer.UI
             dlg.TopMost = true;
             dlg.ShowDialog();
 
-            if (dlg.DialogResult == DialogResult.OK || dlg.DialogResult == DialogResult.Yes)
+            if (dlg.DialogResult == DialogResult.OK || dlg.DialogResult == DialogResult.OK)
                 return true;
             else return false;
         }
@@ -292,7 +293,7 @@ namespace LWDicer.UI
         //    dlg.SetMessage(index);
         //    dlg.ShowDialog();
 
-        //    if (dlg.DialogResult == DialogResult.OK || dlg.DialogResult == DialogResult.Yes)
+        //    if (dlg.DialogResult == DialogResult.OK || dlg.DialogResult == DialogResult.OK)
         //        return true;
         //    else return false;
         //}
