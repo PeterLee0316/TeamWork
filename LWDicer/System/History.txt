@@ -443,6 +443,8 @@ CSpinStep class -> CCleanStep / CCoatStep class 로 분리
 
 1. Scanner 프로그램을 합체함
 	- Scanner Form 구성 및 Class를 첨부해서 error부분 수정함.
+	- Scanner Vision UI중에서 Zoom Cam 부분만 남기고, 중복되는 나머지 부분은 삭제
+	- Scan Window Form에서.. Canvas Size를 설정하는 부분이 옮겨지면서 빠진 부분을 수정함.
 
 ////////////////////////////////////////////////////////////////////////////////////////////
 // LHS

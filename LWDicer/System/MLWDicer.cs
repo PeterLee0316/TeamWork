@@ -587,12 +587,18 @@ namespace LWDicer.Control
             m_SystemInfo.GetObjectInfo(43, out objInfo);
             CreateVisionCamera(objInfo, FINE_CAM);
 
+            m_SystemInfo.GetObjectInfo(44, out objInfo);
+            CreateVisionCamera(objInfo, ZOOM_CAM);
+
             // Vision Display
             m_SystemInfo.GetObjectInfo(46, out objInfo);
             CreateVisionVisionView(objInfo, PRE__CAM);
 
             m_SystemInfo.GetObjectInfo(47, out objInfo);
             CreateVisionVisionView(objInfo, FINE_CAM);
+
+            m_SystemInfo.GetObjectInfo(47, out objInfo);
+            CreateVisionVisionView(objInfo, ZOOM_CAM);
 #endif
             ////////////////////////////////////////////////////////////////////////
             // Scanner
@@ -1129,8 +1135,7 @@ namespace LWDicer.Control
                 m_Vision.ReLoadPatternMark(PRE__CAM, PATTERN_B, m_DataManager.ModelData.MacroPatternB);
                 m_Vision.ReLoadPatternMark(FINE_CAM, PATTERN_A, m_DataManager.ModelData.MicroPatternA);
                 m_Vision.ReLoadPatternMark(FINE_CAM, PATTERN_B, m_DataManager.ModelData.MicroPatternB);
-            }
-            
+            }            
         }
 
         void CreateCtrlOpPanel(CObjectInfo objInfo)

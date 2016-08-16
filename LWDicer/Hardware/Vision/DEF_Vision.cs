@@ -50,7 +50,7 @@ namespace LWDicer.Control
         public const int DEF_NONE_MARK = -1;
 
         /** Camera 사용 숫자. */
-        public const int DEF_MAX_CAMERA_NO = 2;
+        public const int DEF_MAX_CAMERA_NO = 3;
 
         public const int PRE__CAM = 0;
         public const int FINE_CAM = 1;

@@ -74,15 +74,15 @@ namespace LWDicer.Control
 
             currentZoom *= ZoomRatio;
 
-            //// Canvas Size 재조정
-            //Size CanvasSize = new Size(0, 0);
-            //m_FormScanWindow.GetCanvasSize(out CanvasSize);
-            //CanvasSize.Width = (int)(CanvasSize.Width * currentZoom + 0.5);
-            //CanvasSize.Height = (int)(CanvasSize.Height * currentZoom + 0.5);
-            //m_FormScanWindow.SetCanvasSize(CanvasSize);
+            // Canvas Size 재조정
+            Size CanvasSize = new Size(0, 0);
+            CMainFrame.LWDicer.m_PolyGonScanner.m_RefComp.FormScanner.GetCanvasSize(out CanvasSize);
+            CanvasSize.Width = (int)(CanvasSize.Width * currentZoom + 0.5);
+            CanvasSize.Height = (int)(CanvasSize.Height * currentZoom + 0.5);
+            CMainFrame.LWDicer.m_PolyGonScanner.m_RefComp.FormScanner.SetCanvasSize(CanvasSize);
 
-            //// Canvas ReDraw
-            //m_FormScanWindow.ReDrawCanvas();
+            // Canvas ReDraw
+            CMainFrame.LWDicer.m_PolyGonScanner.m_RefComp.FormScanner.ReDrawCanvas();
 
         }
 
