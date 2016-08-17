@@ -47,8 +47,6 @@ namespace LWDicer.Control
             public int RunInputAddr;
             public int StopInputAddr;
             public int ResetInputAddr;
-            // Teaching Pendant SStop IO Address
-            public int TPStopInputAddr;
 
             // Switch LED IO Address
             public int RunOutputAddr;
@@ -60,10 +58,48 @@ namespace LWDicer.Control
             public int XnInputAddr;
             public int YpInputAddr;
             public int YnInputAddr;
+
             public int TpInputAddr;
             public int TnInputAddr;
             public int ZpInputAddr;
             public int ZnInputAddr;
+
+            // Teaching Pendant IO Address
+            public int TPStopInputAddr;
+
+            public CPanelIOAddr()
+            { }
+
+            public CPanelIOAddr(int RunInputAddr, int StopInputAddr, int ResetInputAddr, 
+                int RunOutputAddr, int StopOutputAddr, int ResetOutputAddr, 
+                int XpInputAddr, int XnInputAddr, int YpInputAddr, int YnInputAddr, 
+                int TpInputAddr, int TnInputAddr, int ZpInputAddr, int ZnInputAddr,
+                int TPStopInputAddr)
+            {
+                // Push Switch IO Address
+                this.RunInputAddr    = RunInputAddr   ;
+                this.StopInputAddr   = StopInputAddr  ;
+                this.ResetInputAddr  = ResetInputAddr ;
+
+                // Switch LED IO Address
+                this.RunOutputAddr   = RunOutputAddr  ;
+                this.StopOutputAddr  = StopOutputAddr ;
+                this.ResetOutputAddr = ResetOutputAddr;
+
+                // Jog +,- Switch IO Address
+                this.XpInputAddr     = XpInputAddr    ;
+                this.XnInputAddr     = XnInputAddr    ;
+                this.YpInputAddr     = YpInputAddr    ;
+                this.YnInputAddr     = YnInputAddr    ;
+
+                this.TpInputAddr     = TpInputAddr    ;
+                this.TnInputAddr     = TnInputAddr    ;
+                this.ZpInputAddr     = ZpInputAddr    ;
+                this.ZnInputAddr     = ZnInputAddr    ;
+
+                // Teaching Pendant IO Address
+                this.TPStopInputAddr = TPStopInputAddr;
+            }
         }
 
         /// <summary>

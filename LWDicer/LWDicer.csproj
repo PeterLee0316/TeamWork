@@ -57,7 +57,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="bonetwrap">
-      <HintPath>..\..\..\..\..\SFA\LWDicer\dll\Baumer\bonetwrap.dll</HintPath>
+      <HintPath>T:\SFA\LWDicer\dll\Baumer\bonetwrap.dll</HintPath>
     </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.0.0\lib\net45\EntityFramework.dll</HintPath>
@@ -67,14 +67,13 @@
       <HintPath>..\packages\EntityFramework.6.0.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Interop.SPIIPLUSCOM660Lib, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="Interop.SPIIPLUSCOM660Lib">
+      <HintPath>T:\SFA\LWDicer\dll\ACS\Interop.SPIIPLUSCOM660Lib.dll</HintPath>
       <EmbedInteropTypes>True</EmbedInteropTypes>
-      <HintPath>..\..\..\SFA\LWDicer\dll\ACS\Interop.SPIIPLUSCOM660Lib.dll</HintPath>
     </Reference>
     <Reference Include="Matrox.MatroxImagingLibrary, Version=10.0.2564.1, Culture=neutral, PublicKeyToken=5a83d419d44a9d98, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>T:\SFA\LWDicer\DLL\Mil\Matrox.MatroxImagingLibrary.dll</HintPath>
+      <HintPath>T:\SFA\LWDicer\dll\Mil\Matrox.MatroxImagingLibrary.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Office.Interop.Excel, Version=14.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
       <EmbedInteropTypes>True</EmbedInteropTypes>
@@ -783,6 +782,10 @@
   <PropertyGroup>
     <PostBuildEvent>copy "T:\SFA\LWDicer\dll\Baumer"
 copy "T:\SFA\LWDicer\dll\ACS"</PostBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

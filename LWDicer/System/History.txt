@@ -315,6 +315,13 @@ CSpinStep class -> CCleanStep / CCoatStep class 로 분리
 8. GUI Form에서 InquireMsg 호출하는 부분 간략화 & teaching form에서 inquire messsage 통일
 9. Yaskawa Motion Controll에서 thread 시작시에도 open controller 하도록 추가함
 
+// Version : 0.0.31
+// Grade : ★
+// Date : 160815~160819
+// Context
+1. FormTeach class 버그 수정 및 함수 정리 (ex. m_nSelectedPos이 멤버 변수 및 함수 파라미터로 같이 쓰이고 있었음. 에효.)
+   nTeachPos -> m_nSelectedPos 으로 변경 및 쓸데없는 함수들 정리함
+
 ////////////////////////////////////////////////////////////////////////////////////////////
 // LJJ
 // Version : 0.0.1

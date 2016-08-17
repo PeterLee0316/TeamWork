@@ -36,7 +36,7 @@ namespace LWDicer.UI
     {
         ButtonAdv[] StagePos = new ButtonAdv[15]; // Max Teaching Position : 15
 
-        private int nStagePos = 0;
+        private int m_nSelectedPos_Stage = 0;
 
         private int nDataMode = 0;
 
@@ -246,7 +246,7 @@ namespace LWDicer.UI
             { }
         }
 
-        private void UpdateStageTeachPos(int PosNo)
+        private void UpdateStageTeachPos(int selectedPos)
         {
             int nCount = 0, i = 0, j = 0;
 
@@ -283,52 +283,43 @@ namespace LWDicer.UI
                 }
             }
 
-            StagePos[PosNo].BackColor = Color.Tan;
+            StagePos[selectedPos].BackColor = Color.Tan;
 
-            SetPosNo(PosNo);
+            m_nSelectedPos_Stage = selectedPos;
 
-            LoadStageTeachingData(PosNo);
+            DisplayPos_Stage();
         }
-
-        private void SetPosNo(int nPosNo)
+        
+        private void DisplayPos_Stage()
         {
-            nStagePos = nPosNo;
-        }
-
-        private int GetPosNo()
-        {
-            return nStagePos;
-        }
-
-        private void LoadStageTeachingData(int nTeachPos)
-        {
-            if (movingObject.FixedPos.Pos.Length <= nTeachPos) return;
+            if (movingObject.FixedPos.Pos.Length <= m_nSelectedPos_Stage) return;
 
             double dFixedXPos = 0, dOffsetXPos = 0, dTargetXPos = 0, dModelXPos = 0, dAlignXOffset;
             double dFixedYPos = 0, dOffsetYPos = 0, dTargetYPos = 0, dModelYPos = 0, dAlignYOffset;
             double dFixedTPos = 0, dOffsetTPos = 0, dTargetTPos = 0, dModelTPos = 0, dAlignTOffset;
+            int index = m_nSelectedPos_Stage;
 
-            dFixedXPos = movingObject.FixedPos.Pos[nTeachPos].dX;
-            dOffsetXPos = movingObject.OffsetPos.Pos[nTeachPos].dX;
-            dModelXPos = movingObject.ModelPos.Pos[nTeachPos].dX;
+            dFixedXPos = movingObject.FixedPos.Pos[index].dX;
+            dOffsetXPos = movingObject.OffsetPos.Pos[index].dX;
+            dModelXPos = movingObject.ModelPos.Pos[index].dX;
             dAlignXOffset = movingObject.AlignOffset.dX;
 
             dTargetXPos = dFixedXPos + dOffsetXPos + dModelXPos + dAlignXOffset;
 
             GridStageTeachTable[2, 1].Text = Convert.ToString(dTargetXPos);
 
-            dFixedYPos = movingObject.FixedPos.Pos[nTeachPos].dY;
-            dOffsetYPos = movingObject.OffsetPos.Pos[nTeachPos].dY;
-            dModelYPos = movingObject.ModelPos.Pos[nTeachPos].dY;
+            dFixedYPos = movingObject.FixedPos.Pos[index].dY;
+            dOffsetYPos = movingObject.OffsetPos.Pos[index].dY;
+            dModelYPos = movingObject.ModelPos.Pos[index].dY;
             dAlignYOffset = movingObject.AlignOffset.dY;
 
             dTargetYPos = dFixedYPos + dOffsetYPos + dModelYPos + dAlignYOffset;
 
             GridStageTeachTable[2, 2].Text = Convert.ToString(dTargetYPos);
 
-            dFixedTPos = movingObject.FixedPos.Pos[nTeachPos].dT;
-            dOffsetTPos = movingObject.OffsetPos.Pos[nTeachPos].dT;
-            dModelTPos = movingObject.ModelPos.Pos[nTeachPos].dT;
+            dFixedTPos = movingObject.FixedPos.Pos[index].dT;
+            dOffsetTPos = movingObject.OffsetPos.Pos[index].dT;
+            dModelTPos = movingObject.ModelPos.Pos[index].dT;
             dAlignTOffset = movingObject.AlignOffset.dT;
 
             dTargetTPos = dFixedTPos + dOffsetTPos + dModelTPos + dAlignTOffset;
@@ -376,21 +367,21 @@ namespace LWDicer.UI
 
                 if (e.ColIndex == 1)
                 {
-                    dOffsetPos = movingObject.OffsetPos.Pos[GetPosNo()].dX;
+                    dOffsetPos = movingObject.OffsetPos.Pos[m_nSelectedPos_Stage].dX;
 
                     dTargetPos = dPos + dOffsetPos;
                 }
 
                 if (e.ColIndex == 2)
                 {
-                    dOffsetPos = movingObject.OffsetPos.Pos[GetPosNo()].dY;
+                    dOffsetPos = movingObject.OffsetPos.Pos[m_nSelectedPos_Stage].dY;
 
                     dTargetPos = dPos + dOffsetPos;
                 }
 
                 if (e.ColIndex == 3)
                 {
-                    dOffsetPos = movingObject.OffsetPos.Pos[GetPosNo()].dT;
+                    dOffsetPos = movingObject.OffsetPos.Pos[m_nSelectedPos_Stage].dT;
 
                     dTargetPos = dPos + dOffsetPos;
                 }
@@ -424,13 +415,13 @@ namespace LWDicer.UI
             if (GetDataMode()==FixedData)
             {                
                 strData = GridStageTeachTable[3, 1].Text;
-                CMainFrame.DataManager.FixedPos.Stage1Pos.Pos[GetPosNo()].dX = Convert.ToDouble(strData);
+                CMainFrame.DataManager.FixedPos.Stage1Pos.Pos[m_nSelectedPos_Stage].dX = Convert.ToDouble(strData);
 
                 strData = GridStageTeachTable[3, 2].Text;
-                CMainFrame.DataManager.FixedPos.Stage1Pos.Pos[GetPosNo()].dY = Convert.ToDouble(strData);
+                CMainFrame.DataManager.FixedPos.Stage1Pos.Pos[m_nSelectedPos_Stage].dY = Convert.ToDouble(strData);
 
                 strData = GridStageTeachTable[3, 3].Text;
-                CMainFrame.DataManager.FixedPos.Stage1Pos.Pos[GetPosNo()].dT = Convert.ToDouble(strData);
+                CMainFrame.DataManager.FixedPos.Stage1Pos.Pos[m_nSelectedPos_Stage].dT = Convert.ToDouble(strData);
 
                 CMainFrame.DataManager.SavePositionData(true, EPositionObject.STAGE1);
             }
@@ -438,20 +429,20 @@ namespace LWDicer.UI
             if(GetDataMode() == OffsetData)
             {
                 strData = GridStageTeachTable[6, 1].Text;
-                CMainFrame.DataManager.OffsetPos.Stage1Pos.Pos[GetPosNo()].dX = Convert.ToDouble(strData);
+                CMainFrame.DataManager.OffsetPos.Stage1Pos.Pos[m_nSelectedPos_Stage].dX = Convert.ToDouble(strData);
 
                 strData = GridStageTeachTable[6, 2].Text;
-                CMainFrame.DataManager.OffsetPos.Stage1Pos.Pos[GetPosNo()].dY = Convert.ToDouble(strData);
+                CMainFrame.DataManager.OffsetPos.Stage1Pos.Pos[m_nSelectedPos_Stage].dY = Convert.ToDouble(strData);
 
                 strData = GridStageTeachTable[6, 3].Text;
-                CMainFrame.DataManager.OffsetPos.Stage1Pos.Pos[GetPosNo()].dT = Convert.ToDouble(strData);
+                CMainFrame.DataManager.OffsetPos.Stage1Pos.Pos[m_nSelectedPos_Stage].dT = Convert.ToDouble(strData);
 
                 CMainFrame.DataManager.SavePositionData(false, EPositionObject.STAGE1);
             }
 
             CMainFrame.LWDicer.SetPositionDataToComponent(EPositionGroup.STAGE1);
 
-            LoadStageTeachingData(GetPosNo());
+            DisplayPos_Stage();
         }
 
         private void BtnStageChangeValue_Click(object sender, EventArgs e)
@@ -467,7 +458,7 @@ namespace LWDicer.UI
             StrXCurrent = GridStageTeachTable[7, 1].Text;
 
             dXPos = Convert.ToDouble(StrXCurrent);
-            dOffsetXPos = movingObject.OffsetPos.Pos[GetPosNo()].dX;
+            dOffsetXPos = movingObject.OffsetPos.Pos[m_nSelectedPos_Stage].dX;
 
             dTargetXPos = dXPos + dOffsetXPos;
 
@@ -480,7 +471,7 @@ namespace LWDicer.UI
             StrYCurrent = GridStageTeachTable[7, 2].Text;
 
             dYPos = Convert.ToDouble(StrYCurrent);
-            dOffsetYPos = movingObject.OffsetPos.Pos[GetPosNo()].dY;
+            dOffsetYPos = movingObject.OffsetPos.Pos[m_nSelectedPos_Stage].dY;
 
             dTargetYPos = dYPos + dOffsetYPos;
 
@@ -492,7 +483,7 @@ namespace LWDicer.UI
             StrTCurrent = GridStageTeachTable[7, 3].Text;
 
             dTPos = Convert.ToDouble(StrTCurrent);
-            dOffsetTPos = movingObject.OffsetPos.Pos[GetPosNo()].dT;
+            dOffsetTPos = movingObject.OffsetPos.Pos[m_nSelectedPos_Stage].dT;
 
             dTargetTPos = dTPos + dOffsetTPos;
 
@@ -513,20 +504,20 @@ namespace LWDicer.UI
             string strMsg = "Move to selected position?";
             if (!CMainFrame.InquireMsg(strMsg)) return;
 
-            if (StagePos[GetPosNo()].Text == Convert.ToString(EStagePos.WAIT))              CMainFrame.LWDicer.m_ctrlStage1.MoveToStageWaitPos();
-            if (StagePos[GetPosNo()].Text == Convert.ToString(EStagePos.LOAD))              CMainFrame.LWDicer.m_ctrlStage1.MoveToStageLoadPos();
-            if (StagePos[GetPosNo()].Text == Convert.ToString(EStagePos.UNLOAD))            CMainFrame.LWDicer.m_ctrlStage1.MoveToStageUnloadPos();
-            if (StagePos[GetPosNo()].Text == Convert.ToString(EStagePos.THETA_ALIGN))       CMainFrame.LWDicer.m_ctrlStage1.MoveToThetaAlignPosA();
-            if (StagePos[GetPosNo()].Text == Convert.ToString(EStagePos.EDGE_ALIGN_1))      CMainFrame.LWDicer.m_ctrlStage1.MoveToEdgeAlignPos1();
-            if (StagePos[GetPosNo()].Text == Convert.ToString(EStagePos.EDGE_ALIGN_2))      CMainFrame.LWDicer.m_ctrlStage1.MoveToEdgeAlignPos2();
-            if (StagePos[GetPosNo()].Text == Convert.ToString(EStagePos.EDGE_ALIGN_3))      CMainFrame.LWDicer.m_ctrlStage1.MoveToEdgeAlignPos3();
-            if (StagePos[GetPosNo()].Text == Convert.ToString(EStagePos.EDGE_ALIGN_4))      CMainFrame.LWDicer.m_ctrlStage1.MoveToEdgeAlignPos4();
-            if (StagePos[GetPosNo()].Text == Convert.ToString(EStagePos.MACRO_CAM_POS))     CMainFrame.LWDicer.m_ctrlStage1.MoveToMacroCam();
-            if (StagePos[GetPosNo()].Text == Convert.ToString(EStagePos.MACRO_ALIGN))       CMainFrame.LWDicer.m_ctrlStage1.MoveToMacroAlignA();
-            if (StagePos[GetPosNo()].Text == Convert.ToString(EStagePos.MICRO_ALIGN))       CMainFrame.LWDicer.m_ctrlStage1.MoveToMicroAlignA();
-            if (StagePos[GetPosNo()].Text == Convert.ToString(EStagePos.MICRO_ALIGN_TURN))  CMainFrame.LWDicer.m_ctrlStage1.MoveToMicroAlignTurnA();
-            if (StagePos[GetPosNo()].Text == Convert.ToString(EStagePos.LASER_PROCESS))     CMainFrame.LWDicer.m_ctrlStage1.MoveToProcessPos();
-            if (StagePos[GetPosNo()].Text == Convert.ToString(EStagePos.LASER_PROCESS_TURN)) CMainFrame.LWDicer.m_ctrlStage1.MoveToProcessTurnPos();
+            if (StagePos[m_nSelectedPos_Stage].Text == Convert.ToString(EStagePos.WAIT))              CMainFrame.LWDicer.m_ctrlStage1.MoveToStageWaitPos();
+            if (StagePos[m_nSelectedPos_Stage].Text == Convert.ToString(EStagePos.LOAD))              CMainFrame.LWDicer.m_ctrlStage1.MoveToStageLoadPos();
+            if (StagePos[m_nSelectedPos_Stage].Text == Convert.ToString(EStagePos.UNLOAD))            CMainFrame.LWDicer.m_ctrlStage1.MoveToStageUnloadPos();
+            if (StagePos[m_nSelectedPos_Stage].Text == Convert.ToString(EStagePos.THETA_ALIGN))       CMainFrame.LWDicer.m_ctrlStage1.MoveToThetaAlignPosA();
+            if (StagePos[m_nSelectedPos_Stage].Text == Convert.ToString(EStagePos.EDGE_ALIGN_1))      CMainFrame.LWDicer.m_ctrlStage1.MoveToEdgeAlignPos1();
+            if (StagePos[m_nSelectedPos_Stage].Text == Convert.ToString(EStagePos.EDGE_ALIGN_2))      CMainFrame.LWDicer.m_ctrlStage1.MoveToEdgeAlignPos2();
+            if (StagePos[m_nSelectedPos_Stage].Text == Convert.ToString(EStagePos.EDGE_ALIGN_3))      CMainFrame.LWDicer.m_ctrlStage1.MoveToEdgeAlignPos3();
+            if (StagePos[m_nSelectedPos_Stage].Text == Convert.ToString(EStagePos.EDGE_ALIGN_4))      CMainFrame.LWDicer.m_ctrlStage1.MoveToEdgeAlignPos4();
+            if (StagePos[m_nSelectedPos_Stage].Text == Convert.ToString(EStagePos.MACRO_CAM_POS))     CMainFrame.LWDicer.m_ctrlStage1.MoveToMacroCam();
+            if (StagePos[m_nSelectedPos_Stage].Text == Convert.ToString(EStagePos.MACRO_ALIGN))       CMainFrame.LWDicer.m_ctrlStage1.MoveToMacroAlignA();
+            if (StagePos[m_nSelectedPos_Stage].Text == Convert.ToString(EStagePos.MICRO_ALIGN))       CMainFrame.LWDicer.m_ctrlStage1.MoveToMicroAlignA();
+            if (StagePos[m_nSelectedPos_Stage].Text == Convert.ToString(EStagePos.MICRO_ALIGN_TURN))  CMainFrame.LWDicer.m_ctrlStage1.MoveToMicroAlignTurnA();
+            if (StagePos[m_nSelectedPos_Stage].Text == Convert.ToString(EStagePos.LASER_PROCESS))     CMainFrame.LWDicer.m_ctrlStage1.MoveToProcessPos();
+            if (StagePos[m_nSelectedPos_Stage].Text == Convert.ToString(EStagePos.LASER_PROCESS_TURN)) CMainFrame.LWDicer.m_ctrlStage1.MoveToProcessTurnPos();
 
         }
 

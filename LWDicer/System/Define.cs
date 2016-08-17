@@ -1885,10 +1885,11 @@ namespace LWDicer.Control
 
     public class DEF_IO
     {
-        public const int ERR_YMC_NOT_SUPPORT_FUNCTION = 1;
-        public const int ERR_YMC_FAIL_GET_DATA_HANDLE = 2;
-        public const int ERR_YMC_FAIL_GET_DATA        = 3;
-        public const int ERR_YMC_FAIL_SET_DATA        = 4;
+        public const int ERR_IO_ADDRESS_INVALID          = 1;
+        public const int ERR_IO_YMC_NOT_SUPPORT_FUNCTION = 2;
+        public const int ERR_IO_YMC_FAIL_GET_DATA_HANDLE = 3;
+        public const int ERR_IO_YMC_FAIL_GET_DATA        = 4;
+        public const int ERR_IO_YMC_FAIL_SET_DATA        = 5;
 
         public enum EIOType
         {

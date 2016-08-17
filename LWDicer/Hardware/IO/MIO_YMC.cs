@@ -133,7 +133,7 @@ namespace LWDicer.Control
             {
                 string str = $"Error ymcGetRegisterDataHandle ML \nErrorCode [ 0x{rc.ToString("X")} ]";
                 WriteLog(str, ELogType.Debug, ELogWType.D_Error, true);
-                return GenerateErrorCode(ERR_YMC_FAIL_GET_DATA_HANDLE);
+                return GenerateErrorCode(ERR_IO_YMC_FAIL_GET_DATA_HANDLE);
             }
 #endif
 
@@ -172,7 +172,7 @@ namespace LWDicer.Control
             {
                 string str = $"Error ymcGetRegisterData MB \nErrorCode [ 0x{rc.ToString("X")} ]";
                 WriteLog(str, ELogType.Debug, ELogWType.D_Error, true);
-                return GenerateErrorCode(ERR_YMC_FAIL_GET_DATA);
+                return GenerateErrorCode(ERR_IO_YMC_FAIL_GET_DATA);
             }
 
             return SUCCESS;
@@ -208,7 +208,7 @@ namespace LWDicer.Control
             {
                 string str = $"Error ymcSetRegisterData MB \nErrorCode [ 0x{rc.ToString("X")} ]";
                 WriteLog(str, ELogType.Debug, ELogWType.D_Error, true);
-                return GenerateErrorCode(ERR_YMC_FAIL_SET_DATA);
+                return GenerateErrorCode(ERR_IO_YMC_FAIL_SET_DATA);
             }
 
             return SUCCESS;
@@ -238,6 +238,9 @@ namespace LWDicer.Control
         public int IsOn(int addr, out bool bStatus)
         {
             bStatus = false;
+            if(INPUT_ORIGIN <= addr && addr <= OUTPUT_END)
+                return GenerateErrorCode(ERR_IO_ADDRESS_INVALID);
+
             bool bTemp;
             int iResult = GetBit(addr, out bTemp);
             if (iResult != SUCCESS) return iResult;
@@ -250,6 +253,9 @@ namespace LWDicer.Control
         public int IsOff(int addr, out bool bStatus)
         {
             bStatus = false;
+            if (INPUT_ORIGIN <= addr && addr <= OUTPUT_END)
+                return GenerateErrorCode(ERR_IO_ADDRESS_INVALID);
+
             bool bTemp;
             int iResult = GetBit(addr, out bTemp);
             if (iResult != SUCCESS) return iResult;
@@ -265,6 +271,9 @@ namespace LWDicer.Control
 #if SIMULATION_IO
             return SUCCESS;
 #endif
+            if (INPUT_ORIGIN <= addr && addr <= OUTPUT_END)
+                return GenerateErrorCode(ERR_IO_ADDRESS_INVALID);
+
             Debug.Assert(INPUT_ORIGIN <= addr && addr <= OUTPUT_END);
 
             UInt32 RegisterDataNumber = 1;             // Number of read-in registers
@@ -381,7 +390,7 @@ namespace LWDicer.Control
             // 나중에 구현
             value = 0;
 
-            return GenerateErrorCode(ERR_YMC_NOT_SUPPORT_FUNCTION);
+            return GenerateErrorCode(ERR_IO_YMC_NOT_SUPPORT_FUNCTION);
             return SUCCESS;
         }
 
@@ -427,7 +436,7 @@ namespace LWDicer.Control
         {
             // 나중에 구현
 
-            return GenerateErrorCode(ERR_YMC_NOT_SUPPORT_FUNCTION);
+            return GenerateErrorCode(ERR_IO_YMC_NOT_SUPPORT_FUNCTION);
             return SUCCESS;
         }
 
