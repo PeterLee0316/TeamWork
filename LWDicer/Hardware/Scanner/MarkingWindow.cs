@@ -58,12 +58,12 @@ namespace LWDicer.Control
         }
         public void AddObject(bool CheckWindow=true)
         {
-            if (CMainFrame.LWDicer.m_PolyGonScanner.m_RefComp.Manager == null) return;
+            if (CMainFrame.LWDicer.m_MeScanner.m_RefComp.Manager == null) return;
 
-            CMainFrame.LWDicer.m_PolyGonScanner.m_RefComp.Manager.AddObject(SelectObjectType, ptObjectStartPos, ptObjectEndPos);
+            CMainFrame.LWDicer.m_MeScanner.m_RefComp.Manager.AddObject(SelectObjectType, ptObjectStartPos, ptObjectEndPos);
 
             if (CheckWindow)
-                CMainFrame.LWDicer.m_PolyGonScanner.m_RefComp.FormScanner.AddObjectList(CMainFrame.LWDicer.m_PolyGonScanner.m_RefComp.Manager.GetLastObject());
+                CMainFrame.LWDicer.m_MeScanner.m_RefComp.FormScanner.AddObjectList(CMainFrame.LWDicer.m_MeScanner.m_RefComp.Manager.GetLastObject());
         }
         
         public void ChangeCanvasZoom(float ZoomRatio)
@@ -76,13 +76,13 @@ namespace LWDicer.Control
 
             // Canvas Size 재조정
             Size CanvasSize = new Size(0, 0);
-            CMainFrame.LWDicer.m_PolyGonScanner.m_RefComp.FormScanner.GetCanvasSize(out CanvasSize);
+            CMainFrame.LWDicer.m_MeScanner.m_RefComp.FormScanner.GetCanvasSize(out CanvasSize);
             CanvasSize.Width = (int)(CanvasSize.Width * currentZoom + 0.5);
             CanvasSize.Height = (int)(CanvasSize.Height * currentZoom + 0.5);
-            CMainFrame.LWDicer.m_PolyGonScanner.m_RefComp.FormScanner.SetCanvasSize(CanvasSize);
+            CMainFrame.LWDicer.m_MeScanner.m_RefComp.FormScanner.SetCanvasSize(CanvasSize);
 
             // Canvas ReDraw
-            CMainFrame.LWDicer.m_PolyGonScanner.m_RefComp.FormScanner.ReDrawCanvas();
+            CMainFrame.LWDicer.m_MeScanner.m_RefComp.FormScanner.ReDrawCanvas();
 
         }
 

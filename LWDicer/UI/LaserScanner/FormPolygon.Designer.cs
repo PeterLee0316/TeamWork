@@ -1962,6 +1962,7 @@
             this.Name = "FormPolygon";
             this.Text = "CWindowPolygonForm";
             this.Activated += new System.EventHandler(this.FormPolygon_Activated);
+            this.Load += new System.EventHandler(this.FormPolygon_Load);
             this.Shown += new System.EventHandler(this.FormPolygon_Shown);
             this.SizeChanged += new System.EventHandler(this.Form_Resize);
             ((System.ComponentModel.ISupportInitialize)(this.tabPolygonForm)).EndInit();

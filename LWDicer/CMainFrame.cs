@@ -210,7 +210,7 @@ namespace LWDicer.UI
             dlg.TopMost = true;
             dlg.ShowDialog();
 
-            if (dlg.DialogResult == DialogResult.OK || dlg.DialogResult == DialogResult.OK)
+            if (dlg.DialogResult == DialogResult.OK)
                 return true;
             else return false;
         }
@@ -222,7 +222,7 @@ namespace LWDicer.UI
             dlg.TopMost = true;
             dlg.ShowDialog();
 
-            if (dlg.DialogResult == DialogResult.OK || dlg.DialogResult == DialogResult.OK)
+            if (dlg.DialogResult == DialogResult.OK)
                 return true;
             else return false;
         }

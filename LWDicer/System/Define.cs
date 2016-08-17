@@ -262,6 +262,7 @@ namespace LWDicer.Control
         {
             MACRO = 0,
             MICRO,
+            ZOOM,
             MAX,
         }
         public enum ELightController

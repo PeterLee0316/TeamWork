@@ -47,7 +47,7 @@ namespace LWDicer.Control
 
         public void Dispose()
         {
-            CloseVisionSystem();
+            
         }
 
         ~MVision()
@@ -1376,6 +1376,8 @@ namespace LWDicer.Control
             if (m_bSystemInit == false) return;
 
             if (iCamNo > DEF_MAX_CAMERA_NO) return;
+
+            m_RefComp.View[m_iCurrentViewNum].DrawString(strText, pointText);
 
             //return 0;
         }

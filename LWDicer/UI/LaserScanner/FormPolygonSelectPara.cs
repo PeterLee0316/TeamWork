@@ -22,51 +22,65 @@ namespace LWDicer.UI
 
         private void btnConfigSave_Click(object sender, EventArgs e)
         {
-            string filepath = "config_job.ini";
+            string strFile;
+            string strPath;
+
+            strFile = "config_job.ini";
+            strPath = string.Format("{0:s}{1:s}", CMainFrame.LWDicer.m_DataManager.DBInfo.ScannerDataDir, strFile);
+            CMainFrame.LWDicer.m_MeScanner.SendConfig(strPath);
+
+            strFile = "csn_job.ini";
+            strPath = string.Format("{0:s}{1:s}", CMainFrame.LWDicer.m_DataManager.DBInfo.ScannerDataDir, strFile);           
+            CMainFrame.LWDicer.m_MeScanner.SendTrueRaster(strPath);
             
-            CMainFrame.LWDicer.m_PolyGonScanner.SendConfig(filepath);
-
-            filepath = "csn_job.ini";
-            CMainFrame.LWDicer.m_PolyGonScanner.SendTrueRaster(filepath);
-
-            filepath = "isn_job.ini";
-            CMainFrame.LWDicer.m_PolyGonScanner.SendTrueRaster(filepath);
-
-            filepath = "reset.ini";
-            CMainFrame.LWDicer.m_PolyGonScanner.SendTrueRaster(filepath);
+            strFile = "isn_job.ini";
+            strPath = string.Format("{0:s}{1:s}", CMainFrame.LWDicer.m_DataManager.DBInfo.ScannerDataDir, strFile);
+            CMainFrame.LWDicer.m_MeScanner.SendTrueRaster(strPath);
+            
+            strFile = "reset.ini";
+            strPath = string.Format("{0:s}{1:s}", CMainFrame.LWDicer.m_DataManager.DBInfo.ScannerDataDir, strFile);
+            CMainFrame.LWDicer.m_MeScanner.SendTrueRaster(strPath);
 
             Hide();
         }
 
         private void btnConfigSelect_Click(object sender, EventArgs e)
         {
-            string filepath = "config_job.ini";
-            
-            CMainFrame.LWDicer.m_PolyGonScanner.SendConfig(filepath);
+            string strFile = "config_job.ini";
+            string strPath = string.Format("{0:s}{1:s}", CMainFrame.LWDicer.m_DataManager.DBInfo.ScannerDataDir, strFile);              
+            CMainFrame.LWDicer.m_MeScanner.SendConfig(strPath);
 
             Hide();
         }
 
         private void btnCsnSelect_Click(object sender, EventArgs e)
         {
-            string filepath = "csn_job.ini";
-                
-            CMainFrame.LWDicer.m_PolyGonScanner.SendTrueRaster(filepath);            
+            string strFile;
+            string strPath;
 
-            filepath = "reset.ini";
-            CMainFrame.LWDicer.m_PolyGonScanner.SendTrueRaster(filepath);
+            strFile = "csn_job.ini";
+            strPath = string.Format("{0:s}{1:s}", CMainFrame.LWDicer.m_DataManager.DBInfo.ScannerDataDir, strFile);
+            CMainFrame.LWDicer.m_MeScanner.SendTrueRaster(strPath);
+
+            strFile = "reset.ini";
+            strPath = string.Format("{0:s}{1:s}", CMainFrame.LWDicer.m_DataManager.DBInfo.ScannerDataDir, strFile);
+            CMainFrame.LWDicer.m_MeScanner.SendTrueRaster(strPath);
 
             Hide();
         }
 
         private void btnIsnSelect_Click(object sender, EventArgs e)
         {
-            string filepath = "isn_job.ini";            
-            
-            CMainFrame.LWDicer.m_PolyGonScanner.SendTrueRaster(filepath);
+            string strFile;
+            string strPath;
 
-            filepath = "reset.ini";
-            CMainFrame.LWDicer.m_PolyGonScanner.SendTrueRaster(filepath);
+            strFile = "isn_job.ini";
+            strPath = string.Format("{0:s}{1:s}", CMainFrame.LWDicer.m_DataManager.DBInfo.ScannerDataDir, strFile);
+            CMainFrame.LWDicer.m_MeScanner.SendTrueRaster(strPath);
+
+            strFile = "reset.ini";
+            strPath = string.Format("{0:s}{1:s}", CMainFrame.LWDicer.m_DataManager.DBInfo.ScannerDataDir, strFile);
+            CMainFrame.LWDicer.m_MeScanner.SendTrueRaster(strPath);
 
             Hide();
         }

@@ -697,12 +697,29 @@ namespace LWDicer.Control
 
         public class CProcessData
         {
+            // Wafer Dicing Process
             public float ProcessWaferSize;
             public float WaferDieSizeX;
             public float WaferDieSizeY;
             public float MarginWidth;
             public float MarginHeight;
             public int ProcessLineNum;
+
+            // Stemco Process
+            public float ProcessOffsetX1;
+            public float ProcessOffsetY1;
+            public int   ProcessCount1;
+            public float ProcessOffsetX2;
+            public float ProcessOffsetY2;
+            public int   ProcessCount2;
+
+            public float PatternPitch1;
+            public int   PatternCount1;
+            public float PatternPitch2;
+            public int   PatternCount2;
+            public float PatternOffset1;
+            public float PatternOffset2;
+
         }
 
         public class CSystemData_Scanner

@@ -51,6 +51,11 @@ namespace LWDicer.UI
 
         }
 
+        private void FormPolygon_Load(object sender, EventArgs e)
+        {
+            CMainFrame.LWDicer.m_Vision.InitialLocalView(ZOOM_CAM, picVisionZoom.Handle);
+        }
+
         private void Form_Resize(object sender, EventArgs e)
         {
 
@@ -780,7 +785,7 @@ namespace LWDicer.UI
         {
         //    var m_FormScanWindow = new FormScanWindow();
         //    m_FormScanWindow.ShowDialog();
-            CMainFrame.LWDicer.m_PolyGonScanner.m_RefComp.FormScanner.Show();
+            CMainFrame.LWDicer.m_MeScanner.m_RefComp.FormScanner.Show();
         }
 
         
@@ -793,20 +798,20 @@ namespace LWDicer.UI
             if (imgOpenDlg.ShowDialog() == DialogResult.OK)
             {
                 filename = imgOpenDlg.FileName;                 
-                CMainFrame.LWDicer.m_PolyGonScanner.SendBitMap(filename);
+                CMainFrame.LWDicer.m_MeScanner.SendBitmap(filename);
             }            
         }
 
         private void btnDataUpdate_Click(object sender, EventArgs e)
         {
             // ini File 저장
-            CMainFrame.LWDicer.m_PolyGonScanner.SaveConfigPara("config_job");
+            CMainFrame.LWDicer.m_MeScanner.SaveConfigPara("config_job");
 
             // ini File 저장
-            CMainFrame.LWDicer.m_PolyGonScanner.SaveIsnPara("isn_job");
+            CMainFrame.LWDicer.m_MeScanner.SaveIsnPara("isn_job");
 
             // ini File 저장
-            CMainFrame.LWDicer.m_PolyGonScanner.SaveCsnPara("csn_job");
+            CMainFrame.LWDicer.m_MeScanner.SaveCsnPara("csn_job");
 
             FormPolygonSelectPara formSelect = new FormPolygonSelectPara();
 
@@ -827,7 +832,7 @@ namespace LWDicer.UI
 
         private void btnControlSendConnect_Click_1(object sender, EventArgs e)
         {
-            //CMainFrame.LWDicer.m_PolyGonScanner.ConnetTelnet(EMonitorMode.Controller);
+            //CMainFrame.LWDicer.m_MeScanner.ConnetTelnet(EMonitorMode.Controller);
         }
 
         private void textBox1_KeyDown(object sender, KeyEventArgs e)
@@ -840,7 +845,7 @@ namespace LWDicer.UI
         {
             if (e.KeyChar == (char)Keys.Return)
             {
-                CMainFrame.LWDicer.m_PolyGonScanner.TestCmd(textBox1.Text);
+                CMainFrame.LWDicer.m_MeScanner.TestCmd(textBox1.Text);
 
                 ////rtbControllerStatus.Text = strData;
                 //rtbControllerStatus.AppendText(strData + Environment.NewLine);
@@ -852,13 +857,13 @@ namespace LWDicer.UI
 
         private void btnControlReconnect_Click(object sender, EventArgs e)
         {
-            //CMainFrame.LWDicer.m_PolyGonScanner.ConnetTelnet(EMonitorMode.Controller);
+            //CMainFrame.LWDicer.m_MeScanner.ConnetTelnet(EMonitorMode.Controller);
             //rtbControllerStatus.Clear();
         }
 
         private void btnHeadReconnect_Click(object sender, EventArgs e)
         {
-            //CMainFrame.LWDicer.m_PolyGonScanner.ConnetTelnet(EMonitorMode.Head);
+            //CMainFrame.LWDicer.m_MeScanner.ConnetTelnet(EMonitorMode.Head);
             //rtbHeadStatus.Clear();
         }
 
@@ -892,6 +897,7 @@ namespace LWDicer.UI
             FormMessageBox MsgBox = new FormMessageBox();
 
             MsgBox.SetMessage("프로세스 데이터를 저장하시겠습니까?", EMessageType.OK_CANCEL);
+            
             if (MsgBox.ShowDialog() != DialogResult.OK)
             {
                 return;
@@ -970,15 +976,15 @@ namespace LWDicer.UI
                 for (int i = 0; i < CMainFrame.DataManager.ModelData.ProcData.ProcessLineNum; i++)
                 {
                     startLine.Y = endLine.Y = CMainFrame.DataManager.ModelData.ScanData.CrossScanResolution * i;
-                    CMainFrame.LWDicer.m_PolyGonScanner.m_RefComp.Manager.AddObject(EObjectType.LINE, startLine, endLine);   
+                    CMainFrame.LWDicer.m_MeScanner.m_RefComp.Manager.AddObject(EObjectType.LINE, startLine, endLine);   
                 }
 
                 string filename = string.Format("{0:s}{1:s}{2:F0}.bmp", CMainFrame.DBInfo.ImageDataDir, "CutAxisX_", bmpFileNameNum+1);
 
-                CMainFrame.LWDicer.m_PolyGonScanner.SetSizeBmp();
-                CMainFrame.LWDicer.m_PolyGonScanner.ConvertBmpFile(filename);
+                CMainFrame.LWDicer.m_MeScanner.SetSizeBmp();
+                CMainFrame.LWDicer.m_MeScanner.ConvertBmpFile(filename);
 
-                CMainFrame.LWDicer.m_PolyGonScanner.m_RefComp.Manager.DeleteAllObject();
+                CMainFrame.LWDicer.m_MeScanner.m_RefComp.Manager.DeleteAllObject();
                 bmpFileNameNum++;
                 Y -= CMainFrame.DataManager.ModelData.ProcData.WaferDieSizeX;
 
@@ -1003,15 +1009,15 @@ namespace LWDicer.UI
                 for (int i = 0; i < CMainFrame.DataManager.ModelData.ProcData.ProcessLineNum; i++)
                 {
                     startLine.Y = endLine.Y = CMainFrame.DataManager.ModelData.ScanData.CrossScanResolution * i;
-                    CMainFrame.LWDicer.m_PolyGonScanner.m_RefComp.Manager.AddObject(EObjectType.LINE, startLine, endLine);
+                    CMainFrame.LWDicer.m_MeScanner.m_RefComp.Manager.AddObject(EObjectType.LINE, startLine, endLine);
                 }
 
                 string filename = string.Format("{0:s}{1:s}{2:F0}.bmp", CMainFrame.DBInfo.ImageDataDir, "CutAxisY_", bmpFileNameNum+1);
 
-                CMainFrame.LWDicer.m_PolyGonScanner.SetSizeBmp();
-                CMainFrame.LWDicer.m_PolyGonScanner.ConvertBmpFile(filename);
+                CMainFrame.LWDicer.m_MeScanner.SetSizeBmp();
+                CMainFrame.LWDicer.m_MeScanner.ConvertBmpFile(filename);
 
-                CMainFrame.LWDicer.m_PolyGonScanner.m_RefComp.Manager.DeleteAllObject();
+                CMainFrame.LWDicer.m_MeScanner.m_RefComp.Manager.DeleteAllObject();
                 bmpFileNameNum++;
                 Y -= CMainFrame.DataManager.ModelData.ProcData.WaferDieSizeY;
 
@@ -1223,7 +1229,8 @@ namespace LWDicer.UI
         private void btnVisionLive_Click(object sender, EventArgs e)
         {
             if (CMainFrame.LWDicer.m_Vision == null) return;
-            
+                       
+
             CMainFrame.LWDicer.m_Vision.LiveVideo(ZOOM_CAM);
         }
 
@@ -1400,27 +1407,27 @@ namespace LWDicer.UI
 
         private void btnControlSendConnect_Click(object sender, EventArgs e)
         {
-            CMainFrame.LWDicer.m_PolyGonScanner.SetControlAddress(lblControlAddress.Text,1111);
-            CMainFrame.DataManager.SystemData_Scan.ControlHostAddress    = CMainFrame.LWDicer.m_PolyGonScanner.GetControlAddress();
-            CMainFrame.DataManager.SystemData_Scan.ControlHostPort       = CMainFrame.LWDicer.m_PolyGonScanner.GetControlPortNum();
+            CMainFrame.LWDicer.m_MeScanner.SetControlAddress(lblControlAddress.Text,1111);
+            CMainFrame.DataManager.SystemData_Scan.ControlHostAddress    = CMainFrame.LWDicer.m_MeScanner.GetControlAddress();
+            CMainFrame.DataManager.SystemData_Scan.ControlHostPort       = CMainFrame.LWDicer.m_MeScanner.GetControlPortNum();
             
             CMainFrame.DataManager.SaveSystemData(null, null, null, null, null, CMainFrame.DataManager.SystemData_Scan, null);
 
             bool bCheckConnect = false;
-            CMainFrame.LWDicer.m_PolyGonScanner.m_RefComp.ControlComm.ConnectServer();
-            bCheckConnect = CMainFrame.LWDicer.m_PolyGonScanner.m_RefComp.ControlComm.IsConnected();
+            CMainFrame.LWDicer.m_MeScanner.m_RefComp.ControlComm.ConnectServer();
+            bCheckConnect = CMainFrame.LWDicer.m_MeScanner.m_RefComp.ControlComm.IsConnected();
 
         }
 
         private void btnHeadSendConnect_Click(object sender, EventArgs e)
         {
-            CMainFrame.LWDicer.m_PolyGonScanner.SetScanHeadAddress(lblHeadAddress.Text, 1111);
-            CMainFrame.DataManager.SystemData_Scan.ScanHeadHostAddress   = CMainFrame.LWDicer.m_PolyGonScanner.GetScanHeadAddress();
-            CMainFrame.DataManager.SystemData_Scan.ScanHeadHostPort      = CMainFrame.LWDicer.m_PolyGonScanner.GetScanHeadPortNum();
+            CMainFrame.LWDicer.m_MeScanner.SetScanHeadAddress(lblHeadAddress.Text, 1111);
+            CMainFrame.DataManager.SystemData_Scan.ScanHeadHostAddress   = CMainFrame.LWDicer.m_MeScanner.GetScanHeadAddress();
+            CMainFrame.DataManager.SystemData_Scan.ScanHeadHostPort      = CMainFrame.LWDicer.m_MeScanner.GetScanHeadPortNum();
 
             CMainFrame.DataManager.SaveSystemData(null, null, null, null, null, CMainFrame.DataManager.SystemData_Scan, null);
 
-            CMainFrame.LWDicer.m_PolyGonScanner.m_RefComp.ScanHeadComm.ConnectServer();
+            CMainFrame.LWDicer.m_MeScanner.m_RefComp.ScanHeadComm.ConnectServer();
 
         }
 
@@ -1428,5 +1435,7 @@ namespace LWDicer.UI
         {
 
         }
+
+        
     }
 }

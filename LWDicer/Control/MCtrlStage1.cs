@@ -11,6 +11,7 @@ using static LWDicer.Control.DEF_Vision;
 using static LWDicer.Control.DEF_MeStage;
 using static LWDicer.Control.DEF_CtrlStage;
 using static LWDicer.Control.DEF_DataManager;
+using LWDicer.UI;
 
 namespace LWDicer.Control
 {
@@ -44,6 +45,7 @@ namespace LWDicer.Control
             public IIO IO;
             public MVision Vision;
             public MMeStage Stage;
+            public MMeScannerPolygon Scanner;
 
             public CCtrlStage1RefComp()
             {
@@ -198,23 +200,189 @@ namespace LWDicer.Control
 
         public int LaserProcessMof()
         {
-            return m_RefComp.Stage.LaserProcess(EScannerMode.MOF);
+            return m_RefComp.Scanner.LaserProcess(EScannerMode.MOF);
         }
 
-        public int LaserProcessStill()
+        public int LaserProcessStep1()
         {
-            MoveToStageWaitPos();
-            m_RefComp.Stage.LaserProcess(EScannerMode.STILL);
+            var originPos  = new CPos_XYTZ();
+            var originPos1 = new CPos_XYTZ();
+            var originPos2 = new CPos_XYTZ();
+            var stepPitch = new CPos_XYTZ();
+            var patternPitch = new CPos_XYTZ();
+            var patternMove = new CPos_XYTZ();
+            int nStepCount = 0, nPatternCount=0;
 
-            MoveToStageLoadPos();
-            m_RefComp.Stage.LaserProcess(EScannerMode.STILL);
+            // Paterrn 1 Data 설정
+            nStepCount = CMainFrame.DataManager.ModelData.ProcData.ProcessCount1;
+            nPatternCount = CMainFrame.DataManager.ModelData.ProcData.PatternCount1;
+            stepPitch.dX = -(double)CMainFrame.DataManager.ModelData.ProcData.ProcessOffsetX1;
+            stepPitch.dY = -(double)CMainFrame.DataManager.ModelData.ProcData.ProcessOffsetY1;
+            patternPitch.dX = 0.0;
+            patternPitch.dY = (double)CMainFrame.DataManager.ModelData.ProcData.PatternPitch1;
 
-            MoveToMacroCam();
-            m_RefComp.Stage.LaserProcess(EScannerMode.STILL);
+            // 현재 지령 위치 저장
+            m_RefComp.Stage.GetStageCmdPos(out originPos);
 
-            MoveToProcessPos();
-            m_RefComp.Stage.LaserProcess(EScannerMode.STILL);
+            // Pattern 위치로 Move
+            originPos1.dX = originPos.dX;
+            originPos1.dY = originPos.dY - (double)CMainFrame.DataManager.ModelData.ProcData.PatternOffset1;
+            m_RefComp.Stage.MoveStagePos(originPos1);
 
+            // Pattern 1 Process ===================================================================
+
+            // Bmp & Config.ini File Download
+            m_RefComp.Scanner.SendConfig("T:\\SFA\\LWDicer\\ScannerData\\config_job1.ini");
+            m_RefComp.Scanner.SendBitmap("T:\\SFA\\LWDicer\\ImageData\\image_job1.bmp");
+
+            // Marking Process (Step & Go)
+            for (int i = 0; i < nPatternCount; i++)
+            {
+                for (int j = 0; j < nStepCount; j++)
+                {
+                    // Laser Process                    
+                    m_RefComp.Scanner.LaserProcess(EScannerMode.STILL);
+                                       
+                    // Step Move
+                    if (j >= (nStepCount - 1)) continue;
+                    MoveStageRelative(stepPitch, true);
+                }
+                // Pattern Move
+                patternMove.dX = originPos1.dX - patternPitch.dX * (i + 1);
+                patternMove.dY = originPos1.dY - patternPitch.dY * (i + 1);
+
+                if (i >= (nPatternCount - 1)) continue;
+                m_RefComp.Stage.MoveStagePos(patternMove);
+            }
+
+            // Pattern 위치로 Move
+            originPos2.dX = originPos.dX;
+            originPos2.dY = originPos.dY - (double)CMainFrame.DataManager.ModelData.ProcData.PatternOffset2;
+            m_RefComp.Stage.MoveStagePos(originPos2);
+
+
+            // Paterrn 1 Data 설정
+            nStepCount = CMainFrame.DataManager.ModelData.ProcData.ProcessCount2;
+            nPatternCount = CMainFrame.DataManager.ModelData.ProcData.PatternCount2;
+            stepPitch.dX = -(double)CMainFrame.DataManager.ModelData.ProcData.ProcessOffsetX2;
+            stepPitch.dY = -(double)CMainFrame.DataManager.ModelData.ProcData.ProcessOffsetY2;
+            patternPitch.dX = 0.0;
+            patternPitch.dY = (double)CMainFrame.DataManager.ModelData.ProcData.PatternPitch2;
+
+            // Pattern 2 Process ===================================================================
+
+            // Bmp & Config.ini File Download
+            m_RefComp.Scanner.SendConfig("T:\\SFA\\LWDicer\\ScannerData\\config_job2.ini");
+            m_RefComp.Scanner.SendBitmap("T:\\SFA\\LWDicer\\ImageData\\image_job2.bmp");
+
+            // Marking Process (Step & Go)
+            for (int i = 0; i < nPatternCount; i++)
+            {
+                for (int j = 0; j < nStepCount; j++)
+                {
+                    // Laser Process
+                    m_RefComp.Scanner.LaserProcess(EScannerMode.STILL);
+
+                    // Step Move
+                    if (j >= (nStepCount - 1)) continue;
+                    MoveStageRelative(stepPitch, true);
+                }
+                // Pattern Move
+                patternMove.dX = originPos2.dX - patternPitch.dX * (i + 1);
+                patternMove.dY = originPos2.dY - patternPitch.dY * (i + 1);
+
+                if (i >= (nPatternCount - 1)) continue;
+                m_RefComp.Stage.MoveStagePos(patternMove);
+            }
+
+            // 초기 위치로 이동함
+            m_RefComp.Stage.MoveStagePos(originPos);
+
+            return SUCCESS;
+        }
+
+        public int LaserProcessStep2()
+        {
+            var originPos = new CPos_XYTZ();
+            var originPos1 = new CPos_XYTZ();
+            var originPos2 = new CPos_XYTZ();
+            var stepPitch = new CPos_XYTZ();
+            var patternPitch = new CPos_XYTZ();
+            var patternMove = new CPos_XYTZ();
+            int nStepCount = 0, nPatternCount = 0;
+
+            nPatternCount = CMainFrame.DataManager.ModelData.ProcData.PatternCount1;
+
+            // 현재 지령 위치 저장
+            m_RefComp.Stage.GetStageCmdPos(out originPos);
+
+            for (int i = 0; i < nPatternCount; i++)
+            {
+                // Paterrn 1 Data 설정
+                nStepCount = CMainFrame.DataManager.ModelData.ProcData.ProcessCount1;
+                stepPitch.dX = -(double)CMainFrame.DataManager.ModelData.ProcData.ProcessOffsetX1;
+                stepPitch.dY = -(double)CMainFrame.DataManager.ModelData.ProcData.ProcessOffsetY1;
+                patternPitch.dX = 0.0;
+                patternPitch.dY = (double)CMainFrame.DataManager.ModelData.ProcData.PatternPitch1;
+
+                // Pattern 위치로 Move
+                originPos1.dX = originPos.dX;
+                originPos1.dY = originPos.dY - (double)CMainFrame.DataManager.ModelData.ProcData.PatternOffset1
+                                             - patternPitch.dY * (i);
+                m_RefComp.Stage.MoveStagePos(originPos1);
+
+                // Pattern 1 Process ===================================================================
+
+                // Bmp & Config.ini File Download
+                m_RefComp.Scanner.SendConfig("T:\\SFA\\LWDicer\\ScannerData\\config_job1.ini");
+                m_RefComp.Scanner.SendBitmap("T:\\SFA\\LWDicer\\ImageData\\image_job1.bmp");
+                
+                for (int j = 0; j < nStepCount; j++)
+                {
+                    // Laser Process
+                    m_RefComp.Scanner.LaserProcess(EScannerMode.STILL);
+
+                    // Step Move
+                    if (j >= (nStepCount - 1)) continue;
+                    MoveStageRelative(stepPitch, true);
+                }
+
+
+                // 2nd Pattern Move
+                originPos2.dX = originPos1.dX;
+                originPos2.dY = originPos1.dY - (double)CMainFrame.DataManager.ModelData.ProcData.PatternOffset2
+                                              - patternPitch.dY * (i); 
+                m_RefComp.Stage.MoveStagePos(originPos2);
+
+
+                // Paterrn 1 Data 설정
+                nStepCount = CMainFrame.DataManager.ModelData.ProcData.ProcessCount2;
+                nPatternCount = CMainFrame.DataManager.ModelData.ProcData.PatternCount2;
+                stepPitch.dX = -(double)CMainFrame.DataManager.ModelData.ProcData.ProcessOffsetX2;
+                stepPitch.dY = -(double)CMainFrame.DataManager.ModelData.ProcData.ProcessOffsetY2;
+                patternPitch.dX = 0.0;
+                patternPitch.dY = (double)CMainFrame.DataManager.ModelData.ProcData.PatternPitch2;
+
+                // Pattern 2 Process ===================================================================
+
+                // Bmp & Config.ini File Download
+                m_RefComp.Scanner.SendConfig("T:\\SFA\\LWDicer\\ScannerData\\config_job2.ini");
+                m_RefComp.Scanner.SendBitmap("T:\\SFA\\LWDicer\\ImageData\\image_job2.bmp");
+
+                for (int j = 0; j < nStepCount; j++)
+                {
+                    // Laser Process
+                    m_RefComp.Scanner.LaserProcess(EScannerMode.STILL);
+
+                    // Step Move
+                    if (j >= (nStepCount - 1)) continue;
+                    MoveStageRelative(stepPitch, true);
+                }
+            }
+
+
+            // 초기 위치로 이동함
+            m_RefComp.Stage.MoveStagePos(originPos);
 
             return SUCCESS;
         }
@@ -243,6 +411,17 @@ namespace LWDicer.Control
                 sTargetPos.dT = -fixedPos.Pos[iPos].dT;
             }
             return m_RefComp.Stage.MoveStageRelativeXYT(sTargetPos);            
+        }
+
+        public int MoveStageRelative(CPos_XYTZ sTargetPos, bool bDir = true)
+        {            
+            if (bDir==false)
+            { 
+                sTargetPos.dX = -sTargetPos.dX;
+                sTargetPos.dY = -sTargetPos.dY;
+                sTargetPos.dT = -sTargetPos.dT;
+            }
+            return m_RefComp.Stage.MoveStageRelativeXYT(sTargetPos);
         }
 
         public int MoveToStageWaitPos()

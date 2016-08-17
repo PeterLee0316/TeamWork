@@ -143,7 +143,7 @@ namespace LWDicer.Control
         public MVision m_Vision { get; set; }
 
         // Polygon Scanner
-        public CScannerPolygon m_PolyGonScanner;
+        public MMeScannerPolygon m_MeScanner;
 
         ///////////////////////////////////////////////////////////////////////
         // Mechanical Layer
@@ -194,6 +194,12 @@ namespace LWDicer.Control
         public void Dispose()
         {
             // close handle
+            
+        }
+
+        public void CloseSystem()
+        {
+            m_Vision.CloseVisionSystem();
         }
 
         public void TestFunction_BeforeInit()
@@ -600,40 +606,7 @@ namespace LWDicer.Control
             m_SystemInfo.GetObjectInfo(47, out objInfo);
             CreateVisionVisionView(objInfo, ZOOM_CAM);
 #endif
-            ////////////////////////////////////////////////////////////////////////
-            // Scanner
-            string hostAddress;
-            int hostPort;
-
-            hostAddress = m_DataManager.SystemData_Scan.ControlHostAddress;
-            hostPort = m_DataManager.SystemData_Scan.ControlHostPort;
-            var controlCommData = new CSocketClientData(hostAddress, hostPort);
-
-            hostAddress = m_DataManager.SystemData_Scan.ScanHeadHostAddress;
-            hostPort = m_DataManager.SystemData_Scan.ScanHeadHostPort;
-            var scanHeadCommData = new CSocketClientData(hostAddress, hostPort);
-
-            m_SystemInfo.GetObjectInfo(10, out objInfo);
-            m_ScanManager = new CMarkingManager(objInfo);
-            m_SystemInfo.GetObjectInfo(11, out objInfo);
-            m_ScanWindow = new CMarkingWindow(objInfo);
-            m_SystemInfo.GetObjectInfo(12, out objInfo);
-            m_ControlComm = new MSocketClient(objInfo, controlCommData);
-            m_SystemInfo.GetObjectInfo(13, out objInfo);
-            m_ScanHeadComm = new MSocketClient(objInfo, scanHeadCommData);
-            
-            m_FormScanner = new FormScanWindow();
-
-            CScannerRefComp refComp = new CScannerRefComp();
-
-            refComp.Manager = m_ScanManager;
-            refComp.Window = m_ScanWindow;
-            refComp.ControlComm = m_ControlComm;
-            refComp.ScanHeadComm = m_ScanHeadComm;
-            refComp.FormScanner = m_FormScanner;
-
-            m_PolyGonScanner = new CScannerPolygon(objInfo, refComp);
-            m_PolyGonScanner.m_DataManager = m_DataManager;
+           
 
             intro.SetStatus("Init Mechanical Layer", 30);
 
@@ -676,6 +649,9 @@ namespace LWDicer.Control
             m_SystemInfo.GetObjectInfo(308, out objInfo);
             CreateVision(objInfo);
 #endif
+            // Scanner
+            m_SystemInfo.GetObjectInfo(309, out objInfo);
+            CreateScanner(objInfo);
 
             intro.SetStatus("Init Control Layer", 40);
 
@@ -1138,7 +1114,44 @@ namespace LWDicer.Control
             }            
         }
 
-        void CreateCtrlOpPanel(CObjectInfo objInfo)
+        void CreateScanner(CObjectInfo objInfo)
+        {
+            string hostAddress;
+            int hostPort;
+
+            hostAddress = m_DataManager.SystemData_Scan.ControlHostAddress;
+            hostPort = m_DataManager.SystemData_Scan.ControlHostPort;
+            var controlCommData = new CSocketClientData(hostAddress, hostPort);
+
+            hostAddress = m_DataManager.SystemData_Scan.ScanHeadHostAddress;
+            hostPort = m_DataManager.SystemData_Scan.ScanHeadHostPort;
+            var scanHeadCommData = new CSocketClientData(hostAddress, hostPort);
+
+            m_SystemInfo.GetObjectInfo(10, out objInfo);
+            m_ScanManager = new CMarkingManager(objInfo);
+            m_SystemInfo.GetObjectInfo(11, out objInfo);
+            m_ScanWindow = new CMarkingWindow(objInfo);
+            m_SystemInfo.GetObjectInfo(12, out objInfo);
+            m_ControlComm = new MSocketClient(objInfo, controlCommData);
+            m_SystemInfo.GetObjectInfo(13, out objInfo);
+            m_ScanHeadComm = new MSocketClient(objInfo, scanHeadCommData);
+
+            m_FormScanner = new FormScanWindow();
+
+            CScannerRefComp refComp = new CScannerRefComp();
+
+            refComp.Manager = m_ScanManager;
+            refComp.Window = m_ScanWindow;
+            refComp.ControlComm = m_ControlComm;
+            refComp.ScanHeadComm = m_ScanHeadComm;
+            refComp.FormScanner = m_FormScanner;
+            refComp.Process = m_ACS;
+
+            m_MeScanner = new MMeScannerPolygon(objInfo, refComp);
+            m_MeScanner.m_DataManager = m_DataManager;
+        }
+
+            void CreateCtrlOpPanel(CObjectInfo objInfo)
         {
             CCtrlOpPanelRefComp refComp = new CCtrlOpPanelRefComp();
             CCtrlOpPanelData data = new CCtrlOpPanelData();
@@ -1155,6 +1168,7 @@ namespace LWDicer.Control
             CCtrlStage1Data data = new CCtrlStage1Data();
 
             refComp.Stage = m_MeStage;
+            refComp.Scanner = m_MeScanner;
 
             m_ctrlStage1 = new MCtrlStage1(objInfo, refComp, data);
         }

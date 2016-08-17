@@ -268,7 +268,7 @@ namespace LWDicer.Control
         }
 
         // Data & Flag 설정
-#region Data & Flag 설정
+        #region Data & Flag 설정
         public int SetData(CMeStageData source)
         {
             m_Data = ObjectExtensions.Copy(source);
@@ -345,10 +345,10 @@ namespace LWDicer.Control
             return SUCCESS;
         }
 
-#endregion
+        #endregion
 
         // Air 흡착 관련 
-#region Air Vaccum 동작
+        #region Air Vaccum 동작
         public int Absorb(bool bSkipSensor)
         {
             bool bStatus;
@@ -517,51 +517,19 @@ namespace LWDicer.Control
         //===============================================================================================
 
         #endregion
-
-        // Laser Process 구동
-        #region Laser Process 동작
-        public int LaserProcess(EScannerMode processMode)
-        {
-            int bufferNum = 0;
-
-            if (processMode == EScannerMode.MOF) bufferNum = DEF_SCANNER_MOF_RUN;
-            if (processMode == EScannerMode.STILL) bufferNum = DEF_SCANNER_STILL_RUN;
-
-            int iResult = m_RefComp.AxStage.LaserProcess(bufferNum);
-
-            return iResult;
-        }
-
-        public int LaserProcessCount(int countSet)
-        {
-            int iResult = m_RefComp.AxStage.LaserProcessCount(countSet);
-
-            return iResult;
-        }
-
-        public bool IsScannerBusy()
-        {
-            return m_RefComp.AxStage.IsScannerBusy();
-        }
-
-        public bool IsScannerJobStart()
-        {
-            return m_RefComp.AxStage.IsScannerJobStart();
-        }
-
-        public int GetScannerRunCount()
-        {
-            return m_RefComp.AxStage.GetScannerRunCount();
-        }
-
-
-        #endregion
+            
         // Stage Servo 구동
         #region Stage Move 동작
 
         public int GetStageCurPos(out CPos_XYTZ pos)
         {
             int iResult = m_RefComp.AxStage.GetCurPos(out pos);
+            return iResult;
+        }
+
+        public int GetStageCmdPos(out CPos_XYTZ pos)
+        {
+            int iResult = m_RefComp.AxStage.GetCmdPos(out pos);
             return iResult;
         }
 
@@ -1238,7 +1206,7 @@ namespace LWDicer.Control
 #endregion
 
         // Camera Servo 구동
-#region Camera Move 동작
+        #region Camera Move 동작
 
         public int GetCameraCurPos(out CPos_XYTZ pos)
         {

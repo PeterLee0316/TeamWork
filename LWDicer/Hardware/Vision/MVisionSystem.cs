@@ -148,9 +148,12 @@ namespace LWDicer.Control
         }
         public void freeSystems()
         {
+#if SIMULATION_VISION
+                return ;
+#endif
             // GigE Cam System 해제
             m_iResult = m_System.release();
-            
+
             MIL.MsysFree(m_MilSystem);
             MIL.MappFree(m_MilApp);
         }

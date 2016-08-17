@@ -57,20 +57,20 @@ namespace LWDicer.Control
         {
             base.OnMouseDown(e);
 
-            //CMainFrame.LWDicer.m_PolyGonScanner.m_RefComp.Window.SetObjectType(EObjectType.LINE);
+            //CMainFrame.LWDicer.m_MeScanner.m_RefComp.Window.SetObjectType(EObjectType.LINE);
 
             if (e.Button == MouseButtons.Left)  // 마우스 왼쪽 버튼
             {
                 ptMouseStartPos = e.Location;
                 
-                if (CMainFrame.LWDicer.m_PolyGonScanner.m_RefComp.Window.SelectObjectType != EObjectType.NONE)
+                if (CMainFrame.LWDicer.m_MeScanner.m_RefComp.Window.SelectObjectType != EObjectType.NONE)
                 {
-                    CMainFrame.LWDicer.m_PolyGonScanner.m_RefComp.Window.SetObjectStartPos(PixelToField(ptMouseStartPos));
+                    CMainFrame.LWDicer.m_MeScanner.m_RefComp.Window.SetObjectStartPos(PixelToField(ptMouseStartPos));
 
-                    if (CMainFrame.LWDicer.m_PolyGonScanner.m_RefComp.Window.SelectObjectType == EObjectType.DOT)
+                    if (CMainFrame.LWDicer.m_MeScanner.m_RefComp.Window.SelectObjectType == EObjectType.DOT)
                     {
                         CheckDragDraw = true;
-                        CMainFrame.LWDicer.m_PolyGonScanner.m_RefComp.Window.SetObjectEndPos(Point.Empty);
+                        CMainFrame.LWDicer.m_MeScanner.m_RefComp.Window.SetObjectEndPos(Point.Empty);
                         this.Invalidate();
                     }
                 }
@@ -85,20 +85,20 @@ namespace LWDicer.Control
         {
             base.OnMouseUp(e);
 
-            if (e.Button == MouseButtons.Left && CMainFrame.LWDicer.m_PolyGonScanner.m_RefComp.Window.SelectObjectType != EObjectType.NONE)
+            if (e.Button == MouseButtons.Left && CMainFrame.LWDicer.m_MeScanner.m_RefComp.Window.SelectObjectType != EObjectType.NONE)
             {
                 // 시작 포인트와 끝 포이트가 같으면 Shape를 생성하지 않는다.
-                if (ptMouseStartPos == ptMouseEndPos && CMainFrame.LWDicer.m_PolyGonScanner.m_RefComp.Window.SelectObjectType != EObjectType.DOT) return;
+                if (ptMouseStartPos == ptMouseEndPos && CMainFrame.LWDicer.m_MeScanner.m_RefComp.Window.SelectObjectType != EObjectType.DOT) return;
 
                 CheckDragDraw = false;
 
                 // Add Object                
-                CMainFrame.LWDicer.m_PolyGonScanner.m_RefComp.Window.AddObject();
+                CMainFrame.LWDicer.m_MeScanner.m_RefComp.Window.AddObject();
 
                 Invalidate();
             }
 
-            if (CMainFrame.LWDicer.m_PolyGonScanner.m_RefComp.Window.SelectObjectType == EObjectType.NONE)
+            if (CMainFrame.LWDicer.m_MeScanner.m_RefComp.Window.SelectObjectType == EObjectType.NONE)
             {
                 ptMouseStartPos = ptMouseEndPos;
                 Invalidate();
@@ -109,16 +109,16 @@ namespace LWDicer.Control
         {
             base.OnMouseMove(e);
 
-            //if (CMainFrame.LWDicer.m_PolyGonScanner.m_RefComp.Window.SelectObjectType == EObjectType.NONE) return;
-            CMainFrame.LWDicer.m_PolyGonScanner.m_RefComp.Window.ptMousePos = PixelToField(e.Location);
-            //m_FormScanWindow.lblMousePos.Text = CMainFrame.LWDicer.m_PolyGonScanner.m_RefComp.Window.ptMousePos.ToString();
+            //if (CMainFrame.LWDicer.m_MeScanner.m_RefComp.Window.SelectObjectType == EObjectType.NONE) return;
+            CMainFrame.LWDicer.m_MeScanner.m_RefComp.Window.ptMousePos = PixelToField(e.Location);
+            //m_FormScanWindow.lblMousePos.Text = CMainFrame.LWDicer.m_MeScanner.m_RefComp.Window.ptMousePos.ToString();
 
             if (e.Button == MouseButtons.Left)
             {
                 ptMouseEndPos = e.Location;
 
-                if (CMainFrame.LWDicer.m_PolyGonScanner.m_RefComp.Window.SelectObjectType != EObjectType.NONE)
-                    CMainFrame.LWDicer.m_PolyGonScanner.m_RefComp.Window.SetObjectEndPos(PixelToField(ptMouseEndPos));
+                if (CMainFrame.LWDicer.m_MeScanner.m_RefComp.Window.SelectObjectType != EObjectType.NONE)
+                    CMainFrame.LWDicer.m_MeScanner.m_RefComp.Window.SetObjectEndPos(PixelToField(ptMouseEndPos));
 
                 CheckDragDraw = true;
                 this.Invalidate();
@@ -129,7 +129,7 @@ namespace LWDicer.Control
         {
             base.OnMouseLeave(e);
 
-            CMainFrame.LWDicer.m_PolyGonScanner.m_RefComp.Window.SetObjectType(EObjectType.NONE);
+            CMainFrame.LWDicer.m_MeScanner.m_RefComp.Window.SetObjectType(EObjectType.NONE);
         }
 
 
@@ -148,7 +148,7 @@ namespace LWDicer.Control
 
             // Esc Key ------------------------
             if (e.KeyData == Keys.Escape)
-                CMainFrame.LWDicer.m_PolyGonScanner.m_RefComp.Window.SetObjectType(EObjectType.NONE);
+                CMainFrame.LWDicer.m_MeScanner.m_RefComp.Window.SetObjectType(EObjectType.NONE);
 
         }
 
@@ -171,13 +171,13 @@ namespace LWDicer.Control
                 {
                     float currentZoom = BaseZoomFactor;
                     currentZoom *= 1.1f;
-                    CMainFrame.LWDicer.m_PolyGonScanner.m_RefComp.Window.ChangeCanvasZoom(currentZoom);
+                    CMainFrame.LWDicer.m_MeScanner.m_RefComp.Window.ChangeCanvasZoom(currentZoom);
                 }
                 else
                 {
                     float currentZoom = BaseZoomFactor;
                     currentZoom /= 1.1f;
-                    CMainFrame.LWDicer.m_PolyGonScanner.m_RefComp.Window.ChangeCanvasZoom(currentZoom);
+                    CMainFrame.LWDicer.m_MeScanner.m_RefComp.Window.ChangeCanvasZoom(currentZoom);
                 }
                 return;
             }
@@ -188,10 +188,10 @@ namespace LWDicer.Control
         {
             base.OnPaint(e);
 
-            if (CMainFrame.LWDicer.m_PolyGonScanner.m_RefComp.Window == null || CMainFrame.LWDicer.m_PolyGonScanner.m_RefComp.Manager == null) return;
+            if (CMainFrame.LWDicer.m_MeScanner.m_RefComp.Window == null || CMainFrame.LWDicer.m_MeScanner.m_RefComp.Manager == null) return;
 
             // 기존 Object 그리기
-            CMainFrame.LWDicer.m_PolyGonScanner.m_RefComp.Manager.DrawObject(e);
+            CMainFrame.LWDicer.m_MeScanner.m_RefComp.Manager.DrawObject(e);
 
             // 현재 Drag 모양 그리기
             if (CheckDragDraw)
@@ -210,7 +210,7 @@ namespace LWDicer.Control
             StartPos = ptMouseStartPos;
             EndPos = ptMouseEndPos;
 
-            switch (CMainFrame.LWDicer.m_PolyGonScanner.m_RefComp.Window.SelectObjectType)
+            switch (CMainFrame.LWDicer.m_MeScanner.m_RefComp.Window.SelectObjectType)
             {
                 case EObjectType.NONE:
                     g.DrawRectangle(BaseDrawPen[(int)EDrawPenType.SELECT],

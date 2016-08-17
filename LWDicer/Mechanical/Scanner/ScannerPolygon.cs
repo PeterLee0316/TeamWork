@@ -34,8 +34,9 @@ namespace LWDicer.Control
             public CMarkingWindow Window;
             public MSocketClient ControlComm;
             public MSocketClient ScanHeadComm;
-
             public FormScanWindow FormScanner;
+
+            public MACS Process;
         }
 
         public class CScannerData
@@ -45,7 +46,7 @@ namespace LWDicer.Control
         }        
     }
 
-    public class CScannerPolygon:MObject,IMarkingScanner
+    public class MMeScannerPolygon:MObject,IMarkingScanner
     {
         #region 맴버 변수 설정
 
@@ -81,7 +82,7 @@ namespace LWDicer.Control
 
         #endregion
 
-        public CScannerPolygon(CObjectInfo objInfo, CScannerRefComp refComp) :base(objInfo)
+        public MMeScannerPolygon(CObjectInfo objInfo, CScannerRefComp refComp) :base(objInfo)
         {
             m_RefComp = refComp;            
 
@@ -1185,12 +1186,10 @@ namespace LWDicer.Control
          * Parameter :   int scannerIndex - Scanner No.
          *               string strFile - 전송하고 자하는 ini File Name
          ------------------------------------------------------------------------------------*/
-        public bool SendConfig(string strFile)
+        public bool SendConfig(string strPath)
         {
             string strFTP = GetControlAddress(); // ex) "172.18.7.160
-
-            string strPath = string.Format("{0:s}{1:s}", m_DataManager.DBInfo.ScannerDataDir, strFile);  // ex) "SFA\LWDicer\ScannerLog\configure.ini"
-
+            
             if (SendTFTPFile(strFTP,strPath) == true)
             {
                 return true;
@@ -1220,15 +1219,16 @@ namespace LWDicer.Control
         /*------------------------------------------------------------------------------------
          * Date : 2016.02.24
          * Author : HSLEE
-         * Function : SendBitMap(string strFile)
+         * Function : SendBitmap(string strFile)
          * Description : Scanner에 Configure BitMap 파일전송 
          *               File Path = SFA\LWDicer\ScannerLog
          * Parameter :   int scannerIndex - Scanner No.
          *               string strFile - 전송하고 자하는 BitMap File Name
          ------------------------------------------------------------------------------------*/
-        public bool SendBitMap(string strFile)
+        public bool SendBitmap(string strFile)
         {
             string strFTP = GetControlAddress(); // ex) "92.168.22.60"
+            //string strPath = string.Format("{0:s}{1:s}", m_DataManager.DBInfo.ImageDataDir, strFile);  
             string filePath = strFile;
 
             if (SendTFTPFile(strFTP, filePath) == true)
@@ -1337,6 +1337,47 @@ namespace LWDicer.Control
 
         #endregion
 
+        #region Laser Process 동작
+        public int LaserProcess(EScannerMode processMode)
+        {
+            int bufferNum = 0;
+
+            if (processMode == EScannerMode.MOF) bufferNum = DEF_SCANNER_MOF_RUN;
+            if (processMode == EScannerMode.STILL) bufferNum = DEF_SCANNER_STILL_RUN;
+
+            int iResult = m_RefComp.Process.LaserProcess(bufferNum);
+
+
+            return iResult;
+        }
+
+        public int LaserProcessCount(int countSet)
+        {
+            int iResult = SUCCESS;
+            string strVariable = "ProcessSet";            
+
+            iResult = m_RefComp.Process.WriteBufferMemory(strVariable,countSet);
+
+            return iResult;
+        }
+
+        public bool IsScannerBusy()
+        {
+            return m_RefComp.Process.IsScannerBusy();
+        }
+
+        public bool IsScannerJobStart()
+        {
+            return m_RefComp.Process.IsScannerJobStart();
+        }
+
+        public int GetScannerRunCount()
+        {
+            return m_RefComp.Process.GetScannerRunCount();
+        }
+
+
+        #endregion
     }
 
 }

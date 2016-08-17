@@ -94,6 +94,8 @@ namespace LWDicer.Control
                 return GenerateErrorCode(ERR_VISION_CAMERA_CREATE_FAIL);
             }
 
+            //SetLocalOverlay(true);
+
         }
         
         public int GetIdNum()
@@ -671,26 +673,34 @@ namespace LWDicer.Control
 
         public void FreeDisplay()
         {
+
+#if SIMULATION_VISION
+                return ;
+#endif
             DestroyLocalView();
 
-            m_hCustomDC = IntPtr.Zero;
+            try
+            {
+                m_hCustomDC = IntPtr.Zero;
 
-            m_ImgText = MIL.M_NULL;
-            m_MilOverlay = MIL.M_NULL;
-            //m_SearchResult = MIL.M_NULL;
-            m_MarkModel = MIL.M_NULL;
-            m_MilOverLayID = MIL.M_NULL;
-            m_MilDisplay = MIL.M_NULL;
+                m_ImgText = MIL.M_NULL;
+                m_MilOverlay = MIL.M_NULL;
+                //m_SearchResult = MIL.M_NULL;
+                m_MarkModel = MIL.M_NULL;
+                m_MilOverLayID = MIL.M_NULL;
+                m_MilDisplay = MIL.M_NULL;
 
-            MIL.MgraClear(MIL.M_DEFAULT, GraphicList);
-            MIL.MgraFree(GraphicList);
-            MIL.MbufFree(m_MilOverlay);
-            MIL.MbufFree(m_MilOverLayID);
-            //MIL.MbufFree(m_SearchResult);
-            MIL.MbufFree(m_MarkModel);
-            MIL.MbufFree(m_ImgText);
-            MIL.MbufFree(m_MilImage);
-            MIL.MdispFree(m_MilDisplay);
+                MIL.MgraClear(MIL.M_DEFAULT, GraphicList);
+                MIL.MgraFree(GraphicList);
+                MIL.MbufFree(m_MilOverlay);
+                MIL.MbufFree(m_MilOverLayID);
+                //MIL.MbufFree(m_SearchResult);
+                MIL.MbufFree(m_MarkModel);
+                MIL.MbufFree(m_ImgText);
+                MIL.MbufFree(m_MilImage);
+                MIL.MdispFree(m_MilDisplay);
+            }
+            catch { }
         }
     }
 }

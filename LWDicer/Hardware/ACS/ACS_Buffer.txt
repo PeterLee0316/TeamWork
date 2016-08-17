@@ -4,23 +4,29 @@ Motion 에서 Buffer / Ladder 프로그램을 지원하고, 사용한다면, 백
 
 
 //////////////////////////////////////////////////////////////////////////
-// Buffer1
+// Buffer 21번 Motion Data Update
 // Last Updated 2016.05.16 by ....Lee Jae Jun
 //////////////////////////////////////////////////////////////////////////
 
 
+
 AUTOEXEC:
 
-GLOBAL REAL M_REAL(4)(8)
-GLOBAL INT  M_INT(4)(3)
-GLOBAL INT  HomeFlag(4)
+GLOBAL REAL M_REAL(8)(8)
+GLOBAL INT  M_INT(8)(3)
+
 INT AXIS
+
+! In/Out Address Matching
+InOutPort = 1;
+InExpoBusy = 0
+OutJobStart = 8
 
 WHILE 1
 	
 	AXIS =0
 	
-	LOOP 4
+	LOOP 8
 		M_REAL(AXIS)(0) = FPOS(AXIS)	! Auctual Position		
 		M_REAL(AXIS)(1) = FVEL(AXIS)	! Current Velocity
 		M_REAL(AXIS)(2) = RMS(AXIS)		! Torque Percent
@@ -57,10 +63,176 @@ WHILE 1
 						 ! 20 OFF HSSI Not Connected (#HSSINC)
 		M_INT(AXIS)(2) = HomeFlag(AXIS) 	
 		
+		IF(AXIS=5)
+			M_INT(AXIS)(0)= IN(InOutPort).InExpoBusy
+			M_INT(AXIS)(1)= OUT(InOutPort).OutJobStart
+			M_INT(AXIS)(2)= ProcessCount
+		END
+		
 		AXIS = AXIS+1
 	END
+	
 END
 
 STOP
 
+
 //////////////////////////////////////////////////////////////////////////
+
+
+
+
+
+//////////////////////////////////////////////////////////////////////////
+// Buffer 11번  Scanner MOF Program
+// Last Updated 2016.05.16 by ....Lee Jae Jun
+//////////////////////////////////////////////////////////////////////////
+
+REAL StageStartPos
+
+INT StartTimeOut, ProcessTimeOut
+
+! TimeOut Set: 5sec
+StartTimeOut = 5000
+! TimeOut Set: 100sec
+ProcessTimeOut = 100000
+! Process Count Init
+ProcessCount =0
+
+IF(ProcessSet=0)
+	ProcessSet=1
+END
+
+LOOP ProcessSet
+	StageStartPos = RPOS(Linear_Y)
+
+	! scanner Command Pos Set "0"
+	SET APOS(Scaner) = 0;
+	SET RPOS(Scaner) = 0;
+	! SERVO MODE CHANGE
+	MFLAGS(Linear_Y).#DEFCON = 0
+	CONNECT RPOS(Linear_Y)=APOS(Scaner)+APOS(Linear_Y)
+	!DEPENDS (Linear_Y),(Scaner,Linear_Y)
+	DEPENDS Linear_Y,Linear_Y
+
+	SET RPOS(Linear_Y) = APOS(Scaner)+APOS(Linear_Y)
+
+	! Set JobStart
+	OUT(InOutPort).OutJobStart = 1
+	DISP "Job Start Signal On"
+
+	TILL IN(InOutPort).InExpoBusy,StartTimeOut;
+	IF ^IN(InOutPort).InExpoBusy
+		GOTO Time_Out; 
+	END
+
+	DISP "ExpoBusy Signal On"
+
+	WAIT 200
+
+	TILL ^IN(InOutPort).InExpoBusy,ProcessTimeOut;
+	IF IN(InOutPort).InExpoBusy
+		GOTO Time_Out; 
+	END
+
+	DISP "ExpoBusy Signal Off"
+
+	! RESET JobStart
+	OUT(InOutPort).OutJobStart = 0
+	DISP "Job Start Signal Off"
+
+	! MODE RETRUN
+	MFLAGS(Linear_Y).#DEFCON = 1
+    
+	! Stage Init Position Move
+	DISP "Stage Move"
+	PTP/E (Linear_Y),StageStartPos
+
+	! Process Run Count
+	ProcessCount = ProcessCount + 1
+	
+	WAIT 100
+END
+
+
+DISP "Process Complete"
+
+STOP
+
+
+Time_Out:
+! RESET JobStart
+OUT(InOutPort).OutJobStart = 0
+
+! MODE RETRUN
+MFLAGS(Linear_Y).#DEFCON = 1
+
+WAIT 100
+
+! Stage Init Position Move
+PTP/E (Linear_Y),StageStartPos
+
+DISP "Time Out Error"
+
+STOP
+
+
+
+//////////////////////////////////////////////////////////////////////////
+// Buffer 12번  Scanner Step & Go Program
+// Last Updated 2016.05.16 by ....Lee Jae Jun
+//////////////////////////////////////////////////////////////////////////
+
+
+INT StartTimeOut, ProcessTimeOut
+
+! TimeOut Set: 5sec
+StartTimeOut = 5000
+! TimeOut Set: 100sec
+ProcessTimeOut = 100000
+
+! scanner Command Pos Set "0"
+SET APOS(Scaner) = 0;
+SET RPOS(Scaner) = 0;
+
+! Set JobStart
+OUT(InOutPort).OutJobStart = 1
+DISP "Job Start Signal On"
+
+TILL IN(InOutPort).InExpoBusy,StartTimeOut;
+IF ^IN(InOutPort).InExpoBusy
+	GOTO Time_Out; 
+END
+
+DISP "ExpoBusy Signal On"
+
+WAIT 200
+
+TILL ^IN(InOutPort).InExpoBusy,ProcessTimeOut;
+IF IN(InOutPort).InExpoBusy
+	GOTO Time_Out; 
+END
+
+DISP "ExpoBusy Signal Off"
+
+! RESET JobStart
+OUT(InOutPort).OutJobStart = 0
+DISP "Job Start Signal Off"
+
+WAIT 100
+
+DISP "Process Complete"
+
+STOP
+
+
+Time_Out:
+! RESET JobStart
+OUT(InOutPort).OutJobStart = 0
+
+WAIT 100
+
+
+DISP "Time Out Error"
+
+STOP

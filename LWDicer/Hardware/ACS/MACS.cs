@@ -228,9 +228,16 @@ namespace LWDicer.Control
             public int ChannelOpen()
             {
 #if !SIMULATION_MOTION_ACS
-                ACS?.OpenCommEthernetTCP(addressTCP, portNum);
-                
-                IsChannelOpen = true;
+                try
+                {
+                    ACS?.OpenCommEthernetTCP(addressTCP, portNum);
+
+                    IsChannelOpen = true;
+                }
+                catch
+                {
+                    IsChannelOpen = false;
+                }
 #endif
                 return SUCCESS;
             }
@@ -1128,7 +1135,7 @@ namespace LWDicer.Control
             catch
             { }
 
-            Sleep(50);
+            Sleep(100);
 
             // 0.5 Motion Complete 확인
             iResult = Wait4Done(axisList, useAxis);
@@ -1299,9 +1306,11 @@ namespace LWDicer.Control
             return false;
         }
 
+
         public int LaserProcess(int bufferNum)
         {
 #if !SIMULATION_MOTION_ACS
+            
             // check safety
             int iResult = IsSafeForMove();
             if (iResult != SUCCESS) return iResult;

@@ -58,6 +58,8 @@ namespace LWDicer.UI
         {
             if (CMainFrame.InquireMsg("Exit System?"))
             {
+                CMainFrame.LWDicer.CloseSystem();
+
                 Environment.Exit(0);
                 System.Diagnostics.Process.GetCurrentProcess().Kill();
             }
