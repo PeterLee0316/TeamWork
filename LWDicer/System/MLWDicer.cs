@@ -1110,6 +1110,9 @@ namespace LWDicer.Control
             CCtrlLoaderRefComp refComp = new CCtrlLoaderRefComp();
             CCtrlLoaderData data = new CCtrlLoaderData();
 
+            refComp.IO = m_IO;
+            refComp.Elevator = m_MeElevator;
+
             m_ctrlLoader = new MCtrlLoader(objInfo, refComp, data);
         }
 

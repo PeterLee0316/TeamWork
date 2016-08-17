@@ -368,7 +368,7 @@ namespace LWDicer.UI
             if (!CMainFrame.InquireMsg(strMsg)) return;
 
             // 0. check safety
-            if (CMainFrame.LWDicer.IsSafeForAxisMove()) return;
+            if (CMainFrame.LWDicer.IsSafeForAxisMove() == false) return;
 
             // 1. move
             int iResult = DEF_Common.SUCCESS;

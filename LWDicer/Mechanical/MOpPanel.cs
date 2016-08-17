@@ -1443,7 +1443,7 @@ namespace LWDicer.Control
         {
             bOriginSts = new bool[(int)EAxis.MAX];
             //m_JogTable.MotionArray[]
-            return false;
+            return true;
             //int i = 0;
             //bool rgbResult[4] = { false, false, false, false };
             //bool bSts = true;

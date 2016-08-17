@@ -1301,9 +1301,10 @@ namespace LWDicer.Control
 
             bool[] bOriginSts;
             bStatus = m_RefComp.OpPanel.CheckAllOrigin(out bOriginSts);
-
             if (bStatus == false)
+            {
                 return GenerateErrorCode(ERR_MNGOPPANEL_NOT_ALL_ORIGIN);
+            }
 
             return SUCCESS;
         }
