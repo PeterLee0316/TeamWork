@@ -35,6 +35,9 @@ namespace LWDicer.Control
         {
             public IIO IO;
 
+            public MYaskawa YMC;
+            public MACS ACS;
+
             public MOpPanel OpPanel;
 
             public MCtrlOpPanel ctrlOpPanel;
@@ -248,6 +251,10 @@ namespace LWDicer.Control
 
 
                 // do other job
+#endif
+
+#if !SIMULATION_MOTION_YMC
+                //m_RefComp.YMC.GetAllServoStatus();
 #endif
 
                 switch (RunStatus)

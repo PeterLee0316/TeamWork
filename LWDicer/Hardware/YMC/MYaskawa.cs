@@ -274,14 +274,32 @@ namespace LWDicer.Control
         /// <summary>
         /// Yaskawa Motion의 Module Configurator에서 구성하는 CPU, IO, SVC, SVR 등의 각 Unit의
         /// 위치 설정을 정의
+        /// EQUIP_DICING_DEV 는 MP2101TM 보드를 사용함
         /// </summary>
         public class CMPRackTable
         {
+/*
+        Table: Rack, Slot, and Sub Slot Settings(When EXIOIF Modules are Not Mounted)
+
+Machine Controller  Motion Module                   Rack(RackNo)    Slot(SlotNo)    Sub Slot(SubslotNo)
+MP2100 or MP2101    SVB(built-in the board)                                 1       0       3
+                    SVR(virtual axis)                                       1       0       4
+ 
+MP2100M or MP2101M  SVB(built-in the board, with MECHATROLINK port 1)       1       0       3
+                    SVR(virtual axis)                                       1       0       4
+                    SVB-01 (SVB board with MECHATROLINK port 2)             1       1       1
+ 
+MP2101T             SVC(built-in the board)                                 1       0       3
+                    SVR(virtual axis)                                       1       0       4
+ 
+MP2101TM            SVC(built-in the board, with MECHATROLINK port 1)       1       0       3
+                    SVR(virtual axis)                                       1       0       4
+                    SVC-01 (SVC board with MECHATROLINK port 2)             1       1       1
+ */
             public int RackNo = 1;
             public int SlotNo = 0;
             public int SubSlotNo = 3;
         }
-
         public class CYaskawaRefComp
         {
 
@@ -484,6 +502,7 @@ namespace LWDicer.Control
 
         //
         Thread m_hThread;   // Thread Handle
+        private static bool m_bControllerOpened = false;
 
         //
         public bool NeedCheckSafety { get; set; } = false;
@@ -558,6 +577,36 @@ namespace LWDicer.Control
 
         public void ThreadProcess()
         {
+#if !SIMULATION_MOTION_YMC
+            // 160812 by ranian.
+            // OpenController 함수에서 com port를 열어주지만, 쓰레드에서 사용하려면, 쓰레드에서도
+            // 한번 더 호출을 해줘야 한다.
+            CMotionAPI.COM_DEVICE ComDevice;
+            UInt32 rc;
+
+            // 1. Open Controller
+            for (int i = 0; i < m_Data.CpuNo; i++)
+            {
+                // Sets the ymcOpenController parameters.		
+                ComDevice.ComDeviceType = (UInt16)CMotionAPI.ApiDefs.COMDEVICETYPE_PCI_MODE;
+                ComDevice.PortNumber = (UInt16)m_Data.MPComPort;
+                ComDevice.CpuNumber = Convert.ToUInt16(i + 1);    //cpuno;
+                ComDevice.NetworkNumber = 0;
+                ComDevice.StationNumber = 0;
+                ComDevice.UnitNumber = 0;
+                ComDevice.IPAddress = "";
+                ComDevice.Timeout = APITimeOut;
+
+                rc = CMotionAPI.ymcOpenController(ref ComDevice, ref m_hController[i]);
+                if (rc != CMotionAPI.MP_SUCCESS)
+                {
+                    LastHWMessage = String.Format($"Error ymcOpenController Board {0} ErrorCode [ 0x{1} ]", i, rc.ToString("X"));
+                    WriteLog(LastHWMessage, ELogType.Debug, ELogWType.D_Error, true);
+                    //return GenerateErrorCode(ERR_YASKAWA_FAIL_OPEN_YMC);
+                }
+            }
+#endif
+
             while (true)
             {
 #if !SIMULATION_MOTION_YMC
@@ -600,7 +649,8 @@ namespace LWDicer.Control
 
             for (int i = 0; i < axisList.Length; i++)
             {
-                GetServoStatus(i);
+                // Thread에서 update하기 때문에 다시 읽을 필요 없음
+                //GetServoStatus(i);
 
                 // servo on
                 if (ServoStatus[i].IsServoOn == false)
@@ -1082,9 +1132,11 @@ namespace LWDicer.Control
                     int logicalAxisNo = i * MP_AXIS_PER_CPU + j;
                     string axisName = m_Data.MPBoard[i].MotionData[j].Name;
 
+                    // rackNo, slotNo, subSlotNo는 보드에 따라서 고정
                     UInt16 rackNo = (ushort)m_Data.MPBoard[i].SPort[port].RackNo;
                     UInt16 slotNo = (ushort)m_Data.MPBoard[i].SPort[port].SlotNo;
                     UInt16 subSlotNo = (ushort)m_Data.MPBoard[i].SPort[port].SubSlotNo;
+
                     // create axis handle
                     rc = CMotionAPI.ymcDeclareAxis(rackNo, slotNo, subSlotNo,
                         (UInt16)(j+1), (UInt16)(logicalAxisNo+1), (UInt16)CMotionAPI.ApiDefs.REAL_AXIS, 
@@ -1103,10 +1155,16 @@ namespace LWDicer.Control
             {
                 UInt32[] hAxis;
                 iResult = GetDeviceAxisHandle(i, out hAxis);
-                if (iResult != SUCCESS) return iResult;
+                if (iResult != SUCCESS)
+                {
+                    return iResult;
+                }
 
                 iResult = DeclareDevice(GetDeviceLength(i), hAxis, ref m_hDevice[i]);
-                if (iResult != SUCCESS) return iResult;
+                if (iResult != SUCCESS)
+                {
+                    return iResult;
+                }
             }
 
             // servo on
@@ -1115,6 +1173,9 @@ namespace LWDicer.Control
                 iResult = AllServoOn();
                 if (iResult != SUCCESS) return iResult;
             }
+
+            // for test
+            iResult = ServoOn(0);
 
             return SUCCESS;
         }
@@ -1204,8 +1265,7 @@ namespace LWDicer.Control
 #if SIMULATION_MOTION_YMC
             return SUCCESS;
 #endif
-            return SUCCESS;
-
+            return SUCCESS; // 현재는 보드를 한장만 쓰기때문에 의미없는 호출이라서
             if (cpuIndex >= m_hController.Length || m_hController[cpuIndex] == 0)
             {
                 return GenerateErrorCode(ERR_YASKAWA_INVALID_CONTROLLER);
@@ -1239,20 +1299,20 @@ namespace LWDicer.Control
             return ChangeController(cpuIndex);
         }
 
-        private void GetAllServoStatus()
+        public void GetAllServoStatus()
         {
-            for (int i = 0; i < InstalledAxisNo ; i++)
+            for (int i = 0; i < InstalledAxisNo; i++)
             {
                 GetServoStatus(i);
-           }
-
+                Sleep(DEF_Thread.ThreadSleepTime);
+            }
         }
 
         /// <summary>
         /// 속도 체크 필요함
         /// </summary>
         /// <param name="servoNo"></param>
-        private void GetServoStatus(int servoNo)
+        public void GetServoStatus(int servoNo)
         {
 #if SIMULATION_MOTION_YMC
             return;
@@ -1260,13 +1320,21 @@ namespace LWDicer.Control
             UInt32 rc = 0;
             UInt32 returnValue = 0;
 
+            if (m_hAxis[servoNo] == 0) return;
+
             int iResult = ChangeControllerByServo(servoNo);
             //if (iResult != SUCCESS) return iResult;
 
             ////Servo Position 값 Read 
             rc = CMotionAPI.ymcGetMotionParameterValue(m_hAxis[servoNo], (UInt16)CMotionAPI.ApiDefs.MONITOR_PARAMETER,
                     (UInt16)CMotionAPI.ApiDefs_MonPrm.SER_APOS, ref returnValue); //Machine coordinate system feedback position (APOS)
-            if (rc == CMotionAPI.MP_SUCCESS)
+            if (rc != CMotionAPI.MP_SUCCESS)
+            {
+                LastHWMessage = String.Format($"Error ymcSetController Board : 0x{rc.ToString("X")}, {ErrorDictionary[rc.ToString("X")]}");
+                //WriteLog(LastHWMessage, ELogType.Debug, ELogWType.D_Error, true);
+                //return GenerateErrorCode(ERR_YASKAWA_FAIL_GET_MOTION_PARAM);
+                return;
+            } else
             {
                 ServoStatus[servoNo].EncoderPos = (double)returnValue / UNIT_REF;
             }
@@ -1274,7 +1342,14 @@ namespace LWDicer.Control
             //Servo 속도값 Read 
             rc = CMotionAPI.ymcGetMotionParameterValue(m_hAxis[servoNo], (UInt16)CMotionAPI.ApiDefs.MONITOR_PARAMETER,
                     (UInt16)CMotionAPI.ApiDefs_MonPrm.SER_FSPD, ref returnValue);
-            if (rc == CMotionAPI.MP_SUCCESS)
+            if (rc != CMotionAPI.MP_SUCCESS)
+            {
+                LastHWMessage = String.Format($"Error ymcSetController Board : 0x{rc.ToString("X")}, {ErrorDictionary[rc.ToString("X")]}");
+                //WriteLog(LastHWMessage, ELogType.Debug, ELogWType.D_Error, true);
+                //return GenerateErrorCode(ERR_YASKAWA_FAIL_GET_MOTION_PARAM);
+                return;
+            }
+            else
             {
                 ServoStatus[servoNo].Velocity = (double)returnValue / UNIT_REF;
             }
@@ -1282,7 +1357,14 @@ namespace LWDicer.Control
             //Servo Status Read 
             rc = CMotionAPI.ymcGetMotionParameterValue(m_hAxis[servoNo], (UInt16)CMotionAPI.ApiDefs.MONITOR_PARAMETER,    //110208
                     (UInt16)CMotionAPI.ApiDefs_MonPrm.SER_RUNSTS, ref returnValue);
-            if (rc == CMotionAPI.MP_SUCCESS)
+            if (rc != CMotionAPI.MP_SUCCESS)
+            {
+                LastHWMessage = String.Format($"Error ymcSetController Board : 0x{rc.ToString("X")}, {ErrorDictionary[rc.ToString("X")]}");
+                //WriteLog(LastHWMessage, ELogType.Debug, ELogWType.D_Error, true);
+                //return GenerateErrorCode(ERR_YASKAWA_FAIL_GET_MOTION_PARAM);
+                return;
+            }
+            else
             {
                 //Servo Ready
                 ServoStatus[servoNo].IsReady = Convert.ToBoolean((returnValue >> 3) & 0x1);
@@ -1293,7 +1375,14 @@ namespace LWDicer.Control
             //Servo Alarm Read 
             rc = CMotionAPI.ymcGetMotionParameterValue(m_hAxis[servoNo], (UInt16)CMotionAPI.ApiDefs.MONITOR_PARAMETER,    //110208
                     (UInt16)CMotionAPI.ApiDefs_MonPrm.SER_ALARM, ref returnValue);
-            if (rc == CMotionAPI.MP_SUCCESS)
+            if (rc != CMotionAPI.MP_SUCCESS)
+            {
+                LastHWMessage = String.Format($"Error ymcSetController Board : 0x{rc.ToString("X")}, {ErrorDictionary[rc.ToString("X")]}");
+                //WriteLog(LastHWMessage, ELogType.Debug, ELogWType.D_Error, true);
+                //return GenerateErrorCode(ERR_YASKAWA_FAIL_GET_MOTION_PARAM);
+                return;
+            }
+            else
             {
                 //Servo Alarm
                 ServoStatus[servoNo].IsAlarm = Convert.ToBoolean(returnValue != 0);
@@ -1302,7 +1391,14 @@ namespace LWDicer.Control
             // Servo Command Input Signal
             rc = CMotionAPI.ymcGetMotionParameterValue(m_hAxis[servoNo], (UInt16)CMotionAPI.ApiDefs.MONITOR_PARAMETER,
             (UInt16)40, ref returnValue);
-            if (rc == CMotionAPI.MP_SUCCESS)
+            if (rc != CMotionAPI.MP_SUCCESS)
+            {
+                LastHWMessage = String.Format($"Error ymcSetController Board : 0x{rc.ToString("X")}, {ErrorDictionary[rc.ToString("X")]}");
+                //WriteLog(LastHWMessage, ELogType.Debug, ELogWType.D_Error, true);
+                //return GenerateErrorCode(ERR_YASKAWA_FAIL_GET_MOTION_PARAM);
+                return;
+            }
+            else
             {
                 //Servo + Limit Sensor
                 ServoStatus[servoNo].DetectPlusSensor = Convert.ToBoolean((returnValue >> 2) & 0x1);
@@ -1451,6 +1547,7 @@ namespace LWDicer.Control
                 return GenerateErrorCode(ERR_YASKAWA_FAIL_RESET_ALARM);
             }
 
+            bool bResult;
             // check warning
             int[] axisList;
             GetDeviceAxisList(deviceNo, out axisList);
@@ -1462,18 +1559,19 @@ namespace LWDicer.Control
                     continue;
                 }
 
-                if (IsServoWarning(servoNo) == true)
+                bResult = IsServoWarning(servoNo);
+                if (bResult == true)
                 {
                     ServoOff(servoNo);
-                }
 
-                rc = CMotionAPI.ymcClearServoAlarm(m_hAxis[servoNo]);
-                if (rc != CMotionAPI.MP_SUCCESS)
-                {
-                    //MessageBox.Show(String.Format("Error ymcClearServoAlarm : 0x{rc.ToString("X")}, {ErrorDictionary[rc.ToString("X")]}");
-                    LastHWMessage = String.Format($"Error ymcClearServoAlarm : 0x{rc.ToString("X")}, {ErrorDictionary[rc.ToString("X")]}");
-                    WriteLog(LastHWMessage, ELogType.Debug, ELogWType.D_Error, true);
-                    return GenerateErrorCode(ERR_YASKAWA_FAIL_RESET_ALARM);
+                    rc = CMotionAPI.ymcClearServoAlarm(m_hAxis[servoNo]);
+                    if (rc != CMotionAPI.MP_SUCCESS)
+                    {
+                        //MessageBox.Show(String.Format("Error ymcClearServoAlarm : 0x{rc.ToString("X")}, {ErrorDictionary[rc.ToString("X")]}");
+                        LastHWMessage = String.Format($"Error ymcClearServoAlarm : 0x{rc.ToString("X")}, {ErrorDictionary[rc.ToString("X")]}");
+                        WriteLog(LastHWMessage, ELogType.Debug, ELogWType.D_Error, true);
+                        return GenerateErrorCode(ERR_YASKAWA_FAIL_RESET_ALARM);
+                    }
                 }
             }
 
@@ -2109,6 +2207,13 @@ namespace LWDicer.Control
                                                           (UInt16)CMotionAPI.ApiDefs.MONITOR_PARAMETER,
                                                           (UInt16)CMotionAPI.ApiDefs_MonPrm.SER_WARNING,
                                                           ref returnValue);
+            if (rc != CMotionAPI.MP_SUCCESS)
+            {
+                LastHWMessage = String.Format($"Error ymcGetMotionParameterValue : 0x{rc.ToString("X")}, {ErrorDictionary[rc.ToString("X")]}");
+                //WriteLog(LastHWMessage, ELogType.Debug, ELogWType.D_Error, true);
+                //return GenerateErrorCode(ERR_YASKAWA_FAIL_SERVO_GET_POS);
+            }
+
             return Convert.ToBoolean((returnValue >> 8) & 0x1);
         }
         /*

@@ -572,14 +572,9 @@ namespace LWDicer.UI
 
         private void BtnNozzleSave_Click(object sender, EventArgs e)
         {
-            string strMsg = string.Empty, strData = string.Empty;
-
-            strMsg = GridNozzleTeachTable[1, 0].Text + " Unit에 " + NozzlePos[GetNozzlePosNo()].Text + " Teaching Data를 저장하시겠습니까?";
-
-            if (!CMainFrame.InquireMsg(strMsg))
-            {
-                return;
-            }
+            string strData = string.Empty;
+            string strMsg = "Save teaching data?";
+            if (!CMainFrame.InquireMsg(strMsg)) return;
 
             if (GetDataMode() == FixedData)
             {
@@ -612,14 +607,9 @@ namespace LWDicer.UI
 
         private void BtnRotateSave_Click(object sender, EventArgs e)
         {
-            string strMsg = string.Empty, strData = string.Empty;
-
-            strMsg = GridRotateTeachTable[1, 0].Text + " Unit에 " + RotatePos[GetRotatePosNo()].Text + " Teaching Data를 저장하시겠습니까?";
-
-            if (!CMainFrame.InquireMsg(strMsg))
-            {
-                return;
-            }
+            string strData = string.Empty;
+            string strMsg = "Save teaching data?";
+            if (!CMainFrame.InquireMsg(strMsg)) return;
 
             if (GetDataMode() == FixedData)
             {
@@ -644,16 +634,10 @@ namespace LWDicer.UI
 
         private void BtnNozzleChangeValue_Click(object sender, EventArgs e)
         {
-            string strCurrent = "", strMsg = string.Empty;
+            string strMsg = "Change target position to current position?";
+            if (!CMainFrame.InquireMsg(strMsg)) return;
 
-            strMsg = NozzlePos[GetNozzlePosNo()].Text + " 목표 위치를 현재 위치로 변경하시겠습니까?";
-
-            if (!CMainFrame.InquireMsg(strMsg))
-            {
-                return;
-            }
-
-            strCurrent = GridNozzleTeachTable[7, 1].Text;
+            string strCurrent = GridNozzleTeachTable[7, 1].Text;
             ChangeNozzleTargetPos(strCurrent, 1);
 
             strCurrent = GridNozzleTeachTable[7, 2].Text;
@@ -662,16 +646,10 @@ namespace LWDicer.UI
 
         private void BtnRotateChangeValue_Click(object sender, EventArgs e)
         {
-            string strCurrent = "", strMsg = string.Empty;
+            string strMsg = "Change target position to current position?";
+            if (!CMainFrame.InquireMsg(strMsg)) return;
 
-            strMsg = RotatePos[GetRotatePosNo()].Text + " 목표 위치를 현재 위치로 변경하시겠습니까?";
-
-            if (!CMainFrame.InquireMsg(strMsg))
-            {
-                return;
-            }
-
-            strCurrent = GridRotateTeachTable[7, 1].Text;
+            string strCurrent = GridRotateTeachTable[7, 1].Text;
             ChangeRotateTargetPos(strCurrent, 1);
         }
 
@@ -713,26 +691,14 @@ namespace LWDicer.UI
 
         private void BtnNozzleTeachMove_Click(object sender, EventArgs e)
         {
-            string strMsg = string.Empty;
-
-            strMsg = NozzlePos[GetNozzlePosNo()].Text + " 목표 위치로 이동하시겠습니까?";
-
-            if (!CMainFrame.InquireMsg(strMsg))
-            {
-                return;
-            }
+            string strMsg = "Move to selected position?";
+            if (!CMainFrame.InquireMsg(strMsg)) return;
         }
 
         private void BtnRotateTeachMove_Click(object sender, EventArgs e)
         {
-            string strMsg = string.Empty;
-
-            strMsg = RotatePos[GetRotatePosNo()].Text + " 목표 위치로 이동하시겠습니까?";
-
-            if (!CMainFrame.InquireMsg(strMsg))
-            {
-                return;
-            }
+            string strMsg = "Move to selected position?";
+            if (!CMainFrame.InquireMsg(strMsg)) return;
         }
 
         private void BtnManualOP_Click(object sender, EventArgs e)
