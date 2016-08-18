@@ -720,6 +720,11 @@ namespace LWDicer.Control
             public float PatternOffset1;
             public float PatternOffset2;
 
+            public int ProcessInterval;
+
+
+            public bool ProcessStop=false;
+
         }
 
         public class CSystemData_Scanner
@@ -4661,7 +4666,7 @@ namespace LWDicer.Control
                     key = "CrossScanMaxAccel";
                     value = CUtils.GetValue(section, key, filePath);
                     if (value == "") value = "0.1";
-                    ModelData.ScanData.CrossScanMaxAccel = Convert.ToSingle(value) * 100.0f;
+                    ModelData.ScanData.CrossScanMaxAccel = Convert.ToSingle(value) ;
 
                     key = "EnCarSig";
                     value = CUtils.GetValue(section, key, filePath);
@@ -5400,7 +5405,7 @@ namespace LWDicer.Control
                     key = "CrossScanMaxAccel";
                     value = CUtils.GetValue(section, key, filePath);
                     if (value == "") value = "0.1";
-                    ModelData.ScanData.CrossScanMaxAccel = Convert.ToSingle(value) * 100.0f;
+                    ModelData.ScanData.CrossScanMaxAccel = Convert.ToSingle(value);
 
                     key = "EnCarSig";
                     value = CUtils.GetValue(section, key, filePath);
@@ -6120,7 +6125,7 @@ namespace LWDicer.Control
                     bRet = CUtils.SetValue(section, key, value, filePath);
 
                     key = "CrossScanMaxAccel";
-                    value = string.Format("{0:F2}", ModelData.ScanData.CrossScanMaxAccel / 100.0f);
+                    value = string.Format("{0:F2}", ModelData.ScanData.CrossScanMaxAccel);
                     bRet = CUtils.SetValue(section, key, value, filePath);
 
                     key = "EnCarSig";
@@ -6728,7 +6733,7 @@ namespace LWDicer.Control
                     bRet = CUtils.SetValue(section, key, value, filePath);
 
                     key = "CrossScanMaxAccel";
-                    value = string.Format("{0:F2}", ModelData.ScanData.CrossScanMaxAccel / 100.0f);
+                    value = string.Format("{0:F2}", ModelData.ScanData.CrossScanMaxAccel);
                     bRet = CUtils.SetValue(section, key, value, filePath);
 
                     key = "EnCarSig";

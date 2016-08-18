@@ -221,7 +221,7 @@ namespace LWDicer.Control
             // View를 Display로 등록한다.
             // View에 맞쳐 Zoom 설정을 한다
             // Mil의 SelectDisplayWindow 함수로 등록한다. 
-            m_RefComp.View[iCamNo].SetDisplayWindow(pObject);
+            m_RefComp.View[iCamNo]. SetDisplayWindow(pObject);
             m_iCurrentViewNum = iCamNo;
 
             return SUCCESS;
