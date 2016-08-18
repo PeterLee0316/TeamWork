@@ -47,7 +47,7 @@ namespace LWDicer.Control
 
         public void Dispose()
         {
-            CloseVisionSystem();
+            
         }
 
         ~MVision()
@@ -221,7 +221,7 @@ namespace LWDicer.Control
             // View를 Display로 등록한다.
             // View에 맞쳐 Zoom 설정을 한다
             // Mil의 SelectDisplayWindow 함수로 등록한다. 
-            m_RefComp.View[iCamNo].SetDisplayWindow(pObject);
+            m_RefComp.View[iCamNo]. SetDisplayWindow(pObject);
             m_iCurrentViewNum = iCamNo;
 
             return SUCCESS;
@@ -460,6 +460,21 @@ namespace LWDicer.Control
 
             return SUCCESS;
 
+        }
+
+        public int SaveImage(int iCamNo, string strFileName)
+        {
+#if SIMULATION_VISION
+            return SUCCESS;
+#endif
+            // Vision System이 초기화 된지를 확인함
+            if (m_bSystemInit == false) return GenerateErrorCode(ERR_VISION_SYSTEM_FAIL);
+
+
+
+            m_RefComp.View[iCamNo].SaveImage(strFileName + $"_CAM_{iCamNo}.bmp");
+
+            return SUCCESS;
         }
 
         /// <summary>
@@ -1361,6 +1376,8 @@ namespace LWDicer.Control
             if (m_bSystemInit == false) return;
 
             if (iCamNo > DEF_MAX_CAMERA_NO) return;
+
+            m_RefComp.View[m_iCurrentViewNum].DrawString(strText, pointText);
 
             //return 0;
         }

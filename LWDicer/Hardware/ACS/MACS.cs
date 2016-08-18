@@ -175,7 +175,7 @@ namespace LWDicer.Control
         {
             public static int[,] IntStatus = new int[USE_ACS_AXIS_COUNT, (int)EACSStatusInt.INT_AXIS_STATUS];
             public static double[,] DoubleStatus = new double[USE_ACS_AXIS_COUNT, (int)EACSStatusDouble.REAL_AXIS_STATUS];  
-            
+
         }
 
         public class CACSChannel
@@ -195,9 +195,9 @@ namespace LWDicer.Control
                 return;
 #endif
                 ACS = new Channel();
-                addressTCP = "10.0.0.100";
-                portNum = 701;
-
+                if(addressTCP == null) addressTCP = "10.0.0.100";
+                if(portNum == 0) portNum = 701;
+                
                 IsChannelOpen = false;
                 if (motions == null)
                 {
@@ -228,9 +228,16 @@ namespace LWDicer.Control
             public int ChannelOpen()
             {
 #if !SIMULATION_MOTION_ACS
-                ACS?.OpenCommEthernetTCP(addressTCP, portNum);
-                
-                IsChannelOpen = true;
+                try
+                {
+                    ACS?.OpenCommEthernetTCP(addressTCP, portNum);
+
+                    IsChannelOpen = true;
+                }
+                catch
+                {
+                    IsChannelOpen = false;
+                }
 #endif
                 return SUCCESS;
             }
@@ -246,7 +253,9 @@ namespace LWDicer.Control
 
             public void GetACSBuffer()
             {
-#if !SIMULATION_MOTION_ACS
+#if SIMULATION_MOTION_ACS
+                return;
+#endif
                 object doubleMatrix;
                 object[,] objectArray = new object[USE_ACS_AXIS_COUNT, (int)EACSStatusDouble.REAL_AXIS_STATUS];
 
@@ -282,7 +291,7 @@ namespace LWDicer.Control
                 }
                 catch
                 { }
-#endif
+
             }
 
             public void GetMotionData(int servoNo, out CACSMotionData s)
@@ -292,7 +301,7 @@ namespace LWDicer.Control
             
             public void GetSpeedData(int servoNo, out CMotorSpeedData data, int speedType = (int)EMotorSpeed.MANUAL_SLOW)
             {
-                MotionData[servoNo].GetSpeedData(out data);
+                MotionData[servoNo].GetSpeedData(out data, speedType);
             }
 
             public void SetSpeedData(int servoNo, CMotorSpeedData data, int speedType = (int)EMotorSpeed.MANUAL_SLOW)
@@ -348,6 +357,7 @@ namespace LWDicer.Control
         UInt32[] m_hDevice = new UInt32[USE_ACS_AXIS_COUNT];       // Device handle
 
         public CACSServoStatus[] ServoStatus { get; private set; } = new CACSServoStatus[USE_ACS_AXIS_COUNT];
+        public int[] ScannerStatus = new int[(int)EScannerStatus.MAX];
 
         Thread m_hThread;   // Thread Handle
 
@@ -517,8 +527,7 @@ namespace LWDicer.Control
         }
 
         private int GetDeviceAxisList(int deviceNo, out int[] axisList)
-        {
-            
+        {            
             int length = GetDeviceLength(deviceNo);
             axisList = new int[length];
             if (deviceNo < (int)EACS_Axis.ALL)
@@ -666,10 +675,15 @@ namespace LWDicer.Control
         {
             m_AcsMotion.GetACSBuffer();
 
+            // Motor Status Read
             for (int i = 0; i < InstalledAxisNo; i++)
             {
                 GetServoStatus(i);
             }
+
+            // Scanner Stauts Read
+            GetScannerStatus();
+
         }
 
         /// <summary>
@@ -678,10 +692,7 @@ namespace LWDicer.Control
         /// <param name="servoNo"></param>
         public void GetServoStatus(int servoNo)
         {
-            UInt32 rc = 0;
-            UInt32 returnValue = 0;
-
-            // Double형 데이터 대입
+            // Double형 데이터 대입 ----------------------------------------------------------------------------------------------------------------------
             ServoStatus[servoNo].EncoderPos             = CStatusArray.DoubleStatus[servoNo,(int)EACSStatusDouble.ACT_POSITION];
             ServoStatus[servoNo].Velocity               = CStatusArray.DoubleStatus[servoNo, (int)EACSStatusDouble.ACT_VELOCITY];
             ServoStatus[servoNo].LoadFactor             = CStatusArray.DoubleStatus[servoNo, (int)EACSStatusDouble.ACT_TORQUE];
@@ -690,7 +701,8 @@ namespace LWDicer.Control
             ServoStatus[servoNo].CommandVelocity        = CStatusArray.DoubleStatus[servoNo, (int)EACSStatusDouble.CMD_VELOCITY];
             ServoStatus[servoNo].CommandAcceleration    = CStatusArray.DoubleStatus[servoNo, (int)EACSStatusDouble.CMD_ACCELERATION];
             ServoStatus[servoNo].CommandDeceleration    = CStatusArray.DoubleStatus[servoNo, (int)EACSStatusDouble.CMD_DECELERATION];
-            
+
+            // Integer형 데이터 대입 ----------------------------------------------------------------------------------------------------------------------
             // 상태 비트 적용
             int nMotorStatus = CStatusArray.IntStatus[servoNo, (int)EACSStatusInt.MOTOR_STATUS];
             if ((nMotorStatus & m_AcsMotion.ACS.ACSC_MST_MOVE) != 0)      ServoStatus[servoNo].IsBusy = true;         else ServoStatus[servoNo].IsBusy = false;
@@ -710,6 +722,13 @@ namespace LWDicer.Control
             int nMotorHome = CStatusArray.IntStatus[servoNo, (int)EACSStatusInt.HOME_FLAG];
             if(nMotorHome != 0) ServoStatus[servoNo].IsOriginReturned = true; else ServoStatus[servoNo].IsOriginReturned = false;
 
+        }
+
+        public void GetScannerStatus()
+        {
+            ScannerStatus[(int)EScannerStatus.EXPO_BUSY] = CStatusArray.IntStatus[(int)EACS_Axis.POLYGON, 0];
+            ScannerStatus[(int)EScannerStatus.JOB_START] = CStatusArray.IntStatus[(int)EACS_Axis.POLYGON, 1];
+            ScannerStatus[(int)EScannerStatus.PRO_COUNT] = CStatusArray.IntStatus[(int)EACS_Axis.POLYGON, 2];
         }
 
         public int ServoOn(int deviceNo)
@@ -836,7 +855,9 @@ namespace LWDicer.Control
         public int StopJogMove(int deviceNo)
         {
             if (deviceNo == (int)EACS_Device.NULL) return SUCCESS; // return success if device is null
-            
+
+            m_AcsMotion.ACS?.Halt(deviceNo);
+
             return SUCCESS;
         }
 
@@ -847,7 +868,7 @@ namespace LWDicer.Control
             // check safety
             int iResult = IsSafeForMove();
             if (iResult != SUCCESS) return iResult;
-
+            
             // Jog함수는 multi axis device를 고려하지 않고 작성
             if (deviceNo >= (int)EACS_Device.ALL) return SUCCESS;
 
@@ -855,12 +876,77 @@ namespace LWDicer.Control
             // Executes JOG operation.										
             //============================================================================
             // Motion data setting
-            Int16[] Direction = new Int16[1];
-            UInt16[] TimeOut = new UInt16[1] { APIJogTime };
+            int Direction = 0;
 
-    
+            if (jogDir == DIR_POSITIVE)
+            {
+                //Jog +
+                if (ServoStatus[deviceNo].IsServoOn)
+                {
+                    if (ServoStatus[deviceNo].DetectPlusSensor)
+                    {
+                        LastHWMessage = "Servo No[" + deviceNo + "] : + Limit";
+                        WriteLog(LastHWMessage, ELogType.Debug, ELogWType.D_Warning, true);
+                        return GenerateErrorCode(ERR_ACS_DETECTED_PLUS_LIMIT);
+                    }
+                    else
+                    {
+                        Direction = 1;
+                    }
+                }
+                else
+                {
+                    return GenerateErrorCode(ERR_ACS_NOT_SERVO_ON);
+                }
+            }
+            else
+            {
+                //Jog -
+                if (ServoStatus[deviceNo].IsServoOn)
+                {
+                    if (ServoStatus[deviceNo].DetectMinusSensor)
+                    {
+                        LastHWMessage = "Servo No[" + deviceNo + "] : - Limit";
+                        WriteLog(LastHWMessage, ELogType.Debug, ELogWType.D_Warning, true);
+                        return GenerateErrorCode(ERR_ACS_DETECTED_MINUS_LIMIT);
+                    }
+                    else
+                    {
+                        Direction = -1;
+                    }
+                }
+                else
+                {
+                    return GenerateErrorCode(ERR_ACS_NOT_SERVO_ON);
+                }
+            }
+
+            //0.2 Motion Profile 적용
+            int speedType = (bJogFastMove == true) ? (int)EMotorSpeed.JOG_FAST : (int)EMotorSpeed.JOG_SLOW;
+            
+            CMotorSpeedData[] SpeedData = new CMotorSpeedData[1];
+            
+            bool bCheck;
+
+            SpeedData[0] = new CMotorSpeedData();
+
+            if (GetAxis_SpeedData(deviceNo, out SpeedData[0], speedType) != SUCCESS)
+            {
+                return GenerateErrorCode(ERR_ACS_FAIL_SERVO_MOVE_JOG);
+            }
+
+            CompareSpeedData(deviceNo, SpeedData[0], out bCheck);
+            if (bCheck == false) SetSpeedData(deviceNo, SpeedData[0]);           
+
+
+#if SIMULATION_MOTION_ACS
+            return SUCCESS;
+#endif
+
+            m_AcsMotion.ACS.Jog(m_AcsMotion.ACS.ACSC_AMF_VELOCITY, deviceNo, SpeedData[0].Vel* Direction);
 
             return SUCCESS;
+            
         }
 
         public int StopServoMotion(int deviceNo )
@@ -1025,7 +1111,6 @@ namespace LWDicer.Control
                 if (bCheck == false)
                 {
                     SetSpeedData(axisList[i], SpeedData[0]);
-                    Sleep(50);
                 }
 
                 length++;
@@ -1050,7 +1135,7 @@ namespace LWDicer.Control
             catch
             { }
 
-            Sleep(50);
+            Sleep(100);
 
             // 0.5 Motion Complete 확인
             iResult = Wait4Done(axisList, useAxis);
@@ -1192,6 +1277,89 @@ namespace LWDicer.Control
             return SUCCESS;
         }
 
+        public int BufferProgramRun(int bufferNum)
+        {
+            try
+            {
+                m_AcsMotion.ACS?.RunBuffer(bufferNum, null);
+            }
+            catch
+            { }
+
+            return SUCCESS;
+        }
+
+        public bool IsBufferProgramRun(int bufferNum)
+        {
+            int programStatus=0;
+
+            try
+            {
+                programStatus = m_AcsMotion.ACS.GetProgramState(bufferNum);
+                if ((programStatus & m_AcsMotion.ACS.ACSC_PST_RUN) != 0) return true;
+                else return false;
+            }
+            catch
+            { }
+
+
+            return false;
+        }
+
+
+        public int LaserProcess(int bufferNum)
+        {
+#if !SIMULATION_MOTION_ACS
+            
+            // check safety
+            int iResult = IsSafeForMove();
+            if (iResult != SUCCESS) return iResult;
+            // 11번 Buffer 프로그램에 구현함.
+            BufferProgramRun(bufferNum);
+
+            Sleep(500);
+
+            while (true)
+            {
+                Sleep(100);
+
+                if (IsBufferProgramRun(bufferNum) == false) break; 
+            }
+
+
+#endif
+                return SUCCESS;
+        }
+
+        public int WriteBufferMemory(string strName, int countNum)
+        {
+            try
+            {
+                m_AcsMotion.ACS?.WriteVariable(countNum, strName, m_AcsMotion.ACS.ACSC_NONE);
+            }
+            catch
+            { }
+
+            return SUCCESS;
+        }
+
+        public bool IsScannerBusy()
+        {
+            if (ScannerStatus[(int)EScannerStatus.EXPO_BUSY] == 1) return true;
+            else return false;
+        }
+
+        public bool IsScannerJobStart()
+        {
+            if (ScannerStatus[(int)EScannerStatus.JOB_START] == 1) return true;
+            else return false;
+        }
+
+        public int GetScannerRunCount()
+        {
+            return ScannerStatus[(int)EScannerStatus.PRO_COUNT];
+        }
+
         public int OriginReturn(int servoNo)
         {
 #if !SIMULATION_MOTION_ACS
@@ -1199,7 +1367,7 @@ namespace LWDicer.Control
             int iResult = IsSafeForMove();
             if (iResult != SUCCESS) return iResult;
 
-            m_AcsMotion.ACS?.RunBuffer(servoNo, null);
+            BufferProgramRun(servoNo);
 #endif
             return SUCCESS;
         }

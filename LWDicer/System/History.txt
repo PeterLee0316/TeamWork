@@ -438,7 +438,27 @@ CSpinStep class -> CCleanStep / CCoatStep class 로 분리
 2. MMeStage & MCtrlStage Data 정리
 3. MMeElevator & MCtrlLoader Data 정리
 
+// Grade : ★
+// Date : 2016-08-08 ~2016-08-12
+// Context
 
+1. MACS
+	- HomeReturn의 지령인 Buffer 실행을 외부 함수로 변경함
+	- Laser Process 함수 추가 (Buffer 실행 함수를 사용함)
+	- Buffer 의 내부 메모리에 데이터 Write 기능 추가
+2. MOpPanel
+	- Home Return의 확인 부분 수정 
+	  ACS의 HomeFlag Bit가 정상 동작으로 해당 기능을 Enable함. 
+
+// Grade : ★
+// Date : 2016-08-15 ~ 2016-08-17
+// Context
+
+1. Scanner 프로그램을 합체함
+	- Scanner Form 구성 및 Class를 첨부해서 error부분 수정함.
+	- Scanner Vision UI중에서 Zoom Cam 부분만 남기고, 중복되는 나머지 부분은 삭제
+	- Scan Window Form에서.. Canvas Size를 설정하는 부분이 옮겨지면서 빠진 부분을 수정함.
+	- Scanner Layer 구조에 맞게.. Stage부의 Laser관련 Function을 Scanner 클래스로 변경함
 
 ////////////////////////////////////////////////////////////////////////////////////////////
 // LHS

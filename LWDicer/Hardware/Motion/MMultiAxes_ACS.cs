@@ -182,6 +182,50 @@ namespace LWDicer.Control
         }
 
         /// <summary>
+        /// 축의 현재좌표를 읽는다.
+        /// </summary>
+        public int GetCmdPos(out double[] dPos, int iCoordID = DEF_ALL_COORDINATE)
+        {
+            int iResult = SUCCESS;
+
+            UpdateAxisStatus();
+            if (iCoordID == DEF_ALL_COORDINATE)
+            {
+                dPos = new double[DEF_MAX_COORDINATE];
+                for (int i = 0; i < DEF_MAX_COORDINATE; i++)
+                {
+                    if (m_Data.AxisList[i] == DEF_AXIS_NONE_ID) dPos[i] = 0;
+                    else dPos[i] = ServoStatus[i].CommandPos;
+                }
+            }
+            else
+            {
+                dPos = new double[1];
+                dPos[0] = ServoStatus[iCoordID].CommandPos;
+            }
+            return SUCCESS;
+        }
+
+        public int GetCmdPos(out CPos_XYTZ pos, int iCoordID = DEF_ALL_COORDINATE)
+        {
+            int iResult = SUCCESS;
+
+            double[] dPos;
+            GetCurPos(out dPos, iCoordID);
+
+            pos = new CPos_XYTZ();
+            if (iCoordID == DEF_ALL_COORDINATE)
+            {
+                pos.TransFromArray(dPos);
+            }
+            else
+            {
+                pos.SetPosition(iCoordID, dPos[0]);
+            }
+            return SUCCESS;
+        }
+
+        /// <summary>
         /// Move 함수, 전체축 이동일 경우엔 bMoveUse와 Priority를 이용하여 순차 이동, 선택 이동 가능
         /// </summary>
         /// <param name="iCoordID"></param>
@@ -446,7 +490,7 @@ namespace LWDicer.Control
                 iResult = m_RefComp.Motion.ServoOff(m_Data.AxisList[iCoordID]);
             }
 
-            return SUCCESS;
+            return iResult;
         }
 
         public void UpdateAxisStatus()

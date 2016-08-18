@@ -28,7 +28,16 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.pnlPic = new System.Windows.Forms.Panel();
             this.SuspendLayout();
+            // 
+            // pnlPic
+            // 
+            this.pnlPic.Location = new System.Drawing.Point(26, 28);
+            this.pnlPic.Name = "pnlPic";
+            this.pnlPic.Size = new System.Drawing.Size(139, 106);
+            this.pnlPic.TabIndex = 0;
+            this.pnlPic.Visible = false;
             // 
             // CMainFrame
             // 
@@ -37,6 +46,7 @@
             this.BackColor = System.Drawing.SystemColors.ActiveBorder;
             this.ClientSize = new System.Drawing.Size(1280, 1024);
             this.ControlBox = false;
+            this.Controls.Add(this.pnlPic);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
@@ -50,6 +60,8 @@
         }
 
         #endregion
+
+        private System.Windows.Forms.Panel pnlPic;
     }
 }
 

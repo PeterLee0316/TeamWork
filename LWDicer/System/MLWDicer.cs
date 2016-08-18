@@ -19,6 +19,7 @@ using static LWDicer.Control.DEF_OpPanel;
 using static LWDicer.Control.DEF_Thread;
 using static LWDicer.Control.DEF_DataManager;
 using static LWDicer.Control.DEF_LCNet;
+using static LWDicer.Control.DEF_SocketClient;
 
 using static LWDicer.Control.DEF_Motion;
 using static LWDicer.Control.DEF_Yaskawa;
@@ -28,6 +29,7 @@ using static LWDicer.Control.DEF_MultiAxesACS;
 using static LWDicer.Control.DEF_Cylinder;
 using static LWDicer.Control.DEF_Vacuum;
 using static LWDicer.Control.DEF_Vision;
+using static LWDicer.Control.DEF_Polygon;
 
 using static LWDicer.Control.DEF_OpPanel;
 using static LWDicer.Control.DEF_MeElevator;
@@ -45,6 +47,7 @@ using static LWDicer.Control.DEF_CtrlLoader;
 using static LWDicer.Control.DEF_CtrlStage;
 
 using static LWDicer.Control.DEF_TrsAutoManager;
+
 
 //using static LWDicer.Control.DEF_Thread.EThreadChannel;
 
@@ -84,9 +87,22 @@ namespace LWDicer.Control
         public MMultiAxes_YMC m_AxLowerHandler;
         public MMultiAxes_ACS m_AxStage1      ;
 
+        // Vision
+        public MVisionSystem m_VisionSystem;
+        public MVisionCamera[] m_VisionCamera = new MVisionCamera[DEF_MAX_CAMERA_NO];
+        public MVisionView[] m_VisionView = new MVisionView[DEF_MAX_CAMERA_NO];
+
+        // Laser Scanner
+        public CMarkingManager m_ScanManager;
+        public CMarkingWindow m_ScanWindow;
+        public MSocketClient m_ControlComm;
+        public MSocketClient m_ScanHeadComm;
+        public FormScanWindow m_FormScanner;
+
+
 #if EQUIP_DICING_DEV
         public MMultiAxes_YMC m_AxCamera1;
-        public MMultiAxes_YMC m_AxScanner1;
+        public MMultiAxes_YMC m_AxScannerZ1;
 #endif
 
 #if EQUIP_266_DEV
@@ -123,13 +139,11 @@ namespace LWDicer.Control
         public IVacuum m_Spinner1Vac         ;
         public IVacuum m_Spinner2Vac         ;
         
-
-        public MVisionSystem m_VisionSystem;
-        public MVisionCamera[] m_VisionCamera = new MVisionCamera[DEF_MAX_CAMERA_NO];
-        public MVisionView[] m_VisionView = new MVisionView[DEF_MAX_CAMERA_NO];
-
         // Vision
         public MVision m_Vision { get; set; }
+
+        // Polygon Scanner
+        public MMeScannerPolygon m_MeScanner;
 
         ///////////////////////////////////////////////////////////////////////
         // Mechanical Layer
@@ -180,6 +194,15 @@ namespace LWDicer.Control
         public void Dispose()
         {
             // close handle
+            
+        }
+
+        public void CloseSystem()
+        {
+#if !SIMULATION_VISION
+            m_Vision.CloseVisionSystem();
+            m_ACS.CloseController();
+#endif
         }
 
         public void TestFunction_BeforeInit()
@@ -330,6 +353,7 @@ namespace LWDicer.Control
             InitDataFileNames(out dbInfo);
             CObjectInfo.DBInfo = dbInfo;
             MLog.DBInfo = dbInfo;
+            CMainFrame.DBInfo = dbInfo;
 
             CObjectInfo objInfo;
             m_SystemInfo = new MSystemInfo();
@@ -572,13 +596,20 @@ namespace LWDicer.Control
             m_SystemInfo.GetObjectInfo(43, out objInfo);
             CreateVisionCamera(objInfo, FINE_CAM);
 
+            m_SystemInfo.GetObjectInfo(44, out objInfo);
+            CreateVisionCamera(objInfo, ZOOM_CAM);
+
             // Vision Display
             m_SystemInfo.GetObjectInfo(46, out objInfo);
             CreateVisionVisionView(objInfo, PRE__CAM);
 
             m_SystemInfo.GetObjectInfo(47, out objInfo);
             CreateVisionVisionView(objInfo, FINE_CAM);
+
+            m_SystemInfo.GetObjectInfo(47, out objInfo);
+            CreateVisionVisionView(objInfo, ZOOM_CAM);
 #endif
+           
 
             intro.SetStatus("Init Mechanical Layer", 30);
 
@@ -621,6 +652,9 @@ namespace LWDicer.Control
             m_SystemInfo.GetObjectInfo(308, out objInfo);
             CreateVision(objInfo);
 #endif
+            // Scanner
+            m_SystemInfo.GetObjectInfo(309, out objInfo);
+            CreateScanner(objInfo);
 
             intro.SetStatus("Init Control Layer", 40);
 
@@ -894,7 +928,7 @@ namespace LWDicer.Control
             data = new CMultiAxesYMCData(deviceNo, axisList);
 
             m_SystemInfo.GetObjectInfo(264, out objInfo);
-            m_AxScanner1 = new MMultiAxes_YMC(objInfo, refComp, data);
+            m_AxScannerZ1 = new MMultiAxes_YMC(objInfo, refComp, data);
 #endif
 
             return SUCCESS;
@@ -1017,7 +1051,7 @@ namespace LWDicer.Control
                 m_VisionView[iNum].SetMil_ID(m_VisionSystem.GetMilSystem());
                 // Display 초기화
                 m_VisionView[iNum].Initialize(iNum, m_VisionCamera[iNum]);
-
+            
             return SUCCESS;
         }
 
@@ -1080,11 +1114,47 @@ namespace LWDicer.Control
                 m_Vision.ReLoadPatternMark(PRE__CAM, PATTERN_B, m_DataManager.ModelData.MacroPatternB);
                 m_Vision.ReLoadPatternMark(FINE_CAM, PATTERN_A, m_DataManager.ModelData.MicroPatternA);
                 m_Vision.ReLoadPatternMark(FINE_CAM, PATTERN_B, m_DataManager.ModelData.MicroPatternB);
-            }
-            
+            }            
         }
 
-        void CreateCtrlOpPanel(CObjectInfo objInfo)
+        void CreateScanner(CObjectInfo objInfo)
+        {
+            string hostAddress;
+            int hostPort;
+
+            hostAddress = m_DataManager.SystemData_Scan.ControlHostAddress;
+            hostPort = m_DataManager.SystemData_Scan.ControlHostPort;
+            var controlCommData = new CSocketClientData(hostAddress, hostPort);
+
+            hostAddress = m_DataManager.SystemData_Scan.ScanHeadHostAddress;
+            hostPort = m_DataManager.SystemData_Scan.ScanHeadHostPort;
+            var scanHeadCommData = new CSocketClientData(hostAddress, hostPort);
+
+            m_SystemInfo.GetObjectInfo(10, out objInfo);
+            m_ScanManager = new CMarkingManager(objInfo);
+            m_SystemInfo.GetObjectInfo(11, out objInfo);
+            m_ScanWindow = new CMarkingWindow(objInfo);
+            m_SystemInfo.GetObjectInfo(12, out objInfo);
+            m_ControlComm = new MSocketClient(objInfo, controlCommData);
+            m_SystemInfo.GetObjectInfo(13, out objInfo);
+            m_ScanHeadComm = new MSocketClient(objInfo, scanHeadCommData);
+
+            m_FormScanner = new FormScanWindow();
+
+            CScannerRefComp refComp = new CScannerRefComp();
+
+            refComp.Manager = m_ScanManager;
+            refComp.Window = m_ScanWindow;
+            refComp.ControlComm = m_ControlComm;
+            refComp.ScanHeadComm = m_ScanHeadComm;
+            refComp.FormScanner = m_FormScanner;
+            refComp.Process = m_ACS;
+
+            m_MeScanner = new MMeScannerPolygon(objInfo, refComp);
+            m_MeScanner.m_DataManager = m_DataManager;
+        }
+
+            void CreateCtrlOpPanel(CObjectInfo objInfo)
         {
             CCtrlOpPanelRefComp refComp = new CCtrlOpPanelRefComp();
             CCtrlOpPanelData data = new CCtrlOpPanelData();
@@ -1101,6 +1171,7 @@ namespace LWDicer.Control
             CCtrlStage1Data data = new CCtrlStage1Data();
 
             refComp.Stage = m_MeStage;
+            refComp.Scanner = m_MeScanner;
 
             m_ctrlStage1 = new MCtrlStage1(objInfo, refComp, data);
         }
@@ -1724,7 +1795,7 @@ namespace LWDicer.Control
             refComp.IO = m_IO;
             refComp.AxStage = m_AxStage1;
             refComp.AxCamera = m_AxCamera1;
-            refComp.AxScanner = m_AxScanner1;
+            refComp.AxScanner = m_AxScannerZ1;
 
             refComp.Vacuum[(int)EStageVacuum.SELF] = m_Stage1Vac;
             

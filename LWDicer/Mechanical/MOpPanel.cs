@@ -265,6 +265,7 @@ namespace LWDicer.Control
         // Unit 초기화 Flag
         bool[] m_bInitFlag = new bool[(int)EInitiableUnit.MAX];
 
+
         // Switch Status (previous)
         bool m_bRunSWOld;
         bool m_bStopSWOld;
@@ -1429,12 +1430,23 @@ namespace LWDicer.Control
             int iResult = SUCCESS;
             bStatus = false;
 
-            //if (iUnitIndex < 0 || iUnitIndex > (int)EAxis.MAX)
-            //{
-            //    return GenerateErrorCode(ERR_OPPANEL_INVALID_INIT_AXIS_INDEX);
-            //}
+            if (iUnitIndex < 0 || iUnitIndex > (int)EAxis.MAX)
+            {
+                return GenerateErrorCode(ERR_OPPANEL_INVALID_SERVO_UNIT_INDEX);
+            }
 
-            //bStatus = m_bInitFlag[iUnitIndex];
+            int servoNum=0;
+
+            if (iUnitIndex < (int)EAxis.LOWER_HANDLER_Z)
+            {
+                servoNum = iUnitIndex;
+                bStatus = m_RefComp.Yaskawa_Motion.IsOriginReturned(servoNum);
+            }
+            else
+            {
+                servoNum = iUnitIndex - (int)EAxis.LOWER_HANDLER_Z;
+                bStatus = m_RefComp.ACS_Motion.IsOriginReturned(servoNum);
+            }
 
             return iResult;
         }

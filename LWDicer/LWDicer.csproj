@@ -38,7 +38,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;WIN32, SIMULATION_VISION, SIMULATION_MOTION_ACS, EQUIP_DICING_DEV</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;WIN32, SIMULATION_MOTION_YMC, SIMULATION_IO, EQUIP_266_DEV</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>2</WarningLevel>
     <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
@@ -160,11 +160,26 @@
     <Compile Include="Control\MCtrlHandler.cs" />
     <Compile Include="Hardware\ACS\MACS.cs" />
     <Compile Include="Hardware\IO\MIO_YMC.cs" />
+    <Compile Include="Hardware\Laser\MLaser.cs" />
     <Compile Include="Hardware\Motion\MMultiAxes_ACS.cs" />
     <Compile Include="Hardware\Motion\MMultiAxes_YMC.cs" />
     <Compile Include="Hardware\Motion\IMotionLib.cs" />
     <Compile Include="Hardware\Motion\MMotionBoard.cs" />
     <Compile Include="Hardware\Motion\MMotion_MMC.cs" />
+    <Compile Include="Hardware\Scanner\MarkingBase.cs" />
+    <Compile Include="Hardware\Scanner\MarkingManager.cs" />
+    <Compile Include="Hardware\Scanner\MarkingObject.cs" />
+    <Compile Include="Hardware\Scanner\MarkingWindow.cs" />
+    <Compile Include="Hardware\Scanner\WindowCanvas.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Hardware\Scanner\WindowCanvas.Designer.cs">
+      <DependentUpon>WindowCanvas.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Hardware\Scanner\WindowLayer.cs" />
+    <Compile Include="Hardware\Scanner\WindowReUnDo.cs" />
+    <Compile Include="Hardware\Scanner\WindowScaler.cs" />
+    <Compile Include="Hardware\Scanner\WindowTracker.cs" />
     <Compile Include="Hardware\Vision\DEF_Vision.cs" />
     <Compile Include="Hardware\Vision\IVision.cs" />
     <Compile Include="Hardware\Vision\MVision.cs" />
@@ -181,6 +196,8 @@
     <Compile Include="Mechanical\MMeStage.cs" />
     <Compile Include="Mechanical\MMeHandler.cs" />
     <Compile Include="Mechanical\MMePushPull.cs" />
+    <Compile Include="Mechanical\Scanner\MarkingScanner.cs" />
+    <Compile Include="Mechanical\Scanner\ScannerPolygon.cs" />
     <Compile Include="Process\MTrsHandler.cs" />
     <Compile Include="Process\MTrsSpinner.cs" />
     <Compile Include="System\Define.cs" />
@@ -269,6 +286,24 @@
     </Compile>
     <Compile Include="UI\FormWaferCassette.Designer.cs">
       <DependentUpon>FormWaferCassette.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\LaserScanner\FormPolygon.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\LaserScanner\FormPolygon.Designer.cs">
+      <DependentUpon>FormPolygon.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\LaserScanner\FormPolygonSelectPara.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\LaserScanner\FormPolygonSelectPara.Designer.cs">
+      <DependentUpon>FormPolygonSelectPara.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\LaserScanner\FormScanWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\LaserScanner\FormScanWindow.Designer.cs">
+      <DependentUpon>FormScanWindow.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\MainScreen\FormAutoScreen.cs">
       <SubType>Form</SubType>
@@ -550,6 +585,9 @@
       <DependentUpon>CMainFrame.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="Hardware\Scanner\WindowCanvas.resx">
+      <DependentUpon>WindowCanvas.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -583,6 +621,16 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UI\FormWaferCassette.resx">
       <DependentUpon>FormWaferCassette.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\LaserScanner\FormPolygon.resx">
+      <DependentUpon>FormPolygon.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\LaserScanner\FormPolygonSelectPara.resx">
+      <DependentUpon>FormPolygonSelectPara.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\LaserScanner\FormScanWindow.resx">
+      <DependentUpon>FormScanWindow.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\MainScreen\FormAutoScreen.resx">
       <DependentUpon>FormAutoScreen.cs</DependentUpon>
@@ -725,6 +773,9 @@
       <DependentUpon>FormTest.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="app.config" />
+    <None Include="Mechanical\Scanner\IniFile\config.ini" />
+    <None Include="Mechanical\Scanner\IniFile\csn.ini" />
+    <None Include="Mechanical\Scanner\IniFile\isn.ini" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -759,6 +810,18 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Common\img\arrow-down.png" />
+    <Content Include="Common\img\arrow-left.png" />
+    <Content Include="Common\img\arrow-right.png" />
+    <Content Include="Common\img\arrow-up.png" />
+    <None Include="Common\img\draw.jpg" />
+    <None Include="Common\img\Exit.bmp" />
+    <Content Include="Common\img\export.bmp" />
+    <Content Include="Common\img\import.bmp" />
+    <Content Include="Common\img\MessageBox.png" />
+    <None Include="Common\img\run.bmp" />
+    <None Include="Common\img\stop.bmp" />
+    <Content Include="Common\img\wafer.png" />
     <Content Include="Hardware\ACS\ACS_Buffer.txt" />
     <Content Include="Hardware\YMC\YMC_Buffer.txt" />
     <EmbeddedResource Include="Image\Handler.png" />
@@ -766,6 +829,12 @@
     <EmbeddedResource Include="Image\PushPull.png" />
     <EmbeddedResource Include="Image\Spinner.png" />
     <EmbeddedResource Include="Image\Loader.png" />
+    <None Include="Resources\wafer.png" />
+    <None Include="Resources\run.bmp" />
+    <None Include="Resources\stop.bmp" />
+    <None Include="Resources\import.bmp" />
+    <None Include="Resources\export.bmp" />
+    <None Include="Resources\Exit.bmp" />
     <Content Include="System\History.txt" />
   </ItemGroup>
   <ItemGroup>

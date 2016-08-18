@@ -10,7 +10,6 @@ using System.Windows.Forms;
 using Syncfusion.Windows.Forms.Grid;
 using Syncfusion.Windows.Forms;
 
-using LWDicer.UI;
 using LWDicer.Control;
 
 using static LWDicer.Control.DEF_Thread;

@@ -33,6 +33,7 @@ namespace LWDicer.UI
     {
         public static MLWDicer LWDicer = new MLWDicer(new CObjectInfo());
         public static MDataManager DataManager;
+        public static CDBInfo DBInfo;
 
         public static CMainFrame MainFrame = null;
 
@@ -75,6 +76,10 @@ namespace LWDicer.UI
             TopScreen.Show();
             BottomScreen.Show();
             SelectFormChange(EFormType.AUTO);
+
+            LWDicer.m_Vision.InitialLocalView(0, pnlPic.Handle);
+            LWDicer.m_Vision.InitialLocalView(1, pnlPic.Handle);
+            LWDicer.m_Vision.InitialLocalView(2, pnlPic.Handle);
         }
 
 
@@ -173,7 +178,9 @@ namespace LWDicer.UI
                 LWDicer.ShowAlarmWhileInit(iResult);
                 return false;
             }
-            DataManager = LWDicer.m_DataManager;
+
+            DataManager = LWDicer.m_DataManager;            
+
             return true;
         }
 
@@ -210,7 +217,7 @@ namespace LWDicer.UI
             dlg.TopMost = true;
             dlg.ShowDialog();
 
-            if (dlg.DialogResult == DialogResult.OK || dlg.DialogResult == DialogResult.Yes)
+            if (dlg.DialogResult == DialogResult.OK)
                 return true;
             else return false;
         }
@@ -222,7 +229,7 @@ namespace LWDicer.UI
             dlg.TopMost = true;
             dlg.ShowDialog();
 
-            if (dlg.DialogResult == DialogResult.OK || dlg.DialogResult == DialogResult.Yes)
+            if (dlg.DialogResult == DialogResult.OK)
                 return true;
             else return false;
         }
@@ -293,7 +300,7 @@ namespace LWDicer.UI
         //    dlg.SetMessage(index);
         //    dlg.ShowDialog();
 
-        //    if (dlg.DialogResult == DialogResult.OK || dlg.DialogResult == DialogResult.Yes)
+        //    if (dlg.DialogResult == DialogResult.OK || dlg.DialogResult == DialogResult.OK)
         //        return true;
         //    else return false;
         //}
