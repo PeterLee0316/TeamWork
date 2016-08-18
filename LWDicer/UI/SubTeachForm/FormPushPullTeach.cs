@@ -591,14 +591,9 @@ namespace LWDicer.UI
 
         private void BtnCenterXSave_Click(object sender, EventArgs e)
         {
-            string strMsg = string.Empty, strData = string.Empty;
-
-            strMsg = GridCenterXTeachTable[1, 0].Text + " Unit에 " + CenterPos[GetCenterPosNo()].Text + " Teaching Data를 저장하시겠습니까?";
-
-            if (!CMainFrame.InquireMsg(strMsg))
-            {
-                return;
-            }
+            string strData = string.Empty;
+            string strMsg = "Save teaching data?";
+            if (!CMainFrame.InquireMsg(strMsg)) return;
 
             if (GetDataMode() == FixedData)
             {
@@ -631,14 +626,9 @@ namespace LWDicer.UI
 
         private void BtnPushPullYSave_Click(object sender, EventArgs e)
         {
-            string strMsg = string.Empty, strData = string.Empty;
-
-            strMsg = GridPushPullYTeachTable[1, 0].Text + " Unit에 " + PushPullPos[GetPushPullPosNo()].Text + " Teaching Data를 저장하시겠습니까?";
-
-            if (!CMainFrame.InquireMsg(strMsg))
-            {
-                return;
-            }
+            string strData = string.Empty;
+            string strMsg = "Save teaching data?";
+            if (!CMainFrame.InquireMsg(strMsg)) return;
 
             if (GetDataMode() == FixedData)
             {
@@ -663,16 +653,12 @@ namespace LWDicer.UI
 
         private void BtnXChangeValue_Click(object sender, EventArgs e)
         {
-            string StrX1Current = "", StrX2Current = "", strMsg = string.Empty;
+            string StrX1Current = "", StrX2Current = "";
             double dX1Pos = 0, dOffsetX1Pos = 0, dTargetX1Pos = 0;
             double dX2Pos = 0, dOffsetX2Pos = 0, dTargetX2Pos = 0;
 
-            strMsg = CenterPos[GetCenterPosNo()].Text + " 목표 위치를 현재 위치로 변경하시겠습니까?";
-
-            if (!CMainFrame.InquireMsg(strMsg))
-            {
-                return;
-            }
+            string strMsg = "Change target position to current position?";
+            if (!CMainFrame.InquireMsg(strMsg)) return;
 
             StrX1Current = GridCenterXTeachTable[7, 1].Text;
 
@@ -702,15 +688,11 @@ namespace LWDicer.UI
 
         private void BtnYChangeValue_Click(object sender, EventArgs e)
         {
-            string StrX1Current = "", strMsg = string.Empty;
+            string StrX1Current = "";
             double dYPos = 0, dOffsetYPos = 0, dTargetYPos = 0;
 
-            strMsg = PushPullPos[GetPushPullPosNo()].Text + " 목표 위치를 현재 위치로 변경하시겠습니까?";
-
-            if (!CMainFrame.InquireMsg(strMsg))
-            {
-                return;
-            }
+            string strMsg = "Change target position to current position?";
+            if (!CMainFrame.InquireMsg(strMsg)) return;
 
             StrX1Current = GridPushPullYTeachTable[7, 1].Text;
 
@@ -764,26 +746,14 @@ namespace LWDicer.UI
 
         private void BtnXTeachMove_Click(object sender, EventArgs e)
         {
-            string strMsg = string.Empty;
-
-            strMsg = CenterPos[GetCenterPosNo()].Text + " 목표 위치로 이동하시겠습니까?";
-
-            if (!CMainFrame.InquireMsg(strMsg))
-            {
-                return;
-            }
+            string strMsg = "Move to selected position?";
+            if (!CMainFrame.InquireMsg(strMsg)) return;
         }
 
         private void BtnYTeachMove_Click(object sender, EventArgs e)
         {
-            string strMsg = string.Empty;
-
-            strMsg = PushPullPos[GetPushPullPosNo()].Text + " 목표 위치로 이동하시겠습니까?";
-
-            if (!CMainFrame.InquireMsg(strMsg))
-            {
-                return;
-            }
+            string strMsg = "Move to selected position?";
+            if (!CMainFrame.InquireMsg(strMsg)) return;
         }
 
         private void BtnManualOP_Click(object sender, EventArgs e)

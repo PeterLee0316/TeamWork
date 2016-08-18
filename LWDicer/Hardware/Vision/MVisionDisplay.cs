@@ -94,7 +94,7 @@ namespace LWDicer.Control
                 return GenerateErrorCode(ERR_VISION_CAMERA_CREATE_FAIL);
             }
 
-            //SetLocalOverlay(true);
+
 
         }
         
@@ -685,7 +685,6 @@ namespace LWDicer.Control
 
                 m_ImgText = MIL.M_NULL;
                 m_MilOverlay = MIL.M_NULL;
-                //m_SearchResult = MIL.M_NULL;
                 m_MarkModel = MIL.M_NULL;
                 m_MilOverLayID = MIL.M_NULL;
                 m_MilDisplay = MIL.M_NULL;
@@ -694,7 +693,6 @@ namespace LWDicer.Control
                 MIL.MgraFree(GraphicList);
                 MIL.MbufFree(m_MilOverlay);
                 MIL.MbufFree(m_MilOverLayID);
-                //MIL.MbufFree(m_SearchResult);
                 MIL.MbufFree(m_MarkModel);
                 MIL.MbufFree(m_ImgText);
                 MIL.MbufFree(m_MilImage);

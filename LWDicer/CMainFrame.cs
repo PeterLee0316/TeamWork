@@ -76,6 +76,10 @@ namespace LWDicer.UI
             TopScreen.Show();
             BottomScreen.Show();
             SelectFormChange(EFormType.AUTO);
+
+            LWDicer.m_Vision.InitialLocalView(0, pnlPic.Handle);
+            LWDicer.m_Vision.InitialLocalView(1, pnlPic.Handle);
+            LWDicer.m_Vision.InitialLocalView(2, pnlPic.Handle);
         }
 
 
@@ -174,7 +178,9 @@ namespace LWDicer.UI
                 LWDicer.ShowAlarmWhileInit(iResult);
                 return false;
             }
-            DataManager = LWDicer.m_DataManager;
+
+            DataManager = LWDicer.m_DataManager;            
+
             return true;
         }
 
@@ -199,6 +205,7 @@ namespace LWDicer.UI
             {
                 CAlarm alarm = LWDicer.GetAlarmInfo(alarmcode, pid, saveLog);
                 var dlg = new FormAlarmDisplay(alarm);
+                dlg.TopMost = true;
                 dlg.ShowDialog();
             }
         }

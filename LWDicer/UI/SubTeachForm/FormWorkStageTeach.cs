@@ -417,14 +417,9 @@ namespace LWDicer.UI
 
         private void BtnStageSave_Click(object sender, EventArgs e)
         {
-            string strMsg = string.Empty, strData = string.Empty;
-
-            strMsg = GridStageTeachTable[1, 0].Text + " Unit에 " + StagePos[GetPosNo()].Text + " Teaching Data를 저장하시겠습니까?";
-
-            if (!CMainFrame.InquireMsg(strMsg))
-            {
-                return;
-            }
+            string strData = string.Empty;
+            string strMsg = "Save teaching data?";
+            if (!CMainFrame.InquireMsg(strMsg)) return;
 
             if (GetDataMode()==FixedData)
             {                
@@ -461,17 +456,13 @@ namespace LWDicer.UI
 
         private void BtnStageChangeValue_Click(object sender, EventArgs e)
         {
-            string StrXCurrent = "", StrYCurrent = "", StrTCurrent = "", strMsg = string.Empty;
+            string StrXCurrent = "", StrYCurrent = "", StrTCurrent = "";
             double dXPos = 0, dOffsetXPos = 0, dTargetXPos = 0;
             double dYPos = 0, dOffsetYPos = 0, dTargetYPos = 0;
             double dTPos = 0, dOffsetTPos = 0, dTargetTPos = 0;
 
-            strMsg = StagePos[GetPosNo()].Text + " 목표 위치를 현재 위치로 변경하시겠습니까?";
-
-            if (!CMainFrame.InquireMsg(strMsg))
-            {
-                return;
-            }
+            string strMsg = "Change target position to current position?";
+            if (!CMainFrame.InquireMsg(strMsg)) return;
 
             StrXCurrent = GridStageTeachTable[7, 1].Text;
 
@@ -519,14 +510,8 @@ namespace LWDicer.UI
 
         private void BtnStageTeachMove_Click(object sender, EventArgs e)
         {
-            string strMsg = string.Empty;
-
-            strMsg = StagePos[GetPosNo()].Text + " 목표 위치로 이동하시겠습니까?";
-
-            if (!CMainFrame.InquireMsg(strMsg))
-            {
-                return;
-            }
+            string strMsg = "Move to selected position?";
+            if (!CMainFrame.InquireMsg(strMsg)) return;
 
             if (StagePos[GetPosNo()].Text == Convert.ToString(EStagePos.WAIT))              CMainFrame.LWDicer.m_ctrlStage1.MoveToStageWaitPos();
             if (StagePos[GetPosNo()].Text == Convert.ToString(EStagePos.LOAD))              CMainFrame.LWDicer.m_ctrlStage1.MoveToStageLoadPos();

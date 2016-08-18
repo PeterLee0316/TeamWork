@@ -199,7 +199,10 @@ namespace LWDicer.Control
 
         public void CloseSystem()
         {
+#if !SIMULATION_VISION
             m_Vision.CloseVisionSystem();
+            m_ACS.CloseController();
+#endif
         }
 
         public void TestFunction_BeforeInit()
@@ -1048,7 +1051,7 @@ namespace LWDicer.Control
                 m_VisionView[iNum].SetMil_ID(m_VisionSystem.GetMilSystem());
                 // Display 초기화
                 m_VisionView[iNum].Initialize(iNum, m_VisionCamera[iNum]);
-
+            
             return SUCCESS;
         }
 
@@ -1229,6 +1232,8 @@ namespace LWDicer.Control
         {
             CTrsAutoManagerRefComp refComp = new CTrsAutoManagerRefComp();
             refComp.IO = m_IO;
+            refComp.YMC = m_YMC;
+            refComp.ACS = m_ACS;
             refComp.OpPanel = m_OpPanel;
 
             refComp.ctrlOpPanel = m_ctrlOpPanel;

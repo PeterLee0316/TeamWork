@@ -29,8 +29,8 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormTest));
-            this.LabelAlarm_System = new Syncfusion.Windows.Forms.Tools.GradientLabel();
-            this.TextAlarm_System = new System.Windows.Forms.TextBox();
+            this.LabelTest1 = new Syncfusion.Windows.Forms.Tools.GradientLabel();
+            this.TextTest1 = new System.Windows.Forms.TextBox();
             this.gradientLabel1 = new Syncfusion.Windows.Forms.Tools.GradientLabel();
             this.TextAlarmIndex = new System.Windows.Forms.TextBox();
             this.BtnCancel = new Syncfusion.Windows.Forms.ButtonAdv();
@@ -46,29 +46,30 @@
             this.gradientPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
-            // LabelAlarm_System
+            // LabelTest1
             // 
-            this.LabelAlarm_System.BackgroundColor = new Syncfusion.Drawing.BrushInfo(System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(224)))), ((int)(((byte)(192))))));
-            this.LabelAlarm_System.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
+            this.LabelTest1.BackgroundColor = new Syncfusion.Drawing.BrushInfo(System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(224)))), ((int)(((byte)(192))))));
+            this.LabelTest1.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
             | System.Windows.Forms.Border3DSide.Right) 
             | System.Windows.Forms.Border3DSide.Bottom)));
-            this.LabelAlarm_System.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.LabelAlarm_System.Location = new System.Drawing.Point(25, 216);
-            this.LabelAlarm_System.Name = "LabelAlarm_System";
-            this.LabelAlarm_System.Size = new System.Drawing.Size(175, 36);
-            this.LabelAlarm_System.TabIndex = 25;
-            this.LabelAlarm_System.Text = "rrr";
-            this.LabelAlarm_System.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.LabelTest1.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.LabelTest1.Location = new System.Drawing.Point(25, 216);
+            this.LabelTest1.Name = "LabelTest1";
+            this.LabelTest1.Size = new System.Drawing.Size(175, 36);
+            this.LabelTest1.TabIndex = 25;
+            this.LabelTest1.Text = "GetServoStatus";
+            this.LabelTest1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.LabelTest1.Click += new System.EventHandler(this.LabelTest1_Click);
             // 
-            // TextAlarm_System
+            // TextTest1
             // 
-            this.TextAlarm_System.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.TextAlarm_System.Location = new System.Drawing.Point(208, 216);
-            this.TextAlarm_System.Margin = new System.Windows.Forms.Padding(5);
-            this.TextAlarm_System.Name = "TextAlarm_System";
-            this.TextAlarm_System.Size = new System.Drawing.Size(145, 25);
-            this.TextAlarm_System.TabIndex = 18;
-            this.TextAlarm_System.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.TextTest1.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.TextTest1.Location = new System.Drawing.Point(208, 216);
+            this.TextTest1.Margin = new System.Windows.Forms.Padding(5);
+            this.TextTest1.Name = "TextTest1";
+            this.TextTest1.Size = new System.Drawing.Size(145, 25);
+            this.TextTest1.TabIndex = 18;
+            this.TextTest1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // gradientLabel1
             // 
@@ -182,8 +183,8 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(612, 268);
-            this.Controls.Add(this.LabelAlarm_System);
-            this.Controls.Add(this.TextAlarm_System);
+            this.Controls.Add(this.LabelTest1);
+            this.Controls.Add(this.TextTest1);
             this.Controls.Add(this.BtnCancel);
             this.Controls.Add(this.BtnOK);
             this.Controls.Add(this.gradientPanel1);
@@ -202,8 +203,8 @@
 
         #endregion
 
-        private Syncfusion.Windows.Forms.Tools.GradientLabel LabelAlarm_System;
-        private System.Windows.Forms.TextBox TextAlarm_System;
+        private Syncfusion.Windows.Forms.Tools.GradientLabel LabelTest1;
+        private System.Windows.Forms.TextBox TextTest1;
         private Syncfusion.Windows.Forms.Tools.GradientLabel gradientLabel1;
         private System.Windows.Forms.TextBox TextAlarmIndex;
         private Syncfusion.Windows.Forms.ButtonAdv BtnCancel;

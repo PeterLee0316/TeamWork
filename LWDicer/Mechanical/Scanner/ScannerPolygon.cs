@@ -578,7 +578,7 @@ namespace LWDicer.Control
             bRet = CUtils.SetValue(section, key, value, filePath);
 
             key = "CrossScanMaxAccel";
-            value = string.Format("{0:F2}", m_DataManager.ModelData.ScanData.CrossScanMaxAccel / 100.0f);
+            value = string.Format("{0:F2}", m_DataManager.ModelData.ScanData.CrossScanMaxAccel);
             bRet = CUtils.SetValue(section, key, value, filePath);
 
             key = "EnCarSig";
@@ -1204,7 +1204,7 @@ namespace LWDicer.Control
         {
             string strFTP = GetScanHeadAddress(); // ex) "172.18.7.160
 
-            string strPath = string.Format("{0:s}{1:s}", m_DataManager.DBInfo.ScannerDataDir, strFile);  // ex) "SFA\LWDicer\ScannerLog\configure.ini"
+            string strPath = string.Format("{0:s}", strFile);  // ex) "SFA\LWDicer\ScannerLog\configure.ini"
 
             if (SendTFTPFile(strFTP,strPath) == true)
             {
@@ -1340,6 +1340,8 @@ namespace LWDicer.Control
         #region Laser Process 동작
         public int LaserProcess(EScannerMode processMode)
         {
+            LaserProcessRun();
+
             int bufferNum = 0;
 
             if (processMode == EScannerMode.MOF) bufferNum = DEF_SCANNER_MOF_RUN;
@@ -1357,6 +1359,26 @@ namespace LWDicer.Control
             string strVariable = "ProcessSet";            
 
             iResult = m_RefComp.Process.WriteBufferMemory(strVariable,countSet);
+
+            return iResult;
+        }
+
+        public int LaserProcessRun()
+        {
+            int iResult = SUCCESS;
+            string strVariable = "ProcessStop";
+
+            iResult = m_RefComp.Process.WriteBufferMemory(strVariable, 0);
+
+            return iResult;
+        }
+
+        public int LaserProcessStop()
+        {
+            int iResult = SUCCESS;
+            string strVariable = "ProcessStop";
+
+            iResult = m_RefComp.Process.WriteBufferMemory(strVariable, 1);
 
             return iResult;
         }

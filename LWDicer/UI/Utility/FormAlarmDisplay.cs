@@ -193,6 +193,7 @@ namespace LWDicer.UI
 
             var dlg = new FormAlarmEdit();
             dlg.SetAlarmText(LabelAlarmText1.Text, LabelAlarmText2.Text, LabelTrouble1.Text, LabelTrouble2.Text);
+            dlg.TopMost = true;
             dlg.ShowDialog();
 
             if(dlg.DialogResult != DialogResult.OK)

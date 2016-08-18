@@ -300,14 +300,9 @@ namespace LWDicer.UI
 
         private void BtnSave_Click(object sender, EventArgs e)
         {
-            string strMsg = string.Empty, strData = string.Empty;
-
-            strMsg = GridTeachTable[1, 0].Text + " Unit에 " + TeachPos[GetPosNo()].Text + " Teaching Data를 저장하시겠습니까?";
-
-            if (!CMainFrame.InquireMsg(strMsg))
-            {
-                return;
-            }
+            string strData = string.Empty;
+            string strMsg = "Save teaching data?";
+            if (!CMainFrame.InquireMsg(strMsg)) return;
 
             if (GetDataMode() == FixedData)
             {
@@ -374,29 +369,17 @@ namespace LWDicer.UI
 
         private void BtnChangeValue_Click(object sender, EventArgs e)
         {
-            string strCurrent = "", strMsg = string.Empty;
+            string strMsg = "Change target position to current position?";
+            if (!CMainFrame.InquireMsg(strMsg)) return;
 
-            strMsg = TeachPos[GetPosNo()].Text + " 목표 위치를 현재 위치로 변경하시겠습니까?";
-
-            if (!CMainFrame.InquireMsg(strMsg))
-            {
-                return;
-            }
-
-            strCurrent = GridTeachTable[7, 1].Text;
+            string strCurrent = GridTeachTable[7, 1].Text;
             ChangeTargetPos(strCurrent, 1);
         }
 
         private void BtnTeachMove_Click(object sender, EventArgs e)
         {
-            string strMsg = string.Empty;
-
-            strMsg = TeachPos[GetPosNo()].Text + " 목표 위치로 이동하시겠습니까?";
-
-            if (!CMainFrame.InquireMsg(strMsg))
-            {
-                return;
-            }
+            string strMsg = "Move to selected position?";
+            if (!CMainFrame.InquireMsg(strMsg)) return;
 
             if (TeachPos[GetPosNo()].Text == Convert.ToString(EScannerPos.WAIT)) CMainFrame.LWDicer.m_ctrlStage1.MoveToScannerWaitPos();
             if (TeachPos[GetPosNo()].Text == Convert.ToString(EScannerPos.WORK)) CMainFrame.LWDicer.m_ctrlStage1.MoveToScannerWorkPos();
