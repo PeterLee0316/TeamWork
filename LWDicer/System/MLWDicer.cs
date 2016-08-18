@@ -1181,6 +1181,9 @@ namespace LWDicer.Control
             CCtrlLoaderRefComp refComp = new CCtrlLoaderRefComp();
             CCtrlLoaderData data = new CCtrlLoaderData();
 
+            refComp.IO = m_IO;
+            refComp.Elevator = m_MeElevator;
+
             m_ctrlLoader = new MCtrlLoader(objInfo, refComp, data);
         }
 
@@ -1767,6 +1770,17 @@ namespace LWDicer.Control
             //data.bUseMaterialAlarm = 
 
             COpPanelIOAddr sPanelIOAddr = new COpPanelIOAddr();
+            sPanelIOAddr.FrontPanel = new CPanelIOAddr(iStart_SWFront, iStop_SWFront, iReset_SWFront,
+                oStart_LampFront, oStop_LampFront, oReset_LampFront,
+                iJog_X_Forward_SWFront, iJog_X_Backward_SWFront, iJog_Y_Forward_SWFront, iJog_Y_Backward_SWFront,
+                iJog_T_CW_SWFront, iJog_T_CCW_SWFront, iJog_Z_UP_SWFront, iJog_Z_DOWN_SWFront,
+                0);
+            sPanelIOAddr.EStopAddr[0] = iEMO_SW;
+            sPanelIOAddr.EStopAddr[1] = iEMO_SWRear;
+
+            sPanelIOAddr.MainAirAddr = iMain_Air_On;
+            //sPanelIOAddr.MainN2Addr = iMain_N
+            sPanelIOAddr.MainVacuumAddr = iMain_Vac1_On;
 
             CJogTable sJogTable = new CJogTable();
 

@@ -77,9 +77,11 @@ namespace LWDicer.UI
             BottomScreen.Show();
             SelectFormChange(EFormType.AUTO);
 
+#if !SIMULATION_VISION
             LWDicer.m_Vision.InitialLocalView(0, pnlPic.Handle);
             LWDicer.m_Vision.InitialLocalView(1, pnlPic.Handle);
             LWDicer.m_Vision.InitialLocalView(2, pnlPic.Handle);
+#endif
         }
 
 

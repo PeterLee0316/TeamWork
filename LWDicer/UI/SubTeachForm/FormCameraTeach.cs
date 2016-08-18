@@ -36,7 +36,7 @@ namespace LWDicer.UI
     {
         ButtonAdv[] TeachPos = new ButtonAdv[15];
 
-        private int nTeachPos = 0;
+        private int m_nSelectedPos = 0;
 
         private int nDataMode = 0;
 
@@ -206,7 +206,7 @@ namespace LWDicer.UI
             UpdateTeachPos(Convert.ToInt16(TeachPos.Tag));
         }
 
-        private void UpdateTeachPos(int PosNo)
+        private void UpdateTeachPos(int selectedPos)
         {
             int nCount = 0, i = 0, j = 0;
 
@@ -243,11 +243,11 @@ namespace LWDicer.UI
                 }
             }
 
-            TeachPos[PosNo].BackColor = Color.Tan;
+            TeachPos[selectedPos].BackColor = Color.Tan;
 
-            SetPosNo(PosNo);
+            m_nSelectedPos = selectedPos;
 
-            LoadTeachingData(PosNo);
+            DisplayPos();
         }
 
         private void GridTeachTable_PushButtonClick(object sender, GridCellPushButtonClickEventArgs e)
@@ -289,16 +289,6 @@ namespace LWDicer.UI
             }
         }
 
-        private void SetPosNo(int nPosNo)
-        {
-            nTeachPos = nPosNo;
-        }
-
-        private int GetPosNo()
-        {
-            return nTeachPos;
-        }
-
         private void BtnSave_Click(object sender, EventArgs e)
         {
             string strData = string.Empty;
@@ -309,7 +299,7 @@ namespace LWDicer.UI
             {
                 strData = GridTeachTable[3, 1].Text;
 
-                CMainFrame.DataManager.FixedPos.Camera1Pos.Pos[GetPosNo()].dZ = Convert.ToDouble(strData);
+                CMainFrame.DataManager.FixedPos.Camera1Pos.Pos[m_nSelectedPos].dZ = Convert.ToDouble(strData);
                 CMainFrame.DataManager.SavePositionData(true, EPositionObject.CAMERA1);
             }
 
@@ -317,13 +307,13 @@ namespace LWDicer.UI
             {
                 strData = GridTeachTable[6, 1].Text;
 
-                CMainFrame.DataManager.OffsetPos.Camera1Pos.Pos[GetPosNo()].dZ = Convert.ToDouble(strData);
+                CMainFrame.DataManager.OffsetPos.Camera1Pos.Pos[m_nSelectedPos].dZ = Convert.ToDouble(strData);
                 CMainFrame.DataManager.SavePositionData(false, EPositionObject.CAMERA1);
             }
 
             CMainFrame.LWDicer.SetPositionDataToComponent(EPositionGroup.STAGE1);
 
-            LoadTeachingData(GetPosNo());
+            DisplayPos();
         }
 
         private void TmrTeach_Tick(object sender, EventArgs e)
@@ -351,14 +341,15 @@ namespace LWDicer.UI
             GridTeachTable[8, 1].Text = string.Format("{0:F4}", dValue);
         }
 
-        private void LoadTeachingData(int nTeachPos)
+        private void DisplayPos()
         {
             string str;
             double dFixedPos = 0, dOffsetPos = 0, dTargetPos = 0, dModelPos = 0, dAlignOffset;
+            int index = m_nSelectedPos;
                         
-            dFixedPos = movingObject.FixedPos.Pos[nTeachPos].dZ;
-            dOffsetPos = movingObject.OffsetPos.Pos[nTeachPos].dZ;
-            dModelPos = movingObject.ModelPos.Pos[nTeachPos].dZ;
+            dFixedPos = movingObject.FixedPos.Pos[index].dZ;
+            dOffsetPos = movingObject.OffsetPos.Pos[index].dZ;
+            dModelPos = movingObject.ModelPos.Pos[index].dZ;
             dAlignOffset = movingObject.AlignOffset.dZ;
 
             dTargetPos = dFixedPos + dOffsetPos + dModelPos + dAlignOffset;
@@ -384,11 +375,11 @@ namespace LWDicer.UI
             string strMsg = "Move to selected position?";
             if (!CMainFrame.InquireMsg(strMsg)) return;
 
-            if (TeachPos[GetPosNo()].Text == Convert.ToString(ECameraPos.WAIT)) CMainFrame.LWDicer.m_ctrlStage1.MoveToCameraWaitPos();
-            if (TeachPos[GetPosNo()].Text == Convert.ToString(ECameraPos.WORK)) CMainFrame.LWDicer.m_ctrlStage1.MoveToCameraWorkPos();
-            if (TeachPos[GetPosNo()].Text == Convert.ToString(ECameraPos.FOCUS_1)) CMainFrame.LWDicer.m_ctrlStage1.MoveToCameraFocusPos1();
-            if (TeachPos[GetPosNo()].Text == Convert.ToString(ECameraPos.FOCUS_2)) CMainFrame.LWDicer.m_ctrlStage1.MoveToCameraFocusPos2();
-            if (TeachPos[GetPosNo()].Text == Convert.ToString(ECameraPos.FOCUS_3)) CMainFrame.LWDicer.m_ctrlStage1.MoveToCameraFocusPos3();
+            if (TeachPos[m_nSelectedPos].Text == Convert.ToString(ECameraPos.WAIT)) CMainFrame.LWDicer.m_ctrlStage1.MoveToCameraWaitPos();
+            if (TeachPos[m_nSelectedPos].Text == Convert.ToString(ECameraPos.WORK)) CMainFrame.LWDicer.m_ctrlStage1.MoveToCameraWorkPos();
+            if (TeachPos[m_nSelectedPos].Text == Convert.ToString(ECameraPos.FOCUS_1)) CMainFrame.LWDicer.m_ctrlStage1.MoveToCameraFocusPos1();
+            if (TeachPos[m_nSelectedPos].Text == Convert.ToString(ECameraPos.FOCUS_2)) CMainFrame.LWDicer.m_ctrlStage1.MoveToCameraFocusPos2();
+            if (TeachPos[m_nSelectedPos].Text == Convert.ToString(ECameraPos.FOCUS_3)) CMainFrame.LWDicer.m_ctrlStage1.MoveToCameraFocusPos3();
         }
     }
 }

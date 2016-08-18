@@ -978,15 +978,31 @@ namespace LWDicer.Control
             public CParaInfo(string Group = "group", string Name = "parameter", string Unit = "[-]", EUnitType Type = EUnitType.mm)
             {
                 this.Group = Group;
-                this.Name = Name;
-                this.Unit = Unit;
-                this.Type = Type; // temporarily 
+                this.Name  = Name;
+                this.Unit  = Unit;
+                this.Type  = Type; // temporarily 
 
                 for (int i = 0; i < (int)ELanguage.MAX; i++)
                 {
                     DisplayName[i] = MSG_UNDEFINED;
                     Description[i] = MSG_UNDEFINED;
                 }
+            }
+
+            public bool IsEqual(CParaInfo info)
+            {
+                if (this.Group != info.Group) return false;
+                if (this.Name  != info.Name ) return false;
+                if (this.Unit  != info.Unit ) return false;
+                if (this.Type  != info.Type ) return false;
+
+                for (int i = 0; i < (int)ELanguage.MAX; i++)
+                {
+                    if (this.Description[i] != info.Description[i]) return false;
+                    if (this.DisplayName[i] != info.DisplayName[i]) return false;
+                }
+
+                return true;
             }
 
             public string GetDisplayName(DEF_Common.ELanguage lang = DEF_Common.ELanguage.ENGLISH)
@@ -1056,6 +1072,19 @@ namespace LWDicer.Control
                 {
                     Message[i] = MSG_UNDEFINED;
                 }
+            }
+
+            public bool IsEqual(CMessageInfo info)
+            {
+                if (this.Index != info.Index) return false;
+                if (this.Type != info.Type) return false;
+
+                for (int i = 0; i < (int)ELanguage.MAX; i++)
+                {
+                    if (this.Message[i] != info.Message[i]) return false;
+                }
+
+                return true;
             }
 
             public string GetMessage(DEF_Common.ELanguage lang = DEF_Common.ELanguage.ENGLISH)
@@ -1165,6 +1194,22 @@ namespace LWDicer.Control
                     Description[i] = MSG_UNDEFINED;
                     Solution[i] = MSG_UNDEFINED;
                 }
+            }
+
+            public bool IsEqual(CAlarmInfo info)
+            {
+                if (this.Index != info.Index) return false;
+                if (this.Type != info.Type) return false;
+                if (this.Group != info.Group) return false;
+                if (this.Esc != info.Esc) return false;
+
+                for (int i = 0; i < (int)ELanguage.MAX; i++)
+                {
+                    if (this.Description[i] != info.Description[i]) return false;
+                    if (this.Solution[i] != info.Solution[i]) return false;
+                }
+
+                return true;
             }
 
             public string GetAlarmText(DEF_Common.ELanguage lang = DEF_Common.ELanguage.ENGLISH)
@@ -1924,10 +1969,11 @@ namespace LWDicer.Control
 
     public class DEF_IO
     {
-        public const int ERR_YMC_NOT_SUPPORT_FUNCTION = 1;
-        public const int ERR_YMC_FAIL_GET_DATA_HANDLE = 2;
-        public const int ERR_YMC_FAIL_GET_DATA        = 3;
-        public const int ERR_YMC_FAIL_SET_DATA        = 4;
+        public const int ERR_IO_ADDRESS_INVALID          = 1;
+        public const int ERR_IO_YMC_NOT_SUPPORT_FUNCTION = 2;
+        public const int ERR_IO_YMC_FAIL_GET_DATA_HANDLE = 3;
+        public const int ERR_IO_YMC_FAIL_GET_DATA        = 4;
+        public const int ERR_IO_YMC_FAIL_SET_DATA        = 5;
 
         public enum EIOType
         {
