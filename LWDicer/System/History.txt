@@ -321,6 +321,8 @@ CSpinStep class -> CCleanStep / CCoatStep class 로 분리
 // Context
 1. FormTeach class 버그 수정 및 함수 정리 (ex. m_nSelectedPos이 멤버 변수 및 함수 파라미터로 같이 쓰이고 있었음. 에효.)
    nTeachPos -> m_nSelectedPos 으로 변경 및 쓸데없는 함수들 정리함
+2. MOpPanel 쪽 io 일부 할당 및 ctrl class moving function test 시작
+3. CAlarmInfo, CMessageInfo, CParaInfo classes : IsEqual 함수 추가 및 db에 저장시 쓸모없는 값 및 중복 제거
 
 ////////////////////////////////////////////////////////////////////////////////////////////
 // LJJ

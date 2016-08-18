@@ -3056,18 +3056,19 @@ namespace LWDicer.Control
 
         public int UpdateAlarmInfo(CAlarmInfo info, bool bMerge = true, bool bSaveToDB = true)
         {
-            CAlarmInfo prevInfo = new CAlarmInfo();
+            CAlarmInfo prevInfo = ObjectExtensions.Copy(info);
             for(int i = 0; i < AlarmInfoList.Count; i++)
             {
                 if(AlarmInfoList[i].Index == info.Index)
                 {
+                    if (AlarmInfoList[i].IsEqual(info)) return SUCCESS;
                     prevInfo = ObjectExtensions.Copy(AlarmInfoList[i]);
                     AlarmInfoList.RemoveAt(i);
                     break;
                 }
             }
 
-            if(bMerge)
+            if(bMerge && prevInfo.Index != 0)
             {
                 prevInfo.Update(info);
                 AlarmInfoList.Add(prevInfo);
@@ -3161,11 +3162,12 @@ namespace LWDicer.Control
 
         public int UpdateMessageInfo(CMessageInfo info, bool bMerge = true, bool bSaveToDB = true)
         {
-            CMessageInfo prevInfo = new CMessageInfo();
+            CMessageInfo prevInfo = ObjectExtensions.Copy(info);
             for (int i = 0; i < MessageInfoList.Count; i++)
             {
                 if (MessageInfoList[i].Index == info.Index)
                 {
+                    if (MessageInfoList[i].IsEqual(info)) return SUCCESS;
                     prevInfo = ObjectExtensions.Copy(MessageInfoList[i]);
                     MessageInfoList.RemoveAt(i);
                     break;
@@ -3299,11 +3301,12 @@ namespace LWDicer.Control
 
         public int UpdateParaInfo(CParaInfo info, bool bMerge = true, bool bSaveToDB = true)
         {
-            CParaInfo prevInfo = new CParaInfo();
+            CParaInfo prevInfo = ObjectExtensions.Copy(info);
             for (int i = 0; i < ParaInfoList.Count; i++)
             {
                 if (ParaInfoList[i].Name == info.Name && ParaInfoList[i].Group == info.Group)
                 {
+                    if (ParaInfoList[i].IsEqual(info)) return SUCCESS;
                     prevInfo = ObjectExtensions.Copy(ParaInfoList[i]);
                     ParaInfoList.RemoveAt(i);
                     break;
@@ -3428,6 +3431,7 @@ namespace LWDicer.Control
 
         public int SaveAlarmInfoList()
         {
+
             try
             {
                 List<string> querys = new List<string>();
@@ -3445,6 +3449,8 @@ namespace LWDicer.Control
                 string output;
                 foreach (CAlarmInfo info in AlarmInfoList)
                 {
+                    // index = 0 은 저장할 필요 없음
+                    if (info.Index == 0) continue;
                     output = JsonConvert.SerializeObject(info);
                     query = $"INSERT INTO {DBInfo.TableAlarmInfo} VALUES ('{info.Index}', '{output}')";
                     querys.Add(query);
