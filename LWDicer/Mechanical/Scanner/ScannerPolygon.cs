@@ -154,8 +154,7 @@ namespace LWDicer.Control
             // 가로 사이즈는 32배수로 크기를 정한다. 
             // 소수점을 버리기 위해서... 32로 나누고.. 곱한다.(32배수 밑은 버림).
             BmpImageWidth = (int)(ptEnd.X / BMP_DATA_SIZE+0.5);
-            BmpImageWidth *= BMP_DATA_SIZE;
-            
+            BmpImageWidth *= BMP_DATA_SIZE;            
 
             // BMP File의 가로 한줄의 Byte Array의 크기를 설정한다.
             // 1bit BMP이므로 8를 나눈 값으로 설정함.
@@ -169,6 +168,7 @@ namespace LWDicer.Control
             return SUCCESS;
         }
 
+        
         private void BmpInit(bool bWhite=true)
         {
             int iWidth = m_Bitmap.Width;
@@ -189,10 +189,58 @@ namespace LWDicer.Control
                 Marshal.Copy(BmpScanLine, 0, (IntPtr)((long)BmpData.Scan0 + BmpData.Stride * y), BmpScanLine.Length);
             }
 
-            m_Bitmap.UnlockBits(BmpData);           
+            m_Bitmap.UnlockBits(BmpData);          
 
         }
 
+        public Bitmap ExpandBmpFile(Bitmap sourceBmp, int expandNum=8)
+        {
+            BitmapData sourceBmpData;
+            BitmapData targetBmpData;
+            Rectangle recSource;
+            Rectangle recTarget;
+            byte[] BmpScanLine;
+
+            int iWidth  = sourceBmp.Width;
+            int iHeight = sourceBmp.Height * expandNum;
+
+            // BMP의 가로 byte date 크기 설정
+            BmpScanLine = new byte[iWidth];
+
+            // BMP file의 크기를 설정한다
+            m_Bitmap = new Bitmap(iWidth, iHeight, PixelFormat.Format1bppIndexed);
+
+            // Source BitmapData 생성
+            recSource = new Rectangle(0, 0, sourceBmp.Width, sourceBmp.Height);
+            sourceBmpData = sourceBmp.LockBits(recSource, ImageLockMode.ReadWrite, PixelFormat.Format1bppIndexed);
+
+            // Target BitmapData 생성
+            recTarget = new Rectangle(0, 0, iWidth, iHeight);
+            targetBmpData = m_Bitmap.LockBits(recTarget, ImageLockMode.ReadWrite, PixelFormat.Format1bppIndexed);
+
+            for (int y = 0; y < recSource.Height; y++)
+            {
+                // source Image에서 가로 한줄을 byte[]로 Copy함
+                Marshal.Copy((IntPtr)((long)sourceBmpData.Scan0 + sourceBmpData.Stride * y),
+                                            BmpScanLine, 0, BmpScanLine.Length);
+
+                for (int x = 0; x < expandNum; x++)
+                {
+                    Marshal.Copy(BmpScanLine, 0, (IntPtr)((long)targetBmpData.Scan0 + targetBmpData.Stride * (y * expandNum + x)), BmpScanLine.Length);
+                }
+            }
+
+            sourceBmp.UnlockBits(sourceBmpData);
+            m_Bitmap.UnlockBits(targetBmpData);
+
+            return m_Bitmap;
+        }
+
+        /// <summary>
+        /// Manager에 저장된 Object 전체를 BMP 파일로 저장함.
+        /// </summary>
+        /// <param name="filePath"></param>
+        /// <returns></returns>
         public int ConvertBmpFile(string filePath)
         {
             try
@@ -202,9 +250,11 @@ namespace LWDicer.Control
 
                 for (int i = 0; i < iObjectCount; i++)
                 {
+                    // 생성된 BMP 파일에 Object Draw
                     DrawBmpFile(m_RefComp.Manager.ObjectList[i]);
                 }
                 
+                // 생성된 BMP을 파일 저장함.
                 m_Bitmap.Save(filePath, ImageFormat.Bmp);
 
                 m_Bitmap.Dispose();
@@ -215,6 +265,11 @@ namespace LWDicer.Control
             return SUCCESS;
         }
 
+        /// <summary>
+        /// 1bit BMP 파일에 Object를 Draw하는 함수
+        /// </summary>
+        /// <param name="pObject"></param>
+        /// <returns></returns>
         private int DrawBmpFile(CMarkingObject pObject)
         {
             Point ptStart = new Point(0, 0);
@@ -244,7 +299,7 @@ namespace LWDicer.Control
                 case EObjectType.GROUP:
                     CObjectGroup pGroup;
                     pGroup = (CObjectGroup)(pObject);
-                    //int iObjectCount = pGroup.ObjectGroup.Count;                    
+                    // 재귀적 방식으로  Object를 Draw를 진행함.                    
                     foreach (CMarkingObject G in pGroup.ObjectGroup)
                         DrawBmpFile(G);
 

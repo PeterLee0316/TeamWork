@@ -805,6 +805,29 @@ namespace LWDicer.UI
             }            
         }
 
+        private void btnImageChange_Click(object sender, EventArgs e)
+        {
+            Bitmap sourceBitmap;
+            Bitmap changeBitmap;
+            string filename = string.Empty;
+
+            OpenFileDialog imgOpenDlg = new OpenFileDialog();
+            imgOpenDlg.InitialDirectory = CMainFrame.DBInfo.ImageDataDir;
+            imgOpenDlg.Filter = "BMP(*.bmp)|*.bmp";
+            if (imgOpenDlg.ShowDialog() == DialogResult.OK)
+            {
+                // bmp file Load
+                filename = imgOpenDlg.FileName;
+                sourceBitmap = new Bitmap(filename);
+                
+                // bmp expand by 8 (default)
+                changeBitmap = CMainFrame.LWDicer.m_MeScanner.ExpandBmpFile(sourceBitmap);
+
+                changeBitmap.Save(filename+"Ex");
+            }
+        }
+
+
         private void btnDataUpdate_Click(object sender, EventArgs e)
         {
             // ini File 저장
@@ -1727,5 +1750,7 @@ namespace LWDicer.UI
         {
             CMainFrame.LWDicer.m_MeScanner.LaserProcessStop();
         }
+
+        
     }
 }
