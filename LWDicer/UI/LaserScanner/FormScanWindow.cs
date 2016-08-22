@@ -8,6 +8,12 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows;
+using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
+
+
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
 using static LWDicer.Control.DEF_Scanner;
 using static LWDicer.Control.DEF_System;
@@ -694,12 +700,71 @@ namespace LWDicer.UI
 
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            
+            string filename = string.Empty;
+            SaveFileDialog imgSaveDlg = new SaveFileDialog();
+            imgSaveDlg.InitialDirectory = CMainFrame.DBInfo.ImageDataDir;
+            imgSaveDlg.Filter = "DAT(*.dat)|*.dat";
+            if (imgSaveDlg.ShowDialog() == DialogResult.OK)
+            {
+                filename = imgSaveDlg.FileName;
+
+                // BinaryFormatter 방식 저장 ===========================================
+                Stream ws = new FileStream(filename, FileMode.Create);
+                BinaryFormatter serializer = new BinaryFormatter();
+                serializer.Serialize(ws, CMainFrame.LWDicer.m_MeScanner.m_RefComp.Manager.ObjectList);
+                ws.Close();
+                ws.Dispose();
+
+                // JsonConvert 방식 저장 ===========================================
+                //try
+                //{
+                //    using (StreamWriter file = File.CreateText(filename))
+                //    {
+                //        JsonSerializer serializer = new JsonSerializer();
+                //        serializer.Serialize(file, CMainFrame.LWDicer.m_MeScanner.m_RefComp.Manager.ObjectList);
+                //    }
+                //}
+                //catch(Exception ex)
+                //{
+
+                //}
+            }
         }
 
         private void openToolStripMenuItem1_Click(object sender, EventArgs e)
         {
+            string filename = string.Empty;
+            var imgOpenDlg = new OpenFileDialog();
+            imgOpenDlg.InitialDirectory = CMainFrame.DBInfo.ImageDataDir;
+            imgOpenDlg.Filter = "DAT(*.dat)|*.dat";
+            if (imgOpenDlg.ShowDialog() == DialogResult.OK)
+            {
+                filename = imgOpenDlg.FileName;
 
+                // BinaryFormatter 방식 읽기 ===========================================
+                Stream rs = new FileStream(filename, FileMode.Open);
+                BinaryFormatter deserializer = new BinaryFormatter();
+                CMainFrame.LWDicer.m_MeScanner.m_RefComp.Manager.ObjectList = (List<CMarkingObject>)deserializer.Deserialize(rs);
+                rs.Close();
+                rs.Dispose();
+
+                // JsonConvert 방식 읽기 ===========================================
+                //using (StreamReader file = File.OpenText(filename))
+                //{
+                //    var serializer = new JsonSerializer();
+                //    var objectList =
+                //        serializer.Deserialize(file,typeof(List<CMarkingObject>)) as List<CMarkingObject>;
+
+                //    CMainFrame.LWDicer.m_MeScanner.m_RefComp.Manager.ObjectList = objectList.
+                //}
+
+                foreach (CMarkingObject shape in CMainFrame.LWDicer.m_MeScanner.m_RefComp.Manager.ObjectList)
+                {
+                    CMainFrame.LWDicer.m_MeScanner.m_RefComp.FormScanner.AddObjectList(shape);
+                }
+
+
+            }
         }
 
         private void polygonToolStripMenuItem_Click(object sender, EventArgs e)

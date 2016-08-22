@@ -8,9 +8,12 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
+using System.Drawing;
+using System.Drawing.Imaging;
 using Syncfusion.Windows.Forms.Grid;
 using Syncfusion.Windows.Forms;
 using Syncfusion.Windows.Forms.Tools;
+
 
 using static LWDicer.Control.DEF_Scanner;
 using static LWDicer.Control.DEF_System;
@@ -810,6 +813,7 @@ namespace LWDicer.UI
             Bitmap sourceBitmap;
             Bitmap changeBitmap;
             string filename = string.Empty;
+            string changeName = string.Empty;
 
             OpenFileDialog imgOpenDlg = new OpenFileDialog();
             imgOpenDlg.InitialDirectory = CMainFrame.DBInfo.ImageDataDir;
@@ -822,8 +826,12 @@ namespace LWDicer.UI
                 
                 // bmp expand by 8 (default)
                 changeBitmap = CMainFrame.LWDicer.m_MeScanner.ExpandBmpFile(sourceBitmap);
-
-                changeBitmap.Save(filename+"Ex");
+                
+                int insertPos = filename.Length;
+                changeName = filename.Insert(insertPos-4, "_EX");
+                // bmp Save
+                if(changeBitmap != null)
+                    changeBitmap.Save(changeName,ImageFormat.Bmp);
             }
         }
 
@@ -1337,7 +1345,78 @@ namespace LWDicer.UI
             UpdateConfigureData(CMainFrame.DataManager.ModelData.ScanData);
         }
 
+        private void btnChangeCsnOffset_Click(object sender, EventArgs e)
+        {
+            int csnStartOffset = Convert.ToInt32(lblCsnStartOffset.Text);
+            int csnEndOffset = Convert.ToInt32(lblCsnEndOffset.Text);
+
+            string filename = string.Empty;
+            OpenFileDialog iniOpenDlg = new OpenFileDialog();
+            iniOpenDlg.InitialDirectory = CMainFrame.DBInfo.ScannerDataDir;
+            iniOpenDlg.Filter = "INI(*.ini)|*.ini";
+            if (iniOpenDlg.ShowDialog() == DialogResult.OK)
+            {
+                filename = iniOpenDlg.FileName;
+            }
+            else
+            {
+                return;
+            }
+
+            //CMainFrame.DataManager.ImportPolygonData(EPolygonPara.CSN);
+            CMainFrame.DataManager.ImportPolygonData(EPolygonPara.CSN, filename);
+
+            CMainFrame.DataManager.ModelData.ScanData.FacetCorrectFirstYpos1 -= csnStartOffset;
+            CMainFrame.DataManager.ModelData.ScanData.FacetCorrectLast_Ypos1 -= csnEndOffset;
+            CMainFrame.DataManager.ModelData.ScanData.FacetCorrectFirstYpos2 -= csnStartOffset;
+            CMainFrame.DataManager.ModelData.ScanData.FacetCorrectLast_Ypos2 -= csnEndOffset;
+            CMainFrame.DataManager.ModelData.ScanData.FacetCorrectFirstYpos3 -= csnStartOffset;
+            CMainFrame.DataManager.ModelData.ScanData.FacetCorrectLast_Ypos3 -= csnEndOffset;
+            CMainFrame.DataManager.ModelData.ScanData.FacetCorrectFirstYpos4 -= csnStartOffset;
+            CMainFrame.DataManager.ModelData.ScanData.FacetCorrectLast_Ypos4 -= csnEndOffset;
+            CMainFrame.DataManager.ModelData.ScanData.FacetCorrectFirstYpos5 -= csnStartOffset;
+            CMainFrame.DataManager.ModelData.ScanData.FacetCorrectLast_Ypos5 -= csnEndOffset;
+            CMainFrame.DataManager.ModelData.ScanData.FacetCorrectFirstYpos6 -= csnStartOffset;
+            CMainFrame.DataManager.ModelData.ScanData.FacetCorrectLast_Ypos6 -= csnEndOffset;
+            CMainFrame.DataManager.ModelData.ScanData.FacetCorrectFirstYpos7 -= csnStartOffset;
+            CMainFrame.DataManager.ModelData.ScanData.FacetCorrectLast_Ypos7 -= csnEndOffset;
+            CMainFrame.DataManager.ModelData.ScanData.FacetCorrectFirstYpos8 -= csnStartOffset;
+            CMainFrame.DataManager.ModelData.ScanData.FacetCorrectLast_Ypos8 -= csnEndOffset;
+
+            UpdateConfigureData(CMainFrame.DataManager.ModelData.ScanData);
+        }
+
         private void lblCsnGapPitch_Click(object sender, EventArgs e)
+        {
+            string strCurrent = "", strModify = "";
+
+            GradientLabel Btn = sender as GradientLabel;
+            strCurrent = Btn.Text;
+
+            if (!CMainFrame.GetKeyPad(strCurrent, out strModify))
+            {
+                return;
+            }
+
+            Btn.Text = strModify;
+        }
+
+        private void lblCsnStartOffset_Click(object sender, EventArgs e)
+        {
+            string strCurrent = "", strModify = "";
+
+            GradientLabel Btn = sender as GradientLabel;
+            strCurrent = Btn.Text;
+
+            if (!CMainFrame.GetKeyPad(strCurrent, out strModify))
+            {
+                return;
+            }
+
+            Btn.Text = strModify;
+        }
+
+        private void lblCsnEndOffset_Click(object sender, EventArgs e)
         {
             string strCurrent = "", strModify = "";
 
@@ -1751,6 +1830,10 @@ namespace LWDicer.UI
             CMainFrame.LWDicer.m_MeScanner.LaserProcessStop();
         }
 
+        private void btnJogShow_Click(object sender, EventArgs e)
+        {
+            CMainFrame.DisplayJog();
+        }
         
     }
 }

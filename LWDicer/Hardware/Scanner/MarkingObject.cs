@@ -11,7 +11,7 @@ using static LWDicer.Control.DEF_Common;
 
 namespace LWDicer.Control
 {
-
+    [Serializable]
     public class CMarkingObject
     {
         /////////////////////////////////////////////////////////////////////////////////////////
@@ -196,7 +196,7 @@ namespace LWDicer.Control
         #endregion
         /////////////////////////////////////////////////////////////////////////////////////////
     }
-
+    [Serializable]
     public class CObjectDot : CMarkingObject
     {
         public CObjectDot(PointF pStart, float pAngle = 0)
@@ -249,7 +249,7 @@ namespace LWDicer.Control
                         
         }
     }
-
+    [Serializable]
     public class CObjectLine : CMarkingObject
     {
         public CObjectLine(PointF pStart, PointF pEnd, float pAngle = 0)
@@ -313,6 +313,7 @@ namespace LWDicer.Control
         }
 
     }
+    [Serializable]
     public class CObjectArc : CMarkingObject
     {
         public CObjectArc()
@@ -322,6 +323,7 @@ namespace LWDicer.Control
             CreateSortNum++;
         }
     }
+    [Serializable]
     public class CObjectRectagle : CMarkingObject
     {
         public CObjectRectagle(PointF pStart, PointF pEnd, float pAngle = 0)
@@ -388,7 +390,7 @@ namespace LWDicer.Control
         }
 
     }
-
+    [Serializable]
     public class CObjectEllipse : CMarkingObject
     {
         public CObjectEllipse(PointF pStart, PointF pEnd, float pAngle = 0)
@@ -455,6 +457,7 @@ namespace LWDicer.Control
             SetObjectEndPos(objectCurrentPos);
         }
     }
+    [Serializable]
     public class CObjectFont : CMarkingObject
     {
         public CObjectFont(PointF pStart, PointF pEnd, float pAngle = 0)
@@ -464,6 +467,7 @@ namespace LWDicer.Control
             CreateSortNum++;
         }
     }
+    [Serializable]
     public class CObjectBmp : CMarkingObject
     {
         public CObjectBmp()
@@ -473,6 +477,7 @@ namespace LWDicer.Control
             CreateSortNum++;
         }
     }
+    [Serializable]
     public class CObjectCAD : CMarkingObject
     {
         public CObjectCAD()
@@ -482,7 +487,7 @@ namespace LWDicer.Control
             CreateSortNum++;
         }
     }
-
+    [Serializable]
     public class CObjectGroup : CMarkingObject
     {
         public List<CMarkingObject> ObjectGroup = new List<CMarkingObject>();

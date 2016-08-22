@@ -13,7 +13,7 @@ using static LWDicer.Control.DEF_Common;
 
 namespace LWDicer.Control
 {
-    
+    [Serializable]
     public class CMarkingManager:MObject
     {
         /////////////////////////////////////////////////////////////////////////////////////////

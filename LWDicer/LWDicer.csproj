@@ -835,6 +835,8 @@
     <None Include="Resources\import.bmp" />
     <None Include="Resources\export.bmp" />
     <None Include="Resources\Exit.bmp" />
+    <None Include="Resources\ManualRun.bmp" />
+    <None Include="Resources\draw.jpg" />
     <Content Include="System\History.txt" />
   </ItemGroup>
   <ItemGroup>

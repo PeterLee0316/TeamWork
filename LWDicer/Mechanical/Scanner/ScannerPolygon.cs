@@ -123,6 +123,7 @@ namespace LWDicer.Control
 
         public int SetSizeBmp()
         {
+            if (m_DataManager.ModelData.ScanData.InScanResolution <= 0 || m_DataManager.ModelData.ScanData.CrossScanResolution <= 0) return RUN_FAIL;
             Point ptStart = new Point(0, 0);
             Point ptEnd = new Point(0, 0);
             float MaxHeight = 0.0f;
@@ -167,8 +168,7 @@ namespace LWDicer.Control
            
             return SUCCESS;
         }
-
-        
+                
         private void BmpInit(bool bWhite=true)
         {
             int iWidth = m_Bitmap.Width;
@@ -189,8 +189,7 @@ namespace LWDicer.Control
                 Marshal.Copy(BmpScanLine, 0, (IntPtr)((long)BmpData.Scan0 + BmpData.Stride * y), BmpScanLine.Length);
             }
 
-            m_Bitmap.UnlockBits(BmpData);          
-
+            m_Bitmap.UnlockBits(BmpData);         
         }
 
         public Bitmap ExpandBmpFile(Bitmap sourceBmp, int expandNum=8)
@@ -199,16 +198,15 @@ namespace LWDicer.Control
             BitmapData targetBmpData;
             Rectangle recSource;
             Rectangle recTarget;
-            byte[] BmpScanLine;
 
             int iWidth  = sourceBmp.Width;
             int iHeight = sourceBmp.Height * expandNum;
 
-            // BMP의 가로 byte date 크기 설정
-            BmpScanLine = new byte[iWidth];
-
-            // BMP file의 크기를 설정한다
+            // BMP File의 가로 한줄의 Byte Array의 크기를 설정한다.
+            // 1bit BMP이므로 8를 나눈 값으로 설정함.
             m_Bitmap = new Bitmap(iWidth, iHeight, PixelFormat.Format1bppIndexed);
+            Array.Resize<byte>(ref BmpScanLine, iWidth / 8);
+            
 
             // Source BitmapData 생성
             recSource = new Rectangle(0, 0, sourceBmp.Width, sourceBmp.Height);

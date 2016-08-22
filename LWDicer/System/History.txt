@@ -456,6 +456,18 @@ CSpinStep class -> CCleanStep / CCoatStep class 로 분리
 	- Scan Window Form에서.. Canvas Size를 설정하는 부분이 옮겨지면서 빠진 부분을 수정함.
 	- Scanner Layer 구조에 맞게.. Stage부의 Laser관련 Function을 Scanner 클래스로 변경함
 
+
+// Grade : ★
+// Date : 2016-08-18 ~ 2016-08-22
+// Context
+
+1. Scanner 동작
+	- Scanner MOF & Step&Go Proesss 기능 추가
+	- Scanner 동작 테스트 진행
+2. Image 및 Object List 저장
+	- BMP file 세로를 8배로 Expand하여 저장하는 기능 추가
+	- BinaryFomatter 방식으로 List 구조를 저장 및 불러오기 기능 추가
+
 ////////////////////////////////////////////////////////////////////////////////////////////
 // LHS
 // Version : 0.0.1
