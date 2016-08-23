@@ -114,6 +114,45 @@ namespace LWDicer.UI
             this.Hide();
 
         }
+        
+
+        private void 밝음ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SetCanvasColorMode(ECanvasColorStyle.BRIGHT);
+            DrawCanvas.BackColor = Color.White;
+
+            // Pen 을 설정하고.. 같은 색으로 Brush를 설정한다.
+            SetDrawPen(EDrawPenType.ACTIVE_DARK);
+            SetDrawBrush(BaseDrawPen[(int)EDrawPenType.DRAW].Color);
+        }
+
+        private void 어두움ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SetCanvasColorMode(ECanvasColorStyle.DARK);
+            DrawCanvas.BackColor = Color.Black;
+
+            // Pen 을 설정하고.. 같은 색으로 Brush를 설정한다.
+            SetDrawPen(EDrawPenType.ACTIVE_BRIGHT);
+            SetDrawBrush(BaseDrawPen[(int)EDrawPenType.DRAW].Color);
+        }
+
+        private void 생성ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            GridViewMode = true;
+            ReDrawCanvas();
+        }
+
+        private void 비활성화ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            GridViewMode = false;
+            ReDrawCanvas();
+        }
+
+
+        private void saveToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
 
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -589,38 +628,6 @@ namespace LWDicer.UI
 
         }
 
-        private void 밝음ToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            SetCanvasColorMode(ECanvasColorStyle.BRIGHT);
-            DrawCanvas.BackColor = Color.White;
-
-            // Pen 을 설정하고.. 같은 색으로 Brush를 설정한다.
-            SetDrawPen(EDrawPenType.ACTIVE_DARK);
-            SetDrawBrush(BaseDrawPen[(int)EDrawPenType.DRAW].Color);
-        }
-
-        private void 어두움ToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            SetCanvasColorMode(ECanvasColorStyle.DARK);
-            DrawCanvas.BackColor = Color.Black;
-
-            // Pen 을 설정하고.. 같은 색으로 Brush를 설정한다.
-            SetDrawPen(EDrawPenType.ACTIVE_BRIGHT);
-            SetDrawBrush(BaseDrawPen[(int)EDrawPenType.DRAW].Color);
-        }
-
-        private void 생성ToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            GridViewMode = true;
-            ReDrawCanvas();
-        }
-
-        private void 비활성화ToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            GridViewMode = false;
-            ReDrawCanvas();
-        }
-
 
         private void btnObjectArrayCopy_Click_1(object sender, EventArgs e)
         {
@@ -692,15 +699,6 @@ namespace LWDicer.UI
 
         }
 
-        private void saveToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void openToolStripMenuItem1_Click(object sender, EventArgs e)
-        {
-
-        }
 
         private void polygonToolStripMenuItem_Click(object sender, EventArgs e)
         {
