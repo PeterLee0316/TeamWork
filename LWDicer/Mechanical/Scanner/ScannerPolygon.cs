@@ -15,6 +15,7 @@ using System.Drawing.Imaging;
 using System.Runtime.InteropServices;
 using System.Diagnostics;
 using System.Collections.Specialized;
+using System.Windows.Forms;
 
 using static LWDicer.Control.DEF_Scanner;
 using static LWDicer.Control.DEF_Polygon;
@@ -30,12 +31,13 @@ namespace LWDicer.Control
 
         public class CScannerRefComp
         {
-            public CMarkingManager Manager;
-            public CMarkingWindow Window;
+            //public CMarkingManager Manager;
+            //public CMarkingWindow Window;            
+            //public FormScanWindow FormScanner;
+
             public MSocketClient ControlComm;
             public MSocketClient ScanHeadComm;
-            public FormScanWindow FormScanner;
-
+            public MDataManager DataManager;
             public MACS Process;
         }
 
@@ -49,9 +51,7 @@ namespace LWDicer.Control
     public class MMeScannerPolygon:MObject,IMarkingScanner
     {
         #region 맴버 변수 설정
-
-        public MDataManager m_DataManager;
-
+        
         private const float BMT_SCAN_WIDTH = 300.0f;
         private const int BMP_DATA_SIZE = 32;
         private const int BYTE_SIZE = 8;
@@ -92,6 +92,10 @@ namespace LWDicer.Control
             // 통신 tFTP 통신 초기화
             InitializeTFTP();
 
+            m_ScanManager = new CMarkingManager();
+            m_ScanWindow = new CMarkingWindow();
+            m_FormScanner = new FormScanWindow();
+
             //ConnetTelnet(EMonitorMode.Controller);
             //ConnetTelnet(EMonitorMode.Head);
 
@@ -116,34 +120,74 @@ namespace LWDicer.Control
 
         public void SetDataManager(MDataManager source)
         {
-            m_DataManager = source;
+            m_RefComp.DataManager = source;
         }
+
+        #region Scan 내부 Function 
+
+        public void ShowScanWindow()
+        {
+            m_FormScanner.Show();
+        }
+
+        private void AddObject(EObjectType type, PointF start, PointF end)
+        {
+            m_ScanManager.AddObject(type, start, end);
+        }
+        public void AddLine(PointF start, PointF end)
+        {
+            AddObject(EObjectType.LINE, start,end);
+        }
+        public void DeleteObject(int nIndex)
+        {
+            m_ScanManager.DeleteObject(nIndex);
+        }
+
+        public void DeleteAllObject()
+        {
+            m_ScanManager.DeleteAllObject();
+        }
+
+        public CMarkingObject GetObjectList(int nIndex)
+        {
+            return m_ScanManager.ObjectList[nIndex];
+        }
+        
+        public CMarkingObject GetLastObject()
+        {
+            return m_ScanManager.GetLastObject();
+        }
+
+
+        #endregion
 
         #region BMP File Set & Draw
 
         public int SetSizeBmp()
         {
-            if (m_DataManager.ModelData.ScanData.InScanResolution <= 0 || m_DataManager.ModelData.ScanData.CrossScanResolution <= 0) return RUN_FAIL;
+            if (m_RefComp.DataManager.ModelData.ScanData == null) return RUN_FAIL;
+            if (m_RefComp.DataManager.ModelData.ScanData.InScanResolution <= 0 || m_RefComp.DataManager.ModelData.ScanData.CrossScanResolution <= 0) return RUN_FAIL;
+
             Point ptStart = new Point(0, 0);
             Point ptEnd = new Point(0, 0);
             float MaxHeight = 0.0f;
             float tempHeight = 0.0f;
             Point ptTemp = new Point(0, 0);
 
-            int iObjectCount = m_RefComp.Manager.ObjectList.Count;
+            int iObjectCount = m_ScanManager.ObjectList.Count;
             if (iObjectCount < 1) return SHAPE_LIST_DISABLE;
 
             for (int i=0; i < iObjectCount; i++)
             {
-                tempHeight = m_RefComp.Manager.ObjectList[i].ptObjectStartPos.Y;               
+                tempHeight = m_ScanManager.ObjectList[i].ptObjectStartPos.Y;               
                 if (tempHeight > MaxHeight) MaxHeight = tempHeight;
 
-                tempHeight = m_RefComp.Manager.ObjectList[i].ptObjectEndPos.Y;
+                tempHeight = m_ScanManager.ObjectList[i].ptObjectEndPos.Y;
                 if (tempHeight > MaxHeight) MaxHeight = tempHeight;
             }
             
-            ptEnd.X = (int)(BMT_SCAN_WIDTH / (m_DataManager.ModelData.ScanData.InScanResolution) + 0.5);
-            ptEnd.Y = (int)(MaxHeight / (m_DataManager.ModelData.ScanData.CrossScanResolution) + 0.5);
+            ptEnd.X = (int)(BMT_SCAN_WIDTH / (m_RefComp.DataManager.ModelData.ScanData.InScanResolution) + 0.5);
+            ptEnd.Y = (int)(MaxHeight / (m_RefComp.DataManager.ModelData.ScanData.CrossScanResolution) + 0.5);
 
             BmpImageWidth  = ptEnd.X;
             BmpImageHeight = ptEnd.Y;
@@ -243,13 +287,13 @@ namespace LWDicer.Control
         {
             try
             {
-                int iObjectCount = m_RefComp.Manager.ObjectList.Count;
+                int iObjectCount = m_ScanManager.ObjectList.Count;
                 if (iObjectCount < 1) return SHAPE_LIST_DISABLE;
 
                 for (int i = 0; i < iObjectCount; i++)
                 {
                     // 생성된 BMP 파일에 Object Draw
-                    DrawBmpFile(m_RefComp.Manager.ObjectList[i]);
+                    DrawBmpFile(m_ScanManager.ObjectList[i]);
                 }
                 
                 // 생성된 BMP을 파일 저장함.
@@ -537,7 +581,7 @@ namespace LWDicer.Control
 
             // Job 파일을 설정한다.
 
-            filePath = m_DataManager.DBInfo.ScannerDataDir;// CMainFrame.DBInfo.ScannerDataDir;//m_DataManager.DBInfo.ScannerDataDir;
+            filePath = m_RefComp.DataManager.DBInfo.ScannerDataDir;// CMainFrame.DBInfo.ScannerDataDir;//m_RefComp.DataManager.DBInfo.ScannerDataDir;
             fileName = "reset.ini";
 
             if (!File.Exists(filePath + fileName))
@@ -556,7 +600,7 @@ namespace LWDicer.Control
             string filePath = "";
             bool bRet = false;
 
-            filePath = string.Format("{0:s}{1:s}.ini", m_DataManager.DBInfo.ScannerDataDir, strName);
+            filePath = string.Format("{0:s}{1:s}.ini", m_RefComp.DataManager.DBInfo.ScannerDataDir, strName);
 
             if (!File.Exists(filePath))
             {
@@ -568,58 +612,58 @@ namespace LWDicer.Control
             section = "Job Settings";
 
             key = "InScanResolution";
-            value = string.Format("{0:F6}", m_DataManager.ModelData.ScanData.InScanResolution / 1000.0f);
+            value = string.Format("{0:F6}", m_RefComp.DataManager.ModelData.ScanData.InScanResolution / 1000.0f);
             bRet = CUtils.SetValue(section, key, value, filePath);
 
             key = "CrossScanResolution";
-            value = string.Format("{0:F7}", m_DataManager.ModelData.ScanData.CrossScanResolution / 1000.0f);
+            value = string.Format("{0:F7}", m_RefComp.DataManager.ModelData.ScanData.CrossScanResolution / 1000.0f);
             bRet = CUtils.SetValue(section, key, value, filePath);
 
             key = "InScanOffset";
-            value = string.Format("{0:F6}", m_DataManager.ModelData.ScanData.InScanOffset / 1000.0f);
+            value = string.Format("{0:F6}", m_RefComp.DataManager.ModelData.ScanData.InScanOffset / 1000.0f);
             bRet = CUtils.SetValue(section, key, value, filePath);
 
             key = "StopMotorBetweenJobs";
-            value = Convert.ToString(m_DataManager.ModelData.ScanData.StopMotorBetweenJobs);
+            value = Convert.ToString(m_RefComp.DataManager.ModelData.ScanData.StopMotorBetweenJobs);
             bRet = CUtils.SetValue(section, key, value, filePath);
 
             key = "PixInvert";
-            value = Convert.ToString(m_DataManager.ModelData.ScanData.PixInvert);
+            value = Convert.ToString(m_RefComp.DataManager.ModelData.ScanData.PixInvert);
             bRet = CUtils.SetValue(section, key, value, filePath);
 
             key = "JobStartBufferTime";
-            value = Convert.ToString(m_DataManager.ModelData.ScanData.JobStartBufferTime);
+            value = Convert.ToString(m_RefComp.DataManager.ModelData.ScanData.JobStartBufferTime);
             bRet = CUtils.SetValue(section, key, value, filePath);
 
             key = "PrecedingBlankLines";
-            value = Convert.ToString(m_DataManager.ModelData.ScanData.PrecedingBlankLines);
+            value = Convert.ToString(m_RefComp.DataManager.ModelData.ScanData.PrecedingBlankLines);
             bRet = CUtils.SetValue(section, key, value, filePath);
 
             //----------------------------------------------------------------------
             section = "Laser Configuration";
 
             key = "LaserOperationMode";
-            value = Convert.ToString(m_DataManager.ModelData.ScanData.LaserOperationMode);
+            value = Convert.ToString(m_RefComp.DataManager.ModelData.ScanData.LaserOperationMode);
             bRet = CUtils.SetValue(section, key, value, filePath);
 
             key = "SeedClockFrequency";
-            value = string.Format("{0:F0}",m_DataManager.ModelData.ScanData.SeedClockFrequency * 1000.0f);
+            value = string.Format("{0:F0}",m_RefComp.DataManager.ModelData.ScanData.SeedClockFrequency * 1000.0f);
             bRet = CUtils.SetValue(section, key, value, filePath);
 
             key = "RepetitionRate";
-            value = Convert.ToString(m_DataManager.ModelData.ScanData.RepetitionRate * 1000.0f);
+            value = Convert.ToString(m_RefComp.DataManager.ModelData.ScanData.RepetitionRate * 1000.0f);
             bRet = CUtils.SetValue(section, key, value, filePath);
 
             key = "PulsePickWidth";
-            value = Convert.ToString(m_DataManager.ModelData.ScanData.PulsePickWidth);
+            value = Convert.ToString(m_RefComp.DataManager.ModelData.ScanData.PulsePickWidth);
             bRet = CUtils.SetValue(section, key, value, filePath);
 
             key = "PixelWidth";
-            value = Convert.ToString(m_DataManager.ModelData.ScanData.PixelWidth);
+            value = Convert.ToString(m_RefComp.DataManager.ModelData.ScanData.PixelWidth);
             bRet = CUtils.SetValue(section, key, value, filePath);
 
             key = "PulsePickAlgor";
-            value = Convert.ToString(m_DataManager.ModelData.ScanData.PulsePickAlgor);
+            value = Convert.ToString(m_RefComp.DataManager.ModelData.ScanData.PulsePickAlgor);
             bRet = CUtils.SetValue(section, key, value, filePath);
             
 
@@ -627,200 +671,200 @@ namespace LWDicer.Control
             section = "CrossScan Configuration";
 
             key = "CrossScanEncoderResol";
-            value = string.Format("{0:F7}", m_DataManager.ModelData.ScanData.CrossScanEncoderResol / 1000.0f);
+            value = string.Format("{0:F7}", m_RefComp.DataManager.ModelData.ScanData.CrossScanEncoderResol / 1000.0f);
             bRet = CUtils.SetValue(section, key, value, filePath);
 
             key = "CrossScanMaxAccel";
-            value = string.Format("{0:F2}", m_DataManager.ModelData.ScanData.CrossScanMaxAccel);
+            value = string.Format("{0:F2}", m_RefComp.DataManager.ModelData.ScanData.CrossScanMaxAccel);
             bRet = CUtils.SetValue(section, key, value, filePath);
 
             key = "EnCarSig";
-            value = Convert.ToString(m_DataManager.ModelData.ScanData.EnCarSig);
+            value = Convert.ToString(m_RefComp.DataManager.ModelData.ScanData.EnCarSig);
             bRet = CUtils.SetValue(section, key, value, filePath);
 
             key = "SwapCarSig";
-            value = Convert.ToString(m_DataManager.ModelData.ScanData.SwapCarSig);
+            value = Convert.ToString(m_RefComp.DataManager.ModelData.ScanData.SwapCarSig);
             bRet = CUtils.SetValue(section, key, value, filePath);
 
             //----------------------------------------------------------------------
             section = "Head Configuration";
 
             key = "SerialNumber";
-            value = string.Format("{0:F7}", m_DataManager.ModelData.ScanData.SerialNumber);
+            value = string.Format("{0:F7}", m_RefComp.DataManager.ModelData.ScanData.SerialNumber);
             bRet = CUtils.SetValue(section, key, value, filePath);
 
             key = "FThetaConstant";
-            value = string.Format("{0:F7}", m_DataManager.ModelData.ScanData.FThetaConstant);
+            value = string.Format("{0:F7}", m_RefComp.DataManager.ModelData.ScanData.FThetaConstant);
             bRet = CUtils.SetValue(section, key, value, filePath);
 
             key = "ExposeLineLength";
-            value = string.Format("{0:F6}", m_DataManager.ModelData.ScanData.ExposeLineLength / 1000.0f);
+            value = string.Format("{0:F6}", m_RefComp.DataManager.ModelData.ScanData.ExposeLineLength / 1000.0f);
             bRet = CUtils.SetValue(section, key, value, filePath);
 
             key = "EncoderIndexDelay";
-            value = Convert.ToString(m_DataManager.ModelData.ScanData.EncoderIndexDelay);
+            value = Convert.ToString(m_RefComp.DataManager.ModelData.ScanData.EncoderIndexDelay);
             bRet = CUtils.SetValue(section, key, value, filePath);
 
             key = "FacetFineDelay0";
-            value = string.Format("{0:F6}", m_DataManager.ModelData.ScanData.FacetFineDelay0 /1000.0f);
+            value = string.Format("{0:F6}", m_RefComp.DataManager.ModelData.ScanData.FacetFineDelay0 /1000.0f);
             bRet = CUtils.SetValue(section, key, value, filePath);
 
             key = "FacetFineDelay1";
-            value = string.Format("{0:F6}", m_DataManager.ModelData.ScanData.FacetFineDelay1 / 1000.0f);
+            value = string.Format("{0:F6}", m_RefComp.DataManager.ModelData.ScanData.FacetFineDelay1 / 1000.0f);
             bRet = CUtils.SetValue(section, key, value, filePath);
 
             key = "FacetFineDelay2";
-            value = string.Format("{0:F6}", m_DataManager.ModelData.ScanData.FacetFineDelay2 / 1000.0f);
+            value = string.Format("{0:F6}", m_RefComp.DataManager.ModelData.ScanData.FacetFineDelay2 / 1000.0f);
             bRet = CUtils.SetValue(section, key, value, filePath);
 
             key = "FacetFineDelay3";
-            value = string.Format("{0:F6}", m_DataManager.ModelData.ScanData.FacetFineDelay3 / 1000.0f);
+            value = string.Format("{0:F6}", m_RefComp.DataManager.ModelData.ScanData.FacetFineDelay3 / 1000.0f);
             bRet = CUtils.SetValue(section, key, value, filePath);
 
             key = "FacetFineDelay4";
-            value = string.Format("{0:F6}", m_DataManager.ModelData.ScanData.FacetFineDelay4 / 1000.0f);
+            value = string.Format("{0:F6}", m_RefComp.DataManager.ModelData.ScanData.FacetFineDelay4 / 1000.0f);
             bRet = CUtils.SetValue(section, key, value, filePath);
 
             key = "FacetFineDelay5";
-            value = string.Format("{0:F6}", m_DataManager.ModelData.ScanData.FacetFineDelay5 / 1000.0f);
+            value = string.Format("{0:F6}", m_RefComp.DataManager.ModelData.ScanData.FacetFineDelay5 / 1000.0f);
             bRet = CUtils.SetValue(section, key, value, filePath);
 
             key = "FacetFineDelay6";
-            value = string.Format("{0:F6}", m_DataManager.ModelData.ScanData.FacetFineDelay6 / 1000.0f);
+            value = string.Format("{0:F6}", m_RefComp.DataManager.ModelData.ScanData.FacetFineDelay6 / 1000.0f);
             bRet = CUtils.SetValue(section, key, value, filePath);
 
             key = "FacetFineDelay7";
-            value = string.Format("{0:F6}", m_DataManager.ModelData.ScanData.FacetFineDelay7 / 1000.0f);
+            value = string.Format("{0:F6}", m_RefComp.DataManager.ModelData.ScanData.FacetFineDelay7 / 1000.0f);
             bRet = CUtils.SetValue(section, key, value, filePath);
 
             key = "InterleaveRatio";
-            value = Convert.ToString(m_DataManager.ModelData.ScanData.InterleaveRatio);
+            value = Convert.ToString(m_RefComp.DataManager.ModelData.ScanData.InterleaveRatio);
             bRet = CUtils.SetValue(section, key, value, filePath);
 
             key = "FacetFineDelayOffset0";
-            value = string.Format("{0:F6}", m_DataManager.ModelData.ScanData.FacetFineDelayOffset0 / 1000.0f);
+            value = string.Format("{0:F6}", m_RefComp.DataManager.ModelData.ScanData.FacetFineDelayOffset0 / 1000.0f);
             bRet = CUtils.SetValue(section, key, value, filePath);
 
             key = "FacetFineDelayOffset1";
-            value = string.Format("{0:F6}", m_DataManager.ModelData.ScanData.FacetFineDelayOffset1 / 1000.0f);
+            value = string.Format("{0:F6}", m_RefComp.DataManager.ModelData.ScanData.FacetFineDelayOffset1 / 1000.0f);
             bRet = CUtils.SetValue(section, key, value, filePath);
 
             key = "FacetFineDelayOffset2";
-            value = string.Format("{0:F6}", m_DataManager.ModelData.ScanData.FacetFineDelayOffset2 / 1000.0f);
+            value = string.Format("{0:F6}", m_RefComp.DataManager.ModelData.ScanData.FacetFineDelayOffset2 / 1000.0f);
             bRet = CUtils.SetValue(section, key, value, filePath);
 
             key = "FacetFineDelayOffset3";
-            value = string.Format("{0:F6}", m_DataManager.ModelData.ScanData.FacetFineDelayOffset3 / 1000.0f);
+            value = string.Format("{0:F6}", m_RefComp.DataManager.ModelData.ScanData.FacetFineDelayOffset3 / 1000.0f);
             bRet = CUtils.SetValue(section, key, value, filePath);
 
             key = "FacetFineDelayOffset4";
-            value = string.Format("{0:F6}", m_DataManager.ModelData.ScanData.FacetFineDelayOffset4 / 1000.0f);
+            value = string.Format("{0:F6}", m_RefComp.DataManager.ModelData.ScanData.FacetFineDelayOffset4 / 1000.0f);
             bRet = CUtils.SetValue(section, key, value, filePath);
 
             key = "FacetFineDelayOffset5";
-            value = string.Format("{0:F6}", m_DataManager.ModelData.ScanData.FacetFineDelayOffset5 / 1000.0f);
+            value = string.Format("{0:F6}", m_RefComp.DataManager.ModelData.ScanData.FacetFineDelayOffset5 / 1000.0f);
             bRet = CUtils.SetValue(section, key, value, filePath);
 
             key = "FacetFineDelayOffset6";
-            value = string.Format("{0:F6}", m_DataManager.ModelData.ScanData.FacetFineDelayOffset6 / 1000.0f);
+            value = string.Format("{0:F6}", m_RefComp.DataManager.ModelData.ScanData.FacetFineDelayOffset6 / 1000.0f);
             bRet = CUtils.SetValue(section, key, value, filePath);
 
             key = "FacetFineDelayOffset7";
-            value = string.Format("{0:F6}", m_DataManager.ModelData.ScanData.FacetFineDelayOffset7 / 1000.0f);
+            value = string.Format("{0:F6}", m_RefComp.DataManager.ModelData.ScanData.FacetFineDelayOffset7 / 1000.0f);
             bRet = CUtils.SetValue(section, key, value, filePath);
 
             key = "StartFacet";
-            value = Convert.ToString(m_DataManager.ModelData.ScanData.StartFacet);
+            value = Convert.ToString(m_RefComp.DataManager.ModelData.ScanData.StartFacet);
             bRet = CUtils.SetValue(section, key, value, filePath);
 
             key = "AutoIncrementStartFacet";
-            value = Convert.ToString(m_DataManager.ModelData.ScanData.AutoIncrementStartFacet);
+            value = Convert.ToString(m_RefComp.DataManager.ModelData.ScanData.AutoIncrementStartFacet);
             bRet = CUtils.SetValue(section, key, value, filePath);
 
             //----------------------------------------------------------------------
             section = "Polygon motor Configuration";
 
             //key = "InternalMotorDriverClk";
-            //value = Convert.ToString(m_DataManager.ModelData.ScanData.InternalMotorDriverClk);
+            //value = Convert.ToString(m_RefComp.DataManager.ModelData.ScanData.InternalMotorDriverClk);
             //bRet = CUtils.SetValue(section, key, value, filePath);
 
             key = "MotorDriverType";
-            value = Convert.ToString(m_DataManager.ModelData.ScanData.MotorDriverType);
+            value = Convert.ToString(m_RefComp.DataManager.ModelData.ScanData.MotorDriverType);
             bRet = CUtils.SetValue(section, key, value, filePath);
 
             //key = "MotorSpeed";
-            //value = Convert.ToString(m_DataManager.ModelData.ScanData.MotorSpeed);
+            //value = Convert.ToString(m_RefComp.DataManager.ModelData.ScanData.MotorSpeed);
             //bRet = CUtils.SetValue(section, key, value, filePath);
 
             //key = "SimEncSel";
-            //value = Convert.ToString(m_DataManager.ModelData.ScanData.SimEncSel);
+            //value = Convert.ToString(m_RefComp.DataManager.ModelData.ScanData.SimEncSel);
             //bRet = CUtils.SetValue(section, key, value, filePath);
 
             key = "MinMotorSpeed";
-            value = string.Format("{0:F2}", m_DataManager.ModelData.ScanData.MinMotorSpeed);
+            value = string.Format("{0:F2}", m_RefComp.DataManager.ModelData.ScanData.MinMotorSpeed);
             bRet = CUtils.SetValue(section, key, value, filePath);
 
             key = "MaxMotorSpeed";
-            value = string.Format("{0:F2}", m_DataManager.ModelData.ScanData.MaxMotorSpeed);
+            value = string.Format("{0:F2}", m_RefComp.DataManager.ModelData.ScanData.MaxMotorSpeed);
             bRet = CUtils.SetValue(section, key, value, filePath);
 
             key = "MotorEffectivePoles";
-            value = Convert.ToString(m_DataManager.ModelData.ScanData.MotorEffectivePoles);
+            value = Convert.ToString(m_RefComp.DataManager.ModelData.ScanData.MotorEffectivePoles);
             bRet = CUtils.SetValue(section, key, value, filePath);
 
             key = "SyncWaitTime";
-            value = Convert.ToString(m_DataManager.ModelData.ScanData.SyncWaitTime);
+            value = Convert.ToString(m_RefComp.DataManager.ModelData.ScanData.SyncWaitTime);
             bRet = CUtils.SetValue(section, key, value, filePath);
 
             key = "MotorStableTime";
-            value = Convert.ToString(m_DataManager.ModelData.ScanData.MotorStableTime);
+            value = Convert.ToString(m_RefComp.DataManager.ModelData.ScanData.MotorStableTime);
             bRet = CUtils.SetValue(section, key, value, filePath);
 
             key = "ShaftEncoderPulseCount";
-            value = Convert.ToString(m_DataManager.ModelData.ScanData.ShaftEncoderPulseCount);
+            value = Convert.ToString(m_RefComp.DataManager.ModelData.ScanData.ShaftEncoderPulseCount);
             bRet = CUtils.SetValue(section, key, value, filePath);
 
             //----------------------------------------------------------------------
             section = "Other Settings";
 
             key = "InterruptFreq";
-            value = Convert.ToString(m_DataManager.ModelData.ScanData.InterruptFreq);
+            value = Convert.ToString(m_RefComp.DataManager.ModelData.ScanData.InterruptFreq);
             bRet = CUtils.SetValue(section, key, value, filePath);
 
             key = "HWDebugSelection";
-            value = Convert.ToString(m_DataManager.ModelData.ScanData.HWDebugSelection);
+            value = Convert.ToString(m_RefComp.DataManager.ModelData.ScanData.HWDebugSelection);
             bRet = CUtils.SetValue(section, key, value, filePath);
 
             key = "ExpoDebugSelection";
-            value = Convert.ToString(m_DataManager.ModelData.ScanData.ExpoDebugSelection);
+            value = Convert.ToString(m_RefComp.DataManager.ModelData.ScanData.ExpoDebugSelection);
             bRet = CUtils.SetValue(section, key, value, filePath);
 
             key = "AutoRepeat";
-            value = Convert.ToString(m_DataManager.ModelData.ScanData.AutoRepeat);
+            value = Convert.ToString(m_RefComp.DataManager.ModelData.ScanData.AutoRepeat);
             bRet = CUtils.SetValue(section, key, value, filePath);
 
             key = "PixAlwaysOn";
-            value = Convert.ToString(m_DataManager.ModelData.ScanData.PixAlwaysOn);
+            value = Convert.ToString(m_RefComp.DataManager.ModelData.ScanData.PixAlwaysOn);
             bRet = CUtils.SetValue(section, key, value, filePath);
 
             key = "ExtCamTrig";
-            value = Convert.ToString(m_DataManager.ModelData.ScanData.ExtCamTrig);
+            value = Convert.ToString(m_RefComp.DataManager.ModelData.ScanData.ExtCamTrig);
             bRet = CUtils.SetValue(section, key, value, filePath);
 
             key = "EncoderExpo";
-            value = Convert.ToString(m_DataManager.ModelData.ScanData.EncoderExpo);
+            value = Convert.ToString(m_RefComp.DataManager.ModelData.ScanData.EncoderExpo);
             bRet = CUtils.SetValue(section, key, value, filePath);
 
             key = "FacetTest";
-            value = Convert.ToString(m_DataManager.ModelData.ScanData.FacetTest);
+            value = Convert.ToString(m_RefComp.DataManager.ModelData.ScanData.FacetTest);
             bRet = CUtils.SetValue(section, key, value, filePath);
 
             key = "SWTest";
-            value = Convert.ToString(m_DataManager.ModelData.ScanData.SWTest);
+            value = Convert.ToString(m_RefComp.DataManager.ModelData.ScanData.SWTest);
             bRet = CUtils.SetValue(section, key, value, filePath);
 
             key = "JobstartAutorepeat";
-            value = Convert.ToString(m_DataManager.ModelData.ScanData.JobstartAutorepeat);
+            value = Convert.ToString(m_RefComp.DataManager.ModelData.ScanData.JobstartAutorepeat);
             bRet = CUtils.SetValue(section, key, value, filePath);
 
 
@@ -835,7 +879,7 @@ namespace LWDicer.Control
             string filePath = "";
             bool bRet = false;
 
-            filePath = string.Format("{0:s}{1:s}.ini", m_DataManager.DBInfo.ScannerDataDir, strName);
+            filePath = string.Format("{0:s}{1:s}.ini", m_RefComp.DataManager.DBInfo.ScannerDataDir, strName);
 
             if (!File.Exists(filePath))
             {
@@ -847,82 +891,82 @@ namespace LWDicer.Control
             section = "Global";
 
             key = "Enabled";
-            value = string.Format("{0:F0}", m_DataManager.ModelData.ScanData.IsnEnabled);
+            value = string.Format("{0:F0}", m_RefComp.DataManager.ModelData.ScanData.IsnEnabled);
             bRet = CUtils.SetValue(section, key, value, filePath);
 
             key = "Home";
-            value = string.Format("{0:F0}", m_DataManager.ModelData.ScanData.IsnHome);
+            value = string.Format("{0:F0}", m_RefComp.DataManager.ModelData.ScanData.IsnHome);
             bRet = CUtils.SetValue(section, key, value, filePath);
 
             key = "ProfileCtrl";
-            value = string.Format("{0:F0}", m_DataManager.ModelData.ScanData.IsnProfileCtrl);
+            value = string.Format("{0:F0}", m_RefComp.DataManager.ModelData.ScanData.IsnProfileCtrl);
             bRet = CUtils.SetValue(section, key, value, filePath);
 
             //----------------------------------------------------------------------
             section = "CTRLPOS";
 
             key = "PF0S";
-            value = string.Format("{0:F0}", m_DataManager.ModelData.ScanData.IsnPF0S);
+            value = string.Format("{0:F0}", m_RefComp.DataManager.ModelData.ScanData.IsnPF0S);
             bRet = CUtils.SetValue(section, key, value, filePath);
 
             key = "PF0E";
-            value = string.Format("{0:F0}", m_DataManager.ModelData.ScanData.IsnPF0E);
+            value = string.Format("{0:F0}", m_RefComp.DataManager.ModelData.ScanData.IsnPF0E);
             bRet = CUtils.SetValue(section, key, value, filePath);
 
             key = "PF1S";
-            value = string.Format("{0:F0}", m_DataManager.ModelData.ScanData.IsnPF1S);
+            value = string.Format("{0:F0}", m_RefComp.DataManager.ModelData.ScanData.IsnPF1S);
             bRet = CUtils.SetValue(section, key, value, filePath);
 
             key = "PF1E";
-            value = string.Format("{0:F0}", m_DataManager.ModelData.ScanData.IsnPF1E);
+            value = string.Format("{0:F0}", m_RefComp.DataManager.ModelData.ScanData.IsnPF1E);
             bRet = CUtils.SetValue(section, key, value, filePath);
 
             key = "PF2S";
-            value = string.Format("{0:F0}", m_DataManager.ModelData.ScanData.IsnPF2S);
+            value = string.Format("{0:F0}", m_RefComp.DataManager.ModelData.ScanData.IsnPF2S);
             bRet = CUtils.SetValue(section, key, value, filePath);
 
             key = "PF2E";
-            value = string.Format("{0:F0}", m_DataManager.ModelData.ScanData.IsnPF2E);
+            value = string.Format("{0:F0}", m_RefComp.DataManager.ModelData.ScanData.IsnPF2E);
             bRet = CUtils.SetValue(section, key, value, filePath);
 
             key = "PF3S";
-            value = string.Format("{0:F0}", m_DataManager.ModelData.ScanData.IsnPF3S);
+            value = string.Format("{0:F0}", m_RefComp.DataManager.ModelData.ScanData.IsnPF3S);
             bRet = CUtils.SetValue(section, key, value, filePath);
 
             key = "PF3E";
-            value = string.Format("{0:F0}", m_DataManager.ModelData.ScanData.IsnPF3E);
+            value = string.Format("{0:F0}", m_RefComp.DataManager.ModelData.ScanData.IsnPF3E);
             bRet = CUtils.SetValue(section, key, value, filePath);
 
             key = "PF4S";
-            value = string.Format("{0:F0}", m_DataManager.ModelData.ScanData.IsnPF4S);
+            value = string.Format("{0:F0}", m_RefComp.DataManager.ModelData.ScanData.IsnPF4S);
             bRet = CUtils.SetValue(section, key, value, filePath);
 
             key = "PF4E";
-            value = string.Format("{0:F0}", m_DataManager.ModelData.ScanData.IsnPF4E);
+            value = string.Format("{0:F0}", m_RefComp.DataManager.ModelData.ScanData.IsnPF4E);
             bRet = CUtils.SetValue(section, key, value, filePath);
 
             key = "PF5S";
-            value = string.Format("{0:F0}", m_DataManager.ModelData.ScanData.IsnPF5S);
+            value = string.Format("{0:F0}", m_RefComp.DataManager.ModelData.ScanData.IsnPF5S);
             bRet = CUtils.SetValue(section, key, value, filePath);
 
             key = "PF5E";
-            value = string.Format("{0:F0}", m_DataManager.ModelData.ScanData.IsnPF5E);
+            value = string.Format("{0:F0}", m_RefComp.DataManager.ModelData.ScanData.IsnPF5E);
             bRet = CUtils.SetValue(section, key, value, filePath);
 
             key = "PF6S";
-            value = string.Format("{0:F0}", m_DataManager.ModelData.ScanData.IsnPF6S);
+            value = string.Format("{0:F0}", m_RefComp.DataManager.ModelData.ScanData.IsnPF6S);
             bRet = CUtils.SetValue(section, key, value, filePath);
 
             key = "PF6E";
-            value = string.Format("{0:F0}", m_DataManager.ModelData.ScanData.IsnPF6E);
+            value = string.Format("{0:F0}", m_RefComp.DataManager.ModelData.ScanData.IsnPF6E);
             bRet = CUtils.SetValue(section, key, value, filePath);
 
             key = "PF7S";
-            value = string.Format("{0:F0}", m_DataManager.ModelData.ScanData.IsnPF7S);
+            value = string.Format("{0:F0}", m_RefComp.DataManager.ModelData.ScanData.IsnPF7S);
             bRet = CUtils.SetValue(section, key, value, filePath);
 
             key = "PF7E";
-            value = string.Format("{0:F0}", m_DataManager.ModelData.ScanData.IsnPF7E);
+            value = string.Format("{0:F0}", m_RefComp.DataManager.ModelData.ScanData.IsnPF7E);
             bRet = CUtils.SetValue(section, key, value, filePath);
 
 
@@ -930,67 +974,67 @@ namespace LWDicer.Control
             section = "CTRLVAL";
 
             key = "VF0S";
-            value = string.Format("{0:F0}", m_DataManager.ModelData.ScanData.FacetCorrectFirstXpos1);
+            value = string.Format("{0:F0}", m_RefComp.DataManager.ModelData.ScanData.FacetCorrectFirstXpos1);
             bRet = CUtils.SetValue(section, key, value, filePath);
 
             key = "VF0E";
-            value = string.Format("{0:F0}", m_DataManager.ModelData.ScanData.FacetCorrectLast_Xpos1);
+            value = string.Format("{0:F0}", m_RefComp.DataManager.ModelData.ScanData.FacetCorrectLast_Xpos1);
             bRet = CUtils.SetValue(section, key, value, filePath);
 
             key = "VF1S";
-            value = string.Format("{0:F0}", m_DataManager.ModelData.ScanData.FacetCorrectFirstXpos2);
+            value = string.Format("{0:F0}", m_RefComp.DataManager.ModelData.ScanData.FacetCorrectFirstXpos2);
             bRet = CUtils.SetValue(section, key, value, filePath);
 
             key = "VF1E";
-            value = string.Format("{0:F0}", m_DataManager.ModelData.ScanData.FacetCorrectLast_Xpos2);
+            value = string.Format("{0:F0}", m_RefComp.DataManager.ModelData.ScanData.FacetCorrectLast_Xpos2);
             bRet = CUtils.SetValue(section, key, value, filePath);
 
             key = "VF2S";
-            value = string.Format("{0:F0}", m_DataManager.ModelData.ScanData.FacetCorrectFirstXpos3);
+            value = string.Format("{0:F0}", m_RefComp.DataManager.ModelData.ScanData.FacetCorrectFirstXpos3);
             bRet = CUtils.SetValue(section, key, value, filePath);
 
             key = "VF2E";
-            value = string.Format("{0:F0}", m_DataManager.ModelData.ScanData.FacetCorrectLast_Xpos3);
+            value = string.Format("{0:F0}", m_RefComp.DataManager.ModelData.ScanData.FacetCorrectLast_Xpos3);
             bRet = CUtils.SetValue(section, key, value, filePath);
 
             key = "VF3S";
-            value = string.Format("{0:F0}", m_DataManager.ModelData.ScanData.FacetCorrectFirstXpos4);
+            value = string.Format("{0:F0}", m_RefComp.DataManager.ModelData.ScanData.FacetCorrectFirstXpos4);
             bRet = CUtils.SetValue(section, key, value, filePath);
 
             key = "VF3E";
-            value = string.Format("{0:F0}", m_DataManager.ModelData.ScanData.FacetCorrectLast_Xpos4);
+            value = string.Format("{0:F0}", m_RefComp.DataManager.ModelData.ScanData.FacetCorrectLast_Xpos4);
             bRet = CUtils.SetValue(section, key, value, filePath);
 
             key = "VF4S";
-            value = string.Format("{0:F0}", m_DataManager.ModelData.ScanData.FacetCorrectFirstXpos5);
+            value = string.Format("{0:F0}", m_RefComp.DataManager.ModelData.ScanData.FacetCorrectFirstXpos5);
             bRet = CUtils.SetValue(section, key, value, filePath);
 
             key = "VF4E";
-            value = string.Format("{0:F0}", m_DataManager.ModelData.ScanData.FacetCorrectLast_Xpos5);
+            value = string.Format("{0:F0}", m_RefComp.DataManager.ModelData.ScanData.FacetCorrectLast_Xpos5);
             bRet = CUtils.SetValue(section, key, value, filePath);
 
             key = "VF5S";
-            value = string.Format("{0:F0}", m_DataManager.ModelData.ScanData.FacetCorrectFirstXpos6);
+            value = string.Format("{0:F0}", m_RefComp.DataManager.ModelData.ScanData.FacetCorrectFirstXpos6);
             bRet = CUtils.SetValue(section, key, value, filePath);
 
             key = "VF5E";
-            value = string.Format("{0:F0}", m_DataManager.ModelData.ScanData.FacetCorrectLast_Xpos6);
+            value = string.Format("{0:F0}", m_RefComp.DataManager.ModelData.ScanData.FacetCorrectLast_Xpos6);
             bRet = CUtils.SetValue(section, key, value, filePath);
 
             key = "VF6S";
-            value = string.Format("{0:F0}", m_DataManager.ModelData.ScanData.FacetCorrectFirstXpos7);
+            value = string.Format("{0:F0}", m_RefComp.DataManager.ModelData.ScanData.FacetCorrectFirstXpos7);
             bRet = CUtils.SetValue(section, key, value, filePath);
 
             key = "VF6E";
-            value = string.Format("{0:F0}", m_DataManager.ModelData.ScanData.FacetCorrectLast_Xpos7);
+            value = string.Format("{0:F0}", m_RefComp.DataManager.ModelData.ScanData.FacetCorrectLast_Xpos7);
             bRet = CUtils.SetValue(section, key, value, filePath);
 
             key = "VF7S";
-            value = string.Format("{0:F0}", m_DataManager.ModelData.ScanData.FacetCorrectFirstXpos8);
+            value = string.Format("{0:F0}", m_RefComp.DataManager.ModelData.ScanData.FacetCorrectFirstXpos8);
             bRet = CUtils.SetValue(section, key, value, filePath);
 
             key = "VF7E";
-            value = string.Format("{0:F0}", m_DataManager.ModelData.ScanData.FacetCorrectLast_Xpos8);
+            value = string.Format("{0:F0}", m_RefComp.DataManager.ModelData.ScanData.FacetCorrectLast_Xpos8);
             bRet = CUtils.SetValue(section, key, value, filePath);
 
 
@@ -1005,7 +1049,7 @@ namespace LWDicer.Control
             string filePath = "";
             bool bRet = false;
 
-            filePath = string.Format("{0:s}{1:s}.ini", m_DataManager.DBInfo.ScannerDataDir, strName);
+            filePath = string.Format("{0:s}{1:s}.ini", m_RefComp.DataManager.DBInfo.ScannerDataDir, strName);
 
             if (!File.Exists(filePath))
             {
@@ -1017,149 +1061,149 @@ namespace LWDicer.Control
             section = "Global";
 
             key = "Enabled";
-            value = string.Format("{0:F0}", m_DataManager.ModelData.ScanData.CsnEnabled);
+            value = string.Format("{0:F0}", m_RefComp.DataManager.ModelData.ScanData.CsnEnabled);
             bRet = CUtils.SetValue(section, key, value, filePath);
 
             key = "Home";
-            value = string.Format("{0:F0}", m_DataManager.ModelData.ScanData.CsnHome);
+            value = string.Format("{0:F0}", m_RefComp.DataManager.ModelData.ScanData.CsnHome);
             bRet = CUtils.SetValue(section, key, value, filePath);
 
             key = "ProfileCtrl";
-            value = string.Format("{0:F0}", m_DataManager.ModelData.ScanData.CsnProfileCtrl);
+            value = string.Format("{0:F0}", m_RefComp.DataManager.ModelData.ScanData.CsnProfileCtrl);
             bRet = CUtils.SetValue(section, key, value, filePath);
 
             //----------------------------------------------------------------------
             section = "CTRLPOS";
 
             key = "PF0S";
-            value = string.Format("{0:F0}", m_DataManager.ModelData.ScanData.CsnPF0S);
+            value = string.Format("{0:F0}", m_RefComp.DataManager.ModelData.ScanData.CsnPF0S);
             bRet = CUtils.SetValue(section, key, value, filePath);
 
             key = "PF0E";
-            value = string.Format("{0:F0}", m_DataManager.ModelData.ScanData.CsnPF0E);
+            value = string.Format("{0:F0}", m_RefComp.DataManager.ModelData.ScanData.CsnPF0E);
             bRet = CUtils.SetValue(section, key, value, filePath);
 
             key = "PF1S";
-            value = string.Format("{0:F0}", m_DataManager.ModelData.ScanData.CsnPF1S);
+            value = string.Format("{0:F0}", m_RefComp.DataManager.ModelData.ScanData.CsnPF1S);
             bRet = CUtils.SetValue(section, key, value, filePath);
 
             key = "PF1E";
-            value = string.Format("{0:F0}", m_DataManager.ModelData.ScanData.CsnPF1E);
+            value = string.Format("{0:F0}", m_RefComp.DataManager.ModelData.ScanData.CsnPF1E);
             bRet = CUtils.SetValue(section, key, value, filePath);
 
             key = "PF2S";
-            value = string.Format("{0:F0}", m_DataManager.ModelData.ScanData.CsnPF2S);
+            value = string.Format("{0:F0}", m_RefComp.DataManager.ModelData.ScanData.CsnPF2S);
             bRet = CUtils.SetValue(section, key, value, filePath);
 
             key = "PF2E";
-            value = string.Format("{0:F0}", m_DataManager.ModelData.ScanData.CsnPF2E);
+            value = string.Format("{0:F0}", m_RefComp.DataManager.ModelData.ScanData.CsnPF2E);
             bRet = CUtils.SetValue(section, key, value, filePath);
 
             key = "PF3S";
-            value = string.Format("{0:F0}", m_DataManager.ModelData.ScanData.CsnPF3S);
+            value = string.Format("{0:F0}", m_RefComp.DataManager.ModelData.ScanData.CsnPF3S);
             bRet = CUtils.SetValue(section, key, value, filePath);
 
             key = "PF3E";
-            value = string.Format("{0:F0}", m_DataManager.ModelData.ScanData.CsnPF3E);
+            value = string.Format("{0:F0}", m_RefComp.DataManager.ModelData.ScanData.CsnPF3E);
             bRet = CUtils.SetValue(section, key, value, filePath);
 
             key = "PF4S";
-            value = string.Format("{0:F0}", m_DataManager.ModelData.ScanData.CsnPF4S);
+            value = string.Format("{0:F0}", m_RefComp.DataManager.ModelData.ScanData.CsnPF4S);
             bRet = CUtils.SetValue(section, key, value, filePath);
 
             key = "PF4E";
-            value = string.Format("{0:F0}", m_DataManager.ModelData.ScanData.CsnPF4E);
+            value = string.Format("{0:F0}", m_RefComp.DataManager.ModelData.ScanData.CsnPF4E);
             bRet = CUtils.SetValue(section, key, value, filePath);
 
             key = "PF5S";
-            value = string.Format("{0:F0}", m_DataManager.ModelData.ScanData.CsnPF5S);
+            value = string.Format("{0:F0}", m_RefComp.DataManager.ModelData.ScanData.CsnPF5S);
             bRet = CUtils.SetValue(section, key, value, filePath);
 
             key = "PF5E";
-            value = string.Format("{0:F0}", m_DataManager.ModelData.ScanData.CsnPF5E);
+            value = string.Format("{0:F0}", m_RefComp.DataManager.ModelData.ScanData.CsnPF5E);
             bRet = CUtils.SetValue(section, key, value, filePath);
 
             key = "PF6S";
-            value = string.Format("{0:F0}", m_DataManager.ModelData.ScanData.CsnPF6S);
+            value = string.Format("{0:F0}", m_RefComp.DataManager.ModelData.ScanData.CsnPF6S);
             bRet = CUtils.SetValue(section, key, value, filePath);
 
             key = "PF6E";
-            value = string.Format("{0:F0}", m_DataManager.ModelData.ScanData.CsnPF6E);
+            value = string.Format("{0:F0}", m_RefComp.DataManager.ModelData.ScanData.CsnPF6E);
             bRet = CUtils.SetValue(section, key, value, filePath);
 
             key = "PF7S";
-            value = string.Format("{0:F0}", m_DataManager.ModelData.ScanData.CsnPF7S);
+            value = string.Format("{0:F0}", m_RefComp.DataManager.ModelData.ScanData.CsnPF7S);
             bRet = CUtils.SetValue(section, key, value, filePath);
 
             key = "PF7E";
-            value = string.Format("{0:F0}", m_DataManager.ModelData.ScanData.CsnPF7E);
+            value = string.Format("{0:F0}", m_RefComp.DataManager.ModelData.ScanData.CsnPF7E);
             bRet = CUtils.SetValue(section, key, value, filePath);
 
             //----------------------------------------------------------------------
             section = "CTRLVAL";
 
             key = "VF0S";
-            value = string.Format("{0:F0}", m_DataManager.ModelData.ScanData.FacetCorrectFirstYpos1);
+            value = string.Format("{0:F0}", m_RefComp.DataManager.ModelData.ScanData.FacetCorrectFirstYpos1);
             bRet = CUtils.SetValue(section, key, value, filePath);
 
             key = "VF0E";
-            value = string.Format("{0:F0}", m_DataManager.ModelData.ScanData.FacetCorrectLast_Ypos1);
+            value = string.Format("{0:F0}", m_RefComp.DataManager.ModelData.ScanData.FacetCorrectLast_Ypos1);
             bRet = CUtils.SetValue(section, key, value, filePath);
 
             key = "VF1S";
-            value = string.Format("{0:F0}", m_DataManager.ModelData.ScanData.FacetCorrectFirstYpos2);
+            value = string.Format("{0:F0}", m_RefComp.DataManager.ModelData.ScanData.FacetCorrectFirstYpos2);
             bRet = CUtils.SetValue(section, key, value, filePath);
 
             key = "VF1E";
-            value = string.Format("{0:F0}", m_DataManager.ModelData.ScanData.FacetCorrectLast_Ypos2);
+            value = string.Format("{0:F0}", m_RefComp.DataManager.ModelData.ScanData.FacetCorrectLast_Ypos2);
             bRet = CUtils.SetValue(section, key, value, filePath);
 
             key = "VF2S";
-            value = string.Format("{0:F0}", m_DataManager.ModelData.ScanData.FacetCorrectFirstYpos3);
+            value = string.Format("{0:F0}", m_RefComp.DataManager.ModelData.ScanData.FacetCorrectFirstYpos3);
             bRet = CUtils.SetValue(section, key, value, filePath);
 
             key = "VF2E";
-            value = string.Format("{0:F0}", m_DataManager.ModelData.ScanData.FacetCorrectLast_Ypos3);
+            value = string.Format("{0:F0}", m_RefComp.DataManager.ModelData.ScanData.FacetCorrectLast_Ypos3);
             bRet = CUtils.SetValue(section, key, value, filePath);
 
             key = "VF3S";
-            value = string.Format("{0:F0}", m_DataManager.ModelData.ScanData.FacetCorrectFirstYpos4);
+            value = string.Format("{0:F0}", m_RefComp.DataManager.ModelData.ScanData.FacetCorrectFirstYpos4);
             bRet = CUtils.SetValue(section, key, value, filePath);
 
             key = "VF3E";
-            value = string.Format("{0:F0}", m_DataManager.ModelData.ScanData.FacetCorrectLast_Ypos4);
+            value = string.Format("{0:F0}", m_RefComp.DataManager.ModelData.ScanData.FacetCorrectLast_Ypos4);
             bRet = CUtils.SetValue(section, key, value, filePath);
 
             key = "VF4S";
-            value = string.Format("{0:F0}", m_DataManager.ModelData.ScanData.FacetCorrectFirstYpos5);
+            value = string.Format("{0:F0}", m_RefComp.DataManager.ModelData.ScanData.FacetCorrectFirstYpos5);
             bRet = CUtils.SetValue(section, key, value, filePath);
 
             key = "VF4E";
-            value = string.Format("{0:F0}", m_DataManager.ModelData.ScanData.FacetCorrectLast_Ypos5);
+            value = string.Format("{0:F0}", m_RefComp.DataManager.ModelData.ScanData.FacetCorrectLast_Ypos5);
             bRet = CUtils.SetValue(section, key, value, filePath);
 
             key = "VF5S";
-            value = string.Format("{0:F0}", m_DataManager.ModelData.ScanData.FacetCorrectFirstYpos6);
+            value = string.Format("{0:F0}", m_RefComp.DataManager.ModelData.ScanData.FacetCorrectFirstYpos6);
             bRet = CUtils.SetValue(section, key, value, filePath);
 
             key = "VF5E";
-            value = string.Format("{0:F0}", m_DataManager.ModelData.ScanData.FacetCorrectLast_Ypos6);
+            value = string.Format("{0:F0}", m_RefComp.DataManager.ModelData.ScanData.FacetCorrectLast_Ypos6);
             bRet = CUtils.SetValue(section, key, value, filePath);
 
             key = "VF6S";
-            value = string.Format("{0:F0}", m_DataManager.ModelData.ScanData.FacetCorrectFirstYpos7);
+            value = string.Format("{0:F0}", m_RefComp.DataManager.ModelData.ScanData.FacetCorrectFirstYpos7);
             bRet = CUtils.SetValue(section, key, value, filePath);
 
             key = "VF6E";
-            value = string.Format("{0:F0}", m_DataManager.ModelData.ScanData.FacetCorrectLast_Ypos7);
+            value = string.Format("{0:F0}", m_RefComp.DataManager.ModelData.ScanData.FacetCorrectLast_Ypos7);
             bRet = CUtils.SetValue(section, key, value, filePath);
 
             key = "VF7S";
-            value = string.Format("{0:F0}", m_DataManager.ModelData.ScanData.FacetCorrectFirstYpos8);
+            value = string.Format("{0:F0}", m_RefComp.DataManager.ModelData.ScanData.FacetCorrectFirstYpos8);
             bRet = CUtils.SetValue(section, key, value, filePath);
 
             key = "VF7E";
-            value = string.Format("{0:F0}", m_DataManager.ModelData.ScanData.FacetCorrectLast_Ypos8);
+            value = string.Format("{0:F0}", m_RefComp.DataManager.ModelData.ScanData.FacetCorrectLast_Ypos8);
             bRet = CUtils.SetValue(section, key, value, filePath);
 
 
@@ -1281,7 +1325,7 @@ namespace LWDicer.Control
         public bool SendBitmap(string strFile)
         {
             string strFTP = GetControlAddress(); // ex) "92.168.22.60"
-            //string strPath = string.Format("{0:s}{1:s}", m_DataManager.DBInfo.ImageDataDir, strFile);  
+            //string strPath = string.Format("{0:s}{1:s}", m_RefComp.DataManager.DBInfo.ImageDataDir, strFile);  
             string filePath = strFile;
 
             if (SendTFTPFile(strFTP, filePath) == true)

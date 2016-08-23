@@ -458,7 +458,7 @@ CSpinStep class -> CCleanStep / CCoatStep class 로 분리
 
 
 // Grade : ★
-// Date : 2016-08-18 ~ 2016-08-22
+// Date : 2016-08-18 ~ 2016-08-23
 // Context
 
 1. Scanner 동작
@@ -467,6 +467,9 @@ CSpinStep class -> CCleanStep / CCoatStep class 로 분리
 2. Image 및 Object List 저장
 	- BMP file 세로를 8배로 Expand하여 저장하는 기능 추가
 	- BinaryFomatter 방식으로 List 구조를 저장 및 불러오기 기능 추가
+3. Scanner SW 구조 변경
+	- Scanner내부 manager,window, object,form 클래스를 외부에서 생성해서 refcomp로 참조 방식에서
+	  static 클래스인 MarkingBase의 static 참조 방식의 포인터로 접근함.(확장 메소드 Extension Method 방식)
 
 ////////////////////////////////////////////////////////////////////////////////////////////
 // LHS

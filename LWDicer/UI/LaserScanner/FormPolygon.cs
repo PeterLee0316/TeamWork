@@ -15,7 +15,8 @@ using Syncfusion.Windows.Forms;
 using Syncfusion.Windows.Forms.Tools;
 
 
-using static LWDicer.Control.DEF_Scanner;
+//using static LWDicer.Control.DEF_Scanner;
+
 using static LWDicer.Control.DEF_System;
 using static LWDicer.Control.DEF_Vision;
 using static LWDicer.Control.DEF_Common;
@@ -789,9 +790,11 @@ namespace LWDicer.UI
 
         private void btnWindowShow_Click(object sender, EventArgs e)
         {
-        //    var m_FormScanWindow = new FormScanWindow();
-        //    m_FormScanWindow.ShowDialog();
-            CMainFrame.LWDicer.m_MeScanner.m_RefComp.FormScanner.Show();
+            //    var m_FormScanWindow = new FormScanWindow();
+            //    m_FormScanWindow.ShowDialog();
+
+            CMainFrame.LWDicer.m_MeScanner.ShowScanWindow();
+
         }
 
         
@@ -1010,15 +1013,16 @@ namespace LWDicer.UI
                 for (int i = 0; i < CMainFrame.DataManager.ModelData.ProcData.ProcessLineNum; i++)
                 {
                     startLine.Y = endLine.Y = CMainFrame.DataManager.ModelData.ScanData.CrossScanResolution * i;
-                    CMainFrame.LWDicer.m_MeScanner.m_RefComp.Manager.AddObject(EObjectType.LINE, startLine, endLine);   
+
+                    CMainFrame.LWDicer.m_MeScanner.AddLine(startLine, endLine);
                 }
 
                 string filename = string.Format("{0:s}{1:s}{2:F0}.bmp", CMainFrame.DBInfo.ImageDataDir, "CutAxisX_", bmpFileNameNum+1);
 
                 CMainFrame.LWDicer.m_MeScanner.SetSizeBmp();
                 CMainFrame.LWDicer.m_MeScanner.ConvertBmpFile(filename);
-
-                CMainFrame.LWDicer.m_MeScanner.m_RefComp.Manager.DeleteAllObject();
+                
+                CMainFrame.LWDicer.m_MeScanner.DeleteAllObject();
                 bmpFileNameNum++;
                 Y -= CMainFrame.DataManager.ModelData.ProcData.WaferDieSizeX;
 
@@ -1043,7 +1047,7 @@ namespace LWDicer.UI
                 for (int i = 0; i < CMainFrame.DataManager.ModelData.ProcData.ProcessLineNum; i++)
                 {
                     startLine.Y = endLine.Y = CMainFrame.DataManager.ModelData.ScanData.CrossScanResolution * i;
-                    CMainFrame.LWDicer.m_MeScanner.m_RefComp.Manager.AddObject(EObjectType.LINE, startLine, endLine);
+                    CMainFrame.LWDicer.m_MeScanner.AddLine(startLine, endLine);
                 }
 
                 string filename = string.Format("{0:s}{1:s}{2:F0}.bmp", CMainFrame.DBInfo.ImageDataDir, "CutAxisY_", bmpFileNameNum+1);
@@ -1051,7 +1055,8 @@ namespace LWDicer.UI
                 CMainFrame.LWDicer.m_MeScanner.SetSizeBmp();
                 CMainFrame.LWDicer.m_MeScanner.ConvertBmpFile(filename);
 
-                CMainFrame.LWDicer.m_MeScanner.m_RefComp.Manager.DeleteAllObject();
+                CMainFrame.LWDicer.m_MeScanner.DeleteAllObject();
+                //m_ScanManager.DeleteAllObject();
                 bmpFileNameNum++;
                 Y -= CMainFrame.DataManager.ModelData.ProcData.WaferDieSizeY;
 
@@ -1475,9 +1480,10 @@ namespace LWDicer.UI
 
                     lengthPixel = Math.Sqrt(lenX * lenX + lenY * lenY);
                     textMsg = string.Format("{0:f2} um", lengthPixel);
-
+#if !SIMULATION_VISION
                     CMainFrame.LWDicer.m_Vision.ClearOverlay();
                     CMainFrame.LWDicer.m_Vision.DrawOverlayText(ZOOM_CAM, textMsg, ptMouseEndPos);
+#endif
                 }
                 if (eVisionMode == EVisionMode.CALIBRATION)
                 {
@@ -1514,13 +1520,15 @@ namespace LWDicer.UI
         }
         private void DrawMouseLine(Graphics g)
         {
-            g.DrawLine(BaseDrawPen[(int)EDrawPenType.OBJECT_DRAG], ptMouseStartPos, ptMouseEndPos);
+           g.DrawLine(Pens.Red, ptMouseStartPos, ptMouseEndPos);
         }
 
         private void btnCalibration_Click(object sender, EventArgs e)
         {
             eVisionMode = EVisionMode.CALIBRATION;
+            #if !SIMULATION_VISION
             CMainFrame.LWDicer.m_Vision.ClearOverlay();
+            #endif
             btnCalibration.ForeColor = Color.Red;
         }
 

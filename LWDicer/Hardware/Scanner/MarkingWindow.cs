@@ -11,7 +11,7 @@ using LWDicer.UI;
 
 namespace LWDicer.Control
 {
-    public class CMarkingWindow:MObject
+    public class CMarkingWindow
     {
         /////////////////////////////////////////////////////////////////////////////////////////
 
@@ -52,18 +52,18 @@ namespace LWDicer.Control
 
         #region 함수
 
-        public CMarkingWindow(CObjectInfo objInfo) : base(objInfo)
+        public CMarkingWindow()
         {
 
         }
         public void AddObject(bool CheckWindow=true)
         {
-            if (CMainFrame.LWDicer.m_MeScanner.m_RefComp.Manager == null) return;
+            if (m_ScanManager == null) return;
 
-            CMainFrame.LWDicer.m_MeScanner.m_RefComp.Manager.AddObject(SelectObjectType, ptObjectStartPos, ptObjectEndPos);
+            m_ScanManager.AddObject(SelectObjectType, ptObjectStartPos, ptObjectEndPos);
 
             if (CheckWindow)
-                CMainFrame.LWDicer.m_MeScanner.m_RefComp.FormScanner.AddObjectList(CMainFrame.LWDicer.m_MeScanner.m_RefComp.Manager.GetLastObject());
+                m_FormScanner.AddObjectList(m_ScanManager.GetLastObject());
         }
         
         public void ChangeCanvasZoom(float ZoomRatio)
@@ -76,13 +76,13 @@ namespace LWDicer.Control
 
             // Canvas Size 재조정
             Size CanvasSize = new Size(0, 0);
-            CMainFrame.LWDicer.m_MeScanner.m_RefComp.FormScanner.GetCanvasSize(out CanvasSize);
+            m_FormScanner.GetCanvasSize(out CanvasSize);
             CanvasSize.Width = (int)(CanvasSize.Width * currentZoom + 0.5);
             CanvasSize.Height = (int)(CanvasSize.Height * currentZoom + 0.5);
-            CMainFrame.LWDicer.m_MeScanner.m_RefComp.FormScanner.SetCanvasSize(CanvasSize);
+            m_FormScanner.SetCanvasSize(CanvasSize);
 
             // Canvas ReDraw
-            CMainFrame.LWDicer.m_MeScanner.m_RefComp.FormScanner.ReDrawCanvas();
+            m_FormScanner.ReDrawCanvas();
 
         }
 

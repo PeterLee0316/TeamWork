@@ -8,12 +8,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows;
-using System.IO;
-using System.Runtime.Serialization.Formatters.Binary;
-
-
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 
 using static LWDicer.Control.DEF_Scanner;
 using static LWDicer.Control.DEF_System;
@@ -22,7 +16,7 @@ using static LWDicer.Control.DEF_Common;
 using LWDicer.Control;
 
 namespace LWDicer.UI
-{    
+{
     public partial class FormScanWindow : Form
     {
         private int SelectObjectListView = -1;
@@ -35,7 +29,7 @@ namespace LWDicer.UI
         {
             InitializeComponent();
 
-            Initailze();   
+            Initailze();
         }
         private void Initailze()
         {
@@ -45,13 +39,13 @@ namespace LWDicer.UI
             OriginFormSize.Height = this.Height;
 
             // Canvas Form  생성 및 붙이기
-            
+
             this.DrawCanvas.Location = new System.Drawing.Point(CANVAS_MARGIN, CANVAS_MARGIN);
             DrawCanvas.TopLevel = false;
             this.Controls.Add(DrawCanvas);
             DrawCanvas.Parent = this.pnlCanvas;
             DrawCanvas.Dock = DockStyle.Fill;
-            
+
 
             this.OnResize(EventArgs.Empty);
         }
@@ -83,9 +77,9 @@ namespace LWDicer.UI
 
             ListViewItem item;
             ShapeListView.BeginUpdate();
-            
+
             item = new ListViewItem(CMarkingObject.CreateSortNum.ToString());
-               
+
             item.SubItems.Add(shapes.ObjectName);
 
             item.SubItems.Add("Yes");
@@ -118,7 +112,7 @@ namespace LWDicer.UI
         {
             // 현재 Form 닫기
             this.Hide();
-            
+
         }
 
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
@@ -231,12 +225,12 @@ namespace LWDicer.UI
                 pSize.Height < pnlCanvas.Height - CANVAS_MARGIN)
 
                 SetCanvasSize();
-            
+
         }
 
         public int GetCanvasSize(out Size pSize)
         {
-            pSize = DrawCanvas.Size;            
+            pSize = DrawCanvas.Size;
 
             return SUCCESS;
         }
@@ -259,7 +253,7 @@ namespace LWDicer.UI
 
             SetCalibFactor(ratioField);
         }
-         
+
         private void btnShapeCopy_Click(object sender, EventArgs e)
         {
 
@@ -273,10 +267,10 @@ namespace LWDicer.UI
         private void btnShapeDelete_Click(object sender, EventArgs e)
         {
             if (ShapeListView.Items.Count < 1) return;
-            foreach(ListViewItem item in ShapeListView.SelectedItems)
+            foreach (ListViewItem item in ShapeListView.SelectedItems)
             {
                 int nIndex = item.Index;
-                CMainFrame.LWDicer.m_MeScanner.m_RefComp.Manager.DeleteObject(nIndex);
+                m_ScanManager.DeleteObject(nIndex);
                 ShapeListView.Items.Remove(item);
             }
 
@@ -288,26 +282,26 @@ namespace LWDicer.UI
             if (ShapeListView.Items.Count < 1) return;
 
             // Select 개수로 Array를 생성함.
-            int itemNum=ShapeListView.SelectedItems.Count;
+            int itemNum = ShapeListView.SelectedItems.Count;
             CMarkingObject[] pGroup = new CMarkingObject[itemNum];
 
             int groupCount = 0;
             foreach (ListViewItem item in ShapeListView.SelectedItems)
             {
                 int nIndex = item.Index;
-                CMainFrame.LWDicer.m_MeScanner.m_RefComp.Manager.ObjectList[nIndex].IsSelectedObject = false;
-                pGroup[groupCount] = CMainFrame.LWDicer.m_MeScanner.m_RefComp.Manager.ObjectList[nIndex];
+                m_ScanManager.ObjectList[nIndex].IsSelectedObject = false;
+                pGroup[groupCount] = m_ScanManager.ObjectList[nIndex];
 
-                groupCount ++;
+                groupCount++;
             }
 
             PointF pStart = new PointF(0, 0);
             PointF pEnd = new PointF(0, 0);
 
-            CMainFrame.LWDicer.m_MeScanner.m_RefComp.Manager.AddObject(EObjectType.GROUP, pStart, pEnd, pGroup);
-            AddObjectList(CMainFrame.LWDicer.m_MeScanner.m_RefComp.Manager.GetLastObject());
+            m_ScanManager.AddObject(EObjectType.GROUP, pStart, pEnd, pGroup);
+            AddObjectList(m_ScanManager.GetLastObject());
 
-            btnShapeDelete_Click(sender,e);
+            btnShapeDelete_Click(sender, e);
         }
 
         private void btnObjectUngroup_Click(object sender, EventArgs e)
@@ -322,20 +316,20 @@ namespace LWDicer.UI
                 int nIndex = item.Index;
 
                 // Group가 아니면... 빠져나감.
-                if (CMainFrame.LWDicer.m_MeScanner.m_RefComp.Manager.ObjectList[nIndex].ObjectType != EObjectType.GROUP) continue;
+                if (m_ScanManager.ObjectList[nIndex].ObjectType != EObjectType.GROUP) continue;
                 // Group의 객체 수를 읽어서.. Array Size를 다시 설정함.
-                Array.Resize<CMarkingObject>(ref pGroup, CMainFrame.LWDicer.m_MeScanner.m_RefComp.Manager.ObjectList[nIndex].GroupObjectCount);
+                Array.Resize<CMarkingObject>(ref pGroup, m_ScanManager.ObjectList[nIndex].GroupObjectCount);
 
-                while (CMainFrame.LWDicer.m_MeScanner.m_RefComp.Manager.ObjectList[nIndex].GroupObjectCount > 0)
+                while (m_ScanManager.ObjectList[nIndex].GroupObjectCount > 0)
                 {
-                    pGroup[groupCount] = CMainFrame.LWDicer.m_MeScanner.m_RefComp.Manager.ObjectList[nIndex].PullGroupObject();                    
-                    CMainFrame.LWDicer.m_MeScanner.m_RefComp.Manager.AddObject(pGroup[groupCount]);
+                    pGroup[groupCount] = m_ScanManager.ObjectList[nIndex].PullGroupObject();
+                    m_ScanManager.AddObject(pGroup[groupCount]);
                     AddObjectList(pGroup[groupCount]);
 
                     groupCount++;
                 }
-                
-                CMainFrame.LWDicer.m_MeScanner.m_RefComp.Manager.DeleteObject(nIndex);
+
+                m_ScanManager.DeleteObject(nIndex);
                 ShapeListView.Items.Remove(item);
                 groupCount = 0;
             }
@@ -347,7 +341,7 @@ namespace LWDicer.UI
         private void btnShapeDeleteAll_Click(object sender, EventArgs e)
         {
             // Manager에서 생성 객체 삭제
-            CMainFrame.LWDicer.m_MeScanner.m_RefComp.Manager.DeleteAllObject();
+            m_ScanManager.DeleteAllObject();
 
             // ListView에서 삭제
             foreach (ListViewItem item in ShapeListView.Items)
@@ -361,20 +355,20 @@ namespace LWDicer.UI
 
         private void ShapeListView_Click(object sender, EventArgs e)
         {
-            for (int i = 0; i < ShapeListView.Items.Count; i++) CMainFrame.LWDicer.m_MeScanner.m_RefComp.Manager.ObjectList[i].IsSelectedObject = false;
+            for (int i = 0; i < ShapeListView.Items.Count; i++) m_ScanManager.ObjectList[i].IsSelectedObject = false;
 
             if (ShapeListView.Items.Count < 1)
             {
                 InsetObjectProperty(SelectObjectListView);
                 return;
-            }                       
+            }
 
             var SelectCol = ShapeListView.SelectedIndices;
 
             for (int i = SelectCol.Count - 1; i >= 0; i--)
             {
                 SelectObjectListView = SelectCol[i];
-                CMainFrame.LWDicer.m_MeScanner.m_RefComp.Manager.ObjectList[SelectObjectListView].IsSelectedObject = true;
+                m_ScanManager.ObjectList[SelectObjectListView].IsSelectedObject = true;
             }
 
             ReDrawCanvas();
@@ -391,20 +385,20 @@ namespace LWDicer.UI
         {
             if (nIndex >= 0)
             {
-                txtObjectStartPosX.Text = string.Format("{0:F3}", CMainFrame.LWDicer.m_MeScanner.m_RefComp.Manager.ObjectList[nIndex].ptObjectStartPos.X);
-                txtObjectStartPosY.Text = string.Format("{0:F3}", CMainFrame.LWDicer.m_MeScanner.m_RefComp.Manager.ObjectList[nIndex].ptObjectStartPos.Y);
-                txtObjectEndPosX.Text   = string.Format("{0:F3}", CMainFrame.LWDicer.m_MeScanner.m_RefComp.Manager.ObjectList[nIndex].ptObjectEndPos.X);
-                txtObjectEndPosY.Text   = string.Format("{0:F3}", CMainFrame.LWDicer.m_MeScanner.m_RefComp.Manager.ObjectList[nIndex].ptObjectEndPos.Y);
-                txtObjectAngle.Text     = string.Format("{0:F3}", CMainFrame.LWDicer.m_MeScanner.m_RefComp.Manager.ObjectList[nIndex].ObjectRotateAngle);
+                txtObjectStartPosX.Text = string.Format("{0:F3}", m_ScanManager.ObjectList[nIndex].ptObjectStartPos.X);
+                txtObjectStartPosY.Text = string.Format("{0:F3}", m_ScanManager.ObjectList[nIndex].ptObjectStartPos.Y);
+                txtObjectEndPosX.Text = string.Format("{0:F3}", m_ScanManager.ObjectList[nIndex].ptObjectEndPos.X);
+                txtObjectEndPosY.Text = string.Format("{0:F3}", m_ScanManager.ObjectList[nIndex].ptObjectEndPos.Y);
+                txtObjectAngle.Text = string.Format("{0:F3}", m_ScanManager.ObjectList[nIndex].ObjectRotateAngle);
 
             }
             else
             {
                 txtObjectStartPosX.Text = "0";
                 txtObjectStartPosY.Text = "0";
-                txtObjectEndPosX.Text   = "0";
-                txtObjectEndPosY.Text   = "0";
-                txtObjectAngle.Text     = "0";
+                txtObjectEndPosX.Text = "0";
+                txtObjectEndPosY.Text = "0";
+                txtObjectAngle.Text = "0";
             }
         }
 
@@ -414,21 +408,21 @@ namespace LWDicer.UI
             if (ShapeListView.Items.Count < 1) return;
             if (SelectObjectListView < 0) return;
             if (ShapeListView.Items.Count <= SelectObjectListView) return;
-            if (CMainFrame.LWDicer.m_MeScanner.m_RefComp.Manager.ObjectList[SelectObjectListView] == null) return;
+            if (m_ScanManager.ObjectList[SelectObjectListView] == null) return;
             //Group 타입이면 변경을 하지 않는다
-            if (CMainFrame.LWDicer.m_MeScanner.m_RefComp.Manager.ObjectList[SelectObjectListView].ObjectType == EObjectType.GROUP) return;
+            if (m_ScanManager.ObjectList[SelectObjectListView].ObjectType == EObjectType.GROUP) return;
 
             PointF pPos = new PointF(0, 0);
 
             pPos.X = float.Parse(txtObjectStartPosX.Text);
             pPos.Y = float.Parse(txtObjectStartPosY.Text);
-            CMainFrame.LWDicer.m_MeScanner.m_RefComp.Manager.ObjectList[SelectObjectListView].SetObjectStartPos(pPos);
+            m_ScanManager.ObjectList[SelectObjectListView].SetObjectStartPos(pPos);
 
             pPos.X = float.Parse(txtObjectEndPosX.Text);
             pPos.Y = float.Parse(txtObjectEndPosY.Text);
-            CMainFrame.LWDicer.m_MeScanner.m_RefComp.Manager.ObjectList[SelectObjectListView].SetObjectEndPos(pPos);
+            m_ScanManager.ObjectList[SelectObjectListView].SetObjectEndPos(pPos);
 
-            CMainFrame.LWDicer.m_MeScanner.m_RefComp.Manager.ObjectList[SelectObjectListView].SetObjectRatateAngle(float.Parse(txtObjectAngle.Text));
+            m_ScanManager.ObjectList[SelectObjectListView].SetObjectRatateAngle(float.Parse(txtObjectAngle.Text));
 
             ReDrawCanvas();
 
@@ -443,19 +437,19 @@ namespace LWDicer.UI
 
         }
 
-        private void CanvasObjectMove(PointF pPos,float pAngle)
+        private void CanvasObjectMove(PointF pPos, float pAngle)
         {
             if (SelectObjectListView < 0) return;
 
             PointF objectCurrentPos = new PointF(0f, 0f);
             float objectcurrentAngle = 0f;
 
-            CMainFrame.LWDicer.m_MeScanner.m_RefComp.Manager.ObjectList[SelectObjectListView].MoveObject(pPos);
+            m_ScanManager.ObjectList[SelectObjectListView].MoveObject(pPos);
             //--------------------------------------------------------------------------------
             // Angle Rotate
-            objectcurrentAngle = CMainFrame.LWDicer.m_MeScanner.m_RefComp.Manager.ObjectList[SelectObjectListView].ObjectRotateAngle;
+            objectcurrentAngle = m_ScanManager.ObjectList[SelectObjectListView].ObjectRotateAngle;
             pAngle += objectcurrentAngle;
-            CMainFrame.LWDicer.m_MeScanner.m_RefComp.Manager.ObjectList[SelectObjectListView].SetObjectRatateAngle(pAngle);
+            m_ScanManager.ObjectList[SelectObjectListView].SetObjectRatateAngle(pAngle);
 
             ReDrawCanvas();
             InsetObjectProperty(SelectObjectListView);
@@ -490,7 +484,7 @@ namespace LWDicer.UI
 
             try
             {
-                objectMovePos.Y = - float.Parse(txtObjectMoveY.Text);
+                objectMovePos.Y = -float.Parse(txtObjectMoveY.Text);
 
                 // Object Move Call
                 CanvasObjectMove(objectMovePos, objectMoveAngle);
@@ -508,7 +502,7 @@ namespace LWDicer.UI
 
             try
             {
-                objectMovePos.Y =  float.Parse(txtObjectMoveY.Text);
+                objectMovePos.Y = float.Parse(txtObjectMoveY.Text);
 
                 // Object Move Call
                 CanvasObjectMove(objectMovePos, objectMoveAngle);
@@ -525,7 +519,7 @@ namespace LWDicer.UI
             float objectMoveAngle = 0f;
             try
             {
-                objectMovePos.X = - float.Parse(txtObjectMoveX.Text);
+                objectMovePos.X = -float.Parse(txtObjectMoveX.Text);
 
                 // Object Move Call
                 CanvasObjectMove(objectMovePos, objectMoveAngle);
@@ -552,7 +546,7 @@ namespace LWDicer.UI
                 return;
             }
         }
-        
+
 
         private void btnObjectArrayCopy_Click(object sender, EventArgs e)
         {
@@ -643,16 +637,16 @@ namespace LWDicer.UI
             PointF posMove = new PointF(0, 0);
 
             // 초기 X,Y Axis 값을 초기화 한다.
-            posStart = CMainFrame.LWDicer.m_MeScanner.m_RefComp.Manager.ObjectList[SelectObjectListView].ptObjectStartPos;
-            posEnd = CMainFrame.LWDicer.m_MeScanner.m_RefComp.Manager.ObjectList[SelectObjectListView].ObjectType == EObjectType.DOT ?
-                       CMainFrame.LWDicer.m_MeScanner.m_RefComp.Manager.ObjectList[SelectObjectListView].ptObjectStartPos :
-                       CMainFrame.LWDicer.m_MeScanner.m_RefComp.Manager.ObjectList[SelectObjectListView].ptObjectEndPos;
+            posStart = m_ScanManager.ObjectList[SelectObjectListView].ptObjectStartPos;
+            posEnd = m_ScanManager.ObjectList[SelectObjectListView].ObjectType == EObjectType.DOT ?
+                       m_ScanManager.ObjectList[SelectObjectListView].ptObjectStartPos :
+                       m_ScanManager.ObjectList[SelectObjectListView].ptObjectEndPos;
 
             for (int i = 0; i < arrayNumY; i++)
             {
                 // 초기 X Axis 값을 초기화 한다.
-                posStart.X = CMainFrame.LWDicer.m_MeScanner.m_RefComp.Manager.ObjectList[SelectObjectListView].ptObjectStartPos.X;
-                posEnd.X = CMainFrame.LWDicer.m_MeScanner.m_RefComp.Manager.ObjectList[SelectObjectListView].ptObjectEndPos.X;
+                posStart.X = m_ScanManager.ObjectList[SelectObjectListView].ptObjectStartPos.X;
+                posEnd.X = m_ScanManager.ObjectList[SelectObjectListView].ptObjectEndPos.X;
                 posMove.X = 0;
 
                 for (int j = 0; j < arrayNumX; j++)
@@ -666,17 +660,17 @@ namespace LWDicer.UI
                         continue;
                     }
 
-                    if (CMainFrame.LWDicer.m_MeScanner.m_RefComp.Manager.ObjectList[SelectObjectListView].ObjectType == EObjectType.GROUP)
+                    if (m_ScanManager.ObjectList[SelectObjectListView].ObjectType == EObjectType.GROUP)
                     {
-                        CMainFrame.LWDicer.m_MeScanner.m_RefComp.Manager.AddObject(CMainFrame.LWDicer.m_MeScanner.m_RefComp.Manager.ObjectList[SelectObjectListView]);
-                        CMainFrame.LWDicer.m_MeScanner.m_RefComp.Manager.GetLastObject().MoveObject(posMove);
+                        m_ScanManager.AddObject(m_ScanManager.ObjectList[SelectObjectListView]);
+                        m_ScanManager.GetLastObject().MoveObject(posMove);
                     }
                     else
                     {
-                        CMainFrame.LWDicer.m_MeScanner.m_RefComp.Manager.AddObject(CMainFrame.LWDicer.m_MeScanner.m_RefComp.Manager.ObjectList[SelectObjectListView].ObjectType, posStart, posEnd);
+                        m_ScanManager.AddObject(m_ScanManager.ObjectList[SelectObjectListView].ObjectType, posStart, posEnd);
                     }
 
-                    AddObjectList(CMainFrame.LWDicer.m_MeScanner.m_RefComp.Manager.GetLastObject());
+                    AddObjectList(m_ScanManager.GetLastObject());
 
                     // X Axis 값을 간격으로 증가시킨다.
                     posStart.X += arrayGapX;
@@ -700,123 +694,64 @@ namespace LWDicer.UI
 
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            string filename = string.Empty;
-            SaveFileDialog imgSaveDlg = new SaveFileDialog();
-            imgSaveDlg.InitialDirectory = CMainFrame.DBInfo.ImageDataDir;
-            imgSaveDlg.Filter = "DAT(*.dat)|*.dat";
-            if (imgSaveDlg.ShowDialog() == DialogResult.OK)
-            {
-                filename = imgSaveDlg.FileName;
 
-                // BinaryFormatter 방식 저장 ===========================================
-                Stream ws = new FileStream(filename, FileMode.Create);
-                BinaryFormatter serializer = new BinaryFormatter();
-                serializer.Serialize(ws, CMainFrame.LWDicer.m_MeScanner.m_RefComp.Manager.ObjectList);
-                ws.Close();
-                ws.Dispose();
-
-                // JsonConvert 방식 저장 ===========================================
-                //try
-                //{
-                //    using (StreamWriter file = File.CreateText(filename))
-                //    {
-                //        JsonSerializer serializer = new JsonSerializer();
-                //        serializer.Serialize(file, CMainFrame.LWDicer.m_MeScanner.m_RefComp.Manager.ObjectList);
-                //    }
-                //}
-                //catch(Exception ex)
-                //{
-
-                //}
-            }
         }
 
         private void openToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            string filename = string.Empty;
-            var imgOpenDlg = new OpenFileDialog();
-            imgOpenDlg.InitialDirectory = CMainFrame.DBInfo.ImageDataDir;
-            imgOpenDlg.Filter = "DAT(*.dat)|*.dat";
-            if (imgOpenDlg.ShowDialog() == DialogResult.OK)
-            {
-                filename = imgOpenDlg.FileName;
 
-                // BinaryFormatter 방식 읽기 ===========================================
-                Stream rs = new FileStream(filename, FileMode.Open);
-                BinaryFormatter deserializer = new BinaryFormatter();
-                CMainFrame.LWDicer.m_MeScanner.m_RefComp.Manager.ObjectList = (List<CMarkingObject>)deserializer.Deserialize(rs);
-                rs.Close();
-                rs.Dispose();
-
-                // JsonConvert 방식 읽기 ===========================================
-                //using (StreamReader file = File.OpenText(filename))
-                //{
-                //    var serializer = new JsonSerializer();
-                //    var objectList =
-                //        serializer.Deserialize(file,typeof(List<CMarkingObject>)) as List<CMarkingObject>;
-
-                //    CMainFrame.LWDicer.m_MeScanner.m_RefComp.Manager.ObjectList = objectList.
-                //}
-
-                foreach (CMarkingObject shape in CMainFrame.LWDicer.m_MeScanner.m_RefComp.Manager.ObjectList)
-                {
-                    CMainFrame.LWDicer.m_MeScanner.m_RefComp.FormScanner.AddObjectList(shape);
-                }
-
-
-            }
         }
 
         private void polygonToolStripMenuItem_Click(object sender, EventArgs e)
         {
-           // m_FormPolgon.ShowDialog();
+            // m_FormPolgon.ShowDialog();
         }
 
         private void btnDot_Click(object sender, EventArgs e)
         {
-            CMainFrame.LWDicer.m_MeScanner.m_RefComp.Window.SetObjectType(EObjectType.DOT);
-            
+            m_ScanWindow.SetObjectType(EObjectType.DOT);
+
         }
 
         private void btnLine_Click(object sender, EventArgs e)
         {
-            CMainFrame.LWDicer.m_MeScanner.m_RefComp.Window.SetObjectType(EObjectType.LINE);
+            m_ScanWindow.SetObjectType(EObjectType.LINE);
         }
 
         private void btnRect_Click(object sender, EventArgs e)
         {
-            CMainFrame.LWDicer.m_MeScanner.m_RefComp.Window.SetObjectType(EObjectType.RECTANGLE);
+            m_ScanWindow.SetObjectType(EObjectType.RECTANGLE);
         }
 
         private void btnCircle_Click(object sender, EventArgs e)
         {
-            CMainFrame.LWDicer.m_MeScanner.m_RefComp.Window.SetObjectType(EObjectType.ELLIPSE);
+            m_ScanWindow.SetObjectType(EObjectType.ELLIPSE);
         }
 
-        
+
         private void btnFont_Click(object sender, EventArgs e)
         {
-            CMainFrame.LWDicer.m_MeScanner.m_RefComp.Window.SetObjectType(EObjectType.FONT);
+            m_ScanWindow.SetObjectType(EObjectType.FONT);
         }
 
         private void btnBmp_Click(object sender, EventArgs e)
         {
-            CMainFrame.LWDicer.m_MeScanner.m_RefComp.Window.SetObjectType(EObjectType.BMP);
+            m_ScanWindow.SetObjectType(EObjectType.BMP);
         }
 
         private void btnDxf_Click(object sender, EventArgs e)
         {
-            CMainFrame.LWDicer.m_MeScanner.m_RefComp.Window.SetObjectType(EObjectType.DXF);
+            m_ScanWindow.SetObjectType(EObjectType.DXF);
         }
 
         private void btnNone_Click(object sender, EventArgs e)
         {
-            CMainFrame.LWDicer.m_MeScanner.m_RefComp.Window.SetObjectType(EObjectType.NONE);
+            m_ScanWindow.SetObjectType(EObjectType.NONE);
         }
 
         private void FormScanWindow_Load(object sender, EventArgs e)
         {
-         //   DrawCanvas.Show();
+            //   DrawCanvas.Show();
         }
 
         private void btnLaserStop_Click(object sender, EventArgs e)

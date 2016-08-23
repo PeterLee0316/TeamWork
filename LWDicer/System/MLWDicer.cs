@@ -93,11 +93,11 @@ namespace LWDicer.Control
         public MVisionView[] m_VisionView = new MVisionView[DEF_MAX_CAMERA_NO];
 
         // Laser Scanner
-        public CMarkingManager m_ScanManager;
-        public CMarkingWindow m_ScanWindow;
+        //public CMarkingManager m_ScanManager;
+        //public CMarkingWindow m_ScanWindow;
         public MSocketClient m_ControlComm;
         public MSocketClient m_ScanHeadComm;
-        public FormScanWindow m_FormScanner;
+        //public FormScanWindow m_FormScanner;
 
 
 #if EQUIP_DICING_DEV
@@ -1130,28 +1130,30 @@ namespace LWDicer.Control
             hostPort = m_DataManager.SystemData_Scan.ScanHeadHostPort;
             var scanHeadCommData = new CSocketClientData(hostAddress, hostPort);
 
-            m_SystemInfo.GetObjectInfo(10, out objInfo);
-            m_ScanManager = new CMarkingManager(objInfo);
-            m_SystemInfo.GetObjectInfo(11, out objInfo);
-            m_ScanWindow = new CMarkingWindow(objInfo);
+            //m_SystemInfo.GetObjectInfo(10, out objInfo);
+            //m_ScanManager = new CMarkingManager(objInfo);
+            //m_SystemInfo.GetObjectInfo(11, out objInfo);
+            //m_ScanWindow = new CMarkingWindow(objInfo);
+            //m_FormScanner = new FormScanWindow();
+
             m_SystemInfo.GetObjectInfo(12, out objInfo);
             m_ControlComm = new MSocketClient(objInfo, controlCommData);
             m_SystemInfo.GetObjectInfo(13, out objInfo);
             m_ScanHeadComm = new MSocketClient(objInfo, scanHeadCommData);
-
-            m_FormScanner = new FormScanWindow();
+                        
 
             CScannerRefComp refComp = new CScannerRefComp();
 
-            refComp.Manager = m_ScanManager;
-            refComp.Window = m_ScanWindow;
-            refComp.ControlComm = m_ControlComm;
-            refComp.ScanHeadComm = m_ScanHeadComm;
-            refComp.FormScanner = m_FormScanner;
-            refComp.Process = m_ACS;
+            //refComp.Manager = m_ScanManager;
+            //refComp.Window = m_ScanWindow;
+            //refComp.FormScanner = m_FormScanner;
+
+            refComp.ControlComm     = m_ControlComm;
+            refComp.ScanHeadComm    = m_ScanHeadComm;            
+            refComp.Process         = m_ACS;
+            refComp.DataManager     = m_DataManager;
 
             m_MeScanner = new MMeScannerPolygon(objInfo, refComp);
-            m_MeScanner.m_DataManager = m_DataManager;
         }
 
             void CreateCtrlOpPanel(CObjectInfo objInfo)

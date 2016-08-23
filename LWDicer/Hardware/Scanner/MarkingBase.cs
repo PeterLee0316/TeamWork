@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 
 using static LWDicer.Control.DEF_Scanner;
 using static LWDicer.Control.DEF_Common;
-//using LaserSystem.UI;
+using LWDicer.UI;
 
 namespace LWDicer.Control
 {
@@ -44,7 +44,6 @@ namespace LWDicer.Control
 
         /////////////////////////////////////////////////////////////////////////////////////////
         public enum EObjectType { NONE = 0, DOT, LINE, M_LINE, RECTANGLE, ELLIPSE,FONT,BMP,DXF,GROUP, MAX }
-
         public enum EDrawPenType {GRID_BRIGHT,GRID_DARK,ACTIVE_BRIGHT,ACTIVE_DARK,OBJECT_DRAG,INACTIVE,DRAW,DIMENSION,SELECT, MAX}
         public enum EDrawBrushType { ACTIVE_BRIGHT, ACTIVE_DARK, OBJECT_DRAG, INACTIVE, DRAW, MAX }
         public enum EPenDashStye { DASH,DASHDOT,DASHDOTDOT,DOT,SOLID }
@@ -57,13 +56,12 @@ namespace LWDicer.Control
             public PointF pEndPos;
             public float pAngle;
         }
-    
+
         /////////////////////////////////////////////////////////////////////////////////////////
 
-        //public static CMarkingManager m_ScanManager;        
-        //public static CMarkingWindow m_ScanWindow;
-        //public static MSocketClient m_ControlComm;
-        //public static MSocketClient m_ScanHeadComm;
+        public static CMarkingManager m_ScanManager;
+        public static CMarkingWindow m_ScanWindow;
+        public static FormScanWindow m_FormScanner;
 
 
         #region 맴버 변수 설정

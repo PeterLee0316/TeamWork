@@ -14,7 +14,7 @@ using static LWDicer.Control.DEF_Common;
 namespace LWDicer.Control
 {
     [Serializable]
-    public class CMarkingManager:MObject
+    public class CMarkingManager
     {
         /////////////////////////////////////////////////////////////////////////////////////////
 
@@ -31,7 +31,7 @@ namespace LWDicer.Control
 
         #region 함수
 
-        public CMarkingManager(CObjectInfo objInfo) : base(objInfo)
+        public CMarkingManager()
         {
             InitializePenBrush();
         }
