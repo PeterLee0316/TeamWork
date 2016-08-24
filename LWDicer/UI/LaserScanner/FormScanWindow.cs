@@ -9,6 +9,9 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows;
 
+using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
+
 using static LWDicer.Control.DEF_Scanner;
 using static LWDicer.Control.DEF_System;
 using static LWDicer.Control.DEF_Common;
@@ -151,12 +154,78 @@ namespace LWDicer.UI
 
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            string filename = string.Empty;
+            SaveFileDialog imgSaveDlg = new SaveFileDialog();
+            imgSaveDlg.InitialDirectory = CMainFrame.DBInfo.ImageDataDir;
+            imgSaveDlg.Filter = "DAT(*.dat)|*.dat";
+            if (imgSaveDlg.ShowDialog() == DialogResult.OK)
+            {
+                filename = imgSaveDlg.FileName;
 
+                // BinaryFormatter 방식 저장 ===========================================
+                Stream ws = new FileStream(filename, FileMode.Create);
+                BinaryFormatter serializer = new BinaryFormatter();
+                serializer.Serialize(ws, CMainFrame.LWDicer.m_MeScanner.GetObjectAllList());
+                ws.Close();
+                ws.Dispose();
+
+                // JsonConvert 방식 저장 ===========================================
+                //try
+                //{
+                //    using (StreamWriter file = File.CreateText(filename))
+                //    {
+                //        JsonSerializer serializer = new JsonSerializer();
+                //        serializer.Serialize(file, CMainFrame.LWDicer.m_MeScanner.m_RefComp.Manager.ObjectList);
+                //    }
+                //}
+                //catch(Exception ex)
+                //{
+
+                //}
+            }
         }
 
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            string filename = string.Empty;
+            var imgOpenDlg = new OpenFileDialog();
+            imgOpenDlg.InitialDirectory = CMainFrame.DBInfo.ImageDataDir;
+            imgOpenDlg.Filter = "DAT(*.dat)|*.dat";
+            if (imgOpenDlg.ShowDialog() == DialogResult.OK)
+            {
+                filename = imgOpenDlg.FileName;
 
+                // BinaryFormatter 방식 읽기 ===========================================
+                Stream rs = new FileStream(filename, FileMode.Open);
+                BinaryFormatter deserializer = new BinaryFormatter();
+                CMainFrame.LWDicer.m_MeScanner.SetObjectAllList( (List<CMarkingObject>)deserializer.Deserialize(rs));
+                rs.Close();
+                rs.Dispose();
+
+                // JsonConvert 방식 읽기 ===========================================
+                //using (StreamReader file = File.OpenText(filename))
+                //{
+                //    var serializer = new JsonSerializer();
+                //    var objectList =
+                //        serializer.Deserialize(file,typeof(List<CMarkingObject>)) as List<CMarkingObject>;
+
+                //    CMainFrame.LWDicer.m_MeScanner.m_RefComp.Manager.ObjectList = objectList.
+                //}
+
+                // 기존 ListView 삭제
+                foreach (ListViewItem item in ShapeListView.Items)
+                {
+                    ShapeListView.Items.Remove(item);
+                }
+
+                // ListView에 신규 Object 추가
+                foreach (CMarkingObject shape in CMainFrame.LWDicer.m_MeScanner.GetObjectAllList())
+                {
+                    CMainFrame.LWDicer.m_MeScanner.AddListView(shape);
+                }
+
+
+            }
         }
 
         #endregion
@@ -218,27 +287,30 @@ namespace LWDicer.UI
             formScale.Width = (float)formSize.Width / (float)OriginFormSize.Width;
             formScale.Height = (float)formSize.Height / (float)OriginFormSize.Height;
 
-            //var component = GetAllControl(this);
+            var component = GetAllControl(this);
+            
+            foreach (System.Windows.Forms.Control each in component)
+            {
+                each.Width = (int)((float)each.Width * formScale.Width + 0.5f);
+                each.Height = (int)((float)each.Height * formScale.Height + 0.5f);
 
-            //foreach (Control each in component)
-            //{
-            //    each.Width = (int)((float)each.Width * formScale.Width + 0.5f);
-            //    each.Height = (int)((float)each.Height * formScale.Height + 0.5f);
+                compPos.X = (int)((float)each.Location.X * formScale.Width + 0.5f);
+                compPos.Y = (int)((float)each.Location.Y * formScale.Height + 0.5f);
+                each.Location = compPos;
 
-            //    compPos.X = (int)((float)each.Location.X * formScale.Width + 0.5f);
-            //    compPos.Y = (int)((float)each.Location.Y * formScale.Height + 0.5f);
-            //    each.Location = compPos;
+                fontSize = (each.Font.Size * formScale.Height);
+                each.Font = new System.Drawing.Font(each.Font.Name, fontSize);
 
-            //    if (each is Panel || each is UserControl)
-            //    {
+                //if (each is Panel)
+                //{
 
-            //    }
-            //    else
-            //    {
-            //        fontSize = (each.Font.Size * formScale.Height);
-            //        each.Font = new System.Drawing.Font(each.Font.Name, fontSize);
-            //    }
-            //}
+                //}
+                //else
+                //{
+                //    fontSize = (each.Font.Size * formScale.Height);
+                //    each.Font = new System.Drawing.Font(each.Font.Name, fontSize);
+                //}
+            }
 
             OriginFormSize.Width = this.Width;
             OriginFormSize.Height = this.Height;
@@ -246,17 +318,17 @@ namespace LWDicer.UI
             SetCanvasSize();
         }
 
-        //public IEnumerable<Control> GetAllControl(Control control, Type type = null)
-        //{
-        //    var controls = control.Controls.Cast<Control>();
+        public IEnumerable<System.Windows.Forms.Control> GetAllControl(System.Windows.Forms.Control control, Type type = null)
+        {
+            var controls = control.Controls.Cast<System.Windows.Forms.Control>();
 
-        //    //check the all value, if true then get all the controls
-        //    //otherwise get the controls of the specified type
-        //    if (type == null)
-        //        return controls.SelectMany(ctrl => GetAllControl(ctrl, type)).Concat(controls);
-        //    else
-        //        return controls.SelectMany(ctrl => GetAllControl(ctrl, type)).Concat(controls).Where(c => c.GetType() == type);
-        //}
+            //check the all value, if true then get all the controls
+            //otherwise get the controls of the specified type
+            if (type == null)
+                return controls.SelectMany(ctrl => GetAllControl(ctrl, type)).Concat(controls);
+            else
+                return controls.SelectMany(ctrl => GetAllControl(ctrl, type)).Concat(controls).Where(c => c.GetType() == type);
+        }
 
         public void SetCanvasSize(Size pSize)
         {
@@ -394,25 +466,34 @@ namespace LWDicer.UI
 
         private void ShapeListView_Click(object sender, EventArgs e)
         {
-            for (int i = 0; i < ShapeListView.Items.Count; i++) m_ScanManager.ObjectList[i].IsSelectedObject = false;
+            //try
+            //{
+            int listNum = m_ScanManager.ObjectList.Count;
+                //for (int i = 0; i < ShapeListView.Items.Count-1; i++)
+                for (int i = 0; i < listNum; i++)
+                    //if(m_ScanManager.ObjectList.Count > i)
+                    m_ScanManager.ObjectList[i].IsSelectedObject = false;
 
-            if (ShapeListView.Items.Count < 1)
-            {
+                if (ShapeListView.Items.Count < 1)
+                {
+                    InsetObjectProperty(SelectObjectListView);
+                    return;
+                }
+
+                var SelectCol = ShapeListView.SelectedIndices;
+
+                for (int i = SelectCol.Count - 1; i >= 0; i--)
+                {
+                    SelectObjectListView = SelectCol[i];
+                    m_ScanManager.ObjectList[SelectObjectListView].IsSelectedObject = true;
+                }
+
+                ReDrawCanvas();
+
                 InsetObjectProperty(SelectObjectListView);
-                return;
-            }
-
-            var SelectCol = ShapeListView.SelectedIndices;
-
-            for (int i = SelectCol.Count - 1; i >= 0; i--)
-            {
-                SelectObjectListView = SelectCol[i];
-                m_ScanManager.ObjectList[SelectObjectListView].IsSelectedObject = true;
-            }
-
-            ReDrawCanvas();
-
-            InsetObjectProperty(SelectObjectListView);
+            //}
+            //catch
+            //{ }
         }
 
 

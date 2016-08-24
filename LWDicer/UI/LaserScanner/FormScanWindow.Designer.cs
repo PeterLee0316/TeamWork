@@ -204,27 +204,27 @@ namespace LWDicer.UI
             this.openToolStripMenuItem,
             this.saveToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(93, 22);
             this.fileToolStripMenuItem.Text = "File";
             // 
             // openToolStripMenuItem
             // 
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(103, 22);
             this.openToolStripMenuItem.Text = "Open";
             this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
             // 
             // saveToolStripMenuItem
             // 
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(103, 22);
             this.saveToolStripMenuItem.Text = "Save";
             this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(93, 22);
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
@@ -1147,6 +1147,7 @@ namespace LWDicer.UI
             // pnlObject
             // 
             this.pnlObject.AutoSize = true;
+            this.pnlObject.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.pnlObject.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.pnlObject.Controls.Add(this.btnNone);
             this.pnlObject.Controls.Add(this.btnDxf);
@@ -1169,7 +1170,7 @@ namespace LWDicer.UI
             this.pnlObject.Controls.Add(this.btnDot);
             this.pnlObject.Location = new System.Drawing.Point(6, 36);
             this.pnlObject.Name = "pnlObject";
-            this.pnlObject.Size = new System.Drawing.Size(176, 138);
+            this.pnlObject.Size = new System.Drawing.Size(169, 138);
             this.pnlObject.TabIndex = 13;
             // 
             // btnImageSave

@@ -148,6 +148,11 @@ namespace LWDicer.Control
             m_ScanManager.DeleteAllObject();
         }
 
+        public void AddListView(CMarkingObject shape)
+        {
+            m_FormScanner.AddObjectList(shape);
+        }
+
         public CMarkingObject GetObjectList(int nIndex)
         {
             return m_ScanManager.ObjectList[nIndex];
@@ -156,6 +161,17 @@ namespace LWDicer.Control
         public CMarkingObject GetLastObject()
         {
             return m_ScanManager.GetLastObject();
+        }
+
+        public List<CMarkingObject> GetObjectAllList()
+        {
+            return m_ScanManager.ObjectList;
+        }
+
+        public void SetObjectAllList(List<CMarkingObject> objectList)
+        {
+            //m_ScanManager.ObjectList = objectList;
+            m_ScanManager.ObjectList = ObjectExtensions.Copy(objectList);
         }
 
 
