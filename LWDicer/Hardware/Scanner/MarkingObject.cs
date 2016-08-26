@@ -560,6 +560,8 @@ namespace LWDicer.Control
             int iCount = 0;
             foreach (CMarkingObject pObject in pGroup)
             {
+                if (pObject == null) continue;
+
                 if (pObject.ObjectType == EObjectType.DOT) pObject.SetObjectEndPos(pObject.ptObjectStartPos);
 
                 if (iCount == 0)
@@ -577,9 +579,7 @@ namespace LWDicer.Control
                 if (pObject.ptObjectStartPos.Y > pEnd.Y) pEnd.Y = pObject.ptObjectStartPos.Y;
                 if (pObject.ptObjectEndPos.X > pEnd.X) pEnd.X = pObject.ptObjectEndPos.X;
                 if (pObject.ptObjectEndPos.Y > pEnd.Y) pEnd.Y = pObject.ptObjectEndPos.Y;
-
-
-
+                
                 iCount++;
             }
 

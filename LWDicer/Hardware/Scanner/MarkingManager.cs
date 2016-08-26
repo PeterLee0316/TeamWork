@@ -121,6 +121,31 @@ namespace LWDicer.Control
                 return null;
         }
 
+        public CMarkingObject MakeObject(EObjectType pType, PointF pStart, PointF pEnd)
+        {
+            CMarkingObject pObject;
+            
+            switch (pType)
+            {
+                case (EObjectType.DOT):
+                    pObject = new CObjectDot(pStart);
+                    break;
+                case (EObjectType.LINE):
+                    pObject = new CObjectLine(pStart, pEnd);
+                    break;
+                case (EObjectType.RECTANGLE):
+                    pObject = new CObjectRectagle(pStart, pEnd);
+                    break;
+                case (EObjectType.CIRCLE):
+                    pObject = new CObjectEllipse(pStart, pEnd);
+                    break;
+                default:
+                    return null;
+            }
+
+            return pObject;
+        }
+
         public void AddObject(EObjectType pType, PointF pStart, PointF pEnd, CMarkingObject[] pObject = null)
         {
             switch (pType)
@@ -245,27 +270,22 @@ namespace LWDicer.Control
                     case "CIRCLE":
                         var circle = ent as DxfCircle;
                         InsertDxfCircle(circle.Center, circle.Radius);
-                        break;                    
-
+                        break;
                     case "LINE":
                         var line = ent as DxfLine;
                         posLineStart = line.Start;
                         posLineEnd = line.End;
                         InsertDxfLine(line.Start, line.End);
                         break;
-
                     case "ELLIPSE":
                         InsertDxfPolyLine(ent, false);
                         break;
-
                     case "TEXT":
                         InsertDxfPolyLine(ent, true);
                         break;
-
                     case "MTEXT":
                         InsertDxfPolyLine(ent, true);
                         break;
-
                     case "LWPOLYLINE":
                         InsertDxfPolyLine(ent,true);
                         break;
@@ -275,8 +295,6 @@ namespace LWDicer.Control
                     case "SPLINE":
                         InsertDxfPolyLine(ent, false);
                         break;
-
-
                     default:
                         InsertDxfPolyLine(ent);
                         break;
@@ -307,35 +325,54 @@ namespace LWDicer.Control
                       new DrawContext.Wireframe.ModelSpace(cadModel,GraphicsConfig.BlackBackground,Matrix4D.Identity);
             // List구조에 Line 정보를 Copy함
             polyLine.Draw(drawContext, coordinatesCollector);
+            
+            // Group할 Array 크기를 설정함.
+            int iObjectNum = 0;
+            for(int i=0; i< CoordinatesCollector.drawPolyLine.Count; i++)
+            {
+                int iLineNum = CoordinatesCollector.drawPolyLine[i].Count;
+                // 그룹을 설정함. Close 타입의 Line을 경우와 아닐 경우 Line의 개수가 차이기 난다.
+                if (bCloseLine == false) iLineNum--;
+                iObjectNum += iLineNum;
+            }
 
+            CMarkingObject[] pGroup = new CMarkingObject[iObjectNum];
+
+            int iGroupCount = 0;
             // Copy된 Line List를 Object로 삽입하여 기록함.
             foreach (Polyline4D polyLIne in CoordinatesCollector.drawPolyLine)
             {
                 // Line List 초기화
                 dxfPolyLIne.Clear();
 
-                // Dxf 파일의 Line을 읽어 List에 추가함.
+                // PolyLIne 의 Line을 읽어 List에 추가함.
                 foreach (Vector4D vector in polyLIne)
                 {
                     Point3D point = (Point3D)vector;
                     dxfPolyLIne.Add(DxfToField(point));
                 }
                 
-                int i = 0;
-                // 추가된 List를 Object로 저장함. 
-                for (i = 0; i < dxfPolyLIne.Count - 1; i++)
+                int iNum;
+                // 각각의 Object를 만들에 Group에 추가한다.
+                for (iNum = 0; iNum < dxfPolyLIne.Count - 1; iNum++)
                 {
-                    m_ScanManager.AddObject(EObjectType.LINE, dxfPolyLIne[i], dxfPolyLIne[i + 1]);
-                    m_FormScanner.AddObjectList(m_ScanManager.GetLastObject());
+                    pGroup[iGroupCount] = MakeObject(EObjectType.LINE, dxfPolyLIne[iNum], dxfPolyLIne[iNum + 1]);
+                    iGroupCount++;
                 }
-
+                // 패 Loop 도형일 경우에
+                // 마지막 Line을 연결하기 위해... 시작 Point와 마지막 Point를 연결한다.
                 if (bCloseLine == true)
-                {
-                    // 마지막 Line을 연결함.
-                    m_ScanManager.AddObject(EObjectType.LINE, dxfPolyLIne[i], dxfPolyLIne[0]);
-                    m_FormScanner.AddObjectList(m_ScanManager.GetLastObject());
-                }
+                {                    
+                    pGroup[iGroupCount ] = MakeObject(EObjectType.LINE, dxfPolyLIne[iNum], dxfPolyLIne[0]);
+                    iGroupCount++;
+                }                
             }
+            // Group을 추가함.
+            var start = new PointF(0, 0);
+            var end = new PointF(0, 0);
+
+            m_ScanManager.AddObject(EObjectType.GROUP, start, end, pGroup);
+            m_FormScanner.AddObjectList(m_ScanManager.GetLastObject());
         }        
 
         private void InsertDxfCircle(Point3D posCircle, double radiusCircle)

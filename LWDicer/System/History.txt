@@ -478,6 +478,8 @@ CSpinStep class -> CCleanStep / CCoatStep class 로 분리
 
 1. Cadlib를 사용하여 Cad File (dwg or dxf)을 Loading
 	- 도면의 각각의 Line을 읽어 (Polyline 형식) 객체로 추가됨
+	- 각각의 Line을 읽어올때 객체별로 Group화 시켜 추가되로록 함.
+	  (너무 많은 Line의 개수가 추가되는 것을 방지)
 
 ////////////////////////////////////////////////////////////////////////////////////////////
 // LHS
