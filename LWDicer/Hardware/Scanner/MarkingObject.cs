@@ -400,7 +400,7 @@ namespace LWDicer.Control
             SetObjectEndPos(pEnd);
             SetObjectRatateAngle(pAngle);
 
-            SetObjectType(EObjectType.ELLIPSE);
+            SetObjectType(EObjectType.CIRCLE);
             SetObjectName("Ellipse");
 
             CMarkingObject.CreateSortNum++;
@@ -494,8 +494,7 @@ namespace LWDicer.Control
 
         public CObjectGroup(CMarkingObject[] pGroup)
         {
-            CreateGroup(pGroup);
-            
+            CreateGroup(pGroup);            
         }
 
         public CObjectGroup(CObjectGroup pObject)

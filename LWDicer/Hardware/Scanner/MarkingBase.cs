@@ -26,6 +26,9 @@ namespace LWDicer.Control
         public const float SCAN_FIELD_MAX = 500.0f;
         public const float SCAN_FIELD_MIN = 50.0f;
         public const float SCAN_FIELD_RATIO = 0.7f;
+        public const float SCAN_RESOLUTION_X = 0.1f;
+        public const float SCAN_RESOLUTION_Y = 0.1f;
+
 
         public const float ZOOM_FACTOR_MAX = 10.0f;
         public const float ZOOM_FACTOR_MIN = 0.5f;
@@ -43,7 +46,7 @@ namespace LWDicer.Control
         public const int SHAPE_LIST_DISABLE = 10;
 
         /////////////////////////////////////////////////////////////////////////////////////////
-        public enum EObjectType { NONE = 0, DOT, LINE, M_LINE, RECTANGLE, ELLIPSE,FONT,BMP,DXF,GROUP, MAX }
+        public enum EObjectType { NONE = 0, DOT, LINE, M_LINE, RECTANGLE, CIRCLE, ELLIPSE, FONT,BMP,DXF,GROUP, MAX }
         public enum EDrawPenType {GRID_BRIGHT,GRID_DARK,ACTIVE_BRIGHT,ACTIVE_DARK,OBJECT_DRAG,INACTIVE,DRAW,DIMENSION,SELECT, MAX}
         public enum EDrawBrushType { ACTIVE_BRIGHT, ACTIVE_DARK, OBJECT_DRAG, INACTIVE, DRAW, MAX }
         public enum EPenDashStye { DASH,DASHDOT,DASHDOTDOT,DOT,SOLID }
@@ -122,6 +125,16 @@ namespace LWDicer.Control
             if (pSize.Height < SCAN_FIELD_MIN || pSize.Height > SCAN_FIELD_MAX) return;
 
             BaseScanFieldSize = pSize;
+        }
+
+        public static SizeF BaseScanResolution { get; private set; } = new SizeF(SCAN_RESOLUTION_X, SCAN_RESOLUTION_Y);
+        public static void SetScanResolution(SizeF pResolution)
+        {
+            // 초기 값보단 작게 설정은 되지 않음.
+            if (pResolution.Width <= 0) return;
+            if (pResolution.Height <= 0) return;
+
+            BaseScanResolution = pResolution;
         }
 
         public static Pen[] BaseDrawPen { get; private set; } = new Pen[(int)EDrawPenType.MAX];
@@ -207,6 +220,8 @@ namespace LWDicer.Control
 
             return tempPoint;
         }
+
+
 
 
       //  /*------------------------------------------------------------------------------------

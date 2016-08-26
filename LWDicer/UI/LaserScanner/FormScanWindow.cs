@@ -397,11 +397,12 @@ namespace LWDicer.UI
             CMarkingObject[] pGroup = new CMarkingObject[itemNum];
 
             int groupCount = 0;
+            // 선택된 객체만 Group에 삽입함.
             foreach (ListViewItem item in ShapeListView.SelectedItems)
             {
                 int nIndex = item.Index;
                 m_ScanManager.ObjectList[nIndex].IsSelectedObject = false;
-                pGroup[groupCount] = m_ScanManager.ObjectList[nIndex];
+                pGroup[groupCount] = ObjectExtensions.Copy(m_ScanManager.ObjectList[nIndex]);
 
                 groupCount++;
             }
@@ -409,9 +410,11 @@ namespace LWDicer.UI
             PointF pStart = new PointF(0, 0);
             PointF pEnd = new PointF(0, 0);
 
+            // Group을 추가함.
             m_ScanManager.AddObject(EObjectType.GROUP, pStart, pEnd, pGroup);
             AddObjectList(m_ScanManager.GetLastObject());
 
+            // 그룹화된 Object를 삭제함.
             btnShapeDelete_Click(sender, e);
         }
 
@@ -804,7 +807,7 @@ namespace LWDicer.UI
 
         private void btnCircle_Click(object sender, EventArgs e)
         {
-            m_ScanWindow.SetObjectType(EObjectType.ELLIPSE);
+            m_ScanWindow.SetObjectType(EObjectType.CIRCLE);
         }
 
 
@@ -820,7 +823,25 @@ namespace LWDicer.UI
 
         private void btnDxf_Click(object sender, EventArgs e)
         {
-            m_ScanWindow.SetObjectType(EObjectType.DXF);
+            //m_ScanWindow.SetObjectType(EObjectType.DXF);
+
+            string filename = null;
+
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "AutoCad files (*.dxf, *.dwg)|*.dxf;*.dwg";
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                try
+                {
+                    filename = openFileDialog.FileName;
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error occurred: " + ex.Message);
+                }
+            }
+
+            m_ScanManager.LoadCadFile(filename);
         }
 
         private void btnNone_Click(object sender, EventArgs e)

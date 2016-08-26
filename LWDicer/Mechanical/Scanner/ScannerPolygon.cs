@@ -351,7 +351,7 @@ namespace LWDicer.Control
                     DrawLine(ptEnd.X, ptStart.Y, ptEnd.X, ptEnd.Y);
 
                     break;
-                case EObjectType.ELLIPSE:
+                case EObjectType.CIRCLE:
                     DrawEllipse(ptStart, ptEnd);
                     break;
                 case EObjectType.GROUP:
@@ -488,16 +488,26 @@ namespace LWDicer.Control
             // 기울기가 있을 경우
             ////////////////////////////////////////////////////            
 
+            Point ptTemp = new Point(0, 0);
+
+            // Start가 End Point보다 클 경우 Point를 swat한다.
+            if (ptStart.X > ptEnd.X)
+            {
+                ptTemp = ptStart;
+                ptStart = ptEnd;
+                ptEnd = ptTemp;
+            }
+
             // Y축 방향으로 기울기를 구함.
             // 영상의 방향을 Y축이 반대로 되어 있음.
             float dSlope = (float)(ptEnd.Y - ptStart.Y) / (float)(ptEnd.X - ptStart.X);
 
-            float dIncValue = 1 / dSlope;
+            float dIncValue = Math.Abs(1 / dSlope);
             float dIncCount = Math.Abs(1 / dSlope);
 
             // X축 대비 Y축 증감이 1보다 크면... 1을 넣어준다.
             // (Pixel 단위로 증감을 위해서)
-            if (Math.Abs(dIncValue) > 1) dIncValue = 1;
+            if (dIncValue> 1) dIncValue = 1;
 
             // 시작점을 대입한다.
             float dValueX = (float)ptStart.X;
@@ -506,12 +516,11 @@ namespace LWDicer.Control
             // X축의 시작점과 끝나는 점 확인 (이에 따라서.. 증감을 결정함)
             float dStartValue = (float)ptStart.X;
             float dEndValue = (float)ptEnd.X;
-            dIncValue *= (dStartValue < dEndValue) ? 1 : -1;
 
-            for (float dX = dStartValue; ; dX = dX + dIncValue)
+            for (float dX = dStartValue; dX <= dEndValue; dX = dX + dIncValue)
             {
-                if (dIncValue > 0 && dX >= dEndValue) return;
-                if (dIncValue < 0 && dX <= dEndValue) return;
+                //if (dIncValue > 0 && dX <= dEndValue) return;
+                //if (dIncValue < 0 && dX >= dEndValue) return;
 
                 // 연산된 값을 Int형으로 변환 (반올림)
                 CurrentValueX = (int)(dValueX + 0.5);

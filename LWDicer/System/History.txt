@@ -471,6 +471,14 @@ CSpinStep class -> CCleanStep / CCoatStep class 로 분리
 	- Scanner내부 manager,window, object,form 클래스를 외부에서 생성해서 refcomp로 참조 방식에서
 	  static 클래스인 MarkingBase의 static 참조 방식의 포인터로 접근함.(확장 메소드 Extension Method 방식)
 
+	  
+// Grade : ★★
+// Date : 2016-08-23 ~ 2016-08-26
+// Context
+
+1. Cadlib를 사용하여 Cad File (dwg or dxf)을 Loading
+	- 도면의 각각의 Line을 읽어 (Polyline 형식) 객체로 추가됨
+
 ////////////////////////////////////////////////////////////////////////////////////////////
 // LHS
 // Version : 0.0.1

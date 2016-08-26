@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,6 +11,14 @@ using System.Windows.Forms;
 using static LWDicer.Control.DEF_Scanner;
 using static LWDicer.Control.DEF_Common;
 
+using WW.Cad.IO;
+using WW.Cad.Model;
+using WW.Cad.Drawing;
+using WW.Cad.Model.Entities;
+using WW.Cad.Model.Tables;
+using WW.Math;
+using WW.Math.Geometry;
+using WW.Drawing;
 
 namespace LWDicer.Control
 {
@@ -20,7 +29,8 @@ namespace LWDicer.Control
 
         #region 맴버 변수 설정
         public List<CMarkingObject> ObjectList = new List<CMarkingObject>();
-
+        
+        public DxfModel cadModel;
 
         #endregion
 
@@ -29,7 +39,7 @@ namespace LWDicer.Control
 
         /////////////////////////////////////////////////////////////////////////////////////////
 
-        #region 함수
+        #region  설정
 
         public CMarkingManager()
         {
@@ -46,29 +56,44 @@ namespace LWDicer.Control
         {
             //---------------------------------------------------------------------------
             //  Pen Setting           
-            SetBaseDrawPen((int)EDrawPenType.GRID_BRIGHT,   Color.DimGray, EPenDashStye.DOT);
-            SetBaseDrawPen((int)EDrawPenType.GRID_BRIGHT,   Color.DimGray, EPenDashStye.DOT);
-            SetBaseDrawPen((int)EDrawPenType.ACTIVE_BRIGHT, Color.White);
-            SetBaseDrawPen((int)EDrawPenType.ACTIVE_DARK,   Color.Black);
-            SetBaseDrawPen((int)EDrawPenType.INACTIVE,      Color.DarkSlateGray);
-            SetBaseDrawPen((int)EDrawPenType.OBJECT_DRAG,   Color.Red);
-            SetBaseDrawPen((int)EDrawPenType.DIMENSION,     Color.LightGreen);
-            SetBaseDrawPen((int)EDrawPenType.SELECT,        Color.SkyBlue, EPenDashStye.DOT);
+            SetBaseDrawPen((int)EDrawPenType.GRID_BRIGHT, System.Drawing.Color.DimGray, EPenDashStye.DOT);
+            SetBaseDrawPen((int)EDrawPenType.GRID_BRIGHT, System.Drawing.Color.DimGray, EPenDashStye.DOT);
+            SetBaseDrawPen((int)EDrawPenType.ACTIVE_BRIGHT, System.Drawing.Color.White);
+            SetBaseDrawPen((int)EDrawPenType.ACTIVE_DARK, System.Drawing.Color.Black);
+            SetBaseDrawPen((int)EDrawPenType.INACTIVE, System.Drawing.Color.DarkSlateGray);
+            SetBaseDrawPen((int)EDrawPenType.OBJECT_DRAG, System.Drawing.Color.Red);
+            SetBaseDrawPen((int)EDrawPenType.DIMENSION, System.Drawing.Color.LightGreen);
+            SetBaseDrawPen((int)EDrawPenType.SELECT, System.Drawing.Color.SkyBlue, EPenDashStye.DOT);
 
             // 사용할 Pen
-            SetBaseDrawPen((int)EDrawPenType.DRAW, Color.Black);
+            SetBaseDrawPen((int)EDrawPenType.DRAW, System.Drawing.Color.Black);
 
             //---------------------------------------------------------------------------
             //  Brush Setting
-            SetBaseDrawBrush((int)EDrawBrushType.ACTIVE_BRIGHT, Color.White);
-            SetBaseDrawBrush((int)EDrawBrushType.ACTIVE_DARK, Color.Black);
-            SetBaseDrawBrush((int)EDrawBrushType.INACTIVE, Color.DarkGray);
-            SetBaseDrawBrush((int)EDrawBrushType.OBJECT_DRAG, Color.Red);
+            SetBaseDrawBrush((int)EDrawBrushType.ACTIVE_BRIGHT, System.Drawing.Color.White);
+            SetBaseDrawBrush((int)EDrawBrushType.ACTIVE_DARK, System.Drawing.Color.Black);
+            SetBaseDrawBrush((int)EDrawBrushType.INACTIVE, System.Drawing.Color.DarkGray);
+            SetBaseDrawBrush((int)EDrawBrushType.OBJECT_DRAG, System.Drawing.Color.Red);
 
-            SetDrawBrush(Color.Black);
+            SetDrawBrush(System.Drawing.Color.Black);
 
             return SUCCESS;
         }
+
+        public void SetFieldSize(SizeF pSize)
+        {
+            SetScanFieldSize(pSize);
+        }
+
+        public void SetResolution(SizeF pSize)
+        {
+            SetScanResolution(pSize);
+        }
+
+        #endregion
+
+
+        #region  Object 관련함수
 
         public int GetObject(int nIndex, out CMarkingObject pObject)
         {
@@ -77,7 +102,7 @@ namespace LWDicer.Control
                 pObject = null;
                 return SHAPE_LIST_DISABLE;
             }
-            pObject = ObjectList[nIndex-1];
+            pObject = ObjectList[nIndex - 1];
 
             return SUCCESS;
         }
@@ -96,15 +121,14 @@ namespace LWDicer.Control
                 return null;
         }
 
-        public void AddObject(EObjectType pType,PointF pStart, PointF pEnd, CMarkingObject[] pObject =null)
-        {                        
+        public void AddObject(EObjectType pType, PointF pStart, PointF pEnd, CMarkingObject[] pObject = null)
+        {
             switch (pType)
             {
                 case (EObjectType.DOT):
                     CObjectDot pDot = new CObjectDot(pStart);
                     ObjectList.Add(pDot);
                     break;
-
                 case (EObjectType.LINE):
                     CObjectLine pLine = new CObjectLine(pStart, pEnd);
                     ObjectList.Add(pLine);
@@ -113,7 +137,7 @@ namespace LWDicer.Control
                     CObjectRectagle pRect = new CObjectRectagle(pStart, pEnd);
                     ObjectList.Add(pRect);
                     break;
-                case (EObjectType.ELLIPSE):
+                case (EObjectType.CIRCLE):
                     CObjectEllipse pCircle = new CObjectEllipse(pStart, pEnd);
                     ObjectList.Add(pCircle);
                     break;
@@ -139,7 +163,7 @@ namespace LWDicer.Control
                     CObjectRectagle pRect = new CObjectRectagle((CObjectRectagle)pObject);
                     ObjectList.Add(pRect);
                     break;
-                case (EObjectType.ELLIPSE):
+                case (EObjectType.CIRCLE):
                     CObjectEllipse pCircle = new CObjectEllipse((CObjectEllipse)pObject);
                     ObjectList.Add(pCircle);
                     break;
@@ -161,7 +185,7 @@ namespace LWDicer.Control
             pObject.SetObjectStartPos(pStart);
             pObject.SetObjectStartPos(pEnd);
 
-            ObjectList.Insert(nIndex,pObject);
+            ObjectList.Insert(nIndex, pObject);
         }
 
         public void DeleteObject(int nIndex)
@@ -169,7 +193,7 @@ namespace LWDicer.Control
             // Object 상태를 확인함.
 
             if (ObjectList[nIndex] == null) return;
-                        
+
             ObjectList.RemoveAt(nIndex);
         }
 
@@ -187,9 +211,273 @@ namespace LWDicer.Control
             }
         }
 
+        public void LoadCadFile(string filePath)
+        {
+            
+
+            // File Load ==============================================
+            string extension = Path.GetExtension(filePath);
+            if (string.Compare(extension, ".dwg", true) == 0)
+            {
+                cadModel = DwgReader.Read(filePath);
+            }
+            else
+            {
+                cadModel = DxfReader.Read(filePath);
+            }
+
+            // Test Shpae
+            //InsertDxfShapeLine(cadModel);
+            //return;
+
+            // Object Parsing ==========================================
+
+            string strModel;
+            Point3D posCircle, posLineStart, posLineEnd;
+            double radiusCircle = 0.0;
+
+            foreach (DxfEntity ent in cadModel.Entities)
+            {
+                strModel = ent.EntityType;
+
+                switch (strModel)
+                {
+                    case "CIRCLE":
+                        var circle = ent as DxfCircle;
+                        InsertDxfCircle(circle.Center, circle.Radius);
+                        break;                    
+
+                    case "LINE":
+                        var line = ent as DxfLine;
+                        posLineStart = line.Start;
+                        posLineEnd = line.End;
+                        InsertDxfLine(line.Start, line.End);
+                        break;
+
+                    case "ELLIPSE":
+                        InsertDxfPolyLine(ent, false);
+                        break;
+
+                    case "TEXT":
+                        InsertDxfPolyLine(ent, true);
+                        break;
+
+                    case "MTEXT":
+                        InsertDxfPolyLine(ent, true);
+                        break;
+
+                    case "LWPOLYLINE":
+                        InsertDxfPolyLine(ent,true);
+                        break;
+                    case "ARC":
+                        InsertDxfPolyLine(ent, false);
+                        break;
+                    case "SPLINE":
+                        InsertDxfPolyLine(ent, false);
+                        break;
+
+
+                    default:
+                        InsertDxfPolyLine(ent);
+                        break;
+
+                }
+            }
+            m_FormScanner.ReDrawCanvas();
+        }
+
+        private void InsertDxfLine(Point3D startPos, Point3D endPos)
+        {
+            PointF posStart = new PointF(0, 0);
+            PointF posEnd = new PointF(0, 0);
+
+            posStart = DxfToField(startPos);
+            posEnd  = DxfToField(endPos);
+
+            AddObject(EObjectType.LINE, posStart, posEnd);
+            m_FormScanner.AddObjectList(GetLastObject());
+        }
+        private void InsertDxfPolyLine(DxfEntity polyLine, bool bCloseLine=true)
+        {
+            List<PointF> dxfPolyLIne = new List<PointF>();
+
+            // Line을 얻어오는 Class 를 호출함
+            CoordinatesCollector coordinatesCollector = new CoordinatesCollector();
+            DrawContext.Wireframe drawContext = 
+                      new DrawContext.Wireframe.ModelSpace(cadModel,GraphicsConfig.BlackBackground,Matrix4D.Identity);
+            // List구조에 Line 정보를 Copy함
+            polyLine.Draw(drawContext, coordinatesCollector);
+
+            // Copy된 Line List를 Object로 삽입하여 기록함.
+            foreach (Polyline4D polyLIne in CoordinatesCollector.drawPolyLine)
+            {
+                // Line List 초기화
+                dxfPolyLIne.Clear();
+
+                // Dxf 파일의 Line을 읽어 List에 추가함.
+                foreach (Vector4D vector in polyLIne)
+                {
+                    Point3D point = (Point3D)vector;
+                    dxfPolyLIne.Add(DxfToField(point));
+                }
+                
+                int i = 0;
+                // 추가된 List를 Object로 저장함. 
+                for (i = 0; i < dxfPolyLIne.Count - 1; i++)
+                {
+                    m_ScanManager.AddObject(EObjectType.LINE, dxfPolyLIne[i], dxfPolyLIne[i + 1]);
+                    m_FormScanner.AddObjectList(m_ScanManager.GetLastObject());
+                }
+
+                if (bCloseLine == true)
+                {
+                    // 마지막 Line을 연결함.
+                    m_ScanManager.AddObject(EObjectType.LINE, dxfPolyLIne[i], dxfPolyLIne[0]);
+                    m_FormScanner.AddObjectList(m_ScanManager.GetLastObject());
+                }
+            }
+        }        
+
+        private void InsertDxfCircle(Point3D posCircle, double radiusCircle)
+        {
+            PointF posStart, posEnd;
+            posStart = new PointF(0, 0);
+            posEnd = new PointF(0, 0);
+
+            // Circle과 Dot을 구분한다.
+            if (radiusCircle < 0.1)
+            {
+                posStart = DxfToField(posCircle);
+
+                AddObject(EObjectType.DOT, posStart, posEnd);
+            }
+            else
+            {
+                posStart = DxfToField(posCircle, -radiusCircle);
+                posEnd   = DxfToField(posCircle, radiusCircle);
+
+                AddObject(EObjectType.CIRCLE, posStart, posEnd);
+            }
+
+            m_FormScanner.AddObjectList(GetLastObject());
+        }
+
+        private void InsertDxfEllipse(Point3D posCircle, Vector3D axisLong, double axisRatio)
+        {
+            //PointF posStart, posEnd;
+            //posStart = new PointF(0, 0);
+            //posEnd = new PointF(0, 0);
+
+            //// Circle과 Dot을 구분한다.
+            //if (radiusCircle < 0.1)
+            //{
+            //    posStart = DxfToField(posCircle);
+
+            //    AddObject(EObjectType.DOT, posStart, posEnd);
+            //}
+            //else
+            //{
+            //    posStart = DxfToField(posCircle, -radiusCircle);
+            //    posEnd = DxfToField(posCircle, radiusCircle);
+
+            //    AddObject(EObjectType.CIRCLE, posStart, posEnd);
+            //}
+
+            // m_FormScanner.AddObjectList(GetLastObject());
+        }
+
+        public PointF DxfToField(Point3D posObject, double offSet = 0.0)
+        {
+            PointF changePos = new PointF(0, 0);
+
+            changePos.X = (float)(posObject.X - offSet);
+            changePos.Y = BaseScanFieldSize.Height - (float)(posObject.Y - offSet);
+
+            return changePos;
+        }
+
         #endregion
 
         /////////////////////////////////////////////////////////////////////////////////////////
 
     }
+
+
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  
+    class CoordinatesCollector : BaseWireframeGraphicsFactory
+    {
+        //public static List<PointF> drawPolyLine = new List<PointF>();
+        public static IList<Polyline4D> drawPolyLine;// = new List<Polyline4D>();
+
+        public override void CreateDot(
+            DxfEntity entity,
+            DrawContext.Wireframe drawContext,
+            ArgbColor color,
+            bool forText,
+            Vector4D position
+        )
+        {
+            Point3D point = (Point3D)position;
+            // Console.WriteLine("Dot: {0}", point.ToString());
+        }
+
+        public override void CreateLine(
+            DxfEntity entity,
+            DrawContext.Wireframe drawContext,
+            ArgbColor color,
+            bool forText,
+            Vector4D start,
+            Vector4D end
+        )
+        {
+            Point3D point1 = (Point3D)start;
+            Point3D point2 = (Point3D)end;
+           // Console.WriteLine("Line, start: {0}, end: {1}", start.ToString(), end.ToString());
+        }
+
+        public override void CreatePath(
+            DxfEntity entity,
+            DrawContext.Wireframe drawContext,
+            ArgbColor color,
+            bool forText,
+            IList<Polyline4D> polylines,
+            bool fill,
+            bool correctForBackgroundColor
+        )
+        {
+            WritePolylines(polylines);
+        }
+
+        public override void CreatePathAsOne(
+            DxfEntity entity,
+            DrawContext.Wireframe drawContext,
+            ArgbColor color,
+            bool forText,
+            IList<Polyline4D> polylines,
+            bool fill,
+            bool correctForBackgroundColor
+        )
+        {
+            WritePolylines(polylines);
+        }        
+
+        public override void CreateShape(
+            DxfEntity entity,
+            DrawContext.Wireframe drawContext,
+            ArgbColor color,
+            bool forText,
+            IShape4D shape
+        )
+        {
+            WritePolylines(shape.ToPolylines4D(ShapeTool.DefaultEpsilon));
+            //WritePolylines(shape.ToPolylines4D(-0.001));
+        }
+
+        private static void WritePolylines(IList<Polyline4D> polylines)
+        {
+            drawPolyLine = polylines;            
+        }
+    }
+    
 }

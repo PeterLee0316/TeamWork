@@ -236,7 +236,7 @@ namespace LWDicer.Control
                             (StartPos.Y > EndPos.Y ? (StartPos.Y - EndPos.Y) : -(StartPos.Y - EndPos.Y)));
                     break;
 
-                case EObjectType.ELLIPSE:
+                case EObjectType.CIRCLE:
                     g.DrawEllipse(BaseDrawPen[(int)EDrawPenType.OBJECT_DRAG],
                             (StartPos.X < EndPos.X ? StartPos.X : EndPos.X),
                             (StartPos.Y < EndPos.Y ? StartPos.Y : EndPos.Y),

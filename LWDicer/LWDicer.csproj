@@ -38,7 +38,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;WIN32, SIMULATION_VISION, SIMULATION_MOTION_YMC, EQUIP_266_DEV</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;WIN32, SIMULATION_VISION, SIMULATION_MOTION_ACS, SIMULATION_MOTION_YMC, EQUIP_266_DEV</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>2</WarningLevel>
     <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
@@ -145,6 +145,12 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
+    <Reference Include="WW">
+      <HintPath>..\..\..\SFA\LWDicer\dll\Cadlib\WW.dll</HintPath>
+    </Reference>
+    <Reference Include="WW.Cad">
+      <HintPath>..\..\..\SFA\LWDicer\dll\Cadlib\WW.Cad.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Common\BaseClass\MCmdTarget.cs" />
