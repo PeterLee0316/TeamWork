@@ -213,6 +213,11 @@ namespace LWDicer.Control
             ObjectList.Insert(nIndex, pObject);
         }
 
+        public void ObjectArrayCopy()
+        {
+
+        }
+
         public void DeleteObject(int nIndex)
         {
             // Object 상태를 확인함.
@@ -310,7 +315,7 @@ namespace LWDicer.Control
             PointF posEnd = new PointF(0, 0);
 
             posStart = DxfToField(startPos);
-            posEnd  = DxfToField(endPos);
+            posEnd   = DxfToField(endPos);
 
             AddObject(EObjectType.LINE, posStart, posEnd);
             m_FormScanner.AddObjectList(GetLastObject());
@@ -350,8 +355,7 @@ namespace LWDicer.Control
                 {
                     Point3D point = (Point3D)vector;
                     dxfPolyLIne.Add(DxfToField(point));
-                }
-                
+                }                
                 int iNum;
                 // 각각의 Object를 만들에 Group에 추가한다.
                 for (iNum = 0; iNum < dxfPolyLIne.Count - 1; iNum++)
@@ -370,9 +374,9 @@ namespace LWDicer.Control
             // Group을 추가함.
             var start = new PointF(0, 0);
             var end = new PointF(0, 0);
-
             m_ScanManager.AddObject(EObjectType.GROUP, start, end, pGroup);
             m_FormScanner.AddObjectList(m_ScanManager.GetLastObject());
+
         }        
 
         private void InsertDxfCircle(Point3D posCircle, double radiusCircle)
