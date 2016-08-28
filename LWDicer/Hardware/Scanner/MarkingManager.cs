@@ -213,10 +213,7 @@ namespace LWDicer.Control
             ObjectList.Insert(nIndex, pObject);
         }
 
-        public void ObjectArrayCopy()
-        {
-
-        }
+        
 
         public void DeleteObject(int nIndex)
         {

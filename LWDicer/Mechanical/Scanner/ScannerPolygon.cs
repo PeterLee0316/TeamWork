@@ -220,9 +220,16 @@ namespace LWDicer.Control
             // BMP File의 가로 한줄의 Byte Array의 크기를 설정한다.
             // 1bit BMP이므로 8를 나눈 값으로 설정함.
             Array.Resize<byte>(ref BmpScanLine, BmpImageWidth / 8);
-            
+
             // BMP file의 크기를 설정한다
-            m_Bitmap = new Bitmap(BmpImageWidth, BmpImageHeight+1, PixelFormat.Format1bppIndexed);
+            try
+            {
+                m_Bitmap = new Bitmap(BmpImageWidth, BmpImageHeight + 1, PixelFormat.Format1bppIndexed);
+            }
+            catch
+            {
+                //return RUN_FAIL;
+            }
             
             BmpInit();
            
@@ -231,6 +238,7 @@ namespace LWDicer.Control
                 
         private void BmpInit(bool bWhite=true)
         {
+            if (m_Bitmap == null) return;
             int iWidth = m_Bitmap.Width;
             int iHeight = m_Bitmap.Height;
 
@@ -276,7 +284,8 @@ namespace LWDicer.Control
             recTarget = new Rectangle(0, 0, iWidth, iHeight);
             targetBmpData = m_Bitmap.LockBits(recTarget, ImageLockMode.ReadWrite, PixelFormat.Format1bppIndexed);
 
-            for (int y = 0; y < recSource.Height; y++)
+            //for (int y = 0; y < recSource.Height; y++)
+            Parallel.For(0, recSource.Height, (int y) =>
             {
                 // source Image에서 가로 한줄을 byte[]로 Copy함
                 Marshal.Copy((IntPtr)((long)sourceBmpData.Scan0 + sourceBmpData.Stride * y),
@@ -286,7 +295,7 @@ namespace LWDicer.Control
                 {
                     Marshal.Copy(BmpScanLine, 0, (IntPtr)((long)targetBmpData.Scan0 + targetBmpData.Stride * (y * expandNum + x)), BmpScanLine.Length);
                 }
-            }
+            });
 
             sourceBmp.UnlockBits(sourceBmpData);
             m_Bitmap.UnlockBits(targetBmpData);
@@ -306,6 +315,7 @@ namespace LWDicer.Control
                 int iObjectCount = m_ScanManager.ObjectList.Count;
                 if (iObjectCount < 1) return SHAPE_LIST_DISABLE;
 
+                //Parallel.For(0, iObjectCount, (int i) =>
                 for (int i = 0; i < iObjectCount; i++)
                 {
                     // 생성된 BMP 파일에 Object Draw
@@ -519,9 +529,6 @@ namespace LWDicer.Control
 
             for (float dX = dStartValue; dX <= dEndValue; dX = dX + dIncValue)
             {
-                //if (dIncValue > 0 && dX <= dEndValue) return;
-                //if (dIncValue < 0 && dX >= dEndValue) return;
-
                 // 연산된 값을 Int형으로 변환 (반올림)
                 CurrentValueX = (int)(dValueX + 0.5);
                 CurrentValueY = (int)(dValueY + 0.5);

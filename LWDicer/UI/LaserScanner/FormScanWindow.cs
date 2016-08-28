@@ -712,7 +712,6 @@ namespace LWDicer.UI
 
         }
 
-
         private void btnObjectArrayCopy_Click_1(object sender, EventArgs e)
         {
             if (SelectObjectListView < 0) return;
@@ -751,8 +750,8 @@ namespace LWDicer.UI
                 posMove.X = 0;
 
                 for (int j = 0; j < arrayNumX; j++)
+                //Parallel.For(0, arrayNumX, (int j) =>
                 {
-
                     // 복사 Object가 Group일 경우
                     if (pObject.ObjectType == EObjectType.GROUP)
                     {
@@ -765,7 +764,6 @@ namespace LWDicer.UI
                         pGroup[iGroupCount] = m_ScanManager.MakeObject(pObject.ObjectType, posStart, posEnd);
                         iGroupCount++;
                     }
-
                     // X Axis 값을 간격으로 증가시킨다.
                     posStart.X += arrayGapX;
                     posEnd.X += arrayGapX;
@@ -773,8 +771,8 @@ namespace LWDicer.UI
                 }
                 // Y Axis 값을 간격으로 증가시킨다.
                 posStart.Y += arrayGapY;
-                posEnd.Y += arrayGapY;
-                posMove.Y += arrayGapY;
+                posEnd.Y   += arrayGapY;
+                posMove.Y  += arrayGapY;
             }
 
             // Group을 추가함.
@@ -792,6 +790,11 @@ namespace LWDicer.UI
             }
 
             ReDrawCanvas();
+        }
+
+        public void ObjectArrayCopy()
+        {
+
         }
 
 
@@ -887,7 +890,7 @@ namespace LWDicer.UI
                 filename = imgSaveDlg.FileName;
                 //string filepath = string.Format("{0:s}{1:s}.bmp", CMainFrame.DBInfo.ImageDataDir, "Polygon");
 
-                CMainFrame.LWDicer.m_MeScanner.SetSizeBmp();
+                if (CMainFrame.LWDicer.m_MeScanner.SetSizeBmp() != SUCCESS) return;
                 CMainFrame.LWDicer.m_MeScanner.ConvertBmpFile(filename);
             }
         }
