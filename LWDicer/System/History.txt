@@ -483,6 +483,13 @@ CSpinStep class -> CCleanStep / CCoatStep class 로 분리
 	- polyline 별 Group에서 객체별 Group으로 변경.. (객체에 여러개의 polyline이 존재함.. 글자의 경우)
 	- 배열 복사할때eh 복사 후 Group화를 진행함.
 
+// Grade : ★★
+// Date : 2016-08-27 ~ 2016-08-29
+// Context
+
+1. BMP 파일 로딩
+	- 사이즈를 Drag해서 이미지의 위치와 크기를 설정함
+	- threadhold 기능 테스트 중.. 영상처리 기법을 적용이 필요함.
 ////////////////////////////////////////////////////////////////////////////////////////////
 // LHS
 // Version : 0.0.1

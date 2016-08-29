@@ -714,6 +714,8 @@ namespace LWDicer.UI
 
         private void btnObjectArrayCopy_Click_1(object sender, EventArgs e)
         {
+            if (m_ScanManager.ObjectList[SelectObjectListView].ObjectType == EObjectType.BMP) return;
+
             if (SelectObjectListView < 0) return;
             if (ShapeListView.Items.Count <= SelectObjectListView) return;
 
@@ -725,8 +727,8 @@ namespace LWDicer.UI
             if (arrayNumX <= 0 || arrayNumY <= 0) return;
 
             PointF posStart = new PointF(0, 0);
-            PointF posEnd = new PointF(0, 0);
-            PointF posMove = new PointF(0, 0);
+            PointF posEnd   = new PointF(0, 0);
+            PointF posMove  = new PointF(0, 0);
 
             CMarkingObject pObject = ObjectExtensions.Copy(m_ScanManager.ObjectList[SelectObjectListView]);
 

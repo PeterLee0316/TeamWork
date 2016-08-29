@@ -108,10 +108,8 @@ namespace LWDicer.Control
         protected override void OnMouseMove(MouseEventArgs e)
         {
             base.OnMouseMove(e);
-
-            //if (m_ScanWindow.SelectObjectType == EObjectType.NONE) return;
+            
             m_ScanWindow.ptMousePos = PixelToField(e.Location);
-            //m_FormScanWindow.lblMousePos.Text = m_ScanWindow.ptMousePos.ToString();
 
             if (e.Button == MouseButtons.Left)
             {
@@ -132,7 +130,6 @@ namespace LWDicer.Control
             m_ScanWindow.SetObjectType(EObjectType.NONE);
         }
 
-
         protected override void OnKeyPress(KeyPressEventArgs e)
         {
             base.OnKeyPress(e);
@@ -142,9 +139,9 @@ namespace LWDicer.Control
         {
             base.OnKeyDown(e);
 
-            //// Ctrl Key ------------------------
-            //if ((Control.ModifierKeys & Keys.Control) == Keys.Control)
-            //    CheckWheelZoomMode = true;
+            // Ctrl Key ------------------------
+            if ((System.Windows.Forms.Control.ModifierKeys & Keys.Control) == Keys.Control)
+                CheckWheelZoomMode = true;
 
             // Esc Key ------------------------
             if (e.KeyData == Keys.Escape)
@@ -219,11 +216,20 @@ namespace LWDicer.Control
                             (StartPos.X > EndPos.X ? (StartPos.X - EndPos.X) : -(StartPos.X - EndPos.X)),
                             (StartPos.Y > EndPos.Y ? (StartPos.Y - EndPos.Y) : -(StartPos.Y - EndPos.Y)));
                     break;
+                case EObjectType.BMP:
+                    g.DrawRectangle(BaseDrawPen[(int)EDrawPenType.SELECT],
+                            (StartPos.X < EndPos.X ? StartPos.X : EndPos.X),
+                            (StartPos.Y < EndPos.Y ? StartPos.Y : EndPos.Y),
+                            (StartPos.X > EndPos.X ? (StartPos.X - EndPos.X) : -(StartPos.X - EndPos.X)),
+                            (StartPos.Y > EndPos.Y ? (StartPos.Y - EndPos.Y) : -(StartPos.Y - EndPos.Y)));
+                    break;
+
                 case EObjectType.DOT:
                     Rectangle rectDot = new Rectangle(StartPos.X - DRAW_DOT_SIZE / 2, StartPos.Y - DRAW_DOT_SIZE / 2,
                                               DRAW_DOT_SIZE, DRAW_DOT_SIZE);
                     g.FillRectangle(BaseDrawBrush[(int)EDrawBrushType.OBJECT_DRAG], rectDot);
                     break;
+
                 case EObjectType.LINE:
                     g.DrawLine(BaseDrawPen[(int)EDrawPenType.OBJECT_DRAG], StartPos, EndPos);
                     break;
@@ -243,6 +249,7 @@ namespace LWDicer.Control
                             (StartPos.X > EndPos.X ? (StartPos.X - EndPos.X) : -(StartPos.X - EndPos.X)),
                             (StartPos.Y > EndPos.Y ? (StartPos.Y - EndPos.Y) : -(StartPos.Y - EndPos.Y)));
                     break;
+
                 default:
 
                     break;

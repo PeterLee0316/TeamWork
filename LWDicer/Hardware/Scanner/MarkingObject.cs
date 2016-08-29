@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Drawing;
+using System.Drawing.Imaging;
 
 using static LWDicer.Control.DEF_Scanner;
 using static LWDicer.Control.DEF_Common;
@@ -474,14 +475,27 @@ namespace LWDicer.Control
     [Serializable]
     public class CObjectBmp : CMarkingObject
     {
-        private Bitmap m_Bitmap;
+        private Bitmap m_SrcBitmap;
+        private Bitmap m_CvtBitmap;
         private Rectangle rectSourceImage = new Rectangle(0,0,0,0);
         private Rectangle rectDisplay = new Rectangle(0, 0, 0, 0);
 
         public CObjectBmp(string fileName, PointF pStart, PointF pEnd, float pAngle = 0)
         {
-            m_Bitmap = new Bitmap(fileName);
-            //rectSourceImage.Location.X = 
+            m_SrcBitmap = new Bitmap(fileName);
+            m_CvtBitmap = m_SrcBitmap.Copy();
+
+            Threshold(ref m_CvtBitmap,500);
+
+            var sizeDisplay = new PointF(pEnd.X - pStart.X, pEnd.Y - pStart.Y);
+
+            rectSourceImage.Location = new Point(0, 0);
+            rectSourceImage.Width = m_SrcBitmap.Width;
+            rectSourceImage.Height = m_SrcBitmap.Height;
+
+            rectDisplay.Location = AbsFieldToPixel(pStart);
+            rectDisplay.Width = AbsFieldToPixel(sizeDisplay).X;
+            rectDisplay.Height = AbsFieldToPixel(sizeDisplay).Y;
 
             SetObjectStartPos(pStart);
             SetObjectEndPos(pEnd);
@@ -496,17 +510,98 @@ namespace LWDicer.Control
         {
             base.DrawObject(g);
 
-            Rectangle rectSourceImage;
-            Rectangle rectDisplay;
+            //ImageAttributes imageAttr = new ImageAttributes();
+            //imageAttr.SetThreshold(0.8f);
+            
 
-            //m_Bitmap.Size
-            Point StartPos = new Point(0, 0);
-            Point EndPos = new Point(0, 0);
+            g.DrawImage(m_CvtBitmap, rectDisplay, rectSourceImage, GraphicsUnit.Pixel);
+            //g.DrawImage(m_SrcBitmap, rectDisplay, rectSourceImage.X, rectSourceImage.Y, rectSourceImage.Width, rectSourceImage.Height, GraphicsUnit.Pixel, imageAttr);
+        }
 
-            StartPos = AbsFieldToPixel(ptObjectStartPos);
-            EndPos = AbsFieldToPixel(ptObjectEndPos);
+        private void Grayscale(ref Bitmap bmp)
+        {
+            BitmapData bmpData = bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height), ImageLockMode.ReadWrite, PixelFormat.Format24bppRgb);
 
-            g.DrawImage(m_Bitmap, StartPos);
+            unsafe
+            {
+                byte* ptr = (byte*)bmpData.Scan0.ToPointer();
+                int stopAddress = (int)ptr + bmpData.Stride * bmpData.Height;
+
+                while ((int)ptr != stopAddress)
+                {
+                    *ptr = (byte)((ptr[2] * .299) + (ptr[1] * .587) + (ptr[0] * .114));
+                    ptr[1] = *ptr;
+                    ptr[2] = *ptr;
+
+                    ptr += 3;
+                }
+            }
+
+            bmp.UnlockBits(bmpData);
+        }
+
+        private  void Threshold(ref Bitmap bmp, short thresholdValue)
+        {
+            int MaxVal = 768;
+
+            if (thresholdValue < 0) return;
+            else if (thresholdValue > MaxVal) return;
+
+            BitmapData bmpData = bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height), 
+                                              ImageLockMode.ReadWrite,PixelFormat.Format24bppRgb);
+            unsafe
+            {
+                int TotalRGB;
+
+                byte* ptr = (byte*)bmpData.Scan0.ToPointer();
+                
+                int stopAddress = (int)ptr + bmpData.Stride * bmpData.Height;
+
+                while ((int)ptr != stopAddress)
+                {
+                    TotalRGB = ptr[0] + ptr[1] + ptr[2];
+
+                    if (TotalRGB <= thresholdValue)
+                    {
+                        ptr[2] = 0;
+                        ptr[1] = 0;
+                        ptr[0] = 0;
+                    }
+                    else
+                    {
+                        ptr[2] = 255;
+                        ptr[1] = 255;
+                        ptr[0] = 255;
+                    }
+
+                    ptr += 3;
+                }
+            }
+
+            bmp.UnlockBits(bmpData);
+        }
+
+
+        public override void MoveObject(PointF pPos)
+        {
+            base.MoveObject(pPos);
+            PointF objectCurrentPos = new PointF(0, 0);
+
+            //--------------------------------------------------------------------------------
+            // Start Position Move
+            objectCurrentPos.X = ptObjectStartPos.X;
+            objectCurrentPos.Y = ptObjectStartPos.Y;
+            objectCurrentPos.X += pPos.X;
+            objectCurrentPos.Y += pPos.Y;
+            SetObjectStartPos(objectCurrentPos);
+
+            //--------------------------------------------------------------------------------
+            // End Position Move
+            objectCurrentPos.X = ptObjectEndPos.X;
+            objectCurrentPos.Y = ptObjectEndPos.Y;
+            objectCurrentPos.X += pPos.X;
+            objectCurrentPos.Y += pPos.Y;
+            SetObjectEndPos(objectCurrentPos);
         }
 
     }
