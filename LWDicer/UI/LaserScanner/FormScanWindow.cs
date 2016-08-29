@@ -755,7 +755,7 @@ namespace LWDicer.UI
                     // 복사 Object가 Group일 경우
                     if (pObject.ObjectType == EObjectType.GROUP)
                     {
-                        pGroup[iGroupCount] = pObject;
+                        pGroup[iGroupCount] = ObjectExtensions.Copy(pObject);
                         pGroup[iGroupCount].MoveObject(posMove);
                         iGroupCount++;
                     }

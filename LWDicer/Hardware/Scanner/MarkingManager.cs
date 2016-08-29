@@ -137,7 +137,7 @@ namespace LWDicer.Control
                     pObject = new CObjectRectagle(pStart, pEnd);
                     break;
                 case (EObjectType.CIRCLE):
-                    pObject = new CObjectEllipse(pStart, pEnd);
+                    pObject = new CObjectCircle(pStart, pEnd);
                     break;
                 default:
                     return null;
@@ -151,20 +151,40 @@ namespace LWDicer.Control
             switch (pType)
             {
                 case (EObjectType.DOT):
-                    CObjectDot pDot = new CObjectDot(pStart);
+                    var pDot = new CObjectDot(pStart);
                     ObjectList.Add(pDot);
                     break;
                 case (EObjectType.LINE):
-                    CObjectLine pLine = new CObjectLine(pStart, pEnd);
+                    var pLine = new CObjectLine(pStart, pEnd);
                     ObjectList.Add(pLine);
                     break;
                 case (EObjectType.RECTANGLE):
-                    CObjectRectagle pRect = new CObjectRectagle(pStart, pEnd);
+                    var pRect = new CObjectRectagle(pStart, pEnd);
                     ObjectList.Add(pRect);
                     break;
                 case (EObjectType.CIRCLE):
-                    CObjectEllipse pCircle = new CObjectEllipse(pStart, pEnd);
+                    var pCircle = new CObjectCircle(pStart, pEnd);
                     ObjectList.Add(pCircle);
+                    break;
+                case (EObjectType.BMP):
+                    string filename = null;
+                    OpenFileDialog openFileDialog = new OpenFileDialog();
+                    openFileDialog.Filter = "Bitmap files (*.bmp)|*.bmp";
+                    if (openFileDialog.ShowDialog() == DialogResult.OK)
+                    {
+                        try
+                        {
+                            filename = openFileDialog.FileName;
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show("Error occurred: " + ex.Message);
+                        }
+                    }                    
+
+                    var pBmp = new CObjectBmp(filename, pStart, pEnd);
+                    ObjectList.Add(pBmp);
+
                     break;
                 case (EObjectType.GROUP):
                     CObjectGroup pGroup = new CObjectGroup(pObject);
@@ -189,7 +209,7 @@ namespace LWDicer.Control
                     ObjectList.Add(pRect);
                     break;
                 case (EObjectType.CIRCLE):
-                    CObjectEllipse pCircle = new CObjectEllipse((CObjectEllipse)pObject);
+                    CObjectCircle pCircle = new CObjectCircle((CObjectCircle)pObject);
                     ObjectList.Add(pCircle);
                     break;
                 case (EObjectType.GROUP):
@@ -240,7 +260,7 @@ namespace LWDicer.Control
 
         public void LoadCadFile(string filePath)
         {
-            
+            if (filePath == null) return;
 
             // File Load ==============================================
             string extension = Path.GetExtension(filePath);

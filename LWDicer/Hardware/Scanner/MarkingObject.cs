@@ -391,9 +391,9 @@ namespace LWDicer.Control
 
     }
     [Serializable]
-    public class CObjectEllipse : CMarkingObject
+    public class CObjectCircle : CMarkingObject
     {
-        public CObjectEllipse(PointF pStart, PointF pEnd, float pAngle = 0)
+        public CObjectCircle(PointF pStart, PointF pEnd, float pAngle = 0)
         {
 
             SetObjectStartPos(pStart);
@@ -401,14 +401,14 @@ namespace LWDicer.Control
             SetObjectRatateAngle(pAngle);
 
             SetObjectType(EObjectType.CIRCLE);
-            SetObjectName("Ellipse");
+            SetObjectName("Circle");
 
             CMarkingObject.CreateSortNum++;
 
             SetObjectSortFlag(CreateSortNum);
         }
 
-        public CObjectEllipse(CObjectEllipse pObject)
+        public CObjectCircle(CObjectCircle pObject)
         {
             SetObjectStartPos(pObject.ptObjectStartPos);
             SetObjectEndPos(pObject.ptObjectEndPos);
@@ -427,7 +427,7 @@ namespace LWDicer.Control
 
             StartPos = AbsFieldToPixel(ptObjectStartPos);
             EndPos = AbsFieldToPixel(ptObjectEndPos);
-
+            
             g.DrawEllipse(BaseDrawPen[(int)EDrawPenType.DRAW],
                             (StartPos.X < EndPos.X ? StartPos.X : EndPos.X),
                             (StartPos.Y < EndPos.Y ? StartPos.Y : EndPos.Y),
@@ -462,6 +462,10 @@ namespace LWDicer.Control
     {
         public CObjectFont(PointF pStart, PointF pEnd, float pAngle = 0)
         {
+            SetObjectStartPos(pStart);
+            SetObjectEndPos(pEnd);
+            SetObjectRatateAngle(pAngle);
+
             SetObjectName("Font");
 
             CreateSortNum++;
@@ -470,23 +474,43 @@ namespace LWDicer.Control
     [Serializable]
     public class CObjectBmp : CMarkingObject
     {
-        public CObjectBmp()
+        private Bitmap m_Bitmap;
+        private Rectangle rectSourceImage = new Rectangle(0,0,0,0);
+        private Rectangle rectDisplay = new Rectangle(0, 0, 0, 0);
+
+        public CObjectBmp(string fileName, PointF pStart, PointF pEnd, float pAngle = 0)
         {
+            m_Bitmap = new Bitmap(fileName);
+            //rectSourceImage.Location.X = 
+
+            SetObjectStartPos(pStart);
+            SetObjectEndPos(pEnd);
+            SetObjectRatateAngle(pAngle);
+
             SetObjectName("Bmp");
 
             CreateSortNum++;
         }
-    }
-    [Serializable]
-    public class CObjectCAD : CMarkingObject
-    {
-        public CObjectCAD()
-        {
-            SetObjectName("Cad");
 
-            CreateSortNum++;
+        public override void DrawObject(Graphics g)
+        {
+            base.DrawObject(g);
+
+            Rectangle rectSourceImage;
+            Rectangle rectDisplay;
+
+            //m_Bitmap.Size
+            Point StartPos = new Point(0, 0);
+            Point EndPos = new Point(0, 0);
+
+            StartPos = AbsFieldToPixel(ptObjectStartPos);
+            EndPos = AbsFieldToPixel(ptObjectEndPos);
+
+            g.DrawImage(m_Bitmap, StartPos);
         }
+
     }
+
     [Serializable]
     public class CObjectGroup : CMarkingObject
     {

@@ -46,7 +46,7 @@ namespace LWDicer.Control
         public const int SHAPE_LIST_DISABLE = 10;
 
         /////////////////////////////////////////////////////////////////////////////////////////
-        public enum EObjectType { NONE = 0, DOT, LINE, M_LINE, RECTANGLE, CIRCLE, ELLIPSE, FONT,BMP,DXF,GROUP, MAX }
+        public enum EObjectType { NONE = 0, DOT, LINE, ARC ,M_LINE, RECTANGLE, CIRCLE, ELLIPSE, FONT,BMP,GROUP, MAX }
         public enum EDrawPenType {GRID_BRIGHT,GRID_DARK,ACTIVE_BRIGHT,ACTIVE_DARK,OBJECT_DRAG,INACTIVE,DRAW,DIMENSION,SELECT, MAX}
         public enum EDrawBrushType { ACTIVE_BRIGHT, ACTIVE_DARK, OBJECT_DRAG, INACTIVE, DRAW, MAX }
         public enum EPenDashStye { DASH,DASHDOT,DASHDOTDOT,DOT,SOLID }
