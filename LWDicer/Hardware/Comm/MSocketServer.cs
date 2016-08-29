@@ -5,11 +5,11 @@ using System.Text;
 using System.Net;
 using System.Net.Sockets;
 
-using static LWDicer.Control.DEF_SocketServer;
-using static LWDicer.Control.DEF_Common;
-using static LWDicer.Control.DEF_Error;
+using static LWDicer.Layers.DEF_SocketServer;
+using static LWDicer.Layers.DEF_Common;
+using static LWDicer.Layers.DEF_Error;
 
-namespace LWDicer.Control
+namespace LWDicer.Layers
 {
     public class MSocketServer : MObject, ISocketServer, IDisposable
     {

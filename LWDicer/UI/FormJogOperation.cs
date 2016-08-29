@@ -12,14 +12,14 @@ using Syncfusion.Windows.Forms;
 using Syncfusion.Windows.Forms.Grid;
 using Syncfusion.Windows.Forms.Tools;
 
-using static LWDicer.Control.DEF_System;
-using static LWDicer.Control.DEF_Common;
+using static LWDicer.Layers.DEF_System;
+using static LWDicer.Layers.DEF_Common;
 
-using static LWDicer.Control.MYaskawa;
-using static LWDicer.Control.DEF_Motion;
-using static LWDicer.Control.DEF_Yaskawa;
-using static LWDicer.Control.DEF_ACS;
-using static LWDicer.Control.DEF_Error;
+using static LWDicer.Layers.MYaskawa;
+using static LWDicer.Layers.DEF_Motion;
+using static LWDicer.Layers.DEF_Yaskawa;
+using static LWDicer.Layers.DEF_ACS;
+using static LWDicer.Layers.DEF_Error;
 
 using MotionYMC;
 
@@ -55,7 +55,7 @@ namespace LWDicer.UI
             InitializeComponent();
 
             TmrJog.Enabled = true;
-            TmrJog.Interval = 100;
+            TmrJog.Interval = UITimerInterval;
 
             ResouceMapping();
         }
@@ -134,9 +134,13 @@ namespace LWDicer.UI
              this.Text = "Jog Operation";
 
             IsFastMove = false;
-            SetYMCAxis((int)EYMC_Axis.LOADER_Z);
             SetOption(EMoveOption.JOG);
+
+            // set default
+            SetYMCAxis((int)EYMC_Axis.LOADER_Z);
             SetVelocity();
+            BtnAxis1.BackColor = Color.YellowGreen;
+
 
             TmrJog.Start();
         }
@@ -429,7 +433,7 @@ namespace LWDicer.UI
             {
                 CMotorSpeedData[] tSpeed = new CMotorSpeedData[1];
                 tSpeed[0] = AxisSpeedData;
-                iResult = CMainFrame.LWDicer.m_YMC.MoveToPos(SelectedAxis, dTargetPos, tSpeed, (int)CMotionAPI.ApiDefs.DISTRIBUTION_COMPLETED);
+                iResult = CMainFrame.LWDicer.m_YMC.MoveToPos(SelectedAxis, dTargetPos, tSpeed, (int)CMotionAPI.ApiDefs.COMMAND_STARTED);
             }
             else
             {
@@ -448,10 +452,10 @@ namespace LWDicer.UI
             // Jog Operation Servo Encoder Position
             if (SelectedMotion == (int)EMotionSelect.YMC)
             {
-                LabelCurrent.Text = string.Format("{0:F4}",CMainFrame.LWDicer.m_YMC.ServoStatus[SelectedAxis].EncoderPos);
+                LabelCurrent.Text= String.Format("{0:0.000}",CMainFrame.LWDicer.m_YMC.ServoStatus[SelectedAxis].EncoderPos);
             } else
             {
-                LabelCurrent.Text = string.Format("{0:F4}", CMainFrame.LWDicer.m_ACS.ServoStatus[SelectedAxis].EncoderPos);
+                LabelCurrent.Text= String.Format("{0:0.000}", CMainFrame.LWDicer.m_ACS.ServoStatus[SelectedAxis].EncoderPos);
             }
         }
 

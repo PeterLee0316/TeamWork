@@ -9,13 +9,13 @@ using System.Drawing.Imaging;
 using System.Runtime.InteropServices;
 using System.Diagnostics;
 
-using static LWDicer.Control.DEF_Vision;
-using static LWDicer.Control.DEF_Error;
-using static LWDicer.Control.DEF_Common;
+using static LWDicer.Layers.DEF_Vision;
+using static LWDicer.Layers.DEF_Error;
+using static LWDicer.Layers.DEF_Common;
 using BGAPI;
 using Matrox.MatroxImagingLibrary;
 
-namespace LWDicer.Control
+namespace LWDicer.Layers
 {
     public class MVisionView: MObject
     {

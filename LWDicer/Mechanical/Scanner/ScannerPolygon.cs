@@ -17,13 +17,13 @@ using System.Diagnostics;
 using System.Collections.Specialized;
 using System.Windows.Forms;
 
-using static LWDicer.Control.DEF_Scanner;
-using static LWDicer.Control.DEF_Polygon;
-using static LWDicer.Control.DEF_Common;
-using static LWDicer.Control.DEF_System;
+using static LWDicer.Layers.DEF_Scanner;
+using static LWDicer.Layers.DEF_Polygon;
+using static LWDicer.Layers.DEF_Common;
+using static LWDicer.Layers.DEF_System;
 using LWDicer.UI;
 
-namespace LWDicer.Control
+namespace LWDicer.Layers
 {
     public class DEF_Polygon
     {
@@ -571,6 +571,7 @@ namespace LWDicer.Control
             float dValueY1 = 0.0f;
             float dValueX2 = 0.0f;
             float dValueY2 = 0.0f;
+            int count = 0;
 
             for (float dIncX = -dEllipseA; dIncX <= dEllipseA; dIncX = dIncX + 1)
             {
@@ -584,7 +585,7 @@ namespace LWDicer.Control
 
                 SetIndexPixel((int)(dValueX1), (int)(dValueY1));
                 SetIndexPixel((int)(dValueX1), (int)(dValueY2));
-
+                count++;
             }
 
             for (float dIncY = -dEllipseB; dIncY <= dEllipseB; dIncY = dIncY + 1)
@@ -599,6 +600,7 @@ namespace LWDicer.Control
 
                 SetIndexPixel((int)(dValueX1), (int)(dValueY1));
                 SetIndexPixel((int)(dValueX2), (int)(dValueY1));
+                count++;
             }
 
         }

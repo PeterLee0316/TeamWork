@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Diagnostics;
 
-using static LWDicer.Control.DEF_Common;
-using static LWDicer.Control.MTickTimer.ETimeType;
+using static LWDicer.Layers.DEF_Common;
+using static LWDicer.Layers.MTickTimer.ETimeType;
 
-namespace LWDicer.Control
+namespace LWDicer.Layers
 {
     public class MTickTimer
     {

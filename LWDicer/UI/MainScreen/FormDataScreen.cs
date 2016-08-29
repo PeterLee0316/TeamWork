@@ -6,7 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using LWDicer.Control;
+using LWDicer.Layers;
 
 using Syncfusion.Windows.Forms.Grid;
 using Syncfusion.Windows.Forms;
@@ -14,8 +14,8 @@ using Syncfusion.Windows.Forms.Tools;
 
 using Excel = Microsoft.Office.Interop.Excel;
 
-using static LWDicer.Control.DEF_Yaskawa;
-using static LWDicer.Control.DEF_DataManager;
+using static LWDicer.Layers.DEF_Yaskawa;
+using static LWDicer.Layers.DEF_DataManager;
 
 namespace LWDicer.UI
 {

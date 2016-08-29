@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.IO.Ports;
 
-using static LWDicer.Control.DEF_SerialPort;
+using static LWDicer.Layers.DEF_SerialPort;
 
-namespace LWDicer.Control
+namespace LWDicer.Layers
 {
     public class DEF_SerialPort
     {

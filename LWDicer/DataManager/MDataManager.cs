@@ -13,30 +13,30 @@ using System.IO;
 
 using Excel = Microsoft.Office.Interop.Excel;
 
-using static LWDicer.Control.DEF_System;
-using static LWDicer.Control.DEF_Common;
-using static LWDicer.Control.DEF_Error;
-using static LWDicer.Control.DEF_OpPanel;
-using static LWDicer.Control.DEF_Thread;
-using static LWDicer.Control.DEF_DataManager;
-using static LWDicer.Control.DEF_LCNet;
+using static LWDicer.Layers.DEF_System;
+using static LWDicer.Layers.DEF_Common;
+using static LWDicer.Layers.DEF_Error;
+using static LWDicer.Layers.DEF_OpPanel;
+using static LWDicer.Layers.DEF_Thread;
+using static LWDicer.Layers.DEF_DataManager;
+using static LWDicer.Layers.DEF_LCNet;
 
-using static LWDicer.Control.DEF_ACS;
-using static LWDicer.Control.DEF_Yaskawa;
-using static LWDicer.Control.DEF_Motion;
-using static LWDicer.Control.DEF_Cylinder;
-using static LWDicer.Control.DEF_Vacuum;
+using static LWDicer.Layers.DEF_ACS;
+using static LWDicer.Layers.DEF_Yaskawa;
+using static LWDicer.Layers.DEF_Motion;
+using static LWDicer.Layers.DEF_Cylinder;
+using static LWDicer.Layers.DEF_Vacuum;
 
-using static LWDicer.Control.DEF_MeStage;
-using static LWDicer.Control.DEF_MeHandler;
-using static LWDicer.Control.DEF_MeElevator;
-using static LWDicer.Control.DEF_MePushPull;
-using static LWDicer.Control.DEF_MeSpinner;
-using static LWDicer.Control.DEF_Vision;
-using static LWDicer.Control.DEF_CtrlSpinner;
+using static LWDicer.Layers.DEF_MeStage;
+using static LWDicer.Layers.DEF_MeHandler;
+using static LWDicer.Layers.DEF_MeElevator;
+using static LWDicer.Layers.DEF_MePushPull;
+using static LWDicer.Layers.DEF_MeSpinner;
+using static LWDicer.Layers.DEF_Vision;
+using static LWDicer.Layers.DEF_CtrlSpinner;
 
 
-namespace LWDicer.Control
+namespace LWDicer.Layers
 {
     public class DEF_DataManager
     {

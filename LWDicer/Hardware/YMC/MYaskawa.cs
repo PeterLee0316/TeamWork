@@ -6,14 +6,14 @@ using System.Threading;
 using System.Threading.Tasks;
 using MotionYMC;
 
-using static LWDicer.Control.DEF_System;
-using static LWDicer.Control.DEF_Common;
-using static LWDicer.Control.DEF_Error;
-using static LWDicer.Control.DEF_Yaskawa;
-using static LWDicer.Control.DEF_IO;
-using static LWDicer.Control.DEF_Motion;
+using static LWDicer.Layers.DEF_System;
+using static LWDicer.Layers.DEF_Common;
+using static LWDicer.Layers.DEF_Error;
+using static LWDicer.Layers.DEF_Yaskawa;
+using static LWDicer.Layers.DEF_IO;
+using static LWDicer.Layers.DEF_Motion;
 
-namespace LWDicer.Control
+namespace LWDicer.Layers
 {
     public class DEF_Yaskawa
     {
@@ -49,6 +49,8 @@ namespace LWDicer.Control
         public const int ERR_YASKAWA_NOT_SERVO_ON                        = 30;
         public const int ERR_YASKAWA_SELECTED_AXIS_NONE                  = 31;
         public const int ERR_YASKAWA_OBSOLETE_FUNCTION                   = 32;
+        public const int ERR_YASKAWA_CONTROLLER_NOT_READY                = 33;
+        public const int ERR_YASKAWA_MOTION_MOVE_TIMEOUT                 = 34;
 
         public const int MAX_MP_CPU = 4;    // pci board EA
         public const int MAX_MP_PORT = 2;   // ports per board
@@ -197,7 +199,7 @@ namespace LWDicer.Control
 
                 // MOTION_DATA
                 CoordinateSystem = (Int16)CMotionAPI.ApiDefs.WORK_SYSTEM;
-                MoveType = (Int16)CMotionAPI.ApiDefs.MTYPE_RELATIVE;
+                MoveType = (Int16)CMotionAPI.ApiDefs.MTYPE_R_SHORTEST;
 
                 FilterTime = 10;                // Filter time [0.1 ms]
                 VelocityType = (Int16)CMotionAPI.ApiDefs.VTYPE_UNIT_PAR;    // Speed [reference unit/s]
@@ -538,6 +540,19 @@ MP2101TM            SVC(built-in the board, with MECHATROLINK port 1)       1   
 #endif
         }
 
+        public new int GenerateErrorCode(int error, bool writeLog = true)
+        {
+            // 하드웨어에서 올라오는 특정 에러 메세지가 더 중요할 경우엔 여기에서 하드웨어 에러 메시지로 바꿈
+            if(LastHWMessage != null)
+            {
+                if (LastHWMessage.IndexOf("0x440D1BA0") >= 0) error = ERR_YASKAWA_CONTROLLER_NOT_READY;
+                if (LastHWMessage.IndexOf("0x470B1212") >= 0) error = ERR_YASKAWA_MOTION_MOVE_TIMEOUT;
+            }
+
+            return base.GenerateErrorCode(error, writeLog);
+        }
+
+
         #region Common : Manage Data, Position, Use Flag and Initialize
         public int SetData(CYaskawaData source)
         {
@@ -667,7 +682,8 @@ MP2101TM            SVC(built-in the board, with MECHATROLINK port 1)       1   
                 // origin return
                 if (ServoStatus[i].IsOriginReturned == false)
                 {
-                    return GenerateErrorCode(ERR_YASKAWA_NOT_ORIGIN_RETURNED);
+                    // for test
+                    //return GenerateErrorCode(ERR_YASKAWA_NOT_ORIGIN_RETURNED);
                 }
 
                 // plus limit
@@ -1027,7 +1043,15 @@ MP2101TM            SVC(built-in the board, with MECHATROLINK port 1)       1   
             return SUCCESS;
         }
 
-        private int GetDevicePositon(int deviceNo, out CMotionAPI.POSITION_DATA[] Position, double[] pos, 
+        /// <summary>
+        /// Device (복수 축)의 목표 위치를 계산해서 리턴 
+        /// </summary>
+        /// <param name="deviceNo"></param>
+        /// <param name="Position"></param>
+        /// <param name="pos"></param>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        private int GetDeviceTargetPosition(int deviceNo, out CMotionAPI.POSITION_DATA[] Position, double[] pos, 
             ushort type = (ushort)CMotionAPI.ApiDefs.DATATYPE_IMMEDIATE)
         {
             int length = GetDeviceLength(deviceNo);
@@ -1052,6 +1076,46 @@ MP2101TM            SVC(built-in the board, with MECHATROLINK port 1)       1   
                     continue;
                 }
                 m_Data.MPBoard[boardNo].CheckSWLimit(servoNo, pos[i], out bExceedPlusLimit, out bExceedMinusLimit);
+                if (bExceedPlusLimit == true) return GenerateErrorCode(ERR_YASKAWA_TARGET_POS_EXCEED_PLUS_LIMIT);
+                if (bExceedMinusLimit == true) return GenerateErrorCode(ERR_YASKAWA_TARGET_POS_EXCEED_MINUS_LIMIT);
+            }
+
+            return SUCCESS;
+        }
+
+        /// <summary>
+        /// Device (단수 축, 즉 servo 하나)의 목표 위치를 계산해서 리턴 
+        /// </summary>
+        /// <param name="deviceNo"></param>
+        /// <param name="Position"></param>
+        /// <param name="pos"></param>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        private int GetDeviceTargetPosition(int deviceNo, out CMotionAPI.POSITION_DATA[] Position, double pos,
+            ushort type = (ushort)CMotionAPI.ApiDefs.DATATYPE_IMMEDIATE)
+        {
+            int length = 1;
+            Position = new CMotionAPI.POSITION_DATA[length];
+
+            for (int i = 0; i < length; i++)
+            {
+                Position[i].DataType = (ushort)type;
+                Position[i].PositionData = (int)(pos * UNIT_REF);
+            }
+
+            int boardNo = GetBoardIndex(deviceNo);
+            int[] axisList;
+            GetDeviceAxisList(deviceNo, out axisList);
+            bool bExceedPlusLimit, bExceedMinusLimit;
+
+            for (int i = 0; i < length; i++)
+            {
+                int servoNo = axisList[i];
+                if (servoNo == (int)EYMC_Axis.NULL) // skip if axis not exist.
+                {
+                    continue;
+                }
+                m_Data.MPBoard[boardNo].CheckSWLimit(servoNo, pos, out bExceedPlusLimit, out bExceedMinusLimit);
                 if (bExceedPlusLimit == true) return GenerateErrorCode(ERR_YASKAWA_TARGET_POS_EXCEED_PLUS_LIMIT);
                 if (bExceedMinusLimit == true) return GenerateErrorCode(ERR_YASKAWA_TARGET_POS_EXCEED_MINUS_LIMIT);
             }
@@ -1176,6 +1240,7 @@ MP2101TM            SVC(built-in the board, with MECHATROLINK port 1)       1   
 
             // for test
             iResult = ServoOn(0);
+            if (iResult != SUCCESS) return iResult;
 
             return SUCCESS;
         }
@@ -1699,6 +1764,7 @@ MP2101TM            SVC(built-in the board, with MECHATROLINK port 1)       1   
             // Motion data setting
             Int16[] Direction = new Int16[1];
             UInt16[] TimeOut = new UInt16[1] { APIJogTime };
+            TimeOut[0] = 0; // for continuos moving
 
             if (jogDir == DIR_POSITIVE)
             {
@@ -1809,10 +1875,15 @@ MP2101TM            SVC(built-in the board, with MECHATROLINK port 1)       1   
             CMotionAPI.POSITION_DATA[] PositionData;
             CMotionAPI.MOTION_DATA[] MotionData;
             ushort[] WaitForCompletion;
-            int iResult = GetDevicePositon(deviceNo, out PositionData, pos, (UInt16)CMotionAPI.ApiDefs.DATATYPE_IMMEDIATE);
+            int iResult = GetDeviceTargetPosition(deviceNo, out PositionData, pos, (UInt16)CMotionAPI.ApiDefs.DATATYPE_IMMEDIATE);
             if (iResult != SUCCESS) return iResult;
             GetDevice_MotionData(deviceNo, out MotionData, SpeedType, tempSpeed);
             GetDeviceWaitCompletion(deviceNo, out WaitForCompletion, waitMode);
+
+            for(int i = 0; i < MotionData.Length; i++)
+            {
+                MotionData[i].MoveType = (short)CMotionAPI.ApiDefs.MTYPE_R_SHORTEST; // 지정 Position으로 이동하기 위해서
+            }
 
             // 0.8 check axis state for move
             int[] axisList;
@@ -1899,11 +1970,12 @@ MP2101TM            SVC(built-in the board, with MECHATROLINK port 1)       1   
                     tSpeed[0] = tempSpeed[i];
                 }
                 GetDevice_MotionData(servoNo, out tMotion, SpeedType, (tempSpeed != null) ? tSpeed : null);
-                iResult = GetDevicePositon(servoNo, out tPosition, pos, (UInt16)CMotionAPI.ApiDefs.DATATYPE_IMMEDIATE);
+                iResult = GetDeviceTargetPosition(servoNo, out tPosition, pos[i], (UInt16)CMotionAPI.ApiDefs.DATATYPE_IMMEDIATE);
                 if (iResult != SUCCESS) return iResult;
                 GetDeviceWaitCompletion(servoNo, out tWait, waitMode);
 
                 MotionData[j] = tMotion[0];
+                MotionData[j].MoveType = (short)CMotionAPI.ApiDefs.MTYPE_R_SHORTEST; // 지정 Position으로 이동하기 위해서
                 PositionData[j] = tPosition[0];
                 WaitForCompletion[j] = tWait[0];
                 tAxisList[j] = servoNo;

@@ -6,22 +6,22 @@ using System.Text;
 using System.Threading;
 using System.Diagnostics;
 
-using static LWDicer.Control.DEF_Thread;
-using static LWDicer.Control.DEF_Thread.ETrsPushPullStep;
-using static LWDicer.Control.DEF_Thread.EThreadMessage;
-using static LWDicer.Control.DEF_Thread.EThreadChannel;
-using static LWDicer.Control.DEF_Thread.EAutoRunMode;
-using static LWDicer.Control.DEF_Thread.EAutoRunStatus;
-using static LWDicer.Control.DEF_Error;
-using static LWDicer.Control.DEF_Common;
-using static LWDicer.Control.DEF_LCNet;
+using static LWDicer.Layers.DEF_Thread;
+using static LWDicer.Layers.DEF_Thread.ETrsPushPullStep;
+using static LWDicer.Layers.DEF_Thread.EThreadMessage;
+using static LWDicer.Layers.DEF_Thread.EThreadChannel;
+using static LWDicer.Layers.DEF_Thread.EAutoRunMode;
+using static LWDicer.Layers.DEF_Thread.EAutoRunStatus;
+using static LWDicer.Layers.DEF_Error;
+using static LWDicer.Layers.DEF_Common;
+using static LWDicer.Layers.DEF_LCNet;
 
-using static LWDicer.Control.DEF_CtrlPushPull;
-using static LWDicer.Control.DEF_CtrlLoader;
-using static LWDicer.Control.DEF_CtrlSpinner;
-using static LWDicer.Control.DEF_CtrlHandler;
+using static LWDicer.Layers.DEF_CtrlPushPull;
+using static LWDicer.Layers.DEF_CtrlLoader;
+using static LWDicer.Layers.DEF_CtrlSpinner;
+using static LWDicer.Layers.DEF_CtrlHandler;
 
-namespace LWDicer.Control
+namespace LWDicer.Layers
 {
     public class CTrsPushPullRefComp
     {

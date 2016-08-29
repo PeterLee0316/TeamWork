@@ -8,8 +8,12 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-using LWDicer.Control;
-using static LWDicer.Control.DEF_IO;
+using LWDicer.Layers;
+
+using static LWDicer.Layers.DEF_System;
+using static LWDicer.Layers.DEF_Common;
+using static LWDicer.Layers.DEF_IO;
+
 using Syncfusion.Windows.Forms.Tools;
 
 namespace LWDicer.UI
@@ -154,7 +158,7 @@ namespace LWDicer.UI
         private void FormIO_Load(object sender, EventArgs e)
         {
             tmr_IO.Enabled = true;
-            tmr_IO.Interval = 100;
+            tmr_IO.Interval = UITimerInterval;
             tmr_IO.Start();
 
             UpdateIO(nIOPage);

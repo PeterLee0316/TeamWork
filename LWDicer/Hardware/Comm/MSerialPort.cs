@@ -5,13 +5,13 @@ using System.Text;
 using System.IO.Ports;
 
 
-using static LWDicer.Control.DEF_SerialPort;
-using static LWDicer.Control.DEF_Common;
-using static LWDicer.Control.DEF_Error;
+using static LWDicer.Layers.DEF_SerialPort;
+using static LWDicer.Layers.DEF_Common;
+using static LWDicer.Layers.DEF_Error;
 
 using LWDicer.UI;
 
-namespace LWDicer.Control
+namespace LWDicer.Layers
 {
     public class MSerialPort : MObject, ISerialPort, IDisposable
     {

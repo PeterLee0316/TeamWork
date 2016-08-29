@@ -12,11 +12,11 @@ using Syncfusion.Windows.Forms.Grid;
 using Syncfusion.Windows.Forms;
 using Syncfusion.Windows.Forms.Tools;
 
-using static LWDicer.Control.DEF_DataManager;
-using static LWDicer.Control.DEF_System;
-using static LWDicer.Control.DEF_Motion;
-using static LWDicer.Control.DEF_Yaskawa;
-using static LWDicer.Control.DEF_ACS;
+using static LWDicer.Layers.DEF_DataManager;
+using static LWDicer.Layers.DEF_System;
+using static LWDicer.Layers.DEF_Motion;
+using static LWDicer.Layers.DEF_Yaskawa;
+using static LWDicer.Layers.DEF_ACS;
 
 namespace LWDicer.UI
 {
@@ -113,9 +113,9 @@ namespace LWDicer.UI
             GridCtrl[0, 8].Text = "Manual Fast Acc";
             GridCtrl[0, 9].Text = "Manual Slow Acc";
             GridCtrl[0, 10].Text = "Auto Slow Acc";
-            GridCtrl[0, 11].Text = "Auto Fast Vcc";
-            GridCtrl[0, 12].Text = "Jog Slow Vcc";
-            GridCtrl[0, 13].Text = "Jog Fast Vcc";
+            GridCtrl[0, 11].Text = "Auto Fast Acc";
+            GridCtrl[0, 12].Text = "Jog Slow Acc";
+            GridCtrl[0, 13].Text = "Jog Fast Acc";
             GridCtrl[0, 14].Text = "Manual Fast Dec";
             GridCtrl[0, 15].Text = "Manual Slow Dec";
             GridCtrl[0, 16].Text = "Auto Slow Dec";
@@ -182,44 +182,44 @@ namespace LWDicer.UI
             for (i = 0; i < (int)EYMC_Axis.MAX; i++)
             {
                 // Speed
-                GridCtrl[i + 1, 2].Text = Convert.ToString(SystemData_Axis.MPMotionData[i].Speed[(int)EMotorSpeed.MANUAL_SLOW].Vel);
-                GridCtrl[i + 1, 3].Text = Convert.ToString(SystemData_Axis.MPMotionData[i].Speed[(int)EMotorSpeed.MANUAL_FAST].Vel);
-                GridCtrl[i + 1, 4].Text = Convert.ToString(SystemData_Axis.MPMotionData[i].Speed[(int)EMotorSpeed.AUTO_SLOW].Vel);
-                GridCtrl[i + 1, 5].Text = Convert.ToString(SystemData_Axis.MPMotionData[i].Speed[(int)EMotorSpeed.AUTO_FAST].Vel);
-                GridCtrl[i + 1, 6].Text = Convert.ToString(SystemData_Axis.MPMotionData[i].Speed[(int)EMotorSpeed.JOG_SLOW].Vel);
-                GridCtrl[i + 1, 7].Text = Convert.ToString(SystemData_Axis.MPMotionData[i].Speed[(int)EMotorSpeed.JOG_FAST].Vel);
+                GridCtrl[i + 1, 2].Text = String.Format("{0:0.000}", SystemData_Axis.MPMotionData[i].Speed[(int)EMotorSpeed.MANUAL_SLOW].Vel);
+                GridCtrl[i + 1, 3].Text = String.Format("{0:0.000}", SystemData_Axis.MPMotionData[i].Speed[(int)EMotorSpeed.MANUAL_FAST].Vel);
+                GridCtrl[i + 1, 4].Text = String.Format("{0:0.000}", SystemData_Axis.MPMotionData[i].Speed[(int)EMotorSpeed.AUTO_SLOW].Vel);
+                GridCtrl[i + 1, 5].Text = String.Format("{0:0.000}", SystemData_Axis.MPMotionData[i].Speed[(int)EMotorSpeed.AUTO_FAST].Vel);
+                GridCtrl[i + 1, 6].Text = String.Format("{0:0.000}", SystemData_Axis.MPMotionData[i].Speed[(int)EMotorSpeed.JOG_SLOW].Vel);
+                GridCtrl[i + 1, 7].Text = String.Format("{0:0.000}", SystemData_Axis.MPMotionData[i].Speed[(int)EMotorSpeed.JOG_FAST].Vel);
 
                 // Acc
-                GridCtrl[i + 1, 8].Text = Convert.ToString(SystemData_Axis.MPMotionData[i].Speed[(int)EMotorSpeed.MANUAL_SLOW].Acc);
-                GridCtrl[i + 1, 9].Text = Convert.ToString(SystemData_Axis.MPMotionData[i].Speed[(int)EMotorSpeed.MANUAL_FAST].Acc);
-                GridCtrl[i + 1, 10].Text = Convert.ToString(SystemData_Axis.MPMotionData[i].Speed[(int)EMotorSpeed.AUTO_SLOW].Acc);
-                GridCtrl[i + 1, 11].Text = Convert.ToString(SystemData_Axis.MPMotionData[i].Speed[(int)EMotorSpeed.AUTO_FAST].Acc);
-                GridCtrl[i + 1, 12].Text = Convert.ToString(SystemData_Axis.MPMotionData[i].Speed[(int)EMotorSpeed.JOG_SLOW].Acc);
-                GridCtrl[i + 1, 13].Text = Convert.ToString(SystemData_Axis.MPMotionData[i].Speed[(int)EMotorSpeed.JOG_FAST].Acc);
+                GridCtrl[i + 1, 8].Text = String.Format("{0:0.000}", SystemData_Axis.MPMotionData[i].Speed[(int)EMotorSpeed.MANUAL_SLOW].Acc);
+                GridCtrl[i + 1, 9].Text = String.Format("{0:0.000}", SystemData_Axis.MPMotionData[i].Speed[(int)EMotorSpeed.MANUAL_FAST].Acc);
+                GridCtrl[i + 1, 10].Text = String.Format("{0:0.000}", SystemData_Axis.MPMotionData[i].Speed[(int)EMotorSpeed.AUTO_SLOW].Acc);
+                GridCtrl[i + 1, 11].Text = String.Format("{0:0.000}", SystemData_Axis.MPMotionData[i].Speed[(int)EMotorSpeed.AUTO_FAST].Acc);
+                GridCtrl[i + 1, 12].Text = String.Format("{0:0.000}", SystemData_Axis.MPMotionData[i].Speed[(int)EMotorSpeed.JOG_SLOW].Acc);
+                GridCtrl[i + 1, 13].Text = String.Format("{0:0.000}", SystemData_Axis.MPMotionData[i].Speed[(int)EMotorSpeed.JOG_FAST].Acc);
 
                 // Dec
-                GridCtrl[i + 1, 14].Text = Convert.ToString(SystemData_Axis.MPMotionData[i].Speed[(int)EMotorSpeed.MANUAL_SLOW].Dec);
-                GridCtrl[i + 1, 15].Text = Convert.ToString(SystemData_Axis.MPMotionData[i].Speed[(int)EMotorSpeed.MANUAL_FAST].Dec);
-                GridCtrl[i + 1, 16].Text = Convert.ToString(SystemData_Axis.MPMotionData[i].Speed[(int)EMotorSpeed.AUTO_SLOW].Dec);
-                GridCtrl[i + 1, 17].Text = Convert.ToString(SystemData_Axis.MPMotionData[i].Speed[(int)EMotorSpeed.AUTO_FAST].Dec);
-                GridCtrl[i + 1, 18].Text = Convert.ToString(SystemData_Axis.MPMotionData[i].Speed[(int)EMotorSpeed.JOG_SLOW].Dec);
-                GridCtrl[i + 1, 19].Text = Convert.ToString(SystemData_Axis.MPMotionData[i].Speed[(int)EMotorSpeed.JOG_FAST].Dec);
+                GridCtrl[i + 1, 14].Text = String.Format("{0:0.000}", SystemData_Axis.MPMotionData[i].Speed[(int)EMotorSpeed.MANUAL_SLOW].Dec);
+                GridCtrl[i + 1, 15].Text = String.Format("{0:0.000}", SystemData_Axis.MPMotionData[i].Speed[(int)EMotorSpeed.MANUAL_FAST].Dec);
+                GridCtrl[i + 1, 16].Text = String.Format("{0:0.000}", SystemData_Axis.MPMotionData[i].Speed[(int)EMotorSpeed.AUTO_SLOW].Dec);
+                GridCtrl[i + 1, 17].Text = String.Format("{0:0.000}", SystemData_Axis.MPMotionData[i].Speed[(int)EMotorSpeed.AUTO_FAST].Dec);
+                GridCtrl[i + 1, 18].Text = String.Format("{0:0.000}", SystemData_Axis.MPMotionData[i].Speed[(int)EMotorSpeed.JOG_SLOW].Dec);
+                GridCtrl[i + 1, 19].Text = String.Format("{0:0.000}", SystemData_Axis.MPMotionData[i].Speed[(int)EMotorSpeed.JOG_FAST].Dec);
 
                 // S/W Limit
-                GridCtrl[i + 1, 20].Text = Convert.ToString(SystemData_Axis.MPMotionData[i].PosLimit.Plus);
-                GridCtrl[i + 1, 21].Text = Convert.ToString(SystemData_Axis.MPMotionData[i].PosLimit.Minus);
+                GridCtrl[i + 1, 20].Text = String.Format("{0:0.000}", SystemData_Axis.MPMotionData[i].PosLimit.Plus);
+                GridCtrl[i + 1, 21].Text = String.Format("{0:0.000}", SystemData_Axis.MPMotionData[i].PosLimit.Minus);
 
                 // Limit Time
-                GridCtrl[i + 1, 22].Text = Convert.ToString(SystemData_Axis.MPMotionData[i].TimeLimit.tMoveLimit);
-                GridCtrl[i + 1, 23].Text = Convert.ToString(SystemData_Axis.MPMotionData[i].TimeLimit.tSleepAfterMove);
-                GridCtrl[i + 1, 24].Text = Convert.ToString(SystemData_Axis.MPMotionData[i].TimeLimit.tOriginLimit);
+                GridCtrl[i + 1, 22].Text = String.Format("{0:0.000}", SystemData_Axis.MPMotionData[i].TimeLimit.tMoveLimit);
+                GridCtrl[i + 1, 23].Text = String.Format("{0:0.000}", SystemData_Axis.MPMotionData[i].TimeLimit.tSleepAfterMove);
+                GridCtrl[i + 1, 24].Text = String.Format("{0:0.000}", SystemData_Axis.MPMotionData[i].TimeLimit.tOriginLimit);
 
                 // Home Option
-                GridCtrl[i + 1, 25].Text = Convert.ToString(SystemData_Axis.MPMotionData[i].OriginData.Method);
-                GridCtrl[i + 1, 26].Text = Convert.ToString(SystemData_Axis.MPMotionData[i].OriginData.Dir);
-                GridCtrl[i + 1, 27].Text = Convert.ToString(SystemData_Axis.MPMotionData[i].OriginData.FastSpeed);
-                GridCtrl[i + 1, 28].Text = Convert.ToString(SystemData_Axis.MPMotionData[i].OriginData.SlowSpeed);
-                GridCtrl[i + 1, 29].Text = Convert.ToString(SystemData_Axis.MPMotionData[i].OriginData.HomeOffset);
+                GridCtrl[i + 1, 25].Text = String.Format("{0:0.000}", SystemData_Axis.MPMotionData[i].OriginData.Method);
+                GridCtrl[i + 1, 26].Text = String.Format("{0:0.000}", SystemData_Axis.MPMotionData[i].OriginData.Dir);
+                GridCtrl[i + 1, 27].Text = String.Format("{0:0.000}", SystemData_Axis.MPMotionData[i].OriginData.FastSpeed);
+                GridCtrl[i + 1, 28].Text = String.Format("{0:0.000}", SystemData_Axis.MPMotionData[i].OriginData.SlowSpeed);
+                GridCtrl[i + 1, 29].Text = String.Format("{0:0.000}", SystemData_Axis.MPMotionData[i].OriginData.HomeOffset);
             }
 
             // ACS
@@ -232,47 +232,47 @@ namespace LWDicer.UI
                 
 
                 // Speed
-                GridCtrl[gridIndex + (int)EYMC_Axis.MAX, 2].Text = Convert.ToString(SystemData_Axis.ACSMotionData[i].Speed[(int)EMotorSpeed.MANUAL_SLOW].Vel);
-                GridCtrl[gridIndex + (int)EYMC_Axis.MAX, 3].Text = Convert.ToString(SystemData_Axis.ACSMotionData[i].Speed[(int)EMotorSpeed.MANUAL_FAST].Vel);
-                GridCtrl[gridIndex + (int)EYMC_Axis.MAX, 4].Text = Convert.ToString(SystemData_Axis.ACSMotionData[i].Speed[(int)EMotorSpeed.AUTO_SLOW].Vel);
-                GridCtrl[gridIndex + (int)EYMC_Axis.MAX, 5].Text = Convert.ToString(SystemData_Axis.ACSMotionData[i].Speed[(int)EMotorSpeed.AUTO_FAST].Vel);
-                GridCtrl[gridIndex + (int)EYMC_Axis.MAX, 6].Text = Convert.ToString(SystemData_Axis.ACSMotionData[i].Speed[(int)EMotorSpeed.JOG_SLOW].Vel);
-                GridCtrl[gridIndex + (int)EYMC_Axis.MAX, 7].Text = Convert.ToString(SystemData_Axis.ACSMotionData[i].Speed[(int)EMotorSpeed.JOG_FAST].Vel);
+                GridCtrl[gridIndex + (int)EYMC_Axis.MAX, 2].Text = String.Format("{0:0.000}", SystemData_Axis.ACSMotionData[i].Speed[(int)EMotorSpeed.MANUAL_SLOW].Vel);
+                GridCtrl[gridIndex + (int)EYMC_Axis.MAX, 3].Text = String.Format("{0:0.000}", SystemData_Axis.ACSMotionData[i].Speed[(int)EMotorSpeed.MANUAL_FAST].Vel);
+                GridCtrl[gridIndex + (int)EYMC_Axis.MAX, 4].Text = String.Format("{0:0.000}", SystemData_Axis.ACSMotionData[i].Speed[(int)EMotorSpeed.AUTO_SLOW].Vel);
+                GridCtrl[gridIndex + (int)EYMC_Axis.MAX, 5].Text = String.Format("{0:0.000}", SystemData_Axis.ACSMotionData[i].Speed[(int)EMotorSpeed.AUTO_FAST].Vel);
+                GridCtrl[gridIndex + (int)EYMC_Axis.MAX, 6].Text = String.Format("{0:0.000}", SystemData_Axis.ACSMotionData[i].Speed[(int)EMotorSpeed.JOG_SLOW].Vel);
+                GridCtrl[gridIndex + (int)EYMC_Axis.MAX, 7].Text = String.Format("{0:0.000}", SystemData_Axis.ACSMotionData[i].Speed[(int)EMotorSpeed.JOG_FAST].Vel);
 
                 // Acc
-                GridCtrl[gridIndex + (int)EYMC_Axis.MAX, 8].Text = Convert.ToString(SystemData_Axis.ACSMotionData[i].Speed[(int)EMotorSpeed.MANUAL_SLOW].Acc);
-                GridCtrl[gridIndex + (int)EYMC_Axis.MAX, 9].Text = Convert.ToString(SystemData_Axis.ACSMotionData[i].Speed[(int)EMotorSpeed.MANUAL_FAST].Acc);
-                GridCtrl[gridIndex + (int)EYMC_Axis.MAX, 10].Text = Convert.ToString(SystemData_Axis.ACSMotionData[i].Speed[(int)EMotorSpeed.AUTO_SLOW].Acc);
-                GridCtrl[gridIndex + (int)EYMC_Axis.MAX, 11].Text = Convert.ToString(SystemData_Axis.ACSMotionData[i].Speed[(int)EMotorSpeed.AUTO_FAST].Acc);
-                GridCtrl[gridIndex + (int)EYMC_Axis.MAX, 12].Text = Convert.ToString(SystemData_Axis.ACSMotionData[i].Speed[(int)EMotorSpeed.JOG_SLOW].Acc);
-                GridCtrl[gridIndex + (int)EYMC_Axis.MAX, 13].Text = Convert.ToString(SystemData_Axis.ACSMotionData[i].Speed[(int)EMotorSpeed.JOG_FAST].Acc);
+                GridCtrl[gridIndex + (int)EYMC_Axis.MAX, 8].Text = String.Format("{0:0.000}", SystemData_Axis.ACSMotionData[i].Speed[(int)EMotorSpeed.MANUAL_SLOW].Acc);
+                GridCtrl[gridIndex + (int)EYMC_Axis.MAX, 9].Text = String.Format("{0:0.000}", SystemData_Axis.ACSMotionData[i].Speed[(int)EMotorSpeed.MANUAL_FAST].Acc);
+                GridCtrl[gridIndex + (int)EYMC_Axis.MAX, 10].Text = String.Format("{0:0.000}", SystemData_Axis.ACSMotionData[i].Speed[(int)EMotorSpeed.AUTO_SLOW].Acc);
+                GridCtrl[gridIndex + (int)EYMC_Axis.MAX, 11].Text = String.Format("{0:0.000}", SystemData_Axis.ACSMotionData[i].Speed[(int)EMotorSpeed.AUTO_FAST].Acc);
+                GridCtrl[gridIndex + (int)EYMC_Axis.MAX, 12].Text = String.Format("{0:0.000}", SystemData_Axis.ACSMotionData[i].Speed[(int)EMotorSpeed.JOG_SLOW].Acc);
+                GridCtrl[gridIndex + (int)EYMC_Axis.MAX, 13].Text = String.Format("{0:0.000}", SystemData_Axis.ACSMotionData[i].Speed[(int)EMotorSpeed.JOG_FAST].Acc);
 
                 // Dec
-                GridCtrl[gridIndex + (int)EYMC_Axis.MAX, 14].Text = Convert.ToString(SystemData_Axis.ACSMotionData[i].Speed[(int)EMotorSpeed.MANUAL_SLOW].Dec);
-                GridCtrl[gridIndex + (int)EYMC_Axis.MAX, 15].Text = Convert.ToString(SystemData_Axis.ACSMotionData[i].Speed[(int)EMotorSpeed.MANUAL_FAST].Dec);
-                GridCtrl[gridIndex + (int)EYMC_Axis.MAX, 16].Text = Convert.ToString(SystemData_Axis.ACSMotionData[i].Speed[(int)EMotorSpeed.AUTO_SLOW].Dec);
-                GridCtrl[gridIndex + (int)EYMC_Axis.MAX, 17].Text = Convert.ToString(SystemData_Axis.ACSMotionData[i].Speed[(int)EMotorSpeed.AUTO_FAST].Dec);
-                GridCtrl[gridIndex + (int)EYMC_Axis.MAX, 18].Text = Convert.ToString(SystemData_Axis.ACSMotionData[i].Speed[(int)EMotorSpeed.JOG_SLOW].Dec);
-                GridCtrl[gridIndex + (int)EYMC_Axis.MAX, 19].Text = Convert.ToString(SystemData_Axis.ACSMotionData[i].Speed[(int)EMotorSpeed.JOG_FAST].Dec);
+                GridCtrl[gridIndex + (int)EYMC_Axis.MAX, 14].Text = String.Format("{0:0.000}", SystemData_Axis.ACSMotionData[i].Speed[(int)EMotorSpeed.MANUAL_SLOW].Dec);
+                GridCtrl[gridIndex + (int)EYMC_Axis.MAX, 15].Text = String.Format("{0:0.000}", SystemData_Axis.ACSMotionData[i].Speed[(int)EMotorSpeed.MANUAL_FAST].Dec);
+                GridCtrl[gridIndex + (int)EYMC_Axis.MAX, 16].Text = String.Format("{0:0.000}", SystemData_Axis.ACSMotionData[i].Speed[(int)EMotorSpeed.AUTO_SLOW].Dec);
+                GridCtrl[gridIndex + (int)EYMC_Axis.MAX, 17].Text = String.Format("{0:0.000}", SystemData_Axis.ACSMotionData[i].Speed[(int)EMotorSpeed.AUTO_FAST].Dec);
+                GridCtrl[gridIndex + (int)EYMC_Axis.MAX, 18].Text = String.Format("{0:0.000}", SystemData_Axis.ACSMotionData[i].Speed[(int)EMotorSpeed.JOG_SLOW].Dec);
+                GridCtrl[gridIndex + (int)EYMC_Axis.MAX, 19].Text = String.Format("{0:0.000}", SystemData_Axis.ACSMotionData[i].Speed[(int)EMotorSpeed.JOG_FAST].Dec);
 
                 // S/W Limit
-                GridCtrl[gridIndex + (int)EYMC_Axis.MAX, 20].Text = Convert.ToString(SystemData_Axis.ACSMotionData[i].PosLimit.Plus);
-                GridCtrl[gridIndex + (int)EYMC_Axis.MAX, 21].Text = Convert.ToString(SystemData_Axis.ACSMotionData[i].PosLimit.Minus);
+                GridCtrl[gridIndex + (int)EYMC_Axis.MAX, 20].Text = String.Format("{0:0.000}", SystemData_Axis.ACSMotionData[i].PosLimit.Plus);
+                GridCtrl[gridIndex + (int)EYMC_Axis.MAX, 21].Text = String.Format("{0:0.000}", SystemData_Axis.ACSMotionData[i].PosLimit.Minus);
 
                 // Limit Time
-                GridCtrl[gridIndex + (int)EYMC_Axis.MAX, 22].Text = Convert.ToString(SystemData_Axis.ACSMotionData[i].TimeLimit.tMoveLimit);
-                GridCtrl[gridIndex + (int)EYMC_Axis.MAX, 23].Text = Convert.ToString(SystemData_Axis.ACSMotionData[i].TimeLimit.tSleepAfterMove);
-                GridCtrl[gridIndex + (int)EYMC_Axis.MAX, 24].Text = Convert.ToString(SystemData_Axis.ACSMotionData[i].TimeLimit.tOriginLimit);
+                GridCtrl[gridIndex + (int)EYMC_Axis.MAX, 22].Text = String.Format("{0:0.000}", SystemData_Axis.ACSMotionData[i].TimeLimit.tMoveLimit);
+                GridCtrl[gridIndex + (int)EYMC_Axis.MAX, 23].Text = String.Format("{0:0.000}", SystemData_Axis.ACSMotionData[i].TimeLimit.tSleepAfterMove);
+                GridCtrl[gridIndex + (int)EYMC_Axis.MAX, 24].Text = String.Format("{0:0.000}", SystemData_Axis.ACSMotionData[i].TimeLimit.tOriginLimit);
 
 
                 gridIndex++;
 
                 // Home Option
-                //GridMotorPara[i + 17, 25].Text = Convert.ToString(SystemData_Axis.ACSMotionData[i].OriginData.Method);
-                //GridMotorPara[i + 17, 26].Text = Convert.ToString(SystemData_Axis.ACSMotionData[i].OriginData.Dir);
-                //GridMotorPara[i + 17, 27].Text = Convert.ToString(SystemData_Axis.ACSMotionData[i].OriginData.FastSpeed);
-                //GridMotorPara[i + 17, 28].Text = Convert.ToString(SystemData_Axis.ACSMotionData[i].OriginData.SlowSpeed);
-                //GridMotorPara[i + 17, 29].Text = Convert.ToString(SystemData_Axis.ACSMotionData[i].OriginData.HomeOffset);
+                //GridMotorPara[i + 17, 25].Text = String.Format("{0:0.000}", SystemData_Axis.ACSMotionData[i].OriginData.Method);
+                //GridMotorPara[i + 17, 26].Text = String.Format("{0:0.000}", SystemData_Axis.ACSMotionData[i].OriginData.Dir);
+                //GridMotorPara[i + 17, 27].Text = String.Format("{0:0.000}", SystemData_Axis.ACSMotionData[i].OriginData.FastSpeed);
+                //GridMotorPara[i + 17, 28].Text = String.Format("{0:0.000}", SystemData_Axis.ACSMotionData[i].OriginData.SlowSpeed);
+                //GridMotorPara[i + 17, 29].Text = String.Format("{0:0.000}", SystemData_Axis.ACSMotionData[i].OriginData.HomeOffset);
             }
 
             for (i = 0; i < 19; i++)

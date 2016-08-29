@@ -320,6 +320,17 @@ CSpinStep class -> CCleanStep / CCoatStep class 로 분리
 2. MOpPanel 쪽 io 일부 할당 및 ctrl class moving function test 시작
 3. CAlarmInfo, CMessageInfo, CParaInfo classes : IsEqual 함수 추가 및 db에 저장시 쓸모없는 값 및 중복 제거
 
+// Version : 0.0.31
+// Grade : ★
+// Date : 160824~160826
+// Context
+1. MCtrlLoader Teaching Form에서 목표위치로 이동 명령 및 Jog Motion 관련하여 관련 class 및 MYaskawa class 수정
+2. Yasakawa Jog Motion 시에 button 누르고 있을때 jog 계속 이동 및 abs move 시에 stop버튼 활성화
+3. LimitSensor form에서 서보 상태 표시에 컬러 추가
+4. Form Dialog의 timer를 100 -> 10ms 으로 변경. define UITimerInterval
+5. LWDicer.Control -> LWDicer.Layers 로 namespace changed
+6. Teaching Form의 display position 및 data display 할 때, .Text = Convert.ToString -> .Text = String.Format("{0:0.000}", 으로 적용
+
 ////////////////////////////////////////////////////////////////////////////////////////////
 // LJJ
 // Version : 0.0.1

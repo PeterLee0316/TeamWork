@@ -5,12 +5,12 @@ using System.Text;
 using System.Threading.Tasks;
 using MotionYMC;
 
-using static LWDicer.Control.DEF_Common;
-using static LWDicer.Control.DEF_Error;
-using static LWDicer.Control.DEF_Motion;
-using static LWDicer.Control.DEF_MMCMMI;
+using static LWDicer.Layers.DEF_Common;
+using static LWDicer.Layers.DEF_Error;
+using static LWDicer.Layers.DEF_Motion;
+using static LWDicer.Layers.DEF_MMCMMI;
 
-namespace LWDicer.Control
+namespace LWDicer.Layers
 {
     class MMotion_MMC : MObject
     {

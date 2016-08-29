@@ -6,9 +6,9 @@ using System.Text;
 using System.Net;
 using System.Net.Sockets;
 
-using static LWDicer.Control.DEF_SocketClient;
+using static LWDicer.Layers.DEF_SocketClient;
 
-namespace LWDicer.Control
+namespace LWDicer.Layers
 {
     public class DEF_SocketClient
     {

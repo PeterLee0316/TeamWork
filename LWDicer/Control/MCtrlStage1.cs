@@ -6,18 +6,18 @@ using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
 
-using static LWDicer.Control.DEF_System;
-using static LWDicer.Control.DEF_Error;
-using static LWDicer.Control.DEF_Common;
-using static LWDicer.Control.DEF_Vision;
-using static LWDicer.Control.DEF_MeStage;
-using static LWDicer.Control.DEF_CtrlStage;
-using static LWDicer.Control.DEF_DataManager;
+using static LWDicer.Layers.DEF_System;
+using static LWDicer.Layers.DEF_Error;
+using static LWDicer.Layers.DEF_Common;
+using static LWDicer.Layers.DEF_Vision;
+using static LWDicer.Layers.DEF_MeStage;
+using static LWDicer.Layers.DEF_CtrlStage;
+using static LWDicer.Layers.DEF_DataManager;
 using LWDicer.UI;
 
-using static LWDicer.Control.MTickTimer.ETimeType;
+using static LWDicer.Layers.MTickTimer.ETimeType;
 
-namespace LWDicer.Control
+namespace LWDicer.Layers
 {
     public class DEF_CtrlStage
     {

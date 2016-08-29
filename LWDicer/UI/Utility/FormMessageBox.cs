@@ -7,15 +7,15 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
-using LWDicer.Control;
+using LWDicer.Layers;
 
-using static LWDicer.Control.DEF_Common;
+using static LWDicer.Layers.DEF_Common;
 
-using static LWDicer.Control.MDataManager;
+using static LWDicer.Layers.MDataManager;
 
-using static LWDicer.Control.DEF_DataManager;
+using static LWDicer.Layers.DEF_DataManager;
 
-using static LWDicer.Control.DEF_Error;
+using static LWDicer.Layers.DEF_Error;
 
 namespace LWDicer.UI
 {

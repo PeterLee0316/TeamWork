@@ -10,16 +10,16 @@ using System.IO;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 
-using LWDicer.Control;
+using LWDicer.Layers;
 
 using Syncfusion.Windows.Forms;
 using Syncfusion.Windows.Forms.Tools;
 using Syncfusion.Windows.Forms.Grid;
 
-using static LWDicer.Control.DEF_Common;
-using static LWDicer.Control.DEF_Error;
-using static LWDicer.Control.MDataManager;
-using static LWDicer.Control.DEF_DataManager;
+using static LWDicer.Layers.DEF_Common;
+using static LWDicer.Layers.DEF_Error;
+using static LWDicer.Layers.MDataManager;
+using static LWDicer.Layers.DEF_DataManager;
 
 namespace LWDicer.UI
 {
@@ -303,15 +303,15 @@ namespace LWDicer.UI
                     break;
                 }
 
-                GridCont[i + 1, 0].Text = Convert.ToString(nIndex);
+                GridCont[i + 1, 0].Text = String.Format("{0:0.000}", nIndex);
                 if(LogType == ELogDisplayType.DEVELOPER || LogType == ELogDisplayType.EVENT)
                 {
-                    GridCont[i + 1, 1].Text = Convert.ToString(datatable.Rows[nIndex]["Time"].ToString());
-                    GridCont[i + 1, 2].Text = Convert.ToString(datatable.Rows[nIndex]["Name"].ToString());
-                    GridCont[i + 1, 3].Text = Convert.ToString(datatable.Rows[nIndex]["Type"].ToString());
-                    GridCont[i + 1, 4].Text = Convert.ToString(datatable.Rows[nIndex]["Comment"].ToString());
-                    GridCont[i + 1, 5].Text = Convert.ToString(datatable.Rows[nIndex]["File"].ToString());
-                    GridCont[i + 1, 6].Text = Convert.ToString(datatable.Rows[nIndex]["Line"].ToString());
+                    GridCont[i + 1, 1].Text = String.Format("{0:0.000}", datatable.Rows[nIndex]["Time"].ToString());
+                    GridCont[i + 1, 2].Text = String.Format("{0:0.000}", datatable.Rows[nIndex]["Name"].ToString());
+                    GridCont[i + 1, 3].Text = String.Format("{0:0.000}", datatable.Rows[nIndex]["Type"].ToString());
+                    GridCont[i + 1, 4].Text = String.Format("{0:0.000}", datatable.Rows[nIndex]["Comment"].ToString());
+                    GridCont[i + 1, 5].Text = String.Format("{0:0.000}", datatable.Rows[nIndex]["File"].ToString());
+                    GridCont[i + 1, 6].Text = String.Format("{0:0.000}", datatable.Rows[nIndex]["Line"].ToString());
 
                     GridCont[i + 1, 0].VerticalAlignment = GridVerticalAlignment.Middle;
                     GridCont[i + 1, 0].HorizontalAlignment = GridHorizontalAlignment.Center;
@@ -328,11 +328,11 @@ namespace LWDicer.UI
                 }
                 else if (LogType == ELogDisplayType.LOGIN)
                 {
-                    GridCont[i + 1, 1].Text = Convert.ToString(datatable.Rows[nIndex]["accesstime"].ToString());
-                    GridCont[i + 1, 2].Text = Convert.ToString(datatable.Rows[nIndex]["accesstype"].ToString());
-                    GridCont[i + 1, 3].Text = Convert.ToString(datatable.Rows[nIndex]["name"].ToString());
-                    GridCont[i + 1, 4].Text = Convert.ToString(datatable.Rows[nIndex]["Comment"].ToString());
-                    GridCont[i + 1, 5].Text = Convert.ToString(datatable.Rows[nIndex]["type"].ToString());
+                    GridCont[i + 1, 1].Text = String.Format("{0:0.000}", datatable.Rows[nIndex]["accesstime"].ToString());
+                    GridCont[i + 1, 2].Text = String.Format("{0:0.000}", datatable.Rows[nIndex]["accesstype"].ToString());
+                    GridCont[i + 1, 3].Text = String.Format("{0:0.000}", datatable.Rows[nIndex]["name"].ToString());
+                    GridCont[i + 1, 4].Text = String.Format("{0:0.000}", datatable.Rows[nIndex]["Comment"].ToString());
+                    GridCont[i + 1, 5].Text = String.Format("{0:0.000}", datatable.Rows[nIndex]["type"].ToString());
 
                     GridCont[i + 1, 0].VerticalAlignment = GridVerticalAlignment.Middle;
                     GridCont[i + 1, 0].HorizontalAlignment = GridHorizontalAlignment.Center;
@@ -349,14 +349,14 @@ namespace LWDicer.UI
                 else if (LogType == ELogDisplayType.ALARM)
                 {
                     CAlarm alarm = JsonConvert.DeserializeObject<CAlarm>(datatable.Rows[nIndex]["data"].ToString());
-                    GridCont[i + 1, 1].Text = Convert.ToString(alarm.ProcessName);
-                    GridCont[i + 1, 2].Text = Convert.ToString(alarm.ObjectName);
-                    GridCont[i + 1, 3].Text = Convert.ToString(alarm.Info.Index);
-                    GridCont[i + 1, 4].Text = Convert.ToString(alarm.Info.Type);
-                    GridCont[i + 1, 5].Text = Convert.ToString(alarm.OccurTime);
-                    GridCont[i + 1, 6].Text = Convert.ToString(alarm.ResetTime);
-                    GridCont[i + 1, 7].Text = Convert.ToString(alarm.Info.Description[(int)CMainFrame.LWDicer.m_DataManager.SystemData.Language]);
-                    GridCont[i + 1, 8].Text = Convert.ToString(alarm.ProcessID);
+                    GridCont[i + 1, 1].Text = String.Format("{0:0.000}", alarm.ProcessName);
+                    GridCont[i + 1, 2].Text = String.Format("{0:0.000}", alarm.ObjectName);
+                    GridCont[i + 1, 3].Text = String.Format("{0:0.000}", alarm.Info.Index);
+                    GridCont[i + 1, 4].Text = String.Format("{0:0.000}", alarm.Info.Type);
+                    GridCont[i + 1, 5].Text = String.Format("{0:0.000}", alarm.OccurTime);
+                    GridCont[i + 1, 6].Text = String.Format("{0:0.000}", alarm.ResetTime);
+                    GridCont[i + 1, 7].Text = String.Format("{0:0.000}", alarm.Info.Description[(int)CMainFrame.LWDicer.m_DataManager.SystemData.Language]);
+                    GridCont[i + 1, 8].Text = String.Format("{0:0.000}", alarm.ProcessID);
 
                     GridCont[i + 1, 0].VerticalAlignment = GridVerticalAlignment.Middle;
                     GridCont[i + 1, 0].HorizontalAlignment = GridHorizontalAlignment.Center;

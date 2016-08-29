@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 using System.Diagnostics;
 using MotionYMC;
 
-using static LWDicer.Control.DEF_Common;
-using static LWDicer.Control.DEF_Error;
-using static LWDicer.Control.DEF_IO;
+using static LWDicer.Layers.DEF_Common;
+using static LWDicer.Layers.DEF_Error;
+using static LWDicer.Layers.DEF_IO;
 
-namespace LWDicer.Control
+namespace LWDicer.Layers
 {
     public class MIO_YMC : MObject, IIO
     {
@@ -238,7 +238,7 @@ namespace LWDicer.Control
         public int IsOn(int addr, out bool bStatus)
         {
             bStatus = false;
-            if(INPUT_ORIGIN <= addr && addr <= OUTPUT_END)
+            if (addr < INPUT_ORIGIN || addr > OUTPUT_END)
                 return GenerateErrorCode(ERR_IO_ADDRESS_INVALID);
 
             bool bTemp;
@@ -253,7 +253,7 @@ namespace LWDicer.Control
         public int IsOff(int addr, out bool bStatus)
         {
             bStatus = false;
-            if (INPUT_ORIGIN <= addr && addr <= OUTPUT_END)
+            if (addr < INPUT_ORIGIN || addr > OUTPUT_END)
                 return GenerateErrorCode(ERR_IO_ADDRESS_INVALID);
 
             bool bTemp;
@@ -271,7 +271,7 @@ namespace LWDicer.Control
 #if SIMULATION_IO
             return SUCCESS;
 #endif
-            if (INPUT_ORIGIN <= addr && addr <= OUTPUT_END)
+            if (addr < INPUT_ORIGIN || addr > OUTPUT_END)
                 return GenerateErrorCode(ERR_IO_ADDRESS_INVALID);
 
             Debug.Assert(INPUT_ORIGIN <= addr && addr <= OUTPUT_END);

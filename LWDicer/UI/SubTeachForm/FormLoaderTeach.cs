@@ -8,21 +8,23 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-using LWDicer.Control;
-using static LWDicer.Control.DEF_Motion;
-using static LWDicer.Control.MYaskawa;
+using LWDicer.Layers;
 
-using static LWDicer.Control.DEF_Thread;
-using static LWDicer.Control.DEF_MeHandler;
-using static LWDicer.Control.DEF_MeElevator;
-using static LWDicer.Control.DEF_MePushPull;
-using static LWDicer.Control.DEF_MeSpinner;
-using static LWDicer.Control.DEF_MeStage;
+using static LWDicer.Layers.DEF_System;
+using static LWDicer.Layers.DEF_Common;
 
-using static LWDicer.Control.DEF_System;
+using static LWDicer.Layers.DEF_Motion;
+using static LWDicer.Layers.MYaskawa;
 
-using static LWDicer.Control.DEF_Yaskawa;
-using static LWDicer.Control.DEF_ACS;
+using static LWDicer.Layers.DEF_Thread;
+using static LWDicer.Layers.DEF_MeHandler;
+using static LWDicer.Layers.DEF_MeElevator;
+using static LWDicer.Layers.DEF_MePushPull;
+using static LWDicer.Layers.DEF_MeSpinner;
+using static LWDicer.Layers.DEF_MeStage;
+
+using static LWDicer.Layers.DEF_Yaskawa;
+using static LWDicer.Layers.DEF_ACS;
 
 using MotionYMC;
 
@@ -67,7 +69,7 @@ namespace LWDicer.UI
             UpdateTeachPos(0);
 
             TmrTeach.Enabled = true;
-            TmrTeach.Interval = 100;
+            TmrTeach.Interval = UITimerInterval;
             TmrTeach.Start();
         }
 
@@ -275,16 +277,16 @@ namespace LWDicer.UI
             {
                 dOtherSum += Convert.ToDouble(GridTeachTable[6, index].Text); // Offset Pos
                 double dPos = dTargetPos - dOtherSum;
-                GridTeachTable[2, index].Text = Convert.ToString(dTargetPos);
-                GridTeachTable[3, index].Text = Convert.ToString(dPos);
+                GridTeachTable[2, index].Text = String.Format("{0:0.000}", dTargetPos);
+                GridTeachTable[3, index].Text = String.Format("{0:0.000}", dPos);
                 GridTeachTable[3, index].TextColor = Color.Blue;
             }
             else
             {
                 dOtherSum += Convert.ToDouble(GridTeachTable[3, index].Text); // Fixed Pos
                 double dPos = dTargetPos - dOtherSum;
-                GridTeachTable[2, index].Text = Convert.ToString(dTargetPos);
-                GridTeachTable[6, index].Text = Convert.ToString(dPos);
+                GridTeachTable[2, index].Text = String.Format("{0:0.000}", dTargetPos);
+                GridTeachTable[6, index].Text = String.Format("{0:0.000}", dPos);
                 GridTeachTable[6, index].TextColor = Color.Blue;
             }
         }
@@ -320,7 +322,7 @@ namespace LWDicer.UI
             // Current Position Display
             string strCurPos = string.Empty;
 
-            strCurPos = Convert.ToString(CMainFrame.LWDicer.m_YMC.ServoStatus[(int)EYMC_Axis.LOADER_Z].EncoderPos);
+            strCurPos = String.Format("{0:0.000}", CMainFrame.LWDicer.m_YMC.ServoStatus[(int)EYMC_Axis.LOADER_Z].EncoderPos);
             GridTeachTable[7, 1].Text = strCurPos;
 
             // 보정값 Display
@@ -330,13 +332,13 @@ namespace LWDicer.UI
             dTargetPos = Convert.ToDouble(GridTeachTable[2, 1].Text);
             dValue = dTargetPos - dCurPos;
 
-            GridTeachTable[8, 1].Text = Convert.ToString(dValue);
+            GridTeachTable[8, 1].Text = String.Format("{0:0.000}", dValue);
         }
 
         private void DisplayPos()
         {
             string str;
-            double dFixedPos = 0, dOffsetPos = 0, dTargetPos = 0, dModelPos = 0, dAlignOffset;
+            double dFixedPos, dOffsetPos, dTargetPos, dModelPos, dAlignOffset;
             int index = m_nSelectedPos;
 
             dFixedPos = movingObject.FixedPos.Pos[index].dZ;
@@ -346,11 +348,11 @@ namespace LWDicer.UI
 
             dTargetPos = dFixedPos + dOffsetPos + dModelPos + dAlignOffset;
 
-            GridTeachTable[2, 1].Text = Convert.ToString(dTargetPos);
-            GridTeachTable[3, 1].Text = Convert.ToString(dFixedPos);
-            GridTeachTable[4, 1].Text = Convert.ToString(dModelPos);
-            GridTeachTable[5, 1].Text = Convert.ToString(dAlignOffset);
-            GridTeachTable[6, 1].Text = Convert.ToString(dOffsetPos);
+            GridTeachTable[2, 1].Text = String.Format("{0:0.000}", dTargetPos);
+            GridTeachTable[3, 1].Text = String.Format("{0:0.000}", dFixedPos);
+            GridTeachTable[4, 1].Text = String.Format("{0:0.000}", dModelPos);
+            GridTeachTable[5, 1].Text = String.Format("{0:0.000}", dAlignOffset);
+            GridTeachTable[6, 1].Text = String.Format("{0:0.000}", dOffsetPos);
         }
 
         private void BtnChangeValue_Click(object sender, EventArgs e)
@@ -378,6 +380,19 @@ namespace LWDicer.UI
                 case (int)EElevatorPos.BOTTOM:
                     iResult = CMainFrame.LWDicer.m_ctrlLoader.MoveToBottomPos(false);
                     break;
+                case (int)EElevatorPos.LOAD:
+                    iResult = CMainFrame.LWDicer.m_ctrlLoader.MoveToLoadPos();
+                    break;
+                case (int)EElevatorPos.TOP:
+                    iResult = CMainFrame.LWDicer.m_ctrlLoader.MoveToTopPos();
+                    break;
+                case (int)EElevatorPos.SAFETY:
+                    iResult = CMainFrame.LWDicer.m_ctrlLoader.MoveToSafetyPos();
+                    break;
+                case (int)EElevatorPos.SLOT:
+                    iResult = CMainFrame.LWDicer.m_ctrlLoader.MoveToSlotPos();
+                    break;
+
             }
             CMainFrame.DisplayAlarm(iResult);
         }

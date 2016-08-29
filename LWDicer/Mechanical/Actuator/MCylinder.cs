@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-using static LWDicer.Control.DEF_Common;
-using static LWDicer.Control.DEF_Error;
-using static LWDicer.Control.DEF_IO;
-using static LWDicer.Control.DEF_Cylinder;
-using static LWDicer.Control.DEF_Cylinder.ECylinderTime;
-using static LWDicer.Control.DEF_Cylinder.ESolenoidType;
+using static LWDicer.Layers.DEF_Common;
+using static LWDicer.Layers.DEF_Error;
+using static LWDicer.Layers.DEF_IO;
+using static LWDicer.Layers.DEF_Cylinder;
+using static LWDicer.Layers.DEF_Cylinder.ECylinderTime;
+using static LWDicer.Layers.DEF_Cylinder.ESolenoidType;
 
-namespace LWDicer.Control
+namespace LWDicer.Layers
 {
     public class MCylinder : MObject, ICylinder
     {

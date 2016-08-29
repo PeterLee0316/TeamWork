@@ -6,7 +6,10 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using LWDicer.Control;
+
+using LWDicer.Layers;
+using static LWDicer.Layers.DEF_System;
+using static LWDicer.Layers.DEF_Common;
 
 namespace LWDicer.UI
 {
@@ -30,7 +33,7 @@ namespace LWDicer.UI
             this.Size = new Size(DEF_UI.TOP_SIZE_WIDTH, DEF_UI.TOP_SIZE_HEIGHT);
             this.FormBorderStyle = FormBorderStyle.None;
 
-            tmFormTop.Interval = 1000;
+            tmFormTop.Interval = UITimerInterval;
             tmFormTop.Enabled = true;
             tmFormTop.Start();
         }

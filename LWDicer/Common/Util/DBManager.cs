@@ -9,7 +9,7 @@ using System.Data.SQLite;
 using System.Data.SQLite.Linq;
 using System.IO;
 
-namespace LWDicer.Control
+namespace LWDicer.Layers
 {
     public class CDBColumn
     {

@@ -10,48 +10,48 @@ using System.Windows.Forms;
 using LWDicer.UI;
 using MotionYMC;
 
-using static LWDicer.Control.DEF_System;
-using static LWDicer.Control.DEF_Common;
-using static LWDicer.Control.DEF_Error;
-using static LWDicer.Control.DEF_IO;
+using static LWDicer.Layers.DEF_System;
+using static LWDicer.Layers.DEF_Common;
+using static LWDicer.Layers.DEF_Error;
+using static LWDicer.Layers.DEF_IO;
 
-using static LWDicer.Control.DEF_OpPanel;
-using static LWDicer.Control.DEF_Thread;
-using static LWDicer.Control.DEF_DataManager;
-using static LWDicer.Control.DEF_LCNet;
-using static LWDicer.Control.DEF_SocketClient;
+using static LWDicer.Layers.DEF_OpPanel;
+using static LWDicer.Layers.DEF_Thread;
+using static LWDicer.Layers.DEF_DataManager;
+using static LWDicer.Layers.DEF_LCNet;
+using static LWDicer.Layers.DEF_SocketClient;
 
-using static LWDicer.Control.DEF_Motion;
-using static LWDicer.Control.DEF_Yaskawa;
-using static LWDicer.Control.DEF_ACS;
-using static LWDicer.Control.DEF_MultiAxesYMC;
-using static LWDicer.Control.DEF_MultiAxesACS;
-using static LWDicer.Control.DEF_Cylinder;
-using static LWDicer.Control.DEF_Vacuum;
-using static LWDicer.Control.DEF_Vision;
-using static LWDicer.Control.DEF_Polygon;
+using static LWDicer.Layers.DEF_Motion;
+using static LWDicer.Layers.DEF_Yaskawa;
+using static LWDicer.Layers.DEF_ACS;
+using static LWDicer.Layers.DEF_MultiAxesYMC;
+using static LWDicer.Layers.DEF_MultiAxesACS;
+using static LWDicer.Layers.DEF_Cylinder;
+using static LWDicer.Layers.DEF_Vacuum;
+using static LWDicer.Layers.DEF_Vision;
+using static LWDicer.Layers.DEF_Polygon;
 
-using static LWDicer.Control.DEF_OpPanel;
-using static LWDicer.Control.DEF_MeElevator;
-using static LWDicer.Control.DEF_MeHandler;
-using static LWDicer.Control.DEF_MeStage;
-using static LWDicer.Control.DEF_MePushPull;
-using static LWDicer.Control.DEF_SerialPort;
-using static LWDicer.Control.DEF_MeSpinner;
+using static LWDicer.Layers.DEF_OpPanel;
+using static LWDicer.Layers.DEF_MeElevator;
+using static LWDicer.Layers.DEF_MeHandler;
+using static LWDicer.Layers.DEF_MeStage;
+using static LWDicer.Layers.DEF_MePushPull;
+using static LWDicer.Layers.DEF_SerialPort;
+using static LWDicer.Layers.DEF_MeSpinner;
 
-using static LWDicer.Control.DEF_CtrlOpPanel;
-using static LWDicer.Control.DEF_CtrlHandler;
-using static LWDicer.Control.DEF_CtrlSpinner;
-using static LWDicer.Control.DEF_CtrlPushPull;
-using static LWDicer.Control.DEF_CtrlLoader;
-using static LWDicer.Control.DEF_CtrlStage;
+using static LWDicer.Layers.DEF_CtrlOpPanel;
+using static LWDicer.Layers.DEF_CtrlHandler;
+using static LWDicer.Layers.DEF_CtrlSpinner;
+using static LWDicer.Layers.DEF_CtrlPushPull;
+using static LWDicer.Layers.DEF_CtrlLoader;
+using static LWDicer.Layers.DEF_CtrlStage;
 
-using static LWDicer.Control.DEF_TrsAutoManager;
+using static LWDicer.Layers.DEF_TrsAutoManager;
 
 
-//using static LWDicer.Control.DEF_Thread.EThreadChannel;
+//using static LWDicer.Layers.DEF_Thread.EThreadChannel;
 
-namespace LWDicer.Control
+namespace LWDicer.Layers
 {
     public class MLWDicer : MObject, IDisposable
     {

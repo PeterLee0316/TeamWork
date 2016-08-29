@@ -4,13 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using static LWDicer.Control.DEF_DataManager;
-using static LWDicer.Control.DEF_Error;
-using static LWDicer.Control.DEF_Common;
-using static LWDicer.Control.DEF_Thread;
-using static LWDicer.Control.DEF_CtrlSpinner;
+using static LWDicer.Layers.DEF_DataManager;
+using static LWDicer.Layers.DEF_Error;
+using static LWDicer.Layers.DEF_Common;
+using static LWDicer.Layers.DEF_Thread;
+using static LWDicer.Layers.DEF_CtrlSpinner;
 
-namespace LWDicer.Control
+namespace LWDicer.Layers
 {
     public class DEF_CtrlSpinner
     {

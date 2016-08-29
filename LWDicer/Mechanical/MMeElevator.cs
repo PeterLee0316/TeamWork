@@ -4,15 +4,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using static LWDicer.Control.DEF_Error;
-using static LWDicer.Control.DEF_Common;
-using static LWDicer.Control.DEF_MeElevator;
-using static LWDicer.Control.DEF_Motion;
-using static LWDicer.Control.DEF_IO;
-using static LWDicer.Control.DEF_Vacuum;
-using static LWDicer.Control.DEF_DataManager;
+using static LWDicer.Layers.DEF_Error;
+using static LWDicer.Layers.DEF_Common;
+using static LWDicer.Layers.DEF_MeElevator;
+using static LWDicer.Layers.DEF_Motion;
+using static LWDicer.Layers.DEF_IO;
+using static LWDicer.Layers.DEF_Vacuum;
+using static LWDicer.Layers.DEF_DataManager;
 
-namespace LWDicer.Control
+namespace LWDicer.Layers
 {
     public class DEF_MeElevator
     {
@@ -222,7 +222,8 @@ namespace LWDicer.Control
             bool bStatus = false;
             // safety check
             iResult = CheckForElevatorAxisMove(out bStatus);
-            if (iResult != SUCCESS || bStatus==false) return iResult;
+            if (iResult != SUCCESS) return iResult;
+            if (bStatus == false) return GenerateErrorCode(ERR_ELEVATOR_CASSETTE_NOT_READY);
 
             // assume move Z axis if bMoveFlag is null
             if(bMoveFlag == null)
@@ -303,6 +304,7 @@ namespace LWDicer.Control
             // Slot Position으로 가는 것이면 Slot번호와 Pitch를 곱해서 Offset을 적용한다.
             if (iPos == (int)EElevatorPos.SLOT)
             {
+                if (dMoveOffset == null) dMoveOffset = new double[DEF_XYTZ];
                 dMoveOffset[DEF_X] = 0.0;
                 dMoveOffset[DEF_Y] = 0.0;
                 dMoveOffset[DEF_T] = 0.0;
@@ -382,12 +384,21 @@ namespace LWDicer.Control
             int nPos = (int)EElevatorPos.SLOT;
             return MoveElevatorPos(nPos, Slot, bMoveAllAxis, bMoveXYT, bMoveZ);
         }
+
         public int MoveElevatorToTopPos(bool bMoveAllAxis = false, bool bMoveXYT = false, bool bMoveZ = true)
         {
             int nPos = (int)EElevatorPos.TOP;
             int Slot = 0;
             return MoveElevatorPos(nPos, Slot,bMoveAllAxis, bMoveXYT, bMoveZ);
         }
+
+        public int MoveElevatorToSafetyPos(bool bMoveAllAxis = false, bool bMoveXYT = false, bool bMoveZ = true)
+        {
+            int nPos = (int)EElevatorPos.SAFETY;
+            int Slot = 0;
+            return MoveElevatorPos(nPos, Slot, bMoveAllAxis, bMoveXYT, bMoveZ);
+        }
+
         /// <summary>
         /// 다음 Slot으로 이동함. 
         /// </summary>
@@ -406,6 +417,8 @@ namespace LWDicer.Control
             // 현재 위치를 읽어옴
             GetElevatorPosInfo(out nElevatorPos, out nCurSlotNum);
 
+            if (nElevatorPos == (int)EElevatorPos.NONE)
+                GenerateErrorCode(ERR_ELEVATOR_UNABLE_TO_USE_POSITION);
             if (nElevatorPos != (int)EElevatorPos.SLOT)
                 GenerateErrorCode(ERR_ELEVATOR_UNABLE_TO_USE_POSITION);
 
@@ -658,6 +671,9 @@ namespace LWDicer.Control
         {
             bool[] bAxisStatus;
             int iResult = m_RefComp.AxElevator.IsOriginReturned(DEF_ALL_COORDINATE, out bStatus, out bAxisStatus);
+
+            // for test
+            bStatus = true;
 
             return iResult;
         }

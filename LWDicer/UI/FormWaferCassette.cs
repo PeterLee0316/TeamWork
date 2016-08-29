@@ -8,7 +8,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-using static LWDicer.Control.DEF_DataManager;
+using static LWDicer.Layers.DEF_System;
+using static LWDicer.Layers.DEF_Common;
+using static LWDicer.Layers.DEF_DataManager;
 
 using Syncfusion.Windows.Forms;
 using Syncfusion.Windows.Forms.Grid;
@@ -25,7 +27,7 @@ namespace LWDicer.UI
             InitGrid(20);
 
             TmrCassette.Enabled = true;
-            TmrCassette.Interval = 100;
+            TmrCassette.Interval = UITimerInterval;
         }
 
         private void InitGrid(int nSlotCount)

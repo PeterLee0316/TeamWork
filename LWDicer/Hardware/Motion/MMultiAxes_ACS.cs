@@ -5,15 +5,15 @@ using System.Text;
 using System.Threading.Tasks;
 using MotionYMC;
 
-using static LWDicer.Control.DEF_System;
-using static LWDicer.Control.DEF_Common;
-using static LWDicer.Control.DEF_Error;
-using static LWDicer.Control.DEF_ACS;
-using static LWDicer.Control.DEF_IO;
-using static LWDicer.Control.DEF_Motion;
-using static LWDicer.Control.DEF_MultiAxesACS;
+using static LWDicer.Layers.DEF_System;
+using static LWDicer.Layers.DEF_Common;
+using static LWDicer.Layers.DEF_Error;
+using static LWDicer.Layers.DEF_ACS;
+using static LWDicer.Layers.DEF_IO;
+using static LWDicer.Layers.DEF_Motion;
+using static LWDicer.Layers.DEF_MultiAxesACS;
 
-namespace LWDicer.Control
+namespace LWDicer.Layers
 {
     public class DEF_MultiAxesACS
     {

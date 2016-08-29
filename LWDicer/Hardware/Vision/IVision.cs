@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.Drawing;
-using static LWDicer.Control.DEF_Vision;
+using static LWDicer.Layers.DEF_Vision;
 using Matrox.MatroxImagingLibrary;
 
-namespace LWDicer.Control
+namespace LWDicer.Layers
 {      
     public interface IVision
     {

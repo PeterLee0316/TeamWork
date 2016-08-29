@@ -12,10 +12,10 @@ using Syncfusion.Windows.Forms.Grid;
 using Syncfusion.Windows.Forms;
 using Syncfusion.Windows.Forms.Tools;
 
-using static LWDicer.Control.DEF_System;
-using static LWDicer.Control.DEF_Vacuum;
+using static LWDicer.Layers.DEF_System;
+using static LWDicer.Layers.DEF_Vacuum;
 
-using static LWDicer.Control.DEF_DataManager;
+using static LWDicer.Layers.DEF_DataManager;
 
 namespace LWDicer.UI
 {
@@ -185,9 +185,9 @@ namespace LWDicer.UI
 
             for (i = 0; i < (int)EObjectVacuum.MAX; i++)
             {
-                GridCtrl[i + 1, 1].Text = Convert.ToString(systemVacuum.VacuumTimer[i].TurningTime);
-                GridCtrl[i + 1, 2].Text = Convert.ToString(systemVacuum.VacuumTimer[i].OnSettlingTime);
-                GridCtrl[i + 1, 3].Text = Convert.ToString(systemVacuum.VacuumTimer[i].OffSettlingTime);
+                GridCtrl[i + 1, 1].Text = String.Format("{0:0.000}", systemVacuum.VacuumTimer[i].TurningTime);
+                GridCtrl[i + 1, 2].Text = String.Format("{0:0.000}", systemVacuum.VacuumTimer[i].OnSettlingTime);
+                GridCtrl[i + 1, 3].Text = String.Format("{0:0.000}", systemVacuum.VacuumTimer[i].OffSettlingTime);
 
                 for (j = 0; j < 3; j++)
                 {

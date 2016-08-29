@@ -12,10 +12,10 @@ using Syncfusion.Windows.Forms.Grid;
 using Syncfusion.Windows.Forms;
 using Syncfusion.Windows.Forms.Tools;
 
-using static LWDicer.Control.DEF_System;
-using static LWDicer.Control.DEF_Cylinder;
+using static LWDicer.Layers.DEF_System;
+using static LWDicer.Layers.DEF_Cylinder;
 
-using static LWDicer.Control.DEF_DataManager;
+using static LWDicer.Layers.DEF_DataManager;
 
 namespace LWDicer.UI
 {
@@ -187,10 +187,10 @@ namespace LWDicer.UI
 
             for (i = 0; i < (int)EObjectCylinder.MAX; i++)
             {
-                GridCtrl[i + 1, 1].Text = Convert.ToString(systemCylinder.CylinderTimer[i].MovingTime);
-                GridCtrl[i + 1, 2].Text = Convert.ToString(systemCylinder.CylinderTimer[i].SettlingTime1);
-                GridCtrl[i + 1, 3].Text = Convert.ToString(systemCylinder.CylinderTimer[i].SettlingTime2);
-                GridCtrl[i + 1, 4].Text = Convert.ToString(systemCylinder.CylinderTimer[i].NoSenMovingTime);
+                GridCtrl[i + 1, 1].Text = String.Format("{0:0.000}", systemCylinder.CylinderTimer[i].MovingTime);
+                GridCtrl[i + 1, 2].Text = String.Format("{0:0.000}", systemCylinder.CylinderTimer[i].SettlingTime1);
+                GridCtrl[i + 1, 3].Text = String.Format("{0:0.000}", systemCylinder.CylinderTimer[i].SettlingTime2);
+                GridCtrl[i + 1, 4].Text = String.Format("{0:0.000}", systemCylinder.CylinderTimer[i].NoSenMovingTime);
 
                 for (j = 0; j < 4; j++)
                 {

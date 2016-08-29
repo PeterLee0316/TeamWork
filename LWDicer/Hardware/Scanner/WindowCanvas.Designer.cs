@@ -1,4 +1,4 @@
-﻿namespace LWDicer.Control
+﻿namespace LWDicer.Layers
 {
     partial class WindowCanvas
     {

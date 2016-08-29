@@ -14,7 +14,7 @@ using System.Text;
 using System.Configuration;
 
 
-namespace LWDicer.Control
+namespace LWDicer.Layers
 {
     public class DEF_System
     {
@@ -77,7 +77,7 @@ namespace LWDicer.Control
             UPPER_HANDLER_X,
             UPPER_HANDLER_Z,
             LOWER_HANDLER_X,
-            LOWER_HANDLER_Z,
+            LOWER_HANDLER_Z,    // = 13
 
 #if EQUIP_DICING_DEV
             CAMERA1_Z,
@@ -85,6 +85,7 @@ namespace LWDicer.Control
             STAGE1_X,
             STAGE1_Y,
             STAGE1_T,
+            MAX,                 // = 19
 #endif
 #if EQUIP_266_DEV
             SCANNER_Z1,
@@ -95,8 +96,8 @@ namespace LWDicer.Control
             SCANNER_CMD,
             STAGE1_Y,
             STAGE1_T,
+            MAX,                   // = 22
 #endif
-            MAX,
         }
 
         public enum EYMC_Board
@@ -549,6 +550,7 @@ namespace LWDicer.Control
 
         //
         public const int WhileSleepTime         = 10; // while interval time
+        public const int UITimerInterval        = 10; // ui timer interval
 
         //
         public const int TRUE                   = 1;

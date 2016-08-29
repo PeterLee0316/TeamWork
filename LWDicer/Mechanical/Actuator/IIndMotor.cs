@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-using static LWDicer.Control.DEF_IndMotor;
+using static LWDicer.Layers.DEF_IndMotor;
 
-namespace LWDicer.Control
+namespace LWDicer.Layers
 {
     public class DEF_IndMotor
     {

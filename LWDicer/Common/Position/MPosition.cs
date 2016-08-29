@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Diagnostics;
 
-namespace LWDicer.Control
+namespace LWDicer.Layers
 {
     public class CPos_XY
     {
