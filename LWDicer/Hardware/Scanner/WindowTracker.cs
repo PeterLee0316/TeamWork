@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LWDicer.Control
+namespace LWDicer.Layers
 {
     class CWindowTracker
     {

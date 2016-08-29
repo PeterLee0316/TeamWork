@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-using static LWDicer.Control.DEF_Error;
-using static LWDicer.Control.DEF_Common;
-using static LWDicer.Control.DEF_System;
-using static LWDicer.Control.DEF_System.EObjectLayer;
+using static LWDicer.Layers.DEF_Error;
+using static LWDicer.Layers.DEF_Common;
+using static LWDicer.Layers.DEF_System;
+using static LWDicer.Layers.DEF_System.EObjectLayer;
 
-namespace LWDicer.Control
+namespace LWDicer.Layers
 {
     public class MSystemInfo
     {

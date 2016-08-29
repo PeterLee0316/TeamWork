@@ -1,4 +1,4 @@
-﻿using LWDicer.Control;
+﻿using LWDicer.Layers;
 
 namespace LWDicer.UI
 {

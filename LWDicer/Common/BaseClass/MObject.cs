@@ -5,10 +5,10 @@ using System.Text;
 using System.Threading;
 using System.Diagnostics;
 
-using static LWDicer.Control.DEF_Common;
-using static LWDicer.Control.DEF_Error;
+using static LWDicer.Layers.DEF_Common;
+using static LWDicer.Layers.DEF_Error;
 
-namespace LWDicer.Control
+namespace LWDicer.Layers
 {
     public abstract class MObject
     {

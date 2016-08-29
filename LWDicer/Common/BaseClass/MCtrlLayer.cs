@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using static LWDicer.Control.DEF_Thread;
-using static LWDicer.Control.DEF_Error;
-using static LWDicer.Control.DEF_Common;
+using static LWDicer.Layers.DEF_Thread;
+using static LWDicer.Layers.DEF_Error;
+using static LWDicer.Layers.DEF_Common;
 
-namespace LWDicer.Control
+namespace LWDicer.Layers
 {
     /// <summary>
     /// 해당 Layer class에서 공통된 특성을 나중에 따로 묶을수 있도록 define

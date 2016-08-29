@@ -8,11 +8,11 @@ using System.IO;
 using System.Runtime.InteropServices;
 
 
-using static LWDicer.Control.DEF_Scanner;
-using static LWDicer.Control.DEF_Common;
+using static LWDicer.Layers.DEF_Scanner;
+using static LWDicer.Layers.DEF_Common;
 using LWDicer.UI;
 
-namespace LWDicer.Control
+namespace LWDicer.Layers
 {
 
     public class DEF_Scanner

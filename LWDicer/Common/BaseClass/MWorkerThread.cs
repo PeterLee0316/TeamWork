@@ -7,15 +7,15 @@ using System.Diagnostics;
 
 using LWDicer.UI;
 
-using static LWDicer.Control.DEF_Thread;
-using static LWDicer.Control.DEF_Thread.EThreadChannel;
-using static LWDicer.Control.DEF_Thread.EThreadMessage;
-using static LWDicer.Control.DEF_Thread.EAutoRunStatus;
-using static LWDicer.Control.DEF_Error;
-using static LWDicer.Control.DEF_Common;
-using static LWDicer.Control.DEF_LCNet;
+using static LWDicer.Layers.DEF_Thread;
+using static LWDicer.Layers.DEF_Thread.EThreadChannel;
+using static LWDicer.Layers.DEF_Thread.EThreadMessage;
+using static LWDicer.Layers.DEF_Thread.EAutoRunStatus;
+using static LWDicer.Layers.DEF_Error;
+using static LWDicer.Layers.DEF_Common;
+using static LWDicer.Layers.DEF_LCNet;
 
-namespace LWDicer.Control
+namespace LWDicer.Layers
 {
     public abstract class MWorkerThread : MCmdTarget, IDisposable
     {

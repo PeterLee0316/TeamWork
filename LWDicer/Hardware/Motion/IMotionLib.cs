@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using static LWDicer.Control.DEF_Motion;
-using static LWDicer.Control.DEF_MMCMMI;
+using static LWDicer.Layers.DEF_Motion;
+using static LWDicer.Layers.DEF_MMCMMI;
 
-namespace LWDicer.Control
+namespace LWDicer.Layers
 {
     /// <summary>
     /// MMC, MMI, Yaskawa, ACS 등의 Motion Library에서 공통적으로 사용하는 자료형을 정의

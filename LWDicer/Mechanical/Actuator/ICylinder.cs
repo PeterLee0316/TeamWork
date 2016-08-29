@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Runtime.InteropServices;
 
-using static LWDicer.Control.DEF_Cylinder;
+using static LWDicer.Layers.DEF_Cylinder;
 
-namespace LWDicer.Control
+namespace LWDicer.Layers
 {
     public class DEF_Cylinder
     {

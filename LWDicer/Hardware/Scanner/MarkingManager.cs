@@ -7,11 +7,11 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms;
 
-using static LWDicer.Control.DEF_Scanner;
-using static LWDicer.Control.DEF_Common;
+using static LWDicer.Layers.DEF_Scanner;
+using static LWDicer.Layers.DEF_Common;
 
 
-namespace LWDicer.Control
+namespace LWDicer.Layers
 {
     [Serializable]
     public class CMarkingManager

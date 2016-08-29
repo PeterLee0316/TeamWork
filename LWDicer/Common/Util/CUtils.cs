@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Runtime.InteropServices;
 
-namespace LWDicer.Control
+namespace LWDicer.Layers
 {
     public static class CUtils
     {

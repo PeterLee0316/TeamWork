@@ -8,21 +8,21 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-using LWDicer.Control;
+using LWDicer.Layers;
+using static LWDicer.Layers.DEF_System;
+using static LWDicer.Layers.DEF_Common;
 
-using static LWDicer.Control.MYaskawa;
+using static LWDicer.Layers.MYaskawa;
 
-using static LWDicer.Control.DEF_Thread;
-using static LWDicer.Control.DEF_MeHandler;
-using static LWDicer.Control.DEF_MeElevator;
-using static LWDicer.Control.DEF_MePushPull;
-using static LWDicer.Control.DEF_MeSpinner;
-using static LWDicer.Control.DEF_MeStage;
+using static LWDicer.Layers.DEF_Thread;
+using static LWDicer.Layers.DEF_MeHandler;
+using static LWDicer.Layers.DEF_MeElevator;
+using static LWDicer.Layers.DEF_MePushPull;
+using static LWDicer.Layers.DEF_MeSpinner;
+using static LWDicer.Layers.DEF_MeStage;
 
-using static LWDicer.Control.DEF_System;
-
-using static LWDicer.Control.DEF_Yaskawa;
-using static LWDicer.Control.DEF_ACS;
+using static LWDicer.Layers.DEF_Yaskawa;
+using static LWDicer.Layers.DEF_ACS;
 
 using MotionYMC;
 
@@ -76,7 +76,7 @@ namespace LWDicer.UI
             UpdateCenterTeachPos(0);
 
             TmrTeach.Enabled = true;
-            TmrTeach.Interval = 100;
+            TmrTeach.Interval = UITimerInterval;
             TmrTeach.Start();
         }
 
@@ -214,7 +214,7 @@ namespace LWDicer.UI
 
             dTargetX1Pos = dFixedX1Pos + dOffsetX1Pos + dModelX1Pos + dAlignX1Offset;
 
-            GridCenterXTeachTable[2, 1].Text = Convert.ToString(dTargetX1Pos);
+            GridCenterXTeachTable[2, 1].Text = String.Format("{0:0.000}", dTargetX1Pos);
 
             dFixedX2Pos = movingCenterObject[1].FixedPos.Pos[index].dX;
             dOffsetX2Pos = movingCenterObject[1].OffsetPos.Pos[index].dX;
@@ -223,28 +223,28 @@ namespace LWDicer.UI
 
             dTargetX2Pos = dFixedX2Pos + dOffsetX2Pos + dModelX2Pos + dAlignX2Offset;
 
-            GridCenterXTeachTable[2, 2].Text = Convert.ToString(dTargetX2Pos);
+            GridCenterXTeachTable[2, 2].Text = String.Format("{0:0.000}", dTargetX2Pos);
 
             // FixedPos
-            GridCenterXTeachTable[3, 1].Text = Convert.ToString(dFixedX1Pos);
-            GridCenterXTeachTable[3, 2].Text = Convert.ToString(dFixedX2Pos);
+            GridCenterXTeachTable[3, 1].Text = String.Format("{0:0.000}", dFixedX1Pos);
+            GridCenterXTeachTable[3, 2].Text = String.Format("{0:0.000}", dFixedX2Pos);
 
             // ModelPos
-            GridCenterXTeachTable[4, 1].Text = Convert.ToString(dModelX1Pos);
-            GridCenterXTeachTable[4, 2].Text = Convert.ToString(dModelX2Pos);
+            GridCenterXTeachTable[4, 1].Text = String.Format("{0:0.000}", dModelX1Pos);
+            GridCenterXTeachTable[4, 2].Text = String.Format("{0:0.000}", dModelX2Pos);
 
             // Align Offset
-            GridCenterXTeachTable[5, 1].Text = Convert.ToString(dAlignX1Offset);
-            GridCenterXTeachTable[5, 2].Text = Convert.ToString(dAlignX2Offset);
+            GridCenterXTeachTable[5, 1].Text = String.Format("{0:0.000}", dAlignX1Offset);
+            GridCenterXTeachTable[5, 2].Text = String.Format("{0:0.000}", dAlignX2Offset);
 
             //OffsetPos
-            GridCenterXTeachTable[6, 1].Text = Convert.ToString(dOffsetX1Pos);
-            GridCenterXTeachTable[6, 2].Text = Convert.ToString(dOffsetX2Pos);
+            GridCenterXTeachTable[6, 1].Text = String.Format("{0:0.000}", dOffsetX1Pos);
+            GridCenterXTeachTable[6, 2].Text = String.Format("{0:0.000}", dOffsetX2Pos);
         }
 
         private void DisplayPos_PushPull()
         {
-            double dFixedPos = 0, dOffsetPos = 0, dTargetPos = 0, dModelPos = 0, dAlignOffset;
+            double dFixedPos, dOffsetPos, dTargetPos, dModelPos, dAlignOffset;
             int index = m_nSelectedPos_PushPull;
 
             dFixedPos = movingPushPullObject.FixedPos.Pos[index].dY;
@@ -254,19 +254,19 @@ namespace LWDicer.UI
 
             dTargetPos = dFixedPos + dOffsetPos + dModelPos + dAlignOffset;
 
-            GridPushPullYTeachTable[2, 1].Text = Convert.ToString(dTargetPos);
+            GridPushPullYTeachTable[2, 1].Text = String.Format("{0:0.000}", dTargetPos);
 
             // FixedPos
-            GridPushPullYTeachTable[3, 1].Text = Convert.ToString(dFixedPos);
+            GridPushPullYTeachTable[3, 1].Text = String.Format("{0:0.000}", dFixedPos);
 
             // ModelPos
-            GridPushPullYTeachTable[4, 1].Text = Convert.ToString(dModelPos);
+            GridPushPullYTeachTable[4, 1].Text = String.Format("{0:0.000}", dModelPos);
 
             // AlignOffsetPos
-            GridPushPullYTeachTable[5, 1].Text = Convert.ToString(dAlignOffset);
+            GridPushPullYTeachTable[5, 1].Text = String.Format("{0:0.000}", dAlignOffset);
 
             //OffsetPos
-            GridPushPullYTeachTable[6, 1].Text = Convert.ToString(dOffsetPos);
+            GridPushPullYTeachTable[6, 1].Text = String.Format("{0:0.000}", dOffsetPos);
         }
 
         private void ResouceMapping()
@@ -507,7 +507,7 @@ namespace LWDicer.UI
                     dTargetPos = dPos + dOffsetPos;
                 }
 
-                GridCenterXTeachTable[2, e.ColIndex].Text = Convert.ToString(dTargetPos);
+                GridCenterXTeachTable[2, e.ColIndex].Text = String.Format("{0:0.000}", dTargetPos);
 
                 GridCenterXTeachTable[3, e.ColIndex].Text = strModify;
                 GridCenterXTeachTable[3, e.ColIndex].TextColor = Color.Blue;
@@ -549,7 +549,7 @@ namespace LWDicer.UI
 
                 dTargetPos = dPos + dOffsetPos;
 
-                GridPushPullYTeachTable[2, e.ColIndex].Text = Convert.ToString(dTargetPos);
+                GridPushPullYTeachTable[2, e.ColIndex].Text = String.Format("{0:0.000}", dTargetPos);
 
                 GridPushPullYTeachTable[3, e.ColIndex].Text = strModify;
                 GridPushPullYTeachTable[3, e.ColIndex].TextColor = Color.Blue;
@@ -647,9 +647,9 @@ namespace LWDicer.UI
 
             dTargetX1Pos = dX1Pos + dOffsetX1Pos;
 
-            GridCenterXTeachTable[2, 1].Text = Convert.ToString(dTargetX1Pos);
+            GridCenterXTeachTable[2, 1].Text = String.Format("{0:0.000}", dTargetX1Pos);
 
-            GridCenterXTeachTable[3, 1].Text = Convert.ToString(dX1Pos);
+            GridCenterXTeachTable[3, 1].Text = String.Format("{0:0.000}", dX1Pos);
             GridCenterXTeachTable[3, 1].TextColor = Color.Blue;
 
 
@@ -660,9 +660,9 @@ namespace LWDicer.UI
 
             dTargetX2Pos = dX2Pos + dOffsetX2Pos;
 
-            GridCenterXTeachTable[2, 2].Text = Convert.ToString(dTargetX2Pos);
+            GridCenterXTeachTable[2, 2].Text = String.Format("{0:0.000}", dTargetX2Pos);
 
-            GridCenterXTeachTable[3, 2].Text = Convert.ToString(dX2Pos);
+            GridCenterXTeachTable[3, 2].Text = String.Format("{0:0.000}", dX2Pos);
             GridCenterXTeachTable[3, 2].TextColor = Color.Blue;
         }
 
@@ -681,9 +681,9 @@ namespace LWDicer.UI
 
             dTargetYPos = dYPos + dOffsetYPos;
 
-            GridPushPullYTeachTable[2, 1].Text = Convert.ToString(dTargetYPos);
+            GridPushPullYTeachTable[2, 1].Text = String.Format("{0:0.000}", dTargetYPos);
 
-            GridPushPullYTeachTable[3, 1].Text = Convert.ToString(dYPos);
+            GridPushPullYTeachTable[3, 1].Text = String.Format("{0:0.000}", dYPos);
             GridPushPullYTeachTable[3, 1].TextColor = Color.Blue;
         }
 
@@ -692,13 +692,13 @@ namespace LWDicer.UI
             // Current Position Display
             string strCurPos = string.Empty;
 
-            strCurPos = Convert.ToString(CMainFrame.LWDicer.m_YMC.ServoStatus[(int)EYMC_Axis.PUSHPULL_X1].EncoderPos);
+            strCurPos = String.Format("{0:0.000}", CMainFrame.LWDicer.m_YMC.ServoStatus[(int)EYMC_Axis.PUSHPULL_X1].EncoderPos);
             GridCenterXTeachTable[7, 1].Text = strCurPos;
 
-            strCurPos = Convert.ToString(CMainFrame.LWDicer.m_YMC.ServoStatus[(int)EYMC_Axis.PUSHPULL_X1].EncoderPos);
+            strCurPos = String.Format("{0:0.000}", CMainFrame.LWDicer.m_YMC.ServoStatus[(int)EYMC_Axis.PUSHPULL_X1].EncoderPos);
             GridCenterXTeachTable[7, 2].Text = strCurPos;
 
-            strCurPos = Convert.ToString(CMainFrame.LWDicer.m_YMC.ServoStatus[(int)EYMC_Axis.PUSHPULL_Y].EncoderPos);
+            strCurPos = String.Format("{0:0.000}", CMainFrame.LWDicer.m_YMC.ServoStatus[(int)EYMC_Axis.PUSHPULL_Y].EncoderPos);
             GridPushPullYTeachTable[7, 1].Text = strCurPos;
 
             // 보정값 Display
@@ -708,19 +708,19 @@ namespace LWDicer.UI
             dTargetPos = Convert.ToDouble(GridCenterXTeachTable[2, 1].Text);
             dValue = dTargetPos - dCurPos;
 
-            GridCenterXTeachTable[8, 1].Text = Convert.ToString(dValue);
+            GridCenterXTeachTable[8, 1].Text = String.Format("{0:0.000}", dValue);
 
             dCurPos = CMainFrame.LWDicer.m_YMC.ServoStatus[(int)EYMC_Axis.PUSHPULL_X1].EncoderPos;
             dTargetPos = Convert.ToDouble(GridCenterXTeachTable[2, 2].Text);
             dValue = dTargetPos - dCurPos;
 
-            GridCenterXTeachTable[8, 2].Text = Convert.ToString(dValue);
+            GridCenterXTeachTable[8, 2].Text = String.Format("{0:0.000}", dValue);
 
             dCurPos = CMainFrame.LWDicer.m_YMC.ServoStatus[(int)EYMC_Axis.PUSHPULL_Y].EncoderPos;
             dTargetPos = Convert.ToDouble(GridPushPullYTeachTable[2, 1].Text);
             dValue = dTargetPos - dCurPos;
 
-            GridPushPullYTeachTable[8, 1].Text = Convert.ToString(dValue);
+            GridPushPullYTeachTable[8, 1].Text = String.Format("{0:0.000}", dValue);
 
         }
 

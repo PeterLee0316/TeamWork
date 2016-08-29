@@ -6,9 +6,9 @@ using System.Drawing;
 using BGAPI;
 using System.Configuration;
 using Matrox.MatroxImagingLibrary;
-using static LWDicer.Control.DEF_System;
+using static LWDicer.Layers.DEF_System;
 
-namespace LWDicer.Control
+namespace LWDicer.Layers
 {
     public class DEF_Vision
     {

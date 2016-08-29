@@ -15,14 +15,14 @@ using Syncfusion.Windows.Forms;
 using Syncfusion.Windows.Forms.Tools;
 
 
-//using static LWDicer.Control.DEF_Scanner;
+//using static LWDicer.Layers.DEF_Scanner;
 
-using static LWDicer.Control.DEF_System;
-using static LWDicer.Control.DEF_Vision;
-using static LWDicer.Control.DEF_Common;
-using static LWDicer.Control.DEF_DataManager;
+using static LWDicer.Layers.DEF_System;
+using static LWDicer.Layers.DEF_Vision;
+using static LWDicer.Layers.DEF_Common;
+using static LWDicer.Layers.DEF_DataManager;
 
-using LWDicer.Control;
+using LWDicer.Layers;
 
 namespace LWDicer.UI
 {
@@ -540,10 +540,10 @@ namespace LWDicer.UI
             GridConfigure[11, 2].Text = string.Format("{0:f0}", m_PolygonPara.PixelWidth);
             GridConfigure[12, 2].Text = string.Format("{0:f4}", m_PolygonPara.CrossScanEncoderResol);
 
-            GridConfigure[13, 2].Text = Convert.ToString(m_PolygonPara.CrossScanMaxAccel);
-            GridConfigure[14, 2].Text = Convert.ToString(m_PolygonPara.EnCarSig);
-            GridConfigure[15, 2].Text = Convert.ToString(m_PolygonPara.SwapCarSig);
-            GridConfigure[16, 2].Text = Convert.ToString(m_PolygonPara.InterleaveRatio);
+            GridConfigure[13, 2].Text = String.Format("{0:0.000}", m_PolygonPara.CrossScanMaxAccel);
+            GridConfigure[14, 2].Text = String.Format("{0:0.000}", m_PolygonPara.EnCarSig);
+            GridConfigure[15, 2].Text = String.Format("{0:0.000}", m_PolygonPara.SwapCarSig);
+            GridConfigure[16, 2].Text = String.Format("{0:0.000}", m_PolygonPara.InterleaveRatio);
             GridConfigure[17, 2].Text = string.Format("{0:f3}", m_PolygonPara.FacetFineDelayOffset0 );
             GridConfigure[18, 2].Text = string.Format("{0:f3}", m_PolygonPara.FacetFineDelayOffset1 );
             GridConfigure[19, 2].Text = string.Format("{0:f3}", m_PolygonPara.FacetFineDelayOffset2 );
@@ -552,9 +552,9 @@ namespace LWDicer.UI
             GridConfigure[22, 2].Text = string.Format("{0:f3}", m_PolygonPara.FacetFineDelayOffset5 );
             GridConfigure[23, 2].Text = string.Format("{0:f3}", m_PolygonPara.FacetFineDelayOffset6 );
             GridConfigure[24, 2].Text = string.Format("{0:f3}", m_PolygonPara.FacetFineDelayOffset7 );
-            GridConfigure[25, 2].Text = Convert.ToString(m_PolygonPara.StartFacet);
-            GridConfigure[26, 2].Text = Convert.ToString(m_PolygonPara.AutoIncrementStartFacet);
-            GridConfigure[27, 2].Text = Convert.ToString(m_PolygonPara.MotorStableTime);
+            GridConfigure[25, 2].Text = String.Format("{0:0.000}", m_PolygonPara.StartFacet);
+            GridConfigure[26, 2].Text = String.Format("{0:0.000}", m_PolygonPara.AutoIncrementStartFacet);
+            GridConfigure[27, 2].Text = String.Format("{0:0.000}", m_PolygonPara.MotorStableTime);
 
             //====================================================================================================
             // isn.ini

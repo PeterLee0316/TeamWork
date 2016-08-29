@@ -12,11 +12,11 @@ using System.Windows;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 
-using static LWDicer.Control.DEF_Scanner;
-using static LWDicer.Control.DEF_System;
-using static LWDicer.Control.DEF_Common;
+using static LWDicer.Layers.DEF_Scanner;
+using static LWDicer.Layers.DEF_System;
+using static LWDicer.Layers.DEF_Common;
 
-using LWDicer.Control;
+using LWDicer.Layers;
 
 namespace LWDicer.UI
 {

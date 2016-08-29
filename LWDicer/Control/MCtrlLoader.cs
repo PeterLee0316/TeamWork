@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-using static LWDicer.Control.DEF_Error;
-using static LWDicer.Control.DEF_Common;
-using static LWDicer.Control.DEF_IO;
-using static LWDicer.Control.DEF_CtrlLoader;
-using static LWDicer.Control.DEF_DataManager;
+using static LWDicer.Layers.DEF_Error;
+using static LWDicer.Layers.DEF_Common;
+using static LWDicer.Layers.DEF_IO;
+using static LWDicer.Layers.DEF_CtrlLoader;
+using static LWDicer.Layers.DEF_DataManager;
 
-namespace LWDicer.Control
+namespace LWDicer.Layers
 {
     public class DEF_CtrlLoader
     {
@@ -155,6 +155,15 @@ namespace LWDicer.Control
         {
             int iResult = 0;
             iResult = m_RefComp.Elevator.MoveElevatorToTopPos();
+            if (iResult != SUCCESS) return iResult;
+
+            return SUCCESS;
+        }
+
+        public int MoveToSafetyPos()
+        {
+            int iResult = 0;
+            iResult = m_RefComp.Elevator.MoveElevatorToSafetyPos();
             if (iResult != SUCCESS) return iResult;
 
             return SUCCESS;

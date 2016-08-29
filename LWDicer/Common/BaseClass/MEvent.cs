@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace LWDicer.Control
+namespace LWDicer.Layers
 {
     /// <summary>
     /// thread간에 event message를 전송하기 위한 class. 

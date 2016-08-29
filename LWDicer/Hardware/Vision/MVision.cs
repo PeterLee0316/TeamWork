@@ -6,13 +6,13 @@ using System.Diagnostics;
 using System.Windows.Forms;
 using System.Drawing;
 using System.IO;
-using LWDicer.Control;
-using static LWDicer.Control.DEF_Vision;
-using static LWDicer.Control.DEF_Error;
-using static LWDicer.Control.DEF_Common;
+using LWDicer.Layers;
+using static LWDicer.Layers.DEF_Vision;
+using static LWDicer.Layers.DEF_Error;
+using static LWDicer.Layers.DEF_Common;
 using Matrox.MatroxImagingLibrary;
 
-namespace LWDicer.Control
+namespace LWDicer.Layers
 {
     public class MVision : MObject,IVision,IDisposable
     {

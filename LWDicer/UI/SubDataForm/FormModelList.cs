@@ -12,9 +12,9 @@ using Syncfusion.Windows.Forms.Grid;
 using Syncfusion.Windows.Forms;
 using Syncfusion.Windows.Forms.Tools;
 
-using static LWDicer.Control.DEF_Common;
-using static LWDicer.Control.DEF_Error;
-using static LWDicer.Control.DEF_DataManager;
+using static LWDicer.Layers.DEF_Common;
+using static LWDicer.Layers.DEF_Error;
+using static LWDicer.Layers.DEF_DataManager;
 
 namespace LWDicer.UI
 {

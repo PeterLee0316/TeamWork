@@ -12,9 +12,9 @@ using Syncfusion.Windows.Forms;
 using Syncfusion.Windows.Forms.Grid;
 using Syncfusion.Windows.Forms.Tools;
 
-using static LWDicer.Control.DEF_Error;
-using static LWDicer.Control.DEF_Common;
-using static LWDicer.Control.DEF_DataManager;
+using static LWDicer.Layers.DEF_Error;
+using static LWDicer.Layers.DEF_Common;
+using static LWDicer.Layers.DEF_DataManager;
 
 namespace LWDicer.UI
 {
@@ -133,17 +133,17 @@ namespace LWDicer.UI
 
         private void UpdateCassetteData(CWaferCassette data)
         {
-            GridCtrl[1, 2].Text = Convert.ToString(data.Diameter);
-            GridCtrl[2, 2].Text = Convert.ToString(data.Slot);
-            GridCtrl[3, 2].Text = Convert.ToString(data.CassetteSetNo);
-            GridCtrl[4, 2].Text = Convert.ToString(data.FramePitch);
-            GridCtrl[5, 2].Text = Convert.ToString(data.CassetteHeight);
-            GridCtrl[6, 2].Text = Convert.ToString(data.ESZeroPoint);
-            GridCtrl[7, 2].Text = Convert.ToString(data.UnloadElevatorPos);
-            GridCtrl[8, 2].Text = Convert.ToString(data.CTZeroPoint);
-            GridCtrl[9, 2].Text = Convert.ToString(data.STZeroPoint);
-            GridCtrl[10, 2].Text = Convert.ToString(data.LoadPushPullPos);
-            GridCtrl[11, 2].Text = Convert.ToString(data.FrameCenterPos);
+            GridCtrl[1, 2].Text = String.Format("{0:0.000}", data.Diameter);
+            GridCtrl[2, 2].Text = String.Format("{0:0.000}", data.Slot);
+            GridCtrl[3, 2].Text = String.Format("{0:0.000}", data.CassetteSetNo);
+            GridCtrl[4, 2].Text = String.Format("{0:0.000}", data.FramePitch);
+            GridCtrl[5, 2].Text = String.Format("{0:0.000}", data.CassetteHeight);
+            GridCtrl[6, 2].Text = String.Format("{0:0.000}", data.ESZeroPoint);
+            GridCtrl[7, 2].Text = String.Format("{0:0.000}", data.UnloadElevatorPos);
+            GridCtrl[8, 2].Text = String.Format("{0:0.000}", data.CTZeroPoint);
+            GridCtrl[9, 2].Text = String.Format("{0:0.000}", data.STZeroPoint);
+            GridCtrl[10, 2].Text = String.Format("{0:0.000}", data.LoadPushPullPos);
+            GridCtrl[11, 2].Text = String.Format("{0:0.000}", data.FrameCenterPos);
 
             for(int i=0;i< GridCtrl.RowCount;i++)
             {

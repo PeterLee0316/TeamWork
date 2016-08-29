@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Runtime.InteropServices;
 
-using static LWDicer.Control.DEF_Motion;
-using static LWDicer.Control.DEF_MMCMMI;
+using static LWDicer.Layers.DEF_Motion;
+using static LWDicer.Layers.DEF_MMCMMI;
 
-namespace LWDicer.Control
+namespace LWDicer.Layers
 {
     public interface IMultiAxes
     {

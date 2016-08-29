@@ -10,10 +10,10 @@ using System.Windows.Forms;
 using Syncfusion.Windows.Forms.Grid;
 using Syncfusion.Windows.Forms;
 
-using LWDicer.Control;
+using LWDicer.Layers;
 
-using static LWDicer.Control.DEF_Thread;
-using static LWDicer.Control.DEF_System;
+using static LWDicer.Layers.DEF_Thread;
+using static LWDicer.Layers.DEF_System;
 
 namespace LWDicer.UI
 {

@@ -4,14 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using static LWDicer.Control.DEF_Error;
-using static LWDicer.Control.DEF_Common;
-using static LWDicer.Control.DEF_MeHandler;
-using static LWDicer.Control.DEF_Motion;
-using static LWDicer.Control.DEF_IO;
-using static LWDicer.Control.DEF_Vacuum;
+using static LWDicer.Layers.DEF_Error;
+using static LWDicer.Layers.DEF_Common;
+using static LWDicer.Layers.DEF_MeHandler;
+using static LWDicer.Layers.DEF_Motion;
+using static LWDicer.Layers.DEF_IO;
+using static LWDicer.Layers.DEF_Vacuum;
 
-namespace LWDicer.Control
+namespace LWDicer.Layers
 {
     public class DEF_MeHandler
     {

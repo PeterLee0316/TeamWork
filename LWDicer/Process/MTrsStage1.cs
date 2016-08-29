@@ -6,17 +6,17 @@ using System.Text;
 using System.Threading;
 using System.Diagnostics;
 
-using static LWDicer.Control.DEF_Thread;
-using static LWDicer.Control.DEF_Thread.ETrsStage1Step;
-using static LWDicer.Control.DEF_Thread.EThreadMessage;
-using static LWDicer.Control.DEF_Thread.EThreadChannel;
-using static LWDicer.Control.DEF_Thread.EAutoRunMode;
-using static LWDicer.Control.DEF_Thread.EAutoRunStatus;
-using static LWDicer.Control.DEF_Error;
-using static LWDicer.Control.DEF_Common;
-using static LWDicer.Control.DEF_LCNet;
+using static LWDicer.Layers.DEF_Thread;
+using static LWDicer.Layers.DEF_Thread.ETrsStage1Step;
+using static LWDicer.Layers.DEF_Thread.EThreadMessage;
+using static LWDicer.Layers.DEF_Thread.EThreadChannel;
+using static LWDicer.Layers.DEF_Thread.EAutoRunMode;
+using static LWDicer.Layers.DEF_Thread.EAutoRunStatus;
+using static LWDicer.Layers.DEF_Error;
+using static LWDicer.Layers.DEF_Common;
+using static LWDicer.Layers.DEF_LCNet;
 
-namespace LWDicer.Control
+namespace LWDicer.Layers
 {
     public class CTrsStage1RefComp
     {

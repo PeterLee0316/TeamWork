@@ -12,12 +12,14 @@ using Syncfusion.Windows.Forms;
 using Syncfusion.Windows.Forms.Tools;
 using Syncfusion.Drawing;
 
-using LWDicer.Control;
-using static LWDicer.Control.DEF_System;
-using static LWDicer.Control.DEF_Motion;
-using static LWDicer.Control.DEF_Yaskawa;
-using static LWDicer.Control.DEF_ACS;
-using static LWDicer.Control.DEF_DataManager;
+using LWDicer.Layers;
+using static LWDicer.Layers.DEF_System;
+using static LWDicer.Layers.DEF_Common;
+
+using static LWDicer.Layers.DEF_Motion;
+using static LWDicer.Layers.DEF_Yaskawa;
+using static LWDicer.Layers.DEF_ACS;
+using static LWDicer.Layers.DEF_DataManager;
 
 namespace LWDicer.UI
 {
@@ -31,6 +33,10 @@ namespace LWDicer.UI
         private GradientLabel[] MotorHome   = new GradientLabel[MaxRowSize];
         private GradientLabel[] MotorPLimit = new GradientLabel[MaxRowSize];
         private GradientLabel[] MotorAlarm  = new GradientLabel[MaxRowSize];
+
+        private Syncfusion.Drawing.BrushInfo Brush_Default = new Syncfusion.Drawing.BrushInfo(Color.LightGray);
+        private Syncfusion.Drawing.BrushInfo Brush_ServoOn = new Syncfusion.Drawing.BrushInfo(Color.Yellow);
+        private Syncfusion.Drawing.BrushInfo Brush_LimitDetected = new Syncfusion.Drawing.BrushInfo(Color.Red);
 
         public FormLimitSensor()
         {
@@ -91,7 +97,7 @@ namespace LWDicer.UI
         private void FormLimitSensor_Load(object sender, EventArgs e)
         {
             TmrMotor.Enabled = true;
-            TmrMotor.Interval = 100;
+            TmrMotor.Interval = UITimerInterval;
             TmrMotor.Start();
         }
 
@@ -120,23 +126,33 @@ namespace LWDicer.UI
                 mpStatus = CMainFrame.LWDicer.m_YMC.ServoStatus[i];
 
                 // 1.Encoder Position
-                MotorPos[i].Text = string.Format("{0:f4}", mpStatus.EncoderPos);
+                MotorPos[i].Text = String.Format("{0:000}", mpStatus.EncoderPos);
 
                 // 2.Servo On, Off
                 MotorServo[i].Text = mpStatus.IsServoOn ? on : off;
+                if (mpStatus.IsServoOn) MotorServo[i].BackgroundColor = Brush_ServoOn;
+                else MotorServo[i].BackgroundColor = Brush_Default;
 
                 // 3.- Limit Sensor
                 MotorNLimit[i].Text = mpStatus.DetectMinusSensor ? on : off;
+                if (mpStatus.DetectMinusSensor) MotorNLimit[i].BackgroundColor = Brush_LimitDetected;
+                else MotorNLimit[i].BackgroundColor = Brush_Default;
 
                 // 4.Home Sensor
                 MotorHome[i].Text = mpStatus.DetectHomeSensor ? on : off;
+                if (mpStatus.DetectHomeSensor) MotorHome[i].BackgroundColor = Brush_ServoOn;
+                else MotorHome[i].BackgroundColor = Brush_Default;
 
                 // 5.+Limit Sensor
                 MotorPLimit[i].Text = mpStatus.DetectPlusSensor ? on : off;
+                if (mpStatus.DetectPlusSensor) MotorPLimit[i].BackgroundColor = Brush_LimitDetected;
+                else MotorPLimit[i].BackgroundColor = Brush_Default;
 
                 // 6.Driver Alarm
                 //MotorAlarm[i].Text = "ER0001";
                 MotorAlarm[i].Text = mpStatus.AlarmCode.ToString();
+                if (MotorAlarm[i].Text != "0") MotorAlarm[i].BackgroundColor = Brush_LimitDetected;
+                else MotorAlarm[i].BackgroundColor = Brush_Default;
             }
 
             CACSServoStatus acsStatus;
@@ -149,15 +165,23 @@ namespace LWDicer.UI
 
                 // 2.Servo On, Off
                 MotorServo[i].Text = acsStatus.IsServoOn ? on : off;
+                if (acsStatus.IsServoOn) MotorServo[i].BackgroundColor = Brush_ServoOn;
+                else MotorServo[i].BackgroundColor = Brush_Default;
 
                 // 3.- Limit Sensor
                 MotorNLimit[i].Text = acsStatus.DetectMinusSensor ? on : off;
+                if (acsStatus.DetectMinusSensor) MotorNLimit[i].BackgroundColor = Brush_LimitDetected;
+                else MotorNLimit[i].BackgroundColor = Brush_Default;
 
                 // 4.Home Sensor
                 MotorHome[i].Text = acsStatus.DetectHomeSensor ? on : off;
+                if (acsStatus.DetectHomeSensor) MotorHome[i].BackgroundColor = Brush_ServoOn;
+                else MotorHome[i].BackgroundColor = Brush_Default;
 
                 // 5.+Limit Sensor
                 MotorPLimit[i].Text = acsStatus.DetectPlusSensor ? on : off;
+                if (acsStatus.DetectPlusSensor) MotorPLimit[i].BackgroundColor = Brush_LimitDetected;
+                else MotorPLimit[i].BackgroundColor = Brush_Default;
 
                 // 6.Driver Alarm
                 //MotorAlarm[i].Text = "ER0001";

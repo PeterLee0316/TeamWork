@@ -4,14 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Runtime.InteropServices;
 
-using static LWDicer.Control.DEF_System;
-using static LWDicer.Control.DEF_Common;
-using static LWDicer.Control.DEF_Error;
-using static LWDicer.Control.DEF_OpPanel;
-using static LWDicer.Control.DEF_Thread;
-using static LWDicer.Control.DEF_Motion;
+using static LWDicer.Layers.DEF_System;
+using static LWDicer.Layers.DEF_Common;
+using static LWDicer.Layers.DEF_Error;
+using static LWDicer.Layers.DEF_OpPanel;
+using static LWDicer.Layers.DEF_Thread;
+using static LWDicer.Layers.DEF_Motion;
 
-namespace LWDicer.Control
+namespace LWDicer.Layers
 {
     public class DEF_OpPanel
     {
@@ -1437,15 +1437,49 @@ namespace LWDicer.Control
 
             int servoNum=0;
 
-            if (iUnitIndex < (int)EAxis.LOWER_HANDLER_Z)
+            int acsStartIndex = (int)EAxis.STAGE1_X;
+#if EQUIP_266_DEV
+            int ymcEndIndex = (int)EAxis.SCANNER_Z1;
+#endif
+            if (iUnitIndex < acsStartIndex)
             {
                 servoNum = iUnitIndex;
                 bStatus = m_RefComp.Yaskawa_Motion.IsOriginReturned(servoNum);
             }
             else
             {
-                servoNum = iUnitIndex - (int)EAxis.LOWER_HANDLER_Z;
+                servoNum = iUnitIndex - acsStartIndex;
                 bStatus = m_RefComp.ACS_Motion.IsOriginReturned(servoNum);
+            }
+
+            return iResult;
+        }
+
+        public int GetServoOnStatus(int iUnitIndex, out bool bStatus)
+        {
+            int iResult = SUCCESS;
+            bStatus = false;
+
+            if (iUnitIndex < 0 || iUnitIndex > (int)EAxis.MAX)
+            {
+                return GenerateErrorCode(ERR_OPPANEL_INVALID_SERVO_UNIT_INDEX);
+            }
+
+            int servoNum = 0;
+
+            int acsStartIndex = (int)EAxis.STAGE1_X;
+#if EQUIP_266_DEV
+            int ymcEndIndex = (int)EAxis.SCANNER_Z1;
+#endif
+            if (iUnitIndex < acsStartIndex)
+            {
+                servoNum = iUnitIndex;
+                bStatus = m_RefComp.Yaskawa_Motion.ServoStatus[servoNum].IsServoOn;
+            }
+            else
+            {
+                servoNum = iUnitIndex - acsStartIndex;
+                bStatus = m_RefComp.ACS_Motion.ServoStatus[servoNum].IsServoOn;
             }
 
             return iResult;

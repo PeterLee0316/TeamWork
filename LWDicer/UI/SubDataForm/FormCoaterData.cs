@@ -15,9 +15,9 @@ using System.Collections.Specialized;
 using Syncfusion.Windows.Forms.Grid;
 using Syncfusion.Windows.Forms;
 
-using static LWDicer.Control.DEF_CtrlSpinner;
-using static LWDicer.Control.DEF_Common;
-using static LWDicer.Control.DEF_DataManager;
+using static LWDicer.Layers.DEF_CtrlSpinner;
+using static LWDicer.Layers.DEF_Common;
+using static LWDicer.Layers.DEF_DataManager;
 
 namespace LWDicer.UI
 {
@@ -144,10 +144,10 @@ namespace LWDicer.UI
                 GridCtrl[i + 1, 1].Text = strOP[(int)CoatData.SpinnerData.CoaterData.Steps[i].Mode];
                 GridCtrl[i + 1, 1].TextColor = Color.Black;
 
-                GridCtrl[i + 1, 2].Text = Convert.ToString(CoatData.SpinnerData.CoaterData.Steps[i].OpTime);
+                GridCtrl[i + 1, 2].Text = String.Format("{0:0.000}", CoatData.SpinnerData.CoaterData.Steps[i].OpTime);
                 GridCtrl[i + 1, 2].TextColor = Color.Black;
 
-                GridCtrl[i + 1, 3].Text = Convert.ToString(CoatData.SpinnerData.CoaterData.Steps[i].RPMSpeed);
+                GridCtrl[i + 1, 3].Text = String.Format("{0:0.000}", CoatData.SpinnerData.CoaterData.Steps[i].RPMSpeed);
                 GridCtrl[i + 1, 3].TextColor = Color.Black;
             }
 

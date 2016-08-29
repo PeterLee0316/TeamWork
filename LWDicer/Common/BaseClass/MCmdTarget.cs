@@ -5,10 +5,10 @@ using System.Text;
 using System.Messaging;
 using System.Diagnostics;
 
-using static LWDicer.Control.DEF_Thread;
-using static LWDicer.Control.DEF_Common;
+using static LWDicer.Layers.DEF_Thread;
+using static LWDicer.Layers.DEF_Common;
 
-namespace LWDicer.Control
+namespace LWDicer.Layers
 {
     public abstract class MCmdTarget : MObject
     {

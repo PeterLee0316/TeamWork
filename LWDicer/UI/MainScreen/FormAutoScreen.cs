@@ -6,12 +6,12 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using LWDicer.Control;
+using LWDicer.Layers;
 
 using Syncfusion.Windows.Forms;
 using Syncfusion.Windows.Forms.Tools;
 
-using static LWDicer.Control.DEF_Error;
+using static LWDicer.Layers.DEF_Error;
 
 namespace LWDicer.UI
 {

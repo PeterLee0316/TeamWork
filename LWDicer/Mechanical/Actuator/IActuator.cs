@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-using static LWDicer.Control.DEF_Actuator;
+using static LWDicer.Layers.DEF_Actuator;
 
-namespace LWDicer.Control
+namespace LWDicer.Layers
 {
     public class DEF_Actuator
     {

@@ -6,9 +6,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Runtime.InteropServices;
 
-using static LWDicer.Control.DEF_Scanner;
+using static LWDicer.Layers.DEF_Scanner;
 
-namespace LWDicer.Control
+namespace LWDicer.Layers
 {
     public interface IMarkingScanner
     {

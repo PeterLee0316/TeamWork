@@ -8,6 +8,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
+using static LWDicer.Layers.DEF_System;
+using static LWDicer.Layers.DEF_Common;
+
 namespace LWDicer.UI
 {
     public partial class FormSpinnerManualOP : Form
@@ -50,7 +53,7 @@ namespace LWDicer.UI
             }
 
             TmrManualOP.Enabled = true;
-            TmrManualOP.Interval = 100;
+            TmrManualOP.Interval = UITimerInterval;
             TmrManualOP.Start();
         }
 

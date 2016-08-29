@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-using static LWDicer.Control.DEF_Vacuum;
+using static LWDicer.Layers.DEF_Vacuum;
 
-namespace LWDicer.Control
+namespace LWDicer.Layers
 {
     public class DEF_Vacuum
     {

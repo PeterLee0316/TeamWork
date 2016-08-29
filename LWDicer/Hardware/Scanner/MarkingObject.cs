@@ -5,11 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Drawing;
 
-using static LWDicer.Control.DEF_Scanner;
-using static LWDicer.Control.DEF_Common;
+using static LWDicer.Layers.DEF_Scanner;
+using static LWDicer.Layers.DEF_Common;
 
 
-namespace LWDicer.Control
+namespace LWDicer.Layers
 {
     [Serializable]
     public class CMarkingObject

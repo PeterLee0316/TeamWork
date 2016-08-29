@@ -8,14 +8,14 @@ using System.Threading;
 using SPIIPLUSCOM660Lib;	// ACS COM-Library
 using System.Runtime.InteropServices;
 
-using static LWDicer.Control.DEF_System;
-using static LWDicer.Control.DEF_Common;
-using static LWDicer.Control.DEF_Error;
-using static LWDicer.Control.DEF_ACS;
-using static LWDicer.Control.DEF_IO;
-using static LWDicer.Control.DEF_Motion;
+using static LWDicer.Layers.DEF_System;
+using static LWDicer.Layers.DEF_Common;
+using static LWDicer.Layers.DEF_Error;
+using static LWDicer.Layers.DEF_ACS;
+using static LWDicer.Layers.DEF_IO;
+using static LWDicer.Layers.DEF_Motion;
 
-namespace LWDicer.Control
+namespace LWDicer.Layers
 {
     public class DEF_ACS
     {

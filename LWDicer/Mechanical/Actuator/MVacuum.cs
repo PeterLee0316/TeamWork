@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-using static LWDicer.Control.DEF_Common;
-using static LWDicer.Control.DEF_Error;
-using static LWDicer.Control.DEF_Vacuum;
-using static LWDicer.Control.DEF_Vacuum.EVacuumTime;
-using static LWDicer.Control.DEF_Vacuum.EVacuumType;
+using static LWDicer.Layers.DEF_Common;
+using static LWDicer.Layers.DEF_Error;
+using static LWDicer.Layers.DEF_Vacuum;
+using static LWDicer.Layers.DEF_Vacuum.EVacuumTime;
+using static LWDicer.Layers.DEF_Vacuum.EVacuumType;
 
-namespace LWDicer.Control
+namespace LWDicer.Layers
 {
     public class MVacuum : MObject, IVacuum
     {

@@ -10,20 +10,20 @@ using System.Diagnostics;
 using System.Threading;
 using System.Configuration;
 
-using LWDicer.Control;
+using LWDicer.Layers;
 using LWDicer.UI;
 
-using static LWDicer.Control.DEF_Thread;
-using static LWDicer.Control.DEF_Thread.EThreadMessage;
-using static LWDicer.Control.DEF_Thread.EWindowMessage;
+using static LWDicer.Layers.DEF_Thread;
+using static LWDicer.Layers.DEF_Thread.EThreadMessage;
+using static LWDicer.Layers.DEF_Thread.EWindowMessage;
 
-using static LWDicer.Control.DEF_Error;
-using static LWDicer.Control.DEF_Common;
-using static LWDicer.Control.DEF_Cylinder;
-using static LWDicer.Control.DEF_SerialPort;
-using static LWDicer.Control.DEF_Vision;
+using static LWDicer.Layers.DEF_Error;
+using static LWDicer.Layers.DEF_Common;
+using static LWDicer.Layers.DEF_Cylinder;
+using static LWDicer.Layers.DEF_SerialPort;
+using static LWDicer.Layers.DEF_Vision;
 
-using static LWDicer.Control.DEF_UI;
+using static LWDicer.Layers.DEF_UI;
 
 //#pragma warning disable CS0219
 

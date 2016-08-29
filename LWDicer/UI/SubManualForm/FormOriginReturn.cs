@@ -9,11 +9,11 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 
 using Syncfusion.Windows.Forms;
-using LWDicer.Control;
-using static LWDicer.Control.DEF_System;
-using static LWDicer.Control.DEF_Common;
-using static LWDicer.Control.DEF_Thread;
-using static LWDicer.Control.DEF_Error;
+using LWDicer.Layers;
+using static LWDicer.Layers.DEF_System;
+using static LWDicer.Layers.DEF_Common;
+using static LWDicer.Layers.DEF_Thread;
+using static LWDicer.Layers.DEF_Error;
 
 namespace LWDicer.UI
 {  
@@ -118,6 +118,9 @@ namespace LWDicer.UI
             {
                 if (BtnList[i] == null) continue;
                 CMainFrame.LWDicer.m_OpPanel.GetOriginFlag(i, out bStatus);
+
+                // for test
+                if (i % 3 > 0) bStatus = true;
                 if (bStatus == true)
                 {
                     BtnList[i].BackColor = Color.Yellow;
@@ -171,7 +174,7 @@ namespace LWDicer.UI
                     CMainFrame.DisplayAlarm(iResult);
             }
 
-            if (bRunCheckBit) CMainFrame.DisplayAlarm(SUCCESS);
+            //if (bRunCheckBit) CMainFrame.DisplayAlarm(SUCCESS);
         }
         private void InitRun()
         {
@@ -231,7 +234,7 @@ namespace LWDicer.UI
                 int iResult = CMainFrame.LWDicer.m_ctrlOpPanel.ServoOn(i);
                 if(iResult != SUCCESS) CMainFrame.DisplayAlarm(iResult);
             }
-            if(bRunCheckBit)  CMainFrame.DisplayAlarm(SUCCESS);
+            //if(bRunCheckBit)  CMainFrame.DisplayAlarm(SUCCESS);
         }
 
         private void BtnServoOff_Click(object sender, EventArgs e)
@@ -257,7 +260,7 @@ namespace LWDicer.UI
         private void FormOriginReturn_Load(object sender, EventArgs e)
         {
             timer1.Enabled = true;
-            timer1.Interval = 100;
+            timer1.Interval = UITimerInterval;
             timer1.Start();
         }
 

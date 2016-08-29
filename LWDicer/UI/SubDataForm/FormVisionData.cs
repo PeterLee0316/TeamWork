@@ -8,8 +8,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-using static LWDicer.Control.DEF_Vision;
-using static LWDicer.Control.DEF_Common;
+using static LWDicer.Layers.DEF_Vision;
+using static LWDicer.Layers.DEF_Common;
 
 namespace LWDicer.UI
 {

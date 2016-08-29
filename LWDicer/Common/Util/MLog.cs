@@ -8,11 +8,11 @@ using System.Data.SQLite;
 using System.Data.SQLite.Linq;
 using System.IO;
 
-using static LWDicer.Control.DEF_Error;
-using static LWDicer.Control.DEF_Common;
+using static LWDicer.Layers.DEF_Error;
+using static LWDicer.Layers.DEF_Common;
 
 
-namespace LWDicer.Control
+namespace LWDicer.Layers
 {
     public class MLog
     {
