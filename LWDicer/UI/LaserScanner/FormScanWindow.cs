@@ -397,11 +397,12 @@ namespace LWDicer.UI
             CMarkingObject[] pGroup = new CMarkingObject[itemNum];
 
             int groupCount = 0;
+            // 선택된 객체만 Group에 삽입함.
             foreach (ListViewItem item in ShapeListView.SelectedItems)
             {
                 int nIndex = item.Index;
                 m_ScanManager.ObjectList[nIndex].IsSelectedObject = false;
-                pGroup[groupCount] = m_ScanManager.ObjectList[nIndex];
+                pGroup[groupCount] = ObjectExtensions.Copy(m_ScanManager.ObjectList[nIndex]);
 
                 groupCount++;
             }
@@ -409,9 +410,11 @@ namespace LWDicer.UI
             PointF pStart = new PointF(0, 0);
             PointF pEnd = new PointF(0, 0);
 
+            // Group을 추가함.
             m_ScanManager.AddObject(EObjectType.GROUP, pStart, pEnd, pGroup);
             AddObjectList(m_ScanManager.GetLastObject());
 
+            // 그룹화된 Object를 삭제함.
             btnShapeDelete_Click(sender, e);
         }
 
@@ -709,7 +712,6 @@ namespace LWDicer.UI
 
         }
 
-
         private void btnObjectArrayCopy_Click_1(object sender, EventArgs e)
         {
             if (SelectObjectListView < 0) return;
@@ -720,46 +722,48 @@ namespace LWDicer.UI
             int arrayNumY = int.Parse(txtArrayNumY.Text);
             float arrayGapY = float.Parse(txtArrayGapY.Text);
 
+            if (arrayNumX <= 0 || arrayNumY <= 0) return;
+
             PointF posStart = new PointF(0, 0);
             PointF posEnd = new PointF(0, 0);
             PointF posMove = new PointF(0, 0);
 
-            // 초기 X,Y Axis 값을 초기화 한다.
-            posStart = m_ScanManager.ObjectList[SelectObjectListView].ptObjectStartPos;
-            posEnd = m_ScanManager.ObjectList[SelectObjectListView].ObjectType == EObjectType.DOT ?
-                       m_ScanManager.ObjectList[SelectObjectListView].ptObjectStartPos :
-                       m_ScanManager.ObjectList[SelectObjectListView].ptObjectEndPos;
+            CMarkingObject pObject = ObjectExtensions.Copy(m_ScanManager.ObjectList[SelectObjectListView]);
 
+            // 초기 X,Y Axis 값을 초기화 한다.
+            posStart = pObject.ptObjectStartPos;
+            posEnd   = pObject.ObjectType == EObjectType.DOT ?
+                       pObject.ptObjectStartPos :
+                       pObject.ptObjectEndPos;
+
+            int iObjectNum = arrayNumX * arrayNumY;
+
+            //Parallel.For(0, BmpScanLine.Length, index => BmpScanLine[index] = 255);
+
+            CMarkingObject[] pGroup = new CMarkingObject[iObjectNum];
+            int iGroupCount = 0;
             for (int i = 0; i < arrayNumY; i++)
             {
                 // 초기 X Axis 값을 초기화 한다.
-                posStart.X = m_ScanManager.ObjectList[SelectObjectListView].ptObjectStartPos.X;
-                posEnd.X = m_ScanManager.ObjectList[SelectObjectListView].ptObjectEndPos.X;
+                posStart.X = pObject.ptObjectStartPos.X;
+                posEnd.X = pObject.ptObjectEndPos.X;
                 posMove.X = 0;
 
                 for (int j = 0; j < arrayNumX; j++)
+                //Parallel.For(0, arrayNumX, (int j) =>
                 {
-                    // 첫 번째는 복사에서 제외한다.
-                    if (i == 0 && j == 0)
+                    // 복사 Object가 Group일 경우
+                    if (pObject.ObjectType == EObjectType.GROUP)
                     {
-                        posStart.X += arrayGapX;
-                        posEnd.X += arrayGapX;
-                        posMove.X += arrayGapX;
-                        continue;
-                    }
-
-                    if (m_ScanManager.ObjectList[SelectObjectListView].ObjectType == EObjectType.GROUP)
-                    {
-                        m_ScanManager.AddObject(m_ScanManager.ObjectList[SelectObjectListView]);
-                        m_ScanManager.GetLastObject().MoveObject(posMove);
+                        pGroup[iGroupCount] = ObjectExtensions.Copy(pObject);
+                        pGroup[iGroupCount].MoveObject(posMove);
+                        iGroupCount++;
                     }
                     else
                     {
-                        m_ScanManager.AddObject(m_ScanManager.ObjectList[SelectObjectListView].ObjectType, posStart, posEnd);
+                        pGroup[iGroupCount] = m_ScanManager.MakeObject(pObject.ObjectType, posStart, posEnd);
+                        iGroupCount++;
                     }
-
-                    AddObjectList(m_ScanManager.GetLastObject());
-
                     // X Axis 값을 간격으로 증가시킨다.
                     posStart.X += arrayGapX;
                     posEnd.X += arrayGapX;
@@ -767,11 +771,30 @@ namespace LWDicer.UI
                 }
                 // Y Axis 값을 간격으로 증가시킨다.
                 posStart.Y += arrayGapY;
-                posEnd.Y += arrayGapY;
-                posMove.Y += arrayGapY;
+                posEnd.Y   += arrayGapY;
+                posMove.Y  += arrayGapY;
+            }
+
+            // Group을 추가함.
+            var start = new PointF(0, 0);
+            var end = new PointF(0, 0);
+            m_ScanManager.AddObject(EObjectType.GROUP, start, end, pGroup);
+            m_FormScanner.AddObjectList(m_ScanManager.GetLastObject());
+
+            // 복사된 Object 삭제
+            foreach (ListViewItem item in ShapeListView.SelectedItems)
+            {
+                int nIndex = item.Index;
+                m_ScanManager.DeleteObject(nIndex);
+                ShapeListView.Items.Remove(item);
             }
 
             ReDrawCanvas();
+        }
+
+        public void ObjectArrayCopy()
+        {
+
         }
 
 
@@ -804,7 +827,7 @@ namespace LWDicer.UI
 
         private void btnCircle_Click(object sender, EventArgs e)
         {
-            m_ScanWindow.SetObjectType(EObjectType.ELLIPSE);
+            m_ScanWindow.SetObjectType(EObjectType.CIRCLE);
         }
 
 
@@ -820,7 +843,25 @@ namespace LWDicer.UI
 
         private void btnDxf_Click(object sender, EventArgs e)
         {
-            m_ScanWindow.SetObjectType(EObjectType.DXF);
+            //m_ScanWindow.SetObjectType(EObjectType.DXF);
+
+            string filename = null;
+
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "AutoCad files (*.dxf, *.dwg)|*.dxf;*.dwg";
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                try
+                {
+                    filename = openFileDialog.FileName;
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error occurred: " + ex.Message);
+                }
+            }
+
+            m_ScanManager.LoadCadFile(filename);
         }
 
         private void btnNone_Click(object sender, EventArgs e)
@@ -849,7 +890,7 @@ namespace LWDicer.UI
                 filename = imgSaveDlg.FileName;
                 //string filepath = string.Format("{0:s}{1:s}.bmp", CMainFrame.DBInfo.ImageDataDir, "Polygon");
 
-                CMainFrame.LWDicer.m_MeScanner.SetSizeBmp();
+                if (CMainFrame.LWDicer.m_MeScanner.SetSizeBmp() != SUCCESS) return;
                 CMainFrame.LWDicer.m_MeScanner.ConvertBmpFile(filename);
             }
         }

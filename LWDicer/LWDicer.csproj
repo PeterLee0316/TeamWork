@@ -145,6 +145,12 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
+    <Reference Include="WW">
+      <HintPath>..\..\..\SFA\LWDicer\dll\Cadlib\WW.dll</HintPath>
+    </Reference>
+    <Reference Include="WW.Cad">
+      <HintPath>..\..\..\SFA\LWDicer\dll\Cadlib\WW.Cad.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Common\BaseClass\MCmdTarget.cs" />
@@ -810,6 +816,11 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Common\CAD\WW.Cad.dll" />
+    <Content Include="Common\CAD\WW.dll" />
+    <Content Include="Common\CAD\WW.GL.dll" />
+    <Content Include="Common\CAD\WW.License.dll" />
+    <Content Include="Common\CAD\WW.Pdf.dll" />
     <Content Include="Common\img\arrow-down.png" />
     <Content Include="Common\img\arrow-left.png" />
     <Content Include="Common\img\arrow-right.png" />

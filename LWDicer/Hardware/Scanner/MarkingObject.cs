@@ -391,24 +391,24 @@ namespace LWDicer.Layers
 
     }
     [Serializable]
-    public class CObjectEllipse : CMarkingObject
+    public class CObjectCircle : CMarkingObject
     {
-        public CObjectEllipse(PointF pStart, PointF pEnd, float pAngle = 0)
+        public CObjectCircle(PointF pStart, PointF pEnd, float pAngle = 0)
         {
 
             SetObjectStartPos(pStart);
             SetObjectEndPos(pEnd);
             SetObjectRatateAngle(pAngle);
 
-            SetObjectType(EObjectType.ELLIPSE);
-            SetObjectName("Ellipse");
+            SetObjectType(EObjectType.CIRCLE);
+            SetObjectName("Circle");
 
             CMarkingObject.CreateSortNum++;
 
             SetObjectSortFlag(CreateSortNum);
         }
 
-        public CObjectEllipse(CObjectEllipse pObject)
+        public CObjectCircle(CObjectCircle pObject)
         {
             SetObjectStartPos(pObject.ptObjectStartPos);
             SetObjectEndPos(pObject.ptObjectEndPos);
@@ -427,7 +427,7 @@ namespace LWDicer.Layers
 
             StartPos = AbsFieldToPixel(ptObjectStartPos);
             EndPos = AbsFieldToPixel(ptObjectEndPos);
-
+            
             g.DrawEllipse(BaseDrawPen[(int)EDrawPenType.DRAW],
                             (StartPos.X < EndPos.X ? StartPos.X : EndPos.X),
                             (StartPos.Y < EndPos.Y ? StartPos.Y : EndPos.Y),
@@ -462,6 +462,10 @@ namespace LWDicer.Layers
     {
         public CObjectFont(PointF pStart, PointF pEnd, float pAngle = 0)
         {
+            SetObjectStartPos(pStart);
+            SetObjectEndPos(pEnd);
+            SetObjectRatateAngle(pAngle);
+
             SetObjectName("Font");
 
             CreateSortNum++;
@@ -470,23 +474,43 @@ namespace LWDicer.Layers
     [Serializable]
     public class CObjectBmp : CMarkingObject
     {
-        public CObjectBmp()
+        private Bitmap m_Bitmap;
+        private Rectangle rectSourceImage = new Rectangle(0,0,0,0);
+        private Rectangle rectDisplay = new Rectangle(0, 0, 0, 0);
+
+        public CObjectBmp(string fileName, PointF pStart, PointF pEnd, float pAngle = 0)
         {
+            m_Bitmap = new Bitmap(fileName);
+            //rectSourceImage.Location.X = 
+
+            SetObjectStartPos(pStart);
+            SetObjectEndPos(pEnd);
+            SetObjectRatateAngle(pAngle);
+
             SetObjectName("Bmp");
 
             CreateSortNum++;
         }
-    }
-    [Serializable]
-    public class CObjectCAD : CMarkingObject
-    {
-        public CObjectCAD()
-        {
-            SetObjectName("Cad");
 
-            CreateSortNum++;
+        public override void DrawObject(Graphics g)
+        {
+            base.DrawObject(g);
+
+            Rectangle rectSourceImage;
+            Rectangle rectDisplay;
+
+            //m_Bitmap.Size
+            Point StartPos = new Point(0, 0);
+            Point EndPos = new Point(0, 0);
+
+            StartPos = AbsFieldToPixel(ptObjectStartPos);
+            EndPos = AbsFieldToPixel(ptObjectEndPos);
+
+            g.DrawImage(m_Bitmap, StartPos);
         }
+
     }
+
     [Serializable]
     public class CObjectGroup : CMarkingObject
     {
@@ -494,8 +518,7 @@ namespace LWDicer.Layers
 
         public CObjectGroup(CMarkingObject[] pGroup)
         {
-            CreateGroup(pGroup);
-            
+            CreateGroup(pGroup);            
         }
 
         public CObjectGroup(CObjectGroup pObject)
@@ -561,6 +584,8 @@ namespace LWDicer.Layers
             int iCount = 0;
             foreach (CMarkingObject pObject in pGroup)
             {
+                if (pObject == null) continue;
+
                 if (pObject.ObjectType == EObjectType.DOT) pObject.SetObjectEndPos(pObject.ptObjectStartPos);
 
                 if (iCount == 0)
@@ -578,9 +603,7 @@ namespace LWDicer.Layers
                 if (pObject.ptObjectStartPos.Y > pEnd.Y) pEnd.Y = pObject.ptObjectStartPos.Y;
                 if (pObject.ptObjectEndPos.X > pEnd.X) pEnd.X = pObject.ptObjectEndPos.X;
                 if (pObject.ptObjectEndPos.Y > pEnd.Y) pEnd.Y = pObject.ptObjectEndPos.Y;
-
-
-
+                
                 iCount++;
             }
 

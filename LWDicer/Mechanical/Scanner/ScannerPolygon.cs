@@ -220,9 +220,16 @@ namespace LWDicer.Layers
             // BMP File의 가로 한줄의 Byte Array의 크기를 설정한다.
             // 1bit BMP이므로 8를 나눈 값으로 설정함.
             Array.Resize<byte>(ref BmpScanLine, BmpImageWidth / 8);
-            
+
             // BMP file의 크기를 설정한다
-            m_Bitmap = new Bitmap(BmpImageWidth, BmpImageHeight+1, PixelFormat.Format1bppIndexed);
+            try
+            {
+                m_Bitmap = new Bitmap(BmpImageWidth, BmpImageHeight + 1, PixelFormat.Format1bppIndexed);
+            }
+            catch
+            {
+                //return RUN_FAIL;
+            }
             
             BmpInit();
            
@@ -231,6 +238,7 @@ namespace LWDicer.Layers
                 
         private void BmpInit(bool bWhite=true)
         {
+            if (m_Bitmap == null) return;
             int iWidth = m_Bitmap.Width;
             int iHeight = m_Bitmap.Height;
 
@@ -276,7 +284,8 @@ namespace LWDicer.Layers
             recTarget = new Rectangle(0, 0, iWidth, iHeight);
             targetBmpData = m_Bitmap.LockBits(recTarget, ImageLockMode.ReadWrite, PixelFormat.Format1bppIndexed);
 
-            for (int y = 0; y < recSource.Height; y++)
+            //for (int y = 0; y < recSource.Height; y++)
+            Parallel.For(0, recSource.Height, (int y) =>
             {
                 // source Image에서 가로 한줄을 byte[]로 Copy함
                 Marshal.Copy((IntPtr)((long)sourceBmpData.Scan0 + sourceBmpData.Stride * y),
@@ -286,7 +295,7 @@ namespace LWDicer.Layers
                 {
                     Marshal.Copy(BmpScanLine, 0, (IntPtr)((long)targetBmpData.Scan0 + targetBmpData.Stride * (y * expandNum + x)), BmpScanLine.Length);
                 }
-            }
+            });
 
             sourceBmp.UnlockBits(sourceBmpData);
             m_Bitmap.UnlockBits(targetBmpData);
@@ -306,6 +315,7 @@ namespace LWDicer.Layers
                 int iObjectCount = m_ScanManager.ObjectList.Count;
                 if (iObjectCount < 1) return SHAPE_LIST_DISABLE;
 
+                //Parallel.For(0, iObjectCount, (int i) =>
                 for (int i = 0; i < iObjectCount; i++)
                 {
                     // 생성된 BMP 파일에 Object Draw
@@ -351,7 +361,7 @@ namespace LWDicer.Layers
                     DrawLine(ptEnd.X, ptStart.Y, ptEnd.X, ptEnd.Y);
 
                     break;
-                case EObjectType.ELLIPSE:
+                case EObjectType.CIRCLE:
                     DrawEllipse(ptStart, ptEnd);
                     break;
                 case EObjectType.GROUP:
@@ -488,16 +498,26 @@ namespace LWDicer.Layers
             // 기울기가 있을 경우
             ////////////////////////////////////////////////////            
 
+            Point ptTemp = new Point(0, 0);
+
+            // Start가 End Point보다 클 경우 Point를 swat한다.
+            if (ptStart.X > ptEnd.X)
+            {
+                ptTemp = ptStart;
+                ptStart = ptEnd;
+                ptEnd = ptTemp;
+            }
+
             // Y축 방향으로 기울기를 구함.
             // 영상의 방향을 Y축이 반대로 되어 있음.
             float dSlope = (float)(ptEnd.Y - ptStart.Y) / (float)(ptEnd.X - ptStart.X);
 
-            float dIncValue = 1 / dSlope;
+            float dIncValue = Math.Abs(1 / dSlope);
             float dIncCount = Math.Abs(1 / dSlope);
 
             // X축 대비 Y축 증감이 1보다 크면... 1을 넣어준다.
             // (Pixel 단위로 증감을 위해서)
-            if (Math.Abs(dIncValue) > 1) dIncValue = 1;
+            if (dIncValue> 1) dIncValue = 1;
 
             // 시작점을 대입한다.
             float dValueX = (float)ptStart.X;
@@ -506,13 +526,9 @@ namespace LWDicer.Layers
             // X축의 시작점과 끝나는 점 확인 (이에 따라서.. 증감을 결정함)
             float dStartValue = (float)ptStart.X;
             float dEndValue = (float)ptEnd.X;
-            dIncValue *= (dStartValue < dEndValue) ? 1 : -1;
 
-            for (float dX = dStartValue; ; dX = dX + dIncValue)
+            for (float dX = dStartValue; dX <= dEndValue; dX = dX + dIncValue)
             {
-                if (dIncValue > 0 && dX >= dEndValue) return;
-                if (dIncValue < 0 && dX <= dEndValue) return;
-
                 // 연산된 값을 Int형으로 변환 (반올림)
                 CurrentValueX = (int)(dValueX + 0.5);
                 CurrentValueY = (int)(dValueY + 0.5);
