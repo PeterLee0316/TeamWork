@@ -58,8 +58,12 @@ namespace LWDicer.Layers
             HANDLER,        // with handler
             SPINNER1,       // with spinner1
             SPINNER2,       // with spinner2
-            TEMP_UNLOAD,
-            RELOAD,     // re grip position, Load -> Temp_Unload -> Reload -> Unload2
+
+            // front grip으로 wafer를 가져와서 temp_unload 위치에 놓은 후에, reload위치로 이동해서 
+            // rear grip으로 다시 wafer를 grip
+            // Load -> Temp_Unload, ungrip -> Reload, grip -> Unload2
+            TEMP_UNLOAD,    
+            RELOAD,         
             MAX,
         }
 
@@ -294,6 +298,10 @@ namespace LWDicer.Layers
 
         public int IsAllAxisOrignReturned(out bool bStatus)
         {
+            // for test
+            bStatus = true;
+            return SUCCESS;
+
             bool[] bAxisStatus;
             int iResult = m_RefComp.AxPushPull.IsOriginReturned(DEF_ALL_COORDINATE, out bStatus, out bAxisStatus);
             if (iResult != SUCCESS) return iResult;
@@ -728,6 +736,9 @@ namespace LWDicer.Layers
             {
                 return GenerateErrorCode(ERR_PUSHPULL_NOT_ORIGIN_RETURNED);
             }
+
+            // for test
+            return SUCCESS;
 
             // check lock
             if (bCheckGripLock == true)

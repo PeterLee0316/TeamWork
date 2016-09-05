@@ -45,9 +45,20 @@ namespace LWDicer.UI
 
         private int nDataMode = 0;
 
-        private CMovingObject movingCleanObject = CMainFrame.LWDicer.m_MeSpinner1.AxCleanNozzleInfo;
-        private CMovingObject movingCoatObject = CMainFrame.LWDicer.m_MeSpinner1.AxCoatNozzleInfo;
-        private CMovingObject movingRotateObject = CMainFrame.LWDicer.m_MeSpinner1.AxRotateInfo;
+        public MCtrlSpinner CtrlSpinner;
+        public CMovingObject MO_Rotate;
+        public CMovingObject MO_CleanNozzle;
+        public CMovingObject MO_CoatNozzle;
+
+        public ETeachUnit TeachUnit;
+        public EPositionObject PO_Rotate;
+        public EPositionObject PO_CleanNozzle;
+        public EPositionObject PO_CoatNozzle;
+        public EPositionGroup PositionGroup;
+
+        public EYMC_Axis Axis_Rotate_T;
+        public EYMC_Axis Axis_CleanNozzle_T;
+        public EYMC_Axis Axis_CoatNozzle_T;
 
         public FormSpinner1Teach()
         {
@@ -69,7 +80,7 @@ namespace LWDicer.UI
         {
             this.DesktopLocation = new Point(1, 100);
 
-            this.Text = "Spinner 1 Part Teaching Screen";
+            this.Text = $"{PositionGroup.ToString()} Part Teaching Screen";
 
             UpdateRotateTeachPos(0);
             UpdateNozzleTeachPos(0);
@@ -206,19 +217,19 @@ namespace LWDicer.UI
             double dFixedN2Pos = 0, dOffsetN2Pos = 0, dTargetN2Pos = 0, dModelN2Pos = 0, dAlignN2Offset;
             int index = m_nSelectedPos_Nozzle;
 
-            dFixedN1Pos = movingCleanObject.FixedPos.Pos[index].dT;
-            dOffsetN1Pos = movingCleanObject.OffsetPos.Pos[index].dT;
-            dModelN1Pos = movingCleanObject.ModelPos.Pos[index].dT;
-            dAlignN1Offset = movingCleanObject.AlignOffset.dT;
+            dFixedN1Pos = MO_CleanNozzle.FixedPos.Pos[index].dT;
+            dOffsetN1Pos = MO_CleanNozzle.OffsetPos.Pos[index].dT;
+            dModelN1Pos = MO_CleanNozzle.ModelPos.Pos[index].dT;
+            dAlignN1Offset = MO_CleanNozzle.AlignOffset.dT;
 
             dTargetN1Pos = dFixedN1Pos + dOffsetN1Pos + dModelN1Pos + dAlignN1Offset;
 
             GridNozzleTeachTable[2, 1].Text = String.Format("{0:0.000}", dTargetN1Pos);
 
-            dFixedN2Pos = movingCoatObject.FixedPos.Pos[index].dT;
-            dOffsetN2Pos = movingCoatObject.OffsetPos.Pos[index].dT;
-            dModelN2Pos = movingCoatObject.ModelPos.Pos[index].dT;
-            dAlignN2Offset = movingCoatObject.AlignOffset.dT;
+            dFixedN2Pos = MO_CoatNozzle.FixedPos.Pos[index].dT;
+            dOffsetN2Pos = MO_CoatNozzle.OffsetPos.Pos[index].dT;
+            dModelN2Pos = MO_CoatNozzle.ModelPos.Pos[index].dT;
+            dAlignN2Offset = MO_CoatNozzle.AlignOffset.dT;
 
             dTargetN2Pos = dFixedN2Pos + dOffsetN2Pos + dModelN2Pos + dAlignN2Offset;
 
@@ -246,10 +257,10 @@ namespace LWDicer.UI
             double dFixedPos, dOffsetPos, dTargetPos, dModelPos, dAlignOffset;
             int index = m_nSelectedPos_Rotate;
 
-            dFixedPos = movingRotateObject.FixedPos.Pos[index].dT;
-            dOffsetPos = movingRotateObject.OffsetPos.Pos[index].dT;
-            dModelPos = movingRotateObject.ModelPos.Pos[index].dT;
-            dAlignOffset = movingRotateObject.AlignOffset.dT;
+            dFixedPos = MO_Rotate.FixedPos.Pos[index].dT;
+            dOffsetPos = MO_Rotate.OffsetPos.Pos[index].dT;
+            dModelPos = MO_Rotate.ModelPos.Pos[index].dT;
+            dAlignOffset = MO_Rotate.AlignOffset.dT;
 
             dTargetPos = dFixedPos + dOffsetPos + dModelPos + dAlignOffset;
 
@@ -376,7 +387,7 @@ namespace LWDicer.UI
                 GridNozzleTeachTable[1, i + 1].Description = "";
             }
 
-            GridNozzleTeachTable[1, 0].Text = Convert.ToString(ETeachUnit.CLEANER1);
+            GridNozzleTeachTable[1, 0].Text = Convert.ToString(TeachUnit);
 
             GridNozzleTeachTable[1, 1].Description = "Nozzle 1 T Axis";
             GridNozzleTeachTable[1, 1].TextColor = Color.DarkRed;
@@ -463,7 +474,7 @@ namespace LWDicer.UI
                 GridRotateTeachTable[1, i + 1].Description = "";
             }
 
-            GridRotateTeachTable[1, 0].Text = Convert.ToString(ETeachUnit.CLEANER1);
+            GridRotateTeachTable[1, 0].Text = Convert.ToString(TeachUnit);
 
             GridRotateTeachTable[1, 1].Description = "Rotate T Axis";
             GridRotateTeachTable[1, 1].TextColor = Color.DarkRed;
@@ -564,8 +575,8 @@ namespace LWDicer.UI
                 strData = GridNozzleTeachTable[3, 2].Text;
                 CMainFrame.DataManager.FixedPos.S1_CoaterPos.Pos[m_nSelectedPos_Nozzle].dT = Convert.ToDouble(strData);
 
-                CMainFrame.DataManager.SavePositionData(true, EPositionObject.S1_CLEAN_NOZZLE);
-                CMainFrame.DataManager.SavePositionData(true, EPositionObject.S1_COAT_NOZZLE);
+                CMainFrame.DataManager.SavePositionData(true, PO_CleanNozzle);
+                CMainFrame.DataManager.SavePositionData(true, PO_CoatNozzle);
             }
 
             if(GetDataMode() == OffsetData)
@@ -576,11 +587,11 @@ namespace LWDicer.UI
                 strData = GridNozzleTeachTable[6, 2].Text;
                 CMainFrame.DataManager.OffsetPos.S1_CoaterPos.Pos[m_nSelectedPos_Nozzle].dT = Convert.ToDouble(strData);
 
-                CMainFrame.DataManager.SavePositionData(false, EPositionObject.S1_CLEAN_NOZZLE);
-                CMainFrame.DataManager.SavePositionData(false, EPositionObject.S1_COAT_NOZZLE);
+                CMainFrame.DataManager.SavePositionData(false, PO_CleanNozzle);
+                CMainFrame.DataManager.SavePositionData(false, PO_CoatNozzle);
             }
 
-            CMainFrame.LWDicer.SetPositionDataToComponent(EPositionGroup.SPINNER1);
+            CMainFrame.LWDicer.SetPositionDataToComponent(PositionGroup);
 
             DisplayPos_Nozzle();
         }
@@ -596,7 +607,7 @@ namespace LWDicer.UI
                 strData = GridRotateTeachTable[3, 1].Text;
                 CMainFrame.DataManager.FixedPos.S1_RotatePos.Pos[m_nSelectedPos_Rotate].dT = Convert.ToDouble(strData);
 
-                CMainFrame.DataManager.SavePositionData(true, EPositionObject.S1_ROTATE);
+                CMainFrame.DataManager.SavePositionData(true, PO_Rotate);
             }
 
             if(GetDataMode() == OffsetData)
@@ -604,10 +615,10 @@ namespace LWDicer.UI
                 strData = GridRotateTeachTable[6, 1].Text;
                 CMainFrame.DataManager.OffsetPos.S1_RotatePos.Pos[m_nSelectedPos_Rotate].dT = Convert.ToDouble(strData);
 
-                CMainFrame.DataManager.SavePositionData(false, EPositionObject.S1_ROTATE);
+                CMainFrame.DataManager.SavePositionData(false, PO_Rotate);
             }
 
-            CMainFrame.LWDicer.SetPositionDataToComponent(EPositionGroup.SPINNER1);
+            CMainFrame.LWDicer.SetPositionDataToComponent(PositionGroup);
 
             DisplayPos_Rotate();
         }
@@ -638,31 +649,31 @@ namespace LWDicer.UI
             // Current Position Display
             string strCurPos = string.Empty;
 
-            strCurPos = String.Format("{0:0.000}", CMainFrame.LWDicer.m_YMC.ServoStatus[(int)EYMC_Axis.S1_CLEAN_NOZZLE_T].EncoderPos);
+            strCurPos = String.Format("{0:0.000}", CMainFrame.LWDicer.m_YMC.ServoStatus[(int)Axis_CleanNozzle_T].EncoderPos);
             GridNozzleTeachTable[7, 1].Text = strCurPos;
 
-            strCurPos = String.Format("{0:0.000}", CMainFrame.LWDicer.m_YMC.ServoStatus[(int)EYMC_Axis.S1_COAT_NOZZLE_T].EncoderPos);
+            strCurPos = String.Format("{0:0.000}", CMainFrame.LWDicer.m_YMC.ServoStatus[(int)Axis_CoatNozzle_T].EncoderPos);
             GridNozzleTeachTable[7, 2].Text = strCurPos;
 
-            strCurPos = String.Format("{0:0.000}", CMainFrame.LWDicer.m_YMC.ServoStatus[(int)EYMC_Axis.S1_CHUCK_ROTATE_T].EncoderPos);
+            strCurPos = String.Format("{0:0.000}", CMainFrame.LWDicer.m_YMC.ServoStatus[(int)Axis_Rotate_T].EncoderPos);
             GridRotateTeachTable[7, 1].Text = strCurPos;
 
             // 보정값 Display
             double dValue = 0, dCurPos = 0, dTargetPos = 0;
 
-            dCurPos = CMainFrame.LWDicer.m_YMC.ServoStatus[(int)EYMC_Axis.S1_CLEAN_NOZZLE_T].EncoderPos;
+            dCurPos = CMainFrame.LWDicer.m_YMC.ServoStatus[(int)Axis_CleanNozzle_T].EncoderPos;
             dTargetPos = Convert.ToDouble(GridNozzleTeachTable[2, 1].Text);
             dValue = dTargetPos - dCurPos;
 
             GridNozzleTeachTable[8, 1].Text = String.Format("{0:0.000}", dValue);
 
-            dCurPos = CMainFrame.LWDicer.m_YMC.ServoStatus[(int)EYMC_Axis.S1_COAT_NOZZLE_T].EncoderPos;
+            dCurPos = CMainFrame.LWDicer.m_YMC.ServoStatus[(int)Axis_CoatNozzle_T].EncoderPos;
             dTargetPos = Convert.ToDouble(GridNozzleTeachTable[2, 2].Text);
             dValue = dTargetPos - dCurPos;
 
             GridNozzleTeachTable[8, 2].Text = String.Format("{0:0.000}", dValue);
 
-            dCurPos = CMainFrame.LWDicer.m_YMC.ServoStatus[(int)EYMC_Axis.S1_CHUCK_ROTATE_T].EncoderPos;
+            dCurPos = CMainFrame.LWDicer.m_YMC.ServoStatus[(int)Axis_Rotate_T].EncoderPos;
             dTargetPos = Convert.ToDouble(GridRotateTeachTable[2, 1].Text);
             dValue = dTargetPos - dCurPos;
 

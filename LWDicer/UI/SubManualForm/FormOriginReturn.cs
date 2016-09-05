@@ -22,6 +22,7 @@ namespace LWDicer.UI
         private bool [] SelectedAxis = new bool[(int)EAxis.MAX];
 
         private ButtonAdv[] BtnList = new ButtonAdv[(int)EAxis.MAX];
+        private string[] BtnName = new string[(int)EAxis.MAX];
         private MTickTimer m_waitTimer = new MTickTimer();
 
 
@@ -50,6 +51,8 @@ namespace LWDicer.UI
 
             for (int i = 0; i < (int)EAxis.MAX; i++)
             {
+                BtnName[i] = BtnList[i].Text;
+
                 //BtnList[i].Tag = i;
                 if (BtnList[i] == null) continue;
                 BtnList[i].Image = Image.Images[0];
@@ -117,10 +120,20 @@ namespace LWDicer.UI
             for (int i = 0; i < (int)EAxis.MAX; i++)
             {
                 if (BtnList[i] == null) continue;
-                CMainFrame.LWDicer.m_OpPanel.GetOriginFlag(i, out bStatus);
 
-                // for test
-                if (i % 3 > 0) bStatus = true;
+                // 서보 on/off 상태
+                CMainFrame.LWDicer.m_OpPanel.GetServoOnStatus(i, out bStatus);
+                if (bStatus == true)
+                {
+                    if (BtnList[i].Text.IndexOf("[On]") < 0) BtnList[i].Text = BtnName[i] + "\r\n[On]";
+                }
+                else
+                {
+                    if (BtnList[i].Text.IndexOf("[Off]") < 0) BtnList[i].Text = BtnName[i] + "\r\n[Off]";
+                }
+
+                // 원점 복귀 상태
+                CMainFrame.LWDicer.m_OpPanel.GetOriginFlag(i, out bStatus);
                 if (bStatus == true)
                 {
                     BtnList[i].BackColor = Color.Yellow;

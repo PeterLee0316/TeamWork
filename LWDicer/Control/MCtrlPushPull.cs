@@ -108,24 +108,18 @@ namespace LWDicer.Layers
         {
             int iResult = m_RefComp.PushPull.IsObjectDetected(out bStatus);
             return iResult;
-
-            return SUCCESS;
         }
 
         public int IsObjectDetected_Front(out bool bStatus)
         {
             int iResult = m_RefComp.PushPull.IsObjectDetected_Front(out bStatus);
             return iResult;
-
-            return SUCCESS;
         }
 
         public int IsObjectDetected_Rear(out bool bStatus)
         {
             int iResult = m_RefComp.PushPull.IsObjectDetected_Rear(out bStatus);
             return iResult;
-
-            return SUCCESS;
         }
         #endregion
 
@@ -246,20 +240,22 @@ namespace LWDicer.Layers
             if (iResult != SUCCESS) return iResult;
 
             // 1 check object exist
-            bool bObjectExist = false;
-            iResult = IsObjectDetected(out bObjectExist);
+            bool bDetected = false;
+            iResult = IsObjectDetected(out bDetected);
             if (iResult != SUCCESS) return iResult;
 
-            if (bPanelTransfer == true && bObjectExist == false)
+            if (bPanelTransfer == true && bDetected == false)
             {
                 return GenerateErrorCode(ERR_CTRLPUSHPULL_OBJECT_NOT_EXIST);
             }
-            else if (bPanelTransfer == false && bObjectExist == true)
+            else if (bPanelTransfer == false && bDetected == true)
             {
                 return GenerateErrorCode(ERR_CTRLPUSHPULL_OBJECT_EXIST);
             }
 
             // 2. check other unit
+            // 2.0 이동할 반대편 위치 (예를들어 spinner1 -> spinner2 구간으로 이동할때)
+
             // 2.1 handler
 
             // 2.2 elevator
@@ -279,8 +275,8 @@ namespace LWDicer.Layers
             int curPos = (int)ECenterPos.NONE;
 
             // 1 check object exist
-            bool bObjectExist = false;
-            iResult = IsObjectDetected(out bObjectExist);
+            bool bDetected = false;
+            iResult = IsObjectDetected(out bDetected);
             if (iResult != SUCCESS) return iResult;
 
             // 2. object가 감지될때, center unit을 wait위치로 이동시킬경우엔 
@@ -326,6 +322,34 @@ namespace LWDicer.Layers
             return SUCCESS;
         }
 
+        public int MoveToTempUnloadPos(bool bPanelTransfer, double dYMoveOffset = 0)
+        {
+            double[] dMoveOffset = new double[DEF_XYTZ];
+            dMoveOffset[DEF_Y] = dYMoveOffset;
+
+            int iResult = CheckSafety_forPushPullMoving((int)EPushPullPos.TEMP_UNLOAD, bPanelTransfer);
+            if (iResult != SUCCESS) return iResult;
+
+            iResult = m_RefComp.PushPull.MovePushPullToTempUnloadPos(true, false, dMoveOffset);
+            if (iResult != SUCCESS) return iResult;
+
+            return SUCCESS;
+        }
+
+        public int MoveToReloadPos(bool bPanelTransfer, double dYMoveOffset = 0)
+        {
+            double[] dMoveOffset = new double[DEF_XYTZ];
+            dMoveOffset[DEF_Y] = dYMoveOffset;
+
+            int iResult = CheckSafety_forPushPullMoving((int)EPushPullPos.RELOAD, bPanelTransfer);
+            if (iResult != SUCCESS) return iResult;
+
+            iResult = m_RefComp.PushPull.MovePushPullToReloadPos(true, false, dMoveOffset);
+            if (iResult != SUCCESS) return iResult;
+
+            return SUCCESS;
+        }
+
         public int MoveToHandlerPos(bool bPanelTransfer, double dYMoveOffset = 0)
         {
             double[] dMoveOffset = new double[DEF_XYTZ];
@@ -339,7 +363,6 @@ namespace LWDicer.Layers
 
             return SUCCESS;
         }
-
 
         public int MoveToSpinner1Pos(bool bPanelTransfer, double dYMoveOffset = 0)
         {
@@ -414,6 +437,5 @@ namespace LWDicer.Layers
 
             return SUCCESS;
         }
-
     }
 }

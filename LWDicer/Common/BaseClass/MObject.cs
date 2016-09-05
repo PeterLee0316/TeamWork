@@ -12,9 +12,12 @@ namespace LWDicer.Layers
 {
     public abstract class MObject
     {
-        protected int ObjectID;
-        protected CObjectInfo ObjInfo;
-        protected MLog LogManager;
+        protected int ObjectID;         // Object Unique ID
+        protected CObjectInfo ObjInfo;  // Object Information
+        protected MLog LogManager;      // Log Manager
+
+        public int ErrorCode { get; private set; }          // Error Code
+        public static string ErrorSubMsg { get; protected set; }   // for Error Message by Hardware Library was generated
 
         public MObject(CObjectInfo ObjInfo)
         {
@@ -28,15 +31,18 @@ namespace LWDicer.Layers
             WriteLog(str);
         }
 
-        public int GenerateErrorCode(int error, bool writeLog = true)
+        public int GenerateErrorCode(int error, bool writeLog = true, bool useErrorSubMsg = false)
         {
             if (error == SUCCESS) // Success
             {
-                return SUCCESS;
+                ErrorSubMsg = "";
+                ErrorCode = SUCCESS;
+            } else
+            {
+                if (useErrorSubMsg == false) ErrorSubMsg = "";
+                ErrorCode = (ObjInfo.ID << 16) + (ObjInfo.ErrorBase + error);
             }
-
-            int errorCode = (ObjInfo.ID << 16) + (ObjInfo.ErrorBase + error);
-            return errorCode;
+            return ErrorCode;
         }
 
         public override string ToString()

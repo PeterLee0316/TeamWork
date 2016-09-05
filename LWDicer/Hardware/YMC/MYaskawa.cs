@@ -18,7 +18,7 @@ namespace LWDicer.Layers
     public class DEF_Yaskawa
     {
         public const int ERR_YASKAWA_INVALID_CONTROLLER                  = 1;
-        public const int ERR_YASKAWA_FAIL_OPEN_YMC                       = 2;
+        public const int ERR_YASKAWA_FAIL_OPEN_YMC_CONTROLLER            = 2;
         public const int ERR_YASKAWA_FAIL_SET_TIMEOUT                    = 3;
         public const int ERR_YASKAWA_FAIL_CHANGE_CONTROLLER              = 4;
         public const int ERR_YASKAWA_FAIL_DECLARE_AXIS                   = 5;
@@ -51,6 +51,7 @@ namespace LWDicer.Layers
         public const int ERR_YASKAWA_OBSOLETE_FUNCTION                   = 32;
         public const int ERR_YASKAWA_CONTROLLER_NOT_READY                = 33;
         public const int ERR_YASKAWA_MOTION_MOVE_TIMEOUT                 = 34;
+        public const int ERR_YASKAWA_FAIL_CLOSE_YMC_CONTROLLER           = 35;
 
         public const int MAX_MP_CPU = 4;    // pci board EA
         public const int MAX_MP_PORT = 2;   // ports per board
@@ -490,7 +491,7 @@ MP2101TM            SVC(built-in the board, with MECHATROLINK port 1)       1   
         // remember speed type in this class for easy controlling
         public int SpeedType { get; set; } = (int)EMotorSpeed.MANUAL_SLOW;
 
-        public string LastHWMessage { get; private set; }
+        //public string LastHWMessage { get; private set; }
 
         MTickTimer m_waitTimer = new MTickTimer();
         UInt16 APITimeOut = 5000;
@@ -540,18 +541,20 @@ MP2101TM            SVC(built-in the board, with MECHATROLINK port 1)       1   
 #endif
         }
 
-        public new int GenerateErrorCode(int error, bool writeLog = true)
+        /// <summary>
+        /// rc를 이용해서 library에서 제공하는 에러 메시지및 코드를 보고
+        /// </summary>
+        /// <param name="error"></param>
+        /// <param name="rc"></param>
+        /// <param name="writeLog"></param>
+        /// <returns></returns>
+        public int GenerateErrorCode(int error, UInt32 rc, bool writeLog = true)
         {
-            // 하드웨어에서 올라오는 특정 에러 메세지가 더 중요할 경우엔 여기에서 하드웨어 에러 메시지로 바꿈
-            if(LastHWMessage != null)
-            {
-                if (LastHWMessage.IndexOf("0x440D1BA0") >= 0) error = ERR_YASKAWA_CONTROLLER_NOT_READY;
-                if (LastHWMessage.IndexOf("0x470B1212") >= 0) error = ERR_YASKAWA_MOTION_MOVE_TIMEOUT;
-            }
+            ErrorSubMsg = String.Format($"0x{rc.ToString("X")}, {ErrorDictionary[rc.ToString("X")]}");
+            WriteLog(ErrorSubMsg, ELogType.Debug, ELogWType.D_Error, true);
 
-            return base.GenerateErrorCode(error, writeLog);
+            return base.GenerateErrorCode(error, writeLog, true);
         }
-
 
         #region Common : Manage Data, Position, Use Flag and Initialize
         public int SetData(CYaskawaData source)
@@ -615,9 +618,9 @@ MP2101TM            SVC(built-in the board, with MECHATROLINK port 1)       1   
                 rc = CMotionAPI.ymcOpenController(ref ComDevice, ref m_hController[i]);
                 if (rc != CMotionAPI.MP_SUCCESS)
                 {
-                    LastHWMessage = String.Format($"Error ymcOpenController Board {0} ErrorCode [ 0x{1} ]", i, rc.ToString("X"));
-                    WriteLog(LastHWMessage, ELogType.Debug, ELogWType.D_Error, true);
-                    //return GenerateErrorCode(ERR_YASKAWA_FAIL_OPEN_YMC);
+                    ErrorSubMsg = String.Format($"Error ymcOpenController Board {0} ErrorCode [ 0x{1} ]", i, rc.ToString("X"));
+                    WriteLog(ErrorSubMsg, ELogType.Debug, ELogWType.D_Error, true);
+                    //return GenerateErrorCode(ERR_YASKAWA_FAIL_OPEN_YMC_CONTROLLER, rc);
                 }
             }
 #endif
@@ -664,36 +667,38 @@ MP2101TM            SVC(built-in the board, with MECHATROLINK port 1)       1   
 
             for (int i = 0; i < axisList.Length; i++)
             {
+                int index = axisList[i];
+
                 // Thread에서 update하기 때문에 다시 읽을 필요 없음
-                //GetServoStatus(i);
+                //GetServoStatus(index);
 
                 // servo on
-                if (ServoStatus[i].IsServoOn == false)
+                if (ServoStatus[index].IsServoOn == false)
                 {
                     return GenerateErrorCode(ERR_YASKAWA_NOT_SERVO_ON);
                 }
 
                 // alarm
-                if(ServoStatus[i].IsAlarm)
+                if(ServoStatus[index].IsAlarm)
                 {
                     return GenerateErrorCode(ERR_YASKAWA_DETECTED_SERVO_ALARM);
                 }
 
                 // origin return
-                if (ServoStatus[i].IsOriginReturned == false)
+                if (ServoStatus[index].IsOriginReturned == false)
                 {
                     // for test
                     //return GenerateErrorCode(ERR_YASKAWA_NOT_ORIGIN_RETURNED);
                 }
 
                 // plus limit
-                if (ServoStatus[i].DetectPlusSensor)
+                if (ServoStatus[index].DetectPlusSensor)
                 {
                     return GenerateErrorCode(ERR_YASKAWA_DETECTED_PLUS_LIMIT);
                 }
 
                 // alarm
-                if (ServoStatus[i].DetectMinusSensor)
+                if (ServoStatus[index].DetectMinusSensor)
                 {
                     return GenerateErrorCode(ERR_YASKAWA_DETECTED_MINUS_LIMIT);
                 }
@@ -1158,18 +1163,14 @@ MP2101TM            SVC(built-in the board, with MECHATROLINK port 1)       1   
                 rc = CMotionAPI.ymcOpenController(ref ComDevice, ref m_hController[i]);
                 if (rc != CMotionAPI.MP_SUCCESS)
                 {
-                    LastHWMessage = String.Format($"Error ymcOpenController Board {0} ErrorCode [ 0x{1} ]", i, rc.ToString("X"));
-                    WriteLog(LastHWMessage, ELogType.Debug, ELogWType.D_Error, true);
-                    return GenerateErrorCode(ERR_YASKAWA_FAIL_OPEN_YMC);
+                    return GenerateErrorCode(ERR_YASKAWA_FAIL_OPEN_YMC_CONTROLLER, rc);
                 }
 
                 // Sets the motion API timeout. 		
                 rc = CMotionAPI.ymcSetAPITimeoutValue(30000);
                 if (rc != CMotionAPI.MP_SUCCESS)
                 {
-                    LastHWMessage = String.Format($"Error ymcSetAPITimeoutValue : 0x{rc.ToString("X")}, {ErrorDictionary[rc.ToString("X")]}");
-                    WriteLog(LastHWMessage, ELogType.Debug, ELogWType.D_Error, true);
-                    return GenerateErrorCode(ERR_YASKAWA_FAIL_SET_TIMEOUT);
+                    return GenerateErrorCode(ERR_YASKAWA_FAIL_SET_TIMEOUT, rc);
                 }
 
                 iResult = ChangeController(i);
@@ -1179,9 +1180,7 @@ MP2101TM            SVC(built-in the board, with MECHATROLINK port 1)       1   
                 rc = CMotionAPI.ymcClearAllAxes();
                 if (rc != CMotionAPI.MP_SUCCESS)
                 {
-                    LastHWMessage = String.Format($"Error ClearAllAxes  Board : 0x{rc.ToString("X")}, {ErrorDictionary[rc.ToString("X")]}");
-                    WriteLog(LastHWMessage, ELogType.Debug, ELogWType.D_Error, true);
-                    return GenerateErrorCode(ERR_YASKAWA_FAIL_CLEAR_AXIS);
+                    return GenerateErrorCode(ERR_YASKAWA_FAIL_CLEAR_AXIS, rc);
                 }
 
                 for (int j = 0; j < MP_AXIS_PER_CPU; j++)
@@ -1207,9 +1206,7 @@ MP2101TM            SVC(built-in the board, with MECHATROLINK port 1)       1   
                         axisName, ref m_hAxis[logicalAxisNo]);
                     if (rc != CMotionAPI.MP_SUCCESS)
                     {
-                        LastHWMessage = String.Format($"Error ymcDeclareAxis Board  : 0x{rc.ToString("X")}, {ErrorDictionary[rc.ToString("X")]}");
-                        WriteLog(LastHWMessage, ELogType.Debug, ELogWType.D_Error, true);
-                        return GenerateErrorCode(ERR_YASKAWA_FAIL_DECLARE_AXIS);
+                        return GenerateErrorCode(ERR_YASKAWA_FAIL_DECLARE_AXIS, rc);
                     }
                 }
             }
@@ -1239,7 +1236,7 @@ MP2101TM            SVC(built-in the board, with MECHATROLINK port 1)       1   
             }
 
             // for test
-            iResult = ServoOn(0);
+            iResult = ServoOn((int)EYMC_Axis.S1_CHUCK_ROTATE_T);
             if (iResult != SUCCESS) return iResult;
 
             return SUCCESS;
@@ -1253,9 +1250,7 @@ MP2101TM            SVC(built-in the board, with MECHATROLINK port 1)       1   
             UInt32 rc = CMotionAPI.ymcDeclareDevice((UInt16)length, hAxis, ref hDevice);
             if (rc != CMotionAPI.MP_SUCCESS)
             {
-                LastHWMessage = String.Format($"Error ymcDeclareDevice  Board : 0x{rc.ToString("X")}, {ErrorDictionary[rc.ToString("X")]}");
-                WriteLog(LastHWMessage, ELogType.Debug, ELogWType.D_Error, true);
-                return GenerateErrorCode(ERR_YASKAWA_FAIL_DECLARE_DEVICE);
+                return GenerateErrorCode(ERR_YASKAWA_FAIL_DECLARE_DEVICE, rc);
             }
 
             return SUCCESS;
@@ -1290,9 +1285,7 @@ MP2101TM            SVC(built-in the board, with MECHATROLINK port 1)       1   
             UInt32 rc = CMotionAPI.ymcClearDevice(hDevice);
             if (rc != CMotionAPI.MP_SUCCESS)
             {
-                LastHWMessage = String.Format($"Error ymcClearDevice : 0x{rc.ToString("X")}, {ErrorDictionary[rc.ToString("X")]}");
-                WriteLog(LastHWMessage, ELogType.Debug, ELogWType.D_Error, true);
-                return GenerateErrorCode(ERR_YASKAWA_FAIL_CLEAR_DEVICE);
+                return GenerateErrorCode(ERR_YASKAWA_FAIL_CLEAR_DEVICE, rc);
             }
 
             return SUCCESS;
@@ -1309,8 +1302,7 @@ MP2101TM            SVC(built-in the board, with MECHATROLINK port 1)       1   
                 uint rc = CMotionAPI.ymcCloseController(m_hController[i]);
                 if (rc != CMotionAPI.MP_SUCCESS)
                 {
-                    LastHWMessage = String.Format($"Error ymcCloseController Board {0} ErrorCode [ 0x{1} ]", i, rc.ToString("X"));
-                    WriteLog(LastHWMessage, ELogType.Debug, ELogWType.D_Error, true);
+                    return GenerateErrorCode(ERR_YASKAWA_FAIL_CLOSE_YMC_CONTROLLER, rc);
                 }
             }
 
@@ -1340,18 +1332,14 @@ MP2101TM            SVC(built-in the board, with MECHATROLINK port 1)       1   
             uint rc = CMotionAPI.ymcGetController(ref hCurrent);
             if (rc != CMotionAPI.MP_SUCCESS)
             {
-                LastHWMessage = String.Format($"Error ymcGetController Board : 0x{rc.ToString("X")}, {ErrorDictionary[rc.ToString("X")]}");
-                WriteLog(LastHWMessage, ELogType.Debug, ELogWType.D_Error, true);
-                return GenerateErrorCode(ERR_YASKAWA_FAIL_CHANGE_CONTROLLER);
+                return GenerateErrorCode(ERR_YASKAWA_FAIL_CHANGE_CONTROLLER, rc);
             }
             if (hCurrent == m_hController[cpuIndex]) return SUCCESS;
 
             rc = CMotionAPI.ymcSetController(m_hController[cpuIndex]);
             if (rc != CMotionAPI.MP_SUCCESS)
             {
-                LastHWMessage = String.Format($"Error ymcSetController Board : 0x{rc.ToString("X")}, {ErrorDictionary[rc.ToString("X")]}");
-                WriteLog(LastHWMessage, ELogType.Debug, ELogWType.D_Error, true);
-                return GenerateErrorCode(ERR_YASKAWA_FAIL_CHANGE_CONTROLLER);
+                return GenerateErrorCode(ERR_YASKAWA_FAIL_CHANGE_CONTROLLER, rc);
             }
 
             return SUCCESS;
@@ -1395,9 +1383,7 @@ MP2101TM            SVC(built-in the board, with MECHATROLINK port 1)       1   
                     (UInt16)CMotionAPI.ApiDefs_MonPrm.SER_APOS, ref returnValue); //Machine coordinate system feedback position (APOS)
             if (rc != CMotionAPI.MP_SUCCESS)
             {
-                LastHWMessage = String.Format($"Error ymcSetController Board : 0x{rc.ToString("X")}, {ErrorDictionary[rc.ToString("X")]}");
-                //WriteLog(LastHWMessage, ELogType.Debug, ELogWType.D_Error, true);
-                //return GenerateErrorCode(ERR_YASKAWA_FAIL_GET_MOTION_PARAM);
+                //return GenerateErrorCode(ERR_YASKAWA_FAIL_GET_MOTION_PARAM, rc);
                 return;
             } else
             {
@@ -1409,9 +1395,7 @@ MP2101TM            SVC(built-in the board, with MECHATROLINK port 1)       1   
                     (UInt16)CMotionAPI.ApiDefs_MonPrm.SER_FSPD, ref returnValue);
             if (rc != CMotionAPI.MP_SUCCESS)
             {
-                LastHWMessage = String.Format($"Error ymcSetController Board : 0x{rc.ToString("X")}, {ErrorDictionary[rc.ToString("X")]}");
-                //WriteLog(LastHWMessage, ELogType.Debug, ELogWType.D_Error, true);
-                //return GenerateErrorCode(ERR_YASKAWA_FAIL_GET_MOTION_PARAM);
+                //return GenerateErrorCode(ERR_YASKAWA_FAIL_GET_MOTION_PARAM, rc);
                 return;
             }
             else
@@ -1424,9 +1408,7 @@ MP2101TM            SVC(built-in the board, with MECHATROLINK port 1)       1   
                     (UInt16)CMotionAPI.ApiDefs_MonPrm.SER_RUNSTS, ref returnValue);
             if (rc != CMotionAPI.MP_SUCCESS)
             {
-                LastHWMessage = String.Format($"Error ymcSetController Board : 0x{rc.ToString("X")}, {ErrorDictionary[rc.ToString("X")]}");
-                //WriteLog(LastHWMessage, ELogType.Debug, ELogWType.D_Error, true);
-                //return GenerateErrorCode(ERR_YASKAWA_FAIL_GET_MOTION_PARAM);
+                //return GenerateErrorCode(ERR_YASKAWA_FAIL_GET_MOTION_PARAM, rc);
                 return;
             }
             else
@@ -1442,9 +1424,7 @@ MP2101TM            SVC(built-in the board, with MECHATROLINK port 1)       1   
                     (UInt16)CMotionAPI.ApiDefs_MonPrm.SER_ALARM, ref returnValue);
             if (rc != CMotionAPI.MP_SUCCESS)
             {
-                LastHWMessage = String.Format($"Error ymcSetController Board : 0x{rc.ToString("X")}, {ErrorDictionary[rc.ToString("X")]}");
-                //WriteLog(LastHWMessage, ELogType.Debug, ELogWType.D_Error, true);
-                //return GenerateErrorCode(ERR_YASKAWA_FAIL_GET_MOTION_PARAM);
+                //return GenerateErrorCode(ERR_YASKAWA_FAIL_GET_MOTION_PARAM, rc);
                 return;
             }
             else
@@ -1458,9 +1438,7 @@ MP2101TM            SVC(built-in the board, with MECHATROLINK port 1)       1   
             (UInt16)40, ref returnValue);
             if (rc != CMotionAPI.MP_SUCCESS)
             {
-                LastHWMessage = String.Format($"Error ymcSetController Board : 0x{rc.ToString("X")}, {ErrorDictionary[rc.ToString("X")]}");
-                //WriteLog(LastHWMessage, ELogType.Debug, ELogWType.D_Error, true);
-                //return GenerateErrorCode(ERR_YASKAWA_FAIL_GET_MOTION_PARAM);
+                //return GenerateErrorCode(ERR_YASKAWA_FAIL_GET_MOTION_PARAM, rc);
                 return;
             }
             else
@@ -1554,9 +1532,7 @@ MP2101TM            SVC(built-in the board, with MECHATROLINK port 1)       1   
             UInt32 rc = CMotionAPI.ymcServoControl(m_hDevice[deviceNo], (UInt16)CMotionAPI.ApiDefs.SERVO_ON, APITimeOut);
             if (rc != CMotionAPI.MP_SUCCESS)
             {
-                LastHWMessage = String.Format($"Error ymcServoControl ServoOn : 0x{rc.ToString("X")}, {ErrorDictionary[rc.ToString("X")]}");
-                WriteLog(LastHWMessage, ELogType.Debug, ELogWType.D_Error, true);
-                return GenerateErrorCode(ERR_YASKAWA_FAIL_SERVO_ON);
+                return GenerateErrorCode(ERR_YASKAWA_FAIL_SERVO_ON, rc);
             }
 
             return SUCCESS;
@@ -1586,9 +1562,7 @@ MP2101TM            SVC(built-in the board, with MECHATROLINK port 1)       1   
             UInt32 rc = CMotionAPI.ymcServoControl(m_hDevice[deviceNo], (UInt16)CMotionAPI.ApiDefs.SERVO_OFF, APITimeOut);
             if (rc != CMotionAPI.MP_SUCCESS)
             {
-                LastHWMessage = String.Format($"Error ymcServoControl ServoOff : 0x{rc.ToString("X")}, {ErrorDictionary[rc.ToString("X")]}");
-                WriteLog(LastHWMessage, ELogType.Debug, ELogWType.D_Error, true);
-                return GenerateErrorCode(ERR_YASKAWA_FAIL_SERVO_ON);
+                return GenerateErrorCode(ERR_YASKAWA_FAIL_SERVO_OFF, rc);
             }
 
             return SUCCESS;
@@ -1606,10 +1580,7 @@ MP2101TM            SVC(built-in the board, with MECHATROLINK port 1)       1   
             rc = CMotionAPI.ymcClearAlarm(0);
             if (rc != CMotionAPI.MP_SUCCESS)
             {
-                //MessageBox.Show(String.Format("Error ymcClearAlarm : 0x{rc.ToString("X")}, {ErrorDictionary[rc.ToString("X")]}");
-                LastHWMessage = String.Format($"Error ymcClearAlarm : 0x{rc.ToString("X")}, {ErrorDictionary[rc.ToString("X")]}");
-                WriteLog(LastHWMessage, ELogType.Debug, ELogWType.D_Error, true);
-                return GenerateErrorCode(ERR_YASKAWA_FAIL_RESET_ALARM);
+                return GenerateErrorCode(ERR_YASKAWA_FAIL_RESET_ALARM, rc);
             }
 
             bool bResult;
@@ -1632,10 +1603,7 @@ MP2101TM            SVC(built-in the board, with MECHATROLINK port 1)       1   
                     rc = CMotionAPI.ymcClearServoAlarm(m_hAxis[servoNo]);
                     if (rc != CMotionAPI.MP_SUCCESS)
                     {
-                        //MessageBox.Show(String.Format("Error ymcClearServoAlarm : 0x{rc.ToString("X")}, {ErrorDictionary[rc.ToString("X")]}");
-                        LastHWMessage = String.Format($"Error ymcClearServoAlarm : 0x{rc.ToString("X")}, {ErrorDictionary[rc.ToString("X")]}");
-                        WriteLog(LastHWMessage, ELogType.Debug, ELogWType.D_Error, true);
-                        return GenerateErrorCode(ERR_YASKAWA_FAIL_RESET_ALARM);
+                        return GenerateErrorCode(ERR_YASKAWA_FAIL_RESET_ALARM, rc);
                     }
                 }
             }
@@ -1663,10 +1631,7 @@ MP2101TM            SVC(built-in the board, with MECHATROLINK port 1)       1   
                                                               ref returnValue);
             if (rc != CMotionAPI.MP_SUCCESS)
             {
-                //MessageBox.Show(String.Format("Error ymcGetMotionParameterValue : 0x{rc.ToString("X")}, {ErrorDictionary[rc.ToString("X")]}");
-                LastHWMessage = String.Format($"Error ymcGetMotionParameterValue : 0x{rc.ToString("X")}, {ErrorDictionary[rc.ToString("X")]}");
-                WriteLog(LastHWMessage, ELogType.Debug, ELogWType.D_Error, true);
-                return GenerateErrorCode(ERR_YASKAWA_FAIL_GET_MOTION_PARAM);
+                return GenerateErrorCode(ERR_YASKAWA_FAIL_GET_MOTION_PARAM, rc);
             }
 
             //Move 완료 확인 
@@ -1737,11 +1702,7 @@ MP2101TM            SVC(built-in the board, with MECHATROLINK port 1)       1   
             UInt32 rc = CMotionAPI.ymcStopJOG(m_hDevice[deviceNo], 0, "STOP", WaitForCompletion, 0);
             if (rc != CMotionAPI.MP_SUCCESS)
             {
-                //MessageBox.Show(String.Format("Error ymcStopJOG : 0x{rc.ToString("X")}, {ErrorDictionary[rc.ToString("X")]}");
-                LastHWMessage = String.Format($"Error ymcStopJOG : 0x{rc.ToString("X")}, {ErrorDictionary[rc.ToString("X")]}");
-                WriteLog(LastHWMessage, ELogType.Debug, ELogWType.D_Error, true);
-
-                return GenerateErrorCode(ERR_YASKAWA_FAIL_SERVO_STOP);
+                return GenerateErrorCode(ERR_YASKAWA_FAIL_SERVO_STOP, rc);
             }
 
             return SUCCESS;
@@ -1773,8 +1734,6 @@ MP2101TM            SVC(built-in the board, with MECHATROLINK port 1)       1   
                 {
                     if (ServoStatus[deviceNo].DetectPlusSensor)
                     {
-                        LastHWMessage = "Servo No[" + deviceNo + "] : + Limit";
-                        WriteLog(LastHWMessage, ELogType.Debug, ELogWType.D_Warning, true);
                         return GenerateErrorCode(ERR_YASKAWA_DETECTED_PLUS_LIMIT);
                     }
                     else
@@ -1793,8 +1752,6 @@ MP2101TM            SVC(built-in the board, with MECHATROLINK port 1)       1   
                 {
                     if (ServoStatus[deviceNo].DetectMinusSensor)
                     {
-                        LastHWMessage = "Servo No[" + deviceNo + "] : - Limit";
-                        WriteLog(LastHWMessage, ELogType.Debug, ELogWType.D_Warning, true);
                         return GenerateErrorCode(ERR_YASKAWA_DETECTED_MINUS_LIMIT);
                     }
                     else
@@ -1816,13 +1773,11 @@ MP2101TM            SVC(built-in the board, with MECHATROLINK port 1)       1   
 #if SIMULATION_MOTION_YMC
             return SUCCESS;
 #endif
-
+            MotionData[0].FilterType = 2;
             UInt32 rc = CMotionAPI.ymcMoveJOG(m_hDevice[deviceNo], MotionData, Direction, TimeOut, 0, "JOG", 0);
             if (rc != CMotionAPI.MP_SUCCESS)
             {
-                LastHWMessage = String.Format($"Error ymcMoveJOG : 0x{rc.ToString("X")}, {ErrorDictionary[rc.ToString("X")]}");
-                WriteLog(LastHWMessage, ELogType.Debug, ELogWType.D_Error, true);
-                return GenerateErrorCode(ERR_YASKAWA_FAIL_SERVO_MOVE_JOG);
+                return GenerateErrorCode(ERR_YASKAWA_FAIL_SERVO_MOVE_JOG, rc);
             }
 
             return SUCCESS;
@@ -1844,10 +1799,7 @@ MP2101TM            SVC(built-in the board, with MECHATROLINK port 1)       1   
             UInt32 rc = CMotionAPI.ymcStopMotion(m_hDevice[deviceNo], MotionData, "STOP", WaitForCompletion, 0);
             if (rc != CMotionAPI.MP_SUCCESS)
             {
-                //MessageBox.Show(String.Format("Error ymcStopMotion : 0x{rc.ToString("X")}, {ErrorDictionary[rc.ToString("X")]}");
-                LastHWMessage = String.Format($"Error ymcStopMotion : 0x{rc.ToString("X")}, {ErrorDictionary[rc.ToString("X")]}");
-                WriteLog(LastHWMessage, ELogType.Debug, ELogWType.D_Error, true);
-                return GenerateErrorCode(ERR_YASKAWA_FAIL_SERVO_STOP);
+                return GenerateErrorCode(ERR_YASKAWA_FAIL_SERVO_STOP, rc);
             }
 
             return SUCCESS;
@@ -1882,7 +1834,8 @@ MP2101TM            SVC(built-in the board, with MECHATROLINK port 1)       1   
 
             for(int i = 0; i < MotionData.Length; i++)
             {
-                MotionData[i].MoveType = (short)CMotionAPI.ApiDefs.MTYPE_R_SHORTEST; // 지정 Position으로 이동하기 위해서
+                MotionData[i].MoveType = (short)CMotionAPI.ApiDefs.MTYPE_ABSOLUTE; // 지정 Position으로 이동하기 위해서
+                //MotionData[i].MoveType = (short)CMotionAPI.ApiDefs.MTYPE_R_SHORTEST; // 지정 Position으로 이동하기 위해서
             }
 
             // 0.8 check axis state for move
@@ -1900,10 +1853,7 @@ MP2101TM            SVC(built-in the board, with MECHATROLINK port 1)       1   
             UInt32 rc = CMotionAPI.ymcMoveDriverPositioning(m_hDevice[deviceNo], MotionData, PositionData, 0, "Move", WaitForCompletion, 0);
             if (rc != CMotionAPI.MP_SUCCESS)
             {
-                //MessageBox.Show(String.Format("Error ymcMoveDriverPositioning ErrorCode [ 0x{0} ]",rc.ToString("X")));
-                LastHWMessage = String.Format($"Error ymcMoveDriverPositioning : 0x{rc.ToString("X")}, {ErrorDictionary[rc.ToString("X")]}");
-                WriteLog(LastHWMessage, ELogType.Debug, ELogWType.D_Error, true);
-                return GenerateErrorCode(ERR_YASKAWA_FAIL_SERVO_MOVE_DRIVING_POSITIONING);
+                return GenerateErrorCode(ERR_YASKAWA_FAIL_SERVO_MOVE_DRIVING_POSITIONING, rc);
             }
 
             return SUCCESS;
@@ -1994,10 +1944,7 @@ MP2101TM            SVC(built-in the board, with MECHATROLINK port 1)       1   
             UInt32 rc = CMotionAPI.ymcMoveDriverPositioning(tDevice, MotionData, PositionData, 0, "Move", WaitForCompletion, 0);
             if (rc != CMotionAPI.MP_SUCCESS)
             {
-                //MessageBox.Show(String.Format("Error ymcMoveDriverPositioning ErrorCode [ 0x{0} ]",rc.ToString("X")));
-                LastHWMessage = String.Format($"Error ymcMoveDriverPositioning : 0x{rc.ToString("X")}, {ErrorDictionary[rc.ToString("X")]}");
-                WriteLog(LastHWMessage, ELogType.Debug, ELogWType.D_Error, true);
-                return GenerateErrorCode(ERR_YASKAWA_FAIL_SERVO_MOVE_DRIVING_POSITIONING);
+                return GenerateErrorCode(ERR_YASKAWA_FAIL_SERVO_MOVE_DRIVING_POSITIONING, rc);
             }
 
             // 2. clear device
@@ -2177,10 +2124,7 @@ MP2101TM            SVC(built-in the board, with MECHATROLINK port 1)       1   
             UInt32 rc = CMotionAPI.ymcMoveHomePosition(tDevice, MotionData, PositionData, Method, Dir, 0, null, WaitForCompletion, 0);
             if (rc != CMotionAPI.MP_SUCCESS)
             {
-                //MessageBox.Show(String.Format("Error ymcMoveHomePositioning : 0x{rc.ToString("X")}, {ErrorDictionary[rc.ToString("X")]}");
-                LastHWMessage = String.Format($"Error ymcMoveHomePositioning : 0x{rc.ToString("X")}, {ErrorDictionary[rc.ToString("X")]}");
-                WriteLog(LastHWMessage, ELogType.Debug, ELogWType.D_Error, true);
-                return GenerateErrorCode(ERR_YASKAWA_FAIL_SERVO_MOVE_HOME);
+                return GenerateErrorCode(ERR_YASKAWA_FAIL_SERVO_MOVE_HOME, rc);
             }
 
             // 2. clear device
@@ -2234,10 +2178,7 @@ MP2101TM            SVC(built-in the board, with MECHATROLINK port 1)       1   
             UInt32 rc = CMotionAPI.ymcMoveHomePosition(m_hDevice[deviceNo], MotionData, PositionData, Method, Dir, 0, null, WaitForCompletion, 0);
             if (rc != CMotionAPI.MP_SUCCESS)
             {
-                //MessageBox.Show(String.Format("Error ymcMoveHomePositioning : 0x{rc.ToString("X")}, {ErrorDictionary[rc.ToString("X")]}");
-                LastHWMessage = String.Format($"Error ymcMoveHomePositioning : 0x{rc.ToString("X")}, {ErrorDictionary[rc.ToString("X")]}");
-                WriteLog(LastHWMessage, ELogType.Debug, ELogWType.D_Error, true);
-                return GenerateErrorCode(ERR_YASKAWA_FAIL_SERVO_MOVE_HOME);
+                return GenerateErrorCode(ERR_YASKAWA_FAIL_SERVO_MOVE_HOME, rc);
             }
 #endif
 
@@ -2259,9 +2200,7 @@ MP2101TM            SVC(built-in the board, with MECHATROLINK port 1)       1   
                  (UInt16)CMotionAPI.ApiDefs_MonPrm.SER_APOS, ref servoPosi);
             if (rc != CMotionAPI.MP_SUCCESS)
             {
-                LastHWMessage = String.Format($"Error ymcGetMotionParameterValue : 0x{rc.ToString("X")}, {ErrorDictionary[rc.ToString("X")]}");
-                WriteLog(LastHWMessage, ELogType.Debug, ELogWType.D_Error, true);
-                return GenerateErrorCode(ERR_YASKAWA_FAIL_SERVO_GET_POS);
+                return GenerateErrorCode(ERR_YASKAWA_FAIL_SERVO_GET_POS, rc);
             }
             pos = servoPosi / UNIT_REF;
 #endif
@@ -2281,9 +2220,7 @@ MP2101TM            SVC(built-in the board, with MECHATROLINK port 1)       1   
                                                           ref returnValue);
             if (rc != CMotionAPI.MP_SUCCESS)
             {
-                LastHWMessage = String.Format($"Error ymcGetMotionParameterValue : 0x{rc.ToString("X")}, {ErrorDictionary[rc.ToString("X")]}");
-                //WriteLog(LastHWMessage, ELogType.Debug, ELogWType.D_Error, true);
-                //return GenerateErrorCode(ERR_YASKAWA_FAIL_SERVO_GET_POS);
+                //return GenerateErrorCode(ERR_YASKAWA_FAIL_SERVO_GET_POS, rc);
             }
 
             return Convert.ToBoolean((returnValue >> 8) & 0x1);
@@ -2334,8 +2271,7 @@ MP2101TM            SVC(built-in the board, with MECHATROLINK port 1)       1   
             rc = CMotionAPI.ymcGetRegisterDataHandle(cRegisterName_MB, ref hRegister_MB);
             if (rc != CMotionAPI.MP_SUCCESS)
             {
-                //MessageBox.Show(String.Format("Error ymcGetRegisterDataHandle  MB : 0x{rc.ToString("X")}, {ErrorDictionary[rc.ToString("X")]}");
-                return GenerateErrorCode(ERR_YASKAWA_FAIL_GET_REGISTER_DATA_HANDLE);
+                return GenerateErrorCode(ERR_YASKAWA_FAIL_GET_REGISTER_DATA_HANDLE, rc);
                 return;
             }
 
@@ -2344,8 +2280,7 @@ MP2101TM            SVC(built-in the board, with MECHATROLINK port 1)       1   
             rc = CMotionAPI.ymcGetRegisterData(hRegister_MB, RegisterDataNumber_b, ref Reg_ShortData, ref ReadDataNumber_b);
             if (rc != CMotionAPI.MP_SUCCESS)
             {
-                //MessageBox.Show(String.Format("Error ymcGetRegisterData MB : 0x{rc.ToString("X")}, {ErrorDictionary[rc.ToString("X")]}");
-                return GenerateErrorCode(ERR_YASKAWA_FAIL_SET_REGISTER_DATA);
+                return GenerateErrorCode(ERR_YASKAWA_FAIL_SET_REGISTER_DATA, rc);
                 return;
             }
 
@@ -2359,8 +2294,7 @@ MP2101TM            SVC(built-in the board, with MECHATROLINK port 1)       1   
             rc = CMotionAPI.ymcSetRegisterData(hRegister_MB, RegisterDataNumber_b, ref Reg_ShortData);
             if (rc != CMotionAPI.MP_SUCCESS)
             {
-                //MessageBox.Show(String.Format("Error ymcSetRegisterData MB : 0x{rc.ToString("X")}, {ErrorDictionary[rc.ToString("X")]}");
-                return GenerateErrorCode(ERR_YASKAWA_FAIL_SET_REGISTER_DATA_FAIL);
+                return GenerateErrorCode(ERR_YASKAWA_FAIL_SET_REGISTER_DATA_FAIL, rc);
                 return;
             }
 #endregion
@@ -2372,8 +2306,7 @@ MP2101TM            SVC(built-in the board, with MECHATROLINK port 1)       1   
             rc = CMotionAPI.ymcGetRegisterDataHandle(cRegisterName_ML, ref hRegister_ML);
             if (rc != CMotionAPI.MP_SUCCESS)
             {
-                //MessageBox.Show(String.Format("Error ymcGetRegisterDataHandle ML : 0x{rc.ToString("X")}, {ErrorDictionary[rc.ToString("X")]}");
-                return GenerateErrorCode(ERR_YASKAWA_FAIL_GET_REGISTER_DATA_HANDLE_FAIL);
+                return GenerateErrorCode(ERR_YASKAWA_FAIL_GET_REGISTER_DATA_HANDLE_FAIL, rc);
                 return;
             }
 
@@ -2572,8 +2505,7 @@ MP2101TM            SVC(built-in the board, with MECHATROLINK port 1)       1   
             rc = CMotionAPI.ymcSetRegisterData(hRegister_ML, RegisterDataNumber, ref Reg_LongData[0]);
             if (rc != CMotionAPI.MP_SUCCESS)
             {
-                //MessageBox.Show(String.Format("Error ymcSetRegisterData ML : 0x{rc.ToString("X")}, {ErrorDictionary[rc.ToString("X")]}");
-                return GenerateErrorCode(ERR_YASKAWA_FAIL_SET_REGISTER_DATA_FAIL);
+                return GenerateErrorCode(ERR_YASKAWA_FAIL_SET_REGISTER_DATA_FAIL, rc);
                 return;
             }
 #endregion
@@ -2583,8 +2515,7 @@ MP2101TM            SVC(built-in the board, with MECHATROLINK port 1)       1   
             rc = CMotionAPI.ymcGetRegisterDataHandle(cRegisterName_ML_1214, ref hRegister_ML_Read);
             if (rc != CMotionAPI.MP_SUCCESS)
             {
-                //MessageBox.Show(String.Format("Error ymcGetRegisterDataHandle ML : 0x{rc.ToString("X")}, {ErrorDictionary[rc.ToString("X")]}");
-                return GenerateErrorCode(ERR_YASKAWA_FAIL_GET_REGISTER_DATA_HANDLE_FAIL);
+                return GenerateErrorCode(ERR_YASKAWA_FAIL_GET_REGISTER_DATA_HANDLE_FAIL, rc);
                 return;
             }
             RegisterDataNumber_1214 = 5;
@@ -2592,8 +2523,7 @@ MP2101TM            SVC(built-in the board, with MECHATROLINK port 1)       1   
             rc = CMotionAPI.ymcGetRegisterData(hRegister_ML_Read, RegisterDataNumber_1214, ref Reg_IntData_1214[0], ref RegisterDataNumber_1214);
             if (rc != CMotionAPI.MP_SUCCESS)
             {
-                // MessageBox.Show(String.Format("Error ymcGetRegisterData ML : 0x{rc.ToString("X")}, {ErrorDictionary[rc.ToString("X")]}");
-                return GenerateErrorCode(ERR_YASKAWA_FAIL_GET_REGISTER_DATA_FAIL);
+                return GenerateErrorCode(ERR_YASKAWA_FAIL_GET_REGISTER_DATA_FAIL, rc);
                 return;
             }
 
@@ -2618,8 +2548,7 @@ MP2101TM            SVC(built-in the board, with MECHATROLINK port 1)       1   
             rc = CMotionAPI.ymcGetRegisterDataHandle(cRegisterName_ML_1300, ref hRegister_ML_Read);
             if (rc != CMotionAPI.MP_SUCCESS)
             {
-                //MessageBox.Show(String.Format("Error ymcGetRegisterDataHandle ML : 0x{rc.ToString("X")}, {ErrorDictionary[rc.ToString("X")]}");
-                return GenerateErrorCode(ERR_YASKAWA_FAIL_GET_REGISTER_DATA_HANDLE_FAIL);
+                return GenerateErrorCode(ERR_YASKAWA_FAIL_GET_REGISTER_DATA_HANDLE_FAIL, rc);
                 return;
             }
             RegisterDataNumber_1300 = 53;
@@ -2627,8 +2556,7 @@ MP2101TM            SVC(built-in the board, with MECHATROLINK port 1)       1   
             rc = CMotionAPI.ymcGetRegisterData(hRegister_ML_Read, RegisterDataNumber_1300, ref Reg_LongData_1300[0], ref RegisterDataNumber_1300);
             if (rc != CMotionAPI.MP_SUCCESS)
             {
-                //MessageBox.Show(String.Format("Error ymcGetRegisterData ML : 0x{rc.ToString("X")}, {ErrorDictionary[rc.ToString("X")]}");
-                return GenerateErrorCode(ERR_YASKAWA_FAIL_GET_REGISTER_DATA_FAIL);
+                return GenerateErrorCode(ERR_YASKAWA_FAIL_GET_REGISTER_DATA_FAIL, rc);
                 return;
             }
 

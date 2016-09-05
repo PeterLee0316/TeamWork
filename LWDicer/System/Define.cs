@@ -2030,7 +2030,6 @@ namespace LWDicer.Layers
         public const int iReset_SWRear               = 1005;
         public const int iEMO_SW                     = 1006;
         public const int iEMO_SWRear                 = 1007;
-
         public const int iJog_X_Forward_SWFront      = 1008;
         public const int iJog_X_Backward_SWFront     = 1009;
         public const int iJog_Y_Forward_SWFront      = 1010;
@@ -2049,7 +2048,6 @@ namespace LWDicer.Layers
         public const int iJog_T_CCW_SWRear           = 1021;
         public const int iJog_Z_UP_SWRear            = 1022;
         public const int iJog_Z_DOWN_SWRear          = 1023;
-
         public const int iMain_Air_On                = 1024;
         public const int iMain_Vac1_On               = 1025;
         public const int iMain_Vac2_On               = 1026;
@@ -2068,7 +2066,6 @@ namespace LWDicer.Layers
         public const int iStage3_PanelDetect         = 1037;
         public const int iStage1Up                   = 1038;
         public const int iStage1Down                 = 1039;
-
         public const int iWorkbench_Inner_Vac_On     = 1040;
         public const int iWorkbench_PanelDetect      = 1041;
         public const int iWorkbench_Outer_Vac_On     = 1042;
@@ -2087,7 +2084,6 @@ namespace LWDicer.Layers
         public const int iStage2_FArea_Sensor3       = 1053;
         public const int iStage2Up                   = 1054;
         public const int iStage2Down                 = 1055;
-
         public const int iStage2_BArea_Sensor1       = 1056;
         public const int iStage2_BArea_Sensor2       = 1057;
         public const int iStage2_BArea_Sensor3       = 1058;
@@ -2311,7 +2307,6 @@ namespace LWDicer.Layers
         public const int oReset_LampRear             = 2005;
         public const int oSpare2006                  = 2006;
         public const int oSpare2007                  = 2007;
-
         public const int oServo_On                   = 2008;
         public const int oManual_Door_Sleep          = 2009;
         public const int oMarkMoniter_Use1           = 2010;
@@ -2330,7 +2325,6 @@ namespace LWDicer.Layers
         public const int oBuzzer_2                   = 2021;
         public const int oBuzzer_3                   = 2022;
         public const int oBuzzer_4                   = 2023;
-
         public const int oSpare2024                  = 2024;
         public const int oSpare2025                  = 2025;
         public const int oSpare2026                  = 2026;
@@ -2356,7 +2350,6 @@ namespace LWDicer.Layers
         public const int oStage3_Vac_Off             = 2037;
         public const int oSpare2038                  = 2038;
         public const int oSpare2039                  = 2039;
-
         public const int oWorkbench_Inner_Vac_On     = 2040;
         public const int oWorkbench_Inner_Vac_Off    = 2041;
         public const int oWorkbench_Outer_Vac_On     = 2042;
@@ -2375,7 +2368,6 @@ namespace LWDicer.Layers
         public const int oCoat_PVA                   = 2053;
         public const int oClean_DI                   = 2054;
         public const int oClean_N2                   = 2055;
-
         public const int oStage1_Blow                = 2056;
         public const int oStage2_Blow                = 2057;
         public const int oStage3_Blow                = 2058;

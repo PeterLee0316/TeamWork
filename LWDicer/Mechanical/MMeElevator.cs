@@ -672,9 +672,6 @@ namespace LWDicer.Layers
             bool[] bAxisStatus;
             int iResult = m_RefComp.AxElevator.IsOriginReturned(DEF_ALL_COORDINATE, out bStatus, out bAxisStatus);
 
-            // for test
-            bStatus = true;
-
             return iResult;
         }
 

@@ -7,6 +7,7 @@ using static LWDicer.Layers.DEF_Error;
 using static LWDicer.Layers.DEF_Common;
 using static LWDicer.Layers.DEF_IO;
 using static LWDicer.Layers.DEF_CtrlLoader;
+using static LWDicer.Layers.DEF_MeElevator;
 using static LWDicer.Layers.DEF_DataManager;
 
 namespace LWDicer.Layers
@@ -97,7 +98,7 @@ namespace LWDicer.Layers
 
         public int ComparePosInfo(int iPosIndex, out int iSlotNum)
         {
-            int iResult = 0;
+            int iResult;
             iResult = m_RefComp.Elevator.GetElevatorPosInfo(out iPosIndex, out iSlotNum);
             if (iResult != SUCCESS) return iResult;
 
@@ -122,74 +123,90 @@ namespace LWDicer.Layers
 
             return SUCCESS;
         }
-        
 
-        public int MoveToBottomPos(bool bObsolite)
+
+        public int MoveToBottomPos(bool bPanelTransfer = true)
         {
-            int iResult = 0;
+            int iResult = CheckSafety_forMoving((int)EElevatorPos.BOTTOM, bPanelTransfer);
+            if (iResult != SUCCESS) return iResult;
+
             iResult = m_RefComp.Elevator.MoveElevatorToBottomPos();
             if (iResult != SUCCESS) return iResult;
 
             return SUCCESS;
         }
 
-        public int MoveToLoadPos()
+        public int MoveToLoadPos(bool bPanelTransfer = true)
         {
-            int iResult = 0;
+            int iResult = CheckSafety_forMoving((int)EElevatorPos.LOAD, bPanelTransfer);
+            if (iResult != SUCCESS) return iResult;
+
             iResult = m_RefComp.Elevator.MoveElevatorToLoadPos();
             if (iResult != SUCCESS) return iResult;
 
             return SUCCESS;
         }
 
-        public int MoveToSlotPos(int iSlotNum = 0)
+        public int MoveToSlotPos(int iSlotNum = 0, bool bPanelTransfer = true)
         {
-            int iResult = 0;
+            int iResult = CheckSafety_forMoving((int)EElevatorPos.SLOT, bPanelTransfer);
+            if (iResult != SUCCESS) return iResult;
+
             iResult = m_RefComp.Elevator.MoveElevatorToSlotPos(iSlotNum);
             if (iResult != SUCCESS) return iResult;
 
             return SUCCESS;
         }
 
-        public int MoveToTopPos()
+        public int MoveToTopPos(bool bPanelTransfer = true)
         {
-            int iResult = 0;
+            int iResult = CheckSafety_forMoving((int)EElevatorPos.TOP, bPanelTransfer);
+            if (iResult != SUCCESS) return iResult;
+
             iResult = m_RefComp.Elevator.MoveElevatorToTopPos();
             if (iResult != SUCCESS) return iResult;
 
             return SUCCESS;
         }
 
-        public int MoveToSafetyPos()
+        public int MoveToSafetyPos(bool bPanelTransfer = true)
         {
-            int iResult = 0;
+            int iResult = CheckSafety_forMoving((int)EElevatorPos.SAFETY, bPanelTransfer);
+            if (iResult != SUCCESS) return iResult;
+
             iResult = m_RefComp.Elevator.MoveElevatorToSafetyPos();
             if (iResult != SUCCESS) return iResult;
 
             return SUCCESS;
         }
 
-        public int MoveToNextSlotPos(bool bDirect = true)
+        public int MoveToNextSlotPos(bool bDirect = true, bool bPanelTransfer = true)
         {
-            int iResult = 0;
+            int iResult = CheckSafety_forMoving((int)EElevatorPos.SLOT, bPanelTransfer);
+            if (iResult != SUCCESS) return iResult;
+
             iResult = m_RefComp.Elevator.MoveElevatorNextSlot(bDirect);
             if (iResult != SUCCESS) return iResult;
 
             return SUCCESS;
         }
 
-        public int MoveToNextEmptySlotPos()
+        public int MoveToNextEmptySlotPos(bool bPanelTransfer = true)
         {
-            int iResult = 0;
+            int iResult = CheckSafety_forMoving((int)EElevatorPos.BOTTOM, bPanelTransfer);
+            if (iResult != SUCCESS) return iResult;
+
             iResult = m_RefComp.Elevator.MoveElevatorNextEmptySlot();
             if (iResult != SUCCESS) return iResult;
 
             return SUCCESS;
         }
 
-        public int MoveToNextProcessSlotPos()
+        public int MoveToNextProcessSlotPos(bool bPanelTransfer = true)
         {
-            int iResult = 0;
+            int iResult = CheckSafety_forMoving((int)EElevatorPos.BOTTOM, bPanelTransfer);
+            if (iResult != SUCCESS) return iResult;
+
             iResult = m_RefComp.Elevator.MoveElevatorNextProcessWaferSlot();
             if (iResult != SUCCESS) return iResult;
 
@@ -198,7 +215,7 @@ namespace LWDicer.Layers
 
         public int SearchCassetteWafer()
         {
-            int iResult = 0;
+            int iResult;
             iResult = m_RefComp.Elevator.SearchElevatorCassetteWafer();
             if (iResult != SUCCESS) return iResult;
 
@@ -207,7 +224,7 @@ namespace LWDicer.Layers
 
         public int GetAxZone(int axis, out int curZone)
         {
-            int iResult = 0;
+            int iResult;
             iResult = m_RefComp.Elevator.GetElevatorAxZone(axis, out curZone);
             if (iResult != SUCCESS) return iResult;
 
@@ -216,7 +233,7 @@ namespace LWDicer.Layers
 
         public int IsAxisInSafetyZone(int axis, out bool bStatus)
         {
-            int iResult = 0;
+            int iResult;
             iResult = m_RefComp.Elevator.IsElevatorAxisInSafetyZone(axis, out bStatus);
             if (iResult != SUCCESS) return iResult;
 
@@ -225,7 +242,7 @@ namespace LWDicer.Layers
 
         public int CheckForAxisMove(out bool bStatus)
         {
-            int iResult = 0;
+            int iResult;
             iResult = m_RefComp.Elevator.CheckForElevatorAxisMove(out bStatus);
             if (iResult != SUCCESS)
             {
@@ -240,7 +257,7 @@ namespace LWDicer.Layers
         public int IsWaferDetected(out bool bState)
         {
             bState = false;
-            int iResult = 0;
+            int iResult;
 
             iResult = m_RefComp.Elevator.IsWaferDetected(out bState);
 
@@ -251,7 +268,7 @@ namespace LWDicer.Layers
 
         public int IsCassetteExist(out bool bStatus)
         {
-            int iResult = 0;
+            int iResult;
             iResult = m_RefComp.Elevator.IsElevatorCassetteExist(out bStatus);
             if (iResult != SUCCESS)
             {
@@ -265,7 +282,7 @@ namespace LWDicer.Layers
 
         public int IsCassetteNone(out bool bStatus)
         {
-            int iResult = 0;
+            int iResult;
             iResult = m_RefComp.Elevator.IsElevatorCassetteNone(out bStatus);
             if (iResult != SUCCESS)
             {
@@ -276,7 +293,43 @@ namespace LWDicer.Layers
             bStatus = true;
             return SUCCESS;
         }
-    }
 
+        public int CheckSafety_forMoving(int nTargetPos, bool bPanelTransfer = true)
+        {
+            int iResult = SUCCESS;
+
+            // 0. init
+            int curPos = (int)EElevatorPos.NONE;
+
+            //// 0.1 check vacuum
+            //iResult = CheckLock_forMove(bPanelTransfer);
+            //if (iResult != SUCCESS) return iResult;
+
+            //// 1 check object exist
+            //bool bDetected = false;
+            //iResult = IsObjectDetected(out bDetected);
+            //if (iResult != SUCCESS) return iResult;
+
+            //if (bPanelTransfer == true && bDetected == false)
+            //{
+            //    return GenerateErrorCode(ERR_CTRLPUSHPULL_OBJECT_NOT_EXIST);
+            //}
+            //else if (bPanelTransfer == false && bDetected == true)
+            //{
+            //    return GenerateErrorCode(ERR_CTRLPUSHPULL_OBJECT_EXIST);
+            //}
+
+            // 2. check other unit
+            // 2.1 handler
+
+            // 2.2 elevator
+
+            // 2.3 coater
+
+
+
+            return SUCCESS;
+        }
+    }
 
 }

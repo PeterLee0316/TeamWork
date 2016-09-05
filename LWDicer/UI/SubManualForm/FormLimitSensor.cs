@@ -126,7 +126,7 @@ namespace LWDicer.UI
                 mpStatus = CMainFrame.LWDicer.m_YMC.ServoStatus[i];
 
                 // 1.Encoder Position
-                MotorPos[i].Text = String.Format("{0:000}", mpStatus.EncoderPos);
+                MotorPos[i].Text = String.Format("{0:0.000}", mpStatus.EncoderPos);
 
                 // 2.Servo On, Off
                 MotorServo[i].Text = mpStatus.IsServoOn ? on : off;

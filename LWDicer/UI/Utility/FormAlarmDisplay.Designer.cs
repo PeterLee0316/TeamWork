@@ -41,6 +41,8 @@
             this.autoLabel1 = new Syncfusion.Windows.Forms.Tools.AutoLabel();
             this.LabelTrouble1 = new Syncfusion.Windows.Forms.Tools.GradientLabel();
             this.gradientPanel2 = new Syncfusion.Windows.Forms.Tools.GradientPanel();
+            this.Label_System = new Syncfusion.Windows.Forms.Tools.GradientLabel();
+            this.gradientLabel3 = new Syncfusion.Windows.Forms.Tools.GradientLabel();
             this.LabelAlarmText2 = new Syncfusion.Windows.Forms.Tools.GradientLabel();
             this.PicAlarmPos = new System.Windows.Forms.PictureBox();
             this.LabelAlarmCode = new Syncfusion.Windows.Forms.Tools.AutoLabel();
@@ -49,8 +51,8 @@
             this.gradientLabel1 = new Syncfusion.Windows.Forms.Tools.GradientLabel();
             this.TextObjectName = new System.Windows.Forms.TextBox();
             this.TextProcessName = new System.Windows.Forms.TextBox();
-            this.Label_System = new Syncfusion.Windows.Forms.Tools.GradientLabel();
-            this.gradientLabel3 = new Syncfusion.Windows.Forms.Tools.GradientLabel();
+            this.Label_SubTitle = new Syncfusion.Windows.Forms.Tools.GradientLabel();
+            this.LabelSubAlarmText = new Syncfusion.Windows.Forms.Tools.GradientLabel();
             ((System.ComponentModel.ISupportInitialize)(this.gradientPanel1)).BeginInit();
             this.gradientPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gradientPanel2)).BeginInit();
@@ -181,6 +183,8 @@
             this.gradientPanel2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.gradientPanel2.Border3DStyle = System.Windows.Forms.Border3DStyle.Raised;
             this.gradientPanel2.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.gradientPanel2.Controls.Add(this.Label_SubTitle);
+            this.gradientPanel2.Controls.Add(this.LabelSubAlarmText);
             this.gradientPanel2.Controls.Add(this.Label_System);
             this.gradientPanel2.Controls.Add(this.gradientLabel3);
             this.gradientPanel2.Controls.Add(this.LabelAlarmText2);
@@ -192,6 +196,34 @@
             this.gradientPanel2.Size = new System.Drawing.Size(627, 573);
             this.gradientPanel2.TabIndex = 30;
             // 
+            // Label_System
+            // 
+            this.Label_System.BackgroundColor = new Syncfusion.Drawing.BrushInfo(System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(224)))), ((int)(((byte)(192))))));
+            this.Label_System.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
+            | System.Windows.Forms.Border3DSide.Right) 
+            | System.Windows.Forms.Border3DSide.Bottom)));
+            this.Label_System.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.Label_System.Location = new System.Drawing.Point(16, 82);
+            this.Label_System.Name = "Label_System";
+            this.Label_System.Size = new System.Drawing.Size(91, 42);
+            this.Label_System.TabIndex = 37;
+            this.Label_System.Text = "[System Language]";
+            this.Label_System.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // gradientLabel3
+            // 
+            this.gradientLabel3.BackgroundColor = new Syncfusion.Drawing.BrushInfo(System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(224)))), ((int)(((byte)(192))))));
+            this.gradientLabel3.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
+            | System.Windows.Forms.Border3DSide.Right) 
+            | System.Windows.Forms.Border3DSide.Bottom)));
+            this.gradientLabel3.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.gradientLabel3.Location = new System.Drawing.Point(16, 37);
+            this.gradientLabel3.Name = "gradientLabel3";
+            this.gradientLabel3.Size = new System.Drawing.Size(91, 42);
+            this.gradientLabel3.TabIndex = 36;
+            this.gradientLabel3.Text = "[English]";
+            this.gradientLabel3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // LabelAlarmText2
             // 
             this.LabelAlarmText2.BackgroundColor = new Syncfusion.Drawing.BrushInfo();
@@ -199,10 +231,10 @@
             | System.Windows.Forms.Border3DSide.Right) 
             | System.Windows.Forms.Border3DSide.Bottom)));
             this.LabelAlarmText2.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.LabelAlarmText2.Location = new System.Drawing.Point(103, 88);
+            this.LabelAlarmText2.Location = new System.Drawing.Point(114, 82);
             this.LabelAlarmText2.Name = "LabelAlarmText2";
             this.LabelAlarmText2.Padding = new System.Windows.Forms.Padding(5);
-            this.LabelAlarmText2.Size = new System.Drawing.Size(511, 48);
+            this.LabelAlarmText2.Size = new System.Drawing.Size(500, 42);
             this.LabelAlarmText2.TabIndex = 33;
             this.LabelAlarmText2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
@@ -211,9 +243,9 @@
             this.PicAlarmPos.BackColor = System.Drawing.Color.White;
             this.PicAlarmPos.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.PicAlarmPos.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.PicAlarmPos.Location = new System.Drawing.Point(16, 140);
+            this.PicAlarmPos.Location = new System.Drawing.Point(16, 173);
             this.PicAlarmPos.Name = "PicAlarmPos";
-            this.PicAlarmPos.Size = new System.Drawing.Size(598, 418);
+            this.PicAlarmPos.Size = new System.Drawing.Size(598, 385);
             this.PicAlarmPos.TabIndex = 32;
             this.PicAlarmPos.TabStop = false;
             this.PicAlarmPos.MouseClick += new System.Windows.Forms.MouseEventHandler(this.PicAlarmPos_MouseClick);
@@ -235,10 +267,10 @@
             | System.Windows.Forms.Border3DSide.Right) 
             | System.Windows.Forms.Border3DSide.Bottom)));
             this.LabelAlarmText1.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.LabelAlarmText1.Location = new System.Drawing.Point(102, 37);
+            this.LabelAlarmText1.Location = new System.Drawing.Point(113, 37);
             this.LabelAlarmText1.Name = "LabelAlarmText1";
             this.LabelAlarmText1.Padding = new System.Windows.Forms.Padding(5);
-            this.LabelAlarmText1.Size = new System.Drawing.Size(512, 48);
+            this.LabelAlarmText1.Size = new System.Drawing.Size(501, 42);
             this.LabelAlarmText1.TabIndex = 0;
             this.LabelAlarmText1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
@@ -290,33 +322,33 @@
             this.TextProcessName.TabIndex = 31;
             this.TextProcessName.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
-            // Label_System
+            // Label_SubTitle
             // 
-            this.Label_System.BackgroundColor = new Syncfusion.Drawing.BrushInfo(System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(224)))), ((int)(((byte)(192))))));
-            this.Label_System.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
+            this.Label_SubTitle.BackgroundColor = new Syncfusion.Drawing.BrushInfo(System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(224)))), ((int)(((byte)(192))))));
+            this.Label_SubTitle.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
             | System.Windows.Forms.Border3DSide.Right) 
             | System.Windows.Forms.Border3DSide.Bottom)));
-            this.Label_System.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.Label_System.Location = new System.Drawing.Point(16, 88);
-            this.Label_System.Name = "Label_System";
-            this.Label_System.Size = new System.Drawing.Size(80, 48);
-            this.Label_System.TabIndex = 37;
-            this.Label_System.Text = "[System Language]";
-            this.Label_System.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.Label_SubTitle.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.Label_SubTitle.Location = new System.Drawing.Point(16, 128);
+            this.Label_SubTitle.Name = "Label_SubTitle";
+            this.Label_SubTitle.Size = new System.Drawing.Size(91, 42);
+            this.Label_SubTitle.TabIndex = 39;
+            this.Label_SubTitle.Text = "[Library ErrorMsg]";
+            this.Label_SubTitle.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // gradientLabel3
+            // LabelSubAlarmText
             // 
-            this.gradientLabel3.BackgroundColor = new Syncfusion.Drawing.BrushInfo(System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(224)))), ((int)(((byte)(192))))));
-            this.gradientLabel3.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
+            this.LabelSubAlarmText.BackgroundColor = new Syncfusion.Drawing.BrushInfo();
+            this.LabelSubAlarmText.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
             | System.Windows.Forms.Border3DSide.Right) 
             | System.Windows.Forms.Border3DSide.Bottom)));
-            this.gradientLabel3.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.gradientLabel3.Location = new System.Drawing.Point(16, 37);
-            this.gradientLabel3.Name = "gradientLabel3";
-            this.gradientLabel3.Size = new System.Drawing.Size(80, 48);
-            this.gradientLabel3.TabIndex = 36;
-            this.gradientLabel3.Text = "[English]";
-            this.gradientLabel3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.LabelSubAlarmText.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.LabelSubAlarmText.Location = new System.Drawing.Point(113, 128);
+            this.LabelSubAlarmText.Name = "LabelSubAlarmText";
+            this.LabelSubAlarmText.Padding = new System.Windows.Forms.Padding(5);
+            this.LabelSubAlarmText.Size = new System.Drawing.Size(501, 42);
+            this.LabelSubAlarmText.TabIndex = 38;
+            this.LabelSubAlarmText.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // FormAlarmDisplay
             // 
@@ -375,5 +407,7 @@
         private System.Windows.Forms.TextBox TextProcessName;
         private Syncfusion.Windows.Forms.Tools.GradientLabel Label_System;
         private Syncfusion.Windows.Forms.Tools.GradientLabel gradientLabel3;
+        private Syncfusion.Windows.Forms.Tools.GradientLabel Label_SubTitle;
+        private Syncfusion.Windows.Forms.Tools.GradientLabel LabelSubAlarmText;
     }
 }

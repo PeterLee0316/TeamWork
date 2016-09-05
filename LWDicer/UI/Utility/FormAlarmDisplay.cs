@@ -174,11 +174,19 @@ namespace LWDicer.UI
         {
             UpdateAlarmText(MLWDicer.Language);
 
-            if(MLWDicer.Language == ELanguage.ENGLISH)
+            Label_System.Text = $"[{MLWDicer.Language.ToString()}]";
+            if (MLWDicer.Language == ELanguage.ENGLISH)
             {
                 Label_System.Visible = false;
                 LabelAlarmText2.Visible = false;
                 LabelTrouble2.Visible = false;
+            }
+
+            LabelSubAlarmText.Text = MLWDicer.ErrorSubMsg;
+            if(MLWDicer.ErrorSubMsg == "")
+            {
+                Label_SubTitle.Visible = false;
+                LabelSubAlarmText.Visible = false;
             }
 
             TmrAlarm.Start();

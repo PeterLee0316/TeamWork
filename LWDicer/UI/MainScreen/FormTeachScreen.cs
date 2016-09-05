@@ -50,13 +50,39 @@ namespace LWDicer.UI
         private void BtnTeachSpinner1_Click(object sender, EventArgs e)
         {
             var dlg = new FormSpinner1Teach();
+            dlg.CtrlSpinner        = CMainFrame.LWDicer.m_ctrlSpinner1;
+            dlg.MO_Rotate          = CMainFrame.LWDicer.m_MeSpinner1.AxRotateInfo;
+            dlg.MO_CleanNozzle     = CMainFrame.LWDicer.m_MeSpinner1.AxCleanNozzleInfo;
+            dlg.MO_CoatNozzle      = CMainFrame.LWDicer.m_MeSpinner1.AxCoatNozzleInfo;
+            dlg.TeachUnit          = ETeachUnit.CLEANER1;
+            dlg.PO_Rotate          = EPositionObject.S1_ROTATE;
+            dlg.PO_CleanNozzle     = EPositionObject.S1_CLEAN_NOZZLE;
+            dlg.PO_CoatNozzle      = EPositionObject.S1_COAT_NOZZLE;
+            dlg.PositionGroup      = EPositionGroup.SPINNER1;
+            dlg.Axis_Rotate_T      = EYMC_Axis.S1_CHUCK_ROTATE_T;
+            dlg.Axis_CleanNozzle_T = EYMC_Axis.S1_CLEAN_NOZZLE_T;
+            dlg.Axis_CoatNozzle_T  = EYMC_Axis.S1_COAT_NOZZLE_T;
+
             dlg.SetDataMode(FixedData);
             dlg.ShowDialog();
         }
 
         private void BtnTeachSpinner2_Click(object sender, EventArgs e)
         {
-            var dlg = new FormSpinner2Teach();
+            var dlg = new FormSpinner1Teach();
+            dlg.CtrlSpinner        = CMainFrame.LWDicer.m_ctrlSpinner2;
+            dlg.MO_Rotate          = CMainFrame.LWDicer.m_MeSpinner2.AxRotateInfo;
+            dlg.MO_CleanNozzle     = CMainFrame.LWDicer.m_MeSpinner2.AxCleanNozzleInfo;
+            dlg.MO_CoatNozzle      = CMainFrame.LWDicer.m_MeSpinner2.AxCoatNozzleInfo;
+            dlg.TeachUnit          = ETeachUnit.CLEANER2;
+            dlg.PO_Rotate          = EPositionObject.S2_ROTATE;
+            dlg.PO_CleanNozzle     = EPositionObject.S2_CLEAN_NOZZLE;
+            dlg.PO_CoatNozzle      = EPositionObject.S2_COAT_NOZZLE;
+            dlg.PositionGroup      = EPositionGroup.SPINNER2;
+            dlg.Axis_Rotate_T      = EYMC_Axis.S2_CHUCK_ROTATE_T;
+            dlg.Axis_CleanNozzle_T = EYMC_Axis.S2_CLEAN_NOZZLE_T;
+            dlg.Axis_CoatNozzle_T  = EYMC_Axis.S2_COAT_NOZZLE_T;
+
             dlg.SetDataMode(FixedData);
             dlg.ShowDialog();
         }
@@ -106,13 +132,39 @@ namespace LWDicer.UI
         private void BtnModelSpinner1_Click(object sender, EventArgs e)
         {
             var dlg = new FormSpinner1Teach();
+            dlg.CtrlSpinner        = CMainFrame.LWDicer.m_ctrlSpinner1;
+            dlg.MO_Rotate          = CMainFrame.LWDicer.m_MeSpinner1.AxRotateInfo;
+            dlg.MO_CleanNozzle     = CMainFrame.LWDicer.m_MeSpinner1.AxCleanNozzleInfo;
+            dlg.MO_CoatNozzle      = CMainFrame.LWDicer.m_MeSpinner1.AxCoatNozzleInfo;
+            dlg.TeachUnit          = ETeachUnit.CLEANER1;
+            dlg.PO_Rotate          = EPositionObject.S1_ROTATE;
+            dlg.PO_CleanNozzle     = EPositionObject.S1_CLEAN_NOZZLE;
+            dlg.PO_CoatNozzle      = EPositionObject.S1_COAT_NOZZLE;
+            dlg.PositionGroup      = EPositionGroup.SPINNER1;
+            dlg.Axis_Rotate_T      = EYMC_Axis.S1_CHUCK_ROTATE_T;
+            dlg.Axis_CleanNozzle_T = EYMC_Axis.S1_CLEAN_NOZZLE_T;
+            dlg.Axis_CoatNozzle_T  = EYMC_Axis.S1_COAT_NOZZLE_T;
+
             dlg.SetDataMode(OffsetData);
             dlg.ShowDialog();
         }
 
         private void BtnModelSpinner2_Click(object sender, EventArgs e)
         {
-            var dlg = new FormSpinner2Teach();
+            var dlg = new FormSpinner1Teach();
+            dlg.CtrlSpinner        = CMainFrame.LWDicer.m_ctrlSpinner2;
+            dlg.MO_Rotate          = CMainFrame.LWDicer.m_MeSpinner2.AxRotateInfo;
+            dlg.MO_CleanNozzle     = CMainFrame.LWDicer.m_MeSpinner2.AxCleanNozzleInfo;
+            dlg.MO_CoatNozzle      = CMainFrame.LWDicer.m_MeSpinner2.AxCoatNozzleInfo;
+            dlg.TeachUnit          = ETeachUnit.CLEANER2;
+            dlg.PO_Rotate          = EPositionObject.S2_ROTATE;
+            dlg.PO_CleanNozzle     = EPositionObject.S2_CLEAN_NOZZLE;
+            dlg.PO_CoatNozzle      = EPositionObject.S2_COAT_NOZZLE;
+            dlg.PositionGroup      = EPositionGroup.SPINNER2;
+            dlg.Axis_Rotate_T      = EYMC_Axis.S2_CHUCK_ROTATE_T;
+            dlg.Axis_CleanNozzle_T = EYMC_Axis.S2_CLEAN_NOZZLE_T;
+            dlg.Axis_CoatNozzle_T  = EYMC_Axis.S2_COAT_NOZZLE_T;
+
             dlg.SetDataMode(OffsetData);
             dlg.ShowDialog();
         }

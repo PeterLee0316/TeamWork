@@ -3228,7 +3228,7 @@ namespace LWDicer.Layers
                         string output = row["data"].ToString();
                         DEF_IO.CIOInfo ioInfo = JsonConvert.DeserializeObject<DEF_IO.CIOInfo>(output);
                         
-                        if(index >= DEF_IO.INPUT_ORIGIN && index < DEF_IO.INPUT_ORIGIN)
+                        if(index >= DEF_IO.INPUT_ORIGIN && index < DEF_IO.OUTPUT_ORIGIN)
                         {
                             InputArray[index - DEF_IO.INPUT_ORIGIN] = ioInfo;
                         } else if (index >= DEF_IO.OUTPUT_ORIGIN && index < DEF_IO.OUTPUT_END)
@@ -3668,6 +3668,7 @@ namespace LWDicer.Layers
         public int SaveAlarmInfoList()
         {
 
+            AlarmInfoList.Sort(delegate (CAlarmInfo a, CAlarmInfo b) { return a.Index.CompareTo(b.Index); });
             try
             {
                 List<string> querys = new List<string>();
@@ -3933,19 +3934,29 @@ namespace LWDicer.Layers
                 int startRow = 2;
                 for (int i = 0; i < 16; i++)
                 {
-                    InputArray[nCount].Name[0] = (string)(SheetRange.Cells[i + startRow, 2] as Excel.Range).Value2;
-                    OutputArray[nCount].Name[0] = (string)(SheetRange.Cells[i + startRow, 4] as Excel.Range).Value2;
+                    InputArray[nCount].Name[(int)ELanguage.ENGLISH] = (string)(SheetRange.Cells[i + startRow, 2] as Excel.Range).Value2;
+                    OutputArray[nCount].Name[(int)ELanguage.ENGLISH] = (string)(SheetRange.Cells[i + startRow, 4] as Excel.Range).Value2;
 
-                    InputArray[nCount + 16].Name[0] = (string)(SheetRange.Cells[i + startRow, 7] as Excel.Range).Value2;
-                    OutputArray[nCount + 16].Name[0] = (string)(SheetRange.Cells[i + startRow, 9] as Excel.Range).Value2;
+                    InputArray[nCount + 16].Name[(int)ELanguage.ENGLISH] = (string)(SheetRange.Cells[i + startRow, 7] as Excel.Range).Value2;
+                    OutputArray[nCount + 16].Name[(int)ELanguage.ENGLISH] = (string)(SheetRange.Cells[i + startRow, 9] as Excel.Range).Value2;
 
-                    InputArray[nCount + 32].Name[0] = (string)(SheetRange.Cells[i + startRow, 12] as Excel.Range).Value2;
-                    OutputArray[nCount + 32].Name[0] = (string)(SheetRange.Cells[i + startRow, 14] as Excel.Range).Value2;
+                    InputArray[nCount + 32].Name[(int)ELanguage.ENGLISH] = (string)(SheetRange.Cells[i + startRow, 12] as Excel.Range).Value2;
+                    OutputArray[nCount + 32].Name[(int)ELanguage.ENGLISH] = (string)(SheetRange.Cells[i + startRow, 14] as Excel.Range).Value2;
 
-                    InputArray[nCount + 48].Name[0] = (string)(SheetRange.Cells[i + startRow, 17] as Excel.Range).Value2;
-                    OutputArray[nCount + 48].Name[0] = (string)(SheetRange.Cells[i + startRow, 19] as Excel.Range).Value2;
+                    InputArray[nCount + 48].Name[(int)ELanguage.ENGLISH] = (string)(SheetRange.Cells[i + startRow, 17] as Excel.Range).Value2;
+                    OutputArray[nCount + 48].Name[(int)ELanguage.ENGLISH] = (string)(SheetRange.Cells[i + startRow, 19] as Excel.Range).Value2;
 
                     nCount++;
+                }
+
+                for(int i = 0; i < InputArray.Length; i++)
+                {
+                    InputArray[i].Name[(int)ELanguage.ENGLISH] = InputArray[i].Name[(int)ELanguage.ENGLISH].Trim();
+                }
+
+                for (int i = 0; i < InputArray.Length; i++)
+                {
+                    OutputArray[i].Name[(int)ELanguage.ENGLISH] = OutputArray[i].Name[(int)ELanguage.ENGLISH].Trim();
                 }
             }
             catch (Exception ex)
@@ -4105,15 +4116,15 @@ namespace LWDicer.Layers
                             break;
                     }
 
-                    AlarmInfo.Description[(int)DEF_Common.ELanguage.KOREAN] = (string)(SheetRange.Cells[i + startRow, 5] as Excel.Range).Value2; // Description Kor
-                    AlarmInfo.Description[(int)DEF_Common.ELanguage.ENGLISH] = (string)(SheetRange.Cells[i + startRow, 6] as Excel.Range).Value2; // Description Eng
-                    AlarmInfo.Description[(int)DEF_Common.ELanguage.CHINESE] = (string)(SheetRange.Cells[i + startRow, 7] as Excel.Range).Value2; // Description Chn
-                    AlarmInfo.Description[(int)DEF_Common.ELanguage.JAPANESE] = (string)(SheetRange.Cells[i + startRow, 8] as Excel.Range).Value2; // Description Jpn
+                    AlarmInfo.Description[(int)DEF_Common.ELanguage.KOREAN] = (string)(SheetRange.Cells[i + startRow, 5] as Excel.Range).Value2.Trim();
+                    AlarmInfo.Description[(int)DEF_Common.ELanguage.ENGLISH] = (string)(SheetRange.Cells[i + startRow, 6] as Excel.Range).Value2.Trim();
+                    AlarmInfo.Description[(int)DEF_Common.ELanguage.CHINESE] = (string)(SheetRange.Cells[i + startRow, 7] as Excel.Range).Value2.Trim();
+                    AlarmInfo.Description[(int)DEF_Common.ELanguage.JAPANESE] = (string)(SheetRange.Cells[i + startRow, 8] as Excel.Range).Value2.Trim();
 
-                    AlarmInfo.Solution[(int)DEF_Common.ELanguage.KOREAN] = (string)(SheetRange.Cells[i + startRow, 9] as Excel.Range).Value2; // Solution Kor
-                    AlarmInfo.Solution[(int)DEF_Common.ELanguage.ENGLISH] = (string)(SheetRange.Cells[i + startRow, 10] as Excel.Range).Value2; // Solution Eng
-                    AlarmInfo.Solution[(int)DEF_Common.ELanguage.CHINESE] = (string)(SheetRange.Cells[i + startRow, 11] as Excel.Range).Value2; // Solution Chn
-                    AlarmInfo.Solution[(int)DEF_Common.ELanguage.JAPANESE] = (string)(SheetRange.Cells[i + startRow, 12] as Excel.Range).Value2; // Solution Jpn
+                    AlarmInfo.Solution[(int)DEF_Common.ELanguage.KOREAN] = (string)(SheetRange.Cells[i + startRow, 9] as Excel.Range).Value2.Trim();
+                    AlarmInfo.Solution[(int)DEF_Common.ELanguage.ENGLISH] = (string)(SheetRange.Cells[i + startRow, 10] as Excel.Range).Value2.Trim();
+                    AlarmInfo.Solution[(int)DEF_Common.ELanguage.CHINESE] = (string)(SheetRange.Cells[i + startRow, 11] as Excel.Range).Value2.Trim();
+                    AlarmInfo.Solution[(int)DEF_Common.ELanguage.JAPANESE] = (string)(SheetRange.Cells[i + startRow, 12] as Excel.Range).Value2.Trim();
 
                     //AlarmInfoList.Add(AlarmInfo);
                     UpdateAlarmInfo(AlarmInfo, false, false);
@@ -4247,9 +4258,10 @@ namespace LWDicer.Layers
         {
             int nSheetCount = 0, nCount = 0;
 
-            string strPath = DBInfo.SystemDir + DBInfo.ExcelSystemPara, strGroup=string.Empty;
+            string strPath = DBInfo.SystemDir + DBInfo.ExcelSystemPara, strGroup;
             int iResult;
 
+            AlarmInfoList.Sort(delegate (CAlarmInfo a, CAlarmInfo b) { return a.Index.CompareTo(b.Index); });
             try
             {
                 Excel.Application ExcelApp = new Microsoft.Office.Interop.Excel.Application();
@@ -4275,6 +4287,7 @@ namespace LWDicer.Layers
                 int startRow = 2;
                 for (int i = 0; i < nCount; i++)
                 {
+                    strGroup = "";
                     if (AlarmInfoList[i].Group == EAlarmGroup.SYSTEM) strGroup = Convert.ToString(EAlarmGroup.SYSTEM);
                     if (AlarmInfoList[i].Group == EAlarmGroup.LOADER) strGroup = Convert.ToString(EAlarmGroup.LOADER);
                     if (AlarmInfoList[i].Group == EAlarmGroup.PUSHPULL) strGroup = Convert.ToString(EAlarmGroup.PUSHPULL);
@@ -4292,15 +4305,15 @@ namespace LWDicer.Layers
 
                     (SheetRange[(int)EExcel_Sheet.Alarm_Info].Cells[i + startRow, 4] as Excel.Range).Value2 = AlarmInfoList[i].Type;
 
-                    (SheetRange[(int)EExcel_Sheet.Alarm_Info].Cells[i + startRow, 5] as Excel.Range).Value2 = AlarmInfoList[i].Description[(int)DEF_Common.ELanguage.KOREAN];
-                    (SheetRange[(int)EExcel_Sheet.Alarm_Info].Cells[i + startRow, 6] as Excel.Range).Value2 = AlarmInfoList[i].Description[(int)DEF_Common.ELanguage.ENGLISH];
-                    (SheetRange[(int)EExcel_Sheet.Alarm_Info].Cells[i + startRow, 7] as Excel.Range).Value2 = AlarmInfoList[i].Description[(int)DEF_Common.ELanguage.CHINESE];
-                    (SheetRange[(int)EExcel_Sheet.Alarm_Info].Cells[i + startRow, 8] as Excel.Range).Value2 = AlarmInfoList[i].Description[(int)DEF_Common.ELanguage.JAPANESE];
+                    (SheetRange[(int)EExcel_Sheet.Alarm_Info].Cells[i + startRow, 5] as Excel.Range).Value2 = AlarmInfoList[i].Description[(int)DEF_Common.ELanguage.KOREAN].Trim();
+                    (SheetRange[(int)EExcel_Sheet.Alarm_Info].Cells[i + startRow, 6] as Excel.Range).Value2 = AlarmInfoList[i].Description[(int)DEF_Common.ELanguage.ENGLISH].Trim();
+                    (SheetRange[(int)EExcel_Sheet.Alarm_Info].Cells[i + startRow, 7] as Excel.Range).Value2 = AlarmInfoList[i].Description[(int)DEF_Common.ELanguage.CHINESE].Trim();
+                    (SheetRange[(int)EExcel_Sheet.Alarm_Info].Cells[i + startRow, 8] as Excel.Range).Value2 = AlarmInfoList[i].Description[(int)DEF_Common.ELanguage.JAPANESE].Trim();
 
-                    (SheetRange[(int)EExcel_Sheet.Alarm_Info].Cells[i + startRow, 9] as Excel.Range).Value2 = AlarmInfoList[i].Solution[(int)DEF_Common.ELanguage.KOREAN];
-                    (SheetRange[(int)EExcel_Sheet.Alarm_Info].Cells[i + startRow, 10] as Excel.Range).Value2 = AlarmInfoList[i].Solution[(int)DEF_Common.ELanguage.ENGLISH];
-                    (SheetRange[(int)EExcel_Sheet.Alarm_Info].Cells[i + startRow, 11] as Excel.Range).Value2 = AlarmInfoList[i].Solution[(int)DEF_Common.ELanguage.CHINESE];
-                    (SheetRange[(int)EExcel_Sheet.Alarm_Info].Cells[i + startRow, 12] as Excel.Range).Value2 = AlarmInfoList[i].Solution[(int)DEF_Common.ELanguage.JAPANESE];
+                    (SheetRange[(int)EExcel_Sheet.Alarm_Info].Cells[i + startRow, 9] as Excel.Range).Value2 = AlarmInfoList[i].Solution[(int)DEF_Common.ELanguage.KOREAN].Trim();
+                    (SheetRange[(int)EExcel_Sheet.Alarm_Info].Cells[i + startRow, 10] as Excel.Range).Value2 = AlarmInfoList[i].Solution[(int)DEF_Common.ELanguage.ENGLISH].Trim();
+                    (SheetRange[(int)EExcel_Sheet.Alarm_Info].Cells[i + startRow, 11] as Excel.Range).Value2 = AlarmInfoList[i].Solution[(int)DEF_Common.ELanguage.CHINESE].Trim();
+                    (SheetRange[(int)EExcel_Sheet.Alarm_Info].Cells[i + startRow, 12] as Excel.Range).Value2 = AlarmInfoList[i].Solution[(int)DEF_Common.ELanguage.JAPANESE].Trim();
                 }
 
                 WorkBook.Save();
@@ -4512,9 +4525,10 @@ namespace LWDicer.Layers
 
             string strPath = DBInfo.SystemDir + DBInfo.ExcelSystemPara;
 
+            MessageInfoList.Sort(delegate (CMessageInfo a, CMessageInfo b) { return a.Index.CompareTo(b.Index); });
+
             Excel.Application ExcelApp = new Microsoft.Office.Interop.Excel.Application();
             Excel.Workbook WorkBook;
-
             try
             {
                 WorkBook = ExcelApp.Workbooks.Open(strPath);
@@ -4547,10 +4561,10 @@ namespace LWDicer.Layers
                     if (MessageInfoList[i].Type == EMessageType.OK_CANCEL) (SheetRange[(int)EExcel_Sheet.Message_Info].Cells[i + startRow, 2] as Excel.Range).Value2 = Convert.ToString(EMessageType.OK_CANCEL);
                     if (MessageInfoList[i].Type == EMessageType.CONFIRM_CANCEL) (SheetRange[(int)EExcel_Sheet.Message_Info].Cells[i + startRow, 2] as Excel.Range).Value2 = Convert.ToString(EMessageType.CONFIRM_CANCEL);
 
-                    (SheetRange[(int)EExcel_Sheet.Message_Info].Cells[i + startRow, 3] as Excel.Range).Value2 = MessageInfoList[i].Message[(int)DEF_Common.ELanguage.KOREAN];
-                    (SheetRange[(int)EExcel_Sheet.Message_Info].Cells[i + startRow, 4] as Excel.Range).Value2 = MessageInfoList[i].Message[(int)DEF_Common.ELanguage.ENGLISH];
-                    (SheetRange[(int)EExcel_Sheet.Message_Info].Cells[i + startRow, 5] as Excel.Range).Value2 = MessageInfoList[i].Message[(int)DEF_Common.ELanguage.CHINESE];
-                    (SheetRange[(int)EExcel_Sheet.Message_Info].Cells[i + startRow, 6] as Excel.Range).Value2 = MessageInfoList[i].Message[(int)DEF_Common.ELanguage.JAPANESE];
+                    (SheetRange[(int)EExcel_Sheet.Message_Info].Cells[i + startRow, 3] as Excel.Range).Value2 = MessageInfoList[i].Message[(int)DEF_Common.ELanguage.KOREAN].Trim();
+                    (SheetRange[(int)EExcel_Sheet.Message_Info].Cells[i + startRow, 4] as Excel.Range).Value2 = MessageInfoList[i].Message[(int)DEF_Common.ELanguage.ENGLISH].Trim();
+                    (SheetRange[(int)EExcel_Sheet.Message_Info].Cells[i + startRow, 5] as Excel.Range).Value2 = MessageInfoList[i].Message[(int)DEF_Common.ELanguage.CHINESE].Trim();
+                    (SheetRange[(int)EExcel_Sheet.Message_Info].Cells[i + startRow, 6] as Excel.Range).Value2 = MessageInfoList[i].Message[(int)DEF_Common.ELanguage.JAPANESE].Trim();
                 }
 
                 WorkBook.Save();

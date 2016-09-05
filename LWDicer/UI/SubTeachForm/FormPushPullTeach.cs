@@ -423,9 +423,7 @@ namespace LWDicer.UI
 
             // Text Display
             GridPushPullYTeachTable[1, 1].CellType = GridCellTypeName.PushButton;
-
             GridPushPullYTeachTable[1, 1].CellAppearance = GridCellAppearance.Raised;
-
             GridPushPullYTeachTable[1, 1].Borders.All = new GridBorder(GridBorderStyle.Solid, Color.DarkSlateBlue, GridBorderWeight.Thin);
 
             GridPushPullYTeachTable[2, 0].Text = "목표 위치";
@@ -467,7 +465,6 @@ namespace LWDicer.UI
             }
 
             GridPushPullYTeachTable[1, 0].Text = Convert.ToString(ETeachUnit.PUSHPULL);
-
             GridPushPullYTeachTable[1, 1].Description = "Y Axis";
             GridPushPullYTeachTable[1, 1].TextColor = Color.DarkRed;
 
@@ -544,13 +541,10 @@ namespace LWDicer.UI
                 }
 
                 dPos = Convert.ToDouble(strModify);
-
                 dOffsetPos = movingPushPullObject.OffsetPos.Pos[m_nSelectedPos_Center].dY;
-
                 dTargetPos = dPos + dOffsetPos;
 
                 GridPushPullYTeachTable[2, e.ColIndex].Text = String.Format("{0:0.000}", dTargetPos);
-
                 GridPushPullYTeachTable[3, e.ColIndex].Text = strModify;
                 GridPushPullYTeachTable[3, e.ColIndex].TextColor = Color.Blue;
             }
@@ -644,11 +638,9 @@ namespace LWDicer.UI
 
             dX1Pos = Convert.ToDouble(StrX1Current);
             dOffsetX1Pos = movingCenterObject[0].OffsetPos.Pos[m_nSelectedPos_Center].dX;
-
             dTargetX1Pos = dX1Pos + dOffsetX1Pos;
 
             GridCenterXTeachTable[2, 1].Text = String.Format("{0:0.000}", dTargetX1Pos);
-
             GridCenterXTeachTable[3, 1].Text = String.Format("{0:0.000}", dX1Pos);
             GridCenterXTeachTable[3, 1].TextColor = Color.Blue;
 
@@ -657,11 +649,9 @@ namespace LWDicer.UI
 
             dX2Pos = Convert.ToDouble(StrX2Current);
             dOffsetX2Pos = movingCenterObject[1].OffsetPos.Pos[m_nSelectedPos_Center].dX;
-
             dTargetX2Pos = dX2Pos + dOffsetX2Pos;
 
             GridCenterXTeachTable[2, 2].Text = String.Format("{0:0.000}", dTargetX2Pos);
-
             GridCenterXTeachTable[3, 2].Text = String.Format("{0:0.000}", dX2Pos);
             GridCenterXTeachTable[3, 2].TextColor = Color.Blue;
         }
@@ -682,7 +672,6 @@ namespace LWDicer.UI
             dTargetYPos = dYPos + dOffsetYPos;
 
             GridPushPullYTeachTable[2, 1].Text = String.Format("{0:0.000}", dTargetYPos);
-
             GridPushPullYTeachTable[3, 1].Text = String.Format("{0:0.000}", dYPos);
             GridPushPullYTeachTable[3, 1].TextColor = Color.Blue;
         }
@@ -695,7 +684,7 @@ namespace LWDicer.UI
             strCurPos = String.Format("{0:0.000}", CMainFrame.LWDicer.m_YMC.ServoStatus[(int)EYMC_Axis.PUSHPULL_X1].EncoderPos);
             GridCenterXTeachTable[7, 1].Text = strCurPos;
 
-            strCurPos = String.Format("{0:0.000}", CMainFrame.LWDicer.m_YMC.ServoStatus[(int)EYMC_Axis.PUSHPULL_X1].EncoderPos);
+            strCurPos = String.Format("{0:0.000}", CMainFrame.LWDicer.m_YMC.ServoStatus[(int)EYMC_Axis.PUSHPULL_X2].EncoderPos);
             GridCenterXTeachTable[7, 2].Text = strCurPos;
 
             strCurPos = String.Format("{0:0.000}", CMainFrame.LWDicer.m_YMC.ServoStatus[(int)EYMC_Axis.PUSHPULL_Y].EncoderPos);
@@ -707,19 +696,16 @@ namespace LWDicer.UI
             dCurPos = CMainFrame.LWDicer.m_YMC.ServoStatus[(int)EYMC_Axis.PUSHPULL_X1].EncoderPos;
             dTargetPos = Convert.ToDouble(GridCenterXTeachTable[2, 1].Text);
             dValue = dTargetPos - dCurPos;
-
             GridCenterXTeachTable[8, 1].Text = String.Format("{0:0.000}", dValue);
 
-            dCurPos = CMainFrame.LWDicer.m_YMC.ServoStatus[(int)EYMC_Axis.PUSHPULL_X1].EncoderPos;
+            dCurPos = CMainFrame.LWDicer.m_YMC.ServoStatus[(int)EYMC_Axis.PUSHPULL_X2].EncoderPos;
             dTargetPos = Convert.ToDouble(GridCenterXTeachTable[2, 2].Text);
             dValue = dTargetPos - dCurPos;
-
             GridCenterXTeachTable[8, 2].Text = String.Format("{0:0.000}", dValue);
 
             dCurPos = CMainFrame.LWDicer.m_YMC.ServoStatus[(int)EYMC_Axis.PUSHPULL_Y].EncoderPos;
             dTargetPos = Convert.ToDouble(GridPushPullYTeachTable[2, 1].Text);
             dValue = dTargetPos - dCurPos;
-
             GridPushPullYTeachTable[8, 1].Text = String.Format("{0:0.000}", dValue);
 
         }
@@ -732,8 +718,56 @@ namespace LWDicer.UI
 
         private void BtnYTeachMove_Click(object sender, EventArgs e)
         {
+            // 0. ask move?
             string strMsg = "Move to selected position?";
             if (!CMainFrame.InquireMsg(strMsg)) return;
+
+            // 1. check safety
+            if (CMainFrame.LWDicer.IsSafeForAxisMove() == false) return;
+
+            // 2. ask transfer wafer
+            // loader는 wafer 를 가지고 이동할지를 물어볼 필요가 없음.
+            bool bDetected;
+            int iResult = CMainFrame.LWDicer.m_ctrlPushPull.IsObjectDetected(out bDetected);
+            if (iResult != SUCCESS)
+            {
+                CMainFrame.DisplayAlarm(iResult);
+                return;
+            }
+            bool bTransfer = false;
+            if(bDetected)
+            {
+                strMsg = "Transfer Wafer?";
+                if (CMainFrame.InquireMsg(strMsg)) bTransfer = true;
+            }
+
+            // 3. move
+            int index = m_nSelectedPos_PushPull;
+            switch (index)
+            {
+                case (int)EPushPullPos.WAIT:
+                    iResult = CMainFrame.LWDicer.m_ctrlPushPull.MoveToWaitPos(bTransfer);
+                    break;
+                case (int)EPushPullPos.LOADER:
+                    iResult = CMainFrame.LWDicer.m_ctrlPushPull.MoveToLoaderPos(bTransfer);
+                    break;
+                case (int)EPushPullPos.HANDLER:
+                    iResult = CMainFrame.LWDicer.m_ctrlPushPull.MoveToHandlerPos(bTransfer);
+                    break;
+                case (int)EPushPullPos.SPINNER1:
+                    iResult = CMainFrame.LWDicer.m_ctrlPushPull.MoveToSpinner1Pos(bTransfer);
+                    break;
+                case (int)EPushPullPos.SPINNER2:
+                    iResult = CMainFrame.LWDicer.m_ctrlPushPull.MoveToSpinner2Pos(bTransfer);
+                    break;
+                case (int)EPushPullPos.TEMP_UNLOAD:
+                    iResult = CMainFrame.LWDicer.m_ctrlPushPull.MoveToTempUnloadPos(bTransfer);
+                    break;
+                case (int)EPushPullPos.RELOAD:
+                    iResult = CMainFrame.LWDicer.m_ctrlPushPull.MoveToReloadPos(bTransfer);
+                    break;
+            }
+            CMainFrame.DisplayAlarm(iResult);
         }
 
         private void BtnManualOP_Click(object sender, EventArgs e)

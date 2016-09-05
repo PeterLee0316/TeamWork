@@ -215,8 +215,8 @@ namespace LWDicer.UI
                 GridCtrl[i + 1, 24].Text = String.Format("{0:0.000}", SystemData_Axis.MPMotionData[i].TimeLimit.tOriginLimit);
 
                 // Home Option
-                GridCtrl[i + 1, 25].Text = String.Format("{0:0.000}", SystemData_Axis.MPMotionData[i].OriginData.Method);
-                GridCtrl[i + 1, 26].Text = String.Format("{0:0.000}", SystemData_Axis.MPMotionData[i].OriginData.Dir);
+                GridCtrl[i + 1, 25].Text = String.Format("{0:0}", SystemData_Axis.MPMotionData[i].OriginData.Method);
+                GridCtrl[i + 1, 26].Text = String.Format("{0:0}", SystemData_Axis.MPMotionData[i].OriginData.Dir);
                 GridCtrl[i + 1, 27].Text = String.Format("{0:0.000}", SystemData_Axis.MPMotionData[i].OriginData.FastSpeed);
                 GridCtrl[i + 1, 28].Text = String.Format("{0:0.000}", SystemData_Axis.MPMotionData[i].OriginData.SlowSpeed);
                 GridCtrl[i + 1, 29].Text = String.Format("{0:0.000}", SystemData_Axis.MPMotionData[i].OriginData.HomeOffset);

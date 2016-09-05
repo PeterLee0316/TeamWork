@@ -366,14 +366,24 @@ namespace LWDicer.UI
 
         private void BtnTeachMove_Click(object sender, EventArgs e)
         {
+            // 0. ask move?
             string strMsg = "Move to selected position?";
             if (!CMainFrame.InquireMsg(strMsg)) return;
 
-            // 0. check safety
+            // 1. check safety
             if (CMainFrame.LWDicer.IsSafeForAxisMove() == false) return;
 
-            // 1. move
-            int iResult = DEF_Common.SUCCESS;
+            // 2. ask transfer wafer
+            // loader는 wafer 를 가지고 이동할지를 물어볼 필요가 없음.
+            bool bDetected;
+            int iResult = CMainFrame.LWDicer.m_ctrlLoader.IsWaferDetected(out bDetected);
+            if (iResult != SUCCESS)
+            {
+                CMainFrame.DisplayAlarm(iResult);
+                return;
+            }
+
+            // 3. move
             int index = m_nSelectedPos;
             switch(index)
             {
