@@ -250,6 +250,7 @@ namespace LWDicer.Layers
 
             return SUCCESS;
         }
+
         public int IsOff(int addr, out bool bStatus)
         {
             bStatus = false;

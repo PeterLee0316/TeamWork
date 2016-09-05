@@ -36,6 +36,7 @@ namespace LWDicer.UI
         public static CDBInfo DBInfo;
 
         public static CMainFrame MainFrame = null;
+        public static bool IsFormLoaded = false;
 
         public static EFormType PrevScreen;
         public CDisplayManager DisplayManager = new CDisplayManager();
@@ -69,7 +70,8 @@ namespace LWDicer.UI
             CreateForms();
             InitScreen();
 
-            MainFrame = this;            
+            MainFrame = this;
+            IsFormLoaded = true;
         }
 
         public void InitScreen()

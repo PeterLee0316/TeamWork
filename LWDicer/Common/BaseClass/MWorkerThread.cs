@@ -416,7 +416,12 @@ namespace LWDicer.Layers
             if (wParam == 0) wParam = (int)SelfChannelNo; // Set Sender ID
 
             WriteLog($"send msg to main wnd : {msg}");
-            MainFrame?.Invoke(new ProcessMsgDelegate(MainFrame.ProcessMsg), new MEvent(msg, wParam, lParam));
+
+            if (CMainFrame.IsFormLoaded == false) return;
+            //MainFrame?.Invoke(new ProcessMsgDelegate(MainFrame.ProcessMsg), new MEvent(msg, wParam, lParam));
+            Delegate msgDelegate = new ProcessMsgDelegate(MainFrame.ProcessMsg);
+            MEvent msgEvent = new MEvent(msg, wParam, lParam);
+            MainFrame?.Invoke(msgDelegate, msgEvent);
         }
 
         public void SendMsgToMainWnd(EWindowMessage msg, int wParam = 0, int lParam = 0)

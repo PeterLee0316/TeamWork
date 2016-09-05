@@ -1504,7 +1504,12 @@ namespace LWDicer.Layers
 
             // Limit check ???
 
+#if EQUIP_266_DEV
             iResult = m_RefComp.AxCamera.JogMoveVelocity(iAxis, dDir,false);
+#endif
+#if EQUIP_DICING_DEV
+            iResult = m_RefComp.AxCamera.JogMoveVelocity(iAxis, dDir, dVel);
+#endif
 
             return SUCCESS;
         }
@@ -1774,7 +1779,12 @@ namespace LWDicer.Layers
 
             // Limit check ???
 
+#if EQUIP_266_DEV
             iResult = m_RefComp.AxScanner.JogMoveVelocity(iAxis, dDir,false);
+#endif
+#if EQUIP_DICING_DEV
+            iResult = m_RefComp.AxScanner.JogMoveVelocity(iAxis, dDir, dVel);
+#endif
 
             return SUCCESS;
         }

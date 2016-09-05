@@ -233,18 +233,22 @@ namespace LWDicer.Layers
                 // check message from other thread
                 CheckMsg(1);
 
-#if SIMULATION_IO
-                // check op panel
-                iResult = ProcessOpPanel();
-                if (iResult != SUCCESS)
+#if !SIMULATION_IO
+                // 160905 런상태에서만 oppanel 및 interface를 점검하는것은 안됨.
+                //if( RunStatus == STS_RUN || RunStatus == STS_RUN_READY)
                 {
-                    SendMsg(MSG_PROCESS_ALARM, ObjInfo.ID, iResult);
-                }
-                // check interface with other facility
-                iResult = ProcessRealInterface();
-                if(iResult != SUCCESS)
-                {
-                    SendMsg(MSG_PROCESS_ALARM, ObjInfo.ID, iResult);
+                    // check op panel
+                    iResult = ProcessOpPanel();
+                    if (iResult != SUCCESS)
+                    {
+                        SendMsg(MSG_PROCESS_ALARM, ObjInfo.ID, iResult);
+                    }
+                    // check interface with other facility
+                    iResult = ProcessRealInterface();
+                    if (iResult != SUCCESS)
+                    {
+                        SendMsg(MSG_PROCESS_ALARM, ObjInfo.ID, iResult);
+                    }
                 }
 
                 // process pumping job
@@ -303,6 +307,7 @@ namespace LWDicer.Layers
                     //    if (((CMainFrame*)AfxGetApp()->GetMainWnd())->m_pErrorDlg == NULL)
                     //        return processAlarm(evnt);  // process에서 올라온 알람메세지의 처리
                     //}
+
                     return ProcessAlarm(evnt);  // process에서 올라온 알람메세지의 처리
                     break;
 
@@ -703,9 +708,7 @@ namespace LWDicer.Layers
 
             // 장비 START Switch Check
             iResult = m_RefComp.ctrlOpPanel.GetStartSWStatus(out bStatus);
-
             if (iResult != SUCCESS) return iResult;
-
             if (bStatus)
             {
                 ChangeMonitorTouchControl();
@@ -714,7 +717,6 @@ namespace LWDicer.Layers
                 {
                     m_bStartPressed = true;
                     OnRun();    // 장비 RUN을 위한 동작을 수행한다.
-
                 }
             }
             else
