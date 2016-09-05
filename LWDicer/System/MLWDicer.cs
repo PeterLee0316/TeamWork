@@ -1174,6 +1174,7 @@ namespace LWDicer.Layers
 
             refComp.Stage = m_MeStage;
             refComp.Scanner = m_MeScanner;
+            refComp.Vision = m_Vision;
 
             m_ctrlStage1 = new MCtrlStage1(objInfo, refComp, data);
         }
@@ -1408,7 +1409,7 @@ namespace LWDicer.Layers
 
             MLWDicer.bInSfaTest = m_DataManager.SystemData.UseInSfaTest;
             MLWDicer.bUseOnline = m_DataManager.SystemData.UseOnLineUse;
-            MLWDicer.Language = m_DataManager.SystemData.Language;
+            MLWDicer.Language   = m_DataManager.SystemData.Language;
 
             // set system data to each component
 
@@ -1473,27 +1474,27 @@ namespace LWDicer.Layers
 
                 data.StageSafetyPos = m_DataManager.SystemData.MAxSafetyPos.Stage_Pos;
 
-                //Screen Move Length (Camera의 FOV 대입한다)
+                ////Screen Move Length (Camera의 FOV 대입한다)
                
-                data.MacroScreenWidth   = m_DataManager.SystemData_Vision.Camera[(int)ECameraSelect.MACRO].CamFovX;
-                data.MacroScreenHeight  = m_DataManager.SystemData_Vision.Camera[(int)ECameraSelect.MACRO].CamFovY;
-                data.MicroScreenWidth   = m_DataManager.SystemData_Vision.Camera[(int)ECameraSelect.MICRO].CamFovX;
-                data.MicroScreenHeight  = m_DataManager.SystemData_Vision.Camera[(int)ECameraSelect.MICRO].CamFovY;
+                //data.MacroScreenWidth   = m_DataManager.SystemData_Align.Camera[(int)ECameraSelect.MACRO].CamFovX;
+                //data.MacroScreenHeight  = m_DataManager.SystemData_Align.Camera[(int)ECameraSelect.MACRO].CamFovY;
+                //data.MicroScreenWidth   = m_DataManager.SystemData_Align.Camera[(int)ECameraSelect.MICRO].CamFovX;
+                //data.MicroScreenHeight  = m_DataManager.SystemData_Align.Camera[(int)ECameraSelect.MICRO].CamFovY;
 
-                // Rotate 값을 연산값으로 적용한다.
-                double dCamPosX = m_DataManager.SystemData_Vision.Camera[(int)ECameraSelect.MACRO].Position.dX;
-                double dCamPosY = m_DataManager.SystemData_Vision.Camera[(int)ECameraSelect.MACRO].Position.dY;
-                double dDistanceCam = Math.Sqrt(dCamPosX * dCamPosX + dCamPosY * dCamPosY);
-                double dAngle = Math.Atan(data.MacroScreenHeight / dDistanceCam / 2);
+                //// Rotate 값을 연산값으로 적용한다.
+                //double dCamPosX = m_DataManager.SystemData_Align.Camera[(int)ECameraSelect.MACRO].Position.dX;
+                //double dCamPosY = m_DataManager.SystemData_Align.Camera[(int)ECameraSelect.MACRO].Position.dY;
+                //double dDistanceCam = Math.Sqrt(dCamPosX * dCamPosX + dCamPosY * dCamPosY);
+                //double dAngle = Math.Atan(data.MacroScreenHeight / dDistanceCam / 2);
 
-                data.MacroScreenRotate = 2 * dAngle * 180 / Math.PI; // (To Degree)
+                //data.MacroScreenRotate = 2 * dAngle * 180 / Math.PI; // (To Degree)
 
-                dCamPosX = m_DataManager.SystemData_Vision.Camera[(int)ECameraSelect.MICRO].Position.dX;
-                dCamPosY = m_DataManager.SystemData_Vision.Camera[(int)ECameraSelect.MICRO].Position.dY;
-                dDistanceCam = Math.Sqrt(dCamPosX * dCamPosX + dCamPosY * dCamPosY);
-                dAngle = Math.Atan(data.MicroScreenHeight / dDistanceCam / 2);
+                //dCamPosX = m_DataManager.SystemData_Align.Camera[(int)ECameraSelect.MICRO].Position.dX;
+                //dCamPosY = m_DataManager.SystemData_Align.Camera[(int)ECameraSelect.MICRO].Position.dY;
+                //dDistanceCam = Math.Sqrt(dCamPosX * dCamPosX + dCamPosY * dCamPosY);
+                //dAngle = Math.Atan(data.MicroScreenHeight / dDistanceCam / 2);
 
-                data.MicroScreenRotate = 2 * dAngle * 180 / Math.PI; // (To Degree)
+                //data.MicroScreenRotate = 2 * dAngle * 180 / Math.PI; // (To Degree)
                 
 
                 // Jog Speed
@@ -1584,7 +1585,7 @@ namespace LWDicer.Layers
            // m_ctrlStage1.GetData(out CtrlStage1Data);
 
             // System Data에 있는 Vision Data를 적용한다.
-            //CtrlStage1Data.Vision = m_DataManager.SystemData_Vision;
+            //CtrlStage1Data.Vision = m_DataManager.SystemData_Align;
 
             //m_ctrlStage1.SetData(CtrlStage1Data);
 

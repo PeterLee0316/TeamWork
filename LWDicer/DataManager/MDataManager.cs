@@ -194,16 +194,7 @@ namespace LWDicer.Layers
 
             public bool UseInSfaTest;                // SFA 내에서 Test할때 쓰임
             public bool UseDisplayQuitButton;
-
-            // Vision
-            public bool UseVisionDisplay;
-            public double VisionCenter_Offset_X;
-            public double VisionCenter_Offset_Y;
-            public bool UseAutoSearch_Panel;
-            public double AutoSearchDistance_Panel;
-            //	BOOL	bAutoSearch_SubMark;
-
-
+            
             public bool UseAlignUseSubMark;  // sub 마크로 Align 할지 여부
 
             // Stage
@@ -214,7 +205,6 @@ namespace LWDicer.Layers
             public double Stage2UnloadPos_Y;
             public double Stage3LoadPos_Y;
             public double Stage3UnloadPos_Y;
-
 
             public double Stage1IndexRotate = 90.0;
             public double Stage1JogSpeed = 10.0;
@@ -281,15 +271,12 @@ namespace LWDicer.Layers
 
             public double UVLampMaxTime;                  // 허용 램프 최대 수명
 
-
             // Pumping Job
             public int DoPumpingIntervalTime;       // 펌핑 잡 Interval
             public int DoPumpingTime;               // 펌핑 잡 총 동작 시간
-            public int Pumping_OneShot_Interval;        // 매 일회 펌핑 동작당 대기시간
-
-            public bool UseUseWorkbenchVacuum;   // Workbench Vacuum 사용 유무
-
-
+            public int Pumping_OneShot_Interval;    // 매 일회 펌핑 동작당 대기시간
+            public bool UseUseWorkbenchVacuum;      // Workbench Vacuum 사용 유무
+            
             // Dispenser측, MMC에서 제어하는 cylinder time
             public double Head_Cyl_MovingTime;
             public double Head_Cyl_AfterOnTime;
@@ -297,12 +284,10 @@ namespace LWDicer.Layers
             public double Head_Cyl_NoSensorWaitTime;
 
             public double Head_Gun_UV_InterGap;       // from Needle to UV End distance
-
-            public bool UseCheck_Panel_Data;         // run time, check panel data
-            public bool UseCheck_Panel_History;      // run time, check panel id History
+            public bool UseCheck_Panel_Data;          // run time, check panel data
+            public bool UseCheck_Panel_History;       // run time, check panel id History
 
             public bool UseVIPMode;
-
 
             public CSystemData()
             {
@@ -362,12 +347,11 @@ namespace LWDicer.Layers
             }
         }
 
-
-
-        public class CSystemData_Vision
+        public class CSystemData_Align
         {
-            public int[] LenMagnification = new int[(int)ECameraSelect.MAX];
+            // Vision ===========================================================================
 
+            public int[] LenMagnification = new int[(int)ECameraSelect.MAX];
             // 렌즈 Resolution & 카메라 Position
             public int[] CamPixelNumX = new int[(int)ECameraSelect.MAX];
             public int[] CamPixelNumY = new int[(int)ECameraSelect.MAX];
@@ -377,12 +361,35 @@ namespace LWDicer.Layers
             public double[] CamFovX = new double[(int)ECameraSelect.MAX];    // 이 수치는 자동 계산됨
             public double[] CamFovY = new double[(int)ECameraSelect.MAX];    // 이 수치는 자동 계산됨
 
-            public CPos_XY[] Position = new CPos_XY[(int)ECameraSelect.MAX];
-            public double[] CameraTilt = new double[(int)ECameraSelect.MAX];
-
+            public CPos_XY[] Position   = new CPos_XY[(int)ECameraSelect.MAX];
+            public double[] CameraTilt  = new double[(int)ECameraSelect.MAX];
             public CCameraData[] Camera = new CCameraData[(int)ECameraSelect.MAX];
 
-            public CSystemData_Vision()
+            public double CamEachOffsetX;
+            public double CamEachOffsetY;
+
+
+            // Stage ===========================================================================
+
+            // Index Move Length
+            public double DieIndexWidth;
+            public double DieIndexHeight;
+            public double DieIndexRotate;
+            
+            // Screen Move Length 
+            public double MacroScreenWidth;
+            public double MacroScreenHeight;
+            public double MacroScreenRotate;
+            public double MicroScreenWidth;
+            public double MicroScreenHeight;
+            public double MicroScreenRotate;
+            
+
+
+            public double AlignMarkWidthLen;
+            public double AlignMarkWidthRatio;
+
+            public CSystemData_Align()
             {
                 for (int i = 0; i < (int)ECameraSelect.MAX; i++)
                 {
@@ -911,7 +918,7 @@ namespace LWDicer.Layers
         public CSystemData_Vacuum SystemData_Vacuum { get; private set; } = new CSystemData_Vacuum();
 
         public CSystemData_Scanner SystemData_Scan { get; private set; } = new CSystemData_Scanner();
-        public CSystemData_Vision SystemData_Vision { get; private set; } = new CSystemData_Vision();
+        public CSystemData_Align SystemData_Align { get; private set; } = new CSystemData_Align();
         public CSystemData_Light SystemData_Light { get; private set; } = new CSystemData_Light();
 
         /////////////////////////////////////////////////////////////////////////////////
@@ -1191,7 +1198,7 @@ namespace LWDicer.Layers
 
         public int SaveSystemData(CSystemData system = null, CSystemData_Axis systemAxis = null,
             CSystemData_Cylinder systemCylinder = null, CSystemData_Vacuum systemVacuum = null,
-            CSystemData_Vision systemVision =null, CSystemData_Scanner systemScanner = null,
+            CSystemData_Align systemAlign =null, CSystemData_Scanner systemScanner = null,
             CSystemData_Light systemLight = null)
         {
             // CSystemData
@@ -1281,23 +1288,22 @@ namespace LWDicer.Layers
                     return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_SAVE_SYSTEM_DATA);
                 }
             }
+            
 
-
-
-            // CSystemData_Vision
-            if (systemVision != null)
+            // CSystemData_Align
+            if (systemAlign != null)
             {
                 try
                 {
-                    SystemData_Vision = ObjectExtensions.Copy(systemVision);
-                    string output = JsonConvert.SerializeObject(SystemData_Vision);
+                    SystemData_Align = ObjectExtensions.Copy(systemAlign);
+                    string output = JsonConvert.SerializeObject(SystemData_Align);
 
-                    if (DBManager.InsertRow(DBInfo.DBConn, DBInfo.TableSystem, "name", nameof(CSystemData_Vision), output,
+                    if (DBManager.InsertRow(DBInfo.DBConn, DBInfo.TableSystem, "name", nameof(CSystemData_Align), output,
                         true, DBInfo.DBConn_Backup) != true)
                     {
                         return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_SAVE_SYSTEM_DATA);
                     }
-                    WriteLog("success : save CSystemData_Vision.", ELogType.SYSTEM, ELogWType.SAVE);
+                    WriteLog("success : save CSystemData_Align.", ELogType.SYSTEM, ELogWType.SAVE);
                 }
                 catch (Exception ex)
                 {
@@ -1342,7 +1348,7 @@ namespace LWDicer.Layers
                     {
                         return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_SAVE_SYSTEM_DATA);
                     }
-                    WriteLog("success : save CSystemData_Vision.", ELogType.SYSTEM, ELogWType.SAVE);
+                    WriteLog("success : save CSystemData_Align.", ELogType.SYSTEM, ELogWType.SAVE);
                 }
                 catch (Exception ex)
                 {
@@ -1506,27 +1512,27 @@ namespace LWDicer.Layers
 
             
 
-            // CSystemData_Vision
+            // CSystemData_Align
             if (loadVision == true)
             {
                 try
                 {
-                    if (DBManager.SelectRow(DBInfo.DBConn, DBInfo.TableSystem, out output, new CDBColumn("name", nameof(CSystemData_Vision))) == true)
+                    if (DBManager.SelectRow(DBInfo.DBConn, DBInfo.TableSystem, out output, new CDBColumn("name", nameof(CSystemData_Align))) == true)
                     {
-                        CSystemData_Vision data = JsonConvert.DeserializeObject<CSystemData_Vision>(output);
-                        if (SystemData_Vision.Camera.Length == data.Camera.Length)
+                        CSystemData_Align data = JsonConvert.DeserializeObject<CSystemData_Align>(output);
+                        if (SystemData_Align.Camera.Length == data.Camera.Length)
                         {
-                            SystemData_Vision = ObjectExtensions.Copy(data);
+                            SystemData_Align = ObjectExtensions.Copy(data);
                         }
                         else
                         {
-                            for (int i = 0; i < SystemData_Vision.Camera.Length; i++)
+                            for (int i = 0; i < SystemData_Align.Camera.Length; i++)
                             {
                                 if (i >= data.Camera.Length) break;
-                                SystemData_Vision.Camera[i] = ObjectExtensions.Copy(data.Camera[i]);
+                                SystemData_Align.Camera[i] = ObjectExtensions.Copy(data.Camera[i]);
                             }
                         }
-                        WriteLog("success : load CSystemData_Vision.", ELogType.SYSTEM, ELogWType.LOAD);
+                        WriteLog("success : load CSystemData_Align.", ELogType.SYSTEM, ELogWType.LOAD);
                     }
                     //else // temporarily do not return error for continuous loading
                     //{

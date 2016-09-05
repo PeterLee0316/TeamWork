@@ -331,6 +331,7 @@ namespace LWDicer.UI
         private void MoveAxis(bool bDirection)
         {
             int iResult = SUCCESS;
+
             if (AxisMoveOption == (int)EMoveOption.JOG)
             {
                 if (SelectedMotion==(int)EMotionSelect.YMC)
@@ -345,6 +346,7 @@ namespace LWDicer.UI
             else if (AxisMoveOption == (int)EMoveOption.INC)
             {
                 double[] dTargetPos = new double[1];
+
                 if(bDirection == DIR_POSITIVE)
                     dTargetPos[0] = Convert.ToDouble(LabelCurrent.Text) + Convert.ToDouble(LabelTarget.Text);
                 else dTargetPos[0] = Convert.ToDouble(LabelCurrent.Text) - Convert.ToDouble(LabelTarget.Text);

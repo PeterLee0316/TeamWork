@@ -557,25 +557,25 @@ namespace LWDicer.Layers
                 
                 int stopAddress = (int)ptr + bmpData.Stride * bmpData.Height;
 
-                while ((int)ptr != stopAddress)
-                {
-                    TotalRGB = ptr[0] + ptr[1] + ptr[2];
+                //while ((int)ptr != stopAddress)
+                //{
+                //    TotalRGB = ptr[0] + ptr[1] + ptr[2];
 
-                    if (TotalRGB <= thresholdValue)
-                    {
-                        ptr[2] = 0;
-                        ptr[1] = 0;
-                        ptr[0] = 0;
-                    }
-                    else
-                    {
-                        ptr[2] = 255;
-                        ptr[1] = 255;
-                        ptr[0] = 255;
-                    }
+                //    if (TotalRGB <= thresholdValue)
+                //    {
+                //        ptr[2] = 0;
+                //        ptr[1] = 0;
+                //        ptr[0] = 0;
+                //    }
+                //    else
+                //    {
+                //        ptr[2] = 255;
+                //        ptr[1] = 255;
+                //        ptr[0] = 255;
+                //    }
 
-                    ptr += 3;
-                }
+                //    ptr += 3;
+                //}
             }
 
             bmp.UnlockBits(bmpData);

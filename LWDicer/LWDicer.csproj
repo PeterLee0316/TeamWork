@@ -38,7 +38,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;WIN32, SIMULATION_VISION, SIMULATION_MOTION_ACS, EQUIP_DICING_DEV</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;WIN32, SIMULATION_MOTION_YMC, EQUIP_266_DEV</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>2</WarningLevel>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
@@ -827,11 +827,21 @@
     <Content Include="Common\img\arrow-up.png" />
     <None Include="Common\img\draw.jpg" />
     <None Include="Common\img\Exit.bmp" />
+    <None Include="Common\img\Arrow0a.ico" />
+    <None Include="Common\img\Arrow0b.ico" />
+    <None Include="Common\img\Arrow0d.ico" />
+    <None Include="Common\img\Arrow0c.ico" />
     <Content Include="Common\img\export.bmp" />
     <Content Include="Common\img\import.bmp" />
     <Content Include="Common\img\MessageBox.png" />
     <None Include="Common\img\run.bmp" />
     <None Include="Common\img\stop.bmp" />
+    <None Include="Common\img\nav_up_left_green.bmp" />
+    <None Include="Common\img\nav_up_right_green.bmp" />
+    <None Include="Common\img\nav_up_green.bmp" />
+    <None Include="Common\img\nav_right_green.bmp" />
+    <None Include="Common\img\nav_left_green.bmp" />
+    <None Include="Common\img\nav_down_green.bmp" />
     <Content Include="Common\img\wafer.png" />
     <Content Include="Hardware\ACS\ACS_Buffer.txt" />
     <Content Include="Hardware\YMC\YMC_Buffer.txt" />

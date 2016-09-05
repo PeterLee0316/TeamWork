@@ -43,6 +43,9 @@ namespace LWDicer.UI
         private FormTopScreen TopScreen;
         private FormBottomScreen BottomScreen;
 
+        // 여러 Form에서 공용으로 사용할 Jog Form
+        public static FormJogStage frmStageJog;
+
         //private FormAutoScreen AutoScreen;
         //private FormManualScreen ManualScreen;
         //private FormDataScreen DataScreen;
@@ -160,6 +163,10 @@ namespace LWDicer.UI
             {
                 SetProperty(form);
             }
+
+            /////////////////////////////////////////////////////
+
+            frmStageJog = new FormJogStage();
         }
 
         private void SetProperty(Form form)

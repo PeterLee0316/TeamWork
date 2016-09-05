@@ -437,7 +437,7 @@ CSpinStep class -> CCleanStep / CCoatStep class 로 분리
 // Context
 
 1. DataManager
-	- CSystemData_Vision Create 및 Layer 계층과 연결
+	- CSystemData_Align Create 및 Layer 계층과 연결
 	- CSystemData_Light Create
 	- Vision & Light DB에 연결함	
 	- Screen Move 값을 Camera Fov값과 연결 및 Rotate 값 연산값 적용
@@ -501,6 +501,13 @@ CSpinStep class -> CCleanStep / CCoatStep class 로 분리
 1. BMP 파일 로딩
 	- 사이즈를 Drag해서 이미지의 위치와 크기를 설정함
 	- threadhold 기능 테스트 중.. 영상처리 기법을 적용이 필요함.
+
+2. Vision Align
+	- Cam Change Funciton 테스트.(서보 이동하면서.. 같은 지점 테스트)
+	- Align Parameter관련 DB 연결 및 테스트
+	- Vision Overlay 기능 테스트 (Hair Line Show부분)
+
+
 ////////////////////////////////////////////////////////////////////////////////////////////
 // LHS
 // Version : 0.0.1

@@ -47,6 +47,7 @@
             this.picVision = new System.Windows.Forms.Panel();
             this.gradientLabel1 = new Syncfusion.Windows.Forms.Tools.GradientLabel();
             this.BtnExit = new System.Windows.Forms.Button();
+            this.pnlStageJog = new System.Windows.Forms.Panel();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picPatternMarkB)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picPatternMarkA)).BeginInit();
@@ -293,11 +294,19 @@
             this.BtnExit.UseVisualStyleBackColor = true;
             this.BtnExit.Click += new System.EventHandler(this.BtnExit_Click);
             // 
+            // pnlStageJog
+            // 
+            this.pnlStageJog.Location = new System.Drawing.Point(12, 658);
+            this.pnlStageJog.Name = "pnlStageJog";
+            this.pnlStageJog.Size = new System.Drawing.Size(797, 218);
+            this.pnlStageJog.TabIndex = 947;
+            // 
             // FormEdgeAlignTeach
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1260, 880);
+            this.Controls.Add(this.pnlStageJog);
             this.Controls.Add(this.BtnExit);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.groupBox4);
@@ -306,6 +315,7 @@
             this.Controls.Add(this.gradientLabel16);
             this.Name = "FormEdgeAlignTeach";
             this.Text = "FormEdgeAlignTeach";
+            this.Load += new System.EventHandler(this.FormEdgeAlignTeach_Load);
             this.groupBox1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.picPatternMarkB)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.picPatternMarkA)).EndInit();
@@ -334,5 +344,6 @@
         private System.Windows.Forms.Panel picVision;
         private Syncfusion.Windows.Forms.Tools.GradientLabel gradientLabel1;
         private System.Windows.Forms.Button BtnExit;
+        private System.Windows.Forms.Panel pnlStageJog;
     }
 }

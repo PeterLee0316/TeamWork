@@ -1356,20 +1356,24 @@ namespace LWDicer.Layers
          * Parameter :   int scannerIndex - Scanner No.
          *               string strFile - 전송하고 자하는 BitMap File Name
          ------------------------------------------------------------------------------------*/
-        public bool SendBitmap(string strFile)
+        public bool SendBitmap(string strFile,bool IsStream=false)
         {
             string strFTP = GetControlAddress(); // ex) "92.168.22.60"
             //string strPath = string.Format("{0:s}{1:s}", m_RefComp.DataManager.DBInfo.ImageDataDir, strFile);  
             string filePath = strFile;
 
-            if (SendTFTPFile(strFTP, filePath) == true)
+            if (IsStream == false)
             {
-                return true;
+                if (SendTFTPFile(strFTP, filePath) == true) return true;
+                else return false;
             }
             else
             {
-                return false;
-            } 
+                //filePath = "T:\\CadFile\\stemco_50um.bmp T:\\CadFile\\stemco_50um.lse";
+                if (SendStreamFile(strFTP, filePath) == true) return true;
+                else return false;
+            }
+
         }
                 
 
@@ -1445,7 +1449,37 @@ namespace LWDicer.Layers
             try
             {
                 procScanner.Start();
-                procScanner.StandardInput.Write("tftp -i " + strIP + " put " + strFilePath + Environment.NewLine);
+                //procScanner.StandardInput.Write("tftp -i " + strIP + " put " + strFilePath + Environment.NewLine);
+                procScanner.StandardInput.Write("C:\\NST\\nstc upload " + strIP + " " + strFilePath + Environment.NewLine);
+                procScanner.StandardInput.Close();
+                //procScanner.BeginOutputReadLine();                
+
+                if (procScanner.WaitForExit(2000) == false)
+                {
+                    procScanner.Close();
+                    return false;
+                }
+
+                procScanner.Close();
+            }
+            catch
+            {
+                procScanner.Close();
+            }
+
+            return true;
+
+        }
+
+        private bool SendStreamFile(string strIP, string strFilePath)
+        {
+            string strResult = "";
+
+            try
+            {
+                procScanner.Start();
+                // procScanner.StandardInput.Write("C:\\NST\\nstc send " + strIP + " " + strFilePath + Environment.NewLine);
+                procScanner.StandardInput.Write("c:\\nst\\nstc send " + strIP + " " + strFilePath + Environment.NewLine); // 
                 procScanner.StandardInput.Close();
                 //procScanner.BeginOutputReadLine();                
 

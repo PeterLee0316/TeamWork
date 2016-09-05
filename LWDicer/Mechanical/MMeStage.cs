@@ -11,6 +11,7 @@ using static LWDicer.Layers.DEF_Motion;
 using static LWDicer.Layers.DEF_IO;
 using static LWDicer.Layers.DEF_Vacuum;
 using static LWDicer.Layers.DEF_System;
+using LWDicer.UI;
 
 namespace LWDicer.Layers
 {
@@ -95,7 +96,7 @@ namespace LWDicer.Layers
             WAIT,
             LOAD,
             UNLOAD,
-            THETA_ALIGN,            // Theta축 정렬할때 A 위치
+            STAGE_CENTER,            // Theta축 정렬할때 A 위치
             EDGE_ALIGN_1,           // EDGE Detect "0"도 위치
             EDGE_ALIGN_2,           // EDGE Detect "90"도 위치
             EDGE_ALIGN_3,           // EDGE Detect "180"도 위치
@@ -182,28 +183,26 @@ namespace LWDicer.Layers
 
         public class CMeStageData
         {
-            // Model Data ===========================================
-            // Index Move Length
-            public double IndexWidth ;
-            public double IndexHeight;
-            public double IndexRotate;
-            public double AlignMarkWidthLen;
-            public double AlignMarkWidthRatio;
+            //// Model Data ===========================================
+            //// Index Move Length
+            //public double IndexWidth ;
+            //public double IndexHeight;
+            //public double IndexRotate;
+            //public double AlignMarkWidthLen;
+            //public double AlignMarkWidthRatio;
 
-            // System Data  =========================================
-            // Screen Move Length 
-            public double MacroScreenWidth;
-            public double MacroScreenHeight;
-            public double MacroScreenRotate;
-            public double MicroScreenWidth;
-            public double MicroScreenHeight;
-            public double MicroScreenRotate;
+            //// System Data  =========================================
+            //// Screen Move Length 
+            //public double MacroScreenWidth;
+            //public double MacroScreenHeight;
+            //public double MacroScreenRotate;
+            //public double MicroScreenWidth;
+            //public double MicroScreenHeight;
+            //public double MicroScreenRotate;
+            
 
-            public double StageJogSpeed;
-            public double ThetaJogSpeed;
-
-            public CPos_XY VisionCamDistance = new CPos_XY();
-            public double VisionLaserDistance;
+            //public CPos_XY VisionCamDistance = new CPos_XY();
+            //public double VisionLaserDistance;
 
             // Detect Object Sensor Address
             public int InDetectObject   = IO_ADDR_NOT_DEFINED;
@@ -720,6 +719,8 @@ namespace LWDicer.Layers
             // 이동 Position 선택
             int iPos = (int)EStagePos.NONE;
             CPos_XYTZ sTargetPos = new CPos_XYTZ();
+            iResult = GetStageCurPos(out sTargetPos);
+            if (iResult != SUCCESS) return iResult;
 
             bool[] bMoveFlag = new bool[DEF_MAX_COORDINATE] { false, false, false, false };           
 
@@ -772,48 +773,54 @@ namespace LWDicer.Layers
         /// <returns></returns>
         public int MoveStageIndexPlusX()
         {
+            double moveDistance =  CMainFrame.DataManager.SystemData_Align.DieIndexWidth;
             // + 방향으로 이동
-            MoveStageRelativeX(m_Data.IndexWidth);
+            MoveStageRelativeX(moveDistance);
 
             return SUCCESS;
         }
 
         public int MoveStageIndexPlusY()
         {
+            double moveDistance = CMainFrame.DataManager.SystemData_Align.DieIndexHeight;
             // + 방향으로 이동
-            MoveStageRelativeX(m_Data.IndexHeight);
+            MoveStageRelativeY(moveDistance);
 
             return SUCCESS;
         }
 
         public int MoveStageIndexPlusT()
         {
+            double moveDistance = CMainFrame.DataManager.SystemData_Align.DieIndexRotate;
             // + 방향으로 이동
-            MoveStageRelativeT(m_Data.IndexRotate);
+            MoveStageRelativeT(moveDistance);
 
             return SUCCESS;
         }
 
         public int MoveStageIndexMinusX()
         {
+            double moveDistance = CMainFrame.DataManager.SystemData_Align.DieIndexWidth;
             // - 방향으로 이동
-            MoveStageRelativeX(-m_Data.IndexWidth);
+            MoveStageRelativeX(-moveDistance);
 
             return SUCCESS;
         }
 
         public int MoveStageIndexMinusY()
         {
+            double moveDistance = CMainFrame.DataManager.SystemData_Align.DieIndexHeight;
             // - 방향으로 이동
-            MoveStageRelativeX(-m_Data.IndexHeight);
+            MoveStageRelativeY(-moveDistance);
 
             return SUCCESS;
         }
 
         public int MoveStageIndexMinusT()
         {
+            double moveDistance = CMainFrame.DataManager.SystemData_Align.DieIndexRotate;
             // - 방향으로 이동
-            MoveStageRelativeT(-m_Data.IndexRotate);
+            MoveStageRelativeT(-moveDistance);
 
             return SUCCESS;
         }
@@ -824,66 +831,114 @@ namespace LWDicer.Layers
         /// <returns></returns>
         public int MoveStageScreenPlusX(ECameraSelect eMode)
         {
+            double moveDistance = 0.0;
+
             // + 방향으로 이동
-            if(eMode == ECameraSelect.MACRO)
-                MoveStageRelativeX(m_Data.MacroScreenWidth);
+            if (eMode == ECameraSelect.MACRO)
+            {
+                moveDistance = CMainFrame.DataManager.SystemData_Align.MacroScreenWidth;
+                MoveStageRelativeX(moveDistance);
+            }
             if (eMode == ECameraSelect.MICRO)
-                MoveStageRelativeX(m_Data.MicroScreenWidth);
+            {
+                moveDistance = CMainFrame.DataManager.SystemData_Align.MicroScreenWidth;
+                MoveStageRelativeX(moveDistance);
+            }
 
             return SUCCESS;
         }
 
         public int MoveStageScreenPlusY(ECameraSelect eMode)
         {
+            double moveDistance = 0.0;
+
             // + 방향으로 이동
             if (eMode == ECameraSelect.MACRO)
-                MoveStageRelativeY(m_Data.MacroScreenHeight);
+            {
+                moveDistance = CMainFrame.DataManager.SystemData_Align.MacroScreenHeight;
+                MoveStageRelativeY(moveDistance);
+            }
             if (eMode == ECameraSelect.MICRO)
-                MoveStageRelativeY(m_Data.MicroScreenHeight);
+            {
+                moveDistance = CMainFrame.DataManager.SystemData_Align.MicroScreenHeight;
+                MoveStageRelativeY(moveDistance);
+            }
 
             return SUCCESS;
         }
 
         public int MoveStageScreenPlusT(ECameraSelect eMode)
         {
+            double moveDistance = 0.0;
+
             // + 방향으로 이동
             if (eMode == ECameraSelect.MACRO)
-                MoveStageRelativeT(m_Data.MacroScreenRotate);
+            {
+                moveDistance = CMainFrame.DataManager.SystemData_Align.MacroScreenRotate;
+                MoveStageRelativeT(moveDistance);
+            }
             if (eMode == ECameraSelect.MICRO)
-                MoveStageRelativeT(m_Data.MicroScreenRotate);
+            {
+                moveDistance = CMainFrame.DataManager.SystemData_Align.MicroScreenRotate;
+                MoveStageRelativeT(moveDistance);
+            }
 
             return SUCCESS;
         }
 
         public int MoveStageScreenMinusX(ECameraSelect eMode)
         {
+            double moveDistance = 0.0;
+
             // - 방향으로 이동
             if (eMode == ECameraSelect.MACRO)
-                MoveStageRelativeX(-m_Data.MacroScreenWidth);
+            {
+                moveDistance = CMainFrame.DataManager.SystemData_Align.MacroScreenWidth;
+                MoveStageRelativeX(-moveDistance);
+            }
             if (eMode == ECameraSelect.MICRO)
-                MoveStageRelativeX(-m_Data.MicroScreenWidth);
+            {
+                moveDistance = CMainFrame.DataManager.SystemData_Align.MicroScreenWidth;
+                MoveStageRelativeX(-moveDistance);
+            }
 
             return SUCCESS;
         }
 
         public int MoveStageScreenMinusY(ECameraSelect eMode)
         {
+            double moveDistance = 0.0;
+
             // - 방향으로 이동
             if (eMode == ECameraSelect.MACRO)
-                MoveStageRelativeY(-m_Data.MacroScreenHeight);
+            {
+                moveDistance = CMainFrame.DataManager.SystemData_Align.MacroScreenHeight;
+                MoveStageRelativeY(-moveDistance);
+            }
             if (eMode == ECameraSelect.MICRO)
-                MoveStageRelativeY(-m_Data.MicroScreenHeight);
+            {
+                moveDistance = CMainFrame.DataManager.SystemData_Align.MicroScreenHeight;
+                MoveStageRelativeY(-moveDistance);
+            }
 
             return SUCCESS;
         }
 
         public int MoveStageScreenMinusT(ECameraSelect eMode)
         {
+            double moveDistance = 0.0;
+
             // - 방향으로 이동
             if (eMode == ECameraSelect.MACRO)
-                MoveStageRelativeT(-m_Data.MacroScreenRotate);
+            {
+                moveDistance = CMainFrame.DataManager.SystemData_Align.MacroScreenRotate;
+                MoveStageRelativeT(-moveDistance);
+            }
             if (eMode == ECameraSelect.MICRO)
-                MoveStageRelativeT(-m_Data.MicroScreenRotate);
+            {
+                moveDistance = CMainFrame.DataManager.SystemData_Align.MacroScreenRotate;
+                MoveStageRelativeT(-moveDistance);
+            }
 
             return SUCCESS;
         }
@@ -944,7 +999,7 @@ namespace LWDicer.Layers
 
         public int MoveStageToThetaAlignPosA(bool bMoveAllAxis = false, bool bMoveXYT = true, bool bMoveZ = false)
         {
-            int iPos = (int)EStagePos.THETA_ALIGN;
+            int iPos = (int)EStagePos.STAGE_CENTER;
 
             return MoveStagePos(iPos, bMoveAllAxis, bMoveXYT, bMoveZ);
         }
@@ -955,16 +1010,16 @@ namespace LWDicer.Layers
             int iPosIndex = -1;
 
             GetStagePosInfo(out iPosIndex);
-            if (iPosIndex != (int)EStagePos.THETA_ALIGN)
+            if (iPosIndex != (int)EStagePos.STAGE_CENTER)
             {
                 iResult = MoveStageToThetaAlignPosA();
                 if (iResult != SUCCESS) return iResult;
             }
 
+            double moveDistance = CMainFrame.DataManager.SystemData_Align.AlignMarkWidthLen;
             // 수평으로 Align Mark 거리 만큼 이동함.
-            double dMoveDistance = m_Data.AlignMarkWidthLen;
-
-            iResult = MoveStageRelative(DEF_Y, dMoveDistance);
+            
+            iResult = MoveStageRelative(DEF_Y, moveDistance);
             if (iResult != SUCCESS) return iResult;
 
             return SUCCESS;
@@ -1025,12 +1080,10 @@ namespace LWDicer.Layers
                 iResult = MoveStageToMacroAlignA();
                 if (iResult != SUCCESS) return iResult;
             }
-            
 
+            double moveDistance = CMainFrame.DataManager.SystemData_Align.AlignMarkWidthLen;
             // 수평으로 Align Mark 거리 만큼 이동함.
-            double dMoveDistance = m_Data.AlignMarkWidthLen;
-
-            iResult = MoveStageRelative(DEF_Y, dMoveDistance);
+            iResult = MoveStageRelative(DEF_Y, moveDistance);
             if (iResult != SUCCESS) return iResult;
 
             return SUCCESS;
@@ -1056,12 +1109,11 @@ namespace LWDicer.Layers
                 iResult = MoveStageToMicroAlignA();
                 if (iResult != SUCCESS) return iResult;
             }
-            
 
+            double moveDistance = CMainFrame.DataManager.SystemData_Align.AlignMarkWidthLen;
             // 수평으로 Align Mark 거리 만큼 이동함.
-            double dMoveDistance = m_Data.AlignMarkWidthLen;
 
-            iResult = MoveStageRelative(DEF_Y, dMoveDistance);
+            iResult = MoveStageRelative(DEF_Y, moveDistance);
             if (iResult != SUCCESS) return iResult;
 
             return SUCCESS;
@@ -1086,12 +1138,10 @@ namespace LWDicer.Layers
                 iResult = MoveStageToMicroAlignTurnA();
                 if (iResult != SUCCESS) return iResult;
             }
-            
 
+            double moveDistance = CMainFrame.DataManager.SystemData_Align.AlignMarkWidthLen;
             // 수평으로 Align Mark 거리 만큼 이동함.
-            double dMoveDistance = m_Data.AlignMarkWidthLen;
-
-            iResult = MoveStageRelative(DEF_Y, dMoveDistance);
+            iResult = MoveStageRelative(DEF_Y, moveDistance);
             if (iResult != SUCCESS) return iResult;
 
             return SUCCESS;
@@ -1117,10 +1167,10 @@ namespace LWDicer.Layers
 
             bool[] bMoveFlag = new bool[DEF_MAX_COORDINATE] { true, true, false, false };
             CPos_XYTZ MoveDistance = new CPos_XYTZ();
-
+            
             // 수평으로 Align Mark 거리 만큼 이동함.
-            MoveDistance.dX = m_Data.VisionCamDistance.dX;
-            MoveDistance.dY = m_Data.VisionCamDistance.dY;
+            MoveDistance.dX = CMainFrame.DataManager.SystemData_Align.CamEachOffsetX;
+            MoveDistance.dY = CMainFrame.DataManager.SystemData_Align.CamEachOffsetY;
 
             iResult = MoveStageRelative(MoveDistance,bMoveFlag);
             if (iResult != SUCCESS) return iResult;
@@ -1134,10 +1184,10 @@ namespace LWDicer.Layers
 
             bool[] bMoveFlag = new bool[DEF_MAX_COORDINATE] { true, true, false, false };
             CPos_XYTZ MoveDistance = new CPos_XYTZ();
-
+            
             // 수평으로 Align Mark 거리 만큼 이동함.
-            MoveDistance.dX = -m_Data.VisionCamDistance.dX;
-            MoveDistance.dY = -m_Data.VisionCamDistance.dY;
+            MoveDistance.dX = -CMainFrame.DataManager.SystemData_Align.CamEachOffsetX;
+            MoveDistance.dY = -CMainFrame.DataManager.SystemData_Align.CamEachOffsetY;
 
             iResult = MoveStageRelative(MoveDistance, bMoveFlag);
             if (iResult != SUCCESS) return iResult;
@@ -1145,7 +1195,7 @@ namespace LWDicer.Layers
             return SUCCESS;
         }
 
-        public int JogStageMove(int iAxis, bool dDir, double dVel)
+        public int JogStageMove(int iAxis, bool dDir,bool IsFastMove)
         {
             int iResult = 0;
 
@@ -1155,53 +1205,50 @@ namespace LWDicer.Layers
 
             // Limit check ???
 
-            iResult = m_RefComp.AxStage.JogMoveVelocity(iAxis, dDir, dVel);
+            iResult = m_RefComp.AxStage.JogMoveVelocity(iAxis, dDir, IsFastMove);
 
-            return SUCCESS;
+            return iResult;
         }
 
         public int JogStageStop(int iAxis)
         {
-            int iResult = 0;
+            int selectAxis = 0;
 
-            iResult = m_RefComp.AxStage.EStop(iAxis);
-            return SUCCESS;
+            if (iAxis == (int)EACS_Axis.STAGE1_X) selectAxis = DEF_X;
+            if (iAxis == (int)EACS_Axis.STAGE1_Y) selectAxis = DEF_Y;
+            if (iAxis == (int)EACS_Axis.STAGE1_T) selectAxis = DEF_T;
+
+            return m_RefComp.AxStage.EStop(selectAxis);
         }
 
-        public int JogStagePlusX()
+        public int JogStagePlusX(bool IsFastMove)
         {
-            if (m_Data.StageJogSpeed < 0.1) return GenerateErrorCode(ERR_STAGE_TOO_LOW_JOG_SPEED);
-            return JogStageMove(DEF_X,true, m_Data.StageJogSpeed);
+            return JogStageMove(DEF_X,true, IsFastMove);
         }
 
-        public int JogStageMinusX()
+        public int JogStageMinusX(bool IsFastMove)
         {
-            if (m_Data.StageJogSpeed < 0.1) return GenerateErrorCode(ERR_STAGE_TOO_LOW_JOG_SPEED);
-            return JogStageMove(DEF_X, false, m_Data.StageJogSpeed);
+            return JogStageMove(DEF_X, false, IsFastMove);
         }
 
-        public int JogStagePlusY()
+        public int JogStagePlusY(bool IsFastMove)
         {
-            if (m_Data.StageJogSpeed < 0.1) return GenerateErrorCode(ERR_STAGE_TOO_LOW_JOG_SPEED);
-            return JogStageMove(DEF_Y, true, m_Data.StageJogSpeed);
+            return JogStageMove(DEF_Y, true, IsFastMove);
         }
 
-        public int JogStageMinusY()
+        public int JogStageMinusY(bool IsFastMove)
         {
-            if (m_Data.StageJogSpeed < 0.1) return GenerateErrorCode(ERR_STAGE_TOO_LOW_JOG_SPEED);
-            return JogStageMove(DEF_Y, false, m_Data.StageJogSpeed);
+            return JogStageMove(DEF_Y, false, IsFastMove);
         }
 
-        public int JogStagePlusT()
+        public int JogStagePlusT(bool IsFastMove)
         {
-            if (m_Data.ThetaJogSpeed < 0.1) return GenerateErrorCode(ERR_STAGE_TOO_LOW_JOG_SPEED);
-            return JogStageMove(DEF_T, true, m_Data.ThetaJogSpeed);
+            return JogStageMove(DEF_T, true, IsFastMove);
         }
 
-        public int JogStageMinusT()
+        public int JogStageMinusT(bool IsFastMove)
         {
-            if (m_Data.ThetaJogSpeed < 0.1) return GenerateErrorCode(ERR_STAGE_TOO_LOW_JOG_SPEED);
-            return JogStageMove(DEF_T, false, m_Data.ThetaJogSpeed);
+            return JogStageMove(DEF_T, false, IsFastMove);
         }
 #endregion
 
@@ -1457,7 +1504,7 @@ namespace LWDicer.Layers
 
             // Limit check ???
 
-            iResult = m_RefComp.AxCamera.JogMoveVelocity(iAxis, dDir, dVel);
+            iResult = m_RefComp.AxCamera.JogMoveVelocity(iAxis, dDir,false);
 
             return SUCCESS;
         }
@@ -1727,7 +1774,7 @@ namespace LWDicer.Layers
 
             // Limit check ???
 
-            iResult = m_RefComp.AxScanner.JogMoveVelocity(iAxis, dDir, dVel);
+            iResult = m_RefComp.AxScanner.JogMoveVelocity(iAxis, dDir,false);
 
             return SUCCESS;
         }
@@ -1777,31 +1824,14 @@ namespace LWDicer.Layers
         {
             AxStageInfo.InitAlignOffset();
         }
-
-        public void SetWidthIndexData(double dIndexLen)
-        {
-            m_Data.IndexWidth = dIndexLen;
-        }
-        public void ClearWidthIndexData()
-        {
-            m_Data.IndexWidth = 0.0;
-        }
-
-        public void SetHeightIndexData(double dIndexLen)
-        {
-            m_Data.IndexHeight = dIndexLen;
-        }
-        public void ClearHeightIndexData()
-        {
-            m_Data.IndexHeight = 0.0;
-        }
+                
         public void SetThetaAlignPosA(CPos_XYTZ pPos)
         {
-            AxStageInfo.OffsetPos.Pos[(int)EStagePos.THETA_ALIGN] = pPos;
+            AxStageInfo.OffsetPos.Pos[(int)EStagePos.STAGE_CENTER] = pPos;
         }
         public int GetThetaAlignPosA(out CPos_XYTZ pPos)
         {
-            int index = (int)EStagePos.THETA_ALIGN;
+            int index = (int)EStagePos.STAGE_CENTER;
             pPos =  GetTargetPosition(index);
 
             return SUCCESS;
@@ -1834,11 +1864,11 @@ namespace LWDicer.Layers
 
             return SUCCESS;
         }
-
-
+        
         public double GetScreenIndexTheta()
         {
-            return m_Data.MicroScreenRotate;
+            double moveDistance = CMainFrame.DataManager.SystemData_Align.MicroScreenRotate;
+            return moveDistance;
         }
 #endregion
 

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -541,9 +542,9 @@ namespace LWDicer.UI
             GridConfigure[12, 2].Text = string.Format("{0:f4}", m_PolygonPara.CrossScanEncoderResol);
 
             GridConfigure[13, 2].Text = String.Format("{0:0.000}", m_PolygonPara.CrossScanMaxAccel);
-            GridConfigure[14, 2].Text = String.Format("{0:0.000}", m_PolygonPara.EnCarSig);
-            GridConfigure[15, 2].Text = String.Format("{0:0.000}", m_PolygonPara.SwapCarSig);
-            GridConfigure[16, 2].Text = String.Format("{0:0.000}", m_PolygonPara.InterleaveRatio);
+            GridConfigure[14, 2].Text = String.Format("{0:f0}", m_PolygonPara.EnCarSig);
+            GridConfigure[15, 2].Text = String.Format("{0:f0}", m_PolygonPara.SwapCarSig);
+            GridConfigure[16, 2].Text = String.Format("{0:f0}", m_PolygonPara.InterleaveRatio);
             GridConfigure[17, 2].Text = string.Format("{0:f3}", m_PolygonPara.FacetFineDelayOffset0 );
             GridConfigure[18, 2].Text = string.Format("{0:f3}", m_PolygonPara.FacetFineDelayOffset1 );
             GridConfigure[19, 2].Text = string.Format("{0:f3}", m_PolygonPara.FacetFineDelayOffset2 );
@@ -552,9 +553,9 @@ namespace LWDicer.UI
             GridConfigure[22, 2].Text = string.Format("{0:f3}", m_PolygonPara.FacetFineDelayOffset5 );
             GridConfigure[23, 2].Text = string.Format("{0:f3}", m_PolygonPara.FacetFineDelayOffset6 );
             GridConfigure[24, 2].Text = string.Format("{0:f3}", m_PolygonPara.FacetFineDelayOffset7 );
-            GridConfigure[25, 2].Text = String.Format("{0:0.000}", m_PolygonPara.StartFacet);
-            GridConfigure[26, 2].Text = String.Format("{0:0.000}", m_PolygonPara.AutoIncrementStartFacet);
-            GridConfigure[27, 2].Text = String.Format("{0:0.000}", m_PolygonPara.MotorStableTime);
+            GridConfigure[25, 2].Text = String.Format("{0:f0}", m_PolygonPara.StartFacet);
+            GridConfigure[26, 2].Text = String.Format("{0:f0}", m_PolygonPara.AutoIncrementStartFacet);
+            GridConfigure[27, 2].Text = String.Format("{0:f0}", m_PolygonPara.MotorStableTime);
 
             //====================================================================================================
             // isn.ini
@@ -648,86 +649,88 @@ namespace LWDicer.UI
 
         private void BtnConfigSave_Click(object sender, EventArgs e)
         {
-            FormMessageBox MsgBox = new FormMessageBox();
+            if (!CMainFrame.DisplayMsg("Save Parameter ?")) return;
 
-            MsgBox.SetMessage("Save parameter ?", EMessageType.OK_CANCEL);
-            if (MsgBox.ShowDialog() != DialogResult.OK)
+            try
             {
-                return;
+                //====================================================================================================
+                // Config.ini
+
+                CMainFrame.DataManager.ModelData.ScanData.InScanResolution = Convert.ToSingle(GridConfigure[1, 2].Text);
+                CMainFrame.DataManager.ModelData.ScanData.CrossScanResolution = Convert.ToSingle(GridConfigure[2, 2].Text);
+                CMainFrame.DataManager.ModelData.ScanData.InScanOffset = Convert.ToSingle(GridConfigure[3, 2].Text);
+                CMainFrame.DataManager.ModelData.ScanData.StopMotorBetweenJobs = Convert.ToInt16(GridConfigure[4, 2].Text);
+                CMainFrame.DataManager.ModelData.ScanData.PixInvert = Convert.ToInt16(GridConfigure[5, 2].Text);
+                CMainFrame.DataManager.ModelData.ScanData.JobStartBufferTime = Convert.ToInt16(GridConfigure[6, 2].Text);
+                CMainFrame.DataManager.ModelData.ScanData.PrecedingBlankLines = Convert.ToInt16(GridConfigure[7, 2].Text);
+                CMainFrame.DataManager.ModelData.ScanData.SeedClockFrequency = Convert.ToSingle(GridConfigure[8, 2].Text);
+                CMainFrame.DataManager.ModelData.ScanData.RepetitionRate = Convert.ToSingle(GridConfigure[9, 2].Text);
+                CMainFrame.DataManager.ModelData.ScanData.PulsePickWidth = Convert.ToInt16(GridConfigure[10, 2].Text);
+                CMainFrame.DataManager.ModelData.ScanData.PixelWidth = Convert.ToInt16(GridConfigure[11, 2].Text);
+                CMainFrame.DataManager.ModelData.ScanData.CrossScanEncoderResol = Convert.ToSingle(GridConfigure[12, 2].Text);
+                CMainFrame.DataManager.ModelData.ScanData.CrossScanMaxAccel = Convert.ToSingle(GridConfigure[13, 2].Text);
+                CMainFrame.DataManager.ModelData.ScanData.EnCarSig = Convert.ToInt16(GridConfigure[14, 2].Text);
+                CMainFrame.DataManager.ModelData.ScanData.SwapCarSig = Convert.ToInt16(GridConfigure[15, 2].Text);
+                CMainFrame.DataManager.ModelData.ScanData.InterleaveRatio = Convert.ToInt16(GridConfigure[16, 2].Text);
+                CMainFrame.DataManager.ModelData.ScanData.FacetFineDelayOffset0 = Convert.ToSingle(GridConfigure[17, 2].Text);
+                CMainFrame.DataManager.ModelData.ScanData.FacetFineDelayOffset1 = Convert.ToSingle(GridConfigure[18, 2].Text);
+                CMainFrame.DataManager.ModelData.ScanData.FacetFineDelayOffset2 = Convert.ToSingle(GridConfigure[19, 2].Text);
+                CMainFrame.DataManager.ModelData.ScanData.FacetFineDelayOffset3 = Convert.ToSingle(GridConfigure[20, 2].Text);
+                CMainFrame.DataManager.ModelData.ScanData.FacetFineDelayOffset4 = Convert.ToSingle(GridConfigure[21, 2].Text);
+                CMainFrame.DataManager.ModelData.ScanData.FacetFineDelayOffset5 = Convert.ToSingle(GridConfigure[22, 2].Text);
+                CMainFrame.DataManager.ModelData.ScanData.FacetFineDelayOffset6 = Convert.ToSingle(GridConfigure[23, 2].Text);
+                CMainFrame.DataManager.ModelData.ScanData.FacetFineDelayOffset7 = Convert.ToSingle(GridConfigure[24, 2].Text);
+                CMainFrame.DataManager.ModelData.ScanData.StartFacet = Convert.ToInt16(GridConfigure[25, 2].Text);
+                CMainFrame.DataManager.ModelData.ScanData.AutoIncrementStartFacet = Convert.ToInt16(GridConfigure[26, 2].Text);
+                CMainFrame.DataManager.ModelData.ScanData.MotorStableTime = Convert.ToInt16(GridConfigure[27, 2].Text);
+
+                //====================================================================================================
+                // isn.ini
+
+                CMainFrame.DataManager.ModelData.ScanData.FacetCorrectFirstXpos1 = Convert.ToInt32(GridISN[1, 2].Text);
+                CMainFrame.DataManager.ModelData.ScanData.FacetCorrectLast_Xpos1 = Convert.ToInt32(GridISN[2, 2].Text);
+                CMainFrame.DataManager.ModelData.ScanData.FacetCorrectFirstXpos2 = Convert.ToInt32(GridISN[3, 2].Text);
+                CMainFrame.DataManager.ModelData.ScanData.FacetCorrectLast_Xpos2 = Convert.ToInt32(GridISN[4, 2].Text);
+                CMainFrame.DataManager.ModelData.ScanData.FacetCorrectFirstXpos3 = Convert.ToInt32(GridISN[5, 2].Text);
+                CMainFrame.DataManager.ModelData.ScanData.FacetCorrectLast_Xpos3 = Convert.ToInt32(GridISN[6, 2].Text);
+                CMainFrame.DataManager.ModelData.ScanData.FacetCorrectFirstXpos4 = Convert.ToInt32(GridISN[7, 2].Text);
+                CMainFrame.DataManager.ModelData.ScanData.FacetCorrectLast_Xpos4 = Convert.ToInt32(GridISN[8, 2].Text);
+                CMainFrame.DataManager.ModelData.ScanData.FacetCorrectFirstXpos5 = Convert.ToInt32(GridISN[9, 2].Text);
+                CMainFrame.DataManager.ModelData.ScanData.FacetCorrectLast_Xpos5 = Convert.ToInt32(GridISN[10, 2].Text);
+                CMainFrame.DataManager.ModelData.ScanData.FacetCorrectFirstXpos6 = Convert.ToInt32(GridISN[11, 2].Text);
+                CMainFrame.DataManager.ModelData.ScanData.FacetCorrectLast_Xpos6 = Convert.ToInt32(GridISN[12, 2].Text);
+                CMainFrame.DataManager.ModelData.ScanData.FacetCorrectFirstXpos7 = Convert.ToInt32(GridISN[13, 2].Text);
+                CMainFrame.DataManager.ModelData.ScanData.FacetCorrectLast_Xpos7 = Convert.ToInt32(GridISN[14, 2].Text);
+                CMainFrame.DataManager.ModelData.ScanData.FacetCorrectFirstXpos8 = Convert.ToInt32(GridISN[15, 2].Text);
+                CMainFrame.DataManager.ModelData.ScanData.FacetCorrectLast_Xpos8 = Convert.ToInt32(GridISN[16, 2].Text);
+
+                //====================================================================================================
+                // csn.ini
+
+                CMainFrame.DataManager.ModelData.ScanData.FacetCorrectFirstYpos1 = Convert.ToInt32(GridCSN[1, 2].Text);
+                CMainFrame.DataManager.ModelData.ScanData.FacetCorrectLast_Ypos1 = Convert.ToInt32(GridCSN[2, 2].Text);
+                CMainFrame.DataManager.ModelData.ScanData.FacetCorrectFirstYpos2 = Convert.ToInt32(GridCSN[3, 2].Text);
+                CMainFrame.DataManager.ModelData.ScanData.FacetCorrectLast_Ypos2 = Convert.ToInt32(GridCSN[4, 2].Text);
+                CMainFrame.DataManager.ModelData.ScanData.FacetCorrectFirstYpos3 = Convert.ToInt32(GridCSN[5, 2].Text);
+                CMainFrame.DataManager.ModelData.ScanData.FacetCorrectLast_Ypos3 = Convert.ToInt32(GridCSN[6, 2].Text);
+                CMainFrame.DataManager.ModelData.ScanData.FacetCorrectFirstYpos4 = Convert.ToInt32(GridCSN[7, 2].Text);
+                CMainFrame.DataManager.ModelData.ScanData.FacetCorrectLast_Ypos4 = Convert.ToInt32(GridCSN[8, 2].Text);
+                CMainFrame.DataManager.ModelData.ScanData.FacetCorrectFirstYpos5 = Convert.ToInt32(GridCSN[9, 2].Text);
+                CMainFrame.DataManager.ModelData.ScanData.FacetCorrectLast_Ypos5 = Convert.ToInt32(GridCSN[10, 2].Text);
+                CMainFrame.DataManager.ModelData.ScanData.FacetCorrectFirstYpos6 = Convert.ToInt32(GridCSN[11, 2].Text);
+                CMainFrame.DataManager.ModelData.ScanData.FacetCorrectLast_Ypos6 = Convert.ToInt32(GridCSN[12, 2].Text);
+                CMainFrame.DataManager.ModelData.ScanData.FacetCorrectFirstYpos7 = Convert.ToInt32(GridCSN[13, 2].Text);
+                CMainFrame.DataManager.ModelData.ScanData.FacetCorrectLast_Ypos7 = Convert.ToInt32(GridCSN[14, 2].Text);
+                CMainFrame.DataManager.ModelData.ScanData.FacetCorrectFirstYpos8 = Convert.ToInt32(GridCSN[15, 2].Text);
+                CMainFrame.DataManager.ModelData.ScanData.FacetCorrectLast_Ypos8 = Convert.ToInt32(GridCSN[16, 2].Text);
+
+                // DB Save
+                CMainFrame.DataManager.SaveModelData(CMainFrame.DataManager.ModelData);
             }
-            //====================================================================================================
-            // Config.ini
-
-            CMainFrame.DataManager.ModelData.ScanData.InScanResolution           = Convert.ToSingle(GridConfigure[1, 2].Text);
-            CMainFrame.DataManager.ModelData.ScanData.CrossScanResolution        = Convert.ToSingle(GridConfigure[2, 2].Text);
-            CMainFrame.DataManager.ModelData.ScanData.InScanOffset               = Convert.ToSingle(GridConfigure[3, 2].Text);
-            CMainFrame.DataManager.ModelData.ScanData.StopMotorBetweenJobs       = Convert.ToInt16(GridConfigure[4, 2].Text);
-            CMainFrame.DataManager.ModelData.ScanData.PixInvert                  = Convert.ToInt16(GridConfigure[5, 2].Text);
-            CMainFrame.DataManager.ModelData.ScanData.JobStartBufferTime         = Convert.ToInt16(GridConfigure[6, 2].Text);
-            CMainFrame.DataManager.ModelData.ScanData.PrecedingBlankLines        = Convert.ToInt16(GridConfigure[7, 2].Text);
-            CMainFrame.DataManager.ModelData.ScanData.SeedClockFrequency         = Convert.ToSingle(GridConfigure[8, 2].Text);
-            CMainFrame.DataManager.ModelData.ScanData.RepetitionRate             = Convert.ToSingle(GridConfigure[9, 2].Text);
-            CMainFrame.DataManager.ModelData.ScanData.PulsePickWidth             = Convert.ToInt16(GridConfigure[10, 2].Text);
-            CMainFrame.DataManager.ModelData.ScanData.PixelWidth                 = Convert.ToInt16(GridConfigure[11, 2].Text);
-            CMainFrame.DataManager.ModelData.ScanData.CrossScanEncoderResol      = Convert.ToSingle(GridConfigure[12, 2].Text);
-            CMainFrame.DataManager.ModelData.ScanData.CrossScanMaxAccel          = Convert.ToSingle(GridConfigure[13, 2].Text);
-            CMainFrame.DataManager.ModelData.ScanData.EnCarSig                   = Convert.ToInt16(GridConfigure[14, 2].Text);
-            CMainFrame.DataManager.ModelData.ScanData.SwapCarSig                 = Convert.ToInt16(GridConfigure[15, 2].Text);
-            CMainFrame.DataManager.ModelData.ScanData.InterleaveRatio            = Convert.ToInt16(GridConfigure[16, 2].Text);
-            CMainFrame.DataManager.ModelData.ScanData.FacetFineDelayOffset0      = Convert.ToSingle(GridConfigure[17, 2].Text);
-            CMainFrame.DataManager.ModelData.ScanData.FacetFineDelayOffset1      = Convert.ToSingle(GridConfigure[18, 2].Text);
-            CMainFrame.DataManager.ModelData.ScanData.FacetFineDelayOffset2      = Convert.ToSingle(GridConfigure[19, 2].Text);
-            CMainFrame.DataManager.ModelData.ScanData.FacetFineDelayOffset3      = Convert.ToSingle(GridConfigure[20, 2].Text);
-            CMainFrame.DataManager.ModelData.ScanData.FacetFineDelayOffset4      = Convert.ToSingle(GridConfigure[21, 2].Text);
-            CMainFrame.DataManager.ModelData.ScanData.FacetFineDelayOffset5      = Convert.ToSingle(GridConfigure[22, 2].Text);
-            CMainFrame.DataManager.ModelData.ScanData.FacetFineDelayOffset6      = Convert.ToSingle(GridConfigure[23, 2].Text);
-            CMainFrame.DataManager.ModelData.ScanData.FacetFineDelayOffset7      = Convert.ToSingle(GridConfigure[24, 2].Text);
-            CMainFrame.DataManager.ModelData.ScanData.StartFacet                 = Convert.ToInt16(GridConfigure[25, 2].Text);
-            CMainFrame.DataManager.ModelData.ScanData.AutoIncrementStartFacet    = Convert.ToInt16(GridConfigure[26, 2].Text);
-            CMainFrame.DataManager.ModelData.ScanData.MotorStableTime            = Convert.ToInt16(GridConfigure[27, 2].Text);                         
-            
-            //====================================================================================================
-            // isn.ini
-
-            CMainFrame.DataManager.ModelData.ScanData.FacetCorrectFirstXpos1 = Convert.ToInt32(GridISN[1,  2].Text);
-            CMainFrame.DataManager.ModelData.ScanData.FacetCorrectLast_Xpos1 = Convert.ToInt32(GridISN[2,  2].Text);
-            CMainFrame.DataManager.ModelData.ScanData.FacetCorrectFirstXpos2 = Convert.ToInt32(GridISN[3,  2].Text);
-            CMainFrame.DataManager.ModelData.ScanData.FacetCorrectLast_Xpos2 = Convert.ToInt32(GridISN[4,  2].Text);
-            CMainFrame.DataManager.ModelData.ScanData.FacetCorrectFirstXpos3 = Convert.ToInt32(GridISN[5,  2].Text);
-            CMainFrame.DataManager.ModelData.ScanData.FacetCorrectLast_Xpos3 = Convert.ToInt32(GridISN[6,  2].Text);
-            CMainFrame.DataManager.ModelData.ScanData.FacetCorrectFirstXpos4 = Convert.ToInt32(GridISN[7,  2].Text);
-            CMainFrame.DataManager.ModelData.ScanData.FacetCorrectLast_Xpos4 = Convert.ToInt32(GridISN[8,  2].Text);
-            CMainFrame.DataManager.ModelData.ScanData.FacetCorrectFirstXpos5 = Convert.ToInt32(GridISN[9,  2].Text);
-            CMainFrame.DataManager.ModelData.ScanData.FacetCorrectLast_Xpos5 = Convert.ToInt32(GridISN[10, 2].Text);
-            CMainFrame.DataManager.ModelData.ScanData.FacetCorrectFirstXpos6 = Convert.ToInt32(GridISN[11, 2].Text);
-            CMainFrame.DataManager.ModelData.ScanData.FacetCorrectLast_Xpos6 = Convert.ToInt32(GridISN[12, 2].Text);
-            CMainFrame.DataManager.ModelData.ScanData.FacetCorrectFirstXpos7 = Convert.ToInt32(GridISN[13, 2].Text);
-            CMainFrame.DataManager.ModelData.ScanData.FacetCorrectLast_Xpos7 = Convert.ToInt32(GridISN[14, 2].Text);
-            CMainFrame.DataManager.ModelData.ScanData.FacetCorrectFirstXpos8 = Convert.ToInt32(GridISN[15, 2].Text);
-            CMainFrame.DataManager.ModelData.ScanData.FacetCorrectLast_Xpos8 = Convert.ToInt32(GridISN[16, 2].Text);
-
-            //====================================================================================================
-            // csn.ini
-
-            CMainFrame.DataManager.ModelData.ScanData.FacetCorrectFirstYpos1 = Convert.ToInt32(GridCSN[1, 2].Text);
-            CMainFrame.DataManager.ModelData.ScanData.FacetCorrectLast_Ypos1 = Convert.ToInt32(GridCSN[2, 2].Text);
-            CMainFrame.DataManager.ModelData.ScanData.FacetCorrectFirstYpos2 = Convert.ToInt32(GridCSN[3, 2].Text);
-            CMainFrame.DataManager.ModelData.ScanData.FacetCorrectLast_Ypos2 = Convert.ToInt32(GridCSN[4, 2].Text);
-            CMainFrame.DataManager.ModelData.ScanData.FacetCorrectFirstYpos3 = Convert.ToInt32(GridCSN[5, 2].Text);
-            CMainFrame.DataManager.ModelData.ScanData.FacetCorrectLast_Ypos3 = Convert.ToInt32(GridCSN[6, 2].Text);
-            CMainFrame.DataManager.ModelData.ScanData.FacetCorrectFirstYpos4 = Convert.ToInt32(GridCSN[7, 2].Text);
-            CMainFrame.DataManager.ModelData.ScanData.FacetCorrectLast_Ypos4 = Convert.ToInt32(GridCSN[8, 2].Text);
-            CMainFrame.DataManager.ModelData.ScanData.FacetCorrectFirstYpos5 = Convert.ToInt32(GridCSN[9, 2].Text);
-            CMainFrame.DataManager.ModelData.ScanData.FacetCorrectLast_Ypos5 = Convert.ToInt32(GridCSN[10, 2].Text);
-            CMainFrame.DataManager.ModelData.ScanData.FacetCorrectFirstYpos6 = Convert.ToInt32(GridCSN[11, 2].Text);
-            CMainFrame.DataManager.ModelData.ScanData.FacetCorrectLast_Ypos6 = Convert.ToInt32(GridCSN[12, 2].Text);
-            CMainFrame.DataManager.ModelData.ScanData.FacetCorrectFirstYpos7 = Convert.ToInt32(GridCSN[13, 2].Text);
-            CMainFrame.DataManager.ModelData.ScanData.FacetCorrectLast_Ypos7 = Convert.ToInt32(GridCSN[14, 2].Text);
-            CMainFrame.DataManager.ModelData.ScanData.FacetCorrectFirstYpos8 = Convert.ToInt32(GridCSN[15, 2].Text);
-            CMainFrame.DataManager.ModelData.ScanData.FacetCorrectLast_Ypos8 = Convert.ToInt32(GridCSN[16, 2].Text);
-
-            // DB Save
-            CMainFrame.DataManager.SaveModelData(CMainFrame.DataManager.ModelData);
+            catch
+            {
+                CMainFrame.DisplayMsg("Save Parameter Fail");
+            }
 
         }
 
@@ -800,14 +803,19 @@ namespace LWDicer.UI
         
         private void btnImageUpdate_Click(object sender, EventArgs e)
         {
+            int fileStreamSize = 4092 * 1024;
             string filename = string.Empty;
             OpenFileDialog imgOpenDlg = new OpenFileDialog();
             imgOpenDlg.InitialDirectory = CMainFrame.DBInfo.ImageDataDir;
-            imgOpenDlg.Filter = "BMP(*.bmp)|*.bmp";
+            imgOpenDlg.Filter = "BMP(*.bmp,*.lse)|*.bmp;*.lse"; //(*.dxf, *.dwg)|*.dxf;*.dwg";
             if (imgOpenDlg.ShowDialog() == DialogResult.OK)
             {
-                filename = imgOpenDlg.FileName;                 
-                CMainFrame.LWDicer.m_MeScanner.SendBitmap(filename);
+                filename = imgOpenDlg.FileName;
+                var fileData = new FileInfo(filename);
+                if(fileData.Length < fileStreamSize)
+                    CMainFrame.LWDicer.m_MeScanner.SendBitmap(filename);
+                else
+                    CMainFrame.LWDicer.m_MeScanner.SendBitmap(filename,true);
             }            
         }
 
@@ -931,14 +939,8 @@ namespace LWDicer.UI
 
         private void btnProcessDataSave_Click(object sender, EventArgs e)
         {
-            FormMessageBox MsgBox = new FormMessageBox();
+            if (!CMainFrame.DisplayMsg("프로세스 데이터를 저장하시겠습니까 ?")) return;
 
-            MsgBox.SetMessage("프로세스 데이터를 저장하시겠습니까?", EMessageType.OK_CANCEL);
-            
-            if (MsgBox.ShowDialog() != DialogResult.OK)
-            {
-                return;
-            }
 
             UpdateProcessData();
 
@@ -947,14 +949,8 @@ namespace LWDicer.UI
         }
 
         private void btnProcessDataCreate_Click(object sender, EventArgs e)
-        {
-            FormMessageBox MsgBox = new FormMessageBox();
-
-            MsgBox.SetMessage( "비트맵 파일을 생성하시겠습니까?", EMessageType.OK_CANCEL);
-            if (MsgBox.ShowDialog() != DialogResult.OK)
-            {
-                return;
-            }
+        {       
+            if (!CMainFrame.DisplayMsg("비트맵 파일을 생성하시겠습니까 ?")) return;
 
             UpdateProcessData();
 
@@ -1077,9 +1073,7 @@ namespace LWDicer.UI
             CMainFrame.DataManager.ModelData.ProcData.MarginWidth         = Convert.ToSingle(lblMarginWidth.Text);
             CMainFrame.DataManager.ModelData.ProcData.MarginHeight        = Convert.ToSingle(lblMarginHeight.Text);
             CMainFrame.DataManager.ModelData.ProcData.ProcessLineNum      = Convert.ToInt32(lblOverlapCount.Text);
-
-
-            
+                        
         }
 
         private void DisplayProcessData()
@@ -1123,13 +1117,7 @@ namespace LWDicer.UI
 
         private void btnExportConfig_Click(object sender, EventArgs e)
         {
-            FormMessageBox MsgBox = new FormMessageBox();
-
-            MsgBox.SetMessage("Config.ini 파일을 덮어 쓰시겠습니까?", EMessageType.OK_CANCEL);
-            if (MsgBox.ShowDialog() != DialogResult.OK)
-            {
-                return;
-            }
+            if (!CMainFrame.DisplayMsg("Config.ini 파일을 덮어 쓰시겠습니까 ?")) return;
 
             string filename = string.Empty;
             SaveFileDialog IniSaveDlg = new SaveFileDialog();
@@ -1144,14 +1132,8 @@ namespace LWDicer.UI
         }
 
         private void btnExportIsn_Click(object sender, EventArgs e)
-        {
-            FormMessageBox MsgBox = new FormMessageBox();
-
-            MsgBox.SetMessage("Isn.ini 파일을 덮어 쓰시겠습니까?", EMessageType.OK_CANCEL);
-            if (MsgBox.ShowDialog() != DialogResult.OK)
-            {
-                return;
-            }
+        {            
+            if (!CMainFrame.DisplayMsg("Isn.ini 파일을 덮어 쓰시겠습니까 ?")) return;
 
             string filename = string.Empty;
             SaveFileDialog IniSaveDlg = new SaveFileDialog();
@@ -1167,13 +1149,7 @@ namespace LWDicer.UI
 
         private void btnExportCsn_Click(object sender, EventArgs e)
         {
-            FormMessageBox MsgBox = new FormMessageBox();
-
-            MsgBox.SetMessage("Csn.ini 파일을 덮어 쓰시겠습니까?", EMessageType.OK_CANCEL);
-            if (MsgBox.ShowDialog() != DialogResult.OK)
-            {
-                return;
-            }
+            if (!CMainFrame.DisplayMsg("Csn.ini 파일을 덮어 쓰시겠습니까 ?")) return;
 
             string filename = string.Empty;
             SaveFileDialog IniSaveDlg = new SaveFileDialog();
@@ -1190,13 +1166,7 @@ namespace LWDicer.UI
 
         private void btnImportConfig_Click(object sender, EventArgs e)
         {
-            FormMessageBox MsgBox = new FormMessageBox();
-
-            MsgBox.SetMessage( "Config.ini 파일을 읽어오시겠습니까?", EMessageType.OK_CANCEL);
-            if (MsgBox.ShowDialog() != DialogResult.OK)
-            {
-                return;
-            }
+            if (!CMainFrame.DisplayMsg("Config.ini 파일을 읽어오시겠습니까?")) return;
 
             string filename = string.Empty;
             OpenFileDialog iniOpenDlg = new OpenFileDialog();
@@ -1214,13 +1184,7 @@ namespace LWDicer.UI
 
         private void btnImportIsn_Click(object sender, EventArgs e)
         {
-            FormMessageBox MsgBox = new FormMessageBox();
-
-            MsgBox.SetMessage( "Isn.ini 파일을 읽어오시겠습니까?", EMessageType.OK_CANCEL);
-            if (MsgBox.ShowDialog() != DialogResult.OK)
-            {
-                return;
-            }
+            if (!CMainFrame.DisplayMsg("Isn.ini 파일을 읽어오시겠습니까?")) return;
 
             string filename = string.Empty;
             OpenFileDialog iniOpenDlg = new OpenFileDialog();
@@ -1239,13 +1203,7 @@ namespace LWDicer.UI
 
         private void btnImportCsn_Click(object sender, EventArgs e)
         {
-            FormMessageBox MsgBox = new FormMessageBox();
-
-            MsgBox.SetMessage( "Csn.ini 파일을 읽어오시겠습니까?", EMessageType.OK_CANCEL);
-            if (MsgBox.ShowDialog() != DialogResult.OK)
-            {
-                return;
-            }
+            if (!CMainFrame.DisplayMsg("Csn.ini 파일을 읽어오시겠습니까?")) return;
 
             string filename = string.Empty;
             OpenFileDialog iniOpenDlg = new OpenFileDialog();
@@ -1261,13 +1219,11 @@ namespace LWDicer.UI
 
             UpdateConfigureData(CMainFrame.DataManager.ModelData.ScanData);
         }
-
-
+        
         private void tabPageConfig_Enter(object sender, EventArgs e)
         {
             UpdateConfigureData(CMainFrame.DataManager.ModelData.ScanData);
         }
-
 
         private void btnVisionSaveZoom_Click(object sender, EventArgs e)
         {
@@ -1281,7 +1237,6 @@ namespace LWDicer.UI
             {
                 filename = imgSaveDlg.FileName;
                 CMainFrame.LWDicer.m_Vision.SaveImage(ZOOM_CAM, filename);
-
             }
         }
 
@@ -1475,8 +1430,8 @@ namespace LWDicer.UI
 
                 if (eVisionMode == EVisionMode.MEASUREMENT)
                 {
-                    lenX *= CMainFrame.DataManager.SystemData_Vision.PixelResolutionX[ZOOM_CAM];
-                    lenY *= CMainFrame.DataManager.SystemData_Vision.PixelResolutionY[ZOOM_CAM];
+                    lenX *= CMainFrame.DataManager.SystemData_Align.PixelResolutionX[ZOOM_CAM];
+                    lenY *= CMainFrame.DataManager.SystemData_Align.PixelResolutionY[ZOOM_CAM];
 
                     lengthPixel = Math.Sqrt(lenX * lenX + lenY * lenY);
                     textMsg = string.Format("{0:f2} um", lengthPixel);
@@ -1500,13 +1455,13 @@ namespace LWDicer.UI
                     lengthReal = Convert.ToDouble(strModify);
                     // Calibration Set
                     resolutionPixel = lengthReal / lengthPixel;
-                    CMainFrame.DataManager.SystemData_Vision.PixelResolutionX[ZOOM_CAM] = resolutionPixel;
-                    CMainFrame.DataManager.SystemData_Vision.PixelResolutionY[ZOOM_CAM] = resolutionPixel;
+                    CMainFrame.DataManager.SystemData_Align.PixelResolutionX[ZOOM_CAM] = resolutionPixel;
+                    CMainFrame.DataManager.SystemData_Align.PixelResolutionY[ZOOM_CAM] = resolutionPixel;
 
                     textMsg = string.Format("픽셀당 거리는 {0:F2} um입니다.", resolutionPixel);
                     CMainFrame.DisplayMsg(textMsg);
 
-                    CMainFrame.DataManager.SaveSystemData(null,null, null, null,CMainFrame.DataManager.SystemData_Vision, null);
+                    CMainFrame.DataManager.SaveSystemData(null,null, null, null,CMainFrame.DataManager.SystemData_Align, null);
 
                     eVisionMode = EVisionMode.MEASUREMENT;
                     btnCalibration.ForeColor = Color.Black;
@@ -1760,15 +1715,8 @@ namespace LWDicer.UI
 
         private void btnPatternProcessSave_Click(object sender, EventArgs e)
         {
-            FormMessageBox MsgBox = new FormMessageBox();
+            if (!CMainFrame.DisplayMsg("프로세스 데이터를 저장하시겠습니까 ?")) return;
 
-            MsgBox.SetMessage("프로세스 데이터를 저장하시겠습니까?", EMessageType.OK_CANCEL);
-
-            if (MsgBox.ShowDialog() != DialogResult.OK)
-            {
-                return;
-            }
-            
             CMainFrame.DataManager.SaveModelData(CMainFrame.DataManager.ModelData);
 
             DisplayProcessData();

@@ -429,7 +429,7 @@ namespace LWDicer.Layers
             return iResult;
         }
 
-        public int JogMoveVelocity(int iCoordID, bool bDir, double dVelocity)
+        public int JogMoveVelocity(int iCoordID, bool bDir,bool IsFastMove)
         {
             int iResult = SUCCESS;
 
@@ -439,7 +439,7 @@ namespace LWDicer.Layers
             }
             else
             {
-                iResult = m_RefComp.Motion.StartJogMove(m_Data.AxisList[iCoordID], bDir, true);
+                iResult = m_RefComp.Motion.StartJogMove(m_Data.AxisList[iCoordID], bDir, IsFastMove);
             }
 
             return iResult;
