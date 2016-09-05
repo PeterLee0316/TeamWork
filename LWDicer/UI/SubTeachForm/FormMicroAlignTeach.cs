@@ -8,6 +8,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
+using static LWDicer.Layers.DEF_System;
+using static LWDicer.Layers.DEF_Vision;
+using static LWDicer.Layers.DEF_Common;
+using static LWDicer.Layers.DEF_DataManager;
+
 namespace LWDicer.UI
 {
     public partial class FormMicroAlignTeach : Form
@@ -15,6 +20,13 @@ namespace LWDicer.UI
         public FormMicroAlignTeach()
         {
             InitializeComponent();
+
+            CMainFrame.frmStageJog.Location = new Point(0, 0);
+            CMainFrame.frmStageJog.TopLevel = false;
+            this.Controls.Add(CMainFrame.frmStageJog);
+            CMainFrame.frmStageJog.Parent = this.pnlStageJog;
+            CMainFrame.frmStageJog.Dock = DockStyle.Fill;
+            CMainFrame.frmStageJog.Show();
         }
 
         private void FormClose()
@@ -26,6 +38,13 @@ namespace LWDicer.UI
         private void BtnExit_Click(object sender, EventArgs e)
         {
             FormClose();
+        }
+
+        private void FormMicroAlignTeach_Load(object sender, EventArgs e)
+        {
+#if !SIMULATION_VISION
+            CMainFrame.LWDicer.m_Vision.InitialLocalView(PRE__CAM, picVision.Handle);
+#endif
         }
     }
 }

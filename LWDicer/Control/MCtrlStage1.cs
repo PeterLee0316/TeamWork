@@ -68,7 +68,7 @@ namespace LWDicer.Layers
         }
         public class CCtrlStage1Data
         {
-            public CSystemData_Vision Vision;
+            public CSystemData_Align Vision;
             public CSystemData_Light Light;
             public CCtrlAlignData Align;
         }
@@ -79,7 +79,7 @@ namespace LWDicer.Layers
     {
         private CCtrlStage1RefComp m_RefComp;
         private CCtrlStage1Data m_Data;
-        private int m_iCurrentCam = -1;
+        private int m_iCurrentCam = PRE__CAM;
         private bool bThetaAlignInit = false;
         private bool bEdgeAlignTeachInit = false;
 
@@ -589,108 +589,113 @@ namespace LWDicer.Layers
             return m_RefComp.Stage.MoveStageToProcessTurnPos();
         }
 
-        public void MoveIndexPlusX()
+        public int MoveIndexPlusX()
         {
-            m_RefComp.Stage.MoveStageIndexPlusX();
+            return m_RefComp.Stage.MoveStageIndexPlusX();
         }
-        public void MoveIndexPlusY()
+        public int MoveIndexPlusY()
         {
-            m_RefComp.Stage.MoveStageIndexPlusY();
+            return m_RefComp.Stage.MoveStageIndexPlusY();
         }
-        public void MoveIndexPlusT()
+        public int MoveIndexPlusT()
         {
-            m_RefComp.Stage.MoveStageIndexPlusT();
+            return m_RefComp.Stage.MoveStageIndexPlusT();
         }
-        public void MoveIndexMinusX()
+        public int MoveIndexMinusX()
         {
-            m_RefComp.Stage.MoveStageIndexMinusX();
+            return m_RefComp.Stage.MoveStageIndexMinusX();
         }
-        public void MoveIndexMinusY()
+        public int MoveIndexMinusY()
         {
-            m_RefComp.Stage.MoveStageIndexMinusY();
+            return m_RefComp.Stage.MoveStageIndexMinusY();
         }
         
-        public void MoveIndexMinusT()
+        public int MoveIndexMinusT()
         {
-            m_RefComp.Stage.MoveStageIndexMinusT();
+            return m_RefComp.Stage.MoveStageIndexMinusT();
         }
-        public void MoveMacroScreenPlusX()
+        public int MoveMacroScreenPlusX()
         {
-            m_RefComp.Stage.MoveStageScreenPlusX(ECameraSelect.MACRO);
-        }
-
-        public void MoveMacroScreenPlusY()
-        {
-            m_RefComp.Stage.MoveStageScreenPlusY(ECameraSelect.MACRO);
+            return m_RefComp.Stage.MoveStageScreenPlusX(ECameraSelect.MACRO);
         }
 
-        public void MoveMacroScreenPlusT()
+        public int MoveMacroScreenPlusY()
         {
-            m_RefComp.Stage.MoveStageScreenPlusT(ECameraSelect.MACRO);
-        }
-        public void MoveMacroScreenMinusX()
-        {
-            m_RefComp.Stage.MoveStageScreenMinusX(ECameraSelect.MACRO);
-        }
-        public void MoveMacroScreenMinusY()
-        {
-            m_RefComp.Stage.MoveStageScreenMinusY(ECameraSelect.MACRO);
-        }
-        public void MoveMacroScreenMinusT()
-        {
-            m_RefComp.Stage.MoveStageScreenMinusT(ECameraSelect.MACRO);
-        }
-        public void MoveMicroScreenPlusX()
-        {
-            m_RefComp.Stage.MoveStageScreenPlusX(ECameraSelect.MICRO);
+            return m_RefComp.Stage.MoveStageScreenPlusY(ECameraSelect.MACRO);
         }
 
-        public void MoveMicroScreenPlusY()
+        public int MoveMacroScreenPlusT()
         {
-            m_RefComp.Stage.MoveStageScreenPlusY(ECameraSelect.MICRO);
+            return m_RefComp.Stage.MoveStageScreenPlusT(ECameraSelect.MACRO);
+        }
+        public int MoveMacroScreenMinusX()
+        {
+            return m_RefComp.Stage.MoveStageScreenMinusX(ECameraSelect.MACRO);
+        }
+        public int MoveMacroScreenMinusY()
+        {
+            return m_RefComp.Stage.MoveStageScreenMinusY(ECameraSelect.MACRO);
+        }
+        public int MoveMacroScreenMinusT()
+        {
+            return m_RefComp.Stage.MoveStageScreenMinusT(ECameraSelect.MACRO);
+        }
+        public int MoveMicroScreenPlusX()
+        {
+            return m_RefComp.Stage.MoveStageScreenPlusX(ECameraSelect.MICRO);
         }
 
-        public void MoveMicroScreenPlusT()
+        public int MoveMicroScreenPlusY()
         {
-            m_RefComp.Stage.MoveStageScreenPlusT(ECameraSelect.MICRO);
-        }
-        public void MoveMicroScreenMinusX()
-        {
-            m_RefComp.Stage.MoveStageScreenMinusX(ECameraSelect.MICRO);
-        }
-        public void MoveMicroScreenMinusY()
-        {
-            m_RefComp.Stage.MoveStageScreenMinusY(ECameraSelect.MICRO);
-        }
-        public void MoveMicroScreenMinusT()
-        {
-            m_RefComp.Stage.MoveStageScreenMinusT(ECameraSelect.MICRO);
-        }
-        public void JogMovePlusX()
-        {
-            m_RefComp.Stage.JogStagePlusX();
-        }
-        public void JogMoveMinusX()
-        {
-            m_RefComp.Stage.JogStageMinusX();
+            return m_RefComp.Stage.MoveStageScreenPlusY(ECameraSelect.MICRO);
         }
 
-        public void JogMovePlusY()
+        public int MoveMicroScreenPlusT()
         {
-            m_RefComp.Stage.JogStagePlusY();
+            return m_RefComp.Stage.MoveStageScreenPlusT(ECameraSelect.MICRO);
         }
-        public void JogMoveMinusY()
+        public int MoveMicroScreenMinusX()
         {
-            m_RefComp.Stage.JogStageMinusY();
+            return m_RefComp.Stage.MoveStageScreenMinusX(ECameraSelect.MICRO);
+        }
+        public int MoveMicroScreenMinusY()
+        {
+            return m_RefComp.Stage.MoveStageScreenMinusY(ECameraSelect.MICRO);
+        }
+        public int MoveMicroScreenMinusT()
+        {
+            return m_RefComp.Stage.MoveStageScreenMinusT(ECameraSelect.MICRO);
+        }
+        public int JogMovePlusX(bool IsFastMove)
+        {
+            return m_RefComp.Stage.JogStagePlusX(IsFastMove);
+        }
+        public int JogMoveMinusX(bool IsFastMove)
+        {
+            return m_RefComp.Stage.JogStageMinusX(IsFastMove);
         }
 
-        public void JogMovePlusT()
+        public int JogMovePlusY(bool IsFastMove)
         {
-            m_RefComp.Stage.JogStagePlusT();
+            return m_RefComp.Stage.JogStagePlusY(IsFastMove);
         }
-        public void JogMoveMinusT()
+        public int JogMoveMinusY(bool IsFastMove)
         {
-            m_RefComp.Stage.JogStageMinusT();
+            return m_RefComp.Stage.JogStageMinusY(IsFastMove);
+        }
+
+        public int JogMovePlusT(bool IsFastMove)
+        {
+            return m_RefComp.Stage.JogStagePlusT(IsFastMove);
+        }
+        public int JogMoveMinusT(bool IsFastMove)
+        {
+            return m_RefComp.Stage.JogStageMinusT(IsFastMove);
+        }
+
+        public int JogStageStop(int Axis)
+        {
+            return m_RefComp.Stage.JogStageStop(Axis);
         }
 
         #endregion
@@ -1050,30 +1055,16 @@ namespace LWDicer.Layers
         /// Index 데이터 설정
         /// </summary>
         /// <param name="dIndexLen"></param>
-        public void WidthIndexDataSet(double dIndexLen)
-        {
-            m_RefComp.Stage.SetWidthIndexData(dIndexLen);
-        }
-        public void WidthIndexDataClear()
-        {
-            m_RefComp.Stage.ClearWidthIndexData();
-        }
-        public void HeightIndexDataSet(double dIndexLen)
-        {
-            m_RefComp.Stage.SetWidthIndexData(dIndexLen);
-        }
-        public void HeightIndexDataClear()
-        {
-            m_RefComp.Stage.ClearWidthIndexData();
-        }
+
 
 
         #endregion
+
         // Calibration  및 매뉴얼 동작 
         #region Calibration
 
         // 카메라 배율 변경
-        public int ChangeVisionMagnitude(int iCam)
+        public int ChangeVisionMagnitude(int iCam, IntPtr pHandle)
         {
             int iResult = -1;
             if (m_iCurrentCam == iCam) return SUCCESS;
@@ -1082,34 +1073,40 @@ namespace LWDicer.Layers
             {
                 iResult = m_RefComp.Stage.MoveChangeMicroCam();
                 if (iResult != SUCCESS) return iResult;
-                iResult = m_RefComp.Vision.DestroyLocalView(PRE__CAM);
+                iResult = m_RefComp.Vision.DestroyLocalView(FINE_CAM);                
                 if (iResult != SUCCESS) return iResult;
+                iResult = m_RefComp.Vision.InitialLocalView(PRE__CAM, pHandle);
+                if (iResult != SUCCESS) return iResult;
+                m_iCurrentCam = FINE_CAM;
             }
             if (iCam == PRE__CAM)
             {
-                m_RefComp.Stage.MoveChangeMacroCam();
+                iResult = m_RefComp.Stage.MoveChangeMacroCam();
                 if (iResult != SUCCESS) return iResult;
-                m_RefComp.Vision.DestroyLocalView(FINE_CAM);
+                iResult = m_RefComp.Vision.DestroyLocalView(PRE__CAM);
+                iResult = m_RefComp.Vision.InitialLocalView(FINE_CAM, pHandle);
                 if (iResult != SUCCESS) return iResult;
+                if (iResult != SUCCESS) return iResult;
+                m_iCurrentCam = PRE__CAM;
             }
-
-            m_RefComp.Vision.ChangeLocalView(iCam);
-            if (iResult != SUCCESS) return iResult;
 
             return SUCCESS;
         }
 
-        public int ChangeMacroVision()
+        public int ChangeMacroVision(IntPtr pHandle)
         {
-            return ChangeVisionMagnitude(PRE__CAM);
+            return ChangeVisionMagnitude(PRE__CAM, pHandle);
         }
 
-        public int ChangeMicroVision()
+        public int ChangeMicroVision(IntPtr pHandle)
         {
-            return ChangeVisionMagnitude(FINE_CAM);
+            return ChangeVisionMagnitude(FINE_CAM, pHandle);
         }
 
-
+        public int GetCurrentCam()
+        {
+            return m_iCurrentCam;
+        }
         // 카메라 위치 계산 및 설정
         // Fine 카메라만 자동으로 연산함
         // Pre 카메라는 Fine과 차이를 수동으로 설정함.
@@ -1310,7 +1307,6 @@ namespace LWDicer.Layers
 
         #endregion
 
-
         // Teaching 동작 
         #region Teaching
 
@@ -1362,7 +1358,7 @@ namespace LWDicer.Layers
             // 현재 위치 값을 PosA을 경우에 실행한다.
             int iPos = 0;
             m_RefComp.Stage.GetStagePosInfo(out iPos);
-            if (iPos != (int)EStagePos.THETA_ALIGN) return GenerateErrorCode(ERR_CTRLSTAGE_THETA_POS_UNSUITABLE);
+            if (iPos != (int)EStagePos.STAGE_CENTER) return GenerateErrorCode(ERR_CTRLSTAGE_THETA_POS_UNSUITABLE);
 
             CPos_XYTZ sPos = new CPos_XYTZ();
             // 현재 위치를 ThetaAlignPosA로 저장한다. 
@@ -1387,7 +1383,7 @@ namespace LWDicer.Layers
             int iPos = 0;
             m_RefComp.Stage.GetStagePosInfo(out iPos);
 
-            if (iPos == (int)EStagePos.THETA_ALIGN)
+            if (iPos == (int)EStagePos.STAGE_CENTER)
                 MoveThetaAlignPosB();
             else
                 MoveThetaAlignPosA();
@@ -1515,7 +1511,6 @@ namespace LWDicer.Layers
         }
 
         #endregion
-
 
         // Align 동작
         #region Align 동작

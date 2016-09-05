@@ -93,8 +93,7 @@ namespace LWDicer.Layers
             {
                 return GenerateErrorCode(ERR_VISION_CAMERA_CREATE_FAIL);
             }
-
-
+            
 
         }
         
@@ -171,7 +170,7 @@ namespace LWDicer.Layers
             // Timer 확인
             MIL.MappTimer(MIL.M_DEFAULT, MIL.M_TIMER_READ, ref dGrabInterval);
             
-            String strResult = String.Format(" Scan Time : {0:0.00} ", dGrabInterval);
+            String strResult = String.Format(" Scan Time : {0:0.000} ", dGrabInterval);
             // Timer Reset
             MIL.MappTimer(MIL.M_DEFAULT, MIL.M_TIMER_RESET, ref dGrabInterval);
             // new image 호출 (Image Grab 지령)
@@ -653,8 +652,7 @@ namespace LWDicer.Layers
 
             return 0;
         }
-
-        
+                
         public void DestroyLocalView()
         {
             // Picture Handle값 초기화

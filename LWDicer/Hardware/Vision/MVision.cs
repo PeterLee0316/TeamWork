@@ -215,7 +215,7 @@ namespace LWDicer.Layers
                 // 바꿀 View와 현재 View를 비교함.
                 if (m_RefComp.View[iIndex].GetViewHandle()== pObject)
                 {
-                    return SUCCESS;
+                   // return SUCCESS;
                 }
             }
             // View를 Display로 등록한다.
@@ -226,7 +226,7 @@ namespace LWDicer.Layers
 
             return SUCCESS;
         }
-        public int ChangeLocalView(int iCamNo)
+        public int ChangeLocalView(int iCamNo, IntPtr pHandle)
         {
 #if SIMULATION_VISION
                 return SUCCESS;
@@ -236,7 +236,8 @@ namespace LWDicer.Layers
             // 설정할 Camera 번호가 Max 를 초과 여부 확인
             if (iCamNo > DEF_MAX_CAMERA_NO) return GenerateErrorCode(ERR_VISION_CAMERA_FAIL);
 
-            IntPtr pHandle = m_RefComp.View[iCamNo].GetViewHandle();
+            //IntPtr pHandle = m_RefComp.View[iCamNo].GetViewHandle();
+            if (pHandle == IntPtr.Zero) return RUN_FAIL;
             m_RefComp.View[iCamNo].SetDisplayWindow(pHandle);
             m_iCurrentViewNum = iCamNo;
 

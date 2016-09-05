@@ -731,6 +731,7 @@ namespace LWDicer.Layers
             }
 
             iResult = MoveHandlerPos(sTargetPos, bMoveFlag, bUseBacklash, bUsePriority, movePriority);
+
             if (iResult != SUCCESS) return iResult;
             if (bUpdatedPosInfo == true)
             {

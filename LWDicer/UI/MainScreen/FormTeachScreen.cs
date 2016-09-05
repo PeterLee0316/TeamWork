@@ -200,7 +200,7 @@ namespace LWDicer.UI
         private void btnThetaAlign_Click(object sender, EventArgs e)
         {
             var dlg = new FormThetaAlignTeach();
-            dlg.ShowDialog();
+            dlg.Show();
         }
 
         private void btnEdgeAlign_Click(object sender, EventArgs e)

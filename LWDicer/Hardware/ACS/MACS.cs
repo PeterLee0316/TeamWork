@@ -942,14 +942,13 @@ namespace LWDicer.Layers
             }
 
             CompareSpeedData(deviceNo, SpeedData[0], out bCheck);
-            if (bCheck == false) SetSpeedData(deviceNo, SpeedData[0]);           
-
+            if (bCheck == false) SetSpeedData(deviceNo, SpeedData[0]);     
 
 #if SIMULATION_MOTION_ACS
             return SUCCESS;
 #endif
 
-            m_AcsMotion.ACS.Jog(m_AcsMotion.ACS.ACSC_AMF_VELOCITY, deviceNo, SpeedData[0].Vel* Direction);
+            m_AcsMotion.ACS.Jog(m_AcsMotion.ACS.ACSC_AMF_VELOCITY, deviceNo, SpeedData[0].Vel * Direction);
 
             return SUCCESS;
             
@@ -1058,7 +1057,7 @@ namespace LWDicer.Layers
 
             // 0.4 Motion Moving 지령
             //m_AcsMotion.ACS.GoM(AxisNo);
-            Sleep(50);            
+            Sleep(100);            
 
             // 0.5 Motion Complete 확인
             int[] AxisList = new int[1];
@@ -1066,9 +1065,13 @@ namespace LWDicer.Layers
             bool[] bUse = new bool[1];
             bUse[0] = true;
 
-            //iResult = Wait4Done(AxisList, bUse);
+            //var taskProcess = Task<int>.Run(() => Wait4Done(AxisList, bUse));
 
-            //if (iResult != SUCCESS) return iResult;            
+            //iResult = await taskProcess;
+
+            iResult = Wait4Done(AxisList, bUse);
+
+            if (iResult != SUCCESS) return iResult;            
             
 #endif
             return SUCCESS;
@@ -1090,7 +1093,6 @@ namespace LWDicer.Layers
         /// <returns></returns>
         public int MoveToPos(int[] axisList, bool[] useAxis, double[] pos, CMotorSpeedData[] tempSpeed = null)
         {
-
             // check safety
             int iResult = IsSafeForMove();
             if (iResult != SUCCESS) return iResult;
@@ -1248,6 +1250,8 @@ namespace LWDicer.Layers
                         }
                     }
                 }
+
+                System.Windows.Forms.Application.DoEvents();
 
                 Sleep(WhileSleepTime);
             }
