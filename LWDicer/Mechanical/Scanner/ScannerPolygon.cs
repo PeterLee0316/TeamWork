@@ -284,8 +284,7 @@ namespace LWDicer.Layers
             recTarget = new Rectangle(0, 0, iWidth, iHeight);
             targetBmpData = m_Bitmap.LockBits(recTarget, ImageLockMode.ReadWrite, PixelFormat.Format1bppIndexed);
 
-            //for (int y = 0; y < recSource.Height; y++)
-            Parallel.For(0, recSource.Height, (int y) =>
+            for (int y = 0; y < recSource.Height; y++)
             {
                 // source Image에서 가로 한줄을 byte[]로 Copy함
                 Marshal.Copy((IntPtr)((long)sourceBmpData.Scan0 + sourceBmpData.Stride * y),
@@ -295,7 +294,7 @@ namespace LWDicer.Layers
                 {
                     Marshal.Copy(BmpScanLine, 0, (IntPtr)((long)targetBmpData.Scan0 + targetBmpData.Stride * (y * expandNum + x)), BmpScanLine.Length);
                 }
-            });
+            }
 
             sourceBmp.UnlockBits(sourceBmpData);
             m_Bitmap.UnlockBits(targetBmpData);
@@ -359,7 +358,6 @@ namespace LWDicer.Layers
                     DrawLine(ptStart.X, ptStart.Y, ptStart.X, ptEnd.Y);
                     DrawLine(ptStart.X, ptEnd.Y, ptEnd.X, ptEnd.Y);
                     DrawLine(ptEnd.X, ptStart.Y, ptEnd.X, ptEnd.Y);
-
                     break;
                 case EObjectType.CIRCLE:
                     DrawEllipse(ptStart, ptEnd);
@@ -370,7 +368,6 @@ namespace LWDicer.Layers
                     // 재귀적 방식으로  Object를 Draw를 진행함.                    
                     foreach (CMarkingObject G in pGroup.ObjectGroup)
                         DrawBmpFile(G);
-
                     break;
             }         
 
