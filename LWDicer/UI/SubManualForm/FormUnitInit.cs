@@ -21,6 +21,7 @@ namespace LWDicer.UI
 
         private bool[] SelectedPart = new bool[(int)EInitiableUnit.MAX];
         private ButtonAdv[] BtnList = new ButtonAdv[(int)EInitiableUnit.MAX];
+        private string[] BtnName = new string[(int)EInitiableUnit.MAX];
 
         private MTickTimer m_waitTimer = new MTickTimer();
 
@@ -59,6 +60,7 @@ namespace LWDicer.UI
 
             for (int i = 0; i < (int)EInitiableUnit.MAX; i++)
             {
+                BtnName[i] = BtnList[i].Text;
                 BtnList[i].Tag = i;
                 BtnList[i].Image = Image.Images[0];
             }
@@ -104,10 +106,12 @@ namespace LWDicer.UI
                 CMainFrame.LWDicer.m_OpPanel.GetInitFlag(i, out bStatus);
                 if (bStatus == true)
                 {
+                    BtnList[i].Text = BtnName[i] + "\r\n[Init On]";
                     BtnList[i].BackColor = Color.Yellow;
                 }
                 else
                 {
+                    BtnList[i].Text = BtnName[i] + "\r\n[Init Off]";
                     BtnList[i].BackColor = Color.AntiqueWhite;
                 }
             }
@@ -134,7 +138,7 @@ namespace LWDicer.UI
             CMainFrame.LWDicer.m_trsAutoManager.IsInitState = false;
         }
 
-        private void ShowStepInform(string str)
+        private void SetTitle(string str)
         {
             LabelProgress.Text = String.Format($"ElapsedTime : {m_waitTimer},  Progress : {str}");
             LabelProgress.Refresh();
@@ -142,7 +146,6 @@ namespace LWDicer.UI
 
         private void InitRun()
         {
-            int i = 0;
             int iResult = SUCCESS;
             string strTemp;
             bool bSts = false;
@@ -150,24 +153,23 @@ namespace LWDicer.UI
             //	bool rgbOriginSts[DEF_MAX_MOTION_AXIS_NO];
             string strErr;
 
-            ShowStepInform("Check Safety");
-
+            SetTitle("Check Safety");
             // EStop 및 모든 축 원점 복귀 체크
             if (CMainFrame.LWDicer.IsSafeForAxisMove() == false)
                 return;
 
-            ShowStepInform("인터페이스 신호 초기화");
+            SetTitle("인터페이스 신호 초기화");
 
-            // 0. Loader
-            ShowStepInform("LOADER");
-            int part = (int)EInitiableUnit.LOADER;
+            int part;
+            // 0. HANDLER
+            SetTitle("HANDLER");
+            part = (int)EInitiableUnit.HANDLER;
             if (SelectedPart[part] == true)
             {
-                // LOADER Unit 초기화 
-                if ((iResult = CMainFrame.LWDicer.m_trsLoader.Initialize()) != SUCCESS)
+                iResult = CMainFrame.LWDicer.m_trsHandler.Initialize();
+                if (iResult != SUCCESS)
                 {
-                    // Display Alarm
-
+                    CMainFrame.DisplayAlarm(iResult);
                     SetInitFlag(part, false);
                     return;
                 }
@@ -177,9 +179,98 @@ namespace LWDicer.UI
                 }
             }
 
+            // 0. STAGE1
+            SetTitle("STAGE1");
+            part = (int)EInitiableUnit.STAGE1;
+            if (SelectedPart[part] == true)
+            {
+                iResult = CMainFrame.LWDicer.m_trsStage1.Initialize();
+                if (iResult != SUCCESS)
+                {
+                    CMainFrame.DisplayAlarm(iResult);
+                    SetInitFlag(part, false);
+                    return;
+                }
+                else
+                {
+                    SetInitFlag(part, true);
+                }
+            }
+
+            // 0. SPINNER1
+            SetTitle("SPINNER1");
+            part = (int)EInitiableUnit.SPINNER1;
+            if (SelectedPart[part] == true)
+            {
+                iResult = CMainFrame.LWDicer.m_trsSpinner1.Initialize();
+                if (iResult != SUCCESS)
+                {
+                    CMainFrame.DisplayAlarm(iResult);
+                    SetInitFlag(part, false);
+                    return;
+                }
+                else
+                {
+                    SetInitFlag(part, true);
+                }
+            }
+
+            // 0. SPINNER2
+            SetTitle("SPINNER2");
+            part = (int)EInitiableUnit.SPINNER2;
+            if (SelectedPart[part] == true)
+            {
+                iResult = CMainFrame.LWDicer.m_trsSpinner2.Initialize();
+                if (iResult != SUCCESS)
+                {
+                    CMainFrame.DisplayAlarm(iResult);
+                    SetInitFlag(part, false);
+                    return;
+                }
+                else
+                {
+                    SetInitFlag(part, true);
+                }
+            }
+
+            // 0. Loader
+            SetTitle("LOADER");
+            part = (int)EInitiableUnit.LOADER;
+            if (SelectedPart[part] == true)
+            {
+                iResult = CMainFrame.LWDicer.m_trsLoader.Initialize();
+                if (iResult != SUCCESS)
+                {
+                    CMainFrame.DisplayAlarm(iResult);
+                    SetInitFlag(part, false);
+                    return;
+                }
+                else
+                {
+                    SetInitFlag(part, true);
+                }
+            }
+
+            // 0. PUSHPULL
+            SetTitle("PUSHPULL");
+            part = (int)EInitiableUnit.PUSHPULL;
+            if (SelectedPart[part] == true)
+            {
+                iResult = CMainFrame.LWDicer.m_trsPushPull.Initialize();
+                if (iResult != SUCCESS)
+                {
+                    CMainFrame.DisplayAlarm(iResult);
+                    SetInitFlag(part, false);
+                    return;
+                }
+                else
+                {
+                    SetInitFlag(part, true);
+                }
+            }
 
             // Last.
-            CMainFrame.DisplayMsg("Initialization completed.");
+            CMainFrame.DisplayMsg("Initialization completed successfully.");
         }
 
         private void timer1_Tick(object sender, EventArgs e)
@@ -201,5 +292,15 @@ namespace LWDicer.UI
             SelectPart(sel);
         }
 
+        private void buttonAdv1_Click(object sender, EventArgs e)
+        {
+            for (int i = 0; i < (int)EInitiableUnit.MAX; i++)
+            {
+                SetInitFlag(i, true);
+                CMainFrame.LWDicer.Sleep(100);
+            }
+            // Last.
+            CMainFrame.DisplayMsg("Initialization completed successfully.");
+        }
     }
 }

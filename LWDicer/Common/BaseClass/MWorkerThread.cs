@@ -158,22 +158,22 @@ namespace LWDicer.Layers
         protected override int ProcessMsg(MEvent evnt)
         {
             Debug.WriteLine($"{ToString()} received message : {evnt}");
-            switch (evnt.Msg)
+            switch ((EThreadMessage)Enum.Parse(typeof(EThreadMessage), evnt.Msg.ToString()))
             {
-                case (int)MSG_MANUAL_CMD:
+                case MSG_MANUAL_CMD:
                     SetRunStatus(STS_MANUAL);
 
                     PostMsg(TrsAutoManager, (int)MSG_MANUAL_CNF);
                     break;
 
-                case (int)MSG_START_RUN_CMD:
+                case MSG_START_RUN_CMD:
 
                     OnStartRun();
 
                     PostMsg(TrsAutoManager, (int)MSG_START_RUN_CNF);
                     break;
 
-                case (int)MSG_START_CMD:
+                case MSG_START_CMD:
                     if (RunStatus == STS_RUN_READY || RunStatus == STS_STEP_STOP ||
                         RunStatus == STS_ERROR_STOP)
                     {
@@ -183,13 +183,13 @@ namespace LWDicer.Layers
                     }
                     break;
 
-                case (int)MSG_ERROR_STOP_CMD:
+                case MSG_ERROR_STOP_CMD:
                     SetRunStatus(STS_ERROR_STOP);
 
                     PostMsg(TrsAutoManager, (int)MSG_ERROR_STOP_CNF);
                     break;
 
-                case (int)MSG_STEP_STOP_CMD:
+                case MSG_STEP_STOP_CMD:
                     if (RunStatus == STS_STEP_STOP || RunStatus == STS_ERROR_STOP)
                     {
                         SetRunStatus(STS_MANUAL);
@@ -202,7 +202,7 @@ namespace LWDicer.Layers
                     PostMsg(TrsAutoManager, (int)MSG_STEP_STOP_CNF);
                     break;
 
-                case (int)MSG_CYCLE_STOP_CMD:
+                case MSG_CYCLE_STOP_CMD:
                     SetRunStatus(STS_CYCLE_STOP);
                     PostMsg(TrsAutoManager, (int)MSG_CYCLE_STOP_CNF);
                     break;

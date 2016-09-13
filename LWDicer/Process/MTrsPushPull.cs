@@ -100,6 +100,9 @@ namespace LWDicer.Layers
             InitializeInterface();
 
             // Do Action
+            int iResult = m_RefComp.ctrlPushPull.Initialize();
+            if (iResult != SUCCESS) return iResult;
+
             int iStep1 = (int)TRS_PUSHPULL_WAITFOR_MESSAGE;
 
             // finally

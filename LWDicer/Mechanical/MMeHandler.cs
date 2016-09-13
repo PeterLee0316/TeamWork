@@ -203,6 +203,8 @@ namespace LWDicer.Layers
 
         public int SetHandlerPosition(CPosition FixedPos, CPosition ModelPos, CPosition OffsetPos)
         {
+            int pIndex = (int)EHandlerPos.WAIT;
+            m_Data.HandlerSafetyPos = FixedPos.Pos[pIndex] + ModelPos.Pos[pIndex] + OffsetPos.Pos[pIndex];
             AxHandlerInfo.SetPosition(FixedPos, ModelPos, OffsetPos);
             return SUCCESS;
         }
@@ -915,7 +917,24 @@ namespace LWDicer.Layers
         {
             bool bStatus;
             curZone = (int)EHandlerXAxZone.NONE;
-            for(int i = 0; i < (int)EHandlerXAxZone.MAX; i++)
+            int length = (int)EHandlerXAxZone.MAX;
+            switch(axis)
+            {
+                case DEF_X:
+                    length = (int)EHandlerXAxZone.MAX;
+                    break;
+                case DEF_Y:
+                    length = (int)EHandlerYAxZone.MAX;
+                    break;
+                case DEF_T:
+                    length = (int)EHandlerTAxZone.MAX;
+                    break;
+                case DEF_Z:
+                    length = (int)EHandlerZAxZone.MAX;
+                    break;
+            }
+
+            for (int i = 0; i < length; i++)
             {
                 if (m_Data.HandlerZoneCheck.Axis[axis].ZoneAddr[i] == -1) continue; // if io is not allocated, continue;
                 int iResult = m_RefComp.IO.IsOn(m_Data.HandlerZoneCheck.Axis[axis].ZoneAddr[i], out bStatus);
@@ -984,6 +1003,10 @@ namespace LWDicer.Layers
 
         public int IsHandlerAxisInSafetyZone(int axis, out bool bStatus)
         {
+#if SIMULATION_TEST
+            bStatus = true;
+            return SUCCESS;
+#endif
             bStatus = false;
             int curZone;
             int iResult = GetHandlerAxZone(axis, out curZone);

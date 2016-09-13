@@ -135,6 +135,57 @@ namespace LWDicer.Layers
                 return EHandlerIndex.LOAD_UPPER;
             }
         }
+
+        public override int Initialize()
+        {
+            int iResult;
+            bool bStatus, bStatus1;
+            // UpperHandler
+            // 0. check vacuum
+            EHandlerIndex index = EHandlerIndex.LOAD_UPPER;
+            iResult = IsObjectDetected(index, out bStatus);
+            if (iResult != SUCCESS) return iResult;
+
+            if (bStatus)
+            {
+                iResult = Absorb(index);
+                if (iResult != SUCCESS) return iResult;
+            }
+            else
+            {
+                iResult = IsReleased(index, out bStatus1);
+                if (iResult != SUCCESS) return iResult;
+                if (bStatus1 == false) return GenerateErrorCode(ERR_CTRLHANDLER_OBJECT_NOT_EXIST_BUT_ABSORBED);
+            }
+
+            // move to wait pos
+            iResult = MoveToWaitPos(index, bStatus);
+            if (iResult != SUCCESS) return iResult;
+
+            // LowerHandler
+            // 0. check vacuum
+            index = EHandlerIndex.UNLOAD_LOWER;
+            iResult = IsObjectDetected(index, out bStatus);
+            if (iResult != SUCCESS) return iResult;
+
+            if (bStatus)
+            {
+                iResult = Absorb(index);
+                if (iResult != SUCCESS) return iResult;
+            }
+            else
+            {
+                iResult = IsReleased(index, out bStatus1);
+                if (iResult != SUCCESS) return iResult;
+                if (bStatus1 == false) return GenerateErrorCode(ERR_CTRLHANDLER_OBJECT_NOT_EXIST_BUT_ABSORBED);
+            }
+
+            // move to wait pos
+            iResult = MoveToWaitPos(index, bStatus);
+            if (iResult != SUCCESS) return iResult;
+
+            return SUCCESS;
+        }
         #endregion
 
         #region Cylinder, Vacuum, Detect Object
@@ -279,8 +330,18 @@ namespace LWDicer.Layers
             return SUCCESS;
         }
 
-        private int CheckXAxMatchZone(EHandlerIndex index, int curPos, int curZone_X)
+        /// <summary>
+        /// X축의 Position Info 와 구간 감지sensor를 이용한 zone information이 일치하는지를 확인한다
+        /// </summary>
+        /// <param name="curPos"></param>
+        /// <param name="curZone_X"></param>
+        /// <returns></returns>
+        private int CheckXAxMatchZone(int curPos, int curZone_X)
         {
+#if SIMULATION_TEST
+            return SUCCESS;
+#endif
+
             switch (curPos)
             {
                 case (int)EHandlerPos.WAIT:
@@ -310,6 +371,11 @@ namespace LWDicer.Layers
         /// <returns></returns>
         public int CheckOppositeHandler_forMoving(EHandlerIndex index, int nTargetPos, bool bMozeZAxis, out bool capableMove)
         {
+#if SIMULATION_TEST
+            capableMove = true;
+            return SUCCESS;
+#endif
+
             int iResult = SUCCESS;
             capableMove = false;
 
@@ -343,10 +409,10 @@ namespace LWDicer.Layers
             if (iResult != SUCCESS) return iResult;
 
             // 3. check curPos matching with cur zone
-            iResult = CheckXAxMatchZone(index, curPos, curZone_X);
+            iResult = CheckXAxMatchZone(curPos, curZone_X);
             if (iResult != SUCCESS) return iResult;
 
-            iResult = CheckXAxMatchZone(GetOtherIndex(index), other_curPos, other_curZone_X);
+            iResult = CheckXAxMatchZone(other_curPos, other_curZone_X);
             if (iResult != SUCCESS) return iResult;
 
             // 4. check interlock opposite handler
@@ -458,57 +524,6 @@ namespace LWDicer.Layers
             if (capableMove == false) return GenerateErrorCode(ERR_CTRLHANDLER_MAY_COLLIDE_WITH_OPPOSITE_HANDLER);
 
             iResult = GetHandler(index).MoveHandlerToStagePos(bMoveXYT, bMoveZ, dMoveOffset);
-            if (iResult != SUCCESS) return iResult;
-
-            return SUCCESS;
-        }
-
-        public override int Initialize()
-        {
-            int iResult;
-            bool bStatus, bStatus1;
-            // UpperHandler
-            // 0. check vacuum
-            EHandlerIndex index = EHandlerIndex.LOAD_UPPER;
-            iResult = IsObjectDetected(index, out bStatus);
-            if (iResult != SUCCESS) return iResult;
-
-            if(bStatus)
-            {
-                iResult = Absorb(index);
-                if (iResult != SUCCESS) return iResult;
-            }
-            else
-            {
-                iResult = IsReleased(index, out bStatus1);
-                if (iResult != SUCCESS) return iResult;
-                if (bStatus == false) return GenerateErrorCode(ERR_CTRLHANDLER_OBJECT_NOT_EXIST_BUT_ABSORBED);
-            }
-
-            // move to wait pos
-            iResult = MoveToWaitPos(index, bStatus);
-            if (iResult != SUCCESS) return iResult;
-
-            // LowerHandler
-            // 0. check vacuum
-            index = EHandlerIndex.UNLOAD_LOWER;
-            iResult = IsObjectDetected(index, out bStatus);
-            if (iResult != SUCCESS) return iResult;
-
-            if (bStatus)
-            {
-                iResult = Absorb(index);
-                if (iResult != SUCCESS) return iResult;
-            }
-            else
-            {
-                iResult = IsReleased(index, out bStatus1);
-                if (iResult != SUCCESS) return iResult;
-                if (bStatus == false) return GenerateErrorCode(ERR_CTRLHANDLER_OBJECT_NOT_EXIST_BUT_ABSORBED);
-            }
-
-            // move to wait pos
-            iResult = MoveToWaitPos(index, bStatus);
             if (iResult != SUCCESS) return iResult;
 
             return SUCCESS;

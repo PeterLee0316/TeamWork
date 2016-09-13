@@ -64,6 +64,8 @@ serialization 기능을 이용해서 자동으로 data class save, load하는 �
 2. MMultiAxes_YMC : MYaskawa class의 윗부분을 담당할 멀티축 제어용 class, 
    단 최대 축수는 DEF_MAX_COORDINATE 4축으로 제한하여 설계함.
 3. LWDicer class에서 MYaskawa 및 MMultiAxes_YMC 인스턴스 생성 부분 추가함
+4. MIO_YMC class 에서도 hardware library error를 사용하기위해 error dictionary를 CMotionAPI class에 추가함
+5. MTrsAutoManage class에도 별도의 thread이기 때문에 thread에서 기본적으로 YMC Comport를 open해줌
 
 // Version : 0.0.7
 // Grade : ★
@@ -341,6 +343,26 @@ CSpinStep class -> CCleanStep / CCoatStep class 로 분리
 4. io list 읽어올때 버그 수정
 5. 에러 발생시에 HardwareLibrary에서 에러메시지를 리턴해줄 경우에 이를 보여주기위해 MObject class, GernerateErrorCode 함수 및
    FormAlarmDisplay dialog 수정함. ErrorSubMsg 사용법은 MYaskawa class를 참조할 것
+
+
+// Version : 0.0.33
+// Grade : ★
+// Date : 160905~160908
+// Context
+1. MainFrame이 Load되기 전에 알람 발생하게되면 에러가 발생하는 문제 수정
+2. FormSpinner1Teach & FormSpinner2Teach class 들이 같은 역할을 하기에 공용으로 사용할 수 있도록 수정하고 하나 빼버림
+3. MTrsAutoManager Thread에서도 역시 시작시에 yaskawa open controller 추가
+4. 원점복귀 대화상자 상태 표시 수정 및 test 모드로 원점 복귀 flag set/reset 기능 추가
+5. UnitInit 대화상자 수정중.. 
+6. for test 로 주석 달아서 임시로 테스트 하는 부분을 위해서 SIMULATION_TEST 로 pre define 추가
+7. MTrsHandler, MTrsSpinner, MTrsLoader, MTrsStage.Initialize 함수 및 하위 레벨 Initialize 부분 대략 수정 및 확인
+
+// Version : 0.0.34
+// Grade : ★
+// Date : 160912~
+// Context
+1. MTrsPushPull.Initialize 함수 및 하위 레벨 Initialize 부분 대략 수정 및 확인
+2. Auto Start, Auto Stop Process 작업중
 
 // ********************************************************************************
 // test를 위해서 임시로 결과값을 쓰는 코드들은 // for test 로 주석 달기 및 검색해서 사용하도록

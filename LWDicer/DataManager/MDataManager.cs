@@ -3402,27 +3402,26 @@ namespace LWDicer.Layers
             return SUCCESS;
         }
 
-        public int UpdateMessageInfo(CMessageInfo info, bool bMerge = true, bool bSaveToDB = true)
+        public int UpdateMessageInfo(CMessageInfo info, bool bSaveToDB = true)
         {
-            CMessageInfo prevInfo = ObjectExtensions.Copy(info);
-            for (int i = 0; i < MessageInfoList.Count; i++)
+            if(info.Index != -1) // update
             {
-                if (MessageInfoList[i].Index == info.Index)
+                CMessageInfo prevInfo = ObjectExtensions.Copy(info);
+                for (int i = 0; i < MessageInfoList.Count; i++)
                 {
-                    if (MessageInfoList[i].IsEqual(info)) return SUCCESS;
-                    prevInfo = ObjectExtensions.Copy(MessageInfoList[i]);
-                    MessageInfoList.RemoveAt(i);
-                    break;
+                    if (MessageInfoList[i].Index == info.Index)
+                    {
+                        if (MessageInfoList[i].IsEqual(info)) return SUCCESS;
+                        prevInfo = ObjectExtensions.Copy(MessageInfoList[i]);
+                        MessageInfoList.RemoveAt(i);
+                        break;
+                    }
                 }
-            }
-
-            if (bMerge)
-            {
                 prevInfo.Update(info);
                 MessageInfoList.Add(prevInfo);
-            }
-            else
+            } else // add new
             {
+                info.Index = GetNextMessageIndex();
                 MessageInfoList.Add(info);
             }
 
@@ -3470,7 +3469,6 @@ namespace LWDicer.Layers
         public int LoadMessageInfo(string strMsg, out CMessageInfo info)
         {
             info = new CMessageInfo();
-            info.Index = GetNextMessageIndex();
             if (MessageInfoList.Count > 0)
             {
                 foreach (CMessageInfo item in MessageInfoList)
@@ -3492,7 +3490,11 @@ namespace LWDicer.Layers
             int index = nStartAfter + 1;
             foreach (CMessageInfo item in MessageInfoList)
             {
-                if (item.Index > index) index = item.Index + 1;
+                if (item.Index >= index)
+                {
+                    index = item.Index + 1;
+                }
+
             }
             return index;
         }
@@ -4173,7 +4175,7 @@ namespace LWDicer.Layers
                     MessageInfo.Message[(int)DEF_Common.ELanguage.JAPANESE] = (string)(SheetRange.Cells[i + startRow, 6] as Excel.Range).Value2;
 
                     //MessageInfoList.Add(MessageInfo);
-                    UpdateMessageInfo(MessageInfo, false, false);
+                    UpdateMessageInfo(MessageInfo, false);
                 }
             }
             catch (Exception ex)
@@ -7555,7 +7557,9 @@ namespace LWDicer.Layers
 
         public int StartWorkPiecePhase(ELCNetUnitPos pos, EProcessPhase phase)
         {
+#if SIMULATION_TEST
             Sleep(600); // for test
+#endif
             WorkPieceArray[(int)pos].StartPhase(phase);
             return SUCCESS;
         }
@@ -7569,7 +7573,9 @@ namespace LWDicer.Layers
         /// <returns></returns>
         public int FinishWorkPiecePhas(ELCNetUnitPos pos, EProcessPhase phase)
         {
+#if SIMULATION_TEST
             Sleep(600); // for test
+#endif
             WorkPieceArray[(int)pos].FinishPhase(phase);
             return SUCCESS;
         }

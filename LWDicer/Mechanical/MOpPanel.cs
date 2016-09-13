@@ -118,6 +118,17 @@ namespace LWDicer.Layers
             {
             }
 
+            public CTowerIOAddr(int RedLampAddr, int YellowLampAddr, int GreenLampAddr, params int[] BuzzerArray)
+            {
+                this.RedLampAddr = RedLampAddr;
+                this.YellowLampAddr = YellowLampAddr;
+                this.GreenLampAddr = GreenLampAddr;
+                for(int i = 0; i < DEF_OPPANEL_MAX_BUZZER_MODE && i < BuzzerArray.Length; i++)
+                {
+                    this.BuzzerArray[i] = BuzzerArray[i];
+                }
+            }
+
         }
 
         /// <summary>
@@ -1156,6 +1167,46 @@ namespace LWDicer.Layers
             return servoIndex - (int)EYMC_Axis.MAX;
         }
 
+        public int GetAxisSensorStatus(int servoIndex, int sensorType, out bool bStatus)
+        {
+            int iResult = SUCCESS;
+            bStatus = false;
+
+            if (servoIndex < (int)EYMC_Axis.MAX)
+            {
+                switch(sensorType)
+                {
+                    case (int)DEF_HOME_SENSOR:
+                        bStatus = m_RefComp.Yaskawa_Motion.ServoStatus[servoIndex].DetectHomeSensor;
+                        break;
+                    case (int)DEF_POSITIVE_SENSOR:
+                        bStatus = m_RefComp.Yaskawa_Motion.ServoStatus[servoIndex].DetectPlusSensor;
+                        break;
+                    case (int)DEF_NEGATIVE_SENSOR:
+                        bStatus = m_RefComp.Yaskawa_Motion.ServoStatus[servoIndex].DetectMinusSensor;
+                        break;
+                }
+            }
+            else
+            {
+                servoIndex = AdjustToACSIndex(servoIndex);
+                switch (sensorType)
+                {
+                    case (int)DEF_HOME_SENSOR:
+                        bStatus = m_RefComp.ACS_Motion.ServoStatus[servoIndex].DetectHomeSensor;
+                        break;
+                    case (int)DEF_POSITIVE_SENSOR:
+                        bStatus = m_RefComp.ACS_Motion.ServoStatus[servoIndex].DetectPlusSensor;
+                        break;
+                    case (int)DEF_NEGATIVE_SENSOR:
+                        bStatus = m_RefComp.ACS_Motion.ServoStatus[servoIndex].DetectMinusSensor;
+                        break;
+                }
+            }
+
+            return iResult;
+        }
+
         public int ServoOn(int servoIndex)
         {
             int iResult = SUCCESS;
@@ -1450,6 +1501,42 @@ namespace LWDicer.Layers
             {
                 servoNum = iUnitIndex - acsStartIndex;
                 bStatus = m_RefComp.ACS_Motion.IsOriginReturned(servoNum);
+            }
+
+            return iResult;
+        }
+
+        /// <summary>
+        /// for test
+        /// simulation 상황에서 원점 복귀 flag를 셋팅하기 위해서
+        /// </summary>
+        /// <param name="iUnitIndex"></param>
+        /// <param name="bStatus"></param>
+        /// <returns></returns>
+        public int SetOriginFlag(int iUnitIndex, bool bStatus = true)
+        {
+            int iResult = SUCCESS;
+
+            if (iUnitIndex < 0 || iUnitIndex > (int)EAxis.MAX)
+            {
+                return GenerateErrorCode(ERR_OPPANEL_INVALID_SERVO_UNIT_INDEX);
+            }
+
+            int servoNum = 0;
+
+            int acsStartIndex = (int)EAxis.STAGE1_X;
+#if EQUIP_266_DEV
+            int ymcEndIndex = (int)EAxis.SCANNER_Z1;
+#endif
+            if (iUnitIndex < acsStartIndex)
+            {
+                servoNum = iUnitIndex;
+                bStatus = m_RefComp.Yaskawa_Motion.ServoStatus[servoNum].IsOriginReturned = bStatus;
+            }
+            else
+            {
+                servoNum = iUnitIndex - acsStartIndex;
+                bStatus = m_RefComp.ACS_Motion.ServoStatus[servoNum].IsOriginReturned = bStatus;
             }
 
             return iResult;
@@ -1946,50 +2033,32 @@ namespace LWDicer.Layers
             return SUCCESS;
         }
 
-        public int GetMotorAmpFaultStatus(out bool bStatus)
+        public int GetMotorAmpFaultStatus(int iUnitIndex, out bool bStatus)
         {
-            int i = 0;
             int iResult = SUCCESS;
-            bool bFault = false;
+            bStatus = false;
 
-            bStatus = true;
+            if (iUnitIndex < 0 || iUnitIndex > (int)EAxis.MAX)
+            {
+                return GenerateErrorCode(ERR_OPPANEL_INVALID_SERVO_UNIT_INDEX);
+            }
 
-            //for (i = 0; i < m_JogTable.ListNo; i++)
-            //{
-            //    if (m_JogTable.MotionArray[i].m_XKey.m_plnkJog != null)
-            //        iResult = m_JogTable.MotionArray[i].m_XKey.m_plnkJog.GetAmpFault(m_JogTable.MotionArray[i].m_XKey.AxisIndex, out bFault);
-            //    if (bFault == true)
-            //    {
-            //        m_JogTable.MotionArray[i].m_XKey.m_plnkJog.ResetOrigin(m_JogTable.MotionArray[i].m_XKey.AxisIndex);
-            //        return GenerateErrorCode(ERR_OPPANEL_AMP_FAULT);
-            //    }
+            int servoNum = 0;
 
-            //    if (m_JogTable.MotionArray[i].m_YKey.m_plnkJog != null)
-            //        iResult = m_JogTable.MotionArray[i].m_YKey.m_plnkJog.GetAmpFault(m_JogTable.MotionArray[i].m_YKey.AxisIndex, out bFault);
-            //    if (bFault == true)
-            //    {
-            //        m_JogTable.MotionArray[i].m_YKey.m_plnkJog.ResetOrigin(m_JogTable.MotionArray[i].m_YKey.AxisIndex);
-            //        return GenerateErrorCode(ERR_OPPANEL_AMP_FAULT);
-            //    }
-
-            //    if (m_JogTable.MotionArray[i].m_TKey.m_plnkJog != null)
-            //        iResult = m_JogTable.MotionArray[i].m_TKey.m_plnkJog.GetAmpFault(m_JogTable.MotionArray[i].m_TKey.AxisIndex, out bFault);
-            //    if (bFault == true)
-            //    {
-            //        m_JogTable.MotionArray[i].m_TKey.m_plnkJog.ResetOrigin(m_JogTable.MotionArray[i].m_TKey.AxisIndex);
-            //        return GenerateErrorCode(ERR_OPPANEL_AMP_FAULT);
-            //    }
-
-            //    if (m_JogTable.MotionArray[i].m_ZKey.m_plnkJog != null)
-            //        iResult = m_JogTable.MotionArray[i].m_ZKey.m_plnkJog.GetAmpFault(m_JogTable.MotionArray[i].m_ZKey.AxisIndex, out bFault);
-            //    if (bFault == true)
-            //    {
-            //        m_JogTable.MotionArray[i].m_ZKey.m_plnkJog.ResetOrigin(m_JogTable.MotionArray[i].m_ZKey.AxisIndex);
-            //        return GenerateErrorCode(ERR_OPPANEL_AMP_FAULT);
-            //    }
-            //}
-
-            //*bStatus = false;
+            int acsStartIndex = (int)EAxis.STAGE1_X;
+#if EQUIP_266_DEV
+            int ymcEndIndex = (int)EAxis.SCANNER_Z1;
+#endif
+            if (iUnitIndex < acsStartIndex)
+            {
+                servoNum = iUnitIndex;
+                bStatus = m_RefComp.Yaskawa_Motion.ServoStatus[servoNum].IsServoOn;
+            }
+            else
+            {
+                servoNum = iUnitIndex - acsStartIndex;
+                bStatus = m_RefComp.ACS_Motion.ServoStatus[servoNum].IsDriverFault;
+            }
 
             return iResult;
         }

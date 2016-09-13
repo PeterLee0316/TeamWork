@@ -355,7 +355,8 @@ namespace LWDicer.UI
                     GridCont[i + 1, 4].Text = alarm.Info.Type.ToString();
                     GridCont[i + 1, 5].Text = alarm.OccurTime.ToString();
                     GridCont[i + 1, 6].Text = alarm.ResetTime.ToString();
-                    GridCont[i + 1, 7].Text = alarm.Info.Description[(int)CMainFrame.LWDicer.m_DataManager.SystemData.Language];
+                    //GridCont[i + 1, 7].Text = alarm.Info.Description[(int)CMainFrame.LWDicer.m_DataManager.SystemData.Language];
+                    GridCont[i + 1, 7].Text = alarm.Info.Description[(int)ELanguage.ENGLISH];
                     GridCont[i + 1, 8].Text = String.Format("{0}", alarm.ProcessID);
 
                     GridCont[i + 1, 0].VerticalAlignment = GridVerticalAlignment.Middle;
@@ -512,7 +513,8 @@ namespace LWDicer.UI
                         strBuf = strBuf + Convert.ToString(alarm.Info.Type) + " ,";
                         strBuf = strBuf + Convert.ToString(alarm.OccurTime) + " ,";
                         strBuf = strBuf + Convert.ToString(alarm.ResetTime) + " ,";
-                        strBuf = strBuf + Convert.ToString(alarm.Info.Description[(int)CMainFrame.LWDicer.m_DataManager.SystemData.Language]).Replace(",", ".") + " ,";
+                        //strBuf = strBuf + Convert.ToString(alarm.Info.Description[(int)CMainFrame.LWDicer.m_DataManager.SystemData.Language]).Replace(",", ".") + " ,";
+                        strBuf = strBuf + Convert.ToString(alarm.Info.Description[(int)ELanguage.ENGLISH]).Replace(",", ".") + " ,";
                         strBuf = strBuf + Convert.ToString(alarm.ProcessID) + " ,";
 
                         sw.WriteLine(strBuf);

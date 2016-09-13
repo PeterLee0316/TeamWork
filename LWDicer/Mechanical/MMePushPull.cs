@@ -298,9 +298,11 @@ namespace LWDicer.Layers
 
         public int IsAllAxisOrignReturned(out bool bStatus)
         {
+#if SIMULATION_TEST
             // for test
             bStatus = true;
             return SUCCESS;
+#endif
 
             bool[] bAxisStatus;
             int iResult = m_RefComp.AxPushPull.IsOriginReturned(DEF_ALL_COORDINATE, out bStatus, out bAxisStatus);
@@ -737,8 +739,10 @@ namespace LWDicer.Layers
                 return GenerateErrorCode(ERR_PUSHPULL_NOT_ORIGIN_RETURNED);
             }
 
+#if SIMULATION_TEST
             // for test
             return SUCCESS;
+#endif
 
             // check lock
             if (bCheckGripLock == true)

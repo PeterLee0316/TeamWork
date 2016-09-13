@@ -77,6 +77,15 @@ namespace LWDicer.Layers
 
             return SUCCESS;
         }
+
+        public override int Initialize()
+        {
+            int iResult;
+            bool bStatus, bStatus1;
+
+
+            return SUCCESS;
+        }
         #endregion
 
         #region Cylinder, Vacuum, Detect Object

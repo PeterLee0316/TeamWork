@@ -48,8 +48,8 @@ namespace LWDicer.UI
         {
             MsgInfo.Index = index;
             int iResult = CMainFrame.DataManager.LoadMessageInfo(index, out MsgInfo);
-            if (iResult != SUCCESS) BtnSave.Text = "Add New";
-            else BtnSave.Text = "Update";
+            if (iResult != SUCCESS) BtnSave.Text = "Add New Message";
+            else BtnSave.Text = "Update Message";
         }
 
 
@@ -61,11 +61,13 @@ namespace LWDicer.UI
                 MsgInfo.Message[(int)ELanguage.ENGLISH] = strMsg;
                 MsgInfo.Message[(int)MLWDicer.Language] = strMsg;
                 if(type != EMessageType.NONE) MsgInfo.Type = type;
-                BtnSave.Text = "Add New";
+                BtnSave.Text = "Add New Message";
+                BtnSave.Visible = true;
             } else
             {
                 if(type != EMessageType.NONE) MsgInfo.Type = type;
-                BtnSave.Text = "Save";
+                BtnSave.Text = "Update Message";
+                BtnSave.Visible = true;
             }
         }
 
@@ -75,7 +77,8 @@ namespace LWDicer.UI
             TextSystem.Text = MsgInfo.GetMessage(MLWDicer.Language);
             this.Text = $"Message : {MsgInfo.Index}";
 
-            if(MLWDicer.Language == ELanguage.ENGLISH)
+            Label_System.Text = $"[{MLWDicer.Language.ToString()}]";
+            if (MLWDicer.Language == ELanguage.ENGLISH)
             {
                 Label_System.Visible = false;
                 TextSystem.Visible = false;
@@ -103,7 +106,8 @@ namespace LWDicer.UI
        
         private void BtnConfirm_Click(object sender, EventArgs e)
         {
-            if(IsUpdated == true)
+            //if (BtnSave.Visible == true)
+            if (BtnSave.Text == "Add New Message")
             {
                 if (MessageBox.Show("Message is updated, but not updated. is it ok?", "Confirm", MessageBoxButtons.OKCancel) != DialogResult.OK)
                     return;
@@ -118,11 +122,13 @@ namespace LWDicer.UI
             MsgInfo.Message[(int)ELanguage.ENGLISH] = TextEng.Text;
             MsgInfo.Message[(int)MLWDicer.Language] = TextSystem.Text;
             CMainFrame.DataManager.UpdateMessageInfo(MsgInfo);
+            BtnSave.Text = "Update Message";
         }
 
         private void BtnCancel_Click(object sender, EventArgs e)
         {
-            if (IsUpdated == true)
+            //if (IsUpdated == true)
+            if (BtnSave.Text == "Add New Message")
             {
                 if (MessageBox.Show("Message is updated, but not updated. is it ok?", "Confirm", MessageBoxButtons.OKCancel) != DialogResult.OK)
                     return;
@@ -134,16 +140,17 @@ namespace LWDicer.UI
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-            if(TextEng.Text != MsgInfo.GetMessage() 
-                || TextSystem.Text != MsgInfo.GetMessage(MLWDicer.Language))
-            {
-                BtnSave.Visible = true;
-                IsUpdated = true;
-            } else
-            {
-                BtnSave.Visible = false;
-                IsUpdated = false;
-            }
+            //// Message를 제대로 load하지 못했을 경우에 display save button
+            //if(TextEng.Text != MsgInfo.Message[(int)ELanguage.ENGLISH] 
+            //    || TextSystem.Text != MsgInfo.Message[(int)MLWDicer.Language])
+            //{
+            //    BtnSave.Visible = true;
+            //    IsUpdated = true;
+            //} else
+            //{
+            //    BtnSave.Visible = false;
+            //    IsUpdated = false;
+            //}
         }
     }
 }

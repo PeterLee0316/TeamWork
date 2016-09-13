@@ -39,6 +39,8 @@ namespace LWDicer.UI
             TextAlarm_System.Text   = strAlarm_System;
             TextTrouble_System.Text = strTrouble_System;
 
+            LabelAlarm_System.Text = $"Alarm Text [{MLWDicer.Language.ToString()}]";
+            LabelTrouble_System.Text = $"Troubleshooting [{MLWDicer.Language.ToString()}]";
             if (MLWDicer.Language == ELanguage.ENGLISH)
             {
                 LabelAlarm_System.Visible = false;

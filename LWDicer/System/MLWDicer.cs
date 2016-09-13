@@ -225,6 +225,7 @@ namespace LWDicer.Layers
                 b = string.IsNullOrWhiteSpace(a3);
                 b = string.IsNullOrWhiteSpace(a4);
             }
+
         }
 
         public void TestFunction_AfterInit()
@@ -1645,8 +1646,8 @@ namespace LWDicer.Layers
             // Handler
             if (unit == EPositionGroup.ALL || unit == EPositionGroup.HANDLER)
             {
-                m_MeUpperHandler.SetHandlerPosition(FixedPos.LowerHandlerPos, ModelPos.LowerHandlerPos, OffsetPos.LowerHandlerPos);
-                m_MeLowerHandler.SetHandlerPosition(FixedPos.UpperHandlerPos, ModelPos.UpperHandlerPos, OffsetPos.UpperHandlerPos);
+                m_MeLowerHandler.SetHandlerPosition(FixedPos.LowerHandlerPos, ModelPos.LowerHandlerPos, OffsetPos.LowerHandlerPos);
+                m_MeUpperHandler.SetHandlerPosition(FixedPos.UpperHandlerPos, ModelPos.UpperHandlerPos, OffsetPos.UpperHandlerPos);
             }
 
             // Stage
@@ -1674,17 +1675,17 @@ namespace LWDicer.Layers
             refComp.AxElevator = m_AxLoader;            
 
             // IO 설정은 임시로 진행함.
-            data.InDetectWafer = iUHandler_PanelDetect;
-            data.InDetectCassette[CASSETTE_DETECT_SENSOR_1] = iInterface_00;
-            data.InDetectCassette[CASSETTE_DETECT_SENSOR_2] = iInterface_00;
-            data.InDetectCassette[CASSETTE_DETECT_SENSOR_3] = iInterface_00;
-            data.InDetectCassette[CASSETTE_DETECT_SENSOR_4] = iInterface_00;
+            data.InWaferDetected = iUHandler_PanelDetect;
+            data.InPushPullDetected = 1230;
+            data.InCassetteDetected[(int)ECassetteDetectedSensor.SENSOR1] = iInterface_00;
+            data.InCassetteDetected[(int)ECassetteDetectedSensor.SENSOR2] = iInterface_00;
+            data.InCassetteDetected[(int)ECassetteDetectedSensor.SENSOR3] = iInterface_00;
+            data.InCassetteDetected[(int)ECassetteDetectedSensor.SENSOR4] = iInterface_00;
 
             data.ElevatorZone.UseSafetyMove[DEF_Z] = true;
-            data.ElevatorZone.Axis[DEF_Z].ZoneAddr[(int)EHandlerZAxZone.SAFETY] = 111; // need updete io address
+            data.ElevatorZone.Axis[DEF_Z].ZoneAddr[(int)EHandlerZAxZone.SAFETY] = 1234; // need updete io address
 
             m_MeElevator = new MMeElevator(objInfo, refComp, data);
-
         }
 
         void CreateMeUHandler(CObjectInfo objInfo)
@@ -1755,8 +1756,8 @@ namespace LWDicer.Layers
             data.InDetectObject_Front = iUHandler_PanelDetect;
             data.InDetectObject_Rear = iUHandler_PanelDetect;
 
-            data.CenterZone[(int)ECenterIndex.LEFT].Axis[DEF_X].ZoneAddr[(int)ECenterXAxZone.SAFETY] = 111; // need updete io address
-            data.CenterZone[(int)ECenterIndex.RIGHT].Axis[DEF_X].ZoneAddr[(int)ECenterXAxZone.SAFETY] = 111; // need updete io address
+            data.CenterZone[(int)ECenterIndex.LEFT].Axis[DEF_X].ZoneAddr[(int)ECenterXAxZone.SAFETY] = 1234; // need updete io address
+            data.CenterZone[(int)ECenterIndex.RIGHT].Axis[DEF_X].ZoneAddr[(int)ECenterXAxZone.SAFETY] = 1234; // need updete io address
 
             m_MePushPull = new MMePushPull(objInfo, refComp, data);
         }
@@ -1778,12 +1779,20 @@ namespace LWDicer.Layers
                 iJog_X_Forward_SWFront, iJog_X_Backward_SWFront, iJog_Y_Forward_SWFront, iJog_Y_Backward_SWFront,
                 iJog_T_CW_SWFront, iJog_T_CCW_SWFront, iJog_Z_UP_SWFront, iJog_Z_DOWN_SWFront,
                 0);
+            sPanelIOAddr.BackPanel = new CPanelIOAddr(iStart_SWRear, iStop_SWRear, iReset_SWRear,
+                oStart_LampRear, oStop_LampRear, oReset_LampRear,
+                iJog_X_Forward_SWRear, iJog_X_Forward_SWRear, iJog_Y_Forward_SWRear, iJog_Y_Forward_SWRear,
+                iJog_T_CW_SWRear, iJog_T_CCW_SWRear, iJog_Z_UP_SWRear, iJog_Z_DOWN_SWRear,
+                0);
             sPanelIOAddr.EStopAddr[0] = iEMO_SW;
             sPanelIOAddr.EStopAddr[1] = iEMO_SWRear;
 
             sPanelIOAddr.MainAirAddr = iMain_Air_On;
             //sPanelIOAddr.MainN2Addr = iMain_N
             sPanelIOAddr.MainVacuumAddr = iMain_Vac1_On;
+
+            sPanelIOAddr.TowerLamp = new CTowerIOAddr(oTower_LampRed, oTower_LampYellow, oTower_LampGreen,
+                oBuzzer_1, oBuzzer_2, oBuzzer_3, oBuzzer_4);
 
             CJogTable sJogTable = new CJogTable();
 
@@ -1805,7 +1814,7 @@ namespace LWDicer.Layers
             data.InDetectObject = iUHandler_PanelDetect;
 
             data.StageZone.UseSafetyMove[DEF_Z] = true;
-            data.StageZone.Axis[DEF_Z].ZoneAddr[(int)EHandlerZAxZone.SAFETY] = 111; // need updete io address
+            data.StageZone.Axis[DEF_Z].ZoneAddr[(int)EHandlerZAxZone.SAFETY] = 1234; // need updete io address
 
             m_MeStage = new MMeStage(objInfo, refComp, data);
         }
@@ -1829,10 +1838,10 @@ namespace LWDicer.Layers
 
             data.InDetectObject = iStage2_PanelDetect;
             data.OutRingBlow = oSpinner1_Ring_Blow;
-            data.InRotateLoadPos = 111; // need updete io address
+            data.InRotateLoadPos = 1234; // need updete io address
 
-            data.CleanNozzleZoneCheck.Axis[DEF_T].ZoneAddr[(int)ENozzleAxZone.SAFETY] = 111; // need updete io address
-            data.CoatNozzleZoneCheck.Axis[DEF_T].ZoneAddr[(int)ENozzleAxZone.SAFETY] = 111; // need updete io address
+            data.CleanNozzleZoneCheck.Axis[DEF_T].ZoneAddr[(int)ENozzleAxZone.SAFETY] = 1234; // need updete io address
+            data.CoatNozzleZoneCheck.Axis[DEF_T].ZoneAddr[(int)ENozzleAxZone.SAFETY] = 1234; // need updete io address
 
             m_MeSpinner1 = new MMeSpinner(objInfo, refComp, data);
         }
@@ -1856,10 +1865,10 @@ namespace LWDicer.Layers
 
             data.InDetectObject = iStage3_PanelDetect;
             data.OutRingBlow = oSpinner2_Ring_Blow;
-            data.InRotateLoadPos = 111; // need updete io address
+            data.InRotateLoadPos = 1234; // need updete io address
 
-            data.CleanNozzleZoneCheck.Axis[DEF_T].ZoneAddr[(int)ENozzleAxZone.SAFETY] = 111; // need updete io address
-            data.CoatNozzleZoneCheck.Axis[DEF_T].ZoneAddr[(int)ENozzleAxZone.SAFETY] = 111; // need updete io address
+            data.CleanNozzleZoneCheck.Axis[DEF_T].ZoneAddr[(int)ENozzleAxZone.SAFETY] = 1234; // need updete io address
+            data.CoatNozzleZoneCheck.Axis[DEF_T].ZoneAddr[(int)ENozzleAxZone.SAFETY] = 1234; // need updete io address
 
             m_MeSpinner2 = new MMeSpinner(objInfo, refComp, data);
         }
@@ -1885,5 +1894,31 @@ namespace LWDicer.Layers
             }
             return true;
         }
+
+        public bool CheckAxisSensorLimit(int servoIndex)
+        {
+            // 2010.10.26 by ranian
+            // 간단하게나마 원점 복귀시에 +,-, Home 센서가 둘다 들어와있는지 체크해서 sensorlevel 검증
+            bool bSts_Negative, bSts_Positive, bSts_Home;
+            m_OpPanel.GetAxisSensorStatus(servoIndex, DEF_HOME_SENSOR, out bSts_Home);
+            m_OpPanel.GetAxisSensorStatus(servoIndex, DEF_POSITIVE_SENSOR, out bSts_Positive);
+            m_OpPanel.GetAxisSensorStatus(servoIndex, DEF_NEGATIVE_SENSOR, out bSts_Negative);
+
+            int nSum = 0;
+            if (bSts_Home == true) nSum++;
+            if (bSts_Positive == true) nSum++;
+            if (bSts_Negative == true) nSum++;
+
+            if (nSum >= 2) return false;
+
+            return true;
+        }
+
+        public bool CheckSystemConfig_ForRun(out string strErr)
+        {
+            strErr = "";
+            return true;
+        }
+
     }
 }

@@ -215,30 +215,36 @@ namespace LWDicer.Layers
             }
 
             // 6. AMP Fault 상태 확인 
-            iResult = GetMotorAmpFaultStatus(out bStatus);
-            if (iResult != SUCCESS) return iResult;
-            if (bStatus == true)
-                return GenerateErrorCode(ERR_MNGOPPANEL_AMP_FAULT);
+            //iResult = GetMotorAmpFaultStatus(out bStatus);
+            //if (iResult != SUCCESS) return iResult;
+            //if (bStatus == true)
+            //    return GenerateErrorCode(ERR_MNGOPPANEL_AMP_FAULT);
 
             // 7. Air 확인 
             iResult = m_RefComp.OpPanel.GetAirErrorStatus(out bStatus);
             if (iResult != SUCCESS) return iResult;
+#if !SIMULATION_TEST
             if (bStatus == true)
                 return GenerateErrorCode(ERR_MNGOPPANEL_MAIN_AIR_ERROR);
+#endif
 
             // 8. Vacuum 확인 
             iResult = m_RefComp.OpPanel.GetVacuumErrorStatus(out bStatus);
             if (iResult != SUCCESS) return iResult;
+#if !SIMULATION_TEST
             if (bStatus == true)
                 return GenerateErrorCode(ERR_MNGOPPANEL_MAIN_VACCUM_ERROR);
+#endif
 
             // 9. EFD 확인 
 
             // 10. DC POWER 확인 
             iResult = m_RefComp.OpPanel.GetDcPWErrorStatus(out bStatus);
             if (iResult != SUCCESS) return iResult;
+#if !SIMULATION_TEST
             if (bStatus == true)
                 return GenerateErrorCode(ERR_MNGOPPANEL_DC_POWER_ON_ERROR);
+#endif
 
 #if DEF_NEW_CLEAN_SYSTEM
             // 9. N2 확인 
@@ -325,10 +331,10 @@ namespace LWDicer.Layers
 #endif
 
             // 6. AMP Fault 상태 확인 
-            iResult = GetMotorAmpFaultStatus(out bStatus);
-            if (iResult != SUCCESS) return iResult;
-            if (bStatus == true)
-                return GenerateErrorCode(ERR_MNGOPPANEL_AMP_FAULT);
+            //iResult = GetMotorAmpFaultStatus(out bStatus);
+            //if (iResult != SUCCESS) return iResult;
+            //if (bStatus == true)
+            //    return GenerateErrorCode(ERR_MNGOPPANEL_AMP_FAULT);
 
             // 7. Air 확인 
             iResult = m_RefComp.OpPanel.GetAirErrorStatus(out bStatus);
@@ -463,9 +469,9 @@ namespace LWDicer.Layers
         /// </summary>
         /// <param name="bStatus">Motor AMP Fault의 상태 (true : Fault, false : Normal)</param>
         /// <returns></returns>
-        public int GetMotorAmpFaultStatus(out bool bStatus)
+        public int GetMotorAmpFaultStatus(int servoIndex, out bool bStatus)
         {
-            return m_RefComp.OpPanel.GetMotorAmpFaultStatus(out bStatus);
+            return m_RefComp.OpPanel.GetMotorAmpFaultStatus(servoIndex, out bStatus);
         }
 
         /// <summary>

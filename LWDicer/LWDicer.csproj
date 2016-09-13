@@ -38,7 +38,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;WIN32, SIMULATION_VISION, SIMULATION_MOTION_ACS, EQUIP_DICING_DEV, SIMULATION_IO</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;WIN32, SIMULATION_VISION, SIMULATION_MOTION_ACS, EQUIP_DICING_DEV, SIMULATION_TEST</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>2</WarningLevel>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
@@ -533,12 +533,6 @@
     <Compile Include="UI\SubTeachForm\FormSpinner1Teach.Designer.cs">
       <DependentUpon>FormSpinner1Teach.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\SubTeachForm\FormSpinner2Teach.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="UI\SubTeachForm\FormSpinner2Teach.Designer.cs">
-      <DependentUpon>FormSpinner2Teach.cs</DependentUpon>
-    </Compile>
     <Compile Include="UI\SubTeachForm\FormThetaAlignTeach.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -750,9 +744,6 @@
     <EmbeddedResource Include="UI\SubTeachForm\FormSpinner1Teach.resx">
       <DependentUpon>FormSpinner1Teach.cs</DependentUpon>
       <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="UI\SubTeachForm\FormSpinner2Teach.resx">
-      <DependentUpon>FormSpinner2Teach.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\SubTeachForm\FormThetaAlignTeach.resx">
       <DependentUpon>FormThetaAlignTeach.cs</DependentUpon>

@@ -105,6 +105,12 @@ namespace LWDicer.Layers
 
             return SUCCESS;
         }
+
+        public override int Initialize()
+        {
+            return SUCCESS;
+        }
+
         #endregion
 
         #region Cylinder, Vacuum, Detect Object
@@ -199,7 +205,7 @@ namespace LWDicer.Layers
             return m_RefComp.Stage.ClampOpen();
         }
 
-        public int ClampClsoe()
+        public int ClampClose()
         {
             return m_RefComp.Stage.ClampClose();
         }

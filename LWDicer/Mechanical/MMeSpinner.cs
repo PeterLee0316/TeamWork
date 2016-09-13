@@ -396,8 +396,8 @@ namespace LWDicer.Layers
 
         public int IsChuckTableDown(out bool bStatus)
         {
-            int iResult = m_RefComp.ChuckTableUDCyl.IsUp(out bStatus);
-            if (bStatus == false) return SUCCESS;
+            int iResult = m_RefComp.ChuckTableUDCyl.IsDown(out bStatus);
+            if (iResult != SUCCESS) return iResult;
 
             return SUCCESS;
         }
@@ -529,7 +529,7 @@ namespace LWDicer.Layers
 
         public int CheckForChuckCylMoving()
         {
-            bool bStatus;
+            bool bStatus, bStatus1;
 
             // check origin
             //int iResult = IsAllAxisOrignReturned(out bStatus);
@@ -544,13 +544,15 @@ namespace LWDicer.Layers
             if (iResult != SUCCESS) return iResult;
             if (bStatus)
             {
-                iResult = Absorb();
+                iResult = IsAbsorbed(out bStatus1);
                 if (iResult != SUCCESS) return iResult;
+                if (bStatus1 == false) return GenerateErrorCode(ERR_SPINNER_OBJECT_DETECTED_BUT_NOT_ABSORBED);
             }
             else
             {
-                iResult = Release();
+                iResult = IsReleased(out bStatus1);
                 if (iResult != SUCCESS) return iResult;
+                if (bStatus1 == false) return GenerateErrorCode(ERR_SPINNER_OBJECT_NOT_DETECTED_BUT_NOT_RELEASED);
             }
 
             // check nozzle
@@ -582,7 +584,9 @@ namespace LWDicer.Layers
             if (iResult != SUCCESS) return iResult;
             if(bStatus == false)
             {
+#if !SIMULATION_TEST
                 return GenerateErrorCode(ERR_SPINNER_CHUCKTABLE_NOT_DOWN);
+#endif
             }
 
             // check vacuum
@@ -900,6 +904,10 @@ namespace LWDicer.Layers
 
         public int CheckCleanNozzleInSafetyZone(out bool bStatus)
         {
+#if SIMULATION_TEST
+            bStatus = true;
+            return SUCCESS;
+#endif
             int iResult = m_RefComp.IO.IsOn(m_Data.CleanNozzleZoneCheck.Axis[DEF_T].ZoneAddr[(int)ENozzleAxZone.SAFETY], out bStatus);
             if (iResult != SUCCESS) return iResult;
 
@@ -908,6 +916,10 @@ namespace LWDicer.Layers
 
         public int CheckCoatNozzleInSafetyZone(out bool bStatus)
         {
+#if SIMULATION_TEST
+            bStatus = true;
+            return SUCCESS;
+#endif
             int iResult = m_RefComp.IO.IsOn(m_Data.CoatNozzleZoneCheck.Axis[DEF_T].ZoneAddr[(int)ENozzleAxZone.SAFETY], out bStatus);
             if (iResult != SUCCESS) return iResult;
 

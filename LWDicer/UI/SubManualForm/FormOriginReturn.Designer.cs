@@ -67,6 +67,8 @@
             this.groupBox6 = new System.Windows.Forms.GroupBox();
             this.groupBox7 = new System.Windows.Forms.GroupBox();
             this.groupBox8 = new System.Windows.Forms.GroupBox();
+            this.buttonAdv1 = new Syncfusion.Windows.Forms.ButtonAdv();
+            this.buttonAdv2 = new Syncfusion.Windows.Forms.ButtonAdv();
             this.SuspendLayout();
             // 
             // BtnAxis1
@@ -75,7 +77,7 @@
             this.BtnAxis1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
             this.BtnAxis1.Location = new System.Drawing.Point(22, 75);
             this.BtnAxis1.Name = "BtnAxis1";
-            this.BtnAxis1.Size = new System.Drawing.Size(120, 78);
+            this.BtnAxis1.Size = new System.Drawing.Size(144, 89);
             this.BtnAxis1.TabIndex = 0;
             this.BtnAxis1.Tag = "0";
             this.BtnAxis1.Text = "Loader Z";
@@ -86,9 +88,9 @@
             // 
             this.BtnAxis2.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.BtnAxis2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.BtnAxis2.Location = new System.Drawing.Point(182, 75);
+            this.BtnAxis2.Location = new System.Drawing.Point(196, 75);
             this.BtnAxis2.Name = "BtnAxis2";
-            this.BtnAxis2.Size = new System.Drawing.Size(120, 78);
+            this.BtnAxis2.Size = new System.Drawing.Size(144, 89);
             this.BtnAxis2.TabIndex = 1;
             this.BtnAxis2.Tag = "1";
             this.BtnAxis2.Text = "PushPull Y";
@@ -99,9 +101,9 @@
             // 
             this.BtnAxis3.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.BtnAxis3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.BtnAxis3.Location = new System.Drawing.Point(182, 156);
+            this.BtnAxis3.Location = new System.Drawing.Point(196, 168);
             this.BtnAxis3.Name = "BtnAxis3";
-            this.BtnAxis3.Size = new System.Drawing.Size(120, 78);
+            this.BtnAxis3.Size = new System.Drawing.Size(144, 89);
             this.BtnAxis3.TabIndex = 2;
             this.BtnAxis3.Tag = "2";
             this.BtnAxis3.Text = "PushPull Centering X1";
@@ -112,9 +114,9 @@
             // 
             this.BtnAxis4.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.BtnAxis4.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.BtnAxis4.Location = new System.Drawing.Point(182, 237);
+            this.BtnAxis4.Location = new System.Drawing.Point(196, 261);
             this.BtnAxis4.Name = "BtnAxis4";
-            this.BtnAxis4.Size = new System.Drawing.Size(120, 78);
+            this.BtnAxis4.Size = new System.Drawing.Size(144, 89);
             this.BtnAxis4.TabIndex = 3;
             this.BtnAxis4.Tag = "3";
             this.BtnAxis4.Text = "PushPull Centering X2";
@@ -125,9 +127,9 @@
             // 
             this.BtnAxis5.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.BtnAxis5.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.BtnAxis5.Location = new System.Drawing.Point(346, 75);
+            this.BtnAxis5.Location = new System.Drawing.Point(369, 75);
             this.BtnAxis5.Name = "BtnAxis5";
-            this.BtnAxis5.Size = new System.Drawing.Size(120, 78);
+            this.BtnAxis5.Size = new System.Drawing.Size(144, 89);
             this.BtnAxis5.TabIndex = 4;
             this.BtnAxis5.Tag = "4";
             this.BtnAxis5.Text = "Spinner1 Rotate T";
@@ -138,9 +140,9 @@
             // 
             this.BtnAxis6.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.BtnAxis6.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.BtnAxis6.Location = new System.Drawing.Point(346, 156);
+            this.BtnAxis6.Location = new System.Drawing.Point(369, 168);
             this.BtnAxis6.Name = "BtnAxis6";
-            this.BtnAxis6.Size = new System.Drawing.Size(120, 78);
+            this.BtnAxis6.Size = new System.Drawing.Size(144, 89);
             this.BtnAxis6.TabIndex = 5;
             this.BtnAxis6.Tag = "5";
             this.BtnAxis6.Text = "Spinner1 Clean Nozzle";
@@ -151,9 +153,9 @@
             // 
             this.BtnAxis7.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.BtnAxis7.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.BtnAxis7.Location = new System.Drawing.Point(346, 237);
+            this.BtnAxis7.Location = new System.Drawing.Point(369, 261);
             this.BtnAxis7.Name = "BtnAxis7";
-            this.BtnAxis7.Size = new System.Drawing.Size(120, 78);
+            this.BtnAxis7.Size = new System.Drawing.Size(144, 89);
             this.BtnAxis7.TabIndex = 6;
             this.BtnAxis7.Tag = "6";
             this.BtnAxis7.Text = "Spinner1  Coat Nozzle";
@@ -164,9 +166,9 @@
             // 
             this.BtnAxis10.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.BtnAxis10.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.BtnAxis10.Location = new System.Drawing.Point(510, 237);
+            this.BtnAxis10.Location = new System.Drawing.Point(544, 261);
             this.BtnAxis10.Name = "BtnAxis10";
-            this.BtnAxis10.Size = new System.Drawing.Size(120, 78);
+            this.BtnAxis10.Size = new System.Drawing.Size(144, 89);
             this.BtnAxis10.TabIndex = 9;
             this.BtnAxis10.Tag = "9";
             this.BtnAxis10.Text = "Spinner2  Coat Nozzle";
@@ -177,9 +179,9 @@
             // 
             this.BtnAxis9.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.BtnAxis9.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.BtnAxis9.Location = new System.Drawing.Point(510, 156);
+            this.BtnAxis9.Location = new System.Drawing.Point(544, 168);
             this.BtnAxis9.Name = "BtnAxis9";
-            this.BtnAxis9.Size = new System.Drawing.Size(120, 78);
+            this.BtnAxis9.Size = new System.Drawing.Size(144, 89);
             this.BtnAxis9.TabIndex = 8;
             this.BtnAxis9.Tag = "8";
             this.BtnAxis9.Text = "Spinner2 Clean Nozzle";
@@ -190,9 +192,9 @@
             // 
             this.BtnAxis8.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.BtnAxis8.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.BtnAxis8.Location = new System.Drawing.Point(510, 75);
+            this.BtnAxis8.Location = new System.Drawing.Point(544, 75);
             this.BtnAxis8.Name = "BtnAxis8";
-            this.BtnAxis8.Size = new System.Drawing.Size(120, 78);
+            this.BtnAxis8.Size = new System.Drawing.Size(144, 89);
             this.BtnAxis8.TabIndex = 7;
             this.BtnAxis8.Tag = "7";
             this.BtnAxis8.Text = "Spinner2 Rotate T";
@@ -203,9 +205,9 @@
             // 
             this.BtnAxis12.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.BtnAxis12.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.BtnAxis12.Location = new System.Drawing.Point(22, 431);
+            this.BtnAxis12.Location = new System.Drawing.Point(22, 479);
             this.BtnAxis12.Name = "BtnAxis12";
-            this.BtnAxis12.Size = new System.Drawing.Size(120, 78);
+            this.BtnAxis12.Size = new System.Drawing.Size(144, 89);
             this.BtnAxis12.TabIndex = 11;
             this.BtnAxis12.Tag = "11";
             this.BtnAxis12.Text = "Upper Handler Z";
@@ -216,9 +218,9 @@
             // 
             this.BtnAxis11.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.BtnAxis11.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.BtnAxis11.Location = new System.Drawing.Point(22, 350);
+            this.BtnAxis11.Location = new System.Drawing.Point(22, 387);
             this.BtnAxis11.Name = "BtnAxis11";
-            this.BtnAxis11.Size = new System.Drawing.Size(120, 78);
+            this.BtnAxis11.Size = new System.Drawing.Size(144, 89);
             this.BtnAxis11.TabIndex = 10;
             this.BtnAxis11.Tag = "10";
             this.BtnAxis11.Text = "Upper Handler X";
@@ -229,9 +231,9 @@
             // 
             this.BtnAxis14.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.BtnAxis14.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.BtnAxis14.Location = new System.Drawing.Point(182, 431);
+            this.BtnAxis14.Location = new System.Drawing.Point(196, 479);
             this.BtnAxis14.Name = "BtnAxis14";
-            this.BtnAxis14.Size = new System.Drawing.Size(120, 78);
+            this.BtnAxis14.Size = new System.Drawing.Size(144, 89);
             this.BtnAxis14.TabIndex = 13;
             this.BtnAxis14.Tag = "13";
             this.BtnAxis14.Text = "Lower Handler Z";
@@ -242,9 +244,9 @@
             // 
             this.BtnAxis13.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.BtnAxis13.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.BtnAxis13.Location = new System.Drawing.Point(182, 350);
+            this.BtnAxis13.Location = new System.Drawing.Point(196, 387);
             this.BtnAxis13.Name = "BtnAxis13";
-            this.BtnAxis13.Size = new System.Drawing.Size(120, 78);
+            this.BtnAxis13.Size = new System.Drawing.Size(144, 89);
             this.BtnAxis13.TabIndex = 12;
             this.BtnAxis13.Tag = "12";
             this.BtnAxis13.Text = "Lower Handler X";
@@ -255,9 +257,9 @@
             // 
             this.BtnAxis15.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.BtnAxis15.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.BtnAxis15.Location = new System.Drawing.Point(346, 512);
+            this.BtnAxis15.Location = new System.Drawing.Point(369, 571);
             this.BtnAxis15.Name = "BtnAxis15";
-            this.BtnAxis15.Size = new System.Drawing.Size(120, 78);
+            this.BtnAxis15.Size = new System.Drawing.Size(144, 89);
             this.BtnAxis15.TabIndex = 14;
             this.BtnAxis15.Tag = "16";
             this.BtnAxis15.Text = "Camera Z";
@@ -268,9 +270,9 @@
             // 
             this.BtnAxis16.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.BtnAxis16.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.BtnAxis16.Location = new System.Drawing.Point(346, 350);
+            this.BtnAxis16.Location = new System.Drawing.Point(369, 387);
             this.BtnAxis16.Name = "BtnAxis16";
-            this.BtnAxis16.Size = new System.Drawing.Size(120, 78);
+            this.BtnAxis16.Size = new System.Drawing.Size(144, 89);
             this.BtnAxis16.TabIndex = 15;
             this.BtnAxis16.Tag = "14";
             this.BtnAxis16.Text = "Scanner Z1";
@@ -281,9 +283,9 @@
             // 
             this.BtnAxis17.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.BtnAxis17.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.BtnAxis17.Location = new System.Drawing.Point(513, 431);
+            this.BtnAxis17.Location = new System.Drawing.Point(544, 479);
             this.BtnAxis17.Name = "BtnAxis17";
-            this.BtnAxis17.Size = new System.Drawing.Size(120, 78);
+            this.BtnAxis17.Size = new System.Drawing.Size(144, 89);
             this.BtnAxis17.TabIndex = 16;
             this.BtnAxis17.Tag = "18";
             this.BtnAxis17.Text = "Stage Y";
@@ -294,9 +296,9 @@
             // 
             this.BtnAxis18.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.BtnAxis18.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.BtnAxis18.Location = new System.Drawing.Point(513, 350);
+            this.BtnAxis18.Location = new System.Drawing.Point(544, 387);
             this.BtnAxis18.Name = "BtnAxis18";
-            this.BtnAxis18.Size = new System.Drawing.Size(120, 78);
+            this.BtnAxis18.Size = new System.Drawing.Size(144, 89);
             this.BtnAxis18.TabIndex = 17;
             this.BtnAxis18.Tag = "20";
             this.BtnAxis18.Text = "Stage X";
@@ -307,9 +309,9 @@
             // 
             this.BtnAxis19.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.BtnAxis19.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.BtnAxis19.Location = new System.Drawing.Point(513, 512);
+            this.BtnAxis19.Location = new System.Drawing.Point(544, 571);
             this.BtnAxis19.Name = "BtnAxis19";
-            this.BtnAxis19.Size = new System.Drawing.Size(120, 78);
+            this.BtnAxis19.Size = new System.Drawing.Size(144, 89);
             this.BtnAxis19.TabIndex = 18;
             this.BtnAxis19.Tag = "21";
             this.BtnAxis19.Text = "Stage T";
@@ -322,7 +324,7 @@
             this.BtnExit.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
             this.BtnExit.Image = ((System.Drawing.Image)(resources.GetObject("BtnExit.Image")));
             this.BtnExit.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.BtnExit.Location = new System.Drawing.Point(498, 695);
+            this.BtnExit.Location = new System.Drawing.Point(501, 771);
             this.BtnExit.Name = "BtnExit";
             this.BtnExit.Size = new System.Drawing.Size(126, 67);
             this.BtnExit.TabIndex = 747;
@@ -335,7 +337,7 @@
             // 
             this.BtnCancelAll.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.BtnCancelAll.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.BtnCancelAll.Location = new System.Drawing.Point(137, 614);
+            this.BtnCancelAll.Location = new System.Drawing.Point(140, 690);
             this.BtnCancelAll.Name = "BtnCancelAll";
             this.BtnCancelAll.Size = new System.Drawing.Size(115, 63);
             this.BtnCancelAll.TabIndex = 748;
@@ -346,7 +348,7 @@
             // 
             this.BtnSelectAll.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.BtnSelectAll.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.BtnSelectAll.Location = new System.Drawing.Point(12, 614);
+            this.BtnSelectAll.Location = new System.Drawing.Point(15, 690);
             this.BtnSelectAll.Name = "BtnSelectAll";
             this.BtnSelectAll.Size = new System.Drawing.Size(115, 63);
             this.BtnSelectAll.TabIndex = 749;
@@ -357,7 +359,7 @@
             // 
             this.BtnOriginReturn.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.BtnOriginReturn.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.BtnOriginReturn.Location = new System.Drawing.Point(262, 614);
+            this.BtnOriginReturn.Location = new System.Drawing.Point(265, 690);
             this.BtnOriginReturn.Name = "BtnOriginReturn";
             this.BtnOriginReturn.Size = new System.Drawing.Size(115, 63);
             this.BtnOriginReturn.TabIndex = 750;
@@ -368,7 +370,7 @@
             // 
             this.BtnServoOn.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.BtnServoOn.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.BtnServoOn.Location = new System.Drawing.Point(387, 614);
+            this.BtnServoOn.Location = new System.Drawing.Point(390, 690);
             this.BtnServoOn.Name = "BtnServoOn";
             this.BtnServoOn.Size = new System.Drawing.Size(115, 63);
             this.BtnServoOn.TabIndex = 751;
@@ -379,7 +381,7 @@
             // 
             this.BtnServoOff.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.BtnServoOff.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.BtnServoOff.Location = new System.Drawing.Point(512, 614);
+            this.BtnServoOff.Location = new System.Drawing.Point(515, 690);
             this.BtnServoOff.Name = "BtnServoOff";
             this.BtnServoOff.Size = new System.Drawing.Size(115, 63);
             this.BtnServoOff.TabIndex = 752;
@@ -406,7 +408,7 @@
             this.LabelProgress.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.LabelProgress.Location = new System.Drawing.Point(12, 9);
             this.LabelProgress.Name = "LabelProgress";
-            this.LabelProgress.Size = new System.Drawing.Size(628, 45);
+            this.LabelProgress.Size = new System.Drawing.Size(685, 45);
             this.LabelProgress.TabIndex = 753;
             this.LabelProgress.Text = "Progress : ";
             this.LabelProgress.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -415,9 +417,9 @@
             // 
             this.BtnAxis20.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.BtnAxis20.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.BtnAxis20.Location = new System.Drawing.Point(346, 431);
+            this.BtnAxis20.Location = new System.Drawing.Point(369, 479);
             this.BtnAxis20.Name = "BtnAxis20";
-            this.BtnAxis20.Size = new System.Drawing.Size(120, 78);
+            this.BtnAxis20.Size = new System.Drawing.Size(144, 89);
             this.BtnAxis20.TabIndex = 754;
             this.BtnAxis20.Tag = "15";
             this.BtnAxis20.Text = "Scanner Z2";
@@ -428,79 +430,103 @@
             // 
             this.groupBox1.Location = new System.Drawing.Point(12, 59);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(140, 266);
+            this.groupBox1.Size = new System.Drawing.Size(163, 298);
             this.groupBox1.TabIndex = 755;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Loader";
             // 
             // groupBox2
             // 
-            this.groupBox2.Location = new System.Drawing.Point(172, 59);
+            this.groupBox2.Location = new System.Drawing.Point(186, 59);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(140, 266);
+            this.groupBox2.Size = new System.Drawing.Size(163, 298);
             this.groupBox2.TabIndex = 756;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "PushPull";
             // 
             // groupBox3
             // 
-            this.groupBox3.Location = new System.Drawing.Point(336, 59);
+            this.groupBox3.Location = new System.Drawing.Point(360, 59);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(140, 266);
+            this.groupBox3.Size = new System.Drawing.Size(163, 298);
             this.groupBox3.TabIndex = 756;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Spinner1";
             // 
             // groupBox4
             // 
-            this.groupBox4.Location = new System.Drawing.Point(500, 59);
+            this.groupBox4.Location = new System.Drawing.Point(534, 59);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(140, 266);
+            this.groupBox4.Size = new System.Drawing.Size(163, 298);
             this.groupBox4.TabIndex = 757;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Spinner2";
             // 
             // groupBox5
             // 
-            this.groupBox5.Location = new System.Drawing.Point(12, 333);
+            this.groupBox5.Location = new System.Drawing.Point(12, 370);
             this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(140, 266);
+            this.groupBox5.Size = new System.Drawing.Size(163, 298);
             this.groupBox5.TabIndex = 757;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "Upper Handler";
             // 
             // groupBox6
             // 
-            this.groupBox6.Location = new System.Drawing.Point(172, 333);
+            this.groupBox6.Location = new System.Drawing.Point(186, 370);
             this.groupBox6.Name = "groupBox6";
-            this.groupBox6.Size = new System.Drawing.Size(140, 266);
+            this.groupBox6.Size = new System.Drawing.Size(163, 298);
             this.groupBox6.TabIndex = 758;
             this.groupBox6.TabStop = false;
             this.groupBox6.Text = "Lower Handler";
             // 
             // groupBox7
             // 
-            this.groupBox7.Location = new System.Drawing.Point(336, 333);
+            this.groupBox7.Location = new System.Drawing.Point(360, 370);
             this.groupBox7.Name = "groupBox7";
-            this.groupBox7.Size = new System.Drawing.Size(140, 266);
+            this.groupBox7.Size = new System.Drawing.Size(163, 298);
             this.groupBox7.TabIndex = 758;
             this.groupBox7.TabStop = false;
             this.groupBox7.Text = "Scanner";
             // 
             // groupBox8
             // 
-            this.groupBox8.Location = new System.Drawing.Point(500, 333);
+            this.groupBox8.Location = new System.Drawing.Point(534, 370);
             this.groupBox8.Name = "groupBox8";
-            this.groupBox8.Size = new System.Drawing.Size(140, 266);
+            this.groupBox8.Size = new System.Drawing.Size(163, 298);
             this.groupBox8.TabIndex = 759;
             this.groupBox8.TabStop = false;
             this.groupBox8.Text = "Stage";
+            // 
+            // buttonAdv1
+            // 
+            this.buttonAdv1.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.buttonAdv1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.buttonAdv1.Location = new System.Drawing.Point(15, 774);
+            this.buttonAdv1.Name = "buttonAdv1";
+            this.buttonAdv1.Size = new System.Drawing.Size(140, 63);
+            this.buttonAdv1.TabIndex = 760;
+            this.buttonAdv1.Text = "Origin Return On ( for Test Func. Axis Not Move)";
+            this.buttonAdv1.Click += new System.EventHandler(this.buttonAdv1_Click);
+            // 
+            // buttonAdv2
+            // 
+            this.buttonAdv2.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.buttonAdv2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.buttonAdv2.Location = new System.Drawing.Point(175, 775);
+            this.buttonAdv2.Name = "buttonAdv2";
+            this.buttonAdv2.Size = new System.Drawing.Size(140, 63);
+            this.buttonAdv2.TabIndex = 761;
+            this.buttonAdv2.Text = "Origin Return Off ( for Test Func. Axis Not Move)";
+            this.buttonAdv2.Click += new System.EventHandler(this.buttonAdv2_Click);
             // 
             // FormOriginReturn
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(650, 773);
+            this.ClientSize = new System.Drawing.Size(707, 852);
+            this.Controls.Add(this.buttonAdv2);
+            this.Controls.Add(this.buttonAdv1);
             this.Controls.Add(this.BtnAxis20);
             this.Controls.Add(this.LabelProgress);
             this.Controls.Add(this.BtnServoOff);
@@ -586,5 +612,7 @@
         private System.Windows.Forms.GroupBox groupBox6;
         private System.Windows.Forms.GroupBox groupBox7;
         private System.Windows.Forms.GroupBox groupBox8;
+        private Syncfusion.Windows.Forms.ButtonAdv buttonAdv1;
+        private Syncfusion.Windows.Forms.ButtonAdv buttonAdv2;
     }
 }

@@ -20,6 +20,8 @@ using static LWDicer.Layers.DEF_DataManager;
 using static LWDicer.Layers.DEF_CtrlOpPanel;
 using static LWDicer.Layers.DEF_TrsAutoManager;
 
+using LWDicer.UI;
+
 namespace LWDicer.Layers
 {
     public class DEF_TrsAutoManager
@@ -219,6 +221,10 @@ namespace LWDicer.Layers
             int iResult = SUCCESS;
             bool bStatus = false;
 
+            // 160812 by ranian. OpenController 함수에서 com port를 열어주지만, 
+            // Yaskawa는 쓰레드마다 comport을 열어줘야하다고 한다.
+            m_RefComp.YMC.OpenComPortOnly();
+
             // timer start if it is needed.
 
             while (true)
@@ -227,6 +233,13 @@ namespace LWDicer.Layers
                 if (IsAlive == false)
                 {
                     Sleep(ThreadSuspendedTime);
+                    continue;
+                }
+
+                // 160905 MainUI가 Load된 후에 process 동작 및 에러보고 할 수 있도록
+                if (CMainFrame.IsFormLoaded == false)
+                {
+                    Sleep(ThreadSleepTime);
                     continue;
                 }
 
@@ -299,9 +312,24 @@ namespace LWDicer.Layers
         {
             Debug.WriteLine($"{ToString()} received message : {evnt}");
 
-            switch (evnt.Msg)
+            switch(evnt.Msg)
             {
-                case (int)MSG_PROCESS_ALARM:
+                case 14:
+                    Debug.WriteLine("event message is 14");
+                    break;
+                case 18:
+                    Debug.WriteLine("event message is 18");
+                    break;
+            }
+
+            // check message is valid
+            if (Enum.IsDefined(typeof(EThreadMessage), evnt.Msg) == false)
+                return SUCCESS;
+
+            EThreadMessage cnvt = (EThreadMessage)Enum.Parse(typeof(EThreadMessage), evnt.Msg.ToString());
+            switch ((EThreadMessage)Enum.Parse(typeof(EThreadMessage), evnt.Msg.ToString()))
+            {
+                case EThreadMessage. MSG_PROCESS_ALARM:
                     //if (AfxGetApp()->GetMainWnd() != NULL)
                     //{
                     //    if (((CMainFrame*)AfxGetApp()->GetMainWnd())->m_pErrorDlg == NULL)
@@ -312,7 +340,7 @@ namespace LWDicer.Layers
                     break;
 
                 // MSG_MANUAL COMMAND에 대한 Thread의 응답
-                case (int)MSG_MANUAL_CNF:
+                case EThreadMessage. MSG_MANUAL_CNF:
                     SetThreadStatus(evnt.wParam, STS_MANUAL); // 메세지를 보낸 Thread를 STS_MANUAL 상태로 놓는다.
                     if (CheckAllThreadStatus(STS_MANUAL))       // 모든 Thread가 STS_MANUAL 상태인지 확인한다.
                     {
@@ -331,13 +359,13 @@ namespace LWDicer.Layers
                     break;
 
                 // 화면으로 부터의 START_RUN Command (화면 Start 버튼을 누름)
-                case (int)MSG_START_RUN_CMD:
+                case EThreadMessage. MSG_START_RUN_CMD:
 
                     OnRunReady();
 
                     break;
 
-                // 	case (int)MSG_CONFIRM_ENG_DOWN:
+                // 	case EThreadMessage. MSG_CONFIRM_ENG_DOWN:
                 // 		// 2010.01.20 by ranian
                 // 		// 메인윈도우로 대화상자표시 메세지 날리고 거기서 메세지를 리턴 받은곳에서
                 // 		// 처리하도록 변경
@@ -346,7 +374,7 @@ namespace LWDicer.Layers
                 // 		break;
 
                 // MSG_START_RUN COMMAND에 대한 Thread의 응답
-                case (int)MSG_START_RUN_CNF:
+                case EThreadMessage. MSG_START_RUN_CNF:
                     SetThreadStatus(evnt.wParam, STS_RUN_READY);  // 메세지를 보낸 Thread를 STS_RUN_READY 상태로 놓는다.
                     if (CheckAllThreadStatus(STS_RUN_READY))        // 모든 Thread가 STS_RUN_READY 상태인지 확인한다.
                     {
@@ -367,7 +395,7 @@ namespace LWDicer.Layers
                     break;
 
                 // MSG_START_CMD에 대한 Thread의 응답
-                case (int)MSG_START_CNF:
+                case EThreadMessage. MSG_START_CNF:
                     SetThreadStatus(evnt.wParam, STS_RUN);    // 메세지를 보낸 Thread를 STS_RUN 상태로 놓는다.
                     if (CheckAllThreadStatus(STS_RUN))      // 모든 Thread가 STS_RUN 상태인지 확인한다.
                     {
@@ -386,7 +414,7 @@ namespace LWDicer.Layers
 
 
                 // MSG_STEP_STOP_CMD에 대한 Thread의 응답
-                case (int)MSG_STEP_STOP_CNF: // STEP_STOP CMD에 대한 Thread들의 STS_STEP_STOP 확인 메세지
+                case EThreadMessage. MSG_STEP_STOP_CNF: // STEP_STOP CMD에 대한 Thread들의 STS_STEP_STOP 확인 메세지
                     SetThreadStatus(evnt.wParam, STS_STEP_STOP);  // 메세지를 보낸 Thread를 STS_STEP_STOP 상태로 놓는다.
                     if (CheckAllThreadStatus(STS_STEP_STOP))        // 모든 Thread가 STS_RUN 상태인지 확인한다.
                     {
@@ -411,7 +439,7 @@ namespace LWDicer.Layers
                     break;
 
                 // MSG_ERROR_STOP_CMD에 대한 Thread의 응답
-                case (int)MSG_ERROR_STOP_CNF:    // MSG_ERROR_STOP CMD에 대한 Thread들의 ERROR_STEP_STOP 확인 메세지
+                case EThreadMessage. MSG_ERROR_STOP_CNF:    // MSG_ERROR_STOP CMD에 대한 Thread들의 ERROR_STEP_STOP 확인 메세지
                     SetThreadStatus(evnt.wParam, STS_ERROR_STOP); // 메세지를 보낸 Thread를 STS_RUN 상태로 놓는다.
                     if (CheckAllThreadStatus(STS_ERROR_STOP))       // 모든 Thread가 STS_RUN 상태인지 확인한다.
                     {
@@ -421,13 +449,13 @@ namespace LWDicer.Layers
                     break;
 
                 // 화면에서 명령을 통해 CYCLE_STOP Command가 오는 경우의 처리
-                case (int)MSG_CYCLE_STOP_CMD:    // 화면에서 명령을 통해 CYCLE_STOP Command가 오는 경우의 처리
+                case EThreadMessage. MSG_CYCLE_STOP_CMD:    // 화면에서 명령을 통해 CYCLE_STOP Command가 오는 경우의 처리
                     OnCycleStop();          // Cycle Stop을 처리 한다.
 
                     break;
 
                 // CYCLE_STOP CMD에 대한 Thread의 응답
-                case (int)MSG_CYCLE_STOP_CNF:    // CYCLE_STOP CMD에 대한 Thread들의 STS_CYCLE_STOP 확인 메세지
+                case EThreadMessage. MSG_CYCLE_STOP_CNF:    // CYCLE_STOP CMD에 대한 Thread들의 STS_CYCLE_STOP 확인 메세지
                     SetThreadStatus(evnt.wParam, STS_CYCLE_STOP); // 메세지를 보낸 Thread를 STS_RUN 상태로 놓는다.
                     if (CheckAllThreadStatus(STS_CYCLE_STOP))       // 모든 Thread가 STS_RUN 상태인지 확인한다.
                     {
@@ -436,33 +464,33 @@ namespace LWDicer.Layers
                     break;
 
                 // Error Message만 Display한 경우를 위한 Message
-                case (int)MSG_ERROR_DISPLAY_REQ:
+                case EThreadMessage. MSG_ERROR_DISPLAY_REQ:
                     m_bErrDispMode = true;
                     m_bBuzzerMode = true;
                     break;
 
                 // Error Message만 Display한 경우를 완료하기 위한 Message
-                case (int)MSG_ERROR_DISPLAY_END:
+                case EThreadMessage. MSG_ERROR_DISPLAY_END:
                     m_bErrDispMode = false;
                     break;
-                case (int)MSG_OP_CALL_REQ:
+                case EThreadMessage. MSG_OP_CALL_REQ:
                     m_bOpCallMode = true;
                     m_bBuzzerMode = true;
                     break;
 
-                case (int)MSG_OP_CALL_END:
+                case EThreadMessage. MSG_OP_CALL_END:
                     m_bOpCallMode = false;
                     break;
 
-                case (int)MSG_LC_PAUSE:
+                case EThreadMessage. MSG_LC_PAUSE:
                     OnStepStop();
                     break;
 
-                case (int)MSG_LC_RESUME:
+                case EThreadMessage. MSG_LC_RESUME:
                     OnRun();
                     break;
 
-                //case (int)MSG_LC_PM:
+                //case EThreadMessage. MSG_LC_PM:
                 //    // 설비가 error 상태일땐 pm을 무시한다. 07.10.26 by ranian + 자동화 박인용
                 //    if (RunStatus == STS_ERROR_STOP) break;
                 //    //		OnRun();
@@ -471,7 +499,7 @@ namespace LWDicer.Layers
                 //    PostMsg(TrsStage1, MSG_AUTOMSG_STAGE1_LC_PM); //panel 받지 말기
                 //    break;
 
-                //case (int)MSG_LC_NORMAL:
+                //case EThreadMessage. MSG_LC_NORMAL:
                 //    m_bLC_NORMAL_Mode = true;
                 //    m_bLC_PM_Mode = false;
 
@@ -479,30 +507,30 @@ namespace LWDicer.Layers
                 //    OnRunReady();
                 //    break;
 
-                case (int)MSG_STAGE_LOADING_START:
+                case EThreadMessage. MSG_STAGE_LOADING_START:
                     m_bStage_PanelLoading = true;
                     break;
 
-                case (int)MSG_STAGE_LOADING_END:
+                case EThreadMessage. MSG_STAGE_LOADING_END:
                     m_bStage_PanelLoading = false;
                     break;
 
-                case (int)MSG_UNLOADHANDLER_UNLOADING_START:
+                case EThreadMessage. MSG_UNLOADHANDLER_UNLOADING_START:
                     m_bUnloadHandler_PanelUnloading = true;
                     break;
 
-                case (int)MSG_UNLOADHANDLER_UNLOADING_END:
+                case EThreadMessage. MSG_UNLOADHANDLER_UNLOADING_END:
                     m_bUnloadHandler_PanelUnloading = false;
                     break;
 
-                case (int)MSG_PANEL_INPUT:   // Panel이 Input.
+                case EThreadMessage. MSG_PANEL_INPUT:   // Panel이 Input.
                     if (RunStatus == STS_RUN)
                     {
                         m_bPanelExist_InFacility = true;
                     }
                     break;
 
-                case (int)MSG_PANEL_OUTPUT:  // Panel이 Output.
+                case EThreadMessage. MSG_PANEL_OUTPUT:  // Panel이 Output.
                     if (RunStatus == STS_RUN)
                     {
                         CheckPanelExist();
@@ -883,7 +911,9 @@ namespace LWDicer.Layers
                         SetLampBuzzerMode(ELampBuzzerMode.ERRORSTOP_ING);
                 }
                 else
+                {
                     SetLampBuzzerMode(RunStatus);
+                }
             }
             // 아니고 Error Display 상태이면 
             else if (m_bErrDispMode == true)
@@ -935,14 +965,14 @@ namespace LWDicer.Layers
             }
 
             //Manual 일때 Amp Fault 상태 Check
-            if (RunStatus != STS_RUN)
-            {
-                m_RefComp.ctrlOpPanel.GetMotorAmpFaultStatus(out bStatus);
-                if (bStatus)
-                {
-                    m_RefComp.ctrlOpPanel.ResetAllInitFlag();
-                }
-            }
+            //if (RunStatus != STS_RUN)
+            //{
+            //    m_RefComp.ctrlOpPanel.GetMotorAmpFaultStatus(out bStatus);
+            //    if (bStatus)
+            //    {
+            //        m_RefComp.ctrlOpPanel.ResetAllInitFlag();
+            //    }
+            //}
 
             VIPMODE:
             // Tower Lamp 표시 

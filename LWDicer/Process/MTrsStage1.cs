@@ -72,6 +72,9 @@ namespace LWDicer.Layers
             InitializeInterface();
 
             // Do Action
+            int iResult = m_RefComp.ctrlStage1.Initialize();
+            if (iResult != SUCCESS) return iResult;
+
             int iStep1 = (int)TRS_STAGE1_MOVETO_WAIT_POS;
 
             // finally

@@ -80,6 +80,9 @@ namespace LWDicer.Layers
             InitializeInterface();
 
             // Do Action
+            int iResult = m_RefComp.ctrlLoader.Initialize();
+            if (iResult != SUCCESS) return iResult;
+
             int iStep1 = (int)TRS_LOADER_WAITFOR_MESSAGE;
 
             // finally

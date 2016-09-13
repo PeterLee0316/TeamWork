@@ -92,6 +92,21 @@ namespace LWDicer.Layers
             return SUCCESS;
         }
 
+        /// <summary>
+        /// rc를 이용해서 library에서 제공하는 에러 메시지및 코드를 보고
+        /// </summary>
+        /// <param name="error"></param>
+        /// <param name="rc"></param>
+        /// <param name="writeLog"></param>
+        /// <returns></returns>
+        public int GenerateErrorCode(int error, UInt32 rc, bool writeLog = true)
+        {
+            ErrorSubMsg = String.Format($"0x{rc.ToString("X")}, {CMotionAPI.ErrorDictionary[rc.ToString("X")]}");
+            WriteLog(ErrorSubMsg, ELogType.Debug, ELogWType.D_Error, true);
+
+            return base.GenerateErrorCode(error, writeLog, true);
+        }
+
         int GetRegisterDataHandle(int addr, EYMCDataType type, out uint hDataHandle)
         {
             Debug.Assert(INPUT_ORIGIN <= addr && addr <= OUTPUT_END);
@@ -105,6 +120,7 @@ namespace LWDicer.Layers
             // 즉, 아진의 io board는 선두 2워드를 건너뜀. module configuration에서 io 모듈의 input address : 0010-0017(H), 
             // output address : 0020-0027(H) 라면, 실제로 register list에서 모니터링할때에는 IB00120, OB00220부터 읽어야하고, 
             // 이때의 M register는 MB010000, MB020000 
+
             // register type
             //if (addr < OUTPUT_ORIGIN)
             //{
@@ -114,16 +130,21 @@ namespace LWDicer.Layers
             //{
             //    registerName = String.Format($"{EYMCRegisterType.O}{type}{(addr - OUTPUT_ORIGIN).ToString("D4")}");
             //}
+
+            // 160907 by sjr. 아진 io board를 사용하면서 input address 1234가 hex address MB100EA로 변환된 주소를 사용하여
+            // ymcGetRegisterDataHandle 함수를 콜 했더니 MP_NOTREGSTERNAME 리턴함.
             string s1;
             if (addr < OUTPUT_ORIGIN) s1 = "1";
             else s1 = "2";
             addr = addr % 1000;
             if(type == EYMCDataType.B)
             {
-                registerName = String.Format($"{EYMCRegisterType.M}{type}{s1}{(addr).ToString("X4")}");
+                //registerName = String.Format($"{EYMCRegisterType.M}{type}{s1}{(addr).ToString("X4")}");
+                registerName = String.Format($"{EYMCRegisterType.M}{type}{s1}{(addr).ToString("D4")}");
             } else
             {
-                registerName = String.Format($"{EYMCRegisterType.M}{type}{s1}{(addr).ToString("X3")}");
+                //registerName = String.Format($"{EYMCRegisterType.M}{type}{s1}{(addr).ToString("X3")}");
+                registerName = String.Format($"{EYMCRegisterType.M}{type}{s1}{(addr).ToString("D3")}");
             }
 
 #if !SIMULATION_IO
@@ -131,9 +152,9 @@ namespace LWDicer.Layers
             uint rc = CMotionAPI.ymcGetRegisterDataHandle(registerName, ref hDataHandle);
             if (rc != CMotionAPI.MP_SUCCESS)
             {
-                string str = $"Error ymcGetRegisterDataHandle ML \nErrorCode [ 0x{rc.ToString("X")} ]";
-                WriteLog(str, ELogType.Debug, ELogWType.D_Error, true);
-                return GenerateErrorCode(ERR_IO_YMC_FAIL_GET_DATA_HANDLE);
+                //string str = $"Error ymcGetRegisterDataHandle ML \nErrorCode [ 0x{rc.ToString("X")} ]";
+                //WriteLog(str, ELogType.Debug, ELogWType.D_Error, true);
+                return GenerateErrorCode(ERR_IO_YMC_FAIL_GET_DATA_HANDLE, rc);
             }
 #endif
 
@@ -170,9 +191,9 @@ namespace LWDicer.Layers
 
             if (rc != CMotionAPI.MP_SUCCESS)
             {
-                string str = $"Error ymcGetRegisterData MB \nErrorCode [ 0x{rc.ToString("X")} ]";
-                WriteLog(str, ELogType.Debug, ELogWType.D_Error, true);
-                return GenerateErrorCode(ERR_IO_YMC_FAIL_GET_DATA);
+                //string str = $"Error ymcGetRegisterData MB \nErrorCode [ 0x{rc.ToString("X")} ]";
+                //WriteLog(str, ELogType.Debug, ELogWType.D_Error, true);
+                return GenerateErrorCode(ERR_IO_YMC_FAIL_GET_DATA, rc);
             }
 
             return SUCCESS;
@@ -206,9 +227,9 @@ namespace LWDicer.Layers
 
             if (rc != CMotionAPI.MP_SUCCESS)
             {
-                string str = $"Error ymcSetRegisterData MB \nErrorCode [ 0x{rc.ToString("X")} ]";
-                WriteLog(str, ELogType.Debug, ELogWType.D_Error, true);
-                return GenerateErrorCode(ERR_IO_YMC_FAIL_SET_DATA);
+                //string str = $"Error ymcSetRegisterData MB \nErrorCode [ 0x{rc.ToString("X")} ]";
+                //WriteLog(str, ELogType.Debug, ELogWType.D_Error, true);
+                return GenerateErrorCode(ERR_IO_YMC_FAIL_SET_DATA, rc);
             }
 
             return SUCCESS;

@@ -5,7 +5,8 @@
 //                    Camera, Scanner 축은 YMC, Stage 축은 ACS 로 구성
 // EQUIP_266_DEV : 예전에 있었던 266레이저 설비에 scanner를 이식하여 진행하는 설비 (2016.08 기준)
 //                 Camera, Scanner, Stage 축은 ACS 로 구성
-// WIN32, SIMULATION_VISION, SIMULATION_MOTION_ACS, SIMULATION_MOTION_YMC, SIMULATION_IO, 
+// OP_HW_BUTTON : 물리적으로 Op Panel Button (start, stop, reset 등의 s/w가 있는지 여부)
+// WIN32, SIMULATION_VISION, SIMULATION_MOTION_ACS, SIMULATION_MOTION_YMC, SIMULATION_IO, SIMULATION_TEST
 
 using System;
 using System.Collections.Generic;
@@ -551,6 +552,7 @@ namespace LWDicer.Layers
         //
         public const int WhileSleepTime         = 10; // while interval time
         public const int UITimerInterval        = 10; // ui timer interval
+        public const int SimulationSleepTime    = 1000; // simulation sleep time for move
 
         //
         public const int TRUE                   = 1;
@@ -1063,7 +1065,7 @@ namespace LWDicer.Layers
         /// </summary>
         public class CMessageInfo
         {
-            public int Index = 0;
+            public int Index = -1;
             public EMessageType Type = EMessageType.OK;
 
             public string[] Message = new string[(int)DEF_Common.ELanguage.MAX];
@@ -1099,6 +1101,7 @@ namespace LWDicer.Layers
                 strMsg = strMsg.ToLower();
                 foreach (string str in Message)
                 {
+                    if (string.IsNullOrWhiteSpace(str)) continue;
                     string str1 = str.ToLower();
 
                     // Message 특성상 마침표등의 문제로 문자열을 포함하면 같은 메세지인걸로 판단하도록.

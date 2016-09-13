@@ -19,6 +19,8 @@ namespace LWDicer.UI
 {  
     public partial class FormOriginReturn : Form
     {
+        private const int ERR_DLG_MOTORORIGIN_ERROR = 1;
+
         private bool [] SelectedAxis = new bool[(int)EAxis.MAX];
 
         private ButtonAdv[] BtnList = new ButtonAdv[(int)EAxis.MAX];
@@ -123,23 +125,29 @@ namespace LWDicer.UI
 
                 // 서보 on/off 상태
                 CMainFrame.LWDicer.m_OpPanel.GetServoOnStatus(i, out bStatus);
+                int length = BtnList[i].Text.IndexOf("[Servo");
+                if (length >= 0) BtnList[i].Text.Substring(0, length);
                 if (bStatus == true)
                 {
-                    if (BtnList[i].Text.IndexOf("[On]") < 0) BtnList[i].Text = BtnName[i] + "\r\n[On]";
+                    BtnList[i].Text = BtnName[i] + "\r\n[Servo On]";
                 }
                 else
                 {
-                    if (BtnList[i].Text.IndexOf("[Off]") < 0) BtnList[i].Text = BtnName[i] + "\r\n[Off]";
+                    BtnList[i].Text = BtnName[i] + "\r\n[Servo Off]";
                 }
 
                 // 원점 복귀 상태
                 CMainFrame.LWDicer.m_OpPanel.GetOriginFlag(i, out bStatus);
+                //length = BtnList[i].Text.IndexOf("[Home");
+                //if (length >= 0) BtnList[i].Text = BtnList[i].Text.Substring(0, length);
                 if (bStatus == true)
                 {
+                    BtnList[i].Text = BtnList[i].Text + "\r\n[Home On]";
                     BtnList[i].BackColor = Color.Yellow;
                 }
                 else
                 {
+                    BtnList[i].Text = BtnList[i].Text + "\r\n[Home Off]";
                     BtnList[i].BackColor = Color.AntiqueWhite;
                 }
             }
@@ -154,11 +162,11 @@ namespace LWDicer.UI
 
             // 0. init
             m_waitTimer.StartTimer();
-            CMainFrame.LWDicer.m_trsAutoManager.IsInitState = true;
 
             // 1.
-            //InitRun();
+            CMainFrame.LWDicer.m_trsAutoManager.IsInitState = true;
             OriginReturn();
+
             // 2.
             UpdateUnitStatus();
 
@@ -167,14 +175,92 @@ namespace LWDicer.UI
 
         }
 
-        private void ShowStepInform(string str)
+        private int ReturnOrigin_SafetyCheck()
         {
-            LabelProgress.Text  = String.Format($"ElapsedTime : {m_waitTimer},  Progress : {str}");
-            LabelProgress.Refresh();
+            int iResult = SUCCESS;
+            bool bStatus;
+
+            // 0. Check EStop
+            CMainFrame.LWDicer.m_OpPanel.GetEStopButtonStatus(out bStatus);
+            if (bStatus == true)
+            {
+                CMainFrame.DisplayMsg("EStop S/W Pressed", "Error");
+                return ERR_DLG_MOTORORIGIN_ERROR;
+            }
+
+            // 1. Check Door
+            if (CMainFrame.LWDicer.IsSafeForCylinderMove() == false)
+            {
+                CMainFrame.DisplayMsg("Door is opend.", "Error");
+                return ERR_DLG_MOTORORIGIN_ERROR;
+            }
+
+            // 2. Check Other Facility : Dicing 같은 단독설비에서는 check할 필요가 없음
+
+            // 3. check scanner, laser, utility
+
+            // 4. Move Cylinder to Safety Pos
+            // 4.1 Handler Up
+            //if ((iResult = m_pC_CtrlUHandler.Up()) != SUCCESS)
+            //{
+            //    return iResult;
+            //}
+
+            // 5. Check Wafer
+            // 5.1 Stage
+            if (SelectedAxis[(int)EAxis.STAGE1_X] == true
+                || SelectedAxis[(int)EAxis.STAGE1_Y] == true
+                || SelectedAxis[(int)EAxis.STAGE1_T] == true)
+            {
+                iResult = CMainFrame.LWDicer.m_ctrlStage1.IsWaferDetected(out bStatus);
+                if (bStatus)
+                {
+                    if (CMainFrame.InquireMsg("Stage1에 Wafer가 감지됩니다. 원점복귀 동작중 Wafer가 충돌할수 있습니다.\n원점복귀 동작을 계속 수행하시겠습니까?", "Confirm"))
+                        return ERR_DLG_MOTORORIGIN_ERROR;
+
+                    //iResult = CMainFrame.LWDicer.m_ctrlStage1.Absorb();
+                    //if (iResult != SUCCESS) return iResult;
+                }
+            }
+
+            // 5.2 Spinner
+
+            // 5.3 Handler
+
+            // 5.4 PushPull
+
+            // 5.5 Loader
+
+            // 6. Etc
+
+            return SUCCESS;
         }
 
         private void OriginReturn()
         {
+            int iResult = SUCCESS;
+
+            // 1. Check Safety
+            // 1.1 Check Safety
+            SetTitle("Check Safety");
+            iResult = ReturnOrigin_SafetyCheck();
+            if (iResult != SUCCESS) goto ERROR_PROCESS;
+
+            // 1.2 Check Motor Limit Sensor
+            SetTitle("Check Limit Sensor");
+            for (int i = 0; i < (int)EAxis.MAX; i++)
+            {
+                if (SelectedAxis[i] == false) continue;
+
+                if(CMainFrame.LWDicer.CheckAxisSensorLimit(i) == false)
+                {
+                    CMainFrame.DisplayMsg("Axis sensor status is abnormal", "Error");
+                    goto ERROR_PROCESS;
+                }
+            }
+
+            // 2. Return Origin
+            SetTitle("Origin Return");
             bool bRunCheckBit = false;
 
             for (int i = 0; i < (int)EAxis.MAX; i++)
@@ -182,53 +268,31 @@ namespace LWDicer.UI
                 if (SelectedAxis[i] == false) continue;
 
                 bRunCheckBit = true;
-                int iResult = CMainFrame.LWDicer.m_ctrlOpPanel.OriginReturn(i);
-                if (iResult != SUCCESS)
-                    CMainFrame.DisplayAlarm(iResult);
+                iResult = CMainFrame.LWDicer.m_ctrlOpPanel.OriginReturn(i);
+                if (iResult != SUCCESS) goto ERROR_PROCESS;
             }
 
             //if (bRunCheckBit) CMainFrame.DisplayAlarm(SUCCESS);
-        }
-        private void InitRun()
-        {
-            int i = 0;
-            int iResult = SUCCESS;
-            string strTemp;
-            bool bSts = false;
-            bool bRtnSts = false;
-            //	bool rgbOriginSts[DEF_MAX_MOTION_AXIS_NO];
-            string strErr;
 
-            ShowStepInform("Check Safety");
+            // 6. 
+            SetTitle("HomeReturn Finished");
+            CMainFrame.DisplayMsg("HomeReturn Finished Successfully");
+
+            return;
             
-            // EStop 및 모든 축 원점 복귀 체크
-            if (CMainFrame.LWDicer.IsSafeForAxisMove() == false)
-                return;
-
-            ShowStepInform("인터페이스 신호 초기화");
-
-            //// 0. Loader
-            //ShowStepInform("LOADER");
-            //int part = (int)EAxis.LOADER_Z;
-            //if (SelectedAxis[part] == true)
-            //{
-            //    // LOADER Unit 초기화 
-            //    if ((iResult = CMainFrame.LWDicer.m_trsLoader.Initialize()) != SUCCESS)
-            //    {
-            //        // Display Alarm
-            //        SetInitFlag(part, false);
-            //        return;
-            //    }
-            //    else
-            //    {
-            //        SetInitFlag(part, true);
-            //    }
-            //}
-
-            // Last.
-            CMainFrame.DisplayMsg("Initialization completed.");
+            ERROR_PROCESS:
+            SetTitle("HomeReturn Failed");
+            if (iResult != ERR_DLG_MOTORORIGIN_ERROR)
+            {
+                CMainFrame.DisplayAlarm(iResult);
+            }
         }
 
+        private void SetTitle(string str)
+        {
+            LabelProgress.Text  = String.Format($"ElapsedTime : {m_waitTimer},  Progress : {str}");
+            LabelProgress.Refresh();
+        }
 
         private void BtnServoOn_Click(object sender, EventArgs e)
         {
@@ -301,6 +365,28 @@ namespace LWDicer.UI
         {
             CMainFrame.LWDicer.m_OpPanel.SetInitFlag(sel, flag);
             SelectAxis(sel);
+        }
+
+        private void buttonAdv1_Click(object sender, EventArgs e)
+        {
+            // 1.2 Check Motor Limit Sensor
+            for (int i = 0; i < (int)EAxis.MAX; i++)
+            {
+                if (SelectedAxis[i] == false) continue;
+
+                CMainFrame.LWDicer.m_OpPanel.SetOriginFlag(i, true);
+            }
+        }
+
+        private void buttonAdv2_Click(object sender, EventArgs e)
+        {
+            // 1.2 Check Motor Limit Sensor
+            for (int i = 0; i < (int)EAxis.MAX; i++)
+            {
+                if (SelectedAxis[i] == false) continue;
+
+                CMainFrame.LWDicer.m_OpPanel.SetOriginFlag(i, false);
+            }
         }
     }
 }

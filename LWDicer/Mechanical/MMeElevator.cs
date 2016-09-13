@@ -24,16 +24,12 @@ namespace LWDicer.Layers
         public const int ERR_ELEVATOR_NOT_ORIGIN_RETURNED                        = 6;
         public const int ERR_ELEVATOR_INVALID_AXIS                               = 7;
         public const int ERR_ELEVATOR_INVALID_PRIORITY                           = 8;
-        public const int ERR_ELEVATOR_NOT_SAME_POSITION                          = 20;
-        public const int ERR_ELEVATOR_UNABLE_TO_USE_POSITION                     = 21;
-        public const int ERR_ELEVATOR_MOVE_FAIL                                  = 22;
-        public const int ERR_ELEVATOR_EMPTY_SLOT_MOVE_FAIL                       = 23;
-        public const int ERR_ELEVATOR_CASSETTE_NOT_READY                         = 24;
-        public const int ERR_ELEVATOR_VACUUM_ON_TIME_OUT                         = 40;
-        public const int ERR_ELEVATOR_VACUUM_OFF_TIME_OUT                        = 41;
-        public const int ERR_ELEVATOR_INVALID_PARAMETER                          = 42;
-        public const int ERR_ELEVATOR_OBJECT_DETECTED_BUT_NOT_ABSORBED           = 43;
-        public const int ERR_ELEVATOR_OBJECT_NOT_DETECTED_BUT_NOT_RELEASED       = 44;
+        public const int ERR_ELEVATOR_NOT_SAME_POSITION                          = 9;
+        public const int ERR_ELEVATOR_UNABLE_TO_USE_POSITION                     = 10;
+        public const int ERR_ELEVATOR_MOVE_FAIL                                  = 11;
+        public const int ERR_ELEVATOR_EMPTY_SLOT_MOVE_FAIL                       = 12;
+        public const int ERR_ELEVATOR_CASSETTE_NOT_READY                         = 13;
+        public const int ERR_ELEVATOR_CASSETTE_DETECTED_ABNORMAL                 = 14;
 
 
         public enum EElevatorPos
@@ -77,13 +73,17 @@ namespace LWDicer.Layers
 
         //===============================================================================
         //  Cassette Info
-        public const int CASSETTE_MAX_SLOT_NUM = 20;
-        public const int CASSETTE_DETECT_SENSOR_1 = 0;
-        public const int CASSETTE_DETECT_SENSOR_2 = 1;
-        public const int CASSETTE_DETECT_SENSOR_3 = 2;
-        public const int CASSETTE_DETECT_SENSOR_4 = 3;
-        public const int CASSETTE_DETECT_SENSOR_NUM = 4;
         public const double CASSETTE_DEFAULT_PITCH = 10.0;
+        public const int CASSETTE_MAX_SLOT_NUM = 20;
+
+        public enum ECassetteDetectedSensor
+        {
+            SENSOR1 = 0,
+            SENSOR2,
+            SENSOR3,
+            SENSOR4,
+            MAX,
+        }
 
         public enum ECassetteWaferInfo
         {
@@ -119,12 +119,12 @@ namespace LWDicer.Layers
             public int CurrentSlotNum = 0;
 
             // Detect Object Sensor Address
-            public int InDetectWafer   = IO_ADDR_NOT_DEFINED;
-            public int[] InDetectCassette = new int[CASSETTE_DETECT_SENSOR_NUM] 
+            public int InWaferDetected   = IO_ADDR_NOT_DEFINED;
+            public int[] InCassetteDetected = new int[(int)ECassetteDetectedSensor.MAX] 
                 {IO_ADDR_NOT_DEFINED, IO_ADDR_NOT_DEFINED, IO_ADDR_NOT_DEFINED, IO_ADDR_NOT_DEFINED };
 
             // Push-Pull 안전 Sensor
-            public int PushPullSafetyPos = IO_ADDR_NOT_DEFINED;
+            public int InPushPullDetected = IO_ADDR_NOT_DEFINED;
 
             // Physical check zone sensor. 원점복귀 여부와 상관없이 축의 물리적인 위치를 체크 및
             // 안전위치 이동 check
@@ -219,11 +219,9 @@ namespace LWDicer.Layers
             bool bUsePriority = false, int[] movePriority = null)
         {
             int iResult = SUCCESS;
-            bool bStatus = false;
             // safety check
-            iResult = CheckForElevatorAxisMove(out bStatus);
+            iResult = CheckSafety_forMoving();
             if (iResult != SUCCESS) return iResult;
-            if (bStatus == false) return GenerateErrorCode(ERR_ELEVATOR_CASSETTE_NOT_READY);
 
             // assume move Z axis if bMoveFlag is null
             if(bMoveFlag == null)
@@ -410,12 +408,14 @@ namespace LWDicer.Layers
             bool bMoveXYT = false;
             bool bMoveZ = true;
 
-            int nElevatorPos;
-            int Slot = 0;
+            int nElevatorPos= (int)EElevatorPos.SLOT;
+            int nNextSlotNum = 0;
             int nCurSlotNum = 0;
-            
+
+#if !SIMULATION_TEST
             // 현재 위치를 읽어옴
-            GetElevatorPosInfo(out nElevatorPos, out nCurSlotNum);
+            int iResult = GetElevatorPosInfo(out nElevatorPos, out nCurSlotNum);
+            if (iResult != SUCCESS) return iResult;
 
             if (nElevatorPos == (int)EElevatorPos.NONE)
                 GenerateErrorCode(ERR_ELEVATOR_UNABLE_TO_USE_POSITION);
@@ -423,13 +423,13 @@ namespace LWDicer.Layers
                 GenerateErrorCode(ERR_ELEVATOR_UNABLE_TO_USE_POSITION);
 
             // 현재 위치한 Slot 번호를 대입한다.
-            Slot = nCurSlotNum;
+            nNextSlotNum = nCurSlotNum;
 
             // 방향에 따라 +1 / -1을 함.
-            if (bDirect) Slot++;
-            else Slot--;
-
-            return MoveElevatorPos(nElevatorPos, Slot, bMoveAllAxis, bMoveXYT, bMoveZ);
+            if (bDirect) nNextSlotNum++;
+            else nNextSlotNum--;
+#endif
+            return MoveElevatorPos(nElevatorPos, nNextSlotNum, bMoveAllAxis, bMoveXYT, bMoveZ);
         }
 
         /// <summary>
@@ -464,7 +464,7 @@ namespace LWDicer.Layers
 
             // Wafer Frame 감지 센서를 확인하여 Empty 여부를 확인한다.
             bool bStatus;
-            iResult = m_RefComp.IO.IsOn(m_Data.InDetectWafer, out bStatus);
+            iResult = m_RefComp.IO.IsOn(m_Data.InWaferDetected, out bStatus);
 
             // Input확인 동작 확인
             if (iResult != SUCCESS) GenerateErrorCode(ERR_ELEVATOR_UNABLE_TO_USE_IO);
@@ -502,7 +502,7 @@ namespace LWDicer.Layers
 
             // Wafer Frame 감지 센서를 확인하여 Empty 여부를 확인한다.
             bool bStatus;
-            iResult = m_RefComp.IO.IsOn(m_Data.InDetectWafer, out bStatus);
+            iResult = m_RefComp.IO.IsOn(m_Data.InWaferDetected, out bStatus);
 
             // Input확인 동작 확인
             if (iResult != SUCCESS) GenerateErrorCode(ERR_ELEVATOR_UNABLE_TO_USE_IO);
@@ -533,7 +533,7 @@ namespace LWDicer.Layers
                 if (iResult != SUCCESS) GenerateErrorCode(ERR_ELEVATOR_MOVE_FAIL);
 
                 // Wafer Frame 감지 센서를 확인하여 Empty 여부를 확인한다.               
-                iResult = m_RefComp.IO.IsOn(m_Data.InDetectWafer, out bStatus);
+                iResult = m_RefComp.IO.IsOn(m_Data.InWaferDetected, out bStatus);
                 if (iResult != SUCCESS) return iResult;
 
                 if (bStatus)
@@ -731,11 +731,9 @@ namespace LWDicer.Layers
             return SUCCESS;
         }
 
-        public int CheckForElevatorAxisMove(out bool bStatus)
+        public int CheckSafety_forMoving()
         {
-            bStatus = false;
             bool bCheck;
-
             // check origin
             int iResult = IsElevatorOrignReturn(out bCheck);
             if (iResult != SUCCESS) return iResult;
@@ -745,61 +743,57 @@ namespace LWDicer.Layers
             }
 
             // Cassette 감지 센서 확인 (정위치 확인 or Cassette없음 Check)
-            bool[] bCheckIO = new bool[CASSETTE_DETECT_SENSOR_NUM];
-
             bool bCassetteExist;
-            bool bCassetteNone;
-            iResult = IsElevatorCassetteExist(out bCassetteExist);
-            if (iResult != SUCCESS) return iResult;
-
-            iResult = IsElevatorCassetteNone(out bCassetteNone);
-            if (iResult != SUCCESS) return iResult;
-
-            // 전체가 On 이거나 Off되어야 동작 가능함.
-            if (bCassetteExist || bCassetteNone)
-            {
-                bStatus = true;
-                return SUCCESS;
-            }
-            else
-            {
-                return GenerateErrorCode(ERR_ELEVATOR_CASSETTE_NOT_READY);
-            }
-            
-        }
-
-        public int IsWaferDetected(out bool bStatus)
-        {
-            int iResult = m_RefComp.IO.IsOn(m_Data.InDetectWafer, out bStatus);
+            iResult = IsCassetteExist(out bCassetteExist);
             if (iResult != SUCCESS) return iResult;
 
             return SUCCESS;
         }
 
+        public int IsWaferDetected(out bool bStatus)
+        {
+            int iResult = m_RefComp.IO.IsOn(m_Data.InWaferDetected, out bStatus);
+            if (iResult != SUCCESS) return iResult;
 
-        public int IsElevatorCassetteExist(out bool bStatus)
+            return SUCCESS;
+        }
+
+        /// <summary>
+        /// Cassette가 있는지를 체크. 
+        /// 센서 상태가 통일되지 않았을 경우엔 error를 return
+        /// </summary>
+        /// <param name="bStatus"></param>
+        /// <returns></returns>
+        public int IsCassetteExist(out bool bStatus)
         {
             bStatus = false;
             int iResult;
 
             // Wafer Frame 감지 센서 확인
-            bool[] bCheckIO = new bool[CASSETTE_DETECT_SENSOR_NUM];
+            bool[] bCheckIO = new bool[(int)ECassetteDetectedSensor.MAX];
 
-            for (int i = 0; i < CASSETTE_DETECT_SENSOR_NUM; i++)
+            for (int i = 0; i < (int)ECassetteDetectedSensor.MAX; i++)
             {
                 // 4개 센서를 확인한다.
-                iResult = m_RefComp.IO.IsOn(m_Data.InDetectCassette[i], out bCheckIO[i]);
+                iResult = m_RefComp.IO.IsOn(m_Data.InCassetteDetected[i], out bCheckIO[i]);
                 if (iResult != SUCCESS) return iResult;
-                // 읽기 실패나 Off가 된 센서가 있으면 False를 반환한다.
-                if (bCheckIO[i] == false)
-                {
-                    return SUCCESS;
-                }
             }
 
-            bStatus = true;
-            return SUCCESS;
+            // 4개의 센서 상태가 모두 일치하는지 체크
+            bool bTSum = bCheckIO[0];
+            bool bFSum = bCheckIO[0];
+            foreach (bool bDetected in bCheckIO)
+            {
+                bTSum &= bDetected;
+                bFSum |= bDetected;
+            }
 
+            if ((bCheckIO[0] == true && bTSum == false)
+                || (bCheckIO[0] == false && bFSum == true))
+                return GenerateErrorCode(ERR_ELEVATOR_CASSETTE_DETECTED_ABNORMAL);
+
+            if(bCheckIO[0] == true && bTSum == true) bStatus = true;
+            return SUCCESS;
         }
 
         /// <summary>
@@ -808,38 +802,13 @@ namespace LWDicer.Layers
         /// </summary>
         /// <param name="bStatus"></param>
         /// <returns></returns>
-        public int IsPushPullSafetyPos(out bool bStatus)
+        public int IsPushPullDetected(out bool bStatus)
         {
-            int iResult = m_RefComp.IO.IsOn(m_Data.PushPullSafetyPos, out bStatus);
+            int iResult = m_RefComp.IO.IsOn(m_Data.InPushPullDetected, out bStatus);
             if (iResult != SUCCESS) return iResult;
 
             return SUCCESS;
         }
-
-        public int IsElevatorCassetteNone(out bool bStatus)
-        {
-            bStatus = false;
-            int iResult;
-
-            // Wafer Frame 감지 센서 확인
-            bool[] bCheckIO = new bool[CASSETTE_DETECT_SENSOR_NUM];
-
-            for (int i = 0; i < CASSETTE_DETECT_SENSOR_NUM; i++)
-            {
-                // 4개 센서를 확인한다.
-                iResult = m_RefComp.IO.IsOn(m_Data.InDetectCassette[i], out bCheckIO[i]);
-                if (iResult != SUCCESS) return iResult;
-                // 읽기 실패나 On가 된 센서가 있으면 False를 반환한다.
-                if (bCheckIO[i] == true)
-                {
-                    return SUCCESS;
-                }
-            }
-
-            bStatus = true;
-            return SUCCESS;
-        }
-        
 
     }
 }

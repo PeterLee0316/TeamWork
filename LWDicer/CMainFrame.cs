@@ -221,9 +221,10 @@ namespace LWDicer.UI
             }
         }
 
-        static public bool DisplayMsg(string strMsg)
+        static public bool DisplayMsg(string strMsg, string strTitle = "")
         {
             var dlg = new FormMessageBox();
+            dlg.Text = strTitle;
             dlg.SetMessage(strMsg, EMessageType.OK);
             dlg.TopMost = true;
             dlg.ShowDialog();
@@ -233,9 +234,10 @@ namespace LWDicer.UI
             else return false;
         }
 
-        static public bool InquireMsg(string strMsg)
+        static public bool InquireMsg(string strMsg, string strTitle = "")
         {
             var dlg = new FormMessageBox();
+            dlg.Text = strTitle;
             dlg.SetMessage(strMsg, EMessageType.OK_CANCEL);
             dlg.TopMost = true;
             dlg.ShowDialog();

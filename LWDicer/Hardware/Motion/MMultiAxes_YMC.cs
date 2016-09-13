@@ -558,6 +558,13 @@ namespace LWDicer.Layers
             return SUCCESS;
         }
 
+        /// <summary>
+        /// Motor의 축 현재위치와 target 위치를 비교하여, 같은 위치에 있는지를 체크한다
+        /// </summary>
+        /// <param name="dTargetPos"></param>
+        /// <param name="bJudge"></param>
+        /// <param name="iCoordID"></param>
+        /// <returns></returns>
         public int ComparePosition(double[] dTargetPos, out bool[] bJudge, int iCoordID = DEF_ALL_COORDINATE)
         {
             int iResult = SUCCESS;

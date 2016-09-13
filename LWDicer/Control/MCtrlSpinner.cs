@@ -139,6 +139,7 @@ namespace LWDicer.Layers
 
         public MCtrlSpinner(CObjectInfo objInfo, CCtrlSpinnerRefComp refComp, CSpinnerData data) : base(objInfo)
         {
+            m_RefComp = refComp;
             SetData(data);
         }
 
@@ -154,6 +155,30 @@ namespace LWDicer.Layers
             target = ObjectExtensions.Copy(m_Data);
             return SUCCESS;
         }
+
+        public override int Initialize()
+        {
+            int iResult;
+            bool bStatus;
+
+            iResult = CheckVacuumSafety();
+            if (iResult != SUCCESS) return iResult;
+
+            iResult = TableDown();
+            if (iResult != SUCCESS) return iResult;
+
+            iResult = MoveCleanNozzleToSafetyPos();
+            if (iResult != SUCCESS) return iResult;
+
+            iResult = MoveCoatNozzleToSafetyPos();
+            if (iResult != SUCCESS) return iResult;
+
+            iResult = MoveRotateToLoadPos();
+            if (iResult != SUCCESS) return iResult;
+
+            return SUCCESS;
+        }
+
         #endregion
 
         #region Cylinder, Vacuum, Detect Object
@@ -241,30 +266,6 @@ namespace LWDicer.Layers
 
             return SUCCESS;
         }
-
-        public override int Initialize()
-        {
-            int iResult;
-            bool bStatus;
-
-            iResult = CheckVacuumSafety();
-            if (iResult != SUCCESS) return iResult;
-
-            iResult = TableDown();
-            if (iResult != SUCCESS) return iResult;
-
-            iResult = MoveCleanNozzleToSafetyPos();
-            if (iResult != SUCCESS) return iResult;
-
-            iResult = MoveCoatNozzleToSafetyPos();
-            if (iResult != SUCCESS) return iResult;
-
-            iResult = MoveRotateToLoadPos();
-            if (iResult != SUCCESS) return iResult;
-
-            return SUCCESS;
-        }
-
         #endregion
 
         public int IsRotateInLoadPos(out bool bStatus)

@@ -497,6 +497,10 @@ namespace LWDicer.Layers
 */
         public int Wait4UpComplete()
         {
+#if SIMULATION_TEST
+            Sleep(SimulationSleepTime);
+            return SUCCESS;
+#endif
             int iRet;   // Integer Return 
             bool bVal;  // Boolean Status
 
@@ -577,6 +581,10 @@ namespace LWDicer.Layers
 */
         public int Wait4DownComplete()
         {
+#if SIMULATION_TEST
+            Sleep(SimulationSleepTime);
+            return SUCCESS;
+#endif
             int iRet;   // Integer Return 
             bool bVal;  // Boolean Status
 
