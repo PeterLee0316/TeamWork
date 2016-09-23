@@ -770,6 +770,7 @@
       <DependentUpon>FormTest.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="app.config" />
+    <None Include="ClassDiagram1.cd" />
     <None Include="Mechanical\Scanner\IniFile\config.ini" />
     <None Include="Mechanical\Scanner\IniFile\csn.ini" />
     <None Include="Mechanical\Scanner\IniFile\isn.ini" />

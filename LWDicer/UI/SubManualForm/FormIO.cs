@@ -29,9 +29,6 @@ namespace LWDicer.UI
 
         private int nIOPage = 0;
 
-        private Syncfusion.Drawing.BrushInfo brushOn = new Syncfusion.Drawing.BrushInfo(Color.Yellow);
-        private Syncfusion.Drawing.BrushInfo brushOff = new Syncfusion.Drawing.BrushInfo(Color.White);
-
         public FormIO()
         {
             InitializeComponent();
@@ -49,14 +46,14 @@ namespace LWDicer.UI
                 str = X_Title[i].Text.Substring(1);
                 addr = INPUT_ORIGIN + Convert.ToInt32(str, 16);
                 CMainFrame.LWDicer.m_IO.IsOn(addr, out bStatus);
-                if (bStatus) X_Name[i].BackgroundColor = brushOn;
-                else X_Name[i].BackgroundColor = brushOff;
+                if (bStatus) X_Name[i].BackgroundColor = CMainFrame.Brush_On;
+                else X_Name[i].BackgroundColor = CMainFrame.Brush_Off;
 
                 str = Y_Title[i].Text.Substring(1);
                 addr = OUTPUT_ORIGIN + Convert.ToInt32(str, 16);
                 CMainFrame.LWDicer.m_IO.IsOn(addr, out bStatus);
-                if (bStatus) Y_Name[i].BackgroundColor = brushOn;
-                else Y_Name[i].BackgroundColor = brushOff;
+                if (bStatus) Y_Name[i].BackgroundColor = CMainFrame.Brush_On;
+                else Y_Name[i].BackgroundColor = CMainFrame.Brush_Off;
             }
         }
 

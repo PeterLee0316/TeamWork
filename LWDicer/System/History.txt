@@ -359,10 +359,19 @@ CSpinStep class -> CCleanStep / CCoatStep class 로 분리
 
 // Version : 0.0.34
 // Grade : ★
-// Date : 160912~
+// Date : 160912~160913
 // Context
 1. MTrsPushPull.Initialize 함수 및 하위 레벨 Initialize 부분 대략 수정 및 확인
 2. Auto Start, Auto Stop Process 작업중
+
+// Version : 0.0.35
+// Grade : ★
+// Date : 160919~160923
+// Context
+1. Auto Start, Auto Stop Process 작업중 : start, stop, error report 까지 확인 완료
+2. MIO_YMC class : 래더 프로그램과 연계 가능 확인. generate register address rule 변경 및 확인 (with 야스카와전기 박영섭대리)
+3. MYaskawa class : update parameters that are needed when call ymcMoveDriverPositioning function.
+4. UI : top screnn에 op switch, tower lamp status 추가.
 
 // ********************************************************************************
 // test를 위해서 임시로 결과값을 쓰는 코드들은 // for test 로 주석 달기 및 검색해서 사용하도록

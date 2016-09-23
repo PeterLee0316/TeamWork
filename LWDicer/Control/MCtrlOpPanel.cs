@@ -330,23 +330,27 @@ namespace LWDicer.Layers
             }
 #endif
 
-            // 6. AMP Fault 상태 확인 
-            //iResult = GetMotorAmpFaultStatus(out bStatus);
-            //if (iResult != SUCCESS) return iResult;
-            //if (bStatus == true)
-            //    return GenerateErrorCode(ERR_MNGOPPANEL_AMP_FAULT);
+// 6. AMP Fault 상태 확인 
+//iResult = GetMotorAmpFaultStatus(out bStatus);
+//if (iResult != SUCCESS) return iResult;
+//if (bStatus == true)
+//    return GenerateErrorCode(ERR_MNGOPPANEL_AMP_FAULT);
 
             // 7. Air 확인 
             iResult = m_RefComp.OpPanel.GetAirErrorStatus(out bStatus);
             if (iResult != SUCCESS) return iResult;
+#if !SIMULATION_TEST
             if (bStatus == true)
                 return GenerateErrorCode(ERR_MNGOPPANEL_MAIN_AIR_ERROR);
+#endif
 
             // 8. Vacuum 확인 
             iResult = m_RefComp.OpPanel.GetVacuumErrorStatus(out bStatus);
             if (iResult != SUCCESS) return iResult;
+#if !SIMULATION_TEST
             if (bStatus == true)
                 return GenerateErrorCode(ERR_MNGOPPANEL_MAIN_VACCUM_ERROR);
+#endif
 
 #if DEF_NEW_CLEAN_SYSTEM
             // 9. N2 확인 
@@ -372,6 +376,38 @@ namespace LWDicer.Layers
             if (iResult != SUCCESS) return iResult;
 
             return SUCCESS;
+        }
+
+        private int TempOnSWStatus(int addr)
+        {
+            int iResult = m_RefComp.IO.SetBit(addr, true);
+            if (iResult != SUCCESS) return iResult;
+
+            Sleep(100);
+            iResult = m_RefComp.IO.SetBit(addr, false);
+            if (iResult != SUCCESS) return iResult;
+
+            return SUCCESS;
+        }
+
+        public int TempOnStartSWStatus()
+        {
+            return TempOnSWStatus(DEF_IO.iStart_SWFront);
+        }
+
+        public int TempOnStopSWStatus()
+        {
+            return TempOnSWStatus(DEF_IO.iStop_SWFront);
+        }
+
+        public int TempOnResetSWStatus()
+        {
+            return TempOnSWStatus(DEF_IO.iReset_SWFront);
+        }
+
+        public int TempOnEMOSWStatus()
+        {
+            return TempOnSWStatus(DEF_IO.iEMO_SW);
         }
 
         /// <summary>

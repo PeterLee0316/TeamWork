@@ -15,6 +15,7 @@ namespace LWDicer.Layers
         // Message Queue
         private Queue<MEvent>  m_eventQ;
         private object _Lock = new object();
+        private bool m_bWriteDebug = false;
 
         public MCmdTarget(CObjectInfo objInfo) : base(objInfo)
         {
@@ -28,7 +29,7 @@ namespace LWDicer.Layers
         /// <param name="wParam"></param>
         /// <param name="lParam"></param>
         /// <returns></returns>
-        public int PostMsg(int msg, int wParam = 0, int lParam = 0)
+        public int PostMsg(int msg, int wParam = -1, int lParam = -1)
 		{ 
             return PostMsg(new MEvent(msg, wParam, lParam)); 
         }
@@ -42,6 +43,7 @@ namespace LWDicer.Layers
         {
             lock(_Lock)
             {
+                if(m_bWriteDebug)
                 Debug.WriteLine("[EnQueue] " + evnt.ToString());
 
                 m_eventQ.Enqueue(evnt);
@@ -57,12 +59,12 @@ namespace LWDicer.Layers
         /// <param name="wParam"></param>
         /// <param name="lParam"></param>
         /// <returns></returns>
-        protected int SendMsg(int msg, int wParam = 0, int lParam = 0)
+        protected int SendMsg(int msg, int wParam = -1, int lParam = -1)
         { 
             return SendMsg(new MEvent(msg, wParam, lParam)); 
         }
 
-        public int SendMsg(EThreadMessage msg, int wParam = 0, int lParam = 0)
+        public int SendMsg(EThreadMessage msg, int wParam = -1, int lParam = -1)
         {
             return SendMsg((int)msg, wParam, lParam);
         }
@@ -84,7 +86,8 @@ namespace LWDicer.Layers
         /// <returns></returns>
         protected virtual int ProcessMsg(MEvent evnt)
         {
-            Debug.WriteLine("Process " + evnt.ToString());
+            if(m_bWriteDebug)
+                Debug.WriteLine("Process " + evnt.ToString());
 
             return SUCCESS;
         }
@@ -122,7 +125,8 @@ namespace LWDicer.Layers
                 try
                 {
                     MEvent evnt = (MEvent)m_eventQ.Dequeue();
-                    Debug.WriteLine("[DeQueue] " + evnt.ToString());
+                    if (m_bWriteDebug)
+                        Debug.WriteLine("[DeQueue] " + evnt.ToString());
                     return evnt;
                 }
                 catch (Exception ex)

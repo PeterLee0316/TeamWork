@@ -133,20 +133,33 @@ namespace LWDicer.Layers
 
             // 160907 by sjr. 아진 io board를 사용하면서 input address 1234가 hex address MB100EA로 변환된 주소를 사용하여
             // ymcGetRegisterDataHandle 함수를 콜 했더니 MP_NOTREGSTERNAME 리턴함.
+            // 160922 by sjr. 위의 MP_NOTREGSTERNAME 에러는 mp720 래더 프로그램에서 지정한 사용하는 모듈의 갯수 범위를 초과한
+            // 주소를 지정해서 에러가 발생하는 거였음.
+            // 메모리 지정 하는 형식은 MW100 번지의 8번째 비트 = MB1008
+            // 그러나 MW100까지는 decimal 표현 + 비트는 hex 표현해야함. 즉 MW112의 12번째 비트 = MB112C 로 표현되어야 함.
+            // addr 2176 = MB20110 (즉, 2011워드의 0번째 비트) = 래더프로그램 (한펑션에 10모듈 사용기준)에서 12번째 모듈에 
+            // 지정된 address와 연결된 module 로 출력이 나감
             string s1;
             if (addr < OUTPUT_ORIGIN) s1 = "1";
             else s1 = "2";
-            addr = addr % 1000;
+            int addr2 = addr % 1000;
+            int addr_w = addr2 / 16;
+            int addr_b = addr2 % 16;
+
             if(type == EYMCDataType.B)
             {
-                //registerName = String.Format($"{EYMCRegisterType.M}{type}{s1}{(addr).ToString("X4")}");
-                registerName = String.Format($"{EYMCRegisterType.M}{type}{s1}{(addr).ToString("D4")}");
+                registerName = String.Format($"{EYMCRegisterType.M}{type}{s1}{(addr_w).ToString("D3")}{(addr_b).ToString("X1")}");
+                //registerName = String.Format($"{EYMCRegisterType.M}{type}{s1}{(addr2).ToString("X4")}");
+                //registerName = String.Format($"{EYMCRegisterType.M}{type}{s1}{(addr2).ToString("D4")}");
             } else
             {
-                //registerName = String.Format($"{EYMCRegisterType.M}{type}{s1}{(addr).ToString("X3")}");
-                registerName = String.Format($"{EYMCRegisterType.M}{type}{s1}{(addr).ToString("D3")}");
+                //registerName = String.Format($"{EYMCRegisterType.M}{type}{s1}{(addr2).ToString("X3")}");
+                registerName = String.Format($"{EYMCRegisterType.M}{type}{s1}{(addr2).ToString("D3")}");
             }
-
+            if(s1 == "2" && addr == 2176)
+            {
+                int k = 0;
+            }
 #if !SIMULATION_IO
             // get handle
             uint rc = CMotionAPI.ymcGetRegisterDataHandle(registerName, ref hDataHandle);

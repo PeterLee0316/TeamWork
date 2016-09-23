@@ -90,7 +90,7 @@ namespace MotionYMC
 			// Filter type
 			,FTYPE_S_CURVE = 0                         	// 0: Move average filter (simple S-curve)
 			,FTYPE_EXP = 1                             	// 1: Exponential Filter
-			,FTYPE_NOTIONG = 2                         	// 2: WITHOUT Filter
+			,FTYPE_NOTHING = 2                         	// 2: WITHOUT Filter
 			,FTYPE_KEEP = 3                            	// 3: Current setting held
 
 			// WaitForCompletion Constant definition

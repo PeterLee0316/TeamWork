@@ -1798,7 +1798,15 @@ MP2101TM            SVC(built-in the board, with MECHATROLINK port 1)       1   
             ushort TimeOut1 = 0;
             CMotionAPI.MOTION_DATA[] MotionData;
             int speedType = (bJogFastMove == true) ? (int)EMotorSpeed.JOG_FAST : (int)EMotorSpeed.JOG_SLOW;
+
+            // Jog 가감속 관련하여서는 servo의 monitor parameter 3:4에서 단위를, 54에서 시간이 지정된것을 확인할 수 있음.
             GetDevice_MotionData(deviceNo, out MotionData, speedType);
+            MotionData[0].MoveType     = (Int16)CMotionAPI.ApiDefs.MTYPE_RELATIVE;
+            MotionData[0].VelocityType = (Int16)CMotionAPI.ApiDefs.VTYPE_UNIT_PAR;
+            MotionData[0].AccDecType   = (Int16)CMotionAPI.ApiDefs.ATYPE_TIME;
+            MotionData[0].FilterType   = (Int16)CMotionAPI.ApiDefs.FTYPE_EXP;
+            MotionData[0].DataType     = 0x0000;
+            MotionData[0].FilterTime   = 10;
 
 #if SIMULATION_MOTION_YMC
             return SUCCESS;
@@ -1849,7 +1857,7 @@ MP2101TM            SVC(built-in the board, with MECHATROLINK port 1)       1   
         /// <param name="tempSpeed"></param>
         /// <param name="waitMode"></param>
         /// <returns></returns>
-        public int MoveToPos(int deviceNo, double[] pos, CMotorSpeedData[] tempSpeed = null, ushort waitMode = (ushort)CMotionAPI.ApiDefs.DISTRIBUTION_COMPLETED)
+        public int MoveToPos(int deviceNo, double[] pos, CMotorSpeedData[] tempSpeed = null, ushort waitMode = (ushort)CMotionAPI.ApiDefs.POSITIONING_COMPLETED)
         {
             if (deviceNo == (int)EYMC_Device.NULL) return SUCCESS; // return success if device is null
 
@@ -1862,11 +1870,22 @@ MP2101TM            SVC(built-in the board, with MECHATROLINK port 1)       1   
             GetDevice_MotionData(deviceNo, out MotionData, SpeedType, tempSpeed);
             GetDeviceWaitCompletion(deviceNo, out WaitForCompletion, waitMode);
 
-            for(int i = 0; i < MotionData.Length; i++)
+            // 2016.09.22 by sjr 확인중...
+            // MTYPE_RELATIVE 0H Relative (incremental value specified, common for linear axis and rotary axis)
+            // MTYPE_ABSOLUTE 1H Absolute (absolute position specified, for linear axis)
+            // MTYPE_R_SHORTEST 2H Rotary Shortest(absolute position specified, for rotary axis, shortest distance)
+            // MTYPE_R_POSITIVE 3H Rotary Positive(absolute position specified, for rotary axis, forward rotation)
+            // MTYPE_R_NEGATIVE 4H Rotary Negative(absolute position specified, for rotary axis,
+            for (int i = 0; i < MotionData.Length; i++)
             {
-                // 흐음..
-                //MotionData[i].MoveType = (short)CMotionAPI.ApiDefs.MTYPE_ABSOLUTE; // 지정 Position으로 이동하기 위해서
-                MotionData[i].MoveType = (short)CMotionAPI.ApiDefs.MTYPE_R_SHORTEST; // 지정 Position으로 이동하기 위해서
+                MotionData[i].MoveType         = (short)CMotionAPI.ApiDefs.MTYPE_ABSOLUTE;
+                //MotionData[i].MoveType       = (short)CMotionAPI.ApiDefs.MTYPE_R_SHORTEST;
+                MotionData[i].CoordinateSystem = (Int16)CMotionAPI.ApiDefs.WORK_SYSTEM;
+                MotionData[i].VelocityType     = (Int16)CMotionAPI.ApiDefs.VTYPE_UNIT_PAR;
+                MotionData[i].AccDecType       = (Int16)CMotionAPI.ApiDefs.ATYPE_TIME;
+                MotionData[i].FilterType       = (Int16)CMotionAPI.ApiDefs.FTYPE_NOTHING;
+                MotionData[i].DataType         = 0x0000;
+                MotionData[i].FilterTime       = 10;
             }
 
             // 0.8 check axis state for move
@@ -1890,7 +1909,7 @@ MP2101TM            SVC(built-in the board, with MECHATROLINK port 1)       1   
             return SUCCESS;
         }
 
-        public int StartMoveToPos(int[] axisList, bool[] useAxis, double[] pos, CMotorSpeedData[] tempSpeed = null, ushort waitMode = (ushort)CMotionAPI.ApiDefs.DISTRIBUTION_COMPLETED)
+        public int StartMoveToPos(int[] axisList, bool[] useAxis, double[] pos, CMotorSpeedData[] tempSpeed = null, ushort waitMode = (ushort)CMotionAPI.ApiDefs.POSITIONING_COMPLETED)
         {
             return MoveToPos(axisList, useAxis, pos, tempSpeed, waitMode);
 
@@ -1905,7 +1924,7 @@ MP2101TM            SVC(built-in the board, with MECHATROLINK port 1)       1   
         /// <param name="tempSpeed"></param>
         /// <param name="waitMode"></param>
         /// <returns></returns>
-        public int MoveToPos(int[] axisList, bool[] useAxis, double[] pos, CMotorSpeedData[] tempSpeed = null, ushort waitMode = (ushort)CMotionAPI.ApiDefs.DISTRIBUTION_COMPLETED)
+        public int MoveToPos(int[] axisList, bool[] useAxis, double[] pos, CMotorSpeedData[] tempSpeed = null, ushort waitMode = (ushort)CMotionAPI.ApiDefs.POSITIONING_COMPLETED)
         {
 #if SIMULATION_MOTION_YMC
             Sleep(SimulationSleepTime);
@@ -1962,8 +1981,15 @@ MP2101TM            SVC(built-in the board, with MECHATROLINK port 1)       1   
                 GetDeviceWaitCompletion(servoNo, out tWait, waitMode);
 
                 MotionData[j] = tMotion[0];
-                MotionData[j].MoveType = (short)CMotionAPI.ApiDefs.MTYPE_R_SHORTEST; // 지정 Position으로 이동하기 위해서
-                //MotionData[j].MoveType = (short)CMotionAPI.ApiDefs.MTYPE_ABSOLUTE; // 지정 Position으로 이동하기 위해서
+                MotionData[j].MoveType         = (short)CMotionAPI.ApiDefs.MTYPE_ABSOLUTE;
+                //MotionData[j].MoveType       = (short)CMotionAPI.ApiDefs.MTYPE_R_SHORTEST;
+                MotionData[j].CoordinateSystem = (Int16)CMotionAPI.ApiDefs.WORK_SYSTEM;
+                MotionData[j].VelocityType     = (Int16)CMotionAPI.ApiDefs.VTYPE_UNIT_PAR;
+                MotionData[j].AccDecType       = (Int16)CMotionAPI.ApiDefs.ATYPE_TIME;
+                MotionData[j].FilterType       = (Int16)CMotionAPI.ApiDefs.FTYPE_NOTHING;
+                MotionData[j].DataType         = 0x0000;
+                MotionData[j].FilterTime       = 10;
+
                 PositionData[j] = tPosition[0];
                 WaitForCompletion[j] = tWait[0];
                 tAxisList[j] = servoNo;

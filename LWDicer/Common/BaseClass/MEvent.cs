@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using static LWDicer.Layers.DEF_Thread;
 
 namespace LWDicer.Layers
 {
@@ -15,7 +16,7 @@ namespace LWDicer.Layers
         public int Msg { get; set; }
         // 호출자 (ex. sender thread's id)
         public int wParam { get; set; }
-        // Message 값 (ex. alarm code : GenerateErrorCode 로 생성된 값)
+        // Message 값 (ex. alarm code : GenerateErrorCode 로 생성된 값) or Target Thread's Id
         public int lParam { get; set; }
 
         private DateTime MsgTime;
@@ -40,7 +41,23 @@ namespace LWDicer.Layers
 
         public override string ToString()
         {
-            return $"[Event] Idx_{Index}, Msg : {Msg}, wParam : { wParam}, lParam : {lParam}, Created : {MsgTime.ToString("yyyy-MM-dd HH:mm:ss.ffff")}";
+            return $"[Event] Idx_{Index}, Msg : {Msg}, wParam : {wParam}, lParam : {lParam}, Created : {MsgTime.ToString("yyyy-MM-dd HH:mm:ss.ffff")}";
+        }
+
+        public string ToWindowMessage()
+        {
+            EWindowMessage cnvt = (EWindowMessage)Enum.Parse(typeof(EWindowMessage), Msg.ToString());
+            EThreadChannel sender = (EThreadChannel)Enum.Parse(typeof(EThreadChannel), wParam.ToString());
+            EThreadChannel receiver = (EThreadChannel)Enum.Parse(typeof(EThreadChannel), lParam.ToString());
+            return $"[Event] Idx_{Index}, Msg : {cnvt}, wParam : {sender}, lParam : {receiver}, Created : {MsgTime.ToString("yyyy-MM-dd HH:mm:ss.ffff")}";
+        }
+
+        public string ToThreadMessage()
+        {
+            EThreadMessage cnvt = (EThreadMessage)Enum.Parse(typeof(EThreadMessage), Msg.ToString());
+            EThreadChannel sender = (EThreadChannel)Enum.Parse(typeof(EThreadChannel), wParam.ToString());
+            EThreadChannel receiver = (EThreadChannel)Enum.Parse(typeof(EThreadChannel), lParam.ToString());
+            return $"[Event] Idx_{Index}, Msg : {cnvt}, wParam : {sender}, lParam : {receiver}, Created : {MsgTime.ToString("yyyy-MM-dd HH:mm:ss.ffff")}";
         }
     }
 }

@@ -55,6 +55,15 @@ namespace LWDicer.UI
         //private FormHelpScreen HelpScreen;
 
         private Form[] MainFormArray = new Form[(int)EFormType.MAX];
+        private Form FormAuto;
+
+        public static Syncfusion.Drawing.BrushInfo Brush_On   = new Syncfusion.Drawing.BrushInfo(Color.Yellow);
+        public static Syncfusion.Drawing.BrushInfo Brush_Off  = new Syncfusion.Drawing.BrushInfo(Color.White);
+        public static Syncfusion.Drawing.BrushInfo Brush_R    = new Syncfusion.Drawing.BrushInfo(Color.Red);
+        public static Syncfusion.Drawing.BrushInfo Brush_Y    = new Syncfusion.Drawing.BrushInfo(Color.Yellow);
+        public static Syncfusion.Drawing.BrushInfo Brush_G    = new Syncfusion.Drawing.BrushInfo(Color.Green);
+        public static Syncfusion.Drawing.BrushInfo Brush_B    = new Syncfusion.Drawing.BrushInfo(Color.Blue);
+        public static Syncfusion.Drawing.BrushInfo Brush_Gray = new Syncfusion.Drawing.BrushInfo(Color.Gray);
 
         public CMainFrame()
         {
@@ -110,16 +119,39 @@ namespace LWDicer.UI
 
         public void ProcessMsg(MEvent evnt)
         {
-            string msg = "MainFrame got message from control : " + evnt;
+            string msg = "MainFrame got message from control : " + evnt.ToWindowMessage();
             Debug.WriteLine("===================================================");
             Debug.WriteLine(msg);
             Debug.WriteLine("===================================================");
 
-            switch(evnt.Msg)
+            // 변수 선언 및 작업의 편리성을 위해서 일부러 switch대신에 if/else if 구문을 사용함
+            if (false)
             {
-                case (int)EWindowMessage.WM_ALARM_MSG:
-                    DisplayAlarm(evnt.lParam, evnt.wParam);
-                    break;
+
+            }
+            else if(evnt.Msg == (int)EWindowMessage.WM_START_READY_MSG)
+            {
+                ((FormAutoScreen)FormAuto).WindowProc(evnt);
+                BottomScreen.DisableBottomPage();
+            }
+            else if (evnt.Msg == (int)EWindowMessage.WM_START_RUN_MSG)
+            {
+                ((FormAutoScreen)FormAuto).WindowProc(evnt);
+                BottomScreen.DisableBottomPage();
+            }
+            else if (evnt.Msg == (int)EWindowMessage.WM_START_MANUAL_MSG)
+            {
+                ((FormAutoScreen)FormAuto).WindowProc(evnt);
+                BottomScreen.EnableBottomPage();
+            }
+            else if (evnt.Msg == (int)EWindowMessage.WM_STEPSTOP_MSG)
+            {
+                ((FormAutoScreen)FormAuto).WindowProc(evnt);
+                BottomScreen.DisableBottomPage();
+            }
+            else if (evnt.Msg == (int)EWindowMessage.WM_ALARM_MSG)
+            {
+                DisplayAlarm(evnt.lParam, evnt.wParam);
             }
         }
 
@@ -157,6 +189,7 @@ namespace LWDicer.UI
             MainFormArray[(int)EFormType.TEACH]  = new FormTeachScreen();
             MainFormArray[(int)EFormType.LOG]    = new FormLogScreen();
             MainFormArray[(int)EFormType.HELP]   = new FormHelpScreen();
+            FormAuto = MainFormArray[(int)EFormType.AUTO];
 
             SetProperty(TopScreen);
             SetProperty(BottomScreen);

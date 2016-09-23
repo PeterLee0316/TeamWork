@@ -31,6 +31,7 @@
             this.BtnOriginReturn = new Syncfusion.Windows.Forms.ButtonAdv();
             this.BtnUnitInit = new Syncfusion.Windows.Forms.ButtonAdv();
             this.BtnStart = new Syncfusion.Windows.Forms.ButtonAdv();
+            this.LabelButtonGuide = new Syncfusion.Windows.Forms.Tools.GradientLabel();
             this.SuspendLayout();
             // 
             // BtnOriginReturn
@@ -84,6 +85,19 @@
             this.BtnStart.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.BtnStart.Click += new System.EventHandler(this.BtnStart_Click);
             // 
+            // LabelButtonGuide
+            // 
+            this.LabelButtonGuide.BackgroundColor = new Syncfusion.Drawing.BrushInfo(Syncfusion.Drawing.GradientStyle.Vertical, System.Drawing.Color.FromArgb(((int)(((byte)(237)))), ((int)(((byte)(240)))), ((int)(((byte)(247))))), System.Drawing.Color.LightCyan);
+            this.LabelButtonGuide.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
+            | System.Windows.Forms.Border3DSide.Right) 
+            | System.Windows.Forms.Border3DSide.Bottom)));
+            this.LabelButtonGuide.Location = new System.Drawing.Point(359, 156);
+            this.LabelButtonGuide.Name = "LabelButtonGuide";
+            this.LabelButtonGuide.Size = new System.Drawing.Size(454, 68);
+            this.LabelButtonGuide.TabIndex = 18;
+            this.LabelButtonGuide.Text = "gradientLabel1";
+            this.LabelButtonGuide.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // FormAutoScreen
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
@@ -91,6 +105,7 @@
             this.BackColor = System.Drawing.Color.Lavender;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.ClientSize = new System.Drawing.Size(1278, 817);
+            this.Controls.Add(this.LabelButtonGuide);
             this.Controls.Add(this.BtnStart);
             this.Controls.Add(this.BtnOriginReturn);
             this.Controls.Add(this.BtnUnitInit);
@@ -109,5 +124,6 @@
         private Syncfusion.Windows.Forms.ButtonAdv BtnOriginReturn;
         private Syncfusion.Windows.Forms.ButtonAdv BtnUnitInit;
         private Syncfusion.Windows.Forms.ButtonAdv BtnStart;
+        private Syncfusion.Windows.Forms.Tools.GradientLabel LabelButtonGuide;
     }
 }

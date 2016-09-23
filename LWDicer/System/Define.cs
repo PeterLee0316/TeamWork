@@ -1529,7 +1529,6 @@ namespace LWDicer.Layers
             TrsHandler           ,
             MAX,
         }
-        //public const int (int)EThreadChannel.MAX  = 15;
 
         // Thread Run
         public const int ThreadSleepTime     = 10;
@@ -1570,15 +1569,15 @@ namespace LWDicer.Layers
             // _CNF command는 _CMD command에 대한 response 임
             MSG_MANUAL_CMD = 10,                 // 수동 모드로의 전환
             MSG_MANUAL_CNF,                      // 
-            MSG_START_RUN_CMD,                   // 화면에서 시작 버튼을 누름
-            MSG_START_RUN_CNF,                   // 
-            MSG_START_CMD,                       // OP Panel에서 시작 버튼을 누름
+            MSG_READY_RUN_CMD,                   // 화면에서 시작 버튼을 누름, 즉 manual -> start ready 상태로 변경
+            MSG_READY_RUN_CNF,                   // 
+            MSG_START_CMD,                       // OP Panel에서 시작 버튼을 누름 / start dialog에서 시작 버튼을 클릭, 즉 start ready -> start 상태로 바뀜
             MSG_START_CNF,                       //
             MSG_ERROR_STOP_CMD,                  // Error Stop 스위치를 누름
             MSG_ERROR_STOP_CNF,
-            MSG_STEP_STOP_CMD,                   // Step Stop 스위치를 누름
+            MSG_STEP_STOP_CMD,                   // cycle stop 상태에서 한번더 op panel의 정지 버튼을 누름 / step stop dialog에서 정지 버튼을 클릭
             MSG_STEP_STOP_CNF,
-            MSG_CYCLE_STOP_CMD,                  // Cycle Stop 스위치를 누름
+            MSG_CYCLE_STOP_CMD,                  // 자동운전 상태에서 op panel의 정지 버튼을 누름 / 화면에서 운전 정지 버튼을 클릭.
             MSG_CYCLE_STOP_CNF,
             MSG_PANEL_SUPPLY_START,              // 화면에서 Panel Supply Stop 버튼을 누름
             MSG_PANEL_SUPPLY_STOP,
@@ -1704,8 +1703,8 @@ namespace LWDicer.Layers
             WM_MSGBOX_MSG,          // MyMessageBox 띄우기
             WM_ALIGN_MSG,           // Align 인식 실패 시 처리하는 Dialog 띄우기
             WM_DISPLAYUPDATE_MSG,   // Display Update Msg
-            WM_START_RUN_MSG,
-            WM_START_READY_MSG,
+            WM_START_RUN_MSG,       // 자동운전 시작
+            WM_START_READY_MSG,     // 자동운전 준비 단계
             WM_START_MANUAL_MSG,
             WM_ERRORSTOP_MSG,
             WM_STEPSTOP_MSG,
@@ -2555,6 +2554,7 @@ namespace LWDicer.Layers
         
         public enum EFormType
         {
+            NONE = -1,
             AUTO,
             MANUAL,
             DATA,

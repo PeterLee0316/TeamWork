@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using System.Diagnostics;
 
 using Syncfusion.Windows.Forms;
 using Syncfusion.Windows.Forms.Tools;
@@ -48,6 +49,187 @@ namespace LWDicer.UI
         private void FormAutoScreen_Shown(object sender, EventArgs e)
         {
             this.Activate();
+        }
+
+        protected override void WndProc(ref Message wMessage)
+        {
+            switch (wMessage.Msg)
+            {
+                default:
+                    break;
+            }
+
+            base.WndProc(ref wMessage);
+        }
+
+        public void WindowProc(MEvent evnt)
+        {
+            string msg = "FormAutoScreen got message from MainFrame : " + evnt.ToWindowMessage();
+            Debug.WriteLine("===================================================");
+            Debug.WriteLine(msg);
+            Debug.WriteLine("===================================================");
+
+            // 변수 선언 및 작업의 편리성을 위해서 일부러 switch대신에 if/else if 구문을 사용함
+            if (false)
+            {
+
+            }
+            else if (evnt.Msg == (int)EWindowMessage.WM_START_READY_MSG)
+            {
+                //m_dlgStart.ShowWindow(SW_SHOW);
+                //m_dlgErrorStop.ShowWindow(SW_HIDE);
+                //m_dlgStepStop.ShowWindow(SW_HIDE);
+                LabelButtonGuide.Text = "Press start button to start auto run.";
+                LabelButtonGuide.Visible = true;
+
+                // Button Disable 
+                m_nStartReady = 1;
+                SetButtonStatus(true);
+            }
+            else if (evnt.Msg == (int)EWindowMessage.WM_START_RUN_MSG)
+            {
+                //m_dlgStart.ShowWindow(SW_HIDE);
+                //m_dlgErrorStop.ShowWindow(SW_HIDE);
+                //m_dlgStepStop.ShowWindow(SW_HIDE);
+                LabelButtonGuide.Text = "Auto Running....";
+                LabelButtonGuide.Visible = true;
+
+                // Button Disable 
+                m_nStartReady = 2;
+                SetButtonStatus(true);
+            }
+            else if (evnt.Msg == (int)EWindowMessage.WM_START_MANUAL_MSG)
+            {
+                //m_dlgStart.ShowWindow(SW_HIDE);
+                //m_dlgErrorStop.ShowWindow(SW_HIDE);
+                //m_dlgStepStop.ShowWindow(SW_HIDE);
+                LabelButtonGuide.Text = "Manual Mode....";
+                LabelButtonGuide.Visible = true;
+
+                // Button Disable 
+                m_nStartReady = 0;
+                SetButtonStatus(false);
+            }
+            else if (evnt.Msg == (int)EWindowMessage.WM_STEPSTOP_MSG)
+            {
+                //m_dlgStart.ShowWindow(SW_HIDE);
+                //m_dlgErrorStop.ShowWindow(SW_HIDE);
+                //m_dlgStepStop.ShowWindow(SW_SHOW);
+                LabelButtonGuide.Text = "Step Stop Mode";
+                LabelButtonGuide.Visible = true;
+
+                SetButtonStatus(true);
+            }
+            else if (evnt.Msg == (int)EWindowMessage.WM_ERRORSTOP_MSG)
+            {
+                //m_dlgStart.ShowWindow(SW_HIDE);
+                //m_dlgErrorStop.ShowWindow(SW_SHOW);
+                //m_dlgStepStop.ShowWindow(SW_HIDE);
+                LabelButtonGuide.Text = "Error Stop Mode";
+                LabelButtonGuide.Visible = true;
+
+            }
+            else if (evnt.Msg == (int)EWindowMessage.WM_ALARM_MSG)
+            {
+            }
+            else if (evnt.Msg ==(int)EWindowMessage.WM_DISP_PANEL_DISTANCE_MSG1)
+            {
+                //m_sMeasuredDistCell1.SetWindowText(m_pTrsStage1->GetAlignResult());
+            }
+            else if (evnt.Msg ==(int)EWindowMessage.WM_DISP_TACTTIME_MSG)
+            {
+                //// EQ Tact Time 기록하기 
+                //str.Format("%.2f", *(double*)wParam);
+                //m_LblEqTactTime.SetWindowText(str);
+
+                //// Line Tact Time 기록하기 
+                //str.Format("%.2f", *(double*)lParam);
+                //m_LblLineTactTime.SetWindowText(str);
+            }
+            else if (evnt.Msg ==(int)EWindowMessage.WM_DISP_PRODUCT_IN_MSG)
+            {
+                //m_ProductData.uiProductQuantity_forIn++;
+                //str.Format("IN %d, OUT %d", m_ProductData.uiProductQuantity_forIn, m_ProductData.uiProductQuantity_forOut);
+                //m_LblProductCnt.SetWindowText(str);
+                //MSiSystem.SaveProductData(m_ProductData);
+            }
+            else if (evnt.Msg ==(int)EWindowMessage.WM_DISP_PRODUCT_OUT_MSG)
+            {
+                //m_ProductData.uiProductQuantity_forOut++;
+                //str.Format("IN %d, OUT %d", m_ProductData.uiProductQuantity_forIn, m_ProductData.uiProductQuantity_forOut);
+                //m_LblProductCnt.SetWindowText(str);
+                //MSiSystem.SaveProductData(m_ProductData);
+
+                //str.Format("%s", *(CString*)wParam);
+                //m_LblAfterEquipId.SetWindowText(str);
+            }
+            else if (evnt.Msg ==(int)EWindowMessage.WM_DISP_EQ_STATE)
+            {
+                //m_LblEqState.SetWindowText(m_strEqState[m_pTrsLCNet->m_eEqState]);
+            }
+            else if (evnt.Msg ==(int)EWindowMessage.WM_DISP_EQ_PROC_STATE)
+            {
+                //m_LblEqProcessState.SetWindowText(m_strEqProcState[m_pTrsLCNet->m_eEqProcState]);
+            }
+            /*	else if (evnt.Msg ==(int)EWindowMessage.WM_DISP_TERMINAL_MSG)
+                {
+                    m_ListTerminalMsg.DeleteString(1);
+                    CTime t = CTime::GetCurrentTime();
+                    CString temp;
+                    temp = *(CString*)lParam;
+                    sprintf(buf, "[%02d:%02d:%02d] %s", t.GetHour(), t.GetMinute(), t.GetSecond(), temp);
+
+                    m_ListTerminalMsg.InsertString(0, buf);
+                    if(m_ListTerminalMsg.GetCount()>5)
+                        m_ListTerminalMsg.DeleteString(m_ListTerminalMsg.GetCount()-1);
+                    m_ListTerminalMsg.ShowWindow(SW_SHOW);
+                    m_ListTerminalMsg.UpdateWindow();
+                }
+            */
+            else if (evnt.Msg ==(int)EWindowMessage.WM_DISP_RUN_MODE)
+            {
+                //UpdateDataMembers();
+            }
+            //else if (evnt.Msg ==(int)EWindowMessage.WM_DISP_MODEL_NAME)
+            //{
+            //    UpdateDataMembers();
+            //}
+            //else if (evnt.Msg ==(int)EWindowMessage.WM_NSMC_CONTROL_PANEL_SUPPLY_START)
+            //{
+            //    BOOL bTest = FALSE;
+            //    m_BtnCellSupplyStop.SetValue(bTest);
+
+            //    if (bTest == (int)EWindowMessage.TRUE)  // 버튼 눌려졌을 때
+            //    {
+            //        m_pTrsStage1->SendMsg(MSG_PANEL_SUPPLY_STOP);
+            //    }
+            //    else
+            //    {
+            //        m_pTrsStage1->SendMsg(MSG_PANEL_SUPPLY_START);
+            //    }
+            //}
+            //else if (evnt.Msg ==(int)EWindowMessage.WM_NSMC_CONTROL_PANEL_SUPPLY_STOP)
+            //{
+            //    BOOL bTest = TRUE;
+            //    m_BtnCellSupplyStop.SetValue(bTest);
+
+            //    if (bTest == (int)EWindowMessage.TRUE)  // 버튼 눌려졌을 때
+            //    {
+            //        m_pTrsStage1->SendMsg(MSG_PANEL_SUPPLY_STOP);
+            //    }
+            //    else
+            //    {
+            //        m_pTrsStage1->SendMsg(MSG_PANEL_SUPPLY_START);
+            //    }
+            //}
+            else
+            {
+                msg = "FormAutoScreen unknown message : " + evnt;
+                Debug.WriteLine("***************************************************");
+                Debug.WriteLine(msg);
+                Debug.WriteLine("***************************************************");
+            }
+
         }
 
         private void BtnOriginReturn_Click(object sender, EventArgs e)
@@ -170,23 +352,22 @@ namespace LWDicer.UI
             if (CMainFrame.InquireMsg("Start AutoRun?", "Question") == false)
                 return;
 
+            // button 상태 제어는 WindowProc 함수에서 automanager에서 날아온 message에 의해 제어함
+            //m_nStartReady = 1;
+            //SetButtonStatus(true);
+            CMainFrame.LWDicer.m_trsAutoManager.SendMsg(EThreadMessage.MSG_READY_RUN_CMD);
+
             // Message Pop up
             // RUN SW 또는 Stop SW 눌릴 때 까지 대기
+#if SIMULATION_TEST
+            //m_nStartReady = 2;
+            CMainFrame.LWDicer.Sleep(1000);
+            //CMainFrame.LWDicer.m_trsAutoManager.SendMsg(EThreadMessage.MSG_START_CMD);
+#else
 
-            BtnStart.Text = "Stop AutoRun";
-            //BtnStart.Enabled = false;
-            //		m_BtnOpMode1.Enabled = false;
-            //BtnModeSelect.Enabled = false;
-            BtnOriginReturn.Enabled = false;
-            BtnUnitInit.Enabled = false;
-            //		m_BtnCellSupplyStop.Enabled = false; // For Message Transfer
-            //		m_BtnPcbSupplyStop.Enabled = false;
-            //BtnMonitorChange.Enabled = false;
-            //		m_BtnCameraChange.Enabled = false;
-
-            //		testTemp->EnableWindow(false);
-
-            CMainFrame.LWDicer.m_trsAutoManager.SendMsg(EThreadMessage.MSG_START_RUN_CMD);
+            //m_dlgStart.m_LblMessage.SetWindowText("START Button을 눌러주세요~!");
+            //m_dlgStart.ShowWindow(SW_SHOW);
+#endif
         }
 
         private void StopAutoRun()
@@ -194,23 +375,36 @@ namespace LWDicer.UI
             if (CMainFrame.InquireMsg("Stop AutoRun?", "Question") == false)
                 return;
 
-            // Message Pop up
-            // RUN SW 또는 Stop SW 눌릴 때 까지 대기
+            // button 상태 제어는 WindowProc 함수에서 automanager에서 날아온 message에 의해 제어함
+            //m_nStartReady = 0;
+            //SetButtonStatus(false);
+            CMainFrame.LWDicer.m_trsAutoManager.SendMsg(EThreadMessage.MSG_CYCLE_STOP_CMD);
+        }
 
-            BtnStart.Text = "Start AutoRun";
-            //BtnStart.Enabled = true;
-            //		m_BtnOpMode1.Enabled = true;
-            //BtnModeSelect.Enabled = true;
-            BtnOriginReturn.Enabled = true;
-            BtnUnitInit.Enabled = true;
-            //		m_BtnCellSupplyStop.Enabled = true; // For Message Transfer
-            //		m_BtnPcbSupplyStop.Enabled = true;
-            //BtnMonitorChange.Enabled = true;
-            //		m_BtnCameraChange.Enabled = true;
+        void SetButtonStatus(bool bRunStart)
+        {
+            bool bEnable = bRunStart ? false : true;
+            if(bRunStart)
+            {
+                BtnStart.Text = "Stop AutoRun";
 
-            //		testTemp->EnableWindow(true);
+            }
+            else
+            {
+                BtnStart.Text = "Start AutoRun";
 
-            CMainFrame.LWDicer.m_trsAutoManager.SendMsg(EThreadMessage.MSG_STEP_STOP_CMD);
+            }
+            //BtnStart.Enabled = bEnable;
+            //		m_BtnOpMode1.Enabled = bEnable;
+            //BtnModeSelect.Enabled = bEnable;
+            BtnOriginReturn.Enabled = bEnable;
+            BtnUnitInit.Enabled = bEnable;
+            //		m_BtnCellSupplyStop.Enabled = bEnable; // For Message Transfer
+            //		m_BtnPcbSupplyStop.Enabled = bEnable;
+            //BtnMonitorChange.Enabled = bEnable;
+            //		m_BtnCameraChange.Enabled = bEnable;
+
+            //		testTemp->EnableWindow(bEnable);
         }
     }
 }

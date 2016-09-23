@@ -10,8 +10,6 @@ using static LWDicer.Layers.DEF_Thread;
 using static LWDicer.Layers.DEF_Thread.ETrsSpinnerStep;
 using static LWDicer.Layers.DEF_Thread.EThreadMessage;
 using static LWDicer.Layers.DEF_Thread.EThreadChannel;
-using static LWDicer.Layers.DEF_Thread.EAutoRunMode;
-using static LWDicer.Layers.DEF_Thread.EAutoRunStatus;
 using static LWDicer.Layers.DEF_Error;
 using static LWDicer.Layers.DEF_Common;
 using static LWDicer.Layers.DEF_LCNet;
@@ -119,7 +117,7 @@ namespace LWDicer.Layers
 
         protected override int ProcessMsg(MEvent evnt)
         {
-            Debug.WriteLine($"{ToString()} received message : {evnt}");
+              Debug.WriteLine($"[{ToString()}] received message : {evnt.ToThreadMessage()}");
             switch (evnt.Msg)
             {
                 // if need to change response for common message, then add case state here.
@@ -187,24 +185,24 @@ namespace LWDicer.Layers
 
                 switch (RunStatus)
                 {
-                    case STS_MANUAL: // Manual Mode
+                    case EAutoRunStatus.STS_MANUAL: // Manual Mode
                         m_RefComp.ctrlSpinner.SetAutoManual(EAutoManual.MANUAL);
                         break;
 
-                    case STS_ERROR_STOP: // Error Stop
+                    case EAutoRunStatus.STS_ERROR_STOP: // Error Stop
                         break;
 
-                    case STS_STEP_STOP: // Step Stop
+                    case EAutoRunStatus.STS_STEP_STOP: // Step Stop
                         break;
 
-                    case STS_RUN_READY: // Run Ready
+                    case EAutoRunStatus.STS_RUN_READY: // Run Ready
                         break;
 
-                    case STS_CYCLE_STOP: // Cycle Stop
+                    case EAutoRunStatus.STS_CYCLE_STOP: // Cycle Stop
                         //if (ThreadStep1 == TRS_LOADER_MOVETO_LOAD)
                         break;
 
-                    case STS_RUN: // auto run
+                    case EAutoRunStatus.STS_RUN: // auto run
                         m_RefComp.ctrlSpinner.SetAutoManual(EAutoManual.AUTO);
 
                         // Do Thread Step
@@ -329,7 +327,7 @@ namespace LWDicer.Layers
 
         }
 
-        public new int PostMsg(EThreadChannel target, int msg, int wParam = 0, int lParam = 0)
+        public new int PostMsg(EThreadChannel target, int msg, int wParam = -1, int lParam = -1)
         {
             if(m_Data.Index == ESpinnerIndex.SPINNER1)
             {

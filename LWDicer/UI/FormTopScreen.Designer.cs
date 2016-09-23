@@ -35,6 +35,14 @@
             this.tmFormTop = new System.Windows.Forms.Timer(this.components);
             this.BtnUserLogin = new System.Windows.Forms.Button();
             this.btnExit = new System.Windows.Forms.Button();
+            this.btnStart = new System.Windows.Forms.Button();
+            this.btnStop = new System.Windows.Forms.Button();
+            this.btnReset = new System.Windows.Forms.Button();
+            this.btnEMO = new System.Windows.Forms.Button();
+            this.LabelTowerR = new Syncfusion.Windows.Forms.Tools.GradientLabel();
+            this.LabelTowerY = new Syncfusion.Windows.Forms.Tools.GradientLabel();
+            this.LabelTowerG = new Syncfusion.Windows.Forms.Tools.GradientLabel();
+            this.LabelBuzzer = new Syncfusion.Windows.Forms.Tools.GradientLabel();
             this.SuspendLayout();
             // 
             // TextMessage
@@ -88,6 +96,110 @@
             this.btnExit.UseVisualStyleBackColor = false;
             this.btnExit.Click += new System.EventHandler(this.btnExit_Click);
             // 
+            // btnStart
+            // 
+            this.btnStart.BackColor = System.Drawing.Color.Transparent;
+            this.btnStart.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.btnStart.Location = new System.Drawing.Point(844, 4);
+            this.btnStart.Name = "btnStart";
+            this.btnStart.Size = new System.Drawing.Size(45, 31);
+            this.btnStart.TabIndex = 6;
+            this.btnStart.Text = "Start";
+            this.btnStart.UseVisualStyleBackColor = false;
+            this.btnStart.Click += new System.EventHandler(this.btnStart_Click);
+            // 
+            // btnStop
+            // 
+            this.btnStop.BackColor = System.Drawing.Color.Transparent;
+            this.btnStop.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.btnStop.Location = new System.Drawing.Point(894, 4);
+            this.btnStop.Name = "btnStop";
+            this.btnStop.Size = new System.Drawing.Size(45, 31);
+            this.btnStop.TabIndex = 7;
+            this.btnStop.Text = "Stop";
+            this.btnStop.UseVisualStyleBackColor = false;
+            this.btnStop.Click += new System.EventHandler(this.btnStop_Click);
+            // 
+            // btnReset
+            // 
+            this.btnReset.BackColor = System.Drawing.Color.Transparent;
+            this.btnReset.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.btnReset.Location = new System.Drawing.Point(944, 4);
+            this.btnReset.Name = "btnReset";
+            this.btnReset.Size = new System.Drawing.Size(45, 31);
+            this.btnReset.TabIndex = 8;
+            this.btnReset.Text = "Reset";
+            this.btnReset.UseVisualStyleBackColor = false;
+            this.btnReset.Click += new System.EventHandler(this.btnReset_Click);
+            // 
+            // btnEMO
+            // 
+            this.btnEMO.BackColor = System.Drawing.Color.Transparent;
+            this.btnEMO.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.btnEMO.Location = new System.Drawing.Point(995, 4);
+            this.btnEMO.Name = "btnEMO";
+            this.btnEMO.Size = new System.Drawing.Size(45, 31);
+            this.btnEMO.TabIndex = 9;
+            this.btnEMO.Text = "EMO";
+            this.btnEMO.UseVisualStyleBackColor = false;
+            this.btnEMO.Click += new System.EventHandler(this.btnEMO_Click);
+            // 
+            // LabelTowerR
+            // 
+            this.LabelTowerR.BackgroundColor = new Syncfusion.Drawing.BrushInfo(System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(224)))), ((int)(((byte)(192))))));
+            this.LabelTowerR.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
+            | System.Windows.Forms.Border3DSide.Right) 
+            | System.Windows.Forms.Border3DSide.Bottom)));
+            this.LabelTowerR.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.LabelTowerR.Location = new System.Drawing.Point(740, 4);
+            this.LabelTowerR.Name = "LabelTowerR";
+            this.LabelTowerR.Size = new System.Drawing.Size(19, 27);
+            this.LabelTowerR.TabIndex = 755;
+            this.LabelTowerR.Text = "R";
+            this.LabelTowerR.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // LabelTowerY
+            // 
+            this.LabelTowerY.BackgroundColor = new Syncfusion.Drawing.BrushInfo(System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(224)))), ((int)(((byte)(192))))));
+            this.LabelTowerY.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
+            | System.Windows.Forms.Border3DSide.Right) 
+            | System.Windows.Forms.Border3DSide.Bottom)));
+            this.LabelTowerY.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.LabelTowerY.Location = new System.Drawing.Point(765, 4);
+            this.LabelTowerY.Name = "LabelTowerY";
+            this.LabelTowerY.Size = new System.Drawing.Size(19, 27);
+            this.LabelTowerY.TabIndex = 756;
+            this.LabelTowerY.Text = "Y";
+            this.LabelTowerY.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // LabelTowerG
+            // 
+            this.LabelTowerG.BackgroundColor = new Syncfusion.Drawing.BrushInfo(System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(224)))), ((int)(((byte)(192))))));
+            this.LabelTowerG.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
+            | System.Windows.Forms.Border3DSide.Right) 
+            | System.Windows.Forms.Border3DSide.Bottom)));
+            this.LabelTowerG.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.LabelTowerG.Location = new System.Drawing.Point(790, 4);
+            this.LabelTowerG.Name = "LabelTowerG";
+            this.LabelTowerG.Size = new System.Drawing.Size(19, 27);
+            this.LabelTowerG.TabIndex = 757;
+            this.LabelTowerG.Text = "G";
+            this.LabelTowerG.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // LabelBuzzer
+            // 
+            this.LabelBuzzer.BackgroundColor = new Syncfusion.Drawing.BrushInfo(System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(224)))), ((int)(((byte)(192))))));
+            this.LabelBuzzer.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
+            | System.Windows.Forms.Border3DSide.Right) 
+            | System.Windows.Forms.Border3DSide.Bottom)));
+            this.LabelBuzzer.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.LabelBuzzer.Location = new System.Drawing.Point(815, 4);
+            this.LabelBuzzer.Name = "LabelBuzzer";
+            this.LabelBuzzer.Size = new System.Drawing.Size(19, 27);
+            this.LabelBuzzer.TabIndex = 758;
+            this.LabelBuzzer.Text = "B";
+            this.LabelBuzzer.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // FormTopScreen
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
@@ -95,6 +207,14 @@
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.ClientSize = new System.Drawing.Size(1278, 98);
+            this.Controls.Add(this.LabelBuzzer);
+            this.Controls.Add(this.LabelTowerG);
+            this.Controls.Add(this.LabelTowerY);
+            this.Controls.Add(this.LabelTowerR);
+            this.Controls.Add(this.btnEMO);
+            this.Controls.Add(this.btnReset);
+            this.Controls.Add(this.btnStop);
+            this.Controls.Add(this.btnStart);
             this.Controls.Add(this.btnExit);
             this.Controls.Add(this.BtnUserLogin);
             this.Controls.Add(this.TextTime);
@@ -114,5 +234,13 @@
         private System.Windows.Forms.Timer tmFormTop;
         private System.Windows.Forms.Button BtnUserLogin;
         private System.Windows.Forms.Button btnExit;
+        private System.Windows.Forms.Button btnStart;
+        private System.Windows.Forms.Button btnStop;
+        private System.Windows.Forms.Button btnReset;
+        private System.Windows.Forms.Button btnEMO;
+        private Syncfusion.Windows.Forms.Tools.GradientLabel LabelTowerR;
+        private Syncfusion.Windows.Forms.Tools.GradientLabel LabelTowerY;
+        private Syncfusion.Windows.Forms.Tools.GradientLabel LabelTowerG;
+        private Syncfusion.Windows.Forms.Tools.GradientLabel LabelBuzzer;
     }
 }

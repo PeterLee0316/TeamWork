@@ -8,6 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 using LWDicer.Layers;
 
+using static LWDicer.Layers.DEF_UI;
 using Syncfusion.Windows.Forms;
 using Syncfusion.Windows.Forms.Tools;
 
@@ -15,7 +16,7 @@ namespace LWDicer.UI
 {
     public partial class FormBottomScreen : Form
     {
-        ButtonAdv[] BtnOP = new ButtonAdv[6];
+        ButtonAdv[] BtnPage = new ButtonAdv[6];
 
         enum EBtnOption
         {
@@ -26,16 +27,7 @@ namespace LWDicer.UI
             Max,
         }
 
-        enum EBtnNo
-        {
-            Auto,
-            Manual,
-            Data,
-            Teach,
-            Log,
-            Help,
-            Max,
-        }
+        private EFormType CurrentPage = EFormType.NONE;
 
         public FormBottomScreen()
         {
@@ -48,24 +40,53 @@ namespace LWDicer.UI
 
         private void ResouceMapping()
         {
-            BtnOP[0] = BtnAuto;
-            BtnOP[1] = BtnManual;
-            BtnOP[2] = BtnData;
-            BtnOP[3] = BtnTeach;
-            BtnOP[4] = BtnLog;
-            BtnOP[5] = BtnHelp;
+            BtnPage[0] = BtnAuto;
+            BtnPage[1] = BtnManual;
+            BtnPage[2] = BtnData;
+            BtnPage[3] = BtnTeach;
+            BtnPage[4] = BtnLog;
+            BtnPage[5] = BtnHelp;
 
-            for (int i = 0; i < (int)EBtnNo.Max; i++)
+            SelectPage(EFormType.AUTO);
+        }
+
+        void SelectPage(EFormType index)
+        {
+            if (CurrentPage == index) return;
+            CurrentPage = index;
+            for (int i = 0; i < (int)EFormType.MAX; i++)
             {
+                if (i == (int)CurrentPage) continue;
                 ButtonDisplay(i, EBtnOption.Enable);
             }
 
-            ButtonDisplay((int)EBtnNo.Auto, EBtnOption.Select);
+            ButtonDisplay((int)index, EBtnOption.Select);
+            CMainFrame.MainFrame?.DisplayManager.FormSelectChange(index);
+        }
+
+        public void EnableBottomPage()
+        {
+            for (int i = 0; i < (int)EFormType.MAX; i++)
+            {
+                if (i == (int)CurrentPage) continue;
+                ButtonDisplay(i, EBtnOption.Enable);
+                BtnPage[i].Enabled = true;
+            }
+        }
+
+        public void DisableBottomPage()
+        {
+            for (int i = 0; i < (int)EFormType.MAX; i++)
+            {
+                if (i == (int)CurrentPage) continue;
+                ButtonDisplay(i, EBtnOption.Disable);
+                BtnPage[i].Enabled = false;
+            }
         }
 
         private void ButtonDisplay(int BtnNo, EBtnOption Option)
         {
-            BtnOP[BtnNo].Image = ImageList.Images[(int)Option + (BtnNo * 4)];
+            BtnPage[BtnNo].Image = ImageList.Images[(int)Option + (BtnNo * 4)];
         }
 
         protected virtual void InitializeForm()
@@ -79,74 +100,32 @@ namespace LWDicer.UI
 
         private void BtnAuto_Click(object sender, EventArgs e)
         {
-            for (int i = 0; i < (int)EBtnNo.Max; i++)
-            {
-                ButtonDisplay(i, EBtnOption.Enable);
-            }
-
-            ButtonDisplay((int)EBtnNo.Auto, EBtnOption.Select);
-
-            CMainFrame.MainFrame.DisplayManager.FormSelectChange(DEF_UI.EFormType.AUTO);
+            SelectPage(EFormType.AUTO);
         }
 
         private void BtnManual_Click(object sender, EventArgs e)
         {
-            for (int i = 0; i < (int)EBtnNo.Max; i++)
-            {
-                ButtonDisplay(i, EBtnOption.Enable);
-            }
-
-            ButtonDisplay((int)EBtnNo.Manual, EBtnOption.Select);
-
-            CMainFrame.MainFrame.DisplayManager.FormSelectChange(DEF_UI.EFormType.MANUAL);
+            SelectPage(EFormType.MANUAL);
         }
 
         private void BtnData_Click(object sender, EventArgs e)
         {
-            for (int i = 0; i < (int)EBtnNo.Max; i++)
-            {
-                ButtonDisplay(i, EBtnOption.Enable);
-            }
-
-            ButtonDisplay((int)EBtnNo.Data, EBtnOption.Select);
-
-            CMainFrame.MainFrame.DisplayManager.FormSelectChange(DEF_UI.EFormType.DATA);
+            SelectPage(EFormType.DATA);
         }
 
         private void BtnTeach_Click(object sender, EventArgs e)
         {
-            for (int i = 0; i < (int)EBtnNo.Max; i++)
-            {
-                ButtonDisplay(i, EBtnOption.Enable);
-            }
-
-            ButtonDisplay((int)EBtnNo.Teach, EBtnOption.Select);
-
-            CMainFrame.MainFrame.DisplayManager.FormSelectChange(DEF_UI.EFormType.TEACH);
+            SelectPage(EFormType.TEACH);
         }
 
         private void BtnLog_Click(object sender, EventArgs e)
         {
-            for (int i = 0; i < (int)EBtnNo.Max; i++)
-            {
-                ButtonDisplay(i, EBtnOption.Enable);
-            }
-
-            ButtonDisplay((int)EBtnNo.Log, EBtnOption.Select);
-
-            CMainFrame.MainFrame.DisplayManager.FormSelectChange(DEF_UI.EFormType.LOG);
+            SelectPage(EFormType.LOG);
         }
 
         private void BtnHelp_Click(object sender, EventArgs e)
         {
-            for (int i = 0; i < (int)EBtnNo.Max; i++)
-            {
-                ButtonDisplay(i, EBtnOption.Enable);
-            }
-
-            ButtonDisplay((int)EBtnNo.Help, EBtnOption.Select);
-
-            CMainFrame.MainFrame.DisplayManager.FormSelectChange(DEF_UI.EFormType.HELP);
+            SelectPage(EFormType.HELP);
         }
     }
 }

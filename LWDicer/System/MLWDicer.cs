@@ -1326,13 +1326,13 @@ namespace LWDicer.Layers
         {
             // AutoManager
             m_trsAutoManager.LinkThread(EThreadChannel.TrsSelfChannel, m_trsAutoManager);
-            m_trsAutoManager.LinkThread(EThreadChannel.TrsAutoManager, m_trsLoader);
+            m_trsAutoManager.LinkThread(EThreadChannel.TrsAutoManager, m_trsAutoManager);
             m_trsAutoManager.LinkThread(EThreadChannel.TrsLoader, m_trsLoader);
             m_trsAutoManager.LinkThread(EThreadChannel.TrsPushPull, m_trsPushPull);
             m_trsAutoManager.LinkThread(EThreadChannel.TrsStage1, m_trsStage1);
-            m_trsAutoManager.LinkThread(EThreadChannel.TrsSpinner1, m_trsStage1);
-            m_trsAutoManager.LinkThread(EThreadChannel.TrsSpinner2, m_trsStage1);
-            m_trsAutoManager.LinkThread(EThreadChannel.TrsHandler, m_trsStage1);
+            m_trsAutoManager.LinkThread(EThreadChannel.TrsSpinner1, m_trsSpinner1);
+            m_trsAutoManager.LinkThread(EThreadChannel.TrsSpinner2, m_trsSpinner2);
+            m_trsAutoManager.LinkThread(EThreadChannel.TrsHandler, m_trsHandler);
 
             // Loader
             m_trsLoader.LinkThread(EThreadChannel.TrsSelfChannel, m_trsLoader);
@@ -1374,6 +1374,9 @@ namespace LWDicer.Layers
             m_trsLoader.ThreadStart();
             m_trsPushPull.ThreadStart();
             m_trsStage1.ThreadStart();
+            m_trsHandler.ThreadStart();
+            m_trsSpinner1.ThreadStart();
+            m_trsSpinner2.ThreadStart();
             m_trsAutoManager.ThreadStart();
         }
 
@@ -1382,6 +1385,9 @@ namespace LWDicer.Layers
             m_trsLoader.ThreadStop();
             m_trsPushPull.ThreadStop();
             m_trsStage1.ThreadStop();
+            m_trsHandler.ThreadStop();
+            m_trsSpinner1.ThreadStop();
+            m_trsSpinner2.ThreadStop();
             m_trsAutoManager.ThreadStop();
         }
 
