@@ -263,6 +263,9 @@ namespace LWDicer.UI
 
                 strCurPos = String.Format("{0:0.0000}", CMainFrame.LWDicer.m_ACS.ServoStatus[(int)EACS_Axis.STAGE1_T].EncoderPos);
                 lblStagePosT.Text = strCurPos;
+
+                strCurPos = String.Format("{0:0.0000}", CMainFrame.LWDicer.m_ACS.ServoStatus[(int)EACS_Axis.CAMERA1_Z].EncoderPos);
+                lblCamPosZ.Text = strCurPos;
             }
             catch
             { }
@@ -288,6 +291,11 @@ namespace LWDicer.UI
         {
             CMainFrame.frmStageJog.Hide();
             CMainFrame.frmCamFocus.Show();
+        }
+
+        private void pageThetaAlign_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
