@@ -134,6 +134,7 @@ namespace LWDicer.UI
             this.btnDot = new System.Windows.Forms.Button();
             this.pnlObject = new System.Windows.Forms.Panel();
             this.btnImageSave = new System.Windows.Forms.Button();
+            this.btnImageStreamSave = new System.Windows.Forms.Button();
             this.statusBottom.SuspendLayout();
             this.menuScanner.SuspendLayout();
             this.panList.SuspendLayout();
@@ -1180,13 +1181,28 @@ namespace LWDicer.UI
             this.btnImageSave.Image = ((System.Drawing.Image)(resources.GetObject("btnImageSave.Image")));
             this.btnImageSave.Location = new System.Drawing.Point(975, 30);
             this.btnImageSave.Name = "btnImageSave";
-            this.btnImageSave.Size = new System.Drawing.Size(130, 61);
+            this.btnImageSave.Size = new System.Drawing.Size(224, 61);
             this.btnImageSave.TabIndex = 754;
-            this.btnImageSave.Text = "Image Save";
+            this.btnImageSave.Text = "Image Save (.bmp)";
             this.btnImageSave.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnImageSave.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.btnImageSave.UseVisualStyleBackColor = true;
             this.btnImageSave.Click += new System.EventHandler(this.btnImageSave_Click);
+            // 
+            // btnImageStreamSave
+            // 
+            this.btnImageStreamSave.Font = new System.Drawing.Font("굴림", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.btnImageStreamSave.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.btnImageStreamSave.Image = ((System.Drawing.Image)(resources.GetObject("btnImageStreamSave.Image")));
+            this.btnImageStreamSave.Location = new System.Drawing.Point(975, 97);
+            this.btnImageStreamSave.Name = "btnImageStreamSave";
+            this.btnImageStreamSave.Size = new System.Drawing.Size(224, 61);
+            this.btnImageStreamSave.TabIndex = 755;
+            this.btnImageStreamSave.Text = "Image Save (.lse)";
+            this.btnImageStreamSave.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnImageStreamSave.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.btnImageStreamSave.UseVisualStyleBackColor = true;
+            this.btnImageStreamSave.Click += new System.EventHandler(this.btnImageStreamSave_Click);
             // 
             // FormScanWindow
             // 
@@ -1196,6 +1212,7 @@ namespace LWDicer.UI
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.ClientSize = new System.Drawing.Size(1225, 845);
             this.ControlBox = false;
+            this.Controls.Add(this.btnImageStreamSave);
             this.Controls.Add(this.btnImageSave);
             this.Controls.Add(this.pnlObject);
             this.Controls.Add(this.tabProperty);
@@ -1334,5 +1351,6 @@ namespace LWDicer.UI
         private System.Windows.Forms.Button btnDot;
         private System.Windows.Forms.Panel pnlObject;
         private System.Windows.Forms.Button btnImageSave;
+        private System.Windows.Forms.Button btnImageStreamSave;
     }
 }

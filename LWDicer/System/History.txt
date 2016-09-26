@@ -523,6 +523,35 @@ CSpinStep class -> CCleanStep / CCoatStep class 로 분리
 	- Vision Overlay 기능 테스트 (Hair Line Show부분)
 
 
+// Grade : ★★
+// Date : 2016-08-30 ~ 2016-09-16
+// Context
+
+1. LSE 파일 형식으로 Save
+	- Stream 방식으로 BMP 파일이 아닌 컨트롤러에서 사용하는 Format인 LSE 파일명으로 저장함.
+	- 초 고해상도의 파일의 경우 100MB 단위로 도면을 잘라서 순차적으로 저장함
+	  File Head의 경우 62byte 사이즈로 우선 저장하고, 이미지의 경우엔 100MB 이상의 파일일때
+	  이를 File Append 방식으로 이미지를 파일에 추가함.
+2. Save 테스트..
+	- 400MB 크기의 이미지는 정상적으로 저장되며 이를 영상을 열어서 확인함.
+	- 1GB 이상의 이미지는 컴퓨터 메모리 한계로 열리지 않으나 별 이상은 없어 보임
+	- 13GB의 영상의 경우 (Pixel 해상도 1um, 가로 세로 300mm 일때)
+	  특정 CAD 파일을 Loading한 후에 Lse 파일로 저장할 때 2.62GB에서 오류가 발행함.
+	  다른 CAD 파일을 Loading할때는 이상없이 정상적으로 저장됨.
+
+
+// Grade : ★★
+// Date : 2016-09-19 ~ 2016-09-23
+// Context
+
+1. Theta Align 
+	- Camera Magnitude에 따라서 Stage 위치 변경 및 이를 기준으로 Mark의 위치를 확인함.
+	- Stage Center기준으로 Theta Align Pos A,B를 설정 비율로 (가로 폭 비율 es: 300mm 대비 70% = 210mm)
+	  위치를 이동하며 기울기를 측정함
+    - 측정도 Stage 위치로 Align을 계산해서 보정함.
+2. Die Index 측정
+	- Wafer의 Die를 설정을 저장/편집 하는 기능 추가함.
+
 ////////////////////////////////////////////////////////////////////////////////////////////
 // LHS
 // Version : 0.0.1

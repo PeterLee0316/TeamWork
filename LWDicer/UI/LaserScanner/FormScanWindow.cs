@@ -891,12 +891,27 @@ namespace LWDicer.UI
             {
                 filename = imgSaveDlg.FileName;
                 //string filepath = string.Format("{0:s}{1:s}.bmp", CMainFrame.DBInfo.ImageDataDir, "Polygon");
-
                 if (CMainFrame.LWDicer.m_MeScanner.SetSizeBmp() != SUCCESS) return;
                 CMainFrame.LWDicer.m_MeScanner.ConvertBmpFile(filename);
+
             }
         }
 
+        private void btnImageStreamSave_Click(object sender, EventArgs e)
+        {
+            string filename = string.Empty;
+            SaveFileDialog imgSaveDlg = new SaveFileDialog();
+            imgSaveDlg.InitialDirectory = CMainFrame.DBInfo.ImageDataDir;
+            imgSaveDlg.Filter = "BMP(*.lse)|*.lse";
+            if (imgSaveDlg.ShowDialog() == DialogResult.OK)
+            {
+                filename = imgSaveDlg.FileName;
+                //string filepath = string.Format("{0:s}{1:s}.bmp", CMainFrame.DBInfo.ImageDataDir, "Polygon");
+                if (CMainFrame.LWDicer.m_MeScanner.CalsSizeBmpByte() != SUCCESS) return;
+                CMainFrame.LWDicer.m_MeScanner.SaveScanFile(filename);
+            }
+        }
+        
 
         #endregion
 

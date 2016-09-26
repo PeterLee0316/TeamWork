@@ -28,8 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.BtnSelectScreenMacro = new Syncfusion.Windows.Forms.ButtonAdv();
-            this.BtnSelectIndex = new Syncfusion.Windows.Forms.ButtonAdv();
+            this.BtnSelectStepIndex = new Syncfusion.Windows.Forms.ButtonAdv();
+            this.BtnSelectDieIndex = new Syncfusion.Windows.Forms.ButtonAdv();
             this.BtnStageMoveT_CW = new Syncfusion.Windows.Forms.ButtonAdv();
             this.BtnStageMoveT_CCW = new Syncfusion.Windows.Forms.ButtonAdv();
             this.BtnStageMoveY_F = new Syncfusion.Windows.Forms.ButtonAdv();
@@ -37,7 +37,8 @@
             this.BtnStageMoveY_B = new Syncfusion.Windows.Forms.ButtonAdv();
             this.BtnStageMoveX_F = new Syncfusion.Windows.Forms.ButtonAdv();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.BtnSelectScreenMicro = new Syncfusion.Windows.Forms.ButtonAdv();
+            this.label2 = new System.Windows.Forms.Label();
+            this.BtnSelectScreenIndex = new Syncfusion.Windows.Forms.ButtonAdv();
             this.panel2 = new System.Windows.Forms.Panel();
             this.label1 = new System.Windows.Forms.Label();
             this.BtnStageJogX_F = new Syncfusion.Windows.Forms.ButtonAdv();
@@ -52,36 +53,36 @@
             this.panel2.SuspendLayout();
             this.SuspendLayout();
             // 
-            // BtnSelectScreenMacro
+            // BtnSelectStepIndex
             // 
-            this.BtnSelectScreenMacro.BackColor = System.Drawing.SystemColors.Control;
-            this.BtnSelectScreenMacro.FlatAppearance.BorderSize = 5;
-            this.BtnSelectScreenMacro.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.BtnSelectScreenMacro.ForeColor = System.Drawing.Color.MidnightBlue;
-            this.BtnSelectScreenMacro.ImageAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.BtnSelectScreenMacro.Location = new System.Drawing.Point(7, 7);
-            this.BtnSelectScreenMacro.Name = "BtnSelectScreenMacro";
-            this.BtnSelectScreenMacro.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.BtnSelectScreenMacro.Size = new System.Drawing.Size(75, 60);
-            this.BtnSelectScreenMacro.TabIndex = 11;
-            this.BtnSelectScreenMacro.Text = "Macro Screen";
-            this.BtnSelectScreenMacro.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.BtnSelectScreenMacro.Click += new System.EventHandler(this.BtnSelectScreen_Click);
+            this.BtnSelectStepIndex.BackColor = System.Drawing.SystemColors.Control;
+            this.BtnSelectStepIndex.FlatAppearance.BorderSize = 5;
+            this.BtnSelectStepIndex.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.BtnSelectStepIndex.ForeColor = System.Drawing.Color.MidnightBlue;
+            this.BtnSelectStepIndex.ImageAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.BtnSelectStepIndex.Location = new System.Drawing.Point(7, 7);
+            this.BtnSelectStepIndex.Name = "BtnSelectStepIndex";
+            this.BtnSelectStepIndex.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.BtnSelectStepIndex.Size = new System.Drawing.Size(75, 60);
+            this.BtnSelectStepIndex.TabIndex = 11;
+            this.BtnSelectStepIndex.Text = "Step Index";
+            this.BtnSelectStepIndex.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.BtnSelectStepIndex.Click += new System.EventHandler(this.BtnSelectStepIndex_Click);
             // 
-            // BtnSelectIndex
+            // BtnSelectDieIndex
             // 
-            this.BtnSelectIndex.BackColor = System.Drawing.SystemColors.Control;
-            this.BtnSelectIndex.FlatAppearance.BorderSize = 5;
-            this.BtnSelectIndex.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.BtnSelectIndex.ForeColor = System.Drawing.Color.MidnightBlue;
-            this.BtnSelectIndex.ImageAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.BtnSelectIndex.Location = new System.Drawing.Point(7, 135);
-            this.BtnSelectIndex.Name = "BtnSelectIndex";
-            this.BtnSelectIndex.Size = new System.Drawing.Size(75, 60);
-            this.BtnSelectIndex.TabIndex = 12;
-            this.BtnSelectIndex.Text = "Index";
-            this.BtnSelectIndex.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.BtnSelectIndex.Click += new System.EventHandler(this.BtnSelectIndex_Click);
+            this.BtnSelectDieIndex.BackColor = System.Drawing.SystemColors.Control;
+            this.BtnSelectDieIndex.FlatAppearance.BorderSize = 5;
+            this.BtnSelectDieIndex.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.BtnSelectDieIndex.ForeColor = System.Drawing.Color.MidnightBlue;
+            this.BtnSelectDieIndex.ImageAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.BtnSelectDieIndex.Location = new System.Drawing.Point(7, 135);
+            this.BtnSelectDieIndex.Name = "BtnSelectDieIndex";
+            this.BtnSelectDieIndex.Size = new System.Drawing.Size(75, 60);
+            this.BtnSelectDieIndex.TabIndex = 12;
+            this.BtnSelectDieIndex.Text = "Die Index";
+            this.BtnSelectDieIndex.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.BtnSelectDieIndex.Click += new System.EventHandler(this.BtnSelectDieIndex_Click);
             // 
             // BtnStageMoveT_CW
             // 
@@ -117,11 +118,11 @@
             this.BtnStageMoveY_F.FlatAppearance.BorderSize = 5;
             this.BtnStageMoveY_F.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.BtnStageMoveY_F.ForeColor = System.Drawing.Color.MidnightBlue;
-            this.BtnStageMoveY_F.Location = new System.Drawing.Point(6, 94);
+            this.BtnStageMoveY_F.Location = new System.Drawing.Point(107, 61);
             this.BtnStageMoveY_F.Name = "BtnStageMoveY_F";
             this.BtnStageMoveY_F.Size = new System.Drawing.Size(95, 60);
             this.BtnStageMoveY_F.TabIndex = 13;
-            this.BtnStageMoveY_F.Text = "Left";
+            this.BtnStageMoveY_F.Text = "Up";
             this.BtnStageMoveY_F.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.BtnStageMoveY_F.Click += new System.EventHandler(this.BtnStageMoveY_F_Click);
             // 
@@ -131,11 +132,11 @@
             this.BtnStageMoveX_B.FlatAppearance.BorderSize = 5;
             this.BtnStageMoveX_B.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.BtnStageMoveX_B.ForeColor = System.Drawing.Color.MidnightBlue;
-            this.BtnStageMoveX_B.Location = new System.Drawing.Point(107, 124);
+            this.BtnStageMoveX_B.Location = new System.Drawing.Point(6, 91);
             this.BtnStageMoveX_B.Name = "BtnStageMoveX_B";
             this.BtnStageMoveX_B.Size = new System.Drawing.Size(95, 60);
             this.BtnStageMoveX_B.TabIndex = 12;
-            this.BtnStageMoveX_B.Text = "Down";
+            this.BtnStageMoveX_B.Text = "Left";
             this.BtnStageMoveX_B.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.BtnStageMoveX_B.Click += new System.EventHandler(this.BtnStageMoveX_B_Click);
             // 
@@ -145,11 +146,11 @@
             this.BtnStageMoveY_B.FlatAppearance.BorderSize = 5;
             this.BtnStageMoveY_B.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.BtnStageMoveY_B.ForeColor = System.Drawing.Color.MidnightBlue;
-            this.BtnStageMoveY_B.Location = new System.Drawing.Point(208, 94);
+            this.BtnStageMoveY_B.Location = new System.Drawing.Point(107, 124);
             this.BtnStageMoveY_B.Name = "BtnStageMoveY_B";
             this.BtnStageMoveY_B.Size = new System.Drawing.Size(95, 60);
             this.BtnStageMoveY_B.TabIndex = 11;
-            this.BtnStageMoveY_B.Text = "Right";
+            this.BtnStageMoveY_B.Text = "Down";
             this.BtnStageMoveY_B.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.BtnStageMoveY_B.Click += new System.EventHandler(this.BtnStageMoveY_B_Click);
             // 
@@ -159,11 +160,11 @@
             this.BtnStageMoveX_F.FlatAppearance.BorderSize = 5;
             this.BtnStageMoveX_F.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.BtnStageMoveX_F.ForeColor = System.Drawing.Color.MidnightBlue;
-            this.BtnStageMoveX_F.Location = new System.Drawing.Point(107, 58);
+            this.BtnStageMoveX_F.Location = new System.Drawing.Point(208, 91);
             this.BtnStageMoveX_F.Name = "BtnStageMoveX_F";
             this.BtnStageMoveX_F.Size = new System.Drawing.Size(95, 60);
             this.BtnStageMoveX_F.TabIndex = 10;
-            this.BtnStageMoveX_F.Text = "Up";
+            this.BtnStageMoveX_F.Text = "Right";
             this.BtnStageMoveX_F.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.BtnStageMoveX_F.Click += new System.EventHandler(this.BtnStageMoveX_F_Click);
             // 
@@ -171,6 +172,7 @@
             // 
             this.panel1.BackColor = System.Drawing.Color.Silver;
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.panel1.Controls.Add(this.label2);
             this.panel1.Controls.Add(this.BtnStageMoveX_F);
             this.panel1.Controls.Add(this.BtnStageMoveT_CW);
             this.panel1.Controls.Add(this.BtnStageMoveY_B);
@@ -182,20 +184,30 @@
             this.panel1.Size = new System.Drawing.Size(313, 192);
             this.panel1.TabIndex = 16;
             // 
-            // BtnSelectScreenMicro
+            // label2
             // 
-            this.BtnSelectScreenMicro.BackColor = System.Drawing.SystemColors.Control;
-            this.BtnSelectScreenMicro.FlatAppearance.BorderSize = 5;
-            this.BtnSelectScreenMicro.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.BtnSelectScreenMicro.ForeColor = System.Drawing.Color.MidnightBlue;
-            this.BtnSelectScreenMicro.ImageAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.BtnSelectScreenMicro.Location = new System.Drawing.Point(7, 71);
-            this.BtnSelectScreenMicro.Name = "BtnSelectScreenMicro";
-            this.BtnSelectScreenMicro.Size = new System.Drawing.Size(75, 60);
-            this.BtnSelectScreenMicro.TabIndex = 17;
-            this.BtnSelectScreenMicro.Text = "Micro Screen";
-            this.BtnSelectScreenMicro.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.BtnSelectScreenMicro.Click += new System.EventHandler(this.BtnSelectScreenMicro_Click);
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("굴림", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label2.Location = new System.Drawing.Point(128, 6);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(52, 16);
+            this.label2.TabIndex = 17;
+            this.label2.Text = "Index";
+            // 
+            // BtnSelectScreenIndex
+            // 
+            this.BtnSelectScreenIndex.BackColor = System.Drawing.SystemColors.Control;
+            this.BtnSelectScreenIndex.FlatAppearance.BorderSize = 5;
+            this.BtnSelectScreenIndex.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.BtnSelectScreenIndex.ForeColor = System.Drawing.Color.MidnightBlue;
+            this.BtnSelectScreenIndex.ImageAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.BtnSelectScreenIndex.Location = new System.Drawing.Point(7, 71);
+            this.BtnSelectScreenIndex.Name = "BtnSelectScreenIndex";
+            this.BtnSelectScreenIndex.Size = new System.Drawing.Size(75, 60);
+            this.BtnSelectScreenIndex.TabIndex = 17;
+            this.BtnSelectScreenIndex.Text = "Screen Index";
+            this.BtnSelectScreenIndex.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.BtnSelectScreenIndex.Click += new System.EventHandler(this.BtnSelectScreenIndex_Click);
             // 
             // panel2
             // 
@@ -229,11 +241,11 @@
             this.BtnStageJogX_F.FlatAppearance.BorderSize = 5;
             this.BtnStageJogX_F.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.BtnStageJogX_F.ForeColor = System.Drawing.Color.MidnightBlue;
-            this.BtnStageJogX_F.Location = new System.Drawing.Point(107, 58);
+            this.BtnStageJogX_F.Location = new System.Drawing.Point(207, 93);
             this.BtnStageJogX_F.Name = "BtnStageJogX_F";
             this.BtnStageJogX_F.Size = new System.Drawing.Size(95, 60);
             this.BtnStageJogX_F.TabIndex = 10;
-            this.BtnStageJogX_F.Text = "Up";
+            this.BtnStageJogX_F.Text = "Right";
             this.BtnStageJogX_F.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.BtnStageJogX_F.MouseDown += new System.Windows.Forms.MouseEventHandler(this.BtnAxisJogX_F_MouseDown);
             this.BtnStageJogX_F.MouseUp += new System.Windows.Forms.MouseEventHandler(this.BtnAxisJogX_F_MouseUp);
@@ -259,11 +271,11 @@
             this.BtnStageJogY_B.FlatAppearance.BorderSize = 5;
             this.BtnStageJogY_B.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.BtnStageJogY_B.ForeColor = System.Drawing.Color.MidnightBlue;
-            this.BtnStageJogY_B.Location = new System.Drawing.Point(208, 94);
+            this.BtnStageJogY_B.Location = new System.Drawing.Point(106, 124);
             this.BtnStageJogY_B.Name = "BtnStageJogY_B";
             this.BtnStageJogY_B.Size = new System.Drawing.Size(95, 60);
             this.BtnStageJogY_B.TabIndex = 11;
-            this.BtnStageJogY_B.Text = "Right";
+            this.BtnStageJogY_B.Text = "Down";
             this.BtnStageJogY_B.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.BtnStageJogY_B.MouseDown += new System.Windows.Forms.MouseEventHandler(this.BtnAxisJogY_B_MouseDown);
             this.BtnStageJogY_B.MouseUp += new System.Windows.Forms.MouseEventHandler(this.BtnAxisJogY_B_MouseUp);
@@ -290,11 +302,11 @@
             this.BtnStageJogX_B.FlatAppearance.BorderSize = 5;
             this.BtnStageJogX_B.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.BtnStageJogX_B.ForeColor = System.Drawing.Color.MidnightBlue;
-            this.BtnStageJogX_B.Location = new System.Drawing.Point(107, 124);
+            this.BtnStageJogX_B.Location = new System.Drawing.Point(8, 91);
             this.BtnStageJogX_B.Name = "BtnStageJogX_B";
             this.BtnStageJogX_B.Size = new System.Drawing.Size(95, 60);
             this.BtnStageJogX_B.TabIndex = 12;
-            this.BtnStageJogX_B.Text = "Down";
+            this.BtnStageJogX_B.Text = "Left";
             this.BtnStageJogX_B.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.BtnStageJogX_B.MouseDown += new System.Windows.Forms.MouseEventHandler(this.BtnAxisJogX_B_MouseDown);
             this.BtnStageJogX_B.MouseUp += new System.Windows.Forms.MouseEventHandler(this.BtnAxisJogX_B_MouseUp);
@@ -305,11 +317,11 @@
             this.BtnStageJogY_F.FlatAppearance.BorderSize = 5;
             this.BtnStageJogY_F.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.BtnStageJogY_F.ForeColor = System.Drawing.Color.MidnightBlue;
-            this.BtnStageJogY_F.Location = new System.Drawing.Point(6, 94);
+            this.BtnStageJogY_F.Location = new System.Drawing.Point(106, 61);
             this.BtnStageJogY_F.Name = "BtnStageJogY_F";
             this.BtnStageJogY_F.Size = new System.Drawing.Size(95, 60);
             this.BtnStageJogY_F.TabIndex = 13;
-            this.BtnStageJogY_F.Text = "Left";
+            this.BtnStageJogY_F.Text = "Up";
             this.BtnStageJogY_F.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.BtnStageJogY_F.MouseDown += new System.Windows.Forms.MouseEventHandler(this.BtnAxisJogY_F_MouseDown);
             this.BtnStageJogY_F.MouseUp += new System.Windows.Forms.MouseEventHandler(this.BtnAxisJogY_F_MouseUp);
@@ -353,15 +365,16 @@
             this.Controls.Add(this.BtnJogSlow);
             this.Controls.Add(this.BtnJogFast);
             this.Controls.Add(this.panel2);
-            this.Controls.Add(this.BtnSelectScreenMicro);
+            this.Controls.Add(this.BtnSelectScreenIndex);
             this.Controls.Add(this.panel1);
-            this.Controls.Add(this.BtnSelectIndex);
-            this.Controls.Add(this.BtnSelectScreenMacro);
+            this.Controls.Add(this.BtnSelectDieIndex);
+            this.Controls.Add(this.BtnSelectStepIndex);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "FormJogStage";
             this.Text = "FormJogStage";
             this.Load += new System.EventHandler(this.FormJogStage_Load);
             this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
             this.ResumeLayout(false);
@@ -369,8 +382,8 @@
         }
 
         #endregion
-        private Syncfusion.Windows.Forms.ButtonAdv BtnSelectScreenMacro;
-        private Syncfusion.Windows.Forms.ButtonAdv BtnSelectIndex;
+        private Syncfusion.Windows.Forms.ButtonAdv BtnSelectStepIndex;
+        private Syncfusion.Windows.Forms.ButtonAdv BtnSelectDieIndex;
         private Syncfusion.Windows.Forms.ButtonAdv BtnStageMoveX_F;
         private Syncfusion.Windows.Forms.ButtonAdv BtnStageMoveY_B;
         private Syncfusion.Windows.Forms.ButtonAdv BtnStageMoveX_B;
@@ -378,7 +391,7 @@
         private Syncfusion.Windows.Forms.ButtonAdv BtnStageMoveT_CCW;
         private Syncfusion.Windows.Forms.ButtonAdv BtnStageMoveT_CW;
         private System.Windows.Forms.Panel panel1;
-        private Syncfusion.Windows.Forms.ButtonAdv BtnSelectScreenMicro;
+        private Syncfusion.Windows.Forms.ButtonAdv BtnSelectScreenIndex;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Label label1;
         private Syncfusion.Windows.Forms.ButtonAdv BtnStageJogX_F;
@@ -389,5 +402,6 @@
         private Syncfusion.Windows.Forms.ButtonAdv BtnStageJogY_F;
         private Syncfusion.Windows.Forms.ButtonAdv BtnJogSlow;
         private Syncfusion.Windows.Forms.ButtonAdv BtnJogFast;
+        private System.Windows.Forms.Label label2;
     }
 }

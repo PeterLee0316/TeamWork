@@ -46,6 +46,7 @@ namespace LWDicer.UI
 
         // 여러 Form에서 공용으로 사용할 Jog Form
         public static FormJogStage frmStageJog;
+        public static FormCamFocus frmCamFocus;
 
         //private FormAutoScreen AutoScreen;
         //private FormManualScreen ManualScreen;
@@ -169,6 +170,7 @@ namespace LWDicer.UI
             /////////////////////////////////////////////////////
 
             frmStageJog = new FormJogStage();
+            frmCamFocus = new FormCamFocus();
         }
 
         private void SetProperty(Form form)

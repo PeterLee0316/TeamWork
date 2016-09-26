@@ -483,12 +483,21 @@ namespace LWDicer.Layers
             m_DrawPen.Width = 3;
 
             //==================================================
-            // 중심 라인 Draw            
+            // 중심 라인 Draw     
+            
+            // 가로       
             m_ptDrawStart.X = 0;
             m_ptDrawStart.Y = ((int)m_ImageHeight / 2);
             m_ptDrawEnd.X = (int)m_ImageWidth;
             m_ptDrawEnd.Y = ((int)m_ImageHeight / 2);
-            GraphDrawLine(m_ptDrawStart, m_ptDrawEnd, m_DrawPen);            
+            GraphDrawLine(m_ptDrawStart, m_ptDrawEnd, m_DrawPen);
+
+            //세로
+            m_ptDrawStart.X = ((int)m_ImageWidth / 2);
+            m_ptDrawStart.Y = ((int)m_ImageHeight / 2)-30;
+            m_ptDrawEnd.X = (int)m_ImageWidth/2;
+            m_ptDrawEnd.Y = ((int)m_ImageHeight / 2)+30;
+            GraphDrawLine(m_ptDrawStart, m_ptDrawEnd, m_DrawPen);
 
             //==================================================
             // Pen Type 설정

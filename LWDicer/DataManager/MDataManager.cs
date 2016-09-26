@@ -385,7 +385,6 @@ namespace LWDicer.Layers
             public double MicroScreenRotate;
             
 
-
             public double AlignMarkWidthLen;
             public double AlignMarkWidthRatio;
 
