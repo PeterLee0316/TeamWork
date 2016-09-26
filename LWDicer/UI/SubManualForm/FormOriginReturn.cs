@@ -53,6 +53,7 @@ namespace LWDicer.UI
 
             for (int i = 0; i < (int)EAxis.MAX; i++)
             {
+                if (BtnList[i] == null) continue;
                 BtnName[i] = BtnList[i].Text;
 
                 //BtnList[i].Tag = i;

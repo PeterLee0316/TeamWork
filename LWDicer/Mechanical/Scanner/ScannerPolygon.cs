@@ -27,14 +27,58 @@ namespace LWDicer.Layers
 {
     public class DEF_Polygon
     {
+        public const int IMAGE_BLOCK_MAX_SIZE = 104857600; // 100MB
+
         public enum EMonitorMode { Controller, Head };
+
+        #region Bitmap 파일 관련 structure
+
+        [StructLayout(LayoutKind.Sequential, Pack = 1)]
+        public struct BITMAPFILEHEADER
+        {
+            public UInt16 bfType;            // BMP 파일 매직 넘버. 비트맵 파일이 맞는지 확인하는데 사용하며 
+                                             // ASCII 코드로 0x42(B), 0x4D(M)가 저장됩니다.
+            public UInt32 bfSize;            // 파일 크기(바이트)
+            public UInt16 bfReserved1;       // 현재는 사용하지 않으며 미래를 위해 예약된 공간
+            public UInt16 bfReserved2;       // 현재는 사용하지 않으며 미래를 위해 예약된 공간
+            public UInt32 bfOffBits;         // 비트맵 데이터의 시작 위치
+        };
+
+        public struct BITMAPINFOHEADER
+        {
+            public UInt32 biSize;            //  현재 비트맵 정보(BITMAPINFOHEADER)의 크기
+            public UInt32 biWidth;           //  비트맵 이미지의 가로 크기(픽셀)
+            public UInt32 biHeight;          //	 비트맵 이미지의 세로 크기(픽셀).
+            public UInt16 biPlanes;          //  사용하는 색상판의 수. 항상 1입니다
+            public UInt16 biBitCount;        //  픽셀 하나를 표현하는 비트 수
+            public UInt32 biCompression;     //  압축 방식. 보통 비트맵은 압축을 하지 않으므로 0입니다
+            public UInt32 biSizeImage;       //  비트맵 이미지의 픽셀 데이터 크기(압축 되지 않은 크기)
+            public UInt32 biXPelsPerMeter;   //  그림의 가로 해상도(미터당 픽셀)
+            public UInt32 biYPelsPerMeter;   //  그림의 세로 해상도(미터당 픽셀)
+            public UInt32 biClrUsed;         //  색상 테이블에서 실제 사용되는 색상 수
+            public UInt32 biClrImportant;    //  비트맵을 표현하기 위해 필요한 색상 인덱스 수
+        };
+
+
+        public struct COLORTABLE
+        {
+            public byte rgbBlue;
+            public byte rgbGreen;
+            public byte rgbRed;
+            public byte rgbReserved;
+        }
+        public struct RASTERDATA
+        {
+            public byte rgbBlue;
+            public byte rgbGreen;
+            public byte rgbRed;
+            public byte rgbReserved;
+        }
+
+        #endregion
 
         public class CScannerRefComp
         {
-            //public CMarkingManager Manager;
-            //public CMarkingWindow Window;            
-            //public FormScanWindow FormScanner;
-
             public MSocketClient ControlComm;
             public MSocketClient ScanHeadComm;
             public MDataManager DataManager;
@@ -68,6 +112,8 @@ namespace LWDicer.Layers
         BitmapData BmpData;
         private int BmpImageWidth = 10;
         private int BmpImageHeight = 10;
+        private int BmpBlockHeight = 10;
+        private byte[] SaveObjectBytes = new byte[1];
 
         byte[] BmpScanLine = new byte[1];
         private int[] point = new int[4];
@@ -179,6 +225,65 @@ namespace LWDicer.Layers
 
         #region BMP File Set & Draw
 
+        public int CalsSizeBmpByte()
+        {
+            if (m_RefComp.DataManager.ModelData.ScanData == null) return RUN_FAIL;
+            if (m_RefComp.DataManager.ModelData.ScanData.InScanResolution <= 0 || m_RefComp.DataManager.ModelData.ScanData.CrossScanResolution <= 0) return RUN_FAIL;
+
+            Point ptStart = new Point(0, 0);
+            Point ptEnd = new Point(0, 0);
+            float MaxHeight = 0.0f;
+            float tempHeight = 0.0f;
+            Point ptTemp = new Point(0, 0);
+            
+
+            // 객체 수량 확인
+            int iObjectCount = m_ScanManager.ObjectList.Count;
+            if (iObjectCount < 1) return SHAPE_LIST_DISABLE;
+
+            // 각 객체를 확인해서.. Bmp의 높이를 측정함.
+            for (int i = 0; i < iObjectCount; i++)
+            {
+                tempHeight = m_ScanManager.ObjectList[i].ptObjectStartPos.Y;
+                if (tempHeight > MaxHeight) MaxHeight = tempHeight;
+
+                tempHeight = m_ScanManager.ObjectList[i].ptObjectEndPos.Y;
+                if (tempHeight > MaxHeight) MaxHeight = tempHeight;
+            }
+
+            // 가로 세로 크기를 Pixel 단위로 변환
+            ptEnd.X = (int)(BMT_SCAN_WIDTH / (m_RefComp.DataManager.ModelData.ScanData.InScanResolution) + 0.5);
+            ptEnd.Y = (int)(MaxHeight / (m_RefComp.DataManager.ModelData.ScanData.CrossScanResolution) + 0.5);
+
+            // Bmp의 가로 세로 크기 설정
+            BmpImageWidth  = ptEnd.X;
+            BmpImageHeight = ptEnd.Y;
+
+            // 실제 크기와 Pixel과 배율을 결정함  (각 객체를 Pixel로 전환할때 사용함)
+            ratioWidth  = (float)BmpImageWidth  / BMT_SCAN_WIDTH;
+            ratioHeight = (float)BmpImageHeight / MaxHeight;
+
+            // 가로 사이즈는 32배수로 크기를 정한다. 
+            // 소수점을 버리기 위해서... 32로 나누고.. 곱한다.(32배수 밑은 버림).
+            BmpImageWidth  = (int)(ptEnd.X / BMP_DATA_SIZE + 0.5);
+            BmpImageWidth *= BMP_DATA_SIZE;
+
+            // Bmp 크기를 계산해서 Stream으로 반복 저장 횟수를 설정함.
+            // Pixel이 bit 단위이므로 Byte 크기를 사용할땐 8을 나눔.
+            long sizeCalsBmp = (long)BmpImageWidth * (long)BmpImageHeight / 8;
+            BmpBlockHeight = BmpImageHeight;
+
+            // Bmp 용량이 Block 최대치인 100MB를 넣을 경우
+            // Bmp의 Height를 Block 단위로 사용한다. (Stream 방식)
+            if (sizeCalsBmp > IMAGE_BLOCK_MAX_SIZE)
+            {
+                // 가로의 Byte 크기로 전체 용량을 나누어 높이 개수를 구함.
+                BmpBlockHeight = IMAGE_BLOCK_MAX_SIZE / (BmpImageWidth / 8);
+            }
+
+            return SUCCESS;
+        }
+
         public int SetSizeBmp()
         {
             if (m_RefComp.DataManager.ModelData.ScanData == null) return RUN_FAIL;
@@ -190,9 +295,11 @@ namespace LWDicer.Layers
             float tempHeight = 0.0f;
             Point ptTemp = new Point(0, 0);
 
+            // 객체 수량 확인
             int iObjectCount = m_ScanManager.ObjectList.Count;
             if (iObjectCount < 1) return SHAPE_LIST_DISABLE;
 
+            // 각 객체를 확인해서.. Bmp의 높이를 측정함.
             for (int i=0; i < iObjectCount; i++)
             {
                 tempHeight = m_ScanManager.ObjectList[i].ptObjectStartPos.Y;               
@@ -201,14 +308,16 @@ namespace LWDicer.Layers
                 tempHeight = m_ScanManager.ObjectList[i].ptObjectEndPos.Y;
                 if (tempHeight > MaxHeight) MaxHeight = tempHeight;
             }
-            
+
+            // 가로 세로 크기를 Pixel 단위로 변환
             ptEnd.X = (int)(BMT_SCAN_WIDTH / (m_RefComp.DataManager.ModelData.ScanData.InScanResolution) + 0.5);
             ptEnd.Y = (int)(MaxHeight / (m_RefComp.DataManager.ModelData.ScanData.CrossScanResolution) + 0.5);
 
-            BmpImageWidth  = ptEnd.X;
+            // Bmp의 가로 세로 크기 설정
+            BmpImageWidth = ptEnd.X;
             BmpImageHeight = ptEnd.Y;
 
-            // 가로 세로의 각각의 배율을 구함.
+            // 실제 크기와 Pixel과 배율을 결정함  (각 객체를 Pixel로 전환할때 사용함)
             ratioWidth = (float)(BmpImageWidth) / BMT_SCAN_WIDTH;
             ratioHeight = (float)BmpImageHeight / MaxHeight;
 
@@ -222,9 +331,10 @@ namespace LWDicer.Layers
             Array.Resize<byte>(ref BmpScanLine, BmpImageWidth / 8);
 
             // BMP file의 크기를 설정한다
+            // 2G 이상의 크기는 설정이 불가능함.
             try
             {
-                m_Bitmap = new Bitmap(BmpImageWidth, BmpImageHeight + 1, PixelFormat.Format1bppIndexed);
+                m_Bitmap = new Bitmap(BmpImageWidth, BmpImageHeight, PixelFormat.Format1bppIndexed);
             }
             catch
             {
@@ -284,8 +394,7 @@ namespace LWDicer.Layers
             recTarget = new Rectangle(0, 0, iWidth, iHeight);
             targetBmpData = m_Bitmap.LockBits(recTarget, ImageLockMode.ReadWrite, PixelFormat.Format1bppIndexed);
 
-            //for (int y = 0; y < recSource.Height; y++)
-            Parallel.For(0, recSource.Height, (int y) =>
+            for (int y = 0; y < recSource.Height; y++)
             {
                 // source Image에서 가로 한줄을 byte[]로 Copy함
                 Marshal.Copy((IntPtr)((long)sourceBmpData.Scan0 + sourceBmpData.Stride * y),
@@ -295,7 +404,7 @@ namespace LWDicer.Layers
                 {
                     Marshal.Copy(BmpScanLine, 0, (IntPtr)((long)targetBmpData.Scan0 + targetBmpData.Stride * (y * expandNum + x)), BmpScanLine.Length);
                 }
-            });
+            }
 
             sourceBmp.UnlockBits(sourceBmpData);
             m_Bitmap.UnlockBits(targetBmpData);
@@ -308,18 +417,289 @@ namespace LWDicer.Layers
         /// </summary>
         /// <param name="filePath"></param>
         /// <returns></returns>
+        public int SaveScanFile(string filePath)
+        {
+            int bytesStart = 0;
+            int bytesEnd = BmpBlockHeight;
+            bool checkObjectActive;
+            Point ptObjectStart = new Point(0, 0);
+            Point ptObjectEnd = new Point(0, 0);
+
+            // 저장할 File의  Head & Info 부분을 저장함
+            WriteBitmapHead(filePath, BmpImageWidth, BmpImageHeight);
+
+            // 저장할 File의 크기 계산
+            int saveByteSize = BmpImageWidth * BmpBlockHeight / 8;
+            // 나누어서 저장할때 남은 Heigth개수
+            int leftImageHeigth = BmpImageHeight;
+
+            if (leftImageHeigth > BmpBlockHeight)
+            {
+                // 저장할 Block 사이즈를 조정
+                Array.Resize(ref SaveObjectBytes, saveByteSize);
+
+                // Max Block 단위로 Object List를 File로 저장함.
+                for (int i = BmpBlockHeight; i < BmpImageHeight; i += BmpBlockHeight)
+                {
+                    // 해당 ByteArray Clear
+                    Array.Clear(SaveObjectBytes, 0, SaveObjectBytes.Length);
+                    // ObjectList를 Byte Block에 Draw함
+                    DrawObjectList(bytesStart, bytesEnd);
+                    // Byte Array를 Stream 방식으로 저장함. 
+                    WriteBitmapImage(filePath, SaveObjectBytes);
+
+                    // 저장할 Block의 구역을 정함. ( 전체 크기에서 Block 단위로 위치를 변경함 )
+                    bytesStart += BmpBlockHeight;
+                    bytesEnd   += BmpBlockHeight;
+                    // 남은 Image의 Heigth를 
+                    leftImageHeigth -= BmpBlockHeight;
+
+                    
+                }
+
+                // 반복으로 저장 한 후 남은 Image를 저장함.
+                // 저장할 Block 사이즈를 조정
+                if(leftImageHeigth<0) leftImageHeigth += BmpBlockHeight;
+                BmpBlockHeight = leftImageHeigth;
+                saveByteSize = BmpImageWidth * BmpBlockHeight / 8;
+                Array.Resize(ref SaveObjectBytes, saveByteSize);
+                // 해당 ByteArray Clear
+                Array.Clear(SaveObjectBytes, 0, SaveObjectBytes.Length);
+                // ObjectList를 Byte Block에 Draw함
+                DrawObjectList(bytesStart, bytesEnd);
+                // Byte Array를 Stream 방식으로 저장함. 
+                WriteBitmapImage(filePath, SaveObjectBytes);
+            }
+            else
+            {
+                // 저장할 Block 사이즈를 조정
+                BmpBlockHeight = leftImageHeigth;
+                saveByteSize = BmpImageWidth * BmpBlockHeight / 8;
+                Array.Resize(ref SaveObjectBytes, saveByteSize);
+                // 해당 ByteArray Clear
+                Array.Clear(SaveObjectBytes, 0, SaveObjectBytes.Length);
+                // ObjectList를 Byte Block에 Draw함
+                DrawObjectList(bytesStart, bytesEnd);
+                // Byte Array를 Stream 방식으로 저장함. 
+                WriteBitmapImage(filePath, SaveObjectBytes);
+            }
+
+            // Byte Array Memory 
+            Array.Resize(ref SaveObjectBytes, 1);
+
+            return SUCCESS;
+        }
+
+        private int DrawObjectList(int HeightStart, int HeigthEnd)
+        {
+            int bytesStart = HeightStart;
+            int bytesEnd   = HeigthEnd;
+            bool checkObjectActive;
+
+            Point ptObjectStart = new Point(0, 0);
+            Point ptObjectEnd = new Point(0, 0);
+
+            foreach (CMarkingObject pObject in m_ScanManager.ObjectList)
+            {
+                // 객체의 위치를  Pixel 단위로 변경함
+                ptObjectStart = PointToPixel(pObject.ptObjectStartPos);
+                ptObjectEnd = PointToPixel(pObject.ptObjectEndPos);
+
+                // 객체가 Save할 위치에 있는지를 확인함.
+                checkObjectActive = (ptObjectStart.Y >= bytesStart && ptObjectStart.Y < bytesEnd) ||
+                                    (ptObjectEnd.Y   >= bytesStart && ptObjectEnd.Y   < bytesEnd);
+
+                if (checkObjectActive)
+                {
+                    // 생성된 BMP 파일에 Object Draw
+                    DrawObjectBytes(pObject, bytesStart);
+                }
+                
+            }
+
+            return SUCCESS;
+        }
+
+        private int WriteBitmapHead(string filename, long width, long height)
+        {
+            bool TypeLSE;
+            // File Type 설정
+            string extension = Path.GetExtension(filename);
+            if (string.Compare(extension, ".lse", true) == 0) TypeLSE = true;
+            else TypeLSE = false;
+
+            // Data 구조체.. 생성
+            var fileHead                = new BITMAPFILEHEADER();
+            var fileInfo                = new BITMAPINFOHEADER();
+            var colorTable              = new COLORTABLE();
+            var rasterData              = new RASTERDATA();
+
+            fileHead.bfType             = 0x4D42;
+            fileHead.bfSize             = (uint)((width * height) / 8) + 0x3E;
+            fileHead.bfReserved1        = 0;
+            fileHead.bfReserved2        = 0;
+            fileHead.bfOffBits          = 0x3E;
+
+            fileInfo.biSize             = 0x28;
+            fileInfo.biWidth            = (uint)width;
+            fileInfo.biHeight           = (uint)height;
+            fileInfo.biPlanes           = 0x01;
+            fileInfo.biBitCount         = 0x01;
+            fileInfo.biCompression      = 0x00;
+            fileInfo.biSizeImage        = (uint)((width * height) / 8);
+            fileInfo.biXPelsPerMeter    = 0x00;
+            fileInfo.biYPelsPerMeter    = 0x00;
+            fileInfo.biClrUsed          = 0x00;
+            fileInfo.biClrImportant     = 0x00;
+
+            colorTable.rgbBlue          = 0x00;
+            colorTable.rgbGreen         = 0x00;
+            colorTable.rgbRed           = 0x00;
+            colorTable.rgbReserved      = 0x00;
+
+            rasterData.rgbBlue          = 0xFF;
+            rasterData.rgbGreen         = 0xFF;
+            rasterData.rgbRed           = 0xFF;
+            rasterData.rgbReserved      = 0xFF;
+
+            if (TypeLSE)
+            {
+                fileInfo.biXPelsPerMeter    = 0x0F61;
+                fileInfo.biYPelsPerMeter    = 0x0F61;
+                fileInfo.biClrUsed          = 0x02;
+                fileInfo.biClrImportant     = 0x02;
+
+                colorTable.rgbBlue          = 0xFF;
+                colorTable.rgbGreen         = 0xFF;
+                colorTable.rgbRed           = 0xFF;
+                colorTable.rgbReserved      = 0x00;
+
+                rasterData.rgbBlue          = 0x00;
+                rasterData.rgbGreen         = 0x00;
+                rasterData.rgbRed           = 0x00;
+                rasterData.rgbReserved      = 0x00;
+            }
+
+            // Stream 방식으로 File을 저장함.
+            var FS = new FileStream(filename, FileMode.Create);
+            var BS = new BufferedStream(FS);
+
+            byte[] wBytes;
+            int lengthBytes;
+
+            wBytes = StructToByte(fileHead);
+            lengthBytes = wBytes.Length;
+            BS.Write(wBytes, 0, lengthBytes);
+
+            wBytes = StructToByte(fileInfo);
+            lengthBytes = wBytes.Length;
+            BS.Write(wBytes, 0, lengthBytes);
+
+            wBytes = StructToByte(colorTable);
+            lengthBytes = wBytes.Length;
+            BS.Write(wBytes, 0, lengthBytes);
+
+            wBytes = StructToByte(rasterData);
+            lengthBytes = wBytes.Length;
+            BS.Write(wBytes, 0, lengthBytes);
+
+            BS.Close();
+            FS.Close();
+
+            return 0;
+
+        }
+
+        private int WriteBitmapImage(string filename, byte[] wBytes)
+        {
+            var FS = new FileStream(filename, FileMode.Append);
+            var BS = new BufferedStream(FS);
+
+            int lengthBytes = wBytes.Length;
+
+            BS.Write(wBytes, 0, lengthBytes);
+
+            BS.Close();
+            FS.Close();
+
+            return 0;
+        }
+
+        private byte[] StructToByte(object obj)
+        {
+            int datasize = Marshal.SizeOf(obj);             //((PACKET_DATA)obj).TotalBytes; // 구조체에 할당된 메모리의 크기를 구한다.
+            IntPtr buff = Marshal.AllocHGlobal(datasize);   // 비관리 메모리 영역에 구조체 크기만큼의 메모리를 할당한다.
+            Marshal.StructureToPtr(obj, buff, false);       // 할당된 구조체 객체의 주소를 구한다.
+            byte[] data = new byte[datasize];               // 구조체가 복사될 배열
+            Marshal.Copy(buff, data, 0, datasize);          // 구조체 객체를 배열에 복사
+            Marshal.FreeHGlobal(buff);                      // 비관리 메모리 영역에 할당했던 메모리를 해제함
+            return data;
+        }
+
+        private byte[] ReverseData(byte[] imageData)
+        {
+            int lengthData = imageData.Length;
+            byte[] convertData = new byte[lengthData];
+
+            for (int i = 0; i < lengthData; i++)
+            {
+                // Data가 없을 경우 Pass
+                if (imageData[i] == 0) continue;
+                // white-black reverse
+                //convertData[i] = SubByte(0xff, imageData[i]);
+                // big endian 
+                convertData[i] = ReverseByte(convertData[i]);
+            }
+
+            return convertData;
+        }
+
+        private byte SubByte(byte Left, byte Right)
+        {
+            short num = (short)(Left - Right);
+            if (num > 0xff)
+            {
+                return (byte)num;
+            }
+            return (byte)num;
+        }
+
+        // Byte의 Bit 배열 순서를 바꾼다.
+        public byte ReverseByte(byte originalByte)
+        {
+            int result = 0;
+            for (int i = 0; i < 8; i++)
+            {
+                result = result << 1;
+                result += originalByte & 1;
+                originalByte = (byte)(originalByte >> 1);
+            }
+
+            return (byte)result;
+        }
+
+        /// <summary>
+        /// Manager에 저장된 Object 전체를 BMP 파일로 저장함.
+        /// </summary>
+        /// <param name="filePath"></param>
+        /// <returns></returns>
         public int ConvertBmpFile(string filePath)
         {
             try
             {
-                int iObjectCount = m_ScanManager.ObjectList.Count;
-                if (iObjectCount < 1) return SHAPE_LIST_DISABLE;
+                //int iObjectCount = m_ScanManager.ObjectList.Count;
+                //if (iObjectCount < 1) return SHAPE_LIST_DISABLE;
+                
+                //for (int i = 0; i < iObjectCount; i++)
+                //{
+                //    // 생성된 BMP 파일에 Object Draw
+                //    DrawBmpFile(m_ScanManager.ObjectList[i]);
+                //}
 
-                //Parallel.For(0, iObjectCount, (int i) =>
-                for (int i = 0; i < iObjectCount; i++)
+                foreach(CMarkingObject pObject in m_ScanManager.ObjectList)
                 {
                     // 생성된 BMP 파일에 Object Draw
-                    DrawBmpFile(m_ScanManager.ObjectList[i]);
+                    DrawBmpFile(pObject);
                 }
                 
                 // 생성된 BMP을 파일 저장함.
@@ -329,6 +709,53 @@ namespace LWDicer.Layers
             }
             catch
             { }
+
+            return SUCCESS;
+        }
+
+        /// <summary>
+        /// 1bit BMP 파일에 Object를 Draw하는 함수
+        /// </summary>
+        /// <param name="pObject"></param>
+        /// <returns></returns>
+        private int DrawObjectBytes(CMarkingObject pObject,int HeightOffset=0)
+        {
+            Point ptStart = new Point(0, 0);
+            Point ptEnd   = new Point(0, 0);
+
+            // Object의 위치 값을 Pixel 로 변환
+            ptStart = PointToPixel(pObject.ptObjectStartPos);
+            ptEnd   = PointToPixel(pObject.ptObjectEndPos);
+
+            // Height Offset을 적용함
+            ptStart.Y -= HeightOffset;
+            ptEnd.Y -= HeightOffset;
+
+            switch (pObject.ObjectType)
+            {
+                case EObjectType.DOT:
+                    SetBytePixel(ptStart.X, ptStart.Y);
+                    break;
+                case EObjectType.LINE:
+                    DrawBytesLine(ptStart, ptEnd);
+                    break;
+                case EObjectType.RECTANGLE:
+                    DrawBytesLine(ptStart.X, ptStart.Y, ptEnd.X,   ptStart.Y);
+                    DrawBytesLine(ptStart.X, ptStart.Y, ptStart.X, ptEnd.Y);
+                    DrawBytesLine(ptStart.X, ptEnd.Y,   ptEnd.X,   ptEnd.Y);
+                    DrawBytesLine(ptEnd.X,   ptStart.Y, ptEnd.X,   ptEnd.Y);
+                    break;
+                case EObjectType.CIRCLE:
+                    DrawBytesEllipse(ptStart, ptEnd);
+                    break;
+                case EObjectType.GROUP:
+                    CObjectGroup pGroup;
+                    pGroup = (CObjectGroup)(pObject);
+                    // 재귀적 방식으로  Object를 Draw를 진행함.                    
+                    foreach (CMarkingObject G in pGroup.ObjectGroup)
+                        DrawObjectBytes(G, HeightOffset);
+                    break;
+            }
 
             return SUCCESS;
         }
@@ -359,7 +786,6 @@ namespace LWDicer.Layers
                     DrawLine(ptStart.X, ptStart.Y, ptStart.X, ptEnd.Y);
                     DrawLine(ptStart.X, ptEnd.Y, ptEnd.X, ptEnd.Y);
                     DrawLine(ptEnd.X, ptStart.Y, ptEnd.X, ptEnd.Y);
-
                     break;
                 case EObjectType.CIRCLE:
                     DrawEllipse(ptStart, ptEnd);
@@ -370,7 +796,6 @@ namespace LWDicer.Layers
                     // 재귀적 방식으로  Object를 Draw를 진행함.                    
                     foreach (CMarkingObject G in pGroup.ObjectGroup)
                         DrawBmpFile(G);
-
                     break;
             }         
 
@@ -386,6 +811,12 @@ namespace LWDicer.Layers
 
             return ptTemp;
         }
+
+        private int HeightToPixel(int pPos)
+        {            
+            return (int)(pPos * ratioHeight + 0.5);            
+        }
+
         private void ParallelCals(int i, int y)
         {
             // Line Check
@@ -398,6 +829,201 @@ namespace LWDicer.Layers
                 BmpScanLine[i / BYTE_SIZE] = 0;
             }
         }
+
+        private void SetBytePixel(int PosX, int PosY)
+        {
+            int iWidth = BmpImageWidth;
+            int iHeight = BmpBlockHeight;
+
+            // 위치 확인
+            bool checkResion = (PosX < 0 || PosY < 0) || (PosX >= iWidth || PosY >= iHeight);
+            if (checkResion) return;
+                       
+            // start byte address  
+            int ByteAddress = PosX / BYTE_SIZE + (BmpImageWidth / BYTE_SIZE) * PosY;
+
+            // Byte 데이터를 Bit 단위로 연산한다.
+            // Black으로 표기
+            //SaveObjectBytes[ByteAddress] &= (byte)~(0x80 >> (PosX % 8));
+            // White으로 표기
+            //SaveObjectBytes[ByteAddress] |= (byte)(0x80 >> (PosX % 8));
+            SaveObjectBytes[ByteAddress] |= (byte)(0x01 << (PosX % 8));
+        }
+
+
+        private void DrawBytesLine(Point ptStart, Point ptEnd)
+        {
+            // 변수 생성 및 초기화
+            int CurrentValueX = 0;
+            int CurrentValueY = 0;
+            int BeforeValueX = -1;
+            int BeforeValueY = -1;
+
+
+            ////////////////////////////////////////////////////
+            // Case 1
+            // Point 1,2가 동일한 경우 리턴함.
+            ////////////////////////////////////////////////////
+            if (ptStart == ptEnd) return;
+
+            ////////////////////////////////////////////////////
+            // Case 2
+            // 기울기가 0 인 경우 (추후 연산을 빠르게 하기 위해 Byte 단위별 쓰기 기능 추가 검토)
+            ////////////////////////////////////////////////////
+            if (ptEnd.Y == ptStart.Y)
+            {
+                CurrentValueY = ptEnd.Y;
+
+                for (int i = 0; i <= Math.Abs(ptEnd.X - ptStart.X); i++)
+                {
+                    if ((ptEnd.X - ptStart.X) >= 0) CurrentValueX = ptStart.X + i;
+                    if ((ptEnd.X - ptStart.X) < 0) CurrentValueX = ptStart.X - i;
+
+                    if (BeforeValueX != CurrentValueX || BeforeValueY != CurrentValueY)
+                        SetBytePixel(CurrentValueX, CurrentValueY);
+
+                    BeforeValueX = CurrentValueX;
+                    BeforeValueY = CurrentValueY;
+                }
+
+                return;
+            }
+
+            ////////////////////////////////////////////////////
+            // Case 3
+            // 기울기가 무한대 인 경우
+            ////////////////////////////////////////////////////
+            if (ptEnd.X == ptStart.X)
+            {
+                CurrentValueX = ptEnd.X;
+
+                for (int i = 0; i <= Math.Abs(ptEnd.Y - ptStart.Y); i++)
+                {
+                    if ((ptEnd.Y - ptStart.Y) >= 0) CurrentValueY = ptStart.Y + i;
+                    if ((ptEnd.Y - ptStart.Y) < 0) CurrentValueY = ptStart.Y - i;
+
+                    if (BeforeValueX != CurrentValueX || BeforeValueY != CurrentValueY)
+                        SetBytePixel(CurrentValueX, CurrentValueY);
+
+                    BeforeValueX = CurrentValueX;
+                    BeforeValueY = CurrentValueY;
+                }
+                return;
+            }
+
+            ////////////////////////////////////////////////////
+            // Case 4
+            // 기울기가 있을 경우
+            ////////////////////////////////////////////////////            
+
+            Point ptTemp = new Point(0, 0);
+
+            // Start가 End Point보다 클 경우 Point를 swat한다.
+            if (ptStart.X > ptEnd.X)
+            {
+                ptTemp = ptStart;
+                ptStart = ptEnd;
+                ptEnd = ptTemp;
+            }
+
+            // Y축 방향으로 기울기를 구함.
+            // 영상의 방향을 Y축이 반대로 되어 있음.
+            float dSlope = (float)(ptEnd.Y - ptStart.Y) / (float)(ptEnd.X - ptStart.X);
+
+            float dIncValue = Math.Abs(1 / dSlope);
+            float dIncCount = Math.Abs(1 / dSlope);
+
+            // X축 대비 Y축 증감이 1보다 크면... 1을 넣어준다.
+            // (Pixel 단위로 증감을 위해서)
+            if (dIncValue > 1) dIncValue = 1;
+
+            // 시작점을 대입한다.
+            float dValueX = (float)ptStart.X;
+            float dValueY = (float)ptStart.Y;
+
+            // X축의 시작점과 끝나는 점 확인 (이에 따라서.. 증감을 결정함)
+            float dStartValue = (float)ptStart.X;
+            float dEndValue = (float)ptEnd.X;
+
+            for (float dX = dStartValue; dX <= dEndValue; dX = dX + dIncValue)
+            {
+                // 연산된 값을 Int형으로 변환 (반올림)
+                CurrentValueX = (int)(dValueX + 0.5);
+                CurrentValueY = (int)(dValueY + 0.5);
+
+                // 이전 값과 현재 값을 확인함
+                // 다를 경우에 해당 좌표 Bitmap Pixel값을 변경함.
+                if (BeforeValueX != CurrentValueX || BeforeValueY != CurrentValueY)
+                    SetBytePixel(CurrentValueX, CurrentValueY);
+
+                // 이전값을 기억함.
+                BeforeValueX = CurrentValueX;
+                BeforeValueY = CurrentValueY;
+
+                // 각 Point값을 연산함
+                dValueX = dValueX + dIncValue;
+                dValueY = dSlope * (dValueX - ptStart.X) + ptStart.Y;
+            }
+        }
+
+
+        private void DrawBytesLine(int PosX1, int PosY1, int PosX2, int PosY2)
+        {
+            Point posLine1 = new Point(PosX1, PosY1);
+            Point posLine2 = new Point(PosX2, PosY2);
+
+            DrawBytesLine(posLine1, posLine2);
+        }
+
+        private void DrawBytesEllipse(Point ptStart, Point ptEnd)
+        {
+            float dLengthX = Math.Abs((float)(ptStart.X - ptEnd.X)) - 1;
+            float dLengthY = Math.Abs((float)(ptStart.Y - ptEnd.Y)) - 1;
+
+            float dCenterX = (float)(ptStart.X + ptEnd.X) / 2;
+            float dCenterY = (float)(ptStart.Y + ptEnd.Y) / 2;
+
+            float dEllipseA = dLengthX / 2;
+            float dEllipseB = dLengthY / 2;
+
+            float dValueX1 = 0.0f;
+            float dValueY1 = 0.0f;
+            float dValueX2 = 0.0f;
+            float dValueY2 = 0.0f;
+            int count = 0;
+
+            for (float dIncX = -dEllipseA; dIncX <= dEllipseA; dIncX = dIncX + 1)
+            {
+                dValueX1 = dIncX;
+                dValueY1 = (float)Math.Sqrt(dEllipseB * dEllipseB * (1 - (dIncX * dIncX) / (dEllipseA * dEllipseA)));
+                dValueY2 = -dValueY1;
+
+                dValueX1 = dValueX1 + dCenterX;
+                dValueY1 = dValueY1 + dCenterY;
+                dValueY2 = dValueY2 + dCenterY;
+
+                SetBytePixel((int)(dValueX1), (int)(dValueY1));
+                SetBytePixel((int)(dValueX1), (int)(dValueY2));
+                count++;
+            }
+
+            for (float dIncY = -dEllipseB; dIncY <= dEllipseB; dIncY = dIncY + 1)
+            {
+                dValueX1 = (float)Math.Sqrt(dEllipseA * dEllipseA * (1 - (dIncY * dIncY) / (dEllipseB * dEllipseB)));
+                dValueX2 = -dValueX1;
+                dValueY1 = dIncY;
+
+                dValueX1 = dValueX1 + dCenterX;
+                dValueX2 = dValueX2 + dCenterX;
+                dValueY1 = dValueY1 + dCenterY;
+
+                SetBytePixel((int)(dValueX1), (int)(dValueY1));
+                SetBytePixel((int)(dValueX2), (int)(dValueY1));
+                count++;
+            }
+
+        }
+
 
         private void SetIndexPixel(int PosX, int PosY, bool bData = true)
         {

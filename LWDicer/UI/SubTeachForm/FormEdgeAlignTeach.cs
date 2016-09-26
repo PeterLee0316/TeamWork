@@ -26,6 +26,15 @@ namespace LWDicer.UI
             this.Controls.Add(CMainFrame.frmStageJog);
             CMainFrame.frmStageJog.Parent = this.pnlStageJog;
             CMainFrame.frmStageJog.Dock = DockStyle.Fill;
+
+
+            CMainFrame.frmCamFocus.Location = new Point(0, 0);
+            CMainFrame.frmCamFocus.TopLevel = false;
+            this.Controls.Add(CMainFrame.frmCamFocus);
+            CMainFrame.frmCamFocus.Parent = this.pnlStageJog;
+            CMainFrame.frmCamFocus.Dock = DockStyle.Fill;
+
+            
             CMainFrame.frmStageJog.Show();
         }
 

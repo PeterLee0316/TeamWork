@@ -24,9 +24,9 @@ namespace LWDicer.UI
         private enum EStageMoveType 
         {
             JOG,
-            SCREEN_MACRO,
-            SCREEN_MICRO,
-            INDEX
+            STEP_INDEX,
+            SCREEN_INDEX,
+            DIE_INDEX
         }
         private enum EJogSpeed
         {
@@ -44,42 +44,42 @@ namespace LWDicer.UI
 
         private void FormJogStage_Load(object sender, EventArgs e)
         {
-            ChangeStageMode(EStageMoveType.INDEX);
+            ChangeStageMode(EStageMoveType.DIE_INDEX);
             ChangeJogSpeed(EJogSpeed.SLOW);
         }
         
-        private void BtnSelectScreen_Click(object sender, EventArgs e)
+        private void BtnSelectStepIndex_Click(object sender, EventArgs e)
         {
-            ChangeStageMode(EStageMoveType.SCREEN_MACRO);
+            ChangeStageMode(EStageMoveType.STEP_INDEX);
         }
 
-        private void BtnSelectScreenMicro_Click(object sender, EventArgs e)
+        private void BtnSelectScreenIndex_Click(object sender, EventArgs e)
         {
-            ChangeStageMode(EStageMoveType.SCREEN_MICRO);
+            ChangeStageMode(EStageMoveType.SCREEN_INDEX);
         }
-        private void BtnSelectIndex_Click(object sender, EventArgs e)
+        private void BtnSelectDieIndex_Click(object sender, EventArgs e)
         {
-            ChangeStageMode(EStageMoveType.INDEX);
+            ChangeStageMode(EStageMoveType.DIE_INDEX);
         }
 
         private void ChangeStageMode(EStageMoveType pMode)
         {
             switch (pMode)
             {
-                case EStageMoveType.SCREEN_MACRO:
-                    BtnSelectScreenMacro.BackColor = SystemColors.Highlight;
-                    BtnSelectScreenMicro.BackColor = SystemColors.Control;
-                    BtnSelectIndex.BackColor       = SystemColors.Control;
+                case EStageMoveType.STEP_INDEX:
+                    BtnSelectStepIndex.BackColor = SystemColors.Highlight;
+                    BtnSelectScreenIndex.BackColor = SystemColors.Control;
+                    BtnSelectDieIndex.BackColor       = SystemColors.Control;
                     break;
-                case EStageMoveType.SCREEN_MICRO:
-                    BtnSelectScreenMacro.BackColor = SystemColors.Control;
-                    BtnSelectScreenMicro.BackColor = SystemColors.Highlight;
-                    BtnSelectIndex.BackColor       = SystemColors.Control;
+                case EStageMoveType.SCREEN_INDEX:
+                    BtnSelectStepIndex.BackColor = SystemColors.Control;
+                    BtnSelectScreenIndex.BackColor = SystemColors.Highlight;
+                    BtnSelectDieIndex.BackColor       = SystemColors.Control;
                     break;
-                case EStageMoveType.INDEX:
-                    BtnSelectScreenMacro.BackColor = SystemColors.Control;
-                    BtnSelectScreenMicro.BackColor = SystemColors.Control;
-                    BtnSelectIndex.BackColor       = SystemColors.Highlight;
+                case EStageMoveType.DIE_INDEX:
+                    BtnSelectStepIndex.BackColor = SystemColors.Control;
+                    BtnSelectScreenIndex.BackColor = SystemColors.Control;
+                    BtnSelectDieIndex.BackColor       = SystemColors.Highlight;
                     break;
             }
 
@@ -120,48 +120,78 @@ namespace LWDicer.UI
         {
             int iResult = SUCCESS;
             
-            if (StageMoveType == EStageMoveType.SCREEN_MICRO)
-            {
+            // Step Index Move
+            if (StageMoveType == EStageMoveType.STEP_INDEX)
+            {                
                 if (SelectedAxis == EACS_Axis.STAGE1_X)
                 {
-                    if (bDirect) iResult = CMainFrame.LWDicer.m_ctrlStage1.MoveMicroScreenPlusX();
-                    else         iResult = CMainFrame.LWDicer.m_ctrlStage1.MoveMicroScreenMinusX();
+                    if (bDirect) iResult = CMainFrame.LWDicer.m_ctrlStage1.MoveStageRelativeX(0.001,true);
+                    else         iResult = CMainFrame.LWDicer.m_ctrlStage1.MoveStageRelativeX(0.001,false);
                 }
 
                 if (SelectedAxis == EACS_Axis.STAGE1_Y)
                 {
-                    if (bDirect) iResult = CMainFrame.LWDicer.m_ctrlStage1.MoveMicroScreenPlusY();
-                    else         iResult = CMainFrame.LWDicer.m_ctrlStage1.MoveMicroScreenMinusY();
+                    if (bDirect) iResult = CMainFrame.LWDicer.m_ctrlStage1.MoveStageRelativeY(0.001, true);
+                    else         iResult = CMainFrame.LWDicer.m_ctrlStage1.MoveStageRelativeY(0.001, false);
                 }
 
                 if (SelectedAxis == EACS_Axis.STAGE1_T)
                 {
-                    if (bDirect) iResult = CMainFrame.LWDicer.m_ctrlStage1.MoveMicroScreenPlusT();
-                    else         iResult = CMainFrame.LWDicer.m_ctrlStage1.MoveMicroScreenMinusT();
+                    if (bDirect) iResult = CMainFrame.LWDicer.m_ctrlStage1.MoveStageRelativeT(0.001, true);
+                    else         iResult = CMainFrame.LWDicer.m_ctrlStage1.MoveStageRelativeT(0.001, false);
                 }
             }
 
-            else if (StageMoveType == EStageMoveType.SCREEN_MACRO)
+            // Screen Index Move
+            else if (StageMoveType == EStageMoveType.SCREEN_INDEX)
             {
-                if (SelectedAxis == EACS_Axis.STAGE1_X)
+                if (CMainFrame.LWDicer.m_ctrlStage1.CheckMicroCam())
                 {
-                    if (bDirect) iResult = CMainFrame.LWDicer.m_ctrlStage1.MoveMacroScreenPlusX();
-                    else         iResult = CMainFrame.LWDicer.m_ctrlStage1.MoveMacroScreenMinusX();
+
+                    if (SelectedAxis == EACS_Axis.STAGE1_X)
+                    {
+                        if (bDirect) iResult = CMainFrame.LWDicer.m_ctrlStage1.MoveMicroScreenPlusX();
+                        else         iResult = CMainFrame.LWDicer.m_ctrlStage1.MoveMicroScreenMinusX();
+                    }
+
+                    if (SelectedAxis == EACS_Axis.STAGE1_Y)
+                    {
+                        if (bDirect) iResult = CMainFrame.LWDicer.m_ctrlStage1.MoveMicroScreenPlusY();
+                        else         iResult = CMainFrame.LWDicer.m_ctrlStage1.MoveMicroScreenMinusY();
+                    }
+
+                    if (SelectedAxis == EACS_Axis.STAGE1_T)
+                    {
+                        if (bDirect) iResult = CMainFrame.LWDicer.m_ctrlStage1.MoveMicroScreenPlusT();
+                        else         iResult = CMainFrame.LWDicer.m_ctrlStage1.MoveMicroScreenMinusT();
+                    }
                 }
 
-                if (SelectedAxis == EACS_Axis.STAGE1_Y)
+                if (CMainFrame.LWDicer.m_ctrlStage1.CheckMacroCam())
                 {
-                    if (bDirect) iResult = CMainFrame.LWDicer.m_ctrlStage1.MoveMacroScreenPlusY();
-                    else         iResult = CMainFrame.LWDicer.m_ctrlStage1.MoveMacroScreenMinusY();
-                }
 
-                if (SelectedAxis == EACS_Axis.STAGE1_T)
-                {
-                    if (bDirect) iResult = CMainFrame.LWDicer.m_ctrlStage1.MoveMacroScreenPlusT();
-                    else         iResult = CMainFrame.LWDicer.m_ctrlStage1.MoveMacroScreenMinusT();
+                    if (SelectedAxis == EACS_Axis.STAGE1_X)
+                    {
+                        if (bDirect) iResult = CMainFrame.LWDicer.m_ctrlStage1.MoveMacroScreenPlusX();
+                        else         iResult = CMainFrame.LWDicer.m_ctrlStage1.MoveMacroScreenMinusX();
+                    }
+
+                    if (SelectedAxis == EACS_Axis.STAGE1_Y)
+                    {
+                        if (bDirect) iResult = CMainFrame.LWDicer.m_ctrlStage1.MoveMacroScreenPlusY();
+                        else         iResult = CMainFrame.LWDicer.m_ctrlStage1.MoveMacroScreenMinusY();
+                    }
+
+                    if (SelectedAxis == EACS_Axis.STAGE1_T)
+                    {
+                        if (bDirect) iResult = CMainFrame.LWDicer.m_ctrlStage1.MoveMacroScreenPlusT();
+                        else         iResult = CMainFrame.LWDicer.m_ctrlStage1.MoveMacroScreenMinusT();
+                    }
                 }
             }
-            else if (StageMoveType == EStageMoveType.INDEX)
+
+            // Die Index Move
+            else if (StageMoveType == EStageMoveType.DIE_INDEX)
             {
                 if (SelectedAxis == EACS_Axis.STAGE1_X)
                 {

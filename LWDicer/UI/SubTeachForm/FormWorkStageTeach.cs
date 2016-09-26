@@ -507,11 +507,9 @@ namespace LWDicer.UI
             if (StagePos[m_nSelectedPos_Stage].Text == Convert.ToString(EStagePos.WAIT))              CMainFrame.LWDicer.m_ctrlStage1.MoveToStageWaitPos();
             if (StagePos[m_nSelectedPos_Stage].Text == Convert.ToString(EStagePos.LOAD))              CMainFrame.LWDicer.m_ctrlStage1.MoveToStageLoadPos();
             if (StagePos[m_nSelectedPos_Stage].Text == Convert.ToString(EStagePos.UNLOAD))            CMainFrame.LWDicer.m_ctrlStage1.MoveToStageUnloadPos();
-            if (StagePos[m_nSelectedPos_Stage].Text == Convert.ToString(EStagePos.STAGE_CENTER))       CMainFrame.LWDicer.m_ctrlStage1.MoveToThetaAlignPosA();
+            if (StagePos[m_nSelectedPos_Stage].Text == Convert.ToString(EStagePos.STAGE_CENTER))      CMainFrame.LWDicer.m_ctrlStage1.MoveToStageCenter();
+            if (StagePos[m_nSelectedPos_Stage].Text == Convert.ToString(EStagePos.THETA_ALIGN_A))     CMainFrame.LWDicer.m_ctrlStage1.MoveToThetaAlignPosA();
             if (StagePos[m_nSelectedPos_Stage].Text == Convert.ToString(EStagePos.EDGE_ALIGN_1))      CMainFrame.LWDicer.m_ctrlStage1.MoveToEdgeAlignPos1();
-            if (StagePos[m_nSelectedPos_Stage].Text == Convert.ToString(EStagePos.EDGE_ALIGN_2))      CMainFrame.LWDicer.m_ctrlStage1.MoveToEdgeAlignPos2();
-            if (StagePos[m_nSelectedPos_Stage].Text == Convert.ToString(EStagePos.EDGE_ALIGN_3))      CMainFrame.LWDicer.m_ctrlStage1.MoveToEdgeAlignPos3();
-            if (StagePos[m_nSelectedPos_Stage].Text == Convert.ToString(EStagePos.EDGE_ALIGN_4))      CMainFrame.LWDicer.m_ctrlStage1.MoveToEdgeAlignPos4();
             if (StagePos[m_nSelectedPos_Stage].Text == Convert.ToString(EStagePos.MACRO_CAM_POS))     CMainFrame.LWDicer.m_ctrlStage1.MoveToMacroCam();
             if (StagePos[m_nSelectedPos_Stage].Text == Convert.ToString(EStagePos.MACRO_ALIGN))       CMainFrame.LWDicer.m_ctrlStage1.MoveToMacroAlignA();
             if (StagePos[m_nSelectedPos_Stage].Text == Convert.ToString(EStagePos.MICRO_ALIGN))       CMainFrame.LWDicer.m_ctrlStage1.MoveToMicroAlignA();

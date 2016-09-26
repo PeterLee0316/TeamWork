@@ -1411,7 +1411,7 @@ namespace LWDicer.Layers
             
         }
 
-        public void DrawOverLayHairLine(int Width=0)
+        private void DrawOverLayHairLine(int Width=0)
         {
 #if SIMULATION_VISION
             return;
@@ -1429,6 +1429,12 @@ namespace LWDicer.Layers
                 m_RefComp.View[m_iCurrentViewNum].DrawHairLine(Width);
             }
         }
+
+        public void ShowHairLine()
+        {
+            DrawOverLayHairLine(m_iHairLineWidth);
+        }
+
         public void NarrowHairLine()
         {
             m_iHairLineWidth--;

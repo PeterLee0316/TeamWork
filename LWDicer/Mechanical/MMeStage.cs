@@ -96,11 +96,11 @@ namespace LWDicer.Layers
             WAIT,
             LOAD,
             UNLOAD,
-            STAGE_CENTER,            // Theta축 정렬할때 A 위치
+            STAGE_CENTER,           // Stage의 Center 위치 (Pre Cam 기준)
+            THETA_ALIGN_A,          // Theta Align 시 "A" 위치
             EDGE_ALIGN_1,           // EDGE Detect "0"도 위치
-            EDGE_ALIGN_2,           // EDGE Detect "90"도 위치
-            EDGE_ALIGN_3,           // EDGE Detect "180"도 위치
-            EDGE_ALIGN_4,           // EDGE Detect "270"도 위치
+            SPARE_POS_1,            // 
+            SPARE_POS_2,            // 
             MACRO_CAM_POS,          // KEY가 MACRO CAM영상의 CENTER일때 STAGE 위치
             MACRO_ALIGN,            // MACRO Align "A" Mark 위치
             MICRO_ALIGN,            // MICRO Align "A" Mark 위치
@@ -532,6 +532,11 @@ namespace LWDicer.Layers
             return iResult;
         }
 
+        public CPos_XYTZ GetStageTeachPos(int iPos)
+        {
+            return AxStageInfo.GetTargetPos(iPos);
+        }
+
         public int MoveStageToSafetyPos(int axis)
         {
             int iResult = SUCCESS;
@@ -717,7 +722,6 @@ namespace LWDicer.Layers
             int iResult = SUCCESS;
 
             // 이동 Position 선택
-            int iPos = (int)EStagePos.NONE;
             CPos_XYTZ sTargetPos = new CPos_XYTZ();
             iResult = GetStageCurPos(out sTargetPos);
             if (iResult != SUCCESS) return iResult;
@@ -745,6 +749,7 @@ namespace LWDicer.Layers
 
             return SUCCESS;
         }
+
         /// <summary>
         /// Stage의 각축의 상대 이동
         /// </summary>
@@ -997,9 +1002,16 @@ namespace LWDicer.Layers
             return MoveStagePos(iPos, bMoveAllAxis, bMoveXYT, bMoveZ);
         }
 
-        public int MoveStageToThetaAlignPosA(bool bMoveAllAxis = false, bool bMoveXYT = true, bool bMoveZ = false)
+        public int MoveStageToStageCenter(bool bMoveAllAxis = false, bool bMoveXYT = true, bool bMoveZ = false)
         {
             int iPos = (int)EStagePos.STAGE_CENTER;
+
+            return MoveStagePos(iPos, bMoveAllAxis, bMoveXYT, bMoveZ);
+        }
+
+        public int MoveStageToThetaAlignPosA(bool bMoveAllAxis = false, bool bMoveXYT = true, bool bMoveZ = false)
+        {
+            int iPos = (int)EStagePos.THETA_ALIGN_A;
 
             return MoveStagePos(iPos, bMoveAllAxis, bMoveXYT, bMoveZ);
         }
@@ -1007,25 +1019,23 @@ namespace LWDicer.Layers
         public int MoveStageToThetaAlignPosB(bool bMoveAllAxis = false, bool bMoveXYT = true, bool bMoveZ = false)
         {
             int iResult = -1;
-            int iPosIndex = -1;
+            int iPosIndex = (int)EStagePos.THETA_ALIGN_A;
 
-            GetStagePosInfo(out iPosIndex);
-            if (iPosIndex != (int)EStagePos.STAGE_CENTER)
-            {
-                iResult = MoveStageToThetaAlignPosA();
-                if (iResult != SUCCESS) return iResult;
-            }
+            // Theta Align A pos를 읽음
+            CPos_XYTZ targetPos = AxStageInfo.GetTargetPos(iPosIndex);
 
             double moveDistance = CMainFrame.DataManager.SystemData_Align.AlignMarkWidthLen;
+
+            //  Theta Align 거리값을 적용함.
+            targetPos.dX += moveDistance;
+
             // 수평으로 Align Mark 거리 만큼 이동함.
-            
-            iResult = MoveStageRelative(DEF_Y, moveDistance);
+            iResult = MoveStagePos(targetPos);
             if (iResult != SUCCESS) return iResult;
 
             return SUCCESS;
         }
-
-
+        
         public int MoveStageToEdgeAlignPos1(bool bMoveAllAxis = false, bool bMoveXYT = true, bool bMoveZ = false)
         {
             int iPos = (int)EStagePos.EDGE_ALIGN_1;
@@ -1035,23 +1045,43 @@ namespace LWDicer.Layers
 
         public int MoveStageToEdgeAlignPos2(bool bMoveAllAxis = false, bool bMoveXYT = true, bool bMoveZ = false)
         {
-            int iPos = (int)EStagePos.EDGE_ALIGN_2;
+            int iPosIndex = (int)EStagePos.EDGE_ALIGN_1;
 
-            return MoveStagePos(iPos, bMoveAllAxis, bMoveXYT, bMoveZ);
+            // Theta Align A pos를 저장
+            CPos_XYTZ targetPos = AxStageInfo.GetTargetPos(iPosIndex);
+
+            //  회전값을 적용함.
+            targetPos.dT += 90.0;
+
+            return MoveStagePos(targetPos);            
+            
         }
 
         public int MoveStageToEdgeAlignPos3(bool bMoveAllAxis = false, bool bMoveXYT = true, bool bMoveZ = false)
         {
-            int iPos = (int)EStagePos.EDGE_ALIGN_3;
+            int iPosIndex = (int)EStagePos.EDGE_ALIGN_1;
 
-            return MoveStagePos(iPos, bMoveAllAxis, bMoveXYT, bMoveZ);
+            // Theta Align A pos를 저장
+            CPos_XYTZ targetPos = AxStageInfo.GetTargetPos(iPosIndex);
+
+            //  회전값을 적용함.
+            targetPos.dT += 180.0;
+
+            return MoveStagePos(targetPos);
         }
 
         public int MoveStageToEdgeAlignPos4(bool bMoveAllAxis = false, bool bMoveXYT = true, bool bMoveZ = false)
         {
-            int iPos = (int)EStagePos.EDGE_ALIGN_4;
+            int iPosIndex = (int)EStagePos.EDGE_ALIGN_1;
 
-            return MoveStagePos(iPos, bMoveAllAxis, bMoveXYT, bMoveZ);
+            // Theta Align A pos를 저장
+            CPos_XYTZ targetPos = AxStageInfo.GetTargetPos(iPosIndex);
+            
+            //  회전값을 적용함.
+            targetPos.dT += 270.0;
+
+            return MoveStagePos(targetPos);
+
         }
 
         public int MoveStageToMacroCam(bool bMoveAllAxis = false, bool bMoveXYT = true, bool bMoveZ = false)
@@ -1253,7 +1283,7 @@ namespace LWDicer.Layers
 #endregion
 
         // Camera Servo 구동
-        #region Camera Move 동작
+#region Camera Move 동작
 
         public int GetCameraCurPos(out CPos_XYTZ pos)
         {
@@ -1493,7 +1523,7 @@ namespace LWDicer.Layers
             return MoveCameraPos(iPos);
         }
 
-        public int JogCameraMove(bool dDir, double dVel)
+        public int MoveCameraJog(bool bDir, bool IsFast)
         {
             int iResult = 0;
             int iAxis = DEF_Z;
@@ -1505,7 +1535,7 @@ namespace LWDicer.Layers
             // Limit check ???
 
 #if EQUIP_266_DEV
-            iResult = m_RefComp.AxCamera.JogMoveVelocity(iAxis, dDir,false);
+            iResult = m_RefComp.AxCamera.JogMoveVelocity(iAxis, bDir, IsFast);
 #endif
 #if EQUIP_DICING_DEV
             iResult = m_RefComp.AxCamera.JogMoveVelocity(iAxis, dDir, dVel);
@@ -1514,9 +1544,10 @@ namespace LWDicer.Layers
             return SUCCESS;
         }
 
-        public int JogCameraStop(int iAxis)
+        public int JogCameraStop()
         {
             int iResult = 0;
+            int iAxis = DEF_Z;
 
             iResult = m_RefComp.AxCamera.EStop(iAxis);
             return SUCCESS;
@@ -1837,11 +1868,11 @@ namespace LWDicer.Layers
                 
         public void SetThetaAlignPosA(CPos_XYTZ pPos)
         {
-            AxStageInfo.OffsetPos.Pos[(int)EStagePos.STAGE_CENTER] = pPos;
+            AxStageInfo.FixedPos.Pos[(int)EStagePos.THETA_ALIGN_A] = pPos;
         }
         public int GetThetaAlignPosA(out CPos_XYTZ pPos)
         {
-            int index = (int)EStagePos.STAGE_CENTER;
+            int index = (int)EStagePos.THETA_ALIGN_A;
             pPos =  GetTargetPosition(index);
 
             return SUCCESS;

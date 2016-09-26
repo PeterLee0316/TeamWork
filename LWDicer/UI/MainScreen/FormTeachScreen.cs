@@ -199,7 +199,7 @@ namespace LWDicer.UI
 
         private void btnThetaAlign_Click(object sender, EventArgs e)
         {
-            var dlg = new FormThetaAlignTeach();
+            var dlg = new pageAlign();
             dlg.Show();
         }
 
