@@ -509,6 +509,8 @@ namespace LWDicer.UI
             if (StagePos[m_nSelectedPos_Stage].Text == Convert.ToString(EStagePos.UNLOAD))            CMainFrame.LWDicer.m_ctrlStage1.MoveToStageUnloadPos();
             if (StagePos[m_nSelectedPos_Stage].Text == Convert.ToString(EStagePos.STAGE_CENTER))      CMainFrame.LWDicer.m_ctrlStage1.MoveToStageCenter();
             if (StagePos[m_nSelectedPos_Stage].Text == Convert.ToString(EStagePos.THETA_ALIGN_A))     CMainFrame.LWDicer.m_ctrlStage1.MoveToThetaAlignPosA();
+            if (StagePos[m_nSelectedPos_Stage].Text == Convert.ToString(EStagePos.THETA_ALIGN_Turn_A))CMainFrame.LWDicer.m_ctrlStage1.MoveToThetaAlignTurnPosA();
+
             if (StagePos[m_nSelectedPos_Stage].Text == Convert.ToString(EStagePos.EDGE_ALIGN_1))      CMainFrame.LWDicer.m_ctrlStage1.MoveToEdgeAlignPos1();
             if (StagePos[m_nSelectedPos_Stage].Text == Convert.ToString(EStagePos.MACRO_CAM_POS))     CMainFrame.LWDicer.m_ctrlStage1.MoveToMacroCam();
             if (StagePos[m_nSelectedPos_Stage].Text == Convert.ToString(EStagePos.MACRO_ALIGN))       CMainFrame.LWDicer.m_ctrlStage1.MoveToMacroAlignA();

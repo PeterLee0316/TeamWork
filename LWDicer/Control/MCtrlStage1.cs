@@ -42,6 +42,19 @@ namespace LWDicer.Layers
         public const double MICRO_POS_TOLERANCE = 0.001;
         public const double MICRO_ANGLE_TOLERANCE = 0.0001;
 
+        public enum EStatgeMode
+        {
+            TURN,
+            RETURN
+        }
+
+        public enum EThetaAlignStep
+        {
+            INIT,
+            POS_A,
+            POS_B,
+
+        }
         // STAGE 관련 오류
 
         public class CCtrlStage1RefComp
@@ -80,8 +93,10 @@ namespace LWDicer.Layers
         private CCtrlStage1RefComp m_RefComp;
         private CCtrlStage1Data m_Data;
         private int m_iCurrentCam = PRE__CAM;
-        private int ThetaAlignStep = 0;
         private bool bEdgeAlignTeachInit = false;
+
+        private EStatgeMode eStageMode = EStatgeMode.RETURN;
+        private EThetaAlignStep eThetaAlignStep = EThetaAlignStep.INIT;
 
         private MTickTimer m_ProcsTimer = new MTickTimer();
 
@@ -184,31 +199,9 @@ namespace LWDicer.Layers
 
         #endregion
         
-        // Stage 위치 구동 지령
-        #region Stage 구동
-        
+        // Laser 가공 Process
+        #region Laser Process
 
-        public void SetCtlModePC()
-        {
-            int nCtlMode = (int)EStageCtrlMode.PC;
-            m_RefComp.Stage.SetStageCtlMode(nCtlMode);
-        }
-
-        public void SetCtlModeLaser()
-        {
-            int nCtlMode = (int)EStageCtrlMode.LASER;
-            m_RefComp.Stage.SetStageCtlMode(nCtlMode);
-        }
-
-        public int ClampOpen()
-        {
-            return m_RefComp.Stage.ClampOpen();
-        }
-
-        public int ClampClose()
-        {
-            return m_RefComp.Stage.ClampClose();
-        }
 
         public async void LaserProcessMof()
         {
@@ -468,6 +461,21 @@ namespace LWDicer.Layers
 
         }
 
+        #endregion
+
+        // Stage 위치 구동 지령
+        #region Stage 구동
+
+
+        public int ClampOpen()
+        {
+            return m_RefComp.Stage.ClampOpen();
+        }
+
+        public int ClampClose()
+        {
+            return m_RefComp.Stage.ClampClose();
+        }
 
         /// <summary>
         /// 
@@ -526,6 +534,48 @@ namespace LWDicer.Layers
             return m_RefComp.Stage.MoveStageRelativeXYT(movePos);
         }
 
+        public int MoveToStageTurn()
+        {
+            // Theta Align한 dT 값을 읽음
+            int iResult;
+            var thetaPos = new CPos_XYTZ();
+            m_RefComp.Stage.GetThetaAlignPosA(out thetaPos);
+            // 현재 위치를 읽음
+            var curPos = new CPos_XYTZ();
+            m_RefComp.Stage.GetStageCurPos(out curPos);
+
+            var movePos = new CPos_XYTZ();
+
+            // 현재 위치에서 dT축만 Theta Align 값에서 DieIndex의 회전 값만 적용
+            movePos = curPos;
+            movePos.dT = thetaPos.dT + CMainFrame.DataManager.SystemData_Align.DieIndexRotate;
+            
+            iResult=  m_RefComp.Stage.MoveStagePos(movePos);
+            if(iResult == SUCCESS) eStageMode = EStatgeMode.TURN;
+            return iResult;
+        }
+
+        public int MoveToStageReturn()
+        {
+            // Theta Align한 dT 값을 읽음
+            int iResult;
+            var thetaPos = new CPos_XYTZ();
+            m_RefComp.Stage.GetThetaAlignPosA(out thetaPos);
+            // 현재 위치를 읽음
+            var curPos = new CPos_XYTZ();
+            m_RefComp.Stage.GetStageCurPos(out curPos);
+
+            var movePos = new CPos_XYTZ();
+
+            // 현재 위치에서 dT축만 Theta Align 값으로
+            movePos = curPos;
+            movePos.dT = thetaPos.dT;
+            
+            iResult = m_RefComp.Stage.MoveStagePos(movePos);
+            if (iResult == SUCCESS) eStageMode = EStatgeMode.RETURN;
+            return iResult;
+        }
+
         public int MoveToStageWaitPos()
         {
             return m_RefComp.Stage.MoveStageToWaitPos();
@@ -549,11 +599,21 @@ namespace LWDicer.Layers
         public int MoveToThetaAlignPosA()
         {
             return m_RefComp.Stage.MoveStageToThetaAlignPosA();
-        }
+        }        
 
         public int MoveToThetaAlignPosB()
         {
             return m_RefComp.Stage.MoveStageToThetaAlignPosB();
+        }
+
+        public int MoveToThetaAlignTurnPosA()
+        {
+            return m_RefComp.Stage.MoveStageToThetaAlignTurnPosA();
+        }
+
+        public int MoveToThetaAlignTurnPosB()
+        {
+            return m_RefComp.Stage.MoveStageToThetaAlignTurnPosB();
         }
 
         public int MoveToEdgeAlignPos1()
@@ -803,7 +863,6 @@ namespace LWDicer.Layers
 
         #endregion
 
-
         // Vision 동작
         #region Vision 동작
 
@@ -927,7 +986,6 @@ namespace LWDicer.Layers
            
 
         #endregion
-
 
         // 회전 변환 및 Calibration 관련 함수
         #region Calculation Function
@@ -1128,8 +1186,7 @@ namespace LWDicer.Layers
 #if SIMULATION_VISION
             return SUCCESS;
 #endif
-            int iResult = -1;
-            
+            int iResult = -1;            
 
             if (iCam == FINE_CAM)
             {
@@ -1394,6 +1451,11 @@ namespace LWDicer.Layers
 
         // Theta Align Manual Set
 
+        public void ThetaAlignStepInit()
+        {
+            eThetaAlignStep = EThetaAlignStep.INIT;
+        }
+
         /// <summary>
         /// Theta Align 동작으로 PosB위치에서 PosA위치로 이동명령
         /// PosA,PosB 위치를 확인하고, Theta Align 적용 후
@@ -1402,41 +1464,58 @@ namespace LWDicer.Layers
         /// <returns></returns>
         public int MoveThetaAlignPosA()
         {
-            CPos_XYTZ mPos1 = new CPos_XYTZ();
-            CPos_XYTZ mPos2 = new CPos_XYTZ();
-            CPos_XYTZ AlignAdjPos = new CPos_XYTZ();
-            CPos_XYTZ AlignTecahPos = new CPos_XYTZ();
+            int iResult;
+            var stagePos1 = new CPos_XYTZ();
+            var stagePos2 = new CPos_XYTZ();
+            var markPos1 = new CPos_XYTZ();
+            var markPos2 = new CPos_XYTZ();
+            var alignAdjPos = new CPos_XYTZ();
+            var alignTeachPos = new CPos_XYTZ();
             
-            if (ThetaAlignStep == 2)
+            if (eThetaAlignStep == EThetaAlignStep.POS_B)
             {
                 // A위치를 읽어온다.
-                m_RefComp.Stage.GetThetaAlignPosA(out mPos1);
-                // B위치를 읽어온다.
-                m_RefComp.Stage.GetStageCurPos(out mPos2);
-                // 가로 세로 거리를 측정한다.
+                if(eStageMode == EStatgeMode.RETURN)
+                    m_RefComp.Stage.GetThetaAlignPosA(out stagePos1);
+                if (eStageMode == EStatgeMode.TURN)
+                    m_RefComp.Stage.GetThetaAlignTurnPosA(out stagePos1);
 
-                if ((mPos1.dY - mPos2.dY) != 0.0)
+                // B위치를 읽어온다.
+                m_RefComp.Stage.GetStageCurPos(out stagePos2);
+
+                // 세로축으로 변화를 확인한다.
+                if ((stagePos1.dY - stagePos2.dY) != 0.0)
                 {
-                    mPos1 = ChagneStageToMarkPos(mPos1.Copy());
-                    mPos2 = ChagneStageToMarkPos(mPos2.Copy());
+                    // Stage 좌표값을 Mark 좌표로 변환한다.
+                    markPos1 = ChagneStageToMarkPos(stagePos1.Copy());
+                    markPos2 = ChagneStageToMarkPos(stagePos2.Copy());
 
                     // Theta Align은 연산
-                    CalsThetaAlign(mPos1.Copy(), mPos2.Copy(), out AlignAdjPos);
-                    // ThetaAlignPosA 위치 Offset 적용
-                    m_RefComp.Stage.GetThetaAlignPosA(out mPos1);
-                    AlignTecahPos.dX = mPos1.dX - AlignAdjPos.dX;
-                    AlignTecahPos.dY = mPos1.dY - AlignAdjPos.dY;
-                    AlignTecahPos.dT = mPos1.dT - AlignAdjPos.dT;
+                    CalsThetaAlign(markPos1, markPos2, out alignAdjPos);
 
-                    m_RefComp.Stage.SetThetaAlignPosA(AlignTecahPos);
-                    
-                }               
+                    // PosA 위치 Offset 적용
+                    alignTeachPos.dX = stagePos1.dX - alignAdjPos.dX;
+                    alignTeachPos.dY = stagePos1.dY - alignAdjPos.dY;
+                    alignTeachPos.dT = stagePos1.dT - alignAdjPos.dT;
+
+                    if (eStageMode == EStatgeMode.RETURN)
+                        m_RefComp.Stage.SetThetaAlignPosA(alignTeachPos);
+                    if (eStageMode == EStatgeMode.TURN)
+                        m_RefComp.Stage.SetThetaAlignTurnPosA(alignTeachPos);                    
+                }
             }
 
-            ThetaAlignStep = 1;
+            // Pos A로 이동한다.
+            if (eStageMode == EStatgeMode.RETURN)
+                iResult = m_RefComp.Stage.MoveStageToThetaAlignPosA();
+            else if (eStageMode == EStatgeMode.TURN)
+                iResult = m_RefComp.Stage.MoveStageToThetaAlignTurnPosA();
+            else
+                iResult = -1;
 
-            return m_RefComp.Stage.MoveStageToThetaAlignPosA();
+            if(iResult==SUCCESS) eThetaAlignStep = EThetaAlignStep.POS_A;
 
+            return iResult;
         }
         /// <summary>
         /// Theta Align에서 PosA위치만 확인하고, PosB위치로 이동 명령
@@ -1444,47 +1523,61 @@ namespace LWDicer.Layers
         /// </summary>
         /// <returns></returns>
         public int MoveThetaAlignPosB()
-        {
-            // 현재 위치 값이 PosA을 경우에 실행한다.
-            int iPos = 0;
-            m_RefComp.Stage.GetStagePosInfo(out iPos);
-            if (iPos != (int)EStagePos.THETA_ALIGN_A)
-            {
-                ThetaAlignStep = 0;
-                return GenerateErrorCode(ERR_CTRLSTAGE_THETA_POS_UNSUITABLE);
-            }
+        {           
+            int iResult;
+            var posCur = new CPos_XYTZ();
 
-            CPos_XYTZ posCur = new CPos_XYTZ();
             // 현재 위치를 ThetaAlignPosA로 저장한다. 
             m_RefComp.Stage.GetStageCurPos(out posCur);
             
-            m_RefComp.Stage.SetThetaAlignPosA(posCur);
-
-            ThetaAlignStep = 2;
+            if(eStageMode == EStatgeMode.RETURN)
+                m_RefComp.Stage.SetThetaAlignPosA(posCur);
+            if (eStageMode == EStatgeMode.TURN)
+                m_RefComp.Stage.SetThetaAlignTurnPosA(posCur);            
+            
             // ThetaAlignPosB로 이동한다.
-            return m_RefComp.Stage.MoveStageToThetaAlignPosB();
+            if (eStageMode == EStatgeMode.RETURN)
+                iResult = m_RefComp.Stage.MoveStageToThetaAlignPosB();
+            else if (eStageMode == EStatgeMode.TURN)
+                iResult = m_RefComp.Stage.MoveStageToThetaAlignTurnPosB();
+            else
+                iResult = -1;
+
+            if(iResult == SUCCESS) eThetaAlignStep = EThetaAlignStep.POS_B;
+
+            return iResult;
+
         }
 
+        /// <summary>
+        /// Stage의 좌표에서 X,Y 값만 Mark 좌표로 변환한다.
+        /// (T축은 변화를 주지 않는다) 
+        /// </summary>
+        /// <param name="pStage : Stage의 좌표값"></param>
+        /// <returns></returns>
         private CPos_XYTZ ChagneStageToMarkPos(CPos_XYTZ pStage)
         {
             var posMark = new CPos_XYTZ();
+            var posCenter = new CPos_XYTZ();
 
             // 사용하는 Camera의 중심 위치를 구함.
             if (GetCurrentCam() == PRE__CAM)
             {
-                posMark = m_RefComp.Stage.GetStageTeachPos((int)EStagePos.STAGE_CENTER);
+                posCenter = m_RefComp.Stage.GetStageTeachPos((int)EStagePos.STAGE_CENTER);
             }
             if (GetCurrentCam() == FINE_CAM)
             {
-                posMark = m_RefComp.Stage.GetStageTeachPos((int)EStagePos.STAGE_CENTER);
+                posCenter = m_RefComp.Stage.GetStageTeachPos((int)EStagePos.STAGE_CENTER);
 
-                posMark.dX -= CMainFrame.DataManager.SystemData_Align.CamEachOffsetX;
-                posMark.dY -= CMainFrame.DataManager.SystemData_Align.CamEachOffsetY;
+                posCenter.dX -= CMainFrame.DataManager.SystemData_Align.CamEachOffsetX;
+                posCenter.dY -= CMainFrame.DataManager.SystemData_Align.CamEachOffsetY;
             }
 
             // Stage의 위치와 차로.. Camera 중심위치 대비 위치를 확인함.
-            posMark -= pStage;
-            
+            posMark.dX = posCenter.dX - pStage.dX;
+            posMark.dY = posCenter.dY - pStage.dY;
+            posMark.dT = pStage.dT;
+
             return posMark;
         }
 
@@ -1516,7 +1609,7 @@ namespace LWDicer.Layers
 
         public void InitThetaAlign()
         {
-            ThetaAlignStep = 0;
+            eThetaAlignStep = EThetaAlignStep.INIT;
         }
         /// <summary>
         /// GUI에서 실행할  ThetaAlign 명령
@@ -1528,7 +1621,7 @@ namespace LWDicer.Layers
             bool checkPos;
             m_RefComp.Stage.CompareStagePos((int)EStagePos.THETA_ALIGN_A, out checkPos,false);
 
-            if (checkPos || ThetaAlignStep==1)
+            if (checkPos || eThetaAlignStep==EThetaAlignStep.POS_A)
                 MoveThetaAlignPosB();
             else
                 MoveThetaAlignPosA();
@@ -1536,7 +1629,7 @@ namespace LWDicer.Layers
             return SUCCESS;
         }
         /// <summary>
-        /// Theta Align 계산 연산
+        /// Theta Align 계산 연산 PosA 값을 기준으로 결과를 리턴한다.
         /// </summary>
         /// <param name="pPosA" Position A : 기준되는 Point></param>
         /// <param name="pPosB" Position B : 기준 Point에서 가로로 이동한 지점></param>
@@ -1580,7 +1673,6 @@ namespace LWDicer.Layers
             mCamPos = CoordinateRotate(-dAngle, pPosA, RotateCenter);
 
             // Align 결과 값 대입
-            // 
             mAlignPos.dX = mCamPos.dX - pPosA.dX;
             mAlignPos.dY = mCamPos.dY - pPosA.dY;
             mAlignPos.dT = -dAngle;

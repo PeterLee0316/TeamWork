@@ -98,9 +98,9 @@ namespace LWDicer.Layers
             UNLOAD,
             STAGE_CENTER,           // Stage의 Center 위치 (Pre Cam 기준)
             THETA_ALIGN_A,          // Theta Align 시 "A" 위치
+            THETA_ALIGN_Turn_A,     // Theta Align Turn 시 "A" 위치
             EDGE_ALIGN_1,           // EDGE Detect "0"도 위치
             SPARE_POS_1,            // 
-            SPARE_POS_2,            // 
             MACRO_CAM_POS,          // KEY가 MACRO CAM영상의 CENTER일때 STAGE 위치
             MACRO_ALIGN,            // MACRO Align "A" Mark 위치
             MICRO_ALIGN,            // MICRO Align "A" Mark 위치
@@ -1035,7 +1035,34 @@ namespace LWDicer.Layers
 
             return SUCCESS;
         }
-        
+
+        public int MoveStageToThetaAlignTurnPosA(bool bMoveAllAxis = false, bool bMoveXYT = true, bool bMoveZ = false)
+        {
+            int iPos = (int)EStagePos.THETA_ALIGN_Turn_A;
+
+            return MoveStagePos(iPos, bMoveAllAxis, bMoveXYT, bMoveZ);
+        }
+
+        public int MoveStageToThetaAlignTurnPosB(bool bMoveAllAxis = false, bool bMoveXYT = true, bool bMoveZ = false)
+        {
+            int iResult = -1;
+            int iPosIndex = (int)EStagePos.THETA_ALIGN_Turn_A;
+
+            // Theta Align A pos를 읽음
+            CPos_XYTZ targetPos = AxStageInfo.GetTargetPos(iPosIndex);
+
+            double moveDistance = CMainFrame.DataManager.SystemData_Align.AlignMarkWidthLen;
+
+            //  Theta Align 거리값을 적용함.
+            targetPos.dX += moveDistance;
+
+            // 수평으로 Align Mark 거리 만큼 이동함.
+            iResult = MoveStagePos(targetPos);
+            if (iResult != SUCCESS) return iResult;
+
+            return SUCCESS;
+        }
+
         public int MoveStageToEdgeAlignPos1(bool bMoveAllAxis = false, bool bMoveXYT = true, bool bMoveZ = false)
         {
             int iPos = (int)EStagePos.EDGE_ALIGN_1;
@@ -1832,19 +1859,7 @@ namespace LWDicer.Layers
 
         // 모드 변경 및 Align Data Set
 #region Control Mode & Align Data Set
-        public void SetStageCtlMode(int nCtlMode)
-        {
-            if(nCtlMode == (int)EStageCtrlMode.LASER)
-            {
-                // ACS Buffer에 모드 변경 Program을 작성... Buffer Call로 변경함.
-            }
-
-            if (nCtlMode == (int)EStageCtrlMode.PC)
-            {
-                // ACS Buffer에 모드 변경 Program을 작성... Buffer Call로 변경함.
-            }
-
-        }
+        
         public int SetAlignData(CPos_XYTZ offset)
         {
             int iResult;
@@ -1874,6 +1889,18 @@ namespace LWDicer.Layers
         {
             int index = (int)EStagePos.THETA_ALIGN_A;
             pPos =  GetTargetPosition(index);
+
+            return SUCCESS;
+        }
+
+        public void SetThetaAlignTurnPosA(CPos_XYTZ pPos)
+        {
+            AxStageInfo.FixedPos.Pos[(int)EStagePos.THETA_ALIGN_Turn_A] = pPos;
+        }
+        public int GetThetaAlignTurnPosA(out CPos_XYTZ pPos)
+        {
+            int index = (int)EStagePos.THETA_ALIGN_Turn_A;
+            pPos = GetTargetPosition(index);
 
             return SUCCESS;
         }

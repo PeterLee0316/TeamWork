@@ -1135,10 +1135,15 @@ namespace LWDicer.Layers
             try
             {
                 // 0.3 Motion Position 적용
-                m_AcsMotion.ACS?.ToPointM(m_AcsMotion.ACS.ACSC_AMF_WAIT, axisList, pos);
-
+               // m_AcsMotion.ACS?.ToPointM(m_AcsMotion.ACS.ACSC_AMF_WAIT, axisList, pos);
+                
                 // 0.4 Motion Moving 지령
-                m_AcsMotion.ACS?.GoM(axisList);
+                //m_AcsMotion.ACS?.GoM(axisList);
+
+                m_AcsMotion.ACS?.ToPoint(0, axisList[0], pos[0]);
+                m_AcsMotion.ACS?.ToPoint(0, axisList[1], pos[1]);
+                m_AcsMotion.ACS?.ToPoint(0, axisList[2], pos[2]);
+
             }
             catch
             { }

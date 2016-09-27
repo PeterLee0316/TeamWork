@@ -116,8 +116,7 @@ namespace LWDicer.UI
             CMainFrame.DataManager.SystemData_Align.MicroScreenHeight = Convert.ToDouble(lblMicroIndexAxisY.Text);
             CMainFrame.DataManager.SystemData_Align.MicroScreenRotate = Convert.ToDouble(lblMicroIndexAxisT.Text);
 
-            CMainFrame.DataManager.SystemData_Align.DieIndexWidth  = Convert.ToDouble(lblDieIndexAxisX.Text);
-            CMainFrame.DataManager.SystemData_Align.DieIndexHeight = Convert.ToDouble(lblDieIndexAxisY.Text);
+            
             CMainFrame.DataManager.SystemData_Align.DieIndexRotate = Convert.ToDouble(lblDieIndexAxisT.Text);
 
             CMainFrame.DataManager.SystemData_Align.AlignMarkWidthRatio = Convert.ToDouble(lblThetaAlignDistance.Text);
@@ -128,14 +127,12 @@ namespace LWDicer.UI
             CMainFrame.DataManager.FixedPos.Stage1Pos.Pos[(int)EStagePos.THETA_ALIGN_A].dY = CMainFrame.DataManager.FixedPos.Stage1Pos.Pos[(int)EStagePos.STAGE_CENTER].dY;
             CMainFrame.DataManager.FixedPos.Stage1Pos.Pos[(int)EStagePos.THETA_ALIGN_A].dT = CMainFrame.DataManager.FixedPos.Stage1Pos.Pos[(int)EStagePos.STAGE_CENTER].dT;
 
-            double temp = 0;
+            CMainFrame.DataManager.FixedPos.Stage1Pos.Pos[(int)EStagePos.THETA_ALIGN_Turn_A].dX = CMainFrame.DataManager.FixedPos.Stage1Pos.Pos[(int)EStagePos.STAGE_CENTER].dX -
+                                                                                                  CMainFrame.DataManager.SystemData_Align.AlignMarkWidthLen / 2;
+            CMainFrame.DataManager.FixedPos.Stage1Pos.Pos[(int)EStagePos.THETA_ALIGN_Turn_A].dY = CMainFrame.DataManager.FixedPos.Stage1Pos.Pos[(int)EStagePos.STAGE_CENTER].dY;
+            CMainFrame.DataManager.FixedPos.Stage1Pos.Pos[(int)EStagePos.THETA_ALIGN_Turn_A].dT = CMainFrame.DataManager.FixedPos.Stage1Pos.Pos[(int)EStagePos.STAGE_CENTER].dT + 
+                                                                                                  CMainFrame.DataManager.SystemData_Align.DieIndexRotate;
 
-            temp = CMainFrame.DataManager.FixedPos.Stage1Pos.Pos[(int)EStagePos.STAGE_CENTER].dX;
-            temp = CMainFrame.DataManager.FixedPos.Stage1Pos.Pos[(int)EStagePos.THETA_ALIGN_A].dX;
-            temp = CMainFrame.DataManager.FixedPos.Stage1Pos.Pos[(int)EStagePos.STAGE_CENTER].dY;
-            temp = CMainFrame.DataManager.FixedPos.Stage1Pos.Pos[(int)EStagePos.THETA_ALIGN_A].dY;
-            temp = CMainFrame.DataManager.FixedPos.Stage1Pos.Pos[(int)EStagePos.STAGE_CENTER].dT;
-            temp = CMainFrame.DataManager.FixedPos.Stage1Pos.Pos[(int)EStagePos.THETA_ALIGN_A].dT;
 
         }
         private void btnConfigSave_Click(object sender, EventArgs e)
@@ -202,7 +199,6 @@ namespace LWDicer.UI
             CMainFrame.LWDicer.m_ctrlStage1.DoThetaAlign();
         }
 
-
         private void picVision_MouseDown(object sender, MouseEventArgs e)
         {
             Size picSize = picVision.Size;
@@ -255,10 +251,10 @@ namespace LWDicer.UI
             {
                 double dValue = 0, dCurPos = 0, dTargetPos = 0;
 
-                strCurPos = String.Format("{0:0.000}", CMainFrame.LWDicer.m_ACS.ServoStatus[(int)EACS_Axis.STAGE1_X].EncoderPos);
+                strCurPos = String.Format("{0:0.0000}", CMainFrame.LWDicer.m_ACS.ServoStatus[(int)EACS_Axis.STAGE1_X].EncoderPos);
                 lblStagePosX.Text = strCurPos;
 
-                strCurPos = String.Format("{0:0.000}", CMainFrame.LWDicer.m_ACS.ServoStatus[(int)EACS_Axis.STAGE1_Y].EncoderPos);
+                strCurPos = String.Format("{0:0.0000}", CMainFrame.LWDicer.m_ACS.ServoStatus[(int)EACS_Axis.STAGE1_Y].EncoderPos);
                 lblStagePosY.Text = strCurPos;
 
                 strCurPos = String.Format("{0:0.0000}", CMainFrame.LWDicer.m_ACS.ServoStatus[(int)EACS_Axis.STAGE1_T].EncoderPos);
@@ -295,6 +291,107 @@ namespace LWDicer.UI
 
         private void pageThetaAlign_Click(object sender, EventArgs e)
         {
+
+        }
+
+        private void btnStageTurn_Click(object sender, EventArgs e)
+        {
+            CMainFrame.LWDicer.m_ctrlStage1.MoveToStageTurn();
+            CMainFrame.LWDicer.m_ctrlStage1.ThetaAlignStepInit();
+        }
+        private void btnStageReturn_Click(object sender, EventArgs e)
+        {
+            CMainFrame.LWDicer.m_ctrlStage1.MoveToStageReturn();
+            CMainFrame.LWDicer.m_ctrlStage1.ThetaAlignStepInit();
+        }
+
+        private void btnDieIndexSet1_Click(object sender, EventArgs e)
+        {
+            string strCurPos = string.Empty;
+
+            strCurPos = String.Format("{0:0.0000}", CMainFrame.LWDicer.m_ACS.ServoStatus[(int)EACS_Axis.STAGE1_Y].EncoderPos);
+            lblDieIndexSet1.Text = strCurPos;
+
+        }
+
+        private void btnDieIndexSet2_Click(object sender, EventArgs e)
+        {
+            string strCurPos = string.Empty;
+
+            strCurPos = String.Format("{0:0.0000}", CMainFrame.LWDicer.m_ACS.ServoStatus[(int)EACS_Axis.STAGE1_Y].EncoderPos);
+            lblDieIndexSet2.Text = strCurPos;
+
+        }
+        private void btnCalsDieIndexSize_Click(object sender, EventArgs e)
+        {
+            double dPos1, dPos2, dDieSize;
+            int iDieNum;
+
+            dPos1 = Convert.ToDouble(lblDieIndexSet1.Text);
+            dPos2 = Convert.ToDouble(lblDieIndexSet2.Text);
+            iDieNum = Convert.ToInt32(lblDieIndexNum.Text);
+
+            if (iDieNum < 0) return;
+
+            dDieSize = Math.Abs(dPos1 - dPos2) / iDieNum;
+
+            lblDieIndexCals.Text = String.Format("{0:0.0000}", dDieSize);
+        }
+
+        private void btnDieIndexDataSave_Click(object sender, EventArgs e)
+        {
+            CMainFrame.DataManager.SystemData_Align.DieIndexWidth  = Convert.ToDouble(lblDieIndexAxisX.Text);
+            CMainFrame.DataManager.SystemData_Align.DieIndexHeight = Convert.ToDouble(lblDieIndexAxisY.Text);
+
+            CMainFrame.DataManager.SaveSystemData(null, null, null, null, CMainFrame.DataManager.SystemData_Align, null, null);
+        }
+
+        private void btnThetaAlignDataLoad_Click(object sender, EventArgs e)
+        {
+            // 저장된 위치 데이터를 읽어온다.
+            CMainFrame.DataManager.LoadPositionData(true, EPositionGroup.STAGE1);
+
+            var posThetaAlignA = new CPos_XYTZ();
+            var posThetaAlignTurnA = new CPos_XYTZ();
+
+            CMainFrame.LWDicer.m_MeStage.GetThetaAlignPosA(out posThetaAlignA);
+            CMainFrame.LWDicer.m_MeStage.GetThetaAlignTurnPosA(out posThetaAlignTurnA);
+
+            lblThetaAlignPosX.Text = String.Format("{0:0.0000}", posThetaAlignA.dX);
+            lblThetaAlignPosY.Text = String.Format("{0:0.0000}", posThetaAlignA.dY);
+            lblThetaAlignPosT.Text = String.Format("{0:0.0000}", posThetaAlignA.dT);
+
+            lblThetaAlignTurnPosX.Text = String.Format("{0:0.0000}", posThetaAlignTurnA.dX);
+            lblThetaAlignTurnPosY.Text = String.Format("{0:0.0000}", posThetaAlignTurnA.dY);
+            lblThetaAlignTurnPosT.Text = String.Format("{0:0.0000}", posThetaAlignTurnA.dT);
+
+            CMainFrame.LWDicer.m_ctrlStage1.ThetaAlignStepInit();
+        }
+
+        private void btnThetaAlignDataSave_Click(object sender, EventArgs e)
+        {
+            CMainFrame.DataManager.SavePositionData(true, EPositionObject.STAGE1);
+
+            CMainFrame.LWDicer.m_ctrlStage1.ThetaAlignStepInit();
+        }
+
+        private void btnThetaAlignDataApply_Click(object sender, EventArgs e)
+        {
+            var posThetaAlignA = new CPos_XYTZ();
+            var posThetaAlignTurnA = new CPos_XYTZ();
+
+            CMainFrame.LWDicer.m_MeStage.GetThetaAlignPosA(out posThetaAlignA);
+            CMainFrame.LWDicer.m_MeStage.GetThetaAlignTurnPosA(out posThetaAlignTurnA);
+
+            lblThetaAlignPosX.Text = String.Format("{0:0.0000}", posThetaAlignA.dX);
+            lblThetaAlignPosY.Text = String.Format("{0:0.0000}", posThetaAlignA.dY);
+            lblThetaAlignPosT.Text = String.Format("{0:0.0000}", posThetaAlignA.dT);
+
+            lblThetaAlignTurnPosX.Text = String.Format("{0:0.0000}", posThetaAlignTurnA.dX);
+            lblThetaAlignTurnPosY.Text = String.Format("{0:0.0000}", posThetaAlignTurnA.dY);
+            lblThetaAlignTurnPosT.Text = String.Format("{0:0.0000}", posThetaAlignTurnA.dT);
+
+            CMainFrame.LWDicer.m_ctrlStage1.ThetaAlignStepInit();
 
         }
     }

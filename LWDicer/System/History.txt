@@ -583,6 +583,17 @@ CSpinStep class -> CCleanStep / CCoatStep class 로 분리
 2. Die Index 측정
 	- Wafer의 Die를 설정을 저장/편집 하는 기능 추가함.
 
+// Grade : ★★
+// Date : 2016-09-26 ~ 2016-09-27
+// Context
+
+1. Theta Align 
+	- Stage Turn/Return 상태에 따라서 Theta Align을 확인함.
+	- Test 및 데이터 저장 기능 추가
+2. Die Index 측정
+	- Stage의 위치를 삽입하고... 차이를 계산해서 적용함.
+	- Index 개수를 설정할 수 있게 하여... 평균 값을 적용하도록 함
+
 ////////////////////////////////////////////////////////////////////////////////////////////
 // LHS
 // Version : 0.0.1
