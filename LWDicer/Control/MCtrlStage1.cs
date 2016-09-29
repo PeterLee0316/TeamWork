@@ -593,27 +593,71 @@ namespace LWDicer.Layers
 
         public int MoveToStageCenter()
         {
-            return m_RefComp.Stage.MoveStageToStageCenter();
+            int iResult;
+            if(GetCurrentCam()==PRE__CAM)
+                iResult =  m_RefComp.Stage.MoveStageToStageCenter();
+            else
+                iResult =  m_RefComp.Stage.MoveStageToStageCenter(true);
+
+            return iResult;
+                        
         }
 
         public int MoveToThetaAlignPosA()
         {
-            return m_RefComp.Stage.MoveStageToThetaAlignPosA();
+            int iResult;
+            
+            if(GetCurrentCam()==PRE__CAM)
+                iResult = m_RefComp.Stage.MoveStageToThetaAlignPosA(true);
+            else
+                iResult = m_RefComp.Stage.MoveStageToThetaAlignPosA();
+
+            if (iResult==SUCCESS) eStageMode = EStatgeMode.RETURN;
+
+            return iResult;
         }        
 
         public int MoveToThetaAlignPosB()
         {
-            return m_RefComp.Stage.MoveStageToThetaAlignPosB();
+            int iResult;
+
+            if (GetCurrentCam() == PRE__CAM)
+                iResult = m_RefComp.Stage.MoveStageToThetaAlignPosB(true);
+            else
+                iResult = m_RefComp.Stage.MoveStageToThetaAlignPosB();
+
+            if (iResult == SUCCESS) eStageMode = EStatgeMode.RETURN;
+
+            return iResult;
+
         }
 
         public int MoveToThetaAlignTurnPosA()
         {
-            return m_RefComp.Stage.MoveStageToThetaAlignTurnPosA();
+            int iResult;
+
+            if (GetCurrentCam() == PRE__CAM)
+                iResult = m_RefComp.Stage.MoveStageToThetaAlignTurnPosA(true);
+            else
+                iResult = m_RefComp.Stage.MoveStageToThetaAlignTurnPosA();
+
+            if (iResult == SUCCESS) eStageMode = EStatgeMode.TURN;
+
+            return iResult;
         }
 
         public int MoveToThetaAlignTurnPosB()
         {
-            return m_RefComp.Stage.MoveStageToThetaAlignTurnPosB();
+            int iResult;
+
+            if (GetCurrentCam() == PRE__CAM)
+                iResult = m_RefComp.Stage.MoveStageToThetaAlignTurnPosB();
+            else
+                iResult = m_RefComp.Stage.MoveStageToThetaAlignTurnPosB(true);
+
+            if (iResult == SUCCESS) eStageMode = EStatgeMode.TURN;
+
+            return iResult;
         }
 
         public int MoveToEdgeAlignPos1()
@@ -683,11 +727,25 @@ namespace LWDicer.Layers
 
         public int MoveIndexPlusX()
         {
-            return m_RefComp.Stage.MoveStageIndexPlusX();
+            int iResult;
+
+            if (eStageMode == EStatgeMode.RETURN)
+                iResult = m_RefComp.Stage.MoveStageIndexPlusX();
+            else
+                iResult = m_RefComp.Stage.MoveStageIndexPlusX(true);
+
+            return iResult;
         }
         public int MoveIndexPlusY()
         {
-            return m_RefComp.Stage.MoveStageIndexPlusY();
+            int iResult;
+
+            if (eStageMode == EStatgeMode.RETURN)
+                iResult = m_RefComp.Stage.MoveStageIndexPlusY();
+            else
+                iResult = m_RefComp.Stage.MoveStageIndexPlusY(true);
+
+            return iResult;
         }
         public int MoveIndexPlusT()
         {
@@ -695,11 +753,25 @@ namespace LWDicer.Layers
         }
         public int MoveIndexMinusX()
         {
-            return m_RefComp.Stage.MoveStageIndexMinusX();
+            int iResult;
+
+            if (eStageMode == EStatgeMode.RETURN)
+                iResult = m_RefComp.Stage.MoveStageIndexMinusX();
+            else
+                iResult = m_RefComp.Stage.MoveStageIndexMinusX(true);
+
+            return iResult;
         }
         public int MoveIndexMinusY()
         {
-            return m_RefComp.Stage.MoveStageIndexMinusY();
+            int iResult;
+
+            if (eStageMode == EStatgeMode.RETURN)
+                iResult = m_RefComp.Stage.MoveStageIndexMinusY();
+            else
+                iResult = m_RefComp.Stage.MoveStageIndexMinusY(true);
+
+            return iResult;
         }
         
         public int MoveIndexMinusT()
@@ -1479,9 +1551,16 @@ namespace LWDicer.Layers
                     m_RefComp.Stage.GetThetaAlignPosA(out stagePos1);
                 if (eStageMode == EStatgeMode.TURN)
                     m_RefComp.Stage.GetThetaAlignTurnPosA(out stagePos1);
-
-                // B위치를 읽어온다.
+                                
+                // B위치를 읽어온다. (현재 위치)
                 m_RefComp.Stage.GetStageCurPos(out stagePos2);
+
+                // Pre Cam일 경우 위치값을 보정한다.
+                if (GetCurrentCam() == PRE__CAM)
+                {
+                    stagePos1.dX += CMainFrame.DataManager.SystemData_Align.CamEachOffsetX;
+                    stagePos1.dY += CMainFrame.DataManager.SystemData_Align.CamEachOffsetY;
+                }
 
                 // 세로축으로 변화를 확인한다.
                 if ((stagePos1.dY - stagePos2.dY) != 0.0)
@@ -1498,18 +1577,34 @@ namespace LWDicer.Layers
                     alignTeachPos.dY = stagePos1.dY - alignAdjPos.dY;
                     alignTeachPos.dT = stagePos1.dT - alignAdjPos.dT;
 
-                    if (eStageMode == EStatgeMode.RETURN)
-                        m_RefComp.Stage.SetThetaAlignPosA(alignTeachPos);
-                    if (eStageMode == EStatgeMode.TURN)
-                        m_RefComp.Stage.SetThetaAlignTurnPosA(alignTeachPos);                    
+                    // Pre Cam일 경우에 Offset을 적용한다.
+                    if (GetCurrentCam() == PRE__CAM)
+                    {
+                        alignTeachPos.dX -= CMainFrame.DataManager.SystemData_Align.CamEachOffsetX;
+                        alignTeachPos.dY -= CMainFrame.DataManager.SystemData_Align.CamEachOffsetY;
+                    }
+                    
+                    if (eStageMode == EStatgeMode.RETURN)   m_RefComp.Stage.SetThetaAlignPosA(alignTeachPos);
+                    if (eStageMode == EStatgeMode.TURN)     m_RefComp.Stage.SetThetaAlignTurnPosA(alignTeachPos);
+
                 }
             }
 
             // Pos A로 이동한다.
             if (eStageMode == EStatgeMode.RETURN)
-                iResult = m_RefComp.Stage.MoveStageToThetaAlignPosA();
+            {
+                if(GetCurrentCam()==PRE__CAM)
+                    iResult = m_RefComp.Stage.MoveStageToThetaAlignPosA(true);
+                else
+                    iResult = m_RefComp.Stage.MoveStageToThetaAlignPosA();
+            }
             else if (eStageMode == EStatgeMode.TURN)
-                iResult = m_RefComp.Stage.MoveStageToThetaAlignTurnPosA();
+            {
+                if (GetCurrentCam() == PRE__CAM)
+                    iResult = m_RefComp.Stage.MoveStageToThetaAlignTurnPosA(true);
+                else
+                    iResult = m_RefComp.Stage.MoveStageToThetaAlignTurnPosA();
+            }
             else
                 iResult = -1;
 
@@ -1526,20 +1621,36 @@ namespace LWDicer.Layers
         {           
             int iResult;
             var posCur = new CPos_XYTZ();
+            
+            // 현재 위치를 읽어온다            
+            m_RefComp.Stage.GetStageCurPos(out posCur);
+
+            // PreCam일 경우 Offset을 적용한다. (Fine Cam 기준으로 위치 저장)
+            if (GetCurrentCam() == PRE__CAM)
+            {
+                posCur.dX -= CMainFrame.DataManager.SystemData_Align.CamEachOffsetX;
+                posCur.dY -= CMainFrame.DataManager.SystemData_Align.CamEachOffsetY;
+            }
 
             // 현재 위치를 ThetaAlignPosA로 저장한다. 
-            m_RefComp.Stage.GetStageCurPos(out posCur);
-            
-            if(eStageMode == EStatgeMode.RETURN)
-                m_RefComp.Stage.SetThetaAlignPosA(posCur);
-            if (eStageMode == EStatgeMode.TURN)
-                m_RefComp.Stage.SetThetaAlignTurnPosA(posCur);            
-            
+            if (eStageMode == EStatgeMode.RETURN)  m_RefComp.Stage.SetThetaAlignPosA(posCur);            
+            if (eStageMode == EStatgeMode.TURN)    m_RefComp.Stage.SetThetaAlignTurnPosA(posCur);            
+
             // ThetaAlignPosB로 이동한다.
             if (eStageMode == EStatgeMode.RETURN)
-                iResult = m_RefComp.Stage.MoveStageToThetaAlignPosB();
+            {
+                if (GetCurrentCam() == PRE__CAM)
+                    iResult = m_RefComp.Stage.MoveStageToThetaAlignPosB(true);
+                else
+                    iResult = m_RefComp.Stage.MoveStageToThetaAlignPosB();
+            }
             else if (eStageMode == EStatgeMode.TURN)
-                iResult = m_RefComp.Stage.MoveStageToThetaAlignTurnPosB();
+            {
+                if (GetCurrentCam() == PRE__CAM)
+                    iResult = m_RefComp.Stage.MoveStageToThetaAlignTurnPosB(true);
+                else
+                    iResult = m_RefComp.Stage.MoveStageToThetaAlignTurnPosB();
+            }
             else
                 iResult = -1;
 

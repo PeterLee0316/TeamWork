@@ -85,20 +85,20 @@ namespace LWDicer.UI
 
         private void DisplayParameter()
         {
-            lblCamOffSetAxisX.Text = string.Format("{0:F3}", CMainFrame.DataManager.SystemData_Align.CamEachOffsetX);
-            lblCamOffSetAxisY.Text = string.Format("{0:F3}", CMainFrame.DataManager.SystemData_Align.CamEachOffsetY);
+            lblCamOffSetAxisX.Text = string.Format("{0:F4}", CMainFrame.DataManager.SystemData_Align.CamEachOffsetX);
+            lblCamOffSetAxisY.Text = string.Format("{0:F4}", CMainFrame.DataManager.SystemData_Align.CamEachOffsetY);
 
-            lblMacroIndexAxisX.Text = string.Format("{0:F3}", CMainFrame.DataManager.SystemData_Align.MacroScreenWidth);
-            lblMacroIndexAxisY.Text = string.Format("{0:F3}", CMainFrame.DataManager.SystemData_Align.MacroScreenHeight);
-            lblMacroIndexAxisT.Text = string.Format("{0:F3}", CMainFrame.DataManager.SystemData_Align.MacroScreenRotate);
+            lblMacroIndexAxisX.Text = string.Format("{0:F4}", CMainFrame.DataManager.SystemData_Align.MacroScreenWidth);
+            lblMacroIndexAxisY.Text = string.Format("{0:F4}", CMainFrame.DataManager.SystemData_Align.MacroScreenHeight);
+            lblMacroIndexAxisT.Text = string.Format("{0:F4}", CMainFrame.DataManager.SystemData_Align.MacroScreenRotate);
 
-            lblMicroIndexAxisX.Text = string.Format("{0:F3}", CMainFrame.DataManager.SystemData_Align.MicroScreenWidth);
-            lblMicroIndexAxisY.Text = string.Format("{0:F3}", CMainFrame.DataManager.SystemData_Align.MicroScreenHeight);
-            lblMicroIndexAxisT.Text = string.Format("{0:F3}", CMainFrame.DataManager.SystemData_Align.MicroScreenRotate);
+            lblMicroIndexAxisX.Text = string.Format("{0:F4}", CMainFrame.DataManager.SystemData_Align.MicroScreenWidth);
+            lblMicroIndexAxisY.Text = string.Format("{0:F4}", CMainFrame.DataManager.SystemData_Align.MicroScreenHeight);
+            lblMicroIndexAxisT.Text = string.Format("{0:F4}", CMainFrame.DataManager.SystemData_Align.MicroScreenRotate);
 
-            lblDieIndexAxisX.Text = string.Format("{0:F3}", CMainFrame.DataManager.SystemData_Align.DieIndexWidth);
-            lblDieIndexAxisY.Text = string.Format("{0:F3}", CMainFrame.DataManager.SystemData_Align.DieIndexHeight);
-            lblDieIndexAxisT.Text = string.Format("{0:F3}", CMainFrame.DataManager.SystemData_Align.DieIndexRotate);
+            lblDieIndexAxisX.Text = string.Format("{0:F4}", CMainFrame.DataManager.SystemData_Align.DieIndexWidth);
+            lblDieIndexAxisY.Text = string.Format("{0:F4}", CMainFrame.DataManager.SystemData_Align.DieIndexHeight);
+            lblDieIndexAxisT.Text = string.Format("{0:F4}", CMainFrame.DataManager.SystemData_Align.DieIndexRotate);
 
             lblThetaAlignDistance.Text = string.Format("{0:F1}", CMainFrame.DataManager.SystemData_Align.AlignMarkWidthRatio);
         }
@@ -122,15 +122,22 @@ namespace LWDicer.UI
             CMainFrame.DataManager.SystemData_Align.AlignMarkWidthRatio = Convert.ToDouble(lblThetaAlignDistance.Text);
             CMainFrame.DataManager.SystemData_Align.AlignMarkWidthLen = WAFER_SIZE_12_INCH * CMainFrame.DataManager.SystemData_Align.AlignMarkWidthRatio/100;
 
+            // Stage Center는 Pre Cam 기준으로 정하고, 이후 나머지 위치는 Fine Cam 기준으로 저장한다
+            // Fine Cam 기준으로 저장하기 위해 Offset 만큼 더해서 저장한다.
+            // (Stage Center & Edge Align Position만 Pre Cam을 기준으로 사용)
             CMainFrame.DataManager.FixedPos.Stage1Pos.Pos[(int)EStagePos.THETA_ALIGN_A].dX = CMainFrame.DataManager.FixedPos.Stage1Pos.Pos[(int)EStagePos.STAGE_CENTER].dX -
-                                                                                             CMainFrame.DataManager.SystemData_Align.AlignMarkWidthLen/2;
-            CMainFrame.DataManager.FixedPos.Stage1Pos.Pos[(int)EStagePos.THETA_ALIGN_A].dY = CMainFrame.DataManager.FixedPos.Stage1Pos.Pos[(int)EStagePos.STAGE_CENTER].dY;
+                                                                                             CMainFrame.DataManager.SystemData_Align.AlignMarkWidthLen/2 -
+                                                                                             CMainFrame.DataManager.SystemData_Align.CamEachOffsetX;
+            CMainFrame.DataManager.FixedPos.Stage1Pos.Pos[(int)EStagePos.THETA_ALIGN_A].dY = CMainFrame.DataManager.FixedPos.Stage1Pos.Pos[(int)EStagePos.STAGE_CENTER].dY -
+                                                                                             CMainFrame.DataManager.SystemData_Align.CamEachOffsetY;
             CMainFrame.DataManager.FixedPos.Stage1Pos.Pos[(int)EStagePos.THETA_ALIGN_A].dT = CMainFrame.DataManager.FixedPos.Stage1Pos.Pos[(int)EStagePos.STAGE_CENTER].dT;
 
-            CMainFrame.DataManager.FixedPos.Stage1Pos.Pos[(int)EStagePos.THETA_ALIGN_Turn_A].dX = CMainFrame.DataManager.FixedPos.Stage1Pos.Pos[(int)EStagePos.STAGE_CENTER].dX -
-                                                                                                  CMainFrame.DataManager.SystemData_Align.AlignMarkWidthLen / 2;
-            CMainFrame.DataManager.FixedPos.Stage1Pos.Pos[(int)EStagePos.THETA_ALIGN_Turn_A].dY = CMainFrame.DataManager.FixedPos.Stage1Pos.Pos[(int)EStagePos.STAGE_CENTER].dY;
-            CMainFrame.DataManager.FixedPos.Stage1Pos.Pos[(int)EStagePos.THETA_ALIGN_Turn_A].dT = CMainFrame.DataManager.FixedPos.Stage1Pos.Pos[(int)EStagePos.STAGE_CENTER].dT + 
+            CMainFrame.DataManager.FixedPos.Stage1Pos.Pos[(int)EStagePos.THETA_ALIGN_TURN_A].dX = CMainFrame.DataManager.FixedPos.Stage1Pos.Pos[(int)EStagePos.STAGE_CENTER].dX -
+                                                                                                  CMainFrame.DataManager.SystemData_Align.AlignMarkWidthLen / 2 -
+                                                                                                  CMainFrame.DataManager.SystemData_Align.CamEachOffsetX;
+            CMainFrame.DataManager.FixedPos.Stage1Pos.Pos[(int)EStagePos.THETA_ALIGN_TURN_A].dY = CMainFrame.DataManager.FixedPos.Stage1Pos.Pos[(int)EStagePos.STAGE_CENTER].dY -
+                                                                                                  CMainFrame.DataManager.SystemData_Align.CamEachOffsetY;
+            CMainFrame.DataManager.FixedPos.Stage1Pos.Pos[(int)EStagePos.THETA_ALIGN_TURN_A].dT = CMainFrame.DataManager.FixedPos.Stage1Pos.Pos[(int)EStagePos.STAGE_CENTER].dT + 
                                                                                                   CMainFrame.DataManager.SystemData_Align.DieIndexRotate;
 
 
@@ -393,6 +400,21 @@ namespace LWDicer.UI
 
             CMainFrame.LWDicer.m_ctrlStage1.ThetaAlignStepInit();
 
+        }
+
+        private void btnStageTurnPosA_Click(object sender, EventArgs e)
+        {
+            CMainFrame.LWDicer.m_ctrlStage1.MoveToThetaAlignPosA();            
+        }
+
+        private void btnStageReturnPosA_Click(object sender, EventArgs e)
+        {
+            CMainFrame.LWDicer.m_ctrlStage1.MoveToThetaAlignTurnPosA();
+        }
+
+        private void btnStageCenter_Click(object sender, EventArgs e)
+        {
+            CMainFrame.LWDicer.m_ctrlStage1.MoveToStageCenter();
         }
     }
 }

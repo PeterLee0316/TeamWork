@@ -199,8 +199,15 @@ namespace LWDicer.UI
 
         private void btnThetaAlign_Click(object sender, EventArgs e)
         {
-            var dlg = new pageAlign();
-            dlg.Show();
+            try
+            {
+                var dlg = new pageAlign();
+                dlg.Show();
+            }
+            catch
+            {
+
+            }
         }
 
         private void btnEdgeAlign_Click(object sender, EventArgs e)
