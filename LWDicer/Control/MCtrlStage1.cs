@@ -662,22 +662,46 @@ namespace LWDicer.Layers
 
         public int MoveToEdgeAlignPos1()
         {
-            return m_RefComp.Stage.MoveStageToEdgeAlignPos1();
+            int iResult;
+            if (GetCurrentCam() == PRE__CAM)
+                iResult = m_RefComp.Stage.MoveStageToEdgeAlignPos1();
+            else
+                iResult = m_RefComp.Stage.MoveStageToEdgeAlignPos1(true);
+
+            return iResult;
         }
 
         public int MoveToEdgeAlignPos2()
         {
-            return m_RefComp.Stage.MoveStageToEdgeAlignPos2();
+            int iResult;
+            if (GetCurrentCam() == PRE__CAM)
+                iResult = m_RefComp.Stage.MoveStageToEdgeAlignPos2();
+            else
+                iResult = m_RefComp.Stage.MoveStageToEdgeAlignPos2(true);
+
+            return iResult;
         }
 
         public int MoveToEdgeAlignPos3()
         {
-            return m_RefComp.Stage.MoveStageToEdgeAlignPos3();
+            int iResult;
+            if (GetCurrentCam() == PRE__CAM)
+                iResult = m_RefComp.Stage.MoveStageToEdgeAlignPos3();
+            else
+                iResult = m_RefComp.Stage.MoveStageToEdgeAlignPos3(true);
+
+            return iResult;
         }
 
         public int MoveToEdgeAlignPos4()
         {
-            return m_RefComp.Stage.MoveStageToEdgeAlignPos4();
+            int iResult;
+            if (GetCurrentCam() == PRE__CAM)
+                iResult = m_RefComp.Stage.MoveStageToEdgeAlignPos4();
+            else
+                iResult = m_RefComp.Stage.MoveStageToEdgeAlignPos4(true);
+
+            return iResult;
         }
 
         public int MoveToMacroCam()
@@ -1252,7 +1276,7 @@ namespace LWDicer.Layers
         #region Calibration
 
         // 카메라 배율 변경
-        public int ChangeVisionMagnitude(int iCam, IntPtr pHandle)
+        public int ChangeVisionMagnitude(int iCam, IntPtr pHandle, EVisionOverlayMode OverlayMode)
         {
 
 #if SIMULATION_VISION
@@ -1281,19 +1305,28 @@ namespace LWDicer.Layers
                 m_iCurrentCam = PRE__CAM;
             }
 
-            m_RefComp.Vision.ShowHairLine();
+            // 모드에 따라서 Line의 종류를 다르게 해서 보여줌.
+
+            // Hair Line
+            if(OverlayMode== EVisionOverlayMode.HAIR_LINE)
+                m_RefComp.Vision.ShowHairLine();
+            if (OverlayMode == EVisionOverlayMode.EDGE)
+                //m_RefComp.Vision.ShowHairLine();
+                m_RefComp.Vision.ShowRectRoi();
+            if (OverlayMode == EVisionOverlayMode.ROI)
+                m_RefComp.Vision.ShowRectRoi();
 
             return SUCCESS;
         }
 
-        public int ChangeMacroVision(IntPtr pHandle)
+        public int ChangeMacroVision(IntPtr pHandle, EVisionOverlayMode OverlayMode)
         {
-            return ChangeVisionMagnitude(PRE__CAM, pHandle);
+            return ChangeVisionMagnitude(PRE__CAM, pHandle, OverlayMode);
         }
 
-        public int ChangeMicroVision(IntPtr pHandle)
+        public int ChangeMicroVision(IntPtr pHandle, EVisionOverlayMode OverlayMode)
         {
-            return ChangeVisionMagnitude(FINE_CAM, pHandle);
+            return ChangeVisionMagnitude(FINE_CAM, pHandle, OverlayMode);
         }
 
         public int GetCurrentCam()

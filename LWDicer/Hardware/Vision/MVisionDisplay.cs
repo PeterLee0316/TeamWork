@@ -398,7 +398,43 @@ namespace LWDicer.Layers
             // Overlay 화면 갱신
             UpdataOverlay();
         }
-        
+
+        public void DrawCrossMark(int Width, int Height)
+        {
+            // Overlay DC를 가져 온다
+            if (GetOverlayDC() == false) return;
+
+            Point Center = new Point(0, 0);
+            //==================================================
+            // Pen Type 설정
+            m_DrawPen.DashStyle = System.Drawing.Drawing2D.DashStyle.Solid;
+            m_DrawPen.Color = Color.Red;
+            m_DrawPen.Width = 4;
+
+            //==================================================
+            // 중심 라인 Draw
+
+            // 0 위치를 화면의 중앙으로 설정함.
+            Center.X = m_ImageWidth / 2;
+            Center.Y = m_ImageHeight / 2;
+
+            // Width 라인 Draw
+            m_ptDrawStart.X = Center.X - Width / 2;
+            m_ptDrawStart.Y = Center.Y;
+            m_ptDrawEnd.X = Center.X + Width / 2;
+            m_ptDrawEnd.Y = Center.Y;
+            GraphDrawLine(m_ptDrawStart, m_ptDrawEnd, m_DrawPen);
+
+            // Hight 라인 Draw
+            m_ptDrawStart.X = Center.X;
+            m_ptDrawStart.Y = Center.Y - Height / 2;
+            m_ptDrawEnd.X = Center.X;
+            m_ptDrawEnd.Y = Center.Y + Height / 2;
+            GraphDrawLine(m_ptDrawStart, m_ptDrawEnd, m_DrawPen);
+
+            // Overlay 화면 갱신
+            UpdataOverlay();
+        }
 
         public void DrawBox(Size recBox)
         {

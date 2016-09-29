@@ -1303,6 +1303,8 @@ namespace LWDicer.Layers
 
             m_RefComp.View[m_iCurrentViewNum].ClearOverlay();
             m_RefComp.View[m_iCurrentViewNum].DrawBox(rect);
+            m_RefComp.View[m_iCurrentViewNum].DrawCrossMark(10, 10);
+
             //return 0;
         }
 
@@ -1445,6 +1447,11 @@ namespace LWDicer.Layers
         {
             m_iHairLineWidth++;
             DrawOverLayHairLine(m_iHairLineWidth);
+        }
+        public void ShowRectRoi()
+        {
+            Size recSize = new Size(m_iMarkROIWidth, m_iMarkROIHeight);
+            DrawOverlayAreaRect(recSize);
         }
         public void NarrowRoiWidth()
         {

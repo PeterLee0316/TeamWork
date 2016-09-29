@@ -47,6 +47,13 @@ namespace LWDicer.Layers
             CSN,
         }
 
+        public enum EVisionOverlayMode
+        {
+            HAIR_LINE,
+            EDGE,
+            ROI,
+        }
+
         public enum EVisionMode
         {
             CALIBRATION,

@@ -12,6 +12,9 @@ using static LWDicer.Layers.DEF_System;
 using static LWDicer.Layers.DEF_Vision;
 using static LWDicer.Layers.DEF_Common;
 using static LWDicer.Layers.DEF_DataManager;
+using static LWDicer.Layers.DEF_MeStage;
+
+using LWDicer.Layers;
 
 namespace LWDicer.UI
 {
@@ -52,8 +55,119 @@ namespace LWDicer.UI
         {
 #if !SIMULATION_VISION
             CMainFrame.LWDicer.m_Vision.InitialLocalView(PRE__CAM, picVision.Handle);
-#endif
-            
+            CMainFrame.LWDicer.m_Vision.ShowRectRoi();
+#endif      
+            TmrTeach.Enabled = true;
+            TmrTeach.Interval = UITimerInterval;
+            TmrTeach.Start();
+        }
+
+        private void btnChangeCam_Click(object sender, EventArgs e)
+        {
+            if (CMainFrame.LWDicer.m_ctrlStage1.GetCurrentCam() == FINE_CAM)
+                CMainFrame.LWDicer.m_ctrlStage1.ChangeMacroVision(picVision.Handle, EVisionOverlayMode.EDGE);
+            else if (CMainFrame.LWDicer.m_ctrlStage1.GetCurrentCam() == PRE__CAM)
+                CMainFrame.LWDicer.m_ctrlStage1.ChangeMicroVision(picVision.Handle, EVisionOverlayMode.EDGE);
+            else
+                CMainFrame.DisplayMsg("Cam not defined");
+        }
+
+        private void btnSelectFocus_Click(object sender, EventArgs e)
+        {
+            CMainFrame.frmCamFocus.Hide();
+            CMainFrame.frmStageJog.Show();
+        }
+
+        private void btnSelectStageMove_Click(object sender, EventArgs e)
+        {
+            CMainFrame.frmStageJog.Hide();
+            CMainFrame.frmCamFocus.Show();
+        }
+
+        private void btnStageCenter_Click(object sender, EventArgs e)
+        {
+            CMainFrame.LWDicer.m_ctrlStage1.MoveToStageCenter();
+        }
+                
+        private void btnThetaAlignDataSave_Click(object sender, EventArgs e)
+        {
+            double dLength = 0.0;
+
+            dLength = WAFER_SIZE_12_INCH / 2.0 * Math.Cos(Math.PI / 180 * 45);
+
+            CMainFrame.DataManager.FixedPos.Stage1Pos.Pos[(int)EStagePos.EDGE_ALIGN_1].dX = CMainFrame.DataManager.FixedPos.Stage1Pos.Pos[(int)EStagePos.STAGE_CENTER].dX +
+                                                                                            dLength;
+            CMainFrame.DataManager.FixedPos.Stage1Pos.Pos[(int)EStagePos.EDGE_ALIGN_1].dY = CMainFrame.DataManager.FixedPos.Stage1Pos.Pos[(int)EStagePos.STAGE_CENTER].dY -
+                                                                                            dLength;
+            CMainFrame.DataManager.FixedPos.Stage1Pos.Pos[(int)EStagePos.EDGE_ALIGN_1].dT = CMainFrame.DataManager.FixedPos.Stage1Pos.Pos[(int)EStagePos.STAGE_CENTER].dT;
+
+
+
+            CMainFrame.DataManager.SavePositionData(true, EPositionObject.STAGE1);
+            CMainFrame.LWDicer.SetPositionDataToComponent(EPositionGroup.STAGE1);
+        }
+
+        private void groupBox4_Enter(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnEdgePos1_Click(object sender, EventArgs e)
+        {
+            CMainFrame.LWDicer.m_ctrlStage1.MoveToEdgeAlignPos1();
+        }
+
+        private void btnEdgePos2_Click(object sender, EventArgs e)
+        {
+            CMainFrame.LWDicer.m_ctrlStage1.MoveToEdgeAlignPos2();
+        }
+
+        private void btnEdgePos3_Click(object sender, EventArgs e)
+        {
+            CMainFrame.LWDicer.m_ctrlStage1.MoveToEdgeAlignPos3();
+        }
+
+        private void btnEdgePos4_Click(object sender, EventArgs e)
+        {
+            CMainFrame.LWDicer.m_ctrlStage1.MoveToEdgeAlignPos4();
+        }
+
+        private void picVision_MouseDown(object sender, MouseEventArgs e)
+        {
+            Size picSize = picVision.Size;
+            Point clickPos = e.Location;
+            Point centerPic = new Point(0, 0);
+            Point moveDistance = new Point(0, 0);
+
+            double ratioMove = 0.0;
+            CPos_XYTZ movePos = new CPos_XYTZ();
+
+            centerPic.X = picSize.Width / 2;
+            centerPic.Y = picSize.Height / 2;
+
+            moveDistance.X = centerPic.X - clickPos.X;
+            moveDistance.Y = centerPic.Y - clickPos.Y;
+
+
+            if (CMainFrame.LWDicer.m_ctrlStage1.GetCurrentCam() == FINE_CAM)
+            {
+                ratioMove = CMainFrame.DataManager.SystemData_Align.MicroScreenWidth / (double)picSize.Width;
+
+                movePos.dX = (double)moveDistance.X * ratioMove;
+                movePos.dY = -(double)moveDistance.Y * ratioMove;
+
+                CMainFrame.LWDicer.m_ctrlStage1.MoveStageRelative(movePos);
+            }
+
+            if (CMainFrame.LWDicer.m_ctrlStage1.GetCurrentCam() == PRE__CAM)
+            {
+                ratioMove = CMainFrame.DataManager.SystemData_Align.MacroScreenWidth / (double)picSize.Width;
+
+                movePos.dX = (double)moveDistance.X * ratioMove;
+                movePos.dY = -(double)moveDistance.Y * ratioMove;
+
+                CMainFrame.LWDicer.m_ctrlStage1.MoveStageRelative(movePos);
+            }
         }
     }
 }

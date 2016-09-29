@@ -1048,7 +1048,7 @@ namespace LWDicer.Layers
             // Stage Center 위치를 읽어온다.
             movePos = GetTargetPosition(index);
 
-            // 고배율 일때는 Offset을 적용해서 이동한다.
+            // 저배율 일때는 Offset을 적용해서 이동한다.
             if (bLowMagnitude)
             {
                 movePos.dX += CMainFrame.DataManager.SystemData_Align.CamEachOffsetX;
@@ -1116,7 +1116,7 @@ namespace LWDicer.Layers
             // Stage Center 위치를 읽어온다.
             movePos = GetTargetPosition(index);
 
-            // 고배율 일때는 Offset을 적용해서 이동한다.
+            // 저배율 일때는 Offset을 적용해서 이동한다.
             if (bLowMagnitude)
             {
                 movePos.dX += CMainFrame.DataManager.SystemData_Align.CamEachOffsetX;
@@ -1136,51 +1136,81 @@ namespace LWDicer.Layers
             return SUCCESS;
         }
 
-        public int MoveStageToEdgeAlignPos1(bool bMoveAllAxis = false, bool bMoveXYT = true, bool bMoveZ = false)
-        {
-            int iPos = (int)EStagePos.EDGE_ALIGN_1;
-
-            return MoveStagePos(iPos, bMoveAllAxis, bMoveXYT, bMoveZ);
-        }
-
-        public int MoveStageToEdgeAlignPos2(bool bMoveAllAxis = false, bool bMoveXYT = true, bool bMoveZ = false)
+        public int MoveStageToEdgeAlignPos1(bool bHighMagnitude=false)
         {
             int iPosIndex = (int)EStagePos.EDGE_ALIGN_1;
 
             // Theta Align A pos를 저장
-            CPos_XYTZ targetPos = AxStageInfo.GetTargetPos(iPosIndex);
+            CPos_XYTZ movePos = AxStageInfo.GetTargetPos(iPosIndex);
 
+            // 고배율 일때는 Offset을 적용해서 이동한다.
+            if (bHighMagnitude)
+            {
+                movePos.dX -= CMainFrame.DataManager.SystemData_Align.CamEachOffsetX;
+                movePos.dY -= CMainFrame.DataManager.SystemData_Align.CamEachOffsetY;
+            }
             //  회전값을 적용함.
-            targetPos.dT += 90.0;
+            movePos.dT -= 90.0;
 
-            return MoveStagePos(targetPos);            
-            
+            return MoveStagePos(movePos);
         }
 
-        public int MoveStageToEdgeAlignPos3(bool bMoveAllAxis = false, bool bMoveXYT = true, bool bMoveZ = false)
+        public int MoveStageToEdgeAlignPos2(bool bHighMagnitude=false)
         {
             int iPosIndex = (int)EStagePos.EDGE_ALIGN_1;
 
             // Theta Align A pos를 저장
-            CPos_XYTZ targetPos = AxStageInfo.GetTargetPos(iPosIndex);
+            CPos_XYTZ movePos = AxStageInfo.GetTargetPos(iPosIndex);
 
+            // 고배율 일때는 Offset을 적용해서 이동한다.
+            if (bHighMagnitude)
+            {
+                movePos.dX -= CMainFrame.DataManager.SystemData_Align.CamEachOffsetX;
+                movePos.dY -= CMainFrame.DataManager.SystemData_Align.CamEachOffsetY;
+            }
             //  회전값을 적용함.
-            targetPos.dT += 180.0;
+            movePos.dT = 0.0;
 
-            return MoveStagePos(targetPos);
+            return MoveStagePos(movePos);
+
         }
 
-        public int MoveStageToEdgeAlignPos4(bool bMoveAllAxis = false, bool bMoveXYT = true, bool bMoveZ = false)
+        public int MoveStageToEdgeAlignPos3(bool bHighMagnitude=false)
         {
             int iPosIndex = (int)EStagePos.EDGE_ALIGN_1;
 
             // Theta Align A pos를 저장
-            CPos_XYTZ targetPos = AxStageInfo.GetTargetPos(iPosIndex);
-            
-            //  회전값을 적용함.
-            targetPos.dT += 270.0;
+            CPos_XYTZ movePos = AxStageInfo.GetTargetPos(iPosIndex);
 
-            return MoveStagePos(targetPos);
+            // 고배율 일때는 Offset을 적용해서 이동한다.
+            if (bHighMagnitude)
+            {
+                movePos.dX -= CMainFrame.DataManager.SystemData_Align.CamEachOffsetX;
+                movePos.dY -= CMainFrame.DataManager.SystemData_Align.CamEachOffsetY;
+            }
+            //  회전값을 적용함.
+            movePos.dT += 90.0;
+
+            return MoveStagePos(movePos);
+        }
+
+        public int MoveStageToEdgeAlignPos4(bool bHighMagnitude=false)
+        {
+            int iPosIndex = (int)EStagePos.EDGE_ALIGN_1;
+
+            // Theta Align A pos를 저장
+            CPos_XYTZ movePos = AxStageInfo.GetTargetPos(iPosIndex);
+
+            // 고배율 일때는 Offset을 적용해서 이동한다.
+            if (bHighMagnitude)
+            {
+                movePos.dX -= CMainFrame.DataManager.SystemData_Align.CamEachOffsetX;
+                movePos.dY -= CMainFrame.DataManager.SystemData_Align.CamEachOffsetY;
+            }
+            //  회전값을 적용함.
+            movePos.dT += 180.0;
+
+            return MoveStagePos(movePos);
 
         }
 

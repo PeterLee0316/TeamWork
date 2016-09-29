@@ -601,6 +601,8 @@ CSpinStep class -> CCleanStep / CCoatStep class 로 분리
 1. Theta Align 
 	- 테스트 및 검증 완료
 	- Pre & Fine Cam 변경에 따른 위치 Offset 자동이 보정 완료
+2. Edge Align
+	- Edge Position 위치 저장 및 Move 이동 테스트
 
 ////////////////////////////////////////////////////////////////////////////////////////////
 // LHS

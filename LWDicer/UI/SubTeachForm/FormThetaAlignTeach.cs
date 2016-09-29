@@ -177,9 +177,9 @@ namespace LWDicer.UI
         private void btnChangeCam_Click(object sender, EventArgs e)
         {
             if (CMainFrame.LWDicer.m_ctrlStage1.GetCurrentCam() == FINE_CAM)
-                CMainFrame.LWDicer.m_ctrlStage1.ChangeMacroVision(picVision.Handle);
+                CMainFrame.LWDicer.m_ctrlStage1.ChangeMacroVision(picVision.Handle, EVisionOverlayMode.HAIR_LINE);
             else if (CMainFrame.LWDicer.m_ctrlStage1.GetCurrentCam() == PRE__CAM)
-                CMainFrame.LWDicer.m_ctrlStage1.ChangeMicroVision(picVision.Handle);
+                CMainFrame.LWDicer.m_ctrlStage1.ChangeMicroVision(picVision.Handle, EVisionOverlayMode.HAIR_LINE);
             else
                 CMainFrame.DisplayMsg("Cam not defined");
 
