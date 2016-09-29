@@ -36,6 +36,7 @@ namespace LWDicer.UI
 
             TmrAlarm.Enabled = true;
             TmrAlarm.Interval = 500;
+            CMainFrame.IsAlarmPopup = true;
         }
 
         private void FormClose()
@@ -44,6 +45,7 @@ namespace LWDicer.UI
             TmrAlarm.Enabled = false;
 
             this.Hide();
+            CMainFrame.IsAlarmPopup = false;
         }
 
         private void BtnBuzzerOff_Click(object sender, EventArgs e)

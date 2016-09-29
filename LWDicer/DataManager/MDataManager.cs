@@ -1074,7 +1074,6 @@ namespace LWDicer.Layers
             if (false)
             {
                 CWorkPiece pointer = WorkPieceArray[(int)ELCNetUnitPos.PUSHPULL];
-                LoadWorkPieceFromCassette();
                 ELCNetUnitPos pos = ELCNetUnitPos.PUSHPULL;
                 StartWorkPiecePhase(pos, EProcessPhase.PUSHPULL_LOAD_FROM_LOADER);
                 FinishWorkPiecePhas(pos, EProcessPhase.PUSHPULL_LOAD_FROM_LOADER);
@@ -1146,8 +1145,6 @@ namespace LWDicer.Layers
                 FinishWorkPiecePhas(pos, EProcessPhase.PUSHPULL_LOAD_FROM_CLEANER);
                 StartWorkPiecePhase(pos, EProcessPhase.PUSHPULL_UNLOAD_TO_LOADER);
                 FinishWorkPiecePhas(pos, EProcessPhase.PUSHPULL_UNLOAD_TO_LOADER);
-
-                LoadWorkPieceToCassette();
             }
         }
 
@@ -7529,18 +7526,8 @@ namespace LWDicer.Layers
 #endif
         }
 
-        public int LoadWorkPieceFromCassette()
+        public int UnloadWorkPieceToCassette()
         {
-            //WorkPieceArray[(int)ELCNetUnitPos.PUSHPULL] = new CWorkPiece();
-            WorkPieceArray[(int)ELCNetUnitPos.PUSHPULL].Init(true);
-            WorkPieceArray[(int)ELCNetUnitPos.PUSHPULL].LoadFromCassette();
-
-            return SUCCESS;
-        }
-
-        public int LoadWorkPieceToCassette()
-        {
-            WorkPieceArray[(int)ELCNetUnitPos.PUSHPULL].LoadToCassette();
             WorkPieceList_Finished.Add(WorkPieceArray[(int)ELCNetUnitPos.PUSHPULL]);
             //WorkPieceArray[(int)ELCNetUnitPos.PUSHPULL] = new CWorkPiece();
             WorkPieceArray[(int)ELCNetUnitPos.PUSHPULL].Init(false);
@@ -7558,7 +7545,7 @@ namespace LWDicer.Layers
         public int StartWorkPiecePhase(ELCNetUnitPos pos, EProcessPhase phase)
         {
 #if SIMULATION_TEST
-            Sleep(600); // for test
+            Sleep(SimulationSleepTime); // for test
 #endif
             WorkPieceArray[(int)pos].StartPhase(phase);
             return SUCCESS;
@@ -7574,7 +7561,7 @@ namespace LWDicer.Layers
         public int FinishWorkPiecePhas(ELCNetUnitPos pos, EProcessPhase phase)
         {
 #if SIMULATION_TEST
-            Sleep(600); // for test
+            Sleep(SimulationSleepTime); // for test
 #endif
             WorkPieceArray[(int)pos].FinishPhase(phase);
             return SUCCESS;

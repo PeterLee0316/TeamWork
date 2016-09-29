@@ -16,20 +16,24 @@ namespace LWDicer.Layers
 {
     public class DEF_MeElevator
     {
-        public const int ERR_ELEVATOR_UNABLE_TO_USE_IO                           = 1;
-        public const int ERR_ELEVATOR_UNABLE_TO_USE_CYL                          = 2;
-        public const int ERR_ELEVATOR_UNABLE_TO_USE_VCC                          = 3;
-        public const int ERR_ELEVATOR_UNABLE_TO_USE_AXIS                         = 4;
-        public const int ERR_ELEVATOR_UNABLE_TO_USE_VISION                       = 5;
-        public const int ERR_ELEVATOR_NOT_ORIGIN_RETURNED                        = 6;
-        public const int ERR_ELEVATOR_INVALID_AXIS                               = 7;
-        public const int ERR_ELEVATOR_INVALID_PRIORITY                           = 8;
-        public const int ERR_ELEVATOR_NOT_SAME_POSITION                          = 9;
-        public const int ERR_ELEVATOR_UNABLE_TO_USE_POSITION                     = 10;
-        public const int ERR_ELEVATOR_MOVE_FAIL                                  = 11;
-        public const int ERR_ELEVATOR_EMPTY_SLOT_MOVE_FAIL                       = 12;
-        public const int ERR_ELEVATOR_CASSETTE_NOT_READY                         = 13;
-        public const int ERR_ELEVATOR_CASSETTE_DETECTED_ABNORMAL                 = 14;
+        public const int ERR_ELEVATOR_UNABLE_TO_USE_IO                      = 1;
+        public const int ERR_ELEVATOR_UNABLE_TO_USE_CYL                     = 2;
+        public const int ERR_ELEVATOR_UNABLE_TO_USE_VCC                     = 3;
+        public const int ERR_ELEVATOR_UNABLE_TO_USE_AXIS                    = 4;
+        public const int ERR_ELEVATOR_UNABLE_TO_USE_VISION                  = 5;
+        public const int ERR_ELEVATOR_NOT_ORIGIN_RETURNED                   = 6;
+        public const int ERR_ELEVATOR_INVALID_AXIS                          = 7;
+        public const int ERR_ELEVATOR_INVALID_PRIORITY                      = 8;
+        public const int ERR_ELEVATOR_NOT_SAME_POSITION                     = 9;
+        public const int ERR_ELEVATOR_UNABLE_TO_USE_POSITION                = 10;
+        public const int ERR_ELEVATOR_MOVE_FAIL                             = 11;
+        public const int ERR_ELEVATOR_CASSETTE_NOT_READY                    = 12;
+        public const int ERR_ELEVATOR_CASSETTE_DETECTED_ABNORMAL            = 13;
+        public const int ERR_ELEVATOR_WAFER_DETECETED                       = 14;
+        public const int ERR_ELEVATOR_WAFER_NOT_DETECETED                   = 15;
+        public const int ERR_ELEVATOR_NOT_EXIST_PRE_PROCESS_WAFER           = 16;
+        public const int ERR_ELEVATOR_NOT_EXIST_AFTER_PROCESS_WAFER         = 17;
+        public const int ERR_ELEVATOR_NOT_EXIST_EMPTY_SLOT                  = 18;
 
 
         public enum EElevatorPos
@@ -85,12 +89,12 @@ namespace LWDicer.Layers
             MAX,
         }
 
-        public enum ECassetteWaferInfo
+        public enum ECassetteSlotInfo
         {
             NONE = -1,
-            EMPTY   = 0,
-            PRE_PROCESS,
-            AFTER_PROCESS,
+            EMPTY   = 0,    // empty slot
+            PRE_PROCESS,    // before start work
+            AFTER_PROCESS,  // after complete work
             MAX,
         }
         public enum ECassetteWaferType
@@ -140,7 +144,7 @@ namespace LWDicer.Layers
                     this.CassetteData.FramePitch = CASSETTE_DEFAULT_PITCH;
                     for (int i = 0; i < this.CassetteData.SlotData.Length; i++)
                     {
-                        this.CassetteData.SlotData[i] = (int)ECassetteWaferInfo.NONE;
+                        this.CassetteData.SlotData[i] = (int)ECassetteSlotInfo.NONE;
                     }
                 }
                 else  // Cassette Data Copy
@@ -198,7 +202,7 @@ namespace LWDicer.Layers
             return iResult;
         }
 
-        public void SetElevatorSlotData(int Slot, ECassetteWaferInfo WaferInfo)
+        public void SetElevatorSlotData(int Slot, ECassetteSlotInfo WaferInfo)
         {
             m_Data.CassetteData.SlotData[Slot] = (int)WaferInfo;
         }
@@ -215,7 +219,7 @@ namespace LWDicer.Layers
         /// <param name="bMoveFlag"></param>
         /// <param name="bUseBacklash"></param>
         /// <returns></returns>
-        public int MoveElevatorPos(CPos_XYTZ sPos, bool[] bMoveFlag = null, bool bUseBacklash = false,
+        public int MoveToPos(CPos_XYTZ sPos, bool[] bMoveFlag = null, bool bUseBacklash = false,
             bool bUsePriority = false, int[] movePriority = null)
         {
             int iResult = SUCCESS;
@@ -288,7 +292,7 @@ namespace LWDicer.Layers
         /// <param name="bUsePriority">우선순위 이동시킬지 여부 </param>
         /// <param name="movePriority">우선순위 </param>
         /// <returns></returns>
-        public int MoveElevatorPos(int iPos, int SlotNum =0, bool bUpdatedPosInfo = true, 
+        public int MoveToPos(int iPos, int SlotNum =0, bool bUpdatedPosInfo = true, 
             bool[] bMoveFlag = null, double[] dMoveOffset = null, bool bUseBacklash = false,
             bool bUsePriority = false, int[] movePriority = null)
         {
@@ -316,7 +320,7 @@ namespace LWDicer.Layers
                 sTargetPos = sTargetPos + dMoveOffset;
             }
 
-            iResult = MoveElevatorPos(sTargetPos, bMoveFlag, bUseBacklash, bUsePriority, movePriority);
+            iResult = MoveToPos(sTargetPos, bMoveFlag, bUseBacklash, bUsePriority, movePriority);
             if (iResult != SUCCESS) return iResult;
 
             if (bUpdatedPosInfo == true)
@@ -336,107 +340,72 @@ namespace LWDicer.Layers
         /// <param name="bMoveXYT"></param>
         /// <param name="bMoveZ"></param>
         /// <returns></returns>
-        public int MoveElevatorPos(int iPos, int SlotNum=0, bool bMoveAllAxis=false, bool bMoveXYT=false, bool bMoveZ=true)
+        public int MoveToPos(int iPos, int SlotNum=0, bool bMoveAllAxis=false, bool bMoveXYT=false, bool bMoveZ=true)
         {
             // 0. move all axis
             if (bMoveAllAxis)
             {
                 bool[] bMoveFlag = new bool[DEF_MAX_COORDINATE] { true, true, true, true };
-                return MoveElevatorPos(iPos, SlotNum, true, bMoveFlag);
+                return MoveToPos(iPos, SlotNum, true, bMoveFlag);
             }
 
             // 1. move xyt only
             if (bMoveXYT)
             {
                 bool[] bMoveFlag = new bool[DEF_MAX_COORDINATE] { true, true, true, false };
-                return MoveElevatorPos(iPos, SlotNum, true, bMoveFlag);
+                return MoveToPos(iPos, SlotNum, true, bMoveFlag);
             }
 
             // 2. move z only
             if (bMoveZ)
             {
                 bool[] bMoveFlag = new bool[DEF_MAX_COORDINATE] { false, false, false, true };
-                return MoveElevatorPos(iPos, SlotNum, false, bMoveFlag);
+                return MoveToPos(iPos, SlotNum, false, bMoveFlag);
             }
 
             return SUCCESS;
         }
 
-        public int MoveElevatorToBottomPos(bool bMoveAllAxis = false, bool bMoveXYT = false, bool bMoveZ = true)
+        public int MoveToBottomPos(bool bMoveAllAxis = false, bool bMoveXYT = false, bool bMoveZ = true)
         {
             int nPos = (int)EElevatorPos.BOTTOM;
             int Slot = 0;
             
-            return MoveElevatorPos(nPos, Slot, bMoveAllAxis, bMoveXYT, bMoveZ);
+            return MoveToPos(nPos, Slot, bMoveAllAxis, bMoveXYT, bMoveZ);
         }
 
-        public int MoveElevatorToLoadPos(bool bMoveAllAxis = false, bool bMoveXYT = false, bool bMoveZ = true)
+        public int MoveToLoadPos(bool bMoveAllAxis = false, bool bMoveXYT = false, bool bMoveZ = true)
         {
             int nPos = (int)EElevatorPos.LOAD;
             int Slot = 0;
-            return MoveElevatorPos(nPos, Slot, bMoveAllAxis, bMoveXYT, bMoveZ);
+            return MoveToPos(nPos, Slot, bMoveAllAxis, bMoveXYT, bMoveZ);
         }
 
-        public int MoveElevatorToSlotPos(int Slot=0, bool bMoveAllAxis = false, bool bMoveXYT = false, bool bMoveZ = true)
+        public int MoveToSlotPos(int Slot=0, bool bMoveAllAxis = false, bool bMoveXYT = false, bool bMoveZ = true)
         {
             int nPos = (int)EElevatorPos.SLOT;
-            return MoveElevatorPos(nPos, Slot, bMoveAllAxis, bMoveXYT, bMoveZ);
+            return MoveToPos(nPos, Slot, bMoveAllAxis, bMoveXYT, bMoveZ);
         }
 
-        public int MoveElevatorToTopPos(bool bMoveAllAxis = false, bool bMoveXYT = false, bool bMoveZ = true)
+        public int MoveToTopPos(bool bMoveAllAxis = false, bool bMoveXYT = false, bool bMoveZ = true)
         {
             int nPos = (int)EElevatorPos.TOP;
             int Slot = 0;
-            return MoveElevatorPos(nPos, Slot,bMoveAllAxis, bMoveXYT, bMoveZ);
+            return MoveToPos(nPos, Slot,bMoveAllAxis, bMoveXYT, bMoveZ);
         }
 
-        public int MoveElevatorToSafetyPos(bool bMoveAllAxis = false, bool bMoveXYT = false, bool bMoveZ = true)
+        public int MoveToSafetyPos(bool bMoveAllAxis = false, bool bMoveXYT = false, bool bMoveZ = true)
         {
             int nPos = (int)EElevatorPos.SAFETY;
             int Slot = 0;
-            return MoveElevatorPos(nPos, Slot, bMoveAllAxis, bMoveXYT, bMoveZ);
+            return MoveToPos(nPos, Slot, bMoveAllAxis, bMoveXYT, bMoveZ);
         }
 
         /// <summary>
-        /// 다음 Slot으로 이동함. 
-        /// </summary>
-        /// <param name="bDirect"></param>
-        /// <returns></returns>
-        public int MoveElevatorNextSlot(bool bDirect=true)
-        {
-            bool bMoveAllAxis = false;
-            bool bMoveXYT = false;
-            bool bMoveZ = true;
-
-            int nElevatorPos= (int)EElevatorPos.SLOT;
-            int nNextSlotNum = 0;
-            int nCurSlotNum = 0;
-
-#if !SIMULATION_TEST
-            // 현재 위치를 읽어옴
-            int iResult = GetElevatorPosInfo(out nElevatorPos, out nCurSlotNum);
-            if (iResult != SUCCESS) return iResult;
-
-            if (nElevatorPos == (int)EElevatorPos.NONE)
-                GenerateErrorCode(ERR_ELEVATOR_UNABLE_TO_USE_POSITION);
-            if (nElevatorPos != (int)EElevatorPos.SLOT)
-                GenerateErrorCode(ERR_ELEVATOR_UNABLE_TO_USE_POSITION);
-
-            // 현재 위치한 Slot 번호를 대입한다.
-            nNextSlotNum = nCurSlotNum;
-
-            // 방향에 따라 +1 / -1을 함.
-            if (bDirect) nNextSlotNum++;
-            else nNextSlotNum--;
-#endif
-            return MoveElevatorPos(nElevatorPos, nNextSlotNum, bMoveAllAxis, bMoveXYT, bMoveZ);
-        }
-
-        /// <summary>
-        /// Cassette의 Empty Slot을 차례로 아래부터 위 방향으로 이동한다.
+        /// 다음 차례의 작업 완료된 wafer가 있는 slot으로 이동한다.
         /// </summary>
         /// <returns></returns>
-        public int MoveElevatorNextEmptySlot()
+        public int MoveToNextAfterProcessSlot(int nAfterIndex = -1)
         {
             bool bMoveAllAxis = false;
             bool bMoveXYT = false;
@@ -444,72 +413,176 @@ namespace LWDicer.Layers
 
             int iResult = 0;
             int nElevatorPos = (int)EElevatorPos.SLOT;
-            int Slot = (int)ECassetteWaferInfo.NONE;
+            int index = (int)ECassetteSlotInfo.NONE;
             int nCurSlotNum = 0;
 
-            // Cassette의 Wafer Data를 아래부터 읽어 Empty Slot를 찾는다.
-            for(int nNum=0; nNum < m_Data.CassetteData.Slot; nNum++ )
+            // Cassette의 Wafer Data를 아래부터 읽어 필요한 Slot 위치를 찾는다.
+            for (int i = 0; i < m_Data.CassetteData.Slot; i++)
             {
-                if (m_Data.CassetteData.SlotData[nNum] == (int)ECassetteWaferInfo.EMPTY) Slot = nNum;
+                if (i <= nAfterIndex) continue;
+                if (m_Data.CassetteData.SlotData[i] == (int)ECassetteSlotInfo.AFTER_PROCESS)
+                {
+                    index = i;
+                    break;
+                }
             }
 
             // 해당 Slot이 없을 경우 에러를 리턴함.
-            if (Slot == (int)ECassetteWaferInfo.NONE) GenerateErrorCode(ERR_ELEVATOR_UNABLE_TO_USE_POSITION);
+            if (index == (int)ECassetteSlotInfo.NONE)
+                return GenerateErrorCode(ERR_ELEVATOR_NOT_EXIST_AFTER_PROCESS_WAFER);
 
             // 해당 위치로 이동함.
-            iResult = MoveElevatorPos(nElevatorPos, Slot, bMoveAllAxis, bMoveXYT, bMoveZ);
-            if(iResult != SUCCESS ) GenerateErrorCode(ERR_ELEVATOR_MOVE_FAIL);
-
-            Sleep(500);
-
-            // Wafer Frame 감지 센서를 확인하여 Empty 여부를 확인한다.
-            bool bStatus;
-            iResult = m_RefComp.IO.IsOn(m_Data.InWaferDetected, out bStatus);
-
-            // Input확인 동작 확인
-            if (iResult != SUCCESS) GenerateErrorCode(ERR_ELEVATOR_UNABLE_TO_USE_IO);
-            // Wafer 유무 확인 ( Wafer 감지 센서 On이면 Err 리턴 )
-            if(bStatus) GenerateErrorCode(ERR_ELEVATOR_UNABLE_TO_USE_IO);
-
-            return SUCCESS;
-        }
-
-        public int MoveElevatorNextProcessWaferSlot()
-        {
-            bool bMoveAllAxis = false;
-            bool bMoveXYT = false;
-            bool bMoveZ = true;
-
-            int iResult = 0;
-            int nElevatorPos = (int)EElevatorPos.SLOT;
-            int Slot = (int)ECassetteWaferInfo.NONE;
-            int nCurSlotNum = 0;
-
-            // Cassette의 Wafer Data를 아래부터 읽어 Empty Slot를 찾는다.
-            for (int nNum = 0; nNum < m_Data.CassetteData.Slot; nNum++)
-            {
-                if (m_Data.CassetteData.SlotData[nNum] == (int)ECassetteWaferInfo.PRE_PROCESS) Slot = nNum;
-            }
-
-            // 해당 Slot이 없을 경우 에러를 리턴함.
-            if (Slot == (int)ECassetteWaferInfo.NONE) GenerateErrorCode(ERR_ELEVATOR_UNABLE_TO_USE_POSITION);
-
-            // 해당 위치로 이동함.
-            iResult = MoveElevatorPos(nElevatorPos, Slot, bMoveAllAxis, bMoveXYT, bMoveZ);
+            iResult = MoveToPos(nElevatorPos, index, bMoveAllAxis, bMoveXYT, bMoveZ);
             if (iResult != SUCCESS) GenerateErrorCode(ERR_ELEVATOR_MOVE_FAIL);
 
             Sleep(500);
 
-            // Wafer Frame 감지 센서를 확인하여 Empty 여부를 확인한다.
+            // 이동 완료후 wafer 유무 확인
             bool bStatus;
             iResult = m_RefComp.IO.IsOn(m_Data.InWaferDetected, out bStatus);
+            if (iResult != SUCCESS) return iResult;
 
-            // Input확인 동작 확인
-            if (iResult != SUCCESS) GenerateErrorCode(ERR_ELEVATOR_UNABLE_TO_USE_IO);
-            // Wafer 유무 확인 ( Wafer 감지 센서 Off이면 Err 리턴 )
-            if (!bStatus) GenerateErrorCode(ERR_ELEVATOR_UNABLE_TO_USE_IO);
+            if (!bStatus) return GenerateErrorCode(ERR_ELEVATOR_WAFER_NOT_DETECETED);
 
             return SUCCESS;
+        }
+
+        /// <summary>
+        /// 다음 차례의 비어있는 slot으로 이동한다.
+        /// </summary>
+        /// <returns></returns>
+        public int MoveToNextEmptySlot()
+        {
+            bool bMoveAllAxis = false;
+            bool bMoveXYT = false;
+            bool bMoveZ = true;
+
+            int iResult = 0;
+            int nElevatorPos = (int)EElevatorPos.SLOT;
+            int index = (int)ECassetteSlotInfo.NONE;
+            int nCurSlotNum = 0;
+
+            // Cassette의 Wafer Data를 아래부터 읽어 필요한 Slot 위치를 찾는다.
+            for (int i = 0; i < m_Data.CassetteData.Slot; i++)
+            {
+                if (m_Data.CassetteData.SlotData[i] == (int)ECassetteSlotInfo.EMPTY)
+                {
+                    index = i;
+                    break;
+                }
+            }
+
+            // 해당 Slot이 없을 경우 에러를 리턴함.
+            if (index == (int)ECassetteSlotInfo.NONE)
+                return GenerateErrorCode(ERR_ELEVATOR_NOT_EXIST_EMPTY_SLOT);
+
+            // 해당 위치로 이동함.
+            iResult = MoveToPos(nElevatorPos, index, bMoveAllAxis, bMoveXYT, bMoveZ);
+            if (iResult != SUCCESS) GenerateErrorCode(ERR_ELEVATOR_MOVE_FAIL);
+
+            Sleep(500);
+
+            // 이동 완료후 wafer 유무 확인
+            bool bStatus;
+            iResult = m_RefComp.IO.IsOn(m_Data.InWaferDetected, out bStatus);
+            if (iResult != SUCCESS) return iResult;
+
+            if (bStatus) return GenerateErrorCode(ERR_ELEVATOR_WAFER_DETECETED);
+
+            return SUCCESS;
+        }
+
+        /// <summary>
+        /// 다음 차례의 작업 대기중인 wafer가 있는 slot으로 이동한다.
+        /// </summary>
+        /// <returns></returns>
+        public int MoveToNextPreProcessSlot()
+        {
+            bool bMoveAllAxis = false;
+            bool bMoveXYT = false;
+            bool bMoveZ = true;
+
+            int iResult = 0;
+            int nElevatorPos = (int)EElevatorPos.SLOT;
+            int index = (int)ECassetteSlotInfo.NONE;
+            int nCurSlotNum = 0;
+
+            // Cassette의 Wafer Data를 아래부터 읽어 필요한 Slot 위치를 찾는다.
+            for (int i = 0; i < m_Data.CassetteData.Slot; i++)
+            {
+                if (m_Data.CassetteData.SlotData[i] == (int)ECassetteSlotInfo.PRE_PROCESS)
+                {
+                    index = i;
+                    break;
+                }
+            }
+
+            // 해당 Slot이 없을 경우 에러를 리턴함.
+            if (index == (int)ECassetteSlotInfo.NONE)
+                return GenerateErrorCode(ERR_ELEVATOR_NOT_EXIST_PRE_PROCESS_WAFER);
+
+            // 해당 위치로 이동함.
+            iResult = MoveToPos(nElevatorPos, index, bMoveAllAxis, bMoveXYT, bMoveZ);
+            if (iResult != SUCCESS) GenerateErrorCode(ERR_ELEVATOR_MOVE_FAIL);
+
+            Sleep(500);
+
+            // 이동 완료후 wafer 유무 확인
+            bool bStatus;
+            iResult = m_RefComp.IO.IsOn(m_Data.InWaferDetected, out bStatus);
+            if (iResult != SUCCESS) return iResult;
+
+#if SIMULATION_TEST
+            bStatus = true;
+#endif
+            if (!bStatus) return GenerateErrorCode(ERR_ELEVATOR_WAFER_NOT_DETECETED);
+
+            return SUCCESS;
+        }
+
+        /// <summary>
+        /// cassette에 해당 slot count를 읽는다.
+        /// </summary>
+        /// <returns></returns>
+        public int GetEmptySlotCount()
+        {
+            int sum = 0;
+            for (int i = 0; i < m_Data.CassetteData.Slot; i++)
+            {
+                if (m_Data.CassetteData.SlotData[i] == (int)ECassetteSlotInfo.EMPTY)
+                    sum++;
+            }
+            return sum;
+        }
+
+        /// <summary>
+        /// cassette에 해당 slot count를 읽는다.
+        /// </summary>
+        /// <returns></returns>
+        public int GetPreProcessWaferCount()
+        {
+            int sum = 0;
+            for (int i = 0; i < m_Data.CassetteData.Slot; i++)
+            {
+                if (m_Data.CassetteData.SlotData[i] == (int)ECassetteSlotInfo.PRE_PROCESS)
+                    sum++;
+            }
+            return sum;
+        }
+
+        /// <summary>
+        /// cassette에 해당 slot count를 읽는다.
+        /// </summary>
+        /// <returns></returns>
+        public int GetAfterProcessWaferCount()
+        {
+            int sum = 0;
+            for (int i = 0; i < m_Data.CassetteData.Slot; i++)
+            {
+                if (m_Data.CassetteData.SlotData[i] == (int)ECassetteSlotInfo.AFTER_PROCESS)
+                    sum++;
+            }
+            return sum;
         }
 
         public int SearchElevatorCassetteWafer()
@@ -526,26 +599,33 @@ namespace LWDicer.Layers
 
 
             // Slot 위치를 확인하며 Wafer의 유무를 확인한다.            
-            for (int nNum = 0; nNum < m_Data.CassetteData.Slot; nNum++)
+            for (int i = 0; i < m_Data.CassetteData.Slot; i++)
             {
+#if !SIMULATION_TEST    // Test시에 시간이 너무 오래 걸려서
                 // 해당 위치로 이동함.
-                iResult = MoveElevatorPos(nElevatorPos, nNum, bMoveAllAxis, bMoveXYT, bMoveZ);
+                iResult = MoveToPos(nElevatorPos, i, bMoveAllAxis, bMoveXYT, bMoveZ);
                 if (iResult != SUCCESS) GenerateErrorCode(ERR_ELEVATOR_MOVE_FAIL);
+#endif
 
                 // Wafer Frame 감지 센서를 확인하여 Empty 여부를 확인한다.               
                 iResult = m_RefComp.IO.IsOn(m_Data.InWaferDetected, out bStatus);
                 if (iResult != SUCCESS) return iResult;
 
+#if SIMULATION_TEST
+                if (i % 3 == 0) bStatus = true;
+#endif
                 if (bStatus)
                 {
-                    m_Data.CassetteData.SlotData[nNum] = (int)ECassetteWaferInfo.PRE_PROCESS;
+                    m_Data.CassetteData.SlotData[i] = (int)ECassetteSlotInfo.PRE_PROCESS;
                 }
                 else
                 {
-                    m_Data.CassetteData.SlotData[nNum] = (int)ECassetteWaferInfo.EMPTY;
+                    m_Data.CassetteData.SlotData[i] = (int)ECassetteSlotInfo.EMPTY;
                 }
 
-                Sleep(100);
+#if !SIMULATION_TEST
+                Sleep(SimulationSleepTime);
+#endif
 
             }
 

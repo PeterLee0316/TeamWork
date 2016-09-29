@@ -552,8 +552,10 @@ namespace LWDicer.Layers
             {
                 // Blink 반전 
                 m_bBlinkState = !m_bBlinkState;
+#if !SIMULATION_TEST
                 // Timer 재기동 
                 m_BlinkTimer.StartTimer();
+#endif
             }
 
             iResult = m_RefComp.OpPanel.SetResetLamp(false);
@@ -1281,7 +1283,7 @@ namespace LWDicer.Layers
         public void ResetAllInitFlag()
         {
             int i = 0;
-            for (i = 0; i < (int)EInitiableUnit.MAX ; i++)
+            for (i = 0; i < (int)EThreadUnit.MAX ; i++)
                 m_RefComp.OpPanel.SetInitFlag(i, false);
         }
 

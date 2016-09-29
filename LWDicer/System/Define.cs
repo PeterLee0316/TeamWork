@@ -551,8 +551,8 @@ namespace LWDicer.Layers
 
         //
         public const int WhileSleepTime         = 10; // while interval time
-        public const int UITimerInterval        = 10; // ui timer interval
-        public const int SimulationSleepTime    = 1000; // simulation sleep time for move
+        public const int UITimerInterval        = 100; // ui timer interval
+        public const int SimulationSleepTime    = 100; // simulation sleep time for move
 
         //
         public const int TRUE                   = 1;
@@ -1408,6 +1408,7 @@ namespace LWDicer.Layers
             public DateTime Time_LoadFromCassette { get; private set; }
             public DateTime Time_LoadToCassette { get; private set; }
 
+            // 각 공정 단계의 완료 여부 및 걸린 시간을 기록
             public CProcessTime[] ProcessTime = new CProcessTime[(int)EProcessPhase.MAX];
             public bool[] ProcessFinished = new bool[(int)EProcessPhase.MAX];
 
@@ -1434,24 +1435,36 @@ namespace LWDicer.Layers
                 ID = Time_Created.ToString("yyyy-MM-dd HH:mm:ss");
             }
 
-            public void LoadFromCassette()
+            private void LoadFromCassette()
             {
                 Time_LoadFromCassette = DateTime.Now;
             }
 
-            public void LoadToCassette()
+            private void UnloadToCassette()
             {
                 Time_LoadToCassette = DateTime.Now;
-    }
+            }
 
             public void StartPhase(EProcessPhase phase)
             {
+                // 처음 작업을 시작하는 경우 id 초기화 및 작업 시작 시간 기록
+                if(phase == EProcessPhase.PUSHPULL_LOAD_FROM_LOADER)
+                {
+                    Init(true);
+                    LoadFromCassette();
+                }
                 ProcessFinished[(int)phase] = false;
                 ProcessTime[(int)phase].StartPhase();
             }
 
             public void FinishPhase(EProcessPhase phase)
             {
+                // 마지막 작업을 마무리한 경우, 작업 종료 시간 기록
+                if (phase == EProcessPhase.PUSHPULL_LOAD_FROM_LOADER)
+                {
+                    UnloadToCassette();
+                }
+
                 ProcessFinished[(int)phase] = true;
                 ProcessTime[(int)phase].FinishPhase();
             }
@@ -1461,7 +1474,11 @@ namespace LWDicer.Layers
                 phase = EProcessPhase.PUSHPULL_LOAD_FROM_LOADER;
                 for (int i = 0; i < (int)EProcessPhase.MAX; i++)
                 {
-                    if (ProcessFinished[i] == false) phase = EProcessPhase.PUSHPULL_LOAD_FROM_LOADER + i;
+                    if (ProcessFinished[i] == false)
+                    {
+                        phase = EProcessPhase.PUSHPULL_LOAD_FROM_LOADER + i;
+                        return;
+                    }
                 }
             }
 
@@ -1531,14 +1548,16 @@ namespace LWDicer.Layers
         }
 
         // Thread Run
-        public const int ThreadSleepTime     = 10;
-        public const int ThreadSuspendedTime = 100;
+        public const int ThreadSleepTime     = 10;          // millisecond
+        public const int ThreadSuspendedTime = 100;         // millisecond
+        public const int ThreadInterfaceTime = 10 * 1000;   // millisecond
 
         /// <summary>
         /// initialize thread unit index
         /// </summary>
-        public enum EInitiableUnit
+        public enum EThreadUnit
         {
+            AUTOMANAGER,    // automanager는 실제로 일은 하지 않지만 연관되는 것들때문에..
             LOADER,
             SPINNER1,
             SPINNER2,
@@ -1561,7 +1580,85 @@ namespace LWDicer.Layers
             MAX,
         }
         
+        /// <summary>
+        /// Thread 사이의 interface 통신을 위해 사용하는 class
+        /// </summary>
+        public class CThreadInterface
+        {
+            // Common
+            public int TimeLimit = 30 * 1000;       // millisecond, interface time limit
+            public int TimeKeepOn = 2 * 1000;       // millisecond, interface에서 마지막 신호의 유지 시간
 
+            // handshake 도중에 상대편에게서 에러가 발생했을때 굳이 interface time limit까지 기다리지 않고 바로 나가기 위해서
+            // 상대편의 에러만 체크하는것은, 다른에러에는 반응하지 않고 handshake를 마무리 짓기 위해서임
+            public bool[] ErrorOccured = new bool[(int)EThreadUnit.MAX];
+
+            // interface time limit over
+            public bool[] TimeOver = new bool[(int)EThreadUnit.MAX];
+
+            // TrsPushPull Message
+            public bool PushPull_Loader_RequestUnloading;           // wafer L -> P : handshake 시작 알림
+            public bool PushPull_Loader_LoadReady;                  // wafer L -> P : move to load
+            public bool PushPull_Loader_FinishLoading;              // wafer L -> P : vacuum & move to wait, handshake 완료 알림
+            public bool PushPull_Loader_RequestLoading;             // wafer P -> L : handshake 시작 알림
+            public bool PushPull_Loader_UnloadReady;                // wafer P -> L : move to unload
+            public bool PushPull_Loader_FinishUnloading;            // wafer P -> L : vacuum & move to wait, handshake 완료 알림
+
+            // TrsLoader Message
+            public bool Loader_PushPull_WaitLoadingBegin;           // wafer : P -> L unused
+            public bool Loader_PushPull_RequestUnloading;           // wafer : P -> L ready load, handshake 시작 알림
+            public bool Loader_PushPull_LoadReady;                  // wafer : P -> L vacuum & do something 완료
+            public bool Loader_PushPull_FinishLoading;              // wafer : P -> L move to wait, handshake 완료 알림
+            public bool Loader_PushPull_WaitUnlodingBegin;          // wafer : L -> P unused
+            public bool Loader_PushPull_RequestLoading;             // wafer : L -> P ready unload, handshake 시작 알림
+            public bool Loader_PushPull_UnloadReady;                // wafer : L -> P vacuum & do something 완료
+            public bool Loader_PushPull_FinishUnloading;            // wafer : L -> P move to wait, handshake 완료 알림
+
+            public void ResetInterface(int selfAddr)
+            {
+                ErrorOccured[selfAddr] = false;
+                TimeOver[selfAddr] = false;
+
+                EThreadUnit cnvt = (EThreadUnit)Enum.Parse(typeof(EThreadUnit), selfAddr.ToString());
+                switch(cnvt)
+                {
+                    case EThreadUnit.AUTOMANAGER:
+                        break;
+
+                    case EThreadUnit.LOADER:
+                        Loader_PushPull_WaitLoadingBegin = false;
+                        Loader_PushPull_RequestUnloading = false;
+                        Loader_PushPull_LoadReady = false;
+                        Loader_PushPull_FinishLoading = false;
+                        Loader_PushPull_WaitUnlodingBegin = false;
+                        Loader_PushPull_RequestLoading = false;
+                        Loader_PushPull_UnloadReady = false;
+                        Loader_PushPull_FinishUnloading = false;
+                        break;
+
+                    case EThreadUnit.PUSHPULL:
+                        PushPull_Loader_RequestUnloading = false;
+                        PushPull_Loader_LoadReady = false;
+                        PushPull_Loader_FinishLoading = false;
+                        PushPull_Loader_RequestLoading = false;
+                        PushPull_Loader_UnloadReady = false;
+                        PushPull_Loader_FinishUnloading = false;
+                        break;
+
+                    case EThreadUnit.SPINNER1:
+                        break;
+
+                    case EThreadUnit.SPINNER2:
+                        break;
+
+                    case EThreadUnit.HANDLER:
+                        break;
+
+                    case EThreadUnit.STAGE1:
+                        break;
+                }
+            }
+        }
 
         // Common Thread Message inter Threads
         public enum EThreadMessage
@@ -1610,34 +1707,38 @@ namespace LWDicer.Layers
             // MSQ_SENDER_RECEIVER_ + if REQUEST : request Receiver do something
             // MSQ_SENDER_RECEIVER_ + verb : tell Receiver that Sender has done something
 
-            // TrsLoader Message
-            MSG_LOADER_PUSHPULL_WAIT_LOADING_START = 100,
-            MSG_LOADER_PUSHPULL_START_LOADING,
-            MSG_LOADER_PUSHPULL_COMPLETE_LOADING,
-            MSG_LOADER_PUSHPULL_WAIT_UNLOADING_START,
-            MSG_LOADER_PUSHPULL_START_UNLOADING,
-            MSG_LOADER_PUSHPULL_COMPLETE_UNLOADING,
-            MSG_LOADER_PUSHPULL_ALL_WAFER_WORKED,
-            MSG_LOADER_PUSHPULL_STACKS_FULL,
+                                                                // TrsLoader Message
+            MSG_LOADER_PUSHPULL_WAIT_LOADING_START = 100,       // wafer : P -> L unused
+            MSG_LOADER_PUSHPULL_READY_LOADING,                  // wafer : P -> L ready load, handshake 시작 알림
+            MSG_LOADER_PUSHPULL_LOAD_COMPLETE,                  // wafer : P -> L vacuum & do something 완료
+            MSG_LOADER_PUSHPULL_FINISH_LOADING,                 // wafer : P -> L move to wait, handshake 완료 알림
+
+            MSG_LOADER_PUSHPULL_WAIT_UNLOADING_START,           // wafer : L -> P unused
+            MSG_LOADER_PUSHPULL_READY_UNLOADING,                // wafer : L -> P ready unload, handshake 시작 알림
+            MSG_LOADER_PUSHPULL_UNLOAD_COMPLETE,                // wafer : L -> P vacuum & do something 완료
+            MSG_LOADER_PUSHPULL_FINISH_UNLOADING,               // wafer : L -> P move to wait, handshake 완료 알림
+
+            MSG_LOADER_PUSHPULL_ALL_WAFER_WORKED,               // -> MainFrame : All wafer are worked
+            MSG_LOADER_PUSHPULL_STACKS_FULL,                    // -> MainFrame : 
 
 
-            // TrsPushPull Message
-            MSG_PUSHPULL_LOADER_REQUEST_UNLOADING = 200,    // wafer : L -> P
-            MSG_PUSHPULL_LOADER_START_LOADING,              // wafer : L -> P
-            MSG_PUSHPULL_LOADER_COMPLETE_LOADING,           // wafer : L -> P
-            MSG_PUSHPULL_LOADER_REQUEST_LOADING,            // wafer : P -> L
-            MSG_PUSHPULL_LOADER_START_UNLOADING,            // wafer : P -> L
-            MSG_PUSHPULL_LOADER_COMPLETE_UNLOADING,         // wafer : P -> L
+                                                                // TrsPushPull Message
+            MSG_PUSHPULL_LOADER_REQUEST_UNLOADING = 200,        // wafer : L -> P handshake 시작 알림
+            MSG_PUSHPULL_LOADER_READY_LOAD,                     // wafer : L -> P move to load
+            MSG_PUSHPULL_LOADER_FINISH_LOADING,                 // wafer : L -> P vacuum & move to wait, handshake 완료 알림
+            MSG_PUSHPULL_LOADER_REQUEST_LOADING,                // wafer : P -> L handshake 시작 알림
+            MSG_PUSHPULL_LOADER_READY_UNLOAD,                   // wafer : P -> L move to unload
+            MSG_PUSHPULL_LOADER_FINISH_UNLOADING,               // wafer : P -> L vacuum & move to wait, handshake 완료 알림
 
-            MSG_PUSHPULL_SPINNER_REQUEST_LOADING,          // wafer : P -> C
-            MSG_PUSHPULL_SPINNER_START_UNLOADING,          // wafer : P -> C
-            MSG_PUSHPULL_SPINNER_COMPLETE_UNLOADING,       // wafer : P -> C
-            MSG_PUSHPULL_SPINNER_READY_LOADING,            // wafer : C -> P
-            MSG_PUSHPULL_SPINNER_START_LOADING,            // wafer : C -> P
-            MSG_PUSHPULL_SPINNER_COMPLETE_LOADING,         // wafer : C -> P
-            MSG_PUSHPULL_SPINNER_DO_PRE_CLEANING,          // request do pre cleanign
-            MSG_PUSHPULL_SPINNER_DO_COATING,               // request do coating
-            MSG_PUSHPULL_SPINNER_DO_POST_CLEANING,         // request do post cleaning
+            MSG_PUSHPULL_SPINNER_REQUEST_LOADING,               // wafer : P -> C
+            MSG_PUSHPULL_SPINNER_START_UNLOADING,               // wafer : P -> C
+            MSG_PUSHPULL_SPINNER_COMPLETE_UNLOADING,            // wafer : P -> C
+            MSG_PUSHPULL_SPINNER_READY_LOADING,                 // wafer : C -> P
+            MSG_PUSHPULL_SPINNER_START_LOADING,                 // wafer : C -> P
+            MSG_PUSHPULL_SPINNER_COMPLETE_LOADING,              // wafer : C -> P
+            MSG_PUSHPULL_SPINNER_DO_PRE_CLEANING,               // request do pre cleanign
+            MSG_PUSHPULL_SPINNER_DO_COATING,                    // request do coating
+            MSG_PUSHPULL_SPINNER_DO_POST_CLEANING,              // request do post cleaning
 
             MSG_PUSHPULL_UPPER_HANDLER_REQUEST_LOADING,         // wafer : P -> H
             MSG_PUSHPULL_UPPER_HANDLER_START_UNLOADING,         // wafer : P -> H
@@ -1649,7 +1750,7 @@ namespace LWDicer.Layers
             MSG_PUSHPULL_LOWER_HANDLER_ABSORB_COMPLETE,         // wafer : H -> P
             MSG_PUSHPULL_LOWER_HANDLER_COMPLETE_LOADING,        // wafer : H -> P
 
-            // TrsSpinner Message
+                                                                // TrsSpinner Message
             MSG_SPINNER_PUSHPULL_WAIT_LOADING_START = 300,
             MSG_SPINNER_PUSHPULL_START_LOADING,
             MSG_SPINNER_PUSHPULL_COMPLETE_LOADING,
@@ -1657,11 +1758,11 @@ namespace LWDicer.Layers
             MSG_SPINNER_PUSHPULL_START_UNLOADING,
             MSG_SPINNER_PUSHPULL_COMPLETE_UNLOADING,
 
-            // TrsHandler Message
+                                                                // TrsHandler Message
             MSG_LOWER_HANDLER_PUSHPULL_WAIT_UNLOADING_START = 400,
             MSG_LOWER_HANDLER_PUSHPULL_START_UNLOADING,
             MSG_LOWER_HANDLER_PUSHPULL_REQUEST_ABSORB,
-            MSG_LOWER_HANDLER_PUSHPULL_COMPLETE_UNLOADING,
+            MSG_LOWER_HANDLER_PUSHPULL_COMPLETE_UNLOADING,      // 
             MSG_LOWER_HANDLER_STAGE1_WAIT_LOADING_START,
             MSG_LOWER_HANDLER_STAGE1_START_LOADING,
             MSG_LOWER_HANDLER_STAGE1_REQUEST_RELEASE,
@@ -1757,6 +1858,7 @@ namespace LWDicer.Layers
             TRS_LOADER_WAITFOR_CASSETTE_REMOVED,
 
             // process with pushpull
+            TRS_LOADER_UNLOADING_TO_PUSHPULL,
             TRS_LOADER_READY_UNLOADING_WAFER,
             TRS_LOADER_WAITFOR_PUSHPULL_START_LOADING,
             TRS_LOADER_UNLOAD_WAFER,
@@ -1776,57 +1878,93 @@ namespace LWDicer.Layers
 
             ///////////////////////////////////////////////////////////////////
             // with loader // wafer : loader -> pushpull                  
-            TRS_PUSHPULL_STARTING_LOADING_FROM_LOADER,      // move to load pos
-            TRS_PUSHPULL_PRE_LOADING_FROM_LOADER,           // extend guide, send load ready signal
-            TRS_PUSHPULL_WAITFOR_LOADER_UNLOAD_READY,       // wait for respense signal
-            TRS_PUSHPULL_LOADING_FROM_LOADER,               // withdraw guide, send vacuum complete signal
-            TRS_PUSHPULL_WAITFOR_LOADER_UNLOAD_COMPLETE,    // wait for respense signal
-            TRS_PUSHPULL_FINISHING_LOADING_FROM_LOADER,     // move to wait pos, send load complete signal
+            TRS_PUSHPULL_LOADING_FROM_LOADER,               // loading from loader
+            TRS_PUSHPULL_BEGIN_LOADING_FROM_LOADER,         // send request unload signal
+            TRS_PUSHPULL_WAITFOR_LOADER_UNLOAD_READY,       // wait for response signal
+            TRS_PUSHPULL_LOAD_FROM_LOADER,                  // move to load pos, grip lock, send load ready signal
+            TRS_PUSHPULL_WAITFOR_LOADER_UNLOAD_COMPLETE,    // wait for response signal
+            TRS_PUSHPULL_FINISH_LOADING_FROM_LOADER,        // move to wait pos, send load complete signal
 
             ///////////////////////////////////////////////////////////////////
             // with loader // wafer : pushpull -> loader                  
-            TRS_PUSHPULL_STARTING_UNLOADING_TO_LOADER,      // move to unload pos
+            TRS_PUSHPULL_BEGIN_UNLOADING_TO_LOADER,      // move to unload pos
             TRS_PUSHPULL_REQUEST_LOADER_LOADING,            // send load request signal
-            TRS_PUSHPULL_WAITFOR_LOADER_LOAD_READY,         // wait for respense signal
-            TRS_PUSHPULL_UNLOADING_TO_LOADER,               // extend guide, send vacuum complete signal
-            TRS_PUSHPULL_WAITFOR_LOADER_LOAD_COMPLETE,      // wait for respense signal
-            TRS_PUSHPULL_FINISHING_UNLOADING_TO_LOADER,     // move to wait pos, send unload complete signal
+            TRS_PUSHPULL_WAITFOR_LOADER_LOAD_READY,         // wait for response signal
+            TRS_PUSHPULL_UNLOAD_TO_LOADER,               // extend guide, send vacuum complete signal
+            TRS_PUSHPULL_WAITFOR_LOADER_LOAD_COMPLETE,      // wait for response signal
+            TRS_PUSHPULL_FINISH_UNLOADING_TO_LOADER,     // move to wait pos, send unload complete signal
 
             ///////////////////////////////////////////////////////////////////
-            // with Spinner // wafer : spinner -> pushpull
-            TRS_PUSHPULL_STARTING_LOADING_FROM_SPINNER,     // move to load pos
+            // with coater // wafer : coater -> pushpull
+            TRS_PUSHPULL_BEGIN_LOADING_FROM_COATER,     // move to load pos
+            TRS_PUSHPULL_PRE_LOADING_FROM_COATER,          // extend guide, send load ready signal
+            TRS_PUSHPULL_WAITFOR_COATER_UNLOAD_READY,      // wait for response signal
+            TRS_PUSHPULL_LOAD_FROM_COATER,              // withdraw guide, send vacuum complete signal
+            TRS_PUSHPULL_WAITFOR_COATER_UNLOAD_COMPLETE,   // wait for response signal
+            TRS_PUSHPULL_FINISH_LOADING_FROM_COATER,    // move to wait pos, send load complete signal
+
+            ///////////////////////////////////////////////////////////////////
+            // with coater // wafer : pushpull -> coater
+            TRS_PUSHPULL_BEGIN_UNLOADING_TO_COATER,     // move to unload pos
+            TRS_PUSHPULL_REQUEST_COATER_LOADING,           // send load request signal
+            TRS_PUSHPULL_WAITFOR_COATER_LOAD_READY,        // wait for response signal
+            TRS_PUSHPULL_UNLOAD_TO_COATER,              // extend guide, send vacuum complete signal
+            TRS_PUSHPULL_WAITFOR_COATER_LOAD_COMPLETE,     // wait for response signal
+            TRS_PUSHPULL_FINISH_UNLOADING_TO_COATER,    // move to wait pos, send unload complete signal
+
+            ///////////////////////////////////////////////////////////////////
+            // with cleaner // wafer : cleaner -> pushpull
+            TRS_PUSHPULL_BEGIN_LOADING_FROM_CLEANER,     // move to load pos
+            TRS_PUSHPULL_PRE_LOADING_FROM_CLEANER,          // extend guide, send load ready signal
+            TRS_PUSHPULL_WAITFOR_CLEANER_UNLOAD_READY,      // wait for response signal
+            TRS_PUSHPULL_LOAD_FROM_CLEANER,              // withdraw guide, send vacuum complete signal
+            TRS_PUSHPULL_WAITFOR_CLEANER_UNLOAD_COMPLETE,   // wait for response signal
+            TRS_PUSHPULL_FINISH_LOADING_FROM_CLEANER,    // move to wait pos, send load complete signal
+
+            ///////////////////////////////////////////////////////////////////
+            // with cleaner // wafer : pushpull -> cleaner
+            TRS_PUSHPULL_BEGIN_UNLOADING_TO_CLEANER,     // move to unload pos
+            TRS_PUSHPULL_REQUEST_CLEANER_LOADING,           // send load request signal
+            TRS_PUSHPULL_WAITFOR_CLEANER_LOAD_READY,        // wait for response signal
+            TRS_PUSHPULL_UNLOAD_TO_CLEANER,              // extend guide, send vacuum complete signal
+            TRS_PUSHPULL_WAITFOR_CLEANER_LOAD_COMPLETE,     // wait for response signal
+            TRS_PUSHPULL_FINISH_UNLOADING_TO_CLEANER,    // move to wait pos, send unload complete signal
+
+            ///////////////////////////////////////////////////////////////////
+            // with spinner // wafer : spinner -> pushpull
+            TRS_PUSHPULL_BEGIN_LOADING_FROM_SPINNER,     // move to load pos
             TRS_PUSHPULL_PRE_LOADING_FROM_SPINNER,          // extend guide, send load ready signal
-            TRS_PUSHPULL_WAITFOR_SPINNER_UNLOAD_READY,      // wait for respense signal
-            TRS_PUSHPULL_LOADING_FROM_SPINNER,              // withdraw guide, send vacuum complete signal
-            TRS_PUSHPULL_WAITFOR_SPINNER_UNLOAD_COMPLETE,   // wait for respense signal
-            TRS_PUSHPULL_FINISHING_LOADING_FROM_SPINNER,    // move to wait pos, send load complete signal
+            TRS_PUSHPULL_WAITFOR_SPINNER_UNLOAD_READY,      // wait for response signal
+            TRS_PUSHPULL_LOAD_FROM_SPINNER,              // withdraw guide, send vacuum complete signal
+            TRS_PUSHPULL_WAITFOR_SPINNER_UNLOAD_COMPLETE,   // wait for response signal
+            TRS_PUSHPULL_FINISH_LOADING_FROM_SPINNER,    // move to wait pos, send load complete signal
 
             ///////////////////////////////////////////////////////////////////
-            // with Spinner // wafer : pushpull -> spinner
-            TRS_PUSHPULL_STARTING_UNLOADING_TO_SPINNER,     // move to unload pos
+            // with spinner // wafer : pushpull -> spinner
+            TRS_PUSHPULL_BEGIN_UNLOADING_TO_SPINNER,     // move to unload pos
             TRS_PUSHPULL_REQUEST_SPINNER_LOADING,           // send load request signal
-            TRS_PUSHPULL_WAITFOR_SPINNER_LOAD_READY,        // wait for respense signal
-            TRS_PUSHPULL_UNLOADING_TO_SPINNER,              // extend guide, send vacuum complete signal
-            TRS_PUSHPULL_WAITFOR_SPINNER_LOAD_COMPLETE,     // wait for respense signal
-            TRS_PUSHPULL_FINISHING_UNLOADING_TO_SPINNER,    // move to wait pos, send unload complete signal
+            TRS_PUSHPULL_WAITFOR_SPINNER_LOAD_READY,        // wait for response signal
+            TRS_PUSHPULL_UNLOAD_TO_SPINNER,              // extend guide, send vacuum complete signal
+            TRS_PUSHPULL_WAITFOR_SPINNER_LOAD_COMPLETE,     // wait for response signal
+            TRS_PUSHPULL_FINISH_UNLOADING_TO_SPINNER,    // move to wait pos, send unload complete signal
 
             ///////////////////////////////////////////////////////////////////
             // with handler // wafer : handler -> pushpull
-            TRS_PUSHPULL_STARTING_LOADING_FROM_HANDLER,     // move to load pos
+            TRS_PUSHPULL_BEGIN_LOADING_FROM_HANDLER,     // move to load pos
             TRS_PUSHPULL_PRE_LOADING_FROM_HANDLER,          // extend guide, send load ready signal
-            TRS_PUSHPULL_WAITFOR_HANDLER_UNLOAD_READY,      // wait for respense signal
-            TRS_PUSHPULL_LOADING_FROM_HANDLER,              // withdraw guide, send vacuum complete signal
-            TRS_PUSHPULL_WAITFOR_HANDLER_UNLOAD_COMPLETE,   // wait for respense signal
-            TRS_PUSHPULL_FINISHING_LOADING_FROM_HANDLER,    // move to wait pos, send load complete signal
+            TRS_PUSHPULL_WAITFOR_HANDLER_UNLOAD_READY,      // wait for response signal
+            TRS_PUSHPULL_LOAD_FROM_HANDLER,              // withdraw guide, send vacuum complete signal
+            TRS_PUSHPULL_WAITFOR_HANDLER_UNLOAD_COMPLETE,   // wait for response signal
+            TRS_PUSHPULL_FINISH_LOADING_FROM_HANDLER,    // move to wait pos, send load complete signal
 
             ///////////////////////////////////////////////////////////////////
             // with handler // wafer : pushpull -> handler
-            TRS_PUSHPULL_STARTING_UNLOADING_TO_HANDLER,     // move to unload pos
+            TRS_PUSHPULL_BEGIN_UNLOADING_TO_HANDLER,     // move to unload pos
             TRS_PUSHPULL_REQUEST_HANDLER_LOADING,           // send load request signal
-            TRS_PUSHPULL_WAITFOR_HANDLER_LOAD_READY,        // wait for respense signal
-            TRS_PUSHPULL_UNLOADING_TO_HANDLER,              // extend guide, send vacuum complete signal
-            TRS_PUSHPULL_WAITFOR_HANDLER_LOAD_COMPLETE,     // wait for respense signal
-            TRS_PUSHPULL_FINISHING_UNLOADING_TO_HANDLER,    // move to wait pos, send unload complete signal
+            TRS_PUSHPULL_WAITFOR_HANDLER_LOAD_READY,        // wait for response signal
+            TRS_PUSHPULL_UNLOAD_TO_HANDLER,              // extend guide, send vacuum complete signal
+            TRS_PUSHPULL_WAITFOR_HANDLER_LOAD_COMPLETE,     // wait for response signal
+            TRS_PUSHPULL_FINISH_UNLOADING_TO_HANDLER,    // move to wait pos, send unload complete signal
         }
 
         public enum ETrsHandlerStep
@@ -1908,6 +2046,17 @@ namespace LWDicer.Layers
         ////////////////////////////////////////////////////////////////////
         // Process Layer
         ////////////////////////////////////////////////////////////////////
+        // TrsPushPull
+        public const int ERR_TRS_PUSHPULL_INTERFACE_TIMELIMIT_OVER = 1;
+        public const int ERR_TRS_PUSHPULL_OBJECT_DETECTED_ON_COATER = 2;
+        public const int ERR_TRS_PUSHPULL_OBJECT_DETECTED_ON_CLEANER = 3;
+
+        // TrsLoader
+        public const int ERR_TRS_LOADER_INTERFACE_TIMELIMIT_OVER = 1;
+
+        // TrsHandler
+        public const int ERR_TRS_HANDLER_INTERFACE_TIMELIMIT_OVER = 1;
+
         // TrsStage1
         public const int ERR_TRS_STAGE1_PANEL_DATA_NULL                           = 1;
         public const int ERR_TRS_STAGE1_PANEL_ID_NOT_SAME                         = 2;
@@ -1915,6 +2064,7 @@ namespace LWDicer.Layers
         public const int ERR_TRS_STAGE1_REPAIR_COUNT                              = 4;
         public const int ERR_TRS_STAGE1_PANEL_DETECTED_BEFORE_LOADING             = 5;
         public const int ERR_TRS_STAGE1_EXCEED_MAX_WAIT_TIME_FOR_SIGNAL           = 6;
+
 
         ////////////////////////////////////////////////////////////////////
         // Control Layer

@@ -53,6 +53,12 @@ namespace LWDicer.Layers
         protected MDataManager DataManager;
         protected ELCNetUnitPos LCNetUnitPos;
 
+        // for inter thread communication
+        public static CThreadInterface TInterface = new CThreadInterface();
+        protected MTickTimer TTimer = new MTickTimer(); // interface timer
+        protected int TSelf;        // 자기가 error가 발생했다는것을 표시하는 용도
+        protected int TOpponent;    // handshake opponent
+
         public MWorkerThread(CObjectInfo objInfo, EThreadChannel SelfChannelNo
             , MDataManager DataManager, ELCNetUnitPos LCNetUnitPos) : base(objInfo)
         {
@@ -154,6 +160,21 @@ namespace LWDicer.Layers
         protected void SetStep2(int step)
         {
             ThreadStep2 = step;
+        }
+
+        virtual public string GetStep1()
+        {
+            return ThreadStep1.ToString();
+        }
+
+        virtual public string GetStep2()
+        {
+            return ThreadStep2.ToString();
+        }
+
+        virtual public string GetRunStatus()
+        {
+            return RunStatus.ToString();
         }
 
         protected override int ProcessMsg(MEvent evnt)
@@ -433,6 +454,7 @@ namespace LWDicer.Layers
         public int ReportAlarm(int alarm, int target = (int)TrsAutoManager)
         {
             RunStatus = EAutoRunStatus.STS_ERROR_STOP;
+            TInterface.ErrorOccured[TSelf] = true;
 
             MEvent evnt = new MEvent((int)MSG_PROCESS_ALARM, wParam:(int)SelfChannelNo, lParam:alarm);
             return PostMsg(target, evnt);
@@ -470,6 +492,8 @@ namespace LWDicer.Layers
 
         public virtual int Initialize()
         {
+            // Interface & Error Reset
+            TInterface.ResetInterface(TSelf);
             return SUCCESS;
         }
 

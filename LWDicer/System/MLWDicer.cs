@@ -1273,6 +1273,12 @@ namespace LWDicer.Layers
         {
             CTrsPushPullRefComp refComp = new CTrsPushPullRefComp();
             refComp.ctrlPushPull = m_ctrlPushPull;
+            refComp.ctrlLoader = m_ctrlLoader;
+            refComp.ctrlHandler = m_ctrlHandler;
+            refComp.ctrlCleaner = m_ctrlSpinner1;
+            refComp.ctrlCoater = m_ctrlSpinner2;
+            refComp.ctrlSpinner[(int)ESpinnerIndex.SPINNER1] = m_ctrlSpinner1;
+            refComp.ctrlSpinner[(int)ESpinnerIndex.SPINNER2] = m_ctrlSpinner2;
 
             CTrsPushPullData data = new CTrsPushPullData();
 

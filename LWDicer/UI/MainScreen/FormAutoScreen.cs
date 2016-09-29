@@ -26,6 +26,11 @@ namespace LWDicer.UI
         {
             InitializeComponent();
             InitializeForm();
+
+            timer1.Interval = UITimerInterval;
+            timer1.Enabled = true;
+            timer1.Start();
+
         }
         protected virtual void InitializeForm()
         {
@@ -246,6 +251,7 @@ namespace LWDicer.UI
 
         private void BtnStart_Click(object sender, EventArgs e)
         {
+            if (CMainFrame.IsAlarmPopup) return; // popup 된 alarm이 확인완료될때까지 기다림
             if(BtnStart.Text == "Start AutoRun")
             {
                 StartAutoRun();
@@ -361,7 +367,7 @@ namespace LWDicer.UI
             // RUN SW 또는 Stop SW 눌릴 때 까지 대기
 #if SIMULATION_TEST
             //m_nStartReady = 2;
-            CMainFrame.LWDicer.Sleep(1000);
+            //CMainFrame.LWDicer.Sleep(1000);
             //CMainFrame.LWDicer.m_trsAutoManager.SendMsg(EThreadMessage.MSG_START_CMD);
 #else
 
@@ -405,6 +411,34 @@ namespace LWDicer.UI
             //		m_BtnCameraChange.Enabled = bEnable;
 
             //		testTemp->EnableWindow(bEnable);
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            // display thread step
+            Label_StepAutoManager.Text   = CMainFrame.LWDicer.m_trsAutoManager.GetRunStatus();
+            Label_StepLoader.Text        = CMainFrame.LWDicer.m_trsLoader.GetStep1();
+            Label_StepPushPull.Text      = CMainFrame.LWDicer.m_trsPushPull.GetStep1();
+            Label_StepSpinner1.Text      = CMainFrame.LWDicer.m_trsSpinner1.GetStep1();
+            Label_StepSpinner2.Text      = CMainFrame.LWDicer.m_trsSpinner2.GetStep1();
+            Label_StepUHandler.Text      = CMainFrame.LWDicer.m_trsHandler.GetStep1();
+            Label_StepLHandler.Text      = CMainFrame.LWDicer.m_trsHandler.GetStep2();
+            Label_StepStage.Text         = CMainFrame.LWDicer.m_trsStage1.GetStep1();
+
+            // display thread status
+            Label_StatusAutoManager.Text = CMainFrame.LWDicer.m_trsAutoManager.GetRunStatus();
+            Label_StatusLoader.Text      = CMainFrame.LWDicer.m_trsLoader.GetRunStatus();
+            Label_StatusPushPull.Text    = CMainFrame.LWDicer.m_trsPushPull.GetRunStatus();
+            Label_StatusSpinner1.Text    = CMainFrame.LWDicer.m_trsSpinner1.GetRunStatus();
+            Label_StatusSpinner2.Text    = CMainFrame.LWDicer.m_trsSpinner2.GetRunStatus();
+            Label_StatusUHandler.Text    = CMainFrame.LWDicer.m_trsHandler.GetRunStatus();
+            Label_StatusLHandler.Text    = CMainFrame.LWDicer.m_trsHandler.GetRunStatus();
+            Label_StatusStage.Text       = CMainFrame.LWDicer.m_trsStage1.GetRunStatus();
+        }
+
+        private void FormAutoScreen_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

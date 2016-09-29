@@ -47,6 +47,7 @@ namespace LWDicer.Layers
         {
             m_RefComp = refComp;
             SetData(data);
+            TSelf = (int)EThreadUnit.STAGE1;
         }
 
         #region Common : Manage Data, Position, Use Flag and Initialize
@@ -61,6 +62,12 @@ namespace LWDicer.Layers
             target = ObjectExtensions.Copy(m_Data);
 
             return SUCCESS;
+        }
+
+        override public string GetStep1()
+        {
+            ETrsStage1Step cnvt = (ETrsStage1Step)Enum.Parse(typeof(ETrsStage1Step), ThreadStep1.ToString());
+            return cnvt.ToString();
         }
 
         public override int Initialize()
@@ -78,7 +85,7 @@ namespace LWDicer.Layers
             // finally
             SetStep1(iStep1);
 
-            return SUCCESS;
+            return base.Initialize();
         }
 
         public int InitializeMsg()
@@ -121,7 +128,7 @@ namespace LWDicer.Layers
         protected override void ThreadProcess()
         {
             int iResult = SUCCESS;
-            bool bStatus = false;
+            bool bStatus, bStatus1, bStatus2;
             EProcessPhase processPhase;
 
             while (true)

@@ -14,6 +14,9 @@ using static LWDicer.Layers.DEF_Error;
 using static LWDicer.Layers.DEF_Common;
 using static LWDicer.Layers.DEF_LCNet;
 
+using static LWDicer.Layers.DEF_CtrlPushPull;
+using static LWDicer.Layers.DEF_CtrlLoader;
+
 namespace LWDicer.Layers
 {
     public class CTrsLoaderRefComp
@@ -38,16 +41,19 @@ namespace LWDicer.Layers
         // Message 변수
         bool m_bPushPull_RequestUnloading;
         bool m_bPushPull_StartLoading;
+        bool m_bPushPull_CompleteAbsorb;
         bool m_bPushPull_CompleteLoading;
+
         bool m_bPushPull_RequestLoading;
         bool m_bPushPull_StartUnloading;
+        bool m_bPushPull_ReadyUnloading;
         bool m_bPushPull_CompleteUnloading;
 
         bool m_bAuto_RequestLoadCassette;
         bool m_bAuto_RequestUnloadCassette;
 
         bool m_bSupplyCassette = false;
-        bool m_bSupplyWafer = false;
+        bool m_bSupplyWafer = true;
 
         public MTrsLoader(CObjectInfo objInfo, EThreadChannel SelfChannelNo, MDataManager DataManager, ELCNetUnitPos LCNetUnitPos,
             CTrsLoaderRefComp refComp, CTrsLoaderData data)
@@ -55,6 +61,7 @@ namespace LWDicer.Layers
         {
             m_RefComp = refComp;
             SetData(data);
+            TSelf = (int)EThreadUnit.LOADER;
         }
 
         #region Common : Manage Data, Position, Use Flag and Initialize
@@ -69,6 +76,12 @@ namespace LWDicer.Layers
             target = ObjectExtensions.Copy(m_Data);
 
             return SUCCESS;
+        }
+
+        override public string GetStep1()
+        {
+            ETrsLoaderStep cnvt = (ETrsLoaderStep)Enum.Parse(typeof(ETrsLoaderStep), ThreadStep1.ToString());
+            return cnvt.ToString();
         }
 
         public override int Initialize()
@@ -86,7 +99,7 @@ namespace LWDicer.Layers
             // finally
             SetStep1(iStep1);
 
-            return SUCCESS;
+            return base.Initialize();
         }
 
         public int InitializeMsg()
@@ -136,19 +149,35 @@ namespace LWDicer.Layers
                 case (int)MSG_STOP_WAFER_SUPPLY:
                     m_bSupplyWafer = false;
                     break;
-
+                    /*
                 case (int)MSG_PUSHPULL_LOADER_REQUEST_UNLOADING:
                     m_bPushPull_RequestUnloading = true;
+                    m_bPushPull_StartLoading = false;
+                    m_bPushPull_CompleteAbsorb = false;
+                    m_bPushPull_CompleteLoading = false;
                     break;
 
                 case (int)MSG_PUSHPULL_LOADER_START_LOADING:
+                    m_bPushPull_RequestUnloading = false;
                     m_bPushPull_StartLoading = true;
+                    m_bPushPull_CompleteAbsorb = false;
+                    m_bPushPull_CompleteLoading = false;
+                    break;
+
+                case (int)MSG_PUSHPULL_LOADER_COMPLETE_ABSORB:
+                    m_bPushPull_RequestUnloading = false;
+                    m_bPushPull_StartLoading = false;
+                    m_bPushPull_CompleteAbsorb = true;
+                    m_bPushPull_CompleteLoading = false;
                     break;
 
                 case (int)MSG_PUSHPULL_LOADER_COMPLETE_LOADING:
+                    m_bPushPull_RequestUnloading = false;
+                    m_bPushPull_StartLoading = false;
+                    m_bPushPull_CompleteAbsorb = false;
                     m_bPushPull_CompleteLoading = true;
                     break;
-
+                    
                 case (int)MSG_PUSHPULL_LOADER_REQUEST_LOADING:
                     m_bPushPull_RequestLoading = true;
                     break;
@@ -160,7 +189,7 @@ namespace LWDicer.Layers
                 case (int)MSG_PUSHPULL_LOADER_COMPLETE_UNLOADING:
                     m_bPushPull_CompleteUnloading = true;
                     break;
-
+                    */
                 case (int)MSG_AUTO_LOADER_REQUEST_LOAD_CASSETTE:
                     m_bAuto_RequestLoadCassette = true;
                     break;
@@ -176,7 +205,7 @@ namespace LWDicer.Layers
         protected override void ThreadProcess()
         {
             int iResult = SUCCESS;
-            bool bStatus = false;
+            bool bStatus, bStatus1, bStatus2;
 
             while (true)
             {
@@ -241,9 +270,9 @@ namespace LWDicer.Layers
                                 }
 
                                 // 4. response to unloading wafer
-                                if (m_bPushPull_RequestUnloading && m_bSupplyWafer)
+                                if (TInterface.PushPull_Loader_RequestUnloading && m_bSupplyWafer)
                                 {
-                                    SetStep1((int)TRS_LOADER_READY_UNLOADING_WAFER);
+                                    SetStep1((int)TRS_LOADER_UNLOADING_TO_PUSHPULL);
                                     break;
                                 }
                                 break;
@@ -278,26 +307,103 @@ namespace LWDicer.Layers
                                 SetStep1((int)TRS_LOADER_WAITFOR_MESSAGE);
                                 break;
 
-                            case (int)TRS_LOADER_READY_UNLOADING_WAFER:
+                            ///////////////////////////////////////////////////////////////////
+                            // with pushpull // wafer : loader -> pushpull
+                            case (int)TRS_LOADER_UNLOADING_TO_PUSHPULL:
+                                // init
+                                TInterface.ResetInterface(TSelf);
+                                TOpponent = (int)EThreadUnit.PUSHPULL;
+                                if (TInterface.ErrorOccured[TOpponent]) break;
+                                TTimer.StartTimer();
 
+                                // begin
+                                iResult = m_RefComp.ctrlLoader.MoveToNextPreProcessSlot();
+                                if (iResult != SUCCESS) { ReportAlarm(iResult); break; }
+
+                                TInterface.Loader_PushPull_RequestLoading = true;
+                                while (TInterface.PushPull_Loader_LoadReady == false)
+                                {
+                                    if (TInterface.ErrorOccured[TOpponent]) break;
+                                    if (TTimer.MoreThan(TInterface.TimeLimit))
+                                    {
+                                        TInterface.TimeOver[TSelf] = true;
+                                        break;
+                                    }
+                                    Sleep(ThreadSleepTime);
+                                }
+                                if (TInterface.ErrorOccured[TOpponent]) break;
+                                if (TInterface.TimeOver[TSelf])
+                                {
+                                    // do something, if it is needed
+                                    TInterface.ResetInterface(TSelf);
+                                    ReportAlarm(GenerateErrorCode(ERR_TRS_LOADER_INTERFACE_TIMELIMIT_OVER));
+                                    break;
+                                }
+
+                                // unloading
+                                TInterface.Loader_PushPull_UnloadReady = true;
+                                while (TInterface.PushPull_Loader_FinishLoading == false)
+                                {
+                                    if (TInterface.ErrorOccured[TOpponent]) break;
+                                    if (TTimer.MoreThan(TInterface.TimeLimit))
+                                    {
+                                        TInterface.TimeOver[TSelf] = true;
+                                        break;
+                                    }
+                                    Sleep(ThreadSleepTime);
+                                }
+                                if (TInterface.ErrorOccured[TOpponent]) break;
+                                if (TInterface.TimeOver[TSelf])
+                                {
+                                    // do something, if it is needed
+                                    TInterface.ResetInterface(TSelf);
+                                    ReportAlarm(GenerateErrorCode(ERR_TRS_LOADER_INTERFACE_TIMELIMIT_OVER));
+                                    break;
+                                }
+
+                                // finish
+                                TInterface.Loader_PushPull_FinishUnloading = true;
+                                Sleep(TInterface.TimeKeepOn);
+
+                                // reset
+                                TInterface.ResetInterface(TSelf);
+                                SetStep1((int)TRS_LOADER_WAITFOR_MESSAGE);
+                                break;
+                                /*
+                            case (int)TRS_LOADER_READY_UNLOADING_WAFER:
+                                iResult = m_RefComp.ctrlLoader.MoveToNextPreProcessSlot();
+                                if (iResult != SUCCESS) { ReportAlarm(iResult); break; }
+
+                                PostMsg(TrsPushPull, MSG_LOADER_PUSHPULL_START_LOADING);
                                 SetStep1((int)TRS_LOADER_WAITFOR_PUSHPULL_START_LOADING);
                                 break;
 
                             case (int)TRS_LOADER_WAITFOR_PUSHPULL_START_LOADING:
+                                PostMsg_Interval(TrsPushPull, MSG_LOADER_PUSHPULL_START_LOADING);
+                                if (m_bPushPull_CompleteAbsorb == false) break;
 
+                                // do something
+
+                                PostMsg(TrsPushPull, MSG_LOADER_PUSHPULL_COMPLETE_UNLOADING);
                                 SetStep1((int)TRS_LOADER_UNLOAD_WAFER);
                                 break;
 
                             case (int)TRS_LOADER_UNLOAD_WAFER:
+                                // do something
 
                                 SetStep1((int)TRS_LOADER_WAITFOR_PUSHPULL_COMPLETE_LOADING);
                                 break;
 
                             case (int)TRS_LOADER_WAITFOR_PUSHPULL_COMPLETE_LOADING:
+                                PostMsg_Interval(TrsPushPull, MSG_LOADER_PUSHPULL_COMPLETE_UNLOADING);
+                                if (m_bPushPull_CompleteLoading == false) break;
+
+                                // do something
+
 
                                 SetStep1((int)TRS_LOADER_WAITFOR_MESSAGE);
                                 break;
-
+                                */
                             case (int)TRS_LOADER_READY_LOADING_WAFER:
 
                                 SetStep1((int)TRS_LOADER_WAITFOR_PUSHPULL_START_UNLOADING);

@@ -93,13 +93,14 @@ namespace LWDicer.Layers
             if (bStatus) return GenerateErrorCode(ERR_CTRL_LOADER_PUSHPULL_DETECTED);
 
             // check wafer cassett 안에 wafer가 있는지 
-            iResult = SearchCassetteWafer();
+            iResult = SearchCassetteSlot();
             if (iResult != SUCCESS) return iResult;
 
             // 기존 wafer 정보와 비교하는 부분
 
-            // move to 첫번째 wafer가 위치해 있는 slot으로
-            iResult = MoveToNextSlotPos();
+            //// move to 첫번째 wafer가 위치해 있는 slot으로
+            //iResult = MoveToNextPreProcessSlot();
+            iResult = MoveToSafetyPos();
             if (iResult != SUCCESS) return iResult;
 
             return SUCCESS;
@@ -147,95 +148,95 @@ namespace LWDicer.Layers
         }
 
 
-        public int MoveToBottomPos(bool bPanelTransfer = true)
+        public int MoveToBottomPos()
         {
             int iResult = CheckSafety_forMoving((int)EElevatorPos.BOTTOM);
             if (iResult != SUCCESS) return iResult;
 
-            iResult = m_RefComp.Elevator.MoveElevatorToBottomPos();
+            iResult = m_RefComp.Elevator.MoveToBottomPos();
             if (iResult != SUCCESS) return iResult;
 
             return SUCCESS;
         }
 
-        public int MoveToLoadPos(bool bPanelTransfer = true)
+        public int MoveToLoadPos()
         {
             int iResult = CheckSafety_forMoving((int)EElevatorPos.LOAD);
             if (iResult != SUCCESS) return iResult;
 
-            iResult = m_RefComp.Elevator.MoveElevatorToLoadPos();
+            iResult = m_RefComp.Elevator.MoveToLoadPos();
             if (iResult != SUCCESS) return iResult;
 
             return SUCCESS;
         }
 
-        public int MoveToSlotPos(int iSlotNum = 0, bool bPanelTransfer = true)
+        public int MoveToSlotPos(int iSlotNum = 0)
         {
             int iResult = CheckSafety_forMoving((int)EElevatorPos.SLOT);
             if (iResult != SUCCESS) return iResult;
 
-            iResult = m_RefComp.Elevator.MoveElevatorToSlotPos(iSlotNum);
+            iResult = m_RefComp.Elevator.MoveToSlotPos(iSlotNum);
             if (iResult != SUCCESS) return iResult;
 
             return SUCCESS;
         }
 
-        public int MoveToTopPos(bool bPanelTransfer = true)
+        public int MoveToTopPos()
         {
             int iResult = CheckSafety_forMoving((int)EElevatorPos.TOP);
             if (iResult != SUCCESS) return iResult;
 
-            iResult = m_RefComp.Elevator.MoveElevatorToTopPos();
+            iResult = m_RefComp.Elevator.MoveToTopPos();
             if (iResult != SUCCESS) return iResult;
 
             return SUCCESS;
         }
 
-        public int MoveToSafetyPos(bool bPanelTransfer = true)
+        public int MoveToSafetyPos()
         {
             int iResult = CheckSafety_forMoving((int)EElevatorPos.SAFETY);
             if (iResult != SUCCESS) return iResult;
 
-            iResult = m_RefComp.Elevator.MoveElevatorToSafetyPos();
+            iResult = m_RefComp.Elevator.MoveToSafetyPos();
             if (iResult != SUCCESS) return iResult;
 
             return SUCCESS;
         }
 
-        public int MoveToNextSlotPos(bool bDirect = true, bool bPanelTransfer = true)
+        public int MoveToNextAfterProcessSlot()
         {
             int iResult = CheckSafety_forMoving((int)EElevatorPos.SLOT);
             if (iResult != SUCCESS) return iResult;
 
-            iResult = m_RefComp.Elevator.MoveElevatorNextSlot(bDirect);
+            iResult = m_RefComp.Elevator.MoveToNextAfterProcessSlot();
             if (iResult != SUCCESS) return iResult;
 
             return SUCCESS;
         }
 
-        public int MoveToNextEmptySlotPos(bool bPanelTransfer = true)
+        public int MoveToNextEmptySlot()
         {
             int iResult = CheckSafety_forMoving((int)EElevatorPos.BOTTOM);
             if (iResult != SUCCESS) return iResult;
 
-            iResult = m_RefComp.Elevator.MoveElevatorNextEmptySlot();
+            iResult = m_RefComp.Elevator.MoveToNextEmptySlot();
             if (iResult != SUCCESS) return iResult;
 
             return SUCCESS;
         }
 
-        public int MoveToNextProcessSlotPos(bool bPanelTransfer = true)
+        public int MoveToNextPreProcessSlot()
         {
             int iResult = CheckSafety_forMoving((int)EElevatorPos.BOTTOM);
             if (iResult != SUCCESS) return iResult;
 
-            iResult = m_RefComp.Elevator.MoveElevatorNextProcessWaferSlot();
+            iResult = m_RefComp.Elevator.MoveToNextPreProcessSlot();
             if (iResult != SUCCESS) return iResult;
 
             return SUCCESS;
         }
 
-        public int SearchCassetteWafer()
+        public int SearchCassetteSlot()
         {
             int iResult = CheckSafety_forMoving((int)EElevatorPos.SLOT);
             if (iResult != SUCCESS) return iResult;
@@ -307,6 +308,34 @@ namespace LWDicer.Layers
 
             return SUCCESS;
         }
+
+        /// <summary>
+        /// cassette에 해당 slot count를 읽는다.
+        /// </summary>
+        /// <returns></returns>
+        public int GetEmptySlotCount()
+        {
+            return m_RefComp.Elevator.GetEmptySlotCount();
+        }
+
+        /// <summary>
+        /// cassette에 해당 slot count를 읽는다.
+        /// </summary>
+        /// <returns></returns>
+        public int GetPreProcessWaferCount()
+        {
+            return m_RefComp.Elevator.GetPreProcessWaferCount();
+        }
+
+        /// <summary>
+        /// cassette에 해당 slot count를 읽는다.
+        /// </summary>
+        /// <returns></returns>
+        public int GetAfterProcessWaferCount()
+        {
+            return m_RefComp.Elevator.GetAfterProcessWaferCount();
+        }
+
     }
 
 }
