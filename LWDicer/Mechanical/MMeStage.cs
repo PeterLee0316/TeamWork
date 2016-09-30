@@ -1998,14 +1998,13 @@ namespace LWDicer.Layers
             return SUCCESS;
         }
 
-        public void SetEdgeAlignOffset(int index,CPos_XYTZ pPos)
+        public void SetEdgeAlignPos(CPos_XYTZ pPos)
         {
-            AxStageInfo.OffsetPos.Pos[index] = pPos;
-
+            AxStageInfo.FixedPos.Pos[(int)EStagePos.EDGE_ALIGN_1] = pPos;
         }
-        public int GetEdgeAlignOffset(int index,out CPos_XYTZ pPos)
+        public int GetEdgeAlignPos(out CPos_XYTZ pPos)
         {
-            pPos = AxStageInfo.OffsetPos.Pos[index];
+            pPos = AxStageInfo.FixedPos.Pos[(int)EStagePos.EDGE_ALIGN_1];
 
             return SUCCESS;            
         }

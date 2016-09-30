@@ -55,6 +55,7 @@
             this.btnEdgeAlign = new Syncfusion.Windows.Forms.ButtonAdv();
             this.btnThetaAlign = new Syncfusion.Windows.Forms.ButtonAdv();
             this.btnMacroAlgin = new Syncfusion.Windows.Forms.ButtonAdv();
+            this.btnLaserAlign = new Syncfusion.Windows.Forms.ButtonAdv();
             ((System.ComponentModel.ISupportInitialize)(this.gradientPanel1)).BeginInit();
             this.gradientPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gradientPanel2)).BeginInit();
@@ -386,6 +387,7 @@
             this.gradientPanel3.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.gradientPanel3.Border3DStyle = System.Windows.Forms.Border3DStyle.Raised;
             this.gradientPanel3.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.gradientPanel3.Controls.Add(this.btnLaserAlign);
             this.gradientPanel3.Controls.Add(this.autoLabel3);
             this.gradientPanel3.Controls.Add(this.btnMicroAlign);
             this.gradientPanel3.Controls.Add(this.btnEdgeAlign);
@@ -470,6 +472,21 @@
             this.btnMacroAlgin.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.btnMacroAlgin.Click += new System.EventHandler(this.btnMacroAlgin_Click);
             // 
+            // btnLaserAlign
+            // 
+            this.btnLaserAlign.AutoEllipsis = true;
+            this.btnLaserAlign.BackColor = System.Drawing.SystemColors.Control;
+            this.btnLaserAlign.FlatAppearance.BorderSize = 5;
+            this.btnLaserAlign.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.btnLaserAlign.ForeColor = System.Drawing.Color.MidnightBlue;
+            this.btnLaserAlign.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnLaserAlign.Location = new System.Drawing.Point(30, 234);
+            this.btnLaserAlign.Name = "btnLaserAlign";
+            this.btnLaserAlign.Size = new System.Drawing.Size(152, 78);
+            this.btnLaserAlign.TabIndex = 32;
+            this.btnLaserAlign.Text = "Laser Align";
+            this.btnLaserAlign.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            // 
             // FormTeachScreen
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
@@ -525,5 +542,6 @@
         private Syncfusion.Windows.Forms.ButtonAdv btnEdgeAlign;
         private Syncfusion.Windows.Forms.ButtonAdv btnThetaAlign;
         private Syncfusion.Windows.Forms.ButtonAdv btnMacroAlgin;
+        private Syncfusion.Windows.Forms.ButtonAdv btnLaserAlign;
     }
 }

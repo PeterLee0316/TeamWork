@@ -209,7 +209,12 @@ namespace LWDicer.UI
         private void picVision_MouseDown(object sender, MouseEventArgs e)
         {
             Size picSize = picVision.Size;
-            Point clickPos = e.Location;   
+            Point clickPos = e.Location;
+
+            CMainFrame.LWDicer.m_ctrlStage1.ScreenClickMove(picSize, clickPos);
+
+            return;
+
             Point centerPic = new Point(0, 0);
             Point moveDistance = new Point(0, 0);
 

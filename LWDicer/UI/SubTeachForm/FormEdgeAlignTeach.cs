@@ -136,6 +136,11 @@ namespace LWDicer.UI
         {
             Size picSize = picVision.Size;
             Point clickPos = e.Location;
+
+            CMainFrame.LWDicer.m_ctrlStage1.ScreenClickMove(picSize, clickPos);
+            
+            return;
+
             Point centerPic = new Point(0, 0);
             Point moveDistance = new Point(0, 0);
 
@@ -168,6 +173,17 @@ namespace LWDicer.UI
 
                 CMainFrame.LWDicer.m_ctrlStage1.MoveStageRelative(movePos);
             }
+        }
+
+        private void btnSearchEdgePoint_Click(object sender, EventArgs e)
+        {
+            var posEdge = new CPos_XY();
+            CMainFrame.LWDicer.m_ctrlStage1.FindEdgePoint(out posEdge);
+        }
+
+        private void btnSetEdgeDetectArea_Click(object sender, EventArgs e)
+        {
+            CMainFrame.LWDicer.m_Vision.SetEdgeFinderArea(PRE__CAM);
         }
     }
 }

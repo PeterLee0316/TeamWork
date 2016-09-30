@@ -595,7 +595,7 @@ CSpinStep class -> CCleanStep / CCoatStep class 로 분리
 	- Index 개수를 설정할 수 있게 하여... 평균 값을 적용하도록 함
 
 // Grade : ★★
-// Date : 2016-09-28 ~ 2016-09-29
+// Date : 2016-09-28 ~ 2016-09-230
 // Context
 
 1. Theta Align 
@@ -603,6 +603,31 @@ CSpinStep class -> CCleanStep / CCoatStep class 로 분리
 	- Pre & Fine Cam 변경에 따른 위치 Offset 자동이 보정 완료
 2. Edge Align
 	- Edge Position 위치 저장 및 Move 이동 테스트
+	- Edge Teach Move Step 동작 control Layer
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ////////////////////////////////////////////////////////////////////////////////////////////
 // LHS

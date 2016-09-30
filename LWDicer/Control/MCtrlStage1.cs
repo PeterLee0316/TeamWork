@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Drawing;
 using System.Text;
 using System.Diagnostics;
 using System.Threading;
@@ -53,7 +54,16 @@ namespace LWDicer.Layers
             INIT,
             POS_A,
             POS_B,
+        }
 
+        public enum EEdgeAlignTeachStep
+        {
+            INIT=-1,
+            POS1=0,
+            POS2,
+            POS3,
+            POS4,
+            MAX,
         }
         // STAGE 관련 오류
 
@@ -93,10 +103,11 @@ namespace LWDicer.Layers
         private CCtrlStage1RefComp m_RefComp;
         private CCtrlStage1Data m_Data;
         private int m_iCurrentCam = PRE__CAM;
-        private bool bEdgeAlignTeachInit = false;
 
         private EStatgeMode eStageMode = EStatgeMode.RETURN;
         private EThetaAlignStep eThetaAlignStep = EThetaAlignStep.INIT;
+        private EEdgeAlignTeachStep eEdgeTeachStep = EEdgeAlignTeachStep.INIT;
+        private CPos_XYTZ[] EdgeTeachPos = new CPos_XYTZ[(int)EEdgeAlignTeachStep.MAX];
 
         private MTickTimer m_ProcsTimer = new MTickTimer();
 
@@ -884,6 +895,47 @@ namespace LWDicer.Layers
         public int JogStageStop(int Axis)
         {
             return m_RefComp.Stage.JogStageStop(Axis);
+        }
+
+        public int ScreenClickMove(Size pSize, Point pPoint)
+        {
+            Size picSize = pSize;
+            Point clickPos = pPoint;
+
+            Point centerPic = new Point(0, 0);
+            Point moveDistance = new Point(0, 0);
+
+            double ratioMove = 0.0;
+            CPos_XYTZ movePos = new CPos_XYTZ();
+
+            centerPic.X = picSize.Width / 2;
+            centerPic.Y = picSize.Height / 2;
+
+            moveDistance.X = centerPic.X - clickPos.X;
+            moveDistance.Y = centerPic.Y - clickPos.Y;
+
+
+            if (GetCurrentCam() == FINE_CAM)
+            {
+                ratioMove = CMainFrame.DataManager.SystemData_Align.MicroScreenWidth / (double)picSize.Width;
+
+                movePos.dX = (double)moveDistance.X * ratioMove;
+                movePos.dY = -(double)moveDistance.Y * ratioMove;
+
+                return MoveStageRelative(movePos);
+            }
+
+            if (GetCurrentCam() == PRE__CAM)
+            {
+                ratioMove = CMainFrame.DataManager.SystemData_Align.MacroScreenWidth / (double)picSize.Width;
+
+                movePos.dX = (double)moveDistance.X * ratioMove;
+                movePos.dY = -(double)moveDistance.Y * ratioMove;
+
+                return MoveStageRelative(movePos);
+            }
+
+            return SUCCESS;
         }
 
         #endregion
@@ -1827,13 +1879,13 @@ namespace LWDicer.Layers
         }
 
         // Edge Align Pos 설정
-        public void SetEdgePosOffset(int index,CPos_XYTZ pPos)
+        public void SetEdgeAlignPos(CPos_XYTZ pPos)
         {
-            m_RefComp.Stage.SetEdgeAlignOffset(index, pPos);
+            m_RefComp.Stage.SetEdgeAlignPos(pPos);
         }
-        public int GetEdgePosOffset(int index, out CPos_XYTZ pPos)
+        public int GetEdgePosOffset(out CPos_XYTZ pPos)
         {
-            return m_RefComp.Stage.GetEdgeAlignOffset(index, out pPos);
+            return m_RefComp.Stage.GetEdgeAlignPos(out pPos);
         }
         /// <summary>
         /// UI에서 User가 Button을 클릭하면서 4 Point 위치값 Offset조절
@@ -1841,63 +1893,81 @@ namespace LWDicer.Layers
         /// <returns></returns>
         public int SetEdgePosOffsetNext()
         {
-            CPos_XYTZ mPos = new CPos_XYTZ();
-            int iCurPosIndex = 0;
+            var posEdge = new CPos_XYTZ();
+            var posCenter = new CPos_XYTZ();
+                        
             int iResult = -1;
 
-            // 현재 위치 값 & Index를 읽어온다.
-            iResult = m_RefComp.Stage.GetStageCurPos(out mPos);
+            // 현재 위치 값을 읽어온다.
+            iResult = m_RefComp.Stage.GetStageCurPos(out posEdge);
             if (iResult != SUCCESS) return iResult;
-            iResult = m_RefComp.Stage.GetStagePosInfo(out iCurPosIndex);
-            if (iResult != SUCCESS) return iResult;
+            
 
             // Edge Pos 1 위치 이동
-            if (bEdgeAlignTeachInit = false)
+            if (eEdgeTeachStep == EEdgeAlignTeachStep.INIT)
+            {                
+                // Pos1으로 이동함.
+                iResult = MoveToEdgeAlignPos1();
+                if (iResult == SUCCESS) eEdgeTeachStep = EEdgeAlignTeachStep.POS1;
+
+                return iResult;
+            }
+
+            // Edge Pos 1 저장 및 Edge Pos 2 위치 이동
+            if (eEdgeTeachStep == EEdgeAlignTeachStep.POS1)
             {
+                // 매뉴얼로 Edge를 Center로 이동함.
+                EdgeTeachPos[(int)EEdgeAlignTeachStep.POS1] = posEdge;
+
+                // Pos2으로 이동함.
+                iResult = MoveToEdgeAlignPos2();
+                if (iResult == SUCCESS) eEdgeTeachStep = EEdgeAlignTeachStep.POS2;
+
+                return iResult;
+            }
+            // Edge Pos 2 저장 및 Edge Pos 3 위치 이동
+            if (eEdgeTeachStep == EEdgeAlignTeachStep.POS2)
+            {
+                EdgeTeachPos[(int)EEdgeAlignTeachStep.POS2] = posEdge;
+
+                iResult = MoveToEdgeAlignPos3();
+                if (iResult != SUCCESS) return iResult;
+
+                eEdgeTeachStep = EEdgeAlignTeachStep.POS3;
+
+                return SUCCESS;
+            }
+            // Edge Pos 3 저장 및 Edge Pos 4 위치 이동
+            if (eEdgeTeachStep == EEdgeAlignTeachStep.POS3)
+            {
+                EdgeTeachPos[(int)EEdgeAlignTeachStep.POS3] = posEdge;
+
+                iResult = MoveToEdgeAlignPos4();
+                if (iResult != SUCCESS) return iResult;
+
+                eEdgeTeachStep = EEdgeAlignTeachStep.POS4;
+
+                return SUCCESS;
+            }
+            // Edge Pos 4 저장 및 Edge Pos 1 위치 이동
+            if (eEdgeTeachStep == EEdgeAlignTeachStep.POS4)
+            {
+                EdgeTeachPos[(int)EEdgeAlignTeachStep.POS4] = posEdge;
+
+                // Edge 평균 값을 계산함. 
+                posCenter = EdgeTeachPos[0] + EdgeTeachPos[1] + EdgeTeachPos[3] + EdgeTeachPos[4];
+                posCenter.dX /=  4.0;
+                posCenter.dY /= 4.0;
+
+                SetEdgeAlignPos(posCenter);
+
                 iResult = MoveToEdgeAlignPos1();
                 if (iResult != SUCCESS) return iResult;
 
-                bEdgeAlignTeachInit = true;
-                return SUCCESS;
-            }
-            // Edge Pos 1 위치 설정
-            if (iCurPosIndex == (int)EStagePos.EDGE_ALIGN_1)
-            {
-                SetEdgePosOffset(iCurPosIndex, mPos);
-
-                iResult = MoveToEdgeAlignPos2();
-                if (iResult != SUCCESS) return iResult;
+                eEdgeTeachStep = EEdgeAlignTeachStep.POS1;
 
                 return SUCCESS;
             }
-            //// Edge Pos 2 위치 설정
-            //if (iCurPosIndex == (int)EStagePos.EDGE_ALIGN_2)
-            //{
-            //    SetEdgePosOffset(iCurPosIndex, mPos);
-
-            //    iResult = MoveToEdgeAlignPos3();
-            //    if (iResult != SUCCESS) return iResult;
-
-            //    return SUCCESS;
-            //}
-            //// Edge Pos 3 위치 설정
-            //if (iCurPosIndex == (int)EStagePos.EDGE_ALIGN_3)
-            //{
-            //    SetEdgePosOffset(iCurPosIndex, mPos);
-
-            //    iResult = MoveToEdgeAlignPos4();
-            //    if (iResult != SUCCESS) return iResult;
-
-            //    return SUCCESS;
-            //}
-            //// Edge Pos 4 위치 설정
-            //if (iCurPosIndex == (int)EStagePos.EDGE_ALIGN_4)
-            //{
-            //    SetEdgePosOffset(iCurPosIndex, mPos);
-
-            //    bEdgeAlignTeachInit = false;
-            //    return SUCCESS;
-            //}
 
             return SUCCESS;
         }
