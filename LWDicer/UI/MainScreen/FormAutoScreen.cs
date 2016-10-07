@@ -417,13 +417,13 @@ namespace LWDicer.UI
         {
             // display thread step
             Label_StepAutoManager.Text   = CMainFrame.LWDicer.m_trsAutoManager.GetRunStatus();
-            Label_StepLoader.Text        = CMainFrame.LWDicer.m_trsLoader.GetStep1();
-            Label_StepPushPull.Text      = CMainFrame.LWDicer.m_trsPushPull.GetStep1();
-            Label_StepSpinner1.Text      = CMainFrame.LWDicer.m_trsSpinner1.GetStep1();
-            Label_StepSpinner2.Text      = CMainFrame.LWDicer.m_trsSpinner2.GetStep1();
+            Label_StepLoader.Text        = CMainFrame.LWDicer.m_trsLoader.GetStep();
+            Label_StepPushPull.Text      = CMainFrame.LWDicer.m_trsPushPull.GetStep();
+            Label_StepSpinner1.Text      = CMainFrame.LWDicer.m_trsSpinner1.GetStep();
+            Label_StepSpinner2.Text      = CMainFrame.LWDicer.m_trsSpinner2.GetStep();
             Label_StepUHandler.Text      = CMainFrame.LWDicer.m_trsHandler.GetStep1();
             Label_StepLHandler.Text      = CMainFrame.LWDicer.m_trsHandler.GetStep2();
-            Label_StepStage.Text         = CMainFrame.LWDicer.m_trsStage1.GetStep1();
+            Label_StepStage.Text         = CMainFrame.LWDicer.m_trsStage1.GetStep();
 
             // display thread status
             Label_StatusAutoManager.Text = CMainFrame.LWDicer.m_trsAutoManager.GetRunStatus();

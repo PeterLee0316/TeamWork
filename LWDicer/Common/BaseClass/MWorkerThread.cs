@@ -35,10 +35,12 @@ namespace LWDicer.Layers
         public EAutoRunStatus   RunStatus { get; private set; } = EAutoRunStatus.STS_MANUAL; // EAutoRunStatus.STS_MANUAL, EAutoRunStatus.STS_RUN_READY, EAutoRunStatus.STS_RUN,STS_STEP_STOP, 
         public EAutoRunStatus   RunStatus_Old { get; private set; } = EAutoRunStatus.STS_RUN; // Old RunStatus
 
-        // Process에 따라서 Multi Process를 운용할 필요가 있기때문에, ThreadStep1,2로 define
-        // 평소엔 ThreadStep1 만 사용함
-        public int ThreadStep1 { get; protected set; } = 0;
-        public int ThreadStep2 { get; protected set; } = 0;
+
+        // 평소엔 ThreadStep 만 사용함
+        // Process에 따라서 Multi Process를 운용할 필요가 있기때문에, ThreadStep1,2를 사용
+        protected EThreadStep ThreadStep  = EThreadStep.STEP_NONE;
+        protected EThreadStep ThreadStep1 = EThreadStep.STEP_NONE;
+        protected EThreadStep ThreadStep2 = EThreadStep.STEP_NONE;
 
         // for communication with UI
         protected CMainFrame MainFrame;
@@ -152,14 +154,24 @@ namespace LWDicer.Layers
             return true;
         }
 
-        protected void SetStep1(int step)
+        protected void SetStep(EThreadStep step)
+        {
+            ThreadStep = step;
+        }
+
+        protected void SetStep1(EThreadStep step)
         {
             ThreadStep1 = step;
         }
 
-        protected void SetStep2(int step)
+        protected void SetStep2(EThreadStep step)
         {
             ThreadStep2 = step;
+        }
+
+        virtual public string GetStep()
+        {
+            return ThreadStep.ToString();
         }
 
         virtual public string GetStep1()
@@ -272,7 +284,7 @@ namespace LWDicer.Layers
                         //m_RefComp.m_pC_CtrlStage1->SetAutoManual(AUTO);
 
                         // Do Thread Step
-                        switch (ThreadStep1)
+                        switch (ThreadStep)
                         {
                             default:
                                 break;
@@ -502,6 +514,13 @@ namespace LWDicer.Layers
             return GetWorkPiece((int)pos);
         }
 
+        protected CWorkPiece GetWorkPiece(ESpinnerIndex pos)
+        {
+            if(pos == ESpinnerIndex.SPINNER1)
+                return GetWorkPiece((int)ELCNetUnitPos.SPINNER1);
+            else return GetWorkPiece((int)ELCNetUnitPos.SPINNER2);
+        }
+
         protected CWorkPiece GetWorkPiece(int pos)
         {
             return DataManager.WorkPieceArray[pos];
@@ -510,6 +529,12 @@ namespace LWDicer.Layers
         protected CWorkPiece GetMyWorkPiece()
         {
             return GetWorkPiece((LCNetUnitPos != ELCNetUnitPos.NONE ? LCNetUnitPos : ELCNetUnitPos.PUSHPULL));
+        }
+
+        protected EProcessPhase GetMyNextWorkPhase()
+        {
+            CWorkPiece wPiece = GetMyWorkPiece();
+            return wPiece.GetNextPhase();
         }
     }
 }

@@ -7,7 +7,7 @@ using System.Threading;
 using System.Diagnostics;
 
 using static LWDicer.Layers.DEF_Thread;
-using static LWDicer.Layers.DEF_Thread.ETrsHandlerStep;
+using static LWDicer.Layers.DEF_Thread.EThreadStep;
 using static LWDicer.Layers.DEF_Thread.EThreadMessage;
 using static LWDicer.Layers.DEF_Thread.EThreadChannel;
 using static LWDicer.Layers.DEF_Error;
@@ -30,6 +30,7 @@ namespace LWDicer.Layers
 
     public class CTrsHandlerData
     {
+        public bool ThreadHandshake_byOneStep = true;
     }
 
     public class MTrsHandler : MWorkerThread
@@ -81,18 +82,6 @@ namespace LWDicer.Layers
             return SUCCESS;
         }
 
-        override public string GetStep1()
-        {
-            ETrsHandlerStep cnvt = (ETrsHandlerStep)Enum.Parse(typeof(ETrsHandlerStep), ThreadStep1.ToString());
-            return cnvt.ToString();
-        }
-
-        override public string GetStep2()
-        {
-            ETrsHandlerStep cnvt = (ETrsHandlerStep)Enum.Parse(typeof(ETrsHandlerStep), ThreadStep2.ToString());
-            return cnvt.ToString();
-        }
-
         public override int Initialize()
         {
             // Do initialize
@@ -103,17 +92,17 @@ namespace LWDicer.Layers
             int iResult = m_RefComp.ctrlHandler.Initialize();
             if (iResult != SUCCESS) return iResult;
 
-            int iStep1, iStep2;
+            EThreadStep iStep1, iStep2;
             bool bStatus;
             iResult = m_RefComp.ctrlHandler.IsObjectDetected(EHandlerIndex.LOAD_UPPER, out bStatus);
             if (iResult != SUCCESS) return iResult;
-            if (bStatus) iStep1 = (int)TRS_UPPER_HANDLER_WAIT_MOVETO_UNLOADING;
-            else iStep1 = (int)TRS_UPPER_HANDLER_MOVETO_WAIT1;
+            if (bStatus) iStep1 = TRS_UPPER_HANDLER_WAIT_MOVETO_UNLOADING;
+            else iStep1 = TRS_UPPER_HANDLER_MOVETO_WAIT1;
 
             iResult = m_RefComp.ctrlHandler.IsObjectDetected(EHandlerIndex.UNLOAD_LOWER, out bStatus);
             if (iResult != SUCCESS) return iResult;
-            if (bStatus) iStep2 = (int)TRS_LOWER_HANDLER_WAIT_MOVETO_UNLOADING;
-            else iStep2 = (int)TRS_LOWER_HANDLER_MOVETO_WAIT1;
+            if (bStatus) iStep2 = TRS_LOWER_HANDLER_WAIT_MOVETO_UNLOADING;
+            else iStep2 = TRS_LOWER_HANDLER_MOVETO_WAIT1;
 
             // finally
             SetStep1(iStep1);
@@ -334,80 +323,87 @@ namespace LWDicer.Layers
             EHandlerIndex index = EHandlerIndex.LOAD_UPPER;
             switch (ThreadStep1)
             {
-                case (int)TRS_UPPER_HANDLER_MOVETO_WAIT1:
+                case TRS_UPPER_HANDLER_MOVETO_WAIT1:
                     iResult = m_RefComp.ctrlHandler.MoveToWaitPos(index, false);
                     if (iResult != SUCCESS) { ReportAlarm(iResult); break; }
 
-                    SetStep1((int)TRS_UPPER_HANDLER_WAIT_MOVETO_LOADING);
+                    SetStep1(TRS_UPPER_HANDLER_LOADING_FROM_PUSHPULL_ONESTEP);
                     break;
 
-                case (int)TRS_UPPER_HANDLER_WAIT_MOVETO_LOADING:
+                case TRS_UPPER_HANDLER_LOADING_FROM_PUSHPULL_ONESTEP:
+                    break;
+/*
+                case TRS_UPPER_HANDLER_WAIT_MOVETO_LOADING:
                     PostMsg_Interval(TrsPushPull, MSG_UPPER_HANDLER_PUSHPULL_WAIT_LOADING_START);
                     if (m_bPushPull_RequestLoading == false) break;
                     PostMsg(TrsPushPull, MSG_UPPER_HANDLER_PUSHPULL_START_LOADING);
 
-                    SetStep1((int)TRS_UPPER_HANDLER_LOADING);
+                    SetStep1(TRS_UPPER_HANDLER_LOADING);
                     break;
 
-                //case (int)TRS_UPPER_HANDLER_MOVETO_LOAD_POS:
-                //    SetStep1((int)TRS_UPPER_HANDLER_LOADING);
+                //case TRS_UPPER_HANDLER_MOVETO_LOAD_POS:
+                //    SetStep1(TRS_UPPER_HANDLER_LOADING);
                 //    break;
 
-                case (int)TRS_UPPER_HANDLER_LOADING:
+                case TRS_UPPER_HANDLER_LOADING:
                     iResult = m_RefComp.ctrlHandler.MoveToPushPullPos(index, false);
                     if (iResult != SUCCESS) { ReportAlarm(iResult); break; }
 
                     iResult = m_RefComp.ctrlHandler.Absorb(index);
                     if (iResult != SUCCESS) { ReportAlarm(iResult); break; }
 
-                    SetStep1((int)TRS_UPPER_HANDLER_WAITFOR_PUSHPULL_UNLOAD_COMPLETE);
+                    SetStep1(TRS_UPPER_HANDLER_WAITFOR_PUSHPULL_UNLOAD_COMPLETE);
                     break;
 
-                case (int)TRS_UPPER_HANDLER_WAITFOR_PUSHPULL_UNLOAD_COMPLETE:
+                case TRS_UPPER_HANDLER_WAITFOR_PUSHPULL_UNLOAD_COMPLETE:
                     PostMsg_Interval(TrsPushPull, MSG_UPPER_HANDLER_PUSHPULL_REQUEST_RELEASE);
                     if (m_bPushPull_StartUnloading == false) break;
 
-                    SetStep1((int)TRS_UPPER_HANDLER_MOVETO_WAIT2);
+                    SetStep1(TRS_UPPER_HANDLER_MOVETO_WAIT2);
                     break;
 
-                //case (int)TRS_UPPER_HANDLER_MOVETO_LOAD_UP_POS:
-                //    SetStep1((int)TRS_UPPER_HANDLER_MOVETO_WAIT2);
+                //case TRS_UPPER_HANDLER_MOVETO_LOAD_UP_POS:
+                //    SetStep1(TRS_UPPER_HANDLER_MOVETO_WAIT2);
                 //    break;
-
-                case (int)TRS_UPPER_HANDLER_MOVETO_WAIT2:
+*/
+                case TRS_UPPER_HANDLER_MOVETO_WAIT2:
                     iResult = m_RefComp.ctrlHandler.MoveToWaitPos(index, true);
                     if (iResult != SUCCESS) { ReportAlarm(iResult); break; }
 
                     PostMsg(TrsPushPull, MSG_UPPER_HANDLER_PUSHPULL_COMPLETE_LOADING);
 
-                    SetStep1((int)TRS_UPPER_HANDLER_WAIT_MOVETO_UNLOADING);
+                    SetStep1(TRS_UPPER_HANDLER_UNLOADING_TO_STAGE_ONESTEP);
                     break;
 
-                case (int)TRS_UPPER_HANDLER_WAIT_MOVETO_UNLOADING:
+                case TRS_UPPER_HANDLER_UNLOADING_TO_STAGE_ONESTEP:
+                    break;
+
+                    /*
+                case TRS_UPPER_HANDLER_WAIT_MOVETO_UNLOADING:
                     PostMsg_Interval(TrsPushPull, MSG_UPPER_HANDLER_STAGE1_WAIT_UNLOADING_START);
                     if (m_bStage1_RequestUnloading == false) break;
                     PostMsg(TrsStage1, MSG_UPPER_HANDLER_STAGE1_START_UNLOADING);
 
-                    SetStep1((int)TRS_UPPER_HANDLER_MOVETO_UNLOAD_POS);
+                    SetStep1(TRS_UPPER_HANDLER_MOVETO_UNLOAD_POS);
                     break;
 
-                case (int)TRS_UPPER_HANDLER_MOVETO_UNLOAD_POS:
+                case TRS_UPPER_HANDLER_MOVETO_UNLOAD_POS:
                     iResult = m_RefComp.ctrlHandler.MoveToStagePos(index, true);
                     if (iResult != SUCCESS) { ReportAlarm(iResult); break; }
 
                     PostMsg(TrsStage1, MSG_UPPER_HANDLER_STAGE1_REQUEST_ABSORB);
 
-                    SetStep1((int)TRS_UPPER_HANDLER_REQUEST_STAGE_LOADING);
+                    SetStep1(TRS_UPPER_HANDLER_REQUEST_STAGE_LOADING);
                     break;
 
-                case (int)TRS_UPPER_HANDLER_REQUEST_STAGE_LOADING:
+                case TRS_UPPER_HANDLER_REQUEST_STAGE_LOADING:
                     PostMsg_Interval(TrsStage1, MSG_UPPER_HANDLER_STAGE1_REQUEST_ABSORB);
                     if (m_bStage1_StartLoading == false) break;
 
-                    SetStep1((int)TRS_UPPER_HANDLER_UNLOADING);
+                    SetStep1(TRS_UPPER_HANDLER_UNLOADING);
                     break;
 
-                case (int)TRS_UPPER_HANDLER_UNLOADING:
+                case TRS_UPPER_HANDLER_UNLOADING:
                     iResult = m_RefComp.ctrlHandler.Release(index);
                     if (iResult != SUCCESS) { ReportAlarm(iResult); break; }
 
@@ -415,10 +411,10 @@ namespace LWDicer.Layers
                     if (iResult != SUCCESS) { ReportAlarm(iResult); break; }
 
                     PostMsg(TrsStage1, MSG_UPPER_HANDLER_STAGE1_COMPLETE_UNLOADING);
-                    //SetStep1((int)TRS_UPPER_HANDLER_MOVETO_WAIT1);
-                    SetStep1((int)TRS_UPPER_HANDLER_WAIT_MOVETO_LOADING);
+                    //SetStep1(TRS_UPPER_HANDLER_MOVETO_WAIT1);
+                    SetStep1(TRS_UPPER_HANDLER_WAIT_MOVETO_LOADING);
                     break;
-
+                    */
                 default:
                     break;
             }
@@ -434,28 +430,32 @@ namespace LWDicer.Layers
             EHandlerIndex index = EHandlerIndex.UNLOAD_LOWER;
             switch (ThreadStep2)
             {
-                case (int)TRS_LOWER_HANDLER_MOVETO_WAIT1:
+                case TRS_LOWER_HANDLER_MOVETO_WAIT1:
                     iResult = m_RefComp.ctrlHandler.MoveToWaitPos(index, false);
                     if (iResult != SUCCESS) { ReportAlarm(iResult); break; }
 
                     PostMsg(TrsStage1, MSG_LOWER_HANDLER_STAGE1_WAIT_LOADING_START);
 
-                    SetStep2((int)TRS_LOWER_HANDLER_WAIT_MOVETO_LOADING);
+                    SetStep2(TRS_LOWER_HANDLER_LOADING_FROM_STAGE_ONESTEP);
                     break;
 
-                case (int)TRS_LOWER_HANDLER_WAIT_MOVETO_LOADING:
+                case TRS_LOWER_HANDLER_LOADING_FROM_STAGE_ONESTEP:
+                    break;
+
+                    /*
+                case TRS_LOWER_HANDLER_WAIT_MOVETO_LOADING:
                     PostMsg_Interval(TrsStage1, MSG_LOWER_HANDLER_STAGE1_WAIT_LOADING_START);
                     if (m_bStage1_RequestLoading == false) break;
                     PostMsg(TrsStage1, MSG_LOWER_HANDLER_STAGE1_START_LOADING);
 
-                    SetStep2((int)TRS_LOWER_HANDLER_MOVETO_LOAD_POS);
+                    SetStep2(TRS_LOWER_HANDLER_MOVETO_LOAD_POS);
                     break;
 
-                //case (int)TRS_LOWER_HANDLER_MOVETO_UNLOAD_POS:
-                //    SetStep2((int)TRS_LOWER_HANDLER_UNLOADING);
+                //case TRS_LOWER_HANDLER_MOVETO_UNLOAD_POS:
+                //    SetStep2(TRS_LOWER_HANDLER_UNLOADING);
                 //    break;
 
-                case (int)TRS_LOWER_HANDLER_MOVETO_LOAD_POS:
+                case TRS_LOWER_HANDLER_MOVETO_LOAD_POS:
                     iResult = m_RefComp.ctrlHandler.MoveToStagePos(index, false);
                     if (iResult != SUCCESS) { ReportAlarm(iResult); break; }
 
@@ -463,54 +463,58 @@ namespace LWDicer.Layers
                     if (iResult != SUCCESS) { ReportAlarm(iResult); break; }
 
                     PostMsg(TrsStage1, MSG_LOWER_HANDLER_STAGE1_REQUEST_RELEASE);
-                    SetStep2((int)TRS_LOWER_HANDLER_LOADING);
+                    SetStep2(TRS_LOWER_HANDLER_LOADING);
                     break;
 
-                case (int)TRS_LOWER_HANDLER_LOADING:
+                case TRS_LOWER_HANDLER_LOADING:
                     PostMsg_Interval(TrsStage1, MSG_LOWER_HANDLER_STAGE1_REQUEST_RELEASE);
                     if (m_bStage1_CompleteUnloading == false) break;
 
-                    SetStep2((int)TRS_LOWER_HANDLER_MOVETO_WAIT2);
+                    SetStep2(TRS_LOWER_HANDLER_MOVETO_WAIT2);
                     break;
 
-                //case (int)TRS_LOWER_HANDLER_MOVETO_UNLOAD_UP_POS:
-                //    SetStep2((int)TRS_LOWER_HANDLER_MOVETO_WAIT2);
+                //case TRS_LOWER_HANDLER_MOVETO_UNLOAD_UP_POS:
+                //    SetStep2(TRS_LOWER_HANDLER_MOVETO_WAIT2);
                 //    break;
+                */
 
-                case (int)TRS_LOWER_HANDLER_MOVETO_WAIT2:
+                case TRS_LOWER_HANDLER_MOVETO_WAIT2:
                     iResult = m_RefComp.ctrlHandler.MoveToWaitPos(index, true);
                     if (iResult != SUCCESS) { ReportAlarm(iResult); break; }
 
                     PostMsg(TrsStage1, MSG_LOWER_HANDLER_STAGE1_COMPLETE_LOADING);
 
-                    SetStep2((int)TRS_LOWER_HANDLER_WAIT_MOVETO_UNLOADING);
+                    SetStep2(TRS_LOWER_HANDLER_UNLOADING_TO_PUSHPULL_ONESTEP);
                     break;
 
-                case (int)TRS_LOWER_HANDLER_WAIT_MOVETO_UNLOADING:
+                case TRS_LOWER_HANDLER_UNLOADING_TO_PUSHPULL_ONESTEP:
+                    break;
+                    /*
+                case TRS_LOWER_HANDLER_WAIT_MOVETO_UNLOADING:
                     PostMsg_Interval(TrsPushPull, MSG_LOWER_HANDLER_PUSHPULL_WAIT_UNLOADING_START);
                     if (m_bPushPull_RequestUnloading == false) break;
                     PostMsg(TrsPushPull, MSG_LOWER_HANDLER_PUSHPULL_START_UNLOADING);
 
-                    SetStep2((int)TRS_LOWER_HANDLER_MOVETO_UNLOAD_POS);
+                    SetStep2(TRS_LOWER_HANDLER_MOVETO_UNLOAD_POS);
                     break;
 
-                case (int)TRS_LOWER_HANDLER_MOVETO_UNLOAD_POS:
+                case TRS_LOWER_HANDLER_MOVETO_UNLOAD_POS:
                     iResult = m_RefComp.ctrlHandler.MoveToPushPullPos(index, true);
                     if (iResult != SUCCESS) { ReportAlarm(iResult); break; }
 
                     PostMsg(TrsPushPull, MSG_LOWER_HANDLER_PUSHPULL_REQUEST_ABSORB);
 
-                    SetStep2((int)TRS_LOWER_HANDLER_WAITFOR_PUSHPULL_LOAD_COMPLETE);
+                    SetStep2(TRS_LOWER_HANDLER_WAITFOR_PUSHPULL_LOAD_COMPLETE);
                     break;
 
-                case (int)TRS_LOWER_HANDLER_WAITFOR_PUSHPULL_LOAD_COMPLETE:
+                case TRS_LOWER_HANDLER_WAITFOR_PUSHPULL_LOAD_COMPLETE:
                     PostMsg_Interval(TrsPushPull, MSG_LOWER_HANDLER_PUSHPULL_REQUEST_ABSORB);
                     if (m_bPushPull_CompleteLoading == false) break;
 
-                    SetStep2((int)TRS_LOWER_HANDLER_UNLOADING);
+                    SetStep2(TRS_LOWER_HANDLER_UNLOADING);
                     break;
 
-                case (int)TRS_LOWER_HANDLER_UNLOADING:
+                case TRS_LOWER_HANDLER_UNLOADING:
                     iResult = m_RefComp.ctrlHandler.Release(index);
                     if (iResult != SUCCESS) { ReportAlarm(iResult); break; }
 
@@ -518,10 +522,10 @@ namespace LWDicer.Layers
                     if (iResult != SUCCESS) { ReportAlarm(iResult); break; }
 
                     PostMsg(TrsPushPull, MSG_LOWER_HANDLER_PUSHPULL_COMPLETE_UNLOADING);
-                    //SetStep2((int)TRS_LOWER_HANDLER_MOVETO_WAIT1);
-                    SetStep2((int)TRS_LOWER_HANDLER_WAIT_MOVETO_LOADING);
+                    //SetStep2(TRS_LOWER_HANDLER_MOVETO_WAIT1);
+                    SetStep2(TRS_LOWER_HANDLER_WAIT_MOVETO_LOADING);
                     break;
-
+                    */
                 default:
                     break;
             }

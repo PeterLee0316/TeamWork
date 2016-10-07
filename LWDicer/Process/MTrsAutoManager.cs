@@ -292,7 +292,7 @@ namespace LWDicer.Layers
                     case EAutoRunStatus.STS_RUN: // auto run
 
                         // Do Thread Step
-                        switch (ThreadStep1)
+                        switch (ThreadStep)
                         {
                             default:
                                 break;

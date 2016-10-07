@@ -203,34 +203,47 @@ namespace LWDicer.Layers
             return SUCCESS;
         }
 
-        public int MoveToNextAfterProcessSlot()
+        public void SetCassetteSlotStatus(int index, ECassetteSlotStatus status)
         {
+            m_RefComp.Elevator.SetCassetteSlotStatus(index, status);
+        }
+
+        public void GetCassetteSlotStatus(int index, out int status)
+        {
+            m_RefComp.Elevator.GetCassetteSlotStatus(index, out status);
+        }
+
+        public int MoveToNextAfterProcessSlot(out int index, int nAfterIndex = -1)
+        {
+            index = 0;
             int iResult = CheckSafety_forMoving((int)EElevatorPos.SLOT);
             if (iResult != SUCCESS) return iResult;
 
-            iResult = m_RefComp.Elevator.MoveToNextAfterProcessSlot();
+            iResult = m_RefComp.Elevator.MoveToNextAfterProcessSlot(out index, nAfterIndex);
             if (iResult != SUCCESS) return iResult;
 
             return SUCCESS;
         }
 
-        public int MoveToNextEmptySlot()
+        public int MoveToNextEmptySlot(out int index)
         {
+            index = 0;
             int iResult = CheckSafety_forMoving((int)EElevatorPos.BOTTOM);
             if (iResult != SUCCESS) return iResult;
 
-            iResult = m_RefComp.Elevator.MoveToNextEmptySlot();
+            iResult = m_RefComp.Elevator.MoveToNextEmptySlot(out index);
             if (iResult != SUCCESS) return iResult;
 
             return SUCCESS;
         }
 
-        public int MoveToNextPreProcessSlot()
+        public int MoveToNextPreProcessSlot(out int index)
         {
+            index = 0;
             int iResult = CheckSafety_forMoving((int)EElevatorPos.BOTTOM);
             if (iResult != SUCCESS) return iResult;
 
-            iResult = m_RefComp.Elevator.MoveToNextPreProcessSlot();
+            iResult = m_RefComp.Elevator.MoveToNextPreProcessSlot(out index);
             if (iResult != SUCCESS) return iResult;
 
             return SUCCESS;

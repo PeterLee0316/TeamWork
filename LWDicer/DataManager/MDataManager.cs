@@ -172,6 +172,14 @@ namespace LWDicer.Layers
             // 시스템적으로 지정하는 절대 안전 위치
             public CSystemData_MAxSafetyPos MAxSafetyPos = new CSystemData_MAxSafetyPos();
 
+            // thread 간의 handshake를 one step으로 처리할지 여부
+            public bool ThreadHandshake_byOneStep = true;
+
+            // spinner
+            public bool UseSpinnerSeparately = true;  // spinner를 coater, cleaner로 구분하여 사용할지 여부
+            public ESpinnerIndex UCoaterIndex = ESpinnerIndex.SPINNER1;  // spinner를 구분지어 사용할 때, coater의 spinner index
+            public ESpinnerIndex UCleanerIndex = ESpinnerIndex.SPINNER2; // spinner를 구분지어 사용할 때, cleaner의 spinner index
+
             /////////////////////////////////////////////////////////
             // 아래는 아직 미정리 내역들. 
             // * 혹시, 아래에서 사용하는것들은 이 주석 위로 올려주기 바람
@@ -540,8 +548,8 @@ namespace LWDicer.Layers
         {
             public string Name;
             public double Diameter;          // Cassette Frame 지름 ex) 380mm
-            public int Slot;                 // 슬롯갯수            ex) 13ea
-            public int[] SlotData = new int[CASSETTE_MAX_SLOT_NUM]; // 각 슬롯 상태 및 Wafer 처리여부 데이터
+            public int SlotNumber;           // 슬롯갯수            ex) 13ea
+            public int[] SlotStatus = new int[CASSETTE_MAX_SLOT_NUM]; // 각 슬롯 상태 및 Wafer 처리여부 데이터
             public int CassetteSetNo;        // Cassette 갯수 ex) 2ea
             public double FramePitch;        // Cassette Slot Fitch ex) 9.5mm
             public double CassetteHeight;    // Cassette 높이 ex)155mm

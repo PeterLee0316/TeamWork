@@ -25,13 +25,6 @@ namespace LWDicer.Layers
         public const int ERR_CTRL_SPINNER_CHUCKTABLE_NOT_DOWN = 9;
 
 
-        public enum ESpinnerIndex
-        {
-            SPINNER1,
-            SPINNER2,
-            MAX,
-        }
-
         public enum ECleanMode
         {
             NO_USE,

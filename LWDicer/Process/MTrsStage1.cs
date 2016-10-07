@@ -7,7 +7,7 @@ using System.Threading;
 using System.Diagnostics;
 
 using static LWDicer.Layers.DEF_Thread;
-using static LWDicer.Layers.DEF_Thread.ETrsStage1Step;
+using static LWDicer.Layers.DEF_Thread.EThreadStep;
 using static LWDicer.Layers.DEF_Thread.EThreadMessage;
 using static LWDicer.Layers.DEF_Thread.EThreadChannel;
 using static LWDicer.Layers.DEF_Error;
@@ -28,6 +28,7 @@ namespace LWDicer.Layers
 
     public class CTrsStage1Data
     {
+        public bool ThreadHandshake_byOneStep = true;
     }
 
     public class MTrsStage1 : MWorkerThread
@@ -64,12 +65,6 @@ namespace LWDicer.Layers
             return SUCCESS;
         }
 
-        override public string GetStep1()
-        {
-            ETrsStage1Step cnvt = (ETrsStage1Step)Enum.Parse(typeof(ETrsStage1Step), ThreadStep1.ToString());
-            return cnvt.ToString();
-        }
-
         public override int Initialize()
         {
             // Do initialize
@@ -80,10 +75,10 @@ namespace LWDicer.Layers
             int iResult = m_RefComp.ctrlStage1.Initialize();
             if (iResult != SUCCESS) return iResult;
 
-            int iStep1 = (int)TRS_STAGE1_MOVETO_WAIT_POS;
+            EThreadStep iStep1 = TRS_STAGE1_MOVETO_WAIT_POS;
 
             // finally
-            SetStep1(iStep1);
+            SetStep(iStep1);
 
             return base.Initialize();
         }
@@ -129,7 +124,7 @@ namespace LWDicer.Layers
         {
             int iResult = SUCCESS;
             bool bStatus, bStatus1, bStatus2;
-            EProcessPhase processPhase;
+            EProcessPhase tPhase;
 
             while (true)
             {
@@ -166,34 +161,34 @@ namespace LWDicer.Layers
                         m_RefComp.ctrlStage1.SetAutoManual(EAutoManual.AUTO);
 
                         // Do Thread Step
-                        switch (ThreadStep1)
+                        switch (ThreadStep)
                         {
-                            case (int)TRS_STAGE1_MOVETO_LOAD_POS:
+                            case TRS_STAGE1_MOVETO_LOAD_POS:
                                 if (m_bAuto_PanelSupplyStop) break;
 
-                                //        PostMsg(TrsAutoManager, (int)MSG_STAGE_LOADING_END);
+                                //        PostMsg(TrsAutoManager, MSG_STAGE_LOADING_END);
 
                                 //        iResult = m_RefComp.ctrlStage1.MoveToLoadPos();
                                 //        if (iResult != SUCCESS) { SendAlarmTo(iResult); break; }
 
-                                //SetStep1((int)TRS_STAGE1_WAIT_MOVETO_LOAD);
+                                //SetStep(TRS_STAGE1_WAIT_MOVETO_LOAD);
                                 break;
 
-                                //    case (int)TRS_STAGE1_WAIT_MOVETO_LOAD:
+                                //    case TRS_STAGE1_WAIT_MOVETO_LOAD:
                                 //        if (m_bAuto_PanelSupplyStop) break;
 
-                                //    SetStep1((int)TRS_STAGE1_LOAD_PANEL);
+                                //    SetStep(TRS_STAGE1_LOAD_PANEL);
                                 //    break;
 
-                                //    case (int)TRS_STAGE1_LOAD_PANEL: //2
+                                //    case TRS_STAGE1_LOAD_PANEL: //2
 
-                                //        PostMsg(TrsAutoManager, (int)MSG_PANEL_INPUT);
-                                //        PostMsg(TrsAutoManager, (int)MSG_STAGE_LOADING_END);
+                                //        PostMsg(TrsAutoManager, MSG_PANEL_INPUT);
+                                //        PostMsg(TrsAutoManager, MSG_STAGE_LOADING_END);
 
-                                //    SetStep1((int)TRS_STAGE1_CAMERA_MARK_POS);
+                                //    SetStep(TRS_STAGE1_CAMERA_MARK_POS);
                                 //    break;
 
-                                //    case (int)TRS_STAGE1_UNLOAD_COMPLETE: //7
+                                //    case TRS_STAGE1_UNLOAD_COMPLETE: //7
                                 //                                     //				if(!m_bWorkbench_SafetyPos) break;
 
                                 //        iResult = m_RefComp.ctrlStage1.MoveToWaitPos();
@@ -201,7 +196,7 @@ namespace LWDicer.Layers
 
                                 //        //PostMsg(TrsWorkbench, MSG_STAGE1_WORKBENCH_SAFETY_POS);
 
-                                //    SetStep1((int)TRS_STAGE1_MOVETO_LOAD_POS);
+                                //    SetStep(TRS_STAGE1_MOVETO_LOAD_POS);
                                 //    break;
 
                                 //    default:

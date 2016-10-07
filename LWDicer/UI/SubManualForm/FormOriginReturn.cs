@@ -376,6 +376,11 @@ namespace LWDicer.UI
 
                 CMainFrame.LWDicer.m_OpPanel.SetOriginFlag(i, true);
             }
+
+            // 6. 
+            SetTitle("HomeReturn Finished");
+            CMainFrame.DisplayMsg("HomeReturn Finished Successfully");
+
         }
 
         private void buttonAdv2_Click(object sender, EventArgs e)

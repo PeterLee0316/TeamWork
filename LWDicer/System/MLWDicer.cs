@@ -1292,6 +1292,7 @@ namespace LWDicer.Layers
             refComp.ctrlPushPull = m_ctrlPushPull;
 
             CTrsSpinnerData data = new CTrsSpinnerData();
+            data.SpinnerIndex = ESpinnerIndex.SPINNER1;
 
             m_trsSpinner1 = new MTrsSpinner(objInfo, EThreadChannel.TrsSpinner1, m_DataManager, ELCNetUnitPos.SPINNER1, refComp, data);
         }
@@ -1303,6 +1304,7 @@ namespace LWDicer.Layers
             refComp.ctrlPushPull = m_ctrlPushPull;
 
             CTrsSpinnerData data = new CTrsSpinnerData();
+            data.SpinnerIndex = ESpinnerIndex.SPINNER2;
 
             m_trsSpinner2 = new MTrsSpinner(objInfo, EThreadChannel.TrsSpinner2, m_DataManager, ELCNetUnitPos.SPINNER2, refComp, data);
         }
@@ -1420,9 +1422,11 @@ namespace LWDicer.Layers
                 m_DataManager.LoadModelList();
             }
 
-            MLWDicer.bInSfaTest = m_DataManager.SystemData.UseInSfaTest;
-            MLWDicer.bUseOnline = m_DataManager.SystemData.UseOnLineUse;
-            MLWDicer.Language   = m_DataManager.SystemData.Language;
+            CSystemData systemData = m_DataManager.SystemData;
+
+            MLWDicer.bInSfaTest = systemData.UseInSfaTest;
+            MLWDicer.bUseOnline = systemData.UseOnLineUse;
+            MLWDicer.Language   = systemData.Language;
 
             // set system data to each component
 
@@ -1436,7 +1440,7 @@ namespace LWDicer.Layers
             {
                 CMeElevatorData data;
                 m_MeElevator.GetData(out data);
-                data.ElevatorSafetyPos = m_DataManager.SystemData.MAxSafetyPos.Elevator_Pos;
+                data.ElevatorSafetyPos = systemData.MAxSafetyPos.Elevator_Pos;
                 m_MeElevator.SetData(data);
             }
 
@@ -1445,13 +1449,13 @@ namespace LWDicer.Layers
                 // Load Upper Handler
                 CMeHandlerData data;
                 m_MeUpperHandler.GetData(out data);
-                data.HandlerSafetyPos = m_DataManager.SystemData.MAxSafetyPos.UHandler_Pos;
+                data.HandlerSafetyPos = systemData.MAxSafetyPos.UHandler_Pos;
 
                 m_MeUpperHandler.SetData(data);
 
                 // Unload Lower Handler
                 m_MeLowerHandler.GetData(out data);
-                data.HandlerSafetyPos = m_DataManager.SystemData.MAxSafetyPos.LHandler_Pos;
+                data.HandlerSafetyPos = systemData.MAxSafetyPos.LHandler_Pos;
 
                 m_MeLowerHandler.SetData(data);
             }
@@ -1460,13 +1464,13 @@ namespace LWDicer.Layers
             {
                 CMeSpinnerData data;
                 m_MeSpinner1.GetData(out data);
-                data.CleanNozzleSafetyPos = m_DataManager.SystemData.MAxSafetyPos.S1_CleanNozzel_Pos;
-                data.CoatNozzleSafetyPos = m_DataManager.SystemData.MAxSafetyPos.S1_CoatNozzel_Pos;
+                data.CleanNozzleSafetyPos = systemData.MAxSafetyPos.S1_CleanNozzel_Pos;
+                data.CoatNozzleSafetyPos = systemData.MAxSafetyPos.S1_CoatNozzel_Pos;
                 m_MeSpinner1.SetData(data);
 
                 m_MeSpinner2.GetData(out data);
-                data.CleanNozzleSafetyPos = m_DataManager.SystemData.MAxSafetyPos.S2_CleanNozzel_Pos;
-                data.CoatNozzleSafetyPos = m_DataManager.SystemData.MAxSafetyPos.S2_CoatNozzel_Pos;
+                data.CleanNozzleSafetyPos = systemData.MAxSafetyPos.S2_CleanNozzel_Pos;
+                data.CoatNozzleSafetyPos = systemData.MAxSafetyPos.S2_CoatNozzel_Pos;
                 m_MeSpinner2.SetData(data);
             }
 
@@ -1475,8 +1479,8 @@ namespace LWDicer.Layers
                 CMePushPullData data;
                 m_MePushPull.GetData(out data);
 
-                data.PushPullSafetyPos = m_DataManager.SystemData.MAxSafetyPos.PushPull_Pos;
-                data.CenterSafetyPos = m_DataManager.SystemData.MAxSafetyPos.Centering_Pos;
+                data.PushPullSafetyPos = systemData.MAxSafetyPos.PushPull_Pos;
+                data.CenterSafetyPos = systemData.MAxSafetyPos.Centering_Pos;
                 m_MePushPull.SetData(data);
             }
 
@@ -1485,7 +1489,7 @@ namespace LWDicer.Layers
                 CMeStageData data;
                 m_MeStage.GetData(out data);
 
-                data.StageSafetyPos = m_DataManager.SystemData.MAxSafetyPos.Stage_Pos;
+                data.StageSafetyPos = systemData.MAxSafetyPos.Stage_Pos;
 
                 ////Screen Move Length (Camera의 FOV 대입한다)
                
@@ -1524,10 +1528,55 @@ namespace LWDicer.Layers
             {
                 CTrsAutoManagerData data;
                 m_trsAutoManager.GetData(out data);
-                data.UseVIPMode = data.UseVIPMode;
+                data.UseVIPMode = systemData.UseVIPMode;
                 m_trsAutoManager.SetData(data);
             }
 
+            {
+                CTrsLoaderData data;
+                m_trsLoader.GetData(out data);
+                data.ThreadHandshake_byOneStep = systemData.ThreadHandshake_byOneStep;
+                m_trsLoader.SetData(data);
+            }
+
+            {
+                CTrsPushPullData data;
+                m_trsPushPull.GetData(out data);
+                data.ThreadHandshake_byOneStep = systemData.ThreadHandshake_byOneStep;
+                data.UseSpinnerSeparately      = systemData.UseSpinnerSeparately;
+                data.UCoaterIndex              = systemData.UCoaterIndex;
+                data.UCleanerIndex             = systemData.UCleanerIndex;
+                m_trsPushPull.SetData(data);
+            }
+
+            {
+                CTrsSpinnerData data;
+                m_trsSpinner1.GetData(out data);
+                data.ThreadHandshake_byOneStep = systemData.ThreadHandshake_byOneStep;
+                m_trsSpinner1.SetData(data);
+            }
+
+            {
+                CTrsSpinnerData data;
+                m_trsSpinner2.GetData(out data);
+                data.ThreadHandshake_byOneStep = systemData.ThreadHandshake_byOneStep;
+                m_trsSpinner2.SetData(data);
+            }
+
+            {
+                CTrsHandlerData data;
+                m_trsHandler.GetData(out data);
+                data.ThreadHandshake_byOneStep = systemData.ThreadHandshake_byOneStep;
+                m_trsHandler.SetData(data);
+            }
+
+            {
+                CTrsStage1Data data;
+                m_trsStage1.GetData(out data);
+                data.ThreadHandshake_byOneStep = systemData.ThreadHandshake_byOneStep;
+                m_trsStage1.SetData(data);
+            }
+            
         }
 
         public int SaveModelData(CModelData modelData)

@@ -7,7 +7,7 @@ using System.Threading;
 using System.Diagnostics;
 
 using static LWDicer.Layers.DEF_Thread;
-using static LWDicer.Layers.DEF_Thread.ETrsLoaderStep;
+using static LWDicer.Layers.DEF_Thread.EThreadStep;
 using static LWDicer.Layers.DEF_Thread.EThreadMessage;
 using static LWDicer.Layers.DEF_Thread.EThreadChannel;
 using static LWDicer.Layers.DEF_Error;
@@ -16,6 +16,7 @@ using static LWDicer.Layers.DEF_LCNet;
 
 using static LWDicer.Layers.DEF_CtrlPushPull;
 using static LWDicer.Layers.DEF_CtrlLoader;
+using static LWDicer.Layers.DEF_MeElevator;
 
 namespace LWDicer.Layers
 {
@@ -31,6 +32,7 @@ namespace LWDicer.Layers
 
     public class CTrsLoaderData
     {
+        public bool ThreadHandshake_byOneStep = true;
     }
 
     public class MTrsLoader : MWorkerThread
@@ -78,12 +80,6 @@ namespace LWDicer.Layers
             return SUCCESS;
         }
 
-        override public string GetStep1()
-        {
-            ETrsLoaderStep cnvt = (ETrsLoaderStep)Enum.Parse(typeof(ETrsLoaderStep), ThreadStep1.ToString());
-            return cnvt.ToString();
-        }
-
         public override int Initialize()
         {
             // Do initialize
@@ -94,10 +90,10 @@ namespace LWDicer.Layers
             int iResult = m_RefComp.ctrlLoader.Initialize();
             if (iResult != SUCCESS) return iResult;
 
-            int iStep1 = (int)TRS_LOADER_WAITFOR_MESSAGE;
+            EThreadStep iStep1 = TRS_LOADER_WAITFOR_MESSAGE;
 
             // finally
-            SetStep1(iStep1);
+            SetStep(iStep1);
 
             return base.Initialize();
         }
@@ -206,6 +202,7 @@ namespace LWDicer.Layers
         {
             int iResult = SUCCESS;
             bool bStatus, bStatus1, bStatus2;
+            int index;
 
             while (true)
             {
@@ -242,86 +239,96 @@ namespace LWDicer.Layers
                         //m_RefComp.ctrlLoader.SetAutoManual(EAutoManual.AUTO);
 
                         // Do Thread Step
-                        switch (ThreadStep1)
+                        switch (ThreadStep)
                         {
-                            case (int)TRS_LOADER_WAITFOR_MESSAGE:
+                            case TRS_LOADER_WAITFOR_MESSAGE:
 
                                 // 0. check wafer cassette status;
 
                                 // 1. response to loading cassette
                                 if (m_bAuto_RequestLoadCassette && m_bSupplyCassette)
                                 {
-                                    SetStep1((int)TRS_LOADER_READY_LOAD_CASSETTE);
+                                    SetStep(TRS_LOADER_READY_LOAD_CASSETTE);
                                     break;
                                 }
 
                                 // 2. response to unloading cassette
                                 if (m_bAuto_RequestUnloadCassette)
                                 {
-                                    SetStep1((int)TRS_LOADER_READY_UNLOAD_CASSETTE);
+                                    SetStep(TRS_LOADER_READY_UNLOAD_CASSETTE);
                                     break;
                                 }
 
                                 // 3. response to loading wafer
-                                if (m_bPushPull_RequestLoading)
+                                if (TInterface.PushPull_Loader_BeginHandshake_Unload)
                                 {
-                                    SetStep1((int)TRS_LOADER_READY_LOADING_WAFER);
+                                    SetStep(TRS_LOADER_LOADING_FROM_PUSHPULL_ONESTEP);
                                     break;
                                 }
 
                                 // 4. response to unloading wafer
-                                if (TInterface.PushPull_Loader_RequestUnloading && m_bSupplyWafer)
+                                if (TInterface.PushPull_Loader_BeginHandshake_Load && m_bSupplyWafer)
                                 {
-                                    SetStep1((int)TRS_LOADER_UNLOADING_TO_PUSHPULL);
+                                    SetStep(TRS_LOADER_UNLOADING_TO_PUSHPULL_ONESTEP);
                                     break;
                                 }
                                 break;
 
-                            case (int)TRS_LOADER_READY_LOAD_CASSETTE:
+                            case TRS_LOADER_READY_LOAD_CASSETTE:
 
-                                SetStep1((int)TRS_LOADER_WAITFOR_CASSETTE_LOADED);
+                                SetStep(TRS_LOADER_WAITFOR_CASSETTE_LOADED);
                                 break;
 
-                            case (int)TRS_LOADER_WAITFOR_CASSETTE_LOADED:
+                            case TRS_LOADER_WAITFOR_CASSETTE_LOADED:
 
-                                SetStep1((int)TRS_LOADER_LOAD_CASSETTE);
+                                SetStep(TRS_LOADER_LOAD_CASSETTE);
                                 break;
 
-                            case (int)TRS_LOADER_LOAD_CASSETTE:
+                            case TRS_LOADER_LOAD_CASSETTE:
 
-                                SetStep1((int)TRS_LOADER_CHECK_STACK_OF_CASSETTE);
+                                SetStep(TRS_LOADER_CHECK_STACK_OF_CASSETTE);
                                 break;
 
-                            case (int)TRS_LOADER_CHECK_STACK_OF_CASSETTE:
+                            case TRS_LOADER_CHECK_STACK_OF_CASSETTE:
 
-                                SetStep1((int)TRS_LOADER_WAITFOR_MESSAGE);
+                                SetStep(TRS_LOADER_WAITFOR_MESSAGE);
                                 break;
 
-                            case (int)TRS_LOADER_READY_UNLOAD_CASSETTE:
+                            case TRS_LOADER_READY_UNLOAD_CASSETTE:
 
-                                SetStep1((int)TRS_LOADER_WAITFOR_CASSETTE_REMOVED);
+                                SetStep(TRS_LOADER_WAITFOR_CASSETTE_REMOVED);
                                 break;
 
-                            case (int)TRS_LOADER_WAITFOR_CASSETTE_REMOVED:
+                            case TRS_LOADER_WAITFOR_CASSETTE_REMOVED:
 
-                                SetStep1((int)TRS_LOADER_WAITFOR_MESSAGE);
+                                SetStep(TRS_LOADER_WAITFOR_MESSAGE);
                                 break;
 
                             ///////////////////////////////////////////////////////////////////
-                            // with pushpull // wafer : loader -> pushpull
-                            case (int)TRS_LOADER_UNLOADING_TO_PUSHPULL:
+                            // process load with pushpull
+                            case TRS_LOADER_LOADING_FROM_PUSHPULL_ONESTEP:
+                                // branch
+                                if (m_Data.ThreadHandshake_byOneStep == false)
+                                {
+                                    SetStep(TRS_LOADER_BEGIN_LOADING_FROM_PUSHPULL);
+                                    break;
+                                }
+
                                 // init
                                 TInterface.ResetInterface(TSelf);
                                 TOpponent = (int)EThreadUnit.PUSHPULL;
                                 if (TInterface.ErrorOccured[TOpponent]) break;
-                                TTimer.StartTimer();
 
                                 // begin
-                                iResult = m_RefComp.ctrlLoader.MoveToNextPreProcessSlot();
+                                TTimer.StartTimer();
+                                TInterface.Loader_PushPull_BeginHandshake_Load = true;
+
+                                // step1
+                                iResult = m_RefComp.ctrlLoader.MoveToNextEmptySlot(out index);
                                 if (iResult != SUCCESS) { ReportAlarm(iResult); break; }
 
-                                TInterface.Loader_PushPull_RequestLoading = true;
-                                while (TInterface.PushPull_Loader_LoadReady == false)
+                                TInterface.Loader_PushPull_LoadStep1 = true;
+                                while (TInterface.PushPull_Loader_UnloadStep1 == false)
                                 {
                                     if (TInterface.ErrorOccured[TOpponent]) break;
                                     if (TTimer.MoreThan(TInterface.TimeLimit))
@@ -340,9 +347,10 @@ namespace LWDicer.Layers
                                     break;
                                 }
 
-                                // unloading
-                                TInterface.Loader_PushPull_UnloadReady = true;
-                                while (TInterface.PushPull_Loader_FinishLoading == false)
+                                // step2
+                                // vacuum
+                                TInterface.Loader_PushPull_LoadStep2 = true;
+                                while (TInterface.PushPull_Loader_UnloadStep2 == false)
                                 {
                                     if (TInterface.ErrorOccured[TOpponent]) break;
                                     if (TTimer.MoreThan(TInterface.TimeLimit))
@@ -362,68 +370,131 @@ namespace LWDicer.Layers
                                 }
 
                                 // finish
-                                TInterface.Loader_PushPull_FinishUnloading = true;
-                                Sleep(TInterface.TimeKeepOn);
+                                m_RefComp.ctrlLoader.SetCassetteSlotStatus(index, ECassetteSlotStatus.AFTER_PROCESS);
+
+                                TInterface.Loader_PushPull_FinishHandshake_Load = true;
+                                while (TInterface.PushPull_Loader_FinishHandshake_Unload == false)
+                                {
+                                    if (TInterface.ErrorOccured[TOpponent]) break;
+                                    if (TTimer.MoreThan(TInterface.TimeLimit))
+                                    {
+                                        TInterface.TimeOver[TSelf] = true;
+                                        break;
+                                    }
+                                    Sleep(ThreadSleepTime);
+                                }
+                                if (TInterface.ErrorOccured[TOpponent]) break;
+                                if (TInterface.TimeOver[TSelf])
+                                {
+                                    // do something, if it is needed
+                                    TInterface.ResetInterface(TSelf);
+                                    ReportAlarm(GenerateErrorCode(ERR_TRS_LOADER_INTERFACE_TIMELIMIT_OVER));
+                                    break;
+                                }
 
                                 // reset
                                 TInterface.ResetInterface(TSelf);
-                                SetStep1((int)TRS_LOADER_WAITFOR_MESSAGE);
+                                // 상대편의 마지막 신호는 keepontime동안 유지되기때문에, 먼저 끝나는쪽에서 상대편것도 리셋 필요
+                                TInterface.ResetInterface(TOpponent);
+                                SetStep(TRS_LOADER_WAITFOR_MESSAGE);
                                 break;
-                                /*
-                            case (int)TRS_LOADER_READY_UNLOADING_WAFER:
-                                iResult = m_RefComp.ctrlLoader.MoveToNextPreProcessSlot();
+
+                            ///////////////////////////////////////////////////////////////////
+                            // process unload with pushpull
+                            case TRS_LOADER_UNLOADING_TO_PUSHPULL_ONESTEP:
+                                // branch
+                                if (m_Data.ThreadHandshake_byOneStep == false)
+                                {
+                                    SetStep(TRS_LOADER_BEGIN_UNLOADING_TO_PUSHPULL);
+                                    break;
+                                }
+
+                                // init
+                                TInterface.ResetInterface(TSelf);
+                                TOpponent = (int)EThreadUnit.PUSHPULL;
+                                if (TInterface.ErrorOccured[TOpponent]) break;
+
+                                // begin
+                                TTimer.StartTimer();
+                                TInterface.Loader_PushPull_BeginHandshake_Unload = true;
+
+                                // step1
+                                iResult = m_RefComp.ctrlLoader.MoveToNextPreProcessSlot(out index);
                                 if (iResult != SUCCESS) { ReportAlarm(iResult); break; }
 
-                                PostMsg(TrsPushPull, MSG_LOADER_PUSHPULL_START_LOADING);
-                                SetStep1((int)TRS_LOADER_WAITFOR_PUSHPULL_START_LOADING);
+                                TInterface.Loader_PushPull_UnloadStep1 = true;
+                                while (TInterface.PushPull_Loader_LoadStep1 == false)
+                                {
+                                    if (TInterface.ErrorOccured[TOpponent]) break;
+                                    if (TTimer.MoreThan(TInterface.TimeLimit))
+                                    {
+                                        TInterface.TimeOver[TSelf] = true;
+                                        break;
+                                    }
+                                    Sleep(ThreadSleepTime);
+                                }
+                                if (TInterface.ErrorOccured[TOpponent]) break;
+                                if (TInterface.TimeOver[TSelf])
+                                {
+                                    // do something, if it is needed
+                                    TInterface.ResetInterface(TSelf);
+                                    ReportAlarm(GenerateErrorCode(ERR_TRS_LOADER_INTERFACE_TIMELIMIT_OVER));
+                                    break;
+                                }
+
+                                // step2
+                                // vacuum
+                                TInterface.Loader_PushPull_UnloadStep2 = true;
+                                while (TInterface.PushPull_Loader_LoadStep2 == false)
+                                {
+                                    if (TInterface.ErrorOccured[TOpponent]) break;
+                                    if (TTimer.MoreThan(TInterface.TimeLimit))
+                                    {
+                                        TInterface.TimeOver[TSelf] = true;
+                                        break;
+                                    }
+                                    Sleep(ThreadSleepTime);
+                                }
+                                if (TInterface.ErrorOccured[TOpponent]) break;
+                                if (TInterface.TimeOver[TSelf])
+                                {
+                                    // do something, if it is needed
+                                    TInterface.ResetInterface(TSelf);
+                                    ReportAlarm(GenerateErrorCode(ERR_TRS_LOADER_INTERFACE_TIMELIMIT_OVER));
+                                    break;
+                                }
+
+                                // finish
+                                m_RefComp.ctrlLoader.SetCassetteSlotStatus(index, ECassetteSlotStatus.EMPTY);
+
+                                TInterface.Loader_PushPull_FinishHandshake_Unload = true;
+                                while (TInterface.PushPull_Loader_FinishHandshake_Load == false)
+                                {
+                                    if (TInterface.ErrorOccured[TOpponent]) break;
+                                    if (TTimer.MoreThan(TInterface.TimeLimit))
+                                    {
+                                        TInterface.TimeOver[TSelf] = true;
+                                        break;
+                                    }
+                                    Sleep(ThreadSleepTime);
+                                }
+                                if (TInterface.ErrorOccured[TOpponent]) break;
+                                if (TInterface.TimeOver[TSelf])
+                                {
+                                    // do something, if it is needed
+                                    TInterface.ResetInterface(TSelf);
+                                    ReportAlarm(GenerateErrorCode(ERR_TRS_LOADER_INTERFACE_TIMELIMIT_OVER));
+                                    break;
+                                }
+
+                                // reset
+                                TInterface.ResetInterface(TSelf);
+                                // 상대편의 마지막 신호는 keepontime동안 유지되기때문에, 먼저 끝나는쪽에서 상대편것도 리셋 필요
+                                TInterface.ResetInterface(TOpponent);
+                                SetStep(TRS_LOADER_WAITFOR_MESSAGE);
                                 break;
 
-                            case (int)TRS_LOADER_WAITFOR_PUSHPULL_START_LOADING:
-                                PostMsg_Interval(TrsPushPull, MSG_LOADER_PUSHPULL_START_LOADING);
-                                if (m_bPushPull_CompleteAbsorb == false) break;
 
-                                // do something
-
-                                PostMsg(TrsPushPull, MSG_LOADER_PUSHPULL_COMPLETE_UNLOADING);
-                                SetStep1((int)TRS_LOADER_UNLOAD_WAFER);
-                                break;
-
-                            case (int)TRS_LOADER_UNLOAD_WAFER:
-                                // do something
-
-                                SetStep1((int)TRS_LOADER_WAITFOR_PUSHPULL_COMPLETE_LOADING);
-                                break;
-
-                            case (int)TRS_LOADER_WAITFOR_PUSHPULL_COMPLETE_LOADING:
-                                PostMsg_Interval(TrsPushPull, MSG_LOADER_PUSHPULL_COMPLETE_UNLOADING);
-                                if (m_bPushPull_CompleteLoading == false) break;
-
-                                // do something
-
-
-                                SetStep1((int)TRS_LOADER_WAITFOR_MESSAGE);
-                                break;
-                                */
-                            case (int)TRS_LOADER_READY_LOADING_WAFER:
-
-                                SetStep1((int)TRS_LOADER_WAITFOR_PUSHPULL_START_UNLOADING);
-                                break;
-
-                            case (int)TRS_LOADER_WAITFOR_PUSHPULL_START_UNLOADING:
-
-                                SetStep1((int)TRS_LOADER_LOAD_WAFER);
-                                break;
-
-                            case (int)TRS_LOADER_LOAD_WAFER:
-
-                                SetStep1((int)TRS_LOADER_WAITFOR_PUSHPULL_COMPLETE_UNLOADING);
-                                break;
-
-                            case (int)TRS_LOADER_WAITFOR_PUSHPULL_COMPLETE_UNLOADING:
-
-                                SetStep1((int)TRS_LOADER_WAITFOR_MESSAGE);
-                                break;
-                                
                             default:
                                 break;
                         }

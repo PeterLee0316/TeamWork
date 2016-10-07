@@ -417,6 +417,16 @@ namespace LWDicer.Layers
             return SUCCESS;
         }
 
+        public int GuideOpen(double dXMoveOffset = 0)
+        {
+            return MoveAllCenterUnitToWaitPos(dXMoveOffset);
+        }
+
+        public int GuideClose(double dXMoveOffset = 0)
+        {
+            return MoveAllCenterUnitToCenteringPos(dXMoveOffset);
+        }
+
         public int MoveAllCenterUnitToWaitPos(double dXMoveOffset = 0)
         {
             int iPos = (int)ECenterPos.WAIT;

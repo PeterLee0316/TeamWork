@@ -89,7 +89,7 @@ namespace LWDicer.Layers
             MAX,
         }
 
-        public enum ECassetteSlotInfo
+        public enum ECassetteSlotStatus
         {
             NONE = -1,
             EMPTY   = 0,    // empty slot
@@ -97,7 +97,8 @@ namespace LWDicer.Layers
             AFTER_PROCESS,  // after complete work
             MAX,
         }
-        public enum ECassetteWaferType
+
+        public enum ECassetteWaferSize
         {
             NONE = -1,
             INCH_8 = 0,
@@ -140,11 +141,11 @@ namespace LWDicer.Layers
                 // Cassette Info Copy 
                 if (CassetteData == null) // Cassette Data Init
                 {   
-                    this.CassetteData.Slot = CASSETTE_MAX_SLOT_NUM;
+                    this.CassetteData.SlotNumber = CASSETTE_MAX_SLOT_NUM;
                     this.CassetteData.FramePitch = CASSETTE_DEFAULT_PITCH;
-                    for (int i = 0; i < this.CassetteData.SlotData.Length; i++)
+                    for (int i = 0; i < this.CassetteData.SlotStatus.Length; i++)
                     {
-                        this.CassetteData.SlotData[i] = (int)ECassetteSlotInfo.NONE;
+                        this.CassetteData.SlotStatus[i] = (int)ECassetteSlotStatus.NONE;
                     }
                 }
                 else  // Cassette Data Copy
@@ -202,13 +203,14 @@ namespace LWDicer.Layers
             return iResult;
         }
 
-        public void SetElevatorSlotData(int Slot, ECassetteSlotInfo WaferInfo)
+        public void SetCassetteSlotStatus(int index, ECassetteSlotStatus status)
         {
-            m_Data.CassetteData.SlotData[Slot] = (int)WaferInfo;
+            m_Data.CassetteData.SlotStatus[index] = (int)status;
         }
-        public void GetElevatorSlotData(int Slot, out int nData)
+
+        public void GetCassetteSlotStatus(int index, out int status)
         {
-            nData = m_Data.CassetteData.SlotData[Slot];
+            status = m_Data.CassetteData.SlotStatus[index];
         }
         #endregion
 
@@ -405,7 +407,7 @@ namespace LWDicer.Layers
         /// 다음 차례의 작업 완료된 wafer가 있는 slot으로 이동한다.
         /// </summary>
         /// <returns></returns>
-        public int MoveToNextAfterProcessSlot(int nAfterIndex = -1)
+        public int MoveToNextAfterProcessSlot(out int index, int nAfterIndex = -1)
         {
             bool bMoveAllAxis = false;
             bool bMoveXYT = false;
@@ -413,14 +415,14 @@ namespace LWDicer.Layers
 
             int iResult = 0;
             int nElevatorPos = (int)EElevatorPos.SLOT;
-            int index = (int)ECassetteSlotInfo.NONE;
+            index = 0;
             int nCurSlotNum = 0;
 
             // Cassette의 Wafer Data를 아래부터 읽어 필요한 Slot 위치를 찾는다.
-            for (int i = 0; i < m_Data.CassetteData.Slot; i++)
+            for (int i = 0; i < m_Data.CassetteData.SlotNumber; i++)
             {
                 if (i <= nAfterIndex) continue;
-                if (m_Data.CassetteData.SlotData[i] == (int)ECassetteSlotInfo.AFTER_PROCESS)
+                if (m_Data.CassetteData.SlotStatus[i] == (int)ECassetteSlotStatus.AFTER_PROCESS)
                 {
                     index = i;
                     break;
@@ -428,7 +430,7 @@ namespace LWDicer.Layers
             }
 
             // 해당 Slot이 없을 경우 에러를 리턴함.
-            if (index == (int)ECassetteSlotInfo.NONE)
+            if (index == (int)ECassetteSlotStatus.NONE)
                 return GenerateErrorCode(ERR_ELEVATOR_NOT_EXIST_AFTER_PROCESS_WAFER);
 
             // 해당 위치로 이동함.
@@ -451,7 +453,7 @@ namespace LWDicer.Layers
         /// 다음 차례의 비어있는 slot으로 이동한다.
         /// </summary>
         /// <returns></returns>
-        public int MoveToNextEmptySlot()
+        public int MoveToNextEmptySlot(out int index)
         {
             bool bMoveAllAxis = false;
             bool bMoveXYT = false;
@@ -459,13 +461,13 @@ namespace LWDicer.Layers
 
             int iResult = 0;
             int nElevatorPos = (int)EElevatorPos.SLOT;
-            int index = (int)ECassetteSlotInfo.NONE;
+            index = 0;
             int nCurSlotNum = 0;
 
             // Cassette의 Wafer Data를 아래부터 읽어 필요한 Slot 위치를 찾는다.
-            for (int i = 0; i < m_Data.CassetteData.Slot; i++)
+            for (int i = 0; i < m_Data.CassetteData.SlotNumber; i++)
             {
-                if (m_Data.CassetteData.SlotData[i] == (int)ECassetteSlotInfo.EMPTY)
+                if (m_Data.CassetteData.SlotStatus[i] == (int)ECassetteSlotStatus.EMPTY)
                 {
                     index = i;
                     break;
@@ -473,7 +475,7 @@ namespace LWDicer.Layers
             }
 
             // 해당 Slot이 없을 경우 에러를 리턴함.
-            if (index == (int)ECassetteSlotInfo.NONE)
+            if (index == (int)ECassetteSlotStatus.NONE)
                 return GenerateErrorCode(ERR_ELEVATOR_NOT_EXIST_EMPTY_SLOT);
 
             // 해당 위치로 이동함.
@@ -496,7 +498,7 @@ namespace LWDicer.Layers
         /// 다음 차례의 작업 대기중인 wafer가 있는 slot으로 이동한다.
         /// </summary>
         /// <returns></returns>
-        public int MoveToNextPreProcessSlot()
+        public int MoveToNextPreProcessSlot(out int index)
         {
             bool bMoveAllAxis = false;
             bool bMoveXYT = false;
@@ -504,13 +506,13 @@ namespace LWDicer.Layers
 
             int iResult = 0;
             int nElevatorPos = (int)EElevatorPos.SLOT;
-            int index = (int)ECassetteSlotInfo.NONE;
+            index = 0;
             int nCurSlotNum = 0;
 
             // Cassette의 Wafer Data를 아래부터 읽어 필요한 Slot 위치를 찾는다.
-            for (int i = 0; i < m_Data.CassetteData.Slot; i++)
+            for (int i = 0; i < m_Data.CassetteData.SlotNumber; i++)
             {
-                if (m_Data.CassetteData.SlotData[i] == (int)ECassetteSlotInfo.PRE_PROCESS)
+                if (m_Data.CassetteData.SlotStatus[i] == (int)ECassetteSlotStatus.PRE_PROCESS)
                 {
                     index = i;
                     break;
@@ -518,7 +520,7 @@ namespace LWDicer.Layers
             }
 
             // 해당 Slot이 없을 경우 에러를 리턴함.
-            if (index == (int)ECassetteSlotInfo.NONE)
+            if (index == (int)ECassetteSlotStatus.NONE)
                 return GenerateErrorCode(ERR_ELEVATOR_NOT_EXIST_PRE_PROCESS_WAFER);
 
             // 해당 위치로 이동함.
@@ -547,9 +549,9 @@ namespace LWDicer.Layers
         public int GetEmptySlotCount()
         {
             int sum = 0;
-            for (int i = 0; i < m_Data.CassetteData.Slot; i++)
+            for (int i = 0; i < m_Data.CassetteData.SlotNumber; i++)
             {
-                if (m_Data.CassetteData.SlotData[i] == (int)ECassetteSlotInfo.EMPTY)
+                if (m_Data.CassetteData.SlotStatus[i] == (int)ECassetteSlotStatus.EMPTY)
                     sum++;
             }
             return sum;
@@ -562,9 +564,9 @@ namespace LWDicer.Layers
         public int GetPreProcessWaferCount()
         {
             int sum = 0;
-            for (int i = 0; i < m_Data.CassetteData.Slot; i++)
+            for (int i = 0; i < m_Data.CassetteData.SlotNumber; i++)
             {
-                if (m_Data.CassetteData.SlotData[i] == (int)ECassetteSlotInfo.PRE_PROCESS)
+                if (m_Data.CassetteData.SlotStatus[i] == (int)ECassetteSlotStatus.PRE_PROCESS)
                     sum++;
             }
             return sum;
@@ -577,9 +579,9 @@ namespace LWDicer.Layers
         public int GetAfterProcessWaferCount()
         {
             int sum = 0;
-            for (int i = 0; i < m_Data.CassetteData.Slot; i++)
+            for (int i = 0; i < m_Data.CassetteData.SlotNumber; i++)
             {
-                if (m_Data.CassetteData.SlotData[i] == (int)ECassetteSlotInfo.AFTER_PROCESS)
+                if (m_Data.CassetteData.SlotStatus[i] == (int)ECassetteSlotStatus.AFTER_PROCESS)
                     sum++;
             }
             return sum;
@@ -599,7 +601,7 @@ namespace LWDicer.Layers
 
 
             // Slot 위치를 확인하며 Wafer의 유무를 확인한다.            
-            for (int i = 0; i < m_Data.CassetteData.Slot; i++)
+            for (int i = 0; i < m_Data.CassetteData.SlotNumber; i++)
             {
 #if !SIMULATION_TEST    // Test시에 시간이 너무 오래 걸려서
                 // 해당 위치로 이동함.
@@ -616,11 +618,11 @@ namespace LWDicer.Layers
 #endif
                 if (bStatus)
                 {
-                    m_Data.CassetteData.SlotData[i] = (int)ECassetteSlotInfo.PRE_PROCESS;
+                    m_Data.CassetteData.SlotStatus[i] = (int)ECassetteSlotStatus.PRE_PROCESS;
                 }
                 else
                 {
-                    m_Data.CassetteData.SlotData[i] = (int)ECassetteSlotInfo.EMPTY;
+                    m_Data.CassetteData.SlotStatus[i] = (int)ECassetteSlotStatus.EMPTY;
                 }
 
 #if !SIMULATION_TEST
