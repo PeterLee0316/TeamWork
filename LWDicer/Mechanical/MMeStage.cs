@@ -2000,7 +2000,9 @@ namespace LWDicer.Layers
 
         public void SetEdgeAlignPos(CPos_XYTZ pPos)
         {
-            AxStageInfo.FixedPos.Pos[(int)EStagePos.EDGE_ALIGN_1] = pPos;
+            AxStageInfo.FixedPos.Pos[(int)EStagePos.EDGE_ALIGN_1].dX = pPos.dX;
+            AxStageInfo.FixedPos.Pos[(int)EStagePos.EDGE_ALIGN_1].dY = pPos.dY;
+
         }
         public int GetEdgeAlignPos(out CPos_XYTZ pPos)
         {

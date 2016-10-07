@@ -1028,14 +1028,16 @@ namespace LWDicer.Layers
         /// <returns></returns>
         public int FindEdge(int iCamNo, out CEdgeData pEdgeData)
         {
-            pEdgeData = new CEdgeData();
+            //CEdgeData initData = new CEdgeData();
+            //pEdgeData = initData;
+
 #if SIMULATION_VISION
             return SUCCESS;
 #endif
             int iResult = 0;
 
             // Vision System이 초기화 된지를 확인함
-            if (m_bSystemInit == false) return GenerateErrorCode(ERR_VISION_SYSTEM_FAIL);
+            //if (m_bSystemInit == false) return GenerateErrorCode(ERR_VISION_SYSTEM_FAIL);
 
             // Edge Find 지령
             iResult = m_RefComp.System.FindEdge(iCamNo,out pEdgeData);
@@ -1045,21 +1047,18 @@ namespace LWDicer.Layers
                 pEdgeData.m_strResult = "Edge Search Fail";
                 return iResult;
             }
-                        
+
             // 결과 값을 String으로 표현함.
             pEdgeData.m_strResult = "";
-            for (int i = 0;  i < pEdgeData.m_iEdgeNum; i++)
-            {
-                pEdgeData.m_strResult = pEdgeData.m_strResult + string.Format("-Edge No:{0} P_X:{1:0.00}  P_Y:{2:0.00} \n",
-                                                i+1,
-                                                pEdgeData.EdgePos[i].dX,
-                                                pEdgeData.EdgePos[i].dY);
-            }
-            pEdgeData.m_strResult = "Edge Search OK \n" + pEdgeData.m_strResult;
-                
             
+            pEdgeData.m_strResult =  string.Format("P_X:{0:0.00}  P_Y:{1:0.00} \n",pEdgeData.EdgePos.dX,pEdgeData.EdgePos.dY);
+            
+            pEdgeData.m_strResult = "Edge Search OK \n" + pEdgeData.m_strResult;
+
+
             return SUCCESS;
         }
+        
         /// <summary>
         /// Edge Find의 Search 면적을 설정한다.
         /// 위치, 가로/세로 크기, 각도를 변경할 수 있다.
@@ -1303,7 +1302,7 @@ namespace LWDicer.Layers
 
             m_RefComp.View[m_iCurrentViewNum].ClearOverlay();
             m_RefComp.View[m_iCurrentViewNum].DrawBox(rect);
-            m_RefComp.View[m_iCurrentViewNum].DrawCrossMark(10, 10);
+            m_RefComp.View[m_iCurrentViewNum].DrawCrossMark(10,10,Color.Red);
 
             //return 0;
         }
@@ -1341,7 +1340,7 @@ namespace LWDicer.Layers
         /// <param name="iHeight"></param> Cross의 Height 설정
         /// <param name="center"></param>  Cross의 위치 설정
         // 
-        public void DrawOverlayCrossMark(int iCamNo, int iWidth, int iHeight,Point center)    //, int color = 1) ;
+        public void DrawOverlayCrossMark(int iCamNo, int iWidth, int iHeight,Point center,Color color)    //, int color = 1) ;
         {
 #if SIMULATION_VISION
             return;
@@ -1351,11 +1350,11 @@ namespace LWDicer.Layers
 
             if (iCamNo > DEF_MAX_CAMERA_NO) return;
 
-            m_RefComp.View[iCamNo].DrawCrossMark(center,iWidth,iHeight);   
+            m_RefComp.View[iCamNo].DrawCrossMark(center,iWidth,iHeight, color);   
                     
         }
 
-        public void DrawOverlayCrossMark(int iWidth, int iHeight, Point center)    //, int color = 1) ;
+        public void DrawOverlayCrossMark(int iWidth, int iHeight, Point center,Color color)    //, int color = 1) ;
         {
 #if SIMULATION_VISION
             return;
@@ -1365,7 +1364,7 @@ namespace LWDicer.Layers
 
             if (m_iCurrentViewNum > DEF_MAX_CAMERA_NO) return;
 
-            m_RefComp.View[m_iCurrentViewNum].DrawCrossMark(center, iWidth, iHeight);
+            m_RefComp.View[m_iCurrentViewNum].DrawCrossMark(center, iWidth, iHeight, color);
 
         }
 

@@ -1028,28 +1028,37 @@ namespace LWDicer.Layers
             sPos = pPos;
 
             // Edge 검색
-            CEdgeData pEdgeData;
+            CEdgeData pEdgeData = new CEdgeData();
             iResult = m_RefComp.Vision.FindEdge(iCam, out pEdgeData);
 
             if (iResult != SUCCESS) return iResult;
 
             // 결과 확인            
-            if (pEdgeData.m_iEdgeNum > 1)
+            if (pEdgeData.m_iEdgeNum < 1)
             {
                 // 중복적으로 Edge가 검출될때는 Error를 리턴한다.
                 return GenerateErrorCode(ERR_CTRLSTAGE_EDGE_POINT_OVER);
             }
-            // Edge 위치 결과 대입
-            pPos = pEdgeData.EdgePos[0];
+            //Edge 위치 결과 대입
+            pPos = pEdgeData.EdgePos;
+
+            // Edge Pos Overlay Display
+            Point pointEdge = new Point(0, 0);
+            pointEdge.X = (int)pEdgeData.EdgePos.dX;
+            pointEdge.Y = (int)pEdgeData.EdgePos.dY;
+
+          //  m_RefComp.Vision.ClearOverlay();
+            m_RefComp.Vision.ShowRectRoi();
+            m_RefComp.Vision.DrawOverlayCrossMark(50, 50, pointEdge,Color.LightGreen);
 
             // Camera의 틀어짐 보정
-            CPos_XY mCenter = new CPos_XY(); // 회전 중심은 (0,0)으로 한다
-            pPos = CoordinateRotate(m_Data.Vision.Camera[iCam].CameraTilt, pPos, mCenter);
+            //CPos_XY mCenter = new CPos_XY(); // 회전 중심은 (0,0)으로 한다
+            //pPos = CoordinateRotate(m_Data.Vision.Camera[iCam].CameraTilt, pPos, mCenter);
 
             // Pixel to Pos
-            pPos = PixelToPostion(PRE__CAM, pPos);
+            //pPos = PixelToPostion(PRE__CAM, pPos);
 
-            sPos = pPos;
+             sPos = pPos;
             return SUCCESS;
         }
 
@@ -1893,21 +1902,28 @@ namespace LWDicer.Layers
         /// <returns></returns>
         public int SetEdgePosOffsetNext()
         {
-            var posEdge = new CPos_XYTZ();
+            var posEdge = new CPos_XY();
+            var posStage = new CPos_XYTZ();
             var posCenter = new CPos_XYTZ();
-                        
+            var posTeach = new CPos_XYTZ();
+
             int iResult = -1;
 
             // 현재 위치 값을 읽어온다.
-            iResult = m_RefComp.Stage.GetStageCurPos(out posEdge);
+            iResult = m_RefComp.Stage.GetStageCurPos(out posStage);
             if (iResult != SUCCESS) return iResult;
-            
+
+            // Stage Center 값을 읽어온다
+            posCenter = m_RefComp.Stage.GetStageTeachPos((int)EStagePos.EDGE_ALIGN_1);
 
             // Edge Pos 1 위치 이동
             if (eEdgeTeachStep == EEdgeAlignTeachStep.INIT)
             {                
                 // Pos1으로 이동함.
                 iResult = MoveToEdgeAlignPos1();
+                Sleep(1000);
+                FindEdgePoint(out posEdge);
+
                 if (iResult == SUCCESS) eEdgeTeachStep = EEdgeAlignTeachStep.POS1;
 
                 return iResult;
@@ -1917,21 +1933,34 @@ namespace LWDicer.Layers
             if (eEdgeTeachStep == EEdgeAlignTeachStep.POS1)
             {
                 // 매뉴얼로 Edge를 Center로 이동함.
-                EdgeTeachPos[(int)EEdgeAlignTeachStep.POS1] = posEdge;
+
+                // 오차를 대입함
+                EdgeTeachPos[(int)EEdgeAlignTeachStep.POS1] = posCenter - posStage;
 
                 // Pos2으로 이동함.
                 iResult = MoveToEdgeAlignPos2();
-                if (iResult == SUCCESS) eEdgeTeachStep = EEdgeAlignTeachStep.POS2;
+                if (iResult != SUCCESS) return iResult;
+
+                Sleep(1000);
+                FindEdgePoint(out posEdge);
+
+                eEdgeTeachStep = EEdgeAlignTeachStep.POS2;
 
                 return iResult;
             }
             // Edge Pos 2 저장 및 Edge Pos 3 위치 이동
             if (eEdgeTeachStep == EEdgeAlignTeachStep.POS2)
             {
-                EdgeTeachPos[(int)EEdgeAlignTeachStep.POS2] = posEdge;
+                // 매뉴얼로 Edge를 Center로 이동함.
+
+                // 오차를 대입함
+                EdgeTeachPos[(int)EEdgeAlignTeachStep.POS2] = posCenter - posStage;
 
                 iResult = MoveToEdgeAlignPos3();
                 if (iResult != SUCCESS) return iResult;
+
+                Sleep(1000);
+                FindEdgePoint(out posEdge);
 
                 eEdgeTeachStep = EEdgeAlignTeachStep.POS3;
 
@@ -1940,10 +1969,16 @@ namespace LWDicer.Layers
             // Edge Pos 3 저장 및 Edge Pos 4 위치 이동
             if (eEdgeTeachStep == EEdgeAlignTeachStep.POS3)
             {
-                EdgeTeachPos[(int)EEdgeAlignTeachStep.POS3] = posEdge;
+                // 매뉴얼로 Edge를 Center로 이동함.
+
+                // 오차를 대입함
+                EdgeTeachPos[(int)EEdgeAlignTeachStep.POS3] = posCenter - posStage;
 
                 iResult = MoveToEdgeAlignPos4();
                 if (iResult != SUCCESS) return iResult;
+
+                Sleep(1000);
+                FindEdgePoint(out posEdge);
 
                 eEdgeTeachStep = EEdgeAlignTeachStep.POS4;
 
@@ -1952,19 +1987,28 @@ namespace LWDicer.Layers
             // Edge Pos 4 저장 및 Edge Pos 1 위치 이동
             if (eEdgeTeachStep == EEdgeAlignTeachStep.POS4)
             {
-                EdgeTeachPos[(int)EEdgeAlignTeachStep.POS4] = posEdge;
+                // 매뉴얼로 Edge를 Center로 이동함.
 
-                // Edge 평균 값을 계산함. 
-                posCenter = EdgeTeachPos[0] + EdgeTeachPos[1] + EdgeTeachPos[3] + EdgeTeachPos[4];
-                posCenter.dX /=  4.0;
-                posCenter.dY /= 4.0;
+                // 오차를 대입함
+                EdgeTeachPos[(int)EEdgeAlignTeachStep.POS4] = posCenter - posStage;
+
+
+                // 회전 중심 오차 값을 계산
+                // 계산산
+                // Cx = (-X1 -Y2 + X3 + Y4) / 2
+                // Cx = (-Y1 +X2 + Y3 - X4) / 2
+
+                posTeach.dX = ( - EdgeTeachPos[0].dX - EdgeTeachPos[1].dY + EdgeTeachPos[2].dX + EdgeTeachPos[3].dY ) / 2;
+                posTeach.dY = ( - EdgeTeachPos[0].dY + EdgeTeachPos[1].dX + EdgeTeachPos[2].dY - EdgeTeachPos[3].dX ) / 2;
+
+                posCenter -= posTeach;
 
                 SetEdgeAlignPos(posCenter);
 
                 iResult = MoveToEdgeAlignPos1();
                 if (iResult != SUCCESS) return iResult;
 
-                eEdgeTeachStep = EEdgeAlignTeachStep.POS1;
+                eEdgeTeachStep = EEdgeAlignTeachStep.INIT;
 
                 return SUCCESS;
             }

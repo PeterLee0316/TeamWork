@@ -62,6 +62,30 @@ namespace LWDicer.UI
             TmrTeach.Start();
         }
 
+        private void TmrTeach_Tick(object sender, EventArgs e)
+        {
+            // Current Position Display
+            string strCurPos = string.Empty;
+            try
+            {
+                double dValue = 0, dCurPos = 0, dTargetPos = 0;
+
+                strCurPos = String.Format("{0:0.0000}", CMainFrame.LWDicer.m_ACS.ServoStatus[(int)EACS_Axis.STAGE1_X].EncoderPos);
+                lblStagePosX.Text = strCurPos;
+
+                strCurPos = String.Format("{0:0.0000}", CMainFrame.LWDicer.m_ACS.ServoStatus[(int)EACS_Axis.STAGE1_Y].EncoderPos);
+                lblStagePosY.Text = strCurPos;
+
+                strCurPos = String.Format("{0:0.0000}", CMainFrame.LWDicer.m_ACS.ServoStatus[(int)EACS_Axis.STAGE1_T].EncoderPos);
+                lblStagePosT.Text = strCurPos;
+
+                strCurPos = String.Format("{0:0.0000}", CMainFrame.LWDicer.m_ACS.ServoStatus[(int)EACS_Axis.CAMERA1_Z].EncoderPos);
+                lblCamPosZ.Text = strCurPos;
+            }
+            catch
+            { }
+        }
+
         private void btnChangeCam_Click(object sender, EventArgs e)
         {
             if (CMainFrame.LWDicer.m_ctrlStage1.GetCurrentCam() == FINE_CAM)
@@ -177,13 +201,40 @@ namespace LWDicer.UI
 
         private void btnSearchEdgePoint_Click(object sender, EventArgs e)
         {
-            var posEdge = new CPos_XY();
+            CPos_XY posEdge = new CPos_XY();
             CMainFrame.LWDicer.m_ctrlStage1.FindEdgePoint(out posEdge);
+
+            return;
         }
 
         private void btnSetEdgeDetectArea_Click(object sender, EventArgs e)
         {
             CMainFrame.LWDicer.m_Vision.SetEdgeFinderArea(PRE__CAM);
+        }
+
+        
+
+        private void btnEdgeTeachNext_Click(object sender, EventArgs e)
+        {
+            CMainFrame.LWDicer.m_ctrlStage1.SetEdgePosOffsetNext();
+        }
+
+        private void btnEdgeAlignDataInit_Click(object sender, EventArgs e)
+        {
+            double dLength = 0.0;
+
+            dLength = WAFER_SIZE_12_INCH / 2.0 * Math.Cos(Math.PI / 180 * 45);
+
+            CMainFrame.DataManager.FixedPos.Stage1Pos.Pos[(int)EStagePos.EDGE_ALIGN_1].dX = CMainFrame.DataManager.FixedPos.Stage1Pos.Pos[(int)EStagePos.STAGE_CENTER].dX +
+                                                                                            dLength;
+            CMainFrame.DataManager.FixedPos.Stage1Pos.Pos[(int)EStagePos.EDGE_ALIGN_1].dY = CMainFrame.DataManager.FixedPos.Stage1Pos.Pos[(int)EStagePos.STAGE_CENTER].dY -
+                                                                                            dLength;
+            CMainFrame.DataManager.FixedPos.Stage1Pos.Pos[(int)EStagePos.EDGE_ALIGN_1].dT = CMainFrame.DataManager.FixedPos.Stage1Pos.Pos[(int)EStagePos.STAGE_CENTER].dT;
+
+
+
+            CMainFrame.DataManager.SavePositionData(true, EPositionObject.STAGE1);
+            CMainFrame.LWDicer.SetPositionDataToComponent(EPositionGroup.STAGE1);
         }
     }
 }

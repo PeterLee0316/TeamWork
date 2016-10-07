@@ -243,14 +243,22 @@ namespace LWDicer.Layers
             public bool m_bSuccess;
 
             public int m_iEdgeNum;
-            public CPos_XY[] EdgePos;         
+            public CPos_XY EdgePos;        
 
             // Search Result 를 저장할 문자열 
             public string m_strResult;
 
             public CEdgeData()
             {
+                InitData();
+            }
 
+            public void InitData()
+            {
+                m_bSuccess = false;
+                m_iEdgeNum = 0;
+                m_strResult = string.Empty;
+                EdgePos = new CPos_XY();
             }
 
         };

@@ -32,10 +32,12 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormEdgeAlignTeach));
             this.gradientLabel16 = new Syncfusion.Windows.Forms.Tools.GradientLabel();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.btnSetEdgeDetectArea = new System.Windows.Forms.Button();
+            this.btnSearchEdgePoint = new System.Windows.Forms.Button();
             this.btnEdgePos4 = new System.Windows.Forms.Button();
             this.btnEdgePos3 = new System.Windows.Forms.Button();
             this.btnEdgePos2 = new System.Windows.Forms.Button();
-            this.btnThetaAlignDataSave = new System.Windows.Forms.Button();
+            this.btnEdgeAlignDataSave = new System.Windows.Forms.Button();
             this.btnEdgePos1 = new System.Windows.Forms.Button();
             this.btnStageCenter = new System.Windows.Forms.Button();
             this.picVision = new System.Windows.Forms.Panel();
@@ -60,8 +62,8 @@
             this.btnSelectStageMove = new System.Windows.Forms.Button();
             this.btnSelectFocus = new System.Windows.Forms.Button();
             this.btnChangeCam = new System.Windows.Forms.Button();
-            this.btnSearchEdgePoint = new System.Windows.Forms.Button();
-            this.btnSetEdgeDetectArea = new System.Windows.Forms.Button();
+            this.btnEdgeTeachNext = new System.Windows.Forms.Button();
+            this.btnEdgeAlignDataInit = new System.Windows.Forms.Button();
             this.groupBox4.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -90,7 +92,6 @@
             this.groupBox4.Controls.Add(this.btnEdgePos4);
             this.groupBox4.Controls.Add(this.btnEdgePos3);
             this.groupBox4.Controls.Add(this.btnEdgePos2);
-            this.groupBox4.Controls.Add(this.btnThetaAlignDataSave);
             this.groupBox4.Controls.Add(this.btnEdgePos1);
             this.groupBox4.Controls.Add(this.btnStageCenter);
             this.groupBox4.Location = new System.Drawing.Point(820, 125);
@@ -100,6 +101,32 @@
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Manual Control";
             this.groupBox4.Enter += new System.EventHandler(this.groupBox4_Enter);
+            // 
+            // btnSetEdgeDetectArea
+            // 
+            this.btnSetEdgeDetectArea.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.btnSetEdgeDetectArea.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.btnSetEdgeDetectArea.Location = new System.Drawing.Point(220, 88);
+            this.btnSetEdgeDetectArea.Name = "btnSetEdgeDetectArea";
+            this.btnSetEdgeDetectArea.Size = new System.Drawing.Size(98, 61);
+            this.btnSetEdgeDetectArea.TabIndex = 983;
+            this.btnSetEdgeDetectArea.Text = "Set Edge ROI";
+            this.btnSetEdgeDetectArea.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.btnSetEdgeDetectArea.UseVisualStyleBackColor = true;
+            this.btnSetEdgeDetectArea.Click += new System.EventHandler(this.btnSetEdgeDetectArea_Click);
+            // 
+            // btnSearchEdgePoint
+            // 
+            this.btnSearchEdgePoint.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.btnSearchEdgePoint.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.btnSearchEdgePoint.Location = new System.Drawing.Point(220, 155);
+            this.btnSearchEdgePoint.Name = "btnSearchEdgePoint";
+            this.btnSearchEdgePoint.Size = new System.Drawing.Size(98, 61);
+            this.btnSearchEdgePoint.TabIndex = 982;
+            this.btnSearchEdgePoint.Text = "Search Edge";
+            this.btnSearchEdgePoint.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.btnSearchEdgePoint.UseVisualStyleBackColor = true;
+            this.btnSearchEdgePoint.Click += new System.EventHandler(this.btnSearchEdgePoint_Click);
             // 
             // btnEdgePos4
             // 
@@ -140,20 +167,20 @@
             this.btnEdgePos2.UseVisualStyleBackColor = true;
             this.btnEdgePos2.Click += new System.EventHandler(this.btnEdgePos2_Click);
             // 
-            // btnThetaAlignDataSave
+            // btnEdgeAlignDataSave
             // 
-            this.btnThetaAlignDataSave.Font = new System.Drawing.Font("굴림", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.btnThetaAlignDataSave.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.btnThetaAlignDataSave.Image = ((System.Drawing.Image)(resources.GetObject("btnThetaAlignDataSave.Image")));
-            this.btnThetaAlignDataSave.Location = new System.Drawing.Point(298, 20);
-            this.btnThetaAlignDataSave.Name = "btnThetaAlignDataSave";
-            this.btnThetaAlignDataSave.Size = new System.Drawing.Size(130, 61);
-            this.btnThetaAlignDataSave.TabIndex = 978;
-            this.btnThetaAlignDataSave.Text = "Data Save";
-            this.btnThetaAlignDataSave.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnThetaAlignDataSave.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.btnThetaAlignDataSave.UseVisualStyleBackColor = true;
-            this.btnThetaAlignDataSave.Click += new System.EventHandler(this.btnThetaAlignDataSave_Click);
+            this.btnEdgeAlignDataSave.Font = new System.Drawing.Font("굴림", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.btnEdgeAlignDataSave.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.btnEdgeAlignDataSave.Image = ((System.Drawing.Image)(resources.GetObject("btnEdgeAlignDataSave.Image")));
+            this.btnEdgeAlignDataSave.Location = new System.Drawing.Point(1118, 468);
+            this.btnEdgeAlignDataSave.Name = "btnEdgeAlignDataSave";
+            this.btnEdgeAlignDataSave.Size = new System.Drawing.Size(130, 61);
+            this.btnEdgeAlignDataSave.TabIndex = 978;
+            this.btnEdgeAlignDataSave.Text = "Data Save";
+            this.btnEdgeAlignDataSave.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnEdgeAlignDataSave.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.btnEdgeAlignDataSave.UseVisualStyleBackColor = true;
+            this.btnEdgeAlignDataSave.Click += new System.EventHandler(this.btnThetaAlignDataSave_Click);
             // 
             // btnEdgePos1
             // 
@@ -397,6 +424,10 @@
             this.lblStagePosX.Text = "0000";
             this.lblStagePosX.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // TmrTeach
+            // 
+            this.TmrTeach.Tick += new System.EventHandler(this.TmrTeach_Tick);
+            // 
             // groupBox2
             // 
             this.groupBox2.Controls.Add(this.btnSelectStageMove);
@@ -454,41 +485,46 @@
             this.btnChangeCam.UseVisualStyleBackColor = true;
             this.btnChangeCam.Click += new System.EventHandler(this.btnChangeCam_Click);
             // 
-            // btnSearchEdgePoint
+            // btnEdgeTeachNext
             // 
-            this.btnSearchEdgePoint.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.btnSearchEdgePoint.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.btnSearchEdgePoint.Location = new System.Drawing.Point(220, 155);
-            this.btnSearchEdgePoint.Name = "btnSearchEdgePoint";
-            this.btnSearchEdgePoint.Size = new System.Drawing.Size(98, 61);
-            this.btnSearchEdgePoint.TabIndex = 982;
-            this.btnSearchEdgePoint.Text = "Search Edge";
-            this.btnSearchEdgePoint.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.btnSearchEdgePoint.UseVisualStyleBackColor = true;
-            this.btnSearchEdgePoint.Click += new System.EventHandler(this.btnSearchEdgePoint_Click);
+            this.btnEdgeTeachNext.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.btnEdgeTeachNext.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.btnEdgeTeachNext.Location = new System.Drawing.Point(832, 376);
+            this.btnEdgeTeachNext.Name = "btnEdgeTeachNext";
+            this.btnEdgeTeachNext.Size = new System.Drawing.Size(98, 61);
+            this.btnEdgeTeachNext.TabIndex = 977;
+            this.btnEdgeTeachNext.Text = "Edge Teach";
+            this.btnEdgeTeachNext.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.btnEdgeTeachNext.UseVisualStyleBackColor = true;
+            this.btnEdgeTeachNext.Click += new System.EventHandler(this.btnEdgeTeachNext_Click);
             // 
-            // btnSetEdgeDetectArea
+            // btnEdgeAlignDataInit
             // 
-            this.btnSetEdgeDetectArea.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.btnSetEdgeDetectArea.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.btnSetEdgeDetectArea.Location = new System.Drawing.Point(220, 88);
-            this.btnSetEdgeDetectArea.Name = "btnSetEdgeDetectArea";
-            this.btnSetEdgeDetectArea.Size = new System.Drawing.Size(98, 61);
-            this.btnSetEdgeDetectArea.TabIndex = 983;
-            this.btnSetEdgeDetectArea.Text = "Set Edge ROI";
-            this.btnSetEdgeDetectArea.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.btnSetEdgeDetectArea.UseVisualStyleBackColor = true;
-            this.btnSetEdgeDetectArea.Click += new System.EventHandler(this.btnSetEdgeDetectArea_Click);
+            this.btnEdgeAlignDataInit.Font = new System.Drawing.Font("굴림", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.btnEdgeAlignDataInit.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.btnEdgeAlignDataInit.Image = ((System.Drawing.Image)(resources.GetObject("btnEdgeAlignDataInit.Image")));
+            this.btnEdgeAlignDataInit.Location = new System.Drawing.Point(1118, 401);
+            this.btnEdgeAlignDataInit.Name = "btnEdgeAlignDataInit";
+            this.btnEdgeAlignDataInit.Size = new System.Drawing.Size(130, 61);
+            this.btnEdgeAlignDataInit.TabIndex = 979;
+            this.btnEdgeAlignDataInit.Text = "Data Init";
+            this.btnEdgeAlignDataInit.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnEdgeAlignDataInit.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.btnEdgeAlignDataInit.UseVisualStyleBackColor = true;
+            this.btnEdgeAlignDataInit.Click += new System.EventHandler(this.btnEdgeAlignDataInit_Click);
             // 
             // FormEdgeAlignTeach
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1260, 880);
+            this.Controls.Add(this.btnEdgeAlignDataInit);
+            this.Controls.Add(this.btnEdgeTeachNext);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.gradientLabel2);
             this.Controls.Add(this.pnlStageJog);
+            this.Controls.Add(this.btnEdgeAlignDataSave);
             this.Controls.Add(this.BtnExit);
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.picVision);
@@ -532,11 +568,13 @@
         private System.Windows.Forms.Button btnChangeCam;
         private System.Windows.Forms.Button btnEdgePos1;
         private System.Windows.Forms.Button btnStageCenter;
-        private System.Windows.Forms.Button btnThetaAlignDataSave;
+        private System.Windows.Forms.Button btnEdgeAlignDataSave;
         private System.Windows.Forms.Button btnEdgePos2;
         private System.Windows.Forms.Button btnEdgePos4;
         private System.Windows.Forms.Button btnEdgePos3;
         private System.Windows.Forms.Button btnSearchEdgePoint;
         private System.Windows.Forms.Button btnSetEdgeDetectArea;
+        private System.Windows.Forms.Button btnEdgeTeachNext;
+        private System.Windows.Forms.Button btnEdgeAlignDataInit;
     }
 }

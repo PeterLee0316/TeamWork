@@ -46,7 +46,6 @@ namespace LWDicer.Layers
         // Edge Find 
         private MIL_ID m_EdgeMaker = MIL.M_NULL;
 
-        
 
         public MVisionSystem(CObjectInfo objInfo) : base(objInfo)
         {
@@ -343,12 +342,19 @@ namespace LWDicer.Layers
             {                
                 pEdgeData.m_bSuccess = true;
                 pEdgeData.m_iEdgeNum = FindEdgeNum;
-                pEdgeData.EdgePos = new CPos_XY[FindEdgeNum];
+
+                // Edge pos buffer 생성
+                double[] posEdgeX = new double[FindEdgeNum];
+                double[] posEdgeY = new double[FindEdgeNum];
+
 
                 // 검출된 Edge를 Overlay에 표시함.
                 MIL.MgraColor(MIL.M_DEFAULT, MIL.M_COLOR_RED);
                 MIL.MmeasDraw(MIL.M_DEFAULT, m_EdgeMaker, m_DisplayGraph, MIL.M_DRAW_POSITION, MIL.M_DEFAULT, MIL.M_RESULT);
-                MIL.MmeasGetResult(m_EdgeMaker, MIL.M_POSITION + MIL.M_EDGE_FIRST, ref pEdgeData.EdgePos[0].dX, ref pEdgeData.EdgePos[0].dY);
+                MIL.MmeasGetResult(m_EdgeMaker, MIL.M_POSITION + MIL.M_EDGE_FIRST, ref posEdgeX[0], ref posEdgeY[0]);
+
+                pEdgeData.EdgePos.dX = posEdgeX[FindEdgeNum-1];
+                pEdgeData.EdgePos.dY = posEdgeY[FindEdgeNum-1];
 
                 return SUCCESS;
             }
