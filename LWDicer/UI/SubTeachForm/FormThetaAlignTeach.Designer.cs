@@ -56,6 +56,9 @@
             this.lblStagePosX = new Syncfusion.Windows.Forms.Tools.GradientLabel();
             this.tabThetaAlign = new Syncfusion.Windows.Forms.Tools.TabControlAdv();
             this.pageThetaAlign = new Syncfusion.Windows.Forms.Tools.TabPageAdv();
+            this.btnStageCenter = new System.Windows.Forms.Button();
+            this.btnStageReturnPosA = new System.Windows.Forms.Button();
+            this.btnStageTurnPosA = new System.Windows.Forms.Button();
             this.btnThetaAlignDataApply = new System.Windows.Forms.Button();
             this.label17 = new System.Windows.Forms.Label();
             this.lblThetaAlignTurnPosT = new Syncfusion.Windows.Forms.Tools.GradientLabel();
@@ -137,9 +140,6 @@
             this.btnStageReturn = new System.Windows.Forms.Button();
             this.btnStageTurn = new System.Windows.Forms.Button();
             this.BtnExit = new System.Windows.Forms.Button();
-            this.btnStageReturnPosA = new System.Windows.Forms.Button();
-            this.btnStageTurnPosA = new System.Windows.Forms.Button();
-            this.btnStageCenter = new System.Windows.Forms.Button();
             this.groupBox4.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.tabThetaAlign)).BeginInit();
@@ -227,7 +227,7 @@
             this.btnThetaAlign.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.btnThetaAlign.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
             this.btnThetaAlign.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.btnThetaAlign.Location = new System.Drawing.Point(11, 403);
+            this.btnThetaAlign.Location = new System.Drawing.Point(15, 310);
             this.btnThetaAlign.Name = "btnThetaAlign";
             this.btnThetaAlign.Size = new System.Drawing.Size(75, 77);
             this.btnThetaAlign.TabIndex = 765;
@@ -242,7 +242,7 @@
             this.btnHairLineNarrow.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.btnHairLineNarrow.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
             this.btnHairLineNarrow.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.btnHairLineNarrow.Location = new System.Drawing.Point(170, 403);
+            this.btnHairLineNarrow.Location = new System.Drawing.Point(174, 310);
             this.btnHairLineNarrow.Name = "btnHairLineNarrow";
             this.btnHairLineNarrow.Size = new System.Drawing.Size(75, 77);
             this.btnHairLineNarrow.TabIndex = 764;
@@ -257,7 +257,7 @@
             this.btnHairLineWide.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.btnHairLineWide.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
             this.btnHairLineWide.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.btnHairLineWide.Location = new System.Drawing.Point(92, 403);
+            this.btnHairLineWide.Location = new System.Drawing.Point(96, 310);
             this.btnHairLineWide.Name = "btnHairLineWide";
             this.btnHairLineWide.Size = new System.Drawing.Size(75, 77);
             this.btnHairLineWide.TabIndex = 759;
@@ -511,6 +511,45 @@
             this.pageThetaAlign.Text = "ThetaAlign";
             this.pageThetaAlign.ThemesEnabled = false;
             this.pageThetaAlign.Click += new System.EventHandler(this.pageThetaAlign_Click);
+            // 
+            // btnStageCenter
+            // 
+            this.btnStageCenter.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.btnStageCenter.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.btnStageCenter.Location = new System.Drawing.Point(316, 279);
+            this.btnStageCenter.Name = "btnStageCenter";
+            this.btnStageCenter.Size = new System.Drawing.Size(98, 61);
+            this.btnStageCenter.TabIndex = 975;
+            this.btnStageCenter.Text = "Stage Center";
+            this.btnStageCenter.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.btnStageCenter.UseVisualStyleBackColor = true;
+            this.btnStageCenter.Click += new System.EventHandler(this.btnStageCenter_Click);
+            // 
+            // btnStageReturnPosA
+            // 
+            this.btnStageReturnPosA.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.btnStageReturnPosA.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.btnStageReturnPosA.Location = new System.Drawing.Point(316, 413);
+            this.btnStageReturnPosA.Name = "btnStageReturnPosA";
+            this.btnStageReturnPosA.Size = new System.Drawing.Size(98, 61);
+            this.btnStageReturnPosA.TabIndex = 974;
+            this.btnStageReturnPosA.Text = "Theta Align Return Pos";
+            this.btnStageReturnPosA.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.btnStageReturnPosA.UseVisualStyleBackColor = true;
+            this.btnStageReturnPosA.Click += new System.EventHandler(this.btnStageReturnPosA_Click);
+            // 
+            // btnStageTurnPosA
+            // 
+            this.btnStageTurnPosA.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.btnStageTurnPosA.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.btnStageTurnPosA.Location = new System.Drawing.Point(316, 346);
+            this.btnStageTurnPosA.Name = "btnStageTurnPosA";
+            this.btnStageTurnPosA.Size = new System.Drawing.Size(98, 61);
+            this.btnStageTurnPosA.TabIndex = 973;
+            this.btnStageTurnPosA.Text = "Theta Align Pos";
+            this.btnStageTurnPosA.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.btnStageTurnPosA.UseVisualStyleBackColor = true;
+            this.btnStageTurnPosA.Click += new System.EventHandler(this.btnStageTurnPosA_Click);
             // 
             // btnThetaAlignDataApply
             // 
@@ -1757,45 +1796,6 @@
             this.BtnExit.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.BtnExit.UseVisualStyleBackColor = true;
             this.BtnExit.Click += new System.EventHandler(this.BtnExit_Click);
-            // 
-            // btnStageReturnPosA
-            // 
-            this.btnStageReturnPosA.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.btnStageReturnPosA.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.btnStageReturnPosA.Location = new System.Drawing.Point(316, 413);
-            this.btnStageReturnPosA.Name = "btnStageReturnPosA";
-            this.btnStageReturnPosA.Size = new System.Drawing.Size(98, 61);
-            this.btnStageReturnPosA.TabIndex = 974;
-            this.btnStageReturnPosA.Text = "Theta Align Return Pos";
-            this.btnStageReturnPosA.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.btnStageReturnPosA.UseVisualStyleBackColor = true;
-            this.btnStageReturnPosA.Click += new System.EventHandler(this.btnStageReturnPosA_Click);
-            // 
-            // btnStageTurnPosA
-            // 
-            this.btnStageTurnPosA.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.btnStageTurnPosA.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.btnStageTurnPosA.Location = new System.Drawing.Point(316, 346);
-            this.btnStageTurnPosA.Name = "btnStageTurnPosA";
-            this.btnStageTurnPosA.Size = new System.Drawing.Size(98, 61);
-            this.btnStageTurnPosA.TabIndex = 973;
-            this.btnStageTurnPosA.Text = "Theta Align Pos";
-            this.btnStageTurnPosA.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.btnStageTurnPosA.UseVisualStyleBackColor = true;
-            this.btnStageTurnPosA.Click += new System.EventHandler(this.btnStageTurnPosA_Click);
-            // 
-            // btnStageCenter
-            // 
-            this.btnStageCenter.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.btnStageCenter.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.btnStageCenter.Location = new System.Drawing.Point(316, 279);
-            this.btnStageCenter.Name = "btnStageCenter";
-            this.btnStageCenter.Size = new System.Drawing.Size(98, 61);
-            this.btnStageCenter.TabIndex = 975;
-            this.btnStageCenter.Text = "Stage Center";
-            this.btnStageCenter.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.btnStageCenter.UseVisualStyleBackColor = true;
-            this.btnStageCenter.Click += new System.EventHandler(this.btnStageCenter_Click);
             // 
             // pageAlign
             // 

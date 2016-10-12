@@ -59,7 +59,7 @@ namespace LWDicer.Layers
 
         public enum EACSStatusInt
         {
-            MOTOR_STATUS=0,
+            MOTOR_STATUS = 0,
             MOTOR_FAULT,
             HOME_FLAG,
             INT_AXIS_STATUS,
@@ -67,7 +67,7 @@ namespace LWDicer.Layers
 
         public enum EACSStatusDouble
         {
-            ACT_POSITION=0,            
+            ACT_POSITION = 0,
             ACT_VELOCITY,
             ACT_TORQUE,
             ACT_POS_ERR,
@@ -81,7 +81,7 @@ namespace LWDicer.Layers
 
         public class CACSServoStatus
         {
-            public double EncoderPos;            
+            public double EncoderPos;
             public double Velocity;     //Servo 현재 속도
             public double LoadFactor;
             public double PositionErr;
@@ -102,7 +102,7 @@ namespace LWDicer.Layers
             public bool DetectMinusSensor;
             public bool DetectPlusSensor;
             public bool DetectHomeSensor;
-            
+
             public bool IsOriginReturned;       // origin return flag
         }
 
@@ -121,8 +121,8 @@ namespace LWDicer.Layers
             public CMotorSpeedData[] Speed = new CMotorSpeedData[(int)EMotorSpeed.MAX];
 
             // Time Limit
-            public CMotorTimeLimitData TimeLimit;        
-            
+            public CMotorTimeLimitData TimeLimit;
+
             public CACSMotionData()
             {
                 // General
@@ -142,7 +142,7 @@ namespace LWDicer.Layers
 
                 // Time Limit
                 TimeLimit = new CMotorTimeLimitData(10, 0.01, 30);
-                                         // All parameters directly specified
+                // All parameters directly specified
             }
 
             public void GetSpeedData(out CMotorSpeedData data, int speedType = (int)EMotorSpeed.MANUAL_SLOW)
@@ -174,7 +174,7 @@ namespace LWDicer.Layers
         public static class CStatusArray
         {
             public static int[,] IntStatus = new int[USE_ACS_AXIS_COUNT, (int)EACSStatusInt.INT_AXIS_STATUS];
-            public static double[,] DoubleStatus = new double[USE_ACS_AXIS_COUNT, (int)EACSStatusDouble.REAL_AXIS_STATUS];  
+            public static double[,] DoubleStatus = new double[USE_ACS_AXIS_COUNT, (int)EACSStatusDouble.REAL_AXIS_STATUS];
 
         }
 
@@ -186,7 +186,7 @@ namespace LWDicer.Layers
             public bool IsChannelOpen { get; private set; }
 
 
-           public CACSMotionData[] MotionData = new CACSMotionData[USE_ACS_AXIS_COUNT];
+            public CACSMotionData[] MotionData = new CACSMotionData[USE_ACS_AXIS_COUNT];
             //CServoStatusArray ServoStatus;
 
             public CACSChannel(CACSMotionData[] motions = null)
@@ -195,9 +195,9 @@ namespace LWDicer.Layers
                 return;
 #endif
                 ACS = new Channel();
-                if(addressTCP == null) addressTCP = "10.0.0.100";
-                if(portNum == 0) portNum = 701;
-                
+                if (addressTCP == null) addressTCP = "10.0.0.100";
+                if (portNum == 0) portNum = 701;
+
                 IsChannelOpen = false;
                 if (motions == null)
                 {
@@ -279,7 +279,7 @@ namespace LWDicer.Layers
 
                 try
                 {
-                    intMatrix = ACS?.ReadVariableAsMatrix("M_INT", ACS.ACSC_NONE, 0, USE_ACS_AXIS_COUNT-1, 0, (int)EACSStatusInt.INT_AXIS_STATUS-1);
+                    intMatrix = ACS?.ReadVariableAsMatrix("M_INT", ACS.ACSC_NONE, 0, USE_ACS_AXIS_COUNT - 1, 0, (int)EACSStatusInt.INT_AXIS_STATUS - 1);
                     //d_Matrix = ACS?.ReadVariableAsMatrix("M_INT", ACS.ACSC_NONE, 0, 7, 0, 2);
                     if (intMatrix == null) return;
 
@@ -298,7 +298,7 @@ namespace LWDicer.Layers
             {
                 s = ObjectExtensions.Copy(MotionData[servoNo]);
             }
-            
+
             public void GetSpeedData(int servoNo, out CMotorSpeedData data, int speedType = (int)EMotorSpeed.MANUAL_SLOW)
             {
                 MotionData[servoNo].GetSpeedData(out data, speedType);
@@ -321,8 +321,8 @@ namespace LWDicer.Layers
         }
         public class CACSRefComp
         {
-            
-            
+
+
         }
 
         public class CACSData
@@ -332,7 +332,7 @@ namespace LWDicer.Layers
             {
             }
         }
-        
+
     }
 
     public class MACS : MObject, IDisposable
@@ -377,7 +377,7 @@ namespace LWDicer.Layers
             {
                 ServoStatus[i] = new CACSServoStatus();
             }
-            
+
             ThreadStart();
         }
 
@@ -499,14 +499,14 @@ namespace LWDicer.Layers
         private int GetDeviceLength(int deviceNo)
         {
             int length = 1;
-            
+
             switch (deviceNo)
             {
                 case (int)EACS_Device.ALL:
                     length = (int)EACS_Axis.MAX;
                     break;
 
-               case (int)EACS_Device.STAGE1_X:
+                case (int)EACS_Device.STAGE1_X:
                     length = 1;
                     break;
 
@@ -521,13 +521,13 @@ namespace LWDicer.Layers
                 default:
                     length = 1;
                     break;
-            }           
+            }
 
             return length;
         }
 
         private int GetDeviceAxisList(int deviceNo, out int[] axisList)
-        {            
+        {
             int length = GetDeviceLength(deviceNo);
             axisList = new int[length];
             if (deviceNo < (int)EACS_Axis.ALL)
@@ -564,7 +564,7 @@ namespace LWDicer.Layers
 
             return SUCCESS;
         }
-        
+
         /// <summary>
         /// Device에 속한 축의 handle을 반환
         /// </summary>
@@ -596,16 +596,16 @@ namespace LWDicer.Layers
                     continue;
                 }
 
-               hAxis[i] = m_hAxis[servoNo];
+                hAxis[i] = m_hAxis[servoNo];
             }
 
             return SUCCESS;
         }
 
         private int GetAxis_SpeedData(int servoNo, out CMotorSpeedData speedData, int speedType = (int)EMotorSpeed.MANUAL_SLOW)
-        {    
-            m_AcsMotion.GetSpeedData(servoNo, out speedData, speedType);               
-            
+        {
+            m_AcsMotion.GetSpeedData(servoNo, out speedData, speedType);
+
             return SUCCESS;
         }
 
@@ -615,7 +615,7 @@ namespace LWDicer.Layers
             int[] axisList;
             GetDeviceAxisList(deviceNo, out axisList);
             timeLimit = new CMotorTimeLimitData[length];
-           
+
             for (int i = 0; i < length; i++)
             {
                 int servoNo = axisList[i];
@@ -655,7 +655,7 @@ namespace LWDicer.Layers
             int iResult;
             UInt32 rc;
 
-            if(m_AcsMotion.IsChannelOpen == false)
+            if (m_AcsMotion.IsChannelOpen == false)
                 m_AcsMotion.ChannelOpen();
 
             return SUCCESS;
@@ -669,7 +669,7 @@ namespace LWDicer.Layers
                 m_AcsMotion.ChannelClose();
 
             return SUCCESS;
-        }        
+        }
 
         public void GetAllServoStatus()
         {
@@ -693,34 +693,34 @@ namespace LWDicer.Layers
         public void GetServoStatus(int servoNo)
         {
             // Double형 데이터 대입 ----------------------------------------------------------------------------------------------------------------------
-            ServoStatus[servoNo].EncoderPos             = CStatusArray.DoubleStatus[servoNo,(int)EACSStatusDouble.ACT_POSITION];
-            ServoStatus[servoNo].Velocity               = CStatusArray.DoubleStatus[servoNo, (int)EACSStatusDouble.ACT_VELOCITY];
-            ServoStatus[servoNo].LoadFactor             = CStatusArray.DoubleStatus[servoNo, (int)EACSStatusDouble.ACT_TORQUE];
-            ServoStatus[servoNo].PositionErr            = CStatusArray.DoubleStatus[servoNo, (int)EACSStatusDouble.ACT_POS_ERR];
-            ServoStatus[servoNo].CommandPos             = CStatusArray.DoubleStatus[servoNo, (int)EACSStatusDouble.CMD_POSITION];
-            ServoStatus[servoNo].CommandVelocity        = CStatusArray.DoubleStatus[servoNo, (int)EACSStatusDouble.CMD_VELOCITY];
-            ServoStatus[servoNo].CommandAcceleration    = CStatusArray.DoubleStatus[servoNo, (int)EACSStatusDouble.CMD_ACCELERATION];
-            ServoStatus[servoNo].CommandDeceleration    = CStatusArray.DoubleStatus[servoNo, (int)EACSStatusDouble.CMD_DECELERATION];
+            ServoStatus[servoNo].EncoderPos = CStatusArray.DoubleStatus[servoNo, (int)EACSStatusDouble.ACT_POSITION];
+            ServoStatus[servoNo].Velocity = CStatusArray.DoubleStatus[servoNo, (int)EACSStatusDouble.ACT_VELOCITY];
+            ServoStatus[servoNo].LoadFactor = CStatusArray.DoubleStatus[servoNo, (int)EACSStatusDouble.ACT_TORQUE];
+            ServoStatus[servoNo].PositionErr = CStatusArray.DoubleStatus[servoNo, (int)EACSStatusDouble.ACT_POS_ERR];
+            ServoStatus[servoNo].CommandPos = CStatusArray.DoubleStatus[servoNo, (int)EACSStatusDouble.CMD_POSITION];
+            ServoStatus[servoNo].CommandVelocity = CStatusArray.DoubleStatus[servoNo, (int)EACSStatusDouble.CMD_VELOCITY];
+            ServoStatus[servoNo].CommandAcceleration = CStatusArray.DoubleStatus[servoNo, (int)EACSStatusDouble.CMD_ACCELERATION];
+            ServoStatus[servoNo].CommandDeceleration = CStatusArray.DoubleStatus[servoNo, (int)EACSStatusDouble.CMD_DECELERATION];
 
             // Integer형 데이터 대입 ----------------------------------------------------------------------------------------------------------------------
             // 상태 비트 적용
             int nMotorStatus = CStatusArray.IntStatus[servoNo, (int)EACSStatusInt.MOTOR_STATUS];
-            if ((nMotorStatus & m_AcsMotion.ACS.ACSC_MST_MOVE) != 0)      ServoStatus[servoNo].IsBusy = true;         else ServoStatus[servoNo].IsBusy = false;
-            if ((nMotorStatus & m_AcsMotion.ACS.ACSC_MST_INPOS) != 0)     ServoStatus[servoNo].IsInPosition = true;   else ServoStatus[servoNo].IsInPosition = false;
-            if ((nMotorStatus & m_AcsMotion.ACS.ACSC_MST_ACC) != 0)       ServoStatus[servoNo].IsAccelerating = true; else ServoStatus[servoNo].IsAccelerating = false;
-            if ((nMotorStatus & m_AcsMotion.ACS.ACSC_MST_ENABLE) != 0)    ServoStatus[servoNo].IsServoOn = true;      else ServoStatus[servoNo].IsServoOn = false;
-           
+            if ((nMotorStatus & m_AcsMotion.ACS.ACSC_MST_MOVE) != 0) ServoStatus[servoNo].IsBusy = true; else ServoStatus[servoNo].IsBusy = false;
+            if ((nMotorStatus & m_AcsMotion.ACS.ACSC_MST_INPOS) != 0) ServoStatus[servoNo].IsInPosition = true; else ServoStatus[servoNo].IsInPosition = false;
+            if ((nMotorStatus & m_AcsMotion.ACS.ACSC_MST_ACC) != 0) ServoStatus[servoNo].IsAccelerating = true; else ServoStatus[servoNo].IsAccelerating = false;
+            if ((nMotorStatus & m_AcsMotion.ACS.ACSC_MST_ENABLE) != 0) ServoStatus[servoNo].IsServoOn = true; else ServoStatus[servoNo].IsServoOn = false;
+
             // 알람 비트 적용
             int nMotorFault = CStatusArray.IntStatus[servoNo, (int)EACSStatusInt.MOTOR_FAULT];
-            if (nMotorFault > 0)                                          ServoStatus[servoNo].IsServoAlarm = true;         else ServoStatus[servoNo].IsServoAlarm = false;
-            if ((nMotorFault & m_AcsMotion.ACS.ACSC_SAFETY_RL) != 0)      ServoStatus[servoNo].DetectPlusSensor = true;     else ServoStatus[servoNo].DetectPlusSensor = false;
-            if ((nMotorFault & m_AcsMotion.ACS.ACSC_SAFETY_LL) != 0)      ServoStatus[servoNo].DetectMinusSensor = true;    else ServoStatus[servoNo].DetectMinusSensor = false;
-            if ((nMotorFault & m_AcsMotion.ACS.ACSC_SAFETY_DRIVE) != 0)   ServoStatus[servoNo].IsDriverFault = true;        else ServoStatus[servoNo].IsDriverFault = false;
-            if ((nMotorFault & m_AcsMotion.ACS.ACSC_SAFETY_HOT) != 0)     ServoStatus[servoNo].IsMotorOverHeat = true;      else ServoStatus[servoNo].IsMotorOverHeat = false;
+            if (nMotorFault > 0) ServoStatus[servoNo].IsServoAlarm = true; else ServoStatus[servoNo].IsServoAlarm = false;
+            if ((nMotorFault & m_AcsMotion.ACS.ACSC_SAFETY_RL) != 0) ServoStatus[servoNo].DetectPlusSensor = true; else ServoStatus[servoNo].DetectPlusSensor = false;
+            if ((nMotorFault & m_AcsMotion.ACS.ACSC_SAFETY_LL) != 0) ServoStatus[servoNo].DetectMinusSensor = true; else ServoStatus[servoNo].DetectMinusSensor = false;
+            if ((nMotorFault & m_AcsMotion.ACS.ACSC_SAFETY_DRIVE) != 0) ServoStatus[servoNo].IsDriverFault = true; else ServoStatus[servoNo].IsDriverFault = false;
+            if ((nMotorFault & m_AcsMotion.ACS.ACSC_SAFETY_HOT) != 0) ServoStatus[servoNo].IsMotorOverHeat = true; else ServoStatus[servoNo].IsMotorOverHeat = false;
 
             // Home Flag 비트 적용
             int nMotorHome = CStatusArray.IntStatus[servoNo, (int)EACSStatusInt.HOME_FLAG];
-            if(nMotorHome != 0) ServoStatus[servoNo].IsOriginReturned = true; else ServoStatus[servoNo].IsOriginReturned = false;
+            if (nMotorHome != 0) ServoStatus[servoNo].IsOriginReturned = true; else ServoStatus[servoNo].IsOriginReturned = false;
 
         }
 
@@ -760,7 +760,7 @@ namespace LWDicer.Layers
 
         public int AllServoOn()
         {
-            int iResult = 0;            
+            int iResult = 0;
 
             for (int i = 0; i < (int)EACS_Device.ALL; i++)
             {
@@ -780,7 +780,7 @@ namespace LWDicer.Layers
             m_AcsMotion.ACS?.DisableAll();
 
             return SUCCESS;
-        }        
+        }
 
         public int ResetAlarm(int deviceNo = (int)EACS_Device.ALL)
         {
@@ -805,7 +805,7 @@ namespace LWDicer.Layers
             bComplete = false;
 
             bComplete = ServoStatus[servoNo].IsInPosition;
-            
+
             return SUCCESS;
         }
 
@@ -874,7 +874,7 @@ namespace LWDicer.Layers
             // check safety
             int iResult = IsSafeForMove();
             if (iResult != SUCCESS) return iResult;
-            
+
             // Jog함수는 multi axis device를 고려하지 않고 작성
             if (deviceNo >= (int)EACS_Device.ALL) return SUCCESS;
 
@@ -929,9 +929,9 @@ namespace LWDicer.Layers
 
             //0.2 Motion Profile 적용
             int speedType = (bJogFastMove == true) ? (int)EMotorSpeed.JOG_FAST : (int)EMotorSpeed.JOG_SLOW;
-            
+
             CMotorSpeedData[] SpeedData = new CMotorSpeedData[1];
-            
+
             bool bCheck;
 
             SpeedData[0] = new CMotorSpeedData();
@@ -942,7 +942,7 @@ namespace LWDicer.Layers
             }
 
             CompareSpeedData(deviceNo, SpeedData[0], out bCheck);
-            if (bCheck == false) SetSpeedData(deviceNo, SpeedData[0]);     
+            if (bCheck == false) SetSpeedData(deviceNo, SpeedData[0]);
 
 #if SIMULATION_MOTION_ACS
             return SUCCESS;
@@ -951,16 +951,16 @@ namespace LWDicer.Layers
             m_AcsMotion.ACS.Jog(m_AcsMotion.ACS.ACSC_AMF_VELOCITY, deviceNo, SpeedData[0].Vel * Direction);
 
             return SUCCESS;
-            
+
         }
 
-        public int StopServoMotion(int deviceNo )
+        public int StopServoMotion(int deviceNo)
         {
-            if(deviceNo == (int)EACS_Device.ALL)
+            if (deviceNo == (int)EACS_Device.ALL)
             {
                 int[] m_arrAxis = new int[(int)EACS_Device.ALL];
 
-                foreach (int nAxis in m_arrAxis)  m_arrAxis[nAxis] = nAxis;
+                foreach (int nAxis in m_arrAxis) m_arrAxis[nAxis] = nAxis;
                 m_arrAxis[(int)EACS_Device.ALL - 1] = -1;
 
                 m_AcsMotion.ACS?.HaltM(m_arrAxis);
@@ -977,10 +977,10 @@ namespace LWDicer.Layers
 
             return SUCCESS;
         }
-        
+
         private int CompareSpeedData(int AxisNo, CMotorSpeedData pSpeedData, out bool bCheck)
         {
-            if(pSpeedData.Vel == ServoStatus[AxisNo].CommandVelocity &&
+            if (pSpeedData.Vel == ServoStatus[AxisNo].CommandVelocity &&
                pSpeedData.Acc == ServoStatus[AxisNo].CommandAcceleration &&
                pSpeedData.Dec == ServoStatus[AxisNo].CommandDeceleration)
             {
@@ -998,7 +998,7 @@ namespace LWDicer.Layers
             m_AcsMotion.ACS?.SetVelocity(AxisNo, pSpeedData.Vel);
             m_AcsMotion.ACS?.SetAcceleration(AxisNo, pSpeedData.Acc);
             m_AcsMotion.ACS?.SetDeceleration(AxisNo, pSpeedData.Dec);
-            
+
             return SUCCESS;
         }
 
@@ -1057,7 +1057,7 @@ namespace LWDicer.Layers
 
             // 0.4 Motion Moving 지령
             //m_AcsMotion.ACS.GoM(AxisNo);
-            Sleep(100);            
+            Sleep(100);
 
             // 0.5 Motion Complete 확인
             int[] AxisList = new int[1];
@@ -1071,8 +1071,8 @@ namespace LWDicer.Layers
 
             iResult = Wait4Done(AxisList, bUse);
 
-            if (iResult != SUCCESS) return iResult;            
-            
+            if (iResult != SUCCESS) return iResult;
+
 #endif
             return SUCCESS;
         }
@@ -1098,7 +1098,7 @@ namespace LWDicer.Layers
             if (iResult != SUCCESS) return iResult;
 
             // 선택한 axisList 확인
-            if(axisList==null) return GenerateErrorCode(ERR_ACS_SELECTED_AXIS_NONE);
+            if (axisList == null) return GenerateErrorCode(ERR_ACS_SELECTED_AXIS_NONE);
 
             // 0. init data
             // 0.1 get device length            
@@ -1111,10 +1111,12 @@ namespace LWDicer.Layers
             for (int i = 0; i < axisList.Length; i++)
             {
                 if (axisList[i] == (int)EACS_Axis.NULL || useAxis[i] == false) continue;
-                                
+
                 // ACS에 설정된 Vel,Acc,Dec와 비교를 함
                 if (tempSpeed == null) GetAxis_SpeedData(axisList[i], out SpeedData[0]);
-                
+                else
+                    SpeedData[0] = tempSpeed[0];
+
                 CompareSpeedData(axisList[i], SpeedData[0], out bCheck);
                 if (bCheck == false)
                 {
@@ -1135,8 +1137,8 @@ namespace LWDicer.Layers
             try
             {
                 // 0.3 Motion Position 적용
-               // m_AcsMotion.ACS?.ToPointM(m_AcsMotion.ACS.ACSC_AMF_WAIT, axisList, pos);
-                
+                // m_AcsMotion.ACS?.ToPointM(m_AcsMotion.ACS.ACSC_AMF_WAIT, axisList, pos);
+
                 // 0.4 Motion Moving 지령
                 //m_AcsMotion.ACS?.GoM(axisList);
 
@@ -1306,7 +1308,7 @@ namespace LWDicer.Layers
 
         public bool IsBufferProgramRun(int bufferNum)
         {
-            int programStatus=0;
+            int programStatus = 0;
 
             try
             {
@@ -1325,7 +1327,7 @@ namespace LWDicer.Layers
         public int LaserProcess(int bufferNum)
         {
 #if !SIMULATION_MOTION_ACS
-            
+
             // check safety
             int iResult = IsSafeForMove();
             if (iResult != SUCCESS) return iResult;
@@ -1338,12 +1340,12 @@ namespace LWDicer.Layers
             {
                 Sleep(100);
 
-                if (IsBufferProgramRun(bufferNum) == false) break; 
+                if (IsBufferProgramRun(bufferNum) == false) break;
             }
 
 
 #endif
-                return SUCCESS;
+            return SUCCESS;
         }
 
         public int WriteBufferMemory(string strName, int countNum)
@@ -1405,7 +1407,7 @@ namespace LWDicer.Layers
 
         public bool IsServoWarning(int servoNo)
         {
-            return ServoStatus[servoNo].IsServoAlarm;            
+            return ServoStatus[servoNo].IsServoAlarm;
         }
     }
 }

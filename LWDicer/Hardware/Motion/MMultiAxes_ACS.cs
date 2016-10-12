@@ -27,7 +27,7 @@ namespace LWDicer.Layers
 
         public class CMultiAxesACSData
         {
-            public int[] AxisList = new int[DEF_MAX_COORDINATE];    
+            public int[] AxisList = new int[DEF_MAX_COORDINATE];
 
             public CMultiAxesACSData(int DeviceNo, int[] AxisList)
             {
@@ -42,9 +42,9 @@ namespace LWDicer.Layers
         private CMutliAxesACSRefComp m_RefComp;
         private CMultiAxesACSData m_Data;
 
-        private int[] MovePriority          = new int[DEF_MAX_COORDINATE];   // 축 이동시에 우선 순위
-        private int[] OriginPriority        = new int[DEF_MAX_COORDINATE];   // 축 원점복귀시에 우선 순위
-        private CACSServoStatus[] ServoStatus  = new CACSServoStatus[DEF_MAX_COORDINATE];
+        private int[] MovePriority = new int[DEF_MAX_COORDINATE];   // 축 이동시에 우선 순위
+        private int[] OriginPriority = new int[DEF_MAX_COORDINATE];   // 축 원점복귀시에 우선 순위
+        private CACSServoStatus[] ServoStatus = new CACSServoStatus[DEF_MAX_COORDINATE];
 
         public MMultiAxes_ACS(CObjectInfo objInfo, CMutliAxesACSRefComp refComp, CMultiAxesACSData data)
             : base(objInfo)
@@ -429,7 +429,7 @@ namespace LWDicer.Layers
             return iResult;
         }
 
-        public int JogMoveVelocity(int iCoordID, bool bDir,bool IsFastMove)
+        public int JogMoveVelocity(int iCoordID, bool bDir, bool IsFastMove)
         {
             int iResult = SUCCESS;
 

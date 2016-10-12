@@ -421,5 +421,10 @@ namespace LWDicer.UI
         {
             CMainFrame.LWDicer.m_ctrlStage1.MoveToStageCenter();
         }
+
+        private void btnRotateCenter_Click(object sender, EventArgs e)
+        {
+            CMainFrame.LWDicer.m_ctrlStage1.DoRotateCenterCals();
+        }
     }
 }

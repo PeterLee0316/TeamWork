@@ -158,6 +158,7 @@ namespace LWDicer.UI
         private void SetVelocity()
         {
             int speedIndex = (int)EMotorSpeed.MANUAL_SLOW;
+
             if (AxisMoveOption == (int)EMoveOption.JOG)
             {
                 speedIndex = IsFastMove ? (int)EMotorSpeed.JOG_FAST: (int)EMotorSpeed.JOG_SLOW;

@@ -37,9 +37,9 @@
             this.btnEdgePos4 = new System.Windows.Forms.Button();
             this.btnEdgePos3 = new System.Windows.Forms.Button();
             this.btnEdgePos2 = new System.Windows.Forms.Button();
-            this.btnEdgeAlignDataSave = new System.Windows.Forms.Button();
             this.btnEdgePos1 = new System.Windows.Forms.Button();
             this.btnStageCenter = new System.Windows.Forms.Button();
+            this.btnEdgeAlignDataSave = new System.Windows.Forms.Button();
             this.picVision = new System.Windows.Forms.Panel();
             this.BtnExit = new System.Windows.Forms.Button();
             this.pnlStageJog = new System.Windows.Forms.Panel();
@@ -64,6 +64,9 @@
             this.btnChangeCam = new System.Windows.Forms.Button();
             this.btnEdgeTeachNext = new System.Windows.Forms.Button();
             this.btnEdgeAlignDataInit = new System.Windows.Forms.Button();
+            this.BtnJog = new System.Windows.Forms.Button();
+            this.btnRotateCenter = new System.Windows.Forms.Button();
+            this.btnRotateCenterCalsInit = new System.Windows.Forms.Button();
             this.groupBox4.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -90,13 +93,16 @@
             this.groupBox4.Controls.Add(this.btnSetEdgeDetectArea);
             this.groupBox4.Controls.Add(this.btnSearchEdgePoint);
             this.groupBox4.Controls.Add(this.btnEdgePos4);
+            this.groupBox4.Controls.Add(this.btnEdgeAlignDataInit);
+            this.groupBox4.Controls.Add(this.btnEdgeTeachNext);
             this.groupBox4.Controls.Add(this.btnEdgePos3);
             this.groupBox4.Controls.Add(this.btnEdgePos2);
             this.groupBox4.Controls.Add(this.btnEdgePos1);
+            this.groupBox4.Controls.Add(this.btnEdgeAlignDataSave);
             this.groupBox4.Controls.Add(this.btnStageCenter);
             this.groupBox4.Location = new System.Drawing.Point(820, 125);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(438, 225);
+            this.groupBox4.Size = new System.Drawing.Size(438, 353);
             this.groupBox4.TabIndex = 944;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Manual Control";
@@ -167,21 +173,6 @@
             this.btnEdgePos2.UseVisualStyleBackColor = true;
             this.btnEdgePos2.Click += new System.EventHandler(this.btnEdgePos2_Click);
             // 
-            // btnEdgeAlignDataSave
-            // 
-            this.btnEdgeAlignDataSave.Font = new System.Drawing.Font("굴림", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.btnEdgeAlignDataSave.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.btnEdgeAlignDataSave.Image = ((System.Drawing.Image)(resources.GetObject("btnEdgeAlignDataSave.Image")));
-            this.btnEdgeAlignDataSave.Location = new System.Drawing.Point(1118, 468);
-            this.btnEdgeAlignDataSave.Name = "btnEdgeAlignDataSave";
-            this.btnEdgeAlignDataSave.Size = new System.Drawing.Size(130, 61);
-            this.btnEdgeAlignDataSave.TabIndex = 978;
-            this.btnEdgeAlignDataSave.Text = "Data Save";
-            this.btnEdgeAlignDataSave.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnEdgeAlignDataSave.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.btnEdgeAlignDataSave.UseVisualStyleBackColor = true;
-            this.btnEdgeAlignDataSave.Click += new System.EventHandler(this.btnThetaAlignDataSave_Click);
-            // 
             // btnEdgePos1
             // 
             this.btnEdgePos1.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
@@ -207,6 +198,21 @@
             this.btnStageCenter.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.btnStageCenter.UseVisualStyleBackColor = true;
             this.btnStageCenter.Click += new System.EventHandler(this.btnStageCenter_Click);
+            // 
+            // btnEdgeAlignDataSave
+            // 
+            this.btnEdgeAlignDataSave.Font = new System.Drawing.Font("굴림", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.btnEdgeAlignDataSave.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.btnEdgeAlignDataSave.Image = ((System.Drawing.Image)(resources.GetObject("btnEdgeAlignDataSave.Image")));
+            this.btnEdgeAlignDataSave.Location = new System.Drawing.Point(298, 286);
+            this.btnEdgeAlignDataSave.Name = "btnEdgeAlignDataSave";
+            this.btnEdgeAlignDataSave.Size = new System.Drawing.Size(130, 61);
+            this.btnEdgeAlignDataSave.TabIndex = 978;
+            this.btnEdgeAlignDataSave.Text = "Data Save";
+            this.btnEdgeAlignDataSave.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnEdgeAlignDataSave.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.btnEdgeAlignDataSave.UseVisualStyleBackColor = true;
+            this.btnEdgeAlignDataSave.Click += new System.EventHandler(this.btnThetaAlignDataSave_Click);
             // 
             // picVision
             // 
@@ -489,7 +495,7 @@
             // 
             this.btnEdgeTeachNext.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.btnEdgeTeachNext.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.btnEdgeTeachNext.Location = new System.Drawing.Point(832, 376);
+            this.btnEdgeTeachNext.Location = new System.Drawing.Point(12, 232);
             this.btnEdgeTeachNext.Name = "btnEdgeTeachNext";
             this.btnEdgeTeachNext.Size = new System.Drawing.Size(98, 61);
             this.btnEdgeTeachNext.TabIndex = 977;
@@ -503,7 +509,7 @@
             this.btnEdgeAlignDataInit.Font = new System.Drawing.Font("굴림", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.btnEdgeAlignDataInit.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
             this.btnEdgeAlignDataInit.Image = ((System.Drawing.Image)(resources.GetObject("btnEdgeAlignDataInit.Image")));
-            this.btnEdgeAlignDataInit.Location = new System.Drawing.Point(1118, 401);
+            this.btnEdgeAlignDataInit.Location = new System.Drawing.Point(162, 286);
             this.btnEdgeAlignDataInit.Name = "btnEdgeAlignDataInit";
             this.btnEdgeAlignDataInit.Size = new System.Drawing.Size(130, 61);
             this.btnEdgeAlignDataInit.TabIndex = 979;
@@ -513,18 +519,62 @@
             this.btnEdgeAlignDataInit.UseVisualStyleBackColor = true;
             this.btnEdgeAlignDataInit.Click += new System.EventHandler(this.btnEdgeAlignDataInit_Click);
             // 
+            // BtnJog
+            // 
+            this.BtnJog.Font = new System.Drawing.Font("굴림", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.BtnJog.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.BtnJog.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.BtnJog.Location = new System.Drawing.Point(1118, 535);
+            this.BtnJog.Name = "BtnJog";
+            this.BtnJog.Size = new System.Drawing.Size(130, 61);
+            this.BtnJog.TabIndex = 980;
+            this.BtnJog.Text = "Jog";
+            this.BtnJog.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.BtnJog.UseVisualStyleBackColor = true;
+            this.BtnJog.Click += new System.EventHandler(this.BtnJog_Click);
+            // 
+            // btnRotateCenter
+            // 
+            this.btnRotateCenter.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.btnRotateCenter.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.btnRotateCenter.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.btnRotateCenter.Location = new System.Drawing.Point(936, 497);
+            this.btnRotateCenter.Name = "btnRotateCenter";
+            this.btnRotateCenter.Size = new System.Drawing.Size(98, 61);
+            this.btnRotateCenter.TabIndex = 981;
+            this.btnRotateCenter.Text = "Rotate Center Cals";
+            this.btnRotateCenter.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.btnRotateCenter.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.btnRotateCenter.UseVisualStyleBackColor = true;
+            this.btnRotateCenter.Click += new System.EventHandler(this.btnRotateCenter_Click);
+            // 
+            // btnRotateCenterCalsInit
+            // 
+            this.btnRotateCenterCalsInit.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.btnRotateCenterCalsInit.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.btnRotateCenterCalsInit.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.btnRotateCenterCalsInit.Location = new System.Drawing.Point(832, 497);
+            this.btnRotateCenterCalsInit.Name = "btnRotateCenterCalsInit";
+            this.btnRotateCenterCalsInit.Size = new System.Drawing.Size(98, 61);
+            this.btnRotateCenterCalsInit.TabIndex = 982;
+            this.btnRotateCenterCalsInit.Text = "Rotate Cals Init";
+            this.btnRotateCenterCalsInit.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.btnRotateCenterCalsInit.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.btnRotateCenterCalsInit.UseVisualStyleBackColor = true;
+            this.btnRotateCenterCalsInit.Click += new System.EventHandler(this.btnRotateCenterCalsInit_Click);
+            // 
             // FormEdgeAlignTeach
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1260, 880);
-            this.Controls.Add(this.btnEdgeAlignDataInit);
-            this.Controls.Add(this.btnEdgeTeachNext);
+            this.Controls.Add(this.btnRotateCenterCalsInit);
+            this.Controls.Add(this.btnRotateCenter);
+            this.Controls.Add(this.BtnJog);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.gradientLabel2);
             this.Controls.Add(this.pnlStageJog);
-            this.Controls.Add(this.btnEdgeAlignDataSave);
             this.Controls.Add(this.BtnExit);
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.picVision);
@@ -576,5 +626,8 @@
         private System.Windows.Forms.Button btnSetEdgeDetectArea;
         private System.Windows.Forms.Button btnEdgeTeachNext;
         private System.Windows.Forms.Button btnEdgeAlignDataInit;
+        private System.Windows.Forms.Button BtnJog;
+        private System.Windows.Forms.Button btnRotateCenter;
+        private System.Windows.Forms.Button btnRotateCenterCalsInit;
     }
 }

@@ -98,14 +98,14 @@ namespace LWDicer.UI
 
         private void btnSelectFocus_Click(object sender, EventArgs e)
         {
-            CMainFrame.frmCamFocus.Hide();
-            CMainFrame.frmStageJog.Show();
+            CMainFrame.frmStageJog.Hide();
+            CMainFrame.frmCamFocus.Show();
         }
 
         private void btnSelectStageMove_Click(object sender, EventArgs e)
         {
-            CMainFrame.frmStageJog.Hide();
-            CMainFrame.frmCamFocus.Show();
+            CMainFrame.frmCamFocus.Hide();
+            CMainFrame.frmStageJog.Show();
         }
 
         private void btnStageCenter_Click(object sender, EventArgs e)
@@ -231,10 +231,28 @@ namespace LWDicer.UI
                                                                                             dLength;
             CMainFrame.DataManager.FixedPos.Stage1Pos.Pos[(int)EStagePos.EDGE_ALIGN_1].dT = CMainFrame.DataManager.FixedPos.Stage1Pos.Pos[(int)EStagePos.STAGE_CENTER].dT;
 
-
+            // Wafer의 중심 Offset 적용
+            CMainFrame.DataManager.SystemData_Align.WaferOffsetX = 0.0;
+            CMainFrame.DataManager.SystemData_Align.WaferOffsetY = 0.0;
+            CMainFrame.DataManager.SystemData_Align.WaferSizeOffset = 0.0;
 
             CMainFrame.DataManager.SavePositionData(true, EPositionObject.STAGE1);
             CMainFrame.LWDicer.SetPositionDataToComponent(EPositionGroup.STAGE1);
+        }
+
+        private void BtnJog_Click(object sender, EventArgs e)
+        {
+            CMainFrame.DisplayJog();
+        }
+
+        private void btnRotateCenter_Click(object sender, EventArgs e)
+        {
+            CMainFrame.LWDicer.m_ctrlStage1.DoRotateCenterCals();
+        }
+
+        private void btnRotateCenterCalsInit_Click(object sender, EventArgs e)
+        {
+            CMainFrame.LWDicer.m_ctrlStage1.InitRotateCenterCals();
         }
     }
 }

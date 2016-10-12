@@ -368,6 +368,11 @@ namespace LWDicer.Layers
             public double CamEachOffsetX;
             public double CamEachOffsetY;
 
+            public double WaferOffsetX;
+            public double WaferOffsetY;
+            public double WaferSizeOffset;
+
+
 
             // Stage ===========================================================================
 
