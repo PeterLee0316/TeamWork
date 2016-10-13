@@ -1343,37 +1343,43 @@ namespace LWDicer.Layers
         /// <summary>
         /// Wafer의 각 공정 단계를 정의해서, 현재까지 진행정도 및 다음 진행방향을 결정하는 용도로 사용
         /// Loader에서 Panel을 빼오며 시작, Loader에 Panel을 다시 적재하며 완료.
+        /// Unit간의 Handshake 동작은 wafer를 소유하고 있는 unit기준으로 작성
         /// </summary>
         public enum EProcessPhase
         {
-            PUSHPULL_LOAD_FROM_LOADER,
+            PUSHPULL_LOAD_FROM_LOADER,      // = 0
+
             PUSHPULL_UNLOAD_TO_COATER,
             COATER_LOAD,
             PRE_COATING,
             COATING,
-            POST_COATING,
-            COATER_UNLOAD,
-            PUSHPULL_LOAD_FROM_COATER,
+            POST_COATING,                   // = 5
+            COATER_WAIT_UNLOAD,
+            COATER_UNLOAD_TO_PUSHPULL,
+
             PUSHPULL_UNLOAD_TO_HANDLER,
-            UPPER_HANDLER_LOAD,
-            UPPER_HANDLER_UNLOAD,
-            STAGE_LOAD,
+            UPPER_HANDLER_WAIT_UNLOAD,
+            UPPER_HANDLER_UNLOAD,           // = 10
+
             MACRO_ALIGN,
             MICRO_ALIGN,
             DICING,
-            STAGE_UNLOAD,
-            LOWER_HANDLER_LOAD,
+            STAGE_WAIT_UNLOAD,
+            STAGE_UNLOAD,                   // = 15
+
+            LOWER_HANDLER_WAIT_UNLOAD,
             LOWER_HANDLER_UNLOAD,
-            PUSHPULL_LOAD_FROM_HANDLER,
+
             PUSHPULL_UNLOAD_TO_CLEANER,
             CLEANER_LOAD,
-            PRE_CLEANING,
+            PRE_CLEANING,                   // = 20
             CLEANING,
             POST_CLEANING,
-            CLEANER_UNLOAD,
-            PUSHPULL_LOAD_FROM_CLEANER,
+            CLEANER_WAIT_UNLOAD,
+            CLEANER_UNLOAD_TO_PUSHPULL,
+
             PUSHPULL_UNLOAD_TO_LOADER,
-            MAX,
+            MAX,                            // = 26
         }
 
         public class CProcessTime
@@ -1421,11 +1427,9 @@ namespace LWDicer.Layers
                 Init();
             }
 
-            public void Init(bool bGenerateID = false)
+            public void Init()
             {
-                if (bGenerateID == false) ID = "";
-                else GenerateID();
-
+                ID = "";
                 for (int i = 0; i < ProcessTime.Length; i++)
                 {
                     ProcessFinished[i] = false;
@@ -1433,10 +1437,10 @@ namespace LWDicer.Layers
                 }
             }
 
-            public void GenerateID()
+            public void GenerateID(string str = "")
             {
                 Time_Created = DateTime.Now;
-                ID = Time_Created.ToString("yyyy-MM-dd HH:mm:ss");
+                ID = Time_Created.ToString("yyyy-MM-dd HH:mm:ss") + str;
             }
 
             private void LoadFromCassette()
@@ -1454,7 +1458,6 @@ namespace LWDicer.Layers
                 // 처음 작업을 시작하는 경우 id 초기화 및 작업 시작 시간 기록
                 if(phase == EProcessPhase.PUSHPULL_LOAD_FROM_LOADER)
                 {
-                    Init(true);
                     LoadFromCassette();
                 }
                 ProcessFinished[(int)phase] = false;
@@ -1596,7 +1599,7 @@ namespace LWDicer.Layers
         {
             // Common
             public int TimeLimit = 3000 * 1000;       // millisecond, interface time limit
-            public int TimeKeepOn = 2 * 1000;       // millisecond, interface에서 마지막 신호의 유지 시간
+            public int TimeKeepOn = 1 * 1000;       // millisecond, interface에서 마지막 신호의 유지 시간
 
             // handshake 도중에 상대편에게서 에러가 발생했을때 굳이 interface time limit까지 기다리지 않고 바로 나가기 위해서
             // 상대편의 에러만 체크하는것은, 다른에러에는 반응하지 않고 handshake를 마무리 짓기 위해서임
@@ -1606,33 +1609,36 @@ namespace LWDicer.Layers
             public bool[] TimeOver = new bool[(int)EThreadUnit.MAX];
 
             // Message Format : Sender_Receiver_Message
+
+            //////////////////////////////////////////////////////////////////////////////////
             // TrsLoader Message
             // with PushPull
-            public bool Loader_PushPull_WaitBeginLoading;           // unused
-            public bool Loader_PushPull_BeginHandshake_Load;        // begin handshake
-            public bool Loader_PushPull_LoadStep1;                  // move to load
-            public bool Loader_PushPull_LoadStep2;                  // vacuum absorb
-            public bool Loader_PushPull_FinishHandshake_Load;       // finish handshake
+            public bool Loader_PushPull_WaitBeginLoading      ; // unused
+            public bool Loader_PushPull_BeginHandshake_Load   ; // begin handshake
+            public bool Loader_PushPull_LoadStep1             ; // move to load
+            public bool Loader_PushPull_LoadStep2             ; // vacuum absorb
+            public bool Loader_PushPull_FinishHandshake_Load  ; // finish handshake
 
-            public bool Loader_PushPull_WaitBeginUnloding;          // unused
-            public bool Loader_PushPull_BeginHandshake_Unload;      // begin handshake
-            public bool Loader_PushPull_UnloadStep1;                // move to unload
-            public bool Loader_PushPull_UnloadStep2;                // vacuum release
-            public bool Loader_PushPull_FinishHandshake_Unload;     // finish handshake
+            public bool Loader_PushPull_WaitBeginUnloding     ; // unused
+            public bool Loader_PushPull_BeginHandshake_Unload ; // begin handshake
+            public bool Loader_PushPull_UnloadStep1           ; // move to unload
+            public bool Loader_PushPull_UnloadStep2           ; // vacuum release
+            public bool Loader_PushPull_FinishHandshake_Unload; // finish handshake
 
+            //////////////////////////////////////////////////////////////////////////////////
             // TrsPushPull Message
             // with Loader
-            public bool PushPull_Loader_BeginHandshake_Load;        // begin handshake
-            public bool PushPull_Loader_LoadStep1;                  // move to load, vacuum absorb
-            public bool PushPull_Loader_LoadStep2;                  // move to wait
-            public bool PushPull_Loader_FinishHandshake_Load;       // finish handshake
+            public bool PushPull_Loader_BeginHandshake_Load   ; // begin handshake
+            public bool PushPull_Loader_LoadStep1             ; // move to load, vacuum absorb
+            public bool PushPull_Loader_LoadStep2             ; // move to wait
+            public bool PushPull_Loader_FinishHandshake_Load  ; // finish handshake
 
-            public bool PushPull_Loader_BeginHandshake_Unload;      // begin handshake
-            public bool PushPull_Loader_UnloadStep1;                // move to unload
-            public bool PushPull_Loader_UnloadStep2;                // vacuum release, move to wait
-            public bool PushPull_Loader_FinishHandshake_Unload;     // finish handshake
+            public bool PushPull_Loader_BeginHandshake_Unload ; // begin handshake
+            public bool PushPull_Loader_UnloadStep1           ; // move to unload
+            public bool PushPull_Loader_UnloadStep2           ; // vacuum release, move to wait
+            public bool PushPull_Loader_FinishHandshake_Unload; // finish handshake
 
-            // with Spinner1
+            // with Spinner
             public bool[] PushPull_Spinner_BeginHandshake_Load    = new bool[(int)ESpinnerIndex.MAX]; // begin handshake
             public bool[] PushPull_Spinner_LoadStep1              = new bool[(int)ESpinnerIndex.MAX]; // move to load, guide open
             public bool[] PushPull_Spinner_LoadStep2              = new bool[(int)ESpinnerIndex.MAX]; // guide close
@@ -1643,7 +1649,19 @@ namespace LWDicer.Layers
             public bool[] PushPull_Spinner_UnloadStep2            = new bool[(int)ESpinnerIndex.MAX]; // guide open
             public bool[] PushPull_Spinner_FinishHandshake_Unload = new bool[(int)ESpinnerIndex.MAX]; // finish handshake
 
-            // TrsSpinner1 Message
+            // with Handler
+            public bool PushPull_Handler_BeginHandshake_Load    ; // begin handshake
+            public bool PushPull_Handler_LoadStep1              ; // move to load, guide open
+            public bool PushPull_Handler_LoadStep2              ; // guide close
+            public bool PushPull_Handler_FinishHandshake_Load   ; // finish handshake
+
+            public bool PushPull_Handler_BeginHandshake_Unload  ; // begin handshake
+            public bool PushPull_Handler_UnloadStep1            ; // move to unload
+            public bool PushPull_Handler_UnloadStep2            ; // guide open
+            public bool PushPull_Handler_FinishHandshake_Unload ; // finish handshake
+
+            //////////////////////////////////////////////////////////////////////////////////
+            // TrsSpinner Message
             // with PushPull
             public bool[] Spinner_PushPull_WaitBeginLoading       = new bool[(int)ESpinnerIndex.MAX]; // unused
             public bool[] Spinner_PushPull_BeginHandshake_Load    = new bool[(int)ESpinnerIndex.MAX]; // begin handshake
@@ -1657,6 +1675,47 @@ namespace LWDicer.Layers
             public bool[] Spinner_PushPull_UnloadStep2            = new bool[(int)ESpinnerIndex.MAX]; // vacuum release, move to wait
             public bool[] Spinner_PushPull_FinishHandshake_Unload = new bool[(int)ESpinnerIndex.MAX]; // finish handshake
 
+            //////////////////////////////////////////////////////////////////////////////////
+            // TrsHandler Message
+            // with PushPull
+            public bool Handler_PushPull_WaitBeginLoading       ; // unused
+            public bool Handler_PushPull_BeginHandshake_Load    ; // begin handshake
+            public bool Handler_PushPull_LoadStep1              ; // move to load, vacuum absorb
+            public bool Handler_PushPull_LoadStep2              ; // move to wait
+            public bool Handler_PushPull_FinishHandshake_Load   ; // finish handshake
+
+            public bool Handler_PushPull_WaitBeginUnloding      ; // unused
+            public bool Handler_PushPull_BeginHandshake_Unload  ; // begin handshake
+            public bool Handler_PushPull_UnloadStep1            ; // move to unload
+            public bool Handler_PushPull_UnloadStep2            ; // vacuum release, move to wait
+            public bool Handler_PushPull_FinishHandshake_Unload ; // finish handshake
+
+            // with Stage1
+            public bool Handler_Stage1_WaitBeginLoading         ; // unused
+            public bool Handler_Stage1_BeginHandshake_Load      ; // begin handshake
+            public bool Handler_Stage1_LoadStep1                ; // move to load, vacuum absorb
+            public bool Handler_Stage1_LoadStep2                ; // move to wait
+            public bool Handler_Stage1_FinishHandshake_Load     ; // finish handshake
+
+            public bool Handler_Stage1_WaitBeginUnloding        ; // unused
+            public bool Handler_Stage1_BeginHandshake_Unload    ; // begin handshake
+            public bool Handler_Stage1_UnloadStep1              ; // move to unload
+            public bool Handler_Stage1_UnloadStep2              ; // vacuum release, move to wait
+            public bool Handler_Stage1_FinishHandshake_Unload   ; // finish handshake
+
+            //////////////////////////////////////////////////////////////////////////////////
+            // TrsStage Message
+            // with Handler
+            public bool Stage1_Handler_BeginHandshake_Load      ; // begin handshake
+            public bool Stage1_Handler_LoadStep1                ; // move to load
+            public bool Stage1_Handler_LoadStep2                ; // vacuum absorb
+            public bool Stage1_Handler_FinishHandshake_Load     ; // finish handshake
+
+            public bool Stage1_Handler_BeginHandshake_Unload    ; // begin handshake
+            public bool Stage1_Handler_UnloadStep1              ; // move to unload
+            public bool Stage1_Handler_UnloadStep2              ; // vacuum release
+            public bool Stage1_Handler_FinishHandshake_Unload   ; // finish handshake
+
             public void ResetInterface(int selfAddr)
             {
                 ErrorOccured[selfAddr] = false;
@@ -1669,29 +1728,29 @@ namespace LWDicer.Layers
                         break ;
 
                     case EThreadUnit.LOADER:
-                        Loader_PushPull_WaitBeginLoading = false;
-                        Loader_PushPull_BeginHandshake_Load = false;
-                        Loader_PushPull_LoadStep1 = false;
-                        Loader_PushPull_LoadStep2 = false;
-                        Loader_PushPull_FinishHandshake_Load = false;
+                        Loader_PushPull_WaitBeginLoading                                     = false;
+                        Loader_PushPull_BeginHandshake_Load                                  = false;
+                        Loader_PushPull_LoadStep1                                            = false;
+                        Loader_PushPull_LoadStep2                                            = false;
+                        Loader_PushPull_FinishHandshake_Load                                 = false;
 
-                        Loader_PushPull_WaitBeginUnloding = false;
-                        Loader_PushPull_BeginHandshake_Unload = false;
-                        Loader_PushPull_UnloadStep1 = false;
-                        Loader_PushPull_UnloadStep2 = false;
-                        Loader_PushPull_FinishHandshake_Unload = false;
+                        Loader_PushPull_WaitBeginUnloding                                    = false;
+                        Loader_PushPull_BeginHandshake_Unload                                = false;
+                        Loader_PushPull_UnloadStep1                                          = false;
+                        Loader_PushPull_UnloadStep2                                          = false;
+                        Loader_PushPull_FinishHandshake_Unload                               = false;
                         break;
 
                     case EThreadUnit.PUSHPULL:
-                        PushPull_Loader_BeginHandshake_Load = false;
-                        PushPull_Loader_LoadStep1 = false;
-                        PushPull_Loader_LoadStep2 = false;
-                        PushPull_Loader_FinishHandshake_Load = false;
+                        PushPull_Loader_BeginHandshake_Load                                  = false;
+                        PushPull_Loader_LoadStep1                                            = false;
+                        PushPull_Loader_LoadStep2                                            = false;
+                        PushPull_Loader_FinishHandshake_Load                                 = false;
 
-                        PushPull_Loader_BeginHandshake_Unload = false;
-                        PushPull_Loader_UnloadStep1 = false;
-                        PushPull_Loader_UnloadStep2 = false;
-                        PushPull_Loader_FinishHandshake_Unload = false;
+                        PushPull_Loader_BeginHandshake_Unload                                = false;
+                        PushPull_Loader_UnloadStep1                                          = false;
+                        PushPull_Loader_UnloadStep2                                          = false;
+                        PushPull_Loader_FinishHandshake_Unload                               = false;
 
                         // with Spinner1
                         PushPull_Spinner_BeginHandshake_Load[(int)ESpinnerIndex.SPINNER1]    = false;
@@ -1714,6 +1773,17 @@ namespace LWDicer.Layers
                         PushPull_Spinner_UnloadStep1[(int)ESpinnerIndex.SPINNER2]            = false;
                         PushPull_Spinner_UnloadStep2[(int)ESpinnerIndex.SPINNER2]            = false;
                         PushPull_Spinner_FinishHandshake_Unload[(int)ESpinnerIndex.SPINNER2] = false;
+
+                        // with Handler
+                        PushPull_Handler_BeginHandshake_Load                                 = false;
+                        PushPull_Handler_LoadStep1                                           = false;
+                        PushPull_Handler_LoadStep2                                           = false;
+                        PushPull_Handler_FinishHandshake_Load                                = false;
+
+                        PushPull_Handler_BeginHandshake_Unload                               = false;
+                        PushPull_Handler_UnloadStep1                                         = false;
+                        PushPull_Handler_UnloadStep2                                         = false;
+                        PushPull_Handler_FinishHandshake_Unload                              = false;
                         break;
 
                     case EThreadUnit.SPINNER1:
@@ -1738,12 +1808,47 @@ namespace LWDicer.Layers
                         PushPull_Spinner_UnloadStep1[(int)ESpinnerIndex.SPINNER2]            = false;
                         PushPull_Spinner_UnloadStep2[(int)ESpinnerIndex.SPINNER2]            = false;
                         PushPull_Spinner_FinishHandshake_Unload[(int)ESpinnerIndex.SPINNER2] = false;
-                        break;                                                                               
+                        break;
 
                     case EThreadUnit.HANDLER:
+                        // with PushPull
+                        Handler_PushPull_WaitBeginLoading                                    = false;
+                        Handler_PushPull_BeginHandshake_Load                                 = false;
+                        Handler_PushPull_LoadStep1                                           = false;
+                        Handler_PushPull_LoadStep2                                           = false;
+                        Handler_PushPull_FinishHandshake_Load                                = false;
+
+                        Handler_PushPull_WaitBeginUnloding                                   = false;
+                        Handler_PushPull_BeginHandshake_Unload                               = false;
+                        Handler_PushPull_UnloadStep1                                         = false;
+                        Handler_PushPull_UnloadStep2                                         = false;
+                        Handler_PushPull_FinishHandshake_Unload                              = false;
+
+                        // with Stage1
+                        Handler_Stage1_WaitBeginLoading                                      = false;
+                        Handler_Stage1_BeginHandshake_Load                                   = false;
+                        Handler_Stage1_LoadStep1                                             = false;
+                        Handler_Stage1_LoadStep2                                             = false;
+                        Handler_Stage1_FinishHandshake_Load                                  = false;
+
+                        Handler_Stage1_WaitBeginUnloding                                     = false;
+                        Handler_Stage1_BeginHandshake_Unload                                 = false;
+                        Handler_Stage1_UnloadStep1                                           = false;
+                        Handler_Stage1_UnloadStep2                                           = false;
+                        Handler_Stage1_FinishHandshake_Unload                                = false;
                         break;
 
                     case EThreadUnit.STAGE1:
+                        // with Handler
+                        Stage1_Handler_BeginHandshake_Load                                   = false;
+                        Stage1_Handler_LoadStep1                                             = false;
+                        Stage1_Handler_LoadStep2                                             = false;
+                        Stage1_Handler_FinishHandshake_Load                                  = false;
+
+                        Stage1_Handler_BeginHandshake_Unload                                 = false;
+                        Stage1_Handler_UnloadStep1                                           = false;
+                        Stage1_Handler_UnloadStep2                                           = false;
+                        Stage1_Handler_FinishHandshake_Unload                                = false;                           
                         break;
                 }
             }
@@ -2112,10 +2217,10 @@ namespace LWDicer.Layers
             ///////////////////////////////////////////////////////////////////
             // Upper/Load Handler
             TRS_UPPER_HANDLER_MOVETO_WAIT1,
+            TRS_UPPER_HANDLER_WAITFOR_MESSAGE,
 
             TRS_UPPER_HANDLER_LOADING_FROM_PUSHPULL_ONESTEP, // handshake by one step
-            TRS_UPPER_HANDLER_WAIT_MOVETO_LOADING,           // wait for load request signal from pushpull
-            //TRS_UPPER_HANDLER_MOVETO_LOAD_POS,             // move to loading pos
+            TRS_UPPER_HANDLER_MOVETO_LOAD_POS,             // move to loading pos
             TRS_UPPER_HANDLER_LOADING,                       // absorb object
             TRS_UPPER_HANDLER_WAITFOR_PUSHPULL_UNLOAD_STEP2, //
             //TRS_UPPER_HANDLER_MOVETO_LOAD_UP_POS,          // after move up, send load complete signal to pushpull
@@ -2123,16 +2228,15 @@ namespace LWDicer.Layers
             TRS_UPPER_HANDLER_MOVETO_WAIT2,
 
             TRS_UPPER_HANDLER_UNLOADING_TO_STAGE_ONESTEP,       // handshake by one step
-            TRS_UPPER_HANDLER_WAIT_MOVETO_UNLOADING,         // wait for unload request signal from stage
             TRS_UPPER_HANDLER_MOVETO_UNLOAD_POS,
             TRS_UPPER_HANDLER_REQUEST_STAGE_LOADING,         // request stage to vacuum absorb
             TRS_UPPER_HANDLER_UNLOADING,                     // after vacuum release + move up, send unload complete signal to stage
 
             // Lower/Unload Handler
             TRS_LOWER_HANDLER_MOVETO_WAIT1,
+            TRS_LOWER_HANDLER_WAITFOR_MESSAGE,
 
             TRS_LOWER_HANDLER_LOADING_FROM_STAGE_ONESTEP, // handshake by one step
-            TRS_LOWER_HANDLER_WAIT_MOVETO_LOADING,           // wait for load request signal from stage
             TRS_LOWER_HANDLER_MOVETO_LOAD_POS,
             TRS_LOWER_HANDLER_LOADING,
             TRS_LOWER_HANDLER_WAITFOR_STAGE_UNLOAD_STEP2,    //
@@ -2141,7 +2245,6 @@ namespace LWDicer.Layers
             TRS_LOWER_HANDLER_MOVETO_WAIT2,
 
             TRS_LOWER_HANDLER_UNLOADING_TO_PUSHPULL_ONESTEP,       // handshake by one step
-            TRS_LOWER_HANDLER_WAIT_MOVETO_UNLOADING,         // wait for unload request signal from pushpull
             TRS_LOWER_HANDLER_MOVETO_UNLOAD_POS,
             TRS_LOWER_HANDLER_WAITFOR_PUSHPULL_LOAD_STEP2,   // request pushpull to vacuum absorb
             TRS_LOWER_HANDLER_UNLOADING,                     // after vacuum release + move up, send unload complete signal to pushpull
@@ -2150,6 +2253,7 @@ namespace LWDicer.Layers
             // TrsStage Step
             ///////////////////////////////////////////////////////////////////
             TRS_STAGE1_MOVETO_WAIT_POS,
+            TRS_STAGE1_WAITFOR_MESSAGE,
 
             TRS_STAGE1_LOADING_FROM_HANDLER_ONESTEP,       // handshake by one step
             TRS_STAGE1_MOVETO_LOAD_POS,
@@ -2158,8 +2262,10 @@ namespace LWDicer.Layers
             TRS_STAGE1_LOADING,
             TRS_STAGE1_WAITFOR_HANDLER_UNLOAD_STEP2,
 
-            TRS_STAGE1_MOVETO_ALIGN_POS,
-            TRS_STAGE1_DO_ALIGN,
+            TRS_STAGE1_MOVETO_MACRO_ALIGN_POS,
+            TRS_STAGE1_DO_MACRO_ALIGN,
+            TRS_STAGE1_MOVETO_MICRO_ALIGN_POS,
+            TRS_STAGE1_DO_MICRO_ALIGN,
             TRS_STAGE1_MOVETO_DICING_POS,
             TRS_STAGE1_DO_DICING,
 

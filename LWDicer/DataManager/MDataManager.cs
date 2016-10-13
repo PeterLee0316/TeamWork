@@ -40,37 +40,37 @@ namespace LWDicer.Layers
 {
     public class DEF_DataManager
     {
-        public const int ERR_DATA_MANAGER_FAIL_BACKUP_DB             = 1;
-        public const int ERR_DATA_MANAGER_FAIL_DELETE_DB             = 2;
-        public const int ERR_DATA_MANAGER_FAIL_DROP_TABLES           = 3;
-        public const int ERR_DATA_MANAGER_FAIL_BACKUP_ROW            = 4;
-        public const int ERR_DATA_MANAGER_FAIL_SAVE_GENERAL_DATA     = 5;
-        public const int ERR_DATA_MANAGER_FAIL_LOAD_GENERAL_DATA     = 6;
-        public const int ERR_DATA_MANAGER_FAIL_SAVE_SYSTEM_DATA      = 7;
-        public const int ERR_DATA_MANAGER_FAIL_LOAD_SYSTEM_DATA      = 8;
-        public const int ERR_DATA_MANAGER_FAIL_SAVE_POSITION_DATA    = 9;
-        public const int ERR_DATA_MANAGER_FAIL_LOAD_POSITION_DATA    = 10;
-        public const int ERR_DATA_MANAGER_FAIL_SAVE_MODEL_DATA       = 11;
-        public const int ERR_DATA_MANAGER_FAIL_LOAD_MODEL_DATA       = 12;
-        public const int ERR_DATA_MANAGER_FAIL_SAVE_MODEL_LIST       = 13;
-        public const int ERR_DATA_MANAGER_FAIL_DELETE_MODEL_DATA     = 14;
-        public const int ERR_DATA_MANAGER_FAIL_LOAD_MODEL_LIST       = 15;
-        public const int ERR_DATA_MANAGER_FAIL_SAVE_LOGIN_HISTORY    = 16;
-        public const int ERR_DATA_MANAGER_FAIL_LOAD_LOGIN_HISTORY    = 17;
-        public const int ERR_DATA_MANAGER_FAIL_SAVE_ALARM_INFO       = 18;
-        public const int ERR_DATA_MANAGER_FAIL_LOAD_ALARM_INFO       = 19;
-        public const int ERR_DATA_MANAGER_FAIL_SAVE_MESSAGE_INFO     = 20;
-        public const int ERR_DATA_MANAGER_FAIL_LOAD_MESSAGE_INFO     = 21;
-        public const int ERR_DATA_MANAGER_FAIL_SAVE_PARAMETER_INFO   = 22;
-        public const int ERR_DATA_MANAGER_FAIL_LOAD_PARAMETER_INFO   = 23;
-        public const int ERR_DATA_MANAGER_FAIL_SAVE_ALARM_HISTORY    = 24;
-        public const int ERR_DATA_MANAGER_FAIL_LOAD_ALARM_HISTORY    = 25;
-        public const int ERR_DATA_MANAGER_FAIL_DELETE_ROOT_FOLDER    = 26;
-        public const int ERR_DATA_MANAGER_FAIL_DELETE_DEFAULT_MODEL  = 27;
-        public const int ERR_DATA_MANAGER_FAIL_DELETE_CURRENT_MODEL  = 28;
-        public const int ERR_DATA_MANAGER_FAIL_EXCEL_IMPORT          = 29;
-        public const int ERR_DATA_MANAGER_FAIL_EXCEL_EXPORT          = 30;
-
+        public const int ERR_DATA_MANAGER_FAIL_BACKUP_DB                = 1;
+        public const int ERR_DATA_MANAGER_FAIL_DELETE_DB                = 2;
+        public const int ERR_DATA_MANAGER_FAIL_DROP_TABLES              = 3;
+        public const int ERR_DATA_MANAGER_FAIL_BACKUP_ROW               = 4;
+        public const int ERR_DATA_MANAGER_FAIL_SAVE_GENERAL_DATA        = 5;
+        public const int ERR_DATA_MANAGER_FAIL_LOAD_GENERAL_DATA        = 6;
+        public const int ERR_DATA_MANAGER_FAIL_SAVE_SYSTEM_DATA         = 7;
+        public const int ERR_DATA_MANAGER_FAIL_LOAD_SYSTEM_DATA         = 8;
+        public const int ERR_DATA_MANAGER_FAIL_SAVE_POSITION_DATA       = 9;
+        public const int ERR_DATA_MANAGER_FAIL_LOAD_POSITION_DATA       = 10;
+        public const int ERR_DATA_MANAGER_FAIL_SAVE_MODEL_DATA          = 11;
+        public const int ERR_DATA_MANAGER_FAIL_LOAD_MODEL_DATA          = 12;
+        public const int ERR_DATA_MANAGER_FAIL_SAVE_MODEL_LIST          = 13;
+        public const int ERR_DATA_MANAGER_FAIL_DELETE_MODEL_DATA        = 14;
+        public const int ERR_DATA_MANAGER_FAIL_LOAD_MODEL_LIST          = 15;
+        public const int ERR_DATA_MANAGER_FAIL_SAVE_LOGIN_HISTORY       = 16;
+        public const int ERR_DATA_MANAGER_FAIL_LOAD_LOGIN_HISTORY       = 17;
+        public const int ERR_DATA_MANAGER_FAIL_SAVE_ALARM_INFO          = 18;
+        public const int ERR_DATA_MANAGER_FAIL_LOAD_ALARM_INFO          = 19;
+        public const int ERR_DATA_MANAGER_FAIL_SAVE_MESSAGE_INFO        = 20;
+        public const int ERR_DATA_MANAGER_FAIL_LOAD_MESSAGE_INFO        = 21;
+        public const int ERR_DATA_MANAGER_FAIL_SAVE_PARAMETER_INFO      = 22;
+        public const int ERR_DATA_MANAGER_FAIL_LOAD_PARAMETER_INFO      = 23;
+        public const int ERR_DATA_MANAGER_FAIL_SAVE_ALARM_HISTORY       = 24;
+        public const int ERR_DATA_MANAGER_FAIL_LOAD_ALARM_HISTORY       = 25;
+        public const int ERR_DATA_MANAGER_FAIL_DELETE_ROOT_FOLDER       = 26;
+        public const int ERR_DATA_MANAGER_FAIL_DELETE_DEFAULT_MODEL     = 27;
+        public const int ERR_DATA_MANAGER_FAIL_DELETE_CURRENT_MODEL     = 28;
+        public const int ERR_DATA_MANAGER_FAIL_EXCEL_IMPORT             = 29;
+        public const int ERR_DATA_MANAGER_FAIL_EXCEL_EXPORT             = 30;
+        public const int ERR_DATA_MANAGER_INPUT_BUFFER_EMPTY            = 31;
 
         //public const int ERR_DATA_MANAGER_IO_DATA_FILE_NOT_EXIST = 1;
         //public const int ERR_DATA_MANAGER_IO_DATA_FILE_CLOSE_FAILURE = 2;
@@ -974,8 +974,8 @@ namespace LWDicer.Layers
         // 설비안의 각 위치에 있는 WorkPiece의 정보를 관리
         public CWorkPiece[] WorkPieceArray { get; private set; } = new CWorkPiece[(int)ELCNetUnitPos.MAX];
         // 임시로 우선 공정에 들어가기 전, 후의 List를 관리하려고 선언
-        public List<CWorkPiece> WorkPieceList_NF { get; private set; } = new List<CWorkPiece>();
-        public List<CWorkPiece> WorkPieceList_Finished { get; private set; } = new List<CWorkPiece>();
+        public List<CWorkPiece> WorkPiece_InputBuffer { get; private set; } = new List<CWorkPiece>(); // buffer for input
+        public List<CWorkPiece> WorkPiece_OutputBuffer { get; private set; } = new List<CWorkPiece>(); // buffer for output
 
         public MDataManager(CObjectInfo objInfo, CDBInfo dbInfo)
             : base(objInfo)
@@ -1092,29 +1092,35 @@ namespace LWDicer.Layers
                 ChangeWorkPieceUnit(ELCNetUnitPos.PUSHPULL, pos);
                 StartWorkPiecePhase(pos, EProcessPhase.COATER_LOAD);
                 FinishWorkPiecePhas(pos, EProcessPhase.COATER_LOAD);
+                StartWorkPiecePhase(pos, EProcessPhase.PRE_COATING);
+                FinishWorkPiecePhas(pos, EProcessPhase.PRE_COATING);
                 StartWorkPiecePhase(pos, EProcessPhase.COATING);
                 FinishWorkPiecePhas(pos, EProcessPhase.COATING);
-                StartWorkPiecePhase(pos, EProcessPhase.COATER_UNLOAD);
-                FinishWorkPiecePhas(pos, EProcessPhase.COATER_UNLOAD);
+                StartWorkPiecePhase(pos, EProcessPhase.POST_COATING);
+                FinishWorkPiecePhas(pos, EProcessPhase.POST_COATING);
+                StartWorkPiecePhase(pos, EProcessPhase.COATER_WAIT_UNLOAD);
+                FinishWorkPiecePhas(pos, EProcessPhase.COATER_WAIT_UNLOAD);
+                StartWorkPiecePhase(pos, EProcessPhase.COATER_UNLOAD_TO_PUSHPULL);
+                FinishWorkPiecePhas(pos, EProcessPhase.COATER_UNLOAD_TO_PUSHPULL);
 
                 pos = ELCNetUnitPos.PUSHPULL;
                 ChangeWorkPieceUnit(ELCNetUnitPos.SPINNER1, pos);
-                StartWorkPiecePhase(pos, EProcessPhase.PUSHPULL_LOAD_FROM_COATER);
-                FinishWorkPiecePhas(pos, EProcessPhase.PUSHPULL_LOAD_FROM_COATER);
+                StartWorkPiecePhase(pos, EProcessPhase.COATER_UNLOAD_TO_PUSHPULL);
+                FinishWorkPiecePhas(pos, EProcessPhase.COATER_UNLOAD_TO_PUSHPULL);
                 StartWorkPiecePhase(pos, EProcessPhase.PUSHPULL_UNLOAD_TO_HANDLER);
                 FinishWorkPiecePhas(pos, EProcessPhase.PUSHPULL_UNLOAD_TO_HANDLER);
 
                 pos = ELCNetUnitPos.UPPER_HANDLER;
                 ChangeWorkPieceUnit(ELCNetUnitPos.PUSHPULL, pos);
-                StartWorkPiecePhase(pos, EProcessPhase.UPPER_HANDLER_LOAD);
-                FinishWorkPiecePhas(pos, EProcessPhase.UPPER_HANDLER_LOAD);
+                //StartWorkPiecePhase(pos, EProcessPhase.UPPER_HANDLER_LOAD);
+                //FinishWorkPiecePhas(pos, EProcessPhase.UPPER_HANDLER_LOAD);
                 StartWorkPiecePhase(pos, EProcessPhase.UPPER_HANDLER_UNLOAD);
                 FinishWorkPiecePhas(pos, EProcessPhase.UPPER_HANDLER_UNLOAD);
 
                 pos = ELCNetUnitPos.STAGE1;
                 ChangeWorkPieceUnit(ELCNetUnitPos.UPPER_HANDLER, pos);
-                StartWorkPiecePhase(pos, EProcessPhase.STAGE_LOAD);
-                FinishWorkPiecePhas(pos, EProcessPhase.STAGE_LOAD);
+                //StartWorkPiecePhase(pos, EProcessPhase.STAGE_LOAD);
+                //FinishWorkPiecePhas(pos, EProcessPhase.STAGE_LOAD);
                 StartWorkPiecePhase(pos, EProcessPhase.MACRO_ALIGN);
                 FinishWorkPiecePhas(pos, EProcessPhase.MACRO_ALIGN);
                 StartWorkPiecePhase(pos, EProcessPhase.MICRO_ALIGN);
@@ -1126,15 +1132,15 @@ namespace LWDicer.Layers
 
                 pos = ELCNetUnitPos.LOWER_HANDLER;
                 ChangeWorkPieceUnit(ELCNetUnitPos.STAGE1, pos);
-                StartWorkPiecePhase(pos, EProcessPhase.LOWER_HANDLER_LOAD);
-                FinishWorkPiecePhas(pos, EProcessPhase.LOWER_HANDLER_LOAD);
+                //StartWorkPiecePhase(pos, EProcessPhase.LOWER_HANDLER_LOAD);
+                //FinishWorkPiecePhas(pos, EProcessPhase.LOWER_HANDLER_LOAD);
                 StartWorkPiecePhase(pos, EProcessPhase.LOWER_HANDLER_UNLOAD);
                 FinishWorkPiecePhas(pos, EProcessPhase.LOWER_HANDLER_UNLOAD);
 
                 pos = ELCNetUnitPos.PUSHPULL;
                 ChangeWorkPieceUnit(ELCNetUnitPos.LOWER_HANDLER, pos);
-                StartWorkPiecePhase(pos, EProcessPhase.PUSHPULL_LOAD_FROM_HANDLER);
-                FinishWorkPiecePhas(pos, EProcessPhase.PUSHPULL_LOAD_FROM_HANDLER);
+                //StartWorkPiecePhase(pos, EProcessPhase.PUSHPULL_LOAD_FROM_HANDLER);
+                //FinishWorkPiecePhas(pos, EProcessPhase.PUSHPULL_LOAD_FROM_HANDLER);
                 StartWorkPiecePhase(pos, EProcessPhase.PUSHPULL_UNLOAD_TO_CLEANER);
                 FinishWorkPiecePhas(pos, EProcessPhase.PUSHPULL_UNLOAD_TO_CLEANER);
 
@@ -1144,13 +1150,13 @@ namespace LWDicer.Layers
                 FinishWorkPiecePhas(pos, EProcessPhase.CLEANER_LOAD);
                 StartWorkPiecePhase(pos, EProcessPhase.CLEANING);
                 FinishWorkPiecePhas(pos, EProcessPhase.CLEANING);
-                StartWorkPiecePhase(pos, EProcessPhase.CLEANER_UNLOAD);
-                FinishWorkPiecePhas(pos, EProcessPhase.CLEANER_UNLOAD);
+                StartWorkPiecePhase(pos, EProcessPhase.CLEANER_WAIT_UNLOAD);
+                FinishWorkPiecePhas(pos, EProcessPhase.CLEANER_WAIT_UNLOAD);
 
                 pos = ELCNetUnitPos.PUSHPULL;
                 ChangeWorkPieceUnit(ELCNetUnitPos.SPINNER1, pos);
-                StartWorkPiecePhase(pos, EProcessPhase.PUSHPULL_LOAD_FROM_CLEANER);
-                FinishWorkPiecePhas(pos, EProcessPhase.PUSHPULL_LOAD_FROM_CLEANER);
+                StartWorkPiecePhase(pos, EProcessPhase.CLEANER_UNLOAD_TO_PUSHPULL);
+                FinishWorkPiecePhas(pos, EProcessPhase.CLEANER_UNLOAD_TO_PUSHPULL);
                 StartWorkPiecePhase(pos, EProcessPhase.PUSHPULL_UNLOAD_TO_LOADER);
                 FinishWorkPiecePhas(pos, EProcessPhase.PUSHPULL_UNLOAD_TO_LOADER);
             }
@@ -7534,11 +7540,58 @@ namespace LWDicer.Layers
 #endif
         }
 
+        public int Generate_InputBuffer()
+        {
+            WorkPiece_InputBuffer.Clear();
+            for(int i = 0; i < 10; i++)
+            {
+                CWorkPiece wp = new CWorkPiece();
+                wp.GenerateID($"_{i}");
+                WorkPiece_InputBuffer.Add(wp);
+                Sleep(100);
+            }
+
+            return SUCCESS;
+        }
+
+        public string GetID_InputReady()
+        {
+            if (WorkPiece_InputBuffer.Count <= 0) return "";
+            return WorkPiece_InputBuffer[0].ID;
+        }
+
+        public string GetID_LastOutput()
+        {
+            if (WorkPiece_OutputBuffer.Count <= 0) return "";
+            return WorkPiece_OutputBuffer[WorkPiece_OutputBuffer.Count-1].ID;
+        }
+
+        public int GetCount_InputBuffer()
+        {
+            return WorkPiece_InputBuffer.Count;
+        }
+
+        public int GetCount_OutputBuffer()
+        {
+            return WorkPiece_OutputBuffer.Count;
+        }
+
+        public int LoadWorkPieceFromCassette()
+        {
+            if (WorkPiece_InputBuffer.Count <= 0)
+                return GenerateErrorCode(ERR_DATA_MANAGER_INPUT_BUFFER_EMPTY);
+
+            WorkPieceArray[(int)ELCNetUnitPos.PUSHPULL] = ObjectExtensions.Copy(WorkPiece_InputBuffer[0]);
+            WorkPiece_InputBuffer.RemoveAt(0);
+
+            return SUCCESS;
+        }
+
         public int UnloadWorkPieceToCassette()
         {
-            WorkPieceList_Finished.Add(WorkPieceArray[(int)ELCNetUnitPos.PUSHPULL]);
+            WorkPiece_OutputBuffer.Add(ObjectExtensions.Copy(WorkPieceArray[(int)ELCNetUnitPos.PUSHPULL]));
             //WorkPieceArray[(int)ELCNetUnitPos.PUSHPULL] = new CWorkPiece();
-            WorkPieceArray[(int)ELCNetUnitPos.PUSHPULL].Init(false);
+            WorkPieceArray[(int)ELCNetUnitPos.PUSHPULL].Init();
 
             return SUCCESS;
         }

@@ -1153,7 +1153,7 @@ namespace LWDicer.Layers
         /// </summary>
         void CheckPanelExist()
         {
-            m_RefComp.ctrlStage1.IsPanelDetected(out m_bPanelExist_InFacility);
+            m_RefComp.ctrlStage1.IsObjectDetected(out m_bPanelExist_InFacility);
             if (m_bPanelExist_InFacility == true) return;
 
             m_RefComp.ctrlHandler.IsObjectDetected(DEF_CtrlHandler.EHandlerIndex.LOAD_UPPER, out m_bPanelExist_InFacility);

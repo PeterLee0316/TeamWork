@@ -259,6 +259,7 @@ namespace LWDicer.UI
             part = (int)EThreadUnit.LOADER;
             if (SelectedPart[part] == true)
             {
+                iResult = CMainFrame.DataManager.Generate_InputBuffer();
                 iResult = CMainFrame.LWDicer.m_trsLoader.Initialize();
                 if (iResult != SUCCESS)
                 {

@@ -1324,6 +1324,7 @@ namespace LWDicer.Layers
         {
             CTrsStage1RefComp refComp = new CTrsStage1RefComp();
             refComp.ctrlStage1 = m_ctrlStage1;
+            refComp.ctrlHandler = m_ctrlHandler;
 
             CTrsStage1Data data = new CTrsStage1Data();
 

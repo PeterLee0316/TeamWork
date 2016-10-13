@@ -320,7 +320,7 @@ namespace LWDicer.Layers
         {
             int iResult = SUCCESS;
             bool bStatus, bStatus1, bStatus2;
-            EProcessPhase tPhase;
+            EProcessPhase tPhase = GetMyNextWorkPhase();
             int spinnerIndex;
             int nSlotCount;
 
@@ -374,10 +374,10 @@ namespace LWDicer.Layers
                                 // 1. if wafer detected
                                 iResult = m_RefComp.ctrlPushPull.IsObjectDetected(out bStatus);
                                 if (iResult != SUCCESS) { ReportAlarm(iResult); break; }
+                                // wafer의 다음 해야할 일을 보고, 해당 unit에게 unload하는 분기점으로 이동시킨다.
+                                tPhase = GetMyNextWorkPhase();
                                 if (bStatus)
                                 {
-                                    // wafer의 다음 해야할 일을 보고, 해당 unit에게 unload하는 분기점으로 이동시킨다.
-                                    tPhase = GetMyNextWorkPhase();
                                     if(tPhase == EProcessPhase.PUSHPULL_UNLOAD_TO_COATER)
                                     {
                                         if (m_Data.UseSpinnerSeparately) // spinner를 구분지어 사용한다면
@@ -484,7 +484,7 @@ namespace LWDicer.Layers
 
                                         if(bStatus1 == true && bStatus2 == false)
                                         {
-                                            if (GetWorkPiece(m_Data.UCoaterIndex).GetNextPhase() == EProcessPhase.COATER_UNLOAD)
+                                            if (GetWorkPiece(m_Data.UCoaterIndex).GetNextPhase() == EProcessPhase.COATER_WAIT_UNLOAD)
                                             {
                                                 bStepBreak = true;
                                                 if (m_Data.UCoaterIndex == ESpinnerIndex.SPINNER1)
@@ -502,7 +502,7 @@ namespace LWDicer.Layers
 
                                         if (bStatus1 == true && nSlotCount > 0)
                                         {
-                                            if (GetWorkPiece(m_Data.UCleanerIndex).GetNextPhase() == EProcessPhase.CLEANER_UNLOAD)
+                                            if (GetWorkPiece(m_Data.UCleanerIndex).GetNextPhase() == EProcessPhase.CLEANER_WAIT_UNLOAD)
                                             {
                                                 bStepBreak = true;
                                                 if (m_Data.UCleanerIndex == ESpinnerIndex.SPINNER1)
@@ -558,7 +558,7 @@ namespace LWDicer.Layers
 
                                             tPhase = GetWorkPiece(i == 0 ? ESpinnerIndex.SPINNER1 : ESpinnerIndex.SPINNER2).GetNextPhase();
                                             // 2.1.1 spinner에 작업 완료된 wafer가 있고
-                                            if (tPhase == EProcessPhase.COATER_UNLOAD) // if coater
+                                            if (tPhase == EProcessPhase.COATER_WAIT_UNLOAD) // if coater
                                             {
                                                 // 2.1.1.1 handler에 빈자리가 있는지 확인
                                                 iResult = m_RefComp.ctrlHandler.IsObjectDetected(DEF_CtrlHandler.EHandlerIndex.LOAD_UPPER, out bStatus2);
@@ -571,7 +571,7 @@ namespace LWDicer.Layers
                                                 else SetStep(TRS_PUSHPULL_LOADING_FROM_SPINNER2_ONESTEP);
                                                 break;
                                             }
-                                            else if(tPhase == EProcessPhase.CLEANER_UNLOAD) // if cleaner
+                                            else if(tPhase == EProcessPhase.CLEANER_WAIT_UNLOAD) // if cleaner
                                             {
                                                 // 2.1.1.1 loader에 빈자리가 있는지 확인
                                                 nSlotCount = m_RefComp.ctrlLoader.GetEmptySlotCount();
@@ -628,7 +628,7 @@ namespace LWDicer.Layers
                                 // branch
                                 if(m_Data.ThreadHandshake_byOneStep == false)
                                 {
-                                    SetStep(TRS_PUSHPULL_LOADING_FROM_LOADER_ONESTEP);
+                                    SetStep(TRS_PUSHPULL_BEGIN_LOADING_FROM_LOADER);
                                     break;
                                 }
 
@@ -639,6 +639,7 @@ namespace LWDicer.Layers
 
                                 // begin
                                 TTimer.StartTimer();
+                                LoadWorkPieceFromCassette();
                                 GetMyWorkPiece().StartPhase(EProcessPhase.PUSHPULL_LOAD_FROM_LOADER);
 
                                 TInterface.PushPull_Loader_BeginHandshake_Load = true;
@@ -734,12 +735,12 @@ namespace LWDicer.Layers
                                     break;
                                 }
 
+                                GetMyWorkPiece().FinishPhase(EProcessPhase.PUSHPULL_LOAD_FROM_LOADER);
                                 TInterface.PushPull_Loader_FinishHandshake_Load = true;
                                 Sleep(TInterface.TimeKeepOn);
 
                                 // reset
                                 TInterface.ResetInterface(TSelf);
-                                GetMyWorkPiece().FinishPhase(EProcessPhase.PUSHPULL_LOAD_FROM_LOADER);
 
                                 SetStep(TRS_PUSHPULL_WAITFOR_MESSAGE);
                                 break;
@@ -789,7 +790,7 @@ namespace LWDicer.Layers
                                 // branch
                                 if (m_Data.ThreadHandshake_byOneStep == false)
                                 {
-                                    SetStep(TRS_PUSHPULL_UNLOADING_TO_LOADER_ONESTEP);
+                                    SetStep(TRS_PUSHPULL_BEGIN_UNLOADING_TO_LOADER);
                                     break;
                                 }
 
@@ -895,12 +896,137 @@ namespace LWDicer.Layers
                                     break;
                                 }
 
+                                GetMyWorkPiece().FinishPhase(EProcessPhase.PUSHPULL_UNLOAD_TO_LOADER);
                                 TInterface.PushPull_Loader_FinishHandshake_Unload = true;
                                 Sleep(TInterface.TimeKeepOn);
 
                                 // reset
                                 TInterface.ResetInterface(TSelf);
-                                GetMyWorkPiece().FinishPhase(EProcessPhase.PUSHPULL_UNLOAD_TO_LOADER);
+                                UnloadWorkPieceToCassette();
+
+                                SetStep(TRS_PUSHPULL_WAITFOR_MESSAGE);
+                                break;
+
+                            ///////////////////////////////////////////////////////////////////
+                            // process load with spinner1
+                            case TRS_PUSHPULL_LOADING_FROM_SPINNER1_ONESTEP:
+                                // branch
+                                if (m_Data.ThreadHandshake_byOneStep == false)
+                                {
+                                    SetStep(TRS_PUSHPULL_BEGIN_LOADING_FROM_SPINNER1);
+                                    break;
+                                }
+
+                                // init
+                                TInterface.ResetInterface(TSelf);
+                                TOpponent = (int)EThreadUnit.SPINNER1;
+                                spinnerIndex = (int)ESpinnerIndex.SPINNER1;
+                                if (TInterface.ErrorOccured[TOpponent]) break;
+
+                                // begin
+                                TTimer.StartTimer();
+                                // tPhase는 wafer의 소유권이 있는 곳에서 관리
+                                //tPhase = GetMyNextWorkPhase();
+                                //GetMyWorkPiece().StartPhase(tPhase);
+
+                                TInterface.PushPull_Spinner_BeginHandshake_Load[spinnerIndex] = true;
+                                while (TInterface.Spinner_PushPull_BeginHandshake_Unload[spinnerIndex] == false)
+                                {
+                                    if (TInterface.ErrorOccured[TOpponent]) break;
+                                    if (TTimer.MoreThan(TInterface.TimeLimit))
+                                    {
+                                        TInterface.TimeOver[TSelf] = true;
+                                        break;
+                                    }
+                                    Sleep(ThreadSleepTime);
+                                }
+                                if (TInterface.ErrorOccured[TOpponent]) break;
+                                if (TInterface.TimeOver[TSelf])
+                                {
+                                    // do something, if it is needed
+                                    TInterface.ResetInterface(TSelf);
+                                    ReportAlarm(GenerateErrorCode(ERR_TRS_PUSHPULL_INTERFACE_TIMELIMIT_OVER));
+                                    break;
+                                }
+
+                                // step1
+                                iResult = m_RefComp.ctrlPushPull.MoveToSpinner1Pos(false);
+                                if (iResult != SUCCESS) { ReportAlarm(iResult); break; }
+                                // guide open
+
+                                TInterface.PushPull_Spinner_LoadStep1[spinnerIndex] = true;
+                                while (TInterface.Spinner_PushPull_UnloadStep1[spinnerIndex] == false)
+                                {
+                                    if (TInterface.ErrorOccured[TOpponent]) break;
+                                    if (TTimer.MoreThan(TInterface.TimeLimit))
+                                    {
+                                        TInterface.TimeOver[TSelf] = true;
+                                        break;
+                                    }
+                                    Sleep(ThreadSleepTime);
+                                }
+                                if (TInterface.ErrorOccured[TOpponent]) break;
+                                if (TInterface.TimeOver[TSelf])
+                                {
+                                    // do something, if it is needed
+                                    TInterface.ResetInterface(TSelf);
+                                    ReportAlarm(GenerateErrorCode(ERR_TRS_PUSHPULL_INTERFACE_TIMELIMIT_OVER));
+                                    break;
+                                }
+
+                                // step2
+                                // guide close
+
+                                TInterface.PushPull_Spinner_LoadStep2[spinnerIndex] = true;
+                                while (TInterface.Spinner_PushPull_UnloadStep2[spinnerIndex] == false)
+                                {
+                                    if (TInterface.ErrorOccured[TOpponent]) break;
+                                    if (TTimer.MoreThan(TInterface.TimeLimit))
+                                    {
+                                        TInterface.TimeOver[TSelf] = true;
+                                        break;
+                                    }
+                                    Sleep(ThreadSleepTime);
+                                }
+                                if (TInterface.ErrorOccured[TOpponent]) break;
+                                if (TInterface.TimeOver[TSelf])
+                                {
+                                    // do something, if it is needed
+                                    TInterface.ResetInterface(TSelf);
+                                    ReportAlarm(GenerateErrorCode(ERR_TRS_PUSHPULL_INTERFACE_TIMELIMIT_OVER));
+                                    break;
+                                }
+
+                                // finish
+                                iResult = m_RefComp.ctrlPushPull.MoveToWaitPos(true);
+                                if (iResult != SUCCESS) { ReportAlarm(iResult); break; }
+
+                                TInterface.PushPull_Spinner_FinishHandshake_Load[spinnerIndex] = true;
+                                while (TInterface.Spinner_PushPull_FinishHandshake_Unload[spinnerIndex] == false)
+                                {
+                                    if (TInterface.ErrorOccured[TOpponent]) break;
+                                    if (TTimer.MoreThan(TInterface.TimeLimit))
+                                    {
+                                        TInterface.TimeOver[TSelf] = true;
+                                        break;
+                                    }
+                                    Sleep(ThreadSleepTime);
+                                }
+                                if (TInterface.ErrorOccured[TOpponent]) break;
+                                if (TInterface.TimeOver[TSelf])
+                                {
+                                    // do something, if it is needed
+                                    TInterface.ResetInterface(TSelf);
+                                    ReportAlarm(GenerateErrorCode(ERR_TRS_PUSHPULL_INTERFACE_TIMELIMIT_OVER));
+                                    break;
+                                }
+
+                                // reset
+                                TInterface.ResetInterface(TSelf);
+                                // 상대편의 마지막 신호는 keepontime동안 유지되기때문에, 먼저 끝나는쪽에서 상대편것도 리셋 필요
+                                TInterface.ResetInterface(TOpponent);
+                                //GetMyWorkPiece().FinishPhase(tPhase);
+                                DataManager.ChangeWorkPieceUnit(ELCNetUnitPos.SPINNER1, ELCNetUnitPos.PUSHPULL);
 
                                 SetStep(TRS_PUSHPULL_WAITFOR_MESSAGE);
                                 break;
@@ -911,13 +1037,14 @@ namespace LWDicer.Layers
                                 // branch
                                 if (m_Data.ThreadHandshake_byOneStep == false)
                                 {
-                                    SetStep(TRS_PUSHPULL_UNLOADING_TO_SPINNER1_ONESTEP);
+                                    SetStep(TRS_PUSHPULL_BEGIN_UNLOADING_TO_SPINNER1);
                                     break;
                                 }
 
                                 // init
                                 TInterface.ResetInterface(TSelf);
                                 TOpponent = (int)EThreadUnit.SPINNER1;
+                                spinnerIndex = (int)ESpinnerIndex.SPINNER1;
                                 if (TInterface.ErrorOccured[TOpponent]) break;
 
                                 // begin
@@ -925,8 +1052,8 @@ namespace LWDicer.Layers
                                 tPhase = GetMyNextWorkPhase();
                                 GetMyWorkPiece().StartPhase(tPhase);
 
-                                TInterface.PushPull_Spinner_BeginHandshake_Unload[(int)ESpinnerIndex.SPINNER1] = true;
-                                while (TInterface.Spinner_PushPull_BeginHandshake_Load[(int)ESpinnerIndex.SPINNER1] == false)
+                                TInterface.PushPull_Spinner_BeginHandshake_Unload[spinnerIndex] = true;
+                                while (TInterface.Spinner_PushPull_BeginHandshake_Load[spinnerIndex] == false)
                                 {
                                     if (TInterface.ErrorOccured[TOpponent]) break;
                                     if (TTimer.MoreThan(TInterface.TimeLimit))
@@ -949,8 +1076,8 @@ namespace LWDicer.Layers
                                 iResult = m_RefComp.ctrlPushPull.MoveToSpinner1Pos(true);
                                 if (iResult != SUCCESS) { ReportAlarm(iResult); break; }
 
-                                TInterface.PushPull_Spinner_UnloadStep1[(int)ESpinnerIndex.SPINNER1] = true;
-                                while (TInterface.Spinner_PushPull_LoadStep1[(int)ESpinnerIndex.SPINNER1] == false)
+                                TInterface.PushPull_Spinner_UnloadStep1[spinnerIndex] = true;
+                                while (TInterface.Spinner_PushPull_LoadStep1[spinnerIndex] == false)
                                 {
                                     if (TInterface.ErrorOccured[TOpponent]) break;
                                     if (TTimer.MoreThan(TInterface.TimeLimit))
@@ -972,8 +1099,8 @@ namespace LWDicer.Layers
                                 // step2
                                 // guide open
 
-                                TInterface.PushPull_Spinner_UnloadStep2[(int)ESpinnerIndex.SPINNER1] = true;
-                                while (TInterface.Spinner_PushPull_LoadStep2[(int)ESpinnerIndex.SPINNER1] == false)
+                                TInterface.PushPull_Spinner_UnloadStep2[spinnerIndex] = true;
+                                while (TInterface.Spinner_PushPull_LoadStep2[spinnerIndex] == false)
                                 {
                                     if (TInterface.ErrorOccured[TOpponent]) break;
                                     if (TTimer.MoreThan(TInterface.TimeLimit))
@@ -997,8 +1124,8 @@ namespace LWDicer.Layers
                                 iResult = m_RefComp.ctrlPushPull.MoveToWaitPos(false);
                                 if (iResult != SUCCESS) { ReportAlarm(iResult); break; }
 
-                                TInterface.PushPull_Spinner_FinishHandshake_Unload[(int)ESpinnerIndex.SPINNER1] = true;
-                                while (TInterface.Spinner_PushPull_FinishHandshake_Load[(int)ESpinnerIndex.SPINNER1] == false)
+                                TInterface.PushPull_Spinner_FinishHandshake_Unload[spinnerIndex] = true;
+                                while (TInterface.Spinner_PushPull_FinishHandshake_Load[spinnerIndex] == false)
                                 {
                                     if (TInterface.ErrorOccured[TOpponent]) break;
                                     if (TTimer.MoreThan(TInterface.TimeLimit))
@@ -1028,121 +1155,497 @@ namespace LWDicer.Layers
                                 break;
 
                             ///////////////////////////////////////////////////////////////////
-                            // process load with handler
-                            case TRS_PUSHPULL_LOADING_FROM_HANDLER_ONESTEP:
+                            // process load with spinner2
+                            case TRS_PUSHPULL_LOADING_FROM_SPINNER2_ONESTEP:
+                                // branch
+                                if (m_Data.ThreadHandshake_byOneStep == false)
+                                {
+                                    SetStep(TRS_PUSHPULL_BEGIN_LOADING_FROM_SPINNER2);
+                                    break;
+                                }
 
-                                SetStep(TRS_PUSHPULL_WAITFOR_MESSAGE);
-                                break;
-            /*
-                            case TRS_PUSHPULL_BEGIN_LOADING_FROM_HANDLER:
-                                iResult = m_RefComp.ctrlPushPull.MoveToHandlerPos(false);
+                                // init
+                                TInterface.ResetInterface(TSelf);
+                                TOpponent = (int)EThreadUnit.SPINNER2;
+                                spinnerIndex = (int)ESpinnerIndex.SPINNER2;
+                                if (TInterface.ErrorOccured[TOpponent]) break;
+
+                                // begin
+                                TTimer.StartTimer();
+                                // tPhase는 wafer의 소유권이 있는 곳에서 관리
+                                //tPhase = GetMyNextWorkPhase();
+                                //GetMyWorkPiece().StartPhase(tPhase);
+
+                                TInterface.PushPull_Spinner_BeginHandshake_Load[spinnerIndex] = true;
+                                while (TInterface.Spinner_PushPull_BeginHandshake_Unload[spinnerIndex] == false)
+                                {
+                                    if (TInterface.ErrorOccured[TOpponent]) break;
+                                    if (TTimer.MoreThan(TInterface.TimeLimit))
+                                    {
+                                        TInterface.TimeOver[TSelf] = true;
+                                        break;
+                                    }
+                                    Sleep(ThreadSleepTime);
+                                }
+                                if (TInterface.ErrorOccured[TOpponent]) break;
+                                if (TInterface.TimeOver[TSelf])
+                                {
+                                    // do something, if it is needed
+                                    TInterface.ResetInterface(TSelf);
+                                    ReportAlarm(GenerateErrorCode(ERR_TRS_PUSHPULL_INTERFACE_TIMELIMIT_OVER));
+                                    break;
+                                }
+
+                                // step1
+                                iResult = m_RefComp.ctrlPushPull.MoveToSpinner2Pos(false);
                                 if (iResult != SUCCESS) { ReportAlarm(iResult); break; }
+                                // guide open
 
-                                iResult = m_RefComp.ctrlPushPull.GripRelease();
-                                if (iResult != SUCCESS) { ReportAlarm(iResult); break; }
+                                TInterface.PushPull_Spinner_LoadStep1[spinnerIndex] = true;
+                                while (TInterface.Spinner_PushPull_UnloadStep1[spinnerIndex] == false)
+                                {
+                                    if (TInterface.ErrorOccured[TOpponent]) break;
+                                    if (TTimer.MoreThan(TInterface.TimeLimit))
+                                    {
+                                        TInterface.TimeOver[TSelf] = true;
+                                        break;
+                                    }
+                                    Sleep(ThreadSleepTime);
+                                }
+                                if (TInterface.ErrorOccured[TOpponent]) break;
+                                if (TInterface.TimeOver[TSelf])
+                                {
+                                    // do something, if it is needed
+                                    TInterface.ResetInterface(TSelf);
+                                    ReportAlarm(GenerateErrorCode(ERR_TRS_PUSHPULL_INTERFACE_TIMELIMIT_OVER));
+                                    break;
+                                }
 
-                                iResult = m_RefComp.ctrlPushPull.MoveAllCenterUnitToWaitPos();
-                                if (iResult != SUCCESS) { ReportAlarm(iResult); break; }
+                                // step2
+                                // guide close
 
-                                PostMsg(TrsHandler, MSG_PUSHPULL_LOWER_HANDLER_REQUEST_UNLOADING);
-                                SetStep(TRS_PUSHPULL_PRE_LOADING_FROM_HANDLER);
-                                break;
+                                TInterface.PushPull_Spinner_LoadStep2[spinnerIndex] = true;
+                                while (TInterface.Spinner_PushPull_UnloadStep2[spinnerIndex] == false)
+                                {
+                                    if (TInterface.ErrorOccured[TOpponent]) break;
+                                    if (TTimer.MoreThan(TInterface.TimeLimit))
+                                    {
+                                        TInterface.TimeOver[TSelf] = true;
+                                        break;
+                                    }
+                                    Sleep(ThreadSleepTime);
+                                }
+                                if (TInterface.ErrorOccured[TOpponent]) break;
+                                if (TInterface.TimeOver[TSelf])
+                                {
+                                    // do something, if it is needed
+                                    TInterface.ResetInterface(TSelf);
+                                    ReportAlarm(GenerateErrorCode(ERR_TRS_PUSHPULL_INTERFACE_TIMELIMIT_OVER));
+                                    break;
+                                }
 
-                            case TRS_PUSHPULL_PRE_LOADING_FROM_HANDLER:          // extend guide: send load ready signal
-                                PostMsg_Interval(TrsHandler, MSG_PUSHPULL_LOWER_HANDLER_REQUEST_UNLOADING);
-                                if (m_bLowerHandler_StartUnloading == false) break;
-
-                                PostMsg(TrsHandler, MSG_PUSHPULL_LOWER_HANDLER_START_LOADING);
-                                SetStep(TRS_PUSHPULL_WAITFOR_HANDLER_UNLOAD_READY);
-                                break;
-
-                            case TRS_PUSHPULL_WAITFOR_HANDLER_UNLOAD_READY:      // wait for response signal
-                                PostMsg_Interval(TrsHandler, MSG_PUSHPULL_LOWER_HANDLER_START_LOADING);
-                                if (m_bLowerHandler_RequestAbsorb == false) break;
-
-                                SetStep(TRS_PUSHPULL_LOAD_FROM_HANDLER);
-                                break;
-
-                            case TRS_PUSHPULL_LOAD_FROM_HANDLER:              // withdraw guide: send vacuum complete signal
-                                iResult = m_RefComp.ctrlPushPull.GripLock();
-                                if (iResult != SUCCESS) { ReportAlarm(iResult); break; }
-
-                                PostMsg(TrsHandler, MSG_PUSHPULL_LOWER_HANDLER_ABSORB_COMPLETE);
-                                SetStep(TRS_PUSHPULL_WAITFOR_HANDLER_UNLOAD_COMPLETE);
-                                break;
-
-                            case TRS_PUSHPULL_WAITFOR_HANDLER_UNLOAD_COMPLETE:   // wait for response signal
-                                PostMsg_Interval(TrsHandler, MSG_PUSHPULL_LOWER_HANDLER_ABSORB_COMPLETE);
-                                if (m_bLowerHandler_CompleteUnloading == false) break;
-
-                                iResult = m_RefComp.ctrlPushPull.MoveAllCenterUnitToCenteringPos();
-                                if (iResult != SUCCESS) { ReportAlarm(iResult); break; }
-
-                                PostMsg(TrsHandler, MSG_PUSHPULL_LOWER_HANDLER_COMPLETE_LOADING);
-                                SetStep(TRS_PUSHPULL_FINISH_LOADING_FROM_HANDLER);
-                                break;
-
-                            case TRS_PUSHPULL_FINISH_LOADING_FROM_HANDLER:    // move to wait pos: send load complete signal
+                                // finish
                                 iResult = m_RefComp.ctrlPushPull.MoveToWaitPos(true);
                                 if (iResult != SUCCESS) { ReportAlarm(iResult); break; }
 
+                                TInterface.PushPull_Spinner_FinishHandshake_Load[spinnerIndex] = true;
+                                while (TInterface.Spinner_PushPull_FinishHandshake_Unload[spinnerIndex] == false)
+                                {
+                                    if (TInterface.ErrorOccured[TOpponent]) break;
+                                    if (TTimer.MoreThan(TInterface.TimeLimit))
+                                    {
+                                        TInterface.TimeOver[TSelf] = true;
+                                        break;
+                                    }
+                                    Sleep(ThreadSleepTime);
+                                }
+                                if (TInterface.ErrorOccured[TOpponent]) break;
+                                if (TInterface.TimeOver[TSelf])
+                                {
+                                    // do something, if it is needed
+                                    TInterface.ResetInterface(TSelf);
+                                    ReportAlarm(GenerateErrorCode(ERR_TRS_PUSHPULL_INTERFACE_TIMELIMIT_OVER));
+                                    break;
+                                }
+
+                                // reset
+                                TInterface.ResetInterface(TSelf);
+                                // 상대편의 마지막 신호는 keepontime동안 유지되기때문에, 먼저 끝나는쪽에서 상대편것도 리셋 필요
+                                TInterface.ResetInterface(TOpponent);
+                                //GetMyWorkPiece().FinishPhase(tPhase);
+                                DataManager.ChangeWorkPieceUnit(ELCNetUnitPos.SPINNER2, ELCNetUnitPos.PUSHPULL);
+
                                 SetStep(TRS_PUSHPULL_WAITFOR_MESSAGE);
                                 break;
-                                */
+
                             ///////////////////////////////////////////////////////////////////
-                            // process unload with handler
-                            case TRS_PUSHPULL_UNLOADING_TO_HANDLER_ONESTEP:
+                            // process unload with spinner2
+                            case TRS_PUSHPULL_UNLOADING_TO_SPINNER2_ONESTEP:
+                                // branch
+                                if (m_Data.ThreadHandshake_byOneStep == false)
+                                {
+                                    SetStep(TRS_PUSHPULL_BEGIN_UNLOADING_TO_SPINNER2);
+                                    break;
+                                }
 
-                                SetStep(TRS_PUSHPULL_WAITFOR_MESSAGE);
-                                break;
-/*
-                            case TRS_PUSHPULL_BEGIN_UNLOADING_TO_HANDLER:     // move to unload pos
-                                iResult = m_RefComp.ctrlPushPull.MoveToHandlerPos(true);
+                                // init
+                                TInterface.ResetInterface(TSelf);
+                                TOpponent = (int)EThreadUnit.SPINNER2;
+                                spinnerIndex = (int)ESpinnerIndex.SPINNER2;
+                                if (TInterface.ErrorOccured[TOpponent]) break;
+
+                                // begin
+                                TTimer.StartTimer();
+                                tPhase = GetMyNextWorkPhase();
+                                GetMyWorkPiece().StartPhase(tPhase);
+
+                                TInterface.PushPull_Spinner_BeginHandshake_Unload[spinnerIndex] = true;
+                                while (TInterface.Spinner_PushPull_BeginHandshake_Load[spinnerIndex] == false)
+                                {
+                                    if (TInterface.ErrorOccured[TOpponent]) break;
+                                    if (TTimer.MoreThan(TInterface.TimeLimit))
+                                    {
+                                        TInterface.TimeOver[TSelf] = true;
+                                        break;
+                                    }
+                                    Sleep(ThreadSleepTime);
+                                }
+                                if (TInterface.ErrorOccured[TOpponent]) break;
+                                if (TInterface.TimeOver[TSelf])
+                                {
+                                    // do something, if it is needed
+                                    TInterface.ResetInterface(TSelf);
+                                    ReportAlarm(GenerateErrorCode(ERR_TRS_PUSHPULL_INTERFACE_TIMELIMIT_OVER));
+                                    break;
+                                }
+
+                                // step1
+                                iResult = m_RefComp.ctrlPushPull.MoveToSpinner2Pos(true);
                                 if (iResult != SUCCESS) { ReportAlarm(iResult); break; }
 
-                                PostMsg(TrsHandler, MSG_PUSHPULL_UPPER_HANDLER_REQUEST_LOADING);
-                                SetStep(TRS_PUSHPULL_REQUEST_HANDLER_LOADING);
-                                break;
+                                TInterface.PushPull_Spinner_UnloadStep1[spinnerIndex] = true;
+                                while (TInterface.Spinner_PushPull_LoadStep1[spinnerIndex] == false)
+                                {
+                                    if (TInterface.ErrorOccured[TOpponent]) break;
+                                    if (TTimer.MoreThan(TInterface.TimeLimit))
+                                    {
+                                        TInterface.TimeOver[TSelf] = true;
+                                        break;
+                                    }
+                                    Sleep(ThreadSleepTime);
+                                }
+                                if (TInterface.ErrorOccured[TOpponent]) break;
+                                if (TInterface.TimeOver[TSelf])
+                                {
+                                    // do something, if it is needed
+                                    TInterface.ResetInterface(TSelf);
+                                    ReportAlarm(GenerateErrorCode(ERR_TRS_PUSHPULL_INTERFACE_TIMELIMIT_OVER));
+                                    break;
+                                }
 
-                            case TRS_PUSHPULL_REQUEST_HANDLER_LOADING:           // send load request signal
-                                PostMsg_Interval(TrsHandler, MSG_PUSHPULL_UPPER_HANDLER_REQUEST_LOADING);
-                                if (m_bUpperHandler_StartLoading == false) break;
+                                // step2
+                                // guide open
 
-                                SetStep(TRS_PUSHPULL_WAITFOR_HANDLER_LOAD_READY);
-                                break;
+                                TInterface.PushPull_Spinner_UnloadStep2[spinnerIndex] = true;
+                                while (TInterface.Spinner_PushPull_LoadStep2[spinnerIndex] == false)
+                                {
+                                    if (TInterface.ErrorOccured[TOpponent]) break;
+                                    if (TTimer.MoreThan(TInterface.TimeLimit))
+                                    {
+                                        TInterface.TimeOver[TSelf] = true;
+                                        break;
+                                    }
+                                    Sleep(ThreadSleepTime);
+                                }
+                                if (TInterface.ErrorOccured[TOpponent]) break;
+                                if (TInterface.TimeOver[TSelf])
+                                {
+                                    // do something, if it is needed
+                                    TInterface.ResetInterface(TSelf);
+                                    ReportAlarm(GenerateErrorCode(ERR_TRS_PUSHPULL_INTERFACE_TIMELIMIT_OVER));
+                                    break;
+                                }
 
-                            case TRS_PUSHPULL_WAITFOR_HANDLER_LOAD_READY:        // wait for response signal
-                                PostMsg_Interval(TrsHandler, MSG_PUSHPULL_UPPER_HANDLER_REQUEST_LOADING);
-                                if (m_bUpperHandler_RequestRelease == false) break;
-
-                                iResult = m_RefComp.ctrlPushPull.GripRelease();
-                                if (iResult != SUCCESS) { ReportAlarm(iResult); break; }
-
-                                iResult = m_RefComp.ctrlPushPull.MoveAllCenterUnitToWaitPos();
-                                if (iResult != SUCCESS) { ReportAlarm(iResult); break; }
-
-                                SetStep(TRS_PUSHPULL_UNLOAD_TO_HANDLER);
-                                break;
-
-                            case TRS_PUSHPULL_UNLOAD_TO_HANDLER:              // extend guide: send vacuum complete signal
-                                PostMsg_Interval(TrsHandler, MSG_PUSHPULL_UPPER_HANDLER_RELEASE_COMPLETE);
-                                if (m_bUpperHandler_CompleteLoading == false) break;
-
-                                PostMsg(TrsHandler, MSG_PUSHPULL_UPPER_HANDLER_COMPLETE_UNLOADING);
-                                SetStep(TRS_PUSHPULL_WAITFOR_HANDLER_LOAD_COMPLETE);
-                                break;
-
-                            case TRS_PUSHPULL_WAITFOR_HANDLER_LOAD_COMPLETE:     // wait for response signal
-                                SetStep(TRS_PUSHPULL_FINISH_UNLOADING_TO_HANDLER);
-                                break;
-
-                            case TRS_PUSHPULL_FINISH_UNLOADING_TO_HANDLER:    // move to wait pos: send unload complete signal
+                                // finish
+                                // guide close
                                 iResult = m_RefComp.ctrlPushPull.MoveToWaitPos(false);
                                 if (iResult != SUCCESS) { ReportAlarm(iResult); break; }
 
+                                TInterface.PushPull_Spinner_FinishHandshake_Unload[spinnerIndex] = true;
+                                while (TInterface.Spinner_PushPull_FinishHandshake_Load[spinnerIndex] == false)
+                                {
+                                    if (TInterface.ErrorOccured[TOpponent]) break;
+                                    if (TTimer.MoreThan(TInterface.TimeLimit))
+                                    {
+                                        TInterface.TimeOver[TSelf] = true;
+                                        break;
+                                    }
+                                    Sleep(ThreadSleepTime);
+                                }
+                                if (TInterface.ErrorOccured[TOpponent]) break;
+                                if (TInterface.TimeOver[TSelf])
+                                {
+                                    // do something, if it is needed
+                                    TInterface.ResetInterface(TSelf);
+                                    ReportAlarm(GenerateErrorCode(ERR_TRS_PUSHPULL_INTERFACE_TIMELIMIT_OVER));
+                                    break;
+                                }
+
+                                // reset
+                                TInterface.ResetInterface(TSelf);
+                                // 상대편의 마지막 신호는 keepontime동안 유지되기때문에, 먼저 끝나는쪽에서 상대편것도 리셋 필요
+                                TInterface.ResetInterface(TOpponent);
+                                GetMyWorkPiece().FinishPhase(tPhase);
+                                DataManager.ChangeWorkPieceUnit(ELCNetUnitPos.PUSHPULL, ELCNetUnitPos.SPINNER2);
+
                                 SetStep(TRS_PUSHPULL_WAITFOR_MESSAGE);
                                 break;
-*/
+
+                            ///////////////////////////////////////////////////////////////////
+                            // process load with handler
+                            case TRS_PUSHPULL_LOADING_FROM_HANDLER_ONESTEP:
+                                // branch
+                                if (m_Data.ThreadHandshake_byOneStep == false)
+                                {
+                                    SetStep(TRS_PUSHPULL_BEGIN_LOADING_FROM_HANDLER);
+                                    break;
+                                }
+
+                                // init
+                                TInterface.ResetInterface(TSelf);
+                                TOpponent = (int)EThreadUnit.HANDLER;
+                                if (TInterface.ErrorOccured[TOpponent]) break;
+
+                                // begin
+                                TTimer.StartTimer();
+                                // tPhase는 wafer의 소유권이 있는 곳에서 관리
+                                //tPhase = GetMyNextWorkPhase();
+                                //GetMyWorkPiece().StartPhase(tPhase);
+
+                                TInterface.PushPull_Handler_BeginHandshake_Load = true;
+                                while (TInterface.Handler_PushPull_BeginHandshake_Unload == false)
+                                {
+                                    if (TInterface.ErrorOccured[TOpponent]) break;
+                                    if (TTimer.MoreThan(TInterface.TimeLimit))
+                                    {
+                                        TInterface.TimeOver[TSelf] = true;
+                                        break;
+                                    }
+                                    Sleep(ThreadSleepTime);
+                                }
+                                if (TInterface.ErrorOccured[TOpponent]) break;
+                                if (TInterface.TimeOver[TSelf])
+                                {
+                                    // do something, if it is needed
+                                    TInterface.ResetInterface(TSelf);
+                                    ReportAlarm(GenerateErrorCode(ERR_TRS_PUSHPULL_INTERFACE_TIMELIMIT_OVER));
+                                    break;
+                                }
+
+                                // step1
+                                iResult = m_RefComp.ctrlPushPull.MoveToHandlerPos(false);
+                                if (iResult != SUCCESS) { ReportAlarm(iResult); break; }
+                                // guide open
+
+                                TInterface.PushPull_Handler_LoadStep1 = true;
+                                while (TInterface.Handler_PushPull_UnloadStep1 == false)
+                                {
+                                    if (TInterface.ErrorOccured[TOpponent]) break;
+                                    if (TTimer.MoreThan(TInterface.TimeLimit))
+                                    {
+                                        TInterface.TimeOver[TSelf] = true;
+                                        break;
+                                    }
+                                    Sleep(ThreadSleepTime);
+                                }
+                                if (TInterface.ErrorOccured[TOpponent]) break;
+                                if (TInterface.TimeOver[TSelf])
+                                {
+                                    // do something, if it is needed
+                                    TInterface.ResetInterface(TSelf);
+                                    ReportAlarm(GenerateErrorCode(ERR_TRS_PUSHPULL_INTERFACE_TIMELIMIT_OVER));
+                                    break;
+                                }
+
+                                // step2
+                                // guide close
+
+                                TInterface.PushPull_Handler_LoadStep2 = true;
+                                while (TInterface.Handler_PushPull_UnloadStep2 == false)
+                                {
+                                    if (TInterface.ErrorOccured[TOpponent]) break;
+                                    if (TTimer.MoreThan(TInterface.TimeLimit))
+                                    {
+                                        TInterface.TimeOver[TSelf] = true;
+                                        break;
+                                    }
+                                    Sleep(ThreadSleepTime);
+                                }
+                                if (TInterface.ErrorOccured[TOpponent]) break;
+                                if (TInterface.TimeOver[TSelf])
+                                {
+                                    // do something, if it is needed
+                                    TInterface.ResetInterface(TSelf);
+                                    ReportAlarm(GenerateErrorCode(ERR_TRS_PUSHPULL_INTERFACE_TIMELIMIT_OVER));
+                                    break;
+                                }
+
+                                // finish
+                                iResult = m_RefComp.ctrlPushPull.MoveToWaitPos(true);
+                                if (iResult != SUCCESS) { ReportAlarm(iResult); break; }
+
+                                TInterface.PushPull_Handler_FinishHandshake_Load = true;
+                                while (TInterface.Handler_PushPull_FinishHandshake_Unload == false)
+                                {
+                                    if (TInterface.ErrorOccured[TOpponent]) break;
+                                    if (TTimer.MoreThan(TInterface.TimeLimit))
+                                    {
+                                        TInterface.TimeOver[TSelf] = true;
+                                        break;
+                                    }
+                                    Sleep(ThreadSleepTime);
+                                }
+                                if (TInterface.ErrorOccured[TOpponent]) break;
+                                if (TInterface.TimeOver[TSelf])
+                                {
+                                    // do something, if it is needed
+                                    TInterface.ResetInterface(TSelf);
+                                    ReportAlarm(GenerateErrorCode(ERR_TRS_PUSHPULL_INTERFACE_TIMELIMIT_OVER));
+                                    break;
+                                }
+
+                                // reset
+                                TInterface.ResetInterface(TSelf);
+                                // 상대편의 마지막 신호는 keepontime동안 유지되기때문에, 먼저 끝나는쪽에서 상대편것도 리셋 필요
+                                TInterface.ResetInterface(TOpponent);
+                                //GetMyWorkPiece().FinishPhase(tPhase);
+                                DataManager.ChangeWorkPieceUnit(ELCNetUnitPos.LOWER_HANDLER, ELCNetUnitPos.PUSHPULL);
+
+                                SetStep(TRS_PUSHPULL_WAITFOR_MESSAGE);
+                                break;
+
+                            ///////////////////////////////////////////////////////////////////
+                            // process unload with handler
+                            case TRS_PUSHPULL_UNLOADING_TO_HANDLER_ONESTEP:
+                                // branch
+                                if (m_Data.ThreadHandshake_byOneStep == false)
+                                {
+                                    SetStep(TRS_PUSHPULL_BEGIN_UNLOADING_TO_HANDLER);
+                                    break;
+                                }
+
+                                // init
+                                TInterface.ResetInterface(TSelf);
+                                TOpponent = (int)EThreadUnit.HANDLER;
+                                if (TInterface.ErrorOccured[TOpponent]) break;
+
+                                // begin
+                                TTimer.StartTimer();
+                                tPhase = GetMyNextWorkPhase();
+                                GetMyWorkPiece().StartPhase(tPhase);
+
+                                TInterface.PushPull_Handler_BeginHandshake_Unload = true;
+                                while (TInterface.Handler_PushPull_BeginHandshake_Load == false)
+                                {
+                                    if (TInterface.ErrorOccured[TOpponent]) break;
+                                    if (TTimer.MoreThan(TInterface.TimeLimit))
+                                    {
+                                        TInterface.TimeOver[TSelf] = true;
+                                        break;
+                                    }
+                                    Sleep(ThreadSleepTime);
+                                }
+                                if (TInterface.ErrorOccured[TOpponent]) break;
+                                if (TInterface.TimeOver[TSelf])
+                                {
+                                    // do something, if it is needed
+                                    TInterface.ResetInterface(TSelf);
+                                    ReportAlarm(GenerateErrorCode(ERR_TRS_PUSHPULL_INTERFACE_TIMELIMIT_OVER));
+                                    break;
+                                }
+
+                                // step1
+                                iResult = m_RefComp.ctrlPushPull.MoveToHandlerPos(true);
+                                if (iResult != SUCCESS) { ReportAlarm(iResult); break; }
+
+                                TInterface.PushPull_Handler_UnloadStep1 = true;
+                                while (TInterface.Handler_PushPull_LoadStep1 == false)
+                                {
+                                    if (TInterface.ErrorOccured[TOpponent]) break;
+                                    if (TTimer.MoreThan(TInterface.TimeLimit))
+                                    {
+                                        TInterface.TimeOver[TSelf] = true;
+                                        break;
+                                    }
+                                    Sleep(ThreadSleepTime);
+                                }
+                                if (TInterface.ErrorOccured[TOpponent]) break;
+                                if (TInterface.TimeOver[TSelf])
+                                {
+                                    // do something, if it is needed
+                                    TInterface.ResetInterface(TSelf);
+                                    ReportAlarm(GenerateErrorCode(ERR_TRS_PUSHPULL_INTERFACE_TIMELIMIT_OVER));
+                                    break;
+                                }
+
+                                // step2
+                                // guide open
+
+                                TInterface.PushPull_Handler_UnloadStep2 = true;
+                                while (TInterface.Handler_PushPull_LoadStep2 == false)
+                                {
+                                    if (TInterface.ErrorOccured[TOpponent]) break;
+                                    if (TTimer.MoreThan(TInterface.TimeLimit))
+                                    {
+                                        TInterface.TimeOver[TSelf] = true;
+                                        break;
+                                    }
+                                    Sleep(ThreadSleepTime);
+                                }
+                                if (TInterface.ErrorOccured[TOpponent]) break;
+                                if (TInterface.TimeOver[TSelf])
+                                {
+                                    // do something, if it is needed
+                                    TInterface.ResetInterface(TSelf);
+                                    ReportAlarm(GenerateErrorCode(ERR_TRS_PUSHPULL_INTERFACE_TIMELIMIT_OVER));
+                                    break;
+                                }
+
+                                // finish
+                                // guide close
+                                iResult = m_RefComp.ctrlPushPull.MoveToWaitPos(false);
+                                if (iResult != SUCCESS) { ReportAlarm(iResult); break; }
+
+                                TInterface.PushPull_Handler_FinishHandshake_Unload = true;
+                                while (TInterface.Handler_PushPull_FinishHandshake_Load == false)
+                                {
+                                    if (TInterface.ErrorOccured[TOpponent]) break;
+                                    if (TTimer.MoreThan(TInterface.TimeLimit))
+                                    {
+                                        TInterface.TimeOver[TSelf] = true;
+                                        break;
+                                    }
+                                    Sleep(ThreadSleepTime);
+                                }
+                                if (TInterface.ErrorOccured[TOpponent]) break;
+                                if (TInterface.TimeOver[TSelf])
+                                {
+                                    // do something, if it is needed
+                                    TInterface.ResetInterface(TSelf);
+                                    ReportAlarm(GenerateErrorCode(ERR_TRS_PUSHPULL_INTERFACE_TIMELIMIT_OVER));
+                                    break;
+                                }
+
+                                // reset
+                                TInterface.ResetInterface(TSelf);
+                                // 상대편의 마지막 신호는 keepontime동안 유지되기때문에, 먼저 끝나는쪽에서 상대편것도 리셋 필요
+                                TInterface.ResetInterface(TOpponent);
+                                GetMyWorkPiece().FinishPhase(tPhase);
+                                DataManager.ChangeWorkPieceUnit(ELCNetUnitPos.PUSHPULL, ELCNetUnitPos.UPPER_HANDLER);
+
+                                SetStep(TRS_PUSHPULL_WAITFOR_MESSAGE);
+                                break;
+
                             default:
                                 break;
                         }

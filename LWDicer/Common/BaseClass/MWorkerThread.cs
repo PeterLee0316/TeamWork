@@ -531,6 +531,16 @@ namespace LWDicer.Layers
             return GetWorkPiece((LCNetUnitPos != ELCNetUnitPos.NONE ? LCNetUnitPos : ELCNetUnitPos.PUSHPULL));
         }
 
+        protected int LoadWorkPieceFromCassette()
+        {
+            return DataManager.LoadWorkPieceFromCassette();
+        }
+
+        protected int UnloadWorkPieceToCassette()
+        {
+            return DataManager.UnloadWorkPieceToCassette();
+        }
+
         protected EProcessPhase GetMyNextWorkPhase()
         {
             CWorkPiece wPiece = GetMyWorkPiece();
