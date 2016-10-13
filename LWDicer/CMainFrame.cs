@@ -37,6 +37,7 @@ namespace LWDicer.UI
 
         public static CMainFrame MainFrame = null;
         public static bool IsFormLoaded = false;
+        public static bool IsAlarmPopup = false;    // 알람 대화상자가 popup 된 상태인듯
 
         public static EFormType PrevScreen;
         public CDisplayManager DisplayManager = new CDisplayManager();
@@ -152,7 +153,7 @@ namespace LWDicer.UI
             }
             else if (evnt.Msg == (int)EWindowMessage.WM_ALARM_MSG)
             {
-                DisplayAlarm(evnt.lParam, evnt.wParam);
+                DisplayAlarm_Modeless(evnt.lParam, evnt.wParam);
             }
         }
 
@@ -241,8 +242,25 @@ namespace LWDicer.UI
             this.Close();
         }
 
+        static public void DisplayAlarm_Modeless(int alarmcode, int pid = 0, bool saveLog = true)
+        {
+            if (IsAlarmPopup) return; // popup 된 alarm이 확인완료될때까지 기다림
+            if (alarmcode == SUCCESS)
+            {
+                DisplayMsg("요청한 작업이 성공했습니다.");
+            }
+            else
+            {
+                CAlarm alarm = LWDicer.GetAlarmInfo(alarmcode, pid, saveLog);
+                var dlg = new FormAlarmDisplay(alarm);
+                dlg.TopMost = true;
+                dlg.Show();
+            }
+        }
+
         static public void DisplayAlarm(int alarmcode, int pid = 0, bool saveLog = true)
         {
+            if (IsAlarmPopup) return; // popup 된 alarm이 확인완료될때까지 기다림
             if (alarmcode == SUCCESS)
             {
                 DisplayMsg("요청한 작업이 성공했습니다.");

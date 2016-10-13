@@ -133,19 +133,19 @@ namespace LWDicer.UI
 
         private void UpdateCassetteData(CWaferCassette data)
         {
-            GridCtrl[1, 2].Text = String.Format("{0:0.000}", data.Diameter);
-            GridCtrl[2, 2].Text = String.Format("{0:0.000}", data.Slot);
-            GridCtrl[3, 2].Text = String.Format("{0:0.000}", data.CassetteSetNo);
-            GridCtrl[4, 2].Text = String.Format("{0:0.000}", data.FramePitch);
-            GridCtrl[5, 2].Text = String.Format("{0:0.000}", data.CassetteHeight);
-            GridCtrl[6, 2].Text = String.Format("{0:0.000}", data.ESZeroPoint);
-            GridCtrl[7, 2].Text = String.Format("{0:0.000}", data.UnloadElevatorPos);
-            GridCtrl[8, 2].Text = String.Format("{0:0.000}", data.CTZeroPoint);
-            GridCtrl[9, 2].Text = String.Format("{0:0.000}", data.STZeroPoint);
+            GridCtrl[1, 2].Text  = String.Format("{0:0.000}", data.Diameter);
+            GridCtrl[2, 2].Text  = String.Format("{0:0.000}", data.SlotNumber);
+            GridCtrl[3, 2].Text  = String.Format("{0:0.000}", data.CassetteSetNo);
+            GridCtrl[4, 2].Text  = String.Format("{0:0.000}", data.FramePitch);
+            GridCtrl[5, 2].Text  = String.Format("{0:0.000}", data.CassetteHeight);
+            GridCtrl[6, 2].Text  = String.Format("{0:0.000}", data.ESZeroPoint);
+            GridCtrl[7, 2].Text  = String.Format("{0:0.000}", data.UnloadElevatorPos);
+            GridCtrl[8, 2].Text  = String.Format("{0:0.000}", data.CTZeroPoint);
+            GridCtrl[9, 2].Text  = String.Format("{0:0.000}", data.STZeroPoint);
             GridCtrl[10, 2].Text = String.Format("{0:0.000}", data.LoadPushPullPos);
             GridCtrl[11, 2].Text = String.Format("{0:0.000}", data.FrameCenterPos);
 
-            for(int i=0;i< GridCtrl.RowCount;i++)
+            for (int i = 0; i < GridCtrl.RowCount; i++)
             {
                 GridCtrl[i + 1, 2].TextColor = Color.Black;
             }
@@ -165,18 +165,18 @@ namespace LWDicer.UI
 
             CWaferCassette cassetteData = new CWaferCassette();
 
-            cassetteData.Name =             ComboCassette.Text;
-            cassetteData.Diameter =         Convert.ToDouble(GridCtrl[1, 2].Text);
-            cassetteData.Slot =             Convert.ToInt16(GridCtrl[2, 2].Text);
-            cassetteData.CassetteSetNo =    Convert.ToInt16(GridCtrl[3, 2].Text);
-            cassetteData.FramePitch =       Convert.ToDouble(GridCtrl[4, 2].Text);
-            cassetteData.CassetteHeight =   Convert.ToDouble(GridCtrl[5, 2].Text);
-            cassetteData.ESZeroPoint =      Convert.ToDouble(GridCtrl[6, 2].Text);
+            cassetteData.Name              = ComboCassette.Text;
+            cassetteData.Diameter          = Convert.ToDouble(GridCtrl[1, 2].Text);
+            cassetteData.SlotNumber        = Convert.ToInt16(GridCtrl[2, 2].Text);
+            cassetteData.CassetteSetNo     = Convert.ToInt16(GridCtrl[3, 2].Text);
+            cassetteData.FramePitch        = Convert.ToDouble(GridCtrl[4, 2].Text);
+            cassetteData.CassetteHeight    = Convert.ToDouble(GridCtrl[5, 2].Text);
+            cassetteData.ESZeroPoint       = Convert.ToDouble(GridCtrl[6, 2].Text);
             cassetteData.UnloadElevatorPos = Convert.ToDouble(GridCtrl[7, 2].Text);
-            cassetteData.CTZeroPoint =      Convert.ToDouble(GridCtrl[8, 2].Text);
-            cassetteData.STZeroPoint =      Convert.ToDouble(GridCtrl[9, 2].Text);
-            cassetteData.LoadPushPullPos =  Convert.ToDouble(GridCtrl[10, 2].Text);
-            cassetteData.FrameCenterPos =   Convert.ToDouble(GridCtrl[11, 2].Text);
+            cassetteData.CTZeroPoint       = Convert.ToDouble(GridCtrl[8, 2].Text);
+            cassetteData.STZeroPoint       = Convert.ToDouble(GridCtrl[9, 2].Text);
+            cassetteData.LoadPushPullPos   = Convert.ToDouble(GridCtrl[10, 2].Text);
+            cassetteData.FrameCenterPos    = Convert.ToDouble(GridCtrl[11, 2].Text);
 
             CMainFrame.DataManager.SaveModelData(cassetteData);
 

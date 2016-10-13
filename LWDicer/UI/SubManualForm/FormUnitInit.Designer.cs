@@ -44,6 +44,7 @@
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.LabelProgress = new Syncfusion.Windows.Forms.Tools.GradientLabel();
             this.buttonAdv1 = new Syncfusion.Windows.Forms.ButtonAdv();
+            this.BtnAutoManager = new Syncfusion.Windows.Forms.ButtonAdv();
             this.SuspendLayout();
             // 
             // BtnLoader
@@ -201,18 +202,32 @@
             // 
             this.buttonAdv1.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.buttonAdv1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.buttonAdv1.Location = new System.Drawing.Point(509, 195);
+            this.buttonAdv1.Location = new System.Drawing.Point(509, 216);
             this.buttonAdv1.Name = "buttonAdv1";
             this.buttonAdv1.Size = new System.Drawing.Size(115, 63);
             this.buttonAdv1.TabIndex = 755;
             this.buttonAdv1.Text = "초기화 실행 (Test Only)";
             this.buttonAdv1.Click += new System.EventHandler(this.buttonAdv1_Click);
             // 
+            // BtnAutoManager
+            // 
+            this.BtnAutoManager.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.BtnAutoManager.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.BtnAutoManager.Location = new System.Drawing.Point(411, 133);
+            this.BtnAutoManager.Name = "BtnAutoManager";
+            this.BtnAutoManager.Size = new System.Drawing.Size(120, 67);
+            this.BtnAutoManager.TabIndex = 756;
+            this.BtnAutoManager.Tag = "0";
+            this.BtnAutoManager.Text = "AutoManager";
+            this.BtnAutoManager.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.BtnAutoManager.Visible = false;
+            // 
             // FormUnitInit
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(636, 360);
+            this.Controls.Add(this.BtnAutoManager);
             this.Controls.Add(this.buttonAdv1);
             this.Controls.Add(this.LabelProgress);
             this.Controls.Add(this.BtnExecuteIni);
@@ -250,5 +265,6 @@
         private System.Windows.Forms.Timer timer1;
         private Syncfusion.Windows.Forms.Tools.GradientLabel LabelProgress;
         private Syncfusion.Windows.Forms.ButtonAdv buttonAdv1;
+        private Syncfusion.Windows.Forms.ButtonAdv BtnAutoManager;
     }
 }

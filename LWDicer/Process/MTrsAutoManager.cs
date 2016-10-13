@@ -163,7 +163,7 @@ namespace LWDicer.Layers
             SetData(data);
 
             SetSystemStatus(EAutoRunStatus.STS_MANUAL);	// System의 상태를 EAutoRunStatus.STS_MANUAL 상태로 전환한다.
-
+            TSelf = (int)EThreadUnit.AUTOMANAGER;
         }
 
         #region Common : Manage Data, Position, Use Flag and Initialize
@@ -186,7 +186,7 @@ namespace LWDicer.Layers
 
             iResult = m_RefComp.trsLoader.Initialize();
             if (iResult != SUCCESS) return iResult;
-            m_RefComp.OpPanel.SetInitFlag(EInitiableUnit.LOADER, true);
+            m_RefComp.OpPanel.SetInitFlag(EThreadUnit.LOADER, true);
 
 
             return iResult;
@@ -217,7 +217,7 @@ namespace LWDicer.Layers
         protected override void ThreadProcess()
         {
             int iResult = SUCCESS;
-            bool bStatus = false;
+            bool bStatus, bStatus1, bStatus2;
 
             // 160812 by ranian. OpenController 함수에서 com port를 열어주지만, 
             // Yaskawa는 쓰레드마다 comport을 열어줘야하다고 한다.
@@ -292,7 +292,7 @@ namespace LWDicer.Layers
                     case EAutoRunStatus.STS_RUN: // auto run
 
                         // Do Thread Step
-                        switch (ThreadStep1)
+                        switch (ThreadStep)
                         {
                             default:
                                 break;
@@ -315,7 +315,7 @@ namespace LWDicer.Layers
                 return SUCCESS;
 
             EThreadMessage cnvt = (EThreadMessage)Enum.Parse(typeof(EThreadMessage), evnt.Msg.ToString());
-            switch ((EThreadMessage)Enum.Parse(typeof(EThreadMessage), evnt.Msg.ToString()))
+            switch (cnvt)
             {
                 case EThreadMessage.MSG_PROCESS_ALARM:
                     //if (AfxGetApp()->GetMainWnd() != NULL)
@@ -1129,7 +1129,7 @@ namespace LWDicer.Layers
                 // 모든 축을 E-Stop 시킨다.
                 //		m_RefComp.ctrlOpPanel.EStopAllAxis();		//. Error Stop시 각 Thread에서 하던 작업 마무리하고 전환될 수 있도록 막음
                 // 모든 축을 Stop 시킨다.
-                m_RefComp.ctrlOpPanel.StopAllAxis();      //. Error Stop시 각 Thread에서 하던 작업 마무리하고 전환될 수 있도록 막음
+                //m_RefComp.ctrlOpPanel.StopAllAxis();      //. Error Stop시 각 Thread에서 하던 작업 마무리하고 전환될 수 있도록 막음
 
                 BroadcastMsg(MSG_ERROR_STOP_CMD);       // ERROR_STOP Broadcasting
                 SendMsgToMainWnd(WM_ERRORSTOP_MSG);
@@ -1153,7 +1153,7 @@ namespace LWDicer.Layers
         /// </summary>
         void CheckPanelExist()
         {
-            m_RefComp.ctrlStage1.IsPanelDetected(out m_bPanelExist_InFacility);
+            m_RefComp.ctrlStage1.IsObjectDetected(out m_bPanelExist_InFacility);
             if (m_bPanelExist_InFacility == true) return;
 
             m_RefComp.ctrlHandler.IsObjectDetected(DEF_CtrlHandler.EHandlerIndex.LOAD_UPPER, out m_bPanelExist_InFacility);

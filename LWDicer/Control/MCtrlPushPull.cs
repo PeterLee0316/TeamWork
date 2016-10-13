@@ -253,6 +253,7 @@ namespace LWDicer.Layers
             iResult = IsObjectDetected(out bDetected);
             if (iResult != SUCCESS) return iResult;
 
+#if !SIMULATION_TEST
             if (bPanelTransfer == true && bDetected == false)
             {
                 return GenerateErrorCode(ERR_CTRLPUSHPULL_OBJECT_NOT_EXIST);
@@ -261,6 +262,7 @@ namespace LWDicer.Layers
             {
                 return GenerateErrorCode(ERR_CTRLPUSHPULL_OBJECT_EXIST);
             }
+#endif
 
             // 2. check other unit
             // 2.0 이동할 반대편 위치 (예를들어 spinner1 -> spinner2 구간으로 이동할때)
@@ -413,6 +415,16 @@ namespace LWDicer.Layers
             if (iResult != SUCCESS) return iResult;
 
             return SUCCESS;
+        }
+
+        public int GuideOpen(double dXMoveOffset = 0)
+        {
+            return MoveAllCenterUnitToWaitPos(dXMoveOffset);
+        }
+
+        public int GuideClose(double dXMoveOffset = 0)
+        {
+            return MoveAllCenterUnitToCenteringPos(dXMoveOffset);
         }
 
         public int MoveAllCenterUnitToWaitPos(double dXMoveOffset = 0)

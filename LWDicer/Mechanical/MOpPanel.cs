@@ -274,7 +274,7 @@ namespace LWDicer.Layers
 
 
         // Unit 초기화 Flag
-        bool[] m_bInitFlag = new bool[(int)EInitiableUnit.MAX];
+        bool[] m_bInitFlag = new bool[(int)EThreadUnit.MAX];
 
 
         // Switch Status (previous)
@@ -328,7 +328,7 @@ namespace LWDicer.Layers
             }
 
             // Unit의 초기화 Flag를 Reset해야 한다.
-            for (int i = 0; i < (int)EInitiableUnit.MAX; i++)
+            for (int i = 0; i < (int)EThreadUnit.MAX; i++)
             {
                 m_bInitFlag[i] = false;
             }
@@ -1321,7 +1321,7 @@ namespace LWDicer.Layers
             //}
 
             //// Unit의 초기화 Flag를 Reset해야 한다.
-            //for (i = 0; i < (int)EInitiableUnit.MAX; i++)
+            //for (i = 0; i < (int)EThreadUnit.MAX; i++)
             //    m_bInitFlag[i] = false;
 
             return iResult;
@@ -1387,7 +1387,7 @@ namespace LWDicer.Layers
         {
             int iResult = SUCCESS;
 
-            if (iUnitIndex < 0 || iUnitIndex > (int)EInitiableUnit.MAX)
+            if (iUnitIndex < 0 || iUnitIndex > (int)EThreadUnit.MAX)
             {
                 return GenerateErrorCode(ERR_OPPANEL_INVALID_INIT_UNIT_INDEX);
             }
@@ -1397,7 +1397,7 @@ namespace LWDicer.Layers
             return iResult;
         }
 
-        public int SetInitFlag(EInitiableUnit index, bool bSts)
+        public int SetInitFlag(EThreadUnit index, bool bSts)
         {
             return SetInitFlag((int)index, bSts);
         }
@@ -1414,7 +1414,7 @@ namespace LWDicer.Layers
             int iResult = SUCCESS;
             bStatus = false;
 
-            if (iUnitIndex < 0 || iUnitIndex > (int)EInitiableUnit.MAX)
+            if (iUnitIndex < 0 || iUnitIndex > (int)EThreadUnit.MAX)
             {
                 return GenerateErrorCode(ERR_OPPANEL_INVALID_INIT_UNIT_INDEX);
             }
@@ -1434,11 +1434,11 @@ namespace LWDicer.Layers
             bool bSts = false;
             bool bResult = true;
 
-            bInitSts = new bool[(int)EInitiableUnit.MAX];
+            bInitSts = new bool[(int)EThreadUnit.MAX];
 
             bool bEStopSts;
             GetEStopButtonStatus(out bEStopSts);
-            for (int i = 0; i < (int)EInitiableUnit.MAX; i++)
+            for (int i = 0; i < (int)EThreadUnit.MAX; i++)
             {
                 if (bEStopSts == true)
                 {

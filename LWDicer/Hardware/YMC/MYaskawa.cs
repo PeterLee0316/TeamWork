@@ -552,6 +552,18 @@ MP2101TM            SVC(built-in the board, with MECHATROLINK port 1)       1   
         /// <returns></returns>
         public int GenerateErrorCode(int error, UInt32 rc, bool writeLog = true)
         {
+            string hexcode = rc.ToString("X");
+#if SIMULATION_TEST
+            //if (ErrorSubMsg.IndexOf("ERROR_CODE_COM_NOT_OPENED") >= 0
+            //    || ErrorSubMsg.IndexOf("MP_NOTDEVICEHANDLE") >= 0
+            //    || ErrorSubMsg.IndexOf("ERROR_CODE_NOT_CONTROLLER_RDY") >= 0
+            //    ) return SUCCESS;
+
+            if (hexcode == "430F1B50"
+                || hexcode == "470B1108"
+                || hexcode == "440D1BA0")
+                return SUCCESS;
+#endif
             ErrorSubMsg = String.Format($"0x{rc.ToString("X")}, {CMotionAPI.ErrorDictionary[rc.ToString("X")]}");
             WriteLog(ErrorSubMsg, ELogType.Debug, ELogWType.D_Error, true);
 

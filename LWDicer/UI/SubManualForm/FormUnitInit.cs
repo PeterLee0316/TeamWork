@@ -19,9 +19,9 @@ namespace LWDicer.UI
     public partial class FormUnitInit : Form
     {
 
-        private bool[] SelectedPart = new bool[(int)EInitiableUnit.MAX];
-        private ButtonAdv[] BtnList = new ButtonAdv[(int)EInitiableUnit.MAX];
-        private string[] BtnName = new string[(int)EInitiableUnit.MAX];
+        private bool[] SelectedPart = new bool[(int)EThreadUnit.MAX];
+        private ButtonAdv[] BtnList = new ButtonAdv[(int)EThreadUnit.MAX];
+        private string[] BtnName = new string[(int)EThreadUnit.MAX];
 
         private MTickTimer m_waitTimer = new MTickTimer();
 
@@ -50,15 +50,16 @@ namespace LWDicer.UI
 
         private void ResouceMapping()
         {
-            BtnList[0] = BtnLoader;
-            BtnList[1] = BtnSpinner1;
-            BtnList[2] = BtnSpinner2;
-            BtnList[3] = BtnHandler;
-            BtnList[4] = BtnPushPull;
-            BtnList[5] = BtnStage;
+            BtnList[(int)EThreadUnit.AUTOMANAGER] = BtnAutoManager;
+            BtnList[(int)EThreadUnit.LOADER]      = BtnLoader;
+            BtnList[(int)EThreadUnit.SPINNER1]    = BtnSpinner1;
+            BtnList[(int)EThreadUnit.SPINNER2]    = BtnSpinner2;
+            BtnList[(int)EThreadUnit.HANDLER]     = BtnHandler;
+            BtnList[(int)EThreadUnit.PUSHPULL]    = BtnPushPull;
+            BtnList[(int)EThreadUnit.STAGE1]      = BtnStage;
 
 
-            for (int i = 0; i < (int)EInitiableUnit.MAX; i++)
+            for (int i = 0; i < (int)EThreadUnit.MAX; i++)
             {
                 BtnName[i] = BtnList[i].Text;
                 BtnList[i].Tag = i;
@@ -82,7 +83,7 @@ namespace LWDicer.UI
 
         private void BtnSelectAll_Click(object sender, EventArgs e)
         {
-            for (int i = 0; i < (int)EInitiableUnit.MAX; i++)
+            for (int i = 0; i < (int)EThreadUnit.MAX; i++)
             {
                 SelectedPart[i] = true;
                 BtnList[i].Image = Image.Images[1];
@@ -91,7 +92,7 @@ namespace LWDicer.UI
 
         private void BtnCancelAll_Click(object sender, EventArgs e)
         {
-            for (int i = 0; i < (int)EInitiableUnit.MAX; i++)
+            for (int i = 0; i < (int)EThreadUnit.MAX; i++)
             {
                 SelectedPart[i] = false;
                 BtnList[i].Image = Image.Images[0];
@@ -101,7 +102,7 @@ namespace LWDicer.UI
         void UpdateUnitStatus()
         {
             bool bStatus;
-            for (int i = 0; i < (int)EInitiableUnit.MAX; i++)
+            for (int i = 0; i < (int)EThreadUnit.MAX; i++)
             {
                 CMainFrame.LWDicer.m_OpPanel.GetInitFlag(i, out bStatus);
                 if (bStatus == true)
@@ -161,9 +162,29 @@ namespace LWDicer.UI
             SetTitle("인터페이스 신호 초기화");
 
             int part;
+
+            // 0. AUTOMANAGER
+            SetTitle("AUTOMANAGER");
+            part = (int)EThreadUnit.AUTOMANAGER;
+            SelectedPart[part] = true; // AutoManager는 invisible button. always init
+            if (SelectedPart[part] == true)
+            {
+                iResult = CMainFrame.LWDicer.m_trsAutoManager.Initialize();
+                if (iResult != SUCCESS)
+                {
+                    CMainFrame.DisplayAlarm(iResult);
+                    SetInitFlag(part, false);
+                    return;
+                }
+                else
+                {
+                    SetInitFlag(part, true);
+                }
+            }
+
             // 0. HANDLER
             SetTitle("HANDLER");
-            part = (int)EInitiableUnit.HANDLER;
+            part = (int)EThreadUnit.HANDLER;
             if (SelectedPart[part] == true)
             {
                 iResult = CMainFrame.LWDicer.m_trsHandler.Initialize();
@@ -181,7 +202,7 @@ namespace LWDicer.UI
 
             // 0. STAGE1
             SetTitle("STAGE1");
-            part = (int)EInitiableUnit.STAGE1;
+            part = (int)EThreadUnit.STAGE1;
             if (SelectedPart[part] == true)
             {
                 iResult = CMainFrame.LWDicer.m_trsStage1.Initialize();
@@ -199,7 +220,7 @@ namespace LWDicer.UI
 
             // 0. SPINNER1
             SetTitle("SPINNER1");
-            part = (int)EInitiableUnit.SPINNER1;
+            part = (int)EThreadUnit.SPINNER1;
             if (SelectedPart[part] == true)
             {
                 iResult = CMainFrame.LWDicer.m_trsSpinner1.Initialize();
@@ -217,7 +238,7 @@ namespace LWDicer.UI
 
             // 0. SPINNER2
             SetTitle("SPINNER2");
-            part = (int)EInitiableUnit.SPINNER2;
+            part = (int)EThreadUnit.SPINNER2;
             if (SelectedPart[part] == true)
             {
                 iResult = CMainFrame.LWDicer.m_trsSpinner2.Initialize();
@@ -235,9 +256,10 @@ namespace LWDicer.UI
 
             // 0. Loader
             SetTitle("LOADER");
-            part = (int)EInitiableUnit.LOADER;
+            part = (int)EThreadUnit.LOADER;
             if (SelectedPart[part] == true)
             {
+                iResult = CMainFrame.DataManager.Generate_InputBuffer();
                 iResult = CMainFrame.LWDicer.m_trsLoader.Initialize();
                 if (iResult != SUCCESS)
                 {
@@ -253,7 +275,7 @@ namespace LWDicer.UI
 
             // 0. PUSHPULL
             SetTitle("PUSHPULL");
-            part = (int)EInitiableUnit.PUSHPULL;
+            part = (int)EThreadUnit.PUSHPULL;
             if (SelectedPart[part] == true)
             {
                 iResult = CMainFrame.LWDicer.m_trsPushPull.Initialize();
@@ -294,7 +316,7 @@ namespace LWDicer.UI
 
         private void buttonAdv1_Click(object sender, EventArgs e)
         {
-            for (int i = 0; i < (int)EInitiableUnit.MAX; i++)
+            for (int i = 0; i < (int)EThreadUnit.MAX; i++)
             {
                 SetInitFlag(i, true);
                 CMainFrame.LWDicer.Sleep(100);
