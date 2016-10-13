@@ -1032,6 +1032,7 @@ namespace LWDicer.Layers
             //pEdgeData = initData;
 
 #if SIMULATION_VISION
+            pEdgeData = new CEdgeData();
             return SUCCESS;
 #endif
             int iResult = 0;
