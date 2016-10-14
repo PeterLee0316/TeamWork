@@ -393,12 +393,13 @@ CSpinStep class -> CCleanStep / CCoatStep class 로 분리
 
 // Version : 0.0.38
 // Grade : ★
-// Date : 161010~161013
+// Date : 161010~161014
 // Context
 1. 가상의 wafer를 이용하여 Do Coat -> PushPull -> Handler -> Stage -> Handler -> Cleaner까지 흘러가는 부분 정비 및 확인 완료
    이후의 부분들은 나중에 처리해도 될 듯함.
 2. unit에 있는 wafer id 를 ui에 표시하도록 추가
 3. 가상의 wafer list를 만들어 thread 진행에 따른 wafer 이동 및 ui에서도 id 이동하는 것 확인 완료
+4. CWorkPiece class 수정 및 실시간으로 조회 가능한 FormWorkPieceInquiry form 추가함.
 
 // ********************************************************************************
 // test를 위해서 임시로 결과값을 쓰는 코드들은 // for test 로 주석 달기 및 검색해서 사용하도록

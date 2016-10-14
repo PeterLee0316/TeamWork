@@ -66,6 +66,7 @@
             this.Label_IDSpinner1 = new Syncfusion.Windows.Forms.Tools.GradientLabel();
             this.Label_IDPushPull = new Syncfusion.Windows.Forms.Tools.GradientLabel();
             this.Label_IDLoader = new Syncfusion.Windows.Forms.Tools.GradientLabel();
+            this.btnWPInquiry = new Syncfusion.Windows.Forms.ButtonAdv();
             this.SuspendLayout();
             // 
             // BtnOriginReturn
@@ -77,7 +78,7 @@
             this.BtnOriginReturn.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.BtnOriginReturn.ForeColor = System.Drawing.Color.Black;
             this.BtnOriginReturn.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.BtnOriginReturn.Location = new System.Drawing.Point(1082, 566);
+            this.BtnOriginReturn.Location = new System.Drawing.Point(1082, 598);
             this.BtnOriginReturn.Name = "BtnOriginReturn";
             this.BtnOriginReturn.Size = new System.Drawing.Size(145, 68);
             this.BtnOriginReturn.TabIndex = 15;
@@ -94,7 +95,7 @@
             this.BtnUnitInit.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.BtnUnitInit.ForeColor = System.Drawing.Color.Black;
             this.BtnUnitInit.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.BtnUnitInit.Location = new System.Drawing.Point(1082, 651);
+            this.BtnUnitInit.Location = new System.Drawing.Point(1082, 671);
             this.BtnUnitInit.Name = "BtnUnitInit";
             this.BtnUnitInit.Size = new System.Drawing.Size(145, 68);
             this.BtnUnitInit.TabIndex = 16;
@@ -111,7 +112,7 @@
             this.BtnStart.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.BtnStart.ForeColor = System.Drawing.Color.Black;
             this.BtnStart.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.BtnStart.Location = new System.Drawing.Point(1082, 737);
+            this.BtnStart.Location = new System.Drawing.Point(1082, 743);
             this.BtnStart.Name = "BtnStart";
             this.BtnStart.Size = new System.Drawing.Size(145, 68);
             this.BtnStart.TabIndex = 17;
@@ -125,7 +126,7 @@
             this.LabelButtonGuide.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
             | System.Windows.Forms.Border3DSide.Right) 
             | System.Windows.Forms.Border3DSide.Bottom)));
-            this.LabelButtonGuide.Location = new System.Drawing.Point(506, 505);
+            this.LabelButtonGuide.Location = new System.Drawing.Point(445, 540);
             this.LabelButtonGuide.Name = "LabelButtonGuide";
             this.LabelButtonGuide.Size = new System.Drawing.Size(454, 68);
             this.LabelButtonGuide.TabIndex = 18;
@@ -139,7 +140,7 @@
             | System.Windows.Forms.Border3DSide.Right) 
             | System.Windows.Forms.Border3DSide.Bottom)));
             this.LabelTowerR.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.LabelTowerR.Location = new System.Drawing.Point(408, 599);
+            this.LabelTowerR.Location = new System.Drawing.Point(445, 619);
             this.LabelTowerR.Name = "LabelTowerR";
             this.LabelTowerR.Size = new System.Drawing.Size(97, 24);
             this.LabelTowerR.TabIndex = 756;
@@ -153,7 +154,7 @@
             | System.Windows.Forms.Border3DSide.Right) 
             | System.Windows.Forms.Border3DSide.Bottom)));
             this.Label_StepLoader.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.Label_StepLoader.Location = new System.Drawing.Point(604, 599);
+            this.Label_StepLoader.Location = new System.Drawing.Point(641, 619);
             this.Label_StepLoader.Name = "Label_StepLoader";
             this.Label_StepLoader.Size = new System.Drawing.Size(255, 24);
             this.Label_StepLoader.TabIndex = 757;
@@ -167,7 +168,7 @@
             | System.Windows.Forms.Border3DSide.Right) 
             | System.Windows.Forms.Border3DSide.Bottom)));
             this.Label_StepPushPull.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.Label_StepPushPull.Location = new System.Drawing.Point(604, 623);
+            this.Label_StepPushPull.Location = new System.Drawing.Point(641, 643);
             this.Label_StepPushPull.Name = "Label_StepPushPull";
             this.Label_StepPushPull.Size = new System.Drawing.Size(255, 24);
             this.Label_StepPushPull.TabIndex = 759;
@@ -181,7 +182,7 @@
             | System.Windows.Forms.Border3DSide.Right) 
             | System.Windows.Forms.Border3DSide.Bottom)));
             this.gradientLabel2.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.gradientLabel2.Location = new System.Drawing.Point(408, 623);
+            this.gradientLabel2.Location = new System.Drawing.Point(445, 643);
             this.gradientLabel2.Name = "gradientLabel2";
             this.gradientLabel2.Size = new System.Drawing.Size(97, 24);
             this.gradientLabel2.TabIndex = 758;
@@ -195,7 +196,7 @@
             | System.Windows.Forms.Border3DSide.Right) 
             | System.Windows.Forms.Border3DSide.Bottom)));
             this.Label_StepSpinner1.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.Label_StepSpinner1.Location = new System.Drawing.Point(604, 647);
+            this.Label_StepSpinner1.Location = new System.Drawing.Point(641, 667);
             this.Label_StepSpinner1.Name = "Label_StepSpinner1";
             this.Label_StepSpinner1.Size = new System.Drawing.Size(255, 24);
             this.Label_StepSpinner1.TabIndex = 761;
@@ -209,7 +210,7 @@
             | System.Windows.Forms.Border3DSide.Right) 
             | System.Windows.Forms.Border3DSide.Bottom)));
             this.gradientLabel4.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.gradientLabel4.Location = new System.Drawing.Point(408, 647);
+            this.gradientLabel4.Location = new System.Drawing.Point(445, 667);
             this.gradientLabel4.Name = "gradientLabel4";
             this.gradientLabel4.Size = new System.Drawing.Size(97, 24);
             this.gradientLabel4.TabIndex = 760;
@@ -223,7 +224,7 @@
             | System.Windows.Forms.Border3DSide.Right) 
             | System.Windows.Forms.Border3DSide.Bottom)));
             this.Label_StepSpinner2.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.Label_StepSpinner2.Location = new System.Drawing.Point(604, 671);
+            this.Label_StepSpinner2.Location = new System.Drawing.Point(641, 691);
             this.Label_StepSpinner2.Name = "Label_StepSpinner2";
             this.Label_StepSpinner2.Size = new System.Drawing.Size(255, 24);
             this.Label_StepSpinner2.TabIndex = 763;
@@ -237,7 +238,7 @@
             | System.Windows.Forms.Border3DSide.Right) 
             | System.Windows.Forms.Border3DSide.Bottom)));
             this.gradientLabel6.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.gradientLabel6.Location = new System.Drawing.Point(408, 671);
+            this.gradientLabel6.Location = new System.Drawing.Point(445, 691);
             this.gradientLabel6.Name = "gradientLabel6";
             this.gradientLabel6.Size = new System.Drawing.Size(97, 24);
             this.gradientLabel6.TabIndex = 762;
@@ -251,7 +252,7 @@
             | System.Windows.Forms.Border3DSide.Right) 
             | System.Windows.Forms.Border3DSide.Bottom)));
             this.Label_StepUHandler.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.Label_StepUHandler.Location = new System.Drawing.Point(604, 695);
+            this.Label_StepUHandler.Location = new System.Drawing.Point(641, 715);
             this.Label_StepUHandler.Name = "Label_StepUHandler";
             this.Label_StepUHandler.Size = new System.Drawing.Size(255, 24);
             this.Label_StepUHandler.TabIndex = 765;
@@ -265,7 +266,7 @@
             | System.Windows.Forms.Border3DSide.Right) 
             | System.Windows.Forms.Border3DSide.Bottom)));
             this.gradientLabel8.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.gradientLabel8.Location = new System.Drawing.Point(408, 695);
+            this.gradientLabel8.Location = new System.Drawing.Point(445, 715);
             this.gradientLabel8.Name = "gradientLabel8";
             this.gradientLabel8.Size = new System.Drawing.Size(97, 24);
             this.gradientLabel8.TabIndex = 764;
@@ -279,7 +280,7 @@
             | System.Windows.Forms.Border3DSide.Right) 
             | System.Windows.Forms.Border3DSide.Bottom)));
             this.Label_StepStage.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.Label_StepStage.Location = new System.Drawing.Point(604, 743);
+            this.Label_StepStage.Location = new System.Drawing.Point(641, 763);
             this.Label_StepStage.Name = "Label_StepStage";
             this.Label_StepStage.Size = new System.Drawing.Size(255, 24);
             this.Label_StepStage.TabIndex = 767;
@@ -293,7 +294,7 @@
             | System.Windows.Forms.Border3DSide.Right) 
             | System.Windows.Forms.Border3DSide.Bottom)));
             this.gradientLabel10.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.gradientLabel10.Location = new System.Drawing.Point(408, 743);
+            this.gradientLabel10.Location = new System.Drawing.Point(445, 763);
             this.gradientLabel10.Name = "gradientLabel10";
             this.gradientLabel10.Size = new System.Drawing.Size(97, 24);
             this.gradientLabel10.TabIndex = 766;
@@ -307,7 +308,7 @@
             | System.Windows.Forms.Border3DSide.Right) 
             | System.Windows.Forms.Border3DSide.Bottom)));
             this.Label_StepAutoManager.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.Label_StepAutoManager.Location = new System.Drawing.Point(604, 767);
+            this.Label_StepAutoManager.Location = new System.Drawing.Point(641, 787);
             this.Label_StepAutoManager.Name = "Label_StepAutoManager";
             this.Label_StepAutoManager.Size = new System.Drawing.Size(255, 24);
             this.Label_StepAutoManager.TabIndex = 769;
@@ -321,7 +322,7 @@
             | System.Windows.Forms.Border3DSide.Right) 
             | System.Windows.Forms.Border3DSide.Bottom)));
             this.gradientLabel12.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.gradientLabel12.Location = new System.Drawing.Point(408, 767);
+            this.gradientLabel12.Location = new System.Drawing.Point(445, 787);
             this.gradientLabel12.Name = "gradientLabel12";
             this.gradientLabel12.Size = new System.Drawing.Size(97, 24);
             this.gradientLabel12.TabIndex = 768;
@@ -339,7 +340,7 @@
             | System.Windows.Forms.Border3DSide.Right) 
             | System.Windows.Forms.Border3DSide.Bottom)));
             this.Label_StepLHandler.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.Label_StepLHandler.Location = new System.Drawing.Point(604, 719);
+            this.Label_StepLHandler.Location = new System.Drawing.Point(641, 739);
             this.Label_StepLHandler.Name = "Label_StepLHandler";
             this.Label_StepLHandler.Size = new System.Drawing.Size(255, 24);
             this.Label_StepLHandler.TabIndex = 771;
@@ -353,7 +354,7 @@
             | System.Windows.Forms.Border3DSide.Right) 
             | System.Windows.Forms.Border3DSide.Bottom)));
             this.gradientLabel3.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.gradientLabel3.Location = new System.Drawing.Point(408, 719);
+            this.gradientLabel3.Location = new System.Drawing.Point(445, 739);
             this.gradientLabel3.Name = "gradientLabel3";
             this.gradientLabel3.Size = new System.Drawing.Size(97, 24);
             this.gradientLabel3.TabIndex = 770;
@@ -367,7 +368,7 @@
             | System.Windows.Forms.Border3DSide.Right) 
             | System.Windows.Forms.Border3DSide.Bottom)));
             this.Label_StatusLHandler.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.Label_StatusLHandler.Location = new System.Drawing.Point(506, 719);
+            this.Label_StatusLHandler.Location = new System.Drawing.Point(543, 739);
             this.Label_StatusLHandler.Name = "Label_StatusLHandler";
             this.Label_StatusLHandler.Size = new System.Drawing.Size(97, 24);
             this.Label_StatusLHandler.TabIndex = 779;
@@ -381,7 +382,7 @@
             | System.Windows.Forms.Border3DSide.Right) 
             | System.Windows.Forms.Border3DSide.Bottom)));
             this.Label_StatusAutoManager.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.Label_StatusAutoManager.Location = new System.Drawing.Point(506, 767);
+            this.Label_StatusAutoManager.Location = new System.Drawing.Point(543, 787);
             this.Label_StatusAutoManager.Name = "Label_StatusAutoManager";
             this.Label_StatusAutoManager.Size = new System.Drawing.Size(97, 24);
             this.Label_StatusAutoManager.TabIndex = 778;
@@ -395,7 +396,7 @@
             | System.Windows.Forms.Border3DSide.Right) 
             | System.Windows.Forms.Border3DSide.Bottom)));
             this.Label_StatusStage.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.Label_StatusStage.Location = new System.Drawing.Point(506, 743);
+            this.Label_StatusStage.Location = new System.Drawing.Point(543, 763);
             this.Label_StatusStage.Name = "Label_StatusStage";
             this.Label_StatusStage.Size = new System.Drawing.Size(97, 24);
             this.Label_StatusStage.TabIndex = 777;
@@ -409,7 +410,7 @@
             | System.Windows.Forms.Border3DSide.Right) 
             | System.Windows.Forms.Border3DSide.Bottom)));
             this.Label_StatusUHandler.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.Label_StatusUHandler.Location = new System.Drawing.Point(506, 695);
+            this.Label_StatusUHandler.Location = new System.Drawing.Point(543, 715);
             this.Label_StatusUHandler.Name = "Label_StatusUHandler";
             this.Label_StatusUHandler.Size = new System.Drawing.Size(97, 24);
             this.Label_StatusUHandler.TabIndex = 776;
@@ -423,7 +424,7 @@
             | System.Windows.Forms.Border3DSide.Right) 
             | System.Windows.Forms.Border3DSide.Bottom)));
             this.Label_StatusSpinner2.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.Label_StatusSpinner2.Location = new System.Drawing.Point(506, 671);
+            this.Label_StatusSpinner2.Location = new System.Drawing.Point(543, 691);
             this.Label_StatusSpinner2.Name = "Label_StatusSpinner2";
             this.Label_StatusSpinner2.Size = new System.Drawing.Size(97, 24);
             this.Label_StatusSpinner2.TabIndex = 775;
@@ -437,7 +438,7 @@
             | System.Windows.Forms.Border3DSide.Right) 
             | System.Windows.Forms.Border3DSide.Bottom)));
             this.Label_StatusSpinner1.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.Label_StatusSpinner1.Location = new System.Drawing.Point(506, 647);
+            this.Label_StatusSpinner1.Location = new System.Drawing.Point(543, 667);
             this.Label_StatusSpinner1.Name = "Label_StatusSpinner1";
             this.Label_StatusSpinner1.Size = new System.Drawing.Size(97, 24);
             this.Label_StatusSpinner1.TabIndex = 774;
@@ -451,7 +452,7 @@
             | System.Windows.Forms.Border3DSide.Right) 
             | System.Windows.Forms.Border3DSide.Bottom)));
             this.Label_StatusPushPull.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.Label_StatusPushPull.Location = new System.Drawing.Point(506, 623);
+            this.Label_StatusPushPull.Location = new System.Drawing.Point(543, 643);
             this.Label_StatusPushPull.Name = "Label_StatusPushPull";
             this.Label_StatusPushPull.Size = new System.Drawing.Size(97, 24);
             this.Label_StatusPushPull.TabIndex = 773;
@@ -465,7 +466,7 @@
             | System.Windows.Forms.Border3DSide.Right) 
             | System.Windows.Forms.Border3DSide.Bottom)));
             this.Label_StatusLoader.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.Label_StatusLoader.Location = new System.Drawing.Point(506, 599);
+            this.Label_StatusLoader.Location = new System.Drawing.Point(543, 619);
             this.Label_StatusLoader.Name = "Label_StatusLoader";
             this.Label_StatusLoader.Size = new System.Drawing.Size(97, 24);
             this.Label_StatusLoader.TabIndex = 772;
@@ -479,7 +480,7 @@
             | System.Windows.Forms.Border3DSide.Right) 
             | System.Windows.Forms.Border3DSide.Bottom)));
             this.Label_IDLHandler.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.Label_IDLHandler.Location = new System.Drawing.Point(860, 719);
+            this.Label_IDLHandler.Location = new System.Drawing.Point(897, 739);
             this.Label_IDLHandler.Name = "Label_IDLHandler";
             this.Label_IDLHandler.Size = new System.Drawing.Size(179, 24);
             this.Label_IDLHandler.TabIndex = 787;
@@ -493,7 +494,7 @@
             | System.Windows.Forms.Border3DSide.Right) 
             | System.Windows.Forms.Border3DSide.Bottom)));
             this.Label_IDAutoManager.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.Label_IDAutoManager.Location = new System.Drawing.Point(860, 767);
+            this.Label_IDAutoManager.Location = new System.Drawing.Point(897, 787);
             this.Label_IDAutoManager.Name = "Label_IDAutoManager";
             this.Label_IDAutoManager.Size = new System.Drawing.Size(179, 24);
             this.Label_IDAutoManager.TabIndex = 786;
@@ -507,7 +508,7 @@
             | System.Windows.Forms.Border3DSide.Right) 
             | System.Windows.Forms.Border3DSide.Bottom)));
             this.Label_IDStage.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.Label_IDStage.Location = new System.Drawing.Point(860, 743);
+            this.Label_IDStage.Location = new System.Drawing.Point(897, 763);
             this.Label_IDStage.Name = "Label_IDStage";
             this.Label_IDStage.Size = new System.Drawing.Size(179, 24);
             this.Label_IDStage.TabIndex = 785;
@@ -521,7 +522,7 @@
             | System.Windows.Forms.Border3DSide.Right) 
             | System.Windows.Forms.Border3DSide.Bottom)));
             this.Label_IDUHandler.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.Label_IDUHandler.Location = new System.Drawing.Point(860, 695);
+            this.Label_IDUHandler.Location = new System.Drawing.Point(897, 715);
             this.Label_IDUHandler.Name = "Label_IDUHandler";
             this.Label_IDUHandler.Size = new System.Drawing.Size(179, 24);
             this.Label_IDUHandler.TabIndex = 784;
@@ -535,7 +536,7 @@
             | System.Windows.Forms.Border3DSide.Right) 
             | System.Windows.Forms.Border3DSide.Bottom)));
             this.Label_IDSpinner2.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.Label_IDSpinner2.Location = new System.Drawing.Point(860, 671);
+            this.Label_IDSpinner2.Location = new System.Drawing.Point(897, 691);
             this.Label_IDSpinner2.Name = "Label_IDSpinner2";
             this.Label_IDSpinner2.Size = new System.Drawing.Size(179, 24);
             this.Label_IDSpinner2.TabIndex = 783;
@@ -549,7 +550,7 @@
             | System.Windows.Forms.Border3DSide.Right) 
             | System.Windows.Forms.Border3DSide.Bottom)));
             this.Label_IDSpinner1.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.Label_IDSpinner1.Location = new System.Drawing.Point(860, 647);
+            this.Label_IDSpinner1.Location = new System.Drawing.Point(897, 667);
             this.Label_IDSpinner1.Name = "Label_IDSpinner1";
             this.Label_IDSpinner1.Size = new System.Drawing.Size(179, 24);
             this.Label_IDSpinner1.TabIndex = 782;
@@ -563,7 +564,7 @@
             | System.Windows.Forms.Border3DSide.Right) 
             | System.Windows.Forms.Border3DSide.Bottom)));
             this.Label_IDPushPull.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.Label_IDPushPull.Location = new System.Drawing.Point(860, 623);
+            this.Label_IDPushPull.Location = new System.Drawing.Point(897, 643);
             this.Label_IDPushPull.Name = "Label_IDPushPull";
             this.Label_IDPushPull.Size = new System.Drawing.Size(179, 24);
             this.Label_IDPushPull.TabIndex = 781;
@@ -577,12 +578,29 @@
             | System.Windows.Forms.Border3DSide.Right) 
             | System.Windows.Forms.Border3DSide.Bottom)));
             this.Label_IDLoader.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.Label_IDLoader.Location = new System.Drawing.Point(860, 599);
+            this.Label_IDLoader.Location = new System.Drawing.Point(897, 619);
             this.Label_IDLoader.Name = "Label_IDLoader";
             this.Label_IDLoader.Size = new System.Drawing.Size(179, 24);
             this.Label_IDLoader.TabIndex = 780;
             this.Label_IDLoader.Text = "Loader";
             this.Label_IDLoader.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // btnWPInquiry
+            // 
+            this.btnWPInquiry.AutoEllipsis = true;
+            this.btnWPInquiry.BackColor = System.Drawing.Color.LightGoldenrodYellow;
+            this.btnWPInquiry.BorderStyleAdv = Syncfusion.Windows.Forms.ButtonAdvBorderStyle.Solid;
+            this.btnWPInquiry.FlatAppearance.BorderSize = 5;
+            this.btnWPInquiry.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.btnWPInquiry.ForeColor = System.Drawing.Color.Black;
+            this.btnWPInquiry.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnWPInquiry.Location = new System.Drawing.Point(905, 573);
+            this.btnWPInquiry.Name = "btnWPInquiry";
+            this.btnWPInquiry.Size = new System.Drawing.Size(114, 35);
+            this.btnWPInquiry.TabIndex = 788;
+            this.btnWPInquiry.Text = "WorkPiece Inquiry";
+            this.btnWPInquiry.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.btnWPInquiry.Click += new System.EventHandler(this.btnWPInquiry_Click);
             // 
             // FormAutoScreen
             // 
@@ -591,6 +609,7 @@
             this.BackColor = System.Drawing.Color.Lavender;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.ClientSize = new System.Drawing.Size(1278, 817);
+            this.Controls.Add(this.btnWPInquiry);
             this.Controls.Add(this.Label_IDLHandler);
             this.Controls.Add(this.Label_IDAutoManager);
             this.Controls.Add(this.Label_IDStage);
@@ -677,5 +696,6 @@
         private Syncfusion.Windows.Forms.Tools.GradientLabel Label_IDSpinner1;
         private Syncfusion.Windows.Forms.Tools.GradientLabel Label_IDPushPull;
         private Syncfusion.Windows.Forms.Tools.GradientLabel Label_IDLoader;
+        private Syncfusion.Windows.Forms.ButtonAdv btnWPInquiry;
     }
 }

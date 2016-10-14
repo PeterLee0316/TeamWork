@@ -21,7 +21,9 @@ namespace LWDicer.UI
 {
     public partial class FormAutoScreen : Form
     {
-        int m_nStartReady = 0;		// 0:Off, 1:Ready, 2:Run
+        int m_nStartReady = 0;      // 0:Off, 1:Ready, 2:Run
+
+        //FormWorkPieceInquiry Dlg_WPInquiry = new FormWorkPieceInquiry();
 
         public FormAutoScreen()
         {
@@ -451,6 +453,25 @@ namespace LWDicer.UI
         private void FormAutoScreen_Load(object sender, EventArgs e)
         {
 
+        }
+
+        private void btnWPInquiry_Click(object sender, EventArgs e)
+        {
+            // 같은 폼이 2개 이상 뜨지 않도록 처리하는 코드
+            foreach(Form form in Application.OpenForms)
+            {
+                if(form.Name == "FormWorkPieceInquiry")
+                {
+                    if(form.WindowState == FormWindowState.Minimized)
+                    {
+                        form.WindowState = FormWindowState.Normal;
+                    }
+                    form.Activate();
+                    return;
+                }
+            }
+            var dlg = new FormWorkPieceInquiry();
+            dlg.Show();
         }
     }
 }

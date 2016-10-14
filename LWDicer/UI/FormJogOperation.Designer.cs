@@ -668,6 +668,7 @@
             this.Controls.Add(this.BtnAbsMove);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "FormJogOperation";
+            this.Opacity = 0.8D;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "FormJogOperation";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormJogOperation_FormClosing);

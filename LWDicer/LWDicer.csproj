@@ -593,6 +593,12 @@
     <Compile Include="UI\Utility\FormTest.Designer.cs">
       <DependentUpon>FormTest.cs</DependentUpon>
     </Compile>
+    <Compile Include="UI\Utility\FormWorkPieceInquiry.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\Utility\FormWorkPieceInquiry.Designer.cs">
+      <DependentUpon>FormWorkPieceInquiry.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="CMainFrame.resx">
       <DependentUpon>CMainFrame.cs</DependentUpon>
       <SubType>Designer</SubType>
@@ -786,6 +792,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Utility\FormTest.resx">
       <DependentUpon>FormTest.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Utility\FormWorkPieceInquiry.resx">
+      <DependentUpon>FormWorkPieceInquiry.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="app.config" />
     <None Include="Mechanical\Scanner\IniFile\config.ini" />

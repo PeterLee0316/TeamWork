@@ -238,19 +238,27 @@ namespace LWDicer.Layers
                                         GetMyWorkPiece().StartPhase(tPhase);
                                         SetStep(TRS_SPINNER_DO_PRE_CLEAN);
                                     }
-                                    else if (TInterface.PushPull_Spinner_BeginHandshake_Load[(int)m_Data.SpinnerIndex]
-                                        && (tPhase == EProcessPhase.COATER_WAIT_UNLOAD || tPhase == EProcessPhase.CLEANER_WAIT_UNLOAD))
+                                    else if (tPhase == EProcessPhase.COATER_WAIT_UNLOAD || tPhase == EProcessPhase.CLEANER_WAIT_UNLOAD)
                                     {
-                                        GetMyWorkPiece().FinishPhase(tPhase); // 대기 종료
-                                        if(tPhase == EProcessPhase.COATER_WAIT_UNLOAD)
+                                        if (GetMyWorkPiece().Process[(int)tPhase].IsStarted == false)
                                         {
-                                            tPhase = EProcessPhase.COATER_UNLOAD_TO_PUSHPULL;
-                                        } else
-                                        {
-                                            tPhase = EProcessPhase.CLEANER_UNLOAD_TO_PUSHPULL;
+                                            GetMyWorkPiece().StartPhase(tPhase); // 대기 시작
                                         }
-                                        GetMyWorkPiece().StartPhase(tPhase);
-                                        SetStep(TRS_SPINNER_UNLOADING_TO_PUSHPULL_ONESTEP);
+
+                                        if (TInterface.PushPull_Spinner_BeginHandshake_Load[(int)m_Data.SpinnerIndex] == true)
+                                        {
+                                            GetMyWorkPiece().FinishPhase(tPhase); // 대기 종료
+                                            if (tPhase == EProcessPhase.COATER_WAIT_UNLOAD)
+                                            {
+                                                tPhase = EProcessPhase.COATER_UNLOAD_TO_PUSHPULL;
+                                            }
+                                            else
+                                            {
+                                                tPhase = EProcessPhase.CLEANER_UNLOAD_TO_PUSHPULL;
+                                            }
+                                            GetMyWorkPiece().StartPhase(tPhase);
+                                            SetStep(TRS_SPINNER_UNLOADING_TO_PUSHPULL_ONESTEP);
+                                        }
                                     }
                                     else
                                     {
@@ -491,11 +499,8 @@ namespace LWDicer.Layers
                                 break;
 
                             case TRS_SPINNER_DO_AFTER_POST_COAT:
-                                GetMyWorkPiece().FinishPhase(EProcessPhase.POST_COATING);
 
-                                // start wait unload
-                                tPhase = GetMyNextWorkPhase();
-                                GetMyWorkPiece().StartPhase(tPhase);
+                                GetMyWorkPiece().FinishPhase(EProcessPhase.POST_COATING);
                                 SetStep(TRS_SPINNER_WAITFOR_MESSAGE);
                                 break;
 
@@ -527,11 +532,8 @@ namespace LWDicer.Layers
                                 break;
 
                             case TRS_SPINNER_DO_AFTER_POST_CLEAN:
-                                GetMyWorkPiece().FinishPhase(EProcessPhase.POST_CLEANING);
 
-                                // start wait unload
-                                tPhase = GetMyNextWorkPhase();
-                                GetMyWorkPiece().StartPhase(tPhase);
+                                GetMyWorkPiece().FinishPhase(EProcessPhase.POST_CLEANING);
                                 SetStep(TRS_SPINNER_WAITFOR_MESSAGE);
                                 break;
 
