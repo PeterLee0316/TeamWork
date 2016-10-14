@@ -54,6 +54,7 @@ namespace LWDicer.UI
         private void FormEdgeAlignTeach_Load(object sender, EventArgs e)
         {
 #if !SIMULATION_VISION
+            //int iCam = CMainFrame.LWDicer.m_ctrlStage1.GetCurrentCam();
             CMainFrame.LWDicer.m_Vision.InitialLocalView(PRE__CAM, picVision.Handle);
             CMainFrame.LWDicer.m_Vision.ShowRectRoi();
 #endif      
@@ -119,11 +120,11 @@ namespace LWDicer.UI
 
             dLength = WAFER_SIZE_12_INCH / 2.0 * Math.Cos(Math.PI / 180 * 45);
 
-            CMainFrame.DataManager.FixedPos.Stage1Pos.Pos[(int)EStagePos.EDGE_ALIGN_1].dX = CMainFrame.DataManager.FixedPos.Stage1Pos.Pos[(int)EStagePos.STAGE_CENTER].dX +
+            CMainFrame.DataManager.FixedPos.Stage1Pos.Pos[(int)EStagePos.EDGE_ALIGN_1].dX = CMainFrame.DataManager.FixedPos.Stage1Pos.Pos[(int)EStagePos.STAGE_CENTER_PRE].dX +
                                                                                             dLength;
-            CMainFrame.DataManager.FixedPos.Stage1Pos.Pos[(int)EStagePos.EDGE_ALIGN_1].dY = CMainFrame.DataManager.FixedPos.Stage1Pos.Pos[(int)EStagePos.STAGE_CENTER].dY -
+            CMainFrame.DataManager.FixedPos.Stage1Pos.Pos[(int)EStagePos.EDGE_ALIGN_1].dY = CMainFrame.DataManager.FixedPos.Stage1Pos.Pos[(int)EStagePos.STAGE_CENTER_PRE].dY -
                                                                                             dLength;
-            CMainFrame.DataManager.FixedPos.Stage1Pos.Pos[(int)EStagePos.EDGE_ALIGN_1].dT = CMainFrame.DataManager.FixedPos.Stage1Pos.Pos[(int)EStagePos.STAGE_CENTER].dT;
+            CMainFrame.DataManager.FixedPos.Stage1Pos.Pos[(int)EStagePos.EDGE_ALIGN_1].dT = CMainFrame.DataManager.FixedPos.Stage1Pos.Pos[(int)EStagePos.STAGE_CENTER_PRE].dT;
 
 
 
@@ -136,6 +137,21 @@ namespace LWDicer.UI
 
         }
 
+        private void btnEdgeTeachPos1_Click(object sender, EventArgs e)
+        {
+            CMainFrame.LWDicer.m_ctrlStage1.MoveToEdgeAlignTeachPos1();
+        }
+
+        private void btnEdgeTeachPos2_Click(object sender, EventArgs e)
+        {
+            CMainFrame.LWDicer.m_ctrlStage1.MoveToEdgeAlignTeachPos2();
+        }
+
+        private void btnEdgeTeachPos3_Click(object sender, EventArgs e)
+        {
+            CMainFrame.LWDicer.m_ctrlStage1.MoveToEdgeAlignTeachPos3();
+        }
+
         private void btnEdgePos1_Click(object sender, EventArgs e)
         {
             CMainFrame.LWDicer.m_ctrlStage1.MoveToEdgeAlignPos1();
@@ -143,18 +159,14 @@ namespace LWDicer.UI
 
         private void btnEdgePos2_Click(object sender, EventArgs e)
         {
-            CMainFrame.LWDicer.m_ctrlStage1.MoveToEdgeAlignPos2();
+            CMainFrame.LWDicer.m_ctrlStage1.MoveToEdgeAlignPos2();            
         }
 
         private void btnEdgePos3_Click(object sender, EventArgs e)
         {
-            CMainFrame.LWDicer.m_ctrlStage1.MoveToEdgeAlignPos3();
+            CMainFrame.LWDicer.m_ctrlStage1.MoveToEdgeAlignPos3();            
         }
-
-        private void btnEdgePos4_Click(object sender, EventArgs e)
-        {
-            CMainFrame.LWDicer.m_ctrlStage1.MoveToEdgeAlignPos4();
-        }
+        
 
         private void picVision_MouseDown(object sender, MouseEventArgs e)
         {
@@ -216,7 +228,7 @@ namespace LWDicer.UI
 
         private void btnEdgeTeachNext_Click(object sender, EventArgs e)
         {
-            CMainFrame.LWDicer.m_ctrlStage1.SetEdgePosOffsetNext();
+            CMainFrame.LWDicer.m_ctrlStage1.SetEdgeTeachPosNext();
         }
 
         private void btnEdgeAlignDataInit_Click(object sender, EventArgs e)
@@ -225,11 +237,11 @@ namespace LWDicer.UI
 
             dLength = WAFER_SIZE_12_INCH / 2.0 * Math.Cos(Math.PI / 180 * 45);
 
-            CMainFrame.DataManager.FixedPos.Stage1Pos.Pos[(int)EStagePos.EDGE_ALIGN_1].dX = CMainFrame.DataManager.FixedPos.Stage1Pos.Pos[(int)EStagePos.STAGE_CENTER].dX +
+            CMainFrame.DataManager.FixedPos.Stage1Pos.Pos[(int)EStagePos.EDGE_ALIGN_1].dX = CMainFrame.DataManager.FixedPos.Stage1Pos.Pos[(int)EStagePos.STAGE_CENTER_PRE].dX +
                                                                                             dLength;
-            CMainFrame.DataManager.FixedPos.Stage1Pos.Pos[(int)EStagePos.EDGE_ALIGN_1].dY = CMainFrame.DataManager.FixedPos.Stage1Pos.Pos[(int)EStagePos.STAGE_CENTER].dY -
+            CMainFrame.DataManager.FixedPos.Stage1Pos.Pos[(int)EStagePos.EDGE_ALIGN_1].dY = CMainFrame.DataManager.FixedPos.Stage1Pos.Pos[(int)EStagePos.STAGE_CENTER_PRE].dY -
                                                                                             dLength;
-            CMainFrame.DataManager.FixedPos.Stage1Pos.Pos[(int)EStagePos.EDGE_ALIGN_1].dT = CMainFrame.DataManager.FixedPos.Stage1Pos.Pos[(int)EStagePos.STAGE_CENTER].dT;
+            CMainFrame.DataManager.FixedPos.Stage1Pos.Pos[(int)EStagePos.EDGE_ALIGN_1].dT = CMainFrame.DataManager.FixedPos.Stage1Pos.Pos[(int)EStagePos.STAGE_CENTER_PRE].dT;
 
             // Wafer의 중심 Offset 적용
             CMainFrame.DataManager.SystemData_Align.WaferOffsetX = 0.0;
@@ -253,6 +265,30 @@ namespace LWDicer.UI
         private void btnRotateCenterCalsInit_Click(object sender, EventArgs e)
         {
             CMainFrame.LWDicer.m_ctrlStage1.InitRotateCenterCals();
+        }
+
+        private void btnEdgeAlignDataSave_Click(object sender, EventArgs e)
+        {
+            CMainFrame.DataManager.SaveModelData(CMainFrame.DataManager.ModelData);
+
+            CMainFrame.DataManager.SavePositionData(true, EPositionObject.STAGE1);
+            CMainFrame.LWDicer.SetPositionDataToComponent(EPositionGroup.STAGE1);
+        }
+
+        private void btnWaferCenterSearchRun_Click(object sender, EventArgs e)
+        {
+            CMainFrame.LWDicer.m_Vision.SetEdgeFinderArea(PRE__CAM);
+            CMainFrame.LWDicer.m_ctrlStage1.DoEdgeAlign();
+        }
+
+        private void btnStageCenterPre_Click(object sender, EventArgs e)
+        {
+            CMainFrame.LWDicer.m_ctrlStage1.MoveToStageCenterPre();
+        }
+
+        private void btnStageCenterFine_Click(object sender, EventArgs e)
+        {
+            CMainFrame.LWDicer.m_ctrlStage1.MoveToStageCenterFine();
         }
     }
 }

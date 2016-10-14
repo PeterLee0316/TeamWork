@@ -351,12 +351,12 @@ namespace LWDicer.Layers
         {
             // Vision ===========================================================================
 
-            public int[] LenMagnification = new int[(int)ECameraSelect.MAX];
+            public double[] LenMagnification = new double[(int)ECameraSelect.MAX];
             // 렌즈 Resolution & 카메라 Position
+            public double[] CamPixelSize = new double[(int)ECameraSelect.MAX];
             public int[] CamPixelNumX = new int[(int)ECameraSelect.MAX];
             public int[] CamPixelNumY = new int[(int)ECameraSelect.MAX];
-            public double[] PixelResolutionX = new double[(int)ECameraSelect.MAX];
-            public double[] PixelResolutionY = new double[(int)ECameraSelect.MAX];
+            public double[] PixelResolution = new double[(int)ECameraSelect.MAX];
 
             public double[] CamFovX = new double[(int)ECameraSelect.MAX];    // 이 수치는 자동 계산됨
             public double[] CamFovY = new double[(int)ECameraSelect.MAX];    // 이 수치는 자동 계산됨
@@ -368,11 +368,11 @@ namespace LWDicer.Layers
             public double CamEachOffsetX;
             public double CamEachOffsetY;
 
+            // Edge Align
             public double WaferOffsetX;
             public double WaferOffsetY;
             public double WaferSizeOffset;
-
-
+            
 
             // Stage ===========================================================================
 
@@ -663,6 +663,8 @@ namespace LWDicer.Layers
             public CSearchData MicroPatternB = new CSearchData();
 
             ///////////////////////////////////////////////////////////
+            // Edge Aling Position
+            public CPos_XYTZ[] EdgeTeachPos = new CPos_XYTZ[3];
 
             ///////////////////////////////////////////////////////////
             // Scanner Parameter

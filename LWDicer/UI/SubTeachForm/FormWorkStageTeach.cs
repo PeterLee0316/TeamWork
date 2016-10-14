@@ -507,7 +507,8 @@ namespace LWDicer.UI
             if (StagePos[m_nSelectedPos_Stage].Text == Convert.ToString(EStagePos.WAIT))              CMainFrame.LWDicer.m_ctrlStage1.MoveToStageWaitPos();
             if (StagePos[m_nSelectedPos_Stage].Text == Convert.ToString(EStagePos.LOAD))              CMainFrame.LWDicer.m_ctrlStage1.MoveToStageLoadPos();
             if (StagePos[m_nSelectedPos_Stage].Text == Convert.ToString(EStagePos.UNLOAD))            CMainFrame.LWDicer.m_ctrlStage1.MoveToStageUnloadPos();
-            if (StagePos[m_nSelectedPos_Stage].Text == Convert.ToString(EStagePos.STAGE_CENTER))      CMainFrame.LWDicer.m_ctrlStage1.MoveToStageCenter();
+            if (StagePos[m_nSelectedPos_Stage].Text == Convert.ToString(EStagePos.STAGE_CENTER_PRE))  CMainFrame.LWDicer.m_ctrlStage1.MoveToStageCenterPre();
+            if (StagePos[m_nSelectedPos_Stage].Text == Convert.ToString(EStagePos.STAGE_CENTER_FINE)) CMainFrame.LWDicer.m_ctrlStage1.MoveToStageCenterFine();
             if (StagePos[m_nSelectedPos_Stage].Text == Convert.ToString(EStagePos.THETA_ALIGN_A))     CMainFrame.LWDicer.m_ctrlStage1.MoveToThetaAlignPosA();
             if (StagePos[m_nSelectedPos_Stage].Text == Convert.ToString(EStagePos.THETA_ALIGN_TURN_A))CMainFrame.LWDicer.m_ctrlStage1.MoveToThetaAlignTurnPosA();
 

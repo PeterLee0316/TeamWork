@@ -54,7 +54,7 @@ namespace LWDicer.Layers
 
         public const int PRE__CAM = 0;
         public const int FINE_CAM = 1;
-        public const int ZOOM_CAM = 2;
+        public const int INSP_CAM = 2;
 
         public const int PATTERN_A = 0;
         public const int PATTERN_B = 1;

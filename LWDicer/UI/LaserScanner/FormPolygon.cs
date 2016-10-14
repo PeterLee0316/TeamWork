@@ -59,7 +59,7 @@ namespace LWDicer.UI
         private void FormPolygon_Load(object sender, EventArgs e)
         {
 #if !SIMULATION_VISION
-            CMainFrame.LWDicer.m_Vision.InitialLocalView(ZOOM_CAM, picVisionZoom.Handle);
+            CMainFrame.LWDicer.m_Vision.InitialLocalView(INSP_CAM, picVisionZoom.Handle);
 #endif
         }
 
@@ -1236,7 +1236,7 @@ namespace LWDicer.UI
             if (imgSaveDlg.ShowDialog() == DialogResult.OK)
             {
                 filename = imgSaveDlg.FileName;
-                CMainFrame.LWDicer.m_Vision.SaveImage(ZOOM_CAM, filename);
+                CMainFrame.LWDicer.m_Vision.SaveImage(INSP_CAM, filename);
             }
         }
 
@@ -1245,14 +1245,14 @@ namespace LWDicer.UI
             if (CMainFrame.LWDicer.m_Vision == null) return;
                        
 
-            CMainFrame.LWDicer.m_Vision.LiveVideo(ZOOM_CAM);
+            CMainFrame.LWDicer.m_Vision.LiveVideo(INSP_CAM);
         }
 
         private void btnVisionHalt_Click(object sender, EventArgs e)
         {
             if (CMainFrame.LWDicer.m_Vision == null) return;
             
-            CMainFrame.LWDicer.m_Vision.HaltVideo(ZOOM_CAM);
+            CMainFrame.LWDicer.m_Vision.HaltVideo(INSP_CAM);
         }
 
         private void BtnModelCamera_Click(object sender, EventArgs e)
@@ -1430,14 +1430,14 @@ namespace LWDicer.UI
 
                 if (eVisionMode == EVisionMode.MEASUREMENT)
                 {
-                    lenX *= CMainFrame.DataManager.SystemData_Align.PixelResolutionX[ZOOM_CAM];
-                    lenY *= CMainFrame.DataManager.SystemData_Align.PixelResolutionY[ZOOM_CAM];
+                    lenX *= CMainFrame.DataManager.SystemData_Align.PixelResolution[INSP_CAM];
+                    lenY *= CMainFrame.DataManager.SystemData_Align.PixelResolution[INSP_CAM];
 
                     lengthPixel = Math.Sqrt(lenX * lenX + lenY * lenY);
                     textMsg = string.Format("{0:f2} um", lengthPixel);
 #if !SIMULATION_VISION
                     CMainFrame.LWDicer.m_Vision.ClearOverlay();
-                    CMainFrame.LWDicer.m_Vision.DrawOverlayText(ZOOM_CAM, textMsg, ptMouseEndPos);
+                    CMainFrame.LWDicer.m_Vision.DrawOverlayText(INSP_CAM, textMsg, ptMouseEndPos);
 #endif
                 }
                 if (eVisionMode == EVisionMode.CALIBRATION)
@@ -1455,8 +1455,8 @@ namespace LWDicer.UI
                     lengthReal = Convert.ToDouble(strModify);
                     // Calibration Set
                     resolutionPixel = lengthReal / lengthPixel;
-                    CMainFrame.DataManager.SystemData_Align.PixelResolutionX[ZOOM_CAM] = resolutionPixel;
-                    CMainFrame.DataManager.SystemData_Align.PixelResolutionY[ZOOM_CAM] = resolutionPixel;
+                    CMainFrame.DataManager.SystemData_Align.PixelResolution[INSP_CAM] = resolutionPixel;
+                    CMainFrame.DataManager.SystemData_Align.PixelResolution[INSP_CAM] = resolutionPixel;
 
                     textMsg = string.Format("픽셀당 거리는 {0:F2} um입니다.", resolutionPixel);
                     CMainFrame.DisplayMsg(textMsg);
@@ -1516,10 +1516,8 @@ namespace LWDicer.UI
             CMainFrame.DataManager.SaveSystemData(null, null, null, null, null, CMainFrame.DataManager.SystemData_Scan, null);
 
             CMainFrame.LWDicer.m_MeScanner.m_RefComp.ScanHeadComm.ConnectServer();
-
         }
-
-
+        
         private void lblProcessOffsetX1_Click(object sender, EventArgs e)
         {
             string strCurrent = "", strModify = "";

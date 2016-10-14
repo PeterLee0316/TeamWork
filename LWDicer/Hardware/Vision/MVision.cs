@@ -34,6 +34,8 @@ namespace LWDicer.Layers
             m_RefComp           = refComp;            
             SetData(data);
 
+            m_iCurrentViewNum = PRE__CAM;
+
             m_bSystemInit       = false;
             m_bErrorPrint       = false;
             m_bSaveErrorImage   = false;
@@ -276,11 +278,11 @@ namespace LWDicer.Layers
         }
 
         /// <summary>
-        /// GetCameraPixelSize : Camera Pixel 가로 세로 개수를 읽음
+        /// GetCameraPixelNum : Camera Pixel 가로 세로 개수를 읽음
         /// </summary>
         /// <param name="iCamNo"></param>
         /// <returns></returns>
-        public Size GetCameraPixelSize(int iCamNo)
+        public Size GetCameraPixelNum(int iCamNo)
         {
 #if SIMULATION_VISION
                 return new Size();
@@ -288,7 +290,7 @@ namespace LWDicer.Layers
             // Vision System이 초기화 된지를 확인함
             if (m_bSystemInit == false) return new Size();
 
-            return m_RefComp.Camera[iCamNo].GetCameraPixelSize();
+            return m_RefComp.Camera[iCamNo].GetCameraPixelNum();
         }
 
 
@@ -612,8 +614,8 @@ namespace LWDicer.Layers
             // Search Size 확인 
             if (SearchArea.Width <= DEF_SEARCH_MIN_WIDTH ||
                SearchArea.Height <= DEF_SEARCH_MIN_HEIGHT ||
-               SearchArea.Width > m_RefComp.Camera[iCamNo].m_CamPixelSize.Width ||
-               SearchArea.Height > m_RefComp.Camera[iCamNo].m_CamPixelSize.Height)
+               SearchArea.Width > m_RefComp.Camera[iCamNo].m_CamPixelNum.Width ||
+               SearchArea.Height > m_RefComp.Camera[iCamNo].m_CamPixelNum.Height)
             {
                 GenerateErrorCode(ERR_VISION_SEARCH_SIZE_OVER);
             }
@@ -704,7 +706,7 @@ namespace LWDicer.Layers
             if (m_bSystemInit == false) return GenerateErrorCode(ERR_VISION_SYSTEM_FAIL);
 
             if (SArea.Width <= DEF_SEARCH_MIN_WIDTH || SArea.Height <= DEF_SEARCH_MIN_HEIGHT ||
-                SArea.Width > m_RefComp.Camera[iCamNo].m_CamPixelSize.Width || SArea.Height > m_RefComp.Camera[iCamNo].m_CamPixelSize.Height)
+                SArea.Width > m_RefComp.Camera[iCamNo].m_CamPixelNum.Width || SArea.Height > m_RefComp.Camera[iCamNo].m_CamPixelNum.Height)
             {
                 GenerateErrorCode(ERR_VISION_SEARCH_SIZE_OVER);
             }

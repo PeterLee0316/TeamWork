@@ -8,8 +8,14 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
+
+using Syncfusion.Windows.Forms.Grid;
+using Syncfusion.Windows.Forms;
+using Syncfusion.Windows.Forms.Tools;
+
 using static LWDicer.Layers.DEF_Vision;
 using static LWDicer.Layers.DEF_Common;
+using static LWDicer.Layers.DEF_System;
 
 namespace LWDicer.UI
 {
@@ -39,8 +45,12 @@ namespace LWDicer.UI
         private void FormVisionData_Load(object sender, EventArgs e)
         {
             this.DesktopLocation = new Point(1, 100);
+
+            InitGrid();
+
+            UpdateCameraData();
+
 #if !SIMULATION_VISION
-            CMainFrame.LWDicer.m_Vision.InitialLocalView(PRE__CAM, picVision.Handle);
 #endif
 
         }
@@ -50,10 +60,7 @@ namespace LWDicer.UI
         {
             base.OnShown(e);
 #if !SIMULATION_VISION
-            iCurrentView = PRE__CAM;
 
-            CMainFrame.LWDicer.m_Vision.DisplayPatternImage(iCurrentView, PATTERN_A, picPatternMarkA.Handle);
-            CMainFrame.LWDicer.m_Vision.DisplayPatternImage(iCurrentView, PATTERN_B, picPatternMarkB.Handle);
 #endif
         }
 
@@ -63,175 +70,174 @@ namespace LWDicer.UI
             FormClose();
         }
 
-        private void btnChangeCam_Click(object sender, EventArgs e)
-        {
- #if !SIMULATION_VISION
-            if (iCurrentView == PRE__CAM)
-            {
-                CMainFrame.LWDicer.m_Vision.DestroyLocalView(PRE__CAM);
-                CMainFrame.LWDicer.m_Vision.InitialLocalView(FINE_CAM, picVision.Handle);
 
-                iCurrentView = FINE_CAM;
+        private void InitGrid()
+        {
+            int i = 0, j = 0, nCol = 0, nRow = 0;
+
+            // Cell Click 시 커서가 생성되지 않게함.
+            GridCtrl.ActivateCurrentCellBehavior = GridCellActivateAction.None;
+
+            // Header
+            GridCtrl.Properties.RowHeaders = true;
+            GridCtrl.Properties.ColHeaders = true;
+
+            nCol = (int)ECameraSelect.MAX;
+            nRow = 8;
+
+            // Column,Row 개수
+            GridCtrl.ColCount = nCol;
+            GridCtrl.RowCount = nRow;
+
+            // Column 가로 크기설정
+            for (i = 0; i < nCol + 1; i++)
+            {
+                GridCtrl.ColWidths.SetSize(i, 160);
             }
-            else
-            {
-                CMainFrame.LWDicer.m_Vision.DestroyLocalView(FINE_CAM);
-                CMainFrame.LWDicer.m_Vision.InitialLocalView(PRE__CAM, picVision.Handle);
 
-                iCurrentView = PRE__CAM;
+            GridCtrl.ColWidths.SetSize(0, 200);
+
+            for (i = 0; i < nRow + 1; i++)
+            {
+                GridCtrl.RowHeights[i] = 36;
+
             }
 
-            CMainFrame.LWDicer.m_Vision.DisplayPatternImage(iCurrentView, PATTERN_A, picPatternMarkA.Handle);
-            CMainFrame.LWDicer.m_Vision.DisplayPatternImage(iCurrentView, PATTERN_B, picPatternMarkB.Handle);
-#endif
-        }
+            // Text Display
+            GridCtrl[0, 0].Text = "항목";
+            GridCtrl[0, 1].Text = "PRE CAM";
+            GridCtrl[0, 2].Text = "FINE CAM";
+            GridCtrl[0, 3].Text = "INSPECT CAM";
 
-        private void btnShowHairLine_Click(object sender, EventArgs e)
-        {
-            CMainFrame.LWDicer.m_Vision.ClearOverlay();
-            CMainFrame.LWDicer.m_Vision.DrawOverLayHairLine(iCurrentView, iHairLineWidth);
-            iCurrentMode = 1;
+            GridCtrl[1, 0].Text = "렌즈 배율 (X)";
+            GridCtrl[2, 0].Text = "카메라 Pixel Size (μm)";
+            GridCtrl[3, 0].Text = "카메라 Pixel Num (가로)";
+            GridCtrl[4, 0].Text = "카메라 Pixel Num (세로)";
+            GridCtrl[5, 0].Text = "카메라 Resolution (μm)";
+            GridCtrl[6, 0].Text = "카메라 FOV_H (mm)";
+            GridCtrl[7, 0].Text = "카메라 FOV_V (mm)";
+            GridCtrl[8, 0].Text = "카메라 설치 회전 오차(˚)";
 
-        }
 
-        private void btnShowMarkLine_Click(object sender, EventArgs e)
-        {
-#if !SIMULATION_VISION
-            CMainFrame.LWDicer.m_Vision.ClearOverlay();
-            PatternRec =  CMainFrame.LWDicer.m_Vision.GetOverlayAreaRect(iCurrentView);
-            CMainFrame.LWDicer.m_Vision.DrawOverlayAreaRect(iCurrentView, PatternRec);
-            iCurrentMode = 2;
-#endif
-        }
-
-        private void btnSelectAxis_Click(object sender, EventArgs e)
-        {
-            if((string)btnSelectAxis.Tag =="Height" )
+            for (i = 0; i < nCol + 1; i++)
             {
-                btnSelectAxis.Text = "Select Height";
-                btnSelectAxis.Tag = "Width";
-            }
-            else
-            {
-                btnSelectAxis.Text = "Select Width";
-                btnSelectAxis.Tag = "Height";
-            }
-        }
-
-        private void btnSizeWide_Click(object sender, EventArgs e)
-        {
- #if !SIMULATION_VISION
-            if (iCurrentMode == 1)
-                CMainFrame.LWDicer.m_Vision.WidenHairLine();
-            else
-            {
-                if ((string)btnSelectAxis.Tag == "Height")
+                for (j = 0; j < nRow + 1; j++)
                 {
-                    CMainFrame.LWDicer.m_Vision.WidenRoiHeight();
-                }
-                else
-                {
-                    CMainFrame.LWDicer.m_Vision.WidenRoiWidth();
+                    // Font Style - Bold
+                    GridCtrl[j, i].Font.Bold = true;
+
+                    GridCtrl[j, i].VerticalAlignment = GridVerticalAlignment.Middle;
+                    GridCtrl[j, i].HorizontalAlignment = GridHorizontalAlignment.Center;
                 }
             }
-#endif
-        }
 
-        private void btnSizeNarrow_Click(object sender, EventArgs e)
-        {
-#if !SIMULATION_VISION
-            if (iCurrentMode == 1)
-                CMainFrame.LWDicer.m_Vision.NarrowHairLine();
-            else
+            for (i = 1; i < nCol + 1; i++)
             {
-                if ((string)btnSelectAxis.Tag == "Height")
+                for (j = 3; j < nRow + 1; j++)
                 {
-                    CMainFrame.LWDicer.m_Vision.NarrowRoiHeight();
-                }
-                else
-                {
-                    CMainFrame.LWDicer.m_Vision.NarrowRoiWidth();
+                    GridCtrl[j, i].BackColor = Color.FromArgb(220, 220, 255);
                 }
             }
-#endif
+
+            GridCtrl.GridVisualStyles = GridVisualStyles.Office2007Blue;
+            GridCtrl.ResizeColsBehavior = 0;
+            GridCtrl.ResizeRowsBehavior = 0;
+
+            // Grid Display Update
+            GridCtrl.Refresh();
         }
 
-        private void btnRegisterMarkA_Click(object sender, EventArgs e)
+
+        private void UpdateCameraData()
         {
-#if !SIMULATION_VISION
-            int iResult = 0;
-
-            var sizeRoi = new Size(0,0);
-            string strName = CMainFrame.LWDicer.m_DataManager.ModelData.Name;
-
-            sizeRoi = CMainFrame.LWDicer.m_Vision.GetCameraPixelSize(iCurrentView);    
-            var searchSize = new Rectangle(0, 0, sizeRoi.Width, sizeRoi.Height);
-            sizeRoi = CMainFrame.LWDicer.m_Vision.GetOverlayAreaRect(iCurrentView);
-            var modelSize = new Rectangle(0, 0, sizeRoi.Width, sizeRoi.Height);
-
-            iResult = CMainFrame.LWDicer.m_Vision.RegisterPatternMark(iCurrentView, strName, PATTERN_A, searchSize, modelSize);
-
-            if (iResult != SUCCESS) return;
-
-            strName = strName + $"_Cam_{iCurrentView}_Type_{PATTERN_A}.bmp";
-
-            if(iCurrentView == PRE__CAM)
-                CMainFrame.LWDicer.m_DataManager.ModelData.MacroPatternA.m_strFileName = strName;
-            if (iCurrentView == FINE_CAM)
-                CMainFrame.LWDicer.m_DataManager.ModelData.MicroPatternA.m_strFileName = strName;
-
-            CMainFrame.LWDicer.m_DataManager.SaveModelData(CMainFrame.LWDicer.m_DataManager.ModelData);
-
-
-            CMainFrame.LWDicer.m_Vision.DisplayPatternImage(iCurrentView, PATTERN_A, picPatternMarkA.Handle);
-#endif
+            for(int i=0; i< (int)ECameraSelect.MAX;i++)
+            {
+                GridCtrl[1, i + 1].Text = String.Format( "{0:f4}", CMainFrame.DataManager.SystemData_Align.LenMagnification[i]);
+                GridCtrl[2, i + 1].Text = String.Format( "{0:f4}", CMainFrame.DataManager.SystemData_Align.CamPixelSize[i]);
+                GridCtrl[3, i + 1].Text = String.Format( "{0:0}",  CMainFrame.DataManager.SystemData_Align.CamPixelNumX[i]);
+                GridCtrl[4, i + 1].Text = String.Format( "{0:0}",  CMainFrame.DataManager.SystemData_Align.CamPixelNumY[i]);
+                GridCtrl[5, i + 1].Text = String.Format( "{0:f4}", CMainFrame.DataManager.SystemData_Align.PixelResolution[i]);
+                GridCtrl[6, i + 1].Text = String.Format( "{0:f4}", CMainFrame.DataManager.SystemData_Align.CamFovX[i]);
+                GridCtrl[7, i + 1].Text = String.Format( "{0:f4}", CMainFrame.DataManager.SystemData_Align.CamFovY[i]);
+                GridCtrl[8, i + 1].Text = String.Format( "{0:f4}", CMainFrame.DataManager.SystemData_Align.CameraTilt[i]);
+            }
         }
 
-        private void btnRegisterMarkB_Click(object sender, EventArgs e)
+        private void ReloadCameraData()
         {
-#if !SIMULATION_VISION
-            int iResult = 0;
+            for (int i = 0; i < (int)ECameraSelect.MAX; i++)
+            {
+                // 렌즈 배율
+                if (CMainFrame.DataManager.SystemData_Align.LenMagnification[i] == 0.0)
+                {
+                    if (i == PRE__CAM) CMainFrame.DataManager.SystemData_Align.LenMagnification[i] = 0.75;
+                    if (i == FINE_CAM) CMainFrame.DataManager.SystemData_Align.LenMagnification[i] = 7.5;
+                    if (i == INSP_CAM) CMainFrame.DataManager.SystemData_Align.LenMagnification[i] = 20.0;
+                }
 
-            var sizeRoi = new Size(0, 0);
-            string strName = CMainFrame.LWDicer.m_DataManager.ModelData.Name;
-
-            sizeRoi = CMainFrame.LWDicer.m_Vision.GetCameraPixelSize(iCurrentView);
-            var searchSize = new Rectangle(0, 0, sizeRoi.Width, sizeRoi.Height);
-            sizeRoi = CMainFrame.LWDicer.m_Vision.GetOverlayAreaRect(iCurrentView);
-            var modelSize = new Rectangle(0, 0, sizeRoi.Width, sizeRoi.Height);
-            CMainFrame.LWDicer.m_Vision.RegisterPatternMark(iCurrentView, strName, PATTERN_B, searchSize, modelSize);
-
-            if (iResult != SUCCESS) return;
-
-            strName = strName + $"_Cam_{iCurrentView}_Type_{PATTERN_A}.bmp";
-
-            if (iCurrentView == PRE__CAM)
-                CMainFrame.LWDicer.m_DataManager.ModelData.MacroPatternB.m_strFileName = strName;
-            if (iCurrentView == FINE_CAM)
-                CMainFrame.LWDicer.m_DataManager.ModelData.MicroPatternB.m_strFileName = strName;
-
-            CMainFrame.LWDicer.m_DataManager.SaveModelData(CMainFrame.LWDicer.m_DataManager.ModelData);
-
-            CMainFrame.LWDicer.m_Vision.DisplayPatternImage(iCurrentView, PATTERN_B, picPatternMarkB.Handle);
-#endif
+                // Cam Pixel Size
+                if (CMainFrame.DataManager.SystemData_Align.CamPixelSize[i] == 0.0)  CMainFrame.DataManager.SystemData_Align.CamPixelSize[i] = 3.75;
+                // Cam Pixel Num
+                CMainFrame.DataManager.SystemData_Align.CamPixelNumX[i] = CMainFrame.LWDicer.m_Vision.GetCameraPixelNum(i).Width;
+                CMainFrame.DataManager.SystemData_Align.CamPixelNumY[i] = CMainFrame.LWDicer.m_Vision.GetCameraPixelNum(i).Height;
+                // Cam Pixel Resolution
+                CMainFrame.DataManager.SystemData_Align.PixelResolution[i] = CMainFrame.DataManager.SystemData_Align.CamPixelSize[i] /
+                                                                              CMainFrame.DataManager.SystemData_Align.LenMagnification[i];
+                // Cam FOV
+                CMainFrame.DataManager.SystemData_Align.CamFovX[i] = CMainFrame.DataManager.SystemData_Align.PixelResolution[i] *
+                                                                     CMainFrame.DataManager.SystemData_Align.CamPixelNumX[i] / 1000;
+                CMainFrame.DataManager.SystemData_Align.CamFovY[i] = CMainFrame.DataManager.SystemData_Align.PixelResolution[i] *
+                                                                     CMainFrame.DataManager.SystemData_Align.CamPixelNumY[i] /1000;
+                // Cam 설치 회전 오차
+                CMainFrame.DataManager.SystemData_Align.CameraTilt[i] = 0.0;
+            }
         }
 
-        private void btnSearchMarkA_Click(object sender, EventArgs e)
+        private void GridCtrl_CellClick(object sender, GridCellClickEventArgs e)
         {
-#if !SIMULATION_VISION
-            var searchData = new CResultData();
-            CMainFrame.LWDicer.m_Vision.RecognitionPatternMark(iCurrentView, PATTERN_A, out searchData);
-#endif
+            int nCol = 0, nRow = 0;
+            string strCurrent = "", strModify = "";
+
+            nCol = e.ColIndex;
+            nRow = e.RowIndex;
+
+            if (nCol == 0 || nRow == 0) return;
+            if (nRow != 1 && nRow != 2) return;
+            
+
+            strCurrent = GridCtrl[nRow, nCol].Text;
+
+            if (!CMainFrame.GetKeyPad(strCurrent, out strModify))
+            {
+                return;
+            }
+
+            GridCtrl[nRow, nCol].Text = strModify;
+            GridCtrl[nRow, nCol].TextColor = Color.Blue;
         }
 
-        private void btnSearchMarkB_Click(object sender, EventArgs e)
+        private void btnCameraDataLoad_Click(object sender, EventArgs e)
         {
-#if !SIMULATION_VISION
-            var searchData = new CResultData();
-            CMainFrame.LWDicer.m_Vision.RecognitionPatternMark(iCurrentView, PATTERN_B, out searchData);
-#endif
+            ReloadCameraData();
+            UpdateCameraData();
         }
 
-        
+        private void btnCameraDataSave_Click(object sender, EventArgs e)
+        {
+            for (int i = 0; i < (int)ECameraSelect.MAX; i++)
+            {
+                CMainFrame.DataManager.SystemData_Align.LenMagnification[i] = Convert.ToDouble(GridCtrl[1, i + 1].Text);
+                CMainFrame.DataManager.SystemData_Align.CamPixelSize[i]     = Convert.ToDouble(GridCtrl[2, i + 1].Text);
+                CMainFrame.DataManager.SystemData_Align.CamPixelNumX[i]     = Convert.ToInt32(GridCtrl[3, i + 1].Text);
+                CMainFrame.DataManager.SystemData_Align.CamPixelNumY[i]     = Convert.ToInt32(GridCtrl[4, i + 1].Text);
+                CMainFrame.DataManager.SystemData_Align.PixelResolution[i]  = Convert.ToDouble(GridCtrl[5, i + 1].Text);
+                CMainFrame.DataManager.SystemData_Align.CamFovX[i]          = Convert.ToDouble(GridCtrl[6, i + 1].Text);
+                CMainFrame.DataManager.SystemData_Align.CamFovY[i]          = Convert.ToDouble(GridCtrl[7, i + 1].Text);
+                CMainFrame.DataManager.SystemData_Align.CameraTilt[i]       = Convert.ToDouble(GridCtrl[8, i + 1].Text);
+            }
+
+            CMainFrame.DataManager.SaveSystemData(null, null, null, null, CMainFrame.DataManager.SystemData_Align, null);
+            
+        }
     }
 }

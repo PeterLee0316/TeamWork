@@ -115,16 +115,16 @@ namespace LWDicer.Layers
         {
             if (pCamera == null)  return GenerateErrorCode(ERR_VISION_CAMERA_NON_USEFUL);
 
-            Size CameraPixelSize;
+            Size CameraFovSize;
 
             // View의 Camera 주소에 객체를 대입한다.
             m_pCamera = pCamera;
 
             // Camera Pixel Size 대입
-            CameraPixelSize = m_pCamera.GetCameraPixelSize();
+            CameraFovSize = m_pCamera.GetCameraPixelNum();
 
-            m_CameraWidth = CameraPixelSize.Width;
-            m_CameraHeight = CameraPixelSize.Height;
+            m_CameraWidth = CameraFovSize.Width;
+            m_CameraHeight = CameraFovSize.Height;
 
             if (m_CameraWidth == 0 || m_CameraHeight == 0) return GenerateErrorCode(ERR_VISION_CAMERA_IMAGE_SIZE_FAIL);
 

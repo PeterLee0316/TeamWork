@@ -96,11 +96,11 @@ namespace LWDicer.Layers
             WAIT,
             LOAD,
             UNLOAD,
-            STAGE_CENTER,           // Stage의 Center 위치 (Pre Cam 기준)
+            STAGE_CENTER_PRE,       // Stage의 Center 위치 (Pre Cam 기준)
+            STAGE_CENTER_FINE,      // Stage의 Center 위치 (Fine Cam 기준)
             THETA_ALIGN_A,          // Theta Align 시 "A" 위치
             THETA_ALIGN_TURN_A,     // Theta Align Turn 시 "A" 위치
             EDGE_ALIGN_1,           // EDGE Detect "0"도 위치
-            SPARE_POS_1,            // 
             MACRO_CAM_POS,          // KEY가 MACRO CAM영상의 CENTER일때 STAGE 위치
             MACRO_ALIGN,            // MACRO Align "A" Mark 위치
             MICRO_ALIGN,            // MICRO Align "A" Mark 위치
@@ -1032,7 +1032,7 @@ namespace LWDicer.Layers
 
         public int MoveStageToStageCenter(bool bHighMagnitude=false)
         {            
-            int index = (int)EStagePos.STAGE_CENTER;
+            int index = (int)EStagePos.STAGE_CENTER_PRE;
             var movePos = new CPos_XYTZ();
 
             // Stage Center 위치를 읽어온다.
@@ -1044,6 +1044,28 @@ namespace LWDicer.Layers
                 movePos.dX -= CMainFrame.DataManager.SystemData_Align.CamEachOffsetX;
                 movePos.dY -= CMainFrame.DataManager.SystemData_Align.CamEachOffsetY;
             }
+
+            return MoveStagePos(movePos);
+        }
+
+        public int MoveStageToStageCenterPre()
+        {
+            int index = (int)EStagePos.STAGE_CENTER_PRE;
+            var movePos = new CPos_XYTZ();
+
+            // Stage Center 위치를 읽어온다.
+            movePos = GetTargetPosition(index);
+
+            return MoveStagePos(movePos);
+        }
+
+        public int MoveStageToStageCenterFine()
+        {
+            int index = (int)EStagePos.STAGE_CENTER_FINE;
+            var movePos = new CPos_XYTZ();
+
+            // Stage Center 위치를 읽어온다.
+            movePos = GetTargetPosition(index);
 
             return MoveStagePos(movePos);
         }
@@ -1158,12 +1180,12 @@ namespace LWDicer.Layers
                 movePos.dY -= CMainFrame.DataManager.SystemData_Align.CamEachOffsetY;
             }
             //  회전값을 적용함.
-            movePos.dT = -90.0;
+            movePos.dT = 0.0;
 
             // Wafer의 중심 Offset 적용 ( Offset의 회전 변환 적용)
-            movePos.dX += Math.Cos(DegToRad(movePos.dT)) * CMainFrame.DataManager.SystemData_Align.WaferOffsetX -
+            movePos.dX -= Math.Cos(DegToRad(movePos.dT)) * CMainFrame.DataManager.SystemData_Align.WaferOffsetX -
                           Math.Sin(DegToRad(movePos.dT)) * CMainFrame.DataManager.SystemData_Align.WaferOffsetY;
-            movePos.dY += Math.Sin(DegToRad(movePos.dT)) * CMainFrame.DataManager.SystemData_Align.WaferOffsetX +
+            movePos.dY -= Math.Sin(DegToRad(movePos.dT)) * CMainFrame.DataManager.SystemData_Align.WaferOffsetX +
                           Math.Cos(DegToRad(movePos.dT)) * CMainFrame.DataManager.SystemData_Align.WaferOffsetY;
 
             // Wafer Size 편차를 대입함
@@ -1191,13 +1213,13 @@ namespace LWDicer.Layers
                 movePos.dY -= CMainFrame.DataManager.SystemData_Align.CamEachOffsetY;
             }
             //  회전값을 적용함.
-            movePos.dT = 0.0;
+            movePos.dT = 90.0;
 
             // Wafer의 중심 Offset 적용 ( Offset의 회전 변환 적용)
-            movePos.dX += Math.Cos(DegToRad(movePos.dT)) * CMainFrame.DataManager.SystemData_Align.WaferOffsetX -
-                          Math.Sin(DegToRad(movePos.dT)) * CMainFrame.DataManager.SystemData_Align.WaferOffsetY;
-            movePos.dY += Math.Sin(DegToRad(movePos.dT)) * CMainFrame.DataManager.SystemData_Align.WaferOffsetX +
-                          Math.Cos(DegToRad(movePos.dT)) * CMainFrame.DataManager.SystemData_Align.WaferOffsetY;
+            movePos.dX -= Math.Cos(DegToRad(-movePos.dT)) * CMainFrame.DataManager.SystemData_Align.WaferOffsetX -
+                          Math.Sin(DegToRad(-movePos.dT)) * CMainFrame.DataManager.SystemData_Align.WaferOffsetY;
+            movePos.dY -= Math.Sin(DegToRad(-movePos.dT)) * CMainFrame.DataManager.SystemData_Align.WaferOffsetX +
+                          Math.Cos(DegToRad(-movePos.dT)) * CMainFrame.DataManager.SystemData_Align.WaferOffsetY;
 
             // Wafer Size 편차를 대입함
             movePos.dX += CMainFrame.DataManager.SystemData_Align.WaferSizeOffset * Math.Cos(DegToRad(135));
@@ -1225,13 +1247,13 @@ namespace LWDicer.Layers
                 movePos.dY -= CMainFrame.DataManager.SystemData_Align.CamEachOffsetY;
             }
             //  회전값을 적용함.
-            movePos.dT = +90.0;
+            movePos.dT = 180.0;
 
             // Wafer의 중심 Offset 적용 ( Offset의 회전 변환 적용)
-            movePos.dX += Math.Cos(DegToRad(movePos.dT)) * CMainFrame.DataManager.SystemData_Align.WaferOffsetX -
-                          Math.Sin(DegToRad(movePos.dT)) * CMainFrame.DataManager.SystemData_Align.WaferOffsetY;
-            movePos.dY += Math.Sin(DegToRad(movePos.dT)) * CMainFrame.DataManager.SystemData_Align.WaferOffsetX +
-                          Math.Cos(DegToRad(movePos.dT)) * CMainFrame.DataManager.SystemData_Align.WaferOffsetY;
+            movePos.dX -= Math.Cos(DegToRad(-movePos.dT)) * CMainFrame.DataManager.SystemData_Align.WaferOffsetX -
+                          Math.Sin(DegToRad(-movePos.dT)) * CMainFrame.DataManager.SystemData_Align.WaferOffsetY;
+            movePos.dY -= Math.Sin(DegToRad(-movePos.dT)) * CMainFrame.DataManager.SystemData_Align.WaferOffsetX +
+                          Math.Cos(DegToRad(-movePos.dT)) * CMainFrame.DataManager.SystemData_Align.WaferOffsetY;
 
             // Wafer Size 편차를 대입함
             movePos.dX += CMainFrame.DataManager.SystemData_Align.WaferSizeOffset * Math.Cos(DegToRad(135));

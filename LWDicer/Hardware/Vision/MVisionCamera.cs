@@ -34,7 +34,7 @@ namespace LWDicer.Layers
         private MIL_ID m_pMilSystemID;
         private MVisionView m_pDisplay;
 
-        public Size m_CamPixelSize;
+        public Size m_CamPixelNum;
         private CCameraPara m_cCameraData;
         private CVisionPatternData[] m_rgsCSearchData;
         private CResultData[] m_rgsCResultData;
@@ -117,8 +117,8 @@ namespace LWDicer.Layers
             else
             {
                 // Camera Pixel Size을 적용한다.
-                m_CamPixelSize.Width = (int)(m_CamImageInfo.iScaleRoiX * m_CamImageInfo.iSizeX);
-                m_CamPixelSize.Height = (int)(m_CamImageInfo.iScaleRoiY * m_CamImageInfo.iSizeY);
+                m_CamPixelNum.Width = (int)(m_CamImageInfo.iScaleRoiX * m_CamImageInfo.iSizeX);
+                m_CamPixelNum.Height = (int)(m_CamImageInfo.iScaleRoiY * m_CamImageInfo.iSizeY);
             }
 
             // camera open 
@@ -194,12 +194,12 @@ namespace LWDicer.Layers
             return m_Camera;
         }
         /// <summary>
-        /// GetCameraPixelSize: 카메라 영상의 가로/세로 사이즈를 반환한다
+        /// GetCameraPixelNum: 카메라 영상의 가로/세로 사이즈를 반환한다
         /// </summary>
         /// <returns></returns>
-        public Size GetCameraPixelSize()
+        public Size GetCameraPixelNum()
         {
-            return m_CamPixelSize;
+            return m_CamPixelNum;
         }
         /// <summary>
         /// 현재 Image를 보내준다.

@@ -613,8 +613,8 @@ CSpinStep class -> CCleanStep / CCoatStep class 로 분리
 	- PreCam을 사용해서... 기준점을 회전이동하면서 Stage의 회전 중심을 구함
 	- Step
 	  1. 기준 Mark를 화면의 중심으로 보낸 후 Next
-	  2. +1도를 회전 후 이동한 기준 Mark를 화면의 중심으로 보낸 후 Next
-	  3. -1도를 회전 후 이동한 기준 Mark를 화면의 중심으로 보낸 후 Next
+	  2. +5도를 회전 후 이동한 기준 Mark를 화면의 중심으로 보낸 후 Next
+	  3. -5도를 회전 후 이동한 기준 Mark를 화면의 중심으로 보낸 후 Next
 	  4. +45도를 회전 및 X,Y 축의 Mark 위치로 이동 후 기준 Mark를 화면의 중심으로 보낸 후 Next
 	  5. -45도를 회전 및 X,Y 축의 Mark 위치로 이동 후 기준 Mark를 화면의 중심으로 보낸 후 Next
 	  6. (4,5)번의 위치로 회전 중심을 구함. 이후 (1)번 위치로 이동함 
@@ -622,16 +622,46 @@ CSpinStep class -> CCleanStep / CCoatStep class 로 분리
 2. Edge Align 기능 구현
 	- Wafer의 Edge를 찾아 Wafer의 Stage 중심과 편차를 구함
 	- Step
-	  1. Edge Pos 1번 위치 (-90도)로 이동후 Edge를 화면의 준심으로 보낸 후 Next
-	  2. Edge Pos 2번 위치 (-90도)로 이동후 Edge를 화면의 준심으로 보낸 후 Next
-	  3. Edge Pos 3번 위치 (-90도)로 이동후 Edge를 화면의 준심으로 보낸 후 Next
-	  4. Edge Pos 4번 위치 (-90도)로 이동후 Edge를 화면의 준심으로 보낸 후 Next
+	  1. Edge Pos 1번 위치 (-90도)로 이동후 Edge를 화면의 중심으로 보낸 후 Next
+	  2. Edge Pos 2번 위치 (-90도)로 이동후 Edge를 화면의 중심으로 보낸 후 Next
+	  3. Edge Pos 3번 위치 (-90도)로 이동후 Edge를 화면의 중심으로 보낸 후 Next
+	  4. Edge Pos 4번 위치 (-90도)로 이동후 Edge를 화면의 중심으로 보낸 후 Next
 	  6. 1~4번 위치 값을 기준으로 Wafer의 중심 이동 값을 구함
 	     2번 위치와 Wafer의 중심 값을 기준으로 Wafer의 Size를 구함
 		 이후 1번 Edge로 이동함.
 	  7. 각 Edge로 이동할 때 Wafer 중심 편차 및 Size 편차를 보정하면서 이동함.
 
 
+// Grade : ★★
+// Date : 2016-10-13 ~ 2016-10-14
+// Context
+
+1. Stage 회전 중심 기능 구현 및 테스트 
+	- FineCam을 사용해서... 기준점을 회전이동하면서 Stage의 회전 중심을 구함
+	- Step
+	  1. 기준 Mark를 화면의 중심으로 보낸 후 Next
+	  2. +1도를 회전 후 이동한 기준 Mark를 화면의 중심으로 보낸 후 Next
+	  3. -1도를 회전 후 이동한 기준 Mark를 화면의 중심으로 보낸 후 Next
+	  4. +45도를 회전 및 X,Y 축의 Mark 위치로 이동 후 기준 Mark를 화면의 중심으로 보낸 후 Next
+	  5. -45도를 회전 및 X,Y 축의 Mark 위치로 이동 후 기준 Mark를 화면의 중심으로 보낸 후 Next
+	  6. (4,5)번의 위치로 회전 중심을 구함. 이후 (1)번 위치로 이동함 
+	     
+2. Edge Align 기능 구현 (전면 수정-계산식 포함)
+	- Teaching하는 부분과 Search하는 부분으로 2가지를 적용함
+	- Teaching Step
+	  1. Edge Pos 1번 위치 (   0도)로 이동후 Edge를 검색이 잘되는 위치로 보낸 후 Next
+	  2. Edge Pos 2번 위치 ( -90도)로 이동후 Edge를 검색이 잘되는 위치로 보낸 후 Next
+	  3. Edge Pos 3번 위치 (-180도)로 이동후 Edge를 검색이 잘되는 위치로 보낸 후 Next
+	  6. 1~3번 위치 값을 기준으로 Model Data에 저장하여.. Search 동작 시 저장된 위치로 이동함
+		 이후 1번 Edge로 이동함.
+
+   - Searching Step
+	  1. Edge Pos 1번 위치 (   0도)로 이동후 Edge를 검색
+	  2. Edge Pos 2번 위치 ( -90도)로 이동후 Edge를 검색
+	  3. Edge Pos 3번 위치 (-180도)로 이동후 Edge를 검색
+	  6. 1~3번 위치의 Edge값을 좌표계로 변환하여... 3점을 구성하는 원의 중심값을 구함.
+	     이값을 기준으로 Offset이 적용하고, Edge 1번 위치와 원의 중심값의 위치의 거리를 구하여
+		 Wafer의 Size를 구함.
 
 
 

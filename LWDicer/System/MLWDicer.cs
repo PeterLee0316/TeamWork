@@ -598,7 +598,7 @@ namespace LWDicer.Layers
             CreateVisionCamera(objInfo, FINE_CAM);
 
             m_SystemInfo.GetObjectInfo(44, out objInfo);
-            CreateVisionCamera(objInfo, ZOOM_CAM);
+            CreateVisionCamera(objInfo, INSP_CAM);
 
             // Vision Display
             m_SystemInfo.GetObjectInfo(46, out objInfo);
@@ -608,7 +608,7 @@ namespace LWDicer.Layers
             CreateVisionVisionView(objInfo, FINE_CAM);
 
             m_SystemInfo.GetObjectInfo(47, out objInfo);
-            CreateVisionVisionView(objInfo, ZOOM_CAM);
+            CreateVisionVisionView(objInfo, INSP_CAM);
 #endif
            
 

@@ -62,7 +62,8 @@ namespace LWDicer.UI
         private void FormThetaAlignTeach_Load(object sender, EventArgs e)
         {
 #if !SIMULATION_VISION
-            CMainFrame.LWDicer.m_Vision.InitialLocalView(PRE__CAM, picVision.Handle);
+            int iCam = CMainFrame.LWDicer.m_ctrlStage1.GetCurrentCam();
+            CMainFrame.LWDicer.m_Vision.InitialLocalView(iCam, picVision.Handle);
             CMainFrame.LWDicer.m_Vision.ShowHairLine();
 #endif
 
@@ -125,19 +126,19 @@ namespace LWDicer.UI
             // Stage Center는 Pre Cam 기준으로 정하고, 이후 나머지 위치는 Fine Cam 기준으로 저장한다
             // Fine Cam 기준으로 저장하기 위해 Offset 만큼 더해서 저장한다.
             // (Stage Center & Edge Align Position만 Pre Cam을 기준으로 사용)
-            CMainFrame.DataManager.FixedPos.Stage1Pos.Pos[(int)EStagePos.THETA_ALIGN_A].dX = CMainFrame.DataManager.FixedPos.Stage1Pos.Pos[(int)EStagePos.STAGE_CENTER].dX -
+            CMainFrame.DataManager.FixedPos.Stage1Pos.Pos[(int)EStagePos.THETA_ALIGN_A].dX = CMainFrame.DataManager.FixedPos.Stage1Pos.Pos[(int)EStagePos.STAGE_CENTER_PRE].dX -
                                                                                              CMainFrame.DataManager.SystemData_Align.AlignMarkWidthLen/2 -
                                                                                              CMainFrame.DataManager.SystemData_Align.CamEachOffsetX;
-            CMainFrame.DataManager.FixedPos.Stage1Pos.Pos[(int)EStagePos.THETA_ALIGN_A].dY = CMainFrame.DataManager.FixedPos.Stage1Pos.Pos[(int)EStagePos.STAGE_CENTER].dY -
+            CMainFrame.DataManager.FixedPos.Stage1Pos.Pos[(int)EStagePos.THETA_ALIGN_A].dY = CMainFrame.DataManager.FixedPos.Stage1Pos.Pos[(int)EStagePos.STAGE_CENTER_PRE].dY -
                                                                                              CMainFrame.DataManager.SystemData_Align.CamEachOffsetY;
-            CMainFrame.DataManager.FixedPos.Stage1Pos.Pos[(int)EStagePos.THETA_ALIGN_A].dT = CMainFrame.DataManager.FixedPos.Stage1Pos.Pos[(int)EStagePos.STAGE_CENTER].dT;
+            CMainFrame.DataManager.FixedPos.Stage1Pos.Pos[(int)EStagePos.THETA_ALIGN_A].dT = CMainFrame.DataManager.FixedPos.Stage1Pos.Pos[(int)EStagePos.STAGE_CENTER_PRE].dT;
 
-            CMainFrame.DataManager.FixedPos.Stage1Pos.Pos[(int)EStagePos.THETA_ALIGN_TURN_A].dX = CMainFrame.DataManager.FixedPos.Stage1Pos.Pos[(int)EStagePos.STAGE_CENTER].dX -
+            CMainFrame.DataManager.FixedPos.Stage1Pos.Pos[(int)EStagePos.THETA_ALIGN_TURN_A].dX = CMainFrame.DataManager.FixedPos.Stage1Pos.Pos[(int)EStagePos.STAGE_CENTER_PRE].dX -
                                                                                                   CMainFrame.DataManager.SystemData_Align.AlignMarkWidthLen / 2 -
                                                                                                   CMainFrame.DataManager.SystemData_Align.CamEachOffsetX;
-            CMainFrame.DataManager.FixedPos.Stage1Pos.Pos[(int)EStagePos.THETA_ALIGN_TURN_A].dY = CMainFrame.DataManager.FixedPos.Stage1Pos.Pos[(int)EStagePos.STAGE_CENTER].dY -
+            CMainFrame.DataManager.FixedPos.Stage1Pos.Pos[(int)EStagePos.THETA_ALIGN_TURN_A].dY = CMainFrame.DataManager.FixedPos.Stage1Pos.Pos[(int)EStagePos.STAGE_CENTER_PRE].dY -
                                                                                                   CMainFrame.DataManager.SystemData_Align.CamEachOffsetY;
-            CMainFrame.DataManager.FixedPos.Stage1Pos.Pos[(int)EStagePos.THETA_ALIGN_TURN_A].dT = CMainFrame.DataManager.FixedPos.Stage1Pos.Pos[(int)EStagePos.STAGE_CENTER].dT + 
+            CMainFrame.DataManager.FixedPos.Stage1Pos.Pos[(int)EStagePos.THETA_ALIGN_TURN_A].dT = CMainFrame.DataManager.FixedPos.Stage1Pos.Pos[(int)EStagePos.STAGE_CENTER_PRE].dT + 
                                                                                                   CMainFrame.DataManager.SystemData_Align.DieIndexRotate;
 
 
@@ -421,10 +422,6 @@ namespace LWDicer.UI
         {
             CMainFrame.LWDicer.m_ctrlStage1.MoveToStageCenter();
         }
-
-        private void btnRotateCenter_Click(object sender, EventArgs e)
-        {
-            CMainFrame.LWDicer.m_ctrlStage1.DoRotateCenterCals();
-        }
+        
     }
 }
