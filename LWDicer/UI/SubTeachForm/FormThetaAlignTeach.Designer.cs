@@ -56,10 +56,11 @@
             this.lblStagePosX = new Syncfusion.Windows.Forms.Tools.GradientLabel();
             this.tabThetaAlign = new Syncfusion.Windows.Forms.Tools.TabControlAdv();
             this.pageThetaAlign = new Syncfusion.Windows.Forms.Tools.TabPageAdv();
+            this.lblHairLineWidth = new System.Windows.Forms.Label();
+            this.label16 = new System.Windows.Forms.Label();
             this.btnStageCenter = new System.Windows.Forms.Button();
             this.btnStageReturnPosA = new System.Windows.Forms.Button();
             this.btnStageTurnPosA = new System.Windows.Forms.Button();
-            this.btnThetaAlignDataApply = new System.Windows.Forms.Button();
             this.label17 = new System.Windows.Forms.Label();
             this.lblThetaAlignTurnPosT = new Syncfusion.Windows.Forms.Tools.GradientLabel();
             this.lblThetaAlignTurnPosY = new Syncfusion.Windows.Forms.Tools.GradientLabel();
@@ -273,7 +274,6 @@
             this.picVision.Name = "picVision";
             this.picVision.Size = new System.Drawing.Size(802, 600);
             this.picVision.TabIndex = 939;
-            this.picVision.Paint += new System.Windows.Forms.PaintEventHandler(this.picVision_Paint);
             this.picVision.MouseDown += new System.Windows.Forms.MouseEventHandler(this.picVision_MouseDown);
             // 
             // pnlStageJog
@@ -469,14 +469,14 @@
             this.tabThetaAlign.Size = new System.Drawing.Size(426, 528);
             this.tabThetaAlign.TabIndex = 952;
             this.tabThetaAlign.TabStyle = typeof(Syncfusion.Windows.Forms.Tools.TabRendererVS2008);
-            this.tabThetaAlign.SelectedIndexChanged += new System.EventHandler(this.tabControlAdv1_SelectedIndexChanged);
             // 
             // pageThetaAlign
             // 
+            this.pageThetaAlign.Controls.Add(this.lblHairLineWidth);
+            this.pageThetaAlign.Controls.Add(this.label16);
             this.pageThetaAlign.Controls.Add(this.btnStageCenter);
             this.pageThetaAlign.Controls.Add(this.btnStageReturnPosA);
             this.pageThetaAlign.Controls.Add(this.btnStageTurnPosA);
-            this.pageThetaAlign.Controls.Add(this.btnThetaAlignDataApply);
             this.pageThetaAlign.Controls.Add(this.label17);
             this.pageThetaAlign.Controls.Add(this.lblThetaAlignTurnPosT);
             this.pageThetaAlign.Controls.Add(this.lblThetaAlignTurnPosY);
@@ -511,6 +511,28 @@
             this.pageThetaAlign.Text = "ThetaAlign";
             this.pageThetaAlign.ThemesEnabled = false;
             this.pageThetaAlign.Click += new System.EventHandler(this.pageThetaAlign_Click);
+            // 
+            // lblHairLineWidth
+            // 
+            this.lblHairLineWidth.AutoSize = true;
+            this.lblHairLineWidth.BackColor = System.Drawing.Color.White;
+            this.lblHairLineWidth.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.lblHairLineWidth.Location = new System.Drawing.Point(171, 293);
+            this.lblHairLineWidth.Name = "lblHairLineWidth";
+            this.lblHairLineWidth.Size = new System.Drawing.Size(72, 13);
+            this.lblHairLineWidth.TabIndex = 977;
+            this.lblHairLineWidth.Text = "0.0000 mm";
+            // 
+            // label16
+            // 
+            this.label16.AutoSize = true;
+            this.label16.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label16.Location = new System.Drawing.Point(102, 279);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(100, 13);
+            this.label16.TabIndex = 976;
+            this.label16.Text = "Hair Line Width";
+            this.label16.Click += new System.EventHandler(this.label16_Click);
             // 
             // btnStageCenter
             // 
@@ -550,21 +572,6 @@
             this.btnStageTurnPosA.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.btnStageTurnPosA.UseVisualStyleBackColor = true;
             this.btnStageTurnPosA.Click += new System.EventHandler(this.btnStageTurnPosA_Click);
-            // 
-            // btnThetaAlignDataApply
-            // 
-            this.btnThetaAlignDataApply.Font = new System.Drawing.Font("굴림", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.btnThetaAlignDataApply.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.btnThetaAlignDataApply.Image = global::LWDicer.Properties.Resources.import;
-            this.btnThetaAlignDataApply.Location = new System.Drawing.Point(278, 88);
-            this.btnThetaAlignDataApply.Name = "btnThetaAlignDataApply";
-            this.btnThetaAlignDataApply.Size = new System.Drawing.Size(130, 61);
-            this.btnThetaAlignDataApply.TabIndex = 972;
-            this.btnThetaAlignDataApply.Text = "Data Apply";
-            this.btnThetaAlignDataApply.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnThetaAlignDataApply.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.btnThetaAlignDataApply.UseVisualStyleBackColor = true;
-            this.btnThetaAlignDataApply.Click += new System.EventHandler(this.btnThetaAlignDataApply_Click);
             // 
             // label17
             // 
@@ -894,7 +901,7 @@
             this.btnThetaAlignDataSave.Font = new System.Drawing.Font("굴림", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.btnThetaAlignDataSave.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
             this.btnThetaAlignDataSave.Image = ((System.Drawing.Image)(resources.GetObject("btnThetaAlignDataSave.Image")));
-            this.btnThetaAlignDataSave.Location = new System.Drawing.Point(278, 150);
+            this.btnThetaAlignDataSave.Location = new System.Drawing.Point(278, 88);
             this.btnThetaAlignDataSave.Name = "btnThetaAlignDataSave";
             this.btnThetaAlignDataSave.Size = new System.Drawing.Size(130, 61);
             this.btnThetaAlignDataSave.TabIndex = 950;
@@ -1938,9 +1945,10 @@
         private Syncfusion.Windows.Forms.Tools.GradientLabel gradientLabel41;
         private Syncfusion.Windows.Forms.Tools.GradientLabel gradientLabel42;
         private Syncfusion.Windows.Forms.Tools.GradientLabel gradientLabel43;
-        private System.Windows.Forms.Button btnThetaAlignDataApply;
         private System.Windows.Forms.Button btnStageReturnPosA;
         private System.Windows.Forms.Button btnStageTurnPosA;
         private System.Windows.Forms.Button btnStageCenter;
+        private System.Windows.Forms.Label lblHairLineWidth;
+        private System.Windows.Forms.Label label16;
     }
 }

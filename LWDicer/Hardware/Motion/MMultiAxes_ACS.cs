@@ -225,6 +225,29 @@ namespace LWDicer.Layers
             return SUCCESS;
         }
 
+        public bool IsBusy(int iCoordID = DEF_ALL_COORDINATE)
+        {
+            bool bRunBit=false;
+
+            if (iCoordID == DEF_ALL_COORDINATE)
+            {
+                for (int i = 0; i < DEF_MAX_COORDINATE; i++)
+                {
+                    if (m_Data.AxisList[i] == DEF_AXIS_NONE_ID) continue;
+
+                    if (ServoStatus[i].IsBusy) return true; 
+                }
+
+                bRunBit = false;
+            }
+            else
+            {
+                bRunBit = ServoStatus[iCoordID].IsBusy;
+            }
+
+            return bRunBit;
+        }
+
         /// <summary>
         /// Move 함수, 전체축 이동일 경우엔 bMoveUse와 Priority를 이용하여 순차 이동, 선택 이동 가능
         /// </summary>

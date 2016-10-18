@@ -245,6 +245,11 @@ namespace LWDicer.Layers
 
             return SUCCESS;
         }
+
+        public IntPtr GetLocalViewHandle(int iCamNo)
+        {
+            return m_RefComp.View[iCamNo].GetViewHandle();
+        }
         /// <summary>
         /// DisplayImage : MIL Image를 객체에 Dispaly함
         /// </summary>
@@ -1448,6 +1453,10 @@ namespace LWDicer.Layers
         {
             m_iHairLineWidth++;
             DrawOverLayHairLine(m_iHairLineWidth);
+        }
+        public int GetHairLineWidth()
+        {
+            return m_iHairLineWidth;
         }
         public void ShowRectRoi()
         {

@@ -62,10 +62,11 @@ namespace LWDicer.UI
         private void FormThetaAlignTeach_Load(object sender, EventArgs e)
         {
 #if !SIMULATION_VISION
-            int iCam = CMainFrame.LWDicer.m_ctrlStage1.GetCurrentCam();
-            CMainFrame.LWDicer.m_Vision.InitialLocalView(iCam, picVision.Handle);
+           // int iCam = CMainFrame.LWDicer.m_ctrlStage1.GetCurrentCam();
+            CMainFrame.LWDicer.m_Vision.InitialLocalView(PRE__CAM, picVision.Handle);
             CMainFrame.LWDicer.m_Vision.ShowHairLine();
 #endif
+            DisplayThetaAlignData();
 
             TmrTeach.Enabled = true;
             TmrTeach.Interval = UITimerInterval;
@@ -248,47 +249,40 @@ namespace LWDicer.UI
 
                 CMainFrame.LWDicer.m_ctrlStage1.MoveStageRelative(movePos);
             }
-
         }
 
-        private void picVision_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
+       
 
         private void TmrTeach_Tick(object sender, EventArgs e)
         {
             // Current Position Display
-            string strCurPos = string.Empty;
+            string strShowData = string.Empty;
             try
             {
                 double dValue = 0, dCurPos = 0, dTargetPos = 0;
 
-                strCurPos = String.Format("{0:0.0000}", CMainFrame.LWDicer.m_ACS.ServoStatus[(int)EACS_Axis.STAGE1_X].EncoderPos);
-                lblStagePosX.Text = strCurPos;
+                strShowData = String.Format("{0:0.0000}", CMainFrame.LWDicer.m_ACS.ServoStatus[(int)EACS_Axis.STAGE1_X].EncoderPos);
+                lblStagePosX.Text = strShowData;
 
-                strCurPos = String.Format("{0:0.0000}", CMainFrame.LWDicer.m_ACS.ServoStatus[(int)EACS_Axis.STAGE1_Y].EncoderPos);
-                lblStagePosY.Text = strCurPos;
+                strShowData = String.Format("{0:0.0000}", CMainFrame.LWDicer.m_ACS.ServoStatus[(int)EACS_Axis.STAGE1_Y].EncoderPos);
+                lblStagePosY.Text = strShowData;
 
-                strCurPos = String.Format("{0:0.0000}", CMainFrame.LWDicer.m_ACS.ServoStatus[(int)EACS_Axis.STAGE1_T].EncoderPos);
-                lblStagePosT.Text = strCurPos;
+                strShowData = String.Format("{0:0.0000}", CMainFrame.LWDicer.m_ACS.ServoStatus[(int)EACS_Axis.STAGE1_T].EncoderPos);
+                lblStagePosT.Text = strShowData;
 
-                strCurPos = String.Format("{0:0.0000}", CMainFrame.LWDicer.m_ACS.ServoStatus[(int)EACS_Axis.CAMERA1_Z].EncoderPos);
-                lblCamPosZ.Text = strCurPos;
+                strShowData = String.Format("{0:0.0000}", CMainFrame.LWDicer.m_ACS.ServoStatus[(int)EACS_Axis.CAMERA1_Z].EncoderPos);
+                lblCamPosZ.Text = strShowData;
             }
             catch
             { }
-        }
-
-        private void tabControlAdv1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
             
+
+            strShowData = String.Format("{0:0.0000} mm", CMainFrame.LWDicer.m_ctrlStage1.GetHairLineWidth());
+            lblHairLineWidth.Text = strShowData;
+
         }
+
+        
 
         private void btnSelectStageMove_Click(object sender, EventArgs e)
         {
@@ -353,6 +347,8 @@ namespace LWDicer.UI
 
         private void btnDieIndexDataSave_Click(object sender, EventArgs e)
         {
+           
+
             CMainFrame.DataManager.SystemData_Align.DieIndexWidth  = Convert.ToDouble(lblDieIndexAxisX.Text);
             CMainFrame.DataManager.SystemData_Align.DieIndexHeight = Convert.ToDouble(lblDieIndexAxisY.Text);
 
@@ -360,6 +356,11 @@ namespace LWDicer.UI
         }
 
         private void btnThetaAlignDataLoad_Click(object sender, EventArgs e)
+        {
+            DisplayThetaAlignData();
+        }
+
+        private void DisplayThetaAlignData()
         {
             // 저장된 위치 데이터를 읽어온다.
             CMainFrame.DataManager.LoadPositionData(true, EPositionGroup.STAGE1);
@@ -379,16 +380,10 @@ namespace LWDicer.UI
             lblThetaAlignTurnPosT.Text = String.Format("{0:0.0000}", posThetaAlignTurnA.dT);
 
             CMainFrame.LWDicer.m_ctrlStage1.ThetaAlignStepInit();
+
         }
 
-        private void btnThetaAlignDataSave_Click(object sender, EventArgs e)
-        {
-            CMainFrame.DataManager.SavePositionData(true, EPositionObject.STAGE1);
-
-            CMainFrame.LWDicer.m_ctrlStage1.ThetaAlignStepInit();
-        }
-
-        private void btnThetaAlignDataApply_Click(object sender, EventArgs e)
+        private void UpdateThetaAlignData()
         {
             var posThetaAlignA = new CPos_XYTZ();
             var posThetaAlignTurnA = new CPos_XYTZ();
@@ -405,7 +400,14 @@ namespace LWDicer.UI
             lblThetaAlignTurnPosT.Text = String.Format("{0:0.0000}", posThetaAlignTurnA.dT);
 
             CMainFrame.LWDicer.m_ctrlStage1.ThetaAlignStepInit();
+        }
+        private void btnThetaAlignDataSave_Click(object sender, EventArgs e)
+        {
+            UpdateThetaAlignData();
 
+            CMainFrame.DataManager.SavePositionData(true, EPositionObject.STAGE1);
+
+            CMainFrame.LWDicer.m_ctrlStage1.ThetaAlignStepInit();
         }
 
         private void btnStageTurnPosA_Click(object sender, EventArgs e)
@@ -422,6 +424,10 @@ namespace LWDicer.UI
         {
             CMainFrame.LWDicer.m_ctrlStage1.MoveToStageCenter();
         }
-        
+
+        private void label16_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

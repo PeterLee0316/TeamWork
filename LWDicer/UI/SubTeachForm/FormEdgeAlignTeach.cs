@@ -85,6 +85,9 @@ namespace LWDicer.UI
             }
             catch
             { }
+
+            int nHairLineWidth =  CMainFrame.LWDicer.m_Vision.GetHairLineWidth();
+
         }
 
         private void btnChangeCam_Click(object sender, EventArgs e)
@@ -166,7 +169,11 @@ namespace LWDicer.UI
         {
             CMainFrame.LWDicer.m_ctrlStage1.MoveToEdgeAlignPos3();            
         }
-        
+
+        private void btnEdgePos4_Click(object sender, EventArgs e)
+        {
+            CMainFrame.LWDicer.m_ctrlStage1.MoveToEdgeAlignPos4();
+        }
 
         private void picVision_MouseDown(object sender, MouseEventArgs e)
         {
@@ -277,8 +284,21 @@ namespace LWDicer.UI
 
         private void btnWaferCenterSearchRun_Click(object sender, EventArgs e)
         {
-            CMainFrame.LWDicer.m_Vision.SetEdgeFinderArea(PRE__CAM);
+            //CMainFrame.LWDicer.m_Vision.InitialLocalView(PRE__CAM, picVision.Handle);
+            CMainFrame.LWDicer.m_ctrlStage1.ChangeMacroVision(picVision.Handle, EVisionOverlayMode.EDGE);
+            CMainFrame.LWDicer.m_Vision.SetEdgeFinderArea(PRE__CAM);            
+
             CMainFrame.LWDicer.m_ctrlStage1.DoEdgeAlign();
+        }
+
+        private void btnWaferCenterPre_Click(object sender, EventArgs e)
+        {
+            CMainFrame.LWDicer.m_ctrlStage1.MoveToWaferCenterPre();
+        }
+
+        private void btnWaferCenterFine_Click(object sender, EventArgs e)
+        {
+            CMainFrame.LWDicer.m_ctrlStage1.MoveToWaferCenterFine();
         }
 
         private void btnStageCenterPre_Click(object sender, EventArgs e)
@@ -290,5 +310,7 @@ namespace LWDicer.UI
         {
             CMainFrame.LWDicer.m_ctrlStage1.MoveToStageCenterFine();
         }
+
+        
     }
 }

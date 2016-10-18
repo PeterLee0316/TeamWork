@@ -627,6 +627,16 @@ namespace LWDicer.Layers
                         
         }
 
+        public int MoveToWaferCenterPre()
+        {
+            return m_RefComp.Stage.MoveStageToWaferCenterPre();
+        }
+
+        public int MoveToWaferCenterFine()
+        {
+            return m_RefComp.Stage.MoveStageToWaferCenterFine();
+        }
+
         public int MoveToStageCenterPre()
         {            
             return m_RefComp.Stage.MoveStageToStageCenterPre();   
@@ -1217,6 +1227,25 @@ namespace LWDicer.Layers
             m_RefComp.Vision.WidenHairLine();
         }
            
+        public double GetHairLineWidth()
+        {
+            int iHairLineWidth = m_RefComp.Vision.GetHairLineWidth();
+            double dHairLineWidth = 0.0;
+
+            if(GetCurrentCam()==PRE__CAM)
+            {
+                dHairLineWidth = (double) CMainFrame.DataManager.SystemData_Align.PixelResolution[(int)ECameraSelect.MACRO] *
+                               iHairLineWidth/500;
+            }
+            else
+            {
+                dHairLineWidth = (double)CMainFrame.DataManager.SystemData_Align.PixelResolution[(int)ECameraSelect.MICRO] *
+                               iHairLineWidth/500;
+            }
+
+            return dHairLineWidth;
+
+        }
 
         #endregion
 
@@ -1725,7 +1754,7 @@ namespace LWDicer.Layers
                 // B위치를 읽어온다. (현재 위치)
                 m_RefComp.Stage.GetStageCurPos(out stagePos2);
 
-                // Pre Cam일 경우 위치값을 보정한다.
+                //Pre Cam일 경우 위치값을 보정한다.
                 if (GetCurrentCam() == PRE__CAM)
                 {
                     stagePos1.dX += CMainFrame.DataManager.SystemData_Align.CamEachOffsetX;
@@ -1753,7 +1782,7 @@ namespace LWDicer.Layers
                         alignTeachPos.dX -= CMainFrame.DataManager.SystemData_Align.CamEachOffsetX;
                         alignTeachPos.dY -= CMainFrame.DataManager.SystemData_Align.CamEachOffsetY;
                     }
-                    
+
                     if (eStageMode == EStatgeMode.RETURN)   m_RefComp.Stage.SetThetaAlignPosA(alignTeachPos);
                     if (eStageMode == EStatgeMode.TURN)     m_RefComp.Stage.SetThetaAlignTurnPosA(alignTeachPos);
 
@@ -1801,7 +1830,7 @@ namespace LWDicer.Layers
                 posCur.dX -= CMainFrame.DataManager.SystemData_Align.CamEachOffsetX;
                 posCur.dY -= CMainFrame.DataManager.SystemData_Align.CamEachOffsetY;
             }
-
+            
             // 현재 위치를 ThetaAlignPosA로 저장한다. 
             if (eStageMode == EStatgeMode.RETURN)  m_RefComp.Stage.SetThetaAlignPosA(posCur);            
             if (eStageMode == EStatgeMode.TURN)    m_RefComp.Stage.SetThetaAlignTurnPosA(posCur);            
@@ -2449,16 +2478,7 @@ namespace LWDicer.Layers
             pAlignPos = mAlignPos;
             return SUCCESS;
         }
-
-        // Edge Align Pos 설정
-        public void SetEdgeAlignPos(CPos_XYTZ pPos)
-        {
-            m_RefComp.Stage.SetEdgeAlignPos(pPos);
-        }
-        public int GetEdgePosOffset(out CPos_XYTZ pPos)
-        {
-            return m_RefComp.Stage.GetEdgeAlignPos(out pPos);
-        }
+        
 
         /// <summary>
         /// UI에서 User가 Button을 클릭하면서 4 Point 위치값 Offset조절
@@ -2669,6 +2689,8 @@ namespace LWDicer.Layers
             CPos_XY WaferCenter = new CPos_XY();
             CPos_XYTZ StageCurPos = new CPos_XYTZ();
 
+            
+
             // Edge 1번으로 이동 & Edge 확인 =============================================================
             iResult = MoveToEdgeAlignTeachPos1();
             if (iResult != SUCCESS) return iResult;
@@ -2735,8 +2757,7 @@ namespace LWDicer.Layers
                                                             Math.Cos(DegToRad(180)) * EdgePos[(int)EEdgeAlignTeachStep.POS3].dY;
 
             // Edge Align 연산
-            WaferCenter =  CalsCenterOf3P(EdgeRealPos[0], EdgeRealPos[1], EdgeRealPos[2]);
-            
+            WaferCenter =  CalsCenterOf3P(EdgeRealPos[0], EdgeRealPos[1], EdgeRealPos[2]);            
 
             // Stage 현재 위치 확인
             iResult = m_RefComp.Stage.GetStageCurPos(out StageCurPos);
@@ -2751,7 +2772,16 @@ namespace LWDicer.Layers
             double dLenY = EdgeRealPos[(int)EEdgeAlignTeachStep.POS1].dY - CMainFrame.DataManager.SystemData_Align.WaferOffsetY;
 
             CMainFrame.DataManager.SystemData_Align.WaferSizeOffset = 150 - Math.Sqrt(dLenX * dLenX + dLenY * dLenY);
+                        
+            // Align 기존 값 초기화
+            m_RefComp.Stage.SetAlignDataInit();
 
+            // Align Data Set
+            var alignOffset = new CPos_XYTZ();
+            alignOffset.dX = -WaferCenter.dX;
+            alignOffset.dY = -WaferCenter.dY;
+
+            SetAlignData(alignOffset);
 
             return SUCCESS;
         }
