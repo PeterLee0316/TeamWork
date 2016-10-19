@@ -388,7 +388,7 @@ namespace LWDicer.UI
             switch(index)
             {
                 case (int)EElevatorPos.BOTTOM:
-                    iResult = CMainFrame.LWDicer.m_ctrlLoader.MoveToBottomPos(false);
+                    iResult = CMainFrame.LWDicer.m_ctrlLoader.MoveToBottomPos();
                     break;
                 case (int)EElevatorPos.LOAD:
                     iResult = CMainFrame.LWDicer.m_ctrlLoader.MoveToLoadPos();

@@ -7,7 +7,7 @@ using System.Threading;
 using System.Diagnostics;
 
 using static LWDicer.Layers.DEF_Thread;
-using static LWDicer.Layers.DEF_Thread.ETrsSpinnerStep;
+using static LWDicer.Layers.DEF_Thread.EThreadStep;
 using static LWDicer.Layers.DEF_Thread.EThreadMessage;
 using static LWDicer.Layers.DEF_Thread.EThreadChannel;
 using static LWDicer.Layers.DEF_Error;
@@ -30,7 +30,9 @@ namespace LWDicer.Layers
 
     public class CTrsSpinnerData
     {
-        public ESpinnerIndex Index = ESpinnerIndex.SPINNER1;
+        public bool ThreadHandshake_byOneStep = true;
+
+        public ESpinnerIndex SpinnerIndex = ESpinnerIndex.SPINNER1;
         public bool DoPreClean;
         public bool DoPostClean;
         public bool DoCoat;
@@ -60,6 +62,9 @@ namespace LWDicer.Layers
         {
             m_RefComp = refComp;
             SetData(data);
+            if(SelfChannelNo == EThreadChannel.TrsSpinner1)
+                TSelf = (int)EThreadUnit.SPINNER1;
+            else TSelf = (int)EThreadUnit.SPINNER2;
         }
 
         #region Common : Manage Data, Position, Use Flag and Initialize
@@ -86,12 +91,12 @@ namespace LWDicer.Layers
             int iResult = m_RefComp.ctrlSpinner.Initialize();
             if (iResult != SUCCESS) return iResult;
 
-            int iStep1 = (int)TRS_SPINNER_MOVETO_WAIT_POS;
+            EThreadStep iStep1 = TRS_SPINNER_MOVETO_WAIT_POS;
 
             // finally
-            SetStep1(iStep1);
+            SetStep(iStep1);
 
-            return SUCCESS;
+            return base.Initialize();
         }
 
         public int InitializeMsg()
@@ -168,8 +173,8 @@ namespace LWDicer.Layers
         protected override void ThreadProcess()
         {
             int iResult = SUCCESS;
-            bool bStatus = false;
-            EProcessPhase processPhase;
+            bool bStatus, bStatus1, bStatus2;
+            EProcessPhase tPhase = GetMyNextWorkPhase();
 
             while (true)
             {
@@ -206,110 +211,328 @@ namespace LWDicer.Layers
                         m_RefComp.ctrlSpinner.SetAutoManual(EAutoManual.AUTO);
 
                         // Do Thread Step
-                        switch (ThreadStep1)
+                        switch (ThreadStep)
                         {
-                            case (int)TRS_SPINNER_MOVETO_WAIT_POS:
-                                //iResult = m_RefComp.ctrlSpinner.MoveToWaitPos(false);
+                            case TRS_SPINNER_MOVETO_WAIT_POS:
+                                iResult = m_RefComp.ctrlSpinner.TableDown();
                                 if(iResult != SUCCESS) { ReportAlarm(iResult); break; }
 
-                                //PostMsg(TrsPushPull, (int)MSG_SPINNER1_PUSHPULL_READY_LOADING);
-                                SetStep1((int)TRS_SPINNER_WAITFOR_PUSHPULL_LOAD_REQUEST);
+                                SetStep(TRS_SPINNER_WAITFOR_MESSAGE);
                                 break;
 
-                            case (int)TRS_SPINNER_WAITFOR_PUSHPULL_LOAD_REQUEST:
-                                if (m_bPushPull_RequestLoading == false) break;
+                            case TRS_SPINNER_WAITFOR_MESSAGE:
+                                // 0. check default status;
 
-                                SetStep1((int)TRS_SPINNER_MOVETO_LOAD_POS);
-                                break;
-
-                            case (int)TRS_SPINNER_MOVETO_LOAD_POS:
-
-                                SetStep1((int)TRS_SPINNER_LOADING);
-                                break;
-
-                            case (int)TRS_SPINNER_LOADING:
-
-                                SetStep1((int)TRS_SPINNER_WAITFOR_PUSHPULL_UNLOAD_READY);
-                                break;
-
-                            case (int)TRS_SPINNER_WAITFOR_PUSHPULL_UNLOAD_READY:
-
-                                SetStep1((int)TRS_SPINNER_MOVETO_WORK_POS);
-                                break;
-
-                            case (int)TRS_SPINNER_MOVETO_WORK_POS:
-                                
-                                SetStep1((int)TRS_SPINNER_DO_PRE_CLEAN);
-                                break;
-
-                            case (int)TRS_SPINNER_DO_PRE_CLEAN:
-                                if(m_Data.DoPreClean == false)
+                                // 1. if wafer detected
+                                iResult = m_RefComp.ctrlSpinner.IsObjectDetected(out bStatus);
+                                if (iResult != SUCCESS) { ReportAlarm(iResult); break; }
+                                tPhase = GetMyNextWorkPhase();
+                                if (bStatus) // if wafer detected
                                 {
-                                    SetStep1((int)TRS_SPINNER_DO_COAT);
+                                    if(tPhase == EProcessPhase.COATER_LOAD)
+                                    {
+                                        GetMyWorkPiece().StartPhase(tPhase);
+                                        SetStep(TRS_SPINNER_DO_PRE_COAT);
+                                    } else if (tPhase == EProcessPhase.CLEANER_LOAD)
+                                    {
+                                        GetMyWorkPiece().StartPhase(tPhase);
+                                        SetStep(TRS_SPINNER_DO_PRE_CLEAN);
+                                    }
+                                    else if (TInterface.PushPull_Spinner_BeginHandshake_Load[(int)m_Data.SpinnerIndex]
+                                        && (tPhase == EProcessPhase.COATER_WAIT_UNLOAD || tPhase == EProcessPhase.CLEANER_WAIT_UNLOAD))
+                                    {
+                                        GetMyWorkPiece().FinishPhase(tPhase); // 대기 종료
+                                        if(tPhase == EProcessPhase.COATER_WAIT_UNLOAD)
+                                        {
+                                            tPhase = EProcessPhase.COATER_UNLOAD_TO_PUSHPULL;
+                                        } else
+                                        {
+                                            tPhase = EProcessPhase.CLEANER_UNLOAD_TO_PUSHPULL;
+                                        }
+                                        GetMyWorkPiece().StartPhase(tPhase);
+                                        SetStep(TRS_SPINNER_UNLOADING_TO_PUSHPULL_ONESTEP);
+                                    }
+                                    else
+                                    {
+                                        // Test 할 동안 임시로 막아놓음
+                                        //ReportAlarm(GenerateErrorCode(ERR_TRS_SPINNER_NEXT_PROCESS_IS_ABNORMAL));
+                                    }
+                                } else // if not
+                                {
+                                    if(TInterface.PushPull_Spinner_BeginHandshake_Unload[(int)m_Data.SpinnerIndex] == true)
+                                        SetStep(TRS_SPINNER_LOADING_FROM_PUSHPULL_ONESTEP);
+                                }
+
+                                break;
+
+                            ///////////////////////////////////////////////////////////////////
+                            // process load with pushpull
+                            case TRS_SPINNER_LOADING_FROM_PUSHPULL_ONESTEP:
+                                // branch
+                                if (m_Data.ThreadHandshake_byOneStep == false)
+                                {
+                                    SetStep(TRS_SPINNER_BEGIN_LOADING_FROM_PUSHPULL);
                                     break;
                                 }
 
-                                SetStep1((int)TRS_SPINNER_DO_AFTER_PRE_CLEAN);
-                                break;
+                                // init
+                                TInterface.ResetInterface(TSelf);
+                                TOpponent = (int)EThreadUnit.PUSHPULL;
+                                if (TInterface.ErrorOccured[TOpponent]) break;
 
-                            case (int)TRS_SPINNER_DO_AFTER_PRE_CLEAN:
+                                // begin
+                                TTimer.StartTimer();
+                                TInterface.Spinner_PushPull_BeginHandshake_Load[(int)m_Data.SpinnerIndex] = true;
 
-                                SetStep1((int)TRS_SPINNER_DO_COAT);
-                                break;
-
-                            case (int)TRS_SPINNER_DO_COAT:
-                                if (m_Data.DoCoat == false)
+                                // step1
+                                while (TInterface.PushPull_Spinner_UnloadStep1[(int)m_Data.SpinnerIndex] == false)
                                 {
-                                    SetStep1((int)TRS_SPINNER_DO_POST_CLEAN);
+                                    if (TInterface.ErrorOccured[TOpponent]) break;
+                                    if (TTimer.MoreThan(TInterface.TimeLimit))
+                                    {
+                                        TInterface.TimeOver[TSelf] = true;
+                                        break;
+                                    }
+                                    Sleep(ThreadSleepTime);
+                                }
+                                if (TInterface.ErrorOccured[TOpponent]) break;
+                                if (TInterface.TimeOver[TSelf])
+                                {
+                                    // do something, if it is needed
+                                    TInterface.ResetInterface(TSelf);
+                                    ReportAlarm(GenerateErrorCode(ERR_TRS_SPINNER_INTERFACE_TIMELIMIT_OVER));
                                     break;
                                 }
 
-                                SetStep1((int)TRS_SPINNER_DO_AFTER_COAT);
-                                break;
+                                iResult = m_RefComp.ctrlSpinner.TableUp();
+                                if (iResult != SUCCESS) { ReportAlarm(iResult); break; }
+                                iResult = m_RefComp.ctrlSpinner.Absorb();
+                                if (iResult != SUCCESS) { ReportAlarm(iResult); break; }
 
-                            case (int)TRS_SPINNER_DO_AFTER_COAT:
+                                TInterface.Spinner_PushPull_LoadStep1[(int)m_Data.SpinnerIndex] = true;
 
-                                SetStep1((int)TRS_SPINNER_DO_POST_CLEAN);
-                                break;
-
-                            case (int)TRS_SPINNER_DO_POST_CLEAN:
-                                if (m_Data.DoPostClean == false)
+                                // step2
+                                while (TInterface.PushPull_Spinner_UnloadStep2[(int)m_Data.SpinnerIndex] == false)
                                 {
-                                    SetStep1((int)TRS_SPINNER_REQUEST_PUSHPULL_LOADING);
+                                    if (TInterface.ErrorOccured[TOpponent]) break;
+                                    if (TTimer.MoreThan(TInterface.TimeLimit))
+                                    {
+                                        TInterface.TimeOver[TSelf] = true;
+                                        break;
+                                    }
+                                    Sleep(ThreadSleepTime);
+                                }
+                                if (TInterface.ErrorOccured[TOpponent]) break;
+                                if (TInterface.TimeOver[TSelf])
+                                {
+                                    // do something, if it is needed
+                                    TInterface.ResetInterface(TSelf);
+                                    ReportAlarm(GenerateErrorCode(ERR_TRS_SPINNER_INTERFACE_TIMELIMIT_OVER));
                                     break;
                                 }
 
-                                SetStep1((int)TRS_SPINNER_DO_AFTER_POST_CLEAN);
+                                iResult = m_RefComp.ctrlSpinner.TableDown();
+                                if (iResult != SUCCESS) { ReportAlarm(iResult); break; }
+                                TInterface.Spinner_PushPull_LoadStep2[(int)m_Data.SpinnerIndex] = true;
+
+                                // finish
+                                while (TInterface.PushPull_Spinner_FinishHandshake_Unload[(int)m_Data.SpinnerIndex] == false)
+                                {
+                                    if (TInterface.ErrorOccured[TOpponent]) break;
+                                    if (TTimer.MoreThan(TInterface.TimeLimit))
+                                    {
+                                        TInterface.TimeOver[TSelf] = true;
+                                        break;
+                                    }
+                                    Sleep(ThreadSleepTime);
+                                }
+                                if (TInterface.ErrorOccured[TOpponent]) break;
+                                if (TInterface.TimeOver[TSelf])
+                                {
+                                    // do something, if it is needed
+                                    TInterface.ResetInterface(TSelf);
+                                    ReportAlarm(GenerateErrorCode(ERR_TRS_SPINNER_INTERFACE_TIMELIMIT_OVER));
+                                    break;
+                                }
+
+                                TInterface.Spinner_PushPull_FinishHandshake_Load[(int)m_Data.SpinnerIndex] = true;
+                                Sleep(TInterface.TimeKeepOn);
+
+                                // reset
+                                TInterface.ResetInterface(TSelf);
+                                SetStep(TRS_SPINNER_WAITFOR_MESSAGE);
                                 break;
 
-                            case (int)TRS_SPINNER_DO_AFTER_POST_CLEAN:
+                            ///////////////////////////////////////////////////////////////////
+                            // process unload with pushpull
+                            case TRS_SPINNER_UNLOADING_TO_PUSHPULL_ONESTEP:
+                                // branch
+                                if (m_Data.ThreadHandshake_byOneStep == false)
+                                {
+                                    SetStep(TRS_SPINNER_BEGIN_UNLOADING_TO_PUSHPULL);
+                                    break;
+                                }
 
-                                SetStep1((int)TRS_SPINNER_REQUEST_PUSHPULL_LOADING);
+                                // init
+                                TInterface.ResetInterface(TSelf);
+                                TOpponent = (int)EThreadUnit.PUSHPULL;
+                                if (TInterface.ErrorOccured[TOpponent]) break;
+
+                                // begin
+                                TTimer.StartTimer();
+                                TInterface.Spinner_PushPull_BeginHandshake_Unload[(int)m_Data.SpinnerIndex] = true;
+
+                                // step1
+                                while (TInterface.PushPull_Spinner_LoadStep1[(int)m_Data.SpinnerIndex] == false)
+                                {
+                                    if (TInterface.ErrorOccured[TOpponent]) break;
+                                    if (TTimer.MoreThan(TInterface.TimeLimit))
+                                    {
+                                        TInterface.TimeOver[TSelf] = true;
+                                        break;
+                                    }
+                                    Sleep(ThreadSleepTime);
+                                }
+                                if (TInterface.ErrorOccured[TOpponent]) break;
+                                if (TInterface.TimeOver[TSelf])
+                                {
+                                    // do something, if it is needed
+                                    TInterface.ResetInterface(TSelf);
+                                    ReportAlarm(GenerateErrorCode(ERR_TRS_SPINNER_INTERFACE_TIMELIMIT_OVER));
+                                    break;
+                                }
+
+                                iResult = m_RefComp.ctrlSpinner.TableUp();
+                                if (iResult != SUCCESS) { ReportAlarm(iResult); break; }
+
+                                TInterface.Spinner_PushPull_UnloadStep1[(int)m_Data.SpinnerIndex] = true;
+
+                                // step2
+                                while (TInterface.PushPull_Spinner_LoadStep2[(int)m_Data.SpinnerIndex] == false)
+                                {
+                                    if (TInterface.ErrorOccured[TOpponent]) break;
+                                    if (TTimer.MoreThan(TInterface.TimeLimit))
+                                    {
+                                        TInterface.TimeOver[TSelf] = true;
+                                        break;
+                                    }
+                                    Sleep(ThreadSleepTime);
+                                }
+                                if (TInterface.ErrorOccured[TOpponent]) break;
+                                if (TInterface.TimeOver[TSelf])
+                                {
+                                    // do something, if it is needed
+                                    TInterface.ResetInterface(TSelf);
+                                    ReportAlarm(GenerateErrorCode(ERR_TRS_SPINNER_INTERFACE_TIMELIMIT_OVER));
+                                    break;
+                                }
+
+                                iResult = m_RefComp.ctrlSpinner.Release();
+                                if (iResult != SUCCESS) { ReportAlarm(iResult); break; }
+
+                                iResult = m_RefComp.ctrlSpinner.TableDown();
+                                if (iResult != SUCCESS) { ReportAlarm(iResult); break; }
+                                TInterface.Spinner_PushPull_UnloadStep2[(int)m_Data.SpinnerIndex] = true;
+
+                                // finish
+                                while (TInterface.PushPull_Spinner_FinishHandshake_Load[(int)m_Data.SpinnerIndex] == false)
+                                {
+                                    if (TInterface.ErrorOccured[TOpponent]) break;
+                                    if (TTimer.MoreThan(TInterface.TimeLimit))
+                                    {
+                                        TInterface.TimeOver[TSelf] = true;
+                                        break;
+                                    }
+                                    Sleep(ThreadSleepTime);
+                                }
+                                if (TInterface.ErrorOccured[TOpponent]) break;
+                                if (TInterface.TimeOver[TSelf])
+                                {
+                                    // do something, if it is needed
+                                    TInterface.ResetInterface(TSelf);
+                                    ReportAlarm(GenerateErrorCode(ERR_TRS_SPINNER_INTERFACE_TIMELIMIT_OVER));
+                                    break;
+                                }
+
+                                GetMyWorkPiece().FinishPhase(tPhase);
+                                TInterface.Spinner_PushPull_FinishHandshake_Unload[(int)m_Data.SpinnerIndex] = true;
+                                Sleep(TInterface.TimeKeepOn);
+
+                                // reset
+                                TInterface.ResetInterface(TSelf);
+                                SetStep(TRS_SPINNER_WAITFOR_MESSAGE);
                                 break;
 
-                            case (int)TRS_SPINNER_REQUEST_PUSHPULL_LOADING:
-
-                                SetStep1((int)TRS_SPINNER_WAITFOR_PUSHPULL_UNLOAD_REQUEST);
+                            ///////////////////////////////////////////////////////////////////
+                            // coating
+                            case TRS_SPINNER_DO_PRE_COAT:               // do work if it is needed.
+                                GetMyWorkPiece().FinishPhase(EProcessPhase.COATER_LOAD);
+                                GetMyWorkPiece().StartPhase(EProcessPhase.PRE_COATING);
+                                SetStep(TRS_SPINNER_DO_AFTER_PRE_COAT);
                                 break;
 
-                            case (int)TRS_SPINNER_WAITFOR_PUSHPULL_UNLOAD_REQUEST:
-
-                                SetStep1((int)TRS_SPINNER_MOVETO_UNLOAD_POS);
+                            case TRS_SPINNER_DO_AFTER_PRE_COAT:
+                                GetMyWorkPiece().FinishPhase(EProcessPhase.PRE_COATING);
+                                SetStep(TRS_SPINNER_DO_COAT);
                                 break;
 
-                            case (int)TRS_SPINNER_MOVETO_UNLOAD_POS:
+                            case TRS_SPINNER_DO_COAT:                    // do work if it is needed.
+                                GetMyWorkPiece().StartPhase(EProcessPhase.COATING);
 
-                                SetStep1((int)TRS_SPINNER_WAITFOR_PUSHPULL_LOAD_READY);
+                                // do coat
+
+                                GetMyWorkPiece().FinishPhase(EProcessPhase.COATING);
+                                SetStep(TRS_SPINNER_DO_POST_COAT);
                                 break;
 
-                            case (int)TRS_SPINNER_WAITFOR_PUSHPULL_LOAD_READY:
-
-                                SetStep1((int)TRS_SPINNER_UNLOADING);
+                            case TRS_SPINNER_DO_POST_COAT:
+                                GetMyWorkPiece().StartPhase(EProcessPhase.POST_COATING);
+                                SetStep(TRS_SPINNER_DO_AFTER_POST_COAT);
                                 break;
 
-                            case (int)TRS_SPINNER_UNLOADING:
+                            case TRS_SPINNER_DO_AFTER_POST_COAT:
+                                GetMyWorkPiece().FinishPhase(EProcessPhase.POST_COATING);
 
-                                SetStep1((int)TRS_SPINNER_MOVETO_WAIT_POS);
+                                // start wait unload
+                                tPhase = GetMyNextWorkPhase();
+                                GetMyWorkPiece().StartPhase(tPhase);
+                                SetStep(TRS_SPINNER_WAITFOR_MESSAGE);
+                                break;
+
+                            ///////////////////////////////////////////////////////////////////
+                            // cleaning
+                            case TRS_SPINNER_DO_PRE_CLEAN:               // do work if it is needed.
+                                GetMyWorkPiece().FinishPhase(EProcessPhase.CLEANER_LOAD);
+                                GetMyWorkPiece().StartPhase(EProcessPhase.PRE_CLEANING);
+                                SetStep(TRS_SPINNER_DO_AFTER_PRE_CLEAN);
+                                break;
+
+                            case TRS_SPINNER_DO_AFTER_PRE_CLEAN:
+                                GetMyWorkPiece().FinishPhase(EProcessPhase.PRE_CLEANING);
+                                SetStep(TRS_SPINNER_DO_CLEAN);
+                                break;
+
+                            case TRS_SPINNER_DO_CLEAN:                    // do work if it is needed.
+                                GetMyWorkPiece().StartPhase(EProcessPhase.CLEANING);
+
+                                // do clean
+
+                                GetMyWorkPiece().FinishPhase(EProcessPhase.CLEANING);
+                                SetStep(TRS_SPINNER_DO_POST_CLEAN);
+                                break;
+
+                            case TRS_SPINNER_DO_POST_CLEAN:
+                                GetMyWorkPiece().StartPhase(EProcessPhase.POST_CLEANING);
+                                SetStep(TRS_SPINNER_DO_AFTER_POST_CLEAN);
+                                break;
+
+                            case TRS_SPINNER_DO_AFTER_POST_CLEAN:
+                                GetMyWorkPiece().FinishPhase(EProcessPhase.POST_CLEANING);
+
+                                // start wait unload
+                                tPhase = GetMyNextWorkPhase();
+                                GetMyWorkPiece().StartPhase(tPhase);
+                                SetStep(TRS_SPINNER_WAITFOR_MESSAGE);
                                 break;
 
                             default:
@@ -329,7 +552,7 @@ namespace LWDicer.Layers
 
         public new int PostMsg(EThreadChannel target, int msg, int wParam = -1, int lParam = -1)
         {
-            if(m_Data.Index == ESpinnerIndex.SPINNER1)
+            if(m_Data.SpinnerIndex == ESpinnerIndex.SPINNER1)
             {
                 ; // class 본문에선 spinner1 기준으로 작성해놓고
             }

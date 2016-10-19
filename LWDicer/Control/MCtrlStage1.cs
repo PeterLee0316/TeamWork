@@ -153,10 +153,10 @@ namespace LWDicer.Layers
         #endregion
 
         #region Cylinder, Vacuum, Detect Object
-        public int IsPanelDetected(out bool bState)
+        public int IsObjectDetected(out bool bStatus)
         {
-            bState = false;
-            return SUCCESS;
+            int iResult = m_RefComp.Stage.IsObjectDetected(out bStatus);
+            return iResult;
         }
         #endregion
 
@@ -171,39 +171,35 @@ namespace LWDicer.Layers
         }
         // Stage의 상태를 확인하는 동작
         #region Stage 상태 확인
-        public int IsWaferDetected(out bool bState)
+
+        public int IsAbsorbed(out bool bStatus)
         {
-            return m_RefComp.Stage.IsObjectDetected(out bState);
+            return m_RefComp.Stage.IsAbsorbed(out bStatus);
         }
 
-        public int IsAbsorbed(out bool bState)
+        public int IsReleased(out bool bStatus)
         {
-            return m_RefComp.Stage.IsAbsorbed(out bState);
+            return m_RefComp.Stage.IsReleased(out bStatus);
         }
 
-        public int IsReleased(out bool bState)
+        public int IsClampOpen(out bool bStatus)
         {
-            return m_RefComp.Stage.IsReleased(out bState);
+            return m_RefComp.Stage.IsClampOpen(out bStatus);
         }
 
-        public int IsClampOpen(out bool bState)
+        public int IsClampClose(out bool bStatus)
         {
-            return m_RefComp.Stage.IsClampOpen(out bState);
+            return m_RefComp.Stage.IsClampClose(out bStatus);
         }
 
-        public int IsClampClose(out bool bState)
+        public int IsStageSafetyZone(out bool bStatus)
         {
-            return m_RefComp.Stage.IsClampClose(out bState);
+            return m_RefComp.Stage.IsStageAxisInSafetyZone(out bStatus);
         }
 
-        public int IsStageSafetyZone(out bool bState)
+        public int IsOrignReturn(out bool bStatus)
         {
-            return m_RefComp.Stage.IsStageAxisInSafetyZone(out bState);
-        }
-
-        public int IsOrignReturn(out bool bState)
-        {
-            return m_RefComp.Stage.IsStageOrignReturn(out bState);
+            return m_RefComp.Stage.IsStageOrignReturn(out bStatus);
         }
 
         public int CheckForStageMove()

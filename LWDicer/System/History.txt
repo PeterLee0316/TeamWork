@@ -373,6 +373,33 @@ CSpinStep class -> CCleanStep / CCoatStep class 로 분리
 3. MYaskawa class : update parameters that are needed when call ymcMoveDriverPositioning function.
 4. UI : top screnn에 op switch, tower lamp status 추가.
 
+// Version : 0.0.36
+// Grade : ★
+// Date : 160926~160929
+// Context
+1. TrsAutoManager class : start / stop auto run 관련 부분 수정
+2. Thread's status, step 을 ui에 표시하도록 추가
+3. inter threads, handshake onestop 모드를 위해 CThreadInterface class 추가 및 MTrsPushPull & MTrsLoader를 targeting으로 
+   handshake 기술중 (예전과 같이 step by step 으로 진행해야할 필요도 있을것 같은데.. 나중에 systemdata에 bool 파라미터로 제어하자)
+4. 이전에 1차작업했던 CWorkPiece class 도 handshake 동작에 따라서 역시 수정/적응 중..
+
+// Version : 0.0.37
+// Grade : ★
+// Date : 161004~161007
+// Context
+1. thread간의 interface인 CThreadInterface 표준화 작업중..
+2. thread step들을 각각 enum으로 정의하던걸, 하나의 enum으로 통합, 정리
+3. 가상의 wafer를 이용하여 Loader -> PushPull -> Coater -> Do Coat까지 흘러가는 부분 정비 및 확인 완료
+
+// Version : 0.0.38
+// Grade : ★
+// Date : 161010~161013
+// Context
+1. 가상의 wafer를 이용하여 Do Coat -> PushPull -> Handler -> Stage -> Handler -> Cleaner까지 흘러가는 부분 정비 및 확인 완료
+   이후의 부분들은 나중에 처리해도 될 듯함.
+2. unit에 있는 wafer id 를 ui에 표시하도록 추가
+3. 가상의 wafer list를 만들어 thread 진행에 따른 wafer 이동 및 ui에서도 id 이동하는 것 확인 완료
+
 // ********************************************************************************
 // test를 위해서 임시로 결과값을 쓰는 코드들은 // for test 로 주석 달기 및 검색해서 사용하도록
 // ********************************************************************************

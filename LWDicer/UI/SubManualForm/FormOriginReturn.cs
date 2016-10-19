@@ -213,7 +213,7 @@ namespace LWDicer.UI
                 || SelectedAxis[(int)EAxis.STAGE1_Y] == true
                 || SelectedAxis[(int)EAxis.STAGE1_T] == true)
             {
-                iResult = CMainFrame.LWDicer.m_ctrlStage1.IsWaferDetected(out bStatus);
+                iResult = CMainFrame.LWDicer.m_ctrlStage1.IsObjectDetected(out bStatus);
                 if (bStatus)
                 {
                     if (CMainFrame.InquireMsg("Stage1에 Wafer가 감지됩니다. 원점복귀 동작중 Wafer가 충돌할수 있습니다.\n원점복귀 동작을 계속 수행하시겠습니까?", "Confirm"))
@@ -377,6 +377,11 @@ namespace LWDicer.UI
 
                 CMainFrame.LWDicer.m_OpPanel.SetOriginFlag(i, true);
             }
+
+            // 6. 
+            SetTitle("HomeReturn Finished");
+            CMainFrame.DisplayMsg("HomeReturn Finished Successfully");
+
         }
 
         private void buttonAdv2_Click(object sender, EventArgs e)

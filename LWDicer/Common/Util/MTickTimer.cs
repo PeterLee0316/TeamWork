@@ -30,8 +30,8 @@ namespace LWDicer.Layers
         }
         public int StartTimer()
         {
-            Timer.Restart();
-            //Timer.Start();
+            Timer.Reset();
+            Timer.Start();
             bIsTimerStarted = true;
 
             return SUCCESS;

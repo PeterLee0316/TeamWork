@@ -562,8 +562,8 @@ namespace LWDicer.Layers
 
         //
         public const int WhileSleepTime         = 10; // while interval time
-        public const int UITimerInterval        = 10; // ui timer interval
-        public const int SimulationSleepTime    = 1000; // simulation sleep time for move
+        public const int UITimerInterval        = 100; // ui timer interval
+        public const int SimulationSleepTime    = 100; // simulation sleep time for move
 
         //
         public const int TRUE                   = 1;
@@ -1354,33 +1354,43 @@ namespace LWDicer.Layers
         /// <summary>
         /// Wafer의 각 공정 단계를 정의해서, 현재까지 진행정도 및 다음 진행방향을 결정하는 용도로 사용
         /// Loader에서 Panel을 빼오며 시작, Loader에 Panel을 다시 적재하며 완료.
+        /// Unit간의 Handshake 동작은 wafer를 소유하고 있는 unit기준으로 작성
         /// </summary>
         public enum EProcessPhase
         {
-            PUSHPULL_LOAD_FROM_LOADER,
+            PUSHPULL_LOAD_FROM_LOADER,      // = 0
+
             PUSHPULL_UNLOAD_TO_COATER,
             COATER_LOAD,
+            PRE_COATING,
             COATING,
-            COATER_UNLOAD,
-            PUSHPULL_LOAD_FROM_COATER,
+            POST_COATING,                   // = 5
+            COATER_WAIT_UNLOAD,
+            COATER_UNLOAD_TO_PUSHPULL,
+
             PUSHPULL_UNLOAD_TO_HANDLER,
-            UPPER_HANDLER_LOAD,
-            UPPER_HANDLER_UNLOAD,
-            STAGE_LOAD,
+            UPPER_HANDLER_WAIT_UNLOAD,
+            UPPER_HANDLER_UNLOAD,           // = 10
+
             MACRO_ALIGN,
             MICRO_ALIGN,
             DICING,
-            STAGE_UNLOAD,
-            LOWER_HANDLER_LOAD,
+            STAGE_WAIT_UNLOAD,
+            STAGE_UNLOAD,                   // = 15
+
+            LOWER_HANDLER_WAIT_UNLOAD,
             LOWER_HANDLER_UNLOAD,
-            PUSHPULL_LOAD_FROM_HANDLER,
+
             PUSHPULL_UNLOAD_TO_CLEANER,
             CLEANER_LOAD,
+            PRE_CLEANING,                   // = 20
             CLEANING,
-            CLEANER_UNLOAD,
-            PUSHPULL_LOAD_FROM_CLEANER,
+            POST_CLEANING,
+            CLEANER_WAIT_UNLOAD,
+            CLEANER_UNLOAD_TO_PUSHPULL,
+
             PUSHPULL_UNLOAD_TO_LOADER,
-            MAX,
+            MAX,                            // = 26
         }
 
         public class CProcessTime
@@ -1417,8 +1427,9 @@ namespace LWDicer.Layers
 
             public DateTime Time_Created { get; private set; }
             public DateTime Time_LoadFromCassette { get; private set; }
-            public DateTime Time_LoadToCassette { get; private set; }
+            public DateTime Time_UnloadToCassette { get; private set; }
 
+            // 각 공정 단계의 완료 여부 및 걸린 시간을 기록
             public CProcessTime[] ProcessTime = new CProcessTime[(int)EProcessPhase.MAX];
             public bool[] ProcessFinished = new bool[(int)EProcessPhase.MAX];
 
@@ -1427,11 +1438,9 @@ namespace LWDicer.Layers
                 Init();
             }
 
-            public void Init(bool bGenerateID = false)
+            public void Init()
             {
-                if (bGenerateID == false) ID = "";
-                else GenerateID();
-
+                ID = "";
                 for (int i = 0; i < ProcessTime.Length; i++)
                 {
                     ProcessFinished[i] = false;
@@ -1439,50 +1448,59 @@ namespace LWDicer.Layers
                 }
             }
 
-            public void GenerateID()
+            public void GenerateID(string str = "")
             {
                 Time_Created = DateTime.Now;
-                ID = Time_Created.ToString("yyyy-MM-dd HH:mm:ss");
+                ID = Time_Created.ToString("yyyy-MM-dd HH:mm:ss") + str;
             }
 
-            public void LoadFromCassette()
+            private void LoadFromCassette()
             {
                 Time_LoadFromCassette = DateTime.Now;
             }
 
-            public void LoadToCassette()
+            private void UnloadToCassette()
             {
-                Time_LoadToCassette = DateTime.Now;
-    }
+                Time_UnloadToCassette = DateTime.Now;
+            }
 
             public void StartPhase(EProcessPhase phase)
             {
+                // 처음 작업을 시작하는 경우 id 초기화 및 작업 시작 시간 기록
+                if(phase == EProcessPhase.PUSHPULL_LOAD_FROM_LOADER)
+                {
+                    LoadFromCassette();
+                }
                 ProcessFinished[(int)phase] = false;
                 ProcessTime[(int)phase].StartPhase();
             }
 
             public void FinishPhase(EProcessPhase phase)
             {
+                // 마지막 작업을 마무리한 경우, 작업 종료 시간 기록
+                if (phase == EProcessPhase.PUSHPULL_LOAD_FROM_LOADER)
+                {
+                    LoadFromCassette();
+                } else if (phase == EProcessPhase.PUSHPULL_UNLOAD_TO_LOADER)
+                {
+                    UnloadToCassette();
+                }
+
                 ProcessFinished[(int)phase] = true;
                 ProcessTime[(int)phase].FinishPhase();
             }
 
-            public void GetNextPhase(out EProcessPhase phase)
-            {
-                phase = EProcessPhase.PUSHPULL_LOAD_FROM_LOADER;
-                for (int i = 0; i < (int)EProcessPhase.MAX; i++)
-                {
-                    if (ProcessFinished[i] == false) phase = EProcessPhase.PUSHPULL_LOAD_FROM_LOADER + i;
-                }
-            }
-
-            public int GetNextPhase()
+            public EProcessPhase GetNextPhase()
             {
                 for (int i = 0; i < (int)EProcessPhase.MAX; i++)
                 {
-                    if (ProcessFinished[i] == false) return i;
+                    if (ProcessFinished[i] == false)
+                    {
+                        EProcessPhase cnvt = (EProcessPhase)Enum.Parse(typeof(EProcessPhase), i.ToString());
+                        return cnvt;
+                    }
                 }
-                return (int)EProcessPhase.PUSHPULL_LOAD_FROM_LOADER;
+                return EProcessPhase.PUSHPULL_LOAD_FROM_LOADER;
             }
         }
     }
@@ -1542,14 +1560,16 @@ namespace LWDicer.Layers
         }
 
         // Thread Run
-        public const int ThreadSleepTime     = 10;
-        public const int ThreadSuspendedTime = 100;
+        public const int ThreadSleepTime     = 10;          // millisecond
+        public const int ThreadSuspendedTime = 100;         // millisecond
+        public const int ThreadInterfaceTime = 10 * 1000;   // millisecond
 
         /// <summary>
         /// initialize thread unit index
         /// </summary>
-        public enum EInitiableUnit
+        public enum EThreadUnit
         {
+            AUTOMANAGER,    // automanager는 실제로 일은 하지 않지만 연관되는 것들때문에..
             LOADER,
             SPINNER1,
             SPINNER2,
@@ -1571,8 +1591,279 @@ namespace LWDicer.Layers
             SCANNER,
             MAX,
         }
-        
 
+        /// <summary>
+        /// Spinner Index이나 DEF_CtrlSpinner 보다는 DEF_Thread에 선언하는게 맞음
+        /// </summary>
+        public enum ESpinnerIndex
+        {
+            SPINNER1,
+            SPINNER2,
+            MAX,
+        }
+
+
+        /// <summary>
+        /// Thread 사이의 interface 통신을 위해 사용하는 class
+        /// </summary>
+        public class CThreadInterface
+        {
+            // Common
+            public int TimeLimit = 3000 * 1000;       // millisecond, interface time limit
+            public int TimeKeepOn = 1 * 1000;       // millisecond, interface에서 마지막 신호의 유지 시간
+
+            // handshake 도중에 상대편에게서 에러가 발생했을때 굳이 interface time limit까지 기다리지 않고 바로 나가기 위해서
+            // 상대편의 에러만 체크하는것은, 다른에러에는 반응하지 않고 handshake를 마무리 짓기 위해서임
+            public bool[] ErrorOccured = new bool[(int)EThreadUnit.MAX];
+
+            // interface time limit over
+            public bool[] TimeOver = new bool[(int)EThreadUnit.MAX];
+
+            // Message Format : Sender_Receiver_Message
+
+            //////////////////////////////////////////////////////////////////////////////////
+            // TrsLoader Message
+            // with PushPull
+            public bool Loader_PushPull_WaitBeginLoading      ; // unused
+            public bool Loader_PushPull_BeginHandshake_Load   ; // begin handshake
+            public bool Loader_PushPull_LoadStep1             ; // move to load
+            public bool Loader_PushPull_LoadStep2             ; // vacuum absorb
+            public bool Loader_PushPull_FinishHandshake_Load  ; // finish handshake
+
+            public bool Loader_PushPull_WaitBeginUnloding     ; // unused
+            public bool Loader_PushPull_BeginHandshake_Unload ; // begin handshake
+            public bool Loader_PushPull_UnloadStep1           ; // move to unload
+            public bool Loader_PushPull_UnloadStep2           ; // vacuum release
+            public bool Loader_PushPull_FinishHandshake_Unload; // finish handshake
+
+            //////////////////////////////////////////////////////////////////////////////////
+            // TrsPushPull Message
+            // with Loader
+            public bool PushPull_Loader_BeginHandshake_Load   ; // begin handshake
+            public bool PushPull_Loader_LoadStep1             ; // move to load, vacuum absorb
+            public bool PushPull_Loader_LoadStep2             ; // move to wait
+            public bool PushPull_Loader_FinishHandshake_Load  ; // finish handshake
+
+            public bool PushPull_Loader_BeginHandshake_Unload ; // begin handshake
+            public bool PushPull_Loader_UnloadStep1           ; // move to unload
+            public bool PushPull_Loader_UnloadStep2           ; // vacuum release, move to wait
+            public bool PushPull_Loader_FinishHandshake_Unload; // finish handshake
+
+            // with Spinner
+            public bool[] PushPull_Spinner_BeginHandshake_Load    = new bool[(int)ESpinnerIndex.MAX]; // begin handshake
+            public bool[] PushPull_Spinner_LoadStep1              = new bool[(int)ESpinnerIndex.MAX]; // move to load, guide open
+            public bool[] PushPull_Spinner_LoadStep2              = new bool[(int)ESpinnerIndex.MAX]; // guide close
+            public bool[] PushPull_Spinner_FinishHandshake_Load   = new bool[(int)ESpinnerIndex.MAX]; // finish handshake
+                       
+            public bool[] PushPull_Spinner_BeginHandshake_Unload  = new bool[(int)ESpinnerIndex.MAX]; // begin handshake
+            public bool[] PushPull_Spinner_UnloadStep1            = new bool[(int)ESpinnerIndex.MAX]; // move to unload
+            public bool[] PushPull_Spinner_UnloadStep2            = new bool[(int)ESpinnerIndex.MAX]; // guide open
+            public bool[] PushPull_Spinner_FinishHandshake_Unload = new bool[(int)ESpinnerIndex.MAX]; // finish handshake
+
+            // with Handler
+            public bool PushPull_Handler_BeginHandshake_Load    ; // begin handshake
+            public bool PushPull_Handler_LoadStep1              ; // move to load, guide open
+            public bool PushPull_Handler_LoadStep2              ; // guide close
+            public bool PushPull_Handler_FinishHandshake_Load   ; // finish handshake
+
+            public bool PushPull_Handler_BeginHandshake_Unload  ; // begin handshake
+            public bool PushPull_Handler_UnloadStep1            ; // move to unload
+            public bool PushPull_Handler_UnloadStep2            ; // guide open
+            public bool PushPull_Handler_FinishHandshake_Unload ; // finish handshake
+
+            //////////////////////////////////////////////////////////////////////////////////
+            // TrsSpinner Message
+            // with PushPull
+            public bool[] Spinner_PushPull_WaitBeginLoading       = new bool[(int)ESpinnerIndex.MAX]; // unused
+            public bool[] Spinner_PushPull_BeginHandshake_Load    = new bool[(int)ESpinnerIndex.MAX]; // begin handshake
+            public bool[] Spinner_PushPull_LoadStep1              = new bool[(int)ESpinnerIndex.MAX]; // move to load
+            public bool[] Spinner_PushPull_LoadStep2              = new bool[(int)ESpinnerIndex.MAX]; // vacuum absorb
+            public bool[] Spinner_PushPull_FinishHandshake_Load   = new bool[(int)ESpinnerIndex.MAX]; // finish handshake
+                       
+            public bool[] Spinner_PushPull_WaitBeginUnloding      = new bool[(int)ESpinnerIndex.MAX]; // unused
+            public bool[] Spinner_PushPull_BeginHandshake_Unload  = new bool[(int)ESpinnerIndex.MAX]; // begin handshake
+            public bool[] Spinner_PushPull_UnloadStep1            = new bool[(int)ESpinnerIndex.MAX]; // move to unload
+            public bool[] Spinner_PushPull_UnloadStep2            = new bool[(int)ESpinnerIndex.MAX]; // vacuum release, move to wait
+            public bool[] Spinner_PushPull_FinishHandshake_Unload = new bool[(int)ESpinnerIndex.MAX]; // finish handshake
+
+            //////////////////////////////////////////////////////////////////////////////////
+            // TrsHandler Message
+            // with PushPull
+            public bool Handler_PushPull_WaitBeginLoading       ; // unused
+            public bool Handler_PushPull_BeginHandshake_Load    ; // begin handshake
+            public bool Handler_PushPull_LoadStep1              ; // move to load, vacuum absorb
+            public bool Handler_PushPull_LoadStep2              ; // move to wait
+            public bool Handler_PushPull_FinishHandshake_Load   ; // finish handshake
+
+            public bool Handler_PushPull_WaitBeginUnloding      ; // unused
+            public bool Handler_PushPull_BeginHandshake_Unload  ; // begin handshake
+            public bool Handler_PushPull_UnloadStep1            ; // move to unload
+            public bool Handler_PushPull_UnloadStep2            ; // vacuum release, move to wait
+            public bool Handler_PushPull_FinishHandshake_Unload ; // finish handshake
+
+            // with Stage1
+            public bool Handler_Stage1_WaitBeginLoading         ; // unused
+            public bool Handler_Stage1_BeginHandshake_Load      ; // begin handshake
+            public bool Handler_Stage1_LoadStep1                ; // move to load, vacuum absorb
+            public bool Handler_Stage1_LoadStep2                ; // move to wait
+            public bool Handler_Stage1_FinishHandshake_Load     ; // finish handshake
+
+            public bool Handler_Stage1_WaitBeginUnloding        ; // unused
+            public bool Handler_Stage1_BeginHandshake_Unload    ; // begin handshake
+            public bool Handler_Stage1_UnloadStep1              ; // move to unload
+            public bool Handler_Stage1_UnloadStep2              ; // vacuum release, move to wait
+            public bool Handler_Stage1_FinishHandshake_Unload   ; // finish handshake
+
+            //////////////////////////////////////////////////////////////////////////////////
+            // TrsStage Message
+            // with Handler
+            public bool Stage1_Handler_BeginHandshake_Load      ; // begin handshake
+            public bool Stage1_Handler_LoadStep1                ; // move to load
+            public bool Stage1_Handler_LoadStep2                ; // vacuum absorb
+            public bool Stage1_Handler_FinishHandshake_Load     ; // finish handshake
+
+            public bool Stage1_Handler_BeginHandshake_Unload    ; // begin handshake
+            public bool Stage1_Handler_UnloadStep1              ; // move to unload
+            public bool Stage1_Handler_UnloadStep2              ; // vacuum release
+            public bool Stage1_Handler_FinishHandshake_Unload   ; // finish handshake
+
+            public void ResetInterface(int selfAddr)
+            {
+                ErrorOccured[selfAddr] = false;
+                TimeOver[selfAddr] = false;
+
+                EThreadUnit cnvt = (EThreadUnit)Enum.Parse(typeof(EThreadUnit), selfAddr.ToString());
+                switch(cnvt)
+                {
+                    case EThreadUnit.AUTOMANAGER:
+                        break ;
+
+                    case EThreadUnit.LOADER:
+                        Loader_PushPull_WaitBeginLoading                                     = false;
+                        Loader_PushPull_BeginHandshake_Load                                  = false;
+                        Loader_PushPull_LoadStep1                                            = false;
+                        Loader_PushPull_LoadStep2                                            = false;
+                        Loader_PushPull_FinishHandshake_Load                                 = false;
+
+                        Loader_PushPull_WaitBeginUnloding                                    = false;
+                        Loader_PushPull_BeginHandshake_Unload                                = false;
+                        Loader_PushPull_UnloadStep1                                          = false;
+                        Loader_PushPull_UnloadStep2                                          = false;
+                        Loader_PushPull_FinishHandshake_Unload                               = false;
+                        break;
+
+                    case EThreadUnit.PUSHPULL:
+                        PushPull_Loader_BeginHandshake_Load                                  = false;
+                        PushPull_Loader_LoadStep1                                            = false;
+                        PushPull_Loader_LoadStep2                                            = false;
+                        PushPull_Loader_FinishHandshake_Load                                 = false;
+
+                        PushPull_Loader_BeginHandshake_Unload                                = false;
+                        PushPull_Loader_UnloadStep1                                          = false;
+                        PushPull_Loader_UnloadStep2                                          = false;
+                        PushPull_Loader_FinishHandshake_Unload                               = false;
+
+                        // with Spinner1
+                        PushPull_Spinner_BeginHandshake_Load[(int)ESpinnerIndex.SPINNER1]    = false;
+                        PushPull_Spinner_LoadStep1[(int)ESpinnerIndex.SPINNER1]              = false;
+                        PushPull_Spinner_LoadStep2[(int)ESpinnerIndex.SPINNER1]              = false;
+                        PushPull_Spinner_FinishHandshake_Load[(int)ESpinnerIndex.SPINNER1]   = false;
+
+                        PushPull_Spinner_BeginHandshake_Unload[(int)ESpinnerIndex.SPINNER1]  = false;
+                        PushPull_Spinner_UnloadStep1[(int)ESpinnerIndex.SPINNER1]            = false;
+                        PushPull_Spinner_UnloadStep2[(int)ESpinnerIndex.SPINNER1]            = false;
+                        PushPull_Spinner_FinishHandshake_Unload[(int)ESpinnerIndex.SPINNER1] = false;
+
+                        // with Spinner2
+                        PushPull_Spinner_BeginHandshake_Load[(int)ESpinnerIndex.SPINNER2]    = false;
+                        PushPull_Spinner_LoadStep1[(int)ESpinnerIndex.SPINNER2]              = false;
+                        PushPull_Spinner_LoadStep2[(int)ESpinnerIndex.SPINNER2]              = false;
+                        PushPull_Spinner_FinishHandshake_Load[(int)ESpinnerIndex.SPINNER2]   = false;
+
+                        PushPull_Spinner_BeginHandshake_Unload[(int)ESpinnerIndex.SPINNER2]  = false;
+                        PushPull_Spinner_UnloadStep1[(int)ESpinnerIndex.SPINNER2]            = false;
+                        PushPull_Spinner_UnloadStep2[(int)ESpinnerIndex.SPINNER2]            = false;
+                        PushPull_Spinner_FinishHandshake_Unload[(int)ESpinnerIndex.SPINNER2] = false;
+
+                        // with Handler
+                        PushPull_Handler_BeginHandshake_Load                                 = false;
+                        PushPull_Handler_LoadStep1                                           = false;
+                        PushPull_Handler_LoadStep2                                           = false;
+                        PushPull_Handler_FinishHandshake_Load                                = false;
+
+                        PushPull_Handler_BeginHandshake_Unload                               = false;
+                        PushPull_Handler_UnloadStep1                                         = false;
+                        PushPull_Handler_UnloadStep2                                         = false;
+                        PushPull_Handler_FinishHandshake_Unload                              = false;
+                        break;
+
+                    case EThreadUnit.SPINNER1:
+                        PushPull_Spinner_BeginHandshake_Load[(int)ESpinnerIndex.SPINNER1]    = false;
+                        PushPull_Spinner_LoadStep1[(int)ESpinnerIndex.SPINNER1]              = false;
+                        PushPull_Spinner_LoadStep2[(int)ESpinnerIndex.SPINNER1]              = false;
+                        PushPull_Spinner_FinishHandshake_Load[(int)ESpinnerIndex.SPINNER1]   = false;
+
+                        PushPull_Spinner_BeginHandshake_Unload[(int)ESpinnerIndex.SPINNER1]  = false;
+                        PushPull_Spinner_UnloadStep1[(int)ESpinnerIndex.SPINNER1]            = false;
+                        PushPull_Spinner_UnloadStep2[(int)ESpinnerIndex.SPINNER1]            = false;
+                        PushPull_Spinner_FinishHandshake_Unload[(int)ESpinnerIndex.SPINNER1] = false;
+                        break;
+
+                    case EThreadUnit.SPINNER2:
+                        PushPull_Spinner_BeginHandshake_Load[(int)ESpinnerIndex.SPINNER2]    = false;
+                        PushPull_Spinner_LoadStep1[(int)ESpinnerIndex.SPINNER2]              = false;
+                        PushPull_Spinner_LoadStep2[(int)ESpinnerIndex.SPINNER2]              = false;
+                        PushPull_Spinner_FinishHandshake_Load[(int)ESpinnerIndex.SPINNER2]   = false;
+
+                        PushPull_Spinner_BeginHandshake_Unload[(int)ESpinnerIndex.SPINNER2]  = false;
+                        PushPull_Spinner_UnloadStep1[(int)ESpinnerIndex.SPINNER2]            = false;
+                        PushPull_Spinner_UnloadStep2[(int)ESpinnerIndex.SPINNER2]            = false;
+                        PushPull_Spinner_FinishHandshake_Unload[(int)ESpinnerIndex.SPINNER2] = false;
+                        break;
+
+                    case EThreadUnit.HANDLER:
+                        // with PushPull
+                        Handler_PushPull_WaitBeginLoading                                    = false;
+                        Handler_PushPull_BeginHandshake_Load                                 = false;
+                        Handler_PushPull_LoadStep1                                           = false;
+                        Handler_PushPull_LoadStep2                                           = false;
+                        Handler_PushPull_FinishHandshake_Load                                = false;
+
+                        Handler_PushPull_WaitBeginUnloding                                   = false;
+                        Handler_PushPull_BeginHandshake_Unload                               = false;
+                        Handler_PushPull_UnloadStep1                                         = false;
+                        Handler_PushPull_UnloadStep2                                         = false;
+                        Handler_PushPull_FinishHandshake_Unload                              = false;
+
+                        // with Stage1
+                        Handler_Stage1_WaitBeginLoading                                      = false;
+                        Handler_Stage1_BeginHandshake_Load                                   = false;
+                        Handler_Stage1_LoadStep1                                             = false;
+                        Handler_Stage1_LoadStep2                                             = false;
+                        Handler_Stage1_FinishHandshake_Load                                  = false;
+
+                        Handler_Stage1_WaitBeginUnloding                                     = false;
+                        Handler_Stage1_BeginHandshake_Unload                                 = false;
+                        Handler_Stage1_UnloadStep1                                           = false;
+                        Handler_Stage1_UnloadStep2                                           = false;
+                        Handler_Stage1_FinishHandshake_Unload                                = false;
+                        break;
+
+                    case EThreadUnit.STAGE1:
+                        // with Handler
+                        Stage1_Handler_BeginHandshake_Load                                   = false;
+                        Stage1_Handler_LoadStep1                                             = false;
+                        Stage1_Handler_LoadStep2                                             = false;
+                        Stage1_Handler_FinishHandshake_Load                                  = false;
+
+                        Stage1_Handler_BeginHandshake_Unload                                 = false;
+                        Stage1_Handler_UnloadStep1                                           = false;
+                        Stage1_Handler_UnloadStep2                                           = false;
+                        Stage1_Handler_FinishHandshake_Unload                                = false;                           
+                        break;
+                }
+            }
+        }
 
         // Common Thread Message inter Threads
         public enum EThreadMessage
@@ -1621,34 +1912,38 @@ namespace LWDicer.Layers
             // MSQ_SENDER_RECEIVER_ + if REQUEST : request Receiver do something
             // MSQ_SENDER_RECEIVER_ + verb : tell Receiver that Sender has done something
 
-            // TrsLoader Message
-            MSG_LOADER_PUSHPULL_WAIT_LOADING_START = 100,
-            MSG_LOADER_PUSHPULL_START_LOADING,
-            MSG_LOADER_PUSHPULL_COMPLETE_LOADING,
-            MSG_LOADER_PUSHPULL_WAIT_UNLOADING_START,
-            MSG_LOADER_PUSHPULL_START_UNLOADING,
-            MSG_LOADER_PUSHPULL_COMPLETE_UNLOADING,
-            MSG_LOADER_PUSHPULL_ALL_WAFER_WORKED,
-            MSG_LOADER_PUSHPULL_STACKS_FULL,
+                                                                // TrsLoader Message
+            MSG_LOADER_PUSHPULL_WAIT_LOADING_START = 100,       // wafer : P -> L unused
+            MSG_LOADER_PUSHPULL_READY_LOADING,                  // wafer : P -> L ready load, begin handshake
+            MSG_LOADER_PUSHPULL_LOAD_COMPLETE,                  // wafer : P -> L vacuum & do something 완료
+            MSG_LOADER_PUSHPULL_FINISH_LOADING,                 // wafer : P -> L move to wait, finish handshake
+
+            MSG_LOADER_PUSHPULL_WAIT_UNLOADING_START,           // wafer : L -> P unused
+            MSG_LOADER_PUSHPULL_READY_UNLOADING,                // wafer : L -> P ready unload, begin handshake
+            MSG_LOADER_PUSHPULL_UNLOAD_COMPLETE,                // wafer : L -> P vacuum & do something 완료
+            MSG_LOADER_PUSHPULL_FINISH_UNLOADING,               // wafer : L -> P move to wait, finish handshake
+
+            MSG_LOADER_PUSHPULL_ALL_WAFER_WORKED,               // -> MainFrame : All wafer are worked
+            MSG_LOADER_PUSHPULL_STACKS_FULL,                    // -> MainFrame : 
 
 
-            // TrsPushPull Message
-            MSG_PUSHPULL_LOADER_REQUEST_UNLOADING = 200,    // wafer : L -> P
-            MSG_PUSHPULL_LOADER_START_LOADING,              // wafer : L -> P
-            MSG_PUSHPULL_LOADER_COMPLETE_LOADING,           // wafer : L -> P
-            MSG_PUSHPULL_LOADER_REQUEST_LOADING,            // wafer : P -> L
-            MSG_PUSHPULL_LOADER_START_UNLOADING,            // wafer : P -> L
-            MSG_PUSHPULL_LOADER_COMPLETE_UNLOADING,         // wafer : P -> L
+                                                                // TrsPushPull Message
+            MSG_PUSHPULL_LOADER_REQUEST_UNLOADING = 200,        // wafer : L -> P begin handshake
+            MSG_PUSHPULL_LOADER_READY_LOAD,                     // wafer : L -> P move to load
+            MSG_PUSHPULL_LOADER_FINISH_LOADING,                 // wafer : L -> P vacuum & move to wait, finish handshake
+            MSG_PUSHPULL_LOADER_REQUEST_LOADING,                // wafer : P -> L begin handshake
+            MSG_PUSHPULL_LOADER_READY_UNLOAD,                   // wafer : P -> L move to unload
+            MSG_PUSHPULL_LOADER_FINISH_UNLOADING,               // wafer : P -> L vacuum & move to wait, finish handshake
 
-            MSG_PUSHPULL_SPINNER_REQUEST_LOADING,          // wafer : P -> C
-            MSG_PUSHPULL_SPINNER_START_UNLOADING,          // wafer : P -> C
-            MSG_PUSHPULL_SPINNER_COMPLETE_UNLOADING,       // wafer : P -> C
-            MSG_PUSHPULL_SPINNER_READY_LOADING,            // wafer : C -> P
-            MSG_PUSHPULL_SPINNER_START_LOADING,            // wafer : C -> P
-            MSG_PUSHPULL_SPINNER_COMPLETE_LOADING,         // wafer : C -> P
-            MSG_PUSHPULL_SPINNER_DO_PRE_CLEANING,          // request do pre cleanign
-            MSG_PUSHPULL_SPINNER_DO_COATING,               // request do coating
-            MSG_PUSHPULL_SPINNER_DO_POST_CLEANING,         // request do post cleaning
+            MSG_PUSHPULL_SPINNER_REQUEST_LOADING,               // wafer : P -> C
+            MSG_PUSHPULL_SPINNER_START_UNLOADING,               // wafer : P -> C
+            MSG_PUSHPULL_SPINNER_COMPLETE_UNLOADING,            // wafer : P -> C
+            MSG_PUSHPULL_SPINNER_READY_LOADING,                 // wafer : C -> P
+            MSG_PUSHPULL_SPINNER_START_LOADING,                 // wafer : C -> P
+            MSG_PUSHPULL_SPINNER_COMPLETE_LOADING,              // wafer : C -> P
+            MSG_PUSHPULL_SPINNER_DO_PRE_CLEANING,               // request do pre cleanign
+            MSG_PUSHPULL_SPINNER_DO_COATING,                    // request do coating
+            MSG_PUSHPULL_SPINNER_DO_POST_CLEANING,              // request do post cleaning
 
             MSG_PUSHPULL_UPPER_HANDLER_REQUEST_LOADING,         // wafer : P -> H
             MSG_PUSHPULL_UPPER_HANDLER_START_UNLOADING,         // wafer : P -> H
@@ -1660,7 +1955,7 @@ namespace LWDicer.Layers
             MSG_PUSHPULL_LOWER_HANDLER_ABSORB_COMPLETE,         // wafer : H -> P
             MSG_PUSHPULL_LOWER_HANDLER_COMPLETE_LOADING,        // wafer : H -> P
 
-            // TrsSpinner Message
+                                                                // TrsSpinner Message
             MSG_SPINNER_PUSHPULL_WAIT_LOADING_START = 300,
             MSG_SPINNER_PUSHPULL_START_LOADING,
             MSG_SPINNER_PUSHPULL_COMPLETE_LOADING,
@@ -1668,11 +1963,11 @@ namespace LWDicer.Layers
             MSG_SPINNER_PUSHPULL_START_UNLOADING,
             MSG_SPINNER_PUSHPULL_COMPLETE_UNLOADING,
 
-            // TrsHandler Message
+                                                                // TrsHandler Message
             MSG_LOWER_HANDLER_PUSHPULL_WAIT_UNLOADING_START = 400,
             MSG_LOWER_HANDLER_PUSHPULL_START_UNLOADING,
             MSG_LOWER_HANDLER_PUSHPULL_REQUEST_ABSORB,
-            MSG_LOWER_HANDLER_PUSHPULL_COMPLETE_UNLOADING,
+            MSG_LOWER_HANDLER_PUSHPULL_COMPLETE_UNLOADING,      // 
             MSG_LOWER_HANDLER_STAGE1_WAIT_LOADING_START,
             MSG_LOWER_HANDLER_STAGE1_START_LOADING,
             MSG_LOWER_HANDLER_STAGE1_REQUEST_RELEASE,
@@ -1752,9 +2047,12 @@ namespace LWDicer.Layers
             WM_DISP_REPORT_AUTO_UV_CHECK,
         }
 
-        // TrsLoader Step
-        public enum ETrsLoaderStep
+        public enum EThreadStep
         {
+            STEP_NONE = -1,
+            ///////////////////////////////////////////////////////////////////
+            // TrsLoader Step
+            ///////////////////////////////////////////////////////////////////
             //
             TRS_LOADER_WAITFOR_MESSAGE,
 
@@ -1767,149 +2065,225 @@ namespace LWDicer.Layers
             TRS_LOADER_READY_UNLOAD_CASSETTE,
             TRS_LOADER_WAITFOR_CASSETTE_REMOVED,
 
-            // process with pushpull
-            TRS_LOADER_READY_UNLOADING_WAFER,
-            TRS_LOADER_WAITFOR_PUSHPULL_START_LOADING,
-            TRS_LOADER_UNLOAD_WAFER,
-            TRS_LOADER_WAITFOR_PUSHPULL_COMPLETE_LOADING,
+            // process load with pushpull
+            TRS_LOADER_LOADING_FROM_PUSHPULL_ONESTEP,       // handshake by one step
 
-            TRS_LOADER_READY_LOADING_WAFER,
-            TRS_LOADER_WAITFOR_PUSHPULL_START_UNLOADING,
-            TRS_LOADER_LOAD_WAFER,
-            TRS_LOADER_WAITFOR_PUSHPULL_COMPLETE_UNLOADING,
-        }
+            TRS_LOADER_BEGIN_LOADING_FROM_PUSHPULL,         // wait for handshake signal, send begin handshake
+            TRS_LOADER_LOAD_STEP1_FROM_PUSHPULL,            // move to load pos, send load ready signal
+            TRS_LOADER_WAITFOR_PUSHPULL_UNLOAD_STEP1,       // wait for response signal
+            TRS_LOADER_LOAD_STEP2_FROM_PUSHPULL,         // vacuum absorb, send load complete signal
+            TRS_LOADER_WAITFOR_PUSHPULL_UNLOAD_STEP2,    // wait for response signal
+            TRS_LOADER_FINISH_LOADING_FROM_PUSHPULL,        // send finish handshake signal
+            TRS_LOADER_WAITFOR_PUSHPULL_FINISH_UNLOAD,      // wait for handshake response
 
-        // TrsPushPull Step
-        public enum ETrsPushPullStep
-        {
+            // process unload with pushpull
+            TRS_LOADER_UNLOADING_TO_PUSHPULL_ONESTEP,       // handshake by one step
+
+            TRS_LOADER_BEGIN_UNLOADING_TO_PUSHPULL,         // wait for handshake signal, send begin handshake
+            TRS_LOADER_UNLOAD_STEP1_TO_PUSHPULL,            // move to unload pos, send unload ready signal
+            TRS_LOADER_WAITFOR_PUSHPULL_LOAD_STEP1,         // wait for response signal
+            TRS_LOADER_UNLOAD_STEP2_TO_PUSHPULL,         // vacuum release, send unload complete signal
+            TRS_LOADER_WAITFOR_PUSHPULL_LOAD_STEP2,      // wait for response signal
+            TRS_LOADER_FINISH_UNLOADING_TO_PUSHPULL,        // send finish handshake signal
+            TRS_LOADER_WAITFOR_PUSHPULL_FINISH_LOAD,        // wait for handshake response
+
+            ///////////////////////////////////////////////////////////////////
+            // TrsPushPull Step
+            ///////////////////////////////////////////////////////////////////
             TRS_PUSHPULL_MOVETO_WAIT_POS,
             TRS_PUSHPULL_WAITFOR_MESSAGE,
 
-            ///////////////////////////////////////////////////////////////////
-            // with loader // wafer : loader -> pushpull                  
-            TRS_PUSHPULL_STARTING_LOADING_FROM_LOADER,      // move to load pos
-            TRS_PUSHPULL_PRE_LOADING_FROM_LOADER,           // extend guide, send load ready signal
-            TRS_PUSHPULL_WAITFOR_LOADER_UNLOAD_READY,       // wait for respense signal
-            TRS_PUSHPULL_LOADING_FROM_LOADER,               // withdraw guide, send vacuum complete signal
-            TRS_PUSHPULL_WAITFOR_LOADER_UNLOAD_COMPLETE,    // wait for respense signal
-            TRS_PUSHPULL_FINISHING_LOADING_FROM_LOADER,     // move to wait pos, send load complete signal
+            // process load with loader
+            TRS_PUSHPULL_LOADING_FROM_LOADER_ONESTEP,       // handshake by one step
 
-            ///////////////////////////////////////////////////////////////////
-            // with loader // wafer : pushpull -> loader                  
-            TRS_PUSHPULL_STARTING_UNLOADING_TO_LOADER,      // move to unload pos
-            TRS_PUSHPULL_REQUEST_LOADER_LOADING,            // send load request signal
-            TRS_PUSHPULL_WAITFOR_LOADER_LOAD_READY,         // wait for respense signal
-            TRS_PUSHPULL_UNLOADING_TO_LOADER,               // extend guide, send vacuum complete signal
-            TRS_PUSHPULL_WAITFOR_LOADER_LOAD_COMPLETE,      // wait for respense signal
-            TRS_PUSHPULL_FINISHING_UNLOADING_TO_LOADER,     // move to wait pos, send unload complete signal
+            TRS_PUSHPULL_BEGIN_LOADING_FROM_LOADER,         // send begin handshake signal
+            TRS_PUSHPULL_WAITFOR_LOADER_BEGIN_UNLOAD,       // wait for handshake response
+            TRS_PUSHPULL_WAITFOR_LOADER_UNLOAD_STEP1,       // wait for response signal
+            TRS_PUSHPULL_LOAD_STEP1_FROM_LOADER,            // move to load pos, vacuum absorb, send load ready signal
+            TRS_PUSHPULL_WAITFOR_LOADER_UNLOAD_STEP2,       // wait for response signal
+            TRS_PUSHPULL_LOAD_STEP2_FROM_LOADER,            // move to wait pos, send load complete signal
+            TRS_PUSHPULL_WAITFOR_LOADER_FINISH_UNLOAD,      // wait for handshake response
+            TRS_PUSHPULL_FINISH_LOADING_FROM_LOADER,        // send finish handshake signal
 
-            ///////////////////////////////////////////////////////////////////
-            // with Spinner // wafer : spinner -> pushpull
-            TRS_PUSHPULL_STARTING_LOADING_FROM_SPINNER,     // move to load pos
-            TRS_PUSHPULL_PRE_LOADING_FROM_SPINNER,          // extend guide, send load ready signal
-            TRS_PUSHPULL_WAITFOR_SPINNER_UNLOAD_READY,      // wait for respense signal
-            TRS_PUSHPULL_LOADING_FROM_SPINNER,              // withdraw guide, send vacuum complete signal
-            TRS_PUSHPULL_WAITFOR_SPINNER_UNLOAD_COMPLETE,   // wait for respense signal
-            TRS_PUSHPULL_FINISHING_LOADING_FROM_SPINNER,    // move to wait pos, send load complete signal
+            // process unload with loader
+            TRS_PUSHPULL_UNLOADING_TO_LOADER_ONESTEP,       // handshake by one step
 
-            ///////////////////////////////////////////////////////////////////
-            // with Spinner // wafer : pushpull -> spinner
-            TRS_PUSHPULL_STARTING_UNLOADING_TO_SPINNER,     // move to unload pos
-            TRS_PUSHPULL_REQUEST_SPINNER_LOADING,           // send load request signal
-            TRS_PUSHPULL_WAITFOR_SPINNER_LOAD_READY,        // wait for respense signal
-            TRS_PUSHPULL_UNLOADING_TO_SPINNER,              // extend guide, send vacuum complete signal
-            TRS_PUSHPULL_WAITFOR_SPINNER_LOAD_COMPLETE,     // wait for respense signal
-            TRS_PUSHPULL_FINISHING_UNLOADING_TO_SPINNER,    // move to wait pos, send unload complete signal
+            TRS_PUSHPULL_BEGIN_UNLOADING_TO_LOADER,         // send begin handshake signal
+            TRS_PUSHPULL_WAITFOR_LOADER_BEGIN_LOAD,         // wait for handshake response
+            TRS_PUSHPULL_WAITFOR_LOADER_LOAD_STEP1,         // wait for response signal
+            TRS_PUSHPULL_UNLOAD_STEP1_TO_LOADER,            // move to unload, send unload ready signal
+            TRS_PUSHPULL_WAITFOR_LOADER_LOAD_STEP2,         // wait for response signal
+            TRS_PUSHPULL_UNLOAD_STEP2_TO_LOADER,            // vacuum release, move to wait pos, send unload complete signal
+            TRS_PUSHPULL_WAITFOR_LOADER_FINISH_LOAD,        // wait for handshake response
+            TRS_PUSHPULL_FINISH_UNLOADING_TO_LOADER,        // send finish handshake signal
 
-            ///////////////////////////////////////////////////////////////////
-            // with handler // wafer : handler -> pushpull
-            TRS_PUSHPULL_STARTING_LOADING_FROM_HANDLER,     // move to load pos
+            // process load with spinner1
+            TRS_PUSHPULL_LOADING_FROM_SPINNER1_ONESTEP,     // handshake by one step
+
+            TRS_PUSHPULL_BEGIN_LOADING_FROM_SPINNER1,       // send begin handshake signal
+            TRS_PUSHPULL_WAITFOR_SPINNER1_BEGIN_UNLOAD,     // wait for handshake response
+            TRS_PUSHPULL_LOAD_STEP1_FROM_SPINNER1,          // move to load pos, guide open, send load ready signal
+            TRS_PUSHPULL_WAITFOR_SPINNER1_UNLOAD_STEP1,     // wait for response signal
+            TRS_PUSHPULL_LOAD_STEP2_FROM_SPINNER1,          // guide cloase, send load complete signal
+            TRS_PUSHPULL_WAITFOR_SPINNER1_UNLOAD_STEP2,     // wait for response signal
+            TRS_PUSHPULL_FINISH_LOADING_FROM_SPINNER1,      // send finish handshake signal
+            TRS_PUSHPULL_WAITFOR_SPINNER1_FINISH_UNLOAD,    // wait for handshake response
+
+            // process unload with spinner1
+            TRS_PUSHPULL_UNLOADING_TO_SPINNER1_ONESTEP,     // handshake by one step
+
+            TRS_PUSHPULL_BEGIN_UNLOADING_TO_SPINNER1,       // send begin handshake signal
+            TRS_PUSHPULL_WAITFOR_SPINNER1_BEGIN_LOAD,       // wait for handshake response
+            TRS_PUSHPULL_UNLOAD_STEP1_TO_SPINNER1,          // move to unload, send unload ready signal
+            TRS_PUSHPULL_WAITFOR_SPINNER1_LOAD_STEP1,       // wait for response signal
+            TRS_PUSHPULL_UNLOAD_STEP2_TO_SPINNER1,          // guide open, send unload complete signal
+            TRS_PUSHPULL_WAITFOR_SPINNER1_LOAD_STEP2,       // wait for response signal
+            TRS_PUSHPULL_FINISH_UNLOADING_TO_SPINNER1,      // send finish handshake signal
+            TRS_PUSHPULL_WAITFOR_SPINNER1_FINISH_LOAD,      // wait for handshake response
+
+            // process load with spinner2
+            TRS_PUSHPULL_LOADING_FROM_SPINNER2_ONESTEP,     // handshake by one step
+
+            TRS_PUSHPULL_BEGIN_LOADING_FROM_SPINNER2,       // move to load pos
+            TRS_PUSHPULL_PRE_LOADING_FROM_SPINNER2,         // extend guide, send load ready signal
+            TRS_PUSHPULL_WAITFOR_SPINNER2_UNLOAD_STEP1,     // wait for response signal
+            TRS_PUSHPULL_LOAD_FROM_SPINNER2,                // withdraw guide, send vacuum complete signal
+            TRS_PUSHPULL_WAITFOR_SPINNER2_UNLOAD_STEP2,     // wait for response signal
+            TRS_PUSHPULL_FINISH_LOADING_FROM_SPINNER2,      // move to wait pos, send load complete signal
+
+            // process unload with spinner2
+            TRS_PUSHPULL_UNLOADING_TO_SPINNER2_ONESTEP,     // handshake by one step
+
+            TRS_PUSHPULL_BEGIN_UNLOADING_TO_SPINNER2,       // move to unload pos
+            TRS_PUSHPULL_REQUEST_SPINNER2_LOADING,          // send load request signal
+            TRS_PUSHPULL_WAITFOR_SPINNER2_LOAD_STEP1,       // wait for response signal
+            TRS_PUSHPULL_UNLOAD_TO_SPINNER2,                // extend guide, send vacuum complete signal
+            TRS_PUSHPULL_WAITFOR_SPINNER2_LOAD_STEP2,       // wait for response signal
+            TRS_PUSHPULL_FINISH_UNLOADING_TO_SPINNER2,      // move to wait pos, send unload complete signal
+
+            // process load with handler
+            TRS_PUSHPULL_LOADING_FROM_HANDLER_ONESTEP,      // handshake by one step
+
+            TRS_PUSHPULL_BEGIN_LOADING_FROM_HANDLER,        // move to load pos
             TRS_PUSHPULL_PRE_LOADING_FROM_HANDLER,          // extend guide, send load ready signal
-            TRS_PUSHPULL_WAITFOR_HANDLER_UNLOAD_READY,      // wait for respense signal
-            TRS_PUSHPULL_LOADING_FROM_HANDLER,              // withdraw guide, send vacuum complete signal
-            TRS_PUSHPULL_WAITFOR_HANDLER_UNLOAD_COMPLETE,   // wait for respense signal
-            TRS_PUSHPULL_FINISHING_LOADING_FROM_HANDLER,    // move to wait pos, send load complete signal
+            TRS_PUSHPULL_WAITFOR_HANDLER_UNLOAD_STEP1,      // wait for response signal
+            TRS_PUSHPULL_LOAD_FROM_HANDLER,                 // withdraw guide, send vacuum complete signal
+            TRS_PUSHPULL_WAITFOR_HANDLER_UNLOAD_STEP2,      // wait for response signal
+            TRS_PUSHPULL_FINISH_LOADING_FROM_HANDLER,       // move to wait pos, send load complete signal
+
+            // process unload with handler
+            TRS_PUSHPULL_UNLOADING_TO_HANDLER_ONESTEP,      // handshake by one step
+
+            TRS_PUSHPULL_BEGIN_UNLOADING_TO_HANDLER,        // move to unload pos
+            TRS_PUSHPULL_REQUEST_HANDLER_LOADING,           // send load request signal
+            TRS_PUSHPULL_WAITFOR_HANDLER_LOAD_STEP1,        // wait for response signal
+            TRS_PUSHPULL_UNLOAD_TO_HANDLER,                 // extend guide, send vacuum complete signal
+            TRS_PUSHPULL_WAITFOR_HANDLER_LOAD_STEP2,        // wait for response signal
+            TRS_PUSHPULL_FINISH_UNLOADING_TO_HANDLER,       // move to wait pos, send unload complete signal
 
             ///////////////////////////////////////////////////////////////////
-            // with handler // wafer : pushpull -> handler
-            TRS_PUSHPULL_STARTING_UNLOADING_TO_HANDLER,     // move to unload pos
-            TRS_PUSHPULL_REQUEST_HANDLER_LOADING,           // send load request signal
-            TRS_PUSHPULL_WAITFOR_HANDLER_LOAD_READY,        // wait for respense signal
-            TRS_PUSHPULL_UNLOADING_TO_HANDLER,              // extend guide, send vacuum complete signal
-            TRS_PUSHPULL_WAITFOR_HANDLER_LOAD_COMPLETE,     // wait for respense signal
-            TRS_PUSHPULL_FINISHING_UNLOADING_TO_HANDLER,    // move to wait pos, send unload complete signal
-        }
+            // TrsSpinner Step
+            ///////////////////////////////////////////////////////////////////
+            TRS_SPINNER_MOVETO_WAIT_POS,
+            TRS_SPINNER_WAITFOR_MESSAGE,
 
-        public enum ETrsHandlerStep
-        {
+            // coating
+            TRS_SPINNER_DO_PRE_COAT,               // do work if it is needed.
+            TRS_SPINNER_DO_AFTER_PRE_COAT,
+            TRS_SPINNER_DO_COAT,                    // do work if it is needed.
+            TRS_SPINNER_DO_POST_COAT,
+            TRS_SPINNER_DO_AFTER_POST_COAT,
+
+            // cleaning
+            TRS_SPINNER_DO_PRE_CLEAN,              // do work if it is needed.
+            TRS_SPINNER_DO_AFTER_PRE_CLEAN,
+            TRS_SPINNER_DO_CLEAN,                  // do work if it is needed.
+            TRS_SPINNER_DO_POST_CLEAN,             // do work if it is needed.
+            TRS_SPINNER_DO_AFTER_POST_CLEAN,
+
+            // process load with pushpull
+            TRS_SPINNER_LOADING_FROM_PUSHPULL_ONESTEP,      // handshake by one step
+
+            TRS_SPINNER_BEGIN_LOADING_FROM_PUSHPULL,        // wait for handshake signal, send begin handshake
+            TRS_SPINNER_WAITFOR_PUSHPULL_UNLOAD_STEP1,      // wait for response signal
+            TRS_SPINNER_LOAD_STEP1_FROM_PUSHPULL,           // move to load pos, vacuum absorb, send load ready signal
+            TRS_SPINNER_WAITFOR_PUSHPULL_UNLOAD_STEP2,      // wait for response signal
+            TRS_SPINNER_LOAD_STEP2_FROM_PUSHPULL,           // move to wait pos, send load complete signal
+            TRS_SPINNER_WAITFOR_PUSHPULL_FINISH_UNLOAD,     // wait for handshake response
+            TRS_SPINNER_FINISH_LOADING_FROM_PUSHPULL,       // send finish handshake signal
+
+            // process unload with pushpull
+            TRS_SPINNER_UNLOADING_TO_PUSHPULL_ONESTEP,      // handshake by one step
+
+            TRS_SPINNER_BEGIN_UNLOADING_TO_PUSHPULL,        // wait for handshake signal, send begin handshake
+            TRS_SPINNER_WAITFOR_PUSHPULL_LOAD_STEP1,        // wait for response signal
+            TRS_SPINNER_UNLOAD_STEP1_TO_PUSHPULL,           // move to unload pos, send unload ready signal
+            TRS_SPINNER_WAITFOR_PUSHPULL_LOAD_STEP2,        // wait for response signal
+            TRS_SPINNER_UNLOAD_STEP2_TO_PUSHPULL,           // vacuum release, move to wait pos, send unload complete signal
+            TRS_SPINNER_WAITFOR_PUSHPULL_FINISH_LOAD,       // wait for handshake response
+            TRS_SPINNER_FINISH_UNLOADING_TO_PUSHPULL,       // send finish handshake signal
+
+            ///////////////////////////////////////////////////////////////////
+            // TrsHandler Step
             ///////////////////////////////////////////////////////////////////
             // Upper/Load Handler
             TRS_UPPER_HANDLER_MOVETO_WAIT1,
-            TRS_UPPER_HANDLER_WAIT_MOVETO_LOADING,           // wait for load request signal from pushpull
-            //TRS_UPPER_HANDLER_MOVETO_LOAD_POS,               // move to loading pos
+            TRS_UPPER_HANDLER_WAITFOR_MESSAGE,
+
+            TRS_UPPER_HANDLER_LOADING_FROM_PUSHPULL_ONESTEP, // handshake by one step
+            TRS_UPPER_HANDLER_MOVETO_LOAD_POS,             // move to loading pos
             TRS_UPPER_HANDLER_LOADING,                       // absorb object
-            TRS_UPPER_HANDLER_WAITFOR_PUSHPULL_UNLOAD_COMPLETE, //
-            //TRS_UPPER_HANDLER_MOVETO_LOAD_UP_POS,            // after move up, send load complete signal to pushpull
+            TRS_UPPER_HANDLER_WAITFOR_PUSHPULL_UNLOAD_STEP2, //
+            //TRS_UPPER_HANDLER_MOVETO_LOAD_UP_POS,          // after move up, send load complete signal to pushpull
+
             TRS_UPPER_HANDLER_MOVETO_WAIT2,
 
-            TRS_UPPER_HANDLER_WAIT_MOVETO_UNLOADING,         // wait for unload request signal from stage
+            TRS_UPPER_HANDLER_UNLOADING_TO_STAGE_ONESTEP,       // handshake by one step
             TRS_UPPER_HANDLER_MOVETO_UNLOAD_POS,
             TRS_UPPER_HANDLER_REQUEST_STAGE_LOADING,         // request stage to vacuum absorb
             TRS_UPPER_HANDLER_UNLOADING,                     // after vacuum release + move up, send unload complete signal to stage
 
-            ///////////////////////////////////////////////////////////////////
             // Lower/Unload Handler
             TRS_LOWER_HANDLER_MOVETO_WAIT1,
-            TRS_LOWER_HANDLER_WAIT_MOVETO_LOADING,           // wait for load request signal from stage
+            TRS_LOWER_HANDLER_WAITFOR_MESSAGE,
+
+            TRS_LOWER_HANDLER_LOADING_FROM_STAGE_ONESTEP, // handshake by one step
             TRS_LOWER_HANDLER_MOVETO_LOAD_POS,
             TRS_LOWER_HANDLER_LOADING,
-            TRS_LOWER_HANDLER_WAITFOR_STAGE_UNLOAD_COMPLETE,    //
-            //TRS_LOWER_HANDLER_MOVETO_LOAD_UP_POS,            // after move up, send load complete signal to stage
+            TRS_LOWER_HANDLER_WAITFOR_STAGE_UNLOAD_STEP2,    //
+            //TRS_LOWER_HANDLER_MOVETO_LOAD_UP_POS,          // after move up, send load complete signal to stage
+
             TRS_LOWER_HANDLER_MOVETO_WAIT2,
 
-            TRS_LOWER_HANDLER_WAIT_MOVETO_UNLOADING,         // wait for unload request signal from pushpull
+            TRS_LOWER_HANDLER_UNLOADING_TO_PUSHPULL_ONESTEP,       // handshake by one step
             TRS_LOWER_HANDLER_MOVETO_UNLOAD_POS,
-            TRS_LOWER_HANDLER_WAITFOR_PUSHPULL_LOAD_COMPLETE,      // request pushpull to vacuum absorb
+            TRS_LOWER_HANDLER_WAITFOR_PUSHPULL_LOAD_STEP2,   // request pushpull to vacuum absorb
             TRS_LOWER_HANDLER_UNLOADING,                     // after vacuum release + move up, send unload complete signal to pushpull
-        }
 
-        public enum ETrsSpinnerStep
-        {
-            TRS_SPINNER_MOVETO_WAIT_POS,
-            TRS_SPINNER_WAITFOR_PUSHPULL_LOAD_REQUEST,      // request pushpull to unload wafer
-            TRS_SPINNER_MOVETO_LOAD_POS,                    //
-            TRS_SPINNER_LOADING,                            // after vacuum absorb, send load ready signal to pushpull
-            TRS_SPINNER_WAITFOR_PUSHPULL_UNLOAD_READY,      // wait for response from pushpull
-            TRS_SPINNER_MOVETO_WORK_POS,                    // move to work pos, send load complete signal to pushpull
-            TRS_SPINNER_DO_PRE_CLEAN,                           // do work if it is needed.
-            TRS_SPINNER_DO_AFTER_PRE_CLEAN,
-            TRS_SPINNER_DO_COAT,                            // do work if it is needed.
-            TRS_SPINNER_DO_AFTER_COAT,
-            TRS_SPINNER_DO_POST_CLEAN,                           // do work if it is needed.
-            TRS_SPINNER_DO_AFTER_POST_CLEAN,
-            TRS_SPINNER_REQUEST_PUSHPULL_LOADING,           // request pushpull to load wafer
-            TRS_SPINNER_WAITFOR_PUSHPULL_UNLOAD_REQUEST,    // wait for response from pushpull
-            TRS_SPINNER_MOVETO_UNLOAD_POS,                  // 
-            TRS_SPINNER_WAITFOR_PUSHPULL_LOAD_READY,        // wait for response from pushpull
-            TRS_SPINNER_UNLOADING,                          // after vacuum release + move to wait, send unload complete signal to pushpull
-        }
-
-        // TrsStage1 Step
-        public enum ETrsStage1Step
-        {
+            ///////////////////////////////////////////////////////////////////
+            // TrsStage Step
+            ///////////////////////////////////////////////////////////////////
             TRS_STAGE1_MOVETO_WAIT_POS,
+            TRS_STAGE1_WAITFOR_MESSAGE,
+
+            TRS_STAGE1_LOADING_FROM_HANDLER_ONESTEP,       // handshake by one step
             TRS_STAGE1_MOVETO_LOAD_POS,
             TRS_STAGE1_REQUEST_HANDLER_UNLOADING,
-            TRS_STAGE1_WAITFOR_HANDLER_UNLOAD_READY,
+            TRS_STAGE1_WAITFOR_HANDLER_UNLOAD_STEP1,
             TRS_STAGE1_LOADING,
-            TRS_STAGE1_WAITFOR_HANDLER_UNLOAD_COMPLETE,
-            TRS_STAGE1_MOVETO_ALIGN_POS,
-            TRS_STAGE1_DO_ALIGN,
+            TRS_STAGE1_WAITFOR_HANDLER_UNLOAD_STEP2,
+
+            TRS_STAGE1_MOVETO_MACRO_ALIGN_POS,
+            TRS_STAGE1_DO_MACRO_ALIGN,
+            TRS_STAGE1_MOVETO_MICRO_ALIGN_POS,
+            TRS_STAGE1_DO_MICRO_ALIGN,
             TRS_STAGE1_MOVETO_DICING_POS,
             TRS_STAGE1_DO_DICING,
+
+            TRS_STAGE1_UNLOADING_TO_HANDLER_ONESTEP,       // handshake by one step
             TRS_STAGE1_MOVETO_UNLOAD_POS,
             TRS_STAGE1_REQUEST_HANDLER_LOADING,
-            TRS_STAGE1_WAITFOR_HANDLER_LOAD_READY,
+            TRS_STAGE1_WAITFOR_HANDLER_LOAD_STEP1,
             TRS_STAGE1_UNLOADING,
         };
     }
@@ -1919,13 +2293,36 @@ namespace LWDicer.Layers
         ////////////////////////////////////////////////////////////////////
         // Process Layer
         ////////////////////////////////////////////////////////////////////
+        // TrsLoader
+        public const int ERR_TRS_LOADER_INTERFACE_TIMELIMIT_OVER                  = 1;
+        public const int ERR_TRS_LOADER_NEXT_PROCESS_IS_ABNORMAL = 2;
+
+        // TrsPushPull
+        public const int ERR_TRS_PUSHPULL_INTERFACE_TIMELIMIT_OVER                = 1;
+        public const int ERR_TRS_PUSHPULL_NEXT_PROCESS_IS_ABNORMAL = 2;
+        public const int ERR_TRS_PUSHPULL_OBJECT_DETECTED_ON_COATER               = 3;
+        public const int ERR_TRS_PUSHPULL_OBJECT_DETECTED_ON_CLEANER              = 4;
+        public const int ERR_TRS_PUSHPULL_ALL_SPINNER_IS_FULL                     = 5;
+
+        // TrsSpinner
+        public const int ERR_TRS_SPINNER_INTERFACE_TIMELIMIT_OVER = 1;
+        public const int ERR_TRS_SPINNER_NEXT_PROCESS_IS_ABNORMAL                 = 2;
+
+        // TrsHandler
+        public const int ERR_TRS_HANDLER_INTERFACE_TIMELIMIT_OVER                 = 1;
+        public const int ERR_TRS_HANDLER_NEXT_PROCESS_IS_ABNORMAL = 2;
+
         // TrsStage1
-        public const int ERR_TRS_STAGE1_PANEL_DATA_NULL                           = 1;
-        public const int ERR_TRS_STAGE1_PANEL_ID_NOT_SAME                         = 2;
-        public const int ERR_TRS_STAGE1_PANEL_HISTORY                             = 3;
-        public const int ERR_TRS_STAGE1_REPAIR_COUNT                              = 4;
-        public const int ERR_TRS_STAGE1_PANEL_DETECTED_BEFORE_LOADING             = 5;
-        public const int ERR_TRS_STAGE1_EXCEED_MAX_WAIT_TIME_FOR_SIGNAL           = 6;
+        public const int ERR_TRS_STAGE1_INTERFACE_TIMELIMIT_OVER                  = 1;
+        public const int ERR_TRS_STAGE1_NEXT_PROCESS_IS_ABNORMAL = 2;
+
+        public const int ERR_TRS_STAGE1_PANEL_DATA_NULL                           = 2;
+        public const int ERR_TRS_STAGE1_PANEL_ID_NOT_SAME                         = 3;
+        public const int ERR_TRS_STAGE1_PANEL_HISTORY                             = 4;
+        public const int ERR_TRS_STAGE1_REPAIR_COUNT                              = 5;
+        public const int ERR_TRS_STAGE1_PANEL_DETECTED_BEFORE_LOADING             = 6;
+        public const int ERR_TRS_STAGE1_EXCEED_MAX_WAIT_TIME_FOR_SIGNAL           = 7;
+
 
         ////////////////////////////////////////////////////////////////////
         // Control Layer

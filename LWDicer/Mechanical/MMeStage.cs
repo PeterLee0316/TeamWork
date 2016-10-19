@@ -1783,7 +1783,7 @@ namespace LWDicer.Layers
             iResult = m_RefComp.AxCamera.JogMoveVelocity(iAxis, bDir, IsFast);
 #endif
 #if EQUIP_DICING_DEV
-            iResult = m_RefComp.AxCamera.JogMoveVelocity(iAxis, dDir, dVel);
+            //iResult = m_RefComp.AxCamera.JogMoveVelocity(iAxis, dDir, dVel);
 #endif
 
             return SUCCESS;

@@ -42,7 +42,10 @@
             this.LabelTowerR = new Syncfusion.Windows.Forms.Tools.GradientLabel();
             this.LabelTowerY = new Syncfusion.Windows.Forms.Tools.GradientLabel();
             this.LabelTowerG = new Syncfusion.Windows.Forms.Tools.GradientLabel();
-            this.LabelBuzzer = new Syncfusion.Windows.Forms.Tools.GradientLabel();
+            this.LabelBuzzer1 = new Syncfusion.Windows.Forms.Tools.GradientLabel();
+            this.LabelBuzzer2 = new Syncfusion.Windows.Forms.Tools.GradientLabel();
+            this.LabelBuzzer3 = new Syncfusion.Windows.Forms.Tools.GradientLabel();
+            this.LabelBuzzer4 = new Syncfusion.Windows.Forms.Tools.GradientLabel();
             this.SuspendLayout();
             // 
             // TextMessage
@@ -100,9 +103,9 @@
             // 
             this.btnStart.BackColor = System.Drawing.Color.Transparent;
             this.btnStart.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.btnStart.Location = new System.Drawing.Point(844, 4);
+            this.btnStart.Location = new System.Drawing.Point(844, 7);
             this.btnStart.Name = "btnStart";
-            this.btnStart.Size = new System.Drawing.Size(45, 31);
+            this.btnStart.Size = new System.Drawing.Size(45, 24);
             this.btnStart.TabIndex = 6;
             this.btnStart.Text = "Start";
             this.btnStart.UseVisualStyleBackColor = false;
@@ -112,9 +115,9 @@
             // 
             this.btnStop.BackColor = System.Drawing.Color.Transparent;
             this.btnStop.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.btnStop.Location = new System.Drawing.Point(894, 4);
+            this.btnStop.Location = new System.Drawing.Point(894, 7);
             this.btnStop.Name = "btnStop";
-            this.btnStop.Size = new System.Drawing.Size(45, 31);
+            this.btnStop.Size = new System.Drawing.Size(45, 24);
             this.btnStop.TabIndex = 7;
             this.btnStop.Text = "Stop";
             this.btnStop.UseVisualStyleBackColor = false;
@@ -124,9 +127,9 @@
             // 
             this.btnReset.BackColor = System.Drawing.Color.Transparent;
             this.btnReset.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.btnReset.Location = new System.Drawing.Point(944, 4);
+            this.btnReset.Location = new System.Drawing.Point(944, 7);
             this.btnReset.Name = "btnReset";
-            this.btnReset.Size = new System.Drawing.Size(45, 31);
+            this.btnReset.Size = new System.Drawing.Size(45, 24);
             this.btnReset.TabIndex = 8;
             this.btnReset.Text = "Reset";
             this.btnReset.UseVisualStyleBackColor = false;
@@ -136,9 +139,9 @@
             // 
             this.btnEMO.BackColor = System.Drawing.Color.Transparent;
             this.btnEMO.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.btnEMO.Location = new System.Drawing.Point(995, 4);
+            this.btnEMO.Location = new System.Drawing.Point(995, 7);
             this.btnEMO.Name = "btnEMO";
-            this.btnEMO.Size = new System.Drawing.Size(45, 31);
+            this.btnEMO.Size = new System.Drawing.Size(45, 24);
             this.btnEMO.TabIndex = 9;
             this.btnEMO.Text = "EMO";
             this.btnEMO.UseVisualStyleBackColor = false;
@@ -151,9 +154,9 @@
             | System.Windows.Forms.Border3DSide.Right) 
             | System.Windows.Forms.Border3DSide.Bottom)));
             this.LabelTowerR.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.LabelTowerR.Location = new System.Drawing.Point(740, 4);
+            this.LabelTowerR.Location = new System.Drawing.Point(845, 33);
             this.LabelTowerR.Name = "LabelTowerR";
-            this.LabelTowerR.Size = new System.Drawing.Size(19, 27);
+            this.LabelTowerR.Size = new System.Drawing.Size(25, 24);
             this.LabelTowerR.TabIndex = 755;
             this.LabelTowerR.Text = "R";
             this.LabelTowerR.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -165,9 +168,9 @@
             | System.Windows.Forms.Border3DSide.Right) 
             | System.Windows.Forms.Border3DSide.Bottom)));
             this.LabelTowerY.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.LabelTowerY.Location = new System.Drawing.Point(765, 4);
+            this.LabelTowerY.Location = new System.Drawing.Point(870, 33);
             this.LabelTowerY.Name = "LabelTowerY";
-            this.LabelTowerY.Size = new System.Drawing.Size(19, 27);
+            this.LabelTowerY.Size = new System.Drawing.Size(25, 24);
             this.LabelTowerY.TabIndex = 756;
             this.LabelTowerY.Text = "Y";
             this.LabelTowerY.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -179,26 +182,68 @@
             | System.Windows.Forms.Border3DSide.Right) 
             | System.Windows.Forms.Border3DSide.Bottom)));
             this.LabelTowerG.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.LabelTowerG.Location = new System.Drawing.Point(790, 4);
+            this.LabelTowerG.Location = new System.Drawing.Point(895, 33);
             this.LabelTowerG.Name = "LabelTowerG";
-            this.LabelTowerG.Size = new System.Drawing.Size(19, 27);
+            this.LabelTowerG.Size = new System.Drawing.Size(25, 24);
             this.LabelTowerG.TabIndex = 757;
             this.LabelTowerG.Text = "G";
             this.LabelTowerG.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // LabelBuzzer
+            // LabelBuzzer1
             // 
-            this.LabelBuzzer.BackgroundColor = new Syncfusion.Drawing.BrushInfo(System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(224)))), ((int)(((byte)(192))))));
-            this.LabelBuzzer.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
+            this.LabelBuzzer1.BackgroundColor = new Syncfusion.Drawing.BrushInfo(System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(224)))), ((int)(((byte)(192))))));
+            this.LabelBuzzer1.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
             | System.Windows.Forms.Border3DSide.Right) 
             | System.Windows.Forms.Border3DSide.Bottom)));
-            this.LabelBuzzer.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.LabelBuzzer.Location = new System.Drawing.Point(815, 4);
-            this.LabelBuzzer.Name = "LabelBuzzer";
-            this.LabelBuzzer.Size = new System.Drawing.Size(19, 27);
-            this.LabelBuzzer.TabIndex = 758;
-            this.LabelBuzzer.Text = "B";
-            this.LabelBuzzer.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.LabelBuzzer1.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.LabelBuzzer1.Location = new System.Drawing.Point(920, 33);
+            this.LabelBuzzer1.Name = "LabelBuzzer1";
+            this.LabelBuzzer1.Size = new System.Drawing.Size(25, 24);
+            this.LabelBuzzer1.TabIndex = 758;
+            this.LabelBuzzer1.Text = "B1";
+            this.LabelBuzzer1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // LabelBuzzer2
+            // 
+            this.LabelBuzzer2.BackgroundColor = new Syncfusion.Drawing.BrushInfo(System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(224)))), ((int)(((byte)(192))))));
+            this.LabelBuzzer2.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
+            | System.Windows.Forms.Border3DSide.Right) 
+            | System.Windows.Forms.Border3DSide.Bottom)));
+            this.LabelBuzzer2.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.LabelBuzzer2.Location = new System.Drawing.Point(945, 33);
+            this.LabelBuzzer2.Name = "LabelBuzzer2";
+            this.LabelBuzzer2.Size = new System.Drawing.Size(25, 24);
+            this.LabelBuzzer2.TabIndex = 759;
+            this.LabelBuzzer2.Text = "B2";
+            this.LabelBuzzer2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // LabelBuzzer3
+            // 
+            this.LabelBuzzer3.BackgroundColor = new Syncfusion.Drawing.BrushInfo(System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(224)))), ((int)(((byte)(192))))));
+            this.LabelBuzzer3.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
+            | System.Windows.Forms.Border3DSide.Right) 
+            | System.Windows.Forms.Border3DSide.Bottom)));
+            this.LabelBuzzer3.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.LabelBuzzer3.Location = new System.Drawing.Point(970, 33);
+            this.LabelBuzzer3.Name = "LabelBuzzer3";
+            this.LabelBuzzer3.Size = new System.Drawing.Size(25, 24);
+            this.LabelBuzzer3.TabIndex = 760;
+            this.LabelBuzzer3.Text = "B3";
+            this.LabelBuzzer3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // LabelBuzzer4
+            // 
+            this.LabelBuzzer4.BackgroundColor = new Syncfusion.Drawing.BrushInfo(System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(224)))), ((int)(((byte)(192))))));
+            this.LabelBuzzer4.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
+            | System.Windows.Forms.Border3DSide.Right) 
+            | System.Windows.Forms.Border3DSide.Bottom)));
+            this.LabelBuzzer4.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.LabelBuzzer4.Location = new System.Drawing.Point(995, 33);
+            this.LabelBuzzer4.Name = "LabelBuzzer4";
+            this.LabelBuzzer4.Size = new System.Drawing.Size(25, 24);
+            this.LabelBuzzer4.TabIndex = 761;
+            this.LabelBuzzer4.Text = "B4";
+            this.LabelBuzzer4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // FormTopScreen
             // 
@@ -207,7 +252,10 @@
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.ClientSize = new System.Drawing.Size(1278, 98);
-            this.Controls.Add(this.LabelBuzzer);
+            this.Controls.Add(this.LabelBuzzer4);
+            this.Controls.Add(this.LabelBuzzer3);
+            this.Controls.Add(this.LabelBuzzer2);
+            this.Controls.Add(this.LabelBuzzer1);
             this.Controls.Add(this.LabelTowerG);
             this.Controls.Add(this.LabelTowerY);
             this.Controls.Add(this.LabelTowerR);
@@ -241,6 +289,9 @@
         private Syncfusion.Windows.Forms.Tools.GradientLabel LabelTowerR;
         private Syncfusion.Windows.Forms.Tools.GradientLabel LabelTowerY;
         private Syncfusion.Windows.Forms.Tools.GradientLabel LabelTowerG;
-        private Syncfusion.Windows.Forms.Tools.GradientLabel LabelBuzzer;
+        private Syncfusion.Windows.Forms.Tools.GradientLabel LabelBuzzer1;
+        private Syncfusion.Windows.Forms.Tools.GradientLabel LabelBuzzer2;
+        private Syncfusion.Windows.Forms.Tools.GradientLabel LabelBuzzer3;
+        private Syncfusion.Windows.Forms.Tools.GradientLabel LabelBuzzer4;
     }
 }

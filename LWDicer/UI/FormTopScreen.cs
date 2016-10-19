@@ -82,18 +82,18 @@ namespace LWDicer.UI
             if (bStatus) LabelTowerG.BackgroundColor = CMainFrame.Brush_G;
             else LabelTowerG.BackgroundColor = CMainFrame.Brush_Gray;
 
-            bStatus = false;
-            bool bStatus1;
-            CMainFrame.LWDicer.m_IO.GetBit(DEF_IO.oBuzzer_1, out bStatus1);
-            bStatus |= bStatus1;
-            CMainFrame.LWDicer.m_IO.GetBit(DEF_IO.oBuzzer_2, out bStatus1);
-            bStatus |= bStatus1;
-            CMainFrame.LWDicer.m_IO.GetBit(DEF_IO.oBuzzer_3, out bStatus1);
-            bStatus |= bStatus1;
-            CMainFrame.LWDicer.m_IO.GetBit(DEF_IO.oBuzzer_4, out bStatus1);
-            bStatus |= bStatus1;
-            if (bStatus) LabelBuzzer.BackgroundColor = CMainFrame.Brush_B;
-            else LabelBuzzer.BackgroundColor = CMainFrame.Brush_Gray;
+            CMainFrame.LWDicer.m_IO.GetBit(DEF_IO.oBuzzer_1, out bStatus);
+            if (bStatus) LabelBuzzer1.BackgroundColor = CMainFrame.Brush_B;
+            else LabelBuzzer1.BackgroundColor = CMainFrame.Brush_Gray;
+            CMainFrame.LWDicer.m_IO.GetBit(DEF_IO.oBuzzer_2, out bStatus);
+            if (bStatus) LabelBuzzer2.BackgroundColor = CMainFrame.Brush_B;
+            else LabelBuzzer2.BackgroundColor = CMainFrame.Brush_Gray;
+            CMainFrame.LWDicer.m_IO.GetBit(DEF_IO.oBuzzer_3, out bStatus);
+            if (bStatus) LabelBuzzer3.BackgroundColor = CMainFrame.Brush_B;
+            else LabelBuzzer3.BackgroundColor = CMainFrame.Brush_Gray;
+            CMainFrame.LWDicer.m_IO.GetBit(DEF_IO.oBuzzer_4, out bStatus);
+            if (bStatus) LabelBuzzer4.BackgroundColor = CMainFrame.Brush_B;
+            else LabelBuzzer4.BackgroundColor = CMainFrame.Brush_Gray;
         }
 
         public void SetMessage(string strMsg)

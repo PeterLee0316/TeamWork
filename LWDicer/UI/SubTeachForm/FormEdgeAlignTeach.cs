@@ -80,8 +80,10 @@ namespace LWDicer.UI
                 strCurPos = String.Format("{0:0.0000}", CMainFrame.LWDicer.m_ACS.ServoStatus[(int)EACS_Axis.STAGE1_T].EncoderPos);
                 lblStagePosT.Text = strCurPos;
 
+#if EQUIP_266_DEV
                 strCurPos = String.Format("{0:0.0000}", CMainFrame.LWDicer.m_ACS.ServoStatus[(int)EACS_Axis.CAMERA1_Z].EncoderPos);
                 lblCamPosZ.Text = strCurPos;
+#endif
             }
             catch
             { }

@@ -15,6 +15,7 @@ using static LWDicer.Layers.DEF_Common;
 using static LWDicer.Layers.DEF_Thread;
 using static LWDicer.Layers.DEF_Error;
 using static LWDicer.Layers.DEF_DataManager;
+using static LWDicer.Layers.DEF_LCNet;
 
 namespace LWDicer.UI
 {
@@ -26,6 +27,12 @@ namespace LWDicer.UI
         {
             InitializeComponent();
             InitializeForm();
+
+            //timer1.Interval = UITimerInterval;
+            timer1.Interval = 10;
+            timer1.Enabled = true;
+            timer1.Start();
+
         }
         protected virtual void InitializeForm()
         {
@@ -246,6 +253,7 @@ namespace LWDicer.UI
 
         private void BtnStart_Click(object sender, EventArgs e)
         {
+            if (CMainFrame.IsAlarmPopup) return; // popup 된 alarm이 확인완료될때까지 기다림
             if(BtnStart.Text == "Start AutoRun")
             {
                 StartAutoRun();
@@ -361,7 +369,7 @@ namespace LWDicer.UI
             // RUN SW 또는 Stop SW 눌릴 때 까지 대기
 #if SIMULATION_TEST
             //m_nStartReady = 2;
-            CMainFrame.LWDicer.Sleep(1000);
+            //CMainFrame.LWDicer.Sleep(1000);
             //CMainFrame.LWDicer.m_trsAutoManager.SendMsg(EThreadMessage.MSG_START_CMD);
 #else
 
@@ -405,6 +413,44 @@ namespace LWDicer.UI
             //		m_BtnCameraChange.Enabled = bEnable;
 
             //		testTemp->EnableWindow(bEnable);
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            // display thread status
+            Label_StatusAutoManager.Text = CMainFrame.LWDicer.m_trsAutoManager.GetRunStatus().Replace("STS_", "");
+            Label_StatusLoader.Text = CMainFrame.LWDicer.m_trsLoader.GetRunStatus().Replace("STS_", "");
+            Label_StatusPushPull.Text = CMainFrame.LWDicer.m_trsPushPull.GetRunStatus().Replace("STS_", "");
+            Label_StatusSpinner1.Text = CMainFrame.LWDicer.m_trsSpinner1.GetRunStatus().Replace("STS_", "");
+            Label_StatusSpinner2.Text = CMainFrame.LWDicer.m_trsSpinner2.GetRunStatus().Replace("STS_", "");
+            Label_StatusUHandler.Text = CMainFrame.LWDicer.m_trsHandler.GetRunStatus().Replace("STS_", "");
+            Label_StatusLHandler.Text = CMainFrame.LWDicer.m_trsHandler.GetRunStatus().Replace("STS_", "");
+            Label_StatusStage.Text = CMainFrame.LWDicer.m_trsStage1.GetRunStatus().Replace("STS_", "");
+
+            // display thread step
+            Label_StepAutoManager.Text      = $"InputBuffer : {CMainFrame.DataManager.GetCount_InputBuffer()}, OutputBuffer : { CMainFrame.DataManager.GetCount_OutputBuffer()}";
+            Label_StepLoader.Text = CMainFrame.LWDicer.m_trsLoader.GetStep().Replace("TRS_LOADER_", "");
+            Label_StepPushPull.Text      = CMainFrame.LWDicer.m_trsPushPull.GetStep().Replace("TRS_PUSHPULL_", "");
+            Label_StepSpinner1.Text      = CMainFrame.LWDicer.m_trsSpinner1.GetStep().Replace("TRS_SPINNER_", "");
+            Label_StepSpinner2.Text      = CMainFrame.LWDicer.m_trsSpinner2.GetStep().Replace("TRS_SPINNER_", "");
+            Label_StepUHandler.Text      = CMainFrame.LWDicer.m_trsHandler.GetStep1().Replace("TRS_UPPER_HANDLER_", "");
+            Label_StepLHandler.Text      = CMainFrame.LWDicer.m_trsHandler.GetStep2().Replace("TRS_LOWER_HANDLER_", "");
+            Label_StepStage.Text         = CMainFrame.LWDicer.m_trsStage1.GetStep().Replace("TRS_STAGE1_", "");
+
+            // display id
+            Label_IDLoader.Text          = "I : " + CMainFrame.DataManager.GetID_InputReady().ToString();
+            Label_IDPushPull.Text        = CMainFrame.DataManager.WorkPieceArray[(int)ELCNetUnitPos.PUSHPULL].ID;
+            Label_IDSpinner1.Text        = CMainFrame.DataManager.WorkPieceArray[(int)ELCNetUnitPos.SPINNER1].ID;
+            Label_IDSpinner2.Text        = CMainFrame.DataManager.WorkPieceArray[(int)ELCNetUnitPos.SPINNER2].ID;
+            Label_IDUHandler.Text        = CMainFrame.DataManager.WorkPieceArray[(int)ELCNetUnitPos.UPPER_HANDLER].ID;
+            Label_IDLHandler.Text        = CMainFrame.DataManager.WorkPieceArray[(int)ELCNetUnitPos.LOWER_HANDLER].ID;
+            Label_IDStage.Text           = CMainFrame.DataManager.WorkPieceArray[(int)ELCNetUnitPos.STAGE1].ID;
+            Label_IDAutoManager.Text     = "O : " + CMainFrame.DataManager.GetID_LastOutput().ToString();
+        }
+
+        private void FormAutoScreen_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }
