@@ -284,8 +284,10 @@ namespace LWDicer.UI
 
         private void btnWaferCenterSearchRun_Click(object sender, EventArgs e)
         {
-            //CMainFrame.LWDicer.m_Vision.InitialLocalView(PRE__CAM, picVision.Handle);
-            CMainFrame.LWDicer.m_ctrlStage1.ChangeMacroVision(picVision.Handle, EVisionOverlayMode.EDGE);
+            // Pre Cam으로 변경
+            CMainFrame.LWDicer.m_Vision.DestroyLocalView(FINE_CAM);
+            CMainFrame.LWDicer.m_Vision.InitialLocalView(PRE__CAM, picVision.Handle);
+            //CMainFrame.LWDicer.m_ctrlStage1.ChangeMacroVision(picVision.Handle, EVisionOverlayMode.EDGE);
             CMainFrame.LWDicer.m_Vision.SetEdgeFinderArea(PRE__CAM);            
 
             CMainFrame.LWDicer.m_ctrlStage1.DoEdgeAlign();

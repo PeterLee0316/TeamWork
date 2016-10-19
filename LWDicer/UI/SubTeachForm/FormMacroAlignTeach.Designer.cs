@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormMacroAlignTeach));
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.picPatternMarkB = new System.Windows.Forms.PictureBox();
@@ -66,19 +67,25 @@
             this.lblRoiWidth = new System.Windows.Forms.Label();
             this.lblRoiHeight = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
+            this.TmrTeach = new System.Windows.Forms.Timer(this.components);
+            this.lblSearchResult = new System.Windows.Forms.Label();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.panel2 = new System.Windows.Forms.Panel();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picPatternMarkB)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picPatternMarkA)).BeginInit();
             this.groupBox4.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
+            this.panel1.SuspendLayout();
+            this.panel2.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.picPatternMarkB);
-            this.groupBox1.Controls.Add(this.picPatternMarkA);
-            this.groupBox1.Location = new System.Drawing.Point(820, 454);
+            this.groupBox1.Controls.Add(this.panel2);
+            this.groupBox1.Controls.Add(this.panel1);
+            this.groupBox1.Location = new System.Drawing.Point(822, 324);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(428, 201);
             this.groupBox1.TabIndex = 945;
@@ -87,37 +94,39 @@
             // 
             // picPatternMarkB
             // 
-            this.picPatternMarkB.Location = new System.Drawing.Point(227, 34);
+            this.picPatternMarkB.Location = new System.Drawing.Point(0, 0);
             this.picPatternMarkB.Name = "picPatternMarkB";
-            this.picPatternMarkB.Size = new System.Drawing.Size(173, 154);
+            this.picPatternMarkB.Size = new System.Drawing.Size(167, 105);
             this.picPatternMarkB.TabIndex = 1;
             this.picPatternMarkB.TabStop = false;
             // 
             // picPatternMarkA
             // 
-            this.picPatternMarkA.Location = new System.Drawing.Point(25, 34);
+            this.picPatternMarkA.Location = new System.Drawing.Point(0, 0);
             this.picPatternMarkA.Name = "picPatternMarkA";
-            this.picPatternMarkA.Size = new System.Drawing.Size(173, 154);
+            this.picPatternMarkA.Size = new System.Drawing.Size(167, 116);
             this.picPatternMarkA.TabIndex = 0;
             this.picPatternMarkA.TabStop = false;
+            this.picPatternMarkA.Click += new System.EventHandler(this.picPatternMarkA_Click);
             // 
             // groupBox4
             // 
+            this.groupBox4.Controls.Add(this.lblSearchResult);
             this.groupBox4.Controls.Add(this.lblRoiHeight);
             this.groupBox4.Controls.Add(this.label2);
+            this.groupBox4.Controls.Add(this.btnSearchMarkB);
+            this.groupBox4.Controls.Add(this.btnSearchMarkA);
             this.groupBox4.Controls.Add(this.lblRoiWidth);
             this.groupBox4.Controls.Add(this.btnRoiHeightNarrow);
             this.groupBox4.Controls.Add(this.label16);
             this.groupBox4.Controls.Add(this.btnRoiHeightWide);
-            this.groupBox4.Controls.Add(this.btnSearchMarkB);
-            this.groupBox4.Controls.Add(this.btnSearchMarkA);
             this.groupBox4.Controls.Add(this.btnRoiWidthNarrow);
             this.groupBox4.Controls.Add(this.btnRoiWidthWide);
             this.groupBox4.Controls.Add(this.btnRegisterMarkB);
             this.groupBox4.Controls.Add(this.btnRegisterMarkA);
             this.groupBox4.Location = new System.Drawing.Point(822, 127);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(428, 164);
+            this.groupBox4.Size = new System.Drawing.Size(428, 189);
             this.groupBox4.TabIndex = 944;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Vision Control";
@@ -127,7 +136,7 @@
             this.btnSearchMarkB.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.btnSearchMarkB.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
             this.btnSearchMarkB.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.btnSearchMarkB.Location = new System.Drawing.Point(94, 89);
+            this.btnSearchMarkB.Location = new System.Drawing.Point(96, 90);
             this.btnSearchMarkB.Name = "btnSearchMarkB";
             this.btnSearchMarkB.Size = new System.Drawing.Size(75, 54);
             this.btnSearchMarkB.TabIndex = 768;
@@ -135,13 +144,14 @@
             this.btnSearchMarkB.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             this.btnSearchMarkB.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.btnSearchMarkB.UseVisualStyleBackColor = true;
+            this.btnSearchMarkB.Click += new System.EventHandler(this.btnSearchMarkB_Click);
             // 
             // btnSearchMarkA
             // 
             this.btnSearchMarkA.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.btnSearchMarkA.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
             this.btnSearchMarkA.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.btnSearchMarkA.Location = new System.Drawing.Point(13, 89);
+            this.btnSearchMarkA.Location = new System.Drawing.Point(96, 29);
             this.btnSearchMarkA.Name = "btnSearchMarkA";
             this.btnSearchMarkA.Size = new System.Drawing.Size(75, 54);
             this.btnSearchMarkA.TabIndex = 767;
@@ -149,13 +159,14 @@
             this.btnSearchMarkA.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             this.btnSearchMarkA.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.btnSearchMarkA.UseVisualStyleBackColor = true;
+            this.btnSearchMarkA.Click += new System.EventHandler(this.btnSearchMarkA_Click);
             // 
             // btnRegisterMarkB
             // 
             this.btnRegisterMarkB.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.btnRegisterMarkB.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
             this.btnRegisterMarkB.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.btnRegisterMarkB.Location = new System.Drawing.Point(94, 29);
+            this.btnRegisterMarkB.Location = new System.Drawing.Point(13, 89);
             this.btnRegisterMarkB.Name = "btnRegisterMarkB";
             this.btnRegisterMarkB.Size = new System.Drawing.Size(75, 54);
             this.btnRegisterMarkB.TabIndex = 766;
@@ -163,6 +174,7 @@
             this.btnRegisterMarkB.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             this.btnRegisterMarkB.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.btnRegisterMarkB.UseVisualStyleBackColor = true;
+            this.btnRegisterMarkB.Click += new System.EventHandler(this.btnRegisterMarkB_Click);
             // 
             // btnRegisterMarkA
             // 
@@ -177,6 +189,7 @@
             this.btnRegisterMarkA.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             this.btnRegisterMarkA.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.btnRegisterMarkA.UseVisualStyleBackColor = true;
+            this.btnRegisterMarkA.Click += new System.EventHandler(this.btnRegisterMarkA_Click);
             // 
             // picVision
             // 
@@ -249,6 +262,7 @@
             this.btnSelectStageMove.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             this.btnSelectStageMove.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.btnSelectStageMove.UseVisualStyleBackColor = true;
+            this.btnSelectStageMove.Click += new System.EventHandler(this.btnSelectStageMove_Click);
             // 
             // btnSelectFocus
             // 
@@ -263,6 +277,7 @@
             this.btnSelectFocus.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             this.btnSelectFocus.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.btnSelectFocus.UseVisualStyleBackColor = true;
+            this.btnSelectFocus.Click += new System.EventHandler(this.btnSelectFocus_Click);
             // 
             // btnChangeCam
             // 
@@ -277,6 +292,7 @@
             this.btnChangeCam.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             this.btnChangeCam.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.btnChangeCam.UseVisualStyleBackColor = true;
+            this.btnChangeCam.Click += new System.EventHandler(this.btnChangeCam_Click);
             // 
             // groupBox3
             // 
@@ -453,62 +469,66 @@
             this.btnRoiWidthNarrow.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.btnRoiWidthNarrow.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
             this.btnRoiWidthNarrow.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.btnRoiWidthNarrow.Location = new System.Drawing.Point(265, 29);
+            this.btnRoiWidthNarrow.Location = new System.Drawing.Point(336, 43);
             this.btnRoiWidthNarrow.Name = "btnRoiWidthNarrow";
-            this.btnRoiWidthNarrow.Size = new System.Drawing.Size(75, 54);
+            this.btnRoiWidthNarrow.Size = new System.Drawing.Size(75, 40);
             this.btnRoiWidthNarrow.TabIndex = 979;
             this.btnRoiWidthNarrow.Text = "ROI Width Narrow";
             this.btnRoiWidthNarrow.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             this.btnRoiWidthNarrow.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.btnRoiWidthNarrow.UseVisualStyleBackColor = true;
+            this.btnRoiWidthNarrow.Click += new System.EventHandler(this.btnRoiWidthNarrow_Click);
             // 
             // btnRoiWidthWide
             // 
             this.btnRoiWidthWide.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.btnRoiWidthWide.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
             this.btnRoiWidthWide.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.btnRoiWidthWide.Location = new System.Drawing.Point(187, 29);
+            this.btnRoiWidthWide.Location = new System.Drawing.Point(258, 43);
             this.btnRoiWidthWide.Name = "btnRoiWidthWide";
-            this.btnRoiWidthWide.Size = new System.Drawing.Size(75, 54);
+            this.btnRoiWidthWide.Size = new System.Drawing.Size(75, 40);
             this.btnRoiWidthWide.TabIndex = 978;
             this.btnRoiWidthWide.Text = "ROI Width Wide";
             this.btnRoiWidthWide.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             this.btnRoiWidthWide.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.btnRoiWidthWide.UseVisualStyleBackColor = true;
+            this.btnRoiWidthWide.Click += new System.EventHandler(this.btnRoiWidthWide_Click);
             // 
             // btnRoiHeightNarrow
             // 
             this.btnRoiHeightNarrow.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.btnRoiHeightNarrow.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
             this.btnRoiHeightNarrow.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.btnRoiHeightNarrow.Location = new System.Drawing.Point(265, 89);
+            this.btnRoiHeightNarrow.Location = new System.Drawing.Point(336, 104);
             this.btnRoiHeightNarrow.Name = "btnRoiHeightNarrow";
-            this.btnRoiHeightNarrow.Size = new System.Drawing.Size(75, 54);
+            this.btnRoiHeightNarrow.Size = new System.Drawing.Size(75, 40);
             this.btnRoiHeightNarrow.TabIndex = 981;
             this.btnRoiHeightNarrow.Text = "ROI Height Narrow";
             this.btnRoiHeightNarrow.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             this.btnRoiHeightNarrow.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.btnRoiHeightNarrow.UseVisualStyleBackColor = true;
+            this.btnRoiHeightNarrow.Click += new System.EventHandler(this.btnRoiHeightNarrow_Click);
             // 
             // btnRoiHeightWide
             // 
             this.btnRoiHeightWide.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.btnRoiHeightWide.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
             this.btnRoiHeightWide.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.btnRoiHeightWide.Location = new System.Drawing.Point(187, 89);
+            this.btnRoiHeightWide.Location = new System.Drawing.Point(258, 104);
             this.btnRoiHeightWide.Name = "btnRoiHeightWide";
-            this.btnRoiHeightWide.Size = new System.Drawing.Size(75, 54);
+            this.btnRoiHeightWide.Size = new System.Drawing.Size(75, 40);
             this.btnRoiHeightWide.TabIndex = 980;
             this.btnRoiHeightWide.Text = "ROI Height Wide";
             this.btnRoiHeightWide.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             this.btnRoiHeightWide.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.btnRoiHeightWide.UseVisualStyleBackColor = true;
+            this.btnRoiHeightWide.Click += new System.EventHandler(this.btnRoiHeightWide_Click);
             // 
             // label16
             // 
             this.label16.AutoSize = true;
             this.label16.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.label16.Location = new System.Drawing.Point(347, 33);
+            this.label16.Location = new System.Drawing.Point(262, 28);
             this.label16.Name = "label16";
             this.label16.Size = new System.Drawing.Size(67, 13);
             this.label16.TabIndex = 980;
@@ -519,7 +539,7 @@
             this.lblRoiWidth.AutoSize = true;
             this.lblRoiWidth.BackColor = System.Drawing.Color.White;
             this.lblRoiWidth.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.lblRoiWidth.Location = new System.Drawing.Point(346, 47);
+            this.lblRoiWidth.Location = new System.Drawing.Point(337, 28);
             this.lblRoiWidth.Name = "lblRoiWidth";
             this.lblRoiWidth.Size = new System.Drawing.Size(72, 13);
             this.lblRoiWidth.TabIndex = 981;
@@ -530,7 +550,7 @@
             this.lblRoiHeight.AutoSize = true;
             this.lblRoiHeight.BackColor = System.Drawing.Color.White;
             this.lblRoiHeight.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.lblRoiHeight.Location = new System.Drawing.Point(345, 103);
+            this.lblRoiHeight.Location = new System.Drawing.Point(336, 90);
             this.lblRoiHeight.Name = "lblRoiHeight";
             this.lblRoiHeight.Size = new System.Drawing.Size(72, 13);
             this.lblRoiHeight.TabIndex = 983;
@@ -540,11 +560,45 @@
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.label2.Location = new System.Drawing.Point(346, 89);
+            this.label2.Location = new System.Drawing.Point(262, 90);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(72, 13);
             this.label2.TabIndex = 982;
             this.label2.Text = "ROI Height";
+            // 
+            // TmrTeach
+            // 
+            this.TmrTeach.Tick += new System.EventHandler(this.TmrTeach_Tick);
+            // 
+            // lblSearchResult
+            // 
+            this.lblSearchResult.AutoSize = true;
+            this.lblSearchResult.Location = new System.Drawing.Point(17, 160);
+            this.lblSearchResult.Name = "lblSearchResult";
+            this.lblSearchResult.Size = new System.Drawing.Size(23, 12);
+            this.lblSearchResult.TabIndex = 2;
+            this.lblSearchResult.Text = "---";
+            // 
+            // panel1
+            // 
+            this.panel1.BackColor = System.Drawing.SystemColors.ButtonShadow;
+            this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.panel1.Controls.Add(this.picPatternMarkA);
+            this.panel1.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.panel1.Location = new System.Drawing.Point(14, 19);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(174, 172);
+            this.panel1.TabIndex = 954;
+            // 
+            // panel2
+            // 
+            this.panel2.BackColor = System.Drawing.SystemColors.ButtonShadow;
+            this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.panel2.Controls.Add(this.picPatternMarkB);
+            this.panel2.Location = new System.Drawing.Point(249, 18);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(174, 172);
+            this.panel2.TabIndex = 955;
             // 
             // FormMacroAlignTeach
             // 
@@ -570,6 +624,8 @@
             this.groupBox2.ResumeLayout(false);
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
+            this.panel1.ResumeLayout(false);
+            this.panel2.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -613,5 +669,9 @@
         private System.Windows.Forms.Button btnRoiHeightWide;
         private System.Windows.Forms.Button btnRoiWidthNarrow;
         private System.Windows.Forms.Button btnRoiWidthWide;
+        private System.Windows.Forms.Timer TmrTeach;
+        private System.Windows.Forms.Label lblSearchResult;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Panel panel2;
     }
 }

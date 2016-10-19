@@ -331,8 +331,7 @@ namespace LWDicer.Layers
         {
             //return 0;
         }
-
-
+        
         public int GetGrabSettlingTime()
         {
             return m_cCameraData.m_iGrabSettlingTime;

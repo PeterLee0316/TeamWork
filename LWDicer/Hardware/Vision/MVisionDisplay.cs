@@ -314,8 +314,8 @@ namespace LWDicer.Layers
             int Width = System.Windows.Forms.Control.FromHandle(pHandle).Width;
             int Height = System.Windows.Forms.Control.FromHandle(pHandle).Height;
 
-            Rectangle RecHandle = new Rectangle(0, 0, Width, Height);
-
+            Rectangle RecHandle = new Rectangle(0,0,Width,Height);
+                        
             // Graph로 Bmp를 Display함
             System.Drawing.Graphics graph;
             graph = System.Drawing.Graphics.FromHwnd(pHandle);

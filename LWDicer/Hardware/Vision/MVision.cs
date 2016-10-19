@@ -263,7 +263,7 @@ namespace LWDicer.Layers
             // Vision System이 초기화 된지를 확인함
             if (m_bSystemInit == false) return;
 
-            int iCamNo = 0;
+            int iCamNo = m_iCurrentViewNum;
             m_RefComp.View[iCamNo].DisplayImage(image, handle);
         }
 
@@ -616,6 +616,12 @@ namespace LWDicer.Layers
 
             // 모델 갯수 보다 큰 경우 Err
             if (iTypeNo > DEF_USE_SEARCH_MARK_NO) return GenerateErrorCode(ERR_VISION_PATTERN_NUM_OVER);
+
+            if(SearchArea==null)
+            {
+                SearchArea.Width = m_RefComp.Camera[iCamNo].m_CamPixelNum.Width;
+                SearchArea.Height = m_RefComp.Camera[iCamNo].m_CamPixelNum.Height;
+            }
             // Search Size 확인 
             if (SearchArea.Width <= DEF_SEARCH_MIN_WIDTH ||
                SearchArea.Height <= DEF_SEARCH_MIN_HEIGHT ||
@@ -629,7 +635,7 @@ namespace LWDicer.Layers
             CVisionPatternData pSData = m_RefComp.Camera[iCamNo].GetSearchData(iTypeNo);
 
             // 등록할 Mark의 Size 및 위치를 설정함.
-           //pSData.m_strFileName = strModel;
+            //pSData.m_strFileName = strModel;
             pSData.m_rectModel = ModelArea;
             pSData.m_rectSearch = SearchArea;
             pSData.m_pointReference.X = ModelArea.Width/2;
@@ -1458,6 +1464,11 @@ namespace LWDicer.Layers
         {
             return m_iHairLineWidth;
         }
+
+        public void SetHairLineWidth(int iWidth)
+        {
+            m_iHairLineWidth = iWidth;
+        }
         public void ShowRectRoi()
         {
             Size recSize = new Size(m_iMarkROIWidth, m_iMarkROIHeight);
@@ -1489,6 +1500,17 @@ namespace LWDicer.Layers
             m_iMarkROIHeight++;
             Size recSize = new Size(m_iMarkROIWidth, m_iMarkROIHeight);
             DrawOverlayAreaRect(recSize);
+        }
+
+        public void SetRoiSize(Size pSize)
+        {
+            m_iMarkROIWidth = pSize.Width;
+            m_iMarkROIHeight = pSize.Height;
+        }
+
+        public Size GetRoiSize()
+        {
+            return new Size(m_iMarkROIWidth, m_iMarkROIHeight);
         }
 
     }

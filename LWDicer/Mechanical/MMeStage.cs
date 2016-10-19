@@ -311,9 +311,9 @@ namespace LWDicer.Layers
             return AxScannerInfo.GetPosition(out FixedPos, out ModelPos, out OffsetPos);
         }
 
-        public CPos_XYTZ GetTargetPosition(int index)
+        public CPos_XYTZ GetTargetPosition(int index,bool withAlign=true)
         {
-            return AxStageInfo.GetTargetPos(index);
+            return AxStageInfo.GetTargetPos(index,withAlign);
         }
         
 
@@ -1058,16 +1058,26 @@ namespace LWDicer.Layers
                 movePos.dY -= CMainFrame.DataManager.SystemData_Align.CamEachOffsetY;
             }
 
+            // Theta Align 값 보정
+            var ThetaPos = new CPos_XYTZ();
+            GetThetaAlignPosA(out ThetaPos);
+            movePos.dT = ThetaPos.dT;
+
             return MoveStagePos(movePos);
         }
 
         public int MoveStageToWaferCenterPre()
         {
             int index = (int)EStagePos.STAGE_CENTER_PRE;
-            var movePos = new CPos_XYTZ();
 
             // Stage Center 위치를 읽어온다.
+            var movePos = new CPos_XYTZ();   
             movePos = GetTargetPosition(index);
+
+            // Theta Align 값 보정
+            var ThetaPos = new CPos_XYTZ();
+            GetThetaAlignPosA(out ThetaPos);
+            movePos.dT = ThetaPos.dT;
 
             return MoveStagePos(movePos);
         }
@@ -1075,22 +1085,30 @@ namespace LWDicer.Layers
         public int MoveStageToWaferCenterFine()
         {
             int index = (int)EStagePos.STAGE_CENTER_FINE;
-            var movePos = new CPos_XYTZ();
-
+            
             // Stage Center 위치를 읽어온다.
+            var movePos = new CPos_XYTZ();
             movePos = GetTargetPosition(index);
+
+            // Theta Align 값 보정
+            var ThetaPos = new CPos_XYTZ();
+            GetThetaAlignPosA(out ThetaPos);
+            movePos.dT = ThetaPos.dT;
 
             return MoveStagePos(movePos);
         }
         public int MoveStageToStageCenterPre()
         {
             int index = (int)EStagePos.STAGE_CENTER_PRE;
-            var movePos = new CPos_XYTZ();
 
             // Stage Center 위치를 읽어온다.
-            movePos = GetTargetPosition(index);
-            // Align Off 값을 조정한다
-            movePos -= GetAlignData();
+            var movePos = new CPos_XYTZ();
+            movePos = GetTargetPosition(index, false);
+            
+            // Theta Align 값 보정
+            var ThetaPos = new CPos_XYTZ();
+            GetThetaAlignPosA(out ThetaPos);
+            movePos.dT = ThetaPos.dT;
 
             return MoveStagePos(movePos);
         }
@@ -1098,12 +1116,15 @@ namespace LWDicer.Layers
         public int MoveStageToStageCenterFine()
         {
             int index = (int)EStagePos.STAGE_CENTER_FINE;
-            var movePos = new CPos_XYTZ();
 
             // Stage Center 위치를 읽어온다.
-            movePos = GetTargetPosition(index);
-            // Align Off 값을 조정한다
-            movePos -= GetAlignData();
+            var movePos = new CPos_XYTZ();            
+            movePos = GetTargetPosition(index,false);
+
+            // Theta Align 값 보정
+            var ThetaPos = new CPos_XYTZ();
+            GetThetaAlignPosA(out ThetaPos);
+            movePos.dT = ThetaPos.dT;
 
             return MoveStagePos(movePos);
         }
@@ -1209,7 +1230,7 @@ namespace LWDicer.Layers
             int iPosIndex = (int)EStagePos.EDGE_ALIGN_1;
 
             // Theta Align A pos를 저장
-            CPos_XYTZ movePos = AxStageInfo.GetTargetPos(iPosIndex);
+            CPos_XYTZ movePos = AxStageInfo.GetTargetPos(iPosIndex,false);
 
             // 고배율 일때는 Offset을 적용해서 이동한다.
             if (bHighMagnitude)
@@ -1238,7 +1259,7 @@ namespace LWDicer.Layers
             int iPosIndex = (int)EStagePos.EDGE_ALIGN_1;
             
             // Theta Align A pos를 저장
-            CPos_XYTZ movePos = AxStageInfo.GetTargetPos(iPosIndex);
+            CPos_XYTZ movePos = AxStageInfo.GetTargetPos(iPosIndex, false);
             
             // 고배율 일때는 Offset을 적용해서 이동한다.
             if (bHighMagnitude)
@@ -1268,7 +1289,7 @@ namespace LWDicer.Layers
             int iPosIndex = (int)EStagePos.EDGE_ALIGN_1;
 
             // Theta Align A pos를 저장
-            CPos_XYTZ movePos = AxStageInfo.GetTargetPos(iPosIndex);
+            CPos_XYTZ movePos = AxStageInfo.GetTargetPos(iPosIndex, false);
             
             // 고배율 일때는 Offset을 적용해서 이동한다.
             if (bHighMagnitude)
@@ -1297,7 +1318,7 @@ namespace LWDicer.Layers
             int iPosIndex = (int)EStagePos.EDGE_ALIGN_1;
 
             // Theta Align A pos를 저장
-            CPos_XYTZ movePos = AxStageInfo.GetTargetPos(iPosIndex);
+            CPos_XYTZ movePos = AxStageInfo.GetTargetPos(iPosIndex, false);
 
             // 고배율 일때는 Offset을 적용해서 이동한다.
             if (bHighMagnitude)

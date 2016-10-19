@@ -211,7 +211,7 @@ namespace LWDicer.Layers
             int iResult = SUCCESS;
 
             double[] dPos;
-            GetCurPos(out dPos, iCoordID);
+            GetCmdPos(out dPos, iCoordID);
 
             pos = new CPos_XYTZ();
             if (iCoordID == DEF_ALL_COORDINATE)
