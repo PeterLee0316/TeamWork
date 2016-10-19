@@ -167,6 +167,9 @@ namespace LWDicer.Layers
             // Display 객체를 받아온다
             m_pDisplay = m_Display;
 
+#if SIMULATION_VISION
+            return SUCCESS;
+#endif
             // CallBack 함수를 등록한다.
             m_iResult = m_Camera.registerNotifyCallback(this, m_pDisplay.ImageCallback);
             if (m_iResult != BGAPI.Result.OK)

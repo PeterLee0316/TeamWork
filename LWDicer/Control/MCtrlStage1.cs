@@ -1137,9 +1137,6 @@ namespace LWDicer.Layers
             //CPos_XY mCenter = new CPos_XY(); // 회전 중심은 (0,0)으로 한다
             //pPos = CoordinateRotate(m_Data.Vision.Camera[iCam].CameraTilt, pPos, mCenter);
 
-            // Pixel to Pos
-            //pPos = PixelToPostion(PRE__CAM, pPos);
-
              sPos = pPos;
             return SUCCESS;
         }
@@ -1192,7 +1189,7 @@ namespace LWDicer.Layers
             int iModelNo = PATTERN_B;
             int iResult = 0;
             sPos = new CPos_XY();
-
+            
             // Find Mark 
             CResultData pResult;
             iResult = m_RefComp.Vision.RecognitionPatternMark(iCam, iModelNo, out pResult);
@@ -1203,6 +1200,7 @@ namespace LWDicer.Layers
             sPos = CoordinateRotate(m_Data.Vision.Camera[iCam].CameraTilt, sPos, mCenter);
             // Pixel값을 실제 위치값으로 변환한다.
             sPos = PixelToPostion(iCam, pResult.m_PixelPos);
+
 
             return SUCCESS;
         }
@@ -1222,12 +1220,14 @@ namespace LWDicer.Layers
         {
             m_RefComp.Vision.WidenHairLine();
         }
-           
+
         public double GetHairLineWidth()
         {
-            int iHairLineWidth = m_RefComp.Vision.GetHairLineWidth();
+            int iHairLineWidth = 0;
             double dHairLineWidth = 0.0;
 
+            iHairLineWidth = m_RefComp.Vision.GetHairLineWidth();
+            
             if(GetCurrentCam()==PRE__CAM)
             {
                 dHairLineWidth = (double) CMainFrame.DataManager.SystemData_Align.PixelResolution[(int)ECameraSelect.MACRO] * (double)iHairLineWidth /500;
@@ -1262,10 +1262,10 @@ namespace LWDicer.Layers
             return new SizeF(dRoiWidth, dRoiHeight);
         }
 
-        #endregion
+#endregion
 
         // 회전 변환 및 Calibration 관련 함수
-        #region Calculation Function
+#region Calculation Function
 
         private CPos_XY PixelToPostion(int iCam,CPos_XY sPos)
         {
@@ -1426,10 +1426,10 @@ namespace LWDicer.Layers
 
 
 
-        #endregion
+#endregion
 
         // Data 설정 동작 
-        #region Data Set
+#region Data Set
         /// <summary>
         /// 카메라 위치를 좌표에 설정한다.
         /// </summary>
@@ -1451,18 +1451,14 @@ namespace LWDicer.Layers
 
 
 
-        #endregion
+#endregion
 
         // Calibration  및 매뉴얼 동작 
-        #region Calibration
+#region Calibration
 
         // 카메라 배율 변경
         public int ChangeVisionMagnitude(int iCam, IntPtr pHandle, EVisionOverlayMode OverlayMode)
-        {
-
-#if SIMULATION_VISION
-            return SUCCESS;
-#endif
+        {            
             int iResult = -1;            
 
             if (iCam == FINE_CAM)
@@ -1512,12 +1508,7 @@ namespace LWDicer.Layers
 
         public int GetCurrentCam()
         {
-
-#if SIMULATION_VISION
-            return SUCCESS;
-#endif
             return m_RefComp.Vision.m_iCurrentViewNum;
-
         }
 
         public bool CheckMicroCam()
@@ -1730,10 +1721,10 @@ namespace LWDicer.Layers
             return SUCCESS;
         }
 
-        #endregion
+#endregion
 
         // Teaching 동작 
-        #region Teaching
+#region Teaching
 
         // Theta Align Manual Set
 
@@ -2704,10 +2695,10 @@ namespace LWDicer.Layers
             return new CPos_XY(centerX, centerY);
         }
     
-        #endregion
+#endregion
 
         // Align 동작
-        #region Align 동작
+#region Align 동작
 
         // Edge Align 동작=======================================
         public int DoEdgeAlign()
@@ -3035,7 +3026,7 @@ namespace LWDicer.Layers
             return SUCCESS;
         }
         
-        #endregion
+#endregion
 
 
     }

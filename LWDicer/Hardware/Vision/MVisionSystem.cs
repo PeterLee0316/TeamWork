@@ -55,6 +55,10 @@ namespace LWDicer.Layers
             m_iResult       =   0;
             m_pCamera = new MVisionCamera[DEF_MAX_CAMERA_NO];
             m_pDisplay = new MVisionView[DEF_MAX_CAMERA_NO];
+
+#if SIMULATION_VISION
+            return ;
+#endif
             m_MilApp = MIL.M_NULL;
             m_MilSystem = MIL.M_NULL;            
         }

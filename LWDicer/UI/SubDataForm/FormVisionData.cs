@@ -50,18 +50,12 @@ namespace LWDicer.UI
 
             UpdateCameraData();
 
-#if !SIMULATION_VISION
-#endif
-
         }
 
 
         protected override void OnShown(EventArgs e)
         {
             base.OnShown(e);
-#if !SIMULATION_VISION
-
-#endif
         }
 
 

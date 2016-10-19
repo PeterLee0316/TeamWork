@@ -202,7 +202,9 @@ namespace LWDicer.UI
             try
             {
                 var dlg = new pageAlign();
-                dlg.Show();
+                dlg.StartPosition = FormStartPosition.Manual;
+                dlg.Location = new Point(0, 120);
+                dlg.ShowDialog();
             }
             catch
             {
@@ -213,18 +215,24 @@ namespace LWDicer.UI
         private void btnEdgeAlign_Click(object sender, EventArgs e)
         {
             var dlg = new FormEdgeAlignTeach();
+            dlg.StartPosition = FormStartPosition.Manual;
+            dlg.Location = new Point(0, 120);
             dlg.ShowDialog();
         }
 
         private void btnMacroAlgin_Click(object sender, EventArgs e)
         {
             var dlg = new FormMacroAlignTeach();
+            dlg.StartPosition = FormStartPosition.Manual;
+            dlg.Location = new Point(0, 120);
             dlg.ShowDialog();
         }
 
         private void btnMicroAlign_Click(object sender, EventArgs e)
         {
             var dlg = new FormMicroAlignTeach();
+            dlg.StartPosition = FormStartPosition.Manual;
+            dlg.Location = new Point(0, 120);
             dlg.ShowDialog();
         }
     }

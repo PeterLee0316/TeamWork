@@ -58,9 +58,7 @@ namespace LWDicer.UI
 
         private void FormPolygon_Load(object sender, EventArgs e)
         {
-#if !SIMULATION_VISION
             CMainFrame.LWDicer.m_Vision.InitialLocalView(INSP_CAM, picVisionZoom.Handle);
-#endif
         }
 
         private void Form_Resize(object sender, EventArgs e)
@@ -1435,10 +1433,9 @@ namespace LWDicer.UI
 
                     lengthPixel = Math.Sqrt(lenX * lenX + lenY * lenY);
                     textMsg = string.Format("{0:f2} um", lengthPixel);
-#if !SIMULATION_VISION
+
                     CMainFrame.LWDicer.m_Vision.ClearOverlay();
                     CMainFrame.LWDicer.m_Vision.DrawOverlayText(INSP_CAM, textMsg, ptMouseEndPos);
-#endif
                 }
                 if (eVisionMode == EVisionMode.CALIBRATION)
                 {
@@ -1481,9 +1478,9 @@ namespace LWDicer.UI
         private void btnCalibration_Click(object sender, EventArgs e)
         {
             eVisionMode = EVisionMode.CALIBRATION;
-            #if !SIMULATION_VISION
+            
             CMainFrame.LWDicer.m_Vision.ClearOverlay();
-            #endif
+            
             btnCalibration.ForeColor = Color.Red;
         }
 

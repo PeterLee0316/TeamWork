@@ -586,7 +586,7 @@ namespace LWDicer.Layers
             ////////////////////////////////////////////////////////////////////////
             // Vision
             // Vision System
-#if !SIMULATION_VISION
+
             m_SystemInfo.GetObjectInfo(40, out objInfo);
             CreateVisionSystem(objInfo);
 
@@ -600,6 +600,7 @@ namespace LWDicer.Layers
             m_SystemInfo.GetObjectInfo(44, out objInfo);
             CreateVisionCamera(objInfo, INSP_CAM);
 
+//#if !SIMULATION_VISION
             // Vision Display
             m_SystemInfo.GetObjectInfo(46, out objInfo);
             CreateVisionVisionView(objInfo, PRE__CAM);
@@ -609,8 +610,8 @@ namespace LWDicer.Layers
 
             m_SystemInfo.GetObjectInfo(47, out objInfo);
             CreateVisionVisionView(objInfo, INSP_CAM);
-#endif
-           
+//#endif
+
 
             intro.SetStatus("Init Mechanical Layer", 30);
 
@@ -649,10 +650,9 @@ namespace LWDicer.Layers
             CreateMeLHandler(objInfo);
 
             // Vision 
-#if !SIMULATION_VISION
             m_SystemInfo.GetObjectInfo(308, out objInfo);
             CreateVision(objInfo);
-#endif
+
             // Scanner
             m_SystemInfo.GetObjectInfo(309, out objInfo);
             CreateScanner(objInfo);
@@ -1007,13 +1007,16 @@ namespace LWDicer.Layers
 
         int CreateVisionSystem(CObjectInfo objInfo)
         {
-#if SIMULATION_VISION
-                return SUCCESS;
-#endif
+//#if SIMULATION_VISION
+//                return SUCCESS;
+//#endif
 
             int iResult = 0;
             // Vision System 생성
             m_VisionSystem = new MVisionSystem(objInfo);
+#if SIMULATION_VISION
+            return SUCCESS;
+#endif
             // GigE Cam초기화 & MIL 초기화
             iResult = m_VisionSystem.Initialize();
 
@@ -1028,41 +1031,43 @@ namespace LWDicer.Layers
 
         int CreateVisionCamera(CObjectInfo objInfo,int iNum)
         {
+            // Camera를 생성함.
+            m_VisionCamera[iNum] = new MVisionCamera(objInfo);
+
 #if SIMULATION_VISION
-                return SUCCESS;
+            return SUCCESS;
 #endif
-                // Camera를 생성함.
-                m_VisionCamera[iNum] = new MVisionCamera(objInfo);
-                // Vision Library MIL
-                m_VisionCamera[iNum].SetMil_ID(m_VisionSystem.GetMilSystem());
-                // Camera 초기화
-                m_VisionCamera[iNum].Initialize(iNum, m_VisionSystem.GetSystem());
+
+            // Vision Library MIL
+            m_VisionCamera[iNum].SetMil_ID(m_VisionSystem.GetMilSystem());
+            // Camera 초기화
+            m_VisionCamera[iNum].Initialize(iNum, m_VisionSystem.GetSystem());
                 
             return SUCCESS;
         }
         int CreateVisionVisionView(CObjectInfo objInfo, int iNum)
         {
-#if SIMULATION_VISION
-                return SUCCESS;
-#endif
+            // Display View 생성함.
+            m_VisionView[iNum] = new MVisionView(objInfo);
 
-                // Display View 생성함.
-                m_VisionView[iNum] = new MVisionView(objInfo);
-                // Vision Library MIL
-                m_VisionView[iNum].SetMil_ID(m_VisionSystem.GetMilSystem());
-                // Display 초기화
-                m_VisionView[iNum].Initialize(iNum, m_VisionCamera[iNum]);
+#if SIMULATION_VISION
+            return SUCCESS;
+#endif
+            // Vision Library MIL
+            m_VisionView[iNum].SetMil_ID(m_VisionSystem.GetMilSystem());
+            // Display 초기화
+            m_VisionView[iNum].Initialize(iNum, m_VisionCamera[iNum]);
             
             return SUCCESS;
         }
 
         void CreateVision(CObjectInfo objInfo)
         {
-#if SIMULATION_VISION
-            return;
-#endif
+//#if SIMULATION_VISION
+//            return;
+//#endif
             bool VisionHardwareCheck = true;
-            if(m_VisionSystem.m_iResult != SUCCESS)
+            if (m_VisionSystem.m_iResult != SUCCESS)
             {
                 VisionHardwareCheck = false;
             }

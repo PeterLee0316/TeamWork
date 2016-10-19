@@ -42,9 +42,7 @@ namespace LWDicer.UI
 
         private void FormMicroAlignTeach_Load(object sender, EventArgs e)
         {
-#if !SIMULATION_VISION
             CMainFrame.LWDicer.m_Vision.InitialLocalView(PRE__CAM, picVision.Handle);
-#endif
         }
     }
 }

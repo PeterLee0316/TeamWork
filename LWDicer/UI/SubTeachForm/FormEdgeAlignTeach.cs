@@ -42,7 +42,11 @@ namespace LWDicer.UI
 
         private void FormClose()
         {
-            this.Hide();
+            // Local View 해제
+            int iCam = CMainFrame.LWDicer.m_ctrlStage1.GetCurrentCam();
+            CMainFrame.LWDicer.m_Vision.DestroyLocalView(iCam);
+            
+            this.Close();
         }
 
 
@@ -53,11 +57,10 @@ namespace LWDicer.UI
 
         private void FormEdgeAlignTeach_Load(object sender, EventArgs e)
         {
-#if !SIMULATION_VISION
             //int iCam = CMainFrame.LWDicer.m_ctrlStage1.GetCurrentCam();
             CMainFrame.LWDicer.m_Vision.InitialLocalView(PRE__CAM, picVision.Handle);
             CMainFrame.LWDicer.m_Vision.ShowRectRoi();
-#endif      
+
             TmrTeach.Enabled = true;
             TmrTeach.Interval = UITimerInterval;
             TmrTeach.Start();

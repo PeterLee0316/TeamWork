@@ -51,7 +51,12 @@ namespace LWDicer.UI
 
             CMainFrame.LWDicer.m_ctrlStage1.InitThetaAlign();
 
+            // Local View 해제
+            int iCam = CMainFrame.LWDicer.m_ctrlStage1.GetCurrentCam();
+            CMainFrame.LWDicer.m_Vision.DestroyLocalView(iCam);
+
             this.Hide();
+           
         }
 
         private void BtnExit_Click(object sender, EventArgs e)
@@ -61,11 +66,11 @@ namespace LWDicer.UI
 
         private void FormThetaAlignTeach_Load(object sender, EventArgs e)
         {
-#if !SIMULATION_VISION
+
            // int iCam = CMainFrame.LWDicer.m_ctrlStage1.GetCurrentCam();
             CMainFrame.LWDicer.m_Vision.InitialLocalView(PRE__CAM, picVision.Handle);
             CMainFrame.LWDicer.m_Vision.ShowHairLine();
-#endif
+
             DisplayThetaAlignData();
 
             TmrTeach.Enabled = true;
@@ -189,17 +194,11 @@ namespace LWDicer.UI
 
         private void btnHairLineWide_Click(object sender, EventArgs e)
         {
-#if SIMULATION_VISION
-            return ;
-#endif
             CMainFrame.LWDicer.m_Vision.WidenHairLine();
         }
 
         private void btnHairLineNarrow_Click(object sender, EventArgs e)
         {
-#if SIMULATION_VISION
-            return;
-#endif
             CMainFrame.LWDicer.m_Vision.NarrowHairLine();
         }
 
@@ -271,8 +270,8 @@ namespace LWDicer.UI
                 lblStagePosT.Text = strShowData;
 
 #if EQUIP_266_DEV
-                strCurPos = String.Format("{0:0.0000}", CMainFrame.LWDicer.m_ACS.ServoStatus[(int)EACS_Axis.CAMERA1_Z].EncoderPos);
-                lblCamPosZ.Text = strCurPos;
+                strShowData = String.Format("{0:0.0000}", CMainFrame.LWDicer.m_ACS.ServoStatus[(int)EACS_Axis.CAMERA1_Z].EncoderPos);
+                lblCamPosZ.Text = strShowData;
 #endif
             }
             catch

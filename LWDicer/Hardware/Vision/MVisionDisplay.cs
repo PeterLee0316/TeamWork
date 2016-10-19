@@ -94,7 +94,6 @@ namespace LWDicer.Layers
                 return GenerateErrorCode(ERR_VISION_CAMERA_CREATE_FAIL);
             }
             
-
         }
         
         public int GetIdNum()

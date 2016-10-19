@@ -70,7 +70,8 @@ namespace LWDicer.Layers
         {
 
 #if SIMULATION_VISION
-                return SUCCESS;
+            m_bSystemInit = false;
+            return SUCCESS;
 #endif
             m_bSystemInit = true;
             return SUCCESS;
