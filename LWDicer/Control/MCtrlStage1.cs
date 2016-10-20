@@ -22,17 +22,16 @@ namespace LWDicer.Layers
 {
     public class DEF_CtrlStage
     {
-
         // VISION 관련 오류
         public const int ERR_CTRLSTAGE_EDGE_POINT_NONE = 1;
         public const int ERR_CTRLSTAGE_EDGE_POINT_OVER = 2;
 
         public const int ERR_CTRLSTAGE_THETA_POS_UNSUITABLE = 10;
-
         public const int ERR_CTRLSTAGE_CAM_CALS_CENTERMOVE_FAIL = 20;
         public const int ERR_CTRLSTAGE_MACRO_ALIGN_FAIL = 30;
-
-
+        public const int ERR_CTRLSTAGE_CAM_HANDEL_FAIL = 40;
+        
+        // SYSTEM 설정
         public const double CAM_POS_CALS_ROATE_ANGLE = 2.0;
         public const int MACRO_ALIGN_MODE = 0;
         public const int MICRO_ALIGN_MODE_CH1 = 1;
@@ -611,17 +610,6 @@ namespace LWDicer.Layers
             return m_RefComp.Stage.MoveStageToUnloadPos();
         }
 
-        public int MoveToStageCenter()
-        {
-            int iResult;
-            if(GetCurrentCam()==PRE__CAM)
-                iResult =  m_RefComp.Stage.MoveStageToStageCenter();
-            else
-                iResult =  m_RefComp.Stage.MoveStageToStageCenter(true);
-
-            return iResult;
-                        
-        }
 
         public int MoveToWaferCenterPre()
         {
@@ -798,6 +786,47 @@ namespace LWDicer.Layers
         public int MoveToMacroCam()
         {
             return m_RefComp.Stage.MoveStageToMacroCam();
+        }
+
+        /// <summary>
+        /// Macro Align할 Mark A 위치로 이동
+        /// (Wafer Center 기준에서 Align Width 값으로 이동함)
+        /// </summary>
+        /// <returns></returns>
+        public int MoveToMacroTeachA()
+        {
+            return m_RefComp.Stage.MoveStageToMacroTeachA();
+        }
+        /// <summary>
+        /// Macro Align할 Mark B 위치로 이동
+        /// (Wafer Center 기준에서 Align Width 값으로 이동함)
+        /// </summary>
+        /// <returns></returns>
+        public int MoveToMacroTeachB()
+        {
+            return m_RefComp.Stage.MoveStageToMacroTeachB();
+        }
+
+        /// <summary>
+        /// Macro Align할 Mark A 위치로 이동
+        /// (Wafer Center 기준에서 Align Width 값으로 이동함)
+        /// </summary>
+        /// <returns></returns>
+        public int TeachMacroAlignA()
+        {            
+            CPos_XYTZ movePos;
+            CPos_XYTZ offSet;
+
+            // 현재 위치를 읽어옴.
+            m_RefComp.Stage.GetStageCurPos(out movePos);
+            m_RefComp.Stage.GetAlignData(out offSet);
+
+            movePos.dX -= offSet.dX;
+            movePos.dY -= offSet.dY;
+            
+            CMainFrame.LWDicer.m_DataManager.FixedPos.Stage1Pos.Pos[(int)EStagePos.MACRO_ALIGN] = movePos;
+
+            return SUCCESS;
         }
 
         public int MoveToMacroAlignA()
@@ -1023,7 +1052,7 @@ namespace LWDicer.Layers
         #endregion
 
         // Camera 위치 구동 지령
-        #region Camera 구동
+        #region Camera 축 구동
 
         public int MoveToCameraWaitPos()
         {
@@ -1096,6 +1125,29 @@ namespace LWDicer.Layers
         // Vision 동작
         #region Vision 동작
 
+        public int ChangeMacroCam()
+        {
+            IntPtr viewHandle;
+            viewHandle = CMainFrame.LWDicer.m_Vision.GetLocalViewHandle(PRE__CAM);
+            if (viewHandle == null) return GenerateErrorCode(ERR_CTRLSTAGE_CAM_HANDEL_FAIL);
+
+            CMainFrame.LWDicer.m_Vision.DestroyLocalView(FINE_CAM);
+            CMainFrame.LWDicer.m_Vision.InitialLocalView(PRE__CAM, viewHandle);
+
+            return SUCCESS;
+        }
+
+        public int ChangeMicroCam()
+        {
+            IntPtr viewHandle;
+            viewHandle = CMainFrame.LWDicer.m_Vision.GetLocalViewHandle(FINE_CAM);
+            if (viewHandle == null) return GenerateErrorCode(ERR_CTRLSTAGE_CAM_HANDEL_FAIL);
+
+            CMainFrame.LWDicer.m_Vision.DestroyLocalView(PRE__CAM);
+            CMainFrame.LWDicer.m_Vision.InitialLocalView(FINE_CAM, viewHandle);
+
+            return SUCCESS;
+        }
         /// <summary>
         /// Wafer의 Edge를 찾는다.
         /// Macro Len(Pre Cam)에서만 사용한다.
@@ -1265,7 +1317,7 @@ namespace LWDicer.Layers
 #endregion
 
         // 회전 변환 및 Calibration 관련 함수
-#region Calculation Function
+        #region Calculation Function
 
         private CPos_XY PixelToPostion(int iCam,CPos_XY sPos)
         {
@@ -1423,13 +1475,12 @@ namespace LWDicer.Layers
 
             return mPos;
         }
-
-
+        
 
 #endregion
 
         // Data 설정 동작 
-#region Data Set
+        #region Data Set
         /// <summary>
         /// 카메라 위치를 좌표에 설정한다.
         /// </summary>
@@ -1448,13 +1499,12 @@ namespace LWDicer.Layers
         /// Index 데이터 설정
         /// </summary>
         /// <param name="dIndexLen"></param>
+        
 
-
-
-#endregion
+        #endregion  
 
         // Calibration  및 매뉴얼 동작 
-#region Calibration
+        #region Calibration
 
         // 카메라 배율 변경
         public int ChangeVisionMagnitude(int iCam, IntPtr pHandle, EVisionOverlayMode OverlayMode)
@@ -1724,7 +1774,7 @@ namespace LWDicer.Layers
 #endregion
 
         // Teaching 동작 
-#region Teaching
+        #region Teaching
 
         // Theta Align Manual Set
 
@@ -2698,13 +2748,14 @@ namespace LWDicer.Layers
 #endregion
 
         // Align 동작
-#region Align 동작
+        #region Align 동작
 
         // Edge Align 동작=======================================
         public int DoEdgeAlign()
         {
             int iResult = -1;
             int iSleepTime = 200;
+            IntPtr viewHandle;
             CPos_XY[] EdgePixelPos = new CPos_XY[(int)EEdgeAlignTeachStep.MAX];
             CPos_XYTZ[] EdgePos = new CPos_XYTZ[(int)EEdgeAlignTeachStep.MAX];
             CPos_XYTZ[] EdgeRealPos = new CPos_XYTZ[(int)EEdgeAlignTeachStep.MAX];
@@ -2713,6 +2764,13 @@ namespace LWDicer.Layers
 
             // Align 기존 값 초기화
             m_RefComp.Stage.SetAlignDataInit();
+
+            // Cam을 Pre Cam으로 변환
+            viewHandle = CMainFrame.LWDicer.m_Vision.GetLocalViewHandle(PRE__CAM);
+            if (viewHandle == null) return GenerateErrorCode(ERR_CTRLSTAGE_CAM_HANDEL_FAIL);
+
+            CMainFrame.LWDicer.m_Vision.DestroyLocalView(FINE_CAM);
+            CMainFrame.LWDicer.m_Vision.InitialLocalView(PRE__CAM, viewHandle);
 
             // Edge 1번으로 이동 & Edge 확인 =============================================================
             iResult = MoveToEdgeAlignTeachPos1();
@@ -2787,15 +2845,15 @@ namespace LWDicer.Layers
             if (iResult != SUCCESS) return iResult;
 
             // Wafer의 중심과 Stage의 위치 차이를 Offset으로 저장한다.
-
             CMainFrame.DataManager.SystemData_Align.WaferOffsetX = WaferCenter.dX;
             CMainFrame.DataManager.SystemData_Align.WaferOffsetY = WaferCenter.dY;
 
-            double dLenX = EdgeRealPos[(int)EEdgeAlignTeachStep.POS1].dX - CMainFrame.DataManager.SystemData_Align.WaferOffsetX;
-            double dLenY = EdgeRealPos[(int)EEdgeAlignTeachStep.POS1].dY - CMainFrame.DataManager.SystemData_Align.WaferOffsetY;
+            double dLenX = EdgeRealPos[(int)EEdgeAlignTeachStep.POS1].dX - WaferCenter.dX;
+            double dLenY = EdgeRealPos[(int)EEdgeAlignTeachStep.POS1].dY - WaferCenter.dY;
 
-            CMainFrame.DataManager.SystemData_Align.WaferSizeOffset = (150 - Math.Sqrt(dLenX * dLenX + dLenY * dLenY))/2;
-                        
+            CMainFrame.DataManager.SystemData_Align.WaferSizeOffset = (150 - Math.Sqrt(dLenX * dLenX + dLenY * dLenY));
+            // Wafer의 크기 오차 보정이 잘 되지 않아.. 우선 초기화 값을 사용... 그럭저럭 잘 맞음.
+            CMainFrame.DataManager.SystemData_Align.WaferSizeOffset = 0;
             // Align 기존 값 초기화
             m_RefComp.Stage.SetAlignDataInit();
 
@@ -2815,6 +2873,7 @@ namespace LWDicer.Layers
             int iCount = 0;
             int iSleepTime = 200;
 
+            IntPtr viewHandle;
             CPos_XY MarkPosA = new CPos_XY();
             CPos_XY MarkPosB = new CPos_XY();
             CPos_XYTZ StageCurPos = new CPos_XYTZ();
@@ -2830,6 +2889,24 @@ namespace LWDicer.Layers
             else                            dToleranceAngle = MICRO_ANGLE_TOLERANCE;
 
             // 모드에 따라서 렌즈 선택
+            // Cam을 Pre Cam으로 변환
+            if (iMode == MACRO_ALIGN_MODE)
+            {
+                viewHandle = CMainFrame.LWDicer.m_Vision.GetLocalViewHandle(PRE__CAM);
+                if (viewHandle == null) return GenerateErrorCode(ERR_CTRLSTAGE_CAM_HANDEL_FAIL);
+
+                CMainFrame.LWDicer.m_Vision.DestroyLocalView(FINE_CAM);
+                CMainFrame.LWDicer.m_Vision.InitialLocalView(PRE__CAM, viewHandle);
+            }
+            // Cam을 Fine Cam으로 변환
+            if (iMode == MICRO_ALIGN_MODE_CH1 || iMode == MICRO_ALIGN_MODE_CH2)
+            {
+                viewHandle = CMainFrame.LWDicer.m_Vision.GetLocalViewHandle(FINE_CAM);
+                if (viewHandle == null) return GenerateErrorCode(ERR_CTRLSTAGE_CAM_HANDEL_FAIL);
+
+                CMainFrame.LWDicer.m_Vision.DestroyLocalView(PRE__CAM);
+                CMainFrame.LWDicer.m_Vision.InitialLocalView(FINE_CAM, viewHandle);
+            }
 
             // AutoFocus 진행 (Micro Align A만 진행)
 

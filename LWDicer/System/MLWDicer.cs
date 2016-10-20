@@ -49,8 +49,6 @@ using static LWDicer.Layers.DEF_CtrlStage;
 using static LWDicer.Layers.DEF_TrsAutoManager;
 
 
-//using static LWDicer.Layers.DEF_Thread.EThreadChannel;
-
 namespace LWDicer.Layers
 {
     public class MLWDicer : MObject, IDisposable

@@ -449,7 +449,7 @@ namespace LWDicer.Layers
             // Pen Type 설정
             m_DrawPen.DashStyle = System.Drawing.Drawing2D.DashStyle.Solid;
             m_DrawPen.Color = Color.Red;
-            m_DrawPen.Width = 4;
+            m_DrawPen.Width = 2.0f;
 
             // 0 위치를 화면의 중앙으로 설정함.
             recCenter.X = m_ImageWidth / 2 - recBox.Width / 2;

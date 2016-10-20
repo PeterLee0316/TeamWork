@@ -532,7 +532,6 @@
             this.label16.Size = new System.Drawing.Size(100, 13);
             this.label16.TabIndex = 976;
             this.label16.Text = "Hair Line Width";
-            this.label16.Click += new System.EventHandler(this.label16_Click);
             // 
             // btnStageCenter
             // 
@@ -545,7 +544,6 @@
             this.btnStageCenter.Text = "Stage Center";
             this.btnStageCenter.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.btnStageCenter.UseVisualStyleBackColor = true;
-            this.btnStageCenter.Click += new System.EventHandler(this.btnStageCenter_Click);
             // 
             // btnStageReturnPosA
             // 

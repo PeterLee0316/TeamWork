@@ -117,11 +117,7 @@ namespace LWDicer.UI
             CMainFrame.frmStageJog.Show();
         }
 
-        private void btnStageCenter_Click(object sender, EventArgs e)
-        {
-            CMainFrame.LWDicer.m_ctrlStage1.MoveToStageCenter();
-        }
-                
+
         private void btnThetaAlignDataSave_Click(object sender, EventArgs e)
         {
             double dLength = 0.0;
@@ -291,6 +287,7 @@ namespace LWDicer.UI
         {
             // Pre Cam으로 변경
             CMainFrame.LWDicer.m_Vision.DestroyLocalView(FINE_CAM);
+            // CMainFrame.LWDicer.m_Vision.GetLocalViewHandle(PRE__CAM);
             CMainFrame.LWDicer.m_Vision.InitialLocalView(PRE__CAM, picVision.Handle);
             //CMainFrame.LWDicer.m_ctrlStage1.ChangeMacroVision(picVision.Handle, EVisionOverlayMode.EDGE);
             CMainFrame.LWDicer.m_Vision.SetEdgeFinderArea(PRE__CAM);            

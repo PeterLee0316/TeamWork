@@ -20,6 +20,20 @@ namespace LWDicer.UI
 {
     public partial class FormMacroAlignTeach : Form
     {
+        // Tower Lamp Blink 동작을 위한 Timer
+        MTickTimer m_RoiTimer = new MTickTimer();
+
+        private bool bRoiWidthWide;
+        private bool bRoiWidthNarrow;        
+
+        private bool bRoiHeightWide;
+        private bool bRoiHeightNarrow;
+
+        private int iRoiWidthValue =200;
+        private int iRoiHeightValue = 200;
+        private int iRoiIncValue = 1;
+        private Size szRoi = new Size(200, 200);
+
         public FormMacroAlignTeach()
         {
             InitializeComponent();
@@ -36,8 +50,8 @@ namespace LWDicer.UI
             CMainFrame.frmCamFocus.Parent = this.pnlStageJog;
             CMainFrame.frmCamFocus.Dock = DockStyle.Fill;
 
-
             CMainFrame.frmStageJog.Show();
+            
         }
 
         private void FormClose()
@@ -65,8 +79,16 @@ namespace LWDicer.UI
             TmrTeach.Start();
         }
 
+        private void FormMacroAlignTeach_Shown(object sender, EventArgs e)
+        {
+            CMainFrame.LWDicer.m_Vision.DisplayPatternImage(PRE__CAM, PATTERN_A, picPatternMarkA.Handle);
+            this.Activate();
+        }
 
-       
+        private void FormMacroAlignTeach_Activate(object sender, EventArgs e)
+        {
+            CMainFrame.LWDicer.m_Vision.DisplayPatternImage(PRE__CAM, PATTERN_A, picPatternMarkA.Handle);
+        }
 
         private void picVision_MouseDown(object sender, MouseEventArgs e)
         {
@@ -139,6 +161,66 @@ namespace LWDicer.UI
 
             strShowData = String.Format("{0:0.0000} mm", CMainFrame.LWDicer.m_ctrlStage1.GetRoiSize().Height);
             lblRoiHeight.Text = strShowData;
+
+            //==============================================================================================
+            if (bRoiWidthWide)
+            {
+                iRoiWidthValue += iRoiIncValue;
+                if (m_RoiTimer.MoreThan(200))
+                {
+                    iRoiIncValue++;
+                    m_RoiTimer.StopTimer();
+                }                
+            }            
+
+            if (bRoiWidthNarrow)
+            {
+                iRoiWidthValue -= iRoiIncValue;
+                if (m_RoiTimer.MoreThan(200))
+                {
+                    iRoiIncValue++;
+                    m_RoiTimer.StopTimer();
+                }
+            }
+
+            if (bRoiHeightWide)
+            {
+                iRoiHeightValue += iRoiIncValue;
+
+                if (m_RoiTimer.MoreThan(200))
+                {
+                    iRoiIncValue++;
+                    m_RoiTimer.StopTimer();
+                }
+            }
+
+            if (bRoiHeightNarrow)
+            {
+                iRoiHeightValue -= iRoiIncValue;
+                if (m_RoiTimer.MoreThan(200))
+                {
+                    iRoiIncValue++;
+                    m_RoiTimer.StopTimer();
+                }
+            }
+
+            if (iRoiWidthValue > 500)  iRoiWidthValue = 500;            
+            if (iRoiWidthValue < 10)   iRoiWidthValue = 10;
+            if (iRoiHeightValue > 500) iRoiHeightValue = 500;
+            if (iRoiHeightValue < 10)  iRoiHeightValue = 10;
+
+            if (!bRoiWidthNarrow && !bRoiWidthWide && !bRoiHeightWide && !bRoiHeightNarrow)
+            {
+                m_RoiTimer.StopTimer();
+                iRoiIncValue = 1;
+            }
+            if (bRoiWidthNarrow || bRoiWidthWide || bRoiHeightWide || bRoiHeightNarrow)
+            {
+                szRoi.Width = iRoiWidthValue;
+                szRoi.Height = iRoiHeightValue;
+                CMainFrame.LWDicer.m_Vision.SetRoiSize(szRoi);
+            }            
+
         }
 
         private void btnChangeCam_Click(object sender, EventArgs e)
@@ -165,22 +247,22 @@ namespace LWDicer.UI
 
         private void btnRoiWidthWide_Click(object sender, EventArgs e)
         {
-            CMainFrame.LWDicer.m_Vision.WidenRoiWidth();
+           // CMainFrame.LWDicer.m_Vision.WidenRoiWidth();
         }
 
         private void btnRoiWidthNarrow_Click(object sender, EventArgs e)
         {
-            CMainFrame.LWDicer.m_Vision.NarrowRoiWidth();
+           // CMainFrame.LWDicer.m_Vision.NarrowRoiWidth();
         }
 
         private void btnRoiHeightWide_Click(object sender, EventArgs e)
         {
-            CMainFrame.LWDicer.m_Vision.WidenRoiHeight();
+           // CMainFrame.LWDicer.m_Vision.WidenRoiHeight();
         }
 
         private void btnRoiHeightNarrow_Click(object sender, EventArgs e)
         {
-            CMainFrame.LWDicer.m_Vision.NarrowRoiHeight();
+            ;// CMainFrame.LWDicer.m_Vision.NarrowRoiHeight();
         }
 
         private void btnRegisterMarkA_Click(object sender, EventArgs e)
@@ -190,24 +272,61 @@ namespace LWDicer.UI
             var sizeModel = new Size();
             string strModel = CMainFrame.DataManager.ModelData.Name;
             
+            // Cam의 Pixel Num을 확인함
             rectSearch.Width = CMainFrame.LWDicer.m_Vision.GetCameraPixelNum(PRE__CAM).Width;
             rectSearch.Height = CMainFrame.LWDicer.m_Vision.GetCameraPixelNum(PRE__CAM).Height;
             
+            // 등록할 Mark의 크기를 읽어옴.
             sizeModel = CMainFrame.LWDicer.m_Vision.GetRoiSize();
             rectModel.Width  = sizeModel.Width;
             rectModel.Height = sizeModel.Height;
 
+            // Mark를 등록함.
             CMainFrame.LWDicer.m_Vision.RegisterPatternMark(PRE__CAM, strModel, PATTERN_A, rectSearch, rectModel);
 
+            // UI에 Model을 Display함
             picPatternMarkA.Width = rectModel.Width/2;
             picPatternMarkA.Height = rectModel.Height/2;
 
             CMainFrame.LWDicer.m_Vision.DisplayPatternImage(PRE__CAM, PATTERN_A, picPatternMarkA.Handle);
+            
+            // Model Data를 저장함.
+            CSearchData patternData = CMainFrame.LWDicer.m_Vision.GetSearchData(PRE__CAM, PATTERN_A);
+            CMainFrame.DataManager.ModelData.MacroPatternA = patternData;
+            CMainFrame.LWDicer.SaveModelData(CMainFrame.DataManager.ModelData);
+
+            // Mark를 등록한 위치를 Stage의 Mark Search 위치로 저장함. 
+            CMainFrame.LWDicer.m_ctrlStage1.TeachMacroAlignA();
+            CMainFrame.DataManager.SavePositionData(true, EPositionObject.STAGE1);            
+            CMainFrame.LWDicer.SetPositionDataToComponent(EPositionGroup.STAGE1);
+
         }
 
         private void btnRegisterMarkB_Click(object sender, EventArgs e)
         {
+            var rectSearch = new Rectangle();
+            var rectModel = new Rectangle();
+            var sizeModel = new Size();
+            string strModel = CMainFrame.DataManager.ModelData.Name;
 
+            rectSearch.Width = CMainFrame.LWDicer.m_Vision.GetCameraPixelNum(PRE__CAM).Width;
+            rectSearch.Height = CMainFrame.LWDicer.m_Vision.GetCameraPixelNum(PRE__CAM).Height;
+
+            sizeModel = CMainFrame.LWDicer.m_Vision.GetRoiSize();
+            rectModel.Width = sizeModel.Width;
+            rectModel.Height = sizeModel.Height;
+
+            CMainFrame.LWDicer.m_Vision.RegisterPatternMark(PRE__CAM, strModel, PATTERN_B, rectSearch, rectModel);
+
+            picPatternMarkA.Width = rectModel.Width / 2;
+            picPatternMarkA.Height = rectModel.Height / 2;
+
+            CMainFrame.LWDicer.m_Vision.DisplayPatternImage(PRE__CAM, PATTERN_B, picPatternMarkB.Handle);
+
+
+            CSearchData patternData = CMainFrame.LWDicer.m_Vision.GetSearchData(PRE__CAM, PATTERN_B);
+            CMainFrame.DataManager.ModelData.MacroPatternB = patternData;
+            CMainFrame.DataManager.SaveModelData(CMainFrame.DataManager.ModelData);
         }
 
         private void btnSearchMarkA_Click(object sender, EventArgs e)
@@ -221,12 +340,78 @@ namespace LWDicer.UI
 
         private void btnSearchMarkB_Click(object sender, EventArgs e)
         {
-
+            CResultData searchData = new CResultData();
+            CMainFrame.LWDicer.m_Vision.RecognitionPatternMark(PRE__CAM, PATTERN_B, out searchData);
+            lblSearchResult.Text = searchData.m_strResult;
         }
 
         private void picPatternMarkA_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void btnRoiWidthWide_MouseDown(object sender, MouseEventArgs e)
+        {
+            bRoiWidthWide = true;
+            m_RoiTimer.StartTimer();
+        }
+
+        private void btnRoiWidthWide_MouseUp(object sender, MouseEventArgs e)
+        {
+            bRoiWidthWide = false;
+        }
+
+        private void btnRoiWidthNarrow_MouseDown(object sender, MouseEventArgs e)
+        {
+            bRoiWidthNarrow = true;
+            m_RoiTimer.StartTimer();
+        }
+
+        private void btnRoiWidthNarrow_MouseUp(object sender, MouseEventArgs e)
+        {
+            bRoiWidthNarrow = false;
+        }
+
+        private void btnRoiHeightWide_MouseDown(object sender, MouseEventArgs e)
+        {
+            bRoiHeightWide = true;
+            m_RoiTimer.StartTimer();
+        }
+
+        private void btnRoiHeightWide_MouseUp(object sender, MouseEventArgs e)
+        {
+            bRoiHeightWide = false;
+        }
+
+        private void btnRoiHeightNarrow_MouseDown(object sender, MouseEventArgs e)
+        {
+            bRoiHeightNarrow = true;
+            m_RoiTimer.StartTimer();
+        }
+
+        private void btnRoiHeightNarrow_MouseUp(object sender, MouseEventArgs e)
+        {
+            bRoiHeightNarrow = false;
+        }
+
+        private void btnMoveMacroAlignPos1_Click(object sender, EventArgs e)
+        {
+            CMainFrame.LWDicer.m_ctrlStage1.MoveToMacroAlignA();
+        }
+
+        private void btnMoveMacroAlignPos2_Click(object sender, EventArgs e)
+        {
+            CMainFrame.LWDicer.m_ctrlStage1.MoveToMacroAlignB();
+        }
+
+        private void btnMarkPosTeach1_Click(object sender, EventArgs e)
+        {
+            CMainFrame.LWDicer.m_ctrlStage1.MoveToMacroTeachA();
+        }
+
+        private void btnMarkPosTeach2_Click(object sender, EventArgs e)
+        {
+            CMainFrame.LWDicer.m_ctrlStage1.MoveToMacroTeachB();
         }
     }
 }

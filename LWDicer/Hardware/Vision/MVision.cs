@@ -251,6 +251,7 @@ namespace LWDicer.Layers
         {
             return m_RefComp.View[iCamNo].GetViewHandle();
         }
+
         /// <summary>
         /// DisplayImage : MIL Image를 객체에 Dispaly함
         /// </summary>
@@ -1506,8 +1507,11 @@ namespace LWDicer.Layers
 
         public void SetRoiSize(Size pSize)
         {
+            if (m_iMarkROIWidth == pSize.Width && m_iMarkROIHeight == pSize.Height) return;
             m_iMarkROIWidth = pSize.Width;
             m_iMarkROIHeight = pSize.Height;
+            Size recSize = new Size(m_iMarkROIWidth, m_iMarkROIHeight);
+            DrawOverlayAreaRect(recSize);
         }
 
         public Size GetRoiSize()

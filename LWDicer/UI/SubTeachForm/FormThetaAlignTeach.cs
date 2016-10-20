@@ -348,8 +348,6 @@ namespace LWDicer.UI
 
         private void btnDieIndexDataSave_Click(object sender, EventArgs e)
         {
-           
-
             CMainFrame.DataManager.SystemData_Align.DieIndexWidth  = Convert.ToDouble(lblDieIndexAxisX.Text);
             CMainFrame.DataManager.SystemData_Align.DieIndexHeight = Convert.ToDouble(lblDieIndexAxisY.Text);
 
@@ -421,14 +419,6 @@ namespace LWDicer.UI
             CMainFrame.LWDicer.m_ctrlStage1.MoveToThetaAlignTurnPosA();
         }
 
-        private void btnStageCenter_Click(object sender, EventArgs e)
-        {
-            CMainFrame.LWDicer.m_ctrlStage1.MoveToStageCenter();
-        }
 
-        private void label16_Click(object sender, EventArgs e)
-        {
-
-        }
     }
 }

@@ -85,7 +85,7 @@
             this.btnCameraDataLoad.Font = new System.Drawing.Font("굴림", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.btnCameraDataLoad.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
             this.btnCameraDataLoad.Image = global::LWDicer.Properties.Resources.export;
-            this.btnCameraDataLoad.Location = new System.Drawing.Point(702, 74);
+            this.btnCameraDataLoad.Location = new System.Drawing.Point(700, 20);
             this.btnCameraDataLoad.Name = "btnCameraDataLoad";
             this.btnCameraDataLoad.Size = new System.Drawing.Size(130, 61);
             this.btnCameraDataLoad.TabIndex = 963;
@@ -100,7 +100,7 @@
             this.btnCameraDataSave.Font = new System.Drawing.Font("굴림", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.btnCameraDataSave.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
             this.btnCameraDataSave.Image = ((System.Drawing.Image)(resources.GetObject("btnCameraDataSave.Image")));
-            this.btnCameraDataSave.Location = new System.Drawing.Point(702, 141);
+            this.btnCameraDataSave.Location = new System.Drawing.Point(700, 87);
             this.btnCameraDataSave.Name = "btnCameraDataSave";
             this.btnCameraDataSave.Size = new System.Drawing.Size(130, 61);
             this.btnCameraDataSave.TabIndex = 962;

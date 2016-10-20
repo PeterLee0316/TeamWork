@@ -6,6 +6,7 @@ using System.Windows.Forms;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Runtime.InteropServices;
+using System.IO;
 
 using static LWDicer.Layers.DEF_Vision;
 using static LWDicer.Layers.DEF_Error;
@@ -168,8 +169,11 @@ namespace LWDicer.Layers
 
             MIL_ID m_MilImage = MIL.M_NULL;
             // Image Load...
-            string strLoadFileName = pSData.m_strFilePath + pSData.m_strFileName;  
-            MIL.MbufRestore(strLoadFileName, m_MilSystem, ref m_MilImage);
+            string strLoadFileName = pSData.m_strFilePath + pSData.m_strFileName;
+            if (File.Exists(strLoadFileName))
+                MIL.MbufRestore(strLoadFileName, m_MilSystem, ref m_MilImage);
+            else
+                return GenerateErrorCode(ERR_VISION_PATTERN_NONE);
 
             //Draw할 Rec을 생성한다.
             Rectangle pRec = new Rectangle(pSData.m_rectModel.X - pSData.m_rectModel.Width / 2,
