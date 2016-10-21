@@ -1149,16 +1149,17 @@ namespace LWDicer.Layers
             // Pattern Model Data Read & Apply
             CModelData pModelData;
             m_DataManager.ViewModelData("Default", out pModelData);
-            
-            int iResult = SaveModelData(pModelData);
 
-            if (iResult == SUCCESS)
-            {
-                m_Vision.ReLoadPatternMark(PRE__CAM, PATTERN_A, m_DataManager.ModelData.MacroPatternA);
-                m_Vision.ReLoadPatternMark(PRE__CAM, PATTERN_B, m_DataManager.ModelData.MacroPatternB);
-                m_Vision.ReLoadPatternMark(FINE_CAM, PATTERN_A, m_DataManager.ModelData.MicroPatternA);
-                m_Vision.ReLoadPatternMark(FINE_CAM, PATTERN_B, m_DataManager.ModelData.MicroPatternB);
-            }            
+            // LJJ need to edit
+            //int iResult = SaveModelData(pModelData);
+
+            //if (iResult == SUCCESS)
+            //{
+            //    m_Vision.ReLoadPatternMark(PRE__CAM, PATTERN_A, m_DataManager.ModelData.MacroPatternA);
+            //    m_Vision.ReLoadPatternMark(PRE__CAM, PATTERN_B, m_DataManager.ModelData.MacroPatternB);
+            //    m_Vision.ReLoadPatternMark(FINE_CAM, PATTERN_A, m_DataManager.ModelData.MicroPatternA);
+            //    m_Vision.ReLoadPatternMark(FINE_CAM, PATTERN_B, m_DataManager.ModelData.MicroPatternB);
+            //}            
         }
 
         void CreateScanner(CObjectInfo objInfo)

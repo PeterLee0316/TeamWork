@@ -824,7 +824,7 @@ namespace LWDicer.Layers
             movePos.dX -= offSet.dX;
             movePos.dY -= offSet.dY;
             
-            CMainFrame.LWDicer.m_DataManager.FixedPos.Stage1Pos.Pos[(int)EStagePos.MACRO_ALIGN] = movePos;
+            CMainFrame.LWDicer.m_DataManager.Pos_Fixed.Pos_Stage1.Pos[(int)EStagePos.MACRO_ALIGN] = movePos;
 
             return SUCCESS;
         }
@@ -2436,19 +2436,20 @@ namespace LWDicer.Layers
                 rotateCenter = CalsRotateCenter(markPos1, markPos2, 90.0);
 
                 // Stage의 중심을 재 설정한다.
-                CMainFrame.DataManager.FixedPos.Stage1Pos.Pos[(int)EStagePos.STAGE_CENTER_FINE].dX = StageRotatePos[(int)ERotateCenterStep.INIT].dX - rotateCenter.dX;
-                CMainFrame.DataManager.FixedPos.Stage1Pos.Pos[(int)EStagePos.STAGE_CENTER_FINE].dY = StageRotatePos[(int)ERotateCenterStep.INIT].dY - rotateCenter.dY;
-                CMainFrame.DataManager.FixedPos.Stage1Pos.Pos[(int)EStagePos.STAGE_CENTER_FINE].dT = 0.0;
+                CMainFrame.DataManager.Pos_Fixed.Pos_Stage1.Pos[(int)EStagePos.STAGE_CENTER_FINE].dX = StageRotatePos[(int)ERotateCenterStep.INIT].dX - rotateCenter.dX;
+                CMainFrame.DataManager.Pos_Fixed.Pos_Stage1.Pos[(int)EStagePos.STAGE_CENTER_FINE].dY = StageRotatePos[(int)ERotateCenterStep.INIT].dY - rotateCenter.dY;
+                CMainFrame.DataManager.Pos_Fixed.Pos_Stage1.Pos[(int)EStagePos.STAGE_CENTER_FINE].dT = 0.0;
 
-                CMainFrame.DataManager.SavePositionData(true, EPositionObject.STAGE1);
-                CMainFrame.LWDicer.SetPositionDataToComponent(EPositionGroup.STAGE1);
+                // LJJ need to edit
+                //CMainFrame.DataManager.SavePositionData(true, EPositionObject.STAGE1);
+                //CMainFrame.LWDicer.SetPositionDataToComponent(EPositionGroup.STAGE1);
 
                 // Pre Cam과 Fine Cam의 오차를 대입한다.
 
-                CMainFrame.DataManager.SystemData_Align.CamEachOffsetX = CMainFrame.DataManager.FixedPos.Stage1Pos.Pos[(int)EStagePos.STAGE_CENTER_PRE].dX -
-                                                                         CMainFrame.DataManager.FixedPos.Stage1Pos.Pos[(int)EStagePos.STAGE_CENTER_FINE].dX;
-                CMainFrame.DataManager.SystemData_Align.CamEachOffsetY = CMainFrame.DataManager.FixedPos.Stage1Pos.Pos[(int)EStagePos.STAGE_CENTER_PRE].dY -
-                                                                         CMainFrame.DataManager.FixedPos.Stage1Pos.Pos[(int)EStagePos.STAGE_CENTER_FINE].dY;
+                CMainFrame.DataManager.SystemData_Align.CamEachOffsetX = CMainFrame.DataManager.Pos_Fixed.Pos_Stage1.Pos[(int)EStagePos.STAGE_CENTER_PRE].dX -
+                                                                         CMainFrame.DataManager.Pos_Fixed.Pos_Stage1.Pos[(int)EStagePos.STAGE_CENTER_FINE].dX;
+                CMainFrame.DataManager.SystemData_Align.CamEachOffsetY = CMainFrame.DataManager.Pos_Fixed.Pos_Stage1.Pos[(int)EStagePos.STAGE_CENTER_PRE].dY -
+                                                                         CMainFrame.DataManager.Pos_Fixed.Pos_Stage1.Pos[(int)EStagePos.STAGE_CENTER_FINE].dY;
 
                 CMainFrame.DataManager.SaveSystemData(null, null, null, null, CMainFrame.DataManager.SystemData_Align, null, null);
 
@@ -2581,8 +2582,8 @@ namespace LWDicer.Layers
                 // Pos1으로 이동함.
                 double dLength = WAFER_SIZE_12_INCH / 2.0 * Math.Cos(Math.PI / 180 * 45);                
 
-                posTeach.dX = CMainFrame.DataManager.FixedPos.Stage1Pos.Pos[(int)EStagePos.STAGE_CENTER_PRE].dX + dLength;
-                posTeach.dY = CMainFrame.DataManager.FixedPos.Stage1Pos.Pos[(int)EStagePos.STAGE_CENTER_PRE].dY - dLength;
+                posTeach.dX = CMainFrame.DataManager.Pos_Fixed.Pos_Stage1.Pos[(int)EStagePos.STAGE_CENTER_PRE].dX + dLength;
+                posTeach.dY = CMainFrame.DataManager.Pos_Fixed.Pos_Stage1.Pos[(int)EStagePos.STAGE_CENTER_PRE].dY - dLength;
                 posTeach.dT = 0.0;
 
                 iResult = m_RefComp.Stage.MoveStagePos(posTeach);

@@ -414,7 +414,7 @@ CSpinStep class -> CCleaningStep / CCoatingStep class 로 분리
 (need find another way to implement modeless form.)
 7. fixed MLWDicer.SetModelDataToComponent method and calling MDataManager.SaveModelData directly to calling MLWDicer.SaveModelData. (SystemData too)
    * must call MLWDicer.SaveModelData / MLWDicer.SaveSystemData in UI
-8. Name Changed : FixedPos, ModelPos, OffsetPos -> Pos_Fixed, Pos_Model, Pos_Offset
+8. Name Changed : Pos_Fixed, ModelPos, OffsetPos -> Pos_Fixed, Pos_Model, Pos_Offset
 9. Name Changed : CPositionData -> CPositionGroup and members, and Pos_Array member added.
 10. Name Changed : CPosition -> CPositionSet class, GetPosition -> GetPositionSet, SetPosition -> SetPositionSet
 11. Name Changed : Mechanical Layer's SetXXXPosition -> SetPosition_XXX

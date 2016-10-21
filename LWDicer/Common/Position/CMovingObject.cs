@@ -132,7 +132,7 @@ namespace LWDicer.Layers
         public CPos_XYTZ GetTargetPos(int index, bool WithAlign)
         {
             // Debug.Assert((int)EPosition.LOAD <= index && index < PosLength);
-            CPos_XYTZ target = FixedPos.Pos[index] + ModelPos.Pos[index] + OffsetPos.Pos[index];
+            CPos_XYTZ target = Pos_Fixed.Pos[index] + Pos_Model.Pos[index] + Pos_Offset.Pos[index];
             // index가 Loading 위치가 아니고, 얼라인이 되어있다면 얼라인 보정값 적용
             if (WithAlign)
             {

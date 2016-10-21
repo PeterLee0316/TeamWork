@@ -40,7 +40,7 @@
             this.btnEdgeTeachPos1 = new System.Windows.Forms.Button();
             this.btnEdgeAlignDataInit = new System.Windows.Forms.Button();
             this.btnEdgeAlignDataSave = new System.Windows.Forms.Button();
-            this.btnStageCenter = new System.Windows.Forms.Button();
+            this.btnStageCenterPre = new System.Windows.Forms.Button();
             this.picVision = new System.Windows.Forms.Panel();
             this.BtnExit = new System.Windows.Forms.Button();
             this.pnlStageJog = new System.Windows.Forms.Panel();
@@ -224,18 +224,18 @@
             this.btnEdgeAlignDataSave.UseVisualStyleBackColor = true;
             this.btnEdgeAlignDataSave.Click += new System.EventHandler(this.btnEdgeAlignDataSave_Click);
             // 
-            // btnStageCenter
+            // btnStageCenterPre
             // 
-            this.btnStageCenter.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.btnStageCenter.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.btnStageCenter.Location = new System.Drawing.Point(12, 21);
-            this.btnStageCenter.Name = "btnStageCenter";
-            this.btnStageCenter.Size = new System.Drawing.Size(98, 61);
-            this.btnStageCenter.TabIndex = 976;
-            this.btnStageCenter.Text = "Stage Center";
-            this.btnStageCenter.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.btnStageCenter.UseVisualStyleBackColor = true;
-            this.btnStageCenter.Click += new System.EventHandler(this.btnStageCenter_Click);
+            this.btnStageCenterPre.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.btnStageCenterPre.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.btnStageCenterPre.Location = new System.Drawing.Point(12, 21);
+            this.btnStageCenterPre.Name = "btnStageCenterPre";
+            this.btnStageCenterPre.Size = new System.Drawing.Size(98, 61);
+            this.btnStageCenterPre.TabIndex = 976;
+            this.btnStageCenterPre.Text = "Stage Center";
+            this.btnStageCenterPre.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.btnStageCenterPre.UseVisualStyleBackColor = true;
+            this.btnStageCenterPre.Click += new System.EventHandler(this.btnStageCenterPre_Click);
             // 
             // picVision
             // 

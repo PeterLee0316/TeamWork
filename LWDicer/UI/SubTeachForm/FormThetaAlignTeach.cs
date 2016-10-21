@@ -49,8 +49,6 @@ namespace LWDicer.UI
 
         private void BtnExit_Click(object sender, EventArgs e)
         {
-            TmrTeach.Enabled = false;
-
             CMainFrame.LWDicer.m_ctrlStage1.InitThetaAlign();
 
             // Local View 해제

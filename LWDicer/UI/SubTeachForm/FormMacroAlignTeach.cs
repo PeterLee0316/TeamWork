@@ -143,8 +143,10 @@ namespace LWDicer.UI
                 strShowData = String.Format("{0:0.0000}", CMainFrame.LWDicer.m_ACS.ServoStatus[(int)EACS_Axis.STAGE1_T].EncoderPos);
                 lblStagePosT.Text = strShowData;
 
+#if EQUIP_266_DEV
                 strShowData = String.Format("{0:0.0000}", CMainFrame.LWDicer.m_ACS.ServoStatus[(int)EACS_Axis.CAMERA1_Z].EncoderPos);
                 lblCamPosZ.Text = strShowData;
+#endif
             }
             catch
             { }
@@ -290,8 +292,9 @@ namespace LWDicer.UI
 
             // Mark를 등록한 위치를 Stage의 Mark Search 위치로 저장함. 
             CMainFrame.LWDicer.m_ctrlStage1.TeachMacroAlignA();
-            CMainFrame.DataManager.SavePositionData(true, EPositionObject.STAGE1);            
-            CMainFrame.LWDicer.SetPositionDataToComponent(EPositionGroup.STAGE1);
+            // LJJ need to edit
+            //CMainFrame.DataManager.SavePositionData(true, EPositionObject.STAGE1);            
+            //CMainFrame.LWDicer.SetPositionDataToComponent(EPositionGroup.STAGE1);
 
         }
 

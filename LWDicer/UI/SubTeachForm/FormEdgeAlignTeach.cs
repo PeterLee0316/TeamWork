@@ -127,7 +127,7 @@ namespace LWDicer.UI
             int direction = DEF_X;
 
             int nSelectedPos = (int)EStagePos.EDGE_ALIGN_1;
-            int tPosIndex = (int)EStagePos.STAGE_CENTER;
+            int tPosIndex = (int)EStagePos.STAGE_CENTER_PRE;
             tGroup.Pos_Array[(int)pIndex].Pos[nSelectedPos].Add(DEF_X, tGroup.Pos_Array[(int)pIndex].Pos[tPosIndex].GetAt(DEF_X) + dLength);
             tGroup.Pos_Array[(int)pIndex].Pos[nSelectedPos].Add(DEF_Y, tGroup.Pos_Array[(int)pIndex].Pos[tPosIndex].GetAt(DEF_Y) - dLength);
             tGroup.Pos_Array[(int)pIndex].Pos[nSelectedPos].Add(DEF_T, tGroup.Pos_Array[(int)pIndex].Pos[tPosIndex].GetAt(DEF_X));
@@ -244,11 +244,11 @@ namespace LWDicer.UI
 
             dLength = WAFER_SIZE_12_INCH / 2.0 * Math.Cos(Math.PI / 180 * 45);
 
-            CMainFrame.DataManager.Pos_Fixed.Pos_Stage1.Pos[(int)EStagePos.EDGE_ALIGN_1].dX = CMainFrame.DataManager.Pos_Fixed.Pos_Stage1.Pos[(int)EStagePos.STAGE_CENTER].dX +
+            CMainFrame.DataManager.Pos_Fixed.Pos_Stage1.Pos[(int)EStagePos.EDGE_ALIGN_1].dX = CMainFrame.DataManager.Pos_Fixed.Pos_Stage1.Pos[(int)EStagePos.STAGE_CENTER_PRE].dX +
                                                                                             dLength;
-            CMainFrame.DataManager.Pos_Fixed.Pos_Stage1.Pos[(int)EStagePos.EDGE_ALIGN_1].dY = CMainFrame.DataManager.Pos_Fixed.Pos_Stage1.Pos[(int)EStagePos.STAGE_CENTER].dY -
+            CMainFrame.DataManager.Pos_Fixed.Pos_Stage1.Pos[(int)EStagePos.EDGE_ALIGN_1].dY = CMainFrame.DataManager.Pos_Fixed.Pos_Stage1.Pos[(int)EStagePos.STAGE_CENTER_PRE].dY -
                                                                                             dLength;
-            CMainFrame.DataManager.Pos_Fixed.Pos_Stage1.Pos[(int)EStagePos.EDGE_ALIGN_1].dT = CMainFrame.DataManager.Pos_Fixed.Pos_Stage1.Pos[(int)EStagePos.STAGE_CENTER].dT;
+            CMainFrame.DataManager.Pos_Fixed.Pos_Stage1.Pos[(int)EStagePos.EDGE_ALIGN_1].dT = CMainFrame.DataManager.Pos_Fixed.Pos_Stage1.Pos[(int)EStagePos.STAGE_CENTER_PRE].dT;
 
             // Wafer의 중심 Offset 적용
             CMainFrame.DataManager.SystemData_Align.WaferOffsetX = 0.0;
@@ -277,8 +277,9 @@ namespace LWDicer.UI
         {
             CMainFrame.DataManager.SaveModelData(CMainFrame.DataManager.ModelData);
 
-            CMainFrame.DataManager.SavePositionData(true, EPositionObject.STAGE1);
-            CMainFrame.LWDicer.SetPositionDataToComponent(EPositionGroup.STAGE1);
+            // LJJ need to edit
+            //CMainFrame.DataManager.SavePositionData(true, EPositionObject.STAGE1);
+            //CMainFrame.LWDicer.SetPositionDataToComponent(EPositionGroup.STAGE1);
         }
 
         private void btnWaferCenterSearchRun_Click(object sender, EventArgs e)
