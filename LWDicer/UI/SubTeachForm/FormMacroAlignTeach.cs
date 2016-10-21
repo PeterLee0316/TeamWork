@@ -54,19 +54,12 @@ namespace LWDicer.UI
             
         }
 
-        private void FormClose()
+        private void BtnExit_Click(object sender, EventArgs e)
         {
             // Local View 해제
             int iCam = CMainFrame.LWDicer.m_ctrlStage1.GetCurrentCam();
             CMainFrame.LWDicer.m_Vision.DestroyLocalView(iCam);
-
             this.Close();
-        }
-
-
-        private void BtnExit_Click(object sender, EventArgs e)
-        {
-            FormClose();
         }
 
         private void FormMacroAlignTeach_Load(object sender, EventArgs e)

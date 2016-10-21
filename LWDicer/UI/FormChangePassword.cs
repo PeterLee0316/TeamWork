@@ -22,11 +22,6 @@ namespace LWDicer.UI
             InitializeComponent();
         }
 
-        private void FormClose()
-        {
-            this.Hide();
-        }
-
         private void BtnChange_Click(object sender, EventArgs e)
         {
             CUserInfo info;
@@ -56,18 +51,17 @@ namespace LWDicer.UI
             }
 
             info.Password = NewPW2.Text;
-            int iResult = CMainFrame.DataManager.SaveModelData(info);
+            int iResult = CMainFrame.LWDicer.SaveUserData(info);
             CMainFrame.DisplayAlarm(iResult);
         }
 
         private void BtnExit_Click(object sender, EventArgs e)
         {
-            FormClose();
+            this.Close();
         }
 
         private void FormInputPassword_FormClosing(object sender, FormClosingEventArgs e)
         {
-            FormClose();
         }
 
         private void CurrentPW_Click(object sender, EventArgs e)

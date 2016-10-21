@@ -39,15 +39,6 @@ namespace LWDicer.UI
             CMainFrame.IsAlarmPopup = true;
         }
 
-        private void FormClose()
-        {
-            TmrAlarm.Stop();
-            TmrAlarm.Enabled = false;
-
-            this.Hide();
-            CMainFrame.IsAlarmPopup = false;
-        }
-
         private void BtnBuzzerOff_Click(object sender, EventArgs e)
         {
             CMainFrame.LWDicer.m_OpPanel.SetBuzzerStatus(false);
@@ -70,12 +61,12 @@ namespace LWDicer.UI
 
             }
 
-            FormClose();
+            this.Close();
         }
 
         private void FormAlarmDisplay_FormClosing(object sender, FormClosingEventArgs e)
         {
-            FormClose();
+            CMainFrame.IsAlarmPopup = false;
         }
 
         //private void BtnLanguage_Click(object sender, EventArgs e)
@@ -256,7 +247,7 @@ namespace LWDicer.UI
             dYPos = e.Y;
         }
 
-        private void TmrAlarm_Tick(object sender, EventArgs e)
+        private void TimerUI_Tick(object sender, EventArgs e)
         {
             if (bToggle)
             {

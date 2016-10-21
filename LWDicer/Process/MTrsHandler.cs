@@ -333,12 +333,21 @@ namespace LWDicer.Layers
                     iResult = m_RefComp.ctrlHandler.IsObjectDetected(index, out bStatus);
                     if (iResult != SUCCESS) { ReportAlarm(iResult); break; }
 
-                    if(bStatus == true && TInterface.Stage1_Handler_BeginHandshake_Load == true)
+                    if(bStatus == true)
                     {
-                        GetWorkPiece(ELCNetUnitPos.UPPER_HANDLER).FinishPhase(EProcessPhase.UPPER_HANDLER_WAIT_UNLOAD);
-                        GetWorkPiece(ELCNetUnitPos.UPPER_HANDLER).StartPhase(EProcessPhase.UPPER_HANDLER_UNLOAD);
-                        SetStep1(TRS_UPPER_HANDLER_UNLOADING_TO_STAGE_ONESTEP);
-                    } else if(bStatus == false && TInterface.PushPull_Handler_BeginHandshake_Unload == true)
+                        if(GetWorkPiece(ELCNetUnitPos.UPPER_HANDLER).Process[(int)EProcessPhase.UPPER_HANDLER_WAIT_UNLOAD].IsStarted == false)
+                        {
+                            GetWorkPiece(ELCNetUnitPos.UPPER_HANDLER).StartPhase(EProcessPhase.UPPER_HANDLER_WAIT_UNLOAD);
+                        }
+
+                        if(TInterface.Stage1_Handler_BeginHandshake_Load == true)
+                        {
+                            GetWorkPiece(ELCNetUnitPos.UPPER_HANDLER).FinishPhase(EProcessPhase.UPPER_HANDLER_WAIT_UNLOAD);
+                            GetWorkPiece(ELCNetUnitPos.UPPER_HANDLER).StartPhase(EProcessPhase.UPPER_HANDLER_UNLOAD);
+                            SetStep1(TRS_UPPER_HANDLER_UNLOADING_TO_STAGE_ONESTEP);
+                        }
+                    }
+                    else if(bStatus == false && TInterface.PushPull_Handler_BeginHandshake_Unload == true)
                     {
                         SetStep1(TRS_UPPER_HANDLER_LOADING_FROM_PUSHPULL_ONESTEP);
                     }
@@ -454,7 +463,7 @@ namespace LWDicer.Layers
 
                     // init
                     TInterface.ResetInterface(TSelf);
-                    TOpponent = (int)EThreadUnit.PUSHPULL;
+                    TOpponent = (int)EThreadUnit.STAGE1;
                     if (TInterface.ErrorOccured[TOpponent]) break;
 
                     // begin
@@ -570,11 +579,19 @@ namespace LWDicer.Layers
                     iResult = m_RefComp.ctrlHandler.IsObjectDetected(index, out bStatus);
                     if (iResult != SUCCESS) { ReportAlarm(iResult); break; }
 
-                    if (bStatus == true && TInterface.PushPull_Handler_BeginHandshake_Load == true)
+                    if (bStatus == true)
                     {
-                        GetWorkPiece(ELCNetUnitPos.LOWER_HANDLER).FinishPhase(EProcessPhase.LOWER_HANDLER_WAIT_UNLOAD);
-                        GetWorkPiece(ELCNetUnitPos.LOWER_HANDLER).StartPhase(EProcessPhase.LOWER_HANDLER_UNLOAD);
-                        SetStep2(TRS_LOWER_HANDLER_UNLOADING_TO_PUSHPULL_ONESTEP);
+                        if (GetWorkPiece(ELCNetUnitPos.LOWER_HANDLER).Process[(int)EProcessPhase.LOWER_HANDLER_WAIT_UNLOAD].IsStarted == false)
+                        {
+                            GetWorkPiece(ELCNetUnitPos.LOWER_HANDLER).StartPhase(EProcessPhase.LOWER_HANDLER_WAIT_UNLOAD);
+                        }
+
+                        if (TInterface.PushPull_Handler_BeginHandshake_Load == true)
+                        {
+                            GetWorkPiece(ELCNetUnitPos.LOWER_HANDLER).FinishPhase(EProcessPhase.LOWER_HANDLER_WAIT_UNLOAD);
+                            GetWorkPiece(ELCNetUnitPos.LOWER_HANDLER).StartPhase(EProcessPhase.LOWER_HANDLER_UNLOAD);
+                            SetStep2(TRS_LOWER_HANDLER_UNLOADING_TO_PUSHPULL_ONESTEP);
+                        }
                     }
                     else if (bStatus == false && TInterface.Stage1_Handler_BeginHandshake_Unload == true)
                     {
@@ -594,7 +611,7 @@ namespace LWDicer.Layers
 
                     // init
                     TInterface.ResetInterface(TSelf);
-                    TOpponent = (int)EThreadUnit.PUSHPULL;
+                    TOpponent = (int)EThreadUnit.STAGE1;
                     if (TInterface.ErrorOccured[TOpponent]) break;
 
                     // begin

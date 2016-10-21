@@ -111,17 +111,11 @@ namespace LWDicer.UI
 
         private void BtnConfigureExit_Click(object sender, EventArgs e)
         {
-            FormClose();
-        }
-
-        private void FormClose()
-        {
-            this.Hide();
+            this.Close();
         }
 
         private void FormSystemParaRead_FormClosing(object sender, FormClosingEventArgs e)
         {
-            FormClose();
         }
 
         private void BtnMsgInfoImport_Click(object sender, EventArgs e)

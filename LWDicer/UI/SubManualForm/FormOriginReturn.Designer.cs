@@ -56,7 +56,7 @@
             this.BtnServoOn = new Syncfusion.Windows.Forms.ButtonAdv();
             this.BtnServoOff = new Syncfusion.Windows.Forms.ButtonAdv();
             this.Image = new System.Windows.Forms.ImageList(this.components);
-            this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.TimerUI = new System.Windows.Forms.Timer(this.components);
             this.LabelProgress = new Syncfusion.Windows.Forms.Tools.GradientLabel();
             this.BtnAxis20 = new Syncfusion.Windows.Forms.ButtonAdv();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
@@ -395,9 +395,9 @@
             this.Image.Images.SetKeyName(0, "Led_Off.png");
             this.Image.Images.SetKeyName(1, "Led_On.png");
             // 
-            // timer1
+            // TimerUI
             // 
-            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            this.TimerUI.Tick += new System.EventHandler(this.TimerUI_Tick);
             // 
             // LabelProgress
             // 
@@ -601,7 +601,7 @@
         private Syncfusion.Windows.Forms.ButtonAdv BtnServoOn;
         private Syncfusion.Windows.Forms.ButtonAdv BtnServoOff;
         private System.Windows.Forms.ImageList Image;
-        private System.Windows.Forms.Timer timer1;
+        private System.Windows.Forms.Timer TimerUI;
         private Syncfusion.Windows.Forms.Tools.GradientLabel LabelProgress;
         private Syncfusion.Windows.Forms.ButtonAdv BtnAxis20;
         private System.Windows.Forms.GroupBox groupBox1;

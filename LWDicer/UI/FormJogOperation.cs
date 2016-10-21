@@ -54,16 +54,10 @@ namespace LWDicer.UI
         {
             InitializeComponent();
 
-            TmrJog.Enabled = true;
-            TmrJog.Interval = UITimerInterval;
+            TimerUI.Enabled = true;
+            TimerUI.Interval = UITimerInterval;
 
             ResouceMapping();
-        }
-
-        private void FormClose()
-        {
-            TmrJog.Stop();
-            this.Hide();
         }
 
         private void ResouceMapping()
@@ -142,17 +136,16 @@ namespace LWDicer.UI
             BtnAxis1.BackColor = Color.YellowGreen;
 
 
-            TmrJog.Start();
+            TimerUI.Start();
         }
 
         private void FormJogOperation_FormClosing(object sender, FormClosingEventArgs e)
         {
-            FormClose();
         }
 
         private void BtnExit_Click(object sender, EventArgs e)
         {
-            FormClose();
+            this.Close();
         }
 
         private void SetVelocity()
@@ -448,7 +441,7 @@ namespace LWDicer.UI
             }
         }
 
-        private void TmrJog_Tick(object sender, EventArgs e)
+        private void TimerUI_Tick(object sender, EventArgs e)
         {
             string strCurPos = string.Empty;
 

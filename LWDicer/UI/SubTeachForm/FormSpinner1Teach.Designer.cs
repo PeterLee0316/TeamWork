@@ -52,7 +52,7 @@
             this.gradientLabel3 = new Syncfusion.Windows.Forms.Tools.GradientLabel();
             this.LabelTeach1 = new Syncfusion.Windows.Forms.Tools.GradientLabel();
             this.gradientLabel13 = new Syncfusion.Windows.Forms.Tools.GradientLabel();
-            this.TmrTeach = new System.Windows.Forms.Timer(this.components);
+            this.TimerUI = new System.Windows.Forms.Timer(this.components);
             this.gradientLabel14 = new Syncfusion.Windows.Forms.Tools.GradientLabel();
             this.BtnNozzleTeachMove = new System.Windows.Forms.Button();
             this.BtnNozzlePos3 = new Syncfusion.Windows.Forms.ButtonAdv();
@@ -417,9 +417,9 @@
             this.gradientLabel13.TabIndex = 882;
             this.gradientLabel13.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // TmrTeach
+            // TimerUI
             // 
-            this.TmrTeach.Tick += new System.EventHandler(this.TmrTeach_Tick);
+            this.TimerUI.Tick += new System.EventHandler(this.TimerUI_Tick);
             // 
             // gradientLabel14
             // 
@@ -1134,7 +1134,7 @@
         private Syncfusion.Windows.Forms.Tools.GradientLabel gradientLabel3;
         private Syncfusion.Windows.Forms.Tools.GradientLabel LabelTeach1;
         private Syncfusion.Windows.Forms.Tools.GradientLabel gradientLabel13;
-        private System.Windows.Forms.Timer TmrTeach;
+        private System.Windows.Forms.Timer TimerUI;
         private Syncfusion.Windows.Forms.Tools.GradientLabel gradientLabel14;
         private System.Windows.Forms.Button BtnNozzleTeachMove;
         private Syncfusion.Windows.Forms.Tools.GradientLabel gradientLabel7;

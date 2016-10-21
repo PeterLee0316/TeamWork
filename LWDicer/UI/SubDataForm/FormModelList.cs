@@ -183,14 +183,9 @@ namespace LWDicer.UI
             GridCtrl.Refresh();
         }
 
-        private void FormClose()
-        {
-            this.Hide();
-        }
-
         private void BtnExit_Click(object sender, EventArgs e)
         {
-            FormClose();
+            this.Close();
         }
 
         private void FormModelData_Load(object sender, EventArgs e)
@@ -207,7 +202,6 @@ namespace LWDicer.UI
 
         private void FormModelData_FormClosing(object sender, FormClosingEventArgs e)
         {
-            FormClose();
         }
 
         private void MakerlTreeView_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
@@ -418,17 +412,17 @@ namespace LWDicer.UI
                 case EListHeaderType.MODEL:
                     CModelData modelData = ObjectExtensions.Copy(CMainFrame.DataManager.ModelData);
                     modelData.Name = header.Name;
-                    CMainFrame.DataManager.SaveModelData(modelData);
+                    CMainFrame.LWDicer.SaveModelData(modelData);
                     break;
                 case EListHeaderType.CASSETTE:
                     CWaferCassette cassetteData = ObjectExtensions.Copy(CMainFrame.DataManager.CassetteData);
                     cassetteData.Name = header.Name;
-                    CMainFrame.DataManager.SaveModelData(cassetteData);
+                    CMainFrame.LWDicer.SaveModelData(cassetteData);
                     break;
                 case EListHeaderType.WAFERFRAME:
                     CWaferFrame waferFrameData = ObjectExtensions.Copy(CMainFrame.DataManager.WaferFrameData);
                     waferFrameData.Name = header.Name;
-                    CMainFrame.DataManager.SaveModelData(waferFrameData);
+                    CMainFrame.LWDicer.SaveModelData(waferFrameData);
                     break;
                 case EListHeaderType.USERINFO:
                     ELoginType Login = ELoginType.OPERATOR;
@@ -437,7 +431,7 @@ namespace LWDicer.UI
                     if (strSelMakerName == ELoginType.ENGINEER.ToString()) Login = ELoginType.ENGINEER;
 
                     CUserInfo userInfoData = new CUserInfo(strName, strComment, strPass1, Login);
-                    CMainFrame.DataManager.SaveModelData(userInfoData);
+                    CMainFrame.LWDicer.SaveUserData(userInfoData);
                     break;
             }
 

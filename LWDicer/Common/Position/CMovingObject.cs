@@ -7,15 +7,19 @@ using System.Diagnostics;
 
 using static LWDicer.Layers.DEF_Common;
 using static LWDicer.Layers.DEF_Error;
+using static LWDicer.Layers.DEF_Motion;
 
 namespace LWDicer.Layers
 {
-    public class CPosition
+    /// <summary>
+    /// 하나의 MovingObject 단위가 가지고 있는 좌표 세트. 
+    /// </summary>
+    public class CPositionSet
     {
         public int Length { get; private set; }
         public CPos_XYTZ[] Pos;
 
-        public CPosition(int Length)
+        public CPositionSet(int Length)
         {
             this.Length = Length;
             Pos = new CPos_XYTZ[Length];
@@ -48,9 +52,9 @@ namespace LWDicer.Layers
     public class CMovingObject
     {
         public int PosLength;           // 좌표의 갯수
-        public CPosition FixedPos;       // 고정좌표
-        public CPosition ModelPos;       // 모델 크기에 따라 자동으로 변경되는 좌표 
-        public CPosition OffsetPos;      // 모델 Offset 좌표
+        public CPositionSet Pos_Fixed;       // 고정좌표
+        public CPositionSet Pos_Model;       // 모델 크기에 따라 자동으로 변경되는 좌표 
+        public CPositionSet Pos_Offset;      // 모델 Offset 좌표
 
         public int PosInfo;             // 현재 좌표값과 일치하는 Position Index
         public bool IsMarkAligned;      // 얼라인되었는지의 여부
@@ -61,9 +65,9 @@ namespace LWDicer.Layers
             Debug.Assert(0 < PosLength);
 
             this.PosLength = PosLength;
-            FixedPos = new CPosition(PosLength);
-            ModelPos = new CPosition(PosLength);
-            OffsetPos = new CPosition(PosLength);
+            Pos_Fixed = new CPositionSet(PosLength);
+            Pos_Model = new CPositionSet(PosLength);
+            Pos_Offset = new CPositionSet(PosLength);
 
             PosInfo = (int)EPosition.NONE;
             AlignOffset = new CPos_XYTZ();
@@ -71,25 +75,25 @@ namespace LWDicer.Layers
 
         public void InitAll()
         {
-            FixedPos.Init();
-            ModelPos.Init();
-            OffsetPos.Init();
+            Pos_Fixed.Init();
+            Pos_Model.Init();
+            Pos_Offset.Init();
             InitAlignOffset();
         }
 
-        public int SetPosition(CPosition FixedPos, CPosition ModelPos, CPosition OffsetPos)
+        public int SetPositionSet(CPositionSet Pos_Fixed, CPositionSet Pos_Model, CPositionSet Pos_Offset)
         {
-            this.FixedPos = ObjectExtensions.Copy(FixedPos);
-            this.ModelPos = ObjectExtensions.Copy(ModelPos);
-            this.OffsetPos = ObjectExtensions.Copy(OffsetPos);
+            this.Pos_Fixed = ObjectExtensions.Copy(Pos_Fixed);
+            this.Pos_Model = ObjectExtensions.Copy(Pos_Model);
+            this.Pos_Offset = ObjectExtensions.Copy(Pos_Offset);
             return SUCCESS;
         }
 
-        public int GetPosition(out CPosition FixedPos, out CPosition ModelPos, out CPosition OffsetPos)
+        public int GetPositionSet(out CPositionSet Pos_Fixed, out CPositionSet Pos_Model, out CPositionSet Pos_Offset)
         {
-            FixedPos = ObjectExtensions.Copy(this.FixedPos);
-            ModelPos = ObjectExtensions.Copy(this.ModelPos);
-            OffsetPos = ObjectExtensions.Copy(this.OffsetPos);
+            Pos_Fixed = ObjectExtensions.Copy(this.Pos_Fixed);
+            Pos_Model = ObjectExtensions.Copy(this.Pos_Model);
+            Pos_Offset = ObjectExtensions.Copy(this.Pos_Offset);
             return SUCCESS;
         }
 
@@ -98,11 +102,25 @@ namespace LWDicer.Layers
             IsMarkAligned = false;
             AlignOffset.Init();
         }
-        
+
+        public double GetPosition(int index, int direction, out double dFixed, out double dModel, out double dOffset, out double dAlign)
+        {
+            if (index < 0 || index >= PosLength) index = 0; // for avoiding error occured
+            if (direction < DEF_X || direction >= DEF_XYTZ) direction = DEF_X; // for avoiding error occured
+
+            dFixed  = Pos_Fixed.Pos[index].GetAt(direction);
+            dModel  = Pos_Model.Pos[index].GetAt(direction);
+            dOffset = Pos_Offset.Pos[index].GetAt(direction);
+            dAlign  = (IsMarkAligned == true) ? AlignOffset.GetAt(direction) : 0.0;
+
+            double dTarget = dFixed + dModel + dOffset + dAlign;
+            return dTarget;
+        }
+
         public CPos_XYTZ GetTargetPos(int index)
         {
-           // Debug.Assert((int)EPosition.LOAD <= index && index < PosLength);
-            CPos_XYTZ target = FixedPos.Pos[index] + ModelPos.Pos[index] + OffsetPos.Pos[index];
+            if (index < 0 || index >= PosLength) index = 0; // for avoiding error occured
+            CPos_XYTZ target = Pos_Fixed.Pos[index] + Pos_Model.Pos[index] + Pos_Offset.Pos[index];
             // index가 Loading 위치가 아니고, 얼라인이 되어있다면 얼라인 보정값 적용
             if(index != (int)EPosition.LOAD && IsMarkAligned == true)
             {

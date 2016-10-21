@@ -151,11 +151,6 @@ namespace LWDicer.UI
             }
         }
 
-        private void FormClose()
-        {
-            this.Hide();
-        }
-
         private void BtnSave_Click(object sender, EventArgs e)
         {
             if (!CMainFrame.InquireMsg("Save Data?"))
@@ -178,7 +173,7 @@ namespace LWDicer.UI
             cassetteData.LoadPushPullPos   = Convert.ToDouble(GridCtrl[10, 2].Text);
             cassetteData.FrameCenterPos    = Convert.ToDouble(GridCtrl[11, 2].Text);
 
-            CMainFrame.DataManager.SaveModelData(cassetteData);
+            CMainFrame.LWDicer.SaveModelData(cassetteData);
 
             CMainFrame.DataManager.LoadCassetteData(ComboCassette.Text);
 
@@ -187,12 +182,11 @@ namespace LWDicer.UI
 
         private void BtnExit_Click(object sender, EventArgs e)
         {
-            FormClose();
+            this.Close();
         }
 
         private void FormWaferCassetteData_FormClosing(object sender, FormClosingEventArgs e)
         {
-            FormClose();
         }
 
         private void GridWaferframe_CellClick(object sender, GridCellClickEventArgs e)

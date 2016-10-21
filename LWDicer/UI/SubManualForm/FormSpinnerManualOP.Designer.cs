@@ -31,7 +31,7 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormSpinnerManualOP));
             this.BtnExit = new System.Windows.Forms.Button();
-            this.TmrManualOP = new System.Windows.Forms.Timer(this.components);
+            this.TimerUI = new System.Windows.Forms.Timer(this.components);
             this.gradientLabel1 = new Syncfusion.Windows.Forms.Tools.GradientLabel();
             this.gradientLabel16 = new Syncfusion.Windows.Forms.Tools.GradientLabel();
             this.BtnCleanNozzleOff = new Syncfusion.Windows.Forms.ButtonAdv();
@@ -53,14 +53,14 @@
             this.LabelN2OnOffTime = new Syncfusion.Windows.Forms.Tools.GradientLabel();
             this.gradientLabel10 = new Syncfusion.Windows.Forms.Tools.GradientLabel();
             this.LabelCoatingTime = new Syncfusion.Windows.Forms.Tools.GradientLabel();
-            this.gradientLabel7 = new Syncfusion.Windows.Forms.Tools.GradientLabel();
+            this.LabelCoatingTime_Title = new Syncfusion.Windows.Forms.Tools.GradientLabel();
             this.LabelCleaningTime = new Syncfusion.Windows.Forms.Tools.GradientLabel();
-            this.gradientLabel11 = new Syncfusion.Windows.Forms.Tools.GradientLabel();
-            this.gradientLabel12 = new Syncfusion.Windows.Forms.Tools.GradientLabel();
-            this.buttonAdv1 = new Syncfusion.Windows.Forms.ButtonAdv();
+            this.LabelCleaningTime_Title = new Syncfusion.Windows.Forms.Tools.GradientLabel();
+            this.LabelCoatingTitle = new Syncfusion.Windows.Forms.Tools.GradientLabel();
+            this.BtnCoatingJobStop = new Syncfusion.Windows.Forms.ButtonAdv();
             this.BtnCoatingJobStart = new Syncfusion.Windows.Forms.ButtonAdv();
-            this.gradientLabel13 = new Syncfusion.Windows.Forms.Tools.GradientLabel();
-            this.buttonAdv3 = new Syncfusion.Windows.Forms.ButtonAdv();
+            this.LabelCleaningTitle = new Syncfusion.Windows.Forms.Tools.GradientLabel();
+            this.BtnCleaningJobStop = new Syncfusion.Windows.Forms.ButtonAdv();
             this.BtnCleaningJobStart = new Syncfusion.Windows.Forms.ButtonAdv();
             this.SuspendLayout();
             // 
@@ -78,6 +78,10 @@
             this.BtnExit.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.BtnExit.UseVisualStyleBackColor = true;
             this.BtnExit.Click += new System.EventHandler(this.BtnExit_Click);
+            // 
+            // TimerUI
+            // 
+            this.TimerUI.Tick += new System.EventHandler(this.TimerUI_Tick);
             // 
             // gradientLabel1
             // 
@@ -418,21 +422,21 @@
             this.LabelCoatingTime.TabIndex = 977;
             this.LabelCoatingTime.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // gradientLabel7
+            // LabelCoatingTime_Title
             // 
-            this.gradientLabel7.BackgroundColor = new Syncfusion.Drawing.BrushInfo(Syncfusion.Drawing.GradientStyle.ForwardDiagonal, System.Drawing.Color.Silver, System.Drawing.Color.Maroon);
-            this.gradientLabel7.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
+            this.LabelCoatingTime_Title.BackgroundColor = new Syncfusion.Drawing.BrushInfo(Syncfusion.Drawing.GradientStyle.ForwardDiagonal, System.Drawing.Color.Silver, System.Drawing.Color.Maroon);
+            this.LabelCoatingTime_Title.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
             | System.Windows.Forms.Border3DSide.Right) 
             | System.Windows.Forms.Border3DSide.Bottom)));
-            this.gradientLabel7.BorderStyle = System.Windows.Forms.Border3DStyle.Bump;
-            this.gradientLabel7.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.gradientLabel7.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
-            this.gradientLabel7.Location = new System.Drawing.Point(335, 417);
-            this.gradientLabel7.Name = "gradientLabel7";
-            this.gradientLabel7.Size = new System.Drawing.Size(117, 30);
-            this.gradientLabel7.TabIndex = 976;
-            this.gradientLabel7.Text = "수행 시간";
-            this.gradientLabel7.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.LabelCoatingTime_Title.BorderStyle = System.Windows.Forms.Border3DStyle.Bump;
+            this.LabelCoatingTime_Title.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.LabelCoatingTime_Title.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+            this.LabelCoatingTime_Title.Location = new System.Drawing.Point(335, 417);
+            this.LabelCoatingTime_Title.Name = "LabelCoatingTime_Title";
+            this.LabelCoatingTime_Title.Size = new System.Drawing.Size(117, 30);
+            this.LabelCoatingTime_Title.TabIndex = 976;
+            this.LabelCoatingTime_Title.Text = "수행 시간";
+            this.LabelCoatingTime_Title.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // LabelCleaningTime
             // 
@@ -449,53 +453,54 @@
             this.LabelCleaningTime.TabIndex = 975;
             this.LabelCleaningTime.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // gradientLabel11
+            // LabelCleaningTime_Title
             // 
-            this.gradientLabel11.BackgroundColor = new Syncfusion.Drawing.BrushInfo(Syncfusion.Drawing.GradientStyle.ForwardDiagonal, System.Drawing.Color.Silver, System.Drawing.Color.Maroon);
-            this.gradientLabel11.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
+            this.LabelCleaningTime_Title.BackgroundColor = new Syncfusion.Drawing.BrushInfo(Syncfusion.Drawing.GradientStyle.ForwardDiagonal, System.Drawing.Color.Silver, System.Drawing.Color.Maroon);
+            this.LabelCleaningTime_Title.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
             | System.Windows.Forms.Border3DSide.Right) 
             | System.Windows.Forms.Border3DSide.Bottom)));
-            this.gradientLabel11.BorderStyle = System.Windows.Forms.Border3DStyle.Bump;
-            this.gradientLabel11.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.gradientLabel11.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
-            this.gradientLabel11.Location = new System.Drawing.Point(335, 267);
-            this.gradientLabel11.Name = "gradientLabel11";
-            this.gradientLabel11.Size = new System.Drawing.Size(117, 30);
-            this.gradientLabel11.TabIndex = 974;
-            this.gradientLabel11.Text = "수행 시간";
-            this.gradientLabel11.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.LabelCleaningTime_Title.BorderStyle = System.Windows.Forms.Border3DStyle.Bump;
+            this.LabelCleaningTime_Title.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.LabelCleaningTime_Title.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+            this.LabelCleaningTime_Title.Location = new System.Drawing.Point(335, 267);
+            this.LabelCleaningTime_Title.Name = "LabelCleaningTime_Title";
+            this.LabelCleaningTime_Title.Size = new System.Drawing.Size(117, 30);
+            this.LabelCleaningTime_Title.TabIndex = 974;
+            this.LabelCleaningTime_Title.Text = "수행 시간";
+            this.LabelCleaningTime_Title.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // gradientLabel12
+            // LabelCoatingTitle
             // 
-            this.gradientLabel12.BackgroundColor = new Syncfusion.Drawing.BrushInfo(Syncfusion.Drawing.GradientStyle.ForwardDiagonal, System.Drawing.Color.White, System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255))))));
-            this.gradientLabel12.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
+            this.LabelCoatingTitle.BackgroundColor = new Syncfusion.Drawing.BrushInfo(Syncfusion.Drawing.GradientStyle.ForwardDiagonal, System.Drawing.Color.White, System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255))))));
+            this.LabelCoatingTitle.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
             | System.Windows.Forms.Border3DSide.Right) 
             | System.Windows.Forms.Border3DSide.Bottom)));
-            this.gradientLabel12.BorderStyle = System.Windows.Forms.Border3DStyle.Bump;
-            this.gradientLabel12.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.gradientLabel12.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.gradientLabel12.Location = new System.Drawing.Point(335, 313);
-            this.gradientLabel12.Name = "gradientLabel12";
-            this.gradientLabel12.Size = new System.Drawing.Size(237, 38);
-            this.gradientLabel12.TabIndex = 973;
-            this.gradientLabel12.Text = "Coating Work";
-            this.gradientLabel12.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.LabelCoatingTitle.BorderStyle = System.Windows.Forms.Border3DStyle.Bump;
+            this.LabelCoatingTitle.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.LabelCoatingTitle.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.LabelCoatingTitle.Location = new System.Drawing.Point(335, 313);
+            this.LabelCoatingTitle.Name = "LabelCoatingTitle";
+            this.LabelCoatingTitle.Size = new System.Drawing.Size(237, 38);
+            this.LabelCoatingTitle.TabIndex = 973;
+            this.LabelCoatingTitle.Text = "Coating Work";
+            this.LabelCoatingTitle.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // buttonAdv1
+            // BtnCoatingJobStop
             // 
-            this.buttonAdv1.BackColor = System.Drawing.Color.LightGray;
-            this.buttonAdv1.BorderStyleAdv = Syncfusion.Windows.Forms.ButtonAdvBorderStyle.Solid;
-            this.buttonAdv1.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.buttonAdv1.FlatAppearance.BorderSize = 5;
-            this.buttonAdv1.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
-            this.buttonAdv1.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
-            this.buttonAdv1.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.buttonAdv1.Location = new System.Drawing.Point(455, 352);
-            this.buttonAdv1.Name = "buttonAdv1";
-            this.buttonAdv1.Size = new System.Drawing.Size(117, 64);
-            this.buttonAdv1.TabIndex = 971;
-            this.buttonAdv1.Tag = "1";
-            this.buttonAdv1.Text = "Off";
+            this.BtnCoatingJobStop.BackColor = System.Drawing.Color.LightGray;
+            this.BtnCoatingJobStop.BorderStyleAdv = Syncfusion.Windows.Forms.ButtonAdvBorderStyle.Solid;
+            this.BtnCoatingJobStop.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.BtnCoatingJobStop.FlatAppearance.BorderSize = 5;
+            this.BtnCoatingJobStop.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
+            this.BtnCoatingJobStop.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
+            this.BtnCoatingJobStop.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.BtnCoatingJobStop.Location = new System.Drawing.Point(455, 352);
+            this.BtnCoatingJobStop.Name = "BtnCoatingJobStop";
+            this.BtnCoatingJobStop.Size = new System.Drawing.Size(117, 64);
+            this.BtnCoatingJobStop.TabIndex = 971;
+            this.BtnCoatingJobStop.Tag = "1";
+            this.BtnCoatingJobStop.Text = "Off";
+            this.BtnCoatingJobStop.Click += new System.EventHandler(this.BtnCoatingJobStop_Click);
             // 
             // BtnCoatingJobStart
             // 
@@ -514,37 +519,37 @@
             this.BtnCoatingJobStart.Text = "Start";
             this.BtnCoatingJobStart.Click += new System.EventHandler(this.BtnCoatingJobStart_Click);
             // 
-            // gradientLabel13
+            // LabelCleaningTitle
             // 
-            this.gradientLabel13.BackgroundColor = new Syncfusion.Drawing.BrushInfo(Syncfusion.Drawing.GradientStyle.ForwardDiagonal, System.Drawing.Color.White, System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255))))));
-            this.gradientLabel13.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
+            this.LabelCleaningTitle.BackgroundColor = new Syncfusion.Drawing.BrushInfo(Syncfusion.Drawing.GradientStyle.ForwardDiagonal, System.Drawing.Color.White, System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255))))));
+            this.LabelCleaningTitle.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
             | System.Windows.Forms.Border3DSide.Right) 
             | System.Windows.Forms.Border3DSide.Bottom)));
-            this.gradientLabel13.BorderStyle = System.Windows.Forms.Border3DStyle.Bump;
-            this.gradientLabel13.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.gradientLabel13.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.gradientLabel13.Location = new System.Drawing.Point(335, 163);
-            this.gradientLabel13.Name = "gradientLabel13";
-            this.gradientLabel13.Size = new System.Drawing.Size(237, 38);
-            this.gradientLabel13.TabIndex = 972;
-            this.gradientLabel13.Text = "Cleaning Work";
-            this.gradientLabel13.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.LabelCleaningTitle.BorderStyle = System.Windows.Forms.Border3DStyle.Bump;
+            this.LabelCleaningTitle.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.LabelCleaningTitle.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.LabelCleaningTitle.Location = new System.Drawing.Point(335, 163);
+            this.LabelCleaningTitle.Name = "LabelCleaningTitle";
+            this.LabelCleaningTitle.Size = new System.Drawing.Size(237, 38);
+            this.LabelCleaningTitle.TabIndex = 972;
+            this.LabelCleaningTitle.Text = "Cleaning Work";
+            this.LabelCleaningTitle.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // buttonAdv3
+            // BtnCleaningJobStop
             // 
-            this.buttonAdv3.BackColor = System.Drawing.Color.LightGray;
-            this.buttonAdv3.BorderStyleAdv = Syncfusion.Windows.Forms.ButtonAdvBorderStyle.Solid;
-            this.buttonAdv3.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.buttonAdv3.FlatAppearance.BorderSize = 5;
-            this.buttonAdv3.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
-            this.buttonAdv3.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
-            this.buttonAdv3.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.buttonAdv3.Location = new System.Drawing.Point(455, 202);
-            this.buttonAdv3.Name = "buttonAdv3";
-            this.buttonAdv3.Size = new System.Drawing.Size(117, 64);
-            this.buttonAdv3.TabIndex = 969;
-            this.buttonAdv3.Tag = "1";
-            this.buttonAdv3.Text = "Off";
+            this.BtnCleaningJobStop.BackColor = System.Drawing.Color.LightGray;
+            this.BtnCleaningJobStop.BorderStyleAdv = Syncfusion.Windows.Forms.ButtonAdvBorderStyle.Solid;
+            this.BtnCleaningJobStop.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.BtnCleaningJobStop.FlatAppearance.BorderSize = 5;
+            this.BtnCleaningJobStop.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
+            this.BtnCleaningJobStop.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
+            this.BtnCleaningJobStop.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.BtnCleaningJobStop.Location = new System.Drawing.Point(455, 202);
+            this.BtnCleaningJobStop.Name = "BtnCleaningJobStop";
+            this.BtnCleaningJobStop.Size = new System.Drawing.Size(117, 64);
+            this.BtnCleaningJobStop.TabIndex = 969;
+            this.BtnCleaningJobStop.Tag = "1";
+            this.BtnCleaningJobStop.Text = "Off";
             // 
             // BtnCleaningJobStart
             // 
@@ -569,14 +574,14 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(584, 537);
             this.Controls.Add(this.LabelCoatingTime);
-            this.Controls.Add(this.gradientLabel7);
+            this.Controls.Add(this.LabelCoatingTime_Title);
             this.Controls.Add(this.LabelCleaningTime);
-            this.Controls.Add(this.gradientLabel11);
-            this.Controls.Add(this.gradientLabel12);
-            this.Controls.Add(this.buttonAdv1);
+            this.Controls.Add(this.LabelCleaningTime_Title);
+            this.Controls.Add(this.LabelCoatingTitle);
+            this.Controls.Add(this.BtnCoatingJobStop);
             this.Controls.Add(this.BtnCoatingJobStart);
-            this.Controls.Add(this.gradientLabel13);
-            this.Controls.Add(this.buttonAdv3);
+            this.Controls.Add(this.LabelCleaningTitle);
+            this.Controls.Add(this.BtnCleaningJobStop);
             this.Controls.Add(this.BtnCleaningJobStart);
             this.Controls.Add(this.LabelN2OnOffTime);
             this.Controls.Add(this.gradientLabel10);
@@ -612,7 +617,7 @@
         #endregion
 
         private System.Windows.Forms.Button BtnExit;
-        private System.Windows.Forms.Timer TmrManualOP;
+        private System.Windows.Forms.Timer TimerUI;
         private Syncfusion.Windows.Forms.Tools.GradientLabel gradientLabel1;
         private Syncfusion.Windows.Forms.Tools.GradientLabel gradientLabel16;
         private Syncfusion.Windows.Forms.ButtonAdv BtnCleanNozzleOff;
@@ -634,14 +639,14 @@
         private Syncfusion.Windows.Forms.Tools.GradientLabel LabelN2OnOffTime;
         private Syncfusion.Windows.Forms.Tools.GradientLabel gradientLabel10;
         private Syncfusion.Windows.Forms.Tools.GradientLabel LabelCoatingTime;
-        private Syncfusion.Windows.Forms.Tools.GradientLabel gradientLabel7;
+        private Syncfusion.Windows.Forms.Tools.GradientLabel LabelCoatingTime_Title;
         private Syncfusion.Windows.Forms.Tools.GradientLabel LabelCleaningTime;
-        private Syncfusion.Windows.Forms.Tools.GradientLabel gradientLabel11;
-        private Syncfusion.Windows.Forms.Tools.GradientLabel gradientLabel12;
-        private Syncfusion.Windows.Forms.ButtonAdv buttonAdv1;
+        private Syncfusion.Windows.Forms.Tools.GradientLabel LabelCleaningTime_Title;
+        private Syncfusion.Windows.Forms.Tools.GradientLabel LabelCoatingTitle;
+        private Syncfusion.Windows.Forms.ButtonAdv BtnCoatingJobStop;
         private Syncfusion.Windows.Forms.ButtonAdv BtnCoatingJobStart;
-        private Syncfusion.Windows.Forms.Tools.GradientLabel gradientLabel13;
-        private Syncfusion.Windows.Forms.ButtonAdv buttonAdv3;
+        private Syncfusion.Windows.Forms.Tools.GradientLabel LabelCleaningTitle;
+        private Syncfusion.Windows.Forms.ButtonAdv BtnCleaningJobStop;
         private Syncfusion.Windows.Forms.ButtonAdv BtnCleaningJobStart;
     }
 }

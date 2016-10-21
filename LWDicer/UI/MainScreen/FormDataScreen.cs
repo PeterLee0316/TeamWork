@@ -14,6 +14,8 @@ using Syncfusion.Windows.Forms.Tools;
 
 using Excel = Microsoft.Office.Interop.Excel;
 
+using static LWDicer.Layers.DEF_Thread;
+using static LWDicer.Layers.DEF_Common;
 using static LWDicer.Layers.DEF_Yaskawa;
 using static LWDicer.Layers.DEF_DataManager;
 

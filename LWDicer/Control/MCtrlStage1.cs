@@ -159,9 +159,9 @@ namespace LWDicer.Layers
         }
         #endregion
 
-        public int SetPosition(CPosition FixedPos, CPosition ModelPos, CPosition OffsetPos)
+        public int SetPosition(CPositionSet Pos_Fixed, CPositionSet Pos_Model, CPositionSet Pos_Offset)
         {
-            return m_RefComp.Stage.SetStagePosition(FixedPos, ModelPos, OffsetPos);
+            return m_RefComp.Stage.SetPosition_Stage(Pos_Fixed, Pos_Model, Pos_Offset);
         }
 
         public int SetAlignData(CPos_XYTZ offset)
@@ -505,9 +505,9 @@ namespace LWDicer.Layers
         public int MoveStageRelative(int iPos,bool bDir=true)
         {
             CPos_XYTZ sTargetPos = new CPos_XYTZ();
-            CPosition fixedPos;
-            CPosition modelPos;
-            CPosition offsetPos;
+            CPositionSet fixedPos;
+            CPositionSet modelPos;
+            CPositionSet offsetPos;
             m_RefComp.Stage.GetStagePosition(out fixedPos, out modelPos,out offsetPos);
 
             if (bDir)
@@ -2237,12 +2237,12 @@ namespace LWDicer.Layers
                 rotateCenter = CalsRotateCenter(markPos1, markPos2, 90.0);
 
                 // Stage의 중심을 재 설정한다.
-                CMainFrame.DataManager.FixedPos.Stage1Pos.Pos[(int)EStagePos.STAGE_CENTER_PRE].dX = StageRotatePos[(int)ERotateCenterStep.INIT].dX - rotateCenter.dX;
-                CMainFrame.DataManager.FixedPos.Stage1Pos.Pos[(int)EStagePos.STAGE_CENTER_PRE].dY = StageRotatePos[(int)ERotateCenterStep.INIT].dY - rotateCenter.dY;
-                CMainFrame.DataManager.FixedPos.Stage1Pos.Pos[(int)EStagePos.STAGE_CENTER_PRE].dT = 0.0;
+                CMainFrame.DataManager.Pos_Fixed.Pos_Stage1.Pos[(int)EStagePos.STAGE_CENTER_PRE].dX = StageRotatePos[(int)ERotateCenterStep.INIT].dX - rotateCenter.dX;
+                CMainFrame.DataManager.Pos_Fixed.Pos_Stage1.Pos[(int)EStagePos.STAGE_CENTER_PRE].dY = StageRotatePos[(int)ERotateCenterStep.INIT].dY - rotateCenter.dY;
+                CMainFrame.DataManager.Pos_Fixed.Pos_Stage1.Pos[(int)EStagePos.STAGE_CENTER_PRE].dT = 0.0;
                 
-                CMainFrame.DataManager.SavePositionData(true, EPositionObject.STAGE1);
-                CMainFrame.LWDicer.SetPositionDataToComponent(EPositionGroup.STAGE1);
+
+                CMainFrame.LWDicer.SavePosition(CMainFrame.DataManager.Pos_Fixed, true, EPositionObject.STAGE1);
 
                 // Init으로 이동한다. ( CW로 회전한다 )
                 stageMovePos = StageRotatePos[(int)ERotateCenterStep.INIT].Copy();

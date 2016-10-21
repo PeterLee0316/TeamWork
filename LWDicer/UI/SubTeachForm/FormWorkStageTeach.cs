@@ -11,7 +11,8 @@ using System.Windows.Forms;
 using LWDicer.Layers;
 using static LWDicer.Layers.DEF_System;
 using static LWDicer.Layers.DEF_Common;
-
+using static LWDicer.Layers.DEF_DataManager;
+using static LWDicer.Layers.DEF_Motion;
 using static LWDicer.Layers.MYaskawa;
 
 using static LWDicer.Layers.DEF_Thread;
@@ -38,9 +39,9 @@ namespace LWDicer.UI
 
         private int m_nSelectedPos_Stage = 0;
 
-        private int nDataMode = 0;
+        public bool Type_Fixed; // 고정좌표, 옵셋좌표 구분
 
-        private CMovingObject movingObject = CMainFrame.LWDicer.m_MeStage.AxStageInfo;
+        private CMovingObject MO_Stage = CMainFrame.LWDicer.m_MeStage.AxStageInfo;
 
         public FormWorkStageTeach()
         {
@@ -51,12 +52,6 @@ namespace LWDicer.UI
             ResouceMapping();
         }
 
-        private void FormClose()
-        {
-            TmrTeach.Stop();
-            this.Hide();
-        }
-
         private void FormWorkStageTeach_Load(object sender, EventArgs e)
         {
             this.DesktopLocation = new Point(1, 100);
@@ -65,29 +60,18 @@ namespace LWDicer.UI
 
             UpdateStageTeachPos(0);
 
-            TmrTeach.Enabled = true;
-            TmrTeach.Interval = UITimerInterval;
-            TmrTeach.Start();
+            TimerUI.Enabled = true;
+            TimerUI.Interval = UITimerInterval;
+            TimerUI.Start();
         }
 
         private void FormWorkStageTeach_FormClosing(object sender, FormClosingEventArgs e)
         {
-            FormClose();
         }
 
         private void BtnExit_Click(object sender, EventArgs e)
         {
-            FormClose();
-        }
-
-        public void SetDataMode(int nMode)
-        {
-            nDataMode = nMode;
-        }
-
-        public int GetDataMode()
-        {
-            return nDataMode;
+            this.Close();
         }
 
         private void BtnJog_Click(object sender, EventArgs e)
@@ -209,7 +193,7 @@ namespace LWDicer.UI
             }
         }
 
-        private void TmrTeach_Tick(object sender, EventArgs e)
+        private void TimerUI_Tick(object sender, EventArgs e)
         {
             // Current Position Display
             string strCurPos = string.Empty;
@@ -270,13 +254,12 @@ namespace LWDicer.UI
                     }
                 }
 
-                if (GetDataMode() == FixedData)
+                if (Type_Fixed == true)
                 {
                     if (i != 0) GridStageTeachTable[3, i].BackColor = Color.LightYellow;
                     if (i != 0) GridStageTeachTable[6, i].BackColor = Color.White;
                 }
-
-                if (GetDataMode() == OffsetData)
+                else
                 {
                     if (i != 0) GridStageTeachTable[3, i].BackColor = Color.White;
                     if (i != 0) GridStageTeachTable[6, i].BackColor = Color.LightYellow;
@@ -292,59 +275,36 @@ namespace LWDicer.UI
         
         private void DisplayPos_Stage()
         {
-            if (movingObject.FixedPos.Pos.Length <= m_nSelectedPos_Stage) return;
+            if (MO_Stage.Pos_Fixed.Pos.Length <= m_nSelectedPos_Stage) return;
 
-            double dFixedXPos = 0, dOffsetXPos = 0, dTargetXPos = 0, dModelXPos = 0, dAlignXOffset;
-            double dFixedYPos = 0, dOffsetYPos = 0, dTargetYPos = 0, dModelYPos = 0, dAlignYOffset;
-            double dFixedTPos = 0, dOffsetTPos = 0, dTargetTPos = 0, dModelTPos = 0, dAlignTOffset;
             int index = m_nSelectedPos_Stage;
+            double dFixedPos, dModelPos, dOffsetPos, dAlignOffset, dTargetPos;
+            int direction = DEF_X;
+            dTargetPos = MO_Stage.GetPosition(index, direction, out dFixedPos, out dModelPos, out dOffsetPos, out dAlignOffset);
 
-            dFixedXPos = movingObject.FixedPos.Pos[index].dX;
-            dOffsetXPos = movingObject.OffsetPos.Pos[index].dX;
-            dModelXPos = movingObject.ModelPos.Pos[index].dX;
-            dAlignXOffset = movingObject.AlignOffset.dX;
+            GridStageTeachTable[2, 1].Text = String.Format("{0:0.000}", dTargetPos);
+            GridStageTeachTable[3, 1].Text = String.Format("{0:0.000}", dFixedPos);
+            GridStageTeachTable[4, 1].Text = String.Format("{0:0.000}", dModelPos);
+            GridStageTeachTable[5, 1].Text = String.Format("{0:0.000}", dModelPos);
+            GridStageTeachTable[6, 1].Text = String.Format("{0:0.000}", dOffsetPos);
 
-            dTargetXPos = dFixedXPos + dOffsetXPos + dModelXPos + dAlignXOffset;
+            direction = DEF_Y;
+            dTargetPos = MO_Stage.GetPosition(index, direction, out dFixedPos, out dModelPos, out dOffsetPos, out dAlignOffset);
 
-            GridStageTeachTable[2, 1].Text = String.Format("{0:0.000}", dTargetXPos);
+            GridStageTeachTable[2, 2].Text = String.Format("{0:0.000}", dTargetPos);
+            GridStageTeachTable[3, 2].Text = String.Format("{0:0.000}", dFixedPos);
+            GridStageTeachTable[4, 2].Text = String.Format("{0:0.000}", dModelPos);
+            GridStageTeachTable[5, 2].Text = String.Format("{0:0.000}", dModelPos);
+            GridStageTeachTable[6, 2].Text = String.Format("{0:0.000}", dOffsetPos);
 
-            dFixedYPos = movingObject.FixedPos.Pos[index].dY;
-            dOffsetYPos = movingObject.OffsetPos.Pos[index].dY;
-            dModelYPos = movingObject.ModelPos.Pos[index].dY;
-            dAlignYOffset = movingObject.AlignOffset.dY;
+            direction = DEF_T;
+            dTargetPos = MO_Stage.GetPosition(index, direction, out dFixedPos, out dModelPos, out dOffsetPos, out dAlignOffset);
 
-            dTargetYPos = dFixedYPos + dOffsetYPos + dModelYPos + dAlignYOffset;
-
-            GridStageTeachTable[2, 2].Text = String.Format("{0:0.000}", dTargetYPos);
-
-            dFixedTPos = movingObject.FixedPos.Pos[index].dT;
-            dOffsetTPos = movingObject.OffsetPos.Pos[index].dT;
-            dModelTPos = movingObject.ModelPos.Pos[index].dT;
-            dAlignTOffset = movingObject.AlignOffset.dT;
-
-            dTargetTPos = dFixedTPos + dOffsetTPos + dModelTPos + dAlignTOffset;
-
-            GridStageTeachTable[2, 3].Text = String.Format("{0:0.000}", dTargetTPos);
-
-            // FixedPos
-            GridStageTeachTable[3, 1].Text = String.Format("{0:0.000}", dFixedXPos);
-            GridStageTeachTable[3, 2].Text = String.Format("{0:0.000}", dFixedYPos);
-            GridStageTeachTable[3, 3].Text = String.Format("{0:0.000}", dFixedTPos);
-
-            // ModelPos
-            GridStageTeachTable[4, 1].Text = String.Format("{0:0.000}", dModelXPos);
-            GridStageTeachTable[4, 2].Text = String.Format("{0:0.000}", dModelYPos);
-            GridStageTeachTable[4, 3].Text = String.Format("{0:0.000}", dModelTPos);
-
-            // AlignOffset
-            GridStageTeachTable[5, 1].Text = String.Format("{0:0.000}", dAlignXOffset);
-            GridStageTeachTable[5, 2].Text = String.Format("{0:0.000}", dAlignYOffset);
-            GridStageTeachTable[5, 3].Text = String.Format("{0:0.000}", dAlignTOffset);
-
-            //OffsetPos
-            GridStageTeachTable[6, 1].Text = String.Format("{0:0.000}", dOffsetXPos);
-            GridStageTeachTable[6, 2].Text = String.Format("{0:0.000}", dOffsetYPos);
-            GridStageTeachTable[6, 3].Text = String.Format("{0:0.000}", dOffsetTPos);
+            GridStageTeachTable[2, 3].Text = String.Format("{0:0.000}", dTargetPos);
+            GridStageTeachTable[3, 3].Text = String.Format("{0:0.000}", dFixedPos);
+            GridStageTeachTable[4, 3].Text = String.Format("{0:0.000}", dModelPos);
+            GridStageTeachTable[5, 3].Text = String.Format("{0:0.000}", dModelPos);
+            GridStageTeachTable[6, 3].Text = String.Format("{0:0.000}", dOffsetPos);
         }
 
         private void GridStageTeachTable_PushButtonClick(object sender, GridCellPushButtonClickEventArgs e)
@@ -354,7 +314,7 @@ namespace LWDicer.UI
             string strCurrent = "", strModify = "";
             double dPos = 0, dOffsetPos = 0, dTargetPos = 0;
 
-            if(GetDataMode() == FixedData)
+            if (Type_Fixed == true)
             {
                 strCurrent = GridStageTeachTable[3, e.ColIndex].Text;
 
@@ -367,21 +327,21 @@ namespace LWDicer.UI
 
                 if (e.ColIndex == 1)
                 {
-                    dOffsetPos = movingObject.OffsetPos.Pos[m_nSelectedPos_Stage].dX;
+                    dOffsetPos = MO_Stage.Pos_Offset.Pos[m_nSelectedPos_Stage].dX;
 
                     dTargetPos = dPos + dOffsetPos;
                 }
 
                 if (e.ColIndex == 2)
                 {
-                    dOffsetPos = movingObject.OffsetPos.Pos[m_nSelectedPos_Stage].dY;
+                    dOffsetPos = MO_Stage.Pos_Offset.Pos[m_nSelectedPos_Stage].dY;
 
                     dTargetPos = dPos + dOffsetPos;
                 }
 
                 if (e.ColIndex == 3)
                 {
-                    dOffsetPos = movingObject.OffsetPos.Pos[m_nSelectedPos_Stage].dT;
+                    dOffsetPos = MO_Stage.Pos_Offset.Pos[m_nSelectedPos_Stage].dT;
 
                     dTargetPos = dPos + dOffsetPos;
                 }
@@ -391,8 +351,7 @@ namespace LWDicer.UI
                 GridStageTeachTable[3, e.ColIndex].Text = strModify;
                 GridStageTeachTable[3, e.ColIndex].TextColor = Color.Blue;
             }
-
-            if(GetDataMode() == OffsetData)
+            else
             {
                 strCurrent = GridStageTeachTable[6, e.ColIndex].Text;
 
@@ -412,36 +371,22 @@ namespace LWDicer.UI
             string strMsg = "Save teaching data?";
             if (!CMainFrame.InquireMsg(strMsg)) return;
 
-            if (GetDataMode()==FixedData)
-            {                
-                strData = GridStageTeachTable[3, 1].Text;
-                CMainFrame.DataManager.FixedPos.Stage1Pos.Pos[m_nSelectedPos_Stage].dX = Convert.ToDouble(strData);
+            CPositionGroup tGroup;
+            CMainFrame.LWDicer.GetPositionGroup(out tGroup, Type_Fixed);
+            EPositionObject pIndex = EPositionObject.STAGE1;
+            int direction = DEF_X;
+            strData = (Type_Fixed == true) ? GridStageTeachTable[3, 1].Text : strData = GridStageTeachTable[6, 1].Text;
+            tGroup.Pos_Array[(int)pIndex].Pos[m_nSelectedPos_Stage].SetPosition(direction, Convert.ToDouble(strData));
 
-                strData = GridStageTeachTable[3, 2].Text;
-                CMainFrame.DataManager.FixedPos.Stage1Pos.Pos[m_nSelectedPos_Stage].dY = Convert.ToDouble(strData);
+            direction = DEF_Y;
+            strData = (Type_Fixed == true) ? GridStageTeachTable[3, 2].Text : strData = GridStageTeachTable[6, 2].Text;
+            tGroup.Pos_Array[(int)pIndex].Pos[m_nSelectedPos_Stage].SetPosition(direction, Convert.ToDouble(strData));
 
-                strData = GridStageTeachTable[3, 3].Text;
-                CMainFrame.DataManager.FixedPos.Stage1Pos.Pos[m_nSelectedPos_Stage].dT = Convert.ToDouble(strData);
+            direction = DEF_T;
+            strData = (Type_Fixed == true) ? GridStageTeachTable[3, 3].Text : strData = GridStageTeachTable[6, 3].Text;
+            tGroup.Pos_Array[(int)pIndex].Pos[m_nSelectedPos_Stage].SetPosition(direction, Convert.ToDouble(strData));
 
-                CMainFrame.DataManager.SavePositionData(true, EPositionObject.STAGE1);
-            }
-
-            if(GetDataMode() == OffsetData)
-            {
-                strData = GridStageTeachTable[6, 1].Text;
-                CMainFrame.DataManager.OffsetPos.Stage1Pos.Pos[m_nSelectedPos_Stage].dX = Convert.ToDouble(strData);
-
-                strData = GridStageTeachTable[6, 2].Text;
-                CMainFrame.DataManager.OffsetPos.Stage1Pos.Pos[m_nSelectedPos_Stage].dY = Convert.ToDouble(strData);
-
-                strData = GridStageTeachTable[6, 3].Text;
-                CMainFrame.DataManager.OffsetPos.Stage1Pos.Pos[m_nSelectedPos_Stage].dT = Convert.ToDouble(strData);
-
-                CMainFrame.DataManager.SavePositionData(false, EPositionObject.STAGE1);
-            }
-
-            CMainFrame.LWDicer.SetPositionDataToComponent(EPositionGroup.STAGE1);
-
+            CMainFrame.LWDicer.SavePosition(tGroup, Type_Fixed, pIndex);
             DisplayPos_Stage();
         }
 
@@ -458,7 +403,7 @@ namespace LWDicer.UI
             StrXCurrent = GridStageTeachTable[7, 1].Text;
 
             dXPos = Convert.ToDouble(StrXCurrent);
-            dOffsetXPos = movingObject.OffsetPos.Pos[m_nSelectedPos_Stage].dX;
+            dOffsetXPos = MO_Stage.Pos_Offset.Pos[m_nSelectedPos_Stage].dX;
 
             dTargetXPos = dXPos + dOffsetXPos;
 
@@ -471,7 +416,7 @@ namespace LWDicer.UI
             StrYCurrent = GridStageTeachTable[7, 2].Text;
 
             dYPos = Convert.ToDouble(StrYCurrent);
-            dOffsetYPos = movingObject.OffsetPos.Pos[m_nSelectedPos_Stage].dY;
+            dOffsetYPos = MO_Stage.Pos_Offset.Pos[m_nSelectedPos_Stage].dY;
 
             dTargetYPos = dYPos + dOffsetYPos;
 
@@ -483,7 +428,7 @@ namespace LWDicer.UI
             StrTCurrent = GridStageTeachTable[7, 3].Text;
 
             dTPos = Convert.ToDouble(StrTCurrent);
-            dOffsetTPos = movingObject.OffsetPos.Pos[m_nSelectedPos_Stage].dT;
+            dOffsetTPos = MO_Stage.Pos_Offset.Pos[m_nSelectedPos_Stage].dT;
 
             dTargetTPos = dTPos + dOffsetTPos;
 

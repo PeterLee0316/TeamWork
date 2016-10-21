@@ -194,6 +194,12 @@ namespace LWDicer.Layers
 
                                         case EProcessPhase.STAGE_WAIT_UNLOAD:
                                         case EProcessPhase.STAGE_UNLOAD:
+                                            if(GetMyWorkPiece().Process[(int)tPhase].IsStarted == false)
+                                            {
+                                                GetMyWorkPiece().StartPhase(tPhase); // 대기 시작
+                                            }
+
+                                            // wait for wafer empty on unload handler.
                                             iResult = m_RefComp.ctrlHandler.IsObjectDetected(EHandlerIndex.UNLOAD_LOWER, out bStatus1);
                                             if (iResult != SUCCESS) { ReportAlarm(iResult); break; }
 

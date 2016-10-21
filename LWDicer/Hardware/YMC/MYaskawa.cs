@@ -1459,6 +1459,10 @@ MP2101TM            SVC(built-in the board, with MECHATROLINK port 1)       1   
                 ServoStatus[servoNo].IsReady = Convert.ToBoolean((returnValue >> 3) & 0x1);
                 //Servo On/Off
                 ServoStatus[servoNo].IsServoOn = Convert.ToBoolean((returnValue >> 1) & 0x1);
+#if SIMULATION_TEST
+                ServoStatus[servoNo].IsReady = true;
+                ServoStatus[servoNo].IsServoOn = true;
+#endif
             }
 
             //Servo Alarm Read 

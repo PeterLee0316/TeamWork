@@ -53,12 +53,6 @@ namespace LWDicer.UI
 
         private void FormAlarmEdit_FormClosing(object sender, FormClosingEventArgs e)
         {
-            FormClose();
-        }
-
-        private void FormClose()
-        {
-            this.Hide();
         }
 
         private void BtnOK_Click(object sender, EventArgs e)
@@ -69,13 +63,13 @@ namespace LWDicer.UI
             strTrouble_System = TextTrouble_System.Text;
 
             this.DialogResult = DialogResult.OK;
-            FormClose();
+            this.Close();
         }
 
         private void BtnCancel_Click(object sender, EventArgs e)
         {
             this.DialogResult = DialogResult.Cancel;
-            FormClose();
+            this.Close();
         }
     }
 }

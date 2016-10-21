@@ -24,6 +24,7 @@ namespace LWDicer.UI
 {
     public partial class pageAlign : Form
     {
+        CSystemData_Align m_SystemData_Align;
         public pageAlign()
         {
             InitializeComponent();
@@ -41,11 +42,12 @@ namespace LWDicer.UI
             CMainFrame.frmCamFocus.Parent = this.pnlStageJog;
             CMainFrame.frmCamFocus.Dock = DockStyle.Fill;
 
+            m_SystemData_Align = ObjectExtensions.Copy(CMainFrame.DataManager.SystemData_Align);
 
             CMainFrame.frmStageJog.Show();
         }
 
-        private void FormClose()
+        private void BtnExit_Click(object sender, EventArgs e)
         {
             TmrTeach.Enabled = false;
 
@@ -54,14 +56,7 @@ namespace LWDicer.UI
             // Local View 해제
             int iCam = CMainFrame.LWDicer.m_ctrlStage1.GetCurrentCam();
             CMainFrame.LWDicer.m_Vision.DestroyLocalView(iCam);
-
-            this.Hide();
-           
-        }
-
-        private void BtnExit_Click(object sender, EventArgs e)
-        {
-            FormClose();
+            this.Close();
         }
 
         private void FormThetaAlignTeach_Load(object sender, EventArgs e)
@@ -71,18 +66,17 @@ namespace LWDicer.UI
             CMainFrame.LWDicer.m_Vision.InitialLocalView(PRE__CAM, picVision.Handle);
             CMainFrame.LWDicer.m_Vision.ShowHairLine();
 
+            TimerUI.Enabled = true;
+            TimerUI.Interval = UITimerInterval;
+            TimerUI.Start();
+
             DisplayThetaAlignData();
-
-            TmrTeach.Enabled = true;
-            TmrTeach.Interval = UITimerInterval;
-            TmrTeach.Start();
-
             DisplayParameter();
         }
 
         private void FormThetaAlignTeach_FormClosing(object sender, FormClosingEventArgs e)
         {
-            FormClose();
+            CMainFrame.LWDicer.m_ctrlStage1.InitThetaAlign();
         }
 
         private void FormThetaAlignTeach_FormClosed(object sender, FormClosedEventArgs e)
@@ -92,59 +86,59 @@ namespace LWDicer.UI
 
         private void DisplayParameter()
         {
-            lblCamOffSetAxisX.Text = string.Format("{0:F4}", CMainFrame.DataManager.SystemData_Align.CamEachOffsetX);
-            lblCamOffSetAxisY.Text = string.Format("{0:F4}", CMainFrame.DataManager.SystemData_Align.CamEachOffsetY);
+            lblCamOffSetAxisX.Text = string.Format("{0:F4}", m_SystemData_Align.CamEachOffsetX);
+            lblCamOffSetAxisY.Text = string.Format("{0:F4}", m_SystemData_Align.CamEachOffsetY);
 
-            lblMacroIndexAxisX.Text = string.Format("{0:F4}", CMainFrame.DataManager.SystemData_Align.MacroScreenWidth);
-            lblMacroIndexAxisY.Text = string.Format("{0:F4}", CMainFrame.DataManager.SystemData_Align.MacroScreenHeight);
-            lblMacroIndexAxisT.Text = string.Format("{0:F4}", CMainFrame.DataManager.SystemData_Align.MacroScreenRotate);
+            lblMacroIndexAxisX.Text = string.Format("{0:F4}", m_SystemData_Align.MacroScreenWidth);
+            lblMacroIndexAxisY.Text = string.Format("{0:F4}", m_SystemData_Align.MacroScreenHeight);
+            lblMacroIndexAxisT.Text = string.Format("{0:F4}", m_SystemData_Align.MacroScreenRotate);
 
-            lblMicroIndexAxisX.Text = string.Format("{0:F4}", CMainFrame.DataManager.SystemData_Align.MicroScreenWidth);
-            lblMicroIndexAxisY.Text = string.Format("{0:F4}", CMainFrame.DataManager.SystemData_Align.MicroScreenHeight);
-            lblMicroIndexAxisT.Text = string.Format("{0:F4}", CMainFrame.DataManager.SystemData_Align.MicroScreenRotate);
+            lblMicroIndexAxisX.Text = string.Format("{0:F4}", m_SystemData_Align.MicroScreenWidth);
+            lblMicroIndexAxisY.Text = string.Format("{0:F4}", m_SystemData_Align.MicroScreenHeight);
+            lblMicroIndexAxisT.Text = string.Format("{0:F4}", m_SystemData_Align.MicroScreenRotate);
 
-            lblDieIndexAxisX.Text = string.Format("{0:F4}", CMainFrame.DataManager.SystemData_Align.DieIndexWidth);
-            lblDieIndexAxisY.Text = string.Format("{0:F4}", CMainFrame.DataManager.SystemData_Align.DieIndexHeight);
-            lblDieIndexAxisT.Text = string.Format("{0:F4}", CMainFrame.DataManager.SystemData_Align.DieIndexRotate);
+            lblDieIndexAxisX.Text = string.Format("{0:F4}", m_SystemData_Align.DieIndexWidth);
+            lblDieIndexAxisY.Text = string.Format("{0:F4}", m_SystemData_Align.DieIndexHeight);
+            lblDieIndexAxisT.Text = string.Format("{0:F4}", m_SystemData_Align.DieIndexRotate);
 
-            lblThetaAlignDistance.Text = string.Format("{0:F1}", CMainFrame.DataManager.SystemData_Align.AlignMarkWidthRatio);
+            lblThetaAlignDistance.Text = string.Format("{0:F1}", m_SystemData_Align.AlignMarkWidthRatio);
         }
 
         private void UpdateParameter()
         {
-            CMainFrame.DataManager.SystemData_Align.CamEachOffsetX = Convert.ToDouble(lblCamOffSetAxisX.Text);
-            CMainFrame.DataManager.SystemData_Align.CamEachOffsetY = Convert.ToDouble(lblCamOffSetAxisY.Text);
+            m_SystemData_Align.CamEachOffsetX = Convert.ToDouble(lblCamOffSetAxisX.Text);
+            m_SystemData_Align.CamEachOffsetY = Convert.ToDouble(lblCamOffSetAxisY.Text);
 
-            CMainFrame.DataManager.SystemData_Align.MacroScreenWidth  = Convert.ToDouble(lblMacroIndexAxisX.Text);
-            CMainFrame.DataManager.SystemData_Align.MacroScreenHeight = Convert.ToDouble(lblMacroIndexAxisY.Text);
-            CMainFrame.DataManager.SystemData_Align.MacroScreenRotate = Convert.ToDouble(lblMacroIndexAxisT.Text);
+            m_SystemData_Align.MacroScreenWidth  = Convert.ToDouble(lblMacroIndexAxisX.Text);
+            m_SystemData_Align.MacroScreenHeight = Convert.ToDouble(lblMacroIndexAxisY.Text);
+            m_SystemData_Align.MacroScreenRotate = Convert.ToDouble(lblMacroIndexAxisT.Text);
 
-            CMainFrame.DataManager.SystemData_Align.MicroScreenWidth  = Convert.ToDouble(lblMicroIndexAxisX.Text);
-            CMainFrame.DataManager.SystemData_Align.MicroScreenHeight = Convert.ToDouble(lblMicroIndexAxisY.Text);
-            CMainFrame.DataManager.SystemData_Align.MicroScreenRotate = Convert.ToDouble(lblMicroIndexAxisT.Text);
+            m_SystemData_Align.MicroScreenWidth  = Convert.ToDouble(lblMicroIndexAxisX.Text);
+            m_SystemData_Align.MicroScreenHeight = Convert.ToDouble(lblMicroIndexAxisY.Text);
+            m_SystemData_Align.MicroScreenRotate = Convert.ToDouble(lblMicroIndexAxisT.Text);
 
             
-            CMainFrame.DataManager.SystemData_Align.DieIndexRotate = Convert.ToDouble(lblDieIndexAxisT.Text);
+            m_SystemData_Align.DieIndexRotate = Convert.ToDouble(lblDieIndexAxisT.Text);
 
-            CMainFrame.DataManager.SystemData_Align.AlignMarkWidthRatio = Convert.ToDouble(lblThetaAlignDistance.Text);
-            CMainFrame.DataManager.SystemData_Align.AlignMarkWidthLen = WAFER_SIZE_12_INCH * CMainFrame.DataManager.SystemData_Align.AlignMarkWidthRatio/100;
+            m_SystemData_Align.AlignMarkWidthRatio = Convert.ToDouble(lblThetaAlignDistance.Text);
+            m_SystemData_Align.AlignMarkWidthLen = WAFER_SIZE_12_INCH * m_SystemData_Align.AlignMarkWidthRatio/100;
 
             // Stage Center는 Pre Cam 기준으로 정하고, 이후 나머지 위치는 Fine Cam 기준으로 저장한다
             // Fine Cam 기준으로 저장하기 위해 Offset 만큼 더해서 저장한다.
             // (Stage Center & Edge Align Position만 Pre Cam을 기준으로 사용)
-            CMainFrame.DataManager.FixedPos.Stage1Pos.Pos[(int)EStagePos.THETA_ALIGN_A].dX = CMainFrame.DataManager.FixedPos.Stage1Pos.Pos[(int)EStagePos.STAGE_CENTER_PRE].dX -
+            CMainFrame.DataManager.Pos_Fixed.Pos_Stage1.Pos[(int)EStagePos.THETA_ALIGN_A].dX = CMainFrame.DataManager.Pos_Fixed.Pos_Stage1.Pos[(int)EStagePos.STAGE_CENTER_PRE].dX -
                                                                                              CMainFrame.DataManager.SystemData_Align.AlignMarkWidthLen/2 -
                                                                                              CMainFrame.DataManager.SystemData_Align.CamEachOffsetX;
-            CMainFrame.DataManager.FixedPos.Stage1Pos.Pos[(int)EStagePos.THETA_ALIGN_A].dY = CMainFrame.DataManager.FixedPos.Stage1Pos.Pos[(int)EStagePos.STAGE_CENTER_PRE].dY -
+            CMainFrame.DataManager.Pos_Fixed.Pos_Stage1.Pos[(int)EStagePos.THETA_ALIGN_A].dY = CMainFrame.DataManager.Pos_Fixed.Pos_Stage1.Pos[(int)EStagePos.STAGE_CENTER_PRE].dY -
                                                                                              CMainFrame.DataManager.SystemData_Align.CamEachOffsetY;
-            CMainFrame.DataManager.FixedPos.Stage1Pos.Pos[(int)EStagePos.THETA_ALIGN_A].dT = CMainFrame.DataManager.FixedPos.Stage1Pos.Pos[(int)EStagePos.STAGE_CENTER_PRE].dT;
+            CMainFrame.DataManager.Pos_Fixed.Pos_Stage1.Pos[(int)EStagePos.THETA_ALIGN_A].dT = CMainFrame.DataManager.Pos_Fixed.Pos_Stage1.Pos[(int)EStagePos.STAGE_CENTER_PRE].dT;
 
-            CMainFrame.DataManager.FixedPos.Stage1Pos.Pos[(int)EStagePos.THETA_ALIGN_TURN_A].dX = CMainFrame.DataManager.FixedPos.Stage1Pos.Pos[(int)EStagePos.STAGE_CENTER_PRE].dX -
+            CMainFrame.DataManager.Pos_Fixed.Pos_Stage1.Pos[(int)EStagePos.THETA_ALIGN_TURN_A].dX = CMainFrame.DataManager.Pos_Fixed.Pos_Stage1.Pos[(int)EStagePos.STAGE_CENTER_PRE].dX -
                                                                                                   CMainFrame.DataManager.SystemData_Align.AlignMarkWidthLen / 2 -
                                                                                                   CMainFrame.DataManager.SystemData_Align.CamEachOffsetX;
-            CMainFrame.DataManager.FixedPos.Stage1Pos.Pos[(int)EStagePos.THETA_ALIGN_TURN_A].dY = CMainFrame.DataManager.FixedPos.Stage1Pos.Pos[(int)EStagePos.STAGE_CENTER_PRE].dY -
+            CMainFrame.DataManager.Pos_Fixed.Pos_Stage1.Pos[(int)EStagePos.THETA_ALIGN_TURN_A].dY = CMainFrame.DataManager.Pos_Fixed.Pos_Stage1.Pos[(int)EStagePos.STAGE_CENTER_PRE].dY -
                                                                                                   CMainFrame.DataManager.SystemData_Align.CamEachOffsetY;
-            CMainFrame.DataManager.FixedPos.Stage1Pos.Pos[(int)EStagePos.THETA_ALIGN_TURN_A].dT = CMainFrame.DataManager.FixedPos.Stage1Pos.Pos[(int)EStagePos.STAGE_CENTER_PRE].dT + 
+            CMainFrame.DataManager.Pos_Fixed.Pos_Stage1.Pos[(int)EStagePos.THETA_ALIGN_TURN_A].dT = CMainFrame.DataManager.Pos_Fixed.Pos_Stage1.Pos[(int)EStagePos.STAGE_CENTER_PRE].dT + 
                                                                                                   CMainFrame.DataManager.SystemData_Align.DieIndexRotate;
 
 
@@ -154,11 +148,12 @@ namespace LWDicer.UI
             if (!CMainFrame.InquireMsg("Parameter 데이터를 저장하시겠습니까 ?")) return;
             
             UpdateParameter();
-            
-            CMainFrame.DataManager.SavePositionData(true, EPositionObject.STAGE1);
-            CMainFrame.LWDicer.SetPositionDataToComponent(EPositionGroup.STAGE1);
 
-            CMainFrame.DataManager.SaveSystemData(null, null,null, null, CMainFrame.DataManager.SystemData_Align, null, null);
+            // LJJ need to edit
+            //CMainFrame.DataManager.SavePositionData(true, EPositionObject.STAGE1);
+            //CMainFrame.LWDicer.SetPositionDataToComponent(EPositionGroup.STAGE1);
+
+            CMainFrame.LWDicer.SaveSystemData(null, null,null, null, m_SystemData_Align, null, null);
         }
 
         private void ChangeTextData(object sender, EventArgs e)
@@ -231,7 +226,7 @@ namespace LWDicer.UI
 
             if (CMainFrame.LWDicer.m_ctrlStage1.GetCurrentCam() == FINE_CAM)
             {
-                ratioMove = CMainFrame.DataManager.SystemData_Align.MicroScreenWidth / (double)picSize.Width;
+                ratioMove = m_SystemData_Align.MicroScreenWidth / (double)picSize.Width;
 
                 movePos.dX = (double) moveDistance.X * ratioMove;
                 movePos.dY = -(double) moveDistance.Y * ratioMove;
@@ -241,7 +236,7 @@ namespace LWDicer.UI
 
             if (CMainFrame.LWDicer.m_ctrlStage1.GetCurrentCam() == PRE__CAM)
             {
-                ratioMove = CMainFrame.DataManager.SystemData_Align.MacroScreenWidth / (double)picSize.Width;
+                ratioMove = m_SystemData_Align.MacroScreenWidth / (double)picSize.Width;
 
                 movePos.dX = (double)moveDistance.X * ratioMove;
                 movePos.dY = -(double)moveDistance.Y * ratioMove;
@@ -252,7 +247,7 @@ namespace LWDicer.UI
 
        
 
-        private void TmrTeach_Tick(object sender, EventArgs e)
+        private void TimerUI_Tick(object sender, EventArgs e)
         {
             // Current Position Display
             string strShowData = string.Empty;
@@ -348,10 +343,10 @@ namespace LWDicer.UI
 
         private void btnDieIndexDataSave_Click(object sender, EventArgs e)
         {
-            CMainFrame.DataManager.SystemData_Align.DieIndexWidth  = Convert.ToDouble(lblDieIndexAxisX.Text);
-            CMainFrame.DataManager.SystemData_Align.DieIndexHeight = Convert.ToDouble(lblDieIndexAxisY.Text);
+            m_SystemData_Align.DieIndexWidth  = Convert.ToDouble(lblDieIndexAxisX.Text);
+            m_SystemData_Align.DieIndexHeight = Convert.ToDouble(lblDieIndexAxisY.Text);
 
-            CMainFrame.DataManager.SaveSystemData(null, null, null, null, CMainFrame.DataManager.SystemData_Align, null, null);
+            CMainFrame.LWDicer.SaveSystemData(null, null, null, null, m_SystemData_Align, null, null);
         }
 
         private void btnThetaAlignDataLoad_Click(object sender, EventArgs e)
@@ -362,7 +357,8 @@ namespace LWDicer.UI
         private void DisplayThetaAlignData()
         {
             // 저장된 위치 데이터를 읽어온다.
-            CMainFrame.DataManager.LoadPositionData(true, EPositionGroup.STAGE1);
+            // LJJ need to edit
+            //CMainFrame.DataManager.LoadPositionData(true, EPositionGroup.STAGE1);
 
             var posThetaAlignA = new CPos_XYTZ();
             var posThetaAlignTurnA = new CPos_XYTZ();
@@ -404,7 +400,8 @@ namespace LWDicer.UI
         {
             UpdateThetaAlignData();
 
-            CMainFrame.DataManager.SavePositionData(true, EPositionObject.STAGE1);
+            // LJJ need to edit
+            //CMainFrame.DataManager.SavePositionData(true, EPositionObject.STAGE1);
 
             CMainFrame.LWDicer.m_ctrlStage1.ThetaAlignStepInit();
         }

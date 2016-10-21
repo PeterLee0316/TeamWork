@@ -34,7 +34,7 @@ namespace LWDicer.UI
 
         private void BtnExit_Click(object sender, EventArgs e)
         {
-            this.Hide();
+            this.Close();
         }
 
         private void BtnInitPart_Click(object sender, EventArgs e)
@@ -295,7 +295,7 @@ namespace LWDicer.UI
             CMainFrame.DisplayMsg("Initialization completed successfully.");
         }
 
-        private void timer1_Tick(object sender, EventArgs e)
+        private void TimerUI_Tick(object sender, EventArgs e)
         {
             UpdateUnitStatus();
 
@@ -303,9 +303,9 @@ namespace LWDicer.UI
 
         private void FormUnitInit_Load(object sender, EventArgs e)
         {
-            timer1.Enabled = true;
-            timer1.Interval = UITimerInterval;
-            timer1.Start();
+            TimerUI.Enabled = true;
+            TimerUI.Interval = UITimerInterval;
+            TimerUI.Start();
         }
 
         void SetInitFlag(int sel, bool flag)

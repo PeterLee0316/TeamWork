@@ -39,6 +39,7 @@
             this.BtnManualSpinner2 = new Syncfusion.Windows.Forms.ButtonAdv();
             this.BtnManualStage = new Syncfusion.Windows.Forms.ButtonAdv();
             this.gradientPanel2 = new Syncfusion.Windows.Forms.Tools.GradientPanel();
+            this.BtnManualLoHandler = new Syncfusion.Windows.Forms.ButtonAdv();
             this.autoLabel2 = new Syncfusion.Windows.Forms.Tools.AutoLabel();
             this.gradientPanel1 = new Syncfusion.Windows.Forms.Tools.GradientPanel();
             this.autoLabel1 = new Syncfusion.Windows.Forms.Tools.AutoLabel();
@@ -76,16 +77,16 @@
             this.buttonAdv17 = new Syncfusion.Windows.Forms.ButtonAdv();
             this.buttonAdv14 = new Syncfusion.Windows.Forms.ButtonAdv();
             this.buttonAdv15 = new Syncfusion.Windows.Forms.ButtonAdv();
-            this.autoLabel9 = new Syncfusion.Windows.Forms.Tools.AutoLabel();
-            this.gradientPanel10 = new Syncfusion.Windows.Forms.Tools.GradientPanel();
-            this.buttonAdv16 = new Syncfusion.Windows.Forms.ButtonAdv();
-            this.autoLabel10 = new Syncfusion.Windows.Forms.Tools.AutoLabel();
+            this.Panel_Spinner1_Nozzle1 = new Syncfusion.Windows.Forms.Tools.AutoLabel();
             this.gradientPanel11 = new Syncfusion.Windows.Forms.Tools.GradientPanel();
+            this.buttonAdv16 = new Syncfusion.Windows.Forms.ButtonAdv();
+            this.Panel_Spinner1_Rotate = new Syncfusion.Windows.Forms.Tools.AutoLabel();
+            this.gradientPanel17 = new Syncfusion.Windows.Forms.Tools.GradientPanel();
             this.buttonAdv18 = new Syncfusion.Windows.Forms.ButtonAdv();
-            this.autoLabel11 = new Syncfusion.Windows.Forms.Tools.AutoLabel();
+            this.Panel_Spinner2_Rotate = new Syncfusion.Windows.Forms.Tools.AutoLabel();
             this.gradientPanel12 = new Syncfusion.Windows.Forms.Tools.GradientPanel();
             this.buttonAdv19 = new Syncfusion.Windows.Forms.ButtonAdv();
-            this.autoLabel12 = new Syncfusion.Windows.Forms.Tools.AutoLabel();
+            this.Panel_Spinner2_Nozzle1 = new Syncfusion.Windows.Forms.Tools.AutoLabel();
             this.buttonAdv20 = new Syncfusion.Windows.Forms.ButtonAdv();
             this.buttonAdv21 = new Syncfusion.Windows.Forms.ButtonAdv();
             this.gradientPanel13 = new Syncfusion.Windows.Forms.Tools.GradientPanel();
@@ -117,16 +118,16 @@
             this.tabPageAdv2 = new Syncfusion.Windows.Forms.Tools.TabPageAdv();
             this.TabManualOp = new Syncfusion.Windows.Forms.Tools.TabControlAdv();
             this.TabPageLoader = new Syncfusion.Windows.Forms.Tools.TabPageAdv();
-            this.gradientPanel17 = new Syncfusion.Windows.Forms.Tools.GradientPanel();
+            this.gradientPanel16 = new Syncfusion.Windows.Forms.Tools.GradientPanel();
             this.buttonAdv43 = new Syncfusion.Windows.Forms.ButtonAdv();
-            this.autoLabel17 = new Syncfusion.Windows.Forms.Tools.AutoLabel();
+            this.Panel_Spinner2_Nozzle2 = new Syncfusion.Windows.Forms.Tools.AutoLabel();
             this.buttonAdv44 = new Syncfusion.Windows.Forms.ButtonAdv();
             this.buttonAdv45 = new Syncfusion.Windows.Forms.ButtonAdv();
-            this.gradientPanel16 = new Syncfusion.Windows.Forms.Tools.GradientPanel();
+            this.gradientPanel10 = new Syncfusion.Windows.Forms.Tools.GradientPanel();
             this.buttonAdv40 = new Syncfusion.Windows.Forms.ButtonAdv();
             this.buttonAdv41 = new Syncfusion.Windows.Forms.ButtonAdv();
             this.buttonAdv42 = new Syncfusion.Windows.Forms.ButtonAdv();
-            this.autoLabel16 = new Syncfusion.Windows.Forms.Tools.AutoLabel();
+            this.Panel_Spinner1_Nozzle2 = new Syncfusion.Windows.Forms.Tools.AutoLabel();
             this.TabPageStage = new Syncfusion.Windows.Forms.Tools.TabPageAdv();
             this.gradientPanel20 = new Syncfusion.Windows.Forms.Tools.GradientPanel();
             this.buttonAdv48 = new Syncfusion.Windows.Forms.ButtonAdv();
@@ -144,7 +145,6 @@
             this.buttonAdv53 = new Syncfusion.Windows.Forms.ButtonAdv();
             this.autoLabel19 = new Syncfusion.Windows.Forms.Tools.AutoLabel();
             this.buttonAdv54 = new Syncfusion.Windows.Forms.ButtonAdv();
-            this.BtnManualLoHandler = new Syncfusion.Windows.Forms.ButtonAdv();
             ((System.ComponentModel.ISupportInitialize)(this.gradientPanel2)).BeginInit();
             this.gradientPanel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gradientPanel1)).BeginInit();
@@ -163,10 +163,10 @@
             this.gradientPanel8.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gradientPanel9)).BeginInit();
             this.gradientPanel9.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.gradientPanel10)).BeginInit();
-            this.gradientPanel10.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gradientPanel11)).BeginInit();
             this.gradientPanel11.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.gradientPanel17)).BeginInit();
+            this.gradientPanel17.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gradientPanel12)).BeginInit();
             this.gradientPanel12.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gradientPanel13)).BeginInit();
@@ -181,10 +181,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.TabManualOp)).BeginInit();
             this.TabManualOp.SuspendLayout();
             this.TabPageLoader.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.gradientPanel17)).BeginInit();
-            this.gradientPanel17.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gradientPanel16)).BeginInit();
             this.gradientPanel16.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.gradientPanel10)).BeginInit();
+            this.gradientPanel10.SuspendLayout();
             this.TabPageStage.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gradientPanel20)).BeginInit();
             this.gradientPanel20.SuspendLayout();
@@ -366,6 +366,23 @@
             this.gradientPanel2.Name = "gradientPanel2";
             this.gradientPanel2.Size = new System.Drawing.Size(183, 476);
             this.gradientPanel2.TabIndex = 33;
+            // 
+            // BtnManualLoHandler
+            // 
+            this.BtnManualLoHandler.AutoEllipsis = true;
+            this.BtnManualLoHandler.BackColor = System.Drawing.Color.SlateGray;
+            this.BtnManualLoHandler.BorderStyleAdv = Syncfusion.Windows.Forms.ButtonAdvBorderStyle.Solid;
+            this.BtnManualLoHandler.FlatAppearance.BorderSize = 5;
+            this.BtnManualLoHandler.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.BtnManualLoHandler.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
+            this.BtnManualLoHandler.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.BtnManualLoHandler.Location = new System.Drawing.Point(22, 181);
+            this.BtnManualLoHandler.Name = "BtnManualLoHandler";
+            this.BtnManualLoHandler.Size = new System.Drawing.Size(145, 68);
+            this.BtnManualLoHandler.TabIndex = 32;
+            this.BtnManualLoHandler.Text = "Lower Handler";
+            this.BtnManualLoHandler.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.BtnManualLoHandler.Click += new System.EventHandler(this.BtnManualLoHandler_Click);
             // 
             // autoLabel2
             // 
@@ -855,7 +872,7 @@
             this.gradientPanel9.Controls.Add(this.buttonAdv17);
             this.gradientPanel9.Controls.Add(this.buttonAdv14);
             this.gradientPanel9.Controls.Add(this.buttonAdv15);
-            this.gradientPanel9.Controls.Add(this.autoLabel9);
+            this.gradientPanel9.Controls.Add(this.Panel_Spinner1_Nozzle1);
             this.gradientPanel9.Location = new System.Drawing.Point(10, 336);
             this.gradientPanel9.Name = "gradientPanel9";
             this.gradientPanel9.Size = new System.Drawing.Size(432, 104);
@@ -909,29 +926,29 @@
             this.buttonAdv15.Text = "Start";
             this.buttonAdv15.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             // 
-            // autoLabel9
+            // Panel_Spinner1_Nozzle1
             // 
-            this.autoLabel9.BackColor = System.Drawing.Color.Transparent;
-            this.autoLabel9.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.autoLabel9.ForeColor = System.Drawing.Color.Maroon;
-            this.autoLabel9.Location = new System.Drawing.Point(45, 8);
-            this.autoLabel9.Name = "autoLabel9";
-            this.autoLabel9.Size = new System.Drawing.Size(151, 13);
-            this.autoLabel9.TabIndex = 31;
-            this.autoLabel9.Text = "Spinner #1 Nozzle 1";
+            this.Panel_Spinner1_Nozzle1.BackColor = System.Drawing.Color.Transparent;
+            this.Panel_Spinner1_Nozzle1.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.Panel_Spinner1_Nozzle1.ForeColor = System.Drawing.Color.Maroon;
+            this.Panel_Spinner1_Nozzle1.Location = new System.Drawing.Point(45, 8);
+            this.Panel_Spinner1_Nozzle1.Name = "Panel_Spinner1_Nozzle1";
+            this.Panel_Spinner1_Nozzle1.Size = new System.Drawing.Size(151, 13);
+            this.Panel_Spinner1_Nozzle1.TabIndex = 31;
+            this.Panel_Spinner1_Nozzle1.Text = "Spinner #1 Nozzle 1";
             // 
-            // gradientPanel10
+            // gradientPanel11
             // 
-            this.gradientPanel10.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("gradientPanel10.BackgroundImage")));
-            this.gradientPanel10.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.gradientPanel10.Border3DStyle = System.Windows.Forms.Border3DStyle.Raised;
-            this.gradientPanel10.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.gradientPanel10.Controls.Add(this.buttonAdv16);
-            this.gradientPanel10.Controls.Add(this.autoLabel10);
-            this.gradientPanel10.Location = new System.Drawing.Point(10, 444);
-            this.gradientPanel10.Name = "gradientPanel10";
-            this.gradientPanel10.Size = new System.Drawing.Size(432, 104);
-            this.gradientPanel10.TabIndex = 47;
+            this.gradientPanel11.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("gradientPanel11.BackgroundImage")));
+            this.gradientPanel11.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.gradientPanel11.Border3DStyle = System.Windows.Forms.Border3DStyle.Raised;
+            this.gradientPanel11.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.gradientPanel11.Controls.Add(this.buttonAdv16);
+            this.gradientPanel11.Controls.Add(this.Panel_Spinner1_Rotate);
+            this.gradientPanel11.Location = new System.Drawing.Point(10, 444);
+            this.gradientPanel11.Name = "gradientPanel11";
+            this.gradientPanel11.Size = new System.Drawing.Size(432, 104);
+            this.gradientPanel11.TabIndex = 47;
             // 
             // buttonAdv16
             // 
@@ -949,29 +966,29 @@
             this.buttonAdv16.Text = "Load";
             this.buttonAdv16.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             // 
-            // autoLabel10
+            // Panel_Spinner1_Rotate
             // 
-            this.autoLabel10.BackColor = System.Drawing.Color.Transparent;
-            this.autoLabel10.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.autoLabel10.ForeColor = System.Drawing.Color.Maroon;
-            this.autoLabel10.Location = new System.Drawing.Point(45, 8);
-            this.autoLabel10.Name = "autoLabel10";
-            this.autoLabel10.Size = new System.Drawing.Size(135, 13);
-            this.autoLabel10.TabIndex = 31;
-            this.autoLabel10.Text = "Spinner #1 Rotate";
+            this.Panel_Spinner1_Rotate.BackColor = System.Drawing.Color.Transparent;
+            this.Panel_Spinner1_Rotate.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.Panel_Spinner1_Rotate.ForeColor = System.Drawing.Color.Maroon;
+            this.Panel_Spinner1_Rotate.Location = new System.Drawing.Point(45, 8);
+            this.Panel_Spinner1_Rotate.Name = "Panel_Spinner1_Rotate";
+            this.Panel_Spinner1_Rotate.Size = new System.Drawing.Size(135, 13);
+            this.Panel_Spinner1_Rotate.TabIndex = 31;
+            this.Panel_Spinner1_Rotate.Text = "Spinner #1 Rotate";
             // 
-            // gradientPanel11
+            // gradientPanel17
             // 
-            this.gradientPanel11.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("gradientPanel11.BackgroundImage")));
-            this.gradientPanel11.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.gradientPanel11.Border3DStyle = System.Windows.Forms.Border3DStyle.Raised;
-            this.gradientPanel11.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.gradientPanel11.Controls.Add(this.buttonAdv18);
-            this.gradientPanel11.Controls.Add(this.autoLabel11);
-            this.gradientPanel11.Location = new System.Drawing.Point(10, 660);
-            this.gradientPanel11.Name = "gradientPanel11";
-            this.gradientPanel11.Size = new System.Drawing.Size(432, 104);
-            this.gradientPanel11.TabIndex = 49;
+            this.gradientPanel17.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("gradientPanel17.BackgroundImage")));
+            this.gradientPanel17.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.gradientPanel17.Border3DStyle = System.Windows.Forms.Border3DStyle.Raised;
+            this.gradientPanel17.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.gradientPanel17.Controls.Add(this.buttonAdv18);
+            this.gradientPanel17.Controls.Add(this.Panel_Spinner2_Rotate);
+            this.gradientPanel17.Location = new System.Drawing.Point(10, 660);
+            this.gradientPanel17.Name = "gradientPanel17";
+            this.gradientPanel17.Size = new System.Drawing.Size(432, 104);
+            this.gradientPanel17.TabIndex = 49;
             // 
             // buttonAdv18
             // 
@@ -989,16 +1006,16 @@
             this.buttonAdv18.Text = "Load";
             this.buttonAdv18.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             // 
-            // autoLabel11
+            // Panel_Spinner2_Rotate
             // 
-            this.autoLabel11.BackColor = System.Drawing.Color.Transparent;
-            this.autoLabel11.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.autoLabel11.ForeColor = System.Drawing.Color.Maroon;
-            this.autoLabel11.Location = new System.Drawing.Point(45, 8);
-            this.autoLabel11.Name = "autoLabel11";
-            this.autoLabel11.Size = new System.Drawing.Size(135, 13);
-            this.autoLabel11.TabIndex = 31;
-            this.autoLabel11.Text = "Spinner #2 Rotate";
+            this.Panel_Spinner2_Rotate.BackColor = System.Drawing.Color.Transparent;
+            this.Panel_Spinner2_Rotate.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.Panel_Spinner2_Rotate.ForeColor = System.Drawing.Color.Maroon;
+            this.Panel_Spinner2_Rotate.Location = new System.Drawing.Point(45, 8);
+            this.Panel_Spinner2_Rotate.Name = "Panel_Spinner2_Rotate";
+            this.Panel_Spinner2_Rotate.Size = new System.Drawing.Size(135, 13);
+            this.Panel_Spinner2_Rotate.TabIndex = 31;
+            this.Panel_Spinner2_Rotate.Text = "Spinner #2 Rotate";
             // 
             // gradientPanel12
             // 
@@ -1007,7 +1024,7 @@
             this.gradientPanel12.Border3DStyle = System.Windows.Forms.Border3DStyle.Raised;
             this.gradientPanel12.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.gradientPanel12.Controls.Add(this.buttonAdv19);
-            this.gradientPanel12.Controls.Add(this.autoLabel12);
+            this.gradientPanel12.Controls.Add(this.Panel_Spinner2_Nozzle1);
             this.gradientPanel12.Controls.Add(this.buttonAdv20);
             this.gradientPanel12.Controls.Add(this.buttonAdv21);
             this.gradientPanel12.Location = new System.Drawing.Point(10, 552);
@@ -1031,16 +1048,16 @@
             this.buttonAdv19.Text = "End";
             this.buttonAdv19.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             // 
-            // autoLabel12
+            // Panel_Spinner2_Nozzle1
             // 
-            this.autoLabel12.BackColor = System.Drawing.Color.Transparent;
-            this.autoLabel12.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.autoLabel12.ForeColor = System.Drawing.Color.Maroon;
-            this.autoLabel12.Location = new System.Drawing.Point(45, 8);
-            this.autoLabel12.Name = "autoLabel12";
-            this.autoLabel12.Size = new System.Drawing.Size(151, 13);
-            this.autoLabel12.TabIndex = 31;
-            this.autoLabel12.Text = "Spinner #2 Nozzle 1";
+            this.Panel_Spinner2_Nozzle1.BackColor = System.Drawing.Color.Transparent;
+            this.Panel_Spinner2_Nozzle1.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.Panel_Spinner2_Nozzle1.ForeColor = System.Drawing.Color.Maroon;
+            this.Panel_Spinner2_Nozzle1.Location = new System.Drawing.Point(45, 8);
+            this.Panel_Spinner2_Nozzle1.Name = "Panel_Spinner2_Nozzle1";
+            this.Panel_Spinner2_Nozzle1.Size = new System.Drawing.Size(151, 13);
+            this.Panel_Spinner2_Nozzle1.TabIndex = 31;
+            this.Panel_Spinner2_Nozzle1.Text = "Spinner #2 Nozzle 1";
             // 
             // buttonAdv20
             // 
@@ -1496,10 +1513,10 @@
             // 
             // TabPageLoader
             // 
-            this.TabPageLoader.Controls.Add(this.gradientPanel17);
-            this.TabPageLoader.Controls.Add(this.gradientPanel11);
             this.TabPageLoader.Controls.Add(this.gradientPanel16);
+            this.TabPageLoader.Controls.Add(this.gradientPanel17);
             this.TabPageLoader.Controls.Add(this.gradientPanel10);
+            this.TabPageLoader.Controls.Add(this.gradientPanel11);
             this.TabPageLoader.Controls.Add(this.gradientPanel4);
             this.TabPageLoader.Controls.Add(this.gradientPanel12);
             this.TabPageLoader.Controls.Add(this.gradientPanel7);
@@ -1514,20 +1531,20 @@
             this.TabPageLoader.Text = "Wafer Load && Spinner Part";
             this.TabPageLoader.ThemesEnabled = false;
             // 
-            // gradientPanel17
+            // gradientPanel16
             // 
-            this.gradientPanel17.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("gradientPanel17.BackgroundImage")));
-            this.gradientPanel17.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.gradientPanel17.Border3DStyle = System.Windows.Forms.Border3DStyle.Raised;
-            this.gradientPanel17.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.gradientPanel17.Controls.Add(this.buttonAdv43);
-            this.gradientPanel17.Controls.Add(this.autoLabel17);
-            this.gradientPanel17.Controls.Add(this.buttonAdv44);
-            this.gradientPanel17.Controls.Add(this.buttonAdv45);
-            this.gradientPanel17.Location = new System.Drawing.Point(449, 552);
-            this.gradientPanel17.Name = "gradientPanel17";
-            this.gradientPanel17.Size = new System.Drawing.Size(432, 104);
-            this.gradientPanel17.TabIndex = 49;
+            this.gradientPanel16.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("gradientPanel16.BackgroundImage")));
+            this.gradientPanel16.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.gradientPanel16.Border3DStyle = System.Windows.Forms.Border3DStyle.Raised;
+            this.gradientPanel16.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.gradientPanel16.Controls.Add(this.buttonAdv43);
+            this.gradientPanel16.Controls.Add(this.Panel_Spinner2_Nozzle2);
+            this.gradientPanel16.Controls.Add(this.buttonAdv44);
+            this.gradientPanel16.Controls.Add(this.buttonAdv45);
+            this.gradientPanel16.Location = new System.Drawing.Point(449, 552);
+            this.gradientPanel16.Name = "gradientPanel16";
+            this.gradientPanel16.Size = new System.Drawing.Size(432, 104);
+            this.gradientPanel16.TabIndex = 49;
             // 
             // buttonAdv43
             // 
@@ -1545,16 +1562,16 @@
             this.buttonAdv43.Text = "End";
             this.buttonAdv43.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             // 
-            // autoLabel17
+            // Panel_Spinner2_Nozzle2
             // 
-            this.autoLabel17.BackColor = System.Drawing.Color.Transparent;
-            this.autoLabel17.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.autoLabel17.ForeColor = System.Drawing.Color.Maroon;
-            this.autoLabel17.Location = new System.Drawing.Point(45, 8);
-            this.autoLabel17.Name = "autoLabel17";
-            this.autoLabel17.Size = new System.Drawing.Size(151, 13);
-            this.autoLabel17.TabIndex = 31;
-            this.autoLabel17.Text = "Spinner #2 Nozzle 1";
+            this.Panel_Spinner2_Nozzle2.BackColor = System.Drawing.Color.Transparent;
+            this.Panel_Spinner2_Nozzle2.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.Panel_Spinner2_Nozzle2.ForeColor = System.Drawing.Color.Maroon;
+            this.Panel_Spinner2_Nozzle2.Location = new System.Drawing.Point(45, 8);
+            this.Panel_Spinner2_Nozzle2.Name = "Panel_Spinner2_Nozzle2";
+            this.Panel_Spinner2_Nozzle2.Size = new System.Drawing.Size(151, 13);
+            this.Panel_Spinner2_Nozzle2.TabIndex = 31;
+            this.Panel_Spinner2_Nozzle2.Text = "Spinner #2 Nozzle 1";
             // 
             // buttonAdv44
             // 
@@ -1588,20 +1605,20 @@
             this.buttonAdv45.Text = "Start";
             this.buttonAdv45.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             // 
-            // gradientPanel16
+            // gradientPanel10
             // 
-            this.gradientPanel16.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("gradientPanel16.BackgroundImage")));
-            this.gradientPanel16.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.gradientPanel16.Border3DStyle = System.Windows.Forms.Border3DStyle.Raised;
-            this.gradientPanel16.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.gradientPanel16.Controls.Add(this.buttonAdv40);
-            this.gradientPanel16.Controls.Add(this.buttonAdv41);
-            this.gradientPanel16.Controls.Add(this.buttonAdv42);
-            this.gradientPanel16.Controls.Add(this.autoLabel16);
-            this.gradientPanel16.Location = new System.Drawing.Point(449, 336);
-            this.gradientPanel16.Name = "gradientPanel16";
-            this.gradientPanel16.Size = new System.Drawing.Size(432, 104);
-            this.gradientPanel16.TabIndex = 47;
+            this.gradientPanel10.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("gradientPanel10.BackgroundImage")));
+            this.gradientPanel10.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.gradientPanel10.Border3DStyle = System.Windows.Forms.Border3DStyle.Raised;
+            this.gradientPanel10.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.gradientPanel10.Controls.Add(this.buttonAdv40);
+            this.gradientPanel10.Controls.Add(this.buttonAdv41);
+            this.gradientPanel10.Controls.Add(this.buttonAdv42);
+            this.gradientPanel10.Controls.Add(this.Panel_Spinner1_Nozzle2);
+            this.gradientPanel10.Location = new System.Drawing.Point(449, 336);
+            this.gradientPanel10.Name = "gradientPanel10";
+            this.gradientPanel10.Size = new System.Drawing.Size(432, 104);
+            this.gradientPanel10.TabIndex = 47;
             // 
             // buttonAdv40
             // 
@@ -1651,16 +1668,16 @@
             this.buttonAdv42.Text = "Start";
             this.buttonAdv42.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             // 
-            // autoLabel16
+            // Panel_Spinner1_Nozzle2
             // 
-            this.autoLabel16.BackColor = System.Drawing.Color.Transparent;
-            this.autoLabel16.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.autoLabel16.ForeColor = System.Drawing.Color.Maroon;
-            this.autoLabel16.Location = new System.Drawing.Point(45, 8);
-            this.autoLabel16.Name = "autoLabel16";
-            this.autoLabel16.Size = new System.Drawing.Size(151, 13);
-            this.autoLabel16.TabIndex = 31;
-            this.autoLabel16.Text = "Spinner #1 Nozzle 2";
+            this.Panel_Spinner1_Nozzle2.BackColor = System.Drawing.Color.Transparent;
+            this.Panel_Spinner1_Nozzle2.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.Panel_Spinner1_Nozzle2.ForeColor = System.Drawing.Color.Maroon;
+            this.Panel_Spinner1_Nozzle2.Location = new System.Drawing.Point(45, 8);
+            this.Panel_Spinner1_Nozzle2.Name = "Panel_Spinner1_Nozzle2";
+            this.Panel_Spinner1_Nozzle2.Size = new System.Drawing.Size(151, 13);
+            this.Panel_Spinner1_Nozzle2.TabIndex = 31;
+            this.Panel_Spinner1_Nozzle2.Text = "Spinner #1 Nozzle 2";
             // 
             // TabPageStage
             // 
@@ -1908,23 +1925,6 @@
             this.buttonAdv54.Text = "Centering";
             this.buttonAdv54.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             // 
-            // BtnManualLoHandler
-            // 
-            this.BtnManualLoHandler.AutoEllipsis = true;
-            this.BtnManualLoHandler.BackColor = System.Drawing.Color.SlateGray;
-            this.BtnManualLoHandler.BorderStyleAdv = Syncfusion.Windows.Forms.ButtonAdvBorderStyle.Solid;
-            this.BtnManualLoHandler.FlatAppearance.BorderSize = 5;
-            this.BtnManualLoHandler.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.BtnManualLoHandler.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
-            this.BtnManualLoHandler.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.BtnManualLoHandler.Location = new System.Drawing.Point(22, 181);
-            this.BtnManualLoHandler.Name = "BtnManualLoHandler";
-            this.BtnManualLoHandler.Size = new System.Drawing.Size(145, 68);
-            this.BtnManualLoHandler.TabIndex = 32;
-            this.BtnManualLoHandler.Text = "Lower Handler";
-            this.BtnManualLoHandler.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.BtnManualLoHandler.Click += new System.EventHandler(this.BtnManualLoHandler_Click);
-            // 
             // FormManualScreen
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
@@ -1939,6 +1939,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "FormManualScreen";
             this.Text = "Manual Screen";
+            this.Activated += new System.EventHandler(this.FormManualScreen_Activated);
             ((System.ComponentModel.ISupportInitialize)(this.gradientPanel2)).EndInit();
             this.gradientPanel2.ResumeLayout(false);
             this.gradientPanel2.PerformLayout();
@@ -1966,12 +1967,12 @@
             ((System.ComponentModel.ISupportInitialize)(this.gradientPanel9)).EndInit();
             this.gradientPanel9.ResumeLayout(false);
             this.gradientPanel9.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.gradientPanel10)).EndInit();
-            this.gradientPanel10.ResumeLayout(false);
-            this.gradientPanel10.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gradientPanel11)).EndInit();
             this.gradientPanel11.ResumeLayout(false);
             this.gradientPanel11.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.gradientPanel17)).EndInit();
+            this.gradientPanel17.ResumeLayout(false);
+            this.gradientPanel17.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gradientPanel12)).EndInit();
             this.gradientPanel12.ResumeLayout(false);
             this.gradientPanel12.PerformLayout();
@@ -1990,12 +1991,12 @@
             ((System.ComponentModel.ISupportInitialize)(this.TabManualOp)).EndInit();
             this.TabManualOp.ResumeLayout(false);
             this.TabPageLoader.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.gradientPanel17)).EndInit();
-            this.gradientPanel17.ResumeLayout(false);
-            this.gradientPanel17.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gradientPanel16)).EndInit();
             this.gradientPanel16.ResumeLayout(false);
             this.gradientPanel16.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.gradientPanel10)).EndInit();
+            this.gradientPanel10.ResumeLayout(false);
+            this.gradientPanel10.PerformLayout();
             this.TabPageStage.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.gradientPanel20)).EndInit();
             this.gradientPanel20.ResumeLayout(false);
@@ -2061,17 +2062,17 @@
         private Syncfusion.Windows.Forms.Tools.GradientPanel gradientPanel9;
         private Syncfusion.Windows.Forms.ButtonAdv buttonAdv14;
         private Syncfusion.Windows.Forms.ButtonAdv buttonAdv15;
-        private Syncfusion.Windows.Forms.Tools.AutoLabel autoLabel9;
-        private Syncfusion.Windows.Forms.Tools.GradientPanel gradientPanel10;
-        private Syncfusion.Windows.Forms.ButtonAdv buttonAdv16;
-        private Syncfusion.Windows.Forms.Tools.AutoLabel autoLabel10;
+        private Syncfusion.Windows.Forms.Tools.AutoLabel Panel_Spinner1_Nozzle1;
         private Syncfusion.Windows.Forms.Tools.GradientPanel gradientPanel11;
+        private Syncfusion.Windows.Forms.ButtonAdv buttonAdv16;
+        private Syncfusion.Windows.Forms.Tools.AutoLabel Panel_Spinner1_Rotate;
+        private Syncfusion.Windows.Forms.Tools.GradientPanel gradientPanel17;
         private Syncfusion.Windows.Forms.ButtonAdv buttonAdv18;
-        private Syncfusion.Windows.Forms.Tools.AutoLabel autoLabel11;
+        private Syncfusion.Windows.Forms.Tools.AutoLabel Panel_Spinner2_Rotate;
         private Syncfusion.Windows.Forms.Tools.GradientPanel gradientPanel12;
         private Syncfusion.Windows.Forms.ButtonAdv buttonAdv20;
         private Syncfusion.Windows.Forms.ButtonAdv buttonAdv21;
-        private Syncfusion.Windows.Forms.Tools.AutoLabel autoLabel12;
+        private Syncfusion.Windows.Forms.Tools.AutoLabel Panel_Spinner2_Nozzle1;
         private Syncfusion.Windows.Forms.ButtonAdv buttonAdv17;
         private Syncfusion.Windows.Forms.ButtonAdv buttonAdv19;
         private Syncfusion.Windows.Forms.Tools.GradientPanel gradientPanel13;
@@ -2103,15 +2104,15 @@
         private Syncfusion.Windows.Forms.Tools.AutoLabel autoLabel15;
         private Syncfusion.Windows.Forms.Tools.TabControlAdv TabManualOp;
         private Syncfusion.Windows.Forms.Tools.TabPageAdv TabPageLoader;
-        private Syncfusion.Windows.Forms.Tools.GradientPanel gradientPanel16;
+        private Syncfusion.Windows.Forms.Tools.GradientPanel gradientPanel10;
         private Syncfusion.Windows.Forms.ButtonAdv buttonAdv40;
         private Syncfusion.Windows.Forms.ButtonAdv buttonAdv41;
         private Syncfusion.Windows.Forms.ButtonAdv buttonAdv42;
-        private Syncfusion.Windows.Forms.Tools.AutoLabel autoLabel16;
+        private Syncfusion.Windows.Forms.Tools.AutoLabel Panel_Spinner1_Nozzle2;
         private Syncfusion.Windows.Forms.Tools.TabPageAdv TabPageStage;
-        private Syncfusion.Windows.Forms.Tools.GradientPanel gradientPanel17;
+        private Syncfusion.Windows.Forms.Tools.GradientPanel gradientPanel16;
         private Syncfusion.Windows.Forms.ButtonAdv buttonAdv43;
-        private Syncfusion.Windows.Forms.Tools.AutoLabel autoLabel17;
+        private Syncfusion.Windows.Forms.Tools.AutoLabel Panel_Spinner2_Nozzle2;
         private Syncfusion.Windows.Forms.ButtonAdv buttonAdv44;
         private Syncfusion.Windows.Forms.ButtonAdv buttonAdv45;
         private Syncfusion.Windows.Forms.Tools.GradientPanel gradientPanel19;

@@ -174,21 +174,21 @@ namespace LWDicer.Layers
             return SUCCESS;
         }
 
-        public int SetRotatePosition(CPosition FixedPos, CPosition ModelPos, CPosition OffsetPos)
+        public int SetPosition_Rotate(CPositionSet Pos_Fixed, CPositionSet Pos_Model, CPositionSet Pos_Offset)
         {
-            AxRotateInfo.SetPosition(FixedPos, ModelPos, OffsetPos);
+            AxRotateInfo.SetPositionSet(Pos_Fixed, Pos_Model, Pos_Offset);
             return SUCCESS;
         }
 
-        public int SetCleanPosition(CPosition FixedPos, CPosition ModelPos, CPosition OffsetPos)
+        public int SetPosition_CleanNozzle(CPositionSet Pos_Fixed, CPositionSet Pos_Model, CPositionSet Pos_Offset)
         {
-            AxCleanNozzleInfo.SetPosition(FixedPos, ModelPos, OffsetPos);
+            AxCleanNozzleInfo.SetPositionSet(Pos_Fixed, Pos_Model, Pos_Offset);
             return SUCCESS;
         }
 
-        public int SetCoatPosition(CPosition FixedPos, CPosition ModelPos, CPosition OffsetPos)
+        public int SetPosition_CoatNozzle(CPositionSet Pos_Fixed, CPositionSet Pos_Model, CPositionSet Pos_Offset)
         {
-            AxCoatNozzleInfo.SetPosition(FixedPos, ModelPos, OffsetPos);
+            AxCoatNozzleInfo.SetPositionSet(Pos_Fixed, Pos_Model, Pos_Offset);
             return SUCCESS;
         }
 
@@ -650,19 +650,14 @@ namespace LWDicer.Layers
         ////////////////////////////////////////////////////////////////////////////
         // Rotate
 
-        public int RotateStop()
+        public int StopRotate()
         {
-            return m_RefComp.AxSpinRotate.SetStop(DEF_MAX_COORDINATE, DEF_STOP);
+            return m_RefComp.AxSpinRotate.SetStop(DEF_T, DEF_STOP);
         }
 
-        public int StartRotateCW(int nSpeed)
+        public int StartRotate(int nSpeed, bool bCWDir = true)
         {
-            return m_RefComp.AxSpinRotate.JogMoveVelocity(DEF_MAX_COORDINATE, true, nSpeed);
-        }
-
-        public int StartRotateCCW(int nSpeed)
-        {
-            return m_RefComp.AxSpinRotate.JogMoveVelocity(DEF_MAX_COORDINATE, false, nSpeed);
+            return m_RefComp.AxSpinRotate.JogMoveVelocity(DEF_T, bCWDir, nSpeed);
         }
 
         public int MoveRotateToLoadPos(double dMoveOffset = 0)

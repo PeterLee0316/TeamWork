@@ -319,8 +319,8 @@ namespace LWDicer.Layers
             MAX,
         }
 
-        public const int FixedData = 0;
-        public const int OffsetData = 1;
+        //public const int FixedData = 0;
+        //public const int OffsetData = 1;
 
         // Head 정의
         public const int DEF_SHEAD1 = 0;
@@ -496,7 +496,7 @@ namespace LWDicer.Layers
             ALL = -1,
 
             // Loader
-            LOADER,
+            LOADER = 0,
 
             // PushPull
             PUSHPULL,
@@ -533,7 +533,7 @@ namespace LWDicer.Layers
             ALL = -1,
 
             // Loader
-            LOADER,
+            LOADER = 0,
 
             // PushPull
             PUSHPULL,
@@ -1393,24 +1393,38 @@ namespace LWDicer.Layers
             MAX,                            // = 26
         }
 
-        public class CProcessTime
+        public class CProcessPhase
         {
-            public DateTime Time_Begin;
-            public DateTime Time_Finish;
+            //
+            public EProcessPhase Name { get; private set; }
 
-            public CProcessTime()
+            // start
+            public bool IsStarted { get; private set; }
+            public DateTime Time_Start { get; private set; }
+
+            // finish
+            public bool IsFinished{ get; private set; }
+            public DateTime Time_Finish { get; private set; }
+
+            public CProcessPhase(EProcessPhase Name)
             {
+                this.Name = Name;
+                IsStarted = false;
+                IsFinished = false;
                 //Time_Begin = DateTime.Now;
                 //Time_Finish = DateTime.Now;
             }
 
             public void StartPhase()
             {
-                Time_Begin = DateTime.Now;
+                IsStarted = true;
+                IsFinished = false;
+                Time_Start = DateTime.Now;
             }
 
             public void FinishPhase()
             {
+                IsFinished = true;
                 Time_Finish = DateTime.Now;
             }
 
@@ -1430,8 +1444,7 @@ namespace LWDicer.Layers
             public DateTime Time_UnloadToCassette { get; private set; }
 
             // 각 공정 단계의 완료 여부 및 걸린 시간을 기록
-            public CProcessTime[] ProcessTime = new CProcessTime[(int)EProcessPhase.MAX];
-            public bool[] ProcessFinished = new bool[(int)EProcessPhase.MAX];
+            public CProcessPhase[] Process = new CProcessPhase[(int)EProcessPhase.MAX];
 
             public CWorkPiece()
             {
@@ -1441,10 +1454,9 @@ namespace LWDicer.Layers
             public void Init()
             {
                 ID = "";
-                for (int i = 0; i < ProcessTime.Length; i++)
+                for (int i = 0; i < Process.Length; i++)
                 {
-                    ProcessFinished[i] = false;
-                    ProcessTime[i] = new CProcessTime();
+                    Process[i] = new CProcessPhase(EProcessPhase.PUSHPULL_LOAD_FROM_LOADER + i);
                 }
             }
 
@@ -1471,8 +1483,8 @@ namespace LWDicer.Layers
                 {
                     LoadFromCassette();
                 }
-                ProcessFinished[(int)phase] = false;
-                ProcessTime[(int)phase].StartPhase();
+
+                Process[(int)phase].StartPhase();
             }
 
             public void FinishPhase(EProcessPhase phase)
@@ -1486,15 +1498,14 @@ namespace LWDicer.Layers
                     UnloadToCassette();
                 }
 
-                ProcessFinished[(int)phase] = true;
-                ProcessTime[(int)phase].FinishPhase();
+                Process[(int)phase].FinishPhase();
             }
 
             public EProcessPhase GetNextPhase()
             {
                 for (int i = 0; i < (int)EProcessPhase.MAX; i++)
                 {
-                    if (ProcessFinished[i] == false)
+                    if (Process[i].IsFinished == false)
                     {
                         EProcessPhase cnvt = (EProcessPhase)Enum.Parse(typeof(EProcessPhase), i.ToString());
                         return cnvt;

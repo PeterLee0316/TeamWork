@@ -54,7 +54,6 @@
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.Text = "SFA Wafer Dicing";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.CMainFrame_FormClosing);
             this.ResumeLayout(false);
 
         }

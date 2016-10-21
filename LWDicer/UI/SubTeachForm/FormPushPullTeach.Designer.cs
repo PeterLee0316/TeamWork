@@ -64,7 +64,7 @@
             this.gradientLabel5 = new Syncfusion.Windows.Forms.Tools.GradientLabel();
             this.LabelTeach1 = new Syncfusion.Windows.Forms.Tools.GradientLabel();
             this.BtnYPos2 = new Syncfusion.Windows.Forms.ButtonAdv();
-            this.TmrTeach = new System.Windows.Forms.Timer(this.components);
+            this.TimerUI = new System.Windows.Forms.Timer(this.components);
             this.gradientLabel16 = new Syncfusion.Windows.Forms.Tools.GradientLabel();
             this.BtnManualXOP = new System.Windows.Forms.Button();
             this.gradientLabel17 = new Syncfusion.Windows.Forms.Tools.GradientLabel();
@@ -597,9 +597,9 @@
             this.BtnYPos2.Tag = "1";
             this.BtnYPos2.Click += new System.EventHandler(this.BtnPushPullPos_Click);
             // 
-            // TmrTeach
+            // TimerUI
             // 
-            this.TmrTeach.Tick += new System.EventHandler(this.TmrTeach_Tick);
+            this.TimerUI.Tick += new System.EventHandler(this.TimerUI_Tick);
             // 
             // gradientLabel16
             // 
@@ -1132,7 +1132,7 @@
         private Syncfusion.Windows.Forms.Tools.GradientLabel gradientLabel5;
         private Syncfusion.Windows.Forms.Tools.GradientLabel LabelTeach1;
         private Syncfusion.Windows.Forms.ButtonAdv BtnYPos2;
-        private System.Windows.Forms.Timer TmrTeach;
+        private System.Windows.Forms.Timer TimerUI;
         private Syncfusion.Windows.Forms.ButtonAdv BtnYPos6;
         private Syncfusion.Windows.Forms.ButtonAdv BtnYPos5;
         private Syncfusion.Windows.Forms.ButtonAdv BtnYPos4;

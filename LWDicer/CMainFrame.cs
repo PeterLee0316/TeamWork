@@ -67,6 +67,9 @@ namespace LWDicer.UI
         public static Syncfusion.Drawing.BrushInfo Brush_B    = new Syncfusion.Drawing.BrushInfo(Color.Blue);
         public static Syncfusion.Drawing.BrushInfo Brush_Gray = new Syncfusion.Drawing.BrushInfo(Color.Gray);
 
+        public static Color BtnBackColor_On = Color.LawnGreen;
+        public static Color BtnBackColor_Off = Color.LightGray;
+
         public CMainFrame()
         {
             bool bRtn = InitializeLWDicer();
@@ -218,7 +221,7 @@ namespace LWDicer.UI
         public bool InitializeLWDicer()
         {
             //int iResult = LWDicer.Initialize(MainFrame);
-            int iResult = LWDicer.Initialize(this);
+            int iResult = LWDicer.Initialize(this, out DataManager);
             if (iResult != SUCCESS)
             {
                 // Show Error Message & 프로그램 종료?
@@ -226,20 +229,9 @@ namespace LWDicer.UI
                 return false;
             }
 
-            DataManager = LWDicer.m_DataManager;            
+            //DataManager = LWDicer.m_DataManager;            
 
             return true;
-        }
-
-        private void CMainFrame_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            // Program 종료를 위해 Thread Kill
-            LWDicer.StopThreads();
-            
-            DetachEventHandlers();
-
-            this.Dispose();
-            this.Close();
         }
 
         static public void DisplayAlarm_Modeless(int alarmcode, int pid = 0, bool saveLog = true)
@@ -264,6 +256,22 @@ namespace LWDicer.UI
             if (alarmcode == SUCCESS)
             {
                 DisplayMsg("요청한 작업이 성공했습니다.");
+            }
+            else
+            {
+                CAlarm alarm = LWDicer.GetAlarmInfo(alarmcode, pid, saveLog);
+                var dlg = new FormAlarmDisplay(alarm);
+                dlg.TopMost = true;
+                dlg.ShowDialog();
+            }
+        }
+
+        static public void DisplayAlarmOnly(int alarmcode, int pid = 0, bool saveLog = true)
+        {
+            if (IsAlarmPopup) return; // popup 된 alarm이 확인완료될때까지 기다림
+            if (alarmcode == SUCCESS)
+            {
+                //DisplayMsg("요청한 작업이 성공했습니다.");
             }
             else
             {

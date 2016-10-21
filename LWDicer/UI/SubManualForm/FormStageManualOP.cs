@@ -25,49 +25,42 @@ namespace LWDicer.UI
 
         private void BtnExit_Click(object sender, EventArgs e)
         {
-            FormClose();
+            this.Close();
         }
 
         private void FormStageManualOP_Load(object sender, EventArgs e)
         {
-            TmrManualOP.Enabled = true;
-            TmrManualOP.Interval = UITimerInterval;
-            TmrManualOP.Start();
+            TimerUI.Enabled = true;
+            TimerUI.Interval = UITimerInterval;
+            TimerUI.Start();
 
             UpdateProcessData();
         }
 
         private void FormStageManualOP_FormClosing(object sender, FormClosingEventArgs e)
         {
-            FormClose();
         }
 
-        private void FormClose()
+        private void TimerUI_Tick(object sender, EventArgs e)
         {
-            TmrManualOP.Stop();
-            this.Hide();
+            UpdateStatus();
         }
 
-        private void TmrManualOP_Tick(object sender, EventArgs e)
-        {
-            SensorStatus();
-        }
-
-        private void SensorStatus()
+        private void UpdateStatus()
         {
             bool bStatus = false;
 
             CMainFrame.LWDicer.m_MeStage.IsAbsorbed(out bStatus);
-            if (bStatus == true) BtnVacuumOn.BackColor = Color.LawnGreen; else BtnVacuumOff.BackColor = Color.LightGray;
+            BtnVacuumOn.BackColor = (bStatus == true) ? CMainFrame.BtnBackColor_On : CMainFrame.BtnBackColor_Off;
 
             CMainFrame.LWDicer.m_MeStage.IsReleased(out bStatus);
-            if (bStatus == true) BtnVacuumOff.BackColor = Color.LawnGreen; else BtnVacuumOn.BackColor = Color.LightGray;
+            BtnVacuumOff.BackColor = (bStatus == true) ? CMainFrame.BtnBackColor_On : CMainFrame.BtnBackColor_Off;
 
             CMainFrame.LWDicer.m_MeStage.IsClampOpen(out bStatus);
-            if (bStatus == true) BtnClampOpen.BackColor = Color.LawnGreen; else BtnClampClose.BackColor = Color.LightGray;
+            BtnClampOpen.BackColor = (bStatus == true) ? CMainFrame.BtnBackColor_On : CMainFrame.BtnBackColor_Off;
 
             CMainFrame.LWDicer.m_MeStage.IsClampClose(out bStatus);
-            if (bStatus == true) BtnClampClose.BackColor = Color.LawnGreen; else BtnClampOpen.BackColor = Color.LightGray;
+            BtnClampClose.BackColor = (bStatus == true) ? CMainFrame.BtnBackColor_On : CMainFrame.BtnBackColor_Off;
         }
 
         private void BtnVacuumOn_Click(object sender, EventArgs e)
@@ -126,7 +119,7 @@ namespace LWDicer.UI
             CMainFrame.LWDicer.m_MeScanner.LaserProcessCount(Convert.ToInt32(strModify));
         }
 
-        private void TmrManualOP_Tick_1(object sender, EventArgs e)
+        private void TimerUI_Tick_1(object sender, EventArgs e)
         {
             if (CMainFrame.LWDicer.m_MeScanner.IsScannerBusy()) ChangeLabelText(lblProcessExpoBusy, "On");
             else ChangeLabelText(lblProcessExpoBusy, "Off");
@@ -355,7 +348,7 @@ namespace LWDicer.UI
             UpdateProcessData();
 
 
-            CMainFrame.DataManager.SaveModelData(CMainFrame.DataManager.ModelData);
+            CMainFrame.LWDicer.SaveModelData(CMainFrame.DataManager.ModelData);
         }
         private void UpdateProcessData()
         {
