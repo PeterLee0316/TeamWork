@@ -12,6 +12,8 @@ using LWDicer.Layers;
 
 using static LWDicer.Layers.DEF_System;
 using static LWDicer.Layers.DEF_Common;
+using static LWDicer.Layers.DEF_DataManager;
+using static LWDicer.Layers.DEF_Motion;
 using static LWDicer.Layers.MYaskawa;
 
 using static LWDicer.Layers.DEF_Thread;
@@ -38,9 +40,9 @@ namespace LWDicer.UI
 
         private int m_nSelectedPos = 0;
 
-        private int nDataMode = 0;
+        public bool Type_Fixed; // 고정좌표, 옵셋좌표 구분
 
-        private CMovingObject movingObject = CMainFrame.LWDicer.m_MeStage.AxCameraInfo;
+        private CMovingObject MO_Camera = CMainFrame.LWDicer.m_MeStage.AxCameraInfo;
 
         public FormCameraTeach()
         {
@@ -51,12 +53,6 @@ namespace LWDicer.UI
             ResouceMapping();
         }
 
-        private void FormClose()
-        {
-            TmrTeach.Stop();
-            this.Hide();
-        }
-
         private void FormCameraTeach_Load(object sender, EventArgs e)
         {
             this.DesktopLocation = new Point(1, 100);
@@ -65,29 +61,18 @@ namespace LWDicer.UI
 
             UpdateTeachPos(0);
 
-            TmrTeach.Enabled = true;
-            TmrTeach.Interval = UITimerInterval;
-            TmrTeach.Start();
+            TimerUI.Enabled = true;
+            TimerUI.Interval = UITimerInterval;
+            TimerUI.Start();
         }
 
         private void FormCameraTeach_FormClosing(object sender, FormClosingEventArgs e)
         {
-            FormClose();
         }
 
         private void BtnExit_Click(object sender, EventArgs e)
         {
-            FormClose();
-        }
-
-        public void SetDataMode(int nMode)
-        {
-            nDataMode = nMode;
-        }
-
-        public int GetDataMode()
-        {
-            return nDataMode;
+            this.Close();
         }
 
         private void BtnJog_Click(object sender, EventArgs e)
@@ -230,13 +215,12 @@ namespace LWDicer.UI
                     }
                 }
 
-                if (GetDataMode() == FixedData)
+                if (Type_Fixed == true)
                 {
                     if (i != 0) GridTeachTable[3, i].BackColor = Color.LightYellow;
                     if (i != 0) GridTeachTable[6, i].BackColor = Color.White;
                 }
-
-                if (GetDataMode() == OffsetData)
+                else
                 {
                     if (i != 0) GridTeachTable[3, i].BackColor = Color.White;
                     if (i != 0) GridTeachTable[6, i].BackColor = Color.LightYellow;
@@ -271,7 +255,7 @@ namespace LWDicer.UI
             double dOtherSum = Convert.ToDouble(GridTeachTable[4, index].Text) // Model Pos
                 + Convert.ToDouble(GridTeachTable[5, index].Text); // + Align Mark Pos
 
-            if (GetDataMode() == FixedData)
+            if (Type_Fixed == true)
             {
                 dOtherSum += Convert.ToDouble(GridTeachTable[6, index].Text); // Offset Pos
                 double dPos = dTargetPos - dOtherSum;
@@ -295,28 +279,18 @@ namespace LWDicer.UI
             string strMsg = "Save teaching data?";
             if (!CMainFrame.InquireMsg(strMsg)) return;
 
-            if (GetDataMode() == FixedData)
-            {
-                strData = GridTeachTable[3, 1].Text;
+            CPositionGroup tGroup;
+            CMainFrame.LWDicer.GetPositionGroup(out tGroup, Type_Fixed);
+            EPositionObject pIndex = EPositionObject.CAMERA1;
+            int direction = DEF_Z;
+            strData = (Type_Fixed == true) ? GridTeachTable[3, 1].Text : strData = GridTeachTable[6, 1].Text;
+            tGroup.Pos_Array[(int)pIndex].Pos[m_nSelectedPos].SetPosition(direction, Convert.ToDouble(strData));
 
-                CMainFrame.DataManager.FixedPos.Camera1Pos.Pos[m_nSelectedPos].dZ = Convert.ToDouble(strData);
-                CMainFrame.DataManager.SavePositionData(true, EPositionObject.CAMERA1);
-            }
-
-            if(GetDataMode() == OffsetData)
-            {
-                strData = GridTeachTable[6, 1].Text;
-
-                CMainFrame.DataManager.OffsetPos.Camera1Pos.Pos[m_nSelectedPos].dZ = Convert.ToDouble(strData);
-                CMainFrame.DataManager.SavePositionData(false, EPositionObject.CAMERA1);
-            }
-
-            CMainFrame.LWDicer.SetPositionDataToComponent(EPositionGroup.STAGE1);
-
+            CMainFrame.LWDicer.SavePosition(tGroup, Type_Fixed, pIndex);
             DisplayPos();
         }
 
-        private void TmrTeach_Tick(object sender, EventArgs e)
+        private void TimerUI_Tick(object sender, EventArgs e)
         {
             // Current Position Display
             string strCurPos = string.Empty;
@@ -343,16 +317,10 @@ namespace LWDicer.UI
 
         private void DisplayPos()
         {
-            string str;
-            double dFixedPos, dOffsetPos, dTargetPos, dModelPos, dAlignOffset;
             int index = m_nSelectedPos;
-                        
-            dFixedPos = movingObject.FixedPos.Pos[index].dZ;
-            dOffsetPos = movingObject.OffsetPos.Pos[index].dZ;
-            dModelPos = movingObject.ModelPos.Pos[index].dZ;
-            dAlignOffset = movingObject.AlignOffset.dZ;
-
-            dTargetPos = dFixedPos + dOffsetPos + dModelPos + dAlignOffset;
+            string str;
+            double dFixedPos, dModelPos, dOffsetPos, dAlignOffset, dTargetPos;
+            dTargetPos = MO_Camera.GetPosition(index, DEF_Z, out dFixedPos, out dModelPos, out dOffsetPos, out dAlignOffset);
 
             GridTeachTable[2, 1].Text = String.Format("{0:0.000}", dTargetPos);
             GridTeachTable[3, 1].Text = String.Format("{0:0.000}", dFixedPos);

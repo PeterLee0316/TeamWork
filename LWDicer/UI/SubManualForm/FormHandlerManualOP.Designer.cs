@@ -31,7 +31,7 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormHandlerManualOP));
             this.BtnExit = new System.Windows.Forms.Button();
-            this.TmrManualOP = new System.Windows.Forms.Timer(this.components);
+            this.TimerUI = new System.Windows.Forms.Timer(this.components);
             this.gradientLabel3 = new Syncfusion.Windows.Forms.Tools.GradientLabel();
             this.BtnVacuumOff = new Syncfusion.Windows.Forms.ButtonAdv();
             this.BtnVacuumOn = new Syncfusion.Windows.Forms.ButtonAdv();
@@ -159,7 +159,7 @@
         #endregion
 
         private System.Windows.Forms.Button BtnExit;
-        private System.Windows.Forms.Timer TmrManualOP;
+        private System.Windows.Forms.Timer TimerUI;
         private Syncfusion.Windows.Forms.Tools.GradientLabel gradientLabel3;
         private Syncfusion.Windows.Forms.ButtonAdv BtnVacuumOff;
         private Syncfusion.Windows.Forms.ButtonAdv BtnVacuumOn;

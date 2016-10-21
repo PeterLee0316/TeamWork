@@ -117,14 +117,14 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <metadata name="TmrMotor.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+  <metadata name="TimerUI.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
   </metadata>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="BtnExit.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAJcEhZcwAADr8AAA6/ATgFUyQAAAEeSURBVFhH7VEJDsMgDOvT+/OtBodCwlGaHpo0S14hDral
+        YQUAAAAJcEhZcwAADr4AAA6+AepCscAAAAEeSURBVFhH7VEJDsMgDOvT+/OtBodCwlGaHpo0S14hDral
         LX+cwMdJNz7ruh4m9gH8ytvg4oAJaRG7KZx3zl0wQTVirwjnjNo0wuN4HBfAjgnnnPo0kgGoA3NCr4ZT
         4840zP9YI7RmOHXuTSOainGjhNnTvKRAp0Sxh7tmp0B83ONmCvRKyN65Arl5h0C6Z6aXFTiKImg3Luea
         RwpM0RpbLWe3gF7WzIPzAJr6C4w4CK8WkLc4894qMMIw3BTYzkCYQaPuK6CMNNMeg9MMX545m8YwHAx7

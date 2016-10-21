@@ -319,8 +319,8 @@ namespace LWDicer.Layers
             MAX,
         }
 
-        public const int FixedData = 0;
-        public const int OffsetData = 1;
+        //public const int FixedData = 0;
+        //public const int OffsetData = 1;
 
         // Head 정의
         public const int DEF_SHEAD1 = 0;
@@ -496,7 +496,7 @@ namespace LWDicer.Layers
             ALL = -1,
 
             // Loader
-            LOADER,
+            LOADER = 0,
 
             // PushPull
             PUSHPULL,
@@ -533,7 +533,7 @@ namespace LWDicer.Layers
             ALL = -1,
 
             // Loader
-            LOADER,
+            LOADER = 0,
 
             // PushPull
             PUSHPULL,

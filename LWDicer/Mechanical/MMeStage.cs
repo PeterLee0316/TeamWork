@@ -281,34 +281,34 @@ namespace LWDicer.Layers
             return SUCCESS;
         }
 
-        public int SetStagePosition(CPosition FixedPos, CPosition ModelPos, CPosition OffsetPos)
+        public int SetPosition_Stage(CPositionSet Pos_Fixed, CPositionSet Pos_Model, CPositionSet Pos_Offset)
         {
-            return AxStageInfo.SetPosition(FixedPos, ModelPos, OffsetPos);
+            return AxStageInfo.SetPositionSet(Pos_Fixed, Pos_Model, Pos_Offset);
         }
 
-        public int GetStagePosition(out CPosition FixedPos, out CPosition ModelPos, out CPosition OffsetPos)
+        public int GetStagePosition(out CPositionSet Pos_Fixed, out CPositionSet Pos_Model, out CPositionSet Pos_Offset)
         {
-            return AxStageInfo.GetPosition(out FixedPos,out ModelPos,out OffsetPos);
+            return AxStageInfo.GetPositionSet(out Pos_Fixed,out Pos_Model,out Pos_Offset);
         }
 
-        public int SetCameraPosition(CPosition FixedPos, CPosition ModelPos, CPosition OffsetPos)
+        public int SetPosition_Camera(CPositionSet Pos_Fixed, CPositionSet Pos_Model, CPositionSet Pos_Offset)
         {
-            return AxCameraInfo.SetPosition(FixedPos, ModelPos, OffsetPos);
+            return AxCameraInfo.SetPositionSet(Pos_Fixed, Pos_Model, Pos_Offset);
         }
 
-        public int GetCameraPosition(out CPosition FixedPos, out CPosition ModelPos, out CPosition OffsetPos)
+        public int GetCameraPosition(out CPositionSet Pos_Fixed, out CPositionSet Pos_Model, out CPositionSet Pos_Offset)
         {
-            return AxCameraInfo.GetPosition(out FixedPos, out ModelPos, out OffsetPos);
+            return AxCameraInfo.GetPositionSet(out Pos_Fixed, out Pos_Model, out Pos_Offset);
         }
 
-        public int SetScannerPosition(CPosition FixedPos, CPosition ModelPos, CPosition OffsetPos)
+        public int SetPosition_Scanner(CPositionSet Pos_Fixed, CPositionSet Pos_Model, CPositionSet Pos_Offset)
         {
-            return AxScannerInfo.SetPosition(FixedPos, ModelPos, OffsetPos);
+            return AxScannerInfo.SetPositionSet(Pos_Fixed, Pos_Model, Pos_Offset);
         }
 
-        public int GetScannerPosition(out CPosition FixedPos, out CPosition ModelPos, out CPosition OffsetPos)
+        public int GetScannerPosition(out CPositionSet Pos_Fixed, out CPositionSet Pos_Model, out CPositionSet Pos_Offset)
         {
-            return AxScannerInfo.GetPosition(out FixedPos, out ModelPos, out OffsetPos);
+            return AxScannerInfo.GetPositionSet(out Pos_Fixed, out Pos_Model, out Pos_Offset);
         }
 
         public CPos_XYTZ GetTargetPosition(int index)
@@ -2032,9 +2032,9 @@ namespace LWDicer.Layers
                 
         public void SetThetaAlignPosA(CPos_XYTZ pPos)
         {
-            AxStageInfo.FixedPos.Pos[(int)EStagePos.THETA_ALIGN_A] = pPos;
+            AxStageInfo.Pos_Fixed.Pos[(int)EStagePos.THETA_ALIGN_A] = pPos;
 
-            CMainFrame.DataManager.FixedPos.Stage1Pos.Pos[(int)EStagePos.THETA_ALIGN_A] = pPos;
+            CMainFrame.DataManager.Pos_Fixed.Pos_Stage1.Pos[(int)EStagePos.THETA_ALIGN_A] = pPos;
         }
         public int GetThetaAlignPosA(out CPos_XYTZ pPos)
         {
@@ -2046,9 +2046,9 @@ namespace LWDicer.Layers
 
         public void SetThetaAlignTurnPosA(CPos_XYTZ pPos)
         {
-            AxStageInfo.FixedPos.Pos[(int)EStagePos.THETA_ALIGN_TURN_A] = pPos;
+            AxStageInfo.Pos_Fixed.Pos[(int)EStagePos.THETA_ALIGN_TURN_A] = pPos;
 
-            CMainFrame.DataManager.FixedPos.Stage1Pos.Pos[(int)EStagePos.THETA_ALIGN_TURN_A] = pPos;
+            CMainFrame.DataManager.Pos_Fixed.Pos_Stage1.Pos[(int)EStagePos.THETA_ALIGN_TURN_A] = pPos;
         }
         public int GetThetaAlignTurnPosA(out CPos_XYTZ pPos)
         {
@@ -2060,13 +2060,13 @@ namespace LWDicer.Layers
 
         public void SetEdgeAlignPos(CPos_XYTZ pPos)
         {
-            AxStageInfo.OffsetPos.Pos[(int)EStagePos.EDGE_ALIGN_1].dX = -pPos.dX;
-            AxStageInfo.OffsetPos.Pos[(int)EStagePos.EDGE_ALIGN_1].dY = -pPos.dY;
+            AxStageInfo.Pos_Offset.Pos[(int)EStagePos.EDGE_ALIGN_1].dX = -pPos.dX;
+            AxStageInfo.Pos_Offset.Pos[(int)EStagePos.EDGE_ALIGN_1].dY = -pPos.dY;
 
         }
         public int GetEdgeAlignPos(out CPos_XYTZ pPos)
         {
-            pPos = AxStageInfo.OffsetPos.Pos[(int)EStagePos.EDGE_ALIGN_1];
+            pPos = AxStageInfo.Pos_Offset.Pos[(int)EStagePos.EDGE_ALIGN_1];
 
             return SUCCESS;            
         }
@@ -2074,7 +2074,7 @@ namespace LWDicer.Layers
         public int SetMicroCamPos(CPos_XYTZ pPos)
         {
             int index = (int)EStagePos.MACRO_CAM_POS;
-            AxStageInfo.FixedPos.Pos[index] = pPos;
+            AxStageInfo.Pos_Fixed.Pos[index] = pPos;
 
             return SUCCESS;
         }
@@ -2082,7 +2082,7 @@ namespace LWDicer.Layers
         public int GetMicroCamPos(out CPos_XYTZ pPos)
         {
             int index = (int)EStagePos.MACRO_CAM_POS;
-            pPos = AxStageInfo.FixedPos.Pos[index];
+            pPos = AxStageInfo.Pos_Fixed.Pos[index];
 
             return SUCCESS;
         }

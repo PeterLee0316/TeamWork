@@ -32,7 +32,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormHandlerTeach));
             this.BtnExit = new System.Windows.Forms.Button();
             this.BtnJog = new System.Windows.Forms.Button();
-            this.TmrTeach = new System.Windows.Forms.Timer(this.components);
+            this.TimerUI = new System.Windows.Forms.Timer(this.components);
             this.BtnUpChangeValue = new System.Windows.Forms.Button();
             this.BtnUpTeachMove = new System.Windows.Forms.Button();
             this.gradientLabel7 = new Syncfusion.Windows.Forms.Tools.GradientLabel();
@@ -124,9 +124,9 @@
             this.BtnJog.UseVisualStyleBackColor = true;
             this.BtnJog.Click += new System.EventHandler(this.BtnJog_Click);
             // 
-            // TmrTeach
+            // TimerUI
             // 
-            this.TmrTeach.Tick += new System.EventHandler(this.TmrTeach_Tick);
+            this.TimerUI.Tick += new System.EventHandler(this.TimerUI_Tick);
             // 
             // BtnUpChangeValue
             // 
@@ -1093,7 +1093,7 @@
 
         private System.Windows.Forms.Button BtnExit;
         private System.Windows.Forms.Button BtnJog;
-        private System.Windows.Forms.Timer TmrTeach;
+        private System.Windows.Forms.Timer TimerUI;
         private System.Windows.Forms.Button BtnUpChangeValue;
         private System.Windows.Forms.Button BtnUpTeachMove;
         private Syncfusion.Windows.Forms.Tools.GradientLabel gradientLabel7;

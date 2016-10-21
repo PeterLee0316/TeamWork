@@ -47,11 +47,6 @@ namespace LWDicer.UI
             //this.Text = $"User Login [ Current Model : {CMainFrame.DataManager.ModelData.Name} ]";
         }
 
-        private void FormClose()
-        {
-            this.Hide();
-        }
-
         private void AddUserToList(ref int nCount, string strParent)
         {
             string strName;
@@ -101,12 +96,12 @@ namespace LWDicer.UI
 
             CMainFrame.DataManager.Login(info.Name);
 
-            FormClose();
+            this.Close();
         }
 
         private void BtnExit_Click(object sender, EventArgs e)
         {
-            FormClose();
+            this.Close();
         }
 
         private void ComboUser_SelectedIndexChanged(object sender, EventArgs e)
@@ -146,7 +141,6 @@ namespace LWDicer.UI
 
         private void FormUserLogin_FormClosing(object sender, FormClosingEventArgs e)
         {
-            FormClose();
         }
 
         private void BtnChangePW_Click(object sender, EventArgs e)
@@ -193,7 +187,7 @@ namespace LWDicer.UI
             }
 
             // save
-            int iResult = CMainFrame.DataManager.SaveModelData(info);
+            int iResult = CMainFrame.LWDicer.SaveUserData(info);
             CMainFrame.DisplayAlarm(iResult);
 
         }
@@ -201,7 +195,7 @@ namespace LWDicer.UI
         private void BtnLogout_Click(object sender, EventArgs e)
         {
             CMainFrame.DataManager.Logout();
-            FormClose();
+            this.Close();
         }
     }
 }

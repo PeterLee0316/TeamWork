@@ -32,7 +32,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormScannerTeach));
             this.BtnExit = new System.Windows.Forms.Button();
             this.BtnJog = new System.Windows.Forms.Button();
-            this.TmrTeach = new System.Windows.Forms.Timer(this.components);
+            this.TimerUI = new System.Windows.Forms.Timer(this.components);
             this.GridTeachTable = new Syncfusion.Windows.Forms.Grid.GridControl();
             this.BtnChangeValue = new System.Windows.Forms.Button();
             this.BtnTeachMove = new System.Windows.Forms.Button();
@@ -93,9 +93,9 @@
             this.BtnJog.UseVisualStyleBackColor = true;
             this.BtnJog.Click += new System.EventHandler(this.BtnJog_Click);
             // 
-            // TmrTeach
+            // TimerUI
             // 
-            this.TmrTeach.Tick += new System.EventHandler(this.TmrTeach_Tick);
+            this.TimerUI.Tick += new System.EventHandler(this.TimerUI_Tick);
             // 
             // GridTeachTable
             // 
@@ -573,7 +573,7 @@
 
         private System.Windows.Forms.Button BtnExit;
         private System.Windows.Forms.Button BtnJog;
-        private System.Windows.Forms.Timer TmrTeach;
+        private System.Windows.Forms.Timer TimerUI;
         private Syncfusion.Windows.Forms.Grid.GridControl GridTeachTable;
         private System.Windows.Forms.Button BtnChangeValue;
         private System.Windows.Forms.Button BtnTeachMove;

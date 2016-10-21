@@ -438,6 +438,25 @@ namespace LWDicer.Layers
             }
         }
 
+        public void Add<T>(int iCoordID, T pos)
+        {
+            switch (iCoordID)
+            {
+                case 0:
+                    dX += Convert.ToDouble(pos);
+                    break;
+                case 1:
+                    dY += Convert.ToDouble(pos);
+                    break;
+                case 2:
+                    dT += Convert.ToDouble(pos);
+                    break;
+                case 3:
+                    dZ += Convert.ToDouble(pos);
+                    break;
+            }
+        }
+
         public override bool Equals(object obj)
         {
             if (obj == null) return false;

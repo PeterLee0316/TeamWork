@@ -33,26 +33,26 @@
             this.BtnUnitInit = new Syncfusion.Windows.Forms.ButtonAdv();
             this.BtnStart = new Syncfusion.Windows.Forms.ButtonAdv();
             this.LabelButtonGuide = new Syncfusion.Windows.Forms.Tools.GradientLabel();
-            this.LabelTowerR = new Syncfusion.Windows.Forms.Tools.GradientLabel();
+            this.Label_Loader = new Syncfusion.Windows.Forms.Tools.GradientLabel();
             this.Label_StepLoader = new Syncfusion.Windows.Forms.Tools.GradientLabel();
             this.Label_StepPushPull = new Syncfusion.Windows.Forms.Tools.GradientLabel();
-            this.gradientLabel2 = new Syncfusion.Windows.Forms.Tools.GradientLabel();
+            this.Label_PushPull = new Syncfusion.Windows.Forms.Tools.GradientLabel();
             this.Label_StepSpinner1 = new Syncfusion.Windows.Forms.Tools.GradientLabel();
-            this.gradientLabel4 = new Syncfusion.Windows.Forms.Tools.GradientLabel();
+            this.Label_Spinner1 = new Syncfusion.Windows.Forms.Tools.GradientLabel();
             this.Label_StepSpinner2 = new Syncfusion.Windows.Forms.Tools.GradientLabel();
-            this.gradientLabel6 = new Syncfusion.Windows.Forms.Tools.GradientLabel();
+            this.Label_Spinner2 = new Syncfusion.Windows.Forms.Tools.GradientLabel();
             this.Label_StepUHandler = new Syncfusion.Windows.Forms.Tools.GradientLabel();
-            this.gradientLabel8 = new Syncfusion.Windows.Forms.Tools.GradientLabel();
-            this.Label_StepStage = new Syncfusion.Windows.Forms.Tools.GradientLabel();
-            this.gradientLabel10 = new Syncfusion.Windows.Forms.Tools.GradientLabel();
+            this.Label_UHandler = new Syncfusion.Windows.Forms.Tools.GradientLabel();
+            this.Label_StepStage1 = new Syncfusion.Windows.Forms.Tools.GradientLabel();
+            this.Label_Stage1 = new Syncfusion.Windows.Forms.Tools.GradientLabel();
             this.Label_StepAutoManager = new Syncfusion.Windows.Forms.Tools.GradientLabel();
-            this.gradientLabel12 = new Syncfusion.Windows.Forms.Tools.GradientLabel();
-            this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.Label_AutoManager = new Syncfusion.Windows.Forms.Tools.GradientLabel();
+            this.TimerUI = new System.Windows.Forms.Timer(this.components);
             this.Label_StepLHandler = new Syncfusion.Windows.Forms.Tools.GradientLabel();
-            this.gradientLabel3 = new Syncfusion.Windows.Forms.Tools.GradientLabel();
+            this.Label_LHandler = new Syncfusion.Windows.Forms.Tools.GradientLabel();
             this.Label_StatusLHandler = new Syncfusion.Windows.Forms.Tools.GradientLabel();
             this.Label_StatusAutoManager = new Syncfusion.Windows.Forms.Tools.GradientLabel();
-            this.Label_StatusStage = new Syncfusion.Windows.Forms.Tools.GradientLabel();
+            this.Label_StatusStage1 = new Syncfusion.Windows.Forms.Tools.GradientLabel();
             this.Label_StatusUHandler = new Syncfusion.Windows.Forms.Tools.GradientLabel();
             this.Label_StatusSpinner2 = new Syncfusion.Windows.Forms.Tools.GradientLabel();
             this.Label_StatusSpinner1 = new Syncfusion.Windows.Forms.Tools.GradientLabel();
@@ -60,7 +60,7 @@
             this.Label_StatusLoader = new Syncfusion.Windows.Forms.Tools.GradientLabel();
             this.Label_IDLHandler = new Syncfusion.Windows.Forms.Tools.GradientLabel();
             this.Label_IDAutoManager = new Syncfusion.Windows.Forms.Tools.GradientLabel();
-            this.Label_IDStage = new Syncfusion.Windows.Forms.Tools.GradientLabel();
+            this.Label_IDStage1 = new Syncfusion.Windows.Forms.Tools.GradientLabel();
             this.Label_IDUHandler = new Syncfusion.Windows.Forms.Tools.GradientLabel();
             this.Label_IDSpinner2 = new Syncfusion.Windows.Forms.Tools.GradientLabel();
             this.Label_IDSpinner1 = new Syncfusion.Windows.Forms.Tools.GradientLabel();
@@ -133,19 +133,19 @@
             this.LabelButtonGuide.Text = "gradientLabel1";
             this.LabelButtonGuide.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // LabelTowerR
+            // Label_Loader
             // 
-            this.LabelTowerR.BackgroundColor = new Syncfusion.Drawing.BrushInfo(System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(224)))), ((int)(((byte)(192))))));
-            this.LabelTowerR.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
+            this.Label_Loader.BackgroundColor = new Syncfusion.Drawing.BrushInfo(System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(224)))), ((int)(((byte)(192))))));
+            this.Label_Loader.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
             | System.Windows.Forms.Border3DSide.Right) 
             | System.Windows.Forms.Border3DSide.Bottom)));
-            this.LabelTowerR.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.LabelTowerR.Location = new System.Drawing.Point(445, 619);
-            this.LabelTowerR.Name = "LabelTowerR";
-            this.LabelTowerR.Size = new System.Drawing.Size(97, 24);
-            this.LabelTowerR.TabIndex = 756;
-            this.LabelTowerR.Text = "Loader";
-            this.LabelTowerR.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.Label_Loader.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.Label_Loader.Location = new System.Drawing.Point(445, 619);
+            this.Label_Loader.Name = "Label_Loader";
+            this.Label_Loader.Size = new System.Drawing.Size(97, 24);
+            this.Label_Loader.TabIndex = 756;
+            this.Label_Loader.Text = "Loader";
+            this.Label_Loader.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // Label_StepLoader
             // 
@@ -175,19 +175,19 @@
             this.Label_StepPushPull.Text = "Loader";
             this.Label_StepPushPull.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // gradientLabel2
+            // Label_PushPull
             // 
-            this.gradientLabel2.BackgroundColor = new Syncfusion.Drawing.BrushInfo(System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(224)))), ((int)(((byte)(192))))));
-            this.gradientLabel2.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
+            this.Label_PushPull.BackgroundColor = new Syncfusion.Drawing.BrushInfo(System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(224)))), ((int)(((byte)(192))))));
+            this.Label_PushPull.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
             | System.Windows.Forms.Border3DSide.Right) 
             | System.Windows.Forms.Border3DSide.Bottom)));
-            this.gradientLabel2.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.gradientLabel2.Location = new System.Drawing.Point(445, 643);
-            this.gradientLabel2.Name = "gradientLabel2";
-            this.gradientLabel2.Size = new System.Drawing.Size(97, 24);
-            this.gradientLabel2.TabIndex = 758;
-            this.gradientLabel2.Text = "PushPull";
-            this.gradientLabel2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.Label_PushPull.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.Label_PushPull.Location = new System.Drawing.Point(445, 643);
+            this.Label_PushPull.Name = "Label_PushPull";
+            this.Label_PushPull.Size = new System.Drawing.Size(97, 24);
+            this.Label_PushPull.TabIndex = 758;
+            this.Label_PushPull.Text = "PushPull";
+            this.Label_PushPull.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // Label_StepSpinner1
             // 
@@ -203,19 +203,19 @@
             this.Label_StepSpinner1.Text = "Loader";
             this.Label_StepSpinner1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // gradientLabel4
+            // Label_Spinner1
             // 
-            this.gradientLabel4.BackgroundColor = new Syncfusion.Drawing.BrushInfo(System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(224)))), ((int)(((byte)(192))))));
-            this.gradientLabel4.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
+            this.Label_Spinner1.BackgroundColor = new Syncfusion.Drawing.BrushInfo(System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(224)))), ((int)(((byte)(192))))));
+            this.Label_Spinner1.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
             | System.Windows.Forms.Border3DSide.Right) 
             | System.Windows.Forms.Border3DSide.Bottom)));
-            this.gradientLabel4.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.gradientLabel4.Location = new System.Drawing.Point(445, 667);
-            this.gradientLabel4.Name = "gradientLabel4";
-            this.gradientLabel4.Size = new System.Drawing.Size(97, 24);
-            this.gradientLabel4.TabIndex = 760;
-            this.gradientLabel4.Text = "Spinner1";
-            this.gradientLabel4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.Label_Spinner1.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.Label_Spinner1.Location = new System.Drawing.Point(445, 667);
+            this.Label_Spinner1.Name = "Label_Spinner1";
+            this.Label_Spinner1.Size = new System.Drawing.Size(97, 24);
+            this.Label_Spinner1.TabIndex = 760;
+            this.Label_Spinner1.Text = "Spinner1";
+            this.Label_Spinner1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // Label_StepSpinner2
             // 
@@ -231,19 +231,19 @@
             this.Label_StepSpinner2.Text = "Loader";
             this.Label_StepSpinner2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // gradientLabel6
+            // Label_Spinner2
             // 
-            this.gradientLabel6.BackgroundColor = new Syncfusion.Drawing.BrushInfo(System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(224)))), ((int)(((byte)(192))))));
-            this.gradientLabel6.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
+            this.Label_Spinner2.BackgroundColor = new Syncfusion.Drawing.BrushInfo(System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(224)))), ((int)(((byte)(192))))));
+            this.Label_Spinner2.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
             | System.Windows.Forms.Border3DSide.Right) 
             | System.Windows.Forms.Border3DSide.Bottom)));
-            this.gradientLabel6.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.gradientLabel6.Location = new System.Drawing.Point(445, 691);
-            this.gradientLabel6.Name = "gradientLabel6";
-            this.gradientLabel6.Size = new System.Drawing.Size(97, 24);
-            this.gradientLabel6.TabIndex = 762;
-            this.gradientLabel6.Text = "Spinner2";
-            this.gradientLabel6.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.Label_Spinner2.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.Label_Spinner2.Location = new System.Drawing.Point(445, 691);
+            this.Label_Spinner2.Name = "Label_Spinner2";
+            this.Label_Spinner2.Size = new System.Drawing.Size(97, 24);
+            this.Label_Spinner2.TabIndex = 762;
+            this.Label_Spinner2.Text = "Spinner2";
+            this.Label_Spinner2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // Label_StepUHandler
             // 
@@ -259,47 +259,47 @@
             this.Label_StepUHandler.Text = "Loader";
             this.Label_StepUHandler.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // gradientLabel8
+            // Label_UHandler
             // 
-            this.gradientLabel8.BackgroundColor = new Syncfusion.Drawing.BrushInfo(System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(224)))), ((int)(((byte)(192))))));
-            this.gradientLabel8.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
+            this.Label_UHandler.BackgroundColor = new Syncfusion.Drawing.BrushInfo(System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(224)))), ((int)(((byte)(192))))));
+            this.Label_UHandler.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
             | System.Windows.Forms.Border3DSide.Right) 
             | System.Windows.Forms.Border3DSide.Bottom)));
-            this.gradientLabel8.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.gradientLabel8.Location = new System.Drawing.Point(445, 715);
-            this.gradientLabel8.Name = "gradientLabel8";
-            this.gradientLabel8.Size = new System.Drawing.Size(97, 24);
-            this.gradientLabel8.TabIndex = 764;
-            this.gradientLabel8.Text = "UpperHandler";
-            this.gradientLabel8.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.Label_UHandler.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.Label_UHandler.Location = new System.Drawing.Point(445, 715);
+            this.Label_UHandler.Name = "Label_UHandler";
+            this.Label_UHandler.Size = new System.Drawing.Size(97, 24);
+            this.Label_UHandler.TabIndex = 764;
+            this.Label_UHandler.Text = "UpperHandler";
+            this.Label_UHandler.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // Label_StepStage
+            // Label_StepStage1
             // 
-            this.Label_StepStage.BackgroundColor = new Syncfusion.Drawing.BrushInfo(System.Drawing.Color.Aqua);
-            this.Label_StepStage.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
+            this.Label_StepStage1.BackgroundColor = new Syncfusion.Drawing.BrushInfo(System.Drawing.Color.Aqua);
+            this.Label_StepStage1.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
             | System.Windows.Forms.Border3DSide.Right) 
             | System.Windows.Forms.Border3DSide.Bottom)));
-            this.Label_StepStage.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.Label_StepStage.Location = new System.Drawing.Point(641, 763);
-            this.Label_StepStage.Name = "Label_StepStage";
-            this.Label_StepStage.Size = new System.Drawing.Size(255, 24);
-            this.Label_StepStage.TabIndex = 767;
-            this.Label_StepStage.Text = "Loader";
-            this.Label_StepStage.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.Label_StepStage1.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.Label_StepStage1.Location = new System.Drawing.Point(641, 763);
+            this.Label_StepStage1.Name = "Label_StepStage1";
+            this.Label_StepStage1.Size = new System.Drawing.Size(255, 24);
+            this.Label_StepStage1.TabIndex = 767;
+            this.Label_StepStage1.Text = "Loader";
+            this.Label_StepStage1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // gradientLabel10
+            // Label_Stage1
             // 
-            this.gradientLabel10.BackgroundColor = new Syncfusion.Drawing.BrushInfo(System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(224)))), ((int)(((byte)(192))))));
-            this.gradientLabel10.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
+            this.Label_Stage1.BackgroundColor = new Syncfusion.Drawing.BrushInfo(System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(224)))), ((int)(((byte)(192))))));
+            this.Label_Stage1.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
             | System.Windows.Forms.Border3DSide.Right) 
             | System.Windows.Forms.Border3DSide.Bottom)));
-            this.gradientLabel10.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.gradientLabel10.Location = new System.Drawing.Point(445, 763);
-            this.gradientLabel10.Name = "gradientLabel10";
-            this.gradientLabel10.Size = new System.Drawing.Size(97, 24);
-            this.gradientLabel10.TabIndex = 766;
-            this.gradientLabel10.Text = "Stage";
-            this.gradientLabel10.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.Label_Stage1.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.Label_Stage1.Location = new System.Drawing.Point(445, 763);
+            this.Label_Stage1.Name = "Label_Stage1";
+            this.Label_Stage1.Size = new System.Drawing.Size(97, 24);
+            this.Label_Stage1.TabIndex = 766;
+            this.Label_Stage1.Text = "Stage";
+            this.Label_Stage1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // Label_StepAutoManager
             // 
@@ -315,23 +315,23 @@
             this.Label_StepAutoManager.Text = "Loader";
             this.Label_StepAutoManager.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // gradientLabel12
+            // Label_AutoManager
             // 
-            this.gradientLabel12.BackgroundColor = new Syncfusion.Drawing.BrushInfo(System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(224)))), ((int)(((byte)(192))))));
-            this.gradientLabel12.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
+            this.Label_AutoManager.BackgroundColor = new Syncfusion.Drawing.BrushInfo(System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(224)))), ((int)(((byte)(192))))));
+            this.Label_AutoManager.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
             | System.Windows.Forms.Border3DSide.Right) 
             | System.Windows.Forms.Border3DSide.Bottom)));
-            this.gradientLabel12.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.gradientLabel12.Location = new System.Drawing.Point(445, 787);
-            this.gradientLabel12.Name = "gradientLabel12";
-            this.gradientLabel12.Size = new System.Drawing.Size(97, 24);
-            this.gradientLabel12.TabIndex = 768;
-            this.gradientLabel12.Text = "AutoManager";
-            this.gradientLabel12.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.Label_AutoManager.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.Label_AutoManager.Location = new System.Drawing.Point(445, 787);
+            this.Label_AutoManager.Name = "Label_AutoManager";
+            this.Label_AutoManager.Size = new System.Drawing.Size(97, 24);
+            this.Label_AutoManager.TabIndex = 768;
+            this.Label_AutoManager.Text = "AutoManager";
+            this.Label_AutoManager.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // timer1
+            // TimerUI
             // 
-            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            this.TimerUI.Tick += new System.EventHandler(this.TimerUI_Tick);
             // 
             // Label_StepLHandler
             // 
@@ -347,19 +347,19 @@
             this.Label_StepLHandler.Text = "Loader";
             this.Label_StepLHandler.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // gradientLabel3
+            // Label_LHandler
             // 
-            this.gradientLabel3.BackgroundColor = new Syncfusion.Drawing.BrushInfo(System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(224)))), ((int)(((byte)(192))))));
-            this.gradientLabel3.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
+            this.Label_LHandler.BackgroundColor = new Syncfusion.Drawing.BrushInfo(System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(224)))), ((int)(((byte)(192))))));
+            this.Label_LHandler.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
             | System.Windows.Forms.Border3DSide.Right) 
             | System.Windows.Forms.Border3DSide.Bottom)));
-            this.gradientLabel3.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.gradientLabel3.Location = new System.Drawing.Point(445, 739);
-            this.gradientLabel3.Name = "gradientLabel3";
-            this.gradientLabel3.Size = new System.Drawing.Size(97, 24);
-            this.gradientLabel3.TabIndex = 770;
-            this.gradientLabel3.Text = "LowerHandler";
-            this.gradientLabel3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.Label_LHandler.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.Label_LHandler.Location = new System.Drawing.Point(445, 739);
+            this.Label_LHandler.Name = "Label_LHandler";
+            this.Label_LHandler.Size = new System.Drawing.Size(97, 24);
+            this.Label_LHandler.TabIndex = 770;
+            this.Label_LHandler.Text = "LowerHandler";
+            this.Label_LHandler.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // Label_StatusLHandler
             // 
@@ -389,19 +389,19 @@
             this.Label_StatusAutoManager.Text = "AutoManager";
             this.Label_StatusAutoManager.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // Label_StatusStage
+            // Label_StatusStage1
             // 
-            this.Label_StatusStage.BackgroundColor = new Syncfusion.Drawing.BrushInfo(System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(128))))));
-            this.Label_StatusStage.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
+            this.Label_StatusStage1.BackgroundColor = new Syncfusion.Drawing.BrushInfo(System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(128))))));
+            this.Label_StatusStage1.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
             | System.Windows.Forms.Border3DSide.Right) 
             | System.Windows.Forms.Border3DSide.Bottom)));
-            this.Label_StatusStage.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.Label_StatusStage.Location = new System.Drawing.Point(543, 763);
-            this.Label_StatusStage.Name = "Label_StatusStage";
-            this.Label_StatusStage.Size = new System.Drawing.Size(97, 24);
-            this.Label_StatusStage.TabIndex = 777;
-            this.Label_StatusStage.Text = "Stage";
-            this.Label_StatusStage.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.Label_StatusStage1.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.Label_StatusStage1.Location = new System.Drawing.Point(543, 763);
+            this.Label_StatusStage1.Name = "Label_StatusStage1";
+            this.Label_StatusStage1.Size = new System.Drawing.Size(97, 24);
+            this.Label_StatusStage1.TabIndex = 777;
+            this.Label_StatusStage1.Text = "Stage";
+            this.Label_StatusStage1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // Label_StatusUHandler
             // 
@@ -501,19 +501,19 @@
             this.Label_IDAutoManager.Text = "AutoManager";
             this.Label_IDAutoManager.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // Label_IDStage
+            // Label_IDStage1
             // 
-            this.Label_IDStage.BackgroundColor = new Syncfusion.Drawing.BrushInfo(System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128))))));
-            this.Label_IDStage.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
+            this.Label_IDStage1.BackgroundColor = new Syncfusion.Drawing.BrushInfo(System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128))))));
+            this.Label_IDStage1.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
             | System.Windows.Forms.Border3DSide.Right) 
             | System.Windows.Forms.Border3DSide.Bottom)));
-            this.Label_IDStage.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.Label_IDStage.Location = new System.Drawing.Point(897, 763);
-            this.Label_IDStage.Name = "Label_IDStage";
-            this.Label_IDStage.Size = new System.Drawing.Size(179, 24);
-            this.Label_IDStage.TabIndex = 785;
-            this.Label_IDStage.Text = "Stage";
-            this.Label_IDStage.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.Label_IDStage1.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.Label_IDStage1.Location = new System.Drawing.Point(897, 763);
+            this.Label_IDStage1.Name = "Label_IDStage1";
+            this.Label_IDStage1.Size = new System.Drawing.Size(179, 24);
+            this.Label_IDStage1.TabIndex = 785;
+            this.Label_IDStage1.Text = "Stage";
+            this.Label_IDStage1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // Label_IDUHandler
             // 
@@ -612,7 +612,7 @@
             this.Controls.Add(this.btnWPInquiry);
             this.Controls.Add(this.Label_IDLHandler);
             this.Controls.Add(this.Label_IDAutoManager);
-            this.Controls.Add(this.Label_IDStage);
+            this.Controls.Add(this.Label_IDStage1);
             this.Controls.Add(this.Label_IDUHandler);
             this.Controls.Add(this.Label_IDSpinner2);
             this.Controls.Add(this.Label_IDSpinner1);
@@ -620,28 +620,28 @@
             this.Controls.Add(this.Label_IDLoader);
             this.Controls.Add(this.Label_StatusLHandler);
             this.Controls.Add(this.Label_StatusAutoManager);
-            this.Controls.Add(this.Label_StatusStage);
+            this.Controls.Add(this.Label_StatusStage1);
             this.Controls.Add(this.Label_StatusUHandler);
             this.Controls.Add(this.Label_StatusSpinner2);
             this.Controls.Add(this.Label_StatusSpinner1);
             this.Controls.Add(this.Label_StatusPushPull);
             this.Controls.Add(this.Label_StatusLoader);
             this.Controls.Add(this.Label_StepLHandler);
-            this.Controls.Add(this.gradientLabel3);
+            this.Controls.Add(this.Label_LHandler);
             this.Controls.Add(this.Label_StepAutoManager);
-            this.Controls.Add(this.gradientLabel12);
-            this.Controls.Add(this.Label_StepStage);
-            this.Controls.Add(this.gradientLabel10);
+            this.Controls.Add(this.Label_AutoManager);
+            this.Controls.Add(this.Label_StepStage1);
+            this.Controls.Add(this.Label_Stage1);
             this.Controls.Add(this.Label_StepUHandler);
-            this.Controls.Add(this.gradientLabel8);
+            this.Controls.Add(this.Label_UHandler);
             this.Controls.Add(this.Label_StepSpinner2);
-            this.Controls.Add(this.gradientLabel6);
+            this.Controls.Add(this.Label_Spinner2);
             this.Controls.Add(this.Label_StepSpinner1);
-            this.Controls.Add(this.gradientLabel4);
+            this.Controls.Add(this.Label_Spinner1);
             this.Controls.Add(this.Label_StepPushPull);
-            this.Controls.Add(this.gradientLabel2);
+            this.Controls.Add(this.Label_PushPull);
             this.Controls.Add(this.Label_StepLoader);
-            this.Controls.Add(this.LabelTowerR);
+            this.Controls.Add(this.Label_Loader);
             this.Controls.Add(this.LabelButtonGuide);
             this.Controls.Add(this.BtnStart);
             this.Controls.Add(this.BtnOriginReturn);
@@ -650,9 +650,7 @@
             this.Name = "FormAutoScreen";
             this.Text = "Auto Screen";
             this.Activated += new System.EventHandler(this.FormAutoScreen_Activated);
-            this.Deactivate += new System.EventHandler(this.FormAutoScreen_Deactivate);
             this.Load += new System.EventHandler(this.FormAutoScreen_Load);
-            this.Shown += new System.EventHandler(this.FormAutoScreen_Shown);
             this.ResumeLayout(false);
 
         }
@@ -663,26 +661,26 @@
         private Syncfusion.Windows.Forms.ButtonAdv BtnUnitInit;
         private Syncfusion.Windows.Forms.ButtonAdv BtnStart;
         private Syncfusion.Windows.Forms.Tools.GradientLabel LabelButtonGuide;
-        private Syncfusion.Windows.Forms.Tools.GradientLabel LabelTowerR;
+        private Syncfusion.Windows.Forms.Tools.GradientLabel Label_Loader;
         private Syncfusion.Windows.Forms.Tools.GradientLabel Label_StepLoader;
         private Syncfusion.Windows.Forms.Tools.GradientLabel Label_StepPushPull;
-        private Syncfusion.Windows.Forms.Tools.GradientLabel gradientLabel2;
+        private Syncfusion.Windows.Forms.Tools.GradientLabel Label_PushPull;
         private Syncfusion.Windows.Forms.Tools.GradientLabel Label_StepSpinner1;
-        private Syncfusion.Windows.Forms.Tools.GradientLabel gradientLabel4;
+        private Syncfusion.Windows.Forms.Tools.GradientLabel Label_Spinner1;
         private Syncfusion.Windows.Forms.Tools.GradientLabel Label_StepSpinner2;
-        private Syncfusion.Windows.Forms.Tools.GradientLabel gradientLabel6;
+        private Syncfusion.Windows.Forms.Tools.GradientLabel Label_Spinner2;
         private Syncfusion.Windows.Forms.Tools.GradientLabel Label_StepUHandler;
-        private Syncfusion.Windows.Forms.Tools.GradientLabel gradientLabel8;
-        private Syncfusion.Windows.Forms.Tools.GradientLabel Label_StepStage;
-        private Syncfusion.Windows.Forms.Tools.GradientLabel gradientLabel10;
+        private Syncfusion.Windows.Forms.Tools.GradientLabel Label_UHandler;
+        private Syncfusion.Windows.Forms.Tools.GradientLabel Label_StepStage1;
+        private Syncfusion.Windows.Forms.Tools.GradientLabel Label_Stage1;
         private Syncfusion.Windows.Forms.Tools.GradientLabel Label_StepAutoManager;
-        private Syncfusion.Windows.Forms.Tools.GradientLabel gradientLabel12;
-        private System.Windows.Forms.Timer timer1;
+        private Syncfusion.Windows.Forms.Tools.GradientLabel Label_AutoManager;
+        private System.Windows.Forms.Timer TimerUI;
         private Syncfusion.Windows.Forms.Tools.GradientLabel Label_StepLHandler;
-        private Syncfusion.Windows.Forms.Tools.GradientLabel gradientLabel3;
+        private Syncfusion.Windows.Forms.Tools.GradientLabel Label_LHandler;
         private Syncfusion.Windows.Forms.Tools.GradientLabel Label_StatusLHandler;
         private Syncfusion.Windows.Forms.Tools.GradientLabel Label_StatusAutoManager;
-        private Syncfusion.Windows.Forms.Tools.GradientLabel Label_StatusStage;
+        private Syncfusion.Windows.Forms.Tools.GradientLabel Label_StatusStage1;
         private Syncfusion.Windows.Forms.Tools.GradientLabel Label_StatusUHandler;
         private Syncfusion.Windows.Forms.Tools.GradientLabel Label_StatusSpinner2;
         private Syncfusion.Windows.Forms.Tools.GradientLabel Label_StatusSpinner1;
@@ -690,7 +688,7 @@
         private Syncfusion.Windows.Forms.Tools.GradientLabel Label_StatusLoader;
         private Syncfusion.Windows.Forms.Tools.GradientLabel Label_IDLHandler;
         private Syncfusion.Windows.Forms.Tools.GradientLabel Label_IDAutoManager;
-        private Syncfusion.Windows.Forms.Tools.GradientLabel Label_IDStage;
+        private Syncfusion.Windows.Forms.Tools.GradientLabel Label_IDStage1;
         private Syncfusion.Windows.Forms.Tools.GradientLabel Label_IDUHandler;
         private Syncfusion.Windows.Forms.Tools.GradientLabel Label_IDSpinner2;
         private Syncfusion.Windows.Forms.Tools.GradientLabel Label_IDSpinner1;

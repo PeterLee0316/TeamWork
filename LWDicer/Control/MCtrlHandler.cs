@@ -40,6 +40,7 @@ namespace LWDicer.Layers
         {
             LOAD_UPPER,     // Use UpperHandler for Loading
             UNLOAD_LOWER,   // Use LowerHandler for Unloading
+            MAX,
         }
 
         public class CCtrlHandlerRefComp

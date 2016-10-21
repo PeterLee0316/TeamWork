@@ -31,7 +31,7 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormPushPullManualOP));
             this.BtnExit = new System.Windows.Forms.Button();
-            this.TmrManualOP = new System.Windows.Forms.Timer(this.components);
+            this.TimerUI = new System.Windows.Forms.Timer(this.components);
             this.BtnGripUnLock = new Syncfusion.Windows.Forms.ButtonAdv();
             this.BtnGripLock = new Syncfusion.Windows.Forms.ButtonAdv();
             this.BtnPushPullDown = new Syncfusion.Windows.Forms.ButtonAdv();
@@ -59,9 +59,9 @@
             this.BtnExit.UseVisualStyleBackColor = true;
             this.BtnExit.Click += new System.EventHandler(this.BtnExit_Click);
             // 
-            // TmrManualOP
+            // TimerUI
             // 
-            this.TmrManualOP.Tick += new System.EventHandler(this.TmrManualOP_Tick);
+            this.TimerUI.Tick += new System.EventHandler(this.TimerUI_Tick);
             // 
             // BtnGripUnLock
             // 
@@ -254,7 +254,7 @@
         #endregion
 
         private System.Windows.Forms.Button BtnExit;
-        private System.Windows.Forms.Timer TmrManualOP;
+        private System.Windows.Forms.Timer TimerUI;
         private Syncfusion.Windows.Forms.ButtonAdv BtnGripUnLock;
         private Syncfusion.Windows.Forms.ButtonAdv BtnGripLock;
         private Syncfusion.Windows.Forms.ButtonAdv BtnPushPullDown;

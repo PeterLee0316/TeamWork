@@ -39,14 +39,8 @@ namespace LWDicer.UI
             this.Text = $"Model Data [ Current Model : {modelData.Name} ]";
         }
 
-        private void FormClose()
-        {
-            this.Hide();
-        }
-
         private void FormModelData_FormClosing(object sender, FormClosingEventArgs e)
         {
-            FormClose();
         }
 
         private void BtnSave_Click(object sender, EventArgs e)
@@ -58,12 +52,12 @@ namespace LWDicer.UI
 
             modelData.CassetteName = strCassette;
 
-            CMainFrame.DataManager.SaveModelData(modelData);
+            CMainFrame.LWDicer.SaveModelData(modelData);
         }
 
         private void BtnExit_Click(object sender, EventArgs e)
         {
-            FormClose();
+            this.Close();
         }
 
         private void ComboCassette_SelectedIndexChanged(object sender, EventArgs e)

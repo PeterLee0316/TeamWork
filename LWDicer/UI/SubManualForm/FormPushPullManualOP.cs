@@ -24,47 +24,40 @@ namespace LWDicer.UI
 
         private void BtnExit_Click(object sender, EventArgs e)
         {
-            FormClose();
+            this.Close();
         }
 
         private void FormPushPullManualOP_Load(object sender, EventArgs e)
         {
-            TmrManualOP.Enabled = true;
-            TmrManualOP.Interval = UITimerInterval;
-            TmrManualOP.Start();
+            TimerUI.Enabled = true;
+            TimerUI.Interval = UITimerInterval;
+            TimerUI.Start();
         }
 
         private void FormPushPullManualOP_FormClosing(object sender, FormClosingEventArgs e)
         {
-            FormClose();
         }
 
-        private void FormClose()
+        private void TimerUI_Tick(object sender, EventArgs e)
         {
-            TmrManualOP.Stop();
-            this.Hide();
+            UpdateStatus();
         }
 
-        private void TmrManualOP_Tick(object sender, EventArgs e)
-        {
-            SensorStatus();
-        }
-
-        private void SensorStatus()
+        private void UpdateStatus()
         {
             bool bStatus = false;
 
             CMainFrame.LWDicer.m_MePushPull.IsGripLocked(out bStatus);
-            if(bStatus == true) BtnGripLock.BackColor = Color.LawnGreen; else BtnGripUnLock.BackColor = Color.LightGray;
+            BtnGripLock.BackColor = (bStatus == true) ? CMainFrame.BtnBackColor_On : CMainFrame.BtnBackColor_Off;
 
             CMainFrame.LWDicer.m_MePushPull.IsGripReleased(out bStatus);
-            if (bStatus == true) BtnGripUnLock.BackColor = Color.LawnGreen; else BtnGripLock.BackColor = Color.LightGray;
+            BtnGripUnLock.BackColor = (bStatus == true) ? CMainFrame.BtnBackColor_On : CMainFrame.BtnBackColor_Off;
 
             CMainFrame.LWDicer.m_MePushPull.IsCylUp(out bStatus);
-            if (bStatus == true) BtnPushPullUp.BackColor = Color.LawnGreen; else BtnPushPullDown.BackColor = Color.LightGray;
+            BtnPushPullUp.BackColor = (bStatus == true) ? CMainFrame.BtnBackColor_On : CMainFrame.BtnBackColor_Off;
 
             CMainFrame.LWDicer.m_MePushPull.IsCylDown(out bStatus);
-            if (bStatus == true) BtnPushPullDown.BackColor = Color.LawnGreen; else BtnPushPullUp.BackColor = Color.LightGray;
+            BtnPushPullDown.BackColor = (bStatus == true) ? CMainFrame.BtnBackColor_On : CMainFrame.BtnBackColor_Off;
         }
 
         private void BtnGripLock_Click(object sender, EventArgs e)

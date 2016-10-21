@@ -10,9 +10,10 @@ using System.Windows.Forms;
 
 using static LWDicer.Layers.DEF_System;
 using static LWDicer.Layers.DEF_Common;
-
-using static LWDicer.Layers.MYaskawa;
+using static LWDicer.Layers.DEF_DataManager;
 using static LWDicer.Layers.DEF_Motion;
+using static LWDicer.Layers.MYaskawa;
+
 using static LWDicer.Layers.DEF_Yaskawa;
 using static LWDicer.Layers.DEF_ACS;
 using static LWDicer.Layers.DEF_Error;

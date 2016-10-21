@@ -108,9 +108,9 @@ namespace LWDicer.Layers
         #endregion
 
         #region Cylinder, Vacuum, Detect Object
-        public int SetLoaderPosition(CPosition FixedPos, CPosition ModelPos, CPosition OffsetPos)
+        public int SetLoaderPosition(CPositionSet Pos_Fixed, CPositionSet Pos_Model, CPositionSet Pos_Offset)
         {
-            m_RefComp.Elevator.SetElevatorPosition(FixedPos, ModelPos, OffsetPos);
+            m_RefComp.Elevator.SetPosition_Elevator(Pos_Fixed, Pos_Model, Pos_Offset);
             return SUCCESS;
         }
 

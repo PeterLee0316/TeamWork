@@ -419,45 +419,78 @@ namespace LWDicer.Layers
 
         }
 
-        public class CPositionData
+        /// <summary>
+        /// 시스템의 전체 좌표셋. ( Pos_Fixed, Pos_Model, Pos_Offset 세 종류로 사용됨)
+        /// </summary>
+        public class CPositionGroup
         {
+            // total : 실체는 각각의 이름으로 지정되어 있지만, 연산하기 편하도록 배열로도 관리할 수 있도록 함
+            public CPositionSet[] Pos_Array          = new CPositionSet[(int)EPositionObject.MAX];
+            
             // Loader
-            public CPosition LoaderPos = new CPosition((int)EElevatorPos.MAX);
-
-            // Stage1
-            public CPosition Stage1Pos = new CPosition((int)EStagePos.MAX);
-            // Camera1
-            public CPosition Camera1Pos = new CPosition((int)ECameraPos.MAX);
-            // Scanner1
-            public CPosition Scanner1Pos = new CPosition((int)EScannerPos.MAX);
+            public CPositionSet Pos_Loader           = new CPositionSet((int)EElevatorPos.MAX);
 
             // PushPull
-            public CPosition PushPullPos = new CPosition((int)EPushPullPos.MAX);
-            public CPosition Centering1Pos = new CPosition((int)ECenterPos.MAX);
-            public CPosition Centering2Pos = new CPosition((int)ECenterPos.MAX);
-
-            // Handler
-            public CPosition UpperHandlerPos = new CPosition((int)EHandlerPos.MAX);
-            public CPosition LowerHandlerPos = new CPosition((int)EHandlerPos.MAX);
+            public CPositionSet Pos_PushPull         = new CPositionSet((int)EPushPullPos.MAX);
+            public CPositionSet Pos_PushPull_Center1 = new CPositionSet((int)ECenterPos.MAX);
+            public CPositionSet Pos_PushPull_Center2 = new CPositionSet((int)ECenterPos.MAX);
 
             // Spinner1
-            public CPosition S1_RotatePos = new CPosition((int)ERotatePos.MAX);
-            public CPosition S1_CoaterPos = new CPosition((int)ENozzlePos.MAX);
-            public CPosition S1_CleanerPos = new CPosition((int)ENozzlePos.MAX);
+            public CPositionSet Pos_S1_Rotate        = new CPositionSet((int)ERotatePos.MAX);
+            public CPositionSet Pos_S1_CoatNozzle    = new CPositionSet((int)ENozzlePos.MAX);
+            public CPositionSet Pos_S1_CleanNozzle   = new CPositionSet((int)ENozzlePos.MAX);
 
             // Spinner2
-            public CPosition S2_RotatePos = new CPosition((int)ERotatePos.MAX);
-            public CPosition S2_CoaterPos = new CPosition((int)ENozzlePos.MAX);
-            public CPosition S2_CleanerPos = new CPosition((int)ENozzlePos.MAX);
+            public CPositionSet Pos_S2_Rotate        = new CPositionSet((int)ERotatePos.MAX);
+            public CPositionSet Pos_S2_CoatNozzle    = new CPositionSet((int)ENozzlePos.MAX);
+            public CPositionSet Pos_S2_CleanNozzle   = new CPositionSet((int)ENozzlePos.MAX);
 
-            public CPositionData()
+            // Handler
+            public CPositionSet Pos_UpperHandler     = new CPositionSet((int)EHandlerPos.MAX);
+            public CPositionSet Pos_LowerHandler     = new CPositionSet((int)EHandlerPos.MAX);
+
+            // Stage
+            public CPositionSet Pos_Stage1           = new CPositionSet((int)EStagePos.MAX);
+            public CPositionSet Pos_Camera1          = new CPositionSet((int)ECameraPos.MAX);
+            public CPositionSet Pos_Scanner1         = new CPositionSet((int)EScannerPos.MAX);
+
+            public CPositionGroup()
             {
-                for(int i=0; i< (int)EStagePos.MAX;i++)
+                int index = 0;
+                Pos_Array[index++] = Pos_Loader;
+                Pos_Array[index++] = Pos_PushPull;
+                Pos_Array[index++] = Pos_PushPull_Center1;
+                Pos_Array[index++] = Pos_PushPull_Center2;
+                Pos_Array[index++] = Pos_S1_Rotate;
+                Pos_Array[index++] = Pos_S1_CoatNozzle;
+                Pos_Array[index++] = Pos_S1_CleanNozzle;
+                Pos_Array[index++] = Pos_S2_Rotate;
+                Pos_Array[index++] = Pos_S2_CoatNozzle;
+                Pos_Array[index++] = Pos_S2_CleanNozzle;
+                Pos_Array[index++] = Pos_UpperHandler;
+                Pos_Array[index++] = Pos_LowerHandler;
+                Pos_Array[index++] = Pos_Stage1;
+                Pos_Array[index++] = Pos_Camera1;
+                Pos_Array[index++] = Pos_Scanner1;
+
+                for (int i=0; i< (int)EPositionObject.MAX;i++)
                 {
-                    Stage1Pos.Pos[i] = new CPos_XYTZ();
+                    for (int j=0; j < Pos_Array[i].Pos.Length; j++)
+                    {
+                        Pos_Array[i].Pos[j] = new CPos_XYTZ();
+                    }
                 }
             }
 
+            public void UpdatePositionSet(CPositionGroup tGroup, EPositionObject index)
+            {
+                Pos_Array[(int)index] = ObjectExtensions.Copy(tGroup.Pos_Array[(int)index]);
+            }
+
+            public void UpdatePositionSet(CPositionSet tSet, EPositionObject index)
+            {
+                Pos_Array[(int)index] = ObjectExtensions.Copy(tSet);
+            }
         }
 
         public class CProductData
@@ -660,7 +693,7 @@ namespace LWDicer.Layers
             public string WaferFrameName = NAME_DEFAULT_MODEL;       // wafer frame
 
             // Spinner Data 
-            public CSpinnerData SpinnerData = new CSpinnerData();
+            public CCtrlSpinnerData[] SpinnerData = new CCtrlSpinnerData[(int)ESpinnerIndex.MAX];
 
 
             ///////////////////////////////////////////////////////////
@@ -712,6 +745,13 @@ namespace LWDicer.Layers
             public bool UseUHandler_ExtraVccUseFlag; // 2014.02.21 by ranian. Extra Vcc 추가
             public bool UseUHandler_WaitPosUseFlag; // 2014.02.21 by ranian. LP->UP 로 갈 때, WP 사용 여부
 
+            public CModelData()
+            {
+                for(int i = 0; i < (int)ESpinnerIndex.MAX; i++)
+                {
+                    SpinnerData[i] = new CCtrlSpinnerData();
+                }
+            }
         }
 
         public class CProcessData
@@ -935,9 +975,9 @@ namespace LWDicer.Layers
 
         /////////////////////////////////////////////////////////////////////////////////
         // Position Data
-        public CPositionData FixedPos { get; private set; } = new CPositionData();
-        public CPositionData ModelPos { get; private set; } = new CPositionData();
-        public CPositionData OffsetPos { get; private set; } = new CPositionData();
+        public CPositionGroup Pos_Fixed { get; private set; } = new CPositionGroup();
+        public CPositionGroup Pos_Model { get; private set; } = new CPositionGroup();
+        public CPositionGroup Pos_Offset { get; private set; } = new CPositionGroup();
 
         /////////////////////////////////////////////////////////////////////////////////
         // User Info
@@ -1002,16 +1042,30 @@ namespace LWDicer.Layers
             }
 
             TestFunction();
+        }
 
-            LoadGeneralData();
+        public int Initialize()
+        {
+
+            int iResult;
+            iResult = LoadGeneralData();
+            if (iResult != SUCCESS) return iResult;
 
             // 아래의 네가지 함수 콜은 LWDicer의 Initialize에서 읽어들이는게 맞지만, 생성자에서 한번 더 읽어도 되기에.. 주석처리해도 상관없음
-            LoadSystemData();
-            LoadPositionData(true, EPositionObject.ALL);
-            LoadPositionData(false, EPositionObject.ALL);
-            LoadModelList();
-           // MakeDefaultModel();
-            ChangeModel(SystemData.ModelName);
+            iResult = LoadSystemData();
+            if (iResult != SUCCESS) return iResult;
+            iResult = LoadPositionData(true, EPositionObject.ALL);
+            if (iResult != SUCCESS) return iResult;
+            iResult = LoadPositionData(false, EPositionObject.ALL);
+            if (iResult != SUCCESS) return iResult;
+            iResult = LoadModelList();
+            if (iResult != SUCCESS) return iResult;
+
+            // MakeDefaultModel();
+            iResult = ChangeModel(SystemData.ModelName);
+            if (iResult != SUCCESS) return iResult;
+
+            return SUCCESS;
         }
 
         public void TestFunction()
@@ -1078,8 +1132,8 @@ namespace LWDicer.Layers
             // 프로그램 시작시에 Position Data db에 초기에 저장 test routine
             if (false)
             {
-                SavePositionData(true, EPositionGroup.ALL);
-                SavePositionData(false, EPositionGroup.ALL);
+                SavePositionData(Pos_Fixed, true);
+                SavePositionData(Pos_Offset, false);
             }
 
             // WorkPiece and Process Phase를 한번 쭉~ test routine
@@ -1619,228 +1673,107 @@ namespace LWDicer.Layers
             return SUCCESS;
         }
 
-        public int SavePositionData(bool bLoadFixed, EPositionObject unit)
+        public int SavePositionData(CPositionGroup tGroup, bool bType_Fixed, EPositionObject unit = EPositionObject.ALL)
         {
             int iResult;
-            string key_value, output;
-            CPositionData tData = OffsetPos;
-            string suffix = "_Offset_" + SystemData.ModelName;
-            if (bLoadFixed)
+            string suffix;
+            CPositionGroup source;
+            if (bType_Fixed)
             {
-                tData = FixedPos;
+                source = Pos_Fixed;
                 suffix = "_Fixed";
+            } else
+            {
+                source = Pos_Offset;
+                suffix = "_Offset_" + SystemData.ModelName;
             }
 
-            // Loader
-            if (unit == EPositionObject.ALL || unit == EPositionObject.LOADER)
+            string key_value, output;
+            for (int i = 0; i < (int)EPositionObject.MAX; i++)
             {
-                key_value = EPositionObject.LOADER.ToString() + suffix;
-                output = JsonConvert.SerializeObject(tData.LoaderPos);
+                EPositionObject tUnit = EPositionObject.LOADER + i;
+                if (unit != EPositionObject.ALL && tUnit != unit) continue;
+
+                key_value = $"{tUnit}{suffix}";
+                output = JsonConvert.SerializeObject(tGroup.Pos_Array[i]);
 
                 iResult = SaveUnitPositionData(key_value, output);
                 if (iResult != SUCCESS) return iResult;
-            }
 
-            // PushPull
-            if (unit == EPositionObject.ALL || unit == EPositionObject.PUSHPULL)
-            {
-                key_value = EPositionObject.PUSHPULL.ToString() + suffix;
-                output = JsonConvert.SerializeObject(tData.PushPullPos);
-
-                iResult = SaveUnitPositionData(key_value, output);
-                if (iResult != SUCCESS) return iResult;
-            }
-
-            if (unit == EPositionObject.ALL || unit == EPositionObject.PUSHPULL_CENTER1)
-            {
-                key_value = EPositionObject.PUSHPULL_CENTER1.ToString() + suffix;
-                output = JsonConvert.SerializeObject(tData.Centering1Pos);
-
-                iResult = SaveUnitPositionData(key_value, output);
-                if (iResult != SUCCESS) return iResult;
-            }
-
-            if (unit == EPositionObject.ALL || unit == EPositionObject.PUSHPULL_CENTER2)
-            {
-                key_value = EPositionObject.PUSHPULL_CENTER2.ToString() + suffix;
-                output = JsonConvert.SerializeObject(tData.Centering2Pos);
-
-                iResult = SaveUnitPositionData(key_value, output);
-                if (iResult != SUCCESS) return iResult;
-            }
-
-            // Spinner1
-            if (unit == EPositionObject.ALL || unit == EPositionObject.S1_ROTATE)
-            {
-                key_value = EPositionObject.S1_ROTATE.ToString() + suffix;
-                output = JsonConvert.SerializeObject(tData.S1_RotatePos);
-
-                iResult = SaveUnitPositionData(key_value, output);
-                if (iResult != SUCCESS) return iResult;
-            }
-
-            if (unit == EPositionObject.ALL || unit == EPositionObject.S1_CLEAN_NOZZLE)
-            {
-                key_value = EPositionObject.S1_CLEAN_NOZZLE.ToString() + suffix;
-                output = JsonConvert.SerializeObject(tData.S1_CleanerPos);
-
-                iResult = SaveUnitPositionData(key_value, output);
-                if (iResult != SUCCESS) return iResult;
-            }
-
-            if (unit == EPositionObject.ALL || unit == EPositionObject.S1_COAT_NOZZLE)
-            {
-                key_value = EPositionObject.S1_COAT_NOZZLE.ToString() + suffix;
-                output = JsonConvert.SerializeObject(tData.S1_CoaterPos);
-
-                iResult = SaveUnitPositionData(key_value, output);
-                if (iResult != SUCCESS) return iResult;
-            }
-
-            // Spinner2
-            if (unit == EPositionObject.ALL || unit == EPositionObject.S2_ROTATE)
-            {
-                key_value = EPositionObject.S2_ROTATE.ToString() + suffix;
-                output = JsonConvert.SerializeObject(tData.S2_RotatePos);
-
-                iResult = SaveUnitPositionData(key_value, output);
-                if (iResult != SUCCESS) return iResult;
-            }
-
-            if (unit == EPositionObject.ALL || unit == EPositionObject.S2_CLEAN_NOZZLE)
-            {
-                key_value = EPositionObject.S2_CLEAN_NOZZLE.ToString() + suffix;
-                output = JsonConvert.SerializeObject(tData.S2_CleanerPos);
-
-                iResult = SaveUnitPositionData(key_value, output);
-                if (iResult != SUCCESS) return iResult;
-            }
-
-            if (unit == EPositionObject.ALL || unit == EPositionObject.S2_COAT_NOZZLE)
-            {
-                key_value = EPositionObject.S2_COAT_NOZZLE.ToString() + suffix;
-                output = JsonConvert.SerializeObject(tData.S2_CoaterPos);
-
-                iResult = SaveUnitPositionData(key_value, output);
-                if (iResult != SUCCESS) return iResult;
-            }
-
-            // Handler
-            if (unit == EPositionObject.ALL || unit == EPositionObject.LOWER_HANDLER)
-            {
-                key_value = EPositionObject.LOWER_HANDLER.ToString() + suffix;
-                output = JsonConvert.SerializeObject(tData.UpperHandlerPos);
-
-                iResult = SaveUnitPositionData(key_value, output);
-                if (iResult != SUCCESS) return iResult;
-            }
-
-            if (unit == EPositionObject.ALL || unit == EPositionObject.UPPER_HANDLER)
-            {
-                key_value = EPositionObject.UPPER_HANDLER.ToString() + suffix;
-                output = JsonConvert.SerializeObject(tData.LowerHandlerPos);
-
-                iResult = SaveUnitPositionData(key_value, output);
-                if (iResult != SUCCESS) return iResult;
-            }
-
-            // Stage
-            if (unit == EPositionObject.ALL || unit == EPositionObject.STAGE1)
-            {
-                key_value = EPositionObject.STAGE1.ToString() + suffix;
-                output = JsonConvert.SerializeObject(tData.Stage1Pos);
-
-                iResult = SaveUnitPositionData(key_value, output);
-                if (iResult != SUCCESS) return iResult;
-            }
-
-            if (unit == EPositionObject.ALL || unit == EPositionObject.CAMERA1)
-            {
-                key_value = EPositionObject.CAMERA1.ToString() + suffix;
-                output = JsonConvert.SerializeObject(tData.Camera1Pos);
-
-                iResult = SaveUnitPositionData(key_value, output);
-                if (iResult != SUCCESS) return iResult;
-            }
-
-            if (unit == EPositionObject.ALL || unit == EPositionObject.SCANNER1)
-            {
-                key_value = EPositionObject.SCANNER1.ToString() + suffix;
-                output = JsonConvert.SerializeObject(tData.Scanner1Pos);
-
-                iResult = SaveUnitPositionData(key_value, output);
-                if (iResult != SUCCESS) return iResult;
+                source.UpdatePositionSet(tGroup, tUnit);
             }
 
             return SUCCESS;
         }
-
-        public int SavePositionData(bool bLoadFixed, EPositionGroup unit)
+ 
+        /*       
+        public int SavePositionData(bool bType_Fixed, EPositionGroup unit)
         {
             int iResult;
 
             // Loader
             if (unit == EPositionGroup.ALL || unit == EPositionGroup.LOADER)
             {
-                iResult = SavePositionData(bLoadFixed, EPositionObject.LOADER);
+                iResult = SavePositionData(bType_Fixed, EPositionObject.LOADER);
                 if (iResult != SUCCESS) return iResult;
             }
 
             // PushPull
             if (unit == EPositionGroup.ALL || unit == EPositionGroup.PUSHPULL)
             {
-                iResult = SavePositionData(bLoadFixed, EPositionObject.PUSHPULL);
+                iResult = SavePositionData(bType_Fixed, EPositionObject.PUSHPULL);
                 if (iResult != SUCCESS) return iResult;
-                iResult = SavePositionData(bLoadFixed, EPositionObject.PUSHPULL_CENTER1);
+                iResult = SavePositionData(bType_Fixed, EPositionObject.PUSHPULL_CENTER1);
                 if (iResult != SUCCESS) return iResult;
-                iResult = SavePositionData(bLoadFixed, EPositionObject.PUSHPULL_CENTER2);
+                iResult = SavePositionData(bType_Fixed, EPositionObject.PUSHPULL_CENTER2);
                 if (iResult != SUCCESS) return iResult;
             }
 
             // Spinner1
             if (unit == EPositionGroup.ALL || unit == EPositionGroup.SPINNER1)
             {
-                iResult = SavePositionData(bLoadFixed, EPositionObject.S1_ROTATE);
+                iResult = SavePositionData(bType_Fixed, EPositionObject.S1_ROTATE);
                 if (iResult != SUCCESS) return iResult;
-                iResult = SavePositionData(bLoadFixed, EPositionObject.S1_CLEAN_NOZZLE);
+                iResult = SavePositionData(bType_Fixed, EPositionObject.S1_CLEAN_NOZZLE);
                 if (iResult != SUCCESS) return iResult;
-                iResult = SavePositionData(bLoadFixed, EPositionObject.S1_COAT_NOZZLE);
+                iResult = SavePositionData(bType_Fixed, EPositionObject.S1_COAT_NOZZLE);
                 if (iResult != SUCCESS) return iResult;
             }
 
             // Spinner2
             if (unit == EPositionGroup.ALL || unit == EPositionGroup.SPINNER2)
             {
-                iResult = SavePositionData(bLoadFixed, EPositionObject.S2_ROTATE);
+                iResult = SavePositionData(bType_Fixed, EPositionObject.S2_ROTATE);
                 if (iResult != SUCCESS) return iResult;
-                iResult = SavePositionData(bLoadFixed, EPositionObject.S2_CLEAN_NOZZLE);
+                iResult = SavePositionData(bType_Fixed, EPositionObject.S2_CLEAN_NOZZLE);
                 if (iResult != SUCCESS) return iResult;
-                iResult = SavePositionData(bLoadFixed, EPositionObject.S2_COAT_NOZZLE);
+                iResult = SavePositionData(bType_Fixed, EPositionObject.S2_COAT_NOZZLE);
                 if (iResult != SUCCESS) return iResult;
             }
 
             // Handler
             if (unit == EPositionGroup.ALL || unit == EPositionGroup.HANDLER)
             {
-                iResult = SavePositionData(bLoadFixed, EPositionObject.LOWER_HANDLER);
+                iResult = SavePositionData(bType_Fixed, EPositionObject.LOWER_HANDLER);
                 if (iResult != SUCCESS) return iResult;
-                iResult = SavePositionData(bLoadFixed, EPositionObject.UPPER_HANDLER);
+                iResult = SavePositionData(bType_Fixed, EPositionObject.UPPER_HANDLER);
                 if (iResult != SUCCESS) return iResult;
             }
 
             // Stage
             if (unit == EPositionGroup.ALL || unit == EPositionGroup.STAGE1)
             {
-                iResult = SavePositionData(bLoadFixed, EPositionObject.STAGE1);
+                iResult = SavePositionData(bType_Fixed, EPositionObject.STAGE1);
                 if (iResult != SUCCESS) return iResult;
-                iResult = SavePositionData(bLoadFixed, EPositionObject.CAMERA1);
+                iResult = SavePositionData(bType_Fixed, EPositionObject.CAMERA1);
                 if (iResult != SUCCESS) return iResult;
-                iResult = SavePositionData(bLoadFixed, EPositionObject.SCANNER1);
+                iResult = SavePositionData(bType_Fixed, EPositionObject.SCANNER1);
                 if (iResult != SUCCESS) return iResult;
             }
 
             return SUCCESS;
         }
+        */
 
         private int LoadUnitPositionData(string key_value, out string output)
         {
@@ -1870,303 +1803,186 @@ namespace LWDicer.Layers
             return SUCCESS;
         }
 
-        public int LoadPositionData(bool bLoadFixed, EPositionObject unit)
+        public int LoadPositionData(bool bType_Fixed, EPositionObject unit = EPositionObject.ALL)
         {
             int iResult;
-            string output;
-            string key_value;
-            CPositionData tData = OffsetPos;
-            string suffix = "_Offset_" + SystemData.ModelName;
-            if (bLoadFixed)
+            CPositionGroup source;
+            string suffix;
+            if (bType_Fixed)
             {
-                tData = FixedPos;
+                source = Pos_Fixed;
                 suffix = "_Fixed";
+            } else
+            {
+                source = Pos_Offset;
+                suffix = "_Offset_" + SystemData.ModelName;
             }
 
-            // Loader
-            if (unit == EPositionObject.ALL || unit == EPositionObject.LOADER)
+            string key_value, output;
+            for (int i = 0; i < (int)EPositionObject.MAX; i++)
             {
-                key_value = EPositionObject.LOADER.ToString() + suffix;
+                EPositionObject tUnit = EPositionObject.LOADER + i;
+                if (unit != EPositionObject.ALL && tUnit != unit) continue;
+
+                key_value = $"{tUnit}{suffix}";
                 iResult = LoadUnitPositionData(key_value, out output);
                 if (iResult != SUCCESS) return iResult;
 
-                CPosition data = JsonConvert.DeserializeObject<CPosition>(output);
-                if(data != null && data.Length > 0)
-                    tData.LoaderPos = ObjectExtensions.Copy(data);
-            }
-
-            // PushPull
-            if (unit == EPositionObject.ALL || unit == EPositionObject.PUSHPULL)
-            {
-                key_value = EPositionObject.PUSHPULL.ToString() + suffix;
-                iResult = LoadUnitPositionData(key_value, out output);
-                if (iResult != SUCCESS) return iResult;
-
-                CPosition data = JsonConvert.DeserializeObject<CPosition>(output);
-                if(data != null && data.Length > 0)
-                    tData.PushPullPos = ObjectExtensions.Copy(data);
-            }
-
-            if (unit == EPositionObject.ALL || unit == EPositionObject.PUSHPULL_CENTER1)
-            {
-                key_value = EPositionObject.PUSHPULL_CENTER1.ToString() + suffix;
-                iResult = LoadUnitPositionData(key_value, out output);
-                if (iResult != SUCCESS) return iResult;
-
-                CPosition data = JsonConvert.DeserializeObject<CPosition>(output);
-                if(data != null && data.Length > 0)
-                    tData.Centering1Pos = ObjectExtensions.Copy(data);
-            }
-
-            if (unit == EPositionObject.ALL || unit == EPositionObject.PUSHPULL_CENTER2)
-            {
-                key_value = EPositionObject.PUSHPULL_CENTER2.ToString() + suffix;
-                iResult = LoadUnitPositionData(key_value, out output);
-                if (iResult != SUCCESS) return iResult;
-
-                CPosition data = JsonConvert.DeserializeObject<CPosition>(output);
-                if(data != null && data.Length > 0)
-                    tData.Centering2Pos = ObjectExtensions.Copy(data);
-            }
-
-            // Spinner1
-            if (unit == EPositionObject.ALL || unit == EPositionObject.S1_ROTATE)
-            {
-                key_value = EPositionObject.S1_ROTATE.ToString() + suffix;
-                iResult = LoadUnitPositionData(key_value, out output);
-                if (iResult != SUCCESS) return iResult;
-
-                CPosition data = JsonConvert.DeserializeObject<CPosition>(output);
-                if(data != null && data.Length > 0)
-                    tData.S1_RotatePos = ObjectExtensions.Copy(data);
-            }
-
-            if (unit == EPositionObject.ALL || unit == EPositionObject.S1_CLEAN_NOZZLE)
-            {
-                key_value = EPositionObject.S1_CLEAN_NOZZLE.ToString() + suffix;
-                iResult = LoadUnitPositionData(key_value, out output);
-                if (iResult != SUCCESS) return iResult;
-
-                CPosition data = JsonConvert.DeserializeObject<CPosition>(output);
-                if(data != null && data.Length > 0)
-                    tData.S1_CleanerPos = ObjectExtensions.Copy(data);
-            }
-
-            if (unit == EPositionObject.ALL || unit == EPositionObject.S1_COAT_NOZZLE)
-            {
-                key_value = EPositionObject.S1_COAT_NOZZLE.ToString() + suffix;
-                iResult = LoadUnitPositionData(key_value, out output);
-                if (iResult != SUCCESS) return iResult;
-
-                CPosition data = JsonConvert.DeserializeObject<CPosition>(output);
-                if(data != null && data.Length > 0)
-                    tData.S1_CoaterPos = ObjectExtensions.Copy(data);
-            }
-
-            // Spinner2
-            if (unit == EPositionObject.ALL || unit == EPositionObject.S2_ROTATE)
-            {
-                key_value = EPositionObject.S2_ROTATE.ToString() + suffix;
-                iResult = LoadUnitPositionData(key_value, out output);
-                if (iResult != SUCCESS) return iResult;
-
-                CPosition data = JsonConvert.DeserializeObject<CPosition>(output);
-                if(data != null && data.Length > 0)
-                    tData.S2_RotatePos = ObjectExtensions.Copy(data);
-            }
-
-            if (unit == EPositionObject.ALL || unit == EPositionObject.S2_CLEAN_NOZZLE)
-            {
-                key_value = EPositionObject.S2_CLEAN_NOZZLE.ToString() + suffix;
-                iResult = LoadUnitPositionData(key_value, out output);
-                if (iResult != SUCCESS) return iResult;
-
-                CPosition data = JsonConvert.DeserializeObject<CPosition>(output);
-                if(data != null && data.Length > 0)
-                    tData.S2_CleanerPos = ObjectExtensions.Copy(data);
-            }
-
-            if (unit == EPositionObject.ALL || unit == EPositionObject.S2_COAT_NOZZLE)
-            {
-                key_value = EPositionObject.S2_COAT_NOZZLE.ToString() + suffix;
-                iResult = LoadUnitPositionData(key_value, out output);
-                if (iResult != SUCCESS) return iResult;
-
-                CPosition data = JsonConvert.DeserializeObject<CPosition>(output);
-                if(data != null && data.Length > 0)
-                    tData.S2_CoaterPos = ObjectExtensions.Copy(data);
-            }
-
-            // Handler
-            if (unit == EPositionObject.ALL || unit == EPositionObject.LOWER_HANDLER)
-            {
-                key_value = EPositionObject.LOWER_HANDLER.ToString() + suffix;
-                iResult = LoadUnitPositionData(key_value, out output);
-                if (iResult != SUCCESS) return iResult;
-
-                CPosition data = JsonConvert.DeserializeObject<CPosition>(output);
-                if(data != null && data.Length > 0)
-                    tData.UpperHandlerPos = ObjectExtensions.Copy(data);
-            }
-
-            if (unit == EPositionObject.ALL || unit == EPositionObject.UPPER_HANDLER)
-            {
-                key_value = EPositionObject.UPPER_HANDLER.ToString() + suffix;
-                iResult = LoadUnitPositionData(key_value, out output);
-                if (iResult != SUCCESS) return iResult;
-
-                CPosition data = JsonConvert.DeserializeObject<CPosition>(output);
-                if(data != null && data.Length > 0)
-                    tData.LowerHandlerPos = ObjectExtensions.Copy(data);
-            }
-
-            // Stage1
-            if (unit == EPositionObject.ALL || unit == EPositionObject.STAGE1)
-            {
-                key_value = EPositionObject.STAGE1.ToString() + suffix;
-                iResult = LoadUnitPositionData(key_value, out output);
-                if (iResult != SUCCESS) return iResult;
-
-                CPosition data = JsonConvert.DeserializeObject<CPosition>(output);
-                if(data != null && data.Length > 0)
-                    tData.Stage1Pos = ObjectExtensions.Copy(data);
-
-
-                /////////////////////////////////////////////////////////////////////
-                // Copy될때 Array의 크기가 변함.
-                if(tData.Stage1Pos.Pos.Length < (int)EStagePos.MAX)
+                CPositionSet data = JsonConvert.DeserializeObject<CPositionSet>(output);
+                if (data != null && data.Length > 0)
                 {
-                    Array.Resize(ref tData.Stage1Pos.Pos, (int)EStagePos.MAX);
-                    
-                    for(int i= tData.Stage1Pos.Length; i < (int)EStagePos.MAX;i++)
-                    {
-                            tData.Stage1Pos.Pos[i] = new CPos_XYTZ();
-                    }
+                    source.UpdatePositionSet(data, tUnit);
                 }
-                /////////////////////////////////////////////////////////////////////
-
             }
 
-            if (unit == EPositionObject.ALL || unit == EPositionObject.CAMERA1)
-            {
-                key_value = EPositionObject.CAMERA1.ToString() + suffix;
-                iResult = LoadUnitPositionData(key_value, out output);
-                if (iResult != SUCCESS) return iResult;
+            /*
+                        // Stage1
+                        if (unit == EPositionObject.ALL || unit == EPositionObject.STAGE1)
+                        {
+                            key_value = EPositionObject.STAGE1.ToString() + suffix;
+                            iResult = LoadUnitPositionData(key_value, out output);
+                            if (iResult != SUCCESS) return iResult;
 
-                CPosition data = JsonConvert.DeserializeObject<CPosition>(output);
-                if(data != null && data.Length > 0)
-                    tData.Camera1Pos = ObjectExtensions.Copy(data);
+                            CPositionSet data = JsonConvert.DeserializeObject<CPositionSet>(output);
+                            if(data != null && data.Length > 0)
+                                tData.Pos_Stage1 = ObjectExtensions.Copy(data);
 
-                /////////////////////////////////////////////////////////////////////
-                // Copy될때 Array의 크기가 변함.
-                if (tData.Camera1Pos.Pos.Length < (int)ECameraPos.MAX)
-                {
-                    Array.Resize(ref tData.Camera1Pos.Pos, (int)ECameraPos.MAX);
 
-                    for (int i = tData.Camera1Pos.Length; i < (int)ECameraPos.MAX; i++)
-                    {
-                        tData.Camera1Pos.Pos[i] = new CPos_XYTZ();
-                    }
-                }
-                /////////////////////////////////////////////////////////////////////
-            }
+                            /////////////////////////////////////////////////////////////////////
+                            // Copy될때 Array의 크기가 변함.
+                            if(tData.Pos_Stage1.Pos.Length < (int)EStagePos.MAX)
+                            {
+                                Array.Resize(ref tData.Pos_Stage1.Pos, (int)EStagePos.MAX);
 
-            if (unit == EPositionObject.ALL || unit == EPositionObject.SCANNER1)
-            {
-                key_value = EPositionObject.SCANNER1.ToString() + suffix;
-                iResult = LoadUnitPositionData(key_value, out output);
-                if (iResult != SUCCESS) return iResult;
+                                for(int i= tData.Pos_Stage1.Length; i < (int)EStagePos.MAX;i++)
+                                {
+                                        tData.Pos_Stage1.Pos[i] = new CPos_XYTZ();
+                                }
+                            }
+                            /////////////////////////////////////////////////////////////////////
 
-                CPosition data = JsonConvert.DeserializeObject<CPosition>(output);
-                if(data != null && data.Length > 0)
-                    tData.Scanner1Pos = ObjectExtensions.Copy(data);
+                        }
 
-                /////////////////////////////////////////////////////////////////////
-                // Copy될때 Array의 크기가 변함.
-                if (tData.Scanner1Pos.Pos.Length < (int)EScannerPos.MAX)
-                {
-                    Array.Resize(ref tData.Scanner1Pos.Pos, (int)EScannerPos.MAX);
+                        if (unit == EPositionObject.ALL || unit == EPositionObject.CAMERA1)
+                        {
+                            key_value = EPositionObject.CAMERA1.ToString() + suffix;
+                            iResult = LoadUnitPositionData(key_value, out output);
+                            if (iResult != SUCCESS) return iResult;
 
-                    for (int i = tData.Scanner1Pos.Length; i < (int)EScannerPos.MAX; i++)
-                    {
-                        tData.Scanner1Pos.Pos[i] = new CPos_XYTZ();
-                    }
-                }
-                /////////////////////////////////////////////////////////////////////
-            }
+                            CPositionSet data = JsonConvert.DeserializeObject<CPositionSet>(output);
+                            if(data != null && data.Length > 0)
+                                tData.Pos_Camera1 = ObjectExtensions.Copy(data);
 
-            if (bLoadFixed) FixedPos = tData; else OffsetPos = tData;
+                            /////////////////////////////////////////////////////////////////////
+                            // Copy될때 Array의 크기가 변함.
+                            if (tData.Pos_Camera1.Pos.Length < (int)ECameraPos.MAX)
+                            {
+                                Array.Resize(ref tData.Pos_Camera1.Pos, (int)ECameraPos.MAX);
+
+                                for (int i = tData.Pos_Camera1.Length; i < (int)ECameraPos.MAX; i++)
+                                {
+                                    tData.Pos_Camera1.Pos[i] = new CPos_XYTZ();
+                                }
+                            }
+                            /////////////////////////////////////////////////////////////////////
+                        }
+
+                        if (unit == EPositionObject.ALL || unit == EPositionObject.SCANNER1)
+                        {
+                            key_value = EPositionObject.SCANNER1.ToString() + suffix;
+                            iResult = LoadUnitPositionData(key_value, out output);
+                            if (iResult != SUCCESS) return iResult;
+
+                            CPositionSet data = JsonConvert.DeserializeObject<CPositionSet>(output);
+                            if(data != null && data.Length > 0)
+                                tData.Pos_Scanner1 = ObjectExtensions.Copy(data);
+
+                            /////////////////////////////////////////////////////////////////////
+                            // Copy될때 Array의 크기가 변함.
+                            if (tData.Pos_Scanner1.Pos.Length < (int)EScannerPos.MAX)
+                            {
+                                Array.Resize(ref tData.Pos_Scanner1.Pos, (int)EScannerPos.MAX);
+
+                                for (int i = tData.Pos_Scanner1.Length; i < (int)EScannerPos.MAX; i++)
+                                {
+                                    tData.Pos_Scanner1.Pos[i] = new CPos_XYTZ();
+                                }
+                            }
+                            /////////////////////////////////////////////////////////////////////
+                        }
+            */
 
             return SUCCESS;
         }
 
-        public int LoadPositionData(bool bLoadFixed, EPositionGroup unit)
+/*
+        public int LoadPositionData(bool bType_Fixed, EPositionGroup unit)
         {
             int iResult;
 
             // Loader
             if (unit == EPositionGroup.ALL || unit == EPositionGroup.LOADER)
             {
-                iResult = LoadPositionData(bLoadFixed, EPositionObject.LOADER);
+                iResult = LoadPositionData(bType_Fixed, EPositionObject.LOADER);
                 if (iResult != SUCCESS) return iResult;
             }
 
             // PushPull
             if (unit == EPositionGroup.ALL || unit == EPositionGroup.PUSHPULL)
             {
-                iResult = LoadPositionData(bLoadFixed, EPositionObject.PUSHPULL);
+                iResult = LoadPositionData(bType_Fixed, EPositionObject.PUSHPULL);
                 if (iResult != SUCCESS) return iResult;
-                iResult = LoadPositionData(bLoadFixed, EPositionObject.PUSHPULL_CENTER1);
+                iResult = LoadPositionData(bType_Fixed, EPositionObject.PUSHPULL_CENTER1);
                 if (iResult != SUCCESS) return iResult;
-                iResult = LoadPositionData(bLoadFixed, EPositionObject.PUSHPULL_CENTER2);
+                iResult = LoadPositionData(bType_Fixed, EPositionObject.PUSHPULL_CENTER2);
                 if (iResult != SUCCESS) return iResult;
             }
 
             // Spinner1
             if (unit == EPositionGroup.ALL || unit == EPositionGroup.SPINNER1)
             {
-                iResult = LoadPositionData(bLoadFixed, EPositionObject.S1_ROTATE);
+                iResult = LoadPositionData(bType_Fixed, EPositionObject.S1_ROTATE);
                 if (iResult != SUCCESS) return iResult;
-                iResult = LoadPositionData(bLoadFixed, EPositionObject.S1_CLEAN_NOZZLE);
+                iResult = LoadPositionData(bType_Fixed, EPositionObject.S1_CLEAN_NOZZLE);
                 if (iResult != SUCCESS) return iResult;
-                iResult = LoadPositionData(bLoadFixed, EPositionObject.S1_COAT_NOZZLE);
+                iResult = LoadPositionData(bType_Fixed, EPositionObject.S1_COAT_NOZZLE);
                 if (iResult != SUCCESS) return iResult;
             }
 
             // Spinner2
             if (unit == EPositionGroup.ALL || unit == EPositionGroup.SPINNER2)
             {
-                iResult = LoadPositionData(bLoadFixed, EPositionObject.S2_ROTATE);
+                iResult = LoadPositionData(bType_Fixed, EPositionObject.S2_ROTATE);
                 if (iResult != SUCCESS) return iResult;
-                iResult = LoadPositionData(bLoadFixed, EPositionObject.S2_CLEAN_NOZZLE);
+                iResult = LoadPositionData(bType_Fixed, EPositionObject.S2_CLEAN_NOZZLE);
                 if (iResult != SUCCESS) return iResult;
-                iResult = LoadPositionData(bLoadFixed, EPositionObject.S2_COAT_NOZZLE);
+                iResult = LoadPositionData(bType_Fixed, EPositionObject.S2_COAT_NOZZLE);
                 if (iResult != SUCCESS) return iResult;
             }
 
             // Handler
             if (unit == EPositionGroup.ALL || unit == EPositionGroup.HANDLER)
             {
-                iResult = LoadPositionData(bLoadFixed, EPositionObject.LOWER_HANDLER);
+                iResult = LoadPositionData(bType_Fixed, EPositionObject.LOWER_HANDLER);
                 if (iResult != SUCCESS) return iResult;
-                iResult = LoadPositionData(bLoadFixed, EPositionObject.UPPER_HANDLER);
+                iResult = LoadPositionData(bType_Fixed, EPositionObject.UPPER_HANDLER);
                 if (iResult != SUCCESS) return iResult;
             }
 
             // Stage
             if (unit == EPositionGroup.ALL || unit == EPositionGroup.STAGE1)
             {
-                iResult = LoadPositionData(bLoadFixed, EPositionObject.STAGE1);
+                iResult = LoadPositionData(bType_Fixed, EPositionObject.STAGE1);
                 if (iResult != SUCCESS) return iResult;
-                iResult = LoadPositionData(bLoadFixed, EPositionObject.CAMERA1);
+                iResult = LoadPositionData(bType_Fixed, EPositionObject.CAMERA1);
                 if (iResult != SUCCESS) return iResult;
-                iResult = LoadPositionData(bLoadFixed, EPositionObject.SCANNER1);
+                iResult = LoadPositionData(bType_Fixed, EPositionObject.SCANNER1);
                 if (iResult != SUCCESS) return iResult;
             }
 
             return SUCCESS;
         }
-
+*/
 
         /// <summary>
         /// Model(Panel, Wafer)의 크기에 따라 자동으로 모델 좌표를 생성시켜준다.
@@ -2370,7 +2186,7 @@ namespace LWDicer.Layers
             if (IsModelExist(NAME_DEFAULT_OPERATOR, type) == false)
             {
                 CUserInfo data = new CUserInfo(NAME_DEFAULT_OPERATOR, NAME_DEFAULT_OPERATOR, "", ELoginType.OPERATOR);
-                iResult = SaveModelData(data);
+                iResult = SaveUserData(data);
                 if (iResult != SUCCESS) return iResult;
             }
 
@@ -2386,7 +2202,7 @@ namespace LWDicer.Layers
             if (IsModelExist(NAME_MAKER, type) == false)
             {
                 CUserInfo data = new CUserInfo(NAME_MAKER, NAME_MAKER, "", ELoginType.MAKER);
-                iResult = SaveModelData(data);
+                iResult = SaveUserData(data);
                 if (iResult != SUCCESS) return iResult;
             }
 
@@ -2753,7 +2569,12 @@ namespace LWDicer.Layers
             return SUCCESS;
         }
 
-        public int SaveModelData(CUserInfo data)
+        /// <summary>
+        /// CUserInfo List는 ModelData는 아니지만, 함수를 같이 사용하기 위해서 SaveModelData를 이용해서 호출할수 있도록
+        /// </summary>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        public int SaveUserData(CUserInfo data)
         {
             EListHeaderType type = EListHeaderType.USERINFO;
             string tableName = DBInfo.TableUserInfo;
@@ -2774,7 +2595,7 @@ namespace LWDicer.Layers
                 return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_SAVE_GENERAL_DATA);
             }
 
-            WriteLog($"success : save {type} model [{data.Name}].", ELogType.SYSTEM, ELogWType.SAVE);
+            WriteLog($"success : save {type} user [{data.Name}].", ELogType.SYSTEM, ELogWType.SAVE);
             return SUCCESS;
         }
 
@@ -2839,7 +2660,7 @@ namespace LWDicer.Layers
             }
 
             // 3. load model offset position
-            iResult = LoadPositionData(false, EPositionGroup.ALL);
+            iResult = LoadPositionData(false);
             if (iResult != SUCCESS) return iResult;
 
             // 4. generate model position

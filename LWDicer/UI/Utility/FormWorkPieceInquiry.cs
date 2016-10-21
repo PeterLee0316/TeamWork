@@ -28,12 +28,8 @@ namespace LWDicer.UI
         {
             InitializeComponent();
 
-            InitCombo();
-
-            // grid control
             InitGrid();
-            m_WorkPiece = CMainFrame.DataManager.WorkPieceArray[0];
-            DisplayGrid();
+            InitCombo();
         }
 
         private void FormWorkPieceInquiry_Load(object sender, EventArgs e)

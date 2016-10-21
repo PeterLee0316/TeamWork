@@ -94,7 +94,7 @@ serialization 기능을 이용해서 자동으로 data class save, load하는 �
 // Date : 2016-04-05
 // Context
 1. MMeHandler : Up/Down 등의 cylidner 관련 함수들 정리중..
-2. 각 Unit별 좌표 class CPosition 추가 및 save/load 및 인스턴스에 할당 관련 함수들 정리중..
+2. 각 Unit별 좌표 class CPositionSet 추가 및 save/load 및 인스턴스에 할당 관련 함수들 정리중..
 3. MultiAxes 와 1:1로 맵핑되어 티칭 좌표등을 종합적으로 관리하는 CMovingObject class 추가함
 4. DataManage의 데이터 읽고 쓰는 부분 함수들 정리 및 LWDicer에서 DataManager 호출하는 함수들도 정리
 UI에서 화면 로딩할때 데이터는 DataManager에서 바로 읽고, 쓰는건 setdataToComponenet 처리하는것때문에 
@@ -152,7 +152,7 @@ LWDicer의 DataManager에서 데이터를 읽어오기 위한 3가지 함수 : S
 // Context
 1. 개념 정리 : spinner, coater 개념에서 전체를 spinner로 통칭 및 인스턴스는 spinner1, spinner2로 사용
 2. Define.cs : Handler & Spinner Step 추가 및 전체 Thread Step, Message 2차 정리
-3. Thread Architecture 및 base function, Enum Data 정리함
+3. Thread Architecture 및 base method, Enum Data 정리함
 4. MTrsAutoManager : 1차 정리함.
 
 // Version : 0.0.17
@@ -177,7 +177,7 @@ LWDicer의 DataManager에서 데이터를 읽어오기 위한 3가지 함수 : S
 // Grade : ★
 // Date : 16.05.24 ~ 16.05.27
 // Context
-1. Parameter Info class 수정, LoadParameter function 추가, DataBase function에 selectraw function 수정함
+1. Parameter Info class 수정, LoadParameter method 추가, DataBase method에 selectraw method 수정함
 2. 쓰레드간의 쉐이크핸드 메시지 수정 및 메시지 전송 함수 수정
 3. MTrsSpinner, MTrsHandler class 1차 작업, Thread 
 
@@ -201,7 +201,7 @@ LWDicer의 DataManager에서 데이터를 읽어오기 위한 3가지 함수 : S
 // Grade : ★
 // Date : 160608
 // Context
-1. CPositionData 관련하여 LoadPositionData, SavePositionData 함수 정리 및 LWDicer에서 set position 하는 부분 정리.
+1. CPositionGroup 관련하여 LoadPositionData, SavePositionData 함수 정리 및 LWDicer에서 set position 하는 부분 정리.
    MeStage class 에 Camera, Laser Position 추가
 2. 그동안 써오던 Laser1, Laser1_Z 등을 -----> Scanner1, Scanner1_Z 등으로 바꿈
 
@@ -209,7 +209,7 @@ LWDicer의 DataManager에서 데이터를 읽어오기 위한 3가지 함수 : S
 // Grade : ★
 // Date : 160609~160610
 // Context
-1. EUnitPos -> EPosition, CUnitPos -> CPosition으로 이름 변경
+1. EUnitPos -> EPosition, CUnitPos -> CPositionSet으로 이름 변경
 2. UHANDLER -> UPPER_HANDLER, LHANDLER -> LOWER_HANDLER 로 이름 변경
 3. CWorkPiece class를 만들어 wafer, panel등 제품을 관리하고, EProcessPhase를 만들어 각 공정step 관리 및 택타임 관리할수 있도록 함.
    (어디까지나 임시일듯..)
@@ -291,8 +291,8 @@ undefined 가 아닌 부분만 업데이트함. & 두번씩 저장하던 부분 
 // Grade : ★
 // Date : 160718~160722
 // Context
-1. ENozzleOpMode가 coating만의 스텝을 담당하고 있었기에, ECleanMode / ECoatMode 로 분리하고
-CSpinStep class -> CCleanStep / CCoatStep class 로 분리
+1. ENozzleOpMode가 coating만의 스텝을 담당하고 있었기에, ECleanOperation / ECoatOperation 로 분리하고
+CSpinStep class -> CCleaningStep / CCoatingStep class 로 분리
 2. Yaskawa IO class 수정. 아진 보드를 위해 MP2100 보드 셋팅 및 출력 부분 확인 완료.
 
 // Version : 0.0.29
@@ -319,7 +319,7 @@ CSpinStep class -> CCleanStep / CCoatStep class 로 분리
 // Context
 1. FormTeach class 버그 수정 및 함수 정리 (ex. m_nSelectedPos이 멤버 변수 및 함수 파라미터로 같이 쓰이고 있었음. 에효.)
    nTeachPos -> m_nSelectedPos 으로 변경 및 쓸데없는 함수들 정리함
-2. MOpPanel 쪽 io 일부 할당 및 ctrl class moving function test 시작
+2. MOpPanel 쪽 io 일부 할당 및 ctrl class moving method test 시작
 3. CAlarmInfo, CMessageInfo, CParaInfo classes : IsEqual 함수 추가 및 db에 저장시 쓸모없는 값 및 중복 제거
 
 // Version : 0.0.31
@@ -339,7 +339,7 @@ CSpinStep class -> CCleanStep / CCoatStep class 로 분리
 // Context
 1. MCtrlLoader class에 CheckSafety_forMoving method 추가
 2. FormPushPullTeach moving 함수 및 MCtrlPushPull 의 PushPull Y축 이동 관련된 함수들 수정
-3. AlarmInfoList, MessageInfoList export 시에 delegate function을 이용하여 sort 기능, trim 추가
+3. AlarmInfoList, MessageInfoList export 시에 delegate method을 이용하여 sort 기능, trim 추가
 4. io list 읽어올때 버그 수정
 5. 에러 발생시에 HardwareLibrary에서 에러메시지를 리턴해줄 경우에 이를 보여주기위해 MObject class, GernerateErrorCode 함수 및
    FormAlarmDisplay dialog 수정함. ErrorSubMsg 사용법은 MYaskawa class를 참조할 것
@@ -370,7 +370,7 @@ CSpinStep class -> CCleanStep / CCoatStep class 로 분리
 // Context
 1. Auto Start, Auto Stop Process 작업중 : start, stop, error report 까지 확인 완료
 2. MIO_YMC class : 래더 프로그램과 연계 가능 확인. generate register address rule 변경 및 확인 (with 야스카와전기 박영섭대리)
-3. MYaskawa class : update parameters that are needed when call ymcMoveDriverPositioning function.
+3. MYaskawa class : update parameters that are needed when call ymcMoveDriverPositioning method.
 4. UI : top screnn에 op switch, tower lamp status 추가.
 
 // Version : 0.0.36
@@ -400,6 +400,25 @@ CSpinStep class -> CCleanStep / CCoatStep class 로 분리
 2. unit에 있는 wafer id 를 ui에 표시하도록 추가
 3. 가상의 wafer list를 만들어 thread 진행에 따른 wafer 이동 및 ui에서도 id 이동하는 것 확인 완료
 4. CWorkPiece class 수정 및 실시간으로 조회 가능한 FormWorkPieceInquiry form 추가함.
+
+// Version : 0.0.39
+// Grade : ★
+// Date : 161017~161021
+// Context
+1. Form class timer 변수들 제각각이던것 TimerUI로 통일 & have unified all timer_tick method names to TimerUI_Tick
+2. FormSpinnerManualOP class 수정 : lsh가 MeSpinner1, MeSpinner2로 중복해서 코드 적어놓은것들, CModelData를 제각각 선언해놓은것들 수정해놓음.
+3. FormHandlerManualOp class 수정 : 역시 마찬가지 이유
+4. Cleaning/Coating Data class 수정 & 관련 data form class 수정함
+5. now, display error when error occured while doing MLWDicer.Initilize method, and CMainFrame.DisplayAlarmOnly method is added for convenience.
+6. removed all FromClose and this.Hide methods, because these are useless. calling this.Close method is enough and meets standard. 
+(need find another way to implement modeless form.)
+7. fixed MLWDicer.SetModelDataToComponent method and calling MDataManager.SaveModelData directly to calling MLWDicer.SaveModelData. (SystemData too)
+   * must call MLWDicer.SaveModelData / MLWDicer.SaveSystemData in UI
+8. Name Changed : FixedPos, ModelPos, OffsetPos -> Pos_Fixed, Pos_Model, Pos_Offset
+9. Name Changed : CPositionData -> CPositionGroup and members, and Pos_Array member added.
+10. Name Changed : CPosition -> CPositionSet class, GetPosition -> GetPositionSet, SetPosition -> SetPositionSet
+11. Name Changed : Mechanical Layer's SetXXXPosition -> SetPosition_XXX
+12. Position save / load / set to component 관련 부분 모두 수정 
 
 // ********************************************************************************
 // test를 위해서 임시로 결과값을 쓰는 코드들은 // for test 로 주석 달기 및 검색해서 사용하도록
@@ -753,8 +772,8 @@ CSpinStep class -> CCleanStep / CCoatStep class 로 분리
 // 1. Spinner Mechanical Layer 보완
 // 2. Coater, Cleaner Control Layer 추가. 
 //    - MCtrlCleaner, MCtrlCoater
-//    - Coating Process Data 추가 -> MDataManager CCoatingData
-//	  - Cleaning Process Data 추가 -> MDataManager CCleaningData 
+//    - Coating Process Data 추가 -> MDataManager CCoaterData
+//	  - Cleaning Process Data 추가 -> MDataManager CCleanerData 
 
 // Version : 0.0.8
 // Grade : ★

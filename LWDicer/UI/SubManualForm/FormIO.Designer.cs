@@ -30,7 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormIO));
-            this.tmr_IO = new System.Windows.Forms.Timer(this.components);
+            this.TimerUI = new System.Windows.Forms.Timer(this.components);
             this.IO_Y14_Name = new Syncfusion.Windows.Forms.Tools.GradientLabel();
             this.IO_Y16_Name = new Syncfusion.Windows.Forms.Tools.GradientLabel();
             this.IO_Y15_Name = new Syncfusion.Windows.Forms.Tools.GradientLabel();
@@ -102,9 +102,9 @@
             this.BtnEnd = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
-            // tmr_IO
+            // TimerUI
             // 
-            this.tmr_IO.Tick += new System.EventHandler(this.tmr_IO_Tick);
+            this.TimerUI.Tick += new System.EventHandler(this.TimerUI_Tick);
             // 
             // IO_Y14_Name
             // 
@@ -1302,7 +1302,7 @@
 
         #endregion
 
-        private System.Windows.Forms.Timer tmr_IO;
+        private System.Windows.Forms.Timer TimerUI;
         private Syncfusion.Windows.Forms.Tools.GradientLabel IO_Y14_Name;
         private Syncfusion.Windows.Forms.Tools.GradientLabel IO_Y16_Name;
         private Syncfusion.Windows.Forms.Tools.GradientLabel IO_Y15_Name;

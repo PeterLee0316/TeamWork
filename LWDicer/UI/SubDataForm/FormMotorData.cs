@@ -39,14 +39,9 @@ namespace LWDicer.UI
             UpdateScreen();
         }
 
-        private void FormClose()
-        {
-            this.Hide();
-        }
-
         private void BtnExit_Click(object sender, EventArgs e)
         {
-            FormClose();
+            this.Close();
         }
 
         private void FormMotorData_Load(object sender, EventArgs e)
@@ -58,7 +53,6 @@ namespace LWDicer.UI
 
         private void FormMotorData_FormClosing(object sender, FormClosingEventArgs e)
         {
-            FormClose();
         }
 
         private void InitGrid()

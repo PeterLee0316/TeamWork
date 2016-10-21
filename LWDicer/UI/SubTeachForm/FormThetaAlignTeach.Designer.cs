@@ -40,7 +40,7 @@
             this.btnHairLineWide = new System.Windows.Forms.Button();
             this.picVision = new System.Windows.Forms.Panel();
             this.pnlStageJog = new System.Windows.Forms.Panel();
-            this.TmrTeach = new System.Windows.Forms.Timer(this.components);
+            this.TimerUI = new System.Windows.Forms.Timer(this.components);
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.label15 = new System.Windows.Forms.Label();
             this.label14 = new System.Windows.Forms.Label();
@@ -283,9 +283,9 @@
             this.pnlStageJog.Size = new System.Drawing.Size(802, 218);
             this.pnlStageJog.TabIndex = 948;
             // 
-            // TmrTeach
+            // TimerUI
             // 
-            this.TmrTeach.Tick += new System.EventHandler(this.TmrTeach_Tick);
+            this.TimerUI.Tick += new System.EventHandler(this.TimerUI_Tick);
             // 
             // groupBox2
             // 
@@ -1842,7 +1842,7 @@
         private System.Windows.Forms.Button btnThetaAlign;
         private System.Windows.Forms.Button btnHairLineNarrow;
         private System.Windows.Forms.Button btnConfigSave;
-        private System.Windows.Forms.Timer TmrTeach;
+        private System.Windows.Forms.Timer TimerUI;
         private System.Windows.Forms.GroupBox groupBox2;
         private Syncfusion.Windows.Forms.Tools.GradientLabel lblStagePosT;
         private Syncfusion.Windows.Forms.Tools.GradientLabel lblStagePosY;

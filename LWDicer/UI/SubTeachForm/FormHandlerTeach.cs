@@ -11,7 +11,8 @@ using System.Windows.Forms;
 using LWDicer.Layers;
 using static LWDicer.Layers.DEF_System;
 using static LWDicer.Layers.DEF_Common;
-
+using static LWDicer.Layers.DEF_DataManager;
+using static LWDicer.Layers.DEF_Motion;
 using static LWDicer.Layers.MYaskawa;
 
 using static LWDicer.Layers.DEF_Thread;
@@ -20,6 +21,7 @@ using static LWDicer.Layers.DEF_MeElevator;
 using static LWDicer.Layers.DEF_MePushPull;
 using static LWDicer.Layers.DEF_MeSpinner;
 using static LWDicer.Layers.DEF_MeStage;
+using static LWDicer.Layers.DEF_CtrlHandler;
 
 using static LWDicer.Layers.DEF_Yaskawa;
 using static LWDicer.Layers.DEF_ACS;
@@ -34,34 +36,27 @@ namespace LWDicer.UI
 {
     public partial class FormHandlerTeach : Form
     {
-        const int LoHandler = 0;
-        const int UpHandler = 1;
-
         ButtonAdv[] TeachUpPos = new ButtonAdv[15];
         ButtonAdv[] TeachLoPos = new ButtonAdv[15];
 
-        private int m_nSelectedPos_Up = 0;
-        private int m_nSelectedPos_Lo = 0;
+        private int m_nSelectedPos_UpperHandler = 0;
+        private int m_nSelectedPos_LowerHandler = 0;
 
-        private int nDataMode = 0;
+        public bool Type_Fixed; // 고정좌표, 옵셋좌표 구분
 
-        private CMovingObject movingUpperObject = CMainFrame.LWDicer.m_MeUpperHandler.AxHandlerInfo;
-        private CMovingObject movingLowerObject = CMainFrame.LWDicer.m_MeLowerHandler.AxHandlerInfo;
+        private CMovingObject[] MO_Handler = new CMovingObject[(int)EHandlerIndex.MAX];
 
         public FormHandlerTeach()
         {
             InitializeComponent();
 
+            MO_Handler[(int)EHandlerIndex.LOAD_UPPER] = CMainFrame.LWDicer.m_MeUpperHandler.AxHandlerInfo;
+            MO_Handler[(int)EHandlerIndex.UNLOAD_LOWER] = CMainFrame.LWDicer.m_MeLowerHandler.AxHandlerInfo;
+
             InitUpperHandlerGrid();
             InitLowerHandlerGrid();
 
             ResouceMapping();
-        }
-
-        private void FormClose()
-        {
-            TmrTeach.Stop();
-            this.Hide();
         }
 
         private void FormHandlerTeach_Load(object sender, EventArgs e)
@@ -73,9 +68,9 @@ namespace LWDicer.UI
             UpdateUpperTeachPos(0);
             UpdateLowerTeachPos(0);
 
-            TmrTeach.Enabled = true;
-            TmrTeach.Interval = UITimerInterval;
-            TmrTeach.Start();
+            TimerUI.Enabled = true;
+            TimerUI.Interval = UITimerInterval;
+            TimerUI.Start();
         }
 
         private void ResouceMapping()
@@ -287,22 +282,11 @@ namespace LWDicer.UI
 
         private void FormHandlerTeach_FormClosing(object sender, FormClosingEventArgs e)
         {
-            FormClose();
         }
 
         private void BtnExit_Click(object sender, EventArgs e)
         {
-            FormClose();
-        }
-
-        public void SetDataMode(int nMode)
-        {
-            nDataMode = nMode;
-        }
-
-        public int GetDataMode()
-        {
-            return nDataMode;
+            this.Close();
         }
 
         private void BtnJog_Click(object sender, EventArgs e)
@@ -346,13 +330,12 @@ namespace LWDicer.UI
                     }
                 }
 
-                if (GetDataMode() == FixedData)
+                if (Type_Fixed == true)
                 {
                     if (i != 0) GridUpHandlerTeachTable[3, i].BackColor = Color.LightYellow;
                     if (i != 0) GridUpHandlerTeachTable[6, i].BackColor = Color.White;
                 }
-
-                if (GetDataMode() == OffsetData)
+                else
                 {
                     if (i != 0) GridUpHandlerTeachTable[3, i].BackColor = Color.White;
                     if (i != 0) GridUpHandlerTeachTable[6, i].BackColor = Color.LightYellow;
@@ -361,9 +344,9 @@ namespace LWDicer.UI
 
             TeachUpPos[selectedPos].BackColor = Color.Tan;
 
-            m_nSelectedPos_Lo = selectedPos;
+            m_nSelectedPos_LowerHandler = selectedPos;
 
-            DisplayPos_Up();
+            DisplayPos_UpperHandler();
         }
 
         private void UpdateLowerTeachPos(int selectedPos)
@@ -388,13 +371,12 @@ namespace LWDicer.UI
                     }
                 }
 
-                if (GetDataMode() == FixedData)
+                if (Type_Fixed == true)
                 {
                     if (i != 0) GridLoHandlerTeachTable[3, i].BackColor = Color.LightYellow;
                     if (i != 0) GridLoHandlerTeachTable[6, i].BackColor = Color.White;
                 }
-
-                if (GetDataMode() == OffsetData)
+                else
                 {
                     if (i != 0) GridLoHandlerTeachTable[3, i].BackColor = Color.White;
                     if (i != 0) GridLoHandlerTeachTable[6, i].BackColor = Color.LightYellow;
@@ -404,98 +386,60 @@ namespace LWDicer.UI
 
             TeachLoPos[selectedPos].BackColor = Color.Tan;
 
-            m_nSelectedPos_Lo = selectedPos;
+            m_nSelectedPos_LowerHandler = selectedPos;
 
-            DisplayPos_Lo();
+            DisplayPos_LowerHandler();
         }
 
-        private void DisplayPos_Up()
+        private void DisplayPos_UpperHandler()
         {
-            string strTargetPos;
+            int index = m_nSelectedPos_UpperHandler;
+            double dFixedPos, dOffsetPos, dTargetPos, dModelPos, dAlignOffset;
+            int nHIndex = (int)EHandlerIndex.LOAD_UPPER;
+            int direction = DEF_X;
+            dTargetPos = MO_Handler[nHIndex].GetPosition(index, direction, out dFixedPos, out dModelPos, out dOffsetPos, out dAlignOffset);
 
-            double dFixedXPos = 0, dOffsetXPos = 0, dTargetXPos = 0, dModelXPos = 0, dXAlignOffset;
-            double dFixedZPos = 0, dOffsetZPos = 0, dTargetZPos = 0, dModelZPos = 0, dZAlignOffset;
-            int index = m_nSelectedPos_Up;
+            GridUpHandlerTeachTable[2, 1].Text = String.Format("{0:0.000}", dTargetPos);
+            GridUpHandlerTeachTable[3, 1].Text = String.Format("{0:0.000}", dFixedPos);
+            GridUpHandlerTeachTable[4, 1].Text = String.Format("{0:0.000}", dModelPos);
+            GridUpHandlerTeachTable[5, 1].Text = String.Format("{0:0.000}", dAlignOffset);
+            GridUpHandlerTeachTable[6, 1].Text = String.Format("{0:0.000}", dOffsetPos);
 
-            dFixedXPos = movingUpperObject.FixedPos.Pos[index].dX;
-            dOffsetXPos = movingUpperObject.OffsetPos.Pos[index].dX;
-            dModelXPos = movingUpperObject.ModelPos.Pos[index].dX;
-            dXAlignOffset = movingUpperObject.AlignOffset.dX;
+            direction = DEF_Z;
+            dTargetPos = MO_Handler[nHIndex].GetPosition(index, direction, out dFixedPos, out dModelPos, out dOffsetPos, out dAlignOffset);
 
-            dTargetXPos = dFixedXPos + dOffsetXPos + dModelXPos + dXAlignOffset;
-
-            GridUpHandlerTeachTable[2, 1].Text = String.Format("{0:0.000}", dTargetXPos);
-
-            dFixedZPos = movingUpperObject.FixedPos.Pos[index].dZ;
-            dOffsetZPos = movingUpperObject.OffsetPos.Pos[index].dZ;
-            dModelZPos = movingUpperObject.ModelPos.Pos[index].dZ;
-            dZAlignOffset = movingUpperObject.AlignOffset.dZ;
-
-            dTargetZPos = dFixedZPos + dOffsetZPos + dModelZPos + dZAlignOffset;
-
-            GridUpHandlerTeachTable[2, 2].Text = String.Format("{0:0.000}", dTargetZPos); ;
-
-            // FixedPos
-            GridUpHandlerTeachTable[3, 1].Text = String.Format("{0:0.000}", dFixedXPos);
-            GridUpHandlerTeachTable[3, 2].Text = String.Format("{0:0.000}", dFixedZPos);
-
-            // ModelPos
-            GridUpHandlerTeachTable[4, 1].Text = String.Format("{0:0.000}", dModelXPos); 
-            GridUpHandlerTeachTable[4, 2].Text = String.Format("{0:0.000}", dModelZPos);
-
-            // Align Offset
-            GridUpHandlerTeachTable[5, 1].Text = String.Format("{0:0.000}", dXAlignOffset);
-            GridUpHandlerTeachTable[5, 2].Text = String.Format("{0:0.000}", dZAlignOffset);
-
-            //OffsetPos
-            GridUpHandlerTeachTable[6, 1].Text = String.Format("{0:0.000}", dOffsetXPos);
-            GridUpHandlerTeachTable[6, 2].Text = String.Format("{0:0.000}", dOffsetZPos);
+            GridUpHandlerTeachTable[2, 2].Text = String.Format("{0:0.000}", dTargetPos);
+            GridUpHandlerTeachTable[3, 2].Text = String.Format("{0:0.000}", dFixedPos);
+            GridUpHandlerTeachTable[4, 2].Text = String.Format("{0:0.000}", dModelPos);
+            GridUpHandlerTeachTable[5, 2].Text = String.Format("{0:0.000}", dAlignOffset);
+            GridUpHandlerTeachTable[6, 2].Text = String.Format("{0:0.000}", dOffsetPos);
         }
 
-        private void DisplayPos_Lo()
+        private void DisplayPos_LowerHandler()
         {
-            string strTargetPos;
+            int index = m_nSelectedPos_LowerHandler;
+            double dFixedPos, dOffsetPos, dTargetPos, dModelPos, dAlignOffset;
+            int nHIndex = (int)EHandlerIndex.UNLOAD_LOWER;
+            int direction = DEF_X;
+            dTargetPos = MO_Handler[nHIndex].GetPosition(index, direction, out dFixedPos, out dModelPos, out dOffsetPos, out dAlignOffset);
 
-            double dFixedXPos = 0, dOffsetXPos = 0, dTargetXPos = 0, dModelXPos = 0, dXAlignOffset;
-            double dFixedZPos = 0, dOffsetZPos = 0, dTargetZPos = 0, dModelZPos = 0, dZAlignOffset;
-            int index = m_nSelectedPos_Lo;
+            GridLoHandlerTeachTable[2, 1].Text = String.Format("{0:0.000}", dTargetPos);
+            GridLoHandlerTeachTable[3, 1].Text = String.Format("{0:0.000}", dFixedPos);
+            GridLoHandlerTeachTable[4, 1].Text = String.Format("{0:0.000}", dModelPos);
+            GridLoHandlerTeachTable[5, 1].Text = String.Format("{0:0.000}", dAlignOffset);
+            GridLoHandlerTeachTable[6, 1].Text = String.Format("{0:0.000}", dOffsetPos);
 
-            dFixedXPos = movingLowerObject.FixedPos.Pos[index].dX;
-            dOffsetXPos = movingLowerObject.OffsetPos.Pos[index].dX;
-            dModelXPos = movingLowerObject.ModelPos.Pos[index].dX;
-            dXAlignOffset = movingLowerObject.AlignOffset.dX;
+            direction = DEF_Z;
+            dTargetPos = MO_Handler[nHIndex].GetPosition(index, direction, out dFixedPos, out dModelPos, out dOffsetPos, out dAlignOffset);
 
-            dTargetXPos = dFixedXPos + dOffsetXPos + dModelXPos + dXAlignOffset;
-
-            GridLoHandlerTeachTable[2, 1].Text = String.Format("{0:0.000}", dTargetXPos);
-
-            dFixedZPos = movingLowerObject.FixedPos.Pos[index].dZ;
-            dOffsetZPos = movingLowerObject.OffsetPos.Pos[index].dZ;
-            dModelZPos = movingLowerObject.ModelPos.Pos[index].dZ;
-            dZAlignOffset = movingLowerObject.AlignOffset.dZ;
-
-            dTargetZPos = dFixedZPos + dOffsetZPos + dModelZPos + dZAlignOffset;
-
-            GridLoHandlerTeachTable[2, 2].Text = String.Format("{0:0.000}", dTargetZPos);
-
-            // FixedPos
-            GridLoHandlerTeachTable[3, 1].Text = String.Format("{0:0.000}", dFixedXPos);
-            GridLoHandlerTeachTable[3, 2].Text = String.Format("{0:0.000}", dFixedZPos);
-
-            // ModelPos
-            GridLoHandlerTeachTable[4, 1].Text = String.Format("{0:0.000}", dModelXPos);
-            GridLoHandlerTeachTable[4, 2].Text = String.Format("{0:0.000}", dModelZPos);
-
-            // Align Offset
-            GridLoHandlerTeachTable[5, 1].Text = String.Format("{0:0.000}", dXAlignOffset);
-            GridLoHandlerTeachTable[5, 2].Text = String.Format("{0:0.000}", dZAlignOffset);
-
-            //OffsetPos
-            GridLoHandlerTeachTable[6, 1].Text = String.Format("{0:0.000}", dOffsetXPos);
-            GridLoHandlerTeachTable[6, 2].Text = String.Format("{0:0.000}", dOffsetZPos);
+            GridLoHandlerTeachTable[2, 2].Text = String.Format("{0:0.000}", dTargetPos);
+            GridLoHandlerTeachTable[3, 2].Text = String.Format("{0:0.000}", dFixedPos);
+            GridLoHandlerTeachTable[4, 2].Text = String.Format("{0:0.000}", dModelPos);
+            GridLoHandlerTeachTable[5, 2].Text = String.Format("{0:0.000}", dAlignOffset);
+            GridLoHandlerTeachTable[6, 2].Text = String.Format("{0:0.000}", dOffsetPos);
         }
 
-        private void TmrTeach_Tick(object sender, EventArgs e)
+        private void TimerUI_Tick(object sender, EventArgs e)
         {
             // Current Position Display
             string strCurPos = string.Empty;
@@ -558,7 +502,7 @@ namespace LWDicer.UI
         {
             string strCurrent = "", strMsg = string.Empty;
 
-            strMsg = TeachLoPos[m_nSelectedPos_Up].Text + " 목표 위치를 현재 위치로 변경하시겠습니까?";
+            strMsg = TeachLoPos[m_nSelectedPos_UpperHandler].Text + " 목표 위치를 현재 위치로 변경하시겠습니까?";
             if (!CMainFrame.InquireMsg(strMsg)) return;
 
             strCurrent = GridLoHandlerTeachTable[7, 1].Text;
@@ -575,31 +519,19 @@ namespace LWDicer.UI
             string strMsg = "Save teaching data?";
             if (!CMainFrame.InquireMsg(strMsg)) return;
 
-            if (GetDataMode() == FixedData)
-            {
-                strData = GridLoHandlerTeachTable[3, 1].Text;
-                CMainFrame.DataManager.FixedPos.LowerHandlerPos.Pos[m_nSelectedPos_Lo].dX = Convert.ToDouble(strData);
+            CPositionGroup tGroup;
+            CMainFrame.LWDicer.GetPositionGroup(out tGroup, Type_Fixed);
+            EPositionObject pIndex = EPositionObject.LOWER_HANDLER;
+            int direction = DEF_X;
+            strData = (Type_Fixed == true) ? GridLoHandlerTeachTable[3, 1].Text : strData = GridLoHandlerTeachTable[6, 1].Text;
+            tGroup.Pos_Array[(int)pIndex].Pos[m_nSelectedPos_LowerHandler].SetPosition(direction, Convert.ToDouble(strData));
 
-                strData = GridLoHandlerTeachTable[3, 2].Text;
-                CMainFrame.DataManager.FixedPos.LowerHandlerPos.Pos[m_nSelectedPos_Lo].dZ = Convert.ToDouble(strData);
+            direction = DEF_Z;
+            strData = (Type_Fixed == true) ? GridLoHandlerTeachTable[3, 2].Text : strData = GridLoHandlerTeachTable[6, 2].Text;
+            tGroup.Pos_Array[(int)pIndex].Pos[m_nSelectedPos_LowerHandler].SetPosition(direction, Convert.ToDouble(strData));
 
-                CMainFrame.DataManager.SavePositionData(true, EPositionObject.LOWER_HANDLER);
-            }
-
-            if (GetDataMode() == OffsetData)
-            {
-                strData = GridLoHandlerTeachTable[6, 1].Text;
-                CMainFrame.DataManager.OffsetPos.LowerHandlerPos.Pos[m_nSelectedPos_Lo].dX = Convert.ToDouble(strData);
-
-                strData = GridLoHandlerTeachTable[6, 2].Text;
-                CMainFrame.DataManager.OffsetPos.LowerHandlerPos.Pos[m_nSelectedPos_Lo].dZ = Convert.ToDouble(strData);
-
-                CMainFrame.DataManager.SavePositionData(false, EPositionObject.LOWER_HANDLER);
-            }
-
-            CMainFrame.LWDicer.SetPositionDataToComponent(EPositionGroup.HANDLER);
-
-            DisplayPos_Up();
+            CMainFrame.LWDicer.SavePosition(tGroup, Type_Fixed, pIndex);
+            DisplayPos_LowerHandler();
         }
 
         private void BtnUpSave_Click(object sender, EventArgs e)
@@ -608,31 +540,19 @@ namespace LWDicer.UI
             string strMsg = "Save teaching data?";
             if (!CMainFrame.InquireMsg(strMsg)) return;
 
-            if (GetDataMode() == FixedData)
-            {
-                strData = GridUpHandlerTeachTable[3, 1].Text;
-                CMainFrame.DataManager.FixedPos.UpperHandlerPos.Pos[m_nSelectedPos_Up].dX = Convert.ToDouble(strData);
+            CPositionGroup tGroup;
+            CMainFrame.LWDicer.GetPositionGroup(out tGroup, Type_Fixed);
+            EPositionObject pIndex = EPositionObject.UPPER_HANDLER;
+            int direction = DEF_X;
+            strData = (Type_Fixed == true) ? GridUpHandlerTeachTable[3, 1].Text : strData = GridUpHandlerTeachTable[6, 1].Text;
+            tGroup.Pos_Array[(int)pIndex].Pos[m_nSelectedPos_UpperHandler].SetPosition(direction, Convert.ToDouble(strData));
 
-                strData = GridUpHandlerTeachTable[3, 2].Text;
-                CMainFrame.DataManager.FixedPos.UpperHandlerPos.Pos[m_nSelectedPos_Up].dZ = Convert.ToDouble(strData);
+            direction = DEF_Z;
+            strData = (Type_Fixed == true) ? GridUpHandlerTeachTable[3, 2].Text : strData = GridUpHandlerTeachTable[6, 2].Text;
+            tGroup.Pos_Array[(int)pIndex].Pos[m_nSelectedPos_UpperHandler].SetPosition(direction, Convert.ToDouble(strData));
 
-                CMainFrame.DataManager.SavePositionData(true, EPositionObject.UPPER_HANDLER);
-            }
-
-            if (GetDataMode() == OffsetData)
-            {
-                strData = GridUpHandlerTeachTable[6, 1].Text;
-                CMainFrame.DataManager.OffsetPos.UpperHandlerPos.Pos[m_nSelectedPos_Up].dX = Convert.ToDouble(strData);
-
-                strData = GridUpHandlerTeachTable[6, 2].Text;
-                CMainFrame.DataManager.OffsetPos.UpperHandlerPos.Pos[m_nSelectedPos_Up].dZ = Convert.ToDouble(strData);
-
-                CMainFrame.DataManager.SavePositionData(false, EPositionObject.UPPER_HANDLER);
-            }
-
-            CMainFrame.LWDicer.SetPositionDataToComponent(EPositionGroup.HANDLER);
-
-            DisplayPos_Lo();
+            CMainFrame.LWDicer.SavePosition(tGroup, Type_Fixed, pIndex);
+            DisplayPos_UpperHandler();
         }
 
         private void GridUpHandlerTeachTable_PushButtonClick(object sender, GridCellPushButtonClickEventArgs e)
@@ -657,7 +577,7 @@ namespace LWDicer.UI
             double dOtherSum = Convert.ToDouble(GridUpHandlerTeachTable[4, index].Text) // Model Pos
                 + Convert.ToDouble(GridUpHandlerTeachTable[5, index].Text); // + Align Mark Pos
 
-            if (GetDataMode() == FixedData)
+            if (Type_Fixed == true)
             {
                 dOtherSum += Convert.ToDouble(GridUpHandlerTeachTable[6, index].Text); // Offset Pos
                 double dPos = dTargetPos - dOtherSum;
@@ -681,7 +601,7 @@ namespace LWDicer.UI
             double dOtherSum = Convert.ToDouble(GridLoHandlerTeachTable[4, index].Text) // Model Pos
                 + Convert.ToDouble(GridLoHandlerTeachTable[5, index].Text); // + Align Mark Pos
 
-            if (GetDataMode() == FixedData)
+            if (Type_Fixed == true)
             {
                 dOtherSum += Convert.ToDouble(GridLoHandlerTeachTable[6, index].Text); // Offset Pos
                 double dPos = dTargetPos - dOtherSum;
@@ -734,10 +654,10 @@ namespace LWDicer.UI
 
             if(Handler.Name == "BtnUpperManualOP")
             {
-                dlg.SetHandler(UpHandler);
+                dlg.SetHandler(DEF_CtrlHandler.EHandlerIndex.LOAD_UPPER);
             } else
             {
-                dlg.SetHandler(LoHandler);
+                dlg.SetHandler(DEF_CtrlHandler.EHandlerIndex.UNLOAD_LOWER);
             }
             dlg.ShowDialog();
         }

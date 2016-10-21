@@ -29,19 +29,13 @@ namespace LWDicer.UI
             this.Text = $"Wafer Data [ Current Model : {CMainFrame.DataManager.ModelData.Name} ]";
         }
 
-        private void FormClose()
-        {
-            this.Hide();
-        }
-
         private void BtnExit_Click(object sender, EventArgs e)
         {
-            FormClose();
+            this.Close();
         }
 
         private void FormWaferData_FormClosing(object sender, FormClosingEventArgs e)
         {
-            FormClose();
         }
 
         private void BtnSave_Click(object sender, EventArgs e)
@@ -57,7 +51,7 @@ namespace LWDicer.UI
             WaferData.Wafer.Size_X =            Convert.ToDouble(LabelIndexX.Text);
             WaferData.Wafer.Size_Y =            Convert.ToDouble(LabelIndexY.Text);
 
-            CMainFrame.DataManager.SaveModelData(WaferData);
+            CMainFrame.LWDicer.SaveModelData(WaferData);
 
             UpdateData();
         }

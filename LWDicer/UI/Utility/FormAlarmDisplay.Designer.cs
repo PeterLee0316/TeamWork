@@ -99,7 +99,7 @@
             // 
             // TmrAlarm
             // 
-            this.TmrAlarm.Tick += new System.EventHandler(this.TmrAlarm_Tick);
+            this.TmrAlarm.Tick += new System.EventHandler(this.TimerUI_Tick);
             // 
             // BtnEdit
             // 

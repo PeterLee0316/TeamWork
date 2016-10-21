@@ -8,232 +8,188 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-using static LWDicer.Layers.DEF_System;
+using LWDicer.Layers;
 using static LWDicer.Layers.DEF_Common;
+using static LWDicer.Layers.DEF_Thread;
+using static LWDicer.Layers.DEF_System;
+using static LWDicer.Layers.DEF_Error;
+using static LWDicer.Layers.DEF_DataManager;
+using static LWDicer.Layers.DEF_CtrlSpinner;
 
 namespace LWDicer.UI
 {
     public partial class FormSpinnerManualOP : Form
     {
-        const int Spinner1 = 0;
-        const int Spinner2 = 1;
-
-        private int nSpinner = 0;
+        private ESpinnerIndex m_SpinnerIndex = 0;
+        private MMeSpinner m_MeSpinner;
+        private MCtrlSpinner m_CtrlSpinner;
 
         public FormSpinnerManualOP()
         {
             InitializeComponent();
         }
 
-        public void SetSpinner(int nNo)
+        public void SetSpinner(ESpinnerIndex index)
         {
-            nSpinner = nNo;
-        }
-
-        public int GetSpinner()
-        {
-            return nSpinner;
+            m_SpinnerIndex = index;
         }
 
         private void BtnExit_Click(object sender, EventArgs e)
         {
-            FormClose();
+            this.Close();
         }
 
         private void FormSpinnerManualOP_Load(object sender, EventArgs e)
         {
-            if(GetSpinner() == Spinner1)
+            if(m_SpinnerIndex == ESpinnerIndex.SPINNER1)
             {
                 this.Text = "Spinner 1 Manual Operation";
-            }
-
-            if (GetSpinner() == Spinner2)
+                m_MeSpinner = CMainFrame.LWDicer.m_MeSpinner1;
+                m_CtrlSpinner = CMainFrame.LWDicer.m_ctrlSpinner1;
+            } else
             {
                 this.Text = "Spinner 2 Manual Operation";
+                m_MeSpinner = CMainFrame.LWDicer.m_MeSpinner1;
+                m_CtrlSpinner = CMainFrame.LWDicer.m_ctrlSpinner1;
             }
 
-            TmrManualOP.Enabled = true;
-            TmrManualOP.Interval = UITimerInterval;
-            TmrManualOP.Start();
+            if (CMainFrame.DataManager.SystemData.UseSpinnerSeparately)
+            {
+                if (CMainFrame.DataManager.SystemData.UCoaterIndex == ESpinnerIndex.SPINNER1)
+                {
+                    if(m_SpinnerIndex == ESpinnerIndex.SPINNER1)
+                    {
+                        this.Text = "Coater Manual Operation";
+                        LabelCleaningTitle.Visible = false;
+                        BtnCleaningJobStart.Visible = false;
+                        BtnCleaningJobStop.Visible = false;
+                        LabelCleaningTime_Title.Visible = false;
+                        LabelCleaningTime.Visible = false;
+                    } else
+                    {
+                        this.Text = "Cleaner Manual Operation";
+                        LabelCoatingTitle.Visible = false;
+                        BtnCoatingJobStart.Visible = false;
+                        BtnCoatingJobStop.Visible = false;
+                        LabelCoatingTime_Title.Visible = false;
+                        LabelCoatingTime.Visible = false;
+                    }
+                }
+                else
+                {
+                    if (m_SpinnerIndex == ESpinnerIndex.SPINNER1)
+                    {
+                        this.Text = "Cleaner Manual Operation";
+                        LabelCoatingTitle.Visible = false;
+                        BtnCoatingJobStart.Visible = false;
+                        BtnCoatingJobStop.Visible = false;
+                        LabelCoatingTime_Title.Visible = false;
+                        LabelCoatingTime.Visible = false;
+                    }
+                    else
+                    {
+                        this.Text = "Coater Manual Operation";
+                        LabelCleaningTitle.Visible = false;
+                        BtnCleaningJobStart.Visible = false;
+                        BtnCleaningJobStop.Visible = false;
+                        LabelCleaningTime_Title.Visible = false;
+                        LabelCleaningTime.Visible = false;
+                    }
+                }
+            }
+            else
+            {
+            }
+
+            TimerUI.Enabled = true;
+            TimerUI.Interval = UITimerInterval;
+            TimerUI.Start();
         }
 
         private void FormSpinnerManualOP_FormClosing(object sender, FormClosingEventArgs e)
         {
-            FormClose();
+            if (m_CtrlSpinner.IsDoingJob)
+            {
+                CMainFrame.DisplayMsg("The requested operation is in progress.");
+                e.Cancel = true;
+            }
         }
 
-        private void FormClose()
-        {
-            TmrManualOP.Stop();
-            this.Hide();
-        }
-
-        private void TmrManualOP_Tick(object sender, EventArgs e)
-        {
-            SensorStatus(GetSpinner());
-        }
-
-        private void SensorStatus(int nNo)
+        private void UpdateStatus()
         {
             bool bStatus = false;
 
-            if(nNo == Spinner1)
-            {
-                CMainFrame.LWDicer.m_MeSpinner1.IsAbsorbed(out bStatus);
-                if (bStatus == true) BtnVacuumOn.BackColor = Color.LawnGreen; else BtnVacuumOff.BackColor = Color.LightGray;
+            m_MeSpinner.IsAbsorbed(out bStatus);
+            BtnVacuumOn.BackColor = (bStatus == true) ? CMainFrame.BtnBackColor_On : CMainFrame.BtnBackColor_Off;
 
-                CMainFrame.LWDicer.m_MeSpinner1.IsReleased(out bStatus);
-                if (bStatus == true) BtnVacuumOff.BackColor = Color.LawnGreen; else BtnVacuumOn.BackColor = Color.LightGray;
+            m_MeSpinner.IsReleased(out bStatus);
+            BtnVacuumOff.BackColor = (bStatus == true) ? CMainFrame.BtnBackColor_On : CMainFrame.BtnBackColor_Off;
 
-                CMainFrame.LWDicer.m_MeSpinner1.IsChuckTableUp(out bStatus);
-                if (bStatus == true) BtnSpinnerUp.BackColor = Color.LawnGreen; else BtnSpinnerDown.BackColor = Color.LightGray;
+            m_MeSpinner.IsChuckTableUp(out bStatus);
+            BtnSpinnerUp.BackColor = (bStatus == true) ? CMainFrame.BtnBackColor_On : CMainFrame.BtnBackColor_Off;
 
-                CMainFrame.LWDicer.m_MeSpinner1.IsChuckTableDown(out bStatus);
-                if (bStatus == true) BtnSpinnerUp.BackColor = Color.LawnGreen; else BtnSpinnerDown.BackColor = Color.LightGray;
+            m_MeSpinner.IsChuckTableDown(out bStatus);
+            BtnSpinnerDown.BackColor = (bStatus == true) ? CMainFrame.BtnBackColor_On : CMainFrame.BtnBackColor_Off;
 
-                CMainFrame.LWDicer.m_MeSpinner1.IsCleanNozzleValveOpen(out bStatus);
-                if (bStatus == true) BtnCleanNozzleOn.BackColor = Color.LawnGreen; else BtnCleanNozzleOff.BackColor = Color.LightGray;
+            m_MeSpinner.IsCleanNozzleValveOpen(out bStatus);
+            BtnCleanNozzleOn.BackColor = (bStatus == true) ? CMainFrame.BtnBackColor_On : CMainFrame.BtnBackColor_Off;
 
-                CMainFrame.LWDicer.m_MeSpinner1.IsCleanNozzleValveClose(out bStatus);
-                if (bStatus == true) BtnCleanNozzleOff.BackColor = Color.LawnGreen; else BtnCleanNozzleOn.BackColor = Color.LightGray;
+            m_MeSpinner.IsCleanNozzleValveClose(out bStatus);
+            BtnCleanNozzleOff.BackColor = (bStatus == true) ? CMainFrame.BtnBackColor_On : CMainFrame.BtnBackColor_Off;
 
-                CMainFrame.LWDicer.m_MeSpinner1.IsCoatNozzleValveOpen(out bStatus);
-                if (bStatus == true) BtnCoatNozzleOn.BackColor = Color.LawnGreen; else BtnCoatNozzleOff.BackColor = Color.LightGray;
+            m_MeSpinner.IsCoatNozzleValveOpen(out bStatus);
+            BtnCoatNozzleOn.BackColor = (bStatus == true) ? CMainFrame.BtnBackColor_On : CMainFrame.BtnBackColor_Off;
 
-                CMainFrame.LWDicer.m_MeSpinner1.IsCoatNozzleValveClose(out bStatus);
-                if (bStatus == true) BtnCoatNozzleOff.BackColor = Color.LawnGreen; else BtnCoatNozzleOn.BackColor = Color.LightGray;
-            }
-
-            if(nNo == Spinner2)
-            {
-                CMainFrame.LWDicer.m_MeSpinner2.IsAbsorbed(out bStatus);
-                if (bStatus == true) BtnVacuumOn.BackColor = Color.LawnGreen; else BtnVacuumOff.BackColor = Color.LightGray;
-
-                CMainFrame.LWDicer.m_MeSpinner2.IsReleased(out bStatus);
-                if (bStatus == true) BtnVacuumOff.BackColor = Color.LawnGreen; else BtnVacuumOn.BackColor = Color.LightGray;
-
-                CMainFrame.LWDicer.m_MeSpinner2.IsChuckTableUp(out bStatus);
-                if (bStatus == true) BtnSpinnerUp.BackColor = Color.LawnGreen; else BtnSpinnerDown.BackColor = Color.LightGray;
-
-                CMainFrame.LWDicer.m_MeSpinner2.IsChuckTableDown(out bStatus);
-                if (bStatus == true) BtnSpinnerUp.BackColor = Color.LawnGreen; else BtnSpinnerDown.BackColor = Color.LightGray;
-
-                CMainFrame.LWDicer.m_MeSpinner2.IsCleanNozzleValveOpen(out bStatus);
-                if (bStatus == true) BtnCleanNozzleOn.BackColor = Color.LawnGreen; else BtnCleanNozzleOff.BackColor = Color.LightGray;
-
-                CMainFrame.LWDicer.m_MeSpinner2.IsCleanNozzleValveClose(out bStatus);
-                if (bStatus == true) BtnCleanNozzleOff.BackColor = Color.LawnGreen; else BtnCleanNozzleOn.BackColor = Color.LightGray;
-
-                CMainFrame.LWDicer.m_MeSpinner2.IsCoatNozzleValveOpen(out bStatus);
-                if (bStatus == true) BtnCoatNozzleOn.BackColor = Color.LawnGreen; else BtnCoatNozzleOff.BackColor = Color.LightGray;
-
-                CMainFrame.LWDicer.m_MeSpinner2.IsCoatNozzleValveClose(out bStatus);
-                if (bStatus == true) BtnCoatNozzleOff.BackColor = Color.LawnGreen; else BtnCoatNozzleOn.BackColor = Color.LightGray;
-            }
+            m_MeSpinner.IsCoatNozzleValveClose(out bStatus);
+            BtnCoatNozzleOff.BackColor = (bStatus == true) ? CMainFrame.BtnBackColor_On : CMainFrame.BtnBackColor_Off;
         }
 
         private void BtnVacuumOn_Click(object sender, EventArgs e)
         {
-            if (GetSpinner() == Spinner1)
-            {
-                CMainFrame.LWDicer.m_MeSpinner1.Absorb();
-            }
-
-            if (GetSpinner() == Spinner2)
-            {
-                CMainFrame.LWDicer.m_MeSpinner2.Absorb();
-            }
+            int iResult = m_MeSpinner.Absorb();
+            CMainFrame.DisplayAlarm(iResult);
         }
 
         private void BtnVacuumOff_Click(object sender, EventArgs e)
         {
-            if (GetSpinner() == Spinner1)
-            {
-                CMainFrame.LWDicer.m_MeSpinner1.Release();
-            }
-
-            if (GetSpinner() == Spinner2)
-            {
-                CMainFrame.LWDicer.m_MeSpinner2.Release();
-            }
+            int iResult = m_MeSpinner.Release();
+            CMainFrame.DisplayAlarm(iResult);
         }
 
         private void BtnSpinnerUp_Click(object sender, EventArgs e)
         {
-            if (GetSpinner() == Spinner1)
-            {
-                CMainFrame.LWDicer.m_MeSpinner1.ChuckTableUp();
-            }
-
-            if (GetSpinner() == Spinner2)
-            {
-                CMainFrame.LWDicer.m_MeSpinner2.ChuckTableUp();
-            }
+            int iResult = m_CtrlSpinner.TableUp();
+            CMainFrame.DisplayAlarm(iResult);
         }
 
         private void BtnSpinnerDown_Click(object sender, EventArgs e)
         {
-            if (GetSpinner() == Spinner1)
-            {
-                CMainFrame.LWDicer.m_MeSpinner1.ChuckTableDown();
-            }
-
-            if (GetSpinner() == Spinner2)
-            {
-                CMainFrame.LWDicer.m_MeSpinner2.ChuckTableDown();
-            }
+            int iResult = m_CtrlSpinner.TableDown();
+            CMainFrame.DisplayAlarm(iResult);
         }
 
         private void BtnCleanNozzleOn_Click(object sender, EventArgs e)
         {
-            if (GetSpinner() == Spinner1)
-            {
-                CMainFrame.LWDicer.m_MeSpinner1.CleanNozzleValveOpen();
-            }
-
-            if (GetSpinner() == Spinner2)
-            {
-                CMainFrame.LWDicer.m_MeSpinner2.CleanNozzleValveOpen();
-            }
+            int iResult = m_MeSpinner.CleanNozzleValveOpen();
+            CMainFrame.DisplayAlarm(iResult);
         }
 
         private void BtnCleanNozzleOff_Click(object sender, EventArgs e)
         {
-            if (GetSpinner() == Spinner1)
-            {
-                CMainFrame.LWDicer.m_MeSpinner1.CleanNozzleValveClose();
-            }
-
-            if (GetSpinner() == Spinner2)
-            {
-                CMainFrame.LWDicer.m_MeSpinner2.CleanNozzleValveClose();
-            }
+            int iResult = m_MeSpinner.CleanNozzleValveClose();
+            CMainFrame.DisplayAlarm(iResult);
         }
 
         private void BtnCoatNozzleOn_Click(object sender, EventArgs e)
         {
-            if (GetSpinner() == Spinner1)
-            {
-                CMainFrame.LWDicer.m_MeSpinner1.CoatNozzleValveOpen();
-            }
-
-            if (GetSpinner() == Spinner2)
-            {
-                CMainFrame.LWDicer.m_MeSpinner2.CoatNozzleValveOpen();
-            }
+            int iResult = m_MeSpinner.CoatNozzleValveOpen();
+            CMainFrame.DisplayAlarm(iResult);
         }
 
         private void BtnCoatNozzleOff_Click(object sender, EventArgs e)
         {
-            if (GetSpinner() == Spinner1)
-            {
-                CMainFrame.LWDicer.m_MeSpinner1.CoatNozzleValveClose();
-            }
-
-            if (GetSpinner() == Spinner2)
-            {
-                CMainFrame.LWDicer.m_MeSpinner2.CoatNozzleValveClose();
-            }
+            int iResult = m_MeSpinner.CoatNozzleValveClose();
+            CMainFrame.DisplayAlarm(iResult);
         }
 
         private void BtnCleaningJobStart_Click(object sender, EventArgs e)
@@ -243,7 +199,21 @@ namespace LWDicer.UI
 
         private void BtnCoatingJobStart_Click(object sender, EventArgs e)
         {
+            if (m_CtrlSpinner.IsDoingJob)
+            {
+                CMainFrame.DisplayMsg("The requested job is in progress.");
+                return;
+            }
+        }
 
+        private void BtnCoatingJobStop_Click(object sender, EventArgs e)
+        {
+            m_CtrlSpinner.IsCancelJob_byManual = true;
+        }
+
+        private void TimerUI_Tick(object sender, EventArgs e)
+        {
+            UpdateStatus();
         }
     }
 }

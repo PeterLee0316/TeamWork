@@ -26,14 +26,9 @@ namespace LWDicer.UI
             InitializeComponent();
         }
 
-        private void FormClose()
-        {
-            this.Hide();
-        }
-
         private void BtnExit_Click(object sender, EventArgs e)
         {
-            FormClose();
+            this.Close();
         }
 
         private void FormVisionData_Load(object sender, EventArgs e)
@@ -57,10 +52,8 @@ namespace LWDicer.UI
 #endif
         }
 
-
         private void FormVisionData_FormClosing(object sender, FormClosingEventArgs e)
         {
-            FormClose();
         }
 
         private void btnChangeCam_Click(object sender, EventArgs e)

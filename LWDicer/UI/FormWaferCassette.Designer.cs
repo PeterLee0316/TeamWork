@@ -31,7 +31,7 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormWaferCassette));
             this.BtnExit = new System.Windows.Forms.Button();
-            this.TmrCassette = new System.Windows.Forms.Timer(this.components);
+            this.TimerUI = new System.Windows.Forms.Timer(this.components);
             this.GridCassette1 = new Syncfusion.Windows.Forms.Grid.GridControl();
             this.GridCassette2 = new Syncfusion.Windows.Forms.Grid.GridControl();
             this.gradientPanel1 = new Syncfusion.Windows.Forms.Tools.GradientPanel();
@@ -61,9 +61,9 @@
             this.BtnExit.UseVisualStyleBackColor = true;
             this.BtnExit.Click += new System.EventHandler(this.BtnExit_Click);
             // 
-            // TmrCassette
+            // TimerUI
             // 
-            this.TmrCassette.Tick += new System.EventHandler(this.TmrCassette_Tick);
+            this.TimerUI.Tick += new System.EventHandler(this.TimerUI_Tick);
             // 
             // GridCassette1
             // 
@@ -161,7 +161,7 @@
         #endregion
 
         private System.Windows.Forms.Button BtnExit;
-        private System.Windows.Forms.Timer TmrCassette;
+        private System.Windows.Forms.Timer TimerUI;
         private Syncfusion.Windows.Forms.Grid.GridControl GridCassette1;
         private Syncfusion.Windows.Forms.Grid.GridControl GridCassette2;
         private Syncfusion.Windows.Forms.Tools.GradientPanel gradientPanel1;
