@@ -233,8 +233,6 @@ namespace LWDicer.Layers
             ObjectList.Insert(nIndex, pObject);
         }
 
-        
-
         public void DeleteObject(int nIndex)
         {
             // Object 상태를 확인함.
@@ -266,7 +264,14 @@ namespace LWDicer.Layers
             string extension = Path.GetExtension(filePath);
             if (string.Compare(extension, ".dwg", true) == 0)
             {
-                cadModel = DwgReader.Read(filePath);
+                try
+                {
+                    cadModel = DwgReader.Read(filePath);
+                }
+                catch
+                {
+                    return;
+                }
             }
             else
             {
