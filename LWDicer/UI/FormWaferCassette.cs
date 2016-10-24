@@ -26,8 +26,8 @@ namespace LWDicer.UI
 
             InitGrid(20);
 
-            TmrCassette.Enabled = true;
-            TmrCassette.Interval = UITimerInterval;
+            TimerUI.Enabled = true;
+            TimerUI.Interval = UITimerInterval;
         }
 
         private void InitGrid(int nSlotCount)
@@ -113,31 +113,22 @@ namespace LWDicer.UI
 
         private void BtnExit_Click(object sender, EventArgs e)
         {
-            FormClose();
+            this.Close();
         }
 
-        private void FormClose()
+        private void TimerUI_Tick(object sender, EventArgs e)
         {
-            TmrCassette.Stop();
-            this.Hide();
-        }
-
-        private void TmrCassette_Tick(object sender, EventArgs e)
-        {
-
-
 
         }
 
         private void FormWaferCassette_Load(object sender, EventArgs e)
         {
             InitGrid(20);
-            TmrCassette.Start();
+            TimerUI.Start();
         }
 
         private void FormWaferCassette_FormClosing(object sender, FormClosingEventArgs e)
         {
-            FormClose();
         }
     }
 }

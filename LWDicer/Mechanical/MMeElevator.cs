@@ -190,9 +190,9 @@ namespace LWDicer.Layers
             return SUCCESS;
         }
 
-        public int SetElevatorPosition(CPosition FixedPos, CPosition ModelPos, CPosition OffsetPos)
+        public int SetPosition_Elevator(CPositionSet Pos_Fixed, CPositionSet Pos_Model, CPositionSet Pos_Offset)
         {
-            AxElevatorInfo.SetPosition(FixedPos, ModelPos, OffsetPos);
+            AxElevatorInfo.SetPositionSet(Pos_Fixed, Pos_Model, Pos_Offset);
             
             return SUCCESS;
         }        

@@ -41,7 +41,7 @@
             this.BtnExit = new System.Windows.Forms.Button();
             this.BtnExecuteIni = new Syncfusion.Windows.Forms.ButtonAdv();
             this.Image = new System.Windows.Forms.ImageList(this.components);
-            this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.TimerUI = new System.Windows.Forms.Timer(this.components);
             this.LabelProgress = new Syncfusion.Windows.Forms.Tools.GradientLabel();
             this.buttonAdv1 = new Syncfusion.Windows.Forms.ButtonAdv();
             this.BtnAutoManager = new Syncfusion.Windows.Forms.ButtonAdv();
@@ -180,9 +180,9 @@
             this.Image.Images.SetKeyName(0, "Led_Off.png");
             this.Image.Images.SetKeyName(1, "Led_On.png");
             // 
-            // timer1
+            // TimerUI
             // 
-            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            this.TimerUI.Tick += new System.EventHandler(this.TimerUI_Tick);
             // 
             // LabelProgress
             // 
@@ -262,7 +262,7 @@
         private System.Windows.Forms.Button BtnExit;
         private Syncfusion.Windows.Forms.ButtonAdv BtnExecuteIni;
         private System.Windows.Forms.ImageList Image;
-        private System.Windows.Forms.Timer timer1;
+        private System.Windows.Forms.Timer TimerUI;
         private Syncfusion.Windows.Forms.Tools.GradientLabel LabelProgress;
         private Syncfusion.Windows.Forms.ButtonAdv buttonAdv1;
         private Syncfusion.Windows.Forms.ButtonAdv BtnAutoManager;

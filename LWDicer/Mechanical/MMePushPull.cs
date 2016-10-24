@@ -228,15 +228,15 @@ namespace LWDicer.Layers
             return SUCCESS;
         }
 
-        public int SetPushPullPosition(CPosition FixedPos, CPosition ModelPos, CPosition OffsetPos)
+        public int SetPosition_PushPull(CPositionSet Pos_Fixed, CPositionSet Pos_Model, CPositionSet Pos_Offset)
         {
-            AxPushPullInfo.SetPosition(FixedPos, ModelPos, OffsetPos);
+            AxPushPullInfo.SetPositionSet(Pos_Fixed, Pos_Model, Pos_Offset);
             return SUCCESS;
         }
 
-        public int SetCenteringPosition(ECenterIndex index, CPosition FixedPos, CPosition ModelPos, CPosition OffsetPos)
+        public int SetPosition_Centering(ECenterIndex index, CPositionSet Pos_Fixed, CPositionSet Pos_Model, CPositionSet Pos_Offset)
         {
-            AxCenterInfo[(int)index].SetPosition(FixedPos, ModelPos, OffsetPos);
+            AxCenterInfo[(int)index].SetPositionSet(Pos_Fixed, Pos_Model, Pos_Offset);
             return SUCCESS;
         }
         #endregion

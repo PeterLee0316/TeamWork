@@ -147,17 +147,18 @@ namespace LWDicer.UI
             HeaderList.Add(NewHeader);
             CMainFrame.DataManager.SaveModelHeaderList(ListType);
 
-            FormClose(DialogResult.OK);
+            this.DialogResult = DialogResult.OK;
+            this.Close();
         }
 
         private void BtnCancel_Click(object sender, EventArgs e)
         {
-            FormClose(DialogResult.Cancel);
+            this.DialogResult = DialogResult.Cancel;
+            this.Close();
         }
 
         private void FormCreateMaker_FormClosing(object sender, FormClosingEventArgs e)
         {
-
         }
 
         private void FormCreateMaker_Load(object sender, EventArgs e)

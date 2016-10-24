@@ -32,7 +32,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormTopScreen));
             this.TextMessage = new System.Windows.Forms.TextBox();
             this.TextTime = new System.Windows.Forms.TextBox();
-            this.tmFormTop = new System.Windows.Forms.Timer(this.components);
+            this.TimerUI = new System.Windows.Forms.Timer(this.components);
             this.BtnUserLogin = new System.Windows.Forms.Button();
             this.btnExit = new System.Windows.Forms.Button();
             this.btnStart = new System.Windows.Forms.Button();
@@ -70,9 +70,9 @@
             this.TextTime.Size = new System.Drawing.Size(241, 15);
             this.TextTime.TabIndex = 1;
             // 
-            // tmFormTop
+            // TimerUI
             // 
-            this.tmFormTop.Tick += new System.EventHandler(this.tmFormTop_Tick);
+            this.TimerUI.Tick += new System.EventHandler(this.TimerUI_Tick);
             // 
             // BtnUserLogin
             // 
@@ -279,7 +279,7 @@
 
         private System.Windows.Forms.TextBox TextMessage;
         private System.Windows.Forms.TextBox TextTime;
-        private System.Windows.Forms.Timer tmFormTop;
+        private System.Windows.Forms.Timer TimerUI;
         private System.Windows.Forms.Button BtnUserLogin;
         private System.Windows.Forms.Button btnExit;
         private System.Windows.Forms.Button btnStart;

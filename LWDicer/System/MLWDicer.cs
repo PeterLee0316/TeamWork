@@ -197,6 +197,8 @@ namespace LWDicer.Layers
 
         public void CloseSystem()
         {
+            StopThreads();
+
 #if !SIMULATION_VISION
             m_Vision.CloseVisionSystem();
             m_ACS.CloseController();
@@ -336,7 +338,13 @@ namespace LWDicer.Layers
             CMainFrame.DisplayMsg(str);
         }
 
-        public int Initialize(CMainFrame form1 = null)
+        /// <summary>
+        /// UI 와의 연결을 위해서 form 과 MDataManager를 먼저 define
+        /// </summary>
+        /// <param name="form1"></param>
+        /// <param name="dataManager"></param>
+        /// <returns></returns>
+        public int Initialize(CMainFrame form1, out MDataManager dataManager)
         {
             int iResult = SUCCESS;
             TestFunction_BeforeInit();
@@ -364,6 +372,9 @@ namespace LWDicer.Layers
             // DataManager
             m_SystemInfo.GetObjectInfo(1, out objInfo);
             m_DataManager = new MDataManager(objInfo, dbInfo);
+            dataManager = m_DataManager;
+            iResult = m_DataManager.Initialize();
+            CMainFrame.DisplayAlarmOnly(iResult);
 
             intro.SetStatus("Init Hardware Layer", 20);
 
@@ -375,24 +386,26 @@ namespace LWDicer.Layers
             // Motion
             m_SystemInfo.GetObjectInfo(3, out objInfo);
             iResult = CreateYMCBoard(objInfo);
-            //if (iResult != SUCCESS) return iResult;
+            CMainFrame.DisplayAlarmOnly(iResult);
 
             m_SystemInfo.GetObjectInfo(4, out objInfo);
             iResult = CreateACSChannel(objInfo);
-            //if (iResult != SUCCESS) return iResult;
+            CMainFrame.DisplayAlarmOnly(iResult);
 
             ////////////////////////////////////////////////////////////////////////
             // MultiAxes
             iResult = CreateMultiAxes_YMC();
-            //if (iResult != SUCCESS) return iResult;
-            m_AxUpperHandler.UpdateAxisStatus();
+            CMainFrame.DisplayAlarmOnly(iResult);
 
             iResult = CreateMultiAxes_ACS();
+            CMainFrame.DisplayAlarmOnly(iResult);
 
             ////////////////////////////////////////////////////////////////////////
             // IO
             m_SystemInfo.GetObjectInfo(6, out objInfo);
             m_IO = new MIO_YMC(objInfo);
+            iResult = m_IO.Initialize();
+            CMainFrame.DisplayAlarmOnly(iResult);
 
             ////////////////////////////////////////////////////////////////////////
             // Cylinder
@@ -408,7 +421,8 @@ namespace LWDicer.Layers
             cylData.Solenoid[1] = oUHandler_Down2;
 
             m_SystemInfo.GetObjectInfo(100, out objInfo);
-            CreateCylinder(objInfo, cylData, (int)EObjectCylinder.PUSHPULL_GRIPPER, out m_PushPullGripperCyl);
+            iResult = CreateCylinder(objInfo, cylData, (int)EObjectCylinder.PUSHPULL_GRIPPER, out m_PushPullGripperCyl);
+            CMainFrame.DisplayAlarmOnly(iResult);
 
             // PushPullUDCyl
             cylData = new CCylinderData();
@@ -420,7 +434,8 @@ namespace LWDicer.Layers
             cylData.Solenoid[1] = oUHandler_Down2;
 
             m_SystemInfo.GetObjectInfo(101, out objInfo);
-            CreateCylinder(objInfo, cylData, (int)EObjectCylinder.PUSHPULL_UD, out m_PushPullUDCyl);
+            iResult = CreateCylinder(objInfo, cylData, (int)EObjectCylinder.PUSHPULL_UD, out m_PushPullUDCyl);
+            CMainFrame.DisplayAlarmOnly(iResult);
 
             // Spinner1
             // Spin Coater Up & Down Cylinder
@@ -433,7 +448,8 @@ namespace LWDicer.Layers
             cylData.Solenoid[1] = oStage1_Down;
 
             m_SystemInfo.GetObjectInfo(102, out objInfo);
-            CreateCylinder(objInfo, cylData, (int)EObjectCylinder.SPINNER1_UD, out m_Spinner1UDCyl);
+            iResult = CreateCylinder(objInfo, cylData, (int)EObjectCylinder.SPINNER1_UD, out m_Spinner1UDCyl);
+            CMainFrame.DisplayAlarmOnly(iResult);
 
             // Spin Coater DI Valve Open Close Cylinder
             cylData = new CCylinderData();
@@ -442,7 +458,8 @@ namespace LWDicer.Layers
             cylData.Solenoid[0] = oCoat_DI;
 
             m_SystemInfo.GetObjectInfo(103, out objInfo);
-            CreateCylinder(objInfo, cylData, (int)EObjectCylinder.SPINNER1_DI, out m_Spinner1DICyl);
+            iResult = CreateCylinder(objInfo, cylData, (int)EObjectCylinder.SPINNER1_DI, out m_Spinner1DICyl);
+            CMainFrame.DisplayAlarmOnly(iResult);
 
             // Spin Coater PVA Valve Open Close Cylinder
             cylData = new CCylinderData();
@@ -451,7 +468,8 @@ namespace LWDicer.Layers
             cylData.Solenoid[0] = oCoat_PVA;
 
             m_SystemInfo.GetObjectInfo(104, out objInfo);
-            CreateCylinder(objInfo, cylData, (int)EObjectCylinder.SPINNER1_PVA, out m_Spinner1PVACyl);
+            iResult = CreateCylinder(objInfo, cylData, (int)EObjectCylinder.SPINNER1_PVA, out m_Spinner1PVACyl);
+            CMainFrame.DisplayAlarmOnly(iResult);
 
             // Spin Cleaner Up & Down Cylinder
             cylData = new CCylinderData();
@@ -463,8 +481,8 @@ namespace LWDicer.Layers
             cylData.Solenoid[1] = oStage2_Down;
 
             m_SystemInfo.GetObjectInfo(105, out objInfo);
-            CreateCylinder(objInfo, cylData, (int)EObjectCylinder.SPINNER2_UD, out m_Spinner2UDCyl);
-
+            iResult = CreateCylinder(objInfo, cylData, (int)EObjectCylinder.SPINNER2_UD, out m_Spinner2UDCyl);
+            CMainFrame.DisplayAlarmOnly(iResult);
 
             // Spin Cleaner DI Valve Open Close Cylinder
             cylData = new CCylinderData();
@@ -473,7 +491,8 @@ namespace LWDicer.Layers
             cylData.Solenoid[0] = oClean_DI;
 
             m_SystemInfo.GetObjectInfo(106, out objInfo);
-            CreateCylinder(objInfo, cylData, (int)EObjectCylinder.SPINNER2_DI, out m_Spinner2DICyl);
+            iResult = CreateCylinder(objInfo, cylData, (int)EObjectCylinder.SPINNER2_DI, out m_Spinner2DICyl);
+            CMainFrame.DisplayAlarmOnly(iResult);
 
             // Spin Cleaner N2 Valve Open Close Cylinder
             cylData = new CCylinderData();
@@ -482,7 +501,8 @@ namespace LWDicer.Layers
             cylData.Solenoid[0] = oClean_N2;
 
             m_SystemInfo.GetObjectInfo(107, out objInfo);
-            CreateCylinder(objInfo, cylData, (int)EObjectCylinder.SPINNER2_PVA, out m_Spinner2PVACyl);
+            iResult = CreateCylinder(objInfo, cylData, (int)EObjectCylinder.SPINNER2_PVA, out m_Spinner2PVACyl);
+            CMainFrame.DisplayAlarmOnly(iResult);
 
             // Stage Clamp 1 Open Close Cylinder
             cylData = new CCylinderData();
@@ -492,7 +512,8 @@ namespace LWDicer.Layers
             cylData.Solenoid[1] = oStageClamp1_Close;
 
             m_SystemInfo.GetObjectInfo(108, out objInfo);
-            CreateCylinder(objInfo, cylData, (int)EObjectCylinder.STAGE_CLAMP1, out m_StageClamp1);
+            iResult = CreateCylinder(objInfo, cylData, (int)EObjectCylinder.STAGE_CLAMP1, out m_StageClamp1);
+            CMainFrame.DisplayAlarmOnly(iResult);
 
             // Stage Clamp 2 Open Close Cylinder
             cylData = new CCylinderData();
@@ -502,7 +523,8 @@ namespace LWDicer.Layers
             cylData.Solenoid[1] = oStageClamp2_Close;
 
             m_SystemInfo.GetObjectInfo(109, out objInfo);
-            CreateCylinder(objInfo, cylData, (int)EObjectCylinder.STAGE_CLAMP2, out m_StageClamp2);
+            iResult = CreateCylinder(objInfo, cylData, (int)EObjectCylinder.STAGE_CLAMP2, out m_StageClamp2);
+            CMainFrame.DisplayAlarmOnly(iResult);
 
             ////////////////////////////////////////////////////////////////////////
             // Vacuum
@@ -514,7 +536,8 @@ namespace LWDicer.Layers
             vacData.Solenoid[1] = oStage1_Vac_Off;
 
             m_SystemInfo.GetObjectInfo(150, out objInfo);
-            CreateVacuum(objInfo, vacData, (int)EObjectVacuum.STAGE1, out m_Stage1Vac);
+            iResult = CreateVacuum(objInfo, vacData, (int)EObjectVacuum.STAGE1, out m_Stage1Vac);
+            CMainFrame.DisplayAlarmOnly(iResult);
 
             // Spinner1 Vacuum
             vacData = new CVacuumData();
@@ -525,7 +548,8 @@ namespace LWDicer.Layers
             vacData.Solenoid[2] = oStage2_Blow;
 
             m_SystemInfo.GetObjectInfo(151, out objInfo);
-            CreateVacuum(objInfo, vacData, (int)EObjectVacuum.SPINNER1, out m_Spinner1Vac);
+            iResult = CreateVacuum(objInfo, vacData, (int)EObjectVacuum.SPINNER1, out m_Spinner1Vac);
+            CMainFrame.DisplayAlarmOnly(iResult);
 
             // Spinner2 Vacuum
             vacData = new CVacuumData();
@@ -536,7 +560,8 @@ namespace LWDicer.Layers
             vacData.Solenoid[2] = oStage3_Blow;
 
             m_SystemInfo.GetObjectInfo(152, out objInfo);
-            CreateVacuum(objInfo, vacData, (int)EObjectVacuum.SPINNER2, out m_Spinner2Vac);
+            iResult = CreateVacuum(objInfo, vacData, (int)EObjectVacuum.SPINNER2, out m_Spinner2Vac);
+            CMainFrame.DisplayAlarmOnly(iResult);
 
             // UpperHandler
             // UpperHandler Self Vacuum
@@ -547,7 +572,8 @@ namespace LWDicer.Layers
             vacData.Solenoid[1] = oUHandler_Self_Vac_Off;
 
             m_SystemInfo.GetObjectInfo(153, out objInfo);
-            CreateVacuum(objInfo, vacData, (int)EObjectVacuum.UPPER_HANDLER_SELF, out m_UHandlerSelfVac);
+            iResult = CreateVacuum(objInfo, vacData, (int)EObjectVacuum.UPPER_HANDLER_SELF, out m_UHandlerSelfVac);
+            CMainFrame.DisplayAlarmOnly(iResult);
 
             // UpperHandler Factory Vacuum
             vacData = new CVacuumData();
@@ -557,7 +583,8 @@ namespace LWDicer.Layers
             vacData.Solenoid[1] = oUHandler_Self_Vac_Off;
 
             m_SystemInfo.GetObjectInfo(154, out objInfo);
-            CreateVacuum(objInfo, vacData, (int)EObjectVacuum.UPPER_HANDLER_FACTORY, out m_UHandlerFactoryVac);
+            iResult = CreateVacuum(objInfo, vacData, (int)EObjectVacuum.UPPER_HANDLER_FACTORY, out m_UHandlerFactoryVac);
+            CMainFrame.DisplayAlarmOnly(iResult);
 
             // LowerHandler
             // LowerHandler Self Vacuum
@@ -568,7 +595,8 @@ namespace LWDicer.Layers
             //vacData.Solenoid[1] = oLHandler_Self_Vac_Off;
 
             m_SystemInfo.GetObjectInfo(155, out objInfo);
-            CreateVacuum(objInfo, vacData, (int)EObjectVacuum.LOWER_HANDLER_SELF, out m_LHandlerSelfVac);
+            iResult = CreateVacuum(objInfo, vacData, (int)EObjectVacuum.LOWER_HANDLER_SELF, out m_LHandlerSelfVac);
+            CMainFrame.DisplayAlarmOnly(iResult);
 
             // LowerHandler Factory Vacuum
             vacData = new CVacuumData();
@@ -578,36 +606,43 @@ namespace LWDicer.Layers
             //vacData.Solenoid[1] = oLHandler_Self_Vac_Off;
 
             m_SystemInfo.GetObjectInfo(156, out objInfo);
-            CreateVacuum(objInfo, vacData, (int)EObjectVacuum.LOWER_HANDLER_FACTORY, out m_LHandlerFactoryVac);
-
+            iResult = CreateVacuum(objInfo, vacData, (int)EObjectVacuum.LOWER_HANDLER_FACTORY, out m_LHandlerFactoryVac);
+            CMainFrame.DisplayAlarmOnly(iResult);
 
             ////////////////////////////////////////////////////////////////////////
             // Vision
             // Vision System
 
             m_SystemInfo.GetObjectInfo(40, out objInfo);
-            CreateVisionSystem(objInfo);
+            iResult = CreateVisionSystem(objInfo);
+            CMainFrame.DisplayAlarmOnly(iResult);
 
             // Vision Camera
             m_SystemInfo.GetObjectInfo(42, out objInfo);
-            CreateVisionCamera(objInfo, PRE__CAM);
+            iResult = CreateVisionCamera(objInfo, PRE__CAM);
+            CMainFrame.DisplayAlarmOnly(iResult);
 
             m_SystemInfo.GetObjectInfo(43, out objInfo);
-            CreateVisionCamera(objInfo, FINE_CAM);
+            iResult = CreateVisionCamera(objInfo, FINE_CAM);
+            CMainFrame.DisplayAlarmOnly(iResult);
 
             m_SystemInfo.GetObjectInfo(44, out objInfo);
-            CreateVisionCamera(objInfo, INSP_CAM);
+            iResult = CreateVisionCamera(objInfo, INSP_CAM);
+            CMainFrame.DisplayAlarmOnly(iResult);
 
 //#if !SIMULATION_VISION
             // Vision Display
             m_SystemInfo.GetObjectInfo(46, out objInfo);
-            CreateVisionVisionView(objInfo, PRE__CAM);
+            iResult = CreateVisionVisionView(objInfo, PRE__CAM);
+            CMainFrame.DisplayAlarmOnly(iResult);
 
             m_SystemInfo.GetObjectInfo(47, out objInfo);
-            CreateVisionVisionView(objInfo, FINE_CAM);
+            iResult = CreateVisionVisionView(objInfo, FINE_CAM);
+            CMainFrame.DisplayAlarmOnly(iResult);
 
             m_SystemInfo.GetObjectInfo(47, out objInfo);
-            CreateVisionVisionView(objInfo, INSP_CAM);
+            iResult = CreateVisionVisionView(objInfo, INSP_CAM);
+            CMainFrame.DisplayAlarmOnly(iResult);
 //#endif
 
 
@@ -720,18 +755,22 @@ namespace LWDicer.Layers
             // 5. Set Data
             ////////////////////////////////////////////////////////////////////////
             intro.SetStatus("Loading System Data", 60);
-            SetSystemDataToComponent(false);
+            iResult = SetSystemDataToComponent(false);
+            CMainFrame.DisplayAlarmOnly(iResult);
 
             intro.SetStatus("Loading Model Data", 70);
-            SetModelDataToComponent();
+            iResult = SetModelDataToComponent();
+            CMainFrame.DisplayAlarmOnly(iResult);
 
             intro.SetStatus("Loading Position Data", 80);
-            SetPositionDataToComponent();
+            iResult = SetPositionDataToComponent();
+            CMainFrame.DisplayAlarmOnly(iResult);
 
             ////////////////////////////////////////////////////////////////////////
             // 6. Start Thread & System
             ////////////////////////////////////////////////////////////////////////
-            m_YMC.ThreadStart();
+            iResult = m_YMC.ThreadStart();
+            CMainFrame.DisplayAlarmOnly(iResult);
 
             intro.SetStatus("Process Start", 90);
 
@@ -742,7 +781,8 @@ namespace LWDicer.Layers
 
             intro.Hide();
 
-            m_DataManager.Logout(); // logoff maker
+            iResult = m_DataManager.Logout(); // logoff maker
+            CMainFrame.DisplayAlarmOnly(iResult);
 
             return SUCCESS;
         }
@@ -1109,16 +1149,17 @@ namespace LWDicer.Layers
             // Pattern Model Data Read & Apply
             CModelData pModelData;
             m_DataManager.ViewModelData("Default", out pModelData);
-            
-            int iResult = SaveModelData(pModelData);
 
-            if (iResult == SUCCESS)
-            {
-                m_Vision.ReLoadPatternMark(PRE__CAM, PATTERN_A, m_DataManager.ModelData.MacroPatternA);
-                m_Vision.ReLoadPatternMark(PRE__CAM, PATTERN_B, m_DataManager.ModelData.MacroPatternB);
-                m_Vision.ReLoadPatternMark(FINE_CAM, PATTERN_A, m_DataManager.ModelData.MicroPatternA);
-                m_Vision.ReLoadPatternMark(FINE_CAM, PATTERN_B, m_DataManager.ModelData.MicroPatternB);
-            }            
+            // LJJ need to edit
+            //int iResult = SaveModelData(pModelData);
+
+            //if (iResult == SUCCESS)
+            //{
+            //    m_Vision.ReLoadPatternMark(PRE__CAM, PATTERN_A, m_DataManager.ModelData.MacroPatternA);
+            //    m_Vision.ReLoadPatternMark(PRE__CAM, PATTERN_B, m_DataManager.ModelData.MacroPatternB);
+            //    m_Vision.ReLoadPatternMark(FINE_CAM, PATTERN_A, m_DataManager.ModelData.MicroPatternA);
+            //    m_Vision.ReLoadPatternMark(FINE_CAM, PATTERN_B, m_DataManager.ModelData.MicroPatternB);
+            //}            
         }
 
         void CreateScanner(CObjectInfo objInfo)
@@ -1221,7 +1262,7 @@ namespace LWDicer.Layers
         void CreateCtrlSpinner1(CObjectInfo objInfo)
         {
             CCtrlSpinnerRefComp refComp = new CCtrlSpinnerRefComp();
-            CSpinnerData data = m_DataManager.ModelData.SpinnerData;
+            CCtrlSpinnerData data = m_DataManager.ModelData.SpinnerData[(int)ESpinnerIndex.SPINNER1];
 
             refComp.Spinner = m_MeSpinner1;
 
@@ -1231,7 +1272,7 @@ namespace LWDicer.Layers
         void CreateCtrlSpinner2(CObjectInfo objInfo)
         {
             CCtrlSpinnerRefComp refComp = new CCtrlSpinnerRefComp();
-            CSpinnerData data = m_DataManager.ModelData.SpinnerData;
+            CCtrlSpinnerData data = m_DataManager.ModelData.SpinnerData[(int)ESpinnerIndex.SPINNER2];
 
             refComp.Spinner = m_MeSpinner2;
 
@@ -1404,26 +1445,32 @@ namespace LWDicer.Layers
         }
 
         public int SaveSystemData(CSystemData system = null, CSystemData_Axis systemAxis = null,
-            CSystemData_Cylinder systemCylinder = null, CSystemData_Vacuum systemVacuum = null)
+            CSystemData_Cylinder systemCylinder = null, CSystemData_Vacuum systemVacuum = null,
+            CSystemData_Align systemAlign = null, CSystemData_Scanner systemScanner = null,
+            CSystemData_Light systemLight = null)
         {
             int iResult;
 
             // save
-            iResult = m_DataManager.SaveSystemData(system, systemAxis, systemCylinder, systemVacuum);
-            if (iResult != SUCCESS) return SUCCESS;
+            iResult = m_DataManager.SaveSystemData(system, systemAxis, systemCylinder, systemVacuum, systemAlign, systemScanner, systemLight);
+            if (iResult != SUCCESS) return iResult;
 
             // set
-            SetSystemDataToComponent();
+            iResult = SetSystemDataToComponent();
+            if (iResult != SUCCESS) return iResult;
 
             return SUCCESS;
         }
 
-        private void SetSystemDataToComponent(bool bLoadFromDB = true)
+        private int SetSystemDataToComponent(bool bLoadFromDB = true)
         {
-            if(bLoadFromDB)
+            int iResult;
+            if (bLoadFromDB)
             {
-                m_DataManager.LoadSystemData();
-                m_DataManager.LoadModelList();
+                iResult = m_DataManager.LoadSystemData();
+                if (iResult != SUCCESS) return iResult;
+                iResult = m_DataManager.LoadModelList();
+                if (iResult != SUCCESS) return iResult;
             }
 
             CSystemData systemData = m_DataManager.SystemData;
@@ -1440,7 +1487,7 @@ namespace LWDicer.Layers
             //////////////////////////////////////////////////////////////////
             // Mechanical Layer
 
-            // MeElevator
+            // Loader
             {
                 CMeElevatorData data;
                 m_MeElevator.GetData(out data);
@@ -1448,16 +1495,17 @@ namespace LWDicer.Layers
                 m_MeElevator.SetData(data);
             }
 
-            // MeHandler
+            // Handler
             {
-                // Load Upper Handler
                 CMeHandlerData data;
                 m_MeUpperHandler.GetData(out data);
                 data.HandlerSafetyPos = systemData.MAxSafetyPos.UHandler_Pos;
 
                 m_MeUpperHandler.SetData(data);
+            }
 
-                // Unload Lower Handler
+            {
+                CMeHandlerData data;
                 m_MeLowerHandler.GetData(out data);
                 data.HandlerSafetyPos = systemData.MAxSafetyPos.LHandler_Pos;
 
@@ -1471,7 +1519,10 @@ namespace LWDicer.Layers
                 data.CleanNozzleSafetyPos = systemData.MAxSafetyPos.S1_CleanNozzel_Pos;
                 data.CoatNozzleSafetyPos = systemData.MAxSafetyPos.S1_CoatNozzel_Pos;
                 m_MeSpinner1.SetData(data);
+            }
 
+            { 
+                CMeSpinnerData data;
                 m_MeSpinner2.GetData(out data);
                 data.CleanNozzleSafetyPos = systemData.MAxSafetyPos.S2_CleanNozzel_Pos;
                 data.CoatNozzleSafetyPos = systemData.MAxSafetyPos.S2_CoatNozzel_Pos;
@@ -1526,6 +1577,55 @@ namespace LWDicer.Layers
             //////////////////////////////////////////////////////////////////
             // Control Layer
 
+            // Loader
+            {
+                CCtrlLoaderData data;
+                m_ctrlLoader.GetData(out data);
+
+                m_ctrlLoader.SetData(data);
+            }
+
+            // PushPull
+            {
+                CCtrlPushPullData data;
+                m_ctrlPushPull.GetData(out data);
+
+                m_ctrlPushPull.SetData(data);
+            }
+
+            // Spinner
+            {
+                CCtrlSpinnerData data;
+                m_ctrlSpinner1.GetData(out data);
+
+                m_ctrlSpinner1.SetData(data);
+            }
+
+            {
+                CCtrlSpinnerData data;
+                m_ctrlSpinner2.GetData(out data);
+                 
+                m_ctrlSpinner2.SetData(data);
+            }
+
+            // Handler
+            {
+                CCtrlHandlerData data;
+                m_ctrlHandler.GetData(out data);
+
+                m_ctrlHandler.SetData(data);
+            }
+
+            // Stage1
+            {
+                CCtrlStage1Data data;
+                m_ctrlStage1.GetData(out data);
+
+                // System Data에 있는 Vision Data를 적용한다.
+                //data.Vision = m_DataManager.SystemData_Align;
+
+                m_ctrlStage1.SetData(data);
+            }
 
             //////////////////////////////////////////////////////////////////
             // Process Layer
@@ -1580,26 +1680,68 @@ namespace LWDicer.Layers
                 data.ThreadHandshake_byOneStep = systemData.ThreadHandshake_byOneStep;
                 m_trsStage1.SetData(data);
             }
-            
+
+            return SUCCESS;   
         }
 
         public int SaveModelData(CModelData modelData)
         {
-            int iResult;
-
             // save
-            iResult = m_DataManager.SaveModelData(modelData);
-            if (iResult != SUCCESS) return SUCCESS;
+            int iResult = m_DataManager.SaveModelData(modelData);
+            if (iResult != SUCCESS) return iResult;
 
             // set
-            SetModelDataToComponent();
+            iResult = SetModelDataToComponent();
+            if (iResult != SUCCESS) return iResult;
 
             return SUCCESS;
         }
 
-        public void SetModelDataToComponent()
+        public int SaveModelData(CWaferFrame data)
         {
+            // save
+            int iResult = m_DataManager.SaveModelData(data);
+            if (iResult != SUCCESS) return iResult;
+
+            // set
+            iResult = SetModelDataToComponent();
+            if (iResult != SUCCESS) return iResult;
+
+            return SUCCESS;
+        }
+
+        public int SaveModelData(CWaferCassette data)
+        {
+            // save
+            int iResult = m_DataManager.SaveModelData(data);
+            if (iResult != SUCCESS) return iResult;
+
+            // set
+            iResult = SetModelDataToComponent();
+            if (iResult != SUCCESS) return iResult;
+
+            return SUCCESS;
+        }
+
+        public int SaveUserData(CUserInfo data)
+        {
+            // save
+            int iResult = m_DataManager.SaveUserData(data);
+            if (iResult != SUCCESS) return iResult;
+
+            // set
+            //iResult = SetModelDataToComponent();
+            //if (iResult != SUCCESS) return iResult;
+
+            return SUCCESS;
+        }
+
+        public int SetModelDataToComponent()
+        {
+            int iResult;
             //m_DataManager.ChangeModel(m_DataManager.SystemData.ModelName);
+
+            CModelData modelData = m_DataManager.ModelData;
 
             // set model data to each component
 
@@ -1610,69 +1752,231 @@ namespace LWDicer.Layers
             //////////////////////////////////////////////////////////////////
             // Mechanical Layer
 
-            // MMeHandler
-            m_MeUpperHandler.SetCylUseFlag(m_DataManager.ModelData.MeUH_UseMainCylFlag,
-                m_DataManager.ModelData.MeUH_UseSubCylFlag, m_DataManager.ModelData.MeUH_UseGuideCylFlag);
-            m_MeUpperHandler.SetVccUseFlag(m_DataManager.ModelData.MeUH_UseVccFlag);
+            // Loader
+            {
+                CMeElevatorData data;
+                m_MeElevator.GetData(out data);
 
-            m_MeLowerHandler.SetCylUseFlag(m_DataManager.ModelData.MeLH_UseMainCylFlag,
-                m_DataManager.ModelData.MeLH_UseSubCylFlag, m_DataManager.ModelData.MeLH_UseGuideCylFlag);
-            m_MeLowerHandler.SetVccUseFlag(m_DataManager.ModelData.MeLH_UseVccFlag);
+                m_MeElevator.SetData(data);
+            }
+
+            // PushPull
+            {
+                CMePushPullData data;
+                m_MePushPull.GetData(out data);
+
+                m_MePushPull.SetData(data);
+            }
+
+            // Spinner
+            {
+                CMeSpinnerData data;
+                m_MeSpinner1.GetData(out data);
+
+                m_MeSpinner1.SetData(data);
+            }
+
+            {
+                CMeSpinnerData data;
+                m_MeSpinner2.GetData(out data);
+
+                m_MeSpinner2.SetData(data);
+            }
+
+
+            // Handler
+            {
+                CMeHandlerData data;
+                m_MeUpperHandler.GetData(out data);
+
+                m_MeUpperHandler.SetData(data);
+
+                iResult = m_MeUpperHandler.SetCylUseFlag(modelData.MeUH_UseMainCylFlag, modelData.MeUH_UseSubCylFlag, modelData.MeUH_UseGuideCylFlag);
+                if (iResult != SUCCESS) return iResult;
+                iResult = m_MeUpperHandler.SetVccUseFlag(modelData.MeUH_UseVccFlag);
+                if (iResult != SUCCESS) return iResult;
+            }
+
+            {
+                CMeHandlerData data;
+                m_MeLowerHandler.GetData(out data);
+
+                m_MeLowerHandler.SetData(data);
+
+                iResult = m_MeLowerHandler.SetCylUseFlag(modelData.MeLH_UseMainCylFlag, modelData.MeLH_UseSubCylFlag, modelData.MeLH_UseGuideCylFlag);
+                if (iResult != SUCCESS) return iResult;
+                iResult = m_MeLowerHandler.SetVccUseFlag(modelData.MeLH_UseVccFlag);
+                if (iResult != SUCCESS) return iResult;
+            }
 
 
             // Stage 1
-            CMeStageData MeStageData;
-            m_MeStage.GetData(out MeStageData);
+            {
+                CMeStageData data;
+                m_MeStage.GetData(out data);
 
-            MeStageData.StageSafetyPos = m_DataManager.SystemData.MAxSafetyPos.Stage_Pos;
+                //data.StageSafetyPos = m_DataManager.SystemData.MAxSafetyPos.Stage_Pos;
 
-            ////Intex Move Length  // LJJ 수정
-            //MeStageData.IndexWidth = m_DataManager.ModelData.StageIndexWidth;
-            //MeStageData.IndexHeight = m_DataManager.ModelData.StageIndexHeight;
-            //MeStageData.IndexRotate = m_DataManager.ModelData.StageIndexRotate;
+                ////Intex Move Length  // LJJ 수정
+                //data.IndexWidth = modelData.StageIndexWidth;
+                //data.IndexHeight = modelData.StageIndexHeight;
+                //data.IndexRotate = modelData.StageIndexRotate;
 
-            //// Align Mark A,B의 거리를 적용한다.
-            //// 비율을 설정하면 Wafer의 사이즈에 따라서.. 거리를 계산한다.
-            //MeStageData.AlignMarkWidthRatio = m_DataManager.ModelData.AlignMarkWidthRatio;
-            //MeStageData.AlignMarkWidthLen = m_DataManager.ModelData.Wafer.Size_X * MeStageData.AlignMarkWidthRatio;
+                //// Align Mark A,B의 거리를 적용한다.
+                //// 비율을 설정하면 Wafer의 사이즈에 따라서.. 거리를 계산한다.
+                //data.AlignMarkWidthRatio = modelData.AlignMarkWidthRatio;
+                //data.AlignMarkWidthLen = modelData.Wafer.Size_X * data.AlignMarkWidthRatio;
 
 
-            m_MeStage.SetData(MeStageData);
+                m_MeStage.SetData(data);
+            }
 
 
             // Jog Speed
 
-            
+
 
             //////////////////////////////////////////////////////////////////
             // Control Layer
 
-            CCtrlStage1Data CtrlStage1Data;
-           // m_ctrlStage1.GetData(out CtrlStage1Data);
+            // Loader
+            {
+                CCtrlLoaderData data;
+                m_ctrlLoader.GetData(out data);
 
-            // System Data에 있는 Vision Data를 적용한다.
-            //CtrlStage1Data.Vision = m_DataManager.SystemData_Align;
+                m_ctrlLoader.SetData(data);
+            }
 
-            //m_ctrlStage1.SetData(CtrlStage1Data);
+            // PushPull
+            {
+                CCtrlPushPullData data;
+                m_ctrlPushPull.GetData(out data);
+
+                m_ctrlPushPull.SetData(data);
+            }
+
+            // Spinner
+            {
+                CCtrlSpinnerData data;
+                m_ctrlSpinner1.GetData(out data);
+
+                data.CoaterData = ObjectExtensions.Copy(modelData.SpinnerData[(int)ESpinnerIndex.SPINNER1].CoaterData);
+                data.CleanerData = ObjectExtensions.Copy(modelData.SpinnerData[(int)ESpinnerIndex.SPINNER1].CleanerData);
+
+                m_ctrlSpinner1.SetData(data);
+            }
+
+            {
+                CCtrlSpinnerData data;
+                m_ctrlSpinner2.GetData(out data);
+
+                data.CoaterData = ObjectExtensions.Copy(modelData.SpinnerData[(int)ESpinnerIndex.SPINNER2].CoaterData);
+                data.CleanerData = ObjectExtensions.Copy(modelData.SpinnerData[(int)ESpinnerIndex.SPINNER2].CleanerData);
+
+                m_ctrlSpinner2.SetData(data);
+            }
+
+            // Handler
+            {
+                CCtrlHandlerData data;
+                m_ctrlHandler.GetData(out data);
+
+                m_ctrlHandler.SetData(data);
+            }
+
+            // Stage1
+            {
+                CCtrlStage1Data data;
+                m_ctrlStage1.GetData(out data);
+
+                // System Data에 있는 Vision Data를 적용한다.
+                //data.Vision = m_DataManager.SystemData_Align;
+
+                m_ctrlStage1.SetData(data);
+            }
 
             //////////////////////////////////////////////////////////////////
             // Process Layer
+            // Loader
+            {
+                CTrsLoaderData data;
+                m_trsLoader.GetData(out data);
 
+                m_trsLoader.SetData(data);
+            }
 
+            // PushPull
+            {
+                CTrsPushPullData data;
+                m_trsPushPull.GetData(out data);
+
+                m_trsPushPull.SetData(data);
+            }
+
+            // Spinner
+            {
+                CTrsSpinnerData data;
+                m_trsSpinner1.GetData(out data);
+
+                m_trsSpinner1.SetData(data);
+            }
+
+            {
+                CTrsSpinnerData data;
+                m_trsSpinner2.GetData(out data);
+
+                m_trsSpinner2.SetData(data);
+            }
+
+            // Handler
+            {
+                CTrsHandlerData data;
+                m_trsHandler.GetData(out data);
+
+                m_trsHandler.SetData(data);
+            }
+
+            // Stage1
+            {
+                CTrsStage1Data data;
+                m_trsStage1.GetData(out data);
+
+                m_trsStage1.SetData(data);
+            }
+
+            return SUCCESS;
         }
 
-        public void SetPositionDataToComponent(EPositionGroup unit = EPositionGroup.ALL)
+        public int GetPositionGroup(out CPositionGroup tGroup, bool bType_Fixed)
         {
-            m_DataManager.LoadPositionData(true, unit);
-            m_DataManager.LoadPositionData(false, unit);
-            m_DataManager.GenerateModelPosition();
+            if (bType_Fixed == true) tGroup = ObjectExtensions.Copy(m_DataManager.Pos_Fixed);
+            else tGroup = ObjectExtensions.Copy(m_DataManager.Pos_Offset);
 
-            CPositionData FixedPos = m_DataManager.FixedPos;
-            CPositionData ModelPos = m_DataManager.ModelPos;
-            CPositionData OffsetPos = m_DataManager.OffsetPos;
+            return SUCCESS;
+        }
+
+        public int SavePosition(CPositionGroup tGroup, bool bType_Fixed, EPositionObject unit)
+        {
+            // save
+            int iResult = m_DataManager.SavePositionData(tGroup, bType_Fixed, unit);
+            if (iResult != SUCCESS) return iResult;
+
+            // set to component
+            iResult = SetPositionDataToComponent(unit);
+            if (iResult != SUCCESS) return iResult;
+
+            return SUCCESS;
+        }
+
+        private int SetPositionDataToComponent(EPositionObject unit = EPositionObject.ALL)
+        {
+            int iResult;
+            CPositionGroup Pos_Fixed = m_DataManager.Pos_Fixed;
+            CPositionGroup Pos_Model = m_DataManager.Pos_Model;
+            CPositionGroup Pos_Offset = m_DataManager.Pos_Offset;
 
             // set position data to each component
-
+            int index;
             //////////////////////////////////////////////////////////////////
             // Hardware Layer
 
@@ -1680,47 +1984,104 @@ namespace LWDicer.Layers
             // Mechanical Layer
 
             // Loader
-            if (unit == EPositionGroup.ALL || unit == EPositionGroup.LOADER)
+            if (unit == EPositionObject.ALL || unit == EPositionObject.LOADER)
             {
-                m_MeElevator.SetElevatorPosition(FixedPos.LoaderPos, ModelPos.LoaderPos, OffsetPos.LoaderPos);
+                index = (int)EPositionObject.LOADER;
+                iResult = m_MeElevator.SetPosition_Elevator(Pos_Fixed.Pos_Array[index], Pos_Model.Pos_Array[index], Pos_Offset.Pos_Array[index]);
+                if (iResult != SUCCESS) return iResult;
             }
 
             // PushPull
-            if (unit == EPositionGroup.ALL || unit == EPositionGroup.PUSHPULL)
+            if (unit == EPositionObject.ALL || unit == EPositionObject.PUSHPULL)
             {
-                m_MePushPull.SetPushPullPosition(FixedPos.PushPullPos, ModelPos.PushPullPos, OffsetPos.PushPullPos);
-                m_MePushPull.SetCenteringPosition(DEF_MePushPull.ECenterIndex.LEFT, FixedPos.Centering1Pos, ModelPos.Centering1Pos, OffsetPos.Centering1Pos);
-                m_MePushPull.SetCenteringPosition(DEF_MePushPull.ECenterIndex.RIGHT, FixedPos.Centering2Pos, ModelPos.Centering2Pos, OffsetPos.Centering2Pos);
+                index = (int)EPositionObject.LOADER;
+                iResult = m_MePushPull.SetPosition_PushPull(Pos_Fixed.Pos_Array[index], Pos_Model.Pos_Array[index], Pos_Offset.Pos_Array[index]);
+                if (iResult != SUCCESS) return iResult;
+            }
+            if (unit == EPositionObject.ALL || unit == EPositionObject.PUSHPULL_CENTER1)
+            {
+                index = (int)EPositionObject.PUSHPULL_CENTER1;
+                iResult = m_MePushPull.SetPosition_Centering(DEF_MePushPull.ECenterIndex.LEFT, Pos_Fixed.Pos_Array[index], Pos_Model.Pos_Array[index], Pos_Offset.Pos_Array[index]);
+                if (iResult != SUCCESS) return iResult;
+            }
+            if (unit == EPositionObject.ALL || unit == EPositionObject.PUSHPULL_CENTER2)
+            {
+                index = (int)EPositionObject.PUSHPULL_CENTER2;
+                iResult = m_MePushPull.SetPosition_Centering(DEF_MePushPull.ECenterIndex.RIGHT, Pos_Fixed.Pos_Array[index], Pos_Model.Pos_Array[index], Pos_Offset.Pos_Array[index]);
+                if (iResult != SUCCESS) return iResult;
             }
 
             // Spinner
-            if (unit == EPositionGroup.ALL || unit == EPositionGroup.SPINNER1)
+            if (unit == EPositionObject.ALL || unit == EPositionObject.S1_ROTATE)
             {
-                m_MeSpinner1.SetRotatePosition(FixedPos.S1_RotatePos, ModelPos.S1_RotatePos, OffsetPos.S1_RotatePos);
-                m_MeSpinner1.SetCleanPosition(FixedPos.S1_CleanerPos, ModelPos.S1_CleanerPos, OffsetPos.S1_CleanerPos);
-                m_MeSpinner1.SetCoatPosition(FixedPos.S1_CoaterPos, ModelPos.S1_CoaterPos, OffsetPos.S1_CoaterPos);
+                index = (int)EPositionObject.S1_ROTATE;
+                iResult = m_MeSpinner1.SetPosition_Rotate(Pos_Fixed.Pos_Array[index], Pos_Model.Pos_Array[index], Pos_Offset.Pos_Array[index]);
+                if (iResult != SUCCESS) return iResult;
+            }
+            if (unit == EPositionObject.ALL || unit == EPositionObject.S1_CLEAN_NOZZLE)
+            {
+                index = (int)EPositionObject.S1_CLEAN_NOZZLE;
+                iResult = m_MeSpinner1.SetPosition_CleanNozzle(Pos_Fixed.Pos_Array[index], Pos_Model.Pos_Array[index], Pos_Offset.Pos_Array[index]);
+                if (iResult != SUCCESS) return iResult;
+            }
+            if (unit == EPositionObject.ALL || unit == EPositionObject.S1_COAT_NOZZLE)
+            {
+                index = (int)EPositionObject.S1_COAT_NOZZLE;
+                iResult = m_MeSpinner1.SetPosition_CoatNozzle(Pos_Fixed.Pos_Array[index], Pos_Model.Pos_Array[index], Pos_Offset.Pos_Array[index]);
+                if (iResult != SUCCESS) return iResult;
             }
 
-            if (unit == EPositionGroup.ALL || unit == EPositionGroup.SPINNER2)
+            if (unit == EPositionObject.ALL || unit == EPositionObject.S2_ROTATE)
             {
-                m_MeSpinner2.SetRotatePosition(FixedPos.S2_RotatePos, ModelPos.S2_RotatePos, OffsetPos.S2_RotatePos);
-                m_MeSpinner2.SetCleanPosition(FixedPos.S2_CleanerPos, ModelPos.S2_CleanerPos, OffsetPos.S2_CleanerPos);
-                m_MeSpinner2.SetCoatPosition(FixedPos.S2_CoaterPos, ModelPos.S2_CoaterPos, OffsetPos.S2_CoaterPos);
+                index = (int)EPositionObject.S2_ROTATE;
+                iResult = m_MeSpinner2.SetPosition_Rotate(Pos_Fixed.Pos_Array[index], Pos_Model.Pos_Array[index], Pos_Offset.Pos_Array[index]);
+                if (iResult != SUCCESS) return iResult;
+            }
+            if (unit == EPositionObject.ALL || unit == EPositionObject.S2_CLEAN_NOZZLE)
+            {
+                index = (int)EPositionObject.S2_CLEAN_NOZZLE;
+                iResult = m_MeSpinner2.SetPosition_CleanNozzle(Pos_Fixed.Pos_Array[index], Pos_Model.Pos_Array[index], Pos_Offset.Pos_Array[index]);
+                if (iResult != SUCCESS) return iResult;
+            }
+            if (unit == EPositionObject.ALL || unit == EPositionObject.S2_COAT_NOZZLE)
+            {
+                index = (int)EPositionObject.S2_COAT_NOZZLE;
+                iResult = m_MeSpinner2.SetPosition_CoatNozzle(Pos_Fixed.Pos_Array[index], Pos_Model.Pos_Array[index], Pos_Offset.Pos_Array[index]);
+                if (iResult != SUCCESS) return iResult;
             }
 
             // Handler
-            if (unit == EPositionGroup.ALL || unit == EPositionGroup.HANDLER)
+            if (unit == EPositionObject.ALL || unit == EPositionObject.UPPER_HANDLER)
             {
-                m_MeLowerHandler.SetHandlerPosition(FixedPos.LowerHandlerPos, ModelPos.LowerHandlerPos, OffsetPos.LowerHandlerPos);
-                m_MeUpperHandler.SetHandlerPosition(FixedPos.UpperHandlerPos, ModelPos.UpperHandlerPos, OffsetPos.UpperHandlerPos);
+                index = (int)EPositionObject.UPPER_HANDLER;
+                iResult = m_MeUpperHandler.SetPosition_Handler(Pos_Fixed.Pos_Array[index], Pos_Model.Pos_Array[index], Pos_Offset.Pos_Array[index]);
+                if (iResult != SUCCESS) return iResult;
+            }
+            if (unit == EPositionObject.ALL || unit == EPositionObject.LOWER_HANDLER)
+            {
+                index = (int)EPositionObject.LOWER_HANDLER;
+                iResult = m_MeLowerHandler.SetPosition_Handler(Pos_Fixed.Pos_Array[index], Pos_Model.Pos_Array[index], Pos_Offset.Pos_Array[index]);
+                if (iResult != SUCCESS) return iResult;
             }
 
             // Stage
-            if (unit == EPositionGroup.ALL || unit == EPositionGroup.STAGE1)
+            if (unit == EPositionObject.ALL || unit == EPositionObject.STAGE1)
             {
-                m_MeStage.SetStagePosition(FixedPos.Stage1Pos, ModelPos.Stage1Pos, OffsetPos.Stage1Pos);
-                m_MeStage.SetCameraPosition(FixedPos.Camera1Pos, ModelPos.Camera1Pos, OffsetPos.Camera1Pos);
-                m_MeStage.SetScannerPosition(FixedPos.Scanner1Pos, ModelPos.Scanner1Pos, OffsetPos.Scanner1Pos);
+                index = (int)EPositionObject.STAGE1;
+                iResult = m_MeStage.SetPosition_Stage(Pos_Fixed.Pos_Array[index], Pos_Model.Pos_Array[index], Pos_Offset.Pos_Array[index]);
+                if (iResult != SUCCESS) return iResult;
+            }
+            if (unit == EPositionObject.ALL || unit == EPositionObject.CAMERA1)
+            {
+                index = (int)EPositionObject.CAMERA1;
+                iResult = m_MeStage.SetPosition_Camera(Pos_Fixed.Pos_Array[index], Pos_Model.Pos_Array[index], Pos_Offset.Pos_Array[index]);
+                if (iResult != SUCCESS) return iResult;
+            }
+            if (unit == EPositionObject.ALL || unit == EPositionObject.SCANNER1)
+            {
+                index = (int)EPositionObject.SCANNER1;
+                iResult = m_MeStage.SetPosition_Scanner(Pos_Fixed.Pos_Array[index], Pos_Model.Pos_Array[index], Pos_Offset.Pos_Array[index]);
+                if (iResult != SUCCESS) return iResult;
             }
 
             //////////////////////////////////////////////////////////////////
@@ -1729,6 +2090,23 @@ namespace LWDicer.Layers
             //////////////////////////////////////////////////////////////////
             // Process Layer
 
+            return SUCCESS;
+        }
+
+        private int SetAllPositionDataToComponent()
+        {
+            int iResult;
+            iResult = m_DataManager.LoadPositionData(true);
+            if (iResult != SUCCESS) return iResult;
+            iResult = m_DataManager.LoadPositionData(false);
+            if (iResult != SUCCESS) return iResult;
+            iResult = m_DataManager.GenerateModelPosition();
+            if (iResult != SUCCESS) return iResult;
+
+            iResult = SetPositionDataToComponent();
+            if (iResult != SUCCESS) return iResult;
+
+            return SUCCESS;
         }
 
         void CreateMeElevator(CObjectInfo objInfo)

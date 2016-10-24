@@ -13,6 +13,7 @@ using System.Collections.Specialized;
 using Syncfusion.Windows.Forms.Grid;
 using Syncfusion.Windows.Forms;
 
+using static LWDicer.Layers.DEF_Thread;
 using static LWDicer.Layers.DEF_CtrlSpinner;
 using static LWDicer.Layers.DEF_Common;
 using static LWDicer.Layers.DEF_DataManager;
@@ -21,21 +22,23 @@ namespace LWDicer.UI
 {
     public partial class FormCleanerData : Form
     {
-        string[] strOP = new string[(int)ECleanMode.MAX];
+        string[] strOP = new string[(int)ECleanOperation.MAX];
 
-        private CModelData CleanerData;
+        private CCleanerData CleanerData;
+        private ESpinnerIndex m_SpinnerIndex;
 
         public FormCleanerData()
         {
             InitializeComponent();
 
-            CleanerData = ObjectExtensions.Copy(CMainFrame.DataManager.ModelData);
-
             InitGrid();
-
-            UpdateData();
-
             this.Text = $"Cleaner Data [ Current Model : {CMainFrame.DataManager.ModelData.Name} ]";
+
+            for(int i = 0; i < (int)ESpinnerIndex.MAX; i++)
+            {
+                ComboSpinnerIndex.Items.Add(ESpinnerIndex.SPINNER1 + i);
+            }
+            ComboSpinnerIndex.SelectedIndex = 0;
         }
 
         private void InitGrid()
@@ -60,9 +63,9 @@ namespace LWDicer.UI
             GridCtrl.ColWidths.SetSize(2, 110);
             GridCtrl.ColWidths.SetSize(3, 110);
 
-            for (i = 0; i < (int)ECleanMode.MAX; i++)
+            for (i = 0; i < (int)ECleanOperation.MAX; i++)
             {
-                strOP[i] = Convert.ToString(ECleanMode.NO_USE + i);
+                strOP[i] = Convert.ToString(ECleanOperation.NO_USE + i);
             }
 
             StringCollection strColl = new StringCollection();
@@ -127,34 +130,28 @@ namespace LWDicer.UI
 
             for (i = 0; i < DEF_MAX_SPINNER_STEP; i++)
             {
-                GridCtrl[i + 1, 1].Text = strOP[(int)CleanerData.SpinnerData.CleanerData.Steps[i].Mode];
+                GridCtrl[i + 1, 1].Text = strOP[(int)CleanerData.WorkSteps_Custom[i].Operation];
                 GridCtrl[i + 1, 1].TextColor = Color.Black;
 
-                GridCtrl[i + 1, 2].Text = String.Format("{0:0.000}", CleanerData.SpinnerData.CleanerData.Steps[i].OpTime);
+                GridCtrl[i + 1, 2].Text = String.Format("{0:0.0}", CleanerData.WorkSteps_Custom[i].OpTime);
                 GridCtrl[i + 1, 2].TextColor = Color.Black;
 
-                GridCtrl[i + 1, 3].Text = String.Format("{0:0.000}", CleanerData.SpinnerData.CleanerData.Steps[i].RPMSpeed);
+                GridCtrl[i + 1, 3].Text = String.Format("{0:0}", CleanerData.WorkSteps_Custom[i].RPMSpeed);
                 GridCtrl[i + 1, 3].TextColor = Color.Black;
             }
 
-            LabelStroke.Text = Convert.ToString(CleanerData.SpinnerData.CleanerData.WashStroke);
+            LabelStroke.Text = Convert.ToString(CleanerData.WashStroke);
             LabelStroke.ForeColor = Color.Black;
         }
 
 
-        private void FormClose()
-        {
-            this.Hide();
-        }
-
         private void FormCleanerData_FormClosing(object sender, FormClosingEventArgs e)
         {
-            FormClose();
         }
 
         private void BtnExit_Click(object sender, EventArgs e)
         {
-            FormClose();
+            this.Close();
         }
 
         private void BtnSave_Click(object sender, EventArgs e)
@@ -166,25 +163,18 @@ namespace LWDicer.UI
 
             for (int i = 0; i < DEF_MAX_SPINNER_STEP; i++)
             {
-                for (int nOP = 0; nOP < (int)ECleanMode.MAX; nOP++)
-                {
-                    if (GridCtrl[i + 1, 1].Text == Convert.ToString(ECleanMode.NO_USE + nOP))
-                    {
-                        CleanerData.SpinnerData.CleanerData.Steps[i].Mode = (ECleanMode.NO_USE + nOP);
-                        break;
-                    }
-                }
-
-                CleanerData.SpinnerData.CleanerData.Steps[i].OpTime = Convert.ToInt16(GridCtrl[i + 1, 2].Text);
-                CleanerData.SpinnerData.CleanerData.Steps[i].RPMSpeed = Convert.ToInt16(GridCtrl[i + 1, 3].Text);
+                ECleanOperation operation = (ECleanOperation)Enum.Parse(typeof(ECleanOperation), GridCtrl[i + 1, 1].Text);
+                CleanerData.WorkSteps_Custom[i].Operation = operation;
+                CleanerData.WorkSteps_Custom[i].OpTime = Convert.ToDouble(GridCtrl[i + 1, 2].Text);
+                CleanerData.WorkSteps_Custom[i].RPMSpeed = Convert.ToInt32(GridCtrl[i + 1, 3].Text);
             }
 
-            CleanerData.SpinnerData.CleanerData.WashStroke = Convert.ToDouble(LabelStroke.Text);
+            CleanerData.WashStroke = Convert.ToDouble(LabelStroke.Text);
 
-            CMainFrame.DataManager.SaveModelData(CleanerData);
+            CMainFrame.DataManager.ModelData.SpinnerData[(int)m_SpinnerIndex].CleanerData = ObjectExtensions.Copy(CleanerData);
+            CMainFrame.LWDicer.SaveModelData(CMainFrame.DataManager.ModelData);
 
             UpdateData();
-
         }
 
         private void GridSpinner_CellClick(object sender, GridCellClickEventArgs e)
@@ -238,6 +228,18 @@ namespace LWDicer.UI
             LabelStroke.Text = strModify;
             LabelStroke.ForeColor = Color.Red;
 
+        }
+
+        private void FormCleanerData_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void ComboSpinnerIndex_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            m_SpinnerIndex = ESpinnerIndex.SPINNER1 + ComboSpinnerIndex.SelectedIndex;
+            CleanerData = ObjectExtensions.Copy(CMainFrame.DataManager.ModelData.SpinnerData[(int)m_SpinnerIndex].CleanerData);
+            UpdateData();
         }
     }
 }

@@ -30,7 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormLimitSensor));
-            this.TmrMotor = new System.Windows.Forms.Timer(this.components);
+            this.TimerUI = new System.Windows.Forms.Timer(this.components);
             this.Motor14_Alarm = new Syncfusion.Windows.Forms.Tools.GradientLabel();
             this.Motor13_Alarm = new Syncfusion.Windows.Forms.Tools.GradientLabel();
             this.Motor12_Alarm = new Syncfusion.Windows.Forms.Tools.GradientLabel();
@@ -193,9 +193,9 @@
             this.BtnExit = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
-            // TmrMotor
+            // TimerUI
             // 
-            this.TmrMotor.Tick += new System.EventHandler(this.TmrMotor_Tick);
+            this.TimerUI.Tick += new System.EventHandler(this.TimerUI_Tick);
             // 
             // Motor14_Alarm
             // 
@@ -2825,7 +2825,7 @@
 
         #endregion
 
-        private System.Windows.Forms.Timer TmrMotor;
+        private System.Windows.Forms.Timer TimerUI;
         private Syncfusion.Windows.Forms.Tools.GradientLabel Motor14_Alarm;
         private Syncfusion.Windows.Forms.Tools.GradientLabel Motor13_Alarm;
         private Syncfusion.Windows.Forms.Tools.GradientLabel Motor12_Alarm;

@@ -520,86 +520,85 @@ namespace LWDicer.UI
 
 
         }
-        private void UpdateConfigureData(CSystemData_Scanner m_PolygonPara)
+
+        private void UpdateConfigureData(CSystemData_Scanner para)
         {
             //====================================================================================================
             // Config.ini
             
-            GridConfigure[1, 2].Text  = string.Format("{0:f3}", m_PolygonPara.InScanResolution );
-            GridConfigure[2, 2].Text  = string.Format("{0:f3}", m_PolygonPara.CrossScanResolution);
-            GridConfigure[3, 2].Text  = string.Format("{0:f3}", m_PolygonPara.InScanOffset);
-            GridConfigure[4, 2].Text  = Convert.ToString(m_PolygonPara.StopMotorBetweenJobs);
-            GridConfigure[5, 2].Text  = Convert.ToString(m_PolygonPara.PixInvert);
-            GridConfigure[6, 2].Text  = Convert.ToString(m_PolygonPara.JobStartBufferTime);
-            GridConfigure[7, 2].Text  = Convert.ToString(m_PolygonPara.PrecedingBlankLines);
+            GridConfigure[1, 2].Text  = string.Format("{0:f3}", para.InScanResolution );
+            GridConfigure[2, 2].Text  = string.Format("{0:f3}", para.CrossScanResolution);
+            GridConfigure[3, 2].Text  = string.Format("{0:f3}", para.InScanOffset);
+            GridConfigure[4, 2].Text  = Convert.ToString(para.StopMotorBetweenJobs);
+            GridConfigure[5, 2].Text  = Convert.ToString(para.PixInvert);
+            GridConfigure[6, 2].Text  = Convert.ToString(para.JobStartBufferTime);
+            GridConfigure[7, 2].Text  = Convert.ToString(para.PrecedingBlankLines);
 
-            GridConfigure[8, 2].Text  = string.Format("{0:f0}", m_PolygonPara.SeedClockFrequency);
-            GridConfigure[9, 2].Text  = string.Format("{0:f0}", m_PolygonPara.RepetitionRate);
-            GridConfigure[10, 2].Text = string.Format("{0:f0}", m_PolygonPara.PulsePickWidth);
-            GridConfigure[11, 2].Text = string.Format("{0:f0}", m_PolygonPara.PixelWidth);
-            GridConfigure[12, 2].Text = string.Format("{0:f4}", m_PolygonPara.CrossScanEncoderResol);
+            GridConfigure[8, 2].Text  = string.Format("{0:f0}", para.SeedClockFrequency);
+            GridConfigure[9, 2].Text  = string.Format("{0:f0}", para.RepetitionRate);
+            GridConfigure[10, 2].Text = string.Format("{0:f0}", para.PulsePickWidth);
+            GridConfigure[11, 2].Text = string.Format("{0:f0}", para.PixelWidth);
+            GridConfigure[12, 2].Text = string.Format("{0:f4}", para.CrossScanEncoderResol);
 
-            GridConfigure[13, 2].Text = String.Format("{0:0.000}", m_PolygonPara.CrossScanMaxAccel);
-            GridConfigure[14, 2].Text = String.Format("{0:f0}", m_PolygonPara.EnCarSig);
-            GridConfigure[15, 2].Text = String.Format("{0:f0}", m_PolygonPara.SwapCarSig);
-            GridConfigure[16, 2].Text = String.Format("{0:f0}", m_PolygonPara.InterleaveRatio);
-            GridConfigure[17, 2].Text = string.Format("{0:f3}", m_PolygonPara.FacetFineDelayOffset0 );
-            GridConfigure[18, 2].Text = string.Format("{0:f3}", m_PolygonPara.FacetFineDelayOffset1 );
-            GridConfigure[19, 2].Text = string.Format("{0:f3}", m_PolygonPara.FacetFineDelayOffset2 );
-            GridConfigure[20, 2].Text = string.Format("{0:f3}", m_PolygonPara.FacetFineDelayOffset3 );
-            GridConfigure[21, 2].Text = string.Format("{0:f3}", m_PolygonPara.FacetFineDelayOffset4 );
-            GridConfigure[22, 2].Text = string.Format("{0:f3}", m_PolygonPara.FacetFineDelayOffset5 );
-            GridConfigure[23, 2].Text = string.Format("{0:f3}", m_PolygonPara.FacetFineDelayOffset6 );
-            GridConfigure[24, 2].Text = string.Format("{0:f3}", m_PolygonPara.FacetFineDelayOffset7 );
-            GridConfigure[25, 2].Text = String.Format("{0:f0}", m_PolygonPara.StartFacet);
-            GridConfigure[26, 2].Text = String.Format("{0:f0}", m_PolygonPara.AutoIncrementStartFacet);
-            GridConfigure[27, 2].Text = String.Format("{0:f0}", m_PolygonPara.MotorStableTime);
+            GridConfigure[13, 2].Text = String.Format("{0:0.000}", para.CrossScanMaxAccel);
+            GridConfigure[14, 2].Text = String.Format("{0:f0}", para.EnCarSig);
+            GridConfigure[15, 2].Text = String.Format("{0:f0}", para.SwapCarSig);
+            GridConfigure[16, 2].Text = String.Format("{0:f0}", para.InterleaveRatio);
+            GridConfigure[17, 2].Text = string.Format("{0:f3}", para.FacetFineDelayOffset0 );
+            GridConfigure[18, 2].Text = string.Format("{0:f3}", para.FacetFineDelayOffset1 );
+            GridConfigure[19, 2].Text = string.Format("{0:f3}", para.FacetFineDelayOffset2 );
+            GridConfigure[20, 2].Text = string.Format("{0:f3}", para.FacetFineDelayOffset3 );
+            GridConfigure[21, 2].Text = string.Format("{0:f3}", para.FacetFineDelayOffset4 );
+            GridConfigure[22, 2].Text = string.Format("{0:f3}", para.FacetFineDelayOffset5 );
+            GridConfigure[23, 2].Text = string.Format("{0:f3}", para.FacetFineDelayOffset6 );
+            GridConfigure[24, 2].Text = string.Format("{0:f3}", para.FacetFineDelayOffset7 );
+            GridConfigure[25, 2].Text = String.Format("{0:f0}", para.StartFacet);
+            GridConfigure[26, 2].Text = String.Format("{0:f0}", para.AutoIncrementStartFacet);
+            GridConfigure[27, 2].Text = String.Format("{0:f0}", para.MotorStableTime);
 
             //====================================================================================================
             // isn.ini
-            GridISN[1,  2].Text = string.Format("{0:f0}", m_PolygonPara.FacetCorrectFirstXpos1);
-            GridISN[2,  2].Text = string.Format("{0:f0}", m_PolygonPara.FacetCorrectLast_Xpos1);
-            GridISN[3,  2].Text = string.Format("{0:f0}", m_PolygonPara.FacetCorrectFirstXpos2);
-            GridISN[4,  2].Text = string.Format("{0:f0}", m_PolygonPara.FacetCorrectLast_Xpos2);
-            GridISN[5,  2].Text = string.Format("{0:f0}", m_PolygonPara.FacetCorrectFirstXpos3);
-            GridISN[6,  2].Text = string.Format("{0:f0}", m_PolygonPara.FacetCorrectLast_Xpos3);
-            GridISN[7,  2].Text = string.Format("{0:f0}", m_PolygonPara.FacetCorrectFirstXpos4);
-            GridISN[8,  2].Text = string.Format("{0:f0}", m_PolygonPara.FacetCorrectLast_Xpos4);
-            GridISN[9,  2].Text = string.Format("{0:f0}", m_PolygonPara.FacetCorrectFirstXpos5);
-            GridISN[10, 2].Text = string.Format("{0:f0}", m_PolygonPara.FacetCorrectLast_Xpos5);
-            GridISN[11, 2].Text = string.Format("{0:f0}", m_PolygonPara.FacetCorrectFirstXpos6);
-            GridISN[12, 2].Text = string.Format("{0:f0}", m_PolygonPara.FacetCorrectLast_Xpos6);
-            GridISN[13, 2].Text = string.Format("{0:f0}", m_PolygonPara.FacetCorrectFirstXpos7);
-            GridISN[14, 2].Text = string.Format("{0:f0}", m_PolygonPara.FacetCorrectLast_Xpos7);
-            GridISN[15, 2].Text = string.Format("{0:f0}", m_PolygonPara.FacetCorrectFirstXpos8);
-            GridISN[16, 2].Text = string.Format("{0:f0}", m_PolygonPara.FacetCorrectLast_Xpos8);
+            GridISN[1,  2].Text = string.Format("{0:f0}", para.FacetCorrectFirstXpos1);
+            GridISN[2,  2].Text = string.Format("{0:f0}", para.FacetCorrectLast_Xpos1);
+            GridISN[3,  2].Text = string.Format("{0:f0}", para.FacetCorrectFirstXpos2);
+            GridISN[4,  2].Text = string.Format("{0:f0}", para.FacetCorrectLast_Xpos2);
+            GridISN[5,  2].Text = string.Format("{0:f0}", para.FacetCorrectFirstXpos3);
+            GridISN[6,  2].Text = string.Format("{0:f0}", para.FacetCorrectLast_Xpos3);
+            GridISN[7,  2].Text = string.Format("{0:f0}", para.FacetCorrectFirstXpos4);
+            GridISN[8,  2].Text = string.Format("{0:f0}", para.FacetCorrectLast_Xpos4);
+            GridISN[9,  2].Text = string.Format("{0:f0}", para.FacetCorrectFirstXpos5);
+            GridISN[10, 2].Text = string.Format("{0:f0}", para.FacetCorrectLast_Xpos5);
+            GridISN[11, 2].Text = string.Format("{0:f0}", para.FacetCorrectFirstXpos6);
+            GridISN[12, 2].Text = string.Format("{0:f0}", para.FacetCorrectLast_Xpos6);
+            GridISN[13, 2].Text = string.Format("{0:f0}", para.FacetCorrectFirstXpos7);
+            GridISN[14, 2].Text = string.Format("{0:f0}", para.FacetCorrectLast_Xpos7);
+            GridISN[15, 2].Text = string.Format("{0:f0}", para.FacetCorrectFirstXpos8);
+            GridISN[16, 2].Text = string.Format("{0:f0}", para.FacetCorrectLast_Xpos8);
 
             //====================================================================================================
             // csn.ini
-            GridCSN[1, 2].Text = string.Format("{0:f0}", m_PolygonPara.FacetCorrectFirstYpos1);
-            GridCSN[2, 2].Text = string.Format("{0:f0}", m_PolygonPara.FacetCorrectLast_Ypos1);
-            GridCSN[3, 2].Text = string.Format("{0:f0}", m_PolygonPara.FacetCorrectFirstYpos2);
-            GridCSN[4, 2].Text = string.Format("{0:f0}", m_PolygonPara.FacetCorrectLast_Ypos2);
-            GridCSN[5, 2].Text = string.Format("{0:f0}", m_PolygonPara.FacetCorrectFirstYpos3);
-            GridCSN[6, 2].Text = string.Format("{0:f0}", m_PolygonPara.FacetCorrectLast_Ypos3);
-            GridCSN[7, 2].Text = string.Format("{0:f0}", m_PolygonPara.FacetCorrectFirstYpos4);
-            GridCSN[8, 2].Text = string.Format("{0:f0}", m_PolygonPara.FacetCorrectLast_Ypos4);
-            GridCSN[9, 2].Text = string.Format("{0:f0}", m_PolygonPara.FacetCorrectFirstYpos5);
-            GridCSN[10, 2].Text = string.Format("{0:f0}", m_PolygonPara.FacetCorrectLast_Ypos5);
-            GridCSN[11, 2].Text = string.Format("{0:f0}", m_PolygonPara.FacetCorrectFirstYpos6);
-            GridCSN[12, 2].Text = string.Format("{0:f0}", m_PolygonPara.FacetCorrectLast_Ypos6);
-            GridCSN[13, 2].Text = string.Format("{0:f0}", m_PolygonPara.FacetCorrectFirstYpos7);
-            GridCSN[14, 2].Text = string.Format("{0:f0}", m_PolygonPara.FacetCorrectLast_Ypos7);
-            GridCSN[15, 2].Text = string.Format("{0:f0}", m_PolygonPara.FacetCorrectFirstYpos8);
-            GridCSN[16, 2].Text = string.Format("{0:f0}", m_PolygonPara.FacetCorrectLast_Ypos8);
+            GridCSN[1, 2].Text = string.Format("{0:f0}", para.FacetCorrectFirstYpos1);
+            GridCSN[2, 2].Text = string.Format("{0:f0}", para.FacetCorrectLast_Ypos1);
+            GridCSN[3, 2].Text = string.Format("{0:f0}", para.FacetCorrectFirstYpos2);
+            GridCSN[4, 2].Text = string.Format("{0:f0}", para.FacetCorrectLast_Ypos2);
+            GridCSN[5, 2].Text = string.Format("{0:f0}", para.FacetCorrectFirstYpos3);
+            GridCSN[6, 2].Text = string.Format("{0:f0}", para.FacetCorrectLast_Ypos3);
+            GridCSN[7, 2].Text = string.Format("{0:f0}", para.FacetCorrectFirstYpos4);
+            GridCSN[8, 2].Text = string.Format("{0:f0}", para.FacetCorrectLast_Ypos4);
+            GridCSN[9, 2].Text = string.Format("{0:f0}", para.FacetCorrectFirstYpos5);
+            GridCSN[10, 2].Text = string.Format("{0:f0}", para.FacetCorrectLast_Ypos5);
+            GridCSN[11, 2].Text = string.Format("{0:f0}", para.FacetCorrectFirstYpos6);
+            GridCSN[12, 2].Text = string.Format("{0:f0}", para.FacetCorrectLast_Ypos6);
+            GridCSN[13, 2].Text = string.Format("{0:f0}", para.FacetCorrectFirstYpos7);
+            GridCSN[14, 2].Text = string.Format("{0:f0}", para.FacetCorrectLast_Ypos7);
+            GridCSN[15, 2].Text = string.Format("{0:f0}", para.FacetCorrectFirstYpos8);
+            GridCSN[16, 2].Text = string.Format("{0:f0}", para.FacetCorrectLast_Ypos8);
 
         }
 
         private void BtnConfigureExit_Click(object sender, EventArgs e)
-        {            
-
-            this.Hide();
-
+        {
+            this.Close();
         }
 
         private void GridConfigure_CellClick(object sender, GridCellClickEventArgs e)
@@ -723,7 +722,7 @@ namespace LWDicer.UI
                 CMainFrame.DataManager.ModelData.ScanData.FacetCorrectLast_Ypos8 = Convert.ToInt32(GridCSN[16, 2].Text);
 
                 // DB Save
-                CMainFrame.DataManager.SaveModelData(CMainFrame.DataManager.ModelData);
+                CMainFrame.LWDicer.SaveModelData(CMainFrame.DataManager.ModelData);
             }
             catch
             {
@@ -943,7 +942,7 @@ namespace LWDicer.UI
             UpdateProcessData();
 
 
-            CMainFrame.DataManager.SaveModelData(CMainFrame.DataManager.ModelData);
+            CMainFrame.LWDicer.SaveModelData(CMainFrame.DataManager.ModelData);
         }
 
         private void btnProcessDataCreate_Click(object sender, EventArgs e)
@@ -1458,7 +1457,7 @@ namespace LWDicer.UI
                     textMsg = string.Format("픽셀당 거리는 {0:F2} um입니다.", resolutionPixel);
                     CMainFrame.DisplayMsg(textMsg);
 
-                    CMainFrame.DataManager.SaveSystemData(null,null, null, null,CMainFrame.DataManager.SystemData_Align, null);
+                    CMainFrame.LWDicer.SaveSystemData(null,null, null, null,CMainFrame.DataManager.SystemData_Align, null);
 
                     eVisionMode = EVisionMode.MEASUREMENT;
                     btnCalibration.ForeColor = Color.Black;
@@ -1496,7 +1495,7 @@ namespace LWDicer.UI
             CMainFrame.DataManager.SystemData_Scan.ControlHostAddress    = CMainFrame.LWDicer.m_MeScanner.GetControlAddress();
             CMainFrame.DataManager.SystemData_Scan.ControlHostPort       = CMainFrame.LWDicer.m_MeScanner.GetControlPortNum();
             
-            CMainFrame.DataManager.SaveSystemData(null, null, null, null, null, CMainFrame.DataManager.SystemData_Scan, null);
+            CMainFrame.LWDicer.SaveSystemData(null, null, null, null, null, CMainFrame.DataManager.SystemData_Scan, null);
 
             bool bCheckConnect = false;
             CMainFrame.LWDicer.m_MeScanner.m_RefComp.ControlComm.ConnectServer();
@@ -1510,7 +1509,7 @@ namespace LWDicer.UI
             CMainFrame.DataManager.SystemData_Scan.ScanHeadHostAddress   = CMainFrame.LWDicer.m_MeScanner.GetScanHeadAddress();
             CMainFrame.DataManager.SystemData_Scan.ScanHeadHostPort      = CMainFrame.LWDicer.m_MeScanner.GetScanHeadPortNum();
 
-            CMainFrame.DataManager.SaveSystemData(null, null, null, null, null, CMainFrame.DataManager.SystemData_Scan, null);
+            CMainFrame.LWDicer.SaveSystemData(null, null, null, null, null, CMainFrame.DataManager.SystemData_Scan, null);
 
             CMainFrame.LWDicer.m_MeScanner.m_RefComp.ScanHeadComm.ConnectServer();
         }
@@ -1712,7 +1711,7 @@ namespace LWDicer.UI
         {
             if (!CMainFrame.DisplayMsg("프로세스 데이터를 저장하시겠습니까 ?")) return;
 
-            CMainFrame.DataManager.SaveModelData(CMainFrame.DataManager.ModelData);
+            CMainFrame.LWDicer.SaveModelData(CMainFrame.DataManager.ModelData);
 
             DisplayProcessData();
 

@@ -29,15 +29,9 @@ namespace LWDicer.UI
             CMainFrame.frmStageJog.Show();
         }
 
-        private void FormClose()
-        {
-            this.Hide();
-        }
-
-
         private void BtnExit_Click(object sender, EventArgs e)
         {
-            FormClose();
+            this.Close();
         }
 
         private void FormMicroAlignTeach_Load(object sender, EventArgs e)

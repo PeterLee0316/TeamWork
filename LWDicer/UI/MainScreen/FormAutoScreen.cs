@@ -21,7 +21,9 @@ namespace LWDicer.UI
 {
     public partial class FormAutoScreen : Form
     {
-        int m_nStartReady = 0;		// 0:Off, 1:Ready, 2:Run
+        int m_nStartReady = 0;      // 0:Off, 1:Ready, 2:Run
+
+        //FormWorkPieceInquiry Dlg_WPInquiry = new FormWorkPieceInquiry();
 
         public FormAutoScreen()
         {
@@ -29,9 +31,9 @@ namespace LWDicer.UI
             InitializeForm();
 
             //timer1.Interval = UITimerInterval;
-            timer1.Interval = 10;
-            timer1.Enabled = true;
-            timer1.Start();
+            TimerUI.Interval = 10;
+            TimerUI.Enabled = true;
+            TimerUI.Start();
 
         }
         protected virtual void InitializeForm()
@@ -40,22 +42,29 @@ namespace LWDicer.UI
             this.DesktopLocation = new Point(DEF_UI.MAIN_POS_X, DEF_UI.MAIN_POS_Y);
             this.Size = new Size(DEF_UI.MAIN_SIZE_WIDTH, DEF_UI.MAIN_SIZE_HEIGHT);
             this.FormBorderStyle = FormBorderStyle.None;
+
         }
 
 
         private void FormAutoScreen_Activated(object sender, EventArgs e)
         {
-
-        }
-
-        private void FormAutoScreen_Deactivate(object sender, EventArgs e)
-        {
-
-        }
-
-        private void FormAutoScreen_Shown(object sender, EventArgs e)
-        {
-            this.Activate();
+            if(CMainFrame.DataManager.SystemData.UseSpinnerSeparately)
+            {
+                if(CMainFrame.DataManager.SystemData.UCoaterIndex == ESpinnerIndex.SPINNER1)
+                {
+                    this.Label_Spinner1.Text = "Coater";
+                    this.Label_Spinner2.Text = "Cleaner";
+                }
+                else
+                {
+                    this.Label_Spinner1.Text = "Cleaner";
+                    this.Label_Spinner2.Text = "Coater";
+                }
+            } else
+            {
+                this.Label_Spinner1.Text = "Spinner1";
+                this.Label_Spinner2.Text = "Spinner2";
+            }
         }
 
         protected override void WndProc(ref Message wMessage)
@@ -415,7 +424,7 @@ namespace LWDicer.UI
             //		testTemp->EnableWindow(bEnable);
         }
 
-        private void timer1_Tick(object sender, EventArgs e)
+        private void TimerUI_Tick(object sender, EventArgs e)
         {
             // display thread status
             Label_StatusAutoManager.Text = CMainFrame.LWDicer.m_trsAutoManager.GetRunStatus().Replace("STS_", "");
@@ -425,7 +434,7 @@ namespace LWDicer.UI
             Label_StatusSpinner2.Text = CMainFrame.LWDicer.m_trsSpinner2.GetRunStatus().Replace("STS_", "");
             Label_StatusUHandler.Text = CMainFrame.LWDicer.m_trsHandler.GetRunStatus().Replace("STS_", "");
             Label_StatusLHandler.Text = CMainFrame.LWDicer.m_trsHandler.GetRunStatus().Replace("STS_", "");
-            Label_StatusStage.Text = CMainFrame.LWDicer.m_trsStage1.GetRunStatus().Replace("STS_", "");
+            Label_StatusStage1.Text = CMainFrame.LWDicer.m_trsStage1.GetRunStatus().Replace("STS_", "");
 
             // display thread step
             Label_StepAutoManager.Text      = $"InputBuffer : {CMainFrame.DataManager.GetCount_InputBuffer()}, OutputBuffer : { CMainFrame.DataManager.GetCount_OutputBuffer()}";
@@ -435,7 +444,7 @@ namespace LWDicer.UI
             Label_StepSpinner2.Text      = CMainFrame.LWDicer.m_trsSpinner2.GetStep().Replace("TRS_SPINNER_", "");
             Label_StepUHandler.Text      = CMainFrame.LWDicer.m_trsHandler.GetStep1().Replace("TRS_UPPER_HANDLER_", "");
             Label_StepLHandler.Text      = CMainFrame.LWDicer.m_trsHandler.GetStep2().Replace("TRS_LOWER_HANDLER_", "");
-            Label_StepStage.Text         = CMainFrame.LWDicer.m_trsStage1.GetStep().Replace("TRS_STAGE1_", "");
+            Label_StepStage1.Text         = CMainFrame.LWDicer.m_trsStage1.GetStep().Replace("TRS_STAGE1_", "");
 
             // display id
             Label_IDLoader.Text          = "I : " + CMainFrame.DataManager.GetID_InputReady().ToString();
@@ -444,13 +453,32 @@ namespace LWDicer.UI
             Label_IDSpinner2.Text        = CMainFrame.DataManager.WorkPieceArray[(int)ELCNetUnitPos.SPINNER2].ID;
             Label_IDUHandler.Text        = CMainFrame.DataManager.WorkPieceArray[(int)ELCNetUnitPos.UPPER_HANDLER].ID;
             Label_IDLHandler.Text        = CMainFrame.DataManager.WorkPieceArray[(int)ELCNetUnitPos.LOWER_HANDLER].ID;
-            Label_IDStage.Text           = CMainFrame.DataManager.WorkPieceArray[(int)ELCNetUnitPos.STAGE1].ID;
+            Label_IDStage1.Text           = CMainFrame.DataManager.WorkPieceArray[(int)ELCNetUnitPos.STAGE1].ID;
             Label_IDAutoManager.Text     = "O : " + CMainFrame.DataManager.GetID_LastOutput().ToString();
         }
 
         private void FormAutoScreen_Load(object sender, EventArgs e)
         {
 
+        }
+
+        private void btnWPInquiry_Click(object sender, EventArgs e)
+        {
+            // 같은 폼이 2개 이상 뜨지 않도록 처리하는 코드
+            foreach(Form form in Application.OpenForms)
+            {
+                if(form.Name == "FormWorkPieceInquiry")
+                {
+                    if(form.WindowState == FormWindowState.Minimized)
+                    {
+                        form.WindowState = FormWindowState.Normal;
+                    }
+                    form.Activate();
+                    return;
+                }
+            }
+            var dlg = new FormWorkPieceInquiry();
+            dlg.Show();
         }
     }
 }

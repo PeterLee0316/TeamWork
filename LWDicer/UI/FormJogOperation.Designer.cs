@@ -60,7 +60,7 @@
             this.BtnStop = new Syncfusion.Windows.Forms.ButtonAdv();
             this.BtnMinus = new Syncfusion.Windows.Forms.ButtonAdv();
             this.Image = new System.Windows.Forms.ImageList(this.components);
-            this.TmrJog = new System.Windows.Forms.Timer(this.components);
+            this.TimerUI = new System.Windows.Forms.Timer(this.components);
             this.BtnAbsMove = new Syncfusion.Windows.Forms.ButtonAdv();
             this.BtnPlus = new Syncfusion.Windows.Forms.ButtonAdv();
             this.LabelVelocity = new Syncfusion.Windows.Forms.Tools.GradientLabel();
@@ -538,9 +538,9 @@
             this.Image.Images.SetKeyName(0, "Led_Off.png");
             this.Image.Images.SetKeyName(1, "Led_On.png");
             // 
-            // TmrJog
+            // TimerUI
             // 
-            this.TmrJog.Tick += new System.EventHandler(this.TmrJog_Tick);
+            this.TimerUI.Tick += new System.EventHandler(this.TimerUI_Tick);
             // 
             // BtnAbsMove
             // 
@@ -668,6 +668,7 @@
             this.Controls.Add(this.BtnAbsMove);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "FormJogOperation";
+            this.Opacity = 0.8D;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "FormJogOperation";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormJogOperation_FormClosing);
@@ -708,7 +709,7 @@
         private Syncfusion.Windows.Forms.ButtonAdv BtnAxis18;
         private Syncfusion.Windows.Forms.ButtonAdv BtnAxis19;
         private System.Windows.Forms.ImageList Image;
-        private System.Windows.Forms.Timer TmrJog;
+        private System.Windows.Forms.Timer TimerUI;
         private Syncfusion.Windows.Forms.ButtonAdv BtnAbsMove;
         private Syncfusion.Windows.Forms.ButtonAdv BtnPlus;
         private Syncfusion.Windows.Forms.Tools.GradientLabel LabelVelocity;

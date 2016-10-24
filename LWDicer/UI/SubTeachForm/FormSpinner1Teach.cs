@@ -11,7 +11,8 @@ using System.Windows.Forms;
 using LWDicer.Layers;
 using static LWDicer.Layers.DEF_System;
 using static LWDicer.Layers.DEF_Common;
-
+using static LWDicer.Layers.DEF_DataManager;
+using static LWDicer.Layers.DEF_Motion;
 using static LWDicer.Layers.MYaskawa;
 
 using static LWDicer.Layers.DEF_Thread;
@@ -34,16 +35,13 @@ namespace LWDicer.UI
 {
     public partial class FormSpinner1Teach : Form
     {
-        const int Spinner1 = 0;
-        const int Spinner2 = 1;
-
         ButtonAdv[] RotatePos = new ButtonAdv[15];
         ButtonAdv[] NozzlePos = new ButtonAdv[15];
 
         private int m_nSelectedPos_Rotate = 0;
         private int m_nSelectedPos_Nozzle = 0;
 
-        private int nDataMode = 0;
+        public bool Type_Fixed; // 고정좌표, 옵셋좌표 구분
 
         public MCtrlSpinner CtrlSpinner;
         public CMovingObject MO_Rotate;
@@ -51,9 +49,9 @@ namespace LWDicer.UI
         public CMovingObject MO_CoatNozzle;
 
         public ETeachUnit TeachUnit;
-        public EPositionObject PO_Rotate;
-        public EPositionObject PO_CleanNozzle;
-        public EPositionObject PO_CoatNozzle;
+        public EPositionObject PIndex_Rotate;
+        public EPositionObject PIndex_CleanNozzle;
+        public EPositionObject PIndex_CoatNozzle;
         public EPositionGroup PositionGroup;
 
         public EYMC_Axis Axis_Rotate_T;
@@ -70,12 +68,6 @@ namespace LWDicer.UI
             ResouceMapping();
         }
 
-        private void FormClose()
-        {
-            TmrTeach.Stop();
-            this.Hide();
-        }
-
         private void FormSpinner1Teach_Load(object sender, EventArgs e)
         {
             this.DesktopLocation = new Point(1, 100);
@@ -85,29 +77,18 @@ namespace LWDicer.UI
             UpdateRotateTeachPos(0);
             UpdateNozzleTeachPos(0);
 
-            TmrTeach.Enabled = true;
-            TmrTeach.Interval = UITimerInterval;
-            TmrTeach.Start();
+            TimerUI.Enabled = true;
+            TimerUI.Interval = UITimerInterval;
+            TimerUI.Start();
         }
 
         private void FormSpinner1Teach_FormClosing(object sender, FormClosingEventArgs e)
         {
-            FormClose();
         }
 
         private void BtnExit_Click(object sender, EventArgs e)
         {
-            FormClose();
-        }
-
-        public void SetDataMode(int nMode)
-        {
-            nDataMode = nMode;
-        }
-
-        public int GetDataMode()
-        {
-            return nDataMode;
+            this.Close();
         }
 
         private void BtnJog_Click(object sender, EventArgs e)
@@ -151,13 +132,12 @@ namespace LWDicer.UI
                     }
                 }
 
-                if (GetDataMode() == FixedData)
+                if (Type_Fixed == true)
                 {
                     if (i != 0) GridRotateTeachTable[3, i].BackColor = Color.LightYellow;
                     if (i != 0) GridRotateTeachTable[6, i].BackColor = Color.White;
                 }
-
-                if (GetDataMode() == OffsetData)
+                else
                 {
                     if (i != 0) GridRotateTeachTable[3, i].BackColor = Color.White;
                     if (i != 0) GridRotateTeachTable[6, i].BackColor = Color.LightYellow;
@@ -192,13 +172,12 @@ namespace LWDicer.UI
                     }
                 }
 
-                if (GetDataMode() == FixedData)
+                if (Type_Fixed == true)
                 {
                     if (i != 0) GridNozzleTeachTable[3, i].BackColor = Color.LightYellow;
                     if (i != 0) GridNozzleTeachTable[6, i].BackColor = Color.White;
                 }
-
-                if (GetDataMode() == OffsetData)
+                else
                 {
                     if (i != 0) GridNozzleTeachTable[3, i].BackColor = Color.White;
                     if (i != 0) GridNozzleTeachTable[6, i].BackColor = Color.LightYellow;
@@ -213,69 +192,35 @@ namespace LWDicer.UI
         
         private void DisplayPos_Nozzle()
         {
-            double dFixedN1Pos = 0, dOffsetN1Pos = 0, dTargetN1Pos = 0, dModelN1Pos = 0, dAlignN1Offset;
-            double dFixedN2Pos = 0, dOffsetN2Pos = 0, dTargetN2Pos = 0, dModelN2Pos = 0, dAlignN2Offset;
             int index = m_nSelectedPos_Nozzle;
+            double dFixedPos, dModelPos, dOffsetPos, dAlignOffset, dTargetPos;
+            dTargetPos = MO_CleanNozzle.GetPosition(index, DEF_T, out dFixedPos, out dModelPos, out dOffsetPos, out dAlignOffset);
 
-            dFixedN1Pos = MO_CleanNozzle.FixedPos.Pos[index].dT;
-            dOffsetN1Pos = MO_CleanNozzle.OffsetPos.Pos[index].dT;
-            dModelN1Pos = MO_CleanNozzle.ModelPos.Pos[index].dT;
-            dAlignN1Offset = MO_CleanNozzle.AlignOffset.dT;
+            GridNozzleTeachTable[2, 1].Text = String.Format("{0:0.000}", dTargetPos);
+            GridNozzleTeachTable[3, 1].Text = String.Format("{0:0.000}", dFixedPos);
+            GridNozzleTeachTable[4, 1].Text = String.Format("{0:0.000}", dModelPos);
+            GridNozzleTeachTable[5, 1].Text = String.Format("{0:0.000}", dAlignOffset);
+            GridNozzleTeachTable[6, 1].Text = String.Format("{0:0.000}", dOffsetPos);
 
-            dTargetN1Pos = dFixedN1Pos + dOffsetN1Pos + dModelN1Pos + dAlignN1Offset;
+            dTargetPos = MO_CoatNozzle.GetPosition(index, DEF_T, out dFixedPos, out dModelPos, out dOffsetPos, out dAlignOffset);
 
-            GridNozzleTeachTable[2, 1].Text = String.Format("{0:0.000}", dTargetN1Pos);
-
-            dFixedN2Pos = MO_CoatNozzle.FixedPos.Pos[index].dT;
-            dOffsetN2Pos = MO_CoatNozzle.OffsetPos.Pos[index].dT;
-            dModelN2Pos = MO_CoatNozzle.ModelPos.Pos[index].dT;
-            dAlignN2Offset = MO_CoatNozzle.AlignOffset.dT;
-
-            dTargetN2Pos = dFixedN2Pos + dOffsetN2Pos + dModelN2Pos + dAlignN2Offset;
-
-            GridNozzleTeachTable[2, 2].Text = String.Format("{0:0.000}", dTargetN2Pos);
-
-            // FixedPos
-            GridNozzleTeachTable[3, 1].Text = String.Format("{0:0.000}", dFixedN1Pos);
-            GridNozzleTeachTable[3, 2].Text = String.Format("{0:0.000}", dFixedN2Pos);
-
-            // ModelPos
-            GridNozzleTeachTable[4, 1].Text = String.Format("{0:0.000}", dModelN1Pos);
-            GridNozzleTeachTable[4, 2].Text = String.Format("{0:0.000}", dModelN2Pos);
-
-            // Align Offset
-            GridNozzleTeachTable[5, 1].Text = String.Format("{0:0.000}", dAlignN1Offset);
-            GridNozzleTeachTable[5, 2].Text = String.Format("{0:0.000}", dAlignN2Offset);
-
-            //OffsetPos
-            GridNozzleTeachTable[6, 1].Text = String.Format("{0:0.000}", dOffsetN1Pos);
-            GridNozzleTeachTable[6, 2].Text = String.Format("{0:0.000}", dOffsetN2Pos);
+            GridNozzleTeachTable[2, 2].Text = String.Format("{0:0.000}", dTargetPos);
+            GridNozzleTeachTable[3, 2].Text = String.Format("{0:0.000}", dFixedPos);
+            GridNozzleTeachTable[4, 2].Text = String.Format("{0:0.000}", dModelPos);
+            GridNozzleTeachTable[5, 2].Text = String.Format("{0:0.000}", dAlignOffset);
+            GridNozzleTeachTable[6, 2].Text = String.Format("{0:0.000}", dOffsetPos);
         }
 
         private void DisplayPos_Rotate()
         {
-            double dFixedPos, dOffsetPos, dTargetPos, dModelPos, dAlignOffset;
             int index = m_nSelectedPos_Rotate;
-
-            dFixedPos = MO_Rotate.FixedPos.Pos[index].dT;
-            dOffsetPos = MO_Rotate.OffsetPos.Pos[index].dT;
-            dModelPos = MO_Rotate.ModelPos.Pos[index].dT;
-            dAlignOffset = MO_Rotate.AlignOffset.dT;
-
-            dTargetPos = dFixedPos + dOffsetPos + dModelPos + dAlignOffset;
+            double dFixedPos, dModelPos, dOffsetPos, dAlignOffset, dTargetPos;
+            dTargetPos = MO_Rotate.GetPosition(index, DEF_T, out dFixedPos, out dModelPos, out dOffsetPos, out dAlignOffset);
 
             GridRotateTeachTable[2, 1].Text = String.Format("{0:0.000}", dTargetPos);
-
-            // FixedPos
             GridRotateTeachTable[3, 1].Text = String.Format("{0:0.000}", dFixedPos);
-
-            // ModelPos
             GridRotateTeachTable[4, 1].Text = String.Format("{0:0.000}", dModelPos);
-
-            // AlignOffsetPos
             GridRotateTeachTable[5, 1].Text = String.Format("{0:0.000}", dModelPos);
-
-            //OffsetPos
             GridRotateTeachTable[6, 1].Text = String.Format("{0:0.000}", dOffsetPos);
         }
 
@@ -504,7 +449,7 @@ namespace LWDicer.UI
             double dOtherSum = Convert.ToDouble(GridNozzleTeachTable[4, index].Text) // Model Pos
                 + Convert.ToDouble(GridNozzleTeachTable[5, index].Text); // + Align Mark Pos
 
-            if (GetDataMode() == FixedData)
+            if (Type_Fixed == true)
             {
                 dOtherSum += Convert.ToDouble(GridNozzleTeachTable[6, index].Text); // Offset Pos
                 double dPos = dTargetPos - dOtherSum;
@@ -543,7 +488,7 @@ namespace LWDicer.UI
             double dOtherSum = Convert.ToDouble(GridRotateTeachTable[4, index].Text) // Model Pos
                 + Convert.ToDouble(GridRotateTeachTable[5, index].Text); // + Align Mark Pos
 
-            if (GetDataMode() == FixedData)
+            if (Type_Fixed == true)
             {
                 dOtherSum += Convert.ToDouble(GridRotateTeachTable[6, index].Text); // Offset Pos
                 double dPos = dTargetPos - dOtherSum;
@@ -567,32 +512,21 @@ namespace LWDicer.UI
             string strMsg = "Save teaching data?";
             if (!CMainFrame.InquireMsg(strMsg)) return;
 
-            if (GetDataMode() == FixedData)
-            {
-                strData = GridNozzleTeachTable[3, 1].Text;
-                CMainFrame.DataManager.FixedPos.S1_CleanerPos.Pos[m_nSelectedPos_Nozzle].dT = Convert.ToDouble(strData);
+            CPositionGroup tGroup;
+            CMainFrame.LWDicer.GetPositionGroup(out tGroup, Type_Fixed);
+            EPositionObject pIndex = PIndex_CleanNozzle;
+            int direction = DEF_T;
+            strData = (Type_Fixed == true) ? GridNozzleTeachTable[3, 1].Text : strData = GridNozzleTeachTable[6, 1].Text;
+            tGroup.Pos_Array[(int)pIndex].Pos[m_nSelectedPos_Nozzle].SetPosition(direction, Convert.ToDouble(strData));
 
-                strData = GridNozzleTeachTable[3, 2].Text;
-                CMainFrame.DataManager.FixedPos.S1_CoaterPos.Pos[m_nSelectedPos_Nozzle].dT = Convert.ToDouble(strData);
+            CMainFrame.LWDicer.SavePosition(tGroup, Type_Fixed, pIndex);
 
-                CMainFrame.DataManager.SavePositionData(true, PO_CleanNozzle);
-                CMainFrame.DataManager.SavePositionData(true, PO_CoatNozzle);
-            }
+            pIndex = PIndex_CoatNozzle;
+            direction = DEF_T;
+            strData = (Type_Fixed == true) ? GridNozzleTeachTable[3, 2].Text : strData = GridNozzleTeachTable[6, 2].Text;
+            tGroup.Pos_Array[(int)pIndex].Pos[m_nSelectedPos_Nozzle].SetPosition(direction, Convert.ToDouble(strData));
 
-            if(GetDataMode() == OffsetData)
-            {
-                strData = GridNozzleTeachTable[6, 1].Text;
-                CMainFrame.DataManager.OffsetPos.S1_CleanerPos.Pos[m_nSelectedPos_Nozzle].dT = Convert.ToDouble(strData);
-
-                strData = GridNozzleTeachTable[6, 2].Text;
-                CMainFrame.DataManager.OffsetPos.S1_CoaterPos.Pos[m_nSelectedPos_Nozzle].dT = Convert.ToDouble(strData);
-
-                CMainFrame.DataManager.SavePositionData(false, PO_CleanNozzle);
-                CMainFrame.DataManager.SavePositionData(false, PO_CoatNozzle);
-            }
-
-            CMainFrame.LWDicer.SetPositionDataToComponent(PositionGroup);
-
+            CMainFrame.LWDicer.SavePosition(tGroup, Type_Fixed, pIndex);
             DisplayPos_Nozzle();
         }
 
@@ -602,24 +536,14 @@ namespace LWDicer.UI
             string strMsg = "Save teaching data?";
             if (!CMainFrame.InquireMsg(strMsg)) return;
 
-            if (GetDataMode() == FixedData)
-            {
-                strData = GridRotateTeachTable[3, 1].Text;
-                CMainFrame.DataManager.FixedPos.S1_RotatePos.Pos[m_nSelectedPos_Rotate].dT = Convert.ToDouble(strData);
+            CPositionGroup tGroup;
+            CMainFrame.LWDicer.GetPositionGroup(out tGroup, Type_Fixed);
+            EPositionObject pIndex = PIndex_Rotate;
+            int direction = DEF_T;
+            strData = (Type_Fixed == true) ? GridRotateTeachTable[3, 1].Text : strData = GridRotateTeachTable[6, 1].Text;
+            tGroup.Pos_Array[(int)pIndex].Pos[m_nSelectedPos_Rotate].SetPosition(direction, Convert.ToDouble(strData));
 
-                CMainFrame.DataManager.SavePositionData(true, PO_Rotate);
-            }
-
-            if(GetDataMode() == OffsetData)
-            {
-                strData = GridRotateTeachTable[6, 1].Text;
-                CMainFrame.DataManager.OffsetPos.S1_RotatePos.Pos[m_nSelectedPos_Rotate].dT = Convert.ToDouble(strData);
-
-                CMainFrame.DataManager.SavePositionData(false, PO_Rotate);
-            }
-
-            CMainFrame.LWDicer.SetPositionDataToComponent(PositionGroup);
-
+            CMainFrame.LWDicer.SavePosition(tGroup, Type_Fixed, pIndex);
             DisplayPos_Rotate();
         }
 
@@ -644,7 +568,7 @@ namespace LWDicer.UI
             ChangeRotateTargetPos(strCurrent, 1);
         }
 
-        private void TmrTeach_Tick(object sender, EventArgs e)
+        private void TimerUI_Tick(object sender, EventArgs e)
         {
             // Current Position Display
             string strCurPos = string.Empty;
@@ -695,7 +619,7 @@ namespace LWDicer.UI
         private void BtnManualOP_Click(object sender, EventArgs e)
         {
             var dlg = new FormSpinnerManualOP();
-            dlg.SetSpinner(Spinner1);
+            dlg.SetSpinner(ESpinnerIndex.SPINNER1);
             dlg.ShowDialog();
         }
     }

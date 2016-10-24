@@ -49,7 +49,7 @@
             this.BtnPos1 = new Syncfusion.Windows.Forms.ButtonAdv();
             this.BtnSave = new System.Windows.Forms.Button();
             this.GridTeachTable = new Syncfusion.Windows.Forms.Grid.GridControl();
-            this.TmrTeach = new System.Windows.Forms.Timer(this.components);
+            this.TimerUI = new System.Windows.Forms.Timer(this.components);
             this.gradientLabel16 = new Syncfusion.Windows.Forms.Tools.GradientLabel();
             this.BtnPos7 = new Syncfusion.Windows.Forms.ButtonAdv();
             this.BtnPos6 = new Syncfusion.Windows.Forms.ButtonAdv();
@@ -343,9 +343,9 @@
             this.GridTeachTable.UseRightToLeftCompatibleTextBox = true;
             this.GridTeachTable.PushButtonClick += new Syncfusion.Windows.Forms.Grid.GridCellPushButtonClickEventHandler(this.GridTeachTable_PushButtonClick);
             // 
-            // TmrTeach
+            // TimerUI
             // 
-            this.TmrTeach.Tick += new System.EventHandler(this.TmrTeach_Tick);
+            this.TimerUI.Tick += new System.EventHandler(this.TimerUI_Tick);
             // 
             // gradientLabel16
             // 
@@ -590,7 +590,7 @@
         private Syncfusion.Windows.Forms.ButtonAdv BtnPos1;
         private System.Windows.Forms.Button BtnSave;
         private Syncfusion.Windows.Forms.Grid.GridControl GridTeachTable;
-        private System.Windows.Forms.Timer TmrTeach;
+        private System.Windows.Forms.Timer TimerUI;
         private Syncfusion.Windows.Forms.Tools.GradientLabel gradientLabel16;
         private Syncfusion.Windows.Forms.ButtonAdv BtnPos7;
         private Syncfusion.Windows.Forms.ButtonAdv BtnPos6;

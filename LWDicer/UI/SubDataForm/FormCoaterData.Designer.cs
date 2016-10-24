@@ -29,8 +29,9 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormCoaterData));
-            Syncfusion.Windows.Forms.Grid.GridRangeStyle gridRangeStyle1 = new Syncfusion.Windows.Forms.Grid.GridRangeStyle();
-            Syncfusion.Windows.Forms.Grid.GridRangeStyle gridRangeStyle2 = new Syncfusion.Windows.Forms.Grid.GridRangeStyle();
+            Syncfusion.Windows.Forms.Grid.GridRangeStyle gridRangeStyle7 = new Syncfusion.Windows.Forms.Grid.GridRangeStyle();
+            Syncfusion.Windows.Forms.Grid.GridRangeStyle gridRangeStyle8 = new Syncfusion.Windows.Forms.Grid.GridRangeStyle();
+            Syncfusion.Windows.Forms.Grid.GridRangeStyle gridRangeStyle9 = new Syncfusion.Windows.Forms.Grid.GridRangeStyle();
             this.BtnSave = new System.Windows.Forms.Button();
             this.BtnExit = new System.Windows.Forms.Button();
             this.GridCtrl = new Syncfusion.Windows.Forms.Grid.GridControl();
@@ -57,6 +58,8 @@
             this.gradientPanel2 = new Syncfusion.Windows.Forms.Tools.GradientPanel();
             this.autoLabel14 = new Syncfusion.Windows.Forms.Tools.AutoLabel();
             this.gradientLabel17 = new Syncfusion.Windows.Forms.Tools.GradientLabel();
+            this.ComboSpinnerIndex = new System.Windows.Forms.ComboBox();
+            this.LabelSpinnerIndex = new Syncfusion.Windows.Forms.Tools.GradientLabel();
             ((System.ComponentModel.ISupportInitialize)(this.GridCtrl)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gradientPanel2)).BeginInit();
             this.gradientPanel2.SuspendLayout();
@@ -99,25 +102,34 @@
             this.GridCtrl.Font = new System.Drawing.Font("맑은 고딕", 11.25F, System.Drawing.FontStyle.Bold);
             this.GridCtrl.Location = new System.Drawing.Point(459, 56);
             this.GridCtrl.Name = "GridCtrl";
-            gridRangeStyle1.Range = Syncfusion.Windows.Forms.Grid.GridRangeInfo.Table();
-            gridRangeStyle1.StyleInfo.Font.Bold = true;
-            gridRangeStyle1.StyleInfo.Font.Facename = "맑은 고딕";
-            gridRangeStyle1.StyleInfo.Font.Italic = false;
-            gridRangeStyle1.StyleInfo.Font.Size = 11.25F;
-            gridRangeStyle1.StyleInfo.Font.Strikeout = false;
-            gridRangeStyle1.StyleInfo.Font.Underline = false;
-            gridRangeStyle1.StyleInfo.Font.Unit = System.Drawing.GraphicsUnit.Point;
-            gridRangeStyle2.Range = Syncfusion.Windows.Forms.Grid.GridRangeInfo.Table();
-            gridRangeStyle2.StyleInfo.Font.Bold = true;
-            gridRangeStyle2.StyleInfo.Font.Facename = "맑은 고딕";
-            gridRangeStyle2.StyleInfo.Font.Italic = false;
-            gridRangeStyle2.StyleInfo.Font.Size = 11.25F;
-            gridRangeStyle2.StyleInfo.Font.Strikeout = false;
-            gridRangeStyle2.StyleInfo.Font.Underline = false;
-            gridRangeStyle2.StyleInfo.Font.Unit = System.Drawing.GraphicsUnit.Point;
+            gridRangeStyle7.Range = Syncfusion.Windows.Forms.Grid.GridRangeInfo.Table();
+            gridRangeStyle7.StyleInfo.Font.Bold = true;
+            gridRangeStyle7.StyleInfo.Font.Facename = "맑은 고딕";
+            gridRangeStyle7.StyleInfo.Font.Italic = false;
+            gridRangeStyle7.StyleInfo.Font.Size = 11.25F;
+            gridRangeStyle7.StyleInfo.Font.Strikeout = false;
+            gridRangeStyle7.StyleInfo.Font.Underline = false;
+            gridRangeStyle7.StyleInfo.Font.Unit = System.Drawing.GraphicsUnit.Point;
+            gridRangeStyle8.Range = Syncfusion.Windows.Forms.Grid.GridRangeInfo.Table();
+            gridRangeStyle8.StyleInfo.Font.Bold = true;
+            gridRangeStyle8.StyleInfo.Font.Facename = "맑은 고딕";
+            gridRangeStyle8.StyleInfo.Font.Italic = false;
+            gridRangeStyle8.StyleInfo.Font.Size = 11.25F;
+            gridRangeStyle8.StyleInfo.Font.Strikeout = false;
+            gridRangeStyle8.StyleInfo.Font.Underline = false;
+            gridRangeStyle8.StyleInfo.Font.Unit = System.Drawing.GraphicsUnit.Point;
+            gridRangeStyle9.Range = Syncfusion.Windows.Forms.Grid.GridRangeInfo.Table();
+            gridRangeStyle9.StyleInfo.Font.Bold = true;
+            gridRangeStyle9.StyleInfo.Font.Facename = "맑은 고딕";
+            gridRangeStyle9.StyleInfo.Font.Italic = false;
+            gridRangeStyle9.StyleInfo.Font.Size = 11.25F;
+            gridRangeStyle9.StyleInfo.Font.Strikeout = false;
+            gridRangeStyle9.StyleInfo.Font.Underline = false;
+            gridRangeStyle9.StyleInfo.Font.Unit = System.Drawing.GraphicsUnit.Point;
             this.GridCtrl.RangeStyles.AddRange(new Syncfusion.Windows.Forms.Grid.GridRangeStyle[] {
-            gridRangeStyle1,
-            gridRangeStyle2});
+            gridRangeStyle7,
+            gridRangeStyle8,
+            gridRangeStyle9});
             this.GridCtrl.SerializeCellsBehavior = Syncfusion.Windows.Forms.Grid.GridSerializeCellsBehavior.SerializeAsRangeStylesIntoCode;
             this.GridCtrl.Size = new System.Drawing.Size(476, 600);
             this.GridCtrl.SmartSizeBox = false;
@@ -134,7 +146,7 @@
             | System.Windows.Forms.Border3DSide.Bottom)));
             this.LabelPVAQty.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.LabelPVAQty.ForeColor = System.Drawing.Color.Black;
-            this.LabelPVAQty.Location = new System.Drawing.Point(198, 62);
+            this.LabelPVAQty.Location = new System.Drawing.Point(198, 103);
             this.LabelPVAQty.Name = "LabelPVAQty";
             this.LabelPVAQty.Size = new System.Drawing.Size(136, 41);
             this.LabelPVAQty.TabIndex = 757;
@@ -149,7 +161,7 @@
             | System.Windows.Forms.Border3DSide.Bottom)));
             this.LabelMovingPVAQty.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.LabelMovingPVAQty.ForeColor = System.Drawing.Color.Black;
-            this.LabelMovingPVAQty.Location = new System.Drawing.Point(198, 109);
+            this.LabelMovingPVAQty.Location = new System.Drawing.Point(198, 150);
             this.LabelMovingPVAQty.Name = "LabelMovingPVAQty";
             this.LabelMovingPVAQty.Size = new System.Drawing.Size(136, 41);
             this.LabelMovingPVAQty.TabIndex = 758;
@@ -164,7 +176,7 @@
             | System.Windows.Forms.Border3DSide.Bottom)));
             this.LabelCoatingRate.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.LabelCoatingRate.ForeColor = System.Drawing.Color.Black;
-            this.LabelCoatingRate.Location = new System.Drawing.Point(198, 156);
+            this.LabelCoatingRate.Location = new System.Drawing.Point(198, 197);
             this.LabelCoatingRate.Name = "LabelCoatingRate";
             this.LabelCoatingRate.Size = new System.Drawing.Size(136, 41);
             this.LabelCoatingRate.TabIndex = 759;
@@ -179,7 +191,7 @@
             | System.Windows.Forms.Border3DSide.Bottom)));
             this.LabelCenterWaitTime.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.LabelCenterWaitTime.ForeColor = System.Drawing.Color.Black;
-            this.LabelCenterWaitTime.Location = new System.Drawing.Point(198, 203);
+            this.LabelCenterWaitTime.Location = new System.Drawing.Point(198, 244);
             this.LabelCenterWaitTime.Name = "LabelCenterWaitTime";
             this.LabelCenterWaitTime.Size = new System.Drawing.Size(136, 41);
             this.LabelCenterWaitTime.TabIndex = 760;
@@ -194,7 +206,7 @@
             | System.Windows.Forms.Border3DSide.Bottom)));
             this.LabelMovingSpeed.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.LabelMovingSpeed.ForeColor = System.Drawing.Color.Black;
-            this.LabelMovingSpeed.Location = new System.Drawing.Point(198, 289);
+            this.LabelMovingSpeed.Location = new System.Drawing.Point(198, 330);
             this.LabelMovingSpeed.Name = "LabelMovingSpeed";
             this.LabelMovingSpeed.Size = new System.Drawing.Size(136, 41);
             this.LabelMovingSpeed.TabIndex = 762;
@@ -209,7 +221,7 @@
             | System.Windows.Forms.Border3DSide.Bottom)));
             this.LabelCoatingArea.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.LabelCoatingArea.ForeColor = System.Drawing.Color.Black;
-            this.LabelCoatingArea.Location = new System.Drawing.Point(198, 336);
+            this.LabelCoatingArea.Location = new System.Drawing.Point(198, 377);
             this.LabelCoatingArea.Name = "LabelCoatingArea";
             this.LabelCoatingArea.Size = new System.Drawing.Size(136, 41);
             this.LabelCoatingArea.TabIndex = 763;
@@ -221,7 +233,7 @@
             this.autoLabel4.BackColor = System.Drawing.Color.Transparent;
             this.autoLabel4.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.autoLabel4.ForeColor = System.Drawing.Color.Black;
-            this.autoLabel4.Location = new System.Drawing.Point(334, 72);
+            this.autoLabel4.Location = new System.Drawing.Point(334, 113);
             this.autoLabel4.Name = "autoLabel4";
             this.autoLabel4.Size = new System.Drawing.Size(29, 21);
             this.autoLabel4.TabIndex = 764;
@@ -232,7 +244,7 @@
             this.autoLabel1.BackColor = System.Drawing.Color.Transparent;
             this.autoLabel1.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.autoLabel1.ForeColor = System.Drawing.Color.Black;
-            this.autoLabel1.Location = new System.Drawing.Point(334, 119);
+            this.autoLabel1.Location = new System.Drawing.Point(334, 160);
             this.autoLabel1.Name = "autoLabel1";
             this.autoLabel1.Size = new System.Drawing.Size(29, 21);
             this.autoLabel1.TabIndex = 765;
@@ -243,7 +255,7 @@
             this.autoLabel2.BackColor = System.Drawing.Color.Transparent;
             this.autoLabel2.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.autoLabel2.ForeColor = System.Drawing.Color.Black;
-            this.autoLabel2.Location = new System.Drawing.Point(334, 166);
+            this.autoLabel2.Location = new System.Drawing.Point(334, 207);
             this.autoLabel2.Name = "autoLabel2";
             this.autoLabel2.Size = new System.Drawing.Size(72, 21);
             this.autoLabel2.TabIndex = 766;
@@ -254,7 +266,7 @@
             this.autoLabel3.BackColor = System.Drawing.Color.Transparent;
             this.autoLabel3.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.autoLabel3.ForeColor = System.Drawing.Color.Black;
-            this.autoLabel3.Location = new System.Drawing.Point(334, 213);
+            this.autoLabel3.Location = new System.Drawing.Point(334, 254);
             this.autoLabel3.Name = "autoLabel3";
             this.autoLabel3.Size = new System.Drawing.Size(34, 21);
             this.autoLabel3.TabIndex = 767;
@@ -265,7 +277,7 @@
             this.autoLabel6.BackColor = System.Drawing.Color.Transparent;
             this.autoLabel6.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.autoLabel6.ForeColor = System.Drawing.Color.Black;
-            this.autoLabel6.Location = new System.Drawing.Point(334, 299);
+            this.autoLabel6.Location = new System.Drawing.Point(334, 340);
             this.autoLabel6.Name = "autoLabel6";
             this.autoLabel6.Size = new System.Drawing.Size(100, 21);
             this.autoLabel6.TabIndex = 769;
@@ -276,7 +288,7 @@
             this.autoLabel7.BackColor = System.Drawing.Color.Transparent;
             this.autoLabel7.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.autoLabel7.ForeColor = System.Drawing.Color.Black;
-            this.autoLabel7.Location = new System.Drawing.Point(334, 346);
+            this.autoLabel7.Location = new System.Drawing.Point(334, 387);
             this.autoLabel7.Name = "autoLabel7";
             this.autoLabel7.Size = new System.Drawing.Size(40, 21);
             this.autoLabel7.TabIndex = 770;
@@ -293,7 +305,7 @@
             this.ComboMode.Items.AddRange(new object[] {
             "AUTO",
             "MANUAL"});
-            this.ComboMode.Location = new System.Drawing.Point(198, 252);
+            this.ComboMode.Location = new System.Drawing.Point(198, 293);
             this.ComboMode.Name = "ComboMode";
             this.ComboMode.Size = new System.Drawing.Size(136, 29);
             this.ComboMode.TabIndex = 795;
@@ -304,7 +316,7 @@
             this.autoLabel5.BackColor = System.Drawing.Color.Transparent;
             this.autoLabel5.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.autoLabel5.ForeColor = System.Drawing.Color.Black;
-            this.autoLabel5.Location = new System.Drawing.Point(45, 72);
+            this.autoLabel5.Location = new System.Drawing.Point(45, 113);
             this.autoLabel5.Name = "autoLabel5";
             this.autoLabel5.Size = new System.Drawing.Size(117, 21);
             this.autoLabel5.TabIndex = 796;
@@ -315,7 +327,7 @@
             this.autoLabel8.BackColor = System.Drawing.Color.Transparent;
             this.autoLabel8.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.autoLabel8.ForeColor = System.Drawing.Color.Black;
-            this.autoLabel8.Location = new System.Drawing.Point(13, 119);
+            this.autoLabel8.Location = new System.Drawing.Point(13, 160);
             this.autoLabel8.Name = "autoLabel8";
             this.autoLabel8.Size = new System.Drawing.Size(181, 21);
             this.autoLabel8.TabIndex = 797;
@@ -326,7 +338,7 @@
             this.autoLabel9.BackColor = System.Drawing.Color.Transparent;
             this.autoLabel9.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.autoLabel9.ForeColor = System.Drawing.Color.Black;
-            this.autoLabel9.Location = new System.Drawing.Point(49, 166);
+            this.autoLabel9.Location = new System.Drawing.Point(49, 207);
             this.autoLabel9.Name = "autoLabel9";
             this.autoLabel9.Size = new System.Drawing.Size(109, 21);
             this.autoLabel9.TabIndex = 798;
@@ -337,7 +349,7 @@
             this.autoLabel10.BackColor = System.Drawing.Color.Transparent;
             this.autoLabel10.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.autoLabel10.ForeColor = System.Drawing.Color.Black;
-            this.autoLabel10.Location = new System.Drawing.Point(31, 213);
+            this.autoLabel10.Location = new System.Drawing.Point(31, 254);
             this.autoLabel10.Name = "autoLabel10";
             this.autoLabel10.Size = new System.Drawing.Size(144, 21);
             this.autoLabel10.TabIndex = 799;
@@ -348,7 +360,7 @@
             this.autoLabel11.BackColor = System.Drawing.Color.Transparent;
             this.autoLabel11.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.autoLabel11.ForeColor = System.Drawing.Color.Black;
-            this.autoLabel11.Location = new System.Drawing.Point(44, 256);
+            this.autoLabel11.Location = new System.Drawing.Point(44, 297);
             this.autoLabel11.Name = "autoLabel11";
             this.autoLabel11.Size = new System.Drawing.Size(118, 21);
             this.autoLabel11.TabIndex = 800;
@@ -359,7 +371,7 @@
             this.autoLabel12.BackColor = System.Drawing.Color.Transparent;
             this.autoLabel12.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.autoLabel12.ForeColor = System.Drawing.Color.Black;
-            this.autoLabel12.Location = new System.Drawing.Point(42, 299);
+            this.autoLabel12.Location = new System.Drawing.Point(42, 340);
             this.autoLabel12.Name = "autoLabel12";
             this.autoLabel12.Size = new System.Drawing.Size(122, 21);
             this.autoLabel12.TabIndex = 801;
@@ -370,7 +382,7 @@
             this.autoLabel13.BackColor = System.Drawing.Color.Transparent;
             this.autoLabel13.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.autoLabel13.ForeColor = System.Drawing.Color.Black;
-            this.autoLabel13.Location = new System.Drawing.Point(48, 346);
+            this.autoLabel13.Location = new System.Drawing.Point(48, 387);
             this.autoLabel13.Name = "autoLabel13";
             this.autoLabel13.Size = new System.Drawing.Size(110, 21);
             this.autoLabel13.TabIndex = 802;
@@ -383,7 +395,7 @@
             this.gradientPanel2.Border3DStyle = System.Windows.Forms.Border3DStyle.Raised;
             this.gradientPanel2.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.gradientPanel2.Controls.Add(this.autoLabel14);
-            this.gradientPanel2.Location = new System.Drawing.Point(9, 15);
+            this.gradientPanel2.Location = new System.Drawing.Point(9, 56);
             this.gradientPanel2.Name = "gradientPanel2";
             this.gradientPanel2.Size = new System.Drawing.Size(429, 387);
             this.gradientPanel2.TabIndex = 803;
@@ -392,7 +404,7 @@
             // 
             this.autoLabel14.BackColor = System.Drawing.Color.Transparent;
             this.autoLabel14.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.autoLabel14.Location = new System.Drawing.Point(162, 6);
+            this.autoLabel14.Location = new System.Drawing.Point(165, 6);
             this.autoLabel14.Name = "autoLabel14";
             this.autoLabel14.Size = new System.Drawing.Size(104, 15);
             this.autoLabel14.TabIndex = 31;
@@ -414,11 +426,43 @@
             this.gradientLabel17.Text = "Coating Sequence Operation";
             this.gradientLabel17.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // ComboSpinnerIndex
+            // 
+            this.ComboSpinnerIndex.DropDownHeight = 200;
+            this.ComboSpinnerIndex.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.ComboSpinnerIndex.DropDownWidth = 260;
+            this.ComboSpinnerIndex.Font = new System.Drawing.Font("굴림", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.ComboSpinnerIndex.FormattingEnabled = true;
+            this.ComboSpinnerIndex.IntegralHeight = false;
+            this.ComboSpinnerIndex.Location = new System.Drawing.Point(152, 11);
+            this.ComboSpinnerIndex.Name = "ComboSpinnerIndex";
+            this.ComboSpinnerIndex.Size = new System.Drawing.Size(194, 27);
+            this.ComboSpinnerIndex.TabIndex = 956;
+            this.ComboSpinnerIndex.SelectedIndexChanged += new System.EventHandler(this.ComboSpinnerIndex_SelectedIndexChanged);
+            // 
+            // LabelSpinnerIndex
+            // 
+            this.LabelSpinnerIndex.BackgroundColor = new Syncfusion.Drawing.BrushInfo(System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(64))))));
+            this.LabelSpinnerIndex.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
+            | System.Windows.Forms.Border3DSide.Right) 
+            | System.Windows.Forms.Border3DSide.Bottom)));
+            this.LabelSpinnerIndex.BorderStyle = System.Windows.Forms.Border3DStyle.Raised;
+            this.LabelSpinnerIndex.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.LabelSpinnerIndex.ForeColor = System.Drawing.Color.White;
+            this.LabelSpinnerIndex.Location = new System.Drawing.Point(9, 9);
+            this.LabelSpinnerIndex.Name = "LabelSpinnerIndex";
+            this.LabelSpinnerIndex.Size = new System.Drawing.Size(137, 31);
+            this.LabelSpinnerIndex.TabIndex = 955;
+            this.LabelSpinnerIndex.Text = "Spinner Index";
+            this.LabelSpinnerIndex.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // FormCoaterData
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(949, 672);
+            this.Controls.Add(this.ComboSpinnerIndex);
+            this.Controls.Add(this.LabelSpinnerIndex);
             this.Controls.Add(this.gradientLabel17);
             this.Controls.Add(this.autoLabel13);
             this.Controls.Add(this.autoLabel12);
@@ -485,5 +529,7 @@
         private Syncfusion.Windows.Forms.Tools.GradientPanel gradientPanel2;
         private Syncfusion.Windows.Forms.Tools.AutoLabel autoLabel14;
         private Syncfusion.Windows.Forms.Tools.GradientLabel gradientLabel17;
+        private System.Windows.Forms.ComboBox ComboSpinnerIndex;
+        private Syncfusion.Windows.Forms.Tools.GradientLabel LabelSpinnerIndex;
     }
 }

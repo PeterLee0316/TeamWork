@@ -12,6 +12,7 @@ using static LWDicer.Layers.DEF_System;
 using static LWDicer.Layers.DEF_Vision;
 using static LWDicer.Layers.DEF_Common;
 using static LWDicer.Layers.DEF_DataManager;
+using static LWDicer.Layers.DEF_Motion;
 using static LWDicer.Layers.DEF_MeStage;
 
 using LWDicer.Layers;
@@ -40,33 +41,27 @@ namespace LWDicer.UI
             CMainFrame.frmStageJog.Show();
         }
 
-        private void FormClose()
+        private void BtnExit_Click(object sender, EventArgs e)
         {
             // Local View 해제
             int iCam = CMainFrame.LWDicer.m_ctrlStage1.GetCurrentCam();
             CMainFrame.LWDicer.m_Vision.DestroyLocalView(iCam);
-            
             this.Close();
-        }
-
-
-        private void BtnExit_Click(object sender, EventArgs e)
-        {
-            FormClose();
         }
 
         private void FormEdgeAlignTeach_Load(object sender, EventArgs e)
         {
+#if !SIMULATION_VISION
             //int iCam = CMainFrame.LWDicer.m_ctrlStage1.GetCurrentCam();
             CMainFrame.LWDicer.m_Vision.InitialLocalView(PRE__CAM, picVision.Handle);
             CMainFrame.LWDicer.m_Vision.ShowRectRoi();
-
-            TmrTeach.Enabled = true;
-            TmrTeach.Interval = UITimerInterval;
-            TmrTeach.Start();
+#endif      
+            TimerUI.Enabled = true;
+            TimerUI.Interval = UITimerInterval;
+            TimerUI.Start();
         }
 
-        private void TmrTeach_Tick(object sender, EventArgs e)
+        private void TimerUI_Tick(object sender, EventArgs e)
         {
             // Current Position Display
             string strCurPos = string.Empty;
@@ -124,16 +119,20 @@ namespace LWDicer.UI
 
             dLength = WAFER_SIZE_12_INCH / 2.0 * Math.Cos(Math.PI / 180 * 45);
 
-            CMainFrame.DataManager.FixedPos.Stage1Pos.Pos[(int)EStagePos.EDGE_ALIGN_1].dX = CMainFrame.DataManager.FixedPos.Stage1Pos.Pos[(int)EStagePos.STAGE_CENTER_PRE].dX +
-                                                                                            dLength;
-            CMainFrame.DataManager.FixedPos.Stage1Pos.Pos[(int)EStagePos.EDGE_ALIGN_1].dY = CMainFrame.DataManager.FixedPos.Stage1Pos.Pos[(int)EStagePos.STAGE_CENTER_PRE].dY -
-                                                                                            dLength;
-            CMainFrame.DataManager.FixedPos.Stage1Pos.Pos[(int)EStagePos.EDGE_ALIGN_1].dT = CMainFrame.DataManager.FixedPos.Stage1Pos.Pos[(int)EStagePos.STAGE_CENTER_PRE].dT;
+            bool Type_Fixed = true;
 
+            CPositionGroup tGroup;
+            CMainFrame.LWDicer.GetPositionGroup(out tGroup, Type_Fixed);
+            EPositionObject pIndex = EPositionObject.STAGE1;
+            int direction = DEF_X;
 
+            int nSelectedPos = (int)EStagePos.EDGE_ALIGN_1;
+            int tPosIndex = (int)EStagePos.STAGE_CENTER_PRE;
+            tGroup.Pos_Array[(int)pIndex].Pos[nSelectedPos].Add(DEF_X, tGroup.Pos_Array[(int)pIndex].Pos[tPosIndex].GetAt(DEF_X) + dLength);
+            tGroup.Pos_Array[(int)pIndex].Pos[nSelectedPos].Add(DEF_Y, tGroup.Pos_Array[(int)pIndex].Pos[tPosIndex].GetAt(DEF_Y) - dLength);
+            tGroup.Pos_Array[(int)pIndex].Pos[nSelectedPos].Add(DEF_T, tGroup.Pos_Array[(int)pIndex].Pos[tPosIndex].GetAt(DEF_X));
 
-            CMainFrame.DataManager.SavePositionData(true, EPositionObject.STAGE1);
-            CMainFrame.LWDicer.SetPositionDataToComponent(EPositionGroup.STAGE1);
+            CMainFrame.LWDicer.SavePosition(tGroup, Type_Fixed, pIndex);
         }
 
         private void groupBox4_Enter(object sender, EventArgs e)
@@ -245,19 +244,18 @@ namespace LWDicer.UI
 
             dLength = WAFER_SIZE_12_INCH / 2.0 * Math.Cos(Math.PI / 180 * 45);
 
-            CMainFrame.DataManager.FixedPos.Stage1Pos.Pos[(int)EStagePos.EDGE_ALIGN_1].dX = CMainFrame.DataManager.FixedPos.Stage1Pos.Pos[(int)EStagePos.STAGE_CENTER_PRE].dX +
+            CMainFrame.DataManager.Pos_Fixed.Pos_Stage1.Pos[(int)EStagePos.EDGE_ALIGN_1].dX = CMainFrame.DataManager.Pos_Fixed.Pos_Stage1.Pos[(int)EStagePos.STAGE_CENTER_PRE].dX +
                                                                                             dLength;
-            CMainFrame.DataManager.FixedPos.Stage1Pos.Pos[(int)EStagePos.EDGE_ALIGN_1].dY = CMainFrame.DataManager.FixedPos.Stage1Pos.Pos[(int)EStagePos.STAGE_CENTER_PRE].dY -
+            CMainFrame.DataManager.Pos_Fixed.Pos_Stage1.Pos[(int)EStagePos.EDGE_ALIGN_1].dY = CMainFrame.DataManager.Pos_Fixed.Pos_Stage1.Pos[(int)EStagePos.STAGE_CENTER_PRE].dY -
                                                                                             dLength;
-            CMainFrame.DataManager.FixedPos.Stage1Pos.Pos[(int)EStagePos.EDGE_ALIGN_1].dT = CMainFrame.DataManager.FixedPos.Stage1Pos.Pos[(int)EStagePos.STAGE_CENTER_PRE].dT;
+            CMainFrame.DataManager.Pos_Fixed.Pos_Stage1.Pos[(int)EStagePos.EDGE_ALIGN_1].dT = CMainFrame.DataManager.Pos_Fixed.Pos_Stage1.Pos[(int)EStagePos.STAGE_CENTER_PRE].dT;
 
             // Wafer의 중심 Offset 적용
             CMainFrame.DataManager.SystemData_Align.WaferOffsetX = 0.0;
             CMainFrame.DataManager.SystemData_Align.WaferOffsetY = 0.0;
             CMainFrame.DataManager.SystemData_Align.WaferSizeOffset = 0.0;
 
-            CMainFrame.DataManager.SavePositionData(true, EPositionObject.STAGE1);
-            CMainFrame.LWDicer.SetPositionDataToComponent(EPositionGroup.STAGE1);
+            CMainFrame.LWDicer.SavePosition(CMainFrame.DataManager.Pos_Fixed, true, EPositionObject.STAGE1);
         }
 
         private void BtnJog_Click(object sender, EventArgs e)
@@ -279,8 +277,9 @@ namespace LWDicer.UI
         {
             CMainFrame.DataManager.SaveModelData(CMainFrame.DataManager.ModelData);
 
-            CMainFrame.DataManager.SavePositionData(true, EPositionObject.STAGE1);
-            CMainFrame.LWDicer.SetPositionDataToComponent(EPositionGroup.STAGE1);
+            // LJJ need to edit
+            //CMainFrame.DataManager.SavePositionData(true, EPositionObject.STAGE1);
+            //CMainFrame.LWDicer.SetPositionDataToComponent(EPositionGroup.STAGE1);
         }
 
         private void btnWaferCenterSearchRun_Click(object sender, EventArgs e)

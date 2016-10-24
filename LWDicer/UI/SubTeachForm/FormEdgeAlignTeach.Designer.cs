@@ -40,6 +40,7 @@
             this.btnEdgeTeachPos1 = new System.Windows.Forms.Button();
             this.btnEdgeAlignDataInit = new System.Windows.Forms.Button();
             this.btnEdgeAlignDataSave = new System.Windows.Forms.Button();
+            this.btnStageCenterPre = new System.Windows.Forms.Button();
             this.picVision = new System.Windows.Forms.Panel();
             this.BtnExit = new System.Windows.Forms.Button();
             this.pnlStageJog = new System.Windows.Forms.Panel();
@@ -57,7 +58,7 @@
             this.lblStagePosT = new Syncfusion.Windows.Forms.Tools.GradientLabel();
             this.lblStagePosY = new Syncfusion.Windows.Forms.Tools.GradientLabel();
             this.lblStagePosX = new Syncfusion.Windows.Forms.Tools.GradientLabel();
-            this.TmrTeach = new System.Windows.Forms.Timer(this.components);
+            this.TimerUI = new System.Windows.Forms.Timer(this.components);
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.btnSelectStageMove = new System.Windows.Forms.Button();
             this.btnSelectFocus = new System.Windows.Forms.Button();
@@ -222,6 +223,19 @@
             this.btnEdgeAlignDataSave.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.btnEdgeAlignDataSave.UseVisualStyleBackColor = true;
             this.btnEdgeAlignDataSave.Click += new System.EventHandler(this.btnEdgeAlignDataSave_Click);
+            // 
+            // btnStageCenterPre
+            // 
+            this.btnStageCenterPre.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.btnStageCenterPre.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.btnStageCenterPre.Location = new System.Drawing.Point(12, 21);
+            this.btnStageCenterPre.Name = "btnStageCenterPre";
+            this.btnStageCenterPre.Size = new System.Drawing.Size(98, 61);
+            this.btnStageCenterPre.TabIndex = 976;
+            this.btnStageCenterPre.Text = "Stage Center";
+            this.btnStageCenterPre.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.btnStageCenterPre.UseVisualStyleBackColor = true;
+            this.btnStageCenterPre.Click += new System.EventHandler(this.btnStageCenterPre_Click);
             // 
             // picVision
             // 
@@ -439,9 +453,9 @@
             this.lblStagePosX.Text = "0000";
             this.lblStagePosX.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // TmrTeach
+            // TimerUI
             // 
-            this.TmrTeach.Tick += new System.EventHandler(this.TmrTeach_Tick);
+            this.TimerUI.Tick += new System.EventHandler(this.TimerUI_Tick);
             // 
             // groupBox2
             // 
@@ -742,7 +756,7 @@
         private Syncfusion.Windows.Forms.Tools.GradientLabel lblStagePosT;
         private Syncfusion.Windows.Forms.Tools.GradientLabel lblStagePosY;
         private Syncfusion.Windows.Forms.Tools.GradientLabel lblStagePosX;
-        private System.Windows.Forms.Timer TmrTeach;
+        private System.Windows.Forms.Timer TimerUI;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.Button btnSelectStageMove;
         private System.Windows.Forms.Button btnSelectFocus;

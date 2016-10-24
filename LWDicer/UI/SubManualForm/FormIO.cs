@@ -36,7 +36,7 @@ namespace LWDicer.UI
             ResouceMapping();
         }
 
-        private void tmr_IO_Tick(object sender, EventArgs e)
+        private void TimerUI_Tick(object sender, EventArgs e)
         {
             string str;
             int addr;
@@ -154,9 +154,9 @@ namespace LWDicer.UI
 
         private void FormIO_Load(object sender, EventArgs e)
         {
-            tmr_IO.Enabled = true;
-            tmr_IO.Interval = UITimerInterval;
-            tmr_IO.Start();
+            TimerUI.Enabled = true;
+            TimerUI.Interval = UITimerInterval;
+            TimerUI.Start();
 
             UpdateIO(nIOPage);
         }
@@ -203,22 +203,13 @@ namespace LWDicer.UI
             CMainFrame.LWDicer.m_IO.OutputToggle(addr);
         }
 
-        private void FormClose()
-        {
-            tmr_IO.Enabled = false;
-            tmr_IO.Stop();
-
-            this.Hide();
-        }
-
         private void BtnExit_Click(object sender, EventArgs e)
         {
-            FormClose();
+            this.Close();
         }
 
         private void FormIO_FormClosing(object sender, FormClosingEventArgs e)
         {
-            FormClose();
         }
 
         private void BtnStart_Click(object sender, EventArgs e)

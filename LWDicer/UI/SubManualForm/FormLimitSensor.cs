@@ -96,25 +96,16 @@ namespace LWDicer.UI
 
         private void FormLimitSensor_Load(object sender, EventArgs e)
         {
-            TmrMotor.Enabled = true;
-            TmrMotor.Interval = UITimerInterval;
-            TmrMotor.Start();
-        }
-
-        private void FormClose()
-        {
-            TmrMotor.Enabled = true;
-            TmrMotor.Stop();
-
-            this.Hide();
+            TimerUI.Enabled = true;
+            TimerUI.Interval = UITimerInterval;
+            TimerUI.Start();
         }
 
         private void FormLimitSensor_FormClosing(object sender, FormClosingEventArgs e)
         {
-            FormClose();
         }
 
-        private void TmrMotor_Tick(object sender, EventArgs e)
+        private void TimerUI_Tick(object sender, EventArgs e)
         {
             double dPos = 0;
             string on = "On";
@@ -191,7 +182,7 @@ namespace LWDicer.UI
 
         private void BtnExit_Click(object sender, EventArgs e)
         {
-            FormClose();
+            this.Close();
         }
     }
 }

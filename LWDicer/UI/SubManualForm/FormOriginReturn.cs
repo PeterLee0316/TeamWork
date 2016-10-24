@@ -337,27 +337,21 @@ namespace LWDicer.UI
 
         private void FormOriginReturn_Load(object sender, EventArgs e)
         {
-            timer1.Enabled = true;
-            timer1.Interval = UITimerInterval;
-            timer1.Start();
-        }
-
-        private void FormClose()
-        {
-            this.Hide();
+            TimerUI.Enabled = true;
+            TimerUI.Interval = UITimerInterval;
+            TimerUI.Start();
         }
 
         private void BtnExit_Click(object sender, EventArgs e)
         {
-            FormClose();
+            this.Close();
         }
 
         private void FormOriginReturn_FormClosing(object sender, FormClosingEventArgs e)
         {
-            FormClose();
         }
 
-        private void timer1_Tick(object sender, EventArgs e)
+        private void TimerUI_Tick(object sender, EventArgs e)
         {
             UpdateUnitStatus();
         }

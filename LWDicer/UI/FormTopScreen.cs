@@ -33,9 +33,9 @@ namespace LWDicer.UI
             this.Size = new Size(DEF_UI.TOP_SIZE_WIDTH, DEF_UI.TOP_SIZE_HEIGHT);
             this.FormBorderStyle = FormBorderStyle.None;
 
-            tmFormTop.Interval = UITimerInterval;
-            tmFormTop.Enabled = true;
-            tmFormTop.Start();
+            TimerUI.Interval = UITimerInterval;
+            TimerUI.Enabled = true;
+            TimerUI.Start();
 
             btnStart.UseVisualStyleBackColor = true;
             btnStop.UseVisualStyleBackColor = true;
@@ -44,7 +44,7 @@ namespace LWDicer.UI
 
         }
 
-        private void tmFormTop_Tick(object sender, EventArgs e)
+        private void TimerUI_Tick(object sender, EventArgs e)
         {
             TextTime.Text = DateTime.Now.ToString("yyyy-MM-dd [ddd] <tt> HH:mm:ss");
 

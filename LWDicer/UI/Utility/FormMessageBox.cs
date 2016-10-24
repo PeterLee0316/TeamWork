@@ -138,7 +138,7 @@ namespace LWDicer.UI
             this.Close();
         }
 
-        private void timer1_Tick(object sender, EventArgs e)
+        private void TimerUI_Tick(object sender, EventArgs e)
         {
             //// Message를 제대로 load하지 못했을 경우에 display save button
             //if(TextEng.Text != MsgInfo.Message[(int)ELanguage.ENGLISH] 

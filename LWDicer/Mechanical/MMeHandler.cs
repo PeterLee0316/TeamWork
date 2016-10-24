@@ -201,11 +201,11 @@ namespace LWDicer.Layers
             return SUCCESS;
         }
 
-        public int SetHandlerPosition(CPosition FixedPos, CPosition ModelPos, CPosition OffsetPos)
+        public int SetPosition_Handler(CPositionSet Pos_Fixed, CPositionSet Pos_Model, CPositionSet Pos_Offset)
         {
             int pIndex = (int)EHandlerPos.WAIT;
-            m_Data.HandlerSafetyPos = FixedPos.Pos[pIndex] + ModelPos.Pos[pIndex] + OffsetPos.Pos[pIndex];
-            AxHandlerInfo.SetPosition(FixedPos, ModelPos, OffsetPos);
+            m_Data.HandlerSafetyPos = Pos_Fixed.Pos[pIndex] + Pos_Model.Pos[pIndex] + Pos_Offset.Pos[pIndex];
+            AxHandlerInfo.SetPositionSet(Pos_Fixed, Pos_Model, Pos_Offset);
             return SUCCESS;
         }
 
