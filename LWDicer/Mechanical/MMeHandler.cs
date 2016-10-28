@@ -289,7 +289,7 @@ namespace LWDicer.Layers
                     else // if off
                     {
                         bNeedWait = true;
-                        if (m_waitTimer.MoreThan(sData[i].TurningTime * 1000))
+                        if (m_waitTimer.MoreThan(sData[i].TurningTime, ETimeType.SECOND))
                         {
                             return GenerateErrorCode(ERR_HANDLER_VACUUM_ON_TIME_OUT);
                         }
@@ -351,7 +351,7 @@ namespace LWDicer.Layers
                     else // if off
                     {
                         bNeedWait = true;
-                        if (m_waitTimer.MoreThan(sData[i].TurningTime * 1000))
+                        if (m_waitTimer.MoreThan(sData[i].TurningTime, ETimeType.SECOND))
                         {
                             return GenerateErrorCode(ERR_HANDLER_VACUUM_OFF_TIME_OUT);
                         }

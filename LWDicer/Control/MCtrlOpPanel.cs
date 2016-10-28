@@ -548,7 +548,7 @@ namespace LWDicer.Layers
             if (m_bIOCheck) return iResult;
 
             // Blink Interval 계산 
-            if (m_BlinkTimer.MoreThan(m_dBlinkRate * 1000) == true)
+            if (m_BlinkTimer.MoreThan(m_dBlinkRate, ETimeType.SECOND) == true)
             {
                 // Blink 반전 
                 m_bBlinkState = !m_bBlinkState;

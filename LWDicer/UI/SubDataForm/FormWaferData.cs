@@ -40,7 +40,7 @@ namespace LWDicer.UI
 
         private void BtnSave_Click(object sender, EventArgs e)
         {
-            if (!CMainFrame.InquireMsg("Save Data?"))
+            if (!CMainFrame.InquireMsg("Save data?"))
             {
                 return;
             }

@@ -420,6 +420,16 @@ CSpinStep class -> CCleaningStep / CCoatingStep class 로 분리
 11. Name Changed : Mechanical Layer's SetXXXPosition -> SetPosition_XXX
 12. Position save / load / set to component 관련 부분 모두 수정 
 
+// Version : 0.0.40
+// Grade : ★
+// Date : 161024~161028
+// Context
+1. apply async/await structure in doing coating/cleaing job.
+2. MTickTimer class updated : changed default time type to ETypeType.SECOND
+3. completed updating the portion related to DoCleanOperation and DoCoatOperation method of spinner class.
+4. changed excel file name "xxx.xls" to "xxx_date_time.xlsx" when load/save data
+5. updated ImportDataFromExcel / ExportDataToExcel method of MDataManager and FormSystemParaRead class
+
 // ********************************************************************************
 // test를 위해서 임시로 결과값을 쓰는 코드들은 // for test 로 주석 달기 및 검색해서 사용하도록
 // ********************************************************************************

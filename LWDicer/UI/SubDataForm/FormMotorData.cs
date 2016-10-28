@@ -318,7 +318,7 @@ namespace LWDicer.UI
             int i = 0;
             int gridIndex = 1;
 
-            if (!CMainFrame.InquireMsg("Save Data?"))
+            if (!CMainFrame.InquireMsg("Save data?"))
             {
                 return;
             }

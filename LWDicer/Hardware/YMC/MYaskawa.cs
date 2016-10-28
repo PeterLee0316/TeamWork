@@ -2118,7 +2118,7 @@ MP2101TM            SVC(built-in the board, with MECHATROLINK port 1)       1   
                         }
 
                         // 1.3.2 check time limit
-                        if (m_waitTimer.MoreThan(timeLimit[i].tMoveLimit * 1000))
+                        if (m_waitTimer.MoreThan(timeLimit[i].tMoveLimit, ETimeType.SECOND))
                         {
                             return GenerateErrorCode(ERR_YASKAWA_FAIL_SERVO_MOVE_IN_LIMIT_TIME);
                         }
@@ -2134,7 +2134,7 @@ MP2101TM            SVC(built-in the board, with MECHATROLINK port 1)       1   
                         }
 
                         // 1.3.2 check time limit
-                        if (m_waitTimer.MoreThan(timeLimit[i].tOriginLimit * 1000))
+                        if (m_waitTimer.MoreThan(timeLimit[i].tOriginLimit, ETimeType.SECOND))
                         {
                             return GenerateErrorCode(ERR_YASKAWA_FAIL_SERVO_HOME_IN_LIMIT_TIME);
                         }

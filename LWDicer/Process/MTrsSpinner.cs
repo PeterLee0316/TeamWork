@@ -296,7 +296,7 @@ namespace LWDicer.Layers
                                 while (TInterface.PushPull_Spinner_UnloadStep1[(int)m_Data.SpinnerIndex] == false)
                                 {
                                     if (TInterface.ErrorOccured[TOpponent]) break;
-                                    if (TTimer.MoreThan(TInterface.TimeLimit))
+                                    if (TTimer.MoreThan(TInterface.TimeLimit, ETimeType.SECOND))
                                     {
                                         TInterface.TimeOver[TSelf] = true;
                                         break;
@@ -323,7 +323,7 @@ namespace LWDicer.Layers
                                 while (TInterface.PushPull_Spinner_UnloadStep2[(int)m_Data.SpinnerIndex] == false)
                                 {
                                     if (TInterface.ErrorOccured[TOpponent]) break;
-                                    if (TTimer.MoreThan(TInterface.TimeLimit))
+                                    if (TTimer.MoreThan(TInterface.TimeLimit, ETimeType.SECOND))
                                     {
                                         TInterface.TimeOver[TSelf] = true;
                                         break;
@@ -347,7 +347,7 @@ namespace LWDicer.Layers
                                 while (TInterface.PushPull_Spinner_FinishHandshake_Unload[(int)m_Data.SpinnerIndex] == false)
                                 {
                                     if (TInterface.ErrorOccured[TOpponent]) break;
-                                    if (TTimer.MoreThan(TInterface.TimeLimit))
+                                    if (TTimer.MoreThan(TInterface.TimeLimit, ETimeType.SECOND))
                                     {
                                         TInterface.TimeOver[TSelf] = true;
                                         break;
@@ -394,7 +394,7 @@ namespace LWDicer.Layers
                                 while (TInterface.PushPull_Spinner_LoadStep1[(int)m_Data.SpinnerIndex] == false)
                                 {
                                     if (TInterface.ErrorOccured[TOpponent]) break;
-                                    if (TTimer.MoreThan(TInterface.TimeLimit))
+                                    if (TTimer.MoreThan(TInterface.TimeLimit, ETimeType.SECOND))
                                     {
                                         TInterface.TimeOver[TSelf] = true;
                                         break;
@@ -419,7 +419,7 @@ namespace LWDicer.Layers
                                 while (TInterface.PushPull_Spinner_LoadStep2[(int)m_Data.SpinnerIndex] == false)
                                 {
                                     if (TInterface.ErrorOccured[TOpponent]) break;
-                                    if (TTimer.MoreThan(TInterface.TimeLimit))
+                                    if (TTimer.MoreThan(TInterface.TimeLimit, ETimeType.SECOND))
                                     {
                                         TInterface.TimeOver[TSelf] = true;
                                         break;
@@ -446,7 +446,7 @@ namespace LWDicer.Layers
                                 while (TInterface.PushPull_Spinner_FinishHandshake_Load[(int)m_Data.SpinnerIndex] == false)
                                 {
                                     if (TInterface.ErrorOccured[TOpponent]) break;
-                                    if (TTimer.MoreThan(TInterface.TimeLimit))
+                                    if (TTimer.MoreThan(TInterface.TimeLimit, ETimeType.SECOND))
                                     {
                                         TInterface.TimeOver[TSelf] = true;
                                         break;

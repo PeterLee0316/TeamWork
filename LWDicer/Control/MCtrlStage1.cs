@@ -16,8 +16,6 @@ using static LWDicer.Layers.DEF_CtrlStage;
 using static LWDicer.Layers.DEF_DataManager;
 using LWDicer.UI;
 
-using static LWDicer.Layers.MTickTimer.ETimeType;
-
 namespace LWDicer.Layers
 {
     public class DEF_CtrlStage
@@ -289,7 +287,7 @@ namespace LWDicer.Layers
                 if (i >= (nPatternCount - 1)) continue;
                 m_RefComp.Stage.MoveStagePos(patternMove);
 
-                while (m_ProcsTimer.LessThan(CMainFrame.DataManager.ModelData.ProcData.ProcessInterval, MTickTimer.ETimeType.SECOND))
+                while (m_ProcsTimer.LessThan(CMainFrame.DataManager.ModelData.ProcData.ProcessInterval, ETimeType.SECOND))
                 {
                     Sleep(100);
                 }
@@ -338,7 +336,7 @@ namespace LWDicer.Layers
                 if (i >= (nPatternCount - 1)) continue;
                 m_RefComp.Stage.MoveStagePos(patternMove);
 
-                while (m_ProcsTimer.LessThan(CMainFrame.DataManager.ModelData.ProcData.ProcessInterval, MTickTimer.ETimeType.SECOND))
+                while (m_ProcsTimer.LessThan(CMainFrame.DataManager.ModelData.ProcData.ProcessInterval, ETimeType.SECOND))
                 {
                     Sleep(100);
                 }
@@ -450,7 +448,7 @@ namespace LWDicer.Layers
                     MoveStageRelative(stepPitch, true);
                 }
 
-                while(m_ProcsTimer.LessThan(CMainFrame.DataManager.ModelData.ProcData.ProcessInterval,MTickTimer.ETimeType.SECOND))
+                while(m_ProcsTimer.LessThan(CMainFrame.DataManager.ModelData.ProcData.ProcessInterval,ETimeType.SECOND))
                 {
                     // Process정지 수행
                     if (CMainFrame.DataManager.ModelData.ProcData.ProcessStop) goto ProcessStop;

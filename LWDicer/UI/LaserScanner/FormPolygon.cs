@@ -646,7 +646,7 @@ namespace LWDicer.UI
 
         private void BtnConfigSave_Click(object sender, EventArgs e)
         {
-            if (!CMainFrame.DisplayMsg("Save Parameter ?")) return;
+            if (!CMainFrame.DisplayMsg("Save data?")) return;
 
             try
             {
@@ -726,7 +726,7 @@ namespace LWDicer.UI
             }
             catch
             {
-                CMainFrame.DisplayMsg("Save Parameter Fail");
+                CMainFrame.DisplayMsg("Failed to save data");
             }
 
         }

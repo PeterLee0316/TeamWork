@@ -161,7 +161,7 @@ namespace LWDicer.UI
             if (bRoiWidthWide)
             {
                 iRoiWidthValue += iRoiIncValue;
-                if (m_RoiTimer.MoreThan(200))
+                if (m_RoiTimer.MoreThan(200, ETimeType.MILLISECOND))
                 {
                     iRoiIncValue++;
                     m_RoiTimer.StopTimer();
@@ -171,7 +171,7 @@ namespace LWDicer.UI
             if (bRoiWidthNarrow)
             {
                 iRoiWidthValue -= iRoiIncValue;
-                if (m_RoiTimer.MoreThan(200))
+                if (m_RoiTimer.MoreThan(200, ETimeType.MILLISECOND))
                 {
                     iRoiIncValue++;
                     m_RoiTimer.StopTimer();
@@ -182,7 +182,7 @@ namespace LWDicer.UI
             {
                 iRoiHeightValue += iRoiIncValue;
 
-                if (m_RoiTimer.MoreThan(200))
+                if (m_RoiTimer.MoreThan(200, ETimeType.MILLISECOND))
                 {
                     iRoiIncValue++;
                     m_RoiTimer.StopTimer();
@@ -192,7 +192,7 @@ namespace LWDicer.UI
             if (bRoiHeightNarrow)
             {
                 iRoiHeightValue -= iRoiIncValue;
-                if (m_RoiTimer.MoreThan(200))
+                if (m_RoiTimer.MoreThan(200, ETimeType.MILLISECOND))
                 {
                     iRoiIncValue++;
                     m_RoiTimer.StopTimer();

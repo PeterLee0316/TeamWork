@@ -7,7 +7,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Diagnostics;
 
+using Syncfusion.Windows.Forms.Tools;
 using System.Collections.Specialized;
 
 using Syncfusion.Windows.Forms.Grid;
@@ -140,8 +142,40 @@ namespace LWDicer.UI
                 GridCtrl[i + 1, 3].TextColor = Color.Black;
             }
 
+            // Work Washing
+            LabelTime_PreWashing.Text = Convert.ToString(CleanerData.WorkSteps_General[0].OpTime);
+            LabelTime_Washing.Text    = Convert.ToString(CleanerData.WorkSteps_General[1].OpTime);
+            LabelTime_Rinsing.Text    = Convert.ToString(CleanerData.WorkSteps_General[2].OpTime);
+            LabelTime_Drying.Text     = Convert.ToString(CleanerData.WorkSteps_General[3].OpTime);
+
+            LabelRPM_PreWashing.Text = Convert.ToString(CleanerData.WorkSteps_General[0].RPMSpeed);
+            LabelRPM_Washing.Text    = Convert.ToString(CleanerData.WorkSteps_General[1].RPMSpeed);
+            LabelRPM_Rinsing.Text    = Convert.ToString(CleanerData.WorkSteps_General[2].RPMSpeed);
+            LabelRPM_Drying.Text     = Convert.ToString(CleanerData.WorkSteps_General[3].RPMSpeed);
+
+            // Table Washing
+            LabelTime_TableWashing.Text = Convert.ToString(CleanerData.TableSteps[0].OpTime);
+            LabelTime_TableDrying.Text = Convert.ToString(CleanerData.TableSteps[1].OpTime);
+
+            LabelRPM_TableWashing.Text = Convert.ToString(CleanerData.TableSteps[0].RPMSpeed);
+            LabelRPM_TableDrying.Text = Convert.ToString(CleanerData.TableSteps[1].RPMSpeed);
+
+            checkBox_EnableTableWashing.Checked = CleanerData.EnableThoroughCleaning;
+            Label_NozzleSpeed.Text = Convert.ToString(CleanerData.NozzleSpeed);
+
+            // Case / Disk Washing
+            LabelTime_CaseWashing.Text = Convert.ToString(CleanerData.CaseSteps[0].OpTime);
+            LabelTime_DiskWashing.Text = Convert.ToString(CleanerData.DiskSteps[0].OpTime);
+
+            LabelRPM_CaseWashing.Text = Convert.ToString(CleanerData.CaseSteps[0].RPMSpeed);
+            LabelRPM_DiskWashing.Text = Convert.ToString(CleanerData.DiskSteps[0].RPMSpeed);
+
+            // other
             LabelStroke.Text = Convert.ToString(CleanerData.WashStroke);
             LabelStroke.ForeColor = Color.Black;
+
+            checkBox_UseCommon.Checked = (CleanerData.UseWashSteps_General) ? true : false;
+            checkBox_UseCustom.Checked = !checkBox_UseCommon.Checked;
         }
 
 
@@ -156,21 +190,61 @@ namespace LWDicer.UI
 
         private void BtnSave_Click(object sender, EventArgs e)
         {
-            if (!CMainFrame.InquireMsg("Save Data?"))
+            if (!CMainFrame.InquireMsg("Save data?"))
             {
                 return;
             }
 
             for (int i = 0; i < DEF_MAX_SPINNER_STEP; i++)
             {
-                ECleanOperation operation = (ECleanOperation)Enum.Parse(typeof(ECleanOperation), GridCtrl[i + 1, 1].Text);
-                CleanerData.WorkSteps_Custom[i].Operation = operation;
+                ECleanOperation cnvt = ECleanOperation.NONE;
+                try
+                {
+                    cnvt = (ECleanOperation)Enum.Parse(typeof(ECleanOperation), GridCtrl[i + 1, 1].Text);
+                }
+                catch (System.Exception ex)
+                {
+                    Debug.WriteLine(ex);
+                }
+                CleanerData.WorkSteps_Custom[i].Operation = cnvt;
                 CleanerData.WorkSteps_Custom[i].OpTime = Convert.ToDouble(GridCtrl[i + 1, 2].Text);
                 CleanerData.WorkSteps_Custom[i].RPMSpeed = Convert.ToInt32(GridCtrl[i + 1, 3].Text);
             }
 
-            CleanerData.WashStroke = Convert.ToDouble(LabelStroke.Text);
 
+            // Work Washing
+            CleanerData.WorkSteps_General[0].OpTime = Convert.ToDouble(LabelTime_PreWashing.Text);
+            CleanerData.WorkSteps_General[1].OpTime = Convert.ToDouble(LabelTime_Washing.Text);
+            CleanerData.WorkSteps_General[2].OpTime = Convert.ToDouble(LabelTime_Rinsing.Text);
+            CleanerData.WorkSteps_General[3].OpTime = Convert.ToDouble(LabelTime_Drying.Text);
+
+            CleanerData.WorkSteps_General[0].RPMSpeed = Convert.ToInt16(LabelRPM_PreWashing.Text);
+            CleanerData.WorkSteps_General[1].RPMSpeed = Convert.ToInt16(LabelRPM_Washing.Text);
+            CleanerData.WorkSteps_General[2].RPMSpeed = Convert.ToInt16(LabelRPM_Rinsing.Text);
+            CleanerData.WorkSteps_General[3].RPMSpeed = Convert.ToInt16(LabelRPM_Drying.Text);
+
+            // Table Washing
+            CleanerData.TableSteps[0].OpTime = Convert.ToDouble(LabelTime_TableWashing.Text);
+            CleanerData.TableSteps[1].OpTime = Convert.ToDouble(LabelTime_TableDrying.Text);
+
+            CleanerData.TableSteps[0].RPMSpeed = Convert.ToInt16(LabelRPM_TableWashing.Text);
+            CleanerData.TableSteps[1].RPMSpeed = Convert.ToInt16(LabelRPM_TableDrying.Text);
+
+            checkBox_EnableTableWashing.Checked = CleanerData.EnableThoroughCleaning;
+            CleanerData.NozzleSpeed = Convert.ToDouble(Label_NozzleSpeed.Text);
+
+            // Case / Disk Washing
+            CleanerData.CaseSteps[0].OpTime = Convert.ToDouble(LabelTime_CaseWashing.Text);
+            CleanerData.DiskSteps[0].OpTime = Convert.ToDouble(LabelTime_DiskWashing.Text);
+
+            CleanerData.CaseSteps[0].RPMSpeed = Convert.ToInt16(LabelRPM_CaseWashing.Text);
+            CleanerData.DiskSteps[0].RPMSpeed = Convert.ToInt16(LabelRPM_DiskWashing.Text);
+
+            // other
+            CleanerData.WashStroke              = Convert.ToDouble(LabelStroke.Text);
+            CleanerData.UseWashSteps_General = (checkBox_UseCommon.Checked) ? true : false;
+
+            // save
             CMainFrame.DataManager.ModelData.SpinnerData[(int)m_SpinnerIndex].CleanerData = ObjectExtensions.Copy(CleanerData);
             CMainFrame.LWDicer.SaveModelData(CMainFrame.DataManager.ModelData);
 
@@ -213,23 +287,6 @@ namespace LWDicer.UI
             }
         }
 
-        private void LabelStroke_Click(object sender, EventArgs e)
-        {
-            int nCol = 0, nRow = 0;
-            string strCurrent = "", strModify = "";
-
-            strCurrent = LabelStroke.Text;
-
-            if (!CMainFrame.GetKeyPad(strCurrent, out strModify))
-            {
-                return;
-            }
-
-            LabelStroke.Text = strModify;
-            LabelStroke.ForeColor = Color.Red;
-
-        }
-
         private void FormCleanerData_Load(object sender, EventArgs e)
         {
 
@@ -239,6 +296,43 @@ namespace LWDicer.UI
         {
             m_SpinnerIndex = ESpinnerIndex.SPINNER1 + ComboSpinnerIndex.SelectedIndex;
             CleanerData = ObjectExtensions.Copy(CMainFrame.DataManager.ModelData.SpinnerData[(int)m_SpinnerIndex].CleanerData);
+            UpdateData();
+        }
+
+        private void LabelData_Click(object sender, EventArgs e)
+        {
+            GradientLabel data = sender as GradientLabel;
+
+            int nCol = 0, nRow = 0;
+            string strCurrent = "", strModify = "";
+
+            strCurrent = data.Text;
+
+            if (!CMainFrame.GetKeyPad(strCurrent, out strModify))
+            {
+                return;
+            }
+
+            data.Text = strModify;
+            data.ForeColor = Color.Red;
+        }
+
+        private void checkBox_UseCustom_Click(object sender, EventArgs e)
+        {
+            checkBox_UseCommon.Checked = checkBox_UseCustom.Checked;
+
+        }
+
+        private void checkBox_UseCommon_Click(object sender, EventArgs e)
+        {
+            checkBox_UseCustom.Checked = checkBox_UseCommon.Checked;
+        }
+
+        private void BtnLoadFrom_Click(object sender, EventArgs e)
+        {
+            ESpinnerIndex index = (m_SpinnerIndex == ESpinnerIndex.SPINNER1) ? ESpinnerIndex.SPINNER2 : ESpinnerIndex.SPINNER1;
+            CleanerData = ObjectExtensions.Copy(CMainFrame.DataManager.ModelData.SpinnerData[(int)index].CleanerData);
+
             UpdateData();
         }
     }

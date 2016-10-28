@@ -483,7 +483,7 @@ namespace LWDicer.UI
                 return;
             }
 
-            if (!CMainFrame.InquireMsg($"Change selected model?"))
+            if (!CMainFrame.InquireMsg($"Change to selected model?"))
             {
                 return;
             }

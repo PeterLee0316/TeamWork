@@ -1147,8 +1147,8 @@ namespace LWDicer.Layers
             m_Vision.LiveVideo(FINE_CAM);
 
             // Pattern Model Data Read & Apply
-            CModelData pModelData;
-            m_DataManager.ViewModelData("Default", out pModelData);
+            //CModelData pModelData;
+            //m_DataManager.ViewModelData("Default", out pModelData);
 
             // LJJ need to edit
             //int iResult = SaveModelData(pModelData);

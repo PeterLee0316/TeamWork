@@ -7,10 +7,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-
 using Syncfusion.Windows.Forms.Tools;
-
 using System.Collections.Specialized;
+using System.Diagnostics;
 
 using Syncfusion.Windows.Forms.Grid;
 using Syncfusion.Windows.Forms;
@@ -180,15 +179,23 @@ namespace LWDicer.UI
 
         private void BtnSave_Click(object sender, EventArgs e)
         {
-            if (!CMainFrame.InquireMsg("Save Data?"))
+            if (!CMainFrame.InquireMsg("Save data?"))
             {
                 return;
             }
 
             for (int i = 0; i < DEF_MAX_SPINNER_STEP; i++)
             {
-                ECoatOperation operation = (ECoatOperation)Enum.Parse(typeof(ECoatOperation), GridCtrl[i + 1, 1].Text);
-                CoaterData.WorkSteps_Custom[i].Operation = operation;
+                ECoatOperation cnvt = ECoatOperation.NONE;
+                try
+                {
+                    cnvt = (ECoatOperation)Enum.Parse(typeof(ECoatOperation), GridCtrl[i + 1, 1].Text);
+                }
+                catch (System.Exception ex)
+                {
+                    Debug.WriteLine(ex);
+                }
+                CoaterData.WorkSteps_Custom[i].Operation = cnvt;
                 CoaterData.WorkSteps_Custom[i].OpTime = Convert.ToDouble(GridCtrl[i + 1, 2].Text);
                 CoaterData.WorkSteps_Custom[i].RPMSpeed = Convert.ToInt32(GridCtrl[i + 1, 3].Text);
             }
@@ -197,10 +204,11 @@ namespace LWDicer.UI
             CoaterData.MovingPVAQty = Convert.ToInt16(LabelCoatData[1].Text);
             CoaterData.CoatingRate = Convert.ToInt16(LabelCoatData[2].Text);
             CoaterData.CenterWaitTime = Convert.ToInt16(LabelCoatData[3].Text);
-            CoaterData.NozzleSpeed = Convert.ToInt16(LabelCoatData[4].Text);
+            CoaterData.NozzleSpeed = Convert.ToDouble(LabelCoatData[4].Text);
             CoaterData.CoatingArea = Convert.ToDouble(LabelCoatData[5].Text);
             CoaterData.MoveMode = selMode;
 
+            // save
             CMainFrame.DataManager.ModelData.SpinnerData[(int)m_SpinnerIndex].CoaterData = ObjectExtensions.Copy(CoaterData);
             //CMainFrame.LWDicer.SaveModelData(CMainFrame.DataManager.ModelData);
             CMainFrame.LWDicer.SaveModelData(CMainFrame.DataManager.ModelData);
@@ -244,7 +252,7 @@ namespace LWDicer.UI
             }
         }
 
-        private void LabelCoatData_Click(object sender, EventArgs e)
+        private void LabelData_Click(object sender, EventArgs e)
         {
             GradientLabel data = sender as GradientLabel;
 
@@ -271,6 +279,14 @@ namespace LWDicer.UI
         {
             m_SpinnerIndex = ESpinnerIndex.SPINNER1 + ComboSpinnerIndex.SelectedIndex;
             CoaterData = ObjectExtensions.Copy(CMainFrame.DataManager.ModelData.SpinnerData[(int)m_SpinnerIndex].CoaterData);
+            UpdateData();
+        }
+
+        private void BtnLoadFrom_Click(object sender, EventArgs e)
+        {
+            ESpinnerIndex index = (m_SpinnerIndex == ESpinnerIndex.SPINNER1) ? ESpinnerIndex.SPINNER2 : ESpinnerIndex.SPINNER1;
+            CoaterData = ObjectExtensions.Copy(CMainFrame.DataManager.ModelData.SpinnerData[(int)index].CoaterData);
+
             UpdateData();
         }
     }

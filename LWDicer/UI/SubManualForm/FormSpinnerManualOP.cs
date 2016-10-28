@@ -23,6 +23,7 @@ namespace LWDicer.UI
         private ESpinnerIndex m_SpinnerIndex = 0;
         private MMeSpinner m_MeSpinner;
         private MCtrlSpinner m_CtrlSpinner;
+        private MTickTimer m_ActionTimer = new MTickTimer();
 
         public FormSpinnerManualOP()
         {
@@ -49,10 +50,10 @@ namespace LWDicer.UI
             } else
             {
                 this.Text = "Spinner 2 Manual Operation";
-                m_MeSpinner = CMainFrame.LWDicer.m_MeSpinner1;
-                m_CtrlSpinner = CMainFrame.LWDicer.m_ctrlSpinner1;
+                m_MeSpinner = CMainFrame.LWDicer.m_MeSpinner2;
+                m_CtrlSpinner = CMainFrame.LWDicer.m_ctrlSpinner2;
             }
-
+/*
             if (CMainFrame.DataManager.SystemData.UseSpinnerSeparately)
             {
                 if (CMainFrame.DataManager.SystemData.UCoaterIndex == ESpinnerIndex.SPINNER1)
@@ -64,7 +65,8 @@ namespace LWDicer.UI
                         BtnCleaningJobStart.Visible = false;
                         BtnCleaningJobStop.Visible = false;
                         LabelCleaningTime_Title.Visible = false;
-                        LabelCleaningTime.Visible = false;
+                        LabelTime_Cleaning.Visible = false;
+                        LabelStep_Cleaning.Visible = false;
                     } else
                     {
                         this.Text = "Cleaner Manual Operation";
@@ -72,7 +74,8 @@ namespace LWDicer.UI
                         BtnCoatingJobStart.Visible = false;
                         BtnCoatingJobStop.Visible = false;
                         LabelCoatingTime_Title.Visible = false;
-                        LabelCoatingTime.Visible = false;
+                        LabelTime_Coating.Visible = false;
+                        LabelStep_Coating.Visible = false;
                     }
                 }
                 else
@@ -84,7 +87,8 @@ namespace LWDicer.UI
                         BtnCoatingJobStart.Visible = false;
                         BtnCoatingJobStop.Visible = false;
                         LabelCoatingTime_Title.Visible = false;
-                        LabelCoatingTime.Visible = false;
+                        LabelTime_Coating.Visible = false;
+                        LabelStep_Coating.Visible = false;
                     }
                     else
                     {
@@ -93,14 +97,15 @@ namespace LWDicer.UI
                         BtnCleaningJobStart.Visible = false;
                         BtnCleaningJobStop.Visible = false;
                         LabelCleaningTime_Title.Visible = false;
-                        LabelCleaningTime.Visible = false;
+                        LabelTime_Cleaning.Visible = false;
+                        LabelStep_Cleaning.Visible = false;
                     }
                 }
             }
             else
             {
             }
-
+*/
             TimerUI.Enabled = true;
             TimerUI.Interval = UITimerInterval;
             TimerUI.Start();
@@ -108,7 +113,7 @@ namespace LWDicer.UI
 
         private void FormSpinnerManualOP_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (m_CtrlSpinner.IsDoingJob)
+            if (m_CtrlSpinner.IsDoingJob_Coating || m_CtrlSpinner.IsDoingJob_Cleaning)
             {
                 CMainFrame.DisplayMsg("The requested operation is in progress.");
                 e.Cancel = true;
@@ -192,17 +197,59 @@ namespace LWDicer.UI
             CMainFrame.DisplayAlarm(iResult);
         }
 
-        private void BtnCleaningJobStart_Click(object sender, EventArgs e)
+        private async void BtnCleaningJobStart_Click(object sender, EventArgs e)
         {
-
-        }
-
-        private void BtnCoatingJobStart_Click(object sender, EventArgs e)
-        {
-            if (m_CtrlSpinner.IsDoingJob)
+            if (m_CtrlSpinner.IsDoingJob_Coating || m_CtrlSpinner.IsDoingJob_Cleaning)
             {
                 CMainFrame.DisplayMsg("The requested job is in progress.");
                 return;
+            }
+
+            // 비동기로 Worker Thread에서 도는 task1
+            var task1 = Task<int>.Run(() => m_CtrlSpinner.DoCleanOperation());
+
+            // task1이 끝나길 기다렸다가 끝나면 결과를 확인
+            BtnCleaningJobStart.BackColor = CMainFrame.BtnBackColor_On;
+            m_ActionTimer.StartTimer();
+            int iResult = await task1;
+            LabelTime_Cleaning.Text = $"{m_ActionTimer.GetElapsedTime():0.00} sec";
+            BtnCleaningJobStart.BackColor = CMainFrame.BtnBackColor_Off;
+
+            if (m_CtrlSpinner.IsCancelJob_byManual)
+            {
+                CMainFrame.DisplayMsg("The requested job was canceled by user");
+            }
+            else
+            {
+                CMainFrame.DisplayAlarm(iResult);
+            }
+        }
+
+        private async void BtnCoatingJobStart_Click(object sender, EventArgs e)
+        {
+            if (m_CtrlSpinner.IsDoingJob_Coating || m_CtrlSpinner.IsDoingJob_Cleaning)
+            {
+                CMainFrame.DisplayMsg("The requested job is in progress.");
+                return;
+            }
+
+            // 비동기로 Worker Thread에서 도는 task1
+            var task1 = Task<int>.Run(() => m_CtrlSpinner.DoCoatOperation());
+
+            // task1이 끝나길 기다렸다가 끝나면 결과를 확인
+            BtnCoatingJobStart.BackColor = CMainFrame.BtnBackColor_On;
+            m_ActionTimer.StartTimer();
+            int iResult = await task1;
+            LabelTime_Coating.Text = $"{m_ActionTimer.GetElapsedTime():0.00} sec";
+            BtnCoatingJobStart.BackColor = CMainFrame.BtnBackColor_Off;
+
+            if (m_CtrlSpinner.IsCancelJob_byManual)
+            {
+                CMainFrame.DisplayMsg("The requested job was canceled by user");
+            }
+            else
+            {
+                CMainFrame.DisplayAlarm(iResult);
             }
         }
 
@@ -211,9 +258,37 @@ namespace LWDicer.UI
             m_CtrlSpinner.IsCancelJob_byManual = true;
         }
 
+        private void BtnCleaningJobStop_Click(object sender, EventArgs e)
+        {
+            m_CtrlSpinner.IsCancelJob_byManual = true;
+        }
+
         private void TimerUI_Tick(object sender, EventArgs e)
         {
             UpdateStatus();
+
+            int nline = 38;
+            if(m_CtrlSpinner.IsDoingJob_Coating)
+            {
+                LabelTime_Coating.Text = $"{m_CtrlSpinner.GetJobElapsedTime()}";
+                string str = m_CtrlSpinner.CurStep_Coating.ToString();
+                if (str.Length > nline)
+                {
+                    LabelStep_Coating.Text = str.Substring(0, nline) + Environment.NewLine + str.Substring(nline);
+
+                }
+            }
+
+            if (m_CtrlSpinner.IsDoingJob_Cleaning)
+            {
+                LabelTime_Cleaning.Text = $"{m_CtrlSpinner.GetJobElapsedTime()}";
+                string str = m_CtrlSpinner.CurStep_Cleaning.ToString();
+                if (str.Length > nline)
+                {
+                    LabelStep_Cleaning.Text = str.Substring(0, nline) + Environment.NewLine + str.Substring(nline);
+
+                }
+            }
         }
     }
 }

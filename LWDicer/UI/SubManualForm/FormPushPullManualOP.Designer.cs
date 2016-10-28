@@ -50,7 +50,7 @@
             this.BtnExit.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
             this.BtnExit.Image = ((System.Drawing.Image)(resources.GetObject("BtnExit.Image")));
             this.BtnExit.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.BtnExit.Location = new System.Drawing.Point(231, 393);
+            this.BtnExit.Location = new System.Drawing.Point(449, 360);
             this.BtnExit.Name = "BtnExit";
             this.BtnExit.Size = new System.Drawing.Size(124, 61);
             this.BtnExit.TabIndex = 756;
@@ -72,9 +72,9 @@
             this.BtnGripUnLock.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
             this.BtnGripUnLock.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
             this.BtnGripUnLock.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.BtnGripUnLock.Location = new System.Drawing.Point(144, 57);
+            this.BtnGripUnLock.Location = new System.Drawing.Point(142, 57);
             this.BtnGripUnLock.Name = "BtnGripUnLock";
-            this.BtnGripUnLock.Size = new System.Drawing.Size(117, 64);
+            this.BtnGripUnLock.Size = new System.Drawing.Size(130, 64);
             this.BtnGripUnLock.TabIndex = 867;
             this.BtnGripUnLock.Tag = "1";
             this.BtnGripUnLock.Text = "Unlock";
@@ -89,9 +89,9 @@
             this.BtnGripLock.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
             this.BtnGripLock.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
             this.BtnGripLock.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.BtnGripLock.Location = new System.Drawing.Point(24, 57);
+            this.BtnGripLock.Location = new System.Drawing.Point(10, 57);
             this.BtnGripLock.Name = "BtnGripLock";
-            this.BtnGripLock.Size = new System.Drawing.Size(117, 64);
+            this.BtnGripLock.Size = new System.Drawing.Size(130, 64);
             this.BtnGripLock.TabIndex = 866;
             this.BtnGripLock.Tag = "0";
             this.BtnGripLock.Text = "Lock";
@@ -106,9 +106,9 @@
             this.BtnPushPullDown.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
             this.BtnPushPullDown.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
             this.BtnPushPullDown.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.BtnPushPullDown.Location = new System.Drawing.Point(447, 57);
+            this.BtnPushPullDown.Location = new System.Drawing.Point(443, 57);
             this.BtnPushPullDown.Name = "BtnPushPullDown";
-            this.BtnPushPullDown.Size = new System.Drawing.Size(117, 64);
+            this.BtnPushPullDown.Size = new System.Drawing.Size(130, 64);
             this.BtnPushPullDown.TabIndex = 869;
             this.BtnPushPullDown.Tag = "1";
             this.BtnPushPullDown.Text = "Down";
@@ -123,9 +123,9 @@
             this.BtnPushPullUp.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
             this.BtnPushPullUp.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
             this.BtnPushPullUp.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.BtnPushPullUp.Location = new System.Drawing.Point(327, 57);
+            this.BtnPushPullUp.Location = new System.Drawing.Point(311, 57);
             this.BtnPushPullUp.Name = "BtnPushPullUp";
-            this.BtnPushPullUp.Size = new System.Drawing.Size(117, 64);
+            this.BtnPushPullUp.Size = new System.Drawing.Size(130, 64);
             this.BtnPushPullUp.TabIndex = 868;
             this.BtnPushPullUp.Tag = "0";
             this.BtnPushPullUp.Text = "Up";
@@ -140,9 +140,9 @@
             this.gradientLabel16.BorderStyle = System.Windows.Forms.Border3DStyle.Bump;
             this.gradientLabel16.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.gradientLabel16.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.gradientLabel16.Location = new System.Drawing.Point(24, 17);
+            this.gradientLabel16.Location = new System.Drawing.Point(10, 17);
             this.gradientLabel16.Name = "gradientLabel16";
-            this.gradientLabel16.Size = new System.Drawing.Size(237, 38);
+            this.gradientLabel16.Size = new System.Drawing.Size(262, 38);
             this.gradientLabel16.TabIndex = 932;
             this.gradientLabel16.Text = "Gripper";
             this.gradientLabel16.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -156,9 +156,9 @@
             this.gradientLabel1.BorderStyle = System.Windows.Forms.Border3DStyle.Bump;
             this.gradientLabel1.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.gradientLabel1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.gradientLabel1.Location = new System.Drawing.Point(327, 17);
+            this.gradientLabel1.Location = new System.Drawing.Point(311, 17);
             this.gradientLabel1.Name = "gradientLabel1";
-            this.gradientLabel1.Size = new System.Drawing.Size(237, 38);
+            this.gradientLabel1.Size = new System.Drawing.Size(262, 38);
             this.gradientLabel1.TabIndex = 933;
             this.gradientLabel1.Text = "PushPull Up/Down";
             this.gradientLabel1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -172,9 +172,9 @@
             this.LabelGripTime.BorderStyle = System.Windows.Forms.Border3DStyle.Bump;
             this.LabelGripTime.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.LabelGripTime.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.LabelGripTime.Location = new System.Drawing.Point(144, 123);
+            this.LabelGripTime.Location = new System.Drawing.Point(142, 123);
             this.LabelGripTime.Name = "LabelGripTime";
-            this.LabelGripTime.Size = new System.Drawing.Size(117, 30);
+            this.LabelGripTime.Size = new System.Drawing.Size(130, 30);
             this.LabelGripTime.TabIndex = 969;
             this.LabelGripTime.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
@@ -187,9 +187,9 @@
             this.gradientLabel10.BorderStyle = System.Windows.Forms.Border3DStyle.Bump;
             this.gradientLabel10.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.gradientLabel10.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
-            this.gradientLabel10.Location = new System.Drawing.Point(24, 123);
+            this.gradientLabel10.Location = new System.Drawing.Point(10, 123);
             this.gradientLabel10.Name = "gradientLabel10";
-            this.gradientLabel10.Size = new System.Drawing.Size(117, 30);
+            this.gradientLabel10.Size = new System.Drawing.Size(130, 30);
             this.gradientLabel10.TabIndex = 968;
             this.gradientLabel10.Text = "수행 시간";
             this.gradientLabel10.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -203,9 +203,9 @@
             this.LabelUpDnTime.BorderStyle = System.Windows.Forms.Border3DStyle.Bump;
             this.LabelUpDnTime.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.LabelUpDnTime.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.LabelUpDnTime.Location = new System.Drawing.Point(447, 123);
+            this.LabelUpDnTime.Location = new System.Drawing.Point(443, 123);
             this.LabelUpDnTime.Name = "LabelUpDnTime";
-            this.LabelUpDnTime.Size = new System.Drawing.Size(117, 30);
+            this.LabelUpDnTime.Size = new System.Drawing.Size(130, 30);
             this.LabelUpDnTime.TabIndex = 971;
             this.LabelUpDnTime.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
@@ -218,9 +218,9 @@
             this.gradientLabel3.BorderStyle = System.Windows.Forms.Border3DStyle.Bump;
             this.gradientLabel3.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.gradientLabel3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
-            this.gradientLabel3.Location = new System.Drawing.Point(327, 123);
+            this.gradientLabel3.Location = new System.Drawing.Point(311, 123);
             this.gradientLabel3.Name = "gradientLabel3";
-            this.gradientLabel3.Size = new System.Drawing.Size(117, 30);
+            this.gradientLabel3.Size = new System.Drawing.Size(130, 30);
             this.gradientLabel3.TabIndex = 970;
             this.gradientLabel3.Text = "수행 시간";
             this.gradientLabel3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -229,7 +229,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(584, 466);
+            this.ClientSize = new System.Drawing.Size(584, 439);
             this.Controls.Add(this.LabelUpDnTime);
             this.Controls.Add(this.gradientLabel3);
             this.Controls.Add(this.LabelGripTime);

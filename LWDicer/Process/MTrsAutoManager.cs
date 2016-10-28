@@ -311,11 +311,20 @@ namespace LWDicer.Layers
               Debug.WriteLine($"[{ToString()}] received message : {evnt.ToThreadMessage()}");
 
             // check message is valid
-            if (Enum.IsDefined(typeof(EThreadMessage), evnt.Msg) == false)
-                return SUCCESS;
+            //if(Enum.TryParse())
+            //if (Enum.IsDefined(typeof(EThreadMessage), evnt.Msg) == false)
+            //    return SUCCESS;
 
-            EThreadMessage cnvt = (EThreadMessage)Enum.Parse(typeof(EThreadMessage), evnt.Msg.ToString());
-            switch (cnvt)
+            EThreadMessage msg = EThreadMessage.NONE;
+            try
+            {
+                msg = (EThreadMessage)Enum.Parse(typeof(EThreadMessage), evnt.Msg.ToString());
+            }
+            catch (System.Exception ex)
+            {
+                Debug.WriteLine(ex);
+            }
+            switch (msg)
             {
                 case EThreadMessage.MSG_PROCESS_ALARM:
                     //if (AfxGetApp()->GetMainWnd() != NULL)

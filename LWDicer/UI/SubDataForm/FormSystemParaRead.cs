@@ -7,6 +7,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.IO;
+using System.Diagnostics;
+using Syncfusion.Windows.Forms;
 
 using static LWDicer.Layers.DEF_System;
 using static LWDicer.Layers.DEF_Common;
@@ -21,94 +24,6 @@ namespace LWDicer.UI
             InitializeComponent();
         }
 
-        private void BtnParaInfoImport_Click(object sender, EventArgs e)
-        {
-            if (!CMainFrame.InquireMsg("Import data from excel?"))
-            {
-                return;
-            }
-
-            int iResult = CMainFrame.DataManager.ImportDataFromExcel(EExcel_Sheet.PARA_Info);
-            CMainFrame.DisplayAlarm(iResult);
-        }
-
-        private void BtnAlarmInfoImport_Click(object sender, EventArgs e)
-        {
-            if (!CMainFrame.InquireMsg("Import data from excel?"))
-            {
-                return;
-            }
-
-            int iResult = CMainFrame.DataManager.ImportDataFromExcel(EExcel_Sheet.Alarm_Info);
-            CMainFrame.DisplayAlarm(iResult);
-        }
-
-        private void BtnIOInfoImport_Click(object sender, EventArgs e)
-        {
-            if (!CMainFrame.InquireMsg("Import data from excel?"))
-            {
-                return;
-            }
-
-            int iResult = CMainFrame.DataManager.ImportDataFromExcel(EExcel_Sheet.IO_Info);
-            CMainFrame.DisplayAlarm(iResult);
-        }
-
-        private void BtnMotorDataImport_Click(object sender, EventArgs e)
-        {
-            if (!CMainFrame.InquireMsg("Import data from excel?"))
-            {
-                return;
-            }
-
-            int iResult = CMainFrame.DataManager.ImportDataFromExcel(EExcel_Sheet.Motor_Data);
-            CMainFrame.DisplayAlarm(iResult);
-        }
-
-        private void BtnParaInfoExport_Click(object sender, EventArgs e)
-        {
-            if (!CMainFrame.InquireMsg("Export data to excel?"))
-            {
-                return;
-            }
-
-            int iResult = SUCCESS;
-            CMainFrame.DisplayAlarm(iResult);
-        }
-
-        private void BtnAlarmInfoExport_Click(object sender, EventArgs e)
-        {
-            if (!CMainFrame.InquireMsg("Export data to excel?"))
-            {
-                return;
-            }
-
-            int iResult = CMainFrame.DataManager.ExportDataToExcel(EExcel_Sheet.Alarm_Info);
-            CMainFrame.DisplayAlarm(iResult);
-        }
-
-        private void BtnIOInfoExport_Click(object sender, EventArgs e)
-        {
-            if (!CMainFrame.InquireMsg("Export data to excel?"))
-            {
-                return;
-            }
-
-            int iResult = SUCCESS;
-            CMainFrame.DisplayAlarm(iResult);
-        }
-
-        private void BtnMotorDataExport_Click(object sender, EventArgs e)
-        {
-            if (!CMainFrame.InquireMsg("Export data to excel?"))
-            {
-                return;
-            }
-
-            int iResult = CMainFrame.DataManager.ExportDataToExcel(EExcel_Sheet.Motor_Data);
-            CMainFrame.DisplayAlarm(iResult);
-        }
-
         private void BtnConfigureExit_Click(object sender, EventArgs e)
         {
             this.Close();
@@ -118,61 +33,92 @@ namespace LWDicer.UI
         {
         }
 
-        private void BtnMsgInfoImport_Click(object sender, EventArgs e)
+        private void BtnImport_Click(object sender, EventArgs e)
         {
-            //if (!CMainFrame.InquireMsg("Import data from excel?"))
-            //{
-            //    return;
-            //}
+            if (!CMainFrame.InquireMsg("Import data from excel?"))
+            {
+                return;
+            }
 
-            int iResult = CMainFrame.DataManager.ImportDataFromExcel(EExcel_Sheet.Message_Info);
-            CMainFrame.DisplayAlarm(iResult);
+            var dlg = new OpenFileDialog();
+            dlg.InitialDirectory = CMainFrame.DataManager.DBInfo.SystemDir;
+            dlg.Filter = "Excel Files|*.xlsx";
+            dlg.Title = "Select a System Parameter File";
+
+            if (dlg.ShowDialog() != System.Windows.Forms.DialogResult.OK)
+                return;
+
+            Button btn = sender as Button;
+            EInfoExcel_Sheet sheet = EInfoExcel_Sheet.MAX;
+            try
+            {
+                sheet = (EInfoExcel_Sheet)Enum.Parse(typeof(EInfoExcel_Sheet), btn.Tag.ToString());
+            }
+            catch (System.Exception ex)
+            {
+                Debug.WriteLine(ex);
+            }
+
+            try
+            {
+                int iResult = CMainFrame.DataManager.ImportDataFromExcel(dlg.FileName, sheet);
+                CMainFrame.DisplayAlarm(iResult);
+            }
+            catch (System.Exception ex)
+            {
+                CMainFrame.DisplayMsg("Error occured when import parameter file");
+                return;
+            }
         }
 
-        private void BtnMsgInfoExport_Click(object sender, EventArgs e)
+        private void BtnExport_Click(object sender, EventArgs e)
         {
             if (!CMainFrame.InquireMsg("Export data to excel?"))
             {
                 return;
             }
 
-            int iResult = CMainFrame.DataManager.ExportDataToExcel(EExcel_Sheet.Message_Info);
-            CMainFrame.DisplayAlarm(iResult);
+            Button btn = sender as Button;
+            EInfoExcel_Sheet sheet = EInfoExcel_Sheet.MAX;
+            try
+            {
+                sheet = (EInfoExcel_Sheet)Enum.Parse(typeof(EInfoExcel_Sheet), btn.Tag.ToString());
+            }
+            catch (System.Exception ex)
+            {
+                Debug.WriteLine(ex);
+            }
+
+            try
+            {
+                string strDefault = CMainFrame.DBInfo.GetExcelParaName_Default();
+                string strNew = CMainFrame.DBInfo.GetExcelParaName_New();
+                if(File.Exists(strNew) == false)
+                {
+                    if(File.Exists(strDefault) == false)
+                    {
+                        CMainFrame.DisplayMsg("Default parameter excel file is not exist");
+                        return;
+                    }
+                    File.Copy(strDefault, strNew);
+                }
+                int iResult = CMainFrame.DataManager.ExportDataToExcel(strNew, sheet);
+                CMainFrame.DisplayAlarm(iResult);
+            }
+            catch (System.Exception ex)
+            {
+                CMainFrame.DisplayMsg("Error occured when export parameter file");
+                return;            	
+            }
         }
 
-        private void BtnMotorDataDelete_Click(object sender, EventArgs e)
-        {
-        }
-
-        private void BtnIOInfoDelete_Click(object sender, EventArgs e)
+        private void BtnDelete_Click(object sender, EventArgs e)
         {
             if (!CMainFrame.InquireMsg("Delete all data in database?")) return;
 
-            int iResult = CMainFrame.DataManager.DeleteInfoTable(CMainFrame.DataManager.DBInfo.TableIO);
-            CMainFrame.DisplayAlarm(iResult);
-        }
-
-        private void BtnAlarmInfoDelete_Click(object sender, EventArgs e)
-        {
-            if (!CMainFrame.InquireMsg("Delete all data in database?")) return;
-
-            int iResult = CMainFrame.DataManager.DeleteInfoTable(CMainFrame.DataManager.DBInfo.TableAlarmInfo);
-            CMainFrame.DisplayAlarm(iResult);
-        }
-
-        private void BtnMsgInfoDelete_Click(object sender, EventArgs e)
-        {
-            if (!CMainFrame.InquireMsg("Delete all data in database?")) return;
-
-            int iResult = CMainFrame.DataManager.DeleteInfoTable(CMainFrame.DataManager.DBInfo.TableMessageInfo);
-            CMainFrame.DisplayAlarm(iResult);
-        }
-
-        private void BtnParaInfoDelete_Click(object sender, EventArgs e)
-        {
-            if (!CMainFrame.InquireMsg("Delete all data in database?")) return;
-
-            int iResult = CMainFrame.DataManager.DeleteInfoTable(CMainFrame.DataManager.DBInfo.TableParameter);
+            Button btn = sender as Button;
+            int iResult = CMainFrame.DataManager.DeleteInfoTable(btn.Tag.ToString());
+            //int iResult = CMainFrame.DataManager.DeleteInfoTable(CMainFrame.DataManager.DBInfo.TableParameter);
             CMainFrame.DisplayAlarm(iResult);
         }
     }

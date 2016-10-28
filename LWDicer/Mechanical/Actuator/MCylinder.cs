@@ -524,7 +524,7 @@ namespace LWDicer.Layers
                     }
 
                     // Cylinder Timeout 을 체크함
-                    if (m_waitTimer.MoreThan(m_Data.Time.MovingTime * 1000))
+                    if (m_waitTimer.MoreThan(m_Data.Time.MovingTime, ETimeType.SECOND))
                     {
                         switch (m_Data.SolenoidType)
                         {
@@ -609,7 +609,7 @@ namespace LWDicer.Layers
                         if (bVal) break; // IO 동작이 완료 되었음
                     }
 
-                    if (m_waitTimer.MoreThan(m_Data.Time.MovingTime * 1000))
+                    if (m_waitTimer.MoreThan(m_Data.Time.MovingTime, ETimeType.SECOND))
                     {
                         switch (m_Data.SolenoidType)
                         {
