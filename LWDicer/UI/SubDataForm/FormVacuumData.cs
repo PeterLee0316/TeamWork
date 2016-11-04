@@ -44,9 +44,7 @@ namespace LWDicer.UI
 
             CSystemData_Vacuum data = new CSystemData_Vacuum();
 
-            int i = 0;
-
-            for (i = 0; i < (int)EObjectVacuum.MAX; i++)
+            for (int i = 0; i < (int)EObjectVacuum.MAX; i++)
             {
                 data.VacuumTimer[i].TurningTime = Convert.ToDouble(GridCtrl[i + 1, 1].Text);
                 data.VacuumTimer[i].OnSettlingTime = Convert.ToDouble(GridCtrl[i + 1, 2].Text);
@@ -103,8 +101,6 @@ namespace LWDicer.UI
 
         private void InitGrid()
         {
-            int i = 0, j = 0, nCol = 0, nRow = 0;
-
             // Cell Click 시 커서가 생성되지 않게함.
             GridCtrl.ActivateCurrentCellBehavior = GridCellActivateAction.None;
 
@@ -112,22 +108,22 @@ namespace LWDicer.UI
             GridCtrl.Properties.RowHeaders = true;
             GridCtrl.Properties.ColHeaders = true;
 
-            nCol = 3;
-            nRow = (int)EObjectVacuum.MAX;
+            int nCol = 3;
+            int nRow = (int)EObjectVacuum.MAX;
 
             // Column,Row 개수
             GridCtrl.ColCount = nCol;
             GridCtrl.RowCount = nRow;
 
             // Column 가로 크기설정
-            for (i = 0; i < nCol + 1; i++)
+            for (int i = 0; i < nCol + 1; i++)
             {
                 GridCtrl.ColWidths.SetSize(i, 120);
             }
 
             GridCtrl.ColWidths.SetSize(0, 200);
 
-            for (i = 0; i < nRow + 1; i++)
+            for (int i = 0; i < nRow + 1; i++)
             {
                 GridCtrl.RowHeights[i] = 34;
             }
@@ -138,14 +134,14 @@ namespace LWDicer.UI
             GridCtrl[0, 2].Text = "After On         Wait Time";
             GridCtrl[0, 3].Text = "After Off         Wait Time";
 
-            for (i = 0; i < (int)EObjectVacuum.MAX; i++)
+            for (int i = 0; i < (int)EObjectVacuum.MAX; i++)
             {
                 GridCtrl[i + 1, 0].Text = CMainFrame.LWDicer.m_SystemInfo.GetObjectName(150 + i);
             }
 
-            for (i = 0; i < nCol + 1; i++)
+            for (int i = 0; i < nCol + 1; i++)
             {
-                for (j = 0; j < nRow + 1; j++)
+                for (int j = 0; j < nRow + 1; j++)
                 {
                     // Font Style - Bold
                     GridCtrl[j, i].Font.Bold = true;
@@ -155,9 +151,9 @@ namespace LWDicer.UI
                 }
             }
 
-            for (i = 1; i < nCol + 1; i++)
+            for (int i = 1; i < nCol + 1; i++)
             {
-                for (j = 1; j < nRow + 1; j++)
+                for (int j = 1; j < nRow + 1; j++)
                 {
                     GridCtrl[j, i].BackColor = Color.FromArgb(220, 220, 255);
                 }
@@ -174,16 +170,13 @@ namespace LWDicer.UI
 
         private void UpdateScreen(CSystemData_Vacuum systemVacuum)
         {
-            string strText;
-            int i = 0, j = 0;
-
-            for (i = 0; i < (int)EObjectVacuum.MAX; i++)
+            for (int i = 0; i < (int)EObjectVacuum.MAX; i++)
             {
                 GridCtrl[i + 1, 1].Text = String.Format("{0:0.000}", systemVacuum.VacuumTimer[i].TurningTime);
                 GridCtrl[i + 1, 2].Text = String.Format("{0:0.000}", systemVacuum.VacuumTimer[i].OnSettlingTime);
                 GridCtrl[i + 1, 3].Text = String.Format("{0:0.000}", systemVacuum.VacuumTimer[i].OffSettlingTime);
 
-                for (j = 0; j < 3; j++)
+                for (int j = 0; j < 3; j++)
                 {
                     GridCtrl[i + 1, j + 1].TextColor = Color.Black;
                 }

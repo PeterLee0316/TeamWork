@@ -83,15 +83,13 @@ namespace LWDicer.UI
             TeachLoPos[5] = BtnLoPos6; TeachLoPos[6] = BtnLoPos7; TeachLoPos[7] = BtnLoPos8; TeachLoPos[8] = BtnLoPos9; TeachLoPos[9] = BtnLoPos10;
             TeachLoPos[10] = BtnLoPos11; TeachLoPos[11] = BtnLoPos12; TeachLoPos[12] = BtnLoPos13; TeachLoPos[13] = BtnLoPos14; TeachLoPos[14] = BtnLoPos15;
 
-            int i = 0;
-
-            for(i=0;i<15;i++)
+            for (int i = 0; i < 15; i++)
             {
                 TeachLoPos[i].Visible = false;
                 TeachUpPos[i].Visible = false;
             }
 
-            for (i = 0; i < (int)EHandlerPos.MAX; i++)
+            for (int i = 0; i < (int)EHandlerPos.MAX; i++)
             {
                 TeachUpPos[i].Visible = true;
                 TeachLoPos[i].Visible = true;
@@ -103,8 +101,6 @@ namespace LWDicer.UI
 
         private void InitUpperHandlerGrid()
         {
-            int i = 0, j = 0, nCol = 0, nRow = 0;
-
             // Cell Click 시 커서가 생성되지 않게함.
             GridUpHandlerTeachTable.ActivateCurrentCellBehavior = GridCellActivateAction.None;
 
@@ -112,22 +108,22 @@ namespace LWDicer.UI
             GridUpHandlerTeachTable.Properties.RowHeaders = true;
             GridUpHandlerTeachTable.Properties.ColHeaders = false;
 
-            nCol = 2;
-            nRow = 8;
+            int nCol = 2;
+            int nRow = 8;
 
             // Column,Row 개수
             GridUpHandlerTeachTable.ColCount = nCol;
             GridUpHandlerTeachTable.RowCount = nRow;
 
             // Column 가로 크기설정
-            for (i = 0; i < nCol + 1; i++)
+            for (int i = 0; i < nCol + 1; i++)
             {
                 GridUpHandlerTeachTable.ColWidths.SetSize(i, 172);
             }
 
             GridUpHandlerTeachTable.ColWidths.SetSize(0, 110);
 
-            for (i = 0; i < nRow + 1; i++)
+            for (int i = 0; i < nRow + 1; i++)
             {
                 GridUpHandlerTeachTable.RowHeights[i] = 40;
             }
@@ -150,9 +146,9 @@ namespace LWDicer.UI
             GridUpHandlerTeachTable[7, 0].Text = "현재 위치";
             GridUpHandlerTeachTable[8, 0].Text = "보정값";
 
-            for (i = 0; i < nCol + 1; i++)
+            for (int i = 0; i < nCol + 1; i++)
             {
-                for (j = 0; j < nRow + 1; j++)
+                for (int j = 0; j < nRow + 1; j++)
                 {
                     // Font Style - Bold
                     GridUpHandlerTeachTable[j, i].Font.Bold = true;
@@ -172,7 +168,7 @@ namespace LWDicer.UI
             GridUpHandlerTeachTable.ResizeColsBehavior = 0;
             GridUpHandlerTeachTable.ResizeRowsBehavior = 0;
 
-            for (i = 0; i < nCol; i++)
+            for (int i = 0; i < nCol; i++)
             {
                 GridUpHandlerTeachTable[1, i + 1].TextColor = Color.LightGray;
                 GridUpHandlerTeachTable[1, i + 1].Description = "";
@@ -192,8 +188,6 @@ namespace LWDicer.UI
 
         private void InitLowerHandlerGrid()
         {
-            int i = 0, j = 0, nCol = 0, nRow = 0;
-
             // Cell Click 시 커서가 생성되지 않게함.
             GridLoHandlerTeachTable.ActivateCurrentCellBehavior = GridCellActivateAction.None;
 
@@ -201,22 +195,22 @@ namespace LWDicer.UI
             GridLoHandlerTeachTable.Properties.RowHeaders = true;
             GridLoHandlerTeachTable.Properties.ColHeaders = false;
 
-            nCol = 2;
-            nRow = 8;
+            int nCol = 2;
+            int nRow = 8;
 
             // Column,Row 개수
             GridLoHandlerTeachTable.ColCount = nCol;
             GridLoHandlerTeachTable.RowCount = nRow;
 
             // Column 가로 크기설정
-            for (i = 0; i < nCol + 1; i++)
+            for (int i = 0; i < nCol + 1; i++)
             {
                 GridLoHandlerTeachTable.ColWidths.SetSize(i, 172);
             }
 
             GridLoHandlerTeachTable.ColWidths.SetSize(0, 110);
 
-            for (i = 0; i < nRow + 1; i++)
+            for (int i = 0; i < nRow + 1; i++)
             {
                 GridLoHandlerTeachTable.RowHeights[i] = 40;
 
@@ -240,9 +234,9 @@ namespace LWDicer.UI
             GridLoHandlerTeachTable[7, 0].Text = "현재 위치";
             GridLoHandlerTeachTable[8, 0].Text = "보정값";
 
-            for (i = 0; i < nCol + 1; i++)
+            for (int i = 0; i < nCol + 1; i++)
             {
-                for (j = 0; j < nRow + 1; j++)
+                for (int j = 0; j < nRow + 1; j++)
                 {
                     // Font Style - Bold
                     GridLoHandlerTeachTable[j, i].Font.Bold = true;
@@ -262,7 +256,7 @@ namespace LWDicer.UI
             GridLoHandlerTeachTable.ResizeColsBehavior = 0;
             GridLoHandlerTeachTable.ResizeRowsBehavior = 0;
 
-            for (i = 0; i < nCol; i++)
+            for (int i = 0; i < nCol; i++)
             {
                 GridLoHandlerTeachTable[1, i + 1].TextColor = Color.LightGray;
                 GridLoHandlerTeachTable[1, i + 1].Description = "";
@@ -310,18 +304,16 @@ namespace LWDicer.UI
 
         private void UpdateUpperTeachPos(int selectedPos)
         {
-            int nCount = 0, i = 0, j = 0;
+            int nCount = (int)EHandlerPos.MAX;
 
-            nCount = (int)EHandlerPos.MAX;
-
-            for (i = 0; i < nCount; i++)
+            for (int i = 0; i < nCount; i++)
             {
                 TeachUpPos[i].BackColor = Color.LightYellow;
             }
 
-            for (i = 0; i < GridUpHandlerTeachTable.ColCount + 1; i++)
+            for (int i = 0; i < GridUpHandlerTeachTable.ColCount + 1; i++)
             {
-                for (j = 0; j < GridUpHandlerTeachTable.RowCount; j++)
+                for (int j = 0; j < GridUpHandlerTeachTable.RowCount; j++)
                 {
                     if (i != 0 && j > 1)
                     {
@@ -351,18 +343,16 @@ namespace LWDicer.UI
 
         private void UpdateLowerTeachPos(int selectedPos)
         {
-            int nCount = 0, i = 0, j = 0;
+            int nCount = (int)EHandlerPos.MAX;
 
-            nCount = (int)EHandlerPos.MAX;
-
-            for (i = 0; i < nCount; i++)
+            for (int i = 0; i < nCount; i++)
             {
                 TeachLoPos[i].BackColor = Color.LightYellow;
             }
 
-            for (i = 0; i < GridLoHandlerTeachTable.ColCount + 1; i++)
+            for (int i = 0; i < GridLoHandlerTeachTable.ColCount + 1; i++)
             {
-                for (j = 0; j < GridLoHandlerTeachTable.RowCount; j++)
+                for (int j = 0; j < GridLoHandlerTeachTable.RowCount; j++)
                 {
                     if (i != 0 && j > 1)
                     {

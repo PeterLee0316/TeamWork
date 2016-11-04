@@ -280,10 +280,10 @@ namespace LWDicer.UI
             bool bStatus;
 
             CSystemData systemData = CMainFrame.LWDicer.m_DataManager.SystemData;
-            if (systemData.UseSafetySensor)
+            if (systemData.CheckSafety_AutoMode)
             {
                 iResult = CMainFrame.LWDicer.m_ctrlOpPanel.GetDoorSWStatus(out bStatus);
-                if (bStatus == true)
+                if (bStatus == false)
                 {
                     CMainFrame.DisplayMsg("Door가 아직 전부 닫히지 않았습니다. 확인 후 다시 시도해주세요.", "Error");
                     return;

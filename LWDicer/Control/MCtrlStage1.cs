@@ -222,7 +222,7 @@ namespace LWDicer.Layers
 
         public async void LaserProcessMof()
         {
-            int iResult;
+            int iResult = SUCCESS;
             var taskProcess = Task<int>.Run(() => LaserProcessMofRun());
 
             iResult = await taskProcess;
@@ -554,7 +554,7 @@ namespace LWDicer.Layers
         public int MoveToStageTurn()
         {
             // Theta Align한 dT 값을 읽음
-            int iResult;
+            int iResult = SUCCESS;
             var thetaPos = new CPos_XYTZ();
             m_RefComp.Stage.GetThetaAlignPosA(out thetaPos);
             // 현재 위치를 읽음
@@ -575,7 +575,7 @@ namespace LWDicer.Layers
         public int MoveToStageReturn()
         {
             // Theta Align한 dT 값을 읽음
-            int iResult;
+            int iResult = SUCCESS;
             var thetaPos = new CPos_XYTZ();
             m_RefComp.Stage.GetThetaAlignPosA(out thetaPos);
             // 현재 위치를 읽음
@@ -631,7 +631,7 @@ namespace LWDicer.Layers
 
         public int MoveToThetaAlignPosA()
         {
-            int iResult;
+            int iResult = SUCCESS;
             
             if(GetCurrentCam()==PRE__CAM)
                 iResult = m_RefComp.Stage.MoveStageToThetaAlignPosA(true);
@@ -645,7 +645,7 @@ namespace LWDicer.Layers
 
         public int MoveToThetaAlignPosB()
         {
-            int iResult;
+            int iResult = SUCCESS;
 
             if (GetCurrentCam() == PRE__CAM)
                 iResult = m_RefComp.Stage.MoveStageToThetaAlignPosB(true);
@@ -660,7 +660,7 @@ namespace LWDicer.Layers
 
         public int MoveToThetaAlignTurnPosA()
         {
-            int iResult;
+            int iResult = SUCCESS;
 
             if (GetCurrentCam() == PRE__CAM)
                 iResult = m_RefComp.Stage.MoveStageToThetaAlignTurnPosA(true);
@@ -674,7 +674,7 @@ namespace LWDicer.Layers
 
         public int MoveToThetaAlignTurnPosB()
         {
-            int iResult;
+            int iResult = SUCCESS;
 
             if (GetCurrentCam() == PRE__CAM)
                 iResult = m_RefComp.Stage.MoveStageToThetaAlignTurnPosB();
@@ -689,7 +689,7 @@ namespace LWDicer.Layers
 
         public int MoveToEdgeAlignTeachPos1()
         {
-            int iResult;
+            int iResult = SUCCESS;
             CPos_XYTZ movePos = CMainFrame.LWDicer.m_DataManager.ModelData.EdgeTeachPos[(int)EEdgeAlignTeachStep.POS1].Copy();
 
             if (GetCurrentCam() == FINE_CAM)
@@ -705,7 +705,7 @@ namespace LWDicer.Layers
 
         public int MoveToEdgeAlignTeachPos2()
         {
-            int iResult;
+            int iResult = SUCCESS;
             CPos_XYTZ movePos = CMainFrame.LWDicer.m_DataManager.ModelData.EdgeTeachPos[(int)EEdgeAlignTeachStep.POS2].Copy();
 
             if (GetCurrentCam() == FINE_CAM)
@@ -721,7 +721,7 @@ namespace LWDicer.Layers
 
         public int MoveToEdgeAlignTeachPos3()
         {
-            int iResult;
+            int iResult = SUCCESS;
             CPos_XYTZ movePos = CMainFrame.LWDicer.m_DataManager.ModelData.EdgeTeachPos[(int)EEdgeAlignTeachStep.POS3].Copy();
 
             if (GetCurrentCam() == FINE_CAM)
@@ -739,7 +739,7 @@ namespace LWDicer.Layers
 
         public int MoveToEdgeAlignPos1()
         {
-            int iResult;
+            int iResult = SUCCESS;
             if (GetCurrentCam() == PRE__CAM)
                 iResult = m_RefComp.Stage.MoveStageToEdgeAlignPos1();
             else
@@ -750,7 +750,7 @@ namespace LWDicer.Layers
 
         public int MoveToEdgeAlignPos2()
         {
-            int iResult;
+            int iResult = SUCCESS;
             if (GetCurrentCam() == PRE__CAM)
                 iResult = m_RefComp.Stage.MoveStageToEdgeAlignPos2();
             else
@@ -761,7 +761,7 @@ namespace LWDicer.Layers
 
         public int MoveToEdgeAlignPos3()
         {
-            int iResult;
+            int iResult = SUCCESS;
             if (GetCurrentCam() == PRE__CAM)
                 iResult = m_RefComp.Stage.MoveStageToEdgeAlignPos3();
             else
@@ -772,7 +772,7 @@ namespace LWDicer.Layers
 
         public int MoveToEdgeAlignPos4()
         {
-            int iResult;
+            int iResult = SUCCESS;
             if (GetCurrentCam() == PRE__CAM)
                 iResult = m_RefComp.Stage.MoveStageToEdgeAlignPos4();
             else
@@ -869,7 +869,7 @@ namespace LWDicer.Layers
 
         public int MoveIndexPlusX()
         {
-            int iResult;
+            int iResult = SUCCESS;
 
             if (eStageMode == EStatgeMode.RETURN)
                 iResult = m_RefComp.Stage.MoveStageIndexPlusX();
@@ -880,7 +880,7 @@ namespace LWDicer.Layers
         }
         public int MoveIndexPlusY()
         {
-            int iResult;
+            int iResult = SUCCESS;
 
             if (eStageMode == EStatgeMode.RETURN)
                 iResult = m_RefComp.Stage.MoveStageIndexPlusY();
@@ -895,7 +895,7 @@ namespace LWDicer.Layers
         }
         public int MoveIndexMinusX()
         {
-            int iResult;
+            int iResult = SUCCESS;
 
             if (eStageMode == EStatgeMode.RETURN)
                 iResult = m_RefComp.Stage.MoveStageIndexMinusX();
@@ -906,7 +906,7 @@ namespace LWDicer.Layers
         }
         public int MoveIndexMinusY()
         {
-            int iResult;
+            int iResult = SUCCESS;
 
             if (eStageMode == EStatgeMode.RETURN)
                 iResult = m_RefComp.Stage.MoveStageIndexMinusY();
@@ -1789,7 +1789,7 @@ namespace LWDicer.Layers
         /// <returns></returns>
         public int MoveThetaAlignPosA()
         {
-            int iResult;
+            int iResult = SUCCESS;
             var stagePos1 = new CPos_XYTZ();
             var stagePos2 = new CPos_XYTZ();
             var markPos1 = new CPos_XYTZ();
@@ -1872,7 +1872,7 @@ namespace LWDicer.Layers
         /// <returns></returns>
         public int MoveThetaAlignPosB()
         {           
-            int iResult;
+            int iResult = SUCCESS;
             var posCur = new CPos_XYTZ();
             
             // 현재 위치를 읽어온다            

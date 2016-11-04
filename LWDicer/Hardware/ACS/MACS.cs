@@ -652,7 +652,7 @@ namespace LWDicer.Layers
         public int OpenController(bool bServoOn = false)
         {
             // 0. init
-            int iResult;
+            int iResult = SUCCESS;
             UInt32 rc;
 
             if (m_AcsMotion.IsChannelOpen == false)
@@ -1164,7 +1164,7 @@ namespace LWDicer.Layers
         public int Wait4Done(int[] axisList, bool[] useAxis, bool bWait4Home = false)
         {
 #if !SIMULATION_MOTION_ACS
-            int iResult;
+            int iResult = SUCCESS;
             // 0. init data
             // 0.1 get device length
             int length = 0;

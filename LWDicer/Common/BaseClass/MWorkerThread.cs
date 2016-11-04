@@ -35,7 +35,6 @@ namespace LWDicer.Layers
         public EAutoRunStatus   RunStatus { get; private set; } = EAutoRunStatus.STS_MANUAL; // EAutoRunStatus.STS_MANUAL, EAutoRunStatus.STS_RUN_READY, EAutoRunStatus.STS_RUN,STS_STEP_STOP, 
         public EAutoRunStatus   RunStatus_Old { get; private set; } = EAutoRunStatus.STS_RUN; // Old RunStatus
 
-
         // 평소엔 ThreadStep 만 사용함
         // Process에 따라서 Multi Process를 운용할 필요가 있기때문에, ThreadStep1,2를 사용
         protected EThreadStep ThreadStep  = EThreadStep.STEP_NONE;

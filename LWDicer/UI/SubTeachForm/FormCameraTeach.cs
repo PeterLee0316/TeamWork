@@ -86,14 +86,12 @@ namespace LWDicer.UI
             TeachPos[5] = BtnPos6; TeachPos[6] = BtnPos7; TeachPos[7] = BtnPos8; TeachPos[8] = BtnPos9; TeachPos[9] = BtnPos10;
             TeachPos[10] = BtnPos11; TeachPos[11] = BtnPos12; TeachPos[12] = BtnPos13; TeachPos[13] = BtnPos14; TeachPos[14] = BtnPos15;
 
-            int i = 0;
-
-            for(i=0;i<15;i++)
+            for (int i = 0; i < 15; i++)
             {
                 TeachPos[i].Visible = false;
             }
 
-            for (i = 0; i < (int)ECameraPos.MAX; i++)
+            for (int i = 0; i < (int)ECameraPos.MAX; i++)
             {
                 TeachPos[i].Text = Convert.ToString(ECameraPos.WAIT + i);
             }
@@ -101,8 +99,6 @@ namespace LWDicer.UI
 
         private void InitGrid()
         {
-            int i = 0, j = 0, nCol = 0, nRow = 0;
-
             // Cell Click 시 커서가 생성되지 않게함.
             GridTeachTable.ActivateCurrentCellBehavior = GridCellActivateAction.None;
 
@@ -110,22 +106,22 @@ namespace LWDicer.UI
             GridTeachTable.Properties.RowHeaders = true;
             GridTeachTable.Properties.ColHeaders = false;
 
-            nCol = 1;
-            nRow = 8;
+            int nCol = 1;
+            int nRow = 8;
 
             // Column,Row 개수
             GridTeachTable.ColCount = nCol;
             GridTeachTable.RowCount = nRow;
 
             // Column 가로 크기설정
-            for (i = 0; i < nCol + 1; i++)
+            for (int i = 0; i < nCol + 1; i++)
             {
                 GridTeachTable.ColWidths.SetSize(i, 150);
             }
 
             GridTeachTable.ColWidths.SetSize(0, 110);
 
-            for (i = 0; i < nRow + 1; i++)
+            for (int i = 0; i < nRow + 1; i++)
             {
                 GridTeachTable.RowHeights[i] = 40;
 
@@ -146,9 +142,9 @@ namespace LWDicer.UI
             GridTeachTable[7, 0].Text = "현재 위치";
             GridTeachTable[8, 0].Text = "보정값";
 
-            for (i = 0; i < nCol + 1; i++)
+            for (int i = 0; i < nCol + 1; i++)
             {
-                for (j = 0; j < nRow + 1; j++)
+                for (int j = 0; j < nRow + 1; j++)
                 {
                     // Font Style - Bold
                     GridTeachTable[j, i].Font.Bold = true;
@@ -169,7 +165,7 @@ namespace LWDicer.UI
             GridTeachTable.ResizeColsBehavior = 0;
             GridTeachTable.ResizeRowsBehavior = 0;
 
-            for (i = 0; i < nCol; i++)
+            for (int i = 0; i < nCol; i++)
             {
                 GridTeachTable[1, i + 1].TextColor = Color.LightGray;
                 GridTeachTable[1, i + 1].Description = "";
@@ -193,20 +189,18 @@ namespace LWDicer.UI
 
         private void UpdateTeachPos(int selectedPos)
         {
-            int nCount = 0, i = 0, j = 0;
+            int nCount = (int)ECameraPos.MAX;
 
-            nCount = (int)ECameraPos.MAX;
-
-            for (i = 0; i < nCount; i++)
+            for (int i = 0; i < nCount; i++)
             {
                 TeachPos[i].BackColor = Color.LightYellow;
 
                 TeachPos[i].Visible = true;
             }
 
-            for (i = 0; i < GridTeachTable.ColCount + 1; i++)
+            for (int i = 0; i < GridTeachTable.ColCount + 1; i++)
             {
-                for (j = 0; j < GridTeachTable.RowCount; j++)
+                for (int j = 0; j < GridTeachTable.RowCount; j++)
                 {
                     if (i != 0 && j > 1)
                     {

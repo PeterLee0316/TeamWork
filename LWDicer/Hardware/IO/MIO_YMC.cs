@@ -235,7 +235,7 @@ namespace LWDicer.Layers
             int iResult = GetRegisterDataHandle(addr, type, out hDataHandle);
             if (iResult != SUCCESS) return iResult;
 
-            UInt32 ReadDataNumber = 0;                 // Number of obtained registers
+            //UInt32 ReadDataNumber = 0;                 // Number of obtained registers
             //UInt32 RegisterDataNumber = 1;             // Number of read-in registers
             //Int16[] Reg_ShortData = new Int16[1];      // W or B size register data storage variable
             //Int32[] Reg_LongData = new Int32[1];       // L size register data storage variable

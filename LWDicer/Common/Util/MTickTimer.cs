@@ -67,6 +67,41 @@ namespace LWDicer.Layers
             return gap;
         }
 
+        public string GetElapsedTime_Text(bool bShowUnit = true, ETimeType type = SECOND)
+        {
+            string unit = "sec";
+
+            switch (type)
+            {
+                case NANOSECOND:
+                    unit = "nanosec";
+                    break;
+
+                case MICROSECOND:
+                    unit = "microsec";
+                    break;
+
+                case MILLISECOND:
+                    unit = "millisec";
+                    break;
+
+                case SECOND:
+                    unit = "sec";
+                    break;
+
+                case MINUTE:
+                    unit = "min";
+                    break;
+
+                case HOUR:
+                    unit = "hour";
+                    break;
+            }
+
+            string str = $"{GetElapsedTime(type):0.000} {unit}";
+            return str;
+        }
+
         public bool LessThan(double CompareTime, ETimeType type = SECOND)
         {
             double gap = GetElapsedTime(type);

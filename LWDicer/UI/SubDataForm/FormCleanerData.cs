@@ -45,9 +45,6 @@ namespace LWDicer.UI
 
         private void InitGrid()
         {
-            //GridSpinner
-            int i = 0, j = 0;
-
             // Cell Click 시 커서가 생성되지 않게함.
             GridCtrl.ActivateCurrentCellBehavior = GridCellActivateAction.None;
 
@@ -65,7 +62,7 @@ namespace LWDicer.UI
             GridCtrl.ColWidths.SetSize(2, 110);
             GridCtrl.ColWidths.SetSize(3, 110);
 
-            for (i = 0; i < (int)ECleanOperation.MAX; i++)
+            for (int i = 0; i < (int)ECleanOperation.MAX; i++)
             {
                 strOP[i] = Convert.ToString(ECleanOperation.NO_USE + i);
             }
@@ -74,12 +71,12 @@ namespace LWDicer.UI
 
             strColl.AddRange(strOP);
 
-            for (i = 0; i < GridCtrl.RowCount + 1; i++)
+            for (int i = 0; i < GridCtrl.RowCount + 1; i++)
             {
                 GridCtrl.RowHeights[i] = 35;
             }
 
-            for (i = 0; i < GridCtrl.RowCount; i++)
+            for (int i = 0; i < GridCtrl.RowCount; i++)
             {
                 GridStyleInfo style = GridCtrl.Model[i + 1, 1];
 
@@ -100,9 +97,9 @@ namespace LWDicer.UI
             GridCtrl[0, 3].Text = "RPM / min";
 
 
-            for (i = 0; i < GridCtrl.ColCount + 1; i++)
+            for (int i = 0; i < GridCtrl.ColCount + 1; i++)
             {
-                for (j = 0; j < GridCtrl.RowCount + 1; j++)
+                for (int j = 0; j < GridCtrl.RowCount + 1; j++)
                 {
                     // Font Style - Bold
                     GridCtrl[j, i].Font.Bold = true;
@@ -112,7 +109,7 @@ namespace LWDicer.UI
                 }
             }
 
-            for (i = 0; i < GridCtrl.RowCount; i++)
+            for (int i = 0; i < GridCtrl.RowCount; i++)
             {
                 GridCtrl[i + 1, 2].BackColor = Color.FromArgb(230, 210, 255);
                 GridCtrl[i + 1, 3].BackColor = Color.FromArgb(255, 230, 255);
@@ -128,9 +125,7 @@ namespace LWDicer.UI
 
         private void UpdateData()
         {
-            int i;
-
-            for (i = 0; i < DEF_MAX_SPINNER_STEP; i++)
+            for (int i = 0; i < DEF_MAX_SPINNER_STEP; i++)
             {
                 GridCtrl[i + 1, 1].Text = strOP[(int)CleanerData.WorkSteps_Custom[i].Operation];
                 GridCtrl[i + 1, 1].TextColor = Color.Black;

@@ -32,8 +32,6 @@ namespace LWDicer.UI
 
         private void InitGrid(int nSlotCount)
         {
-            int i = 0, j = 0, nCol = 0, nRow = 0;
-
             // Cell Click 시 커서가 생성되지 않게함.
             GridCassette1.ActivateCurrentCellBehavior = GridCellActivateAction.None;
             GridCassette2.ActivateCurrentCellBehavior = GridCellActivateAction.None;
@@ -45,8 +43,8 @@ namespace LWDicer.UI
             GridCassette2.Properties.RowHeaders = true;
             GridCassette2.Properties.ColHeaders = true;
 
-            nCol = 2;
-            nRow = nSlotCount;
+            int nCol = 2;
+            int nRow = nSlotCount;
 
             // Column,Row 개수
             GridCassette1.ColCount = nCol;
@@ -61,15 +59,15 @@ namespace LWDicer.UI
             GridCassette2.ColWidths.SetSize(1, 141);
             GridCassette2.ColWidths.SetSize(2, 141);
 
-            for (i = 0; i < nRow + 1; i++)
+            for (int i = 0; i < nRow + 1; i++)
             {
                 GridCassette1.RowHeights.SetSize(i, 26);
                 GridCassette2.RowHeights.SetSize(i, 26);
             }
 
-            for (i = 0; i < nCol + 1; i++)
+            for (int i = 0; i < nCol + 1; i++)
             {
-                for (j = 0; j < nRow + 1; j++)
+                for (int j = 0; j < nRow + 1; j++)
                 {
                     // Font Style - Bold
                     GridCassette1[j, i].Font.Bold = true;

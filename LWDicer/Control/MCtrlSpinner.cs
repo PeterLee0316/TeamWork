@@ -271,7 +271,7 @@ namespace LWDicer.Layers
 
         public override int Initialize()
         {
-            int iResult;
+            int iResult = SUCCESS;
             bool bStatus;
 
             iResult = CheckVacuumSafety();
@@ -630,7 +630,7 @@ namespace LWDicer.Layers
 
         private int CheckSafetyInterlock()
         {
-            int iResult;
+            int iResult = SUCCESS;
             bool bStatus;
 
             // 1. check vacuum

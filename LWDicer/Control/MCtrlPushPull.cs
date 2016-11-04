@@ -80,7 +80,7 @@ namespace LWDicer.Layers
 
         public override int Initialize()
         {
-            int iResult;
+            int iResult = SUCCESS;
             bool bStatus, bStatus1;
 
 
@@ -158,6 +158,7 @@ namespace LWDicer.Layers
             // Panel이 있든 없든 상관없는 위치들, 가령 대기, 마크 등등의 위치를 위해서
             if (bCheck_WhenAutoRun == true) return SUCCESS;
 
+#if !SIMULATION_TEST
             // check object exist when auto run
             if (AutoManualMode == EAutoManual.AUTO)
             {
@@ -186,7 +187,7 @@ namespace LWDicer.Layers
                     }
                 }
             }
-
+#endif
             return SUCCESS;
         }
 

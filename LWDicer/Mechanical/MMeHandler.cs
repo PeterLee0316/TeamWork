@@ -415,7 +415,7 @@ namespace LWDicer.Layers
         /// DEF_Z
         public int IsCylUp(out bool bStatus, int index = DEF_Z)
         {
-            int iResult;
+            int iResult = SUCCESS;
             bStatus = false;
 
             if (UseMainCylFlag[index] == true)
@@ -438,7 +438,7 @@ namespace LWDicer.Layers
 
         public int IsCylDown(out bool bStatus, int index = DEF_Z)
         {
-            int iResult;
+            int iResult = SUCCESS;
             bStatus = false;
 
             if (UseMainCylFlag[index] == true)

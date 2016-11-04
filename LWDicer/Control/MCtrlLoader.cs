@@ -80,7 +80,7 @@ namespace LWDicer.Layers
 
         public override int Initialize()
         {
-            int iResult;
+            int iResult = SUCCESS;
             bool bStatus, bStatus1;
             // UpperHandler
             // check wafer cassett exist & 정위치에 있는지
@@ -121,7 +121,7 @@ namespace LWDicer.Layers
 
         public int ComparePosInfo(int iPosIndex, out int iSlotNum)
         {
-            int iResult;
+            int iResult = SUCCESS;
             iResult = m_RefComp.Elevator.GetElevatorPosInfo(out iPosIndex, out iSlotNum);
             if (iResult != SUCCESS) return iResult;
 
@@ -262,7 +262,7 @@ namespace LWDicer.Layers
 
         public int GetAxZone(int axis, out int curZone)
         {
-            int iResult;
+            int iResult = SUCCESS;
             iResult = m_RefComp.Elevator.GetElevatorAxZone(axis, out curZone);
             if (iResult != SUCCESS) return iResult;
 
@@ -271,7 +271,7 @@ namespace LWDicer.Layers
 
         public int IsAxisInSafetyZone(int axis, out bool bStatus)
         {
-            int iResult;
+            int iResult = SUCCESS;
             iResult = m_RefComp.Elevator.IsElevatorAxisInSafetyZone(axis, out bStatus);
             if (iResult != SUCCESS) return iResult;
 
@@ -281,7 +281,7 @@ namespace LWDicer.Layers
         public int IsWaferDetected(out bool bState)
         {
             bState = false;
-            int iResult;
+            int iResult = SUCCESS;
 
             iResult = m_RefComp.Elevator.IsWaferDetected(out bState);
 

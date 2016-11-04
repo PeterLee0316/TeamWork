@@ -105,18 +105,16 @@ namespace LWDicer.UI
 
         private void UpdatePushPullTeachPos(int selectedPos)
         {
-            int nCount = 0, i = 0, j = 0;
+            int nCount = (int)EPushPullPos.MAX;
 
-            nCount = (int)EPushPullPos.MAX;
-
-            for (i = 0; i < nCount; i++)
+            for (int i = 0; i < nCount; i++)
             {
                 Pos_PushPull[i].BackColor = Color.LightYellow;
             }
 
-            for (i = 0; i < GridPushPullYTeachTable.ColCount + 1; i++)
+            for (int i = 0; i < GridPushPullYTeachTable.ColCount + 1; i++)
             {
-                for (j = 0; j < GridPushPullYTeachTable.RowCount; j++)
+                for (int j = 0; j < GridPushPullYTeachTable.RowCount; j++)
                 {
                     if (i != 0 && j > 1)
                     {
@@ -145,18 +143,16 @@ namespace LWDicer.UI
 
         private void UpdateCenterTeachPos(int selectedPos)
         {
-            int nCount = 0, i = 0, j = 0;
+            int nCount = (int)ECenterPos.MAX;
 
-            nCount = (int)ECenterPos.MAX;
-
-            for (i = 0; i < nCount; i++)
+            for (int i = 0; i < nCount; i++)
             {
                 CenterPos[i].BackColor = Color.LightYellow;
             }
 
-            for (i = 0; i < GridCenterXTeachTable.ColCount + 1; i++)
+            for (int i = 0; i < GridCenterXTeachTable.ColCount + 1; i++)
             {
-                for (j = 0; j < GridCenterXTeachTable.RowCount; j++)
+                for (int j = 0; j < GridCenterXTeachTable.RowCount; j++)
                 {
                     if (i != 0 && j > 1)
                     {
@@ -240,21 +236,19 @@ namespace LWDicer.UI
             Pos_PushPull[5] = BtnYPos6; Pos_PushPull[6] = BtnYPos7; Pos_PushPull[7] = BtnYPos8; Pos_PushPull[8] = BtnYPos9; Pos_PushPull[9] = BtnYPos10;
             Pos_PushPull[10] = BtnYPos11; Pos_PushPull[11] = BtnYPos12; Pos_PushPull[12] = BtnYPos13; Pos_PushPull[13] = BtnYPos14; Pos_PushPull[14] = BtnYPos15;
 
-            int i = 0;
-
-            for(i=0;i<15;i++)
+            for (int i = 0; i < 15; i++)
             {
                 CenterPos[i].Visible = false;
                 Pos_PushPull[i].Visible = false;
             }
 
-            for (i = 0; i < (int)ECenterPos.MAX; i++)
+            for (int i = 0; i < (int)ECenterPos.MAX; i++)
             {
                 CenterPos[i].Visible = true;
                 CenterPos[i].Text = Convert.ToString(ECenterPos.WAIT + i);
             }
 
-            for (i = 0; i < (int)EPushPullPos.MAX; i++)
+            for (int i = 0; i < (int)EPushPullPos.MAX; i++)
             {
                 Pos_PushPull[i].Visible = true;
                 Pos_PushPull[i].Text = Convert.ToString(EPushPullPos.WAIT + i);
@@ -263,8 +257,6 @@ namespace LWDicer.UI
 
         private void InitCenterXGrid()
         {
-            int i = 0, j = 0, nCol = 0, nRow = 0;
-
             // Cell Click 시 커서가 생성되지 않게함.
             GridCenterXTeachTable.ActivateCurrentCellBehavior = GridCellActivateAction.None;
 
@@ -272,22 +264,22 @@ namespace LWDicer.UI
             GridCenterXTeachTable.Properties.RowHeaders = true;
             GridCenterXTeachTable.Properties.ColHeaders = false;
 
-            nCol = 2;
-            nRow = 8;
+            int nCol = 2;
+            int nRow = 8;
 
             // Column,Row 개수
             GridCenterXTeachTable.ColCount = nCol;
             GridCenterXTeachTable.RowCount = nRow;
 
             // Column 가로 크기설정
-            for (i = 0; i < nCol + 1; i++)
+            for (int i = 0; i < nCol + 1; i++)
             {
                 GridCenterXTeachTable.ColWidths.SetSize(i, 172);
             }
 
             GridCenterXTeachTable.ColWidths.SetSize(0, 110);
 
-            for (i = 0; i < nRow + 1; i++)
+            for (int i = 0; i < nRow + 1; i++)
             {
                 GridCenterXTeachTable.RowHeights[i] = 40;
             }
@@ -310,9 +302,9 @@ namespace LWDicer.UI
             GridCenterXTeachTable[7, 0].Text = "현재 위치";
             GridCenterXTeachTable[8, 0].Text = "보정값";
 
-            for (i = 0; i < nCol + 1; i++)
+            for (int i = 0; i < nCol + 1; i++)
             {
-                for (j = 0; j < nRow + 1; j++)
+                for (int j = 0; j < nRow + 1; j++)
                 {
                     // Font Style - Bold
                     GridCenterXTeachTable[j, i].Font.Bold = true;
@@ -332,7 +324,7 @@ namespace LWDicer.UI
             GridCenterXTeachTable.ResizeColsBehavior = 0;
             GridCenterXTeachTable.ResizeRowsBehavior = 0;
 
-            for (i = 0; i < nCol; i++)
+            for (int i = 0; i < nCol; i++)
             {
                 GridCenterXTeachTable[1, i + 1].TextColor = Color.LightGray;
                 GridCenterXTeachTable[1, i + 1].Description = "";
@@ -352,8 +344,6 @@ namespace LWDicer.UI
 
         private void InitPushPullGrid()
         {
-            int i = 0, j = 0, nCol = 0, nRow = 0;
-
             // Cell Click 시 커서가 생성되지 않게함.
             GridPushPullYTeachTable.ActivateCurrentCellBehavior = GridCellActivateAction.None;
 
@@ -361,22 +351,22 @@ namespace LWDicer.UI
             GridPushPullYTeachTable.Properties.RowHeaders = true;
             GridPushPullYTeachTable.Properties.ColHeaders = false;
 
-            nCol = 1;
-            nRow = 8;
+            int nCol = 1;
+            int nRow = 8;
 
             // Column,Row 개수
             GridPushPullYTeachTable.ColCount = nCol;
             GridPushPullYTeachTable.RowCount = nRow;
 
             // Column 가로 크기설정
-            for (i = 0; i < nCol + 1; i++)
+            for (int i = 0; i < nCol + 1; i++)
             {
                 GridPushPullYTeachTable.ColWidths.SetSize(i, 172);
             }
 
             GridPushPullYTeachTable.ColWidths.SetSize(0, 110);
 
-            for (i = 0; i < nRow + 1; i++)
+            for (int i = 0; i < nRow + 1; i++)
             {
                 GridPushPullYTeachTable.RowHeights[i] = 40;
 
@@ -395,9 +385,9 @@ namespace LWDicer.UI
             GridPushPullYTeachTable[7, 0].Text = "현재 위치";
             GridPushPullYTeachTable[8, 0].Text = "보정값";
 
-            for (i = 0; i < nCol + 1; i++)
+            for (int i = 0; i < nCol + 1; i++)
             {
-                for (j = 0; j < nRow + 1; j++)
+                for (int j = 0; j < nRow + 1; j++)
                 {
                     // Font Style - Bold
                     GridPushPullYTeachTable[j, i].Font.Bold = true;
@@ -419,7 +409,7 @@ namespace LWDicer.UI
             GridPushPullYTeachTable.ResizeColsBehavior = 0;
             GridPushPullYTeachTable.ResizeRowsBehavior = 0;
 
-            for (i = 0; i < 1; i++)
+            for (int i = 0; i < 1; i++)
             {
                 GridPushPullYTeachTable[1, i + 1].TextColor = Color.LightGray;
                 GridPushPullYTeachTable[1, i + 1].Description = "";

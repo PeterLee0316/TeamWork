@@ -46,6 +46,9 @@ namespace LWDicer.UI
             }
 
             SystemData.Language = (ELanguage)SelLanguage;
+            SystemData.CheckSafety_AutoMode = checkBox_CheckSafety_AutoMode.Checked;
+            SystemData.CheckSafety_ManualMode = checkBox_CheckSafety_ManualMode.Checked;
+            SystemData.EnableCylinderMove_EStop = checkBox_EnableCylinderMove.Checked;
 
             CMainFrame.LWDicer.SaveSystemData(SystemData);
         }
@@ -58,6 +61,9 @@ namespace LWDicer.UI
             // System Display Language
             UpdateComboLanguage();
 
+            checkBox_CheckSafety_AutoMode.Checked = SystemData.CheckSafety_AutoMode;
+            checkBox_CheckSafety_ManualMode.Checked = SystemData.CheckSafety_ManualMode;
+            checkBox_EnableCylinderMove.Checked = SystemData.EnableCylinderMove_EStop;
         }
 
         private void ComboLanguage_SelectedIndexChanged(object sender, EventArgs e)

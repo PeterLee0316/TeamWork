@@ -14,6 +14,7 @@ using static LWDicer.Layers.DEF_System;
 using static LWDicer.Layers.DEF_Common;
 using static LWDicer.Layers.DEF_Thread;
 using static LWDicer.Layers.DEF_Error;
+using static LWDicer.Layers.DEF_OpPanel;
 
 namespace LWDicer.UI
 {  
@@ -182,7 +183,7 @@ namespace LWDicer.UI
             bool bStatus;
 
             // 0. Check EStop
-            CMainFrame.LWDicer.m_OpPanel.GetEStopButtonStatus(out bStatus);
+            CMainFrame.LWDicer.m_ctrlOpPanel.IsPanelSWDetected(ESwitch.START, out bStatus);
             if (bStatus == true)
             {
                 CMainFrame.DisplayMsg("EStop S/W Pressed", "Error");

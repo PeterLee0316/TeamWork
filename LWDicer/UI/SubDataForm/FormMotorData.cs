@@ -57,8 +57,6 @@ namespace LWDicer.UI
 
         private void InitGrid()
         {
-            int i = 0, j = 0, nCol = 0, nRow = 0;
-
             // Cell Click 시 커서가 생성되지 않게함.
             GridCtrl.ActivateCurrentCellBehavior = GridCellActivateAction.None;
 
@@ -66,8 +64,8 @@ namespace LWDicer.UI
             GridCtrl.Properties.RowHeaders = true;
             GridCtrl.Properties.ColHeaders = true;
 
-            nCol = 29;
-            nRow = 19;
+            int nCol = 29;
+            int nRow = 19;
             //nRow = (int)EYMC_Axis.MAX;
 
             // Column,Row 개수
@@ -75,7 +73,7 @@ namespace LWDicer.UI
             GridCtrl.RowCount = nRow;
 
             // Column 가로 크기설정
-            for (i = 0; i < nCol + 1; i++)
+            for (int i = 0; i < nCol + 1; i++)
             {
                 GridCtrl.ColWidths.SetSize(i, 120);
             }
@@ -83,13 +81,13 @@ namespace LWDicer.UI
             GridCtrl.ColWidths.SetSize(0, 40);
             GridCtrl.ColWidths.SetSize(1, 170);
 
-            for (i = 0; i < nRow + 1; i++)
+            for (int i = 0; i < nRow + 1; i++)
             {
                 GridCtrl.RowHeights[i] = 34;
 
             }
 
-            for (i = 0; i < nRow; i++)
+            for (int i = 0; i < nRow; i++)
             {
                 GridCtrl[i + 1, 0].Text = string.Format("#{0:d}", i + 1);
             }
@@ -127,12 +125,12 @@ namespace LWDicer.UI
             GridCtrl[0, 28].Text = "Home Slow Speed";
             GridCtrl[0, 29].Text = "Home Offset";
 
-            for(i=0;i< (int)EYMC_Axis.MAX;i++)
+            for (int i = 0; i <  (int)EYMC_Axis.MAX; i++)
             {
                 GridCtrl[i+1, 1].Text = Convert.ToString(EYMC_Axis.LOADER_Z+i);
             }
 
-            //for (i = 0; i < (int)EACS_Axis.MAX; i++)            
+            //for (int i = 0; i < (int)EACS_Axis.MAX; i++)            
             //{
             //    GridCtrl[i + 17, 1].Text = Convert.ToString(EACS_Axis.STAGE1_X + i);
             //}
@@ -142,9 +140,9 @@ namespace LWDicer.UI
             GridCtrl[18, 1].Text = Convert.ToString(EAxis.STAGE1_Y);
             GridCtrl[19, 1].Text = Convert.ToString(EAxis.STAGE1_T);
 
-            for (i = 0; i < nCol + 1; i++)
+            for (int i = 0; i < nCol + 1; i++)
             {
-                for (j = 0; j < nRow + 1; j++)
+                for (int j = 0; j < nRow + 1; j++)
                 {
                     // Font Style - Bold
                     GridCtrl[j, i].Font.Bold = true;
@@ -154,7 +152,7 @@ namespace LWDicer.UI
                 }
             }
 
-            for (i = 0; i < nRow; i++)
+            for (int i = 0; i < nRow; i++)
             {
                 GridCtrl[i + 1, 1].BackColor = Color.FromArgb(230, 210, 255);
             }
@@ -169,11 +167,9 @@ namespace LWDicer.UI
 
         private void UpdateScreen()
         {
-            int i = 0, j = 0;
-            int gridIndex = 1;
-
             // MP
-            for (i = 0; i < (int)EYMC_Axis.MAX; i++)
+            int gridIndex = 1;
+            for (int i = 0; i < (int)EYMC_Axis.MAX; i++)
             {
                 // Speed
                 GridCtrl[i + 1, 2].Text = String.Format("{0:0.000}", SystemData_Axis.MPMotionData[i].Speed[(int)EMotorSpeed.MANUAL_SLOW].Vel);
@@ -217,7 +213,7 @@ namespace LWDicer.UI
             }
 
             // ACS
-            for (i = 0; i < (int)EACS_Axis.MAX; i++)
+            for (int i = 0; i < (int)EACS_Axis.MAX; i++)
             {
                 if(i==1 || i==3 || i==5)
                 {
@@ -269,9 +265,9 @@ namespace LWDicer.UI
                 //GridMotorPara[i + 17, 29].Text = String.Format("{0:0.000}", SystemData_Axis.ACSMotionData[i].OriginData.HomeOffset);
             }
 
-            for (i = 0; i < 19; i++)
+            for (int i = 0; i < 19; i++)
             {
-                for (j = 0; j < 26; j++)
+                for (int j = 0; j < 26; j++)
                 {
                     GridCtrl[i + 1, j + 2].TextColor = Color.Black;
                 }
@@ -315,16 +311,14 @@ namespace LWDicer.UI
 
         private void BtnSave_Click(object sender, EventArgs e)
         {
-            int i = 0;
-            int gridIndex = 1;
-
             if (!CMainFrame.InquireMsg("Save data?"))
             {
                 return;
             }
 
             // Motor Data Sheet
-            for (i = 0; i < (int)EYMC_Axis.MAX; i++)
+            int gridIndex = 1;
+            for (int i = 0; i < (int)EYMC_Axis.MAX; i++)
             {
                 // Speed
                 SystemData_Axis.MPMotionData[i].Speed[(int)EMotorSpeed.MANUAL_SLOW].Vel = Convert.ToDouble(GridCtrl[i + 1, 2].Text);
@@ -367,7 +361,7 @@ namespace LWDicer.UI
                 SystemData_Axis.MPMotionData[i].OriginData.HomeOffset = Convert.ToDouble(GridCtrl[i + 1, 29].Text);
             }
 
-            for (i = 0; i < (int)EACS_Axis.MAX; i++)
+            for (int i = 0; i < (int)EACS_Axis.MAX; i++)
             {
                 if (i == 1 || i == 3 || i == 5)
                 {

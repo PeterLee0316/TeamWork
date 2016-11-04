@@ -219,7 +219,6 @@ namespace LWDicer.Layers
                 switch (RunStatus)
                 {
                     case EAutoRunStatus.STS_MANUAL: // Manual Mode
-                        //m_RefComp.ctrlLoader.SetAutoManual(EAutoManual.MANUAL);
                         break;
 
                     case EAutoRunStatus.STS_ERROR_STOP: // Error Stop
@@ -236,7 +235,6 @@ namespace LWDicer.Layers
                         break;
 
                     case EAutoRunStatus.STS_RUN: // auto run
-                        //m_RefComp.ctrlLoader.SetAutoManual(EAutoManual.AUTO);
 
                         // Do Thread Step
                         switch (ThreadStep)

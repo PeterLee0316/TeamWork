@@ -225,7 +225,7 @@ LWDicer의 DataManager에서 데이터를 읽어오기 위한 3가지 함수 : S
 3. MTrsPushPull class 1차 작성. 어떤 Unit과의 작업이 끝난후에, Wafer 존재 유무에 따라 다음 step을 결정하는 부분 및
    Handler와의 Panel Handshake 부분 작성
 4. Model, Cassette, WaferFrame Data를 리스트로 관리하기 위해서 CModelHeader -> CListHeader 로 이름 변경
-5. CCassetteData 가 선언은 되어있으나 MeElevator에서만 쓰이고, DataManager에 다른 CWaferCassette가 선언되어있어
+5. CCassetteData 가 선언은 되어있으나 MeElevator에서만 쓰이고, DataManager에 다른 CWaferFrameData가 선언되어있어
    임시로 이름을 CCassetteData -> CCassetteData_obsolete 로 변경함. 추후 이과장이 관련부분 수정 필요함
 6. DataManager에서 Model, Cassette, WaferFrame Data를 각각 List로 관리하도록 관련함수 업데이트 및
    FormModelData class를 공용으로 사용할 수 있도록 관련 부분 업데이트
@@ -425,10 +425,21 @@ CSpinStep class -> CCleaningStep / CCoatingStep class 로 분리
 // Date : 161024~161028
 // Context
 1. apply async/await structure in doing coating/cleaing job.
-2. MTickTimer class updated : changed default time type to ETypeType.SECOND
-3. completed updating the portion related to DoCleanOperation and DoCoatOperation method of spinner class.
-4. changed excel file name "xxx.xls" to "xxx_date_time.xlsx" when load/save data
-5. updated ImportDataFromExcel / ExportDataToExcel method of MDataManager and FormSystemParaRead class
+2. updated : MTickTimer class & changed default time type to ETypeType.SECOND
+3. updated : the portion related to DoCleanOperation and DoCoatOperation method of spinner class.
+4. changed : excel file name "xxx.xls" to "xxx_date_time.xlsx" when load/save data
+5. updated : ImportDataFromExcel / ExportDataToExcel method of MDataManager and FormSystemParaRead class
+
+// Version : 0.0.41
+// Grade : ★
+// Date : 161031~161104
+// Context
+1. merged CWaferCassette to CWaferFram class, because they are same class at disco mashine from beginning.
+   Name Changed : CWaferFram -> CWaferFrameData.
+2. updated : CheckDoorStatus, CheckTank_Empty methods of MOpPanel
+3. updated : CheckSafetyBeforeAxisMove, CheckSafetyBeforeCylinderMove methods of MCtrlOpPanel.
+4. updated : FormSystemData
+5. now updating.. : MOpPanel, MCtrlOpPanel switch, COpPanelIOAddr
 
 // ********************************************************************************
 // test를 위해서 임시로 결과값을 쓰는 코드들은 // for test 로 주석 달기 및 검색해서 사용하도록

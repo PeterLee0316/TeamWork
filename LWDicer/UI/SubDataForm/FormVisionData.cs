@@ -60,8 +60,6 @@ namespace LWDicer.UI
 
         private void InitGrid()
         {
-            int i = 0, j = 0, nCol = 0, nRow = 0;
-
             // Cell Click 시 커서가 생성되지 않게함.
             GridCtrl.ActivateCurrentCellBehavior = GridCellActivateAction.None;
 
@@ -69,22 +67,22 @@ namespace LWDicer.UI
             GridCtrl.Properties.RowHeaders = true;
             GridCtrl.Properties.ColHeaders = true;
 
-            nCol = (int)ECameraSelect.MAX;
-            nRow = 8;
+            int nCol = (int)ECameraSelect.MAX;
+            int nRow = 8;
 
             // Column,Row 개수
             GridCtrl.ColCount = nCol;
             GridCtrl.RowCount = nRow;
 
             // Column 가로 크기설정
-            for (i = 0; i < nCol + 1; i++)
+            for (int i = 0; i < nCol + 1; i++)
             {
                 GridCtrl.ColWidths.SetSize(i, 160);
             }
 
             GridCtrl.ColWidths.SetSize(0, 200);
 
-            for (i = 0; i < nRow + 1; i++)
+            for (int i = 0; i < nRow + 1; i++)
             {
                 GridCtrl.RowHeights[i] = 36;
 
@@ -106,9 +104,9 @@ namespace LWDicer.UI
             GridCtrl[8, 0].Text = "카메라 설치 회전 오차(˚)";
 
 
-            for (i = 0; i < nCol + 1; i++)
+            for (int i = 0; i < nCol + 1; i++)
             {
-                for (j = 0; j < nRow + 1; j++)
+                for (int j = 0; j < nRow + 1; j++)
                 {
                     // Font Style - Bold
                     GridCtrl[j, i].Font.Bold = true;
@@ -118,9 +116,9 @@ namespace LWDicer.UI
                 }
             }
 
-            for (i = 1; i < nCol + 1; i++)
+            for (int i = 1; i < nCol + 1; i++)
             {
-                for (j = 3; j < nRow + 1; j++)
+                for (int j = 3; j < nRow + 1; j++)
                 {
                     GridCtrl[j, i].BackColor = Color.FromArgb(220, 220, 255);
                 }
@@ -137,7 +135,7 @@ namespace LWDicer.UI
 
         private void UpdateCameraData()
         {
-            for(int i=0; i< (int)ECameraSelect.MAX;i++)
+            for(int i=0; i< (int)ECameraSelect.MAX; i++)
             {
                 GridCtrl[1, i + 1].Text = String.Format( "{0:f4}", CMainFrame.DataManager.SystemData_Align.LenMagnification[i]);
                 GridCtrl[2, i + 1].Text = String.Format( "{0:f4}", CMainFrame.DataManager.SystemData_Align.CamPixelSize[i]);

@@ -162,26 +162,33 @@ namespace LWDicer.Layers
 
         public class CSystemData
         {
-            // Axis, Cylinder, Vacuum 등의 class array는 별도의 class에서 처리하도록 한다.
-            //
+            //////////////////////////////////////////////////////////////////////////////
+            // System General
+            public ELanguage Language = ELanguage.KOREAN;
             public string ModelName = NAME_DEFAULT_MODEL;
 
-            public ELanguage Language = ELanguage.KOREAN;
+            public bool CheckSafety_AutoMode = true; // AutoMode에서 동작 전에 SafeSensor Check 여부
+            public bool CheckSafety_ManualMode = true; // AutoMode에서 동작 전에 SafeSensor Check 여부
+            public bool EnableCylinderMove_EStop = false; // EStop 상태에서 cylinder move 가능 여부
 
-            // SafetyPos for Axis Move 
-            // Teching 화면에서 Teaching하는 UnitPos.WaitPos 과는 다른 용도로, make engineer가 
-            // 시스템적으로 지정하는 절대 안전 위치
-            public CSystemData_MAxSafetyPos MAxSafetyPos = new CSystemData_MAxSafetyPos();
+            // 안전센서 (Door) IO Option Flag : if true, check door status whether opened.
+            public bool[,] UseDoorStatus = new bool[(int)EDoorGroup.MAX, (int)EDoorIndex.MAX];
+            public bool[] UseTankAlarm = new bool[(int)ECoatTank.MAX]; // 자재 교체요청 알람 사용 여부
 
             // thread 간의 handshake를 one step으로 처리할지 여부
             public bool ThreadHandshake_byOneStep = true;
 
+            // SafetyPos for Axis Move 
+            // Teching 화면에서 Teaching하는 UnitPos.WaitPos 과는 다른 용도로, maker & engineer가 시스템적으로 지정하는 절대 안전 위치
+            public CSystemData_MAxSafetyPos MAxSafetyPos = new CSystemData_MAxSafetyPos();
+
+            //////////////////////////////////////////////////////////////////////////////
             // spinner
             public bool UseSpinnerSeparately = true;  // spinner를 coater, cleaner로 구분하여 사용할지 여부
             public ESpinnerIndex UCoaterIndex = ESpinnerIndex.SPINNER1;  // spinner를 구분지어 사용할 때, coater의 spinner index
             public ESpinnerIndex UCleanerIndex = ESpinnerIndex.SPINNER2; // spinner를 구분지어 사용할 때, cleaner의 spinner index
 
-            /////////////////////////////////////////////////////////
+            //////////////////////////////////////////////////////////////////////////////
             // 아래는 아직 미정리 내역들. 
             // * 혹시, 아래에서 사용하는것들은 이 주석 위로 올려주기 바람
             //
@@ -189,7 +196,6 @@ namespace LWDicer.Layers
 
 
             public int SystemType;      // 작업변
-            public bool UseSafetySensor;
             public DEF_Thread.EAutoRunMode eOpModeStatus;
             public bool UseStepDisplay;
             public string LineControllerIP;
@@ -300,6 +306,17 @@ namespace LWDicer.Layers
 
             public CSystemData()
             {
+                for (int i = 0; i < (int)ECoatTank.MAX; i++)
+                {
+                    UseTankAlarm[i] = false;
+                }
+                for (int i = 0; i < (int)EDoorGroup.MAX; i++)
+                {
+                    for (int j = 0; j < (int)EDoorIndex.MAX; j++)
+                    {
+                        UseDoorStatus[i, j] = false;
+                    }
+                }
             }
         }
 
@@ -474,7 +491,7 @@ namespace LWDicer.Layers
                 Pos_Array[index++] = Pos_Camera1;
                 Pos_Array[index++] = Pos_Scanner1;
 
-                for (int i=0; i< (int)EPositionObject.MAX;i++)
+                for (int i=0; i< (int)EPositionObject.MAX; i++)
                 {
                     for (int j=0; j < Pos_Array[i].Pos.Length; j++)
                     {
@@ -582,33 +599,34 @@ namespace LWDicer.Layers
         /// <summary>
         /// Define Wafer Cassette Data
         /// </summary>
-        public class CWaferCassette
+        public class CWaferFrameData
         {
             public string Name;
-            public double Diameter;          // Cassette Frame 지름 ex) 380mm
-            public int SlotNumber;           // 슬롯갯수            ex) 13ea
-            public int[] SlotStatus = new int[CASSETTE_MAX_SLOT_NUM]; // 각 슬롯 상태 및 Wafer 처리여부 데이터
-            public int CassetteSetNo;        // Cassette 갯수 ex) 2ea
-            public double FramePitch;        // Cassette Slot Fitch ex) 9.5mm
-            public double CassetteHeight;    // Cassette 높이 ex)155mm
-            public double UnloadElevatorPos; // Elevator Start Origin Position에서 Unloading을 위하여 Cassette Offset 높이 ex) -1mm 하강
-            public double ESZeroPoint;       // Elevator Start Origin Position ex) Teaching Position 258.3mm
-            public double CTZeroPoint;	     // Chuck Table Angle?
-            public double STZeroPoint;       // Spinner Table Angle?
-            public double LoadPushPullPos;   // PushPull 끝단에 설치 되어 있는 감지센서 부터 Cassette에 적재되어 있는 Wafer 까지 거리 ex) 61mm
-            public double FrameCenterPos;    // Centering Unit Wafer Centering Teaching Position ex) 52.4mm
-        }
 
-        /// <summary>
-        /// Define Wafer Frame Data
-        /// </summary>
-        public class CWaferFrame
-        {
-            public string Name;
-            public double StagePos;          // Inspection Stage에 적재 되어 있는 Cassette에 PushPull이 Unloading 가능한 Elevator 의 Teaching 높이 ex) 450.5mm
-            public double UnloadElevatorPos; // Elevator Start Origin Position에서 Unloading을 위하여 Cassette Offset 높이 ex) -1mm 하강
-            public double LoadPushPullPos;   // PushPull 끝단에 설치 되어 있는 감지센서 부터 Cassette에 적재되어 있는 Wafer 까지 거리 ex) 61mm
-            public double UnloadPushPullPos; // PushPull 끝단에 설치 되어 있는 감지센서 부터 Cassette에 적재되어 있는 Wafer 까지 거리 ex) 61mm
+            public double Diameter;                 // Cassette Frame 지름 ex) 380mm
+            public int SlotNumber;                  // 슬롯갯수            ex) 13ea
+            public int[] SlotStatus;                // 각 슬롯 상태 및 Wafer 처리여부 데이터
+            public int CassetteSetNo;               // Cassette 갯수 ex) 2ea
+            public double FramePitch;               // Cassette Slot Fitch ex) 9.5mm
+            public double CassetteHeight;           // Cassette 높이 ex)155mm
+            public double ESZeroPoint;              // Elevator Start Origin Position ex) Teaching Position 258.3mm
+            public double CTZeroPoint;	            // Chuck Table Angle?
+            public double STZeroPoint;              // Spinner Table Angle?
+            public double FrameCenterPos;           // Centering Unit Wafer Centering Teaching Position ex) 52.4mm
+            public double StagePos;                 // Inspection Stage에 적재 되어 있는 Cassette에 PushPull이 Unloading 가능한 Elevator 의 Teaching 높이 ex) 450.5mm
+
+            // disco사 설비의 5.3.3 과 5.3.3.3 이 같은 Frame Size Register인데, 각각 선언되어 있음. 나중에 확인 필요
+            public double ElevatorPos_atUnload;     // Elevator Start Origin Position에서 Unloading을 위하여 Cassette Offset 높이 ex) -1mm 하강
+            public double PushPullPos_atLoad;       // PushPull 끝단에 설치 되어 있는 감지센서 부터 Cassette에 적재되어 있는 Wafer 까지 거리 ex) 61mm
+            public double PushPullPos_atUnload;     // PushPull 끝단에 설치 되어 있는 감지센서 부터 Cassette에 적재되어 있는 Wafer 까지 거리 ex) 61mm
+            //public double ElevatorPos_atUnload;     // Elevator Start Origin Position에서 Unloading을 위하여 Cassette Offset 높이 ex) -1mm 하강
+            //public double PushPullPos_atLoad;       // PushPull 끝단에 설치 되어 있는 감지센서 부터 Cassette에 적재되어 있는 Wafer 까지 거리 ex) 61mm
+            //public double PushPullPos_atUnload;     // PushPull 끝단에 설치 되어 있는 감지센서 부터 Cassette에 적재되어 있는 Wafer 까지 거리 ex) 61mm
+
+            public CWaferFrameData()
+            {
+                SlotStatus = new int[CASSETTE_MAX_SLOT_NUM];
+            }
         }
 
         public class CLogParameter
@@ -632,7 +650,6 @@ namespace LWDicer.Layers
         public enum EListHeaderType
         {
             MODEL = 0,
-            CASSETTE,
             WAFERFRAME,
             USERINFO,
             MAX,
@@ -690,8 +707,7 @@ namespace LWDicer.Layers
             ///////////////////////////////////////////////////////////
             // Wafer Data
             public CWaferData Wafer = new CWaferData();
-            public string CassetteName = NAME_DEFAULT_MODEL;    // wafer cassette
-            public string WaferFrameName = NAME_DEFAULT_MODEL;       // wafer frame
+            public string WaferFrameName = NAME_DEFAULT_MODEL;       // name of CWaferFrameData class
 
             // Spinner Data 
             public CCtrlSpinnerData[] SpinnerData = new CCtrlSpinnerData[(int)ESpinnerIndex.MAX];
@@ -992,12 +1008,13 @@ namespace LWDicer.Layers
         public CModelData ModelData { get; private set; } = new CModelData();
         public List<CListHeader> ModelHeaderList { get; set; } = new List<CListHeader>();
 
-        // Wafer Cassette Data
-        public CWaferCassette CassetteData { get; private set; } = new CWaferCassette();
-        public List<CListHeader> CassetteHeaderList { get; set; } = new List<CListHeader>();
+        // 20161101 WaferFrameData class 로 통합하면서 waferCassett는 사용하지 않음
+        // WaferCassette Data
+        //public CWaferCassette CassetteData { get; private set; } = new CWaferCassette();
+        //public List<CListHeader> CassetteHeaderList { get; set; } = new List<CListHeader>();
 
         // WaferFrame Data
-        public CWaferFrame WaferFrameData { get; private set; } = new CWaferFrame();
+        public CWaferFrameData WaferFrameData { get; private set; } = new CWaferFrameData();
         public List<CListHeader> WaferFrameHeaderList { get; set; } = new List<CListHeader>();
 
         /////////////////////////////////////////////////////////////////////////////////
@@ -1050,7 +1067,7 @@ namespace LWDicer.Layers
         public int Initialize()
         {
 
-            int iResult;
+            int iResult = SUCCESS;
             iResult = LoadGeneralData();
             if (iResult != SUCCESS) return iResult;
 
@@ -1678,7 +1695,7 @@ namespace LWDicer.Layers
 
         public int SavePositionData(CPositionGroup tGroup, bool bType_Fixed, EPositionObject unit = EPositionObject.ALL)
         {
-            int iResult;
+            int iResult = SUCCESS;
             string suffix;
             CPositionGroup source;
             if (bType_Fixed)
@@ -1712,7 +1729,7 @@ namespace LWDicer.Layers
         /*       
         public int SavePositionData(bool bType_Fixed, EPositionGroup unit)
         {
-            int iResult;
+            int iResult = SUCCESS;
 
             // Loader
             if (unit == EPositionGroup.ALL || unit == EPositionGroup.LOADER)
@@ -1808,7 +1825,7 @@ namespace LWDicer.Layers
 
         public int LoadPositionData(bool bType_Fixed, EPositionObject unit = EPositionObject.ALL)
         {
-            int iResult;
+            int iResult = SUCCESS;
             CPositionGroup source;
             string suffix;
             if (bType_Fixed)
@@ -1857,7 +1874,7 @@ namespace LWDicer.Layers
                             {
                                 Array.Resize(ref tData.Pos_Stage1.Pos, (int)EStagePos.MAX);
 
-                                for(int i= tData.Pos_Stage1.Length; i < (int)EStagePos.MAX;i++)
+                                for(int i= tData.Pos_Stage1.Length; i < (int)EStagePos.MAX; i++)
                                 {
                                         tData.Pos_Stage1.Pos[i] = new CPos_XYTZ();
                                 }
@@ -1921,7 +1938,7 @@ namespace LWDicer.Layers
 /*
         public int LoadPositionData(bool bType_Fixed, EPositionGroup unit)
         {
-            int iResult;
+            int iResult = SUCCESS;
 
             // Loader
             if (unit == EPositionGroup.ALL || unit == EPositionGroup.LOADER)
@@ -2005,10 +2022,6 @@ namespace LWDicer.Layers
                     headerList = ModelHeaderList;
                     tableName = DBInfo.TableModelHeader;
                     break;
-                case EListHeaderType.CASSETTE:
-                    headerList = CassetteHeaderList;
-                    tableName = DBInfo.TableCassetteHeader;
-                    break;
                 case EListHeaderType.WAFERFRAME:
                     headerList = WaferFrameHeaderList;
                     tableName = DBInfo.TableWaferFrameHeader;
@@ -2028,10 +2041,6 @@ namespace LWDicer.Layers
                 case EListHeaderType.MODEL:
                     headerList = ModelHeaderList;
                     tableName = DBInfo.TableModel;
-                    break;
-                case EListHeaderType.CASSETTE:
-                    headerList = CassetteHeaderList;
-                    tableName = DBInfo.TableCassette;
                     break;
                 case EListHeaderType.WAFERFRAME:
                     headerList = WaferFrameHeaderList;
@@ -2096,7 +2105,7 @@ namespace LWDicer.Layers
 
         public int MakeDefaultModel()
         {
-            int iResult;
+            int iResult = SUCCESS;
             bool bStatus = true;
 
             ////////////////////////////////////////////////////////////////////////////////
@@ -2210,35 +2219,6 @@ namespace LWDicer.Layers
             }
 
             ////////////////////////////////////////////////////////////////////////////////
-            // WaferCassette
-            type = EListHeaderType.CASSETTE;
-            // make root folder
-            if (IsModelHeaderExist(NAME_ROOT_FOLDER, type) == false)
-            {
-                CListHeader header = new CListHeader();
-                header.SetRootFolder();
-                CassetteHeaderList.Add(header);
-                iResult = SaveModelHeaderList(type);
-                if (iResult != SUCCESS) return iResult;
-            }
-
-            // make default data
-            if (IsModelHeaderExist(NAME_DEFAULT_MODEL, type) == false)
-            {
-                CListHeader header = new CListHeader();
-                header.SetDefaultModel();
-                CassetteHeaderList.Add(header);
-                iResult = SaveModelHeaderList(type);
-                if (iResult != SUCCESS) return iResult;
-            }
-            if (IsModelExist(NAME_DEFAULT_MODEL, type) == false)
-            {
-                CWaferCassette data = new CWaferCassette();
-                iResult = SaveModelData(data);
-                if (iResult != SUCCESS) return iResult;
-            }
-
-            ////////////////////////////////////////////////////////////////////////////////
             // WaferFrame
             type = EListHeaderType.WAFERFRAME;
             // make root folder
@@ -2262,7 +2242,7 @@ namespace LWDicer.Layers
             }
             if (IsModelExist(NAME_DEFAULT_MODEL, type) == false)
             {
-                CWaferFrame data = new CWaferFrame();
+                CWaferFrameData data = new CWaferFrameData();
                 iResult = SaveModelData(data);
                 if (iResult != SUCCESS) return iResult;
             }
@@ -2273,7 +2253,6 @@ namespace LWDicer.Layers
         public int LoadModelList()
         {
             LoadModelList(EListHeaderType.MODEL);
-            LoadModelList(EListHeaderType.CASSETTE);
             LoadModelList(EListHeaderType.WAFERFRAME);
             LoadModelList(EListHeaderType.USERINFO);
 
@@ -2321,9 +2300,6 @@ namespace LWDicer.Layers
             {
                 case EListHeaderType.MODEL:
                     ModelHeaderList = ObjectExtensions.Copy(headerList);
-                    break;
-                case EListHeaderType.CASSETTE:
-                    CassetteHeaderList = ObjectExtensions.Copy(headerList);
                     break;
                 case EListHeaderType.WAFERFRAME:
                     WaferFrameHeaderList = ObjectExtensions.Copy(headerList);
@@ -2465,9 +2441,6 @@ namespace LWDicer.Layers
                 case EListHeaderType.MODEL:
                     if (name == SystemData.ModelName) return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_DELETE_CURRENT_MODEL);
                     break;
-                case EListHeaderType.CASSETTE:
-                    if (name == ModelData.CassetteName) return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_DELETE_CURRENT_MODEL);
-                    break;
                 case EListHeaderType.WAFERFRAME:
                     if (name == ModelData.WaferFrameName) return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_DELETE_CURRENT_MODEL);
                     break;
@@ -2523,31 +2496,7 @@ namespace LWDicer.Layers
             return SUCCESS;
         }
 
-        public int SaveModelData(CWaferCassette data)
-        {
-            EListHeaderType type = EListHeaderType.MODEL;
-            string tableName = DBInfo.TableCassette;
-            try
-            {
-                CassetteData = ObjectExtensions.Copy(data);
-                string output = JsonConvert.SerializeObject(data);
-
-                if (DBManager.InsertRow(DBInfo.DBConn, tableName, "name", data.Name, output, true, DBInfo.DBConn_Backup) != true)
-                {
-                    return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_SAVE_GENERAL_DATA);
-                }
-            }
-            catch (Exception ex)
-            {
-                WriteExLog(ex.ToString());
-                return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_SAVE_GENERAL_DATA);
-            }
-
-            WriteLog($"success : save {type} model [{data.Name}].", ELogType.SYSTEM, ELogWType.SAVE);
-            return SUCCESS;
-        }
-
-        public int SaveModelData(CWaferFrame data)
+        public int SaveModelData(CWaferFrameData data)
         {
             EListHeaderType type = EListHeaderType.WAFERFRAME;
             string tableName = DBInfo.TableWaferFrame;
@@ -2605,7 +2554,7 @@ namespace LWDicer.Layers
         public int ChangeModel(string name)
         {
             EListHeaderType type = EListHeaderType.MODEL;
-            int iResult;
+            int iResult = SUCCESS;
             // 0. check exist
             if(string.IsNullOrWhiteSpace(name))
             {
@@ -2646,11 +2595,7 @@ namespace LWDicer.Layers
                     ModelData = ObjectExtensions.Copy(data);
                 }
                 
-                // 3.1 load cassette data
-                iResult = LoadCassetteData(data.CassetteName);
-                if (iResult != SUCCESS) return iResult;
-
-                // 3.2 load waferframe data
+                // 3.1 load waferframe data
                 iResult = LoadWaferFrameData(data.WaferFrameName);
                 if (iResult != SUCCESS) return iResult;
 
@@ -2680,7 +2625,7 @@ namespace LWDicer.Layers
         {
             data = new CUserInfo();
             EListHeaderType type = EListHeaderType.USERINFO;
-            int iResult;
+            int iResult = SUCCESS;
             // 0. check exist
             if (string.IsNullOrWhiteSpace(name))
             {
@@ -2713,54 +2658,10 @@ namespace LWDicer.Layers
             return SUCCESS;
         }
 
-        public int LoadCassetteData(string name)
-        {
-            EListHeaderType type = EListHeaderType.CASSETTE;
-            int iResult;
-            // 0. check exist
-            if (string.IsNullOrWhiteSpace(name))
-            {
-                return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_LOAD_MODEL_DATA);
-            }
-            if (IsModelExist(name, type) == false)
-            {
-                return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_LOAD_MODEL_DATA);
-            }
-
-            CWaferCassette data = null;
-            try
-            {
-                string output;
-                // 1.2. load cassette data
-                if (DBManager.SelectRow(DBInfo.DBConn, DBInfo.TableCassette, out output, new CDBColumn("name", name)) == true)
-                {
-                    data = JsonConvert.DeserializeObject<CWaferCassette>(output);
-                }
-                else
-                {
-                    //return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_LOAD_MODEL_DATA);
-                }
-
-                // 2. finally, set model data
-                if (data != null)
-                {
-                    CassetteData = ObjectExtensions.Copy(data);
-                    WriteLog($"success : change {type} : {name}.", ELogType.SYSTEM, ELogWType.LOAD);
-                }
-            }
-            catch (Exception ex)
-            {
-                WriteExLog(ex.ToString());
-                return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_LOAD_MODEL_DATA);
-            }
-
-            return SUCCESS;
-        }
-
         public int LoadWaferFrameData(string name)
         {
             EListHeaderType type = EListHeaderType.WAFERFRAME;
-            int iResult;
+            int iResult = SUCCESS;
             // 0. check exist
             if (string.IsNullOrWhiteSpace(name))
             {
@@ -2771,14 +2672,14 @@ namespace LWDicer.Layers
                 return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_LOAD_MODEL_DATA);
             }
 
-            CWaferFrame data = null;
+            CWaferFrameData data = null;
             try
             {
                 string output;
                 // 1.3. load waferframe data
                 if (DBManager.SelectRow(DBInfo.DBConn, DBInfo.TableWaferFrame, out output, new CDBColumn("name", name)) == true)
                 {
-                    data = JsonConvert.DeserializeObject<CWaferFrame>(output);
+                    data = JsonConvert.DeserializeObject<CWaferFrameData>(output);
                 }
                 else
                 {
@@ -2832,40 +2733,9 @@ namespace LWDicer.Layers
             return SUCCESS;
         }
 
-        public int ViewModelData(string name, out CWaferCassette data)
+        public int ViewModelData(string name, out CWaferFrameData data)
         {
-            data = new CWaferCassette();
-            // 0. check exist
-            if (IsModelExist(name, EListHeaderType.MODEL) == false)
-            {
-                return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_LOAD_MODEL_DATA);
-            }
-
-            try
-            {
-                // 1. load model
-                string output;
-                if (DBManager.SelectRow(DBInfo.DBConn, DBInfo.TableCassette, out output, new CDBColumn("name", name)) == true)
-                {
-                    data = JsonConvert.DeserializeObject<CWaferCassette>(output);
-                }
-                else
-                {
-                    return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_LOAD_MODEL_DATA);
-                }
-            }
-            catch (Exception ex)
-            {
-                WriteExLog(ex.ToString());
-                return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_LOAD_MODEL_DATA);
-            }
-
-            return SUCCESS;
-        }
-
-        public int ViewModelData(string name, out CWaferFrame data)
-        {
-            data = new CWaferFrame();
+            data = new CWaferFrameData();
             // 0. check exist
             if (IsModelExist(name, EListHeaderType.MODEL) == false)
             {
@@ -2878,7 +2748,7 @@ namespace LWDicer.Layers
                 string output;
                 if (DBManager.SelectRow(DBInfo.DBConn, DBInfo.TableWaferFrame, out output, new CDBColumn("name", name)) == true)
                 {
-                    data = JsonConvert.DeserializeObject<CWaferFrame>(output);
+                    data = JsonConvert.DeserializeObject<CWaferFrameData>(output);
                 }
                 else
                 {
@@ -3028,7 +2898,7 @@ namespace LWDicer.Layers
 
         public int LoadGeneralData()
         {
-            int iResult;
+            int iResult = SUCCESS;
 
             //ImportDataFromExcel(EInfoExcel_Sheet.Skip);
 
@@ -3387,7 +3257,7 @@ namespace LWDicer.Layers
             CParaInfo prevInfo = ObjectExtensions.Copy(info);
             for (int i = 0; i < ParaInfoList.Count; i++)
             {
-                if (ParaInfoList[i].Name == info.Name && ParaInfoList[i].Group == info.Group)
+                if (ParaInfoList[i].Name.ToLower() == info.Name.ToLower() && ParaInfoList[i].Group.ToLower() == info.Group.ToLower())
                 {
                     if (ParaInfoList[i].IsEqual(info)) return SUCCESS;
                     prevInfo = ObjectExtensions.Copy(ParaInfoList[i]);
@@ -3414,11 +3284,13 @@ namespace LWDicer.Layers
         public int LoadParaInfo(string group, string name, out CParaInfo info)
         {
             info = new CParaInfo(group, name);
+            name = name.ToLower();
+            group = group.ToLower();
             if(ParaInfoList.Count > 0)
             {
                 foreach(CParaInfo item in ParaInfoList)
                 {
-                    if(item.Group == group && item.Name == name)
+                    if(item.Group.ToLower() == group && item.Name.ToLower() == name)
                     {
                         info = ObjectExtensions.Copy(item);
                         return SUCCESS;
@@ -3449,7 +3321,7 @@ namespace LWDicer.Layers
 
         public int SaveGeneralData()
         {
-            int iResult;
+            int iResult = SUCCESS;
 
             iResult = SaveIOList();
             //if (iResult != SUCCESS) return iResult;
@@ -3686,7 +3558,7 @@ namespace LWDicer.Layers
             }
 
             int nSheetCount = 0;
-            int iResult;
+            int iResult = SUCCESS;
             try
             {
                 Excel.Application ExcelApp = new Microsoft.Office.Interop.Excel.Application();

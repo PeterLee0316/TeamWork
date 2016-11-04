@@ -36,6 +36,7 @@
             Syncfusion.Windows.Forms.Grid.GridRangeStyle gridRangeStyle4 = new Syncfusion.Windows.Forms.Grid.GridRangeStyle();
             Syncfusion.Windows.Forms.Grid.GridRangeStyle gridRangeStyle5 = new Syncfusion.Windows.Forms.Grid.GridRangeStyle();
             Syncfusion.Windows.Forms.Grid.GridRangeStyle gridRangeStyle6 = new Syncfusion.Windows.Forms.Grid.GridRangeStyle();
+            Syncfusion.Windows.Forms.Grid.GridRangeStyle gridRangeStyle7 = new Syncfusion.Windows.Forms.Grid.GridRangeStyle();
             this.BtnExit = new System.Windows.Forms.Button();
             this.LabelModel = new Syncfusion.Windows.Forms.Tools.GradientLabel();
             this.BtnMakerCreate = new System.Windows.Forms.Button();
@@ -79,7 +80,7 @@
             this.LabelModel.ForeColor = System.Drawing.Color.Black;
             this.LabelModel.Location = new System.Drawing.Point(359, 51);
             this.LabelModel.Name = "LabelModel";
-            this.LabelModel.Size = new System.Drawing.Size(563, 35);
+            this.LabelModel.Size = new System.Drawing.Size(637, 35);
             this.LabelModel.TabIndex = 751;
             this.LabelModel.Tag = "";
             this.LabelModel.Text = "Model List";
@@ -197,6 +198,7 @@
             // 
             // GridCtrl
             // 
+            this.GridCtrl.ActivateCurrentCellBehavior = Syncfusion.Windows.Forms.Grid.GridCellActivateAction.SelectAll;
             this.GridCtrl.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.GridCtrl.Font = new System.Drawing.Font("Tahoma", 11.25F, System.Drawing.FontStyle.Bold);
             this.GridCtrl.Location = new System.Drawing.Point(359, 89);
@@ -249,15 +251,24 @@
             gridRangeStyle6.StyleInfo.Font.Strikeout = false;
             gridRangeStyle6.StyleInfo.Font.Underline = false;
             gridRangeStyle6.StyleInfo.Font.Unit = System.Drawing.GraphicsUnit.Point;
+            gridRangeStyle7.Range = Syncfusion.Windows.Forms.Grid.GridRangeInfo.Table();
+            gridRangeStyle7.StyleInfo.Font.Bold = true;
+            gridRangeStyle7.StyleInfo.Font.Facename = "Tahoma";
+            gridRangeStyle7.StyleInfo.Font.Italic = false;
+            gridRangeStyle7.StyleInfo.Font.Size = 11.25F;
+            gridRangeStyle7.StyleInfo.Font.Strikeout = false;
+            gridRangeStyle7.StyleInfo.Font.Underline = false;
+            gridRangeStyle7.StyleInfo.Font.Unit = System.Drawing.GraphicsUnit.Point;
             this.GridCtrl.RangeStyles.AddRange(new Syncfusion.Windows.Forms.Grid.GridRangeStyle[] {
             gridRangeStyle1,
             gridRangeStyle2,
             gridRangeStyle3,
             gridRangeStyle4,
             gridRangeStyle5,
-            gridRangeStyle6});
+            gridRangeStyle6,
+            gridRangeStyle7});
             this.GridCtrl.SerializeCellsBehavior = Syncfusion.Windows.Forms.Grid.GridSerializeCellsBehavior.SerializeAsRangeStylesIntoCode;
-            this.GridCtrl.Size = new System.Drawing.Size(563, 537);
+            this.GridCtrl.Size = new System.Drawing.Size(637, 537);
             this.GridCtrl.SmartSizeBox = false;
             this.GridCtrl.TabIndex = 764;
             this.GridCtrl.UseRightToLeftCompatibleTextBox = true;
@@ -327,7 +338,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(934, 715);
+            this.ClientSize = new System.Drawing.Size(1008, 715);
             this.Controls.Add(this.TitleCurModel);
             this.Controls.Add(this.LabelCurModel);
             this.Controls.Add(this.TitleCurMaker);

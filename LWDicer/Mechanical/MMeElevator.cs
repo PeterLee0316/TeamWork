@@ -119,7 +119,7 @@ namespace LWDicer.Layers
         public class CMeElevatorData
         {
             // Cassette Info 
-            public CWaferCassette CassetteData = new CWaferCassette();
+            public CWaferFrameData CassetteData = new CWaferFrameData();
 
             public int CurrentSlotNum = 0;
 
@@ -136,7 +136,7 @@ namespace LWDicer.Layers
             public CMAxisZoneCheck ElevatorZone;
             public CPos_XYTZ ElevatorSafetyPos;
 
-            public CMeElevatorData(CWaferCassette CassetteData = null)
+            public CMeElevatorData(CWaferFrameData CassetteData = null)
             {
                 // Cassette Info Copy 
                 if (CassetteData == null) // Cassette Data Init
@@ -849,7 +849,7 @@ namespace LWDicer.Layers
         public int IsCassetteExist(out bool bStatus)
         {
             bStatus = false;
-            int iResult;
+            int iResult = SUCCESS;
 
             // Wafer Frame 감지 센서 확인
             bool[] bCheckIO = new bool[(int)ECassetteDetectedSensor.MAX];

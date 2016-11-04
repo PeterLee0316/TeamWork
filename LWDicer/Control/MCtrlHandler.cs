@@ -139,7 +139,7 @@ namespace LWDicer.Layers
 
         public override int Initialize()
         {
-            int iResult;
+            int iResult = SUCCESS;
             bool bStatus, bStatus1;
             // UpperHandler
             // 0. check vacuum

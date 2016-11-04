@@ -303,10 +303,16 @@ namespace LWDicer.Layers
         public const int DEF_GHEAD2 = 3;
         public const int DEF_MAX_HEAD_NO = 4;
 
-        // 도포 Tank 정의
-        public const int DEF_TANK_1 = 0;
-        public const int DEF_TANK_2 = 1;
-        public const int DEF_MAX_TANK_NO = 2;
+        // Coating Material Tank 정의
+        //public const int DEF_TANK_1 = 0;
+        //public const int DEF_TANK_2 = 1;
+        //public const int DEF_MAX_TANK_NO = 2;
+        public enum ECoatTank
+        {
+            TANK_1,
+            TANK_2,
+            MAX,
+        }
 
         // Command에 쓰이는 용도, 위의 Head정의와 겹치면 안된다.
         public const int DEF_HEAD_ALL = -1;    // Command to All Head
@@ -808,8 +814,6 @@ namespace LWDicer.Layers
 
             public string TableModelHeader      { get; private set; } // Model and Parent directory Header
             public string TableModel            { get; private set; } // Model Data
-            public string TableCassetteHeader   { get; private set; } // Model and Parent directory Header
-            public string TableCassette         { get; private set; } // Cassette Data
             public string TableWaferFrameHeader { get; private set; } // Model and Parent directory Header
             public string TableWaferFrame       { get; private set; } // WaferFrame Data
             public string TablePos              { get; private set; } // Position Data
@@ -858,8 +862,6 @@ namespace LWDicer.Layers
 
                 TableModelHeader        = "ModelHeader";
                 TableModel              = "ModelDB";
-                TableCassetteHeader     = "CassetteHeader";
-                TableCassette           = "CassetteDB";
                 TableWaferFrameHeader   = "WaferFrameHeader";
                 TableWaferFrame         = "WaferFrameDB";
                 TablePos                = "PositionDB";
@@ -1657,7 +1659,7 @@ namespace LWDicer.Layers
         public class CThreadInterface
         {
             // Common
-            public int TimeLimit = 3000;            // second, interface time limit
+            public int TimeLimit = 15;            // second, interface time limit
             public int TimeKeepOn = 1 * 1000;       // millisecond, interface에서 마지막 신호의 유지 시간
 
             // handshake 도중에 상대편에게서 에러가 발생했을때 굳이 interface time limit까지 기다리지 않고 바로 나가기 위해서
@@ -2432,6 +2434,9 @@ namespace LWDicer.Layers
         public const int ERR_OPPANEL_INVALID_INIT_UNIT_INDEX                      = 6;
         public const int ERR_OPPANEL_INVALID_SERVO_UNIT_INDEX                     = 7;
         public const int ERR_OPPANEL_AMP_FAULT                                    = 8;
+        public const int ERR_OPPANEL_DOOR_ADDRESS_NOT_DEFINED                     = 9;
+        public const int ERR_OPPANEL_INVALID_DOOR_GROUP                           = 10;
+        public const int ERR_OPPANEL_INVALID_DOOR_INDEX                           = 11;
 
         ////////////////////////////////////////////////////////////////////
         // Hardware Layer

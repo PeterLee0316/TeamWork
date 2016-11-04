@@ -58,6 +58,9 @@ namespace LWDicer.Layers
 
         public class CCtrlOpPanelData
         {
+            public bool CheckSafety_AutoMode   = true; // AutoMode에서 동작 전에 SafeSensor Check 여부
+            public bool CheckSafety_ManualMode = true; // AutoMode에서 동작 전에 SafeSensor Check 여부
+            public bool EnableCylinderMove_EStop = false; // EStop 상태에서 cylinder move 가능 여부
         }
     }
 
@@ -68,9 +71,6 @@ namespace LWDicer.Layers
 
         // Blink Rate
         double m_dBlinkRate;
-
-        // SafeSensor Check 여부
-        public bool UseSafeSensor { get; set; } = false;
 
         // Jog로 이동할 Motion에 대한 정보 Index
         int m_iJogIndex;
@@ -206,11 +206,11 @@ namespace LWDicer.Layers
             }
 
             // 5. Door Open 확인 
-            if (UseSafeSensor == true)
+            if (m_Data.CheckSafety_AutoMode == true)
             {
                 iResult = GetDoorSWStatus(out bStatus);
                 if (iResult != SUCCESS) return iResult;
-                if (bStatus == true)
+                if (bStatus == false)
                     return GenerateErrorCode(ERR_MNGOPPANEL_DOOR_OPEN);
             }
 
@@ -303,11 +303,11 @@ namespace LWDicer.Layers
             }
 
             // 5. Door Open 확인 
-            if (UseSafeSensor == true)
+            if (m_Data.CheckSafety_AutoMode == true)
             {
                 iResult = GetDoorSWStatus(out bStatus);
                 if (iResult != SUCCESS) return iResult;
-                if (bStatus == true)
+                if (bStatus == false)
                 {
                     EStopAllAxis();
                     return GenerateErrorCode(ERR_MNGOPPANEL_DOOR_OPEN);
@@ -316,7 +316,7 @@ namespace LWDicer.Layers
 
 #if DEF_USE_AREA_SENSOR
             // 5.1 Area Sensor 확인 
-            if (UseSafeSensor == true)
+            if (m_Data.CheckSafety_AutoMode == true)
             {
                 iResult = GetAreaSWStatus(&bStatus1);
                 if (iResult != SUCCESS) return iResult;
@@ -330,11 +330,11 @@ namespace LWDicer.Layers
             }
 #endif
 
-// 6. AMP Fault 상태 확인 
-//iResult = GetMotorAmpFaultStatus(out bStatus);
-//if (iResult != SUCCESS) return iResult;
-//if (bStatus == true)
-//    return GenerateErrorCode(ERR_MNGOPPANEL_AMP_FAULT);
+            // 6. AMP Fault 상태 확인 
+            //iResult = GetMotorAmpFaultStatus(out bStatus);
+            //if (iResult != SUCCESS) return iResult;
+            //if (bStatus == true)
+            //    return GenerateErrorCode(ERR_MNGOPPANEL_AMP_FAULT);
 
             // 7. Air 확인 
             iResult = m_RefComp.OpPanel.GetAirErrorStatus(out bStatus);
@@ -359,22 +359,6 @@ namespace LWDicer.Layers
             //	if (bStatus == true)
             //		return GenerateErrorCode(ERR_MNGOPPANEL_MAIN_N2_ERROR);
 #endif
-            return SUCCESS;
-        }
-
-        /// <summary>
-        /// Start Switch의 눌린 상태 읽어온다.
-        /// </summary>
-        /// <param name="bStatus">Start Switch 눌린 상태 (0:OFF , 1:FRONT , 2:BACK)</param>
-        /// <returns></returns>
-        public int GetStartSWStatus(out bool bStatus)
-        {
-            int iResult = SUCCESS;
-
-            // Start Switch 눌린 상태 읽기
-            iResult = m_RefComp.OpPanel.GetStartButtonStatus(out bStatus);
-            if (iResult != SUCCESS) return iResult;
-
             return SUCCESS;
         }
 
@@ -410,75 +394,39 @@ namespace LWDicer.Layers
             return TempOnSWStatus(DEF_IO.iEMO_SW);
         }
 
-        /// <summary>
-        /// Stop Switch의 눌린 상태 읽어온다.
-        /// </summary>
-        /// <param name="bStatus">Stop Switch 눌린 상태 (0:OFF , 1:FRONT , 2:BACK)</param>
-        /// <returns></returns>
-        public int GetStopSWStatus(out bool bStatus)
+        public int IsPanelSWDetected(ESwitch type, out bool bDetected)
         {
             int iResult = SUCCESS;
 
-            // Stop Switch 눌린 상태 읽기
-            iResult = m_RefComp.OpPanel.GetStopButtonStatus(out bStatus);
+            iResult = m_RefComp.OpPanel.IsPanelSWDetected(type, out bDetected);
             if (iResult != SUCCESS) return iResult;
 
-            if (bStatus == true)
+            if(type == ESwitch.ESTOP)
+            {
+                //StopAllReturnOrigin();
+                //StopAllAxis();
+            }
+
+            if(type == ESwitch.STOP)
             {
                 //		StopAllReturnOrigin();
                 //		StopAllAxis();
             }
-            return SUCCESS;
-        }
-
-        /// <summary>
-        /// E-Stop Switch의 눌린 상태 읽어온다.
-        /// </summary>
-        /// <param name="bStatus">E-Stop Switch 눌린 상태 (true:ON, false:OFF)</param>
-        /// <returns></returns>
-        public int GetEStopSWStatus(out bool bStatus)
-        {
-            int iResult = SUCCESS;
-
-            // E-Stop Switch 눌린 상태 읽기
-            iResult = m_RefComp.OpPanel.GetEStopButtonStatus(out bStatus);
-            if (iResult != SUCCESS) return iResult;
-
-            if (bStatus == true)
-            {
-                //		StopAllReturnOrigin();
-                //		StopAllAxis();
-            }
-            return SUCCESS;
-        }
-
-        /// <summary>
-        /// Reset Switch의 눌린 상태 읽어온다.
-        /// </summary>
-        /// <param name="bStatus">Reset Switch 눌린 상태 (0:OFF , 1:FRONT , 2:BACK)</param>
-        /// <returns></returns>
-        public int GetResetSWStatus(out bool bStatus)
-        {
-            int iResult = SUCCESS;
-
-            // Reset Switch 눌린 상태 읽기
-            iResult = m_RefComp.OpPanel.GetResetButtonStatus(out bStatus);
-            if (iResult != SUCCESS) return iResult;
 
             return SUCCESS;
         }
 
         /// <summary>
-        /// Door의 상태를 읽어온다.
+        /// Door 상태를 체크하는 함수
         /// </summary>
-        /// <param name="bStatus">Door 상태 (true:CLOSE, false:OPEN)</param>
+        /// <param name="bDoorClosed"></param>
         /// <returns></returns>
-        public int GetDoorSWStatus(out bool bStatus)
+        public int GetDoorSWStatus(out bool bDoorClosed)
         {
             int iResult = SUCCESS;
 
             // Door 열린 상태 읽기
-            iResult = m_RefComp.OpPanel.GetSafeDoorStatus(out bStatus);
+            iResult = m_RefComp.OpPanel.CheckDoorStatus(out bDoorClosed);
             if (iResult != SUCCESS) return iResult;
 
             return SUCCESS;
@@ -487,13 +435,13 @@ namespace LWDicer.Layers
         /// <summary>
         /// Area의 상태를 읽어온다.
         /// </summary>
-        /// <param name="bStatus">Area 상태 (true:CLOSE, false:OPEN)</param>
+        /// <param name="bDetected">Area 상태 (true:CLOSE, false:OPEN)</param>
         /// <returns></returns>
-        public int GetAreaSWStatus(out bool bStatus)
+        public int GetAreaSWStatus(out bool bDetected)
         {
             int iResult = SUCCESS;
 
-            iResult = m_RefComp.OpPanel.GetAreaFrontBackStatus(out bStatus);
+            iResult = m_RefComp.OpPanel.GetAreaFrontBackStatus(out bDetected);
             if (iResult != SUCCESS) return iResult;
 
             return SUCCESS;
@@ -884,30 +832,31 @@ namespace LWDicer.Layers
             bool bZpStatus = false;
             bool bZnStatus = false;
 
+           
             // Jog Key Check 
             // X(+) Key Read 
-            iResult = m_RefComp.OpPanel.GetJogXPlusButtonStatus(out bXpStatus);
+            iResult = IsPanelSWDetected(ESwitch.JOG_XP, out bXpStatus);
             if (iResult != SUCCESS) return iResult;
             // X(-) Key Read 
-            iResult = m_RefComp.OpPanel.GetJogXMinusButtonStatus(out bXnStatus);
+            iResult = IsPanelSWDetected(ESwitch.JOG_XN, out bXnStatus);
             if (iResult != SUCCESS) return iResult;
             // Y(+) Key Read 
-            iResult = m_RefComp.OpPanel.GetJogYPlusButtonStatus(out bYpStatus);
+            iResult = IsPanelSWDetected(ESwitch.JOG_YP, out bYpStatus);
             if (iResult != SUCCESS) return iResult;
             // Y(-) Key Read 
-            iResult = m_RefComp.OpPanel.GetJogYMinusButtonStatus(out bYnStatus);
+            iResult = IsPanelSWDetected(ESwitch.JOG_YN, out bYnStatus);
             if (iResult != SUCCESS) return iResult;
             // T(+) Key Read 
-            iResult = m_RefComp.OpPanel.GetJogTPlusButtonStatus(out bTpStatus);
+            iResult = IsPanelSWDetected(ESwitch.JOG_TP, out bTpStatus);
             if (iResult != SUCCESS) return iResult;
             // T(-) Key Read 
-            iResult = m_RefComp.OpPanel.GetJogTMinusButtonStatus(out bTnStatus);
+            iResult = IsPanelSWDetected(ESwitch.JOG_TN, out bTnStatus);
             if (iResult != SUCCESS) return iResult;
             // Z(+) Key Read 
-            iResult = m_RefComp.OpPanel.GetJogZPlusButtonStatus(out bZpStatus);
+            iResult = IsPanelSWDetected(ESwitch.JOG_ZP, out bZpStatus);
             if (iResult != SUCCESS) return iResult;
             // Z(-) Key Read 
-            iResult = m_RefComp.OpPanel.GetJogZMinusButtonStatus(out bZnStatus);
+            iResult = IsPanelSWDetected(ESwitch.JOG_ZN, out bZnStatus);
             if (iResult != SUCCESS) return iResult;
 
             // 이동 모드이면 Jog 이동 
@@ -1282,8 +1231,7 @@ namespace LWDicer.Layers
 
         public void ResetAllInitFlag()
         {
-            int i = 0;
-            for (i = 0; i < (int)EThreadUnit.MAX ; i++)
+            for (int i = 0; i < (int)EThreadUnit.MAX ; i++)
                 m_RefComp.OpPanel.SetInitFlag(i, false);
         }
 
@@ -1326,26 +1274,29 @@ namespace LWDicer.Layers
 
         public int CheckSafetyBeforeAxisMove()
         {
+            int iResult = SUCCESS;
 #if SIMULATION_MOTION
             return SUCCESS;
 #endif
             bool bStatus;
 
-            m_RefComp.OpPanel.GetEStopButtonStatus(out bStatus);
+            iResult = IsPanelSWDetected(ESwitch.ESTOP, out bStatus);
+            if (iResult != SUCCESS) return iResult;
             if (bStatus == true)
             {
                 return GenerateErrorCode(ERR_MNGOPPANEL_EMERGENCY);
             }
 
-            m_RefComp.OpPanel.GetSafeDoorStatus(out bStatus);
-            if (bStatus == true && UseSafeSensor == true)
+            iResult = GetDoorSWStatus(out bStatus);
+            if (iResult != SUCCESS) return iResult;
+            if (IsCheckSafety() == true && bStatus == false)
             {
                 return GenerateErrorCode(ERR_MNGOPPANEL_DOOR_OPEN);
             }
 
             bool[] bOriginSts;
             bStatus = m_RefComp.OpPanel.CheckAllOrigin(out bOriginSts);
-            if (bStatus == false)
+            if (IsCheckSafety() == true && bStatus == false)
             {
                 return GenerateErrorCode(ERR_MNGOPPANEL_NOT_ALL_ORIGIN);
             }
@@ -1355,24 +1306,32 @@ namespace LWDicer.Layers
 
         public int CheckSafetyBeforeCylinderMove()
         {
+            int iResult = SUCCESS;
 #if SIMULATION_MOTION
             return SUCCESS;
 #endif
             bool bStatus;
 
-            //	m_RefComp.OpPanel.GetEStopButtonStatus(out bStatus);
-            //	if(bStatus == true)
-            //	{
-            //		return GenerateErrorCode(ERR_MNGOPPANEL_EMERGENCY);
-            //	}
+            iResult = IsPanelSWDetected(ESwitch.ESTOP, out bStatus);
+            if (iResult != SUCCESS) return iResult;
+            if (m_Data.EnableCylinderMove_EStop == false && bStatus == true)
+            {
+                return GenerateErrorCode(ERR_MNGOPPANEL_EMERGENCY);
+            }
 
-            m_RefComp.OpPanel.GetSafeDoorStatus(out bStatus);
-            if (bStatus == true && UseSafeSensor == true)
+            iResult = GetDoorSWStatus(out bStatus);
+            if (iResult != SUCCESS) return iResult;
+            if (IsCheckSafety() == true && bStatus == false)
             {
                 return GenerateErrorCode(ERR_MNGOPPANEL_DOOR_OPEN);
             }
 
             return SUCCESS;
+        }
+
+        private bool IsCheckSafety()
+        {
+            return (AutoManualMode == EAutoManual.AUTO) ? m_Data.CheckSafety_AutoMode : m_Data.CheckSafety_ManualMode;
         }
         
     }

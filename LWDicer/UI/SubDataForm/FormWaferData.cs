@@ -16,13 +16,13 @@ namespace LWDicer.UI
 {
     public partial class FormWaferData : Form
     {
-        private CModelData WaferData;
+        private CModelData m_ModelData;
 
         public FormWaferData()
         {
             InitializeComponent();
 
-            WaferData = ObjectExtensions.Copy(CMainFrame.LWDicer.m_DataManager.ModelData);
+            m_ModelData = ObjectExtensions.Copy(CMainFrame.LWDicer.m_DataManager.ModelData);
 
             UpdateData();
 
@@ -45,24 +45,24 @@ namespace LWDicer.UI
                 return;
             }
 
-            WaferData.Wafer.WaferSize =         Convert.ToDouble(LabelSize.Text);
-            WaferData.Wafer.WaferThickness =    Convert.ToDouble(LabelThicknessWork.Text);
-            WaferData.Wafer.TapeThickness =     Convert.ToDouble(LabelThicknessTape.Text);
-            WaferData.Wafer.Size_X =            Convert.ToDouble(LabelIndexX.Text);
-            WaferData.Wafer.Size_Y =            Convert.ToDouble(LabelIndexY.Text);
+            m_ModelData.Wafer.WaferSize =         Convert.ToDouble(LabelSize.Text);
+            m_ModelData.Wafer.WaferThickness =    Convert.ToDouble(LabelThicknessWork.Text);
+            m_ModelData.Wafer.TapeThickness =     Convert.ToDouble(LabelThicknessTape.Text);
+            m_ModelData.Wafer.Size_X =            Convert.ToDouble(LabelIndexX.Text);
+            m_ModelData.Wafer.Size_Y =            Convert.ToDouble(LabelIndexY.Text);
 
-            CMainFrame.LWDicer.SaveModelData(WaferData);
+            CMainFrame.LWDicer.SaveModelData(m_ModelData);
 
             UpdateData();
         }
 
         private void UpdateData()
         {
-            LabelSize.Text =            Convert.ToString(WaferData.Wafer.WaferSize);
-            LabelThicknessWork.Text =   Convert.ToString(WaferData.Wafer.WaferThickness);
-            LabelThicknessTape.Text =   Convert.ToString(WaferData.Wafer.TapeThickness);
-            LabelIndexX.Text =          Convert.ToString(WaferData.Wafer.Size_X);
-            LabelIndexY.Text =          Convert.ToString(WaferData.Wafer.Size_Y);
+            LabelSize.Text =            Convert.ToString(m_ModelData.Wafer.WaferSize);
+            LabelThicknessWork.Text =   Convert.ToString(m_ModelData.Wafer.WaferThickness);
+            LabelThicknessTape.Text =   Convert.ToString(m_ModelData.Wafer.TapeThickness);
+            LabelIndexX.Text =          Convert.ToString(m_ModelData.Wafer.Size_X);
+            LabelIndexY.Text =          Convert.ToString(m_ModelData.Wafer.Size_Y);
 
             LabelSize.ForeColor =           Color.Black;
             LabelThicknessWork.ForeColor =  Color.Black;

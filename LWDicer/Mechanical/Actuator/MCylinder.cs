@@ -42,163 +42,160 @@ namespace LWDicer.Layers
             return SUCCESS;
         }
 
-        public int IsUp(out bool pbVal)
+        public int IsUp(out bool bStatus)
         {
-            int i;
-            int iRet;
-            bool bRet1, bRet2;
+            int iResult = SUCCESS;
+            bool bTemp1, bTemp2;
 
-            pbVal = false;
+            bStatus = false;
 
-            for (i = 0; i < DEF_MAX_CYLINDER_SENSOR; i++)   // 모든 실린더에 대해 체크
+            for (int i = 0; i < DEF_MAX_CYLINDER_SENSOR; i++)   // 모든 실린더에 대해 체크
             {
-                bRet1 = bRet2 = true;
+                bTemp1 = bTemp2 = true;
 
                 // UP Sensor가 On인지 확인
                 if (m_Data.UpSensor[i] >= INPUT_ORIGIN)  // 센서가 Null이 아닐 경우만
                 {
-                    iRet = m_IO.IsOn(m_Data.UpSensor[i], out bRet1);
-                    if (iRet != SUCCESS) return iRet;
+                    iResult = m_IO.IsOn(m_Data.UpSensor[i], out bTemp1);
+                    if (iResult != SUCCESS) return iResult;
                 }
                 // Down Sensor가 Off인지 확인
                 if (m_Data.DownSensor[i] >= INPUT_ORIGIN) // 센서가 Null이 아닐 경우만
                 {
-                    iRet = m_IO.IsOff(m_Data.DownSensor[i], out bRet2);
-                    if (iRet != SUCCESS) return iRet;
+                    iResult = m_IO.IsOff(m_Data.DownSensor[i], out bTemp2);
+                    if (iResult != SUCCESS) return iResult;
                 }
                 // 2개중 하나라도 True가 아니면
-                if (!bRet1 || !bRet2)
+                if (!bTemp1 || !bTemp2)
                 {
-                    pbVal = false;
+                    bStatus = false;
                     return SUCCESS;
                 }
             }
 
             // 모든 Sensor에대해 확인이 완료 되었다.
             // 아니면 중간에서 false 리턴 했을 테니까 !!!
-            pbVal = true;
+            bStatus = true;
             return SUCCESS;
         }
 
-        public int IsDown(out bool pbVal)
+        public int IsDown(out bool bStatus)
         {
-            int i;
-            int iRet;
-            bool bRet1, bRet2;
-            pbVal = false;
+            int iResult = SUCCESS;
+            bool bTemp1, bTemp2;
+            bStatus = false;
 
-            for (i = 0; i < DEF_MAX_CYLINDER_SENSOR; i++)   // 모든 실린더에 대해 체크
+            for (int i = 0; i < DEF_MAX_CYLINDER_SENSOR; i++)   // 모든 실린더에 대해 체크
             {
-                bRet1 = bRet2 = true;
+                bTemp1 = bTemp2 = true;
 
                 // UP Sensor가 Off인지 확인
                 if (m_Data.UpSensor[i] >= INPUT_ORIGIN)  // 센서가 Null이 아닐 경우만
                 {
-                    iRet = m_IO.IsOff(m_Data.UpSensor[i], out bRet1);
-                    if (iRet != SUCCESS) return iRet;
+                    iResult = m_IO.IsOff(m_Data.UpSensor[i], out bTemp1);
+                    if (iResult != SUCCESS) return iResult;
                 }
                 // Down Sensor가 On인지 확인
                 if (m_Data.DownSensor[i] >= INPUT_ORIGIN) // 센서가 Null이 아닐 경우만
                 {
-                    iRet = m_IO.IsOn(m_Data.DownSensor[i], out bRet2);
-                    if (iRet != SUCCESS) return iRet;
+                    iResult = m_IO.IsOn(m_Data.DownSensor[i], out bTemp2);
+                    if (iResult != SUCCESS) return iResult;
                 }
                 // 2개중 하나라도 True가 아니면
-                if (!bRet1 || !bRet2)
+                if (!bTemp1 || !bTemp2)
                 {
-                    pbVal = false;
+                    bStatus = false;
                     return SUCCESS;
                 }
             }
 
             // 모든 Sensor에대해 확인이 완료 되었다.
             // 아니면 중간에서 false 리턴 했을 테니까 !!!
-            pbVal = true;
+            bStatus = true;
             return SUCCESS;
         }
 
-        public int IsMiddle(out bool pbVal)
+        public int IsMiddle(out bool bStatus)
         {
             Assert(m_Data.SolenoidType == DOUBLE_3WAY_SOLENOID);
 
-            int i;
-            int iRet;
-            bool bRet1;
-            pbVal = false;
+            int iResult = SUCCESS;
+            bool bTemp1;
+            bStatus = false;
 
-            for (i = 0; i < DEF_MAX_CYLINDER_SENSOR; i++)   // 모든 실린더에 대해 체크
+            for (int i = 0; i < DEF_MAX_CYLINDER_SENSOR; i++)   // 모든 실린더에 대해 체크
             {
-                bRet1 = true;
+                bTemp1 = true;
 
                 // Middle Sensor가 On 인지 확인
                 if (m_Data.MiddleSensor[i] >= INPUT_ORIGIN)  // 센서가 Null이 아닐 경우만
                 {
-                    iRet = m_IO.IsOn(m_Data.MiddleSensor[i], out bRet1);
-                    if (iRet != SUCCESS) return iRet;
+                    iResult = m_IO.IsOn(m_Data.MiddleSensor[i], out bTemp1);
+                    if (iResult != SUCCESS) return iResult;
                 }
 
-                if (!bRet1)
+                if (!bTemp1)
                 {
-                    pbVal = false;
+                    bStatus = false;
                     return SUCCESS;
                 }
             }
 
             // 모든 Sensor에대해 확인이 완료 되었다.
             // 아니면 중간에서 false 리턴 했을 테니까 !!!
-            pbVal = true;
+            bStatus = true;
             return SUCCESS;
         }
 
 
-        public int IsLeft(out bool pbVal)
+        public int IsLeft(out bool bStatus)
         {
-            return IsUp(out pbVal);
+            return IsUp(out bStatus);
         }
 
-        public int IsRight(out bool pbVal)
+        public int IsRight(out bool bStatus)
         {
-            return IsDown(out pbVal);
+            return IsDown(out bStatus);
         }
 
-        public int IsFront(out bool pbVal)
+        public int IsFront(out bool bStatus)
         {
-            return IsUp(out pbVal);
+            return IsUp(out bStatus);
         }
 
-        public int IsBack(out bool pbVal)
+        public int IsBack(out bool bStatus)
         {
-            return IsDown(out pbVal);
+            return IsDown(out bStatus);
         }
 
-        public int IsUpstr(out bool pbVal)
+        public int IsUpstr(out bool bStatus)
         {
-            return IsUp(out pbVal);
+            return IsUp(out bStatus);
         }
 
-        public int IsDownstr(out bool pbVal)
+        public int IsDownstr(out bool bStatus)
         {
-            return IsDown(out pbVal);
+            return IsDown(out bStatus);
         }
 
-        public int IsCW(out bool pbVal)
+        public int IsCW(out bool bStatus)
         {
-            return IsUp(out pbVal);
+            return IsUp(out bStatus);
         }
 
-        public int IsCCW(out bool pbVal)
+        public int IsCCW(out bool bStatus)
         {
-            return IsDown(out pbVal);
+            return IsDown(out bStatus);
         }
 
-        public int IsOpen(out bool pbVal)
+        public int IsOpen(out bool bStatus)
         {
-            return IsUp(out pbVal);
+            return IsUp(out bStatus);
         }
 
-        public int IsClose(out bool pbVal)
+        public int IsClose(out bool bStatus)
         {
-            return IsDown(out pbVal);
+            return IsDown(out bStatus);
         }
 
         public int Up(bool skip_sensor = false)
@@ -265,14 +262,14 @@ namespace LWDicer.Layers
         {
             Assert(m_Data.SolenoidType == DOUBLE_3WAY_SOLENOID);
 
-            int iRet;   // Integer Return 
+            int iResult = SUCCESS;   // Integer Return 
             bool bVal;  // Boolean Status
             bool bDir;  // 중간 정지 이동 방향
 
             //Down Check
-            if ((iRet = IsDown(out bVal)) != SUCCESS)
+            if ((iResult = IsDown(out bVal)) != SUCCESS)
             {
-                return iRet;    // IO Device Fail
+                return iResult;    // IO Device Fail
             }
 
             if (bVal)
@@ -284,9 +281,9 @@ namespace LWDicer.Layers
             {   // Down 상태가 아니다.
 
                 //Up Check
-                if ((iRet = IsUp(out bVal)) != SUCCESS)   // IO Device Fail
+                if ((iResult = IsUp(out bVal)) != SUCCESS)   // IO Device Fail
                 {
-                    return iRet;    // IO Device Fail
+                    return iResult;    // IO Device Fail
                 }
                 if (bVal)
                 {
@@ -501,7 +498,7 @@ namespace LWDicer.Layers
             Sleep(SimulationSleepTime);
             return SUCCESS;
 #endif
-            int iRet;   // Integer Return 
+            int iResult = SUCCESS;   // Integer Return 
             bool bVal;  // Boolean Status
 
             m_waitTimer.StartTimer();
@@ -511,12 +508,12 @@ namespace LWDicer.Layers
                 while (true)
                 {
                     // IO 동작이 완료 되었는지 체크한다.
-                    iRet = IsUp(out bVal);
+                    iResult = IsUp(out bVal);
 
                     // IO Driver Check
-                    if (iRet != SUCCESS)   // IO Driver Fail
+                    if (iResult != SUCCESS)   // IO Driver Fail
                     {
-                        return iRet;
+                        return iResult;
                     }
                     else
                     {
@@ -548,8 +545,8 @@ namespace LWDicer.Layers
                     // Decel Sol On
                     if (m_Data.SolenoidType == DOUBLE_SOLENOID_VARIOUS_VELOCITY)
                     {
-                        iRet = m_IO.IsOn(m_Data.AccSensor[0], out bVal);
-                        if (iRet != SUCCESS) return iRet;  // IO Driver Fail
+                        iResult = m_IO.IsOn(m_Data.AccSensor[0], out bVal);
+                        if (iResult != SUCCESS) return iResult;  // IO Driver Fail
 
                         if (bVal) // 감속 센서를 체크 했으면
                             m_IO.OutputOn(m_Data.AccSolenoid[0]);
@@ -585,7 +582,7 @@ namespace LWDicer.Layers
             Sleep(SimulationSleepTime);
             return SUCCESS;
 #endif
-            int iRet;   // Integer Return 
+            int iResult = SUCCESS;   // Integer Return 
             bool bVal;  // Boolean Status
 
             m_waitTimer.StartTimer();
@@ -596,13 +593,13 @@ namespace LWDicer.Layers
                 while (true)
                 {
                     // IO 동작이 완료 되었는지 체크한다.
-                    iRet = IsDown(out bVal);
+                    iResult = IsDown(out bVal);
 
 
                     // IO Driver Check
-                    if (iRet != SUCCESS) // IO Driver Fail
+                    if (iResult != SUCCESS) // IO Driver Fail
                     {
-                        return iRet;
+                        return iResult;
                     }
                     else
                     {
@@ -634,8 +631,8 @@ namespace LWDicer.Layers
                     if (m_Data.SolenoidType == DOUBLE_SOLENOID_VARIOUS_VELOCITY)
                     {
 
-                        iRet = m_IO.IsOn(m_Data.AccSensor[1], out bVal);
-                        if (iRet != SUCCESS) return iRet;    // IO Driver Fail
+                        iResult = m_IO.IsOn(m_Data.AccSensor[1], out bVal);
+                        if (iResult != SUCCESS) return iResult;    // IO Driver Fail
 
                         if (bVal) // 감속 센서를 체크 했으면
                             m_IO.OutputOn(m_Data.AccSolenoid[1]);
@@ -667,7 +664,7 @@ namespace LWDicer.Layers
 */
         public int Wait4MiddleComplete(bool bDir) //중간정지..3way sv만허용...
         {
-            int iRet;   // Integer Return 
+            int iResult = SUCCESS;   // Integer Return 
             bool bVal;  // Boolean Status
 
             m_waitTimer.StartTimer();
@@ -676,8 +673,8 @@ namespace LWDicer.Layers
 
             while (true)   // Middle Sensor
             {
-                iRet = IsMiddle(out bVal); // Middle Sensor 체크
-                if (iRet != SUCCESS) return iRet;
+                iResult = IsMiddle(out bVal); // Middle Sensor 체크
+                if (iResult != SUCCESS) return iResult;
 
                 if (bVal) break;    // Middle Sensor가 체크됨
 
@@ -866,12 +863,12 @@ namespace LWDicer.Layers
          * @return  true  : 동작완료 확인
                     false : 동작완료 확인 안됨
          */
-        public int IsMoveComplete(bool bDir, out bool pbVal)
+        public int IsMoveComplete(bool bDir, out bool bStatus)
         {
             int usSensor, usSensorDecel, usSolDecel;
-            int iRet;   // Integer Return 
+            int iResult = SUCCESS;   // Integer Return 
             bool bVal;  // Boolean Status
-            pbVal = false;
+            bStatus = false;
 
             // 방향에 따라 확인해야 될 센서 지정
             if (bDir)
@@ -890,14 +887,14 @@ namespace LWDicer.Layers
             // Decel Sol On
             if (m_Data.SolenoidType == DOUBLE_SOLENOID_VARIOUS_VELOCITY)
             {
-                if ((iRet = m_IO.IsOn(usSensorDecel, out bVal)) != SUCCESS) return iRet;
+                if ((iResult = m_IO.IsOn(usSensorDecel, out bVal)) != SUCCESS) return iResult;
                 if (bVal)
                     m_IO.OutputOn(usSolDecel);
             }
 
             if (usSensor != 0)  // 센서를 지정하지 않을 수도 있음
             {
-                return m_IO.IsOn(usSensor, out pbVal);
+                return m_IO.IsOn(usSensor, out bStatus);
             }
 
             return SUCCESS;

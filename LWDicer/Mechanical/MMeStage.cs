@@ -799,7 +799,7 @@ namespace LWDicer.Layers
         /// <returns></returns>
         public int MoveStageIndexPlusX(bool bTurn=false)
         {
-            int iResult;
+            int iResult = SUCCESS;
             double moveDistance;
             if (bTurn == false)
                 moveDistance = CMainFrame.DataManager.SystemData_Align.DieIndexWidth;
@@ -813,7 +813,7 @@ namespace LWDicer.Layers
 
         public int MoveStageIndexPlusY(bool bTurn = false)
         {
-            int iResult;
+            int iResult = SUCCESS;
             double moveDistance;
             if (bTurn == false)
                 moveDistance = CMainFrame.DataManager.SystemData_Align.DieIndexHeight;
@@ -836,7 +836,7 @@ namespace LWDicer.Layers
 
         public int MoveStageIndexMinusX(bool bTurn=false)
         {
-            int iResult;
+            int iResult = SUCCESS;
             double moveDistance;
             if (bTurn == false)
                 moveDistance = CMainFrame.DataManager.SystemData_Align.DieIndexWidth;
@@ -850,7 +850,7 @@ namespace LWDicer.Layers
 
         public int MoveStageIndexMinusY(bool bTurn=false)
         {
-            int iResult;
+            int iResult = SUCCESS;
             double moveDistance;
             if (bTurn == false)
                 moveDistance = CMainFrame.DataManager.SystemData_Align.DieIndexHeight;
@@ -1127,7 +1127,7 @@ namespace LWDicer.Layers
 
         public int MoveStageToThetaAlignPosB(bool bLowMagnitude = false)
         {
-            int iResult;
+            int iResult = SUCCESS;
 
             int index = (int)EStagePos.THETA_ALIGN_A;
             var movePos = new CPos_XYTZ();
@@ -2119,7 +2119,7 @@ namespace LWDicer.Layers
         
         public int SetAlignData(CPos_XYTZ offset)
         {
-            //int iResult;
+            //int iResult = SUCCESS;
             var curPos = new CPos_XYTZ();
 
             // 현재 Align Offset 값을 읽어옴
@@ -2135,7 +2135,7 @@ namespace LWDicer.Layers
 
         public int GetAlignData(out CPos_XYTZ alignData)
         {
-            //int iResult;
+            //int iResult = SUCCESS;
             var offset = new CPos_XYTZ();
 
             // AlignOffet 적용
@@ -2316,7 +2316,7 @@ namespace LWDicer.Layers
         /// Cylinder
         public int IsCylUp(out bool bStatus, int index = DEF_Z)
         {
-            int iResult;
+            int iResult = SUCCESS;
             bStatus = false;
 
             if (UseMainCylFlag[index] == true)
@@ -2332,7 +2332,7 @@ namespace LWDicer.Layers
 
         public int IsCylDown(out bool bStatus, int index = DEF_Z)
         {
-            int iResult;
+            int iResult = SUCCESS;
             bStatus = false;
 
             if (UseMainCylFlag[index] == true)
@@ -2491,7 +2491,7 @@ namespace LWDicer.Layers
         {
             bStatus = false;
             int curZone;
-            int iResult;
+            int iResult = SUCCESS;
 
             // X축 확인
             iResult = GetStageAxZone(DEF_X, out curZone);

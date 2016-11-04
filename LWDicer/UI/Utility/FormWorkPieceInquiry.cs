@@ -71,8 +71,6 @@ namespace LWDicer.UI
 
         private void InitGrid()
         {
-            int i = 0, j = 0, nCol = 0, nRow = 0;
-
             // Cell Click 시 커서가 생성되지 않게함.
             GridCont.ActivateCurrentCellBehavior = GridCellActivateAction.None;
 
@@ -80,8 +78,8 @@ namespace LWDicer.UI
             GridCont.Properties.RowHeaders = true;
             GridCont.Properties.ColHeaders = true;
 
-            nCol = 5;
-            nRow = 0;
+            int nCol = 5;
+            int nRow = 0;
 
             // Column,Row 개수
             GridCont.ColCount = nCol;
@@ -95,7 +93,7 @@ namespace LWDicer.UI
             GridCont.ColWidths.SetSize(4, 140);
             GridCont.ColWidths.SetSize(5, 80);                   
 
-            for (i = 0; i < nRow + 1; i++)
+            for (int i = 0; i < nRow + 1; i++)
             {
                 GridCont.RowHeights[i] = 30;
                 GridCont[0, i].HorizontalAlignment = GridHorizontalAlignment.Center;

@@ -15,7 +15,6 @@ using static LWDicer.Layers.DEF_Common;
 using static LWDicer.Layers.DEF_Error;
 using static LWDicer.Layers.DEF_IO;
 
-using static LWDicer.Layers.DEF_OpPanel;
 using static LWDicer.Layers.DEF_Thread;
 using static LWDicer.Layers.DEF_DataManager;
 using static LWDicer.Layers.DEF_LCNet;
@@ -1449,7 +1448,7 @@ namespace LWDicer.Layers
             CSystemData_Align systemAlign = null, CSystemData_Scanner systemScanner = null,
             CSystemData_Light systemLight = null)
         {
-            int iResult;
+            int iResult = SUCCESS;
 
             // save
             iResult = m_DataManager.SaveSystemData(system, systemAxis, systemCylinder, systemVacuum, systemAlign, systemScanner, systemLight);
@@ -1464,7 +1463,7 @@ namespace LWDicer.Layers
 
         private int SetSystemDataToComponent(bool bLoadFromDB = true)
         {
-            int iResult;
+            int iResult = SUCCESS;
             if (bLoadFromDB)
             {
                 iResult = m_DataManager.LoadSystemData();
@@ -1574,6 +1573,16 @@ namespace LWDicer.Layers
                 m_MeStage.SetData(data);
             }
 
+            // OpPanel
+            {
+                COpPanelData data;
+                m_OpPanel.GetData(out data);
+
+                data.UseTankAlarm = ObjectExtensions.Copy(systemData.UseTankAlarm);
+                data.UseDoorStatus = ObjectExtensions.Copy(systemData.UseDoorStatus);
+                m_OpPanel.SetData(data);
+            }
+
             //////////////////////////////////////////////////////////////////
             // Control Layer
 
@@ -1625,6 +1634,17 @@ namespace LWDicer.Layers
                 //data.Vision = m_DataManager.SystemData_Align;
 
                 m_ctrlStage1.SetData(data);
+            }
+
+            // CtrlOpPanel
+            {
+                CCtrlOpPanelData data;
+                m_ctrlOpPanel.GetData(out data);
+
+                data.CheckSafety_AutoMode = systemData.CheckSafety_AutoMode;
+                data.CheckSafety_ManualMode = systemData.CheckSafety_ManualMode;
+                data.EnableCylinderMove_EStop = systemData.EnableCylinderMove_EStop;
+                m_ctrlOpPanel.SetData(data);
             }
 
             //////////////////////////////////////////////////////////////////
@@ -1697,20 +1717,7 @@ namespace LWDicer.Layers
             return SUCCESS;
         }
 
-        public int SaveModelData(CWaferFrame data)
-        {
-            // save
-            int iResult = m_DataManager.SaveModelData(data);
-            if (iResult != SUCCESS) return iResult;
-
-            // set
-            iResult = SetModelDataToComponent();
-            if (iResult != SUCCESS) return iResult;
-
-            return SUCCESS;
-        }
-
-        public int SaveModelData(CWaferCassette data)
+        public int SaveModelData(CWaferFrameData data)
         {
             // save
             int iResult = m_DataManager.SaveModelData(data);
@@ -1738,7 +1745,7 @@ namespace LWDicer.Layers
 
         public int SetModelDataToComponent()
         {
-            int iResult;
+            int iResult = SUCCESS;
             //m_DataManager.ChangeModel(m_DataManager.SystemData.ModelName);
 
             CModelData modelData = m_DataManager.ModelData;
@@ -1970,7 +1977,7 @@ namespace LWDicer.Layers
 
         private int SetPositionDataToComponent(EPositionObject unit = EPositionObject.ALL)
         {
-            int iResult;
+            int iResult = SUCCESS;
             CPositionGroup Pos_Fixed = m_DataManager.Pos_Fixed;
             CPositionGroup Pos_Model = m_DataManager.Pos_Model;
             CPositionGroup Pos_Offset = m_DataManager.Pos_Offset;
@@ -2095,7 +2102,7 @@ namespace LWDicer.Layers
 
         private int SetAllPositionDataToComponent()
         {
-            int iResult;
+            int iResult = SUCCESS;
             iResult = m_DataManager.LoadPositionData(true);
             if (iResult != SUCCESS) return iResult;
             iResult = m_DataManager.LoadPositionData(false);
@@ -2214,8 +2221,6 @@ namespace LWDicer.Layers
             refComp.Yaskawa_Motion = m_YMC;
             refComp.ACS_Motion = m_ACS;
 
-            //data.bUseMaterialAlarm = 
-
             COpPanelIOAddr sPanelIOAddr = new COpPanelIOAddr();
             sPanelIOAddr.FrontPanel = new CPanelIOAddr(iStart_SWFront, iStop_SWFront, iReset_SWFront,
                 oStart_LampFront, oStop_LampFront, oReset_LampFront,
@@ -2227,6 +2232,7 @@ namespace LWDicer.Layers
                 iJog_X_Forward_SWRear, iJog_X_Forward_SWRear, iJog_Y_Forward_SWRear, iJog_Y_Forward_SWRear,
                 iJog_T_CW_SWRear, iJog_T_CCW_SWRear, iJog_Z_UP_SWRear, iJog_Z_DOWN_SWRear,
                 0);
+
             sPanelIOAddr.EStopAddr[0] = iEMO_SW;
             sPanelIOAddr.EStopAddr[1] = iEMO_SWRear;
 
@@ -2236,6 +2242,24 @@ namespace LWDicer.Layers
 
             sPanelIOAddr.TowerLamp = new CTowerIOAddr(oTower_LampRed, oTower_LampYellow, oTower_LampGreen,
                 oBuzzer_1, oBuzzer_2, oBuzzer_3, oBuzzer_4);
+
+            sPanelIOAddr.TankEmptyAddr[(int)ECoatTank.TANK_1] = iSHead1_Tank1_Empty;
+            sPanelIOAddr.TankEmptyAddr[(int)ECoatTank.TANK_2] = iSHead1_Tank2_Empty;
+
+            sPanelIOAddr.SafeDoorAddr[(int)EDoorGroup.FRONT, (int)EDoorIndex.INDEX_1] = iDoor_Front;
+            sPanelIOAddr.SafeDoorAddr[(int)EDoorGroup.FRONT, (int)EDoorIndex.INDEX_2] = iDoor_Front2;
+            sPanelIOAddr.SafeDoorAddr[(int)EDoorGroup.REAR, (int)EDoorIndex.INDEX_1]  = iDoor_Back;
+            sPanelIOAddr.SafeDoorAddr[(int)EDoorGroup.REAR, (int)EDoorIndex.INDEX_2]  = iDoor_Back2;
+            sPanelIOAddr.SafeDoorAddr[(int)EDoorGroup.LEFT, (int)EDoorIndex.INDEX_1]  = iDoor_Side;
+            sPanelIOAddr.SafeDoorAddr[(int)EDoorGroup.LEFT, (int)EDoorIndex.INDEX_2]  = iDoor_Side2;
+
+            // SetSystemData 에서 관리
+            //data.UseDoorStatus[(int)EDoorGroup.FRONT, (int)EDoorIndex.INDEX1] = true;
+            //data.UseDoorStatus[(int)EDoorGroup.FRONT, (int)EDoorIndex.INDEX2] = true;
+            //data.UseDoorStatus[(int)EDoorGroup.REAR, (int)EDoorIndex.INDEX1]  = true;
+            //data.UseDoorStatus[(int)EDoorGroup.REAR, (int)EDoorIndex.INDEX2]  = true;
+            //data.UseDoorStatus[(int)EDoorGroup.LEFT, (int)EDoorIndex.INDEX1]  = true;
+            //data.UseDoorStatus[(int)EDoorGroup.LEFT, (int)EDoorIndex.INDEX2] = true;
 
             CJogTable sJogTable = new CJogTable();
 
@@ -2363,5 +2387,35 @@ namespace LWDicer.Layers
             return true;
         }
 
+        public void SetAutoManual(EAutoManual mode)
+        {
+            // mechanical layer
+            m_OpPanel.SetAutoManual(mode);
+            m_MeElevator.SetAutoManual(mode);
+            m_MePushPull.SetAutoManual(mode);
+            m_MeSpinner1.SetAutoManual(mode);
+            m_MeSpinner2.SetAutoManual(mode);
+            m_MeLowerHandler.SetAutoManual(mode);
+            m_MeUpperHandler.SetAutoManual(mode);
+            m_MeStage.SetAutoManual(mode);
+
+            // control layer
+            m_ctrlOpPanel.SetAutoManual(mode);
+            m_ctrlLoader.SetAutoManual(mode);
+            m_ctrlPushPull.SetAutoManual(mode);
+            m_ctrlSpinner1.SetAutoManual(mode);
+            m_ctrlSpinner2.SetAutoManual(mode);
+            m_ctrlHandler.SetAutoManual(mode);
+            m_ctrlStage1.SetAutoManual(mode);
+
+            // process layer
+            m_trsAutoManager.SetAutoManual(mode);
+            m_trsLoader.SetAutoManual(mode);
+            m_trsPushPull.SetAutoManual(mode);
+            m_trsSpinner1.SetAutoManual(mode);
+            m_trsSpinner2.SetAutoManual(mode);
+            m_trsHandler.SetAutoManual(mode);
+            m_trsStage1.SetAutoManual(mode);
+        }
     }
 }

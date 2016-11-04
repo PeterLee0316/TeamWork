@@ -81,8 +81,6 @@ namespace LWDicer.UI
 
         private void InitGrid()
         {
-            int i = 0, j = 0, nCol = 0, nRow = 0;
-
             // Cell Click 시 커서가 생성되지 않게함.
             GridStageTeachTable.ActivateCurrentCellBehavior = GridCellActivateAction.None;
 
@@ -90,22 +88,22 @@ namespace LWDicer.UI
             GridStageTeachTable.Properties.RowHeaders = true;
             GridStageTeachTable.Properties.ColHeaders = false;
 
-            nCol = 3;
-            nRow = 8;
+            int nCol = 3;
+            int nRow = 8;
 
             // Column,Row 개수
             GridStageTeachTable.ColCount = nCol;
             GridStageTeachTable.RowCount = nRow;
 
             // Column 가로 크기설정
-            for (i = 0; i < nCol + 1; i++)
+            for (int i = 0; i < nCol + 1; i++)
             {
                 GridStageTeachTable.ColWidths.SetSize(i, 160);
             }
 
             GridStageTeachTable.ColWidths.SetSize(0, 110);
 
-            for (i = 0; i < nRow + 1; i++)
+            for (int i = 0; i < nRow + 1; i++)
             {
                 GridStageTeachTable.RowHeights[i] = 40;
             }
@@ -131,9 +129,9 @@ namespace LWDicer.UI
             GridStageTeachTable[7, 0].Text = "현재 위치";
             GridStageTeachTable[8, 0].Text = "보정값";
 
-            for (i = 0; i < nCol + 1; i++)
+            for (int i = 0; i < nCol + 1; i++)
             {
-                for (j = 0; j < nRow + 1; j++)
+                for (int j = 0; j < nRow + 1; j++)
                 {
                     // Font Style - Bold
                     GridStageTeachTable[j, i].Font.Bold = true;
@@ -153,7 +151,7 @@ namespace LWDicer.UI
             GridStageTeachTable.ResizeColsBehavior = 0;
             GridStageTeachTable.ResizeRowsBehavior = 0;
 
-            for (i = 0; i < nCol; i++)
+            for (int i = 0; i < nCol; i++)
             {
                 GridStageTeachTable[1, i + 1].TextColor = Color.LightGray;
                 GridStageTeachTable[1, i + 1].Description = "";
@@ -180,14 +178,12 @@ namespace LWDicer.UI
             StagePos[5] = BtnPos6; StagePos[6] = BtnPos7; StagePos[7] = BtnPos8; StagePos[8] = BtnPos9; StagePos[9] = BtnPos10;
             StagePos[10] = BtnPos11; StagePos[11] = BtnPos12; StagePos[12] = BtnPos13; StagePos[13] = BtnPos14; StagePos[14] = BtnPos15;
 
-            int i = 0;
-
-            for(i=0;i<15;i++)
+            for (int i = 0; i < 15; i++)
             {
                 StagePos[i].Visible = false;
             }
             
-            for (i = 0; i < (int)EStagePos.MAX; i++)
+            for (int i = 0; i < (int)EStagePos.MAX; i++)
             {
                 StagePos[i].Text = Convert.ToString(EStagePos.WAIT + i);
             }
@@ -232,20 +228,18 @@ namespace LWDicer.UI
 
         private void UpdateStageTeachPos(int selectedPos)
         {
-            int nCount = 0, i = 0, j = 0;
+            int nCount = (int)EStagePos.MAX;
 
-            nCount = (int)EStagePos.MAX;
-
-            for (i = 0; i < nCount; i++)
+            for (int i = 0; i < nCount; i++)
             {
                 StagePos[i].BackColor = Color.LightYellow;
 
                 StagePos[i].Visible = true;
             }
 
-            for (i = 0; i < GridStageTeachTable.ColCount + 1; i++)
+            for (int i = 0; i < GridStageTeachTable.ColCount + 1; i++)
             {
-                for (j = 0; j < GridStageTeachTable.RowCount; j++)
+                for (int j = 0; j < GridStageTeachTable.RowCount; j++)
                 {
                     if (i != 0 && j > 1)
                     {

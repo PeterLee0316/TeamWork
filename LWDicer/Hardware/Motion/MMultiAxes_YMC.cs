@@ -192,7 +192,6 @@ namespace LWDicer.Layers
             CMotorSpeedData[] tempSpeed = null)
         {
             int iResult = SUCCESS;
-            int i, j, k;
             int iAxisID;
             int iAxisCount = 0;
             bool[] bPartUse = new bool[DEF_MAX_COORDINATE];
@@ -203,14 +202,14 @@ namespace LWDicer.Layers
                 // call api by axis group
                 if (bUsePriority == true)
                 {
-                    for (i = 0; i < (int)EPriority.MAX; i++)
+                    for (int i = 0; i < (int)EPriority.MAX; i++)
                     {
                         bPartMove = false;
-                        for (j = 0; j < DEF_MAX_COORDINATE; j++)
+                        for (int j = 0; j < DEF_MAX_COORDINATE; j++)
                             bPartUse[j] = false;
 
                         // 우선순위안의 축 모두 이동
-                        for (j = 0; j < DEF_MAX_COORDINATE; j++)
+                        for (int j = 0; j < DEF_MAX_COORDINATE; j++)
                         {
                             if (bMoveUse[j] == false) continue;
                             if (MovePriority[j] == i)

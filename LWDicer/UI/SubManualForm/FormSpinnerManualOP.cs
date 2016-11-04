@@ -163,7 +163,10 @@ namespace LWDicer.UI
 
         private void BtnSpinnerUp_Click(object sender, EventArgs e)
         {
+            if (CMainFrame.LWDicer.IsSafeForCylinderMove() == false) return;
+            CMainFrame.StartTimer();
             int iResult = m_CtrlSpinner.TableUp();
+            LabelTime_UpDn.Text = CMainFrame.GetElapsedTIme_Text();
             CMainFrame.DisplayAlarm(iResult);
         }
 
@@ -210,9 +213,9 @@ namespace LWDicer.UI
 
             // task1이 끝나길 기다렸다가 끝나면 결과를 확인
             BtnCleaningJobStart.BackColor = CMainFrame.BtnBackColor_On;
-            m_ActionTimer.StartTimer();
+            CMainFrame.StartTimer();
             int iResult = await task1;
-            LabelTime_Cleaning.Text = $"{m_ActionTimer.GetElapsedTime():0.00} sec";
+            LabelTime_Cleaning.Text = CMainFrame.GetElapsedTIme_Text();
             BtnCleaningJobStart.BackColor = CMainFrame.BtnBackColor_Off;
 
             if (m_CtrlSpinner.IsCancelJob_byManual)
@@ -238,9 +241,9 @@ namespace LWDicer.UI
 
             // task1이 끝나길 기다렸다가 끝나면 결과를 확인
             BtnCoatingJobStart.BackColor = CMainFrame.BtnBackColor_On;
-            m_ActionTimer.StartTimer();
+            CMainFrame.StartTimer();
             int iResult = await task1;
-            LabelTime_Coating.Text = $"{m_ActionTimer.GetElapsedTime():0.00} sec";
+            LabelTime_Coating.Text = CMainFrame.GetElapsedTIme_Text();
             BtnCoatingJobStart.BackColor = CMainFrame.BtnBackColor_Off;
 
             if (m_CtrlSpinner.IsCancelJob_byManual)
@@ -288,6 +291,28 @@ namespace LWDicer.UI
                     LabelStep_Cleaning.Text = str.Substring(0, nline) + Environment.NewLine + str.Substring(nline);
 
                 }
+            }
+
+            if (m_CtrlSpinner.IsDoingJob_Coating || m_CtrlSpinner.IsDoingJob_Cleaning)
+            {
+                BtnSpinnerUp.Enabled = false;
+                BtnSpinnerDown.Enabled = false;
+                BtnVacuumOn.Enabled = false;
+                BtnVacuumOff.Enabled = false;
+                BtnCoatNozzleOn.Enabled = false;
+                BtnCoatNozzleOff.Enabled = false;
+                BtnCleanNozzleOn.Enabled = false;
+                BtnCleanNozzleOff.Enabled = false;
+            } else
+            {
+                BtnSpinnerUp.Enabled = true;
+                BtnSpinnerDown.Enabled = true;
+                BtnVacuumOn.Enabled = true;
+                BtnVacuumOff.Enabled = true;
+                BtnCoatNozzleOn.Enabled = true;
+                BtnCoatNozzleOff.Enabled = true;
+                BtnCleanNozzleOn.Enabled = true;
+                BtnCleanNozzleOff.Enabled = true;
             }
         }
     }

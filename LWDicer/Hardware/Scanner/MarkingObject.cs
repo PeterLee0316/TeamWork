@@ -164,7 +164,7 @@ namespace LWDicer.Layers
         public virtual void MoveObject( PointF pPos)
         {
             //if (this.ObjectType == EObjectType.GROUP)// MoveObject(pPos);
-            //    for(int i=0; i<this.GroupObjectCount;i++)
+            //    for(int i=0; i<this.GroupObjectCount; i++)
             //    {
                     
             //    }

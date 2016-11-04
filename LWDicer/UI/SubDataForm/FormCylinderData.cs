@@ -46,8 +46,6 @@ namespace LWDicer.UI
 
         private void InitGrid()
         {
-            int i = 0, j = 0, nCol = 0, nRow = 0;
-
             // Cell Click 시 커서가 생성되지 않게함.
             GridCtrl.ActivateCurrentCellBehavior = GridCellActivateAction.None;
 
@@ -55,22 +53,22 @@ namespace LWDicer.UI
             GridCtrl.Properties.RowHeaders = true;
             GridCtrl.Properties.ColHeaders = true;
 
-            nCol = 4;
-            nRow = (int)EObjectCylinder.MAX;
+            int nCol = 4;
+            int nRow = (int)EObjectCylinder.MAX;
 
             // Column,Row 개수
             GridCtrl.ColCount = nCol;
             GridCtrl.RowCount = nRow;
 
             // Column 가로 크기설정
-            for (i = 0; i < nCol + 1; i++)
+            for (int i = 0; i < nCol + 1; i++)
             {
                 GridCtrl.ColWidths.SetSize(i, 120);
             }
 
             GridCtrl.ColWidths.SetSize(0, 200);
 
-            for (i = 0; i < nRow + 1; i++)
+            for (int i = 0; i < nRow + 1; i++)
             {
                 GridCtrl.RowHeights[i] = 34;
 
@@ -84,14 +82,14 @@ namespace LWDicer.UI
             GridCtrl[0, 4].Text = "No Sensor         Wait Time";
 
 
-            for (i = 0; i < (int)EObjectCylinder.MAX; i++)
+            for (int i = 0; i < (int)EObjectCylinder.MAX; i++)
             {
                 GridCtrl[i + 1, 0].Text = CMainFrame.LWDicer.m_SystemInfo.GetObjectName(100 + i);
             }
 
-            for (i = 0; i < nCol + 1; i++)
+            for (int i = 0; i < nCol + 1; i++)
             {
-                for (j = 0; j < nRow + 1; j++)
+                for (int j = 0; j < nRow + 1; j++)
                 {
                     // Font Style - Bold
                     GridCtrl[j, i].Font.Bold = true;
@@ -101,9 +99,9 @@ namespace LWDicer.UI
                 }
             }
 
-            for (i = 1; i < nCol + 1; i++)
+            for (int i = 1; i < nCol + 1; i++)
             {
-                for (j = 1; j < nRow + 1; j++)
+                for (int j = 1; j < nRow + 1; j++)
                 {
                     GridCtrl[j, i].BackColor = Color.FromArgb(220, 220, 255);
                 }
@@ -176,17 +174,14 @@ namespace LWDicer.UI
 
         private void UpdateScreen(CSystemData_Cylinder systemCylinder)
         {
-            string strText;
-            int i = 0, j = 0;
-
-            for (i = 0; i < (int)EObjectCylinder.MAX; i++)
+            for (int i = 0; i < (int)EObjectCylinder.MAX; i++)
             {
                 GridCtrl[i + 1, 1].Text = String.Format("{0:0.000}", systemCylinder.CylinderTimer[i].MovingTime);
                 GridCtrl[i + 1, 2].Text = String.Format("{0:0.000}", systemCylinder.CylinderTimer[i].SettlingTime1);
                 GridCtrl[i + 1, 3].Text = String.Format("{0:0.000}", systemCylinder.CylinderTimer[i].SettlingTime2);
                 GridCtrl[i + 1, 4].Text = String.Format("{0:0.000}", systemCylinder.CylinderTimer[i].NoSenMovingTime);
 
-                for (j = 0; j < 4; j++)
+                for (int j = 0; j < 4; j++)
                 {
                     GridCtrl[i + 1, j + 1].TextColor = Color.Black;
                 }

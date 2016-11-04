@@ -1170,7 +1170,7 @@ MP2101TM            SVC(built-in the board, with MECHATROLINK port 1)       1   
             return SUCCESS;
 #endif
             // 0. init
-            int iResult;
+            int iResult = SUCCESS;
             UInt32 rc;
             CMotionAPI.COM_DEVICE ComDevice;
 
@@ -1287,7 +1287,7 @@ MP2101TM            SVC(built-in the board, with MECHATROLINK port 1)       1   
 
         private int DeclareTempDevice(int length, int[] axisList, bool[] useAxis, ref UInt32 tDevice)
         {
-            int iResult;
+            int iResult = SUCCESS;
             UInt32[] hAxis;
             iResult = GetAxisHandleList(axisList, out hAxis);
             if (iResult != SUCCESS) return iResult;
@@ -2018,7 +2018,7 @@ MP2101TM            SVC(built-in the board, with MECHATROLINK port 1)       1   
 
 #if SIMULATION_TEST
             // servo off 상태라면 서보가 없는 상태에서 simulation test 라고 가정하고
-            if(bServoOn == false)
+            //if(bServoOn == false)
             {
                 Sleep(SimulationSleepTime);
 
@@ -2048,7 +2048,7 @@ MP2101TM            SVC(built-in the board, with MECHATROLINK port 1)       1   
 
         public int Wait4Done(int[] axisList, bool[] useAxis, bool bWait4Home = false)
         {
-            int iResult;
+            int iResult = SUCCESS;
             // 0. init data
             // 0.1 get device length
             int length = 0;
