@@ -201,7 +201,7 @@ namespace LWDicer.UI
         {
             try
             {
-                var dlg = new pageAlign();
+                var dlg = new FormThetaAlignTeach();
                 dlg.StartPosition = FormStartPosition.Manual;
                 dlg.Location = new Point(0, 120);
                 dlg.ShowDialog();

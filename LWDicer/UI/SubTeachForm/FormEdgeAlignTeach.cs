@@ -14,6 +14,7 @@ using static LWDicer.Layers.DEF_Common;
 using static LWDicer.Layers.DEF_DataManager;
 using static LWDicer.Layers.DEF_Motion;
 using static LWDicer.Layers.DEF_MeStage;
+using static LWDicer.Layers.DEF_CtrlStage;
 
 using LWDicer.Layers;
 
@@ -21,6 +22,11 @@ namespace LWDicer.UI
 {
     public partial class FormEdgeAlignTeach : Form
     {
+        private CCtrlAlignData AlignData;
+        private CSystemData_Align SystemAlignData;
+        private CPos_XYTZ MacroRotateCenterPos = new CPos_XYTZ();
+        private CPos_XYTZ MicroRotateCenterPos = new CPos_XYTZ();
+
         public FormEdgeAlignTeach()
         {
             InitializeComponent();
@@ -36,8 +42,7 @@ namespace LWDicer.UI
             this.Controls.Add(CMainFrame.frmCamFocus);
             CMainFrame.frmCamFocus.Parent = this.pnlStageJog;
             CMainFrame.frmCamFocus.Dock = DockStyle.Fill;
-
-            
+                        
             CMainFrame.frmStageJog.Show();
         }
 
@@ -56,6 +61,26 @@ namespace LWDicer.UI
             CMainFrame.LWDicer.m_Vision.InitialLocalView(PRE__CAM, picVision.Handle);
             CMainFrame.LWDicer.m_Vision.ShowRectRoi();
 #endif      
+            
+            // Align Data Copy
+            AlignData = ObjectExtensions.Copy(CMainFrame.DataManager.ModelData.AlignData);
+
+            // Motion Position Copy
+            bool Type_Fixed = true;
+            CPositionGroup tGroup;
+            CMainFrame.LWDicer.GetPositionGroup(out tGroup, Type_Fixed);
+            EPositionObject pIndex = EPositionObject.STAGE1;
+            int nSelectedPos;
+
+            nSelectedPos = (int)EStagePos.STAGE_CENTER_PRE;
+            MacroRotateCenterPos = tGroup.Pos_Array[(int)pIndex].Pos[nSelectedPos].Copy();
+
+            nSelectedPos = (int)EStagePos.STAGE_CENTER_FINE;
+            MicroRotateCenterPos = tGroup.Pos_Array[(int)pIndex].Pos[nSelectedPos].Copy();
+
+            // System Data(CamOffser) Copy
+            SystemAlignData = ObjectExtensions.Copy(CMainFrame.DataManager.SystemData_Align);
+
             TimerUI.Enabled = true;
             TimerUI.Interval = UITimerInterval;
             TimerUI.Start();
@@ -130,7 +155,7 @@ namespace LWDicer.UI
             int tPosIndex = (int)EStagePos.STAGE_CENTER_PRE;
             tGroup.Pos_Array[(int)pIndex].Pos[nSelectedPos].Add(DEF_X, tGroup.Pos_Array[(int)pIndex].Pos[tPosIndex].GetAt(DEF_X) + dLength);
             tGroup.Pos_Array[(int)pIndex].Pos[nSelectedPos].Add(DEF_Y, tGroup.Pos_Array[(int)pIndex].Pos[tPosIndex].GetAt(DEF_Y) - dLength);
-            tGroup.Pos_Array[(int)pIndex].Pos[nSelectedPos].Add(DEF_T, tGroup.Pos_Array[(int)pIndex].Pos[tPosIndex].GetAt(DEF_X));
+            tGroup.Pos_Array[(int)pIndex].Pos[nSelectedPos].Add(DEF_T, tGroup.Pos_Array[(int)pIndex].Pos[tPosIndex].GetAt(DEF_T));
 
             CMainFrame.LWDicer.SavePosition(tGroup, Type_Fixed, pIndex);
         }
@@ -235,27 +260,12 @@ namespace LWDicer.UI
 
         private void btnEdgeTeachNext_Click(object sender, EventArgs e)
         {
-            CMainFrame.LWDicer.m_ctrlStage1.SetEdgeTeachPosNext();
+            CMainFrame.LWDicer.m_ctrlStage1.SetEdgeTeachPosNext(ref AlignData);
         }
 
         private void btnEdgeAlignDataInit_Click(object sender, EventArgs e)
         {
-            double dLength = 0.0;
 
-            dLength = WAFER_SIZE_12_INCH / 2.0 * Math.Cos(Math.PI / 180 * 45);
-
-            CMainFrame.DataManager.Pos_Fixed.Pos_Stage1.Pos[(int)EStagePos.EDGE_ALIGN_1].dX = CMainFrame.DataManager.Pos_Fixed.Pos_Stage1.Pos[(int)EStagePos.STAGE_CENTER_PRE].dX +
-                                                                                            dLength;
-            CMainFrame.DataManager.Pos_Fixed.Pos_Stage1.Pos[(int)EStagePos.EDGE_ALIGN_1].dY = CMainFrame.DataManager.Pos_Fixed.Pos_Stage1.Pos[(int)EStagePos.STAGE_CENTER_PRE].dY -
-                                                                                            dLength;
-            CMainFrame.DataManager.Pos_Fixed.Pos_Stage1.Pos[(int)EStagePos.EDGE_ALIGN_1].dT = CMainFrame.DataManager.Pos_Fixed.Pos_Stage1.Pos[(int)EStagePos.STAGE_CENTER_PRE].dT;
-
-            // Wafer의 중심 Offset 적용
-            CMainFrame.DataManager.SystemData_Align.WaferOffsetX = 0.0;
-            CMainFrame.DataManager.SystemData_Align.WaferOffsetY = 0.0;
-            CMainFrame.DataManager.SystemData_Align.WaferSizeOffset = 0.0;
-
-            CMainFrame.LWDicer.SavePosition(CMainFrame.DataManager.Pos_Fixed, true, EPositionObject.STAGE1);
         }
 
         private void BtnJog_Click(object sender, EventArgs e)
@@ -265,7 +275,11 @@ namespace LWDicer.UI
 
         private void btnRotateCenter_Click(object sender, EventArgs e)
         {
-            CMainFrame.LWDicer.m_ctrlStage1.DoRotateCenterCals();
+            if(CMainFrame.LWDicer.m_ctrlStage1.GetCurrentCam()== PRE__CAM)
+                CMainFrame.LWDicer.m_ctrlStage1.DoRotateCenterCals(ref MacroRotateCenterPos);
+            if (CMainFrame.LWDicer.m_ctrlStage1.GetCurrentCam() == FINE_CAM)
+                CMainFrame.LWDicer.m_ctrlStage1.DoRotateCenterCals(ref MicroRotateCenterPos);
+
         }
 
         private void btnRotateCenterCalsInit_Click(object sender, EventArgs e)
@@ -275,11 +289,35 @@ namespace LWDicer.UI
 
         private void btnEdgeAlignDataSave_Click(object sender, EventArgs e)
         {
-            CMainFrame.DataManager.SaveModelData(CMainFrame.DataManager.ModelData);
+            string strData = string.Empty;
+            string strMsg = "Save Edge Align data?";
+            if (!CMainFrame.InquireMsg(strMsg)) return;
 
-            // LJJ need to edit
-            //CMainFrame.DataManager.SavePositionData(true, EPositionObject.STAGE1);
-            //CMainFrame.LWDicer.SetPositionDataToComponent(EPositionGroup.STAGE1);
+            // Model Data Save
+            CMainFrame.DataManager.ModelData.AlignData = ObjectExtensions.Copy(AlignData);
+            CMainFrame.LWDicer.SaveModelData(CMainFrame.DataManager.ModelData);
+                      
+            // Position Data Save
+            bool Type_Fixed = true;
+            CPositionGroup tGroup;
+            CMainFrame.LWDicer.GetPositionGroup(out tGroup, Type_Fixed);
+            EPositionObject pIndex = EPositionObject.STAGE1;
+            int nSelectedPos;
+
+            nSelectedPos = (int)EStagePos.STAGE_CENTER_PRE;
+            tGroup.Pos_Array[(int)pIndex].Pos[nSelectedPos] = MacroRotateCenterPos.Copy();
+
+            nSelectedPos = (int)EStagePos.STAGE_CENTER_FINE;
+            tGroup.Pos_Array[(int)pIndex].Pos[nSelectedPos] = MicroRotateCenterPos.Copy();            
+
+            CMainFrame.LWDicer.SavePosition(tGroup, Type_Fixed, pIndex);
+
+            // System Data Save
+            SystemAlignData.CamEachOffset.dX = MacroRotateCenterPos.dX - MicroRotateCenterPos.dX;
+            SystemAlignData.CamEachOffset.dY = MacroRotateCenterPos.dY - MicroRotateCenterPos.dY;
+
+            CMainFrame.LWDicer.SaveSystemData(null, null, null, null, SystemAlignData, null, null);
+
         }
 
         private void btnWaferCenterSearchRun_Click(object sender, EventArgs e)
@@ -314,6 +352,9 @@ namespace LWDicer.UI
             CMainFrame.LWDicer.m_ctrlStage1.MoveToStageCenterFine();
         }
 
-        
+        private void btnThetaAlign_Click(object sender, EventArgs e)
+        {
+            CMainFrame.LWDicer.m_ctrlStage1.DoThetaAlign();
+        }
     }
 }

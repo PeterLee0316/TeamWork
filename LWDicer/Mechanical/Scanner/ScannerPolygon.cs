@@ -270,6 +270,7 @@ namespace LWDicer.Layers
 
             // Bmp 크기를 계산해서 Stream으로 반복 저장 횟수를 설정함.
             // Pixel이 bit 단위이므로 Byte 크기를 사용할땐 8을 나눔.
+            if (BmpImageHeight <= 0) BmpImageHeight = 1;
             long sizeCalsBmp = (long)BmpImageWidth * (long)BmpImageHeight / 8;
             BmpBlockHeight = BmpImageHeight;
 
@@ -309,6 +310,8 @@ namespace LWDicer.Layers
                 if (tempHeight > MaxHeight) MaxHeight = tempHeight;
             }
 
+            
+
             // 가로 세로 크기를 Pixel 단위로 변환
             ptEnd.X = (int)(BMT_SCAN_WIDTH / (m_RefComp.DataManager.ModelData.ScanData.InScanResolution) + 0.5);
             ptEnd.Y = (int)(MaxHeight / (m_RefComp.DataManager.ModelData.ScanData.CrossScanResolution) + 0.5);
@@ -319,7 +322,8 @@ namespace LWDicer.Layers
 
             // 실제 크기와 Pixel과 배율을 결정함  (각 객체를 Pixel로 전환할때 사용함)
             ratioWidth = (float)(BmpImageWidth) / BMT_SCAN_WIDTH;
-            ratioHeight = (float)BmpImageHeight / MaxHeight;
+            if (MaxHeight == 0) ratioHeight = 0;
+            else  ratioHeight = (float)BmpImageHeight / MaxHeight;
 
             // 가로 사이즈는 32배수로 크기를 정한다. 
             // 소수점을 버리기 위해서... 32로 나누고.. 곱한다.(32배수 밑은 버림).
@@ -332,6 +336,7 @@ namespace LWDicer.Layers
 
             // BMP file의 크기를 설정한다
             // 2G 이상의 크기는 설정이 불가능함.
+            if (BmpImageHeight <= 0) BmpImageHeight = 1;
             try
             {
                 m_Bitmap = new Bitmap(BmpImageWidth, BmpImageHeight, PixelFormat.Format1bppIndexed);
@@ -2075,8 +2080,8 @@ namespace LWDicer.Layers
             try
             {
                 procScanner.Start();
-                //procScanner.StandardInput.Write("tftp -i " + strIP + " put " + strFilePath + Environment.NewLine);
-                procScanner.StandardInput.Write("C:\\NST\\nstc upload " + strIP + " " + strFilePath + Environment.NewLine);
+                procScanner.StandardInput.Write("tftp -i " + strIP + " put " + strFilePath + Environment.NewLine);
+                // procScanner.StandardInput.Write("C:\\NST\\nstc upload " + strIP + " " + strFilePath + Environment.NewLine);
                 procScanner.StandardInput.Close();
                 //procScanner.BeginOutputReadLine();                
 

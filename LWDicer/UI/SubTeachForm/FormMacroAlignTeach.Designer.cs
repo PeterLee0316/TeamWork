@@ -36,6 +36,12 @@
             this.panel1 = new System.Windows.Forms.Panel();
             this.picPatternMarkA = new System.Windows.Forms.PictureBox();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.panel3 = new System.Windows.Forms.Panel();
+            this.lblSearchResult = new System.Windows.Forms.Label();
+            this.btnSearchMarkA = new System.Windows.Forms.Button();
+            this.btnSearchMarkB = new System.Windows.Forms.Button();
+            this.btnMoveMacroAlignPos1 = new System.Windows.Forms.Button();
+            this.btnMoveMacroAlignPos2 = new System.Windows.Forms.Button();
             this.lblRoiHeight = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.lblRoiWidth = new System.Windows.Forms.Label();
@@ -44,9 +50,6 @@
             this.btnRoiHeightWide = new System.Windows.Forms.Button();
             this.btnRoiWidthNarrow = new System.Windows.Forms.Button();
             this.btnRoiWidthWide = new System.Windows.Forms.Button();
-            this.lblSearchResult = new System.Windows.Forms.Label();
-            this.btnSearchMarkB = new System.Windows.Forms.Button();
-            this.btnSearchMarkA = new System.Windows.Forms.Button();
             this.btnRegisterMarkB = new System.Windows.Forms.Button();
             this.btnRegisterMarkA = new System.Windows.Forms.Button();
             this.picVision = new System.Windows.Forms.Panel();
@@ -54,6 +57,7 @@
             this.pnlStageJog = new System.Windows.Forms.Panel();
             this.gradientLabel1 = new Syncfusion.Windows.Forms.Tools.GradientLabel();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.btnThetaAlign = new System.Windows.Forms.Button();
             this.btnSelectStageMove = new System.Windows.Forms.Button();
             this.btnSelectFocus = new System.Windows.Forms.Button();
             this.btnChangeCam = new System.Windows.Forms.Button();
@@ -72,21 +76,19 @@
             this.lblStagePosX = new Syncfusion.Windows.Forms.Tools.GradientLabel();
             this.TmrTeach = new System.Windows.Forms.Timer(this.components);
             this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.btnAlignDataSave = new System.Windows.Forms.Button();
             this.btnMarkPosTeach2 = new System.Windows.Forms.Button();
             this.btnMarkPosTeach1 = new System.Windows.Forms.Button();
-            this.panel3 = new System.Windows.Forms.Panel();
-            this.btnMoveMacroAlignPos2 = new System.Windows.Forms.Button();
-            this.btnMoveMacroAlignPos1 = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picPatternMarkB)).BeginInit();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picPatternMarkA)).BeginInit();
             this.groupBox4.SuspendLayout();
+            this.panel3.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox5.SuspendLayout();
-            this.panel3.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox1
@@ -152,6 +154,81 @@
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Vision Control";
             // 
+            // panel3
+            // 
+            this.panel3.BackColor = System.Drawing.Color.White;
+            this.panel3.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.panel3.Controls.Add(this.lblSearchResult);
+            this.panel3.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.panel3.Location = new System.Drawing.Point(176, 21);
+            this.panel3.Name = "panel3";
+            this.panel3.Size = new System.Drawing.Size(148, 60);
+            this.panel3.TabIndex = 980;
+            // 
+            // lblSearchResult
+            // 
+            this.lblSearchResult.AutoSize = true;
+            this.lblSearchResult.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.lblSearchResult.Location = new System.Drawing.Point(3, 0);
+            this.lblSearchResult.Name = "lblSearchResult";
+            this.lblSearchResult.Size = new System.Drawing.Size(28, 13);
+            this.lblSearchResult.TabIndex = 2;
+            this.lblSearchResult.Text = "---";
+            // 
+            // btnSearchMarkA
+            // 
+            this.btnSearchMarkA.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.btnSearchMarkA.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.btnSearchMarkA.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.btnSearchMarkA.Location = new System.Drawing.Point(93, 20);
+            this.btnSearchMarkA.Name = "btnSearchMarkA";
+            this.btnSearchMarkA.Size = new System.Drawing.Size(74, 61);
+            this.btnSearchMarkA.TabIndex = 767;
+            this.btnSearchMarkA.Text = "Mark Search A";
+            this.btnSearchMarkA.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.btnSearchMarkA.UseVisualStyleBackColor = true;
+            this.btnSearchMarkA.Click += new System.EventHandler(this.btnSearchMarkA_Click);
+            // 
+            // btnSearchMarkB
+            // 
+            this.btnSearchMarkB.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.btnSearchMarkB.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.btnSearchMarkB.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.btnSearchMarkB.Location = new System.Drawing.Point(93, 88);
+            this.btnSearchMarkB.Name = "btnSearchMarkB";
+            this.btnSearchMarkB.Size = new System.Drawing.Size(74, 61);
+            this.btnSearchMarkB.TabIndex = 768;
+            this.btnSearchMarkB.Text = "Mark Search B";
+            this.btnSearchMarkB.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.btnSearchMarkB.UseVisualStyleBackColor = true;
+            this.btnSearchMarkB.Click += new System.EventHandler(this.btnSearchMarkB_Click);
+            // 
+            // btnMoveMacroAlignPos1
+            // 
+            this.btnMoveMacroAlignPos1.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.btnMoveMacroAlignPos1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.btnMoveMacroAlignPos1.Location = new System.Drawing.Point(16, 21);
+            this.btnMoveMacroAlignPos1.Name = "btnMoveMacroAlignPos1";
+            this.btnMoveMacroAlignPos1.Size = new System.Drawing.Size(74, 61);
+            this.btnMoveMacroAlignPos1.TabIndex = 977;
+            this.btnMoveMacroAlignPos1.Text = "Mark PositionA";
+            this.btnMoveMacroAlignPos1.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.btnMoveMacroAlignPos1.UseVisualStyleBackColor = true;
+            this.btnMoveMacroAlignPos1.Click += new System.EventHandler(this.btnMoveMacroAlignPos1_Click);
+            // 
+            // btnMoveMacroAlignPos2
+            // 
+            this.btnMoveMacroAlignPos2.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.btnMoveMacroAlignPos2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.btnMoveMacroAlignPos2.Location = new System.Drawing.Point(16, 88);
+            this.btnMoveMacroAlignPos2.Name = "btnMoveMacroAlignPos2";
+            this.btnMoveMacroAlignPos2.Size = new System.Drawing.Size(74, 61);
+            this.btnMoveMacroAlignPos2.TabIndex = 979;
+            this.btnMoveMacroAlignPos2.Text = "Mark PositionB";
+            this.btnMoveMacroAlignPos2.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.btnMoveMacroAlignPos2.UseVisualStyleBackColor = true;
+            this.btnMoveMacroAlignPos2.Click += new System.EventHandler(this.btnMoveMacroAlignPos2_Click);
+            // 
             // lblRoiHeight
             // 
             this.lblRoiHeight.AutoSize = true;
@@ -189,9 +266,9 @@
             this.btnRoiHeightNarrow.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.btnRoiHeightNarrow.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
             this.btnRoiHeightNarrow.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.btnRoiHeightNarrow.Location = new System.Drawing.Point(345, 61);
+            this.btnRoiHeightNarrow.Location = new System.Drawing.Point(172, 117);
             this.btnRoiHeightNarrow.Name = "btnRoiHeightNarrow";
-            this.btnRoiHeightNarrow.Size = new System.Drawing.Size(75, 40);
+            this.btnRoiHeightNarrow.Size = new System.Drawing.Size(75, 33);
             this.btnRoiHeightNarrow.TabIndex = 981;
             this.btnRoiHeightNarrow.Text = "ROI Height Narrow";
             this.btnRoiHeightNarrow.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
@@ -216,9 +293,9 @@
             this.btnRoiHeightWide.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.btnRoiHeightWide.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
             this.btnRoiHeightWide.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.btnRoiHeightWide.Location = new System.Drawing.Point(345, 20);
+            this.btnRoiHeightWide.Location = new System.Drawing.Point(172, 85);
             this.btnRoiHeightWide.Name = "btnRoiHeightWide";
-            this.btnRoiHeightWide.Size = new System.Drawing.Size(75, 40);
+            this.btnRoiHeightWide.Size = new System.Drawing.Size(75, 33);
             this.btnRoiHeightWide.TabIndex = 980;
             this.btnRoiHeightWide.Text = "ROI Height Wide";
             this.btnRoiHeightWide.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
@@ -233,9 +310,9 @@
             this.btnRoiWidthNarrow.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.btnRoiWidthNarrow.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
             this.btnRoiWidthNarrow.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.btnRoiWidthNarrow.Location = new System.Drawing.Point(265, 61);
+            this.btnRoiWidthNarrow.Location = new System.Drawing.Point(172, 49);
             this.btnRoiWidthNarrow.Name = "btnRoiWidthNarrow";
-            this.btnRoiWidthNarrow.Size = new System.Drawing.Size(75, 40);
+            this.btnRoiWidthNarrow.Size = new System.Drawing.Size(75, 33);
             this.btnRoiWidthNarrow.TabIndex = 979;
             this.btnRoiWidthNarrow.Text = "ROI Width Narrow";
             this.btnRoiWidthNarrow.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
@@ -250,9 +327,9 @@
             this.btnRoiWidthWide.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.btnRoiWidthWide.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
             this.btnRoiWidthWide.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.btnRoiWidthWide.Location = new System.Drawing.Point(265, 20);
+            this.btnRoiWidthWide.Location = new System.Drawing.Point(172, 17);
             this.btnRoiWidthWide.Name = "btnRoiWidthWide";
-            this.btnRoiWidthWide.Size = new System.Drawing.Size(75, 40);
+            this.btnRoiWidthWide.Size = new System.Drawing.Size(75, 33);
             this.btnRoiWidthWide.TabIndex = 978;
             this.btnRoiWidthWide.Text = "ROI Width Wide";
             this.btnRoiWidthWide.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
@@ -261,44 +338,6 @@
             this.btnRoiWidthWide.Click += new System.EventHandler(this.btnRoiWidthWide_Click);
             this.btnRoiWidthWide.MouseDown += new System.Windows.Forms.MouseEventHandler(this.btnRoiWidthWide_MouseDown);
             this.btnRoiWidthWide.MouseUp += new System.Windows.Forms.MouseEventHandler(this.btnRoiWidthWide_MouseUp);
-            // 
-            // lblSearchResult
-            // 
-            this.lblSearchResult.AutoSize = true;
-            this.lblSearchResult.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.lblSearchResult.Location = new System.Drawing.Point(3, 0);
-            this.lblSearchResult.Name = "lblSearchResult";
-            this.lblSearchResult.Size = new System.Drawing.Size(28, 13);
-            this.lblSearchResult.TabIndex = 2;
-            this.lblSearchResult.Text = "---";
-            // 
-            // btnSearchMarkB
-            // 
-            this.btnSearchMarkB.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.btnSearchMarkB.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.btnSearchMarkB.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.btnSearchMarkB.Location = new System.Drawing.Point(93, 88);
-            this.btnSearchMarkB.Name = "btnSearchMarkB";
-            this.btnSearchMarkB.Size = new System.Drawing.Size(74, 61);
-            this.btnSearchMarkB.TabIndex = 768;
-            this.btnSearchMarkB.Text = "Mark Search B";
-            this.btnSearchMarkB.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.btnSearchMarkB.UseVisualStyleBackColor = true;
-            this.btnSearchMarkB.Click += new System.EventHandler(this.btnSearchMarkB_Click);
-            // 
-            // btnSearchMarkA
-            // 
-            this.btnSearchMarkA.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.btnSearchMarkA.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.btnSearchMarkA.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.btnSearchMarkA.Location = new System.Drawing.Point(93, 20);
-            this.btnSearchMarkA.Name = "btnSearchMarkA";
-            this.btnSearchMarkA.Size = new System.Drawing.Size(74, 61);
-            this.btnSearchMarkA.TabIndex = 767;
-            this.btnSearchMarkA.Text = "Mark Search A";
-            this.btnSearchMarkA.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.btnSearchMarkA.UseVisualStyleBackColor = true;
-            this.btnSearchMarkA.Click += new System.EventHandler(this.btnSearchMarkA_Click);
             // 
             // btnRegisterMarkB
             // 
@@ -376,6 +415,7 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.btnThetaAlign);
             this.groupBox2.Controls.Add(this.btnSelectStageMove);
             this.groupBox2.Controls.Add(this.btnSelectFocus);
             this.groupBox2.Controls.Add(this.btnChangeCam);
@@ -385,6 +425,21 @@
             this.groupBox2.TabIndex = 953;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Vision && Stage Control";
+            // 
+            // btnThetaAlign
+            // 
+            this.btnThetaAlign.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.btnThetaAlign.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.btnThetaAlign.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.btnThetaAlign.Location = new System.Drawing.Point(93, 36);
+            this.btnThetaAlign.Name = "btnThetaAlign";
+            this.btnThetaAlign.Size = new System.Drawing.Size(75, 77);
+            this.btnThetaAlign.TabIndex = 955;
+            this.btnThetaAlign.Text = "Theta Align";
+            this.btnThetaAlign.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.btnThetaAlign.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.btnThetaAlign.UseVisualStyleBackColor = true;
+            this.btnThetaAlign.Click += new System.EventHandler(this.btnThetaAlign_Click);
             // 
             // btnSelectStageMove
             // 
@@ -611,6 +666,7 @@
             // 
             // groupBox5
             // 
+            this.groupBox5.Controls.Add(this.btnAlignDataSave);
             this.groupBox5.Controls.Add(this.btnRoiHeightNarrow);
             this.groupBox5.Controls.Add(this.btnMarkPosTeach2);
             this.groupBox5.Controls.Add(this.btnRoiHeightWide);
@@ -625,6 +681,21 @@
             this.groupBox5.TabIndex = 954;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "Manual Control";
+            // 
+            // btnAlignDataSave
+            // 
+            this.btnAlignDataSave.Font = new System.Drawing.Font("굴림", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.btnAlignDataSave.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.btnAlignDataSave.Image = ((System.Drawing.Image)(resources.GetObject("btnAlignDataSave.Image")));
+            this.btnAlignDataSave.Location = new System.Drawing.Point(323, 89);
+            this.btnAlignDataSave.Name = "btnAlignDataSave";
+            this.btnAlignDataSave.Size = new System.Drawing.Size(100, 61);
+            this.btnAlignDataSave.TabIndex = 983;
+            this.btnAlignDataSave.Text = "Data Save";
+            this.btnAlignDataSave.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnAlignDataSave.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.btnAlignDataSave.UseVisualStyleBackColor = true;
+            this.btnAlignDataSave.Click += new System.EventHandler(this.btnAlignDataSave_Click);
             // 
             // btnMarkPosTeach2
             // 
@@ -652,43 +723,6 @@
             this.btnMarkPosTeach1.UseVisualStyleBackColor = true;
             this.btnMarkPosTeach1.Click += new System.EventHandler(this.btnMarkPosTeach1_Click);
             // 
-            // panel3
-            // 
-            this.panel3.BackColor = System.Drawing.Color.White;
-            this.panel3.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.panel3.Controls.Add(this.lblSearchResult);
-            this.panel3.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.panel3.Location = new System.Drawing.Point(176, 21);
-            this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(148, 60);
-            this.panel3.TabIndex = 980;
-            // 
-            // btnMoveMacroAlignPos2
-            // 
-            this.btnMoveMacroAlignPos2.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.btnMoveMacroAlignPos2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.btnMoveMacroAlignPos2.Location = new System.Drawing.Point(16, 88);
-            this.btnMoveMacroAlignPos2.Name = "btnMoveMacroAlignPos2";
-            this.btnMoveMacroAlignPos2.Size = new System.Drawing.Size(74, 61);
-            this.btnMoveMacroAlignPos2.TabIndex = 979;
-            this.btnMoveMacroAlignPos2.Text = "Mark PositionB";
-            this.btnMoveMacroAlignPos2.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.btnMoveMacroAlignPos2.UseVisualStyleBackColor = true;
-            this.btnMoveMacroAlignPos2.Click += new System.EventHandler(this.btnMoveMacroAlignPos2_Click);
-            // 
-            // btnMoveMacroAlignPos1
-            // 
-            this.btnMoveMacroAlignPos1.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.btnMoveMacroAlignPos1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.btnMoveMacroAlignPos1.Location = new System.Drawing.Point(16, 21);
-            this.btnMoveMacroAlignPos1.Name = "btnMoveMacroAlignPos1";
-            this.btnMoveMacroAlignPos1.Size = new System.Drawing.Size(74, 61);
-            this.btnMoveMacroAlignPos1.TabIndex = 977;
-            this.btnMoveMacroAlignPos1.Text = "Mark PositionA";
-            this.btnMoveMacroAlignPos1.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.btnMoveMacroAlignPos1.UseVisualStyleBackColor = true;
-            this.btnMoveMacroAlignPos1.Click += new System.EventHandler(this.btnMoveMacroAlignPos1_Click);
-            // 
             // FormMacroAlignTeach
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
@@ -705,6 +739,7 @@
             this.Controls.Add(this.picVision);
             this.Name = "FormMacroAlignTeach";
             this.Text = "FormMacroAlignTeach";
+            this.Activated += new System.EventHandler(this.FormMacroAlignTeach_Activated);
             this.Load += new System.EventHandler(this.FormMacroAlignTeach_Load);
             this.Shown += new System.EventHandler(this.FormMacroAlignTeach_Shown);
             this.groupBox1.ResumeLayout(false);
@@ -713,12 +748,12 @@
             this.panel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.picPatternMarkA)).EndInit();
             this.groupBox4.ResumeLayout(false);
+            this.panel3.ResumeLayout(false);
+            this.panel3.PerformLayout();
             this.groupBox2.ResumeLayout(false);
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
             this.groupBox5.ResumeLayout(false);
-            this.panel3.ResumeLayout(false);
-            this.panel3.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -772,5 +807,7 @@
         private System.Windows.Forms.Button btnMoveMacroAlignPos1;
         private System.Windows.Forms.Button btnMarkPosTeach1;
         private System.Windows.Forms.Button btnMarkPosTeach2;
+        private System.Windows.Forms.Button btnThetaAlign;
+        private System.Windows.Forms.Button btnAlignDataSave;
     }
 }

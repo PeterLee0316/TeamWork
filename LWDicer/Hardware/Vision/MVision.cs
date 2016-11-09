@@ -583,6 +583,7 @@ namespace LWDicer.Layers
 #if SIMULATION_VISION
                 return SUCCESS;
 #endif
+            if(pSData==null) return GenerateErrorCode(ERR_VISION_PATTERN_NONE);
             if (m_RefComp.Camera == null) return GenerateErrorCode(ERR_VISION_CAMERA_FAIL);
             // Vision System이 초기화 된지를 확인함
             if (m_bSystemInit == false) return GenerateErrorCode(ERR_VISION_SYSTEM_FAIL);
@@ -1336,7 +1337,7 @@ namespace LWDicer.Layers
         }
 
         // Draw Line On the Overlay Display
-        public void DrawOverlayLine(int iCamNo, Point ptStart, Point ptEnd, int color)
+        public void DrawOverlayLine(int iCamNo, Point ptStart, Point ptEnd, Color color)
         {
 #if SIMULATION_VISION
             return;
@@ -1345,6 +1346,12 @@ namespace LWDicer.Layers
             if (m_bSystemInit == false) return;
 
             if (iCamNo > DEF_MAX_CAMERA_NO) return;
+
+            Pen penLine = new Pen(Color.Red);
+
+            penLine.DashStyle = System.Drawing.Drawing2D.DashStyle.Solid;
+
+            m_RefComp.View[m_iCurrentViewNum].GraphDrawLine(ptStart, ptEnd, Pens.Red);
 
             //return 0;
         }

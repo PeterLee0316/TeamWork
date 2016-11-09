@@ -345,8 +345,8 @@ namespace LWDicer.UI
 
             if (TeachPos[m_nSelectedPos].Text == Convert.ToString(ECameraPos.WAIT)) CMainFrame.LWDicer.m_ctrlStage1.MoveToCameraWaitPos();
             if (TeachPos[m_nSelectedPos].Text == Convert.ToString(ECameraPos.WORK)) CMainFrame.LWDicer.m_ctrlStage1.MoveToCameraWorkPos();
-            if (TeachPos[m_nSelectedPos].Text == Convert.ToString(ECameraPos.FOCUS_1)) CMainFrame.LWDicer.m_ctrlStage1.MoveToCameraFocusPos1();
-            if (TeachPos[m_nSelectedPos].Text == Convert.ToString(ECameraPos.FOCUS_2)) CMainFrame.LWDicer.m_ctrlStage1.MoveToCameraFocusPos2();
+            if (TeachPos[m_nSelectedPos].Text == Convert.ToString(ECameraPos.INSPEC_FOCUS)) CMainFrame.LWDicer.m_ctrlStage1.MoveToCameraFocusPosInpect();
+            if (TeachPos[m_nSelectedPos].Text == Convert.ToString(ECameraPos.FINE_FOCUS)) CMainFrame.LWDicer.m_ctrlStage1.MoveToCameraFocusPosFine();
             if (TeachPos[m_nSelectedPos].Text == Convert.ToString(ECameraPos.FOCUS_3)) CMainFrame.LWDicer.m_ctrlStage1.MoveToCameraFocusPos3();
         }
     }

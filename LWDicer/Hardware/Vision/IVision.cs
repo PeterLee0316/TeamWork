@@ -228,7 +228,7 @@ namespace LWDicer.Layers
 	     void DrawOverlayGrid(int iCamNo) ;
 
 	    // Draw Line On the Overlay Display
-	     void DrawOverlayLine(int iCamNo, Point ptStart, Point ptEnd, int color) ;
+	     void DrawOverlayLine(int iCamNo, Point ptStart, Point ptEnd, Color color) ;
 
        // Draw Cross Mark on the Overlay Display
         void DrawOverlayCrossMark(int iCamNo, int iWidth, int iHeight, Point center, Color color);   //, int color = 1) ;

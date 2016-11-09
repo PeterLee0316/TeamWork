@@ -22,6 +22,7 @@ using static LWDicer.Layers.DEF_System;
 using static LWDicer.Layers.DEF_Vision;
 using static LWDicer.Layers.DEF_Common;
 using static LWDicer.Layers.DEF_DataManager;
+using static LWDicer.Layers.DEF_MeStage;
 
 using LWDicer.Layers;
 
@@ -1419,11 +1420,24 @@ namespace LWDicer.UI
             double lenX = (double) (ptMouseEndPos.X - ptMouseStartPos.X);
             double lenY = (double) (ptMouseEndPos.Y - ptMouseStartPos.Y);
 
+            Size sizeCam = CMainFrame.LWDicer.m_Vision.GetCameraPixelNum(INSP_CAM);
+
+            double ratioX = (double) sizeCam.Width / (double)picVisionZoom.Width;
+            double ratioY = (double)sizeCam.Height / (double)picVisionZoom.Height;
+
+            Point ptStart = new Point(0, 0);
+            Point ptEnd = new Point(0, 0);
+
+            ptStart.X = (int)(ptMouseStartPos.X * ratioX);
+            ptStart.Y = (int)(ptMouseStartPos.Y * ratioY);
+
+            ptEnd.X = (int)(ptMouseEndPos.X * ratioX);
+            ptEnd.Y = (int)(ptMouseEndPos.Y * ratioY);
+
             string textMsg;
 
             if (e.Button == MouseButtons.Left)
             {
-                
 
                 if (eVisionMode == EVisionMode.MEASUREMENT)
                 {
@@ -1433,8 +1447,11 @@ namespace LWDicer.UI
                     lengthPixel = Math.Sqrt(lenX * lenX + lenY * lenY);
                     textMsg = string.Format("{0:f2} um", lengthPixel);
 
-                    CMainFrame.LWDicer.m_Vision.ClearOverlay();
-                    CMainFrame.LWDicer.m_Vision.DrawOverlayText(INSP_CAM, textMsg, ptMouseEndPos);
+                    //CMainFrame.LWDicer.m_Vision.ClearOverlay();
+                    CMainFrame.LWDicer.m_Vision.DrawOverlayText(INSP_CAM, textMsg, ptEnd);
+                    
+                    CMainFrame.LWDicer.m_Vision.DrawOverlayLine(INSP_CAM, ptStart, ptEnd, Color.Red);
+
                 }
                 if (eVisionMode == EVisionMode.CALIBRATION)
                 {
@@ -1468,6 +1485,7 @@ namespace LWDicer.UI
         private void picVisionZoom_Paint(object sender, PaintEventArgs e)
         {
             DrawMouseLine(e.Graphics);
+            
         }
         private void DrawMouseLine(Graphics g)
         {
@@ -1487,6 +1505,11 @@ namespace LWDicer.UI
         {
             eVisionMode = EVisionMode.MEASUREMENT;
             btnCalibration.ForeColor = Color.Black;
+        }
+
+        private void btnMeasureClear_Click(object sender, EventArgs e)
+        {
+            CMainFrame.LWDicer.m_Vision.ClearOverlay();
         }
 
         private void btnControlSendConnect_Click(object sender, EventArgs e)
@@ -1724,12 +1747,15 @@ namespace LWDicer.UI
         }
         private void btnLaserProcessStep1_Click(object sender, EventArgs e)
         {
-            CMainFrame.LWDicer.m_ctrlStage1.LaserProcessStep1();
+            int iResult = 0;
+            CMainFrame.DataManager.ModelData.ProcData.ProcessStop = false;
+            var task = Task<int>.Run(() => CMainFrame.LWDicer.m_ctrlStage1.LaserProcessStep1());
         }
 
         private void btnLaserProcessStep2_Click(object sender, EventArgs e)
         {
             int iResult;
+            CMainFrame.DataManager.ModelData.ProcData.ProcessStop = false;
             CMainFrame.LWDicer.m_ctrlStage1.LaserProcessStep2();
         }
 
@@ -1784,6 +1810,36 @@ namespace LWDicer.UI
         {
             CMainFrame.DisplayJog();
         }
-        
+
+        private void lblMousePos_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnFineCam_Click(object sender, EventArgs e)
+        {
+            CMainFrame.LWDicer.m_Vision.DestroyLocalView(INSP_CAM);
+            CMainFrame.LWDicer.m_Vision.InitialLocalView(FINE_CAM, picVisionZoom.Handle);
+
+            CMainFrame.LWDicer.m_MeStage.MoveCameraToFocusPosFine();
+        }
+
+        private void btnInpectCam_Click(object sender, EventArgs e)
+        {
+            CMainFrame.LWDicer.m_Vision.DestroyLocalView(FINE_CAM);
+            CMainFrame.LWDicer.m_Vision.InitialLocalView(INSP_CAM, picVisionZoom.Handle);
+
+            CMainFrame.LWDicer.m_MeStage.MoveCameraToFocusPosInspect();
+        }
+
+        private void btnMoveToLaser_Click(object sender, EventArgs e)
+        {
+            CMainFrame.LWDicer.m_ctrlStage1.MoveStageRelative((int)EStagePos.VISION_LASER_GAP);
+        }
+
+        private void btnMoveToVision_Click(object sender, EventArgs e)
+        {
+            CMainFrame.LWDicer.m_ctrlStage1.MoveStageRelative((int)EStagePos.VISION_LASER_GAP, false);
+        }
     }
 }

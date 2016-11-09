@@ -20,7 +20,7 @@ namespace LWDicer.UI
 
         private void btnMoveTeachFocus_Click(object sender, EventArgs e)
         {
-            CMainFrame.LWDicer.m_ctrlStage1.MoveToCameraFocusPos2();
+            CMainFrame.LWDicer.m_ctrlStage1.MoveToCameraFocusPosFine();
         }
 
         private void btnIndexUpLow_MouseDown(object sender, MouseEventArgs e)

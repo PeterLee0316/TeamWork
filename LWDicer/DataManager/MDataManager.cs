@@ -34,6 +34,7 @@ using static LWDicer.Layers.DEF_MePushPull;
 using static LWDicer.Layers.DEF_MeSpinner;
 using static LWDicer.Layers.DEF_Vision;
 using static LWDicer.Layers.DEF_CtrlSpinner;
+using static LWDicer.Layers.DEF_CtrlStage;
 
 
 namespace LWDicer.Layers
@@ -373,8 +374,7 @@ namespace LWDicer.Layers
             public double[] CameraTilt  = new double[(int)ECameraSelect.MAX];
             public CCameraData[] Camera = new CCameraData[(int)ECameraSelect.MAX];
 
-            public double CamEachOffsetX;
-            public double CamEachOffsetY;
+            public CPos_XY CamEachOffset = new CPos_XY();
 
             // Edge Align
             public double WaferOffsetX;
@@ -501,7 +501,7 @@ namespace LWDicer.Layers
             public int SW_ModelProductQuantity;
             public string GY_ModelName;
             public int GY_ModelProductQuantity;
-            public int ProductQuantity_forOut;  // Out 되는 생산 수량
+            public int ProductQuantity_forOut;      // Out 되는 생산 수량
             public int ProductQuantity_forIn;       // In되는 생산 수량
         }
 
@@ -677,7 +677,6 @@ namespace LWDicer.Layers
                 IsFolder = false;
                 TreeLevel = -1;
             }
-
         }
 
         public class CModelData    // Model, Recipe
@@ -695,17 +694,16 @@ namespace LWDicer.Layers
             // Spinner Data 
             public CCtrlSpinnerData[] SpinnerData = new CCtrlSpinnerData[(int)ESpinnerIndex.MAX];
 
-
+            
             ///////////////////////////////////////////////////////////
+            // Align Data
+            public CCtrlAlignData AlignData = new CCtrlAlignData();
+
             // Vision Data (Pattern)
-            public CSearchData MacroPatternA = new CSearchData();
-            public CSearchData MacroPatternB = new CSearchData();
-            public CSearchData MicroPatternA = new CSearchData();
-            public CSearchData MicroPatternB = new CSearchData();
-
-            ///////////////////////////////////////////////////////////
-            // Edge Aling Position
-            public CPos_XYTZ[] EdgeTeachPos = new CPos_XYTZ[3];
+            //public CSearchData MacroPatternA = new CSearchData();
+            //public CSearchData MacroPatternB = new CSearchData();
+            //public CSearchData MicroPatternA = new CSearchData();
+            //public CSearchData MicroPatternB = new CSearchData();
 
             ///////////////////////////////////////////////////////////
             // Scanner Parameter
@@ -1064,7 +1062,8 @@ namespace LWDicer.Layers
             if (iResult != SUCCESS) return iResult;
 
             // MakeDefaultModel();
-            iResult = ChangeModel(SystemData.ModelName);
+            //iResult = ChangeModel(SystemData.ModelName);
+            iResult = ChangeModel(ModelData.Name);
             if (iResult != SUCCESS) return iResult;
 
             return SUCCESS;
@@ -2652,6 +2651,9 @@ namespace LWDicer.Layers
                 // 3.2 load waferframe data
                 iResult = LoadWaferFrameData(data.WaferFrameName);
                 if (iResult != SUCCESS) return iResult;
+                
+
+                if (iResult != SUCCESS) return iResult;
 
                 WriteLog($"success : change model : {ModelData.Name}.", ELogType.SYSTEM, ELogWType.LOAD);
             }
@@ -2799,6 +2801,7 @@ namespace LWDicer.Layers
 
             return SUCCESS;
         }
+
 
         public int ViewModelData(string name, out CModelData data)
         {
@@ -5917,12 +5920,15 @@ namespace LWDicer.Layers
             // Job 파일을 설정한다.
             filePath = DBInfo.ScannerDataDir;
 
+            if (loadFilePath == null) return SUCCESS;
+
             switch (file)
             {
                 case EPolygonPara.CONFIG:
 
                     #region Load Config.ini File
                     filePath = loadFilePath;
+                    
                     if (!File.Exists(filePath)) File.Create(filePath);
 
 

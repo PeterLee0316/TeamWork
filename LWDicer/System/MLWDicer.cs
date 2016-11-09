@@ -1145,21 +1145,8 @@ namespace LWDicer.Layers
             // Cam Live Set
             m_Vision.LiveVideo(PRE__CAM);
             m_Vision.LiveVideo(FINE_CAM);
-
-            // Pattern Model Data Read & Apply
-            CModelData pModelData;
-            m_DataManager.ViewModelData("Default", out pModelData);
-
-            // LJJ need to edit
-            //int iResult = SaveModelData(pModelData);
-
-            //if (iResult == SUCCESS)
-            //{
-            //    m_Vision.ReLoadPatternMark(PRE__CAM, PATTERN_A, m_DataManager.ModelData.MacroPatternA);
-            //    m_Vision.ReLoadPatternMark(PRE__CAM, PATTERN_B, m_DataManager.ModelData.MacroPatternB);
-            //    m_Vision.ReLoadPatternMark(FINE_CAM, PATTERN_A, m_DataManager.ModelData.MicroPatternA);
-            //    m_Vision.ReLoadPatternMark(FINE_CAM, PATTERN_B, m_DataManager.ModelData.MicroPatternB);
-            //}            
+            
+          
         }
 
         void CreateScanner(CObjectInfo objInfo)
@@ -1217,9 +1204,9 @@ namespace LWDicer.Layers
             CCtrlStage1RefComp refComp = new CCtrlStage1RefComp();
             CCtrlStage1Data data = new CCtrlStage1Data();
 
-            refComp.Stage = m_MeStage;
+            refComp.Stage   = m_MeStage;
             refComp.Scanner = m_MeScanner;
-            refComp.Vision = m_Vision;
+            refComp.Vision  = m_Vision;
 
             m_ctrlStage1 = new MCtrlStage1(objInfo, refComp, data);
         }
@@ -1622,7 +1609,7 @@ namespace LWDicer.Layers
                 m_ctrlStage1.GetData(out data);
 
                 // System Data에 있는 Vision Data를 적용한다.
-                //data.Vision = m_DataManager.SystemData_Align;
+                data.Vision = m_DataManager.SystemData_Align;                
 
                 m_ctrlStage1.SetData(data);
             }
@@ -1889,8 +1876,8 @@ namespace LWDicer.Layers
                 CCtrlStage1Data data;
                 m_ctrlStage1.GetData(out data);
 
-                // System Data에 있는 Vision Data를 적용한다.
-                //data.Vision = m_DataManager.SystemData_Align;
+                // Model Data에 있는 Vision Data를 적용한다.
+                data.Align = ObjectExtensions.Copy(modelData.AlignData);
 
                 m_ctrlStage1.SetData(data);
             }

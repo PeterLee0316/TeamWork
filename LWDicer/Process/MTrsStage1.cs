@@ -103,7 +103,7 @@ namespace LWDicer.Layers
 
         protected override int ProcessMsg(MEvent evnt)
         {
-              Debug.WriteLine($"[{ToString()}] received message : {evnt.ToThreadMessage()}");
+            Debug.WriteLine($"[{ToString()}] received message : {evnt.ToThreadMessage()}");
             switch (evnt.Msg)
             {
                 // if need to change response for common message, then add case state here.

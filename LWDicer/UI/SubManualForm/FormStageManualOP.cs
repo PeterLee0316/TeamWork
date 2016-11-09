@@ -90,12 +90,12 @@ namespace LWDicer.UI
 
         private void btnLaserProcessStep1_Click(object sender, EventArgs e)
         {
-            //int iResult = 0;
-            //var task = Task<int>.Run(() => CMainFrame.LWDicer.m_ctrlStage1.LaserProcessStep1());
-            ////iResult=  await task;
+            int iResult = 0;
+            var task = Task<int>.Run(() => CMainFrame.LWDicer.m_ctrlStage1.LaserProcessStep1());
+            //iResult=  await task;
 
 
-            CMainFrame.LWDicer.m_ctrlStage1.LaserProcessStep1();
+           // CMainFrame.LWDicer.m_ctrlStage1.LaserProcessStep1();
         }
 
         private void btnLaserProcessStep2_Click(object sender, EventArgs e)

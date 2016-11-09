@@ -38,7 +38,6 @@
             this.btnEdgeTeachPos3 = new System.Windows.Forms.Button();
             this.btnEdgeTeachPos2 = new System.Windows.Forms.Button();
             this.btnEdgeTeachPos1 = new System.Windows.Forms.Button();
-            this.btnEdgeAlignDataInit = new System.Windows.Forms.Button();
             this.btnEdgeAlignDataSave = new System.Windows.Forms.Button();
             this.btnStageCenterPre = new System.Windows.Forms.Button();
             this.picVision = new System.Windows.Forms.Panel();
@@ -60,6 +59,7 @@
             this.lblStagePosX = new Syncfusion.Windows.Forms.Tools.GradientLabel();
             this.TimerUI = new System.Windows.Forms.Timer(this.components);
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.btnThetaAlign = new System.Windows.Forms.Button();
             this.btnSelectStageMove = new System.Windows.Forms.Button();
             this.btnSelectFocus = new System.Windows.Forms.Button();
             this.btnChangeCam = new System.Windows.Forms.Button();
@@ -75,7 +75,6 @@
             this.btnWaferCenterPre = new System.Windows.Forms.Button();
             this.btnWaferCenterFine = new System.Windows.Forms.Button();
             this.btnStageCenterFine = new System.Windows.Forms.Button();
-            this.btnStageCenterPre = new System.Windows.Forms.Button();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.groupBox4.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -194,21 +193,6 @@
             this.btnEdgeTeachPos1.UseVisualStyleBackColor = true;
             this.btnEdgeTeachPos1.Click += new System.EventHandler(this.btnEdgeTeachPos1_Click);
             // 
-            // btnEdgeAlignDataInit
-            // 
-            this.btnEdgeAlignDataInit.Font = new System.Drawing.Font("굴림", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.btnEdgeAlignDataInit.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.btnEdgeAlignDataInit.Image = ((System.Drawing.Image)(resources.GetObject("btnEdgeAlignDataInit.Image")));
-            this.btnEdgeAlignDataInit.Location = new System.Drawing.Point(1049, 543);
-            this.btnEdgeAlignDataInit.Name = "btnEdgeAlignDataInit";
-            this.btnEdgeAlignDataInit.Size = new System.Drawing.Size(100, 61);
-            this.btnEdgeAlignDataInit.TabIndex = 979;
-            this.btnEdgeAlignDataInit.Text = "Data Init";
-            this.btnEdgeAlignDataInit.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnEdgeAlignDataInit.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.btnEdgeAlignDataInit.UseVisualStyleBackColor = true;
-            this.btnEdgeAlignDataInit.Click += new System.EventHandler(this.btnEdgeAlignDataInit_Click);
-            // 
             // btnEdgeAlignDataSave
             // 
             this.btnEdgeAlignDataSave.Font = new System.Drawing.Font("굴림", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
@@ -228,11 +212,11 @@
             // 
             this.btnStageCenterPre.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.btnStageCenterPre.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.btnStageCenterPre.Location = new System.Drawing.Point(12, 21);
+            this.btnStageCenterPre.Location = new System.Drawing.Point(353, 16);
             this.btnStageCenterPre.Name = "btnStageCenterPre";
-            this.btnStageCenterPre.Size = new System.Drawing.Size(98, 61);
-            this.btnStageCenterPre.TabIndex = 976;
-            this.btnStageCenterPre.Text = "Stage Center";
+            this.btnStageCenterPre.Size = new System.Drawing.Size(74, 61);
+            this.btnStageCenterPre.TabIndex = 985;
+            this.btnStageCenterPre.Text = "Stage Center (Pre)";
             this.btnStageCenterPre.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.btnStageCenterPre.UseVisualStyleBackColor = true;
             this.btnStageCenterPre.Click += new System.EventHandler(this.btnStageCenterPre_Click);
@@ -459,6 +443,7 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.btnThetaAlign);
             this.groupBox2.Controls.Add(this.btnSelectStageMove);
             this.groupBox2.Controls.Add(this.btnSelectFocus);
             this.groupBox2.Controls.Add(this.btnChangeCam);
@@ -468,6 +453,21 @@
             this.groupBox2.TabIndex = 951;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Vision && Stage Control";
+            // 
+            // btnThetaAlign
+            // 
+            this.btnThetaAlign.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.btnThetaAlign.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.btnThetaAlign.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.btnThetaAlign.Location = new System.Drawing.Point(93, 36);
+            this.btnThetaAlign.Name = "btnThetaAlign";
+            this.btnThetaAlign.Size = new System.Drawing.Size(75, 77);
+            this.btnThetaAlign.TabIndex = 766;
+            this.btnThetaAlign.Text = "Theta Align";
+            this.btnThetaAlign.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.btnThetaAlign.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.btnThetaAlign.UseVisualStyleBackColor = true;
+            this.btnThetaAlign.Click += new System.EventHandler(this.btnThetaAlign_Click);
             // 
             // btnSelectStageMove
             // 
@@ -676,19 +676,6 @@
             this.btnStageCenterFine.UseVisualStyleBackColor = true;
             this.btnStageCenterFine.Click += new System.EventHandler(this.btnStageCenterFine_Click);
             // 
-            // btnStageCenterPre
-            // 
-            this.btnStageCenterPre.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.btnStageCenterPre.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.btnStageCenterPre.Location = new System.Drawing.Point(353, 16);
-            this.btnStageCenterPre.Name = "btnStageCenterPre";
-            this.btnStageCenterPre.Size = new System.Drawing.Size(74, 61);
-            this.btnStageCenterPre.TabIndex = 985;
-            this.btnStageCenterPre.Text = "Stage Center (Pre)";
-            this.btnStageCenterPre.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.btnStageCenterPre.UseVisualStyleBackColor = true;
-            this.btnStageCenterPre.Click += new System.EventHandler(this.btnStageCenterPre_Click);
-            // 
             // groupBox5
             // 
             this.groupBox5.Controls.Add(this.btnRotateCenterCalsInit);
@@ -711,7 +698,6 @@
             this.ClientSize = new System.Drawing.Size(1260, 880);
             this.Controls.Add(this.groupBox5);
             this.Controls.Add(this.groupBox3);
-            this.Controls.Add(this.btnEdgeAlignDataInit);
             this.Controls.Add(this.BtnJog);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
@@ -768,7 +754,6 @@
         private System.Windows.Forms.Button btnSearchEdgePoint;
         private System.Windows.Forms.Button btnSetEdgeDetectArea;
         private System.Windows.Forms.Button btnEdgeTeachNext;
-        private System.Windows.Forms.Button btnEdgeAlignDataInit;
         private System.Windows.Forms.Button BtnJog;
         private System.Windows.Forms.Button btnRotateCenter;
         private System.Windows.Forms.Button btnRotateCenterCalsInit;
@@ -783,5 +768,6 @@
         private System.Windows.Forms.Button btnStageCenterFine;
         private System.Windows.Forms.Button btnStageCenterPre;
         private System.Windows.Forms.GroupBox groupBox5;
+        private System.Windows.Forms.Button btnThetaAlign;
     }
 }

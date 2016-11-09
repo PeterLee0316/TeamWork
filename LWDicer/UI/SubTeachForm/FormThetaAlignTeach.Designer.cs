@@ -1,6 +1,6 @@
 ﻿namespace LWDicer.UI
 {
-    partial class pageAlign
+    partial class FormThetaAlignTeach
     {
         /// <summary>
         /// Required designer variable.
@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(pageAlign));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormThetaAlignTeach));
             this.gradientLabel1 = new Syncfusion.Windows.Forms.Tools.GradientLabel();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.btnSelectStageMove = new System.Windows.Forms.Button();
@@ -61,27 +61,7 @@
             this.btnStageCenter = new System.Windows.Forms.Button();
             this.btnStageReturnPosA = new System.Windows.Forms.Button();
             this.btnStageTurnPosA = new System.Windows.Forms.Button();
-            this.label17 = new System.Windows.Forms.Label();
-            this.lblThetaAlignTurnPosT = new Syncfusion.Windows.Forms.Tools.GradientLabel();
-            this.lblThetaAlignTurnPosY = new Syncfusion.Windows.Forms.Tools.GradientLabel();
-            this.lblThetaAlignTurnPosX = new Syncfusion.Windows.Forms.Tools.GradientLabel();
-            this.gradientLabel19 = new Syncfusion.Windows.Forms.Tools.GradientLabel();
-            this.gradientLabel25 = new Syncfusion.Windows.Forms.Tools.GradientLabel();
-            this.gradientLabel28 = new Syncfusion.Windows.Forms.Tools.GradientLabel();
-            this.gradientLabel41 = new Syncfusion.Windows.Forms.Tools.GradientLabel();
-            this.gradientLabel42 = new Syncfusion.Windows.Forms.Tools.GradientLabel();
-            this.gradientLabel43 = new Syncfusion.Windows.Forms.Tools.GradientLabel();
             this.btnThetaAlignDataLoad = new System.Windows.Forms.Button();
-            this.label7 = new System.Windows.Forms.Label();
-            this.lblThetaAlignPosT = new Syncfusion.Windows.Forms.Tools.GradientLabel();
-            this.lblThetaAlignPosY = new Syncfusion.Windows.Forms.Tools.GradientLabel();
-            this.lblThetaAlignPosX = new Syncfusion.Windows.Forms.Tools.GradientLabel();
-            this.gradientLabel34 = new Syncfusion.Windows.Forms.Tools.GradientLabel();
-            this.gradientLabel35 = new Syncfusion.Windows.Forms.Tools.GradientLabel();
-            this.gradientLabel36 = new Syncfusion.Windows.Forms.Tools.GradientLabel();
-            this.gradientLabel38 = new Syncfusion.Windows.Forms.Tools.GradientLabel();
-            this.gradientLabel39 = new Syncfusion.Windows.Forms.Tools.GradientLabel();
-            this.gradientLabel40 = new Syncfusion.Windows.Forms.Tools.GradientLabel();
             this.btnThetaAlignDataSave = new System.Windows.Forms.Button();
             this.pageDieIndex = new Syncfusion.Windows.Forms.Tools.TabPageAdv();
             this.lblDieIndexCals = new Syncfusion.Windows.Forms.Tools.GradientLabel();
@@ -141,6 +121,12 @@
             this.btnStageReturn = new System.Windows.Forms.Button();
             this.btnStageTurn = new System.Windows.Forms.Button();
             this.BtnExit = new System.Windows.Forms.Button();
+            this.btnMoveLaserEndMove = new System.Windows.Forms.Button();
+            this.btnMoveLaserStartPos = new System.Windows.Forms.Button();
+            this.gradientLabel10 = new Syncfusion.Windows.Forms.Tools.GradientLabel();
+            this.gradientLabel13 = new Syncfusion.Windows.Forms.Tools.GradientLabel();
+            this.lblLaserLength = new Syncfusion.Windows.Forms.Tools.GradientLabel();
+            this.btnInitLaserAlign = new System.Windows.Forms.Button();
             this.groupBox4.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.tabThetaAlign)).BeginInit();
@@ -171,6 +157,7 @@
             this.groupBox4.Controls.Add(this.btnSelectStageMove);
             this.groupBox4.Controls.Add(this.btnSelectFocus);
             this.groupBox4.Controls.Add(this.btnChangeCam);
+            this.groupBox4.Controls.Add(this.btnThetaAlign);
             this.groupBox4.Location = new System.Drawing.Point(809, 661);
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.Size = new System.Drawing.Size(183, 216);
@@ -228,7 +215,7 @@
             this.btnThetaAlign.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.btnThetaAlign.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
             this.btnThetaAlign.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.btnThetaAlign.Location = new System.Drawing.Point(15, 310);
+            this.btnThetaAlign.Location = new System.Drawing.Point(93, 36);
             this.btnThetaAlign.Name = "btnThetaAlign";
             this.btnThetaAlign.Size = new System.Drawing.Size(75, 77);
             this.btnThetaAlign.TabIndex = 765;
@@ -243,7 +230,7 @@
             this.btnHairLineNarrow.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.btnHairLineNarrow.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
             this.btnHairLineNarrow.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.btnHairLineNarrow.Location = new System.Drawing.Point(174, 310);
+            this.btnHairLineNarrow.Location = new System.Drawing.Point(98, 53);
             this.btnHairLineNarrow.Name = "btnHairLineNarrow";
             this.btnHairLineNarrow.Size = new System.Drawing.Size(75, 77);
             this.btnHairLineNarrow.TabIndex = 764;
@@ -258,7 +245,7 @@
             this.btnHairLineWide.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.btnHairLineWide.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
             this.btnHairLineWide.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.btnHairLineWide.Location = new System.Drawing.Point(96, 310);
+            this.btnHairLineWide.Location = new System.Drawing.Point(20, 53);
             this.btnHairLineWide.Name = "btnHairLineWide";
             this.btnHairLineWide.Size = new System.Drawing.Size(75, 77);
             this.btnHairLineWide.TabIndex = 759;
@@ -472,35 +459,20 @@
             // 
             // pageThetaAlign
             // 
+            this.pageThetaAlign.Controls.Add(this.btnInitLaserAlign);
+            this.pageThetaAlign.Controls.Add(this.gradientLabel10);
+            this.pageThetaAlign.Controls.Add(this.gradientLabel13);
+            this.pageThetaAlign.Controls.Add(this.lblLaserLength);
+            this.pageThetaAlign.Controls.Add(this.btnMoveLaserEndMove);
+            this.pageThetaAlign.Controls.Add(this.btnMoveLaserStartPos);
             this.pageThetaAlign.Controls.Add(this.lblHairLineWidth);
             this.pageThetaAlign.Controls.Add(this.label16);
             this.pageThetaAlign.Controls.Add(this.btnStageCenter);
             this.pageThetaAlign.Controls.Add(this.btnStageReturnPosA);
             this.pageThetaAlign.Controls.Add(this.btnStageTurnPosA);
-            this.pageThetaAlign.Controls.Add(this.label17);
-            this.pageThetaAlign.Controls.Add(this.lblThetaAlignTurnPosT);
-            this.pageThetaAlign.Controls.Add(this.lblThetaAlignTurnPosY);
-            this.pageThetaAlign.Controls.Add(this.lblThetaAlignTurnPosX);
-            this.pageThetaAlign.Controls.Add(this.gradientLabel19);
-            this.pageThetaAlign.Controls.Add(this.gradientLabel25);
-            this.pageThetaAlign.Controls.Add(this.gradientLabel28);
-            this.pageThetaAlign.Controls.Add(this.gradientLabel41);
-            this.pageThetaAlign.Controls.Add(this.gradientLabel42);
-            this.pageThetaAlign.Controls.Add(this.gradientLabel43);
             this.pageThetaAlign.Controls.Add(this.btnThetaAlignDataLoad);
-            this.pageThetaAlign.Controls.Add(this.label7);
-            this.pageThetaAlign.Controls.Add(this.lblThetaAlignPosT);
-            this.pageThetaAlign.Controls.Add(this.lblThetaAlignPosY);
-            this.pageThetaAlign.Controls.Add(this.lblThetaAlignPosX);
-            this.pageThetaAlign.Controls.Add(this.gradientLabel34);
-            this.pageThetaAlign.Controls.Add(this.gradientLabel35);
-            this.pageThetaAlign.Controls.Add(this.gradientLabel36);
-            this.pageThetaAlign.Controls.Add(this.gradientLabel38);
-            this.pageThetaAlign.Controls.Add(this.gradientLabel39);
-            this.pageThetaAlign.Controls.Add(this.gradientLabel40);
             this.pageThetaAlign.Controls.Add(this.btnThetaAlignDataSave);
             this.pageThetaAlign.Controls.Add(this.btnHairLineNarrow);
-            this.pageThetaAlign.Controls.Add(this.btnThetaAlign);
             this.pageThetaAlign.Controls.Add(this.btnHairLineWide);
             this.pageThetaAlign.Image = null;
             this.pageThetaAlign.ImageSize = new System.Drawing.Size(16, 16);
@@ -517,7 +489,7 @@
             this.lblHairLineWidth.AutoSize = true;
             this.lblHairLineWidth.BackColor = System.Drawing.Color.White;
             this.lblHairLineWidth.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.lblHairLineWidth.Location = new System.Drawing.Point(171, 293);
+            this.lblHairLineWidth.Location = new System.Drawing.Point(95, 36);
             this.lblHairLineWidth.Name = "lblHairLineWidth";
             this.lblHairLineWidth.Size = new System.Drawing.Size(72, 13);
             this.lblHairLineWidth.TabIndex = 977;
@@ -527,7 +499,7 @@
             // 
             this.label16.AutoSize = true;
             this.label16.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.label16.Location = new System.Drawing.Point(102, 279);
+            this.label16.Location = new System.Drawing.Point(26, 22);
             this.label16.Name = "label16";
             this.label16.Size = new System.Drawing.Size(100, 13);
             this.label16.TabIndex = 976;
@@ -571,160 +543,6 @@
             this.btnStageTurnPosA.UseVisualStyleBackColor = true;
             this.btnStageTurnPosA.Click += new System.EventHandler(this.btnStageTurnPosA_Click);
             // 
-            // label17
-            // 
-            this.label17.AutoSize = true;
-            this.label17.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.label17.Location = new System.Drawing.Point(9, 134);
-            this.label17.Name = "label17";
-            this.label17.Size = new System.Drawing.Size(180, 15);
-            this.label17.TabIndex = 971;
-            this.label17.Text = "Theta Align Turn Pos A";
-            // 
-            // lblThetaAlignTurnPosT
-            // 
-            this.lblThetaAlignTurnPosT.BackgroundColor = new Syncfusion.Drawing.BrushInfo(System.Drawing.Color.White);
-            this.lblThetaAlignTurnPosT.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
-            | System.Windows.Forms.Border3DSide.Right) 
-            | System.Windows.Forms.Border3DSide.Bottom)));
-            this.lblThetaAlignTurnPosT.BorderStyle = System.Windows.Forms.Border3DStyle.Raised;
-            this.lblThetaAlignTurnPosT.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.lblThetaAlignTurnPosT.ForeColor = System.Drawing.Color.Black;
-            this.lblThetaAlignTurnPosT.Location = new System.Drawing.Point(138, 211);
-            this.lblThetaAlignTurnPosT.Name = "lblThetaAlignTurnPosT";
-            this.lblThetaAlignTurnPosT.Size = new System.Drawing.Size(77, 31);
-            this.lblThetaAlignTurnPosT.TabIndex = 970;
-            this.lblThetaAlignTurnPosT.Text = "0000";
-            this.lblThetaAlignTurnPosT.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // lblThetaAlignTurnPosY
-            // 
-            this.lblThetaAlignTurnPosY.BackgroundColor = new Syncfusion.Drawing.BrushInfo(System.Drawing.Color.White);
-            this.lblThetaAlignTurnPosY.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
-            | System.Windows.Forms.Border3DSide.Right) 
-            | System.Windows.Forms.Border3DSide.Bottom)));
-            this.lblThetaAlignTurnPosY.BorderStyle = System.Windows.Forms.Border3DStyle.Raised;
-            this.lblThetaAlignTurnPosY.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.lblThetaAlignTurnPosY.ForeColor = System.Drawing.Color.Black;
-            this.lblThetaAlignTurnPosY.Location = new System.Drawing.Point(138, 180);
-            this.lblThetaAlignTurnPosY.Name = "lblThetaAlignTurnPosY";
-            this.lblThetaAlignTurnPosY.Size = new System.Drawing.Size(77, 31);
-            this.lblThetaAlignTurnPosY.TabIndex = 969;
-            this.lblThetaAlignTurnPosY.Text = "0000";
-            this.lblThetaAlignTurnPosY.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // lblThetaAlignTurnPosX
-            // 
-            this.lblThetaAlignTurnPosX.BackgroundColor = new Syncfusion.Drawing.BrushInfo(System.Drawing.Color.White);
-            this.lblThetaAlignTurnPosX.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
-            | System.Windows.Forms.Border3DSide.Right) 
-            | System.Windows.Forms.Border3DSide.Bottom)));
-            this.lblThetaAlignTurnPosX.BorderStyle = System.Windows.Forms.Border3DStyle.Raised;
-            this.lblThetaAlignTurnPosX.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.lblThetaAlignTurnPosX.ForeColor = System.Drawing.Color.Black;
-            this.lblThetaAlignTurnPosX.Location = new System.Drawing.Point(138, 149);
-            this.lblThetaAlignTurnPosX.Name = "lblThetaAlignTurnPosX";
-            this.lblThetaAlignTurnPosX.Size = new System.Drawing.Size(77, 31);
-            this.lblThetaAlignTurnPosX.TabIndex = 968;
-            this.lblThetaAlignTurnPosX.Text = "0000";
-            this.lblThetaAlignTurnPosX.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // gradientLabel19
-            // 
-            this.gradientLabel19.BackgroundColor = new Syncfusion.Drawing.BrushInfo(System.Drawing.Color.LightBlue);
-            this.gradientLabel19.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
-            | System.Windows.Forms.Border3DSide.Right) 
-            | System.Windows.Forms.Border3DSide.Bottom)));
-            this.gradientLabel19.BorderStyle = System.Windows.Forms.Border3DStyle.Raised;
-            this.gradientLabel19.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.gradientLabel19.ForeColor = System.Drawing.Color.Black;
-            this.gradientLabel19.Location = new System.Drawing.Point(215, 211);
-            this.gradientLabel19.Name = "gradientLabel19";
-            this.gradientLabel19.Size = new System.Drawing.Size(40, 31);
-            this.gradientLabel19.TabIndex = 967;
-            this.gradientLabel19.Text = "\"";
-            this.gradientLabel19.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // gradientLabel25
-            // 
-            this.gradientLabel25.BackgroundColor = new Syncfusion.Drawing.BrushInfo(System.Drawing.Color.LightBlue);
-            this.gradientLabel25.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
-            | System.Windows.Forms.Border3DSide.Right) 
-            | System.Windows.Forms.Border3DSide.Bottom)));
-            this.gradientLabel25.BorderStyle = System.Windows.Forms.Border3DStyle.Raised;
-            this.gradientLabel25.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.gradientLabel25.ForeColor = System.Drawing.Color.Black;
-            this.gradientLabel25.Location = new System.Drawing.Point(47, 211);
-            this.gradientLabel25.Name = "gradientLabel25";
-            this.gradientLabel25.Size = new System.Drawing.Size(90, 31);
-            this.gradientLabel25.TabIndex = 966;
-            this.gradientLabel25.Text = "T Axis";
-            this.gradientLabel25.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // gradientLabel28
-            // 
-            this.gradientLabel28.BackgroundColor = new Syncfusion.Drawing.BrushInfo(System.Drawing.Color.LightBlue);
-            this.gradientLabel28.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
-            | System.Windows.Forms.Border3DSide.Right) 
-            | System.Windows.Forms.Border3DSide.Bottom)));
-            this.gradientLabel28.BorderStyle = System.Windows.Forms.Border3DStyle.Raised;
-            this.gradientLabel28.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.gradientLabel28.ForeColor = System.Drawing.Color.Black;
-            this.gradientLabel28.Location = new System.Drawing.Point(215, 180);
-            this.gradientLabel28.Name = "gradientLabel28";
-            this.gradientLabel28.Size = new System.Drawing.Size(40, 31);
-            this.gradientLabel28.TabIndex = 965;
-            this.gradientLabel28.Text = "mm";
-            this.gradientLabel28.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // gradientLabel41
-            // 
-            this.gradientLabel41.BackgroundColor = new Syncfusion.Drawing.BrushInfo(System.Drawing.Color.LightBlue);
-            this.gradientLabel41.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
-            | System.Windows.Forms.Border3DSide.Right) 
-            | System.Windows.Forms.Border3DSide.Bottom)));
-            this.gradientLabel41.BorderStyle = System.Windows.Forms.Border3DStyle.Raised;
-            this.gradientLabel41.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.gradientLabel41.ForeColor = System.Drawing.Color.Black;
-            this.gradientLabel41.Location = new System.Drawing.Point(47, 180);
-            this.gradientLabel41.Name = "gradientLabel41";
-            this.gradientLabel41.Size = new System.Drawing.Size(90, 31);
-            this.gradientLabel41.TabIndex = 964;
-            this.gradientLabel41.Text = "Y Axis";
-            this.gradientLabel41.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // gradientLabel42
-            // 
-            this.gradientLabel42.BackgroundColor = new Syncfusion.Drawing.BrushInfo(System.Drawing.Color.LightBlue);
-            this.gradientLabel42.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
-            | System.Windows.Forms.Border3DSide.Right) 
-            | System.Windows.Forms.Border3DSide.Bottom)));
-            this.gradientLabel42.BorderStyle = System.Windows.Forms.Border3DStyle.Raised;
-            this.gradientLabel42.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.gradientLabel42.ForeColor = System.Drawing.Color.Black;
-            this.gradientLabel42.Location = new System.Drawing.Point(215, 149);
-            this.gradientLabel42.Name = "gradientLabel42";
-            this.gradientLabel42.Size = new System.Drawing.Size(40, 31);
-            this.gradientLabel42.TabIndex = 963;
-            this.gradientLabel42.Text = "mm";
-            this.gradientLabel42.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // gradientLabel43
-            // 
-            this.gradientLabel43.BackgroundColor = new Syncfusion.Drawing.BrushInfo(System.Drawing.Color.LightBlue);
-            this.gradientLabel43.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
-            | System.Windows.Forms.Border3DSide.Right) 
-            | System.Windows.Forms.Border3DSide.Bottom)));
-            this.gradientLabel43.BorderStyle = System.Windows.Forms.Border3DStyle.Raised;
-            this.gradientLabel43.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.gradientLabel43.ForeColor = System.Drawing.Color.Black;
-            this.gradientLabel43.Location = new System.Drawing.Point(47, 149);
-            this.gradientLabel43.Name = "gradientLabel43";
-            this.gradientLabel43.Size = new System.Drawing.Size(90, 31);
-            this.gradientLabel43.TabIndex = 962;
-            this.gradientLabel43.Text = "X Axis";
-            this.gradientLabel43.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
             // btnThetaAlignDataLoad
             // 
             this.btnThetaAlignDataLoad.Font = new System.Drawing.Font("굴림", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
@@ -739,160 +557,6 @@
             this.btnThetaAlignDataLoad.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.btnThetaAlignDataLoad.UseVisualStyleBackColor = true;
             this.btnThetaAlignDataLoad.Click += new System.EventHandler(this.btnThetaAlignDataLoad_Click);
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.label7.Location = new System.Drawing.Point(9, 11);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(142, 15);
-            this.label7.TabIndex = 960;
-            this.label7.Text = "Theta Align Pos A";
-            // 
-            // lblThetaAlignPosT
-            // 
-            this.lblThetaAlignPosT.BackgroundColor = new Syncfusion.Drawing.BrushInfo(System.Drawing.Color.White);
-            this.lblThetaAlignPosT.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
-            | System.Windows.Forms.Border3DSide.Right) 
-            | System.Windows.Forms.Border3DSide.Bottom)));
-            this.lblThetaAlignPosT.BorderStyle = System.Windows.Forms.Border3DStyle.Raised;
-            this.lblThetaAlignPosT.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.lblThetaAlignPosT.ForeColor = System.Drawing.Color.Black;
-            this.lblThetaAlignPosT.Location = new System.Drawing.Point(138, 88);
-            this.lblThetaAlignPosT.Name = "lblThetaAlignPosT";
-            this.lblThetaAlignPosT.Size = new System.Drawing.Size(77, 31);
-            this.lblThetaAlignPosT.TabIndex = 959;
-            this.lblThetaAlignPosT.Text = "0000";
-            this.lblThetaAlignPosT.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // lblThetaAlignPosY
-            // 
-            this.lblThetaAlignPosY.BackgroundColor = new Syncfusion.Drawing.BrushInfo(System.Drawing.Color.White);
-            this.lblThetaAlignPosY.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
-            | System.Windows.Forms.Border3DSide.Right) 
-            | System.Windows.Forms.Border3DSide.Bottom)));
-            this.lblThetaAlignPosY.BorderStyle = System.Windows.Forms.Border3DStyle.Raised;
-            this.lblThetaAlignPosY.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.lblThetaAlignPosY.ForeColor = System.Drawing.Color.Black;
-            this.lblThetaAlignPosY.Location = new System.Drawing.Point(138, 57);
-            this.lblThetaAlignPosY.Name = "lblThetaAlignPosY";
-            this.lblThetaAlignPosY.Size = new System.Drawing.Size(77, 31);
-            this.lblThetaAlignPosY.TabIndex = 958;
-            this.lblThetaAlignPosY.Text = "0000";
-            this.lblThetaAlignPosY.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // lblThetaAlignPosX
-            // 
-            this.lblThetaAlignPosX.BackgroundColor = new Syncfusion.Drawing.BrushInfo(System.Drawing.Color.White);
-            this.lblThetaAlignPosX.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
-            | System.Windows.Forms.Border3DSide.Right) 
-            | System.Windows.Forms.Border3DSide.Bottom)));
-            this.lblThetaAlignPosX.BorderStyle = System.Windows.Forms.Border3DStyle.Raised;
-            this.lblThetaAlignPosX.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.lblThetaAlignPosX.ForeColor = System.Drawing.Color.Black;
-            this.lblThetaAlignPosX.Location = new System.Drawing.Point(138, 26);
-            this.lblThetaAlignPosX.Name = "lblThetaAlignPosX";
-            this.lblThetaAlignPosX.Size = new System.Drawing.Size(77, 31);
-            this.lblThetaAlignPosX.TabIndex = 957;
-            this.lblThetaAlignPosX.Text = "0000";
-            this.lblThetaAlignPosX.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // gradientLabel34
-            // 
-            this.gradientLabel34.BackgroundColor = new Syncfusion.Drawing.BrushInfo(System.Drawing.Color.LightBlue);
-            this.gradientLabel34.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
-            | System.Windows.Forms.Border3DSide.Right) 
-            | System.Windows.Forms.Border3DSide.Bottom)));
-            this.gradientLabel34.BorderStyle = System.Windows.Forms.Border3DStyle.Raised;
-            this.gradientLabel34.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.gradientLabel34.ForeColor = System.Drawing.Color.Black;
-            this.gradientLabel34.Location = new System.Drawing.Point(215, 88);
-            this.gradientLabel34.Name = "gradientLabel34";
-            this.gradientLabel34.Size = new System.Drawing.Size(40, 31);
-            this.gradientLabel34.TabIndex = 956;
-            this.gradientLabel34.Text = "\"";
-            this.gradientLabel34.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // gradientLabel35
-            // 
-            this.gradientLabel35.BackgroundColor = new Syncfusion.Drawing.BrushInfo(System.Drawing.Color.LightBlue);
-            this.gradientLabel35.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
-            | System.Windows.Forms.Border3DSide.Right) 
-            | System.Windows.Forms.Border3DSide.Bottom)));
-            this.gradientLabel35.BorderStyle = System.Windows.Forms.Border3DStyle.Raised;
-            this.gradientLabel35.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.gradientLabel35.ForeColor = System.Drawing.Color.Black;
-            this.gradientLabel35.Location = new System.Drawing.Point(47, 88);
-            this.gradientLabel35.Name = "gradientLabel35";
-            this.gradientLabel35.Size = new System.Drawing.Size(90, 31);
-            this.gradientLabel35.TabIndex = 955;
-            this.gradientLabel35.Text = "T Axis";
-            this.gradientLabel35.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // gradientLabel36
-            // 
-            this.gradientLabel36.BackgroundColor = new Syncfusion.Drawing.BrushInfo(System.Drawing.Color.LightBlue);
-            this.gradientLabel36.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
-            | System.Windows.Forms.Border3DSide.Right) 
-            | System.Windows.Forms.Border3DSide.Bottom)));
-            this.gradientLabel36.BorderStyle = System.Windows.Forms.Border3DStyle.Raised;
-            this.gradientLabel36.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.gradientLabel36.ForeColor = System.Drawing.Color.Black;
-            this.gradientLabel36.Location = new System.Drawing.Point(215, 57);
-            this.gradientLabel36.Name = "gradientLabel36";
-            this.gradientLabel36.Size = new System.Drawing.Size(40, 31);
-            this.gradientLabel36.TabIndex = 954;
-            this.gradientLabel36.Text = "mm";
-            this.gradientLabel36.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // gradientLabel38
-            // 
-            this.gradientLabel38.BackgroundColor = new Syncfusion.Drawing.BrushInfo(System.Drawing.Color.LightBlue);
-            this.gradientLabel38.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
-            | System.Windows.Forms.Border3DSide.Right) 
-            | System.Windows.Forms.Border3DSide.Bottom)));
-            this.gradientLabel38.BorderStyle = System.Windows.Forms.Border3DStyle.Raised;
-            this.gradientLabel38.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.gradientLabel38.ForeColor = System.Drawing.Color.Black;
-            this.gradientLabel38.Location = new System.Drawing.Point(47, 57);
-            this.gradientLabel38.Name = "gradientLabel38";
-            this.gradientLabel38.Size = new System.Drawing.Size(90, 31);
-            this.gradientLabel38.TabIndex = 953;
-            this.gradientLabel38.Text = "Y Axis";
-            this.gradientLabel38.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // gradientLabel39
-            // 
-            this.gradientLabel39.BackgroundColor = new Syncfusion.Drawing.BrushInfo(System.Drawing.Color.LightBlue);
-            this.gradientLabel39.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
-            | System.Windows.Forms.Border3DSide.Right) 
-            | System.Windows.Forms.Border3DSide.Bottom)));
-            this.gradientLabel39.BorderStyle = System.Windows.Forms.Border3DStyle.Raised;
-            this.gradientLabel39.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.gradientLabel39.ForeColor = System.Drawing.Color.Black;
-            this.gradientLabel39.Location = new System.Drawing.Point(215, 26);
-            this.gradientLabel39.Name = "gradientLabel39";
-            this.gradientLabel39.Size = new System.Drawing.Size(40, 31);
-            this.gradientLabel39.TabIndex = 952;
-            this.gradientLabel39.Text = "mm";
-            this.gradientLabel39.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // gradientLabel40
-            // 
-            this.gradientLabel40.BackgroundColor = new Syncfusion.Drawing.BrushInfo(System.Drawing.Color.LightBlue);
-            this.gradientLabel40.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
-            | System.Windows.Forms.Border3DSide.Right) 
-            | System.Windows.Forms.Border3DSide.Bottom)));
-            this.gradientLabel40.BorderStyle = System.Windows.Forms.Border3DStyle.Raised;
-            this.gradientLabel40.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.gradientLabel40.ForeColor = System.Drawing.Color.Black;
-            this.gradientLabel40.Location = new System.Drawing.Point(47, 26);
-            this.gradientLabel40.Name = "gradientLabel40";
-            this.gradientLabel40.Size = new System.Drawing.Size(90, 31);
-            this.gradientLabel40.TabIndex = 951;
-            this.gradientLabel40.Text = "X Axis";
-            this.gradientLabel40.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // btnThetaAlignDataSave
             // 
@@ -1802,7 +1466,100 @@
             this.BtnExit.UseVisualStyleBackColor = true;
             this.BtnExit.Click += new System.EventHandler(this.BtnExit_Click);
             // 
-            // pageAlign
+            // btnMoveLaserEndMove
+            // 
+            this.btnMoveLaserEndMove.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.btnMoveLaserEndMove.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.btnMoveLaserEndMove.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.btnMoveLaserEndMove.Location = new System.Drawing.Point(98, 172);
+            this.btnMoveLaserEndMove.Name = "btnMoveLaserEndMove";
+            this.btnMoveLaserEndMove.Size = new System.Drawing.Size(75, 77);
+            this.btnMoveLaserEndMove.TabIndex = 979;
+            this.btnMoveLaserEndMove.Text = "Laser Pos B";
+            this.btnMoveLaserEndMove.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.btnMoveLaserEndMove.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.btnMoveLaserEndMove.UseVisualStyleBackColor = true;
+            this.btnMoveLaserEndMove.Click += new System.EventHandler(this.btnMoveLaserEndMove_Click);
+            // 
+            // btnMoveLaserStartPos
+            // 
+            this.btnMoveLaserStartPos.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.btnMoveLaserStartPos.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.btnMoveLaserStartPos.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.btnMoveLaserStartPos.Location = new System.Drawing.Point(179, 172);
+            this.btnMoveLaserStartPos.Name = "btnMoveLaserStartPos";
+            this.btnMoveLaserStartPos.Size = new System.Drawing.Size(75, 77);
+            this.btnMoveLaserStartPos.TabIndex = 978;
+            this.btnMoveLaserStartPos.Text = "Laser Pos A";
+            this.btnMoveLaserStartPos.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.btnMoveLaserStartPos.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.btnMoveLaserStartPos.UseVisualStyleBackColor = true;
+            this.btnMoveLaserStartPos.Click += new System.EventHandler(this.btnMoveLaserStartPos_Click);
+            // 
+            // gradientLabel10
+            // 
+            this.gradientLabel10.BackgroundColor = new Syncfusion.Drawing.BrushInfo(System.Drawing.Color.LightBlue);
+            this.gradientLabel10.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
+            | System.Windows.Forms.Border3DSide.Right) 
+            | System.Windows.Forms.Border3DSide.Bottom)));
+            this.gradientLabel10.BorderStyle = System.Windows.Forms.Border3DStyle.Raised;
+            this.gradientLabel10.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.gradientLabel10.ForeColor = System.Drawing.Color.Black;
+            this.gradientLabel10.Location = new System.Drawing.Point(157, 252);
+            this.gradientLabel10.Name = "gradientLabel10";
+            this.gradientLabel10.Size = new System.Drawing.Size(40, 31);
+            this.gradientLabel10.TabIndex = 982;
+            this.gradientLabel10.Text = "mm";
+            this.gradientLabel10.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // gradientLabel13
+            // 
+            this.gradientLabel13.BackgroundColor = new Syncfusion.Drawing.BrushInfo(System.Drawing.Color.LightBlue);
+            this.gradientLabel13.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
+            | System.Windows.Forms.Border3DSide.Right) 
+            | System.Windows.Forms.Border3DSide.Bottom)));
+            this.gradientLabel13.BorderStyle = System.Windows.Forms.Border3DStyle.Raised;
+            this.gradientLabel13.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.gradientLabel13.ForeColor = System.Drawing.Color.Black;
+            this.gradientLabel13.Location = new System.Drawing.Point(20, 252);
+            this.gradientLabel13.Name = "gradientLabel13";
+            this.gradientLabel13.Size = new System.Drawing.Size(66, 31);
+            this.gradientLabel13.TabIndex = 981;
+            this.gradientLabel13.Text = "Length";
+            this.gradientLabel13.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lblLaserLength
+            // 
+            this.lblLaserLength.BackgroundColor = new Syncfusion.Drawing.BrushInfo(System.Drawing.Color.White);
+            this.lblLaserLength.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
+            | System.Windows.Forms.Border3DSide.Right) 
+            | System.Windows.Forms.Border3DSide.Bottom)));
+            this.lblLaserLength.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.lblLaserLength.ForeColor = System.Drawing.Color.Black;
+            this.lblLaserLength.Location = new System.Drawing.Point(88, 252);
+            this.lblLaserLength.Name = "lblLaserLength";
+            this.lblLaserLength.Size = new System.Drawing.Size(66, 31);
+            this.lblLaserLength.TabIndex = 980;
+            this.lblLaserLength.Text = "160";
+            this.lblLaserLength.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lblLaserLength.Click += new System.EventHandler(this.lblLaserLength_Click);
+            // 
+            // btnInitLaserAlign
+            // 
+            this.btnInitLaserAlign.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.btnInitLaserAlign.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.btnInitLaserAlign.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.btnInitLaserAlign.Location = new System.Drawing.Point(17, 172);
+            this.btnInitLaserAlign.Name = "btnInitLaserAlign";
+            this.btnInitLaserAlign.Size = new System.Drawing.Size(75, 77);
+            this.btnInitLaserAlign.TabIndex = 983;
+            this.btnInitLaserAlign.Text = "Laser Align Init";
+            this.btnInitLaserAlign.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.btnInitLaserAlign.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.btnInitLaserAlign.UseVisualStyleBackColor = true;
+            this.btnInitLaserAlign.Click += new System.EventHandler(this.btnInitLaserAlign_Click);
+            // 
+            // FormThetaAlignTeach
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -1816,7 +1573,7 @@
             this.Controls.Add(this.picVision);
             this.Controls.Add(this.gradientLabel1);
             this.Controls.Add(this.BtnExit);
-            this.Name = "pageAlign";
+            this.Name = "FormThetaAlignTeach";
             this.Text = "ThetaAlign";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormThetaAlignTeach_FormClosing);
             this.Load += new System.EventHandler(this.FormThetaAlignTeach_Load);
@@ -1900,16 +1657,6 @@
         private Syncfusion.Windows.Forms.Tools.GradientLabel lblDieIndexAxisX;
         private System.Windows.Forms.Button btnSelectFocus;
         private System.Windows.Forms.Button btnSelectStageMove;
-        private System.Windows.Forms.Label label7;
-        private Syncfusion.Windows.Forms.Tools.GradientLabel lblThetaAlignPosT;
-        private Syncfusion.Windows.Forms.Tools.GradientLabel lblThetaAlignPosY;
-        private Syncfusion.Windows.Forms.Tools.GradientLabel lblThetaAlignPosX;
-        private Syncfusion.Windows.Forms.Tools.GradientLabel gradientLabel34;
-        private Syncfusion.Windows.Forms.Tools.GradientLabel gradientLabel35;
-        private Syncfusion.Windows.Forms.Tools.GradientLabel gradientLabel36;
-        private Syncfusion.Windows.Forms.Tools.GradientLabel gradientLabel38;
-        private Syncfusion.Windows.Forms.Tools.GradientLabel gradientLabel39;
-        private Syncfusion.Windows.Forms.Tools.GradientLabel gradientLabel40;
         private System.Windows.Forms.Button btnThetaAlignDataSave;
         private System.Windows.Forms.Button btnDieIndexDataSave;
         private System.Windows.Forms.Label label15;
@@ -1933,20 +1680,16 @@
         private System.Windows.Forms.Button btnCalsDieIndexSize;
         private System.Windows.Forms.Button btnStageTurn;
         private System.Windows.Forms.Button btnStageReturn;
-        private System.Windows.Forms.Label label17;
-        private Syncfusion.Windows.Forms.Tools.GradientLabel lblThetaAlignTurnPosT;
-        private Syncfusion.Windows.Forms.Tools.GradientLabel lblThetaAlignTurnPosY;
-        private Syncfusion.Windows.Forms.Tools.GradientLabel lblThetaAlignTurnPosX;
-        private Syncfusion.Windows.Forms.Tools.GradientLabel gradientLabel19;
-        private Syncfusion.Windows.Forms.Tools.GradientLabel gradientLabel25;
-        private Syncfusion.Windows.Forms.Tools.GradientLabel gradientLabel28;
-        private Syncfusion.Windows.Forms.Tools.GradientLabel gradientLabel41;
-        private Syncfusion.Windows.Forms.Tools.GradientLabel gradientLabel42;
-        private Syncfusion.Windows.Forms.Tools.GradientLabel gradientLabel43;
         private System.Windows.Forms.Button btnStageReturnPosA;
         private System.Windows.Forms.Button btnStageTurnPosA;
         private System.Windows.Forms.Button btnStageCenter;
         private System.Windows.Forms.Label lblHairLineWidth;
         private System.Windows.Forms.Label label16;
+        private System.Windows.Forms.Button btnMoveLaserEndMove;
+        private System.Windows.Forms.Button btnMoveLaserStartPos;
+        private Syncfusion.Windows.Forms.Tools.GradientLabel gradientLabel10;
+        private Syncfusion.Windows.Forms.Tools.GradientLabel gradientLabel13;
+        private Syncfusion.Windows.Forms.Tools.GradientLabel lblLaserLength;
+        private System.Windows.Forms.Button btnInitLaserAlign;
     }
 }

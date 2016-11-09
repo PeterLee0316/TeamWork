@@ -15,12 +15,14 @@ using Syncfusion.Windows.Forms.Tools;
 
 using static LWDicer.Layers.DEF_Vision;
 using static LWDicer.Layers.DEF_Common;
+using static LWDicer.Layers.DEF_DataManager;
 using static LWDicer.Layers.DEF_System;
 
 namespace LWDicer.UI
 {
     public partial class FormVisionData : Form
     {
+        private CSystemData_Align m_SystemData_Align;
 
         int iCurrentView = 0;
         int iCurrentMode = 0;
@@ -42,6 +44,8 @@ namespace LWDicer.UI
             this.DesktopLocation = new Point(1, 100);
 
             InitGrid();
+
+            m_SystemData_Align = ObjectExtensions.Copy(CMainFrame.DataManager.SystemData_Align);
 
             UpdateCameraData();
 
@@ -139,14 +143,14 @@ namespace LWDicer.UI
         {
             for(int i=0; i< (int)ECameraSelect.MAX;i++)
             {
-                GridCtrl[1, i + 1].Text = String.Format( "{0:f4}", CMainFrame.DataManager.SystemData_Align.LenMagnification[i]);
-                GridCtrl[2, i + 1].Text = String.Format( "{0:f4}", CMainFrame.DataManager.SystemData_Align.CamPixelSize[i]);
-                GridCtrl[3, i + 1].Text = String.Format( "{0:0}",  CMainFrame.DataManager.SystemData_Align.CamPixelNumX[i]);
-                GridCtrl[4, i + 1].Text = String.Format( "{0:0}",  CMainFrame.DataManager.SystemData_Align.CamPixelNumY[i]);
-                GridCtrl[5, i + 1].Text = String.Format( "{0:f4}", CMainFrame.DataManager.SystemData_Align.PixelResolution[i]);
-                GridCtrl[6, i + 1].Text = String.Format( "{0:f4}", CMainFrame.DataManager.SystemData_Align.CamFovX[i]);
-                GridCtrl[7, i + 1].Text = String.Format( "{0:f4}", CMainFrame.DataManager.SystemData_Align.CamFovY[i]);
-                GridCtrl[8, i + 1].Text = String.Format( "{0:f4}", CMainFrame.DataManager.SystemData_Align.CameraTilt[i]);
+                GridCtrl[1, i + 1].Text = String.Format( "{0:f4}", m_SystemData_Align.LenMagnification[i]);
+                GridCtrl[2, i + 1].Text = String.Format( "{0:f4}", m_SystemData_Align.CamPixelSize[i]);
+                GridCtrl[3, i + 1].Text = String.Format( "{0:0}",  m_SystemData_Align.CamPixelNumX[i]);
+                GridCtrl[4, i + 1].Text = String.Format( "{0:0}",  m_SystemData_Align.CamPixelNumY[i]);
+                GridCtrl[5, i + 1].Text = String.Format( "{0:f4}", m_SystemData_Align.PixelResolution[i]);
+                GridCtrl[6, i + 1].Text = String.Format( "{0:f4}", m_SystemData_Align.CamFovX[i]);
+                GridCtrl[7, i + 1].Text = String.Format( "{0:f4}", m_SystemData_Align.CamFovY[i]);
+                GridCtrl[8, i + 1].Text = String.Format( "{0:f4}", m_SystemData_Align.CameraTilt[i]);
             }
         }
 
@@ -155,28 +159,28 @@ namespace LWDicer.UI
             for (int i = 0; i < (int)ECameraSelect.MAX; i++)
             {
                 // 렌즈 배율
-                if (CMainFrame.DataManager.SystemData_Align.LenMagnification[i] == 0.0)
+                if (m_SystemData_Align.LenMagnification[i] == 0.0)
                 {
-                    if (i == PRE__CAM) CMainFrame.DataManager.SystemData_Align.LenMagnification[i] = 0.75;
-                    if (i == FINE_CAM) CMainFrame.DataManager.SystemData_Align.LenMagnification[i] = 7.5;
-                    if (i == INSP_CAM) CMainFrame.DataManager.SystemData_Align.LenMagnification[i] = 20.0;
+                    if (i == PRE__CAM) m_SystemData_Align.LenMagnification[i] = 0.75;
+                    if (i == FINE_CAM) m_SystemData_Align.LenMagnification[i] = 7.5;
+                    if (i == INSP_CAM) m_SystemData_Align.LenMagnification[i] = 20.0;
                 }
 
                 // Cam Pixel Size
-                if (CMainFrame.DataManager.SystemData_Align.CamPixelSize[i] == 0.0)  CMainFrame.DataManager.SystemData_Align.CamPixelSize[i] = 3.75;
+                if (m_SystemData_Align.CamPixelSize[i] == 0.0)  m_SystemData_Align.CamPixelSize[i] = 3.75;
                 // Cam Pixel Num
-                CMainFrame.DataManager.SystemData_Align.CamPixelNumX[i] = CMainFrame.LWDicer.m_Vision.GetCameraPixelNum(i).Width;
-                CMainFrame.DataManager.SystemData_Align.CamPixelNumY[i] = CMainFrame.LWDicer.m_Vision.GetCameraPixelNum(i).Height;
+                m_SystemData_Align.CamPixelNumX[i] = CMainFrame.LWDicer.m_Vision.GetCameraPixelNum(i).Width;
+                m_SystemData_Align.CamPixelNumY[i] = CMainFrame.LWDicer.m_Vision.GetCameraPixelNum(i).Height;
                 // Cam Pixel Resolution
-                CMainFrame.DataManager.SystemData_Align.PixelResolution[i] = CMainFrame.DataManager.SystemData_Align.CamPixelSize[i] /
-                                                                              CMainFrame.DataManager.SystemData_Align.LenMagnification[i];
+                m_SystemData_Align.PixelResolution[i] = m_SystemData_Align.CamPixelSize[i] /
+                                                                              m_SystemData_Align.LenMagnification[i];
                 // Cam FOV
-                CMainFrame.DataManager.SystemData_Align.CamFovX[i] = CMainFrame.DataManager.SystemData_Align.PixelResolution[i] *
-                                                                     CMainFrame.DataManager.SystemData_Align.CamPixelNumX[i] / 1000;
-                CMainFrame.DataManager.SystemData_Align.CamFovY[i] = CMainFrame.DataManager.SystemData_Align.PixelResolution[i] *
-                                                                     CMainFrame.DataManager.SystemData_Align.CamPixelNumY[i] /1000;
+                m_SystemData_Align.CamFovX[i] = m_SystemData_Align.PixelResolution[i] *
+                                                                     m_SystemData_Align.CamPixelNumX[i] / 1000;
+                m_SystemData_Align.CamFovY[i] = m_SystemData_Align.PixelResolution[i] *
+                                                                     m_SystemData_Align.CamPixelNumY[i] /1000;
                 // Cam 설치 회전 오차
-                CMainFrame.DataManager.SystemData_Align.CameraTilt[i] = 0.0;
+                m_SystemData_Align.CameraTilt[i] = 0.0;
             }
         }
 
@@ -211,19 +215,23 @@ namespace LWDicer.UI
 
         private void btnCameraDataSave_Click(object sender, EventArgs e)
         {
+            string strData = string.Empty;
+            string strMsg = "Save Camera data?";
+            if (!CMainFrame.InquireMsg(strMsg)) return;
+
             for (int i = 0; i < (int)ECameraSelect.MAX; i++)
             {
-                CMainFrame.DataManager.SystemData_Align.LenMagnification[i] = Convert.ToDouble(GridCtrl[1, i + 1].Text);
-                CMainFrame.DataManager.SystemData_Align.CamPixelSize[i]     = Convert.ToDouble(GridCtrl[2, i + 1].Text);
-                CMainFrame.DataManager.SystemData_Align.CamPixelNumX[i]     = Convert.ToInt32(GridCtrl[3, i + 1].Text);
-                CMainFrame.DataManager.SystemData_Align.CamPixelNumY[i]     = Convert.ToInt32(GridCtrl[4, i + 1].Text);
-                CMainFrame.DataManager.SystemData_Align.PixelResolution[i]  = Convert.ToDouble(GridCtrl[5, i + 1].Text);
-                CMainFrame.DataManager.SystemData_Align.CamFovX[i]          = Convert.ToDouble(GridCtrl[6, i + 1].Text);
-                CMainFrame.DataManager.SystemData_Align.CamFovY[i]          = Convert.ToDouble(GridCtrl[7, i + 1].Text);
-                CMainFrame.DataManager.SystemData_Align.CameraTilt[i]       = Convert.ToDouble(GridCtrl[8, i + 1].Text);
+                m_SystemData_Align.LenMagnification[i] = Convert.ToDouble(GridCtrl[1, i + 1].Text);
+                m_SystemData_Align.CamPixelSize[i]     = Convert.ToDouble(GridCtrl[2, i + 1].Text);
+                m_SystemData_Align.CamPixelNumX[i]     = Convert.ToInt32(GridCtrl[3, i + 1].Text);
+                m_SystemData_Align.CamPixelNumY[i]     = Convert.ToInt32(GridCtrl[4, i + 1].Text);
+                m_SystemData_Align.PixelResolution[i]  = Convert.ToDouble(GridCtrl[5, i + 1].Text);
+                m_SystemData_Align.CamFovX[i]          = Convert.ToDouble(GridCtrl[6, i + 1].Text);
+                m_SystemData_Align.CamFovY[i]          = Convert.ToDouble(GridCtrl[7, i + 1].Text);
+                m_SystemData_Align.CameraTilt[i]       = Convert.ToDouble(GridCtrl[8, i + 1].Text);
             }
 
-            CMainFrame.DataManager.SaveSystemData(null, null, null, null, CMainFrame.DataManager.SystemData_Align, null);
+            CMainFrame.DataManager.SaveSystemData(null, null, null, null, m_SystemData_Align, null);
             
         }
     }

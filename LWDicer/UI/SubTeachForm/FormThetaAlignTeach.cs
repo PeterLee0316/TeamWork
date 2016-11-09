@@ -17,15 +17,21 @@ using static LWDicer.Layers.DEF_Vision;
 using static LWDicer.Layers.DEF_Common;
 using static LWDicer.Layers.DEF_DataManager;
 using static LWDicer.Layers.DEF_MeStage;
+using static LWDicer.Layers.DEF_CtrlStage;
+
 
 using LWDicer.Layers;
 
 namespace LWDicer.UI
 {
-    public partial class pageAlign : Form
+    public partial class FormThetaAlignTeach : Form
     {
-        CSystemData_Align m_SystemData_Align;
-        public pageAlign()
+        private CSystemData_Align m_SystemData_Align;
+
+        //private CPos_XYTZ PositionThetaAlignA = new CPos_XYTZ();
+        //private CPos_XYTZ PositionThetaAlignTurnA = new CPos_XYTZ();
+
+        public FormThetaAlignTeach()
         {
             InitializeComponent();
 
@@ -49,7 +55,6 @@ namespace LWDicer.UI
 
         private void BtnExit_Click(object sender, EventArgs e)
         {
-            CMainFrame.LWDicer.m_ctrlStage1.InitThetaAlign();
 
             // Local View 해제
             int iCam = CMainFrame.LWDicer.m_ctrlStage1.GetCurrentCam();
@@ -74,18 +79,13 @@ namespace LWDicer.UI
 
         private void FormThetaAlignTeach_FormClosing(object sender, FormClosingEventArgs e)
         {
-            CMainFrame.LWDicer.m_ctrlStage1.InitThetaAlign();
         }
 
-        private void FormThetaAlignTeach_FormClosed(object sender, FormClosedEventArgs e)
-        {
-
-        }
 
         private void DisplayParameter()
         {
-            lblCamOffSetAxisX.Text = string.Format("{0:F4}", m_SystemData_Align.CamEachOffsetX);
-            lblCamOffSetAxisY.Text = string.Format("{0:F4}", m_SystemData_Align.CamEachOffsetY);
+            lblCamOffSetAxisX.Text = string.Format("{0:F4}", m_SystemData_Align.CamEachOffset.dX);
+            lblCamOffSetAxisY.Text = string.Format("{0:F4}", m_SystemData_Align.CamEachOffset.dY);
 
             lblMacroIndexAxisX.Text = string.Format("{0:F4}", m_SystemData_Align.MacroScreenWidth);
             lblMacroIndexAxisY.Text = string.Format("{0:F4}", m_SystemData_Align.MacroScreenHeight);
@@ -104,8 +104,8 @@ namespace LWDicer.UI
 
         private void UpdateParameter()
         {
-            m_SystemData_Align.CamEachOffsetX = Convert.ToDouble(lblCamOffSetAxisX.Text);
-            m_SystemData_Align.CamEachOffsetY = Convert.ToDouble(lblCamOffSetAxisY.Text);
+            m_SystemData_Align.CamEachOffset.dX = Convert.ToDouble(lblCamOffSetAxisX.Text);
+            m_SystemData_Align.CamEachOffset.dY = Convert.ToDouble(lblCamOffSetAxisY.Text);
 
             m_SystemData_Align.MacroScreenWidth  = Convert.ToDouble(lblMacroIndexAxisX.Text);
             m_SystemData_Align.MacroScreenHeight = Convert.ToDouble(lblMacroIndexAxisY.Text);
@@ -114,7 +114,6 @@ namespace LWDicer.UI
             m_SystemData_Align.MicroScreenWidth  = Convert.ToDouble(lblMicroIndexAxisX.Text);
             m_SystemData_Align.MicroScreenHeight = Convert.ToDouble(lblMicroIndexAxisY.Text);
             m_SystemData_Align.MicroScreenRotate = Convert.ToDouble(lblMicroIndexAxisT.Text);
-
             
             m_SystemData_Align.DieIndexRotate = Convert.ToDouble(lblDieIndexAxisT.Text);
 
@@ -126,16 +125,16 @@ namespace LWDicer.UI
             // (Stage Center & Edge Align Position만 Pre Cam을 기준으로 사용)
             CMainFrame.DataManager.Pos_Fixed.Pos_Stage1.Pos[(int)EStagePos.THETA_ALIGN_A].dX = CMainFrame.DataManager.Pos_Fixed.Pos_Stage1.Pos[(int)EStagePos.STAGE_CENTER_PRE].dX -
                                                                                              CMainFrame.DataManager.SystemData_Align.AlignMarkWidthLen/2 -
-                                                                                             CMainFrame.DataManager.SystemData_Align.CamEachOffsetX;
+                                                                                             CMainFrame.DataManager.SystemData_Align.CamEachOffset.dX;
             CMainFrame.DataManager.Pos_Fixed.Pos_Stage1.Pos[(int)EStagePos.THETA_ALIGN_A].dY = CMainFrame.DataManager.Pos_Fixed.Pos_Stage1.Pos[(int)EStagePos.STAGE_CENTER_PRE].dY -
-                                                                                             CMainFrame.DataManager.SystemData_Align.CamEachOffsetY;
+                                                                                             CMainFrame.DataManager.SystemData_Align.CamEachOffset.dY;
             CMainFrame.DataManager.Pos_Fixed.Pos_Stage1.Pos[(int)EStagePos.THETA_ALIGN_A].dT = CMainFrame.DataManager.Pos_Fixed.Pos_Stage1.Pos[(int)EStagePos.STAGE_CENTER_PRE].dT;
 
             CMainFrame.DataManager.Pos_Fixed.Pos_Stage1.Pos[(int)EStagePos.THETA_ALIGN_TURN_A].dX = CMainFrame.DataManager.Pos_Fixed.Pos_Stage1.Pos[(int)EStagePos.STAGE_CENTER_PRE].dX -
                                                                                                   CMainFrame.DataManager.SystemData_Align.AlignMarkWidthLen / 2 -
-                                                                                                  CMainFrame.DataManager.SystemData_Align.CamEachOffsetX;
+                                                                                                  CMainFrame.DataManager.SystemData_Align.CamEachOffset.dX;
             CMainFrame.DataManager.Pos_Fixed.Pos_Stage1.Pos[(int)EStagePos.THETA_ALIGN_TURN_A].dY = CMainFrame.DataManager.Pos_Fixed.Pos_Stage1.Pos[(int)EStagePos.STAGE_CENTER_PRE].dY -
-                                                                                                  CMainFrame.DataManager.SystemData_Align.CamEachOffsetY;
+                                                                                                  CMainFrame.DataManager.SystemData_Align.CamEachOffset.dY;
             CMainFrame.DataManager.Pos_Fixed.Pos_Stage1.Pos[(int)EStagePos.THETA_ALIGN_TURN_A].dT = CMainFrame.DataManager.Pos_Fixed.Pos_Stage1.Pos[(int)EStagePos.STAGE_CENTER_PRE].dT + 
                                                                                                   CMainFrame.DataManager.SystemData_Align.DieIndexRotate;
 
@@ -143,7 +142,7 @@ namespace LWDicer.UI
         }
         private void btnConfigSave_Click(object sender, EventArgs e)
         {
-            if (!CMainFrame.InquireMsg("Parameter 데이터를 저장하시겠습니까 ?")) return;
+            if (!CMainFrame.InquireMsg("Save Parameter Data ?")) return;
             
             UpdateParameter();
 
@@ -242,8 +241,7 @@ namespace LWDicer.UI
                 CMainFrame.LWDicer.m_ctrlStage1.MoveStageRelative(movePos);
             }
         }
-
-       
+               
 
         private void TimerUI_Tick(object sender, EventArgs e)
         {
@@ -354,53 +352,25 @@ namespace LWDicer.UI
 
         private void DisplayThetaAlignData()
         {
-            // 저장된 위치 데이터를 읽어온다.
-            // LJJ need to edit
-            //CMainFrame.DataManager.LoadPositionData(true, EPositionGroup.STAGE1);
-
-            var posThetaAlignA = new CPos_XYTZ();
-            var posThetaAlignTurnA = new CPos_XYTZ();
-
-            CMainFrame.LWDicer.m_MeStage.GetThetaAlignPosA(out posThetaAlignA);
-            CMainFrame.LWDicer.m_MeStage.GetThetaAlignTurnPosA(out posThetaAlignTurnA);
-
-            lblThetaAlignPosX.Text = String.Format("{0:0.0000}", posThetaAlignA.dX);
-            lblThetaAlignPosY.Text = String.Format("{0:0.0000}", posThetaAlignA.dY);
-            lblThetaAlignPosT.Text = String.Format("{0:0.0000}", posThetaAlignA.dT);
-
-            lblThetaAlignTurnPosX.Text = String.Format("{0:0.0000}", posThetaAlignTurnA.dX);
-            lblThetaAlignTurnPosY.Text = String.Format("{0:0.0000}", posThetaAlignTurnA.dY);
-            lblThetaAlignTurnPosT.Text = String.Format("{0:0.0000}", posThetaAlignTurnA.dT);
+            
 
             CMainFrame.LWDicer.m_ctrlStage1.ThetaAlignStepInit();
-
         }
 
         private void UpdateThetaAlignData()
         {
-            var posThetaAlignA = new CPos_XYTZ();
-            var posThetaAlignTurnA = new CPos_XYTZ();
-
-            CMainFrame.LWDicer.m_MeStage.GetThetaAlignPosA(out posThetaAlignA);
-            CMainFrame.LWDicer.m_MeStage.GetThetaAlignTurnPosA(out posThetaAlignTurnA);
-
-            lblThetaAlignPosX.Text = String.Format("{0:0.0000}", posThetaAlignA.dX);
-            lblThetaAlignPosY.Text = String.Format("{0:0.0000}", posThetaAlignA.dY);
-            lblThetaAlignPosT.Text = String.Format("{0:0.0000}", posThetaAlignA.dT);
-
-            lblThetaAlignTurnPosX.Text = String.Format("{0:0.0000}", posThetaAlignTurnA.dX);
-            lblThetaAlignTurnPosY.Text = String.Format("{0:0.0000}", posThetaAlignTurnA.dY);
-            lblThetaAlignTurnPosT.Text = String.Format("{0:0.0000}", posThetaAlignTurnA.dT);
 
             CMainFrame.LWDicer.m_ctrlStage1.ThetaAlignStepInit();
         }
+
         private void btnThetaAlignDataSave_Click(object sender, EventArgs e)
         {
-            UpdateThetaAlignData();
+            string strData = string.Empty;
+            string strMsg = "Save Theta Align data?";
+            if (!CMainFrame.InquireMsg(strMsg)) return;
+            
 
-            // LJJ need to edit
-            //CMainFrame.DataManager.SavePositionData(true, EPositionObject.STAGE1);
-
+            // ThetaAlign Step 초기화
             CMainFrame.LWDicer.m_ctrlStage1.ThetaAlignStepInit();
         }
 
@@ -414,6 +384,38 @@ namespace LWDicer.UI
             CMainFrame.LWDicer.m_ctrlStage1.MoveToThetaAlignTurnPosA();
         }
 
+        private void btnInitLaserAlign_Click(object sender, EventArgs e)
+        {
+            CMainFrame.LWDicer.m_ctrlStage1.LaserAlignInit();
+        }
 
+        private void btnMoveLaserStartPos_Click(object sender, EventArgs e)
+        {
+            CMainFrame.LWDicer.m_ctrlStage1.MoveLaserAlignPosA();
+        }
+
+        private void btnMoveLaserEndMove_Click(object sender, EventArgs e)
+        {
+            double dLenth = Convert.ToDouble(lblLaserLength.Text);
+
+            CMainFrame.LWDicer.m_ctrlStage1.MoveLaserAlignPosB(dLenth);
+        }
+
+        private void lblLaserLength_Click(object sender, EventArgs e)
+        {
+            string strCurrent = "", strModify = "";
+
+            GradientLabel Btn = sender as GradientLabel;
+            strCurrent = Btn.Text;
+
+            if (!CMainFrame.GetKeyPad(strCurrent, out strModify))
+            {
+                return;
+            }
+
+            Btn.Text = strModify;
+        }
+
+        
     }
 }

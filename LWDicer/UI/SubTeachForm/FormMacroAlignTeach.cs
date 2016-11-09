@@ -13,6 +13,7 @@ using static LWDicer.Layers.DEF_Vision;
 using static LWDicer.Layers.DEF_Common;
 using static LWDicer.Layers.DEF_DataManager;
 using static LWDicer.Layers.DEF_MeStage;
+using static LWDicer.Layers.DEF_CtrlStage;
 
 using LWDicer.Layers;
 
@@ -66,7 +67,7 @@ namespace LWDicer.UI
         {
             CMainFrame.LWDicer.m_Vision.InitialLocalView(PRE__CAM, picVision.Handle);
             CMainFrame.LWDicer.m_Vision.ShowRectRoi();
-
+            
             TmrTeach.Enabled = true;
             TmrTeach.Interval = UITimerInterval;
             TmrTeach.Start();
@@ -74,13 +75,17 @@ namespace LWDicer.UI
 
         private void FormMacroAlignTeach_Shown(object sender, EventArgs e)
         {
+            // Patten Display
             CMainFrame.LWDicer.m_Vision.DisplayPatternImage(PRE__CAM, PATTERN_A, picPatternMarkA.Handle);
-            this.Activate();
+            CMainFrame.LWDicer.m_Vision.DisplayPatternImage(PRE__CAM, PATTERN_B, picPatternMarkB.Handle);
+            
         }
-
-        private void FormMacroAlignTeach_Activate(object sender, EventArgs e)
+        
+        private void FormMacroAlignTeach_Activated(object sender, EventArgs e)
         {
-            CMainFrame.LWDicer.m_Vision.DisplayPatternImage(PRE__CAM, PATTERN_A, picPatternMarkA.Handle);
+            // Patten Display
+            //CMainFrame.LWDicer.m_Vision.DisplayPatternImage(PRE__CAM, PATTERN_A, picPatternMarkA.Handle);
+            //CMainFrame.LWDicer.m_Vision.DisplayPatternImage(PRE__CAM, PATTERN_B, picPatternMarkB.Handle);
         }
 
         private void picVision_MouseDown(object sender, MouseEventArgs e)
@@ -280,14 +285,14 @@ namespace LWDicer.UI
             CMainFrame.LWDicer.m_Vision.RegisterPatternMark(PRE__CAM, strModel, PATTERN_A, rectSearch, rectModel);
 
             // UI에 Model을 Display함
-            picPatternMarkA.Width = rectModel.Width/2;
-            picPatternMarkA.Height = rectModel.Height/2;
+            //picPatternMarkA.Width = rectModel.Width/2;
+            //picPatternMarkA.Height = rectModel.Height/2;
 
             CMainFrame.LWDicer.m_Vision.DisplayPatternImage(PRE__CAM, PATTERN_A, picPatternMarkA.Handle);
             
             // Model Data를 저장함.
             CSearchData patternData = CMainFrame.LWDicer.m_Vision.GetSearchData(PRE__CAM, PATTERN_A);
-            CMainFrame.DataManager.ModelData.MacroPatternA = patternData;
+            CMainFrame.DataManager.ModelData.AlignData.VisionPattern[(int)EVisionPattern.MACRO_A] = patternData;
             CMainFrame.LWDicer.SaveModelData(CMainFrame.DataManager.ModelData);
 
             // Mark를 등록한 위치를 Stage의 Mark Search 위치로 저장함. 
@@ -314,14 +319,13 @@ namespace LWDicer.UI
 
             CMainFrame.LWDicer.m_Vision.RegisterPatternMark(PRE__CAM, strModel, PATTERN_B, rectSearch, rectModel);
 
-            picPatternMarkA.Width = rectModel.Width / 2;
-            picPatternMarkA.Height = rectModel.Height / 2;
+            //picPatternMarkA.Width = rectModel.Width / 2;
+            //picPatternMarkA.Height = rectModel.Height / 2;
 
             CMainFrame.LWDicer.m_Vision.DisplayPatternImage(PRE__CAM, PATTERN_B, picPatternMarkB.Handle);
 
-
             CSearchData patternData = CMainFrame.LWDicer.m_Vision.GetSearchData(PRE__CAM, PATTERN_B);
-            CMainFrame.DataManager.ModelData.MacroPatternB = patternData;
+            CMainFrame.DataManager.ModelData.AlignData.VisionPattern[(int)EVisionPattern.MACRO_B] = patternData;
             CMainFrame.DataManager.SaveModelData(CMainFrame.DataManager.ModelData);
         }
 
@@ -409,5 +413,26 @@ namespace LWDicer.UI
         {
             CMainFrame.LWDicer.m_ctrlStage1.MoveToMacroTeachB();
         }
+
+        private void btnThetaAlign_Click(object sender, EventArgs e)
+        {
+            CMainFrame.LWDicer.m_ctrlStage1.DoThetaAlign();
+        }
+
+        private void btnAlignDataSave_Click(object sender, EventArgs e)
+        {
+
+            string strData = string.Empty;
+            string strMsg = "Save Macro Align data?";
+            if (!CMainFrame.InquireMsg(strMsg)) return;
+
+            //// Model Data Save
+            //CMainFrame.DataManager.ModelData.AlignData = ObjectExtensions.Copy(AlignData);
+            //CMainFrame.LWDicer.SaveModelData(CMainFrame.DataManager.ModelData);
+
+
+        }
+
+        
     }
 }

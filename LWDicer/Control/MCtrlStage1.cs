@@ -8,6 +8,7 @@ using System.Threading;
 using System.Threading.Tasks;
 
 using static LWDicer.Layers.DEF_System;
+using static LWDicer.Layers.DEF_Motion;
 using static LWDicer.Layers.DEF_Error;
 using static LWDicer.Layers.DEF_Common;
 using static LWDicer.Layers.DEF_Vision;
@@ -48,11 +49,12 @@ namespace LWDicer.Layers
             RETURN
         }
 
-        public enum EThetaAlignStep
+        public enum EThetaAlignPos
         {
-            INIT,
+            INIT=-1,
             POS_A,
             POS_B,
+            MAX
         }
 
         public enum ERotateCenterStep
@@ -66,7 +68,7 @@ namespace LWDicer.Layers
             MAX,
         }
 
-        public enum EEdgeAlignTeachStep
+        public enum EEdgeAlignTeachPos
         {
             INIT=-1,
             POS1=0,
@@ -74,7 +76,32 @@ namespace LWDicer.Layers
             POS3,
             MAX,
         }
-        // STAGE 관련 오류
+
+        public enum EVisionPattern
+        {
+            MACRO_A = 0,
+            MACRO_B,
+            MICRO_A,
+            MICOR_B,
+            MAX,
+        }
+
+        public class CCtrlAlignData
+        {
+            // Edge Align Teach Pos
+            public CPos_XYTZ[] EdgeTeachPos  = new CPos_XYTZ[(int)EEdgeAlignTeachPos.MAX];
+            // Theta Align Teach Pos
+            public CPos_XYTZ[] ThetaTeachPos = new CPos_XYTZ[(int)EThetaAlignPos.MAX];
+            // Vision Pattern Mark Data
+            public CSearchData[] VisionPattern = new CSearchData[(int)EVisionPattern.MAX];
+
+            public CCtrlAlignData()
+            {
+                for (int i = 0; i < EdgeTeachPos.Length; i++) EdgeTeachPos[i] = new CPos_XYTZ();
+                for (int i = 0; i < ThetaTeachPos.Length; i++) ThetaTeachPos[i] = new CPos_XYTZ();
+                for (int i = 0; i < VisionPattern.Length; i++) VisionPattern[i] = new CSearchData();                
+            }
+        }
 
         public class CCtrlStage1RefComp
         {
@@ -91,20 +118,13 @@ namespace LWDicer.Layers
                 return $"CCtrlStage1RefComp : ";
             }
         }
-
-
-        public class CCtrlAlignData
-        {
-            public CPos_XY WaferPosOffset;
-
-        }
+        
         public class CCtrlStage1Data
         {
             public CSystemData_Align Vision;
             public CSystemData_Light Light;
             public CCtrlAlignData Align;
         }
-
     }
 
     public class MCtrlStage1 : MCtrlLayer
@@ -114,11 +134,10 @@ namespace LWDicer.Layers
         private int m_iCurrentCam = PRE__CAM;
 
         private EStatgeMode eStageMode = EStatgeMode.RETURN;
-        private EThetaAlignStep eThetaAlignStep = EThetaAlignStep.INIT;
+        private EThetaAlignPos eThetaAlignStep = EThetaAlignPos.INIT;
         private ERotateCenterStep eRotateCenterStep = ERotateCenterStep.INIT;
-        private EEdgeAlignTeachStep eEdgeTeachStep = EEdgeAlignTeachStep.INIT;
-        private CPos_XYTZ[] EdgeErrorGap = new CPos_XYTZ[(int)EEdgeAlignTeachStep.MAX];
-
+        private EEdgeAlignTeachPos eEdgeTeachStep = EEdgeAlignTeachPos.INIT;
+        
         private CPos_XYTZ[] StageRotatePos = new CPos_XYTZ[(int)ERotateCenterStep.MAX];
 
         private MTickTimer m_ProcsTimer = new MTickTimer();
@@ -134,6 +153,17 @@ namespace LWDicer.Layers
         public int SetData(CCtrlStage1Data source)
         {
             m_Data = ObjectExtensions.Copy(source);
+
+            // 내부 변수 초기화.
+            for (int i = 0; i < StageRotatePos.Length; i++) StageRotatePos[i] = new CPos_XYTZ();
+
+            // 등록된 패턴 Reload
+            if(m_Data.Align==null) return SUCCESS;
+            m_RefComp.Vision.ReLoadPatternMark(PRE__CAM, PATTERN_A, m_Data.Align.VisionPattern[(int)EVisionPattern.MACRO_A]);
+            m_RefComp.Vision.ReLoadPatternMark(PRE__CAM, PATTERN_B, m_Data.Align.VisionPattern[(int)EVisionPattern.MACRO_B]);
+            m_RefComp.Vision.ReLoadPatternMark(FINE_CAM, PATTERN_A, m_Data.Align.VisionPattern[(int)EVisionPattern.MICRO_A]);
+            m_RefComp.Vision.ReLoadPatternMark(FINE_CAM, PATTERN_B, m_Data.Align.VisionPattern[(int)EVisionPattern.MICOR_B]);
+
             return SUCCESS;
         }
 
@@ -254,27 +284,33 @@ namespace LWDicer.Layers
             patternPitch.dY = (double)CMainFrame.DataManager.ModelData.ProcData.PatternPitch1;
 
             // 현재 지령 위치 저장
-            m_RefComp.Stage.GetStageCmdPos(out originPos);
+            m_RefComp.Stage.GetStageCurPos(out originPos);
 
             // Pattern 위치로 Move
             originPos1.dX = originPos.dX;
             originPos1.dY = originPos.dY - (double)CMainFrame.DataManager.ModelData.ProcData.PatternOffset1;
+            originPos1.dT = originPos.dT;
             m_RefComp.Stage.MoveStagePos(originPos1);
 
             // Pattern 1 Process ===================================================================
             
 
-            // Bmp & Config.ini File Download
-            m_RefComp.Scanner.SendConfig("T:\\SFA\\LWDicer\\ScannerData\\config_job1.ini");
-            m_RefComp.Scanner.SendBitmap("T:\\SFA\\LWDicer\\ImageData\\image_job1.bmp");
+            //// Bmp & Config.ini File Download
+            //m_RefComp.Scanner.SendConfig("T:\\SFA\\LWDicer\\ScannerData\\config_job1.ini");
+            //m_RefComp.Scanner.SendBitmap("T:\\SFA\\LWDicer\\ImageData\\image_job1.bmp");
 
             // Marking Process (Step & Go)
             for (int i = 0; i < nPatternCount; i++)
             {
+               
+
                 m_ProcsTimer.StartTimer();
 
                 for (int j = 0; j < nStepCount; j++)
                 {
+                    // Process Stop 확인
+                    if (CMainFrame.DataManager.ModelData.ProcData.ProcessStop) return SUCCESS;
+
                     // Laser Process                    
                     m_RefComp.Scanner.LaserProcess(EScannerMode.STILL);
                                        
@@ -314,8 +350,8 @@ namespace LWDicer.Layers
             // Pattern 2 Process ===================================================================
 
             // Bmp & Config.ini File Download
-            m_RefComp.Scanner.SendConfig("T:\\SFA\\LWDicer\\ScannerData\\config_job2.ini");
-            m_RefComp.Scanner.SendBitmap("T:\\SFA\\LWDicer\\ImageData\\image_job2.bmp");
+            //m_RefComp.Scanner.SendConfig("T:\\SFA\\LWDicer\\ScannerData\\config_job2.ini");
+            //m_RefComp.Scanner.SendBitmap("T:\\SFA\\LWDicer\\ImageData\\image_job2.bmp");
 
             // Marking Process (Step & Go)
             for (int i = 0; i < nPatternCount; i++)
@@ -692,12 +728,12 @@ namespace LWDicer.Layers
         public int MoveToEdgeAlignTeachPos1()
         {
             int iResult;
-            CPos_XYTZ movePos = CMainFrame.LWDicer.m_DataManager.ModelData.EdgeTeachPos[(int)EEdgeAlignTeachStep.POS1].Copy();
+            CPos_XYTZ movePos = m_Data.Align.EdgeTeachPos[(int)EEdgeAlignTeachPos.POS1].Copy(); //CMainFrame.LWDicer.m_DataManager.ModelData.EdgeTeachPos[(int)EEdgeAlignTeachPos.POS1].Copy();
 
             if (GetCurrentCam() == FINE_CAM)
             {
-                movePos.dX -= CMainFrame.DataManager.SystemData_Align.CamEachOffsetX;
-                movePos.dY -= CMainFrame.DataManager.SystemData_Align.CamEachOffsetY;
+                movePos.dX -= CMainFrame.DataManager.SystemData_Align.CamEachOffset.dX;
+                movePos.dY -= CMainFrame.DataManager.SystemData_Align.CamEachOffset.dY;
             }
             
             iResult = m_RefComp.Stage.MoveStagePos(movePos);
@@ -708,12 +744,13 @@ namespace LWDicer.Layers
         public int MoveToEdgeAlignTeachPos2()
         {
             int iResult;
-            CPos_XYTZ movePos = CMainFrame.LWDicer.m_DataManager.ModelData.EdgeTeachPos[(int)EEdgeAlignTeachStep.POS2].Copy();
+            //CPos_XYTZ movePos = CMainFrame.LWDicer.m_DataManager.ModelData.EdgeTeachPos[(int)EEdgeAlignTeachPos.POS2].Copy();
+            CPos_XYTZ movePos = m_Data.Align.EdgeTeachPos[(int)EEdgeAlignTeachPos.POS2].Copy();
 
             if (GetCurrentCam() == FINE_CAM)
             {
-                movePos.dX -= CMainFrame.DataManager.SystemData_Align.CamEachOffsetX;
-                movePos.dY -= CMainFrame.DataManager.SystemData_Align.CamEachOffsetY;
+                movePos.dX -= CMainFrame.DataManager.SystemData_Align.CamEachOffset.dX;
+                movePos.dY -= CMainFrame.DataManager.SystemData_Align.CamEachOffset.dY;
             }
 
             iResult = m_RefComp.Stage.MoveStagePos(movePos);
@@ -724,20 +761,19 @@ namespace LWDicer.Layers
         public int MoveToEdgeAlignTeachPos3()
         {
             int iResult;
-            CPos_XYTZ movePos = CMainFrame.LWDicer.m_DataManager.ModelData.EdgeTeachPos[(int)EEdgeAlignTeachStep.POS3].Copy();
+            //CPos_XYTZ movePos = CMainFrame.LWDicer.m_DataManager.ModelData.EdgeTeachPos[(int)EEdgeAlignTeachPos.POS3].Copy();
+            CPos_XYTZ movePos = m_Data.Align.EdgeTeachPos[(int)EEdgeAlignTeachPos.POS3].Copy();
 
             if (GetCurrentCam() == FINE_CAM)
             {
-                movePos.dX -= CMainFrame.DataManager.SystemData_Align.CamEachOffsetX;
-                movePos.dY -= CMainFrame.DataManager.SystemData_Align.CamEachOffsetY;
+                movePos.dX -= CMainFrame.DataManager.SystemData_Align.CamEachOffset.dX;
+                movePos.dY -= CMainFrame.DataManager.SystemData_Align.CamEachOffset.dY;
             }
 
             iResult = m_RefComp.Stage.MoveStagePos(movePos);
 
             return iResult;
-        }
-
-        
+        }        
 
         public int MoveToEdgeAlignPos1()
         {
@@ -1064,14 +1100,14 @@ namespace LWDicer.Layers
             return m_RefComp.Stage.MoveCameraToWorkPos();
         }
 
-        public int MoveToCameraFocusPos1()
+        public int MoveToCameraFocusPosInpect()
         {
-            return m_RefComp.Stage.MoveCameraToFocusPos1();
+            return m_RefComp.Stage.MoveCameraToFocusPosInspect();
         }
 
-        public int MoveToCameraFocusPos2()
+        public int MoveToCameraFocusPosFine()
         {
-            return m_RefComp.Stage.MoveCameraToFocusPos2();
+            return m_RefComp.Stage.MoveCameraToFocusPosFine();
         }
 
         public int MoveToCameraFocusPos3()
@@ -1780,7 +1816,7 @@ namespace LWDicer.Layers
 
         public void ThetaAlignStepInit()
         {
-            eThetaAlignStep = EThetaAlignStep.INIT;
+            eThetaAlignStep = EThetaAlignPos.INIT;
         }
 
         /// <summary>
@@ -1791,7 +1827,43 @@ namespace LWDicer.Layers
         /// <returns></returns>
         public int MoveThetaAlignPosA()
         {
-            int iResult;
+            // Pos A로 이동한다.
+            return m_RefComp.Stage.MoveStagePos(GetThetaAlignPosA()); ;
+        }
+        /// <summary>
+        /// Theta Align에서 PosA위치만 확인하고, PosB위치로 이동 명령
+        /// 현재 위치가 PosA가 아닐 경우 실행하지 않음.
+        /// </summary>
+        /// <returns></returns>
+        public int MoveThetaAlignPosB(double distance)
+        {  
+            // Pos B로 이동한다.            
+            return m_RefComp.Stage.MoveStageRelativeX(distance);
+
+        }
+
+        private void SetThetaAlignPosA(CPos_XYTZ pPos)
+        {
+            m_Data.Align.ThetaTeachPos[(int)EThetaAlignPos.POS_A] = pPos.Copy();
+        }
+
+        private CPos_XYTZ GetThetaAlignPosA()
+        {
+            return m_Data.Align.ThetaTeachPos[(int)EThetaAlignPos.POS_A];
+        }
+
+        private void SetThetaAlignPosB(CPos_XYTZ pPos)
+        {
+            m_Data.Align.ThetaTeachPos[(int)EThetaAlignPos.POS_B] = pPos.Copy();
+        }
+        
+        private CPos_XYTZ GetThetaAlignPosB()
+        {
+            return m_Data.Align.ThetaTeachPos[(int)EThetaAlignPos.POS_B];
+        }
+
+        private void CalsThetaAlign()
+        {
             var stagePos1 = new CPos_XYTZ();
             var stagePos2 = new CPos_XYTZ();
             var markPos1 = new CPos_XYTZ();
@@ -1799,120 +1871,29 @@ namespace LWDicer.Layers
             var alignAdjPos = new CPos_XYTZ();
             var alignTeachPos = new CPos_XYTZ();
             
-            if (eThetaAlignStep == EThetaAlignStep.POS_B)
+            // A위치를 읽어온다.
+            stagePos1 = GetThetaAlignPosA();
+
+            // B위치를 읽어온다. (현재 위치)
+            m_RefComp.Stage.GetStageCurPos(out stagePos2);
+
+            // 세로축으로 변화를 확인한다.
+            if ((stagePos1.dY - stagePos2.dY) != 0.0)
             {
-                // A위치를 읽어온다.
-                if(eStageMode == EStatgeMode.RETURN)
-                    m_RefComp.Stage.GetThetaAlignPosA(out stagePos1);
-                if (eStageMode == EStatgeMode.TURN)
-                    m_RefComp.Stage.GetThetaAlignTurnPosA(out stagePos1);
-                                
-                // B위치를 읽어온다. (현재 위치)
-                m_RefComp.Stage.GetStageCurPos(out stagePos2);
+                // Mark 좌표를 Stage 위치를 고려해서 Stage 회전 중심 기준으로 변환한다.
+                markPos1 = ChagneStageToMarkPos(stagePos1.Copy(), markPos1);
+                markPos2 = ChagneStageToMarkPos(stagePos2.Copy(), markPos2);
 
-                //Pre Cam일 경우 위치값을 보정한다.
-                if (GetCurrentCam() == PRE__CAM)
-                {
-                    stagePos1.dX += CMainFrame.DataManager.SystemData_Align.CamEachOffsetX;
-                    stagePos1.dY += CMainFrame.DataManager.SystemData_Align.CamEachOffsetY;
-                }
+                // Theta Align은 연산
+                CalsThetaAlign(markPos1, markPos2, out alignAdjPos);
 
-                // 세로축으로 변화를 확인한다.
-                if ((stagePos1.dY - stagePos2.dY) != 0.0)
-                {
-                    // Mark 좌표를 Stage 위치를 고려해서 Stage 회전 중심 기준으로 변환한다.
-                    markPos1 = ChagneStageToMarkPos(stagePos1.Copy(), markPos1);
-                    markPos2 = ChagneStageToMarkPos(stagePos2.Copy(), markPos2);
+                // PosA 위치 Offset 적용
+                alignTeachPos.dX = stagePos1.dX - alignAdjPos.dX;
+                alignTeachPos.dY = stagePos1.dY - alignAdjPos.dY;
+                alignTeachPos.dT = stagePos1.dT - alignAdjPos.dT;
 
-                    // Theta Align은 연산
-                    CalsThetaAlign(markPos1, markPos2, out alignAdjPos);
-
-                    // PosA 위치 Offset 적용
-                    alignTeachPos.dX = stagePos1.dX - alignAdjPos.dX;
-                    alignTeachPos.dY = stagePos1.dY - alignAdjPos.dY;
-                    alignTeachPos.dT = stagePos1.dT - alignAdjPos.dT;
-
-                    // Pre Cam일 경우에 Offset을 적용한다.
-                    if (GetCurrentCam() == PRE__CAM)
-                    {
-                        alignTeachPos.dX -= CMainFrame.DataManager.SystemData_Align.CamEachOffsetX;
-                        alignTeachPos.dY -= CMainFrame.DataManager.SystemData_Align.CamEachOffsetY;
-                    }
-
-                    if (eStageMode == EStatgeMode.RETURN)   m_RefComp.Stage.SetThetaAlignPosA(alignTeachPos);
-                    if (eStageMode == EStatgeMode.TURN)     m_RefComp.Stage.SetThetaAlignTurnPosA(alignTeachPos);
-
-                }
+                SetThetaAlignPosA(alignTeachPos);
             }
-
-            // Pos A로 이동한다.
-            if (eStageMode == EStatgeMode.RETURN)
-            {
-                if(GetCurrentCam()==PRE__CAM)
-                    iResult = m_RefComp.Stage.MoveStageToThetaAlignPosA(true);
-                else
-                    iResult = m_RefComp.Stage.MoveStageToThetaAlignPosA();
-            }
-            else if (eStageMode == EStatgeMode.TURN)
-            {
-                if (GetCurrentCam() == PRE__CAM)
-                    iResult = m_RefComp.Stage.MoveStageToThetaAlignTurnPosA(true);
-                else
-                    iResult = m_RefComp.Stage.MoveStageToThetaAlignTurnPosA();
-            }
-            else
-                iResult = -1;
-
-            if(iResult==SUCCESS) eThetaAlignStep = EThetaAlignStep.POS_A;
-
-            return iResult;
-        }
-        /// <summary>
-        /// Theta Align에서 PosA위치만 확인하고, PosB위치로 이동 명령
-        /// 현재 위치가 PosA가 아닐 경우 실행하지 않음.
-        /// </summary>
-        /// <returns></returns>
-        public int MoveThetaAlignPosB()
-        {           
-            int iResult;
-            var posCur = new CPos_XYTZ();
-            
-            // 현재 위치를 읽어온다            
-            m_RefComp.Stage.GetStageCurPos(out posCur);
-
-            // PreCam일 경우 Offset을 적용한다. (Fine Cam 기준으로 위치 저장)
-            if (GetCurrentCam() == PRE__CAM)
-            {
-                posCur.dX -= CMainFrame.DataManager.SystemData_Align.CamEachOffsetX;
-                posCur.dY -= CMainFrame.DataManager.SystemData_Align.CamEachOffsetY;
-            }
-            
-            // 현재 위치를 ThetaAlignPosA로 저장한다. 
-            if (eStageMode == EStatgeMode.RETURN)  m_RefComp.Stage.SetThetaAlignPosA(posCur);            
-            if (eStageMode == EStatgeMode.TURN)    m_RefComp.Stage.SetThetaAlignTurnPosA(posCur);            
-
-            // ThetaAlignPosB로 이동한다.
-            if (eStageMode == EStatgeMode.RETURN)
-            {
-                if (GetCurrentCam() == PRE__CAM)
-                    iResult = m_RefComp.Stage.MoveStageToThetaAlignPosB(true);
-                else
-                    iResult = m_RefComp.Stage.MoveStageToThetaAlignPosB();
-            }
-            else if (eStageMode == EStatgeMode.TURN)
-            {
-                if (GetCurrentCam() == PRE__CAM)
-                    iResult = m_RefComp.Stage.MoveStageToThetaAlignTurnPosB(true);
-                else
-                    iResult = m_RefComp.Stage.MoveStageToThetaAlignTurnPosB();
-            }
-            else
-                iResult = -1;
-
-            if(iResult == SUCCESS) eThetaAlignStep = EThetaAlignStep.POS_B;
-
-            return iResult;
-
         }
 
         /// <summary>
@@ -1935,8 +1916,8 @@ namespace LWDicer.Layers
             {
                 posCenter = m_RefComp.Stage.GetStageTeachPos((int)EStagePos.STAGE_CENTER_PRE);
 
-                posCenter.dX -= CMainFrame.DataManager.SystemData_Align.CamEachOffsetX;
-                posCenter.dY -= CMainFrame.DataManager.SystemData_Align.CamEachOffsetY;
+                posCenter.dX -= CMainFrame.DataManager.SystemData_Align.CamEachOffset.dX;
+                posCenter.dY -= CMainFrame.DataManager.SystemData_Align.CamEachOffset.dY;
             }
 
             // Stage의 위치와 차로.. Camera 중심위치 대비 위치를 확인함.
@@ -1964,8 +1945,8 @@ namespace LWDicer.Layers
             {
                 posMark = m_RefComp.Stage.GetStageTeachPos((int)EStagePos.STAGE_CENTER_PRE);
 
-                posMark.dX -= CMainFrame.DataManager.SystemData_Align.CamEachOffsetX;
-                posMark.dY -= CMainFrame.DataManager.SystemData_Align.CamEachOffsetY;
+                posMark.dX -= CMainFrame.DataManager.SystemData_Align.CamEachOffset.dX;
+                posMark.dY -= CMainFrame.DataManager.SystemData_Align.CamEachOffset.dY;
             }
 
             // Stage의 위치와 차로.. Camera 중심위치 대비 위치를 확인함.
@@ -2040,12 +2021,19 @@ namespace LWDicer.Layers
             eRotateCenterStep = ERotateCenterStep.INIT;
         }
 
-        public int DoRotateCenterCals()
+        public int DoRotateCenterCals(ref CPos_XYTZ RotateCenter)
         {
+            // Data 초기화
+            CPos_XYTZ rotateCenter = new CPos_XYTZ();
+
             if (GetCurrentCam() == PRE__CAM)
             {
                 if (eRotateCenterStep == ERotateCenterStep.PRE_POS_B || eRotateCenterStep == ERotateCenterStep.FINE_POS_B)
-                    MoveRotateCenterPrePosB();
+                {
+                    MoveRotateCenterPrePosB(ref rotateCenter);
+                    // 결과값 리턴
+                    RotateCenter = rotateCenter.Copy();
+                }
                 else
                     MoveRotateCenterPrePosA();
             }
@@ -2053,10 +2041,15 @@ namespace LWDicer.Layers
             if (GetCurrentCam() == FINE_CAM)
             {
                 if (eRotateCenterStep == ERotateCenterStep.PRE_POS_B || eRotateCenterStep == ERotateCenterStep.FINE_POS_B)
-                    MoveRotateCenterFinePosB();
+                {
+                    MoveRotateCenterFinePosB(ref rotateCenter);
+
+                    // 결과값 리턴
+                    RotateCenter = rotateCenter.Copy();
+                }
                 else
                     MoveRotateCenterFinePosA();
-            }
+            }            
 
             return SUCCESS;
         }
@@ -2165,7 +2158,7 @@ namespace LWDicer.Layers
             return iResult;            
         }
 
-        private int MoveRotateCenterPrePosB()
+        private int MoveRotateCenterPrePosB(ref CPos_XYTZ RotateCenter)
         {
             int iResult = 0;
             var stageCurPos = new CPos_XYTZ();
@@ -2237,19 +2230,24 @@ namespace LWDicer.Layers
                 rotateCenter = CalsRotateCenter(markPos1, markPos2, 90.0);
 
                 // Stage의 중심을 재 설정한다.
-                CMainFrame.DataManager.Pos_Fixed.Pos_Stage1.Pos[(int)EStagePos.STAGE_CENTER_PRE].dX = StageRotatePos[(int)ERotateCenterStep.INIT].dX - rotateCenter.dX;
-                CMainFrame.DataManager.Pos_Fixed.Pos_Stage1.Pos[(int)EStagePos.STAGE_CENTER_PRE].dY = StageRotatePos[(int)ERotateCenterStep.INIT].dY - rotateCenter.dY;
-                CMainFrame.DataManager.Pos_Fixed.Pos_Stage1.Pos[(int)EStagePos.STAGE_CENTER_PRE].dT = 0.0;
-                
+                RotateCenter.dX = StageRotatePos[(int)ERotateCenterStep.INIT].dX - rotateCenter.dX;
+                RotateCenter.dY = StageRotatePos[(int)ERotateCenterStep.INIT].dY - rotateCenter.dY;
+                RotateCenter.dT = 0.0;
 
-                CMainFrame.LWDicer.SavePosition(CMainFrame.DataManager.Pos_Fixed, true, EPositionObject.STAGE1);
+                //CMainFrame.DataManager.Pos_Fixed.Pos_Stage1.Pos[(int)EStagePos.STAGE_CENTER_PRE].dX = StageRotatePos[(int)ERotateCenterStep.INIT].dX - rotateCenter.dX;
+                //CMainFrame.DataManager.Pos_Fixed.Pos_Stage1.Pos[(int)EStagePos.STAGE_CENTER_PRE].dY = StageRotatePos[(int)ERotateCenterStep.INIT].dY - rotateCenter.dY;
+                //CMainFrame.DataManager.Pos_Fixed.Pos_Stage1.Pos[(int)EStagePos.STAGE_CENTER_PRE].dT = 0.0;                
+
+                //CMainFrame.LWDicer.SavePosition(CMainFrame.DataManager.Pos_Fixed, true, EPositionObject.STAGE1);
 
                 // Init으로 이동한다. ( CW로 회전한다 )
                 stageMovePos = StageRotatePos[(int)ERotateCenterStep.INIT].Copy();
                 m_RefComp.Stage.MoveStagePos(stageMovePos);
 
             }
-                return iResult;
+
+            return iResult;
+            //return (int)eRotateCenterStep;
         }
 
 
@@ -2362,7 +2360,7 @@ namespace LWDicer.Layers
             return iResult;
         }
 
-        private int MoveRotateCenterFinePosB()
+        private int MoveRotateCenterFinePosB(ref CPos_XYTZ RotateCenter)
         {
             int iResult = 0;
             var stageCurPos = new CPos_XYTZ();
@@ -2436,22 +2434,9 @@ namespace LWDicer.Layers
                 rotateCenter = CalsRotateCenter(markPos1, markPos2, 90.0);
 
                 // Stage의 중심을 재 설정한다.
-                CMainFrame.DataManager.Pos_Fixed.Pos_Stage1.Pos[(int)EStagePos.STAGE_CENTER_FINE].dX = StageRotatePos[(int)ERotateCenterStep.INIT].dX - rotateCenter.dX;
-                CMainFrame.DataManager.Pos_Fixed.Pos_Stage1.Pos[(int)EStagePos.STAGE_CENTER_FINE].dY = StageRotatePos[(int)ERotateCenterStep.INIT].dY - rotateCenter.dY;
-                CMainFrame.DataManager.Pos_Fixed.Pos_Stage1.Pos[(int)EStagePos.STAGE_CENTER_FINE].dT = 0.0;
-
-                // LJJ need to edit
-                //CMainFrame.DataManager.SavePositionData(true, EPositionObject.STAGE1);
-                //CMainFrame.LWDicer.SetPositionDataToComponent(EPositionGroup.STAGE1);
-
-                // Pre Cam과 Fine Cam의 오차를 대입한다.
-
-                CMainFrame.DataManager.SystemData_Align.CamEachOffsetX = CMainFrame.DataManager.Pos_Fixed.Pos_Stage1.Pos[(int)EStagePos.STAGE_CENTER_PRE].dX -
-                                                                         CMainFrame.DataManager.Pos_Fixed.Pos_Stage1.Pos[(int)EStagePos.STAGE_CENTER_FINE].dX;
-                CMainFrame.DataManager.SystemData_Align.CamEachOffsetY = CMainFrame.DataManager.Pos_Fixed.Pos_Stage1.Pos[(int)EStagePos.STAGE_CENTER_PRE].dY -
-                                                                         CMainFrame.DataManager.Pos_Fixed.Pos_Stage1.Pos[(int)EStagePos.STAGE_CENTER_FINE].dY;
-
-                CMainFrame.DataManager.SaveSystemData(null, null, null, null, CMainFrame.DataManager.SystemData_Align, null, null);
+                RotateCenter.dX = StageRotatePos[(int)ERotateCenterStep.INIT].dX - rotateCenter.dX;
+                RotateCenter.dY = StageRotatePos[(int)ERotateCenterStep.INIT].dY - rotateCenter.dY;
+                RotateCenter.dT = 0.0;
 
                 // Init으로 이동한다. ( CW로 회전한다 )
                 stageMovePos = StageRotatePos[(int)ERotateCenterStep.INIT].Copy();
@@ -2474,11 +2459,29 @@ namespace LWDicer.Layers
             return rotateCenter;
         }
 
-
-        public void InitThetaAlign()
+        public int LaserAlignInit()
         {
-            eThetaAlignStep = EThetaAlignStep.INIT;
+            var stagePos = new CPos_XYTZ();
+            // 현재 위치와 Theta Align  기준이 A 위치를 확인함
+            m_RefComp.Stage.GetStageCurPos(out stagePos);
+            // 현재 위치를 ThetaAlignPosA로 저장한다. 
+            SetThetaAlignPosA(stagePos);
+            
+            return SUCCESS;
         }
+        public int MoveLaserAlignPosA()
+        {
+            CalsThetaAlign();
+            MoveThetaAlignPosA();
+            return SUCCESS;
+        }
+
+        public int MoveLaserAlignPosB(double distance)
+        {
+            MoveThetaAlignPosB(distance);
+            return SUCCESS;
+        }
+
         /// <summary>
         /// GUI에서 실행할  ThetaAlign 명령
         /// 위치 상태에 따라서 A,B 위치를 번갈아 이동함.
@@ -2487,12 +2490,62 @@ namespace LWDicer.Layers
         public int DoThetaAlign()
         {
             bool checkPos;
-            m_RefComp.Stage.CompareStagePos((int)EStagePos.THETA_ALIGN_A, out checkPos,false);
+            var defaultPosA = new CPos_XYTZ();
+            var defaultPosB = new CPos_XYTZ();
+            var deviatePosA = new CPos_XYTZ();
+            var deviatePosB = new CPos_XYTZ();
 
-            if (checkPos || eThetaAlignStep==EThetaAlignStep.POS_A)
-                MoveThetaAlignPosB();
-            else
+            var stagePos = new CPos_XYTZ();
+            var stagePos1 = new CPos_XYTZ();
+            var stagePos2 = new CPos_XYTZ();
+
+            // ----------------------------------------------------------
+            // 현재 위치와 Theta Align  기준이 A 위치를 확인함
+            m_RefComp.Stage.GetStageCurPos(out stagePos);
+
+            // Stage의 중심 위치를 읽어옴.
+            int indexPos = 0;
+
+            if (GetCurrentCam() == PRE__CAM) indexPos = (int)EStagePos.STAGE_CENTER_PRE;
+            if (GetCurrentCam() == FINE_CAM) indexPos = (int)EStagePos.STAGE_CENTER_FINE;
+
+            defaultPosA = m_RefComp.Stage.GetTargetPosition(indexPos);
+            defaultPosB = m_RefComp.Stage.GetTargetPosition(indexPos);
+
+            // Stage Center위치에서  Align 간격의 절반 거리로 위치를 정함.
+            defaultPosA.dX -= CMainFrame.DataManager.SystemData_Align.AlignMarkWidthLen / 2;
+            defaultPosB.dX += CMainFrame.DataManager.SystemData_Align.AlignMarkWidthLen / 2;
+
+            // 각도가 일정한 값 (2도) 이상일 경우에 0 혹은 90도로 초기화 함.
+            if (Math.Abs(stagePos.dT) < 2) ;
+            else if (Math.Abs(stagePos.dT) > 2 && Math.Abs(stagePos.dT) < 88) stagePos.dT = 0.0;
+            else if (Math.Abs(stagePos.dT) < 88 || Math.Abs(stagePos.dT) > 92) stagePos.dT = 90.0;
+
+            // 편차를 구함
+            deviatePosA = stagePos - defaultPosA;
+            deviatePosB = stagePos - defaultPosB;
+            // 편차 거리를 구함
+            double distancePosA = Math.Sqrt(deviatePosA.dX * deviatePosA.dX + deviatePosA.dY * deviatePosA.dY);
+            double distancePosB = Math.Sqrt(deviatePosB.dX * deviatePosB.dX + deviatePosB.dY * deviatePosB.dY);
+
+            if (distancePosA < 10)
+            {
+                // 현재 위치를 ThetaAlignPosA로 저장한다. 
+                SetThetaAlignPosA(stagePos);
+
+                MoveThetaAlignPosB(CMainFrame.DataManager.SystemData_Align.AlignMarkWidthLen);
+            }
+            else if (distancePosB < 10)
+            {
+                CalsThetaAlign();
                 MoveThetaAlignPosA();
+            }
+            else
+            {
+                defaultPosA.dT = stagePos.dT;
+                SetThetaAlignPosA(defaultPosA);
+                MoveThetaAlignPosA();
+            }
 
             return SUCCESS;
         }
@@ -2519,8 +2572,8 @@ namespace LWDicer.Layers
             {
                 RotateCenter = m_RefComp.Stage.GetStageTeachPos((int)EStagePos.STAGE_CENTER_PRE);
 
-                RotateCenter.dX -= CMainFrame.DataManager.SystemData_Align.CamEachOffsetX;
-                RotateCenter.dY -= CMainFrame.DataManager.SystemData_Align.CamEachOffsetY;
+                RotateCenter.dX -= CMainFrame.DataManager.SystemData_Align.CamEachOffset.dX;
+                RotateCenter.dY -= CMainFrame.DataManager.SystemData_Align.CamEachOffset.dY;
             }
 
             // Align 결과 초기화
@@ -2557,12 +2610,12 @@ namespace LWDicer.Layers
         /// UI에서 User가 Button을 클릭하면서 4 Point 위치값 Offset조절
         /// </summary>
         /// <returns></returns>
-        public int SetEdgeTeachPosNext()
+        public int SetEdgeTeachPosNext(ref CCtrlAlignData pAlignData)
         {
-            var posEdge = new CPos_XY();
-            var posStage = new CPos_XYTZ();
-            var posCenter = new CPos_XYTZ();
-            var posTeach = new CPos_XYTZ();
+            var posEdge     = new CPos_XY();
+            var posStage    = new CPos_XYTZ();
+            var posCenter   = new CPos_XYTZ();
+            var posTeach    = new CPos_XYTZ();
 
             int iResult = -1;
 
@@ -2571,10 +2624,10 @@ namespace LWDicer.Layers
             if (iResult != SUCCESS) return iResult;
 
             // Stage Center 값을 읽어온다
-            posCenter = m_RefComp.Stage.GetStageTeachPos((int)EStagePos.EDGE_ALIGN_1);
+            posCenter = m_RefComp.Stage.GetStageTeachPos((int)EStagePos.STAGE_CENTER_PRE);
 
             // Edge Pos 1 위치 이동
-            if (eEdgeTeachStep == EEdgeAlignTeachStep.INIT)
+            if (eEdgeTeachStep == EEdgeAlignTeachPos.INIT)
             {
                 // Edge 영역을 설정한다.
                 m_RefComp.Vision.SetEdgeFinderArea(PRE__CAM);
@@ -2586,25 +2639,24 @@ namespace LWDicer.Layers
                 posTeach.dY = CMainFrame.DataManager.Pos_Fixed.Pos_Stage1.Pos[(int)EStagePos.STAGE_CENTER_PRE].dY - dLength;
                 posTeach.dT = 0.0;
 
-                iResult = m_RefComp.Stage.MoveStagePos(posTeach);
+                iResult = m_RefComp.Stage.MoveStagePos(posCenter + posTeach);
                 
                 Sleep(1000);
                 FindEdgePoint(out posEdge);
 
-                if (iResult == SUCCESS) eEdgeTeachStep = EEdgeAlignTeachStep.POS1;
+                if (iResult == SUCCESS) eEdgeTeachStep = EEdgeAlignTeachPos.POS1;
 
                 return iResult;
             }
 
             // Edge Pos 1 저장 및 Edge Pos 2 위치 이동
-            if (eEdgeTeachStep == EEdgeAlignTeachStep.POS1)
+            if (eEdgeTeachStep == EEdgeAlignTeachPos.POS1)
             {
                 // 매뉴얼로 Edge를 Center로 이동함.
-
-                // 오차를 대입함
-                EdgeErrorGap[(int)EEdgeAlignTeachStep.POS1] = posCenter - posStage;
+                                
                 // Stage 위치 저장
-                CMainFrame.LWDicer.m_DataManager.ModelData.EdgeTeachPos[(int)EEdgeAlignTeachStep.POS1] = posStage.Copy();
+                //CMainFrame.LWDicer.m_DataManager.ModelData.EdgeTeachPos[(int)EEdgeAlignTeachPos.POS1] = posStage.Copy();
+                pAlignData.EdgeTeachPos[(int)EEdgeAlignTeachPos.POS1] = posStage.Copy();
 
                 // Pos2으로 이동함.
                 iResult = MoveStageRelativeT(90.0);
@@ -2613,19 +2665,18 @@ namespace LWDicer.Layers
                 Sleep(1000);
                 FindEdgePoint(out posEdge);
 
-                eEdgeTeachStep = EEdgeAlignTeachStep.POS2;
+                eEdgeTeachStep = EEdgeAlignTeachPos.POS2;
 
                 return iResult;
             }
             // Edge Pos 2 저장 및 Edge Pos 3 위치 이동
-            if (eEdgeTeachStep == EEdgeAlignTeachStep.POS2)
+            if (eEdgeTeachStep == EEdgeAlignTeachPos.POS2)
             {
                 // 매뉴얼로 Edge를 Center로 이동함.
 
-                // 오차를 대입함
-                EdgeErrorGap[(int)EEdgeAlignTeachStep.POS2] = posCenter - posStage;
                 // Stage 위치를 저장함.
-                CMainFrame.LWDicer.m_DataManager.ModelData.EdgeTeachPos[(int)EEdgeAlignTeachStep.POS2] = posStage.Copy();
+                //CMainFrame.LWDicer.m_DataManager.ModelData.EdgeTeachPos[(int)EEdgeAlignTeachPos.POS2] = posStage.Copy();
+                pAlignData.EdgeTeachPos[(int)EEdgeAlignTeachPos.POS2] = posStage.Copy();
 
                 // Pos3으로 이동함.
                 iResult = MoveStageRelativeT(90.0);
@@ -2634,23 +2685,22 @@ namespace LWDicer.Layers
                 Sleep(1000);
                 FindEdgePoint(out posEdge);
 
-                eEdgeTeachStep = EEdgeAlignTeachStep.POS3;
+                eEdgeTeachStep = EEdgeAlignTeachPos.POS3;
 
                 return SUCCESS;
             }
             // Edge Pos 3 저장 및 동작 종료
-            if (eEdgeTeachStep == EEdgeAlignTeachStep.POS3)
+            if (eEdgeTeachStep == EEdgeAlignTeachPos.POS3)
             {
                 // 매뉴얼로 Edge를 Center로 이동함.
-
-                // 오차를 대입함
-                EdgeErrorGap[(int)EEdgeAlignTeachStep.POS3] = posCenter - posStage;
+                
                 // Stage 위치를 저장함.
-                CMainFrame.LWDicer.m_DataManager.ModelData.EdgeTeachPos[(int)EEdgeAlignTeachStep.POS3] = posStage.Copy();
+                //CMainFrame.LWDicer.m_DataManager.ModelData.EdgeTeachPos[(int)EEdgeAlignTeachPos.POS3] = posStage.Copy();
+                pAlignData.EdgeTeachPos[(int)EEdgeAlignTeachPos.POS3] = posStage.Copy();
 
-                MoveToEdgeAlignTeachPos1();
+                //MoveToEdgeAlignTeachPos1();
 
-                eEdgeTeachStep = EEdgeAlignTeachStep.INIT;
+                eEdgeTeachStep = EEdgeAlignTeachPos.INIT;
 
                 return SUCCESS;
             }
@@ -2757,12 +2807,16 @@ namespace LWDicer.Layers
             int iResult = -1;
             int iSleepTime = 200;
             IntPtr viewHandle;
-            CPos_XY[] EdgePixelPos = new CPos_XY[(int)EEdgeAlignTeachStep.MAX];
-            CPos_XYTZ[] EdgePos = new CPos_XYTZ[(int)EEdgeAlignTeachStep.MAX];
-            CPos_XYTZ[] EdgeRealPos = new CPos_XYTZ[(int)EEdgeAlignTeachStep.MAX];
             CPos_XY WaferCenter = new CPos_XY();
             CPos_XYTZ StageCurPos = new CPos_XYTZ();
 
+            CPos_XY[] EdgePixelPos  = new CPos_XY[(int)EEdgeAlignTeachPos.MAX];
+                for (int i = 0; i < EdgePixelPos.Length; i++) EdgePixelPos[i] = new CPos_XY();
+            CPos_XYTZ[] EdgePos     = new CPos_XYTZ[(int)EEdgeAlignTeachPos.MAX];
+                for (int i = 0; i < EdgePos.Length; i++) EdgePos[i] = new CPos_XYTZ();
+            CPos_XYTZ[] EdgeRealPos = new CPos_XYTZ[(int)EEdgeAlignTeachPos.MAX];
+                for (int i = 0; i < EdgeRealPos.Length; i++) EdgeRealPos[i] = new CPos_XYTZ();
+                      
             // Align 기존 값 초기화
             m_RefComp.Stage.SetAlignDataInit();
 
@@ -2780,7 +2834,7 @@ namespace LWDicer.Layers
             Sleep(iSleepTime);
 
             // Edge를 확인한다
-            iResult = FindEdgePoint(out EdgePixelPos[(int)EEdgeAlignTeachStep.POS1]);
+            iResult = FindEdgePoint(out EdgePixelPos[(int)EEdgeAlignTeachPos.POS1]);
             if (iResult != SUCCESS) return iResult;
 
             // 현재 위치 값을 읽어온다.
@@ -2788,10 +2842,9 @@ namespace LWDicer.Layers
             if (iResult != SUCCESS) return iResult;
 
             // Edge를 Stage를 중심으로한 좌표값을 구한다.
-            EdgePos[(int)EEdgeAlignTeachStep.POS1] = ChagneStageToMarkPos(StageCurPos, EdgePixelPos[(int)EEdgeAlignTeachStep.POS1]);
-
-            EdgeRealPos[(int)EEdgeAlignTeachStep.POS1] = new CPos_XYTZ();
-            EdgeRealPos[(int)EEdgeAlignTeachStep.POS1] = EdgePos[(int)EEdgeAlignTeachStep.POS1];
+            EdgePos[(int)EEdgeAlignTeachPos.POS1] = ChagneStageToMarkPos(StageCurPos, EdgePixelPos[(int)EEdgeAlignTeachPos.POS1]);
+            
+            EdgeRealPos[(int)EEdgeAlignTeachPos.POS1] = EdgePos[(int)EEdgeAlignTeachPos.POS1];
             // Edge 2번으로 이동 & Edge 확인 =============================================================
             iResult = MoveToEdgeAlignTeachPos2();
             if (iResult != SUCCESS) return iResult;
@@ -2799,7 +2852,7 @@ namespace LWDicer.Layers
             Sleep(iSleepTime);
 
             // Edge를 확인한다
-            iResult = FindEdgePoint(out EdgePixelPos[(int)EEdgeAlignTeachStep.POS2]);
+            iResult = FindEdgePoint(out EdgePixelPos[(int)EEdgeAlignTeachPos.POS2]);
             if (iResult != SUCCESS) return iResult;
 
             // 현재 위치 값을 읽어온다.
@@ -2807,13 +2860,12 @@ namespace LWDicer.Layers
             if (iResult != SUCCESS) return iResult;
 
             // Edge를 Stage를 중심으로한 좌표값을 구한다.
-            EdgePos[(int)EEdgeAlignTeachStep.POS2] = ChagneStageToMarkPos(StageCurPos, EdgePixelPos[(int)EEdgeAlignTeachStep.POS2]);
+            EdgePos[(int)EEdgeAlignTeachPos.POS2] = ChagneStageToMarkPos(StageCurPos, EdgePixelPos[(int)EEdgeAlignTeachPos.POS2]);
             // -90도 회전 변환을 한다.
-            EdgeRealPos[(int)EEdgeAlignTeachStep.POS2] = new CPos_XYTZ();
-            EdgeRealPos[(int)EEdgeAlignTeachStep.POS2].dX = Math.Cos(DegToRad(90)) * EdgePos[(int)EEdgeAlignTeachStep.POS2].dX -
-                                                            Math.Sin(DegToRad(90)) * EdgePos[(int)EEdgeAlignTeachStep.POS2].dY;
-            EdgeRealPos[(int)EEdgeAlignTeachStep.POS2].dY = Math.Sin(DegToRad(90)) * EdgePos[(int)EEdgeAlignTeachStep.POS2].dX +
-                                                            Math.Cos(DegToRad(90)) * EdgePos[(int)EEdgeAlignTeachStep.POS2].dY;
+            EdgeRealPos[(int)EEdgeAlignTeachPos.POS2].dX = Math.Cos(DegToRad(90)) * EdgePos[(int)EEdgeAlignTeachPos.POS2].dX -
+                                                            Math.Sin(DegToRad(90)) * EdgePos[(int)EEdgeAlignTeachPos.POS2].dY;
+            EdgeRealPos[(int)EEdgeAlignTeachPos.POS2].dY = Math.Sin(DegToRad(90)) * EdgePos[(int)EEdgeAlignTeachPos.POS2].dX +
+                                                            Math.Cos(DegToRad(90)) * EdgePos[(int)EEdgeAlignTeachPos.POS2].dY;
 
             // Edge 3번으로 이동 & Edge 확인 =============================================================
             iResult = MoveToEdgeAlignTeachPos3();
@@ -2822,7 +2874,7 @@ namespace LWDicer.Layers
             Sleep(iSleepTime);
 
             // Edge를 확인한다
-            iResult = FindEdgePoint(out EdgePixelPos[(int)EEdgeAlignTeachStep.POS3]);
+            iResult = FindEdgePoint(out EdgePixelPos[(int)EEdgeAlignTeachPos.POS3]);
             if (iResult != SUCCESS) return iResult;
 
             // 현재 위치 값을 읽어온다.
@@ -2830,13 +2882,12 @@ namespace LWDicer.Layers
             if (iResult != SUCCESS) return iResult;
 
             // Edge를 Stage를 중심으로한 좌표값을 구한다.
-            EdgePos[(int)EEdgeAlignTeachStep.POS3] = ChagneStageToMarkPos(StageCurPos, EdgePixelPos[(int)EEdgeAlignTeachStep.POS3]);
+            EdgePos[(int)EEdgeAlignTeachPos.POS3] = ChagneStageToMarkPos(StageCurPos, EdgePixelPos[(int)EEdgeAlignTeachPos.POS3]);
             // -180도 회전 변환을 한다.
-            EdgeRealPos[(int)EEdgeAlignTeachStep.POS3] = new CPos_XYTZ();
-            EdgeRealPos[(int)EEdgeAlignTeachStep.POS3].dX = Math.Cos(DegToRad(180)) * EdgePos[(int)EEdgeAlignTeachStep.POS3].dX -
-                                                            Math.Sin(DegToRad(180)) * EdgePos[(int)EEdgeAlignTeachStep.POS3].dY;
-            EdgeRealPos[(int)EEdgeAlignTeachStep.POS3].dY = Math.Sin(DegToRad(180)) * EdgePos[(int)EEdgeAlignTeachStep.POS3].dX +
-                                                            Math.Cos(DegToRad(180)) * EdgePos[(int)EEdgeAlignTeachStep.POS3].dY;
+            EdgeRealPos[(int)EEdgeAlignTeachPos.POS3].dX = Math.Cos(DegToRad(180)) * EdgePos[(int)EEdgeAlignTeachPos.POS3].dX -
+                                                            Math.Sin(DegToRad(180)) * EdgePos[(int)EEdgeAlignTeachPos.POS3].dY;
+            EdgeRealPos[(int)EEdgeAlignTeachPos.POS3].dY = Math.Sin(DegToRad(180)) * EdgePos[(int)EEdgeAlignTeachPos.POS3].dX +
+                                                            Math.Cos(DegToRad(180)) * EdgePos[(int)EEdgeAlignTeachPos.POS3].dY;
 
             // Edge Align 연산
             WaferCenter =  CalsCenterOf3P(EdgeRealPos[0], EdgeRealPos[1], EdgeRealPos[2]);            
@@ -2849,12 +2900,12 @@ namespace LWDicer.Layers
             CMainFrame.DataManager.SystemData_Align.WaferOffsetX = WaferCenter.dX;
             CMainFrame.DataManager.SystemData_Align.WaferOffsetY = WaferCenter.dY;
 
-            double dLenX = EdgeRealPos[(int)EEdgeAlignTeachStep.POS1].dX - WaferCenter.dX;
-            double dLenY = EdgeRealPos[(int)EEdgeAlignTeachStep.POS1].dY - WaferCenter.dY;
+            double dLenX = EdgeRealPos[(int)EEdgeAlignTeachPos.POS1].dX - WaferCenter.dX;
+            double dLenY = EdgeRealPos[(int)EEdgeAlignTeachPos.POS1].dY - WaferCenter.dY;
 
             CMainFrame.DataManager.SystemData_Align.WaferSizeOffset = (150 - Math.Sqrt(dLenX * dLenX + dLenY * dLenY));
             // Wafer의 크기 오차 보정이 잘 되지 않아.. 우선 초기화 값을 사용... 그럭저럭 잘 맞음.
-            CMainFrame.DataManager.SystemData_Align.WaferSizeOffset = 0;
+            //CMainFrame.DataManager.SystemData_Align.WaferSizeOffset = 0;
             // Align 기존 값 초기화
             m_RefComp.Stage.SetAlignDataInit();
 

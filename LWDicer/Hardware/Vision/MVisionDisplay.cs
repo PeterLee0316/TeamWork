@@ -277,17 +277,21 @@ namespace LWDicer.Layers
             // Image Size Read           
             int iWidth = MIL.MbufInquire(pImage, MIL.M_SIZE_X, MIL.M_NULL);
             int iHeight = MIL.MbufInquire(pImage, MIL.M_SIZE_Y, MIL.M_NULL);
+
+            int bitmapWidth = iWidth;
             // Image Size Check
             if (iWidth == 0 || iHeight == 0) return;
 
-            Rectangle RecImage = new Rectangle(0, 0, iWidth, iHeight);
+            if (iWidth % 4 != 0) bitmapWidth += (4-iWidth % 4);
+
+            Rectangle RecImage = new Rectangle(0, 0, bitmapWidth, iHeight);
 
             // Byte 생성
             Byte[] ImgBits;
             ImgBits = new Byte[iWidth * iHeight];
 
             // Bitmap 생성
-            Bitmap Bitmap = new Bitmap(iWidth, iHeight,
+            Bitmap Bitmap = new Bitmap(bitmapWidth, iHeight,
                                         PixelFormat.Format8bppIndexed);
             // Pallette 생성
             ColorPalette Palette;
@@ -354,12 +358,18 @@ namespace LWDicer.Layers
 
         public void GraphDrawLine(Point ptStart, Point ptEnd, Pen pPen)
         {
+            // Overlay DC를 가져 온다
+            if (GetOverlayDC() == false) return;
+
             double dStartX = (double)ptStart.X;
             double dStartY = (double)ptStart.Y;
             double dEndX = (double)ptEnd.X;
             double dEndY = (double)ptEnd.Y;
 
             m_DrawGraph.DrawLine(pPen,ptStart,ptEnd);
+
+            // Overlay 화면 갱신
+            UpdataOverlay();
         }
         
         public void DrawCrossMark(Point Center, int Width, int Height,Color colorMark)
