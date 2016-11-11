@@ -15,7 +15,6 @@ namespace LWDicer.Layers
     {
         IIO m_IO;
         CVacuumData m_Data;
-        MTickTimer m_waitTimer = new MTickTimer();
 
         public MVacuum(CObjectInfo objInfo, IIO pIO, CVacuumData data) 
             : base(objInfo)

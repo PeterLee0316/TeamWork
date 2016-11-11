@@ -200,8 +200,6 @@ namespace LWDicer.Layers
 
         // Vacuum
 
-        MTickTimer m_waitTimer = new MTickTimer();
-
         public MMePushPull(CObjectInfo objInfo, CMePushPullRefComp refComp, CMePushPullData data)
             : base(objInfo)
         {

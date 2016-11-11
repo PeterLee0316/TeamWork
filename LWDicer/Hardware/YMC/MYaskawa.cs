@@ -52,6 +52,8 @@ namespace LWDicer.Layers
         public const int ERR_YASKAWA_CONTROLLER_NOT_READY                = 33;
         public const int ERR_YASKAWA_MOTION_MOVE_TIMEOUT                 = 34;
         public const int ERR_YASKAWA_FAIL_CLOSE_YMC_CONTROLLER           = 35;
+        public const int ERR_YASKAWA_DETECTED_AREA_SENSOR                = 36;
+        public const int ERR_YASKAWA_CANCEL_MOVING                       = 37;
 
         public const int MAX_MP_CPU = 4;    // pci board EA
         public const int MAX_MP_PORT = 2;   // ports per board
@@ -124,10 +126,11 @@ namespace LWDicer.Layers
         {
             public double EncoderPos;
             public double Velocity;     //Servo 현재 속도
+            public bool IsDriverFault;
             public bool IsReady;
             public bool IsAlarm;
+            public bool IsWarning;
             public bool IsServoOn;
-            public bool IsDriverFault;
 
             public bool DetectMinusSensor;
             public bool DetectPlusSensor;
@@ -495,7 +498,6 @@ MP2101TM            SVC(built-in the board, with MECHATROLINK port 1)       1   
 
         //public string LastHWMessage { get; private set; }
 
-        MTickTimer m_waitTimer = new MTickTimer();
         UInt16 APITimeOut = 5000;
         UInt16 APIJogTime = 100;    // Jog Timeout ms
 
@@ -510,7 +512,9 @@ MP2101TM            SVC(built-in the board, with MECHATROLINK port 1)       1   
         private static bool m_bControllerOpened = false;
 
         //
-        public bool NeedCheckSafety { get; set; } = false;
+        public bool IsDoorOpened = false;
+        public bool IsAreaDetected = false;
+        public static bool IsCancelJob_byManual = false;       // cancel moving by manual, return success
 
         //public Dictionary<string, string> ErrorDictionary;
 
@@ -553,15 +557,10 @@ MP2101TM            SVC(built-in the board, with MECHATROLINK port 1)       1   
         public int GenerateErrorCode(int error, UInt32 rc, bool writeLog = true)
         {
             string hexcode = rc.ToString("X");
-#if SIMULATION_TEST
-            //if (ErrorSubMsg.IndexOf("ERROR_CODE_COM_NOT_OPENED") >= 0
-            //    || ErrorSubMsg.IndexOf("MP_NOTDEVICEHANDLE") >= 0
-            //    || ErrorSubMsg.IndexOf("ERROR_CODE_NOT_CONTROLLER_RDY") >= 0
-            //    ) return SUCCESS;
-
-            if (hexcode == "430F1B50"
-                || hexcode == "470B1108"
-                || hexcode == "440D1BA0")
+#if SIMULATION_MOTION_YMC
+            if (hexcode == "430F1B50"       // ERROR_CODE_COM_NOT_OPENED
+                || hexcode == "470B1108"    // MP_NOTDEVICEHANDLE
+                || hexcode == "440D1BA0")   // ERROR_CODE_NOT_CONTROLLER_RDY
                 return SUCCESS;
 #endif
             ErrorSubMsg = String.Format($"0x{rc.ToString("X")}, {CMotionAPI.ErrorDictionary[rc.ToString("X")]}");
@@ -660,30 +659,48 @@ MP2101TM            SVC(built-in the board, with MECHATROLINK port 1)       1   
         {
             int iResult = SUCCESS;
 
-            //// check estop pushed
-            //if()
+            // check estop pushed
+            //if ()
             //{
             //    return GenerateErrorCode(ERR_YASKAWA_DETECTED_ESTOP);
             //}
 
-            //// check door opened
-            //if ()
-            //{
-            //    if(bStopMotion)
-            //    {
-            //        StopAllServo();
-            //    }
-            //    return GenerateErrorCode(ERR_YASKAWA_DETECTED_DOOR_OPEN);
-            //}
+            // check door opened
+            if (IsDoorOpened)
+            {
+                if (bStopMotion)
+                {
+                    StopAllServo();
+                }
+                return GenerateErrorCode(ERR_YASKAWA_DETECTED_DOOR_OPEN);
+            }
+
+            if (IsAreaDetected)
+            {
+                if (bStopMotion)
+                {
+                    StopAllServo();
+                }
+                return GenerateErrorCode(ERR_YASKAWA_DETECTED_AREA_SENSOR);
+            }
+
+            // cancel by user
+            if (IsCancelJob_byManual)
+            {
+                IsCancelJob_byManual = false; // reset
+                if (bStopMotion)
+                {
+                    iResult = StopAllServo();
+                    if (iResult != SUCCESS) return iResult;
+                }
+                return GenerateErrorCode(ERR_YASKAWA_CANCEL_MOVING);
+            }
 
             return SUCCESS;
         }
 
         public int CheckAxisStateForMove(int[] axisList)
         {
-#if SIMULATION_TEST
-            return SUCCESS;
-#endif
             // check safety
             int iResult = IsSafeForMove();
             if (iResult != SUCCESS) return iResult;
@@ -692,6 +709,13 @@ MP2101TM            SVC(built-in the board, with MECHATROLINK port 1)       1   
             for (int i = 0; i < axisList.Length; i++)
             {
                 int index = axisList[i];
+#if SIMULATION_TEST
+                // if EncoderPos == 0, 서보가 없는 상태에서 simulation test 라고 가정. 실제 서보는 EncoderPos != 0 일때, 실제 상태를 update
+                if (ServoStatus[index].EncoderPos == 0)
+                {
+                    continue;
+                }
+#endif
 
                 // Thread에서 update하기 때문에 다시 읽을 필요 없음
                 //GetServoStatus(index);
@@ -699,9 +723,7 @@ MP2101TM            SVC(built-in the board, with MECHATROLINK port 1)       1   
                 // servo on
                 if (ServoStatus[index].IsServoOn == false)
                 {
-#if !SIMULATION_TEST
                     return GenerateErrorCode(ERR_YASKAWA_NOT_SERVO_ON);
-#endif
                 }
 
                 // alarm
@@ -713,9 +735,7 @@ MP2101TM            SVC(built-in the board, with MECHATROLINK port 1)       1   
                 // origin return
                 if (ServoStatus[index].IsOriginReturned == false)
                 {
-#if !SIMULATION_TEST
                     return GenerateErrorCode(ERR_YASKAWA_NOT_ORIGIN_RETURNED);
-#endif
                 }
 
                 // plus limit
@@ -1264,8 +1284,8 @@ MP2101TM            SVC(built-in the board, with MECHATROLINK port 1)       1   
 
 #if SIMULATION_TEST
             // for test
-            iResult = ServoOn((int)EYMC_Axis.S1_CHUCK_ROTATE_T);
-            if (iResult != SUCCESS) return iResult;
+            //iResult = ServoOn((int)EYMC_Axis.S1_CHUCK_ROTATE_T);
+            //if (iResult != SUCCESS) return iResult;
 #endif
 
             return SUCCESS;
@@ -1407,20 +1427,7 @@ MP2101TM            SVC(built-in the board, with MECHATROLINK port 1)       1   
             int iResult = ChangeControllerByServo(servoNo);
             //if (iResult != SUCCESS) return iResult;
 
-            // Driver Status IWxx00
-            rc = CMotionAPI.ymcGetMotionParameterValue(m_hAxis[servoNo], (UInt16)CMotionAPI.ApiDefs.MONITOR_PARAMETER,
-                    (UInt16)CMotionAPI.ApiDefs_MonPrm.SER_RUNSTS, ref returnValue);
-            if (rc != CMotionAPI.MP_SUCCESS)
-            {
-                //return GenerateErrorCode(ERR_YASKAWA_FAIL_GET_MOTION_PARAM, rc);
-                return;
-            }
-            else
-            {
-                ServoStatus[servoNo].IsDriverFault = false;
-            }
-
-            // Servo Position 값 Read 
+            // servo position
             rc = CMotionAPI.ymcGetMotionParameterValue(m_hAxis[servoNo], (UInt16)CMotionAPI.ApiDefs.MONITOR_PARAMETER,
                     (UInt16)CMotionAPI.ApiDefs_MonPrm.SER_APOS, ref returnValue); //Machine coordinate system feedback position (APOS)
             if (rc != CMotionAPI.MP_SUCCESS)
@@ -1432,7 +1439,20 @@ MP2101TM            SVC(built-in the board, with MECHATROLINK port 1)       1   
                 ServoStatus[servoNo].EncoderPos = (double)returnValue / UNIT_REF;
             }
 
-            //Servo 속도값 Read 
+#if SIMULATION_TEST
+            // if EncoderPos == 0, 서보가 없는 상태에서 simulation test 라고 가정. 실제 서보는 EncoderPos != 0 일때, 실제 상태를 update
+            if (ServoStatus[servoNo].EncoderPos == 0)
+            {
+                ServoStatus[servoNo].IsReady = true;
+                ServoStatus[servoNo].IsServoOn = true;
+                ServoStatus[servoNo].IsDriverFault = false;
+                ServoStatus[servoNo].IsAlarm = false;
+                ServoStatus[servoNo].IsWarning = false;
+
+                return;
+            }
+#endif
+            // servo velocity
             rc = CMotionAPI.ymcGetMotionParameterValue(m_hAxis[servoNo], (UInt16)CMotionAPI.ApiDefs.MONITOR_PARAMETER,
                     (UInt16)CMotionAPI.ApiDefs_MonPrm.SER_FSPD, ref returnValue);
             if (rc != CMotionAPI.MP_SUCCESS)
@@ -1445,8 +1465,10 @@ MP2101TM            SVC(built-in the board, with MECHATROLINK port 1)       1   
                 ServoStatus[servoNo].Velocity = (double)returnValue / UNIT_REF;
             }
 
-            //Servo Status Read 
-            rc = CMotionAPI.ymcGetMotionParameterValue(m_hAxis[servoNo], (UInt16)CMotionAPI.ApiDefs.MONITOR_PARAMETER,    //110208
+
+            // servo on : IWxx00, bit 1 is on
+            // servo ready :  IWxx00, bit 3 is on
+            rc = CMotionAPI.ymcGetMotionParameterValue(m_hAxis[servoNo], (UInt16)CMotionAPI.ApiDefs.MONITOR_PARAMETER,
                     (UInt16)CMotionAPI.ApiDefs_MonPrm.SER_RUNSTS, ref returnValue);
             if (rc != CMotionAPI.MP_SUCCESS)
             {
@@ -1455,18 +1477,14 @@ MP2101TM            SVC(built-in the board, with MECHATROLINK port 1)       1   
             }
             else
             {
-                //Servo Ready
-                ServoStatus[servoNo].IsReady = Convert.ToBoolean((returnValue >> 3) & 0x1);
-                //Servo On/Off
-                ServoStatus[servoNo].IsServoOn = Convert.ToBoolean((returnValue >> 1) & 0x1);
-#if SIMULATION_TEST
-                ServoStatus[servoNo].IsReady = true;
-                ServoStatus[servoNo].IsServoOn = true;
-#endif
+                UInt32 t = returnValue >> 1;
+                ServoStatus[servoNo].IsServoOn = Convert.ToBoolean(t & 0x1);
+                t = returnValue >> 3;
+                ServoStatus[servoNo].IsReady = Convert.ToBoolean(t & 0x1);
             }
 
-            //Servo Alarm Read 
-            rc = CMotionAPI.ymcGetMotionParameterValue(m_hAxis[servoNo], (UInt16)CMotionAPI.ApiDefs.MONITOR_PARAMETER,    //110208
+            // servo alarm : ILxx04 != 0
+            rc = CMotionAPI.ymcGetMotionParameterValue(m_hAxis[servoNo], (UInt16)CMotionAPI.ApiDefs.MONITOR_PARAMETER,
                     (UInt16)CMotionAPI.ApiDefs_MonPrm.SER_ALARM, ref returnValue);
             if (rc != CMotionAPI.MP_SUCCESS)
             {
@@ -1475,8 +1493,22 @@ MP2101TM            SVC(built-in the board, with MECHATROLINK port 1)       1   
             }
             else
             {
-                //Servo Alarm
-                ServoStatus[servoNo].IsAlarm = Convert.ToBoolean(returnValue != 0);
+                ServoStatus[servoNo].IsAlarm = (returnValue != 0) ? true : false;
+            }
+
+            // servo warning : ILxx02 != 0
+            // driver fault : ILxx02 bit0 is On
+            rc = CMotionAPI.ymcGetMotionParameterValue(m_hAxis[servoNo], (UInt16)CMotionAPI.ApiDefs.MONITOR_PARAMETER,
+                    (UInt16)CMotionAPI.ApiDefs_MonPrm.SER_ALARM, ref returnValue);
+            if (rc != CMotionAPI.MP_SUCCESS)
+            {
+                //return GenerateErrorCode(ERR_YASKAWA_FAIL_GET_MOTION_PARAM, rc);
+                return;
+            }
+            else
+            {
+                ServoStatus[servoNo].IsWarning = (returnValue != 0) ? true : false;
+                ServoStatus[servoNo].IsDriverFault = Convert.ToBoolean(returnValue & 0x1);
             }
 
             // Servo Command Input Signal
@@ -1641,16 +1673,20 @@ MP2101TM            SVC(built-in the board, with MECHATROLINK port 1)       1   
                     continue;
                 }
 
-                bResult = IsServoWarning(servoNo);
+                bResult = ServoStatus[servoNo].IsWarning | ServoStatus[servoNo].IsAlarm | ServoStatus[servoNo].IsDriverFault;
                 if (bResult == true)
                 {
                     ServoOff(servoNo);
+                    Sleep(100);
 
                     rc = CMotionAPI.ymcClearServoAlarm(m_hAxis[servoNo]);
                     if (rc != CMotionAPI.MP_SUCCESS)
                     {
                         return GenerateErrorCode(ERR_YASKAWA_FAIL_RESET_ALARM, rc);
                     }
+
+                    Sleep(100);
+                    ServoOn(servoNo);
                 }
             }
 
@@ -1680,9 +1716,10 @@ MP2101TM            SVC(built-in the board, with MECHATROLINK port 1)       1   
                 return GenerateErrorCode(ERR_YASKAWA_FAIL_GET_MOTION_PARAM, rc);
             }
 
-            //Move 완료 확인 
-            if (((returnValue >> (int)CMotionAPI.ApiDefs.DISTRIBUTION_COMPLETED) & 0x1) == 1)
-                bComplete = true;
+            // Check move done.
+            // SER_POSSTS : IWxx0C, bit0 : Discharging Completed, bit 1 : Positioning Completed.
+            returnValue = returnValue >> 1;
+            if ((returnValue & 0x1) == 1) bComplete = true;
             else bComplete = false;
 
             return SUCCESS;
@@ -1731,8 +1768,11 @@ MP2101TM            SVC(built-in the board, with MECHATROLINK port 1)       1   
 
         public int StopAllServo()
         {
-            int iResult = StopServoMotion((int)EYMC_Device.ALL);
-            if (iResult != SUCCESS) return iResult;
+            for(int i = 0; i < (int)EYMC_Device.ALL; i++)
+            {
+                int iResult = StopServoMotion(i);
+                if (iResult != SUCCESS) return iResult;
+            }
             return SUCCESS;
         }
 
@@ -1756,7 +1796,12 @@ MP2101TM            SVC(built-in the board, with MECHATROLINK port 1)       1   
 
         public int StartJogMove(int deviceNo, bool jogDir, bool bJogFastMove = false)
         {
+#if SIMULATION_MOTION_YMC
+            return SUCCESS;
+#endif
+
             if (deviceNo == (int)EYMC_Device.NULL) return SUCCESS; // return success if device is null
+            IsCancelJob_byManual = false; // reset
 
             // check safety
             int iResult = IsSafeForMove();
@@ -1823,11 +1868,18 @@ MP2101TM            SVC(built-in the board, with MECHATROLINK port 1)       1   
             MotionData[0].FilterType   = (Int16)CMotionAPI.ApiDefs.FTYPE_EXP;
             MotionData[0].DataType     = 0x0000;
             MotionData[0].FilterTime   = 10;
-
-#if SIMULATION_MOTION_YMC
-            return SUCCESS;
-#endif
             MotionData[0].FilterType = 2;
+
+#if SIMULATION_TEST
+            // if EncoderPos == 0, 서보가 없는 상태에서 simulation test 라고 가정. 실제 서보는 EncoderPos != 0 일때, 실제 상태를 update
+            if (ServoStatus[deviceNo].EncoderPos == 0)
+            {
+                Sleep(SimulationSleepTime);
+
+                return SUCCESS;
+            }
+#endif
+
             UInt32 rc = CMotionAPI.ymcMoveJOG(m_hDevice[deviceNo], MotionData, Direction, TimeOut, 0, "JOG", 0);
             if (rc != CMotionAPI.MP_SUCCESS)
             {
@@ -1837,9 +1889,16 @@ MP2101TM            SVC(built-in the board, with MECHATROLINK port 1)       1   
             return SUCCESS;
         }
 
+        /// <summary>
+        /// Device 단위로 parameter를 받으나, 실제로 한 축씩 호출 받는것을 전제로 작성
+        /// </summary>
+        /// <param name="deviceNo"></param>
+        /// <param name="mode"></param>
+        /// <returns></returns>
         public int StopServoMotion(int deviceNo, ushort mode = (ushort)CMotionAPI.ApiDefs.DISTRIBUTION_COMPLETED)
         {
             if (deviceNo == (int)EYMC_Device.NULL) return SUCCESS; // return success if device is null
+            if (deviceNo >= (int)EYMC_Device.ALL) return SUCCESS; // return success if device is null
 
             CMotionAPI.MOTION_DATA[] MotionData;
             GetDevice_MotionData(deviceNo, out MotionData);
@@ -1848,6 +1907,14 @@ MP2101TM            SVC(built-in the board, with MECHATROLINK port 1)       1   
 
 #if SIMULATION_MOTION_YMC
             return SUCCESS;
+#endif
+
+#if SIMULATION_TEST
+            // if EncoderPos == 0, 서보가 없는 상태에서 simulation test 라고 가정. 실제 서보는 EncoderPos != 0 일때, 실제 상태를 update
+            if (ServoStatus[deviceNo].EncoderPos == 0)
+            {
+                return SUCCESS;
+            }
 #endif
 
             UInt32 rc = CMotionAPI.ymcStopMotion(m_hDevice[deviceNo], MotionData, "STOP", WaitForCompletion, 0);
@@ -1859,22 +1926,35 @@ MP2101TM            SVC(built-in the board, with MECHATROLINK port 1)       1   
             return SUCCESS;
         }
 
-        public int StartMoveToPos(int deviceNo, double[] pos, CMotorSpeedData[] tempSpeed = null, ushort waitMode = (ushort)CMotionAPI.ApiDefs.COMMAND_STARTED)
+        /// <summary>
+        /// device or one axis를 목표 위치로 start move
+        /// </summary>
+        /// <param name="deviceNo"></param>
+        /// <param name="pos"></param>
+        /// <param name="tempSpeed"></param>
+        /// <returns></returns>
+        public int StartMoveToPos(int deviceNo, double[] pos, CMotorSpeedData[] tempSpeed = null)
         {
-            return MoveToPos(deviceNo, pos, tempSpeed, waitMode);
-
+            return MoveToPos(deviceNo, pos, tempSpeed, (ushort)CMotionAPI.ApiDefs.COMMAND_STARTED);
         }
 
         /// <summary>
-        /// device의 모든 축을 함께 이동시킬 때 호출 
+        /// device or one axis를 목표 위치로 move
+        /// MultiAxes 등에서 호출할 때, 상위의 stop에 즉각 반응할 수 있도록, 모든 move를 startmove + wait4done 으로 
+        /// 강제하기 위해서 public -> private으로 변경함
         /// </summary>
         /// <param name="deviceNo"></param>
         /// <param name="pos"></param>
         /// <param name="tempSpeed"></param>
         /// <param name="waitMode"></param>
         /// <returns></returns>
-        public int MoveToPos(int deviceNo, double[] pos, CMotorSpeedData[] tempSpeed = null, ushort waitMode = (ushort)CMotionAPI.ApiDefs.POSITIONING_COMPLETED)
+        private int MoveToPos(int deviceNo, double[] pos, CMotorSpeedData[] tempSpeed = null, ushort waitMode = (ushort)CMotionAPI.ApiDefs.POSITIONING_COMPLETED)
         {
+#if SIMULATION_MOTION_YMC
+            Sleep(SimulationSleepTime);
+            return SUCCESS;
+#endif
+            IsCancelJob_byManual = false; // reset
             if (deviceNo == (int)EYMC_Device.NULL) return SUCCESS; // return success if device is null
 
             // 0. init data
@@ -1911,9 +1991,24 @@ MP2101TM            SVC(built-in the board, with MECHATROLINK port 1)       1   
             iResult = CheckAxisStateForMove(axisList);
             if (iResult != SUCCESS) return iResult;
 
-#if SIMULATION_MOTION_YMC
-            return SUCCESS;
+            bool bServoExist = false; // for test
+            for (int i = 0; i < axisList.Length; i++)
+            {
+                int servoNo = axisList[i];
+                if (servoNo == (int)EYMC_Axis.NULL) continue;
+                if (ServoStatus[servoNo].EncoderPos != 0) bServoExist = true;
+            }
+
+#if SIMULATION_TEST
+            // if EncoderPos == 0, 서보가 없는 상태에서 simulation test 라고 가정. 실제 서보는 EncoderPos != 0 일때, 실제 상태를 update
+            if (bServoExist == false)
+            {
+                Sleep(SimulationSleepTime);
+
+                return SUCCESS;
+            }
 #endif
+
             // 1. call api
             // ymcMovePositioning 함수는 motion controller 가 부하를 담당하고, ymcMoveDriverPositioning는 driver가 부하를 담당
             UInt32 rc = CMotionAPI.ymcMoveDriverPositioning(m_hDevice[deviceNo], MotionData, PositionData, 0, "Move", WaitForCompletion, 0);
@@ -1925,14 +2020,23 @@ MP2101TM            SVC(built-in the board, with MECHATROLINK port 1)       1   
             return SUCCESS;
         }
 
-        public int StartMoveToPos(int[] axisList, bool[] useAxis, double[] pos, CMotorSpeedData[] tempSpeed = null, ushort waitMode = (ushort)CMotionAPI.ApiDefs.POSITIONING_COMPLETED)
+        /// <summary>
+        /// 특정 axis들만 선택해서 목표 위치로 start move
+        /// </summary>
+        /// <param name="axisList"></param>
+        /// <param name="useAxis"></param>
+        /// <param name="pos"></param>
+        /// <param name="tempSpeed"></param>
+        /// <returns></returns>
+        public int StartMoveToPos(int[] axisList, bool[] useAxis, double[] pos, CMotorSpeedData[] tempSpeed = null)
         {
-            return MoveToPos(axisList, useAxis, pos, tempSpeed, waitMode);
-
+            return MoveToPos(axisList, useAxis, pos, tempSpeed, (ushort)CMotionAPI.ApiDefs.COMMAND_STARTED);
         }
 
         /// <summary>
-        /// 축 번호 리스트와 useAxis등을 이용해서 Move to position
+        /// 특정 axis들만 선택해서 목표 위치로 move
+        /// MultiAxes 등에서 호출할 때, 상위의 stop에 즉각 반응할 수 있도록, 모든 move를 startmove + wait4done 으로 
+        /// 강제하기 위해서 public -> private으로 변경함
         /// </summary>
         /// <param name="axisNo"></param>
         /// <param name="useAxis"></param>
@@ -1940,12 +2044,13 @@ MP2101TM            SVC(built-in the board, with MECHATROLINK port 1)       1   
         /// <param name="tempSpeed"></param>
         /// <param name="waitMode"></param>
         /// <returns></returns>
-        public int MoveToPos(int[] axisList, bool[] useAxis, double[] pos, CMotorSpeedData[] tempSpeed = null, ushort waitMode = (ushort)CMotionAPI.ApiDefs.POSITIONING_COMPLETED)
+        private int MoveToPos(int[] axisList, bool[] useAxis, double[] pos, CMotorSpeedData[] tempSpeed = null, ushort waitMode = (ushort)CMotionAPI.ApiDefs.POSITIONING_COMPLETED)
         {
 #if SIMULATION_MOTION_YMC
             Sleep(SimulationSleepTime);
             return SUCCESS;
 #endif
+            IsCancelJob_byManual = false; // reset
             // check safety
             int iResult = IsSafeForMove();
             if (iResult != SUCCESS) return iResult;
@@ -1953,12 +2058,12 @@ MP2101TM            SVC(built-in the board, with MECHATROLINK port 1)       1   
             // 0. init data
             // 0.1 get device length
             int length = 0;
-            bool bServoOn = true; // for test
+            bool bServoExist = false; // for test
             for(int i = 0; i < axisList.Length; i++)
             {
                 int servoNo = axisList[i];
                 if (servoNo == (int)EYMC_Axis.NULL || useAxis[i] == false) continue;
-                if (ServoStatus[servoNo].IsServoOn == false) bServoOn = false;
+                if (ServoStatus[servoNo].EncoderPos != 0 ) bServoExist = true;
                 length++;
             }
             if (length == 0)
@@ -2017,8 +2122,8 @@ MP2101TM            SVC(built-in the board, with MECHATROLINK port 1)       1   
             if (iResult != SUCCESS) return iResult;
 
 #if SIMULATION_TEST
-            // servo off 상태라면 서보가 없는 상태에서 simulation test 라고 가정하고
-            //if(bServoOn == false)
+            // if EncoderPos == 0, 서보가 없는 상태에서 simulation test 라고 가정. 실제 서보는 EncoderPos != 0 일때, 실제 상태를 update
+            if (bServoExist == false)
             {
                 Sleep(SimulationSleepTime);
 
@@ -2029,7 +2134,8 @@ MP2101TM            SVC(built-in the board, with MECHATROLINK port 1)       1   
                 return SUCCESS;
             }
 #endif
-
+            //ClearDevice(tDevice);
+//             tDevice = m_hDevice[0];
             // 1. call api
             // ymcMovePositioning 함수는 motion controller 가 부하를 담당하고, ymcMoveDriverPositioning는 driver가 부하를 담당
             UInt32 rc = CMotionAPI.ymcMoveDriverPositioning(tDevice, MotionData, PositionData, 0, "Move", WaitForCompletion, 0);
@@ -2040,18 +2146,25 @@ MP2101TM            SVC(built-in the board, with MECHATROLINK port 1)       1   
             }
 
             // 2. clear device
-            iResult = ClearDevice(tDevice);
+            //iResult = ClearDevice(tDevice);
             if (iResult != SUCCESS) return iResult;
 
             return SUCCESS;
         }
 
+        /// <summary>
+        /// Wait for motion move done.
+        /// </summary>
+        /// <param name="axisList"></param>
+        /// <param name="useAxis"></param>
+        /// <param name="bWait4Home"></param>
+        /// <returns></returns>
         public int Wait4Done(int[] axisList, bool[] useAxis, bool bWait4Home = false)
         {
             int iResult = SUCCESS;
             // 0. init data
             // 0.1 get device length
-            int length = 0;
+            int length = 0; // 이동 축수
             for (int i = 0; i < axisList.Length; i++)
             {
                 int servoNo = axisList[i];
@@ -2086,8 +2199,10 @@ MP2101TM            SVC(built-in the board, with MECHATROLINK port 1)       1   
             }
 
             // 1. wait for done
-            int sum = 0;
+            int sum = 0; // 이동 완료된 축 수
             m_waitTimer.StartTimer();
+
+            Sleep(100); // for update new status, after call start move by sjr
             while(true)
             {
                 // 1.1 check safety
@@ -2106,7 +2221,16 @@ MP2101TM            SVC(built-in the board, with MECHATROLINK port 1)       1   
                 {
                     if (bDone[i] == true) continue;
 
-                    if(bWait4Home == false) // wait for move done
+#if SIMULATION_TEST
+                    // if EncoderPos == 0, 서보가 없는 상태에서 simulation test 라고 가정. 실제 서보는 EncoderPos != 0 일때, 실제 상태를 update
+                    if (ServoStatus[servoList[i]].EncoderPos == 0)
+                    {
+                        Sleep(SimulationSleepTime);
+                        sum++;
+                        continue;
+                    }
+#endif
+                    if (bWait4Home == false) // wait for move done
                     {
                         // 1.3.1 check each axis done
                         iResult = CheckMoveComplete(servoList[i], out bDone[i]);
@@ -2145,6 +2269,26 @@ MP2101TM            SVC(built-in the board, with MECHATROLINK port 1)       1   
             }
 
             return SUCCESS;
+        }
+
+        public int Wait4Done(int deviceNo, bool bWait4Home = false)
+        {
+#if SIMULATION_MOTION_YMC
+            Sleep(SimulationSleepTime);
+            return SUCCESS;
+#endif
+            if (deviceNo == (int)EYMC_Device.NULL) return SUCCESS; // return success if device is null
+
+            // 0. init data
+            int[] axisList;
+            int iResult = GetDeviceAxisList(deviceNo, out axisList);
+            if (iResult != SUCCESS) return iResult;
+
+            bool[] useAxis = new bool[axisList.Length];
+            ArrayExtensions.Init(useAxis, true);
+
+            // 1. call api
+            return Wait4Done(axisList, useAxis, bWait4Home);
         }
 
         public int Wait4HomeDone(int[] axisList, bool[] useAxis)
@@ -2304,23 +2448,6 @@ MP2101TM            SVC(built-in the board, with MECHATROLINK port 1)       1   
             return SUCCESS;
         }
 
-        public bool IsServoWarning(int servoNo)
-        {
-#if SIMULATION_MOTION_YMC
-            return false;
-#endif
-            UInt32 returnValue = 0;
-            UInt32 rc = CMotionAPI.ymcGetMotionParameterValue(m_hAxis[servoNo],
-                                                          (UInt16)CMotionAPI.ApiDefs.MONITOR_PARAMETER,
-                                                          (UInt16)CMotionAPI.ApiDefs_MonPrm.SER_WARNING,
-                                                          ref returnValue);
-            if (rc != CMotionAPI.MP_SUCCESS)
-            {
-                //return GenerateErrorCode(ERR_YASKAWA_FAIL_SERVO_GET_POS, rc);
-            }
-
-            return Convert.ToBoolean((returnValue >> 8) & 0x1);
-        }
         /*
         public void ManualPacket()
         {

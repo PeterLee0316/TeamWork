@@ -831,11 +831,7 @@ namespace LWDicer.Layers
             int deviceNo;
             int[] axisList = new int[DEF_MAX_COORDINATE];
             int[] initArray = new int[DEF_MAX_COORDINATE];
-
-            for (int i = 0; i < DEF_MAX_COORDINATE; i++)
-            {
-                initArray[i] = DEF_AXIS_NONE_ID;
-            }
+            ArrayExtensions.Init(initArray, DEF_AXIS_NONE_ID);
 
             refComp.Motion = m_YMC;
 
@@ -980,11 +976,7 @@ namespace LWDicer.Layers
             int deviceNo;
             int[] axisList = new int[DEF_MAX_COORDINATE];
             int[] initArray = new int[DEF_MAX_COORDINATE];
-
-            for (int i = 0; i < DEF_MAX_COORDINATE; i++)
-            {
-                initArray[i] = DEF_AXIS_NONE_ID;
-            }
+            ArrayExtensions.Init(initArray, DEF_AXIS_NONE_ID);
 
             refComp.Motion = m_ACS;
 
@@ -1779,6 +1771,7 @@ namespace LWDicer.Layers
             {
                 CMeSpinnerData data;
                 m_MeSpinner1.GetData(out data);
+                Array.Copy(modelData.MeSpinner1_UseVccFlag, data.UseVccFlag, modelData.MeSpinner1_UseVccFlag.Length);
 
                 m_MeSpinner1.SetData(data);
             }
@@ -1786,6 +1779,7 @@ namespace LWDicer.Layers
             {
                 CMeSpinnerData data;
                 m_MeSpinner2.GetData(out data);
+                Array.Copy(modelData.MeSpinner2_UseVccFlag, data.UseVccFlag, modelData.MeSpinner2_UseVccFlag.Length);
 
                 m_MeSpinner2.SetData(data);
             }
@@ -1795,25 +1789,23 @@ namespace LWDicer.Layers
             {
                 CMeHandlerData data;
                 m_MeUpperHandler.GetData(out data);
+                Array.Copy(modelData.MeUH_UseVccFlag, data.UseVccFlag, modelData.MeUH_UseVccFlag.Length);
+                Array.Copy(modelData.MeUH_UseMainCylFlag, data.UseMainCylFlag, modelData.MeUH_UseMainCylFlag.Length);
+                Array.Copy(modelData.MeUH_UseSubCylFlag, data.UseSubCylFlag, modelData.MeUH_UseSubCylFlag.Length);
+                Array.Copy(modelData.MeUH_UseGuideCylFlag, data.UseGuideCylFlag, modelData.MeUH_UseGuideCylFlag.Length);
 
                 m_MeUpperHandler.SetData(data);
-
-                iResult = m_MeUpperHandler.SetCylUseFlag(modelData.MeUH_UseMainCylFlag, modelData.MeUH_UseSubCylFlag, modelData.MeUH_UseGuideCylFlag);
-                if (iResult != SUCCESS) return iResult;
-                iResult = m_MeUpperHandler.SetVccUseFlag(modelData.MeUH_UseVccFlag);
-                if (iResult != SUCCESS) return iResult;
             }
 
             {
                 CMeHandlerData data;
                 m_MeLowerHandler.GetData(out data);
+                Array.Copy(modelData.MeLH_UseVccFlag, data.UseVccFlag, modelData.MeLH_UseVccFlag.Length);
+                Array.Copy(modelData.MeLH_UseMainCylFlag, data.UseMainCylFlag, modelData.MeLH_UseMainCylFlag.Length);
+                Array.Copy(modelData.MeLH_UseSubCylFlag, data.UseSubCylFlag, modelData.MeLH_UseSubCylFlag.Length);
+                Array.Copy(modelData.MeLH_UseGuideCylFlag, data.UseGuideCylFlag, modelData.MeLH_UseGuideCylFlag.Length);
 
                 m_MeLowerHandler.SetData(data);
-
-                iResult = m_MeLowerHandler.SetCylUseFlag(modelData.MeLH_UseMainCylFlag, modelData.MeLH_UseSubCylFlag, modelData.MeLH_UseGuideCylFlag);
-                if (iResult != SUCCESS) return iResult;
-                iResult = m_MeLowerHandler.SetVccUseFlag(modelData.MeLH_UseVccFlag);
-                if (iResult != SUCCESS) return iResult;
             }
 
 
@@ -1821,6 +1813,7 @@ namespace LWDicer.Layers
             {
                 CMeStageData data;
                 m_MeStage.GetData(out data);
+                Array.Copy(modelData.MeStage_UseVccFlag, data.UseVccFlag, modelData.MeStage_UseVccFlag.Length);
 
                 //data.StageSafetyPos = m_DataManager.SystemData.MAxSafetyPos.Stage_Pos;
 
@@ -2222,19 +2215,43 @@ namespace LWDicer.Layers
             refComp.ACS_Motion = m_ACS;
 
             COpPanelIOAddr sPanelIOAddr = new COpPanelIOAddr();
-            sPanelIOAddr.FrontPanel = new CPanelIOAddr(iStart_SWFront, iStop_SWFront, iReset_SWFront,
-                oStart_LampFront, oStop_LampFront, oReset_LampFront,
-                iJog_X_Forward_SWFront, iJog_X_Backward_SWFront, iJog_Y_Forward_SWFront, iJog_Y_Backward_SWFront,
-                iJog_T_CW_SWFront, iJog_T_CCW_SWFront, iJog_Z_UP_SWFront, iJog_Z_DOWN_SWFront,
-                0);
-            sPanelIOAddr.BackPanel = new CPanelIOAddr(iStart_SWRear, iStop_SWRear, iReset_SWRear,
-                oStart_LampRear, oStop_LampRear, oReset_LampRear,
-                iJog_X_Forward_SWRear, iJog_X_Forward_SWRear, iJog_Y_Forward_SWRear, iJog_Y_Forward_SWRear,
-                iJog_T_CW_SWRear, iJog_T_CCW_SWRear, iJog_Z_UP_SWRear, iJog_Z_DOWN_SWRear,
-                0);
+            // Front
+            int index = (int)EOPPanel.FRONT;
+            sPanelIOAddr.OpPanel.RunInputAddr[index]     = iStart_SWFront;
+            sPanelIOAddr.OpPanel.StopInputAddr[index]    = iStop_SWFront;
+            sPanelIOAddr.OpPanel.ResetInputAddr[index]   = iReset_SWFront;
+            sPanelIOAddr.OpPanel.EStopInputAddr[index]   = iEMO_SW;
+            sPanelIOAddr.OpPanel.RunOutputAddr[index]    = oStart_LampFront;
+            sPanelIOAddr.OpPanel.StopOutputAddr[index]   = oStop_LampFront;
+            sPanelIOAddr.OpPanel.ResetOutputAddr[index]  = oReset_LampFront;
+            sPanelIOAddr.OpPanel.XpInputAddr[index]      = iJog_X_Forward_SWFront;
+            sPanelIOAddr.OpPanel.XnInputAddr[index]      = iJog_X_Backward_SWFront;
+            sPanelIOAddr.OpPanel.YpInputAddr[index]      = iJog_Y_Forward_SWFront;
+            sPanelIOAddr.OpPanel.YnInputAddr[index]      = iJog_Y_Backward_SWFront;
+            sPanelIOAddr.OpPanel.TpInputAddr[index]      = iJog_T_CW_SWFront;
+            sPanelIOAddr.OpPanel.TnInputAddr[index]      = iJog_T_CCW_SWFront;
+            sPanelIOAddr.OpPanel.ZpInputAddr[index]      = iJog_Z_UP_SWFront;
+            sPanelIOAddr.OpPanel.ZnInputAddr[index]      = iJog_Z_DOWN_SWFront;
 
-            sPanelIOAddr.EStopAddr[0] = iEMO_SW;
-            sPanelIOAddr.EStopAddr[1] = iEMO_SWRear;
+            // Rear
+            index = (int)EOPPanel.BACK;
+            sPanelIOAddr.OpPanel.RunInputAddr[index]     = iStart_SWRear;
+            sPanelIOAddr.OpPanel.StopInputAddr[index]    = iStop_SWRear;
+            sPanelIOAddr.OpPanel.ResetInputAddr[index]   = iReset_SWRear;
+            sPanelIOAddr.OpPanel.EStopInputAddr[index]   = iEMO_SWRear;
+            sPanelIOAddr.OpPanel.RunOutputAddr[index]    = oStart_LampRear;
+            sPanelIOAddr.OpPanel.StopOutputAddr[index]   = oStop_LampRear;
+            sPanelIOAddr.OpPanel.ResetOutputAddr[index]  = oReset_LampRear;
+            sPanelIOAddr.OpPanel.XpInputAddr[index]      = iJog_X_Forward_SWRear;
+            sPanelIOAddr.OpPanel.XnInputAddr[index]      = iJog_X_Backward_SWRear;
+            sPanelIOAddr.OpPanel.YpInputAddr[index]      = iJog_Y_Forward_SWRear;
+            sPanelIOAddr.OpPanel.YnInputAddr[index]      = iJog_Y_Backward_SWRear;
+            sPanelIOAddr.OpPanel.TpInputAddr[index]      = iJog_T_CW_SWRear;
+            sPanelIOAddr.OpPanel.TnInputAddr[index]      = iJog_T_CCW_SWRear;
+            sPanelIOAddr.OpPanel.ZpInputAddr[index]      = iJog_Z_UP_SWRear;
+            sPanelIOAddr.OpPanel.ZnInputAddr[index]      = iJog_Z_DOWN_SWRear;
+
+            // TeachPendant
 
             sPanelIOAddr.MainAirAddr = iMain_Air_On;
             //sPanelIOAddr.MainN2Addr = iMain_N
@@ -2248,8 +2265,8 @@ namespace LWDicer.Layers
 
             sPanelIOAddr.SafeDoorAddr[(int)EDoorGroup.FRONT, (int)EDoorIndex.INDEX_1] = iDoor_Front;
             sPanelIOAddr.SafeDoorAddr[(int)EDoorGroup.FRONT, (int)EDoorIndex.INDEX_2] = iDoor_Front2;
-            sPanelIOAddr.SafeDoorAddr[(int)EDoorGroup.REAR, (int)EDoorIndex.INDEX_1]  = iDoor_Back;
-            sPanelIOAddr.SafeDoorAddr[(int)EDoorGroup.REAR, (int)EDoorIndex.INDEX_2]  = iDoor_Back2;
+            sPanelIOAddr.SafeDoorAddr[(int)EDoorGroup.BACK, (int)EDoorIndex.INDEX_1]  = iDoor_Back;
+            sPanelIOAddr.SafeDoorAddr[(int)EDoorGroup.BACK, (int)EDoorIndex.INDEX_2]  = iDoor_Back2;
             sPanelIOAddr.SafeDoorAddr[(int)EDoorGroup.LEFT, (int)EDoorIndex.INDEX_1]  = iDoor_Side;
             sPanelIOAddr.SafeDoorAddr[(int)EDoorGroup.LEFT, (int)EDoorIndex.INDEX_2]  = iDoor_Side2;
 

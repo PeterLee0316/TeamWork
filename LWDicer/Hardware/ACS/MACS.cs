@@ -98,6 +98,8 @@ namespace LWDicer.Layers
             public bool IsDriverFault;
             public bool IsMotorOverHeat;
             public bool IsServoAlarm;
+            public bool IsServoWarning;
+
             // public bool Is;
             public bool DetectMinusSensor;
             public bool DetectPlusSensor;
@@ -347,8 +349,6 @@ namespace LWDicer.Layers
         public int SpeedType { get; set; } = (int)EMotorSpeed.MANUAL_SLOW;
 
         public string LastHWMessage { get; private set; }
-
-        MTickTimer m_waitTimer = new MTickTimer();
 
         UInt16 APITimeOut = 5000;
         UInt16 APIJogTime = 100;    // Jog Timeout ms

@@ -91,11 +91,7 @@ namespace LWDicer.Layers
         {
             int iResult = SUCCESS;
 
-            for (int i = 0; i < DEF_MAX_COORDINATE; i++)
-            {
-                MovePriority[i] = (int)EPriority.NONE;
-            }
-
+            ArrayExtensions.Init(MovePriority, (int)EPriority.NONE);
             if (iCoordID == DEF_ALL_COORDINATE)
             {
                 for (int i = 0; i < iPriorities.Length; i++)
@@ -115,11 +111,7 @@ namespace LWDicer.Layers
         {
             int iResult = SUCCESS;
 
-            for (int i = 0; i < DEF_MAX_COORDINATE; i++)
-            {
-                OriginPriority[i] = (int)EPriority.NONE;
-            }
-
+            ArrayExtensions.Init(OriginPriority, (int)EPriority.NONE);
             if (iCoordID == DEF_ALL_COORDINATE)
             {
                 for (int i = 0; i < iPriorities.Length; i++)
@@ -197,10 +189,12 @@ namespace LWDicer.Layers
             bool[] bPartUse = new bool[DEF_MAX_COORDINATE];
             bool bPartMove;
 
-            if (iCoordID == DEF_ALL_COORDINATE)
+            m_RefComp.Motion.OpenComPortOnly();
+
+            if (iCoordID == DEF_ALL_COORDINATE) // 전체 축을 선택했을 경우엔 
             {
                 // call api by axis group
-                if (bUsePriority == true)
+                if (bUsePriority == true) // 순차 이동일 경우엔
                 {
                     for (int i = 0; i < (int)EPriority.MAX; i++)
                     {
@@ -221,21 +215,34 @@ namespace LWDicer.Layers
 
                         if (bPartMove == true)
                         {
-                            iResult = m_RefComp.Motion.MoveToPos(m_Data.AxisList, bPartUse, dPosition, tempSpeed);
+                            // start move
+                            iResult = m_RefComp.Motion.StartMoveToPos(m_Data.AxisList, bPartUse, dPosition, tempSpeed);
+                            if (iResult != SUCCESS) return iResult;
+
+                            // wait done
+                            iResult = m_RefComp.Motion.Wait4Done(m_Data.AxisList, bPartUse, false);
                             if (iResult != SUCCESS) return iResult;
                         }
                     }
                 }
                 else
                 {
-                    iResult = m_RefComp.Motion.MoveToPos(m_Data.AxisList, bMoveUse, dPosition, tempSpeed);
+                    iResult = m_RefComp.Motion.StartMoveToPos(m_Data.AxisList, bMoveUse, dPosition, tempSpeed);
+                    if (iResult != SUCCESS) return iResult;
+
+                    // wait done
+                    iResult = m_RefComp.Motion.Wait4Done(m_Data.AxisList, bMoveUse, false);
                     if (iResult != SUCCESS) return iResult;
                 }
             }
             else
             {
                 // call api by each axis(one device)
-                iResult = m_RefComp.Motion.MoveToPos(m_Data.AxisList[iCoordID], dPosition, tempSpeed);
+                iResult = m_RefComp.Motion.StartMoveToPos(m_Data.AxisList[iCoordID], dPosition, tempSpeed);
+                if (iResult != SUCCESS) return iResult;
+
+                // wait done
+                iResult = m_RefComp.Motion.Wait4Done(m_Data.AxisList[iCoordID], false);
                 if (iResult != SUCCESS) return iResult;
             }
 

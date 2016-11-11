@@ -349,7 +349,7 @@ namespace LWDicer.UI
                 {
                     CMotorSpeedData[] tSpeed = new CMotorSpeedData[1];
                     tSpeed[0] = AxisSpeedData;
-                    iResult = CMainFrame.LWDicer.m_YMC.MoveToPos(SelectedAxis, dTargetPos, tSpeed, (int)CMotionAPI.ApiDefs.DISTRIBUTION_COMPLETED);
+                    iResult = CMainFrame.LWDicer.m_YMC.StartMoveToPos(SelectedAxis, dTargetPos, tSpeed);
                 }
                 else
                 {
@@ -429,7 +429,7 @@ namespace LWDicer.UI
             {
                 CMotorSpeedData[] tSpeed = new CMotorSpeedData[1];
                 tSpeed[0] = AxisSpeedData;
-                iResult = CMainFrame.LWDicer.m_YMC.MoveToPos(SelectedAxis, dTargetPos, tSpeed, (int)CMotionAPI.ApiDefs.COMMAND_STARTED);
+                iResult = CMainFrame.LWDicer.m_YMC.StartMoveToPos(SelectedAxis, dTargetPos, tSpeed);
             }
             else
             {

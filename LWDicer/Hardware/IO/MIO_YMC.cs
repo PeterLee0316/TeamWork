@@ -17,7 +17,6 @@ namespace LWDicer.Layers
     {
         UInt32 m_hController; // Yaskawa controller handle
 
-        MTickTimer m_waitTimer = new MTickTimer();
         Thread m_hThread;   // Thread Handle
 
         public enum EYMCRegisterType
@@ -103,16 +102,12 @@ namespace LWDicer.Layers
         {
             string hexcode = rc.ToString("X");
 #if SIMULATION_TEST
-            //if (ErrorSubMsg.IndexOf("ERROR_CODE_COM_NOT_OPENED") >= 0
-            //    || ErrorSubMsg.IndexOf("MP_NOTDEVICEHANDLE") >= 0
-            //    || ErrorSubMsg.IndexOf("ERROR_CODE_NOT_CONTROLLER_RDY") >= 0
-            //    ) return SUCCESS;
-
-            if (hexcode == "430F1B50"
-                || hexcode == "470B1108"
-                || hexcode == "440D1BA0")
+            if (hexcode == "430F1B50"       // ERROR_CODE_COM_NOT_OPENED
+                || hexcode == "470B1108"    // MP_NOTDEVICEHANDLE
+                || hexcode == "440D1BA0")   // ERROR_CODE_NOT_CONTROLLER_RDY
                 return SUCCESS;
 #endif
+
             ErrorSubMsg = String.Format($"0x{rc.ToString("X")}, {CMotionAPI.ErrorDictionary[rc.ToString("X")]}");
             WriteLog(ErrorSubMsg, ELogType.Debug, ELogWType.D_Error, true);
 

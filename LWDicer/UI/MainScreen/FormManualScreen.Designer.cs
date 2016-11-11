@@ -145,6 +145,9 @@
             this.buttonAdv53 = new Syncfusion.Windows.Forms.ButtonAdv();
             this.autoLabel19 = new Syncfusion.Windows.Forms.Tools.AutoLabel();
             this.buttonAdv54 = new Syncfusion.Windows.Forms.ButtonAdv();
+            this.LabelTime_Value = new Syncfusion.Windows.Forms.Tools.GradientLabel();
+            this.LabelTime_Title = new Syncfusion.Windows.Forms.Tools.GradientLabel();
+            this.btnStopAction = new Syncfusion.Windows.Forms.ButtonAdv();
             ((System.ComponentModel.ISupportInitialize)(this.gradientPanel2)).BeginInit();
             this.gradientPanel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gradientPanel1)).BeginInit();
@@ -455,8 +458,10 @@
             this.BtnLoaderPos1.Name = "BtnLoaderPos1";
             this.BtnLoaderPos1.Size = new System.Drawing.Size(105, 58);
             this.BtnLoaderPos1.TabIndex = 36;
+            this.BtnLoaderPos1.Tag = "Loader";
             this.BtnLoaderPos1.Text = "Bottom";
             this.BtnLoaderPos1.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.BtnLoaderPos1.Click += new System.EventHandler(this.Btn_Click);
             // 
             // BtnLoaderPos2
             // 
@@ -471,8 +476,10 @@
             this.BtnLoaderPos2.Name = "BtnLoaderPos2";
             this.BtnLoaderPos2.Size = new System.Drawing.Size(105, 58);
             this.BtnLoaderPos2.TabIndex = 37;
+            this.BtnLoaderPos2.Tag = "Loader";
             this.BtnLoaderPos2.Text = "Load";
             this.BtnLoaderPos2.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.BtnLoaderPos2.Click += new System.EventHandler(this.Btn_Click);
             // 
             // BtnLoaderPos3
             // 
@@ -487,8 +494,10 @@
             this.BtnLoaderPos3.Name = "BtnLoaderPos3";
             this.BtnLoaderPos3.Size = new System.Drawing.Size(105, 58);
             this.BtnLoaderPos3.TabIndex = 38;
+            this.BtnLoaderPos3.Tag = "Loader";
             this.BtnLoaderPos3.Text = "Slot";
             this.BtnLoaderPos3.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.BtnLoaderPos3.Click += new System.EventHandler(this.Btn_Click);
             // 
             // BtnLoaderPos4
             // 
@@ -503,8 +512,10 @@
             this.BtnLoaderPos4.Name = "BtnLoaderPos4";
             this.BtnLoaderPos4.Size = new System.Drawing.Size(105, 58);
             this.BtnLoaderPos4.TabIndex = 39;
+            this.BtnLoaderPos4.Tag = "Loader";
             this.BtnLoaderPos4.Text = "Top";
             this.BtnLoaderPos4.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.BtnLoaderPos4.Click += new System.EventHandler(this.Btn_Click);
             // 
             // BtnLoaderPos5
             // 
@@ -519,8 +530,10 @@
             this.BtnLoaderPos5.Name = "BtnLoaderPos5";
             this.BtnLoaderPos5.Size = new System.Drawing.Size(105, 58);
             this.BtnLoaderPos5.TabIndex = 40;
+            this.BtnLoaderPos5.Tag = "Loader";
             this.BtnLoaderPos5.Text = "Safety";
             this.BtnLoaderPos5.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.BtnLoaderPos5.Click += new System.EventHandler(this.Btn_Click);
             // 
             // gradientPanel4
             // 
@@ -1925,6 +1938,54 @@
             this.buttonAdv54.Text = "Centering";
             this.buttonAdv54.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             // 
+            // LabelTime_Value
+            // 
+            this.LabelTime_Value.BackgroundColor = new Syncfusion.Drawing.BrushInfo();
+            this.LabelTime_Value.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
+            | System.Windows.Forms.Border3DSide.Right) 
+            | System.Windows.Forms.Border3DSide.Bottom)));
+            this.LabelTime_Value.BorderStyle = System.Windows.Forms.Border3DStyle.Bump;
+            this.LabelTime_Value.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.LabelTime_Value.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.LabelTime_Value.Location = new System.Drawing.Point(1112, 773);
+            this.LabelTime_Value.Name = "LabelTime_Value";
+            this.LabelTime_Value.Size = new System.Drawing.Size(130, 30);
+            this.LabelTime_Value.TabIndex = 963;
+            this.LabelTime_Value.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // LabelTime_Title
+            // 
+            this.LabelTime_Title.BackgroundColor = new Syncfusion.Drawing.BrushInfo(Syncfusion.Drawing.GradientStyle.ForwardDiagonal, System.Drawing.Color.Silver, System.Drawing.Color.Maroon);
+            this.LabelTime_Title.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
+            | System.Windows.Forms.Border3DSide.Right) 
+            | System.Windows.Forms.Border3DSide.Bottom)));
+            this.LabelTime_Title.BorderStyle = System.Windows.Forms.Border3DStyle.Bump;
+            this.LabelTime_Title.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.LabelTime_Title.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+            this.LabelTime_Title.Location = new System.Drawing.Point(1112, 743);
+            this.LabelTime_Title.Name = "LabelTime_Title";
+            this.LabelTime_Title.Size = new System.Drawing.Size(130, 30);
+            this.LabelTime_Title.TabIndex = 962;
+            this.LabelTime_Title.Text = "수행 시간";
+            this.LabelTime_Title.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // btnStopAction
+            // 
+            this.btnStopAction.AutoEllipsis = true;
+            this.btnStopAction.BackColor = System.Drawing.Color.Red;
+            this.btnStopAction.BorderStyleAdv = Syncfusion.Windows.Forms.ButtonAdvBorderStyle.Solid;
+            this.btnStopAction.FlatAppearance.BorderSize = 5;
+            this.btnStopAction.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.btnStopAction.ForeColor = System.Drawing.Color.Black;
+            this.btnStopAction.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnStopAction.Location = new System.Drawing.Point(1112, 682);
+            this.btnStopAction.Name = "btnStopAction";
+            this.btnStopAction.Size = new System.Drawing.Size(130, 58);
+            this.btnStopAction.TabIndex = 52;
+            this.btnStopAction.Text = "Stop Action";
+            this.btnStopAction.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.btnStopAction.Click += new System.EventHandler(this.btnStopAction_Click);
+            // 
             // FormManualScreen
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
@@ -1932,6 +1993,9 @@
             this.BackColor = System.Drawing.Color.Lavender;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.ClientSize = new System.Drawing.Size(1278, 817);
+            this.Controls.Add(this.btnStopAction);
+            this.Controls.Add(this.LabelTime_Value);
+            this.Controls.Add(this.LabelTime_Title);
             this.Controls.Add(this.TabManualOp);
             this.Controls.Add(this.gradientPanel3);
             this.Controls.Add(this.gradientPanel1);
@@ -2132,5 +2196,8 @@
         private Syncfusion.Windows.Forms.Tools.AutoLabel autoLabel21;
         private Syncfusion.Windows.Forms.ButtonAdv buttonAdv51;
         private Syncfusion.Windows.Forms.ButtonAdv BtnManualLoHandler;
+        private Syncfusion.Windows.Forms.Tools.GradientLabel LabelTime_Value;
+        private Syncfusion.Windows.Forms.Tools.GradientLabel LabelTime_Title;
+        private Syncfusion.Windows.Forms.ButtonAdv btnStopAction;
     }
 }

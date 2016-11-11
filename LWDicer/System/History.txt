@@ -441,6 +441,15 @@ CSpinStep class -> CCleaningStep / CCoatingStep class 로 분리
 4. updated : FormSystemData
 5. now updating.. : MOpPanel, MCtrlOpPanel switch, COpPanelIOAddr
 
+// Version : 0.0.42
+// Grade : ★
+// Date : 161107~161111
+// Context
+1. updated : MOpPanel, MCtrlOpPanel switch, COpPanelIOAddr
+2. added : ArrayExtensions.Init method
+3. now updating.. : 이동 관련, 상태 체크, Test시에 실제 axis existance 여부에 따른 methods of MMultiAxes_YMC, MYaskawa 
+4. now updating.. : FormManualScreen 에서 moving method들에 async/await 구조 확립
+
 // ********************************************************************************
 // test를 위해서 임시로 결과값을 쓰는 코드들은 // for test 로 주석 달기 및 검색해서 사용하도록
 // ********************************************************************************

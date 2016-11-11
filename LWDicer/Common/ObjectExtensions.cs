@@ -7,7 +7,7 @@ using System.Runtime.InteropServices;
 using System.Diagnostics;
 using System.ComponentModel;
 
-using System.ArrayExtensions;
+//using System.ArrayExtensions;
 
 namespace System
 {
@@ -123,6 +123,12 @@ namespace System
             }
         }
 
+        /// <summary>
+        /// 제대로 잘 동작하는지 확인 완료한 함수. by sjr
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="original"></param>
+        /// <returns></returns>
         public static T Copy<T>(this T original) where T : class
         {
             return (T)Copy((Object)original);
@@ -370,50 +376,137 @@ namespace System
         }
     }
 
-    namespace ArrayExtensions
+    //namespace ArrayExtensions
+    //{
+    public static class ArrayExtensions
     {
-        public static class ArrayExtensions
+        public static void ForEach(this Array array, Action<Array, int[]> action)
         {
-            public static void ForEach(this Array array, Action<Array, int[]> action)
+            if (array.Length == 0) return;
+            ArrayTraverse walker = new ArrayTraverse(array);
+            do action(array, walker.Position);
+            while (walker.Step());
+        }
+
+        public static void Init<T>(this T[] array, T defaultVaue)
+        {
+            if (array == null)
+                return;
+            for (int i = 0; i < array.Length; i++)
             {
-                if (array.Length == 0) return;
-                ArrayTraverse walker = new ArrayTraverse(array);
-                do action(array, walker.Position);
-                while (walker.Step());
+                array[i] = defaultVaue;
             }
         }
 
-        internal class ArrayTraverse
+        public static void Init<T>(this T[,] array, T defaultVaue)
         {
-            public int[] Position;
-            private int[] maxLengths;
-
-            public ArrayTraverse(Array array)
+            if (array == null)
+                return;
+            for (int i = 0; i < array.GetLength(0); i++)
             {
-                maxLengths = new int[array.Rank];
-                for (int i = 0; i < array.Rank; ++i)
-                {
-                    maxLengths[i] = array.GetLength(i) - 1;
-                }
-                Position = new int[array.Rank];
+                for (int j = 0; j < array.GetLength(1); j++)
+                    array[i,j] = defaultVaue;
             }
+        }
 
-            public bool Step()
+        public static void Init<T>(this T[,,] array, T defaultVaue)
+        {
+            if (array == null)
+                return;
+            for (int i = 0; i < array.GetLength(0); i++)
             {
-                for (int i = 0; i < Position.Length; ++i)
+                for (int j = 0; j < array.GetLength(1); j++)
                 {
-                    if (Position[i] < maxLengths[i])
-                    {
-                        Position[i]++;
-                        for (int j = 0; j < i; j++)
-                        {
-                            Position[j] = 0;
-                        }
-                        return true;
-                    }
+                    for (int k = 0; k < array.GetLength(2); k++)
+                        array[i, j, k] = defaultVaue;
                 }
-                return false;
+            }
+        }
+
+        public static void Populate<T>(T[] array, int startIndex, int count, T value)
+        {
+            if (array == null)
+            {
+                throw new ArgumentNullException("array");
+            }
+            if ((uint)startIndex >= array.Length)
+            {
+                throw new ArgumentOutOfRangeException("startIndex", "");
+            }
+            if (count < 0 || ((uint)(startIndex + count) > array.Length))
+            {
+                throw new ArgumentOutOfRangeException("count", "");
+            }
+            const int Gap = 16;
+            int i = startIndex;
+
+            if (count <= Gap * 2)
+            {
+                while (count > 0)
+                {
+                    array[i] = value;
+                    count--;
+                    i++;
+                }
+                return;
+            }
+            int aval = Gap;
+            count -= Gap;
+
+            do
+            {
+                array[i] = value;
+                i++;
+                --aval;
+            } while (aval > 0);
+
+            aval = Gap;
+            while (true)
+            {
+                Array.Copy(array, startIndex, array, i, aval);
+                i += aval;
+                count -= aval;
+                aval *= 2;
+                if (count <= aval)
+                {
+                    Array.Copy(array, startIndex, array, i, count);
+                    break;
+                }
             }
         }
     }
+
+    internal class ArrayTraverse
+    {
+        public int[] Position;
+        private int[] maxLengths;
+
+        public ArrayTraverse(Array array)
+        {
+            maxLengths = new int[array.Rank];
+            for (int i = 0; i < array.Rank; ++i)
+            {
+                maxLengths[i] = array.GetLength(i) - 1;
+            }
+            Position = new int[array.Rank];
+        }
+
+        public bool Step()
+        {
+            for (int i = 0; i < Position.Length; ++i)
+            {
+                if (Position[i] < maxLengths[i])
+                {
+                    Position[i]++;
+                    for (int j = 0; j < i; j++)
+                    {
+                        Position[j] = 0;
+                    }
+                    return true;
+                }
+            }
+            return false;
+        }
+    }
+    //}
 }

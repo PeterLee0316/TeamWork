@@ -585,7 +585,7 @@ namespace LWDicer.Layers
                     //m_RefComp.m_pC_InterfaceCtrl.SendInterfaceOffMsg(NEXT_EQ, oLower_Alive);
 
                     ////kshong Door Interlock
-                    //m_RefComp.ctrlOpPanel.GetDoorSWStatus(out bStatus);
+                    //m_RefComp.ctrlOpPanel.CheckDoorSafety(out bStatus);
                     //if (bStatus)
                     //{
                     //    m_RefComp.m_pC_InterfaceCtrl.SendInterfaceOffMsg(PRE_EQ, oUpper_SI_DoorOpen); //B접
@@ -725,9 +725,20 @@ namespace LWDicer.Layers
 
         int ProcessOpPanel()
         {
-            bool bStatus;
             int iResult = SUCCESS;
+            bool bStatus;
 
+            ////////////////////////////////////////////////////////////////////////////////
+            // Motion쪽으로 door 상태나 estop 상태를 내려주는 역할
+            iResult = m_RefComp.ctrlOpPanel.CheckDoorSafety(out bStatus);
+            if (iResult != SUCCESS) m_RefComp.YMC.IsDoorOpened = true;
+            else m_RefComp.YMC.IsDoorOpened = false;
+
+            iResult = m_RefComp.ctrlOpPanel.CheckAreaSafety(out bStatus);
+            if (iResult != SUCCESS) m_RefComp.YMC.IsAreaDetected = true;
+            else m_RefComp.YMC.IsAreaDetected = false;
+
+            ////////////////////////////////////////////////////////////////////////////////
             // 장비 START Switch Check
             iResult = m_RefComp.ctrlOpPanel.IsPanelSWDetected(ESwitch.START, out bStatus);
             if (iResult != SUCCESS) return iResult;

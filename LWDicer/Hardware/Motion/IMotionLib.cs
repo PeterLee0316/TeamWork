@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 using static LWDicer.Layers.DEF_Motion;
+using static LWDicer.Layers.DEF_IO;
 using static LWDicer.Layers.DEF_MMCMMI;
 
 namespace LWDicer.Layers
@@ -302,10 +303,7 @@ namespace LWDicer.Layers
                 if (Length < 1) Length = 1;
                 this.Length = Length;
                 ZoneAddr = new int[Length];
-                for (int i = 0; i < Length; i++)
-                {
-                    ZoneAddr[i] = -1;
-                }
+                ArrayExtensions.Init(ZoneAddr, IO_ADDR_NOT_DEFINED);
             }
         }
 

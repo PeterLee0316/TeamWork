@@ -16,6 +16,8 @@ using static LWDicer.Layers.DEF_Error;
 using static LWDicer.Layers.DEF_DataManager;
 using static LWDicer.Layers.DEF_CtrlSpinner;
 
+using Syncfusion.Windows.Forms;
+
 namespace LWDicer.UI
 {
     public partial class FormSpinnerManualOP : Form
@@ -151,14 +153,18 @@ namespace LWDicer.UI
 
         private void BtnVacuumOn_Click(object sender, EventArgs e)
         {
+            CMainFrame.StartTimer();
             int iResult = m_MeSpinner.Absorb();
             CMainFrame.DisplayAlarm(iResult);
+            LabelTime_ChuckVac.Text = CMainFrame.GetElapsedTIme_Text();
         }
 
         private void BtnVacuumOff_Click(object sender, EventArgs e)
         {
+            CMainFrame.StartTimer();
             int iResult = m_MeSpinner.Release();
             CMainFrame.DisplayAlarm(iResult);
+            LabelTime_ChuckVac.Text = CMainFrame.GetElapsedTIme_Text();
         }
 
         private void BtnSpinnerUp_Click(object sender, EventArgs e)
@@ -166,38 +172,49 @@ namespace LWDicer.UI
             if (CMainFrame.LWDicer.IsSafeForCylinderMove() == false) return;
             CMainFrame.StartTimer();
             int iResult = m_CtrlSpinner.TableUp();
-            LabelTime_UpDn.Text = CMainFrame.GetElapsedTIme_Text();
             CMainFrame.DisplayAlarm(iResult);
+            LabelTime_UpDn.Text = CMainFrame.GetElapsedTIme_Text();
         }
 
         private void BtnSpinnerDown_Click(object sender, EventArgs e)
         {
+            if (CMainFrame.LWDicer.IsSafeForCylinderMove() == false) return;
+            CMainFrame.StartTimer();
             int iResult = m_CtrlSpinner.TableDown();
             CMainFrame.DisplayAlarm(iResult);
+            LabelTime_UpDn.Text = CMainFrame.GetElapsedTIme_Text();
         }
 
         private void BtnCleanNozzleOn_Click(object sender, EventArgs e)
         {
+            CMainFrame.StartTimer();
             int iResult = m_MeSpinner.CleanNozzleValveOpen();
             CMainFrame.DisplayAlarm(iResult);
+            LabelTime_CleanValve.Text = CMainFrame.GetElapsedTIme_Text();
         }
 
         private void BtnCleanNozzleOff_Click(object sender, EventArgs e)
         {
+            CMainFrame.StartTimer();
             int iResult = m_MeSpinner.CleanNozzleValveClose();
             CMainFrame.DisplayAlarm(iResult);
+            LabelTime_CleanValve.Text = CMainFrame.GetElapsedTIme_Text();
         }
 
         private void BtnCoatNozzleOn_Click(object sender, EventArgs e)
         {
+            CMainFrame.StartTimer();
             int iResult = m_MeSpinner.CoatNozzleValveOpen();
             CMainFrame.DisplayAlarm(iResult);
+            LabelTime_CoatValve.Text = CMainFrame.GetElapsedTIme_Text();
         }
 
         private void BtnCoatNozzleOff_Click(object sender, EventArgs e)
         {
+            CMainFrame.StartTimer();
             int iResult = m_MeSpinner.CoatNozzleValveClose();
             CMainFrame.DisplayAlarm(iResult);
+            LabelTime_CoatValve.Text = CMainFrame.GetElapsedTIme_Text();
         }
 
         private async void BtnCleaningJobStart_Click(object sender, EventArgs e)
@@ -207,13 +224,13 @@ namespace LWDicer.UI
                 CMainFrame.DisplayMsg("The requested job is in progress.");
                 return;
             }
+            if (CMainFrame.LWDicer.IsSafeForAxisMove() == false) return;
 
-            // 비동기로 Worker Thread에서 도는 task1
-            var task1 = Task<int>.Run(() => m_CtrlSpinner.DoCleanOperation());
-
-            // task1이 끝나길 기다렸다가 끝나면 결과를 확인
             BtnCleaningJobStart.BackColor = CMainFrame.BtnBackColor_On;
             CMainFrame.StartTimer();
+            // 비동기로 Worker Thread에서 도는 task1
+            var task1 = Task<int>.Run(() => m_CtrlSpinner.DoCleanOperation());
+            // task1이 끝나길 기다렸다가 끝나면 결과를 확인
             int iResult = await task1;
             LabelTime_Cleaning.Text = CMainFrame.GetElapsedTIme_Text();
             BtnCleaningJobStart.BackColor = CMainFrame.BtnBackColor_Off;
@@ -235,13 +252,13 @@ namespace LWDicer.UI
                 CMainFrame.DisplayMsg("The requested job is in progress.");
                 return;
             }
+            if (CMainFrame.LWDicer.IsSafeForAxisMove() == false) return;
 
-            // 비동기로 Worker Thread에서 도는 task1
-            var task1 = Task<int>.Run(() => m_CtrlSpinner.DoCoatOperation());
-
-            // task1이 끝나길 기다렸다가 끝나면 결과를 확인
             BtnCoatingJobStart.BackColor = CMainFrame.BtnBackColor_On;
             CMainFrame.StartTimer();
+            // 비동기로 Worker Thread에서 도는 task1
+            var task1 = Task<int>.Run(() => m_CtrlSpinner.DoCoatOperation());
+            // task1이 끝나길 기다렸다가 끝나면 결과를 확인
             int iResult = await task1;
             LabelTime_Coating.Text = CMainFrame.GetElapsedTIme_Text();
             BtnCoatingJobStart.BackColor = CMainFrame.BtnBackColor_Off;

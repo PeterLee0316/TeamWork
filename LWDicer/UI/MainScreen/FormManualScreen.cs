@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -6,9 +6,10 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-
 using Syncfusion.Windows.Forms.Tools;
+using System.Threading.Tasks;
 using Syncfusion.Drawing;
+using System.Diagnostics;
 
 using LWDicer.Layers;
 using static LWDicer.Layers.DEF_Common;
@@ -23,17 +24,13 @@ namespace LWDicer.UI
     {
         const int INPUT = 0;
         const int OUTPUT = 1;
-
         const int LoHandler = 0;
         const int UpHandler = 1;
-
         const int Spinner1 = 0;
         const int Spinner2 = 1;
-
         public FormManualScreen()
         {
             InitializeComponent();
-
             InitializeForm();
         }
         protected virtual void InitializeForm()
@@ -43,71 +40,60 @@ namespace LWDicer.UI
             this.Size = new Size(DEF_UI.MAIN_SIZE_WIDTH, DEF_UI.MAIN_SIZE_HEIGHT);
             this.FormBorderStyle = FormBorderStyle.None;
         }
-
         private void BtnInput_Click(object sender, EventArgs e)
         {
             var dlg = new FormIO();
             dlg.ShowDialog();
         }
-
         private void BtnLimitSensor_Click(object sender, EventArgs e)
         {
             var dlg = new FormLimitSensor();
             dlg.ShowDialog();
         }
-
         private void BtnOriginReturn_Click(object sender, EventArgs e)
         {
             var dlg = new FormOriginReturn();
             dlg.ShowDialog();
         }
-
         private void BtnUnitInit_Click(object sender, EventArgs e)
         {
             var dlg = new FormUnitInit();
             dlg.ShowDialog();
         }
-
         private void BtnManualPushPull_Click(object sender, EventArgs e)
         {
             var dlg = new FormPushPullManualOP();
             dlg.ShowDialog();
         }
-
         private void BtnManualUpHandler_Click(object sender, EventArgs e)
         {
             var dlg = new FormHandlerManualOP();
             dlg.SetHandler(DEF_CtrlHandler.EHandlerIndex.LOAD_UPPER);
             dlg.ShowDialog();
         }
-
         private void BtnManualLoHandler_Click(object sender, EventArgs e)
         {
             var dlg = new FormHandlerManualOP();
             dlg.SetHandler(DEF_CtrlHandler.EHandlerIndex.UNLOAD_LOWER);
             dlg.ShowDialog();
         }
-
         private void BtnManualSpinner1_Click(object sender, EventArgs e)
         {
             var dlg = new FormSpinnerManualOP();
             dlg.SetSpinner(ESpinnerIndex.SPINNER1);
             dlg.ShowDialog();
         }
-
         private void BtnManualSpinner2_Click(object sender, EventArgs e)
         {
             var dlg = new FormSpinnerManualOP();
             dlg.SetSpinner(ESpinnerIndex.SPINNER2);
             dlg.ShowDialog();
         }
-
         private void BtnManualStage_Click(object sender, EventArgs e)
         {
             var dlg = new FormStageManualOP();
             dlg.ShowDialog();
         }
-
         private void FormManualScreen_Activated(object sender, EventArgs e)
         {
             if (CMainFrame.DataManager.SystemData.UseSpinnerSeparately)
@@ -118,7 +104,6 @@ namespace LWDicer.UI
                     Panel_Spinner1_Nozzle2.Text = "Coater Nozzle2";
                     Panel_Spinner1_Rotate.Text = "Coater Rotate";
                     BtnManualSpinner1.Text = "Coater";
-
                     Panel_Spinner2_Nozzle1.Text = "Cleaner Nozzle1";
                     Panel_Spinner2_Nozzle2.Text = "Cleaner Nozzle2";
                     Panel_Spinner2_Rotate.Text = "Cleaner Rotate";
@@ -130,7 +115,6 @@ namespace LWDicer.UI
                     Panel_Spinner1_Nozzle2.Text = "Cleaner Nozzle2";
                     Panel_Spinner1_Rotate.Text = "Cleaner Rotate";
                     BtnManualSpinner1.Text = "Cleaner";
-
                     Panel_Spinner2_Nozzle1.Text = "Coater Nozzle1";
                     Panel_Spinner2_Nozzle2.Text = "Coater Nozzle2";
                     Panel_Spinner2_Rotate.Text = "Coater Rotate";
@@ -143,12 +127,61 @@ namespace LWDicer.UI
                 Panel_Spinner1_Nozzle2.Text = "Spinner1 Nozzle2";
                 Panel_Spinner1_Rotate.Text  = "Spinner1 Rotate";
                 BtnManualSpinner1.Text = "Spinner1";
-
                 Panel_Spinner2_Nozzle1.Text = "Spinner2 Nozzle1";
                 Panel_Spinner2_Nozzle2.Text = "Spinner2 Nozzle2";
                 Panel_Spinner2_Rotate.Text = "Spinner2 Rotate";
                 BtnManualSpinner2.Text = "Spinner2";
             }
         }
+
+        private async void Btn_Click(object sender, EventArgs e)
+        {
+            if (CMainFrame.LWDicer.IsSafeForAxisMove() == false) return;
+
+            Button btn = sender as Button;
+            string unit = btn.Tag?.ToString();
+            string cmd = btn.Text?.ToString();
+            if (String.IsNullOrWhiteSpace(unit) || String.IsNullOrWhiteSpace(cmd)) return;
+
+            int iResult = SUCCESS;
+            if(unit == "Loader")
+            {
+                CMainFrame.StartTimer();
+                if(cmd == "Bottom")
+                {
+                    var task1 = Task<int>.Run(() => CMainFrame.LWDicer.m_ctrlLoader.MoveToBottomPos());
+                    iResult = await task1;
+                }
+                else if (cmd == "Top")
+                {
+                    var task1 = Task<int>.Run(() => CMainFrame.LWDicer.m_ctrlLoader.MoveToTopPos());
+                    iResult = await task1;
+                }
+                else if (cmd == "Slot")
+                {
+                    var task1 = Task<int>.Run(() => CMainFrame.LWDicer.m_ctrlLoader.MoveToSlotPos());
+                    iResult = await task1;
+                }
+                else if (cmd == "Load")
+                {
+                    var task1 = Task<int>.Run(() => CMainFrame.LWDicer.m_ctrlLoader.MoveToSlotPos());
+                    iResult = await task1;
+                }
+                else if (cmd == "Slot")
+                {
+                    var task1 = Task<int>.Run(() => CMainFrame.LWDicer.m_ctrlLoader.MoveToSlotPos());
+                    iResult = await task1;
+                }
+                LabelTime_Value.Text = CMainFrame.GetElapsedTIme_Text();
+            }
+
+            CMainFrame.DisplayAlarm(iResult);
+        }
+
+        private void btnStopAction_Click(object sender, EventArgs e)
+        {
+            MYaskawa.IsCancelJob_byManual = true;
+        }
+
     }
 }

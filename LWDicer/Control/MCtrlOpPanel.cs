@@ -206,13 +206,13 @@ namespace LWDicer.Layers
             }
 
             // 5. Door Open 확인 
-            if (m_Data.CheckSafety_AutoMode == true)
-            {
-                iResult = GetDoorSWStatus(out bStatus);
-                if (iResult != SUCCESS) return iResult;
-                if (bStatus == false)
-                    return GenerateErrorCode(ERR_MNGOPPANEL_DOOR_OPEN);
-            }
+            // Check Door Sensor
+            iResult = CheckDoorSafety(out bStatus);
+            if (iResult != SUCCESS) return iResult;
+
+            // Check Area Sensor
+            iResult = CheckAreaSafety(out bStatus);
+            if (iResult != SUCCESS) return iResult;
 
             // 6. AMP Fault 상태 확인 
             //iResult = GetMotorAmpFaultStatus(out bStatus);
@@ -303,32 +303,13 @@ namespace LWDicer.Layers
             }
 
             // 5. Door Open 확인 
-            if (m_Data.CheckSafety_AutoMode == true)
-            {
-                iResult = GetDoorSWStatus(out bStatus);
-                if (iResult != SUCCESS) return iResult;
-                if (bStatus == false)
-                {
-                    EStopAllAxis();
-                    return GenerateErrorCode(ERR_MNGOPPANEL_DOOR_OPEN);
-                }
-            }
+            // Check Door Sensor
+            iResult = CheckDoorSafety(out bStatus);
+            if (iResult != SUCCESS) return iResult;
 
-#if DEF_USE_AREA_SENSOR
-            // 5.1 Area Sensor 확인 
-            if (m_Data.CheckSafety_AutoMode == true)
-            {
-                iResult = GetAreaSWStatus(&bStatus1);
-                if (iResult != SUCCESS) return iResult;
-
-                if (false == bStatus1)
-                {
-                    EStopAllAxis();
-                    return GenerateErrorCode(ERR_MNGOPPANEL_FRONT_BACK_AREA_SENSOR_DETECTED_ERROR);
-                }
-
-            }
-#endif
+            // Check Area Sensor
+            iResult = CheckAreaSafety(out bStatus);
+            if (iResult != SUCCESS) return iResult;
 
             // 6. AMP Fault 상태 확인 
             //iResult = GetMotorAmpFaultStatus(out bStatus);
@@ -419,15 +400,21 @@ namespace LWDicer.Layers
         /// <summary>
         /// Door 상태를 체크하는 함수
         /// </summary>
-        /// <param name="bDoorClosed"></param>
+        /// <param name="bDoorOpened"></param>
         /// <returns></returns>
-        public int GetDoorSWStatus(out bool bDoorClosed)
+        public int CheckDoorSafety(out bool bDoorOpened)
         {
             int iResult = SUCCESS;
 
             // Door 열린 상태 읽기
-            iResult = m_RefComp.OpPanel.CheckDoorStatus(out bDoorClosed);
+            iResult = m_RefComp.OpPanel.CheckDoorStatus(out bDoorOpened);
             if (iResult != SUCCESS) return iResult;
+
+            if (IsNeedCheckSafety() == true && bDoorOpened == true)
+            {
+                if (AutoManualMode == EAutoManual.AUTO) EStopAllAxis();
+                return GenerateErrorCode(ERR_MNGOPPANEL_DOOR_OPEN);
+            }
 
             return SUCCESS;
         }
@@ -435,14 +422,20 @@ namespace LWDicer.Layers
         /// <summary>
         /// Area의 상태를 읽어온다.
         /// </summary>
-        /// <param name="bDetected">Area 상태 (true:CLOSE, false:OPEN)</param>
+        /// <param name="bDetected">Area 상태</param>
         /// <returns></returns>
-        public int GetAreaSWStatus(out bool bDetected)
+        public int CheckAreaSafety(out bool bDetected)
         {
             int iResult = SUCCESS;
 
-            iResult = m_RefComp.OpPanel.GetAreaFrontBackStatus(out bDetected);
+            iResult = m_RefComp.OpPanel.CheckAreaSensorStatus(out bDetected);
             if (iResult != SUCCESS) return iResult;
+
+            if (IsNeedCheckSafety() == true && bDetected == true)
+            {
+                if (AutoManualMode == EAutoManual.AUTO) EStopAllAxis();
+                return GenerateErrorCode(ERR_MNGOPPANEL_AREA_SENSOR_DETECTED_ERROR);
+            }
 
             return SUCCESS;
         }
@@ -530,7 +523,7 @@ namespace LWDicer.Layers
                     iResult = m_RefComp.OpPanel.SetTowerGreenLamp(true);
                     if (iResult != SUCCESS) return iResult;
                     // Tower Lamp Buzzer Off 
-                    iResult = m_RefComp.OpPanel.SetBuzzerStatus(false, DEF_OPPANEL_BUZZER_ALL);
+                    iResult = m_RefComp.OpPanel.SetBuzzerStatus(false, EBuzzer.ALL);
                     if (iResult != SUCCESS) return iResult;
                     break;
 
@@ -552,7 +545,7 @@ namespace LWDicer.Layers
                     iResult = m_RefComp.OpPanel.SetTowerGreenLamp(false);
                     if (iResult != SUCCESS) return iResult;
                     // Tower Lamp Buzzer Off 
-                    iResult = m_RefComp.OpPanel.SetBuzzerStatus(false, DEF_OPPANEL_BUZZER_ALL);
+                    iResult = m_RefComp.OpPanel.SetBuzzerStatus(false, EBuzzer.ALL);
                     if (iResult != SUCCESS) return iResult;
                     break;
 
@@ -574,7 +567,7 @@ namespace LWDicer.Layers
                     iResult = m_RefComp.OpPanel.SetTowerGreenLamp(m_bBlinkState);
                     if (iResult != SUCCESS) return iResult;
                     // Tower Lamp Buzzer Off 
-                    iResult = m_RefComp.OpPanel.SetBuzzerStatus(false, DEF_OPPANEL_BUZZER_ALL);
+                    iResult = m_RefComp.OpPanel.SetBuzzerStatus(false, EBuzzer.ALL);
                     if (iResult != SUCCESS) return iResult;
                     break;
 
@@ -596,7 +589,7 @@ namespace LWDicer.Layers
                     iResult = m_RefComp.OpPanel.SetTowerGreenLamp(false);
                     if (iResult != SUCCESS) return iResult;
                     // Tower Lamp Buzzer On 
-                    iResult = m_RefComp.OpPanel.SetBuzzerStatus(true, DEF_OPPANEL_BUZZER_K2);
+                    iResult = m_RefComp.OpPanel.SetBuzzerStatus(true, EBuzzer.K2);
                     if (iResult != SUCCESS) return iResult;
                     break;
 
@@ -618,7 +611,7 @@ namespace LWDicer.Layers
                     iResult = m_RefComp.OpPanel.SetTowerGreenLamp(false);
                     if (iResult != SUCCESS) return iResult;
                     // Tower Lamp Buzzer On 
-                    iResult = m_RefComp.OpPanel.SetBuzzerStatus(false, DEF_OPPANEL_BUZZER_ALL);
+                    iResult = m_RefComp.OpPanel.SetBuzzerStatus(false, EBuzzer.ALL);
                     if (iResult != SUCCESS) return iResult;
                     break;
 
@@ -640,7 +633,7 @@ namespace LWDicer.Layers
                     iResult = m_RefComp.OpPanel.SetTowerGreenLamp(true);
                     if (iResult != SUCCESS) return iResult;
                     // Tower Lamp Buzzer Off 
-                    iResult = m_RefComp.OpPanel.SetBuzzerStatus(false, DEF_OPPANEL_BUZZER_ALL);
+                    iResult = m_RefComp.OpPanel.SetBuzzerStatus(false, EBuzzer.ALL);
                     if (iResult != SUCCESS) return iResult;
                     break;
 
@@ -662,7 +655,7 @@ namespace LWDicer.Layers
                     iResult = m_RefComp.OpPanel.SetTowerGreenLamp(true);
                     if (iResult != SUCCESS) return iResult;
                     // Tower Lamp Buzzer Off 
-                    iResult = m_RefComp.OpPanel.SetBuzzerStatus(false, DEF_OPPANEL_BUZZER_ALL);
+                    iResult = m_RefComp.OpPanel.SetBuzzerStatus(false, EBuzzer.ALL);
                     if (iResult != SUCCESS) return iResult;
                     break;
 
@@ -684,7 +677,7 @@ namespace LWDicer.Layers
                     iResult = m_RefComp.OpPanel.SetTowerGreenLamp(false);
                     if (iResult != SUCCESS) return iResult;
                     // Tower Lamp Buzzer Off 
-                    iResult = m_RefComp.OpPanel.SetBuzzerStatus(false, DEF_OPPANEL_BUZZER_ALL);
+                    iResult = m_RefComp.OpPanel.SetBuzzerStatus(false, EBuzzer.ALL);
                     if (iResult != SUCCESS) return iResult;
                     break;
 
@@ -706,7 +699,7 @@ namespace LWDicer.Layers
                     iResult = m_RefComp.OpPanel.SetTowerGreenLamp(false);
                     if (iResult != SUCCESS) return iResult;
                     // Tower Lamp Buzzer Off 
-                    iResult = m_RefComp.OpPanel.SetBuzzerStatus(false, DEF_OPPANEL_BUZZER_ALL);
+                    iResult = m_RefComp.OpPanel.SetBuzzerStatus(false, EBuzzer.ALL);
                     if (iResult != SUCCESS) return iResult;
                     break;
 
@@ -728,7 +721,7 @@ namespace LWDicer.Layers
                     iResult = m_RefComp.OpPanel.SetTowerGreenLamp(false);
                     if (iResult != SUCCESS) return iResult;
                     // Tower Lamp Buzzer Off 
-                    iResult = m_RefComp.OpPanel.SetBuzzerStatus(false, DEF_OPPANEL_BUZZER_ALL);
+                    iResult = m_RefComp.OpPanel.SetBuzzerStatus(false, EBuzzer.ALL);
                     if (iResult != SUCCESS) return iResult;
                     break;
 
@@ -750,7 +743,7 @@ namespace LWDicer.Layers
                     iResult = m_RefComp.OpPanel.SetTowerGreenLamp(true);
                     if (iResult != SUCCESS) return iResult;
                     // Tower Lamp Buzzer On 
-                    iResult = m_RefComp.OpPanel.SetBuzzerStatus(true, DEF_OPPANEL_BUZZER_K4);
+                    iResult = m_RefComp.OpPanel.SetBuzzerStatus(true, EBuzzer.K4);
                     if (iResult != SUCCESS) return iResult;
                     break;
 
@@ -772,7 +765,7 @@ namespace LWDicer.Layers
                     iResult = m_RefComp.OpPanel.SetTowerGreenLamp(true);
                     if (iResult != SUCCESS) return iResult;
                     // Tower Lamp Buzzer On 
-                    iResult = m_RefComp.OpPanel.SetBuzzerStatus(false, DEF_OPPANEL_BUZZER_ALL);
+                    iResult = m_RefComp.OpPanel.SetBuzzerStatus(false, EBuzzer.ALL);
                     if (iResult != SUCCESS) return iResult;
                     break;
 
@@ -794,7 +787,7 @@ namespace LWDicer.Layers
                     iResult = m_RefComp.OpPanel.SetTowerGreenLamp(m_bBlinkState);
                     if (iResult != SUCCESS) return iResult;
                     // Tower Lamp Buzzer On 
-                    iResult = m_RefComp.OpPanel.SetBuzzerStatus(true, DEF_OPPANEL_BUZZER_K2);
+                    iResult = m_RefComp.OpPanel.SetBuzzerStatus(true, EBuzzer.K2);
                     if (iResult != SUCCESS) return iResult;
                     break;
 
@@ -805,7 +798,7 @@ namespace LWDicer.Layers
                     if ((iResult = m_RefComp.OpPanel.SetTowerRedLamp(m_bBlinkState)) != SUCCESS) return iResult;
                     if ((iResult = m_RefComp.OpPanel.SetTowerYellowLamp(m_bBlinkState)) != SUCCESS) return iResult;
                     if ((iResult = m_RefComp.OpPanel.SetTowerGreenLamp(m_bBlinkState)) != SUCCESS) return iResult;
-                    if ((iResult = m_RefComp.OpPanel.SetBuzzerStatus(true, DEF_OPPANEL_BUZZER_K2)) != SUCCESS) return iResult;
+                    if ((iResult = m_RefComp.OpPanel.SetBuzzerStatus(true, EBuzzer.K2)) != SUCCESS) return iResult;
                     break;
                 default:
                     return GenerateErrorCode(ERR_MNGOPPANEL_INVALID_SET_OPPANEL_STATE);
@@ -1160,16 +1153,16 @@ namespace LWDicer.Layers
             m_RefComp.OpPanel.GetIOAddress(ref sOpPanelIO);
             //if (m_iJogIndex == DEF_JOG_CAMERA1)
             //{
-            //    sOpPanelIO.FrontPanel.XpInputAddr = iJog_X_Backward_SWFront;
-            //    sOpPanelIO.FrontPanel.XnInputAddr = iJog_X_Forward_SWFront;
+            //    sOpPanelIO.OpPanel.XpInputAddr = iJog_X_Backward_SWFront;
+            //    sOpPanelIO.OpPanel.XnInputAddr = iJog_X_Forward_SWFront;
 
             //    sOpPanelIO.BackPanel.XpInputAddr = iJog_X_Backward_SWRear;
             //    sOpPanelIO.BackPanel.XnInputAddr = iJog_X_Forward_SWRear;
             //}
             //else
             //{
-            //    sOpPanelIO.FrontPanel.XpInputAddr = iJog_X_Forward_SWFront;
-            //    sOpPanelIO.FrontPanel.XnInputAddr = iJog_X_Backward_SWFront;
+            //    sOpPanelIO.OpPanel.XpInputAddr = iJog_X_Forward_SWFront;
+            //    sOpPanelIO.OpPanel.XnInputAddr = iJog_X_Backward_SWFront;
 
             //    sOpPanelIO.BackPanel.XpInputAddr = iJog_X_Forward_SWRear;
             //    sOpPanelIO.BackPanel.XnInputAddr = iJog_X_Backward_SWRear;
@@ -1257,7 +1250,7 @@ namespace LWDicer.Layers
             if (bSet == true)
             {
                 // Tower Lamp Buzzer On
-                iResult = m_RefComp.OpPanel.SetBuzzerStatus(true, DEF_OPPANEL_BUZZER_K3);
+                iResult = m_RefComp.OpPanel.SetBuzzerStatus(true, EBuzzer.K3);
                 if (iResult != SUCCESS) return iResult;
             }
 
@@ -1287,16 +1280,17 @@ namespace LWDicer.Layers
                 return GenerateErrorCode(ERR_MNGOPPANEL_EMERGENCY);
             }
 
-            iResult = GetDoorSWStatus(out bStatus);
+            // Check Door Sensor
+            iResult = CheckDoorSafety(out bStatus);
             if (iResult != SUCCESS) return iResult;
-            if (IsCheckSafety() == true && bStatus == false)
-            {
-                return GenerateErrorCode(ERR_MNGOPPANEL_DOOR_OPEN);
-            }
+
+            // Check Area Sensor
+            iResult = CheckAreaSafety(out bStatus);
+            if (iResult != SUCCESS) return iResult;
 
             bool[] bOriginSts;
             bStatus = m_RefComp.OpPanel.CheckAllOrigin(out bOriginSts);
-            if (IsCheckSafety() == true && bStatus == false)
+            if (IsNeedCheckSafety() == true && bStatus == false)
             {
                 return GenerateErrorCode(ERR_MNGOPPANEL_NOT_ALL_ORIGIN);
             }
@@ -1319,17 +1313,18 @@ namespace LWDicer.Layers
                 return GenerateErrorCode(ERR_MNGOPPANEL_EMERGENCY);
             }
 
-            iResult = GetDoorSWStatus(out bStatus);
+            // Check Door Sensor
+            iResult = CheckDoorSafety(out bStatus);
             if (iResult != SUCCESS) return iResult;
-            if (IsCheckSafety() == true && bStatus == false)
-            {
-                return GenerateErrorCode(ERR_MNGOPPANEL_DOOR_OPEN);
-            }
+
+            // Check Area Sensor
+            iResult = CheckAreaSafety(out bStatus);
+            if (iResult != SUCCESS) return iResult;
 
             return SUCCESS;
         }
 
-        private bool IsCheckSafety()
+        private bool IsNeedCheckSafety()
         {
             return (AutoManualMode == EAutoManual.AUTO) ? m_Data.CheckSafety_AutoMode : m_Data.CheckSafety_ManualMode;
         }

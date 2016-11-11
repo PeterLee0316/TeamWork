@@ -20,6 +20,8 @@ namespace LWDicer.Layers
         public int ErrorCode { get; private set; }          // Error Code
         public static string ErrorSubMsg { get; protected set; }   // for Error Message by Hardware Library was generated
 
+        protected MTickTimer m_waitTimer = new MTickTimer();
+
         public MObject(CObjectInfo ObjInfo)
         {
             ObjectID     = ObjInfo.ID;

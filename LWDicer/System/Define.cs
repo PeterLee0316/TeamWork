@@ -2417,7 +2417,7 @@ namespace LWDicer.Layers
         public const int ERR_MNGOPPANEL_MAIN_N2_ERROR                             = 26;
         public const int ERR_MNGOPPANEL_CLEANER_DETECT1_ERROR                     = 27;
         public const int ERR_MNGOPPANEL_CLEANER_DETECT2_ERROR                     = 28;
-        public const int ERR_MNGOPPANEL_FRONT_BACK_AREA_SENSOR_DETECTED_ERROR     = 29;
+        public const int ERR_MNGOPPANEL_AREA_SENSOR_DETECTED_ERROR                = 29;
         public const int ERR_MNGOPPANEL_TANK_AREA_SENSOR_DETECTED_ERROR           = 30;
         public const int ERR_MNGOPPANEL_EFD_READY_ON_ERROR                        = 31;
         public const int ERR_MNGOPPANEL_DC_POWER_ON_ERROR                         = 32;

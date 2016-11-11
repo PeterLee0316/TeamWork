@@ -28,7 +28,6 @@ namespace LWDicer.UI
         private string[] BtnName = new string[(int)EAxis.MAX];
         private MTickTimer m_waitTimer = new MTickTimer();
 
-
         public FormOriginReturn()
         {
             InitializeComponent();

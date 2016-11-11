@@ -130,7 +130,7 @@
             this.BtnCleanNozzleOff.Name = "BtnCleanNozzleOff";
             this.BtnCleanNozzleOff.Size = new System.Drawing.Size(130, 64);
             this.BtnCleanNozzleOff.TabIndex = 6;
-            this.BtnCleanNozzleOff.Tag = "1";
+            this.BtnCleanNozzleOff.Tag = "CleanNozzleOff";
             this.BtnCleanNozzleOff.Text = "Off";
             this.BtnCleanNozzleOff.Click += new System.EventHandler(this.BtnCleanNozzleOff_Click);
             // 
@@ -147,7 +147,7 @@
             this.BtnCleanNozzleOn.Name = "BtnCleanNozzleOn";
             this.BtnCleanNozzleOn.Size = new System.Drawing.Size(130, 64);
             this.BtnCleanNozzleOn.TabIndex = 5;
-            this.BtnCleanNozzleOn.Tag = "0";
+            this.BtnCleanNozzleOn.Tag = "CleanNozzleOn";
             this.BtnCleanNozzleOn.Text = "On";
             this.BtnCleanNozzleOn.Click += new System.EventHandler(this.BtnCleanNozzleOn_Click);
             // 
@@ -164,7 +164,7 @@
             this.BtnSpinnerDown.Name = "BtnSpinnerDown";
             this.BtnSpinnerDown.Size = new System.Drawing.Size(130, 64);
             this.BtnSpinnerDown.TabIndex = 4;
-            this.BtnSpinnerDown.Tag = "1";
+            this.BtnSpinnerDown.Tag = "SpinnerDown";
             this.BtnSpinnerDown.Text = "Down";
             this.BtnSpinnerDown.Click += new System.EventHandler(this.BtnSpinnerDown_Click);
             // 
@@ -181,7 +181,7 @@
             this.BtnSpinnerUp.Name = "BtnSpinnerUp";
             this.BtnSpinnerUp.Size = new System.Drawing.Size(130, 64);
             this.BtnSpinnerUp.TabIndex = 3;
-            this.BtnSpinnerUp.Tag = "0";
+            this.BtnSpinnerUp.Tag = "SpinnerUp";
             this.BtnSpinnerUp.Text = "Up";
             this.BtnSpinnerUp.Click += new System.EventHandler(this.BtnSpinnerUp_Click);
             // 
@@ -214,7 +214,7 @@
             this.BtnCoatNozzleOff.Name = "BtnCoatNozzleOff";
             this.BtnCoatNozzleOff.Size = new System.Drawing.Size(130, 64);
             this.BtnCoatNozzleOff.TabIndex = 8;
-            this.BtnCoatNozzleOff.Tag = "1";
+            this.BtnCoatNozzleOff.Tag = "CoatNozzleOff";
             this.BtnCoatNozzleOff.Text = "Off";
             this.BtnCoatNozzleOff.Click += new System.EventHandler(this.BtnCoatNozzleOff_Click);
             // 
@@ -231,7 +231,7 @@
             this.BtnCoatNozzleOn.Name = "BtnCoatNozzleOn";
             this.BtnCoatNozzleOn.Size = new System.Drawing.Size(130, 64);
             this.BtnCoatNozzleOn.TabIndex = 7;
-            this.BtnCoatNozzleOn.Tag = "0";
+            this.BtnCoatNozzleOn.Tag = "CoatNozzleOn";
             this.BtnCoatNozzleOn.Text = "On";
             this.BtnCoatNozzleOn.Click += new System.EventHandler(this.BtnCoatNozzleOn_Click);
             // 
@@ -264,7 +264,7 @@
             this.BtnVacuumOff.Name = "BtnVacuumOff";
             this.BtnVacuumOff.Size = new System.Drawing.Size(130, 64);
             this.BtnVacuumOff.TabIndex = 2;
-            this.BtnVacuumOff.Tag = "1";
+            this.BtnVacuumOff.Tag = "VacuumOff";
             this.BtnVacuumOff.Text = "Off";
             this.BtnVacuumOff.Click += new System.EventHandler(this.BtnVacuumOff_Click);
             // 
@@ -281,7 +281,7 @@
             this.BtnVacuumOn.Name = "BtnVacuumOn";
             this.BtnVacuumOn.Size = new System.Drawing.Size(130, 64);
             this.BtnVacuumOn.TabIndex = 1;
-            this.BtnVacuumOn.Tag = "0";
+            this.BtnVacuumOn.Tag = "VacuumOn";
             this.BtnVacuumOn.Text = "On";
             this.BtnVacuumOn.Click += new System.EventHandler(this.BtnVacuumOn_Click);
             // 
@@ -500,8 +500,8 @@
             this.BtnCoatingJobStop.Name = "BtnCoatingJobStop";
             this.BtnCoatingJobStop.Size = new System.Drawing.Size(130, 64);
             this.BtnCoatingJobStop.TabIndex = 971;
-            this.BtnCoatingJobStop.Tag = "1";
-            this.BtnCoatingJobStop.Text = "Off";
+            this.BtnCoatingJobStop.Tag = "CoatingStop";
+            this.BtnCoatingJobStop.Text = "Stop";
             this.BtnCoatingJobStop.Click += new System.EventHandler(this.BtnCoatingJobStop_Click);
             // 
             // BtnCoatingJobStart
@@ -517,7 +517,7 @@
             this.BtnCoatingJobStart.Name = "BtnCoatingJobStart";
             this.BtnCoatingJobStart.Size = new System.Drawing.Size(130, 64);
             this.BtnCoatingJobStart.TabIndex = 970;
-            this.BtnCoatingJobStart.Tag = "0";
+            this.BtnCoatingJobStart.Tag = "CoatingStart";
             this.BtnCoatingJobStart.Text = "Start";
             this.BtnCoatingJobStart.Click += new System.EventHandler(this.BtnCoatingJobStart_Click);
             // 
@@ -550,8 +550,8 @@
             this.BtnCleaningJobStop.Name = "BtnCleaningJobStop";
             this.BtnCleaningJobStop.Size = new System.Drawing.Size(130, 64);
             this.BtnCleaningJobStop.TabIndex = 969;
-            this.BtnCleaningJobStop.Tag = "1";
-            this.BtnCleaningJobStop.Text = "Off";
+            this.BtnCleaningJobStop.Tag = "CleaningStop";
+            this.BtnCleaningJobStop.Text = "Stop";
             this.BtnCleaningJobStop.Click += new System.EventHandler(this.BtnCleaningJobStop_Click);
             // 
             // BtnCleaningJobStart
@@ -567,7 +567,7 @@
             this.BtnCleaningJobStart.Name = "BtnCleaningJobStart";
             this.BtnCleaningJobStart.Size = new System.Drawing.Size(130, 64);
             this.BtnCleaningJobStart.TabIndex = 968;
-            this.BtnCleaningJobStart.Tag = "0";
+            this.BtnCleaningJobStart.Tag = "CleaningStart";
             this.BtnCleaningJobStart.Text = "Start";
             this.BtnCleaningJobStart.Click += new System.EventHandler(this.BtnCleaningJobStart_Click);
             // 

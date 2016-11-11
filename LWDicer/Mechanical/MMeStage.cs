@@ -218,6 +218,9 @@ namespace LWDicer.Layers
             public int OutClampOpen2    = IO_ADDR_NOT_DEFINED;
             public int OutClampClose2   = IO_ADDR_NOT_DEFINED;
 
+            // Vacuum
+            public bool[] UseVccFlag = new bool[(int)EStageVacuum.MAX];
+
             // Physical check zone sensor. 원점복귀 여부와 상관없이 축의 물리적인 위치를 체크 및
             // 안전위치 이동 check 
             public CMAxisZoneCheck StageZone;
@@ -227,8 +230,8 @@ namespace LWDicer.Layers
             {
                 StageZone = new CMAxisZoneCheck((int)EStageXAxZone.MAX, (int)EStageYAxZone.MAX,
                     (int)EStageTAxZone.MAX, (int)EStageZAxZone.MAX);
+                ArrayExtensions.Init(UseVccFlag, false);
             }
-            
         }
 
 #endregion
@@ -249,21 +252,11 @@ namespace LWDicer.Layers
         private bool[] UseSubCylFlag    = new bool[WAFER_CLAMP_CYL_NUM];
         private bool[] UseGuideCylFlag  = new bool[WAFER_CLAMP_CYL_NUM];
 
-        // Vacuum
-        private bool[] UseVccFlag = new bool[(int)EStageVacuum.MAX];
-
-        MTickTimer m_waitTimer = new MTickTimer();
-
         public MMeStage(CObjectInfo objInfo, CMeStageRefComp refComp, CMeStageData data)
             : base(objInfo)
         {
             m_RefComp = refComp;
             SetData(data);
-
-            for (int i = 0; i < UseVccFlag.Length; i++)
-            {
-                UseVccFlag[i] = false;
-            }
         }
 
         // Data & Flag 설정
@@ -317,15 +310,6 @@ namespace LWDicer.Layers
         }
         
 
-        public int SetVccUseFlag(bool[] UseVccFlag = null)
-        {
-            if(UseVccFlag != null)
-            {
-                Array.Copy(UseVccFlag, this.UseVccFlag, UseVccFlag.Length);
-            }
-            return SUCCESS;
-        }
-
         public int SetCylUseFlag(bool[] UseMainCylFlag = null, bool[] UseSubCylFlag = null, bool[] UseGuideCylFlag = null)
         {
             if(UseMainCylFlag != null)
@@ -358,7 +342,7 @@ namespace LWDicer.Layers
 
             for (int i = 0; i < (int)EStageVacuum.MAX; i++)
             {
-                if (UseVccFlag[i] == false) continue;
+                if (m_Data.UseVccFlag[i] == false) continue;
 
                 m_RefComp.Vacuum[i].GetVacuumTime(out sData[i]);
                 iResult = m_RefComp.Vacuum[i].IsOn(out bStatus);
@@ -421,7 +405,7 @@ namespace LWDicer.Layers
 
             for (int i = 0; i < (int)EStageVacuum.MAX; i++)
             {
-                if (UseVccFlag[i] == false) continue;
+                if (m_Data.UseVccFlag[i] == false) continue;
 
                 m_RefComp.Vacuum[i].GetVacuumTime(out sData[i]);
                 iResult = m_RefComp.Vacuum[i].IsOff(out bStatus);
@@ -481,7 +465,7 @@ namespace LWDicer.Layers
 
             for (int i = 0; i < (int)EStageVacuum.MAX; i++)
             {
-                if (UseVccFlag[i] == false) continue;
+                if (m_Data.UseVccFlag[i] == false) continue;
 
                 iResult = m_RefComp.Vacuum[i].IsOn(out bTemp);
                 if (iResult != SUCCESS) return iResult;
@@ -501,7 +485,7 @@ namespace LWDicer.Layers
 
             for (int i = 0; i < (int)EStageVacuum.MAX; i++)
             {
-                if (UseVccFlag[i] == false) continue;
+                if (m_Data.UseVccFlag[i] == false) continue;
 
                 iResult = m_RefComp.Vacuum[i].IsOff(out bTemp);
                 if (iResult != SUCCESS) return iResult;

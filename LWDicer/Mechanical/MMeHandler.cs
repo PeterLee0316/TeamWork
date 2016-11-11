@@ -137,22 +137,21 @@ namespace LWDicer.Layers
             public CMAxisZoneCheck HandlerZoneCheck = new CMAxisZoneCheck((int)EHandlerXAxZone.MAX, (int)EHandlerYAxZone.MAX,
             (int)EHandlerTAxZone.MAX, (int)EHandlerZAxZone.MAX);
 
+            // Vacuum
+            public bool[] UseVccFlag = new bool[(int)EHandlerVacuum.MAX];
+
+            // Cylinder
+            public bool[] UseMainCylFlag = new bool[DEF_MAX_COORDINATE];
+            public bool[] UseSubCylFlag = new bool[DEF_MAX_COORDINATE];
+            public bool[] UseGuideCylFlag = new bool[DEF_MAX_COORDINATE];
+
             // Handler Safety Position
             public CPos_XYTZ HandlerSafetyPos;
 
-            public CMeHandlerData(EHandlerType[] HandlerType = null)
+            public CMeHandlerData()
             {
-                if (HandlerType == null)
-                {
-                    for(int i = 0; i < this.HandlerType.Length; i++)
-                    {
-                        this.HandlerType[i] = EHandlerType.NONE;
-                    }
-                }
-                else
-                {
-                    Array.Copy(HandlerType, this.HandlerType, HandlerType.Length);
-                }
+                ArrayExtensions.Init(HandlerType, EHandlerType.NONE);
+                ArrayExtensions.Init(UseVccFlag, false);
             }
         }
     }
@@ -165,26 +164,11 @@ namespace LWDicer.Layers
         // MovingObject
         public CMovingObject AxHandlerInfo { get; private set; } = new CMovingObject((int)EHandlerPos.MAX);
 
-        // Cylinder
-        private bool[] UseMainCylFlag = new bool[DEF_MAX_COORDINATE];
-        private bool[] UseSubCylFlag = new bool[DEF_MAX_COORDINATE];
-        private bool[] UseGuideCylFlag = new bool[DEF_MAX_COORDINATE];
-
-        // Vacuum
-        private bool[] UseVccFlag = new bool[(int)EHandlerVacuum.MAX];
-
-        MTickTimer m_waitTimer = new MTickTimer();
-
         public MMeHandler(CObjectInfo objInfo, CMeHandlerRefComp refComp, CMeHandlerData data)
             : base(objInfo)
         {
             m_RefComp = refComp;
             SetData(data);
-
-            for (int i = 0; i < UseVccFlag.Length; i++)
-            {
-                UseVccFlag[i] = false;
-            }
         }
 
         #region Common : Manage Data, Position, Use Flag and Initialize
@@ -209,32 +193,6 @@ namespace LWDicer.Layers
             return SUCCESS;
         }
 
-        public int SetVccUseFlag(bool[] UseVccFlag = null)
-        {
-            if(UseVccFlag != null)
-            {
-                Array.Copy(UseVccFlag, this.UseVccFlag, UseVccFlag.Length);
-            }
-            return SUCCESS;
-        }
-
-        public int SetCylUseFlag(bool[] UseMainCylFlag = null, bool[] UseSubCylFlag = null, bool[] UseGuideCylFlag = null)
-        {
-            if(UseMainCylFlag != null)
-            {
-                Array.Copy(UseMainCylFlag, this.UseMainCylFlag, UseMainCylFlag.Length);
-            }
-            if (UseSubCylFlag != null)
-            {
-                Array.Copy(UseSubCylFlag, this.UseSubCylFlag, UseSubCylFlag.Length);
-            }
-            if (UseGuideCylFlag != null)
-            {
-                Array.Copy(UseGuideCylFlag, this.UseGuideCylFlag, UseGuideCylFlag.Length);
-            }
-
-            return SUCCESS;
-        }
         #endregion
 
         #region Cylinder, Vacuum, Detect Object
@@ -248,7 +206,7 @@ namespace LWDicer.Layers
 
             for (int i = 0; i < (int)EHandlerVacuum.MAX; i++)
             {
-                if (UseVccFlag[i] == false) continue;
+                if (m_Data.UseVccFlag[i] == false) continue;
 
                 m_RefComp.Vacuum[i].GetVacuumTime(out sData[i]);
                 iResult = m_RefComp.Vacuum[i].IsOn(out bStatus);
@@ -311,7 +269,7 @@ namespace LWDicer.Layers
 
             for (int i = 0; i < (int)EHandlerVacuum.MAX; i++)
             {
-                if (UseVccFlag[i] == false) continue;
+                if (m_Data.UseVccFlag[i] == false) continue;
 
                 m_RefComp.Vacuum[i].GetVacuumTime(out sData[i]);
                 iResult = m_RefComp.Vacuum[i].IsOff(out bStatus);
@@ -371,7 +329,7 @@ namespace LWDicer.Layers
 
             for (int i = 0; i < (int)EHandlerVacuum.MAX; i++)
             {
-                if (UseVccFlag[i] == false) continue;
+                if (m_Data.UseVccFlag[i] == false) continue;
 
                 iResult = m_RefComp.Vacuum[i].IsOn(out bTemp);
                 if (iResult != SUCCESS) return iResult;
@@ -391,7 +349,7 @@ namespace LWDicer.Layers
 
             for (int i = 0; i < (int)EHandlerVacuum.MAX; i++)
             {
-                if (UseVccFlag[i] == false) continue;
+                if (m_Data.UseVccFlag[i] == false) continue;
 
                 iResult = m_RefComp.Vacuum[i].IsOff(out bTemp);
                 if (iResult != SUCCESS) return iResult;
@@ -418,14 +376,14 @@ namespace LWDicer.Layers
             int iResult = SUCCESS;
             bStatus = false;
 
-            if (UseMainCylFlag[index] == true)
+            if (m_Data.UseMainCylFlag[index] == true)
             {
                 if(m_RefComp.MainCyl[index] == null) return GenerateErrorCode(ERR_HANDLER_UNABLE_TO_USE_CYL);
                 iResult = m_RefComp.MainCyl[index].IsUp(out bStatus);
                 if (iResult != SUCCESS) return iResult;
                 if (bStatus == false) return SUCCESS;
             }
-            if (UseSubCylFlag[index] == true)
+            if (m_Data.UseSubCylFlag[index] == true)
             {
                 if (m_RefComp.SubCyl[index] == null) return GenerateErrorCode(ERR_HANDLER_UNABLE_TO_USE_CYL);
                 iResult = m_RefComp.SubCyl[index].IsUp(out bStatus);
@@ -441,14 +399,14 @@ namespace LWDicer.Layers
             int iResult = SUCCESS;
             bStatus = false;
 
-            if (UseMainCylFlag[index] == true)
+            if (m_Data.UseMainCylFlag[index] == true)
             {
                 if (m_RefComp.MainCyl[index] == null) return GenerateErrorCode(ERR_HANDLER_UNABLE_TO_USE_CYL);
                 iResult = m_RefComp.MainCyl[index].IsDown(out bStatus);
                 if (iResult != SUCCESS) return iResult;
                 if (bStatus == false) return SUCCESS;
             }
-            if (UseSubCylFlag[index] == true)
+            if (m_Data.UseSubCylFlag[index] == true)
             {
                 if (m_RefComp.SubCyl[index] == null) return GenerateErrorCode(ERR_HANDLER_UNABLE_TO_USE_CYL);
                 iResult = m_RefComp.SubCyl[index].IsDown(out bStatus);
@@ -465,13 +423,13 @@ namespace LWDicer.Layers
             int iResult = CheckForHandlerCylMove();
             if (iResult != SUCCESS) return iResult;
 
-            if (UseMainCylFlag[index] == true)
+            if (m_Data.UseMainCylFlag[index] == true)
             {
                 if (m_RefComp.MainCyl[index] == null) return GenerateErrorCode(ERR_HANDLER_UNABLE_TO_USE_CYL);
                 iResult = m_RefComp.MainCyl[index].Up(bSkipSensor);
                 if (iResult != SUCCESS) return iResult;
             }
-            if (UseSubCylFlag[index] == true)
+            if (m_Data.UseSubCylFlag[index] == true)
             {
                 if (m_RefComp.SubCyl[index] == null) return GenerateErrorCode(ERR_HANDLER_UNABLE_TO_USE_CYL);
                 iResult = m_RefComp.SubCyl[index].Up(bSkipSensor);
@@ -487,13 +445,13 @@ namespace LWDicer.Layers
             int iResult = CheckForHandlerCylMove();
             if (iResult != SUCCESS) return iResult;
 
-            if (UseMainCylFlag[index] == true)
+            if (m_Data.UseMainCylFlag[index] == true)
             {
                 if (m_RefComp.MainCyl[index] == null) return GenerateErrorCode(ERR_HANDLER_UNABLE_TO_USE_CYL);
                 iResult = m_RefComp.MainCyl[index].Down(bSkipSensor);
                 if (iResult != SUCCESS) return iResult;
             }
-            if (UseSubCylFlag[index] == true)
+            if (m_Data.UseSubCylFlag[index] == true)
             {
                 if (m_RefComp.SubCyl[index] == null) return GenerateErrorCode(ERR_HANDLER_UNABLE_TO_USE_CYL);
                 iResult = m_RefComp.SubCyl[index].Down(bSkipSensor);

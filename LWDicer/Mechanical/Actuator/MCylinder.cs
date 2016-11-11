@@ -16,7 +16,6 @@ namespace LWDicer.Layers
     {
         IIO m_IO;
         CCylinderData m_Data;
-        MTickTimer m_waitTimer = new MTickTimer();
 
         public MCylinder(CObjectInfo objInfo, IIO pIO, CCylinderData data) 
             : base(objInfo)

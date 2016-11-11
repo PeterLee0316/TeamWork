@@ -93,10 +93,7 @@ namespace LWDicer.Layers
         {
             int iResult = SUCCESS;
 
-            for (int i = 0; i < DEF_MAX_COORDINATE; i++)
-            {
-                MovePriority[i] = (int)EPriority.NONE;
-            }
+            ArrayExtensions.Init(MovePriority, (int)EPriority.NONE);
 
             if (iCoordID == DEF_ALL_COORDINATE)
             {
@@ -117,11 +114,7 @@ namespace LWDicer.Layers
         {
             int iResult = SUCCESS;
 
-            for (int i = 0; i < DEF_MAX_COORDINATE; i++)
-            {
-                OriginPriority[i] = (int)EPriority.NONE;
-            }
-
+            ArrayExtensions.Init(OriginPriority, (int)EPriority.NONE);
             if (iCoordID == DEF_ALL_COORDINATE)
             {
                 for (int i = 0; i < iPriorities.Length; i++)

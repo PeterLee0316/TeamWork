@@ -171,8 +171,11 @@ namespace LWDicer.Layers
             public bool CheckSafety_ManualMode = true; // AutoMode에서 동작 전에 SafeSensor Check 여부
             public bool EnableCylinderMove_EStop = false; // EStop 상태에서 cylinder move 가능 여부
 
-            // 안전센서 (Door) IO Option Flag : if true, check door status whether opened.
+            // Use Door Sensor : if true, check door status whether opened.
             public bool[,] UseDoorStatus = new bool[(int)EDoorGroup.MAX, (int)EDoorIndex.MAX];
+            // Use Area Sensor
+            public bool[] UseAreaSensor = new bool[(int)EAreaSensor.MAX];
+
             public bool[] UseTankAlarm = new bool[(int)ECoatTank.MAX]; // 자재 교체요청 알람 사용 여부
 
             // thread 간의 handshake를 one step으로 처리할지 여부
@@ -306,17 +309,9 @@ namespace LWDicer.Layers
 
             public CSystemData()
             {
-                for (int i = 0; i < (int)ECoatTank.MAX; i++)
-                {
-                    UseTankAlarm[i] = false;
-                }
-                for (int i = 0; i < (int)EDoorGroup.MAX; i++)
-                {
-                    for (int j = 0; j < (int)EDoorIndex.MAX; j++)
-                    {
-                        UseDoorStatus[i, j] = false;
-                    }
-                }
+                ArrayExtensions.Init(UseTankAlarm, false);
+                ArrayExtensions.Init(UseDoorStatus, false);
+                ArrayExtensions.Init(UseAreaSensor, false);
             }
         }
 
@@ -735,17 +730,24 @@ namespace LWDicer.Layers
             // Function Parameter
 
             // Mechanical Layer
-            // MMeUpperHandler
+
+            // MeSpinner
+            public bool[] MeSpinner1_UseVccFlag = new bool[(int)EChuckVacuum.MAX];
+            public bool[] MeSpinner2_UseVccFlag = new bool[(int)EChuckVacuum.MAX];
+
+            // MMeHandler
             public bool[] MeUH_UseMainCylFlag = new bool[DEF_MAX_COORDINATE];
             public bool[] MeUH_UseSubCylFlag = new bool[DEF_MAX_COORDINATE];
             public bool[] MeUH_UseGuideCylFlag = new bool[DEF_MAX_COORDINATE];
             public bool[] MeUH_UseVccFlag = new bool[(int)EHandlerVacuum.MAX];
 
-            // MMeLowerHandler
             public bool[] MeLH_UseMainCylFlag = new bool[DEF_MAX_COORDINATE];
             public bool[] MeLH_UseSubCylFlag = new bool[DEF_MAX_COORDINATE];
             public bool[] MeLH_UseGuideCylFlag = new bool[DEF_MAX_COORDINATE];
             public bool[] MeLH_UseVccFlag = new bool[(int)EHandlerVacuum.MAX];
+
+            // MeStage
+            public bool[] MeStage_UseVccFlag = new bool[(int)EStageVacuum.MAX];
 
             // Control Layer
 
@@ -3470,7 +3472,7 @@ namespace LWDicer.Layers
 
         public int DeleteInfoTable(string table)
         {
-            if (string.IsNullOrEmpty(table)) return SUCCESS;
+            if (string.IsNullOrWhiteSpace(table)) return SUCCESS;
             if(table == DBInfo.TableAlarmInfo)
             {
                 AlarmInfoList.Clear();
