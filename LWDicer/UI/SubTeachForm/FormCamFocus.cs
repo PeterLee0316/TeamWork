@@ -23,6 +23,16 @@ namespace LWDicer.UI
             CMainFrame.LWDicer.m_ctrlStage1.MoveToCameraFocusPosFine();
         }
 
+        private void btnMoveTeachFocus2_Click(object sender, EventArgs e)
+        {
+            CMainFrame.LWDicer.m_ctrlStage1.MoveToCameraFocusPosInpect();
+        }
+
+        private void btnMoveTeachFocus3_Click(object sender, EventArgs e)
+        {
+            CMainFrame.LWDicer.m_ctrlStage1.MoveToCameraFocusPos3();
+        }
+
         private void btnIndexUpLow_MouseDown(object sender, MouseEventArgs e)
         {
             CMainFrame.LWDicer.m_ctrlStage1.MoveCameraJog(false, false);
@@ -61,6 +71,11 @@ namespace LWDicer.UI
         private void btnIndexDnHigh_MouseUp(object sender, MouseEventArgs e)
         {
             CMainFrame.LWDicer.m_ctrlStage1.CameraJogStop();
+        }
+
+        private void btnIndexUpHigh_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

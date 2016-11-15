@@ -728,6 +728,20 @@ CSpinStep class -> CCleaningStep / CCoatingStep class 로 분리
 
 
 
+// Grade : ★★
+// Date : 2016-10-19~27
+// Context
+
+1. Edge Align & Theta Align 결과 데이터 DB 연결
+2. Stage Rotate Center 결과 데이터 DB 연결
+
+
+// Grade : ★★
+// Date : 2016-10/27~11/4
+// Context
+1. Edge Align & Theta Align 정리
+2. Laser Align 초기 작업
+
 
 
 

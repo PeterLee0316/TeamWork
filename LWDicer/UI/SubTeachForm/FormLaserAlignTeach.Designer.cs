@@ -1,6 +1,6 @@
 ﻿namespace LWDicer.UI
 {
-    partial class FormThetaAlignTeach
+    partial class FormLaserAlignTeach
     {
         /// <summary>
         /// Required designer variable.
@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormThetaAlignTeach));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormLaserAlignTeach));
             this.gradientLabel1 = new Syncfusion.Windows.Forms.Tools.GradientLabel();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.btnSelectStageMove = new System.Windows.Forms.Button();
@@ -56,10 +56,24 @@
             this.lblStagePosX = new Syncfusion.Windows.Forms.Tools.GradientLabel();
             this.tabThetaAlign = new Syncfusion.Windows.Forms.Tools.TabControlAdv();
             this.pageThetaAlign = new Syncfusion.Windows.Forms.Tools.TabPageAdv();
+            this.btnLaserProcessStop = new Syncfusion.Windows.Forms.ButtonAdv();
+            this.btnMoveToVisionH = new System.Windows.Forms.Button();
+            this.btnMoveToLaserH = new System.Windows.Forms.Button();
+            this.btnMoveLaserEndMoveV = new System.Windows.Forms.Button();
+            this.btnMoveLaserStartPosV = new System.Windows.Forms.Button();
+            this.BtnJog = new System.Windows.Forms.Button();
+            this.btnLaserProcessStep1 = new Syncfusion.Windows.Forms.ButtonAdv();
+            this.btnMoveToVision = new System.Windows.Forms.Button();
+            this.btnMoveToLaser = new System.Windows.Forms.Button();
+            this.btnInitLaserAlign = new System.Windows.Forms.Button();
+            this.gradientLabel10 = new Syncfusion.Windows.Forms.Tools.GradientLabel();
+            this.gradientLabel13 = new Syncfusion.Windows.Forms.Tools.GradientLabel();
+            this.lblLaserLength = new Syncfusion.Windows.Forms.Tools.GradientLabel();
+            this.btnMoveLaserEndMove = new System.Windows.Forms.Button();
+            this.btnMoveLaserStartPos = new System.Windows.Forms.Button();
             this.lblHairLineWidth = new System.Windows.Forms.Label();
             this.label16 = new System.Windows.Forms.Label();
             this.btnStageCenter = new System.Windows.Forms.Button();
-            this.btnStageReturnPosA = new System.Windows.Forms.Button();
             this.btnStageTurnPosA = new System.Windows.Forms.Button();
             this.btnThetaAlignDataLoad = new System.Windows.Forms.Button();
             this.btnThetaAlignDataSave = new System.Windows.Forms.Button();
@@ -121,12 +135,6 @@
             this.btnStageReturn = new System.Windows.Forms.Button();
             this.btnStageTurn = new System.Windows.Forms.Button();
             this.BtnExit = new System.Windows.Forms.Button();
-            this.btnMoveLaserEndMove = new System.Windows.Forms.Button();
-            this.btnMoveLaserStartPos = new System.Windows.Forms.Button();
-            this.gradientLabel10 = new Syncfusion.Windows.Forms.Tools.GradientLabel();
-            this.gradientLabel13 = new Syncfusion.Windows.Forms.Tools.GradientLabel();
-            this.lblLaserLength = new Syncfusion.Windows.Forms.Tools.GradientLabel();
-            this.btnInitLaserAlign = new System.Windows.Forms.Button();
             this.groupBox4.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.tabThetaAlign)).BeginInit();
@@ -149,7 +157,7 @@
             this.gradientLabel1.Name = "gradientLabel1";
             this.gradientLabel1.Size = new System.Drawing.Size(802, 51);
             this.gradientLabel1.TabIndex = 938;
-            this.gradientLabel1.Text = "Theta Align && Index Teaching";
+            this.gradientLabel1.Text = "Laser Align";
             this.gradientLabel1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // groupBox4
@@ -459,6 +467,15 @@
             // 
             // pageThetaAlign
             // 
+            this.pageThetaAlign.Controls.Add(this.btnLaserProcessStop);
+            this.pageThetaAlign.Controls.Add(this.btnMoveToVisionH);
+            this.pageThetaAlign.Controls.Add(this.btnMoveToLaserH);
+            this.pageThetaAlign.Controls.Add(this.btnMoveLaserEndMoveV);
+            this.pageThetaAlign.Controls.Add(this.btnMoveLaserStartPosV);
+            this.pageThetaAlign.Controls.Add(this.BtnJog);
+            this.pageThetaAlign.Controls.Add(this.btnLaserProcessStep1);
+            this.pageThetaAlign.Controls.Add(this.btnMoveToVision);
+            this.pageThetaAlign.Controls.Add(this.btnMoveToLaser);
             this.pageThetaAlign.Controls.Add(this.btnInitLaserAlign);
             this.pageThetaAlign.Controls.Add(this.gradientLabel10);
             this.pageThetaAlign.Controls.Add(this.gradientLabel13);
@@ -468,7 +485,6 @@
             this.pageThetaAlign.Controls.Add(this.lblHairLineWidth);
             this.pageThetaAlign.Controls.Add(this.label16);
             this.pageThetaAlign.Controls.Add(this.btnStageCenter);
-            this.pageThetaAlign.Controls.Add(this.btnStageReturnPosA);
             this.pageThetaAlign.Controls.Add(this.btnStageTurnPosA);
             this.pageThetaAlign.Controls.Add(this.btnThetaAlignDataLoad);
             this.pageThetaAlign.Controls.Add(this.btnThetaAlignDataSave);
@@ -483,6 +499,233 @@
             this.pageThetaAlign.Text = "ThetaAlign";
             this.pageThetaAlign.ThemesEnabled = false;
             this.pageThetaAlign.Click += new System.EventHandler(this.pageThetaAlign_Click);
+            // 
+            // btnLaserProcessStop
+            // 
+            this.btnLaserProcessStop.BackColor = System.Drawing.Color.LightGray;
+            this.btnLaserProcessStop.BorderStyleAdv = Syncfusion.Windows.Forms.ButtonAdvBorderStyle.Solid;
+            this.btnLaserProcessStop.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.btnLaserProcessStop.FlatAppearance.BorderSize = 5;
+            this.btnLaserProcessStop.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
+            this.btnLaserProcessStop.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
+            this.btnLaserProcessStop.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.btnLaserProcessStop.Location = new System.Drawing.Point(8, 370);
+            this.btnLaserProcessStop.Name = "btnLaserProcessStop";
+            this.btnLaserProcessStop.Size = new System.Drawing.Size(156, 49);
+            this.btnLaserProcessStop.TabIndex = 1055;
+            this.btnLaserProcessStop.Tag = "0";
+            this.btnLaserProcessStop.Text = "Stop Process";
+            this.btnLaserProcessStop.Click += new System.EventHandler(this.btnLaserProcessStop_Click);
+            // 
+            // btnMoveToVisionH
+            // 
+            this.btnMoveToVisionH.Font = new System.Drawing.Font("굴림", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.btnMoveToVisionH.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.btnMoveToVisionH.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnMoveToVisionH.Location = new System.Drawing.Point(337, 315);
+            this.btnMoveToVisionH.Name = "btnMoveToVisionH";
+            this.btnMoveToVisionH.Size = new System.Drawing.Size(75, 64);
+            this.btnMoveToVisionH.TabIndex = 1054;
+            this.btnMoveToVisionH.Text = "Vision 이동";
+            this.btnMoveToVisionH.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.btnMoveToVisionH.UseVisualStyleBackColor = true;
+            this.btnMoveToVisionH.Click += new System.EventHandler(this.btnMoveToVisionH_Click);
+            // 
+            // btnMoveToLaserH
+            // 
+            this.btnMoveToLaserH.Font = new System.Drawing.Font("굴림", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.btnMoveToLaserH.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.btnMoveToLaserH.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnMoveToLaserH.Location = new System.Drawing.Point(260, 315);
+            this.btnMoveToLaserH.Name = "btnMoveToLaserH";
+            this.btnMoveToLaserH.Size = new System.Drawing.Size(75, 64);
+            this.btnMoveToLaserH.TabIndex = 1053;
+            this.btnMoveToLaserH.Text = "Laser 이동";
+            this.btnMoveToLaserH.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.btnMoveToLaserH.UseVisualStyleBackColor = true;
+            this.btnMoveToLaserH.Click += new System.EventHandler(this.btnMoveToLaserH_Click);
+            // 
+            // btnMoveLaserEndMoveV
+            // 
+            this.btnMoveLaserEndMoveV.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.btnMoveLaserEndMoveV.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.btnMoveLaserEndMoveV.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.btnMoveLaserEndMoveV.Location = new System.Drawing.Point(98, 255);
+            this.btnMoveLaserEndMoveV.Name = "btnMoveLaserEndMoveV";
+            this.btnMoveLaserEndMoveV.Size = new System.Drawing.Size(75, 43);
+            this.btnMoveLaserEndMoveV.TabIndex = 1052;
+            this.btnMoveLaserEndMoveV.Text = "Laser Pos B (V)";
+            this.btnMoveLaserEndMoveV.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.btnMoveLaserEndMoveV.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.btnMoveLaserEndMoveV.UseVisualStyleBackColor = true;
+            this.btnMoveLaserEndMoveV.Click += new System.EventHandler(this.btnMoveLaserEndMoveV_Click);
+            // 
+            // btnMoveLaserStartPosV
+            // 
+            this.btnMoveLaserStartPosV.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.btnMoveLaserStartPosV.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.btnMoveLaserStartPosV.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.btnMoveLaserStartPosV.Location = new System.Drawing.Point(179, 255);
+            this.btnMoveLaserStartPosV.Name = "btnMoveLaserStartPosV";
+            this.btnMoveLaserStartPosV.Size = new System.Drawing.Size(75, 43);
+            this.btnMoveLaserStartPosV.TabIndex = 1051;
+            this.btnMoveLaserStartPosV.Text = "Laser Pos A (V)";
+            this.btnMoveLaserStartPosV.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.btnMoveLaserStartPosV.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.btnMoveLaserStartPosV.UseVisualStyleBackColor = true;
+            this.btnMoveLaserStartPosV.Click += new System.EventHandler(this.btnMoveLaserStartPosV_Click);
+            // 
+            // BtnJog
+            // 
+            this.BtnJog.Font = new System.Drawing.Font("굴림", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.BtnJog.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.BtnJog.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.BtnJog.Location = new System.Drawing.Point(316, 206);
+            this.BtnJog.Name = "BtnJog";
+            this.BtnJog.Size = new System.Drawing.Size(104, 61);
+            this.BtnJog.TabIndex = 1050;
+            this.BtnJog.Text = "Jog";
+            this.BtnJog.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.BtnJog.UseVisualStyleBackColor = true;
+            this.BtnJog.Click += new System.EventHandler(this.BtnJog_Click);
+            // 
+            // btnLaserProcessStep1
+            // 
+            this.btnLaserProcessStep1.BackColor = System.Drawing.Color.LightGray;
+            this.btnLaserProcessStep1.BorderStyleAdv = Syncfusion.Windows.Forms.ButtonAdvBorderStyle.Solid;
+            this.btnLaserProcessStep1.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.btnLaserProcessStep1.FlatAppearance.BorderSize = 5;
+            this.btnLaserProcessStep1.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
+            this.btnLaserProcessStep1.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
+            this.btnLaserProcessStep1.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.btnLaserProcessStep1.Location = new System.Drawing.Point(11, 315);
+            this.btnLaserProcessStep1.Name = "btnLaserProcessStep1";
+            this.btnLaserProcessStep1.Size = new System.Drawing.Size(156, 49);
+            this.btnLaserProcessStep1.TabIndex = 1049;
+            this.btnLaserProcessStep1.Tag = "0";
+            this.btnLaserProcessStep1.Text = "Laser Process";
+            this.btnLaserProcessStep1.Click += new System.EventHandler(this.btnLaserProcessStep1_Click);
+            // 
+            // btnMoveToVision
+            // 
+            this.btnMoveToVision.Font = new System.Drawing.Font("굴림", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.btnMoveToVision.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.btnMoveToVision.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnMoveToVision.Location = new System.Drawing.Point(337, 385);
+            this.btnMoveToVision.Name = "btnMoveToVision";
+            this.btnMoveToVision.Size = new System.Drawing.Size(75, 64);
+            this.btnMoveToVision.TabIndex = 1048;
+            this.btnMoveToVision.Text = "Vision 이동";
+            this.btnMoveToVision.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.btnMoveToVision.UseVisualStyleBackColor = true;
+            this.btnMoveToVision.Click += new System.EventHandler(this.btnMoveToVision_Click);
+            // 
+            // btnMoveToLaser
+            // 
+            this.btnMoveToLaser.Font = new System.Drawing.Font("굴림", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.btnMoveToLaser.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.btnMoveToLaser.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnMoveToLaser.Location = new System.Drawing.Point(260, 385);
+            this.btnMoveToLaser.Name = "btnMoveToLaser";
+            this.btnMoveToLaser.Size = new System.Drawing.Size(75, 64);
+            this.btnMoveToLaser.TabIndex = 1047;
+            this.btnMoveToLaser.Text = "Laser 이동";
+            this.btnMoveToLaser.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.btnMoveToLaser.UseVisualStyleBackColor = true;
+            this.btnMoveToLaser.Click += new System.EventHandler(this.btnMoveToLaser_Click);
+            // 
+            // btnInitLaserAlign
+            // 
+            this.btnInitLaserAlign.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.btnInitLaserAlign.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.btnInitLaserAlign.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.btnInitLaserAlign.Location = new System.Drawing.Point(17, 206);
+            this.btnInitLaserAlign.Name = "btnInitLaserAlign";
+            this.btnInitLaserAlign.Size = new System.Drawing.Size(75, 92);
+            this.btnInitLaserAlign.TabIndex = 983;
+            this.btnInitLaserAlign.Text = "Laser Align Init";
+            this.btnInitLaserAlign.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.btnInitLaserAlign.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.btnInitLaserAlign.UseVisualStyleBackColor = true;
+            this.btnInitLaserAlign.Click += new System.EventHandler(this.btnInitLaserAlign_Click);
+            // 
+            // gradientLabel10
+            // 
+            this.gradientLabel10.BackgroundColor = new Syncfusion.Drawing.BrushInfo(System.Drawing.Color.LightBlue);
+            this.gradientLabel10.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
+            | System.Windows.Forms.Border3DSide.Right) 
+            | System.Windows.Forms.Border3DSide.Bottom)));
+            this.gradientLabel10.BorderStyle = System.Windows.Forms.Border3DStyle.Raised;
+            this.gradientLabel10.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.gradientLabel10.ForeColor = System.Drawing.Color.Black;
+            this.gradientLabel10.Location = new System.Drawing.Point(235, 172);
+            this.gradientLabel10.Name = "gradientLabel10";
+            this.gradientLabel10.Size = new System.Drawing.Size(40, 31);
+            this.gradientLabel10.TabIndex = 982;
+            this.gradientLabel10.Text = "mm";
+            this.gradientLabel10.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // gradientLabel13
+            // 
+            this.gradientLabel13.BackgroundColor = new Syncfusion.Drawing.BrushInfo(System.Drawing.Color.LightBlue);
+            this.gradientLabel13.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
+            | System.Windows.Forms.Border3DSide.Right) 
+            | System.Windows.Forms.Border3DSide.Bottom)));
+            this.gradientLabel13.BorderStyle = System.Windows.Forms.Border3DStyle.Raised;
+            this.gradientLabel13.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.gradientLabel13.ForeColor = System.Drawing.Color.Black;
+            this.gradientLabel13.Location = new System.Drawing.Point(98, 172);
+            this.gradientLabel13.Name = "gradientLabel13";
+            this.gradientLabel13.Size = new System.Drawing.Size(66, 31);
+            this.gradientLabel13.TabIndex = 981;
+            this.gradientLabel13.Text = "Length";
+            this.gradientLabel13.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lblLaserLength
+            // 
+            this.lblLaserLength.BackgroundColor = new Syncfusion.Drawing.BrushInfo(System.Drawing.Color.White);
+            this.lblLaserLength.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
+            | System.Windows.Forms.Border3DSide.Right) 
+            | System.Windows.Forms.Border3DSide.Bottom)));
+            this.lblLaserLength.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.lblLaserLength.ForeColor = System.Drawing.Color.Black;
+            this.lblLaserLength.Location = new System.Drawing.Point(166, 172);
+            this.lblLaserLength.Name = "lblLaserLength";
+            this.lblLaserLength.Size = new System.Drawing.Size(66, 31);
+            this.lblLaserLength.TabIndex = 980;
+            this.lblLaserLength.Text = "160";
+            this.lblLaserLength.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lblLaserLength.Click += new System.EventHandler(this.lblLaserLength_Click);
+            // 
+            // btnMoveLaserEndMove
+            // 
+            this.btnMoveLaserEndMove.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.btnMoveLaserEndMove.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.btnMoveLaserEndMove.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.btnMoveLaserEndMove.Location = new System.Drawing.Point(98, 206);
+            this.btnMoveLaserEndMove.Name = "btnMoveLaserEndMove";
+            this.btnMoveLaserEndMove.Size = new System.Drawing.Size(75, 43);
+            this.btnMoveLaserEndMove.TabIndex = 979;
+            this.btnMoveLaserEndMove.Text = "Laser Pos B";
+            this.btnMoveLaserEndMove.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.btnMoveLaserEndMove.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.btnMoveLaserEndMove.UseVisualStyleBackColor = true;
+            this.btnMoveLaserEndMove.Click += new System.EventHandler(this.btnMoveLaserEndMove_Click);
+            // 
+            // btnMoveLaserStartPos
+            // 
+            this.btnMoveLaserStartPos.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.btnMoveLaserStartPos.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.btnMoveLaserStartPos.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.btnMoveLaserStartPos.Location = new System.Drawing.Point(179, 206);
+            this.btnMoveLaserStartPos.Name = "btnMoveLaserStartPos";
+            this.btnMoveLaserStartPos.Size = new System.Drawing.Size(75, 43);
+            this.btnMoveLaserStartPos.TabIndex = 978;
+            this.btnMoveLaserStartPos.Text = "Laser Pos A";
+            this.btnMoveLaserStartPos.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.btnMoveLaserStartPos.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.btnMoveLaserStartPos.UseVisualStyleBackColor = true;
+            this.btnMoveLaserStartPos.Click += new System.EventHandler(this.btnMoveLaserStartPos_Click);
             // 
             // lblHairLineWidth
             // 
@@ -509,36 +752,24 @@
             // 
             this.btnStageCenter.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.btnStageCenter.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.btnStageCenter.Location = new System.Drawing.Point(316, 279);
+            this.btnStageCenter.Location = new System.Drawing.Point(179, 315);
             this.btnStageCenter.Name = "btnStageCenter";
-            this.btnStageCenter.Size = new System.Drawing.Size(98, 61);
+            this.btnStageCenter.Size = new System.Drawing.Size(75, 64);
             this.btnStageCenter.TabIndex = 975;
             this.btnStageCenter.Text = "Stage Center";
             this.btnStageCenter.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.btnStageCenter.UseVisualStyleBackColor = true;
-            // 
-            // btnStageReturnPosA
-            // 
-            this.btnStageReturnPosA.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.btnStageReturnPosA.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.btnStageReturnPosA.Location = new System.Drawing.Point(316, 413);
-            this.btnStageReturnPosA.Name = "btnStageReturnPosA";
-            this.btnStageReturnPosA.Size = new System.Drawing.Size(98, 61);
-            this.btnStageReturnPosA.TabIndex = 974;
-            this.btnStageReturnPosA.Text = "Theta Align Return Pos";
-            this.btnStageReturnPosA.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.btnStageReturnPosA.UseVisualStyleBackColor = true;
-            this.btnStageReturnPosA.Click += new System.EventHandler(this.btnStageReturnPosA_Click);
+            this.btnStageCenter.Click += new System.EventHandler(this.btnStageCenter_Click);
             // 
             // btnStageTurnPosA
             // 
             this.btnStageTurnPosA.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.btnStageTurnPosA.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.btnStageTurnPosA.Location = new System.Drawing.Point(316, 346);
+            this.btnStageTurnPosA.Location = new System.Drawing.Point(179, 385);
             this.btnStageTurnPosA.Name = "btnStageTurnPosA";
-            this.btnStageTurnPosA.Size = new System.Drawing.Size(98, 61);
+            this.btnStageTurnPosA.Size = new System.Drawing.Size(75, 61);
             this.btnStageTurnPosA.TabIndex = 973;
-            this.btnStageTurnPosA.Text = "Theta Align Pos";
+            this.btnStageTurnPosA.Text = "Stage Center (v)";
             this.btnStageTurnPosA.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.btnStageTurnPosA.UseVisualStyleBackColor = true;
             this.btnStageTurnPosA.Click += new System.EventHandler(this.btnStageTurnPosA_Click);
@@ -1466,100 +1697,7 @@
             this.BtnExit.UseVisualStyleBackColor = true;
             this.BtnExit.Click += new System.EventHandler(this.BtnExit_Click);
             // 
-            // btnMoveLaserEndMove
-            // 
-            this.btnMoveLaserEndMove.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.btnMoveLaserEndMove.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.btnMoveLaserEndMove.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.btnMoveLaserEndMove.Location = new System.Drawing.Point(98, 172);
-            this.btnMoveLaserEndMove.Name = "btnMoveLaserEndMove";
-            this.btnMoveLaserEndMove.Size = new System.Drawing.Size(75, 77);
-            this.btnMoveLaserEndMove.TabIndex = 979;
-            this.btnMoveLaserEndMove.Text = "Laser Pos B";
-            this.btnMoveLaserEndMove.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.btnMoveLaserEndMove.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.btnMoveLaserEndMove.UseVisualStyleBackColor = true;
-            this.btnMoveLaserEndMove.Click += new System.EventHandler(this.btnMoveLaserEndMove_Click);
-            // 
-            // btnMoveLaserStartPos
-            // 
-            this.btnMoveLaserStartPos.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.btnMoveLaserStartPos.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.btnMoveLaserStartPos.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.btnMoveLaserStartPos.Location = new System.Drawing.Point(179, 172);
-            this.btnMoveLaserStartPos.Name = "btnMoveLaserStartPos";
-            this.btnMoveLaserStartPos.Size = new System.Drawing.Size(75, 77);
-            this.btnMoveLaserStartPos.TabIndex = 978;
-            this.btnMoveLaserStartPos.Text = "Laser Pos A";
-            this.btnMoveLaserStartPos.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.btnMoveLaserStartPos.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.btnMoveLaserStartPos.UseVisualStyleBackColor = true;
-            this.btnMoveLaserStartPos.Click += new System.EventHandler(this.btnMoveLaserStartPos_Click);
-            // 
-            // gradientLabel10
-            // 
-            this.gradientLabel10.BackgroundColor = new Syncfusion.Drawing.BrushInfo(System.Drawing.Color.LightBlue);
-            this.gradientLabel10.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
-            | System.Windows.Forms.Border3DSide.Right) 
-            | System.Windows.Forms.Border3DSide.Bottom)));
-            this.gradientLabel10.BorderStyle = System.Windows.Forms.Border3DStyle.Raised;
-            this.gradientLabel10.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.gradientLabel10.ForeColor = System.Drawing.Color.Black;
-            this.gradientLabel10.Location = new System.Drawing.Point(157, 252);
-            this.gradientLabel10.Name = "gradientLabel10";
-            this.gradientLabel10.Size = new System.Drawing.Size(40, 31);
-            this.gradientLabel10.TabIndex = 982;
-            this.gradientLabel10.Text = "mm";
-            this.gradientLabel10.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // gradientLabel13
-            // 
-            this.gradientLabel13.BackgroundColor = new Syncfusion.Drawing.BrushInfo(System.Drawing.Color.LightBlue);
-            this.gradientLabel13.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
-            | System.Windows.Forms.Border3DSide.Right) 
-            | System.Windows.Forms.Border3DSide.Bottom)));
-            this.gradientLabel13.BorderStyle = System.Windows.Forms.Border3DStyle.Raised;
-            this.gradientLabel13.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.gradientLabel13.ForeColor = System.Drawing.Color.Black;
-            this.gradientLabel13.Location = new System.Drawing.Point(20, 252);
-            this.gradientLabel13.Name = "gradientLabel13";
-            this.gradientLabel13.Size = new System.Drawing.Size(66, 31);
-            this.gradientLabel13.TabIndex = 981;
-            this.gradientLabel13.Text = "Length";
-            this.gradientLabel13.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // lblLaserLength
-            // 
-            this.lblLaserLength.BackgroundColor = new Syncfusion.Drawing.BrushInfo(System.Drawing.Color.White);
-            this.lblLaserLength.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
-            | System.Windows.Forms.Border3DSide.Right) 
-            | System.Windows.Forms.Border3DSide.Bottom)));
-            this.lblLaserLength.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.lblLaserLength.ForeColor = System.Drawing.Color.Black;
-            this.lblLaserLength.Location = new System.Drawing.Point(88, 252);
-            this.lblLaserLength.Name = "lblLaserLength";
-            this.lblLaserLength.Size = new System.Drawing.Size(66, 31);
-            this.lblLaserLength.TabIndex = 980;
-            this.lblLaserLength.Text = "160";
-            this.lblLaserLength.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.lblLaserLength.Click += new System.EventHandler(this.lblLaserLength_Click);
-            // 
-            // btnInitLaserAlign
-            // 
-            this.btnInitLaserAlign.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.btnInitLaserAlign.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.btnInitLaserAlign.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.btnInitLaserAlign.Location = new System.Drawing.Point(17, 172);
-            this.btnInitLaserAlign.Name = "btnInitLaserAlign";
-            this.btnInitLaserAlign.Size = new System.Drawing.Size(75, 77);
-            this.btnInitLaserAlign.TabIndex = 983;
-            this.btnInitLaserAlign.Text = "Laser Align Init";
-            this.btnInitLaserAlign.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.btnInitLaserAlign.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.btnInitLaserAlign.UseVisualStyleBackColor = true;
-            this.btnInitLaserAlign.Click += new System.EventHandler(this.btnInitLaserAlign_Click);
-            // 
-            // FormThetaAlignTeach
+            // FormLaserAlignTeach
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -1573,8 +1711,8 @@
             this.Controls.Add(this.picVision);
             this.Controls.Add(this.gradientLabel1);
             this.Controls.Add(this.BtnExit);
-            this.Name = "FormThetaAlignTeach";
-            this.Text = "ThetaAlign";
+            this.Name = "FormLaserAlignTeach";
+            this.Text = "Laser Align";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormThetaAlignTeach_FormClosing);
             this.Load += new System.EventHandler(this.FormThetaAlignTeach_Load);
             this.groupBox4.ResumeLayout(false);
@@ -1680,7 +1818,6 @@
         private System.Windows.Forms.Button btnCalsDieIndexSize;
         private System.Windows.Forms.Button btnStageTurn;
         private System.Windows.Forms.Button btnStageReturn;
-        private System.Windows.Forms.Button btnStageReturnPosA;
         private System.Windows.Forms.Button btnStageTurnPosA;
         private System.Windows.Forms.Button btnStageCenter;
         private System.Windows.Forms.Label lblHairLineWidth;
@@ -1691,5 +1828,14 @@
         private Syncfusion.Windows.Forms.Tools.GradientLabel gradientLabel13;
         private Syncfusion.Windows.Forms.Tools.GradientLabel lblLaserLength;
         private System.Windows.Forms.Button btnInitLaserAlign;
+        private System.Windows.Forms.Button btnMoveToVision;
+        private System.Windows.Forms.Button btnMoveToLaser;
+        private Syncfusion.Windows.Forms.ButtonAdv btnLaserProcessStep1;
+        private System.Windows.Forms.Button BtnJog;
+        private System.Windows.Forms.Button btnMoveLaserEndMoveV;
+        private System.Windows.Forms.Button btnMoveLaserStartPosV;
+        private System.Windows.Forms.Button btnMoveToVisionH;
+        private System.Windows.Forms.Button btnMoveToLaserH;
+        private Syncfusion.Windows.Forms.ButtonAdv btnLaserProcessStop;
     }
 }

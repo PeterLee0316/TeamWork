@@ -508,11 +508,11 @@ namespace LWDicer.UI
         {
             if (nIndex >= 0)
             {
-                txtObjectStartPosX.Text = string.Format("{0:F3}", m_ScanManager.ObjectList[nIndex].ptObjectStartPos.X);
-                txtObjectStartPosY.Text = string.Format("{0:F3}", m_ScanManager.ObjectList[nIndex].ptObjectStartPos.Y);
-                txtObjectEndPosX.Text = string.Format("{0:F3}", m_ScanManager.ObjectList[nIndex].ptObjectEndPos.X);
-                txtObjectEndPosY.Text = string.Format("{0:F3}", m_ScanManager.ObjectList[nIndex].ptObjectEndPos.Y);
-                txtObjectAngle.Text = string.Format("{0:F3}", m_ScanManager.ObjectList[nIndex].ObjectRotateAngle);
+                txtObjectStartPosX.Text = string.Format("{0:F4}", m_ScanManager.ObjectList[nIndex].ptObjectStartPos.X);
+                txtObjectStartPosY.Text = string.Format("{0:F4}", m_ScanManager.ObjectList[nIndex].ptObjectStartPos.Y);
+                txtObjectEndPosX.Text = string.Format("{0:F4}", m_ScanManager.ObjectList[nIndex].ptObjectEndPos.X);
+                txtObjectEndPosY.Text = string.Format("{0:F4}", m_ScanManager.ObjectList[nIndex].ptObjectEndPos.Y);
+                txtObjectAngle.Text = string.Format("{0:F4}", m_ScanManager.ObjectList[nIndex].ObjectRotateAngle);
 
             }
             else

@@ -84,8 +84,8 @@ namespace LWDicer.UI
         private void FormMacroAlignTeach_Activated(object sender, EventArgs e)
         {
             // Patten Display
-            //CMainFrame.LWDicer.m_Vision.DisplayPatternImage(PRE__CAM, PATTERN_A, picPatternMarkA.Handle);
-            //CMainFrame.LWDicer.m_Vision.DisplayPatternImage(PRE__CAM, PATTERN_B, picPatternMarkB.Handle);
+            CMainFrame.LWDicer.m_Vision.DisplayPatternImage(PRE__CAM, PATTERN_A, picPatternMarkA.Handle);
+            CMainFrame.LWDicer.m_Vision.DisplayPatternImage(PRE__CAM, PATTERN_B, picPatternMarkB.Handle);
         }
 
         private void picVision_MouseDown(object sender, MouseEventArgs e)

@@ -197,20 +197,7 @@ namespace LWDicer.UI
             dlg.ShowDialog();
         }
 
-        private void btnThetaAlign_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                var dlg = new FormThetaAlignTeach();
-                dlg.StartPosition = FormStartPosition.Manual;
-                dlg.Location = new Point(0, 120);
-                dlg.ShowDialog();
-            }
-            catch
-            {
 
-            }
-        }
 
         private void btnEdgeAlign_Click(object sender, EventArgs e)
         {
@@ -234,6 +221,26 @@ namespace LWDicer.UI
             dlg.StartPosition = FormStartPosition.Manual;
             dlg.Location = new Point(0, 120);
             dlg.ShowDialog();
+        }
+
+        private void btnLaserAlign_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                var dlg = new FormLaserAlignTeach();
+                dlg.StartPosition = FormStartPosition.Manual;
+                dlg.Location = new Point(0, 120);
+                dlg.ShowDialog();
+            }
+            catch
+            {
+
+            }
+        }
+
+        private void btnCamStageTeach_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

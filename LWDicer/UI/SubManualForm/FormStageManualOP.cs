@@ -352,19 +352,19 @@ namespace LWDicer.UI
         }
         private void UpdateProcessData()
         {
-            lblProcessOffsetX1.Text = string.Format("{0:F3}", CMainFrame.DataManager.ModelData.ProcData.ProcessOffsetX1);
-            lblProcessOffsetY1.Text = string.Format("{0:F3}", CMainFrame.DataManager.ModelData.ProcData.ProcessOffsetY1);
+            lblProcessOffsetX1.Text = string.Format("{0:F4}", CMainFrame.DataManager.ModelData.ProcData.ProcessOffsetX1);
+            lblProcessOffsetY1.Text = string.Format("{0:F4}", CMainFrame.DataManager.ModelData.ProcData.ProcessOffsetY1);
             lblProcessCount1.Text   = string.Format("{0:F0}", CMainFrame.DataManager.ModelData.ProcData.ProcessCount1);
-            lblProcessOffsetX2.Text = string.Format("{0:F3}", CMainFrame.DataManager.ModelData.ProcData.ProcessOffsetX2);
-            lblProcessOffsetY2.Text = string.Format("{0:F3}", CMainFrame.DataManager.ModelData.ProcData.ProcessOffsetY2);
+            lblProcessOffsetX2.Text = string.Format("{0:F4}", CMainFrame.DataManager.ModelData.ProcData.ProcessOffsetX2);
+            lblProcessOffsetY2.Text = string.Format("{0:F4}", CMainFrame.DataManager.ModelData.ProcData.ProcessOffsetY2);
             lblProcessCount2.Text   = string.Format("{0:F0}", CMainFrame.DataManager.ModelData.ProcData.ProcessCount2);
 
-            lblPatternPitch1.Text = string.Format("{0:F3}", CMainFrame.DataManager.ModelData.ProcData.PatternPitch1);
+            lblPatternPitch1.Text = string.Format("{0:F4}", CMainFrame.DataManager.ModelData.ProcData.PatternPitch1);
             lblPatternCount1.Text = string.Format("{0:F0}", CMainFrame.DataManager.ModelData.ProcData.PatternCount1);
-            lblPatternPitch2.Text = string.Format("{0:F3}", CMainFrame.DataManager.ModelData.ProcData.PatternPitch2);
+            lblPatternPitch2.Text = string.Format("{0:F4}", CMainFrame.DataManager.ModelData.ProcData.PatternPitch2);
             lblPatternCount2.Text = string.Format("{0:F0}", CMainFrame.DataManager.ModelData.ProcData.PatternCount2);            
-            lblPatternOffset1.Text = string.Format("{0:F3}", CMainFrame.DataManager.ModelData.ProcData.PatternOffset1);
-            lblPatternOffset2.Text = string.Format("{0:F3}", CMainFrame.DataManager.ModelData.ProcData.PatternOffset2);
+            lblPatternOffset1.Text = string.Format("{0:F4}", CMainFrame.DataManager.ModelData.ProcData.PatternOffset1);
+            lblPatternOffset2.Text = string.Format("{0:F4}", CMainFrame.DataManager.ModelData.ProcData.PatternOffset2);
         }
 
         

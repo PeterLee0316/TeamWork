@@ -76,6 +76,7 @@
             this.btnWaferCenterFine = new System.Windows.Forms.Button();
             this.btnStageCenterFine = new System.Windows.Forms.Button();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.btnInpectCam = new System.Windows.Forms.Button();
             this.groupBox4.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -691,11 +692,28 @@
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "State Rotate Center Search";
             // 
+            // btnInpectCam
+            // 
+            this.btnInpectCam.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.btnInpectCam.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.btnInpectCam.Image = global::LWDicer.Properties.Resources.Vision;
+            this.btnInpectCam.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.btnInpectCam.Location = new System.Drawing.Point(836, 543);
+            this.btnInpectCam.Name = "btnInpectCam";
+            this.btnInpectCam.Size = new System.Drawing.Size(73, 73);
+            this.btnInpectCam.TabIndex = 987;
+            this.btnInpectCam.Text = "Inspect";
+            this.btnInpectCam.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.btnInpectCam.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.btnInpectCam.UseVisualStyleBackColor = true;
+            this.btnInpectCam.Click += new System.EventHandler(this.btnInpectCam_Click);
+            // 
             // FormEdgeAlignTeach
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1260, 880);
+            this.Controls.Add(this.btnInpectCam);
             this.Controls.Add(this.groupBox5);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.BtnJog);
@@ -769,5 +787,6 @@
         private System.Windows.Forms.Button btnStageCenterPre;
         private System.Windows.Forms.GroupBox groupBox5;
         private System.Windows.Forms.Button btnThetaAlign;
+        private System.Windows.Forms.Button btnInpectCam;
     }
 }

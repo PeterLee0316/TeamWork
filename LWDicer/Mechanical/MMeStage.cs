@@ -98,7 +98,7 @@ namespace LWDicer.Layers
             UNLOAD,
             STAGE_CENTER_PRE,       // Stage의 Center 위치 (Pre Cam 기준)
             STAGE_CENTER_FINE,      // Stage의 Center 위치 (Fine Cam 기준)
-            THETA_ALIGN_A,          // Theta Align 시 "A" 위치
+            STAGE_CENTER_INSPECT,   // Stage의 Center 위치 (Inspect Cam 기준)
             THETA_ALIGN_TURN_A,     // Theta Align Turn 시 "A" 위치
             EDGE_ALIGN_1,           // EDGE Detect "0"도 위치
             MACRO_CAM_POS,          // KEY가 MACRO CAM영상의 CENTER일때 STAGE 위치
@@ -1084,100 +1084,20 @@ namespace LWDicer.Layers
             return MoveStagePos(movePos);
         }
 
-        public int MoveStageToThetaAlignPosA(bool bLowMagnitude = false)
+        public int MoveStageToStageCenterInspect()
         {
-            int index = (int)EStagePos.THETA_ALIGN_A;
-            var movePos = new CPos_XYTZ();
+            int index = (int)EStagePos.STAGE_CENTER_INSPECT;
 
             // Stage Center 위치를 읽어온다.
-            movePos = GetTargetPosition(index);
+            var movePos = new CPos_XYTZ();
+            movePos = GetTargetPosition(index, false);
 
-            // 저배율 일때는 Offset을 적용해서 이동한다.
-            if (bLowMagnitude)
-            {
-                movePos.dX += CMainFrame.DataManager.SystemData_Align.CamEachOffset.dX;
-                movePos.dY += CMainFrame.DataManager.SystemData_Align.CamEachOffset.dY;
-            }
-            
+            // Theta Align 값 보정
+            var ThetaPos = new CPos_XYTZ();
+            GetThetaAlignPosA(out ThetaPos);
+            movePos.dT = ThetaPos.dT;
+
             return MoveStagePos(movePos);
-        }
-
-        public int MoveStageToThetaAlignPosB(bool bLowMagnitude = false)
-        {
-            int iResult;
-
-            int index = (int)EStagePos.THETA_ALIGN_A;
-            var movePos = new CPos_XYTZ();
-
-            // Stage Center 위치를 읽어온다.
-            movePos = GetTargetPosition(index);
-
-            // 저배율 일때는 Offset을 적용해서 이동한다.
-            if (bLowMagnitude)
-            {
-                movePos.dX += CMainFrame.DataManager.SystemData_Align.CamEachOffset.dX;
-                movePos.dY += CMainFrame.DataManager.SystemData_Align.CamEachOffset.dY;
-            }
-
-            // 수평 이동 값을 적용한다.
-            double moveDistance = CMainFrame.DataManager.SystemData_Align.AlignMarkWidthLen;
-
-            //  Theta Align 거리값을 적용함.
-            movePos.dX += moveDistance;
-
-            // 수평으로 Align Mark 거리 만큼 이동함.
-            iResult = MoveStagePos(movePos);
-            if (iResult != SUCCESS) return iResult;
-
-            return iResult;
-        }
-
-        public int MoveStageToThetaAlignTurnPosA(bool bLowMagnitude = false)
-        {
-            int index = (int)EStagePos.THETA_ALIGN_TURN_A;
-            var movePos = new CPos_XYTZ();
-
-            // Stage Center 위치를 읽어온다.
-            movePos = GetTargetPosition(index);
-
-            // 고배율 일때는 Offset을 적용해서 이동한다.
-            if (bLowMagnitude)
-            {
-                movePos.dX += CMainFrame.DataManager.SystemData_Align.CamEachOffset.dX;
-                movePos.dY += CMainFrame.DataManager.SystemData_Align.CamEachOffset.dY;
-            }
-            
-            return MoveStagePos(movePos,true);
-        }
-
-        public int MoveStageToThetaAlignTurnPosB(bool bLowMagnitude = false)
-        {
-            int iResult = -1;
-
-            int index = (int)EStagePos.THETA_ALIGN_TURN_A;
-            var movePos = new CPos_XYTZ();
-
-            // Stage Center 위치를 읽어온다.
-            movePos = GetTargetPosition(index);
-
-            // 저배율 일때는 Offset을 적용해서 이동한다.
-            if (bLowMagnitude)
-            {
-                movePos.dX += CMainFrame.DataManager.SystemData_Align.CamEachOffset.dX;
-                movePos.dY += CMainFrame.DataManager.SystemData_Align.CamEachOffset.dY;
-            }
-            
-            // 수평 이동 값을 적용한다.
-            double moveDistance = CMainFrame.DataManager.SystemData_Align.AlignMarkWidthLen;
-
-            //  Theta Align 거리값을 적용함.
-            movePos.dX += moveDistance;
-
-            // 수평으로 Align Mark 거리 만큼 이동함.
-            iResult = MoveStagePos(movePos,true);
-            if (iResult != SUCCESS) return iResult;
-
-            return SUCCESS;
         }
 
         public int MoveStageToEdgeAlignPos1(bool bHighMagnitude=false)
@@ -1206,8 +1126,8 @@ namespace LWDicer.Layers
                           Math.Cos(DegToRad(-movePos.dT)) * edgeAlignPos.dY;
 
             // Wafer Size 편차를 대입함
-            movePos.dX += CMainFrame.DataManager.SystemData_Align.WaferSizeOffset * Math.Cos(DegToRad(135));
-            movePos.dY += CMainFrame.DataManager.SystemData_Align.WaferSizeOffset * Math.Sin(DegToRad(135));
+            movePos.dX -= CMainFrame.DataManager.SystemData_Align.WaferSizeOffset * Math.Cos(DegToRad(135));
+            movePos.dY -= CMainFrame.DataManager.SystemData_Align.WaferSizeOffset * Math.Sin(DegToRad(135));
 
             return MoveStagePos(movePos, true);
         }
@@ -1238,8 +1158,8 @@ namespace LWDicer.Layers
                           Math.Cos(DegToRad(-movePos.dT)) * edgeAlignPos.dY;
 
             // Wafer Size 편차를 대입함
-            movePos.dX += CMainFrame.DataManager.SystemData_Align.WaferSizeOffset * Math.Cos(DegToRad(135));
-            movePos.dY += CMainFrame.DataManager.SystemData_Align.WaferSizeOffset * Math.Sin(DegToRad(135));
+            movePos.dX -= CMainFrame.DataManager.SystemData_Align.WaferSizeOffset * Math.Cos(DegToRad(135));
+            movePos.dY -= CMainFrame.DataManager.SystemData_Align.WaferSizeOffset * Math.Sin(DegToRad(135));
 
             return MoveStagePos(movePos,true);
 
@@ -1271,8 +1191,8 @@ namespace LWDicer.Layers
                           Math.Cos(DegToRad(-movePos.dT)) * edgeAlignPos.dY;
 
             // Wafer Size 편차를 대입함
-            movePos.dX += CMainFrame.DataManager.SystemData_Align.WaferSizeOffset * Math.Cos(DegToRad(135));
-            movePos.dY += CMainFrame.DataManager.SystemData_Align.WaferSizeOffset * Math.Sin(DegToRad(135));
+            movePos.dX -= CMainFrame.DataManager.SystemData_Align.WaferSizeOffset * Math.Cos(DegToRad(135));
+            movePos.dY -= CMainFrame.DataManager.SystemData_Align.WaferSizeOffset * Math.Sin(DegToRad(135));
 
             return MoveStagePos(movePos,true);
         }
@@ -1303,8 +1223,8 @@ namespace LWDicer.Layers
                           Math.Cos(DegToRad(-movePos.dT)) * edgeAlignPos.dY;
 
             // Wafer Size 편차를 대입함
-            movePos.dX += CMainFrame.DataManager.SystemData_Align.WaferSizeOffset * Math.Cos(DegToRad(135));
-            movePos.dY += CMainFrame.DataManager.SystemData_Align.WaferSizeOffset * Math.Sin(DegToRad(135));
+            movePos.dX -= CMainFrame.DataManager.SystemData_Align.WaferSizeOffset * Math.Cos(DegToRad(135));
+            movePos.dY -= CMainFrame.DataManager.SystemData_Align.WaferSizeOffset * Math.Sin(DegToRad(135));
 
             return MoveStagePos(movePos, true);
 
@@ -2146,13 +2066,13 @@ namespace LWDicer.Layers
             var offset = new CPos_XYTZ();
             GetAlignData(out offset);
 
-            AxStageInfo.Pos_Fixed.Pos[(int)EStagePos.THETA_ALIGN_A] = pPos - offset;
+            AxStageInfo.Pos_Fixed.Pos[(int)EStagePos.STAGE_CENTER_INSPECT] = pPos - offset;
 
-            //CMainFrame.DataManager.Pos_Fixed.Pos_Stage1.Pos[(int)EStagePos.THETA_ALIGN_A] = AxStageInfo.Pos_Fixed.Pos[(int)EStagePos.THETA_ALIGN_A];
+            //CMainFrame.DataManager.Pos_Fixed.Pos_Stage1.Pos[(int)EStagePos.STAGE_CENTER_INSPECT] = AxStageInfo.Pos_Fixed.Pos[(int)EStagePos.STAGE_CENTER_INSPECT];
         }
         public int GetThetaAlignPosA(out CPos_XYTZ pPos)
         {
-            int index = (int)EStagePos.THETA_ALIGN_A;
+            int index = (int)EStagePos.STAGE_CENTER_INSPECT;
             pPos =  GetTargetPosition(index);
 
             return SUCCESS;

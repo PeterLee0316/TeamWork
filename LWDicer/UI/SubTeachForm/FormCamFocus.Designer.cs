@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.panel2 = new System.Windows.Forms.Panel();
-            this.btnMoveTeachFocus = new Syncfusion.Windows.Forms.ButtonAdv();
+            this.btnMoveTeachFocus1 = new Syncfusion.Windows.Forms.ButtonAdv();
             this.btnAutoFocus = new Syncfusion.Windows.Forms.ButtonAdv();
             this.label1 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
@@ -42,6 +42,8 @@
             this.buttonAdv1 = new Syncfusion.Windows.Forms.ButtonAdv();
             this.buttonAdv2 = new Syncfusion.Windows.Forms.ButtonAdv();
             this.label3 = new System.Windows.Forms.Label();
+            this.btnMoveTeachFocus2 = new Syncfusion.Windows.Forms.ButtonAdv();
+            this.btnMoveTeachFocus3 = new Syncfusion.Windows.Forms.ButtonAdv();
             this.panel2.SuspendLayout();
             this.panel1.SuspendLayout();
             this.panel3.SuspendLayout();
@@ -51,27 +53,29 @@
             // 
             this.panel2.BackColor = System.Drawing.Color.Silver;
             this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.panel2.Controls.Add(this.btnMoveTeachFocus);
+            this.panel2.Controls.Add(this.btnMoveTeachFocus3);
+            this.panel2.Controls.Add(this.btnMoveTeachFocus2);
+            this.panel2.Controls.Add(this.btnMoveTeachFocus1);
             this.panel2.Controls.Add(this.btnAutoFocus);
             this.panel2.Controls.Add(this.label1);
             this.panel2.Location = new System.Drawing.Point(237, 3);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(115, 192);
+            this.panel2.Size = new System.Drawing.Size(217, 192);
             this.panel2.TabIndex = 20;
             // 
-            // btnMoveTeachFocus
+            // btnMoveTeachFocus1
             // 
-            this.btnMoveTeachFocus.BackColor = System.Drawing.SystemColors.Control;
-            this.btnMoveTeachFocus.FlatAppearance.BorderSize = 5;
-            this.btnMoveTeachFocus.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.btnMoveTeachFocus.ForeColor = System.Drawing.Color.MidnightBlue;
-            this.btnMoveTeachFocus.Location = new System.Drawing.Point(6, 124);
-            this.btnMoveTeachFocus.Name = "btnMoveTeachFocus";
-            this.btnMoveTeachFocus.Size = new System.Drawing.Size(95, 60);
-            this.btnMoveTeachFocus.TabIndex = 24;
-            this.btnMoveTeachFocus.Text = "Teach Point";
-            this.btnMoveTeachFocus.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.btnMoveTeachFocus.Click += new System.EventHandler(this.btnMoveTeachFocus_Click);
+            this.btnMoveTeachFocus1.BackColor = System.Drawing.SystemColors.Control;
+            this.btnMoveTeachFocus1.FlatAppearance.BorderSize = 5;
+            this.btnMoveTeachFocus1.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.btnMoveTeachFocus1.ForeColor = System.Drawing.Color.MidnightBlue;
+            this.btnMoveTeachFocus1.Location = new System.Drawing.Point(107, 61);
+            this.btnMoveTeachFocus1.Name = "btnMoveTeachFocus1";
+            this.btnMoveTeachFocus1.Size = new System.Drawing.Size(95, 60);
+            this.btnMoveTeachFocus1.TabIndex = 24;
+            this.btnMoveTeachFocus1.Text = "Teach Point 1";
+            this.btnMoveTeachFocus1.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.btnMoveTeachFocus1.Click += new System.EventHandler(this.btnMoveTeachFocus_Click);
             // 
             // btnAutoFocus
             // 
@@ -116,11 +120,11 @@
             this.btnIndexDnHigh.FlatAppearance.BorderSize = 5;
             this.btnIndexDnHigh.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.btnIndexDnHigh.ForeColor = System.Drawing.Color.MidnightBlue;
-            this.btnIndexDnHigh.Location = new System.Drawing.Point(112, 124);
+            this.btnIndexDnHigh.Location = new System.Drawing.Point(10, 124);
             this.btnIndexDnHigh.Name = "btnIndexDnHigh";
             this.btnIndexDnHigh.Size = new System.Drawing.Size(95, 60);
             this.btnIndexDnHigh.TabIndex = 20;
-            this.btnIndexDnHigh.Text = "Down";
+            this.btnIndexDnHigh.Text = "Down\r\n(Fast)";
             this.btnIndexDnHigh.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.btnIndexDnHigh.MouseDown += new System.Windows.Forms.MouseEventHandler(this.btnIndexDnHigh_MouseDown);
             this.btnIndexDnHigh.MouseUp += new System.Windows.Forms.MouseEventHandler(this.btnIndexDnHigh_MouseUp);
@@ -131,12 +135,13 @@
             this.btnIndexUpHigh.FlatAppearance.BorderSize = 5;
             this.btnIndexUpHigh.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.btnIndexUpHigh.ForeColor = System.Drawing.Color.MidnightBlue;
-            this.btnIndexUpHigh.Location = new System.Drawing.Point(112, 61);
+            this.btnIndexUpHigh.Location = new System.Drawing.Point(10, 61);
             this.btnIndexUpHigh.Name = "btnIndexUpHigh";
             this.btnIndexUpHigh.Size = new System.Drawing.Size(95, 60);
             this.btnIndexUpHigh.TabIndex = 21;
-            this.btnIndexUpHigh.Text = "Up";
+            this.btnIndexUpHigh.Text = "Up\r\n(Fast)";
             this.btnIndexUpHigh.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.btnIndexUpHigh.Click += new System.EventHandler(this.btnIndexUpHigh_Click);
             this.btnIndexUpHigh.MouseDown += new System.Windows.Forms.MouseEventHandler(this.btnIndexUpHigh_MouseDown);
             this.btnIndexUpHigh.MouseUp += new System.Windows.Forms.MouseEventHandler(this.btnIndexUpHigh_MouseUp);
             // 
@@ -146,9 +151,9 @@
             this.label2.Font = new System.Drawing.Font("굴림", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label2.Location = new System.Drawing.Point(37, 6);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(144, 16);
+            this.label2.Size = new System.Drawing.Size(128, 16);
             this.label2.TabIndex = 17;
-            this.label2.Text = "Cam Index Move";
+            this.label2.Text = "Cam Jog Move";
             // 
             // btnIndexDnLow
             // 
@@ -156,11 +161,11 @@
             this.btnIndexDnLow.FlatAppearance.BorderSize = 5;
             this.btnIndexDnLow.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.btnIndexDnLow.ForeColor = System.Drawing.Color.MidnightBlue;
-            this.btnIndexDnLow.Location = new System.Drawing.Point(3, 124);
+            this.btnIndexDnLow.Location = new System.Drawing.Point(111, 124);
             this.btnIndexDnLow.Name = "btnIndexDnLow";
             this.btnIndexDnLow.Size = new System.Drawing.Size(95, 60);
             this.btnIndexDnLow.TabIndex = 11;
-            this.btnIndexDnLow.Text = "Down";
+            this.btnIndexDnLow.Text = "Down\r\n(Slow)";
             this.btnIndexDnLow.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.btnIndexDnLow.MouseDown += new System.Windows.Forms.MouseEventHandler(this.btnIndexDnLow_MouseDown);
             this.btnIndexDnLow.MouseUp += new System.Windows.Forms.MouseEventHandler(this.btnIndexDnLow_MouseUp);
@@ -171,11 +176,11 @@
             this.btnIndexUpLow.FlatAppearance.BorderSize = 5;
             this.btnIndexUpLow.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.btnIndexUpLow.ForeColor = System.Drawing.Color.MidnightBlue;
-            this.btnIndexUpLow.Location = new System.Drawing.Point(3, 61);
+            this.btnIndexUpLow.Location = new System.Drawing.Point(111, 61);
             this.btnIndexUpLow.Name = "btnIndexUpLow";
             this.btnIndexUpLow.Size = new System.Drawing.Size(95, 60);
             this.btnIndexUpLow.TabIndex = 13;
-            this.btnIndexUpLow.Text = "Up";
+            this.btnIndexUpLow.Text = "Up\r\n(Slow)";
             this.btnIndexUpLow.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.btnIndexUpLow.MouseDown += new System.Windows.Forms.MouseEventHandler(this.btnIndexUpLow_MouseDown);
             this.btnIndexUpLow.MouseUp += new System.Windows.Forms.MouseEventHandler(this.btnIndexUpLow_MouseUp);
@@ -187,9 +192,9 @@
             this.panel3.Controls.Add(this.buttonAdv1);
             this.panel3.Controls.Add(this.buttonAdv2);
             this.panel3.Controls.Add(this.label3);
-            this.panel3.Location = new System.Drawing.Point(359, 3);
+            this.panel3.Location = new System.Drawing.Point(460, 3);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(311, 192);
+            this.panel3.Size = new System.Drawing.Size(330, 192);
             this.panel3.TabIndex = 21;
             // 
             // buttonAdv1
@@ -228,6 +233,34 @@
             this.label3.TabIndex = 16;
             this.label3.Text = "Light";
             // 
+            // btnMoveTeachFocus2
+            // 
+            this.btnMoveTeachFocus2.BackColor = System.Drawing.SystemColors.Control;
+            this.btnMoveTeachFocus2.FlatAppearance.BorderSize = 5;
+            this.btnMoveTeachFocus2.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.btnMoveTeachFocus2.ForeColor = System.Drawing.Color.MidnightBlue;
+            this.btnMoveTeachFocus2.Location = new System.Drawing.Point(6, 123);
+            this.btnMoveTeachFocus2.Name = "btnMoveTeachFocus2";
+            this.btnMoveTeachFocus2.Size = new System.Drawing.Size(95, 60);
+            this.btnMoveTeachFocus2.TabIndex = 26;
+            this.btnMoveTeachFocus2.Text = "Teach Point 2";
+            this.btnMoveTeachFocus2.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.btnMoveTeachFocus2.Click += new System.EventHandler(this.btnMoveTeachFocus2_Click);
+            // 
+            // btnMoveTeachFocus3
+            // 
+            this.btnMoveTeachFocus3.BackColor = System.Drawing.SystemColors.Control;
+            this.btnMoveTeachFocus3.FlatAppearance.BorderSize = 5;
+            this.btnMoveTeachFocus3.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.btnMoveTeachFocus3.ForeColor = System.Drawing.Color.MidnightBlue;
+            this.btnMoveTeachFocus3.Location = new System.Drawing.Point(107, 123);
+            this.btnMoveTeachFocus3.Name = "btnMoveTeachFocus3";
+            this.btnMoveTeachFocus3.Size = new System.Drawing.Size(95, 60);
+            this.btnMoveTeachFocus3.TabIndex = 27;
+            this.btnMoveTeachFocus3.Text = "Teach Point 3";
+            this.btnMoveTeachFocus3.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.btnMoveTeachFocus3.Click += new System.EventHandler(this.btnMoveTeachFocus3_Click);
+            // 
             // FormCamFocus
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
@@ -257,7 +290,7 @@
         private System.Windows.Forms.Label label2;
         private Syncfusion.Windows.Forms.ButtonAdv btnIndexDnLow;
         private Syncfusion.Windows.Forms.ButtonAdv btnIndexUpLow;
-        private Syncfusion.Windows.Forms.ButtonAdv btnMoveTeachFocus;
+        private Syncfusion.Windows.Forms.ButtonAdv btnMoveTeachFocus1;
         private Syncfusion.Windows.Forms.ButtonAdv btnAutoFocus;
         private Syncfusion.Windows.Forms.ButtonAdv btnIndexDnHigh;
         private Syncfusion.Windows.Forms.ButtonAdv btnIndexUpHigh;
@@ -265,5 +298,7 @@
         private Syncfusion.Windows.Forms.ButtonAdv buttonAdv1;
         private Syncfusion.Windows.Forms.ButtonAdv buttonAdv2;
         private System.Windows.Forms.Label label3;
+        private Syncfusion.Windows.Forms.ButtonAdv btnMoveTeachFocus3;
+        private Syncfusion.Windows.Forms.ButtonAdv btnMoveTeachFocus2;
     }
 }

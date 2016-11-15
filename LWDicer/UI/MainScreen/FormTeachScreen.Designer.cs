@@ -50,12 +50,13 @@
             this.gradientPanel1 = new Syncfusion.Windows.Forms.Tools.GradientPanel();
             this.gradientPanel2 = new Syncfusion.Windows.Forms.Tools.GradientPanel();
             this.gradientPanel3 = new Syncfusion.Windows.Forms.Tools.GradientPanel();
+            this.btnLaserTeach = new Syncfusion.Windows.Forms.ButtonAdv();
             this.autoLabel3 = new Syncfusion.Windows.Forms.Tools.AutoLabel();
             this.btnMicroAlign = new Syncfusion.Windows.Forms.ButtonAdv();
             this.btnEdgeAlign = new Syncfusion.Windows.Forms.ButtonAdv();
-            this.btnThetaAlign = new Syncfusion.Windows.Forms.ButtonAdv();
             this.btnMacroAlgin = new Syncfusion.Windows.Forms.ButtonAdv();
-            this.btnLaserAlign = new Syncfusion.Windows.Forms.ButtonAdv();
+            this.btnCamStageTeach = new Syncfusion.Windows.Forms.ButtonAdv();
+            this.btnWaferTeach = new Syncfusion.Windows.Forms.ButtonAdv();
             ((System.ComponentModel.ISupportInitialize)(this.gradientPanel1)).BeginInit();
             this.gradientPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gradientPanel2)).BeginInit();
@@ -72,7 +73,7 @@
             this.BtnTeachLoader.FlatAppearance.BorderSize = 5;
             this.BtnTeachLoader.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.BtnTeachLoader.ForeColor = System.Drawing.Color.MidnightBlue;
-            this.BtnTeachLoader.Location = new System.Drawing.Point(35, 66);
+            this.BtnTeachLoader.Location = new System.Drawing.Point(30, 66);
             this.BtnTeachLoader.Name = "BtnTeachLoader";
             this.BtnTeachLoader.Size = new System.Drawing.Size(152, 78);
             this.BtnTeachLoader.TabIndex = 11;
@@ -88,7 +89,7 @@
             this.BtnTeachPushPull.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.BtnTeachPushPull.ForeColor = System.Drawing.Color.MidnightBlue;
             this.BtnTeachPushPull.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.BtnTeachPushPull.Location = new System.Drawing.Point(203, 66);
+            this.BtnTeachPushPull.Location = new System.Drawing.Point(202, 66);
             this.BtnTeachPushPull.Name = "BtnTeachPushPull";
             this.BtnTeachPushPull.Size = new System.Drawing.Size(152, 78);
             this.BtnTeachPushPull.TabIndex = 12;
@@ -104,7 +105,7 @@
             this.BtnTeachSpinner1.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.BtnTeachSpinner1.ForeColor = System.Drawing.Color.MidnightBlue;
             this.BtnTeachSpinner1.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.BtnTeachSpinner1.Location = new System.Drawing.Point(35, 150);
+            this.BtnTeachSpinner1.Location = new System.Drawing.Point(30, 150);
             this.BtnTeachSpinner1.Name = "BtnTeachSpinner1";
             this.BtnTeachSpinner1.Size = new System.Drawing.Size(152, 78);
             this.BtnTeachSpinner1.TabIndex = 13;
@@ -120,7 +121,7 @@
             this.BtnTeachSpinner2.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.BtnTeachSpinner2.ForeColor = System.Drawing.Color.MidnightBlue;
             this.BtnTeachSpinner2.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.BtnTeachSpinner2.Location = new System.Drawing.Point(203, 150);
+            this.BtnTeachSpinner2.Location = new System.Drawing.Point(202, 150);
             this.BtnTeachSpinner2.Name = "BtnTeachSpinner2";
             this.BtnTeachSpinner2.Size = new System.Drawing.Size(152, 78);
             this.BtnTeachSpinner2.TabIndex = 14;
@@ -136,7 +137,7 @@
             this.BtnTeachHandler.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.BtnTeachHandler.ForeColor = System.Drawing.Color.MidnightBlue;
             this.BtnTeachHandler.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.BtnTeachHandler.Location = new System.Drawing.Point(35, 234);
+            this.BtnTeachHandler.Location = new System.Drawing.Point(30, 234);
             this.BtnTeachHandler.Name = "BtnTeachHandler";
             this.BtnTeachHandler.Size = new System.Drawing.Size(152, 78);
             this.BtnTeachHandler.TabIndex = 15;
@@ -152,7 +153,7 @@
             this.BtnTeachStage.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.BtnTeachStage.ForeColor = System.Drawing.Color.MidnightBlue;
             this.BtnTeachStage.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.BtnTeachStage.Location = new System.Drawing.Point(203, 234);
+            this.BtnTeachStage.Location = new System.Drawing.Point(202, 234);
             this.BtnTeachStage.Name = "BtnTeachStage";
             this.BtnTeachStage.Size = new System.Drawing.Size(152, 78);
             this.BtnTeachStage.TabIndex = 16;
@@ -168,7 +169,7 @@
             this.BtnCamera.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.BtnCamera.ForeColor = System.Drawing.Color.MidnightBlue;
             this.BtnCamera.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.BtnCamera.Location = new System.Drawing.Point(203, 318);
+            this.BtnCamera.Location = new System.Drawing.Point(202, 318);
             this.BtnCamera.Name = "BtnCamera";
             this.BtnCamera.Size = new System.Drawing.Size(152, 78);
             this.BtnCamera.TabIndex = 17;
@@ -184,7 +185,7 @@
             this.BtnScanner.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.BtnScanner.ForeColor = System.Drawing.Color.MidnightBlue;
             this.BtnScanner.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.BtnScanner.Location = new System.Drawing.Point(35, 318);
+            this.BtnScanner.Location = new System.Drawing.Point(30, 318);
             this.BtnScanner.Name = "BtnScanner";
             this.BtnScanner.Size = new System.Drawing.Size(152, 78);
             this.BtnScanner.TabIndex = 18;
@@ -387,16 +388,33 @@
             this.gradientPanel3.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.gradientPanel3.Border3DStyle = System.Windows.Forms.Border3DStyle.Raised;
             this.gradientPanel3.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.gradientPanel3.Controls.Add(this.btnLaserAlign);
+            this.gradientPanel3.Controls.Add(this.btnWaferTeach);
+            this.gradientPanel3.Controls.Add(this.btnCamStageTeach);
+            this.gradientPanel3.Controls.Add(this.btnLaserTeach);
             this.gradientPanel3.Controls.Add(this.autoLabel3);
             this.gradientPanel3.Controls.Add(this.btnMicroAlign);
             this.gradientPanel3.Controls.Add(this.btnEdgeAlign);
-            this.gradientPanel3.Controls.Add(this.btnThetaAlign);
             this.gradientPanel3.Controls.Add(this.btnMacroAlgin);
             this.gradientPanel3.Location = new System.Drawing.Point(867, 96);
             this.gradientPanel3.Name = "gradientPanel3";
             this.gradientPanel3.Size = new System.Drawing.Size(389, 437);
             this.gradientPanel3.TabIndex = 33;
+            // 
+            // btnLaserTeach
+            // 
+            this.btnLaserTeach.AutoEllipsis = true;
+            this.btnLaserTeach.BackColor = System.Drawing.SystemColors.Control;
+            this.btnLaserTeach.FlatAppearance.BorderSize = 5;
+            this.btnLaserTeach.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.btnLaserTeach.ForeColor = System.Drawing.Color.MidnightBlue;
+            this.btnLaserTeach.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnLaserTeach.Location = new System.Drawing.Point(202, 66);
+            this.btnLaserTeach.Name = "btnLaserTeach";
+            this.btnLaserTeach.Size = new System.Drawing.Size(152, 78);
+            this.btnLaserTeach.TabIndex = 32;
+            this.btnLaserTeach.Text = "Laser Teach";
+            this.btnLaserTeach.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.btnLaserTeach.Click += new System.EventHandler(this.btnLaserAlign_Click);
             // 
             // autoLabel3
             // 
@@ -416,7 +434,7 @@
             this.btnMicroAlign.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.btnMicroAlign.ForeColor = System.Drawing.Color.MidnightBlue;
             this.btnMicroAlign.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btnMicroAlign.Location = new System.Drawing.Point(202, 150);
+            this.btnMicroAlign.Location = new System.Drawing.Point(202, 234);
             this.btnMicroAlign.Name = "btnMicroAlign";
             this.btnMicroAlign.Size = new System.Drawing.Size(152, 78);
             this.btnMicroAlign.TabIndex = 26;
@@ -432,29 +450,13 @@
             this.btnEdgeAlign.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.btnEdgeAlign.ForeColor = System.Drawing.Color.MidnightBlue;
             this.btnEdgeAlign.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btnEdgeAlign.Location = new System.Drawing.Point(202, 66);
+            this.btnEdgeAlign.Location = new System.Drawing.Point(202, 150);
             this.btnEdgeAlign.Name = "btnEdgeAlign";
             this.btnEdgeAlign.Size = new System.Drawing.Size(152, 78);
             this.btnEdgeAlign.TabIndex = 23;
             this.btnEdgeAlign.Text = "Edge Align";
             this.btnEdgeAlign.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.btnEdgeAlign.Click += new System.EventHandler(this.btnEdgeAlign_Click);
-            // 
-            // btnThetaAlign
-            // 
-            this.btnThetaAlign.AutoEllipsis = true;
-            this.btnThetaAlign.BackColor = System.Drawing.SystemColors.Control;
-            this.btnThetaAlign.FlatAppearance.BorderSize = 5;
-            this.btnThetaAlign.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.btnThetaAlign.ForeColor = System.Drawing.Color.MidnightBlue;
-            this.btnThetaAlign.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btnThetaAlign.Location = new System.Drawing.Point(30, 66);
-            this.btnThetaAlign.Name = "btnThetaAlign";
-            this.btnThetaAlign.Size = new System.Drawing.Size(152, 78);
-            this.btnThetaAlign.TabIndex = 19;
-            this.btnThetaAlign.Text = "Theta Align";
-            this.btnThetaAlign.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.btnThetaAlign.Click += new System.EventHandler(this.btnThetaAlign_Click);
             // 
             // btnMacroAlgin
             // 
@@ -464,7 +466,7 @@
             this.btnMacroAlgin.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.btnMacroAlgin.ForeColor = System.Drawing.Color.MidnightBlue;
             this.btnMacroAlgin.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btnMacroAlgin.Location = new System.Drawing.Point(30, 150);
+            this.btnMacroAlgin.Location = new System.Drawing.Point(30, 234);
             this.btnMacroAlgin.Name = "btnMacroAlgin";
             this.btnMacroAlgin.Size = new System.Drawing.Size(152, 78);
             this.btnMacroAlgin.TabIndex = 21;
@@ -472,20 +474,36 @@
             this.btnMacroAlgin.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.btnMacroAlgin.Click += new System.EventHandler(this.btnMacroAlgin_Click);
             // 
-            // btnLaserAlign
+            // btnCamStageTeach
             // 
-            this.btnLaserAlign.AutoEllipsis = true;
-            this.btnLaserAlign.BackColor = System.Drawing.SystemColors.Control;
-            this.btnLaserAlign.FlatAppearance.BorderSize = 5;
-            this.btnLaserAlign.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.btnLaserAlign.ForeColor = System.Drawing.Color.MidnightBlue;
-            this.btnLaserAlign.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btnLaserAlign.Location = new System.Drawing.Point(30, 234);
-            this.btnLaserAlign.Name = "btnLaserAlign";
-            this.btnLaserAlign.Size = new System.Drawing.Size(152, 78);
-            this.btnLaserAlign.TabIndex = 32;
-            this.btnLaserAlign.Text = "Laser Align";
-            this.btnLaserAlign.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.btnCamStageTeach.AutoEllipsis = true;
+            this.btnCamStageTeach.BackColor = System.Drawing.SystemColors.Control;
+            this.btnCamStageTeach.FlatAppearance.BorderSize = 5;
+            this.btnCamStageTeach.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.btnCamStageTeach.ForeColor = System.Drawing.Color.MidnightBlue;
+            this.btnCamStageTeach.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnCamStageTeach.Location = new System.Drawing.Point(30, 66);
+            this.btnCamStageTeach.Name = "btnCamStageTeach";
+            this.btnCamStageTeach.Size = new System.Drawing.Size(152, 78);
+            this.btnCamStageTeach.TabIndex = 33;
+            this.btnCamStageTeach.Text = "Camera Teach";
+            this.btnCamStageTeach.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.btnCamStageTeach.Click += new System.EventHandler(this.btnCamStageTeach_Click);
+            // 
+            // btnWaferTeach
+            // 
+            this.btnWaferTeach.AutoEllipsis = true;
+            this.btnWaferTeach.BackColor = System.Drawing.SystemColors.Control;
+            this.btnWaferTeach.FlatAppearance.BorderSize = 5;
+            this.btnWaferTeach.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.btnWaferTeach.ForeColor = System.Drawing.Color.MidnightBlue;
+            this.btnWaferTeach.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnWaferTeach.Location = new System.Drawing.Point(30, 150);
+            this.btnWaferTeach.Name = "btnWaferTeach";
+            this.btnWaferTeach.Size = new System.Drawing.Size(152, 78);
+            this.btnWaferTeach.TabIndex = 34;
+            this.btnWaferTeach.Text = "Wafer Die Teach";
+            this.btnWaferTeach.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             // 
             // FormTeachScreen
             // 
@@ -540,8 +558,9 @@
         private Syncfusion.Windows.Forms.Tools.AutoLabel autoLabel3;
         private Syncfusion.Windows.Forms.ButtonAdv btnMicroAlign;
         private Syncfusion.Windows.Forms.ButtonAdv btnEdgeAlign;
-        private Syncfusion.Windows.Forms.ButtonAdv btnThetaAlign;
         private Syncfusion.Windows.Forms.ButtonAdv btnMacroAlgin;
-        private Syncfusion.Windows.Forms.ButtonAdv btnLaserAlign;
+        private Syncfusion.Windows.Forms.ButtonAdv btnLaserTeach;
+        private Syncfusion.Windows.Forms.ButtonAdv btnCamStageTeach;
+        private Syncfusion.Windows.Forms.ButtonAdv btnWaferTeach;
     }
 }

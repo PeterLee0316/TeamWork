@@ -527,9 +527,9 @@ namespace LWDicer.UI
             //====================================================================================================
             // Config.ini
             
-            GridConfigure[1, 2].Text  = string.Format("{0:f3}", para.InScanResolution );
-            GridConfigure[2, 2].Text  = string.Format("{0:f3}", para.CrossScanResolution);
-            GridConfigure[3, 2].Text  = string.Format("{0:f3}", para.InScanOffset);
+            GridConfigure[1, 2].Text  = string.Format("{0:f4}", para.InScanResolution );
+            GridConfigure[2, 2].Text  = string.Format("{0:f4}", para.CrossScanResolution);
+            GridConfigure[3, 2].Text  = string.Format("{0:f4}", para.InScanOffset);
             GridConfigure[4, 2].Text  = Convert.ToString(para.StopMotorBetweenJobs);
             GridConfigure[5, 2].Text  = Convert.ToString(para.PixInvert);
             GridConfigure[6, 2].Text  = Convert.ToString(para.JobStartBufferTime);
@@ -545,14 +545,14 @@ namespace LWDicer.UI
             GridConfigure[14, 2].Text = String.Format("{0:f0}", para.EnCarSig);
             GridConfigure[15, 2].Text = String.Format("{0:f0}", para.SwapCarSig);
             GridConfigure[16, 2].Text = String.Format("{0:f0}", para.InterleaveRatio);
-            GridConfigure[17, 2].Text = string.Format("{0:f3}", para.FacetFineDelayOffset0 );
-            GridConfigure[18, 2].Text = string.Format("{0:f3}", para.FacetFineDelayOffset1 );
-            GridConfigure[19, 2].Text = string.Format("{0:f3}", para.FacetFineDelayOffset2 );
-            GridConfigure[20, 2].Text = string.Format("{0:f3}", para.FacetFineDelayOffset3 );
-            GridConfigure[21, 2].Text = string.Format("{0:f3}", para.FacetFineDelayOffset4 );
-            GridConfigure[22, 2].Text = string.Format("{0:f3}", para.FacetFineDelayOffset5 );
-            GridConfigure[23, 2].Text = string.Format("{0:f3}", para.FacetFineDelayOffset6 );
-            GridConfigure[24, 2].Text = string.Format("{0:f3}", para.FacetFineDelayOffset7 );
+            GridConfigure[17, 2].Text = string.Format("{0:f4}", para.FacetFineDelayOffset0 );
+            GridConfigure[18, 2].Text = string.Format("{0:f4}", para.FacetFineDelayOffset1 );
+            GridConfigure[19, 2].Text = string.Format("{0:f4}", para.FacetFineDelayOffset2 );
+            GridConfigure[20, 2].Text = string.Format("{0:f4}", para.FacetFineDelayOffset3 );
+            GridConfigure[21, 2].Text = string.Format("{0:f4}", para.FacetFineDelayOffset4 );
+            GridConfigure[22, 2].Text = string.Format("{0:f4}", para.FacetFineDelayOffset5 );
+            GridConfigure[23, 2].Text = string.Format("{0:f4}", para.FacetFineDelayOffset6 );
+            GridConfigure[24, 2].Text = string.Format("{0:f4}", para.FacetFineDelayOffset7 );
             GridConfigure[25, 2].Text = String.Format("{0:f0}", para.StartFacet);
             GridConfigure[26, 2].Text = String.Format("{0:f0}", para.AutoIncrementStartFacet);
             GridConfigure[27, 2].Text = String.Format("{0:f0}", para.MotorStableTime);
@@ -1076,35 +1076,35 @@ namespace LWDicer.UI
 
         private void DisplayProcessData()
         {
-            lblResolutionX.Text     = string.Format("{0:F3}", CMainFrame.DataManager.ModelData.ScanData.InScanResolution);
-            lblResolutionY.Text     = string.Format("{0:F3}", CMainFrame.DataManager.ModelData.ScanData.CrossScanResolution);
-            lblOffsetX.Text         = string.Format("{0:F3}", CMainFrame.DataManager.ModelData.ScanData.InScanOffset);
+            lblResolutionX.Text     = string.Format("{0:F4}", CMainFrame.DataManager.ModelData.ScanData.InScanResolution);
+            lblResolutionY.Text     = string.Format("{0:F4}", CMainFrame.DataManager.ModelData.ScanData.CrossScanResolution);
+            lblOffsetX.Text         = string.Format("{0:F4}", CMainFrame.DataManager.ModelData.ScanData.InScanOffset);
             lblRepetitionLaser.Text = string.Format("{0:F0}", CMainFrame.DataManager.ModelData.ScanData.RepetitionRate);
             cbbOverlap.Text         = string.Format("{0:F0}", CMainFrame.DataManager.ModelData.ScanData.InterleaveRatio);
 
             lblWaferSize.Text       = string.Format("{0:F1}", CMainFrame.DataManager.ModelData.ProcData.ProcessWaferSize);
-            lblDiePitchX.Text       = string.Format("{0:F3}", CMainFrame.DataManager.ModelData.ProcData.WaferDieSizeX);
-            lblDiePitchY.Text       = string.Format("{0:F3}", CMainFrame.DataManager.ModelData.ProcData.WaferDieSizeY);
+            lblDiePitchX.Text       = string.Format("{0:F4}", CMainFrame.DataManager.ModelData.ProcData.WaferDieSizeX);
+            lblDiePitchY.Text       = string.Format("{0:F4}", CMainFrame.DataManager.ModelData.ProcData.WaferDieSizeY);
             lblMarginWidth.Text     = string.Format("{0:F1}", CMainFrame.DataManager.ModelData.ProcData.MarginWidth);
             lblMarginHeight.Text    = string.Format("{0:F1}", CMainFrame.DataManager.ModelData.ProcData.MarginHeight);
             lblOverlapCount.Text    = string.Format("{0:F0}", CMainFrame.DataManager.ModelData.ProcData.ProcessLineNum);
 
 
-            lblProcessOffsetX1.Text = string.Format("{0:F3}", CMainFrame.DataManager.ModelData.ProcData.ProcessOffsetX1);
-            lblProcessOffsetY1.Text = string.Format("{0:F3}", CMainFrame.DataManager.ModelData.ProcData.ProcessOffsetY1);
+            lblProcessOffsetX1.Text = string.Format("{0:F4}", CMainFrame.DataManager.ModelData.ProcData.ProcessOffsetX1);
+            lblProcessOffsetY1.Text = string.Format("{0:F4}", CMainFrame.DataManager.ModelData.ProcData.ProcessOffsetY1);
             lblProcessCount1.Text = string.Format("{0:F0}", CMainFrame.DataManager.ModelData.ProcData.ProcessCount1);
-            lblProcessOffsetX2.Text = string.Format("{0:F3}", CMainFrame.DataManager.ModelData.ProcData.ProcessOffsetX2);
-            lblProcessOffsetY2.Text = string.Format("{0:F3}", CMainFrame.DataManager.ModelData.ProcData.ProcessOffsetY2);
+            lblProcessOffsetX2.Text = string.Format("{0:F4}", CMainFrame.DataManager.ModelData.ProcData.ProcessOffsetX2);
+            lblProcessOffsetY2.Text = string.Format("{0:F4}", CMainFrame.DataManager.ModelData.ProcData.ProcessOffsetY2);
             lblProcessCount2.Text = string.Format("{0:F0}", CMainFrame.DataManager.ModelData.ProcData.ProcessCount2);
 
-            lblPatternPitch1.Text = string.Format("{0:F3}", CMainFrame.DataManager.ModelData.ProcData.PatternPitch1);
+            lblPatternPitch1.Text = string.Format("{0:F4}", CMainFrame.DataManager.ModelData.ProcData.PatternPitch1);
             lblPatternCount1.Text = string.Format("{0:F0}", CMainFrame.DataManager.ModelData.ProcData.PatternCount1);
-            lblPatternPitch2.Text = string.Format("{0:F3}", CMainFrame.DataManager.ModelData.ProcData.PatternPitch2);
+            lblPatternPitch2.Text = string.Format("{0:F4}", CMainFrame.DataManager.ModelData.ProcData.PatternPitch2);
             lblPatternCount2.Text = string.Format("{0:F0}", CMainFrame.DataManager.ModelData.ProcData.PatternCount2);
-            lblPatternOffset1.Text = string.Format("{0:F3}", CMainFrame.DataManager.ModelData.ProcData.PatternOffset1);
-            lblPatternOffset2.Text = string.Format("{0:F3}", CMainFrame.DataManager.ModelData.ProcData.PatternOffset2);
+            lblPatternOffset1.Text = string.Format("{0:F4}", CMainFrame.DataManager.ModelData.ProcData.PatternOffset1);
+            lblPatternOffset2.Text = string.Format("{0:F4}", CMainFrame.DataManager.ModelData.ProcData.PatternOffset2);
 
-            lblProcessInterval.Text = string.Format("{0:F3}", CMainFrame.DataManager.ModelData.ProcData.ProcessInterval);
+            lblProcessInterval.Text = string.Format("{0:F4}", CMainFrame.DataManager.ModelData.ProcData.ProcessInterval);
 
         }
         private void cbbOverlap_SelectedIndexChanged(object sender, EventArgs e)

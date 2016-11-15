@@ -26,7 +26,7 @@ namespace LWDicer.UI
         private CSystemData_Align SystemAlignData;
         private CPos_XYTZ MacroRotateCenterPos = new CPos_XYTZ();
         private CPos_XYTZ MicroRotateCenterPos = new CPos_XYTZ();
-
+        private CPos_XYTZ InspectRotateCenterPos = new CPos_XYTZ();
         public FormEdgeAlignTeach()
         {
             InitializeComponent();
@@ -119,10 +119,9 @@ namespace LWDicer.UI
         {
             if (CMainFrame.LWDicer.m_ctrlStage1.GetCurrentCam() == FINE_CAM)
                 CMainFrame.LWDicer.m_ctrlStage1.ChangeMacroVision(picVision.Handle, EVisionOverlayMode.EDGE);
-            else if (CMainFrame.LWDicer.m_ctrlStage1.GetCurrentCam() == PRE__CAM)
+            else 
                 CMainFrame.LWDicer.m_ctrlStage1.ChangeMicroVision(picVision.Handle, EVisionOverlayMode.EDGE);
-            else
-                CMainFrame.DisplayMsg("Cam not defined");
+
         }
 
         private void btnSelectFocus_Click(object sender, EventArgs e)
@@ -241,6 +240,19 @@ namespace LWDicer.UI
 
                 CMainFrame.LWDicer.m_ctrlStage1.MoveStageRelative(movePos);
             }
+
+            // 임시 적용
+#if EQUIP_266_DEV
+            if (CMainFrame.LWDicer.m_ctrlStage1.GetCurrentCam() == INSP_CAM)
+            {
+                ratioMove = CMainFrame.DataManager.SystemData_Align.MicroScreenWidth / (double)picSize.Width;
+
+                movePos.dX = (double)moveDistance.X * ratioMove;
+                movePos.dY = -(double)moveDistance.Y * ratioMove;
+
+                CMainFrame.LWDicer.m_ctrlStage1.MoveStageRelative(movePos);
+            }
+#endif
         }
 
         private void btnSearchEdgePoint_Click(object sender, EventArgs e)
@@ -279,6 +291,8 @@ namespace LWDicer.UI
                 CMainFrame.LWDicer.m_ctrlStage1.DoRotateCenterCals(ref MacroRotateCenterPos);
             if (CMainFrame.LWDicer.m_ctrlStage1.GetCurrentCam() == FINE_CAM)
                 CMainFrame.LWDicer.m_ctrlStage1.DoRotateCenterCals(ref MicroRotateCenterPos);
+            if (CMainFrame.LWDicer.m_ctrlStage1.GetCurrentCam() == INSP_CAM)
+                CMainFrame.LWDicer.m_ctrlStage1.DoRotateCenterCals(ref InspectRotateCenterPos);
 
         }
 
@@ -308,7 +322,10 @@ namespace LWDicer.UI
             tGroup.Pos_Array[(int)pIndex].Pos[nSelectedPos] = MacroRotateCenterPos.Copy();
 
             nSelectedPos = (int)EStagePos.STAGE_CENTER_FINE;
-            tGroup.Pos_Array[(int)pIndex].Pos[nSelectedPos] = MicroRotateCenterPos.Copy();            
+            tGroup.Pos_Array[(int)pIndex].Pos[nSelectedPos] = MicroRotateCenterPos.Copy();
+
+            nSelectedPos = (int)EStagePos.STAGE_CENTER_INSPECT;
+            tGroup.Pos_Array[(int)pIndex].Pos[nSelectedPos] = InspectRotateCenterPos.Copy();
 
             CMainFrame.LWDicer.SavePosition(tGroup, Type_Fixed, pIndex);
 
@@ -355,6 +372,22 @@ namespace LWDicer.UI
         private void btnThetaAlign_Click(object sender, EventArgs e)
         {
             CMainFrame.LWDicer.m_ctrlStage1.DoThetaAlign();
+        }
+
+        private void btnInpectCam_Click(object sender, EventArgs e)
+        {
+
+#if EQUIP_266_DEV
+            CMainFrame.LWDicer.m_Vision.DestroyLocalView(PRE__CAM);
+            CMainFrame.LWDicer.m_Vision.DestroyLocalView(FINE_CAM);
+            CMainFrame.LWDicer.m_Vision.InitialLocalView(INSP_CAM, picVision.Handle);
+            CMainFrame.LWDicer.m_Vision.LiveVideo(INSP_CAM);
+
+            CMainFrame.LWDicer.m_MeStage.MoveCameraToFocusPosInspect();
+
+            CMainFrame.LWDicer.m_Vision.ShowHairLine();
+#endif
+
         }
     }
 }

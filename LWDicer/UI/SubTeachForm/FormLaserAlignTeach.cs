@@ -24,14 +24,14 @@ using LWDicer.Layers;
 
 namespace LWDicer.UI
 {
-    public partial class FormThetaAlignTeach : Form
+    public partial class FormLaserAlignTeach : Form
     {
         private CSystemData_Align m_SystemData_Align;
 
         //private CPos_XYTZ PositionThetaAlignA = new CPos_XYTZ();
         //private CPos_XYTZ PositionThetaAlignTurnA = new CPos_XYTZ();
 
-        public FormThetaAlignTeach()
+        public FormLaserAlignTeach()
         {
             InitializeComponent();
 
@@ -123,20 +123,22 @@ namespace LWDicer.UI
             // Stage Center는 Pre Cam 기준으로 정하고, 이후 나머지 위치는 Fine Cam 기준으로 저장한다
             // Fine Cam 기준으로 저장하기 위해 Offset 만큼 더해서 저장한다.
             // (Stage Center & Edge Align Position만 Pre Cam을 기준으로 사용)
-            CMainFrame.DataManager.Pos_Fixed.Pos_Stage1.Pos[(int)EStagePos.THETA_ALIGN_A].dX = CMainFrame.DataManager.Pos_Fixed.Pos_Stage1.Pos[(int)EStagePos.STAGE_CENTER_PRE].dX -
-                                                                                             CMainFrame.DataManager.SystemData_Align.AlignMarkWidthLen/2 -
-                                                                                             CMainFrame.DataManager.SystemData_Align.CamEachOffset.dX;
-            CMainFrame.DataManager.Pos_Fixed.Pos_Stage1.Pos[(int)EStagePos.THETA_ALIGN_A].dY = CMainFrame.DataManager.Pos_Fixed.Pos_Stage1.Pos[(int)EStagePos.STAGE_CENTER_PRE].dY -
-                                                                                             CMainFrame.DataManager.SystemData_Align.CamEachOffset.dY;
-            CMainFrame.DataManager.Pos_Fixed.Pos_Stage1.Pos[(int)EStagePos.THETA_ALIGN_A].dT = CMainFrame.DataManager.Pos_Fixed.Pos_Stage1.Pos[(int)EStagePos.STAGE_CENTER_PRE].dT;
 
-            CMainFrame.DataManager.Pos_Fixed.Pos_Stage1.Pos[(int)EStagePos.THETA_ALIGN_TURN_A].dX = CMainFrame.DataManager.Pos_Fixed.Pos_Stage1.Pos[(int)EStagePos.STAGE_CENTER_PRE].dX -
-                                                                                                  CMainFrame.DataManager.SystemData_Align.AlignMarkWidthLen / 2 -
-                                                                                                  CMainFrame.DataManager.SystemData_Align.CamEachOffset.dX;
-            CMainFrame.DataManager.Pos_Fixed.Pos_Stage1.Pos[(int)EStagePos.THETA_ALIGN_TURN_A].dY = CMainFrame.DataManager.Pos_Fixed.Pos_Stage1.Pos[(int)EStagePos.STAGE_CENTER_PRE].dY -
-                                                                                                  CMainFrame.DataManager.SystemData_Align.CamEachOffset.dY;
-            CMainFrame.DataManager.Pos_Fixed.Pos_Stage1.Pos[(int)EStagePos.THETA_ALIGN_TURN_A].dT = CMainFrame.DataManager.Pos_Fixed.Pos_Stage1.Pos[(int)EStagePos.STAGE_CENTER_PRE].dT + 
-                                                                                                  CMainFrame.DataManager.SystemData_Align.DieIndexRotate;
+            // LJJ 확인
+            //CMainFrame.DataManager.Pos_Fixed.Pos_Stage1.Pos[(int)EStagePos.STAGE_CENTER_INSPECT].dX = CMainFrame.DataManager.Pos_Fixed.Pos_Stage1.Pos[(int)EStagePos.STAGE_CENTER_PRE].dX -
+            //                                                                                 CMainFrame.DataManager.SystemData_Align.AlignMarkWidthLen/2 -
+            //                                                                                 CMainFrame.DataManager.SystemData_Align.CamEachOffset.dX;
+            //CMainFrame.DataManager.Pos_Fixed.Pos_Stage1.Pos[(int)EStagePos.STAGE_CENTER_INSPECT].dY = CMainFrame.DataManager.Pos_Fixed.Pos_Stage1.Pos[(int)EStagePos.STAGE_CENTER_PRE].dY -
+            //                                                                                 CMainFrame.DataManager.SystemData_Align.CamEachOffset.dY;
+            //CMainFrame.DataManager.Pos_Fixed.Pos_Stage1.Pos[(int)EStagePos.STAGE_CENTER_INSPECT].dT = CMainFrame.DataManager.Pos_Fixed.Pos_Stage1.Pos[(int)EStagePos.STAGE_CENTER_PRE].dT;
+
+            //CMainFrame.DataManager.Pos_Fixed.Pos_Stage1.Pos[(int)EStagePos.THETA_ALIGN_TURN_A].dX = CMainFrame.DataManager.Pos_Fixed.Pos_Stage1.Pos[(int)EStagePos.STAGE_CENTER_PRE].dX -
+            //                                                                                      CMainFrame.DataManager.SystemData_Align.AlignMarkWidthLen / 2 -
+            //                                                                                      CMainFrame.DataManager.SystemData_Align.CamEachOffset.dX;
+            //CMainFrame.DataManager.Pos_Fixed.Pos_Stage1.Pos[(int)EStagePos.THETA_ALIGN_TURN_A].dY = CMainFrame.DataManager.Pos_Fixed.Pos_Stage1.Pos[(int)EStagePos.STAGE_CENTER_PRE].dY -
+            //                                                                                      CMainFrame.DataManager.SystemData_Align.CamEachOffset.dY;
+            //CMainFrame.DataManager.Pos_Fixed.Pos_Stage1.Pos[(int)EStagePos.THETA_ALIGN_TURN_A].dT = CMainFrame.DataManager.Pos_Fixed.Pos_Stage1.Pos[(int)EStagePos.STAGE_CENTER_PRE].dT + 
+            //                                                                                      CMainFrame.DataManager.SystemData_Align.DieIndexRotate;
 
 
         }
@@ -373,16 +375,7 @@ namespace LWDicer.UI
             // ThetaAlign Step 초기화
             CMainFrame.LWDicer.m_ctrlStage1.ThetaAlignStepInit();
         }
-
-        private void btnStageTurnPosA_Click(object sender, EventArgs e)
-        {
-            CMainFrame.LWDicer.m_ctrlStage1.MoveToThetaAlignPosA();            
-        }
-
-        private void btnStageReturnPosA_Click(object sender, EventArgs e)
-        {
-            CMainFrame.LWDicer.m_ctrlStage1.MoveToThetaAlignTurnPosA();
-        }
+        
 
         private void btnInitLaserAlign_Click(object sender, EventArgs e)
         {
@@ -416,6 +409,63 @@ namespace LWDicer.UI
             Btn.Text = strModify;
         }
 
-        
+        private void btnMoveToLaser_Click(object sender, EventArgs e)
+        {
+            CMainFrame.LWDicer.m_ctrlStage1.MoveStageRelative((int)EStagePos.VISION_LASER_GAP);
+        }
+
+        private void btnMoveToVision_Click(object sender, EventArgs e)
+        {
+            CMainFrame.LWDicer.m_ctrlStage1.MoveStageRelative((int)EStagePos.VISION_LASER_GAP, false);
+        }
+
+        private void btnLaserProcessStep1_Click(object sender, EventArgs e)
+        {
+            int iResult = 0;
+            CMainFrame.DataManager.ModelData.ProcData.ProcessStop = false;
+            var task = Task<int>.Run(() => CMainFrame.LWDicer.m_ctrlStage1.LaserProcessStep1());
+        }
+
+        private void BtnJog_Click(object sender, EventArgs e)
+        {
+            CMainFrame.DisplayJog();
+        }
+
+        private void btnStageCenter_Click(object sender, EventArgs e)
+        {
+            CMainFrame.LWDicer.m_ctrlStage1.MoveToStageLoadPos();
+        }
+
+        private void btnStageTurnPosA_Click(object sender, EventArgs e)
+        {
+            CMainFrame.LWDicer.m_ctrlStage1.MoveToStageUnloadPos();
+        }
+
+        private void btnMoveLaserEndMoveV_Click(object sender, EventArgs e)
+        {
+            double dLenth = Convert.ToDouble(lblLaserLength.Text);
+
+            CMainFrame.LWDicer.m_ctrlStage1.MoveLaserAlignHeightPosB(dLenth);
+        }
+
+        private void btnMoveLaserStartPosV_Click(object sender, EventArgs e)
+        {
+            CMainFrame.LWDicer.m_ctrlStage1.MoveLaserAlignHeightPosA();
+        }
+
+        private void btnMoveToLaserH_Click(object sender, EventArgs e)
+        {
+            CMainFrame.LWDicer.m_ctrlStage1.MoveStageRelative((int)EStagePos.LASER_PROCESS_TURN);
+        }
+
+        private void btnMoveToVisionH_Click(object sender, EventArgs e)
+        {
+            CMainFrame.LWDicer.m_ctrlStage1.MoveStageRelative((int)EStagePos.LASER_PROCESS_TURN, false);
+        }
+
+        private void btnLaserProcessStop_Click(object sender, EventArgs e)
+        {
+            CMainFrame.DataManager.ModelData.ProcData.ProcessStop = true;
+        }
     }
 }
