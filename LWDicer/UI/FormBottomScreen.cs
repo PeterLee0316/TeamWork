@@ -64,23 +64,14 @@ namespace LWDicer.UI
             CMainFrame.MainFrame?.DisplayManager.FormSelectChange(index);
         }
 
-        public void EnableBottomPage()
+        public void EnableBottomPage(bool bEnable)
         {
             for (int i = 0; i < (int)EFormType.MAX; i++)
             {
                 if (i == (int)CurrentPage) continue;
-                ButtonDisplay(i, EBtnOption.Enable);
-                BtnPage[i].Enabled = true;
-            }
-        }
-
-        public void DisableBottomPage()
-        {
-            for (int i = 0; i < (int)EFormType.MAX; i++)
-            {
-                if (i == (int)CurrentPage) continue;
-                ButtonDisplay(i, EBtnOption.Disable);
-                BtnPage[i].Enabled = false;
+                if(bEnable) ButtonDisplay(i, EBtnOption.Enable);
+                else ButtonDisplay(i, EBtnOption.Disable);
+                BtnPage[i].Enabled = bEnable;
             }
         }
 

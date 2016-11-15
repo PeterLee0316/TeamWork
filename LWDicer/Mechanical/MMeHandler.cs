@@ -540,35 +540,6 @@ namespace LWDicer.Layers
             return iResult;
         }
 
-        public int MoveHandlerToSafetyPos(int axis)
-        {
-            int iResult = SUCCESS;
-            string str;
-            // 0. safety check
-            iResult = CheckSafetyForHandlerAxisMove();
-            if (iResult != SUCCESS) return iResult;
-
-            // 0.1 trans to array
-            double[] dPos = new double[1] { m_Data.HandlerSafetyPos.GetAt(axis) };
-
-            // 0.2 set use flag
-            bool[] bTempFlag = new bool[1] { true };
-
-            // 1. Move
-            iResult = m_RefComp.AxHandler.Move(axis, bTempFlag, dPos);
-            if (iResult != SUCCESS)
-            {
-                str = $"fail : move Handler to safety pos [axis={axis}]";
-                WriteLog(str, ELogType.Debug, ELogWType.D_Error);
-                return iResult;
-            }
-
-            str = $"success : move Handler to safety pos [axis={axis}";
-            WriteLog(str, ELogType.Debug, ELogWType.D_Normal);
-
-            return SUCCESS;
-        }
-
         /// <summary>
         /// sPos으로 이동하고, PosInfo를 iPos으로 셋팅한다. Backlash는 일단 차후로.
         /// </summary>
@@ -576,7 +547,7 @@ namespace LWDicer.Layers
         /// <param name="bMoveFlag"></param>
         /// <param name="bUseBacklash"></param>
         /// <returns></returns>
-        private int MoveHandlerPos(CPos_XYTZ sPos, bool[] bMoveFlag = null, bool bUseBacklash = false,
+        private int MoveHandlerToPos(CPos_XYTZ sPos, bool[] bMoveFlag = null, bool bUseBacklash = false,
             bool bUsePriority = false, int[] movePriority = null)
         {
             int iResult = SUCCESS;
@@ -616,7 +587,7 @@ namespace LWDicer.Layers
                     if (iResult != SUCCESS) return iResult;
                     if (bStatus == false)
                     {
-                        iResult = MoveHandlerToSafetyPos(DEF_Z);
+                        iResult = MoveHandlerZToSafetyPos();
                         if (iResult != SUCCESS) return iResult;
                     }
                 }
@@ -673,7 +644,7 @@ namespace LWDicer.Layers
         /// <param name="bUsePriority">우선순위 이동시킬지 여부 </param>
         /// <param name="movePriority">우선순위 </param>
         /// <returns></returns>
-        public int MoveHandlerPos(int iPos, bool bUpdatedPosInfo = true, bool[] bMoveFlag = null, double[] dMoveOffset = null, bool bUseBacklash = false,
+        public int MoveHandlerToPos(int iPos, bool bUpdatedPosInfo = true, bool[] bMoveFlag = null, double[] dMoveOffset = null, bool bUseBacklash = false,
             bool bUsePriority = false, int[] movePriority = null)
         {
             int iResult = SUCCESS;
@@ -690,7 +661,7 @@ namespace LWDicer.Layers
                 sTargetPos = sTargetPos + dMoveOffset;
             }
 
-            iResult = MoveHandlerPos(sTargetPos, bMoveFlag, bUseBacklash, bUsePriority, movePriority);
+            iResult = MoveHandlerToPos(sTargetPos, bMoveFlag, bUseBacklash, bUsePriority, movePriority);
 
             if (iResult != SUCCESS) return iResult;
             if (bUpdatedPosInfo == true)
@@ -705,9 +676,35 @@ namespace LWDicer.Layers
         /// Handler Z축을 안전 Up 위치로 이동
         /// </summary>
         /// <returns></returns>
-        public int MoveHandlerToSafetyUp()
+        public int MoveHandlerZToSafetyPos()
         {
-            return MoveHandlerToSafetyPos(DEF_Z);
+            int iResult = SUCCESS;
+            int axis = DEF_Z;
+            string str;
+
+            // 0. safety check
+            iResult = CheckSafetyForHandlerAxisMove();
+            if (iResult != SUCCESS) return iResult;
+
+            // 0.1 trans to array
+            double[] dPos = new double[1] { m_Data.HandlerSafetyPos.GetAt(axis) };
+
+            // 0.2 set use flag
+            bool[] bTempFlag = new bool[1] { true };
+
+            // 1. Move
+            iResult = m_RefComp.AxHandler.Move(axis, bTempFlag, dPos);
+            if (iResult != SUCCESS)
+            {
+                str = $"fail : move Handler to safety pos [axis={axis}]";
+                WriteLog(str, ELogType.Debug, ELogWType.D_Error);
+                return iResult;
+            }
+
+            str = $"success : move Handler to safety pos [axis={axis}";
+            WriteLog(str, ELogType.Debug, ELogWType.D_Normal);
+
+            return SUCCESS;
         }
 
         /// <summary>
@@ -719,26 +716,26 @@ namespace LWDicer.Layers
         /// <param name="bMoveXYT"></param>
         /// <param name="bMoveZ"></param>
         /// <returns></returns>
-        public int MoveHandlerPos(int iPos, bool bMoveXYT, bool bMoveZ, double[] dMoveOffset = null)
+        public int MoveHandlerToPos(int iPos, bool bMoveXYT, bool bMoveZ, double[] dMoveOffset = null)
         {
             // 0. move all axis
             if (bMoveXYT && bMoveZ)
             {
-                return MoveHandlerPos(iPos, dMoveOffset : dMoveOffset);
+                return MoveHandlerToPos(iPos, dMoveOffset : dMoveOffset);
             }
 
             // 1. move xyt only
             if (bMoveXYT)
             {
                 bool[] bMoveFlag = new bool[DEF_MAX_COORDINATE] { true, true, true, false };
-                return MoveHandlerPos(iPos, true, bMoveFlag, dMoveOffset: dMoveOffset);
+                return MoveHandlerToPos(iPos, true, bMoveFlag, dMoveOffset: dMoveOffset);
             }
 
             // 2. move z only
             if (bMoveZ)
             {
                 bool[] bMoveFlag = new bool[DEF_MAX_COORDINATE] { false, false, false, true };
-                return MoveHandlerPos(iPos, false, bMoveFlag, dMoveOffset: dMoveOffset);
+                return MoveHandlerToPos(iPos, false, bMoveFlag, dMoveOffset: dMoveOffset);
             }
 
             return SUCCESS;
@@ -748,21 +745,21 @@ namespace LWDicer.Layers
         {
             int iPos = (int)EHandlerPos.PUSHPULL;
 
-            return MoveHandlerPos(iPos, bMoveXYT, bMoveZ, dMoveOffset);
+            return MoveHandlerToPos(iPos, bMoveXYT, bMoveZ, dMoveOffset);
         }
 
         public int MoveHandlerToStagePos(bool bMoveXYT = false, bool bMoveZ = false, double[] dMoveOffset = null)
         {
             int iPos = (int)EHandlerPos.STAGE;
 
-            return MoveHandlerPos(iPos, bMoveXYT, bMoveZ, dMoveOffset);
+            return MoveHandlerToPos(iPos, bMoveXYT, bMoveZ, dMoveOffset);
         }
 
         public int MoveHandlerToWaitPos(bool bMoveXYT = false, bool bMoveZ = false, double[] dMoveOffset = null)
         {
             int iPos = (int)EHandlerPos.WAIT;
 
-            return MoveHandlerPos(iPos, bMoveXYT, bMoveZ, dMoveOffset);
+            return MoveHandlerToPos(iPos, bMoveXYT, bMoveZ, dMoveOffset);
         }
 
         /// <summary>

@@ -497,12 +497,27 @@ namespace LWDicer.Layers
 
             public void UpdatePositionSet(CPositionGroup tGroup, EPositionObject index)
             {
-                Pos_Array[(int)index] = ObjectExtensions.Copy(tGroup.Pos_Array[(int)index]);
+                //Pos_Array[(int)index] = ObjectExtensions.Copy(tGroup.Pos_Array[(int)index]);
+                // 프로그램 완성 과정중에, position 이 추가/삭제 되면서 배열 크기가 달라지고
+                // ObjectExtensions.Copy 과정중에서 array size가 변경되기때문에, 우선은 있는것들만 복사하도록 변경
+                int size = (Pos_Array[(int)index].Length < tGroup.Pos_Array[(int)index].Length) ? Pos_Array[(int)index].Length : tGroup.Pos_Array[(int)index].Length;
+                for (int i = 0; i < size; i++)
+                {
+                    Pos_Array[(int)index].Pos[i] = ObjectExtensions.Copy(tGroup.Pos_Array[(int)index].Pos[i]);
+                }
             }
 
             public void UpdatePositionSet(CPositionSet tSet, EPositionObject index)
             {
-                Pos_Array[(int)index] = ObjectExtensions.Copy(tSet);
+
+                //Pos_Array[(int)index] = ObjectExtensions.Copy(tSet);
+                // 프로그램 완성 과정중에, position 이 추가/삭제 되면서 배열 크기가 달라지고
+                // ObjectExtensions.Copy 과정중에서 array size가 변경되기때문에, 우선은 있는것들만 복사하도록 변경
+                int size = (Pos_Array[(int)index].Length < tSet.Length) ? Pos_Array[(int)index].Length : tSet.Length;
+                for (int i = 0; i < size; i++)
+                {
+                    Pos_Array[(int)index].Pos[i] = ObjectExtensions.Copy(tSet.Pos[i]);
+                }
             }
         }
 

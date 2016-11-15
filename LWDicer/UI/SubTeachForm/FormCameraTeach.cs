@@ -253,16 +253,16 @@ namespace LWDicer.UI
             {
                 dOtherSum += Convert.ToDouble(GridTeachTable[6, index].Text); // Offset Pos
                 double dPos = dTargetPos - dOtherSum;
-                GridTeachTable[2, index].Text = String.Format("{0:0.000}", dTargetPos);
-                GridTeachTable[3, index].Text = String.Format("{0:0.000}", dPos);
+                GridTeachTable[2, index].Text = String.Format("{0:0.0000}", dTargetPos);
+                GridTeachTable[3, index].Text = String.Format("{0:0.0000}", dPos);
                 GridTeachTable[3, index].TextColor = Color.Blue;
             }
             else
             {
                 dOtherSum += Convert.ToDouble(GridTeachTable[3, index].Text); // Fixed Pos
                 double dPos = dTargetPos - dOtherSum;
-                GridTeachTable[2, index].Text = String.Format("{0:0.000}", dTargetPos);
-                GridTeachTable[6, index].Text = String.Format("{0:0.000}", dPos);
+                GridTeachTable[2, index].Text = String.Format("{0:0.0000}", dTargetPos);
+                GridTeachTable[6, index].Text = String.Format("{0:0.0000}", dPos);
                 GridTeachTable[6, index].TextColor = Color.Blue;
             }
         }
@@ -306,7 +306,7 @@ namespace LWDicer.UI
             dTargetPos = Convert.ToDouble(GridTeachTable[2,1].Text);
             dValue = dTargetPos - dCurPos;
 
-            GridTeachTable[8, 1].Text= String.Format("{0:0.000}", dValue);
+            GridTeachTable[8, 1].Text= String.Format("{0:0.0000}", dValue);
         }
 
         private void DisplayPos()
@@ -316,11 +316,11 @@ namespace LWDicer.UI
             double dFixedPos, dModelPos, dOffsetPos, dAlignOffset, dTargetPos;
             dTargetPos = MO_Camera.GetPosition(index, DEF_Z, out dFixedPos, out dModelPos, out dOffsetPos, out dAlignOffset);
 
-            GridTeachTable[2, 1].Text = String.Format("{0:0.000}", dTargetPos);
-            GridTeachTable[3, 1].Text = String.Format("{0:0.000}", dFixedPos);
-            GridTeachTable[4, 1].Text = String.Format("{0:0.000}", dModelPos);
-            GridTeachTable[5, 1].Text = String.Format("{0:0.000}", dAlignOffset);
-            GridTeachTable[6, 1].Text = String.Format("{0:0.000}", dOffsetPos);
+            GridTeachTable[2, 1].Text = String.Format("{0:0.0000}", dTargetPos);
+            GridTeachTable[3, 1].Text = String.Format("{0:0.0000}", dFixedPos);
+            GridTeachTable[4, 1].Text = String.Format("{0:0.0000}", dModelPos);
+            GridTeachTable[5, 1].Text = String.Format("{0:0.0000}", dAlignOffset);
+            GridTeachTable[6, 1].Text = String.Format("{0:0.0000}", dOffsetPos);
         }
 
         private void BtnChangeValue_Click(object sender, EventArgs e)

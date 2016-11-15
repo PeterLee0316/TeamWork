@@ -448,10 +448,10 @@ namespace LWDicer.UI
             // Jog Operation Servo Encoder Position
             if (SelectedMotion == (int)EMotionSelect.YMC)
             {
-                LabelCurrent.Text= String.Format("{0:0.000}",CMainFrame.LWDicer.m_YMC.ServoStatus[SelectedAxis].EncoderPos);
+                LabelCurrent.Text= String.Format("{0:0.0000}",CMainFrame.LWDicer.m_YMC.ServoStatus[SelectedAxis].EncoderPos);
             } else
             {
-                LabelCurrent.Text= String.Format("{0:0.000}", CMainFrame.LWDicer.m_ACS.ServoStatus[SelectedAxis].EncoderPos);
+                LabelCurrent.Text= String.Format("{0:0.0000}", CMainFrame.LWDicer.m_ACS.ServoStatus[SelectedAxis].EncoderPos);
             }
         }
 

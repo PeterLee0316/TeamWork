@@ -1994,7 +1994,7 @@ namespace LWDicer.Layers
             // PushPull
             if (unit == EPositionObject.ALL || unit == EPositionObject.PUSHPULL)
             {
-                index = (int)EPositionObject.LOADER;
+                index = (int)EPositionObject.PUSHPULL;
                 iResult = m_MePushPull.SetPosition_PushPull(Pos_Fixed.Pos_Array[index], Pos_Model.Pos_Array[index], Pos_Offset.Pos_Array[index]);
                 if (iResult != SUCCESS) return iResult;
             }
@@ -2433,6 +2433,11 @@ namespace LWDicer.Layers
             m_trsSpinner2.SetAutoManual(mode);
             m_trsHandler.SetAutoManual(mode);
             m_trsStage1.SetAutoManual(mode);
+        }
+
+        public int EmptyMethod()
+        {
+            return SUCCESS;
         }
     }
 }

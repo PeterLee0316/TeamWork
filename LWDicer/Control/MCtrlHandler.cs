@@ -529,5 +529,90 @@ namespace LWDicer.Layers
 
             return SUCCESS;
         }
+
+        public int MoveZToSafetyPos(EHandlerIndex index, bool bPanelTransfer, double dZMoveOffset = 0)
+        {
+            // 0. init
+            int curPos = (int)EHandlerPos.NONE;
+
+            // 1. get current pos through motor position
+            // need to decide check position interlock.. -> don't need because handler process is only one. don't need to concern multi process
+            int iResult = CheckHandlerPosition(index, out curPos, -1, false);
+            if (iResult != SUCCESS) return iResult;
+            if (curPos == (int)EHandlerPos.NONE)
+                return GenerateErrorCode(ERR_CTRLHANDLER_CANNOT_DETECT_POSINFO);
+
+            // 2. check safety
+            double[] dMoveOffset = new double[DEF_XYTZ];
+            dMoveOffset[DEF_Z] = dZMoveOffset;
+
+            iResult = CheckVacuum_forMoving(index, bPanelTransfer, true);
+            if (iResult != SUCCESS) return iResult;
+
+            bool capableMove;
+            iResult = CheckOppositeHandler_forMoving(index, curPos, true, out capableMove);
+            if (iResult != SUCCESS) return iResult;
+            if (capableMove == false) return GenerateErrorCode(ERR_CTRLHANDLER_MAY_COLLIDE_WITH_OPPOSITE_HANDLER);
+
+            // 3. vacuum on/off
+            if(bPanelTransfer)
+            {
+                iResult = Release(index);
+                if (iResult != SUCCESS) return iResult;
+            } else
+            {
+                iResult = Absorb(index);
+                if (iResult != SUCCESS) return iResult;
+            }
+
+            // 4. move
+            iResult = GetHandler(index).MoveHandlerZToSafetyPos();
+            if (iResult != SUCCESS) return iResult;
+
+            return SUCCESS;
+        }
+
+        public int MoveZToLoadUnloadPos(EHandlerIndex index, bool bPanelTransfer, double dZMoveOffset = 0)
+        {
+            // 0. init
+            int curPos = (int)EHandlerPos.NONE;
+
+            // 1. get current pos through motor position
+            // need to decide check position interlock.. -> don't need because handler process is only one. don't need to concern multi process
+            int iResult = CheckHandlerPosition(index, out curPos, -1, false);
+            if (iResult != SUCCESS) return iResult;
+            if (curPos == (int)EHandlerPos.NONE)
+                return GenerateErrorCode(ERR_CTRLHANDLER_CANNOT_DETECT_POSINFO);
+
+            // 2. check safety
+            double[] dMoveOffset = new double[DEF_XYTZ];
+            dMoveOffset[DEF_Z] = dZMoveOffset;
+
+            iResult = CheckVacuum_forMoving(index, bPanelTransfer, true);
+            if (iResult != SUCCESS) return iResult;
+
+            bool capableMove;
+            iResult = CheckOppositeHandler_forMoving(index, curPos, true, out capableMove);
+            if (iResult != SUCCESS) return iResult;
+            if (capableMove == false) return GenerateErrorCode(ERR_CTRLHANDLER_MAY_COLLIDE_WITH_OPPOSITE_HANDLER);
+
+            // 3. vacuum on/off
+            if (bPanelTransfer)
+            {
+                iResult = Release(index);
+                if (iResult != SUCCESS) return iResult;
+            }
+            else
+            {
+                iResult = Absorb(index);
+                if (iResult != SUCCESS) return iResult;
+            }
+
+            // 4. move
+            iResult = GetHandler(index).MoveHandlerToPos(curPos, false, true, dMoveOffset);
+            if (iResult != SUCCESS) return iResult;
+
+            return SUCCESS;
+        }
     }
 }

@@ -42,8 +42,8 @@ namespace LWDicer.UI
         public static EFormType PrevScreen;
         public CDisplayManager DisplayManager = new CDisplayManager();
 
-        private FormTopScreen TopScreen;
-        private FormBottomScreen BottomScreen;
+        public FormTopScreen TopScreen;
+        public FormBottomScreen BottomScreen;
 
         // 공용으로 사용할 ActionTimer
         private static MTickTimer ActionTimer = new MTickTimer();
@@ -141,22 +141,22 @@ namespace LWDicer.UI
             else if(evnt.Msg == (int)EWindowMessage.WM_START_READY_MSG)
             {
                 ((FormAutoScreen)form).WindowProc(evnt);
-                BottomScreen.DisableBottomPage();
+                BottomScreen.EnableBottomPage(false);
             }
             else if (evnt.Msg == (int)EWindowMessage.WM_START_RUN_MSG)
             {
                 ((FormAutoScreen)form).WindowProc(evnt);
-                BottomScreen.DisableBottomPage();
+                BottomScreen.EnableBottomPage(false);
             }
             else if (evnt.Msg == (int)EWindowMessage.WM_START_MANUAL_MSG)
             {
                 ((FormAutoScreen)form).WindowProc(evnt);
-                BottomScreen.EnableBottomPage();
+                BottomScreen.EnableBottomPage(true);
             }
             else if (evnt.Msg == (int)EWindowMessage.WM_STEPSTOP_MSG)
             {
                 ((FormAutoScreen)form).WindowProc(evnt);
-                BottomScreen.DisableBottomPage();
+                BottomScreen.EnableBottomPage(false);
             }
             else if (evnt.Msg == (int)EWindowMessage.WM_ALARM_MSG)
             {

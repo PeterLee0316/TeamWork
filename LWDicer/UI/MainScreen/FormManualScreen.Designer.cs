@@ -134,6 +134,7 @@
             this.autoLabel20 = new Syncfusion.Windows.Forms.Tools.AutoLabel();
             this.buttonAdv49 = new Syncfusion.Windows.Forms.ButtonAdv();
             this.gradientPanel21 = new Syncfusion.Windows.Forms.Tools.GradientPanel();
+            this.buttonAdv55 = new Syncfusion.Windows.Forms.ButtonAdv();
             this.buttonAdv50 = new Syncfusion.Windows.Forms.ButtonAdv();
             this.autoLabel21 = new Syncfusion.Windows.Forms.Tools.AutoLabel();
             this.buttonAdv51 = new Syncfusion.Windows.Forms.ButtonAdv();
@@ -142,6 +143,7 @@
             this.autoLabel18 = new Syncfusion.Windows.Forms.Tools.AutoLabel();
             this.buttonAdv47 = new Syncfusion.Windows.Forms.ButtonAdv();
             this.gradientPanel19 = new Syncfusion.Windows.Forms.Tools.GradientPanel();
+            this.buttonAdv52 = new Syncfusion.Windows.Forms.ButtonAdv();
             this.buttonAdv53 = new Syncfusion.Windows.Forms.ButtonAdv();
             this.autoLabel19 = new Syncfusion.Windows.Forms.Tools.AutoLabel();
             this.buttonAdv54 = new Syncfusion.Windows.Forms.ButtonAdv();
@@ -348,7 +350,7 @@
             this.BtnManualStage.Name = "BtnManualStage";
             this.BtnManualStage.Size = new System.Drawing.Size(145, 68);
             this.BtnManualStage.TabIndex = 23;
-            this.BtnManualStage.Text = "Stage";
+            this.BtnManualStage.Text = "Stage 1";
             this.BtnManualStage.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.BtnManualStage.Click += new System.EventHandler(this.BtnManualStage_Click);
             // 
@@ -448,7 +450,7 @@
             // BtnLoaderPos1
             // 
             this.BtnLoaderPos1.AutoEllipsis = true;
-            this.BtnLoaderPos1.BackColor = System.Drawing.Color.DarkGray;
+            this.BtnLoaderPos1.BackColor = System.Drawing.Color.LightGray;
             this.BtnLoaderPos1.BorderStyleAdv = Syncfusion.Windows.Forms.ButtonAdvBorderStyle.Solid;
             this.BtnLoaderPos1.FlatAppearance.BorderSize = 5;
             this.BtnLoaderPos1.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
@@ -466,7 +468,7 @@
             // BtnLoaderPos2
             // 
             this.BtnLoaderPos2.AutoEllipsis = true;
-            this.BtnLoaderPos2.BackColor = System.Drawing.Color.DarkGray;
+            this.BtnLoaderPos2.BackColor = System.Drawing.Color.LightGray;
             this.BtnLoaderPos2.BorderStyleAdv = Syncfusion.Windows.Forms.ButtonAdvBorderStyle.Solid;
             this.BtnLoaderPos2.FlatAppearance.BorderSize = 5;
             this.BtnLoaderPos2.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
@@ -484,7 +486,7 @@
             // BtnLoaderPos3
             // 
             this.BtnLoaderPos3.AutoEllipsis = true;
-            this.BtnLoaderPos3.BackColor = System.Drawing.Color.DarkGray;
+            this.BtnLoaderPos3.BackColor = System.Drawing.Color.LightGray;
             this.BtnLoaderPos3.BorderStyleAdv = Syncfusion.Windows.Forms.ButtonAdvBorderStyle.Solid;
             this.BtnLoaderPos3.FlatAppearance.BorderSize = 5;
             this.BtnLoaderPos3.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
@@ -502,7 +504,7 @@
             // BtnLoaderPos4
             // 
             this.BtnLoaderPos4.AutoEllipsis = true;
-            this.BtnLoaderPos4.BackColor = System.Drawing.Color.DarkGray;
+            this.BtnLoaderPos4.BackColor = System.Drawing.Color.LightGray;
             this.BtnLoaderPos4.BorderStyleAdv = Syncfusion.Windows.Forms.ButtonAdvBorderStyle.Solid;
             this.BtnLoaderPos4.FlatAppearance.BorderSize = 5;
             this.BtnLoaderPos4.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
@@ -520,7 +522,7 @@
             // BtnLoaderPos5
             // 
             this.BtnLoaderPos5.AutoEllipsis = true;
-            this.BtnLoaderPos5.BackColor = System.Drawing.Color.DarkGray;
+            this.BtnLoaderPos5.BackColor = System.Drawing.Color.LightGray;
             this.BtnLoaderPos5.BorderStyleAdv = Syncfusion.Windows.Forms.ButtonAdvBorderStyle.Solid;
             this.BtnLoaderPos5.FlatAppearance.BorderSize = 5;
             this.BtnLoaderPos5.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
@@ -580,7 +582,7 @@
             // buttonAdv3
             // 
             this.buttonAdv3.AutoEllipsis = true;
-            this.buttonAdv3.BackColor = System.Drawing.Color.DarkGray;
+            this.buttonAdv3.BackColor = System.Drawing.Color.LightGray;
             this.buttonAdv3.BorderStyleAdv = Syncfusion.Windows.Forms.ButtonAdvBorderStyle.Solid;
             this.buttonAdv3.FlatAppearance.BorderSize = 5;
             this.buttonAdv3.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
@@ -590,13 +592,15 @@
             this.buttonAdv3.Name = "buttonAdv3";
             this.buttonAdv3.Size = new System.Drawing.Size(105, 58);
             this.buttonAdv3.TabIndex = 46;
+            this.buttonAdv3.Tag = "Scanner";
             this.buttonAdv3.Text = "Wait";
             this.buttonAdv3.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.buttonAdv3.Click += new System.EventHandler(this.Btn_Click);
             // 
             // buttonAdv4
             // 
             this.buttonAdv4.AutoEllipsis = true;
-            this.buttonAdv4.BackColor = System.Drawing.Color.DarkGray;
+            this.buttonAdv4.BackColor = System.Drawing.Color.LightGray;
             this.buttonAdv4.BorderStyleAdv = Syncfusion.Windows.Forms.ButtonAdvBorderStyle.Solid;
             this.buttonAdv4.FlatAppearance.BorderSize = 5;
             this.buttonAdv4.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
@@ -606,8 +610,10 @@
             this.buttonAdv4.Name = "buttonAdv4";
             this.buttonAdv4.Size = new System.Drawing.Size(105, 58);
             this.buttonAdv4.TabIndex = 47;
+            this.buttonAdv4.Tag = "Scanner";
             this.buttonAdv4.Text = "Work";
             this.buttonAdv4.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.buttonAdv4.Click += new System.EventHandler(this.Btn_Click);
             // 
             // autoLabel5
             // 
@@ -637,7 +643,7 @@
             // buttonAdv1
             // 
             this.buttonAdv1.AutoEllipsis = true;
-            this.buttonAdv1.BackColor = System.Drawing.Color.DarkGray;
+            this.buttonAdv1.BackColor = System.Drawing.Color.LightGray;
             this.buttonAdv1.BorderStyleAdv = Syncfusion.Windows.Forms.ButtonAdvBorderStyle.Solid;
             this.buttonAdv1.FlatAppearance.BorderSize = 5;
             this.buttonAdv1.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
@@ -647,8 +653,10 @@
             this.buttonAdv1.Name = "buttonAdv1";
             this.buttonAdv1.Size = new System.Drawing.Size(105, 58);
             this.buttonAdv1.TabIndex = 44;
+            this.buttonAdv1.Tag = "Camera";
             this.buttonAdv1.Text = "Wait";
             this.buttonAdv1.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.buttonAdv1.Click += new System.EventHandler(this.Btn_Click);
             // 
             // autoLabel6
             // 
@@ -664,7 +672,7 @@
             // buttonAdv2
             // 
             this.buttonAdv2.AutoEllipsis = true;
-            this.buttonAdv2.BackColor = System.Drawing.Color.DarkGray;
+            this.buttonAdv2.BackColor = System.Drawing.Color.LightGray;
             this.buttonAdv2.BorderStyleAdv = Syncfusion.Windows.Forms.ButtonAdvBorderStyle.Solid;
             this.buttonAdv2.FlatAppearance.BorderSize = 5;
             this.buttonAdv2.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
@@ -674,8 +682,10 @@
             this.buttonAdv2.Name = "buttonAdv2";
             this.buttonAdv2.Size = new System.Drawing.Size(105, 58);
             this.buttonAdv2.TabIndex = 45;
+            this.buttonAdv2.Tag = "Camera";
             this.buttonAdv2.Text = "Work";
             this.buttonAdv2.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.buttonAdv2.Click += new System.EventHandler(this.Btn_Click);
             // 
             // gradientPanel7
             // 
@@ -703,14 +713,14 @@
             this.autoLabel7.ForeColor = System.Drawing.Color.Maroon;
             this.autoLabel7.Location = new System.Drawing.Point(44, 8);
             this.autoLabel7.Name = "autoLabel7";
-            this.autoLabel7.Size = new System.Drawing.Size(76, 13);
+            this.autoLabel7.Size = new System.Drawing.Size(71, 13);
             this.autoLabel7.TabIndex = 31;
-            this.autoLabel7.Text = "Push Pull";
+            this.autoLabel7.Text = "PushPull";
             // 
             // buttonAdv13
             // 
             this.buttonAdv13.AutoEllipsis = true;
-            this.buttonAdv13.BackColor = System.Drawing.Color.DarkGray;
+            this.buttonAdv13.BackColor = System.Drawing.Color.LightGray;
             this.buttonAdv13.BorderStyleAdv = Syncfusion.Windows.Forms.ButtonAdvBorderStyle.Solid;
             this.buttonAdv13.FlatAppearance.BorderSize = 5;
             this.buttonAdv13.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
@@ -720,13 +730,15 @@
             this.buttonAdv13.Name = "buttonAdv13";
             this.buttonAdv13.Size = new System.Drawing.Size(105, 58);
             this.buttonAdv13.TabIndex = 53;
+            this.buttonAdv13.Tag = "PushPull";
             this.buttonAdv13.Text = "Reload";
             this.buttonAdv13.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.buttonAdv13.Click += new System.EventHandler(this.Btn_Click);
             // 
             // buttonAdv9
             // 
             this.buttonAdv9.AutoEllipsis = true;
-            this.buttonAdv9.BackColor = System.Drawing.Color.DarkGray;
+            this.buttonAdv9.BackColor = System.Drawing.Color.LightGray;
             this.buttonAdv9.BorderStyleAdv = Syncfusion.Windows.Forms.ButtonAdvBorderStyle.Solid;
             this.buttonAdv9.FlatAppearance.BorderSize = 5;
             this.buttonAdv9.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
@@ -736,13 +748,15 @@
             this.buttonAdv9.Name = "buttonAdv9";
             this.buttonAdv9.Size = new System.Drawing.Size(105, 58);
             this.buttonAdv9.TabIndex = 49;
-            this.buttonAdv9.Text = "Unload 1";
+            this.buttonAdv9.Tag = "PushPull";
+            this.buttonAdv9.Text = "Spinner 1";
             this.buttonAdv9.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.buttonAdv9.Click += new System.EventHandler(this.Btn_Click);
             // 
             // buttonAdv12
             // 
             this.buttonAdv12.AutoEllipsis = true;
-            this.buttonAdv12.BackColor = System.Drawing.Color.DarkGray;
+            this.buttonAdv12.BackColor = System.Drawing.Color.LightGray;
             this.buttonAdv12.BorderStyleAdv = Syncfusion.Windows.Forms.ButtonAdvBorderStyle.Solid;
             this.buttonAdv12.FlatAppearance.BorderSize = 5;
             this.buttonAdv12.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
@@ -752,13 +766,15 @@
             this.buttonAdv12.Name = "buttonAdv12";
             this.buttonAdv12.Size = new System.Drawing.Size(105, 58);
             this.buttonAdv12.TabIndex = 52;
+            this.buttonAdv12.Tag = "PushPull";
             this.buttonAdv12.Text = "Temp Unload";
             this.buttonAdv12.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.buttonAdv12.Click += new System.EventHandler(this.Btn_Click);
             // 
             // buttonAdv6
             // 
             this.buttonAdv6.AutoEllipsis = true;
-            this.buttonAdv6.BackColor = System.Drawing.Color.DarkGray;
+            this.buttonAdv6.BackColor = System.Drawing.Color.LightGray;
             this.buttonAdv6.BorderStyleAdv = Syncfusion.Windows.Forms.ButtonAdvBorderStyle.Solid;
             this.buttonAdv6.FlatAppearance.BorderSize = 5;
             this.buttonAdv6.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
@@ -768,13 +784,15 @@
             this.buttonAdv6.Name = "buttonAdv6";
             this.buttonAdv6.Size = new System.Drawing.Size(105, 58);
             this.buttonAdv6.TabIndex = 46;
+            this.buttonAdv6.Tag = "PushPull";
             this.buttonAdv6.Text = "Wait";
             this.buttonAdv6.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.buttonAdv6.Click += new System.EventHandler(this.Btn_Click);
             // 
             // buttonAdv11
             // 
             this.buttonAdv11.AutoEllipsis = true;
-            this.buttonAdv11.BackColor = System.Drawing.Color.DarkGray;
+            this.buttonAdv11.BackColor = System.Drawing.Color.LightGray;
             this.buttonAdv11.BorderStyleAdv = Syncfusion.Windows.Forms.ButtonAdvBorderStyle.Solid;
             this.buttonAdv11.FlatAppearance.BorderSize = 5;
             this.buttonAdv11.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
@@ -784,13 +802,15 @@
             this.buttonAdv11.Name = "buttonAdv11";
             this.buttonAdv11.Size = new System.Drawing.Size(105, 58);
             this.buttonAdv11.TabIndex = 51;
-            this.buttonAdv11.Text = "Wait";
+            this.buttonAdv11.Tag = "PushPull";
+            this.buttonAdv11.Text = "Handler";
             this.buttonAdv11.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.buttonAdv11.Click += new System.EventHandler(this.Btn_Click);
             // 
             // buttonAdv8
             // 
             this.buttonAdv8.AutoEllipsis = true;
-            this.buttonAdv8.BackColor = System.Drawing.Color.DarkGray;
+            this.buttonAdv8.BackColor = System.Drawing.Color.LightGray;
             this.buttonAdv8.BorderStyleAdv = Syncfusion.Windows.Forms.ButtonAdvBorderStyle.Solid;
             this.buttonAdv8.FlatAppearance.BorderSize = 5;
             this.buttonAdv8.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
@@ -800,13 +820,15 @@
             this.buttonAdv8.Name = "buttonAdv8";
             this.buttonAdv8.Size = new System.Drawing.Size(105, 58);
             this.buttonAdv8.TabIndex = 48;
+            this.buttonAdv8.Tag = "PushPull";
             this.buttonAdv8.Text = "Load";
             this.buttonAdv8.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.buttonAdv8.Click += new System.EventHandler(this.Btn_Click);
             // 
             // buttonAdv10
             // 
             this.buttonAdv10.AutoEllipsis = true;
-            this.buttonAdv10.BackColor = System.Drawing.Color.DarkGray;
+            this.buttonAdv10.BackColor = System.Drawing.Color.LightGray;
             this.buttonAdv10.BorderStyleAdv = Syncfusion.Windows.Forms.ButtonAdvBorderStyle.Solid;
             this.buttonAdv10.FlatAppearance.BorderSize = 5;
             this.buttonAdv10.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
@@ -816,8 +838,10 @@
             this.buttonAdv10.Name = "buttonAdv10";
             this.buttonAdv10.Size = new System.Drawing.Size(105, 58);
             this.buttonAdv10.TabIndex = 50;
-            this.buttonAdv10.Text = "Unload 2";
+            this.buttonAdv10.Tag = "PushPull";
+            this.buttonAdv10.Text = "Spinner 2";
             this.buttonAdv10.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.buttonAdv10.Click += new System.EventHandler(this.Btn_Click);
             // 
             // gradientPanel8
             // 
@@ -836,7 +860,7 @@
             // buttonAdv5
             // 
             this.buttonAdv5.AutoEllipsis = true;
-            this.buttonAdv5.BackColor = System.Drawing.Color.DarkGray;
+            this.buttonAdv5.BackColor = System.Drawing.Color.LightGray;
             this.buttonAdv5.BorderStyleAdv = Syncfusion.Windows.Forms.ButtonAdvBorderStyle.Solid;
             this.buttonAdv5.FlatAppearance.BorderSize = 5;
             this.buttonAdv5.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
@@ -846,8 +870,10 @@
             this.buttonAdv5.Name = "buttonAdv5";
             this.buttonAdv5.Size = new System.Drawing.Size(105, 58);
             this.buttonAdv5.TabIndex = 44;
-            this.buttonAdv5.Text = "Safety";
+            this.buttonAdv5.Tag = "Centering";
+            this.buttonAdv5.Text = "Open";
             this.buttonAdv5.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.buttonAdv5.Click += new System.EventHandler(this.Btn_Click);
             // 
             // autoLabel8
             // 
@@ -856,14 +882,14 @@
             this.autoLabel8.ForeColor = System.Drawing.Color.Maroon;
             this.autoLabel8.Location = new System.Drawing.Point(40, 8);
             this.autoLabel8.Name = "autoLabel8";
-            this.autoLabel8.Size = new System.Drawing.Size(76, 13);
+            this.autoLabel8.Size = new System.Drawing.Size(145, 13);
             this.autoLabel8.TabIndex = 44;
-            this.autoLabel8.Text = "Centering";
+            this.autoLabel8.Text = "PushPull Centering";
             // 
             // buttonAdv7
             // 
             this.buttonAdv7.AutoEllipsis = true;
-            this.buttonAdv7.BackColor = System.Drawing.Color.DarkGray;
+            this.buttonAdv7.BackColor = System.Drawing.Color.LightGray;
             this.buttonAdv7.BorderStyleAdv = Syncfusion.Windows.Forms.ButtonAdvBorderStyle.Solid;
             this.buttonAdv7.FlatAppearance.BorderSize = 5;
             this.buttonAdv7.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
@@ -873,8 +899,10 @@
             this.buttonAdv7.Name = "buttonAdv7";
             this.buttonAdv7.Size = new System.Drawing.Size(105, 58);
             this.buttonAdv7.TabIndex = 45;
-            this.buttonAdv7.Text = "Centering";
+            this.buttonAdv7.Tag = "Centering";
+            this.buttonAdv7.Text = "Close";
             this.buttonAdv7.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.buttonAdv7.Click += new System.EventHandler(this.Btn_Click);
             // 
             // gradientPanel9
             // 
@@ -894,7 +922,7 @@
             // buttonAdv17
             // 
             this.buttonAdv17.AutoEllipsis = true;
-            this.buttonAdv17.BackColor = System.Drawing.Color.DarkGray;
+            this.buttonAdv17.BackColor = System.Drawing.Color.LightGray;
             this.buttonAdv17.BorderStyleAdv = Syncfusion.Windows.Forms.ButtonAdvBorderStyle.Solid;
             this.buttonAdv17.FlatAppearance.BorderSize = 5;
             this.buttonAdv17.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
@@ -904,13 +932,15 @@
             this.buttonAdv17.Name = "buttonAdv17";
             this.buttonAdv17.Size = new System.Drawing.Size(105, 58);
             this.buttonAdv17.TabIndex = 50;
-            this.buttonAdv17.Text = "End";
+            this.buttonAdv17.Tag = "Spinner1_CoatNozzle";
+            this.buttonAdv17.Text = "Dispensing End";
             this.buttonAdv17.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.buttonAdv17.Click += new System.EventHandler(this.Btn_Click);
             // 
             // buttonAdv14
             // 
             this.buttonAdv14.AutoEllipsis = true;
-            this.buttonAdv14.BackColor = System.Drawing.Color.DarkGray;
+            this.buttonAdv14.BackColor = System.Drawing.Color.LightGray;
             this.buttonAdv14.BorderStyleAdv = Syncfusion.Windows.Forms.ButtonAdvBorderStyle.Solid;
             this.buttonAdv14.FlatAppearance.BorderSize = 5;
             this.buttonAdv14.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
@@ -920,13 +950,15 @@
             this.buttonAdv14.Name = "buttonAdv14";
             this.buttonAdv14.Size = new System.Drawing.Size(105, 58);
             this.buttonAdv14.TabIndex = 46;
+            this.buttonAdv14.Tag = "Spinner1_CoatNozzle";
             this.buttonAdv14.Text = "Safety";
             this.buttonAdv14.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.buttonAdv14.Click += new System.EventHandler(this.Btn_Click);
             // 
             // buttonAdv15
             // 
             this.buttonAdv15.AutoEllipsis = true;
-            this.buttonAdv15.BackColor = System.Drawing.Color.DarkGray;
+            this.buttonAdv15.BackColor = System.Drawing.Color.LightGray;
             this.buttonAdv15.BorderStyleAdv = Syncfusion.Windows.Forms.ButtonAdvBorderStyle.Solid;
             this.buttonAdv15.FlatAppearance.BorderSize = 5;
             this.buttonAdv15.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
@@ -936,8 +968,10 @@
             this.buttonAdv15.Name = "buttonAdv15";
             this.buttonAdv15.Size = new System.Drawing.Size(105, 58);
             this.buttonAdv15.TabIndex = 47;
-            this.buttonAdv15.Text = "Start";
+            this.buttonAdv15.Tag = "Spinner1_CoatNozzle";
+            this.buttonAdv15.Text = "Dispensing Start";
             this.buttonAdv15.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.buttonAdv15.Click += new System.EventHandler(this.Btn_Click);
             // 
             // Panel_Spinner1_Nozzle1
             // 
@@ -946,9 +980,9 @@
             this.Panel_Spinner1_Nozzle1.ForeColor = System.Drawing.Color.Maroon;
             this.Panel_Spinner1_Nozzle1.Location = new System.Drawing.Point(45, 8);
             this.Panel_Spinner1_Nozzle1.Name = "Panel_Spinner1_Nozzle1";
-            this.Panel_Spinner1_Nozzle1.Size = new System.Drawing.Size(151, 13);
+            this.Panel_Spinner1_Nozzle1.Size = new System.Drawing.Size(175, 13);
             this.Panel_Spinner1_Nozzle1.TabIndex = 31;
-            this.Panel_Spinner1_Nozzle1.Text = "Spinner #1 Nozzle 1";
+            this.Panel_Spinner1_Nozzle1.Text = "Spinner #1 Coat Nozzle";
             // 
             // gradientPanel11
             // 
@@ -966,7 +1000,7 @@
             // buttonAdv16
             // 
             this.buttonAdv16.AutoEllipsis = true;
-            this.buttonAdv16.BackColor = System.Drawing.Color.DarkGray;
+            this.buttonAdv16.BackColor = System.Drawing.Color.LightGray;
             this.buttonAdv16.BorderStyleAdv = Syncfusion.Windows.Forms.ButtonAdvBorderStyle.Solid;
             this.buttonAdv16.FlatAppearance.BorderSize = 5;
             this.buttonAdv16.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
@@ -976,8 +1010,10 @@
             this.buttonAdv16.Name = "buttonAdv16";
             this.buttonAdv16.Size = new System.Drawing.Size(105, 58);
             this.buttonAdv16.TabIndex = 46;
-            this.buttonAdv16.Text = "Load";
+            this.buttonAdv16.Tag = "Spinner1_Rotate";
+            this.buttonAdv16.Text = "Home";
             this.buttonAdv16.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.buttonAdv16.Click += new System.EventHandler(this.Btn_Click);
             // 
             // Panel_Spinner1_Rotate
             // 
@@ -1006,7 +1042,7 @@
             // buttonAdv18
             // 
             this.buttonAdv18.AutoEllipsis = true;
-            this.buttonAdv18.BackColor = System.Drawing.Color.DarkGray;
+            this.buttonAdv18.BackColor = System.Drawing.Color.LightGray;
             this.buttonAdv18.BorderStyleAdv = Syncfusion.Windows.Forms.ButtonAdvBorderStyle.Solid;
             this.buttonAdv18.FlatAppearance.BorderSize = 5;
             this.buttonAdv18.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
@@ -1016,8 +1052,10 @@
             this.buttonAdv18.Name = "buttonAdv18";
             this.buttonAdv18.Size = new System.Drawing.Size(105, 58);
             this.buttonAdv18.TabIndex = 46;
-            this.buttonAdv18.Text = "Load";
+            this.buttonAdv18.Tag = "Spinner2_Rotate";
+            this.buttonAdv18.Text = "Home";
             this.buttonAdv18.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.buttonAdv18.Click += new System.EventHandler(this.Btn_Click);
             // 
             // Panel_Spinner2_Rotate
             // 
@@ -1048,7 +1086,7 @@
             // buttonAdv19
             // 
             this.buttonAdv19.AutoEllipsis = true;
-            this.buttonAdv19.BackColor = System.Drawing.Color.DarkGray;
+            this.buttonAdv19.BackColor = System.Drawing.Color.LightGray;
             this.buttonAdv19.BorderStyleAdv = Syncfusion.Windows.Forms.ButtonAdvBorderStyle.Solid;
             this.buttonAdv19.FlatAppearance.BorderSize = 5;
             this.buttonAdv19.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
@@ -1058,8 +1096,10 @@
             this.buttonAdv19.Name = "buttonAdv19";
             this.buttonAdv19.Size = new System.Drawing.Size(105, 58);
             this.buttonAdv19.TabIndex = 51;
-            this.buttonAdv19.Text = "End";
+            this.buttonAdv19.Tag = "Spinner2_CoatNozzle";
+            this.buttonAdv19.Text = "Dispensing End";
             this.buttonAdv19.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.buttonAdv19.Click += new System.EventHandler(this.Btn_Click);
             // 
             // Panel_Spinner2_Nozzle1
             // 
@@ -1068,14 +1108,14 @@
             this.Panel_Spinner2_Nozzle1.ForeColor = System.Drawing.Color.Maroon;
             this.Panel_Spinner2_Nozzle1.Location = new System.Drawing.Point(45, 8);
             this.Panel_Spinner2_Nozzle1.Name = "Panel_Spinner2_Nozzle1";
-            this.Panel_Spinner2_Nozzle1.Size = new System.Drawing.Size(151, 13);
+            this.Panel_Spinner2_Nozzle1.Size = new System.Drawing.Size(175, 13);
             this.Panel_Spinner2_Nozzle1.TabIndex = 31;
-            this.Panel_Spinner2_Nozzle1.Text = "Spinner #2 Nozzle 1";
+            this.Panel_Spinner2_Nozzle1.Text = "Spinner #2 Coat Nozzle";
             // 
             // buttonAdv20
             // 
             this.buttonAdv20.AutoEllipsis = true;
-            this.buttonAdv20.BackColor = System.Drawing.Color.DarkGray;
+            this.buttonAdv20.BackColor = System.Drawing.Color.LightGray;
             this.buttonAdv20.BorderStyleAdv = Syncfusion.Windows.Forms.ButtonAdvBorderStyle.Solid;
             this.buttonAdv20.FlatAppearance.BorderSize = 5;
             this.buttonAdv20.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
@@ -1085,13 +1125,15 @@
             this.buttonAdv20.Name = "buttonAdv20";
             this.buttonAdv20.Size = new System.Drawing.Size(105, 58);
             this.buttonAdv20.TabIndex = 46;
+            this.buttonAdv20.Tag = "Spinner2_CoatNozzle";
             this.buttonAdv20.Text = "Safety";
             this.buttonAdv20.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.buttonAdv20.Click += new System.EventHandler(this.Btn_Click);
             // 
             // buttonAdv21
             // 
             this.buttonAdv21.AutoEllipsis = true;
-            this.buttonAdv21.BackColor = System.Drawing.Color.DarkGray;
+            this.buttonAdv21.BackColor = System.Drawing.Color.LightGray;
             this.buttonAdv21.BorderStyleAdv = Syncfusion.Windows.Forms.ButtonAdvBorderStyle.Solid;
             this.buttonAdv21.FlatAppearance.BorderSize = 5;
             this.buttonAdv21.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
@@ -1101,8 +1143,10 @@
             this.buttonAdv21.Name = "buttonAdv21";
             this.buttonAdv21.Size = new System.Drawing.Size(105, 58);
             this.buttonAdv21.TabIndex = 47;
-            this.buttonAdv21.Text = "Start";
+            this.buttonAdv21.Tag = "Spinner2_CoatNozzle";
+            this.buttonAdv21.Text = "Dispensing Start";
             this.buttonAdv21.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.buttonAdv21.Click += new System.EventHandler(this.Btn_Click);
             // 
             // gradientPanel13
             // 
@@ -1133,7 +1177,7 @@
             // buttonAdv29
             // 
             this.buttonAdv29.AutoEllipsis = true;
-            this.buttonAdv29.BackColor = System.Drawing.Color.DarkGray;
+            this.buttonAdv29.BackColor = System.Drawing.Color.LightGray;
             this.buttonAdv29.BorderStyleAdv = Syncfusion.Windows.Forms.ButtonAdvBorderStyle.Solid;
             this.buttonAdv29.FlatAppearance.BorderSize = 5;
             this.buttonAdv29.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
@@ -1143,13 +1187,15 @@
             this.buttonAdv29.Name = "buttonAdv29";
             this.buttonAdv29.Size = new System.Drawing.Size(105, 58);
             this.buttonAdv29.TabIndex = 67;
+            this.buttonAdv29.Tag = "Stage1";
             this.buttonAdv29.Text = "LASER_PROCESS_TURN";
             this.buttonAdv29.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.buttonAdv29.Click += new System.EventHandler(this.Btn_Click);
             // 
             // buttonAdv30
             // 
             this.buttonAdv30.AutoEllipsis = true;
-            this.buttonAdv30.BackColor = System.Drawing.Color.DarkGray;
+            this.buttonAdv30.BackColor = System.Drawing.Color.LightGray;
             this.buttonAdv30.BorderStyleAdv = Syncfusion.Windows.Forms.ButtonAdvBorderStyle.Solid;
             this.buttonAdv30.FlatAppearance.BorderSize = 5;
             this.buttonAdv30.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
@@ -1159,13 +1205,15 @@
             this.buttonAdv30.Name = "buttonAdv30";
             this.buttonAdv30.Size = new System.Drawing.Size(105, 58);
             this.buttonAdv30.TabIndex = 63;
+            this.buttonAdv30.Tag = "Stage1";
             this.buttonAdv30.Text = "MACRO_ALIGN";
             this.buttonAdv30.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.buttonAdv30.Click += new System.EventHandler(this.Btn_Click);
             // 
             // buttonAdv31
             // 
             this.buttonAdv31.AutoEllipsis = true;
-            this.buttonAdv31.BackColor = System.Drawing.Color.DarkGray;
+            this.buttonAdv31.BackColor = System.Drawing.Color.LightGray;
             this.buttonAdv31.BorderStyleAdv = Syncfusion.Windows.Forms.ButtonAdvBorderStyle.Solid;
             this.buttonAdv31.FlatAppearance.BorderSize = 5;
             this.buttonAdv31.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
@@ -1175,13 +1223,15 @@
             this.buttonAdv31.Name = "buttonAdv31";
             this.buttonAdv31.Size = new System.Drawing.Size(105, 58);
             this.buttonAdv31.TabIndex = 66;
+            this.buttonAdv31.Tag = "Stage1";
             this.buttonAdv31.Text = "LASER_PROCESS";
             this.buttonAdv31.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.buttonAdv31.Click += new System.EventHandler(this.Btn_Click);
             // 
             // buttonAdv32
             // 
             this.buttonAdv32.AutoEllipsis = true;
-            this.buttonAdv32.BackColor = System.Drawing.Color.DarkGray;
+            this.buttonAdv32.BackColor = System.Drawing.Color.LightGray;
             this.buttonAdv32.BorderStyleAdv = Syncfusion.Windows.Forms.ButtonAdvBorderStyle.Solid;
             this.buttonAdv32.FlatAppearance.BorderSize = 5;
             this.buttonAdv32.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
@@ -1191,13 +1241,15 @@
             this.buttonAdv32.Name = "buttonAdv32";
             this.buttonAdv32.Size = new System.Drawing.Size(105, 58);
             this.buttonAdv32.TabIndex = 64;
+            this.buttonAdv32.Tag = "Stage1";
             this.buttonAdv32.Text = "MICRO_ALIGN";
             this.buttonAdv32.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.buttonAdv32.Click += new System.EventHandler(this.Btn_Click);
             // 
             // buttonAdv33
             // 
             this.buttonAdv33.AutoEllipsis = true;
-            this.buttonAdv33.BackColor = System.Drawing.Color.DarkGray;
+            this.buttonAdv33.BackColor = System.Drawing.Color.LightGray;
             this.buttonAdv33.BorderStyleAdv = Syncfusion.Windows.Forms.ButtonAdvBorderStyle.Solid;
             this.buttonAdv33.FlatAppearance.BorderSize = 5;
             this.buttonAdv33.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
@@ -1207,13 +1259,15 @@
             this.buttonAdv33.Name = "buttonAdv33";
             this.buttonAdv33.Size = new System.Drawing.Size(105, 58);
             this.buttonAdv33.TabIndex = 61;
+            this.buttonAdv33.Tag = "Stage1";
             this.buttonAdv33.Text = "Edge Align 4";
             this.buttonAdv33.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.buttonAdv33.Click += new System.EventHandler(this.Btn_Click);
             // 
             // buttonAdv34
             // 
             this.buttonAdv34.AutoEllipsis = true;
-            this.buttonAdv34.BackColor = System.Drawing.Color.DarkGray;
+            this.buttonAdv34.BackColor = System.Drawing.Color.LightGray;
             this.buttonAdv34.BorderStyleAdv = Syncfusion.Windows.Forms.ButtonAdvBorderStyle.Solid;
             this.buttonAdv34.FlatAppearance.BorderSize = 5;
             this.buttonAdv34.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
@@ -1223,13 +1277,15 @@
             this.buttonAdv34.Name = "buttonAdv34";
             this.buttonAdv34.Size = new System.Drawing.Size(105, 58);
             this.buttonAdv34.TabIndex = 62;
+            this.buttonAdv34.Tag = "Stage1";
             this.buttonAdv34.Text = "MACRO_CAM_POS";
             this.buttonAdv34.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.buttonAdv34.Click += new System.EventHandler(this.Btn_Click);
             // 
             // buttonAdv35
             // 
             this.buttonAdv35.AutoEllipsis = true;
-            this.buttonAdv35.BackColor = System.Drawing.Color.DarkGray;
+            this.buttonAdv35.BackColor = System.Drawing.Color.LightGray;
             this.buttonAdv35.BorderStyleAdv = Syncfusion.Windows.Forms.ButtonAdvBorderStyle.Solid;
             this.buttonAdv35.FlatAppearance.BorderSize = 5;
             this.buttonAdv35.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
@@ -1239,13 +1295,15 @@
             this.buttonAdv35.Name = "buttonAdv35";
             this.buttonAdv35.Size = new System.Drawing.Size(105, 58);
             this.buttonAdv35.TabIndex = 65;
+            this.buttonAdv35.Tag = "Stage1";
             this.buttonAdv35.Text = "MICRO_ALIGN_TURN";
             this.buttonAdv35.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.buttonAdv35.Click += new System.EventHandler(this.Btn_Click);
             // 
             // buttonAdv22
             // 
             this.buttonAdv22.AutoEllipsis = true;
-            this.buttonAdv22.BackColor = System.Drawing.Color.DarkGray;
+            this.buttonAdv22.BackColor = System.Drawing.Color.LightGray;
             this.buttonAdv22.BorderStyleAdv = Syncfusion.Windows.Forms.ButtonAdvBorderStyle.Solid;
             this.buttonAdv22.FlatAppearance.BorderSize = 5;
             this.buttonAdv22.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
@@ -1255,8 +1313,10 @@
             this.buttonAdv22.Name = "buttonAdv22";
             this.buttonAdv22.Size = new System.Drawing.Size(105, 58);
             this.buttonAdv22.TabIndex = 60;
+            this.buttonAdv22.Tag = "Stage1";
             this.buttonAdv22.Text = "Edge Align 3";
             this.buttonAdv22.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.buttonAdv22.Click += new System.EventHandler(this.Btn_Click);
             // 
             // autoLabel13
             // 
@@ -1265,14 +1325,14 @@
             this.autoLabel13.ForeColor = System.Drawing.Color.Maroon;
             this.autoLabel13.Location = new System.Drawing.Point(45, 8);
             this.autoLabel13.Name = "autoLabel13";
-            this.autoLabel13.Size = new System.Drawing.Size(48, 13);
+            this.autoLabel13.Size = new System.Drawing.Size(61, 13);
             this.autoLabel13.TabIndex = 31;
-            this.autoLabel13.Text = "Stage";
+            this.autoLabel13.Text = "Stage 1";
             // 
             // buttonAdv23
             // 
             this.buttonAdv23.AutoEllipsis = true;
-            this.buttonAdv23.BackColor = System.Drawing.Color.DarkGray;
+            this.buttonAdv23.BackColor = System.Drawing.Color.LightGray;
             this.buttonAdv23.BorderStyleAdv = Syncfusion.Windows.Forms.ButtonAdvBorderStyle.Solid;
             this.buttonAdv23.FlatAppearance.BorderSize = 5;
             this.buttonAdv23.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
@@ -1282,13 +1342,15 @@
             this.buttonAdv23.Name = "buttonAdv23";
             this.buttonAdv23.Size = new System.Drawing.Size(105, 58);
             this.buttonAdv23.TabIndex = 56;
+            this.buttonAdv23.Tag = "Stage1";
             this.buttonAdv23.Text = "Unload";
             this.buttonAdv23.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.buttonAdv23.Click += new System.EventHandler(this.Btn_Click);
             // 
             // buttonAdv24
             // 
             this.buttonAdv24.AutoEllipsis = true;
-            this.buttonAdv24.BackColor = System.Drawing.Color.DarkGray;
+            this.buttonAdv24.BackColor = System.Drawing.Color.LightGray;
             this.buttonAdv24.BorderStyleAdv = Syncfusion.Windows.Forms.ButtonAdvBorderStyle.Solid;
             this.buttonAdv24.FlatAppearance.BorderSize = 5;
             this.buttonAdv24.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
@@ -1298,13 +1360,15 @@
             this.buttonAdv24.Name = "buttonAdv24";
             this.buttonAdv24.Size = new System.Drawing.Size(105, 58);
             this.buttonAdv24.TabIndex = 59;
+            this.buttonAdv24.Tag = "Stage1";
             this.buttonAdv24.Text = "Edge Align 2";
             this.buttonAdv24.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.buttonAdv24.Click += new System.EventHandler(this.Btn_Click);
             // 
             // buttonAdv28
             // 
             this.buttonAdv28.AutoEllipsis = true;
-            this.buttonAdv28.BackColor = System.Drawing.Color.DarkGray;
+            this.buttonAdv28.BackColor = System.Drawing.Color.LightGray;
             this.buttonAdv28.BorderStyleAdv = Syncfusion.Windows.Forms.ButtonAdvBorderStyle.Solid;
             this.buttonAdv28.FlatAppearance.BorderSize = 5;
             this.buttonAdv28.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
@@ -1314,13 +1378,15 @@
             this.buttonAdv28.Name = "buttonAdv28";
             this.buttonAdv28.Size = new System.Drawing.Size(105, 58);
             this.buttonAdv28.TabIndex = 57;
+            this.buttonAdv28.Tag = "Stage1";
             this.buttonAdv28.Text = "Theta Align";
             this.buttonAdv28.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.buttonAdv28.Click += new System.EventHandler(this.Btn_Click);
             // 
             // buttonAdv25
             // 
             this.buttonAdv25.AutoEllipsis = true;
-            this.buttonAdv25.BackColor = System.Drawing.Color.DarkGray;
+            this.buttonAdv25.BackColor = System.Drawing.Color.LightGray;
             this.buttonAdv25.BorderStyleAdv = Syncfusion.Windows.Forms.ButtonAdvBorderStyle.Solid;
             this.buttonAdv25.FlatAppearance.BorderSize = 5;
             this.buttonAdv25.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
@@ -1330,13 +1396,15 @@
             this.buttonAdv25.Name = "buttonAdv25";
             this.buttonAdv25.Size = new System.Drawing.Size(105, 58);
             this.buttonAdv25.TabIndex = 54;
+            this.buttonAdv25.Tag = "Stage1";
             this.buttonAdv25.Text = "Wait";
             this.buttonAdv25.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.buttonAdv25.Click += new System.EventHandler(this.Btn_Click);
             // 
             // buttonAdv27
             // 
             this.buttonAdv27.AutoEllipsis = true;
-            this.buttonAdv27.BackColor = System.Drawing.Color.DarkGray;
+            this.buttonAdv27.BackColor = System.Drawing.Color.LightGray;
             this.buttonAdv27.BorderStyleAdv = Syncfusion.Windows.Forms.ButtonAdvBorderStyle.Solid;
             this.buttonAdv27.FlatAppearance.BorderSize = 5;
             this.buttonAdv27.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
@@ -1346,13 +1414,15 @@
             this.buttonAdv27.Name = "buttonAdv27";
             this.buttonAdv27.Size = new System.Drawing.Size(105, 58);
             this.buttonAdv27.TabIndex = 55;
+            this.buttonAdv27.Tag = "Stage1";
             this.buttonAdv27.Text = "Load";
             this.buttonAdv27.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.buttonAdv27.Click += new System.EventHandler(this.Btn_Click);
             // 
             // buttonAdv26
             // 
             this.buttonAdv26.AutoEllipsis = true;
-            this.buttonAdv26.BackColor = System.Drawing.Color.DarkGray;
+            this.buttonAdv26.BackColor = System.Drawing.Color.LightGray;
             this.buttonAdv26.BorderStyleAdv = Syncfusion.Windows.Forms.ButtonAdvBorderStyle.Solid;
             this.buttonAdv26.FlatAppearance.BorderSize = 5;
             this.buttonAdv26.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
@@ -1362,8 +1432,10 @@
             this.buttonAdv26.Name = "buttonAdv26";
             this.buttonAdv26.Size = new System.Drawing.Size(105, 58);
             this.buttonAdv26.TabIndex = 58;
+            this.buttonAdv26.Tag = "Stage1";
             this.buttonAdv26.Text = "Edge Align 1";
             this.buttonAdv26.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.buttonAdv26.Click += new System.EventHandler(this.Btn_Click);
             // 
             // tabControlAdv1
             // 
@@ -1562,7 +1634,7 @@
             // buttonAdv43
             // 
             this.buttonAdv43.AutoEllipsis = true;
-            this.buttonAdv43.BackColor = System.Drawing.Color.DarkGray;
+            this.buttonAdv43.BackColor = System.Drawing.Color.LightGray;
             this.buttonAdv43.BorderStyleAdv = Syncfusion.Windows.Forms.ButtonAdvBorderStyle.Solid;
             this.buttonAdv43.FlatAppearance.BorderSize = 5;
             this.buttonAdv43.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
@@ -1572,8 +1644,10 @@
             this.buttonAdv43.Name = "buttonAdv43";
             this.buttonAdv43.Size = new System.Drawing.Size(105, 58);
             this.buttonAdv43.TabIndex = 51;
-            this.buttonAdv43.Text = "End";
+            this.buttonAdv43.Tag = "Spinner2_CleanNozzle";
+            this.buttonAdv43.Text = "Dispensing End";
             this.buttonAdv43.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.buttonAdv43.Click += new System.EventHandler(this.Btn_Click);
             // 
             // Panel_Spinner2_Nozzle2
             // 
@@ -1582,14 +1656,14 @@
             this.Panel_Spinner2_Nozzle2.ForeColor = System.Drawing.Color.Maroon;
             this.Panel_Spinner2_Nozzle2.Location = new System.Drawing.Point(45, 8);
             this.Panel_Spinner2_Nozzle2.Name = "Panel_Spinner2_Nozzle2";
-            this.Panel_Spinner2_Nozzle2.Size = new System.Drawing.Size(151, 13);
+            this.Panel_Spinner2_Nozzle2.Size = new System.Drawing.Size(184, 13);
             this.Panel_Spinner2_Nozzle2.TabIndex = 31;
-            this.Panel_Spinner2_Nozzle2.Text = "Spinner #2 Nozzle 1";
+            this.Panel_Spinner2_Nozzle2.Text = "Spinner #2 Clean Nozzle";
             // 
             // buttonAdv44
             // 
             this.buttonAdv44.AutoEllipsis = true;
-            this.buttonAdv44.BackColor = System.Drawing.Color.DarkGray;
+            this.buttonAdv44.BackColor = System.Drawing.Color.LightGray;
             this.buttonAdv44.BorderStyleAdv = Syncfusion.Windows.Forms.ButtonAdvBorderStyle.Solid;
             this.buttonAdv44.FlatAppearance.BorderSize = 5;
             this.buttonAdv44.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
@@ -1599,13 +1673,15 @@
             this.buttonAdv44.Name = "buttonAdv44";
             this.buttonAdv44.Size = new System.Drawing.Size(105, 58);
             this.buttonAdv44.TabIndex = 46;
+            this.buttonAdv44.Tag = "Spinner2_CleanNozzle";
             this.buttonAdv44.Text = "Safety";
             this.buttonAdv44.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.buttonAdv44.Click += new System.EventHandler(this.Btn_Click);
             // 
             // buttonAdv45
             // 
             this.buttonAdv45.AutoEllipsis = true;
-            this.buttonAdv45.BackColor = System.Drawing.Color.DarkGray;
+            this.buttonAdv45.BackColor = System.Drawing.Color.LightGray;
             this.buttonAdv45.BorderStyleAdv = Syncfusion.Windows.Forms.ButtonAdvBorderStyle.Solid;
             this.buttonAdv45.FlatAppearance.BorderSize = 5;
             this.buttonAdv45.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
@@ -1615,8 +1691,10 @@
             this.buttonAdv45.Name = "buttonAdv45";
             this.buttonAdv45.Size = new System.Drawing.Size(105, 58);
             this.buttonAdv45.TabIndex = 47;
-            this.buttonAdv45.Text = "Start";
+            this.buttonAdv45.Tag = "Spinner2_CleanNozzle";
+            this.buttonAdv45.Text = "Dispensing Start";
             this.buttonAdv45.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.buttonAdv45.Click += new System.EventHandler(this.Btn_Click);
             // 
             // gradientPanel10
             // 
@@ -1636,7 +1714,7 @@
             // buttonAdv40
             // 
             this.buttonAdv40.AutoEllipsis = true;
-            this.buttonAdv40.BackColor = System.Drawing.Color.DarkGray;
+            this.buttonAdv40.BackColor = System.Drawing.Color.LightGray;
             this.buttonAdv40.BorderStyleAdv = Syncfusion.Windows.Forms.ButtonAdvBorderStyle.Solid;
             this.buttonAdv40.FlatAppearance.BorderSize = 5;
             this.buttonAdv40.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
@@ -1646,13 +1724,15 @@
             this.buttonAdv40.Name = "buttonAdv40";
             this.buttonAdv40.Size = new System.Drawing.Size(105, 58);
             this.buttonAdv40.TabIndex = 50;
-            this.buttonAdv40.Text = "End";
+            this.buttonAdv40.Tag = "Spinner1_CleanNozzle";
+            this.buttonAdv40.Text = "Dispensing End";
             this.buttonAdv40.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.buttonAdv40.Click += new System.EventHandler(this.Btn_Click);
             // 
             // buttonAdv41
             // 
             this.buttonAdv41.AutoEllipsis = true;
-            this.buttonAdv41.BackColor = System.Drawing.Color.DarkGray;
+            this.buttonAdv41.BackColor = System.Drawing.Color.LightGray;
             this.buttonAdv41.BorderStyleAdv = Syncfusion.Windows.Forms.ButtonAdvBorderStyle.Solid;
             this.buttonAdv41.FlatAppearance.BorderSize = 5;
             this.buttonAdv41.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
@@ -1662,13 +1742,15 @@
             this.buttonAdv41.Name = "buttonAdv41";
             this.buttonAdv41.Size = new System.Drawing.Size(105, 58);
             this.buttonAdv41.TabIndex = 46;
+            this.buttonAdv41.Tag = "Spinner1_CleanNozzle";
             this.buttonAdv41.Text = "Safety";
             this.buttonAdv41.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.buttonAdv41.Click += new System.EventHandler(this.Btn_Click);
             // 
             // buttonAdv42
             // 
             this.buttonAdv42.AutoEllipsis = true;
-            this.buttonAdv42.BackColor = System.Drawing.Color.DarkGray;
+            this.buttonAdv42.BackColor = System.Drawing.Color.LightGray;
             this.buttonAdv42.BorderStyleAdv = Syncfusion.Windows.Forms.ButtonAdvBorderStyle.Solid;
             this.buttonAdv42.FlatAppearance.BorderSize = 5;
             this.buttonAdv42.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
@@ -1678,8 +1760,10 @@
             this.buttonAdv42.Name = "buttonAdv42";
             this.buttonAdv42.Size = new System.Drawing.Size(105, 58);
             this.buttonAdv42.TabIndex = 47;
-            this.buttonAdv42.Text = "Start";
+            this.buttonAdv42.Tag = "Spinner1_CleanNozzle";
+            this.buttonAdv42.Text = "Dispensing Start";
             this.buttonAdv42.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.buttonAdv42.Click += new System.EventHandler(this.Btn_Click);
             // 
             // Panel_Spinner1_Nozzle2
             // 
@@ -1688,9 +1772,9 @@
             this.Panel_Spinner1_Nozzle2.ForeColor = System.Drawing.Color.Maroon;
             this.Panel_Spinner1_Nozzle2.Location = new System.Drawing.Point(45, 8);
             this.Panel_Spinner1_Nozzle2.Name = "Panel_Spinner1_Nozzle2";
-            this.Panel_Spinner1_Nozzle2.Size = new System.Drawing.Size(151, 13);
+            this.Panel_Spinner1_Nozzle2.Size = new System.Drawing.Size(184, 13);
             this.Panel_Spinner1_Nozzle2.TabIndex = 31;
-            this.Panel_Spinner1_Nozzle2.Text = "Spinner #1 Nozzle 2";
+            this.Panel_Spinner1_Nozzle2.Text = "Spinner #1 Clean Nozzle";
             // 
             // TabPageStage
             // 
@@ -1727,7 +1811,7 @@
             // buttonAdv48
             // 
             this.buttonAdv48.AutoEllipsis = true;
-            this.buttonAdv48.BackColor = System.Drawing.Color.DarkGray;
+            this.buttonAdv48.BackColor = System.Drawing.Color.LightGray;
             this.buttonAdv48.BorderStyleAdv = Syncfusion.Windows.Forms.ButtonAdvBorderStyle.Solid;
             this.buttonAdv48.FlatAppearance.BorderSize = 5;
             this.buttonAdv48.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
@@ -1737,8 +1821,10 @@
             this.buttonAdv48.Name = "buttonAdv48";
             this.buttonAdv48.Size = new System.Drawing.Size(105, 58);
             this.buttonAdv48.TabIndex = 44;
+            this.buttonAdv48.Tag = "LowerHandler_Z";
             this.buttonAdv48.Text = "Safety";
             this.buttonAdv48.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.buttonAdv48.Click += new System.EventHandler(this.Btn_Click);
             // 
             // autoLabel20
             // 
@@ -1747,14 +1833,14 @@
             this.autoLabel20.ForeColor = System.Drawing.Color.Maroon;
             this.autoLabel20.Location = new System.Drawing.Point(40, 8);
             this.autoLabel20.Name = "autoLabel20";
-            this.autoLabel20.Size = new System.Drawing.Size(126, 13);
+            this.autoLabel20.Size = new System.Drawing.Size(181, 13);
             this.autoLabel20.TabIndex = 44;
-            this.autoLabel20.Text = "Lower Handler Z";
+            this.autoLabel20.Text = "Lower Unload Handler Z";
             // 
             // buttonAdv49
             // 
             this.buttonAdv49.AutoEllipsis = true;
-            this.buttonAdv49.BackColor = System.Drawing.Color.DarkGray;
+            this.buttonAdv49.BackColor = System.Drawing.Color.LightGray;
             this.buttonAdv49.BorderStyleAdv = Syncfusion.Windows.Forms.ButtonAdvBorderStyle.Solid;
             this.buttonAdv49.FlatAppearance.BorderSize = 5;
             this.buttonAdv49.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
@@ -1764,8 +1850,10 @@
             this.buttonAdv49.Name = "buttonAdv49";
             this.buttonAdv49.Size = new System.Drawing.Size(105, 58);
             this.buttonAdv49.TabIndex = 45;
-            this.buttonAdv49.Text = "Centering";
+            this.buttonAdv49.Tag = "LowerHandler_Z";
+            this.buttonAdv49.Text = "Load / Unload";
             this.buttonAdv49.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.buttonAdv49.Click += new System.EventHandler(this.Btn_Click);
             // 
             // gradientPanel21
             // 
@@ -1773,6 +1861,7 @@
             this.gradientPanel21.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.gradientPanel21.Border3DStyle = System.Windows.Forms.Border3DStyle.Raised;
             this.gradientPanel21.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.gradientPanel21.Controls.Add(this.buttonAdv55);
             this.gradientPanel21.Controls.Add(this.buttonAdv50);
             this.gradientPanel21.Controls.Add(this.autoLabel21);
             this.gradientPanel21.Controls.Add(this.buttonAdv51);
@@ -1781,10 +1870,28 @@
             this.gradientPanel21.Size = new System.Drawing.Size(432, 104);
             this.gradientPanel21.TabIndex = 54;
             // 
+            // buttonAdv55
+            // 
+            this.buttonAdv55.AutoEllipsis = true;
+            this.buttonAdv55.BackColor = System.Drawing.Color.LightGray;
+            this.buttonAdv55.BorderStyleAdv = Syncfusion.Windows.Forms.ButtonAdvBorderStyle.Solid;
+            this.buttonAdv55.FlatAppearance.BorderSize = 5;
+            this.buttonAdv55.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.buttonAdv55.ForeColor = System.Drawing.Color.Black;
+            this.buttonAdv55.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.buttonAdv55.Location = new System.Drawing.Point(252, 37);
+            this.buttonAdv55.Name = "buttonAdv55";
+            this.buttonAdv55.Size = new System.Drawing.Size(105, 58);
+            this.buttonAdv55.TabIndex = 46;
+            this.buttonAdv55.Tag = "LowerHandler_X";
+            this.buttonAdv55.Text = "Unload [PushPull]";
+            this.buttonAdv55.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.buttonAdv55.Click += new System.EventHandler(this.Btn_Click);
+            // 
             // buttonAdv50
             // 
             this.buttonAdv50.AutoEllipsis = true;
-            this.buttonAdv50.BackColor = System.Drawing.Color.DarkGray;
+            this.buttonAdv50.BackColor = System.Drawing.Color.LightGray;
             this.buttonAdv50.BorderStyleAdv = Syncfusion.Windows.Forms.ButtonAdvBorderStyle.Solid;
             this.buttonAdv50.FlatAppearance.BorderSize = 5;
             this.buttonAdv50.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
@@ -1794,8 +1901,10 @@
             this.buttonAdv50.Name = "buttonAdv50";
             this.buttonAdv50.Size = new System.Drawing.Size(105, 58);
             this.buttonAdv50.TabIndex = 44;
-            this.buttonAdv50.Text = "Safety";
+            this.buttonAdv50.Tag = "LowerHandler_X";
+            this.buttonAdv50.Text = "Wait";
             this.buttonAdv50.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.buttonAdv50.Click += new System.EventHandler(this.Btn_Click);
             // 
             // autoLabel21
             // 
@@ -1804,14 +1913,14 @@
             this.autoLabel21.ForeColor = System.Drawing.Color.Maroon;
             this.autoLabel21.Location = new System.Drawing.Point(40, 8);
             this.autoLabel21.Name = "autoLabel21";
-            this.autoLabel21.Size = new System.Drawing.Size(125, 13);
+            this.autoLabel21.Size = new System.Drawing.Size(180, 13);
             this.autoLabel21.TabIndex = 44;
-            this.autoLabel21.Text = "Lower Handler X";
+            this.autoLabel21.Text = "Lower Unload Handler X";
             // 
             // buttonAdv51
             // 
             this.buttonAdv51.AutoEllipsis = true;
-            this.buttonAdv51.BackColor = System.Drawing.Color.DarkGray;
+            this.buttonAdv51.BackColor = System.Drawing.Color.LightGray;
             this.buttonAdv51.BorderStyleAdv = Syncfusion.Windows.Forms.ButtonAdvBorderStyle.Solid;
             this.buttonAdv51.FlatAppearance.BorderSize = 5;
             this.buttonAdv51.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
@@ -1821,8 +1930,10 @@
             this.buttonAdv51.Name = "buttonAdv51";
             this.buttonAdv51.Size = new System.Drawing.Size(105, 58);
             this.buttonAdv51.TabIndex = 45;
-            this.buttonAdv51.Text = "Centering";
+            this.buttonAdv51.Tag = "LowerHandler_X";
+            this.buttonAdv51.Text = "Load [Stage]";
             this.buttonAdv51.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.buttonAdv51.Click += new System.EventHandler(this.Btn_Click);
             // 
             // gradientPanel18
             // 
@@ -1841,7 +1952,7 @@
             // buttonAdv46
             // 
             this.buttonAdv46.AutoEllipsis = true;
-            this.buttonAdv46.BackColor = System.Drawing.Color.DarkGray;
+            this.buttonAdv46.BackColor = System.Drawing.Color.LightGray;
             this.buttonAdv46.BorderStyleAdv = Syncfusion.Windows.Forms.ButtonAdvBorderStyle.Solid;
             this.buttonAdv46.FlatAppearance.BorderSize = 5;
             this.buttonAdv46.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
@@ -1851,8 +1962,10 @@
             this.buttonAdv46.Name = "buttonAdv46";
             this.buttonAdv46.Size = new System.Drawing.Size(105, 58);
             this.buttonAdv46.TabIndex = 44;
+            this.buttonAdv46.Tag = "UpperHandler_Z";
             this.buttonAdv46.Text = "Safety";
             this.buttonAdv46.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.buttonAdv46.Click += new System.EventHandler(this.Btn_Click);
             // 
             // autoLabel18
             // 
@@ -1861,14 +1974,14 @@
             this.autoLabel18.ForeColor = System.Drawing.Color.Maroon;
             this.autoLabel18.Location = new System.Drawing.Point(40, 8);
             this.autoLabel18.Name = "autoLabel18";
-            this.autoLabel18.Size = new System.Drawing.Size(126, 13);
+            this.autoLabel18.Size = new System.Drawing.Size(166, 13);
             this.autoLabel18.TabIndex = 44;
-            this.autoLabel18.Text = "Upper Handler Z";
+            this.autoLabel18.Text = "Upper Load Handler Z";
             // 
             // buttonAdv47
             // 
             this.buttonAdv47.AutoEllipsis = true;
-            this.buttonAdv47.BackColor = System.Drawing.Color.DarkGray;
+            this.buttonAdv47.BackColor = System.Drawing.Color.LightGray;
             this.buttonAdv47.BorderStyleAdv = Syncfusion.Windows.Forms.ButtonAdvBorderStyle.Solid;
             this.buttonAdv47.FlatAppearance.BorderSize = 5;
             this.buttonAdv47.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
@@ -1878,8 +1991,10 @@
             this.buttonAdv47.Name = "buttonAdv47";
             this.buttonAdv47.Size = new System.Drawing.Size(105, 58);
             this.buttonAdv47.TabIndex = 45;
-            this.buttonAdv47.Text = "Centering";
+            this.buttonAdv47.Tag = "UpperHandler_Z";
+            this.buttonAdv47.Text = "Load / Unload";
             this.buttonAdv47.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.buttonAdv47.Click += new System.EventHandler(this.Btn_Click);
             // 
             // gradientPanel19
             // 
@@ -1887,6 +2002,7 @@
             this.gradientPanel19.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.gradientPanel19.Border3DStyle = System.Windows.Forms.Border3DStyle.Raised;
             this.gradientPanel19.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.gradientPanel19.Controls.Add(this.buttonAdv52);
             this.gradientPanel19.Controls.Add(this.buttonAdv53);
             this.gradientPanel19.Controls.Add(this.autoLabel19);
             this.gradientPanel19.Controls.Add(this.buttonAdv54);
@@ -1895,10 +2011,28 @@
             this.gradientPanel19.Size = new System.Drawing.Size(432, 104);
             this.gradientPanel19.TabIndex = 52;
             // 
+            // buttonAdv52
+            // 
+            this.buttonAdv52.AutoEllipsis = true;
+            this.buttonAdv52.BackColor = System.Drawing.Color.LightGray;
+            this.buttonAdv52.BorderStyleAdv = Syncfusion.Windows.Forms.ButtonAdvBorderStyle.Solid;
+            this.buttonAdv52.FlatAppearance.BorderSize = 5;
+            this.buttonAdv52.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.buttonAdv52.ForeColor = System.Drawing.Color.Black;
+            this.buttonAdv52.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.buttonAdv52.Location = new System.Drawing.Point(252, 37);
+            this.buttonAdv52.Name = "buttonAdv52";
+            this.buttonAdv52.Size = new System.Drawing.Size(105, 58);
+            this.buttonAdv52.TabIndex = 46;
+            this.buttonAdv52.Tag = "UpperHandler_X";
+            this.buttonAdv52.Text = "Unload [Stage]";
+            this.buttonAdv52.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.buttonAdv52.Click += new System.EventHandler(this.Btn_Click);
+            // 
             // buttonAdv53
             // 
             this.buttonAdv53.AutoEllipsis = true;
-            this.buttonAdv53.BackColor = System.Drawing.Color.DarkGray;
+            this.buttonAdv53.BackColor = System.Drawing.Color.LightGray;
             this.buttonAdv53.BorderStyleAdv = Syncfusion.Windows.Forms.ButtonAdvBorderStyle.Solid;
             this.buttonAdv53.FlatAppearance.BorderSize = 5;
             this.buttonAdv53.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
@@ -1908,8 +2042,10 @@
             this.buttonAdv53.Name = "buttonAdv53";
             this.buttonAdv53.Size = new System.Drawing.Size(105, 58);
             this.buttonAdv53.TabIndex = 44;
-            this.buttonAdv53.Text = "Safety";
+            this.buttonAdv53.Tag = "UpperHandler_X";
+            this.buttonAdv53.Text = "Wait";
             this.buttonAdv53.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.buttonAdv53.Click += new System.EventHandler(this.Btn_Click);
             // 
             // autoLabel19
             // 
@@ -1918,14 +2054,14 @@
             this.autoLabel19.ForeColor = System.Drawing.Color.Maroon;
             this.autoLabel19.Location = new System.Drawing.Point(40, 8);
             this.autoLabel19.Name = "autoLabel19";
-            this.autoLabel19.Size = new System.Drawing.Size(125, 13);
+            this.autoLabel19.Size = new System.Drawing.Size(165, 13);
             this.autoLabel19.TabIndex = 44;
-            this.autoLabel19.Text = "Upper Handler X";
+            this.autoLabel19.Text = "Upper Load Handler X";
             // 
             // buttonAdv54
             // 
             this.buttonAdv54.AutoEllipsis = true;
-            this.buttonAdv54.BackColor = System.Drawing.Color.DarkGray;
+            this.buttonAdv54.BackColor = System.Drawing.Color.LightGray;
             this.buttonAdv54.BorderStyleAdv = Syncfusion.Windows.Forms.ButtonAdvBorderStyle.Solid;
             this.buttonAdv54.FlatAppearance.BorderSize = 5;
             this.buttonAdv54.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
@@ -1935,8 +2071,10 @@
             this.buttonAdv54.Name = "buttonAdv54";
             this.buttonAdv54.Size = new System.Drawing.Size(105, 58);
             this.buttonAdv54.TabIndex = 45;
-            this.buttonAdv54.Text = "Centering";
+            this.buttonAdv54.Tag = "UpperHandler_X";
+            this.buttonAdv54.Text = "Load [PushPull]";
             this.buttonAdv54.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.buttonAdv54.Click += new System.EventHandler(this.Btn_Click);
             // 
             // LabelTime_Value
             // 
@@ -1978,9 +2116,9 @@
             this.btnStopAction.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.btnStopAction.ForeColor = System.Drawing.Color.Black;
             this.btnStopAction.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btnStopAction.Location = new System.Drawing.Point(1112, 682);
+            this.btnStopAction.Location = new System.Drawing.Point(1112, 645);
             this.btnStopAction.Name = "btnStopAction";
-            this.btnStopAction.Size = new System.Drawing.Size(130, 58);
+            this.btnStopAction.Size = new System.Drawing.Size(130, 95);
             this.btnStopAction.TabIndex = 52;
             this.btnStopAction.Text = "Stop Action";
             this.btnStopAction.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
@@ -2199,5 +2337,7 @@
         private Syncfusion.Windows.Forms.Tools.GradientLabel LabelTime_Value;
         private Syncfusion.Windows.Forms.Tools.GradientLabel LabelTime_Title;
         private Syncfusion.Windows.Forms.ButtonAdv btnStopAction;
+        private Syncfusion.Windows.Forms.ButtonAdv buttonAdv55;
+        private Syncfusion.Windows.Forms.ButtonAdv buttonAdv52;
     }
 }

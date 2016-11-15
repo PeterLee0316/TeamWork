@@ -1497,7 +1497,7 @@ MP2101TM            SVC(built-in the board, with MECHATROLINK port 1)       1   
             }
 
             // servo warning : ILxx02 != 0
-            // driver fault : ILxx02 bit0 is On
+            // driver fault : ILxx02 bit3 is On
             rc = CMotionAPI.ymcGetMotionParameterValue(m_hAxis[servoNo], (UInt16)CMotionAPI.ApiDefs.MONITOR_PARAMETER,
                     (UInt16)CMotionAPI.ApiDefs_MonPrm.SER_ALARM, ref returnValue);
             if (rc != CMotionAPI.MP_SUCCESS)
@@ -1508,10 +1508,12 @@ MP2101TM            SVC(built-in the board, with MECHATROLINK port 1)       1   
             else
             {
                 ServoStatus[servoNo].IsWarning = (returnValue != 0) ? true : false;
-                ServoStatus[servoNo].IsDriverFault = Convert.ToBoolean(returnValue & 0x1);
+                UInt32 t = returnValue >> 3;
+                ServoStatus[servoNo].IsDriverFault = Convert.ToBoolean(t & 0x1);
             }
 
-            // Servo Command Input Signal
+            // 지령 모니터 ILxx20
+            // pot : bit2, not : bit3, home = ext1 : bit4
             rc = CMotionAPI.ymcGetMotionParameterValue(m_hAxis[servoNo], (UInt16)CMotionAPI.ApiDefs.MONITOR_PARAMETER,
             (UInt16)40, ref returnValue);
             if (rc != CMotionAPI.MP_SUCCESS)
@@ -1521,12 +1523,12 @@ MP2101TM            SVC(built-in the board, with MECHATROLINK port 1)       1   
             }
             else
             {
-                //Servo + Limit Sensor
-                ServoStatus[servoNo].DetectPlusSensor = Convert.ToBoolean((returnValue >> 2) & 0x1);
-                //Servo - Limit Sensor
-                ServoStatus[servoNo].DetectMinusSensor = Convert.ToBoolean((returnValue >> 3) & 0x1);
-                //Servo Origin
-                ServoStatus[servoNo].DetectHomeSensor = Convert.ToBoolean((returnValue >> 4) & 0x1);
+                UInt32 t = returnValue >> 2;
+                ServoStatus[servoNo].DetectPlusSensor = Convert.ToBoolean(t & 0x1);
+                t = returnValue >> 3;
+                ServoStatus[servoNo].DetectMinusSensor = Convert.ToBoolean(t & 0x1);
+                t = returnValue >> 4;
+                ServoStatus[servoNo].DetectHomeSensor = Convert.ToBoolean(t & 0x1);
             }
 
             //UInt16[] reg_IW = new UInt16[1];
