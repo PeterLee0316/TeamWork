@@ -6,7 +6,7 @@
 // EQUIP_266_DEV : 예전에 있었던 266레이저 설비에 scanner를 이식하여 진행하는 설비 (2016.08 기준)
 //                 Camera, Scanner, Stage 축은 ACS 로 구성
 // OP_HW_BUTTON : 물리적으로 Op Panel Button (start, stop, reset 등의 s/w가 있는지 여부)
-// WIN32, SIMULATION_VISION, SIMULATION_MOTION_ACS, SIMULATION_MOTION_YMC, SIMULATION_IO, SIMULATION_TEST
+// WIN32, SIMULATION_VISION, SIMULATION_MOTION_ACS, SIMULATION_MOTION_YMC, SIMULATION_IO, SIMULATION_TEST, SIMULATION_TEST
 
 using System;
 using System.Collections.Generic;
