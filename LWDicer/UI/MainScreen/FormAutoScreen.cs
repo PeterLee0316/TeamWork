@@ -280,14 +280,26 @@ namespace LWDicer.UI
             bool bStatus;
 
             CSystemData systemData = CMainFrame.LWDicer.m_DataManager.SystemData;
-            if (systemData.UseSafetySensor)
+            iResult = CMainFrame.LWDicer.m_ctrlOpPanel.CheckDoorSafety(out bStatus);
+            if(iResult != SUCCESS)
             {
-                iResult = CMainFrame.LWDicer.m_ctrlOpPanel.GetDoorSWStatus(out bStatus);
                 if (bStatus == true)
                 {
-                    CMainFrame.DisplayMsg("Door가 아직 전부 닫히지 않았습니다. 확인 후 다시 시도해주세요.", "Error");
-                    return;
+                    CMainFrame.DisplayMsg("Detected door opened. After close door, do retry.", "Error");
                 }
+                CMainFrame.DisplayAlarm(iResult);
+                return;
+            }
+
+            iResult = CMainFrame.LWDicer.m_ctrlOpPanel.CheckAreaSafety(out bStatus);
+            if (iResult != SUCCESS)
+            {
+                if (bStatus == true)
+                {
+                    CMainFrame.DisplayMsg("Detected area sensor.After check area sensor, do retry.", "Error");
+                }
+                CMainFrame.DisplayAlarm(iResult);
+                return;
             }
 
             if (CMainFrame.LWDicer.CheckSystemConfig_ForRun(out strErr) == false)
@@ -298,13 +310,13 @@ namespace LWDicer.UI
 
             if (systemData.eOpModeStatus == EAutoRunMode.PASS_RUN)
             {
-                if (CMainFrame.InquireMsg("[물류 운전] 모드입니다. 계속 진행 하시겠습니까?", "Question") == false)
+                if (CMainFrame.InquireMsg("[Pass Run] mode now. do continue?", "Question") == false)
                     return;
             }
 
             if (systemData.eOpModeStatus == EAutoRunMode.DRY_RUN)
             {
-                if (CMainFrame.InquireMsg("[공 운전] 모드입니다. 계속 진행 하시겠습니까?", "Question") == false)
+                if (CMainFrame.InquireMsg("[Dry Run] mode now. do continue?", "Question") == false)
                     return;
             }
 
@@ -355,7 +367,7 @@ namespace LWDicer.UI
             bool[] bInitSts;
             if (!CMainFrame.LWDicer.m_OpPanel.CheckAllInit(out bInitSts))
             {
-                CMainFrame.DisplayMsg("System 초기화를 먼저 실행하세요.", "Error");
+                CMainFrame.DisplayMsg("After initialize system, do retry.", "Error");
                 return;
             }
 

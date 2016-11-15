@@ -122,7 +122,7 @@ namespace LWDicer.Layers
             // Vision System이 초기화 된지를 확인함
             if (m_bSystemInit == false) return GenerateErrorCode(ERR_VISION_SYSTEM_FAIL);
 
-            int iResult;
+            int iResult = SUCCESS;
             int i = 0;
 
             if (m_RefComp.System == null)
@@ -131,7 +131,7 @@ namespace LWDicer.Layers
             if (m_RefComp.Camera == null)
                 return GenerateErrorCode(ERR_VISION_CAMERA_FAIL);
 
-            //for (i = 0; i < DEF_MAX_CAMERA_NO; i++)
+            //for (int i = 0; i < DEF_MAX_CAMERA_NO; i++)
             //{
             //    if (isValidCameraNo(i))
             //    {
@@ -160,8 +160,7 @@ namespace LWDicer.Layers
                 return true;
 #endif
 
-            int i = 0;
-            for (i = 0; i < DEF_MAX_CAMERA_NO; i++)
+            for (int i = 0; i < DEF_MAX_CAMERA_NO; i++)
             {
                 if (m_RefComp.Camera[i].GetCamID() == iCamNo)
                     return true;

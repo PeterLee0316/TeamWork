@@ -23,8 +23,6 @@ namespace LWDicer.UI
         private ButtonAdv[] BtnList = new ButtonAdv[(int)EThreadUnit.MAX];
         private string[] BtnName = new string[(int)EThreadUnit.MAX];
 
-        private MTickTimer m_waitTimer = new MTickTimer();
-
         public FormUnitInit()
         {
             InitializeComponent();
@@ -126,7 +124,7 @@ namespace LWDicer.UI
             }
 
             // 0. init
-            m_waitTimer.StartTimer();
+            CMainFrame.StartTimer();
             CMainFrame.LWDicer.m_trsAutoManager.IsInitState = true;
 
             // 1.
@@ -141,7 +139,7 @@ namespace LWDicer.UI
 
         private void SetTitle(string str)
         {
-            LabelProgress.Text = String.Format($"ElapsedTime : {m_waitTimer},  Progress : {str}");
+            LabelProgress.Text = String.Format($"ElapsedTime : {CMainFrame.GetElapsedTIme_Text()},  Progress : {str}");
             LabelProgress.Refresh();
         }
 

@@ -62,7 +62,7 @@ namespace LWDicer.Layers
 
         public CMovingObject(int PosLength)
         {
-            Debug.Assert(0 < PosLength);
+            Debug.Assert(0 <= PosLength);
 
             this.PosLength = PosLength;
             Pos_Fixed = new CPositionSet(PosLength);

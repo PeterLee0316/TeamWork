@@ -92,7 +92,7 @@ namespace LWDicer.Layers
         }        
     }
 
-    public class MMeScannerPolygon:MObject,IMarkingScanner
+    public class MMeScannerPolygon : MMechanicalLayer, IMarkingScanner
     {
         #region 맴버 변수 설정
         

@@ -31,8 +31,8 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormModelData));
             this.BtnSave = new System.Windows.Forms.Button();
             this.BtnExit = new System.Windows.Forms.Button();
-            this.ComboCassette = new System.Windows.Forms.ComboBox();
-            this.LabelCassetteName = new Syncfusion.Windows.Forms.Tools.GradientLabel();
+            this.ComboWaferFrame = new System.Windows.Forms.ComboBox();
+            this.LabelWaferFrame = new Syncfusion.Windows.Forms.Tools.GradientLabel();
             this.SuspendLayout();
             // 
             // BtnSave
@@ -65,43 +65,42 @@
             this.BtnExit.UseVisualStyleBackColor = true;
             this.BtnExit.Click += new System.EventHandler(this.BtnExit_Click);
             // 
-            // ComboCassette
+            // ComboWaferFrame
             // 
-            this.ComboCassette.DropDownHeight = 200;
-            this.ComboCassette.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.ComboCassette.DropDownWidth = 260;
-            this.ComboCassette.Font = new System.Drawing.Font("굴림", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.ComboCassette.FormattingEnabled = true;
-            this.ComboCassette.IntegralHeight = false;
-            this.ComboCassette.Location = new System.Drawing.Point(197, 15);
-            this.ComboCassette.Name = "ComboCassette";
-            this.ComboCassette.Size = new System.Drawing.Size(314, 27);
-            this.ComboCassette.TabIndex = 842;
-            this.ComboCassette.SelectedIndexChanged += new System.EventHandler(this.ComboCassette_SelectedIndexChanged);
+            this.ComboWaferFrame.DropDownHeight = 200;
+            this.ComboWaferFrame.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.ComboWaferFrame.DropDownWidth = 260;
+            this.ComboWaferFrame.Font = new System.Drawing.Font("굴림", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.ComboWaferFrame.FormattingEnabled = true;
+            this.ComboWaferFrame.IntegralHeight = false;
+            this.ComboWaferFrame.Location = new System.Drawing.Point(197, 15);
+            this.ComboWaferFrame.Name = "ComboWaferFrame";
+            this.ComboWaferFrame.Size = new System.Drawing.Size(314, 27);
+            this.ComboWaferFrame.TabIndex = 842;
             // 
-            // LabelCassetteName
+            // LabelWaferFrame
             // 
-            this.LabelCassetteName.BackgroundColor = new Syncfusion.Drawing.BrushInfo(System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(64))))));
-            this.LabelCassetteName.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
+            this.LabelWaferFrame.BackgroundColor = new Syncfusion.Drawing.BrushInfo(System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(64))))));
+            this.LabelWaferFrame.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
             | System.Windows.Forms.Border3DSide.Right) 
             | System.Windows.Forms.Border3DSide.Bottom)));
-            this.LabelCassetteName.BorderStyle = System.Windows.Forms.Border3DStyle.Raised;
-            this.LabelCassetteName.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.LabelCassetteName.ForeColor = System.Drawing.Color.White;
-            this.LabelCassetteName.Location = new System.Drawing.Point(17, 13);
-            this.LabelCassetteName.Name = "LabelCassetteName";
-            this.LabelCassetteName.Size = new System.Drawing.Size(174, 31);
-            this.LabelCassetteName.TabIndex = 841;
-            this.LabelCassetteName.Text = "Cassette Name";
-            this.LabelCassetteName.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.LabelWaferFrame.BorderStyle = System.Windows.Forms.Border3DStyle.Raised;
+            this.LabelWaferFrame.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.LabelWaferFrame.ForeColor = System.Drawing.Color.White;
+            this.LabelWaferFrame.Location = new System.Drawing.Point(17, 13);
+            this.LabelWaferFrame.Name = "LabelWaferFrame";
+            this.LabelWaferFrame.Size = new System.Drawing.Size(174, 31);
+            this.LabelWaferFrame.TabIndex = 841;
+            this.LabelWaferFrame.Text = "Wafer Frame Name";
+            this.LabelWaferFrame.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // FormModelData
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(910, 696);
-            this.Controls.Add(this.ComboCassette);
-            this.Controls.Add(this.LabelCassetteName);
+            this.Controls.Add(this.ComboWaferFrame);
+            this.Controls.Add(this.LabelWaferFrame);
             this.Controls.Add(this.BtnSave);
             this.Controls.Add(this.BtnExit);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
@@ -117,7 +116,7 @@
 
         private System.Windows.Forms.Button BtnSave;
         private System.Windows.Forms.Button BtnExit;
-        private System.Windows.Forms.ComboBox ComboCassette;
-        private Syncfusion.Windows.Forms.Tools.GradientLabel LabelCassetteName;
+        private System.Windows.Forms.ComboBox ComboWaferFrame;
+        private Syncfusion.Windows.Forms.Tools.GradientLabel LabelWaferFrame;
     }
 }

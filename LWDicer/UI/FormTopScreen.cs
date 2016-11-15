@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using LWDicer.Layers;
 using static LWDicer.Layers.DEF_System;
 using static LWDicer.Layers.DEF_Common;
+using static LWDicer.Layers.DEF_OpPanel;
 
 namespace LWDicer.UI
 {
@@ -53,19 +54,19 @@ namespace LWDicer.UI
 
             // OP Switch
             bool bStatus;
-            CMainFrame.LWDicer.m_ctrlOpPanel.GetStartSWStatus(out bStatus);
+            CMainFrame.LWDicer.m_ctrlOpPanel.IsPanelSWDetected(ESwitch.START, out bStatus);
             if (bStatus) btnStart.BackColor = Color.LightGreen;
             else btnStart.BackColor = Color.LightGray;
 
-            CMainFrame.LWDicer.m_ctrlOpPanel.GetStopSWStatus(out bStatus);
+            CMainFrame.LWDicer.m_ctrlOpPanel.IsPanelSWDetected(ESwitch.STOP, out bStatus);
             if (bStatus) btnStop.BackColor = Color.LightGreen;
             else btnStop.BackColor = Color.LightGray;
 
-            CMainFrame.LWDicer.m_ctrlOpPanel.GetResetSWStatus(out bStatus);
+            CMainFrame.LWDicer.m_ctrlOpPanel.IsPanelSWDetected(ESwitch.RESET, out bStatus);
             if (bStatus) btnReset.BackColor = Color.LightBlue;
             else btnReset.BackColor = Color.LightGray;
 
-            CMainFrame.LWDicer.m_ctrlOpPanel.GetEStopSWStatus(out bStatus);
+            CMainFrame.LWDicer.m_ctrlOpPanel.IsPanelSWDetected(ESwitch.ESTOP, out bStatus);
             if (bStatus) btnEMO.BackColor = Color.Red;
             else btnEMO.BackColor = Color.LightGray;
 

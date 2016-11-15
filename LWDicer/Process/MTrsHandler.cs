@@ -269,7 +269,6 @@ namespace LWDicer.Layers
                 switch (RunStatus)
                 {
                     case EAutoRunStatus.STS_MANUAL: // Manual Mode
-                        m_RefComp.ctrlHandler.SetAutoManual(EAutoManual.MANUAL);
                         break;
 
                     case EAutoRunStatus.STS_ERROR_STOP: // Error Stop
@@ -291,7 +290,6 @@ namespace LWDicer.Layers
                         break;
 
                     case EAutoRunStatus.STS_RUN: // auto run
-                        m_RefComp.ctrlHandler.SetAutoManual(EAutoManual.AUTO);
 
                         // Do Thread Step : Load Upper Handler
                         iResult = DoDetailProcess1();
@@ -376,7 +374,7 @@ namespace LWDicer.Layers
                     while (TInterface.PushPull_Handler_UnloadStep1 == false)
                     {
                         if (TInterface.ErrorOccured[TOpponent]) break;
-                        if (TTimer.MoreThan(TInterface.TimeLimit))
+                        if (TTimer.MoreThan(TInterface.TimeLimit, ETimeType.SECOND))
                         {
                             TInterface.TimeOver[TSelf] = true;
                             break;
@@ -403,7 +401,7 @@ namespace LWDicer.Layers
                     while (TInterface.PushPull_Handler_UnloadStep2 == false)
                     {
                         if (TInterface.ErrorOccured[TOpponent]) break;
-                        if (TTimer.MoreThan(TInterface.TimeLimit))
+                        if (TTimer.MoreThan(TInterface.TimeLimit, ETimeType.SECOND))
                         {
                             TInterface.TimeOver[TSelf] = true;
                             break;
@@ -427,7 +425,7 @@ namespace LWDicer.Layers
                     while (TInterface.PushPull_Handler_FinishHandshake_Unload == false)
                     {
                         if (TInterface.ErrorOccured[TOpponent]) break;
-                        if (TTimer.MoreThan(TInterface.TimeLimit))
+                        if (TTimer.MoreThan(TInterface.TimeLimit, ETimeType.SECOND))
                         {
                             TInterface.TimeOver[TSelf] = true;
                             break;
@@ -474,7 +472,7 @@ namespace LWDicer.Layers
                     while (TInterface.Stage1_Handler_LoadStep1 == false)
                     {
                         if (TInterface.ErrorOccured[TOpponent]) break;
-                        if (TTimer.MoreThan(TInterface.TimeLimit))
+                        if (TTimer.MoreThan(TInterface.TimeLimit, ETimeType.SECOND))
                         {
                             TInterface.TimeOver[TSelf] = true;
                             break;
@@ -499,7 +497,7 @@ namespace LWDicer.Layers
                     while (TInterface.Stage1_Handler_LoadStep2 == false)
                     {
                         if (TInterface.ErrorOccured[TOpponent]) break;
-                        if (TTimer.MoreThan(TInterface.TimeLimit))
+                        if (TTimer.MoreThan(TInterface.TimeLimit, ETimeType.SECOND))
                         {
                             TInterface.TimeOver[TSelf] = true;
                             break;
@@ -526,7 +524,7 @@ namespace LWDicer.Layers
                     while (TInterface.Stage1_Handler_FinishHandshake_Load == false)
                     {
                         if (TInterface.ErrorOccured[TOpponent]) break;
-                        if (TTimer.MoreThan(TInterface.TimeLimit))
+                        if (TTimer.MoreThan(TInterface.TimeLimit, ETimeType.SECOND))
                         {
                             TInterface.TimeOver[TSelf] = true;
                             break;
@@ -622,7 +620,7 @@ namespace LWDicer.Layers
                     while (TInterface.Stage1_Handler_UnloadStep1 == false)
                     {
                         if (TInterface.ErrorOccured[TOpponent]) break;
-                        if (TTimer.MoreThan(TInterface.TimeLimit))
+                        if (TTimer.MoreThan(TInterface.TimeLimit, ETimeType.SECOND))
                         {
                             TInterface.TimeOver[TSelf] = true;
                             break;
@@ -649,7 +647,7 @@ namespace LWDicer.Layers
                     while (TInterface.Stage1_Handler_UnloadStep2 == false)
                     {
                         if (TInterface.ErrorOccured[TOpponent]) break;
-                        if (TTimer.MoreThan(TInterface.TimeLimit))
+                        if (TTimer.MoreThan(TInterface.TimeLimit, ETimeType.SECOND))
                         {
                             TInterface.TimeOver[TSelf] = true;
                             break;
@@ -673,7 +671,7 @@ namespace LWDicer.Layers
                     while (TInterface.Stage1_Handler_FinishHandshake_Unload == false)
                     {
                         if (TInterface.ErrorOccured[TOpponent]) break;
-                        if (TTimer.MoreThan(TInterface.TimeLimit))
+                        if (TTimer.MoreThan(TInterface.TimeLimit, ETimeType.SECOND))
                         {
                             TInterface.TimeOver[TSelf] = true;
                             break;
@@ -720,7 +718,7 @@ namespace LWDicer.Layers
                     while (TInterface.PushPull_Handler_LoadStep1 == false)
                     {
                         if (TInterface.ErrorOccured[TOpponent]) break;
-                        if (TTimer.MoreThan(TInterface.TimeLimit))
+                        if (TTimer.MoreThan(TInterface.TimeLimit, ETimeType.SECOND))
                         {
                             TInterface.TimeOver[TSelf] = true;
                             break;
@@ -745,7 +743,7 @@ namespace LWDicer.Layers
                     while (TInterface.PushPull_Handler_LoadStep2 == false)
                     {
                         if (TInterface.ErrorOccured[TOpponent]) break;
-                        if (TTimer.MoreThan(TInterface.TimeLimit))
+                        if (TTimer.MoreThan(TInterface.TimeLimit, ETimeType.SECOND))
                         {
                             TInterface.TimeOver[TSelf] = true;
                             break;
@@ -772,7 +770,7 @@ namespace LWDicer.Layers
                     while (TInterface.PushPull_Handler_FinishHandshake_Load == false)
                     {
                         if (TInterface.ErrorOccured[TOpponent]) break;
-                        if (TTimer.MoreThan(TInterface.TimeLimit))
+                        if (TTimer.MoreThan(TInterface.TimeLimit, ETimeType.SECOND))
                         {
                             TInterface.TimeOver[TSelf] = true;
                             break;

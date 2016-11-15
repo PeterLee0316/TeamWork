@@ -10,6 +10,7 @@ using static LWDicer.Layers.DEF_Error;
 using static LWDicer.Layers.DEF_OpPanel;
 using static LWDicer.Layers.DEF_Thread;
 using static LWDicer.Layers.DEF_Motion;
+using static LWDicer.Layers.DEF_IO;
 
 namespace LWDicer.Layers
 {
@@ -28,77 +29,138 @@ namespace LWDicer.Layers
         public const int DEF_OPPANEL_JOG_Z_KEY = 3;
 
         // Tower Lamp 관련 define
-        public const int DEF_OPPANEL_BUZZER_ALL = -1;
-        public const int DEF_OPPANEL_BUZZER_K1 = 0;
-        public const int DEF_OPPANEL_BUZZER_K2 = 1;
-        public const int DEF_OPPANEL_BUZZER_K3 = 2;
-        public const int DEF_OPPANEL_BUZZER_K4 = 3;
+        public enum EBuzzer
+        {
+            ALL = -1,
+            K1,
+            K2,
+            K3,
+            K4,
+            MAX,
+        }
 
         // Max. Value
         public const int DEF_OPPANEL_MAX_JOG_LIST = 16;
-        public const int DEF_OPPANEL_MAX_BUZZER_MODE = 4;
-        public const int DEF_OPPANEL_MAX_DOOR_SENSOR = 7;
-        public const int DEF_OPPANEL_MAX_ESTOP_RELAY_NO = 2;
+        //public const int DEF_OPPANEL_MAX_ESTOP_RELAY_NO = 2;
         public const int DEF_OPPANEL_MAX_CP_TRIP_NO = 16;
-        public const int DEF_OPPANEL_MAX_DOOR_GROUP = 1;
+
+        //public const int DEF_OPPANEL_MAX_DOOR_SENSOR = 7;
+        //        public const int DEF_OPPANEL_MAX_DOOR_GROUP = 1;
+
+        /// <summary>
+        /// DEF_OPPANEL_MAX_DOOR_GROUP 대신에 DoorGroup을 선언해서 사용
+        /// </summary>
+        public enum EDoorGroup
+        {
+            ALL = -1,
+            FRONT = 0,
+            LEFT,
+            RIGHT,
+            BACK,
+            MAX,
+        }
+
+        /// <summary>
+        /// DEF_OPPANEL_MAX_DOOR_SENSOR 대신에 DoorIndex를 선언해서 사용
+        /// </summary>
+        public enum EDoorIndex
+        {
+            ALL = -1,
+            INDEX_1 = 0,
+            INDEX_2,
+            INDEX_3,
+            INDEX_4,
+            INDEX_5,
+            MAX,
+        }
+
+        public enum EAreaSensor
+        {
+            ALL = -1,
+            FRONT,
+            LEFT,
+            RIGHT,
+            BACK,
+            MAX,
+        }
+
+        public enum ESwitch
+        {
+            NONE = -1,
+
+            // Switch
+            START,
+            STOP,
+            RESET,
+            ESTOP,
+
+            // Jog
+            JOG_XP, // X Positive
+            JOG_XN, // X Negative
+            JOG_YP,
+            JOG_YN,
+            JOG_TP,
+            JOG_TN,
+            JOG_ZP,
+            JOG_ZN,
+
+            MAX,
+        }
+
+        public enum EOPPanel
+        {
+            FRONT,
+            BACK,
+            TP, // Teach Pendant
+            MAX,
+        }
+
         public class CPanelIOAddr
         {
             // Push Switch IO Address
-            public int RunInputAddr;
-            public int StopInputAddr;
-            public int ResetInputAddr;
+            public int[] RunInputAddr    = new int[(int)EOPPanel.MAX];
+            public int[] StopInputAddr   = new int[(int)EOPPanel.MAX];
+            public int[] ResetInputAddr  = new int[(int)EOPPanel.MAX];
+            public int[] EStopInputAddr  = new int[(int)EOPPanel.MAX];
 
             // Switch LED IO Address
-            public int RunOutputAddr;
-            public int StopOutputAddr;
-            public int ResetOutputAddr;
+            public int[] RunOutputAddr   = new int[(int)EOPPanel.MAX];
+            public int[] StopOutputAddr  = new int[(int)EOPPanel.MAX];
+            public int[] ResetOutputAddr = new int[(int)EOPPanel.MAX];
 
             // Jog +,- Switch IO Address
-            public int XpInputAddr;
-            public int XnInputAddr;
-            public int YpInputAddr;
-            public int YnInputAddr;
+            public int[] XpInputAddr     = new int[(int)EOPPanel.MAX];
+            public int[] XnInputAddr     = new int[(int)EOPPanel.MAX];
+            public int[] YpInputAddr     = new int[(int)EOPPanel.MAX];
+            public int[] YnInputAddr     = new int[(int)EOPPanel.MAX];
 
-            public int TpInputAddr;
-            public int TnInputAddr;
-            public int ZpInputAddr;
-            public int ZnInputAddr;
-
-            // Teaching Pendant IO Address
-            public int TPStopInputAddr;
+            public int[] TpInputAddr     = new int[(int)EOPPanel.MAX];
+            public int[] TnInputAddr     = new int[(int)EOPPanel.MAX];
+            public int[] ZpInputAddr     = new int[(int)EOPPanel.MAX];
+            public int[] ZnInputAddr     = new int[(int)EOPPanel.MAX];
 
             public CPanelIOAddr()
-            { }
-
-            public CPanelIOAddr(int RunInputAddr, int StopInputAddr, int ResetInputAddr, 
-                int RunOutputAddr, int StopOutputAddr, int ResetOutputAddr, 
-                int XpInputAddr, int XnInputAddr, int YpInputAddr, int YnInputAddr, 
-                int TpInputAddr, int TnInputAddr, int ZpInputAddr, int ZnInputAddr,
-                int TPStopInputAddr)
             {
                 // Push Switch IO Address
-                this.RunInputAddr    = RunInputAddr   ;
-                this.StopInputAddr   = StopInputAddr  ;
-                this.ResetInputAddr  = ResetInputAddr ;
+                ArrayExtensions.Init(RunInputAddr, IO_ADDR_NOT_DEFINED);
+                ArrayExtensions.Init(StopInputAddr, IO_ADDR_NOT_DEFINED);
+                ArrayExtensions.Init(ResetInputAddr, IO_ADDR_NOT_DEFINED);
+                ArrayExtensions.Init(EStopInputAddr, IO_ADDR_NOT_DEFINED);
 
                 // Switch LED IO Address
-                this.RunOutputAddr   = RunOutputAddr  ;
-                this.StopOutputAddr  = StopOutputAddr ;
-                this.ResetOutputAddr = ResetOutputAddr;
+                ArrayExtensions.Init(RunOutputAddr, IO_ADDR_NOT_DEFINED);
+                ArrayExtensions.Init(StopOutputAddr, IO_ADDR_NOT_DEFINED);
+                ArrayExtensions.Init(ResetOutputAddr, IO_ADDR_NOT_DEFINED);
 
                 // Jog +,- Switch IO Address
-                this.XpInputAddr     = XpInputAddr    ;
-                this.XnInputAddr     = XnInputAddr    ;
-                this.YpInputAddr     = YpInputAddr    ;
-                this.YnInputAddr     = YnInputAddr    ;
-
-                this.TpInputAddr     = TpInputAddr    ;
-                this.TnInputAddr     = TnInputAddr    ;
-                this.ZpInputAddr     = ZpInputAddr    ;
-                this.ZnInputAddr     = ZnInputAddr    ;
-
-                // Teaching Pendant IO Address
-                this.TPStopInputAddr = TPStopInputAddr;
+                ArrayExtensions.Init(XpInputAddr, IO_ADDR_NOT_DEFINED);
+                ArrayExtensions.Init(XnInputAddr, IO_ADDR_NOT_DEFINED);
+                ArrayExtensions.Init(YpInputAddr, IO_ADDR_NOT_DEFINED);
+                ArrayExtensions.Init(YnInputAddr, IO_ADDR_NOT_DEFINED);
+                ArrayExtensions.Init(TpInputAddr, IO_ADDR_NOT_DEFINED);
+                ArrayExtensions.Init(TnInputAddr, IO_ADDR_NOT_DEFINED);
+                ArrayExtensions.Init(ZpInputAddr, IO_ADDR_NOT_DEFINED);
+                ArrayExtensions.Init(ZnInputAddr, IO_ADDR_NOT_DEFINED);
             }
         }
 
@@ -112,7 +174,7 @@ namespace LWDicer.Layers
             public int YellowLampAddr;
             public int GreenLampAddr;
             // Buzzer Operate IO Address
-            public int[] BuzzerArray = new int[DEF_OPPANEL_MAX_BUZZER_MODE];
+            public int[] BuzzerArray = new int[(int)EBuzzer.MAX];
 
             public CTowerIOAddr()
             {
@@ -123,7 +185,8 @@ namespace LWDicer.Layers
                 this.RedLampAddr = RedLampAddr;
                 this.YellowLampAddr = YellowLampAddr;
                 this.GreenLampAddr = GreenLampAddr;
-                for(int i = 0; i < DEF_OPPANEL_MAX_BUZZER_MODE && i < BuzzerArray.Length; i++)
+                ArrayExtensions.Init(BuzzerArray, -1);
+                for (int i = 0; i < (int)EBuzzer.MAX && i < BuzzerArray.Length; i++)
                 {
                     this.BuzzerArray[i] = BuzzerArray[i];
                 }
@@ -137,8 +200,7 @@ namespace LWDicer.Layers
         public class COpPanelIOAddr
         {
             // Panel IO Address Table 
-            public CPanelIOAddr FrontPanel = new CPanelIOAddr();
-            public CPanelIOAddr BackPanel = new CPanelIOAddr();
+            public CPanelIOAddr OpPanel = new CPanelIOAddr();
 
             // Tower Lamp IO Address Table 
             public CTowerIOAddr TowerLamp = new CTowerIOAddr();
@@ -150,28 +212,21 @@ namespace LWDicer.Layers
             public int MarkMoniterAddr1;
             public int MarkMoniterAddr2;
 
-            // E-STOP Switch Status IO Address 
-            public int[] EStopAddr = new int[DEF_OPPANEL_MAX_ESTOP_RELAY_NO];
-
             // 안전센서 (Door) IO Address 
-            public int[,] SafeDoorAddr = new int[DEF_OPPANEL_MAX_DOOR_GROUP, DEF_OPPANEL_MAX_DOOR_SENSOR];
+            public int[,] SafeDoorAddr = new int[(int)EDoorGroup.MAX, (int)EDoorIndex.MAX];
+            // Area Sensor
+            public int[] AreaSensorAddr = new int[(int)EAreaSensor.MAX];
 
-            // 안전센서 (Door) IO Option Flag : true일 때 IO 감지 안함 
-            public bool[,] SafeDoorFlag = new bool[DEF_OPPANEL_MAX_DOOR_GROUP, DEF_OPPANEL_MAX_DOOR_SENSOR];
 
-            // Main Air Check IO Address 
+            // Air Check IO Address 
             public int MainAirAddr;
-
-            // Sub Air Check IO Address 
             public int SubAirAddr;
 
-            // Main Vacuum Check IO Address 
+            // Vacuum Check IO Address 
             public int MainVacuumAddr;
-
-            // Sub Vacuum Check IO Address 
             public int SubVacuumAddr;
 
-            // Main Vacuum Check IO Address 
+            // N2
             public int MainN2Addr;
 
             // CP Trip IO Address 
@@ -190,11 +245,14 @@ namespace LWDicer.Layers
             // DC Power Check IO Address 
             public int DcPowerAddr;
 
+            public int[] TankEmptyAddr = new int[(int)ECoatTank.MAX];  // 탱크 주소
+
             public COpPanelIOAddr()
             {
-
+                ArrayExtensions.Init(SafeDoorAddr, IO_ADDR_NOT_DEFINED);
+                ArrayExtensions.Init(AreaSensorAddr, IO_ADDR_NOT_DEFINED);
+                ArrayExtensions.Init(TankEmptyAddr, IO_ADDR_NOT_DEFINED);
             }
-
         }
 
         /// <summary>
@@ -255,8 +313,19 @@ namespace LWDicer.Layers
 
         public class COpPanelData
         {
-            public bool[] bUseMaterialAlarm = new bool[DEF_MAX_TANK_NO]; // 자재 교체요청 알람 사용 여부
-            public int[] TankEmptyAddr = new int[DEF_MAX_TANK_NO];  // 탱크 주소
+            // Use Door Sensor : if true, check door status whether opened.
+            public bool[,] UseDoorStatus = new bool[(int)EDoorGroup.MAX, (int)EDoorIndex.MAX];
+            // Use Area Sensor
+            public bool[] UseAreaSensor = new bool[(int)EAreaSensor.MAX];
+
+            public bool[] UseTankAlarm = new bool[(int)ECoatTank.MAX]; // 자재 교체요청 알람 사용 여부
+            
+            public COpPanelData()
+            {
+                ArrayExtensions.Init(UseTankAlarm, false);
+                ArrayExtensions.Init(UseDoorStatus, false);
+                ArrayExtensions.Init(UseAreaSensor, false);
+            }
         }
     }
 
@@ -269,13 +338,8 @@ namespace LWDicer.Layers
 
         CJogTable m_JogTable;
 
-        //IIO* m_RefComp.IO;
-        //IMotionLib* m_pMotionLib;
-
-
         // Unit 초기화 Flag
         bool[] m_bInitFlag = new bool[(int)EThreadUnit.MAX];
-
 
         // Switch Status (previous)
         bool m_bRunSWOld;
@@ -328,10 +392,7 @@ namespace LWDicer.Layers
             }
 
             // Unit의 초기화 Flag를 Reset해야 한다.
-            for (int i = 0; i < (int)EThreadUnit.MAX; i++)
-            {
-                m_bInitFlag[i] = false;
-            }
+            ArrayExtensions.Init(m_bInitFlag, false);
 
             // SW 상태 (previous)
             m_bRunSWOld = false;
@@ -1296,7 +1357,7 @@ namespace LWDicer.Layers
                 if (iResult != SUCCESS) return iResult;
             }
 
-            //for (i = 0; i < m_JogTable.ListNo; i++)
+            //for (int i = 0; i < m_JogTable.ListNo; i++)
             //{
             //    if (m_JogTable.MotionArray[i].m_XKey.m_plnkJog != null)
             //    {
@@ -1321,7 +1382,7 @@ namespace LWDicer.Layers
             //}
 
             //// Unit의 초기화 Flag를 Reset해야 한다.
-            //for (i = 0; i < (int)EThreadUnit.MAX; i++)
+            //for (int i = 0; i < (int)EThreadUnit.MAX; i++)
             //    m_bInitFlag[i] = false;
 
             return iResult;
@@ -1437,7 +1498,7 @@ namespace LWDicer.Layers
             bInitSts = new bool[(int)EThreadUnit.MAX];
 
             bool bEStopSts;
-            GetEStopButtonStatus(out bEStopSts);
+            IsPanelSWDetected(ESwitch.ESTOP, out bEStopSts);
             for (int i = 0; i < (int)EThreadUnit.MAX; i++)
             {
                 if (bEStopSts == true)
@@ -1461,9 +1522,7 @@ namespace LWDicer.Layers
 
         public void ResetAllOriginFlag()
         {
-            int i = 0;
-
-            for (i = 0; i < m_JogTable.ListNo; i++)
+            for (int i = 0; i < m_JogTable.ListNo; i++)
             {
                 if (m_JogTable.MotionArray[i].m_XKey.m_plnkJog != null)
                     m_JogTable.MotionArray[i].m_XKey.m_plnkJog.ResetOrigin(m_JogTable.MotionArray[i].m_XKey.AxisIndex);
@@ -1583,7 +1642,7 @@ namespace LWDicer.Layers
             //bool rgbUse[4] = { true, true, true, true };
 
             //// Motion MultiAxes Component - STAGE1
-            //for (i = 0; i < 4; i++) rgbResult[i] = false;
+            //for (int i = 0; i < 4; i++) rgbResult[i] = false;
             //m_JogTable.MotionArray[DEF_JOG_STAGE1].m_XKey.m_plnkJog.IsOriginReturned(-1, rgbUse, rgbResult);
             //if (bOriginSts != null)
             //    bOriginSts[DEF_AXIS_MMC_STAGE1_X] = rgbResult[DEF_X];
@@ -1599,7 +1658,7 @@ namespace LWDicer.Layers
             //bSts &= rgbResult[DEF_Z];
 
             //// Motion MultiAxes Component - STAGE2
-            //for (i = 0; i < 4; i++) rgbResult[i] = false;
+            //for (int i = 0; i < 4; i++) rgbResult[i] = false;
             //m_JogTable.MotionArray[DEF_JOG_STAGE2].m_XKey.m_plnkJog.IsOriginReturned(-1, rgbUse, rgbResult);
             //if (bOriginSts != null)
             //    bOriginSts[DEF_AXIS_MMC_STAGE2_X] = rgbResult[DEF_X];
@@ -1609,7 +1668,7 @@ namespace LWDicer.Layers
             //bSts &= rgbResult[DEF_Z];
 
             //// Motion MultiAxes Component - STAGE3
-            //for (i = 0; i < 4; i++) rgbResult[i] = false;
+            //for (int i = 0; i < 4; i++) rgbResult[i] = false;
             //m_JogTable.MotionArray[DEF_JOG_STAGE3].m_YKey.m_plnkJog.IsOriginReturned(-1, rgbUse, rgbResult);
             //if (bOriginSts != null)
             //    bOriginSts[DEF_AXIS_MMC_STAGE3_Y] = rgbResult[DEF_Y];
@@ -1619,14 +1678,14 @@ namespace LWDicer.Layers
             //bSts &= rgbResult[DEF_T];
 
             //// Motion MultiAxes Component - WORKBENCH1 
-            //// 	for (i = 0; i < 4; i++) rgbResult[i] = false;
+            //// 	for (int i = 0; i < 4; i++) rgbResult[i] = false;
             //// 	m_JogTable.MotionArray[DEF_JOG_WORKBENCH].m_YKey.m_plnkJog.IsOriginReturned(0, null, rgbResult);
             //// 	if (bOriginSts != null)
             //// 		bOriginSts[DEF_AXIS_MMC_WORKBENCH_Y] = rgbResult[DEF_X];
             //// 	bSts &= rgbResult[DEF_X];
 
             //// Motion MultiAxes Component - SHEAD1 
-            //for (i = 0; i < 4; i++) rgbResult[i] = false;
+            //for (int i = 0; i < 4; i++) rgbResult[i] = false;
             //m_JogTable.MotionArray[DEF_JOG_SHEAD1].m_YKey.m_plnkJog.IsOriginReturned(-1, null, rgbResult);
             //if (bOriginSts != null)
             //    bOriginSts[DEF_AXIS_MMC_SHEAD1_Y] = rgbResult[DEF_Y];
@@ -1636,7 +1695,7 @@ namespace LWDicer.Layers
             //bSts &= rgbResult[DEF_Z];
 
             //// Motion MultiAxes Component - SHEAD2 
-            //for (i = 0; i < 4; i++) rgbResult[i] = false;
+            //for (int i = 0; i < 4; i++) rgbResult[i] = false;
             //m_JogTable.MotionArray[DEF_JOG_SHEAD2].m_YKey.m_plnkJog.IsOriginReturned(-1, null, rgbResult);
             //if (bOriginSts != null)
             //    bOriginSts[DEF_AXIS_MMC_SHEAD2_Y] = rgbResult[DEF_Y];
@@ -1646,7 +1705,7 @@ namespace LWDicer.Layers
             //bSts &= rgbResult[DEF_Z];
 
             //// Motion MultiAxes Component - GHEAD1 
-            //for (i = 0; i < 4; i++) rgbResult[i] = false;
+            //for (int i = 0; i < 4; i++) rgbResult[i] = false;
             //m_JogTable.MotionArray[DEF_JOG_GHEAD1].m_XKey.m_plnkJog.IsOriginReturned(-1, null, rgbResult);
             //if (bOriginSts != null)
             //    bOriginSts[DEF_AXIS_MMC_GHEAD1_X] = rgbResult[DEF_X];
@@ -1659,7 +1718,7 @@ namespace LWDicer.Layers
             //bSts &= rgbResult[DEF_Z];
 
             //// Motion MultiAxes Component - GHEAD2 
-            //for (i = 0; i < 4; i++) rgbResult[i] = false;
+            //for (int i = 0; i < 4; i++) rgbResult[i] = false;
             //m_JogTable.MotionArray[DEF_JOG_GHEAD2].m_XKey.m_plnkJog.IsOriginReturned(-1, null, rgbResult);
             //if (bOriginSts != null)
             //    bOriginSts[DEF_AXIS_MMC_GHEAD2_X] = rgbResult[DEF_X];
@@ -1672,21 +1731,21 @@ namespace LWDicer.Layers
             //bSts &= rgbResult[DEF_Z];
 
             //// Motion MultiAxes Component - CAMERA1 
-            //for (i = 0; i < 4; i++) rgbResult[i] = false;
+            //for (int i = 0; i < 4; i++) rgbResult[i] = false;
             //m_JogTable.MotionArray[DEF_JOG_CAMERA1].m_XKey.m_plnkJog.IsOriginReturned(0, null, rgbResult);
             //if (bOriginSts != null)
             //    bOriginSts[DEF_AXIS_MMC_CAMERA1_X] = rgbResult[DEF_X];
             //bSts &= rgbResult[DEF_X];
 
             //// Motion MultiAxes Component - CAMERA2 
-            //for (i = 0; i < 4; i++) rgbResult[i] = false;
+            //for (int i = 0; i < 4; i++) rgbResult[i] = false;
             //m_JogTable.MotionArray[DEF_JOG_CAMERA2].m_XKey.m_plnkJog.IsOriginReturned(0, null, rgbResult);
             //if (bOriginSts != null)
             //    bOriginSts[DEF_AXIS_MMC_CAMERA2_X] = rgbResult[DEF_X];
             //bSts &= rgbResult[DEF_X];
 
             //// Motion MultiAxes Component - UPPER_HANDLER 
-            //for (i = 0; i < 4; i++) rgbResult[i] = false;
+            //for (int i = 0; i < 4; i++) rgbResult[i] = false;
             //m_JogTable.MotionArray[DEF_JOG_UHANDLER].m_XKey.m_plnkJog.IsOriginReturned(0, null, rgbResult);
             //if (bOriginSts != null)
             //    bOriginSts[DEF_AXIS_MMC_UPPER_HANDLER_X] = rgbResult[DEF_X];
@@ -1710,215 +1769,215 @@ namespace LWDicer.Layers
             return SUCCESS;
         }
 
-        public int GetStartButtonStatus(out bool bStatus)
-        {
-            string str = "Start Button";
-            return getPanelSwitchStatus(str, m_IOAddrTable.FrontPanel.RunInputAddr, m_IOAddrTable.BackPanel.RunInputAddr, out bStatus);
-        }
-
-        public int GetStopButtonStatus(out bool bStatus)
-        {
-            string str = "Stop Button";
-            return getPanelSwitchStatus(str, m_IOAddrTable.FrontPanel.StopInputAddr, m_IOAddrTable.BackPanel.StopInputAddr, out bStatus);
-        }
-
-        public int GetResetButtonStatus(out bool bStatus)
-        {
-            string str = "Reset Button";
-            return getPanelSwitchStatus(str, m_IOAddrTable.FrontPanel.ResetInputAddr, m_IOAddrTable.BackPanel.ResetInputAddr, out bStatus);
-        }
-
-        public int GetTPStopButtonStatus(out bool bStatus)
-        {
-            string str = "TP Stop Button";
-            return getPanelSwitchStatus(str, m_IOAddrTable.FrontPanel.TPStopInputAddr, m_IOAddrTable.BackPanel.TPStopInputAddr, out bStatus);
-        }
-
-        public int GetEStopButtonStatus(out bool bStatus)
+        /// <summary>
+        /// 동일한 종류의 스위치들을 조사해서 감지되었는지 확인.
+        /// </summary>
+        /// <param name="bDetected"></param>
+        /// <param name="addresses"></param>
+        /// <returns></returns>
+        private int IsPanelSWDetected(out bool bDetected, int[] address)
         {
             int iResult = SUCCESS;
-            bStatus = false;
-            for(int i = 0; i < m_IOAddrTable.EStopAddr.Length; i++)
+            bDetected = false;
+
+            bool bTemp;
+            foreach (int addr in address)
             {
-                iResult = m_RefComp.IO.IsOn(m_IOAddrTable.EStopAddr[i], out bStatus);
+                if (addr == -1) continue;
+                iResult = m_RefComp.IO.IsOn(addr, out bTemp);
                 if (iResult != SUCCESS) return iResult;
-                if(bStatus == true) // 하나라도 감지되었다면
+                if (bTemp)
+                {
+                    bDetected = true;
+                    return SUCCESS;
+                }
+            }
+            return SUCCESS;
+        }
+
+        /// <summary>
+        /// Panel Switch 종류별로 확인해서 해당 스위치가 눌렸는지를 리턴
+        /// </summary>
+        /// <param name="type"></param>
+        /// <param name="bDetected"></param>
+        /// <returns></returns>
+        public int IsPanelSWDetected(ESwitch type, out bool bDetected)
+        {
+            int iResult = SUCCESS;
+            bDetected = false;
+
+            switch (type)
+            {
+                ////////////////////////////////////////////////////////////////////////
+                // Switch
+                case ESwitch.START:
+                    iResult = IsPanelSWDetected(out bDetected, m_IOAddrTable.OpPanel.RunInputAddr);
+                    if (iResult != SUCCESS) return iResult;
+                    break;
+
+                case ESwitch.STOP:
+                    iResult = IsPanelSWDetected(out bDetected, m_IOAddrTable.OpPanel.StopInputAddr);
+                    if (iResult != SUCCESS) return iResult;
+                    break;
+
+                case ESwitch.RESET:
+                    iResult = IsPanelSWDetected(out bDetected, m_IOAddrTable.OpPanel.ResetInputAddr);
+                    if (iResult != SUCCESS) return iResult;
+                    break;
+
+                case ESwitch.ESTOP:
+                    iResult = IsPanelSWDetected(out bDetected, m_IOAddrTable.OpPanel.EStopInputAddr);
+                    if (iResult != SUCCESS) return iResult;
+                    break;
+
+                ////////////////////////////////////////////////////////////////////////
+                // Jog
+                case ESwitch.JOG_XP:
+                    iResult = IsPanelSWDetected(out bDetected, m_IOAddrTable.OpPanel.XpInputAddr);
+                    if (iResult != SUCCESS) return iResult;
+                    break;
+
+                case ESwitch.JOG_XN:
+                    iResult = IsPanelSWDetected(out bDetected, m_IOAddrTable.OpPanel.XnInputAddr);
+                    if (iResult != SUCCESS) return iResult;
+                    break;
+
+                case ESwitch.JOG_YP:
+                    iResult = IsPanelSWDetected(out bDetected, m_IOAddrTable.OpPanel.YpInputAddr);
+                    if (iResult != SUCCESS) return iResult;
+                    break;
+
+                case ESwitch.JOG_YN:
+                    iResult = IsPanelSWDetected(out bDetected, m_IOAddrTable.OpPanel.YnInputAddr);
+                    if (iResult != SUCCESS) return iResult;
+                    break;
+
+                case ESwitch.JOG_TP:
+                    iResult = IsPanelSWDetected(out bDetected, m_IOAddrTable.OpPanel.TpInputAddr);
+                    if (iResult != SUCCESS) return iResult;
+                    break;
+
+                case ESwitch.JOG_TN:
+                    iResult = IsPanelSWDetected(out bDetected, m_IOAddrTable.OpPanel.TnInputAddr);
+                    if (iResult != SUCCESS) return iResult;
+                    break;
+
+                case ESwitch.JOG_ZP:
+                    iResult = IsPanelSWDetected(out bDetected, m_IOAddrTable.OpPanel.ZpInputAddr);
+                    if (iResult != SUCCESS) return iResult;
+                    break;
+
+                case ESwitch.JOG_ZN:
+                    iResult = IsPanelSWDetected(out bDetected, m_IOAddrTable.OpPanel.ZnInputAddr);
+                    if (iResult != SUCCESS) return iResult;
+                    break;
+
+            }
+
+            return iResult;
+        }
+
+        /// <summary>
+        /// Door 상태를 체크하는 함수, 문이 열린 도어가 있으면 확인 중단후에 바로 return
+        /// b접점 이용. normal on. off when door opened.
+        /// </summary>
+        /// <param name="bDoorOpened"></param>
+        /// <param name="iGroup">door group</param>
+        /// <param name="iIndex">index of door in door group</param>
+        /// <returns></returns>
+        public int CheckDoorStatus(out bool bDoorOpened, int iGroup = -1, int iIndex = -1)
+        {
+            int iResult = SUCCESS;
+            bDoorOpened = true;
+
+            bool bTemp;
+            // 도어 센서 그룹 전체 확인 
+            if (iGroup == -1)
+            {
+                for (int i = 0; i < (int)EDoorGroup.MAX; i++)
+                {
+                    iResult = CheckDoorGroup(out bTemp, i, iIndex);
+                    if (iResult != SUCCESS) return iResult;
+
+                    if(bTemp == false)
+                    {
+                        return SUCCESS;
+                    }
+                }
+            }
+            // 센서 그룹 하나만 확인 
+            else
+            {
+                iResult = CheckDoorGroup(out bTemp, iGroup, iIndex);
+                if (iResult != SUCCESS) return iResult;
+
+                if (bTemp == false)
                 {
                     return SUCCESS;
                 }
             }
 
-            return SUCCESS;
-        }
-
-        public int GetJogYPlusButtonStatus(out bool bStatus)
-        {
-            string str = "Jog Y(+) Button";
-            return getPanelSwitchStatus(str, m_IOAddrTable.FrontPanel.YpInputAddr, m_IOAddrTable.BackPanel.YpInputAddr, out bStatus);
-        }
-
-        public int GetJogYMinusButtonStatus(out bool bStatus)
-        {
-            string str = "Jog Y(-) Button";
-            return getPanelSwitchStatus(str, m_IOAddrTable.FrontPanel.YnInputAddr, m_IOAddrTable.BackPanel.YnInputAddr, out bStatus);
-        }
-
-        public int GetJogXPlusButtonStatus(out bool bStatus)
-        {
-            string str = "Jog X(+) Button";
-            return getPanelSwitchStatus(str, m_IOAddrTable.FrontPanel.XpInputAddr, m_IOAddrTable.BackPanel.XpInputAddr, out bStatus);
-        }
-
-        public int GetJogXMinusButtonStatus(out bool bStatus)
-        {
-            string str = "Jog X(-) Button";
-            return getPanelSwitchStatus(str, m_IOAddrTable.FrontPanel.XnInputAddr, m_IOAddrTable.BackPanel.XnInputAddr, out bStatus);
-        }
-
-        public int GetJogZPlusButtonStatus(out bool bStatus)
-        {
-            string str = "Jog Z(+) Button";
-            return getPanelSwitchStatus(str, m_IOAddrTable.FrontPanel.ZpInputAddr, m_IOAddrTable.BackPanel.ZpInputAddr, out bStatus);
-        }
-
-        public int GetJogZMinusButtonStatus(out bool bStatus)
-        {
-            string str = "Jog Z(-) Button";
-            return getPanelSwitchStatus(str, m_IOAddrTable.FrontPanel.ZnInputAddr, m_IOAddrTable.BackPanel.ZnInputAddr, out bStatus);
-        }
-
-        public int GetJogTPlusButtonStatus(out bool bStatus)
-        {
-            string str = "Jog T(+) Button";
-            return getPanelSwitchStatus(str, m_IOAddrTable.FrontPanel.TpInputAddr, m_IOAddrTable.BackPanel.TpInputAddr, out bStatus);
-        }
-
-        public int GetJogTMinusButtonStatus(out bool bStatus)
-        {
-            string str = "Jog T(-) Button";
-            return getPanelSwitchStatus(str, m_IOAddrTable.FrontPanel.TnInputAddr, m_IOAddrTable.BackPanel.TnInputAddr, out bStatus);
-        }
-
-        public int GetSafeDoorStatus(out bool bStatus, int iGroup = -1, int iIndex = -1)
-        {
-            int iResult = SUCCESS;
-            int i, j;
-            bool bResult;
-
-            bStatus = false;
-
-            // 센서 그룹  전체 확인 
-            if (iGroup == -1)
-            {
-                for (i = 0; i < DEF_OPPANEL_MAX_DOOR_GROUP; i++)
-                {
-                    if (iIndex == -1)
-                    {
-                        for (j = 0; j < DEF_OPPANEL_MAX_DOOR_SENSOR; j++)
-                        {
-                            if (m_IOAddrTable.SafeDoorAddr[i, j] != -1)
-                            {
-                                if (m_IOAddrTable.SafeDoorFlag[i, j] == true)
-                                {
-                                    if ((iResult = m_RefComp.IO.IsOn(m_IOAddrTable.SafeDoorAddr[i, j], out bResult)) != SUCCESS)
-                                        return iResult;
-
-                                    if (bResult == false)
-                                    {
-                                        bStatus = true;
-                                        return iResult;
-                                    }
-                                }
-                            }
-                            // Sensor Address가 할당되어 있지 않으면 확인 중단 
-                            else
-                            {
-                                j = DEF_OPPANEL_MAX_DOOR_SENSOR;
-                            }
-                        }
-                    }
-                    else
-                    {
-
-                        if (m_IOAddrTable.SafeDoorAddr[i, iIndex] != 0)
-                        {
-                            if (m_IOAddrTable.SafeDoorFlag[i, iIndex] == true)
-                            {
-                                if ((iResult = m_RefComp.IO.IsOn(m_IOAddrTable.SafeDoorAddr[i, iIndex], out bResult)) != SUCCESS)
-                                    return iResult;
-
-                                bStatus = !bResult;
-                            }
-                            else
-                            {
-                                bStatus = false;
-                            }
-                        }
-                        else
-                        {
-                            bStatus = false;
-                        }
-                    }
-                }
-                bStatus = false;
-            }
-            // 센서 그룹 하나만 확인 
-            else
-            {
-                if (iIndex == -1)
-                {
-                    for (j = 0; j < DEF_OPPANEL_MAX_DOOR_SENSOR; j++)
-                    {
-
-                        if (m_IOAddrTable.SafeDoorAddr[iGroup, j] != 0)
-                        {
-                            if (m_IOAddrTable.SafeDoorFlag[iGroup, j] == true)
-                            {
-                                if ((iResult = m_RefComp.IO.IsOn(m_IOAddrTable.SafeDoorAddr[iGroup, j], out bResult)) != SUCCESS)
-                                    return iResult;
-
-                                if (bResult == false)
-                                {
-                                    bStatus = true;
-                                    return iResult;
-                                }
-                            }
-                        }
-                        // Sensor Address가 할당되어 있지 않으면 확인 중단 
-                        else
-                        {
-                            j = DEF_OPPANEL_MAX_DOOR_SENSOR;
-                        }
-                    }
-                }
-                else
-                {
-
-                    if (m_IOAddrTable.SafeDoorAddr[iGroup, iIndex] != 0)
-                    {
-                        if (m_IOAddrTable.SafeDoorFlag[iGroup, iIndex] == true)
-                        {
-                            if ((iResult = m_RefComp.IO.IsOn(m_IOAddrTable.SafeDoorAddr[iGroup, iIndex], out bResult)) != SUCCESS)
-                                return iResult;
-
-                            bStatus = !bResult;
-                        }
-                        else
-                        {
-                            bStatus = false;
-                        }
-                    }
-                    else
-                    {
-                        bStatus = false;
-                    }
-                }
-                bStatus = false;
-            }
-
+            // 모든 도어 상태를 확인 완료 후에는
+            bDoorOpened = false;
             return iResult;
         }
-       
+
+        /// <summary>
+        /// Door 상태를 체크하는 함수, 문이 열린 도어가 있으면 확인 중단후에 바로 bDoorClosed = false & return
+        /// b접점 이용. normal on. off when door opened.
+        /// </summary>
+        /// <param name="bDoorClosed"></param>
+        /// <param name="iGroup">door group</param>
+        /// <param name="iIndex">index of door in door group</param>
+        /// <returns></returns>
+        private int CheckDoorGroup(out bool bDoorClosed, int iGroup, int iIndex)
+        {
+            int iResult = SUCCESS;
+            bDoorClosed = false;
+            if (iGroup == -1) return GenerateErrorCode(ERR_OPPANEL_INVALID_DOOR_GROUP);
+
+            bool bTemp;
+            // 도어 센서 그룹 내부 전체 확인
+            if (iIndex == -1)
+            {
+                for (int j = 0; j < (int)EDoorIndex.MAX; j++)
+                {
+                    if (m_Data.UseDoorStatus[iGroup, j] == false) continue;
+
+                    int addr = m_IOAddrTable.SafeDoorAddr[iGroup, j];
+                    if (addr == -1) return GenerateErrorCode(ERR_OPPANEL_DOOR_ADDRESS_NOT_DEFINED);
+
+                    if ((iResult = m_RefComp.IO.IsOn(addr, out bTemp)) != SUCCESS) return iResult;
+
+                    if (bTemp == false)
+                    {
+                        bDoorClosed = false;
+                        return SUCCESS;
+                    }
+                }
+            }
+            else // 특정 도어만 확인
+            {
+                if (m_Data.UseDoorStatus[iGroup, iIndex] == false) return SUCCESS;
+
+                int addr = m_IOAddrTable.SafeDoorAddr[iGroup, iIndex];
+                if (addr == -1) return GenerateErrorCode(ERR_OPPANEL_DOOR_ADDRESS_NOT_DEFINED);
+
+                if ((iResult = m_RefComp.IO.IsOn(addr, out bTemp)) != SUCCESS)
+                    return iResult;
+
+                if (bTemp == false)
+                {
+                    bDoorClosed = false;
+                    return SUCCESS;
+                }
+            }
+
+            // 모든 도어 상태를 확인 완료 후에는
+            bDoorClosed = true;
+            return iResult;
+        }
+
         /// <summary>
         /// CP Trip의 상태를 읽는다.
         /// </summary>
@@ -1929,22 +1988,22 @@ namespace LWDicer.Layers
         {
             int i = 0;
             bool bSts = false;
-            bool bResult;
+            bool bTemp;
             int iResult = SUCCESS;
 
             bStatus = false;
 
             //if (iIndex == -1)
             //{
-            //    for (i = 0; i < DEF_OPPANEL_MAX_CP_TRIP_NO; i++)
+            //    for (int i = 0; i < DEF_OPPANEL_MAX_CP_TRIP_NO; i++)
             //    {
                     
             //        if (m_IOAddrTable.iCPTripAddr[i] != 0)
             //        {
-            //            if ((iResult = m_RefComp.IO.IsOn(m_IOAddrTable.iCPTripAddr[i], out bResult)) != SUCCESS)
+            //            if ((iResult = m_RefComp.IO.IsOn(m_IOAddrTable.iCPTripAddr[i], out bTemp)) != SUCCESS)
             //                return iResult;
 
-            //            bSts = bSts || bResult;
+            //            bSts = bSts || bTemp;
             //        }
             //        // Sensor Address가 할당되어 있지 않으면 확인 중단
             //        else
@@ -1958,10 +2017,10 @@ namespace LWDicer.Layers
                 
             //    if (m_IOAddrTable.iCPTripAddr[iIndex] != 0)
             //    {
-            //        if ((iResult = m_RefComp.IO.IsOn(m_IOAddrTable.iCPTripAddr[iIndex], out bResult)) != SUCCESS)
+            //        if ((iResult = m_RefComp.IO.IsOn(m_IOAddrTable.iCPTripAddr[iIndex], out bTemp)) != SUCCESS)
             //            return iResult;
 
-            //        *bStatus = bResult;
+            //        *bStatus = bTemp;
             //    }
             //    else
             //        *bStatus = false;
@@ -2070,7 +2129,7 @@ namespace LWDicer.Layers
             int iCount = 0;
 
 
-            //for (i = 0; i < DEF_OPPANEL_MAX_MOTION_RELAY_NO; i++)
+            //for (int i = 0; i < DEF_OPPANEL_MAX_MOTION_RELAY_NO; i++)
             //{
             //    if (m_IOAddrTable.iMotionRelayAddr[i] != 0)
             //    {
@@ -2098,7 +2157,7 @@ namespace LWDicer.Layers
             int iCount = 0;
 
 
-            //for (i = 0; i < DEF_OPPANEL_MAX_MOTION_RELAY_NO; i++)
+            //for (int i = 0; i < DEF_OPPANEL_MAX_MOTION_RELAY_NO; i++)
             //{
             //    if (m_IOAddrTable.iMotionRelayAddr[i] != 0)
             //    {
@@ -2128,7 +2187,7 @@ namespace LWDicer.Layers
             double dVel;
             int iAcc;
 
-            //for (i = 0; i < m_JogTable.ListNo; i++)
+            //for (int i = 0; i < m_JogTable.ListNo; i++)
             //{
             //    if (m_JogTable.MotionArray[i].m_XKey.m_plnkJog != null)
             //    {
@@ -2169,30 +2228,29 @@ namespace LWDicer.Layers
         /// <param name="iIndex">Door Snesor Group 내 Index 번호 (-1이면 Group내 모든 Index 설정)</param>
         public void SetDoorCheckFlag(bool bFlag, int iGroup, int iIndex)
         {
-            int i, j;
             int iResult = SUCCESS;
 
             if (iGroup == -1)
             {
-                for (i = 0; i < DEF_OPPANEL_MAX_DOOR_GROUP; i++)
+                for (int i = 0; i < (int)EDoorGroup.MAX; i++)
                 {
                     if (iIndex == -1)
                     {
-                        for (j = 0; j < DEF_OPPANEL_MAX_DOOR_SENSOR; j++)
+                        for (int j = 0; j < (int)EDoorIndex.MAX; j++)
                         {
 
                             if (m_IOAddrTable.SafeDoorAddr[i, j] != 0)
-                                m_IOAddrTable.SafeDoorFlag[i, j] = bFlag;
+                                m_Data.UseDoorStatus[i, j] = bFlag;
                             // Sensor Address가 할당되어 있지 않으면 확인 중단
                             else
-                                j = DEF_OPPANEL_MAX_DOOR_SENSOR;
+                                j = (int)EDoorIndex.MAX;
                         }
                     }
                     else
                     {
 
                         if (m_IOAddrTable.SafeDoorAddr[i, iIndex] != 0)
-                            m_IOAddrTable.SafeDoorFlag[i, iIndex] = bFlag;
+                            m_Data.UseDoorStatus[i, iIndex] = bFlag;
                     }
                 }
             }
@@ -2200,73 +2258,72 @@ namespace LWDicer.Layers
             {
                 if (iIndex == -1)
                 {
-                    for (j = 0; j < DEF_OPPANEL_MAX_DOOR_SENSOR; j++)
+                    for (int j = 0; j < (int)EDoorIndex.MAX; j++)
                     {
 
                         if (m_IOAddrTable.SafeDoorAddr[iGroup, j] != 0)
-                            m_IOAddrTable.SafeDoorFlag[iGroup, j] = bFlag;
+                            m_Data.UseDoorStatus[iGroup, j] = bFlag;
                         // Sensor Address가 할당되어 있지 않으면 확인 중단
                         else
-                            j = DEF_OPPANEL_MAX_DOOR_SENSOR;
+                            j = (int)EDoorIndex.MAX;
                     }
                 }
                 else
                 {
 
                     if (m_IOAddrTable.SafeDoorAddr[iGroup, iIndex] != 0)
-                        m_IOAddrTable.SafeDoorFlag[iGroup, iIndex] = bFlag;
+                        m_Data.UseDoorStatus[iGroup, iIndex] = bFlag;
                 }
             }
         }
 
         public int SetStartLamp(bool bStatus)
         {
-            return setPanelLedStatus("Start LED", m_IOAddrTable.FrontPanel.RunOutputAddr, m_IOAddrTable.BackPanel.RunOutputAddr, bStatus);
+            return setPanelLedStatus(bStatus, m_IOAddrTable.OpPanel.RunOutputAddr);
         }
 
         public int SetStopLamp(bool bStatus)
         {
-            return setPanelLedStatus("Stop LED", m_IOAddrTable.FrontPanel.StopOutputAddr, m_IOAddrTable.BackPanel.StopOutputAddr, bStatus);
+            return setPanelLedStatus(bStatus, m_IOAddrTable.OpPanel.StopOutputAddr);
         }
 
         public int SetResetLamp(bool bStatus)
         {
-            return setPanelLedStatus("Reset LED", m_IOAddrTable.FrontPanel.ResetOutputAddr, m_IOAddrTable.BackPanel.ResetOutputAddr, bStatus);
+            return setPanelLedStatus(bStatus, m_IOAddrTable.OpPanel.ResetOutputAddr);
         }
 
         public int SetTowerRedLamp(bool bStatus)
         {
-            return setTowerLampStatus("RED Lamp", m_IOAddrTable.TowerLamp.RedLampAddr, bStatus);
+            return setTowerLampStatus(bStatus, m_IOAddrTable.TowerLamp.RedLampAddr);
         }
 
         public int SetTowerYellowLamp(bool bStatus)
         {
-            return setTowerLampStatus("YELLOW Lamp", m_IOAddrTable.TowerLamp.YellowLampAddr, bStatus);
+            return setTowerLampStatus(bStatus, m_IOAddrTable.TowerLamp.YellowLampAddr);
         }
 
         public int SetTowerGreenLamp(bool bStatus)
         {
-            return setTowerLampStatus("GREEN Lamp", m_IOAddrTable.TowerLamp.GreenLampAddr, bStatus);
+            return setTowerLampStatus(bStatus, m_IOAddrTable.TowerLamp.GreenLampAddr);
         }
 
-        public int SetBuzzerStatus(bool bStatus, int iMode = DEF_OPPANEL_BUZZER_ALL)
+        public int SetBuzzerStatus(bool bStatus, EBuzzer index = EBuzzer.ALL)
         {
-            int i = 0;
             int iResult = SUCCESS;
 
             // Tower Lamp의 Buzzer에 대한 전체 출력 모드가 선택된 경우
-            if (iMode == DEF_OPPANEL_BUZZER_ALL)
+            if (index == EBuzzer.ALL)
             {
-                for (i = 0; i < DEF_OPPANEL_MAX_BUZZER_MODE; i++)
+                foreach (int addr in m_IOAddrTable.TowerLamp.BuzzerArray)
                 {
-                    if ((iResult = setTowerLampStatus("Buzzer", m_IOAddrTable.TowerLamp.BuzzerArray[i], bStatus)) != SUCCESS)
+                    if ((iResult = setTowerLampStatus(bStatus, addr)) != SUCCESS)
                         return iResult;
                 }
             }
             // Tower Lamp의 Buzzer에 대한 하나의 출력 모드가 선택된 경우 
             else
             {
-                if ((iResult = setTowerLampStatus("Buzzer", m_IOAddrTable.TowerLamp.BuzzerArray[iMode], bStatus)) != SUCCESS)
+                if ((iResult = setTowerLampStatus(bStatus, m_IOAddrTable.TowerLamp.BuzzerArray[(int)index])) != SUCCESS)
                     return iResult;
             }
 
@@ -2448,148 +2505,36 @@ namespace LWDicer.Layers
         }
 
         /// <summary>
-        /// 앞, 뒷 Panel의 특정 Switch의 눌려진 상태를 확인한다.
-        /// </summary>
-        /// <param name="iFrontSWAddr">앞 Panel의 Switch IO Address</param>
-        /// <param name="iBackSWAddr">뒷 Panel의 Switch IO Address</param>
-        /// <param name="bStatus">앞, 뒷 Panel의 Switch 눌려진 상태 (둘 중 하나라도 눌리면 true)</param>
-        /// <returns></returns>
-        public int getPanelSwitchStatus(string strBtnName, int iFrontSWAddr, int iBackSWAddr, out bool bStatus)
-        {
-            int iResult = SUCCESS;
-            bStatus = false;
-            bool bFrontStatus = false;
-            bool bBackStatus = false;
-            string strLog;
-
-            // 앞 Panel의 Button의 상태 읽기 
-            if ((iResult = m_RefComp.IO.IsOn(iFrontSWAddr, out bFrontStatus)) != SUCCESS)
-            {
-                // 오류 동작 Log 
-                strLog = String.Format("앞 Panel의 {0}의 상태를 읽는데 실패했습니다.", strBtnName);
-                WriteLog(strLog, ELogType.Debug, ELogWType.D_Error);
-
-                return iResult;
-            }
-
-            // 뒷 Panel의 Button의 상태 읽기 
-            if ((iResult = m_RefComp.IO.IsOn(iBackSWAddr, out bBackStatus)) != SUCCESS)
-            {
-                // 오류 동작 Log 
-                strLog = String.Format("뒷 Panel의 {0}의 상태를 읽는데 실패했습니다.", strBtnName);
-                WriteLog(strLog, ELogType.Debug, ELogWType.D_Error);
-
-                return iResult;
-            }
-
-            bStatus = bFrontStatus || bBackStatus;
-
-            return SUCCESS;
-        }
-
-        /// <summary>
         /// 앞, 뒷 Panel의 특정 LED의 동작을 설정한다.
         /// </summary>
-        /// <param name="strBtnName">Log할 때 사용할 LED 이름</param>
-        /// <param name="iFrontLedAddr"> 앞 Panel의 LED IO Address</param>
-        /// <param name="iBackLedAddr">뒷 Panel의 LED IO Address</param>
-        /// <param name="bStatus">설정할 앞, 뒷 Panel의 LED 동작상태 (앞, 뒷면 둘다 동작)</param>
+        /// <param name="bStatus"></param>
+        /// <param name="address"></param>
         /// <returns></returns>
-        public int setPanelLedStatus(string strBtnName, int iFrontLedAddr, int iBackLedAddr, bool bStatus)
+        public int setPanelLedStatus(bool bStatus, int[] address)
         {
             int iResult = SUCCESS;
-            string strLog;
-
-            if (bStatus == true)
+            foreach (int addr in address)
             {
-                if ((iResult = m_RefComp.IO.OutputOn(iFrontLedAddr)) != SUCCESS)
-                {
-                    // 오류 동작 Log
-                    strLog = String.Format("앞 Panel의 {0}를 ON하는데 실패했습니다.", strBtnName);
-                    WriteLog(strLog, ELogType.Debug, ELogWType.D_Error);
-
-                    return iResult;
-                }
-                // 정상 동작 Log
-                //.		strLog = String.Format("앞 Panel의 {0}를 ON하였습니다.", strBtnName);
-                //.		m_plogMng.WriteLog(strLog, __FILE__, __LINE__);
-
-                if ((iResult = m_RefComp.IO.OutputOn(iBackLedAddr)) != SUCCESS)
-                {
-                    // 오류 동작 Log
-                    strLog = String.Format("뒷 Panel의 {0}를 ON하는데 실패했습니다.", strBtnName);
-                    WriteLog(strLog, ELogType.Debug, ELogWType.D_Error);
-
-                    return iResult;
-                }
-                // 정상 동작 Log
-                //.		strLog = String.Format("뒷 Panel의 {0}를 ON하였습니다.", strBtnName);
-                //.		m_plogMng.WriteLog(strLog, __FILE__, __LINE__);
+                if (addr == -1) continue;
+                iResult = m_RefComp.IO.SetBit(addr, bStatus);
+                if (iResult != SUCCESS) return iResult;
             }
-            else
-            {
-                if ((iResult = m_RefComp.IO.OutputOff(iFrontLedAddr)) != SUCCESS)
-                {
-                    // 오류 동작 Log
-                    strLog = String.Format("앞 Panel의 {0}를 OFF하는데 실패했습니다.", strBtnName);
-                    WriteLog(strLog, ELogType.Debug, ELogWType.D_Error);
-
-                    return iResult;
-                }
-                // 정상 동작 Log
-                //.		strLog = String.Format("앞 Panel의 {0}를 OFF하였습니다.", strBtnName);
-                //.		m_plogMng.WriteLog(strLog, __FILE__, __LINE__);
-
-                if ((iResult = m_RefComp.IO.OutputOff(iBackLedAddr)) != SUCCESS)
-                {
-                    // 오류 동작 Log
-                    strLog = String.Format("뒷 Panel의 {0}를 OFF하는데 실패했습니다.", strBtnName);
-                    WriteLog(strLog, ELogType.Debug, ELogWType.D_Error);
-
-                    return iResult;
-                }
-                // 정상 동작 Log
-                //.		strLog = String.Format("뒷 Panel의 {0}를 OFF하였습니다.", strBtnName);
-                //.		m_plogMng.WriteLog(strLog, __FILE__, __LINE__);
-            }
-
             return SUCCESS;
         }
 
         /// <summary>
         /// Tower Lamp의 Lamp, Buzzer의 동작을 설정한다.
         /// </summary>
-        /// <param name="strBtnName"></param>
-        /// <param name="iTowerAddr">앞 Panel의 LED IO Address</param>
-        /// <param name="bStatus">설정할 Tower Lamp의 Lamp, Buzzer의 동작상태</param>
+        /// <param name="bStatus"></param>
+        /// <param name="addr"></param>
         /// <returns></returns>
-        public int setTowerLampStatus(string strBtnName, int iTowerAddr, bool bStatus)
+        public int setTowerLampStatus(bool bStatus, int addr)
         {
             int iResult = SUCCESS;
-            string strLog;
+            if (addr == -1) return SUCCESS;
 
-            if (bStatus == true)
-            {
-                if ((iResult = m_RefComp.IO.OutputOn(iTowerAddr)) != SUCCESS)
-                {
-                    // 오류 동작 Log
-                    strLog = String.Format("Tower Lamp의 {0}를 ON하는데 실패했습니다.", strBtnName);
-                    WriteLog(strLog, ELogType.Debug, ELogWType.D_Error);
-
-                    return iResult;
-                }
-            }
-            else
-            {
-                if ((iResult = m_RefComp.IO.OutputOff(iTowerAddr)) != SUCCESS)
-                {
-                    // 오류 동작 Log
-                    strLog = String.Format("Tower Lamp의 {0}를 OFF하는데 실패했습니다.", strBtnName);
-                    WriteLog(strLog, ELogType.Debug, ELogWType.D_Error);
-
-                    return iResult;
-                }
-            }
+            iResult = m_RefComp.IO.SetBit(addr, bStatus);
+            if (iResult != SUCCESS) return iResult;
 
             return SUCCESS;
         }
@@ -2603,8 +2548,7 @@ namespace LWDicer.Layers
             bEmptyAll = false;
             bEmptyPart = false;
 
-            int i = 0;
-            for (i = 0; i < DEF_MAX_HEAD_NO; i++)
+            for (int i = 0; i < DEF_MAX_HEAD_NO; i++)
             {
                 iResult = CheckTank_Empty(i, out bStatus1, out bStatus2);
                 if (iResult != SUCCESS) return iResult;
@@ -2621,18 +2565,17 @@ namespace LWDicer.Layers
         {
             int iResult = SUCCESS;
 
-            bool[] bStatus = new bool[DEF_MAX_TANK_NO];
+            bool[] bStatus = new bool[(int)ECoatTank.MAX];
 
             bEmptyAll = false;
             bEmptyPart = false;
             bool bInit = false;
 
-            int i = 0;
-            for (i = 0; i < DEF_MAX_TANK_NO; i++)
+            for (int i = 0; i < (int)ECoatTank.MAX; i++)
             {
-                if (m_Data.bUseMaterialAlarm[i] == false) continue;
+                if (m_Data.UseTankAlarm[i] == false) continue;
 
-                iResult = m_RefComp.IO.IsOn(m_Data.TankEmptyAddr[i], out bStatus[i]);
+                iResult = m_RefComp.IO.IsOn(m_IOAddrTable.TankEmptyAddr[i], out bStatus[i]);
                 if (iResult != SUCCESS) return iResult;
 
                 if (bInit == false)
@@ -2649,33 +2592,25 @@ namespace LWDicer.Layers
             return SUCCESS;
         }
 
-        public int GetAreaFrontBackStatus(out bool bStatus)
+        /// <summary>
+        /// check area sensor. 
+        /// b접점 이용. normal on. off when area sensor detected.
+        /// </summary>
+        /// <param name="bDetected"></param>
+        /// <returns></returns>
+        public int CheckAreaSensorStatus(out bool bDetected)
         {
             int iResult = SUCCESS;
-
-            bStatus = false;
-
-            iResult = m_RefComp.IO.IsOn(DEF_IO.iDoor_Front, out bStatus);
-            if (bStatus == false)
+            bDetected = true;
+            bool bTemp = true;
+            foreach(int addr in m_IOAddrTable.AreaSensorAddr)
             {
-                return iResult;
+                if (addr == IO_ADDR_NOT_DEFINED) continue;
+                iResult = m_RefComp.IO.IsOn(addr, out bTemp);
+                if (bTemp == false) return SUCCESS;
             }
-
-            iResult = m_RefComp.IO.IsOn(DEF_IO.iDoor_Side, out bStatus);
-            if (bStatus == false)
-            {
-                return iResult;
-            }
-
-            iResult = m_RefComp.IO.IsOn(DEF_IO.iDoor_Back, out bStatus);
-            if (bStatus == false)
-            {
-                return iResult;
-            }
-
-            bStatus = true;
-            return iResult;
+            bDetected = false;
+            return SUCCESS;
         }
-
     }
 }

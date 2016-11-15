@@ -45,7 +45,7 @@
             this.BtnExit.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
             this.BtnExit.Image = ((System.Drawing.Image)(resources.GetObject("BtnExit.Image")));
             this.BtnExit.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.BtnExit.Location = new System.Drawing.Point(230, 393);
+            this.BtnExit.Location = new System.Drawing.Point(433, 359);
             this.BtnExit.Name = "BtnExit";
             this.BtnExit.Size = new System.Drawing.Size(124, 61);
             this.BtnExit.TabIndex = 757;
@@ -65,7 +65,7 @@
             this.gradientLabel3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
             this.gradientLabel3.Location = new System.Drawing.Point(12, 9);
             this.gradientLabel3.Name = "gradientLabel3";
-            this.gradientLabel3.Size = new System.Drawing.Size(237, 38);
+            this.gradientLabel3.Size = new System.Drawing.Size(263, 38);
             this.gradientLabel3.TabIndex = 948;
             this.gradientLabel3.Text = "Handler Vacuum";
             this.gradientLabel3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -79,9 +79,9 @@
             this.BtnVacuumOff.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
             this.BtnVacuumOff.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
             this.BtnVacuumOff.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.BtnVacuumOff.Location = new System.Drawing.Point(132, 48);
+            this.BtnVacuumOff.Location = new System.Drawing.Point(145, 48);
             this.BtnVacuumOff.Name = "BtnVacuumOff";
-            this.BtnVacuumOff.Size = new System.Drawing.Size(117, 64);
+            this.BtnVacuumOff.Size = new System.Drawing.Size(130, 64);
             this.BtnVacuumOff.TabIndex = 947;
             this.BtnVacuumOff.Tag = "1";
             this.BtnVacuumOff.Text = "Off";
@@ -98,7 +98,7 @@
             this.BtnVacuumOn.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.BtnVacuumOn.Location = new System.Drawing.Point(12, 48);
             this.BtnVacuumOn.Name = "BtnVacuumOn";
-            this.BtnVacuumOn.Size = new System.Drawing.Size(117, 64);
+            this.BtnVacuumOn.Size = new System.Drawing.Size(130, 64);
             this.BtnVacuumOn.TabIndex = 946;
             this.BtnVacuumOn.Tag = "0";
             this.BtnVacuumOn.Text = "On";
@@ -115,7 +115,7 @@
             this.gradientLabel1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
             this.gradientLabel1.Location = new System.Drawing.Point(12, 113);
             this.gradientLabel1.Name = "gradientLabel1";
-            this.gradientLabel1.Size = new System.Drawing.Size(117, 30);
+            this.gradientLabel1.Size = new System.Drawing.Size(130, 30);
             this.gradientLabel1.TabIndex = 949;
             this.gradientLabel1.Text = "수행 시간";
             this.gradientLabel1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -129,9 +129,9 @@
             this.LabelVACTime.BorderStyle = System.Windows.Forms.Border3DStyle.Bump;
             this.LabelVACTime.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.LabelVACTime.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.LabelVACTime.Location = new System.Drawing.Point(132, 113);
+            this.LabelVACTime.Location = new System.Drawing.Point(145, 113);
             this.LabelVACTime.Name = "LabelVACTime";
-            this.LabelVACTime.Size = new System.Drawing.Size(117, 30);
+            this.LabelVACTime.Size = new System.Drawing.Size(130, 30);
             this.LabelVACTime.TabIndex = 950;
             this.LabelVACTime.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 

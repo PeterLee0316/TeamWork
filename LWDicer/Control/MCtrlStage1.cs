@@ -17,8 +17,6 @@ using static LWDicer.Layers.DEF_CtrlStage;
 using static LWDicer.Layers.DEF_DataManager;
 using LWDicer.UI;
 
-using static LWDicer.Layers.MTickTimer.ETimeType;
-
 namespace LWDicer.Layers
 {
     public class DEF_CtrlStage
@@ -254,7 +252,7 @@ namespace LWDicer.Layers
 
         public async void LaserProcessMof()
         {
-            int iResult;
+            int iResult = SUCCESS;
             var taskProcess = Task<int>.Run(() => LaserProcessMofRun());
 
             iResult = await taskProcess;
@@ -324,7 +322,7 @@ namespace LWDicer.Layers
                 if (i >= (nPatternCount - 1)) continue;
                 m_RefComp.Stage.MoveStagePos(patternMove);
 
-                while (m_ProcsTimer.LessThan(CMainFrame.DataManager.ModelData.ProcData.ProcessInterval, MTickTimer.ETimeType.SECOND))
+                while (m_ProcsTimer.LessThan(CMainFrame.DataManager.ModelData.ProcData.ProcessInterval, ETimeType.SECOND))
                 {
                     Sleep(100);
                 }
@@ -378,7 +376,7 @@ namespace LWDicer.Layers
                 if (i >= (nPatternCount - 1)) continue;
                 m_RefComp.Stage.MoveStagePos(patternMove);
 
-                while (m_ProcsTimer.LessThan(CMainFrame.DataManager.ModelData.ProcData.ProcessInterval, MTickTimer.ETimeType.SECOND))
+                while (m_ProcsTimer.LessThan(CMainFrame.DataManager.ModelData.ProcData.ProcessInterval, ETimeType.SECOND))
                 {
                     Sleep(100);
                 }
@@ -490,7 +488,7 @@ namespace LWDicer.Layers
                     MoveStageRelative(stepPitch, true);
                 }
 
-                while(m_ProcsTimer.LessThan(CMainFrame.DataManager.ModelData.ProcData.ProcessInterval,MTickTimer.ETimeType.SECOND))
+                while(m_ProcsTimer.LessThan(CMainFrame.DataManager.ModelData.ProcData.ProcessInterval,ETimeType.SECOND))
                 {
                     // Process정지 수행
                     if (CMainFrame.DataManager.ModelData.ProcData.ProcessStop) goto ProcessStop;
@@ -596,7 +594,7 @@ namespace LWDicer.Layers
         public int MoveToStageTurn()
         {
             // Theta Align한 dT 값을 읽음
-            int iResult;
+            int iResult = SUCCESS;
             var thetaPos = new CPos_XYTZ();
             m_RefComp.Stage.GetThetaAlignPosA(out thetaPos);
             // 현재 위치를 읽음
@@ -617,7 +615,7 @@ namespace LWDicer.Layers
         public int MoveToStageReturn()
         {
             // Theta Align한 dT 값을 읽음
-            int iResult;
+            int iResult = SUCCESS;
             var thetaPos = new CPos_XYTZ();
             m_RefComp.Stage.GetThetaAlignPosA(out thetaPos);
             // 현재 위치를 읽음
@@ -728,7 +726,7 @@ namespace LWDicer.Layers
 
         public int MoveToEdgeAlignPos1()
         {
-            int iResult;
+            int iResult = SUCCESS;
             if (GetCurrentCam() == PRE__CAM)
                 iResult = m_RefComp.Stage.MoveStageToEdgeAlignPos1();
             else
@@ -739,7 +737,7 @@ namespace LWDicer.Layers
 
         public int MoveToEdgeAlignPos2()
         {
-            int iResult;
+            int iResult = SUCCESS;
             if (GetCurrentCam() == PRE__CAM)
                 iResult = m_RefComp.Stage.MoveStageToEdgeAlignPos2();
             else
@@ -750,7 +748,7 @@ namespace LWDicer.Layers
 
         public int MoveToEdgeAlignPos3()
         {
-            int iResult;
+            int iResult = SUCCESS;
             if (GetCurrentCam() == PRE__CAM)
                 iResult = m_RefComp.Stage.MoveStageToEdgeAlignPos3();
             else
@@ -761,7 +759,7 @@ namespace LWDicer.Layers
 
         public int MoveToEdgeAlignPos4()
         {
-            int iResult;
+            int iResult = SUCCESS;
             if (GetCurrentCam() == PRE__CAM)
                 iResult = m_RefComp.Stage.MoveStageToEdgeAlignPos4();
             else
@@ -858,7 +856,7 @@ namespace LWDicer.Layers
 
         public int MoveIndexPlusX()
         {
-            int iResult;
+            int iResult = SUCCESS;
 
             if (eStageMode == EStatgeMode.RETURN)
                 iResult = m_RefComp.Stage.MoveStageIndexPlusX();
@@ -869,7 +867,7 @@ namespace LWDicer.Layers
         }
         public int MoveIndexPlusY()
         {
-            int iResult;
+            int iResult = SUCCESS;
 
             if (eStageMode == EStatgeMode.RETURN)
                 iResult = m_RefComp.Stage.MoveStageIndexPlusY();
@@ -884,7 +882,7 @@ namespace LWDicer.Layers
         }
         public int MoveIndexMinusX()
         {
-            int iResult;
+            int iResult = SUCCESS;
 
             if (eStageMode == EStatgeMode.RETURN)
                 iResult = m_RefComp.Stage.MoveStageIndexMinusX();
@@ -895,7 +893,7 @@ namespace LWDicer.Layers
         }
         public int MoveIndexMinusY()
         {
-            int iResult;
+            int iResult = SUCCESS;
 
             if (eStageMode == EStatgeMode.RETURN)
                 iResult = m_RefComp.Stage.MoveStageIndexMinusY();

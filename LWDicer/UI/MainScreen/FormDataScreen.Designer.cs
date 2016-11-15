@@ -30,7 +30,7 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormDataScreen));
             this.BtnModelList = new Syncfusion.Windows.Forms.ButtonAdv();
-            this.BtnWaferList = new Syncfusion.Windows.Forms.ButtonAdv();
+            this.BtnWaferFrameList = new Syncfusion.Windows.Forms.ButtonAdv();
             this.BtnScannerData = new Syncfusion.Windows.Forms.ButtonAdv();
             this.BtnMotorData = new Syncfusion.Windows.Forms.ButtonAdv();
             this.BtnCylinderData = new Syncfusion.Windows.Forms.ButtonAdv();
@@ -43,16 +43,15 @@
             this.gradientPanel3 = new Syncfusion.Windows.Forms.Tools.GradientPanel();
             this.autoLabel3 = new Syncfusion.Windows.Forms.Tools.AutoLabel();
             this.gradientPanel4 = new Syncfusion.Windows.Forms.Tools.GradientPanel();
+            this.BtnUserList = new Syncfusion.Windows.Forms.ButtonAdv();
             this.autoLabel4 = new Syncfusion.Windows.Forms.Tools.AutoLabel();
-            this.BtnCassetteList = new Syncfusion.Windows.Forms.ButtonAdv();
             this.BtnWaferData = new Syncfusion.Windows.Forms.ButtonAdv();
             this.BtnModelData = new Syncfusion.Windows.Forms.ButtonAdv();
-            this.BtnCassetteData = new Syncfusion.Windows.Forms.ButtonAdv();
+            this.BtnWaferFrameData = new Syncfusion.Windows.Forms.ButtonAdv();
             this.BtnCleaner = new Syncfusion.Windows.Forms.ButtonAdv();
             this.BtnCoater = new Syncfusion.Windows.Forms.ButtonAdv();
             this.gradientPanel2 = new Syncfusion.Windows.Forms.Tools.GradientPanel();
             this.autoLabel2 = new Syncfusion.Windows.Forms.Tools.AutoLabel();
-            this.BtnUserList = new Syncfusion.Windows.Forms.ButtonAdv();
             ((System.ComponentModel.ISupportInitialize)(this.gradientPanel1)).BeginInit();
             this.gradientPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gradientPanel3)).BeginInit();
@@ -79,21 +78,21 @@
             this.BtnModelList.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.BtnModelList.Click += new System.EventHandler(this.BtnModelList_Click);
             // 
-            // BtnWaferList
+            // BtnWaferFrameList
             // 
-            this.BtnWaferList.AutoEllipsis = true;
-            this.BtnWaferList.BackColor = System.Drawing.SystemColors.Control;
-            this.BtnWaferList.FlatAppearance.BorderSize = 5;
-            this.BtnWaferList.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.BtnWaferList.ForeColor = System.Drawing.Color.MidnightBlue;
-            this.BtnWaferList.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.BtnWaferList.Location = new System.Drawing.Point(20, 260);
-            this.BtnWaferList.Name = "BtnWaferList";
-            this.BtnWaferList.Size = new System.Drawing.Size(124, 67);
-            this.BtnWaferList.TabIndex = 10;
-            this.BtnWaferList.Text = "Wafer List";
-            this.BtnWaferList.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.BtnWaferList.Click += new System.EventHandler(this.BtnWaferList_Click);
+            this.BtnWaferFrameList.AutoEllipsis = true;
+            this.BtnWaferFrameList.BackColor = System.Drawing.SystemColors.Control;
+            this.BtnWaferFrameList.FlatAppearance.BorderSize = 5;
+            this.BtnWaferFrameList.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.BtnWaferFrameList.ForeColor = System.Drawing.Color.MidnightBlue;
+            this.BtnWaferFrameList.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.BtnWaferFrameList.Location = new System.Drawing.Point(20, 263);
+            this.BtnWaferFrameList.Name = "BtnWaferFrameList";
+            this.BtnWaferFrameList.Size = new System.Drawing.Size(124, 67);
+            this.BtnWaferFrameList.TabIndex = 10;
+            this.BtnWaferFrameList.Text = "WaferFrame List";
+            this.BtnWaferFrameList.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.BtnWaferFrameList.Click += new System.EventHandler(this.BtnWaferList_Click);
             // 
             // BtnScannerData
             // 
@@ -267,12 +266,28 @@
             this.gradientPanel4.Controls.Add(this.BtnExcelLoad);
             this.gradientPanel4.Controls.Add(this.autoLabel4);
             this.gradientPanel4.Controls.Add(this.BtnModelList);
-            this.gradientPanel4.Controls.Add(this.BtnWaferList);
-            this.gradientPanel4.Controls.Add(this.BtnCassetteList);
+            this.gradientPanel4.Controls.Add(this.BtnWaferFrameData);
+            this.gradientPanel4.Controls.Add(this.BtnWaferFrameList);
             this.gradientPanel4.Location = new System.Drawing.Point(40, 23);
             this.gradientPanel4.Name = "gradientPanel4";
             this.gradientPanel4.Size = new System.Drawing.Size(287, 347);
             this.gradientPanel4.TabIndex = 32;
+            // 
+            // BtnUserList
+            // 
+            this.BtnUserList.AutoEllipsis = true;
+            this.BtnUserList.BackColor = System.Drawing.SystemColors.Control;
+            this.BtnUserList.FlatAppearance.BorderSize = 5;
+            this.BtnUserList.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.BtnUserList.ForeColor = System.Drawing.Color.MidnightBlue;
+            this.BtnUserList.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.BtnUserList.Location = new System.Drawing.Point(20, 192);
+            this.BtnUserList.Name = "BtnUserList";
+            this.BtnUserList.Size = new System.Drawing.Size(124, 67);
+            this.BtnUserList.TabIndex = 38;
+            this.BtnUserList.Text = "User List";
+            this.BtnUserList.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.BtnUserList.Click += new System.EventHandler(this.BtnUserList_Click);
             // 
             // autoLabel4
             // 
@@ -285,22 +300,6 @@
             this.autoLabel4.TabIndex = 35;
             this.autoLabel4.Text = "System Data";
             // 
-            // BtnCassetteList
-            // 
-            this.BtnCassetteList.AutoEllipsis = true;
-            this.BtnCassetteList.BackColor = System.Drawing.SystemColors.Control;
-            this.BtnCassetteList.FlatAppearance.BorderSize = 5;
-            this.BtnCassetteList.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.BtnCassetteList.ForeColor = System.Drawing.Color.MidnightBlue;
-            this.BtnCassetteList.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.BtnCassetteList.Location = new System.Drawing.Point(20, 190);
-            this.BtnCassetteList.Name = "BtnCassetteList";
-            this.BtnCassetteList.Size = new System.Drawing.Size(124, 67);
-            this.BtnCassetteList.TabIndex = 37;
-            this.BtnCassetteList.Text = "Cassette List";
-            this.BtnCassetteList.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.BtnCassetteList.Click += new System.EventHandler(this.BtnCassetteList_Click);
-            // 
             // BtnWaferData
             // 
             this.BtnWaferData.AutoEllipsis = true;
@@ -309,7 +308,7 @@
             this.BtnWaferData.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.BtnWaferData.ForeColor = System.Drawing.Color.MidnightBlue;
             this.BtnWaferData.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.BtnWaferData.Location = new System.Drawing.Point(150, 119);
+            this.BtnWaferData.Location = new System.Drawing.Point(150, 46);
             this.BtnWaferData.Name = "BtnWaferData";
             this.BtnWaferData.Size = new System.Drawing.Size(124, 67);
             this.BtnWaferData.TabIndex = 38;
@@ -333,21 +332,21 @@
             this.BtnModelData.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.BtnModelData.Click += new System.EventHandler(this.BtnModelData_Click);
             // 
-            // BtnCassetteData
+            // BtnWaferFrameData
             // 
-            this.BtnCassetteData.AutoEllipsis = true;
-            this.BtnCassetteData.BackColor = System.Drawing.SystemColors.Control;
-            this.BtnCassetteData.FlatAppearance.BorderSize = 5;
-            this.BtnCassetteData.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.BtnCassetteData.ForeColor = System.Drawing.Color.MidnightBlue;
-            this.BtnCassetteData.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.BtnCassetteData.Location = new System.Drawing.Point(20, 119);
-            this.BtnCassetteData.Name = "BtnCassetteData";
-            this.BtnCassetteData.Size = new System.Drawing.Size(124, 67);
-            this.BtnCassetteData.TabIndex = 36;
-            this.BtnCassetteData.Text = "Cassette Data";
-            this.BtnCassetteData.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.BtnCassetteData.Click += new System.EventHandler(this.BtnCassetteData_Click);
+            this.BtnWaferFrameData.AutoEllipsis = true;
+            this.BtnWaferFrameData.BackColor = System.Drawing.SystemColors.Control;
+            this.BtnWaferFrameData.FlatAppearance.BorderSize = 5;
+            this.BtnWaferFrameData.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.BtnWaferFrameData.ForeColor = System.Drawing.Color.MidnightBlue;
+            this.BtnWaferFrameData.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.BtnWaferFrameData.Location = new System.Drawing.Point(150, 263);
+            this.BtnWaferFrameData.Name = "BtnWaferFrameData";
+            this.BtnWaferFrameData.Size = new System.Drawing.Size(124, 67);
+            this.BtnWaferFrameData.TabIndex = 36;
+            this.BtnWaferFrameData.Text = "WaferFrame Data";
+            this.BtnWaferFrameData.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.BtnWaferFrameData.Click += new System.EventHandler(this.BtnWaferFrameData_Click);
             // 
             // BtnCleaner
             // 
@@ -392,7 +391,6 @@
             this.gradientPanel2.Controls.Add(this.BtnWaferData);
             this.gradientPanel2.Controls.Add(this.BtnCleaner);
             this.gradientPanel2.Controls.Add(this.BtnModelData);
-            this.gradientPanel2.Controls.Add(this.BtnCassetteData);
             this.gradientPanel2.Location = new System.Drawing.Point(40, 426);
             this.gradientPanel2.Name = "gradientPanel2";
             this.gradientPanel2.Size = new System.Drawing.Size(287, 347);
@@ -407,22 +405,6 @@
             this.autoLabel2.Size = new System.Drawing.Size(100, 16);
             this.autoLabel2.TabIndex = 30;
             this.autoLabel2.Text = "Model Data";
-            // 
-            // BtnUserList
-            // 
-            this.BtnUserList.AutoEllipsis = true;
-            this.BtnUserList.BackColor = System.Drawing.SystemColors.Control;
-            this.BtnUserList.FlatAppearance.BorderSize = 5;
-            this.BtnUserList.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.BtnUserList.ForeColor = System.Drawing.Color.MidnightBlue;
-            this.BtnUserList.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.BtnUserList.Location = new System.Drawing.Point(150, 120);
-            this.BtnUserList.Name = "BtnUserList";
-            this.BtnUserList.Size = new System.Drawing.Size(124, 67);
-            this.BtnUserList.TabIndex = 38;
-            this.BtnUserList.Text = "User List";
-            this.BtnUserList.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.BtnUserList.Click += new System.EventHandler(this.BtnUserList_Click);
             // 
             // FormDataScreen
             // 
@@ -460,7 +442,7 @@
         #endregion
 
         private Syncfusion.Windows.Forms.ButtonAdv BtnModelList;
-        private Syncfusion.Windows.Forms.ButtonAdv BtnWaferList;
+        private Syncfusion.Windows.Forms.ButtonAdv BtnWaferFrameList;
         private Syncfusion.Windows.Forms.ButtonAdv BtnScannerData;
         private Syncfusion.Windows.Forms.ButtonAdv BtnMotorData;
         private Syncfusion.Windows.Forms.ButtonAdv BtnCylinderData;
@@ -474,8 +456,7 @@
         private Syncfusion.Windows.Forms.Tools.AutoLabel autoLabel3;
         private Syncfusion.Windows.Forms.Tools.AutoLabel autoLabel4;
         private Syncfusion.Windows.Forms.Tools.GradientPanel gradientPanel4;
-        private Syncfusion.Windows.Forms.ButtonAdv BtnCassetteData;
-        private Syncfusion.Windows.Forms.ButtonAdv BtnCassetteList;
+        private Syncfusion.Windows.Forms.ButtonAdv BtnWaferFrameData;
         private Syncfusion.Windows.Forms.ButtonAdv BtnWaferData;
         private Syncfusion.Windows.Forms.ButtonAdv BtnModelData;
         private Syncfusion.Windows.Forms.ButtonAdv BtnCleaner;

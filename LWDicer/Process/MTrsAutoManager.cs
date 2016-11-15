@@ -13,8 +13,8 @@ using static LWDicer.Layers.DEF_Thread.EThreadMessage;
 using static LWDicer.Layers.DEF_Thread.EThreadChannel;
 using static LWDicer.Layers.DEF_Error;
 using static LWDicer.Layers.DEF_Common;
-using static LWDicer.Layers.DEF_LCNet;
 using static LWDicer.Layers.DEF_DataManager;
+using static LWDicer.Layers.DEF_OpPanel;
 using static LWDicer.Layers.DEF_CtrlOpPanel;
 using static LWDicer.Layers.DEF_TrsAutoManager;
 
@@ -311,11 +311,20 @@ namespace LWDicer.Layers
               Debug.WriteLine($"[{ToString()}] received message : {evnt.ToThreadMessage()}");
 
             // check message is valid
-            if (Enum.IsDefined(typeof(EThreadMessage), evnt.Msg) == false)
-                return SUCCESS;
+            //if(Enum.TryParse())
+            //if (Enum.IsDefined(typeof(EThreadMessage), evnt.Msg) == false)
+            //    return SUCCESS;
 
-            EThreadMessage cnvt = (EThreadMessage)Enum.Parse(typeof(EThreadMessage), evnt.Msg.ToString());
-            switch (cnvt)
+            EThreadMessage msg = EThreadMessage.NONE;
+            try
+            {
+                msg = (EThreadMessage)Enum.Parse(typeof(EThreadMessage), evnt.Msg.ToString());
+            }
+            catch (System.Exception ex)
+            {
+                Debug.WriteLine(ex);
+            }
+            switch (msg)
             {
                 case EThreadMessage.MSG_PROCESS_ALARM:
                     //if (AfxGetApp()->GetMainWnd() != NULL)
@@ -341,8 +350,7 @@ namespace LWDicer.Layers
                         //setVelocityMode(VELOCITY_MODE_SLOW);	// Manual일 때 느린 속도로 이동
 
                         SendMsgToMainWnd(WM_START_MANUAL_MSG);
-
-                        m_RefComp.ctrlOpPanel.SetAutoManual(EAutoManual.MANUAL);
+                        CMainFrame.LWDicer.SetAutoManual(EAutoManual.MANUAL);
                     }
                     break;
 
@@ -372,8 +380,7 @@ namespace LWDicer.Layers
                         m_bErrDispMode = false;
                         m_bBuzzerMode = false;
 
-                        m_RefComp.ctrlOpPanel.SetAutoManual(EAutoManual.AUTO);  // 2004.11.22 pys, Ready 상태에서 Door 열렸을 때 확실히 확인하기 위해 막음..
-
+                        CMainFrame.LWDicer.SetAutoManual(EAutoManual.AUTO);  // Ready 상태에서 Door 열렸을 때 확실히 확인하기 위해 막음..
                         SendMsgToMainWnd(WM_START_READY_MSG);
 
 #if SIMULATION_MOTION
@@ -392,14 +399,11 @@ namespace LWDicer.Layers
 
                         SetSystemStatus(EAutoRunStatus.STS_RUN);
 
-                        m_RefComp.ctrlOpPanel.SetAutoManual(EAutoManual.AUTO);
+                        CMainFrame.LWDicer.SetAutoManual(EAutoManual.AUTO);
 
                         SendMsgToMainWnd(WM_START_RUN_MSG);
-
                     }
-
                     break;
-
 
                 // MSG_STEP_STOP_CMD에 대한 Thread의 응답
                 case EThreadMessage.MSG_STEP_STOP_CNF: // STEP_STOP CMD에 대한 Thread들의 EAutoRunStatus.STS_STEP_STOP 확인 메세지
@@ -420,8 +424,6 @@ namespace LWDicer.Layers
                                                     //SetSystemStatus(EAutoRunStatus.STS_MANUAL);
                             BroadcastMsg(MSG_STEP_STOP_CMD);
                             SetSystemStatus(EAutoRunStatus.STS_STEP_STOP);
-
-
                         }
                     }
                     break;
@@ -461,6 +463,7 @@ namespace LWDicer.Layers
                 case EThreadMessage.MSG_ERROR_DISPLAY_END:
                     m_bErrDispMode = false;
                     break;
+
                 case EThreadMessage.MSG_OP_CALL_REQ:
                     m_bOpCallMode = true;
                     m_bBuzzerMode = true;
@@ -582,7 +585,7 @@ namespace LWDicer.Layers
                     //m_RefComp.m_pC_InterfaceCtrl.SendInterfaceOffMsg(NEXT_EQ, oLower_Alive);
 
                     ////kshong Door Interlock
-                    //m_RefComp.ctrlOpPanel.GetDoorSWStatus(out bStatus);
+                    //m_RefComp.ctrlOpPanel.CheckDoorSafety(out bStatus);
                     //if (bStatus)
                     //{
                     //    m_RefComp.m_pC_InterfaceCtrl.SendInterfaceOffMsg(PRE_EQ, oUpper_SI_DoorOpen); //B접
@@ -722,11 +725,22 @@ namespace LWDicer.Layers
 
         int ProcessOpPanel()
         {
+            int iResult = SUCCESS;
             bool bStatus;
-            int iResult;
 
+            ////////////////////////////////////////////////////////////////////////////////
+            // Motion쪽으로 door 상태나 estop 상태를 내려주는 역할
+            iResult = m_RefComp.ctrlOpPanel.CheckDoorSafety(out bStatus);
+            if (iResult != SUCCESS) m_RefComp.YMC.IsDoorOpened = true;
+            else m_RefComp.YMC.IsDoorOpened = false;
+
+            iResult = m_RefComp.ctrlOpPanel.CheckAreaSafety(out bStatus);
+            if (iResult != SUCCESS) m_RefComp.YMC.IsAreaDetected = true;
+            else m_RefComp.YMC.IsAreaDetected = false;
+
+            ////////////////////////////////////////////////////////////////////////////////
             // 장비 START Switch Check
-            iResult = m_RefComp.ctrlOpPanel.GetStartSWStatus(out bStatus);
+            iResult = m_RefComp.ctrlOpPanel.IsPanelSWDetected(ESwitch.START, out bStatus);
             if (iResult != SUCCESS) return iResult;
             if (bStatus)
             {
@@ -744,7 +758,7 @@ namespace LWDicer.Layers
             }
 
             // 장비 RESET Switch Check
-            iResult = m_RefComp.ctrlOpPanel.GetResetSWStatus(out bStatus);
+            iResult = m_RefComp.ctrlOpPanel.IsPanelSWDetected(ESwitch.RESET, out bStatus);
             if (iResult != SUCCESS) return iResult;
             if (bStatus)
             {
@@ -768,7 +782,7 @@ namespace LWDicer.Layers
             }
 
             // 장비 STEP_STOP Switch Check
-            iResult = m_RefComp.ctrlOpPanel.GetStopSWStatus(out bStatus);
+            iResult = m_RefComp.ctrlOpPanel.IsPanelSWDetected(ESwitch.STOP, out bStatus);
             if (iResult != SUCCESS) return iResult;
             if (bStatus)
             {
@@ -832,7 +846,7 @@ namespace LWDicer.Layers
             }
 
             // 장비 E_STOP Switch Check
-            iResult = m_RefComp.ctrlOpPanel.GetEStopSWStatus(out bStatus);
+            iResult = m_RefComp.ctrlOpPanel.IsPanelSWDetected(ESwitch.ESTOP, out bStatus);
             if (iResult != SUCCESS) return iResult;
             if (bStatus)
             {

@@ -197,6 +197,9 @@ namespace LWDicer.Layers
             public int OutClampOpen2    = IO_ADDR_NOT_DEFINED;
             public int OutClampClose2   = IO_ADDR_NOT_DEFINED;
 
+            // Vacuum
+            public bool[] UseVccFlag = new bool[(int)EStageVacuum.MAX];
+
             // Physical check zone sensor. 원점복귀 여부와 상관없이 축의 물리적인 위치를 체크 및
             // 안전위치 이동 check 
             public CMAxisZoneCheck StageZone;
@@ -227,21 +230,11 @@ namespace LWDicer.Layers
         private bool[] UseSubCylFlag    = new bool[WAFER_CLAMP_CYL_NUM];
         private bool[] UseGuideCylFlag  = new bool[WAFER_CLAMP_CYL_NUM];
 
-        // Vacuum
-        private bool[] UseVccFlag = new bool[(int)EStageVacuum.MAX];
-
-        MTickTimer m_waitTimer = new MTickTimer();
-
         public MMeStage(CObjectInfo objInfo, CMeStageRefComp refComp, CMeStageData data)
             : base(objInfo)
         {
             m_RefComp = refComp;
             SetData(data);
-
-            for (int i = 0; i < UseVccFlag.Length; i++)
-            {
-                UseVccFlag[i] = false;
-            }
         }
 
         // Data & Flag 설정
@@ -294,14 +287,6 @@ namespace LWDicer.Layers
             return AxStageInfo.GetTargetPos(index,withAlign);
         }
         
-        public int SetVccUseFlag(bool[] UseVccFlag = null)
-        {
-            if(UseVccFlag != null)
-            {
-                Array.Copy(UseVccFlag, this.UseVccFlag, UseVccFlag.Length);
-            }
-            return SUCCESS;
-        }
 
         public int SetCylUseFlag(bool[] UseMainCylFlag = null, bool[] UseSubCylFlag = null, bool[] UseGuideCylFlag = null)
         {
@@ -335,7 +320,7 @@ namespace LWDicer.Layers
 
             for (int i = 0; i < (int)EStageVacuum.MAX; i++)
             {
-                if (UseVccFlag[i] == false) continue;
+                if (m_Data.UseVccFlag[i] == false) continue;
 
                 m_RefComp.Vacuum[i].GetVacuumTime(out sData[i]);
                 iResult = m_RefComp.Vacuum[i].IsOn(out bStatus);
@@ -376,7 +361,7 @@ namespace LWDicer.Layers
                     else // if off
                     {
                         bNeedWait = true;
-                        if (m_waitTimer.MoreThan(sData[i].TurningTime * 1000))
+                        if (m_waitTimer.MoreThan(sData[i].TurningTime, ETimeType.SECOND))
                         {
                             return GenerateErrorCode(ERR_STAGE_VACUUM_ON_TIME_OUT);
                         }
@@ -398,7 +383,7 @@ namespace LWDicer.Layers
 
             for (int i = 0; i < (int)EStageVacuum.MAX; i++)
             {
-                if (UseVccFlag[i] == false) continue;
+                if (m_Data.UseVccFlag[i] == false) continue;
 
                 m_RefComp.Vacuum[i].GetVacuumTime(out sData[i]);
                 iResult = m_RefComp.Vacuum[i].IsOff(out bStatus);
@@ -438,7 +423,7 @@ namespace LWDicer.Layers
                     else // if off
                     {
                         bNeedWait = true;
-                        if (m_waitTimer.MoreThan(sData[i].TurningTime * 1000))
+                        if (m_waitTimer.MoreThan(sData[i].TurningTime, ETimeType.SECOND))
                         {
                             return GenerateErrorCode(ERR_STAGE_VACUUM_OFF_TIME_OUT);
                         }
@@ -458,7 +443,7 @@ namespace LWDicer.Layers
 
             for (int i = 0; i < (int)EStageVacuum.MAX; i++)
             {
-                if (UseVccFlag[i] == false) continue;
+                if (m_Data.UseVccFlag[i] == false) continue;
 
                 iResult = m_RefComp.Vacuum[i].IsOn(out bTemp);
                 if (iResult != SUCCESS) return iResult;
@@ -478,7 +463,7 @@ namespace LWDicer.Layers
 
             for (int i = 0; i < (int)EStageVacuum.MAX; i++)
             {
-                if (UseVccFlag[i] == false) continue;
+                if (m_Data.UseVccFlag[i] == false) continue;
 
                 iResult = m_RefComp.Vacuum[i].IsOff(out bTemp);
                 if (iResult != SUCCESS) return iResult;
@@ -776,7 +761,7 @@ namespace LWDicer.Layers
         /// <returns></returns>
         public int MoveStageIndexPlusX(bool bTurn=false)
         {
-            int iResult;
+            int iResult = SUCCESS;
             double moveDistance;
             if (bTurn == false)
                 moveDistance = CMainFrame.DataManager.SystemData_Align.DieIndexWidth;
@@ -790,7 +775,7 @@ namespace LWDicer.Layers
 
         public int MoveStageIndexPlusY(bool bTurn = false)
         {
-            int iResult;
+            int iResult = SUCCESS;
             double moveDistance;
             if (bTurn == false)
                 moveDistance = CMainFrame.DataManager.SystemData_Align.DieIndexHeight;
@@ -813,7 +798,7 @@ namespace LWDicer.Layers
 
         public int MoveStageIndexMinusX(bool bTurn=false)
         {
-            int iResult;
+            int iResult = SUCCESS;
             double moveDistance;
             if (bTurn == false)
                 moveDistance = CMainFrame.DataManager.SystemData_Align.DieIndexWidth;
@@ -827,7 +812,7 @@ namespace LWDicer.Layers
 
         public int MoveStageIndexMinusY(bool bTurn=false)
         {
-            int iResult;
+            int iResult = SUCCESS;
             double moveDistance;
             if (bTurn == false)
                 moveDistance = CMainFrame.DataManager.SystemData_Align.DieIndexHeight;
@@ -2029,7 +2014,7 @@ namespace LWDicer.Layers
         
         public int SetAlignData(CPos_XYTZ offset)
         {
-            //int iResult;
+            //int iResult = SUCCESS;
             var curPos = new CPos_XYTZ();
 
             // 현재 Align Offset 값을 읽어옴
@@ -2045,7 +2030,7 @@ namespace LWDicer.Layers
 
         public int GetAlignData(out CPos_XYTZ alignData)
         {
-            //int iResult;
+            //int iResult = SUCCESS;
             var offset = new CPos_XYTZ();
 
             // AlignOffet 적용
@@ -2226,7 +2211,7 @@ namespace LWDicer.Layers
         /// Cylinder
         public int IsCylUp(out bool bStatus, int index = DEF_Z)
         {
-            int iResult;
+            int iResult = SUCCESS;
             bStatus = false;
 
             if (UseMainCylFlag[index] == true)
@@ -2242,7 +2227,7 @@ namespace LWDicer.Layers
 
         public int IsCylDown(out bool bStatus, int index = DEF_Z)
         {
-            int iResult;
+            int iResult = SUCCESS;
             bStatus = false;
 
             if (UseMainCylFlag[index] == true)
@@ -2401,7 +2386,7 @@ namespace LWDicer.Layers
         {
             bStatus = false;
             int curZone;
-            int iResult;
+            int iResult = SUCCESS;
 
             // X축 확인
             iResult = GetStageAxZone(DEF_X, out curZone);

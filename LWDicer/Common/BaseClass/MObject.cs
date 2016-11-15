@@ -7,6 +7,7 @@ using System.Diagnostics;
 
 using static LWDicer.Layers.DEF_Common;
 using static LWDicer.Layers.DEF_Error;
+using static LWDicer.Layers.DEF_Common.ETimeType;
 
 namespace LWDicer.Layers
 {
@@ -18,6 +19,8 @@ namespace LWDicer.Layers
 
         public int ErrorCode { get; private set; }          // Error Code
         public static string ErrorSubMsg { get; protected set; }   // for Error Message by Hardware Library was generated
+
+        protected MTickTimer m_waitTimer = new MTickTimer();
 
         public MObject(CObjectInfo ObjInfo)
         {
@@ -65,11 +68,40 @@ namespace LWDicer.Layers
             LogManager.WriteLog(strLog, logType, writeType, ShowOutputWindow, skipFrames);
         }
 
-        public void Sleep<T>(T millisec)
+        public void Sleep<T>(T gap, ETimeType type = ETimeType.MILLISECOND)
         {
             try
             {
-                int time = Convert.ToInt32(millisec);
+                int time = Convert.ToInt32(gap);
+                if (time <= 0) return;
+                switch (type)
+                {
+                    case NANOSECOND:
+                        time /= (1000 * 1000);
+                        break;
+
+                    case MICROSECOND:
+                        time /= 1000;
+                        break;
+
+                    case MILLISECOND:
+                        break;
+
+                    case SECOND:
+                        time *= 1000;
+                        break;
+
+                    case MINUTE:
+                        time *= (1000 * 60);
+                        break;
+
+                    case HOUR:
+                        time *= (1000 * 60 * 60);
+                        break;
+                }
+
+                //int time = Convert.ToInt32(millisec);
+                if (time <= 0) return;
                 Thread.Sleep(time);
             }catch (Exception ex)
             {

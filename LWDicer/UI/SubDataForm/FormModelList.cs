@@ -53,20 +53,6 @@ namespace LWDicer.UI
 
                     break;
 
-                case EListHeaderType.CASSETTE:
-                    HeaderList = CMainFrame.DataManager.CassetteHeaderList;
-                    CurrentUsing_ModelName = CMainFrame.DataManager.ModelData.CassetteName;
-                    DisplayTypeName = "Wafer Cassette";
-                    this.Text = "Wafer Cassette Data";
-
-                    TitleCurModel.Text = "current Cassette";
-                    LabelMaker.Text = "Cassette Folder";
-                    LabelModel.Text = "Cassette List";
-
-                    BtnModelSelect.Visible = false;
-
-                    break;
-
                 case EListHeaderType.WAFERFRAME:
                     HeaderList = CMainFrame.DataManager.WaferFrameHeaderList;
                     CurrentUsing_ModelName = CMainFrame.DataManager.ModelData.WaferFrameName;
@@ -104,27 +90,7 @@ namespace LWDicer.UI
 
             InitMakerTreeView();
 
-            InitGrid(0);
-
             m_node = new TreeNode(NAME_ROOT_FOLDER);
-
-            string strMaker, strName;
-
-            // Model List에 등록되어 있는 Model이 없으면 Return
-            if (HeaderList.Count == 0)
-            {
-                return;
-            }
-
-            UpdateMakerNode();
-
-            // 등록되어 있는 Maker가 Root 하나이면 Root Folder 생성 
-            if (MakerTreeView.Nodes.Count == 0)
-            {
-                MakerTreeView.Nodes.Add(m_node);
-            }
-
-            UpdateModelData();
         }
 
 
@@ -138,8 +104,6 @@ namespace LWDicer.UI
 
         private void InitGrid(int nRowCount)
         {
-            int i = 0, j = 0, nCol = 0, nRow = 0;
-
             // Cell Click 시 커서가 생성되지 않게함.
             GridCtrl.ActivateCurrentCellBehavior = GridCellActivateAction.None;
 
@@ -147,16 +111,17 @@ namespace LWDicer.UI
             GridCtrl.Properties.RowHeaders = false;
             GridCtrl.Properties.ColHeaders = false;
 
-            nCol = 1;
-            nRow = nRowCount;
+            int nCol = 2;
+            int nRow = nRowCount;
 
             // Column,Row 개수
             GridCtrl.ColCount = nCol;
             GridCtrl.RowCount = nRow;
 
-            GridCtrl.ColWidths.SetSize(1, 560);
+            GridCtrl.ColWidths.SetSize(1, 300);
+            GridCtrl.ColWidths.SetSize(2, 330);
 
-            for (i = 0; i < nRow + 1; i++)
+            for (int i = 0; i < nRow + 1; i++)
             {
                 GridCtrl.RowHeights[i] = 40;
             }
@@ -168,13 +133,12 @@ namespace LWDicer.UI
             //GridModelList.VScrollBehavior = GridScrollbarMode.Disabled;
             GridCtrl.HScrollBehavior = GridScrollbarMode.Disabled;
 
-            for (i = 0; i < nCol + 1; i++)
+            for (int i = 0; i < nCol + 1; i++)
             {
-                for (j = 0; j < nRow + 1; j++)
+                for (int j = 0; j < nRow + 1; j++)
                 {
                     // Font Style - Bold
                     GridCtrl[j, i].Font.Bold = true;
-
                     GridCtrl[j, i].VerticalAlignment = GridVerticalAlignment.Middle;
                     GridCtrl[j, i].HorizontalAlignment = GridHorizontalAlignment.Center;
                 }
@@ -244,12 +208,6 @@ namespace LWDicer.UI
             {
                 case EListHeaderType.MODEL:
                     if (!CMainFrame.InquireMsg("Create new maker?"))
-                    {
-                        return;
-                    }
-                    break;
-                case EListHeaderType.CASSETTE:
-                    if (!CMainFrame.InquireMsg("Make new folder?"))
                     {
                         return;
                     }
@@ -414,13 +372,8 @@ namespace LWDicer.UI
                     modelData.Name = header.Name;
                     CMainFrame.LWDicer.SaveModelData(modelData);
                     break;
-                case EListHeaderType.CASSETTE:
-                    CWaferCassette cassetteData = ObjectExtensions.Copy(CMainFrame.DataManager.CassetteData);
-                    cassetteData.Name = header.Name;
-                    CMainFrame.LWDicer.SaveModelData(cassetteData);
-                    break;
                 case EListHeaderType.WAFERFRAME:
-                    CWaferFrame waferFrameData = ObjectExtensions.Copy(CMainFrame.DataManager.WaferFrameData);
+                    CWaferFrameData waferFrameData = ObjectExtensions.Copy(CMainFrame.DataManager.WaferFrameData);
                     waferFrameData.Name = header.Name;
                     CMainFrame.LWDicer.SaveModelData(waferFrameData);
                     break;
@@ -483,7 +436,7 @@ namespace LWDicer.UI
                 return;
             }
 
-            if (!CMainFrame.InquireMsg($"Change selected model?"))
+            if (!CMainFrame.InquireMsg($"Change to selected model?"))
             {
                 return;
             }
@@ -495,9 +448,6 @@ namespace LWDicer.UI
             {
                 case EListHeaderType.MODEL:
                     iResult = CMainFrame.DataManager.ChangeModel(strSelModelName);
-                    break;
-                case EListHeaderType.CASSETTE:
-                    iResult = CMainFrame.DataManager.LoadCassetteData(strSelModelName);
                     break;
                 case EListHeaderType.WAFERFRAME:
                     iResult = CMainFrame.DataManager.LoadWaferFrameData(strSelModelName);
@@ -560,7 +510,8 @@ namespace LWDicer.UI
                 {
                     if (header.IsFolder == false) // Model Data
                     {
-                        GridCtrl[index+1, 1].Text = header.Name;
+                        GridCtrl[index + 1, 1].Text = header.Name;
+                        GridCtrl[index + 1, 2].Text = header.Comment;
                         index++;
                     }
                 }

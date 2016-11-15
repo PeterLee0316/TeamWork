@@ -16,27 +16,32 @@ namespace LWDicer.UI
 {
     public partial class FormModelData : Form
     {
-        private string strCassette;
-
-        private CModelData modelData;
+        private CModelData m_ModelData;
 
         public FormModelData()
         {
             InitializeComponent();
 
-            modelData = ObjectExtensions.Copy(CMainFrame.DataManager.ModelData);
+            m_ModelData = ObjectExtensions.Copy(CMainFrame.DataManager.ModelData);
 
-            foreach (CListHeader info in CMainFrame.DataManager.CassetteHeaderList)
+            foreach (CListHeader info in CMainFrame.DataManager.WaferFrameHeaderList)
             {
                 if (info.IsFolder == false)
                 {
-                    ComboCassette.Items.Add(info.Name);
+                    ComboWaferFrame.Items.Add(info.Name);
                 }
             }
 
-            ComboCassette.SelectedIndex = ComboCassette.Items.IndexOf(modelData.CassetteName);
+            try
+            {
+                ComboWaferFrame.SelectedIndex = ComboWaferFrame.Items.IndexOf(m_ModelData.WaferFrameName);
+            }
+            catch (System.Exception ex)
+            {
+                ComboWaferFrame.SelectedIndex = -1;
+            }
 
-            this.Text = $"Model Data [ Current Model : {modelData.Name} ]";
+            this.Text = $"Model Data [ Current Model : {m_ModelData.Name} ]";
         }
 
         private void FormModelData_FormClosing(object sender, FormClosingEventArgs e)
@@ -45,14 +50,14 @@ namespace LWDicer.UI
 
         private void BtnSave_Click(object sender, EventArgs e)
         {
-            if (!CMainFrame.InquireMsg("Save Data?"))
+            if (!CMainFrame.InquireMsg("Save data?"))
             {
                 return;
             }
 
-            modelData.CassetteName = strCassette;
+            m_ModelData.WaferFrameName = ComboWaferFrame.Text;
 
-            CMainFrame.LWDicer.SaveModelData(modelData);
+            CMainFrame.LWDicer.SaveModelData(m_ModelData);
         }
 
         private void BtnExit_Click(object sender, EventArgs e)
@@ -60,11 +65,5 @@ namespace LWDicer.UI
             this.Close();
         }
 
-        private void ComboCassette_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            ComboBox ComboCassette = (ComboBox)sender;
-
-            strCassette = ComboCassette.Text;
-        }
     }
 }

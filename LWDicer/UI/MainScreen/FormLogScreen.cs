@@ -86,7 +86,7 @@ namespace LWDicer.UI
 
         private void InitGrid()
         {
-            int i = 0, j = 0, nCol = 0, nRow = 0;
+            int nCol = 0, nRow = 0;
 
             // Cell Click 시 커서가 생성되지 않게함.
             GridCont.ActivateCurrentCellBehavior = GridCellActivateAction.None;
@@ -116,7 +116,7 @@ namespace LWDicer.UI
                     GridCont.ColWidths.SetSize(7, 400);   // 내용
                     GridCont.ColWidths.SetSize(8, 55);   // pid
 
-                    for (i = 0; i < nRow + 1; i++)
+                    for (int i = 0; i < nRow + 1; i++)
                     {
                         GridCont.RowHeights[i] = 30;
                     }
@@ -151,7 +151,7 @@ namespace LWDicer.UI
                     GridCont.ColWidths.SetSize(5, 140);   // File  
                     GridCont.ColWidths.SetSize(6, 75);   // Line  
 
-                    for (i = 0; i < nRow + 1; i++)
+                    for (int i = 0; i < nRow + 1; i++)
                     {
                         GridCont.RowHeights[i] = 30;
                     }
@@ -182,7 +182,7 @@ namespace LWDicer.UI
                     GridCont.ColWidths.SetSize(4, 160);  // Comment
                     GridCont.ColWidths.SetSize(5, 160);   // group
 
-                    for (i = 0; i < nRow + 1; i++)
+                    for (int i = 0; i < nRow + 1; i++)
                     {
                         GridCont.RowHeights[i] = 30;
                     }
@@ -197,9 +197,9 @@ namespace LWDicer.UI
                     break;
             }
 
-            for (i = 0; i < nCol + 1; i++)
+            for (int i = 0; i < nCol + 1; i++)
             {
-                for (j = 0; j < nRow + 1; j++)
+                for (int j = 0; j < nRow + 1; j++)
                 {
                     // Font Style - Bold
                     GridCont[j, i].Font.Bold = true;
@@ -293,7 +293,7 @@ namespace LWDicer.UI
 
             nTotalPage = datatable.Rows.Count / GridCont.RowCount;
 
-            for(int i=0;i< GridCont.RowCount;i++)
+            for(int i=0;i< GridCont.RowCount; i++)
             {
                 int nIndex = i + (nPageNo * GridCont.RowCount);
 

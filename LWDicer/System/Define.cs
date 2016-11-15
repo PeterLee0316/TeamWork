@@ -13,7 +13,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Configuration;
-
+using System.Diagnostics;
 
 namespace LWDicer.Layers
 {
@@ -293,32 +293,6 @@ namespace LWDicer.Layers
             MAX,
         }
 
-        public enum EExcel_Sheet
-        {
-            Skip = -1,
-            PARA_Info,
-            Alarm_Info,
-            IO_Info,
-            Motor_Data,
-            Message_Info,
-            MAX,
-        }
-
-        public enum EAlarm_Column
-        {
-            Index,
-            Type,
-            DescKor,
-            DescEng,
-            DescChn,
-            DescJpn,
-            SoluKor,
-            SoluEng,
-            SoluChn,
-            SoluJpn,
-            MAX,
-        }
-
         //public const int FixedData = 0;
         //public const int OffsetData = 1;
 
@@ -329,10 +303,16 @@ namespace LWDicer.Layers
         public const int DEF_GHEAD2 = 3;
         public const int DEF_MAX_HEAD_NO = 4;
 
-        // 도포 Tank 정의
-        public const int DEF_TANK_1 = 0;
-        public const int DEF_TANK_2 = 1;
-        public const int DEF_MAX_TANK_NO = 2;
+        // Coating Material Tank 정의
+        //public const int DEF_TANK_1 = 0;
+        //public const int DEF_TANK_2 = 1;
+        //public const int DEF_MAX_TANK_NO = 2;
+        public enum ECoatTank
+        {
+            TANK_1,
+            TANK_2,
+            MAX,
+        }
 
         // Command에 쓰이는 용도, 위의 Head정의와 겹치면 안된다.
         public const int DEF_HEAD_ALL = -1;    // Command to All Head
@@ -591,6 +571,17 @@ namespace LWDicer.Layers
         public const int JOG_KEY_NEG = 2;
         public const int JOG_KEY_ALL = 3;
 
+        // TimeType
+        public enum ETimeType
+        {
+            NANOSECOND,
+            MICROSECOND,
+            MILLISECOND,
+            SECOND,
+            MINUTE,
+            HOUR,
+        }
+
         // Language
         public enum ELanguage
         {
@@ -768,6 +759,32 @@ namespace LWDicer.Layers
         //    STactLogItem logItemView[DEF_MLOG_NUM_VIEW_DISPLAY_LOG];
         //}
 
+        public enum EInfoExcel_Sheet
+        {
+            NONE = -1,
+            PARAMETER,
+            ALARM,
+            IO,
+            MOTOR,
+            MESSAGE,
+            MAX,
+        }
+
+        public enum EAlarm_Column
+        {
+            Index,
+            Type,
+            DescKor,
+            DescEng,
+            DescChn,
+            DescJpn,
+            SoluKor,
+            SoluEng,
+            SoluChn,
+            SoluJpn,
+            MAX,
+        }
+
         public class CDBInfo
         {
             /////////////////////////////////////////////////////////////////////
@@ -797,8 +814,6 @@ namespace LWDicer.Layers
 
             public string TableModelHeader      { get; private set; } // Model and Parent directory Header
             public string TableModel            { get; private set; } // Model Data
-            public string TableCassetteHeader   { get; private set; } // Model and Parent directory Header
-            public string TableCassette         { get; private set; } // Cassette Data
             public string TableWaferFrameHeader { get; private set; } // Model and Parent directory Header
             public string TableWaferFrame       { get; private set; } // WaferFrame Data
             public string TablePos              { get; private set; } // Position Data
@@ -824,9 +839,10 @@ namespace LWDicer.Layers
 
             /////////////////////////////////////////////////////////////////////
             // Excel
-            public string ExcelIOList       { get; private set; } // Excel File IO List
-            public string ExcelSystemData   { get; private set; } // Excel System Data List
-            public string ExcelSystemPara   { get; private set; } // Excel System Parameter List
+            public string ExcelName_Ext       { get; private set; } // Extension
+            //public string ExcelName_IOList { get; private set; } // Excel File IO List
+            //public string ExcelName_SystemData   { get; private set; } // Excel System Data List
+            public string ExcelName_SystemPara   { get; private set; } // Excel System Parameter List
 
             public CDBInfo()
             {
@@ -846,8 +862,6 @@ namespace LWDicer.Layers
 
                 TableModelHeader        = "ModelHeader";
                 TableModel              = "ModelDB";
-                TableCassetteHeader     = "CassetteHeader";
-                TableCassette           = "CassetteDB";
                 TableWaferFrameHeader   = "WaferFrameHeader";
                 TableWaferFrame         = "WaferFrameDB";
                 TablePos                = "PositionDB";
@@ -869,17 +883,18 @@ namespace LWDicer.Layers
                 TableDebugLog           = "DLog";
                 TableEventLog           = "ELog";
 
-                ExcelIOList             = "LWDicer_IO_List.xlsx";
-                ExcelSystemData         = "SystemData.xlsx";
-                ExcelSystemPara         = "SystemParaData.xlsx";
+                ExcelName_Ext                = ".xlsx";
+                //ExcelName_IOList             = "IOList";
+                //ExcelName_SystemData         = "SystemData";
+                ExcelName_SystemPara         = "SystemParaData";
 
                 // Model Dir
-                SystemDir       = ConfigurationManager.AppSettings["AppFilePath"] + @"\SystemData\";
-                ModelDir        = ConfigurationManager.AppSettings["AppFilePath"] + @"\ModelData\";
-                ScannerLogDir   = ConfigurationManager.AppSettings["AppFilePath"] + @"\ScannerLog\";
+                SystemDir       = ConfigurationManager.AppSettings["AppFilePath"] + @"SystemData\";
+                ModelDir        = ConfigurationManager.AppSettings["AppFilePath"] + @"ModelData\";
+                ScannerLogDir   = ConfigurationManager.AppSettings["AppFilePath"] + @"ScannerLog\";
                 ScannerDataDir  = ConfigurationManager.AppSettings["AppFilePath"] + @"ScannerData\";
-                ImageLogDir     = ConfigurationManager.AppSettings["AppFilePath"] + @"\ImageLog\";
-                ImageDataDir = ConfigurationManager.AppSettings["AppFilePath"] + @"\ImageData\";
+                ImageLogDir     = ConfigurationManager.AppSettings["AppFilePath"] + @"ImageLog\";
+                ImageDataDir = ConfigurationManager.AppSettings["AppFilePath"] + @"ImageData\";
 
                 System.IO.Directory.CreateDirectory(DBDir);
                 System.IO.Directory.CreateDirectory(DBDir_Log);
@@ -889,6 +904,18 @@ namespace LWDicer.Layers
                 System.IO.Directory.CreateDirectory(ScannerDataDir);
                 System.IO.Directory.CreateDirectory(ImageLogDir);
                 System.IO.Directory.CreateDirectory(ImageDataDir);
+            }
+
+            public string GetExcelParaName_New()
+            {
+                string str = SystemDir + ExcelName_SystemPara + DateTime.Now.ToString("_yyyyMMdd_HHmmss") + ExcelName_Ext;
+                return str;
+            }
+
+            public string GetExcelParaName_Default()
+            {
+                string str = SystemDir + ExcelName_SystemPara + ExcelName_Ext;
+                return str;
             }
         }
 
@@ -1358,6 +1385,7 @@ namespace LWDicer.Layers
         /// </summary>
         public enum EProcessPhase
         {
+            NONE = -1,
             PUSHPULL_LOAD_FROM_LOADER,      // = 0
 
             PUSHPULL_UNLOAD_TO_COATER,
@@ -1507,7 +1535,16 @@ namespace LWDicer.Layers
                 {
                     if (Process[i].IsFinished == false)
                     {
-                        EProcessPhase cnvt = (EProcessPhase)Enum.Parse(typeof(EProcessPhase), i.ToString());
+                        EProcessPhase cnvt = EProcessPhase.NONE;
+                        try
+                        {
+                            cnvt = (EProcessPhase)Enum.Parse(typeof(EProcessPhase), i.ToString());
+                        }
+                        catch (System.Exception ex)
+                        {
+                            Debug.WriteLine(ex);
+                        }
+
                         return cnvt;
                     }
                 }
@@ -1559,7 +1596,8 @@ namespace LWDicer.Layers
         /// </summary>
         public enum EThreadChannel
         {
-            TrsSelfChannel       = 0,
+            NONE = -1,
+            TrsSelfChannel = 0,
             TrsAutoManager       ,
             TrsLoader            ,
             TrsPushPull          ,
@@ -1580,6 +1618,7 @@ namespace LWDicer.Layers
         /// </summary>
         public enum EThreadUnit
         {
+            NONE = -1,
             AUTOMANAGER,    // automanager는 실제로 일은 하지 않지만 연관되는 것들때문에..
             LOADER,
             SPINNER1,
@@ -1620,7 +1659,7 @@ namespace LWDicer.Layers
         public class CThreadInterface
         {
             // Common
-            public int TimeLimit = 3000 * 1000;       // millisecond, interface time limit
+            public int TimeLimit = 15;            // second, interface time limit
             public int TimeKeepOn = 1 * 1000;       // millisecond, interface에서 마지막 신호의 유지 시간
 
             // handshake 도중에 상대편에게서 에러가 발생했을때 굳이 interface time limit까지 기다리지 않고 바로 나가기 위해서
@@ -1743,8 +1782,16 @@ namespace LWDicer.Layers
                 ErrorOccured[selfAddr] = false;
                 TimeOver[selfAddr] = false;
 
-                EThreadUnit cnvt = (EThreadUnit)Enum.Parse(typeof(EThreadUnit), selfAddr.ToString());
-                switch(cnvt)
+                EThreadUnit cnvt = EThreadUnit.NONE;
+                try
+                {
+                    cnvt = (EThreadUnit)Enum.Parse(typeof(EThreadUnit), selfAddr.ToString());
+                }
+                catch (System.Exception ex)
+                {
+                    Debug.WriteLine(ex);
+                }
+                switch (cnvt)
                 {
                     case EThreadUnit.AUTOMANAGER:
                         break ;
@@ -1879,6 +1926,7 @@ namespace LWDicer.Layers
         // Common Thread Message inter Threads
         public enum EThreadMessage
         {
+            NONE = -1,
             // _CNF command는 _CMD command에 대한 response 임
             MSG_MANUAL_CMD = 10,                 // 수동 모드로의 전환
             MSG_MANUAL_CNF,                      // 
@@ -2008,6 +2056,8 @@ namespace LWDicer.Layers
 
         public enum EWindowMessage
         {
+            NONE = -1,
+
             // message from control class to GUI
             WM_SW_STATUS,
             WM_AUTO_STATUS,
@@ -2367,7 +2417,7 @@ namespace LWDicer.Layers
         public const int ERR_MNGOPPANEL_MAIN_N2_ERROR                             = 26;
         public const int ERR_MNGOPPANEL_CLEANER_DETECT1_ERROR                     = 27;
         public const int ERR_MNGOPPANEL_CLEANER_DETECT2_ERROR                     = 28;
-        public const int ERR_MNGOPPANEL_FRONT_BACK_AREA_SENSOR_DETECTED_ERROR     = 29;
+        public const int ERR_MNGOPPANEL_AREA_SENSOR_DETECTED_ERROR                = 29;
         public const int ERR_MNGOPPANEL_TANK_AREA_SENSOR_DETECTED_ERROR           = 30;
         public const int ERR_MNGOPPANEL_EFD_READY_ON_ERROR                        = 31;
         public const int ERR_MNGOPPANEL_DC_POWER_ON_ERROR                         = 32;
@@ -2384,6 +2434,9 @@ namespace LWDicer.Layers
         public const int ERR_OPPANEL_INVALID_INIT_UNIT_INDEX                      = 6;
         public const int ERR_OPPANEL_INVALID_SERVO_UNIT_INDEX                     = 7;
         public const int ERR_OPPANEL_AMP_FAULT                                    = 8;
+        public const int ERR_OPPANEL_DOOR_ADDRESS_NOT_DEFINED                     = 9;
+        public const int ERR_OPPANEL_INVALID_DOOR_GROUP                           = 10;
+        public const int ERR_OPPANEL_INVALID_DOOR_INDEX                           = 11;
 
         ////////////////////////////////////////////////////////////////////
         // Hardware Layer

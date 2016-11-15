@@ -110,24 +110,18 @@ namespace LWDicer.Layers
             public CMAxisZoneCheck CoatNozzleZoneCheck = new CMAxisZoneCheck((int)ENozzleAxZone.MAX, (int)ENozzleAxZone.MAX,
             (int)ENozzleAxZone.MAX, (int)ENozzleAxZone.MAX);
 
+            // Vacuum
+            public bool[] UseVccFlag = new bool[(int)EChuckVacuum.MAX];
+
             // Safety Position
             public CPos_XYTZ CleanNozzleSafetyPos;
             public CPos_XYTZ CoatNozzleSafetyPos;
 
-            public CMeSpinnerData(ESpinnerType[] SpinnerType = null)
+            public CMeSpinnerData()
             {
-                if (SpinnerType == null)
-                {
-                    for (int i = 0; i < this.SpinnerType.Length; i++)
-                    {
-                        this.SpinnerType[i] = ESpinnerType.NONE;
-                    }
-                }
-                else
-                {
-                    Array.Copy(SpinnerType, this.SpinnerType, SpinnerType.Length);
-                }
 
+                ArrayExtensions.Init(SpinnerType, ESpinnerType.NONE);
+                ArrayExtensions.Init(UseVccFlag, false);
             }
         }
     }
@@ -141,23 +135,12 @@ namespace LWDicer.Layers
         public CMovingObject AxCleanNozzleInfo { get; private set; } = new CMovingObject((int)ENozzlePos.MAX);
         public CMovingObject AxCoatNozzleInfo { get; private set; } = new CMovingObject((int)ENozzlePos.MAX);
 
-        // Vacuum
-        private bool[] UseVccFlag = new bool[(int)EChuckVacuum.MAX];
-
-        MTickTimer m_waitTimer = new MTickTimer();
-
         public MMeSpinner(CObjectInfo objInfo, CMeSpinnerRefComp refComp, CMeSpinnerData data)
             : base(objInfo)
         {
             m_RefComp = refComp;
 
             SetData(data);
-
-            for (int i = 0; i < UseVccFlag.Length; i++)
-            {
-                UseVccFlag[i] = false;
-            }
-
         }
 
         #region Common : Manage Data, Position, Use Flag and Initialize
@@ -192,14 +175,6 @@ namespace LWDicer.Layers
             return SUCCESS;
         }
 
-        public int SetVccUseFlag(bool[] UseVccFlag = null)
-        {
-            if (UseVccFlag != null)
-            {
-                Array.Copy(UseVccFlag, this.UseVccFlag, UseVccFlag.Length);
-            }
-            return SUCCESS;
-        }
         #endregion
 
         #region Cylinder, Vacuum, Detect Object
@@ -213,7 +188,7 @@ namespace LWDicer.Layers
 
             for (int i = 0; i < (int)EChuckVacuum.MAX; i++)
             {
-                if (UseVccFlag[i] == false) continue;
+                if (m_Data.UseVccFlag[i] == false) continue;
 
                 m_RefComp.Vacuum[i].GetVacuumTime(out sData[i]);
                 iResult = m_RefComp.Vacuum[i].IsOn(out bStatus);
@@ -254,7 +229,7 @@ namespace LWDicer.Layers
                     else // if off
                     {
                         bNeedWait = true;
-                        if (m_waitTimer.MoreThan(sData[i].TurningTime * 1000))
+                        if (m_waitTimer.MoreThan(sData[i].TurningTime, ETimeType.SECOND))
                         {
                             return GenerateErrorCode(ERR_SPINNER_VACUUM_ON_TIME_OUT);
                         }
@@ -276,7 +251,7 @@ namespace LWDicer.Layers
 
             for (int i = 0; i < (int)EChuckVacuum.MAX; i++)
             {
-                if (UseVccFlag[i] == false) continue;
+                if (m_Data.UseVccFlag[i] == false) continue;
 
                 m_RefComp.Vacuum[i].GetVacuumTime(out sData[i]);
                 iResult = m_RefComp.Vacuum[i].IsOff(out bStatus);
@@ -316,7 +291,7 @@ namespace LWDicer.Layers
                     else // if off
                     {
                         bNeedWait = true;
-                        if (m_waitTimer.MoreThan(sData[i].TurningTime * 1000))
+                        if (m_waitTimer.MoreThan(sData[i].TurningTime, ETimeType.SECOND))
                         {
                             return GenerateErrorCode(ERR_SPINNER_VACUUM_OFF_TIME_OUT);
                         }
@@ -336,7 +311,7 @@ namespace LWDicer.Layers
 
             for (int i = 0; i < (int)EChuckVacuum.MAX; i++)
             {
-                if (UseVccFlag[i] == false) continue;
+                if (m_Data.UseVccFlag[i] == false) continue;
 
                 iResult = m_RefComp.Vacuum[i].IsOn(out bTemp);
                 if (iResult != SUCCESS) return iResult;
@@ -356,7 +331,7 @@ namespace LWDicer.Layers
 
             for (int i = 0; i < (int)EChuckVacuum.MAX; i++)
             {
-                if (UseVccFlag[i] == false) continue;
+                if (m_Data.UseVccFlag[i] == false) continue;
 
                 iResult = m_RefComp.Vacuum[i].IsOff(out bTemp);
                 if (iResult != SUCCESS) return iResult;

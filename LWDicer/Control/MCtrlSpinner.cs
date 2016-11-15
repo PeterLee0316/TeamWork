@@ -32,6 +32,7 @@ namespace LWDicer.Layers
         /// </summary>
         public enum ECleanOperation
         {
+            NONE = -1,
             NO_USE,
             WAIT,
             PRE_WASH,
@@ -46,6 +47,7 @@ namespace LWDicer.Layers
         /// </summary>
         public enum ECoatOperation
         {
+            NONE = -1,
             NO_USE,
             WAIT,
             PRE_WASH,
@@ -92,6 +94,18 @@ namespace LWDicer.Layers
                 Use = true;     // 기본적으로는 Use는 사용으로, Operation은 No_Use
                 Operation = ECoatOperation.NO_USE;
             }
+
+            public override string ToString()
+            {
+                return $"Operation : {Operation}, Use : {Use}, OpTime : {OpTime:0.0}, RPMSpeed : {RPMSpeed}";
+            }
+
+            public bool IsUseStep()
+            {
+                if (this.Use == false || this.Operation == ECoatOperation.NO_USE || this.OpTime <= 0)
+                    return false;
+                return true;
+            }
         }
 
         public class CCoaterData
@@ -136,6 +150,18 @@ namespace LWDicer.Layers
             {
                 Use = true;     // 기본적으로는 Use는 사용으로, Operation은 No_Use
                 Operation = ECleanOperation.NO_USE;
+            }
+
+            public override string ToString()
+            {
+                return $"Operation : {Operation}, Use : {Use}, OpTime : {OpTime:0.0}, RPMSpeed : {RPMSpeed}";
+            }
+
+            public bool IsUseStep()
+            {
+                if (this.Use == false || this.Operation == ECleanOperation.NO_USE || this.OpTime <= 0)
+                    return false;
+                return true;
             }
         }
 
@@ -207,9 +233,22 @@ namespace LWDicer.Layers
         private CCtrlSpinnerRefComp m_RefComp;
         private CCtrlSpinnerData m_Data;
 
-        public bool IsDoingJob { get; private set; } = false;
+        ///////////////////////////////////////////////////////////////////////////
+        // Coating / Cleaning Job Status
+        public bool IsDoingJob_Coating { get; private set; } = false;
+        public bool IsDoingJob_Cleaning { get; private set; } = false;
+        public CCoatingStep CurStep_Coating { get; private set; } = new CCoatingStep(); // get current job step
+        public CCleaningStep CurStep_Cleaning { get; private set; } = new CCleaningStep(); // get current job step
+
         public bool IsCancelJob_byManual = false;       // cancel coating/cleaning job by manual, return success
         public bool IsCancelJob_byAuto = false;         // cancel coating/cleaning job by auto, return error
+        MTickTimer Timer_Job = new MTickTimer();        // timer for entire job
+        MTickTimer Timer_Step = new MTickTimer();       // timer for one step of job
+        public string GetJobElapsedTime() { return $"{Timer_Job.GetElapsedTime():0.00}({Timer_Step.GetElapsedTime():0.00}) sec"; }
+
+        ///////////////////////////////////////////////////////////////////////////
+        // 
+
 
         public MCtrlSpinner(CObjectInfo objInfo, CCtrlSpinnerRefComp refComp, CCtrlSpinnerData data) : base(objInfo)
         {
@@ -232,7 +271,7 @@ namespace LWDicer.Layers
 
         public override int Initialize()
         {
-            int iResult;
+            int iResult = SUCCESS;
             bool bStatus;
 
             iResult = CheckVacuumSafety();
@@ -366,36 +405,113 @@ namespace LWDicer.Layers
             return SUCCESS;
         }
 
-        public int DoCleanOperation(int nSeq)
+        public int DoCleanOperation()
         {
-            //CCleaningStep step = m_Data.CleanerData.Steps[nSeq];
+            // 0. Check Interlock
+            int iResult = CheckSafetyInterlock();
+            if (iResult != SUCCESS) return iResult;
 
-            //// 1. Check Interlock
-            //int iResult = CheckSafetyInterlock();
-            //if (iResult != SUCCESS) return iResult;
+            // 0.5 check material
 
-            //// 2. Rotate Run
-            //StartRotateCW(step.RPMSpeed);
+            // 1. move nozzle to work pos ?
 
-            //// 3. Do Nozzle Operation
-            //switch (step.Mode)
-            //{
-            //    case ECleanOperation.WAIT:
-            //        break;
+            // 2. do cleaning
+            IsCancelJob_byAuto = IsCancelJob_byManual = false;
+            IsDoingJob_Cleaning = true;
+            Timer_Job.StartTimer();
+            Debug.WriteLine("---------- Begin Cleaning Job -----------");
 
-            //    case ECleanOperation.PRE_WASH:
-            //        break;
+            CCleaningStep[] steps = (m_Data.CleanerData.UseWashSteps_General) ? m_Data.CleanerData.WorkSteps_General : m_Data.CleanerData.WorkSteps_Custom;
+            for (int i = 0; i < steps.Length; i++)
+            {
+                CurStep_Cleaning = steps[i];
+                Debug.WriteLine(CurStep_Cleaning);
+                if (CurStep_Cleaning.IsUseStep() == false) continue;
 
-            //    case ECleanOperation.WASH:
-            //        break;
+                // 2.1 rotate 
+                iResult = StartRotate(CurStep_Cleaning.RPMSpeed, m_Data.CleanerData.RotateCW);
+                if (iResult != SUCCESS) goto ERROR_OCCURED;
 
-            //    case ECleanOperation.DRY:
-            //        break;
+                // 2.2 move and open nozzle
+                switch (CurStep_Cleaning.Operation)
+                {
+                    case ECleanOperation.WAIT:
+                        break;
 
-            //    case ECleanOperation.RINSE:
-            //        break;
-            //}
+                    case ECleanOperation.PRE_WASH:
+                        // move to start
+                        iResult = m_RefComp.Spinner.MoveCleanNozzleToStartPos();
+                        if (iResult != SUCCESS) goto ERROR_OCCURED;
+
+                        // begin moving nozzle
+
+                        // open valve
+                        iResult = m_RefComp.Spinner.CleanNozzleValveOpen();
+                        if (iResult != SUCCESS) goto ERROR_OCCURED;
+                        break;
+
+                    case ECleanOperation.WASH:
+                        break;
+
+                    case ECleanOperation.RINSE:
+                        break;
+
+                    case ECleanOperation.DRY:
+                        break;
+                }
+
+                // 2.3 do job
+                Timer_Step.StartTimer();
+                while (Timer_Step.LessThan(CurStep_Cleaning.OpTime, ETimeType.SECOND))
+                {
+                    // check cancel job
+                    if (IsCancelJob_byAuto || IsCancelJob_byManual)
+                    {
+                        goto ERROR_OCCURED;
+                    }
+
+                    // check time to close nozzle
+
+                    // check move nozzle turn
+                }
+
+                // 2.4 stop move and close nozzle
+                iResult = m_RefComp.Spinner.CleanNozzleValveClose();
+                if (iResult != SUCCESS) goto ERROR_OCCURED;
+                iResult = m_RefComp.Spinner.CleanNozzleValveClose();
+                if (iResult != SUCCESS) goto ERROR_OCCURED;
+
+                // 2.5 stop rotate
+                iResult = StopRotate();
+                if (iResult != SUCCESS) goto ERROR_OCCURED;
+            }
+
+            Debug.WriteLine($"---------- Cleaning Job Succeeded : {Timer_Job.GetElapsedTime(ETimeType.SECOND):0.0} sec -----------");
+            Timer_Job.StopTimer();
+            Timer_Step.StopTimer();
+            IsDoingJob_Cleaning = false;
+            IsCancelJob_byAuto = IsCancelJob_byManual = false;
+
             return SUCCESS;
+
+            ERROR_OCCURED:
+
+            // 2.4 stop move and close nozzle
+            m_RefComp.Spinner.CleanNozzleValveClose();
+            m_RefComp.Spinner.CleanNozzleValveClose();
+
+            // 2.5 stop rotate
+            StopRotate();
+
+            Debug.WriteLine($"---------- Cleaning Job Failed : {Timer_Job.GetElapsedTime(ETimeType.SECOND):0.0} -----------");
+            Timer_Job.StopTimer();
+            Timer_Step.StopTimer();
+            IsDoingJob_Cleaning = false;
+
+            if (IsCancelJob_byManual) return SUCCESS;
+            if (IsCancelJob_byAuto) return GenerateErrorCode(ERR_CTRL_SPINNER_CANCEL_COATING_JOB);
+
+            return iResult;
         }
 
         public int DoCoatOperation()
@@ -410,26 +526,36 @@ namespace LWDicer.Layers
 
             // 2. do coating
             IsCancelJob_byAuto = IsCancelJob_byManual = false;
-            IsDoingJob = true;
-            MTickTimer tTimer = new MTickTimer();
-            for(int i = 0; i < m_Data.CoaterData.WorkSteps_Custom.Length; i++)
+            IsDoingJob_Coating = true;
+            Timer_Job.StartTimer();
+            Debug.WriteLine("---------- Begin Coating Job -----------");
+            CCoatingStep[] steps = m_Data.CoaterData.WorkSteps_Custom;
+            for (int i = 0; i < steps.Length; i++)
             {
-                CCoatingStep step = m_Data.CoaterData.WorkSteps_Custom[i];
-                Debug.WriteLine(step);
-                if (step.Use == false || step.Operation == ECoatOperation.NO_USE || step.OpTime <= 0)
-                    continue;
+                CurStep_Coating = steps[i];
+                Debug.WriteLine(CurStep_Coating);
+                if (CurStep_Coating.IsUseStep() == false) continue;
 
                 // 2.1 rotate 
-                iResult = StartRotate(step.RPMSpeed, m_Data.CoaterData.RotateCW);
+                iResult = StartRotate(CurStep_Coating.RPMSpeed, m_Data.CoaterData.RotateCW);
                 if (iResult != SUCCESS) goto ERROR_OCCURED;
 
-                // 2.2 open nozzle
-                switch (step.Operation)
+                // 2.2 move and open nozzle
+                switch (CurStep_Coating.Operation)
                 {
                     case ECoatOperation.WAIT:
                         break;
 
                     case ECoatOperation.PRE_WASH:
+                        // move to start
+                        iResult = m_RefComp.Spinner.MoveCleanNozzleToStartPos();
+                        if (iResult != SUCCESS) goto ERROR_OCCURED;
+
+                        // begin moving nozzle
+
+                        // open valve
+                        iResult = m_RefComp.Spinner.CleanNozzleValveOpen();
+                        if (iResult != SUCCESS) goto ERROR_OCCURED;
                         break;
 
                     case ECoatOperation.DRY:
@@ -448,26 +574,54 @@ namespace LWDicer.Layers
                         break;
                 }
 
-                tTimer.StartTimer();
-                while(tTimer.LessThan(step.OpTime, MTickTimer.ETimeType.SECOND))
+                // 2.3 do job
+                Timer_Step.StartTimer();
+                while(Timer_Step.LessThan(CurStep_Coating.OpTime, ETimeType.SECOND))
                 {
+                    // check cancel job
                     if(IsCancelJob_byAuto || IsCancelJob_byManual)
                     {
                         goto ERROR_OCCURED;
                     }
+
+                    // check time to close nozzle
+
+                    // check move nozzle turn
                 }
+
+                // 2.4 stop move and close nozzle
+                iResult = m_RefComp.Spinner.CoatNozzleValveClose();
+                if (iResult != SUCCESS) goto ERROR_OCCURED;
+                iResult = m_RefComp.Spinner.CleanNozzleValveClose();
+                if (iResult != SUCCESS) goto ERROR_OCCURED;
+
+                // 2.5 stop rotate
+                iResult = StopRotate();
+                if (iResult != SUCCESS) goto ERROR_OCCURED;
             }
+
+            Debug.WriteLine($"---------- Coating Job Succeeded : {Timer_Job.GetElapsedTime(ETimeType.SECOND):0.0} sec -----------");
+            Timer_Job.StopTimer();
+            Timer_Step.StopTimer();
+            IsDoingJob_Coating = false;
+            IsCancelJob_byAuto = IsCancelJob_byManual = false;
+
             return SUCCESS;
 
             ERROR_OCCURED:
-            // close valve
+
+            // 2.4 stop move and close nozzle
             m_RefComp.Spinner.CleanNozzleValveClose();
             m_RefComp.Spinner.CoatNozzleValveClose();
 
-            // stop rotate
+            // 2.5 stop rotate
             StopRotate();
 
-            IsDoingJob = false;
+            Debug.WriteLine($"---------- Coating Job Failed : {Timer_Job.GetElapsedTime(ETimeType.SECOND):0.0} -----------");
+            Timer_Job.StopTimer();
+            Timer_Step.StopTimer();
+            IsDoingJob_Coating = false;
+
             if (IsCancelJob_byManual) return SUCCESS;
             if (IsCancelJob_byAuto) return GenerateErrorCode(ERR_CTRL_SPINNER_CANCEL_COATING_JOB);
 
@@ -476,7 +630,7 @@ namespace LWDicer.Layers
 
         private int CheckSafetyInterlock()
         {
-            int iResult;
+            int iResult = SUCCESS;
             bool bStatus;
 
             // 1. check vacuum

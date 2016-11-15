@@ -105,18 +105,6 @@ namespace LWDicer.UI
             dlg.ShowDialog();
         }
 
-        private void BtnCassetteData_Click(object sender, EventArgs e)
-        {
-            var dlg = new FormWaferCassetteData();
-            dlg.ShowDialog();
-        }
-
-        private void BtnCassetteList_Click(object sender, EventArgs e)
-        {
-            var dlg = new FormModelList(EListHeaderType.CASSETTE);
-            dlg.ShowDialog();
-        }
-
         private void BtnModelData_Click(object sender, EventArgs e)
         {
             var dlg = new FormModelData();
@@ -151,6 +139,12 @@ namespace LWDicer.UI
             var dlg = new FormModelList(EListHeaderType.USERINFO);
             dlg.ShowDialog();
 
+        }
+
+        private void BtnWaferFrameData_Click(object sender, EventArgs e)
+        {
+            var dlg = new FormWaferFrameData();
+            dlg.ShowDialog();
         }
     }
 }

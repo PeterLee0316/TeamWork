@@ -42,8 +42,11 @@ namespace LWDicer.UI
         public static EFormType PrevScreen;
         public CDisplayManager DisplayManager = new CDisplayManager();
 
-        private FormTopScreen TopScreen;
-        private FormBottomScreen BottomScreen;
+        public FormTopScreen TopScreen;
+        public FormBottomScreen BottomScreen;
+
+        // 공용으로 사용할 ActionTimer
+        private static MTickTimer ActionTimer = new MTickTimer();
 
         // 여러 Form에서 공용으로 사용할 Jog Form
         public static FormJogStage frmStageJog;
@@ -57,7 +60,6 @@ namespace LWDicer.UI
         //private FormHelpScreen HelpScreen;
 
         private Form[] MainFormArray = new Form[(int)EFormType.MAX];
-        private Form FormAuto;
 
         public static Syncfusion.Drawing.BrushInfo Brush_On   = new Syncfusion.Drawing.BrushInfo(Color.Yellow);
         public static Syncfusion.Drawing.BrushInfo Brush_Off  = new Syncfusion.Drawing.BrushInfo(Color.White);
@@ -129,6 +131,8 @@ namespace LWDicer.UI
             Debug.WriteLine(msg);
             Debug.WriteLine("===================================================");
 
+            var form = MainFormArray[(int)EFormType.AUTO];
+
             // 변수 선언 및 작업의 편리성을 위해서 일부러 switch대신에 if/else if 구문을 사용함
             if (false)
             {
@@ -136,23 +140,23 @@ namespace LWDicer.UI
             }
             else if(evnt.Msg == (int)EWindowMessage.WM_START_READY_MSG)
             {
-                ((FormAutoScreen)FormAuto).WindowProc(evnt);
-                BottomScreen.DisableBottomPage();
+                ((FormAutoScreen)form).WindowProc(evnt);
+                BottomScreen.EnableBottomPage(false);
             }
             else if (evnt.Msg == (int)EWindowMessage.WM_START_RUN_MSG)
             {
-                ((FormAutoScreen)FormAuto).WindowProc(evnt);
-                BottomScreen.DisableBottomPage();
+                ((FormAutoScreen)form).WindowProc(evnt);
+                BottomScreen.EnableBottomPage(false);
             }
             else if (evnt.Msg == (int)EWindowMessage.WM_START_MANUAL_MSG)
             {
-                ((FormAutoScreen)FormAuto).WindowProc(evnt);
-                BottomScreen.EnableBottomPage();
+                ((FormAutoScreen)form).WindowProc(evnt);
+                BottomScreen.EnableBottomPage(true);
             }
             else if (evnt.Msg == (int)EWindowMessage.WM_STEPSTOP_MSG)
             {
-                ((FormAutoScreen)FormAuto).WindowProc(evnt);
-                BottomScreen.DisableBottomPage();
+                ((FormAutoScreen)form).WindowProc(evnt);
+                BottomScreen.EnableBottomPage(false);
             }
             else if (evnt.Msg == (int)EWindowMessage.WM_ALARM_MSG)
             {
@@ -194,7 +198,6 @@ namespace LWDicer.UI
             MainFormArray[(int)EFormType.TEACH]  = new FormTeachScreen();
             MainFormArray[(int)EFormType.LOG]    = new FormLogScreen();
             MainFormArray[(int)EFormType.HELP]   = new FormHelpScreen();
-            FormAuto = MainFormArray[(int)EFormType.AUTO];
 
             SetProperty(TopScreen);
             SetProperty(BottomScreen);
@@ -232,6 +235,21 @@ namespace LWDicer.UI
             //DataManager = LWDicer.m_DataManager;            
 
             return true;
+        }
+
+        public static void StartTimer()
+        {
+            ActionTimer.StartTimer();
+        }
+
+        public static double GetElapsedTime(ETimeType type = ETimeType.SECOND)
+        {
+            return ActionTimer.GetElapsedTime(type);
+        }
+
+        public static string GetElapsedTIme_Text(bool bShowUnit = true, ETimeType type = ETimeType.SECOND)
+        {
+            return ActionTimer.GetElapsedTime_Text(bShowUnit, type);
         }
 
         static public void DisplayAlarm_Modeless(int alarmcode, int pid = 0, bool saveLog = true)

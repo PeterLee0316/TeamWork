@@ -119,14 +119,13 @@ namespace LWDicer.Layers
         public class CMeElevatorData
         {
             // Cassette Info 
-            public CWaferCassette CassetteData = new CWaferCassette();
+            public CWaferFrameData CassetteData = new CWaferFrameData();
 
             public int CurrentSlotNum = 0;
 
             // Detect Object Sensor Address
             public int InWaferDetected   = IO_ADDR_NOT_DEFINED;
-            public int[] InCassetteDetected = new int[(int)ECassetteDetectedSensor.MAX] 
-                {IO_ADDR_NOT_DEFINED, IO_ADDR_NOT_DEFINED, IO_ADDR_NOT_DEFINED, IO_ADDR_NOT_DEFINED };
+            public int[] InCassetteDetected = new int[(int)ECassetteDetectedSensor.MAX];
 
             // Push-Pull 안전 Sensor
             public int InPushPullDetected = IO_ADDR_NOT_DEFINED;
@@ -134,24 +133,15 @@ namespace LWDicer.Layers
             // Physical check zone sensor. 원점복귀 여부와 상관없이 축의 물리적인 위치를 체크 및
             // 안전위치 이동 check
             public CMAxisZoneCheck ElevatorZone;
-            public CPos_XYTZ ElevatorSafetyPos;
+            public CPos_XYTZ ElevatorSafetyPos = new CPos_XYTZ();
 
-            public CMeElevatorData(CWaferCassette CassetteData = null)
+            public CMeElevatorData()
             {
-                // Cassette Info Copy 
-                if (CassetteData == null) // Cassette Data Init
-                {   
-                    this.CassetteData.SlotNumber = CASSETTE_MAX_SLOT_NUM;
-                    this.CassetteData.FramePitch = CASSETTE_DEFAULT_PITCH;
-                    for (int i = 0; i < this.CassetteData.SlotStatus.Length; i++)
-                    {
-                        this.CassetteData.SlotStatus[i] = (int)ECassetteSlotStatus.NONE;
-                    }
-                }
-                else  // Cassette Data Copy
-                {
-                    this.CassetteData = CassetteData;
-                }
+                ArrayExtensions.Init(InCassetteDetected, IO_ADDR_NOT_DEFINED);
+
+                CassetteData.SlotNumber = CASSETTE_MAX_SLOT_NUM;
+                CassetteData.FramePitch = CASSETTE_DEFAULT_PITCH;
+                ArrayExtensions.Init(CassetteData.SlotStatus, (int)ECassetteSlotStatus.NONE);
 
                 ElevatorZone = new CMAxisZoneCheck((int)EElevatorXAxZone.MAX, (int)EElevatorYAxZone.MAX,
                     (int)EElevatorTAxZone.MAX, (int)EElevatorZAxZone.MAX);
@@ -167,8 +157,6 @@ namespace LWDicer.Layers
         // MovingObject
         public CMovingObject AxElevatorInfo { get; private set; } = new CMovingObject((int)EElevatorPos.MAX);
     
-        MTickTimer m_waitTimer = new MTickTimer();
-
         public MMeElevator(CObjectInfo objInfo, CMeElevatorRefComp refComp, CMeElevatorData data)
             : base(objInfo)
         {
@@ -849,7 +837,7 @@ namespace LWDicer.Layers
         public int IsCassetteExist(out bool bStatus)
         {
             bStatus = false;
-            int iResult;
+            int iResult = SUCCESS;
 
             // Wafer Frame 감지 센서 확인
             bool[] bCheckIO = new bool[(int)ECassetteDetectedSensor.MAX];

@@ -349,7 +349,7 @@ namespace LWDicer.UI
                 {
                     CMotorSpeedData[] tSpeed = new CMotorSpeedData[1];
                     tSpeed[0] = AxisSpeedData;
-                    iResult = CMainFrame.LWDicer.m_YMC.MoveToPos(SelectedAxis, dTargetPos, tSpeed, (int)CMotionAPI.ApiDefs.DISTRIBUTION_COMPLETED);
+                    iResult = CMainFrame.LWDicer.m_YMC.StartMoveToPos(SelectedAxis, dTargetPos, tSpeed);
                 }
                 else
                 {
@@ -429,7 +429,7 @@ namespace LWDicer.UI
             {
                 CMotorSpeedData[] tSpeed = new CMotorSpeedData[1];
                 tSpeed[0] = AxisSpeedData;
-                iResult = CMainFrame.LWDicer.m_YMC.MoveToPos(SelectedAxis, dTargetPos, tSpeed, (int)CMotionAPI.ApiDefs.COMMAND_STARTED);
+                iResult = CMainFrame.LWDicer.m_YMC.StartMoveToPos(SelectedAxis, dTargetPos, tSpeed);
             }
             else
             {
@@ -448,10 +448,10 @@ namespace LWDicer.UI
             // Jog Operation Servo Encoder Position
             if (SelectedMotion == (int)EMotionSelect.YMC)
             {
-                LabelCurrent.Text= String.Format("{0:0.000}",CMainFrame.LWDicer.m_YMC.ServoStatus[SelectedAxis].EncoderPos);
+                LabelCurrent.Text= String.Format("{0:0.0000}",CMainFrame.LWDicer.m_YMC.ServoStatus[SelectedAxis].EncoderPos);
             } else
             {
-                LabelCurrent.Text= String.Format("{0:0.000}", CMainFrame.LWDicer.m_ACS.ServoStatus[SelectedAxis].EncoderPos);
+                LabelCurrent.Text= String.Format("{0:0.0000}", CMainFrame.LWDicer.m_ACS.ServoStatus[SelectedAxis].EncoderPos);
             }
         }
 

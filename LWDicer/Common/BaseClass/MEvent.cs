@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Diagnostics;
 using static LWDicer.Layers.DEF_Thread;
 
 namespace LWDicer.Layers
@@ -46,17 +47,37 @@ namespace LWDicer.Layers
 
         public string ToWindowMessage()
         {
-            EWindowMessage cnvt = (EWindowMessage)Enum.Parse(typeof(EWindowMessage), Msg.ToString());
-            EThreadChannel sender = (EThreadChannel)Enum.Parse(typeof(EThreadChannel), wParam.ToString());
-            EThreadChannel receiver = (EThreadChannel)Enum.Parse(typeof(EThreadChannel), lParam.ToString());
+            EWindowMessage cnvt = EWindowMessage.NONE;
+            EThreadChannel sender = EThreadChannel.NONE;
+            EThreadChannel receiver = EThreadChannel.NONE;
+            try
+            {
+                cnvt = (EWindowMessage)Enum.Parse(typeof(EWindowMessage), Msg.ToString());
+                sender = (EThreadChannel)Enum.Parse(typeof(EThreadChannel), wParam.ToString());
+                receiver = (EThreadChannel)Enum.Parse(typeof(EThreadChannel), lParam.ToString());
+            }
+            catch (System.Exception ex)
+            {
+                Debug.WriteLine(ex);
+            }
             return $"[Event] Idx_{Index}, Msg : {cnvt}, wParam : {sender}, lParam : {receiver}, Created : {MsgTime.ToString("yyyy-MM-dd HH:mm:ss.ffff")}";
         }
 
         public string ToThreadMessage()
         {
-            EThreadMessage cnvt = (EThreadMessage)Enum.Parse(typeof(EThreadMessage), Msg.ToString());
-            EThreadChannel sender = (EThreadChannel)Enum.Parse(typeof(EThreadChannel), wParam.ToString());
-            EThreadChannel receiver = (EThreadChannel)Enum.Parse(typeof(EThreadChannel), lParam.ToString());
+            EThreadMessage cnvt = EThreadMessage.NONE;
+            EThreadChannel sender = EThreadChannel.NONE;
+            EThreadChannel receiver = EThreadChannel.NONE;
+            try
+            {
+                cnvt = (EThreadMessage)Enum.Parse(typeof(EThreadMessage), Msg.ToString());
+                sender = (EThreadChannel)Enum.Parse(typeof(EThreadChannel), wParam.ToString());
+                receiver = (EThreadChannel)Enum.Parse(typeof(EThreadChannel), lParam.ToString());
+            }
+            catch (System.Exception ex)
+            {
+                Debug.WriteLine(ex);
+            }
             return $"[Event] Idx_{Index}, Msg : {cnvt}, wParam : {sender}, lParam : {receiver}, Created : {MsgTime.ToString("yyyy-MM-dd HH:mm:ss.ffff")}";
         }
     }

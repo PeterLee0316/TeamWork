@@ -9,7 +9,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-using System.Drawing;
 using System.Drawing.Imaging;
 using Syncfusion.Windows.Forms.Grid;
 using Syncfusion.Windows.Forms;
@@ -140,8 +139,6 @@ namespace LWDicer.UI
         // Polygon Scanner Configure Data
         private void InitConfigureGrid()
         {
-            int i = 0, j = 0;
-
             // Cell Click 시 커서가 생성되지 않게함.
             GridConfigure.ActivateCurrentCellBehavior = GridCellActivateAction.None;
 
@@ -159,12 +156,12 @@ namespace LWDicer.UI
             GridConfigure.ColWidths.SetSize(2, 100);
             GridConfigure.ColWidths.SetSize(3, 650);
 
-            for (i = 0; i < GridConfigure.RowCount+1; i++)
+            for (int i = 0; i < GridConfigure.RowCount+1; i++)
             {
                 GridConfigure.RowHeights[i] = 27;
             }
 
-            for (i = 1; i < GridConfigure.RowCount+1; i++)
+            for (int i = 1; i < GridConfigure.RowCount+1; i++)
             {
                 GridConfigure[i , 1].BackColor = Color.FromArgb(230, 210, 255);
                 GridConfigure[i , 3].BackColor = Color.FromArgb(255, 230, 255);
@@ -261,9 +258,9 @@ namespace LWDicer.UI
             GridConfigure[27, 3].Text = "[Polygon motor Configuration] speed-up 이후 exposure 시작 이전 대기시간";
 
 
-            for (i = 0; i < 4; i++)
+            for (int i = 0; i < 4; i++)
             {
-                for (j = 0; j < GridConfigure.RowCount+1; j++)
+                for (int j = 0; j < GridConfigure.RowCount+1; j++)
                 {
                     // Font Style - Bold
                     GridConfigure[j, i].Font.Bold = true;
@@ -289,8 +286,6 @@ namespace LWDicer.UI
 
         private void InitTrueRasterGrid()
         {
-
-            int i = 0, j = 0;
             //===============================================================================
             // CSN Grid 설정
 
@@ -311,12 +306,12 @@ namespace LWDicer.UI
             GridCSN.ColWidths.SetSize(2, 80);
             GridCSN.ColWidths.SetSize(3, 250);
 
-            for (i = 0; i < 17; i++)
+            for (int i = 0; i < 17; i++)
             {
                 GridCSN.RowHeights[i] = 27;
             }
 
-            for (i = 0; i < 16; i++)
+            for (int i = 0; i < 16; i++)
             {
                 GridCSN[i + 1, 1].BackColor = Color.FromArgb(230, 210, 255);
                 GridCSN[i + 1, 3].BackColor = Color.FromArgb(255, 230, 255);
@@ -379,9 +374,9 @@ namespace LWDicer.UI
             GridCSN[15, 3].Text   = "Facet 8 의 Start 세로 위치(Y 방향) 보정";
             GridCSN[16, 3].Text   = "Facet 8 의 End 세로 위치(Y 방향) 보정";
 
-            for (i = 0; i < 3; i++)
+            for (int i = 0; i < 3; i++)
             {
-                for (j = 0; j < 17; j++)
+                for (int j = 0; j < 17; j++)
                 {
                     // Font Style - Bold
                     GridCSN[j, i].Font.Bold = true;
@@ -425,12 +420,12 @@ namespace LWDicer.UI
             GridISN.ColWidths.SetSize(2, 80);
             GridISN.ColWidths.SetSize(3, 250);
 
-            for (i = 0; i < 17; i++)
+            for (int i = 0; i < 17; i++)
             {
                 GridISN.RowHeights[i] = 27;
             }
 
-            for (i = 0; i < 16; i++)
+            for (int i = 0; i < 16; i++)
             {
                 GridISN[i + 1, 1].BackColor = Color.FromArgb(230, 210, 255);
                 GridISN[i + 1, 3].BackColor = Color.FromArgb(255, 230, 255);
@@ -494,9 +489,9 @@ namespace LWDicer.UI
             GridISN[16, 3].Text = "Facet 8 의 End 가로 위치(X 방향) 보정";
 
 
-            for (i = 0; i < 3; i++)
+            for (int i = 0; i < 3; i++)
             {
-                for (j = 0; j < 17; j++)
+                for (int j = 0; j < 17; j++)
                 {
                     // Font Style - Bold
                     GridISN[j, i].Font.Bold = true;
@@ -647,7 +642,7 @@ namespace LWDicer.UI
 
         private void BtnConfigSave_Click(object sender, EventArgs e)
         {
-            if (!CMainFrame.DisplayMsg("Save Parameter ?")) return;
+            if (!CMainFrame.DisplayMsg("Save data?")) return;
 
             try
             {
@@ -727,7 +722,7 @@ namespace LWDicer.UI
             }
             catch
             {
-                CMainFrame.DisplayMsg("Save Parameter Fail");
+                CMainFrame.DisplayMsg("Failed to save data");
             }
 
         }

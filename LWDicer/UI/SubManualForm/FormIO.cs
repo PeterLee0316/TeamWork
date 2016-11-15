@@ -59,10 +59,10 @@ namespace LWDicer.UI
 
         private void UpdateIO(int nBoardNo)
         {
-            int i = 0, nNo = 0;
             string hex;
+            int nNo = 0;
 
-            for (i = 0; i < MaxRowSize; i++)
+            for (int i = 0; i < MaxRowSize; i++)
             {
                 if (nBoardNo > 0)
                 {
@@ -182,17 +182,12 @@ namespace LWDicer.UI
 
         private void IO_Y_Click(object sender, EventArgs e)
         {
-            string strText;
-            int nNo = 0;
-
             GradientLabel OutPut = sender as GradientLabel;
 
-            nNo = Convert.ToInt16(OutPut.Tag);
+            int nNo = Convert.ToInt16(OutPut.Tag);
 
             //strText = string.Format("{0:s} 출력을 강제로 Toggle 하시겠습니까?", OutPut.Text);
-            strText = string.Format("Toggle Ouput?");
-
-            if (!CMainFrame.InquireMsg(strText))
+            if (!CMainFrame.InquireMsg("Toggle Ouput?"))
             {
                 return;
             }

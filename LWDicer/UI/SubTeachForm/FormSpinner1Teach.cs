@@ -112,18 +112,16 @@ namespace LWDicer.UI
 
         private void UpdateRotateTeachPos(int selectedPos)
         {
-            int nCount = 0, i = 0, j = 0;
+            int nCount = (int)ERotatePos.MAX;
 
-            nCount = (int)ERotatePos.MAX;
-
-            for (i = 0; i < nCount; i++)
+            for (int i = 0; i < nCount; i++)
             {
                 RotatePos[i].BackColor = Color.LightYellow;
             }
 
-            for (i = 0; i < GridRotateTeachTable.ColCount + 1; i++)
+            for (int i = 0; i < GridRotateTeachTable.ColCount + 1; i++)
             {
-                for (j = 0; j < GridRotateTeachTable.RowCount; j++)
+                for (int j = 0; j < GridRotateTeachTable.RowCount; j++)
                 {
                     if (i != 0 && j > 1)
                     {
@@ -152,18 +150,16 @@ namespace LWDicer.UI
 
         private void UpdateNozzleTeachPos(int selectedPos)
         {
-            int nCount = 0, i = 0, j = 0;
+            int nCount = (int)ENozzlePos.MAX;
 
-            nCount = (int)ENozzlePos.MAX;
-
-            for (i = 0; i < nCount; i++)
+            for (int i = 0; i < nCount; i++)
             {
                 NozzlePos[i].BackColor = Color.LightYellow;
             }
 
-            for (i = 0; i < GridNozzleTeachTable.ColCount + 1; i++)
+            for (int i = 0; i < GridNozzleTeachTable.ColCount + 1; i++)
             {
-                for (j = 0; j < GridNozzleTeachTable.RowCount; j++)
+                for (int j = 0; j < GridNozzleTeachTable.RowCount; j++)
                 {
                     if (i != 0 && j > 1)
                     {
@@ -196,19 +192,19 @@ namespace LWDicer.UI
             double dFixedPos, dModelPos, dOffsetPos, dAlignOffset, dTargetPos;
             dTargetPos = MO_CleanNozzle.GetPosition(index, DEF_T, out dFixedPos, out dModelPos, out dOffsetPos, out dAlignOffset);
 
-            GridNozzleTeachTable[2, 1].Text = String.Format("{0:0.000}", dTargetPos);
-            GridNozzleTeachTable[3, 1].Text = String.Format("{0:0.000}", dFixedPos);
-            GridNozzleTeachTable[4, 1].Text = String.Format("{0:0.000}", dModelPos);
-            GridNozzleTeachTable[5, 1].Text = String.Format("{0:0.000}", dAlignOffset);
-            GridNozzleTeachTable[6, 1].Text = String.Format("{0:0.000}", dOffsetPos);
+            GridNozzleTeachTable[2, 1].Text = String.Format("{0:0.0000}", dTargetPos);
+            GridNozzleTeachTable[3, 1].Text = String.Format("{0:0.0000}", dFixedPos);
+            GridNozzleTeachTable[4, 1].Text = String.Format("{0:0.0000}", dModelPos);
+            GridNozzleTeachTable[5, 1].Text = String.Format("{0:0.0000}", dAlignOffset);
+            GridNozzleTeachTable[6, 1].Text = String.Format("{0:0.0000}", dOffsetPos);
 
             dTargetPos = MO_CoatNozzle.GetPosition(index, DEF_T, out dFixedPos, out dModelPos, out dOffsetPos, out dAlignOffset);
 
-            GridNozzleTeachTable[2, 2].Text = String.Format("{0:0.000}", dTargetPos);
-            GridNozzleTeachTable[3, 2].Text = String.Format("{0:0.000}", dFixedPos);
-            GridNozzleTeachTable[4, 2].Text = String.Format("{0:0.000}", dModelPos);
-            GridNozzleTeachTable[5, 2].Text = String.Format("{0:0.000}", dAlignOffset);
-            GridNozzleTeachTable[6, 2].Text = String.Format("{0:0.000}", dOffsetPos);
+            GridNozzleTeachTable[2, 2].Text = String.Format("{0:0.0000}", dTargetPos);
+            GridNozzleTeachTable[3, 2].Text = String.Format("{0:0.0000}", dFixedPos);
+            GridNozzleTeachTable[4, 2].Text = String.Format("{0:0.0000}", dModelPos);
+            GridNozzleTeachTable[5, 2].Text = String.Format("{0:0.0000}", dAlignOffset);
+            GridNozzleTeachTable[6, 2].Text = String.Format("{0:0.0000}", dOffsetPos);
         }
 
         private void DisplayPos_Rotate()
@@ -217,11 +213,11 @@ namespace LWDicer.UI
             double dFixedPos, dModelPos, dOffsetPos, dAlignOffset, dTargetPos;
             dTargetPos = MO_Rotate.GetPosition(index, DEF_T, out dFixedPos, out dModelPos, out dOffsetPos, out dAlignOffset);
 
-            GridRotateTeachTable[2, 1].Text = String.Format("{0:0.000}", dTargetPos);
-            GridRotateTeachTable[3, 1].Text = String.Format("{0:0.000}", dFixedPos);
-            GridRotateTeachTable[4, 1].Text = String.Format("{0:0.000}", dModelPos);
-            GridRotateTeachTable[5, 1].Text = String.Format("{0:0.000}", dModelPos);
-            GridRotateTeachTable[6, 1].Text = String.Format("{0:0.000}", dOffsetPos);
+            GridRotateTeachTable[2, 1].Text = String.Format("{0:0.0000}", dTargetPos);
+            GridRotateTeachTable[3, 1].Text = String.Format("{0:0.0000}", dFixedPos);
+            GridRotateTeachTable[4, 1].Text = String.Format("{0:0.0000}", dModelPos);
+            GridRotateTeachTable[5, 1].Text = String.Format("{0:0.0000}", dModelPos);
+            GridRotateTeachTable[6, 1].Text = String.Format("{0:0.0000}", dOffsetPos);
         }
 
         private void ResouceMapping()
@@ -234,21 +230,19 @@ namespace LWDicer.UI
             RotatePos[5] = BtnRotatePos6; RotatePos[6] = BtnRotatePos7; RotatePos[7] = BtnRotatePos8; RotatePos[8] = BtnRotatePos9; RotatePos[9] = BtnRotatePos10;
             RotatePos[10] = BtnRotatePos11; RotatePos[11] = BtnRotatePos12; RotatePos[12] = BtnRotatePos13; RotatePos[13] = BtnRotatePos14; RotatePos[14] = BtnRotatePos15;
 
-            int i = 0;
-
-            for(i=0;i<15;i++)
+            for (int i = 0; i < 15; i++)
             {
                 NozzlePos[i].Visible = false;
                 RotatePos[i].Visible = false;
             }
 
-            for (i = 0; i < (int)ENozzlePos.MAX; i++)
+            for (int i = 0; i < (int)ENozzlePos.MAX; i++)
             {
                 NozzlePos[i].Visible = true;
                 NozzlePos[i].Text = Convert.ToString(ENozzlePos.SAFETY + i);
             }
 
-            for (i = 0; i < (int)ERotatePos.MAX; i++)
+            for (int i = 0; i < (int)ERotatePos.MAX; i++)
             {
                 RotatePos[i].Visible = true;
                 RotatePos[i].Text = Convert.ToString(ERotatePos.LOAD + i);
@@ -257,8 +251,6 @@ namespace LWDicer.UI
 
         private void InitNozzleGrid()
         {
-            int i = 0, j = 0, nCol = 0, nRow = 0;
-
             // Cell Click 시 커서가 생성되지 않게함.
             GridNozzleTeachTable.ActivateCurrentCellBehavior = GridCellActivateAction.None;
 
@@ -266,22 +258,22 @@ namespace LWDicer.UI
             GridNozzleTeachTable.Properties.RowHeaders = true;
             GridNozzleTeachTable.Properties.ColHeaders = false;
 
-            nCol = 2;
-            nRow = 8;
+            int nCol = 2;
+            int nRow = 8;
 
             // Column,Row 개수
             GridNozzleTeachTable.ColCount = nCol;
             GridNozzleTeachTable.RowCount = nRow;
 
             // Column 가로 크기설정
-            for (i = 0; i < nCol + 1; i++)
+            for (int i = 0; i < nCol + 1; i++)
             {
                 GridNozzleTeachTable.ColWidths.SetSize(i, 172);
             }
 
             GridNozzleTeachTable.ColWidths.SetSize(0, 110);
 
-            for (i = 0; i < nRow + 1; i++)
+            for (int i = 0; i < nRow + 1; i++)
             {
                 GridNozzleTeachTable.RowHeights[i] = 40;
             }
@@ -304,9 +296,9 @@ namespace LWDicer.UI
             GridNozzleTeachTable[7, 0].Text = "현재 위치";
             GridNozzleTeachTable[8, 0].Text = "보정값";
 
-            for (i = 0; i < nCol + 1; i++)
+            for (int i = 0; i < nCol + 1; i++)
             {
-                for (j = 0; j < nRow + 1; j++)
+                for (int j = 0; j < nRow + 1; j++)
                 {
                     // Font Style - Bold
                     GridNozzleTeachTable[j, i].Font.Bold = true;
@@ -326,7 +318,7 @@ namespace LWDicer.UI
             GridNozzleTeachTable.ResizeColsBehavior = 0;
             GridNozzleTeachTable.ResizeRowsBehavior = 0;
 
-            for (i = 0; i < nCol; i++)
+            for (int i = 0; i < nCol; i++)
             {
                 GridNozzleTeachTable[1, i + 1].TextColor = Color.LightGray;
                 GridNozzleTeachTable[1, i + 1].Description = "";
@@ -346,8 +338,6 @@ namespace LWDicer.UI
 
         private void InitRotateGrid()
         {
-            int i = 0, j = 0, nCol = 0, nRow = 0;
-
             // Cell Click 시 커서가 생성되지 않게함.
             GridRotateTeachTable.ActivateCurrentCellBehavior = GridCellActivateAction.None;
 
@@ -355,22 +345,22 @@ namespace LWDicer.UI
             GridRotateTeachTable.Properties.RowHeaders = true;
             GridRotateTeachTable.Properties.ColHeaders = false;
 
-            nCol = 1;
-            nRow = 8;
+            int nCol = 1;
+            int nRow = 8;
 
             // Column,Row 개수
             GridRotateTeachTable.ColCount = nCol;
             GridRotateTeachTable.RowCount = nRow;
 
             // Column 가로 크기설정
-            for (i = 0; i < nCol + 1; i++)
+            for (int i = 0; i < nCol + 1; i++)
             {
                 GridRotateTeachTable.ColWidths.SetSize(i, 172);
             }
 
             GridRotateTeachTable.ColWidths.SetSize(0, 110);
 
-            for (i = 0; i < nRow + 1; i++)
+            for (int i = 0; i < nRow + 1; i++)
             {
                 GridRotateTeachTable.RowHeights[i] = 40;
 
@@ -391,9 +381,9 @@ namespace LWDicer.UI
             GridRotateTeachTable[7, 0].Text = "현재 위치";
             GridRotateTeachTable[8, 0].Text = "보정값";
 
-            for (i = 0; i < nCol + 1; i++)
+            for (int i = 0; i < nCol + 1; i++)
             {
-                for (j = 0; j < nRow + 1; j++)
+                for (int j = 0; j < nRow + 1; j++)
                 {
                     // Font Style - Bold
                     GridRotateTeachTable[j, i].Font.Bold = true;
@@ -413,7 +403,7 @@ namespace LWDicer.UI
             GridRotateTeachTable.ResizeColsBehavior = 0;
             GridRotateTeachTable.ResizeRowsBehavior = 0;
 
-            for (i = 0; i < 1; i++)
+            for (int i = 0; i < 1; i++)
             {
                 GridRotateTeachTable[1, i + 1].TextColor = Color.LightGray;
                 GridRotateTeachTable[1, i + 1].Description = "";
@@ -453,16 +443,16 @@ namespace LWDicer.UI
             {
                 dOtherSum += Convert.ToDouble(GridNozzleTeachTable[6, index].Text); // Offset Pos
                 double dPos = dTargetPos - dOtherSum;
-                GridNozzleTeachTable[2, index].Text = String.Format("{0:0.000}", dTargetPos);
-                GridNozzleTeachTable[3, index].Text = String.Format("{0:0.000}", dPos);
+                GridNozzleTeachTable[2, index].Text = String.Format("{0:0.0000}", dTargetPos);
+                GridNozzleTeachTable[3, index].Text = String.Format("{0:0.0000}", dPos);
                 GridNozzleTeachTable[3, index].TextColor = Color.Blue;
             }
             else
             {
                 dOtherSum += Convert.ToDouble(GridNozzleTeachTable[3, index].Text); // Fixed Pos
                 double dPos = dTargetPos - dOtherSum;
-                GridNozzleTeachTable[2, index].Text = String.Format("{0:0.000}", dTargetPos);
-                GridNozzleTeachTable[6, index].Text = String.Format("{0:0.000}", dPos);
+                GridNozzleTeachTable[2, index].Text = String.Format("{0:0.0000}", dTargetPos);
+                GridNozzleTeachTable[6, index].Text = String.Format("{0:0.0000}", dPos);
                 GridNozzleTeachTable[6, index].TextColor = Color.Blue;
             }
         }
@@ -492,16 +482,16 @@ namespace LWDicer.UI
             {
                 dOtherSum += Convert.ToDouble(GridRotateTeachTable[6, index].Text); // Offset Pos
                 double dPos = dTargetPos - dOtherSum;
-                GridRotateTeachTable[2, index].Text = String.Format("{0:0.000}", dTargetPos);
-                GridRotateTeachTable[3, index].Text = String.Format("{0:0.000}", dPos);
+                GridRotateTeachTable[2, index].Text = String.Format("{0:0.0000}", dTargetPos);
+                GridRotateTeachTable[3, index].Text = String.Format("{0:0.0000}", dPos);
                 GridRotateTeachTable[3, index].TextColor = Color.Blue;
             }
             else
             {
                 dOtherSum += Convert.ToDouble(GridRotateTeachTable[3, index].Text); // Fixed Pos
                 double dPos = dTargetPos - dOtherSum;
-                GridRotateTeachTable[2, index].Text = String.Format("{0:0.000}", dTargetPos);
-                GridRotateTeachTable[6, index].Text = String.Format("{0:0.000}", dPos);
+                GridRotateTeachTable[2, index].Text = String.Format("{0:0.0000}", dTargetPos);
+                GridRotateTeachTable[6, index].Text = String.Format("{0:0.0000}", dPos);
                 GridRotateTeachTable[6, index].TextColor = Color.Blue;
             }
         }
@@ -573,13 +563,13 @@ namespace LWDicer.UI
             // Current Position Display
             string strCurPos = string.Empty;
 
-            strCurPos = String.Format("{0:0.000}", CMainFrame.LWDicer.m_YMC.ServoStatus[(int)Axis_CleanNozzle_T].EncoderPos);
+            strCurPos = String.Format("{0:0.0000}", CMainFrame.LWDicer.m_YMC.ServoStatus[(int)Axis_CleanNozzle_T].EncoderPos);
             GridNozzleTeachTable[7, 1].Text = strCurPos;
 
-            strCurPos = String.Format("{0:0.000}", CMainFrame.LWDicer.m_YMC.ServoStatus[(int)Axis_CoatNozzle_T].EncoderPos);
+            strCurPos = String.Format("{0:0.0000}", CMainFrame.LWDicer.m_YMC.ServoStatus[(int)Axis_CoatNozzle_T].EncoderPos);
             GridNozzleTeachTable[7, 2].Text = strCurPos;
 
-            strCurPos = String.Format("{0:0.000}", CMainFrame.LWDicer.m_YMC.ServoStatus[(int)Axis_Rotate_T].EncoderPos);
+            strCurPos = String.Format("{0:0.0000}", CMainFrame.LWDicer.m_YMC.ServoStatus[(int)Axis_Rotate_T].EncoderPos);
             GridRotateTeachTable[7, 1].Text = strCurPos;
 
             // 보정값 Display
@@ -589,19 +579,19 @@ namespace LWDicer.UI
             dTargetPos = Convert.ToDouble(GridNozzleTeachTable[2, 1].Text);
             dValue = dTargetPos - dCurPos;
 
-            GridNozzleTeachTable[8, 1].Text = String.Format("{0:0.000}", dValue);
+            GridNozzleTeachTable[8, 1].Text = String.Format("{0:0.0000}", dValue);
 
             dCurPos = CMainFrame.LWDicer.m_YMC.ServoStatus[(int)Axis_CoatNozzle_T].EncoderPos;
             dTargetPos = Convert.ToDouble(GridNozzleTeachTable[2, 2].Text);
             dValue = dTargetPos - dCurPos;
 
-            GridNozzleTeachTable[8, 2].Text = String.Format("{0:0.000}", dValue);
+            GridNozzleTeachTable[8, 2].Text = String.Format("{0:0.0000}", dValue);
 
             dCurPos = CMainFrame.LWDicer.m_YMC.ServoStatus[(int)Axis_Rotate_T].EncoderPos;
             dTargetPos = Convert.ToDouble(GridRotateTeachTable[2, 1].Text);
             dValue = dTargetPos - dCurPos;
 
-            GridRotateTeachTable[8, 1].Text = String.Format("{0:0.000}", dValue);
+            GridRotateTeachTable[8, 1].Text = String.Format("{0:0.0000}", dValue);
         }
 
         private void BtnNozzleTeachMove_Click(object sender, EventArgs e)

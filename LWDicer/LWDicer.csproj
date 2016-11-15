@@ -425,11 +425,11 @@
     <Compile Include="UI\SubDataForm\FormVisionData.Designer.cs">
       <DependentUpon>FormVisionData.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\SubDataForm\FormWaferCassetteData.cs">
+    <Compile Include="UI\SubDataForm\FormWaferFrameData.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UI\SubDataForm\FormWaferCassetteData.Designer.cs">
-      <DependentUpon>FormWaferCassetteData.cs</DependentUpon>
+    <Compile Include="UI\SubDataForm\FormWaferFrameData.Designer.cs">
+      <DependentUpon>FormWaferFrameData.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\SubDataForm\FormWaferData.cs">
       <SubType>Form</SubType>
@@ -702,8 +702,8 @@
     <EmbeddedResource Include="UI\SubDataForm\FormVisionData.resx">
       <DependentUpon>FormVisionData.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\SubDataForm\FormWaferCassetteData.resx">
-      <DependentUpon>FormWaferCassetteData.cs</DependentUpon>
+    <EmbeddedResource Include="UI\SubDataForm\FormWaferFrameData.resx">
+      <DependentUpon>FormWaferFrameData.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\SubDataForm\FormWaferData.resx">
       <DependentUpon>FormWaferData.cs</DependentUpon>

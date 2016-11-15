@@ -98,6 +98,8 @@ namespace LWDicer.Layers
             public bool IsDriverFault;
             public bool IsMotorOverHeat;
             public bool IsServoAlarm;
+            public bool IsServoWarning;
+
             // public bool Is;
             public bool DetectMinusSensor;
             public bool DetectPlusSensor;
@@ -347,8 +349,6 @@ namespace LWDicer.Layers
         public int SpeedType { get; set; } = (int)EMotorSpeed.MANUAL_SLOW;
 
         public string LastHWMessage { get; private set; }
-
-        MTickTimer m_waitTimer = new MTickTimer();
 
         UInt16 APITimeOut = 5000;
         UInt16 APIJogTime = 100;    // Jog Timeout ms
@@ -652,7 +652,7 @@ namespace LWDicer.Layers
         public int OpenController(bool bServoOn = false)
         {
             // 0. init
-            int iResult;
+            int iResult = SUCCESS;
             UInt32 rc;
 
             if (m_AcsMotion.IsChannelOpen == false)
@@ -1164,7 +1164,7 @@ namespace LWDicer.Layers
         public int Wait4Done(int[] axisList, bool[] useAxis, bool bWait4Home = false)
         {
 #if !SIMULATION_MOTION_ACS
-            int iResult;
+            int iResult = SUCCESS;
             // 0. init data
             // 0.1 get device length
             int length = 0;
@@ -1234,7 +1234,7 @@ namespace LWDicer.Layers
                         }
 
                         // 1.3.2 check time limit
-                        if (m_waitTimer.MoreThan(timeLimit[i].tMoveLimit * 1000))
+                        if (m_waitTimer.MoreThan(timeLimit[i].tMoveLimit, ETimeType.SECOND))
                         {
                             return GenerateErrorCode(ERR_ACS_FAIL_SERVO_MOVE_IN_LIMIT_TIME);
                         }
@@ -1251,7 +1251,7 @@ namespace LWDicer.Layers
                         }
 
                         // 1.3.2 check time limit
-                        if (m_waitTimer.MoreThan(timeLimit[i].tOriginLimit * 1000))
+                        if (m_waitTimer.MoreThan(timeLimit[i].tOriginLimit, ETimeType.SECOND))
                         {
                             return GenerateErrorCode(ERR_ACS_FAIL_SERVO_HOME_IN_LIMIT_TIME);
                         }

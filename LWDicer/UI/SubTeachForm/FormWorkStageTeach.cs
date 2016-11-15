@@ -81,8 +81,6 @@ namespace LWDicer.UI
 
         private void InitGrid()
         {
-            int i = 0, j = 0, nCol = 0, nRow = 0;
-
             // Cell Click 시 커서가 생성되지 않게함.
             GridStageTeachTable.ActivateCurrentCellBehavior = GridCellActivateAction.None;
 
@@ -90,22 +88,22 @@ namespace LWDicer.UI
             GridStageTeachTable.Properties.RowHeaders = true;
             GridStageTeachTable.Properties.ColHeaders = false;
 
-            nCol = 3;
-            nRow = 8;
+            int nCol = 3;
+            int nRow = 8;
 
             // Column,Row 개수
             GridStageTeachTable.ColCount = nCol;
             GridStageTeachTable.RowCount = nRow;
 
             // Column 가로 크기설정
-            for (i = 0; i < nCol + 1; i++)
+            for (int i = 0; i < nCol + 1; i++)
             {
                 GridStageTeachTable.ColWidths.SetSize(i, 160);
             }
 
             GridStageTeachTable.ColWidths.SetSize(0, 110);
 
-            for (i = 0; i < nRow + 1; i++)
+            for (int i = 0; i < nRow + 1; i++)
             {
                 GridStageTeachTable.RowHeights[i] = 40;
             }
@@ -131,9 +129,9 @@ namespace LWDicer.UI
             GridStageTeachTable[7, 0].Text = "현재 위치";
             GridStageTeachTable[8, 0].Text = "보정값";
 
-            for (i = 0; i < nCol + 1; i++)
+            for (int i = 0; i < nCol + 1; i++)
             {
-                for (j = 0; j < nRow + 1; j++)
+                for (int j = 0; j < nRow + 1; j++)
                 {
                     // Font Style - Bold
                     GridStageTeachTable[j, i].Font.Bold = true;
@@ -153,7 +151,7 @@ namespace LWDicer.UI
             GridStageTeachTable.ResizeColsBehavior = 0;
             GridStageTeachTable.ResizeRowsBehavior = 0;
 
-            for (i = 0; i < nCol; i++)
+            for (int i = 0; i < nCol; i++)
             {
                 GridStageTeachTable[1, i + 1].TextColor = Color.LightGray;
                 GridStageTeachTable[1, i + 1].Description = "";
@@ -180,14 +178,12 @@ namespace LWDicer.UI
             StagePos[5] = BtnPos6; StagePos[6] = BtnPos7; StagePos[7] = BtnPos8; StagePos[8] = BtnPos9; StagePos[9] = BtnPos10;
             StagePos[10] = BtnPos11; StagePos[11] = BtnPos12; StagePos[12] = BtnPos13; StagePos[13] = BtnPos14; StagePos[14] = BtnPos15;
 
-            int i = 0;
-
-            for(i=0;i<15;i++)
+            for (int i = 0; i < 15; i++)
             {
                 StagePos[i].Visible = false;
             }
             
-            for (i = 0; i < (int)EStagePos.MAX; i++)
+            for (int i = 0; i < (int)EStagePos.MAX; i++)
             {
                 StagePos[i].Text = Convert.ToString(EStagePos.WAIT + i);
             }
@@ -201,30 +197,30 @@ namespace LWDicer.UI
             {
                 double dValue = 0, dCurPos = 0, dTargetPos = 0;
 
-                strCurPos= String.Format("{0:0.000}", CMainFrame.LWDicer.m_ACS.ServoStatus[(int)EACS_Axis.STAGE1_X].EncoderPos);
+                strCurPos = String.Format("{0:0.0000}", CMainFrame.LWDicer.m_ACS.ServoStatus[(int)EACS_Axis.STAGE1_X].EncoderPos);
                 GridStageTeachTable[7, 1].Text = strCurPos;
 
-                strCurPos= String.Format("{0:0.000}", CMainFrame.LWDicer.m_ACS.ServoStatus[(int)EACS_Axis.STAGE1_Y].EncoderPos);
+                strCurPos = String.Format("{0:0.0000}", CMainFrame.LWDicer.m_ACS.ServoStatus[(int)EACS_Axis.STAGE1_Y].EncoderPos);
                 GridStageTeachTable[7, 2].Text = strCurPos;
 
-                strCurPos= String.Format("{0:0.000}", CMainFrame.LWDicer.m_ACS.ServoStatus[(int)EACS_Axis.STAGE1_T].EncoderPos);
+                strCurPos = String.Format("{0:0.0000}", CMainFrame.LWDicer.m_ACS.ServoStatus[(int)EACS_Axis.STAGE1_T].EncoderPos);
                 GridStageTeachTable[7, 3].Text = strCurPos;
 
                 // 보정값 Display
                 dCurPos = CMainFrame.LWDicer.m_ACS.ServoStatus[(int)EACS_Axis.STAGE1_X].EncoderPos;
                 dTargetPos = Convert.ToDouble(GridStageTeachTable[2, 1].Text);
                 dValue = dTargetPos - dCurPos;
-                GridStageTeachTable[8, 1].Text= String.Format("{0:0.000}", dValue);
+                GridStageTeachTable[8, 1].Text= String.Format("{0:0.0000}", dValue);
 
                 dCurPos = CMainFrame.LWDicer.m_ACS.ServoStatus[(int)EACS_Axis.STAGE1_Y].EncoderPos;
                 dTargetPos = Convert.ToDouble(GridStageTeachTable[2, 2].Text);
                 dValue = dTargetPos - dCurPos;
-                GridStageTeachTable[8, 2].Text= String.Format("{0:0.000}", dValue);
+                GridStageTeachTable[8, 2].Text= String.Format("{0:0.0000}", dValue);
 
                 dCurPos = CMainFrame.LWDicer.m_ACS.ServoStatus[(int)EACS_Axis.STAGE1_T].EncoderPos;
                 dTargetPos = Convert.ToDouble(GridStageTeachTable[2, 3].Text);
                 dValue = dTargetPos - dCurPos;
-                GridStageTeachTable[8, 3].Text= String.Format("{0:0.000}", dValue);
+                GridStageTeachTable[8, 3].Text= String.Format("{0:0.0000}", dValue);
             }
             catch
             { }
@@ -232,20 +228,18 @@ namespace LWDicer.UI
 
         private void UpdateStageTeachPos(int selectedPos)
         {
-            int nCount = 0, i = 0, j = 0;
+            int nCount = (int)EStagePos.MAX;
 
-            nCount = (int)EStagePos.MAX;
-
-            for (i = 0; i < nCount; i++)
+            for (int i = 0; i < nCount; i++)
             {
                 StagePos[i].BackColor = Color.LightYellow;
 
                 StagePos[i].Visible = true;
             }
 
-            for (i = 0; i < GridStageTeachTable.ColCount + 1; i++)
+            for (int i = 0; i < GridStageTeachTable.ColCount + 1; i++)
             {
-                for (j = 0; j < GridStageTeachTable.RowCount; j++)
+                for (int j = 0; j < GridStageTeachTable.RowCount; j++)
                 {
                     if (i != 0 && j > 1)
                     {
@@ -282,29 +276,29 @@ namespace LWDicer.UI
             int direction = DEF_X;
             dTargetPos = MO_Stage.GetPosition(index, direction, out dFixedPos, out dModelPos, out dOffsetPos, out dAlignOffset);
 
-            GridStageTeachTable[2, 1].Text = String.Format("{0:0.000}", dTargetPos);
-            GridStageTeachTable[3, 1].Text = String.Format("{0:0.000}", dFixedPos);
-            GridStageTeachTable[4, 1].Text = String.Format("{0:0.000}", dModelPos);
-            GridStageTeachTable[5, 1].Text = String.Format("{0:0.000}", dModelPos);
-            GridStageTeachTable[6, 1].Text = String.Format("{0:0.000}", dOffsetPos);
+            GridStageTeachTable[2, 1].Text = String.Format("{0:0.0000}", dTargetPos);
+            GridStageTeachTable[3, 1].Text = String.Format("{0:0.0000}", dFixedPos);
+            GridStageTeachTable[4, 1].Text = String.Format("{0:0.0000}", dModelPos);
+            GridStageTeachTable[5, 1].Text = String.Format("{0:0.0000}", dModelPos);
+            GridStageTeachTable[6, 1].Text = String.Format("{0:0.0000}", dOffsetPos);
 
             direction = DEF_Y;
             dTargetPos = MO_Stage.GetPosition(index, direction, out dFixedPos, out dModelPos, out dOffsetPos, out dAlignOffset);
 
-            GridStageTeachTable[2, 2].Text = String.Format("{0:0.000}", dTargetPos);
-            GridStageTeachTable[3, 2].Text = String.Format("{0:0.000}", dFixedPos);
-            GridStageTeachTable[4, 2].Text = String.Format("{0:0.000}", dModelPos);
-            GridStageTeachTable[5, 2].Text = String.Format("{0:0.000}", dModelPos);
-            GridStageTeachTable[6, 2].Text = String.Format("{0:0.000}", dOffsetPos);
+            GridStageTeachTable[2, 2].Text = String.Format("{0:0.0000}", dTargetPos);
+            GridStageTeachTable[3, 2].Text = String.Format("{0:0.0000}", dFixedPos);
+            GridStageTeachTable[4, 2].Text = String.Format("{0:0.0000}", dModelPos);
+            GridStageTeachTable[5, 2].Text = String.Format("{0:0.0000}", dModelPos);
+            GridStageTeachTable[6, 2].Text = String.Format("{0:0.0000}", dOffsetPos);
 
             direction = DEF_T;
             dTargetPos = MO_Stage.GetPosition(index, direction, out dFixedPos, out dModelPos, out dOffsetPos, out dAlignOffset);
 
-            GridStageTeachTable[2, 3].Text = String.Format("{0:0.000}", dTargetPos);
-            GridStageTeachTable[3, 3].Text = String.Format("{0:0.000}", dFixedPos);
-            GridStageTeachTable[4, 3].Text = String.Format("{0:0.000}", dModelPos);
-            GridStageTeachTable[5, 3].Text = String.Format("{0:0.000}", dModelPos);
-            GridStageTeachTable[6, 3].Text = String.Format("{0:0.000}", dOffsetPos);
+            GridStageTeachTable[2, 3].Text = String.Format("{0:0.0000}", dTargetPos);
+            GridStageTeachTable[3, 3].Text = String.Format("{0:0.0000}", dFixedPos);
+            GridStageTeachTable[4, 3].Text = String.Format("{0:0.0000}", dModelPos);
+            GridStageTeachTable[5, 3].Text = String.Format("{0:0.0000}", dModelPos);
+            GridStageTeachTable[6, 3].Text = String.Format("{0:0.0000}", dOffsetPos);
         }
 
         private void GridStageTeachTable_PushButtonClick(object sender, GridCellPushButtonClickEventArgs e)
@@ -346,7 +340,7 @@ namespace LWDicer.UI
                     dTargetPos = dPos + dOffsetPos;
                 }
 
-                GridStageTeachTable[2, e.ColIndex].Text = String.Format("{0:0.000}", dTargetPos);
+                GridStageTeachTable[2, e.ColIndex].Text = String.Format("{0:0.0000}", dTargetPos);
 
                 GridStageTeachTable[3, e.ColIndex].Text = strModify;
                 GridStageTeachTable[3, e.ColIndex].TextColor = Color.Blue;
@@ -407,9 +401,9 @@ namespace LWDicer.UI
 
             dTargetXPos = dXPos + dOffsetXPos;
 
-            GridStageTeachTable[2, 1].Text = String.Format("{0:0.000}", dTargetXPos);
+            GridStageTeachTable[2, 1].Text = String.Format("{0:0.0000}", dTargetXPos);
 
-            GridStageTeachTable[3, 1].Text = String.Format("{0:0.000}", dXPos);
+            GridStageTeachTable[3, 1].Text = String.Format("{0:0.0000}", dXPos);
             GridStageTeachTable[3, 1].TextColor = Color.Blue;
 
 
@@ -420,9 +414,9 @@ namespace LWDicer.UI
 
             dTargetYPos = dYPos + dOffsetYPos;
 
-            GridStageTeachTable[2, 2].Text = String.Format("{0:0.000}", dTargetYPos);
+            GridStageTeachTable[2, 2].Text = String.Format("{0:0.0000}", dTargetYPos);
 
-            GridStageTeachTable[3, 2].Text = String.Format("{0:0.000}", dYPos);
+            GridStageTeachTable[3, 2].Text = String.Format("{0:0.0000}", dYPos);
             GridStageTeachTable[3, 2].TextColor = Color.Blue;
 
             StrTCurrent = GridStageTeachTable[7, 3].Text;
@@ -432,9 +426,9 @@ namespace LWDicer.UI
 
             dTargetTPos = dTPos + dOffsetTPos;
 
-            GridStageTeachTable[2, 3].Text = String.Format("{0:0.000}", dTargetTPos);
+            GridStageTeachTable[2, 3].Text = String.Format("{0:0.0000}", dTargetTPos);
 
-            GridStageTeachTable[3, 3].Text = String.Format("{0:0.000}", dTPos);
+            GridStageTeachTable[3, 3].Text = String.Format("{0:0.0000}", dTPos);
             GridStageTeachTable[3, 3].TextColor = Color.Blue;
         }
         private void BtnPos_Click(object sender, EventArgs e)

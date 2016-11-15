@@ -83,15 +83,13 @@ namespace LWDicer.UI
             TeachLoPos[5] = BtnLoPos6; TeachLoPos[6] = BtnLoPos7; TeachLoPos[7] = BtnLoPos8; TeachLoPos[8] = BtnLoPos9; TeachLoPos[9] = BtnLoPos10;
             TeachLoPos[10] = BtnLoPos11; TeachLoPos[11] = BtnLoPos12; TeachLoPos[12] = BtnLoPos13; TeachLoPos[13] = BtnLoPos14; TeachLoPos[14] = BtnLoPos15;
 
-            int i = 0;
-
-            for(i=0;i<15;i++)
+            for (int i = 0; i < 15; i++)
             {
                 TeachLoPos[i].Visible = false;
                 TeachUpPos[i].Visible = false;
             }
 
-            for (i = 0; i < (int)EHandlerPos.MAX; i++)
+            for (int i = 0; i < (int)EHandlerPos.MAX; i++)
             {
                 TeachUpPos[i].Visible = true;
                 TeachLoPos[i].Visible = true;
@@ -103,8 +101,6 @@ namespace LWDicer.UI
 
         private void InitUpperHandlerGrid()
         {
-            int i = 0, j = 0, nCol = 0, nRow = 0;
-
             // Cell Click 시 커서가 생성되지 않게함.
             GridUpHandlerTeachTable.ActivateCurrentCellBehavior = GridCellActivateAction.None;
 
@@ -112,22 +108,22 @@ namespace LWDicer.UI
             GridUpHandlerTeachTable.Properties.RowHeaders = true;
             GridUpHandlerTeachTable.Properties.ColHeaders = false;
 
-            nCol = 2;
-            nRow = 8;
+            int nCol = 2;
+            int nRow = 8;
 
             // Column,Row 개수
             GridUpHandlerTeachTable.ColCount = nCol;
             GridUpHandlerTeachTable.RowCount = nRow;
 
             // Column 가로 크기설정
-            for (i = 0; i < nCol + 1; i++)
+            for (int i = 0; i < nCol + 1; i++)
             {
                 GridUpHandlerTeachTable.ColWidths.SetSize(i, 172);
             }
 
             GridUpHandlerTeachTable.ColWidths.SetSize(0, 110);
 
-            for (i = 0; i < nRow + 1; i++)
+            for (int i = 0; i < nRow + 1; i++)
             {
                 GridUpHandlerTeachTable.RowHeights[i] = 40;
             }
@@ -150,9 +146,9 @@ namespace LWDicer.UI
             GridUpHandlerTeachTable[7, 0].Text = "현재 위치";
             GridUpHandlerTeachTable[8, 0].Text = "보정값";
 
-            for (i = 0; i < nCol + 1; i++)
+            for (int i = 0; i < nCol + 1; i++)
             {
-                for (j = 0; j < nRow + 1; j++)
+                for (int j = 0; j < nRow + 1; j++)
                 {
                     // Font Style - Bold
                     GridUpHandlerTeachTable[j, i].Font.Bold = true;
@@ -172,7 +168,7 @@ namespace LWDicer.UI
             GridUpHandlerTeachTable.ResizeColsBehavior = 0;
             GridUpHandlerTeachTable.ResizeRowsBehavior = 0;
 
-            for (i = 0; i < nCol; i++)
+            for (int i = 0; i < nCol; i++)
             {
                 GridUpHandlerTeachTable[1, i + 1].TextColor = Color.LightGray;
                 GridUpHandlerTeachTable[1, i + 1].Description = "";
@@ -192,8 +188,6 @@ namespace LWDicer.UI
 
         private void InitLowerHandlerGrid()
         {
-            int i = 0, j = 0, nCol = 0, nRow = 0;
-
             // Cell Click 시 커서가 생성되지 않게함.
             GridLoHandlerTeachTable.ActivateCurrentCellBehavior = GridCellActivateAction.None;
 
@@ -201,22 +195,22 @@ namespace LWDicer.UI
             GridLoHandlerTeachTable.Properties.RowHeaders = true;
             GridLoHandlerTeachTable.Properties.ColHeaders = false;
 
-            nCol = 2;
-            nRow = 8;
+            int nCol = 2;
+            int nRow = 8;
 
             // Column,Row 개수
             GridLoHandlerTeachTable.ColCount = nCol;
             GridLoHandlerTeachTable.RowCount = nRow;
 
             // Column 가로 크기설정
-            for (i = 0; i < nCol + 1; i++)
+            for (int i = 0; i < nCol + 1; i++)
             {
                 GridLoHandlerTeachTable.ColWidths.SetSize(i, 172);
             }
 
             GridLoHandlerTeachTable.ColWidths.SetSize(0, 110);
 
-            for (i = 0; i < nRow + 1; i++)
+            for (int i = 0; i < nRow + 1; i++)
             {
                 GridLoHandlerTeachTable.RowHeights[i] = 40;
 
@@ -240,9 +234,9 @@ namespace LWDicer.UI
             GridLoHandlerTeachTable[7, 0].Text = "현재 위치";
             GridLoHandlerTeachTable[8, 0].Text = "보정값";
 
-            for (i = 0; i < nCol + 1; i++)
+            for (int i = 0; i < nCol + 1; i++)
             {
-                for (j = 0; j < nRow + 1; j++)
+                for (int j = 0; j < nRow + 1; j++)
                 {
                     // Font Style - Bold
                     GridLoHandlerTeachTable[j, i].Font.Bold = true;
@@ -262,7 +256,7 @@ namespace LWDicer.UI
             GridLoHandlerTeachTable.ResizeColsBehavior = 0;
             GridLoHandlerTeachTable.ResizeRowsBehavior = 0;
 
-            for (i = 0; i < nCol; i++)
+            for (int i = 0; i < nCol; i++)
             {
                 GridLoHandlerTeachTable[1, i + 1].TextColor = Color.LightGray;
                 GridLoHandlerTeachTable[1, i + 1].Description = "";
@@ -310,18 +304,16 @@ namespace LWDicer.UI
 
         private void UpdateUpperTeachPos(int selectedPos)
         {
-            int nCount = 0, i = 0, j = 0;
+            int nCount = (int)EHandlerPos.MAX;
 
-            nCount = (int)EHandlerPos.MAX;
-
-            for (i = 0; i < nCount; i++)
+            for (int i = 0; i < nCount; i++)
             {
                 TeachUpPos[i].BackColor = Color.LightYellow;
             }
 
-            for (i = 0; i < GridUpHandlerTeachTable.ColCount + 1; i++)
+            for (int i = 0; i < GridUpHandlerTeachTable.ColCount + 1; i++)
             {
-                for (j = 0; j < GridUpHandlerTeachTable.RowCount; j++)
+                for (int j = 0; j < GridUpHandlerTeachTable.RowCount; j++)
                 {
                     if (i != 0 && j > 1)
                     {
@@ -351,18 +343,16 @@ namespace LWDicer.UI
 
         private void UpdateLowerTeachPos(int selectedPos)
         {
-            int nCount = 0, i = 0, j = 0;
+            int nCount = (int)EHandlerPos.MAX;
 
-            nCount = (int)EHandlerPos.MAX;
-
-            for (i = 0; i < nCount; i++)
+            for (int i = 0; i < nCount; i++)
             {
                 TeachLoPos[i].BackColor = Color.LightYellow;
             }
 
-            for (i = 0; i < GridLoHandlerTeachTable.ColCount + 1; i++)
+            for (int i = 0; i < GridLoHandlerTeachTable.ColCount + 1; i++)
             {
-                for (j = 0; j < GridLoHandlerTeachTable.RowCount; j++)
+                for (int j = 0; j < GridLoHandlerTeachTable.RowCount; j++)
                 {
                     if (i != 0 && j > 1)
                     {
@@ -399,20 +389,20 @@ namespace LWDicer.UI
             int direction = DEF_X;
             dTargetPos = MO_Handler[nHIndex].GetPosition(index, direction, out dFixedPos, out dModelPos, out dOffsetPos, out dAlignOffset);
 
-            GridUpHandlerTeachTable[2, 1].Text = String.Format("{0:0.000}", dTargetPos);
-            GridUpHandlerTeachTable[3, 1].Text = String.Format("{0:0.000}", dFixedPos);
-            GridUpHandlerTeachTable[4, 1].Text = String.Format("{0:0.000}", dModelPos);
-            GridUpHandlerTeachTable[5, 1].Text = String.Format("{0:0.000}", dAlignOffset);
-            GridUpHandlerTeachTable[6, 1].Text = String.Format("{0:0.000}", dOffsetPos);
+            GridUpHandlerTeachTable[2, 1].Text = String.Format("{0:0.0000}", dTargetPos);
+            GridUpHandlerTeachTable[3, 1].Text = String.Format("{0:0.0000}", dFixedPos);
+            GridUpHandlerTeachTable[4, 1].Text = String.Format("{0:0.0000}", dModelPos);
+            GridUpHandlerTeachTable[5, 1].Text = String.Format("{0:0.0000}", dAlignOffset);
+            GridUpHandlerTeachTable[6, 1].Text = String.Format("{0:0.0000}", dOffsetPos);
 
             direction = DEF_Z;
             dTargetPos = MO_Handler[nHIndex].GetPosition(index, direction, out dFixedPos, out dModelPos, out dOffsetPos, out dAlignOffset);
 
-            GridUpHandlerTeachTable[2, 2].Text = String.Format("{0:0.000}", dTargetPos);
-            GridUpHandlerTeachTable[3, 2].Text = String.Format("{0:0.000}", dFixedPos);
-            GridUpHandlerTeachTable[4, 2].Text = String.Format("{0:0.000}", dModelPos);
-            GridUpHandlerTeachTable[5, 2].Text = String.Format("{0:0.000}", dAlignOffset);
-            GridUpHandlerTeachTable[6, 2].Text = String.Format("{0:0.000}", dOffsetPos);
+            GridUpHandlerTeachTable[2, 2].Text = String.Format("{0:0.0000}", dTargetPos);
+            GridUpHandlerTeachTable[3, 2].Text = String.Format("{0:0.0000}", dFixedPos);
+            GridUpHandlerTeachTable[4, 2].Text = String.Format("{0:0.0000}", dModelPos);
+            GridUpHandlerTeachTable[5, 2].Text = String.Format("{0:0.0000}", dAlignOffset);
+            GridUpHandlerTeachTable[6, 2].Text = String.Format("{0:0.0000}", dOffsetPos);
         }
 
         private void DisplayPos_LowerHandler()
@@ -423,20 +413,20 @@ namespace LWDicer.UI
             int direction = DEF_X;
             dTargetPos = MO_Handler[nHIndex].GetPosition(index, direction, out dFixedPos, out dModelPos, out dOffsetPos, out dAlignOffset);
 
-            GridLoHandlerTeachTable[2, 1].Text = String.Format("{0:0.000}", dTargetPos);
-            GridLoHandlerTeachTable[3, 1].Text = String.Format("{0:0.000}", dFixedPos);
-            GridLoHandlerTeachTable[4, 1].Text = String.Format("{0:0.000}", dModelPos);
-            GridLoHandlerTeachTable[5, 1].Text = String.Format("{0:0.000}", dAlignOffset);
-            GridLoHandlerTeachTable[6, 1].Text = String.Format("{0:0.000}", dOffsetPos);
+            GridLoHandlerTeachTable[2, 1].Text = String.Format("{0:0.0000}", dTargetPos);
+            GridLoHandlerTeachTable[3, 1].Text = String.Format("{0:0.0000}", dFixedPos);
+            GridLoHandlerTeachTable[4, 1].Text = String.Format("{0:0.0000}", dModelPos);
+            GridLoHandlerTeachTable[5, 1].Text = String.Format("{0:0.0000}", dAlignOffset);
+            GridLoHandlerTeachTable[6, 1].Text = String.Format("{0:0.0000}", dOffsetPos);
 
             direction = DEF_Z;
             dTargetPos = MO_Handler[nHIndex].GetPosition(index, direction, out dFixedPos, out dModelPos, out dOffsetPos, out dAlignOffset);
 
-            GridLoHandlerTeachTable[2, 2].Text = String.Format("{0:0.000}", dTargetPos);
-            GridLoHandlerTeachTable[3, 2].Text = String.Format("{0:0.000}", dFixedPos);
-            GridLoHandlerTeachTable[4, 2].Text = String.Format("{0:0.000}", dModelPos);
-            GridLoHandlerTeachTable[5, 2].Text = String.Format("{0:0.000}", dAlignOffset);
-            GridLoHandlerTeachTable[6, 2].Text = String.Format("{0:0.000}", dOffsetPos);
+            GridLoHandlerTeachTable[2, 2].Text = String.Format("{0:0.0000}", dTargetPos);
+            GridLoHandlerTeachTable[3, 2].Text = String.Format("{0:0.0000}", dFixedPos);
+            GridLoHandlerTeachTable[4, 2].Text = String.Format("{0:0.0000}", dModelPos);
+            GridLoHandlerTeachTable[5, 2].Text = String.Format("{0:0.0000}", dAlignOffset);
+            GridLoHandlerTeachTable[6, 2].Text = String.Format("{0:0.0000}", dOffsetPos);
         }
 
         private void TimerUI_Tick(object sender, EventArgs e)
@@ -444,16 +434,16 @@ namespace LWDicer.UI
             // Current Position Display
             string strCurPos = string.Empty;
 
-            strCurPos = String.Format("{0:0.000}", CMainFrame.LWDicer.m_YMC.ServoStatus[(int)EYMC_Axis.LOWER_HANDLER_X].EncoderPos);
+            strCurPos = String.Format("{0:0.0000}", CMainFrame.LWDicer.m_YMC.ServoStatus[(int)EYMC_Axis.LOWER_HANDLER_X].EncoderPos);
             GridUpHandlerTeachTable[7, 1].Text = strCurPos;
 
-            strCurPos = String.Format("{0:0.000}", CMainFrame.LWDicer.m_YMC.ServoStatus[(int)EYMC_Axis.LOWER_HANDLER_Z].EncoderPos);
+            strCurPos = String.Format("{0:0.0000}", CMainFrame.LWDicer.m_YMC.ServoStatus[(int)EYMC_Axis.LOWER_HANDLER_Z].EncoderPos);
             GridUpHandlerTeachTable[7, 2].Text = strCurPos;
 
-            strCurPos = String.Format("{0:0.000}", CMainFrame.LWDicer.m_YMC.ServoStatus[(int)EYMC_Axis.UPPER_HANDLER_X].EncoderPos);
+            strCurPos = String.Format("{0:0.0000}", CMainFrame.LWDicer.m_YMC.ServoStatus[(int)EYMC_Axis.UPPER_HANDLER_X].EncoderPos);
             GridLoHandlerTeachTable[7, 1].Text = strCurPos;
 
-            strCurPos = String.Format("{0:0.000}", CMainFrame.LWDicer.m_YMC.ServoStatus[(int)EYMC_Axis.UPPER_HANDLER_Z].EncoderPos);
+            strCurPos = String.Format("{0:0.0000}", CMainFrame.LWDicer.m_YMC.ServoStatus[(int)EYMC_Axis.UPPER_HANDLER_Z].EncoderPos);
             GridLoHandlerTeachTable[7, 2].Text = strCurPos;
 
 
@@ -464,25 +454,25 @@ namespace LWDicer.UI
             dTargetPos = Convert.ToDouble(GridUpHandlerTeachTable[2, 1].Text);
             dValue = dTargetPos - dCurPos;
 
-            GridUpHandlerTeachTable[8, 1].Text = String.Format("{0:0.000}", dValue);
+            GridUpHandlerTeachTable[8, 1].Text = String.Format("{0:0.0000}", dValue);
 
             dCurPos = CMainFrame.LWDicer.m_YMC.ServoStatus[(int)EYMC_Axis.UPPER_HANDLER_Z].EncoderPos;
             dTargetPos = Convert.ToDouble(GridUpHandlerTeachTable[2, 2].Text);
             dValue = dTargetPos - dCurPos;
 
-            GridUpHandlerTeachTable[8, 2].Text = String.Format("{0:0.000}", dValue);
+            GridUpHandlerTeachTable[8, 2].Text = String.Format("{0:0.0000}", dValue);
 
             dCurPos = CMainFrame.LWDicer.m_YMC.ServoStatus[(int)EYMC_Axis.LOWER_HANDLER_X].EncoderPos;
             dTargetPos = Convert.ToDouble(GridLoHandlerTeachTable[2, 1].Text);
             dValue = dTargetPos - dCurPos;
 
-            GridLoHandlerTeachTable[8, 1].Text = String.Format("{0:0.000}", dValue);
+            GridLoHandlerTeachTable[8, 1].Text = String.Format("{0:0.0000}", dValue);
 
             dCurPos = CMainFrame.LWDicer.m_YMC.ServoStatus[(int)EYMC_Axis.LOWER_HANDLER_Z].EncoderPos;
             dTargetPos = Convert.ToDouble(GridLoHandlerTeachTable[2, 2].Text);
             dValue = dTargetPos - dCurPos;
 
-            GridLoHandlerTeachTable[8, 2].Text = String.Format("{0:0.000}", dValue);
+            GridLoHandlerTeachTable[8, 2].Text = String.Format("{0:0.0000}", dValue);
         }
 
         private void BtnUpChangeValue_Click(object sender, EventArgs e)
@@ -581,16 +571,16 @@ namespace LWDicer.UI
             {
                 dOtherSum += Convert.ToDouble(GridUpHandlerTeachTable[6, index].Text); // Offset Pos
                 double dPos = dTargetPos - dOtherSum;
-                GridUpHandlerTeachTable[2, index].Text = String.Format("{0:0.000}", dTargetPos);
-                GridUpHandlerTeachTable[3, index].Text = String.Format("{0:0.000}", dPos);
+                GridUpHandlerTeachTable[2, index].Text = String.Format("{0:0.0000}", dTargetPos);
+                GridUpHandlerTeachTable[3, index].Text = String.Format("{0:0.0000}", dPos);
                 GridUpHandlerTeachTable[3, index].TextColor = Color.Blue;
             }
             else
             {
                 dOtherSum += Convert.ToDouble(GridUpHandlerTeachTable[3, index].Text); // Fixed Pos
                 double dPos = dTargetPos - dOtherSum;
-                GridUpHandlerTeachTable[2, index].Text = String.Format("{0:0.000}", dTargetPos);
-                GridUpHandlerTeachTable[6, index].Text = String.Format("{0:0.000}", dPos);
+                GridUpHandlerTeachTable[2, index].Text = String.Format("{0:0.0000}", dTargetPos);
+                GridUpHandlerTeachTable[6, index].Text = String.Format("{0:0.0000}", dPos);
                 GridUpHandlerTeachTable[6, index].TextColor = Color.Blue;
             }
         }
@@ -605,16 +595,16 @@ namespace LWDicer.UI
             {
                 dOtherSum += Convert.ToDouble(GridLoHandlerTeachTable[6, index].Text); // Offset Pos
                 double dPos = dTargetPos - dOtherSum;
-                GridLoHandlerTeachTable[2, index].Text = String.Format("{0:0.000}", dTargetPos);
-                GridLoHandlerTeachTable[3, index].Text = String.Format("{0:0.000}", dPos);
+                GridLoHandlerTeachTable[2, index].Text = String.Format("{0:0.0000}", dTargetPos);
+                GridLoHandlerTeachTable[3, index].Text = String.Format("{0:0.0000}", dPos);
                 GridLoHandlerTeachTable[3, index].TextColor = Color.Blue;
             }
             else
             {
                 dOtherSum += Convert.ToDouble(GridLoHandlerTeachTable[3, index].Text); // Fixed Pos
                 double dPos = dTargetPos - dOtherSum;
-                GridLoHandlerTeachTable[2, index].Text = String.Format("{0:0.000}", dTargetPos);
-                GridLoHandlerTeachTable[6, index].Text = String.Format("{0:0.000}", dPos);
+                GridLoHandlerTeachTable[2, index].Text = String.Format("{0:0.0000}", dTargetPos);
+                GridLoHandlerTeachTable[6, index].Text = String.Format("{0:0.0000}", dPos);
                 GridLoHandlerTeachTable[6, index].TextColor = Color.Blue;
             }
         }

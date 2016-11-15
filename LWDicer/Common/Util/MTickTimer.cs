@@ -5,22 +5,12 @@ using System.Text;
 using System.Diagnostics;
 
 using static LWDicer.Layers.DEF_Common;
-using static LWDicer.Layers.MTickTimer.ETimeType;
+using static LWDicer.Layers.DEF_Common.ETimeType;
 
 namespace LWDicer.Layers
 {
     public class MTickTimer
     {
-        public enum ETimeType
-        {
-            NANOSECOND,
-            MICROSECOND,
-            MILLISECOND,
-            SECOND,
-            MINUTE,
-            HOUR,
-        }
-
         Stopwatch Timer;
         bool bIsTimerStarted;
 
@@ -45,9 +35,9 @@ namespace LWDicer.Layers
             return SUCCESS;
         }
 
-        public long GetElapsedTime(ETimeType type = MILLISECOND)
+        public double GetElapsedTime(ETimeType type = SECOND)
         {
-            long gap = Timer.ElapsedTicks;
+            double gap = Timer.ElapsedTicks;
 
             switch(type)
             {
@@ -55,7 +45,7 @@ namespace LWDicer.Layers
                     break;
 
                 case MICROSECOND:
-                    gap /= 10;
+                    gap /= 10.0;
                     break;
 
                 case MILLISECOND:
@@ -63,46 +53,65 @@ namespace LWDicer.Layers
                     break;
 
                 case SECOND:
-                    gap = Timer.ElapsedMilliseconds / (1000);
+                    gap = Timer.ElapsedMilliseconds / (1000.0);
                     break;
 
                 case MINUTE:
-                    gap = Timer.ElapsedMilliseconds / (1000 * 60);
+                    gap = Timer.ElapsedMilliseconds / (1000.0 * 60);
                     break;
 
                 case HOUR:
-                    gap = Timer.ElapsedMilliseconds / (1000 * 60 * 60);
+                    gap = Timer.ElapsedMilliseconds / (1000.0 * 60 * 60);
                     break;
             }
             return gap;
         }
 
-        public bool LessThan(long CompareTime, ETimeType type = MILLISECOND)
+        public string GetElapsedTime_Text(bool bShowUnit = true, ETimeType type = SECOND)
         {
-            long gap = GetElapsedTime(type);
+            string unit = "sec";
+
+            switch (type)
+            {
+                case NANOSECOND:
+                    unit = "nanosec";
+                    break;
+
+                case MICROSECOND:
+                    unit = "microsec";
+                    break;
+
+                case MILLISECOND:
+                    unit = "millisec";
+                    break;
+
+                case SECOND:
+                    unit = "sec";
+                    break;
+
+                case MINUTE:
+                    unit = "min";
+                    break;
+
+                case HOUR:
+                    unit = "hour";
+                    break;
+            }
+
+            string str = $"{GetElapsedTime(type):0.000} {unit}";
+            return str;
+        }
+
+        public bool LessThan(double CompareTime, ETimeType type = SECOND)
+        {
+            double gap = GetElapsedTime(type);
             if (gap < CompareTime) return true;
             else return false;
         }
 
-        public bool MoreThan(long CompareTime, ETimeType type = MILLISECOND)
+        public bool MoreThan(double CompareTime, ETimeType type = SECOND)
         {
-            long gap = GetElapsedTime(type);
-            if (gap > CompareTime) return true;
-            else return false;
-        }
-
-        public bool LessThan(double CompareTime, ETimeType type = MILLISECOND)
-        {
-            CompareTime = (long)CompareTime;
-            long gap = GetElapsedTime(type);
-            if (gap < CompareTime) return true;
-            else return false;
-        }
-
-        public bool MoreThan(double CompareTime, ETimeType type = MILLISECOND)
-        {
-            CompareTime = (long)CompareTime;
-            long gap = GetElapsedTime(type);
+            double gap = GetElapsedTime(type);
             if (gap > CompareTime) return true;
             else return false;
         }

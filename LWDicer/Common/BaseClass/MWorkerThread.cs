@@ -35,7 +35,6 @@ namespace LWDicer.Layers
         public EAutoRunStatus   RunStatus { get; private set; } = EAutoRunStatus.STS_MANUAL; // EAutoRunStatus.STS_MANUAL, EAutoRunStatus.STS_RUN_READY, EAutoRunStatus.STS_RUN,STS_STEP_STOP, 
         public EAutoRunStatus   RunStatus_Old { get; private set; } = EAutoRunStatus.STS_RUN; // Old RunStatus
 
-
         // 평소엔 ThreadStep 만 사용함
         // Process에 따라서 Multi Process를 운용할 필요가 있기때문에, ThreadStep1,2를 사용
         protected EThreadStep ThreadStep  = EThreadStep.STEP_NONE;
@@ -48,7 +47,7 @@ namespace LWDicer.Layers
 
         // interval post msg
         private MTickTimer PostTimer = new MTickTimer();
-        private long LastPostTime;
+        private double LastPostTime;
         private long PostIntervalTime = 2;  // second
 
         // DataManager and WorkPiece
@@ -71,7 +70,7 @@ namespace LWDicer.Layers
             this.LCNetUnitPos = LCNetUnitPos;
 
             PostTimer.StartTimer();
-            LastPostTime = PostTimer.GetElapsedTime(MTickTimer.ETimeType.SECOND);
+            LastPostTime = PostTimer.GetElapsedTime(ETimeType.SECOND);
 
             Debug.WriteLine(ToString());
         }
@@ -192,7 +191,17 @@ namespace LWDicer.Layers
         protected override int ProcessMsg(MEvent evnt)
         {
             Debug.WriteLine($"[MWorkerThread] received message : {evnt}");
-            switch ((EThreadMessage)Enum.Parse(typeof(EThreadMessage), evnt.Msg.ToString()))
+
+            EThreadMessage msg = EThreadMessage.NONE;
+            try
+            {
+                msg = (EThreadMessage)Enum.Parse(typeof(EThreadMessage), evnt.Msg.ToString());
+            }
+            catch (System.Exception ex)
+            {
+                Debug.WriteLine(ex);
+            }
+            switch (msg)
             {
                 case MSG_MANUAL_CMD:
                     SetRunStatus(EAutoRunStatus.STS_MANUAL);
@@ -451,7 +460,7 @@ namespace LWDicer.Layers
         /// <returns></returns>
         public int PostMsg_Interval(EThreadChannel target, EThreadMessage msg, int wParam = -1, int lParam = -1)
         {
-            if (PostTimer.MoreThan(LastPostTime + PostIntervalTime, MTickTimer.ETimeType.SECOND) == false)
+            if (PostTimer.MoreThan(LastPostTime + PostIntervalTime, ETimeType.SECOND) == false)
                 return SUCCESS;
 
             LastPostTime += PostIntervalTime;

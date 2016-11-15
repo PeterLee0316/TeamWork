@@ -30,9 +30,6 @@ namespace LWDicer.UI
                 case EListHeaderType.MODEL:
                     HeaderList = CMainFrame.DataManager.ModelHeaderList;
                     break;
-                case EListHeaderType.CASSETTE:
-                    HeaderList = CMainFrame.DataManager.CassetteHeaderList;
-                    break;
                 case EListHeaderType.WAFERFRAME:
                     HeaderList = CMainFrame.DataManager.WaferFrameHeaderList;
                     break;
@@ -130,9 +127,7 @@ namespace LWDicer.UI
             }
 
             // Maker Name 중복 검사
-            int i = 0;
-
-            for(i=0;i< HeaderList.Count;i++)
+            for (int i = 0; i <  HeaderList.Count; i++)
             {
                 if(NewHeader.Name == HeaderList[i].Name)
                 {

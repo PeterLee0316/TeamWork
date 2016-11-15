@@ -225,7 +225,7 @@ LWDicer의 DataManager에서 데이터를 읽어오기 위한 3가지 함수 : S
 3. MTrsPushPull class 1차 작성. 어떤 Unit과의 작업이 끝난후에, Wafer 존재 유무에 따라 다음 step을 결정하는 부분 및
    Handler와의 Panel Handshake 부분 작성
 4. Model, Cassette, WaferFrame Data를 리스트로 관리하기 위해서 CModelHeader -> CListHeader 로 이름 변경
-5. CCassetteData 가 선언은 되어있으나 MeElevator에서만 쓰이고, DataManager에 다른 CWaferCassette가 선언되어있어
+5. CCassetteData 가 선언은 되어있으나 MeElevator에서만 쓰이고, DataManager에 다른 CWaferFrameData가 선언되어있어
    임시로 이름을 CCassetteData -> CCassetteData_obsolete 로 변경함. 추후 이과장이 관련부분 수정 필요함
 6. DataManager에서 Model, Cassette, WaferFrame Data를 각각 List로 관리하도록 관련함수 업데이트 및
    FormModelData class를 공용으로 사용할 수 있도록 관련 부분 업데이트
@@ -419,6 +419,45 @@ CSpinStep class -> CCleaningStep / CCoatingStep class 로 분리
 10. Name Changed : CPosition -> CPositionSet class, GetPosition -> GetPositionSet, SetPosition -> SetPositionSet
 11. Name Changed : Mechanical Layer's SetXXXPosition -> SetPosition_XXX
 12. Position save / load / set to component 관련 부분 모두 수정 
+
+// Version : 0.0.40
+// Grade : ★
+// Date : 161024~161028
+// Context
+1. apply async/await structure in doing coating/cleaing job.
+2. updated : MTickTimer class & changed default time type to ETypeType.SECOND
+3. updated : the portion related to DoCleanOperation and DoCoatOperation method of spinner class.
+4. changed : excel file name "xxx.xls" to "xxx_date_time.xlsx" when load/save data
+5. updated : ImportDataFromExcel / ExportDataToExcel method of MDataManager and FormSystemParaRead class
+
+// Version : 0.0.41
+// Grade : ★
+// Date : 161031~161104
+// Context
+1. merged CWaferCassette to CWaferFram class, because they are same class at disco mashine from beginning.
+   Name Changed : CWaferFram -> CWaferFrameData.
+2. updated : CheckDoorStatus, CheckTank_Empty methods of MOpPanel
+3. updated : CheckSafetyBeforeAxisMove, CheckSafetyBeforeCylinderMove methods of MCtrlOpPanel.
+4. updated : FormSystemData
+5. now updating.. : MOpPanel, MCtrlOpPanel switch, COpPanelIOAddr
+
+// Version : 0.0.42
+// Grade : ★
+// Date : 161107~161111
+// Context
+1. updated : MOpPanel, MCtrlOpPanel switch, COpPanelIOAddr
+2. added : ArrayExtensions.Init method
+3. now updating.. : 이동 관련, 상태 체크, Test시에 실제 axis existance 여부에 따른 methods of MMultiAxes_YMC, MYaskawa 
+4. now updating.. : FormManualScreen 에서 moving method들에 async/await 구조 확립
+
+// Version : 0.0.43
+// Grade : ★
+// Date : 161114~161115
+// Context
+1. updated : 이동 관련, 상태 체크, Test시에 실제 axis existance 여부에 따른 methods of MMultiAxes_YMC, MYaskawa 
+2. updated : 자릿수 변경 0.000 -> 0.0000
+3. updated : FormManualScreen class 에서 moving & cancel command 구조 적용 및 moving 함수 틀 완성
+4. updated : MDataManager class, load position data 부분에서 array size difference 경우에도 safe array copy 적용
 
 // ********************************************************************************
 // test를 위해서 임시로 결과값을 쓰는 코드들은 // for test 로 주석 달기 및 검색해서 사용하도록

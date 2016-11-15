@@ -7,10 +7,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-
 using Syncfusion.Windows.Forms.Tools;
-
 using System.Collections.Specialized;
+using System.Diagnostics;
 
 using Syncfusion.Windows.Forms.Grid;
 using Syncfusion.Windows.Forms;
@@ -56,9 +55,6 @@ namespace LWDicer.UI
 
         private void InitGrid()
         {
-            //GridSpinner
-            int i = 0, j = 0;
-
             // Cell Click 시 커서가 생성되지 않게함.
             GridCtrl.ActivateCurrentCellBehavior = GridCellActivateAction.None;
 
@@ -76,7 +72,7 @@ namespace LWDicer.UI
             GridCtrl.ColWidths.SetSize(2, 110);
             GridCtrl.ColWidths.SetSize(3, 110);
 
-            for(i=0;i<(int)ECoatOperation.MAX;i++)
+            for (int i = 0; i < (int)ECoatOperation.MAX; i++)
             {
                 strOP[i] = Convert.ToString(ECoatOperation.NO_USE + i);
             }
@@ -85,12 +81,12 @@ namespace LWDicer.UI
 
             strColl.AddRange(strOP);
 
-            for (i = 0; i < GridCtrl.RowCount + 1; i++)
+            for (int i = 0; i < GridCtrl.RowCount + 1; i++)
             {
                 GridCtrl.RowHeights[i] = 35;
             }
 
-            for (i=0;i< GridCtrl.RowCount;i++)
+            for (int i = 0; i < GridCtrl.RowCount; i++)
             {
                 GridStyleInfo style = GridCtrl.Model[i+1,1];
 
@@ -111,9 +107,9 @@ namespace LWDicer.UI
             GridCtrl[0, 3].Text = "RPM / min";
 
 
-            for (i = 0; i < GridCtrl.ColCount + 1; i++)
+            for (int i = 0; i < GridCtrl.ColCount + 1; i++)
             {
-                for (j = 0; j < GridCtrl.RowCount + 1; j++)
+                for (int j = 0; j < GridCtrl.RowCount + 1; j++)
                 {
                     // Font Style - Bold
                     GridCtrl[j, i].Font.Bold = true;
@@ -127,7 +123,7 @@ namespace LWDicer.UI
             GridCtrl.ResizeColsBehavior = 0;
             GridCtrl.ResizeRowsBehavior = 0;
 
-            for (i = 0; i < GridCtrl.RowCount; i++)
+            for (int i = 0; i < GridCtrl.RowCount; i++)
             {
                 GridCtrl[i + 1, 2].BackColor = Color.FromArgb(230, 210, 255);
                 GridCtrl[i + 1, 3].BackColor = Color.FromArgb(255, 230, 255);
@@ -139,9 +135,7 @@ namespace LWDicer.UI
 
         private void UpdateData()
         {
-            int i;
-
-            for (i=0;i< DEF_MAX_SPINNER_STEP;i++)
+            for (int i = 0; i < DEF_MAX_SPINNER_STEP; i++)
             {
                 GridCtrl[i + 1, 1].Text = strOP[(int)CoaterData.WorkSteps_Custom[i].Operation];
                 GridCtrl[i + 1, 1].TextColor = Color.Black;
@@ -160,7 +154,7 @@ namespace LWDicer.UI
             LabelCoatData[4].Text = Convert.ToString(CoaterData.NozzleSpeed);
             LabelCoatData[5].Text = Convert.ToString(CoaterData.CoatingArea);
 
-            for (i=0;i<6;i++)
+            for (int i = 0; i <6; i++)
             {
                 LabelCoatData[i].ForeColor = Color.Black;
             }
@@ -180,15 +174,23 @@ namespace LWDicer.UI
 
         private void BtnSave_Click(object sender, EventArgs e)
         {
-            if (!CMainFrame.InquireMsg("Save Data?"))
+            if (!CMainFrame.InquireMsg("Save data?"))
             {
                 return;
             }
 
             for (int i = 0; i < DEF_MAX_SPINNER_STEP; i++)
             {
-                ECoatOperation operation = (ECoatOperation)Enum.Parse(typeof(ECoatOperation), GridCtrl[i + 1, 1].Text);
-                CoaterData.WorkSteps_Custom[i].Operation = operation;
+                ECoatOperation cnvt = ECoatOperation.NONE;
+                try
+                {
+                    cnvt = (ECoatOperation)Enum.Parse(typeof(ECoatOperation), GridCtrl[i + 1, 1].Text);
+                }
+                catch (System.Exception ex)
+                {
+                    Debug.WriteLine(ex);
+                }
+                CoaterData.WorkSteps_Custom[i].Operation = cnvt;
                 CoaterData.WorkSteps_Custom[i].OpTime = Convert.ToDouble(GridCtrl[i + 1, 2].Text);
                 CoaterData.WorkSteps_Custom[i].RPMSpeed = Convert.ToInt32(GridCtrl[i + 1, 3].Text);
             }
@@ -197,10 +199,11 @@ namespace LWDicer.UI
             CoaterData.MovingPVAQty = Convert.ToInt16(LabelCoatData[1].Text);
             CoaterData.CoatingRate = Convert.ToInt16(LabelCoatData[2].Text);
             CoaterData.CenterWaitTime = Convert.ToInt16(LabelCoatData[3].Text);
-            CoaterData.NozzleSpeed = Convert.ToInt16(LabelCoatData[4].Text);
+            CoaterData.NozzleSpeed = Convert.ToDouble(LabelCoatData[4].Text);
             CoaterData.CoatingArea = Convert.ToDouble(LabelCoatData[5].Text);
             CoaterData.MoveMode = selMode;
 
+            // save
             CMainFrame.DataManager.ModelData.SpinnerData[(int)m_SpinnerIndex].CoaterData = ObjectExtensions.Copy(CoaterData);
             //CMainFrame.LWDicer.SaveModelData(CMainFrame.DataManager.ModelData);
             CMainFrame.LWDicer.SaveModelData(CMainFrame.DataManager.ModelData);
@@ -244,7 +247,7 @@ namespace LWDicer.UI
             }
         }
 
-        private void LabelCoatData_Click(object sender, EventArgs e)
+        private void LabelData_Click(object sender, EventArgs e)
         {
             GradientLabel data = sender as GradientLabel;
 
@@ -271,6 +274,14 @@ namespace LWDicer.UI
         {
             m_SpinnerIndex = ESpinnerIndex.SPINNER1 + ComboSpinnerIndex.SelectedIndex;
             CoaterData = ObjectExtensions.Copy(CMainFrame.DataManager.ModelData.SpinnerData[(int)m_SpinnerIndex].CoaterData);
+            UpdateData();
+        }
+
+        private void BtnLoadFrom_Click(object sender, EventArgs e)
+        {
+            ESpinnerIndex index = (m_SpinnerIndex == ESpinnerIndex.SPINNER1) ? ESpinnerIndex.SPINNER2 : ESpinnerIndex.SPINNER1;
+            CoaterData = ObjectExtensions.Copy(CMainFrame.DataManager.ModelData.SpinnerData[(int)index].CoaterData);
+
             UpdateData();
         }
     }

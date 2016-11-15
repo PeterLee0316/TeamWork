@@ -15,7 +15,6 @@ namespace LWDicer.Layers
     {
         IIO m_IO;
         CVacuumData m_Data;
-        MTickTimer m_waitTimer = new MTickTimer();
 
         public MVacuum(CObjectInfo objInfo, IIO pIO, CVacuumData data) 
             : base(objInfo)
@@ -471,7 +470,7 @@ namespace LWDicer.Layers
                 if ((iRet = IsOn(out bVal)) != SUCCESS) return iRet;
                 if (bVal) break;
 
-                if (m_waitTimer.MoreThan(m_Data.Time.TurningTime * 1000))
+                if (m_waitTimer.MoreThan(m_Data.Time.TurningTime, ETimeType.SECOND))
                 {
                     switch (m_Data.VacuumType)
                     {
@@ -526,7 +525,7 @@ namespace LWDicer.Layers
             {
                 if ((iRet = IsOff(out bVal)) != SUCCESS) return iRet;
                 if (bVal) break;
-                if (m_waitTimer.MoreThan(m_Data.Time.TurningTime * 1000))
+                if (m_waitTimer.MoreThan(m_Data.Time.TurningTime, ETimeType.SECOND))
                 {
                     switch (m_Data.VacuumType)
                     {

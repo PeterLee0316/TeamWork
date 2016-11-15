@@ -92,7 +92,7 @@
             this.BtnExit.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
             this.BtnExit.Image = ((System.Drawing.Image)(resources.GetObject("BtnExit.Image")));
             this.BtnExit.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.BtnExit.Location = new System.Drawing.Point(696, 468);
+            this.BtnExit.Location = new System.Drawing.Point(740, 469);
             this.BtnExit.Name = "BtnExit";
             this.BtnExit.Size = new System.Drawing.Size(124, 61);
             this.BtnExit.TabIndex = 757;
@@ -116,7 +116,7 @@
             this.gradientLabel3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
             this.gradientLabel3.Location = new System.Drawing.Point(12, 9);
             this.gradientLabel3.Name = "gradientLabel3";
-            this.gradientLabel3.Size = new System.Drawing.Size(237, 38);
+            this.gradientLabel3.Size = new System.Drawing.Size(261, 38);
             this.gradientLabel3.TabIndex = 957;
             this.gradientLabel3.Text = "Chuck Vacuum";
             this.gradientLabel3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -130,9 +130,9 @@
             this.BtnVacuumOff.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
             this.BtnVacuumOff.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
             this.BtnVacuumOff.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.BtnVacuumOff.Location = new System.Drawing.Point(132, 48);
+            this.BtnVacuumOff.Location = new System.Drawing.Point(144, 48);
             this.BtnVacuumOff.Name = "BtnVacuumOff";
-            this.BtnVacuumOff.Size = new System.Drawing.Size(117, 64);
+            this.BtnVacuumOff.Size = new System.Drawing.Size(130, 64);
             this.BtnVacuumOff.TabIndex = 956;
             this.BtnVacuumOff.Tag = "1";
             this.BtnVacuumOff.Text = "Off";
@@ -149,7 +149,7 @@
             this.BtnVacuumOn.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.BtnVacuumOn.Location = new System.Drawing.Point(12, 48);
             this.BtnVacuumOn.Name = "BtnVacuumOn";
-            this.BtnVacuumOn.Size = new System.Drawing.Size(117, 64);
+            this.BtnVacuumOn.Size = new System.Drawing.Size(130, 64);
             this.BtnVacuumOn.TabIndex = 955;
             this.BtnVacuumOn.Tag = "0";
             this.BtnVacuumOn.Text = "On";
@@ -166,7 +166,7 @@
             this.gradientLabel16.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
             this.gradientLabel16.Location = new System.Drawing.Point(12, 152);
             this.gradientLabel16.Name = "gradientLabel16";
-            this.gradientLabel16.Size = new System.Drawing.Size(237, 38);
+            this.gradientLabel16.Size = new System.Drawing.Size(261, 38);
             this.gradientLabel16.TabIndex = 950;
             this.gradientLabel16.Text = "Clamp Open/Close";
             this.gradientLabel16.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -180,9 +180,9 @@
             this.BtnClampClose.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
             this.BtnClampClose.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
             this.BtnClampClose.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.BtnClampClose.Location = new System.Drawing.Point(132, 191);
+            this.BtnClampClose.Location = new System.Drawing.Point(144, 191);
             this.BtnClampClose.Name = "BtnClampClose";
-            this.BtnClampClose.Size = new System.Drawing.Size(117, 64);
+            this.BtnClampClose.Size = new System.Drawing.Size(130, 64);
             this.BtnClampClose.TabIndex = 947;
             this.BtnClampClose.Tag = "1";
             this.BtnClampClose.Text = "Close";
@@ -199,7 +199,7 @@
             this.BtnClampOpen.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.BtnClampOpen.Location = new System.Drawing.Point(12, 191);
             this.BtnClampOpen.Name = "BtnClampOpen";
-            this.BtnClampOpen.Size = new System.Drawing.Size(117, 64);
+            this.BtnClampOpen.Size = new System.Drawing.Size(130, 64);
             this.BtnClampOpen.TabIndex = 946;
             this.BtnClampOpen.Tag = "0";
             this.BtnClampOpen.Text = "Open";
@@ -214,9 +214,9 @@
             this.LabelVACTime.BorderStyle = System.Windows.Forms.Border3DStyle.Bump;
             this.LabelVACTime.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.LabelVACTime.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.LabelVACTime.Location = new System.Drawing.Point(132, 113);
+            this.LabelVACTime.Location = new System.Drawing.Point(144, 113);
             this.LabelVACTime.Name = "LabelVACTime";
-            this.LabelVACTime.Size = new System.Drawing.Size(117, 30);
+            this.LabelVACTime.Size = new System.Drawing.Size(130, 30);
             this.LabelVACTime.TabIndex = 959;
             this.LabelVACTime.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
@@ -231,7 +231,7 @@
             this.gradientLabel1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
             this.gradientLabel1.Location = new System.Drawing.Point(12, 113);
             this.gradientLabel1.Name = "gradientLabel1";
-            this.gradientLabel1.Size = new System.Drawing.Size(117, 30);
+            this.gradientLabel1.Size = new System.Drawing.Size(130, 30);
             this.gradientLabel1.TabIndex = 958;
             this.gradientLabel1.Text = "수행 시간";
             this.gradientLabel1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -245,9 +245,9 @@
             this.LabelClampTime.BorderStyle = System.Windows.Forms.Border3DStyle.Bump;
             this.LabelClampTime.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.LabelClampTime.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.LabelClampTime.Location = new System.Drawing.Point(132, 256);
+            this.LabelClampTime.Location = new System.Drawing.Point(144, 256);
             this.LabelClampTime.Name = "LabelClampTime";
-            this.LabelClampTime.Size = new System.Drawing.Size(117, 30);
+            this.LabelClampTime.Size = new System.Drawing.Size(130, 30);
             this.LabelClampTime.TabIndex = 961;
             this.LabelClampTime.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
@@ -262,7 +262,7 @@
             this.gradientLabel4.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
             this.gradientLabel4.Location = new System.Drawing.Point(12, 256);
             this.gradientLabel4.Name = "gradientLabel4";
-            this.gradientLabel4.Size = new System.Drawing.Size(117, 30);
+            this.gradientLabel4.Size = new System.Drawing.Size(130, 30);
             this.gradientLabel4.TabIndex = 960;
             this.gradientLabel4.Text = "수행 시간";
             this.gradientLabel4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -276,7 +276,7 @@
             this.gradientLabel2.BorderStyle = System.Windows.Forms.Border3DStyle.Bump;
             this.gradientLabel2.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.gradientLabel2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.gradientLabel2.Location = new System.Drawing.Point(267, 362);
+            this.gradientLabel2.Location = new System.Drawing.Point(311, 363);
             this.gradientLabel2.Name = "gradientLabel2";
             this.gradientLabel2.Size = new System.Drawing.Size(267, 38);
             this.gradientLabel2.TabIndex = 963;
@@ -292,7 +292,7 @@
             this.btnLaserProcessMof.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
             this.btnLaserProcessMof.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
             this.btnLaserProcessMof.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.btnLaserProcessMof.Location = new System.Drawing.Point(267, 480);
+            this.btnLaserProcessMof.Location = new System.Drawing.Point(311, 481);
             this.btnLaserProcessMof.Name = "btnLaserProcessMof";
             this.btnLaserProcessMof.Size = new System.Drawing.Size(267, 49);
             this.btnLaserProcessMof.TabIndex = 962;
@@ -309,7 +309,7 @@
             this.btnLaserProcessStep1.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
             this.btnLaserProcessStep1.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
             this.btnLaserProcessStep1.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.btnLaserProcessStep1.Location = new System.Drawing.Point(267, 287);
+            this.btnLaserProcessStep1.Location = new System.Drawing.Point(311, 288);
             this.btnLaserProcessStep1.Name = "btnLaserProcessStep1";
             this.btnLaserProcessStep1.Size = new System.Drawing.Size(267, 49);
             this.btnLaserProcessStep1.TabIndex = 964;
@@ -326,7 +326,7 @@
             this.lblProcessCount.BorderStyle = System.Windows.Forms.Border3DStyle.Bump;
             this.lblProcessCount.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.lblProcessCount.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.lblProcessCount.Location = new System.Drawing.Point(459, 401);
+            this.lblProcessCount.Location = new System.Drawing.Point(503, 402);
             this.lblProcessCount.Name = "lblProcessCount";
             this.lblProcessCount.Size = new System.Drawing.Size(75, 38);
             this.lblProcessCount.TabIndex = 965;
@@ -343,7 +343,7 @@
             this.gradientLabel5.BorderStyle = System.Windows.Forms.Border3DStyle.Bump;
             this.gradientLabel5.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.gradientLabel5.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.gradientLabel5.Location = new System.Drawing.Point(267, 401);
+            this.gradientLabel5.Location = new System.Drawing.Point(311, 402);
             this.gradientLabel5.Name = "gradientLabel5";
             this.gradientLabel5.Size = new System.Drawing.Size(192, 38);
             this.gradientLabel5.TabIndex = 966;
@@ -359,7 +359,7 @@
             this.gradientLabel6.BorderStyle = System.Windows.Forms.Border3DStyle.Bump;
             this.gradientLabel6.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.gradientLabel6.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.gradientLabel6.Location = new System.Drawing.Point(267, 439);
+            this.gradientLabel6.Location = new System.Drawing.Point(311, 440);
             this.gradientLabel6.Name = "gradientLabel6";
             this.gradientLabel6.Size = new System.Drawing.Size(192, 38);
             this.gradientLabel6.TabIndex = 968;
@@ -375,7 +375,7 @@
             this.lblProcessCountRead.BorderStyle = System.Windows.Forms.Border3DStyle.Bump;
             this.lblProcessCountRead.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.lblProcessCountRead.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.lblProcessCountRead.Location = new System.Drawing.Point(459, 439);
+            this.lblProcessCountRead.Location = new System.Drawing.Point(503, 440);
             this.lblProcessCountRead.Name = "lblProcessCountRead";
             this.lblProcessCountRead.Size = new System.Drawing.Size(75, 38);
             this.lblProcessCountRead.TabIndex = 967;
@@ -391,7 +391,7 @@
             this.gradientLabel7.BorderStyle = System.Windows.Forms.Border3DStyle.Bump;
             this.gradientLabel7.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.gradientLabel7.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.gradientLabel7.Location = new System.Drawing.Point(544, 400);
+            this.gradientLabel7.Location = new System.Drawing.Point(588, 401);
             this.gradientLabel7.Name = "gradientLabel7";
             this.gradientLabel7.Size = new System.Drawing.Size(186, 38);
             this.gradientLabel7.TabIndex = 972;
@@ -407,7 +407,7 @@
             this.lblProcessExpoBusy.BorderStyle = System.Windows.Forms.Border3DStyle.Bump;
             this.lblProcessExpoBusy.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.lblProcessExpoBusy.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.lblProcessExpoBusy.Location = new System.Drawing.Point(736, 400);
+            this.lblProcessExpoBusy.Location = new System.Drawing.Point(780, 401);
             this.lblProcessExpoBusy.Name = "lblProcessExpoBusy";
             this.lblProcessExpoBusy.Size = new System.Drawing.Size(84, 38);
             this.lblProcessExpoBusy.TabIndex = 971;
@@ -423,7 +423,7 @@
             this.gradientLabel9.BorderStyle = System.Windows.Forms.Border3DStyle.Bump;
             this.gradientLabel9.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.gradientLabel9.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.gradientLabel9.Location = new System.Drawing.Point(544, 362);
+            this.gradientLabel9.Location = new System.Drawing.Point(588, 363);
             this.gradientLabel9.Name = "gradientLabel9";
             this.gradientLabel9.Size = new System.Drawing.Size(186, 38);
             this.gradientLabel9.TabIndex = 970;
@@ -439,7 +439,7 @@
             this.lblProcessJobStart.BorderStyle = System.Windows.Forms.Border3DStyle.Bump;
             this.lblProcessJobStart.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.lblProcessJobStart.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.lblProcessJobStart.Location = new System.Drawing.Point(736, 362);
+            this.lblProcessJobStart.Location = new System.Drawing.Point(780, 363);
             this.lblProcessJobStart.Name = "lblProcessJobStart";
             this.lblProcessJobStart.Size = new System.Drawing.Size(84, 38);
             this.lblProcessJobStart.TabIndex = 969;
@@ -455,7 +455,7 @@
             this.gradientLabel8.BorderStyle = System.Windows.Forms.Border3DStyle.Bump;
             this.gradientLabel8.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.gradientLabel8.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.gradientLabel8.Location = new System.Drawing.Point(267, 9);
+            this.gradientLabel8.Location = new System.Drawing.Point(311, 10);
             this.gradientLabel8.Name = "gradientLabel8";
             this.gradientLabel8.Size = new System.Drawing.Size(554, 38);
             this.gradientLabel8.TabIndex = 973;
@@ -471,7 +471,7 @@
             this.gradientLabel10.BorderStyle = System.Windows.Forms.Border3DStyle.Bump;
             this.gradientLabel10.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.gradientLabel10.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.gradientLabel10.Location = new System.Drawing.Point(335, 85);
+            this.gradientLabel10.Location = new System.Drawing.Point(379, 86);
             this.gradientLabel10.Name = "gradientLabel10";
             this.gradientLabel10.Size = new System.Drawing.Size(134, 38);
             this.gradientLabel10.TabIndex = 977;
@@ -487,7 +487,7 @@
             this.lblProcessOffsetY1.BorderStyle = System.Windows.Forms.Border3DStyle.Bump;
             this.lblProcessOffsetY1.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.lblProcessOffsetY1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.lblProcessOffsetY1.Location = new System.Drawing.Point(469, 85);
+            this.lblProcessOffsetY1.Location = new System.Drawing.Point(513, 86);
             this.lblProcessOffsetY1.Name = "lblProcessOffsetY1";
             this.lblProcessOffsetY1.Size = new System.Drawing.Size(75, 38);
             this.lblProcessOffsetY1.TabIndex = 976;
@@ -504,7 +504,7 @@
             this.gradientLabel12.BorderStyle = System.Windows.Forms.Border3DStyle.Bump;
             this.gradientLabel12.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.gradientLabel12.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.gradientLabel12.Location = new System.Drawing.Point(335, 47);
+            this.gradientLabel12.Location = new System.Drawing.Point(379, 48);
             this.gradientLabel12.Name = "gradientLabel12";
             this.gradientLabel12.Size = new System.Drawing.Size(134, 38);
             this.gradientLabel12.TabIndex = 975;
@@ -520,7 +520,7 @@
             this.lblProcessOffsetX1.BorderStyle = System.Windows.Forms.Border3DStyle.Bump;
             this.lblProcessOffsetX1.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.lblProcessOffsetX1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.lblProcessOffsetX1.Location = new System.Drawing.Point(469, 47);
+            this.lblProcessOffsetX1.Location = new System.Drawing.Point(513, 48);
             this.lblProcessOffsetX1.Name = "lblProcessOffsetX1";
             this.lblProcessOffsetX1.Size = new System.Drawing.Size(75, 38);
             this.lblProcessOffsetX1.TabIndex = 974;
@@ -537,7 +537,7 @@
             this.gradientLabel14.BorderStyle = System.Windows.Forms.Border3DStyle.Bump;
             this.gradientLabel14.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.gradientLabel14.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.gradientLabel14.Location = new System.Drawing.Point(335, 123);
+            this.gradientLabel14.Location = new System.Drawing.Point(379, 124);
             this.gradientLabel14.Name = "gradientLabel14";
             this.gradientLabel14.Size = new System.Drawing.Size(134, 38);
             this.gradientLabel14.TabIndex = 979;
@@ -553,7 +553,7 @@
             this.lblProcessCount1.BorderStyle = System.Windows.Forms.Border3DStyle.Bump;
             this.lblProcessCount1.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.lblProcessCount1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.lblProcessCount1.Location = new System.Drawing.Point(469, 123);
+            this.lblProcessCount1.Location = new System.Drawing.Point(513, 124);
             this.lblProcessCount1.Name = "lblProcessCount1";
             this.lblProcessCount1.Size = new System.Drawing.Size(75, 38);
             this.lblProcessCount1.TabIndex = 978;
@@ -566,7 +566,7 @@
             this.btnProcessDataSave.Font = new System.Drawing.Font("굴림", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.btnProcessDataSave.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
             this.btnProcessDataSave.Image = ((System.Drawing.Image)(resources.GetObject("btnProcessDataSave.Image")));
-            this.btnProcessDataSave.Location = new System.Drawing.Point(566, 468);
+            this.btnProcessDataSave.Location = new System.Drawing.Point(610, 469);
             this.btnProcessDataSave.Name = "btnProcessDataSave";
             this.btnProcessDataSave.Size = new System.Drawing.Size(124, 61);
             this.btnProcessDataSave.TabIndex = 980;
@@ -585,7 +585,7 @@
             this.gradientLabel11.BorderStyle = System.Windows.Forms.Border3DStyle.Bump;
             this.gradientLabel11.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.gradientLabel11.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.gradientLabel11.Location = new System.Drawing.Point(267, 47);
+            this.gradientLabel11.Location = new System.Drawing.Point(311, 48);
             this.gradientLabel11.Name = "gradientLabel11";
             this.gradientLabel11.Size = new System.Drawing.Size(68, 114);
             this.gradientLabel11.TabIndex = 981;
@@ -601,7 +601,7 @@
             this.gradientLabel13.BorderStyle = System.Windows.Forms.Border3DStyle.Bump;
             this.gradientLabel13.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.gradientLabel13.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.gradientLabel13.Location = new System.Drawing.Point(544, 47);
+            this.gradientLabel13.Location = new System.Drawing.Point(588, 48);
             this.gradientLabel13.Name = "gradientLabel13";
             this.gradientLabel13.Size = new System.Drawing.Size(68, 114);
             this.gradientLabel13.TabIndex = 988;
@@ -617,7 +617,7 @@
             this.gradientLabel15.BorderStyle = System.Windows.Forms.Border3DStyle.Bump;
             this.gradientLabel15.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.gradientLabel15.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.gradientLabel15.Location = new System.Drawing.Point(612, 123);
+            this.gradientLabel15.Location = new System.Drawing.Point(656, 124);
             this.gradientLabel15.Name = "gradientLabel15";
             this.gradientLabel15.Size = new System.Drawing.Size(134, 38);
             this.gradientLabel15.TabIndex = 987;
@@ -633,7 +633,7 @@
             this.lblProcessCount2.BorderStyle = System.Windows.Forms.Border3DStyle.Bump;
             this.lblProcessCount2.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.lblProcessCount2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.lblProcessCount2.Location = new System.Drawing.Point(746, 123);
+            this.lblProcessCount2.Location = new System.Drawing.Point(790, 124);
             this.lblProcessCount2.Name = "lblProcessCount2";
             this.lblProcessCount2.Size = new System.Drawing.Size(75, 38);
             this.lblProcessCount2.TabIndex = 986;
@@ -650,7 +650,7 @@
             this.gradientLabel18.BorderStyle = System.Windows.Forms.Border3DStyle.Bump;
             this.gradientLabel18.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.gradientLabel18.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.gradientLabel18.Location = new System.Drawing.Point(612, 85);
+            this.gradientLabel18.Location = new System.Drawing.Point(656, 86);
             this.gradientLabel18.Name = "gradientLabel18";
             this.gradientLabel18.Size = new System.Drawing.Size(134, 38);
             this.gradientLabel18.TabIndex = 985;
@@ -666,7 +666,7 @@
             this.lblProcessOffsetY2.BorderStyle = System.Windows.Forms.Border3DStyle.Bump;
             this.lblProcessOffsetY2.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.lblProcessOffsetY2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.lblProcessOffsetY2.Location = new System.Drawing.Point(746, 85);
+            this.lblProcessOffsetY2.Location = new System.Drawing.Point(790, 86);
             this.lblProcessOffsetY2.Name = "lblProcessOffsetY2";
             this.lblProcessOffsetY2.Size = new System.Drawing.Size(75, 38);
             this.lblProcessOffsetY2.TabIndex = 984;
@@ -683,7 +683,7 @@
             this.gradientLabel20.BorderStyle = System.Windows.Forms.Border3DStyle.Bump;
             this.gradientLabel20.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.gradientLabel20.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.gradientLabel20.Location = new System.Drawing.Point(612, 47);
+            this.gradientLabel20.Location = new System.Drawing.Point(656, 48);
             this.gradientLabel20.Name = "gradientLabel20";
             this.gradientLabel20.Size = new System.Drawing.Size(134, 38);
             this.gradientLabel20.TabIndex = 983;
@@ -699,7 +699,7 @@
             this.lblProcessOffsetX2.BorderStyle = System.Windows.Forms.Border3DStyle.Bump;
             this.lblProcessOffsetX2.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.lblProcessOffsetX2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.lblProcessOffsetX2.Location = new System.Drawing.Point(746, 47);
+            this.lblProcessOffsetX2.Location = new System.Drawing.Point(790, 48);
             this.lblProcessOffsetX2.Name = "lblProcessOffsetX2";
             this.lblProcessOffsetX2.Size = new System.Drawing.Size(75, 38);
             this.lblProcessOffsetX2.TabIndex = 982;
@@ -716,7 +716,7 @@
             this.gradientLabel22.BorderStyle = System.Windows.Forms.Border3DStyle.Bump;
             this.gradientLabel22.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.gradientLabel22.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.gradientLabel22.Location = new System.Drawing.Point(335, 199);
+            this.gradientLabel22.Location = new System.Drawing.Point(379, 200);
             this.gradientLabel22.Name = "gradientLabel22";
             this.gradientLabel22.Size = new System.Drawing.Size(134, 38);
             this.gradientLabel22.TabIndex = 992;
@@ -732,7 +732,7 @@
             this.lblPatternCount1.BorderStyle = System.Windows.Forms.Border3DStyle.Bump;
             this.lblPatternCount1.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.lblPatternCount1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.lblPatternCount1.Location = new System.Drawing.Point(469, 199);
+            this.lblPatternCount1.Location = new System.Drawing.Point(513, 200);
             this.lblPatternCount1.Name = "lblPatternCount1";
             this.lblPatternCount1.Size = new System.Drawing.Size(75, 38);
             this.lblPatternCount1.TabIndex = 991;
@@ -749,7 +749,7 @@
             this.gradientLabel24.BorderStyle = System.Windows.Forms.Border3DStyle.Bump;
             this.gradientLabel24.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.gradientLabel24.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.gradientLabel24.Location = new System.Drawing.Point(335, 161);
+            this.gradientLabel24.Location = new System.Drawing.Point(379, 162);
             this.gradientLabel24.Name = "gradientLabel24";
             this.gradientLabel24.Size = new System.Drawing.Size(134, 38);
             this.gradientLabel24.TabIndex = 990;
@@ -765,7 +765,7 @@
             this.lblPatternPitch1.BorderStyle = System.Windows.Forms.Border3DStyle.Bump;
             this.lblPatternPitch1.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.lblPatternPitch1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.lblPatternPitch1.Location = new System.Drawing.Point(469, 161);
+            this.lblPatternPitch1.Location = new System.Drawing.Point(513, 162);
             this.lblPatternPitch1.Name = "lblPatternPitch1";
             this.lblPatternPitch1.Size = new System.Drawing.Size(75, 38);
             this.lblPatternPitch1.TabIndex = 989;
@@ -782,7 +782,7 @@
             this.gradientLabel26.BorderStyle = System.Windows.Forms.Border3DStyle.Bump;
             this.gradientLabel26.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.gradientLabel26.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.gradientLabel26.Location = new System.Drawing.Point(267, 161);
+            this.gradientLabel26.Location = new System.Drawing.Point(311, 162);
             this.gradientLabel26.Name = "gradientLabel26";
             this.gradientLabel26.Size = new System.Drawing.Size(68, 114);
             this.gradientLabel26.TabIndex = 993;
@@ -798,7 +798,7 @@
             this.gradientLabel27.BorderStyle = System.Windows.Forms.Border3DStyle.Bump;
             this.gradientLabel27.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.gradientLabel27.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.gradientLabel27.Location = new System.Drawing.Point(544, 161);
+            this.gradientLabel27.Location = new System.Drawing.Point(588, 162);
             this.gradientLabel27.Name = "gradientLabel27";
             this.gradientLabel27.Size = new System.Drawing.Size(68, 114);
             this.gradientLabel27.TabIndex = 998;
@@ -814,7 +814,7 @@
             this.gradientLabel28.BorderStyle = System.Windows.Forms.Border3DStyle.Bump;
             this.gradientLabel28.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.gradientLabel28.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.gradientLabel28.Location = new System.Drawing.Point(612, 199);
+            this.gradientLabel28.Location = new System.Drawing.Point(656, 200);
             this.gradientLabel28.Name = "gradientLabel28";
             this.gradientLabel28.Size = new System.Drawing.Size(134, 38);
             this.gradientLabel28.TabIndex = 997;
@@ -830,7 +830,7 @@
             this.lblPatternCount2.BorderStyle = System.Windows.Forms.Border3DStyle.Bump;
             this.lblPatternCount2.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.lblPatternCount2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.lblPatternCount2.Location = new System.Drawing.Point(746, 199);
+            this.lblPatternCount2.Location = new System.Drawing.Point(790, 200);
             this.lblPatternCount2.Name = "lblPatternCount2";
             this.lblPatternCount2.Size = new System.Drawing.Size(75, 38);
             this.lblPatternCount2.TabIndex = 996;
@@ -847,7 +847,7 @@
             this.gradientLabel30.BorderStyle = System.Windows.Forms.Border3DStyle.Bump;
             this.gradientLabel30.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.gradientLabel30.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.gradientLabel30.Location = new System.Drawing.Point(612, 161);
+            this.gradientLabel30.Location = new System.Drawing.Point(656, 162);
             this.gradientLabel30.Name = "gradientLabel30";
             this.gradientLabel30.Size = new System.Drawing.Size(134, 38);
             this.gradientLabel30.TabIndex = 995;
@@ -863,7 +863,7 @@
             this.lblPatternPitch2.BorderStyle = System.Windows.Forms.Border3DStyle.Bump;
             this.lblPatternPitch2.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.lblPatternPitch2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.lblPatternPitch2.Location = new System.Drawing.Point(746, 161);
+            this.lblPatternPitch2.Location = new System.Drawing.Point(790, 162);
             this.lblPatternPitch2.Name = "lblPatternPitch2";
             this.lblPatternPitch2.Size = new System.Drawing.Size(75, 38);
             this.lblPatternPitch2.TabIndex = 994;
@@ -880,7 +880,7 @@
             this.gradientLabel32.BorderStyle = System.Windows.Forms.Border3DStyle.Bump;
             this.gradientLabel32.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.gradientLabel32.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.gradientLabel32.Location = new System.Drawing.Point(335, 237);
+            this.gradientLabel32.Location = new System.Drawing.Point(379, 238);
             this.gradientLabel32.Name = "gradientLabel32";
             this.gradientLabel32.Size = new System.Drawing.Size(134, 38);
             this.gradientLabel32.TabIndex = 1000;
@@ -896,7 +896,7 @@
             this.lblPatternOffset1.BorderStyle = System.Windows.Forms.Border3DStyle.Bump;
             this.lblPatternOffset1.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.lblPatternOffset1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.lblPatternOffset1.Location = new System.Drawing.Point(469, 237);
+            this.lblPatternOffset1.Location = new System.Drawing.Point(513, 238);
             this.lblPatternOffset1.Name = "lblPatternOffset1";
             this.lblPatternOffset1.Size = new System.Drawing.Size(75, 38);
             this.lblPatternOffset1.TabIndex = 999;
@@ -913,7 +913,7 @@
             this.gradientLabel17.BorderStyle = System.Windows.Forms.Border3DStyle.Bump;
             this.gradientLabel17.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.gradientLabel17.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.gradientLabel17.Location = new System.Drawing.Point(612, 237);
+            this.gradientLabel17.Location = new System.Drawing.Point(656, 238);
             this.gradientLabel17.Name = "gradientLabel17";
             this.gradientLabel17.Size = new System.Drawing.Size(134, 38);
             this.gradientLabel17.TabIndex = 1002;
@@ -929,7 +929,7 @@
             this.lblPatternOffset2.BorderStyle = System.Windows.Forms.Border3DStyle.Bump;
             this.lblPatternOffset2.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.lblPatternOffset2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.lblPatternOffset2.Location = new System.Drawing.Point(746, 237);
+            this.lblPatternOffset2.Location = new System.Drawing.Point(790, 238);
             this.lblPatternOffset2.Name = "lblPatternOffset2";
             this.lblPatternOffset2.Size = new System.Drawing.Size(75, 38);
             this.lblPatternOffset2.TabIndex = 1001;
@@ -946,7 +946,7 @@
             this.btnLaserProcessStep2.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
             this.btnLaserProcessStep2.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
             this.btnLaserProcessStep2.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.btnLaserProcessStep2.Location = new System.Drawing.Point(544, 287);
+            this.btnLaserProcessStep2.Location = new System.Drawing.Point(588, 288);
             this.btnLaserProcessStep2.Name = "btnLaserProcessStep2";
             this.btnLaserProcessStep2.Size = new System.Drawing.Size(267, 49);
             this.btnLaserProcessStep2.TabIndex = 1003;
@@ -958,7 +958,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(831, 537);
+            this.ClientSize = new System.Drawing.Size(879, 537);
             this.Controls.Add(this.btnLaserProcessStep2);
             this.Controls.Add(this.gradientLabel17);
             this.Controls.Add(this.lblPatternOffset2);
