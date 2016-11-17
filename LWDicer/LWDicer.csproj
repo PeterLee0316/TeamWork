@@ -38,7 +38,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;WIN32, SIMULATION_VISION, SIMULATION_MOTION_ACS, SIMULATION_MOTION_ACS, EQUIP_DICING_DEV, SIMULATION_TEST</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;WIN32, SIMULATION_VISION, SIMULATION_MOTION_ACS, SIMULATION_MOTION_ACS, SIMULATION_MOTION_YMC, EQUIP_266_DEV, SIMULATION_IO</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>2</WarningLevel>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
@@ -268,6 +268,12 @@
     </Compile>
     <Compile Include="UI\FormJogOperation.Designer.cs">
       <DependentUpon>FormJogOperation.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\SubDataForm\FormLaserProcessData.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\SubDataForm\FormLaserProcessData.Designer.cs">
+      <DependentUpon>FormLaserProcessData.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\SubTeachForm\FormCamFocus.cs">
       <SubType>Form</SubType>
@@ -621,6 +627,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UI\FormJogOperation.resx">
       <DependentUpon>FormJogOperation.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\SubDataForm\FormLaserProcessData.resx">
+      <DependentUpon>FormLaserProcessData.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\SubTeachForm\FormCamFocus.resx">
       <DependentUpon>FormCamFocus.cs</DependentUpon>

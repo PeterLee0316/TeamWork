@@ -30,22 +30,22 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormPolygon));
-            Syncfusion.Windows.Forms.Grid.GridBaseStyle gridBaseStyle1 = new Syncfusion.Windows.Forms.Grid.GridBaseStyle();
-            Syncfusion.Windows.Forms.Grid.GridBaseStyle gridBaseStyle2 = new Syncfusion.Windows.Forms.Grid.GridBaseStyle();
-            Syncfusion.Windows.Forms.Grid.GridBaseStyle gridBaseStyle3 = new Syncfusion.Windows.Forms.Grid.GridBaseStyle();
-            Syncfusion.Windows.Forms.Grid.GridBaseStyle gridBaseStyle4 = new Syncfusion.Windows.Forms.Grid.GridBaseStyle();
-            Syncfusion.Windows.Forms.Grid.GridBaseStyle gridBaseStyle5 = new Syncfusion.Windows.Forms.Grid.GridBaseStyle();
-            Syncfusion.Windows.Forms.Grid.GridBaseStyle gridBaseStyle6 = new Syncfusion.Windows.Forms.Grid.GridBaseStyle();
-            Syncfusion.Windows.Forms.Grid.GridBaseStyle gridBaseStyle7 = new Syncfusion.Windows.Forms.Grid.GridBaseStyle();
-            Syncfusion.Windows.Forms.Grid.GridBaseStyle gridBaseStyle8 = new Syncfusion.Windows.Forms.Grid.GridBaseStyle();
-            Syncfusion.Windows.Forms.Grid.GridBaseStyle gridBaseStyle9 = new Syncfusion.Windows.Forms.Grid.GridBaseStyle();
-            Syncfusion.Windows.Forms.Grid.GridBaseStyle gridBaseStyle10 = new Syncfusion.Windows.Forms.Grid.GridBaseStyle();
-            Syncfusion.Windows.Forms.Grid.GridBaseStyle gridBaseStyle11 = new Syncfusion.Windows.Forms.Grid.GridBaseStyle();
-            Syncfusion.Windows.Forms.Grid.GridBaseStyle gridBaseStyle12 = new Syncfusion.Windows.Forms.Grid.GridBaseStyle();
-            Syncfusion.Windows.Forms.Grid.GridBaseStyle gridBaseStyle13 = new Syncfusion.Windows.Forms.Grid.GridBaseStyle();
-            Syncfusion.Windows.Forms.Grid.GridBaseStyle gridBaseStyle14 = new Syncfusion.Windows.Forms.Grid.GridBaseStyle();
-            Syncfusion.Windows.Forms.Grid.GridBaseStyle gridBaseStyle15 = new Syncfusion.Windows.Forms.Grid.GridBaseStyle();
-            Syncfusion.Windows.Forms.Grid.GridBaseStyle gridBaseStyle16 = new Syncfusion.Windows.Forms.Grid.GridBaseStyle();
+            Syncfusion.Windows.Forms.Grid.GridBaseStyle gridBaseStyle17 = new Syncfusion.Windows.Forms.Grid.GridBaseStyle();
+            Syncfusion.Windows.Forms.Grid.GridBaseStyle gridBaseStyle18 = new Syncfusion.Windows.Forms.Grid.GridBaseStyle();
+            Syncfusion.Windows.Forms.Grid.GridBaseStyle gridBaseStyle19 = new Syncfusion.Windows.Forms.Grid.GridBaseStyle();
+            Syncfusion.Windows.Forms.Grid.GridBaseStyle gridBaseStyle20 = new Syncfusion.Windows.Forms.Grid.GridBaseStyle();
+            Syncfusion.Windows.Forms.Grid.GridBaseStyle gridBaseStyle21 = new Syncfusion.Windows.Forms.Grid.GridBaseStyle();
+            Syncfusion.Windows.Forms.Grid.GridBaseStyle gridBaseStyle22 = new Syncfusion.Windows.Forms.Grid.GridBaseStyle();
+            Syncfusion.Windows.Forms.Grid.GridBaseStyle gridBaseStyle23 = new Syncfusion.Windows.Forms.Grid.GridBaseStyle();
+            Syncfusion.Windows.Forms.Grid.GridBaseStyle gridBaseStyle24 = new Syncfusion.Windows.Forms.Grid.GridBaseStyle();
+            Syncfusion.Windows.Forms.Grid.GridBaseStyle gridBaseStyle25 = new Syncfusion.Windows.Forms.Grid.GridBaseStyle();
+            Syncfusion.Windows.Forms.Grid.GridBaseStyle gridBaseStyle26 = new Syncfusion.Windows.Forms.Grid.GridBaseStyle();
+            Syncfusion.Windows.Forms.Grid.GridBaseStyle gridBaseStyle27 = new Syncfusion.Windows.Forms.Grid.GridBaseStyle();
+            Syncfusion.Windows.Forms.Grid.GridBaseStyle gridBaseStyle28 = new Syncfusion.Windows.Forms.Grid.GridBaseStyle();
+            Syncfusion.Windows.Forms.Grid.GridBaseStyle gridBaseStyle29 = new Syncfusion.Windows.Forms.Grid.GridBaseStyle();
+            Syncfusion.Windows.Forms.Grid.GridBaseStyle gridBaseStyle30 = new Syncfusion.Windows.Forms.Grid.GridBaseStyle();
+            Syncfusion.Windows.Forms.Grid.GridBaseStyle gridBaseStyle31 = new Syncfusion.Windows.Forms.Grid.GridBaseStyle();
+            Syncfusion.Windows.Forms.Grid.GridBaseStyle gridBaseStyle32 = new Syncfusion.Windows.Forms.Grid.GridBaseStyle();
             this.tabPolygonForm = new Syncfusion.Windows.Forms.Tools.TabControlAdv();
             this.tabPageProcess = new Syncfusion.Windows.Forms.Tools.TabPageAdv();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
@@ -103,8 +103,6 @@
             this.btnLaserProcessMofStop = new Syncfusion.Windows.Forms.ButtonAdv();
             this.btnLaserProcessMof = new Syncfusion.Windows.Forms.ButtonAdv();
             this.btnLaserProcessStop = new Syncfusion.Windows.Forms.ButtonAdv();
-            this.gradientLabel48 = new Syncfusion.Windows.Forms.Tools.GradientLabel();
-            this.lblProcessInterval = new Syncfusion.Windows.Forms.Tools.GradientLabel();
             this.btnLaserProcessStep2 = new Syncfusion.Windows.Forms.ButtonAdv();
             this.btnLaserProcessStep1 = new Syncfusion.Windows.Forms.ButtonAdv();
             this.gradientLabel45 = new Syncfusion.Windows.Forms.Tools.GradientLabel();
@@ -112,34 +110,6 @@
             this.gradientLabel46 = new Syncfusion.Windows.Forms.Tools.GradientLabel();
             this.lblProcessCount = new Syncfusion.Windows.Forms.Tools.GradientLabel();
             this.gradientLabel47 = new Syncfusion.Windows.Forms.Tools.GradientLabel();
-            this.gradientLabel17 = new Syncfusion.Windows.Forms.Tools.GradientLabel();
-            this.lblPatternOffset2 = new Syncfusion.Windows.Forms.Tools.GradientLabel();
-            this.gradientLabel8 = new Syncfusion.Windows.Forms.Tools.GradientLabel();
-            this.lblPatternOffset1 = new Syncfusion.Windows.Forms.Tools.GradientLabel();
-            this.gradientLabel27 = new Syncfusion.Windows.Forms.Tools.GradientLabel();
-            this.gradientLabel11 = new Syncfusion.Windows.Forms.Tools.GradientLabel();
-            this.lblPatternCount2 = new Syncfusion.Windows.Forms.Tools.GradientLabel();
-            this.gradientLabel13 = new Syncfusion.Windows.Forms.Tools.GradientLabel();
-            this.lblPatternPitch2 = new Syncfusion.Windows.Forms.Tools.GradientLabel();
-            this.gradientLabel15 = new Syncfusion.Windows.Forms.Tools.GradientLabel();
-            this.gradientLabel19 = new Syncfusion.Windows.Forms.Tools.GradientLabel();
-            this.lblPatternCount1 = new Syncfusion.Windows.Forms.Tools.GradientLabel();
-            this.gradientLabel24 = new Syncfusion.Windows.Forms.Tools.GradientLabel();
-            this.lblPatternPitch1 = new Syncfusion.Windows.Forms.Tools.GradientLabel();
-            this.gradientLabel21 = new Syncfusion.Windows.Forms.Tools.GradientLabel();
-            this.gradientLabel25 = new Syncfusion.Windows.Forms.Tools.GradientLabel();
-            this.lblProcessCount2 = new Syncfusion.Windows.Forms.Tools.GradientLabel();
-            this.gradientLabel34 = new Syncfusion.Windows.Forms.Tools.GradientLabel();
-            this.lblProcessOffsetY2 = new Syncfusion.Windows.Forms.Tools.GradientLabel();
-            this.gradientLabel35 = new Syncfusion.Windows.Forms.Tools.GradientLabel();
-            this.lblProcessOffsetX2 = new Syncfusion.Windows.Forms.Tools.GradientLabel();
-            this.gradientLabel36 = new Syncfusion.Windows.Forms.Tools.GradientLabel();
-            this.gradientLabel41 = new Syncfusion.Windows.Forms.Tools.GradientLabel();
-            this.lblProcessCount1 = new Syncfusion.Windows.Forms.Tools.GradientLabel();
-            this.gradientLabel42 = new Syncfusion.Windows.Forms.Tools.GradientLabel();
-            this.lblProcessOffsetY1 = new Syncfusion.Windows.Forms.Tools.GradientLabel();
-            this.gradientLabel43 = new Syncfusion.Windows.Forms.Tools.GradientLabel();
-            this.lblProcessOffsetX1 = new Syncfusion.Windows.Forms.Tools.GradientLabel();
             this.gradientLabel44 = new Syncfusion.Windows.Forms.Tools.GradientLabel();
             this.btnPatternProcessSave = new System.Windows.Forms.Button();
             this.tabPageScanner = new Syncfusion.Windows.Forms.Tools.TabPageAdv();
@@ -1047,8 +1017,6 @@
             this.tabPageProcess266.Controls.Add(this.btnLaserProcessMofStop);
             this.tabPageProcess266.Controls.Add(this.btnLaserProcessMof);
             this.tabPageProcess266.Controls.Add(this.btnLaserProcessStop);
-            this.tabPageProcess266.Controls.Add(this.gradientLabel48);
-            this.tabPageProcess266.Controls.Add(this.lblProcessInterval);
             this.tabPageProcess266.Controls.Add(this.btnLaserProcessStep2);
             this.tabPageProcess266.Controls.Add(this.btnLaserProcessStep1);
             this.tabPageProcess266.Controls.Add(this.gradientLabel45);
@@ -1056,34 +1024,6 @@
             this.tabPageProcess266.Controls.Add(this.gradientLabel46);
             this.tabPageProcess266.Controls.Add(this.lblProcessCount);
             this.tabPageProcess266.Controls.Add(this.gradientLabel47);
-            this.tabPageProcess266.Controls.Add(this.gradientLabel17);
-            this.tabPageProcess266.Controls.Add(this.lblPatternOffset2);
-            this.tabPageProcess266.Controls.Add(this.gradientLabel8);
-            this.tabPageProcess266.Controls.Add(this.lblPatternOffset1);
-            this.tabPageProcess266.Controls.Add(this.gradientLabel27);
-            this.tabPageProcess266.Controls.Add(this.gradientLabel11);
-            this.tabPageProcess266.Controls.Add(this.lblPatternCount2);
-            this.tabPageProcess266.Controls.Add(this.gradientLabel13);
-            this.tabPageProcess266.Controls.Add(this.lblPatternPitch2);
-            this.tabPageProcess266.Controls.Add(this.gradientLabel15);
-            this.tabPageProcess266.Controls.Add(this.gradientLabel19);
-            this.tabPageProcess266.Controls.Add(this.lblPatternCount1);
-            this.tabPageProcess266.Controls.Add(this.gradientLabel24);
-            this.tabPageProcess266.Controls.Add(this.lblPatternPitch1);
-            this.tabPageProcess266.Controls.Add(this.gradientLabel21);
-            this.tabPageProcess266.Controls.Add(this.gradientLabel25);
-            this.tabPageProcess266.Controls.Add(this.lblProcessCount2);
-            this.tabPageProcess266.Controls.Add(this.gradientLabel34);
-            this.tabPageProcess266.Controls.Add(this.lblProcessOffsetY2);
-            this.tabPageProcess266.Controls.Add(this.gradientLabel35);
-            this.tabPageProcess266.Controls.Add(this.lblProcessOffsetX2);
-            this.tabPageProcess266.Controls.Add(this.gradientLabel36);
-            this.tabPageProcess266.Controls.Add(this.gradientLabel41);
-            this.tabPageProcess266.Controls.Add(this.lblProcessCount1);
-            this.tabPageProcess266.Controls.Add(this.gradientLabel42);
-            this.tabPageProcess266.Controls.Add(this.lblProcessOffsetY1);
-            this.tabPageProcess266.Controls.Add(this.gradientLabel43);
-            this.tabPageProcess266.Controls.Add(this.lblProcessOffsetX1);
             this.tabPageProcess266.Controls.Add(this.gradientLabel44);
             this.tabPageProcess266.Controls.Add(this.btnPatternProcessSave);
             this.tabPageProcess266.Image = null;
@@ -1174,39 +1114,6 @@
             this.btnLaserProcessStop.Tag = "0";
             this.btnLaserProcessStop.Text = "Stop Process";
             this.btnLaserProcessStop.Click += new System.EventHandler(this.btnLaserProcessStop_Click);
-            // 
-            // gradientLabel48
-            // 
-            this.gradientLabel48.BackgroundColor = new Syncfusion.Drawing.BrushInfo(Syncfusion.Drawing.GradientStyle.ForwardDiagonal, System.Drawing.Color.White, System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255))))));
-            this.gradientLabel48.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
-            | System.Windows.Forms.Border3DSide.Right) 
-            | System.Windows.Forms.Border3DSide.Bottom)));
-            this.gradientLabel48.BorderStyle = System.Windows.Forms.Border3DStyle.Bump;
-            this.gradientLabel48.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.gradientLabel48.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.gradientLabel48.Location = new System.Drawing.Point(11, 513);
-            this.gradientLabel48.Name = "gradientLabel48";
-            this.gradientLabel48.Size = new System.Drawing.Size(202, 38);
-            this.gradientLabel48.TabIndex = 1041;
-            this.gradientLabel48.Text = "Process Interval";
-            this.gradientLabel48.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // lblProcessInterval
-            // 
-            this.lblProcessInterval.BackgroundColor = new Syncfusion.Drawing.BrushInfo();
-            this.lblProcessInterval.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
-            | System.Windows.Forms.Border3DSide.Right) 
-            | System.Windows.Forms.Border3DSide.Bottom)));
-            this.lblProcessInterval.BorderStyle = System.Windows.Forms.Border3DStyle.Bump;
-            this.lblProcessInterval.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.lblProcessInterval.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.lblProcessInterval.Location = new System.Drawing.Point(213, 513);
-            this.lblProcessInterval.Name = "lblProcessInterval";
-            this.lblProcessInterval.Size = new System.Drawing.Size(75, 38);
-            this.lblProcessInterval.TabIndex = 1040;
-            this.lblProcessInterval.Text = "1";
-            this.lblProcessInterval.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.lblProcessInterval.Click += new System.EventHandler(this.lblProcessInterval_Click);
             // 
             // btnLaserProcessStep2
             // 
@@ -1322,466 +1229,6 @@
             this.gradientLabel47.TabIndex = 1032;
             this.gradientLabel47.Text = "Laser MOF Process";
             this.gradientLabel47.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // gradientLabel17
-            // 
-            this.gradientLabel17.BackgroundColor = new Syncfusion.Drawing.BrushInfo(Syncfusion.Drawing.GradientStyle.ForwardDiagonal, System.Drawing.Color.White, System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255))))));
-            this.gradientLabel17.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
-            | System.Windows.Forms.Border3DSide.Right) 
-            | System.Windows.Forms.Border3DSide.Bottom)));
-            this.gradientLabel17.BorderStyle = System.Windows.Forms.Border3DStyle.Bump;
-            this.gradientLabel17.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.gradientLabel17.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.gradientLabel17.Location = new System.Drawing.Point(79, 475);
-            this.gradientLabel17.Name = "gradientLabel17";
-            this.gradientLabel17.Size = new System.Drawing.Size(134, 38);
-            this.gradientLabel17.TabIndex = 1031;
-            this.gradientLabel17.Text = "Pattern Offset";
-            this.gradientLabel17.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // lblPatternOffset2
-            // 
-            this.lblPatternOffset2.BackgroundColor = new Syncfusion.Drawing.BrushInfo();
-            this.lblPatternOffset2.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
-            | System.Windows.Forms.Border3DSide.Right) 
-            | System.Windows.Forms.Border3DSide.Bottom)));
-            this.lblPatternOffset2.BorderStyle = System.Windows.Forms.Border3DStyle.Bump;
-            this.lblPatternOffset2.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.lblPatternOffset2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.lblPatternOffset2.Location = new System.Drawing.Point(213, 475);
-            this.lblPatternOffset2.Name = "lblPatternOffset2";
-            this.lblPatternOffset2.Size = new System.Drawing.Size(75, 38);
-            this.lblPatternOffset2.TabIndex = 1030;
-            this.lblPatternOffset2.Text = "1";
-            this.lblPatternOffset2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.lblPatternOffset2.Click += new System.EventHandler(this.lblPatternOffset2_Click);
-            // 
-            // gradientLabel8
-            // 
-            this.gradientLabel8.BackgroundColor = new Syncfusion.Drawing.BrushInfo(Syncfusion.Drawing.GradientStyle.ForwardDiagonal, System.Drawing.Color.White, System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255))))));
-            this.gradientLabel8.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
-            | System.Windows.Forms.Border3DSide.Right) 
-            | System.Windows.Forms.Border3DSide.Bottom)));
-            this.gradientLabel8.BorderStyle = System.Windows.Forms.Border3DStyle.Bump;
-            this.gradientLabel8.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.gradientLabel8.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.gradientLabel8.Location = new System.Drawing.Point(79, 247);
-            this.gradientLabel8.Name = "gradientLabel8";
-            this.gradientLabel8.Size = new System.Drawing.Size(134, 38);
-            this.gradientLabel8.TabIndex = 1029;
-            this.gradientLabel8.Text = "Pattern Offset";
-            this.gradientLabel8.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // lblPatternOffset1
-            // 
-            this.lblPatternOffset1.BackgroundColor = new Syncfusion.Drawing.BrushInfo();
-            this.lblPatternOffset1.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
-            | System.Windows.Forms.Border3DSide.Right) 
-            | System.Windows.Forms.Border3DSide.Bottom)));
-            this.lblPatternOffset1.BorderStyle = System.Windows.Forms.Border3DStyle.Bump;
-            this.lblPatternOffset1.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.lblPatternOffset1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.lblPatternOffset1.Location = new System.Drawing.Point(213, 247);
-            this.lblPatternOffset1.Name = "lblPatternOffset1";
-            this.lblPatternOffset1.Size = new System.Drawing.Size(75, 38);
-            this.lblPatternOffset1.TabIndex = 1028;
-            this.lblPatternOffset1.Text = "1";
-            this.lblPatternOffset1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.lblPatternOffset1.Click += new System.EventHandler(this.lblPatternOffset1_Click);
-            // 
-            // gradientLabel27
-            // 
-            this.gradientLabel27.BackgroundColor = new Syncfusion.Drawing.BrushInfo(Syncfusion.Drawing.GradientStyle.ForwardDiagonal, System.Drawing.Color.White, System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255))))));
-            this.gradientLabel27.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
-            | System.Windows.Forms.Border3DSide.Right) 
-            | System.Windows.Forms.Border3DSide.Bottom)));
-            this.gradientLabel27.BorderStyle = System.Windows.Forms.Border3DStyle.Bump;
-            this.gradientLabel27.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.gradientLabel27.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.gradientLabel27.Location = new System.Drawing.Point(11, 399);
-            this.gradientLabel27.Name = "gradientLabel27";
-            this.gradientLabel27.Size = new System.Drawing.Size(68, 114);
-            this.gradientLabel27.TabIndex = 1027;
-            this.gradientLabel27.Text = "Pattern 2";
-            this.gradientLabel27.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // gradientLabel11
-            // 
-            this.gradientLabel11.BackgroundColor = new Syncfusion.Drawing.BrushInfo(Syncfusion.Drawing.GradientStyle.ForwardDiagonal, System.Drawing.Color.White, System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255))))));
-            this.gradientLabel11.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
-            | System.Windows.Forms.Border3DSide.Right) 
-            | System.Windows.Forms.Border3DSide.Bottom)));
-            this.gradientLabel11.BorderStyle = System.Windows.Forms.Border3DStyle.Bump;
-            this.gradientLabel11.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.gradientLabel11.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.gradientLabel11.Location = new System.Drawing.Point(79, 437);
-            this.gradientLabel11.Name = "gradientLabel11";
-            this.gradientLabel11.Size = new System.Drawing.Size(134, 38);
-            this.gradientLabel11.TabIndex = 1026;
-            this.gradientLabel11.Text = "Pattern Count";
-            this.gradientLabel11.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // lblPatternCount2
-            // 
-            this.lblPatternCount2.BackgroundColor = new Syncfusion.Drawing.BrushInfo();
-            this.lblPatternCount2.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
-            | System.Windows.Forms.Border3DSide.Right) 
-            | System.Windows.Forms.Border3DSide.Bottom)));
-            this.lblPatternCount2.BorderStyle = System.Windows.Forms.Border3DStyle.Bump;
-            this.lblPatternCount2.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.lblPatternCount2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.lblPatternCount2.Location = new System.Drawing.Point(213, 437);
-            this.lblPatternCount2.Name = "lblPatternCount2";
-            this.lblPatternCount2.Size = new System.Drawing.Size(75, 38);
-            this.lblPatternCount2.TabIndex = 1025;
-            this.lblPatternCount2.Text = "1";
-            this.lblPatternCount2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.lblPatternCount2.Click += new System.EventHandler(this.lblPatternCount2_Click);
-            // 
-            // gradientLabel13
-            // 
-            this.gradientLabel13.BackgroundColor = new Syncfusion.Drawing.BrushInfo(Syncfusion.Drawing.GradientStyle.ForwardDiagonal, System.Drawing.Color.White, System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255))))));
-            this.gradientLabel13.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
-            | System.Windows.Forms.Border3DSide.Right) 
-            | System.Windows.Forms.Border3DSide.Bottom)));
-            this.gradientLabel13.BorderStyle = System.Windows.Forms.Border3DStyle.Bump;
-            this.gradientLabel13.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.gradientLabel13.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.gradientLabel13.Location = new System.Drawing.Point(79, 399);
-            this.gradientLabel13.Name = "gradientLabel13";
-            this.gradientLabel13.Size = new System.Drawing.Size(134, 38);
-            this.gradientLabel13.TabIndex = 1024;
-            this.gradientLabel13.Text = "Pattern Pitch";
-            this.gradientLabel13.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // lblPatternPitch2
-            // 
-            this.lblPatternPitch2.BackgroundColor = new Syncfusion.Drawing.BrushInfo();
-            this.lblPatternPitch2.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
-            | System.Windows.Forms.Border3DSide.Right) 
-            | System.Windows.Forms.Border3DSide.Bottom)));
-            this.lblPatternPitch2.BorderStyle = System.Windows.Forms.Border3DStyle.Bump;
-            this.lblPatternPitch2.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.lblPatternPitch2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.lblPatternPitch2.Location = new System.Drawing.Point(213, 399);
-            this.lblPatternPitch2.Name = "lblPatternPitch2";
-            this.lblPatternPitch2.Size = new System.Drawing.Size(75, 38);
-            this.lblPatternPitch2.TabIndex = 1023;
-            this.lblPatternPitch2.Text = "0";
-            this.lblPatternPitch2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.lblPatternPitch2.Click += new System.EventHandler(this.lblPatternPitch2_Click);
-            // 
-            // gradientLabel15
-            // 
-            this.gradientLabel15.BackgroundColor = new Syncfusion.Drawing.BrushInfo(Syncfusion.Drawing.GradientStyle.ForwardDiagonal, System.Drawing.Color.White, System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255))))));
-            this.gradientLabel15.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
-            | System.Windows.Forms.Border3DSide.Right) 
-            | System.Windows.Forms.Border3DSide.Bottom)));
-            this.gradientLabel15.BorderStyle = System.Windows.Forms.Border3DStyle.Bump;
-            this.gradientLabel15.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.gradientLabel15.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.gradientLabel15.Location = new System.Drawing.Point(11, 171);
-            this.gradientLabel15.Name = "gradientLabel15";
-            this.gradientLabel15.Size = new System.Drawing.Size(68, 114);
-            this.gradientLabel15.TabIndex = 1022;
-            this.gradientLabel15.Text = "Pattern 1";
-            this.gradientLabel15.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // gradientLabel19
-            // 
-            this.gradientLabel19.BackgroundColor = new Syncfusion.Drawing.BrushInfo(Syncfusion.Drawing.GradientStyle.ForwardDiagonal, System.Drawing.Color.White, System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255))))));
-            this.gradientLabel19.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
-            | System.Windows.Forms.Border3DSide.Right) 
-            | System.Windows.Forms.Border3DSide.Bottom)));
-            this.gradientLabel19.BorderStyle = System.Windows.Forms.Border3DStyle.Bump;
-            this.gradientLabel19.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.gradientLabel19.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.gradientLabel19.Location = new System.Drawing.Point(79, 209);
-            this.gradientLabel19.Name = "gradientLabel19";
-            this.gradientLabel19.Size = new System.Drawing.Size(134, 38);
-            this.gradientLabel19.TabIndex = 1021;
-            this.gradientLabel19.Text = "Pattern Count";
-            this.gradientLabel19.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // lblPatternCount1
-            // 
-            this.lblPatternCount1.BackgroundColor = new Syncfusion.Drawing.BrushInfo();
-            this.lblPatternCount1.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
-            | System.Windows.Forms.Border3DSide.Right) 
-            | System.Windows.Forms.Border3DSide.Bottom)));
-            this.lblPatternCount1.BorderStyle = System.Windows.Forms.Border3DStyle.Bump;
-            this.lblPatternCount1.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.lblPatternCount1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.lblPatternCount1.Location = new System.Drawing.Point(213, 209);
-            this.lblPatternCount1.Name = "lblPatternCount1";
-            this.lblPatternCount1.Size = new System.Drawing.Size(75, 38);
-            this.lblPatternCount1.TabIndex = 1020;
-            this.lblPatternCount1.Text = "1";
-            this.lblPatternCount1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.lblPatternCount1.Click += new System.EventHandler(this.lblPatternCount1_Click);
-            // 
-            // gradientLabel24
-            // 
-            this.gradientLabel24.BackgroundColor = new Syncfusion.Drawing.BrushInfo(Syncfusion.Drawing.GradientStyle.ForwardDiagonal, System.Drawing.Color.White, System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255))))));
-            this.gradientLabel24.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
-            | System.Windows.Forms.Border3DSide.Right) 
-            | System.Windows.Forms.Border3DSide.Bottom)));
-            this.gradientLabel24.BorderStyle = System.Windows.Forms.Border3DStyle.Bump;
-            this.gradientLabel24.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.gradientLabel24.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.gradientLabel24.Location = new System.Drawing.Point(79, 171);
-            this.gradientLabel24.Name = "gradientLabel24";
-            this.gradientLabel24.Size = new System.Drawing.Size(134, 38);
-            this.gradientLabel24.TabIndex = 1019;
-            this.gradientLabel24.Text = "Pattern Pitch";
-            this.gradientLabel24.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // lblPatternPitch1
-            // 
-            this.lblPatternPitch1.BackgroundColor = new Syncfusion.Drawing.BrushInfo();
-            this.lblPatternPitch1.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
-            | System.Windows.Forms.Border3DSide.Right) 
-            | System.Windows.Forms.Border3DSide.Bottom)));
-            this.lblPatternPitch1.BorderStyle = System.Windows.Forms.Border3DStyle.Bump;
-            this.lblPatternPitch1.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.lblPatternPitch1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.lblPatternPitch1.Location = new System.Drawing.Point(213, 171);
-            this.lblPatternPitch1.Name = "lblPatternPitch1";
-            this.lblPatternPitch1.Size = new System.Drawing.Size(75, 38);
-            this.lblPatternPitch1.TabIndex = 1018;
-            this.lblPatternPitch1.Text = "0";
-            this.lblPatternPitch1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.lblPatternPitch1.Click += new System.EventHandler(this.lblPatternPitch1_Click);
-            // 
-            // gradientLabel21
-            // 
-            this.gradientLabel21.BackgroundColor = new Syncfusion.Drawing.BrushInfo(Syncfusion.Drawing.GradientStyle.ForwardDiagonal, System.Drawing.Color.White, System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255))))));
-            this.gradientLabel21.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
-            | System.Windows.Forms.Border3DSide.Right) 
-            | System.Windows.Forms.Border3DSide.Bottom)));
-            this.gradientLabel21.BorderStyle = System.Windows.Forms.Border3DStyle.Bump;
-            this.gradientLabel21.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.gradientLabel21.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.gradientLabel21.Location = new System.Drawing.Point(11, 285);
-            this.gradientLabel21.Name = "gradientLabel21";
-            this.gradientLabel21.Size = new System.Drawing.Size(68, 114);
-            this.gradientLabel21.TabIndex = 1017;
-            this.gradientLabel21.Text = "Object 2";
-            this.gradientLabel21.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // gradientLabel25
-            // 
-            this.gradientLabel25.BackgroundColor = new Syncfusion.Drawing.BrushInfo(Syncfusion.Drawing.GradientStyle.ForwardDiagonal, System.Drawing.Color.White, System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255))))));
-            this.gradientLabel25.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
-            | System.Windows.Forms.Border3DSide.Right) 
-            | System.Windows.Forms.Border3DSide.Bottom)));
-            this.gradientLabel25.BorderStyle = System.Windows.Forms.Border3DStyle.Bump;
-            this.gradientLabel25.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.gradientLabel25.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.gradientLabel25.Location = new System.Drawing.Point(79, 361);
-            this.gradientLabel25.Name = "gradientLabel25";
-            this.gradientLabel25.Size = new System.Drawing.Size(134, 38);
-            this.gradientLabel25.TabIndex = 1016;
-            this.gradientLabel25.Text = "Object Count";
-            this.gradientLabel25.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // lblProcessCount2
-            // 
-            this.lblProcessCount2.BackgroundColor = new Syncfusion.Drawing.BrushInfo();
-            this.lblProcessCount2.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
-            | System.Windows.Forms.Border3DSide.Right) 
-            | System.Windows.Forms.Border3DSide.Bottom)));
-            this.lblProcessCount2.BorderStyle = System.Windows.Forms.Border3DStyle.Bump;
-            this.lblProcessCount2.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.lblProcessCount2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.lblProcessCount2.Location = new System.Drawing.Point(213, 361);
-            this.lblProcessCount2.Name = "lblProcessCount2";
-            this.lblProcessCount2.Size = new System.Drawing.Size(75, 38);
-            this.lblProcessCount2.TabIndex = 1015;
-            this.lblProcessCount2.Text = "1";
-            this.lblProcessCount2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.lblProcessCount2.Click += new System.EventHandler(this.lblProcessCount2_Click);
-            // 
-            // gradientLabel34
-            // 
-            this.gradientLabel34.BackgroundColor = new Syncfusion.Drawing.BrushInfo(Syncfusion.Drawing.GradientStyle.ForwardDiagonal, System.Drawing.Color.White, System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255))))));
-            this.gradientLabel34.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
-            | System.Windows.Forms.Border3DSide.Right) 
-            | System.Windows.Forms.Border3DSide.Bottom)));
-            this.gradientLabel34.BorderStyle = System.Windows.Forms.Border3DStyle.Bump;
-            this.gradientLabel34.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.gradientLabel34.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.gradientLabel34.Location = new System.Drawing.Point(79, 323);
-            this.gradientLabel34.Name = "gradientLabel34";
-            this.gradientLabel34.Size = new System.Drawing.Size(134, 38);
-            this.gradientLabel34.TabIndex = 1014;
-            this.gradientLabel34.Text = "Offset Y Axis";
-            this.gradientLabel34.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // lblProcessOffsetY2
-            // 
-            this.lblProcessOffsetY2.BackgroundColor = new Syncfusion.Drawing.BrushInfo();
-            this.lblProcessOffsetY2.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
-            | System.Windows.Forms.Border3DSide.Right) 
-            | System.Windows.Forms.Border3DSide.Bottom)));
-            this.lblProcessOffsetY2.BorderStyle = System.Windows.Forms.Border3DStyle.Bump;
-            this.lblProcessOffsetY2.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.lblProcessOffsetY2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.lblProcessOffsetY2.Location = new System.Drawing.Point(213, 323);
-            this.lblProcessOffsetY2.Name = "lblProcessOffsetY2";
-            this.lblProcessOffsetY2.Size = new System.Drawing.Size(75, 38);
-            this.lblProcessOffsetY2.TabIndex = 1013;
-            this.lblProcessOffsetY2.Text = "0";
-            this.lblProcessOffsetY2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.lblProcessOffsetY2.Click += new System.EventHandler(this.lblProcessOffsetY2_Click);
-            // 
-            // gradientLabel35
-            // 
-            this.gradientLabel35.BackgroundColor = new Syncfusion.Drawing.BrushInfo(Syncfusion.Drawing.GradientStyle.ForwardDiagonal, System.Drawing.Color.White, System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255))))));
-            this.gradientLabel35.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
-            | System.Windows.Forms.Border3DSide.Right) 
-            | System.Windows.Forms.Border3DSide.Bottom)));
-            this.gradientLabel35.BorderStyle = System.Windows.Forms.Border3DStyle.Bump;
-            this.gradientLabel35.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.gradientLabel35.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.gradientLabel35.Location = new System.Drawing.Point(79, 285);
-            this.gradientLabel35.Name = "gradientLabel35";
-            this.gradientLabel35.Size = new System.Drawing.Size(134, 38);
-            this.gradientLabel35.TabIndex = 1012;
-            this.gradientLabel35.Text = "Offset X Axis";
-            this.gradientLabel35.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // lblProcessOffsetX2
-            // 
-            this.lblProcessOffsetX2.BackgroundColor = new Syncfusion.Drawing.BrushInfo();
-            this.lblProcessOffsetX2.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
-            | System.Windows.Forms.Border3DSide.Right) 
-            | System.Windows.Forms.Border3DSide.Bottom)));
-            this.lblProcessOffsetX2.BorderStyle = System.Windows.Forms.Border3DStyle.Bump;
-            this.lblProcessOffsetX2.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.lblProcessOffsetX2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.lblProcessOffsetX2.Location = new System.Drawing.Point(213, 285);
-            this.lblProcessOffsetX2.Name = "lblProcessOffsetX2";
-            this.lblProcessOffsetX2.Size = new System.Drawing.Size(75, 38);
-            this.lblProcessOffsetX2.TabIndex = 1011;
-            this.lblProcessOffsetX2.Text = "0";
-            this.lblProcessOffsetX2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.lblProcessOffsetX2.Click += new System.EventHandler(this.lblProcessOffsetX2_Click);
-            // 
-            // gradientLabel36
-            // 
-            this.gradientLabel36.BackgroundColor = new Syncfusion.Drawing.BrushInfo(Syncfusion.Drawing.GradientStyle.ForwardDiagonal, System.Drawing.Color.White, System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255))))));
-            this.gradientLabel36.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
-            | System.Windows.Forms.Border3DSide.Right) 
-            | System.Windows.Forms.Border3DSide.Bottom)));
-            this.gradientLabel36.BorderStyle = System.Windows.Forms.Border3DStyle.Bump;
-            this.gradientLabel36.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.gradientLabel36.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.gradientLabel36.Location = new System.Drawing.Point(11, 57);
-            this.gradientLabel36.Name = "gradientLabel36";
-            this.gradientLabel36.Size = new System.Drawing.Size(68, 114);
-            this.gradientLabel36.TabIndex = 1010;
-            this.gradientLabel36.Text = "Object 1";
-            this.gradientLabel36.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // gradientLabel41
-            // 
-            this.gradientLabel41.BackgroundColor = new Syncfusion.Drawing.BrushInfo(Syncfusion.Drawing.GradientStyle.ForwardDiagonal, System.Drawing.Color.White, System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255))))));
-            this.gradientLabel41.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
-            | System.Windows.Forms.Border3DSide.Right) 
-            | System.Windows.Forms.Border3DSide.Bottom)));
-            this.gradientLabel41.BorderStyle = System.Windows.Forms.Border3DStyle.Bump;
-            this.gradientLabel41.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.gradientLabel41.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.gradientLabel41.Location = new System.Drawing.Point(79, 133);
-            this.gradientLabel41.Name = "gradientLabel41";
-            this.gradientLabel41.Size = new System.Drawing.Size(134, 38);
-            this.gradientLabel41.TabIndex = 1009;
-            this.gradientLabel41.Text = "Object Count";
-            this.gradientLabel41.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // lblProcessCount1
-            // 
-            this.lblProcessCount1.BackgroundColor = new Syncfusion.Drawing.BrushInfo();
-            this.lblProcessCount1.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
-            | System.Windows.Forms.Border3DSide.Right) 
-            | System.Windows.Forms.Border3DSide.Bottom)));
-            this.lblProcessCount1.BorderStyle = System.Windows.Forms.Border3DStyle.Bump;
-            this.lblProcessCount1.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.lblProcessCount1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.lblProcessCount1.Location = new System.Drawing.Point(213, 133);
-            this.lblProcessCount1.Name = "lblProcessCount1";
-            this.lblProcessCount1.Size = new System.Drawing.Size(75, 38);
-            this.lblProcessCount1.TabIndex = 1008;
-            this.lblProcessCount1.Text = "1";
-            this.lblProcessCount1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.lblProcessCount1.Click += new System.EventHandler(this.lblProcessCount1_Click);
-            // 
-            // gradientLabel42
-            // 
-            this.gradientLabel42.BackgroundColor = new Syncfusion.Drawing.BrushInfo(Syncfusion.Drawing.GradientStyle.ForwardDiagonal, System.Drawing.Color.White, System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255))))));
-            this.gradientLabel42.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
-            | System.Windows.Forms.Border3DSide.Right) 
-            | System.Windows.Forms.Border3DSide.Bottom)));
-            this.gradientLabel42.BorderStyle = System.Windows.Forms.Border3DStyle.Bump;
-            this.gradientLabel42.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.gradientLabel42.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.gradientLabel42.Location = new System.Drawing.Point(79, 95);
-            this.gradientLabel42.Name = "gradientLabel42";
-            this.gradientLabel42.Size = new System.Drawing.Size(134, 38);
-            this.gradientLabel42.TabIndex = 1007;
-            this.gradientLabel42.Text = "Offset Y Axis";
-            this.gradientLabel42.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // lblProcessOffsetY1
-            // 
-            this.lblProcessOffsetY1.BackgroundColor = new Syncfusion.Drawing.BrushInfo();
-            this.lblProcessOffsetY1.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
-            | System.Windows.Forms.Border3DSide.Right) 
-            | System.Windows.Forms.Border3DSide.Bottom)));
-            this.lblProcessOffsetY1.BorderStyle = System.Windows.Forms.Border3DStyle.Bump;
-            this.lblProcessOffsetY1.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.lblProcessOffsetY1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.lblProcessOffsetY1.Location = new System.Drawing.Point(213, 95);
-            this.lblProcessOffsetY1.Name = "lblProcessOffsetY1";
-            this.lblProcessOffsetY1.Size = new System.Drawing.Size(75, 38);
-            this.lblProcessOffsetY1.TabIndex = 1006;
-            this.lblProcessOffsetY1.Text = "0";
-            this.lblProcessOffsetY1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.lblProcessOffsetY1.Click += new System.EventHandler(this.lblProcessOffsetY1_Click);
-            // 
-            // gradientLabel43
-            // 
-            this.gradientLabel43.BackgroundColor = new Syncfusion.Drawing.BrushInfo(Syncfusion.Drawing.GradientStyle.ForwardDiagonal, System.Drawing.Color.White, System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255))))));
-            this.gradientLabel43.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
-            | System.Windows.Forms.Border3DSide.Right) 
-            | System.Windows.Forms.Border3DSide.Bottom)));
-            this.gradientLabel43.BorderStyle = System.Windows.Forms.Border3DStyle.Bump;
-            this.gradientLabel43.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.gradientLabel43.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.gradientLabel43.Location = new System.Drawing.Point(79, 57);
-            this.gradientLabel43.Name = "gradientLabel43";
-            this.gradientLabel43.Size = new System.Drawing.Size(134, 38);
-            this.gradientLabel43.TabIndex = 1005;
-            this.gradientLabel43.Text = "Offset X Axis";
-            this.gradientLabel43.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // lblProcessOffsetX1
-            // 
-            this.lblProcessOffsetX1.BackgroundColor = new Syncfusion.Drawing.BrushInfo();
-            this.lblProcessOffsetX1.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
-            | System.Windows.Forms.Border3DSide.Right) 
-            | System.Windows.Forms.Border3DSide.Bottom)));
-            this.lblProcessOffsetX1.BorderStyle = System.Windows.Forms.Border3DStyle.Bump;
-            this.lblProcessOffsetX1.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.lblProcessOffsetX1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.lblProcessOffsetX1.Location = new System.Drawing.Point(213, 57);
-            this.lblProcessOffsetX1.Name = "lblProcessOffsetX1";
-            this.lblProcessOffsetX1.Size = new System.Drawing.Size(75, 38);
-            this.lblProcessOffsetX1.TabIndex = 1004;
-            this.lblProcessOffsetX1.Text = "0";
-            this.lblProcessOffsetX1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.lblProcessOffsetX1.Click += new System.EventHandler(this.lblProcessOffsetX1_Click);
             // 
             // gradientLabel44
             // 
@@ -2366,30 +1813,30 @@
             // 
             // GridConfigure
             // 
-            gridBaseStyle1.Name = "Header";
-            gridBaseStyle1.StyleInfo.Borders.Bottom = new Syncfusion.Windows.Forms.Grid.GridBorder(Syncfusion.Windows.Forms.Grid.GridBorderStyle.None);
-            gridBaseStyle1.StyleInfo.Borders.Left = new Syncfusion.Windows.Forms.Grid.GridBorder(Syncfusion.Windows.Forms.Grid.GridBorderStyle.None);
-            gridBaseStyle1.StyleInfo.Borders.Right = new Syncfusion.Windows.Forms.Grid.GridBorder(Syncfusion.Windows.Forms.Grid.GridBorderStyle.None);
-            gridBaseStyle1.StyleInfo.Borders.Top = new Syncfusion.Windows.Forms.Grid.GridBorder(Syncfusion.Windows.Forms.Grid.GridBorderStyle.None);
-            gridBaseStyle1.StyleInfo.CellType = "Header";
-            gridBaseStyle1.StyleInfo.Font.Bold = true;
-            gridBaseStyle1.StyleInfo.Interior = new Syncfusion.Drawing.BrushInfo(Syncfusion.Drawing.GradientStyle.Vertical, System.Drawing.Color.FromArgb(((int)(((byte)(203)))), ((int)(((byte)(199)))), ((int)(((byte)(184))))), System.Drawing.Color.FromArgb(((int)(((byte)(238)))), ((int)(((byte)(234)))), ((int)(((byte)(216))))));
-            gridBaseStyle1.StyleInfo.VerticalAlignment = Syncfusion.Windows.Forms.Grid.GridVerticalAlignment.Middle;
-            gridBaseStyle2.Name = "Standard";
-            gridBaseStyle2.StyleInfo.Font.Facename = "Tahoma";
-            gridBaseStyle2.StyleInfo.Interior = new Syncfusion.Drawing.BrushInfo(System.Drawing.SystemColors.Window);
-            gridBaseStyle3.Name = "Column Header";
-            gridBaseStyle3.StyleInfo.BaseStyle = "Header";
-            gridBaseStyle3.StyleInfo.HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Center;
-            gridBaseStyle4.Name = "Row Header";
-            gridBaseStyle4.StyleInfo.BaseStyle = "Header";
-            gridBaseStyle4.StyleInfo.HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left;
-            gridBaseStyle4.StyleInfo.Interior = new Syncfusion.Drawing.BrushInfo(Syncfusion.Drawing.GradientStyle.Horizontal, System.Drawing.Color.FromArgb(((int)(((byte)(203)))), ((int)(((byte)(199)))), ((int)(((byte)(184))))), System.Drawing.Color.FromArgb(((int)(((byte)(238)))), ((int)(((byte)(234)))), ((int)(((byte)(216))))));
+            gridBaseStyle17.Name = "Header";
+            gridBaseStyle17.StyleInfo.Borders.Bottom = new Syncfusion.Windows.Forms.Grid.GridBorder(Syncfusion.Windows.Forms.Grid.GridBorderStyle.None);
+            gridBaseStyle17.StyleInfo.Borders.Left = new Syncfusion.Windows.Forms.Grid.GridBorder(Syncfusion.Windows.Forms.Grid.GridBorderStyle.None);
+            gridBaseStyle17.StyleInfo.Borders.Right = new Syncfusion.Windows.Forms.Grid.GridBorder(Syncfusion.Windows.Forms.Grid.GridBorderStyle.None);
+            gridBaseStyle17.StyleInfo.Borders.Top = new Syncfusion.Windows.Forms.Grid.GridBorder(Syncfusion.Windows.Forms.Grid.GridBorderStyle.None);
+            gridBaseStyle17.StyleInfo.CellType = "Header";
+            gridBaseStyle17.StyleInfo.Font.Bold = true;
+            gridBaseStyle17.StyleInfo.Interior = new Syncfusion.Drawing.BrushInfo(Syncfusion.Drawing.GradientStyle.Vertical, System.Drawing.Color.FromArgb(((int)(((byte)(203)))), ((int)(((byte)(199)))), ((int)(((byte)(184))))), System.Drawing.Color.FromArgb(((int)(((byte)(238)))), ((int)(((byte)(234)))), ((int)(((byte)(216))))));
+            gridBaseStyle17.StyleInfo.VerticalAlignment = Syncfusion.Windows.Forms.Grid.GridVerticalAlignment.Middle;
+            gridBaseStyle18.Name = "Standard";
+            gridBaseStyle18.StyleInfo.Font.Facename = "Tahoma";
+            gridBaseStyle18.StyleInfo.Interior = new Syncfusion.Drawing.BrushInfo(System.Drawing.SystemColors.Window);
+            gridBaseStyle19.Name = "Column Header";
+            gridBaseStyle19.StyleInfo.BaseStyle = "Header";
+            gridBaseStyle19.StyleInfo.HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Center;
+            gridBaseStyle20.Name = "Row Header";
+            gridBaseStyle20.StyleInfo.BaseStyle = "Header";
+            gridBaseStyle20.StyleInfo.HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left;
+            gridBaseStyle20.StyleInfo.Interior = new Syncfusion.Drawing.BrushInfo(Syncfusion.Drawing.GradientStyle.Horizontal, System.Drawing.Color.FromArgb(((int)(((byte)(203)))), ((int)(((byte)(199)))), ((int)(((byte)(184))))), System.Drawing.Color.FromArgb(((int)(((byte)(238)))), ((int)(((byte)(234)))), ((int)(((byte)(216))))));
             this.GridConfigure.BaseStylesMap.AddRange(new Syncfusion.Windows.Forms.Grid.GridBaseStyle[] {
-            gridBaseStyle1,
-            gridBaseStyle2,
-            gridBaseStyle3,
-            gridBaseStyle4});
+            gridBaseStyle17,
+            gridBaseStyle18,
+            gridBaseStyle19,
+            gridBaseStyle20});
             this.GridConfigure.ColWidthEntries.AddRange(new Syncfusion.Windows.Forms.Grid.GridColWidth[] {
             new Syncfusion.Windows.Forms.Grid.GridColWidth(0, 35)});
             this.GridConfigure.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -2626,30 +2073,30 @@
             // 
             // GridISN
             // 
-            gridBaseStyle5.Name = "Header";
-            gridBaseStyle5.StyleInfo.Borders.Bottom = new Syncfusion.Windows.Forms.Grid.GridBorder(Syncfusion.Windows.Forms.Grid.GridBorderStyle.None);
-            gridBaseStyle5.StyleInfo.Borders.Left = new Syncfusion.Windows.Forms.Grid.GridBorder(Syncfusion.Windows.Forms.Grid.GridBorderStyle.None);
-            gridBaseStyle5.StyleInfo.Borders.Right = new Syncfusion.Windows.Forms.Grid.GridBorder(Syncfusion.Windows.Forms.Grid.GridBorderStyle.None);
-            gridBaseStyle5.StyleInfo.Borders.Top = new Syncfusion.Windows.Forms.Grid.GridBorder(Syncfusion.Windows.Forms.Grid.GridBorderStyle.None);
-            gridBaseStyle5.StyleInfo.CellType = "Header";
-            gridBaseStyle5.StyleInfo.Font.Bold = true;
-            gridBaseStyle5.StyleInfo.Interior = new Syncfusion.Drawing.BrushInfo(Syncfusion.Drawing.GradientStyle.Vertical, System.Drawing.Color.FromArgb(((int)(((byte)(203)))), ((int)(((byte)(199)))), ((int)(((byte)(184))))), System.Drawing.Color.FromArgb(((int)(((byte)(238)))), ((int)(((byte)(234)))), ((int)(((byte)(216))))));
-            gridBaseStyle5.StyleInfo.VerticalAlignment = Syncfusion.Windows.Forms.Grid.GridVerticalAlignment.Middle;
-            gridBaseStyle6.Name = "Standard";
-            gridBaseStyle6.StyleInfo.Font.Facename = "Tahoma";
-            gridBaseStyle6.StyleInfo.Interior = new Syncfusion.Drawing.BrushInfo(System.Drawing.SystemColors.Window);
-            gridBaseStyle7.Name = "Column Header";
-            gridBaseStyle7.StyleInfo.BaseStyle = "Header";
-            gridBaseStyle7.StyleInfo.HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Center;
-            gridBaseStyle8.Name = "Row Header";
-            gridBaseStyle8.StyleInfo.BaseStyle = "Header";
-            gridBaseStyle8.StyleInfo.HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left;
-            gridBaseStyle8.StyleInfo.Interior = new Syncfusion.Drawing.BrushInfo(Syncfusion.Drawing.GradientStyle.Horizontal, System.Drawing.Color.FromArgb(((int)(((byte)(203)))), ((int)(((byte)(199)))), ((int)(((byte)(184))))), System.Drawing.Color.FromArgb(((int)(((byte)(238)))), ((int)(((byte)(234)))), ((int)(((byte)(216))))));
+            gridBaseStyle21.Name = "Header";
+            gridBaseStyle21.StyleInfo.Borders.Bottom = new Syncfusion.Windows.Forms.Grid.GridBorder(Syncfusion.Windows.Forms.Grid.GridBorderStyle.None);
+            gridBaseStyle21.StyleInfo.Borders.Left = new Syncfusion.Windows.Forms.Grid.GridBorder(Syncfusion.Windows.Forms.Grid.GridBorderStyle.None);
+            gridBaseStyle21.StyleInfo.Borders.Right = new Syncfusion.Windows.Forms.Grid.GridBorder(Syncfusion.Windows.Forms.Grid.GridBorderStyle.None);
+            gridBaseStyle21.StyleInfo.Borders.Top = new Syncfusion.Windows.Forms.Grid.GridBorder(Syncfusion.Windows.Forms.Grid.GridBorderStyle.None);
+            gridBaseStyle21.StyleInfo.CellType = "Header";
+            gridBaseStyle21.StyleInfo.Font.Bold = true;
+            gridBaseStyle21.StyleInfo.Interior = new Syncfusion.Drawing.BrushInfo(Syncfusion.Drawing.GradientStyle.Vertical, System.Drawing.Color.FromArgb(((int)(((byte)(203)))), ((int)(((byte)(199)))), ((int)(((byte)(184))))), System.Drawing.Color.FromArgb(((int)(((byte)(238)))), ((int)(((byte)(234)))), ((int)(((byte)(216))))));
+            gridBaseStyle21.StyleInfo.VerticalAlignment = Syncfusion.Windows.Forms.Grid.GridVerticalAlignment.Middle;
+            gridBaseStyle22.Name = "Standard";
+            gridBaseStyle22.StyleInfo.Font.Facename = "Tahoma";
+            gridBaseStyle22.StyleInfo.Interior = new Syncfusion.Drawing.BrushInfo(System.Drawing.SystemColors.Window);
+            gridBaseStyle23.Name = "Column Header";
+            gridBaseStyle23.StyleInfo.BaseStyle = "Header";
+            gridBaseStyle23.StyleInfo.HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Center;
+            gridBaseStyle24.Name = "Row Header";
+            gridBaseStyle24.StyleInfo.BaseStyle = "Header";
+            gridBaseStyle24.StyleInfo.HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left;
+            gridBaseStyle24.StyleInfo.Interior = new Syncfusion.Drawing.BrushInfo(Syncfusion.Drawing.GradientStyle.Horizontal, System.Drawing.Color.FromArgb(((int)(((byte)(203)))), ((int)(((byte)(199)))), ((int)(((byte)(184))))), System.Drawing.Color.FromArgb(((int)(((byte)(238)))), ((int)(((byte)(234)))), ((int)(((byte)(216))))));
             this.GridISN.BaseStylesMap.AddRange(new Syncfusion.Windows.Forms.Grid.GridBaseStyle[] {
-            gridBaseStyle5,
-            gridBaseStyle6,
-            gridBaseStyle7,
-            gridBaseStyle8});
+            gridBaseStyle21,
+            gridBaseStyle22,
+            gridBaseStyle23,
+            gridBaseStyle24});
             this.GridISN.ColCount = 4;
             this.GridISN.ColWidthEntries.AddRange(new Syncfusion.Windows.Forms.Grid.GridColWidth[] {
             new Syncfusion.Windows.Forms.Grid.GridColWidth(0, 35)});
@@ -2669,30 +2116,30 @@
             // 
             // GridCSN
             // 
-            gridBaseStyle9.Name = "Header";
-            gridBaseStyle9.StyleInfo.Borders.Bottom = new Syncfusion.Windows.Forms.Grid.GridBorder(Syncfusion.Windows.Forms.Grid.GridBorderStyle.None);
-            gridBaseStyle9.StyleInfo.Borders.Left = new Syncfusion.Windows.Forms.Grid.GridBorder(Syncfusion.Windows.Forms.Grid.GridBorderStyle.None);
-            gridBaseStyle9.StyleInfo.Borders.Right = new Syncfusion.Windows.Forms.Grid.GridBorder(Syncfusion.Windows.Forms.Grid.GridBorderStyle.None);
-            gridBaseStyle9.StyleInfo.Borders.Top = new Syncfusion.Windows.Forms.Grid.GridBorder(Syncfusion.Windows.Forms.Grid.GridBorderStyle.None);
-            gridBaseStyle9.StyleInfo.CellType = "Header";
-            gridBaseStyle9.StyleInfo.Font.Bold = true;
-            gridBaseStyle9.StyleInfo.Interior = new Syncfusion.Drawing.BrushInfo(Syncfusion.Drawing.GradientStyle.Vertical, System.Drawing.Color.FromArgb(((int)(((byte)(203)))), ((int)(((byte)(199)))), ((int)(((byte)(184))))), System.Drawing.Color.FromArgb(((int)(((byte)(238)))), ((int)(((byte)(234)))), ((int)(((byte)(216))))));
-            gridBaseStyle9.StyleInfo.VerticalAlignment = Syncfusion.Windows.Forms.Grid.GridVerticalAlignment.Middle;
-            gridBaseStyle10.Name = "Standard";
-            gridBaseStyle10.StyleInfo.Font.Facename = "Tahoma";
-            gridBaseStyle10.StyleInfo.Interior = new Syncfusion.Drawing.BrushInfo(System.Drawing.SystemColors.Window);
-            gridBaseStyle11.Name = "Column Header";
-            gridBaseStyle11.StyleInfo.BaseStyle = "Header";
-            gridBaseStyle11.StyleInfo.HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Center;
-            gridBaseStyle12.Name = "Row Header";
-            gridBaseStyle12.StyleInfo.BaseStyle = "Header";
-            gridBaseStyle12.StyleInfo.HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left;
-            gridBaseStyle12.StyleInfo.Interior = new Syncfusion.Drawing.BrushInfo(Syncfusion.Drawing.GradientStyle.Horizontal, System.Drawing.Color.FromArgb(((int)(((byte)(203)))), ((int)(((byte)(199)))), ((int)(((byte)(184))))), System.Drawing.Color.FromArgb(((int)(((byte)(238)))), ((int)(((byte)(234)))), ((int)(((byte)(216))))));
+            gridBaseStyle25.Name = "Header";
+            gridBaseStyle25.StyleInfo.Borders.Bottom = new Syncfusion.Windows.Forms.Grid.GridBorder(Syncfusion.Windows.Forms.Grid.GridBorderStyle.None);
+            gridBaseStyle25.StyleInfo.Borders.Left = new Syncfusion.Windows.Forms.Grid.GridBorder(Syncfusion.Windows.Forms.Grid.GridBorderStyle.None);
+            gridBaseStyle25.StyleInfo.Borders.Right = new Syncfusion.Windows.Forms.Grid.GridBorder(Syncfusion.Windows.Forms.Grid.GridBorderStyle.None);
+            gridBaseStyle25.StyleInfo.Borders.Top = new Syncfusion.Windows.Forms.Grid.GridBorder(Syncfusion.Windows.Forms.Grid.GridBorderStyle.None);
+            gridBaseStyle25.StyleInfo.CellType = "Header";
+            gridBaseStyle25.StyleInfo.Font.Bold = true;
+            gridBaseStyle25.StyleInfo.Interior = new Syncfusion.Drawing.BrushInfo(Syncfusion.Drawing.GradientStyle.Vertical, System.Drawing.Color.FromArgb(((int)(((byte)(203)))), ((int)(((byte)(199)))), ((int)(((byte)(184))))), System.Drawing.Color.FromArgb(((int)(((byte)(238)))), ((int)(((byte)(234)))), ((int)(((byte)(216))))));
+            gridBaseStyle25.StyleInfo.VerticalAlignment = Syncfusion.Windows.Forms.Grid.GridVerticalAlignment.Middle;
+            gridBaseStyle26.Name = "Standard";
+            gridBaseStyle26.StyleInfo.Font.Facename = "Tahoma";
+            gridBaseStyle26.StyleInfo.Interior = new Syncfusion.Drawing.BrushInfo(System.Drawing.SystemColors.Window);
+            gridBaseStyle27.Name = "Column Header";
+            gridBaseStyle27.StyleInfo.BaseStyle = "Header";
+            gridBaseStyle27.StyleInfo.HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Center;
+            gridBaseStyle28.Name = "Row Header";
+            gridBaseStyle28.StyleInfo.BaseStyle = "Header";
+            gridBaseStyle28.StyleInfo.HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left;
+            gridBaseStyle28.StyleInfo.Interior = new Syncfusion.Drawing.BrushInfo(Syncfusion.Drawing.GradientStyle.Horizontal, System.Drawing.Color.FromArgb(((int)(((byte)(203)))), ((int)(((byte)(199)))), ((int)(((byte)(184))))), System.Drawing.Color.FromArgb(((int)(((byte)(238)))), ((int)(((byte)(234)))), ((int)(((byte)(216))))));
             this.GridCSN.BaseStylesMap.AddRange(new Syncfusion.Windows.Forms.Grid.GridBaseStyle[] {
-            gridBaseStyle9,
-            gridBaseStyle10,
-            gridBaseStyle11,
-            gridBaseStyle12});
+            gridBaseStyle25,
+            gridBaseStyle26,
+            gridBaseStyle27,
+            gridBaseStyle28});
             this.GridCSN.ColCount = 4;
             this.GridCSN.ColWidthEntries.AddRange(new Syncfusion.Windows.Forms.Grid.GridColWidth[] {
             new Syncfusion.Windows.Forms.Grid.GridColWidth(0, 35)});
@@ -2857,30 +2304,30 @@
             // 
             // gridControl1
             // 
-            gridBaseStyle13.Name = "Header";
-            gridBaseStyle13.StyleInfo.Borders.Bottom = new Syncfusion.Windows.Forms.Grid.GridBorder(Syncfusion.Windows.Forms.Grid.GridBorderStyle.None);
-            gridBaseStyle13.StyleInfo.Borders.Left = new Syncfusion.Windows.Forms.Grid.GridBorder(Syncfusion.Windows.Forms.Grid.GridBorderStyle.None);
-            gridBaseStyle13.StyleInfo.Borders.Right = new Syncfusion.Windows.Forms.Grid.GridBorder(Syncfusion.Windows.Forms.Grid.GridBorderStyle.None);
-            gridBaseStyle13.StyleInfo.Borders.Top = new Syncfusion.Windows.Forms.Grid.GridBorder(Syncfusion.Windows.Forms.Grid.GridBorderStyle.None);
-            gridBaseStyle13.StyleInfo.CellType = "Header";
-            gridBaseStyle13.StyleInfo.Font.Bold = true;
-            gridBaseStyle13.StyleInfo.Interior = new Syncfusion.Drawing.BrushInfo(Syncfusion.Drawing.GradientStyle.Vertical, System.Drawing.Color.FromArgb(((int)(((byte)(203)))), ((int)(((byte)(199)))), ((int)(((byte)(184))))), System.Drawing.Color.FromArgb(((int)(((byte)(238)))), ((int)(((byte)(234)))), ((int)(((byte)(216))))));
-            gridBaseStyle13.StyleInfo.VerticalAlignment = Syncfusion.Windows.Forms.Grid.GridVerticalAlignment.Middle;
-            gridBaseStyle14.Name = "Standard";
-            gridBaseStyle14.StyleInfo.Font.Facename = "Tahoma";
-            gridBaseStyle14.StyleInfo.Interior = new Syncfusion.Drawing.BrushInfo(System.Drawing.SystemColors.Window);
-            gridBaseStyle15.Name = "Column Header";
-            gridBaseStyle15.StyleInfo.BaseStyle = "Header";
-            gridBaseStyle15.StyleInfo.HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Center;
-            gridBaseStyle16.Name = "Row Header";
-            gridBaseStyle16.StyleInfo.BaseStyle = "Header";
-            gridBaseStyle16.StyleInfo.HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left;
-            gridBaseStyle16.StyleInfo.Interior = new Syncfusion.Drawing.BrushInfo(Syncfusion.Drawing.GradientStyle.Horizontal, System.Drawing.Color.FromArgb(((int)(((byte)(203)))), ((int)(((byte)(199)))), ((int)(((byte)(184))))), System.Drawing.Color.FromArgb(((int)(((byte)(238)))), ((int)(((byte)(234)))), ((int)(((byte)(216))))));
+            gridBaseStyle29.Name = "Header";
+            gridBaseStyle29.StyleInfo.Borders.Bottom = new Syncfusion.Windows.Forms.Grid.GridBorder(Syncfusion.Windows.Forms.Grid.GridBorderStyle.None);
+            gridBaseStyle29.StyleInfo.Borders.Left = new Syncfusion.Windows.Forms.Grid.GridBorder(Syncfusion.Windows.Forms.Grid.GridBorderStyle.None);
+            gridBaseStyle29.StyleInfo.Borders.Right = new Syncfusion.Windows.Forms.Grid.GridBorder(Syncfusion.Windows.Forms.Grid.GridBorderStyle.None);
+            gridBaseStyle29.StyleInfo.Borders.Top = new Syncfusion.Windows.Forms.Grid.GridBorder(Syncfusion.Windows.Forms.Grid.GridBorderStyle.None);
+            gridBaseStyle29.StyleInfo.CellType = "Header";
+            gridBaseStyle29.StyleInfo.Font.Bold = true;
+            gridBaseStyle29.StyleInfo.Interior = new Syncfusion.Drawing.BrushInfo(Syncfusion.Drawing.GradientStyle.Vertical, System.Drawing.Color.FromArgb(((int)(((byte)(203)))), ((int)(((byte)(199)))), ((int)(((byte)(184))))), System.Drawing.Color.FromArgb(((int)(((byte)(238)))), ((int)(((byte)(234)))), ((int)(((byte)(216))))));
+            gridBaseStyle29.StyleInfo.VerticalAlignment = Syncfusion.Windows.Forms.Grid.GridVerticalAlignment.Middle;
+            gridBaseStyle30.Name = "Standard";
+            gridBaseStyle30.StyleInfo.Font.Facename = "Tahoma";
+            gridBaseStyle30.StyleInfo.Interior = new Syncfusion.Drawing.BrushInfo(System.Drawing.SystemColors.Window);
+            gridBaseStyle31.Name = "Column Header";
+            gridBaseStyle31.StyleInfo.BaseStyle = "Header";
+            gridBaseStyle31.StyleInfo.HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Center;
+            gridBaseStyle32.Name = "Row Header";
+            gridBaseStyle32.StyleInfo.BaseStyle = "Header";
+            gridBaseStyle32.StyleInfo.HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left;
+            gridBaseStyle32.StyleInfo.Interior = new Syncfusion.Drawing.BrushInfo(Syncfusion.Drawing.GradientStyle.Horizontal, System.Drawing.Color.FromArgb(((int)(((byte)(203)))), ((int)(((byte)(199)))), ((int)(((byte)(184))))), System.Drawing.Color.FromArgb(((int)(((byte)(238)))), ((int)(((byte)(234)))), ((int)(((byte)(216))))));
             this.gridControl1.BaseStylesMap.AddRange(new Syncfusion.Windows.Forms.Grid.GridBaseStyle[] {
-            gridBaseStyle13,
-            gridBaseStyle14,
-            gridBaseStyle15,
-            gridBaseStyle16});
+            gridBaseStyle29,
+            gridBaseStyle30,
+            gridBaseStyle31,
+            gridBaseStyle32});
             this.gridControl1.ColWidthEntries.AddRange(new Syncfusion.Windows.Forms.Grid.GridColWidth[] {
             new Syncfusion.Windows.Forms.Grid.GridColWidth(0, 35)});
             this.gridControl1.Location = new System.Drawing.Point(0, 0);
@@ -3147,34 +2594,6 @@
         private System.Windows.Forms.Button btnMeasure;
         private System.Windows.Forms.Button btnCalibration;
         private Syncfusion.Windows.Forms.Tools.TabPageAdv tabPageProcess266;
-        private Syncfusion.Windows.Forms.Tools.GradientLabel gradientLabel17;
-        private Syncfusion.Windows.Forms.Tools.GradientLabel lblPatternOffset2;
-        private Syncfusion.Windows.Forms.Tools.GradientLabel gradientLabel8;
-        private Syncfusion.Windows.Forms.Tools.GradientLabel lblPatternOffset1;
-        private Syncfusion.Windows.Forms.Tools.GradientLabel gradientLabel27;
-        private Syncfusion.Windows.Forms.Tools.GradientLabel gradientLabel11;
-        private Syncfusion.Windows.Forms.Tools.GradientLabel lblPatternCount2;
-        private Syncfusion.Windows.Forms.Tools.GradientLabel gradientLabel13;
-        private Syncfusion.Windows.Forms.Tools.GradientLabel lblPatternPitch2;
-        private Syncfusion.Windows.Forms.Tools.GradientLabel gradientLabel15;
-        private Syncfusion.Windows.Forms.Tools.GradientLabel gradientLabel19;
-        private Syncfusion.Windows.Forms.Tools.GradientLabel lblPatternCount1;
-        private Syncfusion.Windows.Forms.Tools.GradientLabel gradientLabel24;
-        private Syncfusion.Windows.Forms.Tools.GradientLabel lblPatternPitch1;
-        private Syncfusion.Windows.Forms.Tools.GradientLabel gradientLabel21;
-        private Syncfusion.Windows.Forms.Tools.GradientLabel gradientLabel25;
-        private Syncfusion.Windows.Forms.Tools.GradientLabel lblProcessCount2;
-        private Syncfusion.Windows.Forms.Tools.GradientLabel gradientLabel34;
-        private Syncfusion.Windows.Forms.Tools.GradientLabel lblProcessOffsetY2;
-        private Syncfusion.Windows.Forms.Tools.GradientLabel gradientLabel35;
-        private Syncfusion.Windows.Forms.Tools.GradientLabel lblProcessOffsetX2;
-        private Syncfusion.Windows.Forms.Tools.GradientLabel gradientLabel36;
-        private Syncfusion.Windows.Forms.Tools.GradientLabel gradientLabel41;
-        private Syncfusion.Windows.Forms.Tools.GradientLabel lblProcessCount1;
-        private Syncfusion.Windows.Forms.Tools.GradientLabel gradientLabel42;
-        private Syncfusion.Windows.Forms.Tools.GradientLabel lblProcessOffsetY1;
-        private Syncfusion.Windows.Forms.Tools.GradientLabel gradientLabel43;
-        private Syncfusion.Windows.Forms.Tools.GradientLabel lblProcessOffsetX1;
         private Syncfusion.Windows.Forms.Tools.GradientLabel gradientLabel44;
         private Syncfusion.Windows.Forms.Tools.GradientLabel gradientLabel45;
         private Syncfusion.Windows.Forms.Tools.GradientLabel lblProcessCountRead;
@@ -3184,8 +2603,6 @@
         private System.Windows.Forms.Button btnPatternProcessSave;
         private Syncfusion.Windows.Forms.ButtonAdv btnLaserProcessStep2;
         private Syncfusion.Windows.Forms.ButtonAdv btnLaserProcessStep1;
-        private Syncfusion.Windows.Forms.Tools.GradientLabel gradientLabel48;
-        private Syncfusion.Windows.Forms.Tools.GradientLabel lblProcessInterval;
         private Syncfusion.Windows.Forms.ButtonAdv btnLaserProcessStop;
         private Syncfusion.Windows.Forms.ButtonAdv btnLaserProcessMof;
         private Syncfusion.Windows.Forms.ButtonAdv btnLaserProcessMofStop;

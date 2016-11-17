@@ -162,15 +162,18 @@ namespace LWDicer.Layers
             double[] dPos;
             GetCurPos(out dPos, iCoordID);
 
-            pos = new CPos_XYTZ();
+            CPos_XYTZ curPos = new CPos_XYTZ();
             if (iCoordID == DEF_ALL_COORDINATE)
             {
-                pos.TransFromArray(dPos);
+                curPos.TransFromArray(dPos);
             }
             else
             {
-                pos.SetPosition(iCoordID, dPos[0]);
+                curPos.SetPosition(iCoordID, dPos[0]);
             }
+
+            pos = curPos.Copy();
+
             return SUCCESS;
         }
 

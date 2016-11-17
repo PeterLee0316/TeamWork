@@ -1951,7 +1951,9 @@ namespace LWDicer.Layers
         public bool SendConfig(string strPath)
         {
             string strFTP = GetControlAddress(); // ex) "172.18.7.160
-            
+
+            if (File.Exists(strPath) == false) return false; 
+
             if (SendTFTPFile(strFTP,strPath) == true)
             {
                 return true;
@@ -1967,6 +1969,8 @@ namespace LWDicer.Layers
             string strFTP = GetScanHeadAddress(); // ex) "172.18.7.160
 
             string strPath = string.Format("{0:s}", strFile);  // ex) "SFA\LWDicer\ScannerLog\configure.ini"
+
+            if (File.Exists(strPath) == false) return false;
 
             if (SendTFTPFile(strFTP,strPath) == true)
             {
@@ -1991,17 +1995,19 @@ namespace LWDicer.Layers
         {
             string strFTP = GetControlAddress(); // ex) "92.168.22.60"
             //string strPath = string.Format("{0:s}{1:s}", m_RefComp.DataManager.DBInfo.ImageDataDir, strFile);  
-            string filePath = strFile;
+            string strPath = strFile;
+
+            if (File.Exists(strPath) == false) return false;
 
             if (IsStream == false)
             {
-                if (SendTFTPFile(strFTP, filePath) == true) return true;
+                if (SendTFTPFile(strFTP, strPath) == true) return true;
                 else return false;
             }
             else
             {
                 //filePath = "T:\\CadFile\\stemco_50um.bmp T:\\CadFile\\stemco_50um.lse";
-                if (SendStreamFile(strFTP, filePath) == true) return true;
+                if (SendStreamFile(strFTP, strPath) == true) return true;
                 else return false;
             }
 
@@ -2141,7 +2147,7 @@ namespace LWDicer.Layers
             int bufferNum = 0;
 
             if (processMode == EScannerMode.MOF) bufferNum = DEF_SCANNER_MOF_RUN;
-            if (processMode == EScannerMode.STILL) bufferNum = DEF_SCANNER_STILL_RUN;
+            if (processMode == EScannerMode.STEP) bufferNum = DEF_SCANNER_STILL_RUN;
 
             int iResult = m_RefComp.Process.LaserProcess(bufferNum);
 
@@ -2152,8 +2158,10 @@ namespace LWDicer.Layers
         public int LaserProcessCount(int countSet)
         {
             int iResult = SUCCESS;
+            // ACS 내부 Buffer변수명 지정
             string strVariable = "ProcessSet";            
 
+            // Buffer Memory Write
             iResult = m_RefComp.Process.WriteBufferMemory(strVariable,countSet);
 
             return iResult;
@@ -2162,8 +2170,10 @@ namespace LWDicer.Layers
         public int LaserProcessRun()
         {
             int iResult = SUCCESS;
+            // ACS 내부 Buffer변수명 지정
             string strVariable = "ProcessStop";
 
+            // Buffer Memory Write
             iResult = m_RefComp.Process.WriteBufferMemory(strVariable, 0);
 
             return iResult;
@@ -2172,8 +2182,10 @@ namespace LWDicer.Layers
         public int LaserProcessStop()
         {
             int iResult = SUCCESS;
+            // ACS 내부 Buffer변수명 지정
             string strVariable = "ProcessStop";
 
+            // Buffer Memory Write
             iResult = m_RefComp.Process.WriteBufferMemory(strVariable, 1);
 
             return iResult;
