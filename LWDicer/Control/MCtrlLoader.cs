@@ -15,16 +15,16 @@ namespace LWDicer.Layers
     public class DEF_CtrlLoader
     {
 
-        public const int ERR_CTRL_LOADER_UNABLE_TO_USE_LOADER                      = 1;
-        public const int ERR_CTRL_LOADER_UNABLE_TO_USE_LOG                         = 2;
-        public const int ERR_CTRL_LOADER_OBJECT_ABSORBED                           = 3;
-        public const int ERR_CTRL_LOADER_OBJECT_NOT_ABSORBED                       = 4;
-        public const int ERR_CTRL_LOADER_OBJECT_EXIST                              = 5;
-        public const int ERR_CTRL_LOADER_OBJECT_NOT_EXIST                          = 6;
-        public const int ERR_CTRL_LOADER_CHECK_RUN_BEFORE_FAILED                   = 7;
-        public const int ERR_CTRL_LOADER_CYLINDER_TIMEOUT                          = 8;
-        public const int ERR_CTRL_LOADER_NOT_UP                                    = 9;
-        public const int ERR_CTRL_LOADER_CANNOT_DETECT_POSINFO                     = 10;
+        public const int ERR_CTRL_LOADER_NOT_ORIGIN_RETURNED                           = 1;
+        public const int ERR_CTRL_LOADER_SPARE2                                        = 2;
+        public const int ERR_CTRL_LOADER_OBJECT_ABSORBED                               = 3;
+        public const int ERR_CTRL_LOADER_OBJECT_NOT_ABSORBED                           = 4;
+        public const int ERR_CTRL_LOADER_OBJECT_DETECTED                               = 5;
+        public const int ERR_CTRL_LOADER_OBJECT_NOT_DETECTED                           = 6;
+        public const int ERR_CTRL_LOADER_CHECK_RUN_BEFORE_FAILED                       = 7;
+        public const int ERR_CTRL_LOADER_CYLINDER_TIMEOUT                              = 8;
+        public const int ERR_CTRL_LOADER_NOT_UP                                        = 9;
+        public const int ERR_CTRL_LOADER_CANNOT_DETECT_POSINFO                         = 10;
         public const int ERR_CTRL_LOADER_PUSHPULL_DETECTED                             = 11;
 
         public class CCtrlLoaderRefComp
@@ -146,6 +146,7 @@ namespace LWDicer.Layers
 
             return SUCCESS;
         }
+        #endregion
 
 
         public int MoveToBottomPos()
@@ -288,7 +289,6 @@ namespace LWDicer.Layers
             if (iResult != SUCCESS) return iResult;
             return SUCCESS;
         }
-        #endregion
 
         public int IsCassetteExist(out bool bStatus)
         {

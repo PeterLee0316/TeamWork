@@ -29,8 +29,6 @@ namespace LWDicer.UI
         const int Spinner1 = 0;
         const int Spinner2 = 1;
 
-        private bool IsDoingJob = false;
-
         public FormManualScreen()
         {
             InitializeComponent();
@@ -532,29 +530,15 @@ namespace LWDicer.UI
 
         private void SetButtonsEnable(bool bEnable)
         {
-            IsDoingJob = !bEnable;
             CMainFrame.MainFrame.BottomScreen.EnableBottomPage(bEnable);
 
-            var btns = GetAll(this, typeof(Syncfusion.Windows.Forms.ButtonAdv));
+            var btns = CMainFrame.MainFrame.GetAllControl(this, typeof(Syncfusion.Windows.Forms.ButtonAdv));
             foreach(var btn in btns)
             {
                 Syncfusion.Windows.Forms.ButtonAdv abtn = btn as Syncfusion.Windows.Forms.ButtonAdv;
                 abtn.Enabled = bEnable;
             }
             btnStopAction.Enabled = true;
-        }
-
-        public IEnumerable<Control> GetAll(Control control, Type type)
-        {
-            var controls = control.Controls.Cast<Control>();
-
-            return controls.SelectMany(ctrl => GetAll(ctrl, type))
-                                      .Concat(controls)
-                                      .Where(c => c.GetType() == type);
-        }
-
-        private void buttonAdv6_Click(object sender, EventArgs e)
-        {
         }
     }
 }

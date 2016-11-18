@@ -6,14 +6,18 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using System.Diagnostics;
+
 using LWDicer.Layers;
 
 namespace LWDicer.UI
 {
     public partial class FormKeyBoard : Form
     {
-        public string InputString = "";
+        public string m_strInput = "";
         bool SecretMode;
+
+        int InputLimit = 70;
 
         public FormKeyBoard(string title, bool SecretMode = false)
         {
@@ -34,30 +38,19 @@ namespace LWDicer.UI
 
         private void BtnNo_Click(object sender, EventArgs e)
         {
-            double dTag = 0;
+            if (m_strInput.Length > InputLimit) return;
             Button Btn = sender as Button;
-
-            dTag = Convert.ToDouble(Btn.Tag);
-
-            InputString = InputString + Convert.ToDouble(dTag);
-
-            UpdateDisplay(InputString);
-        }
-        private void btn_Char_Click(object sender, EventArgs e)
-        {
-            Button Btn = sender as Button;
-            InputString = InputString + Btn.Text;
-            UpdateDisplay(InputString);
-
+            m_strInput = m_strInput + Btn.Text;
+            UpdateDisplay();
         }
 
-        private void UpdateDisplay(string strNo)
+        private void UpdateDisplay()
         {
-            string str = strNo;
+            string str = m_strInput;
             if(SecretMode)
             {
                 str = "";
-                for (int i = 0; i < strNo.Length; i++)
+                for (int i = 0; i < m_strInput.Length; i++)
                     str += "*";
             }
             PresentNo.Text = str;
@@ -65,20 +58,44 @@ namespace LWDicer.UI
 
         private void BtnBack_Click(object sender, EventArgs e)
         {
-            int nNo = 0;
+            if (m_strInput == "") return;
 
-            if (InputString == "")
-                return;
-
-            nNo = InputString.Length - 1;
-            InputString = InputString.Remove(nNo, 1);
-            UpdateDisplay(InputString);
+            int nNo = m_strInput.Length - 1;
+            m_strInput = m_strInput.Remove(nNo, 1);
+            UpdateDisplay();
         }
 
         private void BtnClear_Click(object sender, EventArgs e)
         {
-            InputString = "";
-            UpdateDisplay(InputString);
+            m_strInput = "";
+            UpdateDisplay();
+        }
+
+        private void FormKeyBoard_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            int a = Convert.ToInt32(e.KeyChar);
+            Debug.WriteLine($"char : {e.KeyChar}, key : {a}");
+            if ((e.KeyChar >= 48 && e.KeyChar <= 57) // number
+                || (e.KeyChar >= 97 && e.KeyChar <= 122) // lower char
+                || (e.KeyChar >= 65 && e.KeyChar <= 90) // upper char
+                || e.KeyChar == 45 // -
+                || e.KeyChar == 95 // _
+                || e.KeyChar == 61 // =
+                || e.KeyChar == 92 // \
+                || e.KeyChar == 36 // $
+                || e.KeyChar == 58 // :
+                || e.KeyChar == 46 // .
+                )
+            {
+                if (m_strInput.Length > InputLimit) return;
+                m_strInput = m_strInput + e.KeyChar;
+                UpdateDisplay();
+                return;
+            }
+            else if (e.KeyChar == 8) // backspace
+            {
+                BtnBack.PerformClick();
+            }
         }
     }
 }

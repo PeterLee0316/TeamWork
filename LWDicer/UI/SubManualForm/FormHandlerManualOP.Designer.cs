@@ -36,7 +36,7 @@
             this.BtnVacuumOff = new Syncfusion.Windows.Forms.ButtonAdv();
             this.BtnVacuumOn = new Syncfusion.Windows.Forms.ButtonAdv();
             this.gradientLabel1 = new Syncfusion.Windows.Forms.Tools.GradientLabel();
-            this.LabelVACTime = new Syncfusion.Windows.Forms.Tools.GradientLabel();
+            this.LabelTime_Vac = new Syncfusion.Windows.Forms.Tools.GradientLabel();
             this.SuspendLayout();
             // 
             // BtnExit
@@ -120,27 +120,27 @@
             this.gradientLabel1.Text = "수행 시간";
             this.gradientLabel1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // LabelVACTime
+            // LabelTime_Vac
             // 
-            this.LabelVACTime.BackgroundColor = new Syncfusion.Drawing.BrushInfo();
-            this.LabelVACTime.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
+            this.LabelTime_Vac.BackgroundColor = new Syncfusion.Drawing.BrushInfo();
+            this.LabelTime_Vac.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
             | System.Windows.Forms.Border3DSide.Right) 
             | System.Windows.Forms.Border3DSide.Bottom)));
-            this.LabelVACTime.BorderStyle = System.Windows.Forms.Border3DStyle.Bump;
-            this.LabelVACTime.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.LabelVACTime.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.LabelVACTime.Location = new System.Drawing.Point(145, 113);
-            this.LabelVACTime.Name = "LabelVACTime";
-            this.LabelVACTime.Size = new System.Drawing.Size(130, 30);
-            this.LabelVACTime.TabIndex = 950;
-            this.LabelVACTime.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.LabelTime_Vac.BorderStyle = System.Windows.Forms.Border3DStyle.Bump;
+            this.LabelTime_Vac.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.LabelTime_Vac.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.LabelTime_Vac.Location = new System.Drawing.Point(145, 113);
+            this.LabelTime_Vac.Name = "LabelTime_Vac";
+            this.LabelTime_Vac.Size = new System.Drawing.Size(130, 30);
+            this.LabelTime_Vac.TabIndex = 950;
+            this.LabelTime_Vac.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // FormHandlerManualOP
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(584, 466);
-            this.Controls.Add(this.LabelVACTime);
+            this.Controls.Add(this.LabelTime_Vac);
             this.Controls.Add(this.gradientLabel1);
             this.Controls.Add(this.gradientLabel3);
             this.Controls.Add(this.BtnVacuumOff);
@@ -164,6 +164,6 @@
         private Syncfusion.Windows.Forms.ButtonAdv BtnVacuumOff;
         private Syncfusion.Windows.Forms.ButtonAdv BtnVacuumOn;
         private Syncfusion.Windows.Forms.Tools.GradientLabel gradientLabel1;
-        private Syncfusion.Windows.Forms.Tools.GradientLabel LabelVACTime;
+        private Syncfusion.Windows.Forms.Tools.GradientLabel LabelTime_Vac;
     }
 }

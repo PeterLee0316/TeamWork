@@ -59,6 +59,8 @@ namespace LWDicer.UI
             // Local View 해제
             int iCam = CMainFrame.LWDicer.m_ctrlStage1.GetCurrentCam();
             CMainFrame.LWDicer.m_Vision.DestroyLocalView(iCam);
+
+            CMainFrame.HideJog();
             this.Close();
         }
 

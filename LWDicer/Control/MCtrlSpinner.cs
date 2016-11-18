@@ -15,12 +15,12 @@ namespace LWDicer.Layers
 {
     public class DEF_CtrlSpinner
     {
-        public const int ERR_CTRL_SPINNER_UNABLE_TO_USE_SPINNER                         = 1;
-        public const int ERR_CTRL_SPINNER_UNABLE_TO_USE_LOG                             = 2;
+        public const int ERR_CTRL_SPINNER_NOT_ORIGIN_RETURNED = 1;
+        public const int ERR_CTRL_SPINNER_SPARE2                             = 2;
         public const int ERR_CTRL_SPINNER_OBJECT_ABSORBED                               = 3;
         public const int ERR_CTRL_SPINNER_OBJECT_NOT_ABSORBED                           = 4;
-        public const int ERR_CTRL_SPINNER_OBJECT_EXIST                                  = 5;
-        public const int ERR_CTRL_SPINNER_OBJECT_NOT_EXIST                              = 6;
+        public const int ERR_CTRL_SPINNER_OBJECT_DETECTED                                  = 5;
+        public const int ERR_CTRL_SPINNER_OBJECT_NOT_DETECTED                              = 6;
         public const int ERR_CTRL_SPINNER_CHECK_RUN_BEFORE_FAILED                       = 7;
         public const int ERR_CTRL_SPINNER_CHUCKTABLE_NOT_UP                             = 8;
         public const int ERR_CTRL_SPINNER_CHUCKTABLE_NOT_DOWN                           = 9;
@@ -652,7 +652,7 @@ namespace LWDicer.Layers
             if (iResult != SUCCESS) return iResult;
             if (AutoRunMode == EAutoRunMode.DRY_RUN)
             {
-                if (bStatus) return GenerateErrorCode(ERR_CTRL_SPINNER_OBJECT_EXIST);
+                if (bStatus) return GenerateErrorCode(ERR_CTRL_SPINNER_OBJECT_DETECTED);
             }
             if (bStatus)
             {

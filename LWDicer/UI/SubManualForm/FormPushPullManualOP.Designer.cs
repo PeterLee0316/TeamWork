@@ -38,9 +38,9 @@
             this.BtnPushPullUp = new Syncfusion.Windows.Forms.ButtonAdv();
             this.gradientLabel16 = new Syncfusion.Windows.Forms.Tools.GradientLabel();
             this.gradientLabel1 = new Syncfusion.Windows.Forms.Tools.GradientLabel();
-            this.LabelGripTime = new Syncfusion.Windows.Forms.Tools.GradientLabel();
+            this.LabelTime_Grip = new Syncfusion.Windows.Forms.Tools.GradientLabel();
             this.gradientLabel10 = new Syncfusion.Windows.Forms.Tools.GradientLabel();
-            this.LabelUpDnTime = new Syncfusion.Windows.Forms.Tools.GradientLabel();
+            this.LabelTime_UpDn = new Syncfusion.Windows.Forms.Tools.GradientLabel();
             this.gradientLabel3 = new Syncfusion.Windows.Forms.Tools.GradientLabel();
             this.SuspendLayout();
             // 
@@ -163,20 +163,20 @@
             this.gradientLabel1.Text = "PushPull Up/Down";
             this.gradientLabel1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // LabelGripTime
+            // LabelTime_Grip
             // 
-            this.LabelGripTime.BackgroundColor = new Syncfusion.Drawing.BrushInfo();
-            this.LabelGripTime.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
+            this.LabelTime_Grip.BackgroundColor = new Syncfusion.Drawing.BrushInfo();
+            this.LabelTime_Grip.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
             | System.Windows.Forms.Border3DSide.Right) 
             | System.Windows.Forms.Border3DSide.Bottom)));
-            this.LabelGripTime.BorderStyle = System.Windows.Forms.Border3DStyle.Bump;
-            this.LabelGripTime.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.LabelGripTime.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.LabelGripTime.Location = new System.Drawing.Point(142, 123);
-            this.LabelGripTime.Name = "LabelGripTime";
-            this.LabelGripTime.Size = new System.Drawing.Size(130, 30);
-            this.LabelGripTime.TabIndex = 969;
-            this.LabelGripTime.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.LabelTime_Grip.BorderStyle = System.Windows.Forms.Border3DStyle.Bump;
+            this.LabelTime_Grip.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.LabelTime_Grip.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.LabelTime_Grip.Location = new System.Drawing.Point(142, 123);
+            this.LabelTime_Grip.Name = "LabelTime_Grip";
+            this.LabelTime_Grip.Size = new System.Drawing.Size(130, 30);
+            this.LabelTime_Grip.TabIndex = 969;
+            this.LabelTime_Grip.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // gradientLabel10
             // 
@@ -194,20 +194,20 @@
             this.gradientLabel10.Text = "수행 시간";
             this.gradientLabel10.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // LabelUpDnTime
+            // LabelTime_UpDn
             // 
-            this.LabelUpDnTime.BackgroundColor = new Syncfusion.Drawing.BrushInfo();
-            this.LabelUpDnTime.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
+            this.LabelTime_UpDn.BackgroundColor = new Syncfusion.Drawing.BrushInfo();
+            this.LabelTime_UpDn.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
             | System.Windows.Forms.Border3DSide.Right) 
             | System.Windows.Forms.Border3DSide.Bottom)));
-            this.LabelUpDnTime.BorderStyle = System.Windows.Forms.Border3DStyle.Bump;
-            this.LabelUpDnTime.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.LabelUpDnTime.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.LabelUpDnTime.Location = new System.Drawing.Point(443, 123);
-            this.LabelUpDnTime.Name = "LabelUpDnTime";
-            this.LabelUpDnTime.Size = new System.Drawing.Size(130, 30);
-            this.LabelUpDnTime.TabIndex = 971;
-            this.LabelUpDnTime.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.LabelTime_UpDn.BorderStyle = System.Windows.Forms.Border3DStyle.Bump;
+            this.LabelTime_UpDn.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.LabelTime_UpDn.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.LabelTime_UpDn.Location = new System.Drawing.Point(443, 123);
+            this.LabelTime_UpDn.Name = "LabelTime_UpDn";
+            this.LabelTime_UpDn.Size = new System.Drawing.Size(130, 30);
+            this.LabelTime_UpDn.TabIndex = 971;
+            this.LabelTime_UpDn.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // gradientLabel3
             // 
@@ -230,9 +230,9 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(584, 439);
-            this.Controls.Add(this.LabelUpDnTime);
+            this.Controls.Add(this.LabelTime_UpDn);
             this.Controls.Add(this.gradientLabel3);
-            this.Controls.Add(this.LabelGripTime);
+            this.Controls.Add(this.LabelTime_Grip);
             this.Controls.Add(this.gradientLabel10);
             this.Controls.Add(this.gradientLabel1);
             this.Controls.Add(this.gradientLabel16);
@@ -261,9 +261,9 @@
         private Syncfusion.Windows.Forms.ButtonAdv BtnPushPullUp;
         private Syncfusion.Windows.Forms.Tools.GradientLabel gradientLabel16;
         private Syncfusion.Windows.Forms.Tools.GradientLabel gradientLabel1;
-        private Syncfusion.Windows.Forms.Tools.GradientLabel LabelGripTime;
+        private Syncfusion.Windows.Forms.Tools.GradientLabel LabelTime_Grip;
         private Syncfusion.Windows.Forms.Tools.GradientLabel gradientLabel10;
-        private Syncfusion.Windows.Forms.Tools.GradientLabel LabelUpDnTime;
+        private Syncfusion.Windows.Forms.Tools.GradientLabel LabelTime_UpDn;
         private Syncfusion.Windows.Forms.Tools.GradientLabel gradientLabel3;
     }
 }

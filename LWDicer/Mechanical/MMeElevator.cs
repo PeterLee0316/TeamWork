@@ -16,25 +16,20 @@ namespace LWDicer.Layers
 {
     public class DEF_MeElevator
     {
-        public const int ERR_ELEVATOR_UNABLE_TO_USE_IO                      = 1;
-        public const int ERR_ELEVATOR_UNABLE_TO_USE_CYL                     = 2;
-        public const int ERR_ELEVATOR_UNABLE_TO_USE_VCC                     = 3;
-        public const int ERR_ELEVATOR_UNABLE_TO_USE_AXIS                    = 4;
-        public const int ERR_ELEVATOR_UNABLE_TO_USE_VISION                  = 5;
-        public const int ERR_ELEVATOR_NOT_ORIGIN_RETURNED                   = 6;
-        public const int ERR_ELEVATOR_INVALID_AXIS                          = 7;
-        public const int ERR_ELEVATOR_INVALID_PRIORITY                      = 8;
-        public const int ERR_ELEVATOR_NOT_SAME_POSITION                     = 9;
-        public const int ERR_ELEVATOR_UNABLE_TO_USE_POSITION                = 10;
-        public const int ERR_ELEVATOR_MOVE_FAIL                             = 11;
-        public const int ERR_ELEVATOR_CASSETTE_NOT_READY                    = 12;
-        public const int ERR_ELEVATOR_CASSETTE_DETECTED_ABNORMAL            = 13;
-        public const int ERR_ELEVATOR_WAFER_DETECETED                       = 14;
-        public const int ERR_ELEVATOR_WAFER_NOT_DETECETED                   = 15;
-        public const int ERR_ELEVATOR_NOT_EXIST_PRE_PROCESS_WAFER           = 16;
-        public const int ERR_ELEVATOR_NOT_EXIST_AFTER_PROCESS_WAFER         = 17;
-        public const int ERR_ELEVATOR_NOT_EXIST_EMPTY_SLOT                  = 18;
-
+        public const int ERR_ELEVATOR_NOT_ORIGIN_RETURNED                    = 1;
+        public const int ERR_ELEVATOR_UNABLE_TO_USE_CYL                      = 2;
+        public const int ERR_ELEVATOR_UNABLE_TO_USE_VCC                      = 3;
+        public const int ERR_ELEVATOR_UNABLE_TO_USE_AXIS                     = 4;
+        public const int ERR_ELEVATOR_FAIL_TO_GET_CURRENT_POS_INFO           = 5;
+        public const int ERR_ELEVATOR_MOVE_FAIL                              = 6;
+        public const int ERR_ELEVATOR_CASSETTE_NOT_READY                     = 7;
+        public const int ERR_ELEVATOR_CASSETTE_DETECTED_ABNORMAL             = 8;
+        public const int ERR_ELEVATOR_OBJECT_DETECTED                        = 9;
+        public const int ERR_ELEVATOR_OBJECT_NOT_DETECTED                    = 10;
+        public const int ERR_ELEVATOR_NOT_EXIST_PRE_PROCESS_WAFER            = 11;
+        public const int ERR_ELEVATOR_NOT_EXIST_AFTER_PROCESS_WAFER          = 12;
+        public const int ERR_ELEVATOR_NOT_EXIST_EMPTY_SLOT                   = 13;
+        
 
         public enum EElevatorPos
         {
@@ -432,7 +427,7 @@ namespace LWDicer.Layers
             iResult = m_RefComp.IO.IsOn(m_Data.InWaferDetected, out bStatus);
             if (iResult != SUCCESS) return iResult;
 
-            if (!bStatus) return GenerateErrorCode(ERR_ELEVATOR_WAFER_NOT_DETECETED);
+            if (!bStatus) return GenerateErrorCode(ERR_ELEVATOR_OBJECT_NOT_DETECTED);
 
             return SUCCESS;
         }
@@ -477,7 +472,7 @@ namespace LWDicer.Layers
             iResult = m_RefComp.IO.IsOn(m_Data.InWaferDetected, out bStatus);
             if (iResult != SUCCESS) return iResult;
 
-            if (bStatus) return GenerateErrorCode(ERR_ELEVATOR_WAFER_DETECETED);
+            if (bStatus) return GenerateErrorCode(ERR_ELEVATOR_OBJECT_DETECTED);
 
             return SUCCESS;
         }
@@ -525,7 +520,7 @@ namespace LWDicer.Layers
 #if SIMULATION_TEST
             bStatus = true;
 #endif
-            if (!bStatus) return GenerateErrorCode(ERR_ELEVATOR_WAFER_NOT_DETECETED);
+            if (!bStatus) return GenerateErrorCode(ERR_ELEVATOR_OBJECT_NOT_DETECTED);
 
             return SUCCESS;
         }
@@ -661,10 +656,10 @@ namespace LWDicer.Layers
             // skip error?
             if(bSkipError == false && bResult == false)
             {
-                string str = $"Stage의 위치비교 결과 미일치합니다. Target Pos : {sPos.ToString()}";
+                string str = $"Elevator의 현재 위치와 일치하는 Position Info를 찾을수 없습니다. Current Pos : {sPos.ToString()}";
                 WriteLog(str, ELogType.Debug, ELogWType.D_Error);
 
-                return GenerateErrorCode(ERR_ELEVATOR_NOT_SAME_POSITION);
+                return GenerateErrorCode(ERR_ELEVATOR_FAIL_TO_GET_CURRENT_POS_INFO);
             }
 
             return SUCCESS;
@@ -803,22 +798,51 @@ namespace LWDicer.Layers
 
         public int CheckSafety_forMoving()
         {
-            bool bCheck;
             // check origin
-            int iResult = IsElevatorOrignReturn(out bCheck);
+            bool bStatus;
+            int iResult = IsElevatorOrignReturn(out bStatus);
             if (iResult != SUCCESS) return iResult;
-            if (bCheck == false)
-            {
-                return GenerateErrorCode(ERR_ELEVATOR_NOT_ORIGIN_RETURNED);
-            }
+            if (bStatus == false) return GenerateErrorCode(ERR_ELEVATOR_NOT_ORIGIN_RETURNED);
 
             // Cassette 감지 센서 확인 (정위치 확인 or Cassette없음 Check)
-            bool bCassetteExist;
-            iResult = IsCassetteExist(out bCassetteExist);
+            iResult = IsCassetteExist(out bStatus);
             if (iResult != SUCCESS) return iResult;
 
             return SUCCESS;
         }
+
+        /// <summary>
+        /// PushPull이 Elevator에 push/pop wafer하기전에 안전 체크
+        /// </summary>
+        /// <param name="bStatus"></param>
+        /// <returns></returns>
+        public int CheckSafetyForPushPull(bool bNeedWaferNotExist)
+        {
+            int iResult = SUCCESS;
+            bool bStatus = false;
+            iResult = IsElevatorOrignReturn(out bStatus);
+            if (iResult != SUCCESS) return iResult;
+            if (bStatus == false)
+            {
+                return GenerateErrorCode(ERR_ELEVATOR_NOT_ORIGIN_RETURNED);
+            }
+
+            // Cassette 감지 센서 확인, Cassette가 없으면 PushPull이 들어올 필요가 없으므로.
+            iResult = IsCassetteExist(out bStatus);
+            if (iResult != SUCCESS) return iResult;
+            if (bStatus == false) return GenerateErrorCode(ERR_ELEVATOR_CASSETTE_NOT_READY);
+
+            // PushPull이 웨이퍼를 가지고 들어오기전에 체크할 경우엔
+            if(bNeedWaferNotExist)
+            {
+                iResult = IsWaferDetected(out bStatus);
+                if (iResult != SUCCESS) return iResult;
+                if (bStatus) return GenerateErrorCode(ERR_ELEVATOR_OBJECT_DETECTED);
+            }
+
+            return SUCCESS;
+        }
+
 
         public int IsWaferDetected(out bool bStatus)
         {

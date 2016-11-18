@@ -90,7 +90,8 @@
             this.btn_SP.Tag = "0";
             this.btn_SP.Text = "$";
             this.btn_SP.UseVisualStyleBackColor = false;
-            this.btn_SP.Click += new System.EventHandler(this.btn_Char_Click);
+            this.btn_SP.Click += new System.EventHandler(this.BtnNo_Click);
+            this.btn_SP.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.FormKeyBoard_KeyPress);
             // 
             // btn_UnderBar
             // 
@@ -103,7 +104,8 @@
             this.btn_UnderBar.Tag = "0";
             this.btn_UnderBar.Text = "_";
             this.btn_UnderBar.UseVisualStyleBackColor = false;
-            this.btn_UnderBar.Click += new System.EventHandler(this.btn_Char_Click);
+            this.btn_UnderBar.Click += new System.EventHandler(this.BtnNo_Click);
+            this.btn_UnderBar.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.FormKeyBoard_KeyPress);
             // 
             // btn_Dash
             // 
@@ -116,7 +118,8 @@
             this.btn_Dash.Tag = "0";
             this.btn_Dash.Text = "-";
             this.btn_Dash.UseVisualStyleBackColor = false;
-            this.btn_Dash.Click += new System.EventHandler(this.btn_Char_Click);
+            this.btn_Dash.Click += new System.EventHandler(this.BtnNo_Click);
+            this.btn_Dash.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.FormKeyBoard_KeyPress);
             // 
             // btn_Dot
             // 
@@ -129,7 +132,8 @@
             this.btn_Dot.Tag = "0";
             this.btn_Dot.Text = ".";
             this.btn_Dot.UseVisualStyleBackColor = false;
-            this.btn_Dot.Click += new System.EventHandler(this.btn_Char_Click);
+            this.btn_Dot.Click += new System.EventHandler(this.BtnNo_Click);
+            this.btn_Dot.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.FormKeyBoard_KeyPress);
             // 
             // btn_M
             // 
@@ -142,7 +146,8 @@
             this.btn_M.Tag = "0";
             this.btn_M.Text = "M";
             this.btn_M.UseVisualStyleBackColor = false;
-            this.btn_M.Click += new System.EventHandler(this.btn_Char_Click);
+            this.btn_M.Click += new System.EventHandler(this.BtnNo_Click);
+            this.btn_M.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.FormKeyBoard_KeyPress);
             // 
             // btn_N
             // 
@@ -155,7 +160,8 @@
             this.btn_N.Tag = "0";
             this.btn_N.Text = "N";
             this.btn_N.UseVisualStyleBackColor = false;
-            this.btn_N.Click += new System.EventHandler(this.btn_Char_Click);
+            this.btn_N.Click += new System.EventHandler(this.BtnNo_Click);
+            this.btn_N.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.FormKeyBoard_KeyPress);
             // 
             // btn_B
             // 
@@ -168,7 +174,8 @@
             this.btn_B.Tag = "0";
             this.btn_B.Text = "B";
             this.btn_B.UseVisualStyleBackColor = false;
-            this.btn_B.Click += new System.EventHandler(this.btn_Char_Click);
+            this.btn_B.Click += new System.EventHandler(this.BtnNo_Click);
+            this.btn_B.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.FormKeyBoard_KeyPress);
             // 
             // btn_V
             // 
@@ -181,7 +188,8 @@
             this.btn_V.Tag = "0";
             this.btn_V.Text = "V";
             this.btn_V.UseVisualStyleBackColor = false;
-            this.btn_V.Click += new System.EventHandler(this.btn_Char_Click);
+            this.btn_V.Click += new System.EventHandler(this.BtnNo_Click);
+            this.btn_V.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.FormKeyBoard_KeyPress);
             // 
             // btn_C
             // 
@@ -194,7 +202,8 @@
             this.btn_C.Tag = "0";
             this.btn_C.Text = "C";
             this.btn_C.UseVisualStyleBackColor = false;
-            this.btn_C.Click += new System.EventHandler(this.btn_Char_Click);
+            this.btn_C.Click += new System.EventHandler(this.BtnNo_Click);
+            this.btn_C.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.FormKeyBoard_KeyPress);
             // 
             // btn_X
             // 
@@ -207,7 +216,8 @@
             this.btn_X.Tag = "0";
             this.btn_X.Text = "X";
             this.btn_X.UseVisualStyleBackColor = false;
-            this.btn_X.Click += new System.EventHandler(this.btn_Char_Click);
+            this.btn_X.Click += new System.EventHandler(this.BtnNo_Click);
+            this.btn_X.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.FormKeyBoard_KeyPress);
             // 
             // btn_Z
             // 
@@ -220,7 +230,8 @@
             this.btn_Z.Tag = "0";
             this.btn_Z.Text = "Z";
             this.btn_Z.UseVisualStyleBackColor = false;
-            this.btn_Z.Click += new System.EventHandler(this.btn_Char_Click);
+            this.btn_Z.Click += new System.EventHandler(this.BtnNo_Click);
+            this.btn_Z.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.FormKeyBoard_KeyPress);
             // 
             // btn_Colon
             // 
@@ -233,7 +244,8 @@
             this.btn_Colon.Tag = "0";
             this.btn_Colon.Text = ":";
             this.btn_Colon.UseVisualStyleBackColor = false;
-            this.btn_Colon.Click += new System.EventHandler(this.btn_Char_Click);
+            this.btn_Colon.Click += new System.EventHandler(this.BtnNo_Click);
+            this.btn_Colon.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.FormKeyBoard_KeyPress);
             // 
             // btn_L
             // 
@@ -246,7 +258,8 @@
             this.btn_L.Tag = "0";
             this.btn_L.Text = "L";
             this.btn_L.UseVisualStyleBackColor = false;
-            this.btn_L.Click += new System.EventHandler(this.btn_Char_Click);
+            this.btn_L.Click += new System.EventHandler(this.BtnNo_Click);
+            this.btn_L.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.FormKeyBoard_KeyPress);
             // 
             // btn_K
             // 
@@ -259,7 +272,8 @@
             this.btn_K.Tag = "0";
             this.btn_K.Text = "K";
             this.btn_K.UseVisualStyleBackColor = false;
-            this.btn_K.Click += new System.EventHandler(this.btn_Char_Click);
+            this.btn_K.Click += new System.EventHandler(this.BtnNo_Click);
+            this.btn_K.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.FormKeyBoard_KeyPress);
             // 
             // btn_J
             // 
@@ -272,7 +286,8 @@
             this.btn_J.Tag = "0";
             this.btn_J.Text = "J";
             this.btn_J.UseVisualStyleBackColor = false;
-            this.btn_J.Click += new System.EventHandler(this.btn_Char_Click);
+            this.btn_J.Click += new System.EventHandler(this.BtnNo_Click);
+            this.btn_J.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.FormKeyBoard_KeyPress);
             // 
             // btn_H
             // 
@@ -285,7 +300,8 @@
             this.btn_H.Tag = "0";
             this.btn_H.Text = "H";
             this.btn_H.UseVisualStyleBackColor = false;
-            this.btn_H.Click += new System.EventHandler(this.btn_Char_Click);
+            this.btn_H.Click += new System.EventHandler(this.BtnNo_Click);
+            this.btn_H.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.FormKeyBoard_KeyPress);
             // 
             // btn_G
             // 
@@ -298,7 +314,8 @@
             this.btn_G.Tag = "0";
             this.btn_G.Text = "G";
             this.btn_G.UseVisualStyleBackColor = false;
-            this.btn_G.Click += new System.EventHandler(this.btn_Char_Click);
+            this.btn_G.Click += new System.EventHandler(this.BtnNo_Click);
+            this.btn_G.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.FormKeyBoard_KeyPress);
             // 
             // btn_F
             // 
@@ -311,7 +328,8 @@
             this.btn_F.Tag = "0";
             this.btn_F.Text = "F";
             this.btn_F.UseVisualStyleBackColor = false;
-            this.btn_F.Click += new System.EventHandler(this.btn_Char_Click);
+            this.btn_F.Click += new System.EventHandler(this.BtnNo_Click);
+            this.btn_F.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.FormKeyBoard_KeyPress);
             // 
             // btn_D
             // 
@@ -324,7 +342,8 @@
             this.btn_D.Tag = "0";
             this.btn_D.Text = "D";
             this.btn_D.UseVisualStyleBackColor = false;
-            this.btn_D.Click += new System.EventHandler(this.btn_Char_Click);
+            this.btn_D.Click += new System.EventHandler(this.BtnNo_Click);
+            this.btn_D.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.FormKeyBoard_KeyPress);
             // 
             // btn_S
             // 
@@ -337,7 +356,8 @@
             this.btn_S.Tag = "0";
             this.btn_S.Text = "S";
             this.btn_S.UseVisualStyleBackColor = false;
-            this.btn_S.Click += new System.EventHandler(this.btn_Char_Click);
+            this.btn_S.Click += new System.EventHandler(this.BtnNo_Click);
+            this.btn_S.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.FormKeyBoard_KeyPress);
             // 
             // btn_A
             // 
@@ -350,7 +370,8 @@
             this.btn_A.Tag = "0";
             this.btn_A.Text = "A";
             this.btn_A.UseVisualStyleBackColor = false;
-            this.btn_A.Click += new System.EventHandler(this.btn_Char_Click);
+            this.btn_A.Click += new System.EventHandler(this.BtnNo_Click);
+            this.btn_A.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.FormKeyBoard_KeyPress);
             // 
             // btn_Won
             // 
@@ -363,7 +384,8 @@
             this.btn_Won.Tag = "0";
             this.btn_Won.Text = "\\";
             this.btn_Won.UseVisualStyleBackColor = false;
-            this.btn_Won.Click += new System.EventHandler(this.btn_Char_Click);
+            this.btn_Won.Click += new System.EventHandler(this.BtnNo_Click);
+            this.btn_Won.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.FormKeyBoard_KeyPress);
             // 
             // btn_P
             // 
@@ -376,7 +398,8 @@
             this.btn_P.Tag = "0";
             this.btn_P.Text = "P";
             this.btn_P.UseVisualStyleBackColor = false;
-            this.btn_P.Click += new System.EventHandler(this.btn_Char_Click);
+            this.btn_P.Click += new System.EventHandler(this.BtnNo_Click);
+            this.btn_P.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.FormKeyBoard_KeyPress);
             // 
             // btn_O
             // 
@@ -389,7 +412,8 @@
             this.btn_O.Tag = "0";
             this.btn_O.Text = "O";
             this.btn_O.UseVisualStyleBackColor = false;
-            this.btn_O.Click += new System.EventHandler(this.btn_Char_Click);
+            this.btn_O.Click += new System.EventHandler(this.BtnNo_Click);
+            this.btn_O.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.FormKeyBoard_KeyPress);
             // 
             // btn_I
             // 
@@ -402,7 +426,8 @@
             this.btn_I.Tag = "0";
             this.btn_I.Text = "I";
             this.btn_I.UseVisualStyleBackColor = false;
-            this.btn_I.Click += new System.EventHandler(this.btn_Char_Click);
+            this.btn_I.Click += new System.EventHandler(this.BtnNo_Click);
+            this.btn_I.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.FormKeyBoard_KeyPress);
             // 
             // btn_U
             // 
@@ -415,7 +440,8 @@
             this.btn_U.Tag = "0";
             this.btn_U.Text = "U";
             this.btn_U.UseVisualStyleBackColor = false;
-            this.btn_U.Click += new System.EventHandler(this.btn_Char_Click);
+            this.btn_U.Click += new System.EventHandler(this.BtnNo_Click);
+            this.btn_U.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.FormKeyBoard_KeyPress);
             // 
             // btn_Y
             // 
@@ -428,7 +454,8 @@
             this.btn_Y.Tag = "0";
             this.btn_Y.Text = "Y";
             this.btn_Y.UseVisualStyleBackColor = false;
-            this.btn_Y.Click += new System.EventHandler(this.btn_Char_Click);
+            this.btn_Y.Click += new System.EventHandler(this.BtnNo_Click);
+            this.btn_Y.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.FormKeyBoard_KeyPress);
             // 
             // btn_T
             // 
@@ -441,7 +468,8 @@
             this.btn_T.Tag = "0";
             this.btn_T.Text = "T";
             this.btn_T.UseVisualStyleBackColor = false;
-            this.btn_T.Click += new System.EventHandler(this.btn_Char_Click);
+            this.btn_T.Click += new System.EventHandler(this.BtnNo_Click);
+            this.btn_T.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.FormKeyBoard_KeyPress);
             // 
             // btn_R
             // 
@@ -454,7 +482,8 @@
             this.btn_R.Tag = "0";
             this.btn_R.Text = "R";
             this.btn_R.UseVisualStyleBackColor = false;
-            this.btn_R.Click += new System.EventHandler(this.btn_Char_Click);
+            this.btn_R.Click += new System.EventHandler(this.BtnNo_Click);
+            this.btn_R.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.FormKeyBoard_KeyPress);
             // 
             // btn_E
             // 
@@ -467,7 +496,8 @@
             this.btn_E.Tag = "0";
             this.btn_E.Text = "E";
             this.btn_E.UseVisualStyleBackColor = false;
-            this.btn_E.Click += new System.EventHandler(this.btn_Char_Click);
+            this.btn_E.Click += new System.EventHandler(this.BtnNo_Click);
+            this.btn_E.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.FormKeyBoard_KeyPress);
             // 
             // btn_W
             // 
@@ -480,7 +510,8 @@
             this.btn_W.Tag = "0";
             this.btn_W.Text = "W";
             this.btn_W.UseVisualStyleBackColor = false;
-            this.btn_W.Click += new System.EventHandler(this.btn_Char_Click);
+            this.btn_W.Click += new System.EventHandler(this.BtnNo_Click);
+            this.btn_W.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.FormKeyBoard_KeyPress);
             // 
             // btn_Q
             // 
@@ -494,18 +525,20 @@
             this.btn_Q.Text = "Q";
             this.btn_Q.UseVisualStyleBackColor = false;
             this.btn_Q.Click += new System.EventHandler(this.BtnNo_Click);
+            this.btn_Q.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.FormKeyBoard_KeyPress);
             // 
             // PresentNo
             // 
             this.PresentNo.BackColor = System.Drawing.Color.Bisque;
             this.PresentNo.Enabled = false;
             this.PresentNo.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.PresentNo.Font = new System.Drawing.Font("굴림체", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.PresentNo.Font = new System.Drawing.Font("굴림체", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.PresentNo.Location = new System.Drawing.Point(9, 50);
             this.PresentNo.Name = "PresentNo";
             this.PresentNo.Size = new System.Drawing.Size(956, 41);
             this.PresentNo.TabIndex = 87;
             this.PresentNo.UseVisualStyleBackColor = false;
+            this.PresentNo.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.FormKeyBoard_KeyPress);
             // 
             // BtnCancel
             // 
@@ -519,6 +552,7 @@
             this.BtnCancel.Tag = "3";
             this.BtnCancel.Text = "Esc";
             this.BtnCancel.UseVisualStyleBackColor = false;
+            this.BtnCancel.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.FormKeyBoard_KeyPress);
             // 
             // BtnOK
             // 
@@ -532,6 +566,7 @@
             this.BtnOK.Tag = "3";
             this.BtnOK.Text = "Enter";
             this.BtnOK.UseVisualStyleBackColor = false;
+            this.BtnOK.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.FormKeyBoard_KeyPress);
             // 
             // BtnClear
             // 
@@ -545,6 +580,7 @@
             this.BtnClear.Text = "Clear";
             this.BtnClear.UseVisualStyleBackColor = false;
             this.BtnClear.Click += new System.EventHandler(this.BtnClear_Click);
+            this.BtnClear.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.FormKeyBoard_KeyPress);
             // 
             // BtnBack
             // 
@@ -558,6 +594,7 @@
             this.BtnBack.Text = "Back";
             this.BtnBack.UseVisualStyleBackColor = false;
             this.BtnBack.Click += new System.EventHandler(this.BtnBack_Click);
+            this.BtnBack.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.FormKeyBoard_KeyPress);
             // 
             // btn_Equal
             // 
@@ -570,7 +607,8 @@
             this.btn_Equal.Tag = "0";
             this.btn_Equal.Text = "=";
             this.btn_Equal.UseVisualStyleBackColor = false;
-            this.btn_Equal.Click += new System.EventHandler(this.btn_Char_Click);
+            this.btn_Equal.Click += new System.EventHandler(this.BtnNo_Click);
+            this.btn_Equal.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.FormKeyBoard_KeyPress);
             // 
             // BtnNo0
             // 
@@ -584,6 +622,7 @@
             this.BtnNo0.Text = "0";
             this.BtnNo0.UseVisualStyleBackColor = false;
             this.BtnNo0.Click += new System.EventHandler(this.BtnNo_Click);
+            this.BtnNo0.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.FormKeyBoard_KeyPress);
             // 
             // BtnNo9
             // 
@@ -597,6 +636,7 @@
             this.BtnNo9.Text = "9";
             this.BtnNo9.UseVisualStyleBackColor = false;
             this.BtnNo9.Click += new System.EventHandler(this.BtnNo_Click);
+            this.BtnNo9.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.FormKeyBoard_KeyPress);
             // 
             // BtnNo8
             // 
@@ -610,6 +650,7 @@
             this.BtnNo8.Text = "8";
             this.BtnNo8.UseVisualStyleBackColor = false;
             this.BtnNo8.Click += new System.EventHandler(this.BtnNo_Click);
+            this.BtnNo8.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.FormKeyBoard_KeyPress);
             // 
             // BtnNo7
             // 
@@ -623,6 +664,7 @@
             this.BtnNo7.Text = "7";
             this.BtnNo7.UseVisualStyleBackColor = false;
             this.BtnNo7.Click += new System.EventHandler(this.BtnNo_Click);
+            this.BtnNo7.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.FormKeyBoard_KeyPress);
             // 
             // BtnNo6
             // 
@@ -636,6 +678,7 @@
             this.BtnNo6.Text = "6";
             this.BtnNo6.UseVisualStyleBackColor = false;
             this.BtnNo6.Click += new System.EventHandler(this.BtnNo_Click);
+            this.BtnNo6.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.FormKeyBoard_KeyPress);
             // 
             // BtnNo5
             // 
@@ -649,6 +692,7 @@
             this.BtnNo5.Text = "5";
             this.BtnNo5.UseVisualStyleBackColor = false;
             this.BtnNo5.Click += new System.EventHandler(this.BtnNo_Click);
+            this.BtnNo5.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.FormKeyBoard_KeyPress);
             // 
             // BtnNo4
             // 
@@ -662,6 +706,7 @@
             this.BtnNo4.Text = "4";
             this.BtnNo4.UseVisualStyleBackColor = false;
             this.BtnNo4.Click += new System.EventHandler(this.BtnNo_Click);
+            this.BtnNo4.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.FormKeyBoard_KeyPress);
             // 
             // BtnNo3
             // 
@@ -675,6 +720,7 @@
             this.BtnNo3.Text = "3";
             this.BtnNo3.UseVisualStyleBackColor = false;
             this.BtnNo3.Click += new System.EventHandler(this.BtnNo_Click);
+            this.BtnNo3.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.FormKeyBoard_KeyPress);
             // 
             // BtnNo2
             // 
@@ -688,6 +734,7 @@
             this.BtnNo2.Text = "2";
             this.BtnNo2.UseVisualStyleBackColor = false;
             this.BtnNo2.Click += new System.EventHandler(this.BtnNo_Click);
+            this.BtnNo2.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.FormKeyBoard_KeyPress);
             // 
             // BtnNo1
             // 
@@ -701,18 +748,20 @@
             this.BtnNo1.Text = "1";
             this.BtnNo1.UseVisualStyleBackColor = false;
             this.BtnNo1.Click += new System.EventHandler(this.BtnNo_Click);
+            this.BtnNo1.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.FormKeyBoard_KeyPress);
             // 
             // BtnTitle
             // 
             this.BtnTitle.BackColor = System.Drawing.Color.Aqua;
             this.BtnTitle.Enabled = false;
             this.BtnTitle.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.BtnTitle.Font = new System.Drawing.Font("굴림체", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.BtnTitle.Font = new System.Drawing.Font("굴림체", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.BtnTitle.Location = new System.Drawing.Point(9, 3);
             this.BtnTitle.Name = "BtnTitle";
             this.BtnTitle.Size = new System.Drawing.Size(956, 41);
             this.BtnTitle.TabIndex = 120;
             this.BtnTitle.UseVisualStyleBackColor = false;
+            this.BtnTitle.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.FormKeyBoard_KeyPress);
             // 
             // FormKeyBoard
             // 
@@ -770,6 +819,7 @@
             this.Controls.Add(this.BtnNo1);
             this.Name = "FormKeyBoard";
             this.Text = "KeyBoard";
+            this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.FormKeyBoard_KeyPress);
             this.ResumeLayout(false);
 
         }

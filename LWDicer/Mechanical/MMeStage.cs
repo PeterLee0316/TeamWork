@@ -20,16 +20,12 @@ namespace LWDicer.Layers
         #region Data Define
 
         // Error Define
-        public const int ERR_STAGE_UNABLE_TO_USE_IO                         = 1;
+        public const int ERR_STAGE_NOT_ORIGIN_RETURNED                      = 1;
         public const int ERR_STAGE_UNABLE_TO_USE_CYL                        = 2;
         public const int ERR_STAGE_UNABLE_TO_USE_VCC                        = 3;
         public const int ERR_STAGE_UNABLE_TO_USE_AXIS                       = 4;
-        public const int ERR_STAGE_UNABLE_TO_USE_VISION                     = 5;
-        public const int ERR_STAGE_NOT_ORIGIN_RETURNED                      = 6;
-        public const int ERR_STAGE_INVALID_AXIS                             = 7;
-        public const int ERR_STAGE_INVALID_PRIORITY                         = 8;
         public const int ERR_STAGE_TOO_LOW_JOG_SPEED                        = 9;
-        public const int ERR_STAGE_NOT_SAME_POSITION                        = 20;
+        public const int ERR_STAGE_FAIL_TO_GET_CURRENT_POS_INFO                        = 20;
         public const int ERR_STAGE_UNABLE_TO_USE_POSITION                   = 21;
         public const int ERR_STAGE_MOVE_FAIL                                = 22;
         public const int ERR_STAGE_READ_CURRENT_POSITION                    = 23;
@@ -2141,10 +2137,10 @@ namespace LWDicer.Layers
             // skip error?
             if(bSkipError == false && bResult == false)
             {
-                string str = $"Stage의 위치비교 결과 미일치합니다. Target Pos : {sPos.ToString()}";
+                string str = $"Stage의 현재 위치와 일치하는 Position Info를 찾을수 없습니다. Current Pos : {sPos.ToString()}";
                 WriteLog(str, ELogType.Debug, ELogWType.D_Error);
 
-                return GenerateErrorCode(ERR_STAGE_NOT_SAME_POSITION);
+                return GenerateErrorCode(ERR_STAGE_FAIL_TO_GET_CURRENT_POS_INFO);
             }
 
             return SUCCESS;

@@ -15,21 +15,17 @@ namespace LWDicer.Layers
 {
     public class DEF_MeHandler
     {
-        public const int ERR_HANDLER_UNABLE_TO_USE_IO                           = 1;
+        public const int ERR_HANDLER_NOT_ORIGIN_RETURNED                        = 1;
         public const int ERR_HANDLER_UNABLE_TO_USE_CYL                          = 2;
         public const int ERR_HANDLER_UNABLE_TO_USE_VCC                          = 3;
         public const int ERR_HANDLER_UNABLE_TO_USE_AXIS                         = 4;
-        public const int ERR_HANDLER_UNABLE_TO_USE_VISION                       = 5;
-        public const int ERR_HANDLER_NOT_ORIGIN_RETURNED                        = 6;
-        public const int ERR_HANDLER_INVALID_AXIS                               = 7;
-        public const int ERR_HANDLER_INVALID_PRIORITY                           = 8;
-        public const int ERR_HANDLER_NOT_SAME_POSITION                          = 9;
-        public const int ERR_HANDLER_LCD_VCC_ABNORMALITY                        = 10;
-        public const int ERR_HANDLER_VACUUM_ON_TIME_OUT                         = 11;
-        public const int ERR_HANDLER_VACUUM_OFF_TIME_OUT                        = 12;
-        public const int ERR_HANDLER_INVALID_PARAMETER                          = 13;
-        public const int ERR_HANDLER_OBJECT_DETECTED_BUT_NOT_ABSORBED           = 14;
-        public const int ERR_HANDLER_OBJECT_NOT_DETECTED_BUT_NOT_RELEASED       = 15;
+        public const int ERR_HANDLER_INVALID_AXIS                               = 5;
+        public const int ERR_HANDLER_FAIL_TO_GET_CURRENT_POS_INFO                          = 6;
+        public const int ERR_HANDLER_VACUUM_ON_TIME_OUT                         = 7;
+        public const int ERR_HANDLER_VACUUM_OFF_TIME_OUT                        = 8;
+        public const int ERR_HANDLER_OBJECT_DETECTED_BUT_NOT_ABSORBED           = 9;
+        public const int ERR_HANDLER_OBJECT_NOT_DETECTED_BUT_NOT_RELEASED       = 10;
+        public const int ERR_HANDLER_NOT_SAFE_FOR_PUSHPULL                      = 11;
 
         public enum EHandlerType
         {
@@ -799,10 +795,10 @@ namespace LWDicer.Layers
             // skip error?
             if(bSkipError == false && bResult == false)
             {
-                string str = $"Handler의 위치비교 결과 미일치합니다. Target Pos : {sPos.ToString()}";
+                string str = $"Handler의 현재 위치와 일치하는 Position Info를 찾을수 없습니다. Current Pos : {sPos.ToString()}";
                 WriteLog(str, ELogType.Debug, ELogWType.D_Error);
 
-                return GenerateErrorCode(ERR_HANDLER_NOT_SAME_POSITION);
+                return GenerateErrorCode(ERR_HANDLER_FAIL_TO_GET_CURRENT_POS_INFO);
             }
 
             return SUCCESS;
@@ -903,9 +899,9 @@ namespace LWDicer.Layers
             return SUCCESS;
         }
 
-        public int CheckHandlerSafetyForPushPull(out bool bStatus)
+        public int CheckHandlerSafetyForPushPull()
         {
-            bStatus = false;
+            bool bStatus = false;
             int curZone;
 
             // check x axis
@@ -918,7 +914,7 @@ namespace LWDicer.Layers
                 return SUCCESS;
             }
 
-            // check x axis
+            // check z axis
             iResult = GetHandlerAxZone(DEF_Z, out curZone);
             if (iResult != SUCCESS) return iResult;
             if (curZone == (int)EHandlerZAxZone.SAFETY)
@@ -927,7 +923,7 @@ namespace LWDicer.Layers
                 return SUCCESS;
             }
 
-            return SUCCESS;
+            return GenerateErrorCode(ERR_HANDLER_NOT_SAFE_FOR_PUSHPULL);
         }
 
         public int CheckHandlerSafetyForStage(out bool bStatus)
@@ -944,7 +940,7 @@ namespace LWDicer.Layers
                 return SUCCESS;
             }
 
-            // check x axis
+            // check z axis
             iResult = GetHandlerAxZone(DEF_Z, out curZone);
             if (iResult != SUCCESS) return iResult;
             if (curZone == (int)EHandlerZAxZone.SAFETY)

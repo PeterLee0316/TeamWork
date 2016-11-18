@@ -82,14 +82,18 @@ namespace LWDicer.UI
 
         private void BtnVacuumOn_Click(object sender, EventArgs e)
         {
+            CMainFrame.StartTimer();
             int iResult = m_MeHandler.Absorb();
             CMainFrame.DisplayAlarm(iResult);
+            LabelTime_Vac.Text = CMainFrame.GetElapsedTIme_Text();
         }
 
         private void BtnVacuumOff_Click(object sender, EventArgs e)
         {
+            CMainFrame.StartTimer();
             int iResult = m_MeHandler.Release(false);
             CMainFrame.DisplayAlarm(iResult);
+            LabelTime_Vac.Text = CMainFrame.GetElapsedTIme_Text();
         }
     }
 }

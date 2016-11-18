@@ -14,21 +14,22 @@ namespace LWDicer.Layers
 {
     public class DEF_CtrlPushPull
     {
-        public const int ERR_CTRLPUSHPULL_UNABLE_TO_USE_PUSHPULL = 1;
-        public const int ERR_CTRLPUSHPULL_UNABLE_TO_USE_LOG = 2;
-        public const int ERR_CTRLPUSHPULL_OBJECT_ABSORBED = 3;
-        public const int ERR_CTRLPUSHPULL_OBJECT_NOT_ABSORBED = 4;
-        public const int ERR_CTRLPUSHPULL_OBJECT_EXIST = 5;
-        public const int ERR_CTRLPUSHPULL_OBJECT_NOT_EXIST = 6;
-        public const int ERR_CTRLPUSHPULL_CHECK_RUN_BEFORE_FAILED = 7;
-        public const int ERR_CTRLPUSHPULL_CYLINDER_TIMEOUT = 8;
-        public const int ERR_CTRLPUSHPULL_NOT_UP = 9;
-        public const int ERR_CTRLPUSHPULL_CANNOT_DETECT_POSINFO = 10;
-        public const int ERR_CTRLPUSHPULL_PCB_DOOR_OPEN = 11;
-        public const int ERR_CTRLPUSHPULL_UPUSHPULL_IN_DOWN_AND_LPUSHPULL_IN_SAME_XZONE = 12;
-        public const int ERR_CTRLPUSHPULL_UPUSHPULL_NEED_DOWN_AND_LPUSHPULL_IN_SAME_XZONE = 13;
-        public const int ERR_CTRLPUSHPULL_LPUSHPULL_NEED_MOVE_AND_UPUSHPULL_IN_DOWN = 14;
-        public const int ERR_CTRLPUSHPULL_YAX_POS_NOT_MATCH_ZONE = 15;
+        public const int ERR_CTRL_PUSHPULL_NOT_ORIGIN_RETURNED                                   = 1;
+        public const int ERR_CTRL_PUSHPULL_SPARE2                                     = 2;
+        public const int ERR_CTRL_PUSHPULL_OBJECT_GRIP_LOCKED                                    = 3;
+        public const int ERR_CTRL_PUSHPULL_OBJECT_GRIP_RELEASED                                  = 4;
+        public const int ERR_CTRL_PUSHPULL_OBJECT_DETECTED                                          = 5;
+        public const int ERR_CTRL_PUSHPULL_OBJECT_NOT_EXIST                                      = 6;
+        public const int ERR_CTRL_PUSHPULL_OBJECT_DETECTED_BUT_GRIP_NOT_LOCKED                   = 7;
+        public const int ERR_CTRL_PUSHPULL_OBJECT_NOT_DETECTED_BUT_GRIP_NOT_RELEASED             = 8;
+        public const int ERR_CTRL_PUSHPULL_CHECK_RUN_BEFORE_FAILED                               = 9;
+        public const int ERR_CTRL_PUSHPULL_CYLINDER_TIMEOUT                                      = 10;
+        public const int ERR_CTRL_PUSHPULL_CANNOT_DETECT_POSINFO                                 = 11;
+        public const int ERR_CTRL_PUSHPULL_UPPER_HANDLER_IS_NOT_UP                               = 12;
+        public const int ERR_CTRL_PUSHPULL_LOWER_HANDLER_IS_NOT_UP                               = 13;
+        public const int ERR_CTRL_PUSHPULL_SPINNER1_IS_NOT_DOWN                                  = 14;
+        public const int ERR_CTRL_PUSHPULL_SPINNER2_IS_NOT_DOWN                                  = 15;
+        public const int ERR_CTRL_PUSHPULL_ELEVATOR_IS_NOT_SAFE                                  = 16;
 
         public class CCtrlPushPullRefComp
         {
@@ -36,6 +37,9 @@ namespace LWDicer.Layers
             public MMePushPull PushPull;
             public MMeHandler UpperHandler;
             public MMeHandler LowerHandler;
+            public MMeSpinner Spinner1;
+            public MMeSpinner Spinner2;
+            public MMeElevator Elevator;
 
             //public CCtrlPushPullRefComp()
             //{
@@ -132,7 +136,7 @@ namespace LWDicer.Layers
         }
         #endregion
 
-        private int CheckLock_forMove(bool bPanelTransfer, bool bCheck_WhenAutoRun = false)
+        private int CheckLock_forMove(bool bTransfer, bool bCheck_WhenAutoRun = false)
         {
             int iResult = SUCCESS;
             bool bDetected, bAbsorbed;
@@ -144,7 +148,7 @@ namespace LWDicer.Layers
             iResult = IsGripLocked(out bAbsorbed);
             if (iResult != SUCCESS) return iResult;
 
-            if (bPanelTransfer)
+            if (bTransfer)
             {
                 if (bDetected == true && bAbsorbed == false)
                 {
@@ -164,17 +168,17 @@ namespace LWDicer.Layers
             {
                 if (AutoRunMode != EAutoRunMode.DRY_RUN) // not dry run
                 {
-                    if (bDetected != bPanelTransfer)
+                    if (bDetected != bTransfer)
                     {
-                        if (bPanelTransfer)    // Panel이 있어야 할 상황일경우
+                        if (bTransfer)    // Panel이 있어야 할 상황일경우
                         {
                             WriteLog("CtrlPushPull의 이동 전 조건을 정상적으로 확인하지 못함. OBJECT NOT EXIST", ELogType.Debug, ELogWType.D_Error);
-                            return GenerateErrorCode(ERR_CTRLPUSHPULL_OBJECT_NOT_EXIST);
+                            return GenerateErrorCode(ERR_CTRL_PUSHPULL_OBJECT_NOT_EXIST);
                         }
                         else
                         {
                             WriteLog("CtrlPushPull의 이동 전 조건을 정상적으로 확인하지 못함. OBJECT EXIST", ELogType.Debug, ELogWType.D_Error);
-                            return GenerateErrorCode(ERR_CTRLPUSHPULL_OBJECT_EXIST);
+                            return GenerateErrorCode(ERR_CTRL_PUSHPULL_OBJECT_DETECTED);
                         }
                     }
                 }
@@ -183,7 +187,7 @@ namespace LWDicer.Layers
                     if (bDetected || bAbsorbed)
                     {
                         WriteLog("CtrlPushPull의 이동 전 조건을 정상적으로 확인하지 못함. OBJECT EXIST", ELogType.Debug, ELogWType.D_Error);
-                        return GenerateErrorCode(ERR_CTRLPUSHPULL_OBJECT_EXIST);
+                        return GenerateErrorCode(ERR_CTRL_PUSHPULL_OBJECT_DETECTED);
                     }
                 }
             }
@@ -224,57 +228,72 @@ namespace LWDicer.Layers
             //{
             //    case (int)EPushPullPos.LOAD:
             //        if (curZone_Y != (int)EPushPullYAxZone.LOAD)
-            //            return GenerateErrorCode(ERR_CTRLPUSHPULL_YAX_POS_NOT_MATCH_ZONE);
+            //            return GenerateErrorCode(ERR_CTRL_PUSHPULL_YAX_POS_NOT_MATCH_ZONE);
             //        break;
             //    case (int)EPushPullPos.WAIT:
             //        if (curZone_Y != (int)EPushPullYAxZone.WAIT)
-            //            return GenerateErrorCode(ERR_CTRLPUSHPULL_YAX_POS_NOT_MATCH_ZONE);
+            //            return GenerateErrorCode(ERR_CTRL_PUSHPULL_YAX_POS_NOT_MATCH_ZONE);
             //        break;
             //    case (int)EPushPullPos.UNLOAD:
             //        if (curZone_Y != (int)EPushPullYAxZone.UNLOAD)
-            //            return GenerateErrorCode(ERR_CTRLPUSHPULL_YAX_POS_NOT_MATCH_ZONE);
+            //            return GenerateErrorCode(ERR_CTRL_PUSHPULL_YAX_POS_NOT_MATCH_ZONE);
             //        break;
             //}
             return SUCCESS;
         }
 
-        public int CheckSafety_forPushPullMoving(int nTargetPos, bool bPanelTransfer)
+        public int CheckSafety_forPushPullMoving(int nTargetPos, bool bTransfer)
         {
             int iResult = SUCCESS;
 
             // 0. init
             int curPos = (int)EPushPullPos.NONE;
 
+            // 0.1 check origin return
+            bool bStatus;
+            iResult = m_RefComp.PushPull.IsAllAxisOrignReturned(out bStatus);
+            if (iResult != SUCCESS) return iResult;
+            if (bStatus == false) return GenerateErrorCode(ERR_CTRL_PUSHPULL_NOT_ORIGIN_RETURNED);
+
             // 0.1 check vacuum
-            iResult = CheckLock_forMove(bPanelTransfer);
+            iResult = CheckLock_forMove(bTransfer);
             if (iResult != SUCCESS) return iResult;
 
             // 1 check object exist
-            bool bDetected = false;
-            iResult = IsObjectDetected(out bDetected);
+            iResult = IsObjectDetected(out bStatus);
             if (iResult != SUCCESS) return iResult;
 
 #if !SIMULATION_TEST
-            if (bPanelTransfer == true && bDetected == false)
+            if (bTransfer == true && bStatus == false)
             {
-                return GenerateErrorCode(ERR_CTRLPUSHPULL_OBJECT_NOT_EXIST);
+                return GenerateErrorCode(ERR_CTRL_PUSHPULL_OBJECT_NOT_EXIST);
             }
-            else if (bPanelTransfer == false && bDetected == true)
+            else if (bTransfer == false && bStatus == true)
             {
-                return GenerateErrorCode(ERR_CTRLPUSHPULL_OBJECT_EXIST);
+                return GenerateErrorCode(ERR_CTRL_PUSHPULL_OBJECT_DETECTED);
             }
+
+            // 2. check safety
+            // 2.1 check safety : handler down
+            iResult = m_RefComp.UpperHandler.CheckHandlerSafetyForPushPull();
+            if(iResult != SUCCESS ) return GenerateErrorCode(ERR_CTRL_PUSHPULL_UPPER_HANDLER_IS_NOT_UP);
+
+            iResult = m_RefComp.LowerHandler.CheckHandlerSafetyForPushPull();
+            if (iResult != SUCCESS) return GenerateErrorCode(ERR_CTRL_PUSHPULL_LOWER_HANDLER_IS_NOT_UP);
+
+            // 2.2 check safety : spinner up
+            iResult = m_RefComp.Spinner1.IsChuckTableDown(out bStatus);
+            if (iResult != SUCCESS || bStatus == false)
+                return GenerateErrorCode(ERR_CTRL_PUSHPULL_SPINNER1_IS_NOT_DOWN);
+
+            iResult = m_RefComp.Spinner2.IsChuckTableDown(out bStatus);
+            if (iResult != SUCCESS || bStatus == false)
+                return GenerateErrorCode(ERR_CTRL_PUSHPULL_SPINNER2_IS_NOT_DOWN);
+
+            // 2.3 check elevater : wafer를 가지고 이동한다면, elevator엔 wafer가 없어야 함
+            iResult = m_RefComp.Elevator.CheckSafetyForPushPull(!bTransfer);
+            if (iResult != SUCCESS) return GenerateErrorCode(ERR_CTRL_PUSHPULL_ELEVATOR_IS_NOT_SAFE);
 #endif
-
-            // 2. check other unit
-            // 2.0 이동할 반대편 위치 (예를들어 spinner1 -> spinner2 구간으로 이동할때)
-
-            // 2.1 handler
-
-            // 2.2 elevator
-
-            // 2.3 coater
-
-
 
             return SUCCESS;
         }
@@ -306,12 +325,12 @@ namespace LWDicer.Layers
             return SUCCESS;
         }
 
-        public int MoveToLoaderPos(bool bPanelTransfer, double dYMoveOffset = 0)
+        public int MoveToLoaderPos(bool bTransfer, double dYMoveOffset = 0)
         {
             double[] dMoveOffset = new double[DEF_XYTZ];
             dMoveOffset[DEF_Y] = dYMoveOffset;
 
-            int iResult = CheckSafety_forPushPullMoving((int)EPushPullPos.LOADER, bPanelTransfer);
+            int iResult = CheckSafety_forPushPullMoving((int)EPushPullPos.LOADER, bTransfer);
             if (iResult != SUCCESS) return iResult;
 
             iResult = m_RefComp.PushPull.MovePushPullToLoaderPos(true, false, dMoveOffset);
@@ -320,12 +339,12 @@ namespace LWDicer.Layers
             return SUCCESS;
         }
 
-        public int MoveToWaitPos(bool bPanelTransfer, double dYMoveOffset = 0)
+        public int MoveToWaitPos(bool bTransfer, double dYMoveOffset = 0)
         {
             double[] dMoveOffset = new double[DEF_XYTZ];
             dMoveOffset[DEF_Y] = dYMoveOffset;
 
-            int iResult = CheckSafety_forPushPullMoving((int)EPushPullPos.WAIT, bPanelTransfer);
+            int iResult = CheckSafety_forPushPullMoving((int)EPushPullPos.WAIT, bTransfer);
             if (iResult != SUCCESS) return iResult;
 
             iResult = m_RefComp.PushPull.MovePushPullToWaitPos(true, false, dMoveOffset);
@@ -334,12 +353,12 @@ namespace LWDicer.Layers
             return SUCCESS;
         }
 
-        public int MoveToTempUnloadPos(bool bPanelTransfer, double dYMoveOffset = 0)
+        public int MoveToTempUnloadPos(bool bTransfer, double dYMoveOffset = 0)
         {
             double[] dMoveOffset = new double[DEF_XYTZ];
             dMoveOffset[DEF_Y] = dYMoveOffset;
 
-            int iResult = CheckSafety_forPushPullMoving((int)EPushPullPos.TEMP_UNLOAD, bPanelTransfer);
+            int iResult = CheckSafety_forPushPullMoving((int)EPushPullPos.TEMP_UNLOAD, bTransfer);
             if (iResult != SUCCESS) return iResult;
 
             iResult = m_RefComp.PushPull.MovePushPullToTempUnloadPos(true, false, dMoveOffset);
@@ -348,12 +367,12 @@ namespace LWDicer.Layers
             return SUCCESS;
         }
 
-        public int MoveToReloadPos(bool bPanelTransfer, double dYMoveOffset = 0)
+        public int MoveToReloadPos(bool bTransfer, double dYMoveOffset = 0)
         {
             double[] dMoveOffset = new double[DEF_XYTZ];
             dMoveOffset[DEF_Y] = dYMoveOffset;
 
-            int iResult = CheckSafety_forPushPullMoving((int)EPushPullPos.RELOAD, bPanelTransfer);
+            int iResult = CheckSafety_forPushPullMoving((int)EPushPullPos.RELOAD, bTransfer);
             if (iResult != SUCCESS) return iResult;
 
             iResult = m_RefComp.PushPull.MovePushPullToReloadPos(true, false, dMoveOffset);
@@ -362,12 +381,12 @@ namespace LWDicer.Layers
             return SUCCESS;
         }
 
-        public int MoveToHandlerPos(bool bPanelTransfer, double dYMoveOffset = 0)
+        public int MoveToHandlerPos(bool bTransfer, double dYMoveOffset = 0)
         {
             double[] dMoveOffset = new double[DEF_XYTZ];
             dMoveOffset[DEF_Y] = dYMoveOffset;
 
-            int iResult = CheckSafety_forPushPullMoving((int)EPushPullPos.HANDLER, bPanelTransfer);
+            int iResult = CheckSafety_forPushPullMoving((int)EPushPullPos.HANDLER, bTransfer);
             if (iResult != SUCCESS) return iResult;
 
             iResult = m_RefComp.PushPull.MovePushPullToHandlerPos(true, false, dMoveOffset);
@@ -376,12 +395,12 @@ namespace LWDicer.Layers
             return SUCCESS;
         }
 
-        public int MoveToSpinner1Pos(bool bPanelTransfer, double dYMoveOffset = 0)
+        public int MoveToSpinner1Pos(bool bTransfer, double dYMoveOffset = 0)
         {
             double[] dMoveOffset = new double[DEF_XYTZ];
             dMoveOffset[DEF_Y] = dYMoveOffset;
 
-            int iResult = CheckSafety_forPushPullMoving((int)EPushPullPos.SPINNER1, bPanelTransfer);
+            int iResult = CheckSafety_forPushPullMoving((int)EPushPullPos.SPINNER1, bTransfer);
             if (iResult != SUCCESS) return iResult;
 
             iResult = m_RefComp.PushPull.MovePushPullToSpinner1Pos(true, false, dMoveOffset);
@@ -390,12 +409,12 @@ namespace LWDicer.Layers
             return SUCCESS;
         }
 
-        public int MoveToSpinner2Pos(bool bPanelTransfer, double dYMoveOffset = 0)
+        public int MoveToSpinner2Pos(bool bTransfer, double dYMoveOffset = 0)
         {
             double[] dMoveOffset = new double[DEF_XYTZ];
             dMoveOffset[DEF_Y] = dYMoveOffset;
 
-            int iResult = CheckSafety_forPushPullMoving((int)EPushPullPos.SPINNER2, bPanelTransfer);
+            int iResult = CheckSafety_forPushPullMoving((int)EPushPullPos.SPINNER2, bTransfer);
             if (iResult != SUCCESS) return iResult;
 
             iResult = m_RefComp.PushPull.MovePushPullToSpinner1Pos(true, false, dMoveOffset);

@@ -269,6 +269,12 @@
     <Compile Include="UI\FormJogOperation.Designer.cs">
       <DependentUpon>FormJogOperation.cs</DependentUpon>
     </Compile>
+    <Compile Include="UI\FormMsgStart.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\FormMsgStart.Designer.cs">
+      <DependentUpon>FormMsgStart.cs</DependentUpon>
+    </Compile>
     <Compile Include="UI\SubTeachForm\FormCamFocus.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -621,6 +627,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UI\FormJogOperation.resx">
       <DependentUpon>FormJogOperation.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\FormMsgStart.resx">
+      <DependentUpon>FormMsgStart.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\SubTeachForm\FormCamFocus.resx">
       <DependentUpon>FormCamFocus.cs</DependentUpon>

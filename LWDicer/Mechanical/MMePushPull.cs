@@ -15,21 +15,13 @@ namespace LWDicer.Layers
 {
     public class DEF_MePushPull
     {
-        public const int ERR_PUSHPULL_UNABLE_TO_USE_IO = 1;
-        public const int ERR_PUSHPULL_UNABLE_TO_USE_CYL = 2;
-        public const int ERR_PUSHPULL_UNABLE_TO_USE_VCC = 3;
-        public const int ERR_PUSHPULL_UNABLE_TO_USE_AXIS = 4;
-        public const int ERR_PUSHPULL_UNABLE_TO_USE_VISION = 5;
-        public const int ERR_PUSHPULL_NOT_ORIGIN_RETURNED = 6;
-        public const int ERR_PUSHPULL_INVALID_AXIS = 7;
-        public const int ERR_PUSHPULL_INVALID_PRIORITY = 8;
-        public const int ERR_PUSHPULL_NOT_SAME_POSITION = 9;
-        public const int ERR_PUSHPULL_LCD_VCC_ABNORMALITY = 10;
-        public const int ERR_PUSHPULL_VACUUM_ON_TIME_OUT = 11;
-        public const int ERR_PUSHPULL_VACUUM_OFF_TIME_OUT = 12;
-        public const int ERR_PUSHPULL_INVALID_PARAMETER = 13;
-        public const int ERR_PUSHPULL_OBJECT_DETECTED_BUT_GRIP_NOT_LOCKED = 14;
-        public const int ERR_PUSHPULL_OBJECT_NOT_DETECTED_BUT_GRIP_NOT_RELEASED = 15;
+        public const int ERR_PUSHPULL_NOT_ORIGIN_RETURNED                       = 1;
+        public const int ERR_PUSHPULL_UNABLE_TO_USE_CYL                         = 2;
+        public const int ERR_PUSHPULL_UNABLE_TO_USE_VCC                         = 3;
+        public const int ERR_PUSHPULL_UNABLE_TO_USE_AXIS                        = 4;
+        public const int ERR_PUSHPULL_FAIL_TO_GET_CURRENT_POS_INFO                         = 5;
+        public const int ERR_PUSHPULL_OBJECT_DETECTED_BUT_GRIP_NOT_LOCKED       = 6;
+        public const int ERR_PUSHPULL_OBJECT_NOT_DETECTED_BUT_GRIP_NOT_RELEASED = 7;
 
         public enum ECenterIndex
         {
@@ -615,10 +607,10 @@ namespace LWDicer.Layers
             // skip error?
             if (bSkipError == false && bResult == false)
             {
-                string str = $"Stage의 위치비교 결과 미일치합니다. Target Pos : {sPos.ToString()}";
+                string str = $"PushPull의 현재 위치와 일치하는 Position Info를 찾을수 없습니다. Current Pos : {sPos.ToString()}";
                 WriteLog(str, ELogType.Debug, ELogWType.D_Error);
 
-                return GenerateErrorCode(ERR_PUSHPULL_NOT_SAME_POSITION);
+                return GenerateErrorCode(ERR_PUSHPULL_FAIL_TO_GET_CURRENT_POS_INFO);
             }
 
             return SUCCESS;
@@ -1063,10 +1055,10 @@ namespace LWDicer.Layers
             // skip error?
             if (bSkipError == false && bResult == false)
             {
-                string str = $"Center Unit의 위치비교 결과 미일치합니다. Target Pos : {sPos.ToString()}";
+                string str = $"Center Unit의 현재 위치와 일치하는 Position Info를 찾을수 없습니다. Current Pos : {sPos.ToString()}";
                 WriteLog(str, ELogType.Debug, ELogWType.D_Error);
 
-                return GenerateErrorCode(ERR_PUSHPULL_NOT_SAME_POSITION);
+                return GenerateErrorCode(ERR_PUSHPULL_FAIL_TO_GET_CURRENT_POS_INFO);
             }
 
             return SUCCESS;
@@ -1184,6 +1176,11 @@ namespace LWDicer.Layers
             {
                 return GenerateErrorCode(ERR_PUSHPULL_NOT_ORIGIN_RETURNED);
             }
+
+#if SIMULATION_TEST
+            // for test
+            return SUCCESS;
+#endif
 
             // check lock
             if (bCheckGripLock == true)

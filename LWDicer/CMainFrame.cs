@@ -72,6 +72,9 @@ namespace LWDicer.UI
         public static Color BtnBackColor_On = Color.LawnGreen;
         public static Color BtnBackColor_Off = Color.LightGray;
 
+        private static FormJogOperation m_JogDlg = null;
+        private FormMsgStart m_StartMsgDlg = new FormMsgStart();
+
         public CMainFrame()
         {
             bool bRtn = InitializeLWDicer();
@@ -88,6 +91,7 @@ namespace LWDicer.UI
 
             MainFrame = this;
             IsFormLoaded = true;
+            m_StartMsgDlg.Hide();
         }
 
         public void InitScreen()
@@ -142,21 +146,31 @@ namespace LWDicer.UI
             {
                 ((FormAutoScreen)form).WindowProc(evnt);
                 BottomScreen.EnableBottomPage(false);
+                m_StartMsgDlg.SetMode(FormMsgStart.EStartMsgMode.START_READY);
+                m_StartMsgDlg.TopMost = true;
+                m_StartMsgDlg.StartPosition = FormStartPosition.CenterParent;
+                m_StartMsgDlg.Show();
             }
             else if (evnt.Msg == (int)EWindowMessage.WM_START_RUN_MSG)
             {
                 ((FormAutoScreen)form).WindowProc(evnt);
                 BottomScreen.EnableBottomPage(false);
+                m_StartMsgDlg.Hide();
             }
             else if (evnt.Msg == (int)EWindowMessage.WM_START_MANUAL_MSG)
             {
                 ((FormAutoScreen)form).WindowProc(evnt);
                 BottomScreen.EnableBottomPage(true);
+                m_StartMsgDlg.Hide();
             }
             else if (evnt.Msg == (int)EWindowMessage.WM_STEPSTOP_MSG)
             {
                 ((FormAutoScreen)form).WindowProc(evnt);
                 BottomScreen.EnableBottomPage(false);
+                m_StartMsgDlg.SetMode(FormMsgStart.EStartMsgMode.STEP_STOP);
+                m_StartMsgDlg.TopMost = true;
+                m_StartMsgDlg.StartPosition = FormStartPosition.CenterParent;
+                m_StartMsgDlg.Show();
             }
             else if (evnt.Msg == (int)EWindowMessage.WM_ALARM_MSG)
             {
@@ -328,15 +342,22 @@ namespace LWDicer.UI
 
         static public void DisplayJog()
         {
-            var dlg = new FormJogOperation();
-            dlg.TopMost = true;
-            dlg.Show();
+            //var dlg = new FormJogOperation();
+            //dlg.TopMost = true;
+            //dlg.Show();
+            if (m_JogDlg == null) m_JogDlg = new FormJogOperation();
+            m_JogDlg.TopMost = true;
+            m_JogDlg.Show();
+        }
+
+        static public void HideJog()
+        {
+            if (m_JogDlg != null) m_JogDlg.Hide();
         }
 
         static public bool GetKeyPad(string strCurrent, out string strModify)
         {
-            var dlg = new FormKeyPad();
-            dlg.SetValue(strCurrent);
+            var dlg = new FormKeyPad(strCurrent);
             dlg.TopMost = true;
             dlg.ShowDialog();
 
@@ -369,7 +390,7 @@ namespace LWDicer.UI
 
             if (dlg.DialogResult == DialogResult.OK)
             {
-                strModify = dlg.InputString;
+                strModify = dlg.m_strInput;
                 return true;
             }
             else
@@ -377,6 +398,15 @@ namespace LWDicer.UI
                 strModify = "";
                 return false;
             }
+        }
+
+        public IEnumerable<Control> GetAllControl(Control control, Type type)
+        {
+            var controls = control.Controls.Cast<Control>();
+
+            return controls.SelectMany(ctrl => GetAllControl(ctrl, type))
+                                      .Concat(controls)
+                                      .Where(c => c.GetType() == type);
         }
 
         /// <summary>

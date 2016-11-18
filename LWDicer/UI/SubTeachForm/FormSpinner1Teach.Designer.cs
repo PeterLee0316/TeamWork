@@ -1038,6 +1038,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1260, 884);
+            this.ControlBox = false;
             this.Controls.Add(this.BtnRotatePos15);
             this.Controls.Add(this.BtnRotatePos14);
             this.Controls.Add(this.BtnRotatePos13);

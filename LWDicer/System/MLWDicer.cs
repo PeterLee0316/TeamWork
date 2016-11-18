@@ -1233,6 +1233,9 @@ namespace LWDicer.Layers
             refComp.PushPull = m_MePushPull;
             refComp.LowerHandler = m_MeLowerHandler;
             refComp.UpperHandler = m_MeUpperHandler;
+            refComp.Spinner1 = m_MeSpinner1;
+            refComp.Spinner2 = m_MeSpinner2;
+            refComp.Elevator = m_MeElevator;
 
             m_ctrlPushPull = new MCtrlPushPull(objInfo, refComp, data);
         }

@@ -280,6 +280,7 @@ namespace LWDicer.UI
 
         private void BtnExit_Click(object sender, EventArgs e)
         {
+            CMainFrame.HideJog();
             this.Close();
         }
 

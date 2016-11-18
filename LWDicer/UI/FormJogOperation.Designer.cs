@@ -632,6 +632,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(384, 690);
+            this.ControlBox = false;
             this.Controls.Add(this.BtnPlus);
             this.Controls.Add(this.BtnSlowVel);
             this.Controls.Add(this.BtnAxis19);

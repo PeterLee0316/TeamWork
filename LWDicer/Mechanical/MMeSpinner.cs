@@ -16,24 +16,18 @@ namespace LWDicer.Layers
 {
     public class DEF_MeSpinner
     {
-        public const int ERR_SPINNER_UNABLE_TO_USE_IO                     = 1;
-        public const int ERR_SPINNER_UNABLE_TO_USE_CYL                    = 2;
-        public const int ERR_SPINNER_UNABLE_TO_USE_VCC                    = 3;
-        public const int ERR_SPINNER_UNABLE_TO_USE_AXIS                   = 4;
-        public const int ERR_SPINNER_UNABLE_TO_USE_VISION                 = 5;
-        public const int ERR_SPINNER_NOT_ORIGIN_RETURNED                  = 6;
-        public const int ERR_SPINNER_INVALID_AXIS                         = 7;
-        public const int ERR_SPINNER_INVALID_PRIORITY                     = 8;
-        public const int ERR_SPINNER_NOT_SAME_POSITION                    = 9;
-        public const int ERR_SPINNER_LCD_VCC_ABNORMALITY                  = 10;
-        public const int ERR_SPINNER_VACUUM_ON_TIME_OUT                   = 11;
-        public const int ERR_SPINNER_VACUUM_OFF_TIME_OUT                  = 12;
-        public const int ERR_SPINNER_INVALID_PARAMETER                    = 13;
-        public const int ERR_SPINNER_OBJECT_DETECTED_BUT_NOT_ABSORBED     = 14;
-        public const int ERR_SPINNER_OBJECT_NOT_DETECTED_BUT_NOT_RELEASED = 15;
-        public const int ERR_SPINNER_CHUCKTABLE_NOT_DOWN                  = 16;
-        public const int ERR_SPINNER_CLEAN_NOZZLE_NOT_IN_SAFETY_ZONE      = 17;
-        public const int ERR_SPINNER_COAT_NOZZLE_NOT_IN_SAFETY_ZONE       = 18;
+        public const int ERR_SPINNER_NOT_ORIGIN_RETURNED                        = 1;
+        public const int ERR_SPINNER_UNABLE_TO_USE_CYL                          = 2;
+        public const int ERR_SPINNER_UNABLE_TO_USE_VCC                          = 3;
+        public const int ERR_SPINNER_UNABLE_TO_USE_AXIS                         = 4;
+        public const int ERR_SPINNER_FAIL_TO_GET_CURRENT_POS_INFO               = 5;
+        public const int ERR_SPINNER_OBJECT_DETECTED_BUT_NOT_ABSORBED           = 6;
+        public const int ERR_SPINNER_OBJECT_NOT_DETECTED_BUT_NOT_RELEASED       = 7;
+        public const int ERR_SPINNER_VACUUM_ON_TIME_OUT                         = 8;
+        public const int ERR_SPINNER_VACUUM_OFF_TIME_OUT                        = 9;
+        public const int ERR_SPINNER_CHUCKTABLE_NOT_DOWN                        = 10;
+        public const int ERR_SPINNER_CLEAN_NOZZLE_NOT_IN_SAFETY_ZONE            = 11;
+        public const int ERR_SPINNER_COAT_NOZZLE_NOT_IN_SAFETY_ZONE             = 12;
 
         public enum ESpinnerType
         {

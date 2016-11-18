@@ -227,12 +227,14 @@ namespace LWDicer.UI
             if (CMainFrame.LWDicer.IsSafeForAxisMove() == false) return;
 
             BtnCleaningJobStart.BackColor = CMainFrame.BtnBackColor_On;
+            SetButtonsEnable(false);
+
             CMainFrame.StartTimer();
-            // 비동기로 Worker Thread에서 도는 task1
             var task1 = Task<int>.Run(() => m_CtrlSpinner.DoCleanOperation());
-            // task1이 끝나길 기다렸다가 끝나면 결과를 확인
             int iResult = await task1;
+
             LabelTime_Cleaning.Text = CMainFrame.GetElapsedTIme_Text();
+            SetButtonsEnable(true);
             BtnCleaningJobStart.BackColor = CMainFrame.BtnBackColor_Off;
 
             if (m_CtrlSpinner.IsCancelJob_byManual)
@@ -255,12 +257,14 @@ namespace LWDicer.UI
             if (CMainFrame.LWDicer.IsSafeForAxisMove() == false) return;
 
             BtnCoatingJobStart.BackColor = CMainFrame.BtnBackColor_On;
+            SetButtonsEnable(false);
+
             CMainFrame.StartTimer();
-            // 비동기로 Worker Thread에서 도는 task1
             var task1 = Task<int>.Run(() => m_CtrlSpinner.DoCoatOperation());
-            // task1이 끝나길 기다렸다가 끝나면 결과를 확인
             int iResult = await task1;
+
             LabelTime_Coating.Text = CMainFrame.GetElapsedTIme_Text();
+            SetButtonsEnable(true);
             BtnCoatingJobStart.BackColor = CMainFrame.BtnBackColor_Off;
 
             if (m_CtrlSpinner.IsCancelJob_byManual)
@@ -310,27 +314,41 @@ namespace LWDicer.UI
                 }
             }
 
-            if (m_CtrlSpinner.IsDoingJob_Coating || m_CtrlSpinner.IsDoingJob_Cleaning)
+            //if (m_CtrlSpinner.IsDoingJob_Coating || m_CtrlSpinner.IsDoingJob_Cleaning)
+            //{
+            //    BtnSpinnerUp.Enabled = false;
+            //    BtnSpinnerDown.Enabled = false;
+            //    BtnVacuumOn.Enabled = false;
+            //    BtnVacuumOff.Enabled = false;
+            //    BtnCoatNozzleOn.Enabled = false;
+            //    BtnCoatNozzleOff.Enabled = false;
+            //    BtnCleanNozzleOn.Enabled = false;
+            //    BtnCleanNozzleOff.Enabled = false;
+            //} else
+            //{
+            //    BtnSpinnerUp.Enabled = true;
+            //    BtnSpinnerDown.Enabled = true;
+            //    BtnVacuumOn.Enabled = true;
+            //    BtnVacuumOff.Enabled = true;
+            //    BtnCoatNozzleOn.Enabled = true;
+            //    BtnCoatNozzleOff.Enabled = true;
+            //    BtnCleanNozzleOn.Enabled = true;
+            //    BtnCleanNozzleOff.Enabled = true;
+            //}
+        }
+
+        private void SetButtonsEnable(bool bEnable)
+        {
+            CMainFrame.MainFrame.BottomScreen.EnableBottomPage(bEnable);
+
+            var btns = CMainFrame.MainFrame.GetAllControl(this, typeof(Syncfusion.Windows.Forms.ButtonAdv));
+            foreach (var btn in btns)
             {
-                BtnSpinnerUp.Enabled = false;
-                BtnSpinnerDown.Enabled = false;
-                BtnVacuumOn.Enabled = false;
-                BtnVacuumOff.Enabled = false;
-                BtnCoatNozzleOn.Enabled = false;
-                BtnCoatNozzleOff.Enabled = false;
-                BtnCleanNozzleOn.Enabled = false;
-                BtnCleanNozzleOff.Enabled = false;
-            } else
-            {
-                BtnSpinnerUp.Enabled = true;
-                BtnSpinnerDown.Enabled = true;
-                BtnVacuumOn.Enabled = true;
-                BtnVacuumOff.Enabled = true;
-                BtnCoatNozzleOn.Enabled = true;
-                BtnCoatNozzleOff.Enabled = true;
-                BtnCleanNozzleOn.Enabled = true;
-                BtnCleanNozzleOff.Enabled = true;
+                Syncfusion.Windows.Forms.ButtonAdv abtn = btn as Syncfusion.Windows.Forms.ButtonAdv;
+                abtn.Enabled = bEnable;
             }
+            BtnCoatingJobStop.Enabled = true;
+            BtnCleaningJobStop.Enabled = true;
         }
     }
 }

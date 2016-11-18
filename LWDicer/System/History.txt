@@ -458,6 +458,10 @@ CSpinStep class -> CCleaningStep / CCoatingStep class 로 분리
 2. updated : 자릿수 변경 0.000 -> 0.0000
 3. updated : FormManualScreen class 에서 moving & cancel command 구조 적용 및 moving 함수 틀 완성
 4. updated : MDataManager class, load position data 부분에서 array size difference 경우에도 safe array copy 적용
+5. updated : JogDialog Display/ auto hide 적용
+6. updated : Mechanical Layer class 들의 error msg 1~5번까지 default로 필요한 것들 맞춰줌
+7. updated : FormKeyBoard, FormKeyPad 계산 기능 추가 및 키보드 입력 기능 추가
+8. added : Start Ready, Step Stop 등의 input button 기다리는 동안 표시할 FormMsgStart class 추가
 
 // ********************************************************************************
 // test를 위해서 임시로 결과값을 쓰는 코드들은 // for test 로 주석 달기 및 검색해서 사용하도록

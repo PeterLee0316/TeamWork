@@ -713,6 +713,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1260, 880);
+            this.ControlBox = false;
             this.Controls.Add(this.btnInpectCam);
             this.Controls.Add(this.groupBox5);
             this.Controls.Add(this.groupBox3);

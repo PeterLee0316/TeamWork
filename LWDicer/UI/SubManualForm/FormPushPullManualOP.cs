@@ -62,22 +62,38 @@ namespace LWDicer.UI
 
         private void BtnGripLock_Click(object sender, EventArgs e)
         {
-            CMainFrame.LWDicer.m_MePushPull.GripLock();
+            if (CMainFrame.LWDicer.IsSafeForCylinderMove() == false) return;
+            CMainFrame.StartTimer();
+            int iResult = CMainFrame.LWDicer.m_MePushPull.GripLock();
+            CMainFrame.DisplayAlarm(iResult);
+            LabelTime_Grip.Text = CMainFrame.GetElapsedTIme_Text();
         }
 
         private void BtnGripUnLock_Click(object sender, EventArgs e)
         {
-            CMainFrame.LWDicer.m_MePushPull.GripRelease();
+            if (CMainFrame.LWDicer.IsSafeForCylinderMove() == false) return;
+            CMainFrame.StartTimer();
+            int iResult = CMainFrame.LWDicer.m_MePushPull.GripRelease();
+            CMainFrame.DisplayAlarm(iResult);
+            LabelTime_Grip.Text = CMainFrame.GetElapsedTIme_Text();
         }
 
         private void BtnPushPullUp_Click(object sender, EventArgs e)
         {
-            CMainFrame.LWDicer.m_MePushPull.CylUp();
+            if (CMainFrame.LWDicer.IsSafeForCylinderMove() == false) return;
+            CMainFrame.StartTimer();
+            int iResult = CMainFrame.LWDicer.m_MePushPull.CylUp();
+            CMainFrame.DisplayAlarm(iResult);
+            LabelTime_UpDn.Text = CMainFrame.GetElapsedTIme_Text();
         }
 
         private void BtnPushPullDown_Click(object sender, EventArgs e)
         {
-            CMainFrame.LWDicer.m_MePushPull.CylDown();
+            if (CMainFrame.LWDicer.IsSafeForCylinderMove() == false) return;
+            CMainFrame.StartTimer();
+            int iResult = CMainFrame.LWDicer.m_MePushPull.CylDown();
+            CMainFrame.DisplayAlarm(iResult);
+            LabelTime_UpDn.Text = CMainFrame.GetElapsedTIme_Text();
         }
     }
 }

@@ -15,18 +15,18 @@ namespace LWDicer.Layers
 {
     public class DEF_CtrlHandler
     {
-        public const int ERR_CTRLHANDLER_UNABLE_TO_USE_HANDLER                         = 1;
-        public const int ERR_CTRLHANDLER_UNABLE_TO_USE_LOG                             = 2;
+        public const int ERR_CTRLHANDLER_NOT_ORIGIN_RETURNED = 1;
+        public const int ERR_CTRLHANDLER_SPARE2                             = 2;
         public const int ERR_CTRLHANDLER_OBJECT_ABSORBED                               = 3;
         public const int ERR_CTRLHANDLER_OBJECT_NOT_ABSORBED                           = 4;
-        public const int ERR_CTRLHANDLER_OBJECT_EXIST                                  = 5;
-        public const int ERR_CTRLHANDLER_OBJECT_NOT_EXIST                              = 6;
-        public const int ERR_CTRLHANDLER_OBJECT_NOT_EXIST_BUT_ABSORBED                 = 7;
+        public const int ERR_CTRLHANDLER_OBJECT_DETECTED                                  = 5;
+        public const int ERR_CTRLHANDLER_OBJECT_NOT_DETECTED                              = 6;
+        public const int ERR_CTRLHANDLER_OBJECT_NOT_DETECTED_BUT_ABSORBED                 = 7;
         public const int ERR_CTRLHANDLER_CHECK_RUN_BEFORE_FAILED                       = 8;
         public const int ERR_CTRLHANDLER_CYLINDER_TIMEOUT                              = 9;
         public const int ERR_CTRLHANDLER_NOT_UP                                        = 10;
         public const int ERR_CTRLHANDLER_CANNOT_DETECT_POSINFO                         = 11;
-        public const int ERR_CTRLHANDLER_PCB_DOOR_OPEN                                 = 12;
+        public const int ERR_CTRLHANDLER_SPARE3                             = 12;
         public const int ERR_CTRLHANDLER_UPPER_IN_DOWN_AND_LOWER_IN_SAME_XZONE         = 13;
         public const int ERR_CTRLHANDLER_UPPER_NEED_DOWN_AND_LOWER_IN_SAME_XZONE       = 14;
         public const int ERR_CTRLHANDLER_LOWER_NEED_MOVE_AND_UPPER_IN_DOWN             = 15;
@@ -156,7 +156,7 @@ namespace LWDicer.Layers
             {
                 iResult = IsReleased(index, out bStatus1);
                 if (iResult != SUCCESS) return iResult;
-                if (bStatus1 == false) return GenerateErrorCode(ERR_CTRLHANDLER_OBJECT_NOT_EXIST_BUT_ABSORBED);
+                if (bStatus1 == false) return GenerateErrorCode(ERR_CTRLHANDLER_OBJECT_NOT_DETECTED_BUT_ABSORBED);
             }
 
             // move to wait pos
@@ -178,7 +178,7 @@ namespace LWDicer.Layers
             {
                 iResult = IsReleased(index, out bStatus1);
                 if (iResult != SUCCESS) return iResult;
-                if (bStatus1 == false) return GenerateErrorCode(ERR_CTRLHANDLER_OBJECT_NOT_EXIST_BUT_ABSORBED);
+                if (bStatus1 == false) return GenerateErrorCode(ERR_CTRLHANDLER_OBJECT_NOT_DETECTED_BUT_ABSORBED);
             }
 
             // move to wait pos
@@ -234,10 +234,10 @@ namespace LWDicer.Layers
         /// Handler의 이동전에 Run Mode에 따라서, Object가 감지되어야 하는지 및 진공 여부를 체크
         /// </summary>
         /// <param name="index"></param>
-        /// <param name="bPanelTransfer">Object가 있어야 되는지</param>
+        /// <param name="bTransfer">Object가 있어야 되는지</param>
         /// <param name="bCheck_WhenAutoRun">AutoRun모드에서 Error 발생 여부</param>
         /// <returns></returns>
-        private int CheckVacuum_forMoving(EHandlerIndex index, bool bPanelTransfer, bool bCheck_WhenAutoRun = false)
+        private int CheckVacuum_forMoving(EHandlerIndex index, bool bTransfer, bool bCheck_WhenAutoRun = false)
         {
             int iResult = SUCCESS;
             bool bDetected, bAbsorbed;
@@ -249,7 +249,7 @@ namespace LWDicer.Layers
             iResult = IsAbsorbed(index, out bAbsorbed);
             if (iResult != SUCCESS) return iResult;
 
-            if (bPanelTransfer)
+            if (bTransfer)
             {
                 if (bDetected == true && bAbsorbed == false)
                 {
@@ -268,17 +268,17 @@ namespace LWDicer.Layers
             {
                 if (AutoRunMode != EAutoRunMode.DRY_RUN) // not dry run
                 {
-                    if (bDetected != bPanelTransfer)
+                    if (bDetected != bTransfer)
                     {
-                        if (bPanelTransfer)    // Panel이 있어야 할 상황일경우
+                        if (bTransfer)    // Panel이 있어야 할 상황일경우
                         {
                             WriteLog("CtrlHandler의 이동 전 조건을 정상적으로 확인하지 못함. OBJECT NOT EXIST", ELogType.Debug, ELogWType.D_Error);
-                            return GenerateErrorCode(ERR_CTRLHANDLER_OBJECT_NOT_EXIST);
+                            return GenerateErrorCode(ERR_CTRLHANDLER_OBJECT_NOT_DETECTED);
                         }
                         else
                         {
                             WriteLog("CtrlHandler의 이동 전 조건을 정상적으로 확인하지 못함. OBJECT EXIST", ELogType.Debug, ELogWType.D_Error);
-                            return GenerateErrorCode(ERR_CTRLHANDLER_OBJECT_EXIST);
+                            return GenerateErrorCode(ERR_CTRLHANDLER_OBJECT_DETECTED);
                         }
                     }
                 }
@@ -287,7 +287,7 @@ namespace LWDicer.Layers
                     if (bDetected || bAbsorbed)
                     {
                         WriteLog("CtrlHandler의 이동 전 조건을 정상적으로 확인하지 못함. OBJECT EXIST", ELogType.Debug, ELogWType.D_Error);
-                        return GenerateErrorCode(ERR_CTRLHANDLER_OBJECT_EXIST);
+                        return GenerateErrorCode(ERR_CTRLHANDLER_OBJECT_DETECTED);
                     }
                 }
             }
@@ -473,12 +473,12 @@ namespace LWDicer.Layers
             return SUCCESS;
         }
 
-        public int MoveToWaitPos(EHandlerIndex index, bool bPanelTransfer, bool bMoveXYT = true, bool bMoveZ = true, double dZMoveOffset = 0)
+        public int MoveToWaitPos(EHandlerIndex index, bool bTransfer, bool bMoveXYT = true, bool bMoveZ = true, double dZMoveOffset = 0)
         {
             double[] dMoveOffset = new double[DEF_XYTZ];
             dMoveOffset[DEF_Z] = dZMoveOffset;
 
-            int iResult = CheckVacuum_forMoving(index, bPanelTransfer, bMoveZ);
+            int iResult = CheckVacuum_forMoving(index, bTransfer, bMoveZ);
             if (iResult != SUCCESS) return iResult;
 
             bool capableMove;
@@ -492,12 +492,12 @@ namespace LWDicer.Layers
             return SUCCESS;
         }
 
-        public int MoveToPushPullPos(EHandlerIndex index, bool bPanelTransfer, bool bMoveXYT = true, bool bMoveZ = true, double dZMoveOffset = 0)
+        public int MoveToPushPullPos(EHandlerIndex index, bool bTransfer, bool bMoveXYT = true, bool bMoveZ = true, double dZMoveOffset = 0)
         {
             double[] dMoveOffset = new double[DEF_XYTZ];
             dMoveOffset[DEF_Z] = dZMoveOffset;
 
-            int iResult = CheckVacuum_forMoving(index, bPanelTransfer, bMoveZ);
+            int iResult = CheckVacuum_forMoving(index, bTransfer, bMoveZ);
             if (iResult != SUCCESS) return iResult;
 
             bool capableMove;
@@ -511,12 +511,12 @@ namespace LWDicer.Layers
             return SUCCESS;
         }
 
-        public int MoveToStagePos(EHandlerIndex index, bool bPanelTransfer, bool bMoveXYT = true, bool bMoveZ = true, double dZMoveOffset = 0)
+        public int MoveToStagePos(EHandlerIndex index, bool bTransfer, bool bMoveXYT = true, bool bMoveZ = true, double dZMoveOffset = 0)
         {
             double[] dMoveOffset = new double[DEF_XYTZ];
             dMoveOffset[DEF_Z] = dZMoveOffset;
 
-            int iResult = CheckVacuum_forMoving(index, bPanelTransfer, bMoveZ);
+            int iResult = CheckVacuum_forMoving(index, bTransfer, bMoveZ);
             if (iResult != SUCCESS) return iResult;
 
             bool capableMove;
@@ -530,7 +530,7 @@ namespace LWDicer.Layers
             return SUCCESS;
         }
 
-        public int MoveZToSafetyPos(EHandlerIndex index, bool bPanelTransfer, double dZMoveOffset = 0)
+        public int MoveZToSafetyPos(EHandlerIndex index, bool bTransfer, double dZMoveOffset = 0)
         {
             // 0. init
             int curPos = (int)EHandlerPos.NONE;
@@ -546,7 +546,7 @@ namespace LWDicer.Layers
             double[] dMoveOffset = new double[DEF_XYTZ];
             dMoveOffset[DEF_Z] = dZMoveOffset;
 
-            iResult = CheckVacuum_forMoving(index, bPanelTransfer, true);
+            iResult = CheckVacuum_forMoving(index, bTransfer, true);
             if (iResult != SUCCESS) return iResult;
 
             bool capableMove;
@@ -555,7 +555,7 @@ namespace LWDicer.Layers
             if (capableMove == false) return GenerateErrorCode(ERR_CTRLHANDLER_MAY_COLLIDE_WITH_OPPOSITE_HANDLER);
 
             // 3. vacuum on/off
-            if(bPanelTransfer)
+            if(bTransfer)
             {
                 iResult = Release(index);
                 if (iResult != SUCCESS) return iResult;
@@ -572,7 +572,7 @@ namespace LWDicer.Layers
             return SUCCESS;
         }
 
-        public int MoveZToLoadUnloadPos(EHandlerIndex index, bool bPanelTransfer, double dZMoveOffset = 0)
+        public int MoveZToLoadUnloadPos(EHandlerIndex index, bool bTransfer, double dZMoveOffset = 0)
         {
             // 0. init
             int curPos = (int)EHandlerPos.NONE;
@@ -588,7 +588,7 @@ namespace LWDicer.Layers
             double[] dMoveOffset = new double[DEF_XYTZ];
             dMoveOffset[DEF_Z] = dZMoveOffset;
 
-            iResult = CheckVacuum_forMoving(index, bPanelTransfer, true);
+            iResult = CheckVacuum_forMoving(index, bTransfer, true);
             if (iResult != SUCCESS) return iResult;
 
             bool capableMove;
@@ -597,7 +597,7 @@ namespace LWDicer.Layers
             if (capableMove == false) return GenerateErrorCode(ERR_CTRLHANDLER_MAY_COLLIDE_WITH_OPPOSITE_HANDLER);
 
             // 3. vacuum on/off
-            if (bPanelTransfer)
+            if (bTransfer)
             {
                 iResult = Release(index);
                 if (iResult != SUCCESS) return iResult;

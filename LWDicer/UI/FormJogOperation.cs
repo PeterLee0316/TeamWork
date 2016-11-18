@@ -141,11 +141,13 @@ namespace LWDicer.UI
 
         private void FormJogOperation_FormClosing(object sender, FormClosingEventArgs e)
         {
+            
         }
 
         private void BtnExit_Click(object sender, EventArgs e)
         {
-            this.Close();
+            this.Hide();
+            //this.Close();
         }
 
         private void SetVelocity()
