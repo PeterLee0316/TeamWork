@@ -1991,7 +1991,7 @@ namespace LWDicer.Layers
          * Parameter :   int scannerIndex - Scanner No.
          *               string strFile - 전송하고 자하는 BitMap File Name
          ------------------------------------------------------------------------------------*/
-        public bool SendBitmap(string strFile,bool IsStream=false)
+        public bool SendBitmap(string strFile, bool IsStream=false)
         {
             string strFTP = GetControlAddress(); // ex) "92.168.22.60"
             //string strPath = string.Format("{0:s}{1:s}", m_RefComp.DataManager.DBInfo.ImageDataDir, strFile);  
@@ -2090,6 +2090,8 @@ namespace LWDicer.Layers
                 // procScanner.StandardInput.Write("C:\\NST\\nstc upload " + strIP + " " + strFilePath + Environment.NewLine);
                 procScanner.StandardInput.Close();
                 //procScanner.BeginOutputReadLine();                
+
+                Sleep(1000);
 
                 if (procScanner.WaitForExit(2000) == false)
                 {

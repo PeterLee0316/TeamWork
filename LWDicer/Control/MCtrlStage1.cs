@@ -33,7 +33,9 @@ namespace LWDicer.Layers
 
         // LASER PROCESS 관련 오류
         public const int ERR_CTRLSTAGE_SCANNER_DATA_FILE_NONE = 100;
-        public const int ERR_CTRLSTAGE_SCANNER_DATA_SEND_FAIL = 100;
+        public const int ERR_CTRLSTAGE_SCANNER_DATA_SEND_FAIL = 101;
+
+        public const int ERR_CTRLSTAGE_CANCEL_RUN_JOB = 200;
 
         // SYSTEM 설정
         public const double CAM_POS_CALS_ROATE_ANGLE = 2.0;
@@ -201,7 +203,6 @@ namespace LWDicer.Layers
         public class CLaserProcessData
         {
             public String DefaultScannerConfigFile;
-            public String DefaultScannerBmpFile;
 
             public CLaserProcessStep[] WorkSteps_General;    // custom washing steps
             
@@ -225,6 +226,9 @@ namespace LWDicer.Layers
         private CCtrlStage1Data m_Data;
         private int m_iCurrentCam = PRE__CAM;
 
+        public bool IsCancelJob_byManual = false;       // cancel coating/cleaning job by manual, return success
+        public bool IsCancelJob_byAuto = false;         // cancel coating/cleaning job by auto, return error
+
         private EStatgeMode eStageMode = EStatgeMode.RETURN;
         private EThetaAlignPos eThetaAlignStep = EThetaAlignPos.INIT;
         private ERotateCenterStep eRotateCenterStep = ERotateCenterStep.INIT;
@@ -234,7 +238,7 @@ namespace LWDicer.Layers
 
         private MTickTimer m_ProcsTimer = new MTickTimer();
 
-        public CLaserProcessStep CurStep_LaserProcess { get; private set; } = new CLaserProcessStep(); // get current job step
+        private CLaserProcessStep CurStep_LaserProcess = new CLaserProcessStep(); // get current job step
 
         public MCtrlStage1(CObjectInfo objInfo, CCtrlStage1RefComp refComp, CCtrlStage1Data data)
             : base(objInfo)
@@ -369,24 +373,21 @@ namespace LWDicer.Layers
             var markPitch = new CPos_XYTZ();
             var patternPitch = new CPos_XYTZ();
 
-               // Config.ini File Download
+            // Cancel Command Reset
+            IsCancelJob_byAuto = IsCancelJob_byManual = false;
+
+            // Config.ini File Download
             if (File.Exists(m_Data.MarkingData.DefaultScannerConfigFile) == false)
                 return GenerateErrorCode(ERR_CTRLSTAGE_SCANNER_DATA_FILE_NONE);
             bResult = m_RefComp.Scanner.SendConfig(m_Data.MarkingData.DefaultScannerConfigFile);
             if (bResult == false) return GenerateErrorCode(ERR_CTRLSTAGE_SCANNER_DATA_SEND_FAIL);
-
-            // Bmp File Download
-            if (File.Exists(m_Data.MarkingData.DefaultScannerBmpFile) == false)
-                return GenerateErrorCode(ERR_CTRLSTAGE_SCANNER_DATA_FILE_NONE);
-            bResult = m_RefComp.Scanner.SendBitmap(m_Data.MarkingData.DefaultScannerBmpFile);
-            if (bResult == false) return GenerateErrorCode(ERR_CTRLSTAGE_SCANNER_DATA_SEND_FAIL);
-
+            
             // 각 Step별 동작 프로세스 진행
             for (int StepNum = 0; StepNum < DEF_MAX_LASER_PROCESS_STEP; StepNum++)
             {
                 // 현재 Step Process Data를 Copy함.
-                CurStep_LaserProcess = m_Data.MarkingData.WorkSteps_General[StepNum];
-
+                CurStep_LaserProcess = ObjectExtensions.Copy(m_Data.MarkingData.WorkSteps_General[StepNum]);
+                
                 // Operation Mode가 End이면 동작을 종료한다.
                 if (CurStep_LaserProcess.Operation == ELaserOperation.END) return SUCCESS;
 
@@ -398,19 +399,23 @@ namespace LWDicer.Layers
                 {
                     bResult = m_RefComp.Scanner.SendConfig(CurStep_LaserProcess.ScannerJobFile);
                     if (bResult == false) return GenerateErrorCode(ERR_CTRLSTAGE_SCANNER_DATA_SEND_FAIL);
+
+                    Sleep(2000);
                 }
 
                 // Bmp File Download
                 if (File.Exists(CurStep_LaserProcess.ScannerBmpFile))
                 {
-                    bResult = m_RefComp.Scanner.SendConfig(CurStep_LaserProcess.ScannerBmpFile);
+                    bResult = m_RefComp.Scanner.SendBitmap(CurStep_LaserProcess.ScannerBmpFile);
                     if (bResult == false) return GenerateErrorCode(ERR_CTRLSTAGE_SCANNER_DATA_SEND_FAIL);
+
+                    Sleep(2000);
                 }
 
                 // Pattern 위치로 Move
                 m_RefComp.Stage.MoveStagePos(CurStep_LaserProcess.MarkPos);
 
-                markPitch.dX = CurStep_LaserProcess.MarkOffset.dX;
+                markPitch.dX = -CurStep_LaserProcess.MarkOffset.dX;
                 markPitch.dY = CurStep_LaserProcess.MarkOffset.dY;                
 
                 for (int patternNum=0; patternNum < CurStep_LaserProcess.PatternCount; patternNum++)
@@ -419,8 +424,12 @@ namespace LWDicer.Layers
                     {
                         // 긴급 정지 여부를 확인한다.
                         //if (CurStep_LaserProcess.Use == true) return SUCCESS;
+                        if (CMainFrame.DataManager.ModelData.ProcData.ProcessStop) return SUCCESS;
 
-                        // Laser Process
+                        if (IsCancelJob_byManual) return SUCCESS;
+                        if (IsCancelJob_byAuto) return GenerateErrorCode(ERR_CTRLSTAGE_CANCEL_RUN_JOB);
+
+                        // Laser Process (Step & MOF 동작 2가지 중 한개 실행)
                         if (CurStep_LaserProcess.Operation == ELaserOperation.STEP_MARK)
                             m_RefComp.Scanner.LaserProcess(EScannerMode.STEP);
                         if (CurStep_LaserProcess.Operation == ELaserOperation.MARK_ON_FLY)
@@ -428,19 +437,20 @@ namespace LWDicer.Layers
 
                         // pitch 이동함 (Stage는 역방향으로 이동 --> Stage 이동 방향에 따라 다름)
                         //  Mark의 개수가 1 보다 클 경우 Pitch 이동함.
-                        if (CurStep_LaserProcess.MarkCount > 1)
+                        //  마지작 Mark는 Picth 이동 하지 않는다
+                        if (CurStep_LaserProcess.MarkCount > 1 && markNum < CurStep_LaserProcess.MarkCount-1)
                             MoveStageRelative(markPitch, false);
 
                     }
 
                     // Pattern의 Pitch 이동 값을 계산한다.
-                    patternPitch.dX = CurStep_LaserProcess.MarkPos.dX - CurStep_LaserProcess.PatternOffset.dX * (patternNum + 1);
+                    patternPitch.dX = CurStep_LaserProcess.MarkPos.dX + CurStep_LaserProcess.PatternOffset.dX * (patternNum + 1);
                     patternPitch.dY = CurStep_LaserProcess.MarkPos.dY - CurStep_LaserProcess.PatternOffset.dY * (patternNum + 1);
                     patternPitch.dT = CurStep_LaserProcess.MarkPos.dT;
 
                     // pitch 이동함 (절대 위치로 이동함.)
                     //  Pattern의 개수가 1 보다 클 경우 Pitch 이동함.
-                    if (CurStep_LaserProcess.PatternCount > 1)
+                    if (CurStep_LaserProcess.PatternCount > 1 && patternNum < CurStep_LaserProcess.PatternCount - 1)
                         m_RefComp.Stage.MoveStagePos(patternPitch);
 
                 }  
@@ -490,14 +500,19 @@ namespace LWDicer.Layers
         }
 
         public int MoveStageRelative(CPos_XYTZ sTargetPos, bool bDir = true)
-        {            
+        {
+            CPos_XYTZ targetPos = new CPos_XYTZ();
+
+            targetPos = sTargetPos.Copy();
+
             if (bDir==false)
-            { 
-                sTargetPos.dX = -sTargetPos.dX;
-                sTargetPos.dY = -sTargetPos.dY;
-                sTargetPos.dT = -sTargetPos.dT;
+            {
+                targetPos.dX = -targetPos.dX;
+                targetPos.dY = -targetPos.dY;
+                targetPos.dT = -targetPos.dT;
             }
-            return m_RefComp.Stage.MoveStageRelativeXYT(sTargetPos);
+
+            return m_RefComp.Stage.MoveStageRelativeXYT(targetPos);
         }
         public int MoveStageRelativeX(double sPos, bool bDir = true)
         {

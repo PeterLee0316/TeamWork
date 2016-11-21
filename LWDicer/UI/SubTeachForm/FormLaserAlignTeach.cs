@@ -466,6 +466,22 @@ namespace LWDicer.UI
         private void btnLaserProcessStop_Click(object sender, EventArgs e)
         {
             CMainFrame.DataManager.ModelData.ProcData.ProcessStop = true;
+
+            CMainFrame.LWDicer.m_ctrlStage1.IsCancelJob_byManual = true;
+        }
+
+        private void btnInpectCam_Click(object sender, EventArgs e)
+        {
+#if EQUIP_266_DEV
+            CMainFrame.LWDicer.m_Vision.DestroyLocalView(PRE__CAM);
+            CMainFrame.LWDicer.m_Vision.DestroyLocalView(FINE_CAM);
+            CMainFrame.LWDicer.m_Vision.InitialLocalView(INSP_CAM, picVision.Handle);
+            CMainFrame.LWDicer.m_Vision.LiveVideo(INSP_CAM);
+
+            CMainFrame.LWDicer.m_MeStage.MoveCameraToFocusPosInspect();
+
+            CMainFrame.LWDicer.m_Vision.ShowHairLine();
+#endif
         }
     }
 }

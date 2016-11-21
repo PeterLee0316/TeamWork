@@ -1103,9 +1103,10 @@ namespace LWDicer.UI
             if (IniSaveDlg.ShowDialog() == DialogResult.OK)
             {
                 filename = IniSaveDlg.FileName;
+                CMainFrame.DataManager.ExportPolygonData(EPolygonPara.CONFIG, filename);
             }
 
-            CMainFrame.DataManager.ExportPolygonData(EPolygonPara.CONFIG, filename);
+            
         }
 
         private void btnExportIsn_Click(object sender, EventArgs e)
@@ -1119,9 +1120,10 @@ namespace LWDicer.UI
             if (IniSaveDlg.ShowDialog() == DialogResult.OK)
             {
                 filename = IniSaveDlg.FileName;
+                CMainFrame.DataManager.ExportPolygonData(EPolygonPara.ISN, filename);
             }
 
-            CMainFrame.DataManager.ExportPolygonData(EPolygonPara.ISN,filename);
+            
         }
 
         private void btnExportCsn_Click(object sender, EventArgs e)
@@ -1135,9 +1137,10 @@ namespace LWDicer.UI
             if (IniSaveDlg.ShowDialog() == DialogResult.OK)
             {
                 filename = IniSaveDlg.FileName;
+                CMainFrame.DataManager.ExportPolygonData(EPolygonPara.CSN, filename);
             }
 
-            CMainFrame.DataManager.ExportPolygonData(EPolygonPara.CSN,filename);
+            
 
         }
 
@@ -1152,11 +1155,12 @@ namespace LWDicer.UI
             if (iniOpenDlg.ShowDialog() == DialogResult.OK)
             {
                 filename = iniOpenDlg.FileName;
-            }
-            //CMainFrame.DataManager.ImportPolygonData(EPolygonPara.CONFIG);
-            CMainFrame.DataManager.ImportPolygonData(EPolygonPara.CONFIG,filename);
+                //CMainFrame.DataManager.ImportPolygonData(EPolygonPara.CONFIG);
+                CMainFrame.DataManager.ImportPolygonData(EPolygonPara.CONFIG, filename);
 
-            UpdateConfigureData(CMainFrame.DataManager.ModelData.ScanData);
+                UpdateConfigureData(CMainFrame.DataManager.ModelData.ScanData);
+            }
+            
         }
 
         private void btnImportIsn_Click(object sender, EventArgs e)
@@ -1170,12 +1174,13 @@ namespace LWDicer.UI
             if (iniOpenDlg.ShowDialog() == DialogResult.OK)
             {
                 filename = iniOpenDlg.FileName;
+                //CMainFrame.DataManager.ImportPolygonData(EPolygonPara.ISN);
+                CMainFrame.DataManager.ImportPolygonData(EPolygonPara.ISN, filename);
+
+                UpdateConfigureData(CMainFrame.DataManager.ModelData.ScanData);
             }
 
-            //CMainFrame.DataManager.ImportPolygonData(EPolygonPara.ISN);
-            CMainFrame.DataManager.ImportPolygonData(EPolygonPara.ISN,filename);
-
-            UpdateConfigureData(CMainFrame.DataManager.ModelData.ScanData);
+            
         }
 
         private void btnImportCsn_Click(object sender, EventArgs e)
@@ -1188,13 +1193,13 @@ namespace LWDicer.UI
             iniOpenDlg.Filter = "INI(*.ini)|*.ini";
             if (iniOpenDlg.ShowDialog() == DialogResult.OK)
             {
-                filename = iniOpenDlg.FileName;                
+                filename = iniOpenDlg.FileName;
+                //CMainFrame.DataManager.ImportPolygonData(EPolygonPara.CSN);
+                CMainFrame.DataManager.ImportPolygonData(EPolygonPara.CSN, filename);
+
+                UpdateConfigureData(CMainFrame.DataManager.ModelData.ScanData);
             }
-
-            //CMainFrame.DataManager.ImportPolygonData(EPolygonPara.CSN);
-            CMainFrame.DataManager.ImportPolygonData(EPolygonPara.CSN, filename);
-
-            UpdateConfigureData(CMainFrame.DataManager.ModelData.ScanData);
+            
         }
         
         private void tabPageConfig_Enter(object sender, EventArgs e)

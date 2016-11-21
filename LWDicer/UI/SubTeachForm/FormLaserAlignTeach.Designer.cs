@@ -132,9 +132,8 @@
             this.gradientLabel37 = new Syncfusion.Windows.Forms.Tools.GradientLabel();
             this.gradientLabel20 = new Syncfusion.Windows.Forms.Tools.GradientLabel();
             this.lblCamOffSetAxisX = new Syncfusion.Windows.Forms.Tools.GradientLabel();
-            this.btnStageReturn = new System.Windows.Forms.Button();
-            this.btnStageTurn = new System.Windows.Forms.Button();
             this.BtnExit = new System.Windows.Forms.Button();
+            this.btnInpectCam = new System.Windows.Forms.Button();
             this.groupBox4.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.tabThetaAlign)).BeginInit();
@@ -1656,32 +1655,6 @@
             this.lblCamOffSetAxisX.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.lblCamOffSetAxisX.Click += new System.EventHandler(this.ChangeTextData);
             // 
-            // btnStageReturn
-            // 
-            this.btnStageReturn.Font = new System.Drawing.Font("굴림", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.btnStageReturn.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.btnStageReturn.Location = new System.Drawing.Point(1124, 671);
-            this.btnStageReturn.Name = "btnStageReturn";
-            this.btnStageReturn.Size = new System.Drawing.Size(98, 61);
-            this.btnStageReturn.TabIndex = 972;
-            this.btnStageReturn.Text = "Return";
-            this.btnStageReturn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.btnStageReturn.UseVisualStyleBackColor = true;
-            this.btnStageReturn.Click += new System.EventHandler(this.btnStageReturn_Click);
-            // 
-            // btnStageTurn
-            // 
-            this.btnStageTurn.Font = new System.Drawing.Font("굴림", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.btnStageTurn.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.btnStageTurn.Location = new System.Drawing.Point(1025, 671);
-            this.btnStageTurn.Name = "btnStageTurn";
-            this.btnStageTurn.Size = new System.Drawing.Size(98, 61);
-            this.btnStageTurn.TabIndex = 970;
-            this.btnStageTurn.Text = "Turn";
-            this.btnStageTurn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.btnStageTurn.UseVisualStyleBackColor = true;
-            this.btnStageTurn.Click += new System.EventHandler(this.btnStageTurn_Click);
-            // 
             // BtnExit
             // 
             this.BtnExit.Font = new System.Drawing.Font("굴림", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
@@ -1697,15 +1670,30 @@
             this.BtnExit.UseVisualStyleBackColor = true;
             this.BtnExit.Click += new System.EventHandler(this.BtnExit_Click);
             // 
+            // btnInpectCam
+            // 
+            this.btnInpectCam.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.btnInpectCam.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.btnInpectCam.Image = global::LWDicer.Properties.Resources.Vision;
+            this.btnInpectCam.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.btnInpectCam.Location = new System.Drawing.Point(1162, 659);
+            this.btnInpectCam.Name = "btnInpectCam";
+            this.btnInpectCam.Size = new System.Drawing.Size(73, 73);
+            this.btnInpectCam.TabIndex = 1056;
+            this.btnInpectCam.Text = "Inspect";
+            this.btnInpectCam.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.btnInpectCam.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.btnInpectCam.UseVisualStyleBackColor = true;
+            this.btnInpectCam.Click += new System.EventHandler(this.btnInpectCam_Click);
+            // 
             // FormLaserAlignTeach
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1260, 880);
-            this.Controls.Add(this.btnStageReturn);
+            this.Controls.Add(this.btnInpectCam);
             this.Controls.Add(this.tabThetaAlign);
             this.Controls.Add(this.groupBox2);
-            this.Controls.Add(this.btnStageTurn);
             this.Controls.Add(this.pnlStageJog);
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.picVision);
@@ -1816,8 +1804,6 @@
         private System.Windows.Forms.Button btnDieIndexSet1;
         private Syncfusion.Windows.Forms.Tools.GradientLabel lblDieIndexCals;
         private System.Windows.Forms.Button btnCalsDieIndexSize;
-        private System.Windows.Forms.Button btnStageTurn;
-        private System.Windows.Forms.Button btnStageReturn;
         private System.Windows.Forms.Button btnStageTurnPosA;
         private System.Windows.Forms.Button btnStageCenter;
         private System.Windows.Forms.Label lblHairLineWidth;
@@ -1837,5 +1823,6 @@
         private System.Windows.Forms.Button btnMoveToVisionH;
         private System.Windows.Forms.Button btnMoveToLaserH;
         private Syncfusion.Windows.Forms.ButtonAdv btnLaserProcessStop;
+        private System.Windows.Forms.Button btnInpectCam;
     }
 }

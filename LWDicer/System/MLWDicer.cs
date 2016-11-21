@@ -1878,6 +1878,9 @@ namespace LWDicer.Layers
 
                 // Model Data에 있는 Vision Data를 적용한다.
                 data.Align = ObjectExtensions.Copy(modelData.AlignData);
+                
+                // Laser Process Data Copy
+                data.MarkingData = ObjectExtensions.Copy(modelData.LaserProcessData);
 
                 m_ctrlStage1.SetData(data);
             }
