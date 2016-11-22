@@ -1520,66 +1520,7 @@ namespace LWDicer.UI
 
             CMainFrame.LWDicer.m_MeScanner.m_RefComp.ScanHeadComm.ConnectServer();
         }
-        
-        private void lblProcessOffsetX1_Click(object sender, EventArgs e)
-        {
 
-        }
-
-        private void lblProcessOffsetY1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void lblProcessCount1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void lblProcessOffsetX2_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void lblProcessOffsetY2_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void lblProcessCount2_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void lblPatternPitch1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void lblPatternCount1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void lblPatternPitch2_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void lblPatternCount2_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void lblPatternOffset1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void lblPatternOffset2_Click(object sender, EventArgs e)
-        {
-
-        }
 
         private void btnPatternProcessSave_Click(object sender, EventArgs e)
         {
@@ -1591,16 +1532,11 @@ namespace LWDicer.UI
 
         }
 
-        private void btnLaserProcessMof_Click(object sender, EventArgs e)
-        {
-            CMainFrame.LWDicer.m_ctrlStage1.LaserProcessMof();
-
-        }
         private void btnLaserProcessStep1_Click(object sender, EventArgs e)
         {
             int iResult = 0;
             CMainFrame.DataManager.ModelData.ProcData.ProcessStop = false;
-            var task = Task<int>.Run(() => CMainFrame.LWDicer.m_ctrlStage1.LaserProcessStep1());
+            var task = Task<int>.Run(() => CMainFrame.LWDicer.m_ctrlStage1.RunLaserProcess());
         }
 
         private void btnLaserProcessStep2_Click(object sender, EventArgs e)
@@ -1625,18 +1561,7 @@ namespace LWDicer.UI
 
         private void lblProcessCount_Click(object sender, EventArgs e)
         {
-            string strCurrent = "", strModify = "";
 
-            strCurrent = lblProcessCount.Text;
-
-            if (!CMainFrame.GetKeyPad(strCurrent, out strModify))
-            {
-                return;
-            }
-
-            lblProcessCount.Text = strModify;
-
-            CMainFrame.LWDicer.m_MeScanner.LaserProcessCount(Convert.ToInt32(strModify));
         }
 
         private void btnLaserProcessMofStop_Click(object sender, EventArgs e)

@@ -83,46 +83,10 @@ namespace LWDicer.UI
             CMainFrame.LWDicer.m_MeStage.ClampClose();
         }
 
-        private void btnLaserProcessMof_Click(object sender, EventArgs e)
-        {
-            CMainFrame.LWDicer.m_ctrlStage1.LaserProcessMof();
-        }
-
-        private void btnLaserProcessStep1_Click(object sender, EventArgs e)
-        {
-            int iResult = 0;
-            var task = Task<int>.Run(() => CMainFrame.LWDicer.m_ctrlStage1.LaserProcessStep1());
-            //iResult=  await task;
-
-
-           // CMainFrame.LWDicer.m_ctrlStage1.LaserProcessStep1();
-        }
-
-        private void lblProcessCount_Click(object sender, EventArgs e)
-        {
-            string strCurrent = "", strModify = "";
-
-            strCurrent = lblProcessCount.Text;
-
-            if (!CMainFrame.GetKeyPad(strCurrent, out strModify))
-            {
-                return;
-            }
-            
-            lblProcessCount.Text = strModify;
-
-            CMainFrame.LWDicer.m_MeScanner.LaserProcessCount(Convert.ToInt32(strModify));
-        }
 
         private void TimerUI_Tick_1(object sender, EventArgs e)
         {
-            if (CMainFrame.LWDicer.m_MeScanner.IsScannerBusy()) ChangeLabelText(lblProcessExpoBusy, "On");
-            else ChangeLabelText(lblProcessExpoBusy, "Off");
-
-            if (CMainFrame.LWDicer.m_MeScanner.IsScannerJobStart()) ChangeLabelText(lblProcessJobStart, "On");
-            else ChangeLabelText(lblProcessJobStart, "Off");
-
-            ChangeLabelText(lblProcessCountRead, Convert.ToString(CMainFrame.LWDicer.m_MeScanner.GetScannerRunCount())); 
+            
         }
 
         private void ChangeLabelText(GradientLabel objectLabel, string strMsg)        
@@ -136,82 +100,6 @@ namespace LWDicer.UI
 
         }
 
-        private void lblProcessOffsetX1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void lblProcessOffsetY1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void lblProcessCount1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void lblProcessOffsetX2_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void lblProcessOffsetY2_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void lblProcessCount2_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void lblPatternPitch1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void lblPatternCount1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void lblPatternPitch2_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void lblPatternCount2_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void lblPatternOffset1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void lblPatternOffset2_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void btnProcessDataSave_Click(object sender, EventArgs e)
-        {
-            FormMessageBox MsgBox = new FormMessageBox();
-
-            MsgBox.SetMessage("프로세스 데이터를 저장하시겠습니까?", EMessageType.OK_CANCEL);
-
-            if (MsgBox.ShowDialog() != DialogResult.OK)
-            {
-                return;
-            }
-
-            UpdateProcessData();
-
-
-            CMainFrame.LWDicer.SaveModelData(CMainFrame.DataManager.ModelData);
-        }
         private void UpdateProcessData()
         {
 

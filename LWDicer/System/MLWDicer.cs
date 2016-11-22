@@ -372,7 +372,7 @@ namespace LWDicer.Layers
             m_SystemInfo.GetObjectInfo(1, out objInfo);
             m_DataManager = new MDataManager(objInfo, dbInfo);
             dataManager = m_DataManager;
-            iResult = m_DataManager.Initialize();
+           iResult = m_DataManager.Initialize();
             CMainFrame.DisplayAlarmOnly(iResult);
 
             intro.SetStatus("Init Hardware Layer", 20);

@@ -352,22 +352,9 @@ namespace LWDicer.Layers
         
         // Laser 가공 Process
         #region Laser Process
+            
 
-
-        public async void LaserProcessMof()
-        {
-            int iResult = SUCCESS;
-            var taskProcess = Task<int>.Run(() => LaserProcessMofRun());
-
-            iResult = await taskProcess;
-        }
-
-        public int LaserProcessMofRun()
-        {
-            return m_RefComp.Scanner.LaserProcess(EScannerMode.MOF);
-        }
-
-        public int LaserProcessStep1()
+        public int RunLaserProcess()
         {
             bool bResult = false;
             var markPitch = new CPos_XYTZ();

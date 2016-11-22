@@ -38,7 +38,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;WIN32, SIMULATION_MOTION_YMC, EQUIP_266_DEV, SIMULATION_IO</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;WIN32, SIMULATION_VISION, SIMULATION_MOTION_ACS,  SIMULATION_MOTION_YMC, EQUIP_266_DEV, SIMULATION_IO</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>2</WarningLevel>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
@@ -281,6 +281,12 @@
     <Compile Include="UI\SubTeachForm\FormCamFocus.Designer.cs">
       <DependentUpon>FormCamFocus.cs</DependentUpon>
     </Compile>
+    <Compile Include="UI\SubTeachForm\FormCameraAlignTeach.cs.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\SubTeachForm\FormCameraAlignTeach.cs.Designer.cs">
+      <DependentUpon>FormCameraAlignTeach.cs.cs</DependentUpon>
+    </Compile>
     <Compile Include="UI\SubTeachForm\FormJogStage.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -509,6 +515,12 @@
     <Compile Include="UI\SubTeachForm\FormHandlerTeach.Designer.cs">
       <DependentUpon>FormHandlerTeach.cs</DependentUpon>
     </Compile>
+    <Compile Include="UI\SubTeachForm\FormWaferDieTeach.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\SubTeachForm\FormWaferDieTeach.Designer.cs">
+      <DependentUpon>FormWaferDieTeach.cs</DependentUpon>
+    </Compile>
     <Compile Include="UI\SubTeachForm\FormLoaderTeach.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -634,6 +646,9 @@
     <EmbeddedResource Include="UI\SubTeachForm\FormCamFocus.resx">
       <DependentUpon>FormCamFocus.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="UI\SubTeachForm\FormCameraAlignTeach.cs.resx">
+      <DependentUpon>FormCameraAlignTeach.cs.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UI\SubTeachForm\FormJogStage.resx">
       <DependentUpon>FormJogStage.cs</DependentUpon>
     </EmbeddedResource>
@@ -749,6 +764,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UI\SubTeachForm\FormHandlerTeach.resx">
       <DependentUpon>FormHandlerTeach.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\SubTeachForm\FormWaferDieTeach.resx">
+      <DependentUpon>FormWaferDieTeach.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\SubTeachForm\FormLoaderTeach.resx">
       <DependentUpon>FormLoaderTeach.cs</DependentUpon>
