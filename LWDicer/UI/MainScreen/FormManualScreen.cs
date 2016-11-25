@@ -422,14 +422,14 @@ namespace LWDicer.UI
                     task1 = Task<int>.Run(() => CMainFrame.LWDicer.m_ctrlHandler.MoveToWaitPos(index, bTransfer));
                     iResult = await task1;
                 }
-                else if (cmd == "Load [PushPull]")
-                {
-                    task1 = Task<int>.Run(() => CMainFrame.LWDicer.m_ctrlHandler.MoveToPushPullPos(index, bTransfer));
-                    iResult = await task1;
-                }
-                else if (cmd == "Unload [Stage]")
+                else if (cmd == "Load [Stage]")
                 {
                     task1 = Task<int>.Run(() => CMainFrame.LWDicer.m_ctrlHandler.MoveToStagePos(index, bTransfer));
+                    iResult = await task1;
+                }
+                else if (cmd == "Unload [PushPull]")
+                {
+                    task1 = Task<int>.Run(() => CMainFrame.LWDicer.m_ctrlHandler.MoveToPushPullPos(index, bTransfer));
                     iResult = await task1;
                 }
             }

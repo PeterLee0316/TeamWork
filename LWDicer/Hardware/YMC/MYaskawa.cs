@@ -55,13 +55,25 @@ namespace LWDicer.Layers
         public const int ERR_YASKAWA_DETECTED_AREA_SENSOR                = 36;
         public const int ERR_YASKAWA_CANCEL_MOVING                       = 37;
 
-        public const int MAX_MP_CPU = 4;    // pci board EA
-        public const int MAX_MP_PORT = 2;   // ports per board
-        public const int MP_AXIS_PER_PORT = 8; // physical axis per port
-        public const int MP_AXIS_PER_CPU = 16; // MAX_MP_PORT * MP_AXIS_PER_PORT; // physical axis per cpu
-        public const int MAX_MP_AXIS = 64; // MAX_MP_CPU * MAX_MP_PORT * MP_AXIS_PER_PORT;
+        //public const int MAX_MP_CPU = 4;    // pci board EA
+        //public const int MAX_MP_PORT = 2;   // ports per board
+        //public const int MP_AXIS_PER_PORT = 8; // physical axis per port
+        //public const int MP_AXIS_PER_CPU = 16; // MAX_MP_PORT * MP_AXIS_PER_PORT; // physical axis per cpu
+        //public const int MAX_MP_AXIS = 64; // MAX_MP_CPU * MAX_MP_PORT * MP_AXIS_PER_PORT;
 
-        public const int UNIT_REF = 1000;// 0.001 Reference Unit( 1mm )
+        // 20161122 다시한번 재정리 함 by sjr
+        // SVC, SVC-01은 mechatrolink 전송 주기, 슬레이브 국수와 고속 스캔시간 설정 관계
+        // star-type connection : 125us = 4, 250us = 8, 500us = 14, 1ms = 21 (but, 최대 서보팩 수는 16)
+        // cascade-type connection : 125us = 3, 250us = 7, 500us = 12, 1ms = 21 (but, 최대 서보팩 수는 16)
+        // Dicing 설비는 최대 축수가 16축이므로, cascade-type connection + scan time 500us 으로 사용해도 되지만,
+        // IO도 사용해야하기 때문에 Port1에 16축을 모두 사용하고, Port2에 IO를 몰아서 사용하도록 하자
+        public const int MAX_MP_CPU             = 2; // PC에 설치되는 MP2101TM 등의 최대 PCI 보드
+        public const int MAX_MP_PORT            = 2; // ports per board ( SVC, SVC-01 module의 갯수를 뜻함)
+        public const int MP_AXIS_PER_PORT       = 16; // physical axis per port ( SVC, SVC-01 모듈이 제어하는 슬레이브국 수)
+        public const int MP_AXIS_PER_CPU        = 32; // MAX_MP_PORT * MP_AXIS_PER_PORT; 
+        public const int MAX_MP_AXIS            = 64; // MAX_MP_CPU * MAX_MP_PORT * MP_AXIS_PER_PORT;
+
+        public const int UNIT_REF = 1000;       // 0.001 Reference Unit( 1mm )
 
         public enum EMPRegister
         {
@@ -289,20 +301,20 @@ namespace LWDicer.Layers
 /*
         Table: Rack, Slot, and Sub Slot Settings(When EXIOIF Modules are Not Mounted)
 
-Machine Controller  Motion Module                   Rack(RackNo)    Slot(SlotNo)    Sub Slot(SubslotNo)
-MP2100 or MP2101    SVB(built-in the board)                                 1       0       3
-                    SVR(virtual axis)                                       1       0       4
+Machine Controller  Motion Module                                        Rack(RackNo)    Slot(SlotNo)    Sub Slot(SubslotNo)
+MP2100 or MP2101    SVB(built-in the board)                                 1                   0               3
+                    SVR(virtual axis)                                       1                   0               4
  
-MP2100M or MP2101M  SVB(built-in the board, with MECHATROLINK port 1)       1       0       3
-                    SVR(virtual axis)                                       1       0       4
-                    SVB-01 (SVB board with MECHATROLINK port 2)             1       1       1
+MP2100M or MP2101M  SVB(built-in the board, with MECHATROLINK port 1)       1                   0               3
+                    SVR(virtual axis)                                       1                   0               4
+                    SVB-01 (SVB board with MECHATROLINK port 2)             1                   1               1
  
-MP2101T             SVC(built-in the board)                                 1       0       3
-                    SVR(virtual axis)                                       1       0       4
+MP2101T             SVC(built-in the board)                                 1                   0               3
+                    SVR(virtual axis)                                       1                   0               4
  
-MP2101TM            SVC(built-in the board, with MECHATROLINK port 1)       1       0       3
-                    SVR(virtual axis)                                       1       0       4
-                    SVC-01 (SVC board with MECHATROLINK port 2)             1       1       1
+MP2101TM            SVC(built-in the board, with MECHATROLINK port 1)       1                   0               3
+                    SVR(virtual axis)                                       1                   0               4
+                    SVC-01 (SVC board with MECHATROLINK port 2)             1                   1               1
  */
             public int RackNo = 1;
             public int SlotNo = 0;
@@ -1308,26 +1320,49 @@ MP2101TM            SVC(built-in the board, with MECHATROLINK port 1)       1   
         private int DeclareTempDevice(int length, int[] axisList, bool[] useAxis, ref UInt32 tDevice)
         {
             int iResult = SUCCESS;
-            UInt32[] hAxis;
-            iResult = GetAxisHandleList(axisList, out hAxis);
-            if (iResult != SUCCESS) return iResult;
 
-            UInt32[] thAxis = new UInt32[length];
-            for (int i = 0, j = 0; i < axisList.Length; i++)
+            //if(length == 1) // length가 1이라면, 그냥 처음에 만들어놨던 device를 사용함. (tDevice를 declare하고나서 free 시키지 않기 때문에)
+            //{
+            //    for (int i = 0; i < axisList.Length; i++)
+            //    {
+            //        int servoNo = axisList[i];
+            //        if (servoNo == (int)EYMC_Axis.NULL || useAxis[i] == false) continue;
+
+            //        tDevice = m_hDevice[servoNo];
+            //        return SUCCESS;
+            //    }
+            //} else
             {
-                int servoNo = axisList[i];
-                if (servoNo == (int)EYMC_Axis.NULL || useAxis[i] == false) continue;
-                thAxis[j++] = hAxis[i];
-            }
+                UInt32[] hAxis;
+                iResult = GetAxisHandleList(axisList, out hAxis);
+                if (iResult != SUCCESS) return iResult;
 
-            iResult = DeclareDevice(length, thAxis, ref tDevice);
-            if (iResult != SUCCESS) return iResult;
+                UInt32[] thAxis = new UInt32[length];
+                for (int i = 0, j = 0; i < axisList.Length; i++)
+                {
+                    int servoNo = axisList[i];
+                    if (servoNo == (int)EYMC_Axis.NULL || useAxis[i] == false) continue;
+                    thAxis[j++] = hAxis[i];
+                }
+
+                iResult = DeclareDevice(length, thAxis, ref tDevice);
+                if (iResult != SUCCESS) return iResult;
+            }
 
             return SUCCESS;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="hDevice"></param>
+        /// <returns></returns>
         private int ClearDevice(UInt32 hDevice)
         {
+            // tDevice를 clear하기 위해서 만들었으나, tDevice를 만들었다가 해제하면, 기존에 연결되어있던 device handle도 해제되는것으로
+            // 추정됨. 문제가 발생하기 cleardevice는 하지 않음. by sjr 161122
+            return SUCCESS;
+
 #if SIMULATION_MOTION_YMC
             return SUCCESS;
 #endif
@@ -1427,7 +1462,14 @@ MP2101TM            SVC(built-in the board, with MECHATROLINK port 1)       1   
             int iResult = ChangeControllerByServo(servoNo);
             //if (iResult != SUCCESS) return iResult;
 
-            // servo position
+            // servo position (svc-01 사용자 매뉴얼 4.4.3 (10)에 나옴)
+            // SER_TPOS ILxx0E : Machine coordinate system target position (POS)        // 기계 좌표계 목표 위치
+			// SER_CPOS ILxx10 : Machine coordinate system position calculation (CPOS)  // 기계 좌표계 계산 위치 
+			// SER_MPOS ILxx12 : Machine coordinate system reference position (MPOS)    // 기계 좌표계 지령 위치
+			// SER_DPOS ILxx14 : 32-bit coordinate system reference position (DPOS)     // 32비트 계산위치 (= 기계 좌표계 지령 위치)
+			// SER_APOS ILxx16 : Machine coordinate system feedback position (APOS)     // 기계 좌표계 피드백 위치, 원점복귀 실행에 의해 0이 됨. 무한길이축일경우엔 0~(리셋위치-1)의 범위
+			// SER_LPOS ILxx18 : Machine coordinate system latch position (LPOS)        // 기계 좌표계 래치 위치
+
             rc = CMotionAPI.ymcGetMotionParameterValue(m_hAxis[servoNo], (UInt16)CMotionAPI.ApiDefs.MONITOR_PARAMETER,
                     (UInt16)CMotionAPI.ApiDefs_MonPrm.SER_APOS, ref returnValue); //Machine coordinate system feedback position (APOS)
             if (rc != CMotionAPI.MP_SUCCESS)
@@ -1436,7 +1478,10 @@ MP2101TM            SVC(built-in the board, with MECHATROLINK port 1)       1   
                 return;
             } else
             {
-                ServoStatus[servoNo].EncoderPos = (double)returnValue / UNIT_REF;
+                // UInt32 -> Int32 로 변환해서 계산해야 minus position이 나옴
+                //ServoStatus[servoNo].EncoderPos = (returnValue != 0) ? (double)returnValue / UNIT_REF : 0.0;
+                Int32 t = (int)returnValue;
+                ServoStatus[servoNo].EncoderPos = (t != 0) ? (double)t / UNIT_REF : 0.0;
             }
 
 #if SIMULATION_TEST
@@ -1761,8 +1806,14 @@ MP2101TM            SVC(built-in the board, with MECHATROLINK port 1)       1   
                 double dCurPos = ServoStatus[servoNo].EncoderPos;
                 GetDevice_MotionData(servoNo, out motionData);
 
-                if (Math.Abs(dCurPos - dPos[i]) <= motionData[0].Tolerance) bJudge[i] = true;
-                else bJudge[i] = false;
+                if (Math.Abs(dCurPos - dPos[i]) <= motionData[0].Tolerance)
+                {
+                    bJudge[i] = true;
+                }
+                else
+                {
+                    bJudge[i] = false;
+                }
             }
 
             return SUCCESS;
@@ -1873,13 +1924,14 @@ MP2101TM            SVC(built-in the board, with MECHATROLINK port 1)       1   
             MotionData[0].FilterType = 2;
 
 #if SIMULATION_TEST
+            // Jog는 굳이 시뮬레이션을 가정할 필요 없이 해야, jog로라도 실제로 있는 축의 포지션을 0 -> !0 으로 변경할 수 있음
             // if EncoderPos == 0, 서보가 없는 상태에서 simulation test 라고 가정. 실제 서보는 EncoderPos != 0 일때, 실제 상태를 update
-            if (ServoStatus[deviceNo].EncoderPos == 0)
-            {
-                Sleep(SimulationSleepTime);
+            //if (ServoStatus[deviceNo].EncoderPos == 0)
+            //{
+            //    Sleep(SimulationSleepTime);
 
-                return SUCCESS;
-            }
+            //    return SUCCESS;
+            //}
 #endif
 
             UInt32 rc = CMotionAPI.ymcMoveJOG(m_hDevice[deviceNo], MotionData, Direction, TimeOut, 0, "JOG", 0);
@@ -1937,6 +1989,7 @@ MP2101TM            SVC(built-in the board, with MECHATROLINK port 1)       1   
         /// <returns></returns>
         public int StartMoveToPos(int deviceNo, double[] pos, CMotorSpeedData[] tempSpeed = null)
         {
+            OpenComPortOnly(); // for supporting multi thread
             return MoveToPos(deviceNo, pos, tempSpeed, (ushort)CMotionAPI.ApiDefs.COMMAND_STARTED);
         }
 
@@ -1974,10 +2027,13 @@ MP2101TM            SVC(built-in the board, with MECHATROLINK port 1)       1   
             // MTYPE_R_SHORTEST 2H Rotary Shortest(absolute position specified, for rotary axis, shortest distance)
             // MTYPE_R_POSITIVE 3H Rotary Positive(absolute position specified, for rotary axis, forward rotation)
             // MTYPE_R_NEGATIVE 4H Rotary Negative(absolute position specified, for rotary axis,
+            // 2016.11.22 by sjr
+            // Servo Fixed Parameter에서 Function1의 Axis Selection에서 Finite length axis로 설정하면, MTYPE_ABSOLUTE로 해야되고,
+            // Infinite length axis로 설정하면, MTYPE_R_SHORTEST 로 해야 에러가 안남.
             for (int i = 0; i < MotionData.Length; i++)
             {
-                MotionData[i].MoveType         = (short)CMotionAPI.ApiDefs.MTYPE_ABSOLUTE;
-                //MotionData[i].MoveType       = (short)CMotionAPI.ApiDefs.MTYPE_R_SHORTEST;
+                MotionData[i].MoveType = (short)CMotionAPI.ApiDefs.MTYPE_ABSOLUTE;
+                //MotionData[i].MoveType = (short)CMotionAPI.ApiDefs.MTYPE_R_SHORTEST;
                 MotionData[i].CoordinateSystem = (Int16)CMotionAPI.ApiDefs.WORK_SYSTEM;
                 MotionData[i].VelocityType     = (Int16)CMotionAPI.ApiDefs.VTYPE_UNIT_PAR;
                 MotionData[i].AccDecType       = (Int16)CMotionAPI.ApiDefs.ATYPE_TIME;
@@ -2011,9 +2067,19 @@ MP2101TM            SVC(built-in the board, with MECHATROLINK port 1)       1   
             }
 #endif
 
+            // 161123 시스템 초기에 잡아놓은 device handle을 사용하면 mp not device handle 에러 발생.
+            // 아무래도, tdevice를 생성하면서 사용하는것이 영향을 미치는 것 같아서. one axis device여도 tdevice를 만들어서 실행하니 에러 없어짐
+            // 0.2 allocate temp device
+            UInt32 tDevice = 0;
+            int length = 1;
+            bool[] useAxis = new bool[1] { true };
+            iResult = DeclareTempDevice(length, axisList, useAxis, ref tDevice);
+            if (iResult != SUCCESS) return iResult;
+
             // 1. call api
             // ymcMovePositioning 함수는 motion controller 가 부하를 담당하고, ymcMoveDriverPositioning는 driver가 부하를 담당
-            UInt32 rc = CMotionAPI.ymcMoveDriverPositioning(m_hDevice[deviceNo], MotionData, PositionData, 0, "Move", WaitForCompletion, 0);
+            //UInt32 rc = CMotionAPI.ymcMoveDriverPositioning(m_hDevice[deviceNo], MotionData, PositionData, 0, "Move", WaitForCompletion, 0);
+            UInt32 rc = CMotionAPI.ymcMoveDriverPositioning(tDevice, MotionData, PositionData, 0, "Move", WaitForCompletion, 0);
             if (rc != CMotionAPI.MP_SUCCESS)
             {
                 return GenerateErrorCode(ERR_YASKAWA_FAIL_SERVO_MOVE_DRIVING_POSITIONING, rc);
@@ -2032,6 +2098,7 @@ MP2101TM            SVC(built-in the board, with MECHATROLINK port 1)       1   
         /// <returns></returns>
         public int StartMoveToPos(int[] axisList, bool[] useAxis, double[] pos, CMotorSpeedData[] tempSpeed = null)
         {
+            OpenComPortOnly(); // for supporting multi thread
             return MoveToPos(axisList, useAxis, pos, tempSpeed, (ushort)CMotionAPI.ApiDefs.COMMAND_STARTED);
         }
 
@@ -2104,8 +2171,8 @@ MP2101TM            SVC(built-in the board, with MECHATROLINK port 1)       1   
                 GetDeviceWaitCompletion(servoNo, out tWait, waitMode);
 
                 MotionData[j] = tMotion[0];
-                MotionData[j].MoveType         = (short)CMotionAPI.ApiDefs.MTYPE_ABSOLUTE;
-                //MotionData[j].MoveType       = (short)CMotionAPI.ApiDefs.MTYPE_R_SHORTEST;
+                MotionData[j].MoveType = (short)CMotionAPI.ApiDefs.MTYPE_ABSOLUTE;
+                //MotionData[j].MoveType = (short)CMotionAPI.ApiDefs.MTYPE_R_SHORTEST;
                 MotionData[j].CoordinateSystem = (Int16)CMotionAPI.ApiDefs.WORK_SYSTEM;
                 MotionData[j].VelocityType     = (Int16)CMotionAPI.ApiDefs.VTYPE_UNIT_PAR;
                 MotionData[j].AccDecType       = (Int16)CMotionAPI.ApiDefs.ATYPE_TIME;
@@ -2130,26 +2197,25 @@ MP2101TM            SVC(built-in the board, with MECHATROLINK port 1)       1   
                 Sleep(SimulationSleepTime);
 
                 // 2. clear device
-                iResult = ClearDevice(tDevice);
-                if (iResult != SUCCESS) return iResult;
+                //iResult = ClearDevice(tDevice);
+                //if (iResult != SUCCESS) return iResult;
 
                 return SUCCESS;
             }
 #endif
-            //ClearDevice(tDevice);
-//             tDevice = m_hDevice[0];
+
             // 1. call api
             // ymcMovePositioning 함수는 motion controller 가 부하를 담당하고, ymcMoveDriverPositioning는 driver가 부하를 담당
             UInt32 rc = CMotionAPI.ymcMoveDriverPositioning(tDevice, MotionData, PositionData, 0, "Move", WaitForCompletion, 0);
             if (rc != CMotionAPI.MP_SUCCESS)
             {
-                CMotionAPI.ymcStopMotion(tDevice, MotionData, "STOP", WaitForCompletion, 0);
+                //CMotionAPI.ymcStopMotion(tDevice, MotionData, "STOP", WaitForCompletion, 0);
                 return GenerateErrorCode(ERR_YASKAWA_FAIL_SERVO_MOVE_DRIVING_POSITIONING, rc);
             }
 
             // 2. clear device
             //iResult = ClearDevice(tDevice);
-            if (iResult != SUCCESS) return iResult;
+            //if (iResult != SUCCESS) return iResult;
 
             return SUCCESS;
         }
@@ -2366,8 +2432,8 @@ MP2101TM            SVC(built-in the board, with MECHATROLINK port 1)       1   
             }
 
             // 2. clear device
-            iResult = ClearDevice(tDevice);
-            if (iResult != SUCCESS) return iResult;
+            //iResult = ClearDevice(tDevice);
+            //if (iResult != SUCCESS) return iResult;
 
             return SUCCESS;
         }

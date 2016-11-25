@@ -147,8 +147,8 @@ namespace LWDicer.UI
 
         private void FormKeyPad_KeyPress(object sender, KeyPressEventArgs e)
         {
-            int a = Convert.ToInt32(e.KeyChar);
-            Debug.WriteLine($"char : {e.KeyChar}, key : {a}");
+            //int a = Convert.ToInt32(e.KeyChar);
+            //Debug.WriteLine($"char : {e.KeyChar}, key : {a}");
             if (e.KeyChar >= 48 && e.KeyChar <= 57) // number
             {
                 if (m_strInput.Length > InputLimit) return;

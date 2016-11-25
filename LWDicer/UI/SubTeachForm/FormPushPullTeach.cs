@@ -429,48 +429,43 @@ namespace LWDicer.UI
             if (e.ColIndex == 3 || e.ColIndex == 4) return;
 
             string strCurrent = "", strModify = "";
-            double dPos = 0, dOffsetPos = 0, dTargetPos = 0;
+            double dFixedPos = 0, dOffsetPos = 0, dTargetPos = 0;
 
+            // get modify pos
+            strCurrent = GridCenterXTeachTable[2, e.ColIndex].Text;
+            if (!CMainFrame.GetKeyPad(strCurrent, out strModify)) return;
+            dTargetPos = Convert.ToDouble(strModify);
+
+            //
             if (Type_Fixed == true)
             {
-                strCurrent = GridCenterXTeachTable[3, e.ColIndex].Text;
-
-                if (!CMainFrame.GetKeyPad(strCurrent, out strModify))
-                {
-                    return;
-                }
-
-                dPos = Convert.ToDouble(strModify);
-
                 if (e.ColIndex == 1)
                 {
                     dOffsetPos = MO_Centering[0].Pos_Offset.Pos[m_nSelectedPos_Center].dX;
-
-                    dTargetPos = dPos + dOffsetPos;
-                }
-
-                if (e.ColIndex == 2)
+                } else
                 {
                     dOffsetPos = MO_Centering[1].Pos_Offset.Pos[m_nSelectedPos_Center].dX;
-
-                    dTargetPos = dPos + dOffsetPos;
                 }
 
+                dFixedPos = dTargetPos - dOffsetPos;
                 GridCenterXTeachTable[2, e.ColIndex].Text = String.Format("{0:0.0000}", dTargetPos);
-
-                GridCenterXTeachTable[3, e.ColIndex].Text = strModify;
+                GridCenterXTeachTable[3, e.ColIndex].Text = String.Format("{0:0.0000}", dFixedPos);
                 GridCenterXTeachTable[3, e.ColIndex].TextColor = Color.Blue;
             }
             else
             {
-                strCurrent = GridCenterXTeachTable[6, e.ColIndex].Text;
-
-                if (!CMainFrame.GetKeyPad(strCurrent, out strModify))
+                if (e.ColIndex == 1)
                 {
-                    return;
+                    dFixedPos = MO_Centering[0].Pos_Fixed.Pos[m_nSelectedPos_Center].dX;
+                }
+                else
+                {
+                    dFixedPos = MO_Centering[1].Pos_Fixed.Pos[m_nSelectedPos_Center].dX;
                 }
 
-                GridCenterXTeachTable[6, e.ColIndex].Text = strModify;
+                dOffsetPos = dTargetPos - dFixedPos;
+                GridCenterXTeachTable[2, e.ColIndex].Text = String.Format("{0:0.0000}", dTargetPos);
+                GridCenterXTeachTable[6, e.ColIndex].Text = String.Format("{0:0.0000}", dOffsetPos);
                 GridCenterXTeachTable[6, e.ColIndex].TextColor = Color.Blue;
             }
         }
@@ -480,35 +475,30 @@ namespace LWDicer.UI
             if (e.ColIndex == 2 || e.ColIndex == 3 || e.ColIndex == 4) return;
 
             string strCurrent = "", strModify = "";
-            double dPos = 0, dOffsetPos = 0, dTargetPos = 0;
+            double dFixedPos = 0, dOffsetPos = 0, dTargetPos = 0;
 
+            // get modify pos
+            strCurrent = GridPushPullYTeachTable[2, e.ColIndex].Text;
+            if (!CMainFrame.GetKeyPad(strCurrent, out strModify)) return;
+            dTargetPos = Convert.ToDouble(strModify);
+
+            //
+            dFixedPos = MO_PushPull.Pos_Fixed.Pos[m_nSelectedPos_PushPull].dY;
+            dOffsetPos = MO_PushPull.Pos_Offset.Pos[m_nSelectedPos_PushPull].dY;
             if (Type_Fixed == true)
             {
-                strCurrent = GridPushPullYTeachTable[3, e.ColIndex].Text;
-
-                if (!CMainFrame.GetKeyPad(strCurrent, out strModify))
-                {
-                    return;
-                }
-
-                dPos = Convert.ToDouble(strModify);
-                dOffsetPos = MO_PushPull.Pos_Offset.Pos[m_nSelectedPos_Center].dY;
-                dTargetPos = dPos + dOffsetPos;
+                dFixedPos = dTargetPos - dOffsetPos;
 
                 GridPushPullYTeachTable[2, e.ColIndex].Text = String.Format("{0:0.0000}", dTargetPos);
-                GridPushPullYTeachTable[3, e.ColIndex].Text = strModify;
+                GridPushPullYTeachTable[3, e.ColIndex].Text = String.Format("{0:0.0000}", dFixedPos);
                 GridPushPullYTeachTable[3, e.ColIndex].TextColor = Color.Blue;
             }
             else
             {
-                strCurrent = GridPushPullYTeachTable[6, e.ColIndex].Text;
+                dOffsetPos = dTargetPos - dFixedPos;
 
-                if (!CMainFrame.GetKeyPad(strCurrent, out strModify))
-                {
-                    return;
-                }
-
-                GridPushPullYTeachTable[6, e.ColIndex].Text = strModify;
+                GridPushPullYTeachTable[2, e.ColIndex].Text = String.Format("{0:0.0000}", dTargetPos);
+                GridPushPullYTeachTable[6, e.ColIndex].Text = String.Format("{0:0.0000}", dOffsetPos);
                 GridPushPullYTeachTable[6, e.ColIndex].TextColor = Color.Blue;
             }
         }
@@ -556,53 +546,81 @@ namespace LWDicer.UI
 
         private void BtnXChangeValue_Click(object sender, EventArgs e)
         {
-            string StrX1Current = "", StrX2Current = "";
-            double dX1Pos = 0, dOffsetX1Pos = 0, dTargetX1Pos = 0;
-            double dX2Pos = 0, dOffsetX2Pos = 0, dTargetX2Pos = 0;
+            string strCurrent;
+            double dTargetPos, dOffsetPos, dFixedPos;
 
             string strMsg = "Change target position to current position?";
             if (!CMainFrame.InquireMsg(strMsg)) return;
 
-            StrX1Current = GridCenterXTeachTable[7, 1].Text;
+            // x1
+            strCurrent = GridCenterXTeachTable[7, 1].Text;
+            dTargetPos = Convert.ToDouble(strCurrent);
+            dFixedPos = MO_Centering[0].Pos_Fixed.Pos[m_nSelectedPos_Center].dX;
+            dOffsetPos = MO_Centering[0].Pos_Offset.Pos[m_nSelectedPos_Center].dX;
 
-            dX1Pos = Convert.ToDouble(StrX1Current);
-            dOffsetX1Pos = MO_Centering[0].Pos_Offset.Pos[m_nSelectedPos_Center].dX;
-            dTargetX1Pos = dX1Pos + dOffsetX1Pos;
+            if(Type_Fixed == true)
+            {
+                dFixedPos = dTargetPos - dOffsetPos;
+                GridCenterXTeachTable[2, 1].Text = String.Format("{0:0.0000}", dTargetPos);
+                GridCenterXTeachTable[3, 1].Text = String.Format("{0:0.0000}", dFixedPos);
+                GridCenterXTeachTable[3, 1].TextColor = Color.Blue;
+            } else
+            {
+                dOffsetPos = dTargetPos - dFixedPos;
+                GridCenterXTeachTable[2, 1].Text = String.Format("{0:0.0000}", dTargetPos);
+                GridCenterXTeachTable[6, 1].Text = String.Format("{0:0.0000}", dOffsetPos);
+                GridCenterXTeachTable[6, 1].TextColor = Color.Blue;
+            }
 
-            GridCenterXTeachTable[2, 1].Text = String.Format("{0:0.0000}", dTargetX1Pos);
-            GridCenterXTeachTable[3, 1].Text = String.Format("{0:0.0000}", dX1Pos);
-            GridCenterXTeachTable[3, 1].TextColor = Color.Blue;
 
+            // x2
+            strCurrent = GridCenterXTeachTable[7, 2].Text;
+            dTargetPos = Convert.ToDouble(strCurrent);
+            dFixedPos = MO_Centering[1].Pos_Fixed.Pos[m_nSelectedPos_Center].dX;
+            dOffsetPos = MO_Centering[1].Pos_Offset.Pos[m_nSelectedPos_Center].dX;
 
-            StrX2Current = GridCenterXTeachTable[7, 2].Text;
-
-            dX2Pos = Convert.ToDouble(StrX2Current);
-            dOffsetX2Pos = MO_Centering[1].Pos_Offset.Pos[m_nSelectedPos_Center].dX;
-            dTargetX2Pos = dX2Pos + dOffsetX2Pos;
-
-            GridCenterXTeachTable[2, 2].Text = String.Format("{0:0.0000}", dTargetX2Pos);
-            GridCenterXTeachTable[3, 2].Text = String.Format("{0:0.0000}", dX2Pos);
-            GridCenterXTeachTable[3, 2].TextColor = Color.Blue;
+            if (Type_Fixed == true)
+            {
+                dFixedPos = dTargetPos - dOffsetPos;
+                GridCenterXTeachTable[2, 2].Text = String.Format("{0:0.0000}", dTargetPos);
+                GridCenterXTeachTable[3, 2].Text = String.Format("{0:0.0000}", dFixedPos);
+                GridCenterXTeachTable[3, 2].TextColor = Color.Blue;
+            }
+            else
+            {
+                dOffsetPos = dTargetPos - dFixedPos;
+                GridCenterXTeachTable[2, 2].Text = String.Format("{0:0.0000}", dTargetPos);
+                GridCenterXTeachTable[6, 2].Text = String.Format("{0:0.0000}", dOffsetPos);
+                GridCenterXTeachTable[6, 2].TextColor = Color.Blue;
+            }
         }
 
         private void BtnYChangeValue_Click(object sender, EventArgs e)
         {
-            string StrX1Current = "";
-            double dYPos = 0, dOffsetYPos = 0, dTargetYPos = 0;
+            string strCurrent;
+            double dTargetPos, dOffsetPos, dFixedPos;
 
             string strMsg = "Change target position to current position?";
             if (!CMainFrame.InquireMsg(strMsg)) return;
 
-            StrX1Current = GridPushPullYTeachTable[7, 1].Text;
+            strCurrent = GridPushPullYTeachTable[7, 1].Text;
+            dTargetPos = Convert.ToDouble(strCurrent);
+            dFixedPos = MO_PushPull.Pos_Fixed.Pos[m_nSelectedPos_PushPull].dY;
+            dOffsetPos = MO_PushPull.Pos_Offset.Pos[m_nSelectedPos_PushPull].dY;
 
-            dYPos = Convert.ToDouble(StrX1Current);
-            dOffsetYPos = MO_PushPull.Pos_Offset.Pos[m_nSelectedPos_Center].dY;
-
-            dTargetYPos = dYPos + dOffsetYPos;
-
-            GridPushPullYTeachTable[2, 1].Text = String.Format("{0:0.0000}", dTargetYPos);
-            GridPushPullYTeachTable[3, 1].Text = String.Format("{0:0.0000}", dYPos);
-            GridPushPullYTeachTable[3, 1].TextColor = Color.Blue;
+            if(Type_Fixed == true)
+            {
+                dFixedPos = dTargetPos - dOffsetPos;
+                GridPushPullYTeachTable[2, 1].Text = String.Format("{0:0.0000}", dTargetPos);
+                GridPushPullYTeachTable[3, 1].Text = String.Format("{0:0.0000}", dFixedPos);
+                GridPushPullYTeachTable[3, 1].TextColor = Color.Blue;
+            } else
+            {
+                dOffsetPos = dTargetPos - dFixedPos;
+                GridPushPullYTeachTable[2, 1].Text = String.Format("{0:0.0000}", dTargetPos);
+                GridPushPullYTeachTable[6, 1].Text = String.Format("{0:0.0000}", dOffsetPos);
+                GridPushPullYTeachTable[6, 1].TextColor = Color.Blue;
+            }
         }
 
         private void TimerUI_Tick(object sender, EventArgs e)
@@ -641,8 +659,37 @@ namespace LWDicer.UI
 
         private void BtnXTeachMove_Click(object sender, EventArgs e)
         {
+            // 0. ask move?
             string strMsg = "Move to selected position?";
             if (!CMainFrame.InquireMsg(strMsg)) return;
+
+            // 1. check safety
+            if (CMainFrame.LWDicer.IsSafeForAxisMove() == false) return;
+
+            // 2. ask transfer wafer
+            bool bDetected;
+            int iResult = CMainFrame.LWDicer.m_ctrlPushPull.IsObjectDetected(out bDetected);
+            if (iResult != SUCCESS)
+            {
+                CMainFrame.DisplayAlarm(iResult);
+                return;
+            }
+            if (bDetected)
+            {
+                // Check Spinner is ready
+            }
+
+            // 3. move
+            switch (m_nSelectedPos_Center)
+            {
+                case (int)ECenterPos.WAIT:
+                    iResult = CMainFrame.LWDicer.m_ctrlPushPull.MoveAllCenterUnitToWaitPos();
+                    break;
+                case (int)ECenterPos.CENTERING:
+                    iResult = CMainFrame.LWDicer.m_ctrlPushPull.MoveAllCenterUnitToCenteringPos();
+                    break;
+            }
+            CMainFrame.DisplayAlarm(iResult);
         }
 
         private void BtnYTeachMove_Click(object sender, EventArgs e)
@@ -655,7 +702,6 @@ namespace LWDicer.UI
             if (CMainFrame.LWDicer.IsSafeForAxisMove() == false) return;
 
             // 2. ask transfer wafer
-            // loader는 wafer 를 가지고 이동할지를 물어볼 필요가 없음.
             bool bDetected;
             int iResult = CMainFrame.LWDicer.m_ctrlPushPull.IsObjectDetected(out bDetected);
             if (iResult != SUCCESS)
@@ -671,8 +717,7 @@ namespace LWDicer.UI
             }
 
             // 3. move
-            int index = m_nSelectedPos_PushPull;
-            switch (index)
+            switch (m_nSelectedPos_PushPull)
             {
                 case (int)EPushPullPos.WAIT:
                     iResult = CMainFrame.LWDicer.m_ctrlPushPull.MoveToWaitPos(bTransfer);

@@ -856,11 +856,21 @@ namespace LWDicer.Layers
             // CENTERING1
             deviceNo = (int)EYMC_Device.CENTERING1;
             Array.Copy(initArray, axisList, initArray.Length);
-            axisList[DEF_T] = (int)EYMC_Axis.PUSHPULL_X1;
+            axisList[DEF_X] = (int)EYMC_Axis.PUSHPULL_X1;
             data = new CMultiAxesYMCData(deviceNo, axisList);
 
             m_SystemInfo.GetObjectInfo(253, out objInfo);
             m_AxCentering1 = new MMultiAxes_YMC(objInfo, refComp, data);
+
+            // CENTERING2
+            deviceNo = (int)EYMC_Device.CENTERING2;
+            Array.Copy(initArray, axisList, initArray.Length);
+            axisList[DEF_X] = (int)EYMC_Axis.PUSHPULL_X2;
+            data = new CMultiAxesYMCData(deviceNo, axisList);
+
+            m_SystemInfo.GetObjectInfo(254, out objInfo);
+            m_AxCentering2 = new MMultiAxes_YMC(objInfo, refComp, data);
+
 
             // S1_ROTATE
             deviceNo = (int)EYMC_Device.S1_ROTATE;
@@ -868,7 +878,7 @@ namespace LWDicer.Layers
             axisList[DEF_T] = (int)EYMC_Axis.S1_CHUCK_ROTATE_T;
             data = new CMultiAxesYMCData(deviceNo, axisList);
 
-            m_SystemInfo.GetObjectInfo(254, out objInfo);
+            m_SystemInfo.GetObjectInfo(255, out objInfo);
             m_AxRotate1 = new MMultiAxes_YMC(objInfo, refComp, data);
 
             // S1_CLEAN_NOZZLE
@@ -877,7 +887,7 @@ namespace LWDicer.Layers
             axisList[DEF_T] = (int)EYMC_Axis.S1_CLEAN_NOZZLE_T;
             data = new CMultiAxesYMCData(deviceNo, axisList);
 
-            m_SystemInfo.GetObjectInfo(255, out objInfo);
+            m_SystemInfo.GetObjectInfo(256, out objInfo);
             m_AxCleanNozzle1 = new MMultiAxes_YMC(objInfo, refComp, data);
 
             // S1_COAT_NOZZLE
@@ -886,17 +896,8 @@ namespace LWDicer.Layers
             axisList[DEF_T] = (int)EYMC_Axis.S1_COAT_NOZZLE_T;
             data = new CMultiAxesYMCData(deviceNo, axisList);
 
-            m_SystemInfo.GetObjectInfo(256, out objInfo);
-            m_AxCoatNozzle1 = new MMultiAxes_YMC(objInfo, refComp, data);
-
-            // CENTERING2
-            deviceNo = (int)EYMC_Device.CENTERING2;
-            Array.Copy(initArray, axisList, initArray.Length);
-            axisList[DEF_T] = (int)EYMC_Axis.PUSHPULL_X2;
-            data = new CMultiAxesYMCData(deviceNo, axisList);
-
             m_SystemInfo.GetObjectInfo(257, out objInfo);
-            m_AxCentering2 = new MMultiAxes_YMC(objInfo, refComp, data);
+            m_AxCoatNozzle1 = new MMultiAxes_YMC(objInfo, refComp, data);
 
             // S2_ROTATE
             deviceNo = (int)EYMC_Device.S2_ROTATE;

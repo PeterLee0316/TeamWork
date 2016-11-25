@@ -64,7 +64,7 @@ namespace LWDicer.UI
             GridCtrl.Properties.RowHeaders = true;
             GridCtrl.Properties.ColHeaders = true;
 
-            int nCol = 29;
+            int nCol = 30;
             int nRow = 19;
             //nRow = (int)EYMC_Axis.MAX;
 
@@ -124,6 +124,7 @@ namespace LWDicer.UI
             GridCtrl[0, 27].Text = "Home Fast Speed";
             GridCtrl[0, 28].Text = "Home Slow Speed";
             GridCtrl[0, 29].Text = "Home Offset";
+            GridCtrl[0, 30].Text = "Tolerance";
 
             for (int i = 0; i <  (int)EYMC_Axis.MAX; i++)
             {
@@ -210,6 +211,9 @@ namespace LWDicer.UI
                 GridCtrl[i + 1, 27].Text = String.Format("{0:0.000}", SystemData_Axis.MPMotionData[i].OriginData.FastSpeed);
                 GridCtrl[i + 1, 28].Text = String.Format("{0:0.000}", SystemData_Axis.MPMotionData[i].OriginData.SlowSpeed);
                 GridCtrl[i + 1, 29].Text = String.Format("{0:0.000}", SystemData_Axis.MPMotionData[i].OriginData.HomeOffset);
+
+                // Tolerance
+                GridCtrl[i + 1, 30].Text = String.Format("{0:0.000}", SystemData_Axis.MPMotionData[i].Tolerance);
             }
 
             // ACS
@@ -219,8 +223,6 @@ namespace LWDicer.UI
                 {
                     continue;
                 }
-                
-
                 // Speed
                 GridCtrl[gridIndex + (int)EYMC_Axis.MAX, 2].Text = String.Format("{0:0.000}", SystemData_Axis.ACSMotionData[i].Speed[(int)EMotorSpeed.MANUAL_SLOW].Vel);
                 GridCtrl[gridIndex + (int)EYMC_Axis.MAX, 3].Text = String.Format("{0:0.000}", SystemData_Axis.ACSMotionData[i].Speed[(int)EMotorSpeed.MANUAL_FAST].Vel);
@@ -254,6 +256,8 @@ namespace LWDicer.UI
                 GridCtrl[gridIndex + (int)EYMC_Axis.MAX, 23].Text = String.Format("{0:0.000}", SystemData_Axis.ACSMotionData[i].TimeLimit.tSleepAfterMove);
                 GridCtrl[gridIndex + (int)EYMC_Axis.MAX, 24].Text = String.Format("{0:0.000}", SystemData_Axis.ACSMotionData[i].TimeLimit.tOriginLimit);
 
+                // Tolerance
+                GridCtrl[gridIndex + (int)EYMC_Axis.MAX, 30].Text = String.Format("{0:0.000}", SystemData_Axis.ACSMotionData[i].Tolerance);
 
                 gridIndex++;
 
@@ -359,6 +363,9 @@ namespace LWDicer.UI
                 SystemData_Axis.MPMotionData[i].OriginData.FastSpeed = Convert.ToDouble(GridCtrl[i + 1, 27].Text);
                 SystemData_Axis.MPMotionData[i].OriginData.SlowSpeed = Convert.ToDouble(GridCtrl[i + 1, 28].Text);
                 SystemData_Axis.MPMotionData[i].OriginData.HomeOffset = Convert.ToDouble(GridCtrl[i + 1, 29].Text);
+
+                // Tolerance
+                SystemData_Axis.MPMotionData[i].Tolerance = Convert.ToDouble(GridCtrl[i + 1, 30].Text);
             }
 
             for (int i = 0; i < (int)EACS_Axis.MAX; i++)
@@ -400,6 +407,9 @@ namespace LWDicer.UI
                 SystemData_Axis.ACSMotionData[i].TimeLimit.tMoveLimit                       = Convert.ToDouble(GridCtrl[gridIndex + (int)EYMC_Axis.MAX, 22].Text);
                 SystemData_Axis.ACSMotionData[i].TimeLimit.tSleepAfterMove                  = Convert.ToDouble(GridCtrl[gridIndex + (int)EYMC_Axis.MAX, 23].Text);
                 SystemData_Axis.ACSMotionData[i].TimeLimit.tOriginLimit                     = Convert.ToDouble(GridCtrl[gridIndex + (int)EYMC_Axis.MAX, 24].Text);
+
+                // Tolerance
+                SystemData_Axis.ACSMotionData[i].Tolerance = Convert.ToDouble(GridCtrl[gridIndex + (int)EYMC_Axis.MAX, 30].Text);
 
                 gridIndex++;
             }

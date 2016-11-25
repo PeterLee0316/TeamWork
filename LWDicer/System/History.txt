@@ -463,6 +463,17 @@ CSpinStep class -> CCleaningStep / CCoatingStep class 로 분리
 7. updated : FormKeyBoard, FormKeyPad 계산 기능 추가 및 키보드 입력 기능 추가
 8. added : Start Ready, Step Stop 등의 input button 기다리는 동안 표시할 FormMsgStart class 추가
 
+// Version : 0.0.44
+// Grade : ★
+// Date : 161121~161125
+// Context
+1. updated : FormPushPullTeach class, position change & set current to pos method, move 관련 함수들 수정 완료 (ls..)
+             PushPull Centering unit x1,x2 모터 실제 구동 테스트 완료.
+2. updated : FormHandlerTeach class, moving methods of MCtrlHandler. UpperHandler / LowerHandler 모터 실제 구동 테스트 완료.
+3. updated : FormMotorData 에 Tolerance 추가함
+4. updated : MYaskawa class. motor feedback position 계산할 때, minus position도 정상적으로 업데이트 되도록 변경.
+             MoveType & Finite/Infinite motor 상관 관계 우선 정리해놓음.
+
 // ********************************************************************************
 // test를 위해서 임시로 결과값을 쓰는 코드들은 // for test 로 주석 달기 및 검색해서 사용하도록
 // ********************************************************************************

@@ -70,27 +70,12 @@
             this.BtnUpPos4 = new Syncfusion.Windows.Forms.ButtonAdv();
             this.BtnUpPos5 = new Syncfusion.Windows.Forms.ButtonAdv();
             this.BtnUpPos10 = new Syncfusion.Windows.Forms.ButtonAdv();
-            this.BtnUpPos9 = new Syncfusion.Windows.Forms.ButtonAdv();
-            this.BtnUpPos6 = new Syncfusion.Windows.Forms.ButtonAdv();
-            this.BtnUpPos8 = new Syncfusion.Windows.Forms.ButtonAdv();
-            this.BtnUpPos7 = new Syncfusion.Windows.Forms.ButtonAdv();
-            this.BtnUpPos15 = new Syncfusion.Windows.Forms.ButtonAdv();
-            this.BtnUpPos14 = new Syncfusion.Windows.Forms.ButtonAdv();
-            this.BtnUpPos11 = new Syncfusion.Windows.Forms.ButtonAdv();
-            this.BtnUpPos13 = new Syncfusion.Windows.Forms.ButtonAdv();
-            this.BtnUpPos12 = new Syncfusion.Windows.Forms.ButtonAdv();
             this.BtnLoPos4 = new Syncfusion.Windows.Forms.ButtonAdv();
             this.BtnLoPos5 = new Syncfusion.Windows.Forms.ButtonAdv();
             this.BtnLoPos10 = new Syncfusion.Windows.Forms.ButtonAdv();
-            this.BtnLoPos9 = new Syncfusion.Windows.Forms.ButtonAdv();
-            this.BtnLoPos7 = new Syncfusion.Windows.Forms.ButtonAdv();
-            this.BtnLoPos6 = new Syncfusion.Windows.Forms.ButtonAdv();
-            this.BtnLoPos8 = new Syncfusion.Windows.Forms.ButtonAdv();
-            this.BtnLoPos15 = new Syncfusion.Windows.Forms.ButtonAdv();
-            this.BtnLoPos14 = new Syncfusion.Windows.Forms.ButtonAdv();
-            this.BtnLoPos12 = new Syncfusion.Windows.Forms.ButtonAdv();
-            this.BtnLoPos11 = new Syncfusion.Windows.Forms.ButtonAdv();
-            this.BtnLoPos13 = new Syncfusion.Windows.Forms.ButtonAdv();
+            this.btnStopAction = new Syncfusion.Windows.Forms.ButtonAdv();
+            this.LabelTime_Value = new Syncfusion.Windows.Forms.Tools.GradientLabel();
+            this.LabelTime_Title = new Syncfusion.Windows.Forms.Tools.GradientLabel();
             ((System.ComponentModel.ISupportInitialize)(this.GridUpHandlerTeachTable)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.GridLoHandlerTeachTable)).BeginInit();
             this.SuspendLayout();
@@ -101,7 +86,7 @@
             this.BtnExit.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
             this.BtnExit.Image = ((System.Drawing.Image)(resources.GetObject("BtnExit.Image")));
             this.BtnExit.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.BtnExit.Location = new System.Drawing.Point(1124, 807);
+            this.BtnExit.Location = new System.Drawing.Point(1124, 731);
             this.BtnExit.Name = "BtnExit";
             this.BtnExit.Size = new System.Drawing.Size(124, 61);
             this.BtnExit.TabIndex = 755;
@@ -115,7 +100,7 @@
             this.BtnJog.Font = new System.Drawing.Font("굴림", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.BtnJog.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
             this.BtnJog.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.BtnJog.Location = new System.Drawing.Point(1124, 740);
+            this.BtnJog.Location = new System.Drawing.Point(1124, 664);
             this.BtnJog.Name = "BtnJog";
             this.BtnJog.Size = new System.Drawing.Size(124, 61);
             this.BtnJog.TabIndex = 757;
@@ -654,7 +639,8 @@
             this.BtnUpPos5.Size = new System.Drawing.Size(117, 64);
             this.BtnUpPos5.TabIndex = 933;
             this.BtnUpPos5.Tag = "4";
-            this.BtnUpPos5.Click += new System.EventHandler(this.BtnUpPos_Click);
+            this.BtnUpPos5.Text = "Z Up";
+            this.BtnUpPos5.Click += new System.EventHandler(this.BtnUpTeachMove_Click);
             // 
             // BtnUpPos10
             // 
@@ -670,153 +656,8 @@
             this.BtnUpPos10.Size = new System.Drawing.Size(117, 64);
             this.BtnUpPos10.TabIndex = 938;
             this.BtnUpPos10.Tag = "9";
-            this.BtnUpPos10.Click += new System.EventHandler(this.BtnUpPos_Click);
-            // 
-            // BtnUpPos9
-            // 
-            this.BtnUpPos9.BackColor = System.Drawing.Color.Tan;
-            this.BtnUpPos9.BorderStyleAdv = Syncfusion.Windows.Forms.ButtonAdvBorderStyle.Solid;
-            this.BtnUpPos9.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.BtnUpPos9.FlatAppearance.BorderSize = 5;
-            this.BtnUpPos9.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
-            this.BtnUpPos9.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
-            this.BtnUpPos9.Font = new System.Drawing.Font("굴림", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.BtnUpPos9.Location = new System.Drawing.Point(376, 545);
-            this.BtnUpPos9.Name = "BtnUpPos9";
-            this.BtnUpPos9.Size = new System.Drawing.Size(117, 64);
-            this.BtnUpPos9.TabIndex = 937;
-            this.BtnUpPos9.Tag = "8";
-            this.BtnUpPos9.Click += new System.EventHandler(this.BtnUpPos_Click);
-            // 
-            // BtnUpPos6
-            // 
-            this.BtnUpPos6.BackColor = System.Drawing.Color.Tan;
-            this.BtnUpPos6.BorderStyleAdv = Syncfusion.Windows.Forms.ButtonAdvBorderStyle.Solid;
-            this.BtnUpPos6.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.BtnUpPos6.FlatAppearance.BorderSize = 5;
-            this.BtnUpPos6.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
-            this.BtnUpPos6.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
-            this.BtnUpPos6.Font = new System.Drawing.Font("굴림", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.BtnUpPos6.ForeColor = System.Drawing.Color.Black;
-            this.BtnUpPos6.Location = new System.Drawing.Point(19, 545);
-            this.BtnUpPos6.Name = "BtnUpPos6";
-            this.BtnUpPos6.Size = new System.Drawing.Size(117, 64);
-            this.BtnUpPos6.TabIndex = 934;
-            this.BtnUpPos6.Tag = "5";
-            this.BtnUpPos6.Click += new System.EventHandler(this.BtnUpPos_Click);
-            // 
-            // BtnUpPos8
-            // 
-            this.BtnUpPos8.BackColor = System.Drawing.Color.Tan;
-            this.BtnUpPos8.BorderStyleAdv = Syncfusion.Windows.Forms.ButtonAdvBorderStyle.Solid;
-            this.BtnUpPos8.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.BtnUpPos8.FlatAppearance.BorderSize = 5;
-            this.BtnUpPos8.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
-            this.BtnUpPos8.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
-            this.BtnUpPos8.Font = new System.Drawing.Font("굴림", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.BtnUpPos8.Location = new System.Drawing.Point(257, 545);
-            this.BtnUpPos8.Name = "BtnUpPos8";
-            this.BtnUpPos8.Size = new System.Drawing.Size(117, 64);
-            this.BtnUpPos8.TabIndex = 935;
-            this.BtnUpPos8.Tag = "7";
-            this.BtnUpPos8.Click += new System.EventHandler(this.BtnUpPos_Click);
-            // 
-            // BtnUpPos7
-            // 
-            this.BtnUpPos7.BackColor = System.Drawing.Color.Tan;
-            this.BtnUpPos7.BorderStyleAdv = Syncfusion.Windows.Forms.ButtonAdvBorderStyle.Solid;
-            this.BtnUpPos7.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.BtnUpPos7.FlatAppearance.BorderSize = 5;
-            this.BtnUpPos7.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
-            this.BtnUpPos7.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
-            this.BtnUpPos7.Font = new System.Drawing.Font("굴림", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.BtnUpPos7.Location = new System.Drawing.Point(138, 545);
-            this.BtnUpPos7.Name = "BtnUpPos7";
-            this.BtnUpPos7.Size = new System.Drawing.Size(117, 64);
-            this.BtnUpPos7.TabIndex = 936;
-            this.BtnUpPos7.Tag = "6";
-            this.BtnUpPos7.Click += new System.EventHandler(this.BtnUpPos_Click);
-            // 
-            // BtnUpPos15
-            // 
-            this.BtnUpPos15.BackColor = System.Drawing.Color.Tan;
-            this.BtnUpPos15.BorderStyleAdv = Syncfusion.Windows.Forms.ButtonAdvBorderStyle.Solid;
-            this.BtnUpPos15.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.BtnUpPos15.FlatAppearance.BorderSize = 5;
-            this.BtnUpPos15.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
-            this.BtnUpPos15.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
-            this.BtnUpPos15.Font = new System.Drawing.Font("굴림", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.BtnUpPos15.Location = new System.Drawing.Point(495, 615);
-            this.BtnUpPos15.Name = "BtnUpPos15";
-            this.BtnUpPos15.Size = new System.Drawing.Size(117, 64);
-            this.BtnUpPos15.TabIndex = 943;
-            this.BtnUpPos15.Tag = "14";
-            this.BtnUpPos15.Click += new System.EventHandler(this.BtnUpPos_Click);
-            // 
-            // BtnUpPos14
-            // 
-            this.BtnUpPos14.BackColor = System.Drawing.Color.Tan;
-            this.BtnUpPos14.BorderStyleAdv = Syncfusion.Windows.Forms.ButtonAdvBorderStyle.Solid;
-            this.BtnUpPos14.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.BtnUpPos14.FlatAppearance.BorderSize = 5;
-            this.BtnUpPos14.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
-            this.BtnUpPos14.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
-            this.BtnUpPos14.Font = new System.Drawing.Font("굴림", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.BtnUpPos14.Location = new System.Drawing.Point(376, 615);
-            this.BtnUpPos14.Name = "BtnUpPos14";
-            this.BtnUpPos14.Size = new System.Drawing.Size(117, 64);
-            this.BtnUpPos14.TabIndex = 942;
-            this.BtnUpPos14.Tag = "13";
-            this.BtnUpPos14.Click += new System.EventHandler(this.BtnUpPos_Click);
-            // 
-            // BtnUpPos11
-            // 
-            this.BtnUpPos11.BackColor = System.Drawing.Color.Tan;
-            this.BtnUpPos11.BorderStyleAdv = Syncfusion.Windows.Forms.ButtonAdvBorderStyle.Solid;
-            this.BtnUpPos11.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.BtnUpPos11.FlatAppearance.BorderSize = 5;
-            this.BtnUpPos11.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
-            this.BtnUpPos11.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
-            this.BtnUpPos11.Font = new System.Drawing.Font("굴림", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.BtnUpPos11.ForeColor = System.Drawing.Color.Black;
-            this.BtnUpPos11.Location = new System.Drawing.Point(19, 615);
-            this.BtnUpPos11.Name = "BtnUpPos11";
-            this.BtnUpPos11.Size = new System.Drawing.Size(117, 64);
-            this.BtnUpPos11.TabIndex = 939;
-            this.BtnUpPos11.Tag = "10";
-            this.BtnUpPos11.Click += new System.EventHandler(this.BtnUpPos_Click);
-            // 
-            // BtnUpPos13
-            // 
-            this.BtnUpPos13.BackColor = System.Drawing.Color.Tan;
-            this.BtnUpPos13.BorderStyleAdv = Syncfusion.Windows.Forms.ButtonAdvBorderStyle.Solid;
-            this.BtnUpPos13.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.BtnUpPos13.FlatAppearance.BorderSize = 5;
-            this.BtnUpPos13.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
-            this.BtnUpPos13.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
-            this.BtnUpPos13.Font = new System.Drawing.Font("굴림", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.BtnUpPos13.Location = new System.Drawing.Point(257, 615);
-            this.BtnUpPos13.Name = "BtnUpPos13";
-            this.BtnUpPos13.Size = new System.Drawing.Size(117, 64);
-            this.BtnUpPos13.TabIndex = 940;
-            this.BtnUpPos13.Tag = "12";
-            this.BtnUpPos13.Click += new System.EventHandler(this.BtnUpPos_Click);
-            // 
-            // BtnUpPos12
-            // 
-            this.BtnUpPos12.BackColor = System.Drawing.Color.Tan;
-            this.BtnUpPos12.BorderStyleAdv = Syncfusion.Windows.Forms.ButtonAdvBorderStyle.Solid;
-            this.BtnUpPos12.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.BtnUpPos12.FlatAppearance.BorderSize = 5;
-            this.BtnUpPos12.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
-            this.BtnUpPos12.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
-            this.BtnUpPos12.Font = new System.Drawing.Font("굴림", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.BtnUpPos12.Location = new System.Drawing.Point(138, 615);
-            this.BtnUpPos12.Name = "BtnUpPos12";
-            this.BtnUpPos12.Size = new System.Drawing.Size(117, 64);
-            this.BtnUpPos12.TabIndex = 941;
-            this.BtnUpPos12.Tag = "11";
-            this.BtnUpPos12.Click += new System.EventHandler(this.BtnUpPos_Click);
+            this.BtnUpPos10.Text = "Z Down";
+            this.BtnUpPos10.Click += new System.EventHandler(this.BtnUpTeachMove_Click);
             // 
             // BtnLoPos4
             // 
@@ -848,7 +689,8 @@
             this.BtnLoPos5.Size = new System.Drawing.Size(117, 64);
             this.BtnLoPos5.TabIndex = 945;
             this.BtnLoPos5.Tag = "4";
-            this.BtnLoPos5.Click += new System.EventHandler(this.BtnLoPos_Click);
+            this.BtnLoPos5.Text = "Z Up";
+            this.BtnLoPos5.Click += new System.EventHandler(this.BtnLoTeachMove_Click);
             // 
             // BtnLoPos10
             // 
@@ -864,182 +706,70 @@
             this.BtnLoPos10.Size = new System.Drawing.Size(117, 64);
             this.BtnLoPos10.TabIndex = 950;
             this.BtnLoPos10.Tag = "9";
-            this.BtnLoPos10.Click += new System.EventHandler(this.BtnLoPos_Click);
+            this.BtnLoPos10.Text = "Z Down";
+            this.BtnLoPos10.Click += new System.EventHandler(this.BtnLoTeachMove_Click);
             // 
-            // BtnLoPos9
+            // btnStopAction
             // 
-            this.BtnLoPos9.BackColor = System.Drawing.Color.Tan;
-            this.BtnLoPos9.BorderStyleAdv = Syncfusion.Windows.Forms.ButtonAdvBorderStyle.Solid;
-            this.BtnLoPos9.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.BtnLoPos9.FlatAppearance.BorderSize = 5;
-            this.BtnLoPos9.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
-            this.BtnLoPos9.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
-            this.BtnLoPos9.Font = new System.Drawing.Font("굴림", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.BtnLoPos9.Location = new System.Drawing.Point(1001, 545);
-            this.BtnLoPos9.Name = "BtnLoPos9";
-            this.BtnLoPos9.Size = new System.Drawing.Size(117, 64);
-            this.BtnLoPos9.TabIndex = 949;
-            this.BtnLoPos9.Tag = "8";
-            this.BtnLoPos9.Click += new System.EventHandler(this.BtnLoPos_Click);
+            this.btnStopAction.AutoEllipsis = true;
+            this.btnStopAction.BackColor = System.Drawing.Color.Red;
+            this.btnStopAction.BorderStyleAdv = Syncfusion.Windows.Forms.ButtonAdvBorderStyle.Solid;
+            this.btnStopAction.FlatAppearance.BorderSize = 5;
+            this.btnStopAction.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.btnStopAction.ForeColor = System.Drawing.Color.Black;
+            this.btnStopAction.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnStopAction.Location = new System.Drawing.Point(839, 664);
+            this.btnStopAction.Name = "btnStopAction";
+            this.btnStopAction.Size = new System.Drawing.Size(130, 95);
+            this.btnStopAction.TabIndex = 964;
+            this.btnStopAction.Text = "Stop Action";
+            this.btnStopAction.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.btnStopAction.Click += new System.EventHandler(this.btnStopAction_Click);
             // 
-            // BtnLoPos7
+            // LabelTime_Value
             // 
-            this.BtnLoPos7.BackColor = System.Drawing.Color.Tan;
-            this.BtnLoPos7.BorderStyleAdv = Syncfusion.Windows.Forms.ButtonAdvBorderStyle.Solid;
-            this.BtnLoPos7.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.BtnLoPos7.FlatAppearance.BorderSize = 5;
-            this.BtnLoPos7.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
-            this.BtnLoPos7.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
-            this.BtnLoPos7.Font = new System.Drawing.Font("굴림", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.BtnLoPos7.Location = new System.Drawing.Point(763, 545);
-            this.BtnLoPos7.Name = "BtnLoPos7";
-            this.BtnLoPos7.Size = new System.Drawing.Size(117, 64);
-            this.BtnLoPos7.TabIndex = 948;
-            this.BtnLoPos7.Tag = "6";
-            this.BtnLoPos7.Click += new System.EventHandler(this.BtnLoPos_Click);
+            this.LabelTime_Value.BackgroundColor = new Syncfusion.Drawing.BrushInfo();
+            this.LabelTime_Value.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
+            | System.Windows.Forms.Border3DSide.Right) 
+            | System.Windows.Forms.Border3DSide.Bottom)));
+            this.LabelTime_Value.BorderStyle = System.Windows.Forms.Border3DStyle.Bump;
+            this.LabelTime_Value.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.LabelTime_Value.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.LabelTime_Value.Location = new System.Drawing.Point(971, 695);
+            this.LabelTime_Value.Name = "LabelTime_Value";
+            this.LabelTime_Value.Size = new System.Drawing.Size(130, 30);
+            this.LabelTime_Value.TabIndex = 966;
+            this.LabelTime_Value.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // BtnLoPos6
+            // LabelTime_Title
             // 
-            this.BtnLoPos6.BackColor = System.Drawing.Color.Tan;
-            this.BtnLoPos6.BorderStyleAdv = Syncfusion.Windows.Forms.ButtonAdvBorderStyle.Solid;
-            this.BtnLoPos6.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.BtnLoPos6.FlatAppearance.BorderSize = 5;
-            this.BtnLoPos6.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
-            this.BtnLoPos6.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
-            this.BtnLoPos6.Font = new System.Drawing.Font("굴림", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.BtnLoPos6.ForeColor = System.Drawing.Color.Black;
-            this.BtnLoPos6.Location = new System.Drawing.Point(644, 545);
-            this.BtnLoPos6.Name = "BtnLoPos6";
-            this.BtnLoPos6.Size = new System.Drawing.Size(117, 64);
-            this.BtnLoPos6.TabIndex = 946;
-            this.BtnLoPos6.Tag = "5";
-            this.BtnLoPos6.Click += new System.EventHandler(this.BtnLoPos_Click);
-            // 
-            // BtnLoPos8
-            // 
-            this.BtnLoPos8.BackColor = System.Drawing.Color.Tan;
-            this.BtnLoPos8.BorderStyleAdv = Syncfusion.Windows.Forms.ButtonAdvBorderStyle.Solid;
-            this.BtnLoPos8.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.BtnLoPos8.FlatAppearance.BorderSize = 5;
-            this.BtnLoPos8.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
-            this.BtnLoPos8.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
-            this.BtnLoPos8.Font = new System.Drawing.Font("굴림", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.BtnLoPos8.Location = new System.Drawing.Point(882, 545);
-            this.BtnLoPos8.Name = "BtnLoPos8";
-            this.BtnLoPos8.Size = new System.Drawing.Size(117, 64);
-            this.BtnLoPos8.TabIndex = 947;
-            this.BtnLoPos8.Tag = "7";
-            this.BtnLoPos8.Click += new System.EventHandler(this.BtnLoPos_Click);
-            // 
-            // BtnLoPos15
-            // 
-            this.BtnLoPos15.BackColor = System.Drawing.Color.Tan;
-            this.BtnLoPos15.BorderStyleAdv = Syncfusion.Windows.Forms.ButtonAdvBorderStyle.Solid;
-            this.BtnLoPos15.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.BtnLoPos15.FlatAppearance.BorderSize = 5;
-            this.BtnLoPos15.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
-            this.BtnLoPos15.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
-            this.BtnLoPos15.Font = new System.Drawing.Font("굴림", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.BtnLoPos15.Location = new System.Drawing.Point(1120, 615);
-            this.BtnLoPos15.Name = "BtnLoPos15";
-            this.BtnLoPos15.Size = new System.Drawing.Size(117, 64);
-            this.BtnLoPos15.TabIndex = 955;
-            this.BtnLoPos15.Tag = "14";
-            this.BtnLoPos15.Click += new System.EventHandler(this.BtnLoPos_Click);
-            // 
-            // BtnLoPos14
-            // 
-            this.BtnLoPos14.BackColor = System.Drawing.Color.Tan;
-            this.BtnLoPos14.BorderStyleAdv = Syncfusion.Windows.Forms.ButtonAdvBorderStyle.Solid;
-            this.BtnLoPos14.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.BtnLoPos14.FlatAppearance.BorderSize = 5;
-            this.BtnLoPos14.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
-            this.BtnLoPos14.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
-            this.BtnLoPos14.Font = new System.Drawing.Font("굴림", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.BtnLoPos14.Location = new System.Drawing.Point(1001, 615);
-            this.BtnLoPos14.Name = "BtnLoPos14";
-            this.BtnLoPos14.Size = new System.Drawing.Size(117, 64);
-            this.BtnLoPos14.TabIndex = 954;
-            this.BtnLoPos14.Tag = "13";
-            this.BtnLoPos14.Click += new System.EventHandler(this.BtnLoPos_Click);
-            // 
-            // BtnLoPos12
-            // 
-            this.BtnLoPos12.BackColor = System.Drawing.Color.Tan;
-            this.BtnLoPos12.BorderStyleAdv = Syncfusion.Windows.Forms.ButtonAdvBorderStyle.Solid;
-            this.BtnLoPos12.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.BtnLoPos12.FlatAppearance.BorderSize = 5;
-            this.BtnLoPos12.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
-            this.BtnLoPos12.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
-            this.BtnLoPos12.Font = new System.Drawing.Font("굴림", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.BtnLoPos12.Location = new System.Drawing.Point(763, 615);
-            this.BtnLoPos12.Name = "BtnLoPos12";
-            this.BtnLoPos12.Size = new System.Drawing.Size(117, 64);
-            this.BtnLoPos12.TabIndex = 953;
-            this.BtnLoPos12.Tag = "11";
-            this.BtnLoPos12.Click += new System.EventHandler(this.BtnLoPos_Click);
-            // 
-            // BtnLoPos11
-            // 
-            this.BtnLoPos11.BackColor = System.Drawing.Color.Tan;
-            this.BtnLoPos11.BorderStyleAdv = Syncfusion.Windows.Forms.ButtonAdvBorderStyle.Solid;
-            this.BtnLoPos11.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.BtnLoPos11.FlatAppearance.BorderSize = 5;
-            this.BtnLoPos11.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
-            this.BtnLoPos11.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
-            this.BtnLoPos11.Font = new System.Drawing.Font("굴림", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.BtnLoPos11.ForeColor = System.Drawing.Color.Black;
-            this.BtnLoPos11.Location = new System.Drawing.Point(644, 615);
-            this.BtnLoPos11.Name = "BtnLoPos11";
-            this.BtnLoPos11.Size = new System.Drawing.Size(117, 64);
-            this.BtnLoPos11.TabIndex = 951;
-            this.BtnLoPos11.Tag = "10";
-            this.BtnLoPos11.Click += new System.EventHandler(this.BtnLoPos_Click);
-            // 
-            // BtnLoPos13
-            // 
-            this.BtnLoPos13.BackColor = System.Drawing.Color.Tan;
-            this.BtnLoPos13.BorderStyleAdv = Syncfusion.Windows.Forms.ButtonAdvBorderStyle.Solid;
-            this.BtnLoPos13.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.BtnLoPos13.FlatAppearance.BorderSize = 5;
-            this.BtnLoPos13.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
-            this.BtnLoPos13.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
-            this.BtnLoPos13.Font = new System.Drawing.Font("굴림", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.BtnLoPos13.Location = new System.Drawing.Point(882, 615);
-            this.BtnLoPos13.Name = "BtnLoPos13";
-            this.BtnLoPos13.Size = new System.Drawing.Size(117, 64);
-            this.BtnLoPos13.TabIndex = 952;
-            this.BtnLoPos13.Tag = "12";
-            this.BtnLoPos13.Click += new System.EventHandler(this.BtnLoPos_Click);
+            this.LabelTime_Title.BackgroundColor = new Syncfusion.Drawing.BrushInfo(Syncfusion.Drawing.GradientStyle.ForwardDiagonal, System.Drawing.Color.Silver, System.Drawing.Color.Maroon);
+            this.LabelTime_Title.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
+            | System.Windows.Forms.Border3DSide.Right) 
+            | System.Windows.Forms.Border3DSide.Bottom)));
+            this.LabelTime_Title.BorderStyle = System.Windows.Forms.Border3DStyle.Bump;
+            this.LabelTime_Title.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.LabelTime_Title.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+            this.LabelTime_Title.Location = new System.Drawing.Point(971, 664);
+            this.LabelTime_Title.Name = "LabelTime_Title";
+            this.LabelTime_Title.Size = new System.Drawing.Size(130, 30);
+            this.LabelTime_Title.TabIndex = 965;
+            this.LabelTime_Title.Text = "수행 시간";
+            this.LabelTime_Title.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // FormHandlerTeach
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1260, 884);
+            this.ClientSize = new System.Drawing.Size(1260, 796);
             this.ControlBox = false;
-            this.Controls.Add(this.BtnLoPos15);
-            this.Controls.Add(this.BtnLoPos14);
-            this.Controls.Add(this.BtnLoPos12);
-            this.Controls.Add(this.BtnLoPos11);
-            this.Controls.Add(this.BtnLoPos13);
+            this.Controls.Add(this.btnStopAction);
+            this.Controls.Add(this.LabelTime_Value);
+            this.Controls.Add(this.LabelTime_Title);
             this.Controls.Add(this.BtnLoPos10);
-            this.Controls.Add(this.BtnLoPos9);
-            this.Controls.Add(this.BtnLoPos7);
-            this.Controls.Add(this.BtnLoPos6);
-            this.Controls.Add(this.BtnLoPos8);
             this.Controls.Add(this.BtnLoPos5);
             this.Controls.Add(this.BtnLoPos4);
-            this.Controls.Add(this.BtnUpPos15);
-            this.Controls.Add(this.BtnUpPos14);
-            this.Controls.Add(this.BtnUpPos11);
-            this.Controls.Add(this.BtnUpPos13);
-            this.Controls.Add(this.BtnUpPos12);
             this.Controls.Add(this.BtnUpPos10);
-            this.Controls.Add(this.BtnUpPos9);
-            this.Controls.Add(this.BtnUpPos6);
-            this.Controls.Add(this.BtnUpPos8);
-            this.Controls.Add(this.BtnUpPos7);
             this.Controls.Add(this.BtnUpPos5);
             this.Controls.Add(this.BtnUpPos4);
             this.Controls.Add(this.BtnUpperManualOP);
@@ -1132,26 +862,11 @@
         private Syncfusion.Windows.Forms.ButtonAdv BtnUpPos4;
         private Syncfusion.Windows.Forms.ButtonAdv BtnUpPos5;
         private Syncfusion.Windows.Forms.ButtonAdv BtnUpPos10;
-        private Syncfusion.Windows.Forms.ButtonAdv BtnUpPos9;
-        private Syncfusion.Windows.Forms.ButtonAdv BtnUpPos6;
-        private Syncfusion.Windows.Forms.ButtonAdv BtnUpPos8;
-        private Syncfusion.Windows.Forms.ButtonAdv BtnUpPos7;
-        private Syncfusion.Windows.Forms.ButtonAdv BtnUpPos15;
-        private Syncfusion.Windows.Forms.ButtonAdv BtnUpPos14;
-        private Syncfusion.Windows.Forms.ButtonAdv BtnUpPos11;
-        private Syncfusion.Windows.Forms.ButtonAdv BtnUpPos13;
-        private Syncfusion.Windows.Forms.ButtonAdv BtnUpPos12;
         private Syncfusion.Windows.Forms.ButtonAdv BtnLoPos4;
         private Syncfusion.Windows.Forms.ButtonAdv BtnLoPos5;
         private Syncfusion.Windows.Forms.ButtonAdv BtnLoPos10;
-        private Syncfusion.Windows.Forms.ButtonAdv BtnLoPos9;
-        private Syncfusion.Windows.Forms.ButtonAdv BtnLoPos7;
-        private Syncfusion.Windows.Forms.ButtonAdv BtnLoPos6;
-        private Syncfusion.Windows.Forms.ButtonAdv BtnLoPos8;
-        private Syncfusion.Windows.Forms.ButtonAdv BtnLoPos15;
-        private Syncfusion.Windows.Forms.ButtonAdv BtnLoPos14;
-        private Syncfusion.Windows.Forms.ButtonAdv BtnLoPos12;
-        private Syncfusion.Windows.Forms.ButtonAdv BtnLoPos11;
-        private Syncfusion.Windows.Forms.ButtonAdv BtnLoPos13;
+        private Syncfusion.Windows.Forms.ButtonAdv btnStopAction;
+        private Syncfusion.Windows.Forms.Tools.GradientLabel LabelTime_Value;
+        private Syncfusion.Windows.Forms.Tools.GradientLabel LabelTime_Title;
     }
 }
