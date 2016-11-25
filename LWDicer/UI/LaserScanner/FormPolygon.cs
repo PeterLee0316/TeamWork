@@ -812,9 +812,9 @@ namespace LWDicer.UI
                 m_strLastFile = fileData.Name;
                 m_strLastDir = fileData.DirectoryName;
                 if(fileData.Length < fileStreamSize)
-                    CMainFrame.LWDicer.m_MeScanner.SendBitmap(m_strLastFile);
+                    CMainFrame.LWDicer.m_MeScanner.SendBitmap(dlg.FileName);
                 else
-                    CMainFrame.LWDicer.m_MeScanner.SendBitmap(m_strLastFile,true);
+                    CMainFrame.LWDicer.m_MeScanner.SendBitmap(dlg.FileName, true);
             }            
         }
 
