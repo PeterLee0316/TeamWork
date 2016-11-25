@@ -189,7 +189,7 @@ namespace LWDicer.Layers
             bool[] bPartUse = new bool[DEF_MAX_COORDINATE];
             bool bPartMove;
 
-            m_RefComp.Motion.OpenComPortOnly();
+            //m_RefComp.Motion.OpenComPortOnly();
 
             if (iCoordID == DEF_ALL_COORDINATE) // 전체 축을 선택했을 경우엔 
             {

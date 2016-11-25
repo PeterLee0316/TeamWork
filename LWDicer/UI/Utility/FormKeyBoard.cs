@@ -73,8 +73,8 @@ namespace LWDicer.UI
 
         private void FormKeyBoard_KeyPress(object sender, KeyPressEventArgs e)
         {
-            int a = Convert.ToInt32(e.KeyChar);
-            Debug.WriteLine($"char : {e.KeyChar}, key : {a}");
+            //int a = Convert.ToInt32(e.KeyChar);
+            //Debug.WriteLine($"char : {e.KeyChar}, key : {a}");
             if ((e.KeyChar >= 48 && e.KeyChar <= 57) // number
                 || (e.KeyChar >= 97 && e.KeyChar <= 122) // lower char
                 || (e.KeyChar >= 65 && e.KeyChar <= 90) // upper char

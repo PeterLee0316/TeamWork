@@ -568,15 +568,11 @@ namespace LWDicer.Layers
                 // 나중에 작업
             }
 
-            // 1. move Z Axis to Safety Up. but when need to move z axis only, don't need to move z to safety pos
-            if (m_RefComp.AxHandler.HasAxis(DEF_Z) == true && m_Data.HandlerZoneCheck.UseSafetyMove[DEF_Z] == true)
+            // 1. move X, Y, T
+            if (bMoveFlag[DEF_X] == true || bMoveFlag[DEF_Y] == true || bMoveFlag[DEF_T] == true)
             {
-                if (bMoveFlag[DEF_X] == false && bMoveFlag[DEF_Y] == false && bMoveFlag[DEF_T] == false
-                && bMoveFlag[DEF_Z] == true)
-                {
-                    ;
-                }
-                else
+                // 1.1 xyt 이동할 경우엔, 무조건 z축을 안전위치로 먼저 이동
+                if (m_RefComp.AxHandler.HasAxis(DEF_Z) == true && m_Data.HandlerZoneCheck.UseSafetyMove[DEF_Z] == true)
                 {
                     bool bStatus;
                     iResult = IsHandlerAxisInSafetyZone(DEF_Z, out bStatus);
@@ -587,13 +583,9 @@ namespace LWDicer.Layers
                         if (iResult != SUCCESS) return iResult;
                     }
                 }
-            }
 
-            // 2. move X, Y, T
-            if (bMoveFlag[DEF_X] == true || bMoveFlag[DEF_Y] == true || bMoveFlag[DEF_T] == true)
-            {
                 // set priority
-                if(bUsePriority == true && movePriority != null)
+                if (bUsePriority == true && movePriority != null)
                 {
                     m_RefComp.AxHandler.SetAxesMovePriority(movePriority);
                 }
@@ -608,7 +600,7 @@ namespace LWDicer.Layers
                 }
             }
 
-            // 3. move Z Axis
+            // 2. move Z Axis
             if (m_RefComp.AxHandler.HasAxis(DEF_Z) == true)
             {
                 if (bMoveFlag[DEF_Z] == true)
@@ -697,8 +689,8 @@ namespace LWDicer.Layers
                 return iResult;
             }
 
-            str = $"success : move Handler to safety pos [axis={axis}";
-            WriteLog(str, ELogType.Debug, ELogWType.D_Normal);
+            //str = $"success : move Handler to safety pos [axis={axis}";
+            //WriteLog(str, ELogType.Debug, ELogWType.D_Normal);
 
             return SUCCESS;
         }
@@ -789,11 +781,15 @@ namespace LWDicer.Layers
             bResult = true;
             foreach(bool bTemp in bJudge)
             {
-                if (bTemp == false) bResult = false;
+                if (bTemp == false)
+                {
+                    bResult = false;
+                    break;
+                }
             }
 
             // skip error?
-            if(bSkipError == false && bResult == false)
+            if (bSkipError == false && bResult == false)
             {
                 string str = $"Handler의 현재 위치와 일치하는 Position Info를 찾을수 없습니다. Current Pos : {sPos.ToString()}";
                 WriteLog(str, ELogType.Debug, ELogWType.D_Error);
@@ -829,18 +825,21 @@ namespace LWDicer.Layers
             // 실시간으로 자기 위치를 체크
             if(bUpdatePos)
             {
+                AxHandlerInfo.PosInfo = posInfo;
                 for (int i = 0; i < (int)EHandlerPos.MAX; i++)
                 {
                     CompareHandlerPos(i, out bStatus, false, bCheck_ZAxis);
                     if (bStatus)
                     {
                         AxHandlerInfo.PosInfo = i;
+                        posInfo = i;
                         break;
                     }
                 }
+            } else
+            {
+                posInfo = AxHandlerInfo.PosInfo;
             }
-
-            posInfo = AxHandlerInfo.PosInfo;
             return SUCCESS;
         }
 
@@ -955,8 +954,8 @@ namespace LWDicer.Layers
         public int IsHandlerAxisInSafetyZone(int axis, out bool bStatus)
         {
 #if SIMULATION_TEST
-            bStatus = true;
-            return SUCCESS;
+            //bStatus = true;
+            //return SUCCESS;
 #endif
             bStatus = false;
             int curZone;

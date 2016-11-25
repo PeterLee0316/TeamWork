@@ -520,7 +520,7 @@ namespace LWDicer.Layers
                 }
             }
         }
-
+/*
         public class CProductData
         {
             public string Day_ModelName;
@@ -577,7 +577,7 @@ namespace LWDicer.Layers
             public double FixedX;             // 계산된 고정 좌표 X 값
             public double FixedY;             // 계산된 고정 좌표 Y 값
         }
-
+*/
         public class CPanelMarkPos
         {
             public bool UseUseFlag;

@@ -36,8 +36,8 @@ namespace LWDicer.UI
 {
     public partial class FormHandlerTeach : Form
     {
-        ButtonAdv[] TeachUpPos = new ButtonAdv[15];
-        ButtonAdv[] TeachLoPos = new ButtonAdv[15];
+        ButtonAdv[] TeachUpPos = new ButtonAdv[4];
+        ButtonAdv[] TeachLoPos = new ButtonAdv[4];
 
         private int m_nSelectedPos_UpperHandler = 0;
         private int m_nSelectedPos_LowerHandler = 0;
@@ -75,15 +75,10 @@ namespace LWDicer.UI
 
         private void ResouceMapping()
         {
-            TeachUpPos[0] = BtnUpPos1; TeachUpPos[1] = BtnUpPos2; TeachUpPos[2] = BtnUpPos3; TeachUpPos[3] = BtnUpPos4; TeachUpPos[4] = BtnUpPos5;
-            TeachUpPos[5] = BtnUpPos6; TeachUpPos[6] = BtnUpPos7; TeachUpPos[7] = BtnUpPos8; TeachUpPos[8] = BtnUpPos9; TeachUpPos[9] = BtnUpPos10;
-            TeachUpPos[10] = BtnUpPos11; TeachUpPos[11] = BtnUpPos12; TeachUpPos[12] = BtnUpPos13; TeachUpPos[13] = BtnUpPos14; TeachUpPos[14] = BtnUpPos15;
+            TeachUpPos[0] = BtnUpPos1; TeachUpPos[1] = BtnUpPos2; TeachUpPos[2] = BtnUpPos3; TeachUpPos[3] = BtnUpPos4; 
+            TeachLoPos[0] = BtnLoPos1; TeachLoPos[1] = BtnLoPos2; TeachLoPos[2] = BtnLoPos3; TeachLoPos[3] = BtnLoPos4; 
 
-            TeachLoPos[0] = BtnLoPos1; TeachLoPos[1] = BtnLoPos2; TeachLoPos[2] = BtnLoPos3; TeachLoPos[3] = BtnLoPos4; TeachLoPos[4] = BtnLoPos5;
-            TeachLoPos[5] = BtnLoPos6; TeachLoPos[6] = BtnLoPos7; TeachLoPos[7] = BtnLoPos8; TeachLoPos[8] = BtnLoPos9; TeachLoPos[9] = BtnLoPos10;
-            TeachLoPos[10] = BtnLoPos11; TeachLoPos[11] = BtnLoPos12; TeachLoPos[12] = BtnLoPos13; TeachLoPos[13] = BtnLoPos14; TeachLoPos[14] = BtnLoPos15;
-
-            for (int i = 0; i < 15; i++)
+            for (int i = 0; i < TeachUpPos.Length ; i++)
             {
                 TeachLoPos[i].Visible = false;
                 TeachUpPos[i].Visible = false;
@@ -337,7 +332,7 @@ namespace LWDicer.UI
 
             TeachUpPos[selectedPos].BackColor = Color.Tan;
 
-            m_nSelectedPos_LowerHandler = selectedPos;
+            m_nSelectedPos_UpperHandler = selectedPos;
 
             DisplayPos_UpperHandler();
         }
@@ -435,16 +430,16 @@ namespace LWDicer.UI
             // Current Position Display
             string strCurPos = string.Empty;
 
-            strCurPos = String.Format("{0:0.0000}", CMainFrame.LWDicer.m_YMC.ServoStatus[(int)EYMC_Axis.LOWER_HANDLER_X].EncoderPos);
+            strCurPos = String.Format("{0:0.0000}", CMainFrame.LWDicer.m_YMC.ServoStatus[(int)EYMC_Axis.UPPER_HANDLER_X].EncoderPos);
             GridUpHandlerTeachTable[7, 1].Text = strCurPos;
 
-            strCurPos = String.Format("{0:0.0000}", CMainFrame.LWDicer.m_YMC.ServoStatus[(int)EYMC_Axis.LOWER_HANDLER_Z].EncoderPos);
+            strCurPos = String.Format("{0:0.0000}", CMainFrame.LWDicer.m_YMC.ServoStatus[(int)EYMC_Axis.UPPER_HANDLER_Z].EncoderPos);
             GridUpHandlerTeachTable[7, 2].Text = strCurPos;
 
-            strCurPos = String.Format("{0:0.0000}", CMainFrame.LWDicer.m_YMC.ServoStatus[(int)EYMC_Axis.UPPER_HANDLER_X].EncoderPos);
+            strCurPos = String.Format("{0:0.0000}", CMainFrame.LWDicer.m_YMC.ServoStatus[(int)EYMC_Axis.LOWER_HANDLER_X].EncoderPos);
             GridLoHandlerTeachTable[7, 1].Text = strCurPos;
 
-            strCurPos = String.Format("{0:0.0000}", CMainFrame.LWDicer.m_YMC.ServoStatus[(int)EYMC_Axis.UPPER_HANDLER_Z].EncoderPos);
+            strCurPos = String.Format("{0:0.0000}", CMainFrame.LWDicer.m_YMC.ServoStatus[(int)EYMC_Axis.LOWER_HANDLER_Z].EncoderPos);
             GridLoHandlerTeachTable[7, 2].Text = strCurPos;
 
 
@@ -491,12 +486,10 @@ namespace LWDicer.UI
 
         private void BtnLoChangeValue_Click(object sender, EventArgs e)
         {
-            string strCurrent = "", strMsg = string.Empty;
-
-            strMsg = TeachLoPos[m_nSelectedPos_UpperHandler].Text + " 목표 위치를 현재 위치로 변경하시겠습니까?";
+            string strMsg = "Change target position to current position?";
             if (!CMainFrame.InquireMsg(strMsg)) return;
 
-            strCurrent = GridLoHandlerTeachTable[7, 1].Text;
+            string strCurrent = GridLoHandlerTeachTable[7, 1].Text;
             ChangeLoHandlerTargetPos(strCurrent, 1);
 
             strCurrent = GridLoHandlerTeachTable[7, 2].Text;
@@ -628,14 +621,181 @@ namespace LWDicer.UI
 
         private void BtnUpTeachMove_Click(object sender, EventArgs e)
         {
-            string strMsg = "Move to selected position?";
-            if (!CMainFrame.InquireMsg(strMsg)) return;
+            // check button
+            Button btn = sender as Button;
+            string unit = "UpperHandler_Z";
+            string cmd = btn.Tag?.ToString();
+
+            if(cmd != "4" && cmd != "9")
+            {
+                unit = "UpperHandler_X";
+                cmd = $"{m_nSelectedPos_UpperHandler}";
+            }
+            MoveHandlerToPos(unit, cmd);
         }
 
         private void BtnLoTeachMove_Click(object sender, EventArgs e)
         {
+            // check button
+            Button btn = sender as Button;
+            string unit = "LowerHandler_Z";
+            string cmd = btn.Tag?.ToString();
+
+            if (cmd != "4" && cmd != "9")
+            {
+                unit = "LowerHandler_X";
+                cmd = $"{m_nSelectedPos_LowerHandler}";
+            }
+            MoveHandlerToPos(unit, cmd);
+        }
+
+        private async void MoveHandlerToPos(string unit, string cmd)
+        {
+            // confirm
+            if (CMainFrame.LWDicer.IsSafeForAxisMove() == false) return;
             string strMsg = "Move to selected position?";
             if (!CMainFrame.InquireMsg(strMsg)) return;
+
+            // set btn enable
+            //btn.BackColor = CMainFrame.BtnBackColor_On;
+            SetButtonsEnable(false);
+
+            // do
+            int iResult = SUCCESS;
+            bool bStatus, bTransfer;
+            Task<int> task1 = Task<int>.Run(() => CMainFrame.LWDicer.EmptyMethod());
+            CMainFrame.StartTimer();
+
+            ///////////////////////////////////////////////////////////////////////////////
+            // UpperHandler
+            if (unit == "UpperHandler_X")
+            {
+                DEF_CtrlHandler.EHandlerIndex index = DEF_CtrlHandler.EHandlerIndex.LOAD_UPPER;
+                iResult = CMainFrame.LWDicer.m_ctrlHandler.IsObjectDetected(index, out bStatus);
+                if (iResult != SUCCESS) goto ERROR_OCCURED;
+                bTransfer = false;
+                if (bStatus)
+                {
+                    strMsg = "Wafer is detected. Take wafer to move?";
+                    if (CMainFrame.InquireMsg(strMsg)) bTransfer = true;
+                }
+
+                if (cmd == "0")
+                {
+                    task1 = Task<int>.Run(() => CMainFrame.LWDicer.m_ctrlHandler.MoveToWaitPos(index, bTransfer));
+                    iResult = await task1;
+                }
+                else if (cmd == "1")
+                {
+                    task1 = Task<int>.Run(() => CMainFrame.LWDicer.m_ctrlHandler.MoveToPushPullPos(index, bTransfer));
+                    iResult = await task1;
+                }
+                else if (cmd == "2")
+                {
+                    task1 = Task<int>.Run(() => CMainFrame.LWDicer.m_ctrlHandler.MoveToStagePos(index, bTransfer));
+                    iResult = await task1;
+                }
+            }
+            else if (unit == "UpperHandler_Z")
+            {
+                DEF_CtrlHandler.EHandlerIndex index = DEF_CtrlHandler.EHandlerIndex.LOAD_UPPER;
+                iResult = CMainFrame.LWDicer.m_ctrlHandler.IsObjectDetected(index, out bStatus);
+                if (iResult != SUCCESS) goto ERROR_OCCURED;
+                bTransfer = false;
+                if (bStatus)
+                {
+                    strMsg = "Wafer is detected. Take wafer to move?";
+                    if (CMainFrame.InquireMsg(strMsg)) bTransfer = true;
+                }
+
+                if (cmd == "4")
+                {
+                    task1 = Task<int>.Run(() => CMainFrame.LWDicer.m_ctrlHandler.MoveZToSafetyPos(index, bTransfer));
+                    iResult = await task1;
+                }
+                else if (cmd == "9")
+                {
+                    task1 = Task<int>.Run(() => CMainFrame.LWDicer.m_ctrlHandler.MoveZToLoadUnloadPos(index, bTransfer));
+                    iResult = await task1;
+                }
+            }
+            ///////////////////////////////////////////////////////////////////////////////
+            // LowerHandler
+            else if (unit == "LowerHandler_X")
+            {
+                DEF_CtrlHandler.EHandlerIndex index = DEF_CtrlHandler.EHandlerIndex.UNLOAD_LOWER;
+                iResult = CMainFrame.LWDicer.m_ctrlHandler.IsObjectDetected(index, out bStatus);
+                if (iResult != SUCCESS) goto ERROR_OCCURED;
+                bTransfer = false;
+                if (bStatus)
+                {
+                    strMsg = "Wafer is detected. Take wafer to move?";
+                    if (CMainFrame.InquireMsg(strMsg)) bTransfer = true;
+                }
+
+                if (cmd == "0")
+                {
+                    task1 = Task<int>.Run(() => CMainFrame.LWDicer.m_ctrlHandler.MoveToWaitPos(index, bTransfer));
+                    iResult = await task1;
+                }
+                else if (cmd == "1")
+                {
+                    task1 = Task<int>.Run(() => CMainFrame.LWDicer.m_ctrlHandler.MoveToPushPullPos(index, bTransfer));
+                    iResult = await task1;
+                }
+                else if (cmd == "2")
+                {
+                    task1 = Task<int>.Run(() => CMainFrame.LWDicer.m_ctrlHandler.MoveToStagePos(index, bTransfer));
+                    iResult = await task1;
+                }
+            }
+            else if (unit == "LowerHandler_Z")
+            {
+                DEF_CtrlHandler.EHandlerIndex index = DEF_CtrlHandler.EHandlerIndex.UNLOAD_LOWER;
+                iResult = CMainFrame.LWDicer.m_ctrlHandler.IsObjectDetected(index, out bStatus);
+                if (iResult != SUCCESS) goto ERROR_OCCURED;
+                bTransfer = false;
+                if (bStatus)
+                {
+                    strMsg = "Wafer is detected. Take wafer to move?";
+                    if (CMainFrame.InquireMsg(strMsg)) bTransfer = true;
+                }
+
+                if (cmd == "4")
+                {
+                    task1 = Task<int>.Run(() => CMainFrame.LWDicer.m_ctrlHandler.MoveZToSafetyPos(index, bTransfer));
+                    iResult = await task1;
+                }
+                else if (cmd == "9")
+                {
+                    task1 = Task<int>.Run(() => CMainFrame.LWDicer.m_ctrlHandler.MoveZToLoadUnloadPos(index, bTransfer));
+                    iResult = await task1;
+                }
+            }
+
+            ERROR_OCCURED:
+
+            LabelTime_Value.Text = CMainFrame.GetElapsedTIme_Text();
+
+            // set btn enable
+            //btn.BackColor = CMainFrame.BtnBackColor_Off;
+            SetButtonsEnable(true);
+
+            // display alarm
+            CMainFrame.DisplayAlarm(iResult);
+        }
+
+        private void SetButtonsEnable(bool bEnable)
+        {
+            CMainFrame.MainFrame.BottomScreen.EnableBottomPage(bEnable);
+
+            var btns = CMainFrame.MainFrame.GetAllControl(this, typeof(Syncfusion.Windows.Forms.ButtonAdv));
+            foreach (var btn in btns)
+            {
+                Syncfusion.Windows.Forms.ButtonAdv abtn = btn as Syncfusion.Windows.Forms.ButtonAdv;
+                abtn.Enabled = bEnable;
+            }
+            btnStopAction.Enabled = true;
         }
 
         private void BtnManualOP_Click(object sender, EventArgs e)
@@ -651,6 +811,11 @@ namespace LWDicer.UI
                 dlg.SetHandler(DEF_CtrlHandler.EHandlerIndex.UNLOAD_LOWER);
             }
             dlg.ShowDialog();
+        }
+
+        private void btnStopAction_Click(object sender, EventArgs e)
+        {
+            MYaskawa.IsCancelJob_byManual = true;
         }
     }
 }
