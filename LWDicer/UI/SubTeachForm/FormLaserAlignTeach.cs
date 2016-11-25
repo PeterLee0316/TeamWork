@@ -96,9 +96,7 @@ namespace LWDicer.UI
             lblMicroIndexAxisX.Text = string.Format("{0:F4}", m_SystemData_Align.MicroScreenWidth);
             lblMicroIndexAxisY.Text = string.Format("{0:F4}", m_SystemData_Align.MicroScreenHeight);
             lblMicroIndexAxisT.Text = string.Format("{0:F4}", m_SystemData_Align.MicroScreenRotate);
-
-            lblDieIndexAxisX.Text = string.Format("{0:F4}", m_SystemData_Align.DieIndexWidth);
-            lblDieIndexAxisY.Text = string.Format("{0:F4}", m_SystemData_Align.DieIndexHeight);
+            
             lblDieIndexAxisT.Text = string.Format("{0:F4}", m_SystemData_Align.DieIndexRotate);
 
             lblThetaAlignDistance.Text = string.Format("{0:F1}", m_SystemData_Align.AlignMarkWidthRatio);
@@ -170,11 +168,6 @@ namespace LWDicer.UI
             }
 
             Btn.Text = strModify;
-        }
-
-        private void groupBox1_Enter(object sender, EventArgs e)
-        {
-
         }
 
         private void btnChangeCam_Click(object sender, EventArgs e)
@@ -292,80 +285,16 @@ namespace LWDicer.UI
             CMainFrame.frmCamFocus.Show();
         }
 
-        private void pageThetaAlign_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void btnStageTurn_Click(object sender, EventArgs e)
-        {
-            CMainFrame.LWDicer.m_ctrlStage1.MoveToStageTurn();
-            CMainFrame.LWDicer.m_ctrlStage1.ThetaAlignStepInit();
-        }
-        private void btnStageReturn_Click(object sender, EventArgs e)
-        {
-            CMainFrame.LWDicer.m_ctrlStage1.MoveToStageReturn();
-            CMainFrame.LWDicer.m_ctrlStage1.ThetaAlignStepInit();
-        }
-
-        private void btnDieIndexSet1_Click(object sender, EventArgs e)
-        {
-            string strCurPos = string.Empty;
-
-            strCurPos = String.Format("{0:0.0000}", CMainFrame.LWDicer.m_ACS.ServoStatus[(int)EACS_Axis.STAGE1_Y].EncoderPos);
-            lblDieIndexSet1.Text = strCurPos;
-
-        }
-
-        private void btnDieIndexSet2_Click(object sender, EventArgs e)
-        {
-            string strCurPos = string.Empty;
-
-            strCurPos = String.Format("{0:0.0000}", CMainFrame.LWDicer.m_ACS.ServoStatus[(int)EACS_Axis.STAGE1_Y].EncoderPos);
-            lblDieIndexSet2.Text = strCurPos;
-
-        }
-        private void btnCalsDieIndexSize_Click(object sender, EventArgs e)
-        {
-            double dPos1, dPos2, dDieSize;
-            int iDieNum;
-
-            dPos1 = Convert.ToDouble(lblDieIndexSet1.Text);
-            dPos2 = Convert.ToDouble(lblDieIndexSet2.Text);
-            iDieNum = Convert.ToInt32(lblDieIndexNum.Text);
-
-            if (iDieNum < 0) return;
-
-            dDieSize = Math.Abs(dPos1 - dPos2) / iDieNum;
-
-            lblDieIndexCals.Text = String.Format("{0:0.0000}", dDieSize);
-        }
-
-        private void btnDieIndexDataSave_Click(object sender, EventArgs e)
-        {
-            m_SystemData_Align.DieIndexWidth  = Convert.ToDouble(lblDieIndexAxisX.Text);
-            m_SystemData_Align.DieIndexHeight = Convert.ToDouble(lblDieIndexAxisY.Text);
-
-            CMainFrame.LWDicer.SaveSystemData(null, null, null, null, m_SystemData_Align, null, null);
-        }
-
         private void btnThetaAlignDataLoad_Click(object sender, EventArgs e)
         {
             DisplayThetaAlignData();
         }
 
         private void DisplayThetaAlignData()
-        {
-            
-
+        {          
             CMainFrame.LWDicer.m_ctrlStage1.ThetaAlignStepInit();
         }
 
-        private void UpdateThetaAlignData()
-        {
-
-            CMainFrame.LWDicer.m_ctrlStage1.ThetaAlignStepInit();
-        }
 
         private void btnThetaAlignDataSave_Click(object sender, EventArgs e)
         {
@@ -425,7 +354,7 @@ namespace LWDicer.UI
         {
             int iResult = 0;
             CMainFrame.DataManager.ModelData.ProcData.ProcessStop = false;
-            var task = Task<int>.Run(() => CMainFrame.LWDicer.m_ctrlStage1.LaserProcessStep1());
+            var task = Task<int>.Run(() => CMainFrame.LWDicer.m_ctrlStage1.RunLaserProcess());
         }
 
         private void BtnJog_Click(object sender, EventArgs e)
@@ -468,6 +397,22 @@ namespace LWDicer.UI
         private void btnLaserProcessStop_Click(object sender, EventArgs e)
         {
             CMainFrame.DataManager.ModelData.ProcData.ProcessStop = true;
+
+            CMainFrame.LWDicer.m_ctrlStage1.IsCancelJob_byManual = true;
+        }
+
+        private void btnInpectCam_Click(object sender, EventArgs e)
+        {
+#if EQUIP_266_DEV
+            CMainFrame.LWDicer.m_Vision.DestroyLocalView(PRE__CAM);
+            CMainFrame.LWDicer.m_Vision.DestroyLocalView(FINE_CAM);
+            CMainFrame.LWDicer.m_Vision.InitialLocalView(INSP_CAM, picVision.Handle);
+            CMainFrame.LWDicer.m_Vision.LiveVideo(INSP_CAM);
+
+            CMainFrame.LWDicer.m_MeStage.MoveCameraToFocusPosInspect();
+
+            CMainFrame.LWDicer.m_Vision.ShowHairLine();
+#endif
         }
     }
 }

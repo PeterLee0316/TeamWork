@@ -785,6 +785,14 @@ CSpinStep class -> CCleaningStep / CCoatingStep class 로 분리
 1. Edge Align & Theta Align 정리
 2. Laser Align 초기 작업
 
+// Grade : ★★
+// Date : 2016-11/7~18
+// Context
+1. Laser Process Model Recipe 작업
+2. Laser Process 동작에서 Step Mark와 MOF 동작을 통합 조작하는 "RunLaserProcess"함수 제작
+3. Camera 및 Laser Align하는 UI 별도 생성
+
+
 
 
 

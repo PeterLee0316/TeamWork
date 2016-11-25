@@ -372,7 +372,7 @@ namespace LWDicer.Layers
             m_SystemInfo.GetObjectInfo(1, out objInfo);
             m_DataManager = new MDataManager(objInfo, dbInfo);
             dataManager = m_DataManager;
-            iResult = m_DataManager.Initialize();
+           iResult = m_DataManager.Initialize();
             CMainFrame.DisplayAlarmOnly(iResult);
 
             intro.SetStatus("Init Hardware Layer", 20);
@@ -1881,6 +1881,9 @@ namespace LWDicer.Layers
 
                 // Model Data에 있는 Vision Data를 적용한다.
                 data.Align = ObjectExtensions.Copy(modelData.AlignData);
+                
+                // Laser Process Data Copy
+                data.MarkingData = ObjectExtensions.Copy(modelData.LaserProcessData);
 
                 m_ctrlStage1.SetData(data);
             }

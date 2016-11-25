@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Collections.Generic;
 using System.Linq;
 using System.Drawing;
@@ -29,7 +30,13 @@ namespace LWDicer.Layers
         public const int ERR_CTRLSTAGE_CAM_CALS_CENTERMOVE_FAIL = 20;
         public const int ERR_CTRLSTAGE_MACRO_ALIGN_FAIL = 30;
         public const int ERR_CTRLSTAGE_CAM_HANDEL_FAIL = 40;
-        
+
+        // LASER PROCESS 관련 오류
+        public const int ERR_CTRLSTAGE_SCANNER_DATA_FILE_NONE = 100;
+        public const int ERR_CTRLSTAGE_SCANNER_DATA_SEND_FAIL = 101;
+
+        public const int ERR_CTRLSTAGE_CANCEL_RUN_JOB = 200;
+
         // SYSTEM 설정
         public const double CAM_POS_CALS_ROATE_ANGLE = 2.0;
         public const int MACRO_ALIGN_MODE = 0;
@@ -40,6 +47,9 @@ namespace LWDicer.Layers
         public const double MACRO_ANGLE_TOLERANCE = 0.001;
         public const double MICRO_POS_TOLERANCE = 0.001;
         public const double MICRO_ANGLE_TOLERANCE = 0.0001;
+
+
+        
 
         public enum EStatgeMode
         {
@@ -84,21 +94,15 @@ namespace LWDicer.Layers
             MAX,
         }
 
-        public class CCtrlAlignData
-        {
-            // Edge Align Teach Pos
-            public CPos_XYTZ[] EdgeTeachPos  = new CPos_XYTZ[(int)EEdgeAlignTeachPos.MAX];
-            // Theta Align Teach Pos
-            public CPos_XYTZ[] ThetaTeachPos = new CPos_XYTZ[(int)EThetaAlignPos.MAX];
-            // Vision Pattern Mark Data
-            public CSearchData[] VisionPattern = new CSearchData[(int)EVisionPattern.MAX];
+        public const int DEF_MAX_LASER_PROCESS_STEP = 200;
 
-            public CCtrlAlignData()
-            {
-                for (int i = 0; i < EdgeTeachPos.Length; i++) EdgeTeachPos[i] = new CPos_XYTZ();
-                for (int i = 0; i < ThetaTeachPos.Length; i++) ThetaTeachPos[i] = new CPos_XYTZ();
-                for (int i = 0; i < VisionPattern.Length; i++) VisionPattern[i] = new CSearchData();                
-            }
+        public enum ELaserOperation
+        {
+            NONE = 0,
+            STEP_MARK,
+            MARK_ON_FLY,
+            END,
+            MAX,
         }
 
         public class CCtrlStage1RefComp
@@ -116,13 +120,104 @@ namespace LWDicer.Layers
                 return $"CCtrlStage1RefComp : ";
             }
         }
-        
+
         public class CCtrlStage1Data
         {
             public CSystemData_Align Vision;
             public CSystemData_Light Light;
+            // Align Process Data
             public CCtrlAlignData Align;
+            // Laser Process Data
+            public CLaserProcessData MarkingData = new CLaserProcessData();
         }
+
+        public class CCtrlAlignData
+        {
+            // Edge Align Teach Pos
+            public CPos_XYTZ[] EdgeTeachPos  = new CPos_XYTZ[(int)EEdgeAlignTeachPos.MAX];
+            // Theta Align Teach Pos
+            public CPos_XYTZ[] ThetaTeachPos = new CPos_XYTZ[(int)EThetaAlignPos.MAX];
+            // Vision Pattern Mark Data
+            public CSearchData[] VisionPattern = new CSearchData[(int)EVisionPattern.MAX];
+
+            
+
+            public CCtrlAlignData()
+            {
+                for (int i = 0; i < EdgeTeachPos.Length; i++) EdgeTeachPos[i] = new CPos_XYTZ();
+                for (int i = 0; i < ThetaTeachPos.Length; i++) ThetaTeachPos[i] = new CPos_XYTZ();
+                for (int i = 0; i < VisionPattern.Length; i++) VisionPattern[i] = new CSearchData();                
+            }
+        }
+
+
+        /// <summary>
+        /// define operation step. 
+        /// operate when use == true && operation != no_use && optime > 0
+        /// </summary>
+        public class CLaserProcessStep
+        {
+            public bool Use;                      // 사용 여부
+            public ELaserOperation Operation;     // 동작의 종류 ex) Step & Go // MOF (Marking Of Flying)
+
+            public String ScannerJobFile;       // Scanner Jog File Path
+            public String ScannerBmpFile;       // Scanner Bmp File Path
+            public CPos_XYTZ MarkPos;           // Marking Position     
+
+            public CPos_XY MarkOffset;          // Mark Offset (Mark간의 간격)
+            public int MarkCount;               // Marking 반복 횟수 
+
+            public CPos_XY PatternOffset;       // Pattern (Mark 반복) Offset (Pattern간의 간격)
+            public int PatternCount;            // Patternh 반복 횟수            
+
+            public CLaserProcessStep()
+            {
+                Use = true;     // 기본적으로는 Use는 사용으로, Operation은 No_Use
+
+                Operation = ELaserOperation.NONE;
+                MarkPos = new CPos_XYTZ();
+                MarkOffset = new CPos_XY();
+                PatternOffset = new CPos_XY();
+
+                MarkCount = 1;
+                PatternCount = 1;
+
+                ScannerJobFile = "";
+                ScannerBmpFile = "";
+
+            }
+
+            public override string ToString()
+            {
+                return $"Operation : {Operation}";
+            }
+
+            public bool IsUseStep()
+            {
+                if (this.Use == false || this.Operation == ELaserOperation.NONE)
+                    return false;
+                return true;
+            }
+        }
+
+        public class CLaserProcessData
+        {
+            public String DefaultScannerConfigFile;
+
+            public CLaserProcessStep[] WorkSteps_General;    // custom washing steps
+            
+            public CLaserProcessData()
+            {
+                // work washing steps
+                WorkSteps_General = new CLaserProcessStep[DEF_MAX_LASER_PROCESS_STEP];
+
+                for (int i = 0; i < WorkSteps_General.Length; i++)
+                {
+                    WorkSteps_General[i] = new CLaserProcessStep();                    
+                }                  
+            }
+        }
+
     }
 
     public class MCtrlStage1 : MCtrlLayer
@@ -130,6 +225,9 @@ namespace LWDicer.Layers
         private CCtrlStage1RefComp m_RefComp;
         private CCtrlStage1Data m_Data;
         private int m_iCurrentCam = PRE__CAM;
+
+        public bool IsCancelJob_byManual = false;       // cancel coating/cleaning job by manual, return success
+        public bool IsCancelJob_byAuto = false;         // cancel coating/cleaning job by auto, return error
 
         private EStatgeMode eStageMode = EStatgeMode.RETURN;
         private EThetaAlignPos eThetaAlignStep = EThetaAlignPos.INIT;
@@ -139,6 +237,8 @@ namespace LWDicer.Layers
         private CPos_XYTZ[] StageRotatePos = new CPos_XYTZ[(int)ERotateCenterStep.MAX];
 
         private MTickTimer m_ProcsTimer = new MTickTimer();
+
+        private CLaserProcessStep CurStep_LaserProcess = new CLaserProcessStep(); // get current job step
 
         public MCtrlStage1(CObjectInfo objInfo, CCtrlStage1RefComp refComp, CCtrlStage1Data data)
             : base(objInfo)
@@ -244,278 +344,105 @@ namespace LWDicer.Layers
             return m_RefComp.Stage.GetStagePosInfo(out PosInfo);
         }
 
+        public int  GetStagePos(out CPos_XYTZ pPos)
+        {
+          return m_RefComp.Stage.GetStageCurPos(out pPos);
+        }
         #endregion
         
         // Laser 가공 Process
         #region Laser Process
-
-
-        public async void LaserProcessMof()
-        {
-            int iResult = SUCCESS;
-            var taskProcess = Task<int>.Run(() => LaserProcessMofRun());
-
-            iResult = await taskProcess;
-        }
-
-        public int LaserProcessMofRun()
-        {
-            return m_RefComp.Scanner.LaserProcess(EScannerMode.MOF);
-        }
-
-        public int LaserProcessStep1()
-        {
-            var originPos  = new CPos_XYTZ();
-            var originPos1 = new CPos_XYTZ();
-            var originPos2 = new CPos_XYTZ();
-            var stepPitch = new CPos_XYTZ();
-            var patternPitch = new CPos_XYTZ();
-            var patternMove = new CPos_XYTZ();
-            int nStepCount = 0, nPatternCount=0;
-
-            // Paterrn 1 Data 설정
-            nStepCount = CMainFrame.DataManager.ModelData.ProcData.ProcessCount1;
-            nPatternCount = CMainFrame.DataManager.ModelData.ProcData.PatternCount1;
-            stepPitch.dX = -(double)CMainFrame.DataManager.ModelData.ProcData.ProcessOffsetX1;
-            stepPitch.dY = -(double)CMainFrame.DataManager.ModelData.ProcData.ProcessOffsetY1;
-            patternPitch.dX = (double)CMainFrame.DataManager.ModelData.ProcData.PatternPitch1;
-            patternPitch.dY = (double)CMainFrame.DataManager.ModelData.ProcData.PatternOffset1;
-
-            // 현재 지령 위치 저장
-            m_RefComp.Stage.GetStageCurPos(out originPos);
-
-            // Pattern 위치로 Move
-            originPos1.dX = originPos.dX;
-            originPos1.dY = originPos.dY - (double)CMainFrame.DataManager.ModelData.ProcData.PatternOffset1;
-            originPos1.dT = originPos.dT;
-           // m_RefComp.Stage.MoveStagePos(originPos1);
-
-            // Pattern 1 Process ===================================================================
             
 
-            //// Bmp & Config.ini File Download
-            //m_RefComp.Scanner.SendConfig("T:\\SFA\\LWDicer\\ScannerData\\config_job1.ini");
-            //m_RefComp.Scanner.SendBitmap("T:\\SFA\\LWDicer\\ImageData\\image_job1.bmp");
-
-            // Marking Process (Step & Go)
-            for (int i = 0; i < nPatternCount; i++)
-            {
-                m_ProcsTimer.StartTimer();
-
-                for (int j = 0; j < nStepCount; j++)
-                {
-                    // Process Stop 확인
-                    if (CMainFrame.DataManager.ModelData.ProcData.ProcessStop) return SUCCESS;
-
-                    // Laser Process                    
-                    m_RefComp.Scanner.LaserProcess(EScannerMode.STILL);
-                                       
-                    // Step Move
-                    if (j >= (nStepCount - 1)) continue;
-                    MoveStageRelative(stepPitch, true);
-                }
-                // Pattern Move
-                patternMove.dX = originPos1.dX - patternPitch.dX * (i + 1);
-                patternMove.dY = originPos1.dY - patternPitch.dY * (i + 1);
-                patternMove.dT = originPos1.dT;
-
-                if (i >= (nPatternCount - 1)) continue;
-                m_RefComp.Stage.MoveStagePos(patternMove);
-
-                while (m_ProcsTimer.LessThan(CMainFrame.DataManager.ModelData.ProcData.ProcessInterval, ETimeType.SECOND))
-                {
-                    Sleep(100);
-                }
-                m_ProcsTimer.StopTimer();
-
-            }
-
-            // 초기 위치로 이동함
-            m_RefComp.Stage.MoveStagePos(originPos);
-
-            return SUCCESS;
-
-            // Pattern 위치로 Move
-            originPos2.dX = originPos.dX;
-            originPos2.dY = originPos.dY - (double)CMainFrame.DataManager.ModelData.ProcData.PatternOffset2;
-            m_RefComp.Stage.MoveStagePos(originPos2);
-
-
-            // Paterrn 1 Data 설정
-            nStepCount = CMainFrame.DataManager.ModelData.ProcData.ProcessCount2;
-            nPatternCount = CMainFrame.DataManager.ModelData.ProcData.PatternCount2;
-            stepPitch.dX = -(double)CMainFrame.DataManager.ModelData.ProcData.ProcessOffsetX2;
-            stepPitch.dY = -(double)CMainFrame.DataManager.ModelData.ProcData.ProcessOffsetY2;
-            patternPitch.dX = 0.0;
-            patternPitch.dY = (double)CMainFrame.DataManager.ModelData.ProcData.PatternPitch2;
-
-            // Pattern 2 Process ===================================================================
-
-            // Bmp & Config.ini File Download
-            //m_RefComp.Scanner.SendConfig("T:\\SFA\\LWDicer\\ScannerData\\config_job2.ini");
-            //m_RefComp.Scanner.SendBitmap("T:\\SFA\\LWDicer\\ImageData\\image_job2.bmp");
-
-            // Marking Process (Step & Go)
-            for (int i = 0; i < nPatternCount; i++)
-            {
-                m_ProcsTimer.StartTimer();
-
-                for (int j = 0; j < nStepCount; j++)
-                {
-                    // Laser Process
-                    m_RefComp.Scanner.LaserProcess(EScannerMode.STILL);
-
-                    // Step Move
-                    if (j >= (nStepCount - 1)) continue;
-                    MoveStageRelative(stepPitch, true);
-                }
-                // Pattern Move
-                patternMove.dX = originPos2.dX - patternPitch.dX * (i + 1);
-                patternMove.dY = originPos2.dY - patternPitch.dY * (i + 1);
-
-                if (i >= (nPatternCount - 1)) continue;
-                m_RefComp.Stage.MoveStagePos(patternMove);
-
-                while (m_ProcsTimer.LessThan(CMainFrame.DataManager.ModelData.ProcData.ProcessInterval, ETimeType.SECOND))
-                {
-                    Sleep(100);
-                }
-                m_ProcsTimer.StopTimer();
-            }
-
-            // 초기 위치로 이동함
-            m_RefComp.Stage.MoveStagePos(originPos);
-
-            return SUCCESS;
-        }
-
-        public async Task<int> LaserProcessStep2()
+        public int RunLaserProcess()
         {
-            // 비동기 방식으로 프로세스를 진행.
-           // var taskProcess = Task<int>.Run(() => LaserProcessOneByOne());
-            int iResult = await LaserProcessOneByOne();
-
-            return iResult;
-                        
-        }
-        private async Task<int> LaserProcessOneByOne()
-        {
-            var originPos = new CPos_XYTZ();
-            var originPos1 = new CPos_XYTZ();
-            var originPos2 = new CPos_XYTZ();
-            var stepPitch = new CPos_XYTZ();
+            bool bResult = false;
+            var markPitch = new CPos_XYTZ();
             var patternPitch = new CPos_XYTZ();
-            var patternMove = new CPos_XYTZ();
-            int nStepCount = 0, nPatternCount = 0;
 
-            nPatternCount = CMainFrame.DataManager.ModelData.ProcData.PatternCount1;
+            // Cancel Command Reset
+            IsCancelJob_byAuto = IsCancelJob_byManual = false;
 
-            // 현재 지령 위치 저장
-            m_RefComp.Stage.GetStageCmdPos(out originPos);
-
-            for (int i = 0; i < nPatternCount; i++)
+            // Config.ini File Download
+            if (File.Exists(m_Data.MarkingData.DefaultScannerConfigFile) == false)
+                return GenerateErrorCode(ERR_CTRLSTAGE_SCANNER_DATA_FILE_NONE);
+            bResult = m_RefComp.Scanner.SendConfig(m_Data.MarkingData.DefaultScannerConfigFile);
+            if (bResult == false) return GenerateErrorCode(ERR_CTRLSTAGE_SCANNER_DATA_SEND_FAIL);
+            
+            // 각 Step별 동작 프로세스 진행
+            for (int StepNum = 0; StepNum < DEF_MAX_LASER_PROCESS_STEP; StepNum++)
             {
-                // Process정지 수행
-                if (CMainFrame.DataManager.ModelData.ProcData.ProcessStop) goto ProcessStop;
+                // 현재 Step Process Data를 Copy함.
+                CurStep_LaserProcess = ObjectExtensions.Copy(m_Data.MarkingData.WorkSteps_General[StepNum]);
+                
+                // Operation Mode가 End이면 동작을 종료한다.
+                if (CurStep_LaserProcess.Operation == ELaserOperation.END) return SUCCESS;
 
-                // Paterrn 1 Data 설정
-                nStepCount = CMainFrame.DataManager.ModelData.ProcData.ProcessCount1;
-                stepPitch.dX = -(double)CMainFrame.DataManager.ModelData.ProcData.ProcessOffsetX1;
-                stepPitch.dY = -(double)CMainFrame.DataManager.ModelData.ProcData.ProcessOffsetY1;
-                patternPitch.dX = 0.0;
-                patternPitch.dY = (double)CMainFrame.DataManager.ModelData.ProcData.PatternPitch1;
+                // Operation Mode가 None이면 다음 동작으로 Pass한다.
+                if (CurStep_LaserProcess.Operation == ELaserOperation.NONE) continue;
+
+                // Job File Download
+                if (File.Exists(CurStep_LaserProcess.ScannerJobFile))
+                {
+                    bResult = m_RefComp.Scanner.SendConfig(CurStep_LaserProcess.ScannerJobFile);
+                    if (bResult == false) return GenerateErrorCode(ERR_CTRLSTAGE_SCANNER_DATA_SEND_FAIL);
+
+                    Sleep(2000);
+                }
+
+                // Bmp File Download
+                if (File.Exists(CurStep_LaserProcess.ScannerBmpFile))
+                {
+                    bResult = m_RefComp.Scanner.SendBitmap(CurStep_LaserProcess.ScannerBmpFile);
+                    if (bResult == false) return GenerateErrorCode(ERR_CTRLSTAGE_SCANNER_DATA_SEND_FAIL);
+
+                    Sleep(2000);
+                }
 
                 // Pattern 위치로 Move
-                originPos1.dX = originPos.dX;
-                originPos1.dY = originPos.dY - (double)CMainFrame.DataManager.ModelData.ProcData.PatternOffset1
-                                             - patternPitch.dY * (i);
-                m_RefComp.Stage.MoveStagePos(originPos1);
+                m_RefComp.Stage.MoveStagePos(CurStep_LaserProcess.MarkPos);
 
-                // Pattern 1 Process ===================================================================
-                m_ProcsTimer.StartTimer();
+                markPitch.dX = -CurStep_LaserProcess.MarkOffset.dX;
+                markPitch.dY = CurStep_LaserProcess.MarkOffset.dY;                
 
-                // Bmp & Config.ini File Download
-                m_RefComp.Scanner.SendConfig("T:\\SFA\\LWDicer\\ScannerData\\config_job1.ini");
-                m_RefComp.Scanner.SendBitmap("T:\\SFA\\LWDicer\\ImageData\\image_job1.bmp");
-                
-                for (int j = 0; j < nStepCount; j++)
+                for (int patternNum=0; patternNum < CurStep_LaserProcess.PatternCount; patternNum++)
                 {
-                    // Process정지 수행
-                    if (CMainFrame.DataManager.ModelData.ProcData.ProcessStop) goto ProcessStop;
+                    for (int markNum = 0; markNum < CurStep_LaserProcess.MarkCount; markNum++)
+                    {
+                        // 긴급 정지 여부를 확인한다.
+                        //if (CurStep_LaserProcess.Use == true) return SUCCESS;
+                        if (CMainFrame.DataManager.ModelData.ProcData.ProcessStop) return SUCCESS;
 
-                    // Laser Process
-                    m_RefComp.Scanner.LaserProcess(EScannerMode.STILL);
+                        if (IsCancelJob_byManual) return SUCCESS;
+                        if (IsCancelJob_byAuto) return GenerateErrorCode(ERR_CTRLSTAGE_CANCEL_RUN_JOB);
 
-                    // Step Move
-                    if (j >= (nStepCount - 1)) continue;
-                    MoveStageRelative(stepPitch, true);
-                }
+                        // Laser Process (Step & MOF 동작 2가지 중 한개 실행)
+                        if (CurStep_LaserProcess.Operation == ELaserOperation.STEP_MARK)
+                            m_RefComp.Scanner.LaserProcess(EScannerMode.STEP);
+                        if (CurStep_LaserProcess.Operation == ELaserOperation.MARK_ON_FLY)
+                            m_RefComp.Scanner.LaserProcess(EScannerMode.MOF);
 
-                // Process정지 수행
-                if (CMainFrame.DataManager.ModelData.ProcData.ProcessStop) goto ProcessStop;
+                        // pitch 이동함 (Stage는 역방향으로 이동 --> Stage 이동 방향에 따라 다름)
+                        //  Mark의 개수가 1 보다 클 경우 Pitch 이동함.
+                        //  마지작 Mark는 Picth 이동 하지 않는다
+                        if (CurStep_LaserProcess.MarkCount > 1 && markNum < CurStep_LaserProcess.MarkCount-1)
+                            MoveStageRelative(markPitch, false);
 
-                // 2nd Pattern Move
-                originPos2.dX = originPos.dX;
-                originPos2.dY = originPos.dY - (double)CMainFrame.DataManager.ModelData.ProcData.PatternOffset2
-                                              - patternPitch.dY * (i); 
-                m_RefComp.Stage.MoveStagePos(originPos2);
+                    }
 
+                    // Pattern의 Pitch 이동 값을 계산한다.
+                    patternPitch.dX = CurStep_LaserProcess.MarkPos.dX + CurStep_LaserProcess.PatternOffset.dX * (patternNum + 1);
+                    patternPitch.dY = CurStep_LaserProcess.MarkPos.dY - CurStep_LaserProcess.PatternOffset.dY * (patternNum + 1);
+                    patternPitch.dT = CurStep_LaserProcess.MarkPos.dT;
 
-                // Paterrn 1 Data 설정
-                nStepCount = CMainFrame.DataManager.ModelData.ProcData.ProcessCount2;
-                nPatternCount = CMainFrame.DataManager.ModelData.ProcData.PatternCount2;
-                stepPitch.dX = -(double)CMainFrame.DataManager.ModelData.ProcData.ProcessOffsetX2;
-                stepPitch.dY = -(double)CMainFrame.DataManager.ModelData.ProcData.ProcessOffsetY2;
-                patternPitch.dX = 0.0;
-                patternPitch.dY = (double)CMainFrame.DataManager.ModelData.ProcData.PatternPitch2;
+                    // pitch 이동함 (절대 위치로 이동함.)
+                    //  Pattern의 개수가 1 보다 클 경우 Pitch 이동함.
+                    if (CurStep_LaserProcess.PatternCount > 1 && patternNum < CurStep_LaserProcess.PatternCount - 1)
+                        m_RefComp.Stage.MoveStagePos(patternPitch);
 
-                // Pattern 2 Process ===================================================================
-
-                // Bmp & Config.ini File Download
-                m_RefComp.Scanner.SendConfig("T:\\SFA\\LWDicer\\ScannerData\\config_job2.ini");
-                m_RefComp.Scanner.SendBitmap("T:\\SFA\\LWDicer\\ImageData\\image_job2.bmp");
-
-                for (int j = 0; j < nStepCount; j++)
-                {
-                    // Process정지 수행
-                    if (CMainFrame.DataManager.ModelData.ProcData.ProcessStop) goto ProcessStop;
-
-                    // Laser Process
-                    m_RefComp.Scanner.LaserProcess(EScannerMode.STILL);
-
-                    // Step Move
-                    if (j >= (nStepCount - 1)) continue;
-                    MoveStageRelative(stepPitch, true);
-                }
-
-                while(m_ProcsTimer.LessThan(CMainFrame.DataManager.ModelData.ProcData.ProcessInterval,ETimeType.SECOND))
-                {
-                    // Process정지 수행
-                    if (CMainFrame.DataManager.ModelData.ProcData.ProcessStop) goto ProcessStop;
-
-                    //Sleep(100);
-                    await Task.Delay(100);                   
-                }
-
-                m_ProcsTimer.StopTimer();
-
+                }  
             }
-
-            // 초기 위치로 이동함
-            m_RefComp.Stage.MoveStagePos(originPos);
-            CMainFrame.DataManager.ModelData.ProcData.ProcessStop = false; ;
-
-            return SUCCESS;
-
-
-            ProcessStop:
-            // 초기 위치로 이동함
-            m_RefComp.Stage.MoveStagePos(originPos);
-            CMainFrame.DataManager.ModelData.ProcData.ProcessStop = false; 
-            m_ProcsTimer.StopTimer();
-
-            return SUCCESS;
-
+            return SUCCESS;            
         }
 
         #endregion
@@ -560,14 +487,19 @@ namespace LWDicer.Layers
         }
 
         public int MoveStageRelative(CPos_XYTZ sTargetPos, bool bDir = true)
-        {            
+        {
+            CPos_XYTZ targetPos = new CPos_XYTZ();
+
+            targetPos = sTargetPos.Copy();
+
             if (bDir==false)
-            { 
-                sTargetPos.dX = -sTargetPos.dX;
-                sTargetPos.dY = -sTargetPos.dY;
-                sTargetPos.dT = -sTargetPos.dT;
+            {
+                targetPos.dX = -targetPos.dX;
+                targetPos.dY = -targetPos.dY;
+                targetPos.dT = -targetPos.dT;
             }
-            return m_RefComp.Stage.MoveStageRelativeXYT(sTargetPos);
+
+            return m_RefComp.Stage.MoveStageRelativeXYT(targetPos);
         }
         public int MoveStageRelativeX(double sPos, bool bDir = true)
         {

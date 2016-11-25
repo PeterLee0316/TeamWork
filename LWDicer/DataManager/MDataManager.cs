@@ -725,20 +725,17 @@ namespace LWDicer.Layers
             ///////////////////////////////////////////////////////////
             // Align Data
             public CCtrlAlignData AlignData = new CCtrlAlignData();
-
-            // Vision Data (Pattern)
-            //public CSearchData MacroPatternA = new CSearchData();
-            //public CSearchData MacroPatternB = new CSearchData();
-            //public CSearchData MicroPatternA = new CSearchData();
-            //public CSearchData MicroPatternB = new CSearchData();
+            
 
             ///////////////////////////////////////////////////////////
             // Scanner Parameter
             public CSystemData_Scanner ScanData = new CSystemData_Scanner();
 
             // Scan Process 
-            public CProcessData ProcData = new CProcessData();
+            public CLaserProcessData LaserProcessData = new CLaserProcessData();
 
+            // Wafer 관련 Map Data
+            public CProcessData ProcData = new CProcessData();
 
             // Function Parameter
 
@@ -799,19 +796,13 @@ namespace LWDicer.Layers
             public int ProcessLineNum;
 
             // Stemco Process
-            public float ProcessOffsetX1;
-            public float ProcessOffsetY1;
-            public int   ProcessCount1;
-            public float ProcessOffsetX2;
-            public float ProcessOffsetY2;
-            public int   ProcessCount2;
-
-            public float PatternPitch1;
-            public int   PatternCount1;
-            public float PatternPitch2;
-            public int   PatternCount2;
-            public float PatternOffset1;
-            public float PatternOffset2;
+            public float PatternOffsetX;
+            public float PatternOffsetY;
+            public int   PatternCount;
+            
+            public float GroupOffsetY;
+            public float GroupOffsetX;
+            public int   GroupCount;            
 
             public int ProcessInterval;
 

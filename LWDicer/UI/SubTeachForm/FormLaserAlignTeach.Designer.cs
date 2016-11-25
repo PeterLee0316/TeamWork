@@ -77,24 +77,6 @@
             this.btnStageTurnPosA = new System.Windows.Forms.Button();
             this.btnThetaAlignDataLoad = new System.Windows.Forms.Button();
             this.btnThetaAlignDataSave = new System.Windows.Forms.Button();
-            this.pageDieIndex = new Syncfusion.Windows.Forms.Tools.TabPageAdv();
-            this.lblDieIndexCals = new Syncfusion.Windows.Forms.Tools.GradientLabel();
-            this.btnCalsDieIndexSize = new System.Windows.Forms.Button();
-            this.lblDieIndexNum = new Syncfusion.Windows.Forms.Tools.GradientLabel();
-            this.lblDieIndexSet2 = new Syncfusion.Windows.Forms.Tools.GradientLabel();
-            this.lblDieIndexSet1 = new Syncfusion.Windows.Forms.Tools.GradientLabel();
-            this.button2 = new System.Windows.Forms.Button();
-            this.btnDieIndexSet2 = new System.Windows.Forms.Button();
-            this.btnDieIndexSet1 = new System.Windows.Forms.Button();
-            this.btnDieIndexSelect = new System.Windows.Forms.Label();
-            this.btnDieIndexDataSave = new System.Windows.Forms.Button();
-            this.label6 = new System.Windows.Forms.Label();
-            this.gradientLabel26 = new Syncfusion.Windows.Forms.Tools.GradientLabel();
-            this.gradientLabel27 = new Syncfusion.Windows.Forms.Tools.GradientLabel();
-            this.lblDieIndexAxisY = new Syncfusion.Windows.Forms.Tools.GradientLabel();
-            this.gradientLabel29 = new Syncfusion.Windows.Forms.Tools.GradientLabel();
-            this.gradientLabel30 = new Syncfusion.Windows.Forms.Tools.GradientLabel();
-            this.lblDieIndexAxisX = new Syncfusion.Windows.Forms.Tools.GradientLabel();
             this.pageParameter = new Syncfusion.Windows.Forms.Tools.TabPageAdv();
             this.label5 = new System.Windows.Forms.Label();
             this.gradientLabel4 = new Syncfusion.Windows.Forms.Tools.GradientLabel();
@@ -132,15 +114,13 @@
             this.gradientLabel37 = new Syncfusion.Windows.Forms.Tools.GradientLabel();
             this.gradientLabel20 = new Syncfusion.Windows.Forms.Tools.GradientLabel();
             this.lblCamOffSetAxisX = new Syncfusion.Windows.Forms.Tools.GradientLabel();
-            this.btnStageReturn = new System.Windows.Forms.Button();
-            this.btnStageTurn = new System.Windows.Forms.Button();
             this.BtnExit = new System.Windows.Forms.Button();
+            this.btnInpectCam = new System.Windows.Forms.Button();
             this.groupBox4.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.tabThetaAlign)).BeginInit();
             this.tabThetaAlign.SuspendLayout();
             this.pageThetaAlign.SuspendLayout();
-            this.pageDieIndex.SuspendLayout();
             this.pageParameter.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -456,7 +436,6 @@
             // 
             this.tabThetaAlign.ActiveTabFont = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Bold);
             this.tabThetaAlign.Controls.Add(this.pageThetaAlign);
-            this.tabThetaAlign.Controls.Add(this.pageDieIndex);
             this.tabThetaAlign.Controls.Add(this.pageParameter);
             this.tabThetaAlign.Font = new System.Drawing.Font("굴림", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.tabThetaAlign.Location = new System.Drawing.Point(809, 127);
@@ -498,7 +477,6 @@
             this.pageThetaAlign.TabIndex = 1;
             this.pageThetaAlign.Text = "ThetaAlign";
             this.pageThetaAlign.ThemesEnabled = false;
-            this.pageThetaAlign.Click += new System.EventHandler(this.pageThetaAlign_Click);
             // 
             // btnLaserProcessStop
             // 
@@ -803,266 +781,6 @@
             this.btnThetaAlignDataSave.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.btnThetaAlignDataSave.UseVisualStyleBackColor = true;
             this.btnThetaAlignDataSave.Click += new System.EventHandler(this.btnThetaAlignDataSave_Click);
-            // 
-            // pageDieIndex
-            // 
-            this.pageDieIndex.Controls.Add(this.lblDieIndexCals);
-            this.pageDieIndex.Controls.Add(this.btnCalsDieIndexSize);
-            this.pageDieIndex.Controls.Add(this.lblDieIndexNum);
-            this.pageDieIndex.Controls.Add(this.lblDieIndexSet2);
-            this.pageDieIndex.Controls.Add(this.lblDieIndexSet1);
-            this.pageDieIndex.Controls.Add(this.button2);
-            this.pageDieIndex.Controls.Add(this.btnDieIndexSet2);
-            this.pageDieIndex.Controls.Add(this.btnDieIndexSet1);
-            this.pageDieIndex.Controls.Add(this.btnDieIndexSelect);
-            this.pageDieIndex.Controls.Add(this.btnDieIndexDataSave);
-            this.pageDieIndex.Controls.Add(this.label6);
-            this.pageDieIndex.Controls.Add(this.gradientLabel26);
-            this.pageDieIndex.Controls.Add(this.gradientLabel27);
-            this.pageDieIndex.Controls.Add(this.lblDieIndexAxisY);
-            this.pageDieIndex.Controls.Add(this.gradientLabel29);
-            this.pageDieIndex.Controls.Add(this.gradientLabel30);
-            this.pageDieIndex.Controls.Add(this.lblDieIndexAxisX);
-            this.pageDieIndex.Image = null;
-            this.pageDieIndex.ImageSize = new System.Drawing.Size(16, 16);
-            this.pageDieIndex.Location = new System.Drawing.Point(1, 34);
-            this.pageDieIndex.Name = "pageDieIndex";
-            this.pageDieIndex.Size = new System.Drawing.Size(423, 492);
-            this.pageDieIndex.TabIndex = 2;
-            this.pageDieIndex.Text = "Die Index";
-            this.pageDieIndex.ThemesEnabled = false;
-            // 
-            // lblDieIndexCals
-            // 
-            this.lblDieIndexCals.BackgroundColor = new Syncfusion.Drawing.BrushInfo(System.Drawing.Color.White);
-            this.lblDieIndexCals.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
-            | System.Windows.Forms.Border3DSide.Right) 
-            | System.Windows.Forms.Border3DSide.Bottom)));
-            this.lblDieIndexCals.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.lblDieIndexCals.ForeColor = System.Drawing.Color.Black;
-            this.lblDieIndexCals.Location = new System.Drawing.Point(146, 238);
-            this.lblDieIndexCals.Name = "lblDieIndexCals";
-            this.lblDieIndexCals.Size = new System.Drawing.Size(109, 31);
-            this.lblDieIndexCals.TabIndex = 969;
-            this.lblDieIndexCals.Text = "0";
-            this.lblDieIndexCals.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // btnCalsDieIndexSize
-            // 
-            this.btnCalsDieIndexSize.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
-            this.btnCalsDieIndexSize.Location = new System.Drawing.Point(47, 236);
-            this.btnCalsDieIndexSize.Name = "btnCalsDieIndexSize";
-            this.btnCalsDieIndexSize.Size = new System.Drawing.Size(98, 33);
-            this.btnCalsDieIndexSize.TabIndex = 968;
-            this.btnCalsDieIndexSize.Text = "Cals";
-            this.btnCalsDieIndexSize.UseVisualStyleBackColor = false;
-            this.btnCalsDieIndexSize.Click += new System.EventHandler(this.btnCalsDieIndexSize_Click);
-            // 
-            // lblDieIndexNum
-            // 
-            this.lblDieIndexNum.BackgroundColor = new Syncfusion.Drawing.BrushInfo(System.Drawing.Color.White);
-            this.lblDieIndexNum.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
-            | System.Windows.Forms.Border3DSide.Right) 
-            | System.Windows.Forms.Border3DSide.Bottom)));
-            this.lblDieIndexNum.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.lblDieIndexNum.ForeColor = System.Drawing.Color.Black;
-            this.lblDieIndexNum.Location = new System.Drawing.Point(146, 205);
-            this.lblDieIndexNum.Name = "lblDieIndexNum";
-            this.lblDieIndexNum.Size = new System.Drawing.Size(109, 31);
-            this.lblDieIndexNum.TabIndex = 967;
-            this.lblDieIndexNum.Text = "1";
-            this.lblDieIndexNum.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.lblDieIndexNum.Click += new System.EventHandler(this.ChangeTextData);
-            // 
-            // lblDieIndexSet2
-            // 
-            this.lblDieIndexSet2.BackgroundColor = new Syncfusion.Drawing.BrushInfo(System.Drawing.Color.White);
-            this.lblDieIndexSet2.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
-            | System.Windows.Forms.Border3DSide.Right) 
-            | System.Windows.Forms.Border3DSide.Bottom)));
-            this.lblDieIndexSet2.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.lblDieIndexSet2.ForeColor = System.Drawing.Color.Black;
-            this.lblDieIndexSet2.Location = new System.Drawing.Point(146, 173);
-            this.lblDieIndexSet2.Name = "lblDieIndexSet2";
-            this.lblDieIndexSet2.Size = new System.Drawing.Size(109, 31);
-            this.lblDieIndexSet2.TabIndex = 966;
-            this.lblDieIndexSet2.Text = "0";
-            this.lblDieIndexSet2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // lblDieIndexSet1
-            // 
-            this.lblDieIndexSet1.BackgroundColor = new Syncfusion.Drawing.BrushInfo(System.Drawing.Color.White);
-            this.lblDieIndexSet1.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
-            | System.Windows.Forms.Border3DSide.Right) 
-            | System.Windows.Forms.Border3DSide.Bottom)));
-            this.lblDieIndexSet1.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.lblDieIndexSet1.ForeColor = System.Drawing.Color.Black;
-            this.lblDieIndexSet1.Location = new System.Drawing.Point(146, 140);
-            this.lblDieIndexSet1.Name = "lblDieIndexSet1";
-            this.lblDieIndexSet1.Size = new System.Drawing.Size(109, 31);
-            this.lblDieIndexSet1.TabIndex = 965;
-            this.lblDieIndexSet1.Text = "0";
-            this.lblDieIndexSet1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // button2
-            // 
-            this.button2.Location = new System.Drawing.Point(47, 203);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(98, 33);
-            this.button2.TabIndex = 964;
-            this.button2.Text = "Set Num";
-            this.button2.UseVisualStyleBackColor = true;
-            // 
-            // btnDieIndexSet2
-            // 
-            this.btnDieIndexSet2.Location = new System.Drawing.Point(47, 171);
-            this.btnDieIndexSet2.Name = "btnDieIndexSet2";
-            this.btnDieIndexSet2.Size = new System.Drawing.Size(98, 33);
-            this.btnDieIndexSet2.TabIndex = 963;
-            this.btnDieIndexSet2.Text = "Set 2";
-            this.btnDieIndexSet2.UseVisualStyleBackColor = true;
-            this.btnDieIndexSet2.Click += new System.EventHandler(this.btnDieIndexSet2_Click);
-            // 
-            // btnDieIndexSet1
-            // 
-            this.btnDieIndexSet1.Location = new System.Drawing.Point(47, 139);
-            this.btnDieIndexSet1.Name = "btnDieIndexSet1";
-            this.btnDieIndexSet1.Size = new System.Drawing.Size(98, 33);
-            this.btnDieIndexSet1.TabIndex = 962;
-            this.btnDieIndexSet1.Text = "Set 1";
-            this.btnDieIndexSet1.UseVisualStyleBackColor = true;
-            this.btnDieIndexSet1.Click += new System.EventHandler(this.btnDieIndexSet1_Click);
-            // 
-            // btnDieIndexSelect
-            // 
-            this.btnDieIndexSelect.AutoSize = true;
-            this.btnDieIndexSelect.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.btnDieIndexSelect.Location = new System.Drawing.Point(9, 111);
-            this.btnDieIndexSelect.Name = "btnDieIndexSelect";
-            this.btnDieIndexSelect.Size = new System.Drawing.Size(100, 15);
-            this.btnDieIndexSelect.TabIndex = 961;
-            this.btnDieIndexSelect.Text = "Position Set";
-            // 
-            // btnDieIndexDataSave
-            // 
-            this.btnDieIndexDataSave.Font = new System.Drawing.Font("굴림", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.btnDieIndexDataSave.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.btnDieIndexDataSave.Image = ((System.Drawing.Image)(resources.GetObject("btnDieIndexDataSave.Image")));
-            this.btnDieIndexDataSave.Location = new System.Drawing.Point(278, 26);
-            this.btnDieIndexDataSave.Name = "btnDieIndexDataSave";
-            this.btnDieIndexDataSave.Size = new System.Drawing.Size(130, 61);
-            this.btnDieIndexDataSave.TabIndex = 950;
-            this.btnDieIndexDataSave.Text = "Data Save";
-            this.btnDieIndexDataSave.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnDieIndexDataSave.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.btnDieIndexDataSave.UseVisualStyleBackColor = true;
-            this.btnDieIndexDataSave.Click += new System.EventHandler(this.btnDieIndexDataSave_Click);
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.label6.Location = new System.Drawing.Point(9, 11);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(117, 15);
-            this.label6.TabIndex = 892;
-            this.label6.Text = "Die Index Size";
-            // 
-            // gradientLabel26
-            // 
-            this.gradientLabel26.BackgroundColor = new Syncfusion.Drawing.BrushInfo(System.Drawing.Color.LightBlue);
-            this.gradientLabel26.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
-            | System.Windows.Forms.Border3DSide.Right) 
-            | System.Windows.Forms.Border3DSide.Bottom)));
-            this.gradientLabel26.BorderStyle = System.Windows.Forms.Border3DStyle.Raised;
-            this.gradientLabel26.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.gradientLabel26.ForeColor = System.Drawing.Color.Black;
-            this.gradientLabel26.Location = new System.Drawing.Point(215, 57);
-            this.gradientLabel26.Name = "gradientLabel26";
-            this.gradientLabel26.Size = new System.Drawing.Size(40, 31);
-            this.gradientLabel26.TabIndex = 891;
-            this.gradientLabel26.Text = "mm";
-            this.gradientLabel26.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // gradientLabel27
-            // 
-            this.gradientLabel27.BackgroundColor = new Syncfusion.Drawing.BrushInfo(System.Drawing.Color.LightBlue);
-            this.gradientLabel27.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
-            | System.Windows.Forms.Border3DSide.Right) 
-            | System.Windows.Forms.Border3DSide.Bottom)));
-            this.gradientLabel27.BorderStyle = System.Windows.Forms.Border3DStyle.Raised;
-            this.gradientLabel27.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.gradientLabel27.ForeColor = System.Drawing.Color.Black;
-            this.gradientLabel27.Location = new System.Drawing.Point(47, 57);
-            this.gradientLabel27.Name = "gradientLabel27";
-            this.gradientLabel27.Size = new System.Drawing.Size(90, 31);
-            this.gradientLabel27.TabIndex = 890;
-            this.gradientLabel27.Text = "Y Axis";
-            this.gradientLabel27.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // lblDieIndexAxisY
-            // 
-            this.lblDieIndexAxisY.BackgroundColor = new Syncfusion.Drawing.BrushInfo(System.Drawing.Color.White);
-            this.lblDieIndexAxisY.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
-            | System.Windows.Forms.Border3DSide.Right) 
-            | System.Windows.Forms.Border3DSide.Bottom)));
-            this.lblDieIndexAxisY.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.lblDieIndexAxisY.ForeColor = System.Drawing.Color.Black;
-            this.lblDieIndexAxisY.Location = new System.Drawing.Point(138, 57);
-            this.lblDieIndexAxisY.Name = "lblDieIndexAxisY";
-            this.lblDieIndexAxisY.Size = new System.Drawing.Size(77, 31);
-            this.lblDieIndexAxisY.TabIndex = 889;
-            this.lblDieIndexAxisY.Text = "0";
-            this.lblDieIndexAxisY.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.lblDieIndexAxisY.Click += new System.EventHandler(this.ChangeTextData);
-            // 
-            // gradientLabel29
-            // 
-            this.gradientLabel29.BackgroundColor = new Syncfusion.Drawing.BrushInfo(System.Drawing.Color.LightBlue);
-            this.gradientLabel29.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
-            | System.Windows.Forms.Border3DSide.Right) 
-            | System.Windows.Forms.Border3DSide.Bottom)));
-            this.gradientLabel29.BorderStyle = System.Windows.Forms.Border3DStyle.Raised;
-            this.gradientLabel29.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.gradientLabel29.ForeColor = System.Drawing.Color.Black;
-            this.gradientLabel29.Location = new System.Drawing.Point(215, 26);
-            this.gradientLabel29.Name = "gradientLabel29";
-            this.gradientLabel29.Size = new System.Drawing.Size(40, 31);
-            this.gradientLabel29.TabIndex = 888;
-            this.gradientLabel29.Text = "mm";
-            this.gradientLabel29.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // gradientLabel30
-            // 
-            this.gradientLabel30.BackgroundColor = new Syncfusion.Drawing.BrushInfo(System.Drawing.Color.LightBlue);
-            this.gradientLabel30.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
-            | System.Windows.Forms.Border3DSide.Right) 
-            | System.Windows.Forms.Border3DSide.Bottom)));
-            this.gradientLabel30.BorderStyle = System.Windows.Forms.Border3DStyle.Raised;
-            this.gradientLabel30.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.gradientLabel30.ForeColor = System.Drawing.Color.Black;
-            this.gradientLabel30.Location = new System.Drawing.Point(47, 26);
-            this.gradientLabel30.Name = "gradientLabel30";
-            this.gradientLabel30.Size = new System.Drawing.Size(90, 31);
-            this.gradientLabel30.TabIndex = 887;
-            this.gradientLabel30.Text = "X Axis";
-            this.gradientLabel30.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // lblDieIndexAxisX
-            // 
-            this.lblDieIndexAxisX.BackgroundColor = new Syncfusion.Drawing.BrushInfo(System.Drawing.Color.White);
-            this.lblDieIndexAxisX.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
-            | System.Windows.Forms.Border3DSide.Right) 
-            | System.Windows.Forms.Border3DSide.Bottom)));
-            this.lblDieIndexAxisX.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.lblDieIndexAxisX.ForeColor = System.Drawing.Color.Black;
-            this.lblDieIndexAxisX.Location = new System.Drawing.Point(138, 26);
-            this.lblDieIndexAxisX.Name = "lblDieIndexAxisX";
-            this.lblDieIndexAxisX.Size = new System.Drawing.Size(77, 31);
-            this.lblDieIndexAxisX.TabIndex = 886;
-            this.lblDieIndexAxisX.Text = "0";
-            this.lblDieIndexAxisX.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.lblDieIndexAxisX.Click += new System.EventHandler(this.ChangeTextData);
             // 
             // pageParameter
             // 
@@ -1656,32 +1374,6 @@
             this.lblCamOffSetAxisX.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.lblCamOffSetAxisX.Click += new System.EventHandler(this.ChangeTextData);
             // 
-            // btnStageReturn
-            // 
-            this.btnStageReturn.Font = new System.Drawing.Font("굴림", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.btnStageReturn.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.btnStageReturn.Location = new System.Drawing.Point(1124, 671);
-            this.btnStageReturn.Name = "btnStageReturn";
-            this.btnStageReturn.Size = new System.Drawing.Size(98, 61);
-            this.btnStageReturn.TabIndex = 972;
-            this.btnStageReturn.Text = "Return";
-            this.btnStageReturn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.btnStageReturn.UseVisualStyleBackColor = true;
-            this.btnStageReturn.Click += new System.EventHandler(this.btnStageReturn_Click);
-            // 
-            // btnStageTurn
-            // 
-            this.btnStageTurn.Font = new System.Drawing.Font("굴림", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.btnStageTurn.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.btnStageTurn.Location = new System.Drawing.Point(1025, 671);
-            this.btnStageTurn.Name = "btnStageTurn";
-            this.btnStageTurn.Size = new System.Drawing.Size(98, 61);
-            this.btnStageTurn.TabIndex = 970;
-            this.btnStageTurn.Text = "Turn";
-            this.btnStageTurn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.btnStageTurn.UseVisualStyleBackColor = true;
-            this.btnStageTurn.Click += new System.EventHandler(this.btnStageTurn_Click);
-            // 
             // BtnExit
             // 
             this.BtnExit.Font = new System.Drawing.Font("굴림", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
@@ -1697,16 +1389,30 @@
             this.BtnExit.UseVisualStyleBackColor = true;
             this.BtnExit.Click += new System.EventHandler(this.BtnExit_Click);
             // 
+            // btnInpectCam
+            // 
+            this.btnInpectCam.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.btnInpectCam.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.btnInpectCam.Image = global::LWDicer.Properties.Resources.Vision;
+            this.btnInpectCam.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.btnInpectCam.Location = new System.Drawing.Point(1162, 659);
+            this.btnInpectCam.Name = "btnInpectCam";
+            this.btnInpectCam.Size = new System.Drawing.Size(73, 73);
+            this.btnInpectCam.TabIndex = 1056;
+            this.btnInpectCam.Text = "Inspect";
+            this.btnInpectCam.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.btnInpectCam.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.btnInpectCam.UseVisualStyleBackColor = true;
+            this.btnInpectCam.Click += new System.EventHandler(this.btnInpectCam_Click);
+            // 
             // FormLaserAlignTeach
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1260, 880);
-            this.ControlBox = false;
-            this.Controls.Add(this.btnStageReturn);
+            this.Controls.Add(this.btnInpectCam);
             this.Controls.Add(this.tabThetaAlign);
             this.Controls.Add(this.groupBox2);
-            this.Controls.Add(this.btnStageTurn);
             this.Controls.Add(this.pnlStageJog);
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.picVision);
@@ -1723,8 +1429,6 @@
             this.tabThetaAlign.ResumeLayout(false);
             this.pageThetaAlign.ResumeLayout(false);
             this.pageThetaAlign.PerformLayout();
-            this.pageDieIndex.ResumeLayout(false);
-            this.pageDieIndex.PerformLayout();
             this.pageParameter.ResumeLayout(false);
             this.pageParameter.PerformLayout();
             this.ResumeLayout(false);
@@ -1750,7 +1454,6 @@
         private Syncfusion.Windows.Forms.Tools.GradientLabel lblStagePosX;
         private Syncfusion.Windows.Forms.Tools.TabControlAdv tabThetaAlign;
         private Syncfusion.Windows.Forms.Tools.TabPageAdv pageThetaAlign;
-        private Syncfusion.Windows.Forms.Tools.TabPageAdv pageDieIndex;
         private Syncfusion.Windows.Forms.Tools.TabPageAdv pageParameter;
         private System.Windows.Forms.Label label5;
         private Syncfusion.Windows.Forms.Tools.GradientLabel gradientLabel4;
@@ -1787,17 +1490,9 @@
         private Syncfusion.Windows.Forms.Tools.GradientLabel gradientLabel37;
         private Syncfusion.Windows.Forms.Tools.GradientLabel gradientLabel20;
         private Syncfusion.Windows.Forms.Tools.GradientLabel lblCamOffSetAxisX;
-        private System.Windows.Forms.Label label6;
-        private Syncfusion.Windows.Forms.Tools.GradientLabel gradientLabel26;
-        private Syncfusion.Windows.Forms.Tools.GradientLabel gradientLabel27;
-        private Syncfusion.Windows.Forms.Tools.GradientLabel lblDieIndexAxisY;
-        private Syncfusion.Windows.Forms.Tools.GradientLabel gradientLabel29;
-        private Syncfusion.Windows.Forms.Tools.GradientLabel gradientLabel30;
-        private Syncfusion.Windows.Forms.Tools.GradientLabel lblDieIndexAxisX;
         private System.Windows.Forms.Button btnSelectFocus;
         private System.Windows.Forms.Button btnSelectStageMove;
         private System.Windows.Forms.Button btnThetaAlignDataSave;
-        private System.Windows.Forms.Button btnDieIndexDataSave;
         private System.Windows.Forms.Label label15;
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.Label label13;
@@ -1808,17 +1503,6 @@
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Button btnThetaAlignDataLoad;
-        private System.Windows.Forms.Label btnDieIndexSelect;
-        private Syncfusion.Windows.Forms.Tools.GradientLabel lblDieIndexNum;
-        private Syncfusion.Windows.Forms.Tools.GradientLabel lblDieIndexSet2;
-        private Syncfusion.Windows.Forms.Tools.GradientLabel lblDieIndexSet1;
-        private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.Button btnDieIndexSet2;
-        private System.Windows.Forms.Button btnDieIndexSet1;
-        private Syncfusion.Windows.Forms.Tools.GradientLabel lblDieIndexCals;
-        private System.Windows.Forms.Button btnCalsDieIndexSize;
-        private System.Windows.Forms.Button btnStageTurn;
-        private System.Windows.Forms.Button btnStageReturn;
         private System.Windows.Forms.Button btnStageTurnPosA;
         private System.Windows.Forms.Button btnStageCenter;
         private System.Windows.Forms.Label lblHairLineWidth;
@@ -1838,5 +1522,6 @@
         private System.Windows.Forms.Button btnMoveToVisionH;
         private System.Windows.Forms.Button btnMoveToLaserH;
         private Syncfusion.Windows.Forms.ButtonAdv btnLaserProcessStop;
+        private System.Windows.Forms.Button btnInpectCam;
     }
 }

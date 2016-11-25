@@ -1084,23 +1084,7 @@ namespace LWDicer.UI
             lblMarginWidth.Text     = string.Format("{0:F1}", CMainFrame.DataManager.ModelData.ProcData.MarginWidth);
             lblMarginHeight.Text    = string.Format("{0:F1}", CMainFrame.DataManager.ModelData.ProcData.MarginHeight);
             lblOverlapCount.Text    = string.Format("{0:F0}", CMainFrame.DataManager.ModelData.ProcData.ProcessLineNum);
-
-
-            lblProcessOffsetX1.Text = string.Format("{0:F4}", CMainFrame.DataManager.ModelData.ProcData.ProcessOffsetX1);
-            lblProcessOffsetY1.Text = string.Format("{0:F4}", CMainFrame.DataManager.ModelData.ProcData.ProcessOffsetY1);
-            lblProcessCount1.Text = string.Format("{0:F0}", CMainFrame.DataManager.ModelData.ProcData.ProcessCount1);
-            lblProcessOffsetX2.Text = string.Format("{0:F4}", CMainFrame.DataManager.ModelData.ProcData.ProcessOffsetX2);
-            lblProcessOffsetY2.Text = string.Format("{0:F4}", CMainFrame.DataManager.ModelData.ProcData.ProcessOffsetY2);
-            lblProcessCount2.Text = string.Format("{0:F0}", CMainFrame.DataManager.ModelData.ProcData.ProcessCount2);
-
-            lblPatternPitch1.Text = string.Format("{0:F4}", CMainFrame.DataManager.ModelData.ProcData.PatternPitch1);
-            lblPatternCount1.Text = string.Format("{0:F0}", CMainFrame.DataManager.ModelData.ProcData.PatternCount1);
-            lblPatternPitch2.Text = string.Format("{0:F4}", CMainFrame.DataManager.ModelData.ProcData.PatternPitch2);
-            lblPatternCount2.Text = string.Format("{0:F0}", CMainFrame.DataManager.ModelData.ProcData.PatternCount2);
-            lblPatternOffset1.Text = string.Format("{0:F4}", CMainFrame.DataManager.ModelData.ProcData.PatternOffset1);
-            lblPatternOffset2.Text = string.Format("{0:F4}", CMainFrame.DataManager.ModelData.ProcData.PatternOffset2);
-
-            lblProcessInterval.Text = string.Format("{0:F4}", CMainFrame.DataManager.ModelData.ProcData.ProcessInterval);
+                        
 
         }
         private void cbbOverlap_SelectedIndexChanged(object sender, EventArgs e)
@@ -1120,9 +1104,10 @@ namespace LWDicer.UI
             if (IniSaveDlg.ShowDialog() == DialogResult.OK)
             {
                 filename = IniSaveDlg.FileName;
+                CMainFrame.DataManager.ExportPolygonData(EPolygonPara.CONFIG, filename);
             }
 
-            CMainFrame.DataManager.ExportPolygonData(EPolygonPara.CONFIG, filename);
+            
         }
 
         private void btnExportIsn_Click(object sender, EventArgs e)
@@ -1136,9 +1121,10 @@ namespace LWDicer.UI
             if (IniSaveDlg.ShowDialog() == DialogResult.OK)
             {
                 filename = IniSaveDlg.FileName;
+                CMainFrame.DataManager.ExportPolygonData(EPolygonPara.ISN, filename);
             }
 
-            CMainFrame.DataManager.ExportPolygonData(EPolygonPara.ISN,filename);
+            
         }
 
         private void btnExportCsn_Click(object sender, EventArgs e)
@@ -1152,9 +1138,10 @@ namespace LWDicer.UI
             if (IniSaveDlg.ShowDialog() == DialogResult.OK)
             {
                 filename = IniSaveDlg.FileName;
+                CMainFrame.DataManager.ExportPolygonData(EPolygonPara.CSN, filename);
             }
 
-            CMainFrame.DataManager.ExportPolygonData(EPolygonPara.CSN,filename);
+            
 
         }
 
@@ -1169,11 +1156,12 @@ namespace LWDicer.UI
             if (iniOpenDlg.ShowDialog() == DialogResult.OK)
             {
                 filename = iniOpenDlg.FileName;
-            }
-            //CMainFrame.DataManager.ImportPolygonData(EPolygonPara.CONFIG);
-            CMainFrame.DataManager.ImportPolygonData(EPolygonPara.CONFIG,filename);
+                //CMainFrame.DataManager.ImportPolygonData(EPolygonPara.CONFIG);
+                CMainFrame.DataManager.ImportPolygonData(EPolygonPara.CONFIG, filename);
 
-            UpdateConfigureData(CMainFrame.DataManager.ModelData.ScanData);
+                UpdateConfigureData(CMainFrame.DataManager.ModelData.ScanData);
+            }
+            
         }
 
         private void btnImportIsn_Click(object sender, EventArgs e)
@@ -1187,12 +1175,13 @@ namespace LWDicer.UI
             if (iniOpenDlg.ShowDialog() == DialogResult.OK)
             {
                 filename = iniOpenDlg.FileName;
+                //CMainFrame.DataManager.ImportPolygonData(EPolygonPara.ISN);
+                CMainFrame.DataManager.ImportPolygonData(EPolygonPara.ISN, filename);
+
+                UpdateConfigureData(CMainFrame.DataManager.ModelData.ScanData);
             }
 
-            //CMainFrame.DataManager.ImportPolygonData(EPolygonPara.ISN);
-            CMainFrame.DataManager.ImportPolygonData(EPolygonPara.ISN,filename);
-
-            UpdateConfigureData(CMainFrame.DataManager.ModelData.ScanData);
+            
         }
 
         private void btnImportCsn_Click(object sender, EventArgs e)
@@ -1205,13 +1194,13 @@ namespace LWDicer.UI
             iniOpenDlg.Filter = "INI(*.ini)|*.ini";
             if (iniOpenDlg.ShowDialog() == DialogResult.OK)
             {
-                filename = iniOpenDlg.FileName;                
+                filename = iniOpenDlg.FileName;
+                //CMainFrame.DataManager.ImportPolygonData(EPolygonPara.CSN);
+                CMainFrame.DataManager.ImportPolygonData(EPolygonPara.CSN, filename);
+
+                UpdateConfigureData(CMainFrame.DataManager.ModelData.ScanData);
             }
-
-            //CMainFrame.DataManager.ImportPolygonData(EPolygonPara.CSN);
-            CMainFrame.DataManager.ImportPolygonData(EPolygonPara.CSN, filename);
-
-            UpdateConfigureData(CMainFrame.DataManager.ModelData.ScanData);
+            
         }
         
         private void tabPageConfig_Enter(object sender, EventArgs e)
@@ -1532,199 +1521,7 @@ namespace LWDicer.UI
 
             CMainFrame.LWDicer.m_MeScanner.m_RefComp.ScanHeadComm.ConnectServer();
         }
-        
-        private void lblProcessOffsetX1_Click(object sender, EventArgs e)
-        {
-            string strCurrent = "", strModify = "";
 
-            strCurrent = lblProcessOffsetX1.Text;
-
-            if (!CMainFrame.GetKeyPad(strCurrent, out strModify))
-            {
-                return;
-            }
-
-            lblProcessOffsetX1.Text = strModify;
-
-            CMainFrame.DataManager.ModelData.ProcData.ProcessOffsetX1 = Convert.ToSingle(strModify);
-
-        }
-
-        private void lblProcessOffsetY1_Click(object sender, EventArgs e)
-        {
-            string strCurrent = "", strModify = "";
-
-            strCurrent = lblProcessOffsetY1.Text;
-
-            if (!CMainFrame.GetKeyPad(strCurrent, out strModify))
-            {
-                return;
-            }
-
-            lblProcessOffsetY1.Text = strModify;
-
-            CMainFrame.DataManager.ModelData.ProcData.ProcessOffsetY1 = Convert.ToSingle(strModify);
-        }
-
-        private void lblProcessCount1_Click(object sender, EventArgs e)
-        {
-            string strCurrent = "", strModify = "";
-
-            strCurrent = lblProcessCount1.Text;
-
-            if (!CMainFrame.GetKeyPad(strCurrent, out strModify))
-            {
-                return;
-            }
-
-            lblProcessCount1.Text = strModify;
-
-            CMainFrame.DataManager.ModelData.ProcData.ProcessCount1 = Convert.ToInt32(strModify);
-        }
-
-        private void lblProcessOffsetX2_Click(object sender, EventArgs e)
-        {
-            string strCurrent = "", strModify = "";
-
-            strCurrent = lblProcessOffsetX2.Text;
-
-            if (!CMainFrame.GetKeyPad(strCurrent, out strModify))
-            {
-                return;
-            }
-
-            lblProcessOffsetX2.Text = strModify;
-
-            CMainFrame.DataManager.ModelData.ProcData.ProcessOffsetX2 = Convert.ToSingle(strModify);
-        }
-
-        private void lblProcessOffsetY2_Click(object sender, EventArgs e)
-        {
-            string strCurrent = "", strModify = "";
-
-            strCurrent = lblProcessOffsetY2.Text;
-
-            if (!CMainFrame.GetKeyPad(strCurrent, out strModify))
-            {
-                return;
-            }
-
-            lblProcessOffsetY2.Text = strModify;
-
-            CMainFrame.DataManager.ModelData.ProcData.ProcessOffsetY2 = Convert.ToSingle(strModify);
-        }
-
-        private void lblProcessCount2_Click(object sender, EventArgs e)
-        {
-            string strCurrent = "", strModify = "";
-
-            strCurrent = lblProcessCount2.Text;
-
-            if (!CMainFrame.GetKeyPad(strCurrent, out strModify))
-            {
-                return;
-            }
-
-            lblProcessCount2.Text = strModify;
-
-            CMainFrame.DataManager.ModelData.ProcData.ProcessCount2 = Convert.ToInt32(strModify);
-        }
-
-        private void lblPatternPitch1_Click(object sender, EventArgs e)
-        {
-            string strCurrent = "", strModify = "";
-
-            strCurrent = lblPatternPitch1.Text;
-
-            if (!CMainFrame.GetKeyPad(strCurrent, out strModify))
-            {
-                return;
-            }
-
-            lblPatternPitch1.Text = strModify;
-
-            CMainFrame.DataManager.ModelData.ProcData.PatternPitch1 = Convert.ToSingle(strModify);
-        }
-
-        private void lblPatternCount1_Click(object sender, EventArgs e)
-        {
-            string strCurrent = "", strModify = "";
-
-            strCurrent = lblPatternCount1.Text;
-
-            if (!CMainFrame.GetKeyPad(strCurrent, out strModify))
-            {
-                return;
-            }
-
-            lblPatternCount1.Text = strModify;
-
-            CMainFrame.DataManager.ModelData.ProcData.PatternCount1 = Convert.ToInt32(strModify);
-        }
-
-        private void lblPatternPitch2_Click(object sender, EventArgs e)
-        {
-            string strCurrent = "", strModify = "";
-
-            strCurrent = lblPatternPitch2.Text;
-
-            if (!CMainFrame.GetKeyPad(strCurrent, out strModify))
-            {
-                return;
-            }
-
-            lblPatternPitch2.Text = strModify;
-
-            CMainFrame.DataManager.ModelData.ProcData.PatternPitch2 = Convert.ToSingle(strModify);
-        }
-
-        private void lblPatternCount2_Click(object sender, EventArgs e)
-        {
-            string strCurrent = "", strModify = "";
-
-            strCurrent = lblPatternCount2.Text;
-
-            if (!CMainFrame.GetKeyPad(strCurrent, out strModify))
-            {
-                return;
-            }
-
-            lblPatternCount2.Text = strModify;
-
-            CMainFrame.DataManager.ModelData.ProcData.PatternCount2 = Convert.ToInt32(strModify);
-        }
-
-        private void lblPatternOffset1_Click(object sender, EventArgs e)
-        {
-            string strCurrent = "", strModify = "";
-
-            strCurrent = lblPatternOffset1.Text;
-
-            if (!CMainFrame.GetKeyPad(strCurrent, out strModify))
-            {
-                return;
-            }
-
-            lblPatternOffset1.Text = strModify;
-
-            CMainFrame.DataManager.ModelData.ProcData.PatternOffset1 = Convert.ToSingle(strModify);
-        }
-
-        private void lblPatternOffset2_Click(object sender, EventArgs e)
-        {
-            string strCurrent = "", strModify = "";
-
-            strCurrent = lblPatternOffset2.Text;
-
-            if (!CMainFrame.GetKeyPad(strCurrent, out strModify))
-            {
-                return;
-            }
-
-            lblPatternOffset2.Text = strModify;
-
-            CMainFrame.DataManager.ModelData.ProcData.PatternOffset2 = Convert.ToSingle(strModify);
-        }
 
         private void btnPatternProcessSave_Click(object sender, EventArgs e)
         {
@@ -1736,23 +1533,16 @@ namespace LWDicer.UI
 
         }
 
-        private void btnLaserProcessMof_Click(object sender, EventArgs e)
-        {
-            CMainFrame.LWDicer.m_ctrlStage1.LaserProcessMof();
-
-        }
         private void btnLaserProcessStep1_Click(object sender, EventArgs e)
         {
             int iResult = 0;
             CMainFrame.DataManager.ModelData.ProcData.ProcessStop = false;
-            var task = Task<int>.Run(() => CMainFrame.LWDicer.m_ctrlStage1.LaserProcessStep1());
+            var task = Task<int>.Run(() => CMainFrame.LWDicer.m_ctrlStage1.RunLaserProcess());
         }
 
         private void btnLaserProcessStep2_Click(object sender, EventArgs e)
         {
-            int iResult;
-            CMainFrame.DataManager.ModelData.ProcData.ProcessStop = false;
-            CMainFrame.LWDicer.m_ctrlStage1.LaserProcessStep2();
+
         }
 
         private void tabPageProcess266_Click(object sender, EventArgs e)
@@ -1762,18 +1552,7 @@ namespace LWDicer.UI
 
         private void lblProcessInterval_Click(object sender, EventArgs e)
         {
-            string strCurrent = "", strModify = "";
 
-            strCurrent = lblProcessInterval.Text;
-
-            if (!CMainFrame.GetKeyPad(strCurrent, out strModify))
-            {
-                return;
-            }
-
-            lblProcessInterval.Text = strModify;
-
-            CMainFrame.DataManager.ModelData.ProcData.ProcessInterval = Convert.ToInt32(strModify);
         }
 
         private void btnLaserProcessStop_Click(object sender, EventArgs e)
@@ -1783,18 +1562,7 @@ namespace LWDicer.UI
 
         private void lblProcessCount_Click(object sender, EventArgs e)
         {
-            string strCurrent = "", strModify = "";
 
-            strCurrent = lblProcessCount.Text;
-
-            if (!CMainFrame.GetKeyPad(strCurrent, out strModify))
-            {
-                return;
-            }
-
-            lblProcessCount.Text = strModify;
-
-            CMainFrame.LWDicer.m_MeScanner.LaserProcessCount(Convert.ToInt32(strModify));
         }
 
         private void btnLaserProcessMofStop_Click(object sender, EventArgs e)

@@ -20,14 +20,14 @@ using LWDicer.Layers;
 
 namespace LWDicer.UI
 {
-    public partial class FormEdgeAlignTeach : Form
+    public partial class FormCameraAlignTeach : Form
     {
         private CCtrlAlignData AlignData;
         private CSystemData_Align SystemAlignData;
         private CPos_XYTZ MacroRotateCenterPos = new CPos_XYTZ();
         private CPos_XYTZ MicroRotateCenterPos = new CPos_XYTZ();
         private CPos_XYTZ InspectRotateCenterPos = new CPos_XYTZ();
-        public FormEdgeAlignTeach()
+        public FormCameraAlignTeach()
         {
             InitializeComponent();
             
@@ -51,12 +51,10 @@ namespace LWDicer.UI
             // Local View 해제
             int iCam = CMainFrame.LWDicer.m_ctrlStage1.GetCurrentCam();
             CMainFrame.LWDicer.m_Vision.DestroyLocalView(iCam);
-
-            CMainFrame.HideJog();
             this.Close();
         }
 
-        private void FormEdgeAlignTeach_Load(object sender, EventArgs e)
+        private void FormCameraAlignTeach_Load(object sender, EventArgs e)
         {
 #if !SIMULATION_VISION
             //int iCam = CMainFrame.LWDicer.m_ctrlStage1.GetCurrentCam();
@@ -137,69 +135,7 @@ namespace LWDicer.UI
             CMainFrame.frmCamFocus.Hide();
             CMainFrame.frmStageJog.Show();
         }
-
-
-        private void btnThetaAlignDataSave_Click(object sender, EventArgs e)
-        {
-            double dLength = 0.0;
-
-            dLength = WAFER_SIZE_12_INCH / 2.0 * Math.Cos(Math.PI / 180 * 45);
-
-            bool Type_Fixed = true;
-
-            CPositionGroup tGroup;
-            CMainFrame.LWDicer.GetPositionGroup(out tGroup, Type_Fixed);
-            EPositionObject pIndex = EPositionObject.STAGE1;
-            int direction = DEF_X;
-
-            int nSelectedPos = (int)EStagePos.EDGE_ALIGN_1;
-            int tPosIndex = (int)EStagePos.STAGE_CENTER_PRE;
-            tGroup.Pos_Array[(int)pIndex].Pos[nSelectedPos].Add(DEF_X, tGroup.Pos_Array[(int)pIndex].Pos[tPosIndex].GetAt(DEF_X) + dLength);
-            tGroup.Pos_Array[(int)pIndex].Pos[nSelectedPos].Add(DEF_Y, tGroup.Pos_Array[(int)pIndex].Pos[tPosIndex].GetAt(DEF_Y) - dLength);
-            tGroup.Pos_Array[(int)pIndex].Pos[nSelectedPos].Add(DEF_T, tGroup.Pos_Array[(int)pIndex].Pos[tPosIndex].GetAt(DEF_T));
-
-            CMainFrame.LWDicer.SavePosition(tGroup, Type_Fixed, pIndex);
-        }
-
-        private void groupBox4_Enter(object sender, EventArgs e)
-        {
-
-        }
-
-        private void btnEdgeTeachPos1_Click(object sender, EventArgs e)
-        {
-            CMainFrame.LWDicer.m_ctrlStage1.MoveToEdgeAlignTeachPos1();
-        }
-
-        private void btnEdgeTeachPos2_Click(object sender, EventArgs e)
-        {
-            CMainFrame.LWDicer.m_ctrlStage1.MoveToEdgeAlignTeachPos2();
-        }
-
-        private void btnEdgeTeachPos3_Click(object sender, EventArgs e)
-        {
-            CMainFrame.LWDicer.m_ctrlStage1.MoveToEdgeAlignTeachPos3();
-        }
-
-        private void btnEdgePos1_Click(object sender, EventArgs e)
-        {
-            CMainFrame.LWDicer.m_ctrlStage1.MoveToEdgeAlignPos1();
-        }
-
-        private void btnEdgePos2_Click(object sender, EventArgs e)
-        {
-            CMainFrame.LWDicer.m_ctrlStage1.MoveToEdgeAlignPos2();            
-        }
-
-        private void btnEdgePos3_Click(object sender, EventArgs e)
-        {
-            CMainFrame.LWDicer.m_ctrlStage1.MoveToEdgeAlignPos3();            
-        }
-
-        private void btnEdgePos4_Click(object sender, EventArgs e)
-        {
-            CMainFrame.LWDicer.m_ctrlStage1.MoveToEdgeAlignPos4();
-        }
+                
 
         private void picVision_MouseDown(object sender, MouseEventArgs e)
         {
@@ -256,32 +192,7 @@ namespace LWDicer.UI
             }
 #endif
         }
-
-        private void btnSearchEdgePoint_Click(object sender, EventArgs e)
-        {
-            CPos_XY posEdge = new CPos_XY();
-            CMainFrame.LWDicer.m_ctrlStage1.FindEdgePoint(out posEdge);
-
-            return;
-        }
-
-        private void btnSetEdgeDetectArea_Click(object sender, EventArgs e)
-        {
-            CMainFrame.LWDicer.m_Vision.SetEdgeFinderArea(PRE__CAM);
-        }
-
         
-
-        private void btnEdgeTeachNext_Click(object sender, EventArgs e)
-        {
-            CMainFrame.LWDicer.m_ctrlStage1.SetEdgeTeachPosNext(ref AlignData);
-        }
-
-        private void btnEdgeAlignDataInit_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void BtnJog_Click(object sender, EventArgs e)
         {
             CMainFrame.DisplayJog();
@@ -289,7 +200,12 @@ namespace LWDicer.UI
 
         private void btnRotateCenter_Click(object sender, EventArgs e)
         {
-
+            if(CMainFrame.LWDicer.m_ctrlStage1.GetCurrentCam()== PRE__CAM)
+                CMainFrame.LWDicer.m_ctrlStage1.DoRotateCenterCals(ref MacroRotateCenterPos);
+            if (CMainFrame.LWDicer.m_ctrlStage1.GetCurrentCam() == FINE_CAM)
+                CMainFrame.LWDicer.m_ctrlStage1.DoRotateCenterCals(ref MicroRotateCenterPos);
+            if (CMainFrame.LWDicer.m_ctrlStage1.GetCurrentCam() == INSP_CAM)
+                CMainFrame.LWDicer.m_ctrlStage1.DoRotateCenterCals(ref InspectRotateCenterPos);
         }
 
         private void btnRotateCenterCalsInit_Click(object sender, EventArgs e)
@@ -332,18 +248,7 @@ namespace LWDicer.UI
             CMainFrame.LWDicer.SaveSystemData(null, null, null, null, SystemAlignData, null, null);
 
         }
-
-        private void btnWaferCenterSearchRun_Click(object sender, EventArgs e)
-        {
-            // Pre Cam으로 변경
-            CMainFrame.LWDicer.m_Vision.DestroyLocalView(FINE_CAM);
-            // CMainFrame.LWDicer.m_Vision.GetLocalViewHandle(PRE__CAM);
-            CMainFrame.LWDicer.m_Vision.InitialLocalView(PRE__CAM, picVision.Handle);
-            //CMainFrame.LWDicer.m_ctrlStage1.ChangeMacroVision(picVision.Handle, EVisionOverlayMode.EDGE);
-            CMainFrame.LWDicer.m_Vision.SetEdgeFinderArea(PRE__CAM);            
-
-            CMainFrame.LWDicer.m_ctrlStage1.DoEdgeAlign();
-        }
+        
 
         private void btnWaferCenterPre_Click(object sender, EventArgs e)
         {
@@ -369,21 +274,6 @@ namespace LWDicer.UI
         {
             CMainFrame.LWDicer.m_ctrlStage1.DoThetaAlign();
         }
-
-        private void btnInpectCam_Click(object sender, EventArgs e)
-        {
-
-#if EQUIP_266_DEV
-            CMainFrame.LWDicer.m_Vision.DestroyLocalView(PRE__CAM);
-            CMainFrame.LWDicer.m_Vision.DestroyLocalView(FINE_CAM);
-            CMainFrame.LWDicer.m_Vision.InitialLocalView(INSP_CAM, picVision.Handle);
-            CMainFrame.LWDicer.m_Vision.LiveVideo(INSP_CAM);
-
-            CMainFrame.LWDicer.m_MeStage.MoveCameraToFocusPosInspect();
-
-            CMainFrame.LWDicer.m_Vision.ShowHairLine();
-#endif
-
-        }
+        
     }
 }

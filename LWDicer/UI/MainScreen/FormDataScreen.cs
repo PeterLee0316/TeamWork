@@ -146,5 +146,11 @@ namespace LWDicer.UI
             var dlg = new FormWaferFrameData();
             dlg.ShowDialog();
         }
+
+        private void BtnLaserProcess_Click(object sender, EventArgs e)
+        {
+            var dlg = new FormLaserProcessData();
+            dlg.ShowDialog();
+        }
     }
 }

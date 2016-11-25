@@ -403,11 +403,9 @@ namespace LWDicer.UI
             dTargetXPos = dXPos + dOffsetXPos;
 
             GridStageTeachTable[2, 1].Text = String.Format("{0:0.0000}", dTargetXPos);
-
             GridStageTeachTable[3, 1].Text = String.Format("{0:0.0000}", dXPos);
             GridStageTeachTable[3, 1].TextColor = Color.Blue;
-
-
+            
             StrYCurrent = GridStageTeachTable[7, 2].Text;
 
             dYPos = Convert.ToDouble(StrYCurrent);
@@ -416,7 +414,6 @@ namespace LWDicer.UI
             dTargetYPos = dYPos + dOffsetYPos;
 
             GridStageTeachTable[2, 2].Text = String.Format("{0:0.0000}", dTargetYPos);
-
             GridStageTeachTable[3, 2].Text = String.Format("{0:0.0000}", dYPos);
             GridStageTeachTable[3, 2].TextColor = Color.Blue;
 
@@ -428,10 +425,11 @@ namespace LWDicer.UI
             dTargetTPos = dTPos + dOffsetTPos;
 
             GridStageTeachTable[2, 3].Text = String.Format("{0:0.0000}", dTargetTPos);
-
             GridStageTeachTable[3, 3].Text = String.Format("{0:0.0000}", dTPos);
             GridStageTeachTable[3, 3].TextColor = Color.Blue;
+
         }
+
         private void BtnPos_Click(object sender, EventArgs e)
         {
             ButtonAdv TeachPos = sender as ButtonAdv;

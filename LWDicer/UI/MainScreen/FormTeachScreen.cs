@@ -240,7 +240,32 @@ namespace LWDicer.UI
 
         private void btnCamStageTeach_Click(object sender, EventArgs e)
         {
+            try
+            {
+                var dlg = new FormCameraAlignTeach();
+                dlg.StartPosition = FormStartPosition.Manual;
+                dlg.Location = new Point(0, 120);
+                dlg.ShowDialog();
+            }
+            catch
+            {
 
+            }
+        }
+
+        private void btnWaferTeach_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                var dlg = new FormWaferDieTeach();
+                dlg.StartPosition = FormStartPosition.Manual;
+                dlg.Location = new Point(0, 120);
+                dlg.ShowDialog();
+            }
+            catch
+            {
+
+            }
         }
     }
 }

@@ -50,13 +50,13 @@
             this.gradientPanel1 = new Syncfusion.Windows.Forms.Tools.GradientPanel();
             this.gradientPanel2 = new Syncfusion.Windows.Forms.Tools.GradientPanel();
             this.gradientPanel3 = new Syncfusion.Windows.Forms.Tools.GradientPanel();
+            this.btnWaferTeach = new Syncfusion.Windows.Forms.ButtonAdv();
+            this.btnCamStageTeach = new Syncfusion.Windows.Forms.ButtonAdv();
             this.btnLaserTeach = new Syncfusion.Windows.Forms.ButtonAdv();
             this.autoLabel3 = new Syncfusion.Windows.Forms.Tools.AutoLabel();
             this.btnMicroAlign = new Syncfusion.Windows.Forms.ButtonAdv();
             this.btnEdgeAlign = new Syncfusion.Windows.Forms.ButtonAdv();
             this.btnMacroAlgin = new Syncfusion.Windows.Forms.ButtonAdv();
-            this.btnCamStageTeach = new Syncfusion.Windows.Forms.ButtonAdv();
-            this.btnWaferTeach = new Syncfusion.Windows.Forms.ButtonAdv();
             ((System.ComponentModel.ISupportInitialize)(this.gradientPanel1)).BeginInit();
             this.gradientPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gradientPanel2)).BeginInit();
@@ -400,6 +400,38 @@
             this.gradientPanel3.Size = new System.Drawing.Size(389, 437);
             this.gradientPanel3.TabIndex = 33;
             // 
+            // btnWaferTeach
+            // 
+            this.btnWaferTeach.AutoEllipsis = true;
+            this.btnWaferTeach.BackColor = System.Drawing.SystemColors.Control;
+            this.btnWaferTeach.FlatAppearance.BorderSize = 5;
+            this.btnWaferTeach.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.btnWaferTeach.ForeColor = System.Drawing.Color.MidnightBlue;
+            this.btnWaferTeach.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnWaferTeach.Location = new System.Drawing.Point(30, 150);
+            this.btnWaferTeach.Name = "btnWaferTeach";
+            this.btnWaferTeach.Size = new System.Drawing.Size(152, 78);
+            this.btnWaferTeach.TabIndex = 34;
+            this.btnWaferTeach.Text = "Wafer Die Teach";
+            this.btnWaferTeach.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.btnWaferTeach.Click += new System.EventHandler(this.btnWaferTeach_Click);
+            // 
+            // btnCamStageTeach
+            // 
+            this.btnCamStageTeach.AutoEllipsis = true;
+            this.btnCamStageTeach.BackColor = System.Drawing.SystemColors.Control;
+            this.btnCamStageTeach.FlatAppearance.BorderSize = 5;
+            this.btnCamStageTeach.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.btnCamStageTeach.ForeColor = System.Drawing.Color.MidnightBlue;
+            this.btnCamStageTeach.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnCamStageTeach.Location = new System.Drawing.Point(30, 66);
+            this.btnCamStageTeach.Name = "btnCamStageTeach";
+            this.btnCamStageTeach.Size = new System.Drawing.Size(152, 78);
+            this.btnCamStageTeach.TabIndex = 33;
+            this.btnCamStageTeach.Text = "Camera Teach";
+            this.btnCamStageTeach.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.btnCamStageTeach.Click += new System.EventHandler(this.btnCamStageTeach_Click);
+            // 
             // btnLaserTeach
             // 
             this.btnLaserTeach.AutoEllipsis = true;
@@ -473,37 +505,6 @@
             this.btnMacroAlgin.Text = "Macro Align";
             this.btnMacroAlgin.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.btnMacroAlgin.Click += new System.EventHandler(this.btnMacroAlgin_Click);
-            // 
-            // btnCamStageTeach
-            // 
-            this.btnCamStageTeach.AutoEllipsis = true;
-            this.btnCamStageTeach.BackColor = System.Drawing.SystemColors.Control;
-            this.btnCamStageTeach.FlatAppearance.BorderSize = 5;
-            this.btnCamStageTeach.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.btnCamStageTeach.ForeColor = System.Drawing.Color.MidnightBlue;
-            this.btnCamStageTeach.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btnCamStageTeach.Location = new System.Drawing.Point(30, 66);
-            this.btnCamStageTeach.Name = "btnCamStageTeach";
-            this.btnCamStageTeach.Size = new System.Drawing.Size(152, 78);
-            this.btnCamStageTeach.TabIndex = 33;
-            this.btnCamStageTeach.Text = "Camera Teach";
-            this.btnCamStageTeach.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.btnCamStageTeach.Click += new System.EventHandler(this.btnCamStageTeach_Click);
-            // 
-            // btnWaferTeach
-            // 
-            this.btnWaferTeach.AutoEllipsis = true;
-            this.btnWaferTeach.BackColor = System.Drawing.SystemColors.Control;
-            this.btnWaferTeach.FlatAppearance.BorderSize = 5;
-            this.btnWaferTeach.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.btnWaferTeach.ForeColor = System.Drawing.Color.MidnightBlue;
-            this.btnWaferTeach.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btnWaferTeach.Location = new System.Drawing.Point(30, 150);
-            this.btnWaferTeach.Name = "btnWaferTeach";
-            this.btnWaferTeach.Size = new System.Drawing.Size(152, 78);
-            this.btnWaferTeach.TabIndex = 34;
-            this.btnWaferTeach.Text = "Wafer Die Teach";
-            this.btnWaferTeach.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             // 
             // FormTeachScreen
             // 

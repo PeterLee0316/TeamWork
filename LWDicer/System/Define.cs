@@ -31,7 +31,7 @@ namespace LWDicer.Layers
         public enum EScannerMode
         {
             MOF = 0,
-            STILL,
+            STEP,
         }
         public enum EScannerStatus
         {
