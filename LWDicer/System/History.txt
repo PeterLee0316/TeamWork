@@ -473,6 +473,8 @@ CSpinStep class -> CCleaningStep / CCoatingStep class 로 분리
 3. updated : FormMotorData 에 Tolerance 추가함
 4. updated : MYaskawa class. motor feedback position 계산할 때, minus position도 정상적으로 업데이트 되도록 변경.
              MoveType & Finite/Infinite motor 상관 관계 우선 정리해놓음.
+5. added : FormPolygon class. 이미지 선택 대화상자에서 직전에 사용했던 파일들 자동으로 선택해주는 기능 추가함
+6. updated : Define.h 파일 최상단부에 Dicing device, 266 device 별로 predifine 들을 정리해서, 한번에 복사해서 붙여넣기 할 수 있도록 함.
 
 // ********************************************************************************
 // test를 위해서 임시로 결과값을 쓰는 코드들은 // for test 로 주석 달기 및 검색해서 사용하도록

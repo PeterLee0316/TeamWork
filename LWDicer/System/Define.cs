@@ -1,12 +1,17 @@
 ﻿// define구문은 실제로는 프로젝트 속성에서 정의해야 함
 
 // PRE_DEFINE for Project setting
+///////////////////////////////////////////////////////////////////////////////////
 // EQUIP_DICING_DEV : Grooving & Dicing 개발 설비 (2016.08 기준)
 //                    Camera, Scanner 축은 YMC, Stage 축은 ACS 로 구성
+// WIN32, EQUIP_DICING_DEV, SIMULATION_VISION, SIMULATION_MOTION_ACS, SIMULATION_TEST
+
+///////////////////////////////////////////////////////////////////////////////////
 // EQUIP_266_DEV : 예전에 있었던 266레이저 설비에 scanner를 이식하여 진행하는 설비 (2016.08 기준)
 //                 Camera, Scanner, Stage 축은 ACS 로 구성
+// WIN32, EQUIP_266_DEV, SIMULATION_MOTION_YMC, SIMULATION_IO
+
 // OP_HW_BUTTON : 물리적으로 Op Panel Button (start, stop, reset 등의 s/w가 있는지 여부)
-// WIN32, SIMULATION_VISION, SIMULATION_MOTION_ACS, SIMULATION_MOTION_YMC, SIMULATION_IO, SIMULATION_TEST, SIMULATION_TEST
 
 using System;
 using System.Collections.Generic;

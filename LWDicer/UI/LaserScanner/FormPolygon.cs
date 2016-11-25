@@ -35,6 +35,9 @@ namespace LWDicer.UI
 
         private EVisionMode eVisionMode;
 
+        private string m_strLastDir;
+        private string m_strLastFile;
+
         public FormPolygon()
         {
             InitializeComponent();
@@ -798,18 +801,20 @@ namespace LWDicer.UI
         private void btnImageUpdate_Click(object sender, EventArgs e)
         {
             int fileStreamSize = 4092 * 1024;
-            string filename = string.Empty;
-            OpenFileDialog imgOpenDlg = new OpenFileDialog();
-            imgOpenDlg.InitialDirectory = CMainFrame.DBInfo.ImageDataDir;
-            imgOpenDlg.Filter = "BMP(*.bmp,*.lse)|*.bmp;*.lse"; //(*.dxf, *.dwg)|*.dxf;*.dwg";
-            if (imgOpenDlg.ShowDialog() == DialogResult.OK)
+            var dlg = new OpenFileDialog();
+            dlg.Filter = "BMP(*.bmp,*.lse)|*.bmp;*.lse"; //(*.dxf, *.dwg)|*.dxf;*.dwg";
+            dlg.InitialDirectory = (m_strLastDir == "") ? CMainFrame.DBInfo.ImageDataDir : m_strLastDir;
+            dlg.FileName = m_strLastFile;
+            
+            if (dlg.ShowDialog() == DialogResult.OK)
             {
-                filename = imgOpenDlg.FileName;
-                var fileData = new FileInfo(filename);
+                var fileData = new FileInfo(dlg.FileName);
+                m_strLastFile = fileData.Name;
+                m_strLastDir = fileData.DirectoryName;
                 if(fileData.Length < fileStreamSize)
-                    CMainFrame.LWDicer.m_MeScanner.SendBitmap(filename);
+                    CMainFrame.LWDicer.m_MeScanner.SendBitmap(m_strLastFile);
                 else
-                    CMainFrame.LWDicer.m_MeScanner.SendBitmap(filename,true);
+                    CMainFrame.LWDicer.m_MeScanner.SendBitmap(m_strLastFile,true);
             }            
         }
 
@@ -817,23 +822,26 @@ namespace LWDicer.UI
         {
             Bitmap sourceBitmap;
             Bitmap changeBitmap;
-            string filename = string.Empty;
+            string m_strLastFile = string.Empty;
             string changeName = string.Empty;
 
-            OpenFileDialog imgOpenDlg = new OpenFileDialog();
-            imgOpenDlg.InitialDirectory = CMainFrame.DBInfo.ImageDataDir;
-            imgOpenDlg.Filter = "BMP(*.bmp)|*.bmp";
-            if (imgOpenDlg.ShowDialog() == DialogResult.OK)
+            var dlg = new OpenFileDialog();
+            dlg.Filter = "BMP(*.bmp)|*.bmp";
+            dlg.InitialDirectory = CMainFrame.DBInfo.ImageDataDir;
+            if (dlg.ShowDialog() == DialogResult.OK)
             {
+                var fileData = new FileInfo(dlg.FileName);
+                m_strLastFile = fileData.Name;
+                m_strLastDir = fileData.DirectoryName;
+
                 // bmp file Load
-                filename = imgOpenDlg.FileName;
-                sourceBitmap = new Bitmap(filename);
+                sourceBitmap = new Bitmap(dlg.FileName);
                 
                 // bmp expand by 8 (default)
                 changeBitmap = CMainFrame.LWDicer.m_MeScanner.ExpandBmpFile(sourceBitmap);
                 
-                int insertPos = filename.Length;
-                changeName = filename.Insert(insertPos-4, "_EX");
+                int insertPos = m_strLastFile.Length;
+                changeName = m_strLastFile.Insert(insertPos-4, "_EX");
                 // bmp Save
                 if(changeBitmap != null)
                     changeBitmap.Save(changeName,ImageFormat.Bmp);

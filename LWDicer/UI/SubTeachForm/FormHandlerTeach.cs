@@ -795,6 +795,12 @@ namespace LWDicer.UI
                 Syncfusion.Windows.Forms.ButtonAdv abtn = btn as Syncfusion.Windows.Forms.ButtonAdv;
                 abtn.Enabled = bEnable;
             }
+            btns = CMainFrame.MainFrame.GetAllControl(this, typeof(System.Windows.Forms.Button));
+            foreach (var btn in btns)
+            {
+                System.Windows.Forms.Button abtn = btn as System.Windows.Forms.Button;
+                abtn.Enabled = bEnable;
+            }
             btnStopAction.Enabled = true;
         }
 
