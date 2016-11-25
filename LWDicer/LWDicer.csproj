@@ -38,7 +38,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;WIN32, EQUIP_DICING_DEV, SIMULATION_VISION, SIMULATION_MOTION_ACS, SIMULATION_TEST</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;WIN32, EQUIP_DICING_DEV, SIMULATION_VISION, SIMULATION_MOTION_ACS</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>2</WarningLevel>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
