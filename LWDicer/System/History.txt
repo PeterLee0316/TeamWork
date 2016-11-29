@@ -476,6 +476,13 @@ CSpinStep class -> CCleaningStep / CCoatingStep class 로 분리
 5. added : FormPolygon class. 이미지 선택 대화상자에서 직전에 사용했던 파일들 자동으로 선택해주는 기능 추가함
 6. updated : Define.h 파일 최상단부에 Dicing device, 266 device 별로 predifine 들을 정리해서, 한번에 복사해서 붙여넣기 할 수 있도록 함.
 
+// Version : 0.0.45
+// Grade : ★
+// Date : 161128~
+// Context
+1. updated : FormTopScreen class. display version info.
+2. updated : FormJogOperation class. add convenience.
+
 // ********************************************************************************
 // test를 위해서 임시로 결과값을 쓰는 코드들은 // for test 로 주석 달기 및 검색해서 사용하도록
 // ********************************************************************************
@@ -804,10 +811,6 @@ CSpinStep class -> CCleaningStep / CCoatingStep class 로 분리
 1. Laser Process Model Recipe 작업
 2. Laser Process 동작에서 Step Mark와 MOF 동작을 통합 조작하는 "RunLaserProcess"함수 제작
 3. Camera 및 Laser Align하는 UI 별도 생성
-
-
-
-
 
 
 

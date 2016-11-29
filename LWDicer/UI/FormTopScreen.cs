@@ -25,6 +25,7 @@ namespace LWDicer.UI
             InitializeForm();
 
             TopMenu = this;
+            textVersion.Text = SYSTEM_VER;
         }
 
         protected virtual void InitializeForm()

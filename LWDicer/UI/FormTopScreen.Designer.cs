@@ -46,6 +46,7 @@
             this.LabelBuzzer2 = new Syncfusion.Windows.Forms.Tools.GradientLabel();
             this.LabelBuzzer3 = new Syncfusion.Windows.Forms.Tools.GradientLabel();
             this.LabelBuzzer4 = new Syncfusion.Windows.Forms.Tools.GradientLabel();
+            this.textVersion = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // TextMessage
@@ -245,6 +246,17 @@
             this.LabelBuzzer4.Text = "B4";
             this.LabelBuzzer4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // textVersion
+            // 
+            this.textVersion.BackColor = System.Drawing.SystemColors.Control;
+            this.textVersion.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.textVersion.Enabled = false;
+            this.textVersion.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.textVersion.Location = new System.Drawing.Point(1070, 75);
+            this.textVersion.Name = "textVersion";
+            this.textVersion.Size = new System.Drawing.Size(190, 15);
+            this.textVersion.TabIndex = 762;
+            // 
             // FormTopScreen
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
@@ -252,6 +264,8 @@
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.ClientSize = new System.Drawing.Size(1278, 98);
+            this.ControlBox = false;
+            this.Controls.Add(this.textVersion);
             this.Controls.Add(this.LabelBuzzer4);
             this.Controls.Add(this.LabelBuzzer3);
             this.Controls.Add(this.LabelBuzzer2);
@@ -293,5 +307,6 @@
         private Syncfusion.Windows.Forms.Tools.GradientLabel LabelBuzzer2;
         private Syncfusion.Windows.Forms.Tools.GradientLabel LabelBuzzer3;
         private Syncfusion.Windows.Forms.Tools.GradientLabel LabelBuzzer4;
+        private System.Windows.Forms.TextBox textVersion;
     }
 }

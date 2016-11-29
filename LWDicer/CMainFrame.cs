@@ -92,6 +92,7 @@ namespace LWDicer.UI
             MainFrame = this;
             IsFormLoaded = true;
             m_StartMsgDlg.Hide();
+
         }
 
         public void InitScreen()

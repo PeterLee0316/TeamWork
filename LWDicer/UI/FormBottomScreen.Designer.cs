@@ -160,6 +160,7 @@
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.ClientSize = new System.Drawing.Size(1278, 100);
+            this.ControlBox = false;
             this.Controls.Add(this.BtnLog);
             this.Controls.Add(this.BtnTeach);
             this.Controls.Add(this.BtnData);
