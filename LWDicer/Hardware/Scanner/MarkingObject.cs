@@ -521,7 +521,7 @@ namespace LWDicer.Layers
         private void Grayscale(ref Bitmap bmp)
         {
             BitmapData bmpData = bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height), ImageLockMode.ReadWrite, PixelFormat.Format24bppRgb);
-
+/*
             unsafe
             {
                 byte* ptr = (byte*)bmpData.Scan0.ToPointer();
@@ -536,7 +536,7 @@ namespace LWDicer.Layers
                     ptr += 3;
                 }
             }
-
+            */
             bmp.UnlockBits(bmpData);
         }
 
@@ -549,6 +549,7 @@ namespace LWDicer.Layers
 
             BitmapData bmpData = bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height), 
                                               ImageLockMode.ReadWrite,PixelFormat.Format24bppRgb);
+/*
             unsafe
             {
                 int TotalRGB;
@@ -577,7 +578,7 @@ namespace LWDicer.Layers
                 //    ptr += 3;
                 //}
             }
-
+            */
             bmp.UnlockBits(bmpData);
         }
 

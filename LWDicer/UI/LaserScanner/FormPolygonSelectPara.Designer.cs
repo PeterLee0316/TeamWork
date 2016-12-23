@@ -58,7 +58,7 @@
             this.btnIsnSelect.Name = "btnIsnSelect";
             this.btnIsnSelect.Size = new System.Drawing.Size(124, 61);
             this.btnIsnSelect.TabIndex = 756;
-            this.btnIsnSelect.Text = "ISN";
+            this.btnIsnSelect.Text = "Isn.ini";
             this.btnIsnSelect.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.btnIsnSelect.UseVisualStyleBackColor = true;
             this.btnIsnSelect.Click += new System.EventHandler(this.btnIsnSelect_Click);
@@ -72,7 +72,7 @@
             this.btnCsnSelect.Name = "btnCsnSelect";
             this.btnCsnSelect.Size = new System.Drawing.Size(124, 61);
             this.btnCsnSelect.TabIndex = 755;
-            this.btnCsnSelect.Text = "CSN";
+            this.btnCsnSelect.Text = "Cns.ini";
             this.btnCsnSelect.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.btnCsnSelect.UseVisualStyleBackColor = true;
             this.btnCsnSelect.Click += new System.EventHandler(this.btnCsnSelect_Click);
@@ -86,7 +86,7 @@
             this.btnConfigSelect.Name = "btnConfigSelect";
             this.btnConfigSelect.Size = new System.Drawing.Size(124, 61);
             this.btnConfigSelect.TabIndex = 754;
-            this.btnConfigSelect.Text = "Config";
+            this.btnConfigSelect.Text = "Job.ini";
             this.btnConfigSelect.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.btnConfigSelect.UseVisualStyleBackColor = true;
             this.btnConfigSelect.Click += new System.EventHandler(this.btnConfigSelect_Click);
@@ -95,11 +95,12 @@
             // 
             this.btnConfigSave.Font = new System.Drawing.Font("굴림", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.btnConfigSave.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.btnConfigSave.Image = global::LWDicer.Properties.Resources.import;
             this.btnConfigSave.Location = new System.Drawing.Point(12, 12);
             this.btnConfigSave.Name = "btnConfigSave";
             this.btnConfigSave.Size = new System.Drawing.Size(124, 61);
             this.btnConfigSave.TabIndex = 753;
-            this.btnConfigSave.Text = "All";
+            this.btnConfigSave.Text = "Config";
             this.btnConfigSave.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.btnConfigSave.UseVisualStyleBackColor = true;
             this.btnConfigSave.Click += new System.EventHandler(this.btnConfigSave_Click);

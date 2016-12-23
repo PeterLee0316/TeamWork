@@ -256,16 +256,17 @@ namespace LWDicer.Layers
             ptEnd.Y = (int)(MaxHeight / (m_RefComp.DataManager.ModelData.ScanData.CrossScanResolution) + 0.5);
 
             // Bmp의 가로 세로 크기 설정
-            BmpImageWidth  = ptEnd.X;
-            BmpImageHeight = ptEnd.Y;
+            BmpImageWidth = ptEnd.X;
+            BmpImageHeight = ptEnd.Y + 1;
 
             // 실제 크기와 Pixel과 배율을 결정함  (각 객체를 Pixel로 전환할때 사용함)
-            ratioWidth  = (float)BmpImageWidth  / BMT_SCAN_WIDTH;
-            ratioHeight = (float)BmpImageHeight / MaxHeight;
+            ratioWidth = (float)(BmpImageWidth) / BMT_SCAN_WIDTH;
+            if (MaxHeight == 0) ratioHeight = 0;
+            else ratioHeight = (float)ptEnd.Y / MaxHeight;
 
             // 가로 사이즈는 32배수로 크기를 정한다. 
-            // 소수점을 버리기 위해서... 32로 나누고.. 곱한다.(32배수 밑은 버림).
-            BmpImageWidth  = (int)(ptEnd.X / BMP_DATA_SIZE + 0.5);
+            // 가로 사이즈는 올림으로 계산한다.
+            BmpImageWidth = (int)Math.Ceiling((double)ptEnd.X / BMP_DATA_SIZE);
             BmpImageWidth *= BMP_DATA_SIZE;
 
             // Bmp 크기를 계산해서 Stream으로 반복 저장 횟수를 설정함.
@@ -314,20 +315,20 @@ namespace LWDicer.Layers
 
             // 가로 세로 크기를 Pixel 단위로 변환
             ptEnd.X = (int)(BMT_SCAN_WIDTH / (m_RefComp.DataManager.ModelData.ScanData.InScanResolution) + 0.5);
-            ptEnd.Y = (int)(MaxHeight / (m_RefComp.DataManager.ModelData.ScanData.CrossScanResolution) + 0.5);
+            ptEnd.Y = (int)(MaxHeight / (m_RefComp.DataManager.ModelData.ScanData.CrossScanResolution)+0.5);
 
             // Bmp의 가로 세로 크기 설정
             BmpImageWidth = ptEnd.X;
-            BmpImageHeight = ptEnd.Y;
+            BmpImageHeight = ptEnd.Y+1;
 
             // 실제 크기와 Pixel과 배율을 결정함  (각 객체를 Pixel로 전환할때 사용함)
             ratioWidth = (float)(BmpImageWidth) / BMT_SCAN_WIDTH;
             if (MaxHeight == 0) ratioHeight = 0;
-            else  ratioHeight = (float)BmpImageHeight / MaxHeight;
+            else  ratioHeight = (float)ptEnd.Y / MaxHeight;
 
             // 가로 사이즈는 32배수로 크기를 정한다. 
-            // 소수점을 버리기 위해서... 32로 나누고.. 곱한다.(32배수 밑은 버림).
-            BmpImageWidth = (int)(ptEnd.X / BMP_DATA_SIZE+0.5);
+            // 가로 사이즈는 올림으로 계산한다.
+            BmpImageWidth = (int)Math.Ceiling((double)ptEnd.X / BMP_DATA_SIZE);
             BmpImageWidth *= BMP_DATA_SIZE;            
 
             // BMP File의 가로 한줄의 Byte Array의 크기를 설정한다.
@@ -1406,36 +1407,36 @@ namespace LWDicer.Layers
             value = Convert.ToString(m_RefComp.DataManager.ModelData.ScanData.InterleaveRatio);
             bRet = CUtils.SetValue(section, key, value, filePath);
 
-            key = "FacetFineDelayOffset0";
-            value = string.Format("{0:F6}", m_RefComp.DataManager.ModelData.ScanData.FacetFineDelayOffset0 / 1000.0f);
+            key = "FacetFineDelay0";
+            value = string.Format("{0:F6}", m_RefComp.DataManager.ModelData.ScanData.FacetFineDelay0 / 1000.0f);
             bRet = CUtils.SetValue(section, key, value, filePath);
 
-            key = "FacetFineDelayOffset1";
-            value = string.Format("{0:F6}", m_RefComp.DataManager.ModelData.ScanData.FacetFineDelayOffset1 / 1000.0f);
+            key = "FacetFineDelay1";
+            value = string.Format("{0:F6}", m_RefComp.DataManager.ModelData.ScanData.FacetFineDelay1 / 1000.0f);
             bRet = CUtils.SetValue(section, key, value, filePath);
 
-            key = "FacetFineDelayOffset2";
-            value = string.Format("{0:F6}", m_RefComp.DataManager.ModelData.ScanData.FacetFineDelayOffset2 / 1000.0f);
+            key = "FacetFineDelay2";
+            value = string.Format("{0:F6}", m_RefComp.DataManager.ModelData.ScanData.FacetFineDelay2 / 1000.0f);
             bRet = CUtils.SetValue(section, key, value, filePath);
 
-            key = "FacetFineDelayOffset3";
-            value = string.Format("{0:F6}", m_RefComp.DataManager.ModelData.ScanData.FacetFineDelayOffset3 / 1000.0f);
+            key = "FacetFineDelay3";
+            value = string.Format("{0:F6}", m_RefComp.DataManager.ModelData.ScanData.FacetFineDelay3 / 1000.0f);
             bRet = CUtils.SetValue(section, key, value, filePath);
 
-            key = "FacetFineDelayOffset4";
-            value = string.Format("{0:F6}", m_RefComp.DataManager.ModelData.ScanData.FacetFineDelayOffset4 / 1000.0f);
+            key = "FacetFineDelay4";
+            value = string.Format("{0:F6}", m_RefComp.DataManager.ModelData.ScanData.FacetFineDelay4 / 1000.0f);
             bRet = CUtils.SetValue(section, key, value, filePath);
 
-            key = "FacetFineDelayOffset5";
-            value = string.Format("{0:F6}", m_RefComp.DataManager.ModelData.ScanData.FacetFineDelayOffset5 / 1000.0f);
+            key = "FacetFineDelay5";
+            value = string.Format("{0:F6}", m_RefComp.DataManager.ModelData.ScanData.FacetFineDelay5 / 1000.0f);
             bRet = CUtils.SetValue(section, key, value, filePath);
 
-            key = "FacetFineDelayOffset6";
-            value = string.Format("{0:F6}", m_RefComp.DataManager.ModelData.ScanData.FacetFineDelayOffset6 / 1000.0f);
+            key = "FacetFineDelay6";
+            value = string.Format("{0:F6}", m_RefComp.DataManager.ModelData.ScanData.FacetFineDelay6 / 1000.0f);
             bRet = CUtils.SetValue(section, key, value, filePath);
 
-            key = "FacetFineDelayOffset7";
-            value = string.Format("{0:F6}", m_RefComp.DataManager.ModelData.ScanData.FacetFineDelayOffset7 / 1000.0f);
+            key = "FacetFineDelay7";
+            value = string.Format("{0:F6}", m_RefComp.DataManager.ModelData.ScanData.FacetFineDelay7 / 1000.0f);
             bRet = CUtils.SetValue(section, key, value, filePath);
 
             key = "StartFacet";
@@ -1472,10 +1473,7 @@ namespace LWDicer.Layers
             key = "MaxMotorSpeed";
             value = string.Format("{0:F2}", m_RefComp.DataManager.ModelData.ScanData.MaxMotorSpeed);
             bRet = CUtils.SetValue(section, key, value, filePath);
-
-            key = "MotorEffectivePoles";
-            value = Convert.ToString(m_RefComp.DataManager.ModelData.ScanData.MotorEffectivePoles);
-            bRet = CUtils.SetValue(section, key, value, filePath);
+            
 
             key = "SyncWaitTime";
             value = Convert.ToString(m_RefComp.DataManager.ModelData.ScanData.SyncWaitTime);
@@ -1507,27 +1505,7 @@ namespace LWDicer.Layers
             key = "AutoRepeat";
             value = Convert.ToString(m_RefComp.DataManager.ModelData.ScanData.AutoRepeat);
             bRet = CUtils.SetValue(section, key, value, filePath);
-
-            key = "PixAlwaysOn";
-            value = Convert.ToString(m_RefComp.DataManager.ModelData.ScanData.PixAlwaysOn);
-            bRet = CUtils.SetValue(section, key, value, filePath);
-
-            key = "ExtCamTrig";
-            value = Convert.ToString(m_RefComp.DataManager.ModelData.ScanData.ExtCamTrig);
-            bRet = CUtils.SetValue(section, key, value, filePath);
-
-            key = "EncoderExpo";
-            value = Convert.ToString(m_RefComp.DataManager.ModelData.ScanData.EncoderExpo);
-            bRet = CUtils.SetValue(section, key, value, filePath);
-
-            key = "FacetTest";
-            value = Convert.ToString(m_RefComp.DataManager.ModelData.ScanData.FacetTest);
-            bRet = CUtils.SetValue(section, key, value, filePath);
-
-            key = "SWTest";
-            value = Convert.ToString(m_RefComp.DataManager.ModelData.ScanData.SWTest);
-            bRet = CUtils.SetValue(section, key, value, filePath);
-
+            
             key = "JobstartAutorepeat";
             value = Convert.ToString(m_RefComp.DataManager.ModelData.ScanData.JobstartAutorepeat);
             bRet = CUtils.SetValue(section, key, value, filePath);
@@ -2087,17 +2065,16 @@ namespace LWDicer.Layers
             {
                 procScanner.Start();
                 procScanner.StandardInput.Write("tftp -i " + strIP + " put " + strFilePath + Environment.NewLine);
-                // procScanner.StandardInput.Write("C:\\NST\\nstc upload " + strIP + " " + strFilePath + Environment.NewLine);
+                //procScanner.StandardInput.Write(@"C:\\NST\\NSTC\\nstc upload " + strIP + " " + strFilePath + Environment.NewLine);
                 procScanner.StandardInput.Close();
                 //procScanner.BeginOutputReadLine();                
-
-                Sleep(1000);
-
+                
                 if (procScanner.WaitForExit(2000) == false)
                 {
                     procScanner.Close();
                     return false;
                 }
+                
 
                 procScanner.Close();
             }

@@ -192,14 +192,14 @@ namespace LWDicer.UI
             GridConfigure[14, 0].Text = "EnCarSig";
             GridConfigure[15, 0].Text = "SwapCarSig";
             GridConfigure[16, 0].Text = "InterLeaveRatio";
-            GridConfigure[17, 0].Text = "FacetFineDelayOffset0";
-            GridConfigure[18, 0].Text = "FacetFineDelayOffset1";
-            GridConfigure[19, 0].Text = "FacetFineDelayOffset2";
-            GridConfigure[20, 0].Text = "FacetFineDelayOffset3";
-            GridConfigure[21, 0].Text = "FacetFineDelayOffset4";
-            GridConfigure[22, 0].Text = "FacetFineDelayOffset5";
-            GridConfigure[23, 0].Text = "FacetFineDelayOffset6";
-            GridConfigure[24, 0].Text = "FacetFineDelayOffset7";
+            GridConfigure[17, 0].Text = "FacetFineDelay0";
+            GridConfigure[18, 0].Text = "FacetFineDelay1";
+            GridConfigure[19, 0].Text = "FacetFineDelay2";
+            GridConfigure[20, 0].Text = "FacetFineDelay3";
+            GridConfigure[21, 0].Text = "FacetFineDelay4";
+            GridConfigure[22, 0].Text = "FacetFineDelay5";
+            GridConfigure[23, 0].Text = "FacetFineDelay6";
+            GridConfigure[24, 0].Text = "FacetFineDelay7";
             GridConfigure[25, 0].Text = "StartFacet";
             GridConfigure[26, 0].Text = "AutoIncrementStartFacet";
             GridConfigure[27, 0].Text = "MotorStableTime";
@@ -247,7 +247,7 @@ namespace LWDicer.UI
             GridConfigure[13, 3].Text = "[CrossScan Configuration] Stagestart-up 과정의 최대 가속도";
             GridConfigure[14, 3].Text = "[CrossScan Configuration] Stage Control Encoder signal 출력 여부";
             GridConfigure[15, 3].Text = "[CrossScan Configuration] Stage movement direction 선택";
-            GridConfigure[16, 3].Text = "[Head Configuration] FacetFineDelayOffset 자동 설정 기능";
+            GridConfigure[16, 3].Text = "[Head Configuration] FacetFineDelay 자동 설정 기능";
             GridConfigure[17, 3].Text = "[Head Configuration] 각 scanline의 시작 위치 값의 미세 조정";
             GridConfigure[18, 3].Text = "[Head Configuration] 각 scanline의 시작 위치 값의 미세 조정";
             GridConfigure[19, 3].Text = "[Head Configuration] 각 scanline의 시작 위치 값의 미세 조정";
@@ -543,14 +543,14 @@ namespace LWDicer.UI
             GridConfigure[14, 2].Text = String.Format("{0:f0}", para.EnCarSig);
             GridConfigure[15, 2].Text = String.Format("{0:f0}", para.SwapCarSig);
             GridConfigure[16, 2].Text = String.Format("{0:f0}", para.InterleaveRatio);
-            GridConfigure[17, 2].Text = string.Format("{0:f4}", para.FacetFineDelayOffset0 );
-            GridConfigure[18, 2].Text = string.Format("{0:f4}", para.FacetFineDelayOffset1 );
-            GridConfigure[19, 2].Text = string.Format("{0:f4}", para.FacetFineDelayOffset2 );
-            GridConfigure[20, 2].Text = string.Format("{0:f4}", para.FacetFineDelayOffset3 );
-            GridConfigure[21, 2].Text = string.Format("{0:f4}", para.FacetFineDelayOffset4 );
-            GridConfigure[22, 2].Text = string.Format("{0:f4}", para.FacetFineDelayOffset5 );
-            GridConfigure[23, 2].Text = string.Format("{0:f4}", para.FacetFineDelayOffset6 );
-            GridConfigure[24, 2].Text = string.Format("{0:f4}", para.FacetFineDelayOffset7 );
+            GridConfigure[17, 2].Text = string.Format("{0:f4}", para.FacetFineDelay0 );
+            GridConfigure[18, 2].Text = string.Format("{0:f4}", para.FacetFineDelay1 );
+            GridConfigure[19, 2].Text = string.Format("{0:f4}", para.FacetFineDelay2 );
+            GridConfigure[20, 2].Text = string.Format("{0:f4}", para.FacetFineDelay3 );
+            GridConfigure[21, 2].Text = string.Format("{0:f4}", para.FacetFineDelay4 );
+            GridConfigure[22, 2].Text = string.Format("{0:f4}", para.FacetFineDelay5 );
+            GridConfigure[23, 2].Text = string.Format("{0:f4}", para.FacetFineDelay6 );
+            GridConfigure[24, 2].Text = string.Format("{0:f4}", para.FacetFineDelay7 );
             GridConfigure[25, 2].Text = String.Format("{0:f0}", para.StartFacet);
             GridConfigure[26, 2].Text = String.Format("{0:f0}", para.AutoIncrementStartFacet);
             GridConfigure[27, 2].Text = String.Format("{0:f0}", para.MotorStableTime);
@@ -669,14 +669,14 @@ namespace LWDicer.UI
                 CMainFrame.DataManager.ModelData.ScanData.EnCarSig = Convert.ToInt16(GridConfigure[14, 2].Text);
                 CMainFrame.DataManager.ModelData.ScanData.SwapCarSig = Convert.ToInt16(GridConfigure[15, 2].Text);
                 CMainFrame.DataManager.ModelData.ScanData.InterleaveRatio = Convert.ToInt16(GridConfigure[16, 2].Text);
-                CMainFrame.DataManager.ModelData.ScanData.FacetFineDelayOffset0 = Convert.ToSingle(GridConfigure[17, 2].Text);
-                CMainFrame.DataManager.ModelData.ScanData.FacetFineDelayOffset1 = Convert.ToSingle(GridConfigure[18, 2].Text);
-                CMainFrame.DataManager.ModelData.ScanData.FacetFineDelayOffset2 = Convert.ToSingle(GridConfigure[19, 2].Text);
-                CMainFrame.DataManager.ModelData.ScanData.FacetFineDelayOffset3 = Convert.ToSingle(GridConfigure[20, 2].Text);
-                CMainFrame.DataManager.ModelData.ScanData.FacetFineDelayOffset4 = Convert.ToSingle(GridConfigure[21, 2].Text);
-                CMainFrame.DataManager.ModelData.ScanData.FacetFineDelayOffset5 = Convert.ToSingle(GridConfigure[22, 2].Text);
-                CMainFrame.DataManager.ModelData.ScanData.FacetFineDelayOffset6 = Convert.ToSingle(GridConfigure[23, 2].Text);
-                CMainFrame.DataManager.ModelData.ScanData.FacetFineDelayOffset7 = Convert.ToSingle(GridConfigure[24, 2].Text);
+                CMainFrame.DataManager.ModelData.ScanData.FacetFineDelay0 = Convert.ToSingle(GridConfigure[17, 2].Text);
+                CMainFrame.DataManager.ModelData.ScanData.FacetFineDelay1 = Convert.ToSingle(GridConfigure[18, 2].Text);
+                CMainFrame.DataManager.ModelData.ScanData.FacetFineDelay2 = Convert.ToSingle(GridConfigure[19, 2].Text);
+                CMainFrame.DataManager.ModelData.ScanData.FacetFineDelay3 = Convert.ToSingle(GridConfigure[20, 2].Text);
+                CMainFrame.DataManager.ModelData.ScanData.FacetFineDelay4 = Convert.ToSingle(GridConfigure[21, 2].Text);
+                CMainFrame.DataManager.ModelData.ScanData.FacetFineDelay5 = Convert.ToSingle(GridConfigure[22, 2].Text);
+                CMainFrame.DataManager.ModelData.ScanData.FacetFineDelay6 = Convert.ToSingle(GridConfigure[23, 2].Text);
+                CMainFrame.DataManager.ModelData.ScanData.FacetFineDelay7 = Convert.ToSingle(GridConfigure[24, 2].Text);
                 CMainFrame.DataManager.ModelData.ScanData.StartFacet = Convert.ToInt16(GridConfigure[25, 2].Text);
                 CMainFrame.DataManager.ModelData.ScanData.AutoIncrementStartFacet = Convert.ToInt16(GridConfigure[26, 2].Text);
                 CMainFrame.DataManager.ModelData.ScanData.MotorStableTime = Convert.ToInt16(GridConfigure[27, 2].Text);
@@ -852,7 +852,7 @@ namespace LWDicer.UI
         private void btnDataUpdate_Click(object sender, EventArgs e)
         {
             // ini File 저장
-            CMainFrame.LWDicer.m_MeScanner.SaveConfigPara("config_job");
+            CMainFrame.LWDicer.m_MeScanner.SaveConfigPara("job");
 
             // ini File 저장
             CMainFrame.LWDicer.m_MeScanner.SaveIsnPara("isn_job");

@@ -849,23 +849,23 @@ namespace LWDicer.Layers
             public string FThetaConstant;
             public float ExposeLineLength;
             public int EncoderIndexDelay;
-            public float FacetFineDelay0;
-            public float FacetFineDelay1;
-            public float FacetFineDelay2;
-            public float FacetFineDelay3;
-            public float FacetFineDelay4;
-            public float FacetFineDelay5;
-            public float FacetFineDelay6;
-            public float FacetFineDelay7;
+            public float FacetFineDelay0;   // USER ENABLE
+            public float FacetFineDelay1;   // USER ENABLE
+            public float FacetFineDelay2;   // USER ENABLE
+            public float FacetFineDelay3;   // USER ENABLE
+            public float FacetFineDelay4;   // USER ENABLE
+            public float FacetFineDelay5;   // USER ENABLE
+            public float FacetFineDelay6;   // USER ENABLE
+            public float FacetFineDelay7;   // USER ENABLE
             public int InterleaveRatio;         // USER ENABLE
-            public float FacetFineDelayOffset0;// USER ENABLE
-            public float FacetFineDelayOffset1;// USER ENABLE
-            public float FacetFineDelayOffset2;// USER ENABLE
-            public float FacetFineDelayOffset3;// USER ENABLE
-            public float FacetFineDelayOffset4;// USER ENABLE
-            public float FacetFineDelayOffset5;// USER ENABLE
-            public float FacetFineDelayOffset6;// USER ENABLE
-            public float FacetFineDelayOffset7;// USER ENABLE
+            public float FacetFineDelayOffset0;
+            public float FacetFineDelayOffset1;
+            public float FacetFineDelayOffset2;
+            public float FacetFineDelayOffset3;
+            public float FacetFineDelayOffset4;
+            public float FacetFineDelayOffset5;
+            public float FacetFineDelayOffset6;
+            public float FacetFineDelayOffset7;
             public int StartFacet;              // USER ENABLE
             public int AutoIncrementStartFacet; // USER ENABLE
 
@@ -876,7 +876,6 @@ namespace LWDicer.Layers
             //public int SimEncSel;
             public float MinMotorSpeed;
             public float MaxMotorSpeed;
-            public int MotorEffectivePoles;
             public int SyncWaitTime;
             public int MotorStableTime;         // USER ENABLE
             public int ShaftEncoderPulseCount;
@@ -886,11 +885,6 @@ namespace LWDicer.Layers
             public int HWDebugSelection;
             public int AutoRepeat;
             public int ExpoDebugSelection;
-            public int PixAlwaysOn;
-            public int ExtCamTrig;
-            public int EncoderExpo;
-            public int FacetTest;
-            public int SWTest;
             public int JobstartAutorepeat;
 
             #endregion
@@ -4328,11 +4322,7 @@ namespace LWDicer.Layers
                     value = CUtils.GetValue(section, key, filePath);
                     if (value == "") value = "55.0";
                     ModelData.ScanData.MaxMotorSpeed = Convert.ToSingle(value);
-
-                    key = "MotorEffectivePoles";
-                    value = CUtils.GetValue(section, key, filePath);
-                    if (value == "") value = "32";
-                    ModelData.ScanData.MotorEffectivePoles = Convert.ToInt32(value);
+                    
 
                     key = "SyncWaitTime";
                     value = CUtils.GetValue(section, key, filePath);
@@ -4371,32 +4361,7 @@ namespace LWDicer.Layers
                     value = CUtils.GetValue(section, key, filePath);
                     if (value == "") value = "0";
                     ModelData.ScanData.AutoRepeat = Convert.ToInt32(value);
-
-                    key = "PixAlwaysOn";
-                    value = CUtils.GetValue(section, key, filePath);
-                    if (value == "") value = "0";
-                    ModelData.ScanData.PixAlwaysOn = Convert.ToInt32(value);
-
-                    key = "ExtCamTrig";
-                    value = CUtils.GetValue(section, key, filePath);
-                    if (value == "") value = "0";
-                    ModelData.ScanData.ExtCamTrig = Convert.ToInt32(value);
-
-                    key = "EncoderExpo";
-                    value = CUtils.GetValue(section, key, filePath);
-                    if (value == "") value = "0";
-                    ModelData.ScanData.EncoderExpo = Convert.ToInt32(value);
-
-                    key = "FacetTest";
-                    value = CUtils.GetValue(section, key, filePath);
-                    if (value == "") value = "0";
-                    ModelData.ScanData.FacetTest = Convert.ToInt32(value);
-
-                    key = "SWTest";
-                    value = CUtils.GetValue(section, key, filePath);
-                    if (value == "") value = "0";
-                    ModelData.ScanData.SWTest = Convert.ToInt32(value);
-
+                    
                     key = "JobstartAutorepeat";
                     value = CUtils.GetValue(section, key, filePath);
                     if (value == "") value = "20";
@@ -5067,11 +5032,7 @@ namespace LWDicer.Layers
                     value = CUtils.GetValue(section, key, filePath);
                     if (value == "") value = "55.0";
                     ModelData.ScanData.MaxMotorSpeed = Convert.ToSingle(value);
-
-                    key = "MotorEffectivePoles";
-                    value = CUtils.GetValue(section, key, filePath);
-                    if (value == "") value = "32";
-                    ModelData.ScanData.MotorEffectivePoles = Convert.ToInt32(value);
+                    
 
                     key = "SyncWaitTime";
                     value = CUtils.GetValue(section, key, filePath);
@@ -5110,32 +5071,7 @@ namespace LWDicer.Layers
                     value = CUtils.GetValue(section, key, filePath);
                     if (value == "") value = "0";
                     ModelData.ScanData.AutoRepeat = Convert.ToInt32(value);
-
-                    key = "PixAlwaysOn";
-                    value = CUtils.GetValue(section, key, filePath);
-                    if (value == "") value = "0";
-                    ModelData.ScanData.PixAlwaysOn = Convert.ToInt32(value);
-
-                    key = "ExtCamTrig";
-                    value = CUtils.GetValue(section, key, filePath);
-                    if (value == "") value = "0";
-                    ModelData.ScanData.ExtCamTrig = Convert.ToInt32(value);
-
-                    key = "EncoderExpo";
-                    value = CUtils.GetValue(section, key, filePath);
-                    if (value == "") value = "0";
-                    ModelData.ScanData.EncoderExpo = Convert.ToInt32(value);
-
-                    key = "FacetTest";
-                    value = CUtils.GetValue(section, key, filePath);
-                    if (value == "") value = "0";
-                    ModelData.ScanData.FacetTest = Convert.ToInt32(value);
-
-                    key = "SWTest";
-                    value = CUtils.GetValue(section, key, filePath);
-                    if (value == "") value = "0";
-                    ModelData.ScanData.SWTest = Convert.ToInt32(value);
-
+                    
                     key = "JobstartAutorepeat";
                     value = CUtils.GetValue(section, key, filePath);
                     if (value == "") value = "20";
@@ -5760,10 +5696,7 @@ namespace LWDicer.Layers
                     key = "MaxMotorSpeed";
                     value = string.Format("{0:F2}", ModelData.ScanData.MaxMotorSpeed);
                     bRet = CUtils.SetValue(section, key, value, filePath);
-
-                    key = "MotorEffectivePoles";
-                    value = Convert.ToString(ModelData.ScanData.MotorEffectivePoles);
-                    bRet = CUtils.SetValue(section, key, value, filePath);
+                    
 
                     key = "SyncWaitTime";
                     value = Convert.ToString(ModelData.ScanData.SyncWaitTime);
@@ -5795,27 +5728,7 @@ namespace LWDicer.Layers
                     key = "AutoRepeat";
                     value = Convert.ToString(ModelData.ScanData.AutoRepeat);
                     bRet = CUtils.SetValue(section, key, value, filePath);
-
-                    key = "PixAlwaysOn";
-                    value = Convert.ToString(ModelData.ScanData.PixAlwaysOn);
-                    bRet = CUtils.SetValue(section, key, value, filePath);
-
-                    key = "ExtCamTrig";
-                    value = Convert.ToString(ModelData.ScanData.ExtCamTrig);
-                    bRet = CUtils.SetValue(section, key, value, filePath);
-
-                    key = "EncoderExpo";
-                    value = Convert.ToString(ModelData.ScanData.EncoderExpo);
-                    bRet = CUtils.SetValue(section, key, value, filePath);
-
-                    key = "FacetTest";
-                    value = Convert.ToString(ModelData.ScanData.FacetTest);
-                    bRet = CUtils.SetValue(section, key, value, filePath);
-
-                    key = "SWTest";
-                    value = Convert.ToString(ModelData.ScanData.SWTest);
-                    bRet = CUtils.SetValue(section, key, value, filePath);
-
+                    
                     key = "JobstartAutorepeat";
                     value = Convert.ToString(ModelData.ScanData.JobstartAutorepeat);
                     bRet = CUtils.SetValue(section, key, value, filePath);
@@ -6368,10 +6281,7 @@ namespace LWDicer.Layers
                     key = "MaxMotorSpeed";
                     value = string.Format("{0:F2}", ModelData.ScanData.MaxMotorSpeed);
                     bRet = CUtils.SetValue(section, key, value, filePath);
-
-                    key = "MotorEffectivePoles";
-                    value = Convert.ToString(ModelData.ScanData.MotorEffectivePoles);
-                    bRet = CUtils.SetValue(section, key, value, filePath);
+                    
 
                     key = "SyncWaitTime";
                     value = Convert.ToString(ModelData.ScanData.SyncWaitTime);
@@ -6402,26 +6312,6 @@ namespace LWDicer.Layers
 
                     key = "AutoRepeat";
                     value = Convert.ToString(ModelData.ScanData.AutoRepeat);
-                    bRet = CUtils.SetValue(section, key, value, filePath);
-
-                    key = "PixAlwaysOn";
-                    value = Convert.ToString(ModelData.ScanData.PixAlwaysOn);
-                    bRet = CUtils.SetValue(section, key, value, filePath);
-
-                    key = "ExtCamTrig";
-                    value = Convert.ToString(ModelData.ScanData.ExtCamTrig);
-                    bRet = CUtils.SetValue(section, key, value, filePath);
-
-                    key = "EncoderExpo";
-                    value = Convert.ToString(ModelData.ScanData.EncoderExpo);
-                    bRet = CUtils.SetValue(section, key, value, filePath);
-
-                    key = "FacetTest";
-                    value = Convert.ToString(ModelData.ScanData.FacetTest);
-                    bRet = CUtils.SetValue(section, key, value, filePath);
-
-                    key = "SWTest";
-                    value = Convert.ToString(ModelData.ScanData.SWTest);
                     bRet = CUtils.SetValue(section, key, value, filePath);
 
                     key = "JobstartAutorepeat";
