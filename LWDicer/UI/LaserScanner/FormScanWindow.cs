@@ -407,8 +407,8 @@ namespace LWDicer.UI
                 groupCount++;
             }
 
-            PointF pStart = new PointF(0, 0);
-            PointF pEnd = new PointF(0, 0);
+            CPos_XY pStart = new CPos_XY();
+            CPos_XY pEnd = new CPos_XY();
 
             // Group을 추가함.
             m_ScanManager.AddObject(EObjectType.GROUP, pStart, pEnd, pGroup);
@@ -508,10 +508,10 @@ namespace LWDicer.UI
         {
             if (nIndex >= 0)
             {
-                txtObjectStartPosX.Text = string.Format("{0:F4}", m_ScanManager.ObjectList[nIndex].ptObjectStartPos.X);
-                txtObjectStartPosY.Text = string.Format("{0:F4}", m_ScanManager.ObjectList[nIndex].ptObjectStartPos.Y);
-                txtObjectEndPosX.Text = string.Format("{0:F4}", m_ScanManager.ObjectList[nIndex].ptObjectEndPos.X);
-                txtObjectEndPosY.Text = string.Format("{0:F4}", m_ScanManager.ObjectList[nIndex].ptObjectEndPos.Y);
+                txtObjectStartPosX.Text = string.Format("{0:F4}", m_ScanManager.ObjectList[nIndex].ptObjectStartPos.dX);
+                txtObjectStartPosY.Text = string.Format("{0:F4}", m_ScanManager.ObjectList[nIndex].ptObjectStartPos.dY);
+                txtObjectEndPosX.Text = string.Format("{0:F4}", m_ScanManager.ObjectList[nIndex].ptObjectEndPos.dX);
+                txtObjectEndPosY.Text = string.Format("{0:F4}", m_ScanManager.ObjectList[nIndex].ptObjectEndPos.dY);
                 txtObjectAngle.Text = string.Format("{0:F4}", m_ScanManager.ObjectList[nIndex].ObjectRotateAngle);
 
             }
@@ -535,14 +535,14 @@ namespace LWDicer.UI
             //Group 타입이면 변경을 하지 않는다
             if (m_ScanManager.ObjectList[SelectObjectListView].ObjectType == EObjectType.GROUP) return;
 
-            PointF pPos = new PointF(0, 0);
+            CPos_XY pPos = new CPos_XY(0, 0);
 
-            pPos.X = float.Parse(txtObjectStartPosX.Text);
-            pPos.Y = float.Parse(txtObjectStartPosY.Text);
+            pPos.dX = float.Parse(txtObjectStartPosX.Text);
+            pPos.dY = float.Parse(txtObjectStartPosY.Text);
             m_ScanManager.ObjectList[SelectObjectListView].SetObjectStartPos(pPos);
 
-            pPos.X = float.Parse(txtObjectEndPosX.Text);
-            pPos.Y = float.Parse(txtObjectEndPosY.Text);
+            pPos.dX = float.Parse(txtObjectEndPosX.Text);
+            pPos.dY = float.Parse(txtObjectEndPosY.Text);
             m_ScanManager.ObjectList[SelectObjectListView].SetObjectEndPos(pPos);
 
             m_ScanManager.ObjectList[SelectObjectListView].SetObjectRatateAngle(float.Parse(txtObjectAngle.Text));
@@ -560,11 +560,11 @@ namespace LWDicer.UI
 
         }
 
-        private void CanvasObjectMove(PointF pPos, float pAngle)
+        private void CanvasObjectMove(CPos_XY pPos, float pAngle)
         {
             if (SelectObjectListView < 0) return;
 
-            PointF objectCurrentPos = new PointF(0f, 0f);
+            CPos_XY objectCurrentPos = new CPos_XY();
             float objectcurrentAngle = 0f;
 
             m_ScanManager.ObjectList[SelectObjectListView].MoveObject(pPos);
@@ -581,13 +581,13 @@ namespace LWDicer.UI
 
         private void btnObjectMove_Click(object sender, EventArgs e)
         {
-            PointF objectMovePos = new PointF(0f, 0f);
+            CPos_XY objectMovePos = new CPos_XY();
             float objectMoveAngle = 0f;
 
             try
             {
-                objectMovePos.X = float.Parse(txtObjectMoveX.Text);
-                objectMovePos.Y = float.Parse(txtObjectMoveY.Text);
+                objectMovePos.dX = float.Parse(txtObjectMoveX.Text);
+                objectMovePos.dY = float.Parse(txtObjectMoveY.Text);
                 objectMoveAngle = float.Parse(txtObjectMoveT.Text);
 
                 // Object Move Call
@@ -602,12 +602,12 @@ namespace LWDicer.UI
 
         private void btnObjectMoveUp_Click(object sender, EventArgs e)
         {
-            PointF objectMovePos = new PointF(0f, 0f);
+            CPos_XY objectMovePos = new CPos_XY();
             float objectMoveAngle = 0f;
 
             try
             {
-                objectMovePos.Y = -float.Parse(txtObjectMoveY.Text);
+                objectMovePos.dY = -float.Parse(txtObjectMoveY.Text);
 
                 // Object Move Call
                 CanvasObjectMove(objectMovePos, objectMoveAngle);
@@ -620,12 +620,12 @@ namespace LWDicer.UI
 
         private void btnObjectMoveDn_Click(object sender, EventArgs e)
         {
-            PointF objectMovePos = new PointF(0f, 0f);
+            CPos_XY objectMovePos = new CPos_XY();
             float objectMoveAngle = 0f;
 
             try
             {
-                objectMovePos.Y = float.Parse(txtObjectMoveY.Text);
+                objectMovePos.dY = float.Parse(txtObjectMoveY.Text);
 
                 // Object Move Call
                 CanvasObjectMove(objectMovePos, objectMoveAngle);
@@ -638,11 +638,11 @@ namespace LWDicer.UI
 
         private void btnObjectMoveLeft_Click(object sender, EventArgs e)
         {
-            PointF objectMovePos = new PointF(0f, 0f);
+            CPos_XY objectMovePos = new CPos_XY();
             float objectMoveAngle = 0f;
             try
             {
-                objectMovePos.X = -float.Parse(txtObjectMoveX.Text);
+                objectMovePos.dX = -float.Parse(txtObjectMoveX.Text);
 
                 // Object Move Call
                 CanvasObjectMove(objectMovePos, objectMoveAngle);
@@ -655,11 +655,11 @@ namespace LWDicer.UI
 
         private void btnObjectMoveRight_Click(object sender, EventArgs e)
         {
-            PointF objectMovePos = new PointF(0f, 0f);
+            CPos_XY objectMovePos = new CPos_XY();
             float objectMoveAngle = 0f;
             try
             {
-                objectMovePos.X = float.Parse(txtObjectMoveX.Text);
+                objectMovePos.dX = float.Parse(txtObjectMoveX.Text);
 
                 // Object Move Call
                 CanvasObjectMove(objectMovePos, objectMoveAngle);
@@ -726,9 +726,9 @@ namespace LWDicer.UI
 
             if (arrayNumX <= 0 || arrayNumY <= 0) return;
 
-            PointF posStart = new PointF(0, 0);
-            PointF posEnd   = new PointF(0, 0);
-            PointF posMove  = new PointF(0, 0);
+            CPos_XY posStart = new CPos_XY();
+            CPos_XY posEnd   = new CPos_XY();
+            CPos_XY posMove  = new CPos_XY();
 
             CMarkingObject pObject = ObjectExtensions.Copy(m_ScanManager.ObjectList[SelectObjectListView]);
 
@@ -747,9 +747,9 @@ namespace LWDicer.UI
             for (int i = 0; i < arrayNumY; i++)
             {
                 // 초기 X Axis 값을 초기화 한다.
-                posStart.X = pObject.ptObjectStartPos.X;
-                posEnd.X = pObject.ptObjectEndPos.X;
-                posMove.X = 0;
+                posStart.dX = pObject.ptObjectStartPos.dX;
+                posEnd.dX = pObject.ptObjectEndPos.dX;
+                posMove.dX = 0;
 
                 for (int j = 0; j < arrayNumX; j++)
                 //Parallel.For(0, arrayNumX, (int j) =>
@@ -767,19 +767,19 @@ namespace LWDicer.UI
                         iGroupCount++;
                     }
                     // X Axis 값을 간격으로 증가시킨다.
-                    posStart.X += arrayGapX;
-                    posEnd.X += arrayGapX;
-                    posMove.X += arrayGapX;
+                    posStart.dX += arrayGapX;
+                    posEnd.dX += arrayGapX;
+                    posMove.dX += arrayGapX;
                 }
                 // Y Axis 값을 간격으로 증가시킨다.
-                posStart.Y += arrayGapY;
-                posEnd.Y   += arrayGapY;
-                posMove.Y  += arrayGapY;
+                posStart.dY += arrayGapY;
+                posEnd.dY   += arrayGapY;
+                posMove.dY  += arrayGapY;
             }
 
             // Group을 추가함.
-            var start = new PointF(0, 0);
-            var end = new PointF(0, 0);
+            var start = new CPos_XY();
+            var end = new CPos_XY();
             m_ScanManager.AddObject(EObjectType.GROUP, start, end, pGroup);
             m_FormScanner.AddObjectList(m_ScanManager.GetLastObject());
 

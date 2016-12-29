@@ -70,7 +70,7 @@ namespace LWDicer.Layers
                     if (m_ScanWindow.SelectObjectType == EObjectType.DOT)
                     {
                         CheckDragDraw = true;
-                        m_ScanWindow.SetObjectEndPos(Point.Empty);
+                        m_ScanWindow.SetObjectEndPos(new CPos_XY());
                         this.Invalidate();
                     }
                 }

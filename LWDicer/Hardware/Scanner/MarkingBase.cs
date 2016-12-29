@@ -55,8 +55,8 @@ namespace LWDicer.Layers
         public struct stObjectInfo
         {
             public int SelectNum;
-            public PointF pStartPos;
-            public PointF pEndPos;
+            public CPos_XY pStartPos;
+            public CPos_XY pEndPos;
             public float pAngle;
         }
 
@@ -190,30 +190,30 @@ namespace LWDicer.Layers
         /////////////////////////////////////////////////////////////////////////////////////////
 
         #region 함수
-        public static PointF PixelToField(Point pPixel)
+        public static CPos_XY PixelToField(Point pPixel)
         {
-            PointF tempPoint = new PointF(0, 0);
+            CPos_XY tempPoint = new CPos_XY();
 
             // 기준값을 보정함
-            tempPoint.X += (float)BaseFieldCenter.X * BaseZoomFactor;
-            tempPoint.Y -= (float)BaseFieldCenter.Y * BaseZoomFactor;
+            tempPoint.dX += (float)BaseFieldCenter.X * BaseZoomFactor;
+            tempPoint.dY -= (float)BaseFieldCenter.Y * BaseZoomFactor;
 
             // Zoom 값 & Calib 값을 나눔 (Flip 확인)
-            tempPoint.X = (float)pPixel.X / BaseZoomFactor / BaseCalibFactor.X * (BaseDrawFlipX ? -1.0f : 1.0f);
-            tempPoint.Y = (float)pPixel.Y / BaseZoomFactor / BaseCalibFactor.Y * (BaseDrawFlipX ? -1.0f : 1.0f);
+            tempPoint.dX = (float)pPixel.X / BaseZoomFactor / BaseCalibFactor.X * (BaseDrawFlipX ? -1.0f : 1.0f);
+            tempPoint.dY = (float)pPixel.Y / BaseZoomFactor / BaseCalibFactor.Y * (BaseDrawFlipX ? -1.0f : 1.0f);
             
             return tempPoint;
         }
 
-        public static Point AbsFieldToPixel(PointF pPos)
+        public static Point AbsFieldToPixel(CPos_XY pPos)
         {
             Point tempPoint = new Point(0, 0);
 
-            float PosX, PosY = 0;
+            double PosX, PosY = 0;
 
             // Zoom 값 & Calib 값을 나눔 (Flip 확인)
-            PosX = pPos.X * BaseZoomFactor * BaseCalibFactor.X * (BaseDrawFlipX ? -1.0f : 1.0f);
-            PosY = pPos.Y * BaseZoomFactor * BaseCalibFactor.Y * (BaseDrawFlipX ? -1.0f : 1.0f);
+            PosX = pPos.dX * BaseZoomFactor * BaseCalibFactor.X * (BaseDrawFlipX ? -1.0f : 1.0f);
+            PosY = pPos.dY * BaseZoomFactor * BaseCalibFactor.Y * (BaseDrawFlipX ? -1.0f : 1.0f);
             
             tempPoint.X = (int)(PosX+0.5);
             tempPoint.Y = (int)(PosY+0.5);

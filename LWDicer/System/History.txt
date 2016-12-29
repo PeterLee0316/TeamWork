@@ -813,6 +813,15 @@ CSpinStep class -> CCleaningStep / CCoatingStep class 로 분리
 3. Camera 및 Laser Align하는 UI 별도 생성
 
 
+// Grade : ★★
+// Date : 2016-12/19~30
+// Context
+1. Scanner SW 테스트 및 추가 수정
+	- Config.ini 파일 파라미터 추가 및 삭제 (신규 버전용)
+	- TrueRaster용 파라미터 csn.ini, isn.ini 관련 파미미터 삭제
+2. Laser Process SW 테스트 및 오류 수정
+	
+
 
 
 

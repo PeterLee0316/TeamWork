@@ -44,7 +44,6 @@ namespace LWDicer.UI
 
             InitTabPage();
             InitConfigureGrid();
-            InitTrueRasterGrid();
 
             DisplayProcessData();            
 
@@ -128,470 +127,329 @@ namespace LWDicer.UI
             this.tabPolygonForm.TabPages.AddRange(new TabPageAdv[]
                      {
                         this.tabPageProcess,
-                        this.tabPageProcess266,
                         this.tabPageScanner,
                         this.tabPageLaser,
-                        //this.tabPageMotion,
                         this.tabPageVision,
-                        this.tabPagePara,
                         this.tabPageConfig,
-                        this.tabPageTrueRaster
-
+                        this.tabPageDrawing,
                      });
         }
         // Polygon Scanner Configure Data
         private void InitConfigureGrid()
         {
             // Cell Click 시 커서가 생성되지 않게함.
-            GridConfigure.ActivateCurrentCellBehavior = GridCellActivateAction.None;
+            GridConfigureNo1.ActivateCurrentCellBehavior = GridCellActivateAction.None;
 
             // Header
-            GridConfigure.Properties.RowHeaders = true;
-            GridConfigure.Properties.ColHeaders = true;
+            GridConfigureNo1.Properties.RowHeaders = true;
+            GridConfigureNo1.Properties.ColHeaders = true;
 
             // Column,Row 개수
-            GridConfigure.ColCount = 3;
-            GridConfigure.RowCount = 27;
+            GridConfigureNo1.ColCount = 3;
+            GridConfigureNo1.RowCount = 56;
 
             // Column 가로 크기설정
-            GridConfigure.ColWidths.SetSize(0, 200);
-            GridConfigure.ColWidths.SetSize(1, 80);
-            GridConfigure.ColWidths.SetSize(2, 100);
-            GridConfigure.ColWidths.SetSize(3, 650);
+            GridConfigureNo1.ColWidths.SetSize(0, 200);
+            GridConfigureNo1.ColWidths.SetSize(1, 80);
+            GridConfigureNo1.ColWidths.SetSize(2, 100);
+            GridConfigureNo1.ColWidths.SetSize(3, 500);
 
-            for (int i = 0; i < GridConfigure.RowCount+1; i++)
+            for (int i = 0; i < GridConfigureNo1.RowCount+1; i++)
             {
-                GridConfigure.RowHeights[i] = 27;
+                GridConfigureNo1.RowHeights[i] = 27;
             }
 
-            for (int i = 1; i < GridConfigure.RowCount+1; i++)
+            for (int i = 1; i < GridConfigureNo1.RowCount+1; i++)
             {
-                GridConfigure[i , 1].BackColor = Color.FromArgb(230, 210, 255);
-                GridConfigure[i , 3].BackColor = Color.FromArgb(255, 230, 255);
+                GridConfigureNo1[i , 1].BackColor = Color.FromArgb(230, 210, 255);
+                GridConfigureNo1[i , 3].BackColor = Color.FromArgb(255, 230, 255);
             }
 
             // Text Display
-            GridConfigure[0, 0].Text = "Parameter";
-            GridConfigure[0, 1].Text = "Unit";
-            GridConfigure[0, 2].Text = "Data";
-            GridConfigure[0, 3].Text = "Description";
+            GridConfigureNo1[0, 0].Text = "Parameter";
+            GridConfigureNo1[0, 1].Text = "Unit";
+            GridConfigureNo1[0, 2].Text = "Data";
+            GridConfigureNo1[0, 3].Text = "Description";
 
-            GridConfigure[1, 0].Text = "InScanResolution";
-            GridConfigure[2, 0].Text = "CrossScanResolution";
-            GridConfigure[3, 0].Text = "InScanOffset";
-            GridConfigure[4, 0].Text = "StopMotorBetweenJobs";
-            GridConfigure[5, 0].Text = "PixInvert";
-            GridConfigure[6, 0].Text = "JobStartBufferTime";
-            GridConfigure[7, 0].Text = "PrecedingBlankLines";
-            GridConfigure[8, 0].Text = "SeedClockFrequency";
-            GridConfigure[9, 0].Text = "RepetitionRate";
-            GridConfigure[10, 0].Text = "PulsePickWidth";
-            GridConfigure[11, 0].Text = "PixelWidth";
-            GridConfigure[12, 0].Text = "CrossScanEncoderResol";
-            GridConfigure[13, 0].Text = "CrossScanMaxAccel";
-            GridConfigure[14, 0].Text = "EnCarSig";
-            GridConfigure[15, 0].Text = "SwapCarSig";
-            GridConfigure[16, 0].Text = "InterLeaveRatio";
-            GridConfigure[17, 0].Text = "FacetFineDelay0";
-            GridConfigure[18, 0].Text = "FacetFineDelay1";
-            GridConfigure[19, 0].Text = "FacetFineDelay2";
-            GridConfigure[20, 0].Text = "FacetFineDelay3";
-            GridConfigure[21, 0].Text = "FacetFineDelay4";
-            GridConfigure[22, 0].Text = "FacetFineDelay5";
-            GridConfigure[23, 0].Text = "FacetFineDelay6";
-            GridConfigure[24, 0].Text = "FacetFineDelay7";
-            GridConfigure[25, 0].Text = "StartFacet";
-            GridConfigure[26, 0].Text = "AutoIncrementStartFacet";
-            GridConfigure[27, 0].Text = "MotorStableTime";
+            GridConfigureNo1[1, 0].Text = "InScanResolution";
+            GridConfigureNo1[2, 0].Text = "CrossScanResolution";
+            GridConfigureNo1[3, 0].Text = "InScanOffset";
+            GridConfigureNo1[4, 0].Text = "StopMotorBetweenJobs";
+            GridConfigureNo1[5, 0].Text = "PixInvert";
+            GridConfigureNo1[6, 0].Text = "JobStartBufferTime";
+            GridConfigureNo1[7, 0].Text = "PrecedingBlankLines";
+            GridConfigureNo1[8, 0].Text = "LaserOperationMode";
+            GridConfigureNo1[9, 0].Text = "SeedClockFrequency";
+            GridConfigureNo1[10, 0].Text = "RepetitionRate";
+            GridConfigureNo1[11, 0].Text = "PulsePickWidth";
+            GridConfigureNo1[12, 0].Text = "PixelWidth";
+            GridConfigureNo1[13, 0].Text = "PulsePickAlgor";
 
-            GridConfigure[1, 1].Text = "[mm]";
-            GridConfigure[2, 1].Text = "[mm]";
-            GridConfigure[3, 1].Text = "[mm]";
-            GridConfigure[4, 1].Text = "[-]";
-            GridConfigure[5, 1].Text = "[-]";
-            GridConfigure[6, 1].Text = "[sec]";
-            GridConfigure[7, 1].Text = "[-]";
-            GridConfigure[8, 1].Text = "[kHz]";
-            GridConfigure[9, 1].Text = "[kHz]";
-            GridConfigure[10, 1].Text = "[-]";
-            GridConfigure[11, 1].Text = "[-]";
-            GridConfigure[12, 1].Text = "[mm]";
-            GridConfigure[13, 1].Text = "[m/s^2]";
-            GridConfigure[14, 1].Text = "[-]";
-            GridConfigure[15, 1].Text = "[-]";
-            GridConfigure[16, 1].Text = "[-]";
-            GridConfigure[17, 1].Text = "[mm]";
-            GridConfigure[18, 1].Text = "[mm]";
-            GridConfigure[19, 1].Text = "[mm]";
-            GridConfigure[20, 1].Text = "[mm]";
-            GridConfigure[21, 1].Text = "[mm]";
-            GridConfigure[22, 1].Text = "[mm]";
-            GridConfigure[23, 1].Text = "[mm]";
-            GridConfigure[24, 1].Text = "[mm]";
-            GridConfigure[25, 1].Text = "[-]";
-            GridConfigure[26, 1].Text = "[-]";
-            GridConfigure[27, 1].Text = "[ms]";
+            GridConfigureNo1[14, 0].Text = "CrossScanEncoderResol";
+            GridConfigureNo1[15, 0].Text = "CrossScanMaxAccel";
+            GridConfigureNo1[16, 0].Text = "EnCarSig";
+            GridConfigureNo1[17, 0].Text = "SwapCarSig";
 
-            GridConfigure[1, 3].Text = "[Job Settings] Scanline에서 이웃한 두 pixel 사이 X축 거리";
-            GridConfigure[2, 3].Text = "[Job Settings] 이웃한 두 Scanline 사이 Y축 거리";
-            GridConfigure[3, 3].Text = "[Job Settings] 모든 Scanline의 X축 시작 위치를 조정";
-            GridConfigure[4, 3].Text = "[Job Settings] Exposure 이후 polygonmirror 정지 여부 결정";
-            GridConfigure[5, 3].Text = "[Job Settings] LaserPulse Exposure 되는 Bitmap의 색상 선택";
-            GridConfigure[6, 3].Text = "[Job Settings] Bitmap Uploading 시, exposure 하기전 대기 시간";
-            GridConfigure[7, 3].Text = "[Job Settings] Stage 가속시의 충분한 Settle-time을 위한 Dummy scanline 수";
-            GridConfigure[8, 3].Text = "[Laser Configuration] Laser의 Seed Clock 주파수 설정";
-            GridConfigure[9, 3].Text = "[Laser Configuration] 가공에 적용할 펄스 반복률(REP_RATE) 설정";
-            GridConfigure[10, 3].Text = "[Laser Configuration] Pulse의  폭을 설정한다.";
-            GridConfigure[11, 3].Text = "[Laser Configuration] Pixel의 폭을 설정한다.";
-            GridConfigure[12, 3].Text = "[CrossScan Configuration] StageEncoder 분해능 값 설정";
-            GridConfigure[13, 3].Text = "[CrossScan Configuration] Stagestart-up 과정의 최대 가속도";
-            GridConfigure[14, 3].Text = "[CrossScan Configuration] Stage Control Encoder signal 출력 여부";
-            GridConfigure[15, 3].Text = "[CrossScan Configuration] Stage movement direction 선택";
-            GridConfigure[16, 3].Text = "[Head Configuration] FacetFineDelay 자동 설정 기능";
-            GridConfigure[17, 3].Text = "[Head Configuration] 각 scanline의 시작 위치 값의 미세 조정";
-            GridConfigure[18, 3].Text = "[Head Configuration] 각 scanline의 시작 위치 값의 미세 조정";
-            GridConfigure[19, 3].Text = "[Head Configuration] 각 scanline의 시작 위치 값의 미세 조정";
-            GridConfigure[20, 3].Text = "[Head Configuration] 각 scanline의 시작 위치 값의 미세 조정";
-            GridConfigure[21, 3].Text = "[Head Configuration] 각 scanline의 시작 위치 값의 미세 조정";
-            GridConfigure[22, 3].Text = "[Head Configuration] 각 scanline의 시작 위치 값의 미세 조정";
-            GridConfigure[23, 3].Text = "[Head Configuration] 각 scanline의 시작 위치 값의 미세 조정";
-            GridConfigure[24, 3].Text = "[Head Configuration] 각 scanline의 시작 위치 값의 미세 조정";
-            GridConfigure[25, 3].Text = "[Head Configuration] exposure의 첫 scanline에 해당하는 facet 지정";
-            GridConfigure[26, 3].Text = "[Head Configuration] 새로운job started 마다 StartFacet 값 증가";
-            GridConfigure[27, 3].Text = "[Polygon motor Configuration] speed-up 이후 exposure 시작 이전 대기시간";
+            GridConfigureNo1[18, 0].Text = "SerialNumber";
+            GridConfigureNo1[19, 0].Text = "FThetaConstant";
+            GridConfigureNo1[20, 0].Text = "ExposeLineLength";
+            GridConfigureNo1[21, 0].Text = "EncoderIndexDelay";
+            GridConfigureNo1[22, 0].Text = "FacetFineDelay0";
+            GridConfigureNo1[23, 0].Text = "FacetFineDelay1";
+            GridConfigureNo1[24, 0].Text = "FacetFineDelay2";
+            GridConfigureNo1[25, 0].Text = "FacetFineDelay3";
+            GridConfigureNo1[26, 0].Text = "FacetFineDelay4";
+            GridConfigureNo1[27, 0].Text = "FacetFineDelay5";
+            GridConfigureNo1[28, 0].Text = "FacetFineDelay6";
+            GridConfigureNo1[29, 0].Text = "FacetFineDelay7";
+            GridConfigureNo1[30, 0].Text = "InterLeaveRatio";
+            GridConfigureNo1[31, 0].Text = "FacetFineDelayOffset0";
+            GridConfigureNo1[32, 0].Text = "FacetFineDelayOffset1";
+            GridConfigureNo1[33, 0].Text = "FacetFineDelayOffset2";
+            GridConfigureNo1[34, 0].Text = "FacetFineDelayOffset3";
+            GridConfigureNo1[35, 0].Text = "FacetFineDelayOffset4";
+            GridConfigureNo1[36, 0].Text = "FacetFineDelayOffset5";
+            GridConfigureNo1[37, 0].Text = "FacetFineDelayOffset6";
+            GridConfigureNo1[38, 0].Text = "FacetFineDelayOffset7";
+            GridConfigureNo1[39, 0].Text = "StartFacet";
+            GridConfigureNo1[40, 0].Text = "AutoIncrementStartFacet";
 
+            GridConfigureNo1[41, 0].Text = "MotorDriverType";
+            GridConfigureNo1[42, 0].Text = "MinMotorSpeed";
+            GridConfigureNo1[43, 0].Text = "MaxMotorSpeed";
+            GridConfigureNo1[44, 0].Text = "SyncWaitTime";
+            GridConfigureNo1[45, 0].Text = "MotorStableTime";
+            GridConfigureNo1[46, 0].Text = "ShaftEncoderPulseCount";
+            GridConfigureNo1[47, 0].Text = "SwapReferenceSignals";
+
+            GridConfigureNo1[48, 0].Text = "InterruptFreq";
+            GridConfigureNo1[49, 0].Text = "HWDebugSelection";
+            GridConfigureNo1[50, 0].Text = "ExpoDebugSelection";
+            GridConfigureNo1[51, 0].Text = "AutoRepeat";
+            GridConfigureNo1[52, 0].Text = "JobstartAutorepeat";
+            GridConfigureNo1[53, 0].Text = "TelnetTimeout";
+            GridConfigureNo1[54, 0].Text = "TelnetDebugTimeout";
+            GridConfigureNo1[55, 0].Text = "SyncSlaves";
+            GridConfigureNo1[56, 0].Text = "SyncTimeout";
+
+            GridConfigureNo1[1, 1].Text = "[mm]";
+            GridConfigureNo1[2, 1].Text = "[mm]";
+            GridConfigureNo1[3, 1].Text = "[mm]";
+            GridConfigureNo1[4, 1].Text = "[-]";
+            GridConfigureNo1[5, 1].Text = "[-]";
+            GridConfigureNo1[6, 1].Text = "[sec]";
+            GridConfigureNo1[7, 1].Text = "[-]";
+
+            GridConfigureNo1[8, 1].Text = "[-]";
+            GridConfigureNo1[9, 1].Text = "[kHz]";
+            GridConfigureNo1[10, 1].Text = "[kHz]";
+            GridConfigureNo1[11, 1].Text = "[-]";
+            GridConfigureNo1[12, 1].Text = "[-]";
+            GridConfigureNo1[13, 1].Text = "[-]";
+
+            GridConfigureNo1[14, 1].Text = "[mm]";
+            GridConfigureNo1[15, 1].Text = "[m/s^2]";
+            GridConfigureNo1[16, 1].Text = "[-]";
+            GridConfigureNo1[17, 1].Text = "[-]";
+
+            GridConfigureNo1[18, 1].Text = "[-]";
+            GridConfigureNo1[19, 1].Text = "[-]";
+            GridConfigureNo1[20, 1].Text = "[-]";
+            GridConfigureNo1[21, 1].Text = "[-]";
+            GridConfigureNo1[22, 1].Text = "[mm]";
+            GridConfigureNo1[23, 1].Text = "[mm]";
+            GridConfigureNo1[24, 1].Text = "[mm]";
+            GridConfigureNo1[25, 1].Text = "[mm]";
+            GridConfigureNo1[26, 1].Text = "[mm]";
+            GridConfigureNo1[27, 1].Text = "[mm]";
+            GridConfigureNo1[28, 1].Text = "[mm]";
+            GridConfigureNo1[29, 1].Text = "[mm]";
+            GridConfigureNo1[30, 1].Text = "[-]";
+            GridConfigureNo1[31, 1].Text = "[mm]";
+            GridConfigureNo1[32, 1].Text = "[mm]";
+            GridConfigureNo1[33, 1].Text = "[mm]";
+            GridConfigureNo1[34, 1].Text = "[mm]";
+            GridConfigureNo1[35, 1].Text = "[mm]";
+            GridConfigureNo1[36, 1].Text = "[mm]";
+            GridConfigureNo1[37, 1].Text = "[mm]";
+            GridConfigureNo1[38, 1].Text = "[mm]";
+            GridConfigureNo1[39, 1].Text = "[-]";
+            GridConfigureNo1[40, 1].Text = "[-]";
+
+            GridConfigureNo1[41, 1].Text = "[-]";
+            GridConfigureNo1[42, 1].Text = "[rps]";
+            GridConfigureNo1[43, 1].Text = "[rps]";
+            GridConfigureNo1[44, 1].Text = "[ms]";
+            GridConfigureNo1[45, 1].Text = "[ms]";
+            GridConfigureNo1[46, 1].Text = "[-]";
+            GridConfigureNo1[47, 1].Text = "[-]";
+
+            GridConfigureNo1[47, 1].Text = "[-]";
+            GridConfigureNo1[47, 1].Text = "[-]";
+            GridConfigureNo1[50, 1].Text = "[-]";
+            GridConfigureNo1[51, 1].Text = "[-]";
+            GridConfigureNo1[52, 1].Text = "[-]";
+            GridConfigureNo1[53, 1].Text = "[-]";
+            GridConfigureNo1[54, 1].Text = "[-]";
+            GridConfigureNo1[55, 1].Text = "[-]";
+            GridConfigureNo1[56, 1].Text = "[-]";
+
+            GridConfigureNo1[1, 3].Text = "[Job Settings] X Direct spot distance";
+            GridConfigureNo1[2, 3].Text = "[Job Settings] Y Direct spot distance";
+            GridConfigureNo1[3, 3].Text = "[Job Settings] All Facet X direct Offset";
+            GridConfigureNo1[4, 3].Text = "[Job Settings] After process, Polygon Mirror Run/Stop Setting";
+            GridConfigureNo1[5, 3].Text = "[Job Settings] Invert bmp data";
+            GridConfigureNo1[6, 3].Text = "[Job Settings] Amount of bitmap data to start jop";
+            GridConfigureNo1[7, 3].Text = "[Job Settings] Number of Dummy scanline";
+
+            GridConfigureNo1[8, 3].Text = "[Laser Configuration] Laser Mode Set";
+            GridConfigureNo1[9, 3].Text = "[Laser Configuration] Laser Seed Clock Frequency";
+            GridConfigureNo1[10, 3].Text = "[Laser Configuration] Laser beam pulse Frequency";
+            GridConfigureNo1[11, 3].Text = "[Laser Configuration] Pulse Width";
+            GridConfigureNo1[12, 3].Text = "[Laser Configuration] Bmp pixel width";
+            GridConfigureNo1[13, 3].Text = "[Laser Configuration] Do Not Change";
+            GridConfigureNo1[14, 3].Text = "[CrossScan Configuration] Stage Encoder Resolution";
+            GridConfigureNo1[15, 3].Text = "[CrossScan Configuration] Stage Max Accelation";
+            GridConfigureNo1[16, 3].Text = "[CrossScan Configuration] Use generate Enc signal & interface";
+            GridConfigureNo1[17, 3].Text = "[CrossScan Configuration] Stage movement direction";
+
+            GridConfigureNo1[18, 3].Text = "[Head Configuration] Serial Number";
+            GridConfigureNo1[19, 3].Text = "[Head Configuration] Scan line Ratio (bigger, scan line shorter)";
+            GridConfigureNo1[20, 3].Text = "[Head Configuration] Max scan line set";
+            GridConfigureNo1[21, 3].Text = "[Head Configuration] All scan line start pos set";
+            GridConfigureNo1[22, 3].Text = "[Head Configuration] Each scanline start pos delay (Only +)";
+            GridConfigureNo1[23, 3].Text = "[Head Configuration] Each scanline start pos delay (Only +)";
+            GridConfigureNo1[24, 3].Text = "[Head Configuration] Each scanline start pos delay (Only +)";
+            GridConfigureNo1[25, 3].Text = "[Head Configuration] Each scanline start pos delay (Only +)";
+            GridConfigureNo1[26, 3].Text = "[Head Configuration] Each scanline start pos delay (Only +)";
+            GridConfigureNo1[27, 3].Text = "[Head Configuration] Each scanline start pos delay (Only +)";
+            GridConfigureNo1[28, 3].Text = "[Head Configuration] Each scanline start pos delay (Only +)";
+            GridConfigureNo1[29, 3].Text = "[Head Configuration] Each scanline start pos delay (Only +)";
+            GridConfigureNo1[30, 3].Text = "[Head Configuration] Auto-calculate FacetFineDelayOffset(0,2,4,8)";
+            GridConfigureNo1[31, 3].Text = "[Head Configuration] Each scanline start pos delay offset (Only +)";
+            GridConfigureNo1[32, 3].Text = "[Head Configuration] Each scanline start pos delay offset (Only +)";
+            GridConfigureNo1[33, 3].Text = "[Head Configuration] Each scanline start pos delay offset (Only +)";
+            GridConfigureNo1[34, 3].Text = "[Head Configuration] Each scanline start pos delay offset (Only +)";
+            GridConfigureNo1[35, 3].Text = "[Head Configuration] Each scanline start pos delay offset (Only +)";
+            GridConfigureNo1[36, 3].Text = "[Head Configuration] Each scanline start pos delay offset (Only +)";
+            GridConfigureNo1[37, 3].Text = "[Head Configuration] Each scanline start pos delay offset (Only +)";
+            GridConfigureNo1[38, 3].Text = "[Head Configuration] Each scanline start pos delay offset (Only +)";
+            GridConfigureNo1[39, 3].Text = "[Head Configuration] Set Facet that first scan line";
+            GridConfigureNo1[40, 3].Text = "[Head Configuration] Start Facet change when new process";
+
+            GridConfigureNo1[41, 3].Text = "[Motor Configuration] Digital Type Set 1 or 0";
+            GridConfigureNo1[42, 3].Text = "[Motor Configuration] Default Setting 7.3";
+            GridConfigureNo1[43, 3].Text = "[Motor Configuration] Default Setting 30.0";
+            GridConfigureNo1[44, 3].Text = "[Motor Configuration] Motor SpeedUp TimeOut";
+            GridConfigureNo1[45, 3].Text = "[Motor Configuration] Exposure Timedelay after morot speedup";
+            GridConfigureNo1[46, 3].Text = "[Motor Configuration] Do Not Change";
+            GridConfigureNo1[47, 3].Text = "[Motor Configuration] Do Not Change";
+
+            GridConfigureNo1[48, 3].Text = "[Other Settings] Frequency of the interrups routine running";
+            GridConfigureNo1[49, 3].Text = "[Other Settings] Do Not Change ( Set to 3 )";
+            GridConfigureNo1[50, 3].Text = "[Other Settings] Do Not Change ( Set to 0 )";
+            GridConfigureNo1[51, 3].Text = "[Other Settings] Do Not Change ( Set to 0 )";
+            GridConfigureNo1[52, 3].Text = "[Other Settings] LowPassFilter of Job Start Signal";
+            GridConfigureNo1[53, 3].Text = "[Other Settings] Do Not Change ( Set to 0 )";
+            GridConfigureNo1[54, 3].Text = "[Other Settings] Do Not Change ( Set to 0 )";
+            GridConfigureNo1[55, 3].Text = "[Other Settings] Do Not Change ( Set to 0 )";
+            GridConfigureNo1[56, 3].Text = "[Other Settings] Do Not Change ( Set to 60 )";
+                       
 
             for (int i = 0; i < 4; i++)
             {
-                for (int j = 0; j < GridConfigure.RowCount+1; j++)
+                for (int j = 0; j < GridConfigureNo1.RowCount+1; j++)
                 {
                     // Font Style - Bold
-                    GridConfigure[j, i].Font.Bold = true;
+                    GridConfigureNo1[j, i].Font.Bold = true;
 
-                    GridConfigure[j, i].VerticalAlignment = GridVerticalAlignment.Middle;
+                    GridConfigureNo1[j, i].VerticalAlignment = GridVerticalAlignment.Middle;
 
                     if (i != 3)
                     {
-                        GridConfigure[j, i].HorizontalAlignment = GridHorizontalAlignment.Center;
+                        GridConfigureNo1[j, i].HorizontalAlignment = GridHorizontalAlignment.Center;
                     }
                 }
             }
 
-            GridConfigure.GridVisualStyles = GridVisualStyles.Office2007Blue;
-            GridConfigure.ResizeColsBehavior = 0;
-            GridConfigure.ResizeRowsBehavior = 0;
+            GridConfigureNo1.GridVisualStyles = GridVisualStyles.Office2007Blue;
+            GridConfigureNo1.ResizeColsBehavior = 0;
+            GridConfigureNo1.ResizeRowsBehavior = 0;
 
             //GetPolygonPara(scannerIndex);
 
             // Grid Display Update
-            GridConfigure.Refresh();
+            GridConfigureNo1.Refresh();
         }
 
-        private void InitTrueRasterGrid()
-        {
-            //===============================================================================
-            // CSN Grid 설정
-
-            // Cell Click 시 커서가 생성되지 않게함.
-            GridCSN.ActivateCurrentCellBehavior = GridCellActivateAction.None;
-
-            // Header
-            GridCSN.Properties.RowHeaders = true;
-            GridCSN.Properties.ColHeaders = true;
-
-            // Column,Row 개수
-            GridCSN.ColCount = 3;
-            GridCSN.RowCount = 16;
-
-            // Column 가로 크기설정
-            GridCSN.ColWidths.SetSize(0, 120);
-            GridCSN.ColWidths.SetSize(1, 60);
-            GridCSN.ColWidths.SetSize(2, 80);
-            GridCSN.ColWidths.SetSize(3, 250);
-
-            for (int i = 0; i < 17; i++)
-            {
-                GridCSN.RowHeights[i] = 27;
-            }
-
-            for (int i = 0; i < 16; i++)
-            {
-                GridCSN[i + 1, 1].BackColor = Color.FromArgb(230, 210, 255);
-                GridCSN[i + 1, 3].BackColor = Color.FromArgb(255, 230, 255);
-            }
-
-            // Text Display
-            GridCSN[0, 0].Text = "Parameter";
-            GridCSN[0, 1].Text = "Unit";
-            GridCSN[0, 2].Text = "Data";
-            GridCSN[0, 3].Text = "Description";
-
-            GridCSN[1, 0].Text    = "Facet 1 Start";
-            GridCSN[2, 0].Text    = "Facet 1 End";
-            GridCSN[3, 0].Text    = "Facet 2 Start";
-            GridCSN[4, 0].Text    = "Facet 2 End";
-            GridCSN[5, 0].Text    = "Facet 3 Start";
-            GridCSN[6, 0].Text    = "Facet 3 End";
-            GridCSN[7, 0].Text    = "Facet 4 Start";
-            GridCSN[8, 0].Text    = "Facet 4 End";
-            GridCSN[9, 0].Text    = "Facet 5 Start";
-            GridCSN[10, 0].Text   = "Facet 5 End";
-            GridCSN[11, 0].Text   = "Facet 6 Start";
-            GridCSN[12, 0].Text   = "Facet 6 End";
-            GridCSN[13, 0].Text   = "Facet 7 Start";
-            GridCSN[14, 0].Text   = "Facet 7 End";
-            GridCSN[15, 0].Text   = "Facet 8 Start";
-            GridCSN[16, 0].Text   = "Facet 8 End";
-
-            GridCSN[1, 1].Text    = "[um]";
-            GridCSN[2, 1].Text    = "[um]";
-            GridCSN[3, 1].Text    = "[um]";
-            GridCSN[4, 1].Text    = "[um]";
-            GridCSN[5, 1].Text    = "[um]";
-            GridCSN[6, 1].Text    = "[um]";
-            GridCSN[7, 1].Text    = "[um]";
-            GridCSN[8, 1].Text    = "[um]";
-            GridCSN[9, 1].Text    = "[um]";
-            GridCSN[10, 1].Text   = "[um]";
-            GridCSN[11, 1].Text   = "[um]";
-            GridCSN[12, 1].Text   = "[um]";
-            GridCSN[13, 1].Text   = "[um]";
-            GridCSN[14, 1].Text   = "[um]";
-            GridCSN[15, 1].Text   = "[um]";
-            GridCSN[16, 1].Text   = "[um]";
-
-            GridCSN[1, 3].Text    = "Facet 1 의 Start 세로 위치(Y 방향) 보정";
-            GridCSN[2, 3].Text    = "Facet 1 의 End 세로 위치(Y 방향) 보정";
-            GridCSN[3, 3].Text    = "Facet 2 의 Start 세로 위치(Y 방향) 보정";
-            GridCSN[4, 3].Text    = "Facet 2 의 End 세로 위치(Y 방향) 보정";
-            GridCSN[5, 3].Text    = "Facet 3 의 Start 세로 위치(Y 방향) 보정";
-            GridCSN[6, 3].Text    = "Facet 3 의 End 세로 위치(Y 방향) 보정";
-            GridCSN[7, 3].Text    = "Facet 4 의 Start 세로 위치(Y 방향) 보정";
-            GridCSN[8, 3].Text    = "Facet 4 의 End 세로 위치(Y 방향) 보정";
-            GridCSN[9, 3].Text    = "Facet 5 의 Start 세로 위치(Y 방향) 보정";
-            GridCSN[10, 3].Text   = "Facet 5 의 End 세로 위치(Y 방향) 보정";
-            GridCSN[11, 3].Text   = "Facet 6 의 Start 세로 위치(Y 방향) 보정";
-            GridCSN[12, 3].Text   = "Facet 6 의 End 세로 위치(Y 방향) 보정";
-            GridCSN[13, 3].Text   = "Facet 7 의 Start 세로 위치(Y 방향) 보정";
-            GridCSN[14, 3].Text   = "Facet 7 의 End 세로 위치(Y 방향) 보정";
-            GridCSN[15, 3].Text   = "Facet 8 의 Start 세로 위치(Y 방향) 보정";
-            GridCSN[16, 3].Text   = "Facet 8 의 End 세로 위치(Y 방향) 보정";
-
-            for (int i = 0; i < 3; i++)
-            {
-                for (int j = 0; j < 17; j++)
-                {
-                    // Font Style - Bold
-                    GridCSN[j, i].Font.Bold = true;
-
-                    GridCSN[j, i].VerticalAlignment = GridVerticalAlignment.Middle;
-
-                    if (i != 3)
-                    {
-                        GridCSN[j, i].HorizontalAlignment = GridHorizontalAlignment.Center;
-                    }
-                }
-            }
-
-            GridCSN.GridVisualStyles = GridVisualStyles.Office2007Blue;
-            GridCSN.ResizeColsBehavior = 0;
-            GridCSN.ResizeRowsBehavior = 0;
-
-            //GetPolygonPara(scannerIndex);
-
-            // Grid Display Update
-            GridCSN.Refresh();
-
-
-            //===============================================================================
-            // ISN Grid 설정
-
-            // Cell Click 시 커서가 생성되지 않게함.
-            GridISN.ActivateCurrentCellBehavior = GridCellActivateAction.None;
-
-            // Header
-            GridISN.Properties.RowHeaders = true;
-            GridISN.Properties.ColHeaders = true;
-
-            // Column,Row 개수
-            GridISN.ColCount = 3;
-            GridISN.RowCount = 16;
-
-            // Column 가로 크기설정
-            GridISN.ColWidths.SetSize(0, 120);
-            GridISN.ColWidths.SetSize(1, 60);
-            GridISN.ColWidths.SetSize(2, 80);
-            GridISN.ColWidths.SetSize(3, 250);
-
-            for (int i = 0; i < 17; i++)
-            {
-                GridISN.RowHeights[i] = 27;
-            }
-
-            for (int i = 0; i < 16; i++)
-            {
-                GridISN[i + 1, 1].BackColor = Color.FromArgb(230, 210, 255);
-                GridISN[i + 1, 3].BackColor = Color.FromArgb(255, 230, 255);
-            }
-
-            // Text Display
-            GridISN[0, 0].Text = "Parameter";
-            GridISN[0, 1].Text = "Unit";
-            GridISN[0, 2].Text = "Data";
-            GridISN[0, 3].Text = "Description";
-
-            GridISN[1, 0].Text = "Facet 1 Start";
-            GridISN[2, 0].Text = "Facet 1 End";
-            GridISN[3, 0].Text = "Facet 2 Start";
-            GridISN[4, 0].Text = "Facet 2 End";
-            GridISN[5, 0].Text = "Facet 3 Start";
-            GridISN[6, 0].Text = "Facet 3 End";
-            GridISN[7, 0].Text = "Facet 4 Start";
-            GridISN[8, 0].Text = "Facet 4 End";
-            GridISN[9, 0].Text = "Facet 5 Start";
-            GridISN[10, 0].Text = "Facet 5 End";
-            GridISN[11, 0].Text = "Facet 6 Start";
-            GridISN[12, 0].Text = "Facet 6 End";
-            GridISN[13, 0].Text = "Facet 7 Start";
-            GridISN[14, 0].Text = "Facet 7 End";
-            GridISN[15, 0].Text = "Facet 8 Start";
-            GridISN[16, 0].Text = "Facet 8 End";
-
-            GridISN[1, 1].Text = "[um]";
-            GridISN[2, 1].Text = "[um]";
-            GridISN[3, 1].Text = "[um]";
-            GridISN[4, 1].Text = "[um]";
-            GridISN[5, 1].Text = "[um]";
-            GridISN[6, 1].Text = "[um]";
-            GridISN[7, 1].Text = "[um]";
-            GridISN[8, 1].Text = "[um]";
-            GridISN[9, 1].Text = "[um]";
-            GridISN[10, 1].Text = "[um]";
-            GridISN[11, 1].Text = "[um]";
-            GridISN[12, 1].Text = "[um]";
-            GridISN[13, 1].Text = "[um]";
-            GridISN[14, 1].Text = "[um]";
-            GridISN[15, 1].Text = "[um]";
-            GridISN[16, 1].Text = "[um]";
-
-            GridISN[1, 3].Text = "Facet 1 의 Start 가로 위치(X 방향) 보정";
-            GridISN[2, 3].Text = "Facet 1 의 End 가로 위치(X 방향) 보정";
-            GridISN[3, 3].Text = "Facet 2 의 Start 가로 위치(X 방향) 보정";
-            GridISN[4, 3].Text = "Facet 2 의 End 가로 위치(X 방향) 보정";
-            GridISN[5, 3].Text = "Facet 3 의 Start 가로 위치(X 방향) 보정";
-            GridISN[6, 3].Text = "Facet 3 의 End 가로 위치(X 방향) 보정";
-            GridISN[7, 3].Text = "Facet 4 의 Start 가로 위치(X 방향) 보정";
-            GridISN[8, 3].Text = "Facet 4 의 End 가로 위치(X 방향) 보정";
-            GridISN[9, 3].Text = "Facet 5 의 Start 가로 위치(X 방향) 보정";
-            GridISN[10, 3].Text = "Facet 5 의 End 가로 위치(X 방향) 보정";
-            GridISN[11, 3].Text = "Facet 6 의 Start 가로 위치(X 방향) 보정";
-            GridISN[12, 3].Text = "Facet 6 의 End 가로 위치(X 방향) 보정";
-            GridISN[13, 3].Text = "Facet 7 의 Start 가로 위치(X 방향) 보정";
-            GridISN[14, 3].Text = "Facet 7 의 End 가로 위치(X 방향) 보정";
-            GridISN[15, 3].Text = "Facet 8 의 Start 가로 위치(X 방향) 보정";
-            GridISN[16, 3].Text = "Facet 8 의 End 가로 위치(X 방향) 보정";
-
-
-            for (int i = 0; i < 3; i++)
-            {
-                for (int j = 0; j < 17; j++)
-                {
-                    // Font Style - Bold
-                    GridISN[j, i].Font.Bold = true;
-
-                    GridISN[j, i].VerticalAlignment = GridVerticalAlignment.Middle;
-
-                    if (i != 3)
-                    {
-                        GridISN[j, i].HorizontalAlignment = GridHorizontalAlignment.Center;
-                    }
-                }
-            }
-
-            GridISN.GridVisualStyles = GridVisualStyles.Office2007Blue;
-            GridISN.ResizeColsBehavior = 0;
-            GridISN.ResizeRowsBehavior = 0;
-
-            //GetPolygonPara(scannerIndex);
-
-            // Grid Display Update
-            GridISN.Refresh();
-
-
-        }
 
         private void UpdateConfigureData(CSystemData_Scanner para)
         {
             //====================================================================================================
             // Config.ini
             
-            GridConfigure[1, 2].Text  = string.Format("{0:f4}", para.InScanResolution );
-            GridConfigure[2, 2].Text  = string.Format("{0:f4}", para.CrossScanResolution);
-            GridConfigure[3, 2].Text  = string.Format("{0:f4}", para.InScanOffset);
-            GridConfigure[4, 2].Text  = Convert.ToString(para.StopMotorBetweenJobs);
-            GridConfigure[5, 2].Text  = Convert.ToString(para.PixInvert);
-            GridConfigure[6, 2].Text  = Convert.ToString(para.JobStartBufferTime);
-            GridConfigure[7, 2].Text  = Convert.ToString(para.PrecedingBlankLines);
+            GridConfigureNo1[1, 2].Text  = string.Format("{0:f4}", para.InScanResolution );
+            GridConfigureNo1[2, 2].Text  = string.Format("{0:f4}", para.CrossScanResolution);
+            GridConfigureNo1[3, 2].Text  = string.Format("{0:f4}", para.InScanOffset);
+            GridConfigureNo1[4, 2].Text  = string.Format("{0:f0}", para.StopMotorBetweenJobs);
+            GridConfigureNo1[5, 2].Text  = string.Format("{0:f0}", para.PixInvert);
+            GridConfigureNo1[6, 2].Text  = string.Format("{0:f0}", para.JobStartBufferTime);
+            GridConfigureNo1[7, 2].Text  = string.Format("{0:f0}", para.PrecedingBlankLines);
 
-            GridConfigure[8, 2].Text  = string.Format("{0:f0}", para.SeedClockFrequency);
-            GridConfigure[9, 2].Text  = string.Format("{0:f0}", para.RepetitionRate);
-            GridConfigure[10, 2].Text = string.Format("{0:f0}", para.PulsePickWidth);
-            GridConfigure[11, 2].Text = string.Format("{0:f0}", para.PixelWidth);
-            GridConfigure[12, 2].Text = string.Format("{0:f4}", para.CrossScanEncoderResol);
+            GridConfigureNo1[8, 2].Text  = string.Format("{0:f0}", para.LaserOperationMode);
+            GridConfigureNo1[9, 2].Text  = string.Format("{0:f0}", para.SeedClockFrequency);
+            GridConfigureNo1[10, 2].Text = string.Format("{0:f0}", para.RepetitionRate);
+            GridConfigureNo1[11, 2].Text = string.Format("{0:f0}", para.PulsePickWidth);
+            GridConfigureNo1[12, 2].Text = string.Format("{0:f0}", para.PixelWidth);
+            GridConfigureNo1[13, 2].Text = string.Format("{0:f0}", para.PulsePickAlgor);
 
-            GridConfigure[13, 2].Text = String.Format("{0:0.000}", para.CrossScanMaxAccel);
-            GridConfigure[14, 2].Text = String.Format("{0:f0}", para.EnCarSig);
-            GridConfigure[15, 2].Text = String.Format("{0:f0}", para.SwapCarSig);
-            GridConfigure[16, 2].Text = String.Format("{0:f0}", para.InterleaveRatio);
-            GridConfigure[17, 2].Text = string.Format("{0:f4}", para.FacetFineDelay0 );
-            GridConfigure[18, 2].Text = string.Format("{0:f4}", para.FacetFineDelay1 );
-            GridConfigure[19, 2].Text = string.Format("{0:f4}", para.FacetFineDelay2 );
-            GridConfigure[20, 2].Text = string.Format("{0:f4}", para.FacetFineDelay3 );
-            GridConfigure[21, 2].Text = string.Format("{0:f4}", para.FacetFineDelay4 );
-            GridConfigure[22, 2].Text = string.Format("{0:f4}", para.FacetFineDelay5 );
-            GridConfigure[23, 2].Text = string.Format("{0:f4}", para.FacetFineDelay6 );
-            GridConfigure[24, 2].Text = string.Format("{0:f4}", para.FacetFineDelay7 );
-            GridConfigure[25, 2].Text = String.Format("{0:f0}", para.StartFacet);
-            GridConfigure[26, 2].Text = String.Format("{0:f0}", para.AutoIncrementStartFacet);
-            GridConfigure[27, 2].Text = String.Format("{0:f0}", para.MotorStableTime);
+            GridConfigureNo1[14, 2].Text = string.Format("{0:f4}", para.CrossScanEncoderResol);
+            GridConfigureNo1[15, 2].Text = string.Format("{0:f4}", para.CrossScanMaxAccel);
+            GridConfigureNo1[16, 2].Text = string.Format("{0:f0}", para.EnCarSig);
+            GridConfigureNo1[17, 2].Text = string.Format("{0:f0}", para.SwapCarSig);
 
-            //====================================================================================================
-            // isn.ini
-            GridISN[1,  2].Text = string.Format("{0:f0}", para.FacetCorrectFirstXpos1);
-            GridISN[2,  2].Text = string.Format("{0:f0}", para.FacetCorrectLast_Xpos1);
-            GridISN[3,  2].Text = string.Format("{0:f0}", para.FacetCorrectFirstXpos2);
-            GridISN[4,  2].Text = string.Format("{0:f0}", para.FacetCorrectLast_Xpos2);
-            GridISN[5,  2].Text = string.Format("{0:f0}", para.FacetCorrectFirstXpos3);
-            GridISN[6,  2].Text = string.Format("{0:f0}", para.FacetCorrectLast_Xpos3);
-            GridISN[7,  2].Text = string.Format("{0:f0}", para.FacetCorrectFirstXpos4);
-            GridISN[8,  2].Text = string.Format("{0:f0}", para.FacetCorrectLast_Xpos4);
-            GridISN[9,  2].Text = string.Format("{0:f0}", para.FacetCorrectFirstXpos5);
-            GridISN[10, 2].Text = string.Format("{0:f0}", para.FacetCorrectLast_Xpos5);
-            GridISN[11, 2].Text = string.Format("{0:f0}", para.FacetCorrectFirstXpos6);
-            GridISN[12, 2].Text = string.Format("{0:f0}", para.FacetCorrectLast_Xpos6);
-            GridISN[13, 2].Text = string.Format("{0:f0}", para.FacetCorrectFirstXpos7);
-            GridISN[14, 2].Text = string.Format("{0:f0}", para.FacetCorrectLast_Xpos7);
-            GridISN[15, 2].Text = string.Format("{0:f0}", para.FacetCorrectFirstXpos8);
-            GridISN[16, 2].Text = string.Format("{0:f0}", para.FacetCorrectLast_Xpos8);
+            GridConfigureNo1[18, 2].Text = para.SerialNumber;
+            GridConfigureNo1[19, 2].Text = string.Format("{0:f7}", para.FThetaConstant);
+            GridConfigureNo1[20, 2].Text = string.Format("{0:f3}", para.ExposeLineLength);
+            GridConfigureNo1[21, 2].Text = string.Format("{0:f0}", para.EncoderIndexDelay);           
+            GridConfigureNo1[22, 2].Text = string.Format("{0:f4}", para.FacetFineDelay0 );
+            GridConfigureNo1[23, 2].Text = string.Format("{0:f4}", para.FacetFineDelay1 );
+            GridConfigureNo1[24, 2].Text = string.Format("{0:f4}", para.FacetFineDelay2 );
+            GridConfigureNo1[25, 2].Text = string.Format("{0:f4}", para.FacetFineDelay3 );
+            GridConfigureNo1[26, 2].Text = string.Format("{0:f4}", para.FacetFineDelay4 );
+            GridConfigureNo1[27, 2].Text = string.Format("{0:f4}", para.FacetFineDelay5 );
+            GridConfigureNo1[28, 2].Text = string.Format("{0:f4}", para.FacetFineDelay6 );
+            GridConfigureNo1[29, 2].Text = string.Format("{0:f4}", para.FacetFineDelay7 );
+            GridConfigureNo1[30, 2].Text = string.Format("{0:f0}", para.InterleaveRatio);
+            GridConfigureNo1[31, 2].Text = string.Format("{0:f4}", para.FacetFineDelayOffset0);
+            GridConfigureNo1[32, 2].Text = string.Format("{0:f4}", para.FacetFineDelayOffset1);
+            GridConfigureNo1[33, 2].Text = string.Format("{0:f4}", para.FacetFineDelayOffset2);
+            GridConfigureNo1[34, 2].Text = string.Format("{0:f4}", para.FacetFineDelayOffset3);
+            GridConfigureNo1[35, 2].Text = string.Format("{0:f4}", para.FacetFineDelayOffset4);
+            GridConfigureNo1[36, 2].Text = string.Format("{0:f4}", para.FacetFineDelayOffset5);
+            GridConfigureNo1[37, 2].Text = string.Format("{0:f4}", para.FacetFineDelayOffset6);
+            GridConfigureNo1[38, 2].Text = string.Format("{0:f4}", para.FacetFineDelayOffset7);
+            GridConfigureNo1[39, 2].Text = string.Format("{0:f0}", para.StartFacet);
+            GridConfigureNo1[40, 2].Text = string.Format("{0:f0}", para.AutoIncrementStartFacet);
+            
+            GridConfigureNo1[41, 2].Text = string.Format("{0:f0}", para.MotorDriverType);
+            GridConfigureNo1[42, 2].Text = string.Format("{0:f1}", para.MinMotorSpeed);
+            GridConfigureNo1[43, 2].Text = string.Format("{0:f1}", para.MaxMotorSpeed);
+            GridConfigureNo1[44, 2].Text = string.Format("{0:f0}", para.SyncWaitTime);
+            GridConfigureNo1[45, 2].Text = string.Format("{0:f0}", para.MotorStableTime);
+            GridConfigureNo1[46, 2].Text = string.Format("{0:f0}", para.ShaftEncoderPulseCount);
+            GridConfigureNo1[47, 2].Text = string.Format("{0:f0}", para.SwapReferenceSignals);
 
-            //====================================================================================================
-            // csn.ini
-            GridCSN[1, 2].Text = string.Format("{0:f0}", para.FacetCorrectFirstYpos1);
-            GridCSN[2, 2].Text = string.Format("{0:f0}", para.FacetCorrectLast_Ypos1);
-            GridCSN[3, 2].Text = string.Format("{0:f0}", para.FacetCorrectFirstYpos2);
-            GridCSN[4, 2].Text = string.Format("{0:f0}", para.FacetCorrectLast_Ypos2);
-            GridCSN[5, 2].Text = string.Format("{0:f0}", para.FacetCorrectFirstYpos3);
-            GridCSN[6, 2].Text = string.Format("{0:f0}", para.FacetCorrectLast_Ypos3);
-            GridCSN[7, 2].Text = string.Format("{0:f0}", para.FacetCorrectFirstYpos4);
-            GridCSN[8, 2].Text = string.Format("{0:f0}", para.FacetCorrectLast_Ypos4);
-            GridCSN[9, 2].Text = string.Format("{0:f0}", para.FacetCorrectFirstYpos5);
-            GridCSN[10, 2].Text = string.Format("{0:f0}", para.FacetCorrectLast_Ypos5);
-            GridCSN[11, 2].Text = string.Format("{0:f0}", para.FacetCorrectFirstYpos6);
-            GridCSN[12, 2].Text = string.Format("{0:f0}", para.FacetCorrectLast_Ypos6);
-            GridCSN[13, 2].Text = string.Format("{0:f0}", para.FacetCorrectFirstYpos7);
-            GridCSN[14, 2].Text = string.Format("{0:f0}", para.FacetCorrectLast_Ypos7);
-            GridCSN[15, 2].Text = string.Format("{0:f0}", para.FacetCorrectFirstYpos8);
-            GridCSN[16, 2].Text = string.Format("{0:f0}", para.FacetCorrectLast_Ypos8);
+            GridConfigureNo1[48, 2].Text = string.Format("{0:f0}", para.InterruptFreq);
+            GridConfigureNo1[49, 2].Text = string.Format("{0:f0}", para.HWDebugSelection);
+            GridConfigureNo1[50, 2].Text = string.Format("{0:f0}", para.ExpoDebugSelection);
+            GridConfigureNo1[51, 2].Text = string.Format("{0:f0}", para.AutoRepeat);
+            GridConfigureNo1[52, 2].Text = string.Format("{0:f0}", para.JobstartAutorepeat);
+            GridConfigureNo1[53, 2].Text = string.Format("{0:f0}", para.TelnetTimeout);
+            GridConfigureNo1[54, 2].Text = string.Format("{0:f0}", para.TelnetDebugTimeout);
+            GridConfigureNo1[55, 2].Text = string.Format("{0:f0}", para.SyncSlaves);
+            GridConfigureNo1[56, 2].Text = string.Format("{0:f0}", para.SyncTimeout);
+
 
         }
 
@@ -614,14 +472,14 @@ namespace LWDicer.UI
                 return;
             }
 
-            strCurrent = GridConfigure[nRow, nCol].Text;
+            strCurrent = GridConfigureNo1[nRow, nCol].Text;
             
             if (!CMainFrame.GetKeyPad(strCurrent, out strModify))
             {
                 return;
             }
 
-            GridConfigure[nRow, nCol].Text = strModify;
+            GridConfigureNo1[nRow, nCol].Text = strModify;
         }
 
         private void lblControlAddress_Click(object sender, EventArgs e)
@@ -653,73 +511,66 @@ namespace LWDicer.UI
                 //====================================================================================================
                 // Config.ini
 
-                CMainFrame.DataManager.ModelData.ScanData.InScanResolution = Convert.ToSingle(GridConfigure[1, 2].Text);
-                CMainFrame.DataManager.ModelData.ScanData.CrossScanResolution = Convert.ToSingle(GridConfigure[2, 2].Text);
-                CMainFrame.DataManager.ModelData.ScanData.InScanOffset = Convert.ToSingle(GridConfigure[3, 2].Text);
-                CMainFrame.DataManager.ModelData.ScanData.StopMotorBetweenJobs = Convert.ToInt16(GridConfigure[4, 2].Text);
-                CMainFrame.DataManager.ModelData.ScanData.PixInvert = Convert.ToInt16(GridConfigure[5, 2].Text);
-                CMainFrame.DataManager.ModelData.ScanData.JobStartBufferTime = Convert.ToInt16(GridConfigure[6, 2].Text);
-                CMainFrame.DataManager.ModelData.ScanData.PrecedingBlankLines = Convert.ToInt16(GridConfigure[7, 2].Text);
-                CMainFrame.DataManager.ModelData.ScanData.SeedClockFrequency = Convert.ToSingle(GridConfigure[8, 2].Text);
-                CMainFrame.DataManager.ModelData.ScanData.RepetitionRate = Convert.ToSingle(GridConfigure[9, 2].Text);
-                CMainFrame.DataManager.ModelData.ScanData.PulsePickWidth = Convert.ToInt16(GridConfigure[10, 2].Text);
-                CMainFrame.DataManager.ModelData.ScanData.PixelWidth = Convert.ToInt16(GridConfigure[11, 2].Text);
-                CMainFrame.DataManager.ModelData.ScanData.CrossScanEncoderResol = Convert.ToSingle(GridConfigure[12, 2].Text);
-                CMainFrame.DataManager.ModelData.ScanData.CrossScanMaxAccel = Convert.ToSingle(GridConfigure[13, 2].Text);
-                CMainFrame.DataManager.ModelData.ScanData.EnCarSig = Convert.ToInt16(GridConfigure[14, 2].Text);
-                CMainFrame.DataManager.ModelData.ScanData.SwapCarSig = Convert.ToInt16(GridConfigure[15, 2].Text);
-                CMainFrame.DataManager.ModelData.ScanData.InterleaveRatio = Convert.ToInt16(GridConfigure[16, 2].Text);
-                CMainFrame.DataManager.ModelData.ScanData.FacetFineDelay0 = Convert.ToSingle(GridConfigure[17, 2].Text);
-                CMainFrame.DataManager.ModelData.ScanData.FacetFineDelay1 = Convert.ToSingle(GridConfigure[18, 2].Text);
-                CMainFrame.DataManager.ModelData.ScanData.FacetFineDelay2 = Convert.ToSingle(GridConfigure[19, 2].Text);
-                CMainFrame.DataManager.ModelData.ScanData.FacetFineDelay3 = Convert.ToSingle(GridConfigure[20, 2].Text);
-                CMainFrame.DataManager.ModelData.ScanData.FacetFineDelay4 = Convert.ToSingle(GridConfigure[21, 2].Text);
-                CMainFrame.DataManager.ModelData.ScanData.FacetFineDelay5 = Convert.ToSingle(GridConfigure[22, 2].Text);
-                CMainFrame.DataManager.ModelData.ScanData.FacetFineDelay6 = Convert.ToSingle(GridConfigure[23, 2].Text);
-                CMainFrame.DataManager.ModelData.ScanData.FacetFineDelay7 = Convert.ToSingle(GridConfigure[24, 2].Text);
-                CMainFrame.DataManager.ModelData.ScanData.StartFacet = Convert.ToInt16(GridConfigure[25, 2].Text);
-                CMainFrame.DataManager.ModelData.ScanData.AutoIncrementStartFacet = Convert.ToInt16(GridConfigure[26, 2].Text);
-                CMainFrame.DataManager.ModelData.ScanData.MotorStableTime = Convert.ToInt16(GridConfigure[27, 2].Text);
+                CMainFrame.DataManager.ModelData.ScanData.InScanResolution      = Convert.ToDouble(GridConfigureNo1[1, 2].Text);
+                CMainFrame.DataManager.ModelData.ScanData.CrossScanResolution   = Convert.ToDouble(GridConfigureNo1[2, 2].Text);
+                CMainFrame.DataManager.ModelData.ScanData.InScanOffset          = Convert.ToDouble(GridConfigureNo1[3, 2].Text);
+                CMainFrame.DataManager.ModelData.ScanData.StopMotorBetweenJobs  = Convert.ToInt32(GridConfigureNo1[4, 2].Text);
+                CMainFrame.DataManager.ModelData.ScanData.PixInvert             = Convert.ToInt32(GridConfigureNo1[5, 2].Text);
+                CMainFrame.DataManager.ModelData.ScanData.JobStartBufferTime    = Convert.ToInt32(GridConfigureNo1[6, 2].Text);
+                CMainFrame.DataManager.ModelData.ScanData.PrecedingBlankLines   = Convert.ToInt32(GridConfigureNo1[7, 2].Text);
 
-                //====================================================================================================
-                // isn.ini
+                CMainFrame.DataManager.ModelData.ScanData.LaserOperationMode    = Convert.ToInt32(GridConfigureNo1[8, 2].Text);
+                CMainFrame.DataManager.ModelData.ScanData.SeedClockFrequency    = Convert.ToDouble(GridConfigureNo1[9, 2].Text);
+                CMainFrame.DataManager.ModelData.ScanData.RepetitionRate        = Convert.ToDouble(GridConfigureNo1[10, 2].Text);
+                CMainFrame.DataManager.ModelData.ScanData.PulsePickWidth        = Convert.ToInt32(GridConfigureNo1[11, 2].Text);
+                CMainFrame.DataManager.ModelData.ScanData.PixelWidth            = Convert.ToInt32(GridConfigureNo1[12, 2].Text);
+                CMainFrame.DataManager.ModelData.ScanData.PulsePickAlgor        = Convert.ToInt32(GridConfigureNo1[13, 2].Text);
+                CMainFrame.DataManager.ModelData.ScanData.CrossScanEncoderResol = Convert.ToDouble(GridConfigureNo1[14, 2].Text);
+                CMainFrame.DataManager.ModelData.ScanData.CrossScanMaxAccel     = Convert.ToDouble(GridConfigureNo1[15, 2].Text);
+                CMainFrame.DataManager.ModelData.ScanData.EnCarSig              = Convert.ToInt32(GridConfigureNo1[16, 2].Text);
+                CMainFrame.DataManager.ModelData.ScanData.SwapCarSig            = Convert.ToInt32(GridConfigureNo1[17, 2].Text);
 
-                CMainFrame.DataManager.ModelData.ScanData.FacetCorrectFirstXpos1 = Convert.ToInt32(GridISN[1, 2].Text);
-                CMainFrame.DataManager.ModelData.ScanData.FacetCorrectLast_Xpos1 = Convert.ToInt32(GridISN[2, 2].Text);
-                CMainFrame.DataManager.ModelData.ScanData.FacetCorrectFirstXpos2 = Convert.ToInt32(GridISN[3, 2].Text);
-                CMainFrame.DataManager.ModelData.ScanData.FacetCorrectLast_Xpos2 = Convert.ToInt32(GridISN[4, 2].Text);
-                CMainFrame.DataManager.ModelData.ScanData.FacetCorrectFirstXpos3 = Convert.ToInt32(GridISN[5, 2].Text);
-                CMainFrame.DataManager.ModelData.ScanData.FacetCorrectLast_Xpos3 = Convert.ToInt32(GridISN[6, 2].Text);
-                CMainFrame.DataManager.ModelData.ScanData.FacetCorrectFirstXpos4 = Convert.ToInt32(GridISN[7, 2].Text);
-                CMainFrame.DataManager.ModelData.ScanData.FacetCorrectLast_Xpos4 = Convert.ToInt32(GridISN[8, 2].Text);
-                CMainFrame.DataManager.ModelData.ScanData.FacetCorrectFirstXpos5 = Convert.ToInt32(GridISN[9, 2].Text);
-                CMainFrame.DataManager.ModelData.ScanData.FacetCorrectLast_Xpos5 = Convert.ToInt32(GridISN[10, 2].Text);
-                CMainFrame.DataManager.ModelData.ScanData.FacetCorrectFirstXpos6 = Convert.ToInt32(GridISN[11, 2].Text);
-                CMainFrame.DataManager.ModelData.ScanData.FacetCorrectLast_Xpos6 = Convert.ToInt32(GridISN[12, 2].Text);
-                CMainFrame.DataManager.ModelData.ScanData.FacetCorrectFirstXpos7 = Convert.ToInt32(GridISN[13, 2].Text);
-                CMainFrame.DataManager.ModelData.ScanData.FacetCorrectLast_Xpos7 = Convert.ToInt32(GridISN[14, 2].Text);
-                CMainFrame.DataManager.ModelData.ScanData.FacetCorrectFirstXpos8 = Convert.ToInt32(GridISN[15, 2].Text);
-                CMainFrame.DataManager.ModelData.ScanData.FacetCorrectLast_Xpos8 = Convert.ToInt32(GridISN[16, 2].Text);
+                CMainFrame.DataManager.ModelData.ScanData.SerialNumber          = Convert.ToString(GridConfigureNo1[18, 2].Text);
+                CMainFrame.DataManager.ModelData.ScanData.FThetaConstant        = Convert.ToDouble(GridConfigureNo1[19, 2].Text);
+                CMainFrame.DataManager.ModelData.ScanData.ExposeLineLength      = Convert.ToDouble(GridConfigureNo1[20, 2].Text);
+                CMainFrame.DataManager.ModelData.ScanData.EncoderIndexDelay     = Convert.ToInt32(GridConfigureNo1[21, 2].Text);
+                CMainFrame.DataManager.ModelData.ScanData.FacetFineDelay0       = Convert.ToDouble(GridConfigureNo1[22, 2].Text);
+                CMainFrame.DataManager.ModelData.ScanData.FacetFineDelay1       = Convert.ToDouble(GridConfigureNo1[23, 2].Text);
+                CMainFrame.DataManager.ModelData.ScanData.FacetFineDelay2       = Convert.ToDouble(GridConfigureNo1[24, 2].Text);
+                CMainFrame.DataManager.ModelData.ScanData.FacetFineDelay3       = Convert.ToDouble(GridConfigureNo1[25, 2].Text);
+                CMainFrame.DataManager.ModelData.ScanData.FacetFineDelay4       = Convert.ToDouble(GridConfigureNo1[26, 2].Text);
+                CMainFrame.DataManager.ModelData.ScanData.FacetFineDelay5       = Convert.ToDouble(GridConfigureNo1[27, 2].Text);
+                CMainFrame.DataManager.ModelData.ScanData.FacetFineDelay6       = Convert.ToDouble(GridConfigureNo1[28, 2].Text);
+                CMainFrame.DataManager.ModelData.ScanData.FacetFineDelay7       = Convert.ToDouble(GridConfigureNo1[29, 2].Text);
+                CMainFrame.DataManager.ModelData.ScanData.InterleaveRatio       = Convert.ToInt32(GridConfigureNo1[30, 2].Text);
+                CMainFrame.DataManager.ModelData.ScanData.FacetFineDelayOffset0 = Convert.ToDouble(GridConfigureNo1[31, 2].Text);
+                CMainFrame.DataManager.ModelData.ScanData.FacetFineDelayOffset1 = Convert.ToDouble(GridConfigureNo1[32, 2].Text);
+                CMainFrame.DataManager.ModelData.ScanData.FacetFineDelayOffset2 = Convert.ToDouble(GridConfigureNo1[33, 2].Text);
+                CMainFrame.DataManager.ModelData.ScanData.FacetFineDelayOffset3 = Convert.ToDouble(GridConfigureNo1[34, 2].Text);
+                CMainFrame.DataManager.ModelData.ScanData.FacetFineDelayOffset4 = Convert.ToDouble(GridConfigureNo1[35, 2].Text);
+                CMainFrame.DataManager.ModelData.ScanData.FacetFineDelayOffset5 = Convert.ToDouble(GridConfigureNo1[36, 2].Text);
+                CMainFrame.DataManager.ModelData.ScanData.FacetFineDelayOffset6 = Convert.ToDouble(GridConfigureNo1[37, 2].Text);
+                CMainFrame.DataManager.ModelData.ScanData.FacetFineDelayOffset7 = Convert.ToDouble(GridConfigureNo1[38, 2].Text);
+                CMainFrame.DataManager.ModelData.ScanData.StartFacet            = Convert.ToInt32(GridConfigureNo1[39, 2].Text);
+                CMainFrame.DataManager.ModelData.ScanData.AutoIncrementStartFacet= Convert.ToInt32(GridConfigureNo1[40, 2].Text);
 
-                //====================================================================================================
-                // csn.ini
-
-                CMainFrame.DataManager.ModelData.ScanData.FacetCorrectFirstYpos1 = Convert.ToInt32(GridCSN[1, 2].Text);
-                CMainFrame.DataManager.ModelData.ScanData.FacetCorrectLast_Ypos1 = Convert.ToInt32(GridCSN[2, 2].Text);
-                CMainFrame.DataManager.ModelData.ScanData.FacetCorrectFirstYpos2 = Convert.ToInt32(GridCSN[3, 2].Text);
-                CMainFrame.DataManager.ModelData.ScanData.FacetCorrectLast_Ypos2 = Convert.ToInt32(GridCSN[4, 2].Text);
-                CMainFrame.DataManager.ModelData.ScanData.FacetCorrectFirstYpos3 = Convert.ToInt32(GridCSN[5, 2].Text);
-                CMainFrame.DataManager.ModelData.ScanData.FacetCorrectLast_Ypos3 = Convert.ToInt32(GridCSN[6, 2].Text);
-                CMainFrame.DataManager.ModelData.ScanData.FacetCorrectFirstYpos4 = Convert.ToInt32(GridCSN[7, 2].Text);
-                CMainFrame.DataManager.ModelData.ScanData.FacetCorrectLast_Ypos4 = Convert.ToInt32(GridCSN[8, 2].Text);
-                CMainFrame.DataManager.ModelData.ScanData.FacetCorrectFirstYpos5 = Convert.ToInt32(GridCSN[9, 2].Text);
-                CMainFrame.DataManager.ModelData.ScanData.FacetCorrectLast_Ypos5 = Convert.ToInt32(GridCSN[10, 2].Text);
-                CMainFrame.DataManager.ModelData.ScanData.FacetCorrectFirstYpos6 = Convert.ToInt32(GridCSN[11, 2].Text);
-                CMainFrame.DataManager.ModelData.ScanData.FacetCorrectLast_Ypos6 = Convert.ToInt32(GridCSN[12, 2].Text);
-                CMainFrame.DataManager.ModelData.ScanData.FacetCorrectFirstYpos7 = Convert.ToInt32(GridCSN[13, 2].Text);
-                CMainFrame.DataManager.ModelData.ScanData.FacetCorrectLast_Ypos7 = Convert.ToInt32(GridCSN[14, 2].Text);
-                CMainFrame.DataManager.ModelData.ScanData.FacetCorrectFirstYpos8 = Convert.ToInt32(GridCSN[15, 2].Text);
-                CMainFrame.DataManager.ModelData.ScanData.FacetCorrectLast_Ypos8 = Convert.ToInt32(GridCSN[16, 2].Text);
+                CMainFrame.DataManager.ModelData.ScanData.MotorDriverType       = Convert.ToInt32(GridConfigureNo1[41, 2].Text);
+                CMainFrame.DataManager.ModelData.ScanData.MinMotorSpeed         = Convert.ToDouble(GridConfigureNo1[42, 2].Text);
+                CMainFrame.DataManager.ModelData.ScanData.MaxMotorSpeed         = Convert.ToDouble(GridConfigureNo1[43, 2].Text);
+                CMainFrame.DataManager.ModelData.ScanData.SyncWaitTime          = Convert.ToInt32(GridConfigureNo1[44, 2].Text);
+                CMainFrame.DataManager.ModelData.ScanData.MotorStableTime       = Convert.ToInt32(GridConfigureNo1[45, 2].Text);
+                CMainFrame.DataManager.ModelData.ScanData.ShaftEncoderPulseCount= Convert.ToInt32(GridConfigureNo1[46, 2].Text);
+                CMainFrame.DataManager.ModelData.ScanData.SwapReferenceSignals  = Convert.ToInt32(GridConfigureNo1[47, 2].Text);
+                CMainFrame.DataManager.ModelData.ScanData.InterruptFreq         = Convert.ToInt32(GridConfigureNo1[48, 2].Text);
+                CMainFrame.DataManager.ModelData.ScanData.HWDebugSelection      = Convert.ToInt32(GridConfigureNo1[49, 2].Text);
+                CMainFrame.DataManager.ModelData.ScanData.ExpoDebugSelection    = Convert.ToInt32(GridConfigureNo1[50, 2].Text);
+                CMainFrame.DataManager.ModelData.ScanData.AutoRepeat            = Convert.ToInt32(GridConfigureNo1[51, 2].Text);
+                CMainFrame.DataManager.ModelData.ScanData.JobstartAutorepeat    = Convert.ToInt32(GridConfigureNo1[52, 2].Text);
+                CMainFrame.DataManager.ModelData.ScanData.TelnetTimeout         = Convert.ToInt32(GridConfigureNo1[53, 2].Text);
+                CMainFrame.DataManager.ModelData.ScanData.TelnetDebugTimeout    = Convert.ToInt32(GridConfigureNo1[54, 2].Text);
+                CMainFrame.DataManager.ModelData.ScanData.SyncSlaves            = Convert.ToInt32(GridConfigureNo1[55, 2].Text);
+                CMainFrame.DataManager.ModelData.ScanData.SyncTimeout           = Convert.ToInt32(GridConfigureNo1[56, 2].Text);
+                                
 
                 // DB Save
                 CMainFrame.LWDicer.SaveModelData(CMainFrame.DataManager.ModelData);
@@ -741,61 +592,15 @@ namespace LWDicer.UI
         {
 
         }
+        
 
-        private void GridISN_CellClick(object sender, GridCellClickEventArgs e)
-        {
-            int nCol = 0, nRow = 0;
-            string strCurrent = "", strModify = "";
+        //private void btnWindowShow_Click(object sender, EventArgs e)
+        //{
+        //    //    var m_FormScanWindow = new FormScanWindow();
+        //    //    m_FormScanWindow.ShowDialog();
 
-            nCol = e.ColIndex;
-            nRow = e.RowIndex;
-
-            if (nCol != 2 || nRow == 0)
-            {
-                return;
-            }
-
-            strCurrent = GridISN[nRow, nCol].Text;
-
-            if (!CMainFrame.GetKeyPad(strCurrent, out strModify))
-            {
-                return;
-            }
-
-            GridISN[nRow, nCol].Text = strModify;
-        }
-
-        private void GridCSN_CellClick(object sender, GridCellClickEventArgs e)
-        {
-            int nCol = 0, nRow = 0;
-            string strCurrent = "", strModify = "";
-
-            nCol = e.ColIndex;
-            nRow = e.RowIndex;
-
-            if (nCol != 2 || nRow == 0)
-            {
-                return;
-            }
-
-            strCurrent = GridCSN[nRow, nCol].Text;
-
-            if (!CMainFrame.GetKeyPad(strCurrent, out strModify))
-            {
-                return;
-            }
-
-            GridCSN[nRow, nCol].Text = strModify;
-        }
-
-        private void btnWindowShow_Click(object sender, EventArgs e)
-        {
-            //    var m_FormScanWindow = new FormScanWindow();
-            //    m_FormScanWindow.ShowDialog();
-
-            CMainFrame.LWDicer.m_MeScanner.ShowScanWindow();
-
-        }
+        //    CMainFrame.LWDicer.m_MeScanner.ShowScanWindow();
+        //}
 
         
         private void btnImageUpdate_Click(object sender, EventArgs e)
@@ -818,47 +623,42 @@ namespace LWDicer.UI
             }            
         }
 
-        private void btnImageChange_Click(object sender, EventArgs e)
-        {
-            Bitmap sourceBitmap;
-            Bitmap changeBitmap;
-            string m_strLastFile = string.Empty;
-            string changeName = string.Empty;
+        //private void btnImageChange_Click(object sender, EventArgs e)
+        //{
+        //    Bitmap sourceBitmap;
+        //    Bitmap changeBitmap;
+        //    string m_strLastFile = string.Empty;
+        //    string changeName = string.Empty;
 
-            var dlg = new OpenFileDialog();
-            dlg.Filter = "BMP(*.bmp)|*.bmp";
-            dlg.InitialDirectory = CMainFrame.DBInfo.ImageDataDir;
-            if (dlg.ShowDialog() == DialogResult.OK)
-            {
-                var fileData = new FileInfo(dlg.FileName);
-                m_strLastFile = fileData.Name;
-                m_strLastDir = fileData.DirectoryName;
+        //    var dlg = new OpenFileDialog();
+        //    dlg.Filter = "BMP(*.bmp)|*.bmp";
+        //    dlg.InitialDirectory = CMainFrame.DBInfo.ImageDataDir;
+        //    if (dlg.ShowDialog() == DialogResult.OK)
+        //    {
+        //        var fileData = new FileInfo(dlg.FileName);
+        //        m_strLastFile = fileData.Name;
+        //        m_strLastDir = fileData.DirectoryName;
 
-                // bmp file Load
-                sourceBitmap = new Bitmap(dlg.FileName);
+        //        // bmp file Load
+        //        sourceBitmap = new Bitmap(dlg.FileName);
                 
-                // bmp expand by 8 (default)
-                changeBitmap = CMainFrame.LWDicer.m_MeScanner.ExpandBmpFile(sourceBitmap);
+        //        // bmp expand by 8 (default)
+        //        changeBitmap = CMainFrame.LWDicer.m_MeScanner.ExpandBmpFile(sourceBitmap);
                 
-                int insertPos = m_strLastFile.Length;
-                changeName = m_strLastFile.Insert(insertPos-4, "_EX");
-                // bmp Save
-                if(changeBitmap != null)
-                    changeBitmap.Save(changeName,ImageFormat.Bmp);
-            }
-        }
+        //        int insertPos = m_strLastFile.Length;
+        //        changeName = m_strLastFile.Insert(insertPos-4, "_EX");
+        //        // bmp Save
+        //        if(changeBitmap != null)
+        //            changeBitmap.Save(changeName,ImageFormat.Bmp);
+        //    }
+        //}
 
 
         private void btnDataUpdate_Click(object sender, EventArgs e)
         {
             // ini File 저장
             CMainFrame.LWDicer.m_MeScanner.SaveConfigPara("job");
-
-            // ini File 저장
-            CMainFrame.LWDicer.m_MeScanner.SaveIsnPara("isn_job");
-
-            // ini File 저장
-            CMainFrame.LWDicer.m_MeScanner.SaveCsnPara("csn_job");
+            
 
             FormPolygonSelectPara formSelect = new FormPolygonSelectPara();
 
@@ -877,10 +677,7 @@ namespace LWDicer.UI
             UpdateConfigureData(CMainFrame.DataManager.ModelData.ScanData);
         }
 
-        private void btnControlSendConnect_Click_1(object sender, EventArgs e)
-        {
-            //CMainFrame.LWDicer.m_MeScanner.ConnetTelnet(EMonitorMode.Controller);
-        }
+
 
         private void textBox1_KeyDown(object sender, KeyEventArgs e)
         {
@@ -988,8 +785,9 @@ namespace LWDicer.UI
 
             // 타원의 수평이 같은 X1,X2 위치값
             float ellipseX1, ellipseX2;
-            PointF startLine = new PointF(0, 0);
-            PointF endLine = new PointF(0, 0);
+            CPos_XY startLine = new CPos_XY();
+            CPos_XY endLine = new CPos_XY();
+            
 
               
             // 타원의 Y축 상부 시작 위치
@@ -1004,13 +802,13 @@ namespace LWDicer.UI
                 if (ellipseX1 < 0) ellipseX1 = 0;
                 if (ellipseX2 > CMainFrame.DataManager.ModelData.ProcData.ProcessWaferSize) ellipseX2 = CMainFrame.DataManager.ModelData.ProcData.ProcessWaferSize;
 
-                startLine.X = ellipseX1;
-                endLine.X   = ellipseX2;
-                startLine.Y = endLine.Y = 0;
+                startLine.dX = ellipseX1;
+                endLine.dX   = ellipseX2;
+                startLine.dY = endLine.dY = 0;
 
                 for (int i = 0; i < CMainFrame.DataManager.ModelData.ProcData.ProcessLineNum; i++)
                 {
-                    startLine.Y = endLine.Y = CMainFrame.DataManager.ModelData.ScanData.CrossScanResolution * i;
+                    startLine.dY = endLine.dY = CMainFrame.DataManager.ModelData.ScanData.CrossScanResolution * i;
 
                     CMainFrame.LWDicer.m_MeScanner.AddLine(startLine, endLine);
                 }
@@ -1038,13 +836,13 @@ namespace LWDicer.UI
                 if (ellipseX1 < 0) ellipseX1 = 0;
                 if (ellipseX2 > CMainFrame.DataManager.ModelData.ProcData.ProcessWaferSize) ellipseX2 = CMainFrame.DataManager.ModelData.ProcData.ProcessWaferSize;
 
-                startLine.X = ellipseX1;
-                endLine.X = ellipseX2;
-                startLine.Y = endLine.Y = 0;
+                startLine.dX = ellipseX1;
+                endLine.dX = ellipseX2;
+                startLine.dY = endLine.dY = 0;
 
                 for (int i = 0; i < CMainFrame.DataManager.ModelData.ProcData.ProcessLineNum; i++)
                 {
-                    startLine.Y = endLine.Y = CMainFrame.DataManager.ModelData.ScanData.CrossScanResolution * i;
+                    startLine.dY = endLine.dY = CMainFrame.DataManager.ModelData.ScanData.CrossScanResolution * i;
                     CMainFrame.LWDicer.m_MeScanner.AddLine(startLine, endLine);
                 }
 
@@ -1103,7 +901,7 @@ namespace LWDicer.UI
 
         private void btnExportConfig_Click(object sender, EventArgs e)
         {
-            if (!CMainFrame.DisplayMsg("Config.ini 파일을 덮어 쓰시겠습니까 ?")) return;
+            if (!CMainFrame.DisplayMsg("Write Config.ini to Disc ?")) return;
 
             string filename = string.Empty;
             SaveFileDialog IniSaveDlg = new SaveFileDialog();
@@ -1113,49 +911,12 @@ namespace LWDicer.UI
             {
                 filename = IniSaveDlg.FileName;
                 CMainFrame.DataManager.ExportPolygonData(EPolygonPara.CONFIG, filename);
-            }
-
-            
+            }            
         }
-
-        private void btnExportIsn_Click(object sender, EventArgs e)
-        {            
-            if (!CMainFrame.DisplayMsg("Isn.ini 파일을 덮어 쓰시겠습니까 ?")) return;
-
-            string filename = string.Empty;
-            SaveFileDialog IniSaveDlg = new SaveFileDialog();
-            IniSaveDlg.InitialDirectory = CMainFrame.DBInfo.ScannerDataDir;
-            IniSaveDlg.Filter = "INI(*.ini)|*.ini";
-            if (IniSaveDlg.ShowDialog() == DialogResult.OK)
-            {
-                filename = IniSaveDlg.FileName;
-                CMainFrame.DataManager.ExportPolygonData(EPolygonPara.ISN, filename);
-            }
-
-            
-        }
-
-        private void btnExportCsn_Click(object sender, EventArgs e)
-        {
-            if (!CMainFrame.DisplayMsg("Csn.ini 파일을 덮어 쓰시겠습니까 ?")) return;
-
-            string filename = string.Empty;
-            SaveFileDialog IniSaveDlg = new SaveFileDialog();
-            IniSaveDlg.InitialDirectory = CMainFrame.DBInfo.ScannerDataDir;
-            IniSaveDlg.Filter = "INI(*.ini)|*.ini";
-            if (IniSaveDlg.ShowDialog() == DialogResult.OK)
-            {
-                filename = IniSaveDlg.FileName;
-                CMainFrame.DataManager.ExportPolygonData(EPolygonPara.CSN, filename);
-            }
-
-            
-
-        }
-
+        
         private void btnImportConfig_Click(object sender, EventArgs e)
         {
-            if (!CMainFrame.DisplayMsg("Config.ini 파일을 읽어오시겠습니까?")) return;
+            if (!CMainFrame.DisplayMsg("Read Config.ini from Disc?")) return;
 
             string filename = string.Empty;
             OpenFileDialog iniOpenDlg = new OpenFileDialog();
@@ -1168,48 +929,9 @@ namespace LWDicer.UI
                 CMainFrame.DataManager.ImportPolygonData(EPolygonPara.CONFIG, filename);
 
                 UpdateConfigureData(CMainFrame.DataManager.ModelData.ScanData);
-            }
-            
+            }            
         }
-
-        private void btnImportIsn_Click(object sender, EventArgs e)
-        {
-            if (!CMainFrame.DisplayMsg("Isn.ini 파일을 읽어오시겠습니까?")) return;
-
-            string filename = string.Empty;
-            OpenFileDialog iniOpenDlg = new OpenFileDialog();
-            iniOpenDlg.InitialDirectory = CMainFrame.DBInfo.ScannerDataDir;
-            iniOpenDlg.Filter = "INI(*.ini)|*.ini";
-            if (iniOpenDlg.ShowDialog() == DialogResult.OK)
-            {
-                filename = iniOpenDlg.FileName;
-                //CMainFrame.DataManager.ImportPolygonData(EPolygonPara.ISN);
-                CMainFrame.DataManager.ImportPolygonData(EPolygonPara.ISN, filename);
-
-                UpdateConfigureData(CMainFrame.DataManager.ModelData.ScanData);
-            }
-
-            
-        }
-
-        private void btnImportCsn_Click(object sender, EventArgs e)
-        {
-            if (!CMainFrame.DisplayMsg("Csn.ini 파일을 읽어오시겠습니까?")) return;
-
-            string filename = string.Empty;
-            OpenFileDialog iniOpenDlg = new OpenFileDialog();
-            iniOpenDlg.InitialDirectory = CMainFrame.DBInfo.ScannerDataDir;
-            iniOpenDlg.Filter = "INI(*.ini)|*.ini";
-            if (iniOpenDlg.ShowDialog() == DialogResult.OK)
-            {
-                filename = iniOpenDlg.FileName;
-                //CMainFrame.DataManager.ImportPolygonData(EPolygonPara.CSN);
-                CMainFrame.DataManager.ImportPolygonData(EPolygonPara.CSN, filename);
-
-                UpdateConfigureData(CMainFrame.DataManager.ModelData.ScanData);
-            }
-            
-        }
+        
         
         private void tabPageConfig_Enter(object sender, EventArgs e)
         {
@@ -1233,8 +955,7 @@ namespace LWDicer.UI
 
         private void btnVisionLive_Click(object sender, EventArgs e)
         {
-            if (CMainFrame.LWDicer.m_Vision == null) return;
-                       
+            if (CMainFrame.LWDicer.m_Vision == null) return;                       
 
             CMainFrame.LWDicer.m_Vision.LiveVideo(INSP_CAM);
         }
@@ -1254,89 +975,8 @@ namespace LWDicer.UI
         private void cbbSelectCam_SelectedIndexChanged(object sender, EventArgs e)
         {
 
-        }
-
-        private void btnChangeCsnGap_Click(object sender, EventArgs e)
-        {
-            int csnGapPitch = Convert.ToInt32(lblCsnGapPitch.Text);
-
-            string filename = string.Empty;
-            OpenFileDialog iniOpenDlg = new OpenFileDialog();
-            iniOpenDlg.InitialDirectory = CMainFrame.DBInfo.ScannerDataDir;
-            iniOpenDlg.Filter = "INI(*.ini)|*.ini";
-            if (iniOpenDlg.ShowDialog() == DialogResult.OK)
-            {
-                filename = iniOpenDlg.FileName;
-            }
-            else
-            {
-                return;
-            }
-
-            //CMainFrame.DataManager.ImportPolygonData(EPolygonPara.CSN);
-            CMainFrame.DataManager.ImportPolygonData(EPolygonPara.CSN, filename);
-
-            CMainFrame.DataManager.ModelData.ScanData.FacetCorrectFirstYpos1 -= csnGapPitch * 0;
-            CMainFrame.DataManager.ModelData.ScanData.FacetCorrectLast_Ypos1 -= csnGapPitch * 0;
-            CMainFrame.DataManager.ModelData.ScanData.FacetCorrectFirstYpos2 -= csnGapPitch * 1;
-            CMainFrame.DataManager.ModelData.ScanData.FacetCorrectLast_Ypos2 -= csnGapPitch * 1;
-            CMainFrame.DataManager.ModelData.ScanData.FacetCorrectFirstYpos3 -= csnGapPitch * 2;
-            CMainFrame.DataManager.ModelData.ScanData.FacetCorrectLast_Ypos3 -= csnGapPitch * 2;
-            CMainFrame.DataManager.ModelData.ScanData.FacetCorrectFirstYpos4 -= csnGapPitch * 3;
-            CMainFrame.DataManager.ModelData.ScanData.FacetCorrectLast_Ypos4 -= csnGapPitch * 3;
-            CMainFrame.DataManager.ModelData.ScanData.FacetCorrectFirstYpos5 -= csnGapPitch * 4;
-            CMainFrame.DataManager.ModelData.ScanData.FacetCorrectLast_Ypos5 -= csnGapPitch * 4;
-            CMainFrame.DataManager.ModelData.ScanData.FacetCorrectFirstYpos6 -= csnGapPitch * 5;
-            CMainFrame.DataManager.ModelData.ScanData.FacetCorrectLast_Ypos6 -= csnGapPitch * 5;
-            CMainFrame.DataManager.ModelData.ScanData.FacetCorrectFirstYpos7 -= csnGapPitch * 6;
-            CMainFrame.DataManager.ModelData.ScanData.FacetCorrectLast_Ypos7 -= csnGapPitch * 6;
-            CMainFrame.DataManager.ModelData.ScanData.FacetCorrectFirstYpos8 -= csnGapPitch * 7;
-            CMainFrame.DataManager.ModelData.ScanData.FacetCorrectLast_Ypos8 -= csnGapPitch * 7;
-
-            UpdateConfigureData(CMainFrame.DataManager.ModelData.ScanData);
-        }
-
-        private void btnChangeCsnOffset_Click(object sender, EventArgs e)
-        {
-            int csnStartOffset = Convert.ToInt32(lblCsnStartOffset.Text);
-            int csnEndOffset = Convert.ToInt32(lblCsnEndOffset.Text);
-
-            string filename = string.Empty;
-            OpenFileDialog iniOpenDlg = new OpenFileDialog();
-            iniOpenDlg.InitialDirectory = CMainFrame.DBInfo.ScannerDataDir;
-            iniOpenDlg.Filter = "INI(*.ini)|*.ini";
-            if (iniOpenDlg.ShowDialog() == DialogResult.OK)
-            {
-                filename = iniOpenDlg.FileName;
-            }
-            else
-            {
-                return;
-            }
-
-            //CMainFrame.DataManager.ImportPolygonData(EPolygonPara.CSN);
-            CMainFrame.DataManager.ImportPolygonData(EPolygonPara.CSN, filename);
-
-            CMainFrame.DataManager.ModelData.ScanData.FacetCorrectFirstYpos1 -= csnStartOffset;
-            CMainFrame.DataManager.ModelData.ScanData.FacetCorrectLast_Ypos1 -= csnEndOffset;
-            CMainFrame.DataManager.ModelData.ScanData.FacetCorrectFirstYpos2 -= csnStartOffset;
-            CMainFrame.DataManager.ModelData.ScanData.FacetCorrectLast_Ypos2 -= csnEndOffset;
-            CMainFrame.DataManager.ModelData.ScanData.FacetCorrectFirstYpos3 -= csnStartOffset;
-            CMainFrame.DataManager.ModelData.ScanData.FacetCorrectLast_Ypos3 -= csnEndOffset;
-            CMainFrame.DataManager.ModelData.ScanData.FacetCorrectFirstYpos4 -= csnStartOffset;
-            CMainFrame.DataManager.ModelData.ScanData.FacetCorrectLast_Ypos4 -= csnEndOffset;
-            CMainFrame.DataManager.ModelData.ScanData.FacetCorrectFirstYpos5 -= csnStartOffset;
-            CMainFrame.DataManager.ModelData.ScanData.FacetCorrectLast_Ypos5 -= csnEndOffset;
-            CMainFrame.DataManager.ModelData.ScanData.FacetCorrectFirstYpos6 -= csnStartOffset;
-            CMainFrame.DataManager.ModelData.ScanData.FacetCorrectLast_Ypos6 -= csnEndOffset;
-            CMainFrame.DataManager.ModelData.ScanData.FacetCorrectFirstYpos7 -= csnStartOffset;
-            CMainFrame.DataManager.ModelData.ScanData.FacetCorrectLast_Ypos7 -= csnEndOffset;
-            CMainFrame.DataManager.ModelData.ScanData.FacetCorrectFirstYpos8 -= csnStartOffset;
-            CMainFrame.DataManager.ModelData.ScanData.FacetCorrectLast_Ypos8 -= csnEndOffset;
-
-            UpdateConfigureData(CMainFrame.DataManager.ModelData.ScanData);
-        }
-
+        }        
+        
         private void lblCsnGapPitch_Click(object sender, EventArgs e)
         {
             string strCurrent = "", strModify = "";
@@ -1504,32 +1144,7 @@ namespace LWDicer.UI
         {
             CMainFrame.LWDicer.m_Vision.ClearOverlay();
         }
-
-        private void btnControlSendConnect_Click(object sender, EventArgs e)
-        {
-            CMainFrame.LWDicer.m_MeScanner.SetControlAddress(lblControlAddress.Text,1111);
-            CMainFrame.DataManager.SystemData_Scan.ControlHostAddress    = CMainFrame.LWDicer.m_MeScanner.GetControlAddress();
-            CMainFrame.DataManager.SystemData_Scan.ControlHostPort       = CMainFrame.LWDicer.m_MeScanner.GetControlPortNum();
-            
-            CMainFrame.LWDicer.SaveSystemData(null, null, null, null, null, CMainFrame.DataManager.SystemData_Scan, null);
-
-            bool bCheckConnect = false;
-            CMainFrame.LWDicer.m_MeScanner.m_RefComp.ControlComm.ConnectServer();
-            bCheckConnect = CMainFrame.LWDicer.m_MeScanner.m_RefComp.ControlComm.IsConnected();
-
-        }
-
-        private void btnHeadSendConnect_Click(object sender, EventArgs e)
-        {
-            CMainFrame.LWDicer.m_MeScanner.SetScanHeadAddress(lblHeadAddress.Text, 1111);
-            CMainFrame.DataManager.SystemData_Scan.ScanHeadHostAddress   = CMainFrame.LWDicer.m_MeScanner.GetScanHeadAddress();
-            CMainFrame.DataManager.SystemData_Scan.ScanHeadHostPort      = CMainFrame.LWDicer.m_MeScanner.GetScanHeadPortNum();
-
-            CMainFrame.LWDicer.SaveSystemData(null, null, null, null, null, CMainFrame.DataManager.SystemData_Scan, null);
-
-            CMainFrame.LWDicer.m_MeScanner.m_RefComp.ScanHeadComm.ConnectServer();
-        }
-
+               
 
         private void btnPatternProcessSave_Click(object sender, EventArgs e)
         {
@@ -1588,20 +1203,29 @@ namespace LWDicer.UI
 
         }
 
+        private void btnPreCam_Click(object sender, EventArgs e)
+        {
+            CMainFrame.LWDicer.m_Vision.DestroyLocalView(FINE_CAM);
+            CMainFrame.LWDicer.m_Vision.DestroyLocalView(INSP_CAM);
+            CMainFrame.LWDicer.m_Vision.InitialLocalView(PRE__CAM, picVisionZoom.Handle);
+        }
+
         private void btnFineCam_Click(object sender, EventArgs e)
         {
+            CMainFrame.LWDicer.m_Vision.DestroyLocalView(PRE__CAM);
             CMainFrame.LWDicer.m_Vision.DestroyLocalView(INSP_CAM);
             CMainFrame.LWDicer.m_Vision.InitialLocalView(FINE_CAM, picVisionZoom.Handle);
 
-            CMainFrame.LWDicer.m_MeStage.MoveCameraToFocusPosFine();
+           // CMainFrame.LWDicer.m_MeStage.MoveCameraToFocusPosFine();
         }
-
+        
         private void btnInpectCam_Click(object sender, EventArgs e)
         {
+            CMainFrame.LWDicer.m_Vision.DestroyLocalView(PRE__CAM);
             CMainFrame.LWDicer.m_Vision.DestroyLocalView(FINE_CAM);
             CMainFrame.LWDicer.m_Vision.InitialLocalView(INSP_CAM, picVisionZoom.Handle);
 
-            CMainFrame.LWDicer.m_MeStage.MoveCameraToFocusPosInspect();
+          //  CMainFrame.LWDicer.m_MeStage.MoveCameraToFocusPosInspect();
         }
 
         private void btnMoveToLaser_Click(object sender, EventArgs e)
@@ -1612,6 +1236,11 @@ namespace LWDicer.UI
         private void btnMoveToVision_Click(object sender, EventArgs e)
         {
             CMainFrame.LWDicer.m_ctrlStage1.MoveStageRelative((int)EStagePos.VISION_LASER_GAP, false);
+        }
+
+        private void tabPageTrueRaster_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

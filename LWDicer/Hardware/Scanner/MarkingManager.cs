@@ -121,7 +121,7 @@ namespace LWDicer.Layers
                 return null;
         }
 
-        public CMarkingObject MakeObject(EObjectType pType, PointF pStart, PointF pEnd)
+        public CMarkingObject MakeObject(EObjectType pType, CPos_XY pStart, CPos_XY pEnd)
         {
             CMarkingObject pObject;
             
@@ -146,7 +146,7 @@ namespace LWDicer.Layers
             return pObject;
         }
 
-        public void AddObject(EObjectType pType, PointF pStart, PointF pEnd, CMarkingObject[] pObject = null)
+        public void AddObject(EObjectType pType, CPos_XY pStart, CPos_XY pEnd, CMarkingObject[] pObject = null)
         {
             switch (pType)
             {
@@ -222,7 +222,7 @@ namespace LWDicer.Layers
             }
         }
 
-        public void InsertObject(int nIndex, EObjectType pType, PointF pStart, PointF pEnd)
+        public void InsertObject(int nIndex, EObjectType pType, CPos_XY pStart, CPos_XY pEnd)
         {
             CMarkingObject pObject = new CMarkingObject();
             pObject.SetObjectType(pType);
@@ -333,8 +333,8 @@ namespace LWDicer.Layers
 
         private void InsertDxfLine(Point3D startPos, Point3D endPos)
         {
-            PointF posStart = new PointF(0, 0);
-            PointF posEnd = new PointF(0, 0);
+            CPos_XY posStart = new CPos_XY();
+            CPos_XY posEnd = new CPos_XY();
 
             posStart = DxfToField(startPos);
             posEnd   = DxfToField(endPos);
@@ -344,7 +344,7 @@ namespace LWDicer.Layers
         }
         private void InsertDxfPolyLine(DxfEntity polyLine, bool bCloseLine=true)
         {
-            List<PointF> dxfPolyLIne = new List<PointF>();
+            List<CPos_XY> dxfPolyLIne = new List<CPos_XY>();
 
             // Line을 얻어오는 Class 를 호출함
             CoordinatesCollector coordinatesCollector = new CoordinatesCollector();
@@ -394,8 +394,8 @@ namespace LWDicer.Layers
                 }                
             }
             // Group을 추가함.
-            var start = new PointF(0, 0);
-            var end = new PointF(0, 0);
+            CPos_XY start = new CPos_XY(0, 0);
+            CPos_XY end = new CPos_XY(0, 0);
             m_ScanManager.AddObject(EObjectType.GROUP, start, end, pGroup);
             m_FormScanner.AddObjectList(m_ScanManager.GetLastObject());
 
@@ -403,9 +403,9 @@ namespace LWDicer.Layers
 
         private void InsertDxfCircle(Point3D posCircle, double radiusCircle)
         {
-            PointF posStart, posEnd;
-            posStart = new PointF(0, 0);
-            posEnd = new PointF(0, 0);
+            CPos_XY posStart, posEnd;
+            posStart = new CPos_XY();
+            posEnd = new CPos_XY();
 
             // Circle과 Dot을 구분한다.
             if (radiusCircle < 0.1)
@@ -449,12 +449,12 @@ namespace LWDicer.Layers
             // m_FormScanner.AddObjectList(GetLastObject());
         }
 
-        public PointF DxfToField(Point3D posObject, double offSet = 0.0)
+        public CPos_XY DxfToField(Point3D posObject, double offSet = 0.0)
         {
-            PointF changePos = new PointF(0, 0);
+            CPos_XY changePos = new CPos_XY();
 
-            changePos.X = (float)(posObject.X - offSet);
-            changePos.Y = BaseScanFieldSize.Height - (float)(posObject.Y - offSet);
+            changePos.dX = (float)(posObject.X - offSet);
+            changePos.dY = BaseScanFieldSize.Height - (float)(posObject.Y - offSet);
 
             return changePos;
         }

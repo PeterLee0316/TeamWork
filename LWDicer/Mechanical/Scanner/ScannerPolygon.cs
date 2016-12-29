@@ -118,8 +118,8 @@ namespace LWDicer.Layers
         byte[] BmpScanLine = new byte[1];
         private int[] point = new int[4];
         
-        private float ratioWidth = 0;
-        private float ratioHeight = 0;
+        private double ratioWidth = 0;
+        private double ratioHeight = 0;
 
         private string ControlAddress = "";
         private string ScanHeadAddress = "";
@@ -176,11 +176,11 @@ namespace LWDicer.Layers
             m_FormScanner.Show();
         }
 
-        private void AddObject(EObjectType type, PointF start, PointF end)
+        private void AddObject(EObjectType type, CPos_XY start, CPos_XY end)
         {
             m_ScanManager.AddObject(type, start, end);
         }
-        public void AddLine(PointF start, PointF end)
+        public void AddLine(CPos_XY start, CPos_XY end)
         {
             AddObject(EObjectType.LINE, start,end);
         }
@@ -232,8 +232,8 @@ namespace LWDicer.Layers
 
             Point ptStart = new Point(0, 0);
             Point ptEnd = new Point(0, 0);
-            float MaxHeight = 0.0f;
-            float tempHeight = 0.0f;
+            double MaxHeight = 0.0f;
+            double tempHeight = 0.0f;
             Point ptTemp = new Point(0, 0);
             
 
@@ -244,10 +244,10 @@ namespace LWDicer.Layers
             // 각 객체를 확인해서.. Bmp의 높이를 측정함.
             for (int i = 0; i < iObjectCount; i++)
             {
-                tempHeight = m_ScanManager.ObjectList[i].ptObjectStartPos.Y;
+                tempHeight = m_ScanManager.ObjectList[i].ptObjectStartPos.dY;
                 if (tempHeight > MaxHeight) MaxHeight = tempHeight;
 
-                tempHeight = m_ScanManager.ObjectList[i].ptObjectEndPos.Y;
+                tempHeight = m_ScanManager.ObjectList[i].ptObjectEndPos.dY;
                 if (tempHeight > MaxHeight) MaxHeight = tempHeight;
             }
 
@@ -262,7 +262,7 @@ namespace LWDicer.Layers
             // 실제 크기와 Pixel과 배율을 결정함  (각 객체를 Pixel로 전환할때 사용함)
             ratioWidth = (float)(BmpImageWidth) / BMT_SCAN_WIDTH;
             if (MaxHeight == 0) ratioHeight = 0;
-            else ratioHeight = (float)ptEnd.Y / MaxHeight;
+            else ratioHeight = (double)ptEnd.Y / MaxHeight;
 
             // 가로 사이즈는 32배수로 크기를 정한다. 
             // 가로 사이즈는 올림으로 계산한다.
@@ -293,8 +293,8 @@ namespace LWDicer.Layers
 
             Point ptStart = new Point(0, 0);
             Point ptEnd = new Point(0, 0);
-            float MaxHeight = 0.0f;
-            float tempHeight = 0.0f;
+            double MaxHeight = 0.0f;
+            double tempHeight = 0.0f;
             Point ptTemp = new Point(0, 0);
 
             // 객체 수량 확인
@@ -304,10 +304,10 @@ namespace LWDicer.Layers
             // 각 객체를 확인해서.. Bmp의 높이를 측정함.
             for (int i=0; i < iObjectCount; i++)
             {
-                tempHeight = m_ScanManager.ObjectList[i].ptObjectStartPos.Y;               
+                tempHeight = m_ScanManager.ObjectList[i].ptObjectStartPos.dY;               
                 if (tempHeight > MaxHeight) MaxHeight = tempHeight;
 
-                tempHeight = m_ScanManager.ObjectList[i].ptObjectEndPos.Y;
+                tempHeight = m_ScanManager.ObjectList[i].ptObjectEndPos.dY;
                 if (tempHeight > MaxHeight) MaxHeight = tempHeight;
             }
 
@@ -808,12 +808,12 @@ namespace LWDicer.Layers
             return SUCCESS;
         }
 
-        private Point PointToPixel(PointF pPos)
+        private Point PointToPixel(CPos_XY pPos)
         {
             Point ptTemp = new Point(0, 0);
 
-            ptTemp.X = (int)(pPos.X * ratioWidth + 0.5);
-            ptTemp.Y = (int)(pPos.Y * ratioHeight + 0.5);
+            ptTemp.X = (int)(pPos.dX * ratioWidth + 0.5);
+            ptTemp.Y = (int)(pPos.dY * ratioHeight + 0.5);
 
             return ptTemp;
         }
@@ -1513,345 +1513,7 @@ namespace LWDicer.Layers
 
             return true;
         }
-
-        public bool SaveIsnPara(string strName)
-        {
-            string section = "";
-            string key = "";
-            string value = "";
-            string filePath = "";
-            bool bRet = false;
-
-            filePath = string.Format("{0:s}{1:s}.ini", m_RefComp.DataManager.DBInfo.ScannerDataDir, strName);
-
-            if (!File.Exists(filePath))
-            {
-                var myFile = File.Create(filePath);
-                myFile.Close();
-            }
-            
-            //----------------------------------------------------------------------
-            section = "Global";
-
-            key = "Enabled";
-            value = string.Format("{0:F0}", m_RefComp.DataManager.ModelData.ScanData.IsnEnabled);
-            bRet = CUtils.SetValue(section, key, value, filePath);
-
-            key = "Home";
-            value = string.Format("{0:F0}", m_RefComp.DataManager.ModelData.ScanData.IsnHome);
-            bRet = CUtils.SetValue(section, key, value, filePath);
-
-            key = "ProfileCtrl";
-            value = string.Format("{0:F0}", m_RefComp.DataManager.ModelData.ScanData.IsnProfileCtrl);
-            bRet = CUtils.SetValue(section, key, value, filePath);
-
-            //----------------------------------------------------------------------
-            section = "CTRLPOS";
-
-            key = "PF0S";
-            value = string.Format("{0:F0}", m_RefComp.DataManager.ModelData.ScanData.IsnPF0S);
-            bRet = CUtils.SetValue(section, key, value, filePath);
-
-            key = "PF0E";
-            value = string.Format("{0:F0}", m_RefComp.DataManager.ModelData.ScanData.IsnPF0E);
-            bRet = CUtils.SetValue(section, key, value, filePath);
-
-            key = "PF1S";
-            value = string.Format("{0:F0}", m_RefComp.DataManager.ModelData.ScanData.IsnPF1S);
-            bRet = CUtils.SetValue(section, key, value, filePath);
-
-            key = "PF1E";
-            value = string.Format("{0:F0}", m_RefComp.DataManager.ModelData.ScanData.IsnPF1E);
-            bRet = CUtils.SetValue(section, key, value, filePath);
-
-            key = "PF2S";
-            value = string.Format("{0:F0}", m_RefComp.DataManager.ModelData.ScanData.IsnPF2S);
-            bRet = CUtils.SetValue(section, key, value, filePath);
-
-            key = "PF2E";
-            value = string.Format("{0:F0}", m_RefComp.DataManager.ModelData.ScanData.IsnPF2E);
-            bRet = CUtils.SetValue(section, key, value, filePath);
-
-            key = "PF3S";
-            value = string.Format("{0:F0}", m_RefComp.DataManager.ModelData.ScanData.IsnPF3S);
-            bRet = CUtils.SetValue(section, key, value, filePath);
-
-            key = "PF3E";
-            value = string.Format("{0:F0}", m_RefComp.DataManager.ModelData.ScanData.IsnPF3E);
-            bRet = CUtils.SetValue(section, key, value, filePath);
-
-            key = "PF4S";
-            value = string.Format("{0:F0}", m_RefComp.DataManager.ModelData.ScanData.IsnPF4S);
-            bRet = CUtils.SetValue(section, key, value, filePath);
-
-            key = "PF4E";
-            value = string.Format("{0:F0}", m_RefComp.DataManager.ModelData.ScanData.IsnPF4E);
-            bRet = CUtils.SetValue(section, key, value, filePath);
-
-            key = "PF5S";
-            value = string.Format("{0:F0}", m_RefComp.DataManager.ModelData.ScanData.IsnPF5S);
-            bRet = CUtils.SetValue(section, key, value, filePath);
-
-            key = "PF5E";
-            value = string.Format("{0:F0}", m_RefComp.DataManager.ModelData.ScanData.IsnPF5E);
-            bRet = CUtils.SetValue(section, key, value, filePath);
-
-            key = "PF6S";
-            value = string.Format("{0:F0}", m_RefComp.DataManager.ModelData.ScanData.IsnPF6S);
-            bRet = CUtils.SetValue(section, key, value, filePath);
-
-            key = "PF6E";
-            value = string.Format("{0:F0}", m_RefComp.DataManager.ModelData.ScanData.IsnPF6E);
-            bRet = CUtils.SetValue(section, key, value, filePath);
-
-            key = "PF7S";
-            value = string.Format("{0:F0}", m_RefComp.DataManager.ModelData.ScanData.IsnPF7S);
-            bRet = CUtils.SetValue(section, key, value, filePath);
-
-            key = "PF7E";
-            value = string.Format("{0:F0}", m_RefComp.DataManager.ModelData.ScanData.IsnPF7E);
-            bRet = CUtils.SetValue(section, key, value, filePath);
-
-
-            //----------------------------------------------------------------------
-            section = "CTRLVAL";
-
-            key = "VF0S";
-            value = string.Format("{0:F0}", m_RefComp.DataManager.ModelData.ScanData.FacetCorrectFirstXpos1);
-            bRet = CUtils.SetValue(section, key, value, filePath);
-
-            key = "VF0E";
-            value = string.Format("{0:F0}", m_RefComp.DataManager.ModelData.ScanData.FacetCorrectLast_Xpos1);
-            bRet = CUtils.SetValue(section, key, value, filePath);
-
-            key = "VF1S";
-            value = string.Format("{0:F0}", m_RefComp.DataManager.ModelData.ScanData.FacetCorrectFirstXpos2);
-            bRet = CUtils.SetValue(section, key, value, filePath);
-
-            key = "VF1E";
-            value = string.Format("{0:F0}", m_RefComp.DataManager.ModelData.ScanData.FacetCorrectLast_Xpos2);
-            bRet = CUtils.SetValue(section, key, value, filePath);
-
-            key = "VF2S";
-            value = string.Format("{0:F0}", m_RefComp.DataManager.ModelData.ScanData.FacetCorrectFirstXpos3);
-            bRet = CUtils.SetValue(section, key, value, filePath);
-
-            key = "VF2E";
-            value = string.Format("{0:F0}", m_RefComp.DataManager.ModelData.ScanData.FacetCorrectLast_Xpos3);
-            bRet = CUtils.SetValue(section, key, value, filePath);
-
-            key = "VF3S";
-            value = string.Format("{0:F0}", m_RefComp.DataManager.ModelData.ScanData.FacetCorrectFirstXpos4);
-            bRet = CUtils.SetValue(section, key, value, filePath);
-
-            key = "VF3E";
-            value = string.Format("{0:F0}", m_RefComp.DataManager.ModelData.ScanData.FacetCorrectLast_Xpos4);
-            bRet = CUtils.SetValue(section, key, value, filePath);
-
-            key = "VF4S";
-            value = string.Format("{0:F0}", m_RefComp.DataManager.ModelData.ScanData.FacetCorrectFirstXpos5);
-            bRet = CUtils.SetValue(section, key, value, filePath);
-
-            key = "VF4E";
-            value = string.Format("{0:F0}", m_RefComp.DataManager.ModelData.ScanData.FacetCorrectLast_Xpos5);
-            bRet = CUtils.SetValue(section, key, value, filePath);
-
-            key = "VF5S";
-            value = string.Format("{0:F0}", m_RefComp.DataManager.ModelData.ScanData.FacetCorrectFirstXpos6);
-            bRet = CUtils.SetValue(section, key, value, filePath);
-
-            key = "VF5E";
-            value = string.Format("{0:F0}", m_RefComp.DataManager.ModelData.ScanData.FacetCorrectLast_Xpos6);
-            bRet = CUtils.SetValue(section, key, value, filePath);
-
-            key = "VF6S";
-            value = string.Format("{0:F0}", m_RefComp.DataManager.ModelData.ScanData.FacetCorrectFirstXpos7);
-            bRet = CUtils.SetValue(section, key, value, filePath);
-
-            key = "VF6E";
-            value = string.Format("{0:F0}", m_RefComp.DataManager.ModelData.ScanData.FacetCorrectLast_Xpos7);
-            bRet = CUtils.SetValue(section, key, value, filePath);
-
-            key = "VF7S";
-            value = string.Format("{0:F0}", m_RefComp.DataManager.ModelData.ScanData.FacetCorrectFirstXpos8);
-            bRet = CUtils.SetValue(section, key, value, filePath);
-
-            key = "VF7E";
-            value = string.Format("{0:F0}", m_RefComp.DataManager.ModelData.ScanData.FacetCorrectLast_Xpos8);
-            bRet = CUtils.SetValue(section, key, value, filePath);
-
-
-            return true;
-        }
-
-        public bool SaveCsnPara(string strName)
-        {
-            string section = "";
-            string key = "";
-            string value = "";
-            string filePath = "";
-            bool bRet = false;
-
-            filePath = string.Format("{0:s}{1:s}.ini", m_RefComp.DataManager.DBInfo.ScannerDataDir, strName);
-
-            if (!File.Exists(filePath))
-            {
-                var myFile = File.Create(filePath);
-                myFile.Close();
-            }
-            
-            //----------------------------------------------------------------------
-            section = "Global";
-
-            key = "Enabled";
-            value = string.Format("{0:F0}", m_RefComp.DataManager.ModelData.ScanData.CsnEnabled);
-            bRet = CUtils.SetValue(section, key, value, filePath);
-
-            key = "Home";
-            value = string.Format("{0:F0}", m_RefComp.DataManager.ModelData.ScanData.CsnHome);
-            bRet = CUtils.SetValue(section, key, value, filePath);
-
-            key = "ProfileCtrl";
-            value = string.Format("{0:F0}", m_RefComp.DataManager.ModelData.ScanData.CsnProfileCtrl);
-            bRet = CUtils.SetValue(section, key, value, filePath);
-
-            //----------------------------------------------------------------------
-            section = "CTRLPOS";
-
-            key = "PF0S";
-            value = string.Format("{0:F0}", m_RefComp.DataManager.ModelData.ScanData.CsnPF0S);
-            bRet = CUtils.SetValue(section, key, value, filePath);
-
-            key = "PF0E";
-            value = string.Format("{0:F0}", m_RefComp.DataManager.ModelData.ScanData.CsnPF0E);
-            bRet = CUtils.SetValue(section, key, value, filePath);
-
-            key = "PF1S";
-            value = string.Format("{0:F0}", m_RefComp.DataManager.ModelData.ScanData.CsnPF1S);
-            bRet = CUtils.SetValue(section, key, value, filePath);
-
-            key = "PF1E";
-            value = string.Format("{0:F0}", m_RefComp.DataManager.ModelData.ScanData.CsnPF1E);
-            bRet = CUtils.SetValue(section, key, value, filePath);
-
-            key = "PF2S";
-            value = string.Format("{0:F0}", m_RefComp.DataManager.ModelData.ScanData.CsnPF2S);
-            bRet = CUtils.SetValue(section, key, value, filePath);
-
-            key = "PF2E";
-            value = string.Format("{0:F0}", m_RefComp.DataManager.ModelData.ScanData.CsnPF2E);
-            bRet = CUtils.SetValue(section, key, value, filePath);
-
-            key = "PF3S";
-            value = string.Format("{0:F0}", m_RefComp.DataManager.ModelData.ScanData.CsnPF3S);
-            bRet = CUtils.SetValue(section, key, value, filePath);
-
-            key = "PF3E";
-            value = string.Format("{0:F0}", m_RefComp.DataManager.ModelData.ScanData.CsnPF3E);
-            bRet = CUtils.SetValue(section, key, value, filePath);
-
-            key = "PF4S";
-            value = string.Format("{0:F0}", m_RefComp.DataManager.ModelData.ScanData.CsnPF4S);
-            bRet = CUtils.SetValue(section, key, value, filePath);
-
-            key = "PF4E";
-            value = string.Format("{0:F0}", m_RefComp.DataManager.ModelData.ScanData.CsnPF4E);
-            bRet = CUtils.SetValue(section, key, value, filePath);
-
-            key = "PF5S";
-            value = string.Format("{0:F0}", m_RefComp.DataManager.ModelData.ScanData.CsnPF5S);
-            bRet = CUtils.SetValue(section, key, value, filePath);
-
-            key = "PF5E";
-            value = string.Format("{0:F0}", m_RefComp.DataManager.ModelData.ScanData.CsnPF5E);
-            bRet = CUtils.SetValue(section, key, value, filePath);
-
-            key = "PF6S";
-            value = string.Format("{0:F0}", m_RefComp.DataManager.ModelData.ScanData.CsnPF6S);
-            bRet = CUtils.SetValue(section, key, value, filePath);
-
-            key = "PF6E";
-            value = string.Format("{0:F0}", m_RefComp.DataManager.ModelData.ScanData.CsnPF6E);
-            bRet = CUtils.SetValue(section, key, value, filePath);
-
-            key = "PF7S";
-            value = string.Format("{0:F0}", m_RefComp.DataManager.ModelData.ScanData.CsnPF7S);
-            bRet = CUtils.SetValue(section, key, value, filePath);
-
-            key = "PF7E";
-            value = string.Format("{0:F0}", m_RefComp.DataManager.ModelData.ScanData.CsnPF7E);
-            bRet = CUtils.SetValue(section, key, value, filePath);
-
-            //----------------------------------------------------------------------
-            section = "CTRLVAL";
-
-            key = "VF0S";
-            value = string.Format("{0:F0}", m_RefComp.DataManager.ModelData.ScanData.FacetCorrectFirstYpos1);
-            bRet = CUtils.SetValue(section, key, value, filePath);
-
-            key = "VF0E";
-            value = string.Format("{0:F0}", m_RefComp.DataManager.ModelData.ScanData.FacetCorrectLast_Ypos1);
-            bRet = CUtils.SetValue(section, key, value, filePath);
-
-            key = "VF1S";
-            value = string.Format("{0:F0}", m_RefComp.DataManager.ModelData.ScanData.FacetCorrectFirstYpos2);
-            bRet = CUtils.SetValue(section, key, value, filePath);
-
-            key = "VF1E";
-            value = string.Format("{0:F0}", m_RefComp.DataManager.ModelData.ScanData.FacetCorrectLast_Ypos2);
-            bRet = CUtils.SetValue(section, key, value, filePath);
-
-            key = "VF2S";
-            value = string.Format("{0:F0}", m_RefComp.DataManager.ModelData.ScanData.FacetCorrectFirstYpos3);
-            bRet = CUtils.SetValue(section, key, value, filePath);
-
-            key = "VF2E";
-            value = string.Format("{0:F0}", m_RefComp.DataManager.ModelData.ScanData.FacetCorrectLast_Ypos3);
-            bRet = CUtils.SetValue(section, key, value, filePath);
-
-            key = "VF3S";
-            value = string.Format("{0:F0}", m_RefComp.DataManager.ModelData.ScanData.FacetCorrectFirstYpos4);
-            bRet = CUtils.SetValue(section, key, value, filePath);
-
-            key = "VF3E";
-            value = string.Format("{0:F0}", m_RefComp.DataManager.ModelData.ScanData.FacetCorrectLast_Ypos4);
-            bRet = CUtils.SetValue(section, key, value, filePath);
-
-            key = "VF4S";
-            value = string.Format("{0:F0}", m_RefComp.DataManager.ModelData.ScanData.FacetCorrectFirstYpos5);
-            bRet = CUtils.SetValue(section, key, value, filePath);
-
-            key = "VF4E";
-            value = string.Format("{0:F0}", m_RefComp.DataManager.ModelData.ScanData.FacetCorrectLast_Ypos5);
-            bRet = CUtils.SetValue(section, key, value, filePath);
-
-            key = "VF5S";
-            value = string.Format("{0:F0}", m_RefComp.DataManager.ModelData.ScanData.FacetCorrectFirstYpos6);
-            bRet = CUtils.SetValue(section, key, value, filePath);
-
-            key = "VF5E";
-            value = string.Format("{0:F0}", m_RefComp.DataManager.ModelData.ScanData.FacetCorrectLast_Ypos6);
-            bRet = CUtils.SetValue(section, key, value, filePath);
-
-            key = "VF6S";
-            value = string.Format("{0:F0}", m_RefComp.DataManager.ModelData.ScanData.FacetCorrectFirstYpos7);
-            bRet = CUtils.SetValue(section, key, value, filePath);
-
-            key = "VF6E";
-            value = string.Format("{0:F0}", m_RefComp.DataManager.ModelData.ScanData.FacetCorrectLast_Ypos7);
-            bRet = CUtils.SetValue(section, key, value, filePath);
-
-            key = "VF7S";
-            value = string.Format("{0:F0}", m_RefComp.DataManager.ModelData.ScanData.FacetCorrectFirstYpos8);
-            bRet = CUtils.SetValue(section, key, value, filePath);
-
-            key = "VF7E";
-            value = string.Format("{0:F0}", m_RefComp.DataManager.ModelData.ScanData.FacetCorrectLast_Ypos8);
-            bRet = CUtils.SetValue(section, key, value, filePath);
-
-
-            return true;
-        }
+        
         #endregion
 
         #region tFtp 통신 (PC <--> Controller & Head)

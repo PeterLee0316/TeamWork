@@ -66,11 +66,11 @@ namespace LWDicer.Layers
         }
         //---------------------------------------------------------------------------
         /// Object의 Start 위치
-        public PointF ptObjectStartPos { get; private set; } = new PointF(0, 0);
-        public int SetObjectStartPos(PointF pPos)
+        public CPos_XY ptObjectStartPos { get; private set; } = new CPos_XY(0, 0);
+        public int SetObjectStartPos(CPos_XY pPos)
         {
-            //if (pPos.X < 0 || pPos.X > BaseScanFieldSize.Width) return SHAPE_POS_DISABLE;
-            //if (pPos.Y < 0 || pPos.Y > BaseScanFieldSize.Height) return SHAPE_POS_DISABLE;
+            //if (pPos.dX < 0 || pPos.dX > BaseScanFieldSize.Width) return SHAPE_POS_DISABLE;
+            //if (pPos.dY < 0 || pPos.dY > BaseScanFieldSize.Height) return SHAPE_POS_DISABLE;
 
             ptObjectStartPos = pPos;
 
@@ -79,11 +79,11 @@ namespace LWDicer.Layers
 
         //---------------------------------------------------------------------------
         /// Object의 End 위치
-        public PointF ptObjectEndPos { get; private set; } = new PointF(0, 0);
-        public int SetObjectEndPos(PointF pPos)
+        public CPos_XY ptObjectEndPos { get; private set; } = new CPos_XY(0, 0);
+        public int SetObjectEndPos(CPos_XY pPos)
         {
-            //if (pPos.X < 0 || pPos.X > BaseScanFieldSize.Width) return SHAPE_POS_DISABLE;
-            //if (pPos.Y < 0 || pPos.Y > BaseScanFieldSize.Height) return SHAPE_POS_DISABLE;
+            //if (pPos.dX < 0 || pPos.dX > BaseScanFieldSize.Width) return SHAPE_POS_DISABLE;
+            //if (pPos.dY < 0 || pPos.dY > BaseScanFieldSize.Height) return SHAPE_POS_DISABLE;
 
             ptObjectEndPos = pPos;
 
@@ -108,7 +108,7 @@ namespace LWDicer.Layers
         /////////////////////////////////////////////////////////////////////////////////////////
 
         #region 함수
-        //public CMarkingObject(PointF pStart, PointF pEnd, float pAngle=0)
+        //public CMarkingObject(CPos_XY pStart, CPos_XY pEnd, float pAngle=0)
         //{
         //    ptObjectStartPos    = pStart;
         //    ptObjectEndPos      = pEnd;
@@ -161,7 +161,7 @@ namespace LWDicer.Layers
             g.DrawRectangle(BaseDrawPen[(int)EDrawPenType.DIMENSION], pRect);
         }
 
-        public virtual void MoveObject( PointF pPos)
+        public virtual void MoveObject( CPos_XY pPos)
         {
             //if (this.ObjectType == EObjectType.GROUP)// MoveObject(pPos);
             //    for(int i=0; i<this.GroupObjectCount; i++)
@@ -171,22 +171,22 @@ namespace LWDicer.Layers
 
 
 
-            //PointF objectCurrentPos = new PointF(0,0);
+            //CPos_XY objectCurrentPos = new CPos_XY(0,0);
 
             ////--------------------------------------------------------------------------------
             //// Start Position Move
-            //objectCurrentPos.X = this.ptObjectStartPos.X;
-            //objectCurrentPos.Y = this.ptObjectStartPos.Y;
-            //objectCurrentPos.X += pPos.X;
-            //objectCurrentPos.Y += pPos.Y;
+            //objectCurrentPos.dX = this.ptObjectStartPos.dX;
+            //objectCurrentPos.dY = this.ptObjectStartPos.dY;
+            //objectCurrentPos.dX += pPos.dX;
+            //objectCurrentPos.dY += pPos.dY;
             //this.SetObjectStartPos(objectCurrentPos);
 
             ////--------------------------------------------------------------------------------
             //// End Position Move
-            //objectCurrentPos.X = this.ptObjectEndPos.X;
-            //objectCurrentPos.Y = this.ptObjectEndPos.Y;
-            //objectCurrentPos.X += pPos.X;
-            //objectCurrentPos.Y += pPos.Y;
+            //objectCurrentPos.dX = this.ptObjectEndPos.dX;
+            //objectCurrentPos.dY = this.ptObjectEndPos.dY;
+            //objectCurrentPos.dX += pPos.dX;
+            //objectCurrentPos.dY += pPos.dY;
             //this.SetObjectEndPos(objectCurrentPos);
 
         }
@@ -200,7 +200,7 @@ namespace LWDicer.Layers
     [Serializable]
     public class CObjectDot : CMarkingObject
     {
-        public CObjectDot(PointF pStart, float pAngle = 0)
+        public CObjectDot(CPos_XY pStart, float pAngle = 0)
         {
             SetObjectStartPos(pStart);
             SetObjectRatateAngle(pAngle);
@@ -235,17 +235,17 @@ namespace LWDicer.Layers
             g.FillRectangle(BaseDrawBrush[(int)EDrawBrushType.DRAW], rectDot);
         }
 
-        public override void MoveObject(PointF pPos)
+        public override void MoveObject(CPos_XY pPos)
         {
             base.MoveObject(pPos);
-            PointF objectCurrentPos = new PointF(0, 0);
+            CPos_XY objectCurrentPos = new CPos_XY(0, 0);
 
             //--------------------------------------------------------------------------------
             // Start Position Move
-            objectCurrentPos.X = ptObjectStartPos.X;
-            objectCurrentPos.Y = ptObjectStartPos.Y;
-            objectCurrentPos.X += pPos.X;
-            objectCurrentPos.Y += pPos.Y;
+            objectCurrentPos.dX = ptObjectStartPos.dX;
+            objectCurrentPos.dY = ptObjectStartPos.dY;
+            objectCurrentPos.dX += pPos.dX;
+            objectCurrentPos.dY += pPos.dY;
             SetObjectStartPos(objectCurrentPos);
                         
         }
@@ -253,7 +253,7 @@ namespace LWDicer.Layers
     [Serializable]
     public class CObjectLine : CMarkingObject
     {
-        public CObjectLine(PointF pStart, PointF pEnd, float pAngle = 0)
+        public CObjectLine(CPos_XY pStart, CPos_XY pEnd, float pAngle = 0)
         {
             SetObjectStartPos(pStart);
             SetObjectEndPos(pEnd);
@@ -291,25 +291,25 @@ namespace LWDicer.Layers
             g.DrawLine(BaseDrawPen[(int)EDrawPenType.DRAW], StartPos, EndPos);
         }
 
-        public override void MoveObject(PointF pPos)
+        public override void MoveObject(CPos_XY pPos)
         {
             base.MoveObject(pPos);
-            PointF objectCurrentPos = new PointF(0, 0);
+            CPos_XY objectCurrentPos = new CPos_XY(0, 0);
 
             //--------------------------------------------------------------------------------
             // Start Position Move
-            objectCurrentPos.X = ptObjectStartPos.X;
-            objectCurrentPos.Y = ptObjectStartPos.Y;
-            objectCurrentPos.X += pPos.X;
-            objectCurrentPos.Y += pPos.Y;
+            objectCurrentPos.dX = ptObjectStartPos.dX;
+            objectCurrentPos.dY = ptObjectStartPos.dY;
+            objectCurrentPos.dX += pPos.dX;
+            objectCurrentPos.dY += pPos.dY;
             SetObjectStartPos(objectCurrentPos);
 
             //--------------------------------------------------------------------------------
             // End Position Move
-            objectCurrentPos.X = ptObjectEndPos.X;
-            objectCurrentPos.Y = ptObjectEndPos.Y;
-            objectCurrentPos.X += pPos.X;
-            objectCurrentPos.Y += pPos.Y;
+            objectCurrentPos.dX = ptObjectEndPos.dX;
+            objectCurrentPos.dY = ptObjectEndPos.dY;
+            objectCurrentPos.dX += pPos.dX;
+            objectCurrentPos.dY += pPos.dY;
             SetObjectEndPos(objectCurrentPos);
         }
 
@@ -327,7 +327,7 @@ namespace LWDicer.Layers
     [Serializable]
     public class CObjectRectagle : CMarkingObject
     {
-        public CObjectRectagle(PointF pStart, PointF pEnd, float pAngle = 0)
+        public CObjectRectagle(CPos_XY pStart, CPos_XY pEnd, float pAngle = 0)
         {
             SetObjectStartPos(pStart);
             SetObjectEndPos(pEnd);
@@ -368,25 +368,25 @@ namespace LWDicer.Layers
                             (StartPos.Y > EndPos.Y ? (StartPos.Y - EndPos.Y) : -(StartPos.Y - EndPos.Y)));
         }
 
-        public override void MoveObject(PointF pPos)
+        public override void MoveObject(CPos_XY pPos)
         {
             base.MoveObject(pPos);
-            PointF objectCurrentPos = new PointF(0, 0);
+            CPos_XY objectCurrentPos = new CPos_XY(0, 0);
 
             //--------------------------------------------------------------------------------
             // Start Position Move
-            objectCurrentPos.X = ptObjectStartPos.X;
-            objectCurrentPos.Y = ptObjectStartPos.Y;
-            objectCurrentPos.X += pPos.X;
-            objectCurrentPos.Y += pPos.Y;
+            objectCurrentPos.dX = ptObjectStartPos.dX;
+            objectCurrentPos.dY = ptObjectStartPos.dY;
+            objectCurrentPos.dX += pPos.dX;
+            objectCurrentPos.dY += pPos.dY;
             SetObjectStartPos(objectCurrentPos);
 
             //--------------------------------------------------------------------------------
             // End Position Move
-            objectCurrentPos.X = ptObjectEndPos.X;
-            objectCurrentPos.Y = ptObjectEndPos.Y;
-            objectCurrentPos.X += pPos.X;
-            objectCurrentPos.Y += pPos.Y;
+            objectCurrentPos.dX = ptObjectEndPos.dX;
+            objectCurrentPos.dY = ptObjectEndPos.dY;
+            objectCurrentPos.dX += pPos.dX;
+            objectCurrentPos.dY += pPos.dY;
             SetObjectEndPos(objectCurrentPos);
         }
 
@@ -394,7 +394,7 @@ namespace LWDicer.Layers
     [Serializable]
     public class CObjectCircle : CMarkingObject
     {
-        public CObjectCircle(PointF pStart, PointF pEnd, float pAngle = 0)
+        public CObjectCircle(CPos_XY pStart, CPos_XY pEnd, float pAngle = 0)
         {
 
             SetObjectStartPos(pStart);
@@ -436,32 +436,32 @@ namespace LWDicer.Layers
                             (StartPos.Y > EndPos.Y ? (StartPos.Y - EndPos.Y) : -(StartPos.Y - EndPos.Y)));
         }
 
-        public override void MoveObject(PointF pPos)
+        public override void MoveObject(CPos_XY pPos)
         {
             base.MoveObject(pPos);
-            PointF objectCurrentPos = new PointF(0, 0);
+            CPos_XY objectCurrentPos = new CPos_XY(0, 0);
 
             //--------------------------------------------------------------------------------
             // Start Position Move
-            objectCurrentPos.X = ptObjectStartPos.X;
-            objectCurrentPos.Y = ptObjectStartPos.Y;
-            objectCurrentPos.X += pPos.X;
-            objectCurrentPos.Y += pPos.Y;
+            objectCurrentPos.dX = ptObjectStartPos.dX;
+            objectCurrentPos.dY = ptObjectStartPos.dY;
+            objectCurrentPos.dX += pPos.dX;
+            objectCurrentPos.dY += pPos.dY;
             SetObjectStartPos(objectCurrentPos);
 
             //--------------------------------------------------------------------------------
             // End Position Move
-            objectCurrentPos.X = ptObjectEndPos.X;
-            objectCurrentPos.Y = ptObjectEndPos.Y;
-            objectCurrentPos.X += pPos.X;
-            objectCurrentPos.Y += pPos.Y;
+            objectCurrentPos.dX = ptObjectEndPos.dX;
+            objectCurrentPos.dY = ptObjectEndPos.dY;
+            objectCurrentPos.dX += pPos.dX;
+            objectCurrentPos.dY += pPos.dY;
             SetObjectEndPos(objectCurrentPos);
         }
     }
     [Serializable]
     public class CObjectFont : CMarkingObject
     {
-        public CObjectFont(PointF pStart, PointF pEnd, float pAngle = 0)
+        public CObjectFont(CPos_XY pStart, CPos_XY pEnd, float pAngle = 0)
         {
             SetObjectStartPos(pStart);
             SetObjectEndPos(pEnd);
@@ -480,14 +480,14 @@ namespace LWDicer.Layers
         private Rectangle rectSourceImage = new Rectangle(0,0,0,0);
         private Rectangle rectDisplay = new Rectangle(0, 0, 0, 0);
 
-        public CObjectBmp(string fileName, PointF pStart, PointF pEnd, float pAngle = 0)
+        public CObjectBmp(string fileName, CPos_XY pStart, CPos_XY pEnd, float pAngle = 0)
         {
             m_SrcBitmap = new Bitmap(fileName);
             m_CvtBitmap = m_SrcBitmap.Copy();
 
             Threshold(ref m_CvtBitmap,500);
 
-            var sizeDisplay = new PointF(pEnd.X - pStart.X, pEnd.Y - pStart.Y);
+            var sizeDisplay = new CPos_XY(pEnd.dX - pStart.dX, pEnd.dY - pStart.dY);
 
             rectSourceImage.Location = new Point(0, 0);
             rectSourceImage.Width = m_SrcBitmap.Width;
@@ -515,7 +515,7 @@ namespace LWDicer.Layers
             
 
             g.DrawImage(m_CvtBitmap, rectDisplay, rectSourceImage, GraphicsUnit.Pixel);
-            //g.DrawImage(m_SrcBitmap, rectDisplay, rectSourceImage.X, rectSourceImage.Y, rectSourceImage.Width, rectSourceImage.Height, GraphicsUnit.Pixel, imageAttr);
+            //g.DrawImage(m_SrcBitmap, rectDisplay, rectSourceImage.dX, rectSourceImage.dY, rectSourceImage.Width, rectSourceImage.Height, GraphicsUnit.Pixel, imageAttr);
         }
 
         private void Grayscale(ref Bitmap bmp)
@@ -583,25 +583,25 @@ namespace LWDicer.Layers
         }
 
 
-        public override void MoveObject(PointF pPos)
+        public override void MoveObject(CPos_XY pPos)
         {
             base.MoveObject(pPos);
-            PointF objectCurrentPos = new PointF(0, 0);
+            CPos_XY objectCurrentPos = new CPos_XY(0, 0);
 
             //--------------------------------------------------------------------------------
             // Start Position Move
-            objectCurrentPos.X = ptObjectStartPos.X;
-            objectCurrentPos.Y = ptObjectStartPos.Y;
-            objectCurrentPos.X += pPos.X;
-            objectCurrentPos.Y += pPos.Y;
+            objectCurrentPos.dX = ptObjectStartPos.dX;
+            objectCurrentPos.dY = ptObjectStartPos.dY;
+            objectCurrentPos.dX += pPos.dX;
+            objectCurrentPos.dY += pPos.dY;
             SetObjectStartPos(objectCurrentPos);
 
             //--------------------------------------------------------------------------------
             // End Position Move
-            objectCurrentPos.X = ptObjectEndPos.X;
-            objectCurrentPos.Y = ptObjectEndPos.Y;
-            objectCurrentPos.X += pPos.X;
-            objectCurrentPos.Y += pPos.Y;
+            objectCurrentPos.dX = ptObjectEndPos.dX;
+            objectCurrentPos.dY = ptObjectEndPos.dY;
+            objectCurrentPos.dX += pPos.dX;
+            objectCurrentPos.dY += pPos.dY;
             SetObjectEndPos(objectCurrentPos);
         }
 
@@ -674,8 +674,8 @@ namespace LWDicer.Layers
         {
             if (pGroup == null || pGroup.Length <= 0) return;
 
-            PointF pStart = new PointF(0, 0);
-            PointF pEnd = new PointF(0, 0);
+            CPos_XY pStart = new CPos_XY(0, 0);
+            CPos_XY pEnd = new CPos_XY(0, 0);
 
             int iCount = 0;
             foreach (CMarkingObject pObject in pGroup)
@@ -690,15 +690,15 @@ namespace LWDicer.Layers
                     pEnd = pObject.ptObjectEndPos;
                 }
 
-                if (pObject.ptObjectStartPos.X < pStart.X) pStart.X = pObject.ptObjectStartPos.X;
-                if (pObject.ptObjectStartPos.Y < pStart.Y) pStart.Y = pObject.ptObjectStartPos.Y;
-                if (pObject.ptObjectEndPos.X < pStart.X) pStart.X = pObject.ptObjectEndPos.X;
-                if (pObject.ptObjectEndPos.Y < pStart.Y) pStart.Y = pObject.ptObjectEndPos.Y;
+                if (pObject.ptObjectStartPos.dX < pStart.dX) pStart.dX = pObject.ptObjectStartPos.dX;
+                if (pObject.ptObjectStartPos.dY < pStart.dY) pStart.dY = pObject.ptObjectStartPos.dY;
+                if (pObject.ptObjectEndPos.dX < pStart.dX) pStart.dX = pObject.ptObjectEndPos.dX;
+                if (pObject.ptObjectEndPos.dY < pStart.dY) pStart.dY = pObject.ptObjectEndPos.dY;
 
-                if (pObject.ptObjectStartPos.X > pEnd.X) pEnd.X = pObject.ptObjectStartPos.X;
-                if (pObject.ptObjectStartPos.Y > pEnd.Y) pEnd.Y = pObject.ptObjectStartPos.Y;
-                if (pObject.ptObjectEndPos.X > pEnd.X) pEnd.X = pObject.ptObjectEndPos.X;
-                if (pObject.ptObjectEndPos.Y > pEnd.Y) pEnd.Y = pObject.ptObjectEndPos.Y;
+                if (pObject.ptObjectStartPos.dX > pEnd.dX) pEnd.dX = pObject.ptObjectStartPos.dX;
+                if (pObject.ptObjectStartPos.dY > pEnd.dY) pEnd.dY = pObject.ptObjectStartPos.dY;
+                if (pObject.ptObjectEndPos.dX > pEnd.dX) pEnd.dX = pObject.ptObjectEndPos.dX;
+                if (pObject.ptObjectEndPos.dY > pEnd.dY) pEnd.dY = pObject.ptObjectEndPos.dY;
                 
                 iCount++;
             }
@@ -713,8 +713,8 @@ namespace LWDicer.Layers
 
             // if (ObjectGroup.Count <= 0) return;
 
-            PointF pStart = new PointF(0, 0);
-            PointF pEnd = new PointF(0, 0);
+            CPos_XY pStart = new CPos_XY(0, 0);
+            CPos_XY pEnd = new CPos_XY(0, 0);
 
             foreach (CMarkingObject pObject in ObjectGroup)
             {
@@ -723,10 +723,10 @@ namespace LWDicer.Layers
 
         }
 
-        public override void MoveObject(PointF pPos)
+        public override void MoveObject(CPos_XY pPos)
         {
             base.MoveObject(pPos);
-            PointF objectCurrentPos = new PointF(0, 0);
+            CPos_XY objectCurrentPos = new CPos_XY(0, 0);
 
             for (int i = 0; i < this.GroupObjectCount; i++)
             {
@@ -735,36 +735,36 @@ namespace LWDicer.Layers
 
                 //--------------------------------------------------------------------------------
                 // Start Position Move
-                objectCurrentPos.X = ObjectGroup[i].ptObjectStartPos.X;
-                objectCurrentPos.Y = ObjectGroup[i].ptObjectStartPos.Y;
-                objectCurrentPos.X += pPos.X;
-                objectCurrentPos.Y += pPos.Y;
+                objectCurrentPos.dX = ObjectGroup[i].ptObjectStartPos.dX;
+                objectCurrentPos.dY = ObjectGroup[i].ptObjectStartPos.dY;
+                objectCurrentPos.dX += pPos.dX;
+                objectCurrentPos.dY += pPos.dY;
                 ObjectGroup[i].SetObjectStartPos(objectCurrentPos);
 
                 //--------------------------------------------------------------------------------
                 // End Position Move
-                objectCurrentPos.X = ObjectGroup[i].ptObjectEndPos.X;
-                objectCurrentPos.Y = ObjectGroup[i].ptObjectEndPos.Y;
-                objectCurrentPos.X += pPos.X;
-                objectCurrentPos.Y += pPos.Y;
+                objectCurrentPos.dX = ObjectGroup[i].ptObjectEndPos.dX;
+                objectCurrentPos.dY = ObjectGroup[i].ptObjectEndPos.dY;
+                objectCurrentPos.dX += pPos.dX;
+                objectCurrentPos.dY += pPos.dY;
                 ObjectGroup[i].SetObjectEndPos(objectCurrentPos);
 
             }
 
             //--------------------------------------------------------------------------------
             // Start Position Move
-            objectCurrentPos.X = ptObjectStartPos.X;
-            objectCurrentPos.Y = ptObjectStartPos.Y;
-            objectCurrentPos.X += pPos.X;
-            objectCurrentPos.Y += pPos.Y;
+            objectCurrentPos.dX = ptObjectStartPos.dX;
+            objectCurrentPos.dY = ptObjectStartPos.dY;
+            objectCurrentPos.dX += pPos.dX;
+            objectCurrentPos.dY += pPos.dY;
             SetObjectStartPos(objectCurrentPos);
 
             //--------------------------------------------------------------------------------
             // End Position Move
-            objectCurrentPos.X = ptObjectEndPos.X;
-            objectCurrentPos.Y = ptObjectEndPos.Y;
-            objectCurrentPos.X += pPos.X;
-            objectCurrentPos.Y += pPos.Y;
+            objectCurrentPos.dX = ptObjectEndPos.dX;
+            objectCurrentPos.dY = ptObjectEndPos.dY;
+            objectCurrentPos.dX += pPos.dX;
+            objectCurrentPos.dY += pPos.dY;
             SetObjectEndPos(objectCurrentPos);
 
         }

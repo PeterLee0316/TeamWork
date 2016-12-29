@@ -25,21 +25,21 @@ namespace LWDicer.Layers
             SelectObjectType = pType;
         }
 
-        public PointF ptObjectStartPos { get; private set; } = new PointF(0, 0);
-        public void SetObjectStartPos(PointF pPos)
+        public CPos_XY ptObjectStartPos { get; private set; } = new CPos_XY(0, 0);
+        public void SetObjectStartPos(CPos_XY pPos)
         {
-            if (pPos.X < 0 || pPos.Y < 0) return;
+            if (pPos.dX < 0 || pPos.dY < 0) return;
             ptObjectStartPos = pPos;
         }
 
-        public PointF ptObjectEndPos { get; private set; } = new PointF(0, 0);
-        public void SetObjectEndPos(PointF pPos)
+        public CPos_XY ptObjectEndPos { get; private set; } = new CPos_XY();
+        public void SetObjectEndPos(CPos_XY pPos)
         {
-            if (pPos.X < 0 || pPos.Y < 0) return;
+            if (pPos.dX < 0 || pPos.dY < 0) return;
             ptObjectEndPos = pPos;
         }
 
-        public PointF ptMousePos{ get;  set;}= new PointF(0,0);
+        public CPos_XY ptMousePos { get;  set;}= new CPos_XY();
 
         //public FormScanWindow m_FormScanWindow;
 

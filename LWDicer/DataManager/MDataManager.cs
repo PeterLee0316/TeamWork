@@ -822,9 +822,9 @@ namespace LWDicer.Layers
 
             #region Polygon Config INI Parameter
             /* [Job Settings] */
-            public float InScanResolution;     // USER ENABLE
-            public float CrossScanResolution;  // USER ENABLE
-            public float InScanOffset;         // USER ENABLE
+            public double InScanResolution;     // USER ENABLE
+            public double CrossScanResolution;  // USER ENABLE
+            public double InScanOffset;         // USER ENABLE
             public int StopMotorBetweenJobs;    // USER ENABLE
             public int PixInvert;               // USER ENABLE
             public int JobStartBufferTime;      // USER ENABLE
@@ -832,145 +832,67 @@ namespace LWDicer.Layers
 
             /* [Laser Configuration] */
             public int LaserOperationMode;         // USER ENABLE 
-            public float SeedClockFrequency;      // USER ENABLE
-            public float RepetitionRate;          // USER ENABLE
+            public double SeedClockFrequency;      // USER ENABLE
+            public double RepetitionRate;          // USER ENABLE
             public int PulsePickWidth;             // Seed Clock과 Rep Rate값이 변하면 Width 변경해야함
             public int PixelWidth;                 // Seed Clock과 Rep Rate값이 변하면 Width 변경해야함
             public int PulsePickAlgor;
 
             /* [CrossScan Configuration] */
-            public float CrossScanEncoderResol;    // USER ENABLE
-            public float CrossScanMaxAccel;        // USER ENABLE  
+            public double CrossScanEncoderResol;    // USER ENABLE
+            public double CrossScanMaxAccel;        // USER ENABLE  
             public int EnCarSig;                    // USER ENABLE
             public int SwapCarSig;                  // USER ENABLE
 
             /* [Head Configuration] */
             public string SerialNumber;
-            public string FThetaConstant;
-            public float ExposeLineLength;
+            public double FThetaConstant;
+            public double ExposeLineLength;
             public int EncoderIndexDelay;
-            public float FacetFineDelay0;   // USER ENABLE
-            public float FacetFineDelay1;   // USER ENABLE
-            public float FacetFineDelay2;   // USER ENABLE
-            public float FacetFineDelay3;   // USER ENABLE
-            public float FacetFineDelay4;   // USER ENABLE
-            public float FacetFineDelay5;   // USER ENABLE
-            public float FacetFineDelay6;   // USER ENABLE
-            public float FacetFineDelay7;   // USER ENABLE
+            public double FacetFineDelay0;   // USER ENABLE
+            public double FacetFineDelay1;   // USER ENABLE
+            public double FacetFineDelay2;   // USER ENABLE
+            public double FacetFineDelay3;   // USER ENABLE
+            public double FacetFineDelay4;   // USER ENABLE
+            public double FacetFineDelay5;   // USER ENABLE
+            public double FacetFineDelay6;   // USER ENABLE
+            public double FacetFineDelay7;   // USER ENABLE
             public int InterleaveRatio;         // USER ENABLE
-            public float FacetFineDelayOffset0;
-            public float FacetFineDelayOffset1;
-            public float FacetFineDelayOffset2;
-            public float FacetFineDelayOffset3;
-            public float FacetFineDelayOffset4;
-            public float FacetFineDelayOffset5;
-            public float FacetFineDelayOffset6;
-            public float FacetFineDelayOffset7;
+            public double FacetFineDelayOffset0;
+            public double FacetFineDelayOffset1;
+            public double FacetFineDelayOffset2;
+            public double FacetFineDelayOffset3;
+            public double FacetFineDelayOffset4;
+            public double FacetFineDelayOffset5;
+            public double FacetFineDelayOffset6;
+            public double FacetFineDelayOffset7;
             public int StartFacet;              // USER ENABLE
             public int AutoIncrementStartFacet; // USER ENABLE
 
             /* [Polygon motor Configuration] */
             //public int InternalMotorDriverClk;
             public int MotorDriverType;
-            //public int MotorSpeed;
-            //public int SimEncSel;
-            public float MinMotorSpeed;
-            public float MaxMotorSpeed;
+            public double MinMotorSpeed;
+            public double MaxMotorSpeed;
             public int SyncWaitTime;
             public int MotorStableTime;         // USER ENABLE
             public int ShaftEncoderPulseCount;
+            public int SwapReferenceSignals;
 
             /* [Other Settings] */
             public int InterruptFreq;
-            public int HWDebugSelection;
-            public int AutoRepeat;
+            public int HWDebugSelection;            
             public int ExpoDebugSelection;
+            public int AutoRepeat;
             public int JobstartAutorepeat;
+            public int TelnetTimeout;
+            public int TelnetDebugTimeout;
+            public int SyncSlaves;
+            public int SyncTimeout;
 
             #endregion
 
-            #region TrueRaster INI Parameter
 
-            // ISN.ini
-            public int IsnEnabled;
-            public int IsnHome;
-            public int IsnProfileCtrl;
-
-            public int IsnPF0S;
-            public int IsnPF0E;
-            public int IsnPF1S;
-            public int IsnPF1E;
-            public int IsnPF2S;
-            public int IsnPF2E;
-            public int IsnPF3S;
-            public int IsnPF3E;
-            public int IsnPF4S;
-            public int IsnPF4E;
-            public int IsnPF5S;
-            public int IsnPF5E;
-            public int IsnPF6S;
-            public int IsnPF6E;
-            public int IsnPF7S;
-            public int IsnPF7E;
-
-
-            public int FacetCorrectFirstXpos1;
-            public int FacetCorrectLast_Xpos1;
-            public int FacetCorrectFirstXpos2;
-            public int FacetCorrectLast_Xpos2;
-            public int FacetCorrectFirstXpos3;
-            public int FacetCorrectLast_Xpos3;
-            public int FacetCorrectFirstXpos4;
-            public int FacetCorrectLast_Xpos4;
-            public int FacetCorrectFirstXpos5;
-            public int FacetCorrectLast_Xpos5;
-            public int FacetCorrectFirstXpos6;
-            public int FacetCorrectLast_Xpos6;
-            public int FacetCorrectFirstXpos7;
-            public int FacetCorrectLast_Xpos7;
-            public int FacetCorrectFirstXpos8;
-            public int FacetCorrectLast_Xpos8;
-
-            // CSN.ini
-            public int CsnEnabled;
-            public int CsnHome;
-            public int CsnProfileCtrl;
-
-            public int CsnPF0S;
-            public int CsnPF0E;
-            public int CsnPF1S;
-            public int CsnPF1E;
-            public int CsnPF2S;
-            public int CsnPF2E;
-            public int CsnPF3S;
-            public int CsnPF3E;
-            public int CsnPF4S;
-            public int CsnPF4E;
-            public int CsnPF5S;
-            public int CsnPF5E;
-            public int CsnPF6S;
-            public int CsnPF6E;
-            public int CsnPF7S;
-            public int CsnPF7E;
-
-            public int FacetCorrectFirstYpos1;
-            public int FacetCorrectLast_Ypos1;
-            public int FacetCorrectFirstYpos2;
-            public int FacetCorrectLast_Ypos2;
-            public int FacetCorrectFirstYpos3;
-            public int FacetCorrectLast_Ypos3;
-            public int FacetCorrectFirstYpos4;
-            public int FacetCorrectLast_Ypos4;
-            public int FacetCorrectFirstYpos5;
-            public int FacetCorrectLast_Ypos5;
-            public int FacetCorrectFirstYpos6;
-            public int FacetCorrectLast_Ypos6;
-            public int FacetCorrectFirstYpos7;
-            public int FacetCorrectLast_Ypos7;
-            public int FacetCorrectFirstYpos8;
-            public int FacetCorrectLast_Ypos8;
-
-            #endregion
 
         }
     }
@@ -3818,6 +3740,7 @@ namespace LWDicer.Layers
                         //SystemData_Axis.ACSMotionData[i].OriginData.FastSpeed = Convert.ToDouble((string)(sheetRange.Cells[i + startRow, 28] as Excel.Range).Text);
                         //SystemData_Axis.ACSMotionData[i].OriginData.SlowSpeed = Convert.ToDouble((string)(sheetRange.Cells[i + startRow, 29] as Excel.Range).Text);
                         //SystemData_Axis.ACSMotionData[i].OriginData.HomeOffset = Convert.ToDouble((string)(sheetRange.Cells[i + startRow, 30] as Excel.Range).Text);
+
                     }
 
                     SaveSystemData(systemAxis: SystemData_Axis);
@@ -4080,17 +4003,17 @@ namespace LWDicer.Layers
                     key = "InScanResolution";
                     value = CUtils.GetValue(section, key, filePath);
                     if (value == "") value = "0.000100";
-                    ModelData.ScanData.InScanResolution = Convert.ToSingle(value) * 1000.0f;
+                    ModelData.ScanData.InScanResolution = Convert.ToDouble(value) * 1000.0;
 
                     key = "CrossScanResolution";
                     value = CUtils.GetValue(section, key, filePath);
                     if (value == "") value = "0.000100";
-                    ModelData.ScanData.CrossScanResolution = Convert.ToSingle(value) * 1000.0f;
+                    ModelData.ScanData.CrossScanResolution = Convert.ToDouble(value) * 1000.0;
 
                     key = "InScanOffset";
                     value = CUtils.GetValue(section, key, filePath);
                     if (value == "") value = "0.0000";
-                    ModelData.ScanData.InScanOffset = Convert.ToSingle(value) * 1000.0f;
+                    ModelData.ScanData.InScanOffset = Convert.ToDouble(value) * 1000.0;
 
                     key = "StopMotorBetweenJobs";
                     value = CUtils.GetValue(section, key, filePath);
@@ -4123,29 +4046,26 @@ namespace LWDicer.Layers
                     key = "SeedClockFrequency";
                     value = CUtils.GetValue(section, key, filePath);
                     if (value == "") value = "5000000";
-                    ModelData.ScanData.SeedClockFrequency = Convert.ToSingle(value) / 1000.0f;
+                    ModelData.ScanData.SeedClockFrequency = Convert.ToDouble(value) / 1000.0;
 
                     key = "RepetitionRate";
                     value = CUtils.GetValue(section, key, filePath);
                     if (value == "") value = "1000000";
-                    ModelData.ScanData.RepetitionRate = Convert.ToSingle(value) / 1000.0f;
-
-                    ////////////////////////////////////
-                    // 이하 4개 값은 자동 계산되는 파라미터임.
-
+                    ModelData.ScanData.RepetitionRate = Convert.ToDouble(value) / 1000.0;
+                    
                     key = "PulsePickWidth";
                     value = CUtils.GetValue(section, key, filePath);
-                    if (value == "") value = "1000";
+                    if (value == "") value = "25";
                     ModelData.ScanData.PulsePickWidth = Convert.ToInt32(value);
 
                     key = "PixelWidth";
                     value = CUtils.GetValue(section, key, filePath);
-                    if (value == "") value = "1000";
+                    if (value == "") value = "50";
                     ModelData.ScanData.PixelWidth = Convert.ToInt32(value);
 
                     key = "PulsePickAlgor";
                     value = CUtils.GetValue(section, key, filePath);
-                    if (value == "") value = "1";
+                    if (value == "") value = "0";
                     ModelData.ScanData.PulsePickAlgor = Convert.ToInt32(value);
 
 
@@ -4155,12 +4075,12 @@ namespace LWDicer.Layers
                     key = "CrossScanEncoderResol";
                     value = CUtils.GetValue(section, key, filePath);
                     if (value == "") value = "0.00001";
-                    ModelData.ScanData.CrossScanEncoderResol = Convert.ToSingle(value) * 1000.0f;
+                    ModelData.ScanData.CrossScanEncoderResol = Convert.ToDouble(value) * 1000.0;
 
                     key = "CrossScanMaxAccel";
                     value = CUtils.GetValue(section, key, filePath);
-                    if (value == "") value = "0.1";
-                    ModelData.ScanData.CrossScanMaxAccel = Convert.ToSingle(value) ;
+                    if (value == "") value = "11.0";
+                    ModelData.ScanData.CrossScanMaxAccel = Convert.ToDouble(value) ;
 
                     key = "EnCarSig";
                     value = CUtils.GetValue(section, key, filePath);
@@ -4182,13 +4102,13 @@ namespace LWDicer.Layers
 
                     key = "FThetaConstant";
                     value = CUtils.GetValue(section, key, filePath);
-                    if (value == "") value = "1";
-                    ModelData.ScanData.FThetaConstant = value;
+                    if (value == "") value = "3.4406029";
+                    ModelData.ScanData.FThetaConstant = Convert.ToDouble(value);
 
                     key = "ExposeLineLength";
                     value = CUtils.GetValue(section, key, filePath);
-                    if (value == "") value = "0.3";
-                    ModelData.ScanData.ExposeLineLength = Convert.ToSingle(value) * 1000.0f;
+                    if (value == "") value = "0.305";
+                    ModelData.ScanData.ExposeLineLength = Convert.ToDouble(value) * 1000.0;
 
                     key = "EncoderIndexDelay";
                     value = CUtils.GetValue(section, key, filePath);
@@ -4198,42 +4118,42 @@ namespace LWDicer.Layers
                     key = "FacetFineDelay0";
                     value = CUtils.GetValue(section, key, filePath);
                     if (value == "") value = "0";
-                    ModelData.ScanData.FacetFineDelay0 = Convert.ToSingle(value) * 1000.0f;
+                    ModelData.ScanData.FacetFineDelay0 = Convert.ToDouble(value) * 1000.0;
 
                     key = "FacetFineDelay1";
                     value = CUtils.GetValue(section, key, filePath);
                     if (value == "") value = "0";
-                    ModelData.ScanData.FacetFineDelay1 = Convert.ToSingle(value) * 1000.0f;
+                    ModelData.ScanData.FacetFineDelay1 = Convert.ToDouble(value) * 1000.0;
 
                     key = "FacetFineDelay2";
                     value = CUtils.GetValue(section, key, filePath);
                     if (value == "") value = "0";
-                    ModelData.ScanData.FacetFineDelay2 = Convert.ToSingle(value) * 1000.0f;
+                    ModelData.ScanData.FacetFineDelay2 = Convert.ToDouble(value) * 1000.0;
 
                     key = "FacetFineDelay3";
                     value = CUtils.GetValue(section, key, filePath);
                     if (value == "") value = "0";
-                    ModelData.ScanData.FacetFineDelay3 = Convert.ToSingle(value) * 1000.0f;
+                    ModelData.ScanData.FacetFineDelay3 = Convert.ToDouble(value) * 1000.0;
 
                     key = "FacetFineDelay4";
                     value = CUtils.GetValue(section, key, filePath);
                     if (value == "") value = "0";
-                    ModelData.ScanData.FacetFineDelay4 = Convert.ToSingle(value) * 1000.0f;
+                    ModelData.ScanData.FacetFineDelay4 = Convert.ToDouble(value) * 1000.0;
 
                     key = "FacetFineDelay5";
                     value = CUtils.GetValue(section, key, filePath);
                     if (value == "") value = "0";
-                    ModelData.ScanData.FacetFineDelay5 = Convert.ToSingle(value) * 1000.0f;
+                    ModelData.ScanData.FacetFineDelay5 = Convert.ToDouble(value) * 1000.0;
 
                     key = "FacetFineDelay6";
                     value = CUtils.GetValue(section, key, filePath);
                     if (value == "") value = "0";
-                    ModelData.ScanData.FacetFineDelay6 = Convert.ToSingle(value) * 1000.0f;
+                    ModelData.ScanData.FacetFineDelay6 = Convert.ToDouble(value) * 1000.0;
 
                     key = "FacetFineDelay7";
                     value = CUtils.GetValue(section, key, filePath);
                     if (value == "") value = "0";
-                    ModelData.ScanData.FacetFineDelay7 = Convert.ToSingle(value) * 1000.0f;
+                    ModelData.ScanData.FacetFineDelay7 = Convert.ToDouble(value) * 1000.0;
 
                     key = "InterleaveRatio";
                     value = CUtils.GetValue(section, key, filePath);
@@ -4243,42 +4163,42 @@ namespace LWDicer.Layers
                     key = "FacetFineDelayOffset0";
                     value = CUtils.GetValue(section, key, filePath);
                     if (value == "") value = "0";
-                    ModelData.ScanData.FacetFineDelayOffset0 = Convert.ToSingle(value) * 1000.0f;
+                    ModelData.ScanData.FacetFineDelayOffset0 = Convert.ToDouble(value) * 1000.0;
 
                     key = "FacetFineDelayOffset1";
                     value = CUtils.GetValue(section, key, filePath);
                     if (value == "") value = "0";
-                    ModelData.ScanData.FacetFineDelayOffset1 = Convert.ToSingle(value) * 1000.0f;
+                    ModelData.ScanData.FacetFineDelayOffset1 = Convert.ToDouble(value) * 1000.0;
 
                     key = "FacetFineDelayOffset2";
                     value = CUtils.GetValue(section, key, filePath);
                     if (value == "") value = "0";
-                    ModelData.ScanData.FacetFineDelayOffset2 = Convert.ToSingle(value) * 1000.0f;
+                    ModelData.ScanData.FacetFineDelayOffset2 = Convert.ToDouble(value) * 1000.0;
 
                     key = "FacetFineDelayOffset3";
                     value = CUtils.GetValue(section, key, filePath);
                     if (value == "") value = "0";
-                    ModelData.ScanData.FacetFineDelayOffset3 = Convert.ToSingle(value) * 1000.0f;
+                    ModelData.ScanData.FacetFineDelayOffset3 = Convert.ToDouble(value) * 1000.0;
 
                     key = "FacetFineDelayOffset4";
                     value = CUtils.GetValue(section, key, filePath);
                     if (value == "") value = "0";
-                    ModelData.ScanData.FacetFineDelayOffset4 = Convert.ToSingle(value) * 1000.0f;
+                    ModelData.ScanData.FacetFineDelayOffset4 = Convert.ToDouble(value) * 1000.0;
 
                     key = "FacetFineDelayOffset5";
                     value = CUtils.GetValue(section, key, filePath);
                     if (value == "") value = "0";
-                    ModelData.ScanData.FacetFineDelayOffset5 = Convert.ToSingle(value) * 1000.0f;
+                    ModelData.ScanData.FacetFineDelayOffset5 = Convert.ToDouble(value) * 1000.0;
 
                     key = "FacetFineDelayOffset6";
                     value = CUtils.GetValue(section, key, filePath);
                     if (value == "") value = "0";
-                    ModelData.ScanData.FacetFineDelayOffset6 = Convert.ToSingle(value) * 1000.0f;
+                    ModelData.ScanData.FacetFineDelayOffset6 = Convert.ToDouble(value) * 1000.0;
 
                     key = "FacetFineDelayOffset7";
                     value = CUtils.GetValue(section, key, filePath);
                     if (value == "") value = "0";
-                    ModelData.ScanData.FacetFineDelayOffset7 = Convert.ToSingle(value) * 1000.0f;
+                    ModelData.ScanData.FacetFineDelayOffset7 = Convert.ToDouble(value) * 1000.0;
 
                     key = "StartFacet";
                     value = CUtils.GetValue(section, key, filePath);
@@ -4292,37 +4212,22 @@ namespace LWDicer.Layers
 
                     //----------------------------------------------------------------------
                     section = "Polygon motor Configuration";
-
-                    //key = "InternalMotorDriverClk";
-                    //value = CUtils.GetValue(section, key, filePath);
-                    //if (value == "") value = "0";
-                    //ModelData.ScanData.InternalMotorDriverClk = Convert.ToInt32(value);
+                    
 
                     key = "MotorDriverType";
                     value = CUtils.GetValue(section, key, filePath);
                     if (value == "") value = "1";
                     ModelData.ScanData.MotorDriverType = Convert.ToInt32(value);
-
-                    //key = "MotorSpeed";
-                    //value = CUtils.GetValue(section, key, filePath);
-                    //if (value == "") value = "0";
-                    //ModelData.ScanData.MotorSpeed = Convert.ToInt32(value);
-
-                    //key = "SimEncSel";
-                    //value = CUtils.GetValue(section, key, filePath);
-                    //if (value == "") value = "0";
-                    //ModelData.ScanData.SimEncSel = Convert.ToInt32(value);
-
+                    
                     key = "MinMotorSpeed";
                     value = CUtils.GetValue(section, key, filePath);
                     if (value == "") value = "12.5";
-                    ModelData.ScanData.MinMotorSpeed = Convert.ToSingle(value);
+                    ModelData.ScanData.MinMotorSpeed = Convert.ToDouble(value);
 
                     key = "MaxMotorSpeed";
                     value = CUtils.GetValue(section, key, filePath);
                     if (value == "") value = "55.0";
-                    ModelData.ScanData.MaxMotorSpeed = Convert.ToSingle(value);
-                    
+                    ModelData.ScanData.MaxMotorSpeed = Convert.ToDouble(value);                    
 
                     key = "SyncWaitTime";
                     value = CUtils.GetValue(section, key, filePath);
@@ -4331,13 +4236,18 @@ namespace LWDicer.Layers
 
                     key = "MotorStableTime";
                     value = CUtils.GetValue(section, key, filePath);
-                    if (value == "") value = "3000";
+                    if (value == "") value = "10000";
                     ModelData.ScanData.MotorStableTime = Convert.ToInt32(value);
 
                     key = "ShaftEncoderPulseCount";
                     value = CUtils.GetValue(section, key, filePath);
-                    if (value == "") value = "5000";
+                    if (value == "") value = "10000";
                     ModelData.ScanData.ShaftEncoderPulseCount = Convert.ToInt32(value);
+
+                    key = "SwapReferenceSignals";
+                    value = CUtils.GetValue(section, key, filePath);
+                    if (value == "") value = "0";
+                    ModelData.ScanData.SwapReferenceSignals = Convert.ToInt32(value);
 
                     //----------------------------------------------------------------------
                     section = "Other Settings";
@@ -4349,7 +4259,7 @@ namespace LWDicer.Layers
 
                     key = "HWDebugSelection";
                     value = CUtils.GetValue(section, key, filePath);
-                    if (value == "") value = "0";
+                    if (value == "") value = "3";
                     ModelData.ScanData.HWDebugSelection = Convert.ToInt32(value);
 
                     key = "ExpoDebugSelection";
@@ -4367,399 +4277,32 @@ namespace LWDicer.Layers
                     if (value == "") value = "20";
                     ModelData.ScanData.JobstartAutorepeat = Convert.ToInt32(value);
 
-                    #endregion
-
-                    break;
-
-                case EPolygonPara.ISN:
-
-                    #region Load isn.ini File
-                    fileName = "isn.ini";
-                    if (!File.Exists(filePath + fileName)) return RUN_FAIL;
-
-                    filePath = filePath + fileName;
-                    //----------------------------------------------------------------------
-                    section = "Global";
-
-                    key = "Enabled";
-                    value = CUtils.GetValue(section, key, filePath);
-                    if (value == "") value = "1";
-                    ModelData.ScanData.IsnEnabled = Convert.ToInt32(value);
-
-                    key = "Home";
+                    key = "TelnetTimeout";
                     value = CUtils.GetValue(section, key, filePath);
                     if (value == "") value = "0";
-                    ModelData.ScanData.IsnHome = Convert.ToInt32(value);
+                    ModelData.ScanData.TelnetTimeout = Convert.ToInt32(value);
 
-                    key = "ProfileCtrl";
-                    value = CUtils.GetValue(section, key, filePath);
-                    if (value == "") value = "1";
-                    ModelData.ScanData.IsnProfileCtrl = Convert.ToInt32(value);
-
-                    //----------------------------------------------------------------------
-                    section = "CTRLPOS";
-
-                    key = "PF0S";
+                    key = "TelnetDebugTimeout";
                     value = CUtils.GetValue(section, key, filePath);
                     if (value == "") value = "0";
-                    ModelData.ScanData.IsnPF0S = Convert.ToInt32(value);
+                    ModelData.ScanData.TelnetDebugTimeout = Convert.ToInt32(value);
 
-                    key = "PF0E";
-                    value = CUtils.GetValue(section, key, filePath);
-                    if (value == "") value = "175";
-                    ModelData.ScanData.IsnPF0E = Convert.ToInt32(value);
-
-                    key = "PF1S";
-                    value = CUtils.GetValue(section, key, filePath);
-                    if (value == "") value = "250";
-                    ModelData.ScanData.IsnPF1S = Convert.ToInt32(value);
-
-                    key = "PF1E";
-                    value = CUtils.GetValue(section, key, filePath);
-                    if (value == "") value = "425";
-                    ModelData.ScanData.IsnPF1E = Convert.ToInt32(value);
-
-                    key = "PF2S";
-                    value = CUtils.GetValue(section, key, filePath);
-                    if (value == "") value = "500";
-                    ModelData.ScanData.IsnPF2S = Convert.ToInt32(value);
-
-                    key = "PF2E";
-                    value = CUtils.GetValue(section, key, filePath);
-                    if (value == "") value = "675";
-                    ModelData.ScanData.IsnPF2E = Convert.ToInt32(value);
-
-                    key = "PF3S";
-                    value = CUtils.GetValue(section, key, filePath);
-                    if (value == "") value = "750";
-                    ModelData.ScanData.IsnPF3S = Convert.ToInt32(value);
-
-                    key = "PF3E";
-                    value = CUtils.GetValue(section, key, filePath);
-                    if (value == "") value = "925";
-                    ModelData.ScanData.IsnPF3E = Convert.ToInt32(value);
-
-                    key = "PF4S";
-                    value = CUtils.GetValue(section, key, filePath);
-                    if (value == "") value = "1000";
-                    ModelData.ScanData.IsnPF4S = Convert.ToInt32(value);
-
-                    key = "PF4E";
-                    value = CUtils.GetValue(section, key, filePath);
-                    if (value == "") value = "1175";
-                    ModelData.ScanData.IsnPF4E = Convert.ToInt32(value);
-
-                    key = "PF5S";
-                    value = CUtils.GetValue(section, key, filePath);
-                    if (value == "") value = "1250";
-                    ModelData.ScanData.IsnPF5S = Convert.ToInt32(value);
-
-                    key = "PF5E";
-                    value = CUtils.GetValue(section, key, filePath);
-                    if (value == "") value = "1425";
-                    ModelData.ScanData.IsnPF5E = Convert.ToInt32(value);
-
-                    key = "PF6S";
-                    value = CUtils.GetValue(section, key, filePath);
-                    if (value == "") value = "1500";
-                    ModelData.ScanData.IsnPF6S = Convert.ToInt32(value);
-
-                    key = "PF6E";
-                    value = CUtils.GetValue(section, key, filePath);
-                    if (value == "") value = "1675";
-                    ModelData.ScanData.IsnPF6E = Convert.ToInt32(value);
-
-                    key = "PF7S";
-                    value = CUtils.GetValue(section, key, filePath);
-                    if (value == "") value = "1750";
-                    ModelData.ScanData.IsnPF7S = Convert.ToInt32(value);
-
-                    key = "PF7E";
-                    value = CUtils.GetValue(section, key, filePath);
-                    if (value == "") value = "1925";
-                    ModelData.ScanData.IsnPF7E = Convert.ToInt32(value);
-
-
-                    //----------------------------------------------------------------------
-                    section = "CTRLVAL";
-
-                    key = "VF0S";
+                    key = "SyncSlaves";
                     value = CUtils.GetValue(section, key, filePath);
                     if (value == "") value = "0";
-                    ModelData.ScanData.FacetCorrectFirstXpos1 = Convert.ToInt32(value);
+                    ModelData.ScanData.SyncSlaves = Convert.ToInt32(value);
 
-                    key = "VF0E";
+                    key = "SyncTimeout";
                     value = CUtils.GetValue(section, key, filePath);
-                    if (value == "") value = "0";
-                    ModelData.ScanData.FacetCorrectLast_Xpos1 = Convert.ToInt32(value);
+                    if (value == "") value = "60";
+                    ModelData.ScanData.SyncTimeout = Convert.ToInt32(value);
 
-                    key = "VF1S";
-                    value = CUtils.GetValue(section, key, filePath);
-                    if (value == "") value = "0";
-                    ModelData.ScanData.FacetCorrectFirstXpos2 = Convert.ToInt32(value);
-
-                    key = "VF1E";
-                    value = CUtils.GetValue(section, key, filePath);
-                    if (value == "") value = "0";
-                    ModelData.ScanData.FacetCorrectLast_Xpos2 = Convert.ToInt32(value);
-
-                    key = "VF2S";
-                    value = CUtils.GetValue(section, key, filePath);
-                    if (value == "") value = "0";
-                    ModelData.ScanData.FacetCorrectFirstXpos3 = Convert.ToInt32(value);
-
-                    key = "VF2E";
-                    value = CUtils.GetValue(section, key, filePath);
-                    if (value == "") value = "0";
-                    ModelData.ScanData.FacetCorrectLast_Xpos3 = Convert.ToInt32(value);
-
-                    key = "VF3S";
-                    value = CUtils.GetValue(section, key, filePath);
-                    if (value == "") value = "0";
-                    ModelData.ScanData.FacetCorrectFirstXpos4 = Convert.ToInt32(value);
-
-                    key = "VF3E";
-                    value = CUtils.GetValue(section, key, filePath);
-                    if (value == "") value = "0";
-                    ModelData.ScanData.FacetCorrectLast_Xpos4 = Convert.ToInt32(value);
-
-                    key = "VF4S";
-                    value = CUtils.GetValue(section, key, filePath);
-                    if (value == "") value = "0";
-                    ModelData.ScanData.FacetCorrectFirstXpos5 = Convert.ToInt32(value);
-
-                    key = "VF4E";
-                    value = CUtils.GetValue(section, key, filePath);
-                    if (value == "") value = "0";
-                    ModelData.ScanData.FacetCorrectLast_Xpos5 = Convert.ToInt32(value);
-
-                    key = "VF5S";
-                    value = CUtils.GetValue(section, key, filePath);
-                    if (value == "") value = "0";
-                    ModelData.ScanData.FacetCorrectFirstXpos6 = Convert.ToInt32(value);
-
-                    key = "VF5E";
-                    value = CUtils.GetValue(section, key, filePath);
-                    if (value == "") value = "0";
-                    ModelData.ScanData.FacetCorrectLast_Xpos6 = Convert.ToInt32(value);
-
-                    key = "VF6S";
-                    value = CUtils.GetValue(section, key, filePath);
-                    if (value == "") value = "0";
-                    ModelData.ScanData.FacetCorrectFirstXpos7 = Convert.ToInt32(value);
-
-                    key = "VF6E";
-                    value = CUtils.GetValue(section, key, filePath);
-                    if (value == "") value = "0";
-                    ModelData.ScanData.FacetCorrectLast_Xpos7 = Convert.ToInt32(value);
-
-                    key = "VF7S";
-                    value = CUtils.GetValue(section, key, filePath);
-                    if (value == "") value = "0";
-                    ModelData.ScanData.FacetCorrectFirstXpos8 = Convert.ToInt32(value);
-
-                    key = "VF7E";
-                    value = CUtils.GetValue(section, key, filePath);
-                    if (value == "") value = "0";
-                    ModelData.ScanData.FacetCorrectLast_Xpos8 = Convert.ToInt32(value);
 
                     #endregion
 
                     break;
-
-                case EPolygonPara.CSN:
-
-                    #region Load csn.ini File
-                    fileName = "csn.ini";
-                    if (!File.Exists(filePath + fileName)) return RUN_FAIL;
-
-                    filePath = filePath + fileName;
-                    //----------------------------------------------------------------------
-                    section = "Global";
-
-                    key = "Enabled";
-                    value = CUtils.GetValue(section, key, filePath);
-                    if (value == "") value = "1";
-                    ModelData.ScanData.CsnEnabled = Convert.ToInt32(value);
-
-                    key = "Home";
-                    value = CUtils.GetValue(section, key, filePath);
-                    if (value == "") value = "0";
-                    ModelData.ScanData.CsnHome = Convert.ToInt32(value);
-
-                    key = "ProfileCtrl";
-                    value = CUtils.GetValue(section, key, filePath);
-                    if (value == "") value = "1";
-                    ModelData.ScanData.CsnProfileCtrl = Convert.ToInt32(value);
-
-                    //----------------------------------------------------------------------
-                    section = "CTRLPOS";
-
-                    key = "PF0S";
-                    value = CUtils.GetValue(section, key, filePath);
-                    if (value == "") value = "0";
-                    ModelData.ScanData.CsnPF0S = Convert.ToInt32(value);
-
-                    key = "PF0E";
-                    value = CUtils.GetValue(section, key, filePath);
-                    if (value == "") value = "175";
-                    ModelData.ScanData.CsnPF0E = Convert.ToInt32(value);
-
-                    key = "PF1S";
-                    value = CUtils.GetValue(section, key, filePath);
-                    if (value == "") value = "250";
-                    ModelData.ScanData.CsnPF1S = Convert.ToInt32(value);
-
-                    key = "PF1E";
-                    value = CUtils.GetValue(section, key, filePath);
-                    if (value == "") value = "425";
-                    ModelData.ScanData.CsnPF1E = Convert.ToInt32(value);
-
-                    key = "PF2S";
-                    value = CUtils.GetValue(section, key, filePath);
-                    if (value == "") value = "500";
-                    ModelData.ScanData.CsnPF2S = Convert.ToInt32(value);
-
-                    key = "PF2E";
-                    value = CUtils.GetValue(section, key, filePath);
-                    if (value == "") value = "675";
-                    ModelData.ScanData.CsnPF2E = Convert.ToInt32(value);
-
-                    key = "PF3S";
-                    value = CUtils.GetValue(section, key, filePath);
-                    if (value == "") value = "750";
-                    ModelData.ScanData.CsnPF3S = Convert.ToInt32(value);
-
-                    key = "PF3E";
-                    value = CUtils.GetValue(section, key, filePath);
-                    if (value == "") value = "925";
-                    ModelData.ScanData.CsnPF3E = Convert.ToInt32(value);
-
-                    key = "PF4S";
-                    value = CUtils.GetValue(section, key, filePath);
-                    if (value == "") value = "1000";
-                    ModelData.ScanData.CsnPF4S = Convert.ToInt32(value);
-
-                    key = "PF4E";
-                    value = CUtils.GetValue(section, key, filePath);
-                    if (value == "") value = "1175";
-                    ModelData.ScanData.CsnPF4E = Convert.ToInt32(value);
-
-                    key = "PF5S";
-                    value = CUtils.GetValue(section, key, filePath);
-                    if (value == "") value = "1250";
-                    ModelData.ScanData.CsnPF5S = Convert.ToInt32(value);
-
-                    key = "PF5E";
-                    value = CUtils.GetValue(section, key, filePath);
-                    if (value == "") value = "1425";
-                    ModelData.ScanData.CsnPF5E = Convert.ToInt32(value);
-
-                    key = "PF6S";
-                    value = CUtils.GetValue(section, key, filePath);
-                    if (value == "") value = "1500";
-                    ModelData.ScanData.CsnPF6S = Convert.ToInt32(value);
-
-                    key = "PF6E";
-                    value = CUtils.GetValue(section, key, filePath);
-                    if (value == "") value = "1675";
-                    ModelData.ScanData.CsnPF6E = Convert.ToInt32(value);
-
-                    key = "PF7S";
-                    value = CUtils.GetValue(section, key, filePath);
-                    if (value == "") value = "1750";
-                    ModelData.ScanData.CsnPF7S = Convert.ToInt32(value);
-
-                    key = "PF7E";
-                    value = CUtils.GetValue(section, key, filePath);
-                    if (value == "") value = "1925";
-                    ModelData.ScanData.CsnPF7E = Convert.ToInt32(value);
-                    //----------------------------------------------------------------------
-                    section = "CTRLVAL";
-
-                    key = "VF0S";
-                    value = CUtils.GetValue(section, key, filePath);
-                    if (value == "") value = "0";
-                    ModelData.ScanData.FacetCorrectFirstYpos1 = Convert.ToInt32(value);
-
-                    key = "VF0E";
-                    value = CUtils.GetValue(section, key, filePath);
-                    if (value == "") value = "0";
-                    ModelData.ScanData.FacetCorrectLast_Ypos1 = Convert.ToInt32(value);
-
-                    key = "VF1S";
-                    value = CUtils.GetValue(section, key, filePath);
-                    if (value == "") value = "0";
-                    ModelData.ScanData.FacetCorrectFirstYpos2 = Convert.ToInt32(value);
-
-                    key = "VF1E";
-                    value = CUtils.GetValue(section, key, filePath);
-                    if (value == "") value = "0";
-                    ModelData.ScanData.FacetCorrectLast_Ypos2 = Convert.ToInt32(value);
-
-                    key = "VF2S";
-                    value = CUtils.GetValue(section, key, filePath);
-                    if (value == "") value = "0";
-                    ModelData.ScanData.FacetCorrectFirstYpos3 = Convert.ToInt32(value);
-
-                    key = "VF2E";
-                    value = CUtils.GetValue(section, key, filePath);
-                    if (value == "") value = "0";
-                    ModelData.ScanData.FacetCorrectLast_Ypos3 = Convert.ToInt32(value);
-
-                    key = "VF3S";
-                    value = CUtils.GetValue(section, key, filePath);
-                    if (value == "") value = "0";
-                    ModelData.ScanData.FacetCorrectFirstYpos4 = Convert.ToInt32(value);
-
-                    key = "VF3E";
-                    value = CUtils.GetValue(section, key, filePath);
-                    if (value == "") value = "0";
-                    ModelData.ScanData.FacetCorrectLast_Ypos4 = Convert.ToInt32(value);
-
-                    key = "VF4S";
-                    value = CUtils.GetValue(section, key, filePath);
-                    if (value == "") value = "0";
-                    ModelData.ScanData.FacetCorrectFirstYpos5 = Convert.ToInt32(value);
-
-                    key = "VF4E";
-                    value = CUtils.GetValue(section, key, filePath);
-                    if (value == "") value = "0";
-                    ModelData.ScanData.FacetCorrectLast_Ypos5 = Convert.ToInt32(value);
-
-                    key = "VF5S";
-                    value = CUtils.GetValue(section, key, filePath);
-                    if (value == "") value = "0";
-                    ModelData.ScanData.FacetCorrectFirstYpos6 = Convert.ToInt32(value);
-
-                    key = "VF5E";
-                    value = CUtils.GetValue(section, key, filePath);
-                    if (value == "") value = "0";
-                    ModelData.ScanData.FacetCorrectLast_Ypos6 = Convert.ToInt32(value);
-
-                    key = "VF6S";
-                    value = CUtils.GetValue(section, key, filePath);
-                    if (value == "") value = "0";
-                    ModelData.ScanData.FacetCorrectFirstYpos7 = Convert.ToInt32(value);
-
-                    key = "VF6E";
-                    value = CUtils.GetValue(section, key, filePath);
-                    if (value == "") value = "0";
-                    ModelData.ScanData.FacetCorrectLast_Ypos7 = Convert.ToInt32(value);
-
-                    key = "VF7S";
-                    value = CUtils.GetValue(section, key, filePath);
-                    if (value == "") value = "0";
-                    ModelData.ScanData.FacetCorrectFirstYpos8 = Convert.ToInt32(value);
-
-                    key = "VF7E";
-                    value = CUtils.GetValue(section, key, filePath);
-                    if (value == "") value = "0";
-                    ModelData.ScanData.FacetCorrectLast_Ypos8 = Convert.ToInt32(value);
-
-                    #endregion
-
-                    break;
+                    
+                    
             }
 
             return SUCCESS;
@@ -4790,17 +4333,17 @@ namespace LWDicer.Layers
                     key = "InScanResolution";
                     value = CUtils.GetValue(section, key, filePath);
                     if (value == "") value = "0.000100";
-                    ModelData.ScanData.InScanResolution = Convert.ToSingle(value) * 1000.0f;
+                    ModelData.ScanData.InScanResolution = Convert.ToSingle(value) * 1000.0;
 
                     key = "CrossScanResolution";
                     value = CUtils.GetValue(section, key, filePath);
                     if (value == "") value = "0.000100";
-                    ModelData.ScanData.CrossScanResolution = Convert.ToSingle(value) * 1000.0f;
+                    ModelData.ScanData.CrossScanResolution = Convert.ToSingle(value) * 1000.0;
 
                     key = "InScanOffset";
                     value = CUtils.GetValue(section, key, filePath);
                     if (value == "") value = "0.0000";
-                    ModelData.ScanData.InScanOffset = Convert.ToSingle(value) * 1000.0f;
+                    ModelData.ScanData.InScanOffset = Convert.ToSingle(value) * 1000.0;
 
                     key = "StopMotorBetweenJobs";
                     value = CUtils.GetValue(section, key, filePath);
@@ -4833,43 +4376,39 @@ namespace LWDicer.Layers
                     key = "SeedClockFrequency";
                     value = CUtils.GetValue(section, key, filePath);
                     if (value == "") value = "5000000";
-                    ModelData.ScanData.SeedClockFrequency = Convert.ToSingle(value) / 1000.0f;
+                    ModelData.ScanData.SeedClockFrequency = Convert.ToSingle(value) / 1000.0;
 
                     key = "RepetitionRate";
                     value = CUtils.GetValue(section, key, filePath);
                     if (value == "") value = "1000000";
-                    ModelData.ScanData.RepetitionRate = Convert.ToSingle(value) / 1000.0f;
-
-                    ////////////////////////////////////
-                    // 이하 4개 값은 자동 계산되는 파라미터임.
-
+                    ModelData.ScanData.RepetitionRate = Convert.ToSingle(value) / 1000.0;
+                    
                     key = "PulsePickWidth";
                     value = CUtils.GetValue(section, key, filePath);
-                    if (value == "") value = "1000";
+                    if (value == "") value = "25";
                     ModelData.ScanData.PulsePickWidth = Convert.ToInt32(value);
 
                     key = "PixelWidth";
                     value = CUtils.GetValue(section, key, filePath);
-                    if (value == "") value = "1000";
+                    if (value == "") value = "50";
                     ModelData.ScanData.PixelWidth = Convert.ToInt32(value);
 
                     key = "PulsePickAlgor";
                     value = CUtils.GetValue(section, key, filePath);
-                    if (value == "") value = "1";
+                    if (value == "") value = "0";
                     ModelData.ScanData.PulsePickAlgor = Convert.ToInt32(value);
-
-
+                    
                     //----------------------------------------------------------------------
                     section = "CrossScan Configuration";
 
                     key = "CrossScanEncoderResol";
                     value = CUtils.GetValue(section, key, filePath);
                     if (value == "") value = "0.00001";
-                    ModelData.ScanData.CrossScanEncoderResol = Convert.ToSingle(value) * 1000.0f;
+                    ModelData.ScanData.CrossScanEncoderResol = Convert.ToSingle(value) * 1000.0;
 
                     key = "CrossScanMaxAccel";
                     value = CUtils.GetValue(section, key, filePath);
-                    if (value == "") value = "0.1";
+                    if (value == "") value = "11.0";
                     ModelData.ScanData.CrossScanMaxAccel = Convert.ToSingle(value);
 
                     key = "EnCarSig";
@@ -4887,18 +4426,18 @@ namespace LWDicer.Layers
 
                     key = "SerialNumber";
                     value = CUtils.GetValue(section, key, filePath);
-                    if (value == "") value = "1";
+                    if (value == "") value = "0000";
                     ModelData.ScanData.SerialNumber = value;
 
                     key = "FThetaConstant";
                     value = CUtils.GetValue(section, key, filePath);
-                    if (value == "") value = "1";
-                    ModelData.ScanData.FThetaConstant = value;
+                    if (value == "") value = "3.4406029";
+                    ModelData.ScanData.FThetaConstant = Convert.ToDouble(value);
 
                     key = "ExposeLineLength";
                     value = CUtils.GetValue(section, key, filePath);
-                    if (value == "") value = "0.3";
-                    ModelData.ScanData.ExposeLineLength = Convert.ToSingle(value) * 1000.0f;
+                    if (value == "") value = "0.305";
+                    ModelData.ScanData.ExposeLineLength = Convert.ToSingle(value) * 1000.0;
 
                     key = "EncoderIndexDelay";
                     value = CUtils.GetValue(section, key, filePath);
@@ -4908,42 +4447,42 @@ namespace LWDicer.Layers
                     key = "FacetFineDelay0";
                     value = CUtils.GetValue(section, key, filePath);
                     if (value == "") value = "0";
-                    ModelData.ScanData.FacetFineDelay0 = Convert.ToSingle(value) * 1000.0f;
+                    ModelData.ScanData.FacetFineDelay0 = Convert.ToSingle(value) * 1000.0;
 
                     key = "FacetFineDelay1";
                     value = CUtils.GetValue(section, key, filePath);
                     if (value == "") value = "0";
-                    ModelData.ScanData.FacetFineDelay1 = Convert.ToSingle(value) * 1000.0f;
+                    ModelData.ScanData.FacetFineDelay1 = Convert.ToSingle(value) * 1000.0;
 
                     key = "FacetFineDelay2";
                     value = CUtils.GetValue(section, key, filePath);
                     if (value == "") value = "0";
-                    ModelData.ScanData.FacetFineDelay2 = Convert.ToSingle(value) * 1000.0f;
+                    ModelData.ScanData.FacetFineDelay2 = Convert.ToSingle(value) * 1000.0;
 
                     key = "FacetFineDelay3";
                     value = CUtils.GetValue(section, key, filePath);
                     if (value == "") value = "0";
-                    ModelData.ScanData.FacetFineDelay3 = Convert.ToSingle(value) * 1000.0f;
+                    ModelData.ScanData.FacetFineDelay3 = Convert.ToSingle(value) * 1000.0;
 
                     key = "FacetFineDelay4";
                     value = CUtils.GetValue(section, key, filePath);
                     if (value == "") value = "0";
-                    ModelData.ScanData.FacetFineDelay4 = Convert.ToSingle(value) * 1000.0f;
+                    ModelData.ScanData.FacetFineDelay4 = Convert.ToSingle(value) * 1000.0;
 
                     key = "FacetFineDelay5";
                     value = CUtils.GetValue(section, key, filePath);
                     if (value == "") value = "0";
-                    ModelData.ScanData.FacetFineDelay5 = Convert.ToSingle(value) * 1000.0f;
+                    ModelData.ScanData.FacetFineDelay5 = Convert.ToSingle(value) * 1000.0;
 
                     key = "FacetFineDelay6";
                     value = CUtils.GetValue(section, key, filePath);
                     if (value == "") value = "0";
-                    ModelData.ScanData.FacetFineDelay6 = Convert.ToSingle(value) * 1000.0f;
+                    ModelData.ScanData.FacetFineDelay6 = Convert.ToSingle(value) * 1000.0;
 
                     key = "FacetFineDelay7";
                     value = CUtils.GetValue(section, key, filePath);
                     if (value == "") value = "0";
-                    ModelData.ScanData.FacetFineDelay7 = Convert.ToSingle(value) * 1000.0f;
+                    ModelData.ScanData.FacetFineDelay7 = Convert.ToSingle(value) * 1000.0;
 
                     key = "InterleaveRatio";
                     value = CUtils.GetValue(section, key, filePath);
@@ -4953,42 +4492,42 @@ namespace LWDicer.Layers
                     key = "FacetFineDelayOffset0";
                     value = CUtils.GetValue(section, key, filePath);
                     if (value == "") value = "0";
-                    ModelData.ScanData.FacetFineDelayOffset0 = Convert.ToSingle(value) * 1000.0f;
+                    ModelData.ScanData.FacetFineDelayOffset0 = Convert.ToSingle(value) * 1000.0;
 
                     key = "FacetFineDelayOffset1";
                     value = CUtils.GetValue(section, key, filePath);
                     if (value == "") value = "0";
-                    ModelData.ScanData.FacetFineDelayOffset1 = Convert.ToSingle(value) * 1000.0f;
+                    ModelData.ScanData.FacetFineDelayOffset1 = Convert.ToSingle(value) * 1000.0;
 
                     key = "FacetFineDelayOffset2";
                     value = CUtils.GetValue(section, key, filePath);
                     if (value == "") value = "0";
-                    ModelData.ScanData.FacetFineDelayOffset2 = Convert.ToSingle(value) * 1000.0f;
+                    ModelData.ScanData.FacetFineDelayOffset2 = Convert.ToSingle(value) * 1000.0;
 
                     key = "FacetFineDelayOffset3";
                     value = CUtils.GetValue(section, key, filePath);
                     if (value == "") value = "0";
-                    ModelData.ScanData.FacetFineDelayOffset3 = Convert.ToSingle(value) * 1000.0f;
+                    ModelData.ScanData.FacetFineDelayOffset3 = Convert.ToSingle(value) * 1000.0;
 
                     key = "FacetFineDelayOffset4";
                     value = CUtils.GetValue(section, key, filePath);
                     if (value == "") value = "0";
-                    ModelData.ScanData.FacetFineDelayOffset4 = Convert.ToSingle(value) * 1000.0f;
+                    ModelData.ScanData.FacetFineDelayOffset4 = Convert.ToSingle(value) * 1000.0;
 
                     key = "FacetFineDelayOffset5";
                     value = CUtils.GetValue(section, key, filePath);
                     if (value == "") value = "0";
-                    ModelData.ScanData.FacetFineDelayOffset5 = Convert.ToSingle(value) * 1000.0f;
+                    ModelData.ScanData.FacetFineDelayOffset5 = Convert.ToSingle(value) * 1000.0;
 
                     key = "FacetFineDelayOffset6";
                     value = CUtils.GetValue(section, key, filePath);
                     if (value == "") value = "0";
-                    ModelData.ScanData.FacetFineDelayOffset6 = Convert.ToSingle(value) * 1000.0f;
+                    ModelData.ScanData.FacetFineDelayOffset6 = Convert.ToSingle(value) * 1000.0;
 
                     key = "FacetFineDelayOffset7";
                     value = CUtils.GetValue(section, key, filePath);
                     if (value == "") value = "0";
-                    ModelData.ScanData.FacetFineDelayOffset7 = Convert.ToSingle(value) * 1000.0f;
+                    ModelData.ScanData.FacetFineDelayOffset7 = Convert.ToSingle(value) * 1000.0;
 
                     key = "StartFacet";
                     value = CUtils.GetValue(section, key, filePath);
@@ -5002,27 +4541,12 @@ namespace LWDicer.Layers
 
                     //----------------------------------------------------------------------
                     section = "Polygon motor Configuration";
-
-                    //key = "InternalMotorDriverClk";
-                    //value = CUtils.GetValue(section, key, filePath);
-                    //if (value == "") value = "0";
-                    //ModelData.ScanData.InternalMotorDriverClk = Convert.ToInt32(value);
-
+                    
                     key = "MotorDriverType";
                     value = CUtils.GetValue(section, key, filePath);
                     if (value == "") value = "1";
                     ModelData.ScanData.MotorDriverType = Convert.ToInt32(value);
-
-                    //key = "MotorSpeed";
-                    //value = CUtils.GetValue(section, key, filePath);
-                    //if (value == "") value = "0";
-                    //ModelData.ScanData.MotorSpeed = Convert.ToInt32(value);
-
-                    //key = "SimEncSel";
-                    //value = CUtils.GetValue(section, key, filePath);
-                    //if (value == "") value = "0";
-                    //ModelData.ScanData.SimEncSel = Convert.ToInt32(value);
-
+                    
                     key = "MinMotorSpeed";
                     value = CUtils.GetValue(section, key, filePath);
                     if (value == "") value = "12.5";
@@ -5031,8 +4555,7 @@ namespace LWDicer.Layers
                     key = "MaxMotorSpeed";
                     value = CUtils.GetValue(section, key, filePath);
                     if (value == "") value = "55.0";
-                    ModelData.ScanData.MaxMotorSpeed = Convert.ToSingle(value);
-                    
+                    ModelData.ScanData.MaxMotorSpeed = Convert.ToSingle(value);                    
 
                     key = "SyncWaitTime";
                     value = CUtils.GetValue(section, key, filePath);
@@ -5041,13 +4564,18 @@ namespace LWDicer.Layers
 
                     key = "MotorStableTime";
                     value = CUtils.GetValue(section, key, filePath);
-                    if (value == "") value = "3000";
+                    if (value == "") value = "10000";
                     ModelData.ScanData.MotorStableTime = Convert.ToInt32(value);
 
                     key = "ShaftEncoderPulseCount";
                     value = CUtils.GetValue(section, key, filePath);
-                    if (value == "") value = "5000";
+                    if (value == "") value = "10000";
                     ModelData.ScanData.ShaftEncoderPulseCount = Convert.ToInt32(value);
+
+                    key = "SwapReferenceSignals";
+                    value = CUtils.GetValue(section, key, filePath);
+                    if (value == "") value = "0";
+                    ModelData.ScanData.SwapReferenceSignals = Convert.ToInt32(value);
 
                     //----------------------------------------------------------------------
                     section = "Other Settings";
@@ -5059,7 +4587,7 @@ namespace LWDicer.Layers
 
                     key = "HWDebugSelection";
                     value = CUtils.GetValue(section, key, filePath);
-                    if (value == "") value = "0";
+                    if (value == "") value = "3";
                     ModelData.ScanData.HWDebugSelection = Convert.ToInt32(value);
 
                     key = "ExpoDebugSelection";
@@ -5077,397 +4605,31 @@ namespace LWDicer.Layers
                     if (value == "") value = "20";
                     ModelData.ScanData.JobstartAutorepeat = Convert.ToInt32(value);
 
-                    #endregion
-
-                    break;
-
-                case EPolygonPara.ISN:
-
-                    #region Load isn.ini File
-                    if (!File.Exists(loadFilePath)) return RUN_FAIL;
-
-                    filePath = loadFilePath;
-                    //----------------------------------------------------------------------
-                    section = "Global";
-
-                    key = "Enabled";
-                    value = CUtils.GetValue(section, key, filePath);
-                    if (value == "") value = "1";
-                    ModelData.ScanData.IsnEnabled = Convert.ToInt32(value);
-
-                    key = "Home";
+                    key = "TelnetTimeout";
                     value = CUtils.GetValue(section, key, filePath);
                     if (value == "") value = "0";
-                    ModelData.ScanData.IsnHome = Convert.ToInt32(value);
+                    ModelData.ScanData.TelnetTimeout = Convert.ToInt32(value);
 
-                    key = "ProfileCtrl";
-                    value = CUtils.GetValue(section, key, filePath);
-                    if (value == "") value = "1";
-                    ModelData.ScanData.IsnProfileCtrl = Convert.ToInt32(value);
-
-                    //----------------------------------------------------------------------
-                    section = "CTRLPOS";
-
-                    key = "PF0S";
+                    key = "TelnetDebugTimeout";
                     value = CUtils.GetValue(section, key, filePath);
                     if (value == "") value = "0";
-                    ModelData.ScanData.IsnPF0S = Convert.ToInt32(value);
+                    ModelData.ScanData.TelnetDebugTimeout = Convert.ToInt32(value);
 
-                    key = "PF0E";
-                    value = CUtils.GetValue(section, key, filePath);
-                    if (value == "") value = "175";
-                    ModelData.ScanData.IsnPF0E = Convert.ToInt32(value);
-
-                    key = "PF1S";
-                    value = CUtils.GetValue(section, key, filePath);
-                    if (value == "") value = "250";
-                    ModelData.ScanData.IsnPF1S = Convert.ToInt32(value);
-
-                    key = "PF1E";
-                    value = CUtils.GetValue(section, key, filePath);
-                    if (value == "") value = "425";
-                    ModelData.ScanData.IsnPF1E = Convert.ToInt32(value);
-
-                    key = "PF2S";
-                    value = CUtils.GetValue(section, key, filePath);
-                    if (value == "") value = "500";
-                    ModelData.ScanData.IsnPF2S = Convert.ToInt32(value);
-
-                    key = "PF2E";
-                    value = CUtils.GetValue(section, key, filePath);
-                    if (value == "") value = "675";
-                    ModelData.ScanData.IsnPF2E = Convert.ToInt32(value);
-
-                    key = "PF3S";
-                    value = CUtils.GetValue(section, key, filePath);
-                    if (value == "") value = "750";
-                    ModelData.ScanData.IsnPF3S = Convert.ToInt32(value);
-
-                    key = "PF3E";
-                    value = CUtils.GetValue(section, key, filePath);
-                    if (value == "") value = "925";
-                    ModelData.ScanData.IsnPF3E = Convert.ToInt32(value);
-
-                    key = "PF4S";
-                    value = CUtils.GetValue(section, key, filePath);
-                    if (value == "") value = "1000";
-                    ModelData.ScanData.IsnPF4S = Convert.ToInt32(value);
-
-                    key = "PF4E";
-                    value = CUtils.GetValue(section, key, filePath);
-                    if (value == "") value = "1175";
-                    ModelData.ScanData.IsnPF4E = Convert.ToInt32(value);
-
-                    key = "PF5S";
-                    value = CUtils.GetValue(section, key, filePath);
-                    if (value == "") value = "1250";
-                    ModelData.ScanData.IsnPF5S = Convert.ToInt32(value);
-
-                    key = "PF5E";
-                    value = CUtils.GetValue(section, key, filePath);
-                    if (value == "") value = "1425";
-                    ModelData.ScanData.IsnPF5E = Convert.ToInt32(value);
-
-                    key = "PF6S";
-                    value = CUtils.GetValue(section, key, filePath);
-                    if (value == "") value = "1500";
-                    ModelData.ScanData.IsnPF6S = Convert.ToInt32(value);
-
-                    key = "PF6E";
-                    value = CUtils.GetValue(section, key, filePath);
-                    if (value == "") value = "1675";
-                    ModelData.ScanData.IsnPF6E = Convert.ToInt32(value);
-
-                    key = "PF7S";
-                    value = CUtils.GetValue(section, key, filePath);
-                    if (value == "") value = "1750";
-                    ModelData.ScanData.IsnPF7S = Convert.ToInt32(value);
-
-                    key = "PF7E";
-                    value = CUtils.GetValue(section, key, filePath);
-                    if (value == "") value = "1925";
-                    ModelData.ScanData.IsnPF7E = Convert.ToInt32(value);
-
-
-                    //----------------------------------------------------------------------
-                    section = "CTRLVAL";
-
-                    key = "VF0S";
+                    key = "SyncSlaves";
                     value = CUtils.GetValue(section, key, filePath);
                     if (value == "") value = "0";
-                    ModelData.ScanData.FacetCorrectFirstXpos1 = Convert.ToInt32(value);
+                    ModelData.ScanData.SyncSlaves = Convert.ToInt32(value);
 
-                    key = "VF0E";
+                    key = "SyncTimeout";
                     value = CUtils.GetValue(section, key, filePath);
-                    if (value == "") value = "0";
-                    ModelData.ScanData.FacetCorrectLast_Xpos1 = Convert.ToInt32(value);
-
-                    key = "VF1S";
-                    value = CUtils.GetValue(section, key, filePath);
-                    if (value == "") value = "0";
-                    ModelData.ScanData.FacetCorrectFirstXpos2 = Convert.ToInt32(value);
-
-                    key = "VF1E";
-                    value = CUtils.GetValue(section, key, filePath);
-                    if (value == "") value = "0";
-                    ModelData.ScanData.FacetCorrectLast_Xpos2 = Convert.ToInt32(value);
-
-                    key = "VF2S";
-                    value = CUtils.GetValue(section, key, filePath);
-                    if (value == "") value = "0";
-                    ModelData.ScanData.FacetCorrectFirstXpos3 = Convert.ToInt32(value);
-
-                    key = "VF2E";
-                    value = CUtils.GetValue(section, key, filePath);
-                    if (value == "") value = "0";
-                    ModelData.ScanData.FacetCorrectLast_Xpos3 = Convert.ToInt32(value);
-
-                    key = "VF3S";
-                    value = CUtils.GetValue(section, key, filePath);
-                    if (value == "") value = "0";
-                    ModelData.ScanData.FacetCorrectFirstXpos4 = Convert.ToInt32(value);
-
-                    key = "VF3E";
-                    value = CUtils.GetValue(section, key, filePath);
-                    if (value == "") value = "0";
-                    ModelData.ScanData.FacetCorrectLast_Xpos4 = Convert.ToInt32(value);
-
-                    key = "VF4S";
-                    value = CUtils.GetValue(section, key, filePath);
-                    if (value == "") value = "0";
-                    ModelData.ScanData.FacetCorrectFirstXpos5 = Convert.ToInt32(value);
-
-                    key = "VF4E";
-                    value = CUtils.GetValue(section, key, filePath);
-                    if (value == "") value = "0";
-                    ModelData.ScanData.FacetCorrectLast_Xpos5 = Convert.ToInt32(value);
-
-                    key = "VF5S";
-                    value = CUtils.GetValue(section, key, filePath);
-                    if (value == "") value = "0";
-                    ModelData.ScanData.FacetCorrectFirstXpos6 = Convert.ToInt32(value);
-
-                    key = "VF5E";
-                    value = CUtils.GetValue(section, key, filePath);
-                    if (value == "") value = "0";
-                    ModelData.ScanData.FacetCorrectLast_Xpos6 = Convert.ToInt32(value);
-
-                    key = "VF6S";
-                    value = CUtils.GetValue(section, key, filePath);
-                    if (value == "") value = "0";
-                    ModelData.ScanData.FacetCorrectFirstXpos7 = Convert.ToInt32(value);
-
-                    key = "VF6E";
-                    value = CUtils.GetValue(section, key, filePath);
-                    if (value == "") value = "0";
-                    ModelData.ScanData.FacetCorrectLast_Xpos7 = Convert.ToInt32(value);
-
-                    key = "VF7S";
-                    value = CUtils.GetValue(section, key, filePath);
-                    if (value == "") value = "0";
-                    ModelData.ScanData.FacetCorrectFirstXpos8 = Convert.ToInt32(value);
-
-                    key = "VF7E";
-                    value = CUtils.GetValue(section, key, filePath);
-                    if (value == "") value = "0";
-                    ModelData.ScanData.FacetCorrectLast_Xpos8 = Convert.ToInt32(value);
+                    if (value == "") value = "60";
+                    ModelData.ScanData.SyncTimeout = Convert.ToInt32(value);
 
                     #endregion
 
                     break;
-
-                case EPolygonPara.CSN:
-
-                    #region Load csn.ini File
-                    if (!File.Exists(loadFilePath)) return RUN_FAIL;
-
-                    filePath = loadFilePath;
-                    //----------------------------------------------------------------------
-                    section = "Global";
-
-                    key = "Enabled";
-                    value = CUtils.GetValue(section, key, filePath);
-                    if (value == "") value = "1";
-                    ModelData.ScanData.CsnEnabled = Convert.ToInt32(value);
-
-                    key = "Home";
-                    value = CUtils.GetValue(section, key, filePath);
-                    if (value == "") value = "0";
-                    ModelData.ScanData.CsnHome = Convert.ToInt32(value);
-
-                    key = "ProfileCtrl";
-                    value = CUtils.GetValue(section, key, filePath);
-                    if (value == "") value = "1";
-                    ModelData.ScanData.CsnProfileCtrl = Convert.ToInt32(value);
-
-                    //----------------------------------------------------------------------
-                    section = "CTRLPOS";
-
-                    key = "PF0S";
-                    value = CUtils.GetValue(section, key, filePath);
-                    if (value == "") value = "0";
-                    ModelData.ScanData.CsnPF0S = Convert.ToInt32(value);
-
-                    key = "PF0E";
-                    value = CUtils.GetValue(section, key, filePath);
-                    if (value == "") value = "175";
-                    ModelData.ScanData.CsnPF0E = Convert.ToInt32(value);
-
-                    key = "PF1S";
-                    value = CUtils.GetValue(section, key, filePath);
-                    if (value == "") value = "250";
-                    ModelData.ScanData.CsnPF1S = Convert.ToInt32(value);
-
-                    key = "PF1E";
-                    value = CUtils.GetValue(section, key, filePath);
-                    if (value == "") value = "425";
-                    ModelData.ScanData.CsnPF1E = Convert.ToInt32(value);
-
-                    key = "PF2S";
-                    value = CUtils.GetValue(section, key, filePath);
-                    if (value == "") value = "500";
-                    ModelData.ScanData.CsnPF2S = Convert.ToInt32(value);
-
-                    key = "PF2E";
-                    value = CUtils.GetValue(section, key, filePath);
-                    if (value == "") value = "675";
-                    ModelData.ScanData.CsnPF2E = Convert.ToInt32(value);
-
-                    key = "PF3S";
-                    value = CUtils.GetValue(section, key, filePath);
-                    if (value == "") value = "750";
-                    ModelData.ScanData.CsnPF3S = Convert.ToInt32(value);
-
-                    key = "PF3E";
-                    value = CUtils.GetValue(section, key, filePath);
-                    if (value == "") value = "925";
-                    ModelData.ScanData.CsnPF3E = Convert.ToInt32(value);
-
-                    key = "PF4S";
-                    value = CUtils.GetValue(section, key, filePath);
-                    if (value == "") value = "1000";
-                    ModelData.ScanData.CsnPF4S = Convert.ToInt32(value);
-
-                    key = "PF4E";
-                    value = CUtils.GetValue(section, key, filePath);
-                    if (value == "") value = "1175";
-                    ModelData.ScanData.CsnPF4E = Convert.ToInt32(value);
-
-                    key = "PF5S";
-                    value = CUtils.GetValue(section, key, filePath);
-                    if (value == "") value = "1250";
-                    ModelData.ScanData.CsnPF5S = Convert.ToInt32(value);
-
-                    key = "PF5E";
-                    value = CUtils.GetValue(section, key, filePath);
-                    if (value == "") value = "1425";
-                    ModelData.ScanData.CsnPF5E = Convert.ToInt32(value);
-
-                    key = "PF6S";
-                    value = CUtils.GetValue(section, key, filePath);
-                    if (value == "") value = "1500";
-                    ModelData.ScanData.CsnPF6S = Convert.ToInt32(value);
-
-                    key = "PF6E";
-                    value = CUtils.GetValue(section, key, filePath);
-                    if (value == "") value = "1675";
-                    ModelData.ScanData.CsnPF6E = Convert.ToInt32(value);
-
-                    key = "PF7S";
-                    value = CUtils.GetValue(section, key, filePath);
-                    if (value == "") value = "1750";
-                    ModelData.ScanData.CsnPF7S = Convert.ToInt32(value);
-
-                    key = "PF7E";
-                    value = CUtils.GetValue(section, key, filePath);
-                    if (value == "") value = "1925";
-                    ModelData.ScanData.CsnPF7E = Convert.ToInt32(value);
-                    //----------------------------------------------------------------------
-                    section = "CTRLVAL";
-
-                    key = "VF0S";
-                    value = CUtils.GetValue(section, key, filePath);
-                    if (value == "") value = "0";
-                    ModelData.ScanData.FacetCorrectFirstYpos1 = Convert.ToInt32(value);
-
-                    key = "VF0E";
-                    value = CUtils.GetValue(section, key, filePath);
-                    if (value == "") value = "0";
-                    ModelData.ScanData.FacetCorrectLast_Ypos1 = Convert.ToInt32(value);
-
-                    key = "VF1S";
-                    value = CUtils.GetValue(section, key, filePath);
-                    if (value == "") value = "0";
-                    ModelData.ScanData.FacetCorrectFirstYpos2 = Convert.ToInt32(value);
-
-                    key = "VF1E";
-                    value = CUtils.GetValue(section, key, filePath);
-                    if (value == "") value = "0";
-                    ModelData.ScanData.FacetCorrectLast_Ypos2 = Convert.ToInt32(value);
-
-                    key = "VF2S";
-                    value = CUtils.GetValue(section, key, filePath);
-                    if (value == "") value = "0";
-                    ModelData.ScanData.FacetCorrectFirstYpos3 = Convert.ToInt32(value);
-
-                    key = "VF2E";
-                    value = CUtils.GetValue(section, key, filePath);
-                    if (value == "") value = "0";
-                    ModelData.ScanData.FacetCorrectLast_Ypos3 = Convert.ToInt32(value);
-
-                    key = "VF3S";
-                    value = CUtils.GetValue(section, key, filePath);
-                    if (value == "") value = "0";
-                    ModelData.ScanData.FacetCorrectFirstYpos4 = Convert.ToInt32(value);
-
-                    key = "VF3E";
-                    value = CUtils.GetValue(section, key, filePath);
-                    if (value == "") value = "0";
-                    ModelData.ScanData.FacetCorrectLast_Ypos4 = Convert.ToInt32(value);
-
-                    key = "VF4S";
-                    value = CUtils.GetValue(section, key, filePath);
-                    if (value == "") value = "0";
-                    ModelData.ScanData.FacetCorrectFirstYpos5 = Convert.ToInt32(value);
-
-                    key = "VF4E";
-                    value = CUtils.GetValue(section, key, filePath);
-                    if (value == "") value = "0";
-                    ModelData.ScanData.FacetCorrectLast_Ypos5 = Convert.ToInt32(value);
-
-                    key = "VF5S";
-                    value = CUtils.GetValue(section, key, filePath);
-                    if (value == "") value = "0";
-                    ModelData.ScanData.FacetCorrectFirstYpos6 = Convert.ToInt32(value);
-
-                    key = "VF5E";
-                    value = CUtils.GetValue(section, key, filePath);
-                    if (value == "") value = "0";
-                    ModelData.ScanData.FacetCorrectLast_Ypos6 = Convert.ToInt32(value);
-
-                    key = "VF6S";
-                    value = CUtils.GetValue(section, key, filePath);
-                    if (value == "") value = "0";
-                    ModelData.ScanData.FacetCorrectFirstYpos7 = Convert.ToInt32(value);
-
-                    key = "VF6E";
-                    value = CUtils.GetValue(section, key, filePath);
-                    if (value == "") value = "0";
-                    ModelData.ScanData.FacetCorrectLast_Ypos7 = Convert.ToInt32(value);
-
-                    key = "VF7S";
-                    value = CUtils.GetValue(section, key, filePath);
-                    if (value == "") value = "0";
-                    ModelData.ScanData.FacetCorrectFirstYpos8 = Convert.ToInt32(value);
-
-                    key = "VF7E";
-                    value = CUtils.GetValue(section, key, filePath);
-                    if (value == "") value = "0";
-                    ModelData.ScanData.FacetCorrectLast_Ypos8 = Convert.ToInt32(value);
-
-                    #endregion
-
-                    break;
+                    
+                    
             }
 
             return SUCCESS;
@@ -5737,322 +4899,6 @@ namespace LWDicer.Layers
 
                     break;
 
-                case EPolygonPara.ISN:
-
-                    #region Load isn.ini File
-                    filePath = loadFilePath;
-                    if (!File.Exists(filePath)) File.Create(filePath);
-                    //----------------------------------------------------------------------
-                    section = "Global";
-
-                    key = "Enabled";
-                    value = string.Format("{0:F0}", ModelData.ScanData.IsnEnabled);
-                    bRet = CUtils.SetValue(section, key, value, filePath);
-
-                    key = "Home";
-                    value = string.Format("{0:F0}", ModelData.ScanData.IsnHome);
-                    bRet = CUtils.SetValue(section, key, value, filePath);
-
-                    key = "ProfileCtrl";
-                    value = string.Format("{0:F0}", ModelData.ScanData.IsnProfileCtrl);
-                    bRet = CUtils.SetValue(section, key, value, filePath);
-
-                    //----------------------------------------------------------------------
-                    section = "CTRLPOS";
-
-                    key = "PF0S";
-                    value = string.Format("{0:F0}", ModelData.ScanData.IsnPF0S);
-                    bRet = CUtils.SetValue(section, key, value, filePath);
-
-                    key = "PF0E";
-                    value = string.Format("{0:F0}", ModelData.ScanData.IsnPF0E);
-                    bRet = CUtils.SetValue(section, key, value, filePath);
-
-                    key = "PF1S";
-                    value = string.Format("{0:F0}", ModelData.ScanData.IsnPF1S);
-                    bRet = CUtils.SetValue(section, key, value, filePath);
-
-                    key = "PF1E";
-                    value = string.Format("{0:F0}", ModelData.ScanData.IsnPF1E);
-                    bRet = CUtils.SetValue(section, key, value, filePath);
-
-                    key = "PF2S";
-                    value = string.Format("{0:F0}", ModelData.ScanData.IsnPF2S);
-                    bRet = CUtils.SetValue(section, key, value, filePath);
-
-                    key = "PF2E";
-                    value = string.Format("{0:F0}", ModelData.ScanData.IsnPF2E);
-                    bRet = CUtils.SetValue(section, key, value, filePath);
-
-                    key = "PF3S";
-                    value = string.Format("{0:F0}", ModelData.ScanData.IsnPF3S);
-                    bRet = CUtils.SetValue(section, key, value, filePath);
-
-                    key = "PF3E";
-                    value = string.Format("{0:F0}", ModelData.ScanData.IsnPF3E);
-                    bRet = CUtils.SetValue(section, key, value, filePath);
-
-                    key = "PF4S";
-                    value = string.Format("{0:F0}", ModelData.ScanData.IsnPF4S);
-                    bRet = CUtils.SetValue(section, key, value, filePath);
-
-                    key = "PF4E";
-                    value = string.Format("{0:F0}", ModelData.ScanData.IsnPF4E);
-                    bRet = CUtils.SetValue(section, key, value, filePath);
-
-                    key = "PF5S";
-                    value = string.Format("{0:F0}", ModelData.ScanData.IsnPF5S);
-                    bRet = CUtils.SetValue(section, key, value, filePath);
-
-                    key = "PF5E";
-                    value = string.Format("{0:F0}", ModelData.ScanData.IsnPF5E);
-                    bRet = CUtils.SetValue(section, key, value, filePath);
-
-                    key = "PF6S";
-                    value = string.Format("{0:F0}", ModelData.ScanData.IsnPF6S);
-                    bRet = CUtils.SetValue(section, key, value, filePath);
-
-                    key = "PF6E";
-                    value = string.Format("{0:F0}", ModelData.ScanData.IsnPF6E);
-                    bRet = CUtils.SetValue(section, key, value, filePath);
-
-                    key = "PF7S";
-                    value = string.Format("{0:F0}", ModelData.ScanData.IsnPF7S);
-                    bRet = CUtils.SetValue(section, key, value, filePath);
-
-                    key = "PF7E";
-                    value = string.Format("{0:F0}", ModelData.ScanData.IsnPF7E);
-                    bRet = CUtils.SetValue(section, key, value, filePath);
-
-
-                    //----------------------------------------------------------------------
-                    section = "CTRLVAL";
-
-                    key = "VF0S";
-                    value = string.Format("{0:F0}", ModelData.ScanData.FacetCorrectFirstXpos1);
-                    bRet = CUtils.SetValue(section, key, value, filePath);
-
-                    key = "VF0E";
-                    value = string.Format("{0:F0}", ModelData.ScanData.FacetCorrectLast_Xpos1);
-                    bRet = CUtils.SetValue(section, key, value, filePath);
-
-                    key = "VF1S";
-                    value = string.Format("{0:F0}", ModelData.ScanData.FacetCorrectFirstXpos2);
-                    bRet = CUtils.SetValue(section, key, value, filePath);
-
-                    key = "VF1E";
-                    value = string.Format("{0:F0}", ModelData.ScanData.FacetCorrectLast_Xpos2);
-                    bRet = CUtils.SetValue(section, key, value, filePath);
-
-                    key = "VF2S";
-                    value = string.Format("{0:F0}", ModelData.ScanData.FacetCorrectFirstXpos3);
-                    bRet = CUtils.SetValue(section, key, value, filePath);
-
-                    key = "VF2E";
-                    value = string.Format("{0:F0}", ModelData.ScanData.FacetCorrectLast_Xpos3);
-                    bRet = CUtils.SetValue(section, key, value, filePath);
-
-                    key = "VF3S";
-                    value = string.Format("{0:F0}", ModelData.ScanData.FacetCorrectFirstXpos4);
-                    bRet = CUtils.SetValue(section, key, value, filePath);
-
-                    key = "VF3E";
-                    value = string.Format("{0:F0}", ModelData.ScanData.FacetCorrectLast_Xpos4);
-                    bRet = CUtils.SetValue(section, key, value, filePath);
-
-                    key = "VF4S";
-                    value = string.Format("{0:F0}", ModelData.ScanData.FacetCorrectFirstXpos5);
-                    bRet = CUtils.SetValue(section, key, value, filePath);
-
-                    key = "VF4E";
-                    value = string.Format("{0:F0}", ModelData.ScanData.FacetCorrectLast_Xpos5);
-                    bRet = CUtils.SetValue(section, key, value, filePath);
-
-                    key = "VF5S";
-                    value = string.Format("{0:F0}", ModelData.ScanData.FacetCorrectFirstXpos6);
-                    bRet = CUtils.SetValue(section, key, value, filePath);
-
-                    key = "VF5E";
-                    value = string.Format("{0:F0}", ModelData.ScanData.FacetCorrectLast_Xpos6);
-                    bRet = CUtils.SetValue(section, key, value, filePath);
-
-                    key = "VF6S";
-                    value = string.Format("{0:F0}", ModelData.ScanData.FacetCorrectFirstXpos7);
-                    bRet = CUtils.SetValue(section, key, value, filePath);
-
-                    key = "VF6E";
-                    value = string.Format("{0:F0}", ModelData.ScanData.FacetCorrectLast_Xpos7);
-                    bRet = CUtils.SetValue(section, key, value, filePath);
-
-                    key = "VF7S";
-                    value = string.Format("{0:F0}", ModelData.ScanData.FacetCorrectFirstXpos8);
-                    bRet = CUtils.SetValue(section, key, value, filePath);
-
-                    key = "VF7E";
-                    value = string.Format("{0:F0}", ModelData.ScanData.FacetCorrectLast_Xpos8);
-                    bRet = CUtils.SetValue(section, key, value, filePath);
-
-                    #endregion
-
-                    break;
-
-                case EPolygonPara.CSN:
-
-                    #region Load csn.ini File
-                    filePath = loadFilePath;
-                    if (!File.Exists(filePath)) File.Create(filePath);
-                    //----------------------------------------------------------------------
-                    section = "Global";
-
-                    key = "Enabled";
-                    value = string.Format("{0:F0}", ModelData.ScanData.CsnEnabled);
-                    bRet = CUtils.SetValue(section, key, value, filePath);
-
-                    key = "Home";
-                    value = string.Format("{0:F0}", ModelData.ScanData.CsnHome);
-                    bRet = CUtils.SetValue(section, key, value, filePath);
-
-                    key = "ProfileCtrl";
-                    value = string.Format("{0:F0}", ModelData.ScanData.CsnProfileCtrl);
-                    bRet = CUtils.SetValue(section, key, value, filePath);
-
-                    //----------------------------------------------------------------------
-                    section = "CTRLPOS";
-
-                    key = "PF0S";
-                    value = string.Format("{0:F0}", ModelData.ScanData.CsnPF0S);
-                    bRet = CUtils.SetValue(section, key, value, filePath);
-
-                    key = "PF0E";
-                    value = string.Format("{0:F0}", ModelData.ScanData.CsnPF0E);
-                    bRet = CUtils.SetValue(section, key, value, filePath);
-
-                    key = "PF1S";
-                    value = string.Format("{0:F0}", ModelData.ScanData.CsnPF1S);
-                    bRet = CUtils.SetValue(section, key, value, filePath);
-
-                    key = "PF1E";
-                    value = string.Format("{0:F0}", ModelData.ScanData.CsnPF1E);
-                    bRet = CUtils.SetValue(section, key, value, filePath);
-
-                    key = "PF2S";
-                    value = string.Format("{0:F0}", ModelData.ScanData.CsnPF2S);
-                    bRet = CUtils.SetValue(section, key, value, filePath);
-
-                    key = "PF2E";
-                    value = string.Format("{0:F0}", ModelData.ScanData.CsnPF2E);
-                    bRet = CUtils.SetValue(section, key, value, filePath);
-
-                    key = "PF3S";
-                    value = string.Format("{0:F0}", ModelData.ScanData.CsnPF3S);
-                    bRet = CUtils.SetValue(section, key, value, filePath);
-
-                    key = "PF3E";
-                    value = string.Format("{0:F0}", ModelData.ScanData.CsnPF3E);
-                    bRet = CUtils.SetValue(section, key, value, filePath);
-
-                    key = "PF4S";
-                    value = string.Format("{0:F0}", ModelData.ScanData.CsnPF4S);
-                    bRet = CUtils.SetValue(section, key, value, filePath);
-
-                    key = "PF4E";
-                    value = string.Format("{0:F0}", ModelData.ScanData.CsnPF4E);
-                    bRet = CUtils.SetValue(section, key, value, filePath);
-
-                    key = "PF5S";
-                    value = string.Format("{0:F0}", ModelData.ScanData.CsnPF5S);
-                    bRet = CUtils.SetValue(section, key, value, filePath);
-
-                    key = "PF5E";
-                    value = string.Format("{0:F0}", ModelData.ScanData.CsnPF5E);
-                    bRet = CUtils.SetValue(section, key, value, filePath);
-
-                    key = "PF6S";
-                    value = string.Format("{0:F0}", ModelData.ScanData.CsnPF6S);
-                    bRet = CUtils.SetValue(section, key, value, filePath);
-
-                    key = "PF6E";
-                    value = string.Format("{0:F0}", ModelData.ScanData.CsnPF6E);
-                    bRet = CUtils.SetValue(section, key, value, filePath);
-
-                    key = "PF7S";
-                    value = string.Format("{0:F0}", ModelData.ScanData.CsnPF7S);
-                    bRet = CUtils.SetValue(section, key, value, filePath);
-
-                    key = "PF7E";
-                    value = string.Format("{0:F0}", ModelData.ScanData.CsnPF7E);
-                    bRet = CUtils.SetValue(section, key, value, filePath);
-
-                    //----------------------------------------------------------------------
-                    section = "CTRLVAL";
-
-                    key = "VF0S";
-                    value = string.Format("{0:F0}", ModelData.ScanData.FacetCorrectFirstYpos1);
-                    bRet = CUtils.SetValue(section, key, value, filePath);
-
-                    key = "VF0E";
-                    value = string.Format("{0:F0}", ModelData.ScanData.FacetCorrectLast_Ypos1);
-                    bRet = CUtils.SetValue(section, key, value, filePath);
-
-                    key = "VF1S";
-                    value = string.Format("{0:F0}", ModelData.ScanData.FacetCorrectFirstYpos2);
-                    bRet = CUtils.SetValue(section, key, value, filePath);
-
-                    key = "VF1E";
-                    value = string.Format("{0:F0}", ModelData.ScanData.FacetCorrectLast_Ypos2);
-                    bRet = CUtils.SetValue(section, key, value, filePath);
-
-                    key = "VF2S";
-                    value = string.Format("{0:F0}", ModelData.ScanData.FacetCorrectFirstYpos3);
-                    bRet = CUtils.SetValue(section, key, value, filePath);
-
-                    key = "VF2E";
-                    value = string.Format("{0:F0}", ModelData.ScanData.FacetCorrectLast_Ypos3);
-                    bRet = CUtils.SetValue(section, key, value, filePath);
-
-                    key = "VF3S";
-                    value = string.Format("{0:F0}", ModelData.ScanData.FacetCorrectFirstYpos4);
-                    bRet = CUtils.SetValue(section, key, value, filePath);
-
-                    key = "VF3E";
-                    value = string.Format("{0:F0}", ModelData.ScanData.FacetCorrectLast_Ypos4);
-                    bRet = CUtils.SetValue(section, key, value, filePath);
-
-                    key = "VF4S";
-                    value = string.Format("{0:F0}", ModelData.ScanData.FacetCorrectFirstYpos5);
-                    bRet = CUtils.SetValue(section, key, value, filePath);
-
-                    key = "VF4E";
-                    value = string.Format("{0:F0}", ModelData.ScanData.FacetCorrectLast_Ypos5);
-                    bRet = CUtils.SetValue(section, key, value, filePath);
-
-                    key = "VF5S";
-                    value = string.Format("{0:F0}", ModelData.ScanData.FacetCorrectFirstYpos6);
-                    bRet = CUtils.SetValue(section, key, value, filePath);
-
-                    key = "VF5E";
-                    value = string.Format("{0:F0}", ModelData.ScanData.FacetCorrectLast_Ypos6);
-                    bRet = CUtils.SetValue(section, key, value, filePath);
-
-                    key = "VF6S";
-                    value = string.Format("{0:F0}", ModelData.ScanData.FacetCorrectFirstYpos7);
-                    bRet = CUtils.SetValue(section, key, value, filePath);
-
-                    key = "VF6E";
-                    value = string.Format("{0:F0}", ModelData.ScanData.FacetCorrectLast_Ypos7);
-                    bRet = CUtils.SetValue(section, key, value, filePath);
-
-                    key = "VF7S";
-                    value = string.Format("{0:F0}", ModelData.ScanData.FacetCorrectFirstYpos8);
-                    bRet = CUtils.SetValue(section, key, value, filePath);
-
-                    key = "VF7E";
-                    value = string.Format("{0:F0}", ModelData.ScanData.FacetCorrectLast_Ypos8);
-                    bRet = CUtils.SetValue(section, key, value, filePath);
-
-                    #endregion
-
-                    break;
             }
 
             return SUCCESS;
@@ -6321,325 +5167,7 @@ namespace LWDicer.Layers
                     #endregion
 
                     break;
-
-                case EPolygonPara.ISN:
-
-                    #region Load isn.ini File
-                    fileName = "isn.ini";
-                    filePath = filePath + fileName;
-                    if (!File.Exists(filePath)) File.Create(filePath);
-                    //----------------------------------------------------------------------
-                    section = "Global";
-
-                    key = "Enabled";
-                    value = string.Format("{0:F0}", ModelData.ScanData.IsnEnabled);
-                    bRet = CUtils.SetValue(section, key, value, filePath);
-
-                    key = "Home";
-                    value = string.Format("{0:F0}", ModelData.ScanData.IsnHome);
-                    bRet = CUtils.SetValue(section, key, value, filePath);
-
-                    key = "ProfileCtrl";
-                    value = string.Format("{0:F0}", ModelData.ScanData.IsnProfileCtrl);
-                    bRet = CUtils.SetValue(section, key, value, filePath);
-
-                    //----------------------------------------------------------------------
-                    section = "CTRLPOS";
-
-                    key = "PF0S";
-                    value = string.Format("{0:F0}", ModelData.ScanData.IsnPF0S);
-                    bRet = CUtils.SetValue(section, key, value, filePath);
-
-                    key = "PF0E";
-                    value = string.Format("{0:F0}", ModelData.ScanData.IsnPF0E);
-                    bRet = CUtils.SetValue(section, key, value, filePath);
-
-                    key = "PF1S";
-                    value = string.Format("{0:F0}", ModelData.ScanData.IsnPF1S);
-                    bRet = CUtils.SetValue(section, key, value, filePath);
-
-                    key = "PF1E";
-                    value = string.Format("{0:F0}", ModelData.ScanData.IsnPF1E);
-                    bRet = CUtils.SetValue(section, key, value, filePath);
-
-                    key = "PF2S";
-                    value = string.Format("{0:F0}", ModelData.ScanData.IsnPF2S);
-                    bRet = CUtils.SetValue(section, key, value, filePath);
-
-                    key = "PF2E";
-                    value = string.Format("{0:F0}", ModelData.ScanData.IsnPF2E);
-                    bRet = CUtils.SetValue(section, key, value, filePath);
-
-                    key = "PF3S";
-                    value = string.Format("{0:F0}", ModelData.ScanData.IsnPF3S);
-                    bRet = CUtils.SetValue(section, key, value, filePath);
-
-                    key = "PF3E";
-                    value = string.Format("{0:F0}", ModelData.ScanData.IsnPF3E);
-                    bRet = CUtils.SetValue(section, key, value, filePath);
-
-                    key = "PF4S";
-                    value = string.Format("{0:F0}", ModelData.ScanData.IsnPF4S);
-                    bRet = CUtils.SetValue(section, key, value, filePath);
-
-                    key = "PF4E";
-                    value = string.Format("{0:F0}", ModelData.ScanData.IsnPF4E);
-                    bRet = CUtils.SetValue(section, key, value, filePath);
-
-                    key = "PF5S";
-                    value = string.Format("{0:F0}", ModelData.ScanData.IsnPF5S);
-                    bRet = CUtils.SetValue(section, key, value, filePath);
-
-                    key = "PF5E";
-                    value = string.Format("{0:F0}", ModelData.ScanData.IsnPF5E);
-                    bRet = CUtils.SetValue(section, key, value, filePath);
-
-                    key = "PF6S";
-                    value = string.Format("{0:F0}", ModelData.ScanData.IsnPF6S);
-                    bRet = CUtils.SetValue(section, key, value, filePath);
-
-                    key = "PF6E";
-                    value = string.Format("{0:F0}", ModelData.ScanData.IsnPF6E);
-                    bRet = CUtils.SetValue(section, key, value, filePath);
-
-                    key = "PF7S";
-                    value = string.Format("{0:F0}", ModelData.ScanData.IsnPF7S);
-                    bRet = CUtils.SetValue(section, key, value, filePath);
-
-                    key = "PF7E";
-                    value = string.Format("{0:F0}", ModelData.ScanData.IsnPF7E);
-                    bRet = CUtils.SetValue(section, key, value, filePath);
-
-
-                    //----------------------------------------------------------------------
-                    section = "CTRLVAL";
-
-                    key = "VF0S";
-                    value = string.Format("{0:F0}", ModelData.ScanData.FacetCorrectFirstXpos1);
-                    bRet = CUtils.SetValue(section, key, value, filePath);
-
-                    key = "VF0E";
-                    value = string.Format("{0:F0}", ModelData.ScanData.FacetCorrectLast_Xpos1);
-                    bRet = CUtils.SetValue(section, key, value, filePath);
-
-                    key = "VF1S";
-                    value = string.Format("{0:F0}", ModelData.ScanData.FacetCorrectFirstXpos2);
-                    bRet = CUtils.SetValue(section, key, value, filePath);
-
-                    key = "VF1E";
-                    value = string.Format("{0:F0}", ModelData.ScanData.FacetCorrectLast_Xpos2);
-                    bRet = CUtils.SetValue(section, key, value, filePath);
-
-                    key = "VF2S";
-                    value = string.Format("{0:F0}", ModelData.ScanData.FacetCorrectFirstXpos3);
-                    bRet = CUtils.SetValue(section, key, value, filePath);
-
-                    key = "VF2E";
-                    value = string.Format("{0:F0}", ModelData.ScanData.FacetCorrectLast_Xpos3);
-                    bRet = CUtils.SetValue(section, key, value, filePath);
-
-                    key = "VF3S";
-                    value = string.Format("{0:F0}", ModelData.ScanData.FacetCorrectFirstXpos4);
-                    bRet = CUtils.SetValue(section, key, value, filePath);
-
-                    key = "VF3E";
-                    value = string.Format("{0:F0}", ModelData.ScanData.FacetCorrectLast_Xpos4);
-                    bRet = CUtils.SetValue(section, key, value, filePath);
-
-                    key = "VF4S";
-                    value = string.Format("{0:F0}", ModelData.ScanData.FacetCorrectFirstXpos5);
-                    bRet = CUtils.SetValue(section, key, value, filePath);
-
-                    key = "VF4E";
-                    value = string.Format("{0:F0}", ModelData.ScanData.FacetCorrectLast_Xpos5);
-                    bRet = CUtils.SetValue(section, key, value, filePath);
-
-                    key = "VF5S";
-                    value = string.Format("{0:F0}", ModelData.ScanData.FacetCorrectFirstXpos6);
-                    bRet = CUtils.SetValue(section, key, value, filePath);
-
-                    key = "VF5E";
-                    value = string.Format("{0:F0}", ModelData.ScanData.FacetCorrectLast_Xpos6);
-                    bRet = CUtils.SetValue(section, key, value, filePath);
-
-                    key = "VF6S";
-                    value = string.Format("{0:F0}", ModelData.ScanData.FacetCorrectFirstXpos7);
-                    bRet = CUtils.SetValue(section, key, value, filePath);
-
-                    key = "VF6E";
-                    value = string.Format("{0:F0}", ModelData.ScanData.FacetCorrectLast_Xpos7);
-                    bRet = CUtils.SetValue(section, key, value, filePath);
-
-                    key = "VF7S";
-                    value = string.Format("{0:F0}", ModelData.ScanData.FacetCorrectFirstXpos8);
-                    bRet = CUtils.SetValue(section, key, value, filePath);
-
-                    key = "VF7E";
-                    value = string.Format("{0:F0}", ModelData.ScanData.FacetCorrectLast_Xpos8);
-                    bRet = CUtils.SetValue(section, key, value, filePath);
-
-                    #endregion
-
-                    break;
-
-                case EPolygonPara.CSN:
-
-                    #region Load csn.ini File
-                    fileName = "csn.ini";
-                    filePath = filePath + fileName;
-                    if (!File.Exists(filePath)) File.Create(filePath);
-                    //----------------------------------------------------------------------
-                    section = "Global";
-
-                    key = "Enabled";
-                    value = string.Format("{0:F0}", ModelData.ScanData.CsnEnabled);
-                    bRet = CUtils.SetValue(section, key, value, filePath);
-
-                    key = "Home";
-                    value = string.Format("{0:F0}", ModelData.ScanData.CsnHome);
-                    bRet = CUtils.SetValue(section, key, value, filePath);
-
-                    key = "ProfileCtrl";
-                    value = string.Format("{0:F0}", ModelData.ScanData.CsnProfileCtrl);
-                    bRet = CUtils.SetValue(section, key, value, filePath);
-
-                    //----------------------------------------------------------------------
-                    section = "CTRLPOS";
-
-                    key = "PF0S";
-                    value = string.Format("{0:F0}", ModelData.ScanData.CsnPF0S);
-                    bRet = CUtils.SetValue(section, key, value, filePath);
-
-                    key = "PF0E";
-                    value = string.Format("{0:F0}", ModelData.ScanData.CsnPF0E);
-                    bRet = CUtils.SetValue(section, key, value, filePath);
-
-                    key = "PF1S";
-                    value = string.Format("{0:F0}", ModelData.ScanData.CsnPF1S);
-                    bRet = CUtils.SetValue(section, key, value, filePath);
-
-                    key = "PF1E";
-                    value = string.Format("{0:F0}", ModelData.ScanData.CsnPF1E);
-                    bRet = CUtils.SetValue(section, key, value, filePath);
-
-                    key = "PF2S";
-                    value = string.Format("{0:F0}", ModelData.ScanData.CsnPF2S);
-                    bRet = CUtils.SetValue(section, key, value, filePath);
-
-                    key = "PF2E";
-                    value = string.Format("{0:F0}", ModelData.ScanData.CsnPF2E);
-                    bRet = CUtils.SetValue(section, key, value, filePath);
-
-                    key = "PF3S";
-                    value = string.Format("{0:F0}", ModelData.ScanData.CsnPF3S);
-                    bRet = CUtils.SetValue(section, key, value, filePath);
-
-                    key = "PF3E";
-                    value = string.Format("{0:F0}", ModelData.ScanData.CsnPF3E);
-                    bRet = CUtils.SetValue(section, key, value, filePath);
-
-                    key = "PF4S";
-                    value = string.Format("{0:F0}", ModelData.ScanData.CsnPF4S);
-                    bRet = CUtils.SetValue(section, key, value, filePath);
-
-                    key = "PF4E";
-                    value = string.Format("{0:F0}", ModelData.ScanData.CsnPF4E);
-                    bRet = CUtils.SetValue(section, key, value, filePath);
-
-                    key = "PF5S";
-                    value = string.Format("{0:F0}", ModelData.ScanData.CsnPF5S);
-                    bRet = CUtils.SetValue(section, key, value, filePath);
-
-                    key = "PF5E";
-                    value = string.Format("{0:F0}", ModelData.ScanData.CsnPF5E);
-                    bRet = CUtils.SetValue(section, key, value, filePath);
-
-                    key = "PF6S";
-                    value = string.Format("{0:F0}", ModelData.ScanData.CsnPF6S);
-                    bRet = CUtils.SetValue(section, key, value, filePath);
-
-                    key = "PF6E";
-                    value = string.Format("{0:F0}", ModelData.ScanData.CsnPF6E);
-                    bRet = CUtils.SetValue(section, key, value, filePath);
-
-                    key = "PF7S";
-                    value = string.Format("{0:F0}", ModelData.ScanData.CsnPF7S);
-                    bRet = CUtils.SetValue(section, key, value, filePath);
-
-                    key = "PF7E";
-                    value = string.Format("{0:F0}", ModelData.ScanData.CsnPF7E);
-                    bRet = CUtils.SetValue(section, key, value, filePath);
-
-                    //----------------------------------------------------------------------
-                    section = "CTRLVAL";
-
-                    key = "VF0S";
-                    value = string.Format("{0:F0}", ModelData.ScanData.FacetCorrectFirstYpos1);
-                    bRet = CUtils.SetValue(section, key, value, filePath);
-
-                    key = "VF0E";
-                    value = string.Format("{0:F0}", ModelData.ScanData.FacetCorrectLast_Ypos1);
-                    bRet = CUtils.SetValue(section, key, value, filePath);
-
-                    key = "VF1S";
-                    value = string.Format("{0:F0}", ModelData.ScanData.FacetCorrectFirstYpos2);
-                    bRet = CUtils.SetValue(section, key, value, filePath);
-
-                    key = "VF1E";
-                    value = string.Format("{0:F0}", ModelData.ScanData.FacetCorrectLast_Ypos2);
-                    bRet = CUtils.SetValue(section, key, value, filePath);
-
-                    key = "VF2S";
-                    value = string.Format("{0:F0}", ModelData.ScanData.FacetCorrectFirstYpos3);
-                    bRet = CUtils.SetValue(section, key, value, filePath);
-
-                    key = "VF2E";
-                    value = string.Format("{0:F0}", ModelData.ScanData.FacetCorrectLast_Ypos3);
-                    bRet = CUtils.SetValue(section, key, value, filePath);
-
-                    key = "VF3S";
-                    value = string.Format("{0:F0}", ModelData.ScanData.FacetCorrectFirstYpos4);
-                    bRet = CUtils.SetValue(section, key, value, filePath);
-
-                    key = "VF3E";
-                    value = string.Format("{0:F0}", ModelData.ScanData.FacetCorrectLast_Ypos4);
-                    bRet = CUtils.SetValue(section, key, value, filePath);
-
-                    key = "VF4S";
-                    value = string.Format("{0:F0}", ModelData.ScanData.FacetCorrectFirstYpos5);
-                    bRet = CUtils.SetValue(section, key, value, filePath);
-
-                    key = "VF4E";
-                    value = string.Format("{0:F0}", ModelData.ScanData.FacetCorrectLast_Ypos5);
-                    bRet = CUtils.SetValue(section, key, value, filePath);
-
-                    key = "VF5S";
-                    value = string.Format("{0:F0}", ModelData.ScanData.FacetCorrectFirstYpos6);
-                    bRet = CUtils.SetValue(section, key, value, filePath);
-
-                    key = "VF5E";
-                    value = string.Format("{0:F0}", ModelData.ScanData.FacetCorrectLast_Ypos6);
-                    bRet = CUtils.SetValue(section, key, value, filePath);
-
-                    key = "VF6S";
-                    value = string.Format("{0:F0}", ModelData.ScanData.FacetCorrectFirstYpos7);
-                    bRet = CUtils.SetValue(section, key, value, filePath);
-
-                    key = "VF6E";
-                    value = string.Format("{0:F0}", ModelData.ScanData.FacetCorrectLast_Ypos7);
-                    bRet = CUtils.SetValue(section, key, value, filePath);
-
-                    key = "VF7S";
-                    value = string.Format("{0:F0}", ModelData.ScanData.FacetCorrectFirstYpos8);
-                    bRet = CUtils.SetValue(section, key, value, filePath);
-
-                    key = "VF7E";
-                    value = string.Format("{0:F0}", ModelData.ScanData.FacetCorrectLast_Ypos8);
-                    bRet = CUtils.SetValue(section, key, value, filePath);
-
-                    #endregion
-
-                    break;
+                    
             }
 
             return SUCCESS;

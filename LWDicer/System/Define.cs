@@ -26,8 +26,7 @@ namespace LWDicer.Layers
     {
 
         // SYSTEM_VER 및 개인의 작업 내용에 대한 History 관리는 History.txt 에 기록합니다.
-        public const string SYSTEM_VER = "Ver 0.0.45 161129 by sjr";
-
+        public const string SYSTEM_VER = "Ver 0.0.45 16-12-23 by LJJ";
 
         public const double WAFER_SIZE_12_INCH = 300.0;
         public const double WAFER_SIZE_8_INCH = 200.0;
