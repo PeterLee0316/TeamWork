@@ -185,6 +185,9 @@ namespace LWDicer.Layers
         {
             base.OnPaint(e);
 
+            // Grid 그리기
+            GridDraw(e.Graphics);
+
             if (m_ScanWindow == null || m_ScanManager == null) return;
 
             // 기존 Object 그리기
@@ -194,8 +197,7 @@ namespace LWDicer.Layers
             if (CheckDragDraw)
                 DragShapeDraw(e.Graphics);
 
-            // Grid 그리기
-            GridDraw(e.Graphics);
+            
 
         }
 
@@ -264,37 +266,65 @@ namespace LWDicer.Layers
             Size pnlSize = new Size(0, 0);
             Size gridDieSize = new Size(0, 0);
 
-            int gridPitch = 10;
+            int gridMinor = 5;
+            int gridMajor = gridMinor * 5;
 
             // Canvas의 Panel Size를 읽어온다.
             pnlSize = this.Size;
 
-            gridDieSize.Width = pnlSize.Width / gridPitch;
-            gridDieSize.Height = pnlSize.Height / gridPitch;
+            gridDieSize.Width = 300;
+            gridDieSize.Height = 300;
 
-            for (int i = 0; i < pnlSize.Width; i += gridPitch)
+            Pen drawPen = new Pen(System.Drawing.Color.FromArgb(30, 30, 30));
+
+
+            for (int i = 0; i < pnlSize.Width; i += gridMinor)
             {
                 startPos.X = i;
                 startPos.Y = 0;
                 endPos.X = i;
                 endPos.Y = pnlSize.Height;                
                 
-               g.DrawLine(BaseDrawPen[(int)EDrawPenType.GRID_BRIGHT], startPos, endPos);
+               g.DrawLine(drawPen, startPos, endPos);
                 
             }
 
-            for (int i = 0; i < pnlSize.Height; i += gridPitch)
+            for (int i = 0; i < pnlSize.Height; i += gridMinor)
             {
                 startPos.X = 0;
                 startPos.Y = i;
                 endPos.X = pnlSize.Width;
                 endPos.Y = i;
 
-                g.DrawLine(BaseDrawPen[(int)EDrawPenType.GRID_BRIGHT], startPos, endPos);
+                g.DrawLine(drawPen, startPos, endPos);
             }
 
+            drawPen.Color = System.Drawing.Color.FromArgb(30, 30, 70);
+
+            for (int i = 0; i < pnlSize.Width; i += gridMajor)
+            {
+                startPos.X = i;
+                startPos.Y = 0;
+                endPos.X = i;
+                endPos.Y = pnlSize.Height;
+
+                g.DrawLine(drawPen, startPos, endPos);
+
+            }
+
+            for (int i = 0; i < pnlSize.Height; i += gridMajor)
+            {
+                startPos.X = 0;
+                startPos.Y = i;
+                endPos.X = pnlSize.Width;
+                endPos.Y = i;
+
+                g.DrawLine(drawPen, startPos, endPos);
+            }
 
         }
+        
+
         #endregion
 
         private void CWindowCanvas_SizeChanged(object sender, EventArgs e)

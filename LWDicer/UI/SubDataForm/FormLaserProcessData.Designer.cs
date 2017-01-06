@@ -29,16 +29,17 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormLaserProcessData));
+            Syncfusion.Windows.Forms.Grid.GridRangeStyle gridRangeStyle1 = new Syncfusion.Windows.Forms.Grid.GridRangeStyle();
+            Syncfusion.Windows.Forms.Grid.GridRangeStyle gridRangeStyle2 = new Syncfusion.Windows.Forms.Grid.GridRangeStyle();
+            Syncfusion.Windows.Forms.Grid.GridRangeStyle gridRangeStyle3 = new Syncfusion.Windows.Forms.Grid.GridRangeStyle();
+            Syncfusion.Windows.Forms.Grid.GridRangeStyle gridRangeStyle4 = new Syncfusion.Windows.Forms.Grid.GridRangeStyle();
+            Syncfusion.Windows.Forms.Grid.GridRangeStyle gridRangeStyle5 = new Syncfusion.Windows.Forms.Grid.GridRangeStyle();
+            Syncfusion.Windows.Forms.Grid.GridRangeStyle gridRangeStyle6 = new Syncfusion.Windows.Forms.Grid.GridRangeStyle();
+            Syncfusion.Windows.Forms.Grid.GridRangeStyle gridRangeStyle7 = new Syncfusion.Windows.Forms.Grid.GridRangeStyle();
+            Syncfusion.Windows.Forms.Grid.GridRangeStyle gridRangeStyle8 = new Syncfusion.Windows.Forms.Grid.GridRangeStyle();
+            Syncfusion.Windows.Forms.Grid.GridRangeStyle gridRangeStyle9 = new Syncfusion.Windows.Forms.Grid.GridRangeStyle();
+            Syncfusion.Windows.Forms.Grid.GridRangeStyle gridRangeStyle10 = new Syncfusion.Windows.Forms.Grid.GridRangeStyle();
             Syncfusion.Windows.Forms.Grid.GridRangeStyle gridRangeStyle11 = new Syncfusion.Windows.Forms.Grid.GridRangeStyle();
-            Syncfusion.Windows.Forms.Grid.GridRangeStyle gridRangeStyle12 = new Syncfusion.Windows.Forms.Grid.GridRangeStyle();
-            Syncfusion.Windows.Forms.Grid.GridRangeStyle gridRangeStyle13 = new Syncfusion.Windows.Forms.Grid.GridRangeStyle();
-            Syncfusion.Windows.Forms.Grid.GridRangeStyle gridRangeStyle14 = new Syncfusion.Windows.Forms.Grid.GridRangeStyle();
-            Syncfusion.Windows.Forms.Grid.GridRangeStyle gridRangeStyle15 = new Syncfusion.Windows.Forms.Grid.GridRangeStyle();
-            Syncfusion.Windows.Forms.Grid.GridRangeStyle gridRangeStyle16 = new Syncfusion.Windows.Forms.Grid.GridRangeStyle();
-            Syncfusion.Windows.Forms.Grid.GridRangeStyle gridRangeStyle17 = new Syncfusion.Windows.Forms.Grid.GridRangeStyle();
-            Syncfusion.Windows.Forms.Grid.GridRangeStyle gridRangeStyle18 = new Syncfusion.Windows.Forms.Grid.GridRangeStyle();
-            Syncfusion.Windows.Forms.Grid.GridRangeStyle gridRangeStyle19 = new Syncfusion.Windows.Forms.Grid.GridRangeStyle();
-            Syncfusion.Windows.Forms.Grid.GridRangeStyle gridRangeStyle20 = new Syncfusion.Windows.Forms.Grid.GridRangeStyle();
             this.BtnSave = new System.Windows.Forms.Button();
             this.BtnExit = new System.Windows.Forms.Button();
             this.GridCtrl = new Syncfusion.Windows.Forms.Grid.GridControl();
@@ -141,6 +142,86 @@
             this.GridCtrl.Font = new System.Drawing.Font("맑은 고딕", 11.25F, System.Drawing.FontStyle.Bold);
             this.GridCtrl.Location = new System.Drawing.Point(12, 50);
             this.GridCtrl.Name = "GridCtrl";
+            gridRangeStyle1.Range = Syncfusion.Windows.Forms.Grid.GridRangeInfo.Table();
+            gridRangeStyle1.StyleInfo.Font.Bold = true;
+            gridRangeStyle1.StyleInfo.Font.Facename = "맑은 고딕";
+            gridRangeStyle1.StyleInfo.Font.Italic = false;
+            gridRangeStyle1.StyleInfo.Font.Size = 11.25F;
+            gridRangeStyle1.StyleInfo.Font.Strikeout = false;
+            gridRangeStyle1.StyleInfo.Font.Underline = false;
+            gridRangeStyle1.StyleInfo.Font.Unit = System.Drawing.GraphicsUnit.Point;
+            gridRangeStyle2.Range = Syncfusion.Windows.Forms.Grid.GridRangeInfo.Table();
+            gridRangeStyle2.StyleInfo.Font.Bold = true;
+            gridRangeStyle2.StyleInfo.Font.Facename = "맑은 고딕";
+            gridRangeStyle2.StyleInfo.Font.Italic = false;
+            gridRangeStyle2.StyleInfo.Font.Size = 11.25F;
+            gridRangeStyle2.StyleInfo.Font.Strikeout = false;
+            gridRangeStyle2.StyleInfo.Font.Underline = false;
+            gridRangeStyle2.StyleInfo.Font.Unit = System.Drawing.GraphicsUnit.Point;
+            gridRangeStyle3.Range = Syncfusion.Windows.Forms.Grid.GridRangeInfo.Table();
+            gridRangeStyle3.StyleInfo.Font.Bold = true;
+            gridRangeStyle3.StyleInfo.Font.Facename = "맑은 고딕";
+            gridRangeStyle3.StyleInfo.Font.Italic = false;
+            gridRangeStyle3.StyleInfo.Font.Size = 11.25F;
+            gridRangeStyle3.StyleInfo.Font.Strikeout = false;
+            gridRangeStyle3.StyleInfo.Font.Underline = false;
+            gridRangeStyle3.StyleInfo.Font.Unit = System.Drawing.GraphicsUnit.Point;
+            gridRangeStyle4.Range = Syncfusion.Windows.Forms.Grid.GridRangeInfo.Table();
+            gridRangeStyle4.StyleInfo.Font.Bold = true;
+            gridRangeStyle4.StyleInfo.Font.Facename = "맑은 고딕";
+            gridRangeStyle4.StyleInfo.Font.Italic = false;
+            gridRangeStyle4.StyleInfo.Font.Size = 11.25F;
+            gridRangeStyle4.StyleInfo.Font.Strikeout = false;
+            gridRangeStyle4.StyleInfo.Font.Underline = false;
+            gridRangeStyle4.StyleInfo.Font.Unit = System.Drawing.GraphicsUnit.Point;
+            gridRangeStyle5.Range = Syncfusion.Windows.Forms.Grid.GridRangeInfo.Table();
+            gridRangeStyle5.StyleInfo.Font.Bold = true;
+            gridRangeStyle5.StyleInfo.Font.Facename = "맑은 고딕";
+            gridRangeStyle5.StyleInfo.Font.Italic = false;
+            gridRangeStyle5.StyleInfo.Font.Size = 11.25F;
+            gridRangeStyle5.StyleInfo.Font.Strikeout = false;
+            gridRangeStyle5.StyleInfo.Font.Underline = false;
+            gridRangeStyle5.StyleInfo.Font.Unit = System.Drawing.GraphicsUnit.Point;
+            gridRangeStyle6.Range = Syncfusion.Windows.Forms.Grid.GridRangeInfo.Table();
+            gridRangeStyle6.StyleInfo.Font.Bold = true;
+            gridRangeStyle6.StyleInfo.Font.Facename = "맑은 고딕";
+            gridRangeStyle6.StyleInfo.Font.Italic = false;
+            gridRangeStyle6.StyleInfo.Font.Size = 11.25F;
+            gridRangeStyle6.StyleInfo.Font.Strikeout = false;
+            gridRangeStyle6.StyleInfo.Font.Underline = false;
+            gridRangeStyle6.StyleInfo.Font.Unit = System.Drawing.GraphicsUnit.Point;
+            gridRangeStyle7.Range = Syncfusion.Windows.Forms.Grid.GridRangeInfo.Table();
+            gridRangeStyle7.StyleInfo.Font.Bold = true;
+            gridRangeStyle7.StyleInfo.Font.Facename = "맑은 고딕";
+            gridRangeStyle7.StyleInfo.Font.Italic = false;
+            gridRangeStyle7.StyleInfo.Font.Size = 11.25F;
+            gridRangeStyle7.StyleInfo.Font.Strikeout = false;
+            gridRangeStyle7.StyleInfo.Font.Underline = false;
+            gridRangeStyle7.StyleInfo.Font.Unit = System.Drawing.GraphicsUnit.Point;
+            gridRangeStyle8.Range = Syncfusion.Windows.Forms.Grid.GridRangeInfo.Table();
+            gridRangeStyle8.StyleInfo.Font.Bold = true;
+            gridRangeStyle8.StyleInfo.Font.Facename = "맑은 고딕";
+            gridRangeStyle8.StyleInfo.Font.Italic = false;
+            gridRangeStyle8.StyleInfo.Font.Size = 11.25F;
+            gridRangeStyle8.StyleInfo.Font.Strikeout = false;
+            gridRangeStyle8.StyleInfo.Font.Underline = false;
+            gridRangeStyle8.StyleInfo.Font.Unit = System.Drawing.GraphicsUnit.Point;
+            gridRangeStyle9.Range = Syncfusion.Windows.Forms.Grid.GridRangeInfo.Table();
+            gridRangeStyle9.StyleInfo.Font.Bold = true;
+            gridRangeStyle9.StyleInfo.Font.Facename = "맑은 고딕";
+            gridRangeStyle9.StyleInfo.Font.Italic = false;
+            gridRangeStyle9.StyleInfo.Font.Size = 11.25F;
+            gridRangeStyle9.StyleInfo.Font.Strikeout = false;
+            gridRangeStyle9.StyleInfo.Font.Underline = false;
+            gridRangeStyle9.StyleInfo.Font.Unit = System.Drawing.GraphicsUnit.Point;
+            gridRangeStyle10.Range = Syncfusion.Windows.Forms.Grid.GridRangeInfo.Table();
+            gridRangeStyle10.StyleInfo.Font.Bold = true;
+            gridRangeStyle10.StyleInfo.Font.Facename = "맑은 고딕";
+            gridRangeStyle10.StyleInfo.Font.Italic = false;
+            gridRangeStyle10.StyleInfo.Font.Size = 11.25F;
+            gridRangeStyle10.StyleInfo.Font.Strikeout = false;
+            gridRangeStyle10.StyleInfo.Font.Underline = false;
+            gridRangeStyle10.StyleInfo.Font.Unit = System.Drawing.GraphicsUnit.Point;
             gridRangeStyle11.Range = Syncfusion.Windows.Forms.Grid.GridRangeInfo.Table();
             gridRangeStyle11.StyleInfo.Font.Bold = true;
             gridRangeStyle11.StyleInfo.Font.Facename = "맑은 고딕";
@@ -149,89 +230,18 @@
             gridRangeStyle11.StyleInfo.Font.Strikeout = false;
             gridRangeStyle11.StyleInfo.Font.Underline = false;
             gridRangeStyle11.StyleInfo.Font.Unit = System.Drawing.GraphicsUnit.Point;
-            gridRangeStyle12.Range = Syncfusion.Windows.Forms.Grid.GridRangeInfo.Table();
-            gridRangeStyle12.StyleInfo.Font.Bold = true;
-            gridRangeStyle12.StyleInfo.Font.Facename = "맑은 고딕";
-            gridRangeStyle12.StyleInfo.Font.Italic = false;
-            gridRangeStyle12.StyleInfo.Font.Size = 11.25F;
-            gridRangeStyle12.StyleInfo.Font.Strikeout = false;
-            gridRangeStyle12.StyleInfo.Font.Underline = false;
-            gridRangeStyle12.StyleInfo.Font.Unit = System.Drawing.GraphicsUnit.Point;
-            gridRangeStyle13.Range = Syncfusion.Windows.Forms.Grid.GridRangeInfo.Table();
-            gridRangeStyle13.StyleInfo.Font.Bold = true;
-            gridRangeStyle13.StyleInfo.Font.Facename = "맑은 고딕";
-            gridRangeStyle13.StyleInfo.Font.Italic = false;
-            gridRangeStyle13.StyleInfo.Font.Size = 11.25F;
-            gridRangeStyle13.StyleInfo.Font.Strikeout = false;
-            gridRangeStyle13.StyleInfo.Font.Underline = false;
-            gridRangeStyle13.StyleInfo.Font.Unit = System.Drawing.GraphicsUnit.Point;
-            gridRangeStyle14.Range = Syncfusion.Windows.Forms.Grid.GridRangeInfo.Table();
-            gridRangeStyle14.StyleInfo.Font.Bold = true;
-            gridRangeStyle14.StyleInfo.Font.Facename = "맑은 고딕";
-            gridRangeStyle14.StyleInfo.Font.Italic = false;
-            gridRangeStyle14.StyleInfo.Font.Size = 11.25F;
-            gridRangeStyle14.StyleInfo.Font.Strikeout = false;
-            gridRangeStyle14.StyleInfo.Font.Underline = false;
-            gridRangeStyle14.StyleInfo.Font.Unit = System.Drawing.GraphicsUnit.Point;
-            gridRangeStyle15.Range = Syncfusion.Windows.Forms.Grid.GridRangeInfo.Table();
-            gridRangeStyle15.StyleInfo.Font.Bold = true;
-            gridRangeStyle15.StyleInfo.Font.Facename = "맑은 고딕";
-            gridRangeStyle15.StyleInfo.Font.Italic = false;
-            gridRangeStyle15.StyleInfo.Font.Size = 11.25F;
-            gridRangeStyle15.StyleInfo.Font.Strikeout = false;
-            gridRangeStyle15.StyleInfo.Font.Underline = false;
-            gridRangeStyle15.StyleInfo.Font.Unit = System.Drawing.GraphicsUnit.Point;
-            gridRangeStyle16.Range = Syncfusion.Windows.Forms.Grid.GridRangeInfo.Table();
-            gridRangeStyle16.StyleInfo.Font.Bold = true;
-            gridRangeStyle16.StyleInfo.Font.Facename = "맑은 고딕";
-            gridRangeStyle16.StyleInfo.Font.Italic = false;
-            gridRangeStyle16.StyleInfo.Font.Size = 11.25F;
-            gridRangeStyle16.StyleInfo.Font.Strikeout = false;
-            gridRangeStyle16.StyleInfo.Font.Underline = false;
-            gridRangeStyle16.StyleInfo.Font.Unit = System.Drawing.GraphicsUnit.Point;
-            gridRangeStyle17.Range = Syncfusion.Windows.Forms.Grid.GridRangeInfo.Table();
-            gridRangeStyle17.StyleInfo.Font.Bold = true;
-            gridRangeStyle17.StyleInfo.Font.Facename = "맑은 고딕";
-            gridRangeStyle17.StyleInfo.Font.Italic = false;
-            gridRangeStyle17.StyleInfo.Font.Size = 11.25F;
-            gridRangeStyle17.StyleInfo.Font.Strikeout = false;
-            gridRangeStyle17.StyleInfo.Font.Underline = false;
-            gridRangeStyle17.StyleInfo.Font.Unit = System.Drawing.GraphicsUnit.Point;
-            gridRangeStyle18.Range = Syncfusion.Windows.Forms.Grid.GridRangeInfo.Table();
-            gridRangeStyle18.StyleInfo.Font.Bold = true;
-            gridRangeStyle18.StyleInfo.Font.Facename = "맑은 고딕";
-            gridRangeStyle18.StyleInfo.Font.Italic = false;
-            gridRangeStyle18.StyleInfo.Font.Size = 11.25F;
-            gridRangeStyle18.StyleInfo.Font.Strikeout = false;
-            gridRangeStyle18.StyleInfo.Font.Underline = false;
-            gridRangeStyle18.StyleInfo.Font.Unit = System.Drawing.GraphicsUnit.Point;
-            gridRangeStyle19.Range = Syncfusion.Windows.Forms.Grid.GridRangeInfo.Table();
-            gridRangeStyle19.StyleInfo.Font.Bold = true;
-            gridRangeStyle19.StyleInfo.Font.Facename = "맑은 고딕";
-            gridRangeStyle19.StyleInfo.Font.Italic = false;
-            gridRangeStyle19.StyleInfo.Font.Size = 11.25F;
-            gridRangeStyle19.StyleInfo.Font.Strikeout = false;
-            gridRangeStyle19.StyleInfo.Font.Underline = false;
-            gridRangeStyle19.StyleInfo.Font.Unit = System.Drawing.GraphicsUnit.Point;
-            gridRangeStyle20.Range = Syncfusion.Windows.Forms.Grid.GridRangeInfo.Table();
-            gridRangeStyle20.StyleInfo.Font.Bold = true;
-            gridRangeStyle20.StyleInfo.Font.Facename = "맑은 고딕";
-            gridRangeStyle20.StyleInfo.Font.Italic = false;
-            gridRangeStyle20.StyleInfo.Font.Size = 11.25F;
-            gridRangeStyle20.StyleInfo.Font.Strikeout = false;
-            gridRangeStyle20.StyleInfo.Font.Underline = false;
-            gridRangeStyle20.StyleInfo.Font.Unit = System.Drawing.GraphicsUnit.Point;
             this.GridCtrl.RangeStyles.AddRange(new Syncfusion.Windows.Forms.Grid.GridRangeStyle[] {
-            gridRangeStyle11,
-            gridRangeStyle12,
-            gridRangeStyle13,
-            gridRangeStyle14,
-            gridRangeStyle15,
-            gridRangeStyle16,
-            gridRangeStyle17,
-            gridRangeStyle18,
-            gridRangeStyle19,
-            gridRangeStyle20});
+            gridRangeStyle1,
+            gridRangeStyle2,
+            gridRangeStyle3,
+            gridRangeStyle4,
+            gridRangeStyle5,
+            gridRangeStyle6,
+            gridRangeStyle7,
+            gridRangeStyle8,
+            gridRangeStyle9,
+            gridRangeStyle10,
+            gridRangeStyle11});
             this.GridCtrl.SerializeCellsBehavior = Syncfusion.Windows.Forms.Grid.GridSerializeCellsBehavior.SerializeAsRangeStylesIntoCode;
             this.GridCtrl.Size = new System.Drawing.Size(267, 600);
             this.GridCtrl.SmartSizeBox = false;
@@ -900,7 +910,7 @@
             // 
             this.BtnJog.Font = new System.Drawing.Font("굴림", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.BtnJog.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.BtnJog.Location = new System.Drawing.Point(299, 325);
+            this.BtnJog.Location = new System.Drawing.Point(298, 145);
             this.BtnJog.Name = "BtnJog";
             this.BtnJog.Size = new System.Drawing.Size(185, 61);
             this.BtnJog.TabIndex = 1036;
@@ -917,7 +927,7 @@
             this.ComboStageIndex.Font = new System.Drawing.Font("굴림", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.ComboStageIndex.FormattingEnabled = true;
             this.ComboStageIndex.IntegralHeight = false;
-            this.ComboStageIndex.Location = new System.Drawing.Point(300, 228);
+            this.ComboStageIndex.Location = new System.Drawing.Point(299, 48);
             this.ComboStageIndex.Name = "ComboStageIndex";
             this.ComboStageIndex.Size = new System.Drawing.Size(185, 27);
             this.ComboStageIndex.TabIndex = 1038;
@@ -931,7 +941,7 @@
             this.LabelStageIndex.BorderStyle = System.Windows.Forms.Border3DStyle.Raised;
             this.LabelStageIndex.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.LabelStageIndex.ForeColor = System.Drawing.Color.White;
-            this.LabelStageIndex.Location = new System.Drawing.Point(300, 189);
+            this.LabelStageIndex.Location = new System.Drawing.Point(299, 9);
             this.LabelStageIndex.Name = "LabelStageIndex";
             this.LabelStageIndex.Size = new System.Drawing.Size(185, 36);
             this.LabelStageIndex.TabIndex = 1037;
@@ -942,7 +952,7 @@
             // 
             this.BtnStageMove.Font = new System.Drawing.Font("굴림", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.BtnStageMove.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.BtnStageMove.Location = new System.Drawing.Point(299, 258);
+            this.BtnStageMove.Location = new System.Drawing.Point(298, 78);
             this.BtnStageMove.Name = "BtnStageMove";
             this.BtnStageMove.Size = new System.Drawing.Size(185, 61);
             this.BtnStageMove.TabIndex = 1039;

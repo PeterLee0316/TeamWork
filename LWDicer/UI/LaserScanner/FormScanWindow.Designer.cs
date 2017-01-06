@@ -430,14 +430,14 @@ namespace LWDicer.UI
             this.panList.Controls.Add(this.ShapeListView);
             this.panList.Location = new System.Drawing.Point(6, 174);
             this.panList.Name = "panList";
-            this.panList.Size = new System.Drawing.Size(181, 645);
+            this.panList.Size = new System.Drawing.Size(181, 569);
             this.panList.TabIndex = 9;
             // 
             // btnObjectDeleteAll
             // 
             this.btnObjectDeleteAll.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.btnObjectDeleteAll.Font = new System.Drawing.Font("굴림", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.btnObjectDeleteAll.Location = new System.Drawing.Point(106, 613);
+            this.btnObjectDeleteAll.Location = new System.Drawing.Point(107, 533);
             this.btnObjectDeleteAll.Name = "btnObjectDeleteAll";
             this.btnObjectDeleteAll.Size = new System.Drawing.Size(35, 30);
             this.btnObjectDeleteAll.TabIndex = 11;
@@ -449,7 +449,7 @@ namespace LWDicer.UI
             // 
             this.btnObjectDelete.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.btnObjectDelete.Font = new System.Drawing.Font("굴림", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.btnObjectDelete.Location = new System.Drawing.Point(71, 613);
+            this.btnObjectDelete.Location = new System.Drawing.Point(72, 533);
             this.btnObjectDelete.Name = "btnObjectDelete";
             this.btnObjectDelete.Size = new System.Drawing.Size(35, 30);
             this.btnObjectDelete.TabIndex = 10;
@@ -461,7 +461,7 @@ namespace LWDicer.UI
             // 
             this.btnObjectUngroup.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.btnObjectUngroup.Font = new System.Drawing.Font("굴림", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.btnObjectUngroup.Location = new System.Drawing.Point(36, 613);
+            this.btnObjectUngroup.Location = new System.Drawing.Point(37, 533);
             this.btnObjectUngroup.Name = "btnObjectUngroup";
             this.btnObjectUngroup.Size = new System.Drawing.Size(35, 30);
             this.btnObjectUngroup.TabIndex = 9;
@@ -473,7 +473,7 @@ namespace LWDicer.UI
             // 
             this.btnObjectGroup.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.btnObjectGroup.Font = new System.Drawing.Font("굴림", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.btnObjectGroup.Location = new System.Drawing.Point(0, 613);
+            this.btnObjectGroup.Location = new System.Drawing.Point(1, 533);
             this.btnObjectGroup.Name = "btnObjectGroup";
             this.btnObjectGroup.Size = new System.Drawing.Size(35, 30);
             this.btnObjectGroup.TabIndex = 8;
@@ -488,7 +488,7 @@ namespace LWDicer.UI
             this.ShapeListView.GridLines = true;
             this.ShapeListView.Location = new System.Drawing.Point(0, 0);
             this.ShapeListView.Name = "ShapeListView";
-            this.ShapeListView.Size = new System.Drawing.Size(181, 610);
+            this.ShapeListView.Size = new System.Drawing.Size(181, 527);
             this.ShapeListView.TabIndex = 7;
             this.ShapeListView.UseCompatibleStateImageBehavior = false;
             this.ShapeListView.SelectedIndexChanged += new System.EventHandler(this.ShapeListView_SelectedIndexChanged);
@@ -1169,7 +1169,7 @@ namespace LWDicer.UI
             this.pnlObject.Controls.Add(this.btnSortLeft);
             this.pnlObject.Controls.Add(this.btnLine);
             this.pnlObject.Controls.Add(this.btnDot);
-            this.pnlObject.Location = new System.Drawing.Point(6, 36);
+            this.pnlObject.Location = new System.Drawing.Point(7, 30);
             this.pnlObject.Name = "pnlObject";
             this.pnlObject.Size = new System.Drawing.Size(169, 138);
             this.pnlObject.TabIndex = 13;
@@ -1212,9 +1212,9 @@ namespace LWDicer.UI
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.ClientSize = new System.Drawing.Size(1225, 845);
             this.ControlBox = false;
+            this.Controls.Add(this.pnlObject);
             this.Controls.Add(this.btnImageStreamSave);
             this.Controls.Add(this.btnImageSave);
-            this.Controls.Add(this.pnlObject);
             this.Controls.Add(this.tabProperty);
             this.Controls.Add(this.pnlCanvas);
             this.Controls.Add(this.panList);

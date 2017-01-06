@@ -350,11 +350,13 @@ namespace LWDicer.UI
             CMainFrame.LWDicer.m_ctrlStage1.MoveStageRelative((int)EStagePos.VISION_LASER_GAP, false);
         }
 
-        private void btnLaserProcessStep1_Click(object sender, EventArgs e)
+        private async void btnLaserProcessStep1_Click(object sender, EventArgs e)
         {
             int iResult = 0;
             CMainFrame.DataManager.ModelData.ProcData.ProcessStop = false;
             var task = Task<int>.Run(() => CMainFrame.LWDicer.m_ctrlStage1.RunLaserProcess());
+
+            iResult = await task;
         }
 
         private void BtnJog_Click(object sender, EventArgs e)

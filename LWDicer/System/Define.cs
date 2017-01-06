@@ -32,6 +32,14 @@ namespace LWDicer.Layers
         public const double WAFER_SIZE_8_INCH = 200.0;
 
         // Scanner
+        public enum EScannerIndex
+        {
+            SCANNER1,
+            SCANNER2,
+            SCANNER3,
+            MAX,
+        }
+
         public enum EScannerMode
         {
             MOF = 0,
@@ -1655,6 +1663,8 @@ namespace LWDicer.Layers
             SPINNER2,
             MAX,
         }
+
+        
 
 
         /// <summary>

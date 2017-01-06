@@ -141,7 +141,6 @@ namespace LWDicer.Layers
             public CSearchData[] VisionPattern = new CSearchData[(int)EVisionPattern.MAX];
 
             
-
             public CCtrlAlignData()
             {
                 for (int i = 0; i < EdgeTeachPos.Length; i++) EdgeTeachPos[i] = new CPos_XYTZ();
@@ -168,7 +167,9 @@ namespace LWDicer.Layers
             public int MarkCount;               // Marking 반복 횟수 
 
             public CPos_XY PatternOffset;       // Pattern (Mark 반복) Offset (Pattern간의 간격)
-            public int PatternCount;            // Patternh 반복 횟수            
+            public int PatternCount;            // Patternh 반복 횟수   
+
+            public bool ProcessStop ;           // Process Stop 확인
 
             public CLaserProcessStep()
             {
@@ -181,10 +182,10 @@ namespace LWDicer.Layers
 
                 MarkCount = 1;
                 PatternCount = 1;
+                ProcessStop = false;
 
                 ScannerJobFile = "";
                 ScannerBmpFile = "";
-
             }
 
             public override string ToString()

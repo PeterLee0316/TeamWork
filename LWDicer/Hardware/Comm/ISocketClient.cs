@@ -25,7 +25,7 @@ namespace LWDicer.Layers
             public string HostAddress;
             public int HostPort;
 
-            public CSocketClientData(string HostAddress, int HostPort)
+            public CSocketClientData(string HostAddress, int HostPort=0)
             {
                 this.HostAddress = HostAddress;
                 this.HostPort = HostPort;

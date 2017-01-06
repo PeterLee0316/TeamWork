@@ -53,6 +53,8 @@ namespace LWDicer.UI
         private void BtnScannerData_Click(object sender, EventArgs e)
         {
             var dlg = new FormPolygon();
+            dlg.StartPosition = FormStartPosition.Manual;
+            dlg.Location = new Point(0, 120);
             dlg.ShowDialog();
         }
 
@@ -150,6 +152,8 @@ namespace LWDicer.UI
         private void BtnLaserProcess_Click(object sender, EventArgs e)
         {
             var dlg = new FormLaserProcessData();
+            dlg.StartPosition = FormStartPosition.Manual;
+            dlg.Location = new Point(0, 120);
             dlg.ShowDialog();
         }
     }

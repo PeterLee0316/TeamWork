@@ -8,10 +8,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Diagnostics;
-
-using Syncfusion.Windows.Forms.Tools;
 using System.Collections.Specialized;
 
+using Syncfusion.Windows.Forms.Tools;
 using Syncfusion.Windows.Forms.Grid;
 using Syncfusion.Windows.Forms;
 
@@ -20,7 +19,6 @@ using static LWDicer.Layers.DEF_MeStage;
 using static LWDicer.Layers.DEF_CtrlStage;
 using static LWDicer.Layers.DEF_Common;
 using static LWDicer.Layers.DEF_DataManager;
-
 
 using LWDicer.Layers;
 
@@ -31,7 +29,7 @@ namespace LWDicer.UI
     {
         string[] strOP = new string[(int)ELaserOperation.MAX];
 
-        private int selectedSequenceNum = 1;
+        private int selectedSequenceNum;
         private CLaserProcessData LaserProcessData;
 
         public FormLaserProcessData()
@@ -40,14 +38,19 @@ namespace LWDicer.UI
 
             InitGrid();
 
+            // Motion Pos Data read
             for (int i = 0; i < (int)EStagePos.MAX; i++)
             {
                 ComboStageIndex.Items.Add(EStagePos.WAIT + i);
             }
 
+            // Index Init
+            selectedSequenceNum = 0;
             ComboStageIndex.SelectedIndex = 0;
 
+            // Process Data Copy
             LaserProcessData = ObjectExtensions.Copy(CMainFrame.DataManager.ModelData.LaserProcessData);
+
             UpdateData();
 
             this.Text = $"Laser Process Data [ Current Model : {CMainFrame.DataManager.ModelData.Name} ]";

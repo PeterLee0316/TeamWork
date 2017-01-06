@@ -1146,20 +1146,12 @@ namespace LWDicer.Layers
             string hostAddress;
             int hostPort;
 
-            hostAddress = m_DataManager.SystemData_Scan.ControlHostAddress;
-            hostPort = m_DataManager.SystemData_Scan.ControlHostPort;
-            var controlCommData = new CSocketClientData(hostAddress, hostPort);
+            hostAddress = m_DataManager.SystemData_Scan.Address[0].ControlHostAddress;
+            var controlCommData = new CSocketClientData(hostAddress);
 
-            hostAddress = m_DataManager.SystemData_Scan.ScanHeadHostAddress;
-            hostPort = m_DataManager.SystemData_Scan.ScanHeadHostPort;
-            var scanHeadCommData = new CSocketClientData(hostAddress, hostPort);
-
-            //m_SystemInfo.GetObjectInfo(10, out objInfo);
-            //m_ScanManager = new CMarkingManager(objInfo);
-            //m_SystemInfo.GetObjectInfo(11, out objInfo);
-            //m_ScanWindow = new CMarkingWindow(objInfo);
-            //m_FormScanner = new FormScanWindow();
-
+            hostAddress = m_DataManager.SystemData_Scan.Address[0].ScanHeadHostAddress;
+            var scanHeadCommData = new CSocketClientData(hostAddress);
+            
             m_SystemInfo.GetObjectInfo(12, out objInfo);
             m_ControlComm = new MSocketClient(objInfo, controlCommData);
             m_SystemInfo.GetObjectInfo(13, out objInfo);

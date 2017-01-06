@@ -821,8 +821,13 @@ CSpinStep class -> CCleaningStep / CCoatingStep class 로 분리
 	- TrueRaster용 파라미터 csn.ini, isn.ini 관련 파미미터 삭제
 2. Laser Process SW 테스트 및 오류 수정
 	
-
-
+// Grade : ★★
+// Date : 2017-01/02~06
+// Context
+1. Scanner SW 테스트 및 추가 수정
+	- 3개 Scanner의 Config.ini 파일 관리
+	- Process, Pattern, Draw의 Sub Form을 제작하여 Laser Process 관리
+	- Dxf 파일 로딩 Form내의 Page 제작 (향후 이를 바탕으로 G code 및 Scan 데이터 처리 계획)
 
 
 
