@@ -371,7 +371,24 @@ namespace LWDicer.Layers
             // Overlay 화면 갱신
             UpdataOverlay();
         }
-        
+
+        public void GraphDrawCircle(Point ptPos, int radius, Pen pPen)
+        {
+            // Overlay DC를 가져 온다
+            if (GetOverlayDC() == false) return;
+
+            Rectangle recCircle = new Rectangle();
+            recCircle.X = ptPos.X;
+            recCircle.Y = ptPos.Y;
+            recCircle.Width = radius;
+            recCircle.Height = radius;
+
+            m_DrawGraph.DrawEllipse(pPen, recCircle);
+
+            // Overlay 화면 갱신
+            UpdataOverlay();
+        }
+
         public void DrawCrossMark(Point Center, int Width, int Height,Color colorMark)
         {
             // Overlay DC를 가져 온다
@@ -575,7 +592,61 @@ namespace LWDicer.Layers
             // Overlay 화면 갱신
             UpdataOverlay();
         }
-       
+
+
+        public void DrawCircle(int radius)
+        {
+
+            if (radius < DEF_CIRCLE_MIN) return;
+            if (radius > DEF_CIRCLE_MAX) return;
+
+            // Overlay DC를 가져 온다
+            if (GetOverlayDC() == false) return;
+
+            //==================================================
+            // Pen Type 설정
+            //MIL.MgraColor(m_MilOverLayID, MIL.M_COLOR_GREEN);
+            m_DrawPen.DashStyle = System.Drawing.Drawing2D.DashStyle.Solid;
+            //m_DrawPen.DashCap = System.Drawing.Drawing2D.DashCap.Round;
+            m_DrawPen.Color = Color.Red;
+            m_DrawPen.Width = 2.0f;
+
+            //==================================================
+            // 중심 라인 Draw     
+
+            // 가로       
+            m_ptDrawStart.X = 0;
+            m_ptDrawStart.Y = ((int)m_ImageHeight / 2);
+            m_ptDrawEnd.X = (int)m_ImageWidth;
+            m_ptDrawEnd.Y = ((int)m_ImageHeight / 2);
+            GraphDrawLine(m_ptDrawStart, m_ptDrawEnd, m_DrawPen);
+
+            //세로
+            m_ptDrawStart.X = ((int)m_ImageWidth / 2);
+            m_ptDrawStart.Y = 0;
+            m_ptDrawEnd.X = (int)m_ImageWidth / 2;
+            m_ptDrawEnd.Y = ((int)m_ImageHeight);
+            GraphDrawLine(m_ptDrawStart, m_ptDrawEnd, m_DrawPen);
+
+            //==================================================
+            // Pen Type 설정
+            m_DrawPen.DashStyle = System.Drawing.Drawing2D.DashStyle.Dash;
+            //m_DrawPen.DashCap = System.Drawing.Drawing2D.DashCap.Round;
+            m_DrawPen.DashPattern = new float[] { 5.0F, 2.0F, 1.0F, 2.0F };
+            m_DrawPen.Color = Color.Red;
+            m_DrawPen.Width = 2.0f;
+
+            //==================================================
+            // Circle 라인 Draw
+
+            m_ptDrawStart.X = (((int)m_ImageWidth - radius) / 2);
+            m_ptDrawStart.Y = (((int)m_ImageHeight - radius) / 2);
+            GraphDrawCircle(m_ptDrawStart, radius, m_DrawPen);
+
+            // Overlay 화면 갱신
+            UpdataOverlay();
+        }
+
         public void SetDisplayWindow(IntPtr pDisplayObject)
         {
             double ZoomX;

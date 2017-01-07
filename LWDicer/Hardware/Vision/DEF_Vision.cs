@@ -75,6 +75,11 @@ namespace LWDicer.Layers
         public const int DEF_HAIRLINE_NOR = 100;
         public const int DEF_HAIRLINE_MAX = 300;
 
+        // Circle Line Max,Min Width
+        public const int DEF_CIRCLE_MIN = 3;
+        public const int DEF_CIRCLE_NOR = 50;
+        public const int DEF_CIRCLE_MAX = 300;
+
         // Mark Max,Min Width & Height
         public const int DEF_MARK_WIDTH_MIN = 50;
         public const int DEF_MARK_WIDTH_NOR = 200;
@@ -103,6 +108,8 @@ namespace LWDicer.Layers
             ALIGN_MARK_B,
             ALIGN_MARK_COUNT
         }
+
+        public enum EHairLineType { VERTICAL, HORIZONTAL }
         // This structure is defined Vision Component Data list of Vision.
         //
         // @stereotype struct 

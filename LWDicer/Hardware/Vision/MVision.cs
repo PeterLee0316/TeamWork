@@ -21,6 +21,7 @@ namespace LWDicer.Layers
         private bool m_bSaveErrorImage;
 
         public int m_iCurrentViewNum { get; set; }
+        public int m_iCircleRadius { get; set; }
         public int m_iHairLineWidth { get; set; }
         public int m_iMarkROIWidth { get; set; }
         public int m_iMarkROIHeight { get; set; }
@@ -1453,18 +1454,18 @@ namespace LWDicer.Layers
             }
         }
 
-        public void ShowHairLine()
+        public void ShowHairLine(EHairLineType hairLineType = EHairLineType.HORIZONTAL)
         {
             DrawOverLayHairLine(m_iHairLineWidth);
         }
 
-        public void NarrowHairLine()
+        public void NarrowHairLine(EHairLineType hairLineType = EHairLineType.HORIZONTAL)
         {
             m_iHairLineWidth--;
             DrawOverLayHairLine(m_iHairLineWidth);
         }
 
-        public void WidenHairLine()
+        public void WidenHairLine(EHairLineType hairLineType = EHairLineType.HORIZONTAL)
         {
             m_iHairLineWidth++;
             DrawOverLayHairLine(m_iHairLineWidth);
@@ -1478,6 +1479,62 @@ namespace LWDicer.Layers
         {
             m_iHairLineWidth = iWidth;
         }
+
+
+        public void DrawOverlayCircle(int iCamNo, int iWidth)
+        {
+#if SIMULATION_VISION
+            return;
+#endif
+            // Vision System이 초기화 된지를 확인함
+            if (m_bSystemInit == false) return;
+
+            // Hair Line의 제한값 설정
+            if (iWidth < DEF_CIRCLE_MIN && iWidth > DEF_CIRCLE_MAX) return;
+
+            m_iCircleRadius = iWidth;
+
+            // Display할 객체가 연결되어 있는지 확인
+            if (m_RefComp.View[iCamNo].IsLocalView())
+            {
+                m_RefComp.View[iCamNo].ClearOverlay();
+                m_RefComp.View[iCamNo].DrawCircle(iWidth);
+            }
+        }
+
+        public void DrawOverlayCircle(int iWidth)
+        {
+#if SIMULATION_VISION
+            return;
+#endif
+            // Vision System이 초기화 된지를 확인함
+            if (m_bSystemInit == false) return;
+
+            // Hair Line의 제한값 설정
+            if (iWidth < DEF_CIRCLE_MIN && iWidth > DEF_CIRCLE_MAX) return;
+
+            m_iCircleRadius = iWidth;
+
+            // Display할 객체가 연결되어 있는지 확인
+            if (m_RefComp.View[m_iCurrentViewNum].IsLocalView())
+            {
+                m_RefComp.View[m_iCurrentViewNum].ClearOverlay();
+                m_RefComp.View[m_iCurrentViewNum].DrawCircle(iWidth);
+            }
+        }
+
+        public void NarrowCircleRadius()
+        {
+            m_iCircleRadius--;
+            DrawOverlayCircle(m_iCircleRadius);
+        }
+
+        public void WidenCircleRadius()
+        {
+            m_iCircleRadius++;
+            DrawOverlayCircle(m_iCircleRadius);
+        }
+
         public void ShowRectRoi()
         {
             Size recSize = new Size(m_iMarkROIWidth, m_iMarkROIHeight);
