@@ -560,14 +560,17 @@ namespace LWDicer.UI
 
         }
 
-        private void CanvasObjectMove(CPos_XY pPos, float pAngle)
+        private void CanvasObjectMove(CPos_XY pPos, double pAngle)
         {
             if (SelectObjectListView < 0) return;
 
+            CPos_XY objectMovePos = new CPos_XY();
             CPos_XY objectCurrentPos = new CPos_XY();
-            float objectcurrentAngle = 0f;
+            double objectcurrentAngle = 0.0;
 
-            m_ScanManager.ObjectList[SelectObjectListView].MoveObject(pPos);
+            objectMovePos = pPos.Copy();
+
+            m_ScanManager.ObjectList[SelectObjectListView].MoveObject(objectMovePos);
             //--------------------------------------------------------------------------------
             // Angle Rotate
             objectcurrentAngle = m_ScanManager.ObjectList[SelectObjectListView].ObjectRotateAngle;
@@ -603,11 +606,11 @@ namespace LWDicer.UI
         private void btnObjectMoveUp_Click(object sender, EventArgs e)
         {
             CPos_XY objectMovePos = new CPos_XY();
-            float objectMoveAngle = 0f;
+            double objectMoveAngle = 0.0;
 
             try
             {
-                objectMovePos.dY = -float.Parse(txtObjectMoveY.Text);
+                objectMovePos.dY = -Convert.ToDouble(txtObjectMoveY.Text);
 
                 // Object Move Call
                 CanvasObjectMove(objectMovePos, objectMoveAngle);
@@ -656,10 +659,10 @@ namespace LWDicer.UI
         private void btnObjectMoveRight_Click(object sender, EventArgs e)
         {
             CPos_XY objectMovePos = new CPos_XY();
-            float objectMoveAngle = 0f;
+            double objectMoveAngle = 0.0;
             try
             {
-                objectMovePos.dX = float.Parse(txtObjectMoveX.Text);
+                objectMovePos.dX = Convert.ToDouble(txtObjectMoveX.Text);
 
                 // Object Move Call
                 CanvasObjectMove(objectMovePos, objectMoveAngle);
@@ -714,15 +717,30 @@ namespace LWDicer.UI
 
         private void btnObjectArrayCopy_Click_1(object sender, EventArgs e)
         {
+            int arrayNumX = 0, arrayNumY = 0;
+            double arrayGapX = 0.0, arrayGapY = 0.0;
+
+            try
+            {
+                arrayNumX = Convert.ToInt32(txtArrayNumX.Text);
+                arrayGapX = Convert.ToDouble(txtArrayGapX.Text);
+                arrayNumY = Convert.ToInt32(txtArrayNumY.Text);
+                arrayGapY = Convert.ToDouble(txtArrayGapY.Text);
+            }
+            catch
+            {
+                // 오류 발생
+            }
+
+            if (SelectObjectListView < 0) return;
+            if (m_ScanManager.ObjectList[SelectObjectListView] == null) return;
+
+            // BMP 파일은 복사를 하지 않는다.
             if (m_ScanManager.ObjectList[SelectObjectListView].ObjectType == EObjectType.BMP) return;
+            
 
             if (SelectObjectListView < 0) return;
             if (ShapeListView.Items.Count <= SelectObjectListView) return;
-
-            int arrayNumX = int.Parse(txtArrayNumX.Text);
-            float arrayGapX = float.Parse(txtArrayGapX.Text);
-            int arrayNumY = int.Parse(txtArrayNumY.Text);
-            float arrayGapY = float.Parse(txtArrayGapY.Text);
 
             if (arrayNumX <= 0 || arrayNumY <= 0) return;
 
@@ -733,10 +751,10 @@ namespace LWDicer.UI
             CMarkingObject pObject = ObjectExtensions.Copy(m_ScanManager.ObjectList[SelectObjectListView]);
 
             // 초기 X,Y Axis 값을 초기화 한다.
-            posStart = pObject.ptObjectStartPos;
+            posStart = pObject.ptObjectStartPos.Copy();
             posEnd   = pObject.ObjectType == EObjectType.DOT ?
-                       pObject.ptObjectStartPos :
-                       pObject.ptObjectEndPos;
+                       pObject.ptObjectStartPos.Copy() :
+                       pObject.ptObjectEndPos.Copy();
 
             int iObjectNum = arrayNumX * arrayNumY;
 
@@ -748,8 +766,8 @@ namespace LWDicer.UI
             {
                 // 초기 X Axis 값을 초기화 한다.
                 posStart.dX = pObject.ptObjectStartPos.dX;
-                posEnd.dX = pObject.ptObjectEndPos.dX;
-                posMove.dX = 0;
+                posEnd.dX   = pObject.ptObjectEndPos.dX;
+                posMove.dX  = 0;
 
                 for (int j = 0; j < arrayNumX; j++)
                 //Parallel.For(0, arrayNumX, (int j) =>
@@ -757,12 +775,14 @@ namespace LWDicer.UI
                     // 복사 Object가 Group일 경우
                     if (pObject.ObjectType == EObjectType.GROUP)
                     {
+                        pObject.IsSelectedObject = false;
                         pGroup[iGroupCount] = ObjectExtensions.Copy(pObject);
                         pGroup[iGroupCount].MoveObject(posMove);
                         iGroupCount++;
                     }
                     else
                     {
+                        pObject.IsSelectedObject = false;
                         pGroup[iGroupCount] = m_ScanManager.MakeObject(pObject.ObjectType, posStart, posEnd);
                         iGroupCount++;
                     }
@@ -911,7 +931,13 @@ namespace LWDicer.UI
                 CMainFrame.LWDicer.m_MeScanner.SaveScanFile(filename);
             }
         }
-        
+
+        private void BtnConfigureExit_Click(object sender, EventArgs e)
+        {
+            // 현재 Form 닫기
+            this.Hide();
+        }
+
 
         #endregion
 

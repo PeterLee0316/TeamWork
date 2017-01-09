@@ -72,7 +72,7 @@ namespace LWDicer.Layers
             //if (pPos.dX < 0 || pPos.dX > BaseScanFieldSize.Width) return SHAPE_POS_DISABLE;
             //if (pPos.dY < 0 || pPos.dY > BaseScanFieldSize.Height) return SHAPE_POS_DISABLE;
 
-            ptObjectStartPos = pPos;
+            ptObjectStartPos = pPos.Copy();
 
             return SUCCESS;
         }
@@ -85,15 +85,15 @@ namespace LWDicer.Layers
             //if (pPos.dX < 0 || pPos.dX > BaseScanFieldSize.Width) return SHAPE_POS_DISABLE;
             //if (pPos.dY < 0 || pPos.dY > BaseScanFieldSize.Height) return SHAPE_POS_DISABLE;
 
-            ptObjectEndPos = pPos;
+            ptObjectEndPos = pPos.Copy();
 
             return SUCCESS;
         }
         //---------------------------------------------------------------------------
         /// Object의 회전 각도 위치
-        public float ObjectRotateAngle { get; private set; } = 0;
+        public double ObjectRotateAngle { get; private set; } = 0;
 
-        public void SetObjectRatateAngle(float pAngle)
+        public void SetObjectRatateAngle(double pAngle)
         {
             if (pAngle < -360 || pAngle > 360) return;
             ObjectRotateAngle = pAngle;
@@ -122,8 +122,9 @@ namespace LWDicer.Layers
             {
                 // Object의 외각 Demension을 그린다.
                 // Gruop일 경우 개별적을 그리지 않는다
-                //if(IsGroupObject == false)
-                DrawObjectDemension(g);
+                //if (IsGroupObject == false)
+                //if(ObjectType != EObjectType.GROUP)
+                    DrawObjectDemension(g);
             }
         }
 
@@ -633,13 +634,14 @@ namespace LWDicer.Layers
             SetObjectType(pObject.ObjectType);
             SetObjectName(pObject.ObjectName);
             SetObjectSortFlag(pObject.ObjectSortFlag);
+
         }
 
         private void CreateGroup(CMarkingObject[] pGroup)
         {
             if (pGroup == null) return;
             SetObjectPosition(pGroup);
-            SetObjectRatateAngle(0.0f);
+            SetObjectRatateAngle(0.0);
 
             SetObjectType(EObjectType.GROUP);
             SetObjectName("Group");
@@ -684,10 +686,11 @@ namespace LWDicer.Layers
 
                 if (pObject.ObjectType == EObjectType.DOT) pObject.SetObjectEndPos(pObject.ptObjectStartPos);
 
+                // 첫 Object의 Start,End의 위치를 저장함. 
                 if (iCount == 0)
                 {
-                    pStart = pObject.ptObjectStartPos;
-                    pEnd = pObject.ptObjectEndPos;
+                    pStart = pObject.ptObjectStartPos.Copy();
+                    pEnd = pObject.ptObjectEndPos.Copy();
                 }
 
                 if (pObject.ptObjectStartPos.dX < pStart.dX) pStart.dX = pObject.ptObjectStartPos.dX;
@@ -731,8 +734,13 @@ namespace LWDicer.Layers
             for (int i = 0; i < this.GroupObjectCount; i++)
             {
                 // Group안에 Group이 있을 경우 재귀적 방식으로 Recall함.
-                if (ObjectGroup[i].ObjectType == EObjectType.GROUP) ObjectGroup[i].MoveObject(pPos);
+                if (ObjectGroup[i].ObjectType == EObjectType.GROUP)
+                {
+                    ObjectGroup[i].MoveObject(pPos);
+                    continue;
+                }
 
+                // Group 내의 Object들의 위치 Position 이동
                 //--------------------------------------------------------------------------------
                 // Start Position Move
                 objectCurrentPos.dX = ObjectGroup[i].ptObjectStartPos.dX;
@@ -751,6 +759,7 @@ namespace LWDicer.Layers
 
             }
 
+            // Group의 위치 Position 이동
             //--------------------------------------------------------------------------------
             // Start Position Move
             objectCurrentPos.dX = ptObjectStartPos.dX;

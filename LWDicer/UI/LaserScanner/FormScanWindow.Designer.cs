@@ -135,6 +135,7 @@ namespace LWDicer.UI
             this.pnlObject = new System.Windows.Forms.Panel();
             this.btnImageSave = new System.Windows.Forms.Button();
             this.btnImageStreamSave = new System.Windows.Forms.Button();
+            this.BtnConfigureExit = new System.Windows.Forms.Button();
             this.statusBottom.SuspendLayout();
             this.menuScanner.SuspendLayout();
             this.panList.SuspendLayout();
@@ -205,7 +206,7 @@ namespace LWDicer.UI
             this.openToolStripMenuItem,
             this.saveToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(93, 22);
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.fileToolStripMenuItem.Text = "File";
             // 
             // openToolStripMenuItem
@@ -225,7 +226,7 @@ namespace LWDicer.UI
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(93, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
@@ -430,14 +431,14 @@ namespace LWDicer.UI
             this.panList.Controls.Add(this.ShapeListView);
             this.panList.Location = new System.Drawing.Point(6, 174);
             this.panList.Name = "panList";
-            this.panList.Size = new System.Drawing.Size(181, 569);
+            this.panList.Size = new System.Drawing.Size(181, 642);
             this.panList.TabIndex = 9;
             // 
             // btnObjectDeleteAll
             // 
             this.btnObjectDeleteAll.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.btnObjectDeleteAll.Font = new System.Drawing.Font("굴림", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.btnObjectDeleteAll.Location = new System.Drawing.Point(107, 533);
+            this.btnObjectDeleteAll.Location = new System.Drawing.Point(108, 609);
             this.btnObjectDeleteAll.Name = "btnObjectDeleteAll";
             this.btnObjectDeleteAll.Size = new System.Drawing.Size(35, 30);
             this.btnObjectDeleteAll.TabIndex = 11;
@@ -449,7 +450,7 @@ namespace LWDicer.UI
             // 
             this.btnObjectDelete.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.btnObjectDelete.Font = new System.Drawing.Font("굴림", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.btnObjectDelete.Location = new System.Drawing.Point(72, 533);
+            this.btnObjectDelete.Location = new System.Drawing.Point(73, 609);
             this.btnObjectDelete.Name = "btnObjectDelete";
             this.btnObjectDelete.Size = new System.Drawing.Size(35, 30);
             this.btnObjectDelete.TabIndex = 10;
@@ -461,7 +462,7 @@ namespace LWDicer.UI
             // 
             this.btnObjectUngroup.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.btnObjectUngroup.Font = new System.Drawing.Font("굴림", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.btnObjectUngroup.Location = new System.Drawing.Point(37, 533);
+            this.btnObjectUngroup.Location = new System.Drawing.Point(38, 609);
             this.btnObjectUngroup.Name = "btnObjectUngroup";
             this.btnObjectUngroup.Size = new System.Drawing.Size(35, 30);
             this.btnObjectUngroup.TabIndex = 9;
@@ -473,7 +474,7 @@ namespace LWDicer.UI
             // 
             this.btnObjectGroup.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.btnObjectGroup.Font = new System.Drawing.Font("굴림", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.btnObjectGroup.Location = new System.Drawing.Point(1, 533);
+            this.btnObjectGroup.Location = new System.Drawing.Point(2, 609);
             this.btnObjectGroup.Name = "btnObjectGroup";
             this.btnObjectGroup.Size = new System.Drawing.Size(35, 30);
             this.btnObjectGroup.TabIndex = 8;
@@ -488,7 +489,7 @@ namespace LWDicer.UI
             this.ShapeListView.GridLines = true;
             this.ShapeListView.Location = new System.Drawing.Point(0, 0);
             this.ShapeListView.Name = "ShapeListView";
-            this.ShapeListView.Size = new System.Drawing.Size(181, 527);
+            this.ShapeListView.Size = new System.Drawing.Size(181, 603);
             this.ShapeListView.TabIndex = 7;
             this.ShapeListView.UseCompatibleStateImageBehavior = false;
             this.ShapeListView.SelectedIndexChanged += new System.EventHandler(this.ShapeListView_SelectedIndexChanged);
@@ -513,7 +514,7 @@ namespace LWDicer.UI
             this.tabProperty.Location = new System.Drawing.Point(975, 175);
             this.tabProperty.Name = "tabProperty";
             this.tabProperty.SelectedIndex = 0;
-            this.tabProperty.Size = new System.Drawing.Size(243, 645);
+            this.tabProperty.Size = new System.Drawing.Size(243, 562);
             this.tabProperty.TabIndex = 12;
             // 
             // pageProperty
@@ -525,7 +526,7 @@ namespace LWDicer.UI
             this.pageProperty.Location = new System.Drawing.Point(4, 22);
             this.pageProperty.Name = "pageProperty";
             this.pageProperty.Padding = new System.Windows.Forms.Padding(3);
-            this.pageProperty.Size = new System.Drawing.Size(235, 619);
+            this.pageProperty.Size = new System.Drawing.Size(235, 536);
             this.pageProperty.TabIndex = 0;
             this.pageProperty.Text = "속성";
             this.pageProperty.UseVisualStyleBackColor = true;
@@ -1204,6 +1205,21 @@ namespace LWDicer.UI
             this.btnImageStreamSave.UseVisualStyleBackColor = true;
             this.btnImageStreamSave.Click += new System.EventHandler(this.btnImageStreamSave_Click);
             // 
+            // BtnConfigureExit
+            // 
+            this.BtnConfigureExit.Font = new System.Drawing.Font("굴림", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.BtnConfigureExit.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.BtnConfigureExit.Image = ((System.Drawing.Image)(resources.GetObject("BtnConfigureExit.Image")));
+            this.BtnConfigureExit.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.BtnConfigureExit.Location = new System.Drawing.Point(975, 749);
+            this.BtnConfigureExit.Name = "BtnConfigureExit";
+            this.BtnConfigureExit.Size = new System.Drawing.Size(124, 67);
+            this.BtnConfigureExit.TabIndex = 756;
+            this.BtnConfigureExit.Text = " Exit";
+            this.BtnConfigureExit.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.BtnConfigureExit.UseVisualStyleBackColor = true;
+            this.BtnConfigureExit.Click += new System.EventHandler(this.BtnConfigureExit_Click);
+            // 
             // FormScanWindow
             // 
             this.AllowDrop = true;
@@ -1212,6 +1228,7 @@ namespace LWDicer.UI
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.ClientSize = new System.Drawing.Size(1225, 845);
             this.ControlBox = false;
+            this.Controls.Add(this.BtnConfigureExit);
             this.Controls.Add(this.pnlObject);
             this.Controls.Add(this.btnImageStreamSave);
             this.Controls.Add(this.btnImageSave);
@@ -1352,5 +1369,6 @@ namespace LWDicer.UI
         private System.Windows.Forms.Panel pnlObject;
         private System.Windows.Forms.Button btnImageSave;
         private System.Windows.Forms.Button btnImageStreamSave;
+        private System.Windows.Forms.Button BtnConfigureExit;
     }
 }

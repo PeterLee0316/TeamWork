@@ -30,19 +30,30 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormPolygon));
-            Syncfusion.Windows.Forms.Grid.GridBaseStyle gridBaseStyle9 = new Syncfusion.Windows.Forms.Grid.GridBaseStyle();
-            Syncfusion.Windows.Forms.Grid.GridBaseStyle gridBaseStyle10 = new Syncfusion.Windows.Forms.Grid.GridBaseStyle();
-            Syncfusion.Windows.Forms.Grid.GridBaseStyle gridBaseStyle11 = new Syncfusion.Windows.Forms.Grid.GridBaseStyle();
-            Syncfusion.Windows.Forms.Grid.GridBaseStyle gridBaseStyle12 = new Syncfusion.Windows.Forms.Grid.GridBaseStyle();
-            Syncfusion.Windows.Forms.Grid.GridBaseStyle gridBaseStyle13 = new Syncfusion.Windows.Forms.Grid.GridBaseStyle();
-            Syncfusion.Windows.Forms.Grid.GridBaseStyle gridBaseStyle14 = new Syncfusion.Windows.Forms.Grid.GridBaseStyle();
-            Syncfusion.Windows.Forms.Grid.GridBaseStyle gridBaseStyle15 = new Syncfusion.Windows.Forms.Grid.GridBaseStyle();
-            Syncfusion.Windows.Forms.Grid.GridBaseStyle gridBaseStyle16 = new Syncfusion.Windows.Forms.Grid.GridBaseStyle();
+            Syncfusion.Windows.Forms.Grid.GridBaseStyle gridBaseStyle17 = new Syncfusion.Windows.Forms.Grid.GridBaseStyle();
+            Syncfusion.Windows.Forms.Grid.GridBaseStyle gridBaseStyle18 = new Syncfusion.Windows.Forms.Grid.GridBaseStyle();
+            Syncfusion.Windows.Forms.Grid.GridBaseStyle gridBaseStyle19 = new Syncfusion.Windows.Forms.Grid.GridBaseStyle();
+            Syncfusion.Windows.Forms.Grid.GridBaseStyle gridBaseStyle20 = new Syncfusion.Windows.Forms.Grid.GridBaseStyle();
+            Syncfusion.Windows.Forms.Grid.GridBaseStyle gridBaseStyle21 = new Syncfusion.Windows.Forms.Grid.GridBaseStyle();
+            Syncfusion.Windows.Forms.Grid.GridBaseStyle gridBaseStyle22 = new Syncfusion.Windows.Forms.Grid.GridBaseStyle();
+            Syncfusion.Windows.Forms.Grid.GridBaseStyle gridBaseStyle23 = new Syncfusion.Windows.Forms.Grid.GridBaseStyle();
+            Syncfusion.Windows.Forms.Grid.GridBaseStyle gridBaseStyle24 = new Syncfusion.Windows.Forms.Grid.GridBaseStyle();
+            Syncfusion.Windows.Forms.Grid.GridBaseStyle gridBaseStyle25 = new Syncfusion.Windows.Forms.Grid.GridBaseStyle();
+            Syncfusion.Windows.Forms.Grid.GridBaseStyle gridBaseStyle26 = new Syncfusion.Windows.Forms.Grid.GridBaseStyle();
+            Syncfusion.Windows.Forms.Grid.GridBaseStyle gridBaseStyle27 = new Syncfusion.Windows.Forms.Grid.GridBaseStyle();
+            Syncfusion.Windows.Forms.Grid.GridBaseStyle gridBaseStyle28 = new Syncfusion.Windows.Forms.Grid.GridBaseStyle();
+            Syncfusion.Windows.Forms.Grid.GridBaseStyle gridBaseStyle29 = new Syncfusion.Windows.Forms.Grid.GridBaseStyle();
+            Syncfusion.Windows.Forms.Grid.GridBaseStyle gridBaseStyle30 = new Syncfusion.Windows.Forms.Grid.GridBaseStyle();
+            Syncfusion.Windows.Forms.Grid.GridBaseStyle gridBaseStyle31 = new Syncfusion.Windows.Forms.Grid.GridBaseStyle();
+            Syncfusion.Windows.Forms.Grid.GridBaseStyle gridBaseStyle32 = new Syncfusion.Windows.Forms.Grid.GridBaseStyle();
             this.tabPolygonForm = new Syncfusion.Windows.Forms.Tools.TabControlAdv();
             this.tabPageProcess = new Syncfusion.Windows.Forms.Tools.TabPageAdv();
+            this.btnLaserProcessStop = new Syncfusion.Windows.Forms.ButtonAdv();
+            this.btnLaserProcessStep = new Syncfusion.Windows.Forms.ButtonAdv();
+            this.BtnPatternDraw = new Syncfusion.Windows.Forms.ButtonAdv();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.BtnLaserPattern = new Syncfusion.Windows.Forms.ButtonAdv();
             this.BtnLaserProcess = new Syncfusion.Windows.Forms.ButtonAdv();
+            this.BtnLaserPattern = new Syncfusion.Windows.Forms.ButtonAdv();
             this.BtnConfigureExit = new System.Windows.Forms.Button();
             this.tabPageScanner = new Syncfusion.Windows.Forms.Tools.TabPageAdv();
             this.btnHeadReconnect = new System.Windows.Forms.Button();
@@ -68,25 +79,28 @@
             this.btnCalibration = new System.Windows.Forms.Button();
             this.btnVisionSaveZoom = new System.Windows.Forms.Button();
             this.tabPageConfig = new Syncfusion.Windows.Forms.Tools.TabPageAdv();
+            this.BtnLoadFrom = new System.Windows.Forms.Button();
             this.ComboScannerIndex = new System.Windows.Forms.ComboBox();
             this.gradientLabel4 = new Syncfusion.Windows.Forms.Tools.GradientLabel();
-            this.GridConfigure = new Syncfusion.Windows.Forms.Grid.GridControl();
             this.btnDataUpdate = new System.Windows.Forms.Button();
             this.btnImageUpdate = new System.Windows.Forms.Button();
             this.btnImportConfig = new System.Windows.Forms.Button();
             this.btnConfigSave = new System.Windows.Forms.Button();
             this.btnExportConfig = new System.Windows.Forms.Button();
+            this.GridConfigure = new Syncfusion.Windows.Forms.Grid.GridControl();
             this.tabPageDrawing = new Syncfusion.Windows.Forms.Tools.TabPageAdv();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.btnObjectDxf = new System.Windows.Forms.Button();
             this.tabPageLaser = new Syncfusion.Windows.Forms.Tools.TabPageAdv();
+            this.tabPageCorrection = new Syncfusion.Windows.Forms.Tools.TabPageAdv();
+            this.pnlCorrectVision = new System.Windows.Forms.Panel();
+            this.GridCtrl_BowCorrection = new Syncfusion.Windows.Forms.Grid.GridControl();
+            this.GridCtrl_ScanCorrection = new Syncfusion.Windows.Forms.Grid.GridControl();
             this.imgList = new System.Windows.Forms.ImageList(this.components);
             this.gridControl1 = new Syncfusion.Windows.Forms.Grid.GridControl();
             this.LabelStageIndex = new Syncfusion.Windows.Forms.Tools.GradientLabel();
             this.BtnSave = new System.Windows.Forms.Button();
             this.BtnExit = new System.Windows.Forms.Button();
-            this.BtnPatternDraw = new Syncfusion.Windows.Forms.ButtonAdv();
-            this.BtnLoadFrom = new System.Windows.Forms.Button();
             this.windowDxf = new LWDicer.Layers.WindowDxf();
             ((System.ComponentModel.ISupportInitialize)(this.tabPolygonForm)).BeginInit();
             this.tabPolygonForm.SuspendLayout();
@@ -100,6 +114,9 @@
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
+            this.tabPageCorrection.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.GridCtrl_BowCorrection)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.GridCtrl_ScanCorrection)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridControl1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -111,6 +128,7 @@
             this.tabPolygonForm.Controls.Add(this.tabPageConfig);
             this.tabPolygonForm.Controls.Add(this.tabPageDrawing);
             this.tabPolygonForm.Controls.Add(this.tabPageLaser);
+            this.tabPolygonForm.Controls.Add(this.tabPageCorrection);
             this.tabPolygonForm.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabPolygonForm.ImageList = this.imgList;
             this.tabPolygonForm.ItemSize = new System.Drawing.Size(100, 35);
@@ -123,6 +141,8 @@
             // 
             // tabPageProcess
             // 
+            this.tabPageProcess.Controls.Add(this.btnLaserProcessStop);
+            this.tabPageProcess.Controls.Add(this.btnLaserProcessStep);
             this.tabPageProcess.Controls.Add(this.BtnPatternDraw);
             this.tabPageProcess.Controls.Add(this.groupBox3);
             this.tabPageProcess.Controls.Add(this.BtnLaserProcess);
@@ -137,30 +157,64 @@
             this.tabPageProcess.Text = "Laser Process";
             this.tabPageProcess.ThemesEnabled = false;
             // 
+            // btnLaserProcessStop
+            // 
+            this.btnLaserProcessStop.BackColor = System.Drawing.Color.LightGray;
+            this.btnLaserProcessStop.BorderStyleAdv = Syncfusion.Windows.Forms.ButtonAdvBorderStyle.Solid;
+            this.btnLaserProcessStop.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.btnLaserProcessStop.FlatAppearance.BorderSize = 5;
+            this.btnLaserProcessStop.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
+            this.btnLaserProcessStop.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
+            this.btnLaserProcessStop.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.btnLaserProcessStop.Location = new System.Drawing.Point(707, 668);
+            this.btnLaserProcessStop.Name = "btnLaserProcessStop";
+            this.btnLaserProcessStop.Size = new System.Drawing.Size(156, 49);
+            this.btnLaserProcessStop.TabIndex = 1057;
+            this.btnLaserProcessStop.Tag = "0";
+            this.btnLaserProcessStop.Text = "Stop Process";
+            this.btnLaserProcessStop.Click += new System.EventHandler(this.btnLaserProcessStop_Click);
+            // 
+            // btnLaserProcessStep
+            // 
+            this.btnLaserProcessStep.BackColor = System.Drawing.Color.LightGray;
+            this.btnLaserProcessStep.BorderStyleAdv = Syncfusion.Windows.Forms.ButtonAdvBorderStyle.Solid;
+            this.btnLaserProcessStep.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.btnLaserProcessStep.FlatAppearance.BorderSize = 5;
+            this.btnLaserProcessStep.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
+            this.btnLaserProcessStep.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
+            this.btnLaserProcessStep.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.btnLaserProcessStep.Location = new System.Drawing.Point(707, 619);
+            this.btnLaserProcessStep.Name = "btnLaserProcessStep";
+            this.btnLaserProcessStep.Size = new System.Drawing.Size(156, 49);
+            this.btnLaserProcessStep.TabIndex = 1056;
+            this.btnLaserProcessStep.Tag = "0";
+            this.btnLaserProcessStep.Text = "Laser Process";
+            this.btnLaserProcessStep.Click += new System.EventHandler(this.btnLaserProcessStep_Click);
+            // 
+            // BtnPatternDraw
+            // 
+            this.BtnPatternDraw.AutoEllipsis = true;
+            this.BtnPatternDraw.BackColor = System.Drawing.SystemColors.Control;
+            this.BtnPatternDraw.ButtonType = Syncfusion.Windows.Forms.Tools.ButtonTypes.Calculator;
+            this.BtnPatternDraw.FlatAppearance.BorderSize = 5;
+            this.BtnPatternDraw.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.BtnPatternDraw.ForeColor = System.Drawing.Color.MidnightBlue;
+            this.BtnPatternDraw.Location = new System.Drawing.Point(282, 759);
+            this.BtnPatternDraw.Name = "BtnPatternDraw";
+            this.BtnPatternDraw.Size = new System.Drawing.Size(124, 67);
+            this.BtnPatternDraw.TabIndex = 781;
+            this.BtnPatternDraw.Text = "Laser Pattern Draw";
+            this.BtnPatternDraw.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.BtnPatternDraw.Click += new System.EventHandler(this.BtnPatternDraw_Click);
+            // 
             // groupBox3
             // 
-            this.groupBox3.Location = new System.Drawing.Point(3, 3);
+            this.groupBox3.Location = new System.Drawing.Point(869, 3);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(709, 714);
+            this.groupBox3.Size = new System.Drawing.Size(385, 714);
             this.groupBox3.TabIndex = 41;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Process Parameter";
-            // 
-            // BtnLaserPattern
-            // 
-            this.BtnLaserPattern.AutoEllipsis = true;
-            this.BtnLaserPattern.BackColor = System.Drawing.SystemColors.Control;
-            this.BtnLaserPattern.ButtonType = Syncfusion.Windows.Forms.Tools.ButtonTypes.Calculator;
-            this.BtnLaserPattern.FlatAppearance.BorderSize = 5;
-            this.BtnLaserPattern.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.BtnLaserPattern.ForeColor = System.Drawing.Color.MidnightBlue;
-            this.BtnLaserPattern.Location = new System.Drawing.Point(152, 760);
-            this.BtnLaserPattern.Name = "BtnLaserPattern";
-            this.BtnLaserPattern.Size = new System.Drawing.Size(124, 67);
-            this.BtnLaserPattern.TabIndex = 780;
-            this.BtnLaserPattern.Text = "Laser Pattern Data";
-            this.BtnLaserPattern.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.BtnLaserPattern.Click += new System.EventHandler(this.BtnLaserPattern_Click);
             // 
             // BtnLaserProcess
             // 
@@ -177,6 +231,22 @@
             this.BtnLaserProcess.Text = "Laser Process Data";
             this.BtnLaserProcess.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.BtnLaserProcess.Click += new System.EventHandler(this.BtnLaserProcess_Click);
+            // 
+            // BtnLaserPattern
+            // 
+            this.BtnLaserPattern.AutoEllipsis = true;
+            this.BtnLaserPattern.BackColor = System.Drawing.SystemColors.Control;
+            this.BtnLaserPattern.ButtonType = Syncfusion.Windows.Forms.Tools.ButtonTypes.Calculator;
+            this.BtnLaserPattern.FlatAppearance.BorderSize = 5;
+            this.BtnLaserPattern.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.BtnLaserPattern.ForeColor = System.Drawing.Color.MidnightBlue;
+            this.BtnLaserPattern.Location = new System.Drawing.Point(152, 760);
+            this.BtnLaserPattern.Name = "BtnLaserPattern";
+            this.BtnLaserPattern.Size = new System.Drawing.Size(124, 67);
+            this.BtnLaserPattern.TabIndex = 780;
+            this.BtnLaserPattern.Text = "Laser Pattern Data";
+            this.BtnLaserPattern.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.BtnLaserPattern.Click += new System.EventHandler(this.BtnLaserPattern_Click);
             // 
             // BtnConfigureExit
             // 
@@ -338,6 +408,7 @@
             this.tabPageVision.TabIndex = 8;
             this.tabPageVision.Text = "Vision";
             this.tabPageVision.ThemesEnabled = false;
+            this.tabPageVision.Click += new System.EventHandler(this.tabPageVision_Click);
             // 
             // btnPreCam
             // 
@@ -345,7 +416,7 @@
             this.btnPreCam.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
             this.btnPreCam.Image = global::LWDicer.Properties.Resources.Vision1;
             this.btnPreCam.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.btnPreCam.Location = new System.Drawing.Point(1073, 296);
+            this.btnPreCam.Location = new System.Drawing.Point(1020, 77);
             this.btnPreCam.Name = "btnPreCam";
             this.btnPreCam.Size = new System.Drawing.Size(84, 68);
             this.btnPreCam.TabIndex = 764;
@@ -361,7 +432,7 @@
             this.btnInpectCam.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
             this.btnInpectCam.Image = global::LWDicer.Properties.Resources.Vision;
             this.btnInpectCam.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.btnInpectCam.Location = new System.Drawing.Point(1073, 370);
+            this.btnInpectCam.Location = new System.Drawing.Point(1020, 225);
             this.btnInpectCam.Name = "btnInpectCam";
             this.btnInpectCam.Size = new System.Drawing.Size(84, 68);
             this.btnInpectCam.TabIndex = 763;
@@ -377,7 +448,7 @@
             this.btnFineCam.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
             this.btnFineCam.Image = global::LWDicer.Properties.Resources.Vision1;
             this.btnFineCam.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.btnFineCam.Location = new System.Drawing.Point(1163, 296);
+            this.btnFineCam.Location = new System.Drawing.Point(1020, 151);
             this.btnFineCam.Name = "btnFineCam";
             this.btnFineCam.Size = new System.Drawing.Size(84, 68);
             this.btnFineCam.TabIndex = 762;
@@ -393,7 +464,7 @@
             this.btnMeasureClear.ForeColor = System.Drawing.SystemColors.ControlText;
             this.btnMeasureClear.Image = ((System.Drawing.Image)(resources.GetObject("btnMeasureClear.Image")));
             this.btnMeasureClear.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.btnMeasureClear.Location = new System.Drawing.Point(1163, 74);
+            this.btnMeasureClear.Location = new System.Drawing.Point(183, 765);
             this.btnMeasureClear.Name = "btnMeasureClear";
             this.btnMeasureClear.Size = new System.Drawing.Size(84, 68);
             this.btnMeasureClear.TabIndex = 761;
@@ -409,7 +480,7 @@
             this.btnJogShow.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
             this.btnJogShow.Image = global::LWDicer.Properties.Resources.ManualRun;
             this.btnJogShow.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.btnJogShow.Location = new System.Drawing.Point(1073, 222);
+            this.btnJogShow.Location = new System.Drawing.Point(1020, 3);
             this.btnJogShow.Name = "btnJogShow";
             this.btnJogShow.Size = new System.Drawing.Size(84, 68);
             this.btnJogShow.TabIndex = 760;
@@ -434,7 +505,7 @@
             // lblMousePos
             // 
             this.lblMousePos.AutoSize = true;
-            this.lblMousePos.Location = new System.Drawing.Point(1082, 731);
+            this.lblMousePos.Location = new System.Drawing.Point(1029, 817);
             this.lblMousePos.Name = "lblMousePos";
             this.lblMousePos.Size = new System.Drawing.Size(23, 12);
             this.lblMousePos.TabIndex = 757;
@@ -446,7 +517,7 @@
             this.btnVisionHalt.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
             this.btnVisionHalt.Image = global::LWDicer.Properties.Resources.stop;
             this.btnVisionHalt.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.btnVisionHalt.Location = new System.Drawing.Point(1163, 148);
+            this.btnVisionHalt.Location = new System.Drawing.Point(840, 765);
             this.btnVisionHalt.Name = "btnVisionHalt";
             this.btnVisionHalt.Size = new System.Drawing.Size(84, 68);
             this.btnVisionHalt.TabIndex = 757;
@@ -462,7 +533,7 @@
             this.btnMeasure.ForeColor = System.Drawing.SystemColors.ControlText;
             this.btnMeasure.Image = ((System.Drawing.Image)(resources.GetObject("btnMeasure.Image")));
             this.btnMeasure.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.btnMeasure.Location = new System.Drawing.Point(1073, 74);
+            this.btnMeasure.Location = new System.Drawing.Point(93, 765);
             this.btnMeasure.Name = "btnMeasure";
             this.btnMeasure.Size = new System.Drawing.Size(84, 68);
             this.btnMeasure.TabIndex = 759;
@@ -478,7 +549,7 @@
             this.btnVisionLive.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
             this.btnVisionLive.Image = global::LWDicer.Properties.Resources.run;
             this.btnVisionLive.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.btnVisionLive.Location = new System.Drawing.Point(1073, 148);
+            this.btnVisionLive.Location = new System.Drawing.Point(750, 765);
             this.btnVisionLive.Name = "btnVisionLive";
             this.btnVisionLive.Size = new System.Drawing.Size(84, 68);
             this.btnVisionLive.TabIndex = 756;
@@ -495,7 +566,7 @@
             this.btnCalibration.ForeColor = System.Drawing.SystemColors.ControlText;
             this.btnCalibration.Image = ((System.Drawing.Image)(resources.GetObject("btnCalibration.Image")));
             this.btnCalibration.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.btnCalibration.Location = new System.Drawing.Point(1073, 0);
+            this.btnCalibration.Location = new System.Drawing.Point(3, 765);
             this.btnCalibration.Name = "btnCalibration";
             this.btnCalibration.Size = new System.Drawing.Size(84, 68);
             this.btnCalibration.TabIndex = 758;
@@ -511,7 +582,7 @@
             this.btnVisionSaveZoom.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
             this.btnVisionSaveZoom.Image = ((System.Drawing.Image)(resources.GetObject("btnVisionSaveZoom.Image")));
             this.btnVisionSaveZoom.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.btnVisionSaveZoom.Location = new System.Drawing.Point(1163, 0);
+            this.btnVisionSaveZoom.Location = new System.Drawing.Point(930, 765);
             this.btnVisionSaveZoom.Name = "btnVisionSaveZoom";
             this.btnVisionSaveZoom.Size = new System.Drawing.Size(84, 68);
             this.btnVisionSaveZoom.TabIndex = 755;
@@ -541,6 +612,19 @@
             this.tabPageConfig.Text = "Scanner";
             this.tabPageConfig.ThemesEnabled = false;
             this.tabPageConfig.Enter += new System.EventHandler(this.tabPageConfig_Enter);
+            // 
+            // BtnLoadFrom
+            // 
+            this.BtnLoadFrom.Font = new System.Drawing.Font("굴림", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.BtnLoadFrom.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.BtnLoadFrom.Image = ((System.Drawing.Image)(resources.GetObject("BtnLoadFrom.Image")));
+            this.BtnLoadFrom.Location = new System.Drawing.Point(887, 285);
+            this.BtnLoadFrom.Name = "BtnLoadFrom";
+            this.BtnLoadFrom.Size = new System.Drawing.Size(185, 61);
+            this.BtnLoadFrom.TabIndex = 1051;
+            this.BtnLoadFrom.Text = "load from other data";
+            this.BtnLoadFrom.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.BtnLoadFrom.UseVisualStyleBackColor = true;
             // 
             // ComboScannerIndex
             // 
@@ -572,47 +656,6 @@
             this.gradientLabel4.Text = "Scanner Index";
             this.gradientLabel4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.gradientLabel4.Click += new System.EventHandler(this.gradientLabel4_Click);
-            // 
-            // GridConfigure
-            // 
-            gridBaseStyle9.Name = "Header";
-            gridBaseStyle9.StyleInfo.Borders.Bottom = new Syncfusion.Windows.Forms.Grid.GridBorder(Syncfusion.Windows.Forms.Grid.GridBorderStyle.None);
-            gridBaseStyle9.StyleInfo.Borders.Left = new Syncfusion.Windows.Forms.Grid.GridBorder(Syncfusion.Windows.Forms.Grid.GridBorderStyle.None);
-            gridBaseStyle9.StyleInfo.Borders.Right = new Syncfusion.Windows.Forms.Grid.GridBorder(Syncfusion.Windows.Forms.Grid.GridBorderStyle.None);
-            gridBaseStyle9.StyleInfo.Borders.Top = new Syncfusion.Windows.Forms.Grid.GridBorder(Syncfusion.Windows.Forms.Grid.GridBorderStyle.None);
-            gridBaseStyle9.StyleInfo.CellType = "Header";
-            gridBaseStyle9.StyleInfo.Font.Bold = true;
-            gridBaseStyle9.StyleInfo.Interior = new Syncfusion.Drawing.BrushInfo(Syncfusion.Drawing.GradientStyle.Vertical, System.Drawing.Color.FromArgb(((int)(((byte)(203)))), ((int)(((byte)(199)))), ((int)(((byte)(184))))), System.Drawing.Color.FromArgb(((int)(((byte)(238)))), ((int)(((byte)(234)))), ((int)(((byte)(216))))));
-            gridBaseStyle9.StyleInfo.VerticalAlignment = Syncfusion.Windows.Forms.Grid.GridVerticalAlignment.Middle;
-            gridBaseStyle10.Name = "Standard";
-            gridBaseStyle10.StyleInfo.Font.Facename = "Tahoma";
-            gridBaseStyle10.StyleInfo.Interior = new Syncfusion.Drawing.BrushInfo(System.Drawing.SystemColors.Window);
-            gridBaseStyle11.Name = "Column Header";
-            gridBaseStyle11.StyleInfo.BaseStyle = "Header";
-            gridBaseStyle11.StyleInfo.HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Center;
-            gridBaseStyle12.Name = "Row Header";
-            gridBaseStyle12.StyleInfo.BaseStyle = "Header";
-            gridBaseStyle12.StyleInfo.HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left;
-            gridBaseStyle12.StyleInfo.Interior = new Syncfusion.Drawing.BrushInfo(Syncfusion.Drawing.GradientStyle.Horizontal, System.Drawing.Color.FromArgb(((int)(((byte)(203)))), ((int)(((byte)(199)))), ((int)(((byte)(184))))), System.Drawing.Color.FromArgb(((int)(((byte)(238)))), ((int)(((byte)(234)))), ((int)(((byte)(216))))));
-            this.GridConfigure.BaseStylesMap.AddRange(new Syncfusion.Windows.Forms.Grid.GridBaseStyle[] {
-            gridBaseStyle9,
-            gridBaseStyle10,
-            gridBaseStyle11,
-            gridBaseStyle12});
-            this.GridConfigure.ColWidthEntries.AddRange(new Syncfusion.Windows.Forms.Grid.GridColWidth[] {
-            new Syncfusion.Windows.Forms.Grid.GridColWidth(0, 35)});
-            this.GridConfigure.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.GridConfigure.Location = new System.Drawing.Point(0, 0);
-            this.GridConfigure.Name = "GridConfigure";
-            this.GridConfigure.RowHeightEntries.AddRange(new Syncfusion.Windows.Forms.Grid.GridRowHeight[] {
-            new Syncfusion.Windows.Forms.Grid.GridRowHeight(0, 21)});
-            this.GridConfigure.SerializeCellsBehavior = Syncfusion.Windows.Forms.Grid.GridSerializeCellsBehavior.SerializeAsRangeStylesIntoCode;
-            this.GridConfigure.Size = new System.Drawing.Size(1257, 836);
-            this.GridConfigure.SmartSizeBox = false;
-            this.GridConfigure.TabIndex = 2;
-            this.GridConfigure.Text = "gridControl";
-            this.GridConfigure.UseRightToLeftCompatibleTextBox = true;
-            this.GridConfigure.CellClick += new Syncfusion.Windows.Forms.Grid.GridCellClickEventHandler(this.GridConfigure_CellClick);
             // 
             // btnDataUpdate
             // 
@@ -689,6 +732,47 @@
             this.btnExportConfig.UseVisualStyleBackColor = true;
             this.btnExportConfig.Click += new System.EventHandler(this.btnExportConfig_Click);
             // 
+            // GridConfigure
+            // 
+            gridBaseStyle17.Name = "Header";
+            gridBaseStyle17.StyleInfo.Borders.Bottom = new Syncfusion.Windows.Forms.Grid.GridBorder(Syncfusion.Windows.Forms.Grid.GridBorderStyle.None);
+            gridBaseStyle17.StyleInfo.Borders.Left = new Syncfusion.Windows.Forms.Grid.GridBorder(Syncfusion.Windows.Forms.Grid.GridBorderStyle.None);
+            gridBaseStyle17.StyleInfo.Borders.Right = new Syncfusion.Windows.Forms.Grid.GridBorder(Syncfusion.Windows.Forms.Grid.GridBorderStyle.None);
+            gridBaseStyle17.StyleInfo.Borders.Top = new Syncfusion.Windows.Forms.Grid.GridBorder(Syncfusion.Windows.Forms.Grid.GridBorderStyle.None);
+            gridBaseStyle17.StyleInfo.CellType = "Header";
+            gridBaseStyle17.StyleInfo.Font.Bold = true;
+            gridBaseStyle17.StyleInfo.Interior = new Syncfusion.Drawing.BrushInfo(Syncfusion.Drawing.GradientStyle.Vertical, System.Drawing.Color.FromArgb(((int)(((byte)(203)))), ((int)(((byte)(199)))), ((int)(((byte)(184))))), System.Drawing.Color.FromArgb(((int)(((byte)(238)))), ((int)(((byte)(234)))), ((int)(((byte)(216))))));
+            gridBaseStyle17.StyleInfo.VerticalAlignment = Syncfusion.Windows.Forms.Grid.GridVerticalAlignment.Middle;
+            gridBaseStyle18.Name = "Standard";
+            gridBaseStyle18.StyleInfo.Font.Facename = "Tahoma";
+            gridBaseStyle18.StyleInfo.Interior = new Syncfusion.Drawing.BrushInfo(System.Drawing.SystemColors.Window);
+            gridBaseStyle19.Name = "Column Header";
+            gridBaseStyle19.StyleInfo.BaseStyle = "Header";
+            gridBaseStyle19.StyleInfo.HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Center;
+            gridBaseStyle20.Name = "Row Header";
+            gridBaseStyle20.StyleInfo.BaseStyle = "Header";
+            gridBaseStyle20.StyleInfo.HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left;
+            gridBaseStyle20.StyleInfo.Interior = new Syncfusion.Drawing.BrushInfo(Syncfusion.Drawing.GradientStyle.Horizontal, System.Drawing.Color.FromArgb(((int)(((byte)(203)))), ((int)(((byte)(199)))), ((int)(((byte)(184))))), System.Drawing.Color.FromArgb(((int)(((byte)(238)))), ((int)(((byte)(234)))), ((int)(((byte)(216))))));
+            this.GridConfigure.BaseStylesMap.AddRange(new Syncfusion.Windows.Forms.Grid.GridBaseStyle[] {
+            gridBaseStyle17,
+            gridBaseStyle18,
+            gridBaseStyle19,
+            gridBaseStyle20});
+            this.GridConfigure.ColWidthEntries.AddRange(new Syncfusion.Windows.Forms.Grid.GridColWidth[] {
+            new Syncfusion.Windows.Forms.Grid.GridColWidth(0, 35)});
+            this.GridConfigure.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.GridConfigure.Location = new System.Drawing.Point(0, 0);
+            this.GridConfigure.Name = "GridConfigure";
+            this.GridConfigure.RowHeightEntries.AddRange(new Syncfusion.Windows.Forms.Grid.GridRowHeight[] {
+            new Syncfusion.Windows.Forms.Grid.GridRowHeight(0, 21)});
+            this.GridConfigure.SerializeCellsBehavior = Syncfusion.Windows.Forms.Grid.GridSerializeCellsBehavior.SerializeAsRangeStylesIntoCode;
+            this.GridConfigure.Size = new System.Drawing.Size(1257, 836);
+            this.GridConfigure.SmartSizeBox = false;
+            this.GridConfigure.TabIndex = 2;
+            this.GridConfigure.Text = "gridControl";
+            this.GridConfigure.UseRightToLeftCompatibleTextBox = true;
+            this.GridConfigure.CellClick += new Syncfusion.Windows.Forms.Grid.GridCellClickEventHandler(this.GridConfigure_CellClick);
+            // 
             // tabPageDrawing
             // 
             this.tabPageDrawing.Controls.Add(this.splitContainer1);
@@ -739,6 +823,107 @@
             this.tabPageLaser.Text = "Laser";
             this.tabPageLaser.ThemesEnabled = false;
             // 
+            // tabPageCorrection
+            // 
+            this.tabPageCorrection.Controls.Add(this.pnlCorrectVision);
+            this.tabPageCorrection.Controls.Add(this.GridCtrl_BowCorrection);
+            this.tabPageCorrection.Controls.Add(this.GridCtrl_ScanCorrection);
+            this.tabPageCorrection.Image = null;
+            this.tabPageCorrection.ImageSize = new System.Drawing.Size(16, 16);
+            this.tabPageCorrection.Location = new System.Drawing.Point(1, 42);
+            this.tabPageCorrection.Name = "tabPageCorrection";
+            this.tabPageCorrection.Size = new System.Drawing.Size(1257, 836);
+            this.tabPageCorrection.TabIndex = 10;
+            this.tabPageCorrection.Text = "Correction";
+            this.tabPageCorrection.ThemesEnabled = false;
+            this.tabPageCorrection.Click += new System.EventHandler(this.tabPageCorrection_Click);
+            // 
+            // pnlCorrectVision
+            // 
+            this.pnlCorrectVision.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pnlCorrectVision.Location = new System.Drawing.Point(11, 41);
+            this.pnlCorrectVision.Name = "pnlCorrectVision";
+            this.pnlCorrectVision.Size = new System.Drawing.Size(607, 454);
+            this.pnlCorrectVision.TabIndex = 982;
+            // 
+            // GridCtrl_BowCorrection
+            // 
+            gridBaseStyle21.Name = "Header";
+            gridBaseStyle21.StyleInfo.Borders.Bottom = new Syncfusion.Windows.Forms.Grid.GridBorder(Syncfusion.Windows.Forms.Grid.GridBorderStyle.None);
+            gridBaseStyle21.StyleInfo.Borders.Left = new Syncfusion.Windows.Forms.Grid.GridBorder(Syncfusion.Windows.Forms.Grid.GridBorderStyle.None);
+            gridBaseStyle21.StyleInfo.Borders.Right = new Syncfusion.Windows.Forms.Grid.GridBorder(Syncfusion.Windows.Forms.Grid.GridBorderStyle.None);
+            gridBaseStyle21.StyleInfo.Borders.Top = new Syncfusion.Windows.Forms.Grid.GridBorder(Syncfusion.Windows.Forms.Grid.GridBorderStyle.None);
+            gridBaseStyle21.StyleInfo.CellType = "Header";
+            gridBaseStyle21.StyleInfo.Font.Bold = true;
+            gridBaseStyle21.StyleInfo.Interior = new Syncfusion.Drawing.BrushInfo(Syncfusion.Drawing.GradientStyle.Vertical, System.Drawing.Color.FromArgb(((int)(((byte)(203)))), ((int)(((byte)(199)))), ((int)(((byte)(184))))), System.Drawing.Color.FromArgb(((int)(((byte)(238)))), ((int)(((byte)(234)))), ((int)(((byte)(216))))));
+            gridBaseStyle21.StyleInfo.VerticalAlignment = Syncfusion.Windows.Forms.Grid.GridVerticalAlignment.Middle;
+            gridBaseStyle22.Name = "Standard";
+            gridBaseStyle22.StyleInfo.Font.Facename = "Tahoma";
+            gridBaseStyle22.StyleInfo.Interior = new Syncfusion.Drawing.BrushInfo(System.Drawing.SystemColors.Window);
+            gridBaseStyle23.Name = "Column Header";
+            gridBaseStyle23.StyleInfo.BaseStyle = "Header";
+            gridBaseStyle23.StyleInfo.HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Center;
+            gridBaseStyle24.Name = "Row Header";
+            gridBaseStyle24.StyleInfo.BaseStyle = "Header";
+            gridBaseStyle24.StyleInfo.HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left;
+            gridBaseStyle24.StyleInfo.Interior = new Syncfusion.Drawing.BrushInfo(Syncfusion.Drawing.GradientStyle.Horizontal, System.Drawing.Color.FromArgb(((int)(((byte)(203)))), ((int)(((byte)(199)))), ((int)(((byte)(184))))), System.Drawing.Color.FromArgb(((int)(((byte)(238)))), ((int)(((byte)(234)))), ((int)(((byte)(216))))));
+            this.GridCtrl_BowCorrection.BaseStylesMap.AddRange(new Syncfusion.Windows.Forms.Grid.GridBaseStyle[] {
+            gridBaseStyle21,
+            gridBaseStyle22,
+            gridBaseStyle23,
+            gridBaseStyle24});
+            this.GridCtrl_BowCorrection.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.GridCtrl_BowCorrection.ColWidthEntries.AddRange(new Syncfusion.Windows.Forms.Grid.GridColWidth[] {
+            new Syncfusion.Windows.Forms.Grid.GridColWidth(0, 35)});
+            this.GridCtrl_BowCorrection.Location = new System.Drawing.Point(679, 385);
+            this.GridCtrl_BowCorrection.Name = "GridCtrl_BowCorrection";
+            this.GridCtrl_BowCorrection.RowHeightEntries.AddRange(new Syncfusion.Windows.Forms.Grid.GridRowHeight[] {
+            new Syncfusion.Windows.Forms.Grid.GridRowHeight(0, 21)});
+            this.GridCtrl_BowCorrection.SerializeCellsBehavior = Syncfusion.Windows.Forms.Grid.GridSerializeCellsBehavior.SerializeAsRangeStylesIntoCode;
+            this.GridCtrl_BowCorrection.Size = new System.Drawing.Size(568, 236);
+            this.GridCtrl_BowCorrection.SmartSizeBox = false;
+            this.GridCtrl_BowCorrection.TabIndex = 981;
+            this.GridCtrl_BowCorrection.UseRightToLeftCompatibleTextBox = true;
+            // 
+            // GridCtrl_ScanCorrection
+            // 
+            gridBaseStyle25.Name = "Header";
+            gridBaseStyle25.StyleInfo.Borders.Bottom = new Syncfusion.Windows.Forms.Grid.GridBorder(Syncfusion.Windows.Forms.Grid.GridBorderStyle.None);
+            gridBaseStyle25.StyleInfo.Borders.Left = new Syncfusion.Windows.Forms.Grid.GridBorder(Syncfusion.Windows.Forms.Grid.GridBorderStyle.None);
+            gridBaseStyle25.StyleInfo.Borders.Right = new Syncfusion.Windows.Forms.Grid.GridBorder(Syncfusion.Windows.Forms.Grid.GridBorderStyle.None);
+            gridBaseStyle25.StyleInfo.Borders.Top = new Syncfusion.Windows.Forms.Grid.GridBorder(Syncfusion.Windows.Forms.Grid.GridBorderStyle.None);
+            gridBaseStyle25.StyleInfo.CellType = "Header";
+            gridBaseStyle25.StyleInfo.Font.Bold = true;
+            gridBaseStyle25.StyleInfo.Interior = new Syncfusion.Drawing.BrushInfo(Syncfusion.Drawing.GradientStyle.Vertical, System.Drawing.Color.FromArgb(((int)(((byte)(203)))), ((int)(((byte)(199)))), ((int)(((byte)(184))))), System.Drawing.Color.FromArgb(((int)(((byte)(238)))), ((int)(((byte)(234)))), ((int)(((byte)(216))))));
+            gridBaseStyle25.StyleInfo.VerticalAlignment = Syncfusion.Windows.Forms.Grid.GridVerticalAlignment.Middle;
+            gridBaseStyle26.Name = "Standard";
+            gridBaseStyle26.StyleInfo.Font.Facename = "Tahoma";
+            gridBaseStyle26.StyleInfo.Interior = new Syncfusion.Drawing.BrushInfo(System.Drawing.SystemColors.Window);
+            gridBaseStyle27.Name = "Column Header";
+            gridBaseStyle27.StyleInfo.BaseStyle = "Header";
+            gridBaseStyle27.StyleInfo.HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Center;
+            gridBaseStyle28.Name = "Row Header";
+            gridBaseStyle28.StyleInfo.BaseStyle = "Header";
+            gridBaseStyle28.StyleInfo.HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left;
+            gridBaseStyle28.StyleInfo.Interior = new Syncfusion.Drawing.BrushInfo(Syncfusion.Drawing.GradientStyle.Horizontal, System.Drawing.Color.FromArgb(((int)(((byte)(203)))), ((int)(((byte)(199)))), ((int)(((byte)(184))))), System.Drawing.Color.FromArgb(((int)(((byte)(238)))), ((int)(((byte)(234)))), ((int)(((byte)(216))))));
+            this.GridCtrl_ScanCorrection.BaseStylesMap.AddRange(new Syncfusion.Windows.Forms.Grid.GridBaseStyle[] {
+            gridBaseStyle25,
+            gridBaseStyle26,
+            gridBaseStyle27,
+            gridBaseStyle28});
+            this.GridCtrl_ScanCorrection.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.GridCtrl_ScanCorrection.ColWidthEntries.AddRange(new Syncfusion.Windows.Forms.Grid.GridColWidth[] {
+            new Syncfusion.Windows.Forms.Grid.GridColWidth(0, 35)});
+            this.GridCtrl_ScanCorrection.Location = new System.Drawing.Point(679, 53);
+            this.GridCtrl_ScanCorrection.Name = "GridCtrl_ScanCorrection";
+            this.GridCtrl_ScanCorrection.RowHeightEntries.AddRange(new Syncfusion.Windows.Forms.Grid.GridRowHeight[] {
+            new Syncfusion.Windows.Forms.Grid.GridRowHeight(0, 21)});
+            this.GridCtrl_ScanCorrection.SerializeCellsBehavior = Syncfusion.Windows.Forms.Grid.GridSerializeCellsBehavior.SerializeAsRangeStylesIntoCode;
+            this.GridCtrl_ScanCorrection.Size = new System.Drawing.Size(568, 236);
+            this.GridCtrl_ScanCorrection.SmartSizeBox = false;
+            this.GridCtrl_ScanCorrection.TabIndex = 980;
+            this.GridCtrl_ScanCorrection.UseRightToLeftCompatibleTextBox = true;
+            // 
             // imgList
             // 
             this.imgList.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imgList.ImageStream")));
@@ -747,30 +932,30 @@
             // 
             // gridControl1
             // 
-            gridBaseStyle13.Name = "Header";
-            gridBaseStyle13.StyleInfo.Borders.Bottom = new Syncfusion.Windows.Forms.Grid.GridBorder(Syncfusion.Windows.Forms.Grid.GridBorderStyle.None);
-            gridBaseStyle13.StyleInfo.Borders.Left = new Syncfusion.Windows.Forms.Grid.GridBorder(Syncfusion.Windows.Forms.Grid.GridBorderStyle.None);
-            gridBaseStyle13.StyleInfo.Borders.Right = new Syncfusion.Windows.Forms.Grid.GridBorder(Syncfusion.Windows.Forms.Grid.GridBorderStyle.None);
-            gridBaseStyle13.StyleInfo.Borders.Top = new Syncfusion.Windows.Forms.Grid.GridBorder(Syncfusion.Windows.Forms.Grid.GridBorderStyle.None);
-            gridBaseStyle13.StyleInfo.CellType = "Header";
-            gridBaseStyle13.StyleInfo.Font.Bold = true;
-            gridBaseStyle13.StyleInfo.Interior = new Syncfusion.Drawing.BrushInfo(Syncfusion.Drawing.GradientStyle.Vertical, System.Drawing.Color.FromArgb(((int)(((byte)(203)))), ((int)(((byte)(199)))), ((int)(((byte)(184))))), System.Drawing.Color.FromArgb(((int)(((byte)(238)))), ((int)(((byte)(234)))), ((int)(((byte)(216))))));
-            gridBaseStyle13.StyleInfo.VerticalAlignment = Syncfusion.Windows.Forms.Grid.GridVerticalAlignment.Middle;
-            gridBaseStyle14.Name = "Standard";
-            gridBaseStyle14.StyleInfo.Font.Facename = "Tahoma";
-            gridBaseStyle14.StyleInfo.Interior = new Syncfusion.Drawing.BrushInfo(System.Drawing.SystemColors.Window);
-            gridBaseStyle15.Name = "Column Header";
-            gridBaseStyle15.StyleInfo.BaseStyle = "Header";
-            gridBaseStyle15.StyleInfo.HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Center;
-            gridBaseStyle16.Name = "Row Header";
-            gridBaseStyle16.StyleInfo.BaseStyle = "Header";
-            gridBaseStyle16.StyleInfo.HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left;
-            gridBaseStyle16.StyleInfo.Interior = new Syncfusion.Drawing.BrushInfo(Syncfusion.Drawing.GradientStyle.Horizontal, System.Drawing.Color.FromArgb(((int)(((byte)(203)))), ((int)(((byte)(199)))), ((int)(((byte)(184))))), System.Drawing.Color.FromArgb(((int)(((byte)(238)))), ((int)(((byte)(234)))), ((int)(((byte)(216))))));
+            gridBaseStyle29.Name = "Header";
+            gridBaseStyle29.StyleInfo.Borders.Bottom = new Syncfusion.Windows.Forms.Grid.GridBorder(Syncfusion.Windows.Forms.Grid.GridBorderStyle.None);
+            gridBaseStyle29.StyleInfo.Borders.Left = new Syncfusion.Windows.Forms.Grid.GridBorder(Syncfusion.Windows.Forms.Grid.GridBorderStyle.None);
+            gridBaseStyle29.StyleInfo.Borders.Right = new Syncfusion.Windows.Forms.Grid.GridBorder(Syncfusion.Windows.Forms.Grid.GridBorderStyle.None);
+            gridBaseStyle29.StyleInfo.Borders.Top = new Syncfusion.Windows.Forms.Grid.GridBorder(Syncfusion.Windows.Forms.Grid.GridBorderStyle.None);
+            gridBaseStyle29.StyleInfo.CellType = "Header";
+            gridBaseStyle29.StyleInfo.Font.Bold = true;
+            gridBaseStyle29.StyleInfo.Interior = new Syncfusion.Drawing.BrushInfo(Syncfusion.Drawing.GradientStyle.Vertical, System.Drawing.Color.FromArgb(((int)(((byte)(203)))), ((int)(((byte)(199)))), ((int)(((byte)(184))))), System.Drawing.Color.FromArgb(((int)(((byte)(238)))), ((int)(((byte)(234)))), ((int)(((byte)(216))))));
+            gridBaseStyle29.StyleInfo.VerticalAlignment = Syncfusion.Windows.Forms.Grid.GridVerticalAlignment.Middle;
+            gridBaseStyle30.Name = "Standard";
+            gridBaseStyle30.StyleInfo.Font.Facename = "Tahoma";
+            gridBaseStyle30.StyleInfo.Interior = new Syncfusion.Drawing.BrushInfo(System.Drawing.SystemColors.Window);
+            gridBaseStyle31.Name = "Column Header";
+            gridBaseStyle31.StyleInfo.BaseStyle = "Header";
+            gridBaseStyle31.StyleInfo.HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Center;
+            gridBaseStyle32.Name = "Row Header";
+            gridBaseStyle32.StyleInfo.BaseStyle = "Header";
+            gridBaseStyle32.StyleInfo.HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left;
+            gridBaseStyle32.StyleInfo.Interior = new Syncfusion.Drawing.BrushInfo(Syncfusion.Drawing.GradientStyle.Horizontal, System.Drawing.Color.FromArgb(((int)(((byte)(203)))), ((int)(((byte)(199)))), ((int)(((byte)(184))))), System.Drawing.Color.FromArgb(((int)(((byte)(238)))), ((int)(((byte)(234)))), ((int)(((byte)(216))))));
             this.gridControl1.BaseStylesMap.AddRange(new Syncfusion.Windows.Forms.Grid.GridBaseStyle[] {
-            gridBaseStyle13,
-            gridBaseStyle14,
-            gridBaseStyle15,
-            gridBaseStyle16});
+            gridBaseStyle29,
+            gridBaseStyle30,
+            gridBaseStyle31,
+            gridBaseStyle32});
             this.gridControl1.ColWidthEntries.AddRange(new Syncfusion.Windows.Forms.Grid.GridColWidth[] {
             new Syncfusion.Windows.Forms.Grid.GridColWidth(0, 35)});
             this.gridControl1.Location = new System.Drawing.Point(0, 0);
@@ -824,35 +1009,6 @@
             this.BtnExit.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.BtnExit.UseVisualStyleBackColor = true;
             // 
-            // BtnPatternDraw
-            // 
-            this.BtnPatternDraw.AutoEllipsis = true;
-            this.BtnPatternDraw.BackColor = System.Drawing.SystemColors.Control;
-            this.BtnPatternDraw.ButtonType = Syncfusion.Windows.Forms.Tools.ButtonTypes.Calculator;
-            this.BtnPatternDraw.FlatAppearance.BorderSize = 5;
-            this.BtnPatternDraw.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.BtnPatternDraw.ForeColor = System.Drawing.Color.MidnightBlue;
-            this.BtnPatternDraw.Location = new System.Drawing.Point(282, 759);
-            this.BtnPatternDraw.Name = "BtnPatternDraw";
-            this.BtnPatternDraw.Size = new System.Drawing.Size(124, 67);
-            this.BtnPatternDraw.TabIndex = 781;
-            this.BtnPatternDraw.Text = "Laser Pattern Draw";
-            this.BtnPatternDraw.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.BtnPatternDraw.Click += new System.EventHandler(this.BtnPatternDraw_Click);
-            // 
-            // BtnLoadFrom
-            // 
-            this.BtnLoadFrom.Font = new System.Drawing.Font("굴림", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.BtnLoadFrom.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.BtnLoadFrom.Image = ((System.Drawing.Image)(resources.GetObject("BtnLoadFrom.Image")));
-            this.BtnLoadFrom.Location = new System.Drawing.Point(887, 285);
-            this.BtnLoadFrom.Name = "BtnLoadFrom";
-            this.BtnLoadFrom.Size = new System.Drawing.Size(185, 61);
-            this.BtnLoadFrom.TabIndex = 1051;
-            this.BtnLoadFrom.Text = "load from other data";
-            this.BtnLoadFrom.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.BtnLoadFrom.UseVisualStyleBackColor = true;
-            // 
             // windowDxf
             // 
             this.windowDxf.BackColor = System.Drawing.Color.Black;
@@ -890,6 +1046,9 @@
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
+            this.tabPageCorrection.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.GridCtrl_BowCorrection)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.GridCtrl_ScanCorrection)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridControl1)).EndInit();
             this.ResumeLayout(false);
 
@@ -946,5 +1105,11 @@
         private Syncfusion.Windows.Forms.ButtonAdv BtnLaserPattern;
         private Syncfusion.Windows.Forms.ButtonAdv BtnPatternDraw;
         private System.Windows.Forms.Button BtnLoadFrom;
+        private Syncfusion.Windows.Forms.Tools.TabPageAdv tabPageCorrection;
+        private Syncfusion.Windows.Forms.Grid.GridControl GridCtrl_ScanCorrection;
+        private Syncfusion.Windows.Forms.Grid.GridControl GridCtrl_BowCorrection;
+        public System.Windows.Forms.Panel pnlCorrectVision;
+        private Syncfusion.Windows.Forms.ButtonAdv btnLaserProcessStop;
+        private Syncfusion.Windows.Forms.ButtonAdv btnLaserProcessStep;
     }
 }

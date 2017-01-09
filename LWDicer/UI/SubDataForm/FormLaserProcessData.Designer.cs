@@ -40,6 +40,7 @@
             Syncfusion.Windows.Forms.Grid.GridRangeStyle gridRangeStyle9 = new Syncfusion.Windows.Forms.Grid.GridRangeStyle();
             Syncfusion.Windows.Forms.Grid.GridRangeStyle gridRangeStyle10 = new Syncfusion.Windows.Forms.Grid.GridRangeStyle();
             Syncfusion.Windows.Forms.Grid.GridRangeStyle gridRangeStyle11 = new Syncfusion.Windows.Forms.Grid.GridRangeStyle();
+            Syncfusion.Windows.Forms.Grid.GridRangeStyle gridRangeStyle12 = new Syncfusion.Windows.Forms.Grid.GridRangeStyle();
             this.BtnSave = new System.Windows.Forms.Button();
             this.BtnExit = new System.Windows.Forms.Button();
             this.GridCtrl = new Syncfusion.Windows.Forms.Grid.GridControl();
@@ -230,6 +231,14 @@
             gridRangeStyle11.StyleInfo.Font.Strikeout = false;
             gridRangeStyle11.StyleInfo.Font.Underline = false;
             gridRangeStyle11.StyleInfo.Font.Unit = System.Drawing.GraphicsUnit.Point;
+            gridRangeStyle12.Range = Syncfusion.Windows.Forms.Grid.GridRangeInfo.Table();
+            gridRangeStyle12.StyleInfo.Font.Bold = true;
+            gridRangeStyle12.StyleInfo.Font.Facename = "맑은 고딕";
+            gridRangeStyle12.StyleInfo.Font.Italic = false;
+            gridRangeStyle12.StyleInfo.Font.Size = 11.25F;
+            gridRangeStyle12.StyleInfo.Font.Strikeout = false;
+            gridRangeStyle12.StyleInfo.Font.Underline = false;
+            gridRangeStyle12.StyleInfo.Font.Unit = System.Drawing.GraphicsUnit.Point;
             this.GridCtrl.RangeStyles.AddRange(new Syncfusion.Windows.Forms.Grid.GridRangeStyle[] {
             gridRangeStyle1,
             gridRangeStyle2,
@@ -241,9 +250,10 @@
             gridRangeStyle8,
             gridRangeStyle9,
             gridRangeStyle10,
-            gridRangeStyle11});
+            gridRangeStyle11,
+            gridRangeStyle12});
             this.GridCtrl.SerializeCellsBehavior = Syncfusion.Windows.Forms.Grid.GridSerializeCellsBehavior.SerializeAsRangeStylesIntoCode;
-            this.GridCtrl.Size = new System.Drawing.Size(267, 600);
+            this.GridCtrl.Size = new System.Drawing.Size(269, 600);
             this.GridCtrl.SmartSizeBox = false;
             this.GridCtrl.TabIndex = 755;
             this.GridCtrl.UseRightToLeftCompatibleTextBox = true;

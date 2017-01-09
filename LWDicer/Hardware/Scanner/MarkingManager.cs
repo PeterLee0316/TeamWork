@@ -124,20 +124,26 @@ namespace LWDicer.Layers
         public CMarkingObject MakeObject(EObjectType pType, CPos_XY pStart, CPos_XY pEnd)
         {
             CMarkingObject pObject;
-            
+
+            CPos_XY newStart = new CPos_XY();
+            CPos_XY newEnd = new CPos_XY();
+
+            newStart = pStart.Copy();
+            newEnd = pEnd.Copy();
+
             switch (pType)
             {
                 case (EObjectType.DOT):
-                    pObject = new CObjectDot(pStart);
+                    pObject = new CObjectDot(newStart);
                     break;
                 case (EObjectType.LINE):
-                    pObject = new CObjectLine(pStart, pEnd);
+                    pObject = new CObjectLine(newStart, newEnd);
                     break;
                 case (EObjectType.RECTANGLE):
-                    pObject = new CObjectRectagle(pStart, pEnd);
+                    pObject = new CObjectRectagle(newStart, newEnd);
                     break;
                 case (EObjectType.CIRCLE):
-                    pObject = new CObjectCircle(pStart, pEnd);
+                    pObject = new CObjectCircle(newStart, newEnd);
                     break;
                 default:
                     return null;

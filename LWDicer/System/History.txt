@@ -828,7 +828,7 @@ CSpinStep class -> CCleaningStep / CCoatingStep class 로 분리
 	- 3개 Scanner의 Config.ini 파일 관리
 	- Process, Pattern, Draw의 Sub Form을 제작하여 Laser Process 관리
 	- Dxf 파일 로딩 Form내의 Page 제작 (향후 이를 바탕으로 G code 및 Scan 데이터 처리 계획)
-
+	- Object Group의 이동 및 복사의 경우 위치 오류 수정함
 
 
 

@@ -25,6 +25,8 @@ using static LWDicer.Layers.DEF_DataManager;
 using static LWDicer.Layers.DEF_Thread;
 using static LWDicer.Layers.DEF_MeStage;
 using static LWDicer.Layers.DEF_CtrlStage;
+using static LWDicer.Layers.DEF_NST_Scanner;
+
 
 using WW.Actions;
 using WW.Cad.Drawing;
@@ -64,7 +66,10 @@ namespace LWDicer.UI
             InitializeComponent();
 
             InitTabPage();
+
             InitConfigureGrid();
+            InitGrid_ScanCorrection();
+            InitGrid_BowCorrection();
 
             OriginFormSize.Width = this.Width;
             OriginFormSize.Height = this.Height;
@@ -160,13 +165,12 @@ namespace LWDicer.UI
                         this.tabPageConfig,
                         this.tabPageDrawing,
                         this.tabPageScanner,
+                        this.tabPageCorrection,
                         this.tabPageLaser,
                         this.tabPageVision,
                      });
         }
-
-        
-
+               
         // Polygon Scanner Configure Data
         private void InitConfigureGrid()
         {
@@ -386,8 +390,7 @@ namespace LWDicer.UI
             GridConfigure[53, 3].Text = "[Other Settings] Do Not Change ( Set to 0 )";
             GridConfigure[54, 3].Text = "[Other Settings] Do Not Change ( Set to 0 )";
             GridConfigure[55, 3].Text = "[Other Settings] Do Not Change ( Set to 0 )";
-            GridConfigure[56, 3].Text = "[Other Settings] Do Not Change ( Set to 60 )";
-                       
+            GridConfigure[56, 3].Text = "[Other Settings] Do Not Change ( Set to 60 )";                       
 
             for (int i = 0; i < 4; i++)
             {
@@ -482,8 +485,165 @@ namespace LWDicer.UI
             GridConfigure[54, 2].Text = string.Format("{0:f0}", para.Config[num].TelnetDebugTimeout);
             GridConfigure[55, 2].Text = string.Format("{0:f0}", para.Config[num].SyncSlaves);
             GridConfigure[56, 2].Text = string.Format("{0:f0}", para.Config[num].SyncTimeout);
+            
+        }
+        
+        private void InitGrid_ScanCorrection()
+        {
+            GridControl grid = GridCtrl_ScanCorrection;
+            // Cell Click 시 커서가 생성되지 않게함.
+            grid.ActivateCurrentCellBehavior = GridCellActivateAction.None;
 
+            // Header
+            grid.Rows.HeaderCount = 0;
+            grid.Cols.HeaderCount = 0;
 
+            grid.Properties.RowHeaders = true;
+            grid.Properties.ColHeaders = true;
+
+            int nCol = 10;
+            int nRow = (int)EFacet.MAX;
+
+            // Column,Row 개수
+            grid.ColCount = nCol;
+            grid.RowCount = nRow;
+
+            // Column 가로 크기설정
+            for (int i = 0; i < nCol + 1; i++)
+            {
+                grid.ColWidths.SetSize(i, 80);
+            }
+
+            grid.ColWidths.SetSize(0, 80);
+
+            for (int i = 0; i < nRow + 1; i++)
+            {
+                grid.RowHeights[i] = 24;
+            }
+
+            // Text Display
+            grid[0, 0].Text = "Index";
+            grid[0, 1].Text = "X1 Pos";
+            grid[0, 2].Text = "X2 Pos";
+            grid[0, 3].Text = "ISa Old";
+            grid[0, 4].Text = "ISa New";
+            grid[0, 5].Text = "Y1 Pos";
+            grid[0, 6].Text = "CSa1 Old";
+            grid[0, 7].Text = "CSa1 New";
+            grid[0, 8].Text = "Y2 Pos";
+            grid[0, 9].Text = "CSa2 Old";
+            grid[0, 10].Text = "CSa2 New";
+
+            for (int i = 0; i < (int)EFacet.MAX; i++)
+            {
+                grid[i + 1, 0].Text = $"Facet {i}";
+            }
+
+            for (int i = 0; i < nCol + 1; i++)
+            {
+                for (int j = 0; j < nRow + 1; j++)
+                {
+                    // Font Style - Bold
+                    grid[j, i].Font.Bold = true;
+
+                    grid[j, i].VerticalAlignment = GridVerticalAlignment.Middle;
+                    grid[j, i].HorizontalAlignment = GridHorizontalAlignment.Center;
+                }
+            }
+
+            for (int i = 1; i < nCol + 1; i++)
+            {
+                for (int j = 3; j < nRow + 1; j++)
+                {
+                    //grid[j, i].BackColor = Color.FromArgb(220, 220, 255);
+                }
+            }
+
+            grid.GridVisualStyles = GridVisualStyles.Office2007Blue;
+            grid.ResizeColsBehavior = 0;
+            grid.ResizeRowsBehavior = 0;
+
+            // Grid Display Update
+            grid.Refresh();
+        }
+
+        private void InitGrid_BowCorrection()
+        {
+            GridControl grid = GridCtrl_BowCorrection;
+            // Cell Click 시 커서가 생성되지 않게함.
+            grid.ActivateCurrentCellBehavior = GridCellActivateAction.None;
+
+            // Header
+            grid.Rows.HeaderCount = 0;
+            grid.Cols.HeaderCount = 0;
+
+            grid.Properties.RowHeaders = true;
+            grid.Properties.ColHeaders = true;
+
+            int nCol = 7;
+            int nRow = (int)EFacet.MAX * MAX_BOW_CORRECTION;
+
+            // Column,Row 개수
+            grid.ColCount = nCol;
+            grid.RowCount = nRow;
+
+            // Column 가로 크기설정
+            for (int i = 0; i < nCol + 1; i++)
+            {
+                grid.ColWidths.SetSize(i, 80);
+            }
+
+            grid.ColWidths.SetSize(0, 80);
+
+            for (int i = 0; i < nRow + 1; i++)
+            {
+                grid.RowHeights[i] = 24;
+            }
+
+            // Text Display
+            grid[0, 0].Text = "Index";
+            grid[0, 1].Text = "X1 Pos";
+            grid[0, 2].Text = "X2 Pos";
+            grid[0, 3].Text = "BowX Old";
+            grid[0, 4].Text = "BowX New";
+            grid[0, 5].Text = "Y1 Pos";
+            grid[0, 6].Text = "BowY1 Old";
+            grid[0, 7].Text = "BowY1 New";
+
+            for (int i = 0; i < (int)EFacet.MAX; i++)
+            {
+                for (int j = 0; j < MAX_BOW_CORRECTION; j++)
+                {
+                    grid[i * MAX_BOW_CORRECTION + j + 1, 0].Text = $"Facet {i}_{j}";
+                }
+            }
+
+            for (int i = 0; i < nCol + 1; i++)
+            {
+                for (int j = 0; j < nRow + 1; j++)
+                {
+                    // Font Style - Bold
+                    grid[j, i].Font.Bold = true;
+
+                    grid[j, i].VerticalAlignment = GridVerticalAlignment.Middle;
+                    grid[j, i].HorizontalAlignment = GridHorizontalAlignment.Center;
+                }
+            }
+
+            for (int i = 1; i < nCol + 1; i++)
+            {
+                for (int j = 3; j < nRow + 1; j++)
+                {
+                    //grid[j, i].BackColor = Color.FromArgb(220, 220, 255);
+                }
+            }
+
+            grid.GridVisualStyles = GridVisualStyles.Office2007Blue;
+            grid.ResizeColsBehavior = 0;
+            grid.ResizeRowsBehavior = 0;
+
+            // Grid Display Update
+            grid.Refresh();
         }
 
         private void BtnConfigureExit_Click(object sender, EventArgs e)
@@ -586,8 +746,7 @@ namespace LWDicer.UI
                 CMainFrame.DataManager.SystemData_Scan.Config[num].TelnetDebugTimeout    = Convert.ToInt32(GridConfigure[54, 2].Text);
                 CMainFrame.DataManager.SystemData_Scan.Config[num].SyncSlaves            = Convert.ToInt32(GridConfigure[55, 2].Text);
                 CMainFrame.DataManager.SystemData_Scan.Config[num].SyncTimeout           = Convert.ToInt32(GridConfigure[56, 2].Text);
-                                
-
+                              
                 // DB Save
                 
                 CMainFrame.LWDicer.SaveSystemData(null, null, null, null, null, CMainFrame.DataManager.SystemData_Scan, null);
@@ -596,17 +755,8 @@ namespace LWDicer.UI
             {
                 CMainFrame.DisplayMsg("Failed to save data");
             }
-
         }
-
-        //private void btnWindowShow_Click(object sender, EventArgs e)
-        //{
-        //    //    var m_FormScanWindow = new FormScanWindow();
-        //    //    m_FormScanWindow.ShowDialog();
-
-        //    CMainFrame.LWDicer.m_MeScanner.ShowScanWindow();
-        //}
-
+        
         private void btnDrawForm_Click(object sender, EventArgs e)
         {
             CMainFrame.LWDicer.m_MeScanner.ShowScanWindow();
@@ -698,13 +848,7 @@ namespace LWDicer.UI
         {
 
         }
-
-      
-        
-        private void cbbOverlap_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            
-        }
+     
 
         private void btnExportConfig_Click(object sender, EventArgs e)
         {
@@ -719,8 +863,7 @@ namespace LWDicer.UI
                 filename = IniSaveDlg.FileName;
                 CMainFrame.DataManager.ExportPolygonData(m_ScannerIndex, filename);
             }            
-        }
-        
+        }        
         private void btnImportConfig_Click(object sender, EventArgs e)
         {
             if (!CMainFrame.DisplayMsg("Read Config.ini from Disc?")) return;
@@ -737,8 +880,7 @@ namespace LWDicer.UI
 
                 UpdateConfigureData(CMainFrame.DataManager.SystemData_Scan);
             }            
-        }
-        
+        }        
         
         private void tabPageConfig_Enter(object sender, EventArgs e)
         {
@@ -774,7 +916,6 @@ namespace LWDicer.UI
             CMainFrame.LWDicer.m_Vision.HaltVideo(INSP_CAM);
         }
         
-
         private void picVisionZoom_MouseDown(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)  // 마우스 왼쪽 버튼
@@ -897,12 +1038,6 @@ namespace LWDicer.UI
             CMainFrame.LWDicer.m_Vision.ClearOverlay();
         }               
         
-
-        private void btnLaserProcessMofStop_Click(object sender, EventArgs e)
-        {
-            CMainFrame.LWDicer.m_MeScanner.LaserProcessStop();
-        }
-
         private void btnJogShow_Click(object sender, EventArgs e)
         {
             CMainFrame.DisplayJog();
@@ -1055,6 +1190,36 @@ namespace LWDicer.UI
         private void gradientLabel4_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void tabPageVision_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void tabPageCorrection_Click(object sender, EventArgs e)
+        {
+
+        }              
+
+        private async void btnLaserProcessStep_Click(object sender, EventArgs e)
+        {
+            if (!CMainFrame.InquireMsg("Laser Process Run ?")) return;
+
+            int iResult = 0;
+            CMainFrame.DataManager.ModelData.ProcData.ProcessStop = false;
+            var task = Task<int>.Run(() => CMainFrame.LWDicer.m_ctrlStage1.RunLaserProcess());
+
+            iResult = await task;
+        }
+
+        private void btnLaserProcessStop_Click(object sender, EventArgs e)
+        {
+            if (!CMainFrame.InquireMsg("Laser Process Stop ?")) return;
+
+            CMainFrame.DataManager.ModelData.ProcData.ProcessStop = true;
+
+            CMainFrame.LWDicer.m_ctrlStage1.IsCancelJob_byManual = true;
         }
     }
 }

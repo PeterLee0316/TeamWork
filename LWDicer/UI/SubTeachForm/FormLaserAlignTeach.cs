@@ -607,11 +607,6 @@ namespace LWDicer.UI
 
         }
 
-        private void button2_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void labelInScanPitch_Click(object sender, EventArgs e)
         {
             string strCurrent = "", strModify = "";

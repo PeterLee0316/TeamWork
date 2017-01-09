@@ -2756,6 +2756,7 @@ namespace LWDicer.Layers
             mAlignPos.dZ = 0.0;
 
             pAlignPos = mAlignPos;
+
             return SUCCESS;
         }
 

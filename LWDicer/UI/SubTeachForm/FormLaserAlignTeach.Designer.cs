@@ -96,6 +96,10 @@
             this.button2 = new System.Windows.Forms.Button();
             this.GridCtrl_ScanCorrection = new Syncfusion.Windows.Forms.Grid.GridControl();
             this.PageCalibLine = new Syncfusion.Windows.Forms.Tools.TabPageAdv();
+            this.btnMoveXBowNext = new System.Windows.Forms.Button();
+            this.labelBowScanPitch = new Syncfusion.Windows.Forms.Tools.GradientLabel();
+            this.btnSetBowScan = new System.Windows.Forms.Button();
+            this.btnResetBowIndex = new System.Windows.Forms.Button();
             this.gradientLabel20 = new Syncfusion.Windows.Forms.Tools.GradientLabel();
             this.labelBowFacetIndex = new Syncfusion.Windows.Forms.Tools.GradientLabel();
             this.GridCtrl_BowCorrection = new Syncfusion.Windows.Forms.Grid.GridControl();
@@ -103,10 +107,6 @@
             this.BtnJog = new System.Windows.Forms.Button();
             this.BtnExit = new System.Windows.Forms.Button();
             this.btnInpectCam = new System.Windows.Forms.Button();
-            this.labelBowScanPitch = new Syncfusion.Windows.Forms.Tools.GradientLabel();
-            this.btnSetBowScan = new System.Windows.Forms.Button();
-            this.btnResetBowIndex = new System.Windows.Forms.Button();
-            this.btnMoveXBowNext = new System.Windows.Forms.Button();
             this.groupBox4.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.tabThetaAlign)).BeginInit();
@@ -1027,7 +1027,6 @@
             this.button2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.button2.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // GridCtrl_ScanCorrection
             // 
@@ -1058,6 +1057,58 @@
             this.PageCalibLine.TabIndex = 4;
             this.PageCalibLine.Text = "Bow Scan";
             this.PageCalibLine.ThemesEnabled = false;
+            // 
+            // btnMoveXBowNext
+            // 
+            this.btnMoveXBowNext.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
+            this.btnMoveXBowNext.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.btnMoveXBowNext.Location = new System.Drawing.Point(326, 367);
+            this.btnMoveXBowNext.Name = "btnMoveXBowNext";
+            this.btnMoveXBowNext.Size = new System.Drawing.Size(90, 52);
+            this.btnMoveXBowNext.TabIndex = 994;
+            this.btnMoveXBowNext.Text = "Move Next [0_1]";
+            this.btnMoveXBowNext.UseVisualStyleBackColor = false;
+            this.btnMoveXBowNext.Click += new System.EventHandler(this.btnMoveXBowNext_Click);
+            // 
+            // labelBowScanPitch
+            // 
+            this.labelBowScanPitch.BackgroundColor = new Syncfusion.Drawing.BrushInfo(System.Drawing.Color.White);
+            this.labelBowScanPitch.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
+            | System.Windows.Forms.Border3DSide.Right) 
+            | System.Windows.Forms.Border3DSide.Bottom)));
+            this.labelBowScanPitch.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.labelBowScanPitch.ForeColor = System.Drawing.Color.Black;
+            this.labelBowScanPitch.Location = new System.Drawing.Point(236, 367);
+            this.labelBowScanPitch.Name = "labelBowScanPitch";
+            this.labelBowScanPitch.Size = new System.Drawing.Size(84, 52);
+            this.labelBowScanPitch.TabIndex = 993;
+            this.labelBowScanPitch.Text = "25 mm";
+            this.labelBowScanPitch.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.labelBowScanPitch.Click += new System.EventHandler(this.labelBowScanPitch_Click);
+            // 
+            // btnSetBowScan
+            // 
+            this.btnSetBowScan.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
+            this.btnSetBowScan.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.btnSetBowScan.Location = new System.Drawing.Point(109, 367);
+            this.btnSetBowScan.Name = "btnSetBowScan";
+            this.btnSetBowScan.Size = new System.Drawing.Size(124, 52);
+            this.btnSetBowScan.TabIndex = 992;
+            this.btnSetBowScan.Text = "Set Pos to BowPos [0_0]";
+            this.btnSetBowScan.UseVisualStyleBackColor = false;
+            this.btnSetBowScan.Click += new System.EventHandler(this.btnSetBowScan_Click);
+            // 
+            // btnResetBowIndex
+            // 
+            this.btnResetBowIndex.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
+            this.btnResetBowIndex.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.btnResetBowIndex.Location = new System.Drawing.Point(11, 367);
+            this.btnResetBowIndex.Name = "btnResetBowIndex";
+            this.btnResetBowIndex.Size = new System.Drawing.Size(95, 52);
+            this.btnResetBowIndex.TabIndex = 991;
+            this.btnResetBowIndex.Text = "Reset BowCorr Index";
+            this.btnResetBowIndex.UseVisualStyleBackColor = false;
+            this.btnResetBowIndex.Click += new System.EventHandler(this.btnResetBowIndex_Click);
             // 
             // gradientLabel20
             // 
@@ -1161,58 +1212,6 @@
             this.btnInpectCam.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.btnInpectCam.UseVisualStyleBackColor = true;
             this.btnInpectCam.Click += new System.EventHandler(this.btnInpectCam_Click);
-            // 
-            // labelBowScanPitch
-            // 
-            this.labelBowScanPitch.BackgroundColor = new Syncfusion.Drawing.BrushInfo(System.Drawing.Color.White);
-            this.labelBowScanPitch.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
-            | System.Windows.Forms.Border3DSide.Right) 
-            | System.Windows.Forms.Border3DSide.Bottom)));
-            this.labelBowScanPitch.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.labelBowScanPitch.ForeColor = System.Drawing.Color.Black;
-            this.labelBowScanPitch.Location = new System.Drawing.Point(236, 367);
-            this.labelBowScanPitch.Name = "labelBowScanPitch";
-            this.labelBowScanPitch.Size = new System.Drawing.Size(84, 52);
-            this.labelBowScanPitch.TabIndex = 993;
-            this.labelBowScanPitch.Text = "25 mm";
-            this.labelBowScanPitch.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.labelBowScanPitch.Click += new System.EventHandler(this.labelBowScanPitch_Click);
-            // 
-            // btnSetBowScan
-            // 
-            this.btnSetBowScan.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
-            this.btnSetBowScan.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.btnSetBowScan.Location = new System.Drawing.Point(109, 367);
-            this.btnSetBowScan.Name = "btnSetBowScan";
-            this.btnSetBowScan.Size = new System.Drawing.Size(124, 52);
-            this.btnSetBowScan.TabIndex = 992;
-            this.btnSetBowScan.Text = "Set Pos to BowPos [0_0]";
-            this.btnSetBowScan.UseVisualStyleBackColor = false;
-            this.btnSetBowScan.Click += new System.EventHandler(this.btnSetBowScan_Click);
-            // 
-            // btnResetBowIndex
-            // 
-            this.btnResetBowIndex.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
-            this.btnResetBowIndex.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.btnResetBowIndex.Location = new System.Drawing.Point(11, 367);
-            this.btnResetBowIndex.Name = "btnResetBowIndex";
-            this.btnResetBowIndex.Size = new System.Drawing.Size(95, 52);
-            this.btnResetBowIndex.TabIndex = 991;
-            this.btnResetBowIndex.Text = "Reset BowCorr Index";
-            this.btnResetBowIndex.UseVisualStyleBackColor = false;
-            this.btnResetBowIndex.Click += new System.EventHandler(this.btnResetBowIndex_Click);
-            // 
-            // btnMoveXBowNext
-            // 
-            this.btnMoveXBowNext.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
-            this.btnMoveXBowNext.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.btnMoveXBowNext.Location = new System.Drawing.Point(326, 367);
-            this.btnMoveXBowNext.Name = "btnMoveXBowNext";
-            this.btnMoveXBowNext.Size = new System.Drawing.Size(90, 52);
-            this.btnMoveXBowNext.TabIndex = 994;
-            this.btnMoveXBowNext.Text = "Move Next [0_1]";
-            this.btnMoveXBowNext.UseVisualStyleBackColor = false;
-            this.btnMoveXBowNext.Click += new System.EventHandler(this.btnMoveXBowNext_Click);
             // 
             // FormLaserAlignTeach
             // 
