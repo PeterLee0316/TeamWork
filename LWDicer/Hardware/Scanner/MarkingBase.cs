@@ -23,7 +23,7 @@ namespace LWDicer.Layers
 
         public const float SCAN_FIELD_WIDTH = 300.0f;
         public const float SCAN_FIELD_HEIGHT = 300.0f;
-        public const float SCAN_FIELD_MAX = 500.0f;
+        public const float SCAN_FIELD_MAX = 1500.0f;
         public const float SCAN_FIELD_MIN = 50.0f;
         public const float SCAN_FIELD_RATIO = 0.7f;
         public const float SCAN_RESOLUTION_X = 0.1f;
@@ -31,11 +31,11 @@ namespace LWDicer.Layers
 
 
         public const float ZOOM_FACTOR_MAX = 10.0f;
-        public const float ZOOM_FACTOR_MIN = 0.5f;
+        public const float ZOOM_FACTOR_MIN = 0.2f;
         public const float CALIB_FACTOR_MAX = 50.0f;
         public const float CALIB_FACTOR_MIN = 0.01f;        
 
-        public const int CANVAS_MARGIN = 10;
+        public const int CANVAS_MARGIN = 50;
         public const int DRAW_DOT_SIZE = 4;
         public const int DRAW_DIMENSION_SIZE = 2;
 
@@ -105,11 +105,33 @@ namespace LWDicer.Layers
             BaseFieldCenter = ptPoint;
         }
 
+        /// Canvas의 중심점을 설정함 
+        private static Point BaseViewCenter = new Point(0, 0);
+        public static Point GetViewCenter()
+        {
+            Point tempPoint = new Point();
+            tempPoint.X = (int)((float)BaseViewCenter.X );
+            tempPoint.Y = (int)((float)BaseViewCenter.Y );
+            
+            return tempPoint;
+        }
+        public static void SetViewCenter(Point ptPoint)
+        {
+            //if (ptPoint.X < 0 || ptPoint.Y < 0) return;
+            // 기준값을 보정함
+            Point tempPoint = new Point();
+            tempPoint.X = (int)((float)ptPoint.X);// / BaseZoomFactor / BaseCalibFactor.X);
+            tempPoint.Y = (int)((float)ptPoint.Y);// / BaseZoomFactor / BaseCalibFactor.Y);
+
+
+            BaseViewCenter = tempPoint;
+        }
+
         // Draw Canvas Size 설정.. (Zoom과 연동이 필요함)
         public static Size BaseCanvasSize { get; private set; } = new Size(CANVAS_WIDTH_MIN, CANVAS_HEIGHT_MIN);
 
         public static void SetCanvasSize(Size pSize)
-        {
+        {            
             // 초기 값보단 작게 설정은 되지 않음.
             if (pSize.Width < CANVAS_WIDTH_MIN || pSize.Height < CANVAS_HEIGHT_MIN) return;
 
@@ -199,9 +221,13 @@ namespace LWDicer.Layers
             tempPoint.dY -= (float)BaseFieldCenter.Y * BaseZoomFactor;
 
             // Zoom 값 & Calib 값을 나눔 (Flip 확인)
-            tempPoint.dX = (float)pPixel.X / BaseZoomFactor / BaseCalibFactor.X * (BaseDrawFlipX ? -1.0f : 1.0f);
-            tempPoint.dY = (float)pPixel.Y / BaseZoomFactor / BaseCalibFactor.Y * (BaseDrawFlipX ? -1.0f : 1.0f);
-            
+            tempPoint.dX = (float)(pPixel.X - BaseViewCenter.X) / BaseZoomFactor / BaseCalibFactor.X * (BaseDrawFlipX ? -1.0f : 1.0f);
+            tempPoint.dY = (float)(pPixel.Y - BaseViewCenter.Y) / BaseZoomFactor / BaseCalibFactor.Y * (BaseDrawFlipX ? -1.0f : 1.0f);
+
+            //// View Center 적용
+            //tempPoint.dX -= (float)BaseViewCenter.X; ;
+            //tempPoint.dY -= (float)BaseViewCenter.Y; ;
+
             return tempPoint;
         }
 
@@ -209,20 +235,25 @@ namespace LWDicer.Layers
         {
             Point tempPoint = new Point(0, 0);
 
-            double PosX, PosY = 0;
+            double PosX, PosY = 0;            
 
             // Zoom 값 & Calib 값을 나눔 (Flip 확인)
-            PosX = pPos.dX * BaseZoomFactor * BaseCalibFactor.X * (BaseDrawFlipX ? -1.0f : 1.0f);
-            PosY = pPos.dY * BaseZoomFactor * BaseCalibFactor.Y * (BaseDrawFlipX ? -1.0f : 1.0f);
-            
-            tempPoint.X = (int)(PosX+0.5);
-            tempPoint.Y = (int)(PosY+0.5);
+            PosX = (pPos.dX ) * BaseZoomFactor * BaseCalibFactor.X * (BaseDrawFlipX ? -1.0f : 1.0f);
+            PosY = (pPos.dY ) * BaseZoomFactor * BaseCalibFactor.Y * (BaseDrawFlipX ? -1.0f : 1.0f);
+
+            //// 기준값을 보정함
+            //tempPoint.X += (int)((float)BaseViewCenter.X);/// BaseZoomFactor / BaseCalibFactor.X);
+            //tempPoint.Y += (int)((float)BaseViewCenter.Y);// / BaseZoomFactor / BaseCalibFactor.Y);
+
+            PosX += BaseViewCenter.X;
+            PosY += BaseViewCenter.Y;
+
+            tempPoint.X += (int)(PosX+0.5);
+            tempPoint.Y += (int)(PosY+0.5);
 
             return tempPoint;
         }
-
-
-
+        
 
       //  /*------------------------------------------------------------------------------------
       //* Date : 2016.02.24

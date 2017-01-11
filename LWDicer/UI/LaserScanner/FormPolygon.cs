@@ -27,7 +27,6 @@ using static LWDicer.Layers.DEF_MeStage;
 using static LWDicer.Layers.DEF_CtrlStage;
 using static LWDicer.Layers.DEF_NST_Scanner;
 
-
 using WW.Actions;
 using WW.Cad.Drawing;
 using WW.Cad.Drawing.GDI;
@@ -65,8 +64,9 @@ namespace LWDicer.UI
         {
             InitializeComponent();
 
+            //======================================================================
+            // Page & Grid 초기 설정
             InitTabPage();
-
             InitConfigureGrid();
             InitGrid_ScanCorrection();
             InitGrid_BowCorrection();
@@ -75,13 +75,13 @@ namespace LWDicer.UI
             OriginFormSize.Height = this.Height;
             m_VisionMode = EVisionMode.MEASUREMENT;
 
+            //======================================================================
             // ComboBox Init
             for (int i = 0; i < (int)EScannerIndex.MAX; i++)
             {
                 ComboScannerIndex.Items.Add(EScannerIndex.SCANNER1 + i);
             }
-            ComboScannerIndex.SelectedIndex = 0;
-            
+            ComboScannerIndex.SelectedIndex = 0;            
             
             //======================================================================
             // Drawing Data Init
@@ -90,8 +90,12 @@ namespace LWDicer.UI
             DxfLine xaxis = new DxfLine(new Point2D(0d, 0d), new Point2D(10d, 0d));
             xaxis.Color = EntityColors.LightGray;
             CadDrawing.Entities.Add(xaxis);
-
             windowDxf.Model = CadDrawing;
+
+            //======================================================================
+            // Update Data
+            DisplayScanData();
+
         }
 
         private void FormPolygon_Load(object sender, EventArgs e)
@@ -203,20 +207,20 @@ namespace LWDicer.UI
             }
 
             // Text Display
-            GridConfigure[0, 0].Text = "Parameter";
-            GridConfigure[0, 1].Text = "Unit";
-            GridConfigure[0, 2].Text = "Data";
-            GridConfigure[0, 3].Text = "Description";
+            GridConfigure[0,  0].Text = "Parameter";
+            GridConfigure[0,  1].Text = "Unit";
+            GridConfigure[0,  2].Text = "Data";
+            GridConfigure[0,  3].Text = "Description";
 
-            GridConfigure[1, 0].Text = "InScanResolution";
-            GridConfigure[2, 0].Text = "CrossScanResolution";
-            GridConfigure[3, 0].Text = "InScanOffset";
-            GridConfigure[4, 0].Text = "StopMotorBetweenJobs";
-            GridConfigure[5, 0].Text = "PixInvert";
-            GridConfigure[6, 0].Text = "JobStartBufferTime";
-            GridConfigure[7, 0].Text = "PrecedingBlankLines";
-            GridConfigure[8, 0].Text = "LaserOperationMode";
-            GridConfigure[9, 0].Text = "SeedClockFrequency";
+            GridConfigure[1,  0].Text = "InScanResolution";
+            GridConfigure[2,  0].Text = "CrossScanResolution";
+            GridConfigure[3,  0].Text = "InScanOffset";
+            GridConfigure[4,  0].Text = "StopMotorBetweenJobs";
+            GridConfigure[5,  0].Text = "PixInvert";
+            GridConfigure[6,  0].Text = "JobStartBufferTime";
+            GridConfigure[7,  0].Text = "PrecedingBlankLines";
+            GridConfigure[8,  0].Text = "LaserOperationMode";
+            GridConfigure[9,  0].Text = "SeedClockFrequency";
             GridConfigure[10, 0].Text = "RepetitionRate";
             GridConfigure[11, 0].Text = "PulsePickWidth";
             GridConfigure[12, 0].Text = "PixelWidth";
@@ -269,16 +273,16 @@ namespace LWDicer.UI
             GridConfigure[55, 0].Text = "SyncSlaves";
             GridConfigure[56, 0].Text = "SyncTimeout";
 
-            GridConfigure[1, 1].Text = "[mm]";
-            GridConfigure[2, 1].Text = "[mm]";
-            GridConfigure[3, 1].Text = "[mm]";
-            GridConfigure[4, 1].Text = "[-]";
-            GridConfigure[5, 1].Text = "[-]";
-            GridConfigure[6, 1].Text = "[sec]";
-            GridConfigure[7, 1].Text = "[-]";
+            GridConfigure[1,  1].Text = "[mm]";
+            GridConfigure[2,  1].Text = "[mm]";
+            GridConfigure[3,  1].Text = "[mm]";
+            GridConfigure[4,  1].Text = "[-]";
+            GridConfigure[5,  1].Text = "[-]";
+            GridConfigure[6,  1].Text = "[sec]";
+            GridConfigure[7,  1].Text = "[-]";
 
-            GridConfigure[8, 1].Text = "[-]";
-            GridConfigure[9, 1].Text = "[kHz]";
+            GridConfigure[8,  1].Text = "[-]";
+            GridConfigure[9,  1].Text = "[kHz]";
             GridConfigure[10, 1].Text = "[kHz]";
             GridConfigure[11, 1].Text = "[-]";
             GridConfigure[12, 1].Text = "[-]";
@@ -291,7 +295,7 @@ namespace LWDicer.UI
 
             GridConfigure[18, 1].Text = "[-]";
             GridConfigure[19, 1].Text = "[-]";
-            GridConfigure[20, 1].Text = "[-]";
+            GridConfigure[20, 1].Text = "[mm]";
             GridConfigure[21, 1].Text = "[-]";
             GridConfigure[22, 1].Text = "[mm]";
             GridConfigure[23, 1].Text = "[mm]";
@@ -321,26 +325,26 @@ namespace LWDicer.UI
             GridConfigure[46, 1].Text = "[-]";
             GridConfigure[47, 1].Text = "[-]";
 
-            GridConfigure[47, 1].Text = "[-]";
-            GridConfigure[47, 1].Text = "[-]";
+            GridConfigure[48, 1].Text = "[-]";
+            GridConfigure[49, 1].Text = "[-]";
             GridConfigure[50, 1].Text = "[-]";
             GridConfigure[51, 1].Text = "[-]";
             GridConfigure[52, 1].Text = "[-]";
-            GridConfigure[53, 1].Text = "[-]";
-            GridConfigure[54, 1].Text = "[-]";
+            GridConfigure[53, 1].Text = "[ms]";
+            GridConfigure[54, 1].Text = "[ms]";
             GridConfigure[55, 1].Text = "[-]";
-            GridConfigure[56, 1].Text = "[-]";
+            GridConfigure[56, 1].Text = "[ms]";
 
-            GridConfigure[1, 3].Text = "[Job Settings] X Direct spot distance";
-            GridConfigure[2, 3].Text = "[Job Settings] Y Direct spot distance";
-            GridConfigure[3, 3].Text = "[Job Settings] All Facet X direct Offset";
-            GridConfigure[4, 3].Text = "[Job Settings] After process, Polygon Mirror Run/Stop Setting";
-            GridConfigure[5, 3].Text = "[Job Settings] Invert bmp data";
-            GridConfigure[6, 3].Text = "[Job Settings] Amount of bitmap data to start jop";
-            GridConfigure[7, 3].Text = "[Job Settings] Number of Dummy scanline";
+            GridConfigure[1,  3].Text = "[Job Settings] X Direct spot distance";
+            GridConfigure[2,  3].Text = "[Job Settings] Y Direct spot distance";
+            GridConfigure[3,  3].Text = "[Job Settings] All Facet X direct Offset";
+            GridConfigure[4,  3].Text = "[Job Settings] After process, Polygon Mirror Run/Stop Setting";
+            GridConfigure[5,  3].Text = "[Job Settings] Invert bmp data";
+            GridConfigure[6,  3].Text = "[Job Settings] Amount of bitmap data to start jop";
+            GridConfigure[7,  3].Text = "[Job Settings] Number of Dummy scanline";
 
-            GridConfigure[8, 3].Text = "[Laser Configuration] Laser Mode Set";
-            GridConfigure[9, 3].Text = "[Laser Configuration] Laser Seed Clock Frequency";
+            GridConfigure[8,  3].Text = "[Laser Configuration] Laser Mode Set";
+            GridConfigure[9,  3].Text = "[Laser Configuration] Laser Seed Clock Frequency";
             GridConfigure[10, 3].Text = "[Laser Configuration] Laser beam pulse Frequency";
             GridConfigure[11, 3].Text = "[Laser Configuration] Pulse Width";
             GridConfigure[12, 3].Text = "[Laser Configuration] Bmp pixel width";
@@ -416,9 +420,15 @@ namespace LWDicer.UI
 
             // Grid Display Update
             GridConfigure.Refresh();
-        }       
+        }      
+        private void DisplayScanData()
+        {
+            lblScanFieldWidth.Text = string.Format("{0:f0}", CMainFrame.DataManager.SystemData_Scan.ScanFieldWidth);
+            lblScanFieldHeight.Text = string.Format("{0:f0}", CMainFrame.DataManager.SystemData_Scan.ScanFieldHeight);
+                        
+        }
 
-        private void UpdateConfigureData(CSystemData_Scanner para,EScannerIndex Index = EScannerIndex.SCANNER1)
+        private void DisplayConfigureData(CSystemData_Scanner para,EScannerIndex Index = EScannerIndex.SCANNER1)
         {
             int num = (int)Index;
             //====================================================================================================
@@ -646,6 +656,21 @@ namespace LWDicer.UI
             grid.Refresh();
         }
 
+        private void ChangeTextData(object sender, EventArgs e)
+        {
+            string strCurrent = "", strModify = "";
+
+            GradientLabel Btn = sender as GradientLabel;
+            strCurrent = Btn.Text;
+
+            if (!CMainFrame.GetKeyPad(strCurrent, out strModify))
+            {
+                return;
+            }
+
+            Btn.Text = strModify;
+        }
+
         private void BtnConfigureExit_Click(object sender, EventArgs e)
         {
             CMainFrame.HideJog();
@@ -830,7 +855,7 @@ namespace LWDicer.UI
 
         private void FormPolygon_Shown(object sender, EventArgs e)
         {
-            UpdateConfigureData(CMainFrame.DataManager.SystemData_Scan);
+            DisplayConfigureData(CMainFrame.DataManager.SystemData_Scan);
         }
 
 
@@ -842,11 +867,6 @@ namespace LWDicer.UI
         private void btnHeadLogClear_Click(object sender, EventArgs e)
         {
             rtbHeadStatus.Clear();
-        }
-
-        private void ChangeTextData(object sender, EventArgs e)
-        {
-
         }
      
 
@@ -878,13 +898,13 @@ namespace LWDicer.UI
                 //CMainFrame.DataManager.ImportPolygonData(EPolygonPara.CONFIG);
                 CMainFrame.DataManager.ImportPolygonData(m_ScannerIndex, filename);
 
-                UpdateConfigureData(CMainFrame.DataManager.SystemData_Scan);
+                DisplayConfigureData(CMainFrame.DataManager.SystemData_Scan);
             }            
         }        
         
         private void tabPageConfig_Enter(object sender, EventArgs e)
         {
-            UpdateConfigureData(CMainFrame.DataManager.SystemData_Scan);
+            DisplayConfigureData(CMainFrame.DataManager.SystemData_Scan);
         }
 
         private void btnVisionSaveZoom_Click(object sender, EventArgs e)
@@ -1167,7 +1187,7 @@ namespace LWDicer.UI
         private void ComboScannerIndex_SelectedIndexChanged(object sender, EventArgs e)
         {
             m_ScannerIndex = EScannerIndex.SCANNER1 + ComboScannerIndex.SelectedIndex;
-            UpdateConfigureData(CMainFrame.DataManager.SystemData_Scan,m_ScannerIndex);
+            DisplayConfigureData(CMainFrame.DataManager.SystemData_Scan,m_ScannerIndex);
         }
 
         private void BtnLaserProcess_Click(object sender, EventArgs e)
@@ -1220,6 +1240,16 @@ namespace LWDicer.UI
             CMainFrame.DataManager.ModelData.ProcData.ProcessStop = true;
 
             CMainFrame.LWDicer.m_ctrlStage1.IsCancelJob_byManual = true;
+        }
+
+        private void btnScanDataSave_Click(object sender, EventArgs e)
+        {
+            CMainFrame.DataManager.SystemData_Scan.ScanFieldWidth = Convert.ToInt32(lblScanFieldWidth.Text);
+            CMainFrame.DataManager.SystemData_Scan.ScanFieldHeight = Convert.ToInt32(lblScanFieldHeight.Text);
+
+            // DB Save
+
+            CMainFrame.LWDicer.SaveSystemData(null, null, null, null, null, CMainFrame.DataManager.SystemData_Scan, null);
         }
     }
 }

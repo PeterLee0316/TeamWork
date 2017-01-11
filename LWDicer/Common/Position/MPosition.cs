@@ -149,6 +149,16 @@ namespace LWDicer.Layers
             return s;
         }
 
+        public static CPos_XY operator /(CPos_XY s1, double dDiv)
+        {
+            CPos_XY s = new CPos_XY();
+
+            if (dDiv != 0) s.dX = s1.dX / dDiv;
+            if (dDiv != 0) s.dY = s1.dY / dDiv;
+
+            return s;
+        }
+
         public double GetAt(int axis)
         {
             switch (axis)

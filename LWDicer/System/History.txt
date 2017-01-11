@@ -830,6 +830,16 @@ CSpinStep class -> CCleaningStep / CCoatingStep class 로 분리
 	- Dxf 파일 로딩 Form내의 Page 제작 (향후 이를 바탕으로 G code 및 Scan 데이터 처리 계획)
 	- Object Group의 이동 및 복사의 경우 위치 오류 수정함
 
+// Grade : ★★
+// Date : 2017-01/09~11
+// Context
+1. Scanner Sticth 관련 SW
+	- Drawing부분에서 Width & Height 설정 파라미터
+	- Scan Field의 Width가 300mm 이상일 경우에 이미지를 부분적으로 저장함
+	  (BMP 파일 생성일 경우만 적용함 LSE 파일도 적용 필요함)
+2. Draw 관련 기능 Upgrade
+	- Pan & Zoom in/out 기능 추가
+	- Grid를 Scan Field 별도 색상 구분
 
 
 

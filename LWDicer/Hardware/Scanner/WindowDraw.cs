@@ -10,24 +10,23 @@ using System.Windows.Forms;
 
 using static LWDicer.Layers.DEF_Scanner;
 using static LWDicer.Layers.DEF_Common;
-using static LWDicer.Layers.DEF_System;
-
 using LWDicer.UI;
 
 namespace LWDicer.Layers
 {
-    public partial class WindowCanvas : Form
+    public partial class WindowDraw : UserControl
     {
         private Point ptMouseStartPos = new Point(0, 0);
         private Point ptMouseEndPos = new Point(0, 0);
         private bool CheckDragDraw = false;
         protected bool CheckWheelZoomMode = false;
-        
-        public WindowCanvas()
+
+        public WindowDraw()
         {
             InitializeComponent();
             Initialize();
         }
+
 
         public int Initialize()
         {
@@ -54,6 +53,7 @@ namespace LWDicer.Layers
 
         }
 
+
         #region Canvas 이벤트 , 그리기 삭제
         protected override void OnMouseDown(MouseEventArgs e)
         {
@@ -64,7 +64,7 @@ namespace LWDicer.Layers
             if (e.Button == MouseButtons.Left)  // 마우스 왼쪽 버튼
             {
                 ptMouseStartPos = e.Location;
-                
+
                 if (m_ScanWindow.SelectObjectType != EObjectType.NONE)
                 {
                     m_ScanWindow.SetObjectStartPos(PixelToField(ptMouseStartPos));
@@ -81,12 +81,6 @@ namespace LWDicer.Layers
             {
 
             }
-            else if (e.Button == MouseButtons.Middle)   // 마우스 가운데 버튼
-            {
-                m_ScanWindow.ptPanStartPos = e.Location;
-                m_ScanWindow.ptStartViewCenter = GetViewCenter();
-            }
-
         }
 
         protected override void OnMouseUp(MouseEventArgs e)
@@ -116,9 +110,9 @@ namespace LWDicer.Layers
         protected override void OnMouseMove(MouseEventArgs e)
         {
             base.OnMouseMove(e);
-            
+
             m_ScanWindow.ptMousePos = PixelToField(e.Location);
-            
+
             if (e.Button == MouseButtons.Left)
             {
                 ptMouseEndPos = e.Location;
@@ -128,25 +122,6 @@ namespace LWDicer.Layers
 
                 CheckDragDraw = true;
                 this.Invalidate();
-            }
-            else if (e.Button == MouseButtons.Middle)   // 마우스 가운데 버튼
-            {
-                Point moveLength = new Point();
-
-                moveLength.X = m_ScanWindow.ptPanStartPos.X - e.Location.X;
-                moveLength.Y = m_ScanWindow.ptPanStartPos.Y - e.Location.Y;
-
-                // Canvas Center 설정
-                Point pPoint = new Point();
-
-                pPoint = m_ScanWindow.ptStartViewCenter;
-                pPoint.X -= moveLength.X;
-                pPoint.Y -=  moveLength.Y;
-
-                SetViewCenter(pPoint);
-
-                this.Invalidate();
-
             }
         }
 
@@ -223,7 +198,7 @@ namespace LWDicer.Layers
             // 현재 Drag 모양 그리기
             if (CheckDragDraw)
                 DragShapeDraw(e.Graphics);
-            
+
         }
 
         private void DragShapeDraw(Graphics g)
@@ -283,6 +258,7 @@ namespace LWDicer.Layers
             }
         }
 
+
         private void GridDraw(Graphics g)
         {
             Point pixelStartPos = new Point(0, 0);
@@ -290,130 +266,85 @@ namespace LWDicer.Layers
 
             CPos_XY objectStartPos = new CPos_XY();
             CPos_XY objectEndPos = new CPos_XY();
-            
-            Size ScanFieldSize = new Size(0, 0);            
+
+            Size pnlSize = new Size(0, 0);
+            Size gridDieSize = new Size(0, 0);
+
+
 
             int gridMinor = 5;
             int gridMajor = gridMinor * 5;
 
-            // POLYGON_SCAN_FIELD
-            ScanFieldSize.Width = CMainFrame.DataManager.SystemData_Scan.ScanFieldWidth;
-            ScanFieldSize.Height = CMainFrame.DataManager.SystemData_Scan.ScanFieldHeight;
+            // Canvas의 Panel Size를 읽어온다.
+            pnlSize = this.Size;
+
+            gridDieSize.Width = CMainFrame.DataManager.SystemData_Scan.ScanFieldWidth;
+            gridDieSize.Height = CMainFrame.DataManager.SystemData_Scan.ScanFieldHeight;
 
             Pen drawPen = new Pen(System.Drawing.Color.FromArgb(30, 30, 30));
 
-            // Minor Grid Draw ==============================================
-            for (int i = 0; i < ScanFieldSize.Width; i += gridMinor)
+
+            for (int i = 0; i < pnlSize.Width; i += gridMinor)
             {
                 objectStartPos.dX = (double)i;
                 objectStartPos.dY = 0.0;
                 pixelStartPos = AbsFieldToPixel(objectStartPos);
 
                 objectEndPos.dX = (double)i;
-                objectEndPos.dY = (double)ScanFieldSize.Height;
-                pixelEndPos = AbsFieldToPixel(objectEndPos);              
-                
-               g.DrawLine(drawPen, pixelStartPos, pixelEndPos);                
+                objectEndPos.dY = (double)pnlSize.Height;
+                pixelEndPos = AbsFieldToPixel(objectEndPos);
+
+                g.DrawLine(drawPen, pixelStartPos, pixelEndPos);
+
             }
 
-            for (int i = 0; i < ScanFieldSize.Height; i += gridMinor)
+            for (int i = 0; i < pnlSize.Height; i += gridMinor)
             {
                 objectStartPos.dX = 0.0;
                 objectStartPos.dY = (double)i;
                 pixelStartPos = AbsFieldToPixel(objectStartPos);
 
-                objectEndPos.dX = (double)ScanFieldSize.Width;
+                objectEndPos.dX = (double)pnlSize.Width;
                 objectEndPos.dY = (double)i;
                 pixelEndPos = AbsFieldToPixel(objectEndPos);
 
                 g.DrawLine(drawPen, pixelStartPos, pixelEndPos);
             }
 
-            // Major Grid Draw ==============================================
+            drawPen.Color = System.Drawing.Color.FromArgb(30, 30, 70);
 
-            int scanNum = 0;
-            double startPos = 0;
-            for (double scanField = 0.0; scanField < ScanFieldSize.Width; scanField += POLYGON_SCAN_FIELD)
+            for (int i = 0; i < pnlSize.Width; i += gridMajor)
             {
-                // Color Change
-                if (scanNum == 0)
-                {
-                    drawPen.Color = System.Drawing.Color.FromArgb(30, 30, 70);
-                    //startPos = 
-                }
-                if (scanNum == 1)
-                {
-                    drawPen.Color = System.Drawing.Color.FromArgb(30, 50, 30);
-                }
-                if (scanNum == 2)
-                {
-                    drawPen.Color = System.Drawing.Color.FromArgb(50, 30, 30);
-                }
-                
-                for (int i = (int)scanField; i <= scanField + POLYGON_SCAN_FIELD; i += gridMajor)
-                {
-                    objectStartPos.dX = (double)i;
-                    objectStartPos.dY = 0.0;
-                    pixelStartPos = AbsFieldToPixel(objectStartPos);
+                objectStartPos.dX = (double)i;
+                objectStartPos.dY = 0.0;
+                pixelStartPos = AbsFieldToPixel(objectStartPos);
 
-                    objectEndPos.dX = (double)i;
-                    objectEndPos.dY = (double)ScanFieldSize.Height;
-                    pixelEndPos = AbsFieldToPixel(objectEndPos);
+                objectEndPos.dX = (double)i;
+                objectEndPos.dY = (double)pnlSize.Height;
+                pixelEndPos = AbsFieldToPixel(objectEndPos);
 
-                    g.DrawLine(drawPen, pixelStartPos, pixelEndPos);
-                }
+                g.DrawLine(drawPen, pixelStartPos, pixelEndPos);
 
-                for (int i = 0; i <= ScanFieldSize.Height; i += gridMajor)
-                {
-                    objectStartPos.dX = scanField;
-                    objectStartPos.dY = (double)i;
-                    pixelStartPos = AbsFieldToPixel(objectStartPos);
-
-                    objectEndPos.dX = scanField + POLYGON_SCAN_FIELD;
-                    objectEndPos.dY = (double)i;
-                    pixelEndPos = AbsFieldToPixel(objectEndPos);
-
-                    g.DrawLine(drawPen, pixelStartPos, pixelEndPos);
-                }
-
-                scanNum++;
             }
+
+            for (int i = 0; i < pnlSize.Height; i += gridMajor)
+            {
+
+                objectStartPos.dX = 0.0;
+                objectStartPos.dY = (double)i;
+                pixelStartPos = AbsFieldToPixel(objectStartPos);
+
+                objectEndPos.dX = (double)pnlSize.Width;
+                objectEndPos.dY = (double)i;
+                pixelEndPos = AbsFieldToPixel(objectEndPos);
+
+                g.DrawLine(drawPen, pixelStartPos, pixelEndPos);
+            }
+
         }
-        
+
 
         #endregion
 
-        private void CWindowCanvas_SizeChanged(object sender, EventArgs e)
-        {
-            // Canvas Size 설정
-            SetCanvasSize(this.Size);
-
-            // Canvas Center 설정
-            Point pPoint = new Point(this.Size.Width / 2, this.Size.Height / 2);
-
-            SetBaseCenter(pPoint);
-
-            // Scan Field Size 설정
-            //Size pSize = new Size( (int)((float)this.Size.Width  * BaseZoomFactor * SCAN_FIELD_RATIO), 
-            //                       (int)((float)this.Size.Height * BaseZoomFactor * SCAN_FIELD_RATIO));
-
-            //SetScanFieldSize(pSize);
-        }
-
-        private void CWindowCanvas_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void WindowCanvas_Load(object sender, EventArgs e)
-        {
-
-        }
-
-        private void tmrView_Tick(object sender, EventArgs e)
-        {
-
-        }
     }
-
 }

@@ -28,14 +28,21 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
+            this.tmrView = new System.Windows.Forms.Timer(this.components);
             this.SuspendLayout();
+            // 
+            // tmrView
+            // 
+            this.tmrView.Enabled = true;
+            this.tmrView.Tick += new System.EventHandler(this.tmrView_Tick);
             // 
             // WindowCanvas
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.BackColor = System.Drawing.Color.DimGray;
+            this.BackColor = System.Drawing.Color.Black;
             this.ClientSize = new System.Drawing.Size(633, 503);
             this.ControlBox = false;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
@@ -48,5 +55,7 @@
         }
 
         #endregion
+
+        private System.Windows.Forms.Timer tmrView;
     }
 }

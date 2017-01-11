@@ -28,18 +28,21 @@ namespace LWDicer.Layers
         public CPos_XY ptObjectStartPos { get; private set; } = new CPos_XY(0, 0);
         public void SetObjectStartPos(CPos_XY pPos)
         {
-            if (pPos.dX < 0 || pPos.dY < 0) return;
+            //if (pPos.dX < 0 || pPos.dY < 0) return;
             ptObjectStartPos = pPos;
         }
 
         public CPos_XY ptObjectEndPos { get; private set; } = new CPos_XY();
         public void SetObjectEndPos(CPos_XY pPos)
         {
-            if (pPos.dX < 0 || pPos.dY < 0) return;
+            //if (pPos.dX < 0 || pPos.dY < 0) return;
             ptObjectEndPos = pPos;
         }
 
         public CPos_XY ptMousePos { get;  set;}= new CPos_XY();
+
+        public Point ptPanStartPos { get; set; } = new Point();
+        public Point ptStartViewCenter { get; set; } = new Point();
 
         //public FormScanWindow m_FormScanWindow;
 
@@ -68,6 +71,9 @@ namespace LWDicer.Layers
         
         public void ChangeCanvasZoom(float ZoomRatio)
         {
+            if (ZoomRatio > ZOOM_FACTOR_MAX) return;
+            if (ZoomRatio < ZOOM_FACTOR_MIN) return;
+
             SetZoomFactor(ZoomRatio);
 
             float currentZoom = BaseZoomFactor;

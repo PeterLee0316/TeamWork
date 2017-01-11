@@ -33,7 +33,6 @@ namespace LWDicer.Layers
 
     public partial class WindowDxf : UserControl
     {
-
         private DxfModel model;
         private GDIGraphics3D m_Graphics3D;
         private WireframeGraphicsCache m_GraphicsCache;
@@ -91,9 +90,7 @@ namespace LWDicer.Layers
             m_GraphicsCache = new WireframeGraphicsCache(false, true);
             m_GraphicsCache.Config = graphicsConfig;
             m_GraphicsHelper = new GraphicsHelper(System.Drawing.Color.Blue);
-            bounds = new Bounds3D();
-
-            
+            bounds = new Bounds3D();            
         }
 
         public DxfModel Model

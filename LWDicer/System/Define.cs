@@ -31,6 +31,7 @@ namespace LWDicer.Layers
         public const double WAFER_SIZE_12_INCH = 300.0;
         public const double WAFER_SIZE_8_INCH = 200.0;
 
+        public const double POLYGON_SCAN_FIELD = 300.0;
         // Scanner
         public enum EScannerIndex
         {

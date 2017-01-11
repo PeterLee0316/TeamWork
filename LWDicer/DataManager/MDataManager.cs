@@ -796,9 +796,11 @@ namespace LWDicer.Layers
 
         public class CSystemData_Scanner
         {
+            public int ScanFieldWidth;
+            public int ScanFieldHeight;
+
             public CScanner_Address[] Address = new CScanner_Address[(int)EScannerIndex.MAX];
-            public CScanner_Config[] Config = new CScanner_Config[(int)EScannerIndex.MAX];
-            
+            public CScanner_Config[] Config = new CScanner_Config[(int)EScannerIndex.MAX];            
             public CSystemData_Scanner()
             {
                 for (int i = 0; i < (int)EScannerIndex.MAX; i++)
@@ -817,7 +819,7 @@ namespace LWDicer.Layers
             public string ScanHeadHostAddress;
             public int ScanHeadHostPort;
         }
-            public class CScanner_Config
+        public class CScanner_Config
         {
             #region Polygon Config INI Parameter
 

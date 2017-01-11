@@ -182,6 +182,12 @@
     <Compile Include="Hardware\Scanner\WindowCanvas.Designer.cs">
       <DependentUpon>WindowCanvas.cs</DependentUpon>
     </Compile>
+    <Compile Include="Hardware\Scanner\WindowDraw.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Hardware\Scanner\WindowDraw.Designer.cs">
+      <DependentUpon>WindowDraw.cs</DependentUpon>
+    </Compile>
     <Compile Include="Hardware\Scanner\WindowDxf.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -635,6 +641,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Hardware\Scanner\WindowCanvas.resx">
       <DependentUpon>WindowCanvas.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Hardware\Scanner\WindowDraw.resx">
+      <DependentUpon>WindowDraw.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Hardware\Scanner\WindowDxf.resx">
       <DependentUpon>WindowDxf.cs</DependentUpon>

@@ -334,10 +334,10 @@ namespace LWDicer.Layers
             if (MaxHeight == 0) ratioHeight = 0;
             else  ratioHeight = (float)ptEnd.Y / MaxHeight;
 
-            // 가로 사이즈는 32배수로 크기를 정한다. 
-            // 가로 사이즈는 올림으로 계산한다.
-            BmpImageWidth = (int)Math.Ceiling((double)ptEnd.X / BMP_DATA_SIZE);
-            BmpImageWidth *= BMP_DATA_SIZE;            
+            //// 가로 사이즈는 32배수로 크기를 정한다. 
+            //// 가로 사이즈는 올림으로 계산한다.
+            //BmpImageWidth = (int)Math.Ceiling((double)ptEnd.X / BMP_DATA_SIZE);
+            //BmpImageWidth *= BMP_DATA_SIZE;            
 
             // BMP File의 가로 한줄의 Byte Array의 크기를 설정한다.
             // 1bit BMP이므로 8를 나눈 값으로 설정함.
@@ -697,28 +697,17 @@ namespace LWDicer.Layers
         /// </summary>
         /// <param name="filePath"></param>
         /// <returns></returns>
-        public int ConvertBmpFile(string filePath)
+        public int ConvertBmpFile(string filePath, double shiftLen = 0.0)
         {
             try
             {
-                //int iObjectCount = m_ScanManager.ObjectList.Count;
-                //if (iObjectCount < 1) return SHAPE_LIST_DISABLE;
-                
-                //for (int i = 0; i < iObjectCount; i++)
-                //{
-                //    // 생성된 BMP 파일에 Object Draw
-                //    DrawBmpFile(m_ScanManager.ObjectList[i]);
-                //}
-
                 foreach(CMarkingObject pObject in m_ScanManager.ObjectList)
                 {
                     // 생성된 BMP 파일에 Object Draw
-                    DrawBmpFile(pObject);
-                }
-                
+                    DrawBmpFile(pObject, shiftLen);
+                }                
                 // 생성된 BMP을 파일 저장함.
                 m_Bitmap.Save(filePath, ImageFormat.Bmp);
-
                 m_Bitmap.Dispose();
             }
             catch
@@ -779,13 +768,23 @@ namespace LWDicer.Layers
         /// </summary>
         /// <param name="pObject"></param>
         /// <returns></returns>
-        private int DrawBmpFile(CMarkingObject pObject)
+        private int DrawBmpFile(CMarkingObject pObject, double shiftLen = 0.0)
         {
             Point ptStart = new Point(0, 0);
             Point ptEnd = new Point(0, 0);
-            
-            ptStart = PointToPixel(pObject.ptObjectStartPos);
-            ptEnd = PointToPixel(pObject.ptObjectEndPos);
+            CPos_XY posStart = new CPos_XY();
+            CPos_XY posEnd = new CPos_XY();
+
+            // 객체의 위치값을 읽어옴.
+            posStart = pObject.ptObjectStartPos.Copy();
+            posEnd   = pObject.ptObjectEndPos.Copy();
+
+            // 시작 위치 편차를 적용 (각각의 Scanner Field의 차이를 적용함)
+            posStart.dX -= shiftLen;
+            posEnd.dX -= shiftLen;
+
+            ptStart = PointToPixel(posStart);
+            ptEnd = PointToPixel(posEnd);
 
             switch (pObject.ObjectType)
             {
@@ -809,7 +808,7 @@ namespace LWDicer.Layers
                     pGroup = (CObjectGroup)(pObject);
                     // 재귀적 방식으로  Object를 Draw를 진행함.                    
                     foreach (CMarkingObject G in pGroup.ObjectGroup)
-                        DrawBmpFile(G);
+                        DrawBmpFile(G, shiftLen);
                     break;
             }         
 

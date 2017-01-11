@@ -69,9 +69,6 @@ namespace LWDicer.Layers
         public CPos_XY ptObjectStartPos { get; private set; } = new CPos_XY(0, 0);
         public int SetObjectStartPos(CPos_XY pPos)
         {
-            //if (pPos.dX < 0 || pPos.dX > BaseScanFieldSize.Width) return SHAPE_POS_DISABLE;
-            //if (pPos.dY < 0 || pPos.dY > BaseScanFieldSize.Height) return SHAPE_POS_DISABLE;
-
             ptObjectStartPos = pPos.Copy();
 
             return SUCCESS;
@@ -82,13 +79,21 @@ namespace LWDicer.Layers
         public CPos_XY ptObjectEndPos { get; private set; } = new CPos_XY(0, 0);
         public int SetObjectEndPos(CPos_XY pPos)
         {
-            //if (pPos.dX < 0 || pPos.dX > BaseScanFieldSize.Width) return SHAPE_POS_DISABLE;
-            //if (pPos.dY < 0 || pPos.dY > BaseScanFieldSize.Height) return SHAPE_POS_DISABLE;
-
             ptObjectEndPos = pPos.Copy();
 
             return SUCCESS;
         }
+
+        //---------------------------------------------------------------------------
+        /// Object의 End 위치
+        public CPos_XY ptObjectCenterPos { get; private set; } = new CPos_XY(0, 0);
+        public int SetObjectCenterPos(CPos_XY pPos)
+        {
+            ptObjectCenterPos = pPos.Copy();
+
+            return SUCCESS;
+        }
+
         //---------------------------------------------------------------------------
         /// Object의 회전 각도 위치
         public double ObjectRotateAngle { get; private set; } = 0;
@@ -204,6 +209,7 @@ namespace LWDicer.Layers
         public CObjectDot(CPos_XY pStart, float pAngle = 0)
         {
             SetObjectStartPos(pStart);
+            SetObjectCenterPos(pStart);
             SetObjectRatateAngle(pAngle);
 
             SetObjectType(EObjectType.DOT);
@@ -216,6 +222,7 @@ namespace LWDicer.Layers
         public CObjectDot(CObjectDot pObject)
         {
             SetObjectStartPos(pObject.ptObjectStartPos);
+            SetObjectCenterPos(pObject.ptObjectStartPos);
 
             SetObjectRatateAngle(pObject.ObjectRotateAngle);
             SetObjectType(pObject.ObjectType);
@@ -258,6 +265,7 @@ namespace LWDicer.Layers
         {
             SetObjectStartPos(pStart);
             SetObjectEndPos(pEnd);
+            SetObjectCenterPos((pStart + pEnd)/2);
             SetObjectRatateAngle(pAngle);
             
             SetObjectType(EObjectType.LINE);
@@ -272,6 +280,7 @@ namespace LWDicer.Layers
         {
             SetObjectStartPos(pObject.ptObjectStartPos);
             SetObjectEndPos(pObject.ptObjectEndPos);
+            SetObjectCenterPos((pObject.ptObjectStartPos + pObject.ptObjectEndPos) / 2);
             SetObjectRatateAngle(pObject.ObjectRotateAngle);
             SetObjectType(pObject.ObjectType);
             SetObjectName(pObject.ObjectName);
@@ -332,6 +341,7 @@ namespace LWDicer.Layers
         {
             SetObjectStartPos(pStart);
             SetObjectEndPos(pEnd);
+            SetObjectCenterPos((pStart + pEnd) / 2);
             SetObjectRatateAngle(pAngle);
 
             SetObjectType(EObjectType.RECTANGLE);
@@ -346,6 +356,7 @@ namespace LWDicer.Layers
         {
             SetObjectStartPos(pObject.ptObjectStartPos);
             SetObjectEndPos(pObject.ptObjectEndPos);
+            SetObjectCenterPos((pObject.ptObjectStartPos + pObject.ptObjectEndPos) / 2);
             SetObjectRatateAngle(pObject.ObjectRotateAngle);
             SetObjectType(pObject.ObjectType);
             SetObjectName(pObject.ObjectName);
@@ -397,9 +408,9 @@ namespace LWDicer.Layers
     {
         public CObjectCircle(CPos_XY pStart, CPos_XY pEnd, float pAngle = 0)
         {
-
             SetObjectStartPos(pStart);
             SetObjectEndPos(pEnd);
+            SetObjectCenterPos((pStart + pEnd) / 2);
             SetObjectRatateAngle(pAngle);
 
             SetObjectType(EObjectType.CIRCLE);
@@ -414,6 +425,7 @@ namespace LWDicer.Layers
         {
             SetObjectStartPos(pObject.ptObjectStartPos);
             SetObjectEndPos(pObject.ptObjectEndPos);
+            SetObjectCenterPos((pObject.ptObjectStartPos + pObject.ptObjectEndPos) / 2);
             SetObjectRatateAngle(pObject.ObjectRotateAngle);
             SetObjectType(pObject.ObjectType);
             SetObjectName(pObject.ObjectName);
@@ -466,6 +478,7 @@ namespace LWDicer.Layers
         {
             SetObjectStartPos(pStart);
             SetObjectEndPos(pEnd);
+            SetObjectCenterPos((pStart + pEnd) / 2);
             SetObjectRatateAngle(pAngle);
 
             SetObjectName("Font");
@@ -500,6 +513,7 @@ namespace LWDicer.Layers
 
             SetObjectStartPos(pStart);
             SetObjectEndPos(pEnd);
+            SetObjectCenterPos((pStart + pEnd) / 2);
             SetObjectRatateAngle(pAngle);
 
             SetObjectName("Bmp");
@@ -630,6 +644,7 @@ namespace LWDicer.Layers
 
             SetObjectStartPos(pObject.ptObjectStartPos);
             SetObjectEndPos(pObject.ptObjectEndPos);
+            SetObjectCenterPos((pObject.ptObjectStartPos + pObject.ptObjectEndPos) / 2);
             SetObjectRatateAngle(pObject.ObjectRotateAngle);
             SetObjectType(pObject.ObjectType);
             SetObjectName(pObject.ObjectName);
@@ -640,6 +655,7 @@ namespace LWDicer.Layers
         private void CreateGroup(CMarkingObject[] pGroup)
         {
             if (pGroup == null) return;
+
             SetObjectPosition(pGroup);
             SetObjectRatateAngle(0.0);
 
@@ -652,7 +668,7 @@ namespace LWDicer.Layers
 
             foreach (CMarkingObject pObject in pGroup)
             {
-                // 만약 pObject가 Group이면.. 재귀적으로 다시 부픔.
+                // 만약 pObject가 Group이면.. 재귀적으로 다시 Call
                 AddGroupObject(pObject);
             }
         }
@@ -708,6 +724,7 @@ namespace LWDicer.Layers
 
             SetObjectStartPos(pStart);
             SetObjectEndPos(pEnd);
+            SetObjectCenterPos((pStart + pEnd) / 2);
         }
 
         public override void DrawObject(Graphics g)

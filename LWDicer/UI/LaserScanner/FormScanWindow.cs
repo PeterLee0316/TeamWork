@@ -42,13 +42,18 @@ namespace LWDicer.UI
             OriginFormSize.Height = this.Height;
 
             // Canvas Form  생성 및 붙이기
-
             this.DrawCanvas.Location = new System.Drawing.Point(CANVAS_MARGIN, CANVAS_MARGIN);
             DrawCanvas.TopLevel = false;
             this.Controls.Add(DrawCanvas);
             DrawCanvas.Parent = this.pnlCanvas;
             DrawCanvas.Dock = DockStyle.Fill;
 
+            //================================================================================
+            // Scan Field Size Set
+            SizeF fieldSize = new SizeF(0, 0);
+            fieldSize.Width = (float) CMainFrame.DataManager.SystemData_Scan.ScanFieldWidth;
+            fieldSize.Height = (float)CMainFrame.DataManager.SystemData_Scan.ScanFieldHeight;
+            m_ScanManager.SetFieldSize(fieldSize);
 
             this.OnResize(EventArgs.Empty);
         }
@@ -332,8 +337,8 @@ namespace LWDicer.UI
 
         public void SetCanvasSize(Size pSize)
         {
-            if (pSize.Width < pnlCanvas.Width - CANVAS_MARGIN ||
-                pSize.Height < pnlCanvas.Height - CANVAS_MARGIN)
+            //if (pSize.Width < pnlCanvas.Width - CANVAS_MARGIN ||
+            //    pSize.Height < pnlCanvas.Height - CANVAS_MARGIN)
 
                 SetCanvasSize();
 
@@ -342,7 +347,6 @@ namespace LWDicer.UI
         public int GetCanvasSize(out Size pSize)
         {
             pSize = DrawCanvas.Size;
-
             return SUCCESS;
         }
 
@@ -355,12 +359,16 @@ namespace LWDicer.UI
 
         public void SetCanvasSize()
         {
-            DrawCanvas.Width = (int)((float)pnlCanvas.Width * BaseZoomFactor + 0.5) - CANVAS_MARGIN * 2;
-            DrawCanvas.Height = (int)((float)pnlCanvas.Height * BaseZoomFactor + 0.5) - CANVAS_MARGIN * 2;
+            DrawCanvas.Width = (int)((float)pnlCanvas.Width * BaseZoomFactor + 0.5);// - CANVAS_MARGIN * 2;
+            DrawCanvas.Height = (int)((float)pnlCanvas.Height * BaseZoomFactor + 0.5);//; - CANVAS_MARGIN * 2;
 
             PointF ratioField = new PointF(0, 0);
             ratioField.X = (float)DrawCanvas.Width / BaseScanFieldSize.Width;
             ratioField.Y = (float)DrawCanvas.Height / BaseScanFieldSize.Height;
+
+            // 가로 세로 배율을 같이 적용함 (최소값으로 통일)
+            ratioField.X = ratioField.X < ratioField.Y ? ratioField.X : ratioField.Y;
+            ratioField.Y = ratioField.X < ratioField.Y ? ratioField.X : ratioField.Y;
 
             SetCalibFactor(ratioField);
         }
@@ -570,15 +578,21 @@ namespace LWDicer.UI
 
             objectMovePos = pPos.Copy();
 
-            m_ScanManager.ObjectList[SelectObjectListView].MoveObject(objectMovePos);
-            //--------------------------------------------------------------------------------
-            // Angle Rotate
-            objectcurrentAngle = m_ScanManager.ObjectList[SelectObjectListView].ObjectRotateAngle;
-            pAngle += objectcurrentAngle;
-            m_ScanManager.ObjectList[SelectObjectListView].SetObjectRatateAngle(pAngle);
+            foreach(CMarkingObject pObject in m_ScanManager.ObjectList)
+            {
+                // 선택 되지 않은 것들은 Pass
+                if (!pObject.IsSelectedObject) continue;
+
+                pObject.MoveObject(objectMovePos);
+                //--------------------------------------------------------------------------------
+                // Angle Rotate
+                objectcurrentAngle = pObject.ObjectRotateAngle;
+                pAngle += objectcurrentAngle;
+                pObject.SetObjectRatateAngle(pAngle);
+            }
 
             ReDrawCanvas();
-            InsetObjectProperty(SelectObjectListView);
+           // InsetObjectProperty(SelectObjectListView);
 
         }
 
@@ -732,17 +746,25 @@ namespace LWDicer.UI
                 // 오류 발생
             }
 
-            if (SelectObjectListView < 0) return;
-            if (m_ScanManager.ObjectList[SelectObjectListView] == null) return;
+            try
+            {
+                if (SelectObjectListView < 0) return;
+                if (m_ScanManager.ObjectList[SelectObjectListView] == null) return;
 
-            // BMP 파일은 복사를 하지 않는다.
-            if (m_ScanManager.ObjectList[SelectObjectListView].ObjectType == EObjectType.BMP) return;
-            
+                // BMP 파일은 복사를 하지 않는다.
+                if (m_ScanManager.ObjectList[SelectObjectListView].ObjectType == EObjectType.BMP) return;            
 
-            if (SelectObjectListView < 0) return;
-            if (ShapeListView.Items.Count <= SelectObjectListView) return;
+                if (SelectObjectListView < 0) return;
+                if (ShapeListView.Items.Count <= SelectObjectListView) return;
 
-            if (arrayNumX <= 0 || arrayNumY <= 0) return;
+                if (arrayNumX <= 0 || arrayNumY <= 0) return;
+            }
+            catch
+            {
+                // 오류 발생
+
+                return;
+            }
 
             CPos_XY posStart = new CPos_XY();
             CPos_XY posEnd   = new CPos_XY();
@@ -893,7 +915,7 @@ namespace LWDicer.UI
 
         private void FormScanWindow_Load(object sender, EventArgs e)
         {
-            //   DrawCanvas.Show();
+            DrawCanvas.Show();
         }
 
         private void btnLaserStop_Click(object sender, EventArgs e)
@@ -903,16 +925,39 @@ namespace LWDicer.UI
 
         private void btnImageSave_Click(object sender, EventArgs e)
         {
-            string filename = string.Empty;
+            string fileName = string.Empty;
+            int index = 0;
+
             SaveFileDialog imgSaveDlg = new SaveFileDialog();
             imgSaveDlg.InitialDirectory = CMainFrame.DBInfo.ImageDataDir;
             imgSaveDlg.Filter = "BMP(*.bmp)|*.bmp";
             if (imgSaveDlg.ShowDialog() == DialogResult.OK)
             {
-                filename = imgSaveDlg.FileName;
-                //string filepath = string.Format("{0:s}{1:s}.bmp", CMainFrame.DBInfo.ImageDataDir, "Polygon");
-                if (CMainFrame.LWDicer.m_MeScanner.SetSizeBmp() != SUCCESS) return;
-                CMainFrame.LWDicer.m_MeScanner.ConvertBmpFile(filename);
+                // Scan Field가 300mm 이하일 경우엔.. BMP를 한개만 생성한다.
+                if (CMainFrame.DataManager.SystemData_Scan.ScanFieldWidth <= POLYGON_SCAN_FIELD)
+                {
+                    if (CMainFrame.LWDicer.m_MeScanner.SetSizeBmp() != SUCCESS) return;
+                    CMainFrame.LWDicer.m_MeScanner.ConvertBmpFile(fileName);
+                }
+
+                // Scan Field가 300mm 이상일 경우엔.. BMP를 각각 Field만큼 생성한다.
+                if (CMainFrame.DataManager.SystemData_Scan.ScanFieldWidth > POLYGON_SCAN_FIELD)
+                {
+                    index = imgSaveDlg.FileName.IndexOf('.');
+                    fileName = imgSaveDlg.FileName.Insert(index, "-1");
+                    if (CMainFrame.LWDicer.m_MeScanner.SetSizeBmp(EScannerIndex.SCANNER1) != SUCCESS) return;
+                    CMainFrame.LWDicer.m_MeScanner.ConvertBmpFile(fileName, POLYGON_SCAN_FIELD * 0);
+
+                    index = imgSaveDlg.FileName.IndexOf('.');
+                    fileName = imgSaveDlg.FileName.Insert(index, "-2");
+                    if (CMainFrame.LWDicer.m_MeScanner.SetSizeBmp(EScannerIndex.SCANNER1) != SUCCESS) return;
+                    CMainFrame.LWDicer.m_MeScanner.ConvertBmpFile(fileName, POLYGON_SCAN_FIELD*1);
+
+                    index = imgSaveDlg.FileName.IndexOf('.');
+                    fileName = imgSaveDlg.FileName.Insert(index, "-3");
+                    if (CMainFrame.LWDicer.m_MeScanner.SetSizeBmp(EScannerIndex.SCANNER1) != SUCCESS) return;
+                    CMainFrame.LWDicer.m_MeScanner.ConvertBmpFile(fileName, POLYGON_SCAN_FIELD*2);
+                }
 
             }
         }
@@ -938,6 +983,104 @@ namespace LWDicer.UI
             this.Hide();
         }
 
+        private void btnZoomPlus_Click(object sender, EventArgs e)
+        {
+            //m_ScanWindow.
+            float currentZoom = BaseZoomFactor;
+            currentZoom *= 1.1f;
+            m_ScanWindow.ChangeCanvasZoom(currentZoom);
+        }
+
+        private void btnZoomMinus_Click(object sender, EventArgs e)
+        {
+            //m_ScanWindow.
+            float currentZoom = BaseZoomFactor;
+            currentZoom /= 1.1f;
+            m_ScanWindow.ChangeCanvasZoom(currentZoom);
+        }
+
+        private void btnZoomAll_Click(object sender, EventArgs e)
+        {
+            //m_ScanWindow.
+            float currentZoom = 1.0f;
+            SetViewCenter(new Point(0,0));
+
+            m_ScanWindow.ChangeCanvasZoom(currentZoom);
+        }
+
+        protected override void OnMouseWheel(MouseEventArgs e)
+        {
+            base.OnMouseWheel(e);
+
+            if ((e.Delta / 120) < 0)
+            {
+                float currentZoom = BaseZoomFactor;
+                currentZoom *= 1.1f;
+                m_ScanWindow.ChangeCanvasZoom(currentZoom);
+            }
+            else
+            {
+                float currentZoom = BaseZoomFactor;
+                currentZoom /= 1.1f;
+                m_ScanWindow.ChangeCanvasZoom(currentZoom);
+            }
+
+        }
+
+        private void btnPanLeft_Click(object sender, EventArgs e)
+        {
+            Point movePos = new Point();
+            movePos = GetViewCenter();
+            movePos.X -= 1;
+
+            SetViewCenter(movePos);
+            DrawCanvas.Invalidate();
+        }
+
+        private void btnPanRight_Click(object sender, EventArgs e)
+        {
+            Point movePos = new Point();
+            movePos = GetViewCenter();
+            movePos.X += 1;
+
+            SetViewCenter(movePos);
+            DrawCanvas.Invalidate();
+        }
+
+        private void btnPanUp_Click(object sender, EventArgs e)
+        {
+            Point movePos = new Point();
+            movePos = GetViewCenter();
+            movePos.Y -= 1;
+
+            SetViewCenter(movePos);
+            DrawCanvas.Invalidate();
+        }
+
+        private void btnPanDn_Click(object sender, EventArgs e)
+        {
+            Point movePos = new Point();
+            movePos = GetViewCenter();
+            movePos.Y += 1;
+
+            SetViewCenter(movePos);
+            DrawCanvas.Invalidate();
+        }
+
+        private void tmrView_Tick(object sender, EventArgs e)
+        {
+            lblMousePos.Text = GetViewCenter().ToString();
+        }
+
+        private void FormScanWindow_Activated(object sender, EventArgs e)
+        {
+            //================================================================================
+            // Scan Field Size Set
+            SizeF fieldSize = new SizeF(0, 0);
+            fieldSize.Width = (float)CMainFrame.DataManager.SystemData_Scan.ScanFieldWidth;
+            fieldSize.Height = (float)CMainFrame.DataManager.SystemData_Scan.ScanFieldHeight;
+            m_ScanManager.SetFieldSize(fieldSize);
+        }
 
         #endregion
 
