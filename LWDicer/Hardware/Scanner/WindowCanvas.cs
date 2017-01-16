@@ -20,7 +20,10 @@ namespace LWDicer.Layers
     {
         private Point ptMouseStartPos = new Point(0, 0);
         private Point ptMouseEndPos = new Point(0, 0);
-        private bool CheckDragDraw = false;
+        private Point ptArcStartPos = new Point(0, 0);
+        private Point ptArcEndPos = new Point(0, 0);
+
+        private bool IsObjectDrag = false;
         protected bool CheckWheelZoomMode = false;
         
         public WindowCanvas()
@@ -71,7 +74,7 @@ namespace LWDicer.Layers
 
                     if (m_ScanWindow.SelectObjectType == EObjectType.DOT)
                     {
-                        CheckDragDraw = true;
+                        IsObjectDrag = true;
                         m_ScanWindow.SetObjectEndPos(new CPos_XY());
                         this.Invalidate();
                     }
@@ -84,7 +87,7 @@ namespace LWDicer.Layers
             else if (e.Button == MouseButtons.Middle)   // 마우스 가운데 버튼
             {
                 m_ScanWindow.ptPanStartPos = e.Location;
-                m_ScanWindow.ptStartViewCenter = GetViewCenter();
+                m_ScanWindow.ptStartViewCenter = GetViewCorner();
             }
 
         }
@@ -98,12 +101,14 @@ namespace LWDicer.Layers
                 // 시작 포인트와 끝 포이트가 같으면 Shape를 생성하지 않는다.
                 if (ptMouseStartPos == ptMouseEndPos && m_ScanWindow.SelectObjectType != EObjectType.DOT) return;
 
-                CheckDragDraw = false;
+                if (m_ScanWindow.SelectObjectType != EObjectType.ARC)
+                {
+                    IsObjectDrag = false;
+                    // Add Object                
+                    m_ScanWindow.AddObject();
 
-                // Add Object                
-                m_ScanWindow.AddObject();
-
-                Invalidate();
+                    Invalidate();
+                }
             }
 
             if (m_ScanWindow.SelectObjectType == EObjectType.NONE)
@@ -126,7 +131,7 @@ namespace LWDicer.Layers
                 if (m_ScanWindow.SelectObjectType != EObjectType.NONE)
                     m_ScanWindow.SetObjectEndPos(PixelToField(ptMouseEndPos));
 
-                CheckDragDraw = true;
+                IsObjectDrag = true;
                 this.Invalidate();
             }
             else if (e.Button == MouseButtons.Middle)   // 마우스 가운데 버튼
@@ -221,7 +226,7 @@ namespace LWDicer.Layers
             m_ScanManager.DrawObject(e);
 
             // 현재 Drag 모양 그리기
-            if (CheckDragDraw)
+            if (IsObjectDrag)
                 DragShapeDraw(e.Graphics);
             
         }
@@ -230,6 +235,9 @@ namespace LWDicer.Layers
         {
             Point StartPos = new Point(0, 0);
             Point EndPos = new Point(0, 0);
+            int radius = 0;
+            Rectangle rectCircle = new Rectangle();
+
 
             StartPos = ptMouseStartPos;
             EndPos = ptMouseEndPos;
@@ -252,13 +260,27 @@ namespace LWDicer.Layers
                     break;
 
                 case EObjectType.DOT:
-                    Rectangle rectDot = new Rectangle(StartPos.X - DRAW_DOT_SIZE / 2, StartPos.Y - DRAW_DOT_SIZE / 2,
-                                              DRAW_DOT_SIZE, DRAW_DOT_SIZE);
+                    Rectangle rectDot = new Rectangle(StartPos.X - DRAW_DOT_SIZE / 2, 
+                                                      StartPos.Y - DRAW_DOT_SIZE / 2,
+                                                      DRAW_DOT_SIZE, 
+                                                      DRAW_DOT_SIZE);
                     g.FillRectangle(BaseDrawBrush[(int)EDrawBrushType.OBJECT_DRAG], rectDot);
                     break;
 
                 case EObjectType.LINE:
                     g.DrawLine(BaseDrawPen[(int)EDrawPenType.OBJECT_DRAG], StartPos, EndPos);
+                    break;
+
+                case EObjectType.ARC:
+                    radius = (int)Math.Sqrt(Math.Pow((StartPos.X - EndPos.X), 2) +
+                                                Math.Pow((StartPos.Y - EndPos.Y), 2));
+
+                    rectCircle.X = (StartPos.X - radius);
+                    rectCircle.Y = (StartPos.Y - radius);
+                    rectCircle.Width = radius * 2;
+                    rectCircle.Height = radius * 2;
+
+                    g.DrawArc(BaseDrawPen[(int)EDrawPenType.OBJECT_DRAG], rectCircle,0,379);
                     break;
 
                 case EObjectType.RECTANGLE:
@@ -270,6 +292,25 @@ namespace LWDicer.Layers
                     break;
 
                 case EObjectType.CIRCLE:
+                    radius = (int)Math.Sqrt(Math.Pow((StartPos.X - EndPos.X), 2) +
+                                                Math.Pow((StartPos.Y - EndPos.Y), 2));
+                   
+                    rectCircle.X = (StartPos.X - radius);
+                    rectCircle.Y = (StartPos.Y - radius);
+                    rectCircle.Width = radius * 2;
+                    rectCircle.Height = radius * 2;
+
+                    g.DrawEllipse(BaseDrawPen[(int)EDrawPenType.OBJECT_DRAG], rectCircle);
+
+                    //// X축 기준으로 진행함
+                    //g.DrawEllipse(BaseDrawPen[(int)EDrawPenType.OBJECT_DRAG],
+                    //        (StartPos.X < EndPos.X ? StartPos.X : EndPos.X),
+                    //        (StartPos.Y < EndPos.Y ? StartPos.Y : EndPos.Y),
+                    //        (StartPos.X > EndPos.X ? (StartPos.X - EndPos.X) : -(StartPos.X - EndPos.X)),
+                    //        (StartPos.Y > EndPos.Y ? (StartPos.X - EndPos.X) : -(StartPos.X - EndPos.X)));
+                    break;
+
+                case EObjectType.ELLIPSE:
                     g.DrawEllipse(BaseDrawPen[(int)EDrawPenType.OBJECT_DRAG],
                             (StartPos.X < EndPos.X ? StartPos.X : EndPos.X),
                             (StartPos.Y < EndPos.Y ? StartPos.Y : EndPos.Y),

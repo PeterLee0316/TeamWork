@@ -840,13 +840,16 @@ namespace LWDicer.UI
 
         private void btnDataUpdate_Click(object sender, EventArgs e)
         {
-            // ini File 저장
-            CMainFrame.LWDicer.m_MeScanner.SaveConfigPara("job");            
+            string filename = string.Empty;
+            OpenFileDialog iniOpenDlg = new OpenFileDialog();
+            iniOpenDlg.InitialDirectory = CMainFrame.DBInfo.ScannerDataDir;
+            iniOpenDlg.Filter = "INI(*.ini)|*.ini";
+            if (iniOpenDlg.ShowDialog() == DialogResult.OK)
+            {
+                filename = iniOpenDlg.FileName;
+                CMainFrame.LWDicer.m_MeScanner.SendConfig(filename);
+            }            
 
-            FormPolygonSelectPara formSelect = new FormPolygonSelectPara();
-
-            formSelect.ShowDialog();
-            
         }
 
         private void FormPolygon_Activated(object sender, EventArgs e)

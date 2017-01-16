@@ -22,7 +22,7 @@ namespace LWDicer.Properties {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class Resources {
+    public class Resources {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,7 +36,7 @@ namespace LWDicer.Properties {
         ///   이 클래스에서 사용하는 캐시된 ResourceManager 인스턴스를 반환합니다.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("LWDicer.Properties.Resources", typeof(Resources).Assembly);
@@ -51,7 +51,7 @@ namespace LWDicer.Properties {
         ///   속성을 재정의합니다.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -63,9 +63,9 @@ namespace LWDicer.Properties {
         /// <summary>
         ///   System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
         /// </summary>
-        internal static System.Drawing.Bitmap arrow_down {
+        public static System.Drawing.Bitmap arrow_down {
             get {
-                object obj = ResourceManager.GetObject("arrow-down", resourceCulture);
+                object obj = ResourceManager.GetObject("arrow_down", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -73,9 +73,9 @@ namespace LWDicer.Properties {
         /// <summary>
         ///   System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
         /// </summary>
-        internal static System.Drawing.Bitmap arrow_left {
+        public static System.Drawing.Bitmap arrow_left {
             get {
-                object obj = ResourceManager.GetObject("arrow-left", resourceCulture);
+                object obj = ResourceManager.GetObject("arrow_left", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -83,9 +83,9 @@ namespace LWDicer.Properties {
         /// <summary>
         ///   System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
         /// </summary>
-        internal static System.Drawing.Bitmap arrow_right {
+        public static System.Drawing.Bitmap arrow_right {
             get {
-                object obj = ResourceManager.GetObject("arrow-right", resourceCulture);
+                object obj = ResourceManager.GetObject("arrow_right", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -93,9 +93,9 @@ namespace LWDicer.Properties {
         /// <summary>
         ///   System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
         /// </summary>
-        internal static System.Drawing.Bitmap arrow_right1 {
+        public static System.Drawing.Bitmap arrow_up {
             get {
-                object obj = ResourceManager.GetObject("arrow-right1", resourceCulture);
+                object obj = ResourceManager.GetObject("arrow_up", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -103,17 +103,7 @@ namespace LWDicer.Properties {
         /// <summary>
         ///   System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
         /// </summary>
-        internal static System.Drawing.Bitmap arrow_up {
-            get {
-                object obj = ResourceManager.GetObject("arrow-up", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
-        /// </summary>
-        internal static System.Drawing.Bitmap Arrow0a {
+        public static System.Drawing.Bitmap Arrow0a {
             get {
                 object obj = ResourceManager.GetObject("Arrow0a", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -123,7 +113,7 @@ namespace LWDicer.Properties {
         /// <summary>
         ///   System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
         /// </summary>
-        internal static System.Drawing.Bitmap Arrow0b {
+        public static System.Drawing.Bitmap Arrow0b {
             get {
                 object obj = ResourceManager.GetObject("Arrow0b", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -133,7 +123,7 @@ namespace LWDicer.Properties {
         /// <summary>
         ///   System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
         /// </summary>
-        internal static System.Drawing.Bitmap Arrow0c {
+        public static System.Drawing.Bitmap Arrow0c {
             get {
                 object obj = ResourceManager.GetObject("Arrow0c", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -143,7 +133,7 @@ namespace LWDicer.Properties {
         /// <summary>
         ///   System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
         /// </summary>
-        internal static System.Drawing.Bitmap Arrow0d {
+        public static System.Drawing.Bitmap Arrow0d {
             get {
                 object obj = ResourceManager.GetObject("Arrow0d", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -153,7 +143,7 @@ namespace LWDicer.Properties {
         /// <summary>
         ///   System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
         /// </summary>
-        internal static System.Drawing.Bitmap draw {
+        public static System.Drawing.Bitmap draw {
             get {
                 object obj = ResourceManager.GetObject("draw", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -163,7 +153,7 @@ namespace LWDicer.Properties {
         /// <summary>
         ///   System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
         /// </summary>
-        internal static System.Drawing.Bitmap Exit {
+        public static System.Drawing.Bitmap Exit {
             get {
                 object obj = ResourceManager.GetObject("Exit", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -173,7 +163,7 @@ namespace LWDicer.Properties {
         /// <summary>
         ///   System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
         /// </summary>
-        internal static System.Drawing.Bitmap export {
+        public static System.Drawing.Bitmap export {
             get {
                 object obj = ResourceManager.GetObject("export", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -183,7 +173,7 @@ namespace LWDicer.Properties {
         /// <summary>
         ///   System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
         /// </summary>
-        internal static System.Drawing.Bitmap Handler {
+        public static System.Drawing.Bitmap Handler {
             get {
                 object obj = ResourceManager.GetObject("Handler", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -193,7 +183,7 @@ namespace LWDicer.Properties {
         /// <summary>
         ///   System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
         /// </summary>
-        internal static System.Drawing.Bitmap import {
+        public static System.Drawing.Bitmap import {
             get {
                 object obj = ResourceManager.GetObject("import", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -203,7 +193,7 @@ namespace LWDicer.Properties {
         /// <summary>
         ///   System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
         /// </summary>
-        internal static System.Drawing.Bitmap LaserScanner {
+        public static System.Drawing.Bitmap LaserScanner {
             get {
                 object obj = ResourceManager.GetObject("LaserScanner", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -213,7 +203,7 @@ namespace LWDicer.Properties {
         /// <summary>
         ///   System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
         /// </summary>
-        internal static System.Drawing.Bitmap Loader {
+        public static System.Drawing.Bitmap Loader {
             get {
                 object obj = ResourceManager.GetObject("Loader", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -223,7 +213,7 @@ namespace LWDicer.Properties {
         /// <summary>
         ///   System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
         /// </summary>
-        internal static System.Drawing.Bitmap ManualRun {
+        public static System.Drawing.Bitmap ManualRun {
             get {
                 object obj = ResourceManager.GetObject("ManualRun", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -233,7 +223,7 @@ namespace LWDicer.Properties {
         /// <summary>
         ///   System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
         /// </summary>
-        internal static System.Drawing.Bitmap nav_down_green {
+        public static System.Drawing.Bitmap nav_down_green {
             get {
                 object obj = ResourceManager.GetObject("nav_down_green", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -243,7 +233,7 @@ namespace LWDicer.Properties {
         /// <summary>
         ///   System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
         /// </summary>
-        internal static System.Drawing.Bitmap nav_left_green {
+        public static System.Drawing.Bitmap nav_left_green {
             get {
                 object obj = ResourceManager.GetObject("nav_left_green", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -253,7 +243,7 @@ namespace LWDicer.Properties {
         /// <summary>
         ///   System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
         /// </summary>
-        internal static System.Drawing.Bitmap nav_right_green {
+        public static System.Drawing.Bitmap nav_right_green {
             get {
                 object obj = ResourceManager.GetObject("nav_right_green", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -263,7 +253,7 @@ namespace LWDicer.Properties {
         /// <summary>
         ///   System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
         /// </summary>
-        internal static System.Drawing.Bitmap nav_up_green {
+        public static System.Drawing.Bitmap nav_up_green {
             get {
                 object obj = ResourceManager.GetObject("nav_up_green", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -273,7 +263,7 @@ namespace LWDicer.Properties {
         /// <summary>
         ///   System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
         /// </summary>
-        internal static System.Drawing.Bitmap nav_up_left_green {
+        public static System.Drawing.Bitmap nav_up_left_green {
             get {
                 object obj = ResourceManager.GetObject("nav_up_left_green", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -283,7 +273,7 @@ namespace LWDicer.Properties {
         /// <summary>
         ///   System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
         /// </summary>
-        internal static System.Drawing.Bitmap nav_up_right_green {
+        public static System.Drawing.Bitmap nav_up_right_green {
             get {
                 object obj = ResourceManager.GetObject("nav_up_right_green", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -293,7 +283,7 @@ namespace LWDicer.Properties {
         /// <summary>
         ///   System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
         /// </summary>
-        internal static System.Drawing.Bitmap PushPull {
+        public static System.Drawing.Bitmap PushPull {
             get {
                 object obj = ResourceManager.GetObject("PushPull", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -303,7 +293,7 @@ namespace LWDicer.Properties {
         /// <summary>
         ///   System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
         /// </summary>
-        internal static System.Drawing.Bitmap run {
+        public static System.Drawing.Bitmap run {
             get {
                 object obj = ResourceManager.GetObject("run", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -313,7 +303,7 @@ namespace LWDicer.Properties {
         /// <summary>
         ///   System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
         /// </summary>
-        internal static System.Drawing.Bitmap Spinner {
+        public static System.Drawing.Bitmap Spinner {
             get {
                 object obj = ResourceManager.GetObject("Spinner", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -323,7 +313,7 @@ namespace LWDicer.Properties {
         /// <summary>
         ///   System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
         /// </summary>
-        internal static System.Drawing.Bitmap stop {
+        public static System.Drawing.Bitmap stop {
             get {
                 object obj = ResourceManager.GetObject("stop", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -333,7 +323,7 @@ namespace LWDicer.Properties {
         /// <summary>
         ///   System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
         /// </summary>
-        internal static System.Drawing.Bitmap Vision {
+        public static System.Drawing.Bitmap Vision {
             get {
                 object obj = ResourceManager.GetObject("Vision", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -343,17 +333,7 @@ namespace LWDicer.Properties {
         /// <summary>
         ///   System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
         /// </summary>
-        internal static System.Drawing.Bitmap Vision1 {
-            get {
-                object obj = ResourceManager.GetObject("Vision1", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
-        /// </summary>
-        internal static System.Drawing.Bitmap wafer {
+        public static System.Drawing.Bitmap wafer {
             get {
                 object obj = ResourceManager.GetObject("wafer", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));

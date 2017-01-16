@@ -172,6 +172,10 @@ namespace LWDicer.Layers
                     var pCircle = new CObjectCircle(pStart, pEnd);
                     ObjectList.Add(pCircle);
                     break;
+                case (EObjectType.ELLIPSE):
+                    var pEllipse = new CObjectEllipse(pStart, pEnd);
+                    ObjectList.Add(pEllipse);
+                    break;
                 case (EObjectType.BMP):
                     string filename = null;
                     OpenFileDialog openFileDialog = new OpenFileDialog();

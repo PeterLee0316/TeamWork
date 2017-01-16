@@ -38,7 +38,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;WIN32, EQUIP_266_DEV,SIMULATION_VISION, SIMULATION_MOTION_ACS,  SIMULATION_MOTION_YMC, SIMULATION_IO</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;WIN32, EQUIP_266_DEV, SIMULATION_VISION, SIMULATION_MOTION_ACS,  SIMULATION_MOTION_YMC, SIMULATION_IO</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>2</WarningLevel>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
@@ -218,6 +218,11 @@
     <Compile Include="Mechanical\Scanner\ScannerPolygon.cs" />
     <Compile Include="Process\MTrsHandler.cs" />
     <Compile Include="Process\MTrsSpinner.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="System\Define.cs" />
     <Compile Include="Common\ObjectExtensions.cs" />
     <Compile Include="Common\Position\MPosition.cs" />
@@ -340,12 +345,6 @@
     </Compile>
     <Compile Include="UI\LaserScanner\FormPolygon.Designer.cs">
       <DependentUpon>FormPolygon.cs</DependentUpon>
-    </Compile>
-    <Compile Include="UI\LaserScanner\FormPolygonSelectPara.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="UI\LaserScanner\FormPolygonSelectPara.Designer.cs">
-      <DependentUpon>FormPolygonSelectPara.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\LaserScanner\FormScanWindow.cs">
       <SubType>Form</SubType>
@@ -649,15 +648,9 @@
       <DependentUpon>WindowDxf.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
+      <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
     </EmbeddedResource>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
-      <DesignTime>True</DesignTime>
-    </Compile>
     <EmbeddedResource Include="UI\FormBottomScreen.resx">
       <DependentUpon>FormBottomScreen.cs</DependentUpon>
     </EmbeddedResource>
@@ -700,9 +693,6 @@
     <EmbeddedResource Include="UI\LaserScanner\FormPolygon.resx">
       <DependentUpon>FormPolygon.cs</DependentUpon>
       <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="UI\LaserScanner\FormPolygonSelectPara.resx">
-      <DependentUpon>FormPolygonSelectPara.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\LaserScanner\FormScanWindow.resx">
       <DependentUpon>FormScanWindow.cs</DependentUpon>
@@ -868,7 +858,7 @@
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0">
       <Visible>False</Visible>
-      <ProductName>Microsoft .NET Framework 4 %28x86 and x64%29</ProductName>
+      <ProductName>Microsoft .NET Framework 4%28x86 및 x64%29</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
@@ -936,6 +926,10 @@
     <None Include="Resources\arrow-right.png" />
     <None Include="Resources\arrow-up.png" />
     <None Include="Resources\arrow-right1.png" />
+    <None Include="Resources\WSCommCntrUI1Res_436.ico" />
+    <None Include="Resources\AecBaseEnu_14367.ico" />
+    <None Include="Resources\AecBaseEnu_143671.ico" />
+    <None Include="Resources\AecBaseEnu_14834.ico" />
     <Content Include="System\History.txt" />
   </ItemGroup>
   <ItemGroup>

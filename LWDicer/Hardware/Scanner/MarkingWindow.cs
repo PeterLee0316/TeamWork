@@ -89,11 +89,35 @@ namespace LWDicer.Layers
 
             // Canvas ReDraw
             m_FormScanner.ReDrawCanvas();
+        }
 
+        public void MoveViewCenter()
+        {
+            Point viewCenter = new Point(0, 0);         
+
+            // View중심 초기화
+            SetViewCenter(viewCenter);
+
+            CPos_XY scanField = new CPos_XY();
+            Point scanPixel = new Point();
+            // Scan Field의 크기를 읽고 픽셀 크로로 변환
+            scanField.dX = (double)BaseScanFieldSize.Width;
+            scanField.dY = (double)BaseScanFieldSize.Height;
+            scanPixel = AbsFieldToPixel(scanField);
+
+            // Canvas Size 읽어옴
+            Size CanvasSize = new Size(0, 0);
+            m_FormScanner.GetCanvasSize(out CanvasSize);
+
+            // Canvas와 ScanField의 중심 오차를 확인홤
+            viewCenter.X = (CanvasSize.Width - scanPixel.X) / 2;
+            viewCenter.Y = (CanvasSize.Height - scanPixel.Y) / 2;
+            // View중심 재설정
+            SetViewCenter(viewCenter);
         }
 
         #endregion
 
-        /////////////////////////////////////////////////////////////////////////////////////////
-    }
+            /////////////////////////////////////////////////////////////////////////////////////////
+        }
 }

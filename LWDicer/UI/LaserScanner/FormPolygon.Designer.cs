@@ -555,7 +555,7 @@
             // 
             this.btnPreCam.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.btnPreCam.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.btnPreCam.Image = global::LWDicer.Properties.Resources.Vision1;
+            this.btnPreCam.Image = global::LWDicer.Properties.Resources.Vision;
             this.btnPreCam.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
             this.btnPreCam.Location = new System.Drawing.Point(1020, 77);
             this.btnPreCam.Name = "btnPreCam";
@@ -587,7 +587,7 @@
             // 
             this.btnFineCam.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.btnFineCam.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.btnFineCam.Image = global::LWDicer.Properties.Resources.Vision1;
+            this.btnFineCam.Image = global::LWDicer.Properties.Resources.Vision;
             this.btnFineCam.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
             this.btnFineCam.Location = new System.Drawing.Point(1020, 151);
             this.btnFineCam.Name = "btnFineCam";

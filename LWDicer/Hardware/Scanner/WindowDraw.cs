@@ -18,7 +18,7 @@ namespace LWDicer.Layers
     {
         private Point ptMouseStartPos = new Point(0, 0);
         private Point ptMouseEndPos = new Point(0, 0);
-        private bool CheckDragDraw = false;
+        private bool IsObjectDrag = false;
         protected bool CheckWheelZoomMode = false;
 
         public WindowDraw()
@@ -71,7 +71,7 @@ namespace LWDicer.Layers
 
                     if (m_ScanWindow.SelectObjectType == EObjectType.DOT)
                     {
-                        CheckDragDraw = true;
+                        IsObjectDrag = true;
                         m_ScanWindow.SetObjectEndPos(new CPos_XY());
                         this.Invalidate();
                     }
@@ -92,7 +92,7 @@ namespace LWDicer.Layers
                 // 시작 포인트와 끝 포이트가 같으면 Shape를 생성하지 않는다.
                 if (ptMouseStartPos == ptMouseEndPos && m_ScanWindow.SelectObjectType != EObjectType.DOT) return;
 
-                CheckDragDraw = false;
+                IsObjectDrag = false;
 
                 // Add Object                
                 m_ScanWindow.AddObject();
@@ -120,7 +120,7 @@ namespace LWDicer.Layers
                 if (m_ScanWindow.SelectObjectType != EObjectType.NONE)
                     m_ScanWindow.SetObjectEndPos(PixelToField(ptMouseEndPos));
 
-                CheckDragDraw = true;
+                IsObjectDrag = true;
                 this.Invalidate();
             }
         }
@@ -196,7 +196,7 @@ namespace LWDicer.Layers
             m_ScanManager.DrawObject(e);
 
             // 현재 Drag 모양 그리기
-            if (CheckDragDraw)
+            if (IsObjectDrag)
                 DragShapeDraw(e.Graphics);
 
         }

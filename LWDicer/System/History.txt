@@ -842,8 +842,11 @@ CSpinStep class -> CCleaningStep / CCoatingStep class 로 분리
 	- Grid를 Scan Field 별도 색상 구분
 
 
-
-
+// Grade : ★★
+// Date : 2017-01/12~16
+// Context
+1. Scanner Draw UI
+	- Ribbon control를 사용하여 Button 및 Label 위치 재 배치
 
 
 

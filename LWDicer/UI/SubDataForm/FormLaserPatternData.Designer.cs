@@ -517,7 +517,7 @@
             // 
             // pictureBox1
             // 
-            this.pictureBox1.Image = global::LWDicer.Properties.Resources.arrow_right1;
+            this.pictureBox1.Image = global::LWDicer.Properties.Resources.arrow_right;
             this.pictureBox1.Location = new System.Drawing.Point(359, 36);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(88, 19);

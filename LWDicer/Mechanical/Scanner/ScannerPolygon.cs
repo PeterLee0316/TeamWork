@@ -237,8 +237,8 @@ namespace LWDicer.Layers
 
             Point ptStart = new Point(0, 0);
             Point ptEnd = new Point(0, 0);
-            double MaxHeight = 0.0f;
-            double tempHeight = 0.0f;
+            double MaxHeight = 0.0;
+            double tempHeight = 0.0;
             Point ptTemp = new Point(0, 0);
             
 
@@ -303,8 +303,8 @@ namespace LWDicer.Layers
 
             Point ptStart = new Point(0, 0);
             Point ptEnd = new Point(0, 0);
-            double MaxHeight = 0.0f;
-            double tempHeight = 0.0f;
+            double MaxHeight = 0.0;
+            double tempHeight = 0.0;
             Point ptTemp = new Point(0, 0);
 
             // 객체 수량 확인
@@ -800,8 +800,11 @@ namespace LWDicer.Layers
                     DrawLine(ptStart.X, ptEnd.Y, ptEnd.X, ptEnd.Y);
                     DrawLine(ptEnd.X, ptStart.Y, ptEnd.X, ptEnd.Y);
                     break;
-                case EObjectType.CIRCLE:
+                case EObjectType.ELLIPSE:
                     DrawEllipse(ptStart, ptEnd);
+                    break;
+                case EObjectType.CIRCLE:
+                    DrawCircle(ptStart, ptEnd);
                     break;
                 case EObjectType.GROUP:
                     CObjectGroup pGroup;
@@ -941,24 +944,24 @@ namespace LWDicer.Layers
 
             // Y축 방향으로 기울기를 구함.
             // 영상의 방향을 Y축이 반대로 되어 있음.
-            float dSlope = (float)(ptEnd.Y - ptStart.Y) / (float)(ptEnd.X - ptStart.X);
+            double dSlope = (double)(ptEnd.Y - ptStart.Y) / (double)(ptEnd.X - ptStart.X);
 
-            float dIncValue = Math.Abs(1 / dSlope);
-            float dIncCount = Math.Abs(1 / dSlope);
+            double dIncValue = Math.Abs(1 / dSlope);
+            double dIncCount = Math.Abs(1 / dSlope);
 
             // X축 대비 Y축 증감이 1보다 크면... 1을 넣어준다.
             // (Pixel 단위로 증감을 위해서)
             if (dIncValue > 1) dIncValue = 1;
 
             // 시작점을 대입한다.
-            float dValueX = (float)ptStart.X;
-            float dValueY = (float)ptStart.Y;
+            double dValueX = (double)ptStart.X;
+            double dValueY = (double)ptStart.Y;
 
             // X축의 시작점과 끝나는 점 확인 (이에 따라서.. 증감을 결정함)
-            float dStartValue = (float)ptStart.X;
-            float dEndValue = (float)ptEnd.X;
+            double dStartValue = (double)ptStart.X;
+            double dEndValue = (double)ptEnd.X;
 
-            for (float dX = dStartValue; dX <= dEndValue; dX = dX + dIncValue)
+            for (double dX = dStartValue; dX <= dEndValue; dX = dX + dIncValue)
             {
                 // 연산된 값을 Int형으로 변환 (반올림)
                 CurrentValueX = (int)(dValueX + 0.5);
@@ -990,25 +993,25 @@ namespace LWDicer.Layers
 
         private void DrawBytesEllipse(Point ptStart, Point ptEnd)
         {
-            float dLengthX = Math.Abs((float)(ptStart.X - ptEnd.X)) - 1;
-            float dLengthY = Math.Abs((float)(ptStart.Y - ptEnd.Y)) - 1;
+            double dLengthX = Math.Abs((double)(ptStart.X - ptEnd.X)) - 1;
+            double dLengthY = Math.Abs((double)(ptStart.Y - ptEnd.Y)) - 1;
 
-            float dCenterX = (float)(ptStart.X + ptEnd.X) / 2;
-            float dCenterY = (float)(ptStart.Y + ptEnd.Y) / 2;
+            double dCenterX = (double)(ptStart.X + ptEnd.X) / 2;
+            double dCenterY = (double)(ptStart.Y + ptEnd.Y) / 2;
 
-            float dEllipseA = dLengthX / 2;
-            float dEllipseB = dLengthY / 2;
+            double dEllipseA = dLengthX / 2;
+            double dEllipseB = dLengthY / 2;
 
-            float dValueX1 = 0.0f;
-            float dValueY1 = 0.0f;
-            float dValueX2 = 0.0f;
-            float dValueY2 = 0.0f;
+            double dValueX1 = 0.0;
+            double dValueY1 = 0.0;
+            double dValueX2 = 0.0;
+            double dValueY2 = 0.0;
             int count = 0;
 
-            for (float dIncX = -dEllipseA; dIncX <= dEllipseA; dIncX = dIncX + 1)
+            for (double dIncX = -dEllipseA; dIncX <= dEllipseA; dIncX = dIncX + 1)
             {
                 dValueX1 = dIncX;
-                dValueY1 = (float)Math.Sqrt(dEllipseB * dEllipseB * (1 - (dIncX * dIncX) / (dEllipseA * dEllipseA)));
+                dValueY1 = (double)Math.Sqrt(dEllipseB * dEllipseB * (1 - (dIncX * dIncX) / (dEllipseA * dEllipseA)));
                 dValueY2 = -dValueY1;
 
                 dValueX1 = dValueX1 + dCenterX;
@@ -1020,9 +1023,9 @@ namespace LWDicer.Layers
                 count++;
             }
 
-            for (float dIncY = -dEllipseB; dIncY <= dEllipseB; dIncY = dIncY + 1)
+            for (double dIncY = -dEllipseB; dIncY <= dEllipseB; dIncY = dIncY + 1)
             {
-                dValueX1 = (float)Math.Sqrt(dEllipseA * dEllipseA * (1 - (dIncY * dIncY) / (dEllipseB * dEllipseB)));
+                dValueX1 = (double)Math.Sqrt(dEllipseA * dEllipseA * (1 - (dIncY * dIncY) / (dEllipseB * dEllipseB)));
                 dValueX2 = -dValueX1;
                 dValueY1 = dIncY;
 
@@ -1149,24 +1152,24 @@ namespace LWDicer.Layers
 
             // Y축 방향으로 기울기를 구함.
             // 영상의 방향을 Y축이 반대로 되어 있음.
-            float dSlope = (float)(ptEnd.Y - ptStart.Y) / (float)(ptEnd.X - ptStart.X);
+            double dSlope = (double)(ptEnd.Y - ptStart.Y) / (double)(ptEnd.X - ptStart.X);
 
-            float dIncValue = Math.Abs(1 / dSlope);
-            float dIncCount = Math.Abs(1 / dSlope);
+            double dIncValue = Math.Abs(1 / dSlope);
+            double dIncCount = Math.Abs(1 / dSlope);
 
             // X축 대비 Y축 증감이 1보다 크면... 1을 넣어준다.
             // (Pixel 단위로 증감을 위해서)
             if (dIncValue> 1) dIncValue = 1;
 
             // 시작점을 대입한다.
-            float dValueX = (float)ptStart.X;
-            float dValueY = (float)ptStart.Y;
+            double dValueX = (double)ptStart.X;
+            double dValueY = (double)ptStart.Y;
 
             // X축의 시작점과 끝나는 점 확인 (이에 따라서.. 증감을 결정함)
-            float dStartValue = (float)ptStart.X;
-            float dEndValue = (float)ptEnd.X;
+            double dStartValue = (double)ptStart.X;
+            double dEndValue = (double)ptEnd.X;
 
-            for (float dX = dStartValue; dX <= dEndValue; dX = dX + dIncValue)
+            for (double dX = dStartValue; dX <= dEndValue; dX = dX + dIncValue)
             {
                 // 연산된 값을 Int형으로 변환 (반올림)
                 CurrentValueX = (int)(dValueX + 0.5);
@@ -1195,27 +1198,27 @@ namespace LWDicer.Layers
             DrawLine(posLine1, posLine2);
         }
 
-        private void DrawEllipse(Point ptStart, Point ptEnd)
+        private void DrawCircle(Point ptStart, Point ptEnd)
         {
-            float dLengthX = Math.Abs((float)(ptStart.X - ptEnd.X)) - 1;
-            float dLengthY = Math.Abs((float)(ptStart.Y - ptEnd.Y)) - 1;
+            // 원의 중심을 구함.
+            double dCenterX = (double)(ptStart.X);
+            double dCenterY = (double)(ptStart.Y);
 
-            float dCenterX = (float)(ptStart.X + ptEnd.X) / 2;
-            float dCenterY = (float)(ptStart.Y + ptEnd.Y) / 2;
+            // 원의 반지름 구함
+            double dRadius = Math.Sqrt(Math.Pow(dCenterX - ptEnd.X,2)+ Math.Pow(dCenterY - ptEnd.Y, 2));
+            double dEllipseA = dRadius;
+            double dEllipseB = dRadius;
 
-            float dEllipseA = dLengthX / 2;
-            float dEllipseB = dLengthY / 2;
-
-            float dValueX1 = 0.0f;
-            float dValueY1 = 0.0f;
-            float dValueX2 = 0.0f;
-            float dValueY2 = 0.0f;
+            double dValueX1 = 0.0;
+            double dValueY1 = 0.0;
+            double dValueX2 = 0.0;
+            double dValueY2 = 0.0;
             int count = 0;
 
-            for (float dIncX = -dEllipseA; dIncX <= dEllipseA; dIncX = dIncX + 1)
+            for (double dIncX = -dEllipseA; dIncX <= dEllipseA; dIncX = dIncX + 1)
             {
                 dValueX1 = dIncX;
-                dValueY1 = (float)Math.Sqrt(dEllipseB * dEllipseB * (1 - (dIncX * dIncX) / (dEllipseA * dEllipseA)));
+                dValueY1 = Math.Sqrt(dEllipseB * dEllipseB * (1 - (dIncX * dIncX) / (dEllipseA * dEllipseA)));
                 dValueY2 = -dValueY1;
 
                 dValueX1 = dValueX1 + dCenterX;
@@ -1227,9 +1230,9 @@ namespace LWDicer.Layers
                 count++;
             }
 
-            for (float dIncY = -dEllipseB; dIncY <= dEllipseB; dIncY = dIncY + 1)
+            for (double dIncY = -dEllipseB; dIncY <= dEllipseB; dIncY = dIncY + 1)
             {
-                dValueX1 = (float)Math.Sqrt(dEllipseA * dEllipseA * (1 - (dIncY * dIncY) / (dEllipseB * dEllipseB)));
+                dValueX1 = Math.Sqrt(dEllipseA * dEllipseA * (1 - (dIncY * dIncY) / (dEllipseB * dEllipseB)));
                 dValueX2 = -dValueX1;
                 dValueY1 = dIncY;
 
@@ -1241,8 +1244,59 @@ namespace LWDicer.Layers
                 SetIndexPixel((int)(dValueX2), (int)(dValueY1));
                 count++;
             }
-
         }
+
+        private void DrawEllipse(Point ptStart, Point ptEnd)
+        {
+            // 타원의 중점을 구함
+            double dCenterX = (double)(ptStart.X + ptEnd.X) / 2;
+            double dCenterY = (double)(ptStart.Y + ptEnd.Y) / 2;
+
+            // 타원의 가로/세로 크기를 구함
+            double dLengthX = Math.Abs((double)(ptStart.X - ptEnd.X)) - 1;
+            double dLengthY = Math.Abs((double)(ptStart.Y - ptEnd.Y)) - 1;
+
+            double dEllipseA = dLengthX / 2;
+            double dEllipseB = dLengthY / 2;
+
+            double dValueX1 = 0.0;
+            double dValueY1 = 0.0;
+            double dValueX2 = 0.0;
+            double dValueY2 = 0.0;
+
+            int count = 0;
+
+            for (double dIncX = -dEllipseA; dIncX <= dEllipseA; dIncX = dIncX + 1)
+            {
+                dValueX1 = dIncX;
+                dValueY1 = Math.Sqrt(dEllipseB * dEllipseB * (1 - (dIncX * dIncX) / (dEllipseA * dEllipseA)));
+                dValueY2 = -dValueY1;
+
+                dValueX1 = dValueX1 + dCenterX;
+                dValueY1 = dValueY1 + dCenterY;
+                dValueY2 = dValueY2 + dCenterY;
+
+                SetIndexPixel((int)(dValueX1), (int)(dValueY1));
+                SetIndexPixel((int)(dValueX1), (int)(dValueY2));
+                count++;
+            }
+
+            for (double dIncY = -dEllipseB; dIncY <= dEllipseB; dIncY = dIncY + 1)
+            {
+                dValueX1 = Math.Sqrt(dEllipseA * dEllipseA * (1 - (dIncY * dIncY) / (dEllipseB * dEllipseB)));
+                dValueX2 = -dValueX1;
+                dValueY1 = dIncY;
+
+                dValueX1 = dValueX1 + dCenterX;
+                dValueX2 = dValueX2 + dCenterX;
+                dValueY1 = dValueY1 + dCenterY;
+
+                SetIndexPixel((int)(dValueX1), (int)(dValueY1));
+                SetIndexPixel((int)(dValueX2), (int)(dValueY1));
+                count++;
+            }
+        }
+
         #endregion
 
         #region Process, Polygon Save

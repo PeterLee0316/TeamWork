@@ -251,20 +251,6 @@ namespace LWDicer.UI
 
         }
 
-        private void button3_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void button4_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void button5_Click(object sender, EventArgs e)
-        {
-
-        }
 
         private void WindowControl_Load(object sender, EventArgs e)
         {
@@ -278,7 +264,6 @@ namespace LWDicer.UI
 
         private void CWindowForm_Resize(object sender, EventArgs e)
         {
-
             SizeF formScale = new SizeF(0, 0);
             Size formSize = new Size(0, 0);
             Point compPos = new Point(0, 0);
@@ -296,15 +281,17 @@ namespace LWDicer.UI
             
             foreach (System.Windows.Forms.Control each in component)
             {
-                each.Width = (int)((float)each.Width * formScale.Width + 0.5f);
-                each.Height = (int)((float)each.Height * formScale.Height + 0.5f);
+                if (each is Panel)
+                {
+                    each.Width = (int)((float)each.Width * formScale.Width + 0.5f);
+                    each.Height = (int)((float)each.Height * formScale.Height + 0.5f);
 
-                compPos.X = (int)((float)each.Location.X * formScale.Width + 0.5f);
-                compPos.Y = (int)((float)each.Location.Y * formScale.Height + 0.5f);
-                each.Location = compPos;
-
-                fontSize = (each.Font.Size * formScale.Height);
-                each.Font = new System.Drawing.Font(each.Font.Name, fontSize);
+                    compPos.X = (int)((float)each.Location.X * formScale.Width + 0.5f);
+                    compPos.Y = (int)((float)each.Location.Y * formScale.Height + 0.5f);
+                    each.Location = compPos;
+                }
+                //fontSize = (each.Font.Size * formScale.Height);
+                //each.Font = new System.Drawing.Font(each.Font.Name, fontSize);
 
                 //if (each is Panel)
                 //{
@@ -337,11 +324,7 @@ namespace LWDicer.UI
 
         public void SetCanvasSize(Size pSize)
         {
-            //if (pSize.Width < pnlCanvas.Width - CANVAS_MARGIN ||
-            //    pSize.Height < pnlCanvas.Height - CANVAS_MARGIN)
-
                 SetCanvasSize();
-
         }
 
         public int GetCanvasSize(out Size pSize)
@@ -363,8 +346,8 @@ namespace LWDicer.UI
             DrawCanvas.Height = (int)((float)pnlCanvas.Height * BaseZoomFactor + 0.5);//; - CANVAS_MARGIN * 2;
 
             PointF ratioField = new PointF(0, 0);
-            ratioField.X = (float)DrawCanvas.Width / BaseScanFieldSize.Width;
-            ratioField.Y = (float)DrawCanvas.Height / BaseScanFieldSize.Height;
+            ratioField.X = (float)(DrawCanvas.Width - CANVAS_MARGIN ) / BaseScanFieldSize.Width;
+            ratioField.Y = (float)(DrawCanvas.Height- CANVAS_MARGIN ) / BaseScanFieldSize.Height;
 
             // 가로 세로 배율을 같이 적용함 (최소값으로 통일)
             ratioField.X = ratioField.X < ratioField.Y ? ratioField.X : ratioField.Y;
@@ -372,108 +355,7 @@ namespace LWDicer.UI
 
             SetCalibFactor(ratioField);
         }
-
-        private void btnShapeCopy_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void btnShapeInsert_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void btnShapeDelete_Click(object sender, EventArgs e)
-        {
-            if (ShapeListView.Items.Count < 1) return;
-            foreach (ListViewItem item in ShapeListView.SelectedItems)
-            {
-                int nIndex = item.Index;
-                m_ScanManager.DeleteObject(nIndex);
-                ShapeListView.Items.Remove(item);
-            }
-
-            ReDrawCanvas();
-        }
-
-        private void btnObjectGroup_Click(object sender, EventArgs e)
-        {
-            if (ShapeListView.Items.Count < 1) return;
-
-            // Select 개수로 Array를 생성함.
-            int itemNum = ShapeListView.SelectedItems.Count;
-            CMarkingObject[] pGroup = new CMarkingObject[itemNum];
-
-            int groupCount = 0;
-            // 선택된 객체만 Group에 삽입함.
-            foreach (ListViewItem item in ShapeListView.SelectedItems)
-            {
-                int nIndex = item.Index;
-                m_ScanManager.ObjectList[nIndex].IsSelectedObject = false;
-                pGroup[groupCount] = ObjectExtensions.Copy(m_ScanManager.ObjectList[nIndex]);
-
-                groupCount++;
-            }
-
-            CPos_XY pStart = new CPos_XY();
-            CPos_XY pEnd = new CPos_XY();
-
-            // Group을 추가함.
-            m_ScanManager.AddObject(EObjectType.GROUP, pStart, pEnd, pGroup);
-            AddObjectList(m_ScanManager.GetLastObject());
-
-            // 그룹화된 Object를 삭제함.
-            btnShapeDelete_Click(sender, e);
-        }
-
-        private void btnObjectUngroup_Click(object sender, EventArgs e)
-        {
-            if (ShapeListView.Items.Count < 1) return;
-
-            CMarkingObject[] pGroup = new CMarkingObject[3];
-
-            int groupCount = 0;
-            foreach (ListViewItem item in ShapeListView.SelectedItems)
-            {
-                int nIndex = item.Index;
-
-                // Group가 아니면... 빠져나감.
-                if (m_ScanManager.ObjectList[nIndex].ObjectType != EObjectType.GROUP) continue;
-                // Group의 객체 수를 읽어서.. Array Size를 다시 설정함.
-                Array.Resize<CMarkingObject>(ref pGroup, m_ScanManager.ObjectList[nIndex].GroupObjectCount);
-
-                while (m_ScanManager.ObjectList[nIndex].GroupObjectCount > 0)
-                {
-                    pGroup[groupCount] = m_ScanManager.ObjectList[nIndex].PullGroupObject();
-                    m_ScanManager.AddObject(pGroup[groupCount]);
-                    AddObjectList(pGroup[groupCount]);
-
-                    groupCount++;
-                }
-
-                m_ScanManager.DeleteObject(nIndex);
-                ShapeListView.Items.Remove(item);
-                groupCount = 0;
-            }
-
-            ReDrawCanvas();
-
-        }
-
-        private void btnShapeDeleteAll_Click(object sender, EventArgs e)
-        {
-            // Manager에서 생성 객체 삭제
-            m_ScanManager.DeleteAllObject();
-
-            // ListView에서 삭제
-            foreach (ListViewItem item in ShapeListView.Items)
-            {
-                ShapeListView.Items.Remove(item);
-            }
-
-            ReDrawCanvas();
-
-        }
+        
 
         private void ShapeListView_Click(object sender, EventArgs e)
         {
@@ -729,17 +611,358 @@ namespace LWDicer.UI
 
         }
 
-        private void btnObjectArrayCopy_Click_1(object sender, EventArgs e)
+        public void ObjectArrayCopy()
+        {
+
+        }
+
+
+        private void btnLaserRun_Click(object sender, EventArgs e)
+        {
+
+        }
+
+
+        private void polygonToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // m_FormPolgon.ShowDialog();
+        }
+
+
+        private void FormScanWindow_Load(object sender, EventArgs e)
+        {
+            DrawCanvas.Show();
+        }
+
+        private void btnLaserStop_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnImageSave_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnImageStreamSave_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void BtnConfigureExit_Click(object sender, EventArgs e)
+        {
+            // 현재 Form 닫기
+            this.Hide();
+        }
+
+        private void btnZoomPlus_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnZoomMinus_Click(object sender, EventArgs e)
+        {
+
+        }
+
+  
+
+        protected override void OnMouseWheel(MouseEventArgs e)
+        {
+            base.OnMouseWheel(e);
+
+            if ((e.Delta / 120) < 0)
+            {
+                float currentZoom = BaseZoomFactor;
+                currentZoom *= 1.1f;
+                m_ScanWindow.ChangeCanvasZoom(currentZoom);
+            }
+            else
+            {
+                float currentZoom = BaseZoomFactor;
+                currentZoom /= 1.1f;
+                m_ScanWindow.ChangeCanvasZoom(currentZoom);
+            }
+
+        }
+
+        private void btnPanLeft_Click(object sender, EventArgs e)
+        {
+            Point movePos = new Point();
+            movePos = GetViewCorner();
+            movePos.X -= 1;
+
+            SetViewCenter(movePos);
+            DrawCanvas.Invalidate();
+        }
+
+        private void btnPanRight_Click(object sender, EventArgs e)
+        {
+            Point movePos = new Point();
+            movePos = GetViewCorner();
+            movePos.X += 1;
+
+            SetViewCenter(movePos);
+            DrawCanvas.Invalidate();
+        }
+
+        private void btnPanUp_Click(object sender, EventArgs e)
+        {
+            Point movePos = new Point();
+            movePos = GetViewCorner();
+            movePos.Y -= 1;
+
+            SetViewCenter(movePos);
+            DrawCanvas.Invalidate();
+        }
+
+        private void btnPanDn_Click(object sender, EventArgs e)
+        {
+            Point movePos = new Point();
+            movePos = GetViewCorner();
+            movePos.Y += 1;
+
+            SetViewCenter(movePos);
+            DrawCanvas.Invalidate();
+        }
+
+        private void tmrView_Tick(object sender, EventArgs e)
+        {
+            lblMousePos.Text = GetViewCorner().ToString();
+        }
+
+        private void FormScanWindow_Activated(object sender, EventArgs e)
+        {
+            //================================================================================
+            // Scan Field Size Set
+            SizeF fieldSize = new SizeF(0, 0);
+            fieldSize.Width = (float)CMainFrame.DataManager.SystemData_Scan.ScanFieldWidth;
+            fieldSize.Height = (float)CMainFrame.DataManager.SystemData_Scan.ScanFieldHeight;
+            m_ScanManager.SetFieldSize(fieldSize);
+        }
+
+        private void pointToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            m_ScanWindow.SetObjectType(EObjectType.DOT);
+        }
+
+        private void lineToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            m_ScanWindow.SetObjectType(EObjectType.LINE);
+        }
+
+        private void arcToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            m_ScanWindow.SetObjectType(EObjectType.ARC);
+        }
+
+        private void rectangleToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            m_ScanWindow.SetObjectType(EObjectType.RECTANGLE);
+        }
+
+        private void circleToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            m_ScanWindow.SetObjectType(EObjectType.CIRCLE);
+        }
+
+        private void ellipseToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            m_ScanWindow.SetObjectType(EObjectType.ELLIPSE);
+        }
+
+        private void fontToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            m_ScanWindow.SetObjectType(EObjectType.FONT);
+        }
+
+        private void ribbonControl_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void toolStripEx3_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
+        {
+
+        }
+
+        private void ribbonControl_OfficeMenu_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
+        {
+
+        }
+
+        private void toolPnlDraw_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void toolBtnDot_Click(object sender, EventArgs e)
+        {
+            m_ScanWindow.SetObjectType(EObjectType.DOT);
+        }
+
+        private void toolBtnArc_Click(object sender, EventArgs e)
+        {
+            m_ScanWindow.SetObjectType(EObjectType.ARC);
+        }
+
+        private void toolBtnLine_Click(object sender, EventArgs e)
+        {
+            m_ScanWindow.SetObjectType(EObjectType.LINE);
+        }
+
+        private void toolBtnRectacgle_Click(object sender, EventArgs e)
+        {
+            m_ScanWindow.SetObjectType(EObjectType.RECTANGLE);
+        }
+
+        private void toolBtnCircle_Click(object sender, EventArgs e)
+        {
+            m_ScanWindow.SetObjectType(EObjectType.CIRCLE);
+        }
+
+        private void toolBtnEllipse_Click(object sender, EventArgs e)
+        {
+            m_ScanWindow.SetObjectType(EObjectType.ELLIPSE);
+        }
+        
+        
+
+        private void toolBtnSaveBmp_Click(object sender, EventArgs e)
+        {
+            string fileName = string.Empty;
+            int index = 0;
+
+            SaveFileDialog imgSaveDlg = new SaveFileDialog();
+            imgSaveDlg.InitialDirectory = CMainFrame.DBInfo.ImageDataDir;
+            imgSaveDlg.Filter = "BMP(*.bmp)|*.bmp";
+            if (imgSaveDlg.ShowDialog() == DialogResult.OK)
+            {
+                // Scan Field가 300mm 이하일 경우엔.. BMP를 한개만 생성한다.
+                if (CMainFrame.DataManager.SystemData_Scan.ScanFieldWidth <= POLYGON_SCAN_FIELD)
+                {
+                    fileName = imgSaveDlg.FileName;
+                    if (CMainFrame.LWDicer.m_MeScanner.SetSizeBmp() != SUCCESS) return;
+                    CMainFrame.LWDicer.m_MeScanner.ConvertBmpFile(fileName);
+                }
+
+                // Scan Field가 300mm 이상일 경우엔.. BMP를 각각 Field만큼 생성한다.
+                if (CMainFrame.DataManager.SystemData_Scan.ScanFieldWidth > POLYGON_SCAN_FIELD)
+                {
+                    index = imgSaveDlg.FileName.IndexOf('.');
+                    fileName = imgSaveDlg.FileName.Insert(index, "-1");
+                    if (CMainFrame.LWDicer.m_MeScanner.SetSizeBmp(EScannerIndex.SCANNER1) != SUCCESS) return;
+                    CMainFrame.LWDicer.m_MeScanner.ConvertBmpFile(fileName, POLYGON_SCAN_FIELD * 0);
+
+                    index = imgSaveDlg.FileName.IndexOf('.');
+                    fileName = imgSaveDlg.FileName.Insert(index, "-2");
+                    if (CMainFrame.LWDicer.m_MeScanner.SetSizeBmp(EScannerIndex.SCANNER1) != SUCCESS) return;
+                    CMainFrame.LWDicer.m_MeScanner.ConvertBmpFile(fileName, POLYGON_SCAN_FIELD * 1);
+
+                    index = imgSaveDlg.FileName.IndexOf('.');
+                    fileName = imgSaveDlg.FileName.Insert(index, "-3");
+                    if (CMainFrame.LWDicer.m_MeScanner.SetSizeBmp(EScannerIndex.SCANNER1) != SUCCESS) return;
+                    CMainFrame.LWDicer.m_MeScanner.ConvertBmpFile(fileName, POLYGON_SCAN_FIELD * 2);
+                }
+            }
+        }
+
+        private void toolBtnSaveLse_Click(object sender, EventArgs e)
+        {
+            string filename = string.Empty;
+            SaveFileDialog imgSaveDlg = new SaveFileDialog();
+            imgSaveDlg.InitialDirectory = CMainFrame.DBInfo.ImageDataDir;
+            imgSaveDlg.Filter = "BMP(*.lse)|*.lse";
+
+            if (imgSaveDlg.ShowDialog() == DialogResult.OK)
+            {
+                filename = imgSaveDlg.FileName;
+                //string filepath = string.Format("{0:s}{1:s}.bmp", CMainFrame.DBInfo.ImageDataDir, "Polygon");
+                if (CMainFrame.LWDicer.m_MeScanner.CalsSizeBmpByte() != SUCCESS) return;
+                CMainFrame.LWDicer.m_MeScanner.SaveScanFile(filename);
+            }
+        }
+
+        private void toolBtnZoomPlus_Click(object sender, EventArgs e)
+        {
+            //m_ScanWindow.
+            float currentZoom = BaseZoomFactor;
+            currentZoom *= 1.1f;
+            m_ScanWindow.ChangeCanvasZoom(currentZoom);
+        }
+
+        private void toolBtnZoomMinus_Click(object sender, EventArgs e)
+        {
+            //m_ScanWindow.
+            float currentZoom = BaseZoomFactor;
+            currentZoom /= 1.1f;
+            m_ScanWindow.ChangeCanvasZoom(currentZoom);
+        }
+
+        private void toolBtnZoomAll_Click(object sender, EventArgs e)
+        {
+            //m_ScanWindow.
+            float currentZoom = 1.0f;
+
+            m_ScanWindow.ChangeCanvasZoom(currentZoom);
+            m_ScanWindow.MoveViewCenter();
+
+        }
+
+        private void toolBtnFont_Click(object sender, EventArgs e)
+        {
+            m_ScanWindow.SetObjectType(EObjectType.FONT);
+        }
+
+        private void toolBtnBmp_Click(object sender, EventArgs e)
+        {
+            m_ScanWindow.SetObjectType(EObjectType.BMP);
+        }
+
+        private void toolBtnDxf_Click(object sender, EventArgs e)
+        {
+            //m_ScanWindow.SetObjectType(EObjectType.DXF);
+
+            string filename = null;
+
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "AutoCad files (*.dxf, *.dwg)|*.dxf;*.dwg";
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                try
+                {
+                    filename = openFileDialog.FileName;
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error occurred: " + ex.Message);
+                }
+            }
+
+            m_ScanManager.LoadCadFile(filename);
+        }
+
+        private void toolBtnNone_Click(object sender, EventArgs e)
+        {
+            m_ScanWindow.SetObjectType(EObjectType.NONE);
+        }
+
+        private void txtArrayNumX_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void toolBtnArrayCopy_Click(object sender, EventArgs e)
         {
             int arrayNumX = 0, arrayNumY = 0;
             double arrayGapX = 0.0, arrayGapY = 0.0;
 
             try
             {
-                arrayNumX = Convert.ToInt32(txtArrayNumX.Text);
-                arrayGapX = Convert.ToDouble(txtArrayGapX.Text);
-                arrayNumY = Convert.ToInt32(txtArrayNumY.Text);
-                arrayGapY = Convert.ToDouble(txtArrayGapY.Text);
+                arrayNumX = Convert.ToInt32(txtCopyNumX.Text);
+                arrayGapX = Convert.ToDouble(txtCopyPitchX.Text);
+                arrayNumY = Convert.ToInt32(txtCopyNumY.Text);
+                arrayGapY = Convert.ToDouble(txtCopyPitchY.Text);
             }
             catch
             {
@@ -752,7 +975,7 @@ namespace LWDicer.UI
                 if (m_ScanManager.ObjectList[SelectObjectListView] == null) return;
 
                 // BMP 파일은 복사를 하지 않는다.
-                if (m_ScanManager.ObjectList[SelectObjectListView].ObjectType == EObjectType.BMP) return;            
+                if (m_ScanManager.ObjectList[SelectObjectListView].ObjectType == EObjectType.BMP) return;
 
                 if (SelectObjectListView < 0) return;
                 if (ShapeListView.Items.Count <= SelectObjectListView) return;
@@ -767,14 +990,14 @@ namespace LWDicer.UI
             }
 
             CPos_XY posStart = new CPos_XY();
-            CPos_XY posEnd   = new CPos_XY();
-            CPos_XY posMove  = new CPos_XY();
+            CPos_XY posEnd = new CPos_XY();
+            CPos_XY posMove = new CPos_XY();
 
             CMarkingObject pObject = ObjectExtensions.Copy(m_ScanManager.ObjectList[SelectObjectListView]);
 
             // 초기 X,Y Axis 값을 초기화 한다.
             posStart = pObject.ptObjectStartPos.Copy();
-            posEnd   = pObject.ObjectType == EObjectType.DOT ?
+            posEnd = pObject.ObjectType == EObjectType.DOT ?
                        pObject.ptObjectStartPos.Copy() :
                        pObject.ptObjectEndPos.Copy();
 
@@ -788,8 +1011,8 @@ namespace LWDicer.UI
             {
                 // 초기 X Axis 값을 초기화 한다.
                 posStart.dX = pObject.ptObjectStartPos.dX;
-                posEnd.dX   = pObject.ptObjectEndPos.dX;
-                posMove.dX  = 0;
+                posEnd.dX = pObject.ptObjectEndPos.dX;
+                posMove.dX = 0;
 
                 for (int j = 0; j < arrayNumX; j++)
                 //Parallel.For(0, arrayNumX, (int j) =>
@@ -815,8 +1038,8 @@ namespace LWDicer.UI
                 }
                 // Y Axis 값을 간격으로 증가시킨다.
                 posStart.dY += arrayGapY;
-                posEnd.dY   += arrayGapY;
-                posMove.dY  += arrayGapY;
+                posEnd.dY += arrayGapY;
+                posMove.dY += arrayGapY;
             }
 
             // Group을 추가함.
@@ -836,250 +1059,99 @@ namespace LWDicer.UI
             ReDrawCanvas();
         }
 
-        public void ObjectArrayCopy()
+        private void toolBtnGroup_Click(object sender, EventArgs e)
         {
+            if (ShapeListView.Items.Count < 1) return;
 
-        }
+            // Select 개수로 Array를 생성함.
+            int itemNum = ShapeListView.SelectedItems.Count;
+            CMarkingObject[] pGroup = new CMarkingObject[itemNum];
 
-
-        private void btnLaserRun_Click(object sender, EventArgs e)
-        {
-
-        }
-
-
-        private void polygonToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            // m_FormPolgon.ShowDialog();
-        }
-
-        private void btnDot_Click(object sender, EventArgs e)
-        {
-            m_ScanWindow.SetObjectType(EObjectType.DOT);
-
-        }
-
-        private void btnLine_Click(object sender, EventArgs e)
-        {
-            m_ScanWindow.SetObjectType(EObjectType.LINE);
-        }
-
-        private void btnRect_Click(object sender, EventArgs e)
-        {
-            m_ScanWindow.SetObjectType(EObjectType.RECTANGLE);
-        }
-
-        private void btnCircle_Click(object sender, EventArgs e)
-        {
-            m_ScanWindow.SetObjectType(EObjectType.CIRCLE);
-        }
-
-
-        private void btnFont_Click(object sender, EventArgs e)
-        {
-            m_ScanWindow.SetObjectType(EObjectType.FONT);
-        }
-
-        private void btnBmp_Click(object sender, EventArgs e)
-        {
-            m_ScanWindow.SetObjectType(EObjectType.BMP);
-        }
-
-        private void btnDxf_Click(object sender, EventArgs e)
-        {
-            //m_ScanWindow.SetObjectType(EObjectType.DXF);
-
-            string filename = null;
-
-            OpenFileDialog openFileDialog = new OpenFileDialog();
-            openFileDialog.Filter = "AutoCad files (*.dxf, *.dwg)|*.dxf;*.dwg";
-            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            int groupCount = 0;
+            // 선택된 객체만 Group에 삽입함.
+            foreach (ListViewItem item in ShapeListView.SelectedItems)
             {
-                try
-                {
-                    filename = openFileDialog.FileName;
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Error occurred: " + ex.Message);
-                }
+                int nIndex = item.Index;
+                m_ScanManager.ObjectList[nIndex].IsSelectedObject = false;
+                pGroup[groupCount] = ObjectExtensions.Copy(m_ScanManager.ObjectList[nIndex]);
+
+                groupCount++;
             }
 
-            m_ScanManager.LoadCadFile(filename);
+            CPos_XY pStart = new CPos_XY();
+            CPos_XY pEnd = new CPos_XY();
+
+            // Group을 추가함.
+            m_ScanManager.AddObject(EObjectType.GROUP, pStart, pEnd, pGroup);
+            AddObjectList(m_ScanManager.GetLastObject());
+
+            // 그룹화된 Object를 삭제함.
+            toolBtnDelete_Click(sender, e);
         }
 
-        private void btnNone_Click(object sender, EventArgs e)
+        private void toolBtnUnGroup_Click(object sender, EventArgs e)
         {
-            m_ScanWindow.SetObjectType(EObjectType.NONE);
-        }
+            if (ShapeListView.Items.Count < 1) return;
 
-        private void FormScanWindow_Load(object sender, EventArgs e)
-        {
-            DrawCanvas.Show();
-        }
+            CMarkingObject[] pGroup = new CMarkingObject[3];
 
-        private void btnLaserStop_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void btnImageSave_Click(object sender, EventArgs e)
-        {
-            string fileName = string.Empty;
-            int index = 0;
-
-            SaveFileDialog imgSaveDlg = new SaveFileDialog();
-            imgSaveDlg.InitialDirectory = CMainFrame.DBInfo.ImageDataDir;
-            imgSaveDlg.Filter = "BMP(*.bmp)|*.bmp";
-            if (imgSaveDlg.ShowDialog() == DialogResult.OK)
+            int groupCount = 0;
+            foreach (ListViewItem item in ShapeListView.SelectedItems)
             {
-                // Scan Field가 300mm 이하일 경우엔.. BMP를 한개만 생성한다.
-                if (CMainFrame.DataManager.SystemData_Scan.ScanFieldWidth <= POLYGON_SCAN_FIELD)
+                int nIndex = item.Index;
+
+                // Group가 아니면... 빠져나감.
+                if (m_ScanManager.ObjectList[nIndex].ObjectType != EObjectType.GROUP) continue;
+                // Group의 객체 수를 읽어서.. Array Size를 다시 설정함.
+                Array.Resize<CMarkingObject>(ref pGroup, m_ScanManager.ObjectList[nIndex].GroupObjectCount);
+
+                while (m_ScanManager.ObjectList[nIndex].GroupObjectCount > 0)
                 {
-                    if (CMainFrame.LWDicer.m_MeScanner.SetSizeBmp() != SUCCESS) return;
-                    CMainFrame.LWDicer.m_MeScanner.ConvertBmpFile(fileName);
+                    pGroup[groupCount] = m_ScanManager.ObjectList[nIndex].PullGroupObject();
+                    m_ScanManager.AddObject(pGroup[groupCount]);
+                    AddObjectList(pGroup[groupCount]);
+
+                    groupCount++;
                 }
 
-                // Scan Field가 300mm 이상일 경우엔.. BMP를 각각 Field만큼 생성한다.
-                if (CMainFrame.DataManager.SystemData_Scan.ScanFieldWidth > POLYGON_SCAN_FIELD)
-                {
-                    index = imgSaveDlg.FileName.IndexOf('.');
-                    fileName = imgSaveDlg.FileName.Insert(index, "-1");
-                    if (CMainFrame.LWDicer.m_MeScanner.SetSizeBmp(EScannerIndex.SCANNER1) != SUCCESS) return;
-                    CMainFrame.LWDicer.m_MeScanner.ConvertBmpFile(fileName, POLYGON_SCAN_FIELD * 0);
-
-                    index = imgSaveDlg.FileName.IndexOf('.');
-                    fileName = imgSaveDlg.FileName.Insert(index, "-2");
-                    if (CMainFrame.LWDicer.m_MeScanner.SetSizeBmp(EScannerIndex.SCANNER1) != SUCCESS) return;
-                    CMainFrame.LWDicer.m_MeScanner.ConvertBmpFile(fileName, POLYGON_SCAN_FIELD*1);
-
-                    index = imgSaveDlg.FileName.IndexOf('.');
-                    fileName = imgSaveDlg.FileName.Insert(index, "-3");
-                    if (CMainFrame.LWDicer.m_MeScanner.SetSizeBmp(EScannerIndex.SCANNER1) != SUCCESS) return;
-                    CMainFrame.LWDicer.m_MeScanner.ConvertBmpFile(fileName, POLYGON_SCAN_FIELD*2);
-                }
-
+                m_ScanManager.DeleteObject(nIndex);
+                ShapeListView.Items.Remove(item);
+                groupCount = 0;
             }
+
+            ReDrawCanvas();
         }
 
-        private void btnImageStreamSave_Click(object sender, EventArgs e)
+        private void RibbonPanel_Click(object sender, EventArgs e)
         {
-            string filename = string.Empty;
-            SaveFileDialog imgSaveDlg = new SaveFileDialog();
-            imgSaveDlg.InitialDirectory = CMainFrame.DBInfo.ImageDataDir;
-            imgSaveDlg.Filter = "BMP(*.lse)|*.lse";
-            if (imgSaveDlg.ShowDialog() == DialogResult.OK)
+
+        }
+
+        private void toolBtnDelete_Click(object sender, EventArgs e)
+        {
+            if (ShapeListView.Items.Count < 1) return;
+            foreach (ListViewItem item in ShapeListView.SelectedItems)
             {
-                filename = imgSaveDlg.FileName;
-                //string filepath = string.Format("{0:s}{1:s}.bmp", CMainFrame.DBInfo.ImageDataDir, "Polygon");
-                if (CMainFrame.LWDicer.m_MeScanner.CalsSizeBmpByte() != SUCCESS) return;
-                CMainFrame.LWDicer.m_MeScanner.SaveScanFile(filename);
+                int nIndex = item.Index;
+                m_ScanManager.DeleteObject(nIndex);
+                ShapeListView.Items.Remove(item);
             }
+
+            ReDrawCanvas();
         }
 
-        private void BtnConfigureExit_Click(object sender, EventArgs e)
+        private void toolBtnDeleteAll_Click(object sender, EventArgs e)
         {
-            // 현재 Form 닫기
-            this.Hide();
-        }
+            // Manager에서 생성 객체 삭제
+            m_ScanManager.DeleteAllObject();
 
-        private void btnZoomPlus_Click(object sender, EventArgs e)
-        {
-            //m_ScanWindow.
-            float currentZoom = BaseZoomFactor;
-            currentZoom *= 1.1f;
-            m_ScanWindow.ChangeCanvasZoom(currentZoom);
-        }
-
-        private void btnZoomMinus_Click(object sender, EventArgs e)
-        {
-            //m_ScanWindow.
-            float currentZoom = BaseZoomFactor;
-            currentZoom /= 1.1f;
-            m_ScanWindow.ChangeCanvasZoom(currentZoom);
-        }
-
-        private void btnZoomAll_Click(object sender, EventArgs e)
-        {
-            //m_ScanWindow.
-            float currentZoom = 1.0f;
-            SetViewCenter(new Point(0,0));
-
-            m_ScanWindow.ChangeCanvasZoom(currentZoom);
-        }
-
-        protected override void OnMouseWheel(MouseEventArgs e)
-        {
-            base.OnMouseWheel(e);
-
-            if ((e.Delta / 120) < 0)
+            // ListView에서 삭제
+            foreach (ListViewItem item in ShapeListView.Items)
             {
-                float currentZoom = BaseZoomFactor;
-                currentZoom *= 1.1f;
-                m_ScanWindow.ChangeCanvasZoom(currentZoom);
-            }
-            else
-            {
-                float currentZoom = BaseZoomFactor;
-                currentZoom /= 1.1f;
-                m_ScanWindow.ChangeCanvasZoom(currentZoom);
+                ShapeListView.Items.Remove(item);
             }
 
-        }
-
-        private void btnPanLeft_Click(object sender, EventArgs e)
-        {
-            Point movePos = new Point();
-            movePos = GetViewCenter();
-            movePos.X -= 1;
-
-            SetViewCenter(movePos);
-            DrawCanvas.Invalidate();
-        }
-
-        private void btnPanRight_Click(object sender, EventArgs e)
-        {
-            Point movePos = new Point();
-            movePos = GetViewCenter();
-            movePos.X += 1;
-
-            SetViewCenter(movePos);
-            DrawCanvas.Invalidate();
-        }
-
-        private void btnPanUp_Click(object sender, EventArgs e)
-        {
-            Point movePos = new Point();
-            movePos = GetViewCenter();
-            movePos.Y -= 1;
-
-            SetViewCenter(movePos);
-            DrawCanvas.Invalidate();
-        }
-
-        private void btnPanDn_Click(object sender, EventArgs e)
-        {
-            Point movePos = new Point();
-            movePos = GetViewCenter();
-            movePos.Y += 1;
-
-            SetViewCenter(movePos);
-            DrawCanvas.Invalidate();
-        }
-
-        private void tmrView_Tick(object sender, EventArgs e)
-        {
-            lblMousePos.Text = GetViewCenter().ToString();
-        }
-
-        private void FormScanWindow_Activated(object sender, EventArgs e)
-        {
-            //================================================================================
-            // Scan Field Size Set
-            SizeF fieldSize = new SizeF(0, 0);
-            fieldSize.Width = (float)CMainFrame.DataManager.SystemData_Scan.ScanFieldWidth;
-            fieldSize.Height = (float)CMainFrame.DataManager.SystemData_Scan.ScanFieldHeight;
-            m_ScanManager.SetFieldSize(fieldSize);
+            ReDrawCanvas();
         }
 
         #endregion

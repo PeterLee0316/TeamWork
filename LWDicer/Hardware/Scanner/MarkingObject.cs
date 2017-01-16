@@ -163,19 +163,26 @@ namespace LWDicer.Layers
                 pRect.Width += DRAW_DOT_SIZE -1;
                 pRect.Height += DRAW_DOT_SIZE -1;
             }
+            if (ObjectType == EObjectType.CIRCLE)
+            {
+                int radius = (int)Math.Sqrt(Math.Pow((StartPos.X - EndPos.X), 2) +
+                                                Math.Pow((StartPos.Y - EndPos.Y), 2));
+                pRect.X = (StartPos.X - radius);
+                pRect.Y = (StartPos.Y - radius);
+                pRect.Width  = radius * 2;
+                pRect.Height = radius * 2;
 
+                pRect.X -= nMargin;
+                pRect.Y -= nMargin;
+                pRect.Width += nMargin * 2;
+                pRect.Height += nMargin * 2;
+
+            }
             g.DrawRectangle(BaseDrawPen[(int)EDrawPenType.DIMENSION], pRect);
         }
 
         public virtual void MoveObject( CPos_XY pPos)
         {
-            //if (this.ObjectType == EObjectType.GROUP)// MoveObject(pPos);
-            //    for(int i=0; i<this.GroupObjectCount; i++)
-            //    {
-                    
-            //    }
-
-
 
             //CPos_XY objectCurrentPos = new CPos_XY(0,0);
 
@@ -403,6 +410,7 @@ namespace LWDicer.Layers
         }
 
     }
+
     [Serializable]
     public class CObjectCircle : CMarkingObject
     {
@@ -441,7 +449,94 @@ namespace LWDicer.Layers
 
             StartPos = AbsFieldToPixel(ptObjectStartPos);
             EndPos = AbsFieldToPixel(ptObjectEndPos);
-            
+
+            int radius = (int)Math.Sqrt(Math.Pow((StartPos.X - EndPos.X), 2) +
+                                        Math.Pow((StartPos.Y - EndPos.Y), 2));
+            Rectangle rectCircle = new Rectangle();
+
+            rectCircle.X = (StartPos.X - radius);
+            rectCircle.Y = (StartPos.Y - radius);
+            rectCircle.Width = radius * 2;
+            rectCircle.Height = radius * 2;
+
+            g.DrawEllipse(BaseDrawPen[(int)EDrawPenType.DRAW], rectCircle);
+
+            //Point StartPos = new Point(0, 0);
+            //Point EndPos = new Point(0, 0);
+
+            //StartPos = AbsFieldToPixel(ptObjectStartPos);
+            //EndPos = AbsFieldToPixel(ptObjectEndPos);
+
+            //g.DrawEllipse(BaseDrawPen[(int)EDrawPenType.DRAW],
+            //                (StartPos.X < EndPos.X ? StartPos.X : EndPos.X),
+            //                (StartPos.Y < EndPos.Y ? StartPos.Y : EndPos.Y),
+            //                (StartPos.X > EndPos.X ? (StartPos.X - EndPos.X) : -(StartPos.X - EndPos.X)),
+            //                (StartPos.Y > EndPos.Y ? (StartPos.X - EndPos.X) : -(StartPos.X - EndPos.X)));
+        }
+
+        public override void MoveObject(CPos_XY pPos)
+        {
+            base.MoveObject(pPos);
+            CPos_XY objectCurrentPos = new CPos_XY(0, 0);
+
+            //--------------------------------------------------------------------------------
+            // Start Position Move
+            objectCurrentPos.dX = ptObjectStartPos.dX;
+            objectCurrentPos.dY = ptObjectStartPos.dY;
+            objectCurrentPos.dX += pPos.dX;
+            objectCurrentPos.dY += pPos.dY;
+            SetObjectStartPos(objectCurrentPos);
+
+            //--------------------------------------------------------------------------------
+            // End Position Move
+            objectCurrentPos.dX = ptObjectEndPos.dX;
+            objectCurrentPos.dY = ptObjectEndPos.dY;
+            objectCurrentPos.dX += pPos.dX;
+            objectCurrentPos.dY += pPos.dY;
+            SetObjectEndPos(objectCurrentPos);
+        }
+    }
+
+
+    [Serializable]
+    public class CObjectEllipse : CMarkingObject
+    {
+        public CObjectEllipse(CPos_XY pStart, CPos_XY pEnd, float pAngle = 0)
+        {
+            SetObjectStartPos(pStart);
+            SetObjectEndPos(pEnd);
+            SetObjectCenterPos((pStart + pEnd) / 2);
+            SetObjectRatateAngle(pAngle);
+
+            SetObjectType(EObjectType.ELLIPSE);
+            SetObjectName("Ellipse");
+
+            CMarkingObject.CreateSortNum++;
+
+            SetObjectSortFlag(CreateSortNum);
+        }
+
+        public CObjectEllipse(CObjectCircle pObject)
+        {
+            SetObjectStartPos(pObject.ptObjectStartPos);
+            SetObjectEndPos(pObject.ptObjectEndPos);
+            SetObjectCenterPos((pObject.ptObjectStartPos + pObject.ptObjectEndPos) / 2);
+            SetObjectRatateAngle(pObject.ObjectRotateAngle);
+            SetObjectType(pObject.ObjectType);
+            SetObjectName(pObject.ObjectName);
+            SetObjectSortFlag(pObject.ObjectSortFlag);
+        }
+
+        public override void DrawObject(Graphics g)
+        {
+            base.DrawObject(g);
+
+            Point StartPos = new Point(0, 0);
+            Point EndPos = new Point(0, 0);
+
+            StartPos = AbsFieldToPixel(ptObjectStartPos);
+            EndPos = AbsFieldToPixel(ptObjectEndPos);
+
             g.DrawEllipse(BaseDrawPen[(int)EDrawPenType.DRAW],
                             (StartPos.X < EndPos.X ? StartPos.X : EndPos.X),
                             (StartPos.Y < EndPos.Y ? StartPos.Y : EndPos.Y),
