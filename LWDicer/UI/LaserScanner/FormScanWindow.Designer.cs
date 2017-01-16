@@ -879,6 +879,7 @@ namespace LWDicer.UI
             this.ribbonControl.Header.AddMainItem(toolTabProperty);
             this.ribbonControl.Header.AddMainItem(toolTabConvert);
             this.ribbonControl.Location = new System.Drawing.Point(0, 0);
+            //this.ribbonControl.MenuButtonImage = global::LWDicer.Properties.Resources.draw1;
             this.ribbonControl.Name = "ribbonControl";
             // 
             // ribbonControl.OfficeMenu
@@ -886,11 +887,12 @@ namespace LWDicer.UI
             this.ribbonControl.OfficeMenu.Name = "OfficeMenu";
             this.ribbonControl.OfficeMenu.ShowItemToolTips = true;
             this.ribbonControl.OfficeMenu.Size = new System.Drawing.Size(12, 65);
+            this.ribbonControl.OfficeMenu.Text = "Draw";
             this.ribbonControl.OfficeMenu.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.ribbonControl_OfficeMenu_ItemClicked);
             this.ribbonControl.Size = new System.Drawing.Size(1253, 188);
             this.ribbonControl.SystemText.QuickAccessDialogDropDownName = "Start menu";
             this.ribbonControl.TabIndex = 757;
-            this.ribbonControl.Text = "ribbonControlAdv1";
+            this.ribbonControl.Text = "Draw";
             this.ribbonControl.Click += new System.EventHandler(this.ribbonControl_Click);
             // 
             // toolTabDraw

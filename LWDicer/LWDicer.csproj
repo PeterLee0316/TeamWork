@@ -930,6 +930,7 @@
     <None Include="Resources\AecBaseEnu_14367.ico" />
     <None Include="Resources\AecBaseEnu_143671.ico" />
     <None Include="Resources\AecBaseEnu_14834.ico" />
+    <None Include="Resources\draw1.jpg" />
     <Content Include="System\History.txt" />
   </ItemGroup>
   <ItemGroup>
