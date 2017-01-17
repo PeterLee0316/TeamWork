@@ -55,12 +55,16 @@ namespace LWDicer.UI
             fieldSize.Height = (float)CMainFrame.DataManager.SystemData_Scan.ScanFieldHeight;
             m_ScanManager.SetFieldSize(fieldSize);
 
+            
+
             this.OnResize(EventArgs.Empty);
         }
 
         protected override void OnShown(EventArgs e)
         {
             base.OnShown(e);
+
+
 
             DrawCanvas.Show();
         }
@@ -241,26 +245,6 @@ namespace LWDicer.UI
         /////////////////////////////////////////////////////////////////////////////////////////
 
         #region 함수
-        private void tblPnlMain_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void button2_Click(object sender, EventArgs e)
-        {
-
-        }
-
-
-        private void WindowControl_Load(object sender, EventArgs e)
-        {
-
-        }
-
-        private void homeToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-
-        }
 
         private void CWindowForm_Resize(object sender, EventArgs e)
         {
@@ -362,28 +346,30 @@ namespace LWDicer.UI
             //try
             //{
             int listNum = m_ScanManager.ObjectList.Count;
-                //for (int i = 0; i < ShapeListView.Items.Count-1; i++)
-                for (int i = 0; i < listNum; i++)
-                    //if(m_ScanManager.ObjectList.Count > i)
-                    m_ScanManager.ObjectList[i].IsSelectedObject = false;
+            //for (int i = 0; i < ShapeListView.Items.Count-1; i++)
+            for (int i = 0; i < listNum; i++)
+            {
+                //if(m_ScanManager.ObjectList.Count > i)
+                m_ScanManager.ObjectList[i].IsSelectedObject = false;
+            }
 
-                if (ShapeListView.Items.Count < 1)
-                {
-                    InsetObjectProperty(SelectObjectListView);
-                    return;
-                }
-
-                var SelectCol = ShapeListView.SelectedIndices;
-
-                for (int i = SelectCol.Count - 1; i >= 0; i--)
-                {
-                    SelectObjectListView = SelectCol[i];
-                    m_ScanManager.ObjectList[SelectObjectListView].IsSelectedObject = true;
-                }
-
-                ReDrawCanvas();
-
+            if (ShapeListView.Items.Count < 1)
+            {
                 InsetObjectProperty(SelectObjectListView);
+                return;
+            }
+
+            var SelectCol = ShapeListView.SelectedIndices;
+
+            for (int i = SelectCol.Count - 1; i >= 0; i--)
+            {
+                SelectObjectListView = SelectCol[i];
+                m_ScanManager.ObjectList[SelectObjectListView].IsSelectedObject = true;
+            }
+
+            ReDrawCanvas();
+
+            InsetObjectProperty(SelectObjectListView);
             //}
             //catch
             //{ }
@@ -398,57 +384,23 @@ namespace LWDicer.UI
         {
             if (nIndex >= 0)
             {
-                txtObjectStartPosX.Text = string.Format("{0:F4}", m_ScanManager.ObjectList[nIndex].ptObjectStartPos.dX);
-                txtObjectStartPosY.Text = string.Format("{0:F4}", m_ScanManager.ObjectList[nIndex].ptObjectStartPos.dY);
-                txtObjectEndPosX.Text = string.Format("{0:F4}", m_ScanManager.ObjectList[nIndex].ptObjectEndPos.dX);
-                txtObjectEndPosY.Text = string.Format("{0:F4}", m_ScanManager.ObjectList[nIndex].ptObjectEndPos.dY);
-                txtObjectAngle.Text = string.Format("{0:F4}", m_ScanManager.ObjectList[nIndex].ObjectRotateAngle);
+                tooltxtStartPointX.Text = string.Format("{0:F4}", m_ScanManager.ObjectList[nIndex].ptObjectStartPos.dX);
+                tooltxtStartPointY.Text = string.Format("{0:F4}", m_ScanManager.ObjectList[nIndex].ptObjectStartPos.dY);
+                tooltxtEndPointX.Text = string.Format("{0:F4}", m_ScanManager.ObjectList[nIndex].ptObjectEndPos.dX);
+                tooltxtEndPointY.Text = string.Format("{0:F4}", m_ScanManager.ObjectList[nIndex].ptObjectEndPos.dY);
+                tooltxtCurrentAngle.Text = string.Format("{0:F4}", m_ScanManager.ObjectList[nIndex].ObjectRotateAngle);
 
             }
             else
             {
-                txtObjectStartPosX.Text = "0";
-                txtObjectStartPosY.Text = "0";
-                txtObjectEndPosX.Text = "0";
-                txtObjectEndPosY.Text = "0";
-                txtObjectAngle.Text = "0";
+                tooltxtStartPointX.Text = "0";
+                tooltxtStartPointY.Text = "0";
+                tooltxtEndPointX.Text = "0";
+                tooltxtEndPointY.Text = "0";
+                tooltxtCurrentAngle.Text = "0";
             }
         }
-
-        private void btnObjectChange_Click(object sender, EventArgs e)
-        {
-            //선택된 것이 없으면 실행하지 않는다.
-            if (ShapeListView.Items.Count < 1) return;
-            if (SelectObjectListView < 0) return;
-            if (ShapeListView.Items.Count <= SelectObjectListView) return;
-            if (m_ScanManager.ObjectList[SelectObjectListView] == null) return;
-            //Group 타입이면 변경을 하지 않는다
-            if (m_ScanManager.ObjectList[SelectObjectListView].ObjectType == EObjectType.GROUP) return;
-
-            CPos_XY pPos = new CPos_XY(0, 0);
-
-            pPos.dX = float.Parse(txtObjectStartPosX.Text);
-            pPos.dY = float.Parse(txtObjectStartPosY.Text);
-            m_ScanManager.ObjectList[SelectObjectListView].SetObjectStartPos(pPos);
-
-            pPos.dX = float.Parse(txtObjectEndPosX.Text);
-            pPos.dY = float.Parse(txtObjectEndPosY.Text);
-            m_ScanManager.ObjectList[SelectObjectListView].SetObjectEndPos(pPos);
-
-            m_ScanManager.ObjectList[SelectObjectListView].SetObjectRatateAngle(float.Parse(txtObjectAngle.Text));
-
-            ReDrawCanvas();
-
-            //---------------------------
-            // 변경
-            stObjectInfo objectInfo = new stObjectInfo();
-            objectInfo.SelectNum = SelectObjectListView;
-            objectInfo.pStartPos = pPos;
-
-            objectInfo.pEndPos = pPos;
-            objectInfo.pAngle = float.Parse(txtObjectAngle.Text);
-
-        }
+        
 
         private void CanvasObjectMove(CPos_XY pPos, double pAngle)
         {
@@ -478,194 +430,16 @@ namespace LWDicer.UI
 
         }
 
-        private void btnObjectMove_Click(object sender, EventArgs e)
-        {
-            CPos_XY objectMovePos = new CPos_XY();
-            float objectMoveAngle = 0f;
-
-            try
-            {
-                objectMovePos.dX = float.Parse(txtObjectMoveX.Text);
-                objectMovePos.dY = float.Parse(txtObjectMoveY.Text);
-                objectMoveAngle = float.Parse(txtObjectMoveT.Text);
-
-                // Object Move Call
-                CanvasObjectMove(objectMovePos, objectMoveAngle);
-            }
-            catch
-            {
-                return;
-            }
-
-        }
-
-        private void btnObjectMoveUp_Click(object sender, EventArgs e)
-        {
-            CPos_XY objectMovePos = new CPos_XY();
-            double objectMoveAngle = 0.0;
-
-            try
-            {
-                objectMovePos.dY = -Convert.ToDouble(txtObjectMoveY.Text);
-
-                // Object Move Call
-                CanvasObjectMove(objectMovePos, objectMoveAngle);
-            }
-            catch
-            {
-                return;
-            }
-        }
-
-        private void btnObjectMoveDn_Click(object sender, EventArgs e)
-        {
-            CPos_XY objectMovePos = new CPos_XY();
-            float objectMoveAngle = 0f;
-
-            try
-            {
-                objectMovePos.dY = float.Parse(txtObjectMoveY.Text);
-
-                // Object Move Call
-                CanvasObjectMove(objectMovePos, objectMoveAngle);
-            }
-            catch
-            {
-                return;
-            }
-        }
-
-        private void btnObjectMoveLeft_Click(object sender, EventArgs e)
-        {
-            CPos_XY objectMovePos = new CPos_XY();
-            float objectMoveAngle = 0f;
-            try
-            {
-                objectMovePos.dX = -float.Parse(txtObjectMoveX.Text);
-
-                // Object Move Call
-                CanvasObjectMove(objectMovePos, objectMoveAngle);
-            }
-            catch
-            {
-                return;
-            }
-        }
-
-        private void btnObjectMoveRight_Click(object sender, EventArgs e)
-        {
-            CPos_XY objectMovePos = new CPos_XY();
-            double objectMoveAngle = 0.0;
-            try
-            {
-                objectMovePos.dX = Convert.ToDouble(txtObjectMoveX.Text);
-
-                // Object Move Call
-                CanvasObjectMove(objectMovePos, objectMoveAngle);
-            }
-            catch
-            {
-                return;
-            }
-        }
-
-
-        private void btnObjectArrayCopy_Click(object sender, EventArgs e)
-        {
-
-        }
-
-
-        private void label1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label4_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void textBox4_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label6_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void textBox6_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void WindowControl_Load_1(object sender, EventArgs e)
-        {
-
-        }
-
-        private void penToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        public void ObjectArrayCopy()
-        {
-
-        }
-
-
-        private void btnLaserRun_Click(object sender, EventArgs e)
-        {
-
-        }
-
-
-        private void polygonToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            // m_FormPolgon.ShowDialog();
-        }
-
-
         private void FormScanWindow_Load(object sender, EventArgs e)
         {
             DrawCanvas.Show();
+
+            // Zoom & View Center Default Set
+            float currentZoom = 1.0f;
+            m_ScanWindow.ChangeCanvasZoom(currentZoom);
+            m_ScanWindow.MoveViewCenter();
         }
 
-        private void btnLaserStop_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void btnImageSave_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void btnImageStreamSave_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void BtnConfigureExit_Click(object sender, EventArgs e)
-        {
-            // 현재 Form 닫기
-            this.Hide();
-        }
-
-        private void btnZoomPlus_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void btnZoomMinus_Click(object sender, EventArgs e)
-        {
-
-        }
-
-  
 
         protected override void OnMouseWheel(MouseEventArgs e)
         {
@@ -728,7 +502,7 @@ namespace LWDicer.UI
 
         private void tmrView_Tick(object sender, EventArgs e)
         {
-            lblMousePos.Text = GetViewCorner().ToString();
+            
         }
 
         private void FormScanWindow_Activated(object sender, EventArgs e)
@@ -740,61 +514,18 @@ namespace LWDicer.UI
             fieldSize.Height = (float)CMainFrame.DataManager.SystemData_Scan.ScanFieldHeight;
             m_ScanManager.SetFieldSize(fieldSize);
         }
-
-        private void pointToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            m_ScanWindow.SetObjectType(EObjectType.DOT);
-        }
-
-        private void lineToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            m_ScanWindow.SetObjectType(EObjectType.LINE);
-        }
-
-        private void arcToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            m_ScanWindow.SetObjectType(EObjectType.ARC);
-        }
-
-        private void rectangleToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            m_ScanWindow.SetObjectType(EObjectType.RECTANGLE);
-        }
-
-        private void circleToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            m_ScanWindow.SetObjectType(EObjectType.CIRCLE);
-        }
-
-        private void ellipseToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            m_ScanWindow.SetObjectType(EObjectType.ELLIPSE);
-        }
-
-        private void fontToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            m_ScanWindow.SetObjectType(EObjectType.FONT);
-        }
-
+        
         private void ribbonControl_Click(object sender, EventArgs e)
         {
 
         }
 
-        private void toolStripEx3_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
-        {
-
-        }
 
         private void ribbonControl_OfficeMenu_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
         {
 
         }
-
-        private void toolPnlDraw_Click(object sender, EventArgs e)
-        {
-
-        }
+        
 
         private void toolBtnDot_Click(object sender, EventArgs e)
         {
@@ -825,8 +556,7 @@ namespace LWDicer.UI
         {
             m_ScanWindow.SetObjectType(EObjectType.ELLIPSE);
         }
-        
-        
+              
 
         private void toolBtnSaveBmp_Click(object sender, EventArgs e)
         {
@@ -947,11 +677,6 @@ namespace LWDicer.UI
             m_ScanWindow.SetObjectType(EObjectType.NONE);
         }
 
-        private void txtArrayNumX_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
         private void toolBtnArrayCopy_Click(object sender, EventArgs e)
         {
             int arrayNumX = 0, arrayNumY = 0;
@@ -1061,6 +786,8 @@ namespace LWDicer.UI
 
         private void toolBtnGroup_Click(object sender, EventArgs e)
         {
+            if (!CMainFrame.InquireMsg("Grouping Object ?")) return;
+
             if (ShapeListView.Items.Count < 1) return;
 
             // Select 개수로 Array를 생성함.
@@ -1091,6 +818,8 @@ namespace LWDicer.UI
 
         private void toolBtnUnGroup_Click(object sender, EventArgs e)
         {
+            if (!CMainFrame.InquireMsg("Ungrouping Object ?")) return;
+
             if (ShapeListView.Items.Count < 1) return;
 
             CMarkingObject[] pGroup = new CMarkingObject[3];
@@ -1122,13 +851,10 @@ namespace LWDicer.UI
             ReDrawCanvas();
         }
 
-        private void RibbonPanel_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void toolBtnDelete_Click(object sender, EventArgs e)
         {
+            if (!CMainFrame.InquireMsg("Delete Object ?")) return;
+
             if (ShapeListView.Items.Count < 1) return;
             foreach (ListViewItem item in ShapeListView.SelectedItems)
             {
@@ -1142,6 +868,7 @@ namespace LWDicer.UI
 
         private void toolBtnDeleteAll_Click(object sender, EventArgs e)
         {
+            if (!CMainFrame.InquireMsg("Delete Object All?")) return;
             // Manager에서 생성 객체 삭제
             m_ScanManager.DeleteAllObject();
 
@@ -1152,6 +879,129 @@ namespace LWDicer.UI
             }
 
             ReDrawCanvas();
+        }
+
+        private void toolBtnChange_Click(object sender, EventArgs e)
+        {
+            if (!CMainFrame.InquireMsg("Change Demension of Object ?")) return;
+
+            //선택된 것이 없으면 실행하지 않는다.
+            if (ShapeListView.Items.Count < 1) return;
+            if (SelectObjectListView < 0) return;
+            if (ShapeListView.Items.Count <= SelectObjectListView) return;
+            if (m_ScanManager.ObjectList[SelectObjectListView] == null) return;
+            //Group 타입이면 변경을 하지 않는다
+            if (m_ScanManager.ObjectList[SelectObjectListView].ObjectType == EObjectType.GROUP) return;
+
+            CPos_XY pPos = new CPos_XY(0, 0);
+
+            pPos.dX = float.Parse(tooltxtStartPointX.Text);
+            pPos.dY = float.Parse(tooltxtStartPointY.Text);
+            m_ScanManager.ObjectList[SelectObjectListView].SetObjectStartPos(pPos);
+
+            pPos.dX = float.Parse(tooltxtEndPointX.Text);
+            pPos.dY = float.Parse(tooltxtEndPointY.Text);
+            m_ScanManager.ObjectList[SelectObjectListView].SetObjectEndPos(pPos);
+
+            m_ScanManager.ObjectList[SelectObjectListView].SetObjectRatateAngle(float.Parse(tooltxtCurrentAngle.Text));
+
+            ReDrawCanvas();
+
+            //---------------------------
+            // 변경
+            stObjectInfo objectInfo = new stObjectInfo();
+            objectInfo.SelectNum = SelectObjectListView;
+            objectInfo.pStartPos = pPos;
+
+            objectInfo.pEndPos = pPos;
+            objectInfo.pAngle = float.Parse(tooltxtCurrentAngle.Text);
+        }
+
+        private void toolBtnMoveU_Click(object sender, EventArgs e)
+        {
+            CPos_XY objectMovePos = new CPos_XY();
+            double objectMoveAngle = 0.0;
+
+            try
+            {
+                objectMovePos.dY = -Convert.ToDouble(tooltxtDistance.Text);
+
+                // Object Move Call
+                CanvasObjectMove(objectMovePos, objectMoveAngle);
+
+                InsetObjectProperty(SelectObjectListView);
+            }
+            catch
+            {
+                return;
+            }
+        }
+
+        private void toolBtnMoveD_Click(object sender, EventArgs e)
+        {
+            CPos_XY objectMovePos = new CPos_XY();
+            double objectMoveAngle = 0.0;
+
+            try
+            {
+                objectMovePos.dY = Convert.ToDouble(tooltxtDistance.Text);
+
+                // Object Move Call
+                CanvasObjectMove(objectMovePos, objectMoveAngle);
+
+                InsetObjectProperty(SelectObjectListView);
+            }
+            catch
+            {
+                return;
+            }
+        }
+
+        private void toolBtnMoveL_Click(object sender, EventArgs e)
+        {
+            CPos_XY objectMovePos = new CPos_XY();
+            double objectMoveAngle = 0.0;
+
+            try
+            {
+                objectMovePos.dX = -Convert.ToDouble(tooltxtDistance.Text);
+
+                // Object Move Call
+                CanvasObjectMove(objectMovePos, objectMoveAngle);
+
+                InsetObjectProperty(SelectObjectListView);
+            }
+            catch
+            {
+                return;
+            }
+        }
+
+        private void toolBtnMoveR_Click(object sender, EventArgs e)
+        {
+            CPos_XY objectMovePos = new CPos_XY();
+            double objectMoveAngle = 0.0;
+
+            try
+            {
+                objectMovePos.dX = Convert.ToDouble(tooltxtDistance.Text);
+
+                // Object Move Call
+                CanvasObjectMove(objectMovePos, objectMoveAngle);
+                
+                InsetObjectProperty(SelectObjectListView);                    
+                
+            }
+            catch
+            {
+                return;
+            }
+        }
+
+        private void toolBtnClose_Click(object sender, EventArgs e)
+        {
+            // 현재 Form 닫기
+            this.Hide();
         }
 
         #endregion

@@ -847,7 +847,8 @@ CSpinStep class -> CCleaningStep / CCoatingStep class 로 분리
 // Context
 1. Scanner Draw UI
 	- Ribbon control를 사용하여 Button 및 Label 위치 재 배치
-
+	- zoom, move, dimension 기능 점검 및 동작 테스트
+	- 해당하는 icon 추가함
 
 
 

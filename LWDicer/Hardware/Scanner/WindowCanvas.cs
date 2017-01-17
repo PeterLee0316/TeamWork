@@ -82,10 +82,12 @@ namespace LWDicer.Layers
             }
             else if (e.Button == MouseButtons.Right)   // 마우스 오른쪽 버튼
             {
-
+                
             }
             else if (e.Button == MouseButtons.Middle)   // 마우스 가운데 버튼
             {
+                this.Cursor = Cursors.Hand;
+
                 m_ScanWindow.ptPanStartPos = e.Location;
                 m_ScanWindow.ptStartViewCenter = GetViewCorner();
             }
@@ -95,6 +97,8 @@ namespace LWDicer.Layers
         protected override void OnMouseUp(MouseEventArgs e)
         {
             base.OnMouseUp(e);
+
+            this.Cursor = Cursors.Arrow;
 
             if (e.Button == MouseButtons.Left && m_ScanWindow.SelectObjectType != EObjectType.NONE)
             {
