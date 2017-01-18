@@ -106,13 +106,13 @@ namespace LWDicer.UI
 
         public void ReDrawCanvas()
         {
-            Rectangle pRect = new Rectangle(0, 0, 0, 0);
-            //pRect.X = pnlCanvas.Location.X;
-            //pRect.Y = pnlCanvas.Location.Y;
-            pRect.X = 0;
-            pRect.Y = 0;
-            pRect.Width = pnlCanvas.Width;
-            pRect.Height = pnlCanvas.Height;
+            //Rectangle pRect = new Rectangle(0, 0, 0, 0);
+            ////pRect.X = pnlCanvas.Location.X;
+            ////pRect.Y = pnlCanvas.Location.Y;
+            //pRect.X = 0;
+            //pRect.Y = 0;
+            //pRect.Width = pnlCanvas.Width;
+            //pRect.Height = pnlCanvas.Height;
 
             DrawCanvas.Invalidate();
 

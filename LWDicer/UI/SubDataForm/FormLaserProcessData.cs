@@ -150,6 +150,8 @@ namespace LWDicer.UI
             LabelMarkPosX.Text = String.Format("{0:F4}", LaserProcessData.WorkSteps_General[IndexNum].MarkPos.dX);
             LabelMarkPosY.Text = String.Format("{0:F4}", LaserProcessData.WorkSteps_General[IndexNum].MarkPos.dY);
             LabelMarkPosT.Text = String.Format("{0:F4}", LaserProcessData.WorkSteps_General[IndexNum].MarkPos.dT);
+            LabelInPositionDelay.Text = String.Format("{0:F0}", LaserProcessData.WorkSteps_General[IndexNum].InPosDelay);
+
 
             LabelMarkOffsetX.Text = String.Format("{0:F4}", LaserProcessData.WorkSteps_General[IndexNum].MarkOffset.dX);
             LabelMarkOffsetY.Text = String.Format("{0:F4}", LaserProcessData.WorkSteps_General[IndexNum].MarkOffset.dY);
@@ -181,6 +183,7 @@ namespace LWDicer.UI
             LaserProcessData.WorkSteps_General[indexNum].MarkPos.dX = Convert.ToDouble(LabelMarkPosX.Text);
             LaserProcessData.WorkSteps_General[indexNum].MarkPos.dY = Convert.ToDouble(LabelMarkPosY.Text);
             LaserProcessData.WorkSteps_General[indexNum].MarkPos.dT = Convert.ToDouble(LabelMarkPosT.Text);
+            LaserProcessData.WorkSteps_General[indexNum].InPosDelay = Convert.ToInt32(LabelInPositionDelay.Text);
 
             LaserProcessData.WorkSteps_General[indexNum].MarkOffset.dX   = Convert.ToDouble(LabelMarkOffsetX.Text);
             LaserProcessData.WorkSteps_General[indexNum].MarkOffset.dY   = Convert.ToDouble(LabelMarkOffsetY.Text);
@@ -334,167 +337,22 @@ namespace LWDicer.UI
                 data.ForeColor = Color.Red;
             }            
         }
+        
 
-        private void LabelMarkPosX_Click(object sender, EventArgs e)
+        private void ChangeTextData(object sender, EventArgs e)
         {
-            GradientLabel data = sender as GradientLabel;
-
-            int nCol = 0, nRow = 0;
             string strCurrent = "", strModify = "";
 
-            strCurrent = data.Text;
+            GradientLabel Btn = sender as GradientLabel;
+            strCurrent = Btn.Text;
 
             if (!CMainFrame.GetKeyPad(strCurrent, out strModify))
             {
                 return;
             }
 
-            data.Text = strModify;
-            data.ForeColor = Color.Red;
-        }
-
-        private void LabelMarkPosY_Click(object sender, EventArgs e)
-        {
-            GradientLabel data = sender as GradientLabel;
-
-            int nCol = 0, nRow = 0;
-            string strCurrent = "", strModify = "";
-
-            strCurrent = data.Text;
-
-            if (!CMainFrame.GetKeyPad(strCurrent, out strModify))
-            {
-                return;
-            }
-
-            data.Text = strModify;
-            data.ForeColor = Color.Red;
-        }
-
-        private void LabelMarkPosT_Click(object sender, EventArgs e)
-        {
-            GradientLabel data = sender as GradientLabel;
-
-            int nCol = 0, nRow = 0;
-            string strCurrent = "", strModify = "";
-
-            strCurrent = data.Text;
-
-            if (!CMainFrame.GetKeyPad(strCurrent, out strModify))
-            {
-                return;
-            }
-
-            data.Text = strModify;
-            data.ForeColor = Color.Red;
-        }
-
-        private void LabelMarkOffsetX_Click(object sender, EventArgs e)
-        {
-            GradientLabel data = sender as GradientLabel;
-
-            int nCol = 0, nRow = 0;
-            string strCurrent = "", strModify = "";
-
-            strCurrent = data.Text;
-
-            if (!CMainFrame.GetKeyPad(strCurrent, out strModify))
-            {
-                return;
-            }
-
-            data.Text = strModify;
-            data.ForeColor = Color.Red;
-        }
-
-        private void LabelMarkOffsetY_Click(object sender, EventArgs e)
-        {
-            GradientLabel data = sender as GradientLabel;
-
-            int nCol = 0, nRow = 0;
-            string strCurrent = "", strModify = "";
-
-            strCurrent = data.Text;
-
-            if (!CMainFrame.GetKeyPad(strCurrent, out strModify))
-            {
-                return;
-            }
-
-            data.Text = strModify;
-            data.ForeColor = Color.Red;
-        }
-
-        private void LabelMarkCount_Click(object sender, EventArgs e)
-        {
-            GradientLabel data = sender as GradientLabel;
-
-            int nCol = 0, nRow = 0;
-            string strCurrent = "", strModify = "";
-
-            strCurrent = data.Text;
-
-            if (!CMainFrame.GetKeyPad(strCurrent, out strModify))
-            {
-                return;
-            }
-
-            data.Text = strModify;
-            data.ForeColor = Color.Red;
-        }
-
-        private void LabelPatternOffsetX_Click(object sender, EventArgs e)
-        {
-            GradientLabel data = sender as GradientLabel;
-
-            int nCol = 0, nRow = 0;
-            string strCurrent = "", strModify = "";
-
-            strCurrent = data.Text;
-
-            if (!CMainFrame.GetKeyPad(strCurrent, out strModify))
-            {
-                return;
-            }
-
-            data.Text = strModify;
-            data.ForeColor = Color.Red;
-        }
-
-        private void LabelPatternOffsetY_Click(object sender, EventArgs e)
-        {
-            GradientLabel data = sender as GradientLabel;
-
-            int nCol = 0, nRow = 0;
-            string strCurrent = "", strModify = "";
-
-            strCurrent = data.Text;
-
-            if (!CMainFrame.GetKeyPad(strCurrent, out strModify))
-            {
-                return;
-            }
-
-            data.Text = strModify;
-            data.ForeColor = Color.Red;
-        }
-
-        private void LabelPatternCount_Click(object sender, EventArgs e)
-        {
-            GradientLabel data = sender as GradientLabel;
-
-            int nCol = 0, nRow = 0;
-            string strCurrent = "", strModify = "";
-
-            strCurrent = data.Text;
-
-            if (!CMainFrame.GetKeyPad(strCurrent, out strModify))
-            {
-                return;
-            }
-
-            data.Text = strModify;
-            data.ForeColor = Color.Red;
+            Btn.Text = strModify;
+            Btn.ForeColor = Color.Red;
         }
 
         private void LabelTextColorToBlack()
@@ -505,6 +363,7 @@ namespace LWDicer.UI
             LabelMarkPosX.ForeColor = Color.Black;
             LabelMarkPosY.ForeColor = Color.Black;
             LabelMarkPosT.ForeColor = Color.Black;
+            LabelInPositionDelay.ForeColor = Color.Black;
             LabelMarkOffsetX.ForeColor = Color.Black;
             LabelMarkOffsetY.ForeColor = Color.Black;
             LabelMarkCount.ForeColor = Color.Black;

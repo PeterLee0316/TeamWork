@@ -161,7 +161,8 @@ namespace LWDicer.Layers
 
             public String ScannerJobFile;       // Scanner Jog File Path
             public String ScannerBmpFile;       // Scanner Bmp File Path
-            public CPos_XYTZ MarkPos;           // Marking Position     
+            public CPos_XYTZ MarkPos;           // Marking Position    
+            public int InPosDelay; 
 
             public CPos_XY MarkOffset;          // Mark Offset (Mark간의 간격)
             public int MarkCount;               // Marking 반복 횟수 
@@ -416,6 +417,9 @@ namespace LWDicer.Layers
 
                         if (IsCancelJob_byManual) return SUCCESS;
                         if (IsCancelJob_byAuto) return GenerateErrorCode(ERR_CTRLSTAGE_CANCEL_RUN_JOB);
+
+                        // Inposition Delay를 한다.
+                        Sleep(CurStep_LaserProcess.InPosDelay);
 
                         // Laser Process (Step & MOF 동작 2가지 중 한개 실행)
                         if (CurStep_LaserProcess.Operation == ELaserOperation.STEP_MARK)

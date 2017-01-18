@@ -350,60 +350,21 @@ namespace LWDicer.Layers
             // POLYGON_SCAN_FIELD
             ScanFieldSize.Width = CMainFrame.DataManager.SystemData_Scan.ScanFieldWidth;
             ScanFieldSize.Height = CMainFrame.DataManager.SystemData_Scan.ScanFieldHeight;
-
-            Pen drawPen = new Pen(System.Drawing.Color.FromArgb(30, 30, 30));
-
-            // Minor Grid Draw ==============================================
-            for (int i = 0; i < ScanFieldSize.Width; i += gridMinor)
+            
+            // 더블 버퍼링을 위한 코드
+            using (BufferedGraphics bufferedgraphic = BufferedGraphicsManager.Current.Allocate(g, this.ClientRectangle))
             {
-                objectStartPos.dX = (double)i;
-                objectStartPos.dY = 0.0;
-                pixelStartPos = AbsFieldToPixel(objectStartPos);
+                bufferedgraphic.Graphics.Clear(Color.Black);
+                bufferedgraphic.Graphics.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.High;
+                bufferedgraphic.Graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+                bufferedgraphic.Graphics.TranslateTransform(this.AutoScrollPosition.X, this.AutoScrollPosition.Y);
 
-                objectEndPos.dX = (double)i;
-                objectEndPos.dY = (double)ScanFieldSize.Height;
-                pixelEndPos = AbsFieldToPixel(objectEndPos);
+                //bufferedgraphic.Graphics.DrawLine(p, 0, 0, 100, 100);
+                Pen drawPen = new Pen(System.Drawing.Color.FromArgb(30, 30, 30));
 
-                g.DrawLine(drawPen, pixelStartPos, pixelEndPos);     
-
-            }
-
-            for (int i = 0; i < ScanFieldSize.Height; i += gridMinor)
-            {
-                objectStartPos.dX = 0.0;
-                objectStartPos.dY = (double)i;
-                pixelStartPos = AbsFieldToPixel(objectStartPos);
-
-                objectEndPos.dX = (double)ScanFieldSize.Width;
-                objectEndPos.dY = (double)i;
-                pixelEndPos = AbsFieldToPixel(objectEndPos);
-
-                g.DrawLine(drawPen, pixelStartPos, pixelEndPos);
-
-            }
-
-            // Major Grid Draw ==============================================
-
-            int scanNum = 0;
-            double startPos = 0;
-            for (double scanField = 0.0; scanField < ScanFieldSize.Width; scanField += POLYGON_SCAN_FIELD)
-            {
-                // Color Change
-                if (scanNum == 0)
-                {
-                    drawPen.Color = System.Drawing.Color.FromArgb(30, 30, 70);
-                    //startPos = 
-                }
-                if (scanNum == 1)
-                {
-                    drawPen.Color = System.Drawing.Color.FromArgb(30, 50, 30);
-                }
-                if (scanNum == 2)
-                {
-                    drawPen.Color = System.Drawing.Color.FromArgb(50, 30, 30);
-                }
-                
-                for (int i = (int)scanField; i <= scanField + POLYGON_SCAN_FIELD; i += gridMajor)
+                // Minor Grid Draw ==============================================
+                #region Minor Grid
+                for (int i = 0; i < ScanFieldSize.Width; i += gridMinor)
                 {
                     objectStartPos.dX = (double)i;
                     objectStartPos.dY = 0.0;
@@ -413,26 +374,78 @@ namespace LWDicer.Layers
                     objectEndPos.dY = (double)ScanFieldSize.Height;
                     pixelEndPos = AbsFieldToPixel(objectEndPos);
 
-                    g.DrawLine(drawPen, pixelStartPos, pixelEndPos);
+                    bufferedgraphic.Graphics.DrawLine(drawPen, pixelStartPos, pixelEndPos);     
 
                 }
 
-                for (int i = 0; i <= ScanFieldSize.Height; i += gridMajor)
+                for (int i = 0; i < ScanFieldSize.Height; i += gridMinor)
                 {
-                    objectStartPos.dX = scanField;
+                    objectStartPos.dX = 0.0;
                     objectStartPos.dY = (double)i;
                     pixelStartPos = AbsFieldToPixel(objectStartPos);
 
-                    objectEndPos.dX = scanField + POLYGON_SCAN_FIELD;
+                    objectEndPos.dX = (double)ScanFieldSize.Width;
                     objectEndPos.dY = (double)i;
                     pixelEndPos = AbsFieldToPixel(objectEndPos);
 
-                    g.DrawLine(drawPen, pixelStartPos, pixelEndPos);
+                    bufferedgraphic.Graphics.DrawLine(drawPen, pixelStartPos, pixelEndPos);
+                }
+                #endregion
 
+                // Major Grid Draw ==============================================
+
+                int scanNum = 0;
+                double startPos = 0;
+                for (double scanField = 0.0; scanField < ScanFieldSize.Width; scanField += POLYGON_SCAN_FIELD)
+                {
+                    // Color Change
+                    if (scanNum == 0)
+                    {
+                        drawPen.Color = System.Drawing.Color.FromArgb(30, 30, 70);
+                        //startPos = 
+                    }
+                    if (scanNum == 1)
+                    {
+                        drawPen.Color = System.Drawing.Color.FromArgb(30, 50, 30);
+                    }
+                    if (scanNum == 2)
+                    {
+                        drawPen.Color = System.Drawing.Color.FromArgb(50, 30, 30);
+                    }
+                
+                    for (int i = (int)scanField; i <= scanField + POLYGON_SCAN_FIELD; i += gridMajor)
+                    {
+                        objectStartPos.dX = (double)i;
+                        objectStartPos.dY = 0.0;
+                        pixelStartPos = AbsFieldToPixel(objectStartPos);
+
+                        objectEndPos.dX = (double)i;
+                        objectEndPos.dY = (double)ScanFieldSize.Height;
+                        pixelEndPos = AbsFieldToPixel(objectEndPos);
+
+                        bufferedgraphic.Graphics.DrawLine(drawPen, pixelStartPos, pixelEndPos);
+
+                    }
+
+                    for (int i = 0; i <= ScanFieldSize.Height; i += gridMajor)
+                    {
+                        objectStartPos.dX = scanField;
+                        objectStartPos.dY = (double)i;
+                        pixelStartPos = AbsFieldToPixel(objectStartPos);
+
+                        objectEndPos.dX = scanField + POLYGON_SCAN_FIELD;
+                        objectEndPos.dY = (double)i;
+                        pixelEndPos = AbsFieldToPixel(objectEndPos);
+
+                        bufferedgraphic.Graphics.DrawLine(drawPen, pixelStartPos, pixelEndPos);
+                    }                    
+                    scanNum++;
                 }
 
-                scanNum++;
+                drawPen.Dispose();
+                bufferedgraphic.Render(g);
             }
+            
             
         }
         
