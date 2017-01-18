@@ -850,6 +850,15 @@ CSpinStep class -> CCleaningStep / CCoatingStep class 로 분리
 	- zoom, move, dimension 기능 점검 및 동작 테스트
 	- 해당하는 icon 추가함
 
+// Grade : ★★
+// Date : 2017-01/17~18
+// Context
+ Scanner 객체 Draw 기능 추가
+	- rotate 기능 추가함
+	  Rectagle과 Ellipse는 graphic에서 matrix 회전 변환으로 Display를 함.
+	- move하는 기능을 Object의 Center 기준으로 이동함 (회전된 Object를 적용하기 위함)
+	- Array Copy 및 Group, Ungroup의 기능의 오류를 수정함. 
+	
 
 
 

@@ -57,7 +57,7 @@ namespace LWDicer.Layers
             public int SelectNum;
             public CPos_XY pStartPos;
             public CPos_XY pEndPos;
-            public float pAngle;
+            public double pAngle;
         }
 
         /////////////////////////////////////////////////////////////////////////////////////////
@@ -110,8 +110,9 @@ namespace LWDicer.Layers
         public static Point GetViewCorner()
         {
             Point tempPoint = new Point();
-            tempPoint.X = (int)((float)BaseViewCorner.X );
-            tempPoint.Y = (int)((float)BaseViewCorner.Y );
+
+            tempPoint.X = BaseViewCorner.X;
+            tempPoint.Y = BaseViewCorner.Y;
             
             return tempPoint;
         }
@@ -217,12 +218,12 @@ namespace LWDicer.Layers
             CPos_XY tempPoint = new CPos_XY();
 
             // 기준값을 보정함
-            tempPoint.dX += (float)BaseFieldCenter.X * BaseZoomFactor;
-            tempPoint.dY -= (float)BaseFieldCenter.Y * BaseZoomFactor;
+            tempPoint.dX += (double)BaseFieldCenter.X * BaseZoomFactor;
+            tempPoint.dY -= (double)BaseFieldCenter.Y * BaseZoomFactor;
 
             // Zoom 값 & Calib 값을 나눔 (Flip 확인)
-            tempPoint.dX = (float)(pPixel.X - BaseViewCorner.X) / BaseZoomFactor / BaseCalibFactor.X * (BaseDrawFlipX ? -1.0f : 1.0f);
-            tempPoint.dY = (float)(pPixel.Y - BaseViewCorner.Y) / BaseZoomFactor / BaseCalibFactor.Y * (BaseDrawFlipX ? -1.0f : 1.0f);
+            tempPoint.dX = (double)(pPixel.X - BaseViewCorner.X) / BaseZoomFactor / BaseCalibFactor.X * (BaseDrawFlipX ? -1.0f : 1.0f);
+            tempPoint.dY = (double)(pPixel.Y - BaseViewCorner.Y) / BaseZoomFactor / BaseCalibFactor.Y * (BaseDrawFlipX ? -1.0f : 1.0f);
 
             //// View Center 적용
             //tempPoint.dX -= (float)BaseViewCorner.X; ;
@@ -253,49 +254,18 @@ namespace LWDicer.Layers
 
             return tempPoint;
         }
-        
 
-      //  /*------------------------------------------------------------------------------------
-      //* Date : 2016.02.24
-      //* Author : HSLEE
-      //* Function : GetValue(String Section, String Key, String iniPath)
-      //* Description : Text File Data Load 처리
-      //------------------------------------------------------------------------------------*/
-      //  public static String GetValue(String Section, String Key, String iniPath)
-      //  {
-      //      StringBuilder temp = new StringBuilder(255);
-      //      int i = GetPrivateProfileString(Section, Key, "", temp, 255, iniPath);
-      //      return temp.ToString();
-      //  }
+        public static double Rad2Deg(double pRad)
+        {
+            double mDeg = pRad * 180 / Math.PI;
+            return mDeg;
+        }
 
-      //  /*------------------------------------------------------------------------------------
-      //   * Date : 2016.02.24
-      //   * Author : HSLEE
-      //   * Function : SetValue(String Section, String Key, String Value, String iniPath)
-      //   * Description : Text File Data Save 처리
-      //   ------------------------------------------------------------------------------------*/
-      //  public static bool SetValue(String Section, String Key, String Value, String iniPath)
-      //  {
-      //      bool bRet = WritePrivateProfileString(Section, Key, Value, iniPath);
-      //      return WritePrivateProfileString(Section, Key, Value, iniPath);
-      //  }
-
-
-      //  [DllImport("kernel32.dll")]
-      //  public static extern int GetPrivateProfileString(
-      //                              String section,
-      //                              String key,
-      //                              String def,
-      //                              StringBuilder retVal,
-      //                              int size,
-      //                              String filePath);
-
-      //  [DllImport("kernel32.dll")]
-      //  public static extern bool WritePrivateProfileString(
-      //                              String section,
-      //                              String key,
-      //                              String val,
-      //                              String filePath);
+        public static double Deg2Rad(double pDeg)
+        {
+            double mRad = pDeg * Math.PI / 180;
+            return mRad;
+        }
 
         #endregion
 

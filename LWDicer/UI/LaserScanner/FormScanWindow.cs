@@ -384,11 +384,54 @@ namespace LWDicer.UI
         {
             if (nIndex >= 0)
             {
+                // Dimension
                 tooltxtStartPointX.Text = string.Format("{0:F4}", m_ScanManager.ObjectList[nIndex].ptObjectStartPos.dX);
                 tooltxtStartPointY.Text = string.Format("{0:F4}", m_ScanManager.ObjectList[nIndex].ptObjectStartPos.dY);
                 tooltxtEndPointX.Text = string.Format("{0:F4}", m_ScanManager.ObjectList[nIndex].ptObjectEndPos.dX);
                 tooltxtEndPointY.Text = string.Format("{0:F4}", m_ScanManager.ObjectList[nIndex].ptObjectEndPos.dY);
                 tooltxtCurrentAngle.Text = string.Format("{0:F4}", m_ScanManager.ObjectList[nIndex].ObjectRotateAngle);
+                
+                // Properties
+                
+                tooltxtObjectWidth.Visible = true;
+                tooltxtObjectHeight.Visible = true;
+
+                // 중심 위치 
+                tooltxtObjectCenterX.Text = string.Format("{0:F4}", m_ScanManager.ObjectList[nIndex].ptObjectCenterPos.dX);
+                tooltxtObjectCenterY.Text = string.Format("{0:F4}", m_ScanManager.ObjectList[nIndex].ptObjectCenterPos.dY);
+
+                tooltxtObjectWidth.Text  = string.Format("{0:F4}", m_ScanManager.ObjectList[nIndex].ObjectWidth);
+                tooltxtObjectHeight.Text = string.Format("{0:F4}", m_ScanManager.ObjectList[nIndex].ObjectHeight);
+
+                if (m_ScanManager.ObjectList[nIndex].ObjectType == EObjectType.DOT)
+                {
+                    toolLblWidth.Text = "";
+                    toolLblHeigth.Text = "";
+                    tooltxtObjectWidth.Visible = false;
+                    tooltxtObjectHeight.Visible = false;
+                }
+
+                if (m_ScanManager.ObjectList[nIndex].ObjectType == EObjectType.LINE)
+                {
+                    toolLblWidth.Text = "Length";
+                    toolLblHeigth.Text = "";
+                    tooltxtObjectHeight.Visible = false;                    
+                }
+
+                if (m_ScanManager.ObjectList[nIndex].ObjectType == EObjectType.RECTANGLE ||
+                    m_ScanManager.ObjectList[nIndex].ObjectType == EObjectType.ELLIPSE)
+                {
+                    toolLblWidth.Text = "Width";
+                    toolLblHeigth.Text = "Height";
+                }
+
+                if (m_ScanManager.ObjectList[nIndex].ObjectType == EObjectType.CIRCLE)
+                {
+                    toolLblWidth.Text = "Radius";
+                    toolLblHeigth.Text = "";
+                    tooltxtObjectHeight.Visible = false;
+
+                }
 
             }
             else
@@ -404,25 +447,19 @@ namespace LWDicer.UI
 
         private void CanvasObjectMove(CPos_XY pPos, double pAngle)
         {
-            if (SelectObjectListView < 0) return;
-
-            CPos_XY objectMovePos = new CPos_XY();
-            CPos_XY objectCurrentPos = new CPos_XY();
-            double objectcurrentAngle = 0.0;
-
-            objectMovePos = pPos.Copy();
+            if (SelectObjectListView < 0) return;         
 
             foreach(CMarkingObject pObject in m_ScanManager.ObjectList)
             {
                 // 선택 되지 않은 것들은 Pass
                 if (!pObject.IsSelectedObject) continue;
-
-                pObject.MoveObject(objectMovePos);
-                //--------------------------------------------------------------------------------
-                // Angle Rotate
-                objectcurrentAngle = pObject.ObjectRotateAngle;
-                pAngle += objectcurrentAngle;
-                pObject.SetObjectRatateAngle(pAngle);
+                
+                pObject.MoveObject(pPos);
+                ////--------------------------------------------------------------------------------
+                //// Angle Rotate
+                //objectcurrentAngle = pObject.ObjectRotateAngle;
+                //pAngle += objectcurrentAngle;
+                //pObject.SetObjectRatateAngle(pAngle);
             }
 
             ReDrawCanvas();
@@ -679,6 +716,8 @@ namespace LWDicer.UI
 
         private void toolBtnArrayCopy_Click(object sender, EventArgs e)
         {
+            if (!CMainFrame.InquireMsg("Array Copy Object ?")) return;
+
             int arrayNumX = 0, arrayNumY = 0;
             double arrayGapX = 0.0, arrayGapY = 0.0;
 
@@ -714,17 +753,13 @@ namespace LWDicer.UI
                 return;
             }
 
-            CPos_XY posStart = new CPos_XY();
-            CPos_XY posEnd = new CPos_XY();
+            CPos_XY posCenter = new CPos_XY();
             CPos_XY posMove = new CPos_XY();
 
             CMarkingObject pObject = ObjectExtensions.Copy(m_ScanManager.ObjectList[SelectObjectListView]);
 
             // 초기 X,Y Axis 값을 초기화 한다.
-            posStart = pObject.ptObjectStartPos.Copy();
-            posEnd = pObject.ObjectType == EObjectType.DOT ?
-                       pObject.ptObjectStartPos.Copy() :
-                       pObject.ptObjectEndPos.Copy();
+            posCenter = pObject.ptObjectCenterPos.Copy();
 
             int iObjectNum = arrayNumX * arrayNumY;
 
@@ -735,8 +770,7 @@ namespace LWDicer.UI
             for (int i = 0; i < arrayNumY; i++)
             {
                 // 초기 X Axis 값을 초기화 한다.
-                posStart.dX = pObject.ptObjectStartPos.dX;
-                posEnd.dX = pObject.ptObjectEndPos.dX;
+                posCenter.dX = pObject.ptObjectCenterPos.dX;
                 posMove.dX = 0;
 
                 for (int j = 0; j < arrayNumX; j++)
@@ -753,17 +787,15 @@ namespace LWDicer.UI
                     else
                     {
                         pObject.IsSelectedObject = false;
-                        pGroup[iGroupCount] = m_ScanManager.MakeObject(pObject.ObjectType, posStart, posEnd);
+                        pGroup[iGroupCount] = m_ScanManager.MakeObject(pObject, posCenter);
                         iGroupCount++;
                     }
                     // X Axis 값을 간격으로 증가시킨다.
-                    posStart.dX += arrayGapX;
-                    posEnd.dX += arrayGapX;
+                    posCenter.dX += arrayGapX;
                     posMove.dX += arrayGapX;
                 }
                 // Y Axis 값을 간격으로 증가시킨다.
-                posStart.dY += arrayGapY;
-                posEnd.dY += arrayGapY;
+                posCenter.dY += arrayGapY;
                 posMove.dY += arrayGapY;
             }
 
@@ -813,7 +845,7 @@ namespace LWDicer.UI
             AddObjectList(m_ScanManager.GetLastObject());
 
             // 그룹화된 Object를 삭제함.
-            toolBtnDelete_Click(sender, e);
+            DeleteObject();
         }
 
         private void toolBtnUnGroup_Click(object sender, EventArgs e)
@@ -855,6 +887,11 @@ namespace LWDicer.UI
         {
             if (!CMainFrame.InquireMsg("Delete Object ?")) return;
 
+            DeleteObject();
+        }
+
+        private void DeleteObject()
+        {
             if (ShapeListView.Items.Count < 1) return;
             foreach (ListViewItem item in ShapeListView.SelectedItems)
             {
@@ -880,42 +917,7 @@ namespace LWDicer.UI
 
             ReDrawCanvas();
         }
-
-        private void toolBtnChange_Click(object sender, EventArgs e)
-        {
-            if (!CMainFrame.InquireMsg("Change Demension of Object ?")) return;
-
-            //선택된 것이 없으면 실행하지 않는다.
-            if (ShapeListView.Items.Count < 1) return;
-            if (SelectObjectListView < 0) return;
-            if (ShapeListView.Items.Count <= SelectObjectListView) return;
-            if (m_ScanManager.ObjectList[SelectObjectListView] == null) return;
-            //Group 타입이면 변경을 하지 않는다
-            if (m_ScanManager.ObjectList[SelectObjectListView].ObjectType == EObjectType.GROUP) return;
-
-            CPos_XY pPos = new CPos_XY(0, 0);
-
-            pPos.dX = float.Parse(tooltxtStartPointX.Text);
-            pPos.dY = float.Parse(tooltxtStartPointY.Text);
-            m_ScanManager.ObjectList[SelectObjectListView].SetObjectStartPos(pPos);
-
-            pPos.dX = float.Parse(tooltxtEndPointX.Text);
-            pPos.dY = float.Parse(tooltxtEndPointY.Text);
-            m_ScanManager.ObjectList[SelectObjectListView].SetObjectEndPos(pPos);
-
-            m_ScanManager.ObjectList[SelectObjectListView].SetObjectRatateAngle(float.Parse(tooltxtCurrentAngle.Text));
-
-            ReDrawCanvas();
-
-            //---------------------------
-            // 변경
-            stObjectInfo objectInfo = new stObjectInfo();
-            objectInfo.SelectNum = SelectObjectListView;
-            objectInfo.pStartPos = pPos;
-
-            objectInfo.pEndPos = pPos;
-            objectInfo.pAngle = float.Parse(tooltxtCurrentAngle.Text);
-        }
+        
 
         private void toolBtnMoveU_Click(object sender, EventArgs e)
         {
@@ -1002,6 +1004,112 @@ namespace LWDicer.UI
         {
             // 현재 Form 닫기
             this.Hide();
+        }
+
+        private void toolBtnRotateCCW_Click(object sender, EventArgs e)
+        {
+            if(m_ScanManager.ObjectList[SelectObjectListView].ObjectType == EObjectType.DOT ||
+               m_ScanManager.ObjectList[SelectObjectListView].ObjectType == EObjectType.CIRCLE)
+            {
+                return;
+            }
+            
+            double currentAngle = Convert.ToDouble(tooltxtCurrentAngle.Text);
+            currentAngle -= Convert.ToDouble(tooltxtRotateAngle.Text);
+
+            double widthObject = m_ScanManager.ObjectList[SelectObjectListView].ObjectWidth;
+            double widthHeight = m_ScanManager.ObjectList[SelectObjectListView].ObjectHeight;
+
+            CPos_XY currentCenter = new CPos_XY();
+            currentCenter = m_ScanManager.ObjectList[SelectObjectListView].ptObjectCenterPos;
+            
+            m_ScanManager.ObjectList[SelectObjectListView].SetObjectProperty(currentCenter, widthObject, widthHeight, currentAngle);
+
+            InsetObjectProperty(SelectObjectListView);
+            ReDrawCanvas();
+        }
+
+        private void toolBtnRotateCW_Click(object sender, EventArgs e)
+        {
+            if (m_ScanManager.ObjectList[SelectObjectListView].ObjectType == EObjectType.DOT ||
+               m_ScanManager.ObjectList[SelectObjectListView].ObjectType == EObjectType.CIRCLE)
+            {
+                return;
+            }
+
+            double currentAngle = Convert.ToDouble(tooltxtCurrentAngle.Text);
+            currentAngle += Convert.ToDouble(tooltxtRotateAngle.Text);
+
+            double widthObject = m_ScanManager.ObjectList[SelectObjectListView].ObjectWidth;
+            double widthHeight = m_ScanManager.ObjectList[SelectObjectListView].ObjectHeight;
+
+            CPos_XY currentCenter = new CPos_XY();
+            currentCenter = m_ScanManager.ObjectList[SelectObjectListView].ptObjectCenterPos;
+
+            m_ScanManager.ObjectList[SelectObjectListView].SetObjectProperty(currentCenter, widthObject, widthHeight, currentAngle);
+
+            InsetObjectProperty(SelectObjectListView);
+            ReDrawCanvas();
+        }
+
+        private void toolBtnPropertyChange_Click(object sender, EventArgs e)
+        {
+            if (!CMainFrame.InquireMsg("Change Property of Object ?")) return;
+
+            //선택된 것이 없으면 실행하지 않는다.
+            if (ShapeListView.Items.Count < 1) return;
+            if (SelectObjectListView < 0) return;
+            if (ShapeListView.Items.Count <= SelectObjectListView) return;
+            if (m_ScanManager.ObjectList[SelectObjectListView] == null) return;
+            //Group 타입이면 변경을 하지 않는다
+            if (m_ScanManager.ObjectList[SelectObjectListView].ObjectType == EObjectType.GROUP) return;
+
+            CPos_XY centerPos = new CPos_XY();
+            double widthObject,heightObject, angleObject;
+
+            centerPos.dX = Convert.ToDouble(tooltxtObjectCenterX.Text);
+            centerPos.dY = Convert.ToDouble(tooltxtObjectCenterY.Text);
+            widthObject  = Convert.ToDouble(tooltxtObjectWidth.Text);
+            heightObject = Convert.ToDouble(tooltxtObjectHeight.Text);
+            angleObject  = Convert.ToDouble(tooltxtCurrentAngle.Text);
+
+            m_ScanManager.ObjectList[SelectObjectListView].SetObjectProperty(centerPos, widthObject, heightObject, angleObject);
+
+            InsetObjectProperty(SelectObjectListView);
+            ReDrawCanvas();
+        }
+
+        private void toolBtnDimensionChange_Click(object sender, EventArgs e)
+        {
+            // Circle의 경우엔 Dimension 변경을 적용하지 않는다.
+            if (m_ScanManager.ObjectList[SelectObjectListView].ObjectType == EObjectType.CIRCLE)
+            {
+                InsetObjectProperty(SelectObjectListView);
+                return;
+            }
+
+            if (!CMainFrame.InquireMsg("Change Demension of Object ?")) return;
+
+            //선택된 것이 없으면 실행하지 않는다.
+            if (ShapeListView.Items.Count < 1) return;
+            if (SelectObjectListView < 0) return;
+            if (ShapeListView.Items.Count <= SelectObjectListView) return;
+            if (m_ScanManager.ObjectList[SelectObjectListView] == null) return;
+            //Group 타입이면 변경을 하지 않는다
+            if (m_ScanManager.ObjectList[SelectObjectListView].ObjectType == EObjectType.GROUP) return;
+
+            CPos_XY startPos = new CPos_XY();
+            CPos_XY endPos = new CPos_XY();
+
+            startPos.dX = Convert.ToDouble(tooltxtStartPointX.Text);
+            startPos.dY = Convert.ToDouble(tooltxtStartPointY.Text);
+            endPos.dX = Convert.ToDouble(tooltxtEndPointX.Text);
+            endPos.dY = Convert.ToDouble(tooltxtEndPointY.Text);
+
+            m_ScanManager.ObjectList[SelectObjectListView].SetObjectProperty(startPos, endPos);
+            InsetObjectProperty(SelectObjectListView);
+
+            ReDrawCanvas();
         }
 
         #endregion

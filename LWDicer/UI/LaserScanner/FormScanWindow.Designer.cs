@@ -101,15 +101,6 @@ namespace LWDicer.UI
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.toolBtnClose = new System.Windows.Forms.ToolStripButton();
-            this.toolStripRotate = new Syncfusion.Windows.Forms.Tools.ToolStripEx();
-            this.toolStripPanelItem4 = new Syncfusion.Windows.Forms.Tools.ToolStripPanelItem();
-            this.toolStripLabel10 = new System.Windows.Forms.ToolStripLabel();
-            this.tooltxtCurrentAngle = new System.Windows.Forms.ToolStripTextBox();
-            this.toolStripPanelItem8 = new Syncfusion.Windows.Forms.Tools.ToolStripPanelItem();
-            this.toolBtnRotateCCW = new System.Windows.Forms.ToolStripButton();
-            this.toolBtnRotateCW = new System.Windows.Forms.ToolStripButton();
-            this.toolStripLabel11 = new System.Windows.Forms.ToolStripLabel();
-            this.toolBtnRotate = new System.Windows.Forms.ToolStripTextBox();
             this.toolStripDimension = new Syncfusion.Windows.Forms.Tools.ToolStripEx();
             this.toolStripPanelItem6 = new Syncfusion.Windows.Forms.Tools.ToolStripPanelItem();
             this.toolStripLabel6 = new System.Windows.Forms.ToolStripLabel();
@@ -120,18 +111,27 @@ namespace LWDicer.UI
             this.tooltxtStartPointY = new System.Windows.Forms.ToolStripTextBox();
             this.tooltxtEndPointX = new System.Windows.Forms.ToolStripTextBox();
             this.tooltxtEndPointY = new System.Windows.Forms.ToolStripTextBox();
-            this.toolBtnChange = new System.Windows.Forms.ToolStripButton();
+            this.toolBtnDimensionChange = new System.Windows.Forms.ToolStripButton();
             this.toolStripProperty = new Syncfusion.Windows.Forms.Tools.ToolStripEx();
             this.toolStripPanelItem9 = new Syncfusion.Windows.Forms.Tools.ToolStripPanelItem();
             this.toolStripLabel12 = new System.Windows.Forms.ToolStripLabel();
             this.toolStripLabel13 = new System.Windows.Forms.ToolStripLabel();
-            this.toolStripLabel14 = new System.Windows.Forms.ToolStripLabel();
-            this.toolStripLabel15 = new System.Windows.Forms.ToolStripLabel();
-            this.toolStripTextBox1 = new System.Windows.Forms.ToolStripTextBox();
-            this.toolStripTextBox2 = new System.Windows.Forms.ToolStripTextBox();
-            this.toolStripTextBox3 = new System.Windows.Forms.ToolStripTextBox();
-            this.toolStripTextBox4 = new System.Windows.Forms.ToolStripTextBox();
-            this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
+            this.toolLblWidth = new System.Windows.Forms.ToolStripLabel();
+            this.toolLblHeigth = new System.Windows.Forms.ToolStripLabel();
+            this.tooltxtObjectCenterX = new System.Windows.Forms.ToolStripTextBox();
+            this.tooltxtObjectCenterY = new System.Windows.Forms.ToolStripTextBox();
+            this.tooltxtObjectWidth = new System.Windows.Forms.ToolStripTextBox();
+            this.tooltxtObjectHeight = new System.Windows.Forms.ToolStripTextBox();
+            this.toolBtnPropertyChange = new System.Windows.Forms.ToolStripButton();
+            this.toolStripRotate = new Syncfusion.Windows.Forms.Tools.ToolStripEx();
+            this.toolStripPanelItem4 = new Syncfusion.Windows.Forms.Tools.ToolStripPanelItem();
+            this.toolStripLabel10 = new System.Windows.Forms.ToolStripLabel();
+            this.tooltxtCurrentAngle = new System.Windows.Forms.ToolStripTextBox();
+            this.toolStripLabel11 = new System.Windows.Forms.ToolStripLabel();
+            this.tooltxtRotateAngle = new System.Windows.Forms.ToolStripTextBox();
+            this.toolStripPanelItem8 = new Syncfusion.Windows.Forms.Tools.ToolStripPanelItem();
+            this.toolBtnRotateCCW = new System.Windows.Forms.ToolStripButton();
+            this.toolBtnRotateCW = new System.Windows.Forms.ToolStripButton();
             this.statusBottom.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).BeginInit();
             this.ribbonControl.SuspendLayout();
@@ -154,9 +154,9 @@ namespace LWDicer.UI
             this.splitContainer2.Panel1.SuspendLayout();
             this.splitContainer2.Panel2.SuspendLayout();
             this.splitContainer2.SuspendLayout();
-            this.toolStripRotate.SuspendLayout();
             this.toolStripDimension.SuspendLayout();
             this.toolStripProperty.SuspendLayout();
+            this.toolStripRotate.SuspendLayout();
             this.SuspendLayout();
             // 
             // statusBottom
@@ -229,6 +229,7 @@ namespace LWDicer.UI
             this.ribbonControl.MenuButtonImage = ((System.Drawing.Image)(resources.GetObject("ribbonControl.MenuButtonImage")));
             this.ribbonControl.MenuButtonWidth = 50;
             this.ribbonControl.Name = "ribbonControl";
+            this.ribbonControl.OfficeColorScheme = Syncfusion.Windows.Forms.Tools.ToolStripEx.ColorScheme.Managed;
             // 
             // ribbonControl.OfficeMenu
             // 
@@ -281,7 +282,7 @@ namespace LWDicer.UI
             this.toolDraw.Name = "toolDraw";
             this.toolDraw.Size = new System.Drawing.Size(121, 127);
             this.toolDraw.TabIndex = 8;
-            this.toolDraw.Text = "Draw";
+            this.toolDraw.Text = "Draw 1";
             // 
             // toolPnlDraw
             // 
@@ -736,8 +737,8 @@ namespace LWDicer.UI
             // ribbonControl.ribbonPanel2
             // 
             this.toolTabProperty.Panel.Controls.Add(this.toolStripProperty);
-            this.toolTabProperty.Panel.Controls.Add(this.toolStripDimension);
             this.toolTabProperty.Panel.Controls.Add(this.toolStripRotate);
+            this.toolTabProperty.Panel.Controls.Add(this.toolStripDimension);
             this.toolTabProperty.Panel.Controls.Add(this.toolStripMove);
             this.toolTabProperty.Panel.Dock = System.Windows.Forms.DockStyle.Top;
             this.toolTabProperty.Panel.Name = "ribbonPanel2";
@@ -979,105 +980,14 @@ namespace LWDicer.UI
             this.toolBtnClose.ToolTipText = "Close";
             this.toolBtnClose.Click += new System.EventHandler(this.toolBtnClose_Click);
             // 
-            // toolStripRotate
-            // 
-            this.toolStripRotate.ForeColor = System.Drawing.Color.MidnightBlue;
-            this.toolStripRotate.Image = null;
-            this.toolStripRotate.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripPanelItem4,
-            this.toolStripPanelItem8});
-            this.toolStripRotate.Location = new System.Drawing.Point(442, 1);
-            this.toolStripRotate.Name = "toolStripRotate";
-            this.toolStripRotate.Size = new System.Drawing.Size(165, 127);
-            this.toolStripRotate.TabIndex = 4;
-            this.toolStripRotate.Text = "Rotate";
-            // 
-            // toolStripPanelItem4
-            // 
-            this.toolStripPanelItem4.AutoSize = false;
-            this.toolStripPanelItem4.CausesValidation = false;
-            this.toolStripPanelItem4.ForeColor = System.Drawing.Color.MidnightBlue;
-            this.toolStripPanelItem4.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripLabel10,
-            this.tooltxtCurrentAngle,
-            this.toolStripLabel11,
-            this.toolBtnRotate});
-            this.toolStripPanelItem4.Name = "toolStripPanelItem4";
-            this.toolStripPanelItem4.RowCount = 4;
-            this.toolStripPanelItem4.Size = new System.Drawing.Size(106, 100);
-            this.toolStripPanelItem4.Text = "toolStripPanelItem1";
-            this.toolStripPanelItem4.Transparent = true;
-            // 
-            // toolStripLabel10
-            // 
-            this.toolStripLabel10.Name = "toolStripLabel10";
-            this.toolStripLabel10.Size = new System.Drawing.Size(82, 15);
-            this.toolStripLabel10.Text = "Current Angle";
-            // 
-            // tooltxtCurrentAngle
-            // 
-            this.tooltxtCurrentAngle.Name = "tooltxtCurrentAngle";
-            this.tooltxtCurrentAngle.Size = new System.Drawing.Size(100, 23);
-            this.tooltxtCurrentAngle.Text = "0";
-            this.tooltxtCurrentAngle.TextBoxTextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // toolStripPanelItem8
-            // 
-            this.toolStripPanelItem8.AutoSize = false;
-            this.toolStripPanelItem8.CausesValidation = false;
-            this.toolStripPanelItem8.ForeColor = System.Drawing.Color.MidnightBlue;
-            this.toolStripPanelItem8.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolBtnRotateCCW,
-            this.toolBtnRotateCW});
-            this.toolStripPanelItem8.Name = "toolStripPanelItem8";
-            this.toolStripPanelItem8.RowCount = 2;
-            this.toolStripPanelItem8.Size = new System.Drawing.Size(39, 80);
-            this.toolStripPanelItem8.Text = "toolStripPanelItem8";
-            this.toolStripPanelItem8.Transparent = true;
-            // 
-            // toolBtnRotateCCW
-            // 
-            this.toolBtnRotateCCW.AutoSize = false;
-            this.toolBtnRotateCCW.Image = ((System.Drawing.Image)(resources.GetObject("toolBtnRotateCCW.Image")));
-            this.toolBtnRotateCCW.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolBtnRotateCCW.Name = "toolBtnRotateCCW";
-            this.toolBtnRotateCCW.Size = new System.Drawing.Size(35, 35);
-            this.toolBtnRotateCCW.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.toolBtnRotateCCW.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.toolBtnRotateCCW.Click += new System.EventHandler(this.toolBtnMoveL_Click);
-            // 
-            // toolBtnRotateCW
-            // 
-            this.toolBtnRotateCW.AutoSize = false;
-            this.toolBtnRotateCW.Image = ((System.Drawing.Image)(resources.GetObject("toolBtnRotateCW.Image")));
-            this.toolBtnRotateCW.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolBtnRotateCW.Name = "toolBtnRotateCW";
-            this.toolBtnRotateCW.Size = new System.Drawing.Size(35, 35);
-            this.toolBtnRotateCW.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.toolBtnRotateCW.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.toolBtnRotateCW.Click += new System.EventHandler(this.toolBtnMoveU_Click);
-            // 
-            // toolStripLabel11
-            // 
-            this.toolStripLabel11.Name = "toolStripLabel11";
-            this.toolStripLabel11.Size = new System.Drawing.Size(76, 15);
-            this.toolStripLabel11.Text = "Rotate Angle";
-            // 
-            // toolBtnRotate
-            // 
-            this.toolBtnRotate.Name = "toolBtnRotate";
-            this.toolBtnRotate.Size = new System.Drawing.Size(100, 23);
-            this.toolBtnRotate.Text = "0";
-            this.toolBtnRotate.TextBoxTextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
             // toolStripDimension
             // 
             this.toolStripDimension.ForeColor = System.Drawing.Color.MidnightBlue;
             this.toolStripDimension.Image = null;
             this.toolStripDimension.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripPanelItem6,
-            this.toolBtnChange});
-            this.toolStripDimension.Location = new System.Drawing.Point(221, 1);
+            this.toolBtnDimensionChange});
+            this.toolStripDimension.Location = new System.Drawing.Point(388, 1);
             this.toolStripDimension.Name = "toolStripDimension";
             this.toolStripDimension.Size = new System.Drawing.Size(219, 127);
             this.toolStripDimension.TabIndex = 5;
@@ -1159,18 +1069,18 @@ namespace LWDicer.UI
             this.tooltxtEndPointY.Text = "1";
             this.tooltxtEndPointY.TextBoxTextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
-            // toolBtnChange
+            // toolBtnDimensionChange
             // 
-            this.toolBtnChange.AutoSize = false;
-            this.toolBtnChange.Image = ((System.Drawing.Image)(resources.GetObject("toolBtnChange.Image")));
-            this.toolBtnChange.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-            this.toolBtnChange.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolBtnChange.Name = "toolBtnChange";
-            this.toolBtnChange.Size = new System.Drawing.Size(50, 107);
-            this.toolBtnChange.Text = "Change";
-            this.toolBtnChange.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.toolBtnChange.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.toolBtnChange.Click += new System.EventHandler(this.toolBtnChange_Click);
+            this.toolBtnDimensionChange.AutoSize = false;
+            this.toolBtnDimensionChange.Image = ((System.Drawing.Image)(resources.GetObject("toolBtnDimensionChange.Image")));
+            this.toolBtnDimensionChange.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.toolBtnDimensionChange.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolBtnDimensionChange.Name = "toolBtnDimensionChange";
+            this.toolBtnDimensionChange.Size = new System.Drawing.Size(50, 107);
+            this.toolBtnDimensionChange.Text = "Change";
+            this.toolBtnDimensionChange.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.toolBtnDimensionChange.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.toolBtnDimensionChange.Click += new System.EventHandler(this.toolBtnDimensionChange_Click);
             // 
             // toolStripProperty
             // 
@@ -1178,11 +1088,11 @@ namespace LWDicer.UI
             this.toolStripProperty.Image = null;
             this.toolStripProperty.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripPanelItem9,
-            this.toolStripButton1});
+            this.toolBtnPropertyChange});
             this.toolStripProperty.Location = new System.Drawing.Point(0, 1);
             this.toolStripProperty.Name = "toolStripProperty";
             this.toolStripProperty.Size = new System.Drawing.Size(219, 127);
-            this.toolStripProperty.TabIndex = 6;
+            this.toolStripProperty.TabIndex = 8;
             this.toolStripProperty.Text = "Property";
             // 
             // toolStripPanelItem9
@@ -1193,12 +1103,12 @@ namespace LWDicer.UI
             this.toolStripPanelItem9.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripLabel12,
             this.toolStripLabel13,
-            this.toolStripLabel14,
-            this.toolStripLabel15,
-            this.toolStripTextBox1,
-            this.toolStripTextBox2,
-            this.toolStripTextBox3,
-            this.toolStripTextBox4});
+            this.toolLblWidth,
+            this.toolLblHeigth,
+            this.tooltxtObjectCenterX,
+            this.tooltxtObjectCenterY,
+            this.tooltxtObjectWidth,
+            this.tooltxtObjectHeight});
             this.toolStripPanelItem9.Name = "toolStripPanelItem9";
             this.toolStripPanelItem9.RowCount = 4;
             this.toolStripPanelItem9.Size = new System.Drawing.Size(151, 100);
@@ -1214,64 +1124,157 @@ namespace LWDicer.UI
             // toolStripLabel13
             // 
             this.toolStripLabel13.Name = "toolStripLabel13";
-            this.toolStripLabel13.Size = new System.Drawing.Size(53, 15);
-            this.toolStripLabel13.Text = "Center Y";
+            this.toolStripLabel13.Size = new System.Drawing.Size(54, 15);
+            this.toolStripLabel13.Text = "          Y";
             // 
-            // toolStripLabel14
+            // toolLblWidth
             // 
-            this.toolStripLabel14.Name = "toolStripLabel14";
-            this.toolStripLabel14.Size = new System.Drawing.Size(39, 15);
-            this.toolStripLabel14.Text = "Width";
+            this.toolLblWidth.Name = "toolLblWidth";
+            this.toolLblWidth.Size = new System.Drawing.Size(39, 15);
+            this.toolLblWidth.Text = "Width";
             // 
-            // toolStripLabel15
+            // toolLblHeigth
             // 
-            this.toolStripLabel15.Name = "toolStripLabel15";
-            this.toolStripLabel15.Size = new System.Drawing.Size(43, 15);
-            this.toolStripLabel15.Text = "Height";
+            this.toolLblHeigth.Name = "toolLblHeigth";
+            this.toolLblHeigth.Size = new System.Drawing.Size(43, 15);
+            this.toolLblHeigth.Text = "Height";
             // 
-            // toolStripTextBox1
+            // tooltxtObjectCenterX
             // 
-            this.toolStripTextBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.toolStripTextBox1.Name = "toolStripTextBox1";
-            this.toolStripTextBox1.Size = new System.Drawing.Size(70, 23);
-            this.toolStripTextBox1.Text = "1";
-            this.toolStripTextBox1.TextBoxTextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.tooltxtObjectCenterX.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.tooltxtObjectCenterX.Name = "tooltxtObjectCenterX";
+            this.tooltxtObjectCenterX.Size = new System.Drawing.Size(70, 23);
+            this.tooltxtObjectCenterX.Text = "1";
+            this.tooltxtObjectCenterX.TextBoxTextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
-            // toolStripTextBox2
+            // tooltxtObjectCenterY
             // 
-            this.toolStripTextBox2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.toolStripTextBox2.Name = "toolStripTextBox2";
-            this.toolStripTextBox2.Size = new System.Drawing.Size(70, 23);
-            this.toolStripTextBox2.Text = "1";
-            this.toolStripTextBox2.TextBoxTextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.tooltxtObjectCenterY.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.tooltxtObjectCenterY.Name = "tooltxtObjectCenterY";
+            this.tooltxtObjectCenterY.Size = new System.Drawing.Size(70, 23);
+            this.tooltxtObjectCenterY.Text = "1";
+            this.tooltxtObjectCenterY.TextBoxTextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
-            // toolStripTextBox3
+            // tooltxtObjectWidth
             // 
-            this.toolStripTextBox3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.toolStripTextBox3.Name = "toolStripTextBox3";
-            this.toolStripTextBox3.Size = new System.Drawing.Size(70, 23);
-            this.toolStripTextBox3.Text = "1";
-            this.toolStripTextBox3.TextBoxTextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.tooltxtObjectWidth.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.tooltxtObjectWidth.Name = "tooltxtObjectWidth";
+            this.tooltxtObjectWidth.Size = new System.Drawing.Size(70, 23);
+            this.tooltxtObjectWidth.Text = "1";
+            this.tooltxtObjectWidth.TextBoxTextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
-            // toolStripTextBox4
+            // tooltxtObjectHeight
             // 
-            this.toolStripTextBox4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.toolStripTextBox4.Name = "toolStripTextBox4";
-            this.toolStripTextBox4.Size = new System.Drawing.Size(70, 23);
-            this.toolStripTextBox4.Text = "1";
-            this.toolStripTextBox4.TextBoxTextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.tooltxtObjectHeight.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.tooltxtObjectHeight.Name = "tooltxtObjectHeight";
+            this.tooltxtObjectHeight.Size = new System.Drawing.Size(70, 23);
+            this.tooltxtObjectHeight.Text = "1";
+            this.tooltxtObjectHeight.TextBoxTextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
-            // toolStripButton1
+            // toolBtnPropertyChange
             // 
-            this.toolStripButton1.AutoSize = false;
-            this.toolStripButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton1.Image")));
-            this.toolStripButton1.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-            this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton1.Name = "toolStripButton1";
-            this.toolStripButton1.Size = new System.Drawing.Size(50, 107);
-            this.toolStripButton1.Text = "Change";
-            this.toolStripButton1.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.toolStripButton1.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.toolBtnPropertyChange.AutoSize = false;
+            this.toolBtnPropertyChange.Image = ((System.Drawing.Image)(resources.GetObject("toolBtnPropertyChange.Image")));
+            this.toolBtnPropertyChange.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.toolBtnPropertyChange.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolBtnPropertyChange.Name = "toolBtnPropertyChange";
+            this.toolBtnPropertyChange.Size = new System.Drawing.Size(50, 107);
+            this.toolBtnPropertyChange.Text = "Change";
+            this.toolBtnPropertyChange.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.toolBtnPropertyChange.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.toolBtnPropertyChange.Click += new System.EventHandler(this.toolBtnPropertyChange_Click);
+            // 
+            // toolStripRotate
+            // 
+            this.toolStripRotate.ForeColor = System.Drawing.Color.MidnightBlue;
+            this.toolStripRotate.Image = null;
+            this.toolStripRotate.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripPanelItem4,
+            this.toolStripPanelItem8});
+            this.toolStripRotate.Location = new System.Drawing.Point(221, 1);
+            this.toolStripRotate.Name = "toolStripRotate";
+            this.toolStripRotate.Size = new System.Drawing.Size(165, 127);
+            this.toolStripRotate.TabIndex = 7;
+            this.toolStripRotate.Text = "Rotate";
+            // 
+            // toolStripPanelItem4
+            // 
+            this.toolStripPanelItem4.AutoSize = false;
+            this.toolStripPanelItem4.CausesValidation = false;
+            this.toolStripPanelItem4.ForeColor = System.Drawing.Color.MidnightBlue;
+            this.toolStripPanelItem4.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripLabel10,
+            this.tooltxtCurrentAngle,
+            this.toolStripLabel11,
+            this.tooltxtRotateAngle});
+            this.toolStripPanelItem4.Name = "toolStripPanelItem4";
+            this.toolStripPanelItem4.RowCount = 4;
+            this.toolStripPanelItem4.Size = new System.Drawing.Size(106, 100);
+            this.toolStripPanelItem4.Text = "toolStripPanelItem1";
+            this.toolStripPanelItem4.Transparent = true;
+            // 
+            // toolStripLabel10
+            // 
+            this.toolStripLabel10.Name = "toolStripLabel10";
+            this.toolStripLabel10.Size = new System.Drawing.Size(82, 15);
+            this.toolStripLabel10.Text = "Current Angle";
+            // 
+            // tooltxtCurrentAngle
+            // 
+            this.tooltxtCurrentAngle.Name = "tooltxtCurrentAngle";
+            this.tooltxtCurrentAngle.ReadOnly = true;
+            this.tooltxtCurrentAngle.Size = new System.Drawing.Size(100, 23);
+            this.tooltxtCurrentAngle.Text = "0";
+            this.tooltxtCurrentAngle.TextBoxTextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // toolStripLabel11
+            // 
+            this.toolStripLabel11.Name = "toolStripLabel11";
+            this.toolStripLabel11.Size = new System.Drawing.Size(76, 15);
+            this.toolStripLabel11.Text = "Rotate Angle";
+            // 
+            // tooltxtRotateAngle
+            // 
+            this.tooltxtRotateAngle.Name = "tooltxtRotateAngle";
+            this.tooltxtRotateAngle.Size = new System.Drawing.Size(100, 23);
+            this.tooltxtRotateAngle.Text = "0";
+            this.tooltxtRotateAngle.TextBoxTextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // toolStripPanelItem8
+            // 
+            this.toolStripPanelItem8.AutoSize = false;
+            this.toolStripPanelItem8.CausesValidation = false;
+            this.toolStripPanelItem8.ForeColor = System.Drawing.Color.MidnightBlue;
+            this.toolStripPanelItem8.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolBtnRotateCCW,
+            this.toolBtnRotateCW});
+            this.toolStripPanelItem8.Name = "toolStripPanelItem8";
+            this.toolStripPanelItem8.RowCount = 2;
+            this.toolStripPanelItem8.Size = new System.Drawing.Size(39, 80);
+            this.toolStripPanelItem8.Text = "toolStripPanelItem8";
+            this.toolStripPanelItem8.Transparent = true;
+            // 
+            // toolBtnRotateCCW
+            // 
+            this.toolBtnRotateCCW.AutoSize = false;
+            this.toolBtnRotateCCW.Image = ((System.Drawing.Image)(resources.GetObject("toolBtnRotateCCW.Image")));
+            this.toolBtnRotateCCW.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolBtnRotateCCW.Name = "toolBtnRotateCCW";
+            this.toolBtnRotateCCW.Size = new System.Drawing.Size(35, 35);
+            this.toolBtnRotateCCW.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.toolBtnRotateCCW.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.toolBtnRotateCCW.Click += new System.EventHandler(this.toolBtnRotateCCW_Click);
+            // 
+            // toolBtnRotateCW
+            // 
+            this.toolBtnRotateCW.AutoSize = false;
+            this.toolBtnRotateCW.Image = ((System.Drawing.Image)(resources.GetObject("toolBtnRotateCW.Image")));
+            this.toolBtnRotateCW.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolBtnRotateCW.Name = "toolBtnRotateCW";
+            this.toolBtnRotateCW.Size = new System.Drawing.Size(35, 35);
+            this.toolBtnRotateCW.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.toolBtnRotateCW.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.toolBtnRotateCW.Click += new System.EventHandler(this.toolBtnRotateCW_Click);
             // 
             // FormScanWindow
             // 
@@ -1324,12 +1327,12 @@ namespace LWDicer.UI
             this.splitContainer2.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
             this.splitContainer2.ResumeLayout(false);
-            this.toolStripRotate.ResumeLayout(false);
-            this.toolStripRotate.PerformLayout();
             this.toolStripDimension.ResumeLayout(false);
             this.toolStripDimension.PerformLayout();
             this.toolStripProperty.ResumeLayout(false);
             this.toolStripProperty.PerformLayout();
+            this.toolStripRotate.ResumeLayout(false);
+            this.toolStripRotate.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1405,15 +1408,6 @@ namespace LWDicer.UI
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
         private System.Windows.Forms.ToolStripButton toolBtnMoveR;
         private System.Windows.Forms.ToolStripButton toolBtnClose;
-        private Syncfusion.Windows.Forms.Tools.ToolStripEx toolStripRotate;
-        private Syncfusion.Windows.Forms.Tools.ToolStripPanelItem toolStripPanelItem4;
-        private System.Windows.Forms.ToolStripLabel toolStripLabel10;
-        private System.Windows.Forms.ToolStripTextBox tooltxtCurrentAngle;
-        private Syncfusion.Windows.Forms.Tools.ToolStripPanelItem toolStripPanelItem8;
-        private System.Windows.Forms.ToolStripButton toolBtnRotateCCW;
-        private System.Windows.Forms.ToolStripButton toolBtnRotateCW;
-        private System.Windows.Forms.ToolStripLabel toolStripLabel11;
-        private System.Windows.Forms.ToolStripTextBox toolBtnRotate;
         private Syncfusion.Windows.Forms.Tools.ToolStripEx toolStripDimension;
         private Syncfusion.Windows.Forms.Tools.ToolStripPanelItem toolStripPanelItem6;
         private System.Windows.Forms.ToolStripLabel toolStripLabel6;
@@ -1424,17 +1418,26 @@ namespace LWDicer.UI
         private System.Windows.Forms.ToolStripTextBox tooltxtStartPointY;
         private System.Windows.Forms.ToolStripTextBox tooltxtEndPointX;
         private System.Windows.Forms.ToolStripTextBox tooltxtEndPointY;
-        private System.Windows.Forms.ToolStripButton toolBtnChange;
+        private System.Windows.Forms.ToolStripButton toolBtnDimensionChange;
         private Syncfusion.Windows.Forms.Tools.ToolStripEx toolStripProperty;
         private Syncfusion.Windows.Forms.Tools.ToolStripPanelItem toolStripPanelItem9;
         private System.Windows.Forms.ToolStripLabel toolStripLabel12;
         private System.Windows.Forms.ToolStripLabel toolStripLabel13;
-        private System.Windows.Forms.ToolStripLabel toolStripLabel14;
-        private System.Windows.Forms.ToolStripLabel toolStripLabel15;
-        private System.Windows.Forms.ToolStripTextBox toolStripTextBox1;
-        private System.Windows.Forms.ToolStripTextBox toolStripTextBox2;
-        private System.Windows.Forms.ToolStripTextBox toolStripTextBox3;
-        private System.Windows.Forms.ToolStripTextBox toolStripTextBox4;
-        private System.Windows.Forms.ToolStripButton toolStripButton1;
+        private System.Windows.Forms.ToolStripLabel toolLblWidth;
+        private System.Windows.Forms.ToolStripLabel toolLblHeigth;
+        private System.Windows.Forms.ToolStripTextBox tooltxtObjectCenterX;
+        private System.Windows.Forms.ToolStripTextBox tooltxtObjectCenterY;
+        private System.Windows.Forms.ToolStripTextBox tooltxtObjectWidth;
+        private System.Windows.Forms.ToolStripTextBox tooltxtObjectHeight;
+        private System.Windows.Forms.ToolStripButton toolBtnPropertyChange;
+        private Syncfusion.Windows.Forms.Tools.ToolStripEx toolStripRotate;
+        private Syncfusion.Windows.Forms.Tools.ToolStripPanelItem toolStripPanelItem4;
+        private System.Windows.Forms.ToolStripLabel toolStripLabel10;
+        private System.Windows.Forms.ToolStripTextBox tooltxtCurrentAngle;
+        private System.Windows.Forms.ToolStripLabel toolStripLabel11;
+        private System.Windows.Forms.ToolStripTextBox tooltxtRotateAngle;
+        private Syncfusion.Windows.Forms.Tools.ToolStripPanelItem toolStripPanelItem8;
+        private System.Windows.Forms.ToolStripButton toolBtnRotateCCW;
+        private System.Windows.Forms.ToolStripButton toolBtnRotateCW;
     }
 }

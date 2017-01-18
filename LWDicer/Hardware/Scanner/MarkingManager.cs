@@ -134,7 +134,7 @@ namespace LWDicer.Layers
             switch (pType)
             {
                 case (EObjectType.DOT):
-                    pObject = new CObjectDot(newStart);
+                    pObject = new CObjectDot(newStart, newEnd);
                     break;
                 case (EObjectType.LINE):
                     pObject = new CObjectLine(newStart, newEnd);
@@ -145,6 +145,9 @@ namespace LWDicer.Layers
                 case (EObjectType.CIRCLE):
                     pObject = new CObjectCircle(newStart, newEnd);
                     break;
+                case (EObjectType.ELLIPSE):
+                    pObject = new CObjectEllipse(newStart, newEnd);
+                    break;
                 default:
                     return null;
             }
@@ -152,12 +155,44 @@ namespace LWDicer.Layers
             return pObject;
         }
 
+        public CMarkingObject MakeObject(CMarkingObject pObject, CPos_XY pCenter)
+        {
+            CMarkingObject objectCopy;
+
+            CPos_XY centerPos = new CPos_XY();
+            centerPos = pCenter.Copy();
+
+            switch (pObject.ObjectType)
+            {
+                case (EObjectType.DOT):
+                    objectCopy = new CObjectDot((CObjectDot)pObject, centerPos);
+                    break;
+                case (EObjectType.LINE):
+                    objectCopy = new CObjectLine((CObjectLine)pObject, centerPos);
+                    break;
+                case (EObjectType.RECTANGLE):
+                    objectCopy = new CObjectRectagle((CObjectRectagle)pObject, centerPos);
+                    break;
+                case (EObjectType.CIRCLE):
+                    objectCopy = new CObjectCircle((CObjectCircle)pObject, centerPos);
+                    break;
+                case (EObjectType.ELLIPSE):
+                    objectCopy = new CObjectEllipse((CObjectEllipse)pObject, centerPos);
+                    break;
+                default:
+                    return null;
+            }
+
+
+            return objectCopy;
+        }
+
         public void AddObject(EObjectType pType, CPos_XY pStart, CPos_XY pEnd, CMarkingObject[] pObject = null)
         {
             switch (pType)
             {
                 case (EObjectType.DOT):
-                    var pDot = new CObjectDot(pStart);
+                    var pDot = new CObjectDot(pStart,pEnd);
                     ObjectList.Add(pDot);
                     break;
                 case (EObjectType.LINE):
@@ -221,6 +256,10 @@ namespace LWDicer.Layers
                 case (EObjectType.CIRCLE):
                     CObjectCircle pCircle = new CObjectCircle((CObjectCircle)pObject);
                     ObjectList.Add(pCircle);
+                    break;
+                case (EObjectType.ELLIPSE):
+                    CObjectEllipse pEllipse = new CObjectEllipse((CObjectEllipse)pObject);
+                    ObjectList.Add(pEllipse);
                     break;
                 case (EObjectType.GROUP):
                     CObjectGroup pGroup = new CObjectGroup((CObjectGroup)pObject);

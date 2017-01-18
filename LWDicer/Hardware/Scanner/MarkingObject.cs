@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Drawing;
 using System.Drawing.Imaging;
+using System.Drawing.Drawing2D;
 
 using static LWDicer.Layers.DEF_Scanner;
 using static LWDicer.Layers.DEF_Common;
@@ -29,7 +30,7 @@ namespace LWDicer.Layers
         public bool IsSelectedObject { get; set; } = false;
 
         //---------------------------------------------------------------------------
-        /// Shape가 선택했는지 확인
+        /// Shape가 Group되었는지 확인
         public bool IsGroupObject { get; private set; } = false;
         public void SetGroupObject(bool bSet)
         {
@@ -70,7 +71,6 @@ namespace LWDicer.Layers
         public int SetObjectStartPos(CPos_XY pPos)
         {
             ptObjectStartPos = pPos.Copy();
-
             return SUCCESS;
         }
 
@@ -80,18 +80,36 @@ namespace LWDicer.Layers
         public int SetObjectEndPos(CPos_XY pPos)
         {
             ptObjectEndPos = pPos.Copy();
-
             return SUCCESS;
         }
 
         //---------------------------------------------------------------------------
-        /// Object의 End 위치
+        /// Object의 중심 위치
         public CPos_XY ptObjectCenterPos { get; private set; } = new CPos_XY(0, 0);
         public int SetObjectCenterPos(CPos_XY pPos)
         {
             ptObjectCenterPos = pPos.Copy();
-
             return SUCCESS;
+        }
+
+        //---------------------------------------------------------------------------
+        /// Object의 가로 크기 (혹은 반지름,길이)
+        public double ObjectWidth { get; private set; } = 0;
+
+        public void SetObjectWidth(double pWidth)
+        {
+            if (pWidth <= 0) return;
+            ObjectWidth = pWidth;
+        }
+
+        //---------------------------------------------------------------------------
+        /// Object의 가로 크기 (혹은 반지름,길이)
+        public double ObjectHeight { get; private set; } = 0;
+
+        public void SetObjectHeight(double pHeight)
+        {
+            if (pHeight <= 0) return;
+            ObjectHeight = pHeight;
         }
 
         //---------------------------------------------------------------------------
@@ -126,11 +144,10 @@ namespace LWDicer.Layers
             if (IsSelectedObject)
             {
                 // Object의 외각 Demension을 그린다.
-                // Gruop일 경우 개별적을 그리지 않는다
-                //if (IsGroupObject == false)
-                //if(ObjectType != EObjectType.GROUP)
-                    DrawObjectDemension(g);
+                 DrawObjectDemension(g);
             }
+
+            //g.Dispose();
         }
 
         private void DrawObjectDemension(Graphics g)
@@ -141,21 +158,25 @@ namespace LWDicer.Layers
             Point StartPos  = new Point(0, 0);
             Point EndPos    = new Point(0, 0);            
 
+            // Dimension Start, End위치 읽기
             StartPos = AbsFieldToPixel(ptObjectStartPos);
             EndPos = AbsFieldToPixel(ptObjectEndPos);            
 
             if (ObjectType == EObjectType.DOT) EndPos = StartPos;
 
+            // Dimension Rect Size 설정함
             pRect.X = StartPos.X < EndPos.X ? StartPos.X : EndPos.X;
             pRect.Y = StartPos.Y < EndPos.Y ? StartPos.Y : EndPos.Y;
             pRect.Width = StartPos.X > EndPos.X ? (StartPos.X - EndPos.X) : -(StartPos.X - EndPos.X);
             pRect.Height = StartPos.Y > EndPos.Y ? (StartPos.Y - EndPos.Y) : -(StartPos.Y - EndPos.Y);
 
+            // Dimension Margin 크기를 적용함
             pRect.X -= nMargin;
             pRect.Y -= nMargin;
             pRect.Width  += nMargin*2;
             pRect.Height += nMargin*2;
 
+            // Dot은 예외적으로 적용함.
             if (ObjectType == EObjectType.DOT)
             {
                 pRect.X -= DRAW_DOT_SIZE/2;
@@ -163,22 +184,22 @@ namespace LWDicer.Layers
                 pRect.Width += DRAW_DOT_SIZE -1;
                 pRect.Height += DRAW_DOT_SIZE -1;
             }
-            if (ObjectType == EObjectType.CIRCLE)
+
+            if (ObjectType == EObjectType.RECTANGLE || ObjectType == EObjectType.ELLIPSE)
             {
-                int radius = (int)Math.Sqrt(Math.Pow((StartPos.X - EndPos.X), 2) +
-                                                Math.Pow((StartPos.Y - EndPos.Y), 2));
-                pRect.X = (StartPos.X - radius);
-                pRect.Y = (StartPos.Y - radius);
-                pRect.Width  = radius * 2;
-                pRect.Height = radius * 2;
+                Matrix matrix = new Matrix();
+                PointF centerPos = new PointF();
+                centerPos.X = (float)pRect.X + (float)pRect.Width / 2;
+                centerPos.Y = (float)pRect.Y + (float)pRect.Height / 2;
 
-                pRect.X -= nMargin;
-                pRect.Y -= nMargin;
-                pRect.Width += nMargin * 2;
-                pRect.Height += nMargin * 2;
+                matrix.RotateAt((float)ObjectRotateAngle, centerPos);
 
+                g.Transform = matrix;
             }
+
             g.DrawRectangle(BaseDrawPen[(int)EDrawPenType.DIMENSION], pRect);
+
+            g.ResetTransform();
         }
 
         public virtual void MoveObject( CPos_XY pPos)
@@ -203,6 +224,17 @@ namespace LWDicer.Layers
             //this.SetObjectEndPos(objectCurrentPos);
 
         }
+
+        public virtual void SetObjectProperty(CPos_XY pCenter)
+        {
+        }
+        public virtual void SetObjectProperty(CPos_XY pStart, CPos_XY pEnd)
+        {
+        }
+
+        public virtual void SetObjectProperty(CPos_XY pCenter, double pWitdh, double pHeight, double pAngle)
+        {
+        }
         public virtual CMarkingObject PullGroupObject()
         {
             return null;
@@ -213,11 +245,9 @@ namespace LWDicer.Layers
     [Serializable]
     public class CObjectDot : CMarkingObject
     {
-        public CObjectDot(CPos_XY pStart, float pAngle = 0)
+        public CObjectDot(CPos_XY pStart, CPos_XY pEnd)
         {
-            SetObjectStartPos(pStart);
-            SetObjectCenterPos(pStart);
-            SetObjectRatateAngle(pAngle);
+            SetObjectProperty(pStart, pEnd);
 
             SetObjectType(EObjectType.DOT);
             SetObjectName("Dot");
@@ -230,11 +260,41 @@ namespace LWDicer.Layers
         {
             SetObjectStartPos(pObject.ptObjectStartPos);
             SetObjectCenterPos(pObject.ptObjectStartPos);
-
+            SetObjectCenterPos(pObject.ptObjectCenterPos);
+            SetObjectWidth(pObject.ObjectWidth);
+            SetObjectHeight(pObject.ObjectHeight);
             SetObjectRatateAngle(pObject.ObjectRotateAngle);
             SetObjectType(pObject.ObjectType);
             SetObjectName(pObject.ObjectName);            
             SetObjectSortFlag(pObject.ObjectSortFlag);
+        }
+
+        public CObjectDot(CObjectDot pObject,CPos_XY pCenter)
+        {
+            SetObjectProperty(pCenter, pObject.ObjectWidth, pObject.ObjectHeight, pObject.ObjectRotateAngle);
+            SetObjectType(pObject.ObjectType);
+            SetObjectName(pObject.ObjectName);
+            SetObjectSortFlag(pObject.ObjectSortFlag);
+        }
+
+        public override void SetObjectProperty(CPos_XY pStart,CPos_XY pEnd)
+        {
+            SetObjectStartPos(pStart);
+            SetObjectEndPos(pStart);
+            SetObjectCenterPos(pStart);
+
+            double dAngle = 0.0;
+            SetObjectRatateAngle(Rad2Deg(dAngle));
+        }
+
+        public override void SetObjectProperty(CPos_XY pStart, double length, double pHeight, double andgle)
+        {
+            SetObjectStartPos(pStart);
+            SetObjectEndPos(pStart);
+            SetObjectCenterPos(pStart);
+
+            double dAngle = 0.0;
+            SetObjectRatateAngle(Rad2Deg(dAngle));
         }
 
         public override void DrawObject(Graphics g)
@@ -248,6 +308,8 @@ namespace LWDicer.Layers
                                               DRAW_DOT_SIZE, DRAW_DOT_SIZE);
 
             g.FillRectangle(BaseDrawBrush[(int)EDrawBrushType.DRAW], rectDot);
+
+            //g.Dispose();
         }
 
         public override void MoveObject(CPos_XY pPos)
@@ -268,30 +330,78 @@ namespace LWDicer.Layers
     [Serializable]
     public class CObjectLine : CMarkingObject
     {
-        public CObjectLine(CPos_XY pStart, CPos_XY pEnd, float pAngle = 0)
+        public CObjectLine(CPos_XY pStart, CPos_XY pEnd)
         {
-            SetObjectStartPos(pStart);
-            SetObjectEndPos(pEnd);
-            SetObjectCenterPos((pStart + pEnd)/2);
-            SetObjectRatateAngle(pAngle);
-            
+            SetObjectProperty(pStart, pEnd);
+
             SetObjectType(EObjectType.LINE);
             SetObjectName("Line");
-
             CMarkingObject.CreateSortNum++;
 
             SetObjectSortFlag(CreateSortNum);
         }
 
+        /// <summary>
+        /// Object를 Copy할때 생성한다.
+        /// </summary>
+        /// <param name="pObject" Copy할 대상></param>
         public CObjectLine(CObjectLine pObject)
         {
             SetObjectStartPos(pObject.ptObjectStartPos);
             SetObjectEndPos(pObject.ptObjectEndPos);
-            SetObjectCenterPos((pObject.ptObjectStartPos + pObject.ptObjectEndPos) / 2);
+            SetObjectCenterPos(pObject.ptObjectCenterPos);
+            SetObjectWidth(pObject.ObjectWidth);
+            SetObjectHeight(pObject.ObjectHeight);
             SetObjectRatateAngle(pObject.ObjectRotateAngle);
             SetObjectType(pObject.ObjectType);
             SetObjectName(pObject.ObjectName);
             SetObjectSortFlag(pObject.ObjectSortFlag);
+        }
+
+        public CObjectLine(CObjectLine pObject, CPos_XY pCenter)
+        {
+            SetObjectProperty(pCenter, pObject.ObjectWidth, pObject.ObjectHeight, pObject.ObjectRotateAngle);
+            SetObjectType(pObject.ObjectType);
+            SetObjectName(pObject.ObjectName);
+            SetObjectSortFlag(pObject.ObjectSortFlag);
+        }
+
+        // Dimension으로 설정함
+        public override void SetObjectProperty(CPos_XY pStart, CPos_XY pEnd)
+        {
+            SetObjectStartPos(pStart);
+            SetObjectEndPos(pEnd);
+            SetObjectCenterPos((pStart + pEnd) / 2);
+            double dLength = Math.Sqrt(Math.Pow(pStart.dX - pEnd.dX, 2) +
+                                       Math.Pow(pStart.dY - pEnd.dY, 2));
+            SetObjectWidth(dLength);
+
+            double dAngle = 0.0;
+            if(pStart.dX != pEnd.dX)
+                dAngle = Math.Atan((pStart.dY - pEnd.dY) / (pStart.dX - pEnd.dX));
+            SetObjectRatateAngle(Rad2Deg(dAngle));
+        }
+
+        // Property로 설정함
+        public override void SetObjectProperty(CPos_XY pCenter, double pLength, double pHeight, double pAngle)
+        {            
+            SetObjectCenterPos(pCenter);
+            SetObjectWidth(pLength);            
+            SetObjectRatateAngle(pAngle);
+
+            CPos_XY pPos = new CPos_XY();
+            double width  = Math.Cos(Deg2Rad(pAngle)) * pLength / 2;
+            double height = Math.Sin(Deg2Rad(pAngle)) * pLength / 2;
+
+            pPos = pCenter.Copy();
+            pPos.dX -= width;
+            pPos.dY -= height;
+            SetObjectStartPos(pPos);
+
+            pPos = pCenter.Copy();
+            pPos.dX += width;
+            pPos.dY += height;
+            SetObjectEndPos(pPos);
         }
 
         public override void DrawObject(Graphics g)
@@ -306,28 +416,27 @@ namespace LWDicer.Layers
             EndPos = AbsFieldToPixel(ptObjectEndPos);            
 
             g.DrawLine(BaseDrawPen[(int)EDrawPenType.DRAW], StartPos, EndPos);
+
+            //g.Dispose();
         }
 
         public override void MoveObject(CPos_XY pPos)
         {
             base.MoveObject(pPos);
-            CPos_XY objectCurrentPos = new CPos_XY(0, 0);
+            CPos_XY startPos = new CPos_XY(0, 0);
+            CPos_XY endPos = new CPos_XY(0, 0);
 
             //--------------------------------------------------------------------------------
             // Start Position Move
-            objectCurrentPos.dX = ptObjectStartPos.dX;
-            objectCurrentPos.dY = ptObjectStartPos.dY;
-            objectCurrentPos.dX += pPos.dX;
-            objectCurrentPos.dY += pPos.dY;
-            SetObjectStartPos(objectCurrentPos);
+            startPos.dX = ptObjectStartPos.dX + pPos.dX;
+            startPos.dY = ptObjectStartPos.dY + pPos.dY;
 
             //--------------------------------------------------------------------------------
             // End Position Move
-            objectCurrentPos.dX = ptObjectEndPos.dX;
-            objectCurrentPos.dY = ptObjectEndPos.dY;
-            objectCurrentPos.dX += pPos.dX;
-            objectCurrentPos.dY += pPos.dY;
-            SetObjectEndPos(objectCurrentPos);
+            endPos.dX = ptObjectEndPos.dX + pPos.dX;
+            endPos.dY = ptObjectEndPos.dY + pPos.dY;
+
+            SetObjectProperty(startPos, endPos);
         }
 
     }
@@ -344,13 +453,13 @@ namespace LWDicer.Layers
     [Serializable]
     public class CObjectRectagle : CMarkingObject
     {
-        public CObjectRectagle(CPos_XY pStart, CPos_XY pEnd, float pAngle = 0)
-        {
-            SetObjectStartPos(pStart);
-            SetObjectEndPos(pEnd);
-            SetObjectCenterPos((pStart + pEnd) / 2);
-            SetObjectRatateAngle(pAngle);
+        private CPos_XY[] cornerRect = new CPos_XY[4];
 
+        public CObjectRectagle(CPos_XY pStart, CPos_XY pEnd, double pAngle = 0)
+        {
+            for (int i = 0; i < 4; i++) cornerRect[i] = new CPos_XY();
+
+            SetObjectProperty(pStart, pEnd, pAngle);
             SetObjectType(EObjectType.RECTANGLE);
             SetObjectName("Rectagle");
 
@@ -361,13 +470,82 @@ namespace LWDicer.Layers
 
         public CObjectRectagle(CObjectRectagle pObject)
         {
+            for (int i = 0; i < 4; i++) cornerRect[i] = new CPos_XY();
+
             SetObjectStartPos(pObject.ptObjectStartPos);
             SetObjectEndPos(pObject.ptObjectEndPos);
-            SetObjectCenterPos((pObject.ptObjectStartPos + pObject.ptObjectEndPos) / 2);
+            SetObjectCenterPos(pObject.ptObjectCenterPos);
+            SetObjectWidth(pObject.ObjectWidth);
+            SetObjectHeight(pObject.ObjectHeight);
             SetObjectRatateAngle(pObject.ObjectRotateAngle);
             SetObjectType(pObject.ObjectType);
             SetObjectName(pObject.ObjectName);
             SetObjectSortFlag(pObject.ObjectSortFlag);
+        }
+
+        public CObjectRectagle(CObjectRectagle pObject,CPos_XY pCenter)
+        {
+            SetObjectProperty(pCenter, pObject.ObjectWidth, pObject.ObjectHeight, pObject.ObjectRotateAngle);
+            SetObjectType(pObject.ObjectType);
+            SetObjectName(pObject.ObjectName);
+            SetObjectSortFlag(pObject.ObjectSortFlag);
+        }
+
+        private void SetRectCornerPos()
+        {
+            CPos_XY cornerPos = new CPos_XY();
+            double angle = Deg2Rad(ObjectRotateAngle);
+            double width = ptObjectCenterPos.dX - ptObjectStartPos.dX;
+            //cornerPos.dX = Math.Cos(angle)
+
+        }
+
+        public void SetObjectProperty(CPos_XY pStart, CPos_XY pEnd, double pAngle=0.0)
+        {
+            SetObjectStartPos(pStart);
+            SetObjectEndPos(pEnd);
+            SetObjectCenterPos((pStart + pEnd) / 2);
+            SetObjectWidth(Math.Abs(pStart.dX - pEnd.dX));
+            SetObjectHeight(Math.Abs(pStart.dY - pEnd.dY));            
+            SetObjectRatateAngle(pAngle);
+        }
+
+        
+        public override void SetObjectProperty(CPos_XY pCenter, double pWidth, double pHeigth, double pAngle)
+        {
+            CPos_XY startPos = new CPos_XY(0, 0);
+            CPos_XY endPos = new CPos_XY(0, 0);
+
+            startPos.dX = pCenter.dX - pWidth / 2;
+            startPos.dY = pCenter.dY - pHeigth / 2;
+
+            endPos.dX = pCenter.dX + pWidth / 2;
+            endPos.dY = pCenter.dY + pHeigth / 2;
+
+            SetObjectCenterPos(pCenter);
+            SetObjectStartPos(startPos);
+            SetObjectEndPos(endPos);            
+            SetObjectWidth(pWidth);
+            SetObjectHeight(pHeigth);
+            SetObjectRatateAngle(pAngle);
+        }
+
+        public override void SetObjectProperty(CPos_XY pCenter)
+        {
+            CPos_XY startPos = new CPos_XY(0, 0);
+            CPos_XY endPos = new CPos_XY(0, 0);
+            double width = ObjectWidth;
+            double height = ObjectHeight;
+
+            startPos.dX = pCenter.dX - width / 2;
+            startPos.dY = pCenter.dY - height / 2;
+
+            endPos.dX = pCenter.dX + width / 2;
+            endPos.dY = pCenter.dY + height / 2;
+
+            SetObjectCenterPos(pCenter);
+            SetObjectStartPos(startPos);
+            SetObjectEndPos(endPos);
         }
 
         public override void DrawObject(Graphics g)
@@ -375,38 +553,42 @@ namespace LWDicer.Layers
             base.DrawObject(g);
 
             Point StartPos = new Point(0, 0);
-            Point EndPos = new Point(0, 0);
+            Point EndPos = new Point(0, 0);            
 
             StartPos = AbsFieldToPixel(ptObjectStartPos);
-            EndPos = AbsFieldToPixel(ptObjectEndPos);
+            EndPos = AbsFieldToPixel(ptObjectEndPos);            
+
+            // Object 회전 변환---------------------------
+            Point centerPos = new Point();
+            Matrix matrix = new Matrix();
+            PointF rotateCenter = new PointF();
+            centerPos = AbsFieldToPixel(ptObjectCenterPos);
+            rotateCenter.X = (float)centerPos.X;
+            rotateCenter.Y = (float)centerPos.Y;
+            matrix.RotateAt((float)ObjectRotateAngle, rotateCenter);
+            g.Transform = matrix;
+            //---------------------------------------------
 
             g.DrawRectangle(BaseDrawPen[(int)EDrawPenType.DRAW], 
                             (StartPos.X < EndPos.X ? StartPos.X : EndPos.X),
                             (StartPos.Y < EndPos.Y ? StartPos.Y : EndPos.Y), 
                             (StartPos.X > EndPos.X ? (StartPos.X - EndPos.X) : -(StartPos.X - EndPos.X)),
                             (StartPos.Y > EndPos.Y ? (StartPos.Y - EndPos.Y) : -(StartPos.Y - EndPos.Y)));
+
+            g.ResetTransform();
+
+            //g.Dispose();
         }
 
         public override void MoveObject(CPos_XY pPos)
         {
             base.MoveObject(pPos);
-            CPos_XY objectCurrentPos = new CPos_XY(0, 0);
+            CPos_XY centerPos = new CPos_XY(0, 0);
+            
+            //  Position Move
+            centerPos = ptObjectCenterPos + pPos;
 
-            //--------------------------------------------------------------------------------
-            // Start Position Move
-            objectCurrentPos.dX = ptObjectStartPos.dX;
-            objectCurrentPos.dY = ptObjectStartPos.dY;
-            objectCurrentPos.dX += pPos.dX;
-            objectCurrentPos.dY += pPos.dY;
-            SetObjectStartPos(objectCurrentPos);
-
-            //--------------------------------------------------------------------------------
-            // End Position Move
-            objectCurrentPos.dX = ptObjectEndPos.dX;
-            objectCurrentPos.dY = ptObjectEndPos.dY;
-            objectCurrentPos.dX += pPos.dX;
-            objectCurrentPos.dY += pPos.dY;
-            SetObjectEndPos(objectCurrentPos);
+            SetObjectProperty(centerPos);
         }
 
     }
@@ -416,11 +598,8 @@ namespace LWDicer.Layers
     {
         public CObjectCircle(CPos_XY pStart, CPos_XY pEnd, float pAngle = 0)
         {
-            SetObjectStartPos(pStart);
-            SetObjectEndPos(pEnd);
-            SetObjectCenterPos((pStart + pEnd) / 2);
-            SetObjectRatateAngle(pAngle);
-
+            
+            SetObjectProperty(pStart, pEnd);            
             SetObjectType(EObjectType.CIRCLE);
             SetObjectName("Circle");
 
@@ -433,98 +612,64 @@ namespace LWDicer.Layers
         {
             SetObjectStartPos(pObject.ptObjectStartPos);
             SetObjectEndPos(pObject.ptObjectEndPos);
-            SetObjectCenterPos((pObject.ptObjectStartPos + pObject.ptObjectEndPos) / 2);
+            SetObjectCenterPos(pObject.ptObjectCenterPos);
+            SetObjectWidth(pObject.ObjectWidth);
+            SetObjectHeight(pObject.ObjectHeight);
             SetObjectRatateAngle(pObject.ObjectRotateAngle);
             SetObjectType(pObject.ObjectType);
             SetObjectName(pObject.ObjectName);
             SetObjectSortFlag(pObject.ObjectSortFlag);
         }
 
-        public override void DrawObject(Graphics g)
+        public CObjectCircle(CObjectCircle pObject,CPos_XY pCenter)
         {
-            base.DrawObject(g);
-
-            Point StartPos = new Point(0, 0);
-            Point EndPos = new Point(0, 0);
-
-            StartPos = AbsFieldToPixel(ptObjectStartPos);
-            EndPos = AbsFieldToPixel(ptObjectEndPos);
-
-            int radius = (int)Math.Sqrt(Math.Pow((StartPos.X - EndPos.X), 2) +
-                                        Math.Pow((StartPos.Y - EndPos.Y), 2));
-            Rectangle rectCircle = new Rectangle();
-
-            rectCircle.X = (StartPos.X - radius);
-            rectCircle.Y = (StartPos.Y - radius);
-            rectCircle.Width = radius * 2;
-            rectCircle.Height = radius * 2;
-
-            g.DrawEllipse(BaseDrawPen[(int)EDrawPenType.DRAW], rectCircle);
-
-            //Point StartPos = new Point(0, 0);
-            //Point EndPos = new Point(0, 0);
-
-            //StartPos = AbsFieldToPixel(ptObjectStartPos);
-            //EndPos = AbsFieldToPixel(ptObjectEndPos);
-
-            //g.DrawEllipse(BaseDrawPen[(int)EDrawPenType.DRAW],
-            //                (StartPos.X < EndPos.X ? StartPos.X : EndPos.X),
-            //                (StartPos.Y < EndPos.Y ? StartPos.Y : EndPos.Y),
-            //                (StartPos.X > EndPos.X ? (StartPos.X - EndPos.X) : -(StartPos.X - EndPos.X)),
-            //                (StartPos.Y > EndPos.Y ? (StartPos.X - EndPos.X) : -(StartPos.X - EndPos.X)));
+            SetObjectProperty(pCenter, pObject.ObjectWidth, pObject.ObjectHeight, pObject.ObjectRotateAngle);
+            SetObjectType(pObject.ObjectType);
+            SetObjectName(pObject.ObjectName);
+            SetObjectSortFlag(pObject.ObjectSortFlag);
         }
 
-        public override void MoveObject(CPos_XY pPos)
+        // Drag Point로 설정함
+        public override void SetObjectProperty(CPos_XY pStart, CPos_XY pEnd)
         {
-            base.MoveObject(pPos);
-            CPos_XY objectCurrentPos = new CPos_XY(0, 0);
+            // Circle의 경우 Start가 원의 중심이고.. End와 의 거리가 반지름임.
+            // 이를 반영하여 Dimension을 계산함.
 
-            //--------------------------------------------------------------------------------
-            // Start Position Move
-            objectCurrentPos.dX = ptObjectStartPos.dX;
-            objectCurrentPos.dY = ptObjectStartPos.dY;
-            objectCurrentPos.dX += pPos.dX;
-            objectCurrentPos.dY += pPos.dY;
-            SetObjectStartPos(objectCurrentPos);
+            double radius = Math.Sqrt(Math.Pow((pStart.dX - pEnd.dX), 2) +
+                                      Math.Pow((pStart.dY - pEnd.dY), 2));
+            CPos_XY pPos = new CPos_XY();
 
-            //--------------------------------------------------------------------------------
-            // End Position Move
-            objectCurrentPos.dX = ptObjectEndPos.dX;
-            objectCurrentPos.dY = ptObjectEndPos.dY;
-            objectCurrentPos.dX += pPos.dX;
-            objectCurrentPos.dY += pPos.dY;
-            SetObjectEndPos(objectCurrentPos);
+            pPos.dX = pStart.dX - radius;
+            pPos.dY = pStart.dY - radius;
+            SetObjectStartPos(pPos);
+
+            pPos.dX = pStart.dX + radius;
+            pPos.dY = pStart.dY + radius;
+            SetObjectEndPos(pPos);
+
+            SetObjectCenterPos(pStart);
+            SetObjectWidth(radius);
+            SetObjectRatateAngle(0.0);
         }
-    }
 
-
-    [Serializable]
-    public class CObjectEllipse : CMarkingObject
-    {
-        public CObjectEllipse(CPos_XY pStart, CPos_XY pEnd, float pAngle = 0)
+        // Property로 설정함
+        public override void SetObjectProperty(CPos_XY pCenter, double pRadius, double pHeight, double pAngle)
         {
-            SetObjectStartPos(pStart);
-            SetObjectEndPos(pEnd);
-            SetObjectCenterPos((pStart + pEnd) / 2);
+            SetObjectCenterPos(pCenter);
+            SetObjectWidth(pRadius);
             SetObjectRatateAngle(pAngle);
 
-            SetObjectType(EObjectType.ELLIPSE);
-            SetObjectName("Ellipse");
+            CPos_XY pPos = new CPos_XY();
 
-            CMarkingObject.CreateSortNum++;
+            pPos = pCenter.Copy();
+            pPos.dX -= pRadius;
+            pPos.dY -= pRadius;
+            SetObjectStartPos(pPos);
 
-            SetObjectSortFlag(CreateSortNum);
-        }
-
-        public CObjectEllipse(CObjectCircle pObject)
-        {
-            SetObjectStartPos(pObject.ptObjectStartPos);
-            SetObjectEndPos(pObject.ptObjectEndPos);
-            SetObjectCenterPos((pObject.ptObjectStartPos + pObject.ptObjectEndPos) / 2);
-            SetObjectRatateAngle(pObject.ObjectRotateAngle);
-            SetObjectType(pObject.ObjectType);
-            SetObjectName(pObject.ObjectName);
-            SetObjectSortFlag(pObject.ObjectSortFlag);
+            pPos = pCenter.Copy();
+            pPos.dX += pRadius;
+            pPos.dY += pRadius;
+            SetObjectEndPos(pPos);
         }
 
         public override void DrawObject(Graphics g)
@@ -541,29 +686,166 @@ namespace LWDicer.Layers
                             (StartPos.X < EndPos.X ? StartPos.X : EndPos.X),
                             (StartPos.Y < EndPos.Y ? StartPos.Y : EndPos.Y),
                             (StartPos.X > EndPos.X ? (StartPos.X - EndPos.X) : -(StartPos.X - EndPos.X)),
-                            (StartPos.Y > EndPos.Y ? (StartPos.Y - EndPos.Y) : -(StartPos.Y - EndPos.Y)));
+                            (StartPos.Y > EndPos.Y ? (StartPos.X - EndPos.X) : -(StartPos.X - EndPos.X)));
+
+            //g.Dispose();
         }
 
         public override void MoveObject(CPos_XY pPos)
         {
             base.MoveObject(pPos);
-            CPos_XY objectCurrentPos = new CPos_XY(0, 0);
+            CPos_XY objectPos = new CPos_XY(0, 0);
+            double radius = 0.0;
 
             //--------------------------------------------------------------------------------
             // Start Position Move
-            objectCurrentPos.dX = ptObjectStartPos.dX;
-            objectCurrentPos.dY = ptObjectStartPos.dY;
-            objectCurrentPos.dX += pPos.dX;
-            objectCurrentPos.dY += pPos.dY;
-            SetObjectStartPos(objectCurrentPos);
+            objectPos.dX = ptObjectStartPos.dX;
+            objectPos.dY = ptObjectStartPos.dY;
+            objectPos.dX += pPos.dX;
+            objectPos.dY += pPos.dY;
+            SetObjectStartPos(objectPos);
 
             //--------------------------------------------------------------------------------
             // End Position Move
-            objectCurrentPos.dX = ptObjectEndPos.dX;
-            objectCurrentPos.dY = ptObjectEndPos.dY;
-            objectCurrentPos.dX += pPos.dX;
-            objectCurrentPos.dY += pPos.dY;
-            SetObjectEndPos(objectCurrentPos);
+            objectPos.dX = ptObjectEndPos.dX;
+            objectPos.dY = ptObjectEndPos.dY;
+            objectPos.dX += pPos.dX;
+            objectPos.dY += pPos.dY;
+            SetObjectEndPos(objectPos);
+
+            // 원의 중심 구함
+            objectPos = (ptObjectStartPos + ptObjectEndPos) / 2;
+            radius = Math.Abs(objectPos.dX - ptObjectStartPos.dX);
+
+            SetObjectProperty(objectPos, radius,0.0,0.0);
+        }
+    }
+
+
+    [Serializable]
+    public class CObjectEllipse : CMarkingObject
+    {
+        public CObjectEllipse(CPos_XY pStart, CPos_XY pEnd, float pAngle = 0)
+        {
+            SetObjectProperty(pStart, pEnd);
+
+            SetObjectType(EObjectType.ELLIPSE);
+            SetObjectName("Ellipse");
+
+            CMarkingObject.CreateSortNum++;
+
+            SetObjectSortFlag(CreateSortNum);
+        }
+
+        public CObjectEllipse(CObjectEllipse pObject)
+        {
+            SetObjectStartPos(pObject.ptObjectStartPos);
+            SetObjectEndPos(pObject.ptObjectEndPos);
+            SetObjectCenterPos(pObject.ptObjectCenterPos);
+            SetObjectWidth(pObject.ObjectWidth);
+            SetObjectHeight(pObject.ObjectHeight);
+            SetObjectRatateAngle(pObject.ObjectRotateAngle);
+            SetObjectType(pObject.ObjectType);
+            SetObjectName(pObject.ObjectName);
+            SetObjectSortFlag(pObject.ObjectSortFlag);
+        }
+
+        public CObjectEllipse(CObjectEllipse pObject,CPos_XY pCenter)
+        {
+            SetObjectProperty(pCenter, pObject.ObjectWidth, pObject.ObjectHeight, pObject.ObjectRotateAngle);
+            SetObjectType(pObject.ObjectType);
+            SetObjectName(pObject.ObjectName);
+            SetObjectSortFlag(pObject.ObjectSortFlag);
+        }
+
+        public void SetObjectProperty(CPos_XY pStart, CPos_XY pEnd, double pAngle = 0.0)
+        {
+            SetObjectStartPos(pStart);
+            SetObjectEndPos(pEnd);
+            SetObjectCenterPos((pStart + pEnd) / 2);
+            SetObjectWidth(Math.Abs(pStart.dX - pEnd.dX));
+            SetObjectHeight(Math.Abs(pStart.dY - pEnd.dY));
+            SetObjectRatateAngle(pAngle);
+        }
+
+
+        public override void SetObjectProperty(CPos_XY pCenter, double pWidth, double pHeigth, double pAngle)
+        {
+            CPos_XY startPos = new CPos_XY(0, 0);
+            CPos_XY endPos = new CPos_XY(0, 0);
+
+            startPos.dX = pCenter.dX - pWidth / 2;
+            startPos.dY = pCenter.dY - pHeigth / 2;
+
+            endPos.dX = pCenter.dX + pWidth / 2;
+            endPos.dY = pCenter.dY + pHeigth / 2;
+
+            SetObjectCenterPos(pCenter);
+            SetObjectStartPos(startPos);
+            SetObjectEndPos(endPos);
+            SetObjectWidth(pWidth);
+            SetObjectHeight(pHeigth);
+            SetObjectRatateAngle(pAngle);
+        }
+
+        public override void SetObjectProperty(CPos_XY pCenter)
+        {
+            CPos_XY startPos = new CPos_XY(0, 0);
+            CPos_XY endPos = new CPos_XY(0, 0);
+            double width = ObjectWidth;
+            double height = ObjectHeight;
+
+            startPos.dX = pCenter.dX - width / 2;
+            startPos.dY = pCenter.dY - height / 2;
+
+            endPos.dX = pCenter.dX + width / 2;
+            endPos.dY = pCenter.dY + height / 2;
+
+            SetObjectCenterPos(pCenter);
+            SetObjectStartPos(startPos);
+            SetObjectEndPos(endPos);
+        }
+
+        public override void DrawObject(Graphics g)
+        {
+            base.DrawObject(g);
+
+            Point StartPos = new Point(0, 0);
+            Point EndPos = new Point(0, 0);
+
+            StartPos = AbsFieldToPixel(ptObjectStartPos);
+            EndPos = AbsFieldToPixel(ptObjectEndPos);
+
+            // Object 회전 변환---------------------------
+            Point centerPos = new Point();
+            Matrix matrix = new Matrix();
+            PointF rotateCenter = new PointF();
+            centerPos = AbsFieldToPixel(ptObjectCenterPos);
+            rotateCenter.X = (float)centerPos.X;
+            rotateCenter.Y = (float)centerPos.Y;
+            matrix.RotateAt((float)ObjectRotateAngle, rotateCenter);
+            g.Transform = matrix;
+            //---------------------------------------------
+
+            g.DrawEllipse(BaseDrawPen[(int)EDrawPenType.DRAW],
+                            (StartPos.X < EndPos.X ? StartPos.X : EndPos.X),
+                            (StartPos.Y < EndPos.Y ? StartPos.Y : EndPos.Y),
+                            (StartPos.X > EndPos.X ? (StartPos.X - EndPos.X) : -(StartPos.X - EndPos.X)),
+                            (StartPos.Y > EndPos.Y ? (StartPos.Y - EndPos.Y) : -(StartPos.Y - EndPos.Y)));
+
+            g.ResetTransform();
+            //g.Dispose();
+        }
+
+        public override void MoveObject(CPos_XY pPos)
+        {
+            base.MoveObject(pPos);
+            CPos_XY centerPos = new CPos_XY(0, 0);
+
+            //  Position Move
+            centerPos = ptObjectCenterPos + pPos;
+
+            SetObjectProperty(centerPos);
         }
     }
     [Serializable]
@@ -625,6 +907,8 @@ namespace LWDicer.Layers
             
 
             g.DrawImage(m_CvtBitmap, rectDisplay, rectSourceImage, GraphicsUnit.Pixel);
+
+            //g.Dispose();
             //g.DrawImage(m_SrcBitmap, rectDisplay, rectSourceImage.dX, rectSourceImage.dY, rectSourceImage.Width, rectSourceImage.Height, GraphicsUnit.Pixel, imageAttr);
         }
 
@@ -835,58 +1119,30 @@ namespace LWDicer.Layers
             {
                 pObject.DrawObject(g);
             }
-
+            
         }
 
         public override void MoveObject(CPos_XY pPos)
         {
             base.MoveObject(pPos);
-            CPos_XY objectCurrentPos = new CPos_XY(0, 0);
+            CPos_XY centerPos = new CPos_XY(0, 0);
 
-            for (int i = 0; i < this.GroupObjectCount; i++)
+            foreach (CMarkingObject pObject in ObjectGroup)
             {
                 // Group안에 Group이 있을 경우 재귀적 방식으로 Recall함.
-                if (ObjectGroup[i].ObjectType == EObjectType.GROUP)
+                if (pObject.ObjectType == EObjectType.GROUP)
                 {
-                    ObjectGroup[i].MoveObject(pPos);
+                    pObject.MoveObject(pPos);
                     continue;
                 }
-
                 // Group 내의 Object들의 위치 Position 이동
-                //--------------------------------------------------------------------------------
-                // Start Position Move
-                objectCurrentPos.dX = ObjectGroup[i].ptObjectStartPos.dX;
-                objectCurrentPos.dY = ObjectGroup[i].ptObjectStartPos.dY;
-                objectCurrentPos.dX += pPos.dX;
-                objectCurrentPos.dY += pPos.dY;
-                ObjectGroup[i].SetObjectStartPos(objectCurrentPos);
-
-                //--------------------------------------------------------------------------------
-                // End Position Move
-                objectCurrentPos.dX = ObjectGroup[i].ptObjectEndPos.dX;
-                objectCurrentPos.dY = ObjectGroup[i].ptObjectEndPos.dY;
-                objectCurrentPos.dX += pPos.dX;
-                objectCurrentPos.dY += pPos.dY;
-                ObjectGroup[i].SetObjectEndPos(objectCurrentPos);
-
+                centerPos = pObject.ptObjectCenterPos;
+                centerPos += pPos;
+                pObject.MoveObject(pPos);
             }
-
-            // Group의 위치 Position 이동
-            //--------------------------------------------------------------------------------
-            // Start Position Move
-            objectCurrentPos.dX = ptObjectStartPos.dX;
-            objectCurrentPos.dY = ptObjectStartPos.dY;
-            objectCurrentPos.dX += pPos.dX;
-            objectCurrentPos.dY += pPos.dY;
-            SetObjectStartPos(objectCurrentPos);
-
-            //--------------------------------------------------------------------------------
-            // End Position Move
-            objectCurrentPos.dX = ptObjectEndPos.dX;
-            objectCurrentPos.dY = ptObjectEndPos.dY;
-            objectCurrentPos.dX += pPos.dX;
-            objectCurrentPos.dY += pPos.dY;
-            SetObjectEndPos(objectCurrentPos);
+            // Group의 Dimension 이동
+            SetObjectStartPos(ptObjectStartPos + pPos);
+            SetObjectEndPos(ptObjectEndPos + pPos);
 
         }
     }

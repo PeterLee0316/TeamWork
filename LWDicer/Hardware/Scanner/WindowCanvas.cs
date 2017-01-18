@@ -52,6 +52,7 @@ namespace LWDicer.Layers
 
             // 더블 버퍼링 설정
             this.SetStyle(ControlStyles.OptimizedDoubleBuffer | ControlStyles.UserPaint | ControlStyles.AllPaintingInWmPaint, true);
+            this.UpdateStyles();
 
             return SUCCESS;
 
@@ -86,12 +87,13 @@ namespace LWDicer.Layers
             }
             else if (e.Button == MouseButtons.Middle)   // 마우스 가운데 버튼
             {
+                // Cursor 변경
                 this.Cursor = Cursors.Hand;
 
+                // Mouse 위치 기록
                 m_ScanWindow.ptPanStartPos = e.Location;
                 m_ScanWindow.ptStartViewCenter = GetViewCorner();
             }
-
         }
 
         protected override void OnMouseUp(MouseEventArgs e)
@@ -103,8 +105,10 @@ namespace LWDicer.Layers
             if (e.Button == MouseButtons.Left && m_ScanWindow.SelectObjectType != EObjectType.NONE)
             {
                 // 시작 포인트와 끝 포이트가 같으면 Shape를 생성하지 않는다.
+                // 단  Dot의 경우는 제외함.
                 if (ptMouseStartPos == ptMouseEndPos && m_ScanWindow.SelectObjectType != EObjectType.DOT) return;
 
+                // Arc의 경우엔 여러번 클릭해야 함.
                 if (m_ScanWindow.SelectObjectType != EObjectType.ARC)
                 {
                     IsObjectDrag = false;
@@ -297,7 +301,7 @@ namespace LWDicer.Layers
 
                 case EObjectType.CIRCLE:
                     radius = (int)Math.Sqrt(Math.Pow((StartPos.X - EndPos.X), 2) +
-                                                Math.Pow((StartPos.Y - EndPos.Y), 2));
+                                            Math.Pow((StartPos.Y - EndPos.Y), 2));
                    
                     rectCircle.X = (StartPos.X - radius);
                     rectCircle.Y = (StartPos.Y - radius);
@@ -326,6 +330,8 @@ namespace LWDicer.Layers
 
                     break;
             }
+
+            //g.Dispose();
         }
 
         private void GridDraw(Graphics g)
@@ -356,9 +362,10 @@ namespace LWDicer.Layers
 
                 objectEndPos.dX = (double)i;
                 objectEndPos.dY = (double)ScanFieldSize.Height;
-                pixelEndPos = AbsFieldToPixel(objectEndPos);              
-                
-               g.DrawLine(drawPen, pixelStartPos, pixelEndPos);                
+                pixelEndPos = AbsFieldToPixel(objectEndPos);
+
+                g.DrawLine(drawPen, pixelStartPos, pixelEndPos);     
+
             }
 
             for (int i = 0; i < ScanFieldSize.Height; i += gridMinor)
@@ -372,6 +379,7 @@ namespace LWDicer.Layers
                 pixelEndPos = AbsFieldToPixel(objectEndPos);
 
                 g.DrawLine(drawPen, pixelStartPos, pixelEndPos);
+
             }
 
             // Major Grid Draw ==============================================
@@ -406,6 +414,7 @@ namespace LWDicer.Layers
                     pixelEndPos = AbsFieldToPixel(objectEndPos);
 
                     g.DrawLine(drawPen, pixelStartPos, pixelEndPos);
+
                 }
 
                 for (int i = 0; i <= ScanFieldSize.Height; i += gridMajor)
@@ -419,10 +428,12 @@ namespace LWDicer.Layers
                     pixelEndPos = AbsFieldToPixel(objectEndPos);
 
                     g.DrawLine(drawPen, pixelStartPos, pixelEndPos);
+
                 }
 
                 scanNum++;
             }
+            
         }
         
 
