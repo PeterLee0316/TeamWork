@@ -858,8 +858,9 @@ CSpinStep class -> CCleaningStep / CCoatingStep class 로 분리
 	  Rectagle과 Ellipse는 graphic에서 matrix 회전 변환으로 Display를 함.
 	- move하는 기능을 Object의 Center 기준으로 이동함 (회전된 Object를 적용하기 위함)
 	- Array Copy 및 Group, Ungroup의 기능의 오류를 수정함. 
-	- Grid Draw부분 더블 버퍼링 추가
 	- 레이저 가공에서 Inposition Delay 파라미터 추가
+	- Paint하는 모든 것을 Buffered graphics 처리함 (buffer에 그린 다음 한번에 Display)
+	- Draw UI를 click시 Focus처리... (마우스 휠로 zoom 동작 문제 해결)
 	
 
 

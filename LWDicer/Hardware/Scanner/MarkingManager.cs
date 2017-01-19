@@ -297,12 +297,17 @@ namespace LWDicer.Layers
             CMarkingObject.SetCreateSortNum(0);
         }
 
-        public void DrawObject(PaintEventArgs g)
+        public void DrawObject(BufferedGraphics bg)
         {
             foreach (CMarkingObject s in this.ObjectList.ToArray<CMarkingObject>())
             {
-                s.DrawObject(g.Graphics);
+                s.DrawObject(bg);
             }
+
+            // 병렬 프로세싱은 안됨
+            //int n = this.ObjectList.Count;
+            //Parallel.For(0, n, (index) => this.ObjectList[index].DrawObject(bg));
+
         }
 
         public void LoadCadFile(string filePath)

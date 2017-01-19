@@ -466,9 +466,7 @@ namespace LWDicer.Layers
                     bytesStart += BmpBlockHeight;
                     bytesEnd   += BmpBlockHeight;
                     // 남은 Image의 Heigth를 
-                    leftImageHeigth -= BmpBlockHeight;
-
-                    
+                    leftImageHeigth -= BmpBlockHeight;                    
                 }
 
                 // 반복으로 저장 한 후 남은 Image를 저장함.
@@ -527,8 +525,7 @@ namespace LWDicer.Layers
                 {
                     // 생성된 BMP 파일에 Object Draw
                     DrawObjectBytes(pObject, bytesStart);
-                }
-                
+                }                
             }
 
             return SUCCESS;

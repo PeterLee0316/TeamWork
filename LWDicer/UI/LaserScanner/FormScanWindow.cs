@@ -53,9 +53,7 @@ namespace LWDicer.UI
             SizeF fieldSize = new SizeF(0, 0);
             fieldSize.Width = (float) CMainFrame.DataManager.SystemData_Scan.ScanFieldWidth;
             fieldSize.Height = (float)CMainFrame.DataManager.SystemData_Scan.ScanFieldHeight;
-            m_ScanManager.SetFieldSize(fieldSize);
-
-            
+            m_ScanManager.SetFieldSize(fieldSize);                      
 
             this.OnResize(EventArgs.Empty);
         }
@@ -63,9 +61,7 @@ namespace LWDicer.UI
         protected override void OnShown(EventArgs e)
         {
             base.OnShown(e);
-
-
-
+            
             DrawCanvas.Show();
         }
         public void InitailzeListView()
@@ -1111,6 +1107,7 @@ namespace LWDicer.UI
 
             ReDrawCanvas();
         }
+
 
         #endregion
 
