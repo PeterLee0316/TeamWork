@@ -467,11 +467,7 @@ namespace LWDicer.UI
         private void FormScanWindow_Load(object sender, EventArgs e)
         {
             DrawCanvas.Show();
-
-            // Zoom & View Center Default Set
-            float currentZoom = 1.0f;
-            m_ScanWindow.ChangeCanvasZoom(currentZoom);
-            m_ScanWindow.MoveViewFieldCenter();
+            toolBtnZoomAll_Click(sender,e);
         }
 
 
@@ -500,7 +496,7 @@ namespace LWDicer.UI
             movePos = GetViewCorner();
             movePos.X -= 1;
 
-            SetViewCenter(movePos);
+            SetViewCorner(movePos);
             DrawCanvas.Invalidate();
         }
 
@@ -510,7 +506,7 @@ namespace LWDicer.UI
             movePos = GetViewCorner();
             movePos.X += 1;
 
-            SetViewCenter(movePos);
+            SetViewCorner(movePos);
             DrawCanvas.Invalidate();
         }
 
@@ -520,7 +516,7 @@ namespace LWDicer.UI
             movePos = GetViewCorner();
             movePos.Y -= 1;
 
-            SetViewCenter(movePos);
+            SetViewCorner(movePos);
             DrawCanvas.Invalidate();
         }
 
@@ -530,7 +526,7 @@ namespace LWDicer.UI
             movePos = GetViewCorner();
             movePos.Y += 1;
 
-            SetViewCenter(movePos);
+            SetViewCorner(movePos);
             DrawCanvas.Invalidate();
         }
 
@@ -649,79 +645,22 @@ namespace LWDicer.UI
 
         private void toolBtnZoomPlus_Click(object sender, EventArgs e)
         {
-            //m_ScanWindow.
-            float changeZoom = 1.1f;
-            float currentZoom = BaseZoomFactor;
-            currentZoom *= changeZoom;                       
-
-            // Canvas Size 읽어옴
-            Size canvasSize = new Size(0, 0);
-            m_FormScanner.GetCanvasSize(out canvasSize);
-            // Canvas의 중심 계산
-            Point posCanvasCenter = new Point();
-            posCanvasCenter.X = canvasSize.Width/2;
-            posCanvasCenter.Y = canvasSize.Height/2;
-
-            if (m_ScanWindow.ChangeCanvasZoom(currentZoom) != SUCCESS) return;
-
-            m_ScanWindow.MoveViewDrawCenter(posCanvasCenter, changeZoom);
-            
+            m_ScanWindow.FieldZoomPlus();
         }
 
         private void toolBtnZoomMinus_Click(object sender, EventArgs e)
         {
-            float changeZoom = 1.1f;
-            float currentZoom = BaseZoomFactor;
-            currentZoom /= changeZoom;   
-
-            // Canvas Size 읽어옴
-            Size canvasSize = new Size(0, 0);
-            m_FormScanner.GetCanvasSize(out canvasSize);
-
-            // Canvas의 중심 계산
-            Point posCanvasCenter = new Point();
-            posCanvasCenter.X = canvasSize.Width/2;
-            posCanvasCenter.Y = canvasSize.Height/2;
-            
-
-            if (m_ScanWindow.ChangeCanvasZoom(currentZoom) != SUCCESS) return;
-            m_ScanWindow.MoveViewDrawCenter(posCanvasCenter, 1/changeZoom);
-            
+            m_ScanWindow.FieldZoomMinus();
         }
 
         private void toolBtnZoomAll_Click(object sender, EventArgs e)
         {
-            //m_ScanWindow.
-            float currentZoom = 1.0f;
-
-            Point scanField = new Point();
-            // Scan Field의 크기를 읽고 픽셀 크로로 변환
-            scanField.X = (int)BaseScanFieldSize.Width;
-            scanField.Y = (int)BaseScanFieldSize.Height;
-
-            // Canvas Size 읽어옴
-            Size CanvasSize = new Size(0, 0);
-            m_FormScanner.GetCanvasSize(out CanvasSize);
-
-            // 가로 세로 비율을 각각 구함
-            SizeF zoomRatio = new SizeF();
-            zoomRatio.Width = (float)CanvasSize.Width / (float)scanField.X;
-            zoomRatio.Height = (float)CanvasSize.Height / (float)scanField.Y;
-
-            // 가로 세로 배율중에 작은 값을 적용함
-            currentZoom = zoomRatio.Width < zoomRatio.Height ? zoomRatio.Width : zoomRatio.Height;
-
-            // Field는 약간 작게 적용함.
-            currentZoom /= 1.1f;
-
-            m_ScanWindow.ChangeCanvasZoom(currentZoom);
-            m_ScanWindow.MoveViewFieldCenter();
-
+            m_ScanWindow.FieldZoomAll();
         }
 
         private void toolBtnZoomDraw_Click(object sender, EventArgs e)
         {
-
+            m_ScanWindow.MouseDragZoom = true;            
         }
 
         private void toolBtnFont_Click(object sender, EventArgs e)

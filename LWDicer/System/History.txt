@@ -869,6 +869,8 @@ CSpinStep class -> CCleaningStep / CCoatingStep class 로 분리
 	- Zoom 관련 해서 기능 추가 
 	  특정 위치를 중심으로 Zoom In/Out 시 Field가 위치를 따라 가게 적용함.
 	  Mouse Wheel로 Zoom In/Out 시 마우스 위치를 중심으로 Zoom이 되도록 함
+	- Mouse drag로 Zoom를 하는 기능 처리 완료
+	- Group Dispay에서 Pen의 선택에서 오류 해결
 
 
 

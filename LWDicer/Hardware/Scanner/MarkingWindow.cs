@@ -42,7 +42,9 @@ namespace LWDicer.Layers
         public CPos_XY ptMousePos { get;  set;}= new CPos_XY();
 
         public Point ptPanStartPos { get; set; } = new Point();
-        public Point ptStartViewCenter { get; set; } = new Point();
+        public Point ptCurrentViewCorner { get; set; } = new Point();
+
+        public bool MouseDragZoom;
 
         //public FormScanWindow m_FormScanWindow;
 
@@ -79,12 +81,127 @@ namespace LWDicer.Layers
             return SUCCESS;
         }
 
+        public int FieldZoomAll()
+        {
+            float currentZoom = 1.0f;
+
+            Point scanField = new Point();
+            // Scan Field의 크기를 읽고 픽셀 크기로 변환
+            scanField.X = (int)BaseScanFieldSize.Width;
+            scanField.Y = (int)BaseScanFieldSize.Height;
+
+            // Canvas Size 읽어옴
+            Size CanvasSize = new Size(0, 0);
+            m_FormScanner.GetCanvasSize(out CanvasSize);
+
+            // 가로 세로 비율을 각각 구함
+            SizeF zoomRatio = new SizeF();
+            zoomRatio.Width = (float)CanvasSize.Width / (float)scanField.X;
+            zoomRatio.Height = (float)CanvasSize.Height / (float)scanField.Y;
+
+            // 가로 세로 배율중에 작은 값을 적용함
+            currentZoom = zoomRatio.Width < zoomRatio.Height ? zoomRatio.Width : zoomRatio.Height;
+
+            // Field는 약간 작게 적용함.
+            currentZoom /= 1.1f;
+
+            m_ScanWindow.ChangeCanvasZoom(currentZoom);
+            m_ScanWindow.MoveViewFieldCenter();
+
+            return SUCCESS;
+        }
+
+        public int FieldZoomPlus()
+        {
+            //m_ScanWindow.
+            float changeZoom = 1.1f;
+            float currentZoom = BaseZoomFactor;
+            currentZoom *= changeZoom;
+
+            // Canvas Size 읽어옴
+            Size canvasSize = new Size(0, 0);
+            m_FormScanner.GetCanvasSize(out canvasSize);
+            // Canvas의 중심 계산
+            Point posCanvasCenter = new Point();
+            posCanvasCenter.X = canvasSize.Width / 2;
+            posCanvasCenter.Y = canvasSize.Height / 2;
+
+            if (ChangeCanvasZoom(currentZoom) != SUCCESS) return RUN_FAIL;
+
+            MoveFieldPointView(posCanvasCenter, changeZoom);
+
+            return SUCCESS;
+        }
+        public int FieldZoomMinus()
+        {
+            float changeZoom = 1.1f;
+            float currentZoom = BaseZoomFactor;
+            currentZoom /= changeZoom;
+
+            // Canvas Size 읽어옴
+            Size canvasSize = new Size(0, 0);
+            m_FormScanner.GetCanvasSize(out canvasSize);
+
+            // Canvas의 중심 계산
+            Point posCanvasCenter = new Point();
+            posCanvasCenter.X = canvasSize.Width / 2;
+            posCanvasCenter.Y = canvasSize.Height / 2;
+
+
+            if (m_ScanWindow.ChangeCanvasZoom(currentZoom) != SUCCESS) return RUN_FAIL;
+            m_ScanWindow.MoveFieldPointView(posCanvasCenter, 1 / changeZoom);
+
+            return SUCCESS;
+        }
+
+        public int SelectFieldZoom(Rectangle zoomSize)
+        {            
+            Point scanField = new Point();
+            // Scan Field의 크기를 읽고 픽셀 크기로 변환
+            scanField.X = (int)zoomSize.Width;
+            scanField.Y = (int)zoomSize.Height;
+
+            // Canvas Size 읽어옴
+            Size canvasSize = new Size(0, 0);
+            m_FormScanner.GetCanvasSize(out canvasSize);
+
+            // Zoom 중심 위치
+            Point zoomPoint = new Point();
+            zoomPoint.X = zoomSize.X + zoomSize.Width / 2;
+            zoomPoint.Y = zoomSize.Y + zoomSize.Height / 2;
+
+            // 중앙으로 이동함.
+            MoveViewObjectCenter(zoomPoint);            
+
+            // 가로 세로 비율을 각각 구함
+            SizeF zoomRatio = new SizeF();
+            zoomRatio.Width = (float)canvasSize.Width / (float)scanField.X;
+            zoomRatio.Height = (float)canvasSize.Height / (float)scanField.Y;
+            
+            float changeZoom = 1.0f;
+            float currentZoom = BaseZoomFactor;           
+
+            // 가로 세로 배율중에 작은 값을 적용함
+            changeZoom = zoomRatio.Width < zoomRatio.Height ? zoomRatio.Width : zoomRatio.Height;
+            currentZoom *= changeZoom;
+
+            if (ChangeCanvasZoom(currentZoom) != SUCCESS) return RUN_FAIL;
+
+            Point canvasCenter = new Point();
+            canvasCenter.X = canvasSize.Width / 2;
+            canvasCenter.Y = canvasSize.Height / 2;
+
+            MoveFieldPointView(canvasCenter, changeZoom);
+
+            return SUCCESS;
+        }
+
         public void MoveViewFieldCenter()
         {
             Point viewCenter = new Point(0, 0);         
 
             // View중심 초기화
-            SetViewCenter(viewCenter);
+            SetViewCorner(viewCenter);
 
             CPos_XY scanField = new CPos_XY();
             Point scanPixel = new Point();
@@ -101,10 +218,27 @@ namespace LWDicer.Layers
             viewCenter.X = (CanvasSize.Width - scanPixel.X) / 2;
             viewCenter.Y = (CanvasSize.Height - scanPixel.Y) / 2;
             // View중심 재설정
-            SetViewCenter(viewCenter);
+            SetViewCorner(viewCenter);
+        }
+        public void MoveViewObjectCenter(Point pPoint)
+        {
+            Point viewCenter = new Point(0, 0);
+
+            // View Corner 위치 읽기
+            viewCenter = GetViewCorner();
+
+            // Canvas Size 읽어옴
+            Size CanvasSize = new Size(0, 0);
+            m_FormScanner.GetCanvasSize(out CanvasSize);
+
+            // Canvas와 ScanField의 중심 오차를 확인홤
+            viewCenter.X += (CanvasSize.Width / 2 - pPoint.X);
+            viewCenter.Y += (CanvasSize.Height/ 2 - pPoint.Y);
+            // View중심 재설정
+            SetViewCorner(viewCenter);
         }
 
-        public void MoveViewDrawCenter(Point pPoint,float extend)
+        public void MoveFieldPointView(Point pPoint,float extend)
         {
             Point viewCorner = new Point();
             Point lengthCorner = new Point();
@@ -124,7 +258,7 @@ namespace LWDicer.Layers
             viewCorner.Y -= (int)changeCorner.Y;
 
             // View중심 재설정
-            SetViewCenter(viewCorner);
+            SetViewCorner(viewCorner);
             
         }
 

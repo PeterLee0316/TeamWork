@@ -406,7 +406,6 @@ namespace LWDicer.Layers
         public override void DrawObject(BufferedGraphics bg, Pen pPen)
         {
             base.DrawObject(bg,pPen);
-            Pen drawPen=new Pen(Color.Black);
 
             Point StartPos = new Point(0, 0);
             Point EndPos = new Point(0, 0);

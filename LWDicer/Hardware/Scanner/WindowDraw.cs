@@ -174,7 +174,7 @@ namespace LWDicer.Layers
                     currentZoom *= changeZoom;
 
                     if (m_ScanWindow.ChangeCanvasZoom(currentZoom) != SUCCESS) return;
-                    m_ScanWindow.MoveViewDrawCenter(e.Location, changeZoom);
+                    m_ScanWindow.MoveFieldPointView(e.Location, changeZoom);
                 }
                 else
                 {
@@ -183,7 +183,7 @@ namespace LWDicer.Layers
                     currentZoom /= changeZoom;
 
                     if (m_ScanWindow.ChangeCanvasZoom(currentZoom) != SUCCESS) return;
-                    m_ScanWindow.MoveViewDrawCenter(e.Location, 1 / changeZoom);
+                    m_ScanWindow.MoveFieldPointView(e.Location, 1 / changeZoom);
                 }
                 return;
             }

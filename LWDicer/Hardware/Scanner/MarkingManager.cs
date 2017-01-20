@@ -303,7 +303,10 @@ namespace LWDicer.Layers
 
             foreach (CMarkingObject s in this.ObjectList.ToArray<CMarkingObject>())
             {
-                if (s.ObjectType == EObjectType.GROUP && s.IsSelectedObject) drawPen = BaseDrawPen[(int)EDrawPenType.SELECT];
+                if (s.ObjectType == EObjectType.GROUP && s.IsSelectedObject)
+                    drawPen = BaseDrawPen[(int)EDrawPenType.SELECT];
+                else
+                    drawPen = BaseDrawPen[(int)EDrawPenType.DRAW];
 
                 s.DrawObject(bg, drawPen);
             }

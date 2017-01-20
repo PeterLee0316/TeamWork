@@ -30,7 +30,7 @@ namespace LWDicer.Layers
         public const float SCAN_RESOLUTION_Y = 0.1f;
 
 
-        public const float ZOOM_FACTOR_MAX = 20.0f;
+        public const float ZOOM_FACTOR_MAX = 50.0f;
         public const float ZOOM_FACTOR_MIN = 0.2f;
         public const float CALIB_FACTOR_MAX = 50.0f;
         public const float CALIB_FACTOR_MIN = 0.01f;        
@@ -108,26 +108,14 @@ namespace LWDicer.Layers
         }
 
         /// Canvas의 중심점을 설정함 
-        private static Point BaseViewCenter = new Point(0, 0);
+        private static Point BaseViewCorner = new Point(0, 0);
         public static Point GetViewCorner()
-        {
-            Point tempPoint = new Point();
-
-            tempPoint.X = BaseViewCenter.X;
-            tempPoint.Y = BaseViewCenter.Y;
-            
-            return tempPoint;
+        {            
+            return BaseViewCorner;
         }
-        public static void SetViewCenter(Point ptPoint)
+        public static void SetViewCorner(Point ptPoint)
         {
-            //if (ptPoint.X < 0 || ptPoint.Y < 0) return;
-            // 기준값을 보정함
-            Point tempPoint = new Point();
-            tempPoint.X = (ptPoint.X);
-            tempPoint.Y = (ptPoint.Y);
-
-
-            BaseViewCenter = ptPoint;
+            BaseViewCorner = ptPoint;
         }
 
         // Draw Canvas Size 설정.. (Zoom과 연동이 필요함)
@@ -224,12 +212,12 @@ namespace LWDicer.Layers
             tempPoint.dY -= (double)BaseFieldCenter.Y * BaseZoomFactor;
 
             // Zoom 값 & Calib 값을 나눔 (Flip 확인)
-            tempPoint.dX = (double)(pPixel.X - BaseViewCenter.X) / BaseZoomFactor / BaseCalibFactor.X * (BaseDrawFlipX ? -1.0f : 1.0f);
-            tempPoint.dY = (double)(pPixel.Y - BaseViewCenter.Y) / BaseZoomFactor / BaseCalibFactor.Y * (BaseDrawFlipX ? -1.0f : 1.0f);
+            tempPoint.dX = (double)(pPixel.X - BaseViewCorner.X) / BaseZoomFactor / BaseCalibFactor.X * (BaseDrawFlipX ? -1.0f : 1.0f);
+            tempPoint.dY = (double)(pPixel.Y - BaseViewCorner.Y) / BaseZoomFactor / BaseCalibFactor.Y * (BaseDrawFlipX ? -1.0f : 1.0f);
 
             //// View Center 적용
-            //tempPoint.dX -= (float)BaseViewCenter.X; ;
-            //tempPoint.dY -= (float)BaseViewCenter.Y; ;
+            //tempPoint.dX -= (float)BaseViewCorner.X; ;
+            //tempPoint.dY -= (float)BaseViewCorner.Y; ;
 
             return tempPoint;
         }
@@ -245,11 +233,11 @@ namespace LWDicer.Layers
             PosY = (pPos.dY ) * BaseZoomFactor * BaseCalibFactor.Y * (BaseDrawFlipX ? -1.0f : 1.0f);
 
             //// 기준값을 보정함
-            //tempPoint.X += (int)((float)BaseViewCenter.X);/// BaseZoomFactor / BaseCalibFactor.X);
-            //tempPoint.Y += (int)((float)BaseViewCenter.Y);// / BaseZoomFactor / BaseCalibFactor.Y);
+            //tempPoint.X += (int)((float)BaseViewCorner.X);/// BaseZoomFactor / BaseCalibFactor.X);
+            //tempPoint.Y += (int)((float)BaseViewCorner.Y);// / BaseZoomFactor / BaseCalibFactor.Y);
 
-            PosX += BaseViewCenter.X;
-            PosY += BaseViewCenter.Y;
+            PosX += BaseViewCorner.X;
+            PosY += BaseViewCorner.Y;
 
             tempPoint.X += (int)(PosX+0.5);
             tempPoint.Y += (int)(PosY+0.5);

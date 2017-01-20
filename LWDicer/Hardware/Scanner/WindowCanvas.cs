@@ -24,7 +24,6 @@ namespace LWDicer.Layers
         private Point ptArcEndPos = new Point(0, 0);
 
         private bool IsObjectDrag = false;
-        protected bool CheckWheelZoomMode = false;
         
         public WindowCanvas()
         {
@@ -93,16 +92,14 @@ namespace LWDicer.Layers
 
                 // Mouse 위치 기록
                 m_ScanWindow.ptPanStartPos = e.Location;
-                m_ScanWindow.ptStartViewCenter = GetViewCorner();
+                m_ScanWindow.ptCurrentViewCorner = GetViewCorner();
             }
         }
 
         protected override void OnMouseUp(MouseEventArgs e)
         {
             base.OnMouseUp(e);
-
-            this.Cursor = Cursors.Arrow;
-
+            
             if (e.Button == MouseButtons.Left && m_ScanWindow.SelectObjectType != EObjectType.NONE)
             {
                 // 시작 포인트와 끝 포이트가 같으면 Shape를 생성하지 않는다.
@@ -119,7 +116,33 @@ namespace LWDicer.Layers
                     Invalidate();
                 }
             }
+            
 
+            // Mouse Drag Zoom을 확인한다.
+            if(m_ScanWindow.MouseDragZoom)
+            {
+                Rectangle zoomSize = new Rectangle();
+                Point startPos = new Point();
+                Point endPos = new Point();
+
+                startPos = ptMouseStartPos;
+                endPos = ptMouseEndPos;                
+
+                zoomSize.X = startPos.X < endPos.X ? startPos.X : endPos.X;
+                zoomSize.Y = startPos.Y < endPos.Y ? startPos.Y : endPos.Y;
+                zoomSize.Width  = startPos.X > endPos.X ? (startPos.X - endPos.X) : -(startPos.X - endPos.X);
+                zoomSize.Height = startPos.Y > endPos.Y ? (startPos.Y - endPos.Y) : -(startPos.Y - endPos.Y);
+
+                m_ScanWindow.SelectFieldZoom(zoomSize);
+            }
+
+            // 마우스 커서를 원위치 함.
+            this.Cursor = Cursors.Arrow;
+
+            // Mouse Drag Zoom을 해제한다.
+            m_ScanWindow.MouseDragZoom = false;
+
+            // Object가 선택 되지 않을 경우에 
             if (m_ScanWindow.SelectObjectType == EObjectType.NONE)
             {
                 ptMouseStartPos = ptMouseEndPos;
@@ -132,6 +155,8 @@ namespace LWDicer.Layers
             base.OnMouseMove(e);
             
             m_ScanWindow.ptMousePos = PixelToField(e.Location);
+
+            if (m_ScanWindow.MouseDragZoom) this.Cursor = Cursors.Cross;
             
             if (e.Button == MouseButtons.Left)
             {
@@ -145,19 +170,22 @@ namespace LWDicer.Layers
             }
             else if (e.Button == MouseButtons.Middle)   // 마우스 가운데 버튼
             {
+                // Mouse Pan Drag 동작 (마우스로 Field를 이동함)
                 Point moveLength = new Point();
 
+                // Mouse Click위치에서 이동 거리 측정
                 moveLength.X = m_ScanWindow.ptPanStartPos.X - e.Location.X;
                 moveLength.Y = m_ScanWindow.ptPanStartPos.Y - e.Location.Y;
-
-                // Canvas Center 설정
+                
                 Point pPoint = new Point();
-
-                pPoint = m_ScanWindow.ptStartViewCenter;
+                
+                // 현재 ViewCorner 읽기
+                pPoint = m_ScanWindow.ptCurrentViewCorner;
+                // 이동 거리 적용
                 pPoint.X -= moveLength.X;
-                pPoint.Y -=  moveLength.Y;
+                pPoint.Y -= moveLength.Y;
 
-                SetViewCenter(pPoint);
+                SetViewCorner(pPoint);
 
                 this.Invalidate();
 
@@ -180,10 +208,14 @@ namespace LWDicer.Layers
         {
             base.OnKeyDown(e);
 
-            // Ctrl Key ------------------------
-            if ((System.Windows.Forms.Control.ModifierKeys & Keys.Control) == Keys.Control)
-                CheckWheelZoomMode = true;
+            // Shift Key ------------------------
+            if ((System.Windows.Forms.Control.ModifierKeys & Keys.Shift) == Keys.Shift)
+            {
+                m_ScanWindow.MouseDragZoom = true;
+                this.Cursor = Cursors.Cross;
 
+                m_ScanWindow.SetObjectType(EObjectType.NONE);
+            }
             // Esc Key ------------------------
             if (e.KeyData == Keys.Escape)
                 m_ScanWindow.SetObjectType(EObjectType.NONE);
@@ -194,10 +226,13 @@ namespace LWDicer.Layers
         {
             base.OnKeyUp(e);
 
-            // Ctrl Key ------------------------
-            // if ((Control.ModifierKeys & Keys.Control) == Keys.Control)
-            if (e.KeyData == Keys.ControlKey)
-                CheckWheelZoomMode = false;
+
+            // Shift Key ------------------------
+            if (e.KeyData == Keys.ShiftKey)
+            {
+                m_ScanWindow.MouseDragZoom = false;
+                this.Cursor = Cursors.Arrow;
+            }
         }
 
         protected override void OnMouseWheel(MouseEventArgs e)
@@ -211,7 +246,7 @@ namespace LWDicer.Layers
                 currentZoom *= changeZoom;                    
 
                 if (m_ScanWindow.ChangeCanvasZoom(currentZoom) != SUCCESS) return;
-                m_ScanWindow.MoveViewDrawCenter(e.Location, changeZoom);
+                m_ScanWindow.MoveFieldPointView(e.Location, changeZoom);
             }
             else
             {
@@ -220,7 +255,7 @@ namespace LWDicer.Layers
                 currentZoom /= changeZoom;
 
                 if (m_ScanWindow.ChangeCanvasZoom(currentZoom) != SUCCESS) return;
-                m_ScanWindow.MoveViewDrawCenter(e.Location, 1/changeZoom);
+                m_ScanWindow.MoveFieldPointView(e.Location, 1/changeZoom);
             }
             return;
 
