@@ -203,22 +203,27 @@ namespace LWDicer.Layers
         protected override void OnMouseWheel(MouseEventArgs e)
         {
             // Wheel Zoom
-            if (CheckWheelZoomMode)
+            
+            if ((e.Delta / 120) < 0)
             {
-                if ((e.Delta / 120) < 0)
-                {
-                    float currentZoom = BaseZoomFactor;
-                    currentZoom *= 1.1f;
-                    m_ScanWindow.ChangeCanvasZoom(currentZoom);
-                }
-                else
-                {
-                    float currentZoom = BaseZoomFactor;
-                    currentZoom /= 1.1f;
-                    m_ScanWindow.ChangeCanvasZoom(currentZoom);
-                }
-                return;
+                float currentZoom = BaseZoomFactor;
+                float changeZoom = 1.1f;
+                currentZoom *= changeZoom;                    
+
+                if (m_ScanWindow.ChangeCanvasZoom(currentZoom) != SUCCESS) return;
+                m_ScanWindow.MoveViewDrawCenter(e.Location, changeZoom);
             }
+            else
+            {
+                float currentZoom = BaseZoomFactor;
+                float changeZoom = 1.1f;
+                currentZoom /= changeZoom;
+
+                if (m_ScanWindow.ChangeCanvasZoom(currentZoom) != SUCCESS) return;
+                m_ScanWindow.MoveViewDrawCenter(e.Location, 1/changeZoom);
+            }
+            return;
+
             base.OnMouseWheel(e);
         }
 

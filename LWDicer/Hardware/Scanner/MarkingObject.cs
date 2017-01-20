@@ -138,13 +138,12 @@ namespace LWDicer.Layers
         //    ObjectRotateAngle   = pAngle;
         //}
 
-        public virtual void DrawObject(BufferedGraphics bg)
+        public virtual void DrawObject(BufferedGraphics bg,Pen pPen)
         {
             // Select한 상태를 확인
             if (IsSelectedObject)
             {
-                // Object의 외각 Demension을 그린다.
-                 DrawObjectDemension(bg);
+                DrawObjectDemension(bg);                
             }
 
             //g.Dispose();
@@ -297,9 +296,9 @@ namespace LWDicer.Layers
             SetObjectRatateAngle(Rad2Deg(dAngle));
         }
 
-        public override void DrawObject(BufferedGraphics bg)
+        public override void DrawObject(BufferedGraphics bg, Pen pPen)
         {
-            base.DrawObject(bg);
+            base.DrawObject(bg,pPen);
             Point DotPos = new Point(0,0);            
             
             DotPos = AbsFieldToPixel(ptObjectStartPos);
@@ -404,9 +403,9 @@ namespace LWDicer.Layers
             SetObjectEndPos(pPos);
         }
 
-        public override void DrawObject(BufferedGraphics bg)
+        public override void DrawObject(BufferedGraphics bg, Pen pPen)
         {
-            base.DrawObject(bg);
+            base.DrawObject(bg,pPen);
             Pen drawPen=new Pen(Color.Black);
 
             Point StartPos = new Point(0, 0);
@@ -415,7 +414,7 @@ namespace LWDicer.Layers
             StartPos = AbsFieldToPixel(ptObjectStartPos);
             EndPos = AbsFieldToPixel(ptObjectEndPos);            
 
-            bg.Graphics.DrawLine(BaseDrawPen[(int)EDrawPenType.DRAW], StartPos, EndPos);
+            bg.Graphics.DrawLine(pPen, StartPos, EndPos);
 
             //g.Dispose();
         }
@@ -548,9 +547,9 @@ namespace LWDicer.Layers
             SetObjectEndPos(endPos);
         }
 
-        public override void DrawObject(BufferedGraphics bg)
+        public override void DrawObject(BufferedGraphics bg, Pen pPen)
         {
-            base.DrawObject(bg);
+            base.DrawObject(bg,pPen);
 
             Point StartPos = new Point(0, 0);
             Point EndPos = new Point(0, 0);            
@@ -569,7 +568,7 @@ namespace LWDicer.Layers
             bg.Graphics.Transform = matrix;
             //---------------------------------------------
 
-            bg.Graphics.DrawRectangle(BaseDrawPen[(int)EDrawPenType.DRAW], 
+            bg.Graphics.DrawRectangle(pPen, 
                             (StartPos.X < EndPos.X ? StartPos.X : EndPos.X),
                             (StartPos.Y < EndPos.Y ? StartPos.Y : EndPos.Y), 
                             (StartPos.X > EndPos.X ? (StartPos.X - EndPos.X) : -(StartPos.X - EndPos.X)),
@@ -672,9 +671,9 @@ namespace LWDicer.Layers
             SetObjectEndPos(pPos);
         }
 
-        public override void DrawObject(BufferedGraphics bg)
+        public override void DrawObject(BufferedGraphics bg, Pen pPen)
         {
-            base.DrawObject(bg);
+            base.DrawObject(bg,pPen);
 
             Point StartPos = new Point(0, 0);
             Point EndPos = new Point(0, 0);
@@ -682,7 +681,7 @@ namespace LWDicer.Layers
             StartPos = AbsFieldToPixel(ptObjectStartPos);
             EndPos = AbsFieldToPixel(ptObjectEndPos);
 
-            bg.Graphics.DrawEllipse(BaseDrawPen[(int)EDrawPenType.DRAW],
+            bg.Graphics.DrawEllipse(pPen,
                             (StartPos.X < EndPos.X ? StartPos.X : EndPos.X),
                             (StartPos.Y < EndPos.Y ? StartPos.Y : EndPos.Y),
                             (StartPos.X > EndPos.X ? (StartPos.X - EndPos.X) : -(StartPos.X - EndPos.X)),
@@ -806,9 +805,9 @@ namespace LWDicer.Layers
             SetObjectEndPos(endPos);
         }
 
-        public override void DrawObject(BufferedGraphics bg)
+        public override void DrawObject(BufferedGraphics bg, Pen pPen)
         {
-            base.DrawObject(bg);
+            base.DrawObject(bg,pPen);
 
             Point StartPos = new Point(0, 0);
             Point EndPos = new Point(0, 0);
@@ -827,7 +826,7 @@ namespace LWDicer.Layers
             bg.Graphics.Transform = matrix;
             //---------------------------------------------
 
-            bg.Graphics.DrawEllipse(BaseDrawPen[(int)EDrawPenType.DRAW],
+            bg.Graphics.DrawEllipse(pPen,
                             (StartPos.X < EndPos.X ? StartPos.X : EndPos.X),
                             (StartPos.Y < EndPos.Y ? StartPos.Y : EndPos.Y),
                             (StartPos.X > EndPos.X ? (StartPos.X - EndPos.X) : -(StartPos.X - EndPos.X)),
@@ -898,9 +897,9 @@ namespace LWDicer.Layers
             CreateSortNum++;
         }
 
-        public override void DrawObject(BufferedGraphics bg)
+        public override void DrawObject(BufferedGraphics bg, Pen pPen)
         {
-            base.DrawObject(bg);
+            base.DrawObject(bg,pPen);
 
             //ImageAttributes imageAttr = new ImageAttributes();
             //imageAttr.SetThreshold(0.8f);
@@ -1106,9 +1105,9 @@ namespace LWDicer.Layers
             SetObjectCenterPos((pStart + pEnd) / 2);
         }
 
-        public override void DrawObject(BufferedGraphics bg)
+        public override void DrawObject(BufferedGraphics bg, Pen pPen)
         {
-            base.DrawObject(bg);
+           // base.DrawObject(bg);
 
             // if (ObjectGroup.Count <= 0) return;
 
@@ -1117,7 +1116,7 @@ namespace LWDicer.Layers
 
             foreach (CMarkingObject pObject in ObjectGroup)
             {
-                pObject.DrawObject(bg);
+                pObject.DrawObject(bg,pPen);
             }
             
         }

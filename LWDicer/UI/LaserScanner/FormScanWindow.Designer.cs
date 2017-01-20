@@ -554,6 +554,7 @@ namespace LWDicer.UI
             this.toolBtnZoomDraw.Text = "Drag";
             this.toolBtnZoomDraw.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             this.toolBtnZoomDraw.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.toolBtnZoomDraw.Click += new System.EventHandler(this.toolBtnZoomDraw_Click);
             // 
             // toolBtnZoomMinus
             // 

@@ -299,9 +299,13 @@ namespace LWDicer.Layers
 
         public void DrawObject(BufferedGraphics bg)
         {
+            Pen drawPen = BaseDrawPen[(int)EDrawPenType.DRAW];
+
             foreach (CMarkingObject s in this.ObjectList.ToArray<CMarkingObject>())
             {
-                s.DrawObject(bg);
+                if (s.ObjectType == EObjectType.GROUP && s.IsSelectedObject) drawPen = BaseDrawPen[(int)EDrawPenType.SELECT];
+
+                s.DrawObject(bg, drawPen);
             }
 
             // 병렬 프로세싱은 안됨

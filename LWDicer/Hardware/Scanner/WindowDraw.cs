@@ -170,14 +170,20 @@ namespace LWDicer.Layers
                 if ((e.Delta / 120) < 0)
                 {
                     float currentZoom = BaseZoomFactor;
-                    currentZoom *= 1.1f;
-                    m_ScanWindow.ChangeCanvasZoom(currentZoom);
+                    float changeZoom = 1.1f;
+                    currentZoom *= changeZoom;
+
+                    if (m_ScanWindow.ChangeCanvasZoom(currentZoom) != SUCCESS) return;
+                    m_ScanWindow.MoveViewDrawCenter(e.Location, changeZoom);
                 }
                 else
                 {
                     float currentZoom = BaseZoomFactor;
-                    currentZoom /= 1.1f;
-                    m_ScanWindow.ChangeCanvasZoom(currentZoom);
+                    float changeZoom = 1.1f;
+                    currentZoom /= changeZoom;
+
+                    if (m_ScanWindow.ChangeCanvasZoom(currentZoom) != SUCCESS) return;
+                    m_ScanWindow.MoveViewDrawCenter(e.Location, 1 / changeZoom);
                 }
                 return;
             }

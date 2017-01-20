@@ -244,12 +244,13 @@ namespace LWDicer.UI
 
         private void CWindowForm_Resize(object sender, EventArgs e)
         {
+            // 사용하지 않음.
+            return;
             SizeF formScale = new SizeF(0, 0);
             Size formSize = new Size(0, 0);
             Point compPos = new Point(0, 0);
             float fontSize = 0;
-
-            // 해결 했다.
+            
 
             formSize.Width = this.Width;
             formSize.Height = this.Height;
@@ -470,7 +471,7 @@ namespace LWDicer.UI
             // Zoom & View Center Default Set
             float currentZoom = 1.0f;
             m_ScanWindow.ChangeCanvasZoom(currentZoom);
-            m_ScanWindow.MoveViewCenter();
+            m_ScanWindow.MoveViewFieldCenter();
         }
 
 
@@ -478,18 +479,18 @@ namespace LWDicer.UI
         {
             base.OnMouseWheel(e);
 
-            if ((e.Delta / 120) < 0)
-            {
-                float currentZoom = BaseZoomFactor;
-                currentZoom *= 1.1f;
-                m_ScanWindow.ChangeCanvasZoom(currentZoom);
-            }
-            else
-            {
-                float currentZoom = BaseZoomFactor;
-                currentZoom /= 1.1f;
-                m_ScanWindow.ChangeCanvasZoom(currentZoom);
-            }
+            //if ((e.Delta / 120) < 0)
+            //{
+            //    float currentZoom = BaseZoomFactor;
+            //    currentZoom *= 1.1f;
+            //    m_ScanWindow.ChangeCanvasZoom(currentZoom);
+            //}
+            //else
+            //{
+            //    float currentZoom = BaseZoomFactor;
+            //    currentZoom /= 1.1f;
+            //    m_ScanWindow.ChangeCanvasZoom(currentZoom);
+            //}
 
         }
 
@@ -649,17 +650,43 @@ namespace LWDicer.UI
         private void toolBtnZoomPlus_Click(object sender, EventArgs e)
         {
             //m_ScanWindow.
+            float changeZoom = 1.1f;
             float currentZoom = BaseZoomFactor;
-            currentZoom *= 1.1f;
-            m_ScanWindow.ChangeCanvasZoom(currentZoom);
+            currentZoom *= changeZoom;                       
+
+            // Canvas Size 읽어옴
+            Size canvasSize = new Size(0, 0);
+            m_FormScanner.GetCanvasSize(out canvasSize);
+            // Canvas의 중심 계산
+            Point posCanvasCenter = new Point();
+            posCanvasCenter.X = canvasSize.Width/2;
+            posCanvasCenter.Y = canvasSize.Height/2;
+
+            if (m_ScanWindow.ChangeCanvasZoom(currentZoom) != SUCCESS) return;
+
+            m_ScanWindow.MoveViewDrawCenter(posCanvasCenter, changeZoom);
+            
         }
 
         private void toolBtnZoomMinus_Click(object sender, EventArgs e)
         {
-            //m_ScanWindow.
+            float changeZoom = 1.1f;
             float currentZoom = BaseZoomFactor;
-            currentZoom /= 1.1f;
-            m_ScanWindow.ChangeCanvasZoom(currentZoom);
+            currentZoom /= changeZoom;   
+
+            // Canvas Size 읽어옴
+            Size canvasSize = new Size(0, 0);
+            m_FormScanner.GetCanvasSize(out canvasSize);
+
+            // Canvas의 중심 계산
+            Point posCanvasCenter = new Point();
+            posCanvasCenter.X = canvasSize.Width/2;
+            posCanvasCenter.Y = canvasSize.Height/2;
+            
+
+            if (m_ScanWindow.ChangeCanvasZoom(currentZoom) != SUCCESS) return;
+            m_ScanWindow.MoveViewDrawCenter(posCanvasCenter, 1/changeZoom);
+            
         }
 
         private void toolBtnZoomAll_Click(object sender, EventArgs e)
@@ -667,8 +694,33 @@ namespace LWDicer.UI
             //m_ScanWindow.
             float currentZoom = 1.0f;
 
+            Point scanField = new Point();
+            // Scan Field의 크기를 읽고 픽셀 크로로 변환
+            scanField.X = (int)BaseScanFieldSize.Width;
+            scanField.Y = (int)BaseScanFieldSize.Height;
+
+            // Canvas Size 읽어옴
+            Size CanvasSize = new Size(0, 0);
+            m_FormScanner.GetCanvasSize(out CanvasSize);
+
+            // 가로 세로 비율을 각각 구함
+            SizeF zoomRatio = new SizeF();
+            zoomRatio.Width = (float)CanvasSize.Width / (float)scanField.X;
+            zoomRatio.Height = (float)CanvasSize.Height / (float)scanField.Y;
+
+            // 가로 세로 배율중에 작은 값을 적용함
+            currentZoom = zoomRatio.Width < zoomRatio.Height ? zoomRatio.Width : zoomRatio.Height;
+
+            // Field는 약간 작게 적용함.
+            currentZoom /= 1.1f;
+
             m_ScanWindow.ChangeCanvasZoom(currentZoom);
-            m_ScanWindow.MoveViewCenter();
+            m_ScanWindow.MoveViewFieldCenter();
+
+        }
+
+        private void toolBtnZoomDraw_Click(object sender, EventArgs e)
+        {
 
         }
 
@@ -1004,6 +1056,8 @@ namespace LWDicer.UI
 
         private void toolBtnRotateCCW_Click(object sender, EventArgs e)
         {
+            if (SelectObjectListView < 0) return;
+
             if(m_ScanManager.ObjectList[SelectObjectListView].ObjectType == EObjectType.DOT ||
                m_ScanManager.ObjectList[SelectObjectListView].ObjectType == EObjectType.CIRCLE)
             {
@@ -1027,6 +1081,8 @@ namespace LWDicer.UI
 
         private void toolBtnRotateCW_Click(object sender, EventArgs e)
         {
+            if (SelectObjectListView < 0) return;
+
             if (m_ScanManager.ObjectList[SelectObjectListView].ObjectType == EObjectType.DOT ||
                m_ScanManager.ObjectList[SelectObjectListView].ObjectType == EObjectType.CIRCLE)
             {
@@ -1107,6 +1163,7 @@ namespace LWDicer.UI
 
             ReDrawCanvas();
         }
+
 
 
         #endregion

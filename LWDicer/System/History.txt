@@ -862,7 +862,13 @@ CSpinStep class -> CCleaningStep / CCoatingStep class 로 분리
 	- Paint하는 모든 것을 Buffered graphics 처리함 (buffer에 그린 다음 한번에 Display)
 	- Draw UI를 click시 Focus처리... (마우스 휠로 zoom 동작 문제 해결)
 	
-
+// Grade : ★★
+// Date : 2017-01/19~20
+// Context
+ Scanner UI 동작 추가
+	- Zoom 관련 해서 기능 추가 
+	  특정 위치를 중심으로 Zoom In/Out 시 Field가 위치를 따라 가게 적용함.
+	  Mouse Wheel로 Zoom In/Out 시 마우스 위치를 중심으로 Zoom이 되도록 함
 
 
 

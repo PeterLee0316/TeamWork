@@ -69,29 +69,17 @@ namespace LWDicer.Layers
                 m_FormScanner.AddObjectList(m_ScanManager.GetLastObject());
         }
         
-        public void ChangeCanvasZoom(float ZoomRatio)
+        public int ChangeCanvasZoom(float ZoomRatio)
         {
-            if (ZoomRatio > ZOOM_FACTOR_MAX) return;
-            if (ZoomRatio < ZOOM_FACTOR_MIN) return;
-
-            SetZoomFactor(ZoomRatio);
-
-            float currentZoom = BaseZoomFactor;
-
-            currentZoom *= ZoomRatio;
-
-            // Canvas Size 재조정
-            //Size CanvasSize = new Size(0, 0);
-            //m_FormScanner.GetCanvasSize(out CanvasSize);
-            //CanvasSize.Width = (int)(CanvasSize.Width * currentZoom + 0.5);
-            //CanvasSize.Height = (int)(CanvasSize.Height * currentZoom + 0.5);
-            //m_FormScanner.SetCanvasSize(CanvasSize);
-
+            if (SetZoomFactor(ZoomRatio) != SUCCESS) return RUN_FAIL;
+                        
             // Canvas ReDraw
             m_FormScanner.ReDrawCanvas();
+
+            return SUCCESS;
         }
 
-        public void MoveViewCenter()
+        public void MoveViewFieldCenter()
         {
             Point viewCenter = new Point(0, 0);         
 
@@ -116,8 +104,32 @@ namespace LWDicer.Layers
             SetViewCenter(viewCenter);
         }
 
+        public void MoveViewDrawCenter(Point pPoint,float extend)
+        {
+            Point viewCorner = new Point();
+            Point lengthCorner = new Point();
+            PointF changeCorner = new PointF();
+
+            // View Corner 위치 확인
+            viewCorner = GetViewCorner();
+            // 중심 위치에서 거리 값
+            lengthCorner.X = pPoint.X - viewCorner.X;
+            lengthCorner.Y = pPoint.Y - viewCorner.Y;
+            // 거리 변화 값
+            changeCorner.X = (float)lengthCorner.X * (extend - 1.0f);// + 0.5f;
+            changeCorner.Y = (float)lengthCorner.Y * (extend - 1.0f);// + 0.5f;
+
+            // 변화값을 적용한다.
+            viewCorner.X -= (int)changeCorner.X;
+            viewCorner.Y -= (int)changeCorner.Y;
+
+            // View중심 재설정
+            SetViewCenter(viewCorner);
+            
+        }
+
         #endregion
 
-            /////////////////////////////////////////////////////////////////////////////////////////
-        }
+        /////////////////////////////////////////////////////////////////////////////////////////
+    }
 }
