@@ -246,6 +246,17 @@ namespace LWDicer.Layers
             return tempPoint;
         }
 
+        public static CPos_XY RotateCoordinate(CPos_XY pPos, CPos_XY pCenter, double pAngle)
+        {
+            CPos_XY rotatePos = new CPos_XY();
+            double rotateAngle = Deg2Rad(pAngle);
+
+            rotatePos.dX = Math.Cos(rotateAngle) * (pPos.dX - pCenter.dX) - Math.Sin(rotateAngle) * (pPos.dY - pCenter.dY) + pCenter.dX;
+            rotatePos.dY = Math.Sin(rotateAngle) * (pPos.dX - pCenter.dX) + Math.Cos(rotateAngle) * (pPos.dY - pCenter.dY) + pCenter.dY;
+
+            return rotatePos;
+        }
+
         public static double Rad2Deg(double pRad)
         {
             double mDeg = pRad * 180 / Math.PI;

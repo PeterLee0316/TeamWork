@@ -130,35 +130,42 @@ namespace LWDicer.Layers
 
         public void SetObjectDimension(CPos_XY pStart, CPos_XY pEnd,double angle = 0.0)
         {
+            // 중심점 계산
+            CPos_XY centerPos = new CPos_XY();
+            centerPos = (pStart + pEnd) / 2;
+            
             if (ObjectType == EObjectType.DOT) pEnd = pStart;
 
             if (ObjectType == EObjectType.LINE)
             {
                 ObjectDimension[0].dX = pStart.dX;
                 ObjectDimension[0].dY = pStart.dY;
-
                 ObjectDimension[1].dX = pEnd.dX;
                 ObjectDimension[1].dY = pEnd.dY;
-
                 ObjectDimension[2].dX = pEnd.dX;
                 ObjectDimension[2].dY = pEnd.dY;
-
                 ObjectDimension[3].dX = pStart.dX;
-                ObjectDimension[3].dY = pStart.dY;
+                ObjectDimension[3].dY = pStart.dY;                
             }
             else
             {
                 ObjectDimension[0].dX = pStart.dX;
                 ObjectDimension[0].dY = pStart.dY;
-
                 ObjectDimension[1].dX = pEnd.dX;
                 ObjectDimension[1].dY = pStart.dY;
-
                 ObjectDimension[2].dX = pEnd.dX;
                 ObjectDimension[2].dY = pEnd.dY;
-
                 ObjectDimension[3].dX = pStart.dX;
                 ObjectDimension[3].dY = pEnd.dY;
+
+                if (angle != 0.0)
+                {
+                    ObjectDimension[0] = RotateCoordinate(ObjectDimension[0], centerPos, angle);
+                    ObjectDimension[1] = RotateCoordinate(ObjectDimension[1], centerPos, angle);
+                    ObjectDimension[2] = RotateCoordinate(ObjectDimension[2], centerPos, angle);
+                    ObjectDimension[3] = RotateCoordinate(ObjectDimension[3], centerPos, angle);
+
+                }
             }
             
             
@@ -202,82 +209,24 @@ namespace LWDicer.Layers
                 posDimension[i] = AbsFieldToPixel(ObjectDimension[i]);                               
             }
 
-            //posDimension[0].X -= nMargin;
-            //posDimension[0].Y -= nMargin;
-            //posDimension[1].X += nMargin;
-            //posDimension[1].Y -= nMargin;
-            //posDimension[2].X += nMargin;
-            //posDimension[2].Y += nMargin;
-            //posDimension[3].X -= nMargin;
-            //posDimension[3].Y += nMargin;
-
+            if(ObjectType != EObjectType.LINE)
+            {
+                posDimension[0].X -= nMargin;
+                posDimension[0].Y -= nMargin;
+                posDimension[1].X += nMargin;
+                posDimension[1].Y -= nMargin;
+                posDimension[2].X += nMargin;
+                posDimension[2].Y += nMargin;
+                posDimension[3].X -= nMargin;
+                posDimension[3].Y += nMargin;
+            }
 
             bg.Graphics.DrawPolygon(BaseDrawPen[(int)EDrawPenType.DIMENSION], posDimension);
-            
-
-            //if (ObjectType == EObjectType.DOT) endPos = startPos;
-
-            //// Dimension Rect Size 설정함
-            //pRect.X = startPos.X < endPos.X ? startPos.X : endPos.X;
-            //pRect.Y = startPos.Y < endPos.Y ? startPos.Y : endPos.Y;
-            //pRect.Width = startPos.X > endPos.X ? (startPos.X - endPos.X) : -(startPos.X - endPos.X);
-            //pRect.Height = startPos.Y > endPos.Y ? (startPos.Y - endPos.Y) : -(startPos.Y - endPos.Y);
-
-            //// Dimension Margin 크기를 적용함
-            //pRect.X -= nMargin;
-            //pRect.Y -= nMargin;
-            //pRect.Width  += nMargin*2;
-            //pRect.Height += nMargin*2;
-
-            //// Dot은 예외적으로 적용함.
-            //if (ObjectType == EObjectType.DOT)
-            //{
-            //    pRect.X -= DRAW_DOT_SIZE/2;
-            //    pRect.Y -= DRAW_DOT_SIZE/2;
-            //    pRect.Width += DRAW_DOT_SIZE -1;
-            //    pRect.Height += DRAW_DOT_SIZE -1;
-            //}
-
-            //// Rect과 Ellipse는 회전 Dimension을 적용함
-            //if (ObjectType == EObjectType.RECTANGLE || ObjectType == EObjectType.ELLIPSE)
-            //{
-            //    Matrix matrix = new Matrix();
-            //    PointF centerPos = new PointF();
-            //    centerPos.X = (float)pRect.X + (float)pRect.Width / 2;
-            //    centerPos.Y = (float)pRect.Y + (float)pRect.Height / 2;
-
-            //    matrix.RotateAt((float)ObjectRotateAngle, centerPos);
-
-            //    bg.Graphics.Transform = matrix;
-            //}
-
-            //bg.Graphics.DrawRectangle(BaseDrawPen[(int)EDrawPenType.DIMENSION], pRect);
-
-            //bg.Graphics.ResetTransform();
-
+                        
         }
 
         public virtual void MoveObject( CPos_XY pPos)
         {
-
-            //CPos_XY objectCurrentPos = new CPos_XY(0,0);
-
-            ////--------------------------------------------------------------------------------
-            //// Start Position Move
-            //objectCurrentPos.dX = this.ptObjectStartPos.dX;
-            //objectCurrentPos.dY = this.ptObjectStartPos.dY;
-            //objectCurrentPos.dX += pPos.dX;
-            //objectCurrentPos.dY += pPos.dY;
-            //this.SetObjectStartPos(objectCurrentPos);
-
-            ////--------------------------------------------------------------------------------
-            //// End Position Move
-            //objectCurrentPos.dX = this.ptObjectEndPos.dX;
-            //objectCurrentPos.dY = this.ptObjectEndPos.dY;
-            //objectCurrentPos.dX += pPos.dX;
-            //objectCurrentPos.dY += pPos.dY;
-            //this.SetObjectEndPos(objectCurrentPos);
-
         }
 
         public virtual void SetObjectProperty(CPos_XY pCenter)

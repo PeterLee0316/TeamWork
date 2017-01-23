@@ -45,8 +45,7 @@ namespace LWDicer.Layers
         public Point ptCurrentViewCorner { get; set; } = new Point();
 
         public bool MouseDragZoom;
-
-        //public FormScanWindow m_FormScanWindow;
+        
 
         #endregion
 
