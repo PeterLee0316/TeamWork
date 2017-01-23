@@ -52,6 +52,7 @@ namespace LWDicer.Layers
         public enum EPenDashStye { DASH,DASHDOT,DASHDOTDOT,DOT,SOLID }
         public enum ECanvasColorStyle { DARK,BRIGHT }
 
+        public enum EObjectDimension { POS1,POS2,POS3,POS4, MAX }
         public struct stObjectInfo
         {
             public int SelectNum;

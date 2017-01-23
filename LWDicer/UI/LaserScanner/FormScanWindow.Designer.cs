@@ -83,8 +83,8 @@ namespace LWDicer.UI
             this.toolTabProperty = new Syncfusion.Windows.Forms.Tools.ToolStripTabItem();
             this.toolStripProperty = new Syncfusion.Windows.Forms.Tools.ToolStripEx();
             this.toolStripPanelItem9 = new Syncfusion.Windows.Forms.Tools.ToolStripPanelItem();
-            this.toolStripLabel12 = new System.Windows.Forms.ToolStripLabel();
-            this.toolStripLabel13 = new System.Windows.Forms.ToolStripLabel();
+            this.toolLblCenterX = new System.Windows.Forms.ToolStripLabel();
+            this.toolLblCenterY = new System.Windows.Forms.ToolStripLabel();
             this.toolLblWidth = new System.Windows.Forms.ToolStripLabel();
             this.toolLblHeigth = new System.Windows.Forms.ToolStripLabel();
             this.tooltxtObjectCenterX = new System.Windows.Forms.ToolStripTextBox();
@@ -759,7 +759,7 @@ namespace LWDicer.UI
             this.toolBtnPropertyChange});
             this.toolStripProperty.Location = new System.Drawing.Point(0, 1);
             this.toolStripProperty.Name = "toolStripProperty";
-            this.toolStripProperty.Size = new System.Drawing.Size(219, 0);
+            this.toolStripProperty.Size = new System.Drawing.Size(219, 127);
             this.toolStripProperty.TabIndex = 8;
             this.toolStripProperty.Text = "Property";
             // 
@@ -769,8 +769,8 @@ namespace LWDicer.UI
             this.toolStripPanelItem9.CausesValidation = false;
             this.toolStripPanelItem9.ForeColor = System.Drawing.Color.MidnightBlue;
             this.toolStripPanelItem9.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripLabel12,
-            this.toolStripLabel13,
+            this.toolLblCenterX,
+            this.toolLblCenterY,
             this.toolLblWidth,
             this.toolLblHeigth,
             this.tooltxtObjectCenterX,
@@ -783,17 +783,17 @@ namespace LWDicer.UI
             this.toolStripPanelItem9.Text = "toolStripPanelItem1";
             this.toolStripPanelItem9.Transparent = true;
             // 
-            // toolStripLabel12
+            // toolLblCenterX
             // 
-            this.toolStripLabel12.Name = "toolStripLabel12";
-            this.toolStripLabel12.Size = new System.Drawing.Size(53, 15);
-            this.toolStripLabel12.Text = "Center X";
+            this.toolLblCenterX.Name = "toolLblCenterX";
+            this.toolLblCenterX.Size = new System.Drawing.Size(53, 15);
+            this.toolLblCenterX.Text = "Center X";
             // 
-            // toolStripLabel13
+            // toolLblCenterY
             // 
-            this.toolStripLabel13.Name = "toolStripLabel13";
-            this.toolStripLabel13.Size = new System.Drawing.Size(54, 15);
-            this.toolStripLabel13.Text = "          Y";
+            this.toolLblCenterY.Name = "toolLblCenterY";
+            this.toolLblCenterY.Size = new System.Drawing.Size(54, 15);
+            this.toolLblCenterY.Text = "          Y";
             // 
             // toolLblWidth
             // 
@@ -861,7 +861,7 @@ namespace LWDicer.UI
             this.toolStripPanelItem8});
             this.toolStripRotate.Location = new System.Drawing.Point(221, 1);
             this.toolStripRotate.Name = "toolStripRotate";
-            this.toolStripRotate.Size = new System.Drawing.Size(165, 0);
+            this.toolStripRotate.Size = new System.Drawing.Size(165, 127);
             this.toolStripRotate.TabIndex = 7;
             this.toolStripRotate.Text = "Rotate";
             // 
@@ -953,13 +953,12 @@ namespace LWDicer.UI
             this.toolBtnDimensionChange});
             this.toolStripDimension.Location = new System.Drawing.Point(388, 1);
             this.toolStripDimension.Name = "toolStripDimension";
-            this.toolStripDimension.Size = new System.Drawing.Size(219, 0);
+            this.toolStripDimension.Size = new System.Drawing.Size(187, 127);
             this.toolStripDimension.TabIndex = 5;
             this.toolStripDimension.Text = "Dimension";
             // 
             // toolStripPanelItem6
             // 
-            this.toolStripPanelItem6.AutoSize = false;
             this.toolStripPanelItem6.CausesValidation = false;
             this.toolStripPanelItem6.ForeColor = System.Drawing.Color.MidnightBlue;
             this.toolStripPanelItem6.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -973,33 +972,37 @@ namespace LWDicer.UI
             this.tooltxtEndPointY});
             this.toolStripPanelItem6.Name = "toolStripPanelItem6";
             this.toolStripPanelItem6.RowCount = 4;
-            this.toolStripPanelItem6.Size = new System.Drawing.Size(151, 100);
+            this.toolStripPanelItem6.Size = new System.Drawing.Size(119, 109);
             this.toolStripPanelItem6.Text = "toolStripPanelItem1";
             this.toolStripPanelItem6.Transparent = true;
             // 
             // toolStripLabel6
             // 
+            this.toolStripLabel6.AutoSize = false;
             this.toolStripLabel6.Name = "toolStripLabel6";
-            this.toolStripLabel6.Size = new System.Drawing.Size(75, 15);
-            this.toolStripLabel6.Text = "Start Point X";
+            this.toolStripLabel6.Size = new System.Drawing.Size(43, 15);
+            this.toolStripLabel6.Text = "Start X";
             // 
             // toolStripLabel7
             // 
+            this.toolStripLabel7.AutoSize = false;
             this.toolStripLabel7.Name = "toolStripLabel7";
-            this.toolStripLabel7.Size = new System.Drawing.Size(75, 15);
-            this.toolStripLabel7.Text = "Start Point Y";
+            this.toolStripLabel7.Size = new System.Drawing.Size(42, 15);
+            this.toolStripLabel7.Text = "       Y";
             // 
             // toolStripLabel8
             // 
+            this.toolStripLabel8.AutoSize = false;
             this.toolStripLabel8.Name = "toolStripLabel8";
-            this.toolStripLabel8.Size = new System.Drawing.Size(70, 15);
-            this.toolStripLabel8.Text = "End Point X";
+            this.toolStripLabel8.Size = new System.Drawing.Size(42, 15);
+            this.toolStripLabel8.Text = " End X";
             // 
             // toolStripLabel9
             // 
+            this.toolStripLabel9.AutoSize = false;
             this.toolStripLabel9.Name = "toolStripLabel9";
-            this.toolStripLabel9.Size = new System.Drawing.Size(70, 15);
-            this.toolStripLabel9.Text = "End Point Y";
+            this.toolStripLabel9.Size = new System.Drawing.Size(42, 15);
+            this.toolStripLabel9.Text = "       Y";
             // 
             // tooltxtStartPointX
             // 
@@ -1053,9 +1056,9 @@ namespace LWDicer.UI
             this.toolStripMove.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolMoveDataPnl,
             this.toolBtnMovePnl});
-            this.toolStripMove.Location = new System.Drawing.Point(609, 1);
+            this.toolStripMove.Location = new System.Drawing.Point(577, 1);
             this.toolStripMove.Name = "toolStripMove";
-            this.toolStripMove.Size = new System.Drawing.Size(236, 0);
+            this.toolStripMove.Size = new System.Drawing.Size(236, 127);
             this.toolStripMove.TabIndex = 2;
             this.toolStripMove.Text = "Move";
             // 
@@ -1082,7 +1085,7 @@ namespace LWDicer.UI
             // tooltxtDistance
             // 
             this.tooltxtDistance.Name = "tooltxtDistance";
-            this.tooltxtDistance.Size = new System.Drawing.Size(100, 23);
+            this.tooltxtDistance.Size = new System.Drawing.Size(90, 23);
             this.tooltxtDistance.Text = "5";
             this.tooltxtDistance.TextBoxTextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
@@ -1422,8 +1425,8 @@ namespace LWDicer.UI
         private System.Windows.Forms.ToolStripButton toolBtnDimensionChange;
         private Syncfusion.Windows.Forms.Tools.ToolStripEx toolStripProperty;
         private Syncfusion.Windows.Forms.Tools.ToolStripPanelItem toolStripPanelItem9;
-        private System.Windows.Forms.ToolStripLabel toolStripLabel12;
-        private System.Windows.Forms.ToolStripLabel toolStripLabel13;
+        private System.Windows.Forms.ToolStripLabel toolLblCenterX;
+        private System.Windows.Forms.ToolStripLabel toolLblCenterY;
         private System.Windows.Forms.ToolStripLabel toolLblWidth;
         private System.Windows.Forms.ToolStripLabel toolLblHeigth;
         private System.Windows.Forms.ToolStripTextBox tooltxtObjectCenterX;

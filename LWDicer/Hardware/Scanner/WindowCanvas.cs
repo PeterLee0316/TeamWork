@@ -296,14 +296,22 @@ namespace LWDicer.Layers
             Point EndPos = new Point(0, 0);
             int radius = 0;
             Rectangle rectCircle = new Rectangle();
-
+            
             StartPos = ptMouseStartPos;
             EndPos = ptMouseEndPos;
 
             switch (m_ScanWindow.SelectObjectType)
             {
                 case EObjectType.NONE:
-                    bg.Graphics.DrawRectangle(BaseDrawPen[(int)EDrawPenType.SELECT],
+
+                    Pen drawPen = new Pen(Color.Red);
+
+                    if (m_ScanWindow.MouseDragZoom)
+                        drawPen = BaseDrawPen[(int)EDrawPenType.OBJECT_DRAG];
+                    else
+                        drawPen = BaseDrawPen[(int)EDrawPenType.SELECT];
+
+                    bg.Graphics.DrawRectangle(drawPen,
                             (StartPos.X < EndPos.X ? StartPos.X : EndPos.X),
                             (StartPos.Y < EndPos.Y ? StartPos.Y : EndPos.Y),
                             (StartPos.X > EndPos.X ? (StartPos.X - EndPos.X) : -(StartPos.X - EndPos.X)),

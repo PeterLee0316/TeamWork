@@ -394,9 +394,9 @@ namespace LWDicer.UI
                 tooltxtObjectHeight.Visible = true;
 
                 // 중심 위치 
+
                 tooltxtObjectCenterX.Text = string.Format("{0:F4}", m_ScanManager.ObjectList[nIndex].ptObjectCenterPos.dX);
                 tooltxtObjectCenterY.Text = string.Format("{0:F4}", m_ScanManager.ObjectList[nIndex].ptObjectCenterPos.dY);
-
                 tooltxtObjectWidth.Text  = string.Format("{0:F4}", m_ScanManager.ObjectList[nIndex].ObjectWidth);
                 tooltxtObjectHeight.Text = string.Format("{0:F4}", m_ScanManager.ObjectList[nIndex].ObjectHeight);
 
