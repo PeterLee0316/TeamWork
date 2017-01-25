@@ -21,19 +21,20 @@ namespace LWDicer.Layers
         public const int CANVAS_WIDTH_MIN = 100;
         public const int CANVAS_HEIGHT_MIN = 100;
 
-        public const float SCAN_FIELD_WIDTH = 300.0f;
-        public const float SCAN_FIELD_HEIGHT = 300.0f;
-        public const float SCAN_FIELD_MAX = 1500.0f;
-        public const float SCAN_FIELD_MIN = 50.0f;
-        public const float SCAN_FIELD_RATIO = 0.7f;
-        public const float SCAN_RESOLUTION_X = 0.1f;
-        public const float SCAN_RESOLUTION_Y = 0.1f;
+        public const double SCAN_FIELD_WIDTH = 300.0;
+        public const double SCAN_FIELD_HEIGHT = 300.0;
+        public const double SCAN_FIELD_MAX = 1500.0;
+        public const double SCAN_FIELD_MIN = 50.0;
+        public const double SCAN_FIELD_RATIO = 0.7;
+        public const double SCAN_RESOLUTION_X = 0.1;
+        public const double SCAN_RESOLUTION_Y = 0.1;
 
+        public const double ZOOM_FACTOR_MAX = 50.0;
+        public const double ZOOM_FACTOR_MIN = 0.2;
+        public const double CALIB_FACTOR_MAX = 50.0;
+        public const double CALIB_FACTOR_MIN = 0.01;
+        public const double CIRCLE_SIZE_MIN = 0.1;
 
-        public const float ZOOM_FACTOR_MAX = 50.0f;
-        public const float ZOOM_FACTOR_MIN = 0.2f;
-        public const float CALIB_FACTOR_MAX = 50.0f;
-        public const float CALIB_FACTOR_MIN = 0.01f;        
 
         public const int CANVAS_MARGIN = 20;
         public const int DRAW_DOT_SIZE = 2;
@@ -130,7 +131,7 @@ namespace LWDicer.Layers
             BaseCanvasSize = pSize;
         }
 
-        public static SizeF BaseScanFieldSize { get; private set; } = new SizeF(SCAN_FIELD_WIDTH, SCAN_FIELD_HEIGHT);
+        public static SizeF BaseScanFieldSize { get; private set; } = new SizeF((float)SCAN_FIELD_WIDTH, (float)SCAN_FIELD_HEIGHT);
 
         public static void SetScanFieldSize(SizeF pSize)
         {
@@ -141,7 +142,7 @@ namespace LWDicer.Layers
             BaseScanFieldSize = pSize;
         }
 
-        public static SizeF BaseScanResolution { get; private set; } = new SizeF(SCAN_RESOLUTION_X, SCAN_RESOLUTION_Y);
+        public static SizeF BaseScanResolution { get; private set; } = new SizeF((float)SCAN_RESOLUTION_X, (float)SCAN_RESOLUTION_Y);
         public static void SetScanResolution(SizeF pResolution)
         {
             // 초기 값보단 작게 설정은 되지 않음.

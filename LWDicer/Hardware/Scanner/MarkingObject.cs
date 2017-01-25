@@ -125,51 +125,49 @@ namespace LWDicer.Layers
 
         //---------------------------------------------------------------------------
         /// Object의 Dimension 표시
-        public CPos_XY[] ObjectDimension = new CPos_XY[(int)EObjectDimension.MAX];
-        //public Point[] DisplayDimension = new Point[(int)EObjectDimension.MAX];
+        //public CPos_XY[] ObjectDimension = new CPos_XY[(int)EObjectDimension.MAX];
 
-        public void SetObjectDimension(CPos_XY pStart, CPos_XY pEnd,double angle = 0.0)
-        {
-            // 중심점 계산
-            CPos_XY centerPos = new CPos_XY();
-            centerPos = (pStart + pEnd) / 2;
+        //public void SetObjectDimension(CPos_XY pStart, CPos_XY pEnd,double angle = 0.0)
+        //{
+        //    // 중심점 계산
+        //    CPos_XY centerPos = new CPos_XY();
+        //    centerPos = (pStart + pEnd) / 2;
             
-            if (ObjectType == EObjectType.DOT) pEnd = pStart;
+        //    if (ObjectType == EObjectType.DOT) pEnd = pStart;
 
-            if (ObjectType == EObjectType.LINE)
-            {
-                ObjectDimension[0].dX = pStart.dX;
-                ObjectDimension[0].dY = pStart.dY;
-                ObjectDimension[1].dX = pEnd.dX;
-                ObjectDimension[1].dY = pEnd.dY;
-                ObjectDimension[2].dX = pEnd.dX;
-                ObjectDimension[2].dY = pEnd.dY;
-                ObjectDimension[3].dX = pStart.dX;
-                ObjectDimension[3].dY = pStart.dY;                
-            }
-            else
-            {
-                ObjectDimension[0].dX = pStart.dX;
-                ObjectDimension[0].dY = pStart.dY;
-                ObjectDimension[1].dX = pEnd.dX;
-                ObjectDimension[1].dY = pStart.dY;
-                ObjectDimension[2].dX = pEnd.dX;
-                ObjectDimension[2].dY = pEnd.dY;
-                ObjectDimension[3].dX = pStart.dX;
-                ObjectDimension[3].dY = pEnd.dY;
+        //    if (ObjectType == EObjectType.LINE)
+        //    {
+        //        ObjectDimension[0].dX = pStart.dX;
+        //        ObjectDimension[0].dY = pStart.dY;
+        //        ObjectDimension[1].dX = pEnd.dX;
+        //        ObjectDimension[1].dY = pEnd.dY;
+        //        ObjectDimension[2].dX = pEnd.dX;
+        //        ObjectDimension[2].dY = pEnd.dY;
+        //        ObjectDimension[3].dX = pStart.dX;
+        //        ObjectDimension[3].dY = pStart.dY;                
+        //    }
+        //    else
+        //    {
+        //        ObjectDimension[0].dX = pStart.dX;
+        //        ObjectDimension[0].dY = pStart.dY;
+        //        ObjectDimension[1].dX = pEnd.dX;
+        //        ObjectDimension[1].dY = pStart.dY;
+        //        ObjectDimension[2].dX = pEnd.dX;
+        //        ObjectDimension[2].dY = pEnd.dY;
+        //        ObjectDimension[3].dX = pStart.dX;
+        //        ObjectDimension[3].dY = pEnd.dY;
 
-                if (angle != 0.0)
-                {
-                    ObjectDimension[0] = RotateCoordinate(ObjectDimension[0], centerPos, angle);
-                    ObjectDimension[1] = RotateCoordinate(ObjectDimension[1], centerPos, angle);
-                    ObjectDimension[2] = RotateCoordinate(ObjectDimension[2], centerPos, angle);
-                    ObjectDimension[3] = RotateCoordinate(ObjectDimension[3], centerPos, angle);
-
-                }
-            }
+        //        if (angle != 0.0)
+        //        {
+        //            ObjectDimension[0] = RotateCoordinate(ObjectDimension[0], centerPos, angle);
+        //            ObjectDimension[1] = RotateCoordinate(ObjectDimension[1], centerPos, angle);
+        //            ObjectDimension[2] = RotateCoordinate(ObjectDimension[2], centerPos, angle);
+        //            ObjectDimension[3] = RotateCoordinate(ObjectDimension[3], centerPos, angle);
+        //        }
+        //    }
             
             
-        }
+        // }
         #endregion
 
         /////////////////////////////////////////////////////////////////////////////////////////
@@ -180,10 +178,10 @@ namespace LWDicer.Layers
         #region 함수
         public  CMarkingObject()
         {
-            for (int i = 0; i < (int)EObjectDimension.MAX; i++)
-            {
-                ObjectDimension[i] = new CPos_XY();
-            }
+            //for (int i = 0; i < (int)EObjectDimension.MAX; i++)
+            //{
+            //    ObjectDimension[i] = new CPos_XY();
+            //}
         }
 
         public virtual void DrawObject(BufferedGraphics bg,Pen pPen)
@@ -200,29 +198,52 @@ namespace LWDicer.Layers
             int nMargin = DRAW_DIMENSION_SIZE;
             Rectangle pRect = new Rectangle(0, 0, 0, 0);
 
-            Point[] posDimension = new Point[(int)EObjectDimension.MAX];          
+            Point StartPos = new Point(0, 0);
+            Point EndPos = new Point(0, 0);
 
             // Dimension Start, End위치 읽기
-            for(int i=0; i< (int)EObjectDimension.MAX;i++)
+            StartPos = AbsFieldToPixel(ptObjectStartPos);
+            EndPos = AbsFieldToPixel(ptObjectEndPos);
+
+            if (ObjectType == EObjectType.DOT) EndPos = StartPos;
+
+            // Dimension Rect Size 설정함
+            pRect.X = StartPos.X < EndPos.X ? StartPos.X : EndPos.X;
+            pRect.Y = StartPos.Y < EndPos.Y ? StartPos.Y : EndPos.Y;
+            pRect.Width = StartPos.X > EndPos.X ? (StartPos.X - EndPos.X) : -(StartPos.X - EndPos.X);
+            pRect.Height = StartPos.Y > EndPos.Y ? (StartPos.Y - EndPos.Y) : -(StartPos.Y - EndPos.Y);
+
+            // Dimension Margin 크기를 적용함
+            pRect.X -= nMargin;
+            pRect.Y -= nMargin;
+            pRect.Width += nMargin * 2;
+            pRect.Height += nMargin * 2;
+
+            // Dot은 예외적으로 적용함.
+            if (ObjectType == EObjectType.DOT)
             {
-                posDimension[i] = new Point();
-                posDimension[i] = AbsFieldToPixel(ObjectDimension[i]);                               
+                pRect.X -= DRAW_DOT_SIZE / 2;
+                pRect.Y -= DRAW_DOT_SIZE / 2;
+                pRect.Width += DRAW_DOT_SIZE - 1;
+                pRect.Height += DRAW_DOT_SIZE - 1;
             }
 
-            if(ObjectType != EObjectType.LINE)
+            if (ObjectType == EObjectType.RECTANGLE || ObjectType == EObjectType.ELLIPSE)
             {
-                posDimension[0].X -= nMargin;
-                posDimension[0].Y -= nMargin;
-                posDimension[1].X += nMargin;
-                posDimension[1].Y -= nMargin;
-                posDimension[2].X += nMargin;
-                posDimension[2].Y += nMargin;
-                posDimension[3].X -= nMargin;
-                posDimension[3].Y += nMargin;
+                Matrix matrix = new Matrix();
+                PointF centerPos = new PointF();
+                centerPos.X = (float)pRect.X + (float)pRect.Width / 2;
+                centerPos.Y = (float)pRect.Y + (float)pRect.Height / 2;
+
+                matrix.RotateAt((float)ObjectRotateAngle, centerPos);
+
+                bg.Graphics.Transform = matrix;
             }
 
-            bg.Graphics.DrawPolygon(BaseDrawPen[(int)EDrawPenType.DIMENSION], posDimension);
-                        
+            bg.Graphics.DrawRectangle(BaseDrawPen[(int)EDrawPenType.DIMENSION], pRect);
+
+            bg.Graphics.ResetTransform();
+
         }
 
         public virtual void MoveObject( CPos_XY pPos)
@@ -288,7 +309,7 @@ namespace LWDicer.Layers
 
             double dAngle = 0.0;
             SetObjectRatateAngle(Rad2Deg(dAngle));
-            SetObjectDimension(pStart, pEnd);
+            //SetObjectDimension(pStart, pEnd);
         }
 
         public override void SetObjectProperty(CPos_XY pStart, double length, double pHeight, double andgle)
@@ -383,7 +404,7 @@ namespace LWDicer.Layers
             if(pStart.dX != pEnd.dX)
                 dAngle = Math.Atan((pStart.dY - pEnd.dY) / (pStart.dX - pEnd.dX));
             SetObjectRatateAngle(Rad2Deg(dAngle));
-            SetObjectDimension(pStart, pEnd);
+            //SetObjectDimension(pStart, pEnd);
         }
 
         // Property로 설정함
@@ -408,7 +429,7 @@ namespace LWDicer.Layers
             pEnd.dY += height;
             SetObjectEndPos(pEnd);
 
-            SetObjectDimension(pStart, pEnd);
+            //SetObjectDimension(pStart, pEnd);
 
         }
 
@@ -508,7 +529,7 @@ namespace LWDicer.Layers
             SetObjectWidth(Math.Abs(pStart.dX - pEnd.dX));
             SetObjectHeight(Math.Abs(pStart.dY - pEnd.dY));            
             SetObjectRatateAngle(pAngle);
-            SetObjectDimension(pStart, pEnd, pAngle);
+            //SetObjectDimension(pStart, pEnd, pAngle);
         }
 
         
@@ -530,7 +551,7 @@ namespace LWDicer.Layers
             SetObjectHeight(pHeigth);
             SetObjectRatateAngle(pAngle);
 
-            SetObjectDimension(startPos, endPos, pAngle);
+            //SetObjectDimension(startPos, endPos, pAngle);
         }
 
         public override void SetObjectProperty(CPos_XY pCenter)
@@ -549,7 +570,7 @@ namespace LWDicer.Layers
             SetObjectCenterPos(pCenter);
             SetObjectStartPos(startPos);
             SetObjectEndPos(endPos);
-            SetObjectDimension(startPos, endPos, ObjectRotateAngle);
+            //SetObjectDimension(startPos, endPos, ObjectRotateAngle);
         }
 
         public override void DrawObject(BufferedGraphics bg, Pen pPen)
@@ -665,7 +686,7 @@ namespace LWDicer.Layers
             endPos.dY += pRadius;
             SetObjectEndPos(endPos);
 
-            SetObjectDimension(startPos, endPos, pAngle);
+            //SetObjectDimension(startPos, endPos, pAngle);
         }
 
         public override void DrawObject(BufferedGraphics bg, Pen pPen)
@@ -759,7 +780,7 @@ namespace LWDicer.Layers
             SetObjectWidth(Math.Abs(pStart.dX - pEnd.dX));
             SetObjectHeight(Math.Abs(pStart.dY - pEnd.dY));
             SetObjectRatateAngle(pAngle);
-            SetObjectDimension(pStart, pEnd, pAngle);
+            //SetObjectDimension(pStart, pEnd, pAngle);
         }
 
 
@@ -780,7 +801,7 @@ namespace LWDicer.Layers
             SetObjectWidth(pWidth);
             SetObjectHeight(pHeigth);
             SetObjectRatateAngle(pAngle);
-            SetObjectDimension(startPos, endPos, pAngle);
+            //SetObjectDimension(startPos, endPos, pAngle);
         }
 
         public override void SetObjectProperty(CPos_XY pCenter)
@@ -799,7 +820,7 @@ namespace LWDicer.Layers
             SetObjectCenterPos(pCenter);
             SetObjectStartPos(startPos);
             SetObjectEndPos(endPos);
-            SetObjectDimension(startPos, endPos, ObjectRotateAngle);
+            //SetObjectDimension(startPos, endPos, ObjectRotateAngle);
         }
 
         public override void DrawObject(BufferedGraphics bg, Pen pPen)
@@ -1107,8 +1128,6 @@ namespace LWDicer.Layers
 
             // if (ObjectGroup.Count <= 0) return;
 
-            CPos_XY pStart = new CPos_XY(0, 0);
-            CPos_XY pEnd = new CPos_XY(0, 0);
 
             foreach (CMarkingObject pObject in ObjectGroup)
             {

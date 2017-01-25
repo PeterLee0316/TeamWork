@@ -63,7 +63,7 @@ namespace LWDicer.Layers
             SetBaseDrawPen((int)EDrawPenType.INACTIVE, System.Drawing.Color.DarkSlateGray);
             SetBaseDrawPen((int)EDrawPenType.OBJECT_DRAG, System.Drawing.Color.Red);
             SetBaseDrawPen((int)EDrawPenType.DIMENSION, System.Drawing.Color.LightGreen);
-            SetBaseDrawPen((int)EDrawPenType.SELECT, System.Drawing.Color.SkyBlue, EPenDashStye.DOT);
+            SetBaseDrawPen((int)EDrawPenType.SELECT, System.Drawing.Color.Purple);
 
             // 사용할 Pen
             SetBaseDrawPen((int)EDrawPenType.DRAW, System.Drawing.Color.Black);
@@ -467,9 +467,10 @@ namespace LWDicer.Layers
             CPos_XY posStart, posEnd;
             posStart = new CPos_XY();
             posEnd = new CPos_XY();
+            double endWidth = Math.Cos(Deg2Rad(45)) * radiusCircle;
 
             // Circle과 Dot을 구분한다.
-            if (radiusCircle < 0.1)
+            if (radiusCircle < CIRCLE_SIZE_MIN)
             {
                 posStart = DxfToField(posCircle);
 
@@ -477,9 +478,8 @@ namespace LWDicer.Layers
             }
             else
             {
-                posStart = DxfToField(posCircle, -radiusCircle);
-                posEnd   = DxfToField(posCircle, radiusCircle);
-
+                posStart = DxfToField(posCircle);
+                posEnd = DxfToField(posCircle, endWidth);
                 AddObject(EObjectType.CIRCLE, posStart, posEnd);
             }
 

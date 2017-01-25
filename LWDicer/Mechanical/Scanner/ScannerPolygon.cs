@@ -771,36 +771,87 @@ namespace LWDicer.Layers
             Point ptEnd = new Point(0, 0);
             CPos_XY posStart = new CPos_XY();
             CPos_XY posEnd = new CPos_XY();
+            CPos_XY posCenter = new CPos_XY();            
 
             // 객체의 위치값을 읽어옴.
-            posStart = pObject.ptObjectStartPos.Copy();
-            posEnd   = pObject.ptObjectEndPos.Copy();
+            posStart = pObject.ptObjectStartPos;
+            posEnd   = pObject.ptObjectEndPos;
+            posCenter = pObject.ptObjectCenterPos;
 
             // 시작 위치 편차를 적용 (각각의 Scanner Field의 차이를 적용함)
-            posStart.dX -= shiftLen;
-            posEnd.dX -= shiftLen;
-
-            ptStart = PointToPixel(posStart);
-            ptEnd = PointToPixel(posEnd);
+            posStart.dX  -= shiftLen;
+            posEnd.dX    -= shiftLen;
+            posCenter.dX -= shiftLen;            
 
             switch (pObject.ObjectType)
             {
                 case EObjectType.DOT:
+                    ptStart = PointToPixel(posStart);
+                    ptEnd = PointToPixel(posEnd);
+
                     SetIndexPixel(ptStart.X, ptStart.Y);
                     break;
                 case EObjectType.LINE:
+                    ptStart = PointToPixel(posStart);
+                    ptEnd = PointToPixel(posEnd);
+
                     DrawLine(ptStart, ptEnd);
                     break;
                 case EObjectType.RECTANGLE:
-                    DrawLine(ptStart.X, ptStart.Y, ptEnd.X, ptStart.Y);
-                    DrawLine(ptStart.X, ptStart.Y, ptStart.X, ptEnd.Y);
-                    DrawLine(ptStart.X, ptEnd.Y, ptEnd.X, ptEnd.Y);
-                    DrawLine(ptEnd.X, ptStart.Y, ptEnd.X, ptEnd.Y);
+
+                    CPos_XY[] posCorner = new CPos_XY[4];
+                    Point[] ptCorner = new Point[4];
+                    for (int i = 0; i < 4; i++) { posCorner[i] = new CPos_XY(); ptCorner[i] = new Point(); }
+
+                    if (pObject.ObjectRotateAngle != 0.0)
+                    {                     
+                        // 사각의 Edge에 좌표를 대입함
+                        posCorner[0] = posStart;
+                        posCorner[2] = posEnd;
+                        posCorner[1].dX = posEnd.dX;
+                        posCorner[1].dY = posStart.dY;
+                        posCorner[3].dX = posStart.dX;
+                        posCorner[3].dY = posEnd.dY;
+
+                        // 회전된 사각의 Edge에 좌표를 대입함
+                        for (int i = 0; i < 4; i++)
+                        {
+                            posCorner[i] = RotateCoordinate(posCorner[i].Copy(), posCenter, pObject.ObjectRotateAngle);
+                            ptCorner[i] = PointToPixel(posCorner[i]);
+                        }                        
+                    }
+                    else
+                    {
+                        ptStart = PointToPixel(posStart);
+                        ptEnd = PointToPixel(posEnd);
+
+                        // 사각의 Edge에 좌표를 대입함
+                        ptCorner[0] = ptStart;
+                        ptCorner[2] = ptEnd;
+                        ptCorner[1].X = ptEnd.X;
+                        ptCorner[1].Y = ptStart.Y;
+                        ptCorner[3].X = ptStart.X;
+                        ptCorner[3].Y = ptEnd.Y;   
+                    }
+                    // 사각형의 각 Line을 그림.
+                    DrawLine(ptCorner[0], ptCorner[1]);
+                    DrawLine(ptCorner[1], ptCorner[2]);
+                    DrawLine(ptCorner[2], ptCorner[3]);
+                    DrawLine(ptCorner[3], ptCorner[0]);
+
                     break;
                 case EObjectType.ELLIPSE:
-                    DrawEllipse(ptStart, ptEnd);
+
+                    ptStart = PointToPixel(posStart);
+                    ptEnd = PointToPixel(posEnd);
+
+                    DrawEllipse(ptStart, ptEnd, pObject.ObjectRotateAngle);
                     break;
                 case EObjectType.CIRCLE:
+
+                    ptStart = PointToPixel(posStart);
+                    ptEnd = PointToPixel(posEnd);
+
                     DrawCircle(ptStart, ptEnd);
                     break;
                 case EObjectType.GROUP:
@@ -871,7 +922,6 @@ namespace LWDicer.Layers
             int CurrentValueY = 0;
             int BeforeValueX = -1;
             int BeforeValueY = -1;
-
 
             ////////////////////////////////////////////////////
             // Case 1
@@ -1003,7 +1053,6 @@ namespace LWDicer.Layers
             double dValueY1 = 0.0;
             double dValueX2 = 0.0;
             double dValueY2 = 0.0;
-            int count = 0;
 
             for (double dIncX = -dEllipseA; dIncX <= dEllipseA; dIncX = dIncX + 1)
             {
@@ -1017,7 +1066,7 @@ namespace LWDicer.Layers
 
                 SetBytePixel((int)(dValueX1), (int)(dValueY1));
                 SetBytePixel((int)(dValueX1), (int)(dValueY2));
-                count++;
+                
             }
 
             for (double dIncY = -dEllipseB; dIncY <= dEllipseB; dIncY = dIncY + 1)
@@ -1032,11 +1081,9 @@ namespace LWDicer.Layers
 
                 SetBytePixel((int)(dValueX1), (int)(dValueY1));
                 SetBytePixel((int)(dValueX2), (int)(dValueY1));
-                count++;
+                
             }
-
         }
-
 
         private void SetIndexPixel(int PosX, int PosY, bool bData = true)
         {
@@ -1079,7 +1126,6 @@ namespace LWDicer.Layers
             int CurrentValueY = 0;
             int BeforeValueX = -1;
             int BeforeValueY = -1;
-
 
             ////////////////////////////////////////////////////
             // Case 1
@@ -1197,58 +1243,55 @@ namespace LWDicer.Layers
 
         private void DrawCircle(Point ptStart, Point ptEnd)
         {
-            // 원의 중심을 구함.
-            double dCenterX = (double)(ptStart.X);
-            double dCenterY = (double)(ptStart.Y);
+            // 원의 중점을 구함
+            CPos_XY centerPos = new CPos_XY();
+            centerPos.dX = (double)(ptStart.X + ptEnd.X) / 2;
+            centerPos.dY = (double)(ptStart.Y + ptEnd.Y) / 2;
 
             // 원의 반지름 구함
-            double dRadius = Math.Sqrt(Math.Pow(dCenterX - ptEnd.X,2)+ Math.Pow(dCenterY - ptEnd.Y, 2));
+            double dRadius =  (double)ptEnd.X - centerPos.dX;
             double dEllipseA = dRadius;
             double dEllipseB = dRadius;
 
-            double dValueX1 = 0.0;
-            double dValueY1 = 0.0;
-            double dValueX2 = 0.0;
-            double dValueY2 = 0.0;
-            int count = 0;
+            CPos_XY pixelPos1 = new CPos_XY();
+            CPos_XY pixelPos2 = new CPos_XY();
 
             for (double dIncX = -dEllipseA; dIncX <= dEllipseA; dIncX = dIncX + 1)
             {
-                dValueX1 = dIncX;
-                dValueY1 = Math.Sqrt(dEllipseB * dEllipseB * (1 - (dIncX * dIncX) / (dEllipseA * dEllipseA)));
-                dValueY2 = -dValueY1;
+                pixelPos1.dX = dIncX;
+                pixelPos1.dY = Math.Sqrt(dEllipseB * dEllipseB * (1 - (dIncX * dIncX) / (dEllipseA * dEllipseA)));
+                pixelPos2.dX = dIncX;
+                pixelPos2.dY = -pixelPos1.dY;
+                
+                pixelPos1 += centerPos;
+                pixelPos2 += centerPos;
 
-                dValueX1 = dValueX1 + dCenterX;
-                dValueY1 = dValueY1 + dCenterY;
-                dValueY2 = dValueY2 + dCenterY;
-
-                SetIndexPixel((int)(dValueX1), (int)(dValueY1));
-                SetIndexPixel((int)(dValueX1), (int)(dValueY2));
-                count++;
+                SetIndexPixel((int)(pixelPos1.dX), (int)(pixelPos1.dY));
+                SetIndexPixel((int)(pixelPos2.dX), (int)(pixelPos2.dY));
             }
 
             for (double dIncY = -dEllipseB; dIncY <= dEllipseB; dIncY = dIncY + 1)
             {
-                dValueX1 = Math.Sqrt(dEllipseA * dEllipseA * (1 - (dIncY * dIncY) / (dEllipseB * dEllipseB)));
-                dValueX2 = -dValueX1;
-                dValueY1 = dIncY;
+                pixelPos1.dX = Math.Sqrt(dEllipseA * dEllipseA * (1 - (dIncY * dIncY) / (dEllipseB * dEllipseB)));
+                pixelPos1.dY = dIncY;
+                pixelPos2.dX = -pixelPos1.dX;
+                pixelPos2.dY = dIncY;
 
-                dValueX1 = dValueX1 + dCenterX;
-                dValueX2 = dValueX2 + dCenterX;
-                dValueY1 = dValueY1 + dCenterY;
+                pixelPos1 += centerPos;
+                pixelPos2 += centerPos;
 
-                SetIndexPixel((int)(dValueX1), (int)(dValueY1));
-                SetIndexPixel((int)(dValueX2), (int)(dValueY1));
-                count++;
+                SetIndexPixel((int)(pixelPos1.dX), (int)(pixelPos1.dY));
+                SetIndexPixel((int)(pixelPos2.dX), (int)(pixelPos2.dY));
             }
         }
 
-        private void DrawEllipse(Point ptStart, Point ptEnd)
+        private void DrawEllipse(Point ptStart, Point ptEnd,double pAngle)
         {
             // 타원의 중점을 구함
-            double dCenterX = (double)(ptStart.X + ptEnd.X) / 2;
-            double dCenterY = (double)(ptStart.Y + ptEnd.Y) / 2;
-
+            CPos_XY centerPos = new CPos_XY();
+            centerPos.dX = (double)(ptStart.X + ptEnd.X) / 2;
+            centerPos.dY = (double)(ptStart.Y + ptEnd.Y) / 2;
+                        
             // 타원의 가로/세로 크기를 구함
             double dLengthX = Math.Abs((double)(ptStart.X - ptEnd.X)) - 1;
             double dLengthY = Math.Abs((double)(ptStart.Y - ptEnd.Y)) - 1;
@@ -1256,41 +1299,96 @@ namespace LWDicer.Layers
             double dEllipseA = dLengthX / 2;
             double dEllipseB = dLengthY / 2;
 
-            double dValueX1 = 0.0;
-            double dValueY1 = 0.0;
-            double dValueX2 = 0.0;
-            double dValueY2 = 0.0;
+            // Draw할 변수 생성
+            CPos_XY posDraw1 = new CPos_XY();
+            CPos_XY posDraw2 = new CPos_XY();
+                        
+            Point ptCurDraw = new Point();
+            Point ptOldDraw1 = new Point();
+            Point ptOldDraw2 = new Point();
 
-            int count = 0;
+            // 이전 값 초기화
+            ptOldDraw1.X = -1000000;
+            ptOldDraw1.Y = -1000000;
+            ptOldDraw2.X = -1000000;
+            ptOldDraw2.Y = -1000000;
 
-            for (double dIncX = -dEllipseA; dIncX <= dEllipseA; dIncX = dIncX + 1)
+            for (double dIncX = -dEllipseA; dIncX <= dEllipseA; dIncX = dIncX + 0.5)
             {
-                dValueX1 = dIncX;
-                dValueY1 = Math.Sqrt(dEllipseB * dEllipseB * (1 - (dIncX * dIncX) / (dEllipseA * dEllipseA)));
-                dValueY2 = -dValueY1;
+                // 위치 Point 계산
+                posDraw1.dX = dIncX;
+                posDraw1.dY = Math.Sqrt(dEllipseB * dEllipseB * (1 - (dIncX * dIncX) / (dEllipseA * dEllipseA)));
+                posDraw2.dX = dIncX;
+                posDraw2.dY = -posDraw1.dY;
 
-                dValueX1 = dValueX1 + dCenterX;
-                dValueY1 = dValueY1 + dCenterY;
-                dValueY2 = dValueY2 + dCenterY;
+                posDraw1 += centerPos;
+                posDraw2 += centerPos;
 
-                SetIndexPixel((int)(dValueX1), (int)(dValueY1));
-                SetIndexPixel((int)(dValueX1), (int)(dValueY2));
-                count++;
+                // 타원의 회전 변환
+                if (pAngle != 0.0)
+                {
+                    posDraw1 = RotateCoordinate(posDraw1, centerPos, pAngle);
+                    posDraw2 = RotateCoordinate(posDraw2, centerPos, pAngle);
+                }
+
+                ptCurDraw.X = (int)(posDraw1.dX);
+                ptCurDraw.Y = (int)(posDraw1.dY);
+
+                // 이전 Point과 비교 후 다르면 Pixel을 Set함
+                if (ptOldDraw1 != ptCurDraw)
+                {                   
+                    ptOldDraw1 = ptCurDraw;
+                    SetIndexPixel(ptCurDraw.X, ptCurDraw.Y);                    
+                }
+                // 이전 Point과 비교 후 다르면 Pixel을 Set함
+                ptCurDraw.X = (int)(posDraw2.dX);
+                ptCurDraw.Y = (int)(posDraw2.dY);
+                if (ptOldDraw2 != ptCurDraw)
+                {                    
+                    ptOldDraw2 = ptCurDraw;
+                    SetIndexPixel(ptCurDraw.X, ptCurDraw.Y);                    
+                }
             }
 
-            for (double dIncY = -dEllipseB; dIncY <= dEllipseB; dIncY = dIncY + 1)
+            // 이전 값 초기화
+            ptOldDraw1.X = -1000000;
+            ptOldDraw1.Y = -1000000;
+            ptOldDraw2.X = -1000000;
+            ptOldDraw2.Y = -1000000;
+
+            for (double dIncY = -dEllipseB; dIncY <= dEllipseB; dIncY = dIncY + 0.5)
             {
-                dValueX1 = Math.Sqrt(dEllipseA * dEllipseA * (1 - (dIncY * dIncY) / (dEllipseB * dEllipseB)));
-                dValueX2 = -dValueX1;
-                dValueY1 = dIncY;
+                // 위치 Point 계산
+                posDraw1.dX = Math.Sqrt(dEllipseA * dEllipseA * (1 - (dIncY * dIncY) / (dEllipseB * dEllipseB)));
+                posDraw1.dY = dIncY;
+                posDraw2.dX = -posDraw1.dX;
+                posDraw2.dY = dIncY;
 
-                dValueX1 = dValueX1 + dCenterX;
-                dValueX2 = dValueX2 + dCenterX;
-                dValueY1 = dValueY1 + dCenterY;
+                posDraw1 += centerPos;
+                posDraw2 += centerPos;
 
-                SetIndexPixel((int)(dValueX1), (int)(dValueY1));
-                SetIndexPixel((int)(dValueX2), (int)(dValueY1));
-                count++;
+                // 타원의 회전 변환
+                if (pAngle != 0.0)
+                {
+                    posDraw1 = RotateCoordinate(posDraw1, centerPos, pAngle);
+                    posDraw2 = RotateCoordinate(posDraw2, centerPos, pAngle);
+                }
+                // 이전 Point과 비교 후 다르면 Pixel을 Set함
+                ptCurDraw.X = (int)(posDraw1.dX);
+                ptCurDraw.Y = (int)(posDraw1.dY);
+                if (ptOldDraw1 != ptCurDraw)
+                {                    
+                    ptOldDraw1 = ptCurDraw;
+                    SetIndexPixel(ptCurDraw.X, ptCurDraw.Y);                    
+                }
+                ptCurDraw.X = (int)(posDraw2.dX);
+                ptCurDraw.Y = (int)(posDraw2.dY);
+                if (ptOldDraw2 != ptCurDraw)
+                {                    
+                    SetIndexPixel(ptCurDraw.X, ptCurDraw.Y);
+                    ptOldDraw2 = ptCurDraw;
+                }
+
             }
         }
 

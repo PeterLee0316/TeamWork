@@ -759,7 +759,7 @@ namespace LWDicer.UI
             this.toolBtnPropertyChange});
             this.toolStripProperty.Location = new System.Drawing.Point(0, 1);
             this.toolStripProperty.Name = "toolStripProperty";
-            this.toolStripProperty.Size = new System.Drawing.Size(219, 127);
+            this.toolStripProperty.Size = new System.Drawing.Size(219, 0);
             this.toolStripProperty.TabIndex = 8;
             this.toolStripProperty.Text = "Property";
             // 
@@ -861,7 +861,7 @@ namespace LWDicer.UI
             this.toolStripPanelItem8});
             this.toolStripRotate.Location = new System.Drawing.Point(221, 1);
             this.toolStripRotate.Name = "toolStripRotate";
-            this.toolStripRotate.Size = new System.Drawing.Size(165, 127);
+            this.toolStripRotate.Size = new System.Drawing.Size(165, 0);
             this.toolStripRotate.TabIndex = 7;
             this.toolStripRotate.Text = "Rotate";
             // 
@@ -953,7 +953,7 @@ namespace LWDicer.UI
             this.toolBtnDimensionChange});
             this.toolStripDimension.Location = new System.Drawing.Point(388, 1);
             this.toolStripDimension.Name = "toolStripDimension";
-            this.toolStripDimension.Size = new System.Drawing.Size(187, 127);
+            this.toolStripDimension.Size = new System.Drawing.Size(187, 0);
             this.toolStripDimension.TabIndex = 5;
             this.toolStripDimension.Text = "Dimension";
             // 
@@ -972,7 +972,7 @@ namespace LWDicer.UI
             this.tooltxtEndPointY});
             this.toolStripPanelItem6.Name = "toolStripPanelItem6";
             this.toolStripPanelItem6.RowCount = 4;
-            this.toolStripPanelItem6.Size = new System.Drawing.Size(119, 109);
+            this.toolStripPanelItem6.Size = new System.Drawing.Size(119, 0);
             this.toolStripPanelItem6.Text = "toolStripPanelItem1";
             this.toolStripPanelItem6.Transparent = true;
             // 
@@ -1058,7 +1058,7 @@ namespace LWDicer.UI
             this.toolBtnMovePnl});
             this.toolStripMove.Location = new System.Drawing.Point(577, 1);
             this.toolStripMove.Name = "toolStripMove";
-            this.toolStripMove.Size = new System.Drawing.Size(236, 127);
+            this.toolStripMove.Size = new System.Drawing.Size(236, 0);
             this.toolStripMove.TabIndex = 2;
             this.toolStripMove.Text = "Move";
             // 
@@ -1200,7 +1200,7 @@ namespace LWDicer.UI
             this.toolBtnSaveLse});
             this.toolStripSaveBmp.Location = new System.Drawing.Point(0, 1);
             this.toolStripSaveBmp.Name = "toolStripSaveBmp";
-            this.toolStripSaveBmp.Size = new System.Drawing.Size(416, 0);
+            this.toolStripSaveBmp.Size = new System.Drawing.Size(447, 127);
             this.toolStripSaveBmp.TabIndex = 4;
             this.toolStripSaveBmp.Text = "Convert";
             // 

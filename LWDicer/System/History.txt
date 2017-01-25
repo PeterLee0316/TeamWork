@@ -872,6 +872,15 @@ CSpinStep class -> CCleaningStep / CCoatingStep class 로 분리
 	- Mouse drag로 Zoom를 하는 기능 처리 완료
 	- Group Dispay에서 Pen의 선택에서 오류 해결
 
+// Grade : ★★
+// Date : 2017-01/21~24
+// Context
+ Object Draw
+	- 회전된 Ellipse와 Rectagle의 Draw 적용
+	- 기존 위치 데이터로 pixel을 계산하고, 회전 변환해서 최종 위치를 구함. 
+	- 없었던 Hole 문제 발생함. pixel 위치 계산을 더 촘촘하게 (0.5pixel단위로) 계산함으로 해결함
+	  (혹 Hole문제가 발생 여부를 추가 확인이 필요함)
+	- Ellipse의 객체를 Bmp 제작시 속도를 위해 이전값과 비교해서 pixel를 씀
 
 
 
