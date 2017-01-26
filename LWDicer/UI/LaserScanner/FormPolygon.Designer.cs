@@ -98,6 +98,7 @@
             this.GridConfigure = new Syncfusion.Windows.Forms.Grid.GridControl();
             this.tabPageDrawing = new Syncfusion.Windows.Forms.Tools.TabPageAdv();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.windowDxf = new LWDicer.Layers.WindowDxf();
             this.btnObjectDxf = new System.Windows.Forms.Button();
             this.tabPageLaser = new Syncfusion.Windows.Forms.Tools.TabPageAdv();
             this.tabPageCorrection = new Syncfusion.Windows.Forms.Tools.TabPageAdv();
@@ -109,7 +110,6 @@
             this.LabelStageIndex = new Syncfusion.Windows.Forms.Tools.GradientLabel();
             this.BtnSave = new System.Windows.Forms.Button();
             this.BtnExit = new System.Windows.Forms.Button();
-            this.windowDxf = new LWDicer.Layers.WindowDxf();
             ((System.ComponentModel.ISupportInitialize)(this.tabPolygonForm)).BeginInit();
             this.tabPolygonForm.SuspendLayout();
             this.tabPageProcess.SuspendLayout();
@@ -175,7 +175,7 @@
             this.btnLaserProcessStop.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
             this.btnLaserProcessStop.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
             this.btnLaserProcessStop.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.btnLaserProcessStop.Location = new System.Drawing.Point(707, 668);
+            this.btnLaserProcessStop.Location = new System.Drawing.Point(837, 632);
             this.btnLaserProcessStop.Name = "btnLaserProcessStop";
             this.btnLaserProcessStop.Size = new System.Drawing.Size(156, 49);
             this.btnLaserProcessStop.TabIndex = 1057;
@@ -192,7 +192,7 @@
             this.btnLaserProcessStep.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
             this.btnLaserProcessStep.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
             this.btnLaserProcessStep.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.btnLaserProcessStep.Location = new System.Drawing.Point(707, 619);
+            this.btnLaserProcessStep.Location = new System.Drawing.Point(837, 583);
             this.btnLaserProcessStep.Name = "btnLaserProcessStep";
             this.btnLaserProcessStep.Size = new System.Drawing.Size(156, 49);
             this.btnLaserProcessStep.TabIndex = 1056;
@@ -943,6 +943,16 @@
             this.splitContainer1.SplitterDistance = 1109;
             this.splitContainer1.TabIndex = 12;
             // 
+            // windowDxf
+            // 
+            this.windowDxf.BackColor = System.Drawing.Color.Black;
+            this.windowDxf.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.windowDxf.Location = new System.Drawing.Point(0, 0);
+            this.windowDxf.Model = null;
+            this.windowDxf.Name = "windowDxf";
+            this.windowDxf.Size = new System.Drawing.Size(1109, 836);
+            this.windowDxf.TabIndex = 0;
+            // 
             // btnObjectDxf
             // 
             this.btnObjectDxf.Location = new System.Drawing.Point(1, 1);
@@ -1149,16 +1159,6 @@
             this.BtnExit.Text = " Exit";
             this.BtnExit.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.BtnExit.UseVisualStyleBackColor = true;
-            // 
-            // windowDxf
-            // 
-            this.windowDxf.BackColor = System.Drawing.Color.Black;
-            this.windowDxf.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.windowDxf.Location = new System.Drawing.Point(0, 0);
-            this.windowDxf.Model = null;
-            this.windowDxf.Name = "windowDxf";
-            this.windowDxf.Size = new System.Drawing.Size(1109, 836);
-            this.windowDxf.TabIndex = 0;
             // 
             // FormPolygon
             // 

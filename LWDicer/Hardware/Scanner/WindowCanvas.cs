@@ -22,9 +22,11 @@ namespace LWDicer.Layers
         private Point ptMouseEndPos = new Point(0, 0);
         private Point ptArcStartPos = new Point(0, 0);
         private Point ptArcEndPos = new Point(0, 0);
-
         private bool IsObjectDrag = false;
-        
+
+        private CWindowSelector objectSelector = new CWindowSelector();
+
+
         public WindowCanvas()
         {
             InitializeComponent();
@@ -80,6 +82,10 @@ namespace LWDicer.Layers
                         this.Invalidate();
                     }
                 }
+                else
+                {
+                    m_ScanWindow.SetObjectType(EObjectType.MOUSE_DRAG);
+                }
             }
             else if (e.Button == MouseButtons.Right)   // 마우스 오른쪽 버튼
             {
@@ -89,7 +95,7 @@ namespace LWDicer.Layers
             {
                 // Cursor 변경
                 this.Cursor = Cursors.Hand;
-
+                m_ScanWindow.MouseDragField = true;
                 // Mouse 위치 기록
                 m_ScanWindow.ptPanStartPos = e.Location;
                 m_ScanWindow.ptCurrentViewCorner = GetViewCorner();
@@ -100,7 +106,7 @@ namespace LWDicer.Layers
         {
             base.OnMouseUp(e);
             
-            if (e.Button == MouseButtons.Left && m_ScanWindow.SelectObjectType != EObjectType.NONE)
+            if (e.Button == MouseButtons.Left && m_ScanWindow.SelectObjectType != EObjectType.NONE && m_ScanWindow.SelectObjectType != EObjectType.MOUSE_DRAG)
             {
                 // 시작 포인트와 끝 포이트가 같으면 Shape를 생성하지 않는다.
                 // 단  Dot의 경우는 제외함.
@@ -115,8 +121,7 @@ namespace LWDicer.Layers
 
                     Invalidate();
                 }
-            }
-            
+            }            
 
             // Mouse Drag Zoom을 확인한다.
             if(m_ScanWindow.MouseDragZoom)
@@ -138,16 +143,37 @@ namespace LWDicer.Layers
 
             // 마우스 커서를 원위치 함.
             this.Cursor = Cursors.Arrow;
-
-            // Mouse Drag Zoom을 해제한다.
+            // Mouse Drag Zoom & Field을 해제한다.
             m_ScanWindow.MouseDragZoom = false;
+            m_ScanWindow.MouseDragField = false;
 
             // Object가 선택 되지 않을 경우에 
-            if (m_ScanWindow.SelectObjectType == EObjectType.NONE)
+            if (m_ScanWindow.SelectObjectType == EObjectType.MOUSE_DRAG && e.Button == MouseButtons.Left)
             {
-                ptMouseStartPos = ptMouseEndPos;
+                Rectangle selectSize = new Rectangle();
+                Point startPos = new Point();
+                Point endPos = new Point();
+
+                startPos = ptMouseStartPos;
+                endPos = ptMouseEndPos;
+
+                selectSize.X = startPos.X < endPos.X ? startPos.X : endPos.X;
+                selectSize.Y = startPos.Y < endPos.Y ? startPos.Y : endPos.Y;
+                selectSize.Width = startPos.X > endPos.X ? (startPos.X - endPos.X) : -(startPos.X - endPos.X);
+                selectSize.Height = startPos.Y > endPos.Y ? (startPos.Y - endPos.Y) : -(startPos.Y - endPos.Y);
+
+                // Point Select
+                if (selectSize.Width < 3 && selectSize.Height < 3)
+                    objectSelector.GetObjectCloseToPoint(m_ScanManager.ObjectList, e.Location);
+                else if(startPos.X < endPos.X && startPos.Y < endPos.Y)
+                    objectSelector.GetObjectInRectangle(m_ScanManager.ObjectList, selectSize);
+                else
+                    objectSelector.GetObjectPartiallyInRectangle(m_ScanManager.ObjectList, selectSize);
+
+
+                m_ScanWindow.SetObjectType(EObjectType.NONE);
                 Invalidate();
-            }
+            }            
         }
 
         protected override void OnMouseMove(MouseEventArgs e)
@@ -156,12 +182,13 @@ namespace LWDicer.Layers
             
             m_ScanWindow.ptMousePos = PixelToField(e.Location);
 
+            if (e.Button != MouseButtons.Middle)
+                ptMouseEndPos = e.Location;
+
             if (m_ScanWindow.MouseDragZoom) this.Cursor = Cursors.Cross;
             
             if (e.Button == MouseButtons.Left)
-            {
-                ptMouseEndPos = e.Location;
-
+            {              
                 if (m_ScanWindow.SelectObjectType != EObjectType.NONE)
                     m_ScanWindow.SetObjectEndPos(PixelToField(ptMouseEndPos));
 
@@ -187,7 +214,7 @@ namespace LWDicer.Layers
 
                 SetViewCorner(pPoint);
 
-                this.Invalidate();
+                this.Invalidate();                
 
             }
         }
@@ -302,7 +329,8 @@ namespace LWDicer.Layers
 
             switch (m_ScanWindow.SelectObjectType)
             {
-                case EObjectType.NONE:
+                case EObjectType.MOUSE_DRAG:
+                    if (m_ScanWindow.MouseDragField) return;
 
                     Pen drawPen = new Pen(Color.Red);
 

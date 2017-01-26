@@ -879,13 +879,20 @@ namespace LWDicer.UI
 
         private void DeleteObject()
         {
-            if (ShapeListView.Items.Count < 1) return;
             foreach (ListViewItem item in ShapeListView.SelectedItems)
             {
                 int nIndex = item.Index;
                 m_ScanManager.DeleteObject(nIndex);
                 ShapeListView.Items.Remove(item);
             }
+
+            //int count = m_ScanManager.ObjectList.Count;
+
+            //for(int i=0; i< count;i++)
+            //{
+            //    if (m_ScanManager.ObjectList[i] == null) continue;
+            //    if (m_ScanManager.ObjectList[i].IsSelectedObject) m_ScanManager.DeleteObject(i);
+            //}
 
             ReDrawCanvas();
         }

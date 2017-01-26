@@ -47,7 +47,7 @@ namespace LWDicer.Layers
         public const int SHAPE_LIST_DISABLE = 10;
 
         /////////////////////////////////////////////////////////////////////////////////////////
-        public enum EObjectType { NONE = 0, DOT, LINE, ARC ,M_LINE, RECTANGLE, CIRCLE, ELLIPSE, FONT,BMP,GROUP, MAX }
+        public enum EObjectType { NONE = 0, MOUSE_DRAG, DOT, LINE, ARC ,M_LINE, RECTANGLE, CIRCLE, ELLIPSE, FONT,BMP,GROUP, MAX }
         public enum EDrawPenType {GRID_BRIGHT,GRID_DARK,ACTIVE_BRIGHT,ACTIVE_DARK,OBJECT_DRAG,INACTIVE,DRAW,DIMENSION,SELECT, MAX}
         public enum EDrawBrushType { ACTIVE_BRIGHT, ACTIVE_DARK, OBJECT_DRAG, INACTIVE, DRAW, MAX }
         public enum EPenDashStye { DASH,DASHDOT,DASHDOTDOT,DOT,SOLID }
@@ -218,7 +218,7 @@ namespace LWDicer.Layers
             tempPoint.dY = (double)(pPixel.Y - BaseViewCorner.Y) / BaseZoomFactor / BaseCalibFactor.Y * (BaseDrawFlipX ? -1.0f : 1.0f);
 
             //// View Center 적용
-            //tempPoint.dX -= (float)BaseViewCorner.X; ;
+            //tempPoint.dX -= (float)BaseViewCorner.X; ;    
             //tempPoint.dY -= (float)BaseViewCorner.Y; ;
 
             return tempPoint;

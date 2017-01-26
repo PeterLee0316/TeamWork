@@ -506,7 +506,7 @@ namespace LWDicer.Layers
         {
             int bytesStart = HeightStart;
             int bytesEnd   = HeigthEnd;
-            bool checkObjectActive;
+            bool checkObjectActive; 
 
             Point ptObjectStart = new Point(0, 0);
             Point ptObjectEnd = new Point(0, 0);
