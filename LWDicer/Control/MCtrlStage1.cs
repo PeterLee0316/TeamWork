@@ -139,8 +139,7 @@ namespace LWDicer.Layers
             public CPos_XYTZ[] ThetaTeachPos = new CPos_XYTZ[(int)EThetaAlignPos.MAX];
             // Vision Pattern Mark Data
             public CSearchData[] VisionPattern = new CSearchData[(int)EVisionPattern.MAX];
-
-            
+                        
             public CCtrlAlignData()
             {
                 for (int i = 0; i < EdgeTeachPos.Length; i++) EdgeTeachPos[i] = new CPos_XYTZ();
@@ -148,7 +147,6 @@ namespace LWDicer.Layers
                 for (int i = 0; i < VisionPattern.Length; i++) VisionPattern[i] = new CSearchData();                
             }
         }
-
 
         /// <summary>
         /// define operation step. 
@@ -171,7 +169,6 @@ namespace LWDicer.Layers
             public int PatternCount;            // Patternh 반복 횟수   
 
             public bool ProcessStop ;           // Process Stop 확인
-
             public CLaserProcessStep()
             {
                 Use = true;     // 기본적으로는 Use는 사용으로, Operation은 No_Use
@@ -188,12 +185,10 @@ namespace LWDicer.Layers
                 ScannerJobFile = "";
                 ScannerBmpFile = "";
             }
-
             public override string ToString()
             {
                 return $"Operation : {Operation}";
             }
-
             public bool IsUseStep()
             {
                 if (this.Use == false || this.Operation == ELaserOperation.NONE)
@@ -219,7 +214,6 @@ namespace LWDicer.Layers
                 }                  
             }
         }
-
     }
 
     public class MCtrlStage1 : MCtrlLayer
@@ -362,13 +356,16 @@ namespace LWDicer.Layers
             var markPitch = new CPos_XYTZ();
             var patternPitch = new CPos_XYTZ();
 
+            int num = 0;
+            string strIpAddress = CMainFrame.DataManager.SystemData_Scan.Address[num].ControlHostAddress;
+
             // Cancel Command Reset
             IsCancelJob_byAuto = IsCancelJob_byManual = false;
 
             // Config.ini File Download
             if (File.Exists(m_Data.MarkingData.DefaultScannerConfigFile) == false)
                 return GenerateErrorCode(ERR_CTRLSTAGE_SCANNER_DATA_FILE_NONE);
-            bResult = m_RefComp.Scanner.SendConfig(m_Data.MarkingData.DefaultScannerConfigFile);
+            bResult = m_RefComp.Scanner.SendConfig(strIpAddress, m_Data.MarkingData.DefaultScannerConfigFile);
             if (bResult == false) return GenerateErrorCode(ERR_CTRLSTAGE_SCANNER_DATA_SEND_FAIL);
             
             // 각 Step별 동작 프로세스 진행
@@ -386,7 +383,7 @@ namespace LWDicer.Layers
                 // Job File Download
                 if (File.Exists(CurStep_LaserProcess.ScannerJobFile))
                 {
-                    bResult = m_RefComp.Scanner.SendConfig(CurStep_LaserProcess.ScannerJobFile);
+                    bResult = m_RefComp.Scanner.SendConfig(strIpAddress, CurStep_LaserProcess.ScannerJobFile);
                     if (bResult == false) return GenerateErrorCode(ERR_CTRLSTAGE_SCANNER_DATA_SEND_FAIL);
 
                     Sleep(2000);
@@ -395,7 +392,7 @@ namespace LWDicer.Layers
                 // Bmp File Download
                 if (File.Exists(CurStep_LaserProcess.ScannerBmpFile))
                 {
-                    bResult = m_RefComp.Scanner.SendBitmap(CurStep_LaserProcess.ScannerBmpFile);
+                    bResult = m_RefComp.Scanner.SendBitmap(strIpAddress, CurStep_LaserProcess.ScannerBmpFile);
                     if (bResult == false) return GenerateErrorCode(ERR_CTRLSTAGE_SCANNER_DATA_SEND_FAIL);
 
                     Sleep(2000);

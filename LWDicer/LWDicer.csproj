@@ -931,6 +931,16 @@
     <None Include="Resources\AecBaseEnu_143671.ico" />
     <None Include="Resources\AecBaseEnu_14834.ico" />
     <None Include="Resources\draw1.jpg" />
+    <None Include="Resources\저장.ico" />
+    <None Include="Resources\download-icon.png" />
+    <None Include="Resources\export1.bmp" />
+    <None Include="Resources\upload-icon.png" />
+    <None Include="Resources\upload-icon1.png" />
+    <None Include="Resources\upload-icon2.png" />
+    <None Include="Resources\upload-icon3.png" />
+    <None Include="Resources\upload-icon4.png" />
+    <None Include="Resources\upload-icon5.png" />
+    <None Include="Resources\import1.bmp" />
     <Content Include="System\History.txt" />
   </ItemGroup>
   <ItemGroup>

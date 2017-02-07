@@ -28,7 +28,6 @@ namespace LWDicer.Layers
             Initialize();
         }
 
-
         public int Initialize()
         {
             // 배경 화면 설정
@@ -51,9 +50,7 @@ namespace LWDicer.Layers
             this.SetStyle(ControlStyles.OptimizedDoubleBuffer | ControlStyles.UserPaint | ControlStyles.AllPaintingInWmPaint, true);
 
             return SUCCESS;
-
         }
-
 
         #region Canvas 이벤트 , 그리기 삭제
         protected override void OnMouseDown(MouseEventArgs e)
@@ -137,7 +134,6 @@ namespace LWDicer.Layers
         {
             base.OnKeyPress(e);
         }
-
         protected override void OnKeyDown(KeyEventArgs e)
         {
             base.OnKeyDown(e);
@@ -149,7 +145,6 @@ namespace LWDicer.Layers
             // Esc Key ------------------------
             if (e.KeyData == Keys.Escape)
                 m_ScanWindow.SetObjectType(EObjectType.NONE);
-
         }
 
         protected override void OnKeyUp(KeyEventArgs e)
@@ -161,7 +156,6 @@ namespace LWDicer.Layers
             if (e.KeyData == Keys.ControlKey)
                 CheckWheelZoomMode = false;
         }
-
         protected override void OnMouseWheel(MouseEventArgs e)
         {
             // Wheel Zoom
@@ -216,7 +210,6 @@ namespace LWDicer.Layers
 
                 bufferedgraphic.Render(e.Graphics);
             }
-
         }
 
         private void DragShapeDraw(BufferedGraphics bg)
@@ -325,8 +318,8 @@ namespace LWDicer.Layers
             int gridMajor = gridMinor * 5;
 
             // POLYGON_SCAN_FIELD
-            ScanFieldSize.Width = CMainFrame.DataManager.SystemData_Scan.ScanFieldWidth;
-            ScanFieldSize.Height = CMainFrame.DataManager.SystemData_Scan.ScanFieldHeight;
+            ScanFieldSize.Width = (int)CMainFrame.DataManager.SystemData_Scan.ScanFieldWidth;
+            ScanFieldSize.Height= (int)CMainFrame.DataManager.SystemData_Scan.ScanFieldHeight;
 
             Pen drawPen = new Pen(System.Drawing.Color.FromArgb(30, 30, 30));
 

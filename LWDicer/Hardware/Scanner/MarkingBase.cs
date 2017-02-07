@@ -29,7 +29,7 @@ namespace LWDicer.Layers
         public const double SCAN_RESOLUTION_X = 0.1;
         public const double SCAN_RESOLUTION_Y = 0.1;
 
-        public const double ZOOM_FACTOR_MAX = 50.0;
+        public const double ZOOM_FACTOR_MAX = 500.0;
         public const double ZOOM_FACTOR_MIN = 0.2;
         public const double CALIB_FACTOR_MAX = 50.0;
         public const double CALIB_FACTOR_MIN = 0.01;

@@ -457,8 +457,8 @@ namespace LWDicer.Layers
             int gridMajor = gridMinor * 5;
 
             // POLYGON_SCAN_FIELD
-            ScanFieldSize.Width = CMainFrame.DataManager.SystemData_Scan.ScanFieldWidth;
-            ScanFieldSize.Height = CMainFrame.DataManager.SystemData_Scan.ScanFieldHeight;
+            ScanFieldSize.Width = (int)CMainFrame.DataManager.SystemData_Scan.ScanFieldWidth;
+            ScanFieldSize.Height= (int)CMainFrame.DataManager.SystemData_Scan.ScanFieldHeight;
             
             Pen drawPen = new Pen(System.Drawing.Color.FromArgb(30, 30, 30));
 

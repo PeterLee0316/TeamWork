@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormPolygon));
             Syncfusion.Windows.Forms.Grid.GridBaseStyle gridBaseStyle1 = new Syncfusion.Windows.Forms.Grid.GridBaseStyle();
             Syncfusion.Windows.Forms.Grid.GridBaseStyle gridBaseStyle2 = new Syncfusion.Windows.Forms.Grid.GridBaseStyle();
             Syncfusion.Windows.Forms.Grid.GridBaseStyle gridBaseStyle3 = new Syncfusion.Windows.Forms.Grid.GridBaseStyle();
@@ -46,13 +45,13 @@
             Syncfusion.Windows.Forms.Grid.GridBaseStyle gridBaseStyle14 = new Syncfusion.Windows.Forms.Grid.GridBaseStyle();
             Syncfusion.Windows.Forms.Grid.GridBaseStyle gridBaseStyle15 = new Syncfusion.Windows.Forms.Grid.GridBaseStyle();
             Syncfusion.Windows.Forms.Grid.GridBaseStyle gridBaseStyle16 = new Syncfusion.Windows.Forms.Grid.GridBaseStyle();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormPolygon));
             this.tabPolygonForm = new Syncfusion.Windows.Forms.Tools.TabControlAdv();
             this.tabPageProcess = new Syncfusion.Windows.Forms.Tools.TabPageAdv();
             this.btnLaserProcessStop = new Syncfusion.Windows.Forms.ButtonAdv();
             this.btnLaserProcessStep = new Syncfusion.Windows.Forms.ButtonAdv();
             this.BtnPatternDraw = new Syncfusion.Windows.Forms.ButtonAdv();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.btnScanDataSave = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             this.gradientLabel27 = new Syncfusion.Windows.Forms.Tools.GradientLabel();
             this.lblScanFieldHeight = new Syncfusion.Windows.Forms.Tools.GradientLabel();
@@ -62,7 +61,6 @@
             this.lblScanFieldWidth = new Syncfusion.Windows.Forms.Tools.GradientLabel();
             this.BtnLaserProcess = new Syncfusion.Windows.Forms.ButtonAdv();
             this.BtnLaserPattern = new Syncfusion.Windows.Forms.ButtonAdv();
-            this.BtnConfigureExit = new System.Windows.Forms.Button();
             this.tabPageScanner = new Syncfusion.Windows.Forms.Tools.TabPageAdv();
             this.btnHeadReconnect = new System.Windows.Forms.Button();
             this.btnControlReconnect = new System.Windows.Forms.Button();
@@ -74,31 +72,12 @@
             this.rtbHeadStatus = new System.Windows.Forms.RichTextBox();
             this.rtbControllerStatus = new System.Windows.Forms.RichTextBox();
             this.tabPageVision = new Syncfusion.Windows.Forms.Tools.TabPageAdv();
-            this.btnPreCam = new System.Windows.Forms.Button();
-            this.btnInpectCam = new System.Windows.Forms.Button();
-            this.btnFineCam = new System.Windows.Forms.Button();
-            this.btnMeasureClear = new System.Windows.Forms.Button();
-            this.btnJogShow = new System.Windows.Forms.Button();
             this.picVisionZoom = new System.Windows.Forms.Panel();
             this.lblMousePos = new System.Windows.Forms.Label();
-            this.btnVisionHalt = new System.Windows.Forms.Button();
-            this.btnMeasure = new System.Windows.Forms.Button();
-            this.btnVisionLive = new System.Windows.Forms.Button();
-            this.btnCalibration = new System.Windows.Forms.Button();
-            this.btnVisionSaveZoom = new System.Windows.Forms.Button();
             this.tabPageConfig = new Syncfusion.Windows.Forms.Tools.TabPageAdv();
-            this.BtnLoadFrom = new System.Windows.Forms.Button();
-            this.ComboScannerIndex = new System.Windows.Forms.ComboBox();
-            this.gradientLabel4 = new Syncfusion.Windows.Forms.Tools.GradientLabel();
-            this.btnDataUpdate = new System.Windows.Forms.Button();
-            this.btnImageUpdate = new System.Windows.Forms.Button();
-            this.btnImportConfig = new System.Windows.Forms.Button();
-            this.btnConfigSave = new System.Windows.Forms.Button();
-            this.btnExportConfig = new System.Windows.Forms.Button();
             this.GridConfigure = new Syncfusion.Windows.Forms.Grid.GridControl();
             this.tabPageDrawing = new Syncfusion.Windows.Forms.Tools.TabPageAdv();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.windowDxf = new LWDicer.Layers.WindowDxf();
             this.btnObjectDxf = new System.Windows.Forms.Button();
             this.tabPageLaser = new Syncfusion.Windows.Forms.Tools.TabPageAdv();
             this.tabPageCorrection = new Syncfusion.Windows.Forms.Tools.TabPageAdv();
@@ -108,8 +87,29 @@
             this.imgList = new System.Windows.Forms.ImageList(this.components);
             this.gridControl1 = new Syncfusion.Windows.Forms.Grid.GridControl();
             this.LabelStageIndex = new Syncfusion.Windows.Forms.Tools.GradientLabel();
-            this.BtnSave = new System.Windows.Forms.Button();
             this.BtnExit = new System.Windows.Forms.Button();
+            this.btnScanDataSave = new System.Windows.Forms.Button();
+            this.BtnConfigureExit = new System.Windows.Forms.Button();
+            this.btnPreCam = new System.Windows.Forms.Button();
+            this.btnInpectCam = new System.Windows.Forms.Button();
+            this.btnFineCam = new System.Windows.Forms.Button();
+            this.btnMeasureClear = new System.Windows.Forms.Button();
+            this.btnJogShow = new System.Windows.Forms.Button();
+            this.btnVisionHalt = new System.Windows.Forms.Button();
+            this.btnMeasure = new System.Windows.Forms.Button();
+            this.btnVisionLive = new System.Windows.Forms.Button();
+            this.btnCalibration = new System.Windows.Forms.Button();
+            this.btnVisionSaveZoom = new System.Windows.Forms.Button();
+            this.BtnSave = new System.Windows.Forms.Button();
+            this.windowDxf = new LWDicer.Layers.WindowDxf();
+            this.btnExportConfig = new System.Windows.Forms.Button();
+            this.btnConfigSave = new System.Windows.Forms.Button();
+            this.btnImportConfig = new System.Windows.Forms.Button();
+            this.btnImageUpdate = new System.Windows.Forms.Button();
+            this.btnDataUpdate = new System.Windows.Forms.Button();
+            this.gradientLabel4 = new Syncfusion.Windows.Forms.Tools.GradientLabel();
+            this.ComboScannerIndex = new System.Windows.Forms.ComboBox();
+            this.txtScannerIPaddress = new System.Windows.Forms.MaskedTextBox();
             ((System.ComponentModel.ISupportInitialize)(this.tabPolygonForm)).BeginInit();
             this.tabPolygonForm.SuspendLayout();
             this.tabPageProcess.SuspendLayout();
@@ -136,8 +136,8 @@
             this.tabPolygonForm.Controls.Add(this.tabPageVision);
             this.tabPolygonForm.Controls.Add(this.tabPageConfig);
             this.tabPolygonForm.Controls.Add(this.tabPageDrawing);
-            this.tabPolygonForm.Controls.Add(this.tabPageLaser);
             this.tabPolygonForm.Controls.Add(this.tabPageCorrection);
+            this.tabPolygonForm.Controls.Add(this.tabPageLaser);
             this.tabPolygonForm.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabPolygonForm.ImageList = this.imgList;
             this.tabPolygonForm.ItemSize = new System.Drawing.Size(100, 35);
@@ -233,21 +233,6 @@
             this.groupBox3.TabIndex = 41;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Scanner Parameter";
-            // 
-            // btnScanDataSave
-            // 
-            this.btnScanDataSave.Font = new System.Drawing.Font("굴림", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.btnScanDataSave.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.btnScanDataSave.Image = ((System.Drawing.Image)(resources.GetObject("btnScanDataSave.Image")));
-            this.btnScanDataSave.Location = new System.Drawing.Point(33, 616);
-            this.btnScanDataSave.Name = "btnScanDataSave";
-            this.btnScanDataSave.Size = new System.Drawing.Size(185, 61);
-            this.btnScanDataSave.TabIndex = 899;
-            this.btnScanDataSave.Text = "Data Save";
-            this.btnScanDataSave.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnScanDataSave.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.btnScanDataSave.UseVisualStyleBackColor = true;
-            this.btnScanDataSave.Click += new System.EventHandler(this.btnScanDataSave_Click);
             // 
             // label2
             // 
@@ -388,21 +373,6 @@
             this.BtnLaserPattern.Text = "Laser Pattern Data";
             this.BtnLaserPattern.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.BtnLaserPattern.Click += new System.EventHandler(this.BtnLaserPattern_Click);
-            // 
-            // BtnConfigureExit
-            // 
-            this.BtnConfigureExit.Font = new System.Drawing.Font("굴림", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.BtnConfigureExit.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.BtnConfigureExit.Image = ((System.Drawing.Image)(resources.GetObject("BtnConfigureExit.Image")));
-            this.BtnConfigureExit.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.BtnConfigureExit.Location = new System.Drawing.Point(426, 759);
-            this.BtnConfigureExit.Name = "BtnConfigureExit";
-            this.BtnConfigureExit.Size = new System.Drawing.Size(124, 67);
-            this.BtnConfigureExit.TabIndex = 751;
-            this.BtnConfigureExit.Text = " Exit";
-            this.BtnConfigureExit.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.BtnConfigureExit.UseVisualStyleBackColor = true;
-            this.BtnConfigureExit.Click += new System.EventHandler(this.BtnConfigureExit_Click);
             // 
             // tabPageScanner
             // 
@@ -551,86 +521,6 @@
             this.tabPageVision.ThemesEnabled = false;
             this.tabPageVision.Click += new System.EventHandler(this.tabPageVision_Click);
             // 
-            // btnPreCam
-            // 
-            this.btnPreCam.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.btnPreCam.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.btnPreCam.Image = global::LWDicer.Properties.Resources.Vision;
-            this.btnPreCam.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.btnPreCam.Location = new System.Drawing.Point(1020, 77);
-            this.btnPreCam.Name = "btnPreCam";
-            this.btnPreCam.Size = new System.Drawing.Size(84, 68);
-            this.btnPreCam.TabIndex = 764;
-            this.btnPreCam.Text = "Pre";
-            this.btnPreCam.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.btnPreCam.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.btnPreCam.UseVisualStyleBackColor = true;
-            this.btnPreCam.Click += new System.EventHandler(this.btnPreCam_Click);
-            // 
-            // btnInpectCam
-            // 
-            this.btnInpectCam.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.btnInpectCam.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.btnInpectCam.Image = global::LWDicer.Properties.Resources.Vision;
-            this.btnInpectCam.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.btnInpectCam.Location = new System.Drawing.Point(1020, 225);
-            this.btnInpectCam.Name = "btnInpectCam";
-            this.btnInpectCam.Size = new System.Drawing.Size(84, 68);
-            this.btnInpectCam.TabIndex = 763;
-            this.btnInpectCam.Text = "Inspect";
-            this.btnInpectCam.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.btnInpectCam.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.btnInpectCam.UseVisualStyleBackColor = true;
-            this.btnInpectCam.Click += new System.EventHandler(this.btnInpectCam_Click);
-            // 
-            // btnFineCam
-            // 
-            this.btnFineCam.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.btnFineCam.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.btnFineCam.Image = global::LWDicer.Properties.Resources.Vision;
-            this.btnFineCam.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.btnFineCam.Location = new System.Drawing.Point(1020, 151);
-            this.btnFineCam.Name = "btnFineCam";
-            this.btnFineCam.Size = new System.Drawing.Size(84, 68);
-            this.btnFineCam.TabIndex = 762;
-            this.btnFineCam.Text = "Fine";
-            this.btnFineCam.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.btnFineCam.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.btnFineCam.UseVisualStyleBackColor = true;
-            this.btnFineCam.Click += new System.EventHandler(this.btnFineCam_Click);
-            // 
-            // btnMeasureClear
-            // 
-            this.btnMeasureClear.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.btnMeasureClear.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.btnMeasureClear.Image = ((System.Drawing.Image)(resources.GetObject("btnMeasureClear.Image")));
-            this.btnMeasureClear.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.btnMeasureClear.Location = new System.Drawing.Point(183, 765);
-            this.btnMeasureClear.Name = "btnMeasureClear";
-            this.btnMeasureClear.Size = new System.Drawing.Size(84, 68);
-            this.btnMeasureClear.TabIndex = 761;
-            this.btnMeasureClear.Text = "Clear";
-            this.btnMeasureClear.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.btnMeasureClear.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.btnMeasureClear.UseVisualStyleBackColor = true;
-            this.btnMeasureClear.Click += new System.EventHandler(this.btnMeasureClear_Click);
-            // 
-            // btnJogShow
-            // 
-            this.btnJogShow.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.btnJogShow.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.btnJogShow.Image = global::LWDicer.Properties.Resources.ManualRun;
-            this.btnJogShow.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.btnJogShow.Location = new System.Drawing.Point(1020, 3);
-            this.btnJogShow.Name = "btnJogShow";
-            this.btnJogShow.Size = new System.Drawing.Size(84, 68);
-            this.btnJogShow.TabIndex = 760;
-            this.btnJogShow.Text = "Motion Jog";
-            this.btnJogShow.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.btnJogShow.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.btnJogShow.UseVisualStyleBackColor = true;
-            this.btnJogShow.Click += new System.EventHandler(this.btnJogShow_Click);
-            // 
             // picVisionZoom
             // 
             this.picVisionZoom.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
@@ -652,90 +542,9 @@
             this.lblMousePos.TabIndex = 757;
             this.lblMousePos.Text = "---";
             // 
-            // btnVisionHalt
-            // 
-            this.btnVisionHalt.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.btnVisionHalt.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.btnVisionHalt.Image = global::LWDicer.Properties.Resources.stop;
-            this.btnVisionHalt.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.btnVisionHalt.Location = new System.Drawing.Point(840, 765);
-            this.btnVisionHalt.Name = "btnVisionHalt";
-            this.btnVisionHalt.Size = new System.Drawing.Size(84, 68);
-            this.btnVisionHalt.TabIndex = 757;
-            this.btnVisionHalt.Text = "Halt";
-            this.btnVisionHalt.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.btnVisionHalt.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.btnVisionHalt.UseVisualStyleBackColor = true;
-            this.btnVisionHalt.Click += new System.EventHandler(this.btnVisionHalt_Click);
-            // 
-            // btnMeasure
-            // 
-            this.btnMeasure.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.btnMeasure.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.btnMeasure.Image = ((System.Drawing.Image)(resources.GetObject("btnMeasure.Image")));
-            this.btnMeasure.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.btnMeasure.Location = new System.Drawing.Point(93, 765);
-            this.btnMeasure.Name = "btnMeasure";
-            this.btnMeasure.Size = new System.Drawing.Size(84, 68);
-            this.btnMeasure.TabIndex = 759;
-            this.btnMeasure.Text = "measure";
-            this.btnMeasure.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.btnMeasure.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.btnMeasure.UseVisualStyleBackColor = true;
-            this.btnMeasure.Click += new System.EventHandler(this.btnMeasure_Click);
-            // 
-            // btnVisionLive
-            // 
-            this.btnVisionLive.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.btnVisionLive.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.btnVisionLive.Image = global::LWDicer.Properties.Resources.run;
-            this.btnVisionLive.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.btnVisionLive.Location = new System.Drawing.Point(750, 765);
-            this.btnVisionLive.Name = "btnVisionLive";
-            this.btnVisionLive.Size = new System.Drawing.Size(84, 68);
-            this.btnVisionLive.TabIndex = 756;
-            this.btnVisionLive.Text = "Live";
-            this.btnVisionLive.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.btnVisionLive.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.btnVisionLive.UseVisualStyleBackColor = true;
-            this.btnVisionLive.Click += new System.EventHandler(this.btnVisionLive_Click);
-            // 
-            // btnCalibration
-            // 
-            this.btnCalibration.BackColor = System.Drawing.SystemColors.Control;
-            this.btnCalibration.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.btnCalibration.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.btnCalibration.Image = ((System.Drawing.Image)(resources.GetObject("btnCalibration.Image")));
-            this.btnCalibration.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.btnCalibration.Location = new System.Drawing.Point(3, 765);
-            this.btnCalibration.Name = "btnCalibration";
-            this.btnCalibration.Size = new System.Drawing.Size(84, 68);
-            this.btnCalibration.TabIndex = 758;
-            this.btnCalibration.Text = "Calibration";
-            this.btnCalibration.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.btnCalibration.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.btnCalibration.UseVisualStyleBackColor = false;
-            this.btnCalibration.Click += new System.EventHandler(this.btnCalibration_Click);
-            // 
-            // btnVisionSaveZoom
-            // 
-            this.btnVisionSaveZoom.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.btnVisionSaveZoom.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.btnVisionSaveZoom.Image = ((System.Drawing.Image)(resources.GetObject("btnVisionSaveZoom.Image")));
-            this.btnVisionSaveZoom.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.btnVisionSaveZoom.Location = new System.Drawing.Point(930, 765);
-            this.btnVisionSaveZoom.Name = "btnVisionSaveZoom";
-            this.btnVisionSaveZoom.Size = new System.Drawing.Size(84, 68);
-            this.btnVisionSaveZoom.TabIndex = 755;
-            this.btnVisionSaveZoom.Text = "Image Save";
-            this.btnVisionSaveZoom.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.btnVisionSaveZoom.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.btnVisionSaveZoom.UseVisualStyleBackColor = true;
-            this.btnVisionSaveZoom.Click += new System.EventHandler(this.btnVisionSaveZoom_Click);
-            // 
             // tabPageConfig
             // 
-            this.tabPageConfig.Controls.Add(this.BtnLoadFrom);
+            this.tabPageConfig.Controls.Add(this.txtScannerIPaddress);
             this.tabPageConfig.Controls.Add(this.ComboScannerIndex);
             this.tabPageConfig.Controls.Add(this.gradientLabel4);
             this.tabPageConfig.Controls.Add(this.btnDataUpdate);
@@ -753,125 +562,6 @@
             this.tabPageConfig.Text = "Scanner";
             this.tabPageConfig.ThemesEnabled = false;
             this.tabPageConfig.Enter += new System.EventHandler(this.tabPageConfig_Enter);
-            // 
-            // BtnLoadFrom
-            // 
-            this.BtnLoadFrom.Font = new System.Drawing.Font("굴림", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.BtnLoadFrom.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.BtnLoadFrom.Image = ((System.Drawing.Image)(resources.GetObject("BtnLoadFrom.Image")));
-            this.BtnLoadFrom.Location = new System.Drawing.Point(887, 285);
-            this.BtnLoadFrom.Name = "BtnLoadFrom";
-            this.BtnLoadFrom.Size = new System.Drawing.Size(185, 61);
-            this.BtnLoadFrom.TabIndex = 1051;
-            this.BtnLoadFrom.Text = "load from other data";
-            this.BtnLoadFrom.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.BtnLoadFrom.UseVisualStyleBackColor = true;
-            // 
-            // ComboScannerIndex
-            // 
-            this.ComboScannerIndex.DropDownHeight = 200;
-            this.ComboScannerIndex.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.ComboScannerIndex.DropDownWidth = 260;
-            this.ComboScannerIndex.Font = new System.Drawing.Font("굴림", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.ComboScannerIndex.FormattingEnabled = true;
-            this.ComboScannerIndex.IntegralHeight = false;
-            this.ComboScannerIndex.Location = new System.Drawing.Point(887, 51);
-            this.ComboScannerIndex.Name = "ComboScannerIndex";
-            this.ComboScannerIndex.Size = new System.Drawing.Size(185, 27);
-            this.ComboScannerIndex.TabIndex = 1050;
-            this.ComboScannerIndex.SelectedIndexChanged += new System.EventHandler(this.ComboScannerIndex_SelectedIndexChanged);
-            // 
-            // gradientLabel4
-            // 
-            this.gradientLabel4.BackgroundColor = new Syncfusion.Drawing.BrushInfo(System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(64))))));
-            this.gradientLabel4.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
-            | System.Windows.Forms.Border3DSide.Right) 
-            | System.Windows.Forms.Border3DSide.Bottom)));
-            this.gradientLabel4.BorderStyle = System.Windows.Forms.Border3DStyle.Raised;
-            this.gradientLabel4.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.gradientLabel4.ForeColor = System.Drawing.Color.White;
-            this.gradientLabel4.Location = new System.Drawing.Point(887, 12);
-            this.gradientLabel4.Name = "gradientLabel4";
-            this.gradientLabel4.Size = new System.Drawing.Size(185, 36);
-            this.gradientLabel4.TabIndex = 1049;
-            this.gradientLabel4.Text = "Scanner Index";
-            this.gradientLabel4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.gradientLabel4.Click += new System.EventHandler(this.gradientLabel4_Click);
-            // 
-            // btnDataUpdate
-            // 
-            this.btnDataUpdate.Font = new System.Drawing.Font("굴림", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.btnDataUpdate.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.btnDataUpdate.Image = ((System.Drawing.Image)(resources.GetObject("btnDataUpdate.Image")));
-            this.btnDataUpdate.Location = new System.Drawing.Point(887, 466);
-            this.btnDataUpdate.Name = "btnDataUpdate";
-            this.btnDataUpdate.Size = new System.Drawing.Size(185, 61);
-            this.btnDataUpdate.TabIndex = 754;
-            this.btnDataUpdate.Text = "Data to Scanner";
-            this.btnDataUpdate.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnDataUpdate.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.btnDataUpdate.UseVisualStyleBackColor = true;
-            this.btnDataUpdate.Click += new System.EventHandler(this.btnDataUpdate_Click);
-            // 
-            // btnImageUpdate
-            // 
-            this.btnImageUpdate.Font = new System.Drawing.Font("굴림", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.btnImageUpdate.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.btnImageUpdate.Image = ((System.Drawing.Image)(resources.GetObject("btnImageUpdate.Image")));
-            this.btnImageUpdate.Location = new System.Drawing.Point(887, 399);
-            this.btnImageUpdate.Name = "btnImageUpdate";
-            this.btnImageUpdate.Size = new System.Drawing.Size(185, 61);
-            this.btnImageUpdate.TabIndex = 755;
-            this.btnImageUpdate.Text = "Image to Scanner";
-            this.btnImageUpdate.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnImageUpdate.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.btnImageUpdate.UseVisualStyleBackColor = true;
-            this.btnImageUpdate.Click += new System.EventHandler(this.btnImageUpdate_Click);
-            // 
-            // btnImportConfig
-            // 
-            this.btnImportConfig.Font = new System.Drawing.Font("굴림", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.btnImportConfig.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.btnImportConfig.Image = ((System.Drawing.Image)(resources.GetObject("btnImportConfig.Image")));
-            this.btnImportConfig.Location = new System.Drawing.Point(887, 84);
-            this.btnImportConfig.Name = "btnImportConfig";
-            this.btnImportConfig.Size = new System.Drawing.Size(185, 61);
-            this.btnImportConfig.TabIndex = 758;
-            this.btnImportConfig.Text = "Import Config.ini";
-            this.btnImportConfig.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnImportConfig.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.btnImportConfig.UseVisualStyleBackColor = true;
-            this.btnImportConfig.Click += new System.EventHandler(this.btnImportConfig_Click);
-            // 
-            // btnConfigSave
-            // 
-            this.btnConfigSave.Font = new System.Drawing.Font("굴림", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.btnConfigSave.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.btnConfigSave.Image = ((System.Drawing.Image)(resources.GetObject("btnConfigSave.Image")));
-            this.btnConfigSave.Location = new System.Drawing.Point(887, 218);
-            this.btnConfigSave.Name = "btnConfigSave";
-            this.btnConfigSave.Size = new System.Drawing.Size(185, 61);
-            this.btnConfigSave.TabIndex = 752;
-            this.btnConfigSave.Text = "Data Save";
-            this.btnConfigSave.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnConfigSave.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.btnConfigSave.UseVisualStyleBackColor = true;
-            this.btnConfigSave.Click += new System.EventHandler(this.BtnConfigSave_Click);
-            // 
-            // btnExportConfig
-            // 
-            this.btnExportConfig.Font = new System.Drawing.Font("굴림", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.btnExportConfig.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.btnExportConfig.Image = ((System.Drawing.Image)(resources.GetObject("btnExportConfig.Image")));
-            this.btnExportConfig.Location = new System.Drawing.Point(887, 151);
-            this.btnExportConfig.Name = "btnExportConfig";
-            this.btnExportConfig.Size = new System.Drawing.Size(185, 61);
-            this.btnExportConfig.TabIndex = 757;
-            this.btnExportConfig.Text = "Export Config.ini";
-            this.btnExportConfig.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnExportConfig.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.btnExportConfig.UseVisualStyleBackColor = true;
-            this.btnExportConfig.Click += new System.EventHandler(this.btnExportConfig_Click);
             // 
             // GridConfigure
             // 
@@ -942,16 +632,6 @@
             this.splitContainer1.Size = new System.Drawing.Size(1257, 836);
             this.splitContainer1.SplitterDistance = 1109;
             this.splitContainer1.TabIndex = 12;
-            // 
-            // windowDxf
-            // 
-            this.windowDxf.BackColor = System.Drawing.Color.Black;
-            this.windowDxf.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.windowDxf.Location = new System.Drawing.Point(0, 0);
-            this.windowDxf.Model = null;
-            this.windowDxf.Name = "windowDxf";
-            this.windowDxf.Size = new System.Drawing.Size(1109, 836);
-            this.windowDxf.TabIndex = 0;
             // 
             // btnObjectDxf
             // 
@@ -1132,6 +812,204 @@
             this.LabelStageIndex.Text = "Stage Index";
             this.LabelStageIndex.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // BtnExit
+            // 
+            this.BtnExit.Location = new System.Drawing.Point(0, 0);
+            this.BtnExit.Name = "BtnExit";
+            this.BtnExit.Size = new System.Drawing.Size(75, 23);
+            this.BtnExit.TabIndex = 0;
+            // 
+            // btnScanDataSave
+            // 
+            this.btnScanDataSave.Font = new System.Drawing.Font("굴림", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.btnScanDataSave.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.btnScanDataSave.Image = ((System.Drawing.Image)(resources.GetObject("btnScanDataSave.Image")));
+            this.btnScanDataSave.Location = new System.Drawing.Point(33, 616);
+            this.btnScanDataSave.Name = "btnScanDataSave";
+            this.btnScanDataSave.Size = new System.Drawing.Size(185, 61);
+            this.btnScanDataSave.TabIndex = 899;
+            this.btnScanDataSave.Text = "Data Save";
+            this.btnScanDataSave.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnScanDataSave.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.btnScanDataSave.UseVisualStyleBackColor = true;
+            this.btnScanDataSave.Click += new System.EventHandler(this.btnScanDataSave_Click);
+            // 
+            // BtnConfigureExit
+            // 
+            this.BtnConfigureExit.Font = new System.Drawing.Font("굴림", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.BtnConfigureExit.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.BtnConfigureExit.Image = ((System.Drawing.Image)(resources.GetObject("BtnConfigureExit.Image")));
+            this.BtnConfigureExit.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.BtnConfigureExit.Location = new System.Drawing.Point(426, 759);
+            this.BtnConfigureExit.Name = "BtnConfigureExit";
+            this.BtnConfigureExit.Size = new System.Drawing.Size(124, 67);
+            this.BtnConfigureExit.TabIndex = 751;
+            this.BtnConfigureExit.Text = " Exit";
+            this.BtnConfigureExit.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.BtnConfigureExit.UseVisualStyleBackColor = true;
+            this.BtnConfigureExit.Click += new System.EventHandler(this.BtnConfigureExit_Click);
+            // 
+            // btnPreCam
+            // 
+            this.btnPreCam.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.btnPreCam.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.btnPreCam.Image = global::LWDicer.Properties.Resources.Vision;
+            this.btnPreCam.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.btnPreCam.Location = new System.Drawing.Point(1020, 77);
+            this.btnPreCam.Name = "btnPreCam";
+            this.btnPreCam.Size = new System.Drawing.Size(84, 68);
+            this.btnPreCam.TabIndex = 764;
+            this.btnPreCam.Text = "Pre";
+            this.btnPreCam.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.btnPreCam.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.btnPreCam.UseVisualStyleBackColor = true;
+            this.btnPreCam.Click += new System.EventHandler(this.btnPreCam_Click);
+            // 
+            // btnInpectCam
+            // 
+            this.btnInpectCam.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.btnInpectCam.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.btnInpectCam.Image = global::LWDicer.Properties.Resources.Vision;
+            this.btnInpectCam.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.btnInpectCam.Location = new System.Drawing.Point(1020, 225);
+            this.btnInpectCam.Name = "btnInpectCam";
+            this.btnInpectCam.Size = new System.Drawing.Size(84, 68);
+            this.btnInpectCam.TabIndex = 763;
+            this.btnInpectCam.Text = "Inspect";
+            this.btnInpectCam.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.btnInpectCam.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.btnInpectCam.UseVisualStyleBackColor = true;
+            this.btnInpectCam.Click += new System.EventHandler(this.btnInpectCam_Click);
+            // 
+            // btnFineCam
+            // 
+            this.btnFineCam.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.btnFineCam.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.btnFineCam.Image = global::LWDicer.Properties.Resources.Vision;
+            this.btnFineCam.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.btnFineCam.Location = new System.Drawing.Point(1020, 151);
+            this.btnFineCam.Name = "btnFineCam";
+            this.btnFineCam.Size = new System.Drawing.Size(84, 68);
+            this.btnFineCam.TabIndex = 762;
+            this.btnFineCam.Text = "Fine";
+            this.btnFineCam.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.btnFineCam.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.btnFineCam.UseVisualStyleBackColor = true;
+            this.btnFineCam.Click += new System.EventHandler(this.btnFineCam_Click);
+            // 
+            // btnMeasureClear
+            // 
+            this.btnMeasureClear.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.btnMeasureClear.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.btnMeasureClear.Image = ((System.Drawing.Image)(resources.GetObject("btnMeasureClear.Image")));
+            this.btnMeasureClear.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.btnMeasureClear.Location = new System.Drawing.Point(183, 765);
+            this.btnMeasureClear.Name = "btnMeasureClear";
+            this.btnMeasureClear.Size = new System.Drawing.Size(84, 68);
+            this.btnMeasureClear.TabIndex = 761;
+            this.btnMeasureClear.Text = "Clear";
+            this.btnMeasureClear.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.btnMeasureClear.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.btnMeasureClear.UseVisualStyleBackColor = true;
+            this.btnMeasureClear.Click += new System.EventHandler(this.btnMeasureClear_Click);
+            // 
+            // btnJogShow
+            // 
+            this.btnJogShow.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.btnJogShow.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.btnJogShow.Image = global::LWDicer.Properties.Resources.ManualRun;
+            this.btnJogShow.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.btnJogShow.Location = new System.Drawing.Point(1020, 3);
+            this.btnJogShow.Name = "btnJogShow";
+            this.btnJogShow.Size = new System.Drawing.Size(84, 68);
+            this.btnJogShow.TabIndex = 760;
+            this.btnJogShow.Text = "Motion Jog";
+            this.btnJogShow.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.btnJogShow.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.btnJogShow.UseVisualStyleBackColor = true;
+            this.btnJogShow.Click += new System.EventHandler(this.btnJogShow_Click);
+            // 
+            // btnVisionHalt
+            // 
+            this.btnVisionHalt.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.btnVisionHalt.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.btnVisionHalt.Image = global::LWDicer.Properties.Resources.stop;
+            this.btnVisionHalt.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.btnVisionHalt.Location = new System.Drawing.Point(840, 765);
+            this.btnVisionHalt.Name = "btnVisionHalt";
+            this.btnVisionHalt.Size = new System.Drawing.Size(84, 68);
+            this.btnVisionHalt.TabIndex = 757;
+            this.btnVisionHalt.Text = "Halt";
+            this.btnVisionHalt.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.btnVisionHalt.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.btnVisionHalt.UseVisualStyleBackColor = true;
+            this.btnVisionHalt.Click += new System.EventHandler(this.btnVisionHalt_Click);
+            // 
+            // btnMeasure
+            // 
+            this.btnMeasure.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.btnMeasure.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.btnMeasure.Image = ((System.Drawing.Image)(resources.GetObject("btnMeasure.Image")));
+            this.btnMeasure.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.btnMeasure.Location = new System.Drawing.Point(93, 765);
+            this.btnMeasure.Name = "btnMeasure";
+            this.btnMeasure.Size = new System.Drawing.Size(84, 68);
+            this.btnMeasure.TabIndex = 759;
+            this.btnMeasure.Text = "measure";
+            this.btnMeasure.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.btnMeasure.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.btnMeasure.UseVisualStyleBackColor = true;
+            this.btnMeasure.Click += new System.EventHandler(this.btnMeasure_Click);
+            // 
+            // btnVisionLive
+            // 
+            this.btnVisionLive.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.btnVisionLive.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.btnVisionLive.Image = global::LWDicer.Properties.Resources.run;
+            this.btnVisionLive.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.btnVisionLive.Location = new System.Drawing.Point(750, 765);
+            this.btnVisionLive.Name = "btnVisionLive";
+            this.btnVisionLive.Size = new System.Drawing.Size(84, 68);
+            this.btnVisionLive.TabIndex = 756;
+            this.btnVisionLive.Text = "Live";
+            this.btnVisionLive.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.btnVisionLive.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.btnVisionLive.UseVisualStyleBackColor = true;
+            this.btnVisionLive.Click += new System.EventHandler(this.btnVisionLive_Click);
+            // 
+            // btnCalibration
+            // 
+            this.btnCalibration.BackColor = System.Drawing.SystemColors.Control;
+            this.btnCalibration.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.btnCalibration.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.btnCalibration.Image = ((System.Drawing.Image)(resources.GetObject("btnCalibration.Image")));
+            this.btnCalibration.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.btnCalibration.Location = new System.Drawing.Point(3, 765);
+            this.btnCalibration.Name = "btnCalibration";
+            this.btnCalibration.Size = new System.Drawing.Size(84, 68);
+            this.btnCalibration.TabIndex = 758;
+            this.btnCalibration.Text = "Calibration";
+            this.btnCalibration.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.btnCalibration.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.btnCalibration.UseVisualStyleBackColor = false;
+            this.btnCalibration.Click += new System.EventHandler(this.btnCalibration_Click);
+            // 
+            // btnVisionSaveZoom
+            // 
+            this.btnVisionSaveZoom.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.btnVisionSaveZoom.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.btnVisionSaveZoom.Image = ((System.Drawing.Image)(resources.GetObject("btnVisionSaveZoom.Image")));
+            this.btnVisionSaveZoom.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.btnVisionSaveZoom.Location = new System.Drawing.Point(930, 765);
+            this.btnVisionSaveZoom.Name = "btnVisionSaveZoom";
+            this.btnVisionSaveZoom.Size = new System.Drawing.Size(84, 68);
+            this.btnVisionSaveZoom.TabIndex = 755;
+            this.btnVisionSaveZoom.Text = "Image Save";
+            this.btnVisionSaveZoom.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.btnVisionSaveZoom.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.btnVisionSaveZoom.UseVisualStyleBackColor = true;
+            this.btnVisionSaveZoom.Click += new System.EventHandler(this.btnVisionSaveZoom_Click);
+            // 
             // BtnSave
             // 
             this.BtnSave.Font = new System.Drawing.Font("굴림", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
@@ -1146,19 +1024,133 @@
             this.BtnSave.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.BtnSave.UseVisualStyleBackColor = true;
             // 
-            // BtnExit
+            // windowDxf
             // 
-            this.BtnExit.Font = new System.Drawing.Font("굴림", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.BtnExit.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.BtnExit.Image = ((System.Drawing.Image)(resources.GetObject("BtnExit.Image")));
-            this.BtnExit.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.BtnExit.Location = new System.Drawing.Point(451, 678);
-            this.BtnExit.Name = "BtnExit";
-            this.BtnExit.Size = new System.Drawing.Size(185, 61);
-            this.BtnExit.TabIndex = 1040;
-            this.BtnExit.Text = " Exit";
-            this.BtnExit.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.BtnExit.UseVisualStyleBackColor = true;
+            this.windowDxf.BackColor = System.Drawing.Color.Black;
+            this.windowDxf.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.windowDxf.Location = new System.Drawing.Point(0, 0);
+            this.windowDxf.Model = null;
+            this.windowDxf.Name = "windowDxf";
+            this.windowDxf.Size = new System.Drawing.Size(1109, 836);
+            this.windowDxf.TabIndex = 0;
+            // 
+            // btnExportConfig
+            // 
+            this.btnExportConfig.Font = new System.Drawing.Font("굴림", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.btnExportConfig.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.btnExportConfig.Image = ((System.Drawing.Image)(resources.GetObject("btnExportConfig.Image")));
+            this.btnExportConfig.Location = new System.Drawing.Point(887, 265);
+            this.btnExportConfig.Name = "btnExportConfig";
+            this.btnExportConfig.Size = new System.Drawing.Size(185, 71);
+            this.btnExportConfig.TabIndex = 757;
+            this.btnExportConfig.Text = "Export Config.ini";
+            this.btnExportConfig.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnExportConfig.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.btnExportConfig.UseVisualStyleBackColor = true;
+            this.btnExportConfig.Click += new System.EventHandler(this.btnExportConfig_Click);
+            // 
+            // btnConfigSave
+            // 
+            this.btnConfigSave.Font = new System.Drawing.Font("굴림", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.btnConfigSave.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.btnConfigSave.Image = ((System.Drawing.Image)(resources.GetObject("btnConfigSave.Image")));
+            this.btnConfigSave.Location = new System.Drawing.Point(887, 342);
+            this.btnConfigSave.Name = "btnConfigSave";
+            this.btnConfigSave.Size = new System.Drawing.Size(185, 71);
+            this.btnConfigSave.TabIndex = 752;
+            this.btnConfigSave.Text = "Data Save";
+            this.btnConfigSave.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnConfigSave.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.btnConfigSave.UseVisualStyleBackColor = true;
+            this.btnConfigSave.Click += new System.EventHandler(this.BtnConfigSave_Click);
+            // 
+            // btnImportConfig
+            // 
+            this.btnImportConfig.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.btnImportConfig.Font = new System.Drawing.Font("굴림", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.btnImportConfig.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.btnImportConfig.Image = global::LWDicer.Properties.Resources.import1;
+            this.btnImportConfig.Location = new System.Drawing.Point(887, 188);
+            this.btnImportConfig.Name = "btnImportConfig";
+            this.btnImportConfig.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.btnImportConfig.Size = new System.Drawing.Size(185, 71);
+            this.btnImportConfig.TabIndex = 758;
+            this.btnImportConfig.Text = "Import Config.ini";
+            this.btnImportConfig.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnImportConfig.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.btnImportConfig.UseVisualStyleBackColor = true;
+            this.btnImportConfig.Click += new System.EventHandler(this.btnImportConfig_Click);
+            // 
+            // btnImageUpdate
+            // 
+            this.btnImageUpdate.Font = new System.Drawing.Font("굴림", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.btnImageUpdate.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.btnImageUpdate.Image = ((System.Drawing.Image)(resources.GetObject("btnImageUpdate.Image")));
+            this.btnImageUpdate.Location = new System.Drawing.Point(887, 420);
+            this.btnImageUpdate.Name = "btnImageUpdate";
+            this.btnImageUpdate.Size = new System.Drawing.Size(185, 71);
+            this.btnImageUpdate.TabIndex = 755;
+            this.btnImageUpdate.Text = "Download Image";
+            this.btnImageUpdate.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnImageUpdate.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.btnImageUpdate.UseVisualStyleBackColor = true;
+            this.btnImageUpdate.Click += new System.EventHandler(this.btnImageUpdate_Click);
+            // 
+            // btnDataUpdate
+            // 
+            this.btnDataUpdate.Font = new System.Drawing.Font("굴림", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.btnDataUpdate.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.btnDataUpdate.Image = ((System.Drawing.Image)(resources.GetObject("btnDataUpdate.Image")));
+            this.btnDataUpdate.Location = new System.Drawing.Point(887, 497);
+            this.btnDataUpdate.Name = "btnDataUpdate";
+            this.btnDataUpdate.Size = new System.Drawing.Size(185, 71);
+            this.btnDataUpdate.TabIndex = 754;
+            this.btnDataUpdate.Text = "Download Config";
+            this.btnDataUpdate.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnDataUpdate.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.btnDataUpdate.UseVisualStyleBackColor = true;
+            this.btnDataUpdate.Click += new System.EventHandler(this.btnDataUpdate_Click);
+            // 
+            // gradientLabel4
+            // 
+            this.gradientLabel4.BackgroundColor = new Syncfusion.Drawing.BrushInfo(System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(64))))));
+            this.gradientLabel4.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
+            | System.Windows.Forms.Border3DSide.Right) 
+            | System.Windows.Forms.Border3DSide.Bottom)));
+            this.gradientLabel4.BorderStyle = System.Windows.Forms.Border3DStyle.Raised;
+            this.gradientLabel4.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.gradientLabel4.ForeColor = System.Drawing.Color.White;
+            this.gradientLabel4.Location = new System.Drawing.Point(887, 12);
+            this.gradientLabel4.Name = "gradientLabel4";
+            this.gradientLabel4.Size = new System.Drawing.Size(185, 36);
+            this.gradientLabel4.TabIndex = 1049;
+            this.gradientLabel4.Text = "Scanner Index";
+            this.gradientLabel4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.gradientLabel4.Click += new System.EventHandler(this.gradientLabel4_Click);
+            // 
+            // ComboScannerIndex
+            // 
+            this.ComboScannerIndex.DropDownHeight = 200;
+            this.ComboScannerIndex.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.ComboScannerIndex.DropDownWidth = 260;
+            this.ComboScannerIndex.Font = new System.Drawing.Font("굴림", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.ComboScannerIndex.FormattingEnabled = true;
+            this.ComboScannerIndex.IntegralHeight = false;
+            this.ComboScannerIndex.Location = new System.Drawing.Point(887, 51);
+            this.ComboScannerIndex.Name = "ComboScannerIndex";
+            this.ComboScannerIndex.Size = new System.Drawing.Size(185, 27);
+            this.ComboScannerIndex.TabIndex = 1050;
+            this.ComboScannerIndex.SelectedIndexChanged += new System.EventHandler(this.ComboScannerIndex_SelectedIndexChanged);
+            // 
+            // txtScannerIPaddress
+            // 
+            this.txtScannerIPaddress.Font = new System.Drawing.Font("굴림", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.txtScannerIPaddress.Location = new System.Drawing.Point(889, 143);
+            this.txtScannerIPaddress.Mask = "000\\.000\\.000\\.000";
+            this.txtScannerIPaddress.Name = "txtScannerIPaddress";
+            this.txtScannerIPaddress.Size = new System.Drawing.Size(181, 26);
+            this.txtScannerIPaddress.TabIndex = 1052;
+            this.txtScannerIPaddress.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // FormPolygon
             // 
@@ -1182,6 +1174,7 @@
             this.tabPageVision.ResumeLayout(false);
             this.tabPageVision.PerformLayout();
             this.tabPageConfig.ResumeLayout(false);
+            this.tabPageConfig.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.GridConfigure)).EndInit();
             this.tabPageDrawing.ResumeLayout(false);
             this.splitContainer1.Panel1.ResumeLayout(false);
@@ -1205,13 +1198,10 @@
         private Syncfusion.Windows.Forms.Tools.TabPageAdv tabPageVision;
         private Syncfusion.Windows.Forms.Grid.GridControl GridConfigure;
         public System.Windows.Forms.RichTextBox rtbControllerStatus;
-        private System.Windows.Forms.Button btnConfigSave;
         private System.Windows.Forms.Button BtnConfigureExit;
         public System.Windows.Forms.RichTextBox rtbHeadStatus;
         private Syncfusion.Windows.Forms.Grid.GridControl gridControl1;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Button btnImageUpdate;
-        private System.Windows.Forms.Button btnDataUpdate;
         private System.Windows.Forms.Button btnHeadLogClear;
         private System.Windows.Forms.Button btnControlLogClear;
         private System.Windows.Forms.Label label5;
@@ -1231,8 +1221,6 @@
         private System.Windows.Forms.Button btnMeasureClear;
         private System.Windows.Forms.Button btnInpectCam;
         private System.Windows.Forms.Button btnFineCam;
-        private System.Windows.Forms.Button btnImportConfig;
-        private System.Windows.Forms.Button btnExportConfig;
         private System.Windows.Forms.Button btnPreCam;
         private Syncfusion.Windows.Forms.Tools.TabPageAdv tabPageDrawing;
         private System.Windows.Forms.SplitContainer splitContainer1;
@@ -1241,12 +1229,9 @@
         private System.Windows.Forms.Button BtnSave;
         private Syncfusion.Windows.Forms.Tools.GradientLabel LabelStageIndex;
         private System.Windows.Forms.Button BtnExit;
-        private System.Windows.Forms.ComboBox ComboScannerIndex;
-        private Syncfusion.Windows.Forms.Tools.GradientLabel gradientLabel4;
         private Syncfusion.Windows.Forms.ButtonAdv BtnLaserProcess;
         private Syncfusion.Windows.Forms.ButtonAdv BtnLaserPattern;
         private Syncfusion.Windows.Forms.ButtonAdv BtnPatternDraw;
-        private System.Windows.Forms.Button BtnLoadFrom;
         private Syncfusion.Windows.Forms.Tools.TabPageAdv tabPageCorrection;
         private Syncfusion.Windows.Forms.Grid.GridControl GridCtrl_ScanCorrection;
         private Syncfusion.Windows.Forms.Grid.GridControl GridCtrl_BowCorrection;
@@ -1261,5 +1246,13 @@
         private Syncfusion.Windows.Forms.Tools.GradientLabel gradientLabel30;
         private Syncfusion.Windows.Forms.Tools.GradientLabel lblScanFieldWidth;
         private System.Windows.Forms.Button btnScanDataSave;
+        private System.Windows.Forms.MaskedTextBox txtScannerIPaddress;
+        private System.Windows.Forms.ComboBox ComboScannerIndex;
+        private Syncfusion.Windows.Forms.Tools.GradientLabel gradientLabel4;
+        private System.Windows.Forms.Button btnDataUpdate;
+        private System.Windows.Forms.Button btnImageUpdate;
+        private System.Windows.Forms.Button btnImportConfig;
+        private System.Windows.Forms.Button btnConfigSave;
+        private System.Windows.Forms.Button btnExportConfig;
     }
 }

@@ -48,12 +48,11 @@ namespace LWDicer.UI
             DrawCanvas.Parent = this.pnlCanvas;
             DrawCanvas.Dock = DockStyle.Fill;
 
-            //================================================================================
-            // Scan Field Size Set
-            SizeF fieldSize = new SizeF(0, 0);
-            fieldSize.Width = (float) CMainFrame.DataManager.SystemData_Scan.ScanFieldWidth;
-            fieldSize.Height = (float)CMainFrame.DataManager.SystemData_Scan.ScanFieldHeight;
-            m_ScanManager.SetFieldSize(fieldSize);                      
+            // Scan Field Size 설정
+            SetScanFieldSize();
+
+            // Scan Para Update
+            UpdateScanParameter();
 
             this.OnResize(EventArgs.Empty);
         }
@@ -308,6 +307,17 @@ namespace LWDicer.UI
                 SetCanvasSize();
         }
 
+        public void SetScanFieldSize()
+        {
+            //================================================================================
+            // Scan Field Size Set
+            SizeF fieldSize = new SizeF(0, 0);
+            fieldSize.Width = (float)CMainFrame.DataManager.SystemData_Scan.ScanFieldWidth;
+            fieldSize.Height = (float)CMainFrame.DataManager.SystemData_Scan.ScanFieldHeight;
+            m_ScanManager.SetFieldSize(fieldSize);
+            m_FormScanner?.ReDrawCanvas();
+        }
+
         public int GetCanvasSize(out Size pSize)
         {
             pSize = DrawCanvas.Size;
@@ -385,6 +395,7 @@ namespace LWDicer.UI
             }
         }
 
+
         public void InsetObjectProperty(int nIndex)
         {
             if (nIndex >= 0)
@@ -449,6 +460,30 @@ namespace LWDicer.UI
             }
         }
         
+        private void UpdateScanParameter()
+        {
+            tooltxtScanFieldX.Text      = string.Format("{0:F4}", CMainFrame.DataManager.SystemData_Scan.ScanFieldWidth);
+            tooltxtScanFieldY.Text      = string.Format("{0:F4}", CMainFrame.DataManager.SystemData_Scan.ScanFieldHeight);
+            tooltxtScanResolutionX.Text = string.Format("{0:F4}", CMainFrame.DataManager.SystemData_Scan.ScanResolutionX);
+            tooltxtScanResolutionY.Text = string.Format("{0:F4}", CMainFrame.DataManager.SystemData_Scan.ScanResolutionY);
+        }
+
+        private void toolBtnParameterSave_Click(object sender, EventArgs e)
+        {
+            if (!CMainFrame.InquireMsg("Save Scan Parameter ?")) { UpdateScanParameter(); return; }
+
+            CMainFrame.DataManager.SystemData_Scan.ScanFieldWidth = Convert.ToDouble(tooltxtScanFieldX.Text);
+            CMainFrame.DataManager.SystemData_Scan.ScanFieldHeight = Convert.ToDouble(tooltxtScanFieldY.Text);
+            CMainFrame.DataManager.SystemData_Scan.ScanResolutionX = Convert.ToDouble(tooltxtScanResolutionX.Text);
+            CMainFrame.DataManager.SystemData_Scan.ScanResolutionY = Convert.ToDouble(tooltxtScanResolutionY.Text);
+
+            // DB Save
+
+            CMainFrame.LWDicer.SaveSystemData(null, null, null, null, null, CMainFrame.DataManager.SystemData_Scan, null);
+
+            // Scan Field를 재 설정함.
+            SetScanFieldSize();
+        }
 
         private void CanvasObjectMove(CPos_XY pPos, double pAngle = 0.0)
         {
@@ -545,12 +580,7 @@ namespace LWDicer.UI
 
         private void FormScanWindow_Activated(object sender, EventArgs e)
         {
-            //================================================================================
-            // Scan Field Size Set
-            SizeF fieldSize = new SizeF(0, 0);
-            fieldSize.Width = (float)CMainFrame.DataManager.SystemData_Scan.ScanFieldWidth;
-            fieldSize.Height = (float)CMainFrame.DataManager.SystemData_Scan.ScanFieldHeight;
-            m_ScanManager.SetFieldSize(fieldSize);
+            SetScanFieldSize();
         }
         
         private void ribbonControl_Click(object sender, EventArgs e)
@@ -606,11 +636,14 @@ namespace LWDicer.UI
             imgSaveDlg.Filter = "BMP(*.bmp)|*.bmp";
             if (imgSaveDlg.ShowDialog() == DialogResult.OK)
             {
+                // BMP Format을 설정한다
+                if (CMainFrame.LWDicer.m_MeScanner.SetSizeBmp() != SUCCESS) return;
+
                 // Scan Field가 300mm 이하일 경우엔.. BMP를 한개만 생성한다.
                 if (CMainFrame.DataManager.SystemData_Scan.ScanFieldWidth <= POLYGON_SCAN_FIELD)
                 {
                     fileName = imgSaveDlg.FileName;
-                    if (CMainFrame.LWDicer.m_MeScanner.SetSizeBmp() != SUCCESS) return;
+                    
                     CMainFrame.LWDicer.m_MeScanner.ConvertBmpFile(fileName);
                 }
 
@@ -619,17 +652,14 @@ namespace LWDicer.UI
                 {
                     index = imgSaveDlg.FileName.IndexOf('.');
                     fileName = imgSaveDlg.FileName.Insert(index, "-1");
-                    if (CMainFrame.LWDicer.m_MeScanner.SetSizeBmp(EScannerIndex.SCANNER1) != SUCCESS) return;
                     CMainFrame.LWDicer.m_MeScanner.ConvertBmpFile(fileName, POLYGON_SCAN_FIELD * 0);
 
                     index = imgSaveDlg.FileName.IndexOf('.');
                     fileName = imgSaveDlg.FileName.Insert(index, "-2");
-                    if (CMainFrame.LWDicer.m_MeScanner.SetSizeBmp(EScannerIndex.SCANNER1) != SUCCESS) return;
                     CMainFrame.LWDicer.m_MeScanner.ConvertBmpFile(fileName, POLYGON_SCAN_FIELD * 1);
 
                     index = imgSaveDlg.FileName.IndexOf('.');
                     fileName = imgSaveDlg.FileName.Insert(index, "-3");
-                    if (CMainFrame.LWDicer.m_MeScanner.SetSizeBmp(EScannerIndex.SCANNER1) != SUCCESS) return;
                     CMainFrame.LWDicer.m_MeScanner.ConvertBmpFile(fileName, POLYGON_SCAN_FIELD * 2);
                 }
             }
@@ -1102,6 +1132,7 @@ namespace LWDicer.UI
 
             ReDrawCanvas();
         }
+
 
 
 

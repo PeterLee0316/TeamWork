@@ -796,11 +796,14 @@ namespace LWDicer.Layers
 
         public class CSystemData_Scanner
         {
-            public int ScanFieldWidth;
-            public int ScanFieldHeight;
+            public double ScanFieldWidth;
+            public double ScanFieldHeight;
+            public double ScanResolutionX;
+            public double ScanResolutionY;
 
             public CScanner_Address[] Address = new CScanner_Address[(int)EScannerIndex.MAX];
-            public CScanner_Config[] Config = new CScanner_Config[(int)EScannerIndex.MAX];            
+            public CScanner_Config[] Config = new CScanner_Config[(int)EScannerIndex.MAX];  
+                      
             public CSystemData_Scanner()
             {
                 for (int i = 0; i < (int)EScannerIndex.MAX; i++)

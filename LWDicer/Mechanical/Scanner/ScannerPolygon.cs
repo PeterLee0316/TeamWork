@@ -170,7 +170,6 @@ namespace LWDicer.Layers
         }
 
         #region Scan 내부 Function 
-
         public void ShowScanWindow()
         {
             m_FormScanner.Show();
@@ -231,16 +230,15 @@ namespace LWDicer.Layers
 
             if (m_RefComp.DataManager.SystemData_Scan == null) return RUN_FAIL;
 
-            if (m_RefComp.DataManager.SystemData_Scan.Config[num].InScanResolution <= 0 || 
-                m_RefComp.DataManager.SystemData_Scan.Config[num].CrossScanResolution <= 0)
+            if (m_RefComp.DataManager.SystemData_Scan.ScanResolutionX <= 0 || 
+                m_RefComp.DataManager.SystemData_Scan.ScanResolutionY <= 0)
                 return RUN_FAIL;
 
             Point ptStart = new Point(0, 0);
             Point ptEnd = new Point(0, 0);
             double MaxHeight = 0.0;
             double tempHeight = 0.0;
-            Point ptTemp = new Point(0, 0);
-            
+            Point ptTemp = new Point(0, 0);            
 
             // 객체 수량 확인
             int iObjectCount = m_ScanManager.ObjectList.Count;
@@ -257,8 +255,8 @@ namespace LWDicer.Layers
             }
 
             // 가로 세로 크기를 Pixel 단위로 변환
-            ptEnd.X = (int)(BMT_SCAN_WIDTH / (m_RefComp.DataManager.SystemData_Scan.Config[num].InScanResolution) + 0.5);
-            ptEnd.Y = (int)(MaxHeight / (m_RefComp.DataManager.SystemData_Scan.Config[num].CrossScanResolution) + 0.5);
+            ptEnd.X = (int)(BMT_SCAN_WIDTH / (m_RefComp.DataManager.SystemData_Scan.ScanResolutionX) + 0.5);
+            ptEnd.Y = (int)(MaxHeight / (m_RefComp.DataManager.SystemData_Scan.ScanResolutionY) + 0.5);
 
             // Bmp의 가로 세로 크기 설정
             BmpImageWidth = ptEnd.X;
@@ -291,14 +289,12 @@ namespace LWDicer.Layers
             return SUCCESS;
         }
 
-        public int SetSizeBmp(EScannerIndex Index = EScannerIndex.SCANNER1)
+        public int SetSizeBmp()
         {
-            int num = (int)Index;
-
             if (m_RefComp.DataManager.SystemData_Scan == null) return RUN_FAIL;
 
-            if (m_RefComp.DataManager.SystemData_Scan.Config[num].InScanResolution <= 0 || 
-                m_RefComp.DataManager.SystemData_Scan.Config[num].CrossScanResolution <= 0)
+            if (m_RefComp.DataManager.SystemData_Scan.ScanResolutionX <= 0 || 
+                m_RefComp.DataManager.SystemData_Scan.ScanResolutionY <= 0)
                 return RUN_FAIL;
 
             Point ptStart = new Point(0, 0);
@@ -322,8 +318,8 @@ namespace LWDicer.Layers
             }
             
             // 가로 세로 크기를 Pixel 단위로 변환
-            ptEnd.X = (int)(BMT_SCAN_WIDTH / (m_RefComp.DataManager.SystemData_Scan.Config[num].InScanResolution) + 0.5);
-            ptEnd.Y = (int)(MaxHeight / (m_RefComp.DataManager.SystemData_Scan.Config[num].CrossScanResolution)+0.5);
+            ptEnd.X = (int)(BMT_SCAN_WIDTH / (m_RefComp.DataManager.SystemData_Scan.ScanResolutionX) + 0.5);
+            ptEnd.Y = (int)(MaxHeight / (m_RefComp.DataManager.SystemData_Scan.ScanResolutionY) +0.5);
 
             // Bmp의 가로 세로 크기 설정
             BmpImageWidth = ptEnd.X;
@@ -1746,13 +1742,11 @@ namespace LWDicer.Layers
          * Parameter :   int scannerIndex - Scanner No.
          *               string strFile - 전송하고 자하는 ini File Name
          ------------------------------------------------------------------------------------*/
-        public bool SendConfig(string strPath)
+        public bool SendConfig(string strAddress, string strPath)
         {
-            string strFTP = GetControlAddress(); // ex) "172.18.7.160
-
             if (File.Exists(strPath) == false) return false; 
 
-            if (SendTFTPFile(strFTP,strPath) == true)
+            if (SendTFTPFile(strAddress, strPath) == true)
             {
                 return true;
             }
@@ -1789,26 +1783,25 @@ namespace LWDicer.Layers
          * Parameter :   int scannerIndex - Scanner No.
          *               string strFile - 전송하고 자하는 BitMap File Name
          ------------------------------------------------------------------------------------*/
-        public bool SendBitmap(string strFile, bool IsStream=false)
+        public bool SendBitmap(string strAddress, string strFilePath, bool IsStream=false)
         {
-            string strFTP = GetControlAddress(); // ex) "92.168.22.60"
-            //string strPath = string.Format("{0:s}{1:s}", m_RefComp.DataManager.DBInfo.ImageDataDir, strFile);  
-            string strPath = strFile;
+            //string strFTP = GetControlAddress(); // ex) "92.168.22.60"
+            ////string strPath = string.Format("{0:s}{1:s}", m_RefComp.DataManager.DBInfo.ImageDataDir, strFile);  
+            //string strPath = strFile;
 
-            if (File.Exists(strPath) == false) return false;
+            if (File.Exists(strFilePath) == false) return false;
 
             if (IsStream == false)
             {
-                if (SendTFTPFile(strFTP, strPath) == true) return true;
+                if (SendTFTPFile(strAddress, strFilePath) == true) return true;
                 else return false;
             }
             else
             {
                 //filePath = "T:\\CadFile\\stemco_50um.bmp T:\\CadFile\\stemco_50um.lse";
-                if (SendStreamFile(strFTP, strPath) == true) return true;
+                if (SendStreamFile(strAddress, strFilePath) == true) return true;
                 else return false;
             }
-
         }
                 
 

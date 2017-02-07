@@ -11,6 +11,7 @@ using System.Windows.Forms;
 using System.Drawing.Imaging;
 using System.Diagnostics;
 using System.Collections.Specialized;
+using System.Net;
 
 using Syncfusion.Windows.Forms.Tools;
 using Syncfusion.Windows.Forms.Grid;
@@ -431,9 +432,14 @@ namespace LWDicer.UI
         private void DisplayConfigureData(CSystemData_Scanner para,EScannerIndex Index = EScannerIndex.SCANNER1)
         {
             int num = (int)Index;
+
+            //====================================================================================================
+            // IP Address
+            txtScannerIPaddress.Text = para.Address[num].ControlHostAddress;
+
             //====================================================================================================
             // Config.ini
-            
+
             GridConfigure[1, 2].Text  = string.Format("{0:f4}", para.Config[num].InScanResolution );
             GridConfigure[2, 2].Text  = string.Format("{0:f4}", para.Config[num].CrossScanResolution);
             GridConfigure[3, 2].Text  = string.Format("{0:f4}", para.Config[num].InScanOffset);
@@ -709,6 +715,19 @@ namespace LWDicer.UI
 
             try
             {
+                IPAddress ipAddress;
+                if (IPAddress.TryParse(txtScannerIPaddress.Text, out ipAddress))
+                {
+                    CMainFrame.DataManager.SystemData_Scan.Address[num].ControlHostAddress = txtScannerIPaddress.Text;
+                }
+                else
+                {
+                    CMainFrame.DisplayMsg("IP Address is wrong!");
+
+                    return;
+                }
+
+
                 //====================================================================================================
                 // Config.ini
 
@@ -790,8 +809,11 @@ namespace LWDicer.UI
         private void btnImageUpdate_Click(object sender, EventArgs e)
         {
             int fileStreamSize = 4092 * 1024;
+            int num = (int)m_ScannerIndex;
+            string strIpAddress = CMainFrame.DataManager.SystemData_Scan.Address[num].ControlHostAddress;
+
             var dlg = new OpenFileDialog();
-            dlg.Filter = "BMP(*.bmp,*.lse)|*.bmp;*.lse"; //(*.dxf, *.dwg)|*.dxf;*.dwg";
+            dlg.Filter = "BMP(*.bmp,*.lse)|*.bmp;*.lse";
             dlg.InitialDirectory = (m_strLastDir == "") ? CMainFrame.DBInfo.ImageDataDir : m_strLastDir;
             dlg.FileName = m_strLastFile;
             
@@ -801,9 +823,9 @@ namespace LWDicer.UI
                 m_strLastFile = fileData.Name;
                 m_strLastDir = fileData.DirectoryName;
                 if(fileData.Length < fileStreamSize)
-                    CMainFrame.LWDicer.m_MeScanner.SendBitmap(dlg.FileName);
+                    CMainFrame.LWDicer.m_MeScanner.SendBitmap(strIpAddress,dlg.FileName);
                 else
-                    CMainFrame.LWDicer.m_MeScanner.SendBitmap(dlg.FileName, true);
+                    CMainFrame.LWDicer.m_MeScanner.SendBitmap(strIpAddress,dlg.FileName, true);
             }            
         }
 
@@ -841,13 +863,16 @@ namespace LWDicer.UI
         private void btnDataUpdate_Click(object sender, EventArgs e)
         {
             string filename = string.Empty;
+            int num = 0;
+            string strIpAddress = CMainFrame.DataManager.SystemData_Scan.Address[num].ControlHostAddress;
+
             OpenFileDialog iniOpenDlg = new OpenFileDialog();
             iniOpenDlg.InitialDirectory = CMainFrame.DBInfo.ScannerDataDir;
             iniOpenDlg.Filter = "INI(*.ini)|*.ini";
             if (iniOpenDlg.ShowDialog() == DialogResult.OK)
             {
                 filename = iniOpenDlg.FileName;
-                CMainFrame.LWDicer.m_MeScanner.SendConfig(filename);
+                CMainFrame.LWDicer.m_MeScanner.SendConfig(strIpAddress,filename);
             }            
 
         }
@@ -1247,6 +1272,8 @@ namespace LWDicer.UI
 
         private void btnScanDataSave_Click(object sender, EventArgs e)
         {
+            if (!CMainFrame.InquireMsg("Save Scan Parameter ?")) return;
+
             CMainFrame.DataManager.SystemData_Scan.ScanFieldWidth = Convert.ToInt32(lblScanFieldWidth.Text);
             CMainFrame.DataManager.SystemData_Scan.ScanFieldHeight = Convert.ToInt32(lblScanFieldHeight.Text);
 

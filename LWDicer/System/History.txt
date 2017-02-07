@@ -892,9 +892,21 @@ CSpinStep class -> CCleaningStep / CCoatingStep class 로 분리
 	- Ctrl Key을 사용하여 추가 선택 기능 추가
 	- (단 Group의 경우와 Arc 추가 기능 요)
 
+Scan Parameter 별도 관리
+	- Scan Field와 Resolution 파라미터를 따로 관리하여, Image Draw에서 사용함.
+	  (Scanner의 Resolution 파라미터를 사용하지 않음)
 
 
 
+
+
+
+
+
+
+
+
+	
 
 ////////////////////////////////////////////////////////////////////////////////////////////
 // LHS

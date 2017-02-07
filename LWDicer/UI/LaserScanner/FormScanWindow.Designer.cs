@@ -39,6 +39,8 @@ namespace LWDicer.UI
             this.ObjectListView = new System.Windows.Forms.ListView();
             this.pnlCanvas = new System.Windows.Forms.Panel();
             this.tmrView = new System.Windows.Forms.Timer(this.components);
+            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.ribbonControl = new Syncfusion.Windows.Forms.Tools.RibbonControlAdv();
             this.toolTabDraw = new Syncfusion.Windows.Forms.Tools.ToolStripTabItem();
             this.toolDraw = new Syncfusion.Windows.Forms.Tools.ToolStripEx();
@@ -142,22 +144,28 @@ namespace LWDicer.UI
             this.toolStripSaveBmp = new Syncfusion.Windows.Forms.Tools.ToolStripEx();
             this.toolBtnSaveBmp = new System.Windows.Forms.ToolStripButton();
             this.toolBtnSaveLse = new System.Windows.Forms.ToolStripButton();
-            this.toolTabParameter = new Syncfusion.Windows.Forms.Tools.ToolStripTabItem();
+            this.toolBtnSaveParameter = new Syncfusion.Windows.Forms.Tools.ToolStripTabItem();
             this.toolStripParameter = new Syncfusion.Windows.Forms.Tools.ToolStripEx();
             this.toolStripPanelItem12 = new Syncfusion.Windows.Forms.Tools.ToolStripPanelItem();
             this.toolStripLabel20 = new System.Windows.Forms.ToolStripLabel();
             this.toolStripLabel21 = new System.Windows.Forms.ToolStripLabel();
             this.toolStripLabel22 = new System.Windows.Forms.ToolStripLabel();
             this.toolStripLabel23 = new System.Windows.Forms.ToolStripLabel();
-            this.toolStripTextBox9 = new System.Windows.Forms.ToolStripTextBox();
-            this.toolStripTextBox10 = new System.Windows.Forms.ToolStripTextBox();
-            this.toolStripTextBox11 = new System.Windows.Forms.ToolStripTextBox();
-            this.toolStripTextBox12 = new System.Windows.Forms.ToolStripTextBox();
-            this.toolStripButton2 = new System.Windows.Forms.ToolStripButton();
+            this.tooltxtScanFieldX = new System.Windows.Forms.ToolStripTextBox();
+            this.tooltxtScanFieldY = new System.Windows.Forms.ToolStripTextBox();
+            this.tooltxtScanResolutionX = new System.Windows.Forms.ToolStripTextBox();
+            this.tooltxtScanResolutionY = new System.Windows.Forms.ToolStripTextBox();
+            this.toolBtnParameterSave = new System.Windows.Forms.ToolStripButton();
             this.toolBtnClose = new System.Windows.Forms.ToolStripButton();
-            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.statusBottom.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
+            this.splitContainer1.Panel1.SuspendLayout();
+            this.splitContainer1.Panel2.SuspendLayout();
+            this.splitContainer1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
+            this.splitContainer2.Panel1.SuspendLayout();
+            this.splitContainer2.Panel2.SuspendLayout();
+            this.splitContainer2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).BeginInit();
             this.ribbonControl.SuspendLayout();
             this.toolTabDraw.Panel.SuspendLayout();
@@ -175,16 +183,8 @@ namespace LWDicer.UI
             this.toolStripMove.SuspendLayout();
             this.toolTabConvert.Panel.SuspendLayout();
             this.toolStripSaveBmp.SuspendLayout();
-            this.toolTabParameter.Panel.SuspendLayout();
+            this.toolBtnSaveParameter.Panel.SuspendLayout();
             this.toolStripParameter.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
-            this.splitContainer1.Panel1.SuspendLayout();
-            this.splitContainer1.Panel2.SuspendLayout();
-            this.splitContainer1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
-            this.splitContainer2.Panel1.SuspendLayout();
-            this.splitContainer2.Panel2.SuspendLayout();
-            this.splitContainer2.SuspendLayout();
             this.SuspendLayout();
             // 
             // statusBottom
@@ -245,6 +245,43 @@ namespace LWDicer.UI
             this.tmrView.Enabled = true;
             this.tmrView.Tick += new System.EventHandler(this.tmrView_Tick);
             // 
+            // splitContainer1
+            // 
+            this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer1.FixedPanel = System.Windows.Forms.FixedPanel.Panel2;
+            this.splitContainer1.Location = new System.Drawing.Point(0, 0);
+            this.splitContainer1.Name = "splitContainer1";
+            // 
+            // splitContainer1.Panel1
+            // 
+            this.splitContainer1.Panel1.Controls.Add(this.pnlCanvas);
+            // 
+            // splitContainer1.Panel2
+            // 
+            this.splitContainer1.Panel2.Controls.Add(this.ObjectListView);
+            this.splitContainer1.Size = new System.Drawing.Size(1253, 631);
+            this.splitContainer1.SplitterDistance = 1034;
+            this.splitContainer1.TabIndex = 758;
+            // 
+            // splitContainer2
+            // 
+            this.splitContainer2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer2.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
+            this.splitContainer2.Location = new System.Drawing.Point(0, 0);
+            this.splitContainer2.Name = "splitContainer2";
+            this.splitContainer2.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            // 
+            // splitContainer2.Panel1
+            // 
+            this.splitContainer2.Panel1.Controls.Add(this.ribbonControl);
+            // 
+            // splitContainer2.Panel2
+            // 
+            this.splitContainer2.Panel2.Controls.Add(this.splitContainer1);
+            this.splitContainer2.Size = new System.Drawing.Size(1253, 823);
+            this.splitContainer2.SplitterDistance = 188;
+            this.splitContainer2.TabIndex = 759;
+            // 
             // ribbonControl
             // 
             this.ribbonControl.AutoSize = true;
@@ -252,7 +289,7 @@ namespace LWDicer.UI
             this.ribbonControl.Header.AddMainItem(toolTabDraw);
             this.ribbonControl.Header.AddMainItem(toolTabProperty);
             this.ribbonControl.Header.AddMainItem(toolTabConvert);
-            this.ribbonControl.Header.AddMainItem(toolTabParameter);
+            this.ribbonControl.Header.AddMainItem(toolBtnSaveParameter);
             this.ribbonControl.Location = new System.Drawing.Point(0, 0);
             this.ribbonControl.MenuButtonImage = ((System.Drawing.Image)(resources.GetObject("ribbonControl.MenuButtonImage")));
             this.ribbonControl.MenuButtonWidth = 50;
@@ -1348,7 +1385,7 @@ namespace LWDicer.UI
             this.toolBtnSaveLse});
             this.toolStripSaveBmp.Location = new System.Drawing.Point(0, 1);
             this.toolStripSaveBmp.Name = "toolStripSaveBmp";
-            this.toolStripSaveBmp.Size = new System.Drawing.Size(416, 0);
+            this.toolStripSaveBmp.Size = new System.Drawing.Size(416, 127);
             this.toolStripSaveBmp.TabIndex = 4;
             this.toolStripSaveBmp.Text = "Convert";
             // 
@@ -1378,21 +1415,21 @@ namespace LWDicer.UI
             this.toolBtnSaveLse.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.toolBtnSaveLse.Click += new System.EventHandler(this.toolBtnSaveLse_Click);
             // 
-            // toolTabParameter
+            // toolBtnSaveParameter
             // 
-            this.toolTabParameter.Name = "toolTabParameter";
+            this.toolBtnSaveParameter.Name = "toolBtnSaveParameter";
             // 
             // ribbonControl.ribbonPanel4
             // 
-            this.toolTabParameter.Panel.Controls.Add(this.toolStripParameter);
-            this.toolTabParameter.Panel.Name = "ribbonPanel4";
-            this.toolTabParameter.Panel.ScrollPosition = 0;
-            this.toolTabParameter.Panel.TabIndex = 5;
-            this.toolTabParameter.Panel.Text = "Parameter";
-            this.toolTabParameter.Position = 3;
-            this.toolTabParameter.Size = new System.Drawing.Size(69, 18);
-            this.toolTabParameter.Text = "Parameter";
-            this.toolTabParameter.ToolTipText = "Draw Parameter";
+            this.toolBtnSaveParameter.Panel.Controls.Add(this.toolStripParameter);
+            this.toolBtnSaveParameter.Panel.Name = "ribbonPanel4";
+            this.toolBtnSaveParameter.Panel.ScrollPosition = 0;
+            this.toolBtnSaveParameter.Panel.TabIndex = 5;
+            this.toolBtnSaveParameter.Panel.Text = "Parameter";
+            this.toolBtnSaveParameter.Position = 3;
+            this.toolBtnSaveParameter.Size = new System.Drawing.Size(69, 18);
+            this.toolBtnSaveParameter.Text = "Parameter";
+            this.toolBtnSaveParameter.ToolTipText = "Draw Parameter";
             // 
             // toolStripParameter
             // 
@@ -1400,10 +1437,10 @@ namespace LWDicer.UI
             this.toolStripParameter.Image = null;
             this.toolStripParameter.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripPanelItem12,
-            this.toolStripButton2});
+            this.toolBtnParameterSave});
             this.toolStripParameter.Location = new System.Drawing.Point(0, 1);
             this.toolStripParameter.Name = "toolStripParameter";
-            this.toolStripParameter.Size = new System.Drawing.Size(219, 0);
+            this.toolStripParameter.Size = new System.Drawing.Size(219, 127);
             this.toolStripParameter.TabIndex = 9;
             this.toolStripParameter.Text = "Scan Field";
             // 
@@ -1417,10 +1454,10 @@ namespace LWDicer.UI
             this.toolStripLabel21,
             this.toolStripLabel22,
             this.toolStripLabel23,
-            this.toolStripTextBox9,
-            this.toolStripTextBox10,
-            this.toolStripTextBox11,
-            this.toolStripTextBox12});
+            this.tooltxtScanFieldX,
+            this.tooltxtScanFieldY,
+            this.tooltxtScanResolutionX,
+            this.tooltxtScanResolutionY});
             this.toolStripPanelItem12.Name = "toolStripPanelItem12";
             this.toolStripPanelItem12.RowCount = 4;
             this.toolStripPanelItem12.Size = new System.Drawing.Size(151, 100);
@@ -1451,49 +1488,50 @@ namespace LWDicer.UI
             this.toolStripLabel23.Size = new System.Drawing.Size(78, 15);
             this.toolStripLabel23.Text = "                Y";
             // 
-            // toolStripTextBox9
+            // tooltxtScanFieldX
             // 
-            this.toolStripTextBox9.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.toolStripTextBox9.Name = "toolStripTextBox9";
-            this.toolStripTextBox9.Size = new System.Drawing.Size(70, 23);
-            this.toolStripTextBox9.Text = "1";
-            this.toolStripTextBox9.TextBoxTextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.tooltxtScanFieldX.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.tooltxtScanFieldX.Name = "tooltxtScanFieldX";
+            this.tooltxtScanFieldX.Size = new System.Drawing.Size(70, 23);
+            this.tooltxtScanFieldX.Text = "1";
+            this.tooltxtScanFieldX.TextBoxTextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
-            // toolStripTextBox10
+            // tooltxtScanFieldY
             // 
-            this.toolStripTextBox10.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.toolStripTextBox10.Name = "toolStripTextBox10";
-            this.toolStripTextBox10.Size = new System.Drawing.Size(70, 23);
-            this.toolStripTextBox10.Text = "1";
-            this.toolStripTextBox10.TextBoxTextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.tooltxtScanFieldY.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.tooltxtScanFieldY.Name = "tooltxtScanFieldY";
+            this.tooltxtScanFieldY.Size = new System.Drawing.Size(70, 23);
+            this.tooltxtScanFieldY.Text = "1";
+            this.tooltxtScanFieldY.TextBoxTextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
-            // toolStripTextBox11
+            // tooltxtScanResolutionX
             // 
-            this.toolStripTextBox11.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.toolStripTextBox11.Name = "toolStripTextBox11";
-            this.toolStripTextBox11.Size = new System.Drawing.Size(70, 23);
-            this.toolStripTextBox11.Text = "1";
-            this.toolStripTextBox11.TextBoxTextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.tooltxtScanResolutionX.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.tooltxtScanResolutionX.Name = "tooltxtScanResolutionX";
+            this.tooltxtScanResolutionX.Size = new System.Drawing.Size(70, 23);
+            this.tooltxtScanResolutionX.Text = "1";
+            this.tooltxtScanResolutionX.TextBoxTextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
-            // toolStripTextBox12
+            // tooltxtScanResolutionY
             // 
-            this.toolStripTextBox12.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.toolStripTextBox12.Name = "toolStripTextBox12";
-            this.toolStripTextBox12.Size = new System.Drawing.Size(70, 23);
-            this.toolStripTextBox12.Text = "1";
-            this.toolStripTextBox12.TextBoxTextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.tooltxtScanResolutionY.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.tooltxtScanResolutionY.Name = "tooltxtScanResolutionY";
+            this.tooltxtScanResolutionY.Size = new System.Drawing.Size(70, 23);
+            this.tooltxtScanResolutionY.Text = "1";
+            this.tooltxtScanResolutionY.TextBoxTextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
-            // toolStripButton2
+            // toolBtnParameterSave
             // 
-            this.toolStripButton2.AutoSize = false;
-            this.toolStripButton2.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton2.Image")));
-            this.toolStripButton2.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-            this.toolStripButton2.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton2.Name = "toolStripButton2";
-            this.toolStripButton2.Size = new System.Drawing.Size(50, 107);
-            this.toolStripButton2.Text = "Change";
-            this.toolStripButton2.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.toolStripButton2.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.toolBtnParameterSave.AutoSize = false;
+            this.toolBtnParameterSave.Image = global::LWDicer.Properties.Resources.저장;
+            this.toolBtnParameterSave.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.toolBtnParameterSave.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolBtnParameterSave.Name = "toolBtnParameterSave";
+            this.toolBtnParameterSave.Size = new System.Drawing.Size(50, 107);
+            this.toolBtnParameterSave.Text = "Save";
+            this.toolBtnParameterSave.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.toolBtnParameterSave.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.toolBtnParameterSave.Click += new System.EventHandler(this.toolBtnParameterSave_Click);
             // 
             // toolBtnClose
             // 
@@ -1507,43 +1545,6 @@ namespace LWDicer.UI
             this.toolBtnClose.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.toolBtnClose.ToolTipText = "Close";
             this.toolBtnClose.Click += new System.EventHandler(this.toolBtnClose_Click);
-            // 
-            // splitContainer1
-            // 
-            this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer1.FixedPanel = System.Windows.Forms.FixedPanel.Panel2;
-            this.splitContainer1.Location = new System.Drawing.Point(0, 0);
-            this.splitContainer1.Name = "splitContainer1";
-            // 
-            // splitContainer1.Panel1
-            // 
-            this.splitContainer1.Panel1.Controls.Add(this.pnlCanvas);
-            // 
-            // splitContainer1.Panel2
-            // 
-            this.splitContainer1.Panel2.Controls.Add(this.ObjectListView);
-            this.splitContainer1.Size = new System.Drawing.Size(1253, 631);
-            this.splitContainer1.SplitterDistance = 1034;
-            this.splitContainer1.TabIndex = 758;
-            // 
-            // splitContainer2
-            // 
-            this.splitContainer2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer2.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
-            this.splitContainer2.Location = new System.Drawing.Point(0, 0);
-            this.splitContainer2.Name = "splitContainer2";
-            this.splitContainer2.Orientation = System.Windows.Forms.Orientation.Horizontal;
-            // 
-            // splitContainer2.Panel1
-            // 
-            this.splitContainer2.Panel1.Controls.Add(this.ribbonControl);
-            // 
-            // splitContainer2.Panel2
-            // 
-            this.splitContainer2.Panel2.Controls.Add(this.splitContainer1);
-            this.splitContainer2.Size = new System.Drawing.Size(1253, 823);
-            this.splitContainer2.SplitterDistance = 188;
-            this.splitContainer2.TabIndex = 759;
             // 
             // FormScanWindow
             // 
@@ -1562,6 +1563,15 @@ namespace LWDicer.UI
             this.Resize += new System.EventHandler(this.CWindowForm_Resize);
             this.statusBottom.ResumeLayout(false);
             this.statusBottom.PerformLayout();
+            this.splitContainer1.Panel1.ResumeLayout(false);
+            this.splitContainer1.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
+            this.splitContainer1.ResumeLayout(false);
+            this.splitContainer2.Panel1.ResumeLayout(false);
+            this.splitContainer2.Panel1.PerformLayout();
+            this.splitContainer2.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
+            this.splitContainer2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).EndInit();
             this.ribbonControl.ResumeLayout(false);
             this.ribbonControl.PerformLayout();
@@ -1595,19 +1605,10 @@ namespace LWDicer.UI
             this.toolTabConvert.Panel.PerformLayout();
             this.toolStripSaveBmp.ResumeLayout(false);
             this.toolStripSaveBmp.PerformLayout();
-            this.toolTabParameter.Panel.ResumeLayout(false);
-            this.toolTabParameter.Panel.PerformLayout();
+            this.toolBtnSaveParameter.Panel.ResumeLayout(false);
+            this.toolBtnSaveParameter.Panel.PerformLayout();
             this.toolStripParameter.ResumeLayout(false);
             this.toolStripParameter.PerformLayout();
-            this.splitContainer1.Panel1.ResumeLayout(false);
-            this.splitContainer1.Panel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
-            this.splitContainer1.ResumeLayout(false);
-            this.splitContainer2.Panel1.ResumeLayout(false);
-            this.splitContainer2.Panel1.PerformLayout();
-            this.splitContainer2.Panel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
-            this.splitContainer2.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1675,7 +1676,7 @@ namespace LWDicer.UI
         private Syncfusion.Windows.Forms.Tools.ToolStripPanelItem toolStripPanelItem8;
         private System.Windows.Forms.ToolStripButton toolBtnRotateCCW;
         private System.Windows.Forms.ToolStripButton toolBtnRotateCW;
-        private Syncfusion.Windows.Forms.Tools.ToolStripTabItem toolTabParameter;
+        private Syncfusion.Windows.Forms.Tools.ToolStripTabItem toolBtnSaveParameter;
         private Syncfusion.Windows.Forms.Tools.ToolStripEx toolDraw;
         private Syncfusion.Windows.Forms.Tools.ToolStripPanelItem toolPnlDraw;
         private System.Windows.Forms.ToolStripButton toolBtnDot;
@@ -1734,10 +1735,10 @@ namespace LWDicer.UI
         private System.Windows.Forms.ToolStripLabel toolStripLabel21;
         private System.Windows.Forms.ToolStripLabel toolStripLabel22;
         private System.Windows.Forms.ToolStripLabel toolStripLabel23;
-        private System.Windows.Forms.ToolStripTextBox toolStripTextBox9;
-        private System.Windows.Forms.ToolStripTextBox toolStripTextBox10;
-        private System.Windows.Forms.ToolStripTextBox toolStripTextBox11;
-        private System.Windows.Forms.ToolStripTextBox toolStripTextBox12;
-        private System.Windows.Forms.ToolStripButton toolStripButton2;
+        private System.Windows.Forms.ToolStripTextBox tooltxtScanFieldX;
+        private System.Windows.Forms.ToolStripTextBox tooltxtScanFieldY;
+        private System.Windows.Forms.ToolStripTextBox tooltxtScanResolutionX;
+        private System.Windows.Forms.ToolStripTextBox tooltxtScanResolutionY;
+        private System.Windows.Forms.ToolStripButton toolBtnParameterSave;
     }
 }
