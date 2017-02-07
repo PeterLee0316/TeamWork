@@ -882,12 +882,15 @@ CSpinStep class -> CCleaningStep / CCoatingStep class 로 분리
 	  (혹 Hole문제가 발생 여부를 추가 확인이 필요함)
 	- Ellipse의 객체를 Bmp 제작시 속도를 위해 이전값과 비교해서 pixel를 씀
 
-	// Grade : ★★
-// Date : 2017-01/25~26
+// Grade : ★★
+// Date : 2017-01/25~02/07
 // Context
  CWindowSelector 클랙스 제작
 	- 클릭하거나 마우스 드래그로 객체를 선택하는 기능
 	- 클릭으로 Dot, Line, Rectagle, Ellipse, Circle 기능 구현 (단 Group의 경우 추가 기능 요)
+	- Drag로 Rectagle 안에 있는 객체를 Dot,Line, Rectagle. Ellipse, Circle 선택 기능 추가
+	- Ctrl Key을 사용하여 추가 선택 기능 추가
+	- (단 Group의 경우와 Arc 추가 기능 요)
 
 
 

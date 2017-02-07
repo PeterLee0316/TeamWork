@@ -18,30 +18,34 @@ namespace LWDicer.Layers
         public int GetObjectCloseToPoint(List<CMarkingObject> objectList, Point referencePoint, int distance=2)
         {
             Point[] pointObject = new Point[2];
-            for (int i = 0; i < 2; i++) pointObject[i] = new Point();
+            for (int i = 0; i < pointObject.Count(); i++) pointObject[i] = new Point();
+
+            int nCount = 0;            
 
             foreach (CMarkingObject pObject in objectList)
             {
-                // Select 초기화
-                pObject.IsSelectedObject = false;
+                nCount++;
+                
                 // Start, End 위치 읽기
                 pointObject[0] = AbsFieldToPixel(pObject.ptObjectStartPos);
                 pointObject[1] = AbsFieldToPixel(pObject.ptObjectEndPos);
-
+                
                 // Point가 Object의 반경 내에 있는지를 확인함.
                 if (CheckPointInsideBound(pointObject[0], pointObject[1], referencePoint) == false) continue;
 
                 // Object 확인
-                CheckObjectCloseToPoint(pObject, referencePoint, distance);
+                if (CheckObjectCloseToPoint(pObject, referencePoint, distance)) 
+                    m_FormScanner.SelectObjectListView(nCount-1);
+                
             }
 
             return SUCCESS;
         }
 
-        private void CheckObjectCloseToPoint(CMarkingObject pObject, Point referencePoint, int distance)
+        private bool CheckObjectCloseToPoint(CMarkingObject pObject, Point referencePoint, int distance)
         {
             Point[] pointObject = new Point[4];
-            for (int i = 0; i < 4; i++) pointObject[i] = new Point();
+            for (int i = 0; i < pointObject.Count(); i++) pointObject[i] = new Point();
 
             // Start, End 위치 읽기
             pointObject[0] = AbsFieldToPixel(pObject.ptObjectStartPos);
@@ -57,10 +61,10 @@ namespace LWDicer.Layers
                     break;
                 case (EObjectType.RECTANGLE):
                     CalsObjectCornerPoint(pObject, ref pointObject);
-                    if (CheckPointWithLine(pointObject[0], pointObject[1], referencePoint)) pObject.IsSelectedObject = true;
-                    if (CheckPointWithLine(pointObject[1], pointObject[2], referencePoint)) pObject.IsSelectedObject = true;
-                    if (CheckPointWithLine(pointObject[2], pointObject[3], referencePoint)) pObject.IsSelectedObject = true;
-                    if (CheckPointWithLine(pointObject[3], pointObject[0], referencePoint)) pObject.IsSelectedObject = true;
+                    if (CheckPointWithLine(pointObject[0], pointObject[1], referencePoint)) { pObject.IsSelectedObject = true; break; }
+                    if (CheckPointWithLine(pointObject[1], pointObject[2], referencePoint)) { pObject.IsSelectedObject = true; break; }
+                    if (CheckPointWithLine(pointObject[2], pointObject[3], referencePoint)) { pObject.IsSelectedObject = true; break; }
+                    if (CheckPointWithLine(pointObject[3], pointObject[0], referencePoint)) { pObject.IsSelectedObject = true; break; }
                     break;
                 case (EObjectType.CIRCLE):
                     if (CheckPointWithCircle(pointObject[0], pointObject[1], referencePoint)) pObject.IsSelectedObject = true;
@@ -88,20 +92,28 @@ namespace LWDicer.Layers
                 default:
                     break;
             }
+            // 상태를 리턴한다.
+            return pObject.IsSelectedObject;
+
         }
 
         public int GetObjectInRectangle(List<CMarkingObject> objectList, Rectangle referenceRect)
         {
             Point pointObject = new Point();
+            Rectangle rectObject = new Rectangle();
+            int nCount = 0;
+
             foreach (CMarkingObject pObject in objectList)
             {
-                pObject.IsSelectedObject = false;
-
                 switch (pObject.ObjectType)
                 {
                     case (EObjectType.DOT):
                         pointObject = AbsFieldToPixel(pObject.ptObjectStartPos);
-                        if (CheckPointInsideRectagle(pointObject, referenceRect)) pObject.IsSelectedObject = true;
+                        if (CheckPointInsideRectagle(pointObject, referenceRect))
+                        {
+                            pObject.IsSelectedObject = true;
+                            m_FormScanner.SelectObjectListView(nCount);
+                        }
                         break;
                     case (EObjectType.LINE):
                         pointObject = AbsFieldToPixel(pObject.ptObjectStartPos);
@@ -109,21 +121,60 @@ namespace LWDicer.Layers
                         {
                             pointObject = AbsFieldToPixel(pObject.ptObjectEndPos);
                             if (CheckPointInsideRectagle(pointObject, referenceRect))
+                            {
                                 pObject.IsSelectedObject = true;
+                                m_FormScanner.SelectObjectListView(nCount);
+                            }
                         }
                         break;
                     case (EObjectType.RECTANGLE):
+                        pointObject = AbsFieldToPixel(pObject.ptObjectStartPos);
+                        rectObject.X = pointObject.X;
+                        rectObject.Y = pointObject.Y;
+                        rectObject.Width  = AbsFieldToPixelX(pObject.ObjectWidth);
+                        rectObject.Height = AbsFieldToPixelY(pObject.ObjectHeight);
+
+                        if (CheckRectInsideRetagle(rectObject, referenceRect, pObject.ObjectRotateAngle))
+                        {
+                            pObject.IsSelectedObject = true;
+                            m_FormScanner.SelectObjectListView(nCount);
+                        }
                         break;
                     case (EObjectType.CIRCLE):
+                        pointObject = AbsFieldToPixel(pObject.ptObjectStartPos);
+                        rectObject.X = pointObject.X;
+                        rectObject.Y = pointObject.Y;
+                        rectObject.Width = AbsFieldToPixelX(pObject.ObjectWidth);
+                        rectObject.Height = AbsFieldToPixelY(pObject.ObjectHeight);
+
+                        if (CheckRectInsideRetagle(rectObject, referenceRect))
+                        {
+                            pObject.IsSelectedObject = true;
+                            m_FormScanner.SelectObjectListView(nCount);
+                        }
                         break;
                     case (EObjectType.ELLIPSE):
+                        pointObject = AbsFieldToPixel(pObject.ptObjectStartPos);
+                        rectObject.X = pointObject.X;
+                        rectObject.Y = pointObject.Y;
+                        rectObject.Width = AbsFieldToPixelX(pObject.ObjectWidth);
+                        rectObject.Height = AbsFieldToPixelY(pObject.ObjectHeight);
+
+                        if (CheckEllipseInsideRectagle(rectObject, referenceRect, pObject.ObjectRotateAngle))
+                        {
+                            pObject.IsSelectedObject = true;
+                            m_FormScanner.SelectObjectListView(nCount);
+                        }
                         break;
                     case (EObjectType.GROUP):
                         break;
+
                     default:
 
                         break;
                 }
+
+                nCount++;
             }
                        
 
@@ -132,6 +183,8 @@ namespace LWDicer.Layers
 
         public int GetObjectPartiallyInRectangle(List<CMarkingObject> objectList, Rectangle referenceRect)
         {
+            int nCount = 0;
+
             foreach (CMarkingObject pObject in objectList)
             {
                 pObject.IsSelectedObject = false;
@@ -141,18 +194,26 @@ namespace LWDicer.Layers
                     case (EObjectType.DOT):
                         Point pointObject = new Point();
                         pointObject = AbsFieldToPixel(pObject.ptObjectStartPos);
-                        if (CheckPointInsideRectagle(pointObject, referenceRect)) pObject.IsSelectedObject = true;
-                        break;
+                        if (CheckPointInsideRectagle(pointObject, referenceRect))
+                        {
+                            pObject.IsSelectedObject = true;
+                            m_FormScanner.SelectObjectListView(nCount);
+                        }
+                            break;
                     case (EObjectType.LINE):
                         pointObject = AbsFieldToPixel(pObject.ptObjectStartPos);
                         if (CheckPointInsideRectagle(pointObject, referenceRect))
                         {                            
                             pObject.IsSelectedObject = true;
+                            m_FormScanner.SelectObjectListView(nCount);
+                            break;
                         }
                         pointObject = AbsFieldToPixel(pObject.ptObjectEndPos);
                         if (CheckPointInsideRectagle(pointObject, referenceRect))
                         {
                             pObject.IsSelectedObject = true;
+                            m_FormScanner.SelectObjectListView(nCount);
+                            break;
                         }
                         break;
                     case (EObjectType.RECTANGLE):
@@ -167,6 +228,8 @@ namespace LWDicer.Layers
 
                         break;
                 }
+
+                nCount++;
             }
 
             return SUCCESS;
@@ -248,12 +311,106 @@ namespace LWDicer.Layers
             else return false;
         }
 
-        private bool CheckPointInsideRectagle(Point ptPos, Rectangle rectSize)
+        private bool CheckPointInsideRectagle(Point ptPos, Rectangle objectRect)
         {
-            bool checkAxisX = ptPos.X > rectSize.X && ptPos.X < (rectSize.X + rectSize.Width);
-            bool checkAxisY = ptPos.Y > rectSize.Y && ptPos.Y < (rectSize.Y + rectSize.Height);
+            bool checkAxisX = ptPos.X > objectRect.X && ptPos.X < (objectRect.X + objectRect.Width);
+            bool checkAxisY = ptPos.Y > objectRect.Y && ptPos.Y < (objectRect.Y + objectRect.Height);
 
             return checkAxisX & checkAxisY;
+        }
+
+        private bool CheckRectInsideRetagle(Rectangle objectRect,Rectangle roiRect, double pAngle=0.0)
+        {
+            bool checkStartPos;
+            bool checkEndPos;
+            if (pAngle == 0.0)
+            {
+                checkStartPos = (objectRect.X > roiRect.X && objectRect.Y > roiRect.Y);
+
+                checkEndPos   = (objectRect.X + objectRect.Width)  < (roiRect.X + roiRect.Width) &&
+                                (objectRect.Y + objectRect.Height) < (roiRect.Y + roiRect.Height);
+
+                return checkStartPos & checkEndPos;
+            }
+            else
+            {
+                Point[] pointObject = new Point[4];
+                for (int i = 0; i < pointObject.Count(); i++) pointObject[i] = new Point();
+
+                // 중심을 구함.
+                Point pointCenter = new Point();
+                pointCenter.X = objectRect.X + objectRect.Width / 2;
+                pointCenter.Y = objectRect.Y + objectRect.Height / 2;
+
+                // Rectagle의 각 코너의 위치 확인
+                pointObject[0].X = objectRect.X;
+                pointObject[0].Y = objectRect.Y;
+                pointObject[1].X = objectRect.X + objectRect.Width;
+                pointObject[1].Y = objectRect.Y;
+                pointObject[2].X = objectRect.X + objectRect.Width;
+                pointObject[2].Y = objectRect.Y + objectRect.Height;
+                pointObject[3].X = objectRect.X;
+                pointObject[3].Y = objectRect.Y + objectRect.Height;
+
+                for (int i = 0; i < pointObject.Count(); i++)
+                {
+                    // 코너를 회전 변환
+                    pointObject[i] = RotateCoordinate(pointObject[i], pointCenter, pAngle);
+
+                    // 회전된 코너가 Roi 밖에 있으면 False
+                    if (CheckPointInsideRectagle(pointObject[i], roiRect) == false) return false;
+                }
+            }
+
+            return true;
+        }
+
+        private bool CheckEllipseInsideRectagle(Rectangle objectRect, Rectangle roiRect, double pAngle = 0.0)
+        {
+            bool checkStartPos;
+            bool checkEndPos;
+
+            if (pAngle == 0.0)
+            {
+                checkStartPos = (objectRect.X > roiRect.X && objectRect.Y > roiRect.Y);
+
+                checkEndPos = (objectRect.X + objectRect.Width) < (roiRect.X + roiRect.Width) &&
+                                (objectRect.Y + objectRect.Height) < (roiRect.Y + roiRect.Height);
+
+                return checkStartPos & checkEndPos;
+            }
+            else
+            {
+                double ellipsA = (double)objectRect.Width / 2;
+                double ellipsB = (double)objectRect.Height / 2;
+                double rotateSin = Math.Pow( Math.Sin(Deg2Rad(pAngle)), 2);
+                double rotateCos = Math.Pow( Math.Cos(Deg2Rad(pAngle)), 2);
+                double ellipseWidth  = ellipsA * ellipsB / Math.Sqrt(ellipsB * ellipsB * rotateCos + ellipsA * ellipsA * rotateSin);
+                double ellipseHeight = ellipsA * ellipsB / Math.Sqrt(ellipsA * ellipsA * rotateCos + ellipsB * ellipsB * rotateSin);
+
+                // 중심을 구함.
+                Point pointCenter = new Point();
+                pointCenter.X = objectRect.X + objectRect.Width / 2;
+                pointCenter.Y = objectRect.Y + objectRect.Height / 2;
+
+                Point pointStart = new Point();
+                Point pointEnd = new Point();
+
+                pointStart.X = pointCenter.X - (int)ellipseWidth;
+                pointStart.Y = pointCenter.Y - (int)ellipseHeight;
+                pointEnd.X = pointCenter.X + (int)ellipseWidth;
+                pointEnd.Y = pointCenter.Y + (int)ellipseHeight;
+
+                checkStartPos = (pointStart.X > roiRect.X && pointStart.Y > roiRect.Y);
+
+                checkEndPos = (pointEnd.X) < (roiRect.X + roiRect.Width) &&
+                              (pointEnd.Y) < (roiRect.Y + roiRect.Height);
+
+                return checkStartPos & checkEndPos;
+                
+            }
+
+            return true;
         }
         private bool CheckPointWithLine(Point ptLineStart, Point ptLineEnd, Point referencePoint, int distance = 2)
         {

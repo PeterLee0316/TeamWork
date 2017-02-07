@@ -22,7 +22,7 @@ namespace LWDicer.UI
 {
     public partial class FormScanWindow : Form
     {
-        private int SelectObjectListView = -1;
+        private int SelectObjectNum = -1;
         private Size OriginFormSize = new Size(0, 0);
         public WindowCanvas DrawCanvas = new WindowCanvas();
 
@@ -66,16 +66,16 @@ namespace LWDicer.UI
         }
         public void InitailzeListView()
         {
-            this.ShapeListView.View = View.Details;
-            //this.ShapeListView
-            this.ShapeListView.GridLines = true;
-            this.ShapeListView.FullRowSelect = true;
-            this.ShapeListView.CheckBoxes = false;
+            this.ObjectListView.View = View.Details;
+            //this.ObjectListView
+            this.ObjectListView.GridLines = true;
+            this.ObjectListView.FullRowSelect = true;
+            this.ObjectListView.CheckBoxes = false;
 
-            this.ShapeListView.Columns.Add("No", 30);
-            this.ShapeListView.Columns.Add("Name", 60);
-            this.ShapeListView.Columns.Add("Use", 50);
-            this.ShapeListView.Columns.Add("Tag", 40);
+            this.ObjectListView.Columns.Add("No", 30);
+            this.ObjectListView.Columns.Add("Name", 60);
+            this.ObjectListView.Columns.Add("Use", 50);
+            this.ObjectListView.Columns.Add("Tag", 40);
 
         }
 
@@ -84,7 +84,7 @@ namespace LWDicer.UI
             if (shapes == null) return;
 
             ListViewItem item;
-            ShapeListView.BeginUpdate();
+            ObjectListView.BeginUpdate();
 
             item = new ListViewItem(CMarkingObject.CreateSortNum.ToString());
 
@@ -94,9 +94,9 @@ namespace LWDicer.UI
 
             item.SubItems.Add(shapes.ObjectSortFlag.ToString());
 
-            ShapeListView.Items.Add(item);
+            ObjectListView.Items.Add(item);
 
-            ShapeListView.EndUpdate();
+            ObjectListView.EndUpdate();
 
         }
 
@@ -218,9 +218,9 @@ namespace LWDicer.UI
                 //}
 
                 // 기존 ListView 삭제
-                foreach (ListViewItem item in ShapeListView.Items)
+                foreach (ListViewItem item in ObjectListView.Items)
                 {
-                    ShapeListView.Items.Remove(item);
+                    ObjectListView.Items.Remove(item);
                 }
 
                 // ListView에 신규 Object 추가
@@ -343,41 +343,49 @@ namespace LWDicer.UI
             //try
             //{
             int listNum = m_ScanManager.ObjectList.Count;
-            //for (int i = 0; i < ShapeListView.Items.Count-1; i++)
+            //for (int i = 0; i < ObjectListView.Items.Count-1; i++)
             for (int i = 0; i < listNum; i++)
             {
                 //if(m_ScanManager.ObjectList.Count > i)
                 m_ScanManager.ObjectList[i].IsSelectedObject = false;
             }
-
-            if (ShapeListView.Items.Count < 1)
+            // 선택된 것이 없으면 이전 Property를 Display함.
+            if (ObjectListView.Items.Count < 1)
             {
-                InsetObjectProperty(SelectObjectListView);
+                InsetObjectProperty(SelectObjectNum);
                 return;
             }
 
-            var SelectCol = ShapeListView.SelectedIndices;
+            var SelectCol = ObjectListView.SelectedIndices;
 
             for (int i = SelectCol.Count - 1; i >= 0; i--)
             {
-                SelectObjectListView = SelectCol[i];
-                m_ScanManager.ObjectList[SelectObjectListView].IsSelectedObject = true;
+                SelectObjectNum = SelectCol[i];
+                m_ScanManager.ObjectList[SelectObjectNum].IsSelectedObject = true;
             }
 
             ReDrawCanvas();
+            InsetObjectProperty(SelectObjectNum);
 
-            InsetObjectProperty(SelectObjectListView);
-            //}
-            //catch
-            //{ }
         }
 
-
-        private void ShapeListView_SelectedIndexChanged(object sender, EventArgs e)
+        public void SelectObjectListView(int nIndex)
         {
+            SelectObjectNum = nIndex;
+            ObjectListView.Select();
+            ObjectListView.Items[nIndex].Selected = true;
+            InsetObjectProperty(SelectObjectNum);
+        }
+        public void ClearObjectListView()
+        {
+            int nCount = ObjectListView.Items.Count;
+            for (int n=0; n < nCount; n++)
+            {
+                ObjectListView.Items[n].Selected = false;
+            }
         }
 
-        private void InsetObjectProperty(int nIndex)
+        public void InsetObjectProperty(int nIndex)
         {
             if (nIndex >= 0)
             {
@@ -442,9 +450,9 @@ namespace LWDicer.UI
         }
         
 
-        private void CanvasObjectMove(CPos_XY pPos, double pAngle)
+        private void CanvasObjectMove(CPos_XY pPos, double pAngle = 0.0)
         {
-            if (SelectObjectListView < 0) return;         
+            if (SelectObjectNum < 0) return;         
 
             foreach(CMarkingObject pObject in m_ScanManager.ObjectList)
             {
@@ -460,7 +468,7 @@ namespace LWDicer.UI
             }
 
             ReDrawCanvas();
-           // InsetObjectProperty(SelectObjectListView);
+           // InsetObjectProperty(SelectObjectNum);
 
         }
 
@@ -722,14 +730,14 @@ namespace LWDicer.UI
 
             try
             {
-                if (SelectObjectListView < 0) return;
-                if (m_ScanManager.ObjectList[SelectObjectListView] == null) return;
+                if (SelectObjectNum < 0) return;
+                if (m_ScanManager.ObjectList[SelectObjectNum] == null) return;
 
                 // BMP 파일은 복사를 하지 않는다.
-                if (m_ScanManager.ObjectList[SelectObjectListView].ObjectType == EObjectType.BMP) return;
+                if (m_ScanManager.ObjectList[SelectObjectNum].ObjectType == EObjectType.BMP) return;
 
-                if (SelectObjectListView < 0) return;
-                if (ShapeListView.Items.Count <= SelectObjectListView) return;
+                if (SelectObjectNum < 0) return;
+                if (ObjectListView.Items.Count <= SelectObjectNum) return;
 
                 if (arrayNumX <= 0 || arrayNumY <= 0) return;
             }
@@ -743,7 +751,7 @@ namespace LWDicer.UI
             CPos_XY posCenter = new CPos_XY();
             CPos_XY posMove = new CPos_XY();
 
-            CMarkingObject pObject = ObjectExtensions.Copy(m_ScanManager.ObjectList[SelectObjectListView]);
+            CMarkingObject pObject = ObjectExtensions.Copy(m_ScanManager.ObjectList[SelectObjectNum]);
 
             // 초기 X,Y Axis 값을 초기화 한다.
             posCenter = pObject.ptObjectCenterPos.Copy();
@@ -793,11 +801,11 @@ namespace LWDicer.UI
             m_FormScanner.AddObjectList(m_ScanManager.GetLastObject());
 
             // 복사된 Object 삭제
-            foreach (ListViewItem item in ShapeListView.SelectedItems)
+            foreach (ListViewItem item in ObjectListView.SelectedItems)
             {
                 int nIndex = item.Index;
                 m_ScanManager.DeleteObject(nIndex);
-                ShapeListView.Items.Remove(item);
+                ObjectListView.Items.Remove(item);
             }
 
             ReDrawCanvas();
@@ -807,15 +815,15 @@ namespace LWDicer.UI
         {
             if (!CMainFrame.InquireMsg("Grouping Object ?")) return;
 
-            if (ShapeListView.Items.Count < 1) return;
+            if (ObjectListView.Items.Count < 1) return;
 
             // Select 개수로 Array를 생성함.
-            int itemNum = ShapeListView.SelectedItems.Count;
+            int itemNum = ObjectListView.SelectedItems.Count;
             CMarkingObject[] pGroup = new CMarkingObject[itemNum];
 
             int groupCount = 0;
             // 선택된 객체만 Group에 삽입함.
-            foreach (ListViewItem item in ShapeListView.SelectedItems)
+            foreach (ListViewItem item in ObjectListView.SelectedItems)
             {
                 int nIndex = item.Index;
                 m_ScanManager.ObjectList[nIndex].IsSelectedObject = false;
@@ -839,12 +847,12 @@ namespace LWDicer.UI
         {
             if (!CMainFrame.InquireMsg("Ungrouping Object ?")) return;
 
-            if (ShapeListView.Items.Count < 1) return;
+            if (ObjectListView.Items.Count < 1) return;
 
             CMarkingObject[] pGroup = new CMarkingObject[3];
 
             int groupCount = 0;
-            foreach (ListViewItem item in ShapeListView.SelectedItems)
+            foreach (ListViewItem item in ObjectListView.SelectedItems)
             {
                 int nIndex = item.Index;
 
@@ -863,7 +871,7 @@ namespace LWDicer.UI
                 }
 
                 m_ScanManager.DeleteObject(nIndex);
-                ShapeListView.Items.Remove(item);
+                ObjectListView.Items.Remove(item);
                 groupCount = 0;
             }
 
@@ -879,11 +887,11 @@ namespace LWDicer.UI
 
         private void DeleteObject()
         {
-            foreach (ListViewItem item in ShapeListView.SelectedItems)
+            foreach (ListViewItem item in ObjectListView.SelectedItems)
             {
                 int nIndex = item.Index;
                 m_ScanManager.DeleteObject(nIndex);
-                ShapeListView.Items.Remove(item);
+                ObjectListView.Items.Remove(item);
             }
 
             //int count = m_ScanManager.ObjectList.Count;
@@ -904,9 +912,9 @@ namespace LWDicer.UI
             m_ScanManager.DeleteAllObject();
 
             // ListView에서 삭제
-            foreach (ListViewItem item in ShapeListView.Items)
+            foreach (ListViewItem item in ObjectListView.Items)
             {
-                ShapeListView.Items.Remove(item);
+                ObjectListView.Items.Remove(item);
             }
 
             ReDrawCanvas();
@@ -916,16 +924,12 @@ namespace LWDicer.UI
         private void toolBtnMoveU_Click(object sender, EventArgs e)
         {
             CPos_XY objectMovePos = new CPos_XY();
-            double objectMoveAngle = 0.0;
-
             try
             {
                 objectMovePos.dY = -Convert.ToDouble(tooltxtDistance.Text);
-
                 // Object Move Call
-                CanvasObjectMove(objectMovePos, objectMoveAngle);
-
-                InsetObjectProperty(SelectObjectListView);
+                CanvasObjectMove(objectMovePos);
+                InsetObjectProperty(SelectObjectNum);
             }
             catch
             {
@@ -936,16 +940,13 @@ namespace LWDicer.UI
         private void toolBtnMoveD_Click(object sender, EventArgs e)
         {
             CPos_XY objectMovePos = new CPos_XY();
-            double objectMoveAngle = 0.0;
 
             try
             {
                 objectMovePos.dY = Convert.ToDouble(tooltxtDistance.Text);
-
                 // Object Move Call
-                CanvasObjectMove(objectMovePos, objectMoveAngle);
-
-                InsetObjectProperty(SelectObjectListView);
+                CanvasObjectMove(objectMovePos);
+                InsetObjectProperty(SelectObjectNum);
             }
             catch
             {
@@ -956,16 +957,12 @@ namespace LWDicer.UI
         private void toolBtnMoveL_Click(object sender, EventArgs e)
         {
             CPos_XY objectMovePos = new CPos_XY();
-            double objectMoveAngle = 0.0;
-
             try
             {
                 objectMovePos.dX = -Convert.ToDouble(tooltxtDistance.Text);
-
                 // Object Move Call
-                CanvasObjectMove(objectMovePos, objectMoveAngle);
-
-                InsetObjectProperty(SelectObjectListView);
+                CanvasObjectMove(objectMovePos);
+                InsetObjectProperty(SelectObjectNum);
             }
             catch
             {
@@ -976,17 +973,13 @@ namespace LWDicer.UI
         private void toolBtnMoveR_Click(object sender, EventArgs e)
         {
             CPos_XY objectMovePos = new CPos_XY();
-            double objectMoveAngle = 0.0;
 
             try
             {
                 objectMovePos.dX = Convert.ToDouble(tooltxtDistance.Text);
-
                 // Object Move Call
-                CanvasObjectMove(objectMovePos, objectMoveAngle);
-                
-                InsetObjectProperty(SelectObjectListView);                    
-                
+                CanvasObjectMove(objectMovePos);                
+                InsetObjectProperty(SelectObjectNum);    
             }
             catch
             {
@@ -1002,10 +995,10 @@ namespace LWDicer.UI
 
         private void toolBtnRotateCCW_Click(object sender, EventArgs e)
         {
-            if (SelectObjectListView < 0) return;
+            if (SelectObjectNum < 0) return;
 
-            if(m_ScanManager.ObjectList[SelectObjectListView].ObjectType == EObjectType.DOT ||
-               m_ScanManager.ObjectList[SelectObjectListView].ObjectType == EObjectType.CIRCLE)
+            if(m_ScanManager.ObjectList[SelectObjectNum].ObjectType == EObjectType.DOT ||
+               m_ScanManager.ObjectList[SelectObjectNum].ObjectType == EObjectType.CIRCLE)
             {
                 return;
             }
@@ -1013,24 +1006,24 @@ namespace LWDicer.UI
             double currentAngle = Convert.ToDouble(tooltxtCurrentAngle.Text);
             currentAngle -= Convert.ToDouble(tooltxtRotateAngle.Text);
 
-            double widthObject = m_ScanManager.ObjectList[SelectObjectListView].ObjectWidth;
-            double widthHeight = m_ScanManager.ObjectList[SelectObjectListView].ObjectHeight;
+            double widthObject = m_ScanManager.ObjectList[SelectObjectNum].ObjectWidth;
+            double widthHeight = m_ScanManager.ObjectList[SelectObjectNum].ObjectHeight;
 
             CPos_XY currentCenter = new CPos_XY();
-            currentCenter = m_ScanManager.ObjectList[SelectObjectListView].ptObjectCenterPos;
+            currentCenter = m_ScanManager.ObjectList[SelectObjectNum].ptObjectCenterPos;
             
-            m_ScanManager.ObjectList[SelectObjectListView].SetObjectProperty(currentCenter, widthObject, widthHeight, currentAngle);
+            m_ScanManager.ObjectList[SelectObjectNum].SetObjectProperty(currentCenter, widthObject, widthHeight, currentAngle);
 
-            InsetObjectProperty(SelectObjectListView);
+            InsetObjectProperty(SelectObjectNum);
             ReDrawCanvas();
         }
 
         private void toolBtnRotateCW_Click(object sender, EventArgs e)
         {
-            if (SelectObjectListView < 0) return;
+            if (SelectObjectNum < 0) return;
 
-            if (m_ScanManager.ObjectList[SelectObjectListView].ObjectType == EObjectType.DOT ||
-               m_ScanManager.ObjectList[SelectObjectListView].ObjectType == EObjectType.CIRCLE)
+            if (m_ScanManager.ObjectList[SelectObjectNum].ObjectType == EObjectType.DOT ||
+               m_ScanManager.ObjectList[SelectObjectNum].ObjectType == EObjectType.CIRCLE)
             {
                 return;
             }
@@ -1038,15 +1031,15 @@ namespace LWDicer.UI
             double currentAngle = Convert.ToDouble(tooltxtCurrentAngle.Text);
             currentAngle += Convert.ToDouble(tooltxtRotateAngle.Text);
 
-            double widthObject = m_ScanManager.ObjectList[SelectObjectListView].ObjectWidth;
-            double widthHeight = m_ScanManager.ObjectList[SelectObjectListView].ObjectHeight;
+            double widthObject = m_ScanManager.ObjectList[SelectObjectNum].ObjectWidth;
+            double widthHeight = m_ScanManager.ObjectList[SelectObjectNum].ObjectHeight;
 
             CPos_XY currentCenter = new CPos_XY();
-            currentCenter = m_ScanManager.ObjectList[SelectObjectListView].ptObjectCenterPos;
+            currentCenter = m_ScanManager.ObjectList[SelectObjectNum].ptObjectCenterPos;
 
-            m_ScanManager.ObjectList[SelectObjectListView].SetObjectProperty(currentCenter, widthObject, widthHeight, currentAngle);
+            m_ScanManager.ObjectList[SelectObjectNum].SetObjectProperty(currentCenter, widthObject, widthHeight, currentAngle);
 
-            InsetObjectProperty(SelectObjectListView);
+            InsetObjectProperty(SelectObjectNum);
             ReDrawCanvas();
         }
 
@@ -1055,12 +1048,12 @@ namespace LWDicer.UI
             if (!CMainFrame.InquireMsg("Change Property of Object ?")) return;
 
             //선택된 것이 없으면 실행하지 않는다.
-            if (ShapeListView.Items.Count < 1) return;
-            if (SelectObjectListView < 0) return;
-            if (ShapeListView.Items.Count <= SelectObjectListView) return;
-            if (m_ScanManager.ObjectList[SelectObjectListView] == null) return;
+            if (ObjectListView.Items.Count < 1) return;
+            if (SelectObjectNum < 0) return;
+            if (ObjectListView.Items.Count <= SelectObjectNum) return;
+            if (m_ScanManager.ObjectList[SelectObjectNum] == null) return;
             //Group 타입이면 변경을 하지 않는다
-            if (m_ScanManager.ObjectList[SelectObjectListView].ObjectType == EObjectType.GROUP) return;
+            if (m_ScanManager.ObjectList[SelectObjectNum].ObjectType == EObjectType.GROUP) return;
 
             CPos_XY centerPos = new CPos_XY();
             double widthObject,heightObject, angleObject;
@@ -1071,30 +1064,30 @@ namespace LWDicer.UI
             heightObject = Convert.ToDouble(tooltxtObjectHeight.Text);
             angleObject  = Convert.ToDouble(tooltxtCurrentAngle.Text);
 
-            m_ScanManager.ObjectList[SelectObjectListView].SetObjectProperty(centerPos, widthObject, heightObject, angleObject);
+            m_ScanManager.ObjectList[SelectObjectNum].SetObjectProperty(centerPos, widthObject, heightObject, angleObject);
 
-            InsetObjectProperty(SelectObjectListView);
+            InsetObjectProperty(SelectObjectNum);
             ReDrawCanvas();
         }
 
         private void toolBtnDimensionChange_Click(object sender, EventArgs e)
         {
             // Circle의 경우엔 Dimension 변경을 적용하지 않는다.
-            if (m_ScanManager.ObjectList[SelectObjectListView].ObjectType == EObjectType.CIRCLE)
+            if (m_ScanManager.ObjectList[SelectObjectNum].ObjectType == EObjectType.CIRCLE)
             {
-                InsetObjectProperty(SelectObjectListView);
+                InsetObjectProperty(SelectObjectNum);
                 return;
             }
 
             if (!CMainFrame.InquireMsg("Change Demension of Object ?")) return;
 
             //선택된 것이 없으면 실행하지 않는다.
-            if (ShapeListView.Items.Count < 1) return;
-            if (SelectObjectListView < 0) return;
-            if (ShapeListView.Items.Count <= SelectObjectListView) return;
-            if (m_ScanManager.ObjectList[SelectObjectListView] == null) return;
+            if (ObjectListView.Items.Count < 1) return;
+            if (SelectObjectNum < 0) return;
+            if (ObjectListView.Items.Count <= SelectObjectNum) return;
+            if (m_ScanManager.ObjectList[SelectObjectNum] == null) return;
             //Group 타입이면 변경을 하지 않는다
-            if (m_ScanManager.ObjectList[SelectObjectListView].ObjectType == EObjectType.GROUP) return;
+            if (m_ScanManager.ObjectList[SelectObjectNum].ObjectType == EObjectType.GROUP) return;
 
             CPos_XY startPos = new CPos_XY();
             CPos_XY endPos = new CPos_XY();
@@ -1104,11 +1097,12 @@ namespace LWDicer.UI
             endPos.dX = Convert.ToDouble(tooltxtEndPointX.Text);
             endPos.dY = Convert.ToDouble(tooltxtEndPointY.Text);
 
-            m_ScanManager.ObjectList[SelectObjectListView].SetObjectProperty(startPos, endPos);
-            InsetObjectProperty(SelectObjectListView);
+            m_ScanManager.ObjectList[SelectObjectNum].SetObjectProperty(startPos, endPos);
+            InsetObjectProperty(SelectObjectNum);
 
             ReDrawCanvas();
         }
+
 
 
 

@@ -46,6 +46,7 @@ namespace LWDicer.Layers
 
         public bool MouseDragZoom;
         public bool MouseDragField;
+        public bool SelectorAdd;
 
 
 

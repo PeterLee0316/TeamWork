@@ -132,7 +132,7 @@ namespace LWDicer.Layers
 
                 startPos = ptMouseStartPos;
                 endPos = ptMouseEndPos;                
-
+                // Zoom Size를 결정함.
                 zoomSize.X = startPos.X < endPos.X ? startPos.X : endPos.X;
                 zoomSize.Y = startPos.Y < endPos.Y ? startPos.Y : endPos.Y;
                 zoomSize.Width  = startPos.X > endPos.X ? (startPos.X - endPos.X) : -(startPos.X - endPos.X);
@@ -156,21 +156,36 @@ namespace LWDicer.Layers
 
                 startPos = ptMouseStartPos;
                 endPos = ptMouseEndPos;
-
+                
+                // Drag한 Rect의 크기를 설정함
                 selectSize.X = startPos.X < endPos.X ? startPos.X : endPos.X;
                 selectSize.Y = startPos.Y < endPos.Y ? startPos.Y : endPos.Y;
                 selectSize.Width = startPos.X > endPos.X ? (startPos.X - endPos.X) : -(startPos.X - endPos.X);
                 selectSize.Height = startPos.Y > endPos.Y ? (startPos.Y - endPos.Y) : -(startPos.Y - endPos.Y);
 
-                // Point Select
+                // ListView clear
+                if (m_ScanWindow.SelectorAdd == false)
+                {                    
+                    // Select 초기화
+                    m_FormScanner.ClearObjectListView();
+                    foreach (CMarkingObject pObject in m_ScanManager.ObjectList)
+                        pObject.IsSelectedObject = false;                    
+                }
+                else
+                {
+                    m_ScanWindow.SelectorAdd = false;
+                }
+
+                // Point Select Object
                 if (selectSize.Width < 3 && selectSize.Height < 3)
                     objectSelector.GetObjectCloseToPoint(m_ScanManager.ObjectList, e.Location);
-                else if(startPos.X < endPos.X && startPos.Y < endPos.Y)
+                // Rect Select Object
+                else //if(startPos.X < endPos.X && startPos.Y < endPos.Y)
                     objectSelector.GetObjectInRectangle(m_ScanManager.ObjectList, selectSize);
-                else
-                    objectSelector.GetObjectPartiallyInRectangle(m_ScanManager.ObjectList, selectSize);
-
-
+                //// Partial Rect Select Object
+                //else
+                //    objectSelector.GetObjectPartiallyInRectangle(m_ScanManager.ObjectList, selectSize);
+                
                 m_ScanWindow.SetObjectType(EObjectType.NONE);
                 Invalidate();
             }            
@@ -241,25 +256,35 @@ namespace LWDicer.Layers
                 m_ScanWindow.MouseDragZoom = true;
                 this.Cursor = Cursors.Cross;
 
-                m_ScanWindow.SetObjectType(EObjectType.NONE);
+                m_ScanWindow.SetObjectType(EObjectType.MOUSE_DRAG);
+            }
+            // Control Key ------------------------
+            if ((System.Windows.Forms.Control.ModifierKeys & Keys.Control) == Keys.Control)
+            {
+                m_ScanWindow.SelectorAdd = true;
             }
             // Esc Key ------------------------
             if (e.KeyData == Keys.Escape)
                 m_ScanWindow.SetObjectType(EObjectType.NONE);
+
+            // Arrow Key ----------------------
+            if (e.KeyData == Keys.Up) ;
+
 
         }
 
         protected override void OnKeyUp(KeyEventArgs e)
         {
             base.OnKeyUp(e);
-
-
+            
             // Shift Key ------------------------
             if (e.KeyData == Keys.ShiftKey)
             {
                 m_ScanWindow.MouseDragZoom = false;
                 this.Cursor = Cursors.Arrow;
             }
+
+            m_ScanWindow.SelectorAdd = false;
         }
 
         protected override void OnMouseWheel(MouseEventArgs e)

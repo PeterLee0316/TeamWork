@@ -224,6 +224,33 @@ namespace LWDicer.Layers
             return tempPoint;
         }
 
+        public static int AbsFieldToPixelX(double pPos)
+        {
+            int posPixel;
+            double posCals = 0;
+
+            // Zoom 값 & Calib 값을 나눔 (Flip 확인)
+            posCals = (pPos) * BaseZoomFactor * BaseCalibFactor.X * (BaseDrawFlipX ? -1.0f : 1.0f);
+            //posCals += BaseViewCorner.X;
+
+            posPixel = (int)(posCals + 0.5);
+
+            return posPixel;
+        }
+        public static int AbsFieldToPixelY(double pPos)
+        {
+            int posPixel;
+            double posCals = 0;
+
+            // Zoom 값 & Calib 값을 나눔 (Flip 확인)
+            posCals = (pPos) * BaseZoomFactor * BaseCalibFactor.Y * (BaseDrawFlipY ? -1.0f : 1.0f);
+           // posCals += BaseViewCorner.Y;
+
+            posPixel = (int)(posCals + 0.5);
+
+            return posPixel;
+        }
+
         public static Point AbsFieldToPixel(CPos_XY pPos)
         {
             Point tempPoint = new Point(0, 0);
@@ -233,16 +260,12 @@ namespace LWDicer.Layers
             // Zoom 값 & Calib 값을 나눔 (Flip 확인)
             PosX = (pPos.dX ) * BaseZoomFactor * BaseCalibFactor.X * (BaseDrawFlipX ? -1.0f : 1.0f);
             PosY = (pPos.dY ) * BaseZoomFactor * BaseCalibFactor.Y * (BaseDrawFlipX ? -1.0f : 1.0f);
-
-            //// 기준값을 보정함
-            //tempPoint.X += (int)((float)BaseViewCorner.X);/// BaseZoomFactor / BaseCalibFactor.X);
-            //tempPoint.Y += (int)((float)BaseViewCorner.Y);// / BaseZoomFactor / BaseCalibFactor.Y);
-
+            
             PosX += BaseViewCorner.X;
             PosY += BaseViewCorner.Y;
 
-            tempPoint.X += (int)(PosX+0.5);
-            tempPoint.Y += (int)(PosY+0.5);
+            tempPoint.X = (int)(PosX+0.5);
+            tempPoint.Y = (int)(PosY+0.5);
 
             return tempPoint;
         }
@@ -254,6 +277,17 @@ namespace LWDicer.Layers
 
             rotatePos.dX = Math.Cos(rotateAngle) * (pPos.dX - pCenter.dX) - Math.Sin(rotateAngle) * (pPos.dY - pCenter.dY) + pCenter.dX;
             rotatePos.dY = Math.Sin(rotateAngle) * (pPos.dX - pCenter.dX) + Math.Cos(rotateAngle) * (pPos.dY - pCenter.dY) + pCenter.dY;
+
+            return rotatePos;
+        }
+
+        public static Point RotateCoordinate(Point pPos, Point pCenter, double pAngle)
+        {
+            Point rotatePos = new Point();
+            double rotateAngle = Deg2Rad(pAngle);
+
+            rotatePos.X = (int)(Math.Cos(rotateAngle) * (double)(pPos.X - pCenter.X) - Math.Sin(rotateAngle) * (double)(pPos.Y - pCenter.Y) + (double)pCenter.X);
+            rotatePos.Y = (int)(Math.Sin(rotateAngle) * (double)(pPos.X - pCenter.X) + Math.Cos(rotateAngle) * (double)(pPos.Y - pCenter.Y) + (double)pCenter.Y);
 
             return rotatePos;
         }
