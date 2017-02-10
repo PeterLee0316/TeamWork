@@ -897,6 +897,13 @@ Scan Parameter 별도 관리
 	  (Scanner의 Resolution 파라미터를 사용하지 않음)
 
 
+// Grade : ★★
+// Date : 2017-02/8~9
+// Context
+ 동작 테스트 및 Debug
+	
+
+
 
 
 

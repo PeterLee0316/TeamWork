@@ -224,59 +224,37 @@ namespace LWDicer.Layers
 
         #region BMP File Set & Draw
 
-        public int CalsSizeBmpByte(EScannerIndex Index= EScannerIndex.SCANNER1)
+        public int CalsSizeBmpByte()
         {
-            int num = (int)Index;
-
             if (m_RefComp.DataManager.SystemData_Scan == null) return RUN_FAIL;
 
-            if (m_RefComp.DataManager.SystemData_Scan.ScanResolutionX <= 0 || 
+            // Resolution Check
+            if (m_RefComp.DataManager.SystemData_Scan.ScanResolutionX <= 0 ||
                 m_RefComp.DataManager.SystemData_Scan.ScanResolutionY <= 0)
                 return RUN_FAIL;
-
-            Point ptStart = new Point(0, 0);
-            Point ptEnd = new Point(0, 0);
-            double MaxHeight = 0.0;
-            double tempHeight = 0.0;
-            Point ptTemp = new Point(0, 0);            
-
+            // Field Size Check
+            if (m_RefComp.DataManager.SystemData_Scan.ScanFieldWidth <= 0 ||
+                m_RefComp.DataManager.SystemData_Scan.ScanFieldHeight <= 0)
+                return RUN_FAIL;
             // 객체 수량 확인
             int iObjectCount = m_ScanManager.ObjectList.Count;
             if (iObjectCount < 1) return SHAPE_LIST_DISABLE;
 
-            // 각 객체를 확인해서.. Bmp의 높이를 측정함.
-            for (int i = 0; i < iObjectCount; i++)
-            {
-                tempHeight = m_ScanManager.ObjectList[i].ptObjectStartPos.dY;
-                if (tempHeight > MaxHeight) MaxHeight = tempHeight;
-
-                tempHeight = m_ScanManager.ObjectList[i].ptObjectEndPos.dY;
-                if (tempHeight > MaxHeight) MaxHeight = tempHeight;
-            }
-
-            // 가로 세로 크기를 Pixel 단위로 변환
-            ptEnd.X = (int)(BMT_SCAN_WIDTH / (m_RefComp.DataManager.SystemData_Scan.ScanResolutionX) + 0.5);
-            ptEnd.Y = (int)(MaxHeight / (m_RefComp.DataManager.SystemData_Scan.ScanResolutionY) + 0.5);
-
             // Bmp의 가로 세로 크기 설정
-            BmpImageWidth = ptEnd.X;
-            BmpImageHeight = ptEnd.Y + 1;
+            BmpImageWidth = (int)(m_RefComp.DataManager.SystemData_Scan.ScanFieldWidth / (m_RefComp.DataManager.SystemData_Scan.ScanResolutionX) + 0.5);
+            BmpImageHeight = (int)(m_RefComp.DataManager.SystemData_Scan.ScanFieldHeight / (m_RefComp.DataManager.SystemData_Scan.ScanResolutionY) + 0.5) + 1;
 
-            // 실제 크기와 Pixel과 배율을 결정함  (각 객체를 Pixel로 전환할때 사용함)
-            ratioWidth = (float)(BmpImageWidth) / BMT_SCAN_WIDTH;
-            if (MaxHeight == 0) ratioHeight = 0;
-            else ratioHeight = (double)ptEnd.Y / MaxHeight;
-
-            // 가로 사이즈는 32배수로 크기를 정한다. 
-            // 가로 사이즈는 올림으로 계산한다.
-            BmpImageWidth = (int)Math.Ceiling((double)ptEnd.X / BMP_DATA_SIZE);
-            BmpImageWidth *= BMP_DATA_SIZE;
+            // 실제 크기와 Pixel과 배율을 결정함  
+            // (각 객체의 위치를 BMP Pixel로 전환할때 사용함)
+            ratioWidth = (double)BmpImageWidth / m_RefComp.DataManager.SystemData_Scan.ScanFieldWidth;
+            ratioHeight = (double)BmpImageHeight / m_RefComp.DataManager.SystemData_Scan.ScanFieldHeight;
 
             // Bmp 크기를 계산해서 Stream으로 반복 저장 횟수를 설정함.
             // Pixel이 bit 단위이므로 Byte 크기를 사용할땐 8을 나눔.
-            if (BmpImageHeight <= 0) BmpImageHeight = 1;
-            long sizeCalsBmp = (long)BmpImageWidth * (long)BmpImageHeight / 8;
+            if (BmpImageHeight <= 0) BmpImageHeight = 1;            
             BmpBlockHeight = BmpImageHeight;
+
+            long sizeCalsBmp = (long)BmpImageWidth * (long)BmpImageHeight / 8;
 
             // Bmp 용량이 Block 최대치인 100MB를 넣을 경우
             // Bmp의 Height를 Block 단위로 사용한다. (Stream 방식)
@@ -293,42 +271,28 @@ namespace LWDicer.Layers
         {
             if (m_RefComp.DataManager.SystemData_Scan == null) return RUN_FAIL;
 
+            // Resolution Check
             if (m_RefComp.DataManager.SystemData_Scan.ScanResolutionX <= 0 || 
                 m_RefComp.DataManager.SystemData_Scan.ScanResolutionY <= 0)
                 return RUN_FAIL;
-
-            Point ptStart = new Point(0, 0);
-            Point ptEnd = new Point(0, 0);
-            double MaxHeight = 0.0;
-            double tempHeight = 0.0;
-            Point ptTemp = new Point(0, 0);
-
+            // Field Size Check
+            if (m_RefComp.DataManager.SystemData_Scan.ScanFieldWidth <= 0 ||
+                m_RefComp.DataManager.SystemData_Scan.ScanFieldHeight <= 0)
+                return RUN_FAIL;
             // 객체 수량 확인
             int iObjectCount = m_ScanManager.ObjectList.Count;
             if (iObjectCount < 1) return SHAPE_LIST_DISABLE;
 
-            // 각 객체를 확인해서.. Bmp의 높이를 측정함.
-            for (int i=0; i < iObjectCount; i++)
-            {
-                tempHeight = m_ScanManager.ObjectList[i].ptObjectStartPos.dY;               
-                if (tempHeight > MaxHeight) MaxHeight = tempHeight;
+            // Bmp의 가로 세로 크기 설정 POLYGON_SCAN_WIDTH
+            //BmpImageWidth = (int)(m_RefComp.DataManager.SystemData_Scan.ScanFieldWidth  / (m_RefComp.DataManager.SystemData_Scan.ScanResolutionX) + 0.5);
+            BmpImageWidth = (int)(POLYGON_SCAN_WIDTH / (m_RefComp.DataManager.SystemData_Scan.ScanResolutionX) + 0.5);
+            BmpImageHeight = (int)(m_RefComp.DataManager.SystemData_Scan.ScanFieldHeight / (m_RefComp.DataManager.SystemData_Scan.ScanResolutionY) + 0.5) + 1;
 
-                tempHeight = m_ScanManager.ObjectList[i].ptObjectEndPos.dY;
-                if (tempHeight > MaxHeight) MaxHeight = tempHeight;
-            }
-            
-            // 가로 세로 크기를 Pixel 단위로 변환
-            ptEnd.X = (int)(BMT_SCAN_WIDTH / (m_RefComp.DataManager.SystemData_Scan.ScanResolutionX) + 0.5);
-            ptEnd.Y = (int)(MaxHeight / (m_RefComp.DataManager.SystemData_Scan.ScanResolutionY) +0.5);
-
-            // Bmp의 가로 세로 크기 설정
-            BmpImageWidth = ptEnd.X;
-            BmpImageHeight = ptEnd.Y+1;
-
-            // 실제 크기와 Pixel과 배율을 결정함  (각 객체를 Pixel로 전환할때 사용함)
-            ratioWidth = (float)(BmpImageWidth) / BMT_SCAN_WIDTH;
-            if (MaxHeight == 0) ratioHeight = 0;
-            else  ratioHeight = (float)ptEnd.Y / MaxHeight;
+            // 실제 크기와 Pixel과 배율을 결정함  
+            // (각 객체의 위치를 BMP Pixel로 전환할때 사용함)
+            //ratioWidth  = (double)BmpImageWidth / m_RefComp.DataManager.SystemData_Scan.ScanFieldWidth;
+            ratioWidth = (double)BmpImageWidth / POLYGON_SCAN_WIDTH;
+            ratioHeight = (double)BmpImageHeight/ m_RefComp.DataManager.SystemData_Scan.ScanFieldHeight;
 
             //// 가로 사이즈는 32배수로 크기를 정한다. 
             //// 가로 사이즈는 올림으로 계산한다.
@@ -338,10 +302,10 @@ namespace LWDicer.Layers
             // BMP File의 가로 한줄의 Byte Array의 크기를 설정한다.
             // 1bit BMP이므로 8를 나눈 값으로 설정함.
             Array.Resize<byte>(ref BmpScanLine, BmpImageWidth / 8);
+            if (BmpImageHeight <= 0) BmpImageHeight = 1;
 
             // BMP file의 크기를 설정한다
             // 2G 이상의 크기는 설정이 불가능함.
-            if (BmpImageHeight <= 0) BmpImageHeight = 1;
             try
             {
                 m_Bitmap = new Bitmap(BmpImageWidth, BmpImageHeight, PixelFormat.Format1bppIndexed);
@@ -511,7 +475,7 @@ namespace LWDicer.Layers
             {
                 // 객체의 위치를  Pixel 단위로 변경함
                 ptObjectStart = PointToPixel(pObject.ptObjectStartPos);
-                ptObjectEnd = PointToPixel(pObject.ptObjectEndPos);
+                ptObjectEnd   = PointToPixel(pObject.ptObjectEndPos);
 
                 // 객체가 Save할 위치에 있는지를 확인함.
                 checkObjectActive = (ptObjectStart.Y >= bytesStart && ptObjectStart.Y < bytesEnd) ||
@@ -770,9 +734,9 @@ namespace LWDicer.Layers
             CPos_XY posCenter = new CPos_XY();            
 
             // 객체의 위치값을 읽어옴.
-            posStart = pObject.ptObjectStartPos;
-            posEnd   = pObject.ptObjectEndPos;
-            posCenter = pObject.ptObjectCenterPos;
+            posStart = pObject.ptObjectStartPos.Copy();
+            posEnd   = pObject.ptObjectEndPos.Copy();
+            posCenter = pObject.ptObjectCenterPos.Copy();
 
             // 시작 위치 편차를 적용 (각각의 Scanner Field의 차이를 적용함)
             posStart.dX  -= shiftLen;

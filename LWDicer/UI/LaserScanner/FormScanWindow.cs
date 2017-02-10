@@ -635,32 +635,36 @@ namespace LWDicer.UI
             imgSaveDlg.InitialDirectory = CMainFrame.DBInfo.ImageDataDir;
             imgSaveDlg.Filter = "BMP(*.bmp)|*.bmp";
             if (imgSaveDlg.ShowDialog() == DialogResult.OK)
-            {
-                // BMP Format을 설정한다
-                if (CMainFrame.LWDicer.m_MeScanner.SetSizeBmp() != SUCCESS) return;
-
+            {               
                 // Scan Field가 300mm 이하일 경우엔.. BMP를 한개만 생성한다.
-                if (CMainFrame.DataManager.SystemData_Scan.ScanFieldWidth <= POLYGON_SCAN_FIELD)
+                if (CMainFrame.DataManager.SystemData_Scan.ScanFieldWidth <= POLYGON_SCAN_WIDTH)
                 {
                     fileName = imgSaveDlg.FileName;
-                    
+                    // BMP Format을 설정한다
+                    if (CMainFrame.LWDicer.m_MeScanner.SetSizeBmp() != SUCCESS) return;
                     CMainFrame.LWDicer.m_MeScanner.ConvertBmpFile(fileName);
                 }
 
                 // Scan Field가 300mm 이상일 경우엔.. BMP를 각각 Field만큼 생성한다.
-                if (CMainFrame.DataManager.SystemData_Scan.ScanFieldWidth > POLYGON_SCAN_FIELD)
+                if (CMainFrame.DataManager.SystemData_Scan.ScanFieldWidth > POLYGON_SCAN_WIDTH)
                 {
                     index = imgSaveDlg.FileName.IndexOf('.');
                     fileName = imgSaveDlg.FileName.Insert(index, "-1");
-                    CMainFrame.LWDicer.m_MeScanner.ConvertBmpFile(fileName, POLYGON_SCAN_FIELD * 0);
+                    // BMP Format을 설정한다
+                    if (CMainFrame.LWDicer.m_MeScanner.SetSizeBmp() != SUCCESS) return;
+                    CMainFrame.LWDicer.m_MeScanner.ConvertBmpFile(fileName, POLYGON_SCAN_WIDTH * 0);
 
                     index = imgSaveDlg.FileName.IndexOf('.');
                     fileName = imgSaveDlg.FileName.Insert(index, "-2");
-                    CMainFrame.LWDicer.m_MeScanner.ConvertBmpFile(fileName, POLYGON_SCAN_FIELD * 1);
+                    // BMP Format을 설정한다
+                    if (CMainFrame.LWDicer.m_MeScanner.SetSizeBmp() != SUCCESS) return;
+                    CMainFrame.LWDicer.m_MeScanner.ConvertBmpFile(fileName, POLYGON_SCAN_WIDTH * 1);
 
                     index = imgSaveDlg.FileName.IndexOf('.');
                     fileName = imgSaveDlg.FileName.Insert(index, "-3");
-                    CMainFrame.LWDicer.m_MeScanner.ConvertBmpFile(fileName, POLYGON_SCAN_FIELD * 2);
+                    // BMP Format을 설정한다
+                    if (CMainFrame.LWDicer.m_MeScanner.SetSizeBmp() != SUCCESS) return;
+                    CMainFrame.LWDicer.m_MeScanner.ConvertBmpFile(fileName, POLYGON_SCAN_WIDTH * 2);
                 }
             }
         }

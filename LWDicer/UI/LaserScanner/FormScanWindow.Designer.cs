@@ -655,7 +655,7 @@ namespace LWDicer.UI
             this.toolBtnArrayCopy});
             this.toolStripCopy.Location = new System.Drawing.Point(399, 1);
             this.toolStripCopy.Name = "toolStripCopy";
-            this.toolStripCopy.Size = new System.Drawing.Size(169, 127);
+            this.toolStripCopy.Size = new System.Drawing.Size(200, 127);
             this.toolStripCopy.TabIndex = 11;
             this.toolStripCopy.Text = "Array Copy";
             // 
@@ -746,6 +746,7 @@ namespace LWDicer.UI
             this.toolBtnArrayCopy.Text = "Copy";
             this.toolBtnArrayCopy.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             this.toolBtnArrayCopy.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.toolBtnArrayCopy.Click += new System.EventHandler(this.toolBtnArrayCopy_Click);
             // 
             // toolStripGroup
             // 
@@ -753,7 +754,7 @@ namespace LWDicer.UI
             this.toolStripGroup.Image = null;
             this.toolStripGroup.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripPanelItem5});
-            this.toolStripGroup.Location = new System.Drawing.Point(570, 1);
+            this.toolStripGroup.Location = new System.Drawing.Point(601, 1);
             this.toolStripGroup.Name = "toolStripGroup";
             this.toolStripGroup.Size = new System.Drawing.Size(82, 127);
             this.toolStripGroup.TabIndex = 10;
@@ -805,7 +806,7 @@ namespace LWDicer.UI
             this.toolStripSeparator5,
             this.toolStripPanelItem10,
             this.toolBtnHatchApply});
-            this.toolStripEx1.Location = new System.Drawing.Point(654, 1);
+            this.toolStripEx1.Location = new System.Drawing.Point(685, 1);
             this.toolStripEx1.Name = "toolStripEx1";
             this.toolStripEx1.Size = new System.Drawing.Size(259, 127);
             this.toolStripEx1.TabIndex = 9;
@@ -944,7 +945,7 @@ namespace LWDicer.UI
             this.toolBtnPropertyChange});
             this.toolStripProperty.Location = new System.Drawing.Point(0, 1);
             this.toolStripProperty.Name = "toolStripProperty";
-            this.toolStripProperty.Size = new System.Drawing.Size(219, 127);
+            this.toolStripProperty.Size = new System.Drawing.Size(250, 0);
             this.toolStripProperty.TabIndex = 8;
             this.toolStripProperty.Text = "Property";
             // 
@@ -1044,9 +1045,9 @@ namespace LWDicer.UI
             this.toolStripRotate.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripPanelItem4,
             this.toolStripPanelItem8});
-            this.toolStripRotate.Location = new System.Drawing.Point(221, 1);
+            this.toolStripRotate.Location = new System.Drawing.Point(252, 1);
             this.toolStripRotate.Name = "toolStripRotate";
-            this.toolStripRotate.Size = new System.Drawing.Size(165, 127);
+            this.toolStripRotate.Size = new System.Drawing.Size(165, 0);
             this.toolStripRotate.TabIndex = 7;
             this.toolStripRotate.Text = "Rotate";
             // 
@@ -1136,9 +1137,9 @@ namespace LWDicer.UI
             this.toolStripDimension.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripPanelItem6,
             this.toolBtnDimensionChange});
-            this.toolStripDimension.Location = new System.Drawing.Point(388, 1);
+            this.toolStripDimension.Location = new System.Drawing.Point(419, 1);
             this.toolStripDimension.Name = "toolStripDimension";
-            this.toolStripDimension.Size = new System.Drawing.Size(187, 127);
+            this.toolStripDimension.Size = new System.Drawing.Size(187, 0);
             this.toolStripDimension.TabIndex = 5;
             this.toolStripDimension.Text = "Dimension";
             // 
@@ -1157,7 +1158,7 @@ namespace LWDicer.UI
             this.tooltxtEndPointY});
             this.toolStripPanelItem6.Name = "toolStripPanelItem6";
             this.toolStripPanelItem6.RowCount = 4;
-            this.toolStripPanelItem6.Size = new System.Drawing.Size(119, 109);
+            this.toolStripPanelItem6.Size = new System.Drawing.Size(119, 0);
             this.toolStripPanelItem6.Text = "toolStripPanelItem1";
             this.toolStripPanelItem6.Transparent = true;
             // 
@@ -1241,9 +1242,9 @@ namespace LWDicer.UI
             this.toolStripMove.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolMoveDataPnl,
             this.toolBtnMovePnl});
-            this.toolStripMove.Location = new System.Drawing.Point(577, 1);
+            this.toolStripMove.Location = new System.Drawing.Point(608, 1);
             this.toolStripMove.Name = "toolStripMove";
-            this.toolStripMove.Size = new System.Drawing.Size(236, 127);
+            this.toolStripMove.Size = new System.Drawing.Size(236, 0);
             this.toolStripMove.TabIndex = 2;
             this.toolStripMove.Text = "Move";
             // 
@@ -1385,7 +1386,7 @@ namespace LWDicer.UI
             this.toolBtnSaveLse});
             this.toolStripSaveBmp.Location = new System.Drawing.Point(0, 1);
             this.toolStripSaveBmp.Name = "toolStripSaveBmp";
-            this.toolStripSaveBmp.Size = new System.Drawing.Size(416, 127);
+            this.toolStripSaveBmp.Size = new System.Drawing.Size(447, 0);
             this.toolStripSaveBmp.TabIndex = 4;
             this.toolStripSaveBmp.Text = "Convert";
             // 
@@ -1440,7 +1441,7 @@ namespace LWDicer.UI
             this.toolBtnParameterSave});
             this.toolStripParameter.Location = new System.Drawing.Point(0, 1);
             this.toolStripParameter.Name = "toolStripParameter";
-            this.toolStripParameter.Size = new System.Drawing.Size(219, 127);
+            this.toolStripParameter.Size = new System.Drawing.Size(219, 0);
             this.toolStripParameter.TabIndex = 9;
             this.toolStripParameter.Text = "Scan Field";
             // 

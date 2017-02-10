@@ -93,9 +93,7 @@ namespace LWDicer.UI
             CadDrawing.Entities.Add(xaxis);
             windowDxf.Model = CadDrawing;
 
-            //======================================================================
-            // Update Data
-            DisplayScanData();
+
 
         }
 
@@ -167,12 +165,11 @@ namespace LWDicer.UI
             this.tabPolygonForm.TabPages.AddRange(new TabPageAdv[]
                      {
                         this.tabPageProcess,                        
-                        this.tabPageConfig,
-                        this.tabPageDrawing,
-                        this.tabPageScanner,
+                        this.tabPageConfig,                        
                         this.tabPageCorrection,
                         this.tabPageLaser,
                         this.tabPageVision,
+                        this.tabPageLog,
                      });
         }
                
@@ -422,12 +419,7 @@ namespace LWDicer.UI
             // Grid Display Update
             GridConfigure.Refresh();
         }      
-        private void DisplayScanData()
-        {
-            lblScanFieldWidth.Text = string.Format("{0:f0}", CMainFrame.DataManager.SystemData_Scan.ScanFieldWidth);
-            lblScanFieldHeight.Text = string.Format("{0:f0}", CMainFrame.DataManager.SystemData_Scan.ScanFieldHeight);
-                        
-        }
+
 
         private void DisplayConfigureData(CSystemData_Scanner para,EScannerIndex Index = EScannerIndex.SCANNER1)
         {
@@ -664,17 +656,7 @@ namespace LWDicer.UI
 
         private void ChangeTextData(object sender, EventArgs e)
         {
-            string strCurrent = "", strModify = "";
 
-            GradientLabel Btn = sender as GradientLabel;
-            strCurrent = Btn.Text;
-
-            if (!CMainFrame.GetKeyPad(strCurrent, out strModify))
-            {
-                return;
-            }
-
-            Btn.Text = strModify;
         }
 
         private void BtnConfigureExit_Click(object sender, EventArgs e)
@@ -1270,16 +1252,5 @@ namespace LWDicer.UI
             CMainFrame.LWDicer.m_ctrlStage1.IsCancelJob_byManual = true;
         }
 
-        private void btnScanDataSave_Click(object sender, EventArgs e)
-        {
-            if (!CMainFrame.InquireMsg("Save Scan Parameter ?")) return;
-
-            CMainFrame.DataManager.SystemData_Scan.ScanFieldWidth = Convert.ToInt32(lblScanFieldWidth.Text);
-            CMainFrame.DataManager.SystemData_Scan.ScanFieldHeight = Convert.ToInt32(lblScanFieldHeight.Text);
-
-            // DB Save
-
-            CMainFrame.LWDicer.SaveSystemData(null, null, null, null, null, CMainFrame.DataManager.SystemData_Scan, null);
-        }
     }
 }

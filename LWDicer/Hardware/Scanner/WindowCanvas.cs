@@ -456,7 +456,7 @@ namespace LWDicer.Layers
             int gridMinor = 5;
             int gridMajor = gridMinor * 5;
 
-            // POLYGON_SCAN_FIELD
+            // POLYGON_SCAN_WIDTH
             ScanFieldSize.Width = (int)CMainFrame.DataManager.SystemData_Scan.ScanFieldWidth;
             ScanFieldSize.Height= (int)CMainFrame.DataManager.SystemData_Scan.ScanFieldHeight;
             
@@ -496,7 +496,7 @@ namespace LWDicer.Layers
 
             int scanNum = 0;
             double startPos = 0;
-            for (double scanField = 0.0; scanField < ScanFieldSize.Width; scanField += POLYGON_SCAN_FIELD)
+            for (double scanField = 0.0; scanField < ScanFieldSize.Width; scanField += POLYGON_SCAN_WIDTH)
             {
                 // Color Change
                 if (scanNum == 0)
@@ -513,7 +513,7 @@ namespace LWDicer.Layers
                     drawPen.Color = System.Drawing.Color.FromArgb(50, 30, 30);
                 }
                 
-                for (int i = (int)scanField; i <= scanField + POLYGON_SCAN_FIELD; i += gridMajor)
+                for (int i = (int)scanField; i <= scanField + POLYGON_SCAN_WIDTH; i += gridMajor)
                 {
                     objectStartPos.dX = (double)i;
                     objectStartPos.dY = 0.0;
@@ -533,7 +533,7 @@ namespace LWDicer.Layers
                     objectStartPos.dY = (double)i;
                     pixelStartPos = AbsFieldToPixel(objectStartPos);
 
-                    objectEndPos.dX = scanField + POLYGON_SCAN_FIELD;
+                    objectEndPos.dX = scanField + POLYGON_SCAN_WIDTH;
                     objectEndPos.dY = (double)i;
                     pixelEndPos = AbsFieldToPixel(objectEndPos);
 

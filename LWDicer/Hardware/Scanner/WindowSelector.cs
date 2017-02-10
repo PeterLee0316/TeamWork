@@ -187,8 +187,6 @@ namespace LWDicer.Layers
 
             foreach (CMarkingObject pObject in objectList)
             {
-                pObject.IsSelectedObject = false;
-
                 switch (pObject.ObjectType)
                 {
                     case (EObjectType.DOT):
@@ -444,7 +442,7 @@ namespace LWDicer.Layers
             else return false;
         }
 
-        private bool CheckPointWithEllipse(Point ptStart, Point ptEnd,double rotateAngle, Point referencePoint, int distance = 4)
+        private bool CheckPointWithEllipse(Point ptStart, Point ptEnd,double rotateAngle, Point referencePoint, int distance = 2)
         {
             double ellipseA = Math.Abs(ptEnd.X - ptStart.X)/2;
             double ellipseB = Math.Abs(ptEnd.Y - ptStart.Y)/2;
