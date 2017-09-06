@@ -41,15 +41,8 @@ namespace Core.Layers
             public MOpPanel OpPanel;
 
             public MCtrlOpPanel ctrlOpPanel;
-            public MCtrlLoader ctrlLoader;
-            public MCtrlPushPull ctrlPushPull;
-            public MCtrlSpinner ctrlSpinner1;
-            public MCtrlSpinner ctrlSpinner2;
-            public MCtrlHandler ctrlHandler;
             public MCtrlStage1 ctrlStage1;
-
-            public MTrsLoader trsLoader;
-            public MTrsPushPull trsPushPull;
+            
 
             //public CTrsAutoManagerRefComp(MCtrlLoader ctrlLoader)
             //{
@@ -183,10 +176,6 @@ namespace Core.Layers
         int InitializeAllThread()
         {
             int iResult = SUCCESS;
-
-            iResult = m_RefComp.trsLoader.Initialize();
-            if (iResult != SUCCESS) return iResult;
-            m_RefComp.OpPanel.SetInitFlag(EThreadUnit.LOADER, true);
 
 
             return iResult;
@@ -1168,12 +1157,6 @@ namespace Core.Layers
         void CheckPanelExist()
         {
             m_RefComp.ctrlStage1.IsObjectDetected(out m_bPanelExist_InFacility);
-            if (m_bPanelExist_InFacility == true) return;
-
-            m_RefComp.ctrlHandler.IsObjectDetected(DEF_CtrlHandler.EHandlerIndex.LOAD_UPPER, out m_bPanelExist_InFacility);
-            if (m_bPanelExist_InFacility == true) return;
-
-            m_RefComp.ctrlHandler.IsObjectDetected(DEF_CtrlHandler.EHandlerIndex.UNLOAD_LOWER, out m_bPanelExist_InFacility);
             if (m_bPanelExist_InFacility == true) return;
         }
 

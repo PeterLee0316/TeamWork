@@ -138,27 +138,27 @@ namespace Core.UI
                 case EAlarmGroup.SYSTEM:
                     PicAlarmPos.BackgroundImage = null;
                     break;
-                case EAlarmGroup.LOADER:
-                    PicAlarmPos.BackgroundImage = Core.Properties.Resources.Loader;
-                    break;
-                case EAlarmGroup.PUSHPULL:
-                    PicAlarmPos.BackgroundImage = Core.Properties.Resources.PushPull;
-                    break;
-                case EAlarmGroup.HANDLER:
-                    PicAlarmPos.BackgroundImage = Core.Properties.Resources.Handler;
-                    break;
-                case EAlarmGroup.SPINNER:
-                    PicAlarmPos.BackgroundImage = Core.Properties.Resources.Spinner;
-                    break;
-                case EAlarmGroup.STAGE:
-                    PicAlarmPos.BackgroundImage = Core.Properties.Resources.LaserScanner;
-                    break;
-                case EAlarmGroup.SCANNER:
-                    PicAlarmPos.BackgroundImage = Core.Properties.Resources.LaserScanner;
-                    break;
-                case EAlarmGroup.LASER:
-                    PicAlarmPos.BackgroundImage = Core.Properties.Resources.LaserScanner;
-                    break;
+                //case EAlarmGroup.LOADER:
+                //    PicAlarmPos.BackgroundImage = Core.Properties.Resources.Loader;
+                //    break;
+                //case EAlarmGroup.PUSHPULL:
+                //    PicAlarmPos.BackgroundImage = Core.Properties.Resources.PushPull;
+                //    break;
+                //case EAlarmGroup.HANDLER:
+                //    PicAlarmPos.BackgroundImage = Core.Properties.Resources.Handler;
+                //    break;
+                //case EAlarmGroup.SPINNER:
+                //    PicAlarmPos.BackgroundImage = Core.Properties.Resources.Spinner;
+                //    break;
+                //case EAlarmGroup.STAGE:
+                //    PicAlarmPos.BackgroundImage = Core.Properties.Resources.LaserScanner;
+                //    break;
+                //case EAlarmGroup.SCANNER:
+                //    PicAlarmPos.BackgroundImage = Core.Properties.Resources.LaserScanner;
+                //    break;
+                //case EAlarmGroup.LASER:
+                //    PicAlarmPos.BackgroundImage = Core.Properties.Resources.LaserScanner;
+                //    break;
             }
 
         }

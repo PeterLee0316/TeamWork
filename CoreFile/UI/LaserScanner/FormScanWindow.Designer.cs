@@ -1524,7 +1524,7 @@ namespace Core.UI
             // toolBtnParameterSave
             // 
             this.toolBtnParameterSave.AutoSize = false;
-            this.toolBtnParameterSave.Image = global::Core.Properties.Resources.저장;
+            //this.toolBtnParameterSave.Image = global::Core.Properties.Resources.저장;
             this.toolBtnParameterSave.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.toolBtnParameterSave.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolBtnParameterSave.Name = "toolBtnParameterSave";

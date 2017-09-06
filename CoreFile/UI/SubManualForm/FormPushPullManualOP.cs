@@ -46,54 +46,23 @@ namespace Core.UI
         private void UpdateStatus()
         {
             bool bStatus = false;
-
-            CMainFrame.Core.m_MePushPull.IsGripLocked(out bStatus);
-            BtnGripLock.BackColor = (bStatus == true) ? CMainFrame.BtnBackColor_On : CMainFrame.BtnBackColor_Off;
-
-            CMainFrame.Core.m_MePushPull.IsGripReleased(out bStatus);
-            BtnGripUnLock.BackColor = (bStatus == true) ? CMainFrame.BtnBackColor_On : CMainFrame.BtnBackColor_Off;
-
-            CMainFrame.Core.m_MePushPull.IsCylUp(out bStatus);
-            BtnPushPullUp.BackColor = (bStatus == true) ? CMainFrame.BtnBackColor_On : CMainFrame.BtnBackColor_Off;
-
-            CMainFrame.Core.m_MePushPull.IsCylDown(out bStatus);
-            BtnPushPullDown.BackColor = (bStatus == true) ? CMainFrame.BtnBackColor_On : CMainFrame.BtnBackColor_Off;
         }
 
         private void BtnGripLock_Click(object sender, EventArgs e)
         {
-            if (CMainFrame.Core.IsSafeForCylinderMove() == false) return;
-            CMainFrame.StartTimer();
-            int iResult = CMainFrame.Core.m_MePushPull.GripLock();
-            CMainFrame.DisplayAlarm(iResult);
-            LabelTime_Grip.Text = CMainFrame.GetElapsedTIme_Text();
+
         }
 
         private void BtnGripUnLock_Click(object sender, EventArgs e)
         {
-            if (CMainFrame.Core.IsSafeForCylinderMove() == false) return;
-            CMainFrame.StartTimer();
-            int iResult = CMainFrame.Core.m_MePushPull.GripRelease();
-            CMainFrame.DisplayAlarm(iResult);
-            LabelTime_Grip.Text = CMainFrame.GetElapsedTIme_Text();
         }
 
         private void BtnPushPullUp_Click(object sender, EventArgs e)
         {
-            if (CMainFrame.Core.IsSafeForCylinderMove() == false) return;
-            CMainFrame.StartTimer();
-            int iResult = CMainFrame.Core.m_MePushPull.CylUp();
-            CMainFrame.DisplayAlarm(iResult);
-            LabelTime_UpDn.Text = CMainFrame.GetElapsedTIme_Text();
         }
 
         private void BtnPushPullDown_Click(object sender, EventArgs e)
         {
-            if (CMainFrame.Core.IsSafeForCylinderMove() == false) return;
-            CMainFrame.StartTimer();
-            int iResult = CMainFrame.Core.m_MePushPull.CylDown();
-            CMainFrame.DisplayAlarm(iResult);
-            LabelTime_UpDn.Text = CMainFrame.GetElapsedTIme_Text();
         }
     }
 }

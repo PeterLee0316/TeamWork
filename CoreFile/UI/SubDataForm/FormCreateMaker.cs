@@ -30,9 +30,6 @@ namespace Core.UI
                 case EListHeaderType.MODEL:
                     HeaderList = CMainFrame.DataManager.ModelHeaderList;
                     break;
-                case EListHeaderType.WAFERFRAME:
-                    HeaderList = CMainFrame.DataManager.WaferFrameHeaderList;
-                    break;
             }
         }
 

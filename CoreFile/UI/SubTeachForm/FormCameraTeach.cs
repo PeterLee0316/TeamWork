@@ -17,10 +17,6 @@ using static Core.Layers.DEF_Motion;
 using static Core.Layers.MYaskawa;
 
 using static Core.Layers.DEF_Thread;
-using static Core.Layers.DEF_MeHandler;
-using static Core.Layers.DEF_MeElevator;
-using static Core.Layers.DEF_MePushPull;
-using static Core.Layers.DEF_MeSpinner;
 using static Core.Layers.DEF_MeStage;
 
 using static Core.Layers.DEF_Yaskawa;

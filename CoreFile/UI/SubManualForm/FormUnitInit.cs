@@ -180,23 +180,6 @@ namespace Core.UI
                 }
             }
 
-            // 0. HANDLER
-            SetTitle("HANDLER");
-            part = (int)EThreadUnit.HANDLER;
-            if (SelectedPart[part] == true)
-            {
-                iResult = CMainFrame.Core.m_trsHandler.Initialize();
-                if (iResult != SUCCESS)
-                {
-                    CMainFrame.DisplayAlarm(iResult);
-                    SetInitFlag(part, false);
-                    return;
-                }
-                else
-                {
-                    SetInitFlag(part, true);
-                }
-            }
 
             // 0. STAGE1
             SetTitle("STAGE1");
@@ -216,78 +199,7 @@ namespace Core.UI
                 }
             }
 
-            // 0. SPINNER1
-            SetTitle("SPINNER1");
-            part = (int)EThreadUnit.SPINNER1;
-            if (SelectedPart[part] == true)
-            {
-                iResult = CMainFrame.Core.m_trsSpinner1.Initialize();
-                if (iResult != SUCCESS)
-                {
-                    CMainFrame.DisplayAlarm(iResult);
-                    SetInitFlag(part, false);
-                    return;
-                }
-                else
-                {
-                    SetInitFlag(part, true);
-                }
-            }
 
-            // 0. SPINNER2
-            SetTitle("SPINNER2");
-            part = (int)EThreadUnit.SPINNER2;
-            if (SelectedPart[part] == true)
-            {
-                iResult = CMainFrame.Core.m_trsSpinner2.Initialize();
-                if (iResult != SUCCESS)
-                {
-                    CMainFrame.DisplayAlarm(iResult);
-                    SetInitFlag(part, false);
-                    return;
-                }
-                else
-                {
-                    SetInitFlag(part, true);
-                }
-            }
-
-            // 0. Loader
-            SetTitle("LOADER");
-            part = (int)EThreadUnit.LOADER;
-            if (SelectedPart[part] == true)
-            {
-                iResult = CMainFrame.DataManager.Generate_InputBuffer();
-                iResult = CMainFrame.Core.m_trsLoader.Initialize();
-                if (iResult != SUCCESS)
-                {
-                    CMainFrame.DisplayAlarm(iResult);
-                    SetInitFlag(part, false);
-                    return;
-                }
-                else
-                {
-                    SetInitFlag(part, true);
-                }
-            }
-
-            // 0. PUSHPULL
-            SetTitle("PUSHPULL");
-            part = (int)EThreadUnit.PUSHPULL;
-            if (SelectedPart[part] == true)
-            {
-                iResult = CMainFrame.Core.m_trsPushPull.Initialize();
-                if (iResult != SUCCESS)
-                {
-                    CMainFrame.DisplayAlarm(iResult);
-                    SetInitFlag(part, false);
-                    return;
-                }
-                else
-                {
-                    SetInitFlag(part, true);
-                }
-            }
 
             // Last.
             CMainFrame.DisplayMsg("Initialization completed successfully.");

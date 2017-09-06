@@ -14,14 +14,12 @@ using static Core.Layers.DEF_Error;
 using static Core.Layers.DEF_Common;
 using static Core.Layers.DEF_LCNet;
 using static Core.Layers.DEF_CtrlStage;
-using static Core.Layers.DEF_CtrlHandler;
 
 namespace Core.Layers
 {
     public class CTrsStage1RefComp
     {
         public MCtrlStage1 ctrlStage1;
-        public MCtrlHandler ctrlHandler;
 
         public override string ToString()
         {
@@ -197,24 +195,14 @@ namespace Core.Layers
                                                 GetMyWorkPiece().StartPhase(tPhase); // 대기 시작
                                             }
 
-                                            // wait for wafer empty on unload handler.
-                                            iResult = m_RefComp.ctrlHandler.IsObjectDetected(EHandlerIndex.UNLOAD_LOWER, out bStatus1);
-                                            if (iResult != SUCCESS) { ReportAlarm(iResult); break; }
-
-                                            if (bStatus1 == true) break;
-
+                                     
                                             GetMyWorkPiece().FinishPhase(EProcessPhase.STAGE_WAIT_UNLOAD);
                                             GetMyWorkPiece().StartPhase(EProcessPhase.STAGE_UNLOAD);
                                             SetStep(TRS_STAGE1_UNLOADING_TO_HANDLER_ONESTEP);
                                             break;
                                     }
                                 } else // if not detected
-                                {
-                                    if (m_bAuto_PanelSupplyStop) break;
-                                    iResult = m_RefComp.ctrlHandler.IsObjectDetected(EHandlerIndex.LOAD_UPPER, out bStatus1);
-                                    if (iResult != SUCCESS) { ReportAlarm(iResult); break; }
-
-                                    if (bStatus1 == false) break;
+                                {                                    
                                     SetStep(TRS_STAGE1_LOADING_FROM_HANDLER_ONESTEP);
                                 }
                                 break;

@@ -165,8 +165,6 @@
     <Compile Include="Common\BaseClass\MWorkerThread.cs" />
     <Compile Include="Common\Util\CUtils.cs" />
     <Compile Include="Common\Util\DBManager.cs" />
-    <Compile Include="Control\MCtrlSpinner.cs" />
-    <Compile Include="Control\MCtrlHandler.cs" />
     <Compile Include="Hardware\ACS\MACS.cs" />
     <Compile Include="Hardware\IO\MIO_YMC.cs" />
     <Compile Include="Hardware\Laser\MLaser.cs" />
@@ -212,15 +210,9 @@
     <Compile Include="Hardware\YMC\ymcPCConst.cs" />
     <Compile Include="Hardware\YMC\ymcPCFunction.cs" />
     <Compile Include="Hardware\YMC\ymcPCStruct.cs" />
-    <Compile Include="Mechanical\MMeElevator.cs" />
-    <Compile Include="Mechanical\MMeSpinner.cs" />
     <Compile Include="Mechanical\MMeStage.cs" />
-    <Compile Include="Mechanical\MMeHandler.cs" />
-    <Compile Include="Mechanical\MMePushPull.cs" />
     <Compile Include="Mechanical\Scanner\MarkingScanner.cs" />
     <Compile Include="Mechanical\Scanner\ScannerPolygon.cs" />
-    <Compile Include="Process\MTrsHandler.cs" />
-    <Compile Include="Process\MTrsSpinner.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -231,8 +223,6 @@
     <Compile Include="Common\Position\MPosition.cs" />
     <Compile Include="Common\Util\MLog.cs" />
     <Compile Include="Common\Util\MTickTimer.cs" />
-    <Compile Include="Control\MCtrlLoader.cs" />
-    <Compile Include="Control\MCtrlPushPull.cs" />
     <Compile Include="Control\MCtrlStage1.cs" />
     <Compile Include="Control\MCtrlOpPanel.cs" />
     <Compile Include="DataManager\MDataManager.cs" />
@@ -258,48 +248,40 @@
     <Compile Include="Mechanical\Actuator\MVacuum.cs" />
     <Compile Include="Mechanical\MOpPanel.cs" />
     <Compile Include="Process\MTrsAutoManager.cs" />
-    <Compile Include="Process\MTrsLoader.cs" />
-    <Compile Include="Process\MTrsPushPull.cs" />
     <Compile Include="Process\MTrsStage1.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="System\MSysCore.cs" />
     <Compile Include="System\MSystemInfo.cs" />
-    <Compile Include="UI\FormBottomScreen.cs">
+    <Compile Include="UI\Frame\FormBottomScreen.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UI\FormBottomScreen.designer.cs">
+    <Compile Include="UI\Frame\FormBottomScreen.designer.cs">
       <DependentUpon>FormBottomScreen.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\FormChangePassword.cs">
+    <Compile Include="UI\Frame\FormChangePassword.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UI\FormChangePassword.designer.cs">
+    <Compile Include="UI\Frame\FormChangePassword.designer.cs">
       <DependentUpon>FormChangePassword.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\FormIntro.cs">
+    <Compile Include="UI\Frame\FormIntro.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UI\FormIntro.designer.cs">
+    <Compile Include="UI\Frame\FormIntro.designer.cs">
       <DependentUpon>FormIntro.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\FormJogOperation.cs">
+    <Compile Include="UI\Frame\FormJogOperation.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UI\FormJogOperation.Designer.cs">
+    <Compile Include="UI\Frame\FormJogOperation.Designer.cs">
       <DependentUpon>FormJogOperation.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\FormMsgStart.cs">
+    <Compile Include="UI\Frame\FormMsgStart.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UI\FormMsgStart.Designer.cs">
+    <Compile Include="UI\Frame\FormMsgStart.Designer.cs">
       <DependentUpon>FormMsgStart.cs</DependentUpon>
-    </Compile>
-    <Compile Include="UI\SubDataForm\FormLaserPatternData.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="UI\SubDataForm\FormLaserPatternData.Designer.cs">
-      <DependentUpon>FormLaserPatternData.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\SubDataForm\FormLaserProcessData.cs">
       <SubType>Form</SubType>
@@ -307,47 +289,17 @@
     <Compile Include="UI\SubDataForm\FormLaserProcessData.Designer.cs">
       <DependentUpon>FormLaserProcessData.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\SubTeachForm\FormCamFocus.cs">
+    <Compile Include="UI\Frame\FormTopScreen.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UI\SubTeachForm\FormCamFocus.Designer.cs">
-      <DependentUpon>FormCamFocus.cs</DependentUpon>
-    </Compile>
-    <Compile Include="UI\SubTeachForm\FormCameraAlignTeach.cs.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="UI\SubTeachForm\FormCameraAlignTeach.cs.Designer.cs">
-      <DependentUpon>FormCameraAlignTeach.cs.cs</DependentUpon>
-    </Compile>
-    <Compile Include="UI\SubTeachForm\FormJogStage.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="UI\SubTeachForm\FormJogStage.Designer.cs">
-      <DependentUpon>FormJogStage.cs</DependentUpon>
-    </Compile>
-    <Compile Include="UI\FormTopScreen.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="UI\FormTopScreen.designer.cs">
+    <Compile Include="UI\Frame\FormTopScreen.designer.cs">
       <DependentUpon>FormTopScreen.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\FormUserLogin.cs">
+    <Compile Include="UI\Frame\FormUserLogin.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UI\FormUserLogin.Designer.cs">
+    <Compile Include="UI\Frame\FormUserLogin.Designer.cs">
       <DependentUpon>FormUserLogin.cs</DependentUpon>
-    </Compile>
-    <Compile Include="UI\FormWaferCassette.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="UI\FormWaferCassette.Designer.cs">
-      <DependentUpon>FormWaferCassette.cs</DependentUpon>
-    </Compile>
-    <Compile Include="UI\LaserScanner\FormPolygon.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="UI\LaserScanner\FormPolygon.Designer.cs">
-      <DependentUpon>FormPolygon.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\LaserScanner\FormScanWindow.cs">
       <SubType>Form</SubType>
@@ -390,18 +342,6 @@
     </Compile>
     <Compile Include="UI\MainScreen\FormTeachScreen.designer.cs">
       <DependentUpon>FormTeachScreen.cs</DependentUpon>
-    </Compile>
-    <Compile Include="UI\SubDataForm\FormCleanerData.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="UI\SubDataForm\FormCleanerData.Designer.cs">
-      <DependentUpon>FormCleanerData.cs</DependentUpon>
-    </Compile>
-    <Compile Include="UI\SubDataForm\FormCoaterData.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="UI\SubDataForm\FormCoaterData.Designer.cs">
-      <DependentUpon>FormCoaterData.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\SubDataForm\FormCreateMaker.cs">
       <SubType>Form</SubType>
@@ -463,18 +403,6 @@
     <Compile Include="UI\SubDataForm\FormVisionData.Designer.cs">
       <DependentUpon>FormVisionData.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\SubDataForm\FormWaferFrameData.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="UI\SubDataForm\FormWaferFrameData.Designer.cs">
-      <DependentUpon>FormWaferFrameData.cs</DependentUpon>
-    </Compile>
-    <Compile Include="UI\SubDataForm\FormWaferData.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="UI\SubDataForm\FormWaferData.Designer.cs">
-      <DependentUpon>FormWaferData.cs</DependentUpon>
-    </Compile>
     <Compile Include="UI\SubManualForm\FormHandlerManualOP.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -529,65 +457,11 @@
     <Compile Include="UI\SubTeachForm\FormCameraTeach.Designer.cs">
       <DependentUpon>FormCameraTeach.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\SubTeachForm\FormEdgeAlignTeach.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="UI\SubTeachForm\FormEdgeAlignTeach.Designer.cs">
-      <DependentUpon>FormEdgeAlignTeach.cs</DependentUpon>
-    </Compile>
-    <Compile Include="UI\SubTeachForm\FormHandlerTeach.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="UI\SubTeachForm\FormHandlerTeach.Designer.cs">
-      <DependentUpon>FormHandlerTeach.cs</DependentUpon>
-    </Compile>
-    <Compile Include="UI\SubTeachForm\FormWaferDieTeach.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="UI\SubTeachForm\FormWaferDieTeach.Designer.cs">
-      <DependentUpon>FormWaferDieTeach.cs</DependentUpon>
-    </Compile>
-    <Compile Include="UI\SubTeachForm\FormLoaderTeach.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="UI\SubTeachForm\FormLoaderTeach.Designer.cs">
-      <DependentUpon>FormLoaderTeach.cs</DependentUpon>
-    </Compile>
-    <Compile Include="UI\SubTeachForm\FormMacroAlignTeach.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="UI\SubTeachForm\FormMacroAlignTeach.Designer.cs">
-      <DependentUpon>FormMacroAlignTeach.cs</DependentUpon>
-    </Compile>
-    <Compile Include="UI\SubTeachForm\FormMicroAlignTeach.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="UI\SubTeachForm\FormMicroAlignTeach.Designer.cs">
-      <DependentUpon>FormMicroAlignTeach.cs</DependentUpon>
-    </Compile>
-    <Compile Include="UI\SubTeachForm\FormPushPullTeach.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="UI\SubTeachForm\FormPushPullTeach.Designer.cs">
-      <DependentUpon>FormPushPullTeach.cs</DependentUpon>
-    </Compile>
     <Compile Include="UI\SubTeachForm\FormScannerTeach.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="UI\SubTeachForm\FormScannerTeach.Designer.cs">
       <DependentUpon>FormScannerTeach.cs</DependentUpon>
-    </Compile>
-    <Compile Include="UI\SubTeachForm\FormSpinner1Teach.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="UI\SubTeachForm\FormSpinner1Teach.Designer.cs">
-      <DependentUpon>FormSpinner1Teach.cs</DependentUpon>
-    </Compile>
-    <Compile Include="UI\SubTeachForm\FormLaserAlignTeach.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="UI\SubTeachForm\FormLaserAlignTeach.Designer.cs">
-      <DependentUpon>FormLaserAlignTeach.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\SubTeachForm\FormWorkStageTeach.cs">
       <SubType>Form</SubType>
@@ -652,50 +526,32 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
+      <SubType>Designer</SubType>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\FormBottomScreen.resx">
+    <EmbeddedResource Include="UI\Frame\FormBottomScreen.resx">
       <DependentUpon>FormBottomScreen.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\FormChangePassword.resx">
+    <EmbeddedResource Include="UI\Frame\FormChangePassword.resx">
       <DependentUpon>FormChangePassword.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\FormIntro.resx">
+    <EmbeddedResource Include="UI\Frame\FormIntro.resx">
       <DependentUpon>FormIntro.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\FormJogOperation.resx">
+    <EmbeddedResource Include="UI\Frame\FormJogOperation.resx">
       <DependentUpon>FormJogOperation.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\FormMsgStart.resx">
+    <EmbeddedResource Include="UI\Frame\FormMsgStart.resx">
       <DependentUpon>FormMsgStart.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="UI\SubDataForm\FormLaserPatternData.resx">
-      <DependentUpon>FormLaserPatternData.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\SubDataForm\FormLaserProcessData.resx">
       <DependentUpon>FormLaserProcessData.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\SubTeachForm\FormCamFocus.resx">
-      <DependentUpon>FormCamFocus.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="UI\SubTeachForm\FormCameraAlignTeach.cs.resx">
-      <DependentUpon>FormCameraAlignTeach.cs.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="UI\SubTeachForm\FormJogStage.resx">
-      <DependentUpon>FormJogStage.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="UI\FormTopScreen.resx">
+    <EmbeddedResource Include="UI\Frame\FormTopScreen.resx">
       <DependentUpon>FormTopScreen.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\FormUserLogin.resx">
+    <EmbeddedResource Include="UI\Frame\FormUserLogin.resx">
       <DependentUpon>FormUserLogin.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="UI\FormWaferCassette.resx">
-      <DependentUpon>FormWaferCassette.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="UI\LaserScanner\FormPolygon.resx">
-      <DependentUpon>FormPolygon.cs</DependentUpon>
-      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\LaserScanner\FormScanWindow.resx">
       <DependentUpon>FormScanWindow.cs</DependentUpon>
@@ -717,12 +573,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UI\MainScreen\FormTeachScreen.resx">
       <DependentUpon>FormTeachScreen.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="UI\SubDataForm\FormCleanerData.resx">
-      <DependentUpon>FormCleanerData.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="UI\SubDataForm\FormCoaterData.resx">
-      <DependentUpon>FormCoaterData.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\SubDataForm\FormCreateMaker.resx">
       <DependentUpon>FormCreateMaker.cs</DependentUpon>
@@ -755,12 +605,6 @@
     <EmbeddedResource Include="UI\SubDataForm\FormVisionData.resx">
       <DependentUpon>FormVisionData.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\SubDataForm\FormWaferFrameData.resx">
-      <DependentUpon>FormWaferFrameData.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="UI\SubDataForm\FormWaferData.resx">
-      <DependentUpon>FormWaferData.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="UI\SubManualForm\FormHandlerManualOP.resx">
       <DependentUpon>FormHandlerManualOP.cs</DependentUpon>
     </EmbeddedResource>
@@ -788,36 +632,8 @@
     <EmbeddedResource Include="UI\SubTeachForm\FormCameraTeach.resx">
       <DependentUpon>FormCameraTeach.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\SubTeachForm\FormEdgeAlignTeach.resx">
-      <DependentUpon>FormEdgeAlignTeach.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="UI\SubTeachForm\FormHandlerTeach.resx">
-      <DependentUpon>FormHandlerTeach.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="UI\SubTeachForm\FormWaferDieTeach.resx">
-      <DependentUpon>FormWaferDieTeach.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="UI\SubTeachForm\FormLoaderTeach.resx">
-      <DependentUpon>FormLoaderTeach.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="UI\SubTeachForm\FormMacroAlignTeach.resx">
-      <DependentUpon>FormMacroAlignTeach.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="UI\SubTeachForm\FormMicroAlignTeach.resx">
-      <DependentUpon>FormMicroAlignTeach.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="UI\SubTeachForm\FormPushPullTeach.resx">
-      <DependentUpon>FormPushPullTeach.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="UI\SubTeachForm\FormScannerTeach.resx">
       <DependentUpon>FormScannerTeach.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="UI\SubTeachForm\FormSpinner1Teach.resx">
-      <DependentUpon>FormSpinner1Teach.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="UI\SubTeachForm\FormLaserAlignTeach.resx">
-      <DependentUpon>FormLaserAlignTeach.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\SubTeachForm\FormWorkStageTeach.resx">
       <DependentUpon>FormWorkStageTeach.cs</DependentUpon>
@@ -913,11 +729,6 @@
     <Content Include="Common\img\wafer.png" />
     <Content Include="Hardware\ACS\ACS_Buffer.txt" />
     <Content Include="Hardware\YMC\YMC_Buffer.txt" />
-    <EmbeddedResource Include="Image\Handler.png" />
-    <EmbeddedResource Include="Image\LaserScanner.png" />
-    <EmbeddedResource Include="Image\PushPull.png" />
-    <EmbeddedResource Include="Image\Spinner.png" />
-    <EmbeddedResource Include="Image\Loader.png" />
     <None Include="Resources\wafer.png" />
     <None Include="Resources\run.bmp" />
     <None Include="Resources\stop.bmp" />

@@ -38,12 +38,7 @@ namespace Core.UI
             comboProcess.SelectedIndex = 0;
 
             ProcessList.Add(CMainFrame.Core.m_trsAutoManager);
-            ProcessList.Add(CMainFrame.Core.m_trsLoader     );
-            ProcessList.Add(CMainFrame.Core.m_trsPushPull   );
             ProcessList.Add(CMainFrame.Core.m_trsStage1     );
-            ProcessList.Add(CMainFrame.Core.m_trsSpinner1   );
-            ProcessList.Add(CMainFrame.Core.m_trsSpinner2   );
-            ProcessList.Add(CMainFrame.Core.m_trsHandler    );
 
             comboControll.Items.Clear();
             comboControll.Items.Add("DataManager         ");
@@ -95,51 +90,13 @@ namespace Core.UI
             comboControll.SelectedIndex = 0;
 
             CtrlList.Add((MObject)CMainFrame.DataManager         );
-            CtrlList.Add((MObject)CMainFrame.Core.m_ctrlLoader          );
-            CtrlList.Add((MObject)CMainFrame.Core.m_ctrlPushPull        );
             CtrlList.Add((MObject)CMainFrame.Core.m_ctrlStage1          );
-            CtrlList.Add((MObject)CMainFrame.Core.m_ctrlSpinner1        );
-            CtrlList.Add((MObject)CMainFrame.Core.m_ctrlSpinner2        );
-            CtrlList.Add((MObject)CMainFrame.Core.m_ctrlHandler         );
-            CtrlList.Add((MObject)CMainFrame.Core.m_MeElevator          );
-            CtrlList.Add((MObject)CMainFrame.Core.m_MeUpperHandler      );
-            CtrlList.Add((MObject)CMainFrame.Core.m_MeLowerHandler      );
             CtrlList.Add((MObject)CMainFrame.Core.m_MeStage             );
-            CtrlList.Add((MObject)CMainFrame.Core.m_MePushPull          );
-            CtrlList.Add((MObject)CMainFrame.Core.m_MeSpinner1          );
-            CtrlList.Add((MObject)CMainFrame.Core.m_MeSpinner2          );
-            CtrlList.Add((MObject)CMainFrame.Core.m_PushPullGripperCyl  );
-            CtrlList.Add((MObject)CMainFrame.Core.m_PushPullUDCyl       );
-            CtrlList.Add((MObject)CMainFrame.Core.m_Spinner1UDCyl       );
-            CtrlList.Add((MObject)CMainFrame.Core.m_Spinner1DICyl       );
-            CtrlList.Add((MObject)CMainFrame.Core.m_Spinner1PVACyl      );
-            CtrlList.Add((MObject)CMainFrame.Core.m_Spinner2UDCyl       );
-            CtrlList.Add((MObject)CMainFrame.Core.m_Spinner2DICyl       );
-            CtrlList.Add((MObject)CMainFrame.Core.m_Spinner2PVACyl      );
             CtrlList.Add((MObject)CMainFrame.Core.m_StageClamp1         );
             CtrlList.Add((MObject)CMainFrame.Core.m_StageClamp2         );
             CtrlList.Add((MObject)CMainFrame.Core.m_Stage1Vac           );
-            CtrlList.Add((MObject)CMainFrame.Core.m_UHandlerSelfVac     );
-            CtrlList.Add((MObject)CMainFrame.Core.m_UHandlerFactoryVac  );
-            CtrlList.Add((MObject)CMainFrame.Core.m_LHandlerSelfVac     );
-            CtrlList.Add((MObject)CMainFrame.Core.m_LHandlerFactoryVac  );
-            CtrlList.Add((MObject)CMainFrame.Core.m_Spinner1Vac         );
-            CtrlList.Add((MObject)CMainFrame.Core.m_Spinner2Vac         );
             CtrlList.Add((MObject)CMainFrame.Core.m_AxStage1            );
-            CtrlList.Add((MObject)CMainFrame.Core.m_AxLoader            );
-            CtrlList.Add((MObject)CMainFrame.Core.m_AxPushPull          );
-            CtrlList.Add((MObject)CMainFrame.Core.m_AxCentering1        );
-            CtrlList.Add((MObject)CMainFrame.Core.m_AxRotate1           );
-            CtrlList.Add((MObject)CMainFrame.Core.m_AxCleanNozzle1      );
-            CtrlList.Add((MObject)CMainFrame.Core.m_AxCoatNozzle1       );
-            CtrlList.Add((MObject)CMainFrame.Core.m_AxCentering2        );
-            CtrlList.Add((MObject)CMainFrame.Core.m_AxRotate2           );
-            CtrlList.Add((MObject)CMainFrame.Core.m_AxCleanNozzle2      );
-            CtrlList.Add((MObject)CMainFrame.Core.m_AxCoatNozzle2       );
-            CtrlList.Add((MObject)CMainFrame.Core.m_AxUpperHandler      );
-            CtrlList.Add((MObject)CMainFrame.Core.m_AxLowerHandler      );
             CtrlList.Add((MObject)CMainFrame.Core.m_AxCamera1           );
-            CtrlList.Add((MObject)CMainFrame.Core.m_AxScannerZ1         );
 
             TextTest1.Text = "0";
         }

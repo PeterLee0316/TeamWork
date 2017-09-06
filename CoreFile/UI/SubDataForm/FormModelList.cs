@@ -53,19 +53,6 @@ namespace Core.UI
 
                     break;
 
-                case EListHeaderType.WAFERFRAME:
-                    HeaderList = CMainFrame.DataManager.WaferFrameHeaderList;
-                    CurrentUsing_ModelName = CMainFrame.DataManager.ModelData.WaferFrameName;
-                    DisplayTypeName = "Wafer Frame";
-                    this.Text = "Wafer Frame Data";
-
-                    TitleCurModel.Text = "current Wafer Frame";
-                    LabelMaker.Text = "Wafer Frame Folder";
-                    LabelModel.Text = "Wafer Frame List";
-
-                    BtnModelSelect.Visible = false;
-
-                    break;
 
                 case EListHeaderType.USERINFO:
                     HeaderList = CMainFrame.DataManager.UserInfoHeaderList;
@@ -212,12 +199,7 @@ namespace Core.UI
                         return;
                     }
                     break;
-                case EListHeaderType.WAFERFRAME:
-                    if (!CMainFrame.InquireMsg("Make new folder?"))
-                    {
-                        return;
-                    }
-                    break;
+
 
             }
 
@@ -372,11 +354,6 @@ namespace Core.UI
                     modelData.Name = header.Name;
                     CMainFrame.Core.SaveModelData(modelData);
                     break;
-                case EListHeaderType.WAFERFRAME:
-                    CWaferFrameData waferFrameData = ObjectExtensions.Copy(CMainFrame.DataManager.WaferFrameData);
-                    waferFrameData.Name = header.Name;
-                    CMainFrame.Core.SaveModelData(waferFrameData);
-                    break;
                 case EListHeaderType.USERINFO:
                     ELoginType Login = ELoginType.OPERATOR;
 
@@ -449,9 +426,7 @@ namespace Core.UI
                 case EListHeaderType.MODEL:
                     iResult = CMainFrame.DataManager.ChangeModel(strSelModelName);
                     break;
-                case EListHeaderType.WAFERFRAME:
-                    iResult = CMainFrame.DataManager.LoadWaferFrameData(strSelModelName);
-                    break;
+
             }
 
             if(iResult != SUCCESS)

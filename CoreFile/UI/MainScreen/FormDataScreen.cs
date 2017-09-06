@@ -50,13 +50,6 @@ namespace Core.UI
 
         }
 
-        private void BtnScannerData_Click(object sender, EventArgs e)
-        {
-            var dlg = new FormPolygon();
-            dlg.StartPosition = FormStartPosition.Manual;
-            dlg.Location = new Point(0, 120);
-            dlg.ShowDialog();
-        }
 
         private void BtnMotorData_Click(object sender, EventArgs e)
         {
@@ -83,11 +76,6 @@ namespace Core.UI
             dlg.ShowDialog();
         }
 
-        private void BtnWaferList_Click(object sender, EventArgs e)
-        {
-            var dlg = new FormModelList(EListHeaderType.WAFERFRAME);
-            dlg.ShowDialog();
-        }
 
         private void BtnVacuum_Click(object sender, EventArgs e)
         {
@@ -112,24 +100,7 @@ namespace Core.UI
             var dlg = new FormModelData();
             dlg.ShowDialog();
         }
-
-        private void BtnWaferData_Click(object sender, EventArgs e)
-        {
-            var dlg = new FormWaferData();
-            dlg.ShowDialog();
-        }
-
-        private void BtnCleaner_Click(object sender, EventArgs e)
-        {
-            var dlg = new FormCleanerData();
-            dlg.ShowDialog();
-        }
-
-        private void BtnCoater_Click(object sender, EventArgs e)
-        {
-            var dlg = new FormCoaterData();
-            dlg.ShowDialog();
-        }
+        
 
         private void FormDataScreen_Load(object sender, EventArgs e)
         {
@@ -142,12 +113,7 @@ namespace Core.UI
             dlg.ShowDialog();
 
         }
-
-        private void BtnWaferFrameData_Click(object sender, EventArgs e)
-        {
-            var dlg = new FormWaferFrameData();
-            dlg.ShowDialog();
-        }
+        
 
         private void BtnLaserProcess_Click(object sender, EventArgs e)
         {

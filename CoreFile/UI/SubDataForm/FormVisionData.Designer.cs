@@ -84,7 +84,7 @@
             // 
             this.btnCameraDataLoad.Font = new System.Drawing.Font("굴림", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.btnCameraDataLoad.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.btnCameraDataLoad.Image = global::Core.Properties.Resources.export;
+            //this.btnCameraDataLoad.Image = global::Core.Properties.Resources.export;
             this.btnCameraDataLoad.Location = new System.Drawing.Point(700, 20);
             this.btnCameraDataLoad.Name = "btnCameraDataLoad";
             this.btnCameraDataLoad.Size = new System.Drawing.Size(130, 61);

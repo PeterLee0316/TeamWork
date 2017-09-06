@@ -23,24 +23,7 @@ namespace Core.UI
             InitializeComponent();
 
             m_ModelData = ObjectExtensions.Copy(CMainFrame.DataManager.ModelData);
-
-            foreach (CListHeader info in CMainFrame.DataManager.WaferFrameHeaderList)
-            {
-                if (info.IsFolder == false)
-                {
-                    ComboWaferFrame.Items.Add(info.Name);
-                }
-            }
-
-            try
-            {
-                ComboWaferFrame.SelectedIndex = ComboWaferFrame.Items.IndexOf(m_ModelData.WaferFrameName);
-            }
-            catch (System.Exception ex)
-            {
-                ComboWaferFrame.SelectedIndex = -1;
-            }
-
+            
             this.Text = $"Model Data [ Current Model : {m_ModelData.Name} ]";
         }
 
@@ -54,9 +37,7 @@ namespace Core.UI
             {
                 return;
             }
-
-            m_ModelData.WaferFrameName = ComboWaferFrame.Text;
-
+            
             CMainFrame.Core.SaveModelData(m_ModelData);
         }
 

@@ -29,12 +29,7 @@ using static Core.Layers.DEF_Cylinder;
 using static Core.Layers.DEF_Vacuum;
 
 using static Core.Layers.DEF_MeStage;
-using static Core.Layers.DEF_MeHandler;
-using static Core.Layers.DEF_MeElevator;
-using static Core.Layers.DEF_MePushPull;
-using static Core.Layers.DEF_MeSpinner;
 using static Core.Layers.DEF_Vision;
-using static Core.Layers.DEF_CtrlSpinner;
 using static Core.Layers.DEF_CtrlStage;
 
 namespace Core.Layers
@@ -408,27 +403,6 @@ namespace Core.Layers
             // total : 실체는 각각의 이름으로 지정되어 있지만, 연산하기 편하도록 배열로도 관리할 수 있도록 함
             public CPositionSet[] Pos_Array          = new CPositionSet[(int)EPositionObject.MAX];
             
-            // Loader
-            public CPositionSet Pos_Loader           = new CPositionSet((int)EElevatorPos.MAX);
-
-            // PushPull
-            public CPositionSet Pos_PushPull         = new CPositionSet((int)EPushPullPos.MAX);
-            public CPositionSet Pos_PushPull_Center1 = new CPositionSet((int)ECenterPos.MAX);
-            public CPositionSet Pos_PushPull_Center2 = new CPositionSet((int)ECenterPos.MAX);
-
-            // Spinner1
-            public CPositionSet Pos_S1_Rotate        = new CPositionSet((int)ERotatePos.MAX);
-            public CPositionSet Pos_S1_CoatNozzle    = new CPositionSet((int)ENozzlePos.MAX);
-            public CPositionSet Pos_S1_CleanNozzle   = new CPositionSet((int)ENozzlePos.MAX);
-
-            // Spinner2
-            public CPositionSet Pos_S2_Rotate        = new CPositionSet((int)ERotatePos.MAX);
-            public CPositionSet Pos_S2_CoatNozzle    = new CPositionSet((int)ENozzlePos.MAX);
-            public CPositionSet Pos_S2_CleanNozzle   = new CPositionSet((int)ENozzlePos.MAX);
-
-            // Handler
-            public CPositionSet Pos_UpperHandler     = new CPositionSet((int)EHandlerPos.MAX);
-            public CPositionSet Pos_LowerHandler     = new CPositionSet((int)EHandlerPos.MAX);
 
             // Stage
             public CPositionSet Pos_Stage1           = new CPositionSet((int)EStagePos.MAX);
@@ -438,18 +412,6 @@ namespace Core.Layers
             public CPositionGroup()
             {
                 int index = 0;
-                Pos_Array[index++] = Pos_Loader;
-                Pos_Array[index++] = Pos_PushPull;
-                Pos_Array[index++] = Pos_PushPull_Center1;
-                Pos_Array[index++] = Pos_PushPull_Center2;
-                Pos_Array[index++] = Pos_S1_Rotate;
-                Pos_Array[index++] = Pos_S1_CoatNozzle;
-                Pos_Array[index++] = Pos_S1_CleanNozzle;
-                Pos_Array[index++] = Pos_S2_Rotate;
-                Pos_Array[index++] = Pos_S2_CoatNozzle;
-                Pos_Array[index++] = Pos_S2_CleanNozzle;
-                Pos_Array[index++] = Pos_UpperHandler;
-                Pos_Array[index++] = Pos_LowerHandler;
                 Pos_Array[index++] = Pos_Stage1;
                 Pos_Array[index++] = Pos_Camera1;
                 Pos_Array[index++] = Pos_Scanner1;
@@ -516,39 +478,7 @@ namespace Core.Layers
             public double WaferThickness;
             public double TapeThickness;
         }
-
-        /// <summary>
-        /// Define Wafer Cassette Data
-        /// </summary>
-        public class CWaferFrameData
-        {
-            public string Name;
-
-            public double Diameter;                 // Cassette Frame 지름 ex) 380mm
-            public int SlotNumber;                  // 슬롯갯수            ex) 13ea
-            public int[] SlotStatus;                // 각 슬롯 상태 및 Wafer 처리여부 데이터
-            public int CassetteSetNo;               // Cassette 갯수 ex) 2ea
-            public double FramePitch;               // Cassette Slot Fitch ex) 9.5mm
-            public double CassetteHeight;           // Cassette 높이 ex)155mm
-            public double ESZeroPoint;              // Elevator Start Origin Position ex) Teaching Position 258.3mm
-            public double CTZeroPoint;	            // Chuck Table Angle?
-            public double STZeroPoint;              // Spinner Table Angle?
-            public double FrameCenterPos;           // Centering Unit Wafer Centering Teaching Position ex) 52.4mm
-            public double StagePos;                 // Inspection Stage에 적재 되어 있는 Cassette에 PushPull이 Unloading 가능한 Elevator 의 Teaching 높이 ex) 450.5mm
-
-            // disco사 설비의 5.3.3 과 5.3.3.3 이 같은 Frame Size Register인데, 각각 선언되어 있음. 나중에 확인 필요
-            public double ElevatorPos_atUnload;     // Elevator Start Origin Position에서 Unloading을 위하여 Cassette Offset 높이 ex) -1mm 하강
-            public double PushPullPos_atLoad;       // PushPull 끝단에 설치 되어 있는 감지센서 부터 Cassette에 적재되어 있는 Wafer 까지 거리 ex) 61mm
-            public double PushPullPos_atUnload;     // PushPull 끝단에 설치 되어 있는 감지센서 부터 Cassette에 적재되어 있는 Wafer 까지 거리 ex) 61mm
-            //public double ElevatorPos_atUnload;     // Elevator Start Origin Position에서 Unloading을 위하여 Cassette Offset 높이 ex) -1mm 하강
-            //public double PushPullPos_atLoad;       // PushPull 끝단에 설치 되어 있는 감지센서 부터 Cassette에 적재되어 있는 Wafer 까지 거리 ex) 61mm
-            //public double PushPullPos_atUnload;     // PushPull 끝단에 설치 되어 있는 감지센서 부터 Cassette에 적재되어 있는 Wafer 까지 거리 ex) 61mm
-
-            public CWaferFrameData()
-            {
-                SlotStatus = new int[CASSETTE_MAX_SLOT_NUM];
-            }
-        }
+        
 
         public class CLogParameter
         {
@@ -572,7 +502,6 @@ namespace Core.Layers
         public enum EListHeaderType
         {
             MODEL = 0,
-            WAFERFRAME,
             USERINFO,
             MAX,
         }
@@ -625,15 +554,7 @@ namespace Core.Layers
             // Header
             public string Name = NAME_DEFAULT_MODEL;   // unique primary key
 
-            ///////////////////////////////////////////////////////////
-            // Wafer Data
-            public CWaferData Wafer = new CWaferData();
-            public string WaferFrameName = NAME_DEFAULT_MODEL;       // name of CWaferFrameData class
 
-            // Spinner Data 
-            public CCtrlSpinnerData[] SpinnerData = new CCtrlSpinnerData[(int)ESpinnerIndex.MAX];
-
-            
             ///////////////////////////////////////////////////////////
             // Align Data
             public CCtrlAlignData AlignData = new CCtrlAlignData();
@@ -648,21 +569,6 @@ namespace Core.Layers
             // Function Parameter
 
             // Mechanical Layer
-
-            // MeSpinner
-            public bool[] MeSpinner1_UseVccFlag = new bool[(int)EChuckVacuum.MAX];
-            public bool[] MeSpinner2_UseVccFlag = new bool[(int)EChuckVacuum.MAX];
-
-            // MMeHandler
-            public bool[] MeUH_UseMainCylFlag = new bool[DEF_MAX_COORDINATE];
-            public bool[] MeUH_UseSubCylFlag = new bool[DEF_MAX_COORDINATE];
-            public bool[] MeUH_UseGuideCylFlag = new bool[DEF_MAX_COORDINATE];
-            public bool[] MeUH_UseVccFlag = new bool[(int)EHandlerVacuum.MAX];
-
-            public bool[] MeLH_UseMainCylFlag = new bool[DEF_MAX_COORDINATE];
-            public bool[] MeLH_UseSubCylFlag = new bool[DEF_MAX_COORDINATE];
-            public bool[] MeLH_UseGuideCylFlag = new bool[DEF_MAX_COORDINATE];
-            public bool[] MeLH_UseVccFlag = new bool[(int)EHandlerVacuum.MAX];
 
             // MeStage
             public bool[] MeStage_UseVccFlag = new bool[(int)EStageVacuum.MAX];
@@ -686,10 +592,7 @@ namespace Core.Layers
 
             public CModelData()
             {
-                for(int i = 0; i < (int)ESpinnerIndex.MAX; i++)
-                {
-                    SpinnerData[i] = new CCtrlSpinnerData();
-                }
+
             }
         }
 
@@ -842,15 +745,6 @@ namespace Core.Layers
         // Model Data
         public CModelData ModelData { get; private set; } = new CModelData();
         public List<CListHeader> ModelHeaderList { get; set; } = new List<CListHeader>();
-
-        // 20161101 WaferFrameData class 로 통합하면서 waferCassett는 사용하지 않음
-        // WaferCassette Data
-        //public CWaferCassette CassetteData { get; private set; } = new CWaferCassette();
-        //public List<CListHeader> CassetteHeaderList { get; set; } = new List<CListHeader>();
-
-        // WaferFrame Data
-        public CWaferFrameData WaferFrameData { get; private set; } = new CWaferFrameData();
-        public List<CListHeader> WaferFrameHeaderList { get; set; } = new List<CListHeader>();
 
         /////////////////////////////////////////////////////////////////////////////////
         // General Information Data 
@@ -1581,7 +1475,7 @@ namespace Core.Layers
             string key_value, output;
             for (int i = 0; i < (int)EPositionObject.MAX; i++)
             {
-                EPositionObject tUnit = EPositionObject.LOADER + i;
+                EPositionObject tUnit = EPositionObject.STAGE1 + i;
                 if (unit != EPositionObject.ALL && tUnit != unit) continue;
 
                 key_value = $"{tUnit}{suffix}";
@@ -1711,7 +1605,7 @@ namespace Core.Layers
             string key_value, output;
             for (int i = 0; i < (int)EPositionObject.MAX; i++)
             {
-                EPositionObject tUnit = EPositionObject.LOADER + i;
+                EPositionObject tUnit = EPositionObject.STAGE1 + i;
                 if (unit != EPositionObject.ALL && tUnit != unit) continue;
 
                 key_value = $"{tUnit}{suffix}";
@@ -1892,10 +1786,6 @@ namespace Core.Layers
                     headerList = ModelHeaderList;
                     tableName = DBInfo.TableModelHeader;
                     break;
-                case EListHeaderType.WAFERFRAME:
-                    headerList = WaferFrameHeaderList;
-                    tableName = DBInfo.TableWaferFrameHeader;
-                    break;
                 case EListHeaderType.USERINFO:
                 default:
                     headerList = UserInfoHeaderList;
@@ -1911,10 +1801,6 @@ namespace Core.Layers
                 case EListHeaderType.MODEL:
                     headerList = ModelHeaderList;
                     tableName = DBInfo.TableModel;
-                    break;
-                case EListHeaderType.WAFERFRAME:
-                    headerList = WaferFrameHeaderList;
-                    tableName = DBInfo.TableWaferFrame;
                     break;
                 case EListHeaderType.USERINFO:
                 default:
@@ -2087,35 +1973,7 @@ namespace Core.Layers
                 iResult = SaveUserData(data);
                 if (iResult != SUCCESS) return iResult;
             }
-
-            ////////////////////////////////////////////////////////////////////////////////
-            // WaferFrame
-            type = EListHeaderType.WAFERFRAME;
-            // make root folder
-            if (IsModelHeaderExist(NAME_ROOT_FOLDER, type) == false)
-            {
-                CListHeader header = new CListHeader();
-                header.SetRootFolder();
-                WaferFrameHeaderList.Add(header);
-                iResult = SaveModelHeaderList(type);
-                if (iResult != SUCCESS) return iResult;
-            }
-
-            // make default data
-            if (IsModelHeaderExist(NAME_DEFAULT_MODEL, type) == false)
-            {
-                CListHeader header = new CListHeader();
-                header.SetDefaultModel();
-                WaferFrameHeaderList.Add(header);
-                iResult = SaveModelHeaderList(type);
-                if (iResult != SUCCESS) return iResult;
-            }
-            if (IsModelExist(NAME_DEFAULT_MODEL, type) == false)
-            {
-                CWaferFrameData data = new CWaferFrameData();
-                iResult = SaveModelData(data);
-                if (iResult != SUCCESS) return iResult;
-            }
+            
 
             return SUCCESS;
         }
@@ -2123,7 +1981,6 @@ namespace Core.Layers
         public int LoadModelList()
         {
             LoadModelList(EListHeaderType.MODEL);
-            LoadModelList(EListHeaderType.WAFERFRAME);
             LoadModelList(EListHeaderType.USERINFO);
 
             return SUCCESS;
@@ -2170,9 +2027,6 @@ namespace Core.Layers
             {
                 case EListHeaderType.MODEL:
                     ModelHeaderList = ObjectExtensions.Copy(headerList);
-                    break;
-                case EListHeaderType.WAFERFRAME:
-                    WaferFrameHeaderList = ObjectExtensions.Copy(headerList);
                     break;
                 case EListHeaderType.USERINFO:
                     UserInfoHeaderList = ObjectExtensions.Copy(headerList);
@@ -2311,9 +2165,6 @@ namespace Core.Layers
                 case EListHeaderType.MODEL:
                     if (name == SystemData.ModelName) return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_DELETE_CURRENT_MODEL);
                     break;
-                case EListHeaderType.WAFERFRAME:
-                    if (name == ModelData.WaferFrameName) return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_DELETE_CURRENT_MODEL);
-                    break;
                 case EListHeaderType.USERINFO:
                     if (name == LoginInfo.User.Name) return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_DELETE_CURRENT_MODEL);
                     break;
@@ -2366,30 +2217,6 @@ namespace Core.Layers
             return SUCCESS;
         }
 
-        public int SaveModelData(CWaferFrameData data)
-        {
-            EListHeaderType type = EListHeaderType.WAFERFRAME;
-            string tableName = DBInfo.TableWaferFrame;
-            try
-            {
-                WaferFrameData = ObjectExtensions.Copy(data);
-                string output = JsonConvert.SerializeObject(data);
-
-                if (DBManager.InsertRow(DBInfo.DBConn, tableName, "name", data.Name, output,
-                    true, DBInfo.DBConn_Backup) != true)
-                {
-                    return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_SAVE_GENERAL_DATA);
-                }
-            }
-            catch (Exception ex)
-            {
-                WriteExLog(ex.ToString());
-                return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_SAVE_GENERAL_DATA);
-            }
-
-            WriteLog($"success : save {type} model [{data.Name}].", ELogType.SYSTEM, ELogWType.SAVE);
-            return SUCCESS;
-        }
 
         /// <summary>
         /// CUserInfo List는 ModelData는 아니지만, 함수를 같이 사용하기 위해서 SaveModelData를 이용해서 호출할수 있도록
@@ -2531,50 +2358,6 @@ namespace Core.Layers
             return SUCCESS;
         }
 
-        public int LoadWaferFrameData(string name)
-        {
-            EListHeaderType type = EListHeaderType.WAFERFRAME;
-            int iResult = SUCCESS;
-            // 0. check exist
-            if (string.IsNullOrWhiteSpace(name))
-            {
-                return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_LOAD_MODEL_DATA);
-            }
-            if (IsModelExist(name, type) == false)
-            {
-                return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_LOAD_MODEL_DATA);
-            }
-
-            CWaferFrameData data = null;
-            try
-            {
-                string output;
-                // 1.3. load waferframe data
-                if (DBManager.SelectRow(DBInfo.DBConn, DBInfo.TableWaferFrame, out output, new CDBColumn("name", name)) == true)
-                {
-                    data = JsonConvert.DeserializeObject<CWaferFrameData>(output);
-                }
-                else
-                {
-                    //return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_LOAD_MODEL_DATA);
-                }
-
-                // 2. finally, set model data
-                if (data != null)
-                {
-                    WaferFrameData = ObjectExtensions.Copy(data);
-                    WriteLog($"success : change {type} : {name}.", ELogType.SYSTEM, ELogWType.LOAD);
-                }
-            }
-            catch (Exception ex)
-            {
-                WriteExLog(ex.ToString());
-                return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_LOAD_MODEL_DATA);
-            }
-
-            return SUCCESS;
-        }
-
 
         public int ViewModelData(string name, out CModelData data)
         {
@@ -2606,38 +2389,7 @@ namespace Core.Layers
 
             return SUCCESS;
         }
-
-        public int ViewModelData(string name, out CWaferFrameData data)
-        {
-            data = new CWaferFrameData();
-            // 0. check exist
-            if (IsModelExist(name, EListHeaderType.MODEL) == false)
-            {
-                return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_LOAD_MODEL_DATA);
-            }
-
-            try
-            {
-                // 1. load model
-                string output;
-                if (DBManager.SelectRow(DBInfo.DBConn, DBInfo.TableWaferFrame, out output, new CDBColumn("name", name)) == true)
-                {
-                    data = JsonConvert.DeserializeObject<CWaferFrameData>(output);
-                }
-                else
-                {
-                    return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_LOAD_MODEL_DATA);
-                }
-            }
-            catch (Exception ex)
-            {
-                WriteExLog(ex.ToString());
-                return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_LOAD_MODEL_DATA);
-            }
-
-            return SUCCESS;
-        }
-
+        
         public int Logout()
         {
             int iResult = Login(NAME_DEFAULT_OPERATOR);

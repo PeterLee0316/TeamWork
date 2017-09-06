@@ -17,7 +17,6 @@ namespace Core.Layers
     public class DEF_OpPanel
     {
         public const int DEF_OPPANEL_NONE_PANEL_ID = 0;
-
         public const int DEF_OPPANEL_FRONT_PANEL_ID = 1;
         public const int DEF_OPPANEL_BACK_PANEL_ID = 2;
 

@@ -488,28 +488,6 @@ namespace Core.Layers
         {
             ALL = -1,
 
-            // Loader
-            LOADER = 0,
-
-            // PushPull
-            PUSHPULL,
-            PUSHPULL_CENTER1,
-            PUSHPULL_CENTER2,     
-
-            // Spinner1
-            S1_ROTATE,
-            S1_CLEAN_NOZZLE,
-            S1_COAT_NOZZLE,
-
-            // Spinner2
-            S2_ROTATE,
-            S2_CLEAN_NOZZLE,
-            S2_COAT_NOZZLE,
-
-            // Handler
-            UPPER_HANDLER,
-            LOWER_HANDLER,
-
             // Stage
             STAGE1,
             CAMERA1,
@@ -524,22 +502,7 @@ namespace Core.Layers
         public enum EPositionGroup // 좌표셋을 저장할 수 있는 단위
         {
             ALL = -1,
-
-            // Loader
-            LOADER = 0,
-
-            // PushPull
-            PUSHPULL,
-
-            // Spinner1
-            SPINNER1,
-
-            // Spinner2
-            SPINNER2,
-
-            // Handler
-            HANDLER,
-
+            
             // Stage
             STAGE1,
 
