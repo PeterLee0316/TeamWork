@@ -8,7 +8,6 @@ using System.IO.Ports;
 using System.Windows.Forms;
 
 using Core.UI;
-using MotionYMC;
 
 using static Core.Layers.DEF_System;
 using static Core.Layers.DEF_Common;
@@ -21,9 +20,7 @@ using static Core.Layers.DEF_LCNet;
 using static Core.Layers.DEF_SocketClient;
 
 using static Core.Layers.DEF_Motion;
-using static Core.Layers.DEF_Yaskawa;
 using static Core.Layers.DEF_ACS;
-using static Core.Layers.DEF_MultiAxesYMC;
 using static Core.Layers.DEF_MultiAxesACS;
 using static Core.Layers.DEF_Cylinder;
 using static Core.Layers.DEF_Vacuum;
@@ -58,7 +55,6 @@ namespace Core.Layers
         // Hardware Layer
 
         // Motion
-        public MYaskawa m_YMC;
         public MACS m_ACS;
 
         // MultiAxes
@@ -234,9 +230,6 @@ namespace Core.Layers
 
             ////////////////////////////////////////////////////////////////////////
             // Motion
-            m_SystemInfo.GetObjectInfo(3, out objInfo);
-            iResult = CreateYMCBoard(objInfo);
-            CMainFrame.DisplayAlarmOnly(iResult);
 
             m_SystemInfo.GetObjectInfo(4, out objInfo);
             iResult = CreateACSChannel(objInfo);
@@ -249,10 +242,7 @@ namespace Core.Layers
 
             ////////////////////////////////////////////////////////////////////////
             // IO
-            m_SystemInfo.GetObjectInfo(6, out objInfo);
-            m_IO = new MIO_YMC(objInfo);
-            iResult = m_IO.Initialize();
-            CMainFrame.DisplayAlarmOnly(iResult);
+
 
             ////////////////////////////////////////////////////////////////////////
             // Cylinder
@@ -395,8 +385,6 @@ namespace Core.Layers
             ////////////////////////////////////////////////////////////////////////
             // 6. Start Thread & System
             ////////////////////////////////////////////////////////////////////////
-            iResult = m_YMC.ThreadStart();
-            CMainFrame.DisplayAlarmOnly(iResult);
 
             intro.SetStatus("Process Start", 90);
 
@@ -414,22 +402,6 @@ namespace Core.Layers
         void InitDataFileNames(out CDBInfo dbInfo)
         {
             dbInfo = new CDBInfo();
-        }
-
-        int CreateYMCBoard(CObjectInfo objInfo)
-        {
-            CYaskawaRefComp refComp = new CYaskawaRefComp();
-            CYaskawaData data = new CYaskawaData();
-
-            m_YMC = new MYaskawa(objInfo, refComp, data);
-            m_YMC.SetMPMotionData(m_DataManager.SystemData_Axis.MPMotionData);
-
-#if !SIMULATION_MOTION_YMC
-            int iResult = m_YMC.OpenController();
-            if (iResult != SUCCESS) return iResult;
-#endif
-
-            return SUCCESS;
         }
 
         int CreateACSChannel(CObjectInfo objInfo)
@@ -649,7 +621,6 @@ namespace Core.Layers
         {
             CTrsAutoManagerRefComp refComp = new CTrsAutoManagerRefComp();
             refComp.IO = m_IO;
-            refComp.YMC = m_YMC;
             refComp.ACS = m_ACS;
             refComp.OpPanel = m_OpPanel;
 
@@ -1021,7 +992,6 @@ namespace Core.Layers
             COpPanelData data = new COpPanelData();
 
             refComp.IO = m_IO;
-            refComp.Yaskawa_Motion = m_YMC;
             refComp.ACS_Motion = m_ACS;
 
             COpPanelIOAddr sPanelIOAddr = new COpPanelIOAddr();

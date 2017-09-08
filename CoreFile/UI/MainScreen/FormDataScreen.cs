@@ -16,7 +16,6 @@ using Excel = Microsoft.Office.Interop.Excel;
 
 using static Core.Layers.DEF_Thread;
 using static Core.Layers.DEF_Common;
-using static Core.Layers.DEF_Yaskawa;
 using static Core.Layers.DEF_DataManager;
 
 namespace Core.UI

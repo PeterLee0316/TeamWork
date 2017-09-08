@@ -65,6 +65,7 @@
             this.gradientPanel2.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.gradientPanel2.Controls.Add(this.autoLabel2);
             this.gradientPanel2.Controls.Add(this.BtnModelData);
+            this.gradientPanel2.Controls.Add(this.BtnModelList);
             this.gradientPanel2.Location = new System.Drawing.Point(40, 426);
             this.gradientPanel2.Name = "gradientPanel2";
             this.gradientPanel2.Size = new System.Drawing.Size(287, 347);
@@ -88,7 +89,7 @@
             this.BtnModelData.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.BtnModelData.ForeColor = System.Drawing.Color.MidnightBlue;
             this.BtnModelData.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.BtnModelData.Location = new System.Drawing.Point(20, 46);
+            this.BtnModelData.Location = new System.Drawing.Point(150, 52);
             this.BtnModelData.Name = "BtnModelData";
             this.BtnModelData.Size = new System.Drawing.Size(124, 67);
             this.BtnModelData.TabIndex = 37;
@@ -106,7 +107,6 @@
             this.gradientPanel4.Controls.Add(this.BtnSystemData);
             this.gradientPanel4.Controls.Add(this.BtnExcelLoad);
             this.gradientPanel4.Controls.Add(this.autoLabel4);
-            this.gradientPanel4.Controls.Add(this.BtnModelList);
             this.gradientPanel4.Location = new System.Drawing.Point(40, 23);
             this.gradientPanel4.Name = "gradientPanel4";
             this.gradientPanel4.Size = new System.Drawing.Size(287, 347);
@@ -120,7 +120,7 @@
             this.BtnUserList.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.BtnUserList.ForeColor = System.Drawing.Color.MidnightBlue;
             this.BtnUserList.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.BtnUserList.Location = new System.Drawing.Point(20, 192);
+            this.BtnUserList.Location = new System.Drawing.Point(150, 49);
             this.BtnUserList.Name = "BtnUserList";
             this.BtnUserList.Size = new System.Drawing.Size(124, 67);
             this.BtnUserList.TabIndex = 38;
@@ -152,7 +152,7 @@
             this.BtnExcelLoad.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.BtnExcelLoad.ForeColor = System.Drawing.Color.MidnightBlue;
             this.BtnExcelLoad.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.BtnExcelLoad.Location = new System.Drawing.Point(150, 49);
+            this.BtnExcelLoad.Location = new System.Drawing.Point(20, 122);
             this.BtnExcelLoad.Name = "BtnExcelLoad";
             this.BtnExcelLoad.Size = new System.Drawing.Size(124, 67);
             this.BtnExcelLoad.TabIndex = 16;
@@ -179,7 +179,7 @@
             this.BtnModelList.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.BtnModelList.ForeColor = System.Drawing.Color.MidnightBlue;
             this.BtnModelList.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.BtnModelList.Location = new System.Drawing.Point(20, 120);
+            this.BtnModelList.Location = new System.Drawing.Point(20, 52);
             this.BtnModelList.Name = "BtnModelList";
             this.BtnModelList.Size = new System.Drawing.Size(124, 67);
             this.BtnModelList.TabIndex = 9;
@@ -279,7 +279,7 @@
             this.BtnMotorData.Name = "BtnMotorData";
             this.BtnMotorData.Size = new System.Drawing.Size(124, 67);
             this.BtnMotorData.TabIndex = 12;
-            this.BtnMotorData.Text = "Motor";
+            this.BtnMotorData.Text = "Motion";
             this.BtnMotorData.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.BtnMotorData.Click += new System.EventHandler(this.BtnMotorData_Click);
             // 
@@ -291,7 +291,7 @@
             this.BtnCylinderData.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.BtnCylinderData.ForeColor = System.Drawing.Color.MidnightBlue;
             this.BtnCylinderData.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.BtnCylinderData.Location = new System.Drawing.Point(153, 49);
+            this.BtnCylinderData.Location = new System.Drawing.Point(19, 192);
             this.BtnCylinderData.Name = "BtnCylinderData";
             this.BtnCylinderData.Size = new System.Drawing.Size(124, 67);
             this.BtnCylinderData.TabIndex = 13;

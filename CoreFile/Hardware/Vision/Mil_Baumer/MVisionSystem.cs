@@ -74,7 +74,6 @@ namespace Core.Layers
             freeSystems();
         }
 
-
         // Gig-E System을 초기화 한다.
         public int Initialize()
         {                        

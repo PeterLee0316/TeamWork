@@ -33,11 +33,8 @@ namespace Core.Layers
 
         public class CTrsAutoManagerRefComp
         {
-            public IIO IO;
-
-            public MYaskawa YMC;
+            public IIO IO;            
             public MACS ACS;
-
             public MOpPanel OpPanel;
 
             public MCtrlOpPanel ctrlOpPanel;
@@ -208,9 +205,6 @@ namespace Core.Layers
             int iResult = SUCCESS;
             bool bStatus, bStatus1, bStatus2;
 
-            // 160812 by ranian. OpenController 함수에서 com port를 열어주지만, 
-            // Yaskawa는 쓰레드마다 comport을 열어줘야하다고 한다.
-            m_RefComp.YMC.OpenComPortOnly();
 
             // timer start if it is needed.
 
@@ -233,29 +227,6 @@ namespace Core.Layers
                 // check message from other thread
                 CheckMsg(1);
 
-#if !SIMULATION_IO
-                // 160905 런상태에서만 oppanel 및 interface를 점검하는것은 안됨.
-                //if( RunStatus == EAutoRunStatus.STS_RUN || RunStatus == EAutoRunStatus.STS_RUN_READY)
-                {
-                    // check op panel
-                    iResult = ProcessOpPanel();
-                    if (iResult != SUCCESS)
-                    {
-                        SendMsg(MSG_PROCESS_ALARM, ObjInfo.ID, iResult);
-                    }
-                    // check interface with other facility
-                    iResult = ProcessRealInterface();
-                    if (iResult != SUCCESS)
-                    {
-                        SendMsg(MSG_PROCESS_ALARM, ObjInfo.ID, iResult);
-                    }
-                }
-
-                // process pumping job
-
-
-                // do other job
-#endif
 
 #if !SIMULATION_MOTION_YMC
                 //m_RefComp.YMC.GetAllServoStatus();
@@ -717,15 +688,6 @@ namespace Core.Layers
             int iResult = SUCCESS;
             bool bStatus;
 
-            ////////////////////////////////////////////////////////////////////////////////
-            // Motion쪽으로 door 상태나 estop 상태를 내려주는 역할
-            iResult = m_RefComp.ctrlOpPanel.CheckDoorSafety(out bStatus);
-            if (iResult != SUCCESS) m_RefComp.YMC.IsDoorOpened = true;
-            else m_RefComp.YMC.IsDoorOpened = false;
-
-            iResult = m_RefComp.ctrlOpPanel.CheckAreaSafety(out bStatus);
-            if (iResult != SUCCESS) m_RefComp.YMC.IsAreaDetected = true;
-            else m_RefComp.YMC.IsAreaDetected = false;
 
             ////////////////////////////////////////////////////////////////////////////////
             // 장비 START Switch Check

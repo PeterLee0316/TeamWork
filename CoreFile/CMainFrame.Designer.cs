@@ -35,7 +35,7 @@
             // 
             this.pnlPic.Location = new System.Drawing.Point(26, 28);
             this.pnlPic.Name = "pnlPic";
-            this.pnlPic.Size = new System.Drawing.Size(139, 106);
+            this.pnlPic.Size = new System.Drawing.Size(373, 325);
             this.pnlPic.TabIndex = 0;
             this.pnlPic.Visible = false;
             // 
@@ -44,7 +44,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ActiveBorder;
-            this.ClientSize = new System.Drawing.Size(1280, 1024);
+            this.ClientSize = new System.Drawing.Size(431, 396);
             this.ControlBox = false;
             this.Controls.Add(this.pnlPic);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;

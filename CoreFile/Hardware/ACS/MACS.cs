@@ -726,15 +726,7 @@ namespace Core.Layers
 
         public void GetScannerStatus()
         {
-#if EQUIP_266_DEV
-            ScannerStatus[(int)EScannerStatus.EXPO_BUSY] = CStatusArray.IntStatus[(int)EACS_Axis.POLYGON, 0];
-            ScannerStatus[(int)EScannerStatus.JOB_START] = CStatusArray.IntStatus[(int)EACS_Axis.POLYGON, 1];
-            ScannerStatus[(int)EScannerStatus.PRO_COUNT] = CStatusArray.IntStatus[(int)EACS_Axis.POLYGON, 2];
-#else
-            ScannerStatus[(int)EScannerStatus.EXPO_BUSY] = 0;
-            ScannerStatus[(int)EScannerStatus.JOB_START] = 0;
-            ScannerStatus[(int)EScannerStatus.PRO_COUNT] = 0;
-#endif
+
         }
 
         public int ServoOn(int deviceNo)

@@ -400,9 +400,7 @@ namespace Core.Layers
             JOG_SLOW,
             JOG_FAST,
             MAX,
-        }
-
-
+        }                
     }
 
     /// <summary>

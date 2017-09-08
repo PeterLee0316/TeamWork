@@ -212,7 +212,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "FormCreateMaker";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Create Maker";
+            this.Text = "Create Folder";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormCreateMaker_FormClosing);
             this.Load += new System.EventHandler(this.FormCreateMaker_Load);
             this.ResumeLayout(false);

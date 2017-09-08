@@ -17,7 +17,6 @@ using static Core.Layers.DEF_System;
 using static Core.Layers.DEF_Common;
 
 using static Core.Layers.DEF_Motion;
-using static Core.Layers.DEF_Yaskawa;
 using static Core.Layers.DEF_ACS;
 using static Core.Layers.DEF_DataManager;
 
@@ -107,77 +106,7 @@ namespace Core.UI
 
         private void TimerUI_Tick(object sender, EventArgs e)
         {
-            double dPos = 0;
-            string on = "On";
-            string off = "Off";
 
-            CMPServoStatus mpStatus;
-            for(int i = 0; i < (int)EYMC_Axis.MAX; i++)
-            {
-                mpStatus = CMainFrame.Core.m_YMC.ServoStatus[i];
-
-                // 1.Encoder Position
-                MotorPos[i].Text = String.Format("{0:0.000}", mpStatus.EncoderPos);
-
-                // 2.Servo On, Off
-                MotorServo[i].Text = mpStatus.IsServoOn ? on : off;
-                if (mpStatus.IsServoOn) MotorServo[i].BackgroundColor = Brush_ServoOn;
-                else MotorServo[i].BackgroundColor = Brush_Default;
-
-                // 3.- Limit Sensor
-                MotorNLimit[i].Text = mpStatus.DetectMinusSensor ? on : off;
-                if (mpStatus.DetectMinusSensor) MotorNLimit[i].BackgroundColor = Brush_LimitDetected;
-                else MotorNLimit[i].BackgroundColor = Brush_Default;
-
-                // 4.Home Sensor
-                MotorHome[i].Text = mpStatus.DetectHomeSensor ? on : off;
-                if (mpStatus.DetectHomeSensor) MotorHome[i].BackgroundColor = Brush_ServoOn;
-                else MotorHome[i].BackgroundColor = Brush_Default;
-
-                // 5.+Limit Sensor
-                MotorPLimit[i].Text = mpStatus.DetectPlusSensor ? on : off;
-                if (mpStatus.DetectPlusSensor) MotorPLimit[i].BackgroundColor = Brush_LimitDetected;
-                else MotorPLimit[i].BackgroundColor = Brush_Default;
-
-                // 6.Driver Alarm
-                //MotorAlarm[i].Text = "ER0001";
-                MotorAlarm[i].Text = mpStatus.AlarmCode.ToString();
-                if (MotorAlarm[i].Text != "0") MotorAlarm[i].BackgroundColor = Brush_LimitDetected;
-                else MotorAlarm[i].BackgroundColor = Brush_Default;
-            }
-
-            CACSServoStatus acsStatus;
-            for (int i = (int)EYMC_Axis.MAX, j = 0; i < MaxRowSize; i++, j++)
-            {
-                acsStatus = CMainFrame.Core.m_ACS.ServoStatus[j];
-
-                // 1.Encoder Position
-                MotorPos[i].Text = string.Format("{0:f4}", acsStatus.EncoderPos);
-
-                // 2.Servo On, Off
-                MotorServo[i].Text = acsStatus.IsServoOn ? on : off;
-                if (acsStatus.IsServoOn) MotorServo[i].BackgroundColor = Brush_ServoOn;
-                else MotorServo[i].BackgroundColor = Brush_Default;
-
-                // 3.- Limit Sensor
-                MotorNLimit[i].Text = acsStatus.DetectMinusSensor ? on : off;
-                if (acsStatus.DetectMinusSensor) MotorNLimit[i].BackgroundColor = Brush_LimitDetected;
-                else MotorNLimit[i].BackgroundColor = Brush_Default;
-
-                // 4.Home Sensor
-                MotorHome[i].Text = acsStatus.DetectHomeSensor ? on : off;
-                if (acsStatus.DetectHomeSensor) MotorHome[i].BackgroundColor = Brush_ServoOn;
-                else MotorHome[i].BackgroundColor = Brush_Default;
-
-                // 5.+Limit Sensor
-                MotorPLimit[i].Text = acsStatus.DetectPlusSensor ? on : off;
-                if (acsStatus.DetectPlusSensor) MotorPLimit[i].BackgroundColor = Brush_LimitDetected;
-                else MotorPLimit[i].BackgroundColor = Brush_Default;
-
-                // 6.Driver Alarm
-                //MotorAlarm[i].Text = "ER0001";
-                //MotorAlarm[i].Text = acsStatus.AlarmCode.ToString();
-            }
         }
 
         private void BtnExit_Click(object sender, EventArgs e)

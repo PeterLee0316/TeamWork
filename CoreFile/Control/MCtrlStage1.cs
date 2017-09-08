@@ -965,18 +965,6 @@ namespace Core.Layers
                 return MoveStageRelative(movePos);
             }
 
-            // 임시 적용
-#if EQUIP_266_DEV
-            if (CMainFrame.Core.m_ctrlStage1.GetCurrentCam() == INSP_CAM)
-            {
-                ratioMove = CMainFrame.DataManager.SystemData_Align.MicroScreenWidth / (double)picSize.Width;
-
-                movePos.dX = (double)moveDistance.X * ratioMove;
-                movePos.dY = -(double)moveDistance.Y * ratioMove;
-
-                CMainFrame.Core.m_ctrlStage1.MoveStageRelative(movePos);
-            }
-#endif
 
             return SUCCESS;
         }

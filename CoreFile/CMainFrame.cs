@@ -48,14 +48,6 @@ namespace Core.UI
         // 공용으로 사용할 ActionTimer
         private static MTickTimer ActionTimer = new MTickTimer();
         
-
-        //private FormAutoScreen AutoScreen;
-        //private FormManualScreen ManualScreen;
-        //private FormDataScreen DataScreen;
-        //private FormTeachScreen TeachScreen;
-        //private FormLogScreen LogScreen;
-        //private FormHelpScreen HelpScreen;
-
         private Form[] MainFormArray = new Form[(int)EFormType.MAX];
 
         public static Syncfusion.Drawing.BrushInfo Brush_On   = new Syncfusion.Drawing.BrushInfo(Color.Yellow);
@@ -82,7 +74,6 @@ namespace Core.UI
             InitializeComponent();
 
             InitializeForm();
-
             CreateForms();
             InitScreen();
 
@@ -106,8 +97,7 @@ namespace Core.UI
             Core.m_Vision.InitialLocalView(2, pnlPic.Handle);
 #endif
         }
-
-
+        
         private void AttachEventHandlers()
         {
             DisplayManager.FormHandler += new FormSelectEventHandler(SelectFormChange);
@@ -218,8 +208,6 @@ namespace Core.UI
             {
                 SetProperty(form);
             }
-
-
         }
 
         private void SetProperty(Form form)

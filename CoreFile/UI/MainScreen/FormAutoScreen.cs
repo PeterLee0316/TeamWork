@@ -79,8 +79,6 @@ namespace Core.UI
                 //m_dlgStart.ShowWindow(SW_SHOW);
                 //m_dlgErrorStop.ShowWindow(SW_HIDE);
                 //m_dlgStepStop.ShowWindow(SW_HIDE);
-                LabelButtonGuide.Text = "Press start button to start auto run.";
-                LabelButtonGuide.Visible = true;
 
                 // Button Disable 
                 m_nStartReady = 1;
@@ -91,8 +89,6 @@ namespace Core.UI
                 //m_dlgStart.ShowWindow(SW_HIDE);
                 //m_dlgErrorStop.ShowWindow(SW_HIDE);
                 //m_dlgStepStop.ShowWindow(SW_HIDE);
-                LabelButtonGuide.Text = "Auto Running....";
-                LabelButtonGuide.Visible = true;
 
                 // Button Disable 
                 m_nStartReady = 2;
@@ -103,8 +99,6 @@ namespace Core.UI
                 //m_dlgStart.ShowWindow(SW_HIDE);
                 //m_dlgErrorStop.ShowWindow(SW_HIDE);
                 //m_dlgStepStop.ShowWindow(SW_HIDE);
-                LabelButtonGuide.Text = "Manual Mode....";
-                LabelButtonGuide.Visible = true;
 
                 // Button Disable 
                 m_nStartReady = 0;
@@ -115,8 +109,6 @@ namespace Core.UI
                 //m_dlgStart.ShowWindow(SW_HIDE);
                 //m_dlgErrorStop.ShowWindow(SW_HIDE);
                 //m_dlgStepStop.ShowWindow(SW_SHOW);
-                LabelButtonGuide.Text = "Step Stop Mode";
-                LabelButtonGuide.Visible = true;
 
                 SetButtonStatus(true);
             }
@@ -125,8 +117,6 @@ namespace Core.UI
                 //m_dlgStart.ShowWindow(SW_HIDE);
                 //m_dlgErrorStop.ShowWindow(SW_SHOW);
                 //m_dlgStepStop.ShowWindow(SW_HIDE);
-                LabelButtonGuide.Text = "Error Stop Mode";
-                LabelButtonGuide.Visible = true;
 
             }
             else if (evnt.Msg == (int)EWindowMessage.WM_ALARM_MSG)

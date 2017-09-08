@@ -15,13 +15,10 @@ using Syncfusion.Windows.Forms.Tools;
 using static Core.Layers.DEF_System;
 using static Core.Layers.DEF_Common;
 
-using static Core.Layers.MYaskawa;
 using static Core.Layers.DEF_Motion;
-using static Core.Layers.DEF_Yaskawa;
 using static Core.Layers.DEF_ACS;
 using static Core.Layers.DEF_Error;
 
-using MotionYMC;
 
 namespace Core.UI
 {
@@ -38,7 +35,6 @@ namespace Core.UI
         CMotorSpeedData AxisSpeedData = new CMotorSpeedData();
 
         private int SelectedAxis;
-
         private bool IsFastMove = false;
 
         ButtonAdv[] AxisNo = new ButtonAdv[19];
@@ -161,15 +157,10 @@ namespace Core.UI
                 speedIndex = IsFastMove ? (int)EMotorSpeed.MANUAL_FAST: (int)EMotorSpeed.MANUAL_SLOW;
             }
 
-            if (m_MotionSelect == EMotionSelect.YMC)
-            {
-                AxisSpeedData = CMainFrame.DataManager.SystemData_Axis.MPMotionData[SelectedAxis].Speed[speedIndex];
-            }
-            else
-            {
+            
                 int selectAxis = SelectedAxis;
                 AxisSpeedData = CMainFrame.DataManager.SystemData_Axis.ACSMotionData[selectAxis].Speed[speedIndex];
-            }
+            
             LabelVelocity.Text = Convert.ToString(AxisSpeedData.Vel);
 
             if (IsFastMove == true)
@@ -326,14 +317,9 @@ namespace Core.UI
 
             if (m_MoveOption == EMoveOption.JOG)
             {
-                if (m_MotionSelect == EMotionSelect.YMC)
-                {
-                    iResult = CMainFrame.Core.m_YMC.StartJogMove(SelectedAxis, bDirection, IsFastMove);
-                }
-                else
-                {
+                
                     iResult = CMainFrame.Core.m_ACS.StartJogMove(SelectedAxis, bDirection, IsFastMove);
-                }
+                
             }
             else if (m_MoveOption == EMoveOption.INC)
             {
@@ -343,16 +329,8 @@ namespace Core.UI
                     dTargetPos[0] = Convert.ToDouble(LabelCurrent.Text) + Convert.ToDouble(LabelTarget.Text);
                 else dTargetPos[0] = Convert.ToDouble(LabelCurrent.Text) - Convert.ToDouble(LabelTarget.Text);
 
-                if (m_MotionSelect == EMotionSelect.YMC)
-                {
-                    CMotorSpeedData[] tSpeed = new CMotorSpeedData[1];
-                    tSpeed[0] = AxisSpeedData;
-                    iResult = CMainFrame.Core.m_YMC.StartMoveToPos(SelectedAxis, dTargetPos, tSpeed);
-                }
-                else
-                {
-                    iResult = CMainFrame.Core.m_ACS.MoveToPos(SelectedAxis, dTargetPos[0], AxisSpeedData);
-                }
+                iResult = CMainFrame.Core.m_ACS.MoveToPos(SelectedAxis, dTargetPos[0], AxisSpeedData);
+                
             }
             if (iResult != SUCCESS)
             {
@@ -366,24 +344,12 @@ namespace Core.UI
 
             if (m_MoveOption == EMoveOption.JOG)
             {
-                if (m_MotionSelect == EMotionSelect.YMC)
-                {
-                    iResult = CMainFrame.Core.m_YMC.StopJogMove(SelectedAxis);
-                }
-                else
-                {
-                    CMainFrame.Core.m_ACS.StopJogMove(SelectedAxis);
-                }
+                CMainFrame.Core.m_ACS.StopJogMove(SelectedAxis);
+                
             } else
             {
-                if (m_MotionSelect == EMotionSelect.YMC)
-                {
-                    iResult = CMainFrame.Core.m_YMC.StopServoMotion(SelectedAxis);
-                }
-                else
-                {
-                    CMainFrame.Core.m_ACS.StopServoMotion(SelectedAxis);
-                }
+                CMainFrame.Core.m_ACS.StopServoMotion(SelectedAxis);
+                
             }
             if (iResult != SUCCESS)
             {
@@ -423,16 +389,8 @@ namespace Core.UI
 
             double[] dTargetPos = new double[1];
             dTargetPos[0] = Convert.ToDouble(LabelTarget.Text);
-            if (m_MotionSelect == EMotionSelect.YMC)
-            {
-                CMotorSpeedData[] tSpeed = new CMotorSpeedData[1];
-                tSpeed[0] = AxisSpeedData;
-                iResult = CMainFrame.Core.m_YMC.StartMoveToPos(SelectedAxis, dTargetPos, tSpeed);
-            }
-            else
-            {
-                iResult = CMainFrame.Core.m_ACS.MoveToPos(SelectedAxis, dTargetPos[0], AxisSpeedData);
-            }
+            iResult = CMainFrame.Core.m_ACS.MoveToPos(SelectedAxis, dTargetPos[0], AxisSpeedData);
+            
             if (iResult != SUCCESS)
             {
                 CMainFrame.DisplayAlarm(iResult);
@@ -444,13 +402,8 @@ namespace Core.UI
             string strCurPos = string.Empty;
 
             // Jog Operation Servo Encoder Position
-            if (m_MotionSelect == EMotionSelect.YMC)
-            {
-                LabelCurrent.Text= String.Format("{0:0.0000}",CMainFrame.Core.m_YMC.ServoStatus[SelectedAxis].EncoderPos);
-            } else
-            {
-                LabelCurrent.Text= String.Format("{0:0.0000}", CMainFrame.Core.m_ACS.ServoStatus[SelectedAxis].EncoderPos);
-            }
+            LabelCurrent.Text= String.Format("{0:0.0000}", CMainFrame.Core.m_ACS.ServoStatus[SelectedAxis].EncoderPos);
+            
         }
 
         private void BtnPlus_Click(object sender, EventArgs e)

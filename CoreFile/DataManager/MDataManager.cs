@@ -23,7 +23,6 @@ using static Core.Layers.DEF_DataManager;
 using static Core.Layers.DEF_LCNet;
 
 using static Core.Layers.DEF_ACS;
-using static Core.Layers.DEF_Yaskawa;
 using static Core.Layers.DEF_Motion;
 using static Core.Layers.DEF_Cylinder;
 using static Core.Layers.DEF_Vacuum;
@@ -285,8 +284,6 @@ namespace Core.Layers
         {
             // ACS Motion Axis
             public CACSMotionData[] ACSMotionData = new CACSMotionData[USE_ACS_AXIS_COUNT];
-            // YMC Motion Axis
-            public CMPMotionData[] MPMotionData = new CMPMotionData[MAX_MP_AXIS];
 
             public CSystemData_Axis()
             {
@@ -294,11 +291,6 @@ namespace Core.Layers
                 for (int i = 0; i < ACSMotionData.Length; i++)
                 {
                     ACSMotionData[i] = new CACSMotionData();
-                }
-                // Yaskawa 모션
-                for (int i = 0; i < MPMotionData.Length; i++)
-                {
-                    MPMotionData[i] = new CMPMotionData();
                 }
             }
 
@@ -1220,29 +1212,9 @@ namespace Core.Layers
                 {
                     if (DBManager.SelectRow(DBInfo.DBConn, DBInfo.TableSystem, out output, new CDBColumn("name", nameof(CSystemData_Axis))) == true)
                     {
-                        CSystemData_Axis data = JsonConvert.DeserializeObject<CSystemData_Axis>(output);
-                        if (SystemData_Axis.MPMotionData.Length == data.MPMotionData.Length
-                            && SystemData_Axis.ACSMotionData.Length == data.ACSMotionData.Length)
-                        {
-                            SystemData_Axis = ObjectExtensions.Copy(data);
-                        }
-                        else
-                        {
-                            for (int i = 0; i < SystemData_Axis.MPMotionData.Length; i++)
-                            {
-                                if (i >= data.MPMotionData.Length) break;
-                                SystemData_Axis.MPMotionData[i] = ObjectExtensions.Copy(data.MPMotionData[i]);
-                            }
-
-                            for (int i = 0; i < SystemData_Axis.ACSMotionData.Length; i++)
-                            {
-                                if (i >= data.ACSMotionData.Length) break;
-                                SystemData_Axis.ACSMotionData[i] = ObjectExtensions.Copy(data.ACSMotionData[i]);
-                            }
-                        }
-
+                        
                         WriteLog("success : load CSystemData_Axis.", ELogType.SYSTEM, ELogWType.LOAD);
-            }
+                    }
                     //else // temporarily do not return error for continuous loading
                     //{
                     //    return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_LOAD_SYSTEM_DATA);
@@ -1255,7 +1227,7 @@ namespace Core.Layers
                 }
 
                 // system data를 읽어왔는데, db에 이전 데이터가 저장되어 있지 않을 때, 필수적으로 초기화 해주어야 할 데이터들
-                InitMPMotionData();
+
                 InitACSMotionData();
             }
 
@@ -3354,49 +3326,7 @@ namespace Core.Layers
                 {
                     Excel.Range sheetRange = array_SheetRange[(int)EInfoExcel_Sheet.MOTOR];
                     int startRow = 2;
-                    for (int i = 0; i < (int)EYMC_Axis.MAX; i++)
-                    {
-                        // Speed
-                        SystemData_Axis.MPMotionData[i].Speed[(int)EMotorSpeed.MANUAL_SLOW].Vel = Convert.ToDouble((string)(sheetRange.Cells[i + startRow, 3] as Excel.Range).Text);
-                        SystemData_Axis.MPMotionData[i].Speed[(int)EMotorSpeed.MANUAL_FAST].Vel = Convert.ToDouble((string)(sheetRange.Cells[i + startRow, 4] as Excel.Range).Text);
-                        SystemData_Axis.MPMotionData[i].Speed[(int)EMotorSpeed.AUTO_SLOW].Vel = Convert.ToDouble((string)(sheetRange.Cells[i + startRow, 5] as Excel.Range).Text);
-                        SystemData_Axis.MPMotionData[i].Speed[(int)EMotorSpeed.AUTO_FAST].Vel = Convert.ToDouble((string)(sheetRange.Cells[i + startRow, 6] as Excel.Range).Text);
-                        SystemData_Axis.MPMotionData[i].Speed[(int)EMotorSpeed.JOG_SLOW].Vel = Convert.ToDouble((string)(sheetRange.Cells[i + startRow, 7] as Excel.Range).Text);
-                        SystemData_Axis.MPMotionData[i].Speed[(int)EMotorSpeed.JOG_FAST].Vel = Convert.ToDouble((string)(sheetRange.Cells[i + startRow, 8] as Excel.Range).Text);
-
-                        // Acc
-                        SystemData_Axis.MPMotionData[i].Speed[(int)EMotorSpeed.MANUAL_SLOW].Acc = Convert.ToDouble((string)(sheetRange.Cells[i + startRow, 9] as Excel.Range).Text);
-                        SystemData_Axis.MPMotionData[i].Speed[(int)EMotorSpeed.MANUAL_FAST].Acc = Convert.ToDouble((string)(sheetRange.Cells[i + startRow, 10] as Excel.Range).Text);
-                        SystemData_Axis.MPMotionData[i].Speed[(int)EMotorSpeed.AUTO_SLOW].Acc = Convert.ToDouble((string)(sheetRange.Cells[i + startRow, 11] as Excel.Range).Text);
-                        SystemData_Axis.MPMotionData[i].Speed[(int)EMotorSpeed.AUTO_FAST].Acc = Convert.ToDouble((string)(sheetRange.Cells[i + startRow, 12] as Excel.Range).Text);
-                        SystemData_Axis.MPMotionData[i].Speed[(int)EMotorSpeed.JOG_SLOW].Acc = Convert.ToDouble((string)(sheetRange.Cells[i + startRow, 13] as Excel.Range).Text);
-                        SystemData_Axis.MPMotionData[i].Speed[(int)EMotorSpeed.JOG_FAST].Acc = Convert.ToDouble((string)(sheetRange.Cells[i + startRow, 14] as Excel.Range).Text);
-
-                        // Dec
-                        SystemData_Axis.MPMotionData[i].Speed[(int)EMotorSpeed.MANUAL_SLOW].Dec = Convert.ToDouble((string)(sheetRange.Cells[i + startRow, 15] as Excel.Range).Text);
-                        SystemData_Axis.MPMotionData[i].Speed[(int)EMotorSpeed.MANUAL_FAST].Dec = Convert.ToDouble((string)(sheetRange.Cells[i + startRow, 16] as Excel.Range).Text);
-                        SystemData_Axis.MPMotionData[i].Speed[(int)EMotorSpeed.AUTO_SLOW].Dec = Convert.ToDouble((string)(sheetRange.Cells[i + startRow, 17] as Excel.Range).Text);
-                        SystemData_Axis.MPMotionData[i].Speed[(int)EMotorSpeed.AUTO_FAST].Dec = Convert.ToDouble((string)(sheetRange.Cells[i + startRow, 18] as Excel.Range).Text);
-                        SystemData_Axis.MPMotionData[i].Speed[(int)EMotorSpeed.JOG_SLOW].Dec = Convert.ToDouble((string)(sheetRange.Cells[i + startRow, 19] as Excel.Range).Text);
-                        SystemData_Axis.MPMotionData[i].Speed[(int)EMotorSpeed.JOG_FAST].Dec = Convert.ToDouble((string)(sheetRange.Cells[i + startRow, 20] as Excel.Range).Text);
-
-                        // S/W Limit
-                        SystemData_Axis.MPMotionData[i].PosLimit.Plus = Convert.ToDouble((string)(sheetRange.Cells[i + startRow, 21] as Excel.Range).Text);
-                        SystemData_Axis.MPMotionData[i].PosLimit.Minus = Convert.ToDouble((string)(sheetRange.Cells[i + startRow, 22] as Excel.Range).Text);
-
-                        // Limit Time
-                        SystemData_Axis.MPMotionData[i].TimeLimit.tMoveLimit = Convert.ToDouble((string)(sheetRange.Cells[i + startRow, 23] as Excel.Range).Text);
-                        SystemData_Axis.MPMotionData[i].TimeLimit.tSleepAfterMove = Convert.ToDouble((string)(sheetRange.Cells[i + startRow, 24] as Excel.Range).Text);
-                        SystemData_Axis.MPMotionData[i].TimeLimit.tOriginLimit = Convert.ToDouble((string)(sheetRange.Cells[i + startRow, 25] as Excel.Range).Text);
-
-                        // Home Option
-                        SystemData_Axis.MPMotionData[i].OriginData.Method = Convert.ToInt16((string)(sheetRange.Cells[i + startRow, 26] as Excel.Range).Text);
-                        SystemData_Axis.MPMotionData[i].OriginData.Dir = Convert.ToInt16((string)(sheetRange.Cells[i + startRow, 27] as Excel.Range).Text);
-                        SystemData_Axis.MPMotionData[i].OriginData.FastSpeed = Convert.ToDouble((string)(sheetRange.Cells[i + startRow, 28] as Excel.Range).Text);
-                        SystemData_Axis.MPMotionData[i].OriginData.SlowSpeed = Convert.ToDouble((string)(sheetRange.Cells[i + startRow, 29] as Excel.Range).Text);
-                        SystemData_Axis.MPMotionData[i].OriginData.HomeOffset = Convert.ToDouble((string)(sheetRange.Cells[i + startRow, 30] as Excel.Range).Text);
-                    }
-
+                    
                     startRow += (int)EYMC_Axis.MAX;
                     for (int i = 0; i < (int)EACS_Axis.MAX; i++)
                     {
@@ -3578,48 +3508,7 @@ namespace Core.Layers
                 {
                     int startRow = 2;
                     Excel.Range sheetRange = array_SheetRange[(int)EInfoExcel_Sheet.MOTOR];
-                    for (int i = 0; i < (int)EYMC_Axis.MAX; i++)
-                    {
-                        // Speed
-                        (sheetRange.Cells[i + startRow, 3] as Excel.Range).Value2 = SystemData_Axis.MPMotionData[i].Speed[(int)EMotorSpeed.MANUAL_SLOW].Vel;
-                        (sheetRange.Cells[i + startRow, 4] as Excel.Range).Value2 = SystemData_Axis.MPMotionData[i].Speed[(int)EMotorSpeed.MANUAL_FAST].Vel;
-                        (sheetRange.Cells[i + startRow, 5] as Excel.Range).Value2 = SystemData_Axis.MPMotionData[i].Speed[(int)EMotorSpeed.AUTO_SLOW].Vel;
-                        (sheetRange.Cells[i + startRow, 6] as Excel.Range).Value2 = SystemData_Axis.MPMotionData[i].Speed[(int)EMotorSpeed.AUTO_FAST].Vel;
-                        (sheetRange.Cells[i + startRow, 7] as Excel.Range).Value2 = SystemData_Axis.MPMotionData[i].Speed[(int)EMotorSpeed.JOG_SLOW].Vel;
-                        (sheetRange.Cells[i + startRow, 8] as Excel.Range).Value2 = SystemData_Axis.MPMotionData[i].Speed[(int)EMotorSpeed.JOG_FAST].Vel;
-
-                        // Acc
-                        (sheetRange.Cells[i + startRow, 9] as Excel.Range).Value2 = SystemData_Axis.MPMotionData[i].Speed[(int)EMotorSpeed.MANUAL_SLOW].Acc;
-                        (sheetRange.Cells[i + startRow, 10] as Excel.Range).Value2 = SystemData_Axis.MPMotionData[i].Speed[(int)EMotorSpeed.MANUAL_FAST].Acc;
-                        (sheetRange.Cells[i + startRow, 11] as Excel.Range).Value2 = SystemData_Axis.MPMotionData[i].Speed[(int)EMotorSpeed.AUTO_SLOW].Acc;
-                        (sheetRange.Cells[i + startRow, 12] as Excel.Range).Value2 = SystemData_Axis.MPMotionData[i].Speed[(int)EMotorSpeed.AUTO_FAST].Acc;
-                        (sheetRange.Cells[i + startRow, 13] as Excel.Range).Value2 = SystemData_Axis.MPMotionData[i].Speed[(int)EMotorSpeed.JOG_SLOW].Acc;
-                        (sheetRange.Cells[i + startRow, 14] as Excel.Range).Value2 = SystemData_Axis.MPMotionData[i].Speed[(int)EMotorSpeed.JOG_FAST].Acc;
-
-                        // Dec
-                        (sheetRange.Cells[i + startRow, 15] as Excel.Range).Value2 = SystemData_Axis.MPMotionData[i].Speed[(int)EMotorSpeed.MANUAL_SLOW].Dec;
-                        (sheetRange.Cells[i + startRow, 16] as Excel.Range).Value2 = SystemData_Axis.MPMotionData[i].Speed[(int)EMotorSpeed.MANUAL_FAST].Dec;
-                        (sheetRange.Cells[i + startRow, 17] as Excel.Range).Value2 = SystemData_Axis.MPMotionData[i].Speed[(int)EMotorSpeed.AUTO_SLOW].Dec;
-                        (sheetRange.Cells[i + startRow, 18] as Excel.Range).Value2 = SystemData_Axis.MPMotionData[i].Speed[(int)EMotorSpeed.AUTO_FAST].Dec;
-                        (sheetRange.Cells[i + startRow, 19] as Excel.Range).Value2 = SystemData_Axis.MPMotionData[i].Speed[(int)EMotorSpeed.JOG_SLOW].Dec;
-                        (sheetRange.Cells[i + startRow, 20] as Excel.Range).Value2 = SystemData_Axis.MPMotionData[i].Speed[(int)EMotorSpeed.JOG_FAST].Dec;
-
-                        // S/W Limit
-                        (sheetRange.Cells[i + startRow, 21] as Excel.Range).Value2 = SystemData_Axis.MPMotionData[i].PosLimit.Plus;
-                        (sheetRange.Cells[i + startRow, 22] as Excel.Range).Value2 = SystemData_Axis.MPMotionData[i].PosLimit.Minus;
-
-                        // Limit Time
-                        (sheetRange.Cells[i + startRow, 23] as Excel.Range).Value2 = SystemData_Axis.MPMotionData[i].TimeLimit.tMoveLimit;
-                        (sheetRange.Cells[i + startRow, 24] as Excel.Range).Value2 = SystemData_Axis.MPMotionData[i].TimeLimit.tSleepAfterMove;
-                        (sheetRange.Cells[i + startRow, 25] as Excel.Range).Value2 = SystemData_Axis.MPMotionData[i].TimeLimit.tOriginLimit;
-
-                        // Home Option
-                        (sheetRange.Cells[i + startRow, 26] as Excel.Range).Value2 = SystemData_Axis.MPMotionData[i].OriginData.Method;
-                        (sheetRange.Cells[i + startRow, 27] as Excel.Range).Value2 = SystemData_Axis.MPMotionData[i].OriginData.Dir;
-                        (sheetRange.Cells[i + startRow, 28] as Excel.Range).Value2 = SystemData_Axis.MPMotionData[i].OriginData.FastSpeed;
-                        (sheetRange.Cells[i + startRow, 29] as Excel.Range).Value2 = SystemData_Axis.MPMotionData[i].OriginData.SlowSpeed;
-                        (sheetRange.Cells[i + startRow, 30] as Excel.Range).Value2 = SystemData_Axis.MPMotionData[i].OriginData.HomeOffset;
-                    }
+                    
 
                     startRow += (int)EYMC_Axis.MAX;
                     for (int i = 0; i < (int)EACS_Axis.MAX; i++)
@@ -4639,201 +4528,8 @@ namespace Core.Layers
                 SystemData_Axis.ACSMotionData[index] = ObjectExtensions.Copy(tMotion);
             }
         }
+        
 
-        void InitMPMotionData()
-        {
-            // Excel에서 읽어오는 방식도 생각해봤으나, 축 이름과 필수적인것들만 초기화하면 될것 같아서 소스코드 내부에서 처리 
-            int index;
-            CMPMotionData tMotion;
-
-            // null check
-            for(int i = 0; i < SystemData_Axis.MPMotionData.Length; i++)
-            {
-                if (SystemData_Axis.MPMotionData[i] == null)
-                {
-                    SystemData_Axis.MPMotionData[i] = new CMPMotionData();
-                }
-            }
-
-            // yaskawa api call 할 때, Name이 8자 제한때문에 축약해서 이름 사용함.
-            // LOADER_Z
-            index = (int)EYMC_Axis.LOADER_Z         ;
-            if (SystemData_Axis.MPMotionData[index].Name == "NotExist")
-            {
-                tMotion = new CMPMotionData();
-                tMotion.Name = "LD_Z"; //"LOADER_Z";
-                tMotion.Exist = true;
-
-                SystemData_Axis.MPMotionData[index] = ObjectExtensions.Copy(tMotion);
-            }
-
-            // PUSHPULL_Y
-            index = (int)EYMC_Axis.PUSHPULL_Y       ;
-            if (SystemData_Axis.MPMotionData[index].Name == "NotExist")
-            {
-                tMotion = new CMPMotionData();
-                tMotion.Name = "PP_Y"; //"PUSHPULL_Y";
-                tMotion.Exist = true;
-
-                SystemData_Axis.MPMotionData[index] = ObjectExtensions.Copy(tMotion);
-            }
-
-            // PUSHPULL_X1   
-            index = (int)EYMC_Axis.PUSHPULL_X1   ;
-            if (SystemData_Axis.MPMotionData[index].Name == "NotExist")
-            {
-                tMotion = new CMPMotionData();
-                tMotion.Name = "PP_X1"; //"PUSHPULL_X1";
-                tMotion.Exist = true;
-
-                SystemData_Axis.MPMotionData[index] = ObjectExtensions.Copy(tMotion);
-            }
-
-            // S1_ROTATE_T
-            index = (int)EYMC_Axis.S1_CHUCK_ROTATE_T;
-            if (SystemData_Axis.MPMotionData[index].Name == "NotExist")
-            {
-                tMotion = new CMPMotionData();
-                tMotion.Name = "S1_R_T"; //"C1_CHUCK_ROTATE_T";
-                tMotion.Exist = true;
-
-                SystemData_Axis.MPMotionData[index] = ObjectExtensions.Copy(tMotion);
-            }
-
-            // S1_CLEAN_NOZZLE_T
-            index = (int)EYMC_Axis.S1_CLEAN_NOZZLE_T;
-            if (SystemData_Axis.MPMotionData[index].Name == "NotExist")
-            {
-                tMotion = new CMPMotionData();
-                tMotion.Name = "S1_CL_T"; //"C1_CLEAN_NOZZLE_T";
-                tMotion.Exist = true;
-
-                SystemData_Axis.MPMotionData[index] = ObjectExtensions.Copy(tMotion);
-            }
-
-            // S1_COAT_NOZZLE_T 
-            index = (int)EYMC_Axis.S1_COAT_NOZZLE_T ;
-            if (SystemData_Axis.MPMotionData[index].Name == "NotExist")
-            {
-                tMotion = new CMPMotionData();
-                tMotion.Name = "S1_CO_T"; //"C1_COAT_NOZZLE_T";
-                tMotion.Exist = true;
-
-                SystemData_Axis.MPMotionData[index] = ObjectExtensions.Copy(tMotion);
-            }
-
-            // PUSHPULL_X2   
-            index = (int)EYMC_Axis.PUSHPULL_X2;
-            if (SystemData_Axis.MPMotionData[index].Name == "NotExist")
-            {
-                tMotion = new CMPMotionData();
-                tMotion.Name = "PP_X2"; //"PUSHPULL_X2";
-                tMotion.Exist = true;
-
-                SystemData_Axis.MPMotionData[index] = ObjectExtensions.Copy(tMotion);
-            }
-
-            // S2_ROTATE_T
-            index = (int)EYMC_Axis.S2_CHUCK_ROTATE_T;
-            if (SystemData_Axis.MPMotionData[index].Name == "NotExist")
-            {
-                tMotion = new CMPMotionData();
-                tMotion.Name = "S2_R_T"; //"C2_CHUCK_ROTATE_T";
-                tMotion.Exist = true;
-
-                SystemData_Axis.MPMotionData[index] = ObjectExtensions.Copy(tMotion);
-            }
-
-            // S2_CLEAN_NOZZLE_T
-            index = (int)EYMC_Axis.S2_CLEAN_NOZZLE_T;
-            if (SystemData_Axis.MPMotionData[index].Name == "NotExist")
-            {
-                tMotion = new CMPMotionData();
-                tMotion.Name = "S2_CL_T"; //"C2_CLEAN_NOZZLE_T";
-                tMotion.Exist = true;
-
-                SystemData_Axis.MPMotionData[index] = ObjectExtensions.Copy(tMotion);
-            }
-
-            // S2_COAT_NOZZLE_T 
-            index = (int)EYMC_Axis.S2_COAT_NOZZLE_T;
-            if (SystemData_Axis.MPMotionData[index].Name == "NotExist")
-            {
-                tMotion = new CMPMotionData();
-                tMotion.Name = "S2_CO_T"; //"C2_COAT_NOZZLE_T";
-                tMotion.Exist = true;
-
-                SystemData_Axis.MPMotionData[index] = ObjectExtensions.Copy(tMotion);
-            }
-
-            // UPPER_HANDLER_X       
-            index = (int)EYMC_Axis.UPPER_HANDLER_X       ;
-            if (SystemData_Axis.MPMotionData[index].Name == "NotExist")
-            {
-                tMotion = new CMPMotionData();
-                tMotion.Name = "UH_X"; // "UPPER_HANDLER_X";
-                tMotion.Exist = true;
-
-                SystemData_Axis.MPMotionData[index] = ObjectExtensions.Copy(tMotion);
-            }
-
-            // UPPER_HANDLER_Z       
-            index = (int)EYMC_Axis.UPPER_HANDLER_Z       ;
-            if (SystemData_Axis.MPMotionData[index].Name == "NotExist")
-            {
-                tMotion = new CMPMotionData();
-                tMotion.Name = "UH_Z"; // "UPPER_HANDLER_Z";
-                tMotion.Exist = true;
-
-                SystemData_Axis.MPMotionData[index] = ObjectExtensions.Copy(tMotion);
-            }
-
-            // LOWER_HANDLER_X       
-            index = (int)EYMC_Axis.LOWER_HANDLER_X;
-            if (SystemData_Axis.MPMotionData[index].Name == "NotExist")
-            {
-                tMotion = new CMPMotionData();
-                tMotion.Name = "LH_X"; // "LOWER_HANDLER_X";
-                tMotion.Exist = true;
-
-                SystemData_Axis.MPMotionData[index] = ObjectExtensions.Copy(tMotion);
-            }
-
-            // LOWER_HANDLER_Z       
-            index = (int)EYMC_Axis.LOWER_HANDLER_Z       ;
-            if (SystemData_Axis.MPMotionData[index].Name == "NotExist")
-            {
-                tMotion = new CMPMotionData();
-                tMotion.Name = "LH_Z"; // "LOWER_HANDLER_Z";
-                tMotion.Exist = true;
-
-                SystemData_Axis.MPMotionData[index] = ObjectExtensions.Copy(tMotion);
-            }
-
-#if EQUIP_DICING_DEV
-            // CAMERA1_Z                                           
-            index = (int)EYMC_Axis.CAMERA1_Z;
-            if (SystemData_Axis.MPMotionData[index].Name == "NotExist")
-            {
-                tMotion = new CMPMotionData();
-                tMotion.Name = "CAM1_Z"; // "CAMERA1_Z";
-                tMotion.Exist = true;
-
-                SystemData_Axis.MPMotionData[index] = ObjectExtensions.Copy(tMotion);
-            }
-
-            // SCANNER_Z1
-            index = (int)EYMC_Axis.SCANNER_Z1;
-            if (SystemData_Axis.MPMotionData[index].Name == "NotExist")
-            {
-                tMotion = new CMPMotionData();
-                tMotion.Name = "SCAN_Z1"; // "SCANNER_Z1";
-                tMotion.Exist = true;
-
-                SystemData_Axis.MPMotionData[index] = ObjectExtensions.Copy(tMotion);
-            }
-#endif
-        }
 
         public int Generate_InputBuffer()
         {

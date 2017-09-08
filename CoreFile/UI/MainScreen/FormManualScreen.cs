@@ -66,31 +66,7 @@ namespace Core.UI
             var dlg = new FormUnitInit();
             dlg.ShowDialog();
         }
-
-        private void BtnManualPushPull_Click(object sender, EventArgs e)
-        {
-            var dlg = new FormPushPullManualOP();
-            dlg.ShowDialog();
-        }
-        private void BtnManualUpHandler_Click(object sender, EventArgs e)
-        {
-        }
-        private void BtnManualLoHandler_Click(object sender, EventArgs e)
-        {
-        }
-        private void BtnManualSpinner1_Click(object sender, EventArgs e)
-        {
-            var dlg = new FormSpinnerManualOP();
-            dlg.SetSpinner(ESpinnerIndex.SPINNER1);
-            dlg.ShowDialog();
-        }
-
-        private void BtnManualSpinner2_Click(object sender, EventArgs e)
-        {
-            var dlg = new FormSpinnerManualOP();
-            dlg.SetSpinner(ESpinnerIndex.SPINNER2);
-            dlg.ShowDialog();
-        }
+        
         private void BtnManualStage_Click(object sender, EventArgs e)
         {
             var dlg = new FormStageManualOP();
@@ -98,42 +74,7 @@ namespace Core.UI
         }
         private void FormManualScreen_Activated(object sender, EventArgs e)
         {
-            if (CMainFrame.DataManager.SystemData.UseSpinnerSeparately)
-            {
-                if (CMainFrame.DataManager.SystemData.UCoaterIndex == ESpinnerIndex.SPINNER1)
-                {
-                    Panel_Spinner1_Nozzle1.Text = "Coater Nozzle1";
-                    Panel_Spinner1_Nozzle2.Text = "Coater Nozzle2";
-                    Panel_Spinner1_Rotate.Text = "Coater Rotate";
-                    BtnManualSpinner1.Text = "Coater";
-                    Panel_Spinner2_Nozzle1.Text = "Cleaner Nozzle1";
-                    Panel_Spinner2_Nozzle2.Text = "Cleaner Nozzle2";
-                    Panel_Spinner2_Rotate.Text = "Cleaner Rotate";
-                    BtnManualSpinner2.Text = "Cleaner";
-                }
-                else
-                {
-                    Panel_Spinner1_Nozzle1.Text = "Cleaner Nozzle1";
-                    Panel_Spinner1_Nozzle2.Text = "Cleaner Nozzle2";
-                    Panel_Spinner1_Rotate.Text = "Cleaner Rotate";
-                    BtnManualSpinner1.Text = "Cleaner";
-                    Panel_Spinner2_Nozzle1.Text = "Coater Nozzle1";
-                    Panel_Spinner2_Nozzle2.Text = "Coater Nozzle2";
-                    Panel_Spinner2_Rotate.Text = "Coater Rotate";
-                    BtnManualSpinner2.Text = "Coater";
-                }
-            }
-            else
-            {
-                Panel_Spinner1_Nozzle1.Text = "Spinner1 Nozzle1";
-                Panel_Spinner1_Nozzle2.Text = "Spinner1 Nozzle2";
-                Panel_Spinner1_Rotate.Text  = "Spinner1 Rotate";
-                BtnManualSpinner1.Text = "Spinner1";
-                Panel_Spinner2_Nozzle1.Text = "Spinner2 Nozzle1";
-                Panel_Spinner2_Nozzle2.Text = "Spinner2 Nozzle2";
-                Panel_Spinner2_Rotate.Text = "Spinner2 Rotate";
-                BtnManualSpinner2.Text = "Spinner2";
-            }
+            
         }
 
         private async void Btn_Click(object sender, EventArgs e)
@@ -229,7 +170,7 @@ namespace Core.UI
 
         private void btnStopAction_Click(object sender, EventArgs e)
         {
-            MYaskawa.IsCancelJob_byManual = true;
+
         }
 
         private void SetButtonsEnable(bool bEnable)

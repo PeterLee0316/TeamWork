@@ -46,7 +46,7 @@ namespace Core.UI
                     this.Text = "Model Data";
 
                     TitleCurModel.Text = "current Model";
-                    LabelMaker.Text = "Maker List";
+                    LabelFolder.Text = "Maker List";
                     LabelModel.Text = "Model List";
 
                     BtnModelSelect.Visible = true;
@@ -63,7 +63,7 @@ namespace Core.UI
                     TitleCurMaker.Visible = false;
                     LabelCurMaker.Visible = false;
                     TitleCurModel.Text = "current user info";
-                    LabelMaker.Text = "User Group";
+                    LabelFolder.Text = "User Group";
                     LabelModel.Text = "User List";
 
                     BtnModelSelect.Visible = false;
@@ -190,17 +190,14 @@ namespace Core.UI
 
         private void BtnMakerCreate_Click(object sender, EventArgs e)
         {
-
             switch(ListType)
             {
                 case EListHeaderType.MODEL:
-                    if (!CMainFrame.InquireMsg("Create new maker?"))
+                    if (!CMainFrame.InquireMsg("Create new Folder?"))
                     {
                         return;
                     }
                     break;
-
-
             }
 
             // Maker는 root밑에 한세대만으로 강제 고정함

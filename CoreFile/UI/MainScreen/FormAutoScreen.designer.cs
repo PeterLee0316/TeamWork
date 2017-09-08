@@ -29,22 +29,8 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.LabelButtonGuide = new Syncfusion.Windows.Forms.Tools.GradientLabel();
             this.TimerUI = new System.Windows.Forms.Timer(this.components);
             this.SuspendLayout();
-            // 
-            // LabelButtonGuide
-            // 
-            this.LabelButtonGuide.BackgroundColor = new Syncfusion.Drawing.BrushInfo(Syncfusion.Drawing.GradientStyle.Vertical, System.Drawing.Color.FromArgb(((int)(((byte)(237)))), ((int)(((byte)(240)))), ((int)(((byte)(247))))), System.Drawing.Color.LightCyan);
-            this.LabelButtonGuide.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
-            | System.Windows.Forms.Border3DSide.Right) 
-            | System.Windows.Forms.Border3DSide.Bottom)));
-            this.LabelButtonGuide.Location = new System.Drawing.Point(445, 540);
-            this.LabelButtonGuide.Name = "LabelButtonGuide";
-            this.LabelButtonGuide.Size = new System.Drawing.Size(454, 68);
-            this.LabelButtonGuide.TabIndex = 18;
-            this.LabelButtonGuide.Text = "gradientLabel1";
-            this.LabelButtonGuide.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // TimerUI
             // 
@@ -57,7 +43,6 @@
             this.BackColor = System.Drawing.Color.Lavender;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.ClientSize = new System.Drawing.Size(1278, 817);
-            this.Controls.Add(this.LabelButtonGuide);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "FormAutoScreen";
             this.Text = "Auto Screen";
@@ -68,7 +53,6 @@
         }
 
         #endregion
-        private Syncfusion.Windows.Forms.Tools.GradientLabel LabelButtonGuide;
         private System.Windows.Forms.Timer TimerUI;
     }
 }

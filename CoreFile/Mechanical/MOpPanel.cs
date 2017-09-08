@@ -306,7 +306,6 @@ namespace Core.Layers
         public class COpPanelRefComp
         {
             public IIO IO;
-            public MYaskawa Yaskawa_Motion;
             public MACS ACS_Motion;
         }
 
@@ -1237,13 +1236,13 @@ namespace Core.Layers
                 switch(sensorType)
                 {
                     case (int)DEF_HOME_SENSOR:
-                        bStatus = m_RefComp.Yaskawa_Motion.ServoStatus[servoIndex].DetectHomeSensor;
+                        //bStatus = m_RefComp.Yaskawa_Motion.ServoStatus[servoIndex].DetectHomeSensor;
                         break;
                     case (int)DEF_POSITIVE_SENSOR:
-                        bStatus = m_RefComp.Yaskawa_Motion.ServoStatus[servoIndex].DetectPlusSensor;
+                        //bStatus = m_RefComp.Yaskawa_Motion.ServoStatus[servoIndex].DetectPlusSensor;
                         break;
                     case (int)DEF_NEGATIVE_SENSOR:
-                        bStatus = m_RefComp.Yaskawa_Motion.ServoStatus[servoIndex].DetectMinusSensor;
+                        //bStatus = m_RefComp.Yaskawa_Motion.ServoStatus[servoIndex].DetectMinusSensor;
                         break;
                 }
             }
@@ -1271,17 +1270,9 @@ namespace Core.Layers
         {
             int iResult = SUCCESS;
 
-            if (servoIndex < (int)EYMC_Axis.MAX)
-            {
-                iResult = m_RefComp.Yaskawa_Motion.ServoOn(servoIndex);
-                
-            }
-            else
-            {
-                servoIndex = AdjustToACSIndex(servoIndex);
-                iResult = m_RefComp.ACS_Motion.ServoOn(servoIndex);
-            }
-
+            servoIndex = AdjustToACSIndex(servoIndex);
+            iResult = m_RefComp.ACS_Motion.ServoOn(servoIndex);
+            
             return iResult;
         }
 
@@ -1289,15 +1280,8 @@ namespace Core.Layers
         {
             int iResult = SUCCESS;
 
-            if (servoIndex < (int)EYMC_Axis.MAX)
-            {
-                iResult = m_RefComp.Yaskawa_Motion.ServoOff(servoIndex);
-            }
-            else
-            {
-                servoIndex = AdjustToACSIndex(servoIndex);
-                iResult = m_RefComp.ACS_Motion.ServoOff(servoIndex);
-            }
+            servoIndex = AdjustToACSIndex(servoIndex);
+            iResult = m_RefComp.ACS_Motion.ServoOff(servoIndex);            
 
             return iResult;
         }
@@ -1305,12 +1289,6 @@ namespace Core.Layers
         public int AllServoOn()
         {
             int iResult = SUCCESS;
-
-            if(m_RefComp.Yaskawa_Motion != null)
-            {
-                iResult = m_RefComp.Yaskawa_Motion.AllServoOn();
-                if (iResult != SUCCESS) return iResult;
-            }
 
             if (m_RefComp.ACS_Motion != null)
             {
@@ -1325,12 +1303,7 @@ namespace Core.Layers
         {
             int iResult = SUCCESS;
 
-            if (m_RefComp.Yaskawa_Motion != null)
-            {
-                iResult = m_RefComp.Yaskawa_Motion.AllServoOff();
-                if (iResult != SUCCESS) return iResult;
-            }
-
+ 
             if (m_RefComp.ACS_Motion != null)
             {
                 iResult = m_RefComp.ACS_Motion.AllServoOff();
@@ -1343,12 +1316,7 @@ namespace Core.Layers
         public int EStopAllAxis()
         {
             int iResult = SUCCESS;
-
-            if (m_RefComp.Yaskawa_Motion != null)
-            {
-                iResult = m_RefComp.Yaskawa_Motion.StopAllServo();
-                if (iResult != SUCCESS) return iResult;
-            }
+            
 
             if (m_RefComp.ACS_Motion != null)
             {
@@ -1391,12 +1359,6 @@ namespace Core.Layers
         {
             int iResult = SUCCESS;
 
-            if (m_RefComp.Yaskawa_Motion != null)
-            {
-                iResult = m_RefComp.Yaskawa_Motion.StopAllServo();
-                if (iResult != SUCCESS) return iResult;
-            }
-
             if (m_RefComp.ACS_Motion != null)
             {
                 iResult = m_RefComp.ACS_Motion.StopAllServo();
@@ -1421,19 +1383,9 @@ namespace Core.Layers
         public int OriginReturn(int servoIndex)
         {
             int iResult = SUCCESS;
-
-            if (servoIndex < (int)EYMC_Axis.MAX)
-            {
-                iResult = m_RefComp.Yaskawa_Motion.OriginReturn(servoIndex);
-
-            }
-            else
-            {
-                servoIndex = AdjustToACSIndex(servoIndex);
-                if (servoIndex == 1) return GenerateErrorCode(ERR_OPPANEL_INVALID_INIT_UNIT_INDEX);
-
-                iResult = m_RefComp.ACS_Motion.OriginReturn(servoIndex);
-            }
+            servoIndex = AdjustToACSIndex(servoIndex);
+            if (servoIndex == 1) return GenerateErrorCode(ERR_OPPANEL_INVALID_INIT_UNIT_INDEX);
+            iResult = m_RefComp.ACS_Motion.OriginReturn(servoIndex);            
 
             return iResult;
         }
@@ -1547,19 +1499,9 @@ namespace Core.Layers
             int servoNum=0;
 
             int acsStartIndex = (int)EAxis.STAGE1_X;
-#if EQUIP_266_DEV
-            int ymcEndIndex = (int)EAxis.SCANNER_Z1;
-#endif
-            if (iUnitIndex < acsStartIndex)
-            {
-                servoNum = iUnitIndex;
-                bStatus = m_RefComp.Yaskawa_Motion.IsOriginReturned(servoNum);
-            }
-            else
-            {
-                servoNum = iUnitIndex - acsStartIndex;
-                bStatus = m_RefComp.ACS_Motion.IsOriginReturned(servoNum);
-            }
+
+            servoNum = iUnitIndex - acsStartIndex;
+            bStatus = m_RefComp.ACS_Motion.IsOriginReturned(servoNum);           
 
             return iResult;
         }
@@ -1583,19 +1525,10 @@ namespace Core.Layers
             int servoNum = 0;
 
             int acsStartIndex = (int)EAxis.STAGE1_X;
-#if EQUIP_266_DEV
-            int ymcEndIndex = (int)EAxis.SCANNER_Z1;
-#endif
-            if (iUnitIndex < acsStartIndex)
-            {
-                servoNum = iUnitIndex;
-                bStatus = m_RefComp.Yaskawa_Motion.ServoStatus[servoNum].IsOriginReturned = bStatus;
-            }
-            else
-            {
-                servoNum = iUnitIndex - acsStartIndex;
-                bStatus = m_RefComp.ACS_Motion.ServoStatus[servoNum].IsOriginReturned = bStatus;
-            }
+
+            servoNum = iUnitIndex - acsStartIndex;
+            bStatus = m_RefComp.ACS_Motion.ServoStatus[servoNum].IsOriginReturned = bStatus;
+            
 
             return iResult;
         }
@@ -1611,21 +1544,11 @@ namespace Core.Layers
             }
 
             int servoNum = 0;
-
             int acsStartIndex = (int)EAxis.STAGE1_X;
-#if EQUIP_266_DEV
-            int ymcEndIndex = (int)EAxis.SCANNER_Z1;
-#endif
-            if (iUnitIndex < acsStartIndex)
-            {
-                servoNum = iUnitIndex;
-                bStatus = m_RefComp.Yaskawa_Motion.ServoStatus[servoNum].IsServoOn;
-            }
-            else
-            {
-                servoNum = iUnitIndex - acsStartIndex;
-                bStatus = m_RefComp.ACS_Motion.ServoStatus[servoNum].IsServoOn;
-            }
+
+            servoNum = iUnitIndex - acsStartIndex;
+            bStatus = m_RefComp.ACS_Motion.ServoStatus[servoNum].IsServoOn;
+           
 
             return iResult;
         }
@@ -1778,19 +1701,7 @@ namespace Core.Layers
         {
             int iResult = SUCCESS;
             bDetected = false;
-
-            bool bTemp;
-            foreach (int addr in address)
-            {
-                if (addr == -1) continue;
-                iResult = m_RefComp.IO.IsOn(addr, out bTemp);
-                if (iResult != SUCCESS) return iResult;
-                if (bTemp)
-                {
-                    bDetected = true;
-                    return SUCCESS;
-                }
-            }
+             
             return SUCCESS;
         }
 
@@ -2102,21 +2013,10 @@ namespace Core.Layers
             }
 
             int servoNum = 0;
-
             int acsStartIndex = (int)EAxis.STAGE1_X;
-#if EQUIP_266_DEV
-            int ymcEndIndex = (int)EAxis.SCANNER_Z1;
-#endif
-            if (iUnitIndex < acsStartIndex)
-            {
-                servoNum = iUnitIndex;
-                bStatus = m_RefComp.Yaskawa_Motion.ServoStatus[servoNum].IsServoOn;
-            }
-            else
-            {
-                servoNum = iUnitIndex - acsStartIndex;
-                bStatus = m_RefComp.ACS_Motion.ServoStatus[servoNum].IsDriverFault;
-            }
+
+            servoNum = iUnitIndex - acsStartIndex;
+            bStatus = m_RefComp.ACS_Motion.ServoStatus[servoNum].IsDriverFault;            
 
             return iResult;
         }

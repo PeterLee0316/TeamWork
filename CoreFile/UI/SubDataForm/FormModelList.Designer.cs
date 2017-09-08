@@ -37,6 +37,7 @@
             Syncfusion.Windows.Forms.Grid.GridRangeStyle gridRangeStyle5 = new Syncfusion.Windows.Forms.Grid.GridRangeStyle();
             Syncfusion.Windows.Forms.Grid.GridRangeStyle gridRangeStyle6 = new Syncfusion.Windows.Forms.Grid.GridRangeStyle();
             Syncfusion.Windows.Forms.Grid.GridRangeStyle gridRangeStyle7 = new Syncfusion.Windows.Forms.Grid.GridRangeStyle();
+            Syncfusion.Windows.Forms.Grid.GridRangeStyle gridRangeStyle8 = new Syncfusion.Windows.Forms.Grid.GridRangeStyle();
             this.BtnExit = new System.Windows.Forms.Button();
             this.LabelModel = new Syncfusion.Windows.Forms.Tools.GradientLabel();
             this.BtnMakerCreate = new System.Windows.Forms.Button();
@@ -44,7 +45,7 @@
             this.BtnModelSelect = new System.Windows.Forms.Button();
             this.MakerTreeView = new System.Windows.Forms.TreeView();
             this.imageDir = new System.Windows.Forms.ImageList(this.components);
-            this.LabelMaker = new Syncfusion.Windows.Forms.Tools.GradientLabel();
+            this.LabelFolder = new Syncfusion.Windows.Forms.Tools.GradientLabel();
             this.BtnModelDelete = new System.Windows.Forms.Button();
             this.BtnModelCreate = new System.Windows.Forms.Button();
             this.GridCtrl = new Syncfusion.Windows.Forms.Grid.GridControl();
@@ -52,6 +53,7 @@
             this.LabelCurModel = new Syncfusion.Windows.Forms.Tools.GradientLabel();
             this.TitleCurMaker = new Syncfusion.Windows.Forms.Tools.GradientLabel();
             this.LabelCurMaker = new Syncfusion.Windows.Forms.Tools.GradientLabel();
+            this.BtnMakerChange = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.GridCtrl)).BeginInit();
             this.SuspendLayout();
             // 
@@ -94,7 +96,7 @@
             this.BtnMakerCreate.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.BtnMakerCreate.Location = new System.Drawing.Point(8, 641);
             this.BtnMakerCreate.Name = "BtnMakerCreate";
-            this.BtnMakerCreate.Size = new System.Drawing.Size(115, 61);
+            this.BtnMakerCreate.Size = new System.Drawing.Size(112, 61);
             this.BtnMakerCreate.TabIndex = 752;
             this.BtnMakerCreate.Text = "  생성";
             this.BtnMakerCreate.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
@@ -107,9 +109,9 @@
             this.BtnMakerDelete.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
             this.BtnMakerDelete.Image = ((System.Drawing.Image)(resources.GetObject("BtnMakerDelete.Image")));
             this.BtnMakerDelete.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.BtnMakerDelete.Location = new System.Drawing.Point(129, 641);
+            this.BtnMakerDelete.Location = new System.Drawing.Point(244, 642);
             this.BtnMakerDelete.Name = "BtnMakerDelete";
-            this.BtnMakerDelete.Size = new System.Drawing.Size(115, 61);
+            this.BtnMakerDelete.Size = new System.Drawing.Size(112, 61);
             this.BtnMakerDelete.TabIndex = 753;
             this.BtnMakerDelete.Text = "  삭제";
             this.BtnMakerDelete.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
@@ -150,21 +152,21 @@
             this.imageDir.Images.SetKeyName(0, "OPEN_DIR.png");
             this.imageDir.Images.SetKeyName(1, "CLOSE_DIR.png");
             // 
-            // LabelMaker
+            // LabelFolder
             // 
-            this.LabelMaker.BackgroundColor = new Syncfusion.Drawing.BrushInfo(Syncfusion.Drawing.GradientStyle.BackwardDiagonal, System.Drawing.Color.White, System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(0))))));
-            this.LabelMaker.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
+            this.LabelFolder.BackgroundColor = new Syncfusion.Drawing.BrushInfo(Syncfusion.Drawing.GradientStyle.BackwardDiagonal, System.Drawing.Color.White, System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(0))))));
+            this.LabelFolder.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
             | System.Windows.Forms.Border3DSide.Right) 
             | System.Windows.Forms.Border3DSide.Bottom)));
-            this.LabelMaker.Font = new System.Drawing.Font("굴림", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.LabelMaker.ForeColor = System.Drawing.Color.Black;
-            this.LabelMaker.Location = new System.Drawing.Point(8, 51);
-            this.LabelMaker.Name = "LabelMaker";
-            this.LabelMaker.Size = new System.Drawing.Size(345, 35);
-            this.LabelMaker.TabIndex = 761;
-            this.LabelMaker.Tag = "";
-            this.LabelMaker.Text = "Maker List";
-            this.LabelMaker.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.LabelFolder.Font = new System.Drawing.Font("굴림", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.LabelFolder.ForeColor = System.Drawing.Color.Black;
+            this.LabelFolder.Location = new System.Drawing.Point(8, 51);
+            this.LabelFolder.Name = "LabelFolder";
+            this.LabelFolder.Size = new System.Drawing.Size(345, 35);
+            this.LabelFolder.TabIndex = 761;
+            this.LabelFolder.Tag = "";
+            this.LabelFolder.Text = "Model Folder";
+            this.LabelFolder.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // BtnModelDelete
             // 
@@ -259,6 +261,14 @@
             gridRangeStyle7.StyleInfo.Font.Strikeout = false;
             gridRangeStyle7.StyleInfo.Font.Underline = false;
             gridRangeStyle7.StyleInfo.Font.Unit = System.Drawing.GraphicsUnit.Point;
+            gridRangeStyle8.Range = Syncfusion.Windows.Forms.Grid.GridRangeInfo.Table();
+            gridRangeStyle8.StyleInfo.Font.Bold = true;
+            gridRangeStyle8.StyleInfo.Font.Facename = "Tahoma";
+            gridRangeStyle8.StyleInfo.Font.Italic = false;
+            gridRangeStyle8.StyleInfo.Font.Size = 11.25F;
+            gridRangeStyle8.StyleInfo.Font.Strikeout = false;
+            gridRangeStyle8.StyleInfo.Font.Underline = false;
+            gridRangeStyle8.StyleInfo.Font.Unit = System.Drawing.GraphicsUnit.Point;
             this.GridCtrl.RangeStyles.AddRange(new Syncfusion.Windows.Forms.Grid.GridRangeStyle[] {
             gridRangeStyle1,
             gridRangeStyle2,
@@ -266,7 +276,8 @@
             gridRangeStyle4,
             gridRangeStyle5,
             gridRangeStyle6,
-            gridRangeStyle7});
+            gridRangeStyle7,
+            gridRangeStyle8});
             this.GridCtrl.SerializeCellsBehavior = Syncfusion.Windows.Forms.Grid.GridSerializeCellsBehavior.SerializeAsRangeStylesIntoCode;
             this.GridCtrl.Size = new System.Drawing.Size(637, 537);
             this.GridCtrl.SmartSizeBox = false;
@@ -317,7 +328,7 @@
             this.TitleCurMaker.Name = "TitleCurMaker";
             this.TitleCurMaker.Size = new System.Drawing.Size(137, 32);
             this.TitleCurMaker.TabIndex = 766;
-            this.TitleCurMaker.Text = "현재 Maker";
+            this.TitleCurMaker.Text = "현재 Folder";
             this.TitleCurMaker.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // LabelCurMaker
@@ -334,11 +345,26 @@
             this.LabelCurMaker.TabIndex = 765;
             this.LabelCurMaker.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // BtnMakerChange
+            // 
+            this.BtnMakerChange.Font = new System.Drawing.Font("굴림", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.BtnMakerChange.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.BtnMakerChange.Image = ((System.Drawing.Image)(resources.GetObject("BtnMakerChange.Image")));
+            this.BtnMakerChange.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.BtnMakerChange.Location = new System.Drawing.Point(126, 642);
+            this.BtnMakerChange.Name = "BtnMakerChange";
+            this.BtnMakerChange.Size = new System.Drawing.Size(112, 61);
+            this.BtnMakerChange.TabIndex = 769;
+            this.BtnMakerChange.Text = "  수정";
+            this.BtnMakerChange.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.BtnMakerChange.UseVisualStyleBackColor = true;
+            // 
             // FormModelList
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1008, 715);
+            this.Controls.Add(this.BtnMakerChange);
             this.Controls.Add(this.TitleCurModel);
             this.Controls.Add(this.LabelCurModel);
             this.Controls.Add(this.TitleCurMaker);
@@ -346,7 +372,7 @@
             this.Controls.Add(this.GridCtrl);
             this.Controls.Add(this.BtnModelDelete);
             this.Controls.Add(this.BtnModelCreate);
-            this.Controls.Add(this.LabelMaker);
+            this.Controls.Add(this.LabelFolder);
             this.Controls.Add(this.MakerTreeView);
             this.Controls.Add(this.BtnModelSelect);
             this.Controls.Add(this.BtnMakerDelete);
@@ -373,7 +399,7 @@
         private System.Windows.Forms.Button BtnModelSelect;
         private System.Windows.Forms.TreeView MakerTreeView;
         private System.Windows.Forms.ImageList imageDir;
-        private Syncfusion.Windows.Forms.Tools.GradientLabel LabelMaker;
+        private Syncfusion.Windows.Forms.Tools.GradientLabel LabelFolder;
         private System.Windows.Forms.Button BtnModelDelete;
         private System.Windows.Forms.Button BtnModelCreate;
         private Syncfusion.Windows.Forms.Grid.GridControl GridCtrl;
@@ -381,5 +407,6 @@
         private Syncfusion.Windows.Forms.Tools.GradientLabel LabelCurModel;
         private Syncfusion.Windows.Forms.Tools.GradientLabel TitleCurMaker;
         public Syncfusion.Windows.Forms.Tools.GradientLabel LabelCurMaker;
+        private System.Windows.Forms.Button BtnMakerChange;
     }
 }

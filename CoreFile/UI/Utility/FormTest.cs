@@ -116,8 +116,6 @@ namespace Core.UI
         private void LabelTest1_Click(object sender, EventArgs e)
         {
       
-            int servoNo = Convert.ToInt32(TextTest1.Text);
-            CMainFrame.Core.m_YMC.GetServoStatus(servoNo);
         }
     }
 }

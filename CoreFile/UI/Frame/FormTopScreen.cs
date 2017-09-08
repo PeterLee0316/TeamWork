@@ -51,52 +51,7 @@ namespace Core.UI
             TextTime.Text = DateTime.Now.ToString("yyyy-MM-dd [ddd] <tt> HH:mm:ss");
 
             //LabelCurUser.Text = $"Current User : {CMainFrame.DataManager.LoginInfo.User.Name}";
-            BtnUserLogin.Text = $"Login : {CMainFrame.DataManager.LoginInfo.User.Name}";
-
-            // OP Switch
-            bool bStatus;
-            CMainFrame.Core.m_ctrlOpPanel.IsPanelSWDetected(ESwitch.START, out bStatus);
-            if (bStatus) btnStart.BackColor = Color.LightGreen;
-            else btnStart.BackColor = Color.LightGray;
-
-            CMainFrame.Core.m_ctrlOpPanel.IsPanelSWDetected(ESwitch.STOP, out bStatus);
-            if (bStatus) btnStop.BackColor = Color.LightGreen;
-            else btnStop.BackColor = Color.LightGray;
-
-            CMainFrame.Core.m_ctrlOpPanel.IsPanelSWDetected(ESwitch.RESET, out bStatus);
-            if (bStatus) btnReset.BackColor = Color.LightBlue;
-            else btnReset.BackColor = Color.LightGray;
-
-            CMainFrame.Core.m_ctrlOpPanel.IsPanelSWDetected(ESwitch.ESTOP, out bStatus);
-            if (bStatus) btnEMO.BackColor = Color.Red;
-            else btnEMO.BackColor = Color.LightGray;
-
-            // TowerLamp
-            CMainFrame.Core.m_IO.GetBit(DEF_IO.oTower_LampRed, out bStatus);
-            if (bStatus) LabelTowerR.BackgroundColor = CMainFrame.Brush_R;
-            else LabelTowerR.BackgroundColor = CMainFrame.Brush_Gray;
-
-            CMainFrame.Core.m_IO.GetBit(DEF_IO.oTower_LampYellow, out bStatus);
-            if (bStatus) LabelTowerY.BackgroundColor = CMainFrame.Brush_Y;
-            else LabelTowerY.BackgroundColor = CMainFrame.Brush_Gray;
-
-            CMainFrame.Core.m_IO.GetBit(DEF_IO.oTower_LampGreen, out bStatus);
-            if (bStatus) LabelTowerG.BackgroundColor = CMainFrame.Brush_G;
-            else LabelTowerG.BackgroundColor = CMainFrame.Brush_Gray;
-
-            // Buzzer
-            CMainFrame.Core.m_IO.GetBit(DEF_IO.oBuzzer_1, out bStatus);
-            if (bStatus) LabelBuzzer1.BackgroundColor = CMainFrame.Brush_B;
-            else LabelBuzzer1.BackgroundColor = CMainFrame.Brush_Gray;
-            CMainFrame.Core.m_IO.GetBit(DEF_IO.oBuzzer_2, out bStatus);
-            if (bStatus) LabelBuzzer2.BackgroundColor = CMainFrame.Brush_B;
-            else LabelBuzzer2.BackgroundColor = CMainFrame.Brush_Gray;
-            CMainFrame.Core.m_IO.GetBit(DEF_IO.oBuzzer_3, out bStatus);
-            if (bStatus) LabelBuzzer3.BackgroundColor = CMainFrame.Brush_B;
-            else LabelBuzzer3.BackgroundColor = CMainFrame.Brush_Gray;
-            CMainFrame.Core.m_IO.GetBit(DEF_IO.oBuzzer_4, out bStatus);
-            if (bStatus) LabelBuzzer4.BackgroundColor = CMainFrame.Brush_B;
-            else LabelBuzzer4.BackgroundColor = CMainFrame.Brush_Gray;
+            BtnUserLogin.Text = $"Login : {CMainFrame.DataManager.LoginInfo.User.Name}";            
         }
 
         public void SetMessage(string strMsg)

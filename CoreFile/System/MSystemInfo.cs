@@ -50,25 +50,11 @@ namespace Core.Layers
 	            // 80-99 : Reserved
 		
 	            // 100-149 : Cylinders--------------------------------------------------------------------
-                new CObjectInfo( (int)OBJ_HL_CYLINDER, "Cylinder", 100, "PushPull Gripper Lock/Unlock", 2000, "PushPullGripper", LOG_ALL, LOG_DAY ),
-                new CObjectInfo( (int)OBJ_HL_CYLINDER, "Cylinder", 101, "PushPull Up/Down",             2000, "PushPullUD", LOG_ALL, LOG_DAY ),
-                new CObjectInfo( (int)OBJ_HL_CYLINDER, "Cylinder", 102, "Spinner1 Up/Down",             2000, "S1_UDCyl", LOG_ALL, LOG_DAY ),
-                new CObjectInfo( (int)OBJ_HL_CYLINDER, "Cylinder", 103, "Spinner1 DI Valve",            2000, "S1_DICyl", LOG_ALL, LOG_DAY ),
-                new CObjectInfo( (int)OBJ_HL_CYLINDER, "Cylinder", 104, "Spinner1 PVA Valve",           2000, "S1_PVACyl", LOG_ALL, LOG_DAY ),
-                new CObjectInfo( (int)OBJ_HL_CYLINDER, "Cylinder", 105, "Spinner2 Up/Down",             2000, "S2_UDCyl", LOG_ALL, LOG_DAY ),
-                new CObjectInfo( (int)OBJ_HL_CYLINDER, "Cylinder", 106, "Spinner2 DI Valve",            2000, "S2_DICyl", LOG_ALL, LOG_DAY ),
-                new CObjectInfo( (int)OBJ_HL_CYLINDER, "Cylinder", 107, "Spinner2 PVA Valve",           2000, "S2_PVACyl", LOG_ALL, LOG_DAY ),
                 new CObjectInfo( (int)OBJ_HL_CYLINDER, "Cylinder", 108, "Stage Clamp1 Open/Close",      2000, "StageClamp1", LOG_ALL, LOG_DAY ),
                 new CObjectInfo( (int)OBJ_HL_CYLINDER, "Cylinder", 109, "Stage Clamp2 Open/Close",      2000, "StageClamp2", LOG_ALL, LOG_DAY ),
 
 	            // 150-199 : Vacuums ------------------------------------------------------------------------------	
 	            new CObjectInfo( (int)OBJ_HL_VACUUM, "Vacuum", 150, "Stage1",           2100, "Stage1Vac", LOG_ALL, LOG_DAY ),
-                new CObjectInfo( (int)OBJ_HL_VACUUM, "Vacuum", 151, "Spinner1",         2100, "Spinner1Vac", LOG_ALL, LOG_DAY ),
-                new CObjectInfo( (int)OBJ_HL_VACUUM, "Vacuum", 152, "Spinner2",         2100, "Spinner2Vac", LOG_ALL, LOG_DAY ),
-                new CObjectInfo( (int)OBJ_HL_VACUUM, "Vacuum", 153, "UpperHandler Self",    2100, "UHandlerSelfVac", LOG_ALL, LOG_DAY ),
-                new CObjectInfo( (int)OBJ_HL_VACUUM, "Vacuum", 154, "UpperHandler Factory", 2100, "UHandlerFactoryVac", LOG_ALL, LOG_DAY ),
-                new CObjectInfo( (int)OBJ_HL_VACUUM, "Vacuum", 155, "LowerHandler Self",    2100, "LHandlerSelfVac", LOG_ALL, LOG_DAY ),
-                new CObjectInfo( (int)OBJ_HL_VACUUM, "Vacuum", 156, "LowerHandler Factory", 2100, "LHandlerFactoryVac", LOG_ALL, LOG_DAY ),
 
 	            //new CObjectInfo( (int)OBJ_HL_VACUUM, "Vacuum", 153, "Workbench Inner", 2100, "WorkbenchInnerVac", LOG_ALL, LOG_DAY ),
                 //new CObjectInfo( (int)OBJ_HL_VACUUM, "Vacuum", 154, "Workbench Outer", 2100, "WorkbenchOuterVac", LOG_ALL, LOG_DAY ),
@@ -80,40 +66,17 @@ namespace Core.Layers
 
 	            // 250-299 : Motion Multi Axes --------------------------------------------------------------------		
 	            new CObjectInfo( (int)OBJ_HL_MULTIAXES_YMC, "MultiAxes_YMC", 250, "Stage1",               2500, "MA_Stage1",        LOG_ALL, LOG_DAY ),
-                new CObjectInfo( (int)OBJ_HL_MULTIAXES_YMC, "MultiAxes_YMC", 251, "Loader",               2500, "MA_Loader",        LOG_ALL, LOG_DAY ),	
-                new CObjectInfo( (int)OBJ_HL_MULTIAXES_YMC, "MultiAxes_YMC", 252, "PushPull",             2500, "MA_PushPull",      LOG_ALL, LOG_DAY ),
-                new CObjectInfo( (int)OBJ_HL_MULTIAXES_YMC, "MultiAxes_YMC", 253, "PushPull Centering1",    2500, "MA_Centering1",    LOG_ALL, LOG_DAY ),
-                new CObjectInfo( (int)OBJ_HL_MULTIAXES_YMC, "MultiAxes_YMC", 254, "PushPUll Centering2",    2500, "MA_Centering2",    LOG_ALL, LOG_DAY ),
-                new CObjectInfo( (int)OBJ_HL_MULTIAXES_YMC, "MultiAxes_YMC", 255, "Coater1 ChuckRotate",  2500, "MA_Chuck1",        LOG_ALL, LOG_DAY ),
-                new CObjectInfo( (int)OBJ_HL_MULTIAXES_YMC, "MultiAxes_YMC", 256, "Coater1 CleanNozzle",  2500, "MA_CleanNozzle1",  LOG_ALL, LOG_DAY ),
-                new CObjectInfo( (int)OBJ_HL_MULTIAXES_YMC, "MultiAxes_YMC", 257, "Coater1 CoatNozzle",   2500, "MA_CoatNozzle1",   LOG_ALL, LOG_DAY ),
-                new CObjectInfo( (int)OBJ_HL_MULTIAXES_YMC, "MultiAxes_YMC", 258, "Coater2 ChuckRotate",  2500, "MA_Chuck2",        LOG_ALL, LOG_DAY ),
-                new CObjectInfo( (int)OBJ_HL_MULTIAXES_YMC, "MultiAxes_YMC", 259, "Coater2 CleanNozzle",  2500, "MA_CleanNozzle2",  LOG_ALL, LOG_DAY ),
-                new CObjectInfo( (int)OBJ_HL_MULTIAXES_YMC, "MultiAxes_YMC", 260, "Coater2 CoatNozzle",   2500, "MA_CoatNozzle2",   LOG_ALL, LOG_DAY ),
-	            new CObjectInfo( (int)OBJ_HL_MULTIAXES_YMC, "MultiAxes_YMC", 261, "UpperHandler",         2500, "MA_UpperHandler",  LOG_ALL, LOG_DAY ),
-                new CObjectInfo( (int)OBJ_HL_MULTIAXES_YMC, "MultiAxes_YMC", 262, "LowerHandler",         2500, "MA_LowerHandler",  LOG_ALL, LOG_DAY ),
-                new CObjectInfo( (int)OBJ_HL_MULTIAXES_YMC, "MultiAxes_YMC", 263, "Camera1",              2500, "MA_Camera1",       LOG_ALL, LOG_DAY ),
-                new CObjectInfo( (int)OBJ_HL_MULTIAXES_YMC, "MultiAxes_YMC", 264, "Laser1",               2500, "MA_Laser1",        LOG_ALL, LOG_DAY ),
+                new CObjectInfo( (int)OBJ_HL_MULTIAXES_YMC, "MultiAxes_YMC", 251, "Camera1",              2500, "MA_Camera1",       LOG_ALL, LOG_DAY ),
+                new CObjectInfo( (int)OBJ_HL_MULTIAXES_YMC, "MultiAxes_YMC", 252, "Laser1",               2500, "MA_Laser1",        LOG_ALL, LOG_DAY ),
 		
 	            // 300-349 : Mechanical Layer --------------------------------------------------------------------
 	            new CObjectInfo( (int)OBJ_ML_OP_PANEL  , "Mechanical",   300, "OpPanel",  3000, "OpPanel", LOG_ALL, LOG_DAY ),
-                new CObjectInfo( (int)OBJ_ML_ELEVATOR  , "Mechanical",   301, "Loader",   3100, "Loader", LOG_ALL, LOG_DAY ),
-                new CObjectInfo( (int)OBJ_ML_PUSHPULL  , "Mechanical",   302, "PushPull", 3200, "PushPull", LOG_ALL, LOG_DAY ),
                 new CObjectInfo( (int)OBJ_ML_STAGE     , "Mechanical",   303, "Stage1",   3300, "Stage1", LOG_ALL, LOG_DAY ),
-                new CObjectInfo( (int)OBJ_ML_SPINNER   , "Mechanical",   304, "Spinner1", 3400, "Spinner1", LOG_ALL, LOG_DAY ),
-                new CObjectInfo( (int)OBJ_ML_SPINNER   , "Mechanical",   305, "Spinner2", 3400, "Spinner2", LOG_ALL, LOG_DAY ),
-                new CObjectInfo( (int)OBJ_ML_HANDLER   , "Mechanical",   306, "UpperHandler", 3500, "UpperHandler", LOG_ALL, LOG_DAY ),
-                new CObjectInfo( (int)OBJ_ML_HANDLER   , "Mechanical",   307, "LowerHandler", 3500, "LowerHandler", LOG_ALL, LOG_DAY ),
                 new CObjectInfo( (int)OBJ_ML_VISION    , "Mechanical",   308, "Vision",   3600, "Vision", LOG_ALL, LOG_DAY ),
 
 	            // 350-399 : Control Layer --------------------------------------------------------------------
 	            new CObjectInfo( (int)OBJ_CL_OP_PANEL          , "Control", 350, "OPPanel",         5000, "C_OpPanel", LOG_ALL, LOG_DAY ),
-                new CObjectInfo( (int)OBJ_CL_LOADER            , "Control", 351, "Loader",          5100, "C_Loader", LOG_ALL, LOG_DAY ),
-                new CObjectInfo( (int)OBJ_CL_PUSHPULL          , "Control", 352, "PushPull",        5200, "C_PushPull", LOG_ALL, LOG_DAY ),
                 new CObjectInfo( (int)OBJ_CL_STAGE1            , "Control", 353, "Stage1",          5300, "C_Stage1", LOG_ALL, LOG_DAY ),
-                new CObjectInfo( (int)OBJ_CL_SPINNER           , "Control", 354, "Spinner1",        5400, "C_Spinner1", LOG_ALL, LOG_DAY ),
-                new CObjectInfo( (int)OBJ_CL_SPINNER           , "Control", 355, "Spinner2",        5400, "C_Spinner2", LOG_ALL, LOG_DAY ),
-                new CObjectInfo( (int)OBJ_CL_HANDLER           , "Control", 356, "Handler",         5500, "C_Handler", LOG_ALL, LOG_DAY ),
                 new CObjectInfo( (int)OBJ_CL_VISION_CALIBRATION, "Control", 360, "Calibration1",    5600, "C_VisionCalib1", LOG_ALL, LOG_DAY ),
                 new CObjectInfo( (int)OBJ_CL_VISION_CALIBRATION, "Control", 361, "Calibration2",    5600, "C_VisionCalib2", LOG_ALL, LOG_DAY ),
                 new CObjectInfo( (int)OBJ_CL_HW_TEACH          , "Control", 362, "HW Teach",        5700, "C_HWTeach", LOG_ALL, LOG_DAY ),
@@ -124,12 +87,7 @@ namespace Core.Layers
 
 	            // 400-459 : Process Layer --------------------------------------------------------------------
                 new CObjectInfo( (int)OBJ_PL_TRS_AUTO_MANAGER  , "Process",    400, "AutoManager",  7000, "TrsAutoManager", LOG_ALL, LOG_DAY ),
-                new CObjectInfo( (int)OBJ_PL_TRS_LOADER        , "Process",    401, "Loader",       7100, "TrsLoader", LOG_ALL, LOG_DAY ),
-                new CObjectInfo( (int)OBJ_PL_TRS_PUSHPULL      , "Process",    402, "PushPull",     7200, "TrsPushPull", LOG_ALL, LOG_DAY ),
                 new CObjectInfo( (int)OBJ_PL_TRS_STAGE1        , "Process",    403, "Stage1",       7300, "TrsStage1", LOG_ALL, LOG_DAY ),
-                new CObjectInfo( (int)OBJ_PL_TRS_SPINNER       , "Process",    404, "Spinner1",     7400, "TrsSpinner1", LOG_ALL, LOG_DAY ),
-                new CObjectInfo( (int)OBJ_PL_TRS_SPINNER       , "Process",    405, "Spinner2",     7400, "TrsSpinner2", LOG_ALL, LOG_DAY ),
-                new CObjectInfo( (int)OBJ_PL_TRS_HANDLER       , "Process",    406, "Handler",      7500, "TrsHandler", LOG_ALL, LOG_DAY ),
                 new CObjectInfo( (int)OBJ_PL_TRS_JOG           , "Process",    410, "Jog",          8000, "TrsJog", LOG_ALL, LOG_DAY ),
 	            new CObjectInfo( (int)OBJ_PL_TRS_LCNET         , "Process",    411, "LCNet",        8100, "TrsLCNet", LOG_ALL, LOG_DAY ),
             };

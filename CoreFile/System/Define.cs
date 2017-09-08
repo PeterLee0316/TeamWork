@@ -104,15 +104,7 @@ namespace Core.Layers
             LOWER_HANDLER_X,
             LOWER_HANDLER_Z,    // = 13
 
-#if EQUIP_DICING_DEV
-            CAMERA1_Z,
-            SCANNER_Z1,
-            STAGE1_X,
-            STAGE1_Y,
-            STAGE1_T,
-            MAX,                 // = 19
-#endif
-#if EQUIP_266_DEV
+
             SCANNER_Z1,
             SCANNER_Z2,
             CAMERA1_Z,
@@ -122,7 +114,7 @@ namespace Core.Layers
             STAGE1_Y,
             STAGE1_T,
             MAX,                   // = 22
-#endif
+
         }
 
         public enum EYMC_Board
@@ -150,16 +142,10 @@ namespace Core.Layers
             UPPER_HANDLER_Z         ,
             LOWER_HANDLER_X         ,
             LOWER_HANDLER_Z         ,
-#if EQUIP_DICING_DEV
+
             CAMERA1_Z,
             SCANNER_Z1         ,
-#endif
 
-//#if EQUIP_266_DEV
-//            STAGE1_X,
-//            STAGE1_Y           ,
-//            STAGE1_T           ,
-//#endif
             MAX,
         }
 
