@@ -167,8 +167,8 @@ namespace Core.UI
                 // Cam Pixel Size
                 if (m_SystemData_Align.CamPixelSize[i] == 0.0)  m_SystemData_Align.CamPixelSize[i] = 3.75;
                 // Cam Pixel Num
-                m_SystemData_Align.CamPixelNumX[i] = CMainFrame.Core.m_Vision.GetCameraPixelNum(i).Width;
-                m_SystemData_Align.CamPixelNumY[i] = CMainFrame.Core.m_Vision.GetCameraPixelNum(i).Height;
+                m_SystemData_Align.CamPixelNumX[i] = CMainFrame.mCore.m_Vision.GetCameraPixelNum(i).Width;
+                m_SystemData_Align.CamPixelNumY[i] = CMainFrame.mCore.m_Vision.GetCameraPixelNum(i).Height;
                 // Cam Pixel Resolution
                 m_SystemData_Align.PixelResolution[i] = m_SystemData_Align.CamPixelSize[i] /
                                                                               m_SystemData_Align.LenMagnification[i];

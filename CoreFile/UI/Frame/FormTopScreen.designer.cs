@@ -51,13 +51,14 @@
             // 
             // TextMessage
             // 
-            this.TextMessage.BackColor = System.Drawing.SystemColors.Control;
+            this.TextMessage.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.TextMessage.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.TextMessage.Enabled = false;
             this.TextMessage.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.TextMessage.Location = new System.Drawing.Point(423, 70);
+            this.TextMessage.Location = new System.Drawing.Point(672, 4);
+            this.TextMessage.Multiline = true;
             this.TextMessage.Name = "TextMessage";
-            this.TextMessage.Size = new System.Drawing.Size(617, 15);
+            this.TextMessage.Size = new System.Drawing.Size(356, 91);
             this.TextMessage.TabIndex = 0;
             // 
             // TextTime
@@ -66,7 +67,7 @@
             this.TextTime.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.TextTime.Enabled = false;
             this.TextTime.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.TextTime.Location = new System.Drawing.Point(74, 70);
+            this.TextTime.Location = new System.Drawing.Point(1034, 58);
             this.TextTime.Name = "TextTime";
             this.TextTime.Size = new System.Drawing.Size(241, 15);
             this.TextTime.TabIndex = 1;
@@ -79,9 +80,9 @@
             // 
             this.BtnUserLogin.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.BtnUserLogin.Image = ((System.Drawing.Image)(resources.GetObject("BtnUserLogin.Image")));
-            this.BtnUserLogin.Location = new System.Drawing.Point(1125, 4);
+            this.BtnUserLogin.Location = new System.Drawing.Point(1035, 2);
             this.BtnUserLogin.Name = "BtnUserLogin";
-            this.BtnUserLogin.Size = new System.Drawing.Size(130, 67);
+            this.BtnUserLogin.Size = new System.Drawing.Size(130, 53);
             this.BtnUserLogin.TabIndex = 3;
             this.BtnUserLogin.Text = " User  Log-In";
             this.BtnUserLogin.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
@@ -92,9 +93,9 @@
             // 
             this.btnExit.BackColor = System.Drawing.Color.Transparent;
             this.btnExit.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.btnExit.Location = new System.Drawing.Point(1070, 4);
+            this.btnExit.Location = new System.Drawing.Point(1173, 2);
             this.btnExit.Name = "btnExit";
-            this.btnExit.Size = new System.Drawing.Size(48, 66);
+            this.btnExit.Size = new System.Drawing.Size(96, 53);
             this.btnExit.TabIndex = 5;
             this.btnExit.Text = "종료";
             this.btnExit.UseVisualStyleBackColor = false;
@@ -104,9 +105,9 @@
             // 
             this.btnStart.BackColor = System.Drawing.Color.Transparent;
             this.btnStart.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.btnStart.Location = new System.Drawing.Point(844, 7);
+            this.btnStart.Location = new System.Drawing.Point(401, 4);
             this.btnStart.Name = "btnStart";
-            this.btnStart.Size = new System.Drawing.Size(45, 24);
+            this.btnStart.Size = new System.Drawing.Size(79, 53);
             this.btnStart.TabIndex = 6;
             this.btnStart.Text = "Start";
             this.btnStart.UseVisualStyleBackColor = false;
@@ -116,9 +117,9 @@
             // 
             this.btnStop.BackColor = System.Drawing.Color.Transparent;
             this.btnStop.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.btnStop.Location = new System.Drawing.Point(894, 7);
+            this.btnStop.Location = new System.Drawing.Point(486, 4);
             this.btnStop.Name = "btnStop";
-            this.btnStop.Size = new System.Drawing.Size(45, 24);
+            this.btnStop.Size = new System.Drawing.Size(74, 53);
             this.btnStop.TabIndex = 7;
             this.btnStop.Text = "Stop";
             this.btnStop.UseVisualStyleBackColor = false;
@@ -128,7 +129,7 @@
             // 
             this.btnReset.BackColor = System.Drawing.Color.Transparent;
             this.btnReset.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.btnReset.Location = new System.Drawing.Point(944, 7);
+            this.btnReset.Location = new System.Drawing.Point(621, 4);
             this.btnReset.Name = "btnReset";
             this.btnReset.Size = new System.Drawing.Size(45, 24);
             this.btnReset.TabIndex = 8;
@@ -140,7 +141,7 @@
             // 
             this.btnEMO.BackColor = System.Drawing.Color.Transparent;
             this.btnEMO.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.btnEMO.Location = new System.Drawing.Point(995, 7);
+            this.btnEMO.Location = new System.Drawing.Point(621, 30);
             this.btnEMO.Name = "btnEMO";
             this.btnEMO.Size = new System.Drawing.Size(45, 24);
             this.btnEMO.TabIndex = 9;
@@ -155,7 +156,7 @@
             | System.Windows.Forms.Border3DSide.Right) 
             | System.Windows.Forms.Border3DSide.Bottom)));
             this.LabelTowerR.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.LabelTowerR.Location = new System.Drawing.Point(845, 33);
+            this.LabelTowerR.Location = new System.Drawing.Point(406, 65);
             this.LabelTowerR.Name = "LabelTowerR";
             this.LabelTowerR.Size = new System.Drawing.Size(25, 24);
             this.LabelTowerR.TabIndex = 755;
@@ -169,7 +170,7 @@
             | System.Windows.Forms.Border3DSide.Right) 
             | System.Windows.Forms.Border3DSide.Bottom)));
             this.LabelTowerY.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.LabelTowerY.Location = new System.Drawing.Point(870, 33);
+            this.LabelTowerY.Location = new System.Drawing.Point(431, 65);
             this.LabelTowerY.Name = "LabelTowerY";
             this.LabelTowerY.Size = new System.Drawing.Size(25, 24);
             this.LabelTowerY.TabIndex = 756;
@@ -183,7 +184,7 @@
             | System.Windows.Forms.Border3DSide.Right) 
             | System.Windows.Forms.Border3DSide.Bottom)));
             this.LabelTowerG.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.LabelTowerG.Location = new System.Drawing.Point(895, 33);
+            this.LabelTowerG.Location = new System.Drawing.Point(456, 65);
             this.LabelTowerG.Name = "LabelTowerG";
             this.LabelTowerG.Size = new System.Drawing.Size(25, 24);
             this.LabelTowerG.TabIndex = 757;
@@ -197,7 +198,7 @@
             | System.Windows.Forms.Border3DSide.Right) 
             | System.Windows.Forms.Border3DSide.Bottom)));
             this.LabelBuzzer1.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.LabelBuzzer1.Location = new System.Drawing.Point(920, 33);
+            this.LabelBuzzer1.Location = new System.Drawing.Point(481, 65);
             this.LabelBuzzer1.Name = "LabelBuzzer1";
             this.LabelBuzzer1.Size = new System.Drawing.Size(25, 24);
             this.LabelBuzzer1.TabIndex = 758;
@@ -211,7 +212,7 @@
             | System.Windows.Forms.Border3DSide.Right) 
             | System.Windows.Forms.Border3DSide.Bottom)));
             this.LabelBuzzer2.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.LabelBuzzer2.Location = new System.Drawing.Point(945, 33);
+            this.LabelBuzzer2.Location = new System.Drawing.Point(506, 65);
             this.LabelBuzzer2.Name = "LabelBuzzer2";
             this.LabelBuzzer2.Size = new System.Drawing.Size(25, 24);
             this.LabelBuzzer2.TabIndex = 759;
@@ -225,7 +226,7 @@
             | System.Windows.Forms.Border3DSide.Right) 
             | System.Windows.Forms.Border3DSide.Bottom)));
             this.LabelBuzzer3.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.LabelBuzzer3.Location = new System.Drawing.Point(970, 33);
+            this.LabelBuzzer3.Location = new System.Drawing.Point(531, 65);
             this.LabelBuzzer3.Name = "LabelBuzzer3";
             this.LabelBuzzer3.Size = new System.Drawing.Size(25, 24);
             this.LabelBuzzer3.TabIndex = 760;
@@ -239,7 +240,7 @@
             | System.Windows.Forms.Border3DSide.Right) 
             | System.Windows.Forms.Border3DSide.Bottom)));
             this.LabelBuzzer4.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.LabelBuzzer4.Location = new System.Drawing.Point(995, 33);
+            this.LabelBuzzer4.Location = new System.Drawing.Point(556, 65);
             this.LabelBuzzer4.Name = "LabelBuzzer4";
             this.LabelBuzzer4.Size = new System.Drawing.Size(25, 24);
             this.LabelBuzzer4.TabIndex = 761;
@@ -252,7 +253,7 @@
             this.textVersion.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.textVersion.Enabled = false;
             this.textVersion.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.textVersion.Location = new System.Drawing.Point(1070, 75);
+            this.textVersion.Location = new System.Drawing.Point(1085, 81);
             this.textVersion.Name = "textVersion";
             this.textVersion.Size = new System.Drawing.Size(190, 15);
             this.textVersion.TabIndex = 762;
@@ -261,7 +262,6 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.ClientSize = new System.Drawing.Size(1278, 98);
             this.ControlBox = false;

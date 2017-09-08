@@ -33,7 +33,7 @@ namespace Core.UI
 
         public bool Type_Fixed; // 고정좌표, 옵셋좌표 구분
 
-        private CMovingObject MO_Scanner = CMainFrame.Core.m_MeStage.AxScannerInfo;
+        private CMovingObject MO_Scanner = CMainFrame.mCore.m_MeStage.AxScannerInfo;
 
         public FormScannerTeach()
         {
@@ -265,13 +265,13 @@ namespace Core.UI
             if (!CMainFrame.InquireMsg(strMsg)) return;
 
             CPositionGroup tGroup;
-            CMainFrame.Core.GetPositionGroup(out tGroup, Type_Fixed);
+            CMainFrame.mCore.GetPositionGroup(out tGroup, Type_Fixed);
             EPositionObject pIndex = EPositionObject.SCANNER1;
             int direction = DEF_Z;
             strData = (Type_Fixed == true) ? GridTeachTable[3, 1].Text : strData = GridTeachTable[6, 1].Text;
             tGroup.Pos_Array[(int)pIndex].Pos[m_nSelectedPos].SetPosition(direction, Convert.ToDouble(strData));
 
-            CMainFrame.Core.SavePosition(tGroup, Type_Fixed, pIndex);
+            CMainFrame.mCore.SavePosition(tGroup, Type_Fixed, pIndex);
             DisplayPos();
         }
 
@@ -282,11 +282,11 @@ namespace Core.UI
             double dValue = 0, dCurPos = 0, dTargetPos = 0;
 
 #if EQUIP_DICING_DEV
-            strCurPos= String.Format("{0:0.000}", CMainFrame.Core.m_YMC.ServoStatus[(int)EYMC_Axis.SCANNER_Z1].EncoderPos);
-            dCurPos = CMainFrame.Core.m_YMC.ServoStatus[(int)EYMC_Axis.SCANNER_Z1].EncoderPos;
+            strCurPos= String.Format("{0:0.000}", CMainFrame.mCore.m_YMC.ServoStatus[(int)EYMC_Axis.SCANNER_Z1].EncoderPos);
+            dCurPos = CMainFrame.mCore.m_YMC.ServoStatus[(int)EYMC_Axis.SCANNER_Z1].EncoderPos;
 #else
-            strCurPos = String.Format("{0:0.0000}", CMainFrame.Core.m_ACS.ServoStatus[(int)EACS_Axis.SCANNER_Z1].EncoderPos);
-            dCurPos = CMainFrame.Core.m_ACS.ServoStatus[(int)EACS_Axis.SCANNER_Z1].EncoderPos;
+            strCurPos = String.Format("{0:0.0000}", CMainFrame.mCore.m_ACS.ServoStatus[(int)EACS_Axis.SCANNER_Z1].EncoderPos);
+            dCurPos = CMainFrame.mCore.m_ACS.ServoStatus[(int)EACS_Axis.SCANNER_Z1].EncoderPos;
 #endif
             GridTeachTable[7, 1].Text = strCurPos;
 
@@ -325,11 +325,11 @@ namespace Core.UI
             string strMsg = "Move to selected position?";
             if (!CMainFrame.InquireMsg(strMsg)) return;
 
-            if (TeachPos[m_nSelectedPos].Text == Convert.ToString(EScannerPos.WAIT)) CMainFrame.Core.m_ctrlStage1.MoveToScannerWaitPos();
-            if (TeachPos[m_nSelectedPos].Text == Convert.ToString(EScannerPos.WORK)) CMainFrame.Core.m_ctrlStage1.MoveToScannerWorkPos();
-            if (TeachPos[m_nSelectedPos].Text == Convert.ToString(EScannerPos.FOCUS_1)) CMainFrame.Core.m_ctrlStage1.MoveToScannerFocusPos1();
-            if (TeachPos[m_nSelectedPos].Text == Convert.ToString(EScannerPos.FOCUS_2)) CMainFrame.Core.m_ctrlStage1.MoveToScannerFocusPos2();
-            if (TeachPos[m_nSelectedPos].Text == Convert.ToString(EScannerPos.FOCUS_3)) CMainFrame.Core.m_ctrlStage1.MoveToScannerFocusPos3();
+            if (TeachPos[m_nSelectedPos].Text == Convert.ToString(EScannerPos.WAIT)) CMainFrame.mCore.m_ctrlStage1.MoveToScannerWaitPos();
+            if (TeachPos[m_nSelectedPos].Text == Convert.ToString(EScannerPos.WORK)) CMainFrame.mCore.m_ctrlStage1.MoveToScannerWorkPos();
+            if (TeachPos[m_nSelectedPos].Text == Convert.ToString(EScannerPos.FOCUS_1)) CMainFrame.mCore.m_ctrlStage1.MoveToScannerFocusPos1();
+            if (TeachPos[m_nSelectedPos].Text == Convert.ToString(EScannerPos.FOCUS_2)) CMainFrame.mCore.m_ctrlStage1.MoveToScannerFocusPos2();
+            if (TeachPos[m_nSelectedPos].Text == Convert.ToString(EScannerPos.FOCUS_3)) CMainFrame.mCore.m_ctrlStage1.MoveToScannerFocusPos3();
         }
     }
 }

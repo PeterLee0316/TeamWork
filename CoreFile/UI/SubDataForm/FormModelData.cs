@@ -38,7 +38,7 @@ namespace Core.UI
                 return;
             }
             
-            CMainFrame.Core.SaveModelData(m_ModelData);
+            CMainFrame.mCore.SaveModelData(m_ModelData);
         }
 
         private void BtnExit_Click(object sender, EventArgs e)

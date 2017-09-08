@@ -169,7 +169,7 @@ namespace Core.UI
                 // BinaryFormatter 방식 저장 ===========================================
                 Stream ws = new FileStream(filename, FileMode.Create);
                 BinaryFormatter serializer = new BinaryFormatter();
-                serializer.Serialize(ws, CMainFrame.Core.m_MeScanner.GetObjectAllList());
+                serializer.Serialize(ws, CMainFrame.mCore.m_MeScanner.GetObjectAllList());
                 ws.Close();
                 ws.Dispose();
 
@@ -179,7 +179,7 @@ namespace Core.UI
                 //    using (StreamWriter file = File.CreateText(filename))
                 //    {
                 //        JsonSerializer serializer = new JsonSerializer();
-                //        serializer.Serialize(file, CMainFrame.Core.m_MeScanner.m_RefComp.Manager.ObjectList);
+                //        serializer.Serialize(file, CMainFrame.mCore.m_MeScanner.m_RefComp.Manager.ObjectList);
                 //    }
                 //}
                 //catch(Exception ex)
@@ -202,7 +202,7 @@ namespace Core.UI
                 // BinaryFormatter 방식 읽기 ===========================================
                 Stream rs = new FileStream(filename, FileMode.Open);
                 BinaryFormatter deserializer = new BinaryFormatter();
-                CMainFrame.Core.m_MeScanner.SetObjectAllList( (List<CMarkingObject>)deserializer.Deserialize(rs));
+                CMainFrame.mCore.m_MeScanner.SetObjectAllList( (List<CMarkingObject>)deserializer.Deserialize(rs));
                 rs.Close();
                 rs.Dispose();
 
@@ -213,7 +213,7 @@ namespace Core.UI
                 //    var objectList =
                 //        serializer.Deserialize(file,typeof(List<CMarkingObject>)) as List<CMarkingObject>;
 
-                //    CMainFrame.Core.m_MeScanner.m_RefComp.Manager.ObjectList = objectList.
+                //    CMainFrame.mCore.m_MeScanner.m_RefComp.Manager.ObjectList = objectList.
                 //}
 
                 // 기존 ListView 삭제
@@ -223,9 +223,9 @@ namespace Core.UI
                 }
 
                 // ListView에 신규 Object 추가
-                foreach (CMarkingObject shape in CMainFrame.Core.m_MeScanner.GetObjectAllList())
+                foreach (CMarkingObject shape in CMainFrame.mCore.m_MeScanner.GetObjectAllList())
                 {
-                    CMainFrame.Core.m_MeScanner.AddListView(shape);
+                    CMainFrame.mCore.m_MeScanner.AddListView(shape);
                 }
 
 
@@ -479,7 +479,7 @@ namespace Core.UI
 
             // DB Save
 
-            CMainFrame.Core.SaveSystemData(null, null, null, null, null, CMainFrame.DataManager.SystemData_Scan, null);
+            CMainFrame.mCore.SaveSystemData(null, null, null, null, null, CMainFrame.DataManager.SystemData_Scan, null);
 
             // Scan Field를 재 설정함.
             SetScanFieldSize();
@@ -641,8 +641,8 @@ namespace Core.UI
                 {
                     fileName = imgSaveDlg.FileName;
                     // BMP Format을 설정한다
-                    if (CMainFrame.Core.m_MeScanner.SetSizeBmp() != SUCCESS) return;
-                    CMainFrame.Core.m_MeScanner.ConvertBmpFile(fileName);
+                    if (CMainFrame.mCore.m_MeScanner.SetSizeBmp() != SUCCESS) return;
+                    CMainFrame.mCore.m_MeScanner.ConvertBmpFile(fileName);
                 }
 
                 // Scan Field가 300mm 이상일 경우엔.. BMP를 각각 Field만큼 생성한다.
@@ -651,20 +651,20 @@ namespace Core.UI
                     index = imgSaveDlg.FileName.IndexOf('.');
                     fileName = imgSaveDlg.FileName.Insert(index, "-1");
                     // BMP Format을 설정한다
-                    if (CMainFrame.Core.m_MeScanner.SetSizeBmp() != SUCCESS) return;
-                    CMainFrame.Core.m_MeScanner.ConvertBmpFile(fileName, POLYGON_SCAN_WIDTH * 0);
+                    if (CMainFrame.mCore.m_MeScanner.SetSizeBmp() != SUCCESS) return;
+                    CMainFrame.mCore.m_MeScanner.ConvertBmpFile(fileName, POLYGON_SCAN_WIDTH * 0);
 
                     index = imgSaveDlg.FileName.IndexOf('.');
                     fileName = imgSaveDlg.FileName.Insert(index, "-2");
                     // BMP Format을 설정한다
-                    if (CMainFrame.Core.m_MeScanner.SetSizeBmp() != SUCCESS) return;
-                    CMainFrame.Core.m_MeScanner.ConvertBmpFile(fileName, POLYGON_SCAN_WIDTH * 1);
+                    if (CMainFrame.mCore.m_MeScanner.SetSizeBmp() != SUCCESS) return;
+                    CMainFrame.mCore.m_MeScanner.ConvertBmpFile(fileName, POLYGON_SCAN_WIDTH * 1);
 
                     index = imgSaveDlg.FileName.IndexOf('.');
                     fileName = imgSaveDlg.FileName.Insert(index, "-3");
                     // BMP Format을 설정한다
-                    if (CMainFrame.Core.m_MeScanner.SetSizeBmp() != SUCCESS) return;
-                    CMainFrame.Core.m_MeScanner.ConvertBmpFile(fileName, POLYGON_SCAN_WIDTH * 2);
+                    if (CMainFrame.mCore.m_MeScanner.SetSizeBmp() != SUCCESS) return;
+                    CMainFrame.mCore.m_MeScanner.ConvertBmpFile(fileName, POLYGON_SCAN_WIDTH * 2);
                 }
             }
         }
@@ -680,8 +680,8 @@ namespace Core.UI
             {
                 filename = imgSaveDlg.FileName;
                 //string filepath = string.Format("{0:s}{1:s}.bmp", CMainFrame.DBInfo.ImageDataDir, "Polygon");
-                if (CMainFrame.Core.m_MeScanner.CalsSizeBmpByte() != SUCCESS) return;
-                CMainFrame.Core.m_MeScanner.SaveScanFile(filename);
+                if (CMainFrame.mCore.m_MeScanner.CalsSizeBmpByte() != SUCCESS) return;
+                CMainFrame.mCore.m_MeScanner.SaveScanFile(filename);
             }
         }
 

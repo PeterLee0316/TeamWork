@@ -52,7 +52,7 @@
             this.MinimizeBox = false;
             this.Name = "CMainFrame";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
-            this.Text = "Wafer Dicing";
+            this.Text = "Core System";
             this.ResumeLayout(false);
 
         }

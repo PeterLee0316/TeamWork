@@ -349,7 +349,7 @@ namespace Core.UI
                 case EListHeaderType.MODEL:
                     CModelData modelData = ObjectExtensions.Copy(CMainFrame.DataManager.ModelData);
                     modelData.Name = header.Name;
-                    CMainFrame.Core.SaveModelData(modelData);
+                    CMainFrame.mCore.SaveModelData(modelData);
                     break;
                 case EListHeaderType.USERINFO:
                     ELoginType Login = ELoginType.OPERATOR;
@@ -358,7 +358,7 @@ namespace Core.UI
                     if (strSelMakerName == ELoginType.ENGINEER.ToString()) Login = ELoginType.ENGINEER;
 
                     CUserInfo userInfoData = new CUserInfo(strName, strComment, strPass1, Login);
-                    CMainFrame.Core.SaveUserData(userInfoData);
+                    CMainFrame.mCore.SaveUserData(userInfoData);
                     break;
             }
 

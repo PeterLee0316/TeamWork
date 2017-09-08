@@ -86,7 +86,7 @@ namespace Core.UI
             if (String.IsNullOrWhiteSpace(unit) || String.IsNullOrWhiteSpace(cmd)) return;
 
             // confirm
-            if (CMainFrame.Core.IsSafeForAxisMove() == false) return;
+            if (CMainFrame.mCore.IsSafeForAxisMove() == false) return;
             string strMsg = "Move to selected position?";
             if (!CMainFrame.InquireMsg(strMsg)) return;
 
@@ -97,7 +97,7 @@ namespace Core.UI
             // do
             int iResult = SUCCESS;
             bool bStatus, bTransfer;
-            Task<int> task1 = Task< int >.Run(() => CMainFrame.Core.EmptyMethod());
+            Task<int> task1 = Task< int >.Run(() => CMainFrame.mCore.EmptyMethod());
             CMainFrame.StartTimer();
 
            
@@ -105,7 +105,7 @@ namespace Core.UI
             // Stage1
             if (unit == "Stage1")
             {
-                iResult = CMainFrame.Core.m_ctrlStage1.IsObjectDetected(out bStatus);
+                iResult = CMainFrame.mCore.m_ctrlStage1.IsObjectDetected(out bStatus);
                 if (iResult != SUCCESS) goto ERROR_OCCURED;
                 bTransfer = false;
                 if (bStatus)
@@ -116,12 +116,12 @@ namespace Core.UI
 
                 if (cmd == "Wait")
                 {
-                    task1 = Task<int>.Run(() => CMainFrame.Core.m_ctrlStage1.MoveToStageWaitPos());
+                    task1 = Task<int>.Run(() => CMainFrame.mCore.m_ctrlStage1.MoveToStageWaitPos());
                     iResult = await task1;
                 }
                 else if (cmd == "Load")
                 {
-                    task1 = Task<int>.Run(() => CMainFrame.Core.m_ctrlStage1.MoveToStageLoadPos());
+                    task1 = Task<int>.Run(() => CMainFrame.mCore.m_ctrlStage1.MoveToStageLoadPos());
                     iResult = await task1;
                 }
             }
@@ -131,12 +131,12 @@ namespace Core.UI
             {
                 if (cmd == "Wait")
                 {
-                    task1 = Task<int>.Run(() => CMainFrame.Core.m_ctrlStage1.MoveToScannerWaitPos());
+                    task1 = Task<int>.Run(() => CMainFrame.mCore.m_ctrlStage1.MoveToScannerWaitPos());
                     iResult = await task1;
                 }
                 else if (cmd == "Work")
                 {
-                    task1 = Task<int>.Run(() => CMainFrame.Core.m_ctrlStage1.MoveToScannerWorkPos());
+                    task1 = Task<int>.Run(() => CMainFrame.mCore.m_ctrlStage1.MoveToScannerWorkPos());
                     iResult = await task1;
                 }
             }
@@ -146,12 +146,12 @@ namespace Core.UI
             {
                 if (cmd == "Wait")
                 {
-                    task1 = Task<int>.Run(() => CMainFrame.Core.m_ctrlStage1.MoveToCameraWaitPos());
+                    task1 = Task<int>.Run(() => CMainFrame.mCore.m_ctrlStage1.MoveToCameraWaitPos());
                     iResult = await task1;
                 }
                 else if (cmd == "Work")
                 {
-                    task1 = Task<int>.Run(() => CMainFrame.Core.m_ctrlStage1.MoveToCameraWorkPos());
+                    task1 = Task<int>.Run(() => CMainFrame.mCore.m_ctrlStage1.MoveToCameraWorkPos());
                     iResult = await task1;
                 }
             }

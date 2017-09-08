@@ -611,7 +611,7 @@ namespace Core.Layers
         public int MoveToEdgeAlignTeachPos1()
         {
             int iResult;
-            CPos_XYTZ movePos = m_Data.Align.EdgeTeachPos[(int)EEdgeAlignTeachPos.POS1].Copy(); //CMainFrame.Core.m_DataManager.ModelData.EdgeTeachPos[(int)EEdgeAlignTeachPos.POS1].Copy();
+            CPos_XYTZ movePos = m_Data.Align.EdgeTeachPos[(int)EEdgeAlignTeachPos.POS1].Copy(); //CMainFrame.mCore.m_DataManager.ModelData.EdgeTeachPos[(int)EEdgeAlignTeachPos.POS1].Copy();
 
             if (GetCurrentCam() == FINE_CAM)
             {
@@ -627,7 +627,7 @@ namespace Core.Layers
         public int MoveToEdgeAlignTeachPos2()
         {
             int iResult;
-            //CPos_XYTZ movePos = CMainFrame.Core.m_DataManager.ModelData.EdgeTeachPos[(int)EEdgeAlignTeachPos.POS2].Copy();
+            //CPos_XYTZ movePos = CMainFrame.mCore.m_DataManager.ModelData.EdgeTeachPos[(int)EEdgeAlignTeachPos.POS2].Copy();
             CPos_XYTZ movePos = m_Data.Align.EdgeTeachPos[(int)EEdgeAlignTeachPos.POS2].Copy();
 
             if (GetCurrentCam() == FINE_CAM)
@@ -644,7 +644,7 @@ namespace Core.Layers
         public int MoveToEdgeAlignTeachPos3()
         {
             int iResult;
-            //CPos_XYTZ movePos = CMainFrame.Core.m_DataManager.ModelData.EdgeTeachPos[(int)EEdgeAlignTeachPos.POS3].Copy();
+            //CPos_XYTZ movePos = CMainFrame.mCore.m_DataManager.ModelData.EdgeTeachPos[(int)EEdgeAlignTeachPos.POS3].Copy();
             CPos_XYTZ movePos = m_Data.Align.EdgeTeachPos[(int)EEdgeAlignTeachPos.POS3].Copy();
 
             if (GetCurrentCam() == FINE_CAM)
@@ -743,7 +743,7 @@ namespace Core.Layers
             movePos.dX -= offSet.dX;
             movePos.dY -= offSet.dY;
             
-            CMainFrame.Core.m_DataManager.Pos_Fixed.Pos_Stage1.Pos[(int)EStagePos.MACRO_ALIGN] = movePos;
+            CMainFrame.mCore.m_DataManager.Pos_Fixed.Pos_Stage1.Pos[(int)EStagePos.MACRO_ALIGN] = movePos;
 
             return SUCCESS;
         }
@@ -1048,11 +1048,11 @@ namespace Core.Layers
         public int ChangeMacroCam()
         {
             IntPtr viewHandle;
-            viewHandle = CMainFrame.Core.m_Vision.GetLocalViewHandle(PRE__CAM);
+            viewHandle = CMainFrame.mCore.m_Vision.GetLocalViewHandle(PRE__CAM);
             if (viewHandle == null) return GenerateErrorCode(ERR_CTRLSTAGE_CAM_HANDEL_FAIL);
 
-            CMainFrame.Core.m_Vision.DestroyLocalView(FINE_CAM);
-            CMainFrame.Core.m_Vision.InitialLocalView(PRE__CAM, viewHandle);
+            CMainFrame.mCore.m_Vision.DestroyLocalView(FINE_CAM);
+            CMainFrame.mCore.m_Vision.InitialLocalView(PRE__CAM, viewHandle);
 
             return SUCCESS;
         }
@@ -1060,11 +1060,11 @@ namespace Core.Layers
         public int ChangeMicroCam()
         {
             IntPtr viewHandle;
-            viewHandle = CMainFrame.Core.m_Vision.GetLocalViewHandle(FINE_CAM);
+            viewHandle = CMainFrame.mCore.m_Vision.GetLocalViewHandle(FINE_CAM);
             if (viewHandle == null) return GenerateErrorCode(ERR_CTRLSTAGE_CAM_HANDEL_FAIL);
 
-            CMainFrame.Core.m_Vision.DestroyLocalView(PRE__CAM);
-            CMainFrame.Core.m_Vision.InitialLocalView(FINE_CAM, viewHandle);
+            CMainFrame.mCore.m_Vision.DestroyLocalView(PRE__CAM);
+            CMainFrame.mCore.m_Vision.InitialLocalView(FINE_CAM, viewHandle);
 
             return SUCCESS;
         }
@@ -1452,7 +1452,7 @@ namespace Core.Layers
                 m_iCurrentCam = PRE__CAM;
             }
 
-            CMainFrame.Core.m_MeStage.MoveCameraToFocusPosFine();
+            CMainFrame.mCore.m_MeStage.MoveCameraToFocusPosFine();
 
             // 모드에 따라서 Line의 종류를 다르게 해서 보여줌.
 
@@ -2172,7 +2172,7 @@ namespace Core.Layers
                 //CMainFrame.DataManager.Pos_Fixed.Pos_Stage1.Pos[(int)EStagePos.STAGE_CENTER_PRE].dY = StageRotatePos[(int)ERotateCenterStep.INIT].dY - rotateCenter.dY;
                 //CMainFrame.DataManager.Pos_Fixed.Pos_Stage1.Pos[(int)EStagePos.STAGE_CENTER_PRE].dT = 0.0;                
 
-                //CMainFrame.Core.SavePosition(CMainFrame.DataManager.Pos_Fixed, true, EPositionObject.STAGE1);
+                //CMainFrame.mCore.SavePosition(CMainFrame.DataManager.Pos_Fixed, true, EPositionObject.STAGE1);
 
                 // Init으로 이동한다. ( CW로 회전한다 )
                 stageMovePos = StageRotatePos[(int)ERotateCenterStep.INIT].Copy();
@@ -2846,7 +2846,7 @@ namespace Core.Layers
                 // 매뉴얼로 Edge를 Center로 이동함.
                                 
                 // Stage 위치 저장
-                //CMainFrame.Core.m_DataManager.ModelData.EdgeTeachPos[(int)EEdgeAlignTeachPos.POS1] = posStage.Copy();
+                //CMainFrame.mCore.m_DataManager.ModelData.EdgeTeachPos[(int)EEdgeAlignTeachPos.POS1] = posStage.Copy();
                 pAlignData.EdgeTeachPos[(int)EEdgeAlignTeachPos.POS1] = posStage.Copy();
 
                 // Pos2으로 이동함.
@@ -2866,7 +2866,7 @@ namespace Core.Layers
                 // 매뉴얼로 Edge를 Center로 이동함.
 
                 // Stage 위치를 저장함.
-                //CMainFrame.Core.m_DataManager.ModelData.EdgeTeachPos[(int)EEdgeAlignTeachPos.POS2] = posStage.Copy();
+                //CMainFrame.mCore.m_DataManager.ModelData.EdgeTeachPos[(int)EEdgeAlignTeachPos.POS2] = posStage.Copy();
                 pAlignData.EdgeTeachPos[(int)EEdgeAlignTeachPos.POS2] = posStage.Copy();
 
                 // Pos3으로 이동함.
@@ -2886,7 +2886,7 @@ namespace Core.Layers
                 // 매뉴얼로 Edge를 Center로 이동함.
                 
                 // Stage 위치를 저장함.
-                //CMainFrame.Core.m_DataManager.ModelData.EdgeTeachPos[(int)EEdgeAlignTeachPos.POS3] = posStage.Copy();
+                //CMainFrame.mCore.m_DataManager.ModelData.EdgeTeachPos[(int)EEdgeAlignTeachPos.POS3] = posStage.Copy();
                 pAlignData.EdgeTeachPos[(int)EEdgeAlignTeachPos.POS3] = posStage.Copy();
 
                 //MoveToEdgeAlignTeachPos1();
@@ -3012,11 +3012,11 @@ namespace Core.Layers
             m_RefComp.Stage.SetAlignDataInit();
 
             // Cam을 Pre Cam으로 변환
-            viewHandle = CMainFrame.Core.m_Vision.GetLocalViewHandle(PRE__CAM);
+            viewHandle = CMainFrame.mCore.m_Vision.GetLocalViewHandle(PRE__CAM);
             if (viewHandle == null) return GenerateErrorCode(ERR_CTRLSTAGE_CAM_HANDEL_FAIL);
 
-            CMainFrame.Core.m_Vision.DestroyLocalView(FINE_CAM);
-            CMainFrame.Core.m_Vision.InitialLocalView(PRE__CAM, viewHandle);
+            CMainFrame.mCore.m_Vision.DestroyLocalView(FINE_CAM);
+            CMainFrame.mCore.m_Vision.InitialLocalView(PRE__CAM, viewHandle);
 
             // Edge 1번으로 이동 & Edge 확인 =============================================================
             iResult = MoveToEdgeAlignTeachPos1();
@@ -3135,20 +3135,20 @@ namespace Core.Layers
             // Cam을 Pre Cam으로 변환
             if (iMode == MACRO_ALIGN_MODE)
             {
-                viewHandle = CMainFrame.Core.m_Vision.GetLocalViewHandle(PRE__CAM);
+                viewHandle = CMainFrame.mCore.m_Vision.GetLocalViewHandle(PRE__CAM);
                 if (viewHandle == null) return GenerateErrorCode(ERR_CTRLSTAGE_CAM_HANDEL_FAIL);
 
-                CMainFrame.Core.m_Vision.DestroyLocalView(FINE_CAM);
-                CMainFrame.Core.m_Vision.InitialLocalView(PRE__CAM, viewHandle);
+                CMainFrame.mCore.m_Vision.DestroyLocalView(FINE_CAM);
+                CMainFrame.mCore.m_Vision.InitialLocalView(PRE__CAM, viewHandle);
             }
             // Cam을 Fine Cam으로 변환
             if (iMode == MICRO_ALIGN_MODE_CH1 || iMode == MICRO_ALIGN_MODE_CH2)
             {
-                viewHandle = CMainFrame.Core.m_Vision.GetLocalViewHandle(FINE_CAM);
+                viewHandle = CMainFrame.mCore.m_Vision.GetLocalViewHandle(FINE_CAM);
                 if (viewHandle == null) return GenerateErrorCode(ERR_CTRLSTAGE_CAM_HANDEL_FAIL);
 
-                CMainFrame.Core.m_Vision.DestroyLocalView(PRE__CAM);
-                CMainFrame.Core.m_Vision.InitialLocalView(FINE_CAM, viewHandle);
+                CMainFrame.mCore.m_Vision.DestroyLocalView(PRE__CAM);
+                CMainFrame.mCore.m_Vision.InitialLocalView(FINE_CAM, viewHandle);
             }
 
             // AutoFocus 진행 (Micro Align A만 진행)

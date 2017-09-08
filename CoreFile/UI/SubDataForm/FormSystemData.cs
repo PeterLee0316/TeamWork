@@ -50,7 +50,7 @@ namespace Core.UI
             SystemData.CheckSafety_ManualMode = checkBox_CheckSafety_ManualMode.Checked;
             SystemData.EnableCylinderMove_EStop = checkBox_EnableCylinderMove.Checked;
 
-            CMainFrame.Core.SaveSystemData(SystemData);
+            CMainFrame.mCore.SaveSystemData(SystemData);
         }
 
         private void FormSystemData_Load(object sender, EventArgs e)

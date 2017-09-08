@@ -1547,8 +1547,6 @@ namespace Core.Layers
             int acsStartIndex = (int)EAxis.STAGE1_X;
 
             servoNum = iUnitIndex - acsStartIndex;
-            bStatus = m_RefComp.ACS_Motion.ServoStatus[servoNum].IsServoOn;
-           
 
             return iResult;
         }

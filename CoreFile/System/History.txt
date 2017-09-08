@@ -272,7 +272,7 @@ Core의 DataManager에서 데이터를 읽어오기 위한 3가지 함수 : SetS
 undefined 가 아닌 부분만 업데이트함. & 두번씩 저장하던 부분 수정.
 6. 5번과 연계하기 위해서 Import&Export dialog에 delete db 부분도 추가함.
 7. XXX dlg = new XXX() -----> var dlg = new XXX() 로 수정함.
-8. 자주 쓰이는데 이름이 길어져서 CMainFrame.Core.m_DataManager -> CMainFrame.DataManager 로 변경함.
+8. 자주 쓰이는데 이름이 길어져서 CMainFrame.mCore.m_DataManager -> CMainFrame.DataManager 로 변경함.
 9. CMainFrame.DisplayMsg 함수 호출할때 string으로만 호출하도록 변경. (index로 호출시에 소스코드에서 알아보기 어려움.)
    관련 부분 수정 및 message.IsEqual 함수 판단 부분 수정
 10. Image directory에 dispenser project에서 쓰이던 icon file 추가함

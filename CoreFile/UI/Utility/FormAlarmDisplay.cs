@@ -41,7 +41,7 @@ namespace Core.UI
 
         private void BtnBuzzerOff_Click(object sender, EventArgs e)
         {
-            CMainFrame.Core.m_OpPanel.SetBuzzerStatus(false);
+            CMainFrame.mCore.m_OpPanel.SetBuzzerStatus(false);
 
         }
 

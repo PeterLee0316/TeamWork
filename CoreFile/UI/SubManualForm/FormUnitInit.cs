@@ -102,7 +102,7 @@ namespace Core.UI
             bool bStatus;
             for (int i = 0; i < (int)EThreadUnit.MAX; i++)
             {
-                CMainFrame.Core.m_OpPanel.GetInitFlag(i, out bStatus);
+                CMainFrame.mCore.m_OpPanel.GetInitFlag(i, out bStatus);
                 if (bStatus == true)
                 {
                     BtnList[i].Text = BtnName[i] + "\r\n[Init On]";
@@ -125,7 +125,7 @@ namespace Core.UI
 
             // 0. init
             CMainFrame.StartTimer();
-            CMainFrame.Core.m_trsAutoManager.IsInitState = true;
+            CMainFrame.mCore.m_trsAutoManager.IsInitState = true;
 
             // 1.
             InitRun();
@@ -134,7 +134,7 @@ namespace Core.UI
             UpdateUnitStatus();
 
             // 3.
-            CMainFrame.Core.m_trsAutoManager.IsInitState = false;
+            CMainFrame.mCore.m_trsAutoManager.IsInitState = false;
         }
 
         private void SetTitle(string str)
@@ -154,7 +154,7 @@ namespace Core.UI
 
             SetTitle("Check Safety");
             // EStop 및 모든 축 원점 복귀 체크
-            if (CMainFrame.Core.IsSafeForAxisMove() == false)
+            if (CMainFrame.mCore.IsSafeForAxisMove() == false)
                 return;
 
             SetTitle("인터페이스 신호 초기화");
@@ -167,7 +167,7 @@ namespace Core.UI
             SelectedPart[part] = true; // AutoManager는 invisible button. always init
             if (SelectedPart[part] == true)
             {
-                iResult = CMainFrame.Core.m_trsAutoManager.Initialize();
+                iResult = CMainFrame.mCore.m_trsAutoManager.Initialize();
                 if (iResult != SUCCESS)
                 {
                     CMainFrame.DisplayAlarm(iResult);
@@ -186,7 +186,7 @@ namespace Core.UI
             part = (int)EThreadUnit.STAGE1;
             if (SelectedPart[part] == true)
             {
-                iResult = CMainFrame.Core.m_trsStage1.Initialize();
+                iResult = CMainFrame.mCore.m_trsStage1.Initialize();
                 if (iResult != SUCCESS)
                 {
                     CMainFrame.DisplayAlarm(iResult);
@@ -220,7 +220,7 @@ namespace Core.UI
 
         void SetInitFlag(int sel, bool flag)
         {
-            CMainFrame.Core.m_OpPanel.SetInitFlag(sel, flag);
+            CMainFrame.mCore.m_OpPanel.SetInitFlag(sel, flag);
             SelectPart(sel);
         }
 
@@ -229,7 +229,7 @@ namespace Core.UI
             for (int i = 0; i < (int)EThreadUnit.MAX; i++)
             {
                 SetInitFlag(i, true);
-                CMainFrame.Core.Sleep(100);
+                CMainFrame.mCore.Sleep(100);
             }
             // Last.
             CMainFrame.DisplayMsg("Initialization completed successfully.");

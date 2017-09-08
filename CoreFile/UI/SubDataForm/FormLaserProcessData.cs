@@ -211,7 +211,7 @@ namespace Core.UI
             // save
             CMainFrame.DataManager.ModelData.LaserProcessData = ObjectExtensions.Copy(LaserProcessData);
 
-            CMainFrame.Core.SaveModelData(CMainFrame.DataManager.ModelData);
+            CMainFrame.mCore.SaveModelData(CMainFrame.DataManager.ModelData);
 
             UpdateData(selectedSequenceNum);
         }
@@ -392,7 +392,7 @@ namespace Core.UI
            
             int iResult = -1;
             CPos_XYTZ stageCurPos;
-            iResult = CMainFrame.Core.m_ctrlStage1.GetStagePos(out stageCurPos);
+            iResult = CMainFrame.mCore.m_ctrlStage1.GetStagePos(out stageCurPos);
 
             if (iResult != SUCCESS) return;
 
@@ -420,55 +420,55 @@ namespace Core.UI
             switch(index)
             {
                 case (int)EStagePos.WAIT:
-                    CMainFrame.Core.m_ctrlStage1.MoveToStageWaitPos();
+                    CMainFrame.mCore.m_ctrlStage1.MoveToStageWaitPos();
                     break;
 
                 case (int)EStagePos.LOAD:
-                    CMainFrame.Core.m_ctrlStage1.MoveToStageLoadPos();
+                    CMainFrame.mCore.m_ctrlStage1.MoveToStageLoadPos();
                     break;
 
                 case (int)EStagePos.UNLOAD:
-                    CMainFrame.Core.m_ctrlStage1.MoveToStageUnloadPos();
+                    CMainFrame.mCore.m_ctrlStage1.MoveToStageUnloadPos();
                     break;
 
                 case (int)EStagePos.STAGE_CENTER_PRE:
-                    CMainFrame.Core.m_ctrlStage1.MoveToStageCenterPre();
+                    CMainFrame.mCore.m_ctrlStage1.MoveToStageCenterPre();
                     break;
 
                 case (int)EStagePos.STAGE_CENTER_FINE:
-                    CMainFrame.Core.m_ctrlStage1.MoveToStageCenterFine();
+                    CMainFrame.mCore.m_ctrlStage1.MoveToStageCenterFine();
                     break;
 
                 case (int)EStagePos.STAGE_CENTER_INSPECT:
-                    CMainFrame.Core.m_ctrlStage1.MoveToStageCenterInspect();
+                    CMainFrame.mCore.m_ctrlStage1.MoveToStageCenterInspect();
                     break;       
 
                 case (int)EStagePos.EDGE_ALIGN_1:
-                    CMainFrame.Core.m_ctrlStage1.MoveToEdgeAlignPos1();
+                    CMainFrame.mCore.m_ctrlStage1.MoveToEdgeAlignPos1();
                     break;
 
                 case (int)EStagePos.MACRO_CAM_POS:
-                    CMainFrame.Core.m_ctrlStage1.MoveToMacroCam();
+                    CMainFrame.mCore.m_ctrlStage1.MoveToMacroCam();
                     break;
 
                 case (int)EStagePos.MACRO_ALIGN:
-                    CMainFrame.Core.m_ctrlStage1.MoveToMacroAlignA();
+                    CMainFrame.mCore.m_ctrlStage1.MoveToMacroAlignA();
                     break;
 
                 case (int)EStagePos.MICRO_ALIGN:
-                    CMainFrame.Core.m_ctrlStage1.MoveToMicroAlignA();
+                    CMainFrame.mCore.m_ctrlStage1.MoveToMicroAlignA();
                     break;
 
                 case (int)EStagePos.MICRO_ALIGN_TURN:
-                    CMainFrame.Core.m_ctrlStage1.MoveToMicroAlignTurnA();
+                    CMainFrame.mCore.m_ctrlStage1.MoveToMicroAlignTurnA();
                     break;
 
                 case (int)EStagePos.LASER_PROCESS:
-                    CMainFrame.Core.m_ctrlStage1.MoveToProcessPos();
+                    CMainFrame.mCore.m_ctrlStage1.MoveToProcessPos();
                     break;
 
                 case (int)EStagePos.LASER_PROCESS_TURN:
-                    CMainFrame.Core.m_ctrlStage1.MoveToProcessTurnPos();
+                    CMainFrame.mCore.m_ctrlStage1.MoveToProcessTurnPos();
                     break;
 
             }

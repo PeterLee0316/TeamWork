@@ -31,7 +31,7 @@ namespace Core.UI
 {
     public partial class CMainFrame : Form
     {
-        public static MSysCore Core = new MSysCore(new CObjectInfo());
+        public static MSysCore mCore = new MSysCore(new CObjectInfo());
         public static MDataManager DataManager;
         public static CDBInfo DBInfo;
 
@@ -221,11 +221,11 @@ namespace Core.UI
         public bool InitializeCore()
         {
             //int iResult = Core.Initialize(MainFrame);
-            int iResult = Core.Initialize(this, out DataManager);
+            int iResult = mCore.Initialize(this, out DataManager);
             if (iResult != SUCCESS)
             {
                 // Show Error Message & 프로그램 종료?
-                Core.ShowAlarmWhileInit(iResult);
+                mCore.ShowAlarmWhileInit(iResult);
                 return false;
             }
 
@@ -258,7 +258,7 @@ namespace Core.UI
             }
             else
             {
-                CAlarm alarm = Core.GetAlarmInfo(alarmcode, pid, saveLog);
+                CAlarm alarm = mCore.GetAlarmInfo(alarmcode, pid, saveLog);
                 var dlg = new FormAlarmDisplay(alarm);
                 dlg.TopMost = true;
                 dlg.Show();
@@ -274,7 +274,7 @@ namespace Core.UI
             }
             else
             {
-                CAlarm alarm = Core.GetAlarmInfo(alarmcode, pid, saveLog);
+                CAlarm alarm = mCore.GetAlarmInfo(alarmcode, pid, saveLog);
                 var dlg = new FormAlarmDisplay(alarm);
                 dlg.TopMost = true;
                 dlg.ShowDialog();
@@ -290,7 +290,7 @@ namespace Core.UI
             }
             else
             {
-                CAlarm alarm = Core.GetAlarmInfo(alarmcode, pid, saveLog);
+                CAlarm alarm = mCore.GetAlarmInfo(alarmcode, pid, saveLog);
                 var dlg = new FormAlarmDisplay(alarm);
                 dlg.TopMost = true;
                 dlg.ShowDialog();

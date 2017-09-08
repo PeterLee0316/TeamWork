@@ -15,6 +15,8 @@ namespace Core.UI
         public FormIntro()
         {
             InitializeComponent();
+            CUtils.AnimateEffect.AnimateWindow(this.Handle, 3000, CUtils.AnimateEffect.AW_ACTIVATE | CUtils.AnimateEffect.AW_BLEND);
+
         }
 
         public void SetStatus(string strText, int nProgress)
@@ -25,10 +27,9 @@ namespace Core.UI
 
         private void FormIntro_Load(object sender, EventArgs e)
         {
-            CUtils.AnimateEffect.AnimateWindow(this.Handle, 1500, CUtils.AnimateEffect.AW_ACTIVATE | CUtils.AnimateEffect.AW_BLEND);
-
+            
             StatusBar.Value = 5;
-            LabelStatus.Text = "Start Wafer Dicing Program";
+            LabelStatus.Text = "Start System Program";
         }
     }
 }

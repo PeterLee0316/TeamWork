@@ -11,6 +11,7 @@ using Core.Layers;
 using static Core.Layers.DEF_System;
 using static Core.Layers.DEF_Common;
 using static Core.Layers.DEF_OpPanel;
+using Core;
 
 namespace Core.UI
 {
@@ -69,8 +70,8 @@ namespace Core.UI
         {
             if (CMainFrame.InquireMsg("Exit System?"))
             {
-                CMainFrame.Core.CloseSystem();
-
+                CMainFrame.mCore.CloseSystem();
+                
                 Environment.Exit(0);
                 System.Diagnostics.Process.GetCurrentProcess().Kill();
             }
@@ -78,22 +79,18 @@ namespace Core.UI
 
         private void btnStart_Click(object sender, EventArgs e)
         {
-            CMainFrame.Core.m_ctrlOpPanel.TempOnStartSWStatus();
         }
 
         private void btnStop_Click(object sender, EventArgs e)
         {
-            CMainFrame.Core.m_ctrlOpPanel.TempOnStopSWStatus();
         }
 
         private void btnReset_Click(object sender, EventArgs e)
         {
-            CMainFrame.Core.m_ctrlOpPanel.TempOnResetSWStatus();
         }
 
         private void btnEMO_Click(object sender, EventArgs e)
         {
-            CMainFrame.Core.m_ctrlOpPanel.TempOnEMOSWStatus();
         }
 
         private void FormTopScreen_Load(object sender, EventArgs e)

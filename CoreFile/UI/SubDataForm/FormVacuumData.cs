@@ -51,7 +51,7 @@ namespace Core.UI
                 data.VacuumTimer[i].OffSettlingTime = Convert.ToDouble(GridCtrl[i + 1, 3].Text);
             }
 
-            CMainFrame.Core.SaveSystemData(systemVacuum: data);
+            CMainFrame.mCore.SaveSystemData(systemVacuum: data);
             UpdateScreen(data);
         }
 
@@ -136,7 +136,7 @@ namespace Core.UI
 
             for (int i = 0; i < (int)EObjectVacuum.MAX; i++)
             {
-                GridCtrl[i + 1, 0].Text = CMainFrame.Core.m_SystemInfo.GetObjectName(150 + i);
+                GridCtrl[i + 1, 0].Text = CMainFrame.mCore.m_SystemInfo.GetObjectName(150 + i);
             }
 
             for (int i = 0; i < nCol + 1; i++)

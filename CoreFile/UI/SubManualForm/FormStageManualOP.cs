@@ -50,37 +50,37 @@ namespace Core.UI
         {
             bool bStatus = false;
 
-            CMainFrame.Core.m_MeStage.IsAbsorbed(out bStatus);
+            CMainFrame.mCore.m_MeStage.IsAbsorbed(out bStatus);
             BtnVacuumOn.BackColor = (bStatus == true) ? CMainFrame.BtnBackColor_On : CMainFrame.BtnBackColor_Off;
 
-            CMainFrame.Core.m_MeStage.IsReleased(out bStatus);
+            CMainFrame.mCore.m_MeStage.IsReleased(out bStatus);
             BtnVacuumOff.BackColor = (bStatus == true) ? CMainFrame.BtnBackColor_On : CMainFrame.BtnBackColor_Off;
 
-            CMainFrame.Core.m_MeStage.IsClampOpen(out bStatus);
+            CMainFrame.mCore.m_MeStage.IsClampOpen(out bStatus);
             BtnClampOpen.BackColor = (bStatus == true) ? CMainFrame.BtnBackColor_On : CMainFrame.BtnBackColor_Off;
 
-            CMainFrame.Core.m_MeStage.IsClampClose(out bStatus);
+            CMainFrame.mCore.m_MeStage.IsClampClose(out bStatus);
             BtnClampClose.BackColor = (bStatus == true) ? CMainFrame.BtnBackColor_On : CMainFrame.BtnBackColor_Off;
         }
 
         private void BtnVacuumOn_Click(object sender, EventArgs e)
         {
-            CMainFrame.Core.m_MeStage.Absorb(false);
+            CMainFrame.mCore.m_MeStage.Absorb(false);
         }
 
         private void BtnVacuumOff_Click(object sender, EventArgs e)
         {
-            CMainFrame.Core.m_MeStage.Release(false);
+            CMainFrame.mCore.m_MeStage.Release(false);
         }
 
         private void BtnClampOpen_Click(object sender, EventArgs e)
         {
-            CMainFrame.Core.m_MeStage.ClampOpen();
+            CMainFrame.mCore.m_MeStage.ClampOpen();
         }
 
         private void BtnClampClose_Click(object sender, EventArgs e)
         {
-            CMainFrame.Core.m_MeStage.ClampClose();
+            CMainFrame.mCore.m_MeStage.ClampClose();
         }
 
 

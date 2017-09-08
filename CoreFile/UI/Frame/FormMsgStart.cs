@@ -73,22 +73,22 @@ namespace Core.UI
 
         private void btnStart_Click(object sender, EventArgs e)
         {
-            CMainFrame.Core.m_ctrlOpPanel.TempOnStartSWStatus();
+            CMainFrame.mCore.m_ctrlOpPanel.TempOnStartSWStatus();
         }
 
         private void btnStop_Click(object sender, EventArgs e)
         {
-            CMainFrame.Core.m_ctrlOpPanel.TempOnStopSWStatus();
+            CMainFrame.mCore.m_ctrlOpPanel.TempOnStopSWStatus();
         }
 
         private void btnReset_Click(object sender, EventArgs e)
         {
-            CMainFrame.Core.m_ctrlOpPanel.TempOnResetSWStatus();
+            CMainFrame.mCore.m_ctrlOpPanel.TempOnResetSWStatus();
         }
 
         private void btnEMO_Click(object sender, EventArgs e)
         {
-            CMainFrame.Core.m_ctrlOpPanel.TempOnEMOSWStatus();
+            CMainFrame.mCore.m_ctrlOpPanel.TempOnEMOSWStatus();
         }
 
         protected override void OnShown(EventArgs e)

@@ -84,7 +84,7 @@ namespace Core.UI
 
             for (int i = 0; i < (int)EObjectCylinder.MAX; i++)
             {
-                GridCtrl[i + 1, 0].Text = CMainFrame.Core.m_SystemInfo.GetObjectName(100 + i);
+                GridCtrl[i + 1, 0].Text = CMainFrame.mCore.m_SystemInfo.GetObjectName(100 + i);
             }
 
             for (int i = 0; i < nCol + 1; i++)
@@ -132,7 +132,7 @@ namespace Core.UI
                 data.CylinderTimer[i].NoSenMovingTime = Convert.ToDouble(GridCtrl[i + 1, 4].Text);
             }
 
-            CMainFrame.Core.SaveSystemData(systemCylinder:data);
+            CMainFrame.mCore.SaveSystemData(systemCylinder:data);
             UpdateScreen(data);
         }
 

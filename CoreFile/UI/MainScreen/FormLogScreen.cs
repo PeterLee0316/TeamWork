@@ -60,7 +60,7 @@ namespace Core.UI
             m_StartDate = DateTime.Today;
             m_EndDate = DateTime.Today;
 
-            m_AlarmList = CMainFrame.Core.m_DataManager.AlarmHistory;
+            m_AlarmList = CMainFrame.mCore.m_DataManager.AlarmHistory;
 
             ComboType.Items.Add($"{ELogDisplayType.ALARM}");
             ComboType.Items.Add($"{ELogDisplayType.EVENT}");
@@ -239,9 +239,9 @@ namespace Core.UI
 
             if (LogType == ELogDisplayType.ALARM)
             {
-                string query = $"SELECT * FROM {CMainFrame.Core.m_DataManager.DBInfo.TableAlarmHistory} WHERE OccurTime BETWEEN '{m_StartDate.Date}' AND '{m_EndDate.Date}' ORDER BY OccurTime DESC";
+                string query = $"SELECT * FROM {CMainFrame.mCore.m_DataManager.DBInfo.TableAlarmHistory} WHERE OccurTime BETWEEN '{m_StartDate.Date}' AND '{m_EndDate.Date}' ORDER BY OccurTime DESC";
 
-                if (DBManager.GetTable(CMainFrame.Core.m_DataManager.DBInfo.DBConn_ELog, query, out datatable) != true)
+                if (DBManager.GetTable(CMainFrame.mCore.m_DataManager.DBInfo.DBConn_ELog, query, out datatable) != true)
                 {
                     CMainFrame.DisplayMsg("Failed to query database");
                     return;
@@ -249,9 +249,9 @@ namespace Core.UI
             }
             else if (LogType == ELogDisplayType.EVENT)
             {
-                string query = $"SELECT * FROM {CMainFrame.Core.m_DataManager.DBInfo.TableEventLog} WHERE Time BETWEEN '{m_StartDate.Date}' AND '{m_EndDate.Date}' ORDER BY Time DESC";
+                string query = $"SELECT * FROM {CMainFrame.mCore.m_DataManager.DBInfo.TableEventLog} WHERE Time BETWEEN '{m_StartDate.Date}' AND '{m_EndDate.Date}' ORDER BY Time DESC";
 
-                if (DBManager.GetTable(CMainFrame.Core.m_DataManager.DBInfo.DBConn_ELog, query, out datatable) != true)
+                if (DBManager.GetTable(CMainFrame.mCore.m_DataManager.DBInfo.DBConn_ELog, query, out datatable) != true)
                 {
                     CMainFrame.DisplayMsg("Failed to query database");
                     return;
@@ -259,9 +259,9 @@ namespace Core.UI
             }
             else if (LogType == ELogDisplayType.LOGIN)
             {
-                string query = $"SELECT * FROM {CMainFrame.Core.m_DataManager.DBInfo.TableLoginHistory} WHERE AccessTime BETWEEN '{m_StartDate.Date}' AND '{m_EndDate.Date}' ORDER BY AccessTime DESC";
+                string query = $"SELECT * FROM {CMainFrame.mCore.m_DataManager.DBInfo.TableLoginHistory} WHERE AccessTime BETWEEN '{m_StartDate.Date}' AND '{m_EndDate.Date}' ORDER BY AccessTime DESC";
 
-                if (DBManager.GetTable(CMainFrame.Core.m_DataManager.DBInfo.DBConn_ELog, query, out datatable) != true)
+                if (DBManager.GetTable(CMainFrame.mCore.m_DataManager.DBInfo.DBConn_ELog, query, out datatable) != true)
                 {
                     CMainFrame.DisplayMsg("Failed to query database");
                     return;
@@ -269,9 +269,9 @@ namespace Core.UI
             }
             else if (LogType == ELogDisplayType.DEVELOPER)
             {
-                string query = $"SELECT * FROM {CMainFrame.Core.m_DataManager.DBInfo.TableDebugLog} WHERE Time BETWEEN '{m_StartDate.Date}' AND '{m_EndDate.Date}' ORDER BY Time DESC";
+                string query = $"SELECT * FROM {CMainFrame.mCore.m_DataManager.DBInfo.TableDebugLog} WHERE Time BETWEEN '{m_StartDate.Date}' AND '{m_EndDate.Date}' ORDER BY Time DESC";
 
-                if (DBManager.GetTable(CMainFrame.Core.m_DataManager.DBInfo.DBConn_DLog, query, out datatable) != true)
+                if (DBManager.GetTable(CMainFrame.mCore.m_DataManager.DBInfo.DBConn_DLog, query, out datatable) != true)
                 {
                     CMainFrame.DisplayMsg("Failed to query database");
                     return;
@@ -355,7 +355,7 @@ namespace Core.UI
                     GridCont[i + 1, 4].Text = alarm.Info.Type.ToString();
                     GridCont[i + 1, 5].Text = alarm.OccurTime.ToString();
                     GridCont[i + 1, 6].Text = alarm.ResetTime.ToString();
-                    //GridCont[i + 1, 7].Text = alarm.Info.Description[(int)CMainFrame.Core.m_DataManager.SystemData.Language];
+                    //GridCont[i + 1, 7].Text = alarm.Info.Description[(int)CMainFrame.mCore.m_DataManager.SystemData.Language];
                     GridCont[i + 1, 7].Text = alarm.Info.Description[(int)ELanguage.ENGLISH];
                     GridCont[i + 1, 8].Text = String.Format("{0}", alarm.ProcessID);
 
@@ -513,7 +513,7 @@ namespace Core.UI
                         strBuf = strBuf + Convert.ToString(alarm.Info.Type) + " ,";
                         strBuf = strBuf + Convert.ToString(alarm.OccurTime) + " ,";
                         strBuf = strBuf + Convert.ToString(alarm.ResetTime) + " ,";
-                        //strBuf = strBuf + Convert.ToString(alarm.Info.Description[(int)CMainFrame.Core.m_DataManager.SystemData.Language]).Replace(",", ".") + " ,";
+                        //strBuf = strBuf + Convert.ToString(alarm.Info.Description[(int)CMainFrame.mCore.m_DataManager.SystemData.Language]).Replace(",", ".") + " ,";
                         strBuf = strBuf + Convert.ToString(alarm.Info.Description[(int)ELanguage.ENGLISH]).Replace(",", ".") + " ,";
                         strBuf = strBuf + Convert.ToString(alarm.ProcessID) + " ,";
 
@@ -539,7 +539,7 @@ namespace Core.UI
             int nCode = Convert.ToInt16(GridCont[e.RowIndex, 3].Text);
             int nPID = Convert.ToInt16(GridCont[e.RowIndex, 8].Text);
 
-            CAlarm alarm = CMainFrame.Core.GetAlarmInfo(nCode, nPID, false);
+            CAlarm alarm = CMainFrame.mCore.GetAlarmInfo(nCode, nPID, false);
             var dlg = new FormAlarmDisplay(alarm);
             dlg.ShowDialog();
         }

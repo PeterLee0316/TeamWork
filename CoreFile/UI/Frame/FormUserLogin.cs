@@ -187,7 +187,7 @@ namespace Core.UI
             }
 
             // save
-            int iResult = CMainFrame.Core.SaveUserData(info);
+            int iResult = CMainFrame.mCore.SaveUserData(info);
             CMainFrame.DisplayAlarm(iResult);
 
         }

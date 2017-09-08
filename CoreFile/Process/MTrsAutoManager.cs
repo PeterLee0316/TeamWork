@@ -310,7 +310,7 @@ namespace Core.Layers
                         //setVelocityMode(VELOCITY_MODE_SLOW);	// Manual일 때 느린 속도로 이동
 
                         SendMsgToMainWnd(WM_START_MANUAL_MSG);
-                        CMainFrame.Core.SetAutoManual(EAutoManual.MANUAL);
+                        CMainFrame.mCore.SetAutoManual(EAutoManual.MANUAL);
                     }
                     break;
 
@@ -340,7 +340,7 @@ namespace Core.Layers
                         m_bErrDispMode = false;
                         m_bBuzzerMode = false;
 
-                        CMainFrame.Core.SetAutoManual(EAutoManual.AUTO);  // Ready 상태에서 Door 열렸을 때 확실히 확인하기 위해 막음..
+                        CMainFrame.mCore.SetAutoManual(EAutoManual.AUTO);  // Ready 상태에서 Door 열렸을 때 확실히 확인하기 위해 막음..
                         SendMsgToMainWnd(WM_START_READY_MSG);
 
 #if SIMULATION_MOTION
@@ -359,7 +359,7 @@ namespace Core.Layers
 
                         SetSystemStatus(EAutoRunStatus.STS_RUN);
 
-                        CMainFrame.Core.SetAutoManual(EAutoManual.AUTO);
+                        CMainFrame.mCore.SetAutoManual(EAutoManual.AUTO);
 
                         SendMsgToMainWnd(WM_START_RUN_MSG);
                     }

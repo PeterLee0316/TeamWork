@@ -13,7 +13,6 @@ using static Core.Layers.DEF_System;
 using static Core.Layers.DEF_Common;
 using static Core.Layers.DEF_DataManager;
 using static Core.Layers.DEF_Motion;
-
 using static Core.Layers.DEF_Thread;
 using static Core.Layers.DEF_MeStage;
 using static Core.Layers.DEF_ACS;
@@ -32,7 +31,7 @@ namespace Core.UI
 
         public bool Type_Fixed; // 고정좌표, 옵셋좌표 구분
 
-        private CMovingObject MO_Stage = CMainFrame.Core.m_MeStage.AxStageInfo;
+        private CMovingObject MO_Stage = CMainFrame.mCore.m_MeStage.AxStageInfo;
 
         public FormWorkStageTeach()
         {
@@ -189,27 +188,27 @@ namespace Core.UI
             {
                 double dValue = 0, dCurPos = 0, dTargetPos = 0;
 
-                strCurPos = String.Format("{0:0.0000}", CMainFrame.Core.m_ACS.ServoStatus[(int)EACS_Axis.STAGE1_X].EncoderPos);
+                strCurPos = String.Format("{0:0.0000}", CMainFrame.mCore.m_ACS.ServoStatus[(int)EACS_Axis.STAGE1_X].EncoderPos);
                 GridStageTeachTable[7, 1].Text = strCurPos;
 
-                strCurPos = String.Format("{0:0.0000}", CMainFrame.Core.m_ACS.ServoStatus[(int)EACS_Axis.STAGE1_Y].EncoderPos);
+                strCurPos = String.Format("{0:0.0000}", CMainFrame.mCore.m_ACS.ServoStatus[(int)EACS_Axis.STAGE1_Y].EncoderPos);
                 GridStageTeachTable[7, 2].Text = strCurPos;
 
-                strCurPos = String.Format("{0:0.0000}", CMainFrame.Core.m_ACS.ServoStatus[(int)EACS_Axis.STAGE1_T].EncoderPos);
+                strCurPos = String.Format("{0:0.0000}", CMainFrame.mCore.m_ACS.ServoStatus[(int)EACS_Axis.STAGE1_T].EncoderPos);
                 GridStageTeachTable[7, 3].Text = strCurPos;
 
                 // 보정값 Display
-                dCurPos = CMainFrame.Core.m_ACS.ServoStatus[(int)EACS_Axis.STAGE1_X].EncoderPos;
+                dCurPos = CMainFrame.mCore.m_ACS.ServoStatus[(int)EACS_Axis.STAGE1_X].EncoderPos;
                 dTargetPos = Convert.ToDouble(GridStageTeachTable[2, 1].Text);
                 dValue = dTargetPos - dCurPos;
                 GridStageTeachTable[8, 1].Text= String.Format("{0:0.0000}", dValue);
 
-                dCurPos = CMainFrame.Core.m_ACS.ServoStatus[(int)EACS_Axis.STAGE1_Y].EncoderPos;
+                dCurPos = CMainFrame.mCore.m_ACS.ServoStatus[(int)EACS_Axis.STAGE1_Y].EncoderPos;
                 dTargetPos = Convert.ToDouble(GridStageTeachTable[2, 2].Text);
                 dValue = dTargetPos - dCurPos;
                 GridStageTeachTable[8, 2].Text= String.Format("{0:0.0000}", dValue);
 
-                dCurPos = CMainFrame.Core.m_ACS.ServoStatus[(int)EACS_Axis.STAGE1_T].EncoderPos;
+                dCurPos = CMainFrame.mCore.m_ACS.ServoStatus[(int)EACS_Axis.STAGE1_T].EncoderPos;
                 dTargetPos = Convert.ToDouble(GridStageTeachTable[2, 3].Text);
                 dValue = dTargetPos - dCurPos;
                 GridStageTeachTable[8, 3].Text= String.Format("{0:0.0000}", dValue);
@@ -358,7 +357,7 @@ namespace Core.UI
             if (!CMainFrame.InquireMsg(strMsg)) return;
 
             CPositionGroup tGroup;
-            CMainFrame.Core.GetPositionGroup(out tGroup, Type_Fixed);
+            CMainFrame.mCore.GetPositionGroup(out tGroup, Type_Fixed);
             EPositionObject pIndex = EPositionObject.STAGE1;
             int direction = DEF_X;
             strData = (Type_Fixed == true) ? GridStageTeachTable[3, 1].Text : strData = GridStageTeachTable[6, 1].Text;
@@ -372,7 +371,7 @@ namespace Core.UI
             strData = (Type_Fixed == true) ? GridStageTeachTable[3, 3].Text : strData = GridStageTeachTable[6, 3].Text;
             tGroup.Pos_Array[(int)pIndex].Pos[m_nSelectedPos_Stage].SetPosition(direction, Convert.ToDouble(strData));
 
-            CMainFrame.Core.SavePosition(tGroup, Type_Fixed, pIndex);
+            CMainFrame.mCore.SavePosition(tGroup, Type_Fixed, pIndex);
             DisplayPos_Stage();
         }
 
@@ -433,20 +432,20 @@ namespace Core.UI
             string strMsg = "Move to selected position?";
             if (!CMainFrame.InquireMsg(strMsg)) return;
 
-            if (StagePos[m_nSelectedPos_Stage].Text == Convert.ToString(EStagePos.WAIT))              CMainFrame.Core.m_ctrlStage1.MoveToStageWaitPos();
-            if (StagePos[m_nSelectedPos_Stage].Text == Convert.ToString(EStagePos.LOAD))              CMainFrame.Core.m_ctrlStage1.MoveToStageLoadPos();
-            if (StagePos[m_nSelectedPos_Stage].Text == Convert.ToString(EStagePos.UNLOAD))            CMainFrame.Core.m_ctrlStage1.MoveToStageUnloadPos();
-            if (StagePos[m_nSelectedPos_Stage].Text == Convert.ToString(EStagePos.STAGE_CENTER_PRE))  CMainFrame.Core.m_ctrlStage1.MoveToStageCenterPre();
-            if (StagePos[m_nSelectedPos_Stage].Text == Convert.ToString(EStagePos.STAGE_CENTER_FINE)) CMainFrame.Core.m_ctrlStage1.MoveToStageCenterFine();
-            if (StagePos[m_nSelectedPos_Stage].Text == Convert.ToString(EStagePos.STAGE_CENTER_INSPECT))     CMainFrame.Core.m_ctrlStage1.MoveToStageCenterInspect();
+            if (StagePos[m_nSelectedPos_Stage].Text == Convert.ToString(EStagePos.WAIT))              CMainFrame.mCore.m_ctrlStage1.MoveToStageWaitPos();
+            if (StagePos[m_nSelectedPos_Stage].Text == Convert.ToString(EStagePos.LOAD))              CMainFrame.mCore.m_ctrlStage1.MoveToStageLoadPos();
+            if (StagePos[m_nSelectedPos_Stage].Text == Convert.ToString(EStagePos.UNLOAD))            CMainFrame.mCore.m_ctrlStage1.MoveToStageUnloadPos();
+            if (StagePos[m_nSelectedPos_Stage].Text == Convert.ToString(EStagePos.STAGE_CENTER_PRE))  CMainFrame.mCore.m_ctrlStage1.MoveToStageCenterPre();
+            if (StagePos[m_nSelectedPos_Stage].Text == Convert.ToString(EStagePos.STAGE_CENTER_FINE)) CMainFrame.mCore.m_ctrlStage1.MoveToStageCenterFine();
+            if (StagePos[m_nSelectedPos_Stage].Text == Convert.ToString(EStagePos.STAGE_CENTER_INSPECT))     CMainFrame.mCore.m_ctrlStage1.MoveToStageCenterInspect();
 
-            if (StagePos[m_nSelectedPos_Stage].Text == Convert.ToString(EStagePos.EDGE_ALIGN_1))      CMainFrame.Core.m_ctrlStage1.MoveToEdgeAlignPos1();
-            if (StagePos[m_nSelectedPos_Stage].Text == Convert.ToString(EStagePos.MACRO_CAM_POS))     CMainFrame.Core.m_ctrlStage1.MoveToMacroCam();
-            if (StagePos[m_nSelectedPos_Stage].Text == Convert.ToString(EStagePos.MACRO_ALIGN))       CMainFrame.Core.m_ctrlStage1.MoveToMacroAlignA();
-            if (StagePos[m_nSelectedPos_Stage].Text == Convert.ToString(EStagePos.MICRO_ALIGN))       CMainFrame.Core.m_ctrlStage1.MoveToMicroAlignA();
-            if (StagePos[m_nSelectedPos_Stage].Text == Convert.ToString(EStagePos.MICRO_ALIGN_TURN))  CMainFrame.Core.m_ctrlStage1.MoveToMicroAlignTurnA();
-            if (StagePos[m_nSelectedPos_Stage].Text == Convert.ToString(EStagePos.LASER_PROCESS))     CMainFrame.Core.m_ctrlStage1.MoveToProcessPos();
-            if (StagePos[m_nSelectedPos_Stage].Text == Convert.ToString(EStagePos.LASER_PROCESS_TURN)) CMainFrame.Core.m_ctrlStage1.MoveToProcessTurnPos();
+            if (StagePos[m_nSelectedPos_Stage].Text == Convert.ToString(EStagePos.EDGE_ALIGN_1))      CMainFrame.mCore.m_ctrlStage1.MoveToEdgeAlignPos1();
+            if (StagePos[m_nSelectedPos_Stage].Text == Convert.ToString(EStagePos.MACRO_CAM_POS))     CMainFrame.mCore.m_ctrlStage1.MoveToMacroCam();
+            if (StagePos[m_nSelectedPos_Stage].Text == Convert.ToString(EStagePos.MACRO_ALIGN))       CMainFrame.mCore.m_ctrlStage1.MoveToMacroAlignA();
+            if (StagePos[m_nSelectedPos_Stage].Text == Convert.ToString(EStagePos.MICRO_ALIGN))       CMainFrame.mCore.m_ctrlStage1.MoveToMicroAlignA();
+            if (StagePos[m_nSelectedPos_Stage].Text == Convert.ToString(EStagePos.MICRO_ALIGN_TURN))  CMainFrame.mCore.m_ctrlStage1.MoveToMicroAlignTurnA();
+            if (StagePos[m_nSelectedPos_Stage].Text == Convert.ToString(EStagePos.LASER_PROCESS))     CMainFrame.mCore.m_ctrlStage1.MoveToProcessPos();
+            if (StagePos[m_nSelectedPos_Stage].Text == Convert.ToString(EStagePos.LASER_PROCESS_TURN)) CMainFrame.mCore.m_ctrlStage1.MoveToProcessTurnPos();
 
         }
 
@@ -458,12 +457,12 @@ namespace Core.UI
 
         private void btnMoveToLaser_Click(object sender, EventArgs e)
         {
-            CMainFrame.Core.m_ctrlStage1.MoveStageRelative((int)EStagePos.VISION_LASER_GAP);
+            CMainFrame.mCore.m_ctrlStage1.MoveStageRelative((int)EStagePos.VISION_LASER_GAP);
         }
 
         private void btnMoveToVision_Click(object sender, EventArgs e)
         {
-            CMainFrame.Core.m_ctrlStage1.MoveStageRelative((int)EStagePos.VISION_LASER_GAP,false);
+            CMainFrame.mCore.m_ctrlStage1.MoveStageRelative((int)EStagePos.VISION_LASER_GAP,false);
         }
     }
 }

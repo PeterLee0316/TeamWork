@@ -318,7 +318,7 @@ namespace Core.UI
             if (m_MoveOption == EMoveOption.JOG)
             {
                 
-                    iResult = CMainFrame.Core.m_ACS.StartJogMove(SelectedAxis, bDirection, IsFastMove);
+                    iResult = CMainFrame.mCore.m_ACS.StartJogMove(SelectedAxis, bDirection, IsFastMove);
                 
             }
             else if (m_MoveOption == EMoveOption.INC)
@@ -329,7 +329,7 @@ namespace Core.UI
                     dTargetPos[0] = Convert.ToDouble(LabelCurrent.Text) + Convert.ToDouble(LabelTarget.Text);
                 else dTargetPos[0] = Convert.ToDouble(LabelCurrent.Text) - Convert.ToDouble(LabelTarget.Text);
 
-                iResult = CMainFrame.Core.m_ACS.MoveToPos(SelectedAxis, dTargetPos[0], AxisSpeedData);
+                iResult = CMainFrame.mCore.m_ACS.MoveToPos(SelectedAxis, dTargetPos[0], AxisSpeedData);
                 
             }
             if (iResult != SUCCESS)
@@ -344,11 +344,11 @@ namespace Core.UI
 
             if (m_MoveOption == EMoveOption.JOG)
             {
-                CMainFrame.Core.m_ACS.StopJogMove(SelectedAxis);
+                CMainFrame.mCore.m_ACS.StopJogMove(SelectedAxis);
                 
             } else
             {
-                CMainFrame.Core.m_ACS.StopServoMotion(SelectedAxis);
+                CMainFrame.mCore.m_ACS.StopServoMotion(SelectedAxis);
                 
             }
             if (iResult != SUCCESS)
@@ -389,7 +389,7 @@ namespace Core.UI
 
             double[] dTargetPos = new double[1];
             dTargetPos[0] = Convert.ToDouble(LabelTarget.Text);
-            iResult = CMainFrame.Core.m_ACS.MoveToPos(SelectedAxis, dTargetPos[0], AxisSpeedData);
+            iResult = CMainFrame.mCore.m_ACS.MoveToPos(SelectedAxis, dTargetPos[0], AxisSpeedData);
             
             if (iResult != SUCCESS)
             {
@@ -402,7 +402,7 @@ namespace Core.UI
             string strCurPos = string.Empty;
 
             // Jog Operation Servo Encoder Position
-            LabelCurrent.Text= String.Format("{0:0.0000}", CMainFrame.Core.m_ACS.ServoStatus[SelectedAxis].EncoderPos);
+            LabelCurrent.Text= String.Format("{0:0.0000}", CMainFrame.mCore.m_ACS.ServoStatus[SelectedAxis].EncoderPos);
             
         }
 

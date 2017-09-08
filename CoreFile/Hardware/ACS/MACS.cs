@@ -1383,7 +1383,7 @@ namespace Core.Layers
 
         public bool IsOriginReturned(int servoNo)
         {
-            return ServoStatus[servoNo].IsOriginReturned;
+            return true;
         }
 
 

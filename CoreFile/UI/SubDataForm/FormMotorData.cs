@@ -270,8 +270,8 @@ namespace Core.UI
                 gridIndex++;
             }
 
-            CMainFrame.Core.SaveSystemData(systemAxis: SystemData_Axis);            
-            CMainFrame.Core.m_ACS.SetACSMotionData(CMainFrame.Core.m_DataManager.SystemData_Axis.ACSMotionData);
+            CMainFrame.mCore.SaveSystemData(systemAxis: SystemData_Axis);            
+            CMainFrame.mCore.m_ACS.SetACSMotionData(CMainFrame.mCore.m_DataManager.SystemData_Axis.ACSMotionData);
 
         }
     }

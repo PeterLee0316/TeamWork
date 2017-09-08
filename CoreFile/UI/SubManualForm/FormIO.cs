@@ -41,20 +41,7 @@ namespace Core.UI
             string str;
             int addr;
             bool bStatus;
-            for (int i = 0; i < MaxRowSize; i++)
-            {
-                str = X_Title[i].Text.Substring(1);
-                addr = INPUT_ORIGIN + Convert.ToInt32(str, 16);
-                CMainFrame.Core.m_IO.IsOn(addr, out bStatus);
-                if (bStatus) X_Name[i].BackgroundColor = CMainFrame.Brush_On;
-                else X_Name[i].BackgroundColor = CMainFrame.Brush_Off;
 
-                str = Y_Title[i].Text.Substring(1);
-                addr = OUTPUT_ORIGIN + Convert.ToInt32(str, 16);
-                CMainFrame.Core.m_IO.IsOn(addr, out bStatus);
-                if (bStatus) Y_Name[i].BackgroundColor = CMainFrame.Brush_On;
-                else Y_Name[i].BackgroundColor = CMainFrame.Brush_Off;
-            }
         }
 
         private void UpdateIO(int nBoardNo)
@@ -195,7 +182,7 @@ namespace Core.UI
             // Output 출력
             string str = OutPut.Text.Substring(1);
             int addr = OUTPUT_ORIGIN + Convert.ToInt32(str, 16);
-            CMainFrame.Core.m_IO.OutputToggle(addr);
+            CMainFrame.mCore.m_IO.OutputToggle(addr);
         }
 
         private void BtnExit_Click(object sender, EventArgs e)

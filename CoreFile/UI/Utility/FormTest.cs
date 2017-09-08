@@ -37,8 +37,8 @@ namespace Core.UI
             comboProcess.Items.Add(EThreadChannel.TrsHandler    );
             comboProcess.SelectedIndex = 0;
 
-            ProcessList.Add(CMainFrame.Core.m_trsAutoManager);
-            ProcessList.Add(CMainFrame.Core.m_trsStage1     );
+            ProcessList.Add(CMainFrame.mCore.m_trsAutoManager);
+            ProcessList.Add(CMainFrame.mCore.m_trsStage1     );
 
             comboControll.Items.Clear();
             comboControll.Items.Add("DataManager         ");
@@ -90,21 +90,21 @@ namespace Core.UI
             comboControll.SelectedIndex = 0;
 
             CtrlList.Add((MObject)CMainFrame.DataManager         );
-            CtrlList.Add((MObject)CMainFrame.Core.m_ctrlStage1          );
-            CtrlList.Add((MObject)CMainFrame.Core.m_MeStage             );
-            CtrlList.Add((MObject)CMainFrame.Core.m_StageClamp1         );
-            CtrlList.Add((MObject)CMainFrame.Core.m_StageClamp2         );
-            CtrlList.Add((MObject)CMainFrame.Core.m_Stage1Vac           );
-            CtrlList.Add((MObject)CMainFrame.Core.m_AxStage1            );
-            CtrlList.Add((MObject)CMainFrame.Core.m_AxCamera1           );
+            CtrlList.Add((MObject)CMainFrame.mCore.m_ctrlStage1          );
+            CtrlList.Add((MObject)CMainFrame.mCore.m_MeStage             );
+            CtrlList.Add((MObject)CMainFrame.mCore.m_StageClamp1         );
+            CtrlList.Add((MObject)CMainFrame.mCore.m_StageClamp2         );
+            CtrlList.Add((MObject)CMainFrame.mCore.m_Stage1Vac           );
+            CtrlList.Add((MObject)CMainFrame.mCore.m_AxStage1            );
+            CtrlList.Add((MObject)CMainFrame.mCore.m_AxCamera1           );
 
             TextTest1.Text = "0";
         }
 
         private void buttonAdv1_Click(object sender, EventArgs e)
         {
-            int alarm; // = CMainFrame.Core.m_ctrlPushPull.GenerateErrorCode(Convert.ToInt32(TextAlarmIndex.Text));
-            //CMainFrame.Core.m_trsPushPull.ReportAlarm(alarm);
+            int alarm; // = CMainFrame.mCore.m_ctrlPushPull.GenerateErrorCode(Convert.ToInt32(TextAlarmIndex.Text));
+            //CMainFrame.mCore.m_trsPushPull.ReportAlarm(alarm);
 
             if(CtrlList[comboControll.SelectedIndex] != null)
             {

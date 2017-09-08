@@ -21,11 +21,9 @@ namespace Core.UI
     public partial class FormOriginReturn : Form
     {
         private const int ERR_DLG_MOTORORIGIN_ERROR = 1;
-
-        private bool [] SelectedAxis = new bool[(int)EAxis.MAX];
-
-        private ButtonAdv[] BtnList = new ButtonAdv[(int)EAxis.MAX];
+        private bool [] SelectedAxis = new bool[(int)EAxis.MAX];        
         private string[] BtnName = new string[(int)EAxis.MAX];
+        private ButtonAdv[] BtnList = new ButtonAdv[(int)EAxis.MAX];
         private MTickTimer m_waitTimer = new MTickTimer();
 
         public FormOriginReturn()
@@ -125,7 +123,7 @@ namespace Core.UI
                 if (BtnList[i] == null) continue;
 
                 // 서보 on/off 상태
-                CMainFrame.Core.m_OpPanel.GetServoOnStatus(i, out bStatus);
+                CMainFrame.mCore.m_OpPanel.GetServoOnStatus(i, out bStatus);
                 int length = BtnList[i].Text.IndexOf("[Servo");
                 if (length >= 0) BtnList[i].Text.Substring(0, length);
                 if (bStatus == true)
@@ -138,7 +136,7 @@ namespace Core.UI
                 }
 
                 // 원점 복귀 상태
-                CMainFrame.Core.m_OpPanel.GetOriginFlag(i, out bStatus);
+                CMainFrame.mCore.m_OpPanel.GetOriginFlag(i, out bStatus);
                 //length = BtnList[i].Text.IndexOf("[Home");
                 //if (length >= 0) BtnList[i].Text = BtnList[i].Text.Substring(0, length);
                 if (bStatus == true)
@@ -165,14 +163,14 @@ namespace Core.UI
             m_waitTimer.StartTimer();
 
             // 1.
-            CMainFrame.Core.m_trsAutoManager.IsInitState = true;
+            CMainFrame.mCore.m_trsAutoManager.IsInitState = true;
             OriginReturn();
 
             // 2.
             UpdateUnitStatus();
 
             // 3. 
-            CMainFrame.Core.m_trsAutoManager.IsInitState = false;
+            CMainFrame.mCore.m_trsAutoManager.IsInitState = false;
 
         }
 
@@ -182,7 +180,7 @@ namespace Core.UI
             bool bStatus;
 
             // 0. Check EStop
-            CMainFrame.Core.m_ctrlOpPanel.IsPanelSWDetected(ESwitch.START, out bStatus);
+            CMainFrame.mCore.m_ctrlOpPanel.IsPanelSWDetected(ESwitch.START, out bStatus);
             if (bStatus == true)
             {
                 CMainFrame.DisplayMsg("EStop S/W Pressed", "Error");
@@ -190,7 +188,7 @@ namespace Core.UI
             }
 
             // 1. Check Door
-            if (CMainFrame.Core.IsSafeForCylinderMove() == false)
+            if (CMainFrame.mCore.IsSafeForCylinderMove() == false)
             {
                 CMainFrame.DisplayMsg("Door is opend.", "Error");
                 return ERR_DLG_MOTORORIGIN_ERROR;
@@ -213,13 +211,13 @@ namespace Core.UI
                 || SelectedAxis[(int)EAxis.STAGE1_Y] == true
                 || SelectedAxis[(int)EAxis.STAGE1_T] == true)
             {
-                iResult = CMainFrame.Core.m_ctrlStage1.IsObjectDetected(out bStatus);
+                iResult = CMainFrame.mCore.m_ctrlStage1.IsObjectDetected(out bStatus);
                 if (bStatus)
                 {
                     if (CMainFrame.InquireMsg("Stage1에 Wafer가 감지됩니다. 원점복귀 동작중 Wafer가 충돌할수 있습니다.\n원점복귀 동작을 계속 수행하시겠습니까?", "Confirm"))
                         return ERR_DLG_MOTORORIGIN_ERROR;
 
-                    //iResult = CMainFrame.Core.m_ctrlStage1.Absorb();
+                    //iResult = CMainFrame.mCore.m_ctrlStage1.Absorb();
                     //if (iResult != SUCCESS) return iResult;
                 }
             }
@@ -253,7 +251,7 @@ namespace Core.UI
             {
                 if (SelectedAxis[i] == false) continue;
 
-                if(CMainFrame.Core.CheckAxisSensorLimit(i) == false)
+                if(CMainFrame.mCore.CheckAxisSensorLimit(i) == false)
                 {
                     CMainFrame.DisplayMsg("Axis sensor status is abnormal", "Error");
                     goto ERROR_PROCESS;
@@ -269,7 +267,7 @@ namespace Core.UI
                 if (SelectedAxis[i] == false) continue;
 
                 bRunCheckBit = true;
-                iResult = CMainFrame.Core.m_ctrlOpPanel.OriginReturn(i);
+                iResult = CMainFrame.mCore.m_ctrlOpPanel.OriginReturn(i);
                 if (iResult != SUCCESS) goto ERROR_PROCESS;
             }
 
@@ -309,7 +307,7 @@ namespace Core.UI
 
                 bRunCheckBit = true;
 
-                int iResult = CMainFrame.Core.m_ctrlOpPanel.ServoOn(i);
+                int iResult = CMainFrame.mCore.m_ctrlOpPanel.ServoOn(i);
                 if(iResult != SUCCESS) CMainFrame.DisplayAlarm(iResult);
             }
             //if(bRunCheckBit)  CMainFrame.DisplayAlarm(SUCCESS);
@@ -329,7 +327,7 @@ namespace Core.UI
                 if (SelectedAxis[i] == false) continue;
 
                 bRunCheckBit = true;
-                int iResult = CMainFrame.Core.m_ctrlOpPanel.ServoOff(i);
+                int iResult = CMainFrame.mCore.m_ctrlOpPanel.ServoOff(i);
                 if (iResult != SUCCESS)  CMainFrame.DisplayAlarm(iResult);
             }
             if (bRunCheckBit) CMainFrame.DisplayAlarm(SUCCESS);
@@ -358,7 +356,7 @@ namespace Core.UI
 
         void SetInitFlag(int sel, bool flag)
         {
-            CMainFrame.Core.m_OpPanel.SetInitFlag(sel, flag);
+            CMainFrame.mCore.m_OpPanel.SetInitFlag(sel, flag);
             SelectAxis(sel);
         }
 
@@ -369,7 +367,7 @@ namespace Core.UI
             {
                 if (SelectedAxis[i] == false) continue;
 
-                CMainFrame.Core.m_OpPanel.SetOriginFlag(i, true);
+                CMainFrame.mCore.m_OpPanel.SetOriginFlag(i, true);
             }
 
             // 6. 
@@ -385,7 +383,7 @@ namespace Core.UI
             {
                 if (SelectedAxis[i] == false) continue;
 
-                CMainFrame.Core.m_OpPanel.SetOriginFlag(i, false);
+                CMainFrame.mCore.m_OpPanel.SetOriginFlag(i, false);
             }
         }
     }

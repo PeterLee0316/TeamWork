@@ -102,7 +102,7 @@ namespace Core.Layers
         public MTrsAutoManager m_trsAutoManager { get; private set; }        
         public MTrsStage1 m_trsStage1 { get; private set; }
 
-        public FormIntro intro = new FormIntro();
+        public FormIntro intro;
 
         public MSysCore(CObjectInfo objInfo)
             : base(objInfo)
@@ -129,8 +129,6 @@ namespace Core.Layers
             m_ACS.CloseController();
 #endif
         }
-
-        
         
         public void GetParameterInfo(string group, string name, out CParaInfo pinfo)
         {
@@ -194,6 +192,8 @@ namespace Core.Layers
         public int Initialize(CMainFrame form1, out MDataManager dataManager)
         {
             int iResult = SUCCESS;
+
+            intro = new FormIntro();
 
             intro.Show();
             intro.SetStatus("Init Common Class", 10);
