@@ -141,17 +141,6 @@ namespace Core.UI
         private void BtnCoatNozzleOff_Click(object sender, EventArgs e)
         {
         }
-
-        private async void BtnCleaningJobStart_Click(object sender, EventArgs e)
-        {
-            
-        }
-
-        private async void BtnCoatingJobStart_Click(object sender, EventArgs e)
-        {
-            
-        }
-
         private void BtnCoatingJobStop_Click(object sender, EventArgs e)
         {
            

@@ -28,15 +28,17 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormIntro));
             this.StatusBar = new System.Windows.Forms.ProgressBar();
             this.LabelStatus = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // StatusBar
             // 
-            this.StatusBar.Location = new System.Drawing.Point(356, 416);
+            this.StatusBar.Location = new System.Drawing.Point(559, 728);
+            this.StatusBar.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
             this.StatusBar.Name = "StatusBar";
-            this.StatusBar.Size = new System.Drawing.Size(390, 17);
+            this.StatusBar.Size = new System.Drawing.Size(613, 30);
             this.StatusBar.TabIndex = 1;
             this.StatusBar.Value = 5;
             // 
@@ -44,24 +46,27 @@
             // 
             this.LabelStatus.AutoSize = true;
             this.LabelStatus.BackColor = System.Drawing.Color.Transparent;
-            this.LabelStatus.Font = new System.Drawing.Font("맑은 고딕", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.LabelStatus.Location = new System.Drawing.Point(531, 437);
+            this.LabelStatus.Font = new System.Drawing.Font("Malgun Gothic", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.LabelStatus.Location = new System.Drawing.Point(834, 765);
+            this.LabelStatus.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.LabelStatus.Name = "LabelStatus";
-            this.LabelStatus.Size = new System.Drawing.Size(40, 20);
+            this.LabelStatus.Size = new System.Drawing.Size(73, 37);
             this.LabelStatus.TabIndex = 5;
             this.LabelStatus.Text = "Text";
             // 
             // FormIntro
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 21F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackgroundImage = global::Core.Properties.Resources.Intro;
+            this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.ClientSize = new System.Drawing.Size(806, 554);
+            this.ClientSize = new System.Drawing.Size(1267, 970);
             this.Controls.Add(this.LabelStatus);
             this.Controls.Add(this.StatusBar);
+            this.DoubleBuffered = true;
             this.ForeColor = System.Drawing.Color.DarkRed;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
             this.Name = "FormIntro";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Intro";

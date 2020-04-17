@@ -12,7 +12,7 @@ using Syncfusion.Windows.Forms.Grid;
 using Syncfusion.Windows.Forms;
 using Syncfusion.Windows.Forms.Tools;
 
-using Excel = Microsoft.Office.Interop.Excel;
+//using Excel = Microsoft.Office.Interop.Excel;
 
 using static Core.Layers.DEF_Thread;
 using static Core.Layers.DEF_Common;

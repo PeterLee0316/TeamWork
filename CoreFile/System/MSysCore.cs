@@ -25,7 +25,7 @@ using static Core.Layers.DEF_MultiAxesACS;
 using static Core.Layers.DEF_Cylinder;
 using static Core.Layers.DEF_Vacuum;
 using static Core.Layers.DEF_Vision;
-using static Core.Layers.DEF_Polygon;
+
 
 using static Core.Layers.DEF_OpPanel;
 using static Core.Layers.DEF_MeStage;
@@ -82,8 +82,7 @@ namespace Core.Layers
         // Vision
         public MVision m_Vision { get; set; }
 
-        // Polygon Scanner
-        public MMeScannerPolygon m_MeScanner;
+
 
         ///////////////////////////////////////////////////////////////////////
         // Mechanical Layer
@@ -611,7 +610,6 @@ namespace Core.Layers
             CCtrlStage1Data data = new CCtrlStage1Data();
 
             refComp.Stage   = m_MeStage;
-            refComp.Scanner = m_MeScanner;
             refComp.Vision  = m_Vision;
 
             m_ctrlStage1 = new MCtrlStage1(objInfo, refComp, data);

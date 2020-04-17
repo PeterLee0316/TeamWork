@@ -78,13 +78,12 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>T:\SFA\LWDicer\dll\Mil\Matrox.MatroxImagingLibrary.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Office.Interop.Excel, Version=14.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
-      <EmbedInteropTypes>True</EmbedInteropTypes>
-    </Reference>
     <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.8.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Syncfusion.Chart.Base, Version=8.303.0.21, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89" />
+    <Reference Include="Syncfusion.Chart.Windows, Version=8.303.0.21, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL" />
     <Reference Include="Syncfusion.Core, Version=8.303.0.21, Culture=neutral, PublicKeyToken=632609b4d040f6b4, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\..\SFA\LWDicer\dll\Syncfusion\Syncfusion.Core.dll</HintPath>
@@ -163,40 +162,14 @@
     <Compile Include="Common\Position\CMovingObject.cs" />
     <Compile Include="Common\BaseClass\MObject.cs" />
     <Compile Include="Common\BaseClass\MWorkerThread.cs" />
+    <Compile Include="Common\SycFusion\ChartAppearance.cs" />
     <Compile Include="Common\Util\CUtils.cs" />
     <Compile Include="Common\Util\DBManager.cs" />
     <Compile Include="Hardware\ACS\MACS.cs" />
-    <Compile Include="Hardware\Laser\MLaser.cs" />
     <Compile Include="Hardware\Motion\MMultiAxes_ACS.cs" />
     <Compile Include="Hardware\Motion\IMotionLib.cs" />
     <Compile Include="Hardware\Motion\MMotionBoard.cs" />
     <Compile Include="Hardware\Motion\MMotion_MMC.cs" />
-    <Compile Include="Hardware\Scanner\MarkingBase.cs" />
-    <Compile Include="Hardware\Scanner\MarkingManager.cs" />
-    <Compile Include="Hardware\Scanner\MarkingObject.cs" />
-    <Compile Include="Hardware\Scanner\MarkingWindow.cs" />
-    <Compile Include="Hardware\Scanner\WindowCanvas.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Hardware\Scanner\WindowCanvas.Designer.cs">
-      <DependentUpon>WindowCanvas.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Hardware\Scanner\WindowDraw.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Hardware\Scanner\WindowDraw.Designer.cs">
-      <DependentUpon>WindowDraw.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Hardware\Scanner\WindowDxf.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Hardware\Scanner\WindowDxf.Designer.cs">
-      <DependentUpon>WindowDxf.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Hardware\Scanner\WindowLayer.cs" />
-    <Compile Include="Hardware\Scanner\WindowReUnDo.cs" />
-    <Compile Include="Hardware\Scanner\WindowScaler.cs" />
-    <Compile Include="Hardware\Scanner\WindowSelector.cs" />
     <Compile Include="Hardware\Vision\DEF_Vision.cs" />
     <Compile Include="Hardware\Vision\IVision.cs" />
     <Compile Include="Hardware\Vision\Mil_Baumer\MVision.cs" />
@@ -204,8 +177,6 @@
     <Compile Include="Hardware\Vision\Mil_Baumer\MVisionDisplay.cs" />
     <Compile Include="Hardware\Vision\Mil_Baumer\MVisionSystem.cs" />
     <Compile Include="Mechanical\MMeStage.cs" />
-    <Compile Include="Mechanical\Scanner\MarkingScanner.cs" />
-    <Compile Include="Mechanical\Scanner\ScannerPolygon.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -293,12 +264,6 @@
     </Compile>
     <Compile Include="UI\Frame\FormUserLogin.Designer.cs">
       <DependentUpon>FormUserLogin.cs</DependentUpon>
-    </Compile>
-    <Compile Include="UI\LaserScanner\FormScanWindow.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="UI\LaserScanner\FormScanWindow.Designer.cs">
-      <DependentUpon>FormScanWindow.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\MainScreen\FormAutoScreen.cs">
       <SubType>Form</SubType>
@@ -508,15 +473,6 @@
       <DependentUpon>CMainFrame.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Hardware\Scanner\WindowCanvas.resx">
-      <DependentUpon>WindowCanvas.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Hardware\Scanner\WindowDraw.resx">
-      <DependentUpon>WindowDraw.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Hardware\Scanner\WindowDxf.resx">
-      <DependentUpon>WindowDxf.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <SubType>Designer</SubType>
@@ -545,9 +501,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Frame\FormUserLogin.resx">
       <DependentUpon>FormUserLogin.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="UI\LaserScanner\FormScanWindow.resx">
-      <DependentUpon>FormScanWindow.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\MainScreen\FormAutoScreen.resx">
       <DependentUpon>FormAutoScreen.cs</DependentUpon>
@@ -654,9 +607,6 @@
     </EmbeddedResource>
     <None Include="app.config" />
     <None Include="ClassDiagram2.cd" />
-    <None Include="Mechanical\Scanner\IniFile\config.ini" />
-    <None Include="Mechanical\Scanner\IniFile\csn.ini" />
-    <None Include="Mechanical\Scanner\IniFile\isn.ini" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

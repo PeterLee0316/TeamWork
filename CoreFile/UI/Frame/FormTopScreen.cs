@@ -49,7 +49,8 @@ namespace Core.UI
 
         private void TimerUI_Tick(object sender, EventArgs e)
         {
-            TextTime.Text = DateTime.Now.ToString("yyyy-MM-dd [ddd] <tt> HH:mm:ss");
+            //TextTime.Text = DateTime.Now.ToString("yyyy-MM-dd [ddd] <tt> HH:mm:ss");
+            TextTime.Text = DateTime.Now.ToString("yyyy-MM-dd [ HH:mm:ss ]");
 
             //LabelCurUser.Text = $"Current User : {CMainFrame.DataManager.LoginInfo.User.Name}";
             BtnUserLogin.Text = $"Login : {CMainFrame.DataManager.LoginInfo.User.Name}";            
@@ -72,8 +73,16 @@ namespace Core.UI
             {
                 CMainFrame.mCore.CloseSystem();
                 
-                Environment.Exit(0);
-                System.Diagnostics.Process.GetCurrentProcess().Kill();
+                try
+                {
+                    Environment.Exit(0);
+                    System.Diagnostics.Process.GetCurrentProcess().Kill();
+                }
+                catch
+                {
+
+                }
+                
             }
         }
 

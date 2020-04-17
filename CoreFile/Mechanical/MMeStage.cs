@@ -25,7 +25,7 @@ namespace Core.Layers
         public const int ERR_STAGE_UNABLE_TO_USE_VCC                        = 3;
         public const int ERR_STAGE_UNABLE_TO_USE_AXIS                       = 4;
         public const int ERR_STAGE_TOO_LOW_JOG_SPEED                        = 9;
-        public const int ERR_STAGE_FAIL_TO_GET_CURRENT_POS_INFO                        = 20;
+        public const int ERR_STAGE_FAIL_TO_GET_CURRENT_POS_INFO             = 20;
         public const int ERR_STAGE_UNABLE_TO_USE_POSITION                   = 21;
         public const int ERR_STAGE_MOVE_FAIL                                = 22;
         public const int ERR_STAGE_READ_CURRENT_POSITION                    = 23;

@@ -110,7 +110,7 @@ namespace Core.Layers
             public IIO IO;
             public MVision Vision;
             public MMeStage Stage;
-            public MMeScannerPolygon Scanner;
+
 
             public CCtrlStage1RefComp()
             {
@@ -418,11 +418,7 @@ namespace Core.Layers
                         // Inposition Delay를 한다.
                         Sleep(CurStep_LaserProcess.InPosDelay);
 
-                        // Laser Process (Step & MOF 동작 2가지 중 한개 실행)
-                        if (CurStep_LaserProcess.Operation == ELaserOperation.STEP_MARK)
-                            m_RefComp.Scanner.LaserProcess(EScannerMode.STEP);
-                        if (CurStep_LaserProcess.Operation == ELaserOperation.MARK_ON_FLY)
-                            m_RefComp.Scanner.LaserProcess(EScannerMode.MOF);
+
 
                         // pitch 이동함 (Stage는 역방향으로 이동 --> Stage 이동 방향에 따라 다름)
                         //  Mark의 개수가 1 보다 클 경우 Pitch 이동함.
@@ -2824,7 +2820,7 @@ namespace Core.Layers
                 m_RefComp.Vision.SetEdgeFinderArea(PRE__CAM);
 
                 // Pos1으로 이동함.
-                double dLength = WAFER_SIZE_12_INCH / 2.0 * Math.Cos(Math.PI / 180 * 45);                
+                double dLength = 300 / 2.0 * Math.Cos(Math.PI / 180 * 45);                
 
                 posTeach.dX = CMainFrame.DataManager.Pos_Fixed.Pos_Stage1.Pos[(int)EStagePos.STAGE_CENTER_PRE].dX + dLength;
                 posTeach.dY = CMainFrame.DataManager.Pos_Fixed.Pos_Stage1.Pos[(int)EStagePos.STAGE_CENTER_PRE].dY - dLength;

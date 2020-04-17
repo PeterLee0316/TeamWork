@@ -10,6 +10,8 @@ using System.Diagnostics;
 
 using Syncfusion.Windows.Forms;
 using Syncfusion.Windows.Forms.Tools;
+using Syncfusion.Windows.Forms.Grid;
+
 using Core.Layers;
 using static Core.Layers.DEF_Common;
 using static Core.Layers.DEF_Thread;
@@ -43,6 +45,8 @@ namespace Core.UI
             this.Size = new Size(DEF_UI.MAIN_SIZE_WIDTH, DEF_UI.MAIN_SIZE_HEIGHT);
             this.FormBorderStyle = FormBorderStyle.None;
 
+            InitGrid();
+
         }
 
 
@@ -50,6 +54,99 @@ namespace Core.UI
         {
            
         }
+
+
+        private void InitGrid()
+        {
+            // Cell Click 시 커서가 생성되지 않게함.
+            GridAlignPos.ActivateCurrentCellBehavior = GridCellActivateAction.None;
+
+            // Header
+            GridAlignPos.Properties.RowHeaders = true;
+            GridAlignPos.Properties.ColHeaders = true;
+
+            int nCol = 8;
+            int nRow = 12;
+
+            // Column,Row 개수
+            GridAlignPos.ColCount = nCol;
+            GridAlignPos.RowCount = nRow;
+
+            GridAlignPos.DefaultColWidth = 82;
+            GridAlignPos.DefaultRowHeight = 30;
+
+            GridAlignPos.ColWidths.SetSize(0, 120);
+            
+            // Text Display
+            GridAlignPos[1, 1].CellType = GridCellTypeName.Header;
+            GridAlignPos[1, 2].CellType = GridCellTypeName.Header;
+            GridAlignPos[1, 3].CellType = GridCellTypeName.Header;
+
+            GridAlignPos.Model.MergeCells.FindRange(1, 4);
+
+            //GridAlignPos[1, 1].CellAppearance = GridCellAppearance.Raised;
+            //GridAlignPos[1, 2].CellAppearance = GridCellAppearance.Raised;
+            //GridAlignPos[1, 3].CellAppearance = GridCellAppearance.Raised;
+
+            //GridAlignPos[1, 1].Borders.All = new GridBorder(GridBorderStyle.Solid, Color.DarkSlateBlue, GridBorderWeight.Thin);
+            //GridAlignPos[1, 2].Borders.All = new GridBorder(GridBorderStyle.Solid, Color.DarkSlateBlue, GridBorderWeight.Thin);
+            //GridAlignPos[1, 3].Borders.All = new GridBorder(GridBorderStyle.Solid, Color.DarkSlateBlue, GridBorderWeight.Thin);
+
+
+            GridAlignPos[2, 0].Text = "Target";
+            GridAlignPos[3, 0].Text = "Object Rect";
+            GridAlignPos[4, 0].Text = "Object Amorphous 1";
+            GridAlignPos[5, 0].Text = "Object Amorphous 2";
+            GridAlignPos[6, 0].Text = "Object Amorphous 3";
+            GridAlignPos[7, 0].Text = "Parallelogram 1";
+            GridAlignPos[8, 0].Text = "Parallelogram 2";
+            GridAlignPos[9, 0].Text = "Parallelogram 3";
+            GridAlignPos[10,0].Text = "Trapezoid 1";
+            GridAlignPos[11,0].Text = "Trapezoid 2";
+            GridAlignPos[12,0].Text = "Trapezoid 3";
+
+            for (int i = 0; i < nCol + 1; i++)
+            {
+                for (int j = 0; j < nRow + 1; j++)
+                {
+                    // Font Style - Bold
+                    GridAlignPos[j, i].Font.Bold = true;
+
+                    GridAlignPos[j, i].VerticalAlignment = GridVerticalAlignment.Middle;
+                    GridAlignPos[j, i].HorizontalAlignment = GridHorizontalAlignment.Center;
+
+                    if (i != 0 && j != 0)
+                    {
+                        GridAlignPos[j, i].Text = "";
+                        GridAlignPos[j, i].TextColor = Color.Black;
+                    }
+                }
+            }
+
+            GridAlignPos.GridVisualStyles = GridVisualStyles.Office2007Blue;
+            GridAlignPos.ResizeColsBehavior = 0;
+            GridAlignPos.ResizeRowsBehavior = 0;
+
+            for (int i = 0; i < nCol; i++)
+            {
+                GridAlignPos[1, i + 1].TextColor = Color.LightGray;
+                GridAlignPos[1, i + 1].Description = "";
+            }
+            
+
+            GridAlignPos[1, 1].Description = "X Axis";
+            GridAlignPos[1, 1].TextColor = Color.DarkRed;
+
+            GridAlignPos[1, 2].Description = "Y Axis";
+            GridAlignPos[1, 2].TextColor = Color.DarkRed;
+
+            GridAlignPos[1, 3].Description = "T Axis";
+            GridAlignPos[1, 3].TextColor = Color.DarkRed;
+
+            // Grid Display Update
+            GridAlignPos.Refresh();
+        }
+
 
         protected override void WndProc(ref Message wMessage)
         {

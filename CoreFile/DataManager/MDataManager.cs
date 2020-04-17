@@ -12,7 +12,7 @@ using System.Data.SQLite.Linq;
 using System.IO;
 using System.Diagnostics;
 
-using Excel = Microsoft.Office.Interop.Excel;
+//### using Excel = Microsoft.Office.Interop.Excel;
 
 using static Core.Layers.DEF_System;
 using static Core.Layers.DEF_Common;
@@ -3159,6 +3159,7 @@ namespace Core.Layers
             int iResult = SUCCESS;
             try
             {
+                /* ###
                 Excel.Application ExcelApp = new Microsoft.Office.Interop.Excel.Application();
                 Excel.Workbook WorkBook = ExcelApp.Workbooks.Open(strPath);
 
@@ -3377,6 +3378,7 @@ namespace Core.Layers
 
                 WorkBook.Close(true);
                 ExcelApp.Quit();
+            */
             }
             catch (Exception ex)
             {
@@ -3390,6 +3392,7 @@ namespace Core.Layers
 
         public int ExportDataToExcel(string strPath, EInfoExcel_Sheet nSheet)
         {
+            /* ###
             int iResult = SUCCESS;
 
             int nSheetCount = 0, nCount = 0;
@@ -3562,7 +3565,12 @@ namespace Core.Layers
                 ExcelApp.Quit();
             }
 
+           
             return iResult;
+            
+        */
+
+            return 0;
         }
 
         public int ImportPolygonData(EScannerIndex Index)

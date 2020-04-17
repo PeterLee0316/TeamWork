@@ -6,10 +6,12 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using Syncfusion.Windows.Forms.Tools;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using Syncfusion.Drawing;
-using System.Diagnostics;
+using Syncfusion.Windows.Forms;
+using Syncfusion.Windows.Forms.Tools;
+using Syncfusion.Windows.Forms.Chart;
 
 using Core.Layers;
 using static Core.Layers.DEF_Common;
@@ -41,7 +43,23 @@ namespace Core.UI
             this.DesktopLocation = new Point(DEF_UI.MAIN_POS_X, DEF_UI.MAIN_POS_Y);
             this.Size = new Size(DEF_UI.MAIN_SIZE_WIDTH, DEF_UI.MAIN_SIZE_HEIGHT);
             this.FormBorderStyle = FormBorderStyle.None;
+
+            InitializeChartData();
         }
+
+
+        #region InitializeChartData()
+        /// <summary>
+        /// Initializes the ChartControl's data and sets the Chart type
+        /// </summary>
+
+        
+        protected void InitializeChartData()
+        {
+
+        }
+
+        #endregion
 
         private void BtnInput_Click(object sender, EventArgs e)
         {

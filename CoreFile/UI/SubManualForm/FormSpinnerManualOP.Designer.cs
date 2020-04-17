@@ -503,23 +503,23 @@
             this.BtnCoatingJobStop.Tag = "CoatingStop";
             this.BtnCoatingJobStop.Text = "Stop";
             this.BtnCoatingJobStop.Click += new System.EventHandler(this.BtnCoatingJobStop_Click);
-            // 
-            // BtnCoatingJobStart
-            // 
-            this.BtnCoatingJobStart.BackColor = System.Drawing.Color.LightGray;
-            this.BtnCoatingJobStart.BorderStyleAdv = Syncfusion.Windows.Forms.ButtonAdvBorderStyle.Solid;
-            this.BtnCoatingJobStart.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.BtnCoatingJobStart.FlatAppearance.BorderSize = 5;
-            this.BtnCoatingJobStart.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
-            this.BtnCoatingJobStart.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
-            this.BtnCoatingJobStart.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.BtnCoatingJobStart.Location = new System.Drawing.Point(332, 352);
-            this.BtnCoatingJobStart.Name = "BtnCoatingJobStart";
-            this.BtnCoatingJobStart.Size = new System.Drawing.Size(130, 64);
-            this.BtnCoatingJobStart.TabIndex = 970;
-            this.BtnCoatingJobStart.Tag = "CoatingStart";
-            this.BtnCoatingJobStart.Text = "Start";
-            this.BtnCoatingJobStart.Click += new System.EventHandler(this.BtnCoatingJobStart_Click);
+            //// 
+            //// BtnCoatingJobStart
+            //// 
+            //this.BtnCoatingJobStart.BackColor = System.Drawing.Color.LightGray;
+            //this.BtnCoatingJobStart.BorderStyleAdv = Syncfusion.Windows.Forms.ButtonAdvBorderStyle.Solid;
+            //this.BtnCoatingJobStart.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            //this.BtnCoatingJobStart.FlatAppearance.BorderSize = 5;
+            //this.BtnCoatingJobStart.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
+            //this.BtnCoatingJobStart.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
+            //this.BtnCoatingJobStart.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            //this.BtnCoatingJobStart.Location = new System.Drawing.Point(332, 352);
+            //this.BtnCoatingJobStart.Name = "BtnCoatingJobStart";
+            //this.BtnCoatingJobStart.Size = new System.Drawing.Size(130, 64);
+            //this.BtnCoatingJobStart.TabIndex = 970;
+            //this.BtnCoatingJobStart.Tag = "CoatingStart";
+            //this.BtnCoatingJobStart.Text = "Start";
+            //this.BtnCoatingJobStart.Click += new System.EventHandler(this.BtnCoatingJobStart_Click);
             // 
             // LabelCleaningTitle
             // 
@@ -553,23 +553,23 @@
             this.BtnCleaningJobStop.Tag = "CleaningStop";
             this.BtnCleaningJobStop.Text = "Stop";
             this.BtnCleaningJobStop.Click += new System.EventHandler(this.BtnCleaningJobStop_Click);
-            // 
-            // BtnCleaningJobStart
-            // 
-            this.BtnCleaningJobStart.BackColor = System.Drawing.Color.LightGray;
-            this.BtnCleaningJobStart.BorderStyleAdv = Syncfusion.Windows.Forms.ButtonAdvBorderStyle.Solid;
-            this.BtnCleaningJobStart.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.BtnCleaningJobStart.FlatAppearance.BorderSize = 5;
-            this.BtnCleaningJobStart.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
-            this.BtnCleaningJobStart.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
-            this.BtnCleaningJobStart.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.BtnCleaningJobStart.Location = new System.Drawing.Point(332, 48);
-            this.BtnCleaningJobStart.Name = "BtnCleaningJobStart";
-            this.BtnCleaningJobStart.Size = new System.Drawing.Size(130, 64);
-            this.BtnCleaningJobStart.TabIndex = 968;
-            this.BtnCleaningJobStart.Tag = "CleaningStart";
-            this.BtnCleaningJobStart.Text = "Start";
-            this.BtnCleaningJobStart.Click += new System.EventHandler(this.BtnCleaningJobStart_Click);
+            //// 
+            //// BtnCleaningJobStart
+            //// 
+            //this.BtnCleaningJobStart.BackColor = System.Drawing.Color.LightGray;
+            //this.BtnCleaningJobStart.BorderStyleAdv = Syncfusion.Windows.Forms.ButtonAdvBorderStyle.Solid;
+            //this.BtnCleaningJobStart.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            //this.BtnCleaningJobStart.FlatAppearance.BorderSize = 5;
+            //this.BtnCleaningJobStart.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
+            //this.BtnCleaningJobStart.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
+            //this.BtnCleaningJobStart.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            //this.BtnCleaningJobStart.Location = new System.Drawing.Point(332, 48);
+            //this.BtnCleaningJobStart.Name = "BtnCleaningJobStart";
+            //this.BtnCleaningJobStart.Size = new System.Drawing.Size(130, 64);
+            //this.BtnCleaningJobStart.TabIndex = 968;
+            //this.BtnCleaningJobStart.Tag = "CleaningStart";
+            //this.BtnCleaningJobStart.Text = "Start";
+            //this.BtnCleaningJobStart.Click += new System.EventHandler(this.BtnCleaningJobStart_Click);
             // 
             // LabelStep_Cleaning
             // 
