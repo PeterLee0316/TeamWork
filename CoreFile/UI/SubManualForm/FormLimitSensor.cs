@@ -17,7 +17,6 @@ using static Core.Layers.DEF_System;
 using static Core.Layers.DEF_Common;
 
 using static Core.Layers.DEF_Motion;
-using static Core.Layers.DEF_ACS;
 using static Core.Layers.DEF_DataManager;
 
 namespace Core.UI

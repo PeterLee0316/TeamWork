@@ -2912,28 +2912,7 @@ namespace Core.Layers
         public const int oInterface_13               = 2141;
         public const int oInterface_14               = 2142;
         public const int oInterface_15               = 2143;
-
-#if DEF_UV_6_LAMP
-        // Output Y090     // 추가된 I/O
-        public const int oSHead1_UVLED_Start5        = 2144;
-        public const int oSHead1_UVLED_Start6        = 2145;
-        public const int oSHead2_UVLED_Start5        = 2146;
-        public const int oSHead2_UVLED_Start6        = 2147;
-        public const int oSHead1_SHead2_UVLED_Stop   = 2148;
-        public const int oSHead1_SHead2_UVLED_Mnl_On = 2149;
-        public const int oSpare2150                  = 2150;
-        public const int oGHead1_UVLED_Start5        = 2151;
-
-        public const int oGHead1_UVLED_Start6        = 2152;
-        public const int oGHead2_UVLED_Start5        = 2153;
-        public const int oGHead2_UVLED_Start6        = 2154;
-        public const int oGHead1_GHead2_UVLED_Stop   = 2155;
-        public const int oGHead1_GHead2_UVLED_Mnl_On = 2156;
-        public const int oSpare2157                  = 2157;
-        public const int oSpare2158                  = 2158;
-        public const int oSpare2159                  = 2159;
-#endif
-
+        
         // OUTPUT 모듈이 추가되면 + 0 부분을 추가되는 점수만큼 증가 시킬것.
         public const int oStage1_Cam1_LED_Light      = 2144 + 16;
         public const int oStage1_Cam2_LED_Light      = 2160 + 16;
@@ -2949,24 +2928,24 @@ namespace Core.Layers
         /// <summary>
         /// Main UI
         /// </summary>
-        public static readonly int FORM_SIZE_WIDTH = 1300;//1284;  // Main Frame은 약간 크게 
+        public static readonly int FORM_SIZE_WIDTH = 1922;//1284;  // Main Frame은 약간 크게 
         public static readonly int FORM_SIZE_HEIGHT = 1060;// 1024; 
         public static readonly int FORM_POS_X = 0;
         public static readonly int FORM_POS_Y = 0;
 
-        public static readonly int MAIN_SIZE_WIDTH = 1278;
+        public static readonly int MAIN_SIZE_WIDTH = 1920;
         public static readonly int MAIN_SIZE_HEIGHT = 818;
 
         public static readonly int MAIN_POS_X = 0;
         public static readonly int MAIN_POS_Y = 100;
 
-        public static readonly int TOP_SIZE_WIDTH = 1278;
+        public static readonly int TOP_SIZE_WIDTH = 1920;
         public static readonly int TOP_SIZE_HEIGHT = 98;
 
         public static readonly int TOP_POS_X = 0;
         public static readonly int TOP_POS_Y = 0;
 
-        public static readonly int BOT_SIZE_WIDTH = 1278;
+        public static readonly int BOT_SIZE_WIDTH = 1920;
         public static readonly int BOT_SIZE_HEIGHT = 100;
 
         public static readonly int BOT_POS_X = 0;
@@ -2986,167 +2965,4 @@ namespace Core.Layers
     }
 
 
-    public class DEF_NST_Scanner
-    {
-        public enum EFacet
-        {
-            FACET1,
-            FACET2,
-            FACET3,
-            FACET4,
-            FACET5,
-            FACET6,
-            FACET7,
-            FACET8,
-            MAX,
-        }
-
-        public const int MAX_BOW_CORRECTION = 12; // 실제는 10이나 include start + end pos
-
-        /// <summary>
-        /// Scanner Head InScan/CrossScan Linear Correction
-        /// </summary>
-        public class CLinearCorrection
-        {
-            public double Pos1;         // start position
-            public double Pos2;         // end position
-            public double Correction_New;
-            public double Correction_Old;
-
-            public CLinearCorrection()
-            {
-                Reset();
-            }
-
-            public void Reset()
-            {
-                Pos1 = 0;
-                Pos2 = 0;
-                Correction_New = 0;
-                Correction_Old = 0;
-            }
-        }
-
-        public class CBowCorrection
-        {
-            public bool IsInited;   // 값이 초기화 되어있는지 여부    
-            public double X1;       // 실제 있어야 할 위치.
-            public double X2;       // Facet이 있는 위치
-            public double Y1;       // Facet이 있는 위치
-
-            public CPos_XY Correction_New = new CPos_XY();
-
-            public CBowCorrection()
-            {
-                Reset();
-            }
-
-            public void Reset()
-            {
-                IsInited = false;
-                X1 = X2 = Y1 = 0.0;
-                Correction_New.dX = Correction_New.dY = 0.0;
-            }
-        }
-
-        public class CScanCorrection
-        {
-            // InScan Linear
-            public CLinearCorrection[] Facets_InScan;
-            public double ScanPitch_InScan = 300; // 300mm
-
-            // CrossScan Linear
-            public CLinearCorrection[] Facets_CrossScan1;
-            public CLinearCorrection[] Facets_CrossScan2;
-            public double ScanPitch_CrossScan = 0.100; // 100um
-
-            // BowScan
-            public CBowCorrection[,] Facets_BowScan;
-            public double ScanPitch_BowScan = 25; // 25 mm, because 300mm / 12 = 25
-
-            public CScanCorrection()
-            {
-                Facets_InScan = new CLinearCorrection[(int)EFacet.MAX];
-                Facets_CrossScan1 = new CLinearCorrection[(int)EFacet.MAX];
-                Facets_CrossScan2 = new CLinearCorrection[(int)EFacet.MAX];
-                for (int i = 0; i < (int)EFacet.MAX; i++)
-                {
-                    Facets_InScan[i] = new CLinearCorrection();
-                    Facets_CrossScan1[i] = new CLinearCorrection();
-                    Facets_CrossScan2[i] = new CLinearCorrection();
-                }
-
-                Facets_BowScan = new CBowCorrection[(int)EFacet.MAX, MAX_BOW_CORRECTION];
-                for (int i = 0; i < (int)EFacet.MAX; i++)
-                {
-                    for (int j = 0; j < MAX_BOW_CORRECTION; j++)
-                    {
-                        Facets_BowScan[i, j] = new CBowCorrection();
-                    }
-                    // initialize. 나중에 파일에서 읽어와도 되고.
-                    Facets_BowScan[i, 0].X1 = 0.0;
-                    Facets_BowScan[i, (int)MAX_BOW_CORRECTION - 1].X1 = 300.0;
-                }
-            }
-
-            public string CalcCrossScan1(int index, double Pos1)
-            {
-                CLinearCorrection lc = Facets_CrossScan1[index];
-                lc.Pos1 = Pos1;
-                if (index == 0)
-                {
-                    lc.Correction_New = 0;
-                }
-                else
-                {
-                    double a = Facets_CrossScan1[0].Pos1 - index * ScanPitch_CrossScan;
-                    lc.Correction_New = a - Pos1;
-                }
-                string str = String.Format("{0:0.0000}", lc.Correction_New);
-                return str;
-            }
-
-            public string CalcCrossScan2(int index, double Pos1)
-            {
-                CLinearCorrection lc = Facets_CrossScan2[index];
-                lc.Pos1 = Pos1;
-                if (index == 0)
-                {
-                    lc.Correction_New = 0;
-                }
-                else
-                {
-                    double a = Facets_CrossScan2[0].Pos1 - index * ScanPitch_CrossScan;
-                    lc.Correction_New = a - Pos1;
-                }
-                string str = String.Format("{0:0.0000}", lc.Correction_New);
-                return str;
-            }
-
-            public string CalcInScan(int index, double Pos2)
-            {
-                CLinearCorrection lc = Facets_InScan[index];
-                lc.Pos2 = Pos2;
-                double a = Facets_InScan[0].Pos1 + ScanPitch_InScan;
-                lc.Correction_New = a - Pos2;
-
-                string str = String.Format("{0:0.0000}", lc.Correction_New);
-                return str;
-            }
-
-            public void CalcBowScan(int findex, int index, double dx1, double dx2, double dy1)
-            {
-                CBowCorrection bc = Facets_BowScan[findex, index];
-                bc.X1 = dx1;
-                bc.X2 = dx2;
-                bc.Y1 = dy1;
-                bc.IsInited = true;
-
-                if (index == 0) return;
-
-                bc.Correction_New.dX = dx1 - dx2;
-                bc.Correction_New.dY = Facets_BowScan[findex, 0].Y1 - bc.Y1;
-            }
-        }
-    }
 }

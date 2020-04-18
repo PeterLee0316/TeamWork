@@ -15,7 +15,6 @@ using Syncfusion.Windows.Forms.Tools;
 using static Core.Layers.DEF_DataManager;
 using static Core.Layers.DEF_System;
 using static Core.Layers.DEF_Motion;
-using static Core.Layers.DEF_ACS;
 
 namespace Core.UI
 {
@@ -221,58 +220,7 @@ namespace Core.UI
             }
 
             // Motor Data Sheet
-            int gridIndex = 1;           
-           
-
-            for (int i = 0; i < (int)EACS_Axis.MAX; i++)
-            {
-                if (i == 1 || i == 3 || i == 5)
-                {
-                    continue;
-                }
-
-                // Speed
-                SystemData_Axis.ACSMotionData[i].Speed[(int)EMotorSpeed.MANUAL_SLOW].Vel    = Convert.ToDouble(GridCtrl[gridIndex + (int)EYMC_Axis.MAX, 2].Text);
-                SystemData_Axis.ACSMotionData[i].Speed[(int)EMotorSpeed.MANUAL_FAST].Vel    = Convert.ToDouble(GridCtrl[gridIndex + (int)EYMC_Axis.MAX, 3].Text);
-                SystemData_Axis.ACSMotionData[i].Speed[(int)EMotorSpeed.AUTO_SLOW].Vel      = Convert.ToDouble(GridCtrl[gridIndex + (int)EYMC_Axis.MAX, 4].Text);
-                SystemData_Axis.ACSMotionData[i].Speed[(int)EMotorSpeed.AUTO_FAST].Vel      = Convert.ToDouble(GridCtrl[gridIndex + (int)EYMC_Axis.MAX, 5].Text);
-                SystemData_Axis.ACSMotionData[i].Speed[(int)EMotorSpeed.JOG_SLOW].Vel       = Convert.ToDouble(GridCtrl[gridIndex + (int)EYMC_Axis.MAX, 6].Text);
-                SystemData_Axis.ACSMotionData[i].Speed[(int)EMotorSpeed.JOG_FAST].Vel       = Convert.ToDouble(GridCtrl[gridIndex + (int)EYMC_Axis.MAX, 7].Text);
-
-                // Acc
-                SystemData_Axis.ACSMotionData[i].Speed[(int)EMotorSpeed.MANUAL_SLOW].Acc    = Convert.ToDouble(GridCtrl[gridIndex + (int)EYMC_Axis.MAX, 8].Text);
-                SystemData_Axis.ACSMotionData[i].Speed[(int)EMotorSpeed.MANUAL_FAST].Acc    = Convert.ToDouble(GridCtrl[gridIndex + (int)EYMC_Axis.MAX, 9].Text);
-                SystemData_Axis.ACSMotionData[i].Speed[(int)EMotorSpeed.AUTO_SLOW].Acc      = Convert.ToDouble(GridCtrl[gridIndex + (int)EYMC_Axis.MAX, 10].Text);
-                SystemData_Axis.ACSMotionData[i].Speed[(int)EMotorSpeed.AUTO_FAST].Acc      = Convert.ToDouble(GridCtrl[gridIndex + (int)EYMC_Axis.MAX, 11].Text);
-                SystemData_Axis.ACSMotionData[i].Speed[(int)EMotorSpeed.JOG_SLOW].Acc       = Convert.ToDouble(GridCtrl[gridIndex + (int)EYMC_Axis.MAX, 12].Text);
-                SystemData_Axis.ACSMotionData[i].Speed[(int)EMotorSpeed.JOG_FAST].Acc       = Convert.ToDouble(GridCtrl[gridIndex + (int)EYMC_Axis.MAX, 13].Text);
-
-                // Dec
-                SystemData_Axis.ACSMotionData[i].Speed[(int)EMotorSpeed.MANUAL_SLOW].Dec    = Convert.ToDouble(GridCtrl[gridIndex + (int)EYMC_Axis.MAX, 14].Text);
-                SystemData_Axis.ACSMotionData[i].Speed[(int)EMotorSpeed.MANUAL_FAST].Dec    = Convert.ToDouble(GridCtrl[gridIndex + (int)EYMC_Axis.MAX, 15].Text); 
-                SystemData_Axis.ACSMotionData[i].Speed[(int)EMotorSpeed.AUTO_SLOW].Dec      = Convert.ToDouble(GridCtrl[gridIndex + (int)EYMC_Axis.MAX, 16].Text);
-                SystemData_Axis.ACSMotionData[i].Speed[(int)EMotorSpeed.AUTO_FAST].Dec      = Convert.ToDouble(GridCtrl[gridIndex + (int)EYMC_Axis.MAX, 17].Text);
-                SystemData_Axis.ACSMotionData[i].Speed[(int)EMotorSpeed.JOG_SLOW].Dec       = Convert.ToDouble(GridCtrl[gridIndex + (int)EYMC_Axis.MAX, 18].Text); 
-                SystemData_Axis.ACSMotionData[i].Speed[(int)EMotorSpeed.JOG_FAST].Dec       = Convert.ToDouble(GridCtrl[gridIndex + (int)EYMC_Axis.MAX, 19].Text);
-
-                // S/W Limit
-                SystemData_Axis.ACSMotionData[i].PosLimit.Plus                              = Convert.ToDouble(GridCtrl[gridIndex + (int)EYMC_Axis.MAX, 20].Text);
-                SystemData_Axis.ACSMotionData[i].PosLimit.Minus                             = Convert.ToDouble(GridCtrl[gridIndex + (int)EYMC_Axis.MAX, 21].Text);
-
-                // Limit Time
-                SystemData_Axis.ACSMotionData[i].TimeLimit.tMoveLimit                       = Convert.ToDouble(GridCtrl[gridIndex + (int)EYMC_Axis.MAX, 22].Text);
-                SystemData_Axis.ACSMotionData[i].TimeLimit.tSleepAfterMove                  = Convert.ToDouble(GridCtrl[gridIndex + (int)EYMC_Axis.MAX, 23].Text);
-                SystemData_Axis.ACSMotionData[i].TimeLimit.tOriginLimit                     = Convert.ToDouble(GridCtrl[gridIndex + (int)EYMC_Axis.MAX, 24].Text);
-
-                // Tolerance
-                SystemData_Axis.ACSMotionData[i].Tolerance = Convert.ToDouble(GridCtrl[gridIndex + (int)EYMC_Axis.MAX, 30].Text);
-
-                gridIndex++;
-            }
-
-            CMainFrame.mCore.SaveSystemData(systemAxis: SystemData_Axis);            
-            CMainFrame.mCore.m_ACS.SetACSMotionData(CMainFrame.mCore.m_DataManager.SystemData_Axis.ACSMotionData);
-
+            int gridIndex = 1;
         }
     }
 }

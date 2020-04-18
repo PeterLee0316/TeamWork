@@ -33,8 +33,7 @@ namespace Core.Layers
 
         public class CTrsAutoManagerRefComp
         {
-            public IIO IO;            
-            public MACS ACS;
+            public IIO IO;       
             public MOpPanel OpPanel;
 
             public MCtrlOpPanel ctrlOpPanel;

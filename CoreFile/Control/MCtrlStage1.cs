@@ -304,740 +304,14 @@ namespace Core.Layers
         {
             return m_RefComp.Stage.IsReleased(out bStatus);
         }
-
-        public int IsClampOpen(out bool bStatus)
-        {
-            return m_RefComp.Stage.IsClampOpen(out bStatus);
-        }
-
-        public int IsClampClose(out bool bStatus)
-        {
-            return m_RefComp.Stage.IsClampClose(out bStatus);
-        }
-
-        public int IsStageSafetyZone(out bool bStatus)
-        {
-            return m_RefComp.Stage.IsStageAxisInSafetyZone(out bStatus);
-        }
-
-        public int IsOrignReturn(out bool bStatus)
-        {
-            return m_RefComp.Stage.IsStageOrignReturn(out bStatus);
-        }
-
-        public int CheckForStageMove()
-        {
-            return m_RefComp.Stage.CheckForStageAxisMove();
-        }
-
-        public int CheckForCylMove()
-        {
-            return m_RefComp.Stage.CheckForStageCylMove();
-        }
-
-        public int GetStagePosInfo(out int PosInfo)
-        {
-            return m_RefComp.Stage.GetStagePosInfo(out PosInfo);
-        }
+        
 
         public int  GetStagePos(out CPos_XYTZ pPos)
         {
           return m_RefComp.Stage.GetStageCurPos(out pPos);
         }
         #endregion
-        
-        // Laser 가공 Process
-        #region Laser Process
-            
-
-        public int RunLaserProcess()
-        {
-            bool bResult = false;
-            var markPitch = new CPos_XYTZ();
-            var patternPitch = new CPos_XYTZ();
-
-            int num = 0;
-            string strIpAddress = CMainFrame.DataManager.SystemData_Scan.Address[num].ControlHostAddress;
-
-            // Cancel Command Reset
-            IsCancelJob_byAuto = IsCancelJob_byManual = false;
-
-            // Config.ini File Download
-            //if (File.Exists(m_Data.MarkingData.DefaultScannerConfigFile) == false)
-            //    return GenerateErrorCode(ERR_CTRLSTAGE_SCANNER_DATA_FILE_NONE);
-            //bResult = m_RefComp.Scanner.SendConfig(strIpAddress, m_Data.MarkingData.DefaultScannerConfigFile);
-            //if (bResult == false) return GenerateErrorCode(ERR_CTRLSTAGE_SCANNER_DATA_SEND_FAIL);
-            
-            // 각 Step별 동작 프로세스 진행
-            for (int StepNum = 0; StepNum < DEF_MAX_LASER_PROCESS_STEP; StepNum++)
-            {
-                // 현재 Step Process Data를 Copy함.
-                CurStep_LaserProcess = ObjectExtensions.Copy(m_Data.MarkingData.WorkSteps_General[StepNum]);
                 
-                // Operation Mode가 End이면 동작을 종료한다.
-                if (CurStep_LaserProcess.Operation == ELaserOperation.END) return SUCCESS;
-
-                // Operation Mode가 None이면 다음 동작으로 Pass한다.
-                if (CurStep_LaserProcess.Operation == ELaserOperation.NONE) continue;
-
-                // Job File Download
-                //if (File.Exists(CurStep_LaserProcess.ScannerJobFile))
-                //{
-                //    bResult = m_RefComp.Scanner.SendConfig(strIpAddress, CurStep_LaserProcess.ScannerJobFile);
-                //    if (bResult == false) return GenerateErrorCode(ERR_CTRLSTAGE_SCANNER_DATA_SEND_FAIL);
-
-                //    Sleep(2000);
-                //}
-
-                //// Bmp File Download
-                //if (File.Exists(CurStep_LaserProcess.ScannerBmpFile))
-                //{
-                //    bResult = m_RefComp.Scanner.SendBitmap(strIpAddress, CurStep_LaserProcess.ScannerBmpFile);
-                //    if (bResult == false) return GenerateErrorCode(ERR_CTRLSTAGE_SCANNER_DATA_SEND_FAIL);
-
-                //    Sleep(2000);
-                //}
-
-                // Pattern 위치로 Move
-                m_RefComp.Stage.MoveStagePos(CurStep_LaserProcess.MarkPos);
-
-                markPitch.dX = -CurStep_LaserProcess.MarkOffset.dX;
-                markPitch.dY = CurStep_LaserProcess.MarkOffset.dY;                
-
-                for (int patternNum=0; patternNum < CurStep_LaserProcess.PatternCount; patternNum++)
-                {
-                    for (int markNum = 0; markNum < CurStep_LaserProcess.MarkCount; markNum++)
-                    {
-                        // 긴급 정지 여부를 확인한다.
-                        //if (CurStep_LaserProcess.Use == true) return SUCCESS;
-                        if (CMainFrame.DataManager.ModelData.ProcData.ProcessStop) return SUCCESS;
-
-                        if (IsCancelJob_byManual) return SUCCESS;
-                        if (IsCancelJob_byAuto) return GenerateErrorCode(ERR_CTRLSTAGE_CANCEL_RUN_JOB);
-
-                        // Inposition Delay를 한다.
-                        Sleep(CurStep_LaserProcess.InPosDelay);
-
-
-
-                        // pitch 이동함 (Stage는 역방향으로 이동 --> Stage 이동 방향에 따라 다름)
-                        //  Mark의 개수가 1 보다 클 경우 Pitch 이동함.
-                        //  마지작 Mark는 Picth 이동 하지 않는다
-                        if (CurStep_LaserProcess.MarkCount > 1 && markNum < CurStep_LaserProcess.MarkCount-1)
-                            MoveStageRelative(markPitch, false);
-
-                    }
-
-                    // Pattern의 Pitch 이동 값을 계산한다.
-                    patternPitch.dX = CurStep_LaserProcess.MarkPos.dX + CurStep_LaserProcess.PatternOffset.dX * (patternNum + 1);
-                    patternPitch.dY = CurStep_LaserProcess.MarkPos.dY - CurStep_LaserProcess.PatternOffset.dY * (patternNum + 1);
-                    patternPitch.dT = CurStep_LaserProcess.MarkPos.dT;
-
-                    // pitch 이동함 (절대 위치로 이동함.)
-                    //  Pattern의 개수가 1 보다 클 경우 Pitch 이동함.
-                    if (CurStep_LaserProcess.PatternCount > 1 && patternNum < CurStep_LaserProcess.PatternCount - 1)
-                        m_RefComp.Stage.MoveStagePos(patternPitch);
-
-                }  
-            }
-            return SUCCESS;            
-        }
-
-        #endregion
-
-        // Stage 위치 구동 지령
-        #region Stage 구동
-
-
-        public int ClampOpen()
-        {
-            return m_RefComp.Stage.ClampOpen();
-        }
-
-        public int ClampClose()
-        {
-            return m_RefComp.Stage.ClampClose();
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="iPos"></param>
-        /// <param name="bDir"></param>
-        /// <returns></returns>
-        public int MoveStageRelative(int iPos,bool bDir=true)
-        {
-            CPos_XYTZ sTargetPos = new CPos_XYTZ();
-            CPositionSet fixedPos;
-            CPositionSet modelPos;
-            CPositionSet offsetPos;
-            m_RefComp.Stage.GetStagePosition(out fixedPos, out modelPos,out offsetPos);
-
-            if (bDir)
-                sTargetPos = fixedPos.Pos[iPos];
-            else
-            {
-                sTargetPos.dX = -fixedPos.Pos[iPos].dX;
-                sTargetPos.dY = -fixedPos.Pos[iPos].dY;
-                sTargetPos.dT = -fixedPos.Pos[iPos].dT;
-            }
-            return m_RefComp.Stage.MoveStageRelativeXYT(sTargetPos);            
-        }
-
-        public int MoveStageRelative(CPos_XYTZ sTargetPos, bool bDir = true)
-        {
-            CPos_XYTZ targetPos = new CPos_XYTZ();
-
-            targetPos = sTargetPos.Copy();
-
-            if (bDir==false)
-            {
-                targetPos.dX = -targetPos.dX;
-                targetPos.dY = -targetPos.dY;
-                targetPos.dT = -targetPos.dT;
-            }
-
-            return m_RefComp.Stage.MoveStageRelativeXYT(targetPos);
-        }
-        public int MoveStageRelativeX(double sPos, bool bDir = true)
-        {
-            var movePos = new CPos_XYTZ();
-            movePos.dX = bDir? sPos : -sPos;
-
-            return m_RefComp.Stage.MoveStageRelativeXYT(movePos);
-        }
-        public int MoveStageRelativeY(double sPos, bool bDir = true)
-        {
-            var movePos = new CPos_XYTZ();
-            movePos.dY = bDir ? sPos : -sPos;
-
-            return m_RefComp.Stage.MoveStageRelativeXYT(movePos);
-        }
-        public int MoveStageRelativeT(double sPos, bool bDir = true)
-        {
-            var movePos = new CPos_XYTZ();
-            movePos.dT = bDir ? sPos : -sPos;
-
-            return m_RefComp.Stage.MoveStageRelativeXYT(movePos);
-        }
-
-        public int MoveToStageTurn()
-        {
-            // Theta Align한 dT 값을 읽음
-            int iResult = SUCCESS;
-            var thetaPos = new CPos_XYTZ();
-            m_RefComp.Stage.GetThetaAlignPosA(out thetaPos);
-            // 현재 위치를 읽음
-            var curPos = new CPos_XYTZ();
-            m_RefComp.Stage.GetStageCurPos(out curPos);
-
-            var movePos = new CPos_XYTZ();
-
-            // 현재 위치에서 dT축만 Theta Align 값에서 DieIndex의 회전 값만 적용
-            movePos = curPos;
-            movePos.dT = thetaPos.dT + CMainFrame.DataManager.SystemData_Align.DieIndexRotate;
-            
-            iResult=  m_RefComp.Stage.MoveStagePos(movePos);
-            if(iResult == SUCCESS) eStageMode = EStatgeMode.TURN;
-            return iResult;
-        }
-
-        public int MoveToStageReturn()
-        {
-            // Theta Align한 dT 값을 읽음
-            int iResult = SUCCESS;
-            var thetaPos = new CPos_XYTZ();
-            m_RefComp.Stage.GetThetaAlignPosA(out thetaPos);
-            // 현재 위치를 읽음
-            var curPos = new CPos_XYTZ();
-            m_RefComp.Stage.GetStageCurPos(out curPos);
-
-            var movePos = new CPos_XYTZ();
-
-            // 현재 위치에서 dT축만 Theta Align 값으로
-            movePos = curPos;
-            movePos.dT = thetaPos.dT;
-            
-            iResult = m_RefComp.Stage.MoveStagePos(movePos);
-            if (iResult == SUCCESS) eStageMode = EStatgeMode.RETURN;
-            return iResult;
-        }
-
-        public int MoveToStageWaitPos()
-        {
-            return m_RefComp.Stage.MoveStageToWaitPos();
-        }
-        
-        public int MoveToStageLoadPos()
-        {
-            return m_RefComp.Stage.MoveStageToLoadPos();
-        }
-
-        public int MoveToStageUnloadPos()
-        {
-            return m_RefComp.Stage.MoveStageToUnloadPos();
-        }
-
-
-        public int MoveToWaferCenterPre()
-        {
-            return m_RefComp.Stage.MoveStageToWaferCenterPre();
-        }
-
-        public int MoveToWaferCenterFine()
-        {
-            return m_RefComp.Stage.MoveStageToWaferCenterFine();
-        }
-
-        public int MoveToStageCenterPre()
-        {            
-            return m_RefComp.Stage.MoveStageToStageCenterPre();   
-        }
-
-        public int MoveToStageCenterFine()
-        {
-            return m_RefComp.Stage.MoveStageToStageCenterFine();            
-        }
-
-        public int MoveToStageCenterInspect()
-        {
-            return m_RefComp.Stage.MoveStageToStageCenterInspect();
-        }
-
-        public int MoveToEdgeAlignTeachPos1()
-        {
-            int iResult;
-            CPos_XYTZ movePos = m_Data.Align.EdgeTeachPos[(int)EEdgeAlignTeachPos.POS1].Copy(); //CMainFrame.mCore.m_DataManager.ModelData.EdgeTeachPos[(int)EEdgeAlignTeachPos.POS1].Copy();
-
-            if (GetCurrentCam() == FINE_CAM)
-            {
-                movePos.dX -= CMainFrame.DataManager.SystemData_Align.CamEachOffset.dX;
-                movePos.dY -= CMainFrame.DataManager.SystemData_Align.CamEachOffset.dY;
-            }
-            
-            iResult = m_RefComp.Stage.MoveStagePos(movePos);
-
-            return iResult;
-        }
-
-        public int MoveToEdgeAlignTeachPos2()
-        {
-            int iResult;
-            //CPos_XYTZ movePos = CMainFrame.mCore.m_DataManager.ModelData.EdgeTeachPos[(int)EEdgeAlignTeachPos.POS2].Copy();
-            CPos_XYTZ movePos = m_Data.Align.EdgeTeachPos[(int)EEdgeAlignTeachPos.POS2].Copy();
-
-            if (GetCurrentCam() == FINE_CAM)
-            {
-                movePos.dX -= CMainFrame.DataManager.SystemData_Align.CamEachOffset.dX;
-                movePos.dY -= CMainFrame.DataManager.SystemData_Align.CamEachOffset.dY;
-            }
-
-            iResult = m_RefComp.Stage.MoveStagePos(movePos);
-
-            return iResult;
-        }
-
-        public int MoveToEdgeAlignTeachPos3()
-        {
-            int iResult;
-            //CPos_XYTZ movePos = CMainFrame.mCore.m_DataManager.ModelData.EdgeTeachPos[(int)EEdgeAlignTeachPos.POS3].Copy();
-            CPos_XYTZ movePos = m_Data.Align.EdgeTeachPos[(int)EEdgeAlignTeachPos.POS3].Copy();
-
-            if (GetCurrentCam() == FINE_CAM)
-            {
-                movePos.dX -= CMainFrame.DataManager.SystemData_Align.CamEachOffset.dX;
-                movePos.dY -= CMainFrame.DataManager.SystemData_Align.CamEachOffset.dY;
-            }
-
-            iResult = m_RefComp.Stage.MoveStagePos(movePos);
-
-            return iResult;
-        }        
-
-        public int MoveToEdgeAlignPos1()
-        {
-            int iResult = SUCCESS;
-            if (GetCurrentCam() == PRE__CAM)
-                iResult = m_RefComp.Stage.MoveStageToEdgeAlignPos1();
-            else
-                iResult = m_RefComp.Stage.MoveStageToEdgeAlignPos1(true);
-
-            return iResult;
-        }
-
-        public int MoveToEdgeAlignPos2()
-        {
-            int iResult = SUCCESS;
-            if (GetCurrentCam() == PRE__CAM)
-                iResult = m_RefComp.Stage.MoveStageToEdgeAlignPos2();
-            else
-                iResult = m_RefComp.Stage.MoveStageToEdgeAlignPos2(true);
-
-            return iResult;
-        }
-
-        public int MoveToEdgeAlignPos3()
-        {
-            int iResult = SUCCESS;
-            if (GetCurrentCam() == PRE__CAM)
-                iResult = m_RefComp.Stage.MoveStageToEdgeAlignPos3();
-            else
-                iResult = m_RefComp.Stage.MoveStageToEdgeAlignPos3(true);
-
-            return iResult;
-        }
-
-        public int MoveToEdgeAlignPos4()
-        {
-            int iResult = SUCCESS;
-            if (GetCurrentCam() == PRE__CAM)
-                iResult = m_RefComp.Stage.MoveStageToEdgeAlignPos4();
-            else
-                iResult = m_RefComp.Stage.MoveStageToEdgeAlignPos4(true);
-
-            return iResult;
-        }
-
-        public int MoveToMacroCam()
-        {
-            return m_RefComp.Stage.MoveStageToMacroCam();
-        }
-
-        /// <summary>
-        /// Macro Align할 Mark A 위치로 이동
-        /// (Wafer Center 기준에서 Align Width 값으로 이동함)
-        /// </summary>
-        /// <returns></returns>
-        public int MoveToMacroTeachA()
-        {
-            return m_RefComp.Stage.MoveStageToMacroTeachA();
-        }
-        /// <summary>
-        /// Macro Align할 Mark B 위치로 이동
-        /// (Wafer Center 기준에서 Align Width 값으로 이동함)
-        /// </summary>
-        /// <returns></returns>
-        public int MoveToMacroTeachB()
-        {
-            return m_RefComp.Stage.MoveStageToMacroTeachB();
-        }
-
-        /// <summary>
-        /// Macro Align할 Mark A 위치로 이동
-        /// (Wafer Center 기준에서 Align Width 값으로 이동함)
-        /// </summary>
-        /// <returns></returns>
-        public int TeachMacroAlignA()
-        {            
-            CPos_XYTZ movePos;
-            CPos_XYTZ offSet;
-
-            // 현재 위치를 읽어옴.
-            m_RefComp.Stage.GetStageCurPos(out movePos);
-            m_RefComp.Stage.GetAlignData(out offSet);
-
-            movePos.dX -= offSet.dX;
-            movePos.dY -= offSet.dY;
-            
-            CMainFrame.mCore.m_DataManager.Pos_Fixed.Pos_Stage1.Pos[(int)EStagePos.MACRO_ALIGN] = movePos;
-
-            return SUCCESS;
-        }
-
-        public int MoveToMacroAlignA()
-        {
-            return m_RefComp.Stage.MoveStageToMacroAlignA();
-        }
-
-        public int MoveToMacroAlignB()
-        {
-            return m_RefComp.Stage.MoveStageToMacroAlignB();
-        }
-
-        public int MoveToMicroAlignA()
-        {
-            return m_RefComp.Stage.MoveStageToMicroAlignA();
-        }
-
-        public int MoveToMicroAlignB()
-        {
-            return m_RefComp.Stage.MoveStageToMicroAlignB();
-        }
-
-        public int MoveToMicroAlignTurnA()
-        {
-            return m_RefComp.Stage.MoveStageToMicroAlignTurnA();
-        }
-
-        public int MoveToMicroAlignTurnB()
-        {
-            return m_RefComp.Stage.MoveStageToMicroAlignTurnB();
-        }
-
-        public int MoveToProcessPos()
-        {
-            return m_RefComp.Stage.MoveStageToProcessPos();
-        }
-
-        public int MoveToProcessTurnPos()
-        {
-            return m_RefComp.Stage.MoveStageToProcessTurnPos();
-        }
-
-        public int MoveIndexPlusX()
-        {
-            int iResult = SUCCESS;
-
-            if (eStageMode == EStatgeMode.RETURN)
-                iResult = m_RefComp.Stage.MoveStageIndexPlusX();
-            else
-                iResult = m_RefComp.Stage.MoveStageIndexPlusX(true);
-
-            return iResult;
-        }
-        public int MoveIndexPlusY()
-        {
-            int iResult = SUCCESS;
-
-            if (eStageMode == EStatgeMode.RETURN)
-                iResult = m_RefComp.Stage.MoveStageIndexPlusY();
-            else
-                iResult = m_RefComp.Stage.MoveStageIndexPlusY(true);
-
-            return iResult;
-        }
-        public int MoveIndexPlusT()
-        {
-            return m_RefComp.Stage.MoveStageIndexPlusT();
-        }
-        public int MoveIndexMinusX()
-        {
-            int iResult = SUCCESS;
-
-            if (eStageMode == EStatgeMode.RETURN)
-                iResult = m_RefComp.Stage.MoveStageIndexMinusX();
-            else
-                iResult = m_RefComp.Stage.MoveStageIndexMinusX(true);
-
-            return iResult;
-        }
-        public int MoveIndexMinusY()
-        {
-            int iResult = SUCCESS;
-
-            if (eStageMode == EStatgeMode.RETURN)
-                iResult = m_RefComp.Stage.MoveStageIndexMinusY();
-            else
-                iResult = m_RefComp.Stage.MoveStageIndexMinusY(true);
-
-            return iResult;
-        }
-        
-        public int MoveIndexMinusT()
-        {
-            return m_RefComp.Stage.MoveStageIndexMinusT();
-        }
-        public int MoveMacroScreenPlusX()
-        {
-            return m_RefComp.Stage.MoveStageScreenPlusX(ECameraSelect.MACRO);
-        }
-
-        public int MoveMacroScreenPlusY()
-        {
-            return m_RefComp.Stage.MoveStageScreenPlusY(ECameraSelect.MACRO);
-        }
-
-        public int MoveMacroScreenPlusT()
-        {
-            return m_RefComp.Stage.MoveStageScreenPlusT(ECameraSelect.MACRO);
-        }
-        public int MoveMacroScreenMinusX()
-        {
-            return m_RefComp.Stage.MoveStageScreenMinusX(ECameraSelect.MACRO);
-        }
-        public int MoveMacroScreenMinusY()
-        {
-            return m_RefComp.Stage.MoveStageScreenMinusY(ECameraSelect.MACRO);
-        }
-        public int MoveMacroScreenMinusT()
-        {
-            return m_RefComp.Stage.MoveStageScreenMinusT(ECameraSelect.MACRO);
-        }
-        public int MoveMicroScreenPlusX()
-        {
-            return m_RefComp.Stage.MoveStageScreenPlusX(ECameraSelect.MICRO);
-        }
-
-        public int MoveMicroScreenPlusY()
-        {
-            return m_RefComp.Stage.MoveStageScreenPlusY(ECameraSelect.MICRO);
-        }
-
-        public int MoveMicroScreenPlusT()
-        {
-            return m_RefComp.Stage.MoveStageScreenPlusT(ECameraSelect.MICRO);
-        }
-        public int MoveMicroScreenMinusX()
-        {
-            return m_RefComp.Stage.MoveStageScreenMinusX(ECameraSelect.MICRO);
-        }
-        public int MoveMicroScreenMinusY()
-        {
-            return m_RefComp.Stage.MoveStageScreenMinusY(ECameraSelect.MICRO);
-        }
-        public int MoveMicroScreenMinusT()
-        {
-            return m_RefComp.Stage.MoveStageScreenMinusT(ECameraSelect.MICRO);
-        }
-        public int JogMovePlusX(bool IsFastMove)
-        {
-            return m_RefComp.Stage.JogStagePlusX(IsFastMove);
-        }
-        public int JogMoveMinusX(bool IsFastMove)
-        {
-            return m_RefComp.Stage.JogStageMinusX(IsFastMove);
-        }
-
-        public int JogMovePlusY(bool IsFastMove)
-        {
-            return m_RefComp.Stage.JogStagePlusY(IsFastMove);
-        }
-        public int JogMoveMinusY(bool IsFastMove)
-        {
-            return m_RefComp.Stage.JogStageMinusY(IsFastMove);
-        }
-
-        public int JogMovePlusT(bool IsFastMove)
-        {
-            return m_RefComp.Stage.JogStagePlusT(IsFastMove);
-        }
-        public int JogMoveMinusT(bool IsFastMove)
-        {
-            return m_RefComp.Stage.JogStageMinusT(IsFastMove);
-        }
-
-        public int JogStageStop(int Axis)
-        {
-            return m_RefComp.Stage.JogStageStop(Axis);
-        }
-
-        public int ScreenClickMove(Size pSize, Point pPoint)
-        {
-            Size picSize = pSize;
-            Point clickPos = pPoint;
-
-            Point centerPic = new Point(0, 0);
-            Point moveDistance = new Point(0, 0);
-
-            double ratioMove = 0.0;
-            CPos_XYTZ movePos = new CPos_XYTZ();
-
-            centerPic.X = picSize.Width / 2;
-            centerPic.Y = picSize.Height / 2;
-
-            moveDistance.X = centerPic.X - clickPos.X;
-            moveDistance.Y = centerPic.Y - clickPos.Y;
-
-
-            if (GetCurrentCam() == FINE_CAM)
-            {
-                ratioMove = CMainFrame.DataManager.SystemData_Align.MicroScreenWidth / (double)picSize.Width;
-                movePos.dX = (double)moveDistance.X * ratioMove;
-
-                ratioMove = CMainFrame.DataManager.SystemData_Align.MicroScreenHeight / (double)picSize.Height;
-                movePos.dY = -(double)moveDistance.Y * ratioMove;
-
-                return MoveStageRelative(movePos);
-            }
-
-            if (GetCurrentCam() == PRE__CAM)
-            {
-                ratioMove = CMainFrame.DataManager.SystemData_Align.MacroScreenWidth / (double)picSize.Width;
-                movePos.dX = (double)moveDistance.X * ratioMove;
-
-                ratioMove = CMainFrame.DataManager.SystemData_Align.MacroScreenHeight / (double)picSize.Height;
-                movePos.dY = -(double)moveDistance.Y * ratioMove;
-
-                return MoveStageRelative(movePos);
-            }
-
-
-            return SUCCESS;
-        }
-
-        #endregion
-
-        // Camera 위치 구동 지령
-        #region Camera 축 구동
-
-        public int MoveToCameraWaitPos()
-        {
-            return m_RefComp.Stage.MoveCameraToWaitPos();
-        }
-
-        public int MoveToCameraWorkPos()
-        {
-            return m_RefComp.Stage.MoveCameraToWorkPos();
-        }
-
-        public int MoveToCameraFocusPosInpect()
-        {
-            return m_RefComp.Stage.MoveCameraToFocusPosInspect();
-        }
-
-        public int MoveToCameraFocusPosFine()
-        {
-            return m_RefComp.Stage.MoveCameraToFocusPosFine();
-        }
-
-        public int MoveToCameraFocusPos3()
-        {
-            return m_RefComp.Stage.MoveCameraToFocusPos3();
-        }
-
-        public int MoveCameraJog(bool bDir, bool IsFast)
-        {
-            return m_RefComp.Stage.MoveCameraJog(bDir, IsFast);
-        }
-
-        public int CameraJogStop()
-        {
-            return m_RefComp.Stage.JogCameraStop();
-        }
-
-
-        #endregion
-
-        // Scanner 위치 구동 지령
-        #region Scanner 구동
-
-        public int MoveToScannerWaitPos()
-        {
-            return m_RefComp.Stage.MoveScannerToWaitPos();
-        }
-
-        public int MoveToScannerWorkPos()
-        {
-            return m_RefComp.Stage.MoveScannerToWorkPos();
-        }
-
-        public int MoveToScannerFocusPos1()
-        {
-            return m_RefComp.Stage.MoveScannerToFocusPos1();
-        }
-
-        public int MoveToScannerFocusPos2()
-        {
-            return m_RefComp.Stage.MoveScannerToFocusPos2();
-        }
-
-        public int MoveToScannerFocusPos3()
-        {
-            return m_RefComp.Stage.MoveScannerToFocusPos3();
-        }
-
-        #endregion
-
         // Vision 동작
         #region Vision 동작
 
@@ -1118,14 +392,12 @@ namespace Core.Layers
 
             // Find Mark 
             CResultData pResult;
-            iResult = m_RefComp.Vision.RecognitionPatternMark(iCam, iModelNo, out pResult);
             if (iResult != SUCCESS) return iResult;
 
             // Camera의 틀어짐 보정
             CPos_XY mCenter = new CPos_XY(); // 회전 중심은 (0,0)으로 한다
             sPos = CoordinateRotate(m_Data.Vision.Camera[iCam].CameraTilt, sPos, mCenter);
             // Pixel값을 실제 위치값으로 변환한다.
-            sPos = PixelToPostion(iCam,pResult.m_PixelPos);
 
             return SUCCESS;
         }
@@ -1139,14 +411,12 @@ namespace Core.Layers
 
             // Find Mark 
             CResultData pResult;
-            iResult = m_RefComp.Vision.RecognitionPatternMark(iCam, iModelNo, out pResult);
             if (iResult != SUCCESS) return iResult;
 
             // Camera의 틀어짐 보정
             CPos_XY mCenter = new CPos_XY(); // 회전 중심은 (0,0)으로 한다
             sPos = CoordinateRotate(m_Data.Vision.Camera[iCam].CameraTilt, sPos, mCenter);
             // Pixel값을 실제 위치값으로 변환한다.
-            sPos = PixelToPostion(iCam, pResult.m_PixelPos);
 
             return SUCCESS;
         }
@@ -1160,14 +430,12 @@ namespace Core.Layers
             
             // Find Mark 
             CResultData pResult;
-            iResult = m_RefComp.Vision.RecognitionPatternMark(iCam, iModelNo, out pResult);
             if (iResult != SUCCESS) return iResult;
 
             // Camera의 틀어짐 보정
             CPos_XY mCenter = new CPos_XY(); // 회전 중심은 (0,0)으로 한다
             sPos = CoordinateRotate(m_Data.Vision.Camera[iCam].CameraTilt, sPos, mCenter);
             // Pixel값을 실제 위치값으로 변환한다.
-            sPos = PixelToPostion(iCam, pResult.m_PixelPos);
 
 
             return SUCCESS;
@@ -1448,8 +716,7 @@ namespace Core.Layers
                 m_iCurrentCam = PRE__CAM;
             }
 
-            CMainFrame.mCore.m_MeStage.MoveCameraToFocusPosFine();
-
+ 
             // 모드에 따라서 Line의 종류를 다르게 해서 보여줌.
 
             // Hair Line
@@ -2845,8 +2112,7 @@ namespace Core.Layers
                 //CMainFrame.mCore.m_DataManager.ModelData.EdgeTeachPos[(int)EEdgeAlignTeachPos.POS1] = posStage.Copy();
                 pAlignData.EdgeTeachPos[(int)EEdgeAlignTeachPos.POS1] = posStage.Copy();
 
-                // Pos2으로 이동함.
-                iResult = MoveStageRelativeT(90.0);
+
                 if (iResult != SUCCESS) return iResult;
 
                 Sleep(1000);
@@ -2865,8 +2131,7 @@ namespace Core.Layers
                 //CMainFrame.mCore.m_DataManager.ModelData.EdgeTeachPos[(int)EEdgeAlignTeachPos.POS2] = posStage.Copy();
                 pAlignData.EdgeTeachPos[(int)EEdgeAlignTeachPos.POS2] = posStage.Copy();
 
-                // Pos3으로 이동함.
-                iResult = MoveStageRelativeT(90.0);
+
                 if (iResult != SUCCESS) return iResult;
 
                 Sleep(1000);
@@ -3015,7 +2280,7 @@ namespace Core.Layers
             CMainFrame.mCore.m_Vision.InitialLocalView(PRE__CAM, viewHandle);
 
             // Edge 1번으로 이동 & Edge 확인 =============================================================
-            iResult = MoveToEdgeAlignTeachPos1();
+
             if (iResult != SUCCESS) return iResult;
 
             Sleep(iSleepTime);
@@ -3033,7 +2298,7 @@ namespace Core.Layers
             
             EdgeRealPos[(int)EEdgeAlignTeachPos.POS1] = EdgePos[(int)EEdgeAlignTeachPos.POS1];
             // Edge 2번으로 이동 & Edge 확인 =============================================================
-            iResult = MoveToEdgeAlignTeachPos2();
+
             if (iResult != SUCCESS) return iResult;
 
             Sleep(iSleepTime);
@@ -3055,7 +2320,7 @@ namespace Core.Layers
                                                             Math.Cos(DegToRad(90)) * EdgePos[(int)EEdgeAlignTeachPos.POS2].dY;
 
             // Edge 3번으로 이동 & Edge 확인 =============================================================
-            iResult = MoveToEdgeAlignTeachPos3();
+
             if (iResult != SUCCESS) return iResult;
 
             Sleep(iSleepTime);
@@ -3189,7 +2454,6 @@ namespace Core.Layers
                     if (iResult != SUCCESS) return iResult;
 
                     // Macro Mark B 위치 이동
-                    iResult = m_RefComp.Stage.MoveStageToMicroAlignB();
                     if (iResult != SUCCESS) return iResult;
 
                     Sleep(iSleepTime);
@@ -3210,7 +2474,6 @@ namespace Core.Layers
                     if (iResult != SUCCESS) return iResult;
 
                     // Macro Mark B 위치 이동
-                    iResult = m_RefComp.Stage.MoveStageToMicroAlignTurnB();
                     if (iResult != SUCCESS) return iResult;
 
                     Sleep(iSleepTime);

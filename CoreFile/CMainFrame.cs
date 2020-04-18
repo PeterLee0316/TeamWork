@@ -392,6 +392,11 @@ namespace Core.UI
                                       .Where(c => c.GetType() == type);
         }
 
+        private void CMainFrame_Load(object sender, EventArgs e)
+        {
+
+        }
+
         /// <summary>
         /// Message Index Number를 이용해서 MessageInfo 를 Loading
         /// index를 이용해서 호출하면, 실제 프로그램 코드에선 알아보기가 힘들것 같아서

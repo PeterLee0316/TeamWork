@@ -246,11 +246,6 @@ namespace Core.Layers
                                 }
 
                                 // step1
-                                iResult = m_RefComp.ctrlStage1.MoveToStageLoadPos();
-                                if (iResult != SUCCESS) { ReportAlarm(iResult); break; }
-
-                                iResult = m_RefComp.ctrlStage1.ClampOpen();
-                                if (iResult != SUCCESS) { ReportAlarm(iResult); break; }
 
                                 TInterface.Stage1_Handler_LoadStep1 = true;
 
@@ -274,7 +269,6 @@ namespace Core.Layers
                                 }
 
                                 // step2
-                                iResult = m_RefComp.ctrlStage1.ClampClose();
                                 if (iResult != SUCCESS) { ReportAlarm(iResult); break; }
 
                                 TInterface.Stage1_Handler_LoadStep2 = true;
@@ -300,7 +294,6 @@ namespace Core.Layers
 
 
                                 // finish
-                                iResult = m_RefComp.ctrlStage1.MoveToStageWaitPos();
                                 if (iResult != SUCCESS) { ReportAlarm(iResult); break; }
 
                                 TInterface.Stage1_Handler_FinishHandshake_Load = true;
@@ -373,7 +366,6 @@ namespace Core.Layers
                                 }
 
                                 // step1
-                                iResult = m_RefComp.ctrlStage1.MoveToStageUnloadPos();
                                 if (iResult != SUCCESS) { ReportAlarm(iResult); break; }
 
                                 TInterface.Stage1_Handler_UnloadStep1 = true;
@@ -398,7 +390,6 @@ namespace Core.Layers
                                 }
 
                                 // step2
-                                iResult = m_RefComp.ctrlStage1.ClampOpen();
                                 if (iResult != SUCCESS) { ReportAlarm(iResult); break; }
 
                                 TInterface.Stage1_Handler_UnloadStep2 = true;
@@ -423,7 +414,6 @@ namespace Core.Layers
                                 }
 
                                 // finish
-                                iResult = m_RefComp.ctrlStage1.MoveToStageWaitPos();
                                 if (iResult != SUCCESS) { ReportAlarm(iResult); break; }
 
                                 TInterface.Stage1_Handler_FinishHandshake_Unload = true;

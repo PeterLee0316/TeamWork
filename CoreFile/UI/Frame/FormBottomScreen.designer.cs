@@ -44,12 +44,13 @@
             this.BtnAuto.AutoEllipsis = true;
             this.BtnAuto.BackColor = System.Drawing.SystemColors.Control;
             this.BtnAuto.FlatAppearance.BorderSize = 5;
-            this.BtnAuto.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.BtnAuto.Font = new System.Drawing.Font("Gulim", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.BtnAuto.ForeColor = System.Drawing.Color.MidnightBlue;
             this.BtnAuto.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.BtnAuto.Location = new System.Drawing.Point(12, 1);
+            this.BtnAuto.Location = new System.Drawing.Point(19, 2);
+            this.BtnAuto.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
             this.BtnAuto.Name = "BtnAuto";
-            this.BtnAuto.Size = new System.Drawing.Size(133, 97);
+            this.BtnAuto.Size = new System.Drawing.Size(209, 170);
             this.BtnAuto.TabIndex = 3;
             this.BtnAuto.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.BtnAuto.Click += new System.EventHandler(this.BtnAuto_Click);
@@ -58,12 +59,13 @@
             // 
             this.BtnHelp.BackColor = System.Drawing.SystemColors.Control;
             this.BtnHelp.FlatAppearance.BorderSize = 5;
-            this.BtnHelp.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.BtnHelp.Font = new System.Drawing.Font("Gulim", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.BtnHelp.ForeColor = System.Drawing.Color.MidnightBlue;
             this.BtnHelp.ImageAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.BtnHelp.Location = new System.Drawing.Point(1126, 1);
+            this.BtnHelp.Location = new System.Drawing.Point(1697, 2);
+            this.BtnHelp.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
             this.BtnHelp.Name = "BtnHelp";
-            this.BtnHelp.Size = new System.Drawing.Size(133, 97);
+            this.BtnHelp.Size = new System.Drawing.Size(209, 170);
             this.BtnHelp.TabIndex = 4;
             this.BtnHelp.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.BtnHelp.Click += new System.EventHandler(this.BtnHelp_Click);
@@ -72,12 +74,13 @@
             // 
             this.BtnManual.BackColor = System.Drawing.SystemColors.Control;
             this.BtnManual.FlatAppearance.BorderSize = 5;
-            this.BtnManual.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.BtnManual.Font = new System.Drawing.Font("Gulim", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.BtnManual.ForeColor = System.Drawing.Color.MidnightBlue;
             this.BtnManual.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.BtnManual.Location = new System.Drawing.Point(162, 1);
+            this.BtnManual.Location = new System.Drawing.Point(255, 2);
+            this.BtnManual.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
             this.BtnManual.Name = "BtnManual";
-            this.BtnManual.Size = new System.Drawing.Size(133, 97);
+            this.BtnManual.Size = new System.Drawing.Size(209, 170);
             this.BtnManual.TabIndex = 5;
             this.BtnManual.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.BtnManual.Click += new System.EventHandler(this.BtnManual_Click);
@@ -86,12 +89,13 @@
             // 
             this.BtnData.BackColor = System.Drawing.SystemColors.Control;
             this.BtnData.FlatAppearance.BorderSize = 5;
-            this.BtnData.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.BtnData.Font = new System.Drawing.Font("Gulim", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.BtnData.ForeColor = System.Drawing.Color.MidnightBlue;
             this.BtnData.ImageAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.BtnData.Location = new System.Drawing.Point(312, 1);
+            this.BtnData.Location = new System.Drawing.Point(490, 2);
+            this.BtnData.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
             this.BtnData.Name = "BtnData";
-            this.BtnData.Size = new System.Drawing.Size(133, 97);
+            this.BtnData.Size = new System.Drawing.Size(209, 170);
             this.BtnData.TabIndex = 7;
             this.BtnData.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.BtnData.Click += new System.EventHandler(this.BtnData_Click);
@@ -100,12 +104,13 @@
             // 
             this.BtnTeach.BackColor = System.Drawing.SystemColors.Control;
             this.BtnTeach.FlatAppearance.BorderSize = 5;
-            this.BtnTeach.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.BtnTeach.Font = new System.Drawing.Font("Gulim", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.BtnTeach.ForeColor = System.Drawing.Color.MidnightBlue;
             this.BtnTeach.ImageAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.BtnTeach.Location = new System.Drawing.Point(462, 1);
+            this.BtnTeach.Location = new System.Drawing.Point(726, 2);
+            this.BtnTeach.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
             this.BtnTeach.Name = "BtnTeach";
-            this.BtnTeach.Size = new System.Drawing.Size(133, 97);
+            this.BtnTeach.Size = new System.Drawing.Size(209, 170);
             this.BtnTeach.TabIndex = 9;
             this.BtnTeach.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.BtnTeach.Click += new System.EventHandler(this.BtnTeach_Click);
@@ -114,12 +119,13 @@
             // 
             this.BtnLog.BackColor = System.Drawing.SystemColors.Control;
             this.BtnLog.FlatAppearance.BorderSize = 5;
-            this.BtnLog.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.BtnLog.Font = new System.Drawing.Font("Gulim", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.BtnLog.ForeColor = System.Drawing.Color.MidnightBlue;
             this.BtnLog.ImageAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.BtnLog.Location = new System.Drawing.Point(976, 1);
+            this.BtnLog.Location = new System.Drawing.Point(1398, 2);
+            this.BtnLog.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
             this.BtnLog.Name = "BtnLog";
-            this.BtnLog.Size = new System.Drawing.Size(133, 97);
+            this.BtnLog.Size = new System.Drawing.Size(209, 170);
             this.BtnLog.TabIndex = 11;
             this.BtnLog.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.BtnLog.Click += new System.EventHandler(this.BtnLog_Click);
@@ -155,11 +161,11 @@
             // 
             // FormBottomScreen
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 21F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
-            this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.ClientSize = new System.Drawing.Size(1278, 100);
+            this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.ClientSize = new System.Drawing.Size(1920, 175);
             this.ControlBox = false;
             this.Controls.Add(this.BtnLog);
             this.Controls.Add(this.BtnTeach);
@@ -168,6 +174,7 @@
             this.Controls.Add(this.BtnHelp);
             this.Controls.Add(this.BtnAuto);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
             this.Name = "FormBottomScreen";
             this.Text = "Bottom Screen";
             this.ResumeLayout(false);

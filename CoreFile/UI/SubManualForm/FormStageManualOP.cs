@@ -55,12 +55,7 @@ namespace Core.UI
 
             CMainFrame.mCore.m_MeStage.IsReleased(out bStatus);
             BtnVacuumOff.BackColor = (bStatus == true) ? CMainFrame.BtnBackColor_On : CMainFrame.BtnBackColor_Off;
-
-            CMainFrame.mCore.m_MeStage.IsClampOpen(out bStatus);
-            BtnClampOpen.BackColor = (bStatus == true) ? CMainFrame.BtnBackColor_On : CMainFrame.BtnBackColor_Off;
-
-            CMainFrame.mCore.m_MeStage.IsClampClose(out bStatus);
-            BtnClampClose.BackColor = (bStatus == true) ? CMainFrame.BtnBackColor_On : CMainFrame.BtnBackColor_Off;
+            
         }
 
         private void BtnVacuumOn_Click(object sender, EventArgs e)
@@ -75,12 +70,10 @@ namespace Core.UI
 
         private void BtnClampOpen_Click(object sender, EventArgs e)
         {
-            CMainFrame.mCore.m_MeStage.ClampOpen();
         }
 
         private void BtnClampClose_Click(object sender, EventArgs e)
         {
-            CMainFrame.mCore.m_MeStage.ClampClose();
         }
 
 

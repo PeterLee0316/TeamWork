@@ -134,12 +134,12 @@ namespace Core.UI
 
                 if (cmd == "Wait")
                 {
-                    task1 = Task<int>.Run(() => CMainFrame.mCore.m_ctrlStage1.MoveToStageWaitPos());
+                    //task1 = Task<int>.Run(() => CMainFrame.mCore.m_ctrlStage1.MoveToStageWaitPos());
                     iResult = await task1;
                 }
                 else if (cmd == "Load")
                 {
-                    task1 = Task<int>.Run(() => CMainFrame.mCore.m_ctrlStage1.MoveToStageLoadPos());
+                    //task1 = Task<int>.Run(() => CMainFrame.mCore.m_ctrlStage1.MoveToStageLoadPos());
                     iResult = await task1;
                 }
             }
@@ -149,12 +149,12 @@ namespace Core.UI
             {
                 if (cmd == "Wait")
                 {
-                    task1 = Task<int>.Run(() => CMainFrame.mCore.m_ctrlStage1.MoveToScannerWaitPos());
+                    //task1 = Task<int>.Run(() => CMainFrame.mCore.m_ctrlStage1.MoveToScannerWaitPos());
                     iResult = await task1;
                 }
                 else if (cmd == "Work")
                 {
-                    task1 = Task<int>.Run(() => CMainFrame.mCore.m_ctrlStage1.MoveToScannerWorkPos());
+                    //task1 = Task<int>.Run(() => CMainFrame.mCore.m_ctrlStage1.MoveToScannerWorkPos());
                     iResult = await task1;
                 }
             }
@@ -164,12 +164,12 @@ namespace Core.UI
             {
                 if (cmd == "Wait")
                 {
-                    task1 = Task<int>.Run(() => CMainFrame.mCore.m_ctrlStage1.MoveToCameraWaitPos());
+                    //task1 = Task<int>.Run(() => CMainFrame.mCore.m_ctrlStage1.MoveToCameraWaitPos());
                     iResult = await task1;
                 }
                 else if (cmd == "Work")
                 {
-                    task1 = Task<int>.Run(() => CMainFrame.mCore.m_ctrlStage1.MoveToCameraWorkPos());
+                    //task1 = Task<int>.Run(() => CMainFrame.mCore.m_ctrlStage1.MoveToCameraWorkPos());
                     iResult = await task1;
                 }
             }

@@ -20,8 +20,6 @@ using static Core.Layers.DEF_LCNet;
 using static Core.Layers.DEF_SocketClient;
 
 using static Core.Layers.DEF_Motion;
-using static Core.Layers.DEF_ACS;
-using static Core.Layers.DEF_MultiAxesACS;
 using static Core.Layers.DEF_Cylinder;
 using static Core.Layers.DEF_Vacuum;
 using static Core.Layers.DEF_Vision;
@@ -53,14 +51,6 @@ namespace Core.Layers
 
         ///////////////////////////////////////////////////////////////////////
         // Hardware Layer
-
-        // Motion
-        public MACS m_ACS;
-
-        // MultiAxes
-        public MMultiAxes_ACS m_AxStage1;
-        public MMultiAxes_ACS m_AxCamera1;
-        public MMultiAxes_ACS m_AxScannerZ1;
 
         // Vision
         public MVisionSystem m_VisionSystem;
@@ -231,12 +221,10 @@ namespace Core.Layers
             // Motion
 
             m_SystemInfo.GetObjectInfo(4, out objInfo);
-            iResult = CreateACSChannel(objInfo);
             CMainFrame.DisplayAlarmOnly(iResult);
 
             ////////////////////////////////////////////////////////////////////////
-            // MultiAxes
-            iResult = CreateMultiAxes_ACS();
+
             CMainFrame.DisplayAlarmOnly(iResult);
 
             ////////////////////////////////////////////////////////////////////////
@@ -402,70 +390,8 @@ namespace Core.Layers
         {
             dbInfo = new CDBInfo();
         }
-
-        int CreateACSChannel(CObjectInfo objInfo)
-        {
-            CACSRefComp refComp = new CACSRefComp();
-            CACSData data = new CACSData();
-
-            m_ACS = new MACS(objInfo, refComp, data);
-            m_ACS.SetACSMotionData(m_DataManager.SystemData_Axis.ACSMotionData);
-
-#if !SIMULATION_MOTION_ACS
-            int iResult = m_ACS.OpenController();
-            if (iResult != SUCCESS) return iResult;
-#endif
-
-            return SUCCESS;
-        }
         
-
-        int CreateMultiAxes_ACS()
-        {
-            CObjectInfo objInfo;
-            CMutliAxesACSRefComp refComp = new CMutliAxesACSRefComp();
-            CMultiAxesACSData data;
-            int deviceNo;
-            int[] axisList = new int[DEF_MAX_COORDINATE];
-            int[] initArray = new int[DEF_MAX_COORDINATE];
-            ArrayExtensions.Init(initArray, DEF_AXIS_NONE_ID);
-
-            refComp.Motion = m_ACS;
-
-#if EQUIP_266_DEV
-            // Scanner Z
-            deviceNo = (int)EACS_Device.SCANNER_Z1;
-            Array.Copy(initArray, axisList, initArray.Length);
-            axisList[DEF_Z] = (int)EACS_Device.SCANNER_Z1;
-            data = new CMultiAxesACSData(deviceNo, axisList);
-
-            m_SystemInfo.GetObjectInfo(270, out objInfo);
-            m_AxScannerZ1 = new MMultiAxes_ACS(objInfo, refComp, data);
-
-            // Camera Z
-            deviceNo = (int)EACS_Device.CAMERA1_Z;
-            Array.Copy(initArray, axisList, initArray.Length);
-            axisList[DEF_Z] = (int)EACS_Device.CAMERA1_Z;
-            data = new CMultiAxesACSData(deviceNo, axisList);
-
-            m_SystemInfo.GetObjectInfo(271, out objInfo);
-            m_AxCamera1 = new MMultiAxes_ACS(objInfo, refComp, data);
-#endif
-
-            // Stage
-            deviceNo = (int)EACS_Device.STAGE1;
-            Array.Copy(initArray, axisList, initArray.Length);
-            axisList[DEF_X] = (int)EACS_Device.STAGE1_X;
-            axisList[DEF_Y] = (int)EACS_Device.STAGE1_Y;
-            axisList[DEF_T] = (int)EACS_Device.STAGE1_T;
-            data = new CMultiAxesACSData(deviceNo, axisList);
-
-            m_SystemInfo.GetObjectInfo(272, out objInfo);
-            m_AxStage1 = new MMultiAxes_ACS(objInfo, refComp, data);
-
-            return SUCCESS;
-        }
-
+        
         int CreateCylinder(CObjectInfo objInfo, CCylinderData data, int objIndex, out ICylinder pCylinder)
         {
             int iResult = SUCCESS;
@@ -514,15 +440,6 @@ namespace Core.Layers
         {
             // Camera를 생성함.
             m_VisionCamera[iNum] = new MVisionCamera(objInfo);
-
-#if SIMULATION_VISION
-            return SUCCESS;
-#endif
-
-            // Vision Library MIL
-            m_VisionCamera[iNum].SetMil_ID(m_VisionSystem.GetMilSystem());
-            // Camera 초기화
-            m_VisionCamera[iNum].Initialize(iNum, m_VisionSystem.GetSystem());
                 
             return SUCCESS;
         }
@@ -530,12 +447,6 @@ namespace Core.Layers
         {
             // Display View 생성함.
             m_VisionView[iNum] = new MVisionView(objInfo);
-
-#if SIMULATION_VISION
-            return SUCCESS;
-#endif
-            // Vision Library MIL
-            m_VisionView[iNum].SetMil_ID(m_VisionSystem.GetMilSystem());
             // Display 초기화
             m_VisionView[iNum].Initialize(iNum, m_VisionCamera[iNum]);
             
@@ -619,7 +530,6 @@ namespace Core.Layers
         {
             CTrsAutoManagerRefComp refComp = new CTrsAutoManagerRefComp();
             refComp.IO = m_IO;
-            refComp.ACS = m_ACS;
             refComp.OpPanel = m_OpPanel;
 
             refComp.ctrlOpPanel = m_ctrlOpPanel;
@@ -990,7 +900,6 @@ namespace Core.Layers
             COpPanelData data = new COpPanelData();
 
             refComp.IO = m_IO;
-            refComp.ACS_Motion = m_ACS;
 
             COpPanelIOAddr sPanelIOAddr = new COpPanelIOAddr();
             // Front
@@ -1067,9 +976,6 @@ namespace Core.Layers
             CMeStageData data = new CMeStageData();
 
             refComp.IO = m_IO;
-            refComp.AxStage = m_AxStage1;
-            refComp.AxCamera = m_AxCamera1;
-            refComp.AxScanner = m_AxScannerZ1;
 
             refComp.Vacuum[(int)EStageVacuum.SELF] = m_Stage1Vac;
             

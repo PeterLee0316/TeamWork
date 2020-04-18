@@ -10,11 +10,10 @@ using Core.Layers;
 using static Core.Layers.DEF_Vision;
 using static Core.Layers.DEF_Error;
 using static Core.Layers.DEF_Common;
-using Matrox.MatroxImagingLibrary;
 
 namespace Core.Layers
 {
-    public class MVision : MObject,IVision,IDisposable
+    public class MVision : MObject,IDisposable
     {
         public bool m_bSystemInit { get; set; }
         private bool m_bErrorPrint;
@@ -252,22 +251,6 @@ namespace Core.Layers
             return m_RefComp.View[iCamNo].GetViewHandle();
         }
 
-        /// <summary>
-        /// DisplayImage : MIL Image를 객체에 Dispaly함
-        /// </summary>
-        /// <param name="image": MIL Image></param>
-        /// <param name="handle": Display할 객체의 Handle값></param>
-        public void DisplayViewImage(MIL_ID image,IntPtr handle)
-        {
-#if SIMULATION_VISION
-                return;
-#endif
-            // Vision System이 초기화 된지를 확인함
-            if (m_bSystemInit == false) return;
-
-            int iCamNo = m_iCurrentViewNum;
-            m_RefComp.View[iCamNo].DisplayImage(image, handle);
-        }
 
         /// <summary>
         /// Grab : Grab Operation 을 수행한다.
@@ -300,32 +283,6 @@ namespace Core.Layers
             return m_RefComp.Camera[iCamNo].GetCameraPixelNum();
         }
 
-
-        /// <summary>
-        /// GetGrabImage : Grab된 Image를 가져온다.
-        /// </summary>
-        /// <param name="iCamNo": Grab 카메라 선택></param>
-        public MIL_ID GetGrabImage(int iViewNo)
-        {
-#if SIMULATION_VISION
-                return MIL.M_NULL;
-#endif
-            // Vision System이 초기화 된지를 확인함
-            if (m_bSystemInit == false) return MIL.M_NULL;
-
-            return m_RefComp.View[iViewNo].GetImage();
-        }
-
-        //        public void DisplayMarkImage(int iViewNo, IntPtr pDisplayHandle )
-        //        {
-        //#if SIMULATION_VISION
-        //                return;
-        //#endif
-        //            // Vision System이 초기화 된지를 확인함
-        //            if (m_bSystemInit == false) return;
-
-        //            m_RefComp.View[iViewNo].GetMarkModelImage();
-        //        }
         
 
         /// <summary>
@@ -645,12 +602,7 @@ namespace Core.Layers
             pSData.m_pointReference.Y = ModelArea.Height/2;
 
             // 기존에 등록된 모델이 있을 경우 삭제한다.
-            if (pSData.m_milModel != MIL.M_NULL)
-            {
-                MIL.MpatFree(pSData.m_milModel);
-                pSData.m_milModel = MIL.M_NULL;
-                pSData.m_bIsModel = false;
-            }
+
 
             // 설정한 Data로 Mark 모델을 등록한다.
             if(m_RefComp.System.RegisterMarkModel(iCamNo, ref pSData)==true)
@@ -696,10 +648,10 @@ namespace Core.Layers
             CVisionPatternData pSData = m_RefComp.Camera[iCamNo].GetSearchData(iModelNo);
 
             // Data에 MIL 정보를 확인함.
-            if (pSData.m_milModel ==MIL.M_NULL) return GenerateErrorCode(ERR_VISION_PATTERN_NONE);
+           // if (pSData.m_milModel ==MIL.M_NULL) return GenerateErrorCode(ERR_VISION_PATTERN_NONE);
 
             // Image Display 호출
-            m_RefComp.View[iCamNo].DisplayImage(pSData.m_ModelImage, pHandle);
+           // m_RefComp.View[iCamNo].DisplayImage(pSData.m_ModelImage, pHandle);
             
             return SUCCESS;
         }
@@ -728,101 +680,10 @@ namespace Core.Layers
             CVisionPatternData pSData = m_RefComp.Camera[iCamNo].GetSearchData(iModelNo);
             pSData.m_rectSearch = SArea;
 
-            MIL.MpatSetPosition(pSData.m_milModel,
-                            pSData.m_rectSearch.Left,
-                            pSData.m_rectSearch.Top,
-                            pSData.m_rectSearch.Width,
-                            pSData.m_rectSearch.Height);
-
-            MIL.MpatPreprocModel(MIL.M_NULL, pSData.m_milModel, MIL.M_DEFAULT);
 
             return SUCCESS;
         }
 
-        /// <summary>
-        /// 등록된 Mark Search.. GMF는 적용안됨.
-        /// </summary>
-        /// <param name="iCamNo": Camera Number></param>
-        /// <param name="iModelNo": Model Mark Number></param>
-        /// <param name="pPatResult" : Result value Check></param>
-        /// <param name="bUseGMF" : Not Use></param>
-        /// <returns></returns>
-        public int RecognitionPatternMark(int iCamNo, int iModelNo, out CResultData pPatResult, bool bUseGMF = false)
-        {
-            // Vision System이 초기화 된지를 확인함
-            if (m_bSystemInit == false) goto VISION_ERROR_GO;
-            
-            int iResult = 0;
-            CVisionPatternData pSData = m_RefComp.Camera[iCamNo].GetSearchData(iModelNo);
-            CResultData pSResult; 
-
-            // 모델 생성 여부 확인
-            if (pSData.m_bIsModel == false) goto VISION_ERROR_GO;
-
-            // Mark Search 실행
-            iResult = m_RefComp.System.SearchByNGC(iCamNo, pSData, out pSResult);
-            if (iResult != SUCCESS)
-            {
-                pSResult.m_strResult = string.Format("Camera{0} : Model : {1} is Not Found! \n [sc:{2:0.00}%% Tm:{3:0.0}ms",
-                                                    iCamNo,
-                                                    iModelNo,
-                                                    pSResult.m_dScore,
-                                                    pSResult.m_dTime * 1000);
-
-                goto VISION_ERROR_GO;
-
-            }
-
-            // 결과 내용 문자열에 저장
-            pSResult.m_PixelPos = PositionToCenter(iCamNo, pSResult.m_PixelPos);
-
-            pSResult.m_strResult = string.Format("-MK:{0} P_X:{1:0.00}  P_Y:{2:0.00}  \n        Sc:{3:0.00}%% Tm:{4:0.0}ms",
-                                                iModelNo,
-                                                pSResult.m_PixelPos.dX,
-                                                pSResult.m_PixelPos.dY,
-                                                pSResult.m_dScore,
-                                                pSResult.m_dTime  *1000);
-            if (pSResult.m_bSearchSuccess)
-                pSResult.m_strResult = "OK" + pSResult.m_strResult;
-            else
-                pSResult.m_strResult = "NG" + pSResult.m_strResult;
-
-            
-            // Search 결과 대입
-            pPatResult = pSResult;
-
-            // Pattern Search Fail시 Image 저장
-            if (pSResult.m_bSearchSuccess==false)
-            {
-                if(m_bSaveErrorImage)
-                {
-                    iResult = SaveImage(iCamNo,1,90);
-                    if(iResult != SUCCESS)
-                    {
-                        return GenerateErrorCode(ERR_VISION_PATTERN_SEARCH_FAIL);
-                    }
-                }
-            }
-           
-            return SUCCESS;
-        // Vision Error 처리
-        VISION_ERROR_GO:
-
-            pPatResult = new CResultData();
-            return GenerateErrorCode(ERR_VISION_PATTERN_SEARCH_FAIL);
-        }
-
-        private CPos_XY PositionToCenter(int iCam, CPos_XY pPos)
-        {
-            var mPos = new CPos_XY();
-            double ImageCenterX = (double)m_RefComp.View[iCam].GetImageWidth() / 2;
-            double ImageCenterY = (double)m_RefComp.View[iCam].GetImageHeight() / 2;
-
-            mPos.dX = pPos.dX - ImageCenterX;
-            mPos.dY = ImageCenterY - pPos.dY;
-
-            return mPos;
-        }
 
         /// <summary>
         /// SetSearchData : Search Data를 설정한다.
@@ -840,15 +701,6 @@ namespace Core.Layers
         {
             if (m_RefComp.Camera == null) return new CSearchData();
             return m_RefComp.Camera[iCamNo].GetSearchData(iModelNo);
-        }
-
-        public MIL_ID GetPatternImage(int iCamNo, int iModelNo)
-        {
-            // Vision System이 초기화 된지를 확인함
-            if (m_bSystemInit == false) return GenerateErrorCode(ERR_VISION_SYSTEM_FAIL);
-            CVisionPatternData pSData = m_RefComp.Camera[iCamNo].GetSearchData(iModelNo);
-            
-            return pSData.m_milModel;
         }
 
         /// <summary>
@@ -1019,18 +871,7 @@ namespace Core.Layers
 
             if (dValue < 0.0 || dValue > 100.0)
                 return GenerateErrorCode(ERR_VISION_PARAMETER_UNFIT); 
-
-            CVisionPatternData pSData = m_RefComp.Camera[iCamNo].GetSearchData(iModelNo);
-            if (pSData.m_milModel == MIL.M_NULL)
-                return GenerateErrorCode(ERR_VISION_PATTERN_NONE); 
-
-            pSData.m_dAcceptanceThreshold = dValue;
-            MIL.MpatSetAcceptance(pSData.m_milModel, dValue);
-
-            MIL_ID SourceImage = m_RefComp.View[iCamNo].GetImage();
-
-            MIL.MpatPreprocModel(SourceImage, pSData.m_milModel, MIL.M_DEFAULT);
-
+            
             return SUCCESS;
         }
 
@@ -1056,8 +897,7 @@ namespace Core.Layers
             // Vision System이 초기화 된지를 확인함
             //if (m_bSystemInit == false) return GenerateErrorCode(ERR_VISION_SYSTEM_FAIL);
 
-            // Edge Find 지령
-            iResult = m_RefComp.System.FindEdge(iCamNo,out pEdgeData);
+
 
             if (iResult != SUCCESS)
             {
@@ -1107,8 +947,7 @@ namespace Core.Layers
 
             Point mPos = new Point();
             // 위치는 영상의 가운데를 기준으로 한다.
-            mPos.X = m_RefComp.View[iCamNo].GetImageWidth() / 2;
-            mPos.Y = m_RefComp.View[iCamNo].GetImageHeight() / 2;
+
 
             m_RefComp.System.SetEdgeFindParameter(mPos, dWidth, dHeight, dAng);
 

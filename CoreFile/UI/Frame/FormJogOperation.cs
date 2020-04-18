@@ -16,7 +16,6 @@ using static Core.Layers.DEF_System;
 using static Core.Layers.DEF_Common;
 
 using static Core.Layers.DEF_Motion;
-using static Core.Layers.DEF_ACS;
 using static Core.Layers.DEF_Error;
 
 
@@ -159,7 +158,6 @@ namespace Core.UI
 
             
                 int selectAxis = SelectedAxis;
-                AxisSpeedData = CMainFrame.DataManager.SystemData_Axis.ACSMotionData[selectAxis].Speed[speedIndex];
             
             LabelVelocity.Text = Convert.ToString(AxisSpeedData.Vel);
 
@@ -318,7 +316,6 @@ namespace Core.UI
             if (m_MoveOption == EMoveOption.JOG)
             {
                 
-                    iResult = CMainFrame.mCore.m_ACS.StartJogMove(SelectedAxis, bDirection, IsFastMove);
                 
             }
             else if (m_MoveOption == EMoveOption.INC)
@@ -329,7 +326,6 @@ namespace Core.UI
                     dTargetPos[0] = Convert.ToDouble(LabelCurrent.Text) + Convert.ToDouble(LabelTarget.Text);
                 else dTargetPos[0] = Convert.ToDouble(LabelCurrent.Text) - Convert.ToDouble(LabelTarget.Text);
 
-                iResult = CMainFrame.mCore.m_ACS.MoveToPos(SelectedAxis, dTargetPos[0], AxisSpeedData);
                 
             }
             if (iResult != SUCCESS)
@@ -342,15 +338,6 @@ namespace Core.UI
         {
             int iResult = SUCCESS;
 
-            if (m_MoveOption == EMoveOption.JOG)
-            {
-                CMainFrame.mCore.m_ACS.StopJogMove(SelectedAxis);
-                
-            } else
-            {
-                CMainFrame.mCore.m_ACS.StopServoMotion(SelectedAxis);
-                
-            }
             if (iResult != SUCCESS)
             {
                 CMainFrame.DisplayAlarm(iResult);
@@ -389,7 +376,6 @@ namespace Core.UI
 
             double[] dTargetPos = new double[1];
             dTargetPos[0] = Convert.ToDouble(LabelTarget.Text);
-            iResult = CMainFrame.mCore.m_ACS.MoveToPos(SelectedAxis, dTargetPos[0], AxisSpeedData);
             
             if (iResult != SUCCESS)
             {
@@ -400,9 +386,7 @@ namespace Core.UI
         private void TimerUI_Tick(object sender, EventArgs e)
         {
             string strCurPos = string.Empty;
-
-            // Jog Operation Servo Encoder Position
-            LabelCurrent.Text= String.Format("{0:0.0000}", CMainFrame.mCore.m_ACS.ServoStatus[SelectedAxis].EncoderPos);
+            
             
         }
 

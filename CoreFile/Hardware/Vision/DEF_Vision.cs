@@ -3,9 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Drawing;
-using BGAPI;
 using System.Configuration;
-using Matrox.MatroxImagingLibrary;
 using static Core.Layers.DEF_System;
 
 namespace Core.Layers
@@ -168,8 +166,6 @@ namespace Core.Layers
             public int m_iGrabSettlingTime;
             // Camera Change Time : 단위 (ms) 
             public int m_iCameraChangeTime;
-            // Baumer Camera Info
-            public BGAPIX_CameraInfo m_CamDeviceInfo;
 
         };
 
@@ -199,13 +195,13 @@ namespace Core.Layers
         // DB Data + Mil Data임
         public class CVisionPatternData : CSearchData
         {
-            /// Search Model Data
-            // MIL 에서 사용하는 Model ID (NGC)
-            public MIL_ID m_milModel = new MIL_ID();
-            // MIL 에서 영상 Display용
-            public MIL_ID m_ModelImage = new MIL_ID();
-            // MIL 에서 사용하는 Model ID (GMF)
-            public MIL_ID m_milGmfModel = new MIL_ID();
+            ///// Search Model Data
+            //// MIL 에서 사용하는 Model ID (NGC)
+            //public MIL_ID m_milModel = new MIL_ID();
+            //// MIL 에서 영상 Display용
+            //public MIL_ID m_ModelImage = new MIL_ID();
+            //// MIL 에서 사용하는 Model ID (GMF)
+            //public MIL_ID m_milGmfModel = new MIL_ID();
         }
 
         public class CResultData
@@ -231,12 +227,7 @@ namespace Core.Layers
 
             // Search 작업에 걸린 시간 
             public double m_dTime;
-
-            // MIL 에서 사용하는 Search Result ID (NGC)
-            public MIL_ID m_milResult;
-
-            // MIL 에서 사용하는 Search Result ID (GMF)
-            public MIL_ID m_milGMFResult;
+            
             public CResultData()
             {
 

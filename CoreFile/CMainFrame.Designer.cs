@@ -33,26 +33,29 @@
             // 
             // pnlPic
             // 
-            this.pnlPic.Location = new System.Drawing.Point(26, 28);
+            this.pnlPic.Location = new System.Drawing.Point(41, 49);
+            this.pnlPic.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
             this.pnlPic.Name = "pnlPic";
-            this.pnlPic.Size = new System.Drawing.Size(373, 325);
+            this.pnlPic.Size = new System.Drawing.Size(586, 569);
             this.pnlPic.TabIndex = 0;
             this.pnlPic.Visible = false;
             // 
             // CMainFrame
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 21F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ActiveBorder;
-            this.ClientSize = new System.Drawing.Size(431, 396);
+            this.ClientSize = new System.Drawing.Size(677, 693);
             this.ControlBox = false;
             this.Controls.Add(this.pnlPic);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "CMainFrame";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.Text = "Core System";
+            this.Load += new System.EventHandler(this.CMainFrame_Load);
             this.ResumeLayout(false);
 
         }

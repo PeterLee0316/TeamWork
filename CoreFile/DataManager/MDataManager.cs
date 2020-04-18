@@ -22,7 +22,6 @@ using static Core.Layers.DEF_Thread;
 using static Core.Layers.DEF_DataManager;
 using static Core.Layers.DEF_LCNet;
 
-using static Core.Layers.DEF_ACS;
 using static Core.Layers.DEF_Motion;
 using static Core.Layers.DEF_Cylinder;
 using static Core.Layers.DEF_Vacuum;
@@ -282,17 +281,6 @@ namespace Core.Layers
 
         public class CSystemData_Axis
         {
-            // ACS Motion Axis
-            public CACSMotionData[] ACSMotionData = new CACSMotionData[USE_ACS_AXIS_COUNT];
-
-            public CSystemData_Axis()
-            {
-                // ACS 모션
-                for (int i = 0; i < ACSMotionData.Length; i++)
-                {
-                    ACSMotionData[i] = new CACSMotionData();
-                }
-            }
 
             
         }
@@ -1226,9 +1214,6 @@ namespace Core.Layers
                     return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_LOAD_SYSTEM_DATA);
                 }
 
-                // system data를 읽어왔는데, db에 이전 데이터가 저장되어 있지 않을 때, 필수적으로 초기화 해주어야 할 데이터들
-
-                InitACSMotionData();
             }
 
             // CSystemData_Cylinder
@@ -4486,55 +4471,6 @@ namespace Core.Layers
             
 
             return SUCCESS;
-        }
-        
-        void InitACSMotionData()
-        {
-            // Excel에서 읽어오는 방식도 생각해봤으나, 축 이름과 필수적인것들만 초기화하면 될것 같아서 소스코드 내부에서 처리 
-            int index;
-            CACSMotionData tMotion;
-
-            // null check
-            for (int i = 0; i < SystemData_Axis.ACSMotionData.Length; i++)
-            {
-                if (SystemData_Axis.ACSMotionData[i] == null)
-                {
-                    SystemData_Axis.ACSMotionData[i] = new CACSMotionData();
-                }
-            }
-
-            // STAGE X
-            index = (int)EACS_Axis.STAGE1_X;
-            if (SystemData_Axis.ACSMotionData[index].Name == "NotExist")
-            {
-                tMotion = new CACSMotionData();
-                tMotion.Name = "STAGE1_X";
-                tMotion.Exist = true;
-
-                SystemData_Axis.ACSMotionData[index] = ObjectExtensions.Copy(tMotion);
-            }
-
-            // STAGE Y
-            index = (int)EACS_Axis.STAGE1_Y;
-            if (SystemData_Axis.ACSMotionData[index].Name == "NotExist")
-            {
-                tMotion = new CACSMotionData();
-                tMotion.Name = "STAGE1_Y";
-                tMotion.Exist = true;
-
-                SystemData_Axis.ACSMotionData[index] = ObjectExtensions.Copy(tMotion);
-            }
-
-            // STAGE T
-            index = (int)EACS_Axis.STAGE1_T;
-            if (SystemData_Axis.ACSMotionData[index].Name == "NotExist")
-            {
-                tMotion = new CACSMotionData();
-                tMotion.Name = "STAGE1_T";
-                tMotion.Exist = true;
-
-                SystemData_Axis.ACSMotionData[index] = ObjectExtensions.Copy(tMotion);
-            }
         }
         
 

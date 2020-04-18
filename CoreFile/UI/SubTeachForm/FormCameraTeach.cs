@@ -17,7 +17,6 @@ using static Core.Layers.DEF_Motion;
 
 using static Core.Layers.DEF_Thread;
 using static Core.Layers.DEF_MeStage;
-using static Core.Layers.DEF_ACS;
 
 using Syncfusion.Windows.Forms;
 using Syncfusion.Windows.Forms.Grid;
@@ -282,17 +281,6 @@ namespace Core.UI
             string strCurPos = string.Empty;
             double dValue = 0, dCurPos = 0, dTargetPos = 0;
 
-            // Jog Operation Servo Encoder Position
-#if EQUIP_DICING_DEV
-            strCurPos= String.Format("{0:0.000}", CMainFrame.mCore.m_YMC.ServoStatus[(int)EYMC_Axis.CAMERA1_Z].EncoderPos);
-            dCurPos = CMainFrame.mCore.m_YMC.ServoStatus[(int)EYMC_Axis.CAMERA1_Z].EncoderPos;
-#else
-            strCurPos= String.Format("{0:0.000}", CMainFrame.mCore.m_ACS.ServoStatus[(int)EACS_Axis.CAMERA1_Z].EncoderPos);
-            dCurPos = CMainFrame.mCore.m_ACS.ServoStatus[(int)EACS_Axis.CAMERA1_Z].EncoderPos;
-#endif
-            GridTeachTable[7, 1].Text = strCurPos;
-
-
 
             // 보정값 Display
             dTargetPos = Convert.ToDouble(GridTeachTable[2,1].Text);
@@ -328,12 +316,6 @@ namespace Core.UI
         {
             string strMsg = "Move to selected position?";
             if (!CMainFrame.InquireMsg(strMsg)) return;
-
-            if (TeachPos[m_nSelectedPos].Text == Convert.ToString(ECameraPos.WAIT)) CMainFrame.mCore.m_ctrlStage1.MoveToCameraWaitPos();
-            if (TeachPos[m_nSelectedPos].Text == Convert.ToString(ECameraPos.WORK)) CMainFrame.mCore.m_ctrlStage1.MoveToCameraWorkPos();
-            if (TeachPos[m_nSelectedPos].Text == Convert.ToString(ECameraPos.INSPEC_FOCUS)) CMainFrame.mCore.m_ctrlStage1.MoveToCameraFocusPosInpect();
-            if (TeachPos[m_nSelectedPos].Text == Convert.ToString(ECameraPos.FINE_FOCUS)) CMainFrame.mCore.m_ctrlStage1.MoveToCameraFocusPosFine();
-            if (TeachPos[m_nSelectedPos].Text == Convert.ToString(ECameraPos.FOCUS_3)) CMainFrame.mCore.m_ctrlStage1.MoveToCameraFocusPos3();
         }
     }
 }

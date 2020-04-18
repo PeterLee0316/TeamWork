@@ -16,7 +16,6 @@ using static Core.Layers.DEF_Motion;
 
 using static Core.Layers.DEF_Thread;
 using static Core.Layers.DEF_MeStage;
-using static Core.Layers.DEF_ACS;
 
 
 using Syncfusion.Windows.Forms;
@@ -281,13 +280,6 @@ namespace Core.UI
             string strCurPos = string.Empty;
             double dValue = 0, dCurPos = 0, dTargetPos = 0;
 
-#if EQUIP_DICING_DEV
-            strCurPos= String.Format("{0:0.000}", CMainFrame.mCore.m_YMC.ServoStatus[(int)EYMC_Axis.SCANNER_Z1].EncoderPos);
-            dCurPos = CMainFrame.mCore.m_YMC.ServoStatus[(int)EYMC_Axis.SCANNER_Z1].EncoderPos;
-#else
-            strCurPos = String.Format("{0:0.0000}", CMainFrame.mCore.m_ACS.ServoStatus[(int)EACS_Axis.SCANNER_Z1].EncoderPos);
-            dCurPos = CMainFrame.mCore.m_ACS.ServoStatus[(int)EACS_Axis.SCANNER_Z1].EncoderPos;
-#endif
             GridTeachTable[7, 1].Text = strCurPos;
 
             // 보정값 Display
@@ -324,12 +316,7 @@ namespace Core.UI
         {
             string strMsg = "Move to selected position?";
             if (!CMainFrame.InquireMsg(strMsg)) return;
-
-            if (TeachPos[m_nSelectedPos].Text == Convert.ToString(EScannerPos.WAIT)) CMainFrame.mCore.m_ctrlStage1.MoveToScannerWaitPos();
-            if (TeachPos[m_nSelectedPos].Text == Convert.ToString(EScannerPos.WORK)) CMainFrame.mCore.m_ctrlStage1.MoveToScannerWorkPos();
-            if (TeachPos[m_nSelectedPos].Text == Convert.ToString(EScannerPos.FOCUS_1)) CMainFrame.mCore.m_ctrlStage1.MoveToScannerFocusPos1();
-            if (TeachPos[m_nSelectedPos].Text == Convert.ToString(EScannerPos.FOCUS_2)) CMainFrame.mCore.m_ctrlStage1.MoveToScannerFocusPos2();
-            if (TeachPos[m_nSelectedPos].Text == Convert.ToString(EScannerPos.FOCUS_3)) CMainFrame.mCore.m_ctrlStage1.MoveToScannerFocusPos3();
+            
         }
     }
 }

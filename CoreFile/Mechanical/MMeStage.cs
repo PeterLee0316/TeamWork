@@ -163,18 +163,6 @@ namespace Core.Layers
             // Vacuum
             public IVacuum[] Vacuum = new IVacuum[(int)EStageVacuum.MAX];
 
-            // MultiAxes
-            public MMultiAxes_ACS AxStage;
-#if EQUIP_DICING_DEV
-            public MMultiAxes_YMC AxCamera;
-            public MMultiAxes_YMC AxScanner;
-#endif
-
-#if EQUIP_266_DEV
-            public MMultiAxes_ACS AxCamera;
-            public MMultiAxes_ACS AxScanner;
-#endif
-
         }
 
         public class CMeStageData
@@ -480,53 +468,31 @@ namespace Core.Layers
 
         public int GetStageCurPos(out CPos_XYTZ pos)
         {
-            int iResult = m_RefComp.AxStage.GetCurPos(out pos);
-            return iResult;
+            int iResult = 0;
+            CPos_XYTZ temp = new CPos_XYTZ();
+            pos = temp;
+
+            return 0;
         }
 
         public int GetStageCmdPos(out CPos_XYTZ pos)
         {
-            int iResult = m_RefComp.AxStage.GetCmdPos(out pos);
-            return iResult;
+            int iResult = 0;
+            CPos_XYTZ temp = new CPos_XYTZ();
+            pos = temp;
+
+            return 0;
         }
 
         public bool IsStageBusy()
         {
-            return m_RefComp.AxStage.IsBusy();
+            return true;
         }
         public CPos_XYTZ GetStageTeachPos(int iPos)
         {
             return AxStageInfo.GetTargetPos(iPos);
         }
-
-        public int MoveStageToSafetyPos(int axis)
-        {
-            int iResult = SUCCESS;
-            string str;
-            // 0. safety check
-            iResult = CheckForStageAxisMove();
-            if (iResult != SUCCESS) return iResult;
-
-            // 0.1 trans to array
-            double[] dPos = new double[1] { m_Data.StageSafetyPos.GetAt(axis) };
-
-            // 0.2 set use flag
-            bool[] bTempFlag = new bool[1] { true };
-
-            // 1. Move
-            iResult = m_RefComp.AxStage.Move(axis, bTempFlag, dPos);
-            if (iResult != SUCCESS)
-            {
-                str = $"fail : move Stage to safety pos [axis={axis}]";
-                WriteLog(str, ELogType.Debug, ELogWType.D_Error);
-                return iResult;
-            }
-
-            str = $"success : move Stage to safety pos [axis={axis}";
-            WriteLog(str, ELogType.Debug, ELogWType.D_Normal);
-
-            return SUCCESS;
-        }
+        
 
         public int MoveStagePos(CPos_XYTZ sPos)
         {
@@ -548,9 +514,6 @@ namespace Core.Layers
         {
             int iResult = SUCCESS;
 
-            // safety check
-            iResult = CheckForStageAxisMove();
-            if (iResult != SUCCESS) return iResult;
 
             // Limit check ???
 
@@ -574,32 +537,13 @@ namespace Core.Layers
             // 1. move X, Y, T
             if (bMoveFlag[DEF_X] == true || bMoveFlag[DEF_Y] == true || bMoveFlag[DEF_T] == true)
             {
-                // set priority
-                if(bUsePriority == true && movePriority != null)
-                {
-                    m_RefComp.AxStage.SetAxesMovePriority(movePriority);
-                }
-
-                // move
-                bMoveFlag[DEF_Z] = false;
-                iResult = m_RefComp.AxStage.Move(DEF_ALL_COORDINATE, bMoveFlag, dTargetPos, bUsePriority);
-                if (iResult != SUCCESS)
-                {
-                    WriteLog("fail : move Stage x y t axis", ELogType.Debug, ELogWType.D_Error);
-                    return iResult;
-                }
+                
             }
 
             // 2. move Z Axis
             if (bMoveFlag[DEF_Z] == true)
             {
-                bool[] bTempFlag = new bool[DEF_MAX_COORDINATE] { false, false, false, true };
-                iResult = m_RefComp.AxStage.Move(DEF_ALL_COORDINATE, bTempFlag, dTargetPos);
-                if (iResult != SUCCESS)
-                {
-                    WriteLog("fail : move Stage z axis", ELogType.Debug, ELogWType.D_Error);
-                    return iResult;
-                }
+                
             }
 
             string str = $"success : move Stage to pos:{sPos.ToString()}";
@@ -1301,28 +1245,7 @@ namespace Core.Layers
 
             return MoveStagePos(iPos, bMoveAllAxis, bMoveXYT, bMoveZ);
         }
-
-        public int MoveStageToMicroAlignB(bool bMoveAllAxis = false, bool bMoveXYT = true, bool bMoveZ = false)
-        {
-            int iResult = -1;
-            int iPosIndex = -1;
-
-            GetStagePosInfo(out iPosIndex);
-            if (iPosIndex != (int)EStagePos.MICRO_ALIGN)
-            {
-                // Mark A 위치로 이동
-                iResult = MoveStageToMicroAlignA();
-                if (iResult != SUCCESS) return iResult;
-            }
-
-            double moveDistance = CMainFrame.DataManager.SystemData_Align.AlignMarkWidthLen;
-            // 수평으로 Align Mark 거리 만큼 이동함.
-
-            iResult = MoveStageRelative(DEF_Y, moveDistance);
-            if (iResult != SUCCESS) return iResult;
-
-            return SUCCESS;
-        }
+        
 
         public int MoveStageToMicroAlignTurnA(bool bMoveAllAxis = false, bool bMoveXYT = true, bool bMoveZ = false)
         {
@@ -1330,27 +1253,7 @@ namespace Core.Layers
 
             return MoveStagePos(iPos, bMoveAllAxis, bMoveXYT, bMoveZ);
         }
-
-        public int MoveStageToMicroAlignTurnB(bool bMoveAllAxis = false, bool bMoveXYT = true, bool bMoveZ = false)
-        {
-            int iResult = -1;
-            int iPosIndex = -1;
-
-            GetStagePosInfo(out iPosIndex);
-            if (iPosIndex != (int)EStagePos.MICRO_ALIGN_TURN)
-            {
-                // Mark A 위치로 이동
-                iResult = MoveStageToMicroAlignTurnA();
-                if (iResult != SUCCESS) return iResult;
-            }
-
-            double moveDistance = CMainFrame.DataManager.SystemData_Align.AlignMarkWidthLen;
-            // 수평으로 Align Mark 거리 만큼 이동함.
-            iResult = MoveStageRelative(DEF_Y, moveDistance);
-            if (iResult != SUCCESS) return iResult;
-
-            return SUCCESS;
-        }
+        
 
         public int MoveStageToProcessPos(bool bMoveAllAxis = false, bool bMoveXYT = true, bool bMoveZ = false)
         {
@@ -1400,20 +1303,6 @@ namespace Core.Layers
             return SUCCESS;
         }
 
-        public int JogStageMove(int iAxis, bool dDir,bool IsFastMove)
-        {
-            int iResult = 0;
-
-            // safety check
-            iResult = CheckForStageAxisMove();
-            if (iResult != SUCCESS) return iResult;
-
-            // Limit check ???
-
-            iResult = m_RefComp.AxStage.JogMoveVelocity(iAxis, dDir, IsFastMove);
-
-            return iResult;
-        }
 
         public int JogStageStop(int iAxis)
         {
@@ -1423,38 +1312,9 @@ namespace Core.Layers
             if (iAxis == (int)EACS_Axis.STAGE1_Y) selectAxis = DEF_Y;
             if (iAxis == (int)EACS_Axis.STAGE1_T) selectAxis = DEF_T;
 
-            return m_RefComp.AxStage.EStop(selectAxis);
+            return 0;
         }
-
-        public int JogStagePlusX(bool IsFastMove)
-        {
-            return JogStageMove(DEF_X,true, IsFastMove);
-        }
-
-        public int JogStageMinusX(bool IsFastMove)
-        {
-            return JogStageMove(DEF_X, false, IsFastMove);
-        }
-
-        public int JogStagePlusY(bool IsFastMove)
-        {
-            return JogStageMove(DEF_Y, true, IsFastMove);
-        }
-
-        public int JogStageMinusY(bool IsFastMove)
-        {
-            return JogStageMove(DEF_Y, false, IsFastMove);
-        }
-
-        public int JogStagePlusT(bool IsFastMove)
-        {
-            return JogStageMove(DEF_T, true, IsFastMove);
-        }
-
-        public int JogStageMinusT(bool IsFastMove)
-        {
-            return JogStageMove(DEF_T, false, IsFastMove);
-        }
+        
 #endregion
 
         // Camera Servo 구동
@@ -1462,179 +1322,14 @@ namespace Core.Layers
 
         public int GetCameraCurPos(out CPos_XYTZ pos)
         {
-            int iResult = m_RefComp.AxCamera.GetCurPos(out pos);
+            int iResult =0;
+            CPos_XYTZ temp = new CPos_XYTZ();
+            pos = temp;
             return iResult;
         }
-
-        public int MoveCameraToSafetyPos(int axis)
-        {
-            int iResult = SUCCESS;
-            string str;
-            // 0. safety check
-            iResult = CheckForCameraAxisMove();
-            if (iResult != SUCCESS) return iResult;
-
-            // 0.1 trans to array
-            double[] dPos = new double[1] { m_Data.StageSafetyPos.GetAt(axis) };
-
-            // 0.2 set use flag
-            bool[] bTempFlag = new bool[1] { true };
-
-            // 1. Move
-            iResult = m_RefComp.AxCamera.Move(axis, bTempFlag, dPos);
-            if (iResult != SUCCESS)
-            {
-                str = $"fail : move Camera to safety pos [axis={axis}]";
-                WriteLog(str, ELogType.Debug, ELogWType.D_Error);
-                return iResult;
-            }
-
-            str = $"success : move Camera to safety pos [axis={axis}";
-            WriteLog(str, ELogType.Debug, ELogWType.D_Normal);
-
-            return SUCCESS;
-
-        }
-
-        /// <summary>
-        /// sPos으로 이동하고, PosInfo를 iPos으로 셋팅한다. Backlash는 일단 차후로.
-        /// </summary>
-        /// <param name="sPos"></param>
-        /// <param name="bMoveFlag"></param>
-        /// <param name="bUseBacklash"></param>
-        /// <returns></returns>
-        public int MoveCameraPos(CPos_XYTZ sPos, bool[] bMoveFlag = null, bool bUseBacklash = false,
-            bool bUsePriority = false, int[] movePriority = null)
-        {
-            int iResult = SUCCESS;
-
-            // safety check
-            iResult = CheckForCameraAxisMove();
-            if (iResult != SUCCESS) return iResult;
-
-            // Limit check ???
-
-
-            // trans to array
-            double[] dTargetPos;
-            sPos.TransToArray(out dTargetPos);
-
-            // backlash
-            if (bUseBacklash)
-            {
-                // 나중에 작업
-            }
-           
-            bool[] bTempFlag = new bool[DEF_MAX_COORDINATE] { false, false, false, true };
-            iResult = m_RefComp.AxCamera.Move(DEF_Z, bTempFlag, dTargetPos);
-            if (iResult != SUCCESS)
-            {
-                WriteLog("fail : move Camera z axis", ELogType.Debug, ELogWType.D_Error);
-                return iResult;
-            }           
-
-            string str = $"success : move Camera to pos:{sPos.ToString()}";
-            WriteLog(str, ELogType.Debug, ELogWType.D_Normal);
-
-            return SUCCESS;
-        }
-
-        /// <summary>
-        /// iPos 좌표로 선택된 축들을 이동시킨다.
-        /// </summary>
-        /// <param name="iPos">목표 위치</param>
-        /// <param name="bUpdatedPosInfo">목표위치값을 update 할지의 여부</param>
-        /// <param name="bMoveFlag">이동시킬 축 선택 </param>
-        /// <param name="dMoveOffset">임시 옵셋값 </param>
-        /// <param name="bUseBacklash"></param>
-        /// <param name="bUsePriority">우선순위 이동시킬지 여부 </param>
-        /// <param name="movePriority">우선순위 </param>
-        /// <returns></returns>
-        public int MoveCameraPos(int iPos, bool bUpdatedPosInfo = true, bool[] bMoveFlag = null, double[] dMoveOffset = null, bool bUseBacklash = false,
-            bool bUsePriority = false, int[] movePriority = null)
-        {
-            int iResult = SUCCESS;
-            
-
-            CPos_XYTZ sTargetPos = AxCameraInfo.GetTargetPos(iPos);
-
-            if (dMoveOffset != null)
-            {
-                sTargetPos = sTargetPos + dMoveOffset;
-            }
-
-            iResult = MoveCameraPos(sTargetPos, bMoveFlag, bUseBacklash, bUsePriority, movePriority);
-            if (iResult != SUCCESS) return iResult;
-            if (bUpdatedPosInfo == true)
-            {
-                AxCameraInfo.PosInfo = iPos;
-            }
-
-            return SUCCESS;
-        }
-
-        public int MoveCameraRelative(CPos_XYTZ sPos, bool[] bMoveFlag = null)
-        {
-            int iResult = SUCCESS;
-
-            // 이동 Position 선택
-            int iPos = (int)EStagePos.NONE;
-
-            bool bUsePriority = false;
-            bool bUseBacklash = false;
-            int[] movePriority = null;
-
-            // 현재 위치를 읽어옴 (Command 값을 사용하는 것이 좋을 듯)
-            CPos_XYTZ sTargetPos;
-
-            iResult = GetCameraCurPos(out sTargetPos);
-            if (iResult != SUCCESS) GenerateErrorCode(ERR_STAGE_READ_CURRENT_POSITION);
-            // Index 거리를 해당 축에 더하여 거리를 산출함.
-            sTargetPos += sPos;
-
-            iResult = MoveCameraPos(sTargetPos, bMoveFlag, bUseBacklash, bUsePriority, movePriority);
-            if (iResult != SUCCESS) return iResult;
-
-            return SUCCESS;
-        }
-
-        public int MoveCameraRelative(int iAxis, double dMoveLength, bool bUseBacklash = false)
-        {
-            int iResult = SUCCESS;
-
-            // 이동 Position 선택
-            int iPos = (int)EStagePos.NONE;
-            CPos_XYTZ sTargetPos = new CPos_XYTZ();
-
-            bool[] bMoveFlag = new bool[DEF_MAX_COORDINATE] { false, false, false, false };
-
-            if (iAxis == DEF_X)
-            {
-                bMoveFlag[DEF_X] = true;
-                sTargetPos.dX += dMoveLength;
-            }
-            if (iAxis == DEF_Y)
-            {
-                bMoveFlag[DEF_Y] = true;
-                sTargetPos.dY += dMoveLength;
-            }
-            if (iAxis == DEF_T)
-            {
-                bMoveFlag[DEF_T] = true;
-                sTargetPos.dT += dMoveLength;
-            }
-
-            if (iAxis == DEF_Z)
-            {
-                bMoveFlag[DEF_Z] = true;
-                sTargetPos.dT += dMoveLength;
-            }
-
-            iResult = MoveCameraPos(sTargetPos, bMoveFlag, bUseBacklash);
-            if (iResult != SUCCESS) return iResult;
-
-            return SUCCESS;
-        }
+        
+        
+        
         /// <summary>
         /// Stage의 각축의 상대 이동
         /// </summary>
@@ -1656,346 +1351,11 @@ namespace Core.Layers
         /// <param name="bMoveXYT"></param>
         /// <param name="bMoveZ"></param>
         /// <returns></returns>
-        public int MoveCameraPos(int iPos)
-        {            
-            bool[] bMoveFlag = new bool[DEF_MAX_COORDINATE] { false, false, false, true };
-            return MoveCameraPos(iPos, false, bMoveFlag);            
 
-            return SUCCESS;
-        }
 
-        public int MoveCameraToWaitPos()
-        {
-            int iPos = (int)ECameraPos.WAIT;
-
-            return MoveCameraPos(iPos);
-        }
-        public int MoveCameraToWorkPos()
-        {
-            int iPos = (int)ECameraPos.WORK;
-
-            return MoveCameraPos(iPos);
-        }
-
-        public int MoveCameraToFocusPosInspect()
-        {
-            int iPos = (int)ECameraPos.INSPEC_FOCUS;
-
-            return MoveCameraPos(iPos);
-        }
-
-        public int MoveCameraToFocusPosFine()
-        {
-            int iPos = (int)ECameraPos.FINE_FOCUS;
-
-            return MoveCameraPos(iPos);
-        }
-
-        public int MoveCameraToFocusPos3()
-        {
-            int iPos = (int)ECameraPos.FOCUS_3;
-
-            return MoveCameraPos(iPos);
-        }
-
-        public int MoveCameraJog(bool bDir, bool IsFast)
-        {
-            int iResult = 0;
-            int iAxis = DEF_Z;
-
-            // safety check
-            iResult = CheckForCameraAxisMove();
-            if (iResult != SUCCESS) return iResult;
-
-            // Limit check ???
-
-#if EQUIP_266_DEV
-            iResult = m_RefComp.AxCamera.JogMoveVelocity(iAxis, bDir, IsFast);
-#endif
-#if EQUIP_DICING_DEV
-            //iResult = m_RefComp.AxCamera.JogMoveVelocity(iAxis, dDir, dVel);
-#endif
-
-            return SUCCESS;
-        }
-
-        public int JogCameraStop()
-        {
-            int iResult = 0;
-            int iAxis = DEF_Z;
-
-            iResult = m_RefComp.AxCamera.EStop(iAxis);
-            return SUCCESS;
-        }
 
 #endregion
-
-        // Scanner Servo 구동
-#region Scanner Move 동작
-
-        public int GetScannerCurPos(out CPos_XYTZ pos)
-        {
-            int iResult = m_RefComp.AxScanner.GetCurPos(out pos);
-            return iResult;
-        }
-
-        public int MoveScannerToSafetyPos(int axis)
-        {
-            int iResult = SUCCESS;
-            string str;
-            // 0. safety check
-            iResult = CheckForScannerAxisMove();
-            if (iResult != SUCCESS) return iResult;
-
-            // 0.1 trans to array
-            double[] dPos = new double[1] { m_Data.StageSafetyPos.GetAt(axis) };
-
-            // 0.2 set use flag
-            bool[] bTempFlag = new bool[1] { true };
-
-            // 1. Move
-            iResult = m_RefComp.AxScanner.Move(axis, bTempFlag, dPos);
-            if (iResult != SUCCESS)
-            {
-                str = $"fail : move Scanner to safety pos [axis={axis}]";
-                WriteLog(str, ELogType.Debug, ELogWType.D_Error);
-                return iResult;
-            }
-
-            str = $"success : move Scanner to safety pos [axis={axis}";
-            WriteLog(str, ELogType.Debug, ELogWType.D_Normal);
-
-            return SUCCESS;
-
-        }
-
-        /// <summary>
-        /// sPos으로 이동하고, PosInfo를 iPos으로 셋팅한다. Backlash는 일단 차후로.
-        /// </summary>
-        /// <param name="sPos"></param>
-        /// <param name="bMoveFlag"></param>
-        /// <param name="bUseBacklash"></param>
-        /// <returns></returns>
-        public int MoveScannerPos(CPos_XYTZ sPos, bool[] bMoveFlag = null, bool bUseBacklash = false,
-            bool bUsePriority = false, int[] movePriority = null)
-        {
-            int iResult = SUCCESS;
-
-            // safety check
-            iResult = CheckForScannerAxisMove();
-            if (iResult != SUCCESS) return iResult;
-
-            // Limit check ???
-
-
-            // trans to array
-            double[] dTargetPos;
-            sPos.TransToArray(out dTargetPos);
-
-            // backlash
-            if (bUseBacklash)
-            {
-                // 나중에 작업
-            }
-
-            bool[] bTempFlag = new bool[DEF_MAX_COORDINATE] { false, false, false, true };
-            iResult = m_RefComp.AxScanner.Move(DEF_Z, bTempFlag, dTargetPos);
-            if (iResult != SUCCESS)
-            {
-                WriteLog("fail : move Scanner z axis", ELogType.Debug, ELogWType.D_Error);
-                return iResult;
-            }
-
-            string str = $"success : move Scanner to pos:{sPos.ToString()}";
-            WriteLog(str, ELogType.Debug, ELogWType.D_Normal);
-
-            return SUCCESS;
-        }
-
-        /// <summary>
-        /// iPos 좌표로 선택된 축들을 이동시킨다.
-        /// </summary>
-        /// <param name="iPos">목표 위치</param>
-        /// <param name="bUpdatedPosInfo">목표위치값을 update 할지의 여부</param>
-        /// <param name="bMoveFlag">이동시킬 축 선택 </param>
-        /// <param name="dMoveOffset">임시 옵셋값 </param>
-        /// <param name="bUseBacklash"></param>
-        /// <param name="bUsePriority">우선순위 이동시킬지 여부 </param>
-        /// <param name="movePriority">우선순위 </param>
-        /// <returns></returns>
-        public int MoveScannerPos(int iPos, bool bUpdatedPosInfo = true, bool[] bMoveFlag = null, double[] dMoveOffset = null, bool bUseBacklash = false,
-            bool bUsePriority = false, int[] movePriority = null)
-        {
-            int iResult = SUCCESS;
-
-
-            CPos_XYTZ sTargetPos = AxScannerInfo.GetTargetPos(iPos);
-
-            if (dMoveOffset != null)
-            {
-                sTargetPos = sTargetPos + dMoveOffset;
-            }
-
-            iResult = MoveScannerPos(sTargetPos, bMoveFlag, bUseBacklash, bUsePriority, movePriority);
-            if (iResult != SUCCESS) return iResult;
-            if (bUpdatedPosInfo == true)
-            {
-                AxScannerInfo.PosInfo = iPos;
-            }
-
-            return SUCCESS;
-        }
-
-        public int MoveScannerRelative(CPos_XYTZ sPos, bool[] bMoveFlag = null)
-        {
-            int iResult = SUCCESS;
-
-            // 이동 Position 선택
-            int iPos = (int)EStagePos.NONE;
-
-            bool bUsePriority = false;
-            bool bUseBacklash = false;
-            int[] movePriority = null;
-
-            // 현재 위치를 읽어옴 (Command 값을 사용하는 것이 좋을 듯)
-            CPos_XYTZ sTargetPos;
-
-            iResult = GetScannerCurPos(out sTargetPos);
-            if (iResult != SUCCESS) GenerateErrorCode(ERR_STAGE_READ_CURRENT_POSITION);
-            // Index 거리를 해당 축에 더하여 거리를 산출함.
-            sTargetPos += sPos;
-
-            iResult = MoveScannerPos(sTargetPos, bMoveFlag, bUseBacklash, bUsePriority, movePriority);
-            if (iResult != SUCCESS) return iResult;
-
-            return SUCCESS;
-        }
-
-        public int MoveScannerRelative(int iAxis, double dMoveLength, bool bUseBacklash = false)
-        {
-            int iResult = SUCCESS;
-
-            // 이동 Position 선택
-            int iPos = (int)EStagePos.NONE;
-            CPos_XYTZ sTargetPos = new CPos_XYTZ();
-
-            bool[] bMoveFlag = new bool[DEF_MAX_COORDINATE] { false, false, false, false };
-
-            if (iAxis == DEF_X)
-            {
-                bMoveFlag[DEF_X] = true;
-                sTargetPos.dX += dMoveLength;
-            }
-            if (iAxis == DEF_Y)
-            {
-                bMoveFlag[DEF_Y] = true;
-                sTargetPos.dY += dMoveLength;
-            }
-            if (iAxis == DEF_T)
-            {
-                bMoveFlag[DEF_T] = true;
-                sTargetPos.dT += dMoveLength;
-            }
-
-            if (iAxis == DEF_Z)
-            {
-                bMoveFlag[DEF_Z] = true;
-                sTargetPos.dT += dMoveLength;
-            }
-
-            iResult = MoveScannerPos(sTargetPos, bMoveFlag, bUseBacklash);
-            if (iResult != SUCCESS) return iResult;
-
-            return SUCCESS;
-        }
-        /// <summary>
-        /// Stage의 각축의 상대 이동
-        /// </summary>
-        /// <param name="dMoveLength"></param>
-        /// <returns></returns>
-
-        public int MoveScannerRelative(double dMoveLength)
-        {
-            MoveStageRelative(DEF_Z, dMoveLength);
-            return SUCCESS;
-        }
-
-        /// <summary>
-        /// Scanner를 LOAD, UNLOAD등의 목표위치로 이동시킬때에 좀더 편하게 이동시킬수 있도록 간편화한 함수
-        /// Z축만 움직일 경우엔 Position Info를 업데이트 하지 않는다. 
-        /// </summary>
-        /// <param name="iPos"></param>
-        /// <param name="bMoveAllAxis"></param>
-        /// <param name="bMoveXYT"></param>
-        /// <param name="bMoveZ"></param>
-        /// <returns></returns>
-        public int MoveScannerPos(int iPos)
-        {
-            bool[] bMoveFlag = new bool[DEF_MAX_COORDINATE] { false, false, false, true };
-            return MoveScannerPos(iPos, false, bMoveFlag);
-
-            return SUCCESS;
-        }
-
-
-        public int MoveScannerToWaitPos()
-        {
-            int iPos = (int)EScannerPos.WAIT;
-
-            return MoveScannerPos(iPos);
-        }
-
-        public int MoveScannerToWorkPos()
-        {
-            int iPos = (int)EScannerPos.WORK;
-
-            return MoveScannerPos(iPos);
-        }
-
-        public int MoveScannerToFocusPos1()
-        {
-            int iPos = (int)EScannerPos.FOCUS_1;
-
-            return MoveScannerPos(iPos);
-        }
-
-        public int MoveScannerToFocusPos2()
-        {
-            int iPos = (int)EScannerPos.FOCUS_2;
-
-            return MoveScannerPos(iPos);
-        }
-
-        public int MoveScannerToFocusPos3()
-        {
-            int iPos = (int)EScannerPos.FOCUS_3;
-
-            return MoveScannerPos(iPos);
-        }
-
-
-        public int JogScannerMove(bool dDir, double dVel)
-        {
-            int iResult = 0;
-            int iAxis = DEF_Z;
-
-            // safety check
-            iResult = CheckForScannerAxisMove();
-            if (iResult != SUCCESS) return iResult;
-
-
-            return SUCCESS;
-        }
-
-        public int JogScannerStop(int iAxis)
-        {
-            int iResult = 0;
-
-            iResult = m_RefComp.AxScanner.EStop(iAxis);
-            return SUCCESS;
-        }
-
-#endregion
+        
 
         // 모드 변경 및 Align Data Set
 #region Control Mode & Align Data Set
@@ -2090,262 +1450,14 @@ namespace Core.Layers
             return moveDistance;
         }
 #endregion
-
-        // Stage Pos Data 확인 및 비교
-#region Stage Pos Data
-
-        /// <summary>
-        /// 현재 위치와 목표위치의 위치차이 Tolerance check
-        /// </summary>
-        /// <param name="sPos"></param>
-        /// <param name="bResult"></param>
-        /// <param name="bCheck_TAxis"></param>
-        /// <param name="bCheck_ZAxis"></param>
-        /// <param name="bSkipError">위치가 틀릴경우 에러 보고할지 여부</param>
-        /// <returns></returns>
-        public int CompareStagePos(CPos_XYTZ sPos, out bool bResult, bool bCheck_ZAxis, bool bSkipError = true)
-        {
-            int iResult = SUCCESS;
-
-            bResult = false;
-
-            // trans to array
-            double[] dPos;
-            sPos.TransToArray(out dPos);
-
-            bool[] bJudge = new bool[DEF_MAX_COORDINATE];
-            iResult = m_RefComp.AxStage.ComparePosition(dPos, out bJudge, DEF_ALL_COORDINATE);
-            if (iResult != SUCCESS) return iResult;
-            
-            if (bCheck_ZAxis == false) bJudge[DEF_Z] = true;
-
-            // error check
-            bResult = true;
-            foreach(bool bTemp in bJudge)
-            {
-                if (bTemp == false) bResult = false;
-            }
-
-            // skip error?
-            if(bSkipError == false && bResult == false)
-            {
-                string str = $"Stage의 현재 위치와 일치하는 Position Info를 찾을수 없습니다. Current Pos : {sPos.ToString()}";
-                WriteLog(str, ELogType.Debug, ELogWType.D_Error);
-
-                return GenerateErrorCode(ERR_STAGE_FAIL_TO_GET_CURRENT_POS_INFO);
-            }
-
-            return SUCCESS;
-        }
-
-        public int CompareStagePos(int iPos, out bool bResult, bool bCheck_ZAxis, bool bSkipError = true)
-        {
-            int iResult = SUCCESS;
-
-            bResult = false;
-
-            CPos_XYTZ targetPos = AxStageInfo.GetTargetPos(iPos);
-            if (iResult != SUCCESS) return iResult;
-
-            iResult = CompareStagePos(targetPos, out bResult, bCheck_ZAxis, bSkipError);
-            if (iResult != SUCCESS) return iResult;
-
-            return SUCCESS;
-        }
-
-        public int GetStagePosInfo(out int posInfo, bool bUpdatePos = true, bool bCheckZAxis = false)
-        {
-            posInfo = (int)EStagePos.NONE;
-            bool bStatus;
-            int iResult = IsStageOrignReturn(out bStatus);
-            if (iResult != SUCCESS) return iResult;
-
-            // 실시간으로 자기 위치를 체크
-            if(bUpdatePos)
-            {
-                for (int i = 0; i < (int)EStagePos.MAX; i++)
-                {
-                    CompareStagePos(i, out bStatus, false, bCheckZAxis);
-                    if (bStatus)
-                    {
-                        AxStageInfo.PosInfo = i;
-                        break;
-                    }
-                }
-            }
-
-            posInfo = AxStageInfo.PosInfo;
-            return SUCCESS;
-        }
-
-        public void SetStagePosInfo(int posInfo)
-        {
-            AxStageInfo.PosInfo = posInfo;
-        }
-
-        public int IsStageOrignReturn(out bool bStatus)
-        {
-            bool[] bAxisStatus;
-            m_RefComp.AxStage.IsOriginReturned(DEF_ALL_COORDINATE, out bStatus, out bAxisStatus);
-
-            return SUCCESS;
-        }
-
-#endregion
-
-        // Stage Wafer Clamp 동작
-#region Wafer Clamp
-
-        /// Cylinder
-        public int IsCylUp(out bool bStatus, int index = DEF_Z)
-        {
-            int iResult = SUCCESS;
-            bStatus = false;
-
-            if (UseMainCylFlag[index] == true)
-            {
-                if (m_RefComp.MainCyl[index] == null) return GenerateErrorCode(ERR_STAGE_UNABLE_TO_USE_CYL);
-                iResult = m_RefComp.MainCyl[index].IsUp(out bStatus);
-                if (iResult != SUCCESS) return iResult;
-                if (bStatus == false) return SUCCESS;
-            }
-
-            return SUCCESS;
-        }
-
-        public int IsCylDown(out bool bStatus, int index = DEF_Z)
-        {
-            int iResult = SUCCESS;
-            bStatus = false;
-
-            if (UseMainCylFlag[index] == true)
-            {
-                if (m_RefComp.MainCyl[index] == null) return GenerateErrorCode(ERR_STAGE_UNABLE_TO_USE_CYL);
-                iResult = m_RefComp.MainCyl[index].IsDown(out bStatus);
-                if (iResult != SUCCESS) return iResult;
-                if (bStatus == false) return SUCCESS;
-            }
-
-
-            return SUCCESS;
-        }
-
-        public int CylUp(bool bSkipSensor = false, int index = DEF_Z)
-        {
-            // check for safety
-            int iResult = CheckForStageCylMove();
-            if (iResult != SUCCESS) return iResult;
-
-            if (UseMainCylFlag[index] == true)
-            {
-                if (m_RefComp.MainCyl[index] == null) return GenerateErrorCode(ERR_STAGE_UNABLE_TO_USE_CYL);
-                iResult = m_RefComp.MainCyl[index].Up(bSkipSensor);
-                if (iResult != SUCCESS) return iResult;
-            }
-
-
-            return SUCCESS;
-        }
-
-        public int CylDown(bool bSkipSensor = false, int index = DEF_Z)
-        {
-            // check for safety
-            int iResult = CheckForStageCylMove();
-            if (iResult != SUCCESS) return iResult;
-
-            if (UseMainCylFlag[index] == true)
-            {
-                if (m_RefComp.MainCyl[index] == null) return GenerateErrorCode(ERR_STAGE_UNABLE_TO_USE_CYL);
-                iResult = m_RefComp.MainCyl[index].Down(bSkipSensor);
-                if (iResult != SUCCESS) return iResult;
-            }
-
-
-            return SUCCESS;
-        }
-
-        ////////////////////////////////////////////////////////////////////////
-        /// Wafer Clamp
-        public int IsClampOpen(out bool bStatus)
-        {
-            int iResult = 0;
-            bStatus = false;
-            // Cylinder #1
-            iResult = IsCylUp(out bStatus, WAFER_CLAMP_CYL_1);
-            if (iResult != SUCCESS) return iResult;
-            // Cylinder #2
-            iResult = IsCylUp(out bStatus, WAFER_CLAMP_CYL_2);
-            if (iResult != SUCCESS) return iResult;
-
-            return SUCCESS;
-        }
-
-        public int IsClampClose(out bool bStatus)
-        {
-            int iResult = 0;
-            bStatus = false;
-            // Cylinder #1
-            iResult = IsCylDown(out bStatus, WAFER_CLAMP_CYL_1);
-            if (iResult != SUCCESS) return iResult;
-            // Cylinder #2
-            iResult = IsCylDown(out bStatus, WAFER_CLAMP_CYL_2);
-            if (iResult != SUCCESS) return iResult;
-
-            return SUCCESS;
-        }
-
-        public int ClampOpen(bool bSkipSensor = false)
-        {
-            int iResult = 0;
-            // Cylinder #1
-            iResult = CylUp(bSkipSensor, WAFER_CLAMP_CYL_1);
-            if (iResult != SUCCESS) return iResult;
-            // Cylinder #2
-            iResult = CylUp(bSkipSensor, WAFER_CLAMP_CYL_2);
-            if (iResult != SUCCESS) return iResult;
-
-            return SUCCESS;
-        }
-
-        public int ClampClose(bool bSkipSensor = false)
-        {
-            int iResult = 0;
-            // Cylinder #1
-            iResult = CylDown(bSkipSensor, WAFER_CLAMP_CYL_1);
-            if (iResult != SUCCESS) return iResult;
-            // Cylinder #2
-            iResult = CylDown(bSkipSensor, WAFER_CLAMP_CYL_2);
-            if (iResult != SUCCESS) return iResult;
-
-            return SUCCESS;
-        }
-
-        ////////////////////////////////////////////////////////////////////////
-#endregion
+        
+        
 
         // Interlock 조건 확인
 #region Interlock 확인
         public int IsObjectDetected(out bool bStatus)
         {
             int iResult = m_RefComp.IO.IsOn(m_Data.InDetectObject, out bStatus);
-            if (iResult != SUCCESS) return iResult;
-
-            return SUCCESS;
-        }
-
-        /// <summary>
-        /// Stage Z축을 안전 Up 위치로 이동
-        /// </summary>
-        /// <returns></returns>
-        public int MoveStageToSafetyUp()
-        {
-            int iResult = -1;
-
-            iResult = MoveStageToSafetyPos(DEF_X);
-            if (iResult != SUCCESS) return iResult;
-            iResult = MoveStageToSafetyPos(DEF_Y);
-            if (iResult != SUCCESS) return iResult;
-            iResult = MoveStageToSafetyPos(DEF_T);
             if (iResult != SUCCESS) return iResult;
 
             return SUCCESS;
@@ -2393,72 +1505,7 @@ namespace Core.Layers
             bStatus = true;
             return SUCCESS;
         }
-
-        public int CheckForStageAxisMove()
-        {
-            bool bStatus = false;
-
-            // check Servo origin
-            int iResult = IsStageOrignReturn(out bStatus);
-            if (iResult != SUCCESS) return iResult;
-            if (bStatus == false)
-            {
-                return GenerateErrorCode(ERR_STAGE_NOT_ORIGIN_RETURNED);
-            }
-
-            // Stage 구동 중인지 확인함.
-            if (IsStageBusy()) return GenerateErrorCode(ERR_STAGE_MOVE_FAIL);
-
-            // 제품이 있으면, Clamp & Absorbed 없으면 don't care
-            iResult = CheckForStageCylMove();
-            if (iResult != SUCCESS) return iResult;
-
-
-            bStatus = true;
-            return SUCCESS;
-        }
-
-        public int CheckForCameraAxisMove()
-        {
-            bool bStatus = false;
-
-            // check Servo origin
-            int iResult = IsStageOrignReturn(out bStatus);
-            if (iResult != SUCCESS) return iResult;
-            if (bStatus == false)
-            {
-                //return GenerateErrorCode(ERR_STAGE_NOT_ORIGIN_RETURNED);
-            }
-
-            // 제품이 있으면, Clamp & Absorbed 없으면 don't care
-            iResult = CheckForStageCylMove();
-            if (iResult != SUCCESS) return iResult;
-
-
-            bStatus = true;
-            return SUCCESS;
-        }
-
-        public int CheckForScannerAxisMove()
-        {
-            bool bStatus = false;
-
-            // check Servo origin
-            int iResult = IsStageOrignReturn(out bStatus);
-            if (iResult != SUCCESS) return iResult;
-            if (bStatus == false)
-            {
-                //return GenerateErrorCode(ERR_STAGE_NOT_ORIGIN_RETURNED);
-            }
-
-            // 제품이 있으면, Clamp & Absorbed 없으면 don't care
-            iResult = CheckForStageCylMove();
-            if (iResult != SUCCESS) return iResult;
-
-
-            bStatus = true;
-            return SUCCESS;
-        }
+        
 
         public int CheckForStageCylMove()
         {

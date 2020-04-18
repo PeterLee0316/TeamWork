@@ -306,7 +306,6 @@ namespace Core.Layers
         public class COpPanelRefComp
         {
             public IIO IO;
-            public MACS ACS_Motion;
         }
 
         public class COpPanelData
@@ -1248,19 +1247,7 @@ namespace Core.Layers
             }
             else
             {
-                servoIndex = AdjustToACSIndex(servoIndex);
-                switch (sensorType)
-                {
-                    case (int)DEF_HOME_SENSOR:
-                        bStatus = m_RefComp.ACS_Motion.ServoStatus[servoIndex].DetectHomeSensor;
-                        break;
-                    case (int)DEF_POSITIVE_SENSOR:
-                        bStatus = m_RefComp.ACS_Motion.ServoStatus[servoIndex].DetectPlusSensor;
-                        break;
-                    case (int)DEF_NEGATIVE_SENSOR:
-                        bStatus = m_RefComp.ACS_Motion.ServoStatus[servoIndex].DetectMinusSensor;
-                        break;
-                }
+
             }
 
             return iResult;
@@ -1271,7 +1258,6 @@ namespace Core.Layers
             int iResult = SUCCESS;
 
             servoIndex = AdjustToACSIndex(servoIndex);
-            iResult = m_RefComp.ACS_Motion.ServoOn(servoIndex);
             
             return iResult;
         }
@@ -1279,9 +1265,7 @@ namespace Core.Layers
         public int ServoOff(int servoIndex)
         {
             int iResult = SUCCESS;
-
-            servoIndex = AdjustToACSIndex(servoIndex);
-            iResult = m_RefComp.ACS_Motion.ServoOff(servoIndex);            
+     
 
             return iResult;
         }
@@ -1290,25 +1274,13 @@ namespace Core.Layers
         {
             int iResult = SUCCESS;
 
-            if (m_RefComp.ACS_Motion != null)
-            {
-                iResult = m_RefComp.ACS_Motion.AllServoOn();
-                if (iResult != SUCCESS) return iResult;
-            }
-
             return iResult;
         }
 
         public int AllServoOff()
         {
             int iResult = SUCCESS;
-
- 
-            if (m_RefComp.ACS_Motion != null)
-            {
-                iResult = m_RefComp.ACS_Motion.AllServoOff();
-                if (iResult != SUCCESS) return iResult;
-            }
+            
 
             return iResult;
         }
@@ -1316,41 +1288,7 @@ namespace Core.Layers
         public int EStopAllAxis()
         {
             int iResult = SUCCESS;
-            
 
-            if (m_RefComp.ACS_Motion != null)
-            {
-                iResult = m_RefComp.ACS_Motion.StopAllServo();
-                if (iResult != SUCCESS) return iResult;
-            }
-
-            //for (int i = 0; i < m_JogTable.ListNo; i++)
-            //{
-            //    if (m_JogTable.MotionArray[i].m_XKey.m_plnkJog != null)
-            //    {
-            //        iResult = m_JogTable.MotionArray[i].m_XKey.m_plnkJog.EStop(m_JogTable.MotionArray[i].m_XKey.AxisIndex);
-            //        m_JogTable.MotionArray[i].m_XKey.m_plnkJog.ResetOrigin(m_JogTable.MotionArray[i].m_XKey.AxisIndex);
-            //    }
-            //    if (m_JogTable.MotionArray[i].m_YKey.m_plnkJog != null)
-            //    {
-            //        iResult = m_JogTable.MotionArray[i].m_YKey.m_plnkJog.EStop(m_JogTable.MotionArray[i].m_YKey.AxisIndex);
-            //        m_JogTable.MotionArray[i].m_YKey.m_plnkJog.ResetOrigin(m_JogTable.MotionArray[i].m_YKey.AxisIndex);
-            //    }
-            //    if (m_JogTable.MotionArray[i].m_TKey.m_plnkJog != null)
-            //    {
-            //        iResult = m_JogTable.MotionArray[i].m_TKey.m_plnkJog.EStop(m_JogTable.MotionArray[i].m_TKey.AxisIndex);
-            //        m_JogTable.MotionArray[i].m_TKey.m_plnkJog.ResetOrigin(m_JogTable.MotionArray[i].m_TKey.AxisIndex);
-            //    }
-            //    if (m_JogTable.MotionArray[i].m_ZKey.m_plnkJog != null)
-            //    {
-            //        iResult = m_JogTable.MotionArray[i].m_ZKey.m_plnkJog.EStop(m_JogTable.MotionArray[i].m_ZKey.AxisIndex);
-            //        m_JogTable.MotionArray[i].m_ZKey.m_plnkJog.ResetOrigin(m_JogTable.MotionArray[i].m_ZKey.AxisIndex);
-            //    }
-            //}
-
-            //// Unit의 초기화 Flag를 Reset해야 한다.
-            //for (int i = 0; i < (int)EThreadUnit.MAX; i++)
-            //    m_bInitFlag[i] = false;
 
             return iResult;
         }
@@ -1359,11 +1297,7 @@ namespace Core.Layers
         {
             int iResult = SUCCESS;
 
-            if (m_RefComp.ACS_Motion != null)
-            {
-                iResult = m_RefComp.ACS_Motion.StopAllServo();
-                if (iResult != SUCCESS) return iResult;
-            }
+       
 
             //for (int i = 0; i < m_JogTable.ListNo; i++)
             //{
@@ -1385,7 +1319,7 @@ namespace Core.Layers
             int iResult = SUCCESS;
             servoIndex = AdjustToACSIndex(servoIndex);
             if (servoIndex == 1) return GenerateErrorCode(ERR_OPPANEL_INVALID_INIT_UNIT_INDEX);
-            iResult = m_RefComp.ACS_Motion.OriginReturn(servoIndex);            
+          
 
             return iResult;
         }
@@ -1500,8 +1434,7 @@ namespace Core.Layers
 
             int acsStartIndex = (int)EAxis.STAGE1_X;
 
-            servoNum = iUnitIndex - acsStartIndex;
-            bStatus = m_RefComp.ACS_Motion.IsOriginReturned(servoNum);           
+            servoNum = iUnitIndex - acsStartIndex;       
 
             return iResult;
         }
@@ -1527,7 +1460,6 @@ namespace Core.Layers
             int acsStartIndex = (int)EAxis.STAGE1_X;
 
             servoNum = iUnitIndex - acsStartIndex;
-            bStatus = m_RefComp.ACS_Motion.ServoStatus[servoNum].IsOriginReturned = bStatus;
             
 
             return iResult;
@@ -1556,122 +1488,6 @@ namespace Core.Layers
             bOriginSts = new bool[(int)EAxis.MAX];
             //m_JogTable.MotionArray[]
             return true;
-            //int i = 0;
-            //bool rgbResult[4] = { false, false, false, false };
-            //bool bSts = true;
-            //bool rgbUse[4] = { true, true, true, true };
-
-            //// Motion MultiAxes Component - STAGE1
-            //for (int i = 0; i < 4; i++) rgbResult[i] = false;
-            //m_JogTable.MotionArray[DEF_JOG_STAGE1].m_XKey.m_plnkJog.IsOriginReturned(-1, rgbUse, rgbResult);
-            //if (bOriginSts != null)
-            //    bOriginSts[DEF_AXIS_MMC_STAGE1_X] = rgbResult[DEF_X];
-            //bSts &= rgbResult[DEF_X];
-            //if (bOriginSts != null)
-            //    bOriginSts[DEF_AXIS_MMC_STAGE1_Y] = rgbResult[DEF_Y];
-            //bSts &= rgbResult[DEF_Y];
-            //if (bOriginSts != null)
-            //    bOriginSts[DEF_AXIS_MMC_STAGE1_T] = rgbResult[DEF_T];
-            //bSts &= rgbResult[DEF_T];
-            //if (bOriginSts != null)
-            //    bOriginSts[DEF_AXIS_MMC_STAGE1_Z] = rgbResult[DEF_Z];
-            //bSts &= rgbResult[DEF_Z];
-
-            //// Motion MultiAxes Component - STAGE2
-            //for (int i = 0; i < 4; i++) rgbResult[i] = false;
-            //m_JogTable.MotionArray[DEF_JOG_STAGE2].m_XKey.m_plnkJog.IsOriginReturned(-1, rgbUse, rgbResult);
-            //if (bOriginSts != null)
-            //    bOriginSts[DEF_AXIS_MMC_STAGE2_X] = rgbResult[DEF_X];
-            //bSts &= rgbResult[DEF_X];
-            //if (bOriginSts != null)
-            //    bOriginSts[DEF_AXIS_MMC_STAGE2_Z] = rgbResult[DEF_Z];
-            //bSts &= rgbResult[DEF_Z];
-
-            //// Motion MultiAxes Component - STAGE3
-            //for (int i = 0; i < 4; i++) rgbResult[i] = false;
-            //m_JogTable.MotionArray[DEF_JOG_STAGE3].m_YKey.m_plnkJog.IsOriginReturned(-1, rgbUse, rgbResult);
-            //if (bOriginSts != null)
-            //    bOriginSts[DEF_AXIS_MMC_STAGE3_Y] = rgbResult[DEF_Y];
-            //bSts &= rgbResult[DEF_Y];
-            //if (bOriginSts != null)
-            //    bOriginSts[DEF_AXIS_MMC_STAGE3_T] = rgbResult[DEF_T];
-            //bSts &= rgbResult[DEF_T];
-
-            //// Motion MultiAxes Component - WORKBENCH1 
-            //// 	for (int i = 0; i < 4; i++) rgbResult[i] = false;
-            //// 	m_JogTable.MotionArray[DEF_JOG_WORKBENCH].m_YKey.m_plnkJog.IsOriginReturned(0, null, rgbResult);
-            //// 	if (bOriginSts != null)
-            //// 		bOriginSts[DEF_AXIS_MMC_WORKBENCH_Y] = rgbResult[DEF_X];
-            //// 	bSts &= rgbResult[DEF_X];
-
-            //// Motion MultiAxes Component - SHEAD1 
-            //for (int i = 0; i < 4; i++) rgbResult[i] = false;
-            //m_JogTable.MotionArray[DEF_JOG_SHEAD1].m_YKey.m_plnkJog.IsOriginReturned(-1, null, rgbResult);
-            //if (bOriginSts != null)
-            //    bOriginSts[DEF_AXIS_MMC_SHEAD1_Y] = rgbResult[DEF_Y];
-            //bSts &= rgbResult[DEF_Y];
-            //if (bOriginSts != null)
-            //    bOriginSts[DEF_AXIS_MMC_SHEAD1_Z] = rgbResult[DEF_Z];
-            //bSts &= rgbResult[DEF_Z];
-
-            //// Motion MultiAxes Component - SHEAD2 
-            //for (int i = 0; i < 4; i++) rgbResult[i] = false;
-            //m_JogTable.MotionArray[DEF_JOG_SHEAD2].m_YKey.m_plnkJog.IsOriginReturned(-1, null, rgbResult);
-            //if (bOriginSts != null)
-            //    bOriginSts[DEF_AXIS_MMC_SHEAD2_Y] = rgbResult[DEF_Y];
-            //bSts &= rgbResult[DEF_Y];
-            //if (bOriginSts != null)
-            //    bOriginSts[DEF_AXIS_MMC_SHEAD2_Z] = rgbResult[DEF_Z];
-            //bSts &= rgbResult[DEF_Z];
-
-            //// Motion MultiAxes Component - GHEAD1 
-            //for (int i = 0; i < 4; i++) rgbResult[i] = false;
-            //m_JogTable.MotionArray[DEF_JOG_GHEAD1].m_XKey.m_plnkJog.IsOriginReturned(-1, null, rgbResult);
-            //if (bOriginSts != null)
-            //    bOriginSts[DEF_AXIS_MMC_GHEAD1_X] = rgbResult[DEF_X];
-            //bSts &= rgbResult[DEF_X];
-            //if (bOriginSts != null)
-            //    bOriginSts[DEF_AXIS_MMC_GHEAD1_Y] = rgbResult[DEF_Y];
-            //bSts &= rgbResult[DEF_Y];
-            //if (bOriginSts != null)
-            //    bOriginSts[DEF_AXIS_MMC_GHEAD1_Z] = rgbResult[DEF_Z];
-            //bSts &= rgbResult[DEF_Z];
-
-            //// Motion MultiAxes Component - GHEAD2 
-            //for (int i = 0; i < 4; i++) rgbResult[i] = false;
-            //m_JogTable.MotionArray[DEF_JOG_GHEAD2].m_XKey.m_plnkJog.IsOriginReturned(-1, null, rgbResult);
-            //if (bOriginSts != null)
-            //    bOriginSts[DEF_AXIS_MMC_GHEAD2_X] = rgbResult[DEF_X];
-            //bSts &= rgbResult[DEF_X];
-            //if (bOriginSts != null)
-            //    bOriginSts[DEF_AXIS_MMC_GHEAD2_Y] = rgbResult[DEF_Y];
-            //bSts &= rgbResult[DEF_Y];
-            //if (bOriginSts != null)
-            //    bOriginSts[DEF_AXIS_MMC_GHEAD2_Z] = rgbResult[DEF_Z];
-            //bSts &= rgbResult[DEF_Z];
-
-            //// Motion MultiAxes Component - CAMERA1 
-            //for (int i = 0; i < 4; i++) rgbResult[i] = false;
-            //m_JogTable.MotionArray[DEF_JOG_CAMERA1].m_XKey.m_plnkJog.IsOriginReturned(0, null, rgbResult);
-            //if (bOriginSts != null)
-            //    bOriginSts[DEF_AXIS_MMC_CAMERA1_X] = rgbResult[DEF_X];
-            //bSts &= rgbResult[DEF_X];
-
-            //// Motion MultiAxes Component - CAMERA2 
-            //for (int i = 0; i < 4; i++) rgbResult[i] = false;
-            //m_JogTable.MotionArray[DEF_JOG_CAMERA2].m_XKey.m_plnkJog.IsOriginReturned(0, null, rgbResult);
-            //if (bOriginSts != null)
-            //    bOriginSts[DEF_AXIS_MMC_CAMERA2_X] = rgbResult[DEF_X];
-            //bSts &= rgbResult[DEF_X];
-
-            //// Motion MultiAxes Component - UPPER_HANDLER 
-            //for (int i = 0; i < 4; i++) rgbResult[i] = false;
-            //m_JogTable.MotionArray[DEF_JOG_UHANDLER].m_XKey.m_plnkJog.IsOriginReturned(0, null, rgbResult);
-            //if (bOriginSts != null)
-            //    bOriginSts[DEF_AXIS_MMC_UPPER_HANDLER_X] = rgbResult[DEF_X];
-            //bSts &= rgbResult[DEF_X];
-
-            //return bSts;
         }
 
         public int Initialize()
@@ -2012,10 +1828,7 @@ namespace Core.Layers
 
             int servoNum = 0;
             int acsStartIndex = (int)EAxis.STAGE1_X;
-
-            servoNum = iUnitIndex - acsStartIndex;
-            bStatus = m_RefComp.ACS_Motion.ServoStatus[servoNum].IsDriverFault;            
-
+         
             return iResult;
         }
 

@@ -5,7 +5,6 @@ using System.Text;
 using System.Windows.Forms;
 using System.Drawing;
 using static Core.Layers.DEF_Vision;
-using Matrox.MatroxImagingLibrary;
 
 namespace Core.Layers
 {      
@@ -29,10 +28,6 @@ namespace Core.Layers
 
         // Grab Operation 을 수행한다.	     
         void Grab(int iCamNo);
-
-        // Grab Buffer 로부터 해당 Camera 의 영상을 가져와 연결된 화면에 Display 한다.
-        // 
-        MIL_ID GetGrabImage(int iViewNo);
 
         // Camera 와 View Window 를 연결한다.
         //
@@ -120,14 +115,7 @@ namespace Core.Layers
         /// <returns></returns>
         CSearchData GetSearchData(int iCamNo, int iModelNo);
 
-
-        /// <summary>
-        /// Camera에 동록된 Pattern Image Read
-        /// </summary>
-        /// <param name="iCamNo"></param>
-        /// <param name="iModelNo"></param>
-        /// <returns></returns>
-        MIL_ID GetPatternImage(int iCamNo, int iModelNo);
+        
 
         //Make a Mask Image & Apply the Mask Image to GMF Search Context
         //@return int type Error Code : 0 - SUCCESS, etc. - Error

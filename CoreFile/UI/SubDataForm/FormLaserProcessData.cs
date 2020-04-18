@@ -413,65 +413,6 @@ namespace Core.UI
 
         private void BtnStageMove_Click(object sender, EventArgs e)
         {
-            if (!CMainFrame.InquireMsg("Move to Teach Position?")) return;
-
-            int index = ComboStageIndex.SelectedIndex;
-
-            switch(index)
-            {
-                case (int)EStagePos.WAIT:
-                    CMainFrame.mCore.m_ctrlStage1.MoveToStageWaitPos();
-                    break;
-
-                case (int)EStagePos.LOAD:
-                    CMainFrame.mCore.m_ctrlStage1.MoveToStageLoadPos();
-                    break;
-
-                case (int)EStagePos.UNLOAD:
-                    CMainFrame.mCore.m_ctrlStage1.MoveToStageUnloadPos();
-                    break;
-
-                case (int)EStagePos.STAGE_CENTER_PRE:
-                    CMainFrame.mCore.m_ctrlStage1.MoveToStageCenterPre();
-                    break;
-
-                case (int)EStagePos.STAGE_CENTER_FINE:
-                    CMainFrame.mCore.m_ctrlStage1.MoveToStageCenterFine();
-                    break;
-
-                case (int)EStagePos.STAGE_CENTER_INSPECT:
-                    CMainFrame.mCore.m_ctrlStage1.MoveToStageCenterInspect();
-                    break;       
-
-                case (int)EStagePos.EDGE_ALIGN_1:
-                    CMainFrame.mCore.m_ctrlStage1.MoveToEdgeAlignPos1();
-                    break;
-
-                case (int)EStagePos.MACRO_CAM_POS:
-                    CMainFrame.mCore.m_ctrlStage1.MoveToMacroCam();
-                    break;
-
-                case (int)EStagePos.MACRO_ALIGN:
-                    CMainFrame.mCore.m_ctrlStage1.MoveToMacroAlignA();
-                    break;
-
-                case (int)EStagePos.MICRO_ALIGN:
-                    CMainFrame.mCore.m_ctrlStage1.MoveToMicroAlignA();
-                    break;
-
-                case (int)EStagePos.MICRO_ALIGN_TURN:
-                    CMainFrame.mCore.m_ctrlStage1.MoveToMicroAlignTurnA();
-                    break;
-
-                case (int)EStagePos.LASER_PROCESS:
-                    CMainFrame.mCore.m_ctrlStage1.MoveToProcessPos();
-                    break;
-
-                case (int)EStagePos.LASER_PROCESS_TURN:
-                    CMainFrame.mCore.m_ctrlStage1.MoveToProcessTurnPos();
-                    break;
-
-            }
         }
 
         
