@@ -151,7 +151,6 @@
     <Compile Include="Common\Position\CMovingObject.cs" />
     <Compile Include="Common\BaseClass\MObject.cs" />
     <Compile Include="Common\BaseClass\MWorkerThread.cs" />
-    <Compile Include="Common\SycFusion\ChartAppearance.cs" />
     <Compile Include="Common\Util\CUtils.cs" />
     <Compile Include="Common\Util\DBManager.cs" />
     <Compile Include="Hardware\Motion\IMotionLib.cs" />

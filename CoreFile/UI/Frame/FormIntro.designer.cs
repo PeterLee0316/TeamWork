@@ -28,13 +28,14 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormIntro));
             this.StatusBar = new System.Windows.Forms.ProgressBar();
             this.LabelStatus = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // StatusBar
             // 
-            this.StatusBar.Location = new System.Drawing.Point(601, 742);
+            this.StatusBar.Location = new System.Drawing.Point(1053, 897);
             this.StatusBar.Margin = new System.Windows.Forms.Padding(5);
             this.StatusBar.Name = "StatusBar";
             this.StatusBar.Size = new System.Drawing.Size(613, 30);
@@ -46,7 +47,7 @@
             this.LabelStatus.AutoSize = true;
             this.LabelStatus.BackColor = System.Drawing.Color.Transparent;
             this.LabelStatus.Font = new System.Drawing.Font("Malgun Gothic", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.LabelStatus.Location = new System.Drawing.Point(954, 777);
+            this.LabelStatus.Location = new System.Drawing.Point(1566, 839);
             this.LabelStatus.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.LabelStatus.Name = "LabelStatus";
             this.LabelStatus.Size = new System.Drawing.Size(73, 37);
@@ -57,8 +58,9 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 21F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.ClientSize = new System.Drawing.Size(1267, 970);
+            this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
+            this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.ClientSize = new System.Drawing.Size(1704, 970);
             this.Controls.Add(this.LabelStatus);
             this.Controls.Add(this.StatusBar);
             this.DoubleBuffered = true;

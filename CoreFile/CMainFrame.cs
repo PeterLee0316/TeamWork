@@ -90,12 +90,6 @@ namespace Core.UI
             TopScreen.Show();
             BottomScreen.Show();
             SelectFormChange(EFormType.AUTO);
-
-#if !SIMULATION_VISION
-            Core.m_Vision.InitialLocalView(0, pnlPic.Handle);
-            Core.m_Vision.InitialLocalView(1, pnlPic.Handle);
-            Core.m_Vision.InitialLocalView(2, pnlPic.Handle);
-#endif
         }
         
         private void AttachEventHandlers()
@@ -133,7 +127,7 @@ namespace Core.UI
             else if(evnt.Msg == (int)EWindowMessage.WM_START_READY_MSG)
             {
                 ((FormAutoScreen)form).WindowProc(evnt);
-                BottomScreen.EnableBottomPage(false);
+                TopScreen.EnableBottomPage(false);
                 m_StartMsgDlg.SetMode(FormMsgStart.EStartMsgMode.START_READY);
                 m_StartMsgDlg.TopMost = true;
                 m_StartMsgDlg.StartPosition = FormStartPosition.CenterParent;
@@ -142,19 +136,19 @@ namespace Core.UI
             else if (evnt.Msg == (int)EWindowMessage.WM_START_RUN_MSG)
             {
                 ((FormAutoScreen)form).WindowProc(evnt);
-                BottomScreen.EnableBottomPage(false);
+                TopScreen.EnableBottomPage(false);
                 m_StartMsgDlg.Hide();
             }
             else if (evnt.Msg == (int)EWindowMessage.WM_START_MANUAL_MSG)
             {
                 ((FormAutoScreen)form).WindowProc(evnt);
-                BottomScreen.EnableBottomPage(true);
+                TopScreen.EnableBottomPage(true);
                 m_StartMsgDlg.Hide();
             }
             else if (evnt.Msg == (int)EWindowMessage.WM_STEPSTOP_MSG)
             {
                 ((FormAutoScreen)form).WindowProc(evnt);
-                BottomScreen.EnableBottomPage(false);
+                TopScreen.EnableBottomPage(false);
                 m_StartMsgDlg.SetMode(FormMsgStart.EStartMsgMode.STEP_STOP);
                 m_StartMsgDlg.TopMost = true;
                 m_StartMsgDlg.StartPosition = FormStartPosition.CenterParent;
@@ -182,7 +176,9 @@ namespace Core.UI
             }
 
             this.DesktopLocation = new Point(FORM_POS_X, FORM_POS_Y); // 기본 모니터
-            this.FormBorderStyle = FormBorderStyle.SizableToolWindow;
+
+            //this.FormBorderStyle = FormBorderStyle.SizableToolWindow;
+            this.FormBorderStyle = FormBorderStyle.None;
 
             this.Size = new Size(FORM_SIZE_WIDTH, FORM_SIZE_HEIGHT);
             this.IsMdiContainer = true;

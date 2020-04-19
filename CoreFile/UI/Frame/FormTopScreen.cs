@@ -11,6 +11,7 @@ using Core.Layers;
 using static Core.Layers.DEF_System;
 using static Core.Layers.DEF_Common;
 using static Core.Layers.DEF_OpPanel;
+using static Core.Layers.DEF_UI;
 using Core;
 
 namespace Core.UI
@@ -19,11 +20,20 @@ namespace Core.UI
     {
         public static FormTopScreen TopMenu = null;
 
+        enum EBtnOption
+        {
+            Enable,
+            Click,
+            Max,
+        }
+
         public FormTopScreen()
         {
             InitializeComponent();
 
             InitializeForm();
+
+            ResouceMapping();
 
             TopMenu = this;
             textVersion.Text = SYSTEM_VER;
@@ -40,10 +50,7 @@ namespace Core.UI
             TimerUI.Enabled = true;
             TimerUI.Start();
 
-            btnStart.UseVisualStyleBackColor = true;
-            btnStop.UseVisualStyleBackColor = true;
-            btnReset.UseVisualStyleBackColor = true;
-            btnEMO.UseVisualStyleBackColor = true;
+
 
         }
 
@@ -58,7 +65,7 @@ namespace Core.UI
 
         public void SetMessage(string strMsg)
         {
-            TextMessage.Text = strMsg;
+            //TextMessage.Text = strMsg;
         }
 
         private void BtnUserLogin_Click(object sender, EventArgs e)
@@ -86,25 +93,95 @@ namespace Core.UI
             }
         }
 
-        private void btnStart_Click(object sender, EventArgs e)
+        Button[] BtnPage = new Button[6];
+
+
+        private EFormType CurrentPage = EFormType.NONE;
+
+
+        private void ResouceMapping()
         {
+            BtnPage[0] = BtnMainPage;
+            BtnPage[1] = BtnManualPage;
+            BtnPage[2] = BtnDataPage;
+            BtnPage[3] = BtnTeachPage;
+            BtnPage[4] = BtnLogPage;
+            BtnPage[5] = BtnHelpPage;
+
+            SelectPage(EFormType.AUTO);
         }
 
-        private void btnStop_Click(object sender, EventArgs e)
+        void SelectPage(EFormType index)
         {
+            if (CurrentPage == index) return;
+            CurrentPage = index;
+            for (int i = 0; i < (int)EFormType.MAX; i++)
+            {
+                if (i == (int)CurrentPage) continue;
+                ButtonDisplay(i, EBtnOption.Enable);
+            }
+
+            ButtonDisplay((int)index, EBtnOption.Click);
+            CMainFrame.MainFrame?.DisplayManager.FormSelectChange(index);
         }
 
-        private void btnReset_Click(object sender, EventArgs e)
+        public void EnableBottomPage(bool bEnable)
         {
+            for (int i = 0; i < (int)EFormType.MAX; i++)
+            {
+                if (i == (int)CurrentPage) continue;
+                if (bEnable) ButtonDisplay(i, EBtnOption.Enable);
+                else ButtonDisplay(i, EBtnOption.Enable);
+                BtnPage[i].Enabled = bEnable;
+            }
         }
 
-        private void btnEMO_Click(object sender, EventArgs e)
+        private void ButtonDisplay(int BtnNo, EBtnOption Option)
         {
+            //BtnPage[BtnNo].Image = ImgList.Images[(int)Option + (BtnNo * 4)];
+
+            BtnPage[BtnNo].BackgroundImage = ImgList.Images[(int)Option + (BtnNo * 2)];
         }
+
 
         private void FormTopScreen_Load(object sender, EventArgs e)
         {
 
+        }
+
+        private void textVersion_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void BtnMainPage_Click(object sender, EventArgs e)
+        {
+            SelectPage(EFormType.AUTO);
+        }
+
+        private void BtnManualPage_Click(object sender, EventArgs e)
+        {
+            SelectPage(EFormType.MANUAL);
+        }
+
+        private void BtnTeachPage_Click(object sender, EventArgs e)
+        {
+            SelectPage(EFormType.TEACH);
+        }
+
+        private void BtnDataPage_Click(object sender, EventArgs e)
+        {
+            SelectPage(EFormType.DATA);
+        }
+
+        private void BtnLogPage_Click(object sender, EventArgs e)
+        {
+            SelectPage(EFormType.LOG);
+        }
+
+        private void BtnHelpPage_Click(object sender, EventArgs e)
+        {
+            SelectPage(EFormType.HELP);
         }
     }
 }

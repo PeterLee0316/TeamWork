@@ -2928,28 +2928,29 @@ namespace Core.Layers
         /// <summary>
         /// Main UI
         /// </summary>
-        public static readonly int FORM_SIZE_WIDTH = 1922;//1284;  // Main Frame은 약간 크게 
-        public static readonly int FORM_SIZE_HEIGHT = 1060;// 1024; 
         public static readonly int FORM_POS_X = 0;
         public static readonly int FORM_POS_Y = 0;
-
-        public static readonly int MAIN_SIZE_WIDTH = 1920;
-        public static readonly int MAIN_SIZE_HEIGHT = 818;
-
-        public static readonly int MAIN_POS_X = 0;
-        public static readonly int MAIN_POS_Y = 100;
-
-        public static readonly int TOP_SIZE_WIDTH = 1920;
-        public static readonly int TOP_SIZE_HEIGHT = 98;
+        public static readonly int FORM_SIZE_WIDTH  = 1925; //   1920// Main Frame은 약간 크게 
+        public static readonly int FORM_SIZE_HEIGHT = 1085; // 1080; + MenuBar +25
+        
 
         public static readonly int TOP_POS_X = 0;
         public static readonly int TOP_POS_Y = 0;
+        public static readonly int TOP_SIZE_WIDTH = 1920;
+        public static readonly int TOP_SIZE_HEIGHT = 75; //98
 
+
+        public static readonly int MAIN_POS_X = 0;
+        public static readonly int MAIN_POS_Y = 75;
+        public static readonly int MAIN_SIZE_WIDTH = 1920;
+        public static readonly int MAIN_SIZE_HEIGHT = 902; //880
+
+        public static readonly int BOT_POS_X = 0;
+        public static readonly int BOT_POS_Y = 980; //980
         public static readonly int BOT_SIZE_WIDTH = 1920;
         public static readonly int BOT_SIZE_HEIGHT = 100;
 
-        public static readonly int BOT_POS_X = 0;
-        public static readonly int BOT_POS_Y = 920;
+        
         
         public enum EFormType
         {

@@ -158,15 +158,9 @@ namespace Core.UI
 
         private void SetButtonsEnable(bool bEnable)
         {
-            CMainFrame.MainFrame.BottomScreen.EnableBottomPage(bEnable);
+            CMainFrame.MainFrame.TopScreen.EnableBottomPage(bEnable);
 
-            var btns = CMainFrame.MainFrame.GetAllControl(this, typeof(Syncfusion.Windows.Forms.ButtonAdv));
-            foreach (var btn in btns)
-            {
-                Syncfusion.Windows.Forms.ButtonAdv abtn = btn as Syncfusion.Windows.Forms.ButtonAdv;
-                abtn.Enabled = bEnable;
-            }
-            btns = CMainFrame.MainFrame.GetAllControl(this, typeof(System.Windows.Forms.Button));
+            var btns = CMainFrame.MainFrame.GetAllControl(this, typeof(System.Windows.Forms.Button));
             foreach (var btn in btns)
             {
                 System.Windows.Forms.Button abtn = btn as System.Windows.Forms.Button;
