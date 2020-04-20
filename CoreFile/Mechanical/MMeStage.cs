@@ -9,7 +9,6 @@ using static Core.Layers.DEF_Common;
 using static Core.Layers.DEF_MeStage;
 using static Core.Layers.DEF_Motion;
 using static Core.Layers.DEF_IO;
-using static Core.Layers.DEF_Vacuum;
 using static Core.Layers.DEF_System;
 using Core.UI;
 
@@ -157,12 +156,6 @@ namespace Core.Layers
         {
             public IIO IO;
 
-            // Cylinder (Wafer Clamp 1,2)
-            public ICylinder[] MainCyl = new ICylinder[WAFER_CLAMP_CYL_NUM];
-
-            // Vacuum
-            public IVacuum[] Vacuum = new IVacuum[(int)EStageVacuum.MAX];
-
         }
 
         public class CMeStageData
@@ -291,177 +284,7 @@ namespace Core.Layers
         }
 
         #endregion
-
-        // Air 흡착 관련 
-        #region Air Vaccum 동작
-        public int Absorb(bool bSkipSensor)
-        {
-            bool bStatus;
-            int iResult = SUCCESS;
-            bool[] bWaitFlag = new bool[(int)EStageVacuum.MAX];
-            CVacuumTime[] sData = new CVacuumTime[(int)EStageVacuum.MAX];
-            bool bNeedWait = false;
-
-            for (int i = 0; i < (int)EStageVacuum.MAX; i++)
-            {
-                if (m_Data.UseVccFlag[i] == false) continue;
-
-                m_RefComp.Vacuum[i].GetVacuumTime(out sData[i]);
-                iResult = m_RefComp.Vacuum[i].IsOn(out bStatus);
-                if (iResult != SUCCESS) return iResult;
-
-                // 흡착되지 않은 상태라면 흡착시킴  
-                if (bStatus == false)
-                {
-                    iResult = m_RefComp.Vacuum[i].On(true);
-                    if (iResult != SUCCESS) return iResult;
-
-                    bWaitFlag[i] = true;
-                    bNeedWait = true;
-                }
-
-                Sleep(10);
-            }
-
-            if (bSkipSensor == true) return SUCCESS;
-
-            m_waitTimer.StartTimer();
-            while (bNeedWait)
-            {
-                bNeedWait = false;
-
-                for (int i = 0; i < (int)EStageVacuum.MAX; i++)
-                {
-                    if (bWaitFlag[i] == false) continue;
-
-                    iResult = m_RefComp.Vacuum[i].IsOn(out bStatus);
-                    if (iResult != SUCCESS) return iResult;
-
-                    if (bStatus == true) // if on
-                    {
-                        bWaitFlag[i] = false;
-                        //Sleep(sData[i].OnSettlingTime * 1000);
-                    }
-                    else // if off
-                    {
-                        bNeedWait = true;
-                        if (m_waitTimer.MoreThan(sData[i].TurningTime, ETimeType.SECOND))
-                        {
-                            return GenerateErrorCode(ERR_STAGE_VACUUM_ON_TIME_OUT);
-                        }
-                    }
-
-                }
-            }
-
-            return SUCCESS;
-        }
-
-        public int Release(bool bSkipSensor)
-        {
-            bool bStatus;
-            int iResult = SUCCESS;
-            bool[] bWaitFlag = new bool[(int)EStageVacuum.MAX];
-            CVacuumTime[] sData = new CVacuumTime[(int)EStageVacuum.MAX];
-            bool bNeedWait = false;
-
-            for (int i = 0; i < (int)EStageVacuum.MAX; i++)
-            {
-                if (m_Data.UseVccFlag[i] == false) continue;
-
-                m_RefComp.Vacuum[i].GetVacuumTime(out sData[i]);
-                iResult = m_RefComp.Vacuum[i].IsOff(out bStatus);
-                if (iResult != SUCCESS) return iResult;
-
-                if (bStatus == false)
-                {
-                    iResult = m_RefComp.Vacuum[i].Off(true);
-                    if (iResult != SUCCESS) return iResult;
-
-                    bWaitFlag[i] = true;
-                    bNeedWait = true;
-                }
-
-                Sleep(10);
-            }
-
-            if (bSkipSensor == true) return SUCCESS;
-
-            m_waitTimer.StartTimer();
-            while (bNeedWait)
-            {
-                bNeedWait = false;
-
-                for (int i = 0; i < (int)EStageVacuum.MAX; i++)
-                {
-                    if (bWaitFlag[i] == false) continue;
-
-                    iResult = m_RefComp.Vacuum[i].IsOff(out bStatus);
-                    if (iResult != SUCCESS) return iResult;
-
-                    if (bStatus == true) // if on
-                    {
-                        bWaitFlag[i] = false;
-                        //Sleep(sData[i].OffSettlingTime * 1000);
-                    }
-                    else // if off
-                    {
-                        bNeedWait = true;
-                        if (m_waitTimer.MoreThan(sData[i].TurningTime, ETimeType.SECOND))
-                        {
-                            return GenerateErrorCode(ERR_STAGE_VACUUM_OFF_TIME_OUT);
-                        }
-                    }
-
-                }
-            }
-
-            return SUCCESS;
-        }
-
-        public int IsAbsorbed(out bool bStatus)
-        {
-            int iResult = SUCCESS;
-            bStatus = false;
-            bool bTemp;
-
-            for (int i = 0; i < (int)EStageVacuum.MAX; i++)
-            {
-                if (m_Data.UseVccFlag[i] == false) continue;
-
-                iResult = m_RefComp.Vacuum[i].IsOn(out bTemp);
-                if (iResult != SUCCESS) return iResult;
-
-                if (bTemp == false) return SUCCESS;
-            }
-
-            bStatus = true;
-            return SUCCESS;
-        }
-
-        public int IsReleased(out bool bStatus)
-        {
-            int iResult = SUCCESS;
-            bStatus = false;
-            bool bTemp;
-
-            for (int i = 0; i < (int)EStageVacuum.MAX; i++)
-            {
-                if (m_Data.UseVccFlag[i] == false) continue;
-
-                iResult = m_RefComp.Vacuum[i].IsOff(out bTemp);
-                if (iResult != SUCCESS) return iResult;
-
-                if (bTemp == false) return SUCCESS;
-            }
-
-            bStatus = true;
-            return SUCCESS;
-        }
-
-        //===============================================================================================
-
-        #endregion
+        
             
         // Stage Servo 구동
         #region Stage Move 동작

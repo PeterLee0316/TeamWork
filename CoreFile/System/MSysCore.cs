@@ -20,8 +20,6 @@ using static Core.Layers.DEF_LCNet;
 using static Core.Layers.DEF_SocketClient;
 
 using static Core.Layers.DEF_Motion;
-using static Core.Layers.DEF_Cylinder;
-using static Core.Layers.DEF_Vacuum;
 using static Core.Layers.DEF_Vision;
 
 
@@ -62,12 +60,6 @@ namespace Core.Layers
 
         ///////////////////////////////////////////////////////////////////////
         // Mechanical Layer
-        // Cylinder
-        public ICylinder m_StageClamp1       ;  // Work Stage Clamp 1 Cylinder [Double]
-        public ICylinder m_StageClamp2       ;  // Work Stage Clamp 2 Cylinder [Double]
-
-        // Vacuum
-        public IVacuum m_Stage1Vac           ;
         
         // Vision
         public MVision m_Vision { get; set; }
@@ -903,9 +895,7 @@ namespace Core.Layers
             CMeStageData data = new CMeStageData();
 
             refComp.IO = m_IO;
-
-            refComp.Vacuum[(int)EStageVacuum.SELF] = m_Stage1Vac;
-            
+                        
             data.InDetectObject = iUHandler_PanelDetect;
 
             data.StageZone.UseSafetyMove[DEF_Z] = true;

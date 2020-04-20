@@ -32,23 +32,24 @@
             this.BtnLogin = new System.Windows.Forms.Button();
             this.BtnExit = new System.Windows.Forms.Button();
             this.ComboUser = new System.Windows.Forms.ComboBox();
-            this.LabelUser = new Syncfusion.Windows.Forms.Tools.GradientLabel();
-            this.gradientLabel1 = new Syncfusion.Windows.Forms.Tools.GradientLabel();
-            this.gradientLabel2 = new Syncfusion.Windows.Forms.Tools.GradientLabel();
-            this.LabelComment = new Syncfusion.Windows.Forms.Tools.GradientLabel();
-            this.LabelType = new Syncfusion.Windows.Forms.Tools.GradientLabel();
             this.BtnChangePW = new System.Windows.Forms.Button();
             this.BtnLogout = new System.Windows.Forms.Button();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.LabelComment = new System.Windows.Forms.Label();
+            this.LabelType = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // BtnLogin
             // 
-            this.BtnLogin.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.BtnLogin.Font = new System.Drawing.Font("Malgun Gothic", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.BtnLogin.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
             this.BtnLogin.Image = ((System.Drawing.Image)(resources.GetObject("BtnLogin.Image")));
-            this.BtnLogin.Location = new System.Drawing.Point(152, 173);
+            this.BtnLogin.Location = new System.Drawing.Point(239, 303);
+            this.BtnLogin.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
             this.BtnLogin.Name = "BtnLogin";
-            this.BtnLogin.Size = new System.Drawing.Size(124, 61);
+            this.BtnLogin.Size = new System.Drawing.Size(195, 107);
             this.BtnLogin.TabIndex = 754;
             this.BtnLogin.Text = " Login";
             this.BtnLogin.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -58,13 +59,14 @@
             // 
             // BtnExit
             // 
-            this.BtnExit.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.BtnExit.Font = new System.Drawing.Font("Malgun Gothic", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.BtnExit.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
             this.BtnExit.Image = ((System.Drawing.Image)(resources.GetObject("BtnExit.Image")));
             this.BtnExit.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.BtnExit.Location = new System.Drawing.Point(410, 173);
+            this.BtnExit.Location = new System.Drawing.Point(644, 303);
+            this.BtnExit.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
             this.BtnExit.Name = "BtnExit";
-            this.BtnExit.Size = new System.Drawing.Size(124, 61);
+            this.BtnExit.Size = new System.Drawing.Size(195, 107);
             this.BtnExit.TabIndex = 753;
             this.BtnExit.Text = " Cancel";
             this.BtnExit.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
@@ -76,99 +78,25 @@
             this.ComboUser.DropDownHeight = 200;
             this.ComboUser.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.ComboUser.DropDownWidth = 260;
-            this.ComboUser.Font = new System.Drawing.Font("굴림", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.ComboUser.Font = new System.Drawing.Font("Gulim", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.ComboUser.FormattingEnabled = true;
             this.ComboUser.IntegralHeight = false;
-            this.ComboUser.Location = new System.Drawing.Point(151, 26);
+            this.ComboUser.Location = new System.Drawing.Point(237, 46);
+            this.ComboUser.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
             this.ComboUser.Name = "ComboUser";
-            this.ComboUser.Size = new System.Drawing.Size(383, 27);
+            this.ComboUser.Size = new System.Drawing.Size(600, 41);
             this.ComboUser.TabIndex = 842;
             this.ComboUser.SelectedIndexChanged += new System.EventHandler(this.ComboUser_SelectedIndexChanged);
             // 
-            // LabelUser
-            // 
-            this.LabelUser.BackgroundColor = new Syncfusion.Drawing.BrushInfo(System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(64))))));
-            this.LabelUser.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
-            | System.Windows.Forms.Border3DSide.Right) 
-            | System.Windows.Forms.Border3DSide.Bottom)));
-            this.LabelUser.BorderStyle = System.Windows.Forms.Border3DStyle.Raised;
-            this.LabelUser.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.LabelUser.ForeColor = System.Drawing.Color.White;
-            this.LabelUser.Location = new System.Drawing.Point(10, 24);
-            this.LabelUser.Name = "LabelUser";
-            this.LabelUser.Size = new System.Drawing.Size(135, 31);
-            this.LabelUser.TabIndex = 841;
-            this.LabelUser.Text = "Select User";
-            this.LabelUser.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // gradientLabel1
-            // 
-            this.gradientLabel1.BackgroundColor = new Syncfusion.Drawing.BrushInfo(System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(64))))));
-            this.gradientLabel1.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
-            | System.Windows.Forms.Border3DSide.Right) 
-            | System.Windows.Forms.Border3DSide.Bottom)));
-            this.gradientLabel1.BorderStyle = System.Windows.Forms.Border3DStyle.Raised;
-            this.gradientLabel1.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.gradientLabel1.ForeColor = System.Drawing.Color.White;
-            this.gradientLabel1.Location = new System.Drawing.Point(10, 60);
-            this.gradientLabel1.Name = "gradientLabel1";
-            this.gradientLabel1.Size = new System.Drawing.Size(135, 31);
-            this.gradientLabel1.TabIndex = 843;
-            this.gradientLabel1.Text = "Comment";
-            this.gradientLabel1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // gradientLabel2
-            // 
-            this.gradientLabel2.BackgroundColor = new Syncfusion.Drawing.BrushInfo(System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(64))))));
-            this.gradientLabel2.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
-            | System.Windows.Forms.Border3DSide.Right) 
-            | System.Windows.Forms.Border3DSide.Bottom)));
-            this.gradientLabel2.BorderStyle = System.Windows.Forms.Border3DStyle.Raised;
-            this.gradientLabel2.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.gradientLabel2.ForeColor = System.Drawing.Color.White;
-            this.gradientLabel2.Location = new System.Drawing.Point(10, 96);
-            this.gradientLabel2.Name = "gradientLabel2";
-            this.gradientLabel2.Size = new System.Drawing.Size(135, 31);
-            this.gradientLabel2.TabIndex = 844;
-            this.gradientLabel2.Text = "Group";
-            this.gradientLabel2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // LabelComment
-            // 
-            this.LabelComment.BackgroundColor = new Syncfusion.Drawing.BrushInfo(System.Drawing.Color.White);
-            this.LabelComment.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
-            | System.Windows.Forms.Border3DSide.Right) 
-            | System.Windows.Forms.Border3DSide.Bottom)));
-            this.LabelComment.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.LabelComment.ForeColor = System.Drawing.Color.Black;
-            this.LabelComment.Location = new System.Drawing.Point(151, 60);
-            this.LabelComment.Name = "LabelComment";
-            this.LabelComment.Size = new System.Drawing.Size(383, 31);
-            this.LabelComment.TabIndex = 845;
-            this.LabelComment.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // LabelType
-            // 
-            this.LabelType.BackgroundColor = new Syncfusion.Drawing.BrushInfo(System.Drawing.Color.White);
-            this.LabelType.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
-            | System.Windows.Forms.Border3DSide.Right) 
-            | System.Windows.Forms.Border3DSide.Bottom)));
-            this.LabelType.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.LabelType.ForeColor = System.Drawing.Color.Black;
-            this.LabelType.Location = new System.Drawing.Point(151, 96);
-            this.LabelType.Name = "LabelType";
-            this.LabelType.Size = new System.Drawing.Size(383, 31);
-            this.LabelType.TabIndex = 846;
-            this.LabelType.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
             // BtnChangePW
             // 
-            this.BtnChangePW.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.BtnChangePW.Font = new System.Drawing.Font("Malgun Gothic", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.BtnChangePW.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
             this.BtnChangePW.Image = ((System.Drawing.Image)(resources.GetObject("BtnChangePW.Image")));
-            this.BtnChangePW.Location = new System.Drawing.Point(23, 173);
+            this.BtnChangePW.Location = new System.Drawing.Point(36, 303);
+            this.BtnChangePW.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
             this.BtnChangePW.Name = "BtnChangePW";
-            this.BtnChangePW.Size = new System.Drawing.Size(124, 61);
+            this.BtnChangePW.Size = new System.Drawing.Size(195, 107);
             this.BtnChangePW.TabIndex = 847;
             this.BtnChangePW.Text = "Change Password";
             this.BtnChangePW.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -178,12 +106,13 @@
             // 
             // BtnLogout
             // 
-            this.BtnLogout.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.BtnLogout.Font = new System.Drawing.Font("Malgun Gothic", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.BtnLogout.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
             this.BtnLogout.Image = ((System.Drawing.Image)(resources.GetObject("BtnLogout.Image")));
-            this.BtnLogout.Location = new System.Drawing.Point(281, 173);
+            this.BtnLogout.Location = new System.Drawing.Point(442, 303);
+            this.BtnLogout.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
             this.BtnLogout.Name = "BtnLogout";
-            this.BtnLogout.Size = new System.Drawing.Size(124, 61);
+            this.BtnLogout.Size = new System.Drawing.Size(195, 107);
             this.BtnLogout.TabIndex = 848;
             this.BtnLogout.Text = " Logout";
             this.BtnLogout.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -191,22 +120,86 @@
             this.BtnLogout.UseVisualStyleBackColor = true;
             this.BtnLogout.Click += new System.EventHandler(this.BtnLogout_Click);
             // 
+            // label1
+            // 
+            this.label1.BackColor = System.Drawing.Color.LightBlue;
+            this.label1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.label1.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.label1.Font = new System.Drawing.Font("Arial Rounded MT Bold", 9.857143F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(16, 45);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(213, 47);
+            this.label1.TabIndex = 849;
+            this.label1.Text = "Select User";
+            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label2
+            // 
+            this.label2.BackColor = System.Drawing.Color.LightBlue;
+            this.label2.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.label2.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.label2.Font = new System.Drawing.Font("Arial Rounded MT Bold", 9.857143F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.Location = new System.Drawing.Point(18, 105);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(213, 47);
+            this.label2.TabIndex = 850;
+            this.label2.Text = "Comment";
+            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label3
+            // 
+            this.label3.BackColor = System.Drawing.Color.LightBlue;
+            this.label3.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.label3.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.label3.Font = new System.Drawing.Font("Arial Rounded MT Bold", 9.857143F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.Location = new System.Drawing.Point(18, 168);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(213, 47);
+            this.label3.TabIndex = 851;
+            this.label3.Text = "Group";
+            this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // LabelComment
+            // 
+            this.LabelComment.BackColor = System.Drawing.Color.White;
+            this.LabelComment.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.LabelComment.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.LabelComment.Font = new System.Drawing.Font("Arial Rounded MT Bold", 9.857143F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.LabelComment.Location = new System.Drawing.Point(239, 105);
+            this.LabelComment.Name = "LabelComment";
+            this.LabelComment.Size = new System.Drawing.Size(600, 47);
+            this.LabelComment.TabIndex = 852;
+            this.LabelComment.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // LabelType
+            // 
+            this.LabelType.BackColor = System.Drawing.Color.White;
+            this.LabelType.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.LabelType.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.LabelType.Font = new System.Drawing.Font("Arial Rounded MT Bold", 9.857143F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.LabelType.Location = new System.Drawing.Point(237, 168);
+            this.LabelType.Name = "LabelType";
+            this.LabelType.Size = new System.Drawing.Size(600, 47);
+            this.LabelType.TabIndex = 853;
+            this.LabelType.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
             // FormUserLogin
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 21F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(546, 247);
-            this.Controls.Add(this.BtnLogout);
-            this.Controls.Add(this.BtnChangePW);
+            this.ClientSize = new System.Drawing.Size(858, 432);
             this.Controls.Add(this.LabelType);
             this.Controls.Add(this.LabelComment);
-            this.Controls.Add(this.gradientLabel2);
-            this.Controls.Add(this.gradientLabel1);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.BtnLogout);
+            this.Controls.Add(this.BtnChangePW);
             this.Controls.Add(this.ComboUser);
-            this.Controls.Add(this.LabelUser);
             this.Controls.Add(this.BtnLogin);
             this.Controls.Add(this.BtnExit);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+            this.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
             this.Name = "FormUserLogin";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "User Login";
@@ -220,12 +213,12 @@
         private System.Windows.Forms.Button BtnLogin;
         private System.Windows.Forms.Button BtnExit;
         private System.Windows.Forms.ComboBox ComboUser;
-        private Syncfusion.Windows.Forms.Tools.GradientLabel LabelUser;
-        private Syncfusion.Windows.Forms.Tools.GradientLabel gradientLabel1;
-        private Syncfusion.Windows.Forms.Tools.GradientLabel gradientLabel2;
-        private Syncfusion.Windows.Forms.Tools.GradientLabel LabelComment;
-        private Syncfusion.Windows.Forms.Tools.GradientLabel LabelType;
         private System.Windows.Forms.Button BtnChangePW;
         private System.Windows.Forms.Button BtnLogout;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label LabelType;
+        private System.Windows.Forms.Label LabelComment;
     }
 }

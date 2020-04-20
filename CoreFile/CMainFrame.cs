@@ -19,7 +19,6 @@ using static Core.Layers.DEF_Thread.EWindowMessage;
 
 using static Core.Layers.DEF_Error;
 using static Core.Layers.DEF_Common;
-using static Core.Layers.DEF_Cylinder;
 using static Core.Layers.DEF_SerialPort;
 using static Core.Layers.DEF_Vision;
 

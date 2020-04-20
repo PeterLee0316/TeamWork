@@ -23,9 +23,6 @@ using static Core.Layers.DEF_DataManager;
 using static Core.Layers.DEF_LCNet;
 
 using static Core.Layers.DEF_Motion;
-using static Core.Layers.DEF_Cylinder;
-using static Core.Layers.DEF_Vacuum;
-
 using static Core.Layers.DEF_MeStage;
 using static Core.Layers.DEF_Vision;
 using static Core.Layers.DEF_CtrlStage;

@@ -47,11 +47,12 @@
             | System.Windows.Forms.Border3DSide.Right) 
             | System.Windows.Forms.Border3DSide.Bottom)));
             this.gradientLabel3.BorderStyle = System.Windows.Forms.Border3DStyle.Raised;
-            this.gradientLabel3.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.gradientLabel3.Font = new System.Drawing.Font("Gulim", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.gradientLabel3.ForeColor = System.Drawing.Color.White;
-            this.gradientLabel3.Location = new System.Drawing.Point(9, 45);
+            this.gradientLabel3.Location = new System.Drawing.Point(14, 79);
+            this.gradientLabel3.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.gradientLabel3.Name = "gradientLabel3";
-            this.gradientLabel3.Size = new System.Drawing.Size(102, 32);
+            this.gradientLabel3.Size = new System.Drawing.Size(160, 56);
             this.gradientLabel3.TabIndex = 784;
             this.gradientLabel3.Text = "Comment";
             this.gradientLabel3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -63,23 +64,25 @@
             | System.Windows.Forms.Border3DSide.Right) 
             | System.Windows.Forms.Border3DSide.Bottom)));
             this.gradientLabel2.BorderStyle = System.Windows.Forms.Border3DStyle.Raised;
-            this.gradientLabel2.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.gradientLabel2.Font = new System.Drawing.Font("Gulim", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.gradientLabel2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
-            this.gradientLabel2.Location = new System.Drawing.Point(9, 9);
+            this.gradientLabel2.Location = new System.Drawing.Point(14, 16);
+            this.gradientLabel2.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.gradientLabel2.Name = "gradientLabel2";
-            this.gradientLabel2.Size = new System.Drawing.Size(102, 32);
+            this.gradientLabel2.Size = new System.Drawing.Size(160, 56);
             this.gradientLabel2.TabIndex = 783;
             this.gradientLabel2.Text = "Name";
             this.gradientLabel2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // BtnHeaderCreate
             // 
-            this.BtnHeaderCreate.Font = new System.Drawing.Font("굴림", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.BtnHeaderCreate.Font = new System.Drawing.Font("Gulim", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.BtnHeaderCreate.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
             this.BtnHeaderCreate.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.BtnHeaderCreate.Location = new System.Drawing.Point(94, 172);
+            this.BtnHeaderCreate.Location = new System.Drawing.Point(289, 313);
+            this.BtnHeaderCreate.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
             this.BtnHeaderCreate.Name = "BtnHeaderCreate";
-            this.BtnHeaderCreate.Size = new System.Drawing.Size(115, 61);
+            this.BtnHeaderCreate.Size = new System.Drawing.Size(181, 107);
             this.BtnHeaderCreate.TabIndex = 782;
             this.BtnHeaderCreate.Text = "생성";
             this.BtnHeaderCreate.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
@@ -92,11 +95,12 @@
             this.LabelMakerComment.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
             | System.Windows.Forms.Border3DSide.Right) 
             | System.Windows.Forms.Border3DSide.Bottom)));
-            this.LabelMakerComment.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.LabelMakerComment.Font = new System.Drawing.Font("Gulim", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.LabelMakerComment.ForeColor = System.Drawing.Color.Black;
-            this.LabelMakerComment.Location = new System.Drawing.Point(114, 45);
+            this.LabelMakerComment.Location = new System.Drawing.Point(179, 79);
+            this.LabelMakerComment.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.LabelMakerComment.Name = "LabelMakerComment";
-            this.LabelMakerComment.Size = new System.Drawing.Size(309, 32);
+            this.LabelMakerComment.Size = new System.Drawing.Size(486, 56);
             this.LabelMakerComment.TabIndex = 779;
             this.LabelMakerComment.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.LabelMakerComment.Click += new System.EventHandler(this.LabelMakerComment_Click);
@@ -107,23 +111,25 @@
             this.LabelMakerName.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
             | System.Windows.Forms.Border3DSide.Right) 
             | System.Windows.Forms.Border3DSide.Bottom)));
-            this.LabelMakerName.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.LabelMakerName.Font = new System.Drawing.Font("Gulim", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.LabelMakerName.ForeColor = System.Drawing.Color.Black;
-            this.LabelMakerName.Location = new System.Drawing.Point(114, 9);
+            this.LabelMakerName.Location = new System.Drawing.Point(179, 16);
+            this.LabelMakerName.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.LabelMakerName.Name = "LabelMakerName";
-            this.LabelMakerName.Size = new System.Drawing.Size(309, 32);
+            this.LabelMakerName.Size = new System.Drawing.Size(486, 56);
             this.LabelMakerName.TabIndex = 778;
             this.LabelMakerName.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.LabelMakerName.Click += new System.EventHandler(this.LabelMakerName_Click);
             // 
             // BtnCancel
             // 
-            this.BtnCancel.Font = new System.Drawing.Font("굴림", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.BtnCancel.Font = new System.Drawing.Font("Gulim", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.BtnCancel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
             this.BtnCancel.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.BtnCancel.Location = new System.Drawing.Point(218, 172);
+            this.BtnCancel.Location = new System.Drawing.Point(484, 313);
+            this.BtnCancel.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
             this.BtnCancel.Name = "BtnCancel";
-            this.BtnCancel.Size = new System.Drawing.Size(115, 61);
+            this.BtnCancel.Size = new System.Drawing.Size(181, 107);
             this.BtnCancel.TabIndex = 787;
             this.BtnCancel.Text = "취소";
             this.BtnCancel.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
@@ -136,11 +142,12 @@
             this.LabelMakerParent.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
             | System.Windows.Forms.Border3DSide.Right) 
             | System.Windows.Forms.Border3DSide.Bottom)));
-            this.LabelMakerParent.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.LabelMakerParent.Font = new System.Drawing.Font("Gulim", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.LabelMakerParent.ForeColor = System.Drawing.Color.Black;
-            this.LabelMakerParent.Location = new System.Drawing.Point(114, 81);
+            this.LabelMakerParent.Location = new System.Drawing.Point(179, 142);
+            this.LabelMakerParent.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.LabelMakerParent.Name = "LabelMakerParent";
-            this.LabelMakerParent.Size = new System.Drawing.Size(309, 32);
+            this.LabelMakerParent.Size = new System.Drawing.Size(486, 56);
             this.LabelMakerParent.TabIndex = 780;
             this.LabelMakerParent.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.LabelMakerParent.Visible = false;
@@ -151,11 +158,12 @@
             this.LabelMakerDir.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
             | System.Windows.Forms.Border3DSide.Right) 
             | System.Windows.Forms.Border3DSide.Bottom)));
-            this.LabelMakerDir.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.LabelMakerDir.Font = new System.Drawing.Font("Gulim", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.LabelMakerDir.ForeColor = System.Drawing.Color.Black;
-            this.LabelMakerDir.Location = new System.Drawing.Point(114, 117);
+            this.LabelMakerDir.Location = new System.Drawing.Point(179, 205);
+            this.LabelMakerDir.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.LabelMakerDir.Name = "LabelMakerDir";
-            this.LabelMakerDir.Size = new System.Drawing.Size(309, 32);
+            this.LabelMakerDir.Size = new System.Drawing.Size(486, 56);
             this.LabelMakerDir.TabIndex = 781;
             this.LabelMakerDir.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.LabelMakerDir.Visible = false;
@@ -167,11 +175,12 @@
             | System.Windows.Forms.Border3DSide.Right) 
             | System.Windows.Forms.Border3DSide.Bottom)));
             this.gradientLabel4.BorderStyle = System.Windows.Forms.Border3DStyle.Raised;
-            this.gradientLabel4.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.gradientLabel4.Font = new System.Drawing.Font("Gulim", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.gradientLabel4.ForeColor = System.Drawing.Color.Black;
-            this.gradientLabel4.Location = new System.Drawing.Point(9, 81);
+            this.gradientLabel4.Location = new System.Drawing.Point(14, 142);
+            this.gradientLabel4.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.gradientLabel4.Name = "gradientLabel4";
-            this.gradientLabel4.Size = new System.Drawing.Size(102, 32);
+            this.gradientLabel4.Size = new System.Drawing.Size(160, 56);
             this.gradientLabel4.TabIndex = 785;
             this.gradientLabel4.Text = "Parent";
             this.gradientLabel4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -184,11 +193,12 @@
             | System.Windows.Forms.Border3DSide.Right) 
             | System.Windows.Forms.Border3DSide.Bottom)));
             this.gradientLabel5.BorderStyle = System.Windows.Forms.Border3DStyle.Raised;
-            this.gradientLabel5.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.gradientLabel5.Font = new System.Drawing.Font("Gulim", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.gradientLabel5.ForeColor = System.Drawing.Color.Black;
-            this.gradientLabel5.Location = new System.Drawing.Point(9, 117);
+            this.gradientLabel5.Location = new System.Drawing.Point(14, 205);
+            this.gradientLabel5.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.gradientLabel5.Name = "gradientLabel5";
-            this.gradientLabel5.Size = new System.Drawing.Size(102, 32);
+            this.gradientLabel5.Size = new System.Drawing.Size(160, 56);
             this.gradientLabel5.TabIndex = 786;
             this.gradientLabel5.Text = "Folder";
             this.gradientLabel5.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -196,9 +206,9 @@
             // 
             // FormCreateMaker
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 21F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(433, 254);
+            this.ClientSize = new System.Drawing.Size(680, 444);
             this.Controls.Add(this.BtnCancel);
             this.Controls.Add(this.gradientLabel5);
             this.Controls.Add(this.gradientLabel4);
@@ -210,6 +220,7 @@
             this.Controls.Add(this.LabelMakerComment);
             this.Controls.Add(this.LabelMakerName);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+            this.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
             this.Name = "FormCreateMaker";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Create Folder";

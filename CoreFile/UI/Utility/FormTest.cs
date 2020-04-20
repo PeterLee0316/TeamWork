@@ -92,9 +92,6 @@ namespace Core.UI
             CtrlList.Add((MObject)CMainFrame.DataManager         );
             CtrlList.Add((MObject)CMainFrame.mCore.m_ctrlStage1          );
             CtrlList.Add((MObject)CMainFrame.mCore.m_MeStage             );
-            CtrlList.Add((MObject)CMainFrame.mCore.m_StageClamp1         );
-            CtrlList.Add((MObject)CMainFrame.mCore.m_StageClamp2         );
-            CtrlList.Add((MObject)CMainFrame.mCore.m_Stage1Vac           );
 
             TextTest1.Text = "0";
         }

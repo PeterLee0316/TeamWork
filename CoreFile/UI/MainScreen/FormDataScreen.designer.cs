@@ -37,7 +37,6 @@
             this.BtnScannerData = new Syncfusion.Windows.Forms.ButtonAdv();
             this.BtnVisionData = new Syncfusion.Windows.Forms.ButtonAdv();
             this.BtnMotorData = new Syncfusion.Windows.Forms.ButtonAdv();
-            this.BtnCylinderData = new Syncfusion.Windows.Forms.ButtonAdv();
             this.BtnVacuum = new Syncfusion.Windows.Forms.ButtonAdv();
             this.panel1 = new System.Windows.Forms.Panel();
             this.label1 = new System.Windows.Forms.Label();
@@ -52,8 +51,8 @@
             this.BtnModelData.Font = new System.Drawing.Font("Gulim", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.BtnModelData.ForeColor = System.Drawing.Color.MidnightBlue;
             this.BtnModelData.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.BtnModelData.Location = new System.Drawing.Point(361, 924);
-            this.BtnModelData.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.BtnModelData.Location = new System.Drawing.Point(651, 747);
+            this.BtnModelData.Margin = new System.Windows.Forms.Padding(5);
             this.BtnModelData.Name = "BtnModelData";
             this.BtnModelData.Size = new System.Drawing.Size(195, 117);
             this.BtnModelData.TabIndex = 37;
@@ -69,8 +68,8 @@
             this.BtnModelList.Font = new System.Drawing.Font("Gulim", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.BtnModelList.ForeColor = System.Drawing.Color.MidnightBlue;
             this.BtnModelList.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.BtnModelList.Location = new System.Drawing.Point(156, 924);
-            this.BtnModelList.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.BtnModelList.Location = new System.Drawing.Point(651, 620);
+            this.BtnModelList.Margin = new System.Windows.Forms.Padding(5);
             this.BtnModelList.Name = "BtnModelList";
             this.BtnModelList.Size = new System.Drawing.Size(195, 117);
             this.BtnModelList.TabIndex = 9;
@@ -86,8 +85,8 @@
             this.BtnUserList.Font = new System.Drawing.Font("Gulim", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.BtnUserList.ForeColor = System.Drawing.Color.MidnightBlue;
             this.BtnUserList.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.BtnUserList.Location = new System.Drawing.Point(328, 182);
-            this.BtnUserList.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.BtnUserList.Location = new System.Drawing.Point(651, 437);
+            this.BtnUserList.Margin = new System.Windows.Forms.Padding(5);
             this.BtnUserList.Name = "BtnUserList";
             this.BtnUserList.Size = new System.Drawing.Size(195, 117);
             this.BtnUserList.TabIndex = 38;
@@ -103,8 +102,8 @@
             this.BtnSystemData.Font = new System.Drawing.Font("Gulim", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.BtnSystemData.ForeColor = System.Drawing.Color.MidnightBlue;
             this.BtnSystemData.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.BtnSystemData.Location = new System.Drawing.Point(123, 182);
-            this.BtnSystemData.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.BtnSystemData.Location = new System.Drawing.Point(651, 182);
+            this.BtnSystemData.Margin = new System.Windows.Forms.Padding(5);
             this.BtnSystemData.Name = "BtnSystemData";
             this.BtnSystemData.Size = new System.Drawing.Size(195, 117);
             this.BtnSystemData.TabIndex = 17;
@@ -120,8 +119,8 @@
             this.BtnExcelLoad.Font = new System.Drawing.Font("Gulim", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.BtnExcelLoad.ForeColor = System.Drawing.Color.MidnightBlue;
             this.BtnExcelLoad.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.BtnExcelLoad.Location = new System.Drawing.Point(123, 310);
-            this.BtnExcelLoad.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.BtnExcelLoad.Location = new System.Drawing.Point(651, 310);
+            this.BtnExcelLoad.Margin = new System.Windows.Forms.Padding(5);
             this.BtnExcelLoad.Name = "BtnExcelLoad";
             this.BtnExcelLoad.Size = new System.Drawing.Size(195, 117);
             this.BtnExcelLoad.TabIndex = 16;
@@ -138,7 +137,7 @@
             this.BtnScannerData.ForeColor = System.Drawing.Color.MidnightBlue;
             this.BtnScannerData.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.BtnScannerData.Location = new System.Drawing.Point(85, 155);
-            this.BtnScannerData.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.BtnScannerData.Margin = new System.Windows.Forms.Padding(5);
             this.BtnScannerData.Name = "BtnScannerData";
             this.BtnScannerData.Size = new System.Drawing.Size(195, 117);
             this.BtnScannerData.TabIndex = 11;
@@ -154,7 +153,7 @@
             this.BtnVisionData.ForeColor = System.Drawing.Color.MidnightBlue;
             this.BtnVisionData.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.BtnVisionData.Location = new System.Drawing.Point(296, 155);
-            this.BtnVisionData.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.BtnVisionData.Margin = new System.Windows.Forms.Padding(5);
             this.BtnVisionData.Name = "BtnVisionData";
             this.BtnVisionData.Size = new System.Drawing.Size(195, 117);
             this.BtnVisionData.TabIndex = 14;
@@ -171,30 +170,13 @@
             this.BtnMotorData.ForeColor = System.Drawing.Color.MidnightBlue;
             this.BtnMotorData.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.BtnMotorData.Location = new System.Drawing.Point(877, 182);
-            this.BtnMotorData.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.BtnMotorData.Margin = new System.Windows.Forms.Padding(5);
             this.BtnMotorData.Name = "BtnMotorData";
             this.BtnMotorData.Size = new System.Drawing.Size(195, 117);
             this.BtnMotorData.TabIndex = 12;
             this.BtnMotorData.Text = "Motion";
             this.BtnMotorData.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.BtnMotorData.Click += new System.EventHandler(this.BtnMotorData_Click);
-            // 
-            // BtnCylinderData
-            // 
-            this.BtnCylinderData.AutoEllipsis = true;
-            this.BtnCylinderData.BackColor = System.Drawing.SystemColors.Control;
-            this.BtnCylinderData.FlatAppearance.BorderSize = 5;
-            this.BtnCylinderData.Font = new System.Drawing.Font("Gulim", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.BtnCylinderData.ForeColor = System.Drawing.Color.MidnightBlue;
-            this.BtnCylinderData.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.BtnCylinderData.Location = new System.Drawing.Point(877, 432);
-            this.BtnCylinderData.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
-            this.BtnCylinderData.Name = "BtnCylinderData";
-            this.BtnCylinderData.Size = new System.Drawing.Size(195, 117);
-            this.BtnCylinderData.TabIndex = 13;
-            this.BtnCylinderData.Text = "Cylinder";
-            this.BtnCylinderData.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.BtnCylinderData.Click += new System.EventHandler(this.BtnCylinderData_Click);
             // 
             // BtnVacuum
             // 
@@ -205,7 +187,7 @@
             this.BtnVacuum.ForeColor = System.Drawing.Color.MidnightBlue;
             this.BtnVacuum.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.BtnVacuum.Location = new System.Drawing.Point(877, 306);
-            this.BtnVacuum.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.BtnVacuum.Margin = new System.Windows.Forms.Padding(5);
             this.BtnVacuum.Name = "BtnVacuum";
             this.BtnVacuum.Size = new System.Drawing.Size(195, 117);
             this.BtnVacuum.TabIndex = 15;
@@ -248,7 +230,6 @@
             this.ClientSize = new System.Drawing.Size(3012, 1572);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.BtnMotorData);
-            this.Controls.Add(this.BtnCylinderData);
             this.Controls.Add(this.BtnUserList);
             this.Controls.Add(this.BtnVacuum);
             this.Controls.Add(this.BtnModelData);
@@ -256,7 +237,7 @@
             this.Controls.Add(this.BtnExcelLoad);
             this.Controls.Add(this.BtnModelList);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-            this.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.Margin = new System.Windows.Forms.Padding(5);
             this.Name = "FormDataScreen";
             this.Text = "Data Screen";
             this.Activated += new System.EventHandler(this.FormDataScreen_Activated);
@@ -273,7 +254,6 @@
         private Syncfusion.Windows.Forms.ButtonAdv BtnModelList;
         private Syncfusion.Windows.Forms.ButtonAdv BtnScannerData;
         private Syncfusion.Windows.Forms.ButtonAdv BtnMotorData;
-        private Syncfusion.Windows.Forms.ButtonAdv BtnCylinderData;
         private Syncfusion.Windows.Forms.ButtonAdv BtnVisionData;
         private Syncfusion.Windows.Forms.ButtonAdv BtnVacuum;
         private Syncfusion.Windows.Forms.ButtonAdv BtnExcelLoad;

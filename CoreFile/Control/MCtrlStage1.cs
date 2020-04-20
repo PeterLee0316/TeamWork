@@ -294,16 +294,6 @@ namespace Core.Layers
         }
         // Stage의 상태를 확인하는 동작
         #region Stage 상태 확인
-
-        public int IsAbsorbed(out bool bStatus)
-        {
-            return m_RefComp.Stage.IsAbsorbed(out bStatus);
-        }
-
-        public int IsReleased(out bool bStatus)
-        {
-            return m_RefComp.Stage.IsReleased(out bStatus);
-        }
         
 
         public int  GetStagePos(out CPos_XYTZ pPos)
