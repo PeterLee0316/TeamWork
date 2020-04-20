@@ -19,15 +19,14 @@ namespace Core.Layers
             arrayObjectInfo = new CObjectInfo[]
             {
                 // 0-39 : Common & Hardware
-                new CObjectInfo( (int)OBJ_SYSTEM, "System", 0, "Core", 0, "System", LOG_ALL, LOG_DAY ),
-                new CObjectInfo( (int)OBJ_DATAMANAGER, "DataManger", 1, "DataManager", 100, "DataManager", LOG_ALL, LOG_DAY ),
+                new CObjectInfo( (int)OBJ_SYSTEM,       "System",       0, "Core",          0,      "System",       LOG_ALL, LOG_DAY ),
+                new CObjectInfo( (int)OBJ_DATAMANAGER,  "DataManger",   1, "DataManager",   100,    "DataManager",  LOG_ALL, LOG_DAY ),
 
-	            new CObjectInfo( (int)OBJ_HL_MOTION_LIB, "MotionLib", 2, "MMC", 500, "MotionLib", LOG_ALL, LOG_DAY ),
-                new CObjectInfo( (int)OBJ_HL_MOTION_LIB, "MotionLib", 3, "YMC", 600, "YMCLib", LOG_ALL, LOG_DAY ),
-                new CObjectInfo( (int)OBJ_HL_MOTION_LIB, "MotionLib", 4, "ACS", 700, "ACSLib", LOG_ALL, LOG_DAY ),
+	            new CObjectInfo( (int)OBJ_HL_MOTION_LIB, "MotionLib",   2, "MMC", 500, "MotionLib", LOG_ALL, LOG_DAY ),
+                new CObjectInfo( (int)OBJ_HL_MOTION_LIB, "MotionLib",   3, "YMC", 600, "YMCLib", LOG_ALL, LOG_DAY ),
 
-	            new CObjectInfo( (int)OBJ_HL_IO, "IO", 6, "Device Net", 1000, "IO", LOG_ALL, LOG_DAY ),
-	            new CObjectInfo( (int)OBJ_HL_MELSEC, "Melsec", 11, "Melsec", 1100, "Melsec", LOG_ALL, LOG_DAY ),
+	            new CObjectInfo( (int)OBJ_HL_IO,        "IO", 6, "Device Net", 1000, "IO", LOG_ALL, LOG_DAY ),
+	            new CObjectInfo( (int)OBJ_HL_MELSEC,    "Melsec", 11, "Melsec", 1100, "Melsec", LOG_ALL, LOG_DAY ),
 		
 	            // 30-39 : Serial ------------------------------------------------------------------------
 	            new CObjectInfo( (int)OBJ_HL_SERIAL, "Serial RS232", 30, "SHead1", 1200, "RS232_SHead1", LOG_ALL, LOG_DAY ),
@@ -55,19 +54,14 @@ namespace Core.Layers
 
 	            // 150-199 : Vacuums ------------------------------------------------------------------------------	
 	            new CObjectInfo( (int)OBJ_HL_VACUUM, "Vacuum", 150, "Stage1",           2100, "Stage1Vac", LOG_ALL, LOG_DAY ),
-
-	            //new CObjectInfo( (int)OBJ_HL_VACUUM, "Vacuum", 153, "Workbench Inner", 2100, "WorkbenchInnerVac", LOG_ALL, LOG_DAY ),
-                //new CObjectInfo( (int)OBJ_HL_VACUUM, "Vacuum", 154, "Workbench Outer", 2100, "WorkbenchOuterVac", LOG_ALL, LOG_DAY ),
-                //new CObjectInfo( (int)OBJ_HL_VACUUM, "Vacuum", 157, "UpperHandler Extra", 2100, "UHandlerExtraVac", LOG_ALL, LOG_DAY ),
 		
 	            // 200-209 : Scanner & Laser  -------------------------------------------------------------	
-                new CObjectInfo( (int)OBJ_ML_POLYGON,   "PolygonScanner",    200, "Polygon Scanner",  2200, "PolygonScanner",  LOG_ALL, LOG_DAY ),
+
 	            // 210-249 : Multi Actuator, Induction Motor, etc Reserved -------------------------------------------------------------
 
 	            // 250-299 : Motion Multi Axes --------------------------------------------------------------------		
 	            new CObjectInfo( (int)OBJ_HL_MULTIAXES_YMC, "MultiAxes_YMC", 250, "Stage1",               2500, "MA_Stage1",        LOG_ALL, LOG_DAY ),
                 new CObjectInfo( (int)OBJ_HL_MULTIAXES_YMC, "MultiAxes_YMC", 251, "Camera1",              2500, "MA_Camera1",       LOG_ALL, LOG_DAY ),
-                new CObjectInfo( (int)OBJ_HL_MULTIAXES_YMC, "MultiAxes_YMC", 252, "Laser1",               2500, "MA_Laser1",        LOG_ALL, LOG_DAY ),
 		
 	            // 300-349 : Mechanical Layer --------------------------------------------------------------------
 	            new CObjectInfo( (int)OBJ_ML_OP_PANEL  , "Mechanical",   300, "OpPanel",  3000, "OpPanel", LOG_ALL, LOG_DAY ),
@@ -77,12 +71,6 @@ namespace Core.Layers
 	            // 350-399 : Control Layer --------------------------------------------------------------------
 	            new CObjectInfo( (int)OBJ_CL_OP_PANEL          , "Control", 350, "OPPanel",         5000, "C_OpPanel", LOG_ALL, LOG_DAY ),
                 new CObjectInfo( (int)OBJ_CL_STAGE1            , "Control", 353, "Stage1",          5300, "C_Stage1", LOG_ALL, LOG_DAY ),
-                new CObjectInfo( (int)OBJ_CL_VISION_CALIBRATION, "Control", 360, "Calibration1",    5600, "C_VisionCalib1", LOG_ALL, LOG_DAY ),
-                new CObjectInfo( (int)OBJ_CL_VISION_CALIBRATION, "Control", 361, "Calibration2",    5600, "C_VisionCalib2", LOG_ALL, LOG_DAY ),
-                new CObjectInfo( (int)OBJ_CL_HW_TEACH          , "Control", 362, "HW Teach",        5700, "C_HWTeach", LOG_ALL, LOG_DAY ),
-                new CObjectInfo( (int)OBJ_CL_INTERFACE_CTRL    , "Control", 363, "Interface1",      5800, "C_Interface1", LOG_ALL, LOG_DAY ),
-                new CObjectInfo( (int)OBJ_CL_INTERFACE_CTRL    , "Control", 364, "Interface2",      5800, "C_Interface2", LOG_ALL, LOG_DAY ),
-                new CObjectInfo( (int)OBJ_CL_MANAGE_PRODUCT    , "Control", 365, "Manage Product",  5900, "C_ManageProduct", LOG_ALL, LOG_DAY ),
 
 
 	            // 400-459 : Process Layer --------------------------------------------------------------------

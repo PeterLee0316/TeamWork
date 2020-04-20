@@ -229,7 +229,7 @@ namespace Core.UI
                 m_SystemData_Align.CameraTilt[i]       = Convert.ToDouble(GridCtrl[8, i + 1].Text);
             }
 
-            CMainFrame.DataManager.SaveSystemData(null, null, null, null, m_SystemData_Align, null);
+            CMainFrame.DataManager.SaveSystemData(null, null, m_SystemData_Align, null);
             
         }
     }

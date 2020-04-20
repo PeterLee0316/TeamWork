@@ -36,12 +36,13 @@
             this.BtnTestFunction.AutoEllipsis = true;
             this.BtnTestFunction.BackColor = System.Drawing.SystemColors.Control;
             this.BtnTestFunction.FlatAppearance.BorderSize = 5;
-            this.BtnTestFunction.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.BtnTestFunction.Font = new System.Drawing.Font("Gulim", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.BtnTestFunction.ForeColor = System.Drawing.Color.MidnightBlue;
             this.BtnTestFunction.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.BtnTestFunction.Location = new System.Drawing.Point(349, 270);
+            this.BtnTestFunction.Location = new System.Drawing.Point(548, 472);
+            this.BtnTestFunction.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
             this.BtnTestFunction.Name = "BtnTestFunction";
-            this.BtnTestFunction.Size = new System.Drawing.Size(152, 78);
+            this.BtnTestFunction.Size = new System.Drawing.Size(239, 136);
             this.BtnTestFunction.TabIndex = 26;
             this.BtnTestFunction.Text = "Test Function";
             this.BtnTestFunction.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
@@ -49,13 +50,14 @@
             // 
             // FormHelpScreen
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 21F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Lavender;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.ClientSize = new System.Drawing.Size(1278, 817);
+            this.ClientSize = new System.Drawing.Size(3012, 1572);
             this.Controls.Add(this.BtnTestFunction);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
             this.Name = "FormHelpScreen";
             this.Text = "Help Screen";
             this.ResumeLayout(false);

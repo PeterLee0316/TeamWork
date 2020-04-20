@@ -26,7 +26,6 @@ namespace Core.UI
             Click,
             Max,
         }
-
         public FormTopScreen()
         {
             InitializeComponent();
@@ -49,9 +48,6 @@ namespace Core.UI
             TimerUI.Interval = UITimerInterval;
             TimerUI.Enabled = true;
             TimerUI.Start();
-
-
-
         }
 
         private void TimerUI_Tick(object sender, EventArgs e)
@@ -60,7 +56,7 @@ namespace Core.UI
             TextTime.Text = DateTime.Now.ToString("yyyy-MM-dd [ HH:mm:ss ]");
 
             //LabelCurUser.Text = $"Current User : {CMainFrame.DataManager.LoginInfo.User.Name}";
-            BtnUserLogin.Text = $"Login : {CMainFrame.DataManager.LoginInfo.User.Name}";            
+            //BtnUserLogin.Text = $"Login : {CMainFrame.DataManager.LoginInfo.User.Name}";            
         }
 
         public void SetMessage(string strMsg)
@@ -119,6 +115,8 @@ namespace Core.UI
             {
                 if (i == (int)CurrentPage) continue;
                 ButtonDisplay(i, EBtnOption.Enable);
+
+                BtnPage[i].FlatStyle = FlatStyle.Flat;
             }
 
             ButtonDisplay((int)index, EBtnOption.Click);

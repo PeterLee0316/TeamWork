@@ -58,8 +58,7 @@ namespace Core.UI
 
         private void BtnCylinderData_Click(object sender, EventArgs e)
         {
-            var dlg = new FormCylinderData();
-            dlg.ShowDialog();
+
         }
 
         private void BtnVisionData_Click(object sender, EventArgs e)
@@ -78,8 +77,7 @@ namespace Core.UI
 
         private void BtnVacuum_Click(object sender, EventArgs e)
         {
-            var dlg = new FormVacuumData();
-            dlg.ShowDialog();
+
         }
 
         private void BtnExcelLoad_Click(object sender, EventArgs e)
@@ -116,10 +114,12 @@ namespace Core.UI
 
         private void BtnLaserProcess_Click(object sender, EventArgs e)
         {
-            var dlg = new FormLaserProcessData();
-            dlg.StartPosition = FormStartPosition.Manual;
-            dlg.Location = new Point(0, 120);
-            dlg.ShowDialog();
+
+        }
+
+        private void panel1_Paint(object sender, PaintEventArgs e)
+        {
+
         }
     }
 }

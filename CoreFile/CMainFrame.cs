@@ -60,8 +60,7 @@ namespace Core.UI
 
         public static Color BtnBackColor_On = Color.LawnGreen;
         public static Color BtnBackColor_Off = Color.LightGray;
-
-        private static FormJogOperation m_JogDlg = null;
+        
         private FormMsgStart m_StartMsgDlg = new FormMsgStart();
 
         public CMainFrame()
@@ -319,20 +318,14 @@ namespace Core.UI
             else return false;
         }
 
-        static public void DisplayJog()
-        {
-            //var dlg = new FormJogOperation();
-            //dlg.TopMost = true;
-            //dlg.Show();
-            if (m_JogDlg == null) m_JogDlg = new FormJogOperation();
-            m_JogDlg.TopMost = true;
-            m_JogDlg.Show();
-        }
+        //static public void DisplayJog()
+        //{
 
-        static public void HideJog()
-        {
-            if (m_JogDlg != null) m_JogDlg.Hide();
-        }
+        //}
+
+        //static public void HideJog()
+        //{
+        //}
 
         static public bool GetKeyPad(string strCurrent, out string strModify)
         {

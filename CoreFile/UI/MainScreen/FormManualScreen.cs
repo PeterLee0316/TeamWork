@@ -69,14 +69,12 @@ namespace Core.UI
 
         private void BtnLimitSensor_Click(object sender, EventArgs e)
         {
-            var dlg = new FormLimitSensor();
-            dlg.ShowDialog();
+
         }
 
         private void BtnOriginReturn_Click(object sender, EventArgs e)
         {
-            var dlg = new FormOriginReturn();
-            dlg.ShowDialog();
+
         }
 
         private void BtnUnitInit_Click(object sender, EventArgs e)
@@ -87,8 +85,7 @@ namespace Core.UI
         
         private void BtnManualStage_Click(object sender, EventArgs e)
         {
-            var dlg = new FormStageManualOP();
-            dlg.ShowDialog();
+
         }
         private void FormManualScreen_Activated(object sender, EventArgs e)
         {
@@ -175,8 +172,7 @@ namespace Core.UI
             }
 
             ERROR_OCCURED:
-
-            LabelTime_Value.Text = CMainFrame.GetElapsedTIme_Text();
+            
 
             // set btn enable
             btn.BackColor = CMainFrame.BtnBackColor_Off;
@@ -201,8 +197,7 @@ namespace Core.UI
                 System.Windows.Forms.Button abtn = btn as System.Windows.Forms.Button;
                 abtn.Enabled = bEnable;
             }
-
-            btnStopAction.Enabled = true;
+            
         }
     }
 }

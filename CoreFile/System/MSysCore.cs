@@ -113,10 +113,6 @@ namespace Core.Layers
         {
             StopThreads();
 
-#if !SIMULATION_VISION
-            m_Vision.CloseVisionSystem();
-            m_ACS.CloseController();
-#endif
         }
         
         public void GetParameterInfo(string group, string name, out CParaInfo pinfo)
@@ -233,44 +229,7 @@ namespace Core.Layers
 
             ////////////////////////////////////////////////////////////////////////
             // Cylinder
-            CCylinderData cylData;
-            
-
-            // Stage Clamp 1 Open Close Cylinder
-            cylData = new CCylinderData();
-            cylData.CylinderType = ECylinderType.OPEN_CLOSE;
-            cylData.SolenoidType = ESolenoidType.DOUBLE_SOLENOID;
-            cylData.Solenoid[0] = oStageClamp1_Open;
-            cylData.Solenoid[1] = oStageClamp1_Close;
-
-            m_SystemInfo.GetObjectInfo(108, out objInfo);
-            iResult = CreateCylinder(objInfo, cylData, (int)EObjectCylinder.STAGE_CLAMP1, out m_StageClamp1);
-            CMainFrame.DisplayAlarmOnly(iResult);
-
-            // Stage Clamp 2 Open Close Cylinder
-            cylData = new CCylinderData();
-            cylData.CylinderType = ECylinderType.OPEN_CLOSE;
-            cylData.SolenoidType = ESolenoidType.DOUBLE_SOLENOID;
-            cylData.Solenoid[0] = oStageClamp2_Open;
-            cylData.Solenoid[1] = oStageClamp2_Close;
-
-            m_SystemInfo.GetObjectInfo(109, out objInfo);
-            iResult = CreateCylinder(objInfo, cylData, (int)EObjectCylinder.STAGE_CLAMP2, out m_StageClamp2);
-            CMainFrame.DisplayAlarmOnly(iResult);
-
-            ////////////////////////////////////////////////////////////////////////
-            // Vacuum
-            // Stage1 Vacuum
-            CVacuumData vacData = new CVacuumData();
-            vacData.VacuumType = EVacuumType.SINGLE_VACUUM_WBLOW;
-            vacData.Sensor[0] = iStage1_Vac_On;
-            vacData.Solenoid[0] = oStage1_Vac_On;
-            vacData.Solenoid[1] = oStage1_Vac_Off;
-
-            m_SystemInfo.GetObjectInfo(150, out objInfo);
-            iResult = CreateVacuum(objInfo, vacData, (int)EObjectVacuum.STAGE1, out m_Stage1Vac);
-            CMainFrame.DisplayAlarmOnly(iResult);
-            
+                       
 
             ////////////////////////////////////////////////////////////////////////
             // Vision
@@ -389,28 +348,7 @@ namespace Core.Layers
         void InitDataFileNames(out CDBInfo dbInfo)
         {
             dbInfo = new CDBInfo();
-        }
-        
-        
-        int CreateCylinder(CObjectInfo objInfo, CCylinderData data, int objIndex, out ICylinder pCylinder)
-        {
-            int iResult = SUCCESS;
-
-            data.Time = m_DataManager.SystemData_Cylinder.CylinderTimer[objIndex];
-            pCylinder = new MCylinder(objInfo, m_IO, data);
-
-            return iResult;
-        }
-
-        int CreateVacuum(CObjectInfo objInfo, CVacuumData data, int objIndex, out IVacuum pVacuum)
-        {
-            int iResult = SUCCESS;
-
-            data.Time = m_DataManager.SystemData_Vacuum.VacuumTimer[objIndex];
-            pVacuum = new MVacuum(objInfo, m_IO, data);
-
-            return iResult;
-        }
+        }             
 
         int CreateVisionSystem(CObjectInfo objInfo)
         {
@@ -576,14 +514,12 @@ namespace Core.Layers
         }
 
         public int SaveSystemData(CSystemData system = null, CSystemData_Axis systemAxis = null,
-            CSystemData_Cylinder systemCylinder = null, CSystemData_Vacuum systemVacuum = null,
-            CSystemData_Align systemAlign = null, CSystemData_Scanner systemScanner = null,
-            CSystemData_Light systemLight = null)
+            CSystemData_Align systemAlign = null, CSystemData_Light systemLight = null)
         {
             int iResult = SUCCESS;
 
             // save
-            iResult = m_DataManager.SaveSystemData(system, systemAxis, systemCylinder, systemVacuum, systemAlign, systemScanner, systemLight);
+            iResult = m_DataManager.SaveSystemData(system, systemAxis, systemAlign, systemLight);
             if (iResult != SUCCESS) return iResult;
 
             // set
@@ -692,13 +628,7 @@ namespace Core.Layers
 
             //////////////////////////////////////////////////////////////////
             // Process Layer
-            {
-                CTrsAutoManagerData data;
-                m_trsAutoManager.GetData(out data);
-                data.UseVIPMode = systemData.UseVIPMode;
-                m_trsAutoManager.SetData(data);
-            }
-            
+                        
             {
                 CTrsStage1Data data;
                 m_trsStage1.GetData(out data);
@@ -791,9 +721,6 @@ namespace Core.Layers
                 // Model Data에 있는 Vision Data를 적용한다.
                 data.Align = ObjectExtensions.Copy(modelData.AlignData);
                 
-                // Laser Process Data Copy
-                data.MarkingData = ObjectExtensions.Copy(modelData.LaserProcessData);
-
                 m_ctrlStage1.SetData(data);
             }
 

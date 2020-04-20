@@ -604,5 +604,10 @@ namespace Core.UI
 
             datatable = null;
         }
+
+        private void TitleCount_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

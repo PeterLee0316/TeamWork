@@ -59,6 +59,9 @@
     <ApplicationIcon>Board.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Cognex.VisionPro, Version=71.0.0.0, Culture=neutral, PublicKeyToken=ef0f902af9dee505, processorArchitecture=AMD64" />
+    <Reference Include="Cognex.VisionPro.Core, Version=71.0.0.0, Culture=neutral, PublicKeyToken=ef0f902af9dee505, processorArchitecture=AMD64" />
+    <Reference Include="Cognex.VisionPro.Display.Controls, Version=71.0.0.0, Culture=neutral, PublicKeyToken=ef0f902af9dee505, processorArchitecture=AMD64" />
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.0.0\lib\net45\EntityFramework.dll</HintPath>
       <Private>True</Private>
@@ -221,23 +224,11 @@
     <Compile Include="UI\Frame\FormIntro.designer.cs">
       <DependentUpon>FormIntro.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\Frame\FormJogOperation.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="UI\Frame\FormJogOperation.Designer.cs">
-      <DependentUpon>FormJogOperation.cs</DependentUpon>
-    </Compile>
     <Compile Include="UI\Frame\FormMsgStart.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="UI\Frame\FormMsgStart.Designer.cs">
       <DependentUpon>FormMsgStart.cs</DependentUpon>
-    </Compile>
-    <Compile Include="UI\SubDataForm\FormLaserProcessData.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="UI\SubDataForm\FormLaserProcessData.Designer.cs">
-      <DependentUpon>FormLaserProcessData.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\Frame\FormTopScreen.cs">
       <SubType>Form</SubType>
@@ -293,12 +284,6 @@
     <Compile Include="UI\SubDataForm\FormCreateMaker.designer.cs">
       <DependentUpon>FormCreateMaker.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\SubDataForm\FormCylinderData.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="UI\SubDataForm\FormCylinderData.Designer.cs">
-      <DependentUpon>FormCylinderData.cs</DependentUpon>
-    </Compile>
     <Compile Include="UI\SubDataForm\FormModelData.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -317,12 +302,6 @@
     <Compile Include="UI\SubDataForm\FormMotorData.Designer.cs">
       <DependentUpon>FormMotorData.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\SubDataForm\FormScannerData.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="UI\SubDataForm\FormScannerData.Designer.cs">
-      <DependentUpon>FormScannerData.cs</DependentUpon>
-    </Compile>
     <Compile Include="UI\SubDataForm\FormSystemData.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -335,59 +314,17 @@
     <Compile Include="UI\SubDataForm\FormSystemParaRead.Designer.cs">
       <DependentUpon>FormSystemParaRead.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\SubDataForm\FormVacuumData.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="UI\SubDataForm\FormVacuumData.Designer.cs">
-      <DependentUpon>FormVacuumData.cs</DependentUpon>
-    </Compile>
     <Compile Include="UI\SubDataForm\FormVisionData.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="UI\SubDataForm\FormVisionData.Designer.cs">
       <DependentUpon>FormVisionData.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\SubManualForm\FormHandlerManualOP.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="UI\SubManualForm\FormHandlerManualOP.Designer.cs">
-      <DependentUpon>FormHandlerManualOP.cs</DependentUpon>
-    </Compile>
     <Compile Include="UI\SubManualForm\FormIO.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="UI\SubManualForm\FormIO.Designer.cs">
       <DependentUpon>FormIO.cs</DependentUpon>
-    </Compile>
-    <Compile Include="UI\SubManualForm\FormLimitSensor.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="UI\SubManualForm\FormLimitSensor.Designer.cs">
-      <DependentUpon>FormLimitSensor.cs</DependentUpon>
-    </Compile>
-    <Compile Include="UI\SubManualForm\FormOriginReturn.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="UI\SubManualForm\FormOriginReturn.Designer.cs">
-      <DependentUpon>FormOriginReturn.cs</DependentUpon>
-    </Compile>
-    <Compile Include="UI\SubManualForm\FormPushPullManualOP.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="UI\SubManualForm\FormPushPullManualOP.Designer.cs">
-      <DependentUpon>FormPushPullManualOP.cs</DependentUpon>
-    </Compile>
-    <Compile Include="UI\SubManualForm\FormSpinnerManualOP.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="UI\SubManualForm\FormSpinnerManualOP.Designer.cs">
-      <DependentUpon>FormSpinnerManualOP.cs</DependentUpon>
-    </Compile>
-    <Compile Include="UI\SubManualForm\FormStageManualOP.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="UI\SubManualForm\FormStageManualOP.Designer.cs">
-      <DependentUpon>FormStageManualOP.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\SubManualForm\FormUnitInit.cs">
       <SubType>Form</SubType>
@@ -473,14 +410,8 @@
     <EmbeddedResource Include="UI\Frame\FormIntro.resx">
       <DependentUpon>FormIntro.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\Frame\FormJogOperation.resx">
-      <DependentUpon>FormJogOperation.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="UI\Frame\FormMsgStart.resx">
       <DependentUpon>FormMsgStart.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="UI\SubDataForm\FormLaserProcessData.resx">
-      <DependentUpon>FormLaserProcessData.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Frame\FormTopScreen.resx">
       <DependentUpon>FormTopScreen.cs</DependentUpon>
@@ -509,9 +440,6 @@
     <EmbeddedResource Include="UI\SubDataForm\FormCreateMaker.resx">
       <DependentUpon>FormCreateMaker.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\SubDataForm\FormCylinderData.resx">
-      <DependentUpon>FormCylinderData.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="UI\SubDataForm\FormModelData.resx">
       <DependentUpon>FormModelData.cs</DependentUpon>
     </EmbeddedResource>
@@ -521,42 +449,17 @@
     <EmbeddedResource Include="UI\SubDataForm\FormMotorData.resx">
       <DependentUpon>FormMotorData.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\SubDataForm\FormScannerData.resx">
-      <DependentUpon>FormScannerData.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="UI\SubDataForm\FormSystemData.resx">
       <DependentUpon>FormSystemData.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\SubDataForm\FormSystemParaRead.resx">
       <DependentUpon>FormSystemParaRead.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\SubDataForm\FormVacuumData.resx">
-      <DependentUpon>FormVacuumData.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
     <EmbeddedResource Include="UI\SubDataForm\FormVisionData.resx">
       <DependentUpon>FormVisionData.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\SubManualForm\FormHandlerManualOP.resx">
-      <DependentUpon>FormHandlerManualOP.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="UI\SubManualForm\FormIO.resx">
       <DependentUpon>FormIO.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="UI\SubManualForm\FormLimitSensor.resx">
-      <DependentUpon>FormLimitSensor.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="UI\SubManualForm\FormOriginReturn.resx">
-      <DependentUpon>FormOriginReturn.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="UI\SubManualForm\FormPushPullManualOP.resx">
-      <DependentUpon>FormPushPullManualOP.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="UI\SubManualForm\FormSpinnerManualOP.resx">
-      <DependentUpon>FormSpinnerManualOP.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="UI\SubManualForm\FormStageManualOP.resx">
-      <DependentUpon>FormStageManualOP.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\SubManualForm\FormUnitInit.resx">
       <DependentUpon>FormUnitInit.cs</DependentUpon>

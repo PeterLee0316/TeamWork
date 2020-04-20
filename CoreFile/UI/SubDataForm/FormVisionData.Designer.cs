@@ -39,13 +39,14 @@
             // 
             // BtnExit
             // 
-            this.BtnExit.Font = new System.Drawing.Font("굴림", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.BtnExit.Font = new System.Drawing.Font("Gulim", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.BtnExit.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
             this.BtnExit.Image = ((System.Drawing.Image)(resources.GetObject("BtnExit.Image")));
             this.BtnExit.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.BtnExit.Location = new System.Drawing.Point(1124, 811);
+            this.BtnExit.Location = new System.Drawing.Point(1766, 1419);
+            this.BtnExit.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
             this.BtnExit.Name = "BtnExit";
-            this.BtnExit.Size = new System.Drawing.Size(124, 61);
+            this.BtnExit.Size = new System.Drawing.Size(195, 107);
             this.BtnExit.TabIndex = 749;
             this.BtnExit.Text = " Exit";
             this.BtnExit.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
@@ -55,10 +56,11 @@
             // GridCtrl
             // 
             this.GridCtrl.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.GridCtrl.Location = new System.Drawing.Point(12, 74);
+            this.GridCtrl.Location = new System.Drawing.Point(19, 130);
+            this.GridCtrl.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
             this.GridCtrl.Name = "GridCtrl";
             this.GridCtrl.SerializeCellsBehavior = Syncfusion.Windows.Forms.Grid.GridSerializeCellsBehavior.SerializeAsRangeStylesIntoCode;
-            this.GridCtrl.Size = new System.Drawing.Size(682, 345);
+            this.GridCtrl.Size = new System.Drawing.Size(1071, 602);
             this.GridCtrl.SmartSizeBox = false;
             this.GridCtrl.TabIndex = 839;
             this.GridCtrl.UseRightToLeftCompatibleTextBox = true;
@@ -71,23 +73,24 @@
             | System.Windows.Forms.Border3DSide.Right) 
             | System.Windows.Forms.Border3DSide.Bottom)));
             this.gradientLabel1.BorderStyle = System.Windows.Forms.Border3DStyle.Bump;
-            this.gradientLabel1.Font = new System.Drawing.Font("맑은 고딕", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.gradientLabel1.Font = new System.Drawing.Font("Malgun Gothic", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.gradientLabel1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.gradientLabel1.Location = new System.Drawing.Point(12, 20);
+            this.gradientLabel1.Location = new System.Drawing.Point(725, 643);
+            this.gradientLabel1.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.gradientLabel1.Name = "gradientLabel1";
-            this.gradientLabel1.Size = new System.Drawing.Size(682, 51);
+            this.gradientLabel1.Size = new System.Drawing.Size(1072, 89);
             this.gradientLabel1.TabIndex = 939;
             this.gradientLabel1.Text = "카메라  정보";
             this.gradientLabel1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // btnCameraDataLoad
             // 
-            this.btnCameraDataLoad.Font = new System.Drawing.Font("굴림", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.btnCameraDataLoad.Font = new System.Drawing.Font("Gulim", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.btnCameraDataLoad.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            //this.btnCameraDataLoad.Image = global::Core.Properties.Resources.export;
-            this.btnCameraDataLoad.Location = new System.Drawing.Point(700, 20);
+            this.btnCameraDataLoad.Location = new System.Drawing.Point(1100, 35);
+            this.btnCameraDataLoad.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
             this.btnCameraDataLoad.Name = "btnCameraDataLoad";
-            this.btnCameraDataLoad.Size = new System.Drawing.Size(130, 61);
+            this.btnCameraDataLoad.Size = new System.Drawing.Size(204, 107);
             this.btnCameraDataLoad.TabIndex = 963;
             this.btnCameraDataLoad.Text = "Data Reload";
             this.btnCameraDataLoad.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -97,12 +100,13 @@
             // 
             // btnCameraDataSave
             // 
-            this.btnCameraDataSave.Font = new System.Drawing.Font("굴림", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.btnCameraDataSave.Font = new System.Drawing.Font("Gulim", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.btnCameraDataSave.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
             this.btnCameraDataSave.Image = ((System.Drawing.Image)(resources.GetObject("btnCameraDataSave.Image")));
-            this.btnCameraDataSave.Location = new System.Drawing.Point(700, 87);
+            this.btnCameraDataSave.Location = new System.Drawing.Point(1100, 152);
+            this.btnCameraDataSave.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
             this.btnCameraDataSave.Name = "btnCameraDataSave";
-            this.btnCameraDataSave.Size = new System.Drawing.Size(130, 61);
+            this.btnCameraDataSave.Size = new System.Drawing.Size(204, 107);
             this.btnCameraDataSave.TabIndex = 962;
             this.btnCameraDataSave.Text = "Data Save";
             this.btnCameraDataSave.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -112,15 +116,16 @@
             // 
             // FormVisionData
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 21F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1260, 884);
+            this.ClientSize = new System.Drawing.Size(1980, 1547);
             this.Controls.Add(this.btnCameraDataLoad);
             this.Controls.Add(this.btnCameraDataSave);
             this.Controls.Add(this.gradientLabel1);
             this.Controls.Add(this.GridCtrl);
             this.Controls.Add(this.BtnExit);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+            this.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
             this.Name = "FormVisionData";
             this.Text = "Vision Data";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormVisionData_FormClosing);

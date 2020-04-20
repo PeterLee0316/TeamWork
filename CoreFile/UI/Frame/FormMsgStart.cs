@@ -44,7 +44,7 @@ namespace Core.UI
 
         public void SetMode(EStartMsgMode mode)
         {
-            Label_Title.Text = m_Message[(int)mode];
+            // Label_Title.Text = m_Message[(int)mode];
 
             btnStart.Visible = false;
             btnStop.Visible = false;
