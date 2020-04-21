@@ -48,15 +48,7 @@ namespace Core.UI
         private static MTickTimer ActionTimer = new MTickTimer();
         
         private Form[] MainFormArray = new Form[(int)EFormType.MAX];
-
-        public static Syncfusion.Drawing.BrushInfo Brush_On   = new Syncfusion.Drawing.BrushInfo(Color.Yellow);
-        public static Syncfusion.Drawing.BrushInfo Brush_Off  = new Syncfusion.Drawing.BrushInfo(Color.White);
-        public static Syncfusion.Drawing.BrushInfo Brush_R    = new Syncfusion.Drawing.BrushInfo(Color.Red);
-        public static Syncfusion.Drawing.BrushInfo Brush_Y    = new Syncfusion.Drawing.BrushInfo(Color.Yellow);
-        public static Syncfusion.Drawing.BrushInfo Brush_G    = new Syncfusion.Drawing.BrushInfo(Color.Green);
-        public static Syncfusion.Drawing.BrushInfo Brush_B    = new Syncfusion.Drawing.BrushInfo(Color.Blue);
-        public static Syncfusion.Drawing.BrushInfo Brush_Gray = new Syncfusion.Drawing.BrushInfo(Color.Gray);
-
+        
         public static Color BtnBackColor_On = Color.LawnGreen;
         public static Color BtnBackColor_Off = Color.LightGray;
         
@@ -64,6 +56,7 @@ namespace Core.UI
 
         public CMainFrame()
         {
+            // Initialize System
             bool bRtn = InitializeCore();
             if(bRtn == false)
             {
@@ -187,6 +180,7 @@ namespace Core.UI
         {
             TopScreen = new FormTopScreen();
             BottomScreen = new FormBottomScreen();
+            
 
             MainFormArray[(int)EFormType.AUTO]   = new FormAutoScreen();
             MainFormArray[(int)EFormType.MANUAL] = new FormManualScreen();

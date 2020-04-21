@@ -36,6 +36,8 @@ namespace Core.UI
 
             TopMenu = this;
             textVersion.Text = SYSTEM_VER;
+
+            BtnPlayback.FlatStyle = FlatStyle.Flat;
         }
 
         protected virtual void InitializeForm()

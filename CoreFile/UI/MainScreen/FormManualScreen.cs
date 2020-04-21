@@ -8,10 +8,6 @@ using System.Text;
 using System.Windows.Forms;
 using System.Diagnostics;
 using System.Threading.Tasks;
-using Syncfusion.Drawing;
-using Syncfusion.Windows.Forms;
-using Syncfusion.Windows.Forms.Tools;
-using Syncfusion.Windows.Forms.Chart;
 
 using Core.Layers;
 using static Core.Layers.DEF_Common;
@@ -44,53 +40,9 @@ namespace Core.UI
             this.Size = new Size(DEF_UI.MAIN_SIZE_WIDTH, DEF_UI.MAIN_SIZE_HEIGHT);
             this.FormBorderStyle = FormBorderStyle.None;
 
-            InitializeChartData();
         }
 
 
-        #region InitializeChartData()
-        /// <summary>
-        /// Initializes the ChartControl's data and sets the Chart type
-        /// </summary>
-
-        
-        protected void InitializeChartData()
-        {
-
-        }
-
-        #endregion
-
-        private void BtnInput_Click(object sender, EventArgs e)
-        {
-            var dlg = new FormIO();
-            dlg.ShowDialog();
-        }
-
-        private void BtnLimitSensor_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void BtnOriginReturn_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void BtnUnitInit_Click(object sender, EventArgs e)
-        {
-            var dlg = new FormUnitInit();
-            dlg.ShowDialog();
-        }
-        
-        private void BtnManualStage_Click(object sender, EventArgs e)
-        {
-
-        }
-        private void FormManualScreen_Activated(object sender, EventArgs e)
-        {
-            
-        }
 
         private async void Btn_Click(object sender, EventArgs e)
         {
@@ -173,7 +125,6 @@ namespace Core.UI
 
             ERROR_OCCURED:
             
-
             // set btn enable
             btn.BackColor = CMainFrame.BtnBackColor_Off;
             SetButtonsEnable(true);
@@ -182,10 +133,6 @@ namespace Core.UI
             CMainFrame.DisplayAlarm(iResult);
         }
 
-        private void btnStopAction_Click(object sender, EventArgs e)
-        {
-
-        }
 
         private void SetButtonsEnable(bool bEnable)
         {

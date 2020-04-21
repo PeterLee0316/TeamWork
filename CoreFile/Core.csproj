@@ -38,7 +38,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;WIN32, SIMULATION_VISION, </DefineConstants>
+    <DefineConstants>TRACE;DEBUG;WIN32, SIMULATION_VISION, USE_COGNEX, USE_OPENCV, </DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>2</WarningLevel>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
@@ -244,12 +244,6 @@
     <Compile Include="UI\MainScreen\FormAutoScreen.designer.cs">
       <DependentUpon>FormAutoScreen.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\MainScreen\FormDataScreen.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="UI\MainScreen\FormDataScreen.designer.cs">
-      <DependentUpon>FormDataScreen.cs</DependentUpon>
-    </Compile>
     <Compile Include="UI\MainScreen\FormHelpScreen.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -261,6 +255,12 @@
     </Compile>
     <Compile Include="UI\MainScreen\FormLogScreen.designer.cs">
       <DependentUpon>FormLogScreen.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\MainScreen\FormDataScreen.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\MainScreen\FormDataScreen.designer.cs">
+      <DependentUpon>FormDataScreen.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\MainScreen\FormManualScreen.cs">
       <SubType>Form</SubType>
@@ -418,14 +418,14 @@
     <EmbeddedResource Include="UI\MainScreen\FormAutoScreen.resx">
       <DependentUpon>FormAutoScreen.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\MainScreen\FormDataScreen.resx">
-      <DependentUpon>FormDataScreen.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="UI\MainScreen\FormHelpScreen.resx">
       <DependentUpon>FormHelpScreen.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\MainScreen\FormLogScreen.resx">
       <DependentUpon>FormLogScreen.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\MainScreen\FormDataScreen.resx">
+      <DependentUpon>FormDataScreen.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\MainScreen\FormManualScreen.resx">
       <DependentUpon>FormManualScreen.cs</DependentUpon>

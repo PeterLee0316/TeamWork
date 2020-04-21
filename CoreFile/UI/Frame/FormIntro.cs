@@ -15,7 +15,8 @@ namespace Core.UI
         public FormIntro()
         {
             InitializeComponent();
-            CUtils.AnimateEffect.AnimateWindow(this.Handle, 3000, CUtils.AnimateEffect.AW_ACTIVATE | CUtils.AnimateEffect.AW_BLEND);
+            CUtils.AnimateEffect.AnimateWindow(this.Handle, 1000, CUtils.AnimateEffect.AW_ACTIVATE | CUtils.AnimateEffect.AW_BLEND);
+
 
         }
 
@@ -23,6 +24,8 @@ namespace Core.UI
         {
             StatusBar.Value = nProgress;
             LabelStatus.Text = strText;
+
+            Update();
         }
 
         private void FormIntro_Load(object sender, EventArgs e)
@@ -30,6 +33,11 @@ namespace Core.UI
             
             StatusBar.Value = 5;
             LabelStatus.Text = "Start System Program";
+            LabelStatus.ForeColor = Color.White;
+            LabelStatus.Visible = true;
+
+
         }
+
     }
 }

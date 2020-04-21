@@ -64,16 +64,18 @@
             // 
             // BtnUserLogin
             // 
+            this.BtnUserLogin.BackColor = System.Drawing.Color.Transparent;
             this.BtnUserLogin.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("BtnUserLogin.BackgroundImage")));
             this.BtnUserLogin.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.BtnUserLogin.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.BtnUserLogin.Font = new System.Drawing.Font("Malgun Gothic", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.BtnUserLogin.Location = new System.Drawing.Point(2628, -2);
+            this.BtnUserLogin.Location = new System.Drawing.Point(2646, 1);
             this.BtnUserLogin.Margin = new System.Windows.Forms.Padding(5);
             this.BtnUserLogin.Name = "BtnUserLogin";
             this.BtnUserLogin.Size = new System.Drawing.Size(240, 120);
             this.BtnUserLogin.TabIndex = 3;
             this.BtnUserLogin.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.BtnUserLogin.UseVisualStyleBackColor = true;
+            this.BtnUserLogin.UseVisualStyleBackColor = false;
             this.BtnUserLogin.Click += new System.EventHandler(this.BtnUserLogin_Click);
             // 
             // btnExit
@@ -81,6 +83,7 @@
             this.btnExit.BackColor = System.Drawing.Color.Transparent;
             this.btnExit.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnExit.BackgroundImage")));
             this.btnExit.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btnExit.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnExit.Location = new System.Drawing.Point(2896, 2);
             this.btnExit.Margin = new System.Windows.Forms.Padding(5);
             this.btnExit.Name = "btnExit";
@@ -109,7 +112,7 @@
             this.BtnMainPage.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.BtnMainPage.FlatAppearance.BorderColor = System.Drawing.Color.Gold;
             this.BtnMainPage.ImageList = this.ImgList;
-            this.BtnMainPage.Location = new System.Drawing.Point(788, 3);
+            this.BtnMainPage.Location = new System.Drawing.Point(793, 3);
             this.BtnMainPage.Name = "BtnMainPage";
             this.BtnMainPage.Size = new System.Drawing.Size(120, 120);
             this.BtnMainPage.TabIndex = 763;
@@ -174,7 +177,7 @@
             this.BtnHelpPage.BackColor = System.Drawing.Color.Transparent;
             this.BtnHelpPage.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.BtnHelpPage.FlatAppearance.BorderColor = System.Drawing.Color.Gold;
-            this.BtnHelpPage.Location = new System.Drawing.Point(1410, 3);
+            this.BtnHelpPage.Location = new System.Drawing.Point(1388, 3);
             this.BtnHelpPage.Name = "BtnHelpPage";
             this.BtnHelpPage.Size = new System.Drawing.Size(120, 120);
             this.BtnHelpPage.TabIndex = 768;
@@ -186,7 +189,7 @@
             this.BtnLogPage.BackColor = System.Drawing.Color.Transparent;
             this.BtnLogPage.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.BtnLogPage.FlatAppearance.BorderColor = System.Drawing.Color.Gold;
-            this.BtnLogPage.Location = new System.Drawing.Point(1284, 3);
+            this.BtnLogPage.Location = new System.Drawing.Point(1269, 3);
             this.BtnLogPage.Name = "BtnLogPage";
             this.BtnLogPage.Size = new System.Drawing.Size(120, 120);
             this.BtnLogPage.TabIndex = 767;
@@ -195,26 +198,32 @@
             // 
             // BtnPlayback
             // 
+            this.BtnPlayback.BackColor = System.Drawing.Color.Transparent;
             this.BtnPlayback.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("BtnPlayback.BackgroundImage")));
             this.BtnPlayback.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.BtnPlayback.FlatAppearance.BorderColor = System.Drawing.Color.Gold;
+            this.BtnPlayback.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.BtnPlayback.Location = new System.Drawing.Point(2386, -2);
             this.BtnPlayback.Name = "BtnPlayback";
-            this.BtnPlayback.Size = new System.Drawing.Size(120, 120);
+            this.BtnPlayback.Size = new System.Drawing.Size(113, 120);
             this.BtnPlayback.TabIndex = 769;
-            this.BtnPlayback.UseVisualStyleBackColor = true;
+            this.BtnPlayback.UseVisualStyleBackColor = false;
             // 
             // button1
             // 
+            this.button1.BackColor = System.Drawing.Color.Transparent;
             this.button1.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("button1.BackgroundImage")));
             this.button1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.button1.FlatAppearance.BorderColor = System.Drawing.Color.Gold;
+            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button1.Font = new System.Drawing.Font("Malgun Gothic", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.button1.Location = new System.Drawing.Point(2507, -2);
+            this.button1.Location = new System.Drawing.Point(2509, 1);
             this.button1.Margin = new System.Windows.Forms.Padding(5);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(120, 120);
             this.button1.TabIndex = 770;
             this.button1.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.button1.UseVisualStyleBackColor = true;
+            this.button1.UseVisualStyleBackColor = false;
             // 
             // FormTopScreen
             // 

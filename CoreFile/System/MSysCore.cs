@@ -199,6 +199,8 @@ namespace Core.Layers
             iResult = m_DataManager.Initialize();
             CMainFrame.DisplayAlarmOnly(iResult);
 
+            Sleep(200);
+            
             intro.SetStatus("Init Hardware Layer", 20);
 
             ////////////////////////////////////////////////////////////////////////
@@ -215,13 +217,9 @@ namespace Core.Layers
 
             CMainFrame.DisplayAlarmOnly(iResult);
 
-            ////////////////////////////////////////////////////////////////////////
-            // IO
+            Sleep(200);
 
-
-            ////////////////////////////////////////////////////////////////////////
-            // Cylinder
-                       
+            intro.SetStatus("Init Camera Layer", 30);
 
             ////////////////////////////////////////////////////////////////////////
             // Vision
@@ -244,7 +242,8 @@ namespace Core.Layers
             iResult = CreateVisionCamera(objInfo, INSP_CAM);
             CMainFrame.DisplayAlarmOnly(iResult);
 
-//#if !SIMULATION_VISION
+            Sleep(200);
+
             // Vision Display
             m_SystemInfo.GetObjectInfo(46, out objInfo);
             iResult = CreateVisionVisionView(objInfo, PRE__CAM);
@@ -257,10 +256,10 @@ namespace Core.Layers
             m_SystemInfo.GetObjectInfo(47, out objInfo);
             iResult = CreateVisionVisionView(objInfo, INSP_CAM);
             CMainFrame.DisplayAlarmOnly(iResult);
-//#endif
 
+            Sleep(200);
 
-            intro.SetStatus("Init Mechanical Layer", 30);
+            intro.SetStatus("Init Mechanical Layer", 40);
 
             ////////////////////////////////////////////////////////////////////////
             // 2. Mechanical Layer
@@ -277,7 +276,10 @@ namespace Core.Layers
             // Vision 
             m_SystemInfo.GetObjectInfo(308, out objInfo);
             CreateVision(objInfo);
-                
+
+            Sleep(200);
+
+            intro.SetStatus("Init Control Layer", 50);
 
             ////////////////////////////////////////////////////////////////////////
             // 3. Control Layer
@@ -289,12 +291,15 @@ namespace Core.Layers
             m_SystemInfo.GetObjectInfo(350, out objInfo);
             CreateCtrlOpPanel(objInfo);
 
-            intro.SetStatus("Init Process Layer", 50);
+            intro.SetStatus("Init Process Layer", 60);
+
+
+            Sleep(200);
 
             ////////////////////////////////////////////////////////////////////////
             // 4. Process Layer
             ////////////////////////////////////////////////////////////////////////
-            
+
             m_SystemInfo.GetObjectInfo(403, out objInfo);
             CreateTrsStage1(objInfo);
             
@@ -305,26 +310,36 @@ namespace Core.Layers
             m_trsStage1.SetWindows_Form1(form1);
             m_trsAutoManager.SetWindows_Form1(form1);
 
+
+            Sleep(200);
+
             ////////////////////////////////////////////////////////////////////////
             // 5. Set Data
             ////////////////////////////////////////////////////////////////////////
-            intro.SetStatus("Loading System Data", 60);
+            intro.SetStatus("Loading System Data", 70);
             iResult = SetSystemDataToComponent(false);
             CMainFrame.DisplayAlarmOnly(iResult);
 
-            intro.SetStatus("Loading Model Data", 70);
+            Sleep(200);
+
+            intro.SetStatus("Loading Model Data", 80);
             iResult = SetModelDataToComponent();
             CMainFrame.DisplayAlarmOnly(iResult);
 
-            intro.SetStatus("Loading Position Data", 80);
+            Sleep(200);
+
+            intro.SetStatus("Loading Position Data", 90);
             iResult = SetPositionDataToComponent();
             CMainFrame.DisplayAlarmOnly(iResult);
+
+
+            Sleep(200);
 
             ////////////////////////////////////////////////////////////////////////
             // 6. Start Thread & System
             ////////////////////////////////////////////////////////////////////////
 
-            intro.SetStatus("Process Start", 90);
+            intro.SetStatus("Process Start", 100);
 
             SetThreadChannel();
             StartThreads();
