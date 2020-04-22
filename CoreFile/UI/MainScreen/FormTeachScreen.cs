@@ -7,8 +7,6 @@ using System.Drawing.Imaging;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using Syncfusion.Windows.Forms.Grid;
-using Syncfusion.Windows.Forms;
 
 using Core.Layers;
 
@@ -63,19 +61,11 @@ namespace Core.UI
             dlg.ShowDialog();
         }
 
-        private void BtnModelScanner_Click(object sender, EventArgs e)
-        {
-            var dlg = new FormScannerTeach();
-            dlg.Type_Fixed = false;
-            dlg.ShowDialog();
-        }
-
-        private void BtnModelCamera_Click(object sender, EventArgs e)
+        private void BtnCamSetCalib_Click(object sender, EventArgs e)
         {
             var dlg = new FormCameraTeach();
             dlg.Type_Fixed = false;
             dlg.ShowDialog();
         }
-        
     }
 }

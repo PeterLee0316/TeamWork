@@ -16,15 +16,11 @@ using static Core.Layers.DEF_Motion;
 using static Core.Layers.DEF_Thread;
 using static Core.Layers.DEF_MeStage;
 
-using Syncfusion.Windows.Forms;
-using Syncfusion.Windows.Forms.Grid;
-using Syncfusion.Windows.Forms.Tools;
 
 namespace Core.UI
 {
     public partial class FormWorkStageTeach : Form
     {
-        ButtonAdv[] StagePos = new ButtonAdv[15]; // Max Teaching Position : 15
 
         private int m_nSelectedPos_Stage = 0;
 

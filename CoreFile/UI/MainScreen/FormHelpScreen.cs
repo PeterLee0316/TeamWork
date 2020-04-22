@@ -8,10 +8,6 @@ using System.Text;
 using System.Windows.Forms;
 using Core.Layers;
 
-using Syncfusion.Windows.Forms.Grid;
-using Syncfusion.Windows.Forms;
-
-using Syncfusion.Windows.Forms.Tools;
 
 
 namespace Core.UI
@@ -35,8 +31,7 @@ namespace Core.UI
 
         private void BtnTestFunction_Click(object sender, EventArgs e)
         {
-            var dlg = new FormTest();
-            dlg.ShowDialog();
+
         }
     }
 }

@@ -12,10 +12,6 @@ using Newtonsoft.Json.Serialization;
 
 using Core.Layers;
 
-using Syncfusion.Windows.Forms;
-using Syncfusion.Windows.Forms.Tools;
-using Syncfusion.Windows.Forms.Grid;
-
 using static Core.Layers.DEF_Common;
 using static Core.Layers.DEF_Error;
 using static Core.Layers.MDataManager;
@@ -73,7 +69,7 @@ namespace Core.UI
             }
             ComboType.SelectedIndex = 0;
 
-            InitGrid();
+            //InitGrid();
         }
 
         protected virtual void InitializeForm()
@@ -84,6 +80,7 @@ namespace Core.UI
             this.FormBorderStyle = FormBorderStyle.None;
         }
 
+        /*$$$$ 
         private void InitGrid()
         {
             int nCol = 0, nRow = 0;
@@ -224,10 +221,10 @@ namespace Core.UI
             // Grid Display Update
             GridCont.Refresh();
         }
-
+        */
         private void UpdataScreen()
         {
-            InitGrid();
+            //InitGrid();
             UpdataEvent();
         }
 
@@ -279,9 +276,9 @@ namespace Core.UI
             }
 
             nPageNo = 0;
-            DisplayGrid();
+            //DisplayGrid();
         }
-
+        /* $$$
         private void DisplayGrid()
         {
             if (datatable == null) return;
@@ -385,6 +382,7 @@ namespace Core.UI
             // Grid Display Update
             GridCont.Refresh();
         }
+        */
 
         private void FormLogScreen_Activated(object sender, EventArgs e)
         {
@@ -409,7 +407,7 @@ namespace Core.UI
         private void BtnClear_Click(object sender, EventArgs e)
         {
             LabelCount.Text = "";
-            GridCont.RowCount = 0;
+            //GridCont.RowCount = 0;
         }
 
         private void BtnExport_Click(object sender, EventArgs e)
@@ -529,25 +527,25 @@ namespace Core.UI
             }
         }
       
-        private void GridEvent_CellDoubleClick(object sender, GridCellClickEventArgs e)
-        {
-            if(e.RowIndex == 0 || e.ColIndex == 0 || LogType != ELogDisplayType.ALARM)
-            {
-                return;
-            }
+        //private void GridEvent_CellDoubleClick(object sender, GridCellClickEventArgs e)
+        //{
+        //    if(e.RowIndex == 0 || e.ColIndex == 0 || LogType != ELogDisplayType.ALARM)
+        //    {
+        //        return;
+        //    }
 
-            int nCode = Convert.ToInt16(GridCont[e.RowIndex, 3].Text);
-            int nPID = Convert.ToInt16(GridCont[e.RowIndex, 8].Text);
+        //    int nCode = Convert.ToInt16(GridCont[e.RowIndex, 3].Text);
+        //    int nPID = Convert.ToInt16(GridCont[e.RowIndex, 8].Text);
 
-            CAlarm alarm = CMainFrame.mCore.GetAlarmInfo(nCode, nPID, false);
-            var dlg = new FormAlarmDisplay(alarm);
-            dlg.ShowDialog();
-        }
+        //    CAlarm alarm = CMainFrame.mCore.GetAlarmInfo(nCode, nPID, false);
+        //    var dlg = new FormAlarmDisplay(alarm);
+        //    dlg.ShowDialog();
+        //}
 
         private void BtnPageTop_Click(object sender, EventArgs e)
         {
             nPageNo = 0;
-            DisplayGrid();
+           // DisplayGrid();
         }
 
         private void BtnPageUp_Click(object sender, EventArgs e)
@@ -560,7 +558,7 @@ namespace Core.UI
                 return;
             }
 
-            DisplayGrid();
+            //DisplayGrid();
         }
 
         private void BtnPageDown_Click(object sender, EventArgs e)
@@ -575,7 +573,7 @@ namespace Core.UI
             }
 
             nPageNo++;
-            DisplayGrid();
+            //DisplayGrid();
         }
 
         private void BtnPageBot_Click(object sender, EventArgs e)
@@ -585,7 +583,7 @@ namespace Core.UI
             if (datatable.Rows.Count % ResultRowCount > 0) nTotalPage++;
             nPageNo = nTotalPage - 1;
 
-            DisplayGrid();
+            //DisplayGrid();
         }
 
         private void ComboType_SelectedIndexChanged(object sender, EventArgs e)
@@ -605,9 +603,5 @@ namespace Core.UI
             datatable = null;
         }
 
-        private void TitleCount_Click(object sender, EventArgs e)
-        {
-
-        }
     }
 }

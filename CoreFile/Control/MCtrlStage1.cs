@@ -48,9 +48,7 @@ namespace Core.Layers
         public const double MICRO_POS_TOLERANCE = 0.001;
         public const double MICRO_ANGLE_TOLERANCE = 0.0001;
 
-
         
-
         public enum EStatgeMode
         {
             TURN,

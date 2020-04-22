@@ -13,20 +13,14 @@ using static Core.Layers.DEF_System;
 using static Core.Layers.DEF_Common;
 using static Core.Layers.DEF_DataManager;
 using static Core.Layers.DEF_Motion;
-
 using static Core.Layers.DEF_Thread;
 using static Core.Layers.DEF_MeStage;
 
-
-using Syncfusion.Windows.Forms;
-using Syncfusion.Windows.Forms.Grid;
-using Syncfusion.Windows.Forms.Tools;
 
 namespace Core.UI
 {
     public partial class FormScannerTeach : Form
     {
-        ButtonAdv[] TeachPos = new ButtonAdv[15];
 
         private int m_nSelectedPos = 0;
 

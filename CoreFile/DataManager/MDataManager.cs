@@ -249,13 +249,11 @@ namespace Core.Layers
                     Camera[i].CamFovY = Camera[i].CamPixelNumY * Camera[i].PixelResolutionY;
                 }
             }
-
         }
 
         public class CSystemData_Light
         {
             public CLightData[] Light = new CLightData[(int)ELightController.MAX];
-
         }
 
         /// <summary>
@@ -264,8 +262,7 @@ namespace Core.Layers
         public class CPositionGroup
         {
             // total : 실체는 각각의 이름으로 지정되어 있지만, 연산하기 편하도록 배열로도 관리할 수 있도록 함
-            public CPositionSet[] Pos_Array          = new CPositionSet[(int)EPositionObject.MAX];
-            
+            public CPositionSet[] Pos_Array          = new CPositionSet[(int)EPositionObject.MAX];            
 
             // Stage
             public CPositionSet Pos_Stage1           = new CPositionSet((int)EStagePos.MAX);
@@ -327,8 +324,6 @@ namespace Core.Layers
             public double Sub_Right_Y;
         }
         
-        
-
         public class CLogParameter
         {
             public bool UseLogLevelTactTime;
@@ -430,8 +425,7 @@ namespace Core.Layers
             {
 
             }
-        }
-        
+        }        
     }
 
     public class MDataManager : MObject
@@ -838,10 +832,7 @@ namespace Core.Layers
                         WriteLog("success : load CSystemData.", ELogType.SYSTEM, ELogWType.LOAD);
                     }
                     else
-                    {
-                        // temporarily do not return error for continuous loading
-                        //return GenerateErrorCode(ERR_DATA_MANAGER_FAIL_LOAD_SYSTEM_DATA);
-
+                    {                        
                         // save default
                         SystemData = new CSystemData();
                         int iResult = SaveSystemData(SystemData);
@@ -1213,75 +1204,6 @@ namespace Core.Layers
 
             return SUCCESS;
         }
-
-/*
-        public int LoadPositionData(bool bType_Fixed, EPositionGroup unit)
-        {
-            int iResult = SUCCESS;
-
-            // Loader
-            if (unit == EPositionGroup.ALL || unit == EPositionGroup.LOADER)
-            {
-                iResult = LoadPositionData(bType_Fixed, EPositionObject.LOADER);
-                if (iResult != SUCCESS) return iResult;
-            }
-
-            // PushPull
-            if (unit == EPositionGroup.ALL || unit == EPositionGroup.PUSHPULL)
-            {
-                iResult = LoadPositionData(bType_Fixed, EPositionObject.PUSHPULL);
-                if (iResult != SUCCESS) return iResult;
-                iResult = LoadPositionData(bType_Fixed, EPositionObject.PUSHPULL_CENTER1);
-                if (iResult != SUCCESS) return iResult;
-                iResult = LoadPositionData(bType_Fixed, EPositionObject.PUSHPULL_CENTER2);
-                if (iResult != SUCCESS) return iResult;
-            }
-
-            // Spinner1
-            if (unit == EPositionGroup.ALL || unit == EPositionGroup.SPINNER1)
-            {
-                iResult = LoadPositionData(bType_Fixed, EPositionObject.S1_ROTATE);
-                if (iResult != SUCCESS) return iResult;
-                iResult = LoadPositionData(bType_Fixed, EPositionObject.S1_CLEAN_NOZZLE);
-                if (iResult != SUCCESS) return iResult;
-                iResult = LoadPositionData(bType_Fixed, EPositionObject.S1_COAT_NOZZLE);
-                if (iResult != SUCCESS) return iResult;
-            }
-
-            // Spinner2
-            if (unit == EPositionGroup.ALL || unit == EPositionGroup.SPINNER2)
-            {
-                iResult = LoadPositionData(bType_Fixed, EPositionObject.S2_ROTATE);
-                if (iResult != SUCCESS) return iResult;
-                iResult = LoadPositionData(bType_Fixed, EPositionObject.S2_CLEAN_NOZZLE);
-                if (iResult != SUCCESS) return iResult;
-                iResult = LoadPositionData(bType_Fixed, EPositionObject.S2_COAT_NOZZLE);
-                if (iResult != SUCCESS) return iResult;
-            }
-
-            // Handler
-            if (unit == EPositionGroup.ALL || unit == EPositionGroup.HANDLER)
-            {
-                iResult = LoadPositionData(bType_Fixed, EPositionObject.LOWER_HANDLER);
-                if (iResult != SUCCESS) return iResult;
-                iResult = LoadPositionData(bType_Fixed, EPositionObject.UPPER_HANDLER);
-                if (iResult != SUCCESS) return iResult;
-            }
-
-            // Stage
-            if (unit == EPositionGroup.ALL || unit == EPositionGroup.STAGE1)
-            {
-                iResult = LoadPositionData(bType_Fixed, EPositionObject.STAGE1);
-                if (iResult != SUCCESS) return iResult;
-                iResult = LoadPositionData(bType_Fixed, EPositionObject.CAMERA1);
-                if (iResult != SUCCESS) return iResult;
-                iResult = LoadPositionData(bType_Fixed, EPositionObject.SCANNER1);
-                if (iResult != SUCCESS) return iResult;
-            }
-
-            return SUCCESS;
-        }
-*/
 
         /// <summary>
         /// Model(Panel, Wafer)의 크기에 따라 자동으로 모델 좌표를 생성시켜준다.

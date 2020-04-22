@@ -246,10 +246,10 @@ namespace Core.UI
             }
             else
             {
-                CAlarm alarm = mCore.GetAlarmInfo(alarmcode, pid, saveLog);
-                var dlg = new FormAlarmDisplay(alarm);
-                dlg.TopMost = true;
-                dlg.Show();
+                //CAlarm alarm = mCore.GetAlarmInfo(alarmcode, pid, saveLog);
+                //var dlg = new FormAlarmDisplay(alarm);
+                //dlg.TopMost = true;
+                //dlg.Show();
             }
         }
 
@@ -262,10 +262,10 @@ namespace Core.UI
             }
             else
             {
-                CAlarm alarm = mCore.GetAlarmInfo(alarmcode, pid, saveLog);
-                var dlg = new FormAlarmDisplay(alarm);
-                dlg.TopMost = true;
-                dlg.ShowDialog();
+                //CAlarm alarm = mCore.GetAlarmInfo(alarmcode, pid, saveLog);
+                //var dlg = new FormAlarmDisplay(alarm);
+                //dlg.TopMost = true;
+                //dlg.ShowDialog();
             }
         }
 
@@ -278,10 +278,10 @@ namespace Core.UI
             }
             else
             {
-                CAlarm alarm = mCore.GetAlarmInfo(alarmcode, pid, saveLog);
-                var dlg = new FormAlarmDisplay(alarm);
-                dlg.TopMost = true;
-                dlg.ShowDialog();
+                //CAlarm alarm = mCore.GetAlarmInfo(alarmcode, pid, saveLog);
+                //var dlg = new FormAlarmDisplay(alarm);
+                //dlg.TopMost = true;
+                //dlg.ShowDialog();
             }
         }
 

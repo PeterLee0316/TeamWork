@@ -9,7 +9,6 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
 using System.Diagnostics;
-using Syncfusion.Windows.Forms;
 
 using static Core.Layers.DEF_System;
 using static Core.Layers.DEF_Common;

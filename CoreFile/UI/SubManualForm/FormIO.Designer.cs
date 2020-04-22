@@ -31,1129 +31,90 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormIO));
             this.TimerUI = new System.Windows.Forms.Timer(this.components);
-            this.IO_Y14_Name = new Syncfusion.Windows.Forms.Tools.GradientLabel();
-            this.IO_Y16_Name = new Syncfusion.Windows.Forms.Tools.GradientLabel();
-            this.IO_Y15_Name = new Syncfusion.Windows.Forms.Tools.GradientLabel();
-            this.IO_Y13_Name = new Syncfusion.Windows.Forms.Tools.GradientLabel();
-            this.IO_Y12_Name = new Syncfusion.Windows.Forms.Tools.GradientLabel();
-            this.IO_Y11_Name = new Syncfusion.Windows.Forms.Tools.GradientLabel();
-            this.IO_Y10_Name = new Syncfusion.Windows.Forms.Tools.GradientLabel();
-            this.IO_Y9_Name = new Syncfusion.Windows.Forms.Tools.GradientLabel();
-            this.IO_Y8_Name = new Syncfusion.Windows.Forms.Tools.GradientLabel();
-            this.IO_Y7_Name = new Syncfusion.Windows.Forms.Tools.GradientLabel();
-            this.IO_Y6_Name = new Syncfusion.Windows.Forms.Tools.GradientLabel();
-            this.IO_Y5_Name = new Syncfusion.Windows.Forms.Tools.GradientLabel();
-            this.IO_Y4_Name = new Syncfusion.Windows.Forms.Tools.GradientLabel();
-            this.IO_Y3_Name = new Syncfusion.Windows.Forms.Tools.GradientLabel();
-            this.IO_Y2_Name = new Syncfusion.Windows.Forms.Tools.GradientLabel();
-            this.Title_IO_Y16 = new Syncfusion.Windows.Forms.Tools.GradientLabel();
-            this.Title_IO_Y15 = new Syncfusion.Windows.Forms.Tools.GradientLabel();
-            this.Title_IO_Y14 = new Syncfusion.Windows.Forms.Tools.GradientLabel();
-            this.Title_IO_Y13 = new Syncfusion.Windows.Forms.Tools.GradientLabel();
-            this.Title_IO_Y12 = new Syncfusion.Windows.Forms.Tools.GradientLabel();
-            this.Title_IO_Y11 = new Syncfusion.Windows.Forms.Tools.GradientLabel();
-            this.Title_IO_Y10 = new Syncfusion.Windows.Forms.Tools.GradientLabel();
-            this.Title_IO_Y9 = new Syncfusion.Windows.Forms.Tools.GradientLabel();
-            this.Title_IO_Y8 = new Syncfusion.Windows.Forms.Tools.GradientLabel();
-            this.Title_IO_Y7 = new Syncfusion.Windows.Forms.Tools.GradientLabel();
-            this.Title_IO_Y6 = new Syncfusion.Windows.Forms.Tools.GradientLabel();
-            this.Title_IO_Y5 = new Syncfusion.Windows.Forms.Tools.GradientLabel();
-            this.Title_IO_Y4 = new Syncfusion.Windows.Forms.Tools.GradientLabel();
-            this.Title_IO_Y3 = new Syncfusion.Windows.Forms.Tools.GradientLabel();
-            this.Title_IO_Y2 = new Syncfusion.Windows.Forms.Tools.GradientLabel();
-            this.Title_IO_Y1 = new Syncfusion.Windows.Forms.Tools.GradientLabel();
-            this.IO_Y1_Name = new Syncfusion.Windows.Forms.Tools.GradientLabel();
-            this.IO_X16_Name = new Syncfusion.Windows.Forms.Tools.GradientLabel();
-            this.IO_X15_Name = new Syncfusion.Windows.Forms.Tools.GradientLabel();
-            this.IO_X14_Name = new Syncfusion.Windows.Forms.Tools.GradientLabel();
-            this.IO_X13_Name = new Syncfusion.Windows.Forms.Tools.GradientLabel();
-            this.IO_X12_Name = new Syncfusion.Windows.Forms.Tools.GradientLabel();
-            this.IO_X11_Name = new Syncfusion.Windows.Forms.Tools.GradientLabel();
-            this.IO_X10_Name = new Syncfusion.Windows.Forms.Tools.GradientLabel();
-            this.IO_X9_Name = new Syncfusion.Windows.Forms.Tools.GradientLabel();
-            this.IO_X8_Name = new Syncfusion.Windows.Forms.Tools.GradientLabel();
-            this.IO_X7_Name = new Syncfusion.Windows.Forms.Tools.GradientLabel();
-            this.IO_X6_Name = new Syncfusion.Windows.Forms.Tools.GradientLabel();
-            this.IO_X5_Name = new Syncfusion.Windows.Forms.Tools.GradientLabel();
-            this.IO_X4_Name = new Syncfusion.Windows.Forms.Tools.GradientLabel();
-            this.IO_X3_Name = new Syncfusion.Windows.Forms.Tools.GradientLabel();
-            this.IO_X2_Name = new Syncfusion.Windows.Forms.Tools.GradientLabel();
-            this.Title_IO_X16 = new Syncfusion.Windows.Forms.Tools.GradientLabel();
-            this.Title_IO_X15 = new Syncfusion.Windows.Forms.Tools.GradientLabel();
-            this.Title_IO_X14 = new Syncfusion.Windows.Forms.Tools.GradientLabel();
-            this.Title_IO_X13 = new Syncfusion.Windows.Forms.Tools.GradientLabel();
-            this.Title_IO_X12 = new Syncfusion.Windows.Forms.Tools.GradientLabel();
-            this.Title_IO_X11 = new Syncfusion.Windows.Forms.Tools.GradientLabel();
-            this.Title_IO_X10 = new Syncfusion.Windows.Forms.Tools.GradientLabel();
-            this.Title_IO_X9 = new Syncfusion.Windows.Forms.Tools.GradientLabel();
-            this.Title_IO_X8 = new Syncfusion.Windows.Forms.Tools.GradientLabel();
-            this.Title_IO_X7 = new Syncfusion.Windows.Forms.Tools.GradientLabel();
-            this.Title_IO_X6 = new Syncfusion.Windows.Forms.Tools.GradientLabel();
-            this.Title_IO_X5 = new Syncfusion.Windows.Forms.Tools.GradientLabel();
-            this.Title_IO_X4 = new Syncfusion.Windows.Forms.Tools.GradientLabel();
-            this.Title_IO_X3 = new Syncfusion.Windows.Forms.Tools.GradientLabel();
-            this.Title_IO_X2 = new Syncfusion.Windows.Forms.Tools.GradientLabel();
-            this.Title_IO_X1 = new Syncfusion.Windows.Forms.Tools.GradientLabel();
-            this.IO_X1_Name = new Syncfusion.Windows.Forms.Tools.GradientLabel();
             this.BtnNext = new System.Windows.Forms.Button();
             this.BtnPrev = new System.Windows.Forms.Button();
             this.BtnStart = new System.Windows.Forms.Button();
             this.BtnExit = new System.Windows.Forms.Button();
             this.BtnEnd = new System.Windows.Forms.Button();
+            this.lblInputName1 = new System.Windows.Forms.Label();
+            this.lblInputX1 = new System.Windows.Forms.Label();
+            this.lblInputX2 = new System.Windows.Forms.Label();
+            this.lblInputX3 = new System.Windows.Forms.Label();
+            this.lblInputName2 = new System.Windows.Forms.Label();
+            this.lblInputName3 = new System.Windows.Forms.Label();
+            this.lblInputName6 = new System.Windows.Forms.Label();
+            this.lblInputName5 = new System.Windows.Forms.Label();
+            this.lblInputX6 = new System.Windows.Forms.Label();
+            this.lblInputX5 = new System.Windows.Forms.Label();
+            this.lblInputName4 = new System.Windows.Forms.Label();
+            this.lblInputX4 = new System.Windows.Forms.Label();
+            this.lblInputName12 = new System.Windows.Forms.Label();
+            this.lblInputName11 = new System.Windows.Forms.Label();
+            this.lblInputX12 = new System.Windows.Forms.Label();
+            this.lblInputX11 = new System.Windows.Forms.Label();
+            this.lblInputName10 = new System.Windows.Forms.Label();
+            this.lblInputX10 = new System.Windows.Forms.Label();
+            this.lblInputName9 = new System.Windows.Forms.Label();
+            this.lblInputName8 = new System.Windows.Forms.Label();
+            this.lblInputX9 = new System.Windows.Forms.Label();
+            this.lblInputX8 = new System.Windows.Forms.Label();
+            this.lblInputName7 = new System.Windows.Forms.Label();
+            this.lblInputX7 = new System.Windows.Forms.Label();
+            this.lblInputName16 = new System.Windows.Forms.Label();
+            this.lblInputX16 = new System.Windows.Forms.Label();
+            this.lblInputName15 = new System.Windows.Forms.Label();
+            this.lblInputX15 = new System.Windows.Forms.Label();
+            this.lblInputName14 = new System.Windows.Forms.Label();
+            this.lblInputName13 = new System.Windows.Forms.Label();
+            this.lblInputX14 = new System.Windows.Forms.Label();
+            this.lblInputX13 = new System.Windows.Forms.Label();
+            this.lblOutputName16 = new System.Windows.Forms.Label();
+            this.lblOutputY16 = new System.Windows.Forms.Label();
+            this.lblOutputName15 = new System.Windows.Forms.Label();
+            this.lblOutputY15 = new System.Windows.Forms.Label();
+            this.lblOutputName14 = new System.Windows.Forms.Label();
+            this.lblOutputName13 = new System.Windows.Forms.Label();
+            this.lblOutputY14 = new System.Windows.Forms.Label();
+            this.lblOutputY13 = new System.Windows.Forms.Label();
+            this.lblOutputName12 = new System.Windows.Forms.Label();
+            this.lblOutputName11 = new System.Windows.Forms.Label();
+            this.lblOutputY12 = new System.Windows.Forms.Label();
+            this.lblOutputY11 = new System.Windows.Forms.Label();
+            this.lblOutputName10 = new System.Windows.Forms.Label();
+            this.lblOutputY10 = new System.Windows.Forms.Label();
+            this.lblOutputName9 = new System.Windows.Forms.Label();
+            this.lblOutputName8 = new System.Windows.Forms.Label();
+            this.lblOutputY9 = new System.Windows.Forms.Label();
+            this.lblOutputY8 = new System.Windows.Forms.Label();
+            this.lblOutputName7 = new System.Windows.Forms.Label();
+            this.lblOutputY7 = new System.Windows.Forms.Label();
+            this.lblOutputName6 = new System.Windows.Forms.Label();
+            this.lblOutputName5 = new System.Windows.Forms.Label();
+            this.lblOutputY6 = new System.Windows.Forms.Label();
+            this.lblOutputY5 = new System.Windows.Forms.Label();
+            this.lblOutputName4 = new System.Windows.Forms.Label();
+            this.lblOutputY4 = new System.Windows.Forms.Label();
+            this.lblOutputName3 = new System.Windows.Forms.Label();
+            this.lblOutputName2 = new System.Windows.Forms.Label();
+            this.lblOutputY3 = new System.Windows.Forms.Label();
+            this.lblOutputY2 = new System.Windows.Forms.Label();
+            this.lblOutputName1 = new System.Windows.Forms.Label();
+            this.lblOutputY1 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // TimerUI
             // 
             this.TimerUI.Tick += new System.EventHandler(this.TimerUI_Tick);
             // 
-            // IO_Y14_Name
-            // 
-            this.IO_Y14_Name.BackgroundColor = new Syncfusion.Drawing.BrushInfo(System.Drawing.Color.White);
-            this.IO_Y14_Name.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
-            | System.Windows.Forms.Border3DSide.Right) 
-            | System.Windows.Forms.Border3DSide.Bottom)));
-            this.IO_Y14_Name.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.IO_Y14_Name.ForeColor = System.Drawing.Color.Black;
-            this.IO_Y14_Name.Location = new System.Drawing.Point(549, 494);
-            this.IO_Y14_Name.Name = "IO_Y14_Name";
-            this.IO_Y14_Name.Size = new System.Drawing.Size(286, 32);
-            this.IO_Y14_Name.TabIndex = 301;
-            this.IO_Y14_Name.Tag = "";
-            this.IO_Y14_Name.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // IO_Y16_Name
-            // 
-            this.IO_Y16_Name.BackgroundColor = new Syncfusion.Drawing.BrushInfo(System.Drawing.Color.White);
-            this.IO_Y16_Name.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
-            | System.Windows.Forms.Border3DSide.Right) 
-            | System.Windows.Forms.Border3DSide.Bottom)));
-            this.IO_Y16_Name.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.IO_Y16_Name.ForeColor = System.Drawing.Color.Black;
-            this.IO_Y16_Name.Location = new System.Drawing.Point(549, 568);
-            this.IO_Y16_Name.Name = "IO_Y16_Name";
-            this.IO_Y16_Name.Size = new System.Drawing.Size(286, 32);
-            this.IO_Y16_Name.TabIndex = 300;
-            this.IO_Y16_Name.Tag = "";
-            this.IO_Y16_Name.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // IO_Y15_Name
-            // 
-            this.IO_Y15_Name.BackgroundColor = new Syncfusion.Drawing.BrushInfo(System.Drawing.Color.White);
-            this.IO_Y15_Name.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
-            | System.Windows.Forms.Border3DSide.Right) 
-            | System.Windows.Forms.Border3DSide.Bottom)));
-            this.IO_Y15_Name.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.IO_Y15_Name.ForeColor = System.Drawing.Color.Black;
-            this.IO_Y15_Name.Location = new System.Drawing.Point(549, 531);
-            this.IO_Y15_Name.Name = "IO_Y15_Name";
-            this.IO_Y15_Name.Size = new System.Drawing.Size(286, 32);
-            this.IO_Y15_Name.TabIndex = 299;
-            this.IO_Y15_Name.Tag = "";
-            this.IO_Y15_Name.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // IO_Y13_Name
-            // 
-            this.IO_Y13_Name.BackgroundColor = new Syncfusion.Drawing.BrushInfo(System.Drawing.Color.White);
-            this.IO_Y13_Name.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
-            | System.Windows.Forms.Border3DSide.Right) 
-            | System.Windows.Forms.Border3DSide.Bottom)));
-            this.IO_Y13_Name.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.IO_Y13_Name.ForeColor = System.Drawing.Color.Black;
-            this.IO_Y13_Name.Location = new System.Drawing.Point(549, 457);
-            this.IO_Y13_Name.Name = "IO_Y13_Name";
-            this.IO_Y13_Name.Size = new System.Drawing.Size(286, 32);
-            this.IO_Y13_Name.TabIndex = 298;
-            this.IO_Y13_Name.Tag = "";
-            this.IO_Y13_Name.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // IO_Y12_Name
-            // 
-            this.IO_Y12_Name.BackgroundColor = new Syncfusion.Drawing.BrushInfo(System.Drawing.Color.White);
-            this.IO_Y12_Name.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
-            | System.Windows.Forms.Border3DSide.Right) 
-            | System.Windows.Forms.Border3DSide.Bottom)));
-            this.IO_Y12_Name.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.IO_Y12_Name.ForeColor = System.Drawing.Color.Black;
-            this.IO_Y12_Name.Location = new System.Drawing.Point(549, 420);
-            this.IO_Y12_Name.Name = "IO_Y12_Name";
-            this.IO_Y12_Name.Size = new System.Drawing.Size(286, 32);
-            this.IO_Y12_Name.TabIndex = 297;
-            this.IO_Y12_Name.Tag = "";
-            this.IO_Y12_Name.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // IO_Y11_Name
-            // 
-            this.IO_Y11_Name.BackgroundColor = new Syncfusion.Drawing.BrushInfo(System.Drawing.Color.White);
-            this.IO_Y11_Name.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
-            | System.Windows.Forms.Border3DSide.Right) 
-            | System.Windows.Forms.Border3DSide.Bottom)));
-            this.IO_Y11_Name.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.IO_Y11_Name.ForeColor = System.Drawing.Color.Black;
-            this.IO_Y11_Name.Location = new System.Drawing.Point(549, 383);
-            this.IO_Y11_Name.Name = "IO_Y11_Name";
-            this.IO_Y11_Name.Size = new System.Drawing.Size(286, 32);
-            this.IO_Y11_Name.TabIndex = 296;
-            this.IO_Y11_Name.Tag = "";
-            this.IO_Y11_Name.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // IO_Y10_Name
-            // 
-            this.IO_Y10_Name.BackgroundColor = new Syncfusion.Drawing.BrushInfo(System.Drawing.Color.White);
-            this.IO_Y10_Name.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
-            | System.Windows.Forms.Border3DSide.Right) 
-            | System.Windows.Forms.Border3DSide.Bottom)));
-            this.IO_Y10_Name.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.IO_Y10_Name.ForeColor = System.Drawing.Color.Black;
-            this.IO_Y10_Name.Location = new System.Drawing.Point(549, 346);
-            this.IO_Y10_Name.Name = "IO_Y10_Name";
-            this.IO_Y10_Name.Size = new System.Drawing.Size(286, 32);
-            this.IO_Y10_Name.TabIndex = 295;
-            this.IO_Y10_Name.Tag = "";
-            this.IO_Y10_Name.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // IO_Y9_Name
-            // 
-            this.IO_Y9_Name.BackgroundColor = new Syncfusion.Drawing.BrushInfo(System.Drawing.Color.White);
-            this.IO_Y9_Name.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
-            | System.Windows.Forms.Border3DSide.Right) 
-            | System.Windows.Forms.Border3DSide.Bottom)));
-            this.IO_Y9_Name.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.IO_Y9_Name.ForeColor = System.Drawing.Color.Black;
-            this.IO_Y9_Name.Location = new System.Drawing.Point(549, 309);
-            this.IO_Y9_Name.Name = "IO_Y9_Name";
-            this.IO_Y9_Name.Size = new System.Drawing.Size(286, 32);
-            this.IO_Y9_Name.TabIndex = 294;
-            this.IO_Y9_Name.Tag = "";
-            this.IO_Y9_Name.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // IO_Y8_Name
-            // 
-            this.IO_Y8_Name.BackgroundColor = new Syncfusion.Drawing.BrushInfo(System.Drawing.Color.White);
-            this.IO_Y8_Name.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
-            | System.Windows.Forms.Border3DSide.Right) 
-            | System.Windows.Forms.Border3DSide.Bottom)));
-            this.IO_Y8_Name.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.IO_Y8_Name.ForeColor = System.Drawing.Color.Black;
-            this.IO_Y8_Name.Location = new System.Drawing.Point(549, 272);
-            this.IO_Y8_Name.Name = "IO_Y8_Name";
-            this.IO_Y8_Name.Size = new System.Drawing.Size(286, 32);
-            this.IO_Y8_Name.TabIndex = 293;
-            this.IO_Y8_Name.Tag = "";
-            this.IO_Y8_Name.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // IO_Y7_Name
-            // 
-            this.IO_Y7_Name.BackgroundColor = new Syncfusion.Drawing.BrushInfo(System.Drawing.Color.White);
-            this.IO_Y7_Name.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
-            | System.Windows.Forms.Border3DSide.Right) 
-            | System.Windows.Forms.Border3DSide.Bottom)));
-            this.IO_Y7_Name.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.IO_Y7_Name.ForeColor = System.Drawing.Color.Black;
-            this.IO_Y7_Name.Location = new System.Drawing.Point(549, 235);
-            this.IO_Y7_Name.Name = "IO_Y7_Name";
-            this.IO_Y7_Name.Size = new System.Drawing.Size(286, 32);
-            this.IO_Y7_Name.TabIndex = 292;
-            this.IO_Y7_Name.Tag = "";
-            this.IO_Y7_Name.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // IO_Y6_Name
-            // 
-            this.IO_Y6_Name.BackgroundColor = new Syncfusion.Drawing.BrushInfo(System.Drawing.Color.White);
-            this.IO_Y6_Name.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
-            | System.Windows.Forms.Border3DSide.Right) 
-            | System.Windows.Forms.Border3DSide.Bottom)));
-            this.IO_Y6_Name.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.IO_Y6_Name.ForeColor = System.Drawing.Color.Black;
-            this.IO_Y6_Name.Location = new System.Drawing.Point(549, 198);
-            this.IO_Y6_Name.Name = "IO_Y6_Name";
-            this.IO_Y6_Name.Size = new System.Drawing.Size(286, 32);
-            this.IO_Y6_Name.TabIndex = 291;
-            this.IO_Y6_Name.Tag = "";
-            this.IO_Y6_Name.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // IO_Y5_Name
-            // 
-            this.IO_Y5_Name.BackgroundColor = new Syncfusion.Drawing.BrushInfo(System.Drawing.Color.White);
-            this.IO_Y5_Name.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
-            | System.Windows.Forms.Border3DSide.Right) 
-            | System.Windows.Forms.Border3DSide.Bottom)));
-            this.IO_Y5_Name.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.IO_Y5_Name.ForeColor = System.Drawing.Color.Black;
-            this.IO_Y5_Name.Location = new System.Drawing.Point(549, 161);
-            this.IO_Y5_Name.Name = "IO_Y5_Name";
-            this.IO_Y5_Name.Size = new System.Drawing.Size(286, 32);
-            this.IO_Y5_Name.TabIndex = 290;
-            this.IO_Y5_Name.Tag = "";
-            this.IO_Y5_Name.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // IO_Y4_Name
-            // 
-            this.IO_Y4_Name.BackgroundColor = new Syncfusion.Drawing.BrushInfo(System.Drawing.Color.White);
-            this.IO_Y4_Name.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
-            | System.Windows.Forms.Border3DSide.Right) 
-            | System.Windows.Forms.Border3DSide.Bottom)));
-            this.IO_Y4_Name.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.IO_Y4_Name.ForeColor = System.Drawing.Color.Black;
-            this.IO_Y4_Name.Location = new System.Drawing.Point(549, 124);
-            this.IO_Y4_Name.Name = "IO_Y4_Name";
-            this.IO_Y4_Name.Size = new System.Drawing.Size(286, 32);
-            this.IO_Y4_Name.TabIndex = 289;
-            this.IO_Y4_Name.Tag = "";
-            this.IO_Y4_Name.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // IO_Y3_Name
-            // 
-            this.IO_Y3_Name.BackgroundColor = new Syncfusion.Drawing.BrushInfo(System.Drawing.Color.White);
-            this.IO_Y3_Name.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
-            | System.Windows.Forms.Border3DSide.Right) 
-            | System.Windows.Forms.Border3DSide.Bottom)));
-            this.IO_Y3_Name.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.IO_Y3_Name.ForeColor = System.Drawing.Color.Black;
-            this.IO_Y3_Name.Location = new System.Drawing.Point(549, 87);
-            this.IO_Y3_Name.Name = "IO_Y3_Name";
-            this.IO_Y3_Name.Size = new System.Drawing.Size(286, 32);
-            this.IO_Y3_Name.TabIndex = 288;
-            this.IO_Y3_Name.Tag = "";
-            this.IO_Y3_Name.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // IO_Y2_Name
-            // 
-            this.IO_Y2_Name.BackgroundColor = new Syncfusion.Drawing.BrushInfo(System.Drawing.Color.White);
-            this.IO_Y2_Name.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
-            | System.Windows.Forms.Border3DSide.Right) 
-            | System.Windows.Forms.Border3DSide.Bottom)));
-            this.IO_Y2_Name.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.IO_Y2_Name.ForeColor = System.Drawing.Color.Black;
-            this.IO_Y2_Name.Location = new System.Drawing.Point(549, 50);
-            this.IO_Y2_Name.Name = "IO_Y2_Name";
-            this.IO_Y2_Name.Size = new System.Drawing.Size(286, 32);
-            this.IO_Y2_Name.TabIndex = 287;
-            this.IO_Y2_Name.Tag = "";
-            this.IO_Y2_Name.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // Title_IO_Y16
-            // 
-            this.Title_IO_Y16.BackgroundColor = new Syncfusion.Drawing.BrushInfo(System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255))))));
-            this.Title_IO_Y16.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
-            | System.Windows.Forms.Border3DSide.Right) 
-            | System.Windows.Forms.Border3DSide.Bottom)));
-            this.Title_IO_Y16.BorderStyle = System.Windows.Forms.Border3DStyle.Raised;
-            this.Title_IO_Y16.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.Title_IO_Y16.ForeColor = System.Drawing.Color.Black;
-            this.Title_IO_Y16.Location = new System.Drawing.Point(449, 568);
-            this.Title_IO_Y16.Name = "Title_IO_Y16";
-            this.Title_IO_Y16.Size = new System.Drawing.Size(94, 32);
-            this.Title_IO_Y16.TabIndex = 286;
-            this.Title_IO_Y16.Tag = "15";
-            this.Title_IO_Y16.Text = "Y0000";
-            this.Title_IO_Y16.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.Title_IO_Y16.Click += new System.EventHandler(this.IO_Y_Click);
-            // 
-            // Title_IO_Y15
-            // 
-            this.Title_IO_Y15.BackgroundColor = new Syncfusion.Drawing.BrushInfo(System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255))))));
-            this.Title_IO_Y15.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
-            | System.Windows.Forms.Border3DSide.Right) 
-            | System.Windows.Forms.Border3DSide.Bottom)));
-            this.Title_IO_Y15.BorderStyle = System.Windows.Forms.Border3DStyle.Raised;
-            this.Title_IO_Y15.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.Title_IO_Y15.ForeColor = System.Drawing.Color.Black;
-            this.Title_IO_Y15.Location = new System.Drawing.Point(449, 531);
-            this.Title_IO_Y15.Name = "Title_IO_Y15";
-            this.Title_IO_Y15.Size = new System.Drawing.Size(94, 32);
-            this.Title_IO_Y15.TabIndex = 285;
-            this.Title_IO_Y15.Tag = "14";
-            this.Title_IO_Y15.Text = "Y0000";
-            this.Title_IO_Y15.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.Title_IO_Y15.Click += new System.EventHandler(this.IO_Y_Click);
-            // 
-            // Title_IO_Y14
-            // 
-            this.Title_IO_Y14.BackgroundColor = new Syncfusion.Drawing.BrushInfo(System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255))))));
-            this.Title_IO_Y14.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
-            | System.Windows.Forms.Border3DSide.Right) 
-            | System.Windows.Forms.Border3DSide.Bottom)));
-            this.Title_IO_Y14.BorderStyle = System.Windows.Forms.Border3DStyle.Raised;
-            this.Title_IO_Y14.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.Title_IO_Y14.ForeColor = System.Drawing.Color.Black;
-            this.Title_IO_Y14.Location = new System.Drawing.Point(449, 494);
-            this.Title_IO_Y14.Name = "Title_IO_Y14";
-            this.Title_IO_Y14.Size = new System.Drawing.Size(94, 32);
-            this.Title_IO_Y14.TabIndex = 284;
-            this.Title_IO_Y14.Tag = "13";
-            this.Title_IO_Y14.Text = "Y0000";
-            this.Title_IO_Y14.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.Title_IO_Y14.Click += new System.EventHandler(this.IO_Y_Click);
-            // 
-            // Title_IO_Y13
-            // 
-            this.Title_IO_Y13.BackgroundColor = new Syncfusion.Drawing.BrushInfo(System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255))))));
-            this.Title_IO_Y13.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
-            | System.Windows.Forms.Border3DSide.Right) 
-            | System.Windows.Forms.Border3DSide.Bottom)));
-            this.Title_IO_Y13.BorderStyle = System.Windows.Forms.Border3DStyle.Raised;
-            this.Title_IO_Y13.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.Title_IO_Y13.ForeColor = System.Drawing.Color.Black;
-            this.Title_IO_Y13.Location = new System.Drawing.Point(449, 457);
-            this.Title_IO_Y13.Name = "Title_IO_Y13";
-            this.Title_IO_Y13.Size = new System.Drawing.Size(94, 32);
-            this.Title_IO_Y13.TabIndex = 283;
-            this.Title_IO_Y13.Tag = "12";
-            this.Title_IO_Y13.Text = "Y0000";
-            this.Title_IO_Y13.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.Title_IO_Y13.Click += new System.EventHandler(this.IO_Y_Click);
-            // 
-            // Title_IO_Y12
-            // 
-            this.Title_IO_Y12.BackgroundColor = new Syncfusion.Drawing.BrushInfo(System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255))))));
-            this.Title_IO_Y12.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
-            | System.Windows.Forms.Border3DSide.Right) 
-            | System.Windows.Forms.Border3DSide.Bottom)));
-            this.Title_IO_Y12.BorderStyle = System.Windows.Forms.Border3DStyle.Raised;
-            this.Title_IO_Y12.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.Title_IO_Y12.ForeColor = System.Drawing.Color.Black;
-            this.Title_IO_Y12.Location = new System.Drawing.Point(449, 420);
-            this.Title_IO_Y12.Name = "Title_IO_Y12";
-            this.Title_IO_Y12.Size = new System.Drawing.Size(94, 32);
-            this.Title_IO_Y12.TabIndex = 282;
-            this.Title_IO_Y12.Tag = "11";
-            this.Title_IO_Y12.Text = "Y0000";
-            this.Title_IO_Y12.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.Title_IO_Y12.Click += new System.EventHandler(this.IO_Y_Click);
-            // 
-            // Title_IO_Y11
-            // 
-            this.Title_IO_Y11.BackgroundColor = new Syncfusion.Drawing.BrushInfo(System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255))))));
-            this.Title_IO_Y11.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
-            | System.Windows.Forms.Border3DSide.Right) 
-            | System.Windows.Forms.Border3DSide.Bottom)));
-            this.Title_IO_Y11.BorderStyle = System.Windows.Forms.Border3DStyle.Raised;
-            this.Title_IO_Y11.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.Title_IO_Y11.ForeColor = System.Drawing.Color.Black;
-            this.Title_IO_Y11.Location = new System.Drawing.Point(449, 383);
-            this.Title_IO_Y11.Name = "Title_IO_Y11";
-            this.Title_IO_Y11.Size = new System.Drawing.Size(94, 32);
-            this.Title_IO_Y11.TabIndex = 281;
-            this.Title_IO_Y11.Tag = "10";
-            this.Title_IO_Y11.Text = "Y0000";
-            this.Title_IO_Y11.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.Title_IO_Y11.Click += new System.EventHandler(this.IO_Y_Click);
-            // 
-            // Title_IO_Y10
-            // 
-            this.Title_IO_Y10.BackgroundColor = new Syncfusion.Drawing.BrushInfo(System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255))))));
-            this.Title_IO_Y10.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
-            | System.Windows.Forms.Border3DSide.Right) 
-            | System.Windows.Forms.Border3DSide.Bottom)));
-            this.Title_IO_Y10.BorderStyle = System.Windows.Forms.Border3DStyle.Raised;
-            this.Title_IO_Y10.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.Title_IO_Y10.ForeColor = System.Drawing.Color.Black;
-            this.Title_IO_Y10.Location = new System.Drawing.Point(449, 346);
-            this.Title_IO_Y10.Name = "Title_IO_Y10";
-            this.Title_IO_Y10.Size = new System.Drawing.Size(94, 32);
-            this.Title_IO_Y10.TabIndex = 280;
-            this.Title_IO_Y10.Tag = "9";
-            this.Title_IO_Y10.Text = "Y0000";
-            this.Title_IO_Y10.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.Title_IO_Y10.Click += new System.EventHandler(this.IO_Y_Click);
-            // 
-            // Title_IO_Y9
-            // 
-            this.Title_IO_Y9.BackgroundColor = new Syncfusion.Drawing.BrushInfo(System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255))))));
-            this.Title_IO_Y9.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
-            | System.Windows.Forms.Border3DSide.Right) 
-            | System.Windows.Forms.Border3DSide.Bottom)));
-            this.Title_IO_Y9.BorderStyle = System.Windows.Forms.Border3DStyle.Raised;
-            this.Title_IO_Y9.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.Title_IO_Y9.ForeColor = System.Drawing.Color.Black;
-            this.Title_IO_Y9.Location = new System.Drawing.Point(449, 309);
-            this.Title_IO_Y9.Name = "Title_IO_Y9";
-            this.Title_IO_Y9.Size = new System.Drawing.Size(94, 32);
-            this.Title_IO_Y9.TabIndex = 279;
-            this.Title_IO_Y9.Tag = "8";
-            this.Title_IO_Y9.Text = "Y0000";
-            this.Title_IO_Y9.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.Title_IO_Y9.Click += new System.EventHandler(this.IO_Y_Click);
-            // 
-            // Title_IO_Y8
-            // 
-            this.Title_IO_Y8.BackgroundColor = new Syncfusion.Drawing.BrushInfo(System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255))))));
-            this.Title_IO_Y8.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
-            | System.Windows.Forms.Border3DSide.Right) 
-            | System.Windows.Forms.Border3DSide.Bottom)));
-            this.Title_IO_Y8.BorderStyle = System.Windows.Forms.Border3DStyle.Raised;
-            this.Title_IO_Y8.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.Title_IO_Y8.ForeColor = System.Drawing.Color.Black;
-            this.Title_IO_Y8.Location = new System.Drawing.Point(449, 272);
-            this.Title_IO_Y8.Name = "Title_IO_Y8";
-            this.Title_IO_Y8.Size = new System.Drawing.Size(94, 32);
-            this.Title_IO_Y8.TabIndex = 278;
-            this.Title_IO_Y8.Tag = "7";
-            this.Title_IO_Y8.Text = "Y0000";
-            this.Title_IO_Y8.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.Title_IO_Y8.Click += new System.EventHandler(this.IO_Y_Click);
-            // 
-            // Title_IO_Y7
-            // 
-            this.Title_IO_Y7.BackgroundColor = new Syncfusion.Drawing.BrushInfo(System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255))))));
-            this.Title_IO_Y7.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
-            | System.Windows.Forms.Border3DSide.Right) 
-            | System.Windows.Forms.Border3DSide.Bottom)));
-            this.Title_IO_Y7.BorderStyle = System.Windows.Forms.Border3DStyle.Raised;
-            this.Title_IO_Y7.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.Title_IO_Y7.ForeColor = System.Drawing.Color.Black;
-            this.Title_IO_Y7.Location = new System.Drawing.Point(449, 235);
-            this.Title_IO_Y7.Name = "Title_IO_Y7";
-            this.Title_IO_Y7.Size = new System.Drawing.Size(94, 32);
-            this.Title_IO_Y7.TabIndex = 277;
-            this.Title_IO_Y7.Tag = "6";
-            this.Title_IO_Y7.Text = "Y0000";
-            this.Title_IO_Y7.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.Title_IO_Y7.Click += new System.EventHandler(this.IO_Y_Click);
-            // 
-            // Title_IO_Y6
-            // 
-            this.Title_IO_Y6.BackgroundColor = new Syncfusion.Drawing.BrushInfo(System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255))))));
-            this.Title_IO_Y6.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
-            | System.Windows.Forms.Border3DSide.Right) 
-            | System.Windows.Forms.Border3DSide.Bottom)));
-            this.Title_IO_Y6.BorderStyle = System.Windows.Forms.Border3DStyle.Raised;
-            this.Title_IO_Y6.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.Title_IO_Y6.ForeColor = System.Drawing.Color.Black;
-            this.Title_IO_Y6.Location = new System.Drawing.Point(449, 198);
-            this.Title_IO_Y6.Name = "Title_IO_Y6";
-            this.Title_IO_Y6.Size = new System.Drawing.Size(94, 32);
-            this.Title_IO_Y6.TabIndex = 276;
-            this.Title_IO_Y6.Tag = "5";
-            this.Title_IO_Y6.Text = "Y0000";
-            this.Title_IO_Y6.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.Title_IO_Y6.Click += new System.EventHandler(this.IO_Y_Click);
-            // 
-            // Title_IO_Y5
-            // 
-            this.Title_IO_Y5.BackgroundColor = new Syncfusion.Drawing.BrushInfo(System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255))))));
-            this.Title_IO_Y5.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
-            | System.Windows.Forms.Border3DSide.Right) 
-            | System.Windows.Forms.Border3DSide.Bottom)));
-            this.Title_IO_Y5.BorderStyle = System.Windows.Forms.Border3DStyle.Raised;
-            this.Title_IO_Y5.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.Title_IO_Y5.ForeColor = System.Drawing.Color.Black;
-            this.Title_IO_Y5.Location = new System.Drawing.Point(449, 161);
-            this.Title_IO_Y5.Name = "Title_IO_Y5";
-            this.Title_IO_Y5.Size = new System.Drawing.Size(94, 32);
-            this.Title_IO_Y5.TabIndex = 275;
-            this.Title_IO_Y5.Tag = "4";
-            this.Title_IO_Y5.Text = "Y0000";
-            this.Title_IO_Y5.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.Title_IO_Y5.Click += new System.EventHandler(this.IO_Y_Click);
-            // 
-            // Title_IO_Y4
-            // 
-            this.Title_IO_Y4.BackgroundColor = new Syncfusion.Drawing.BrushInfo(System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255))))));
-            this.Title_IO_Y4.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
-            | System.Windows.Forms.Border3DSide.Right) 
-            | System.Windows.Forms.Border3DSide.Bottom)));
-            this.Title_IO_Y4.BorderStyle = System.Windows.Forms.Border3DStyle.Raised;
-            this.Title_IO_Y4.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.Title_IO_Y4.ForeColor = System.Drawing.Color.Black;
-            this.Title_IO_Y4.Location = new System.Drawing.Point(449, 124);
-            this.Title_IO_Y4.Name = "Title_IO_Y4";
-            this.Title_IO_Y4.Size = new System.Drawing.Size(94, 32);
-            this.Title_IO_Y4.TabIndex = 274;
-            this.Title_IO_Y4.Tag = "3";
-            this.Title_IO_Y4.Text = "Y0000";
-            this.Title_IO_Y4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.Title_IO_Y4.Click += new System.EventHandler(this.IO_Y_Click);
-            // 
-            // Title_IO_Y3
-            // 
-            this.Title_IO_Y3.BackgroundColor = new Syncfusion.Drawing.BrushInfo(System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255))))));
-            this.Title_IO_Y3.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
-            | System.Windows.Forms.Border3DSide.Right) 
-            | System.Windows.Forms.Border3DSide.Bottom)));
-            this.Title_IO_Y3.BorderStyle = System.Windows.Forms.Border3DStyle.Raised;
-            this.Title_IO_Y3.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.Title_IO_Y3.ForeColor = System.Drawing.Color.Black;
-            this.Title_IO_Y3.Location = new System.Drawing.Point(449, 87);
-            this.Title_IO_Y3.Name = "Title_IO_Y3";
-            this.Title_IO_Y3.Size = new System.Drawing.Size(94, 32);
-            this.Title_IO_Y3.TabIndex = 273;
-            this.Title_IO_Y3.Tag = "2";
-            this.Title_IO_Y3.Text = "Y0000";
-            this.Title_IO_Y3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.Title_IO_Y3.Click += new System.EventHandler(this.IO_Y_Click);
-            // 
-            // Title_IO_Y2
-            // 
-            this.Title_IO_Y2.BackgroundColor = new Syncfusion.Drawing.BrushInfo(System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255))))));
-            this.Title_IO_Y2.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
-            | System.Windows.Forms.Border3DSide.Right) 
-            | System.Windows.Forms.Border3DSide.Bottom)));
-            this.Title_IO_Y2.BorderStyle = System.Windows.Forms.Border3DStyle.Raised;
-            this.Title_IO_Y2.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.Title_IO_Y2.ForeColor = System.Drawing.Color.Black;
-            this.Title_IO_Y2.Location = new System.Drawing.Point(449, 50);
-            this.Title_IO_Y2.Name = "Title_IO_Y2";
-            this.Title_IO_Y2.Size = new System.Drawing.Size(94, 32);
-            this.Title_IO_Y2.TabIndex = 272;
-            this.Title_IO_Y2.Tag = "1";
-            this.Title_IO_Y2.Text = "Y0000";
-            this.Title_IO_Y2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.Title_IO_Y2.Click += new System.EventHandler(this.IO_Y_Click);
-            // 
-            // Title_IO_Y1
-            // 
-            this.Title_IO_Y1.BackgroundColor = new Syncfusion.Drawing.BrushInfo(System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255))))));
-            this.Title_IO_Y1.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
-            | System.Windows.Forms.Border3DSide.Right) 
-            | System.Windows.Forms.Border3DSide.Bottom)));
-            this.Title_IO_Y1.BorderStyle = System.Windows.Forms.Border3DStyle.Raised;
-            this.Title_IO_Y1.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.Title_IO_Y1.ForeColor = System.Drawing.Color.Black;
-            this.Title_IO_Y1.Location = new System.Drawing.Point(449, 13);
-            this.Title_IO_Y1.Name = "Title_IO_Y1";
-            this.Title_IO_Y1.Size = new System.Drawing.Size(94, 32);
-            this.Title_IO_Y1.TabIndex = 271;
-            this.Title_IO_Y1.Tag = "0";
-            this.Title_IO_Y1.Text = "Y0000";
-            this.Title_IO_Y1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.Title_IO_Y1.Click += new System.EventHandler(this.IO_Y_Click);
-            // 
-            // IO_Y1_Name
-            // 
-            this.IO_Y1_Name.BackgroundColor = new Syncfusion.Drawing.BrushInfo(System.Drawing.Color.White);
-            this.IO_Y1_Name.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
-            | System.Windows.Forms.Border3DSide.Right) 
-            | System.Windows.Forms.Border3DSide.Bottom)));
-            this.IO_Y1_Name.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.IO_Y1_Name.ForeColor = System.Drawing.Color.Black;
-            this.IO_Y1_Name.Location = new System.Drawing.Point(549, 13);
-            this.IO_Y1_Name.Name = "IO_Y1_Name";
-            this.IO_Y1_Name.Size = new System.Drawing.Size(286, 32);
-            this.IO_Y1_Name.TabIndex = 270;
-            this.IO_Y1_Name.Tag = "";
-            this.IO_Y1_Name.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // IO_X16_Name
-            // 
-            this.IO_X16_Name.BackgroundColor = new Syncfusion.Drawing.BrushInfo(System.Drawing.Color.White);
-            this.IO_X16_Name.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
-            | System.Windows.Forms.Border3DSide.Right) 
-            | System.Windows.Forms.Border3DSide.Bottom)));
-            this.IO_X16_Name.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.IO_X16_Name.ForeColor = System.Drawing.Color.Black;
-            this.IO_X16_Name.Location = new System.Drawing.Point(147, 568);
-            this.IO_X16_Name.Name = "IO_X16_Name";
-            this.IO_X16_Name.Size = new System.Drawing.Size(286, 32);
-            this.IO_X16_Name.TabIndex = 269;
-            this.IO_X16_Name.Tag = "";
-            this.IO_X16_Name.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // IO_X15_Name
-            // 
-            this.IO_X15_Name.BackgroundColor = new Syncfusion.Drawing.BrushInfo(System.Drawing.Color.White);
-            this.IO_X15_Name.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
-            | System.Windows.Forms.Border3DSide.Right) 
-            | System.Windows.Forms.Border3DSide.Bottom)));
-            this.IO_X15_Name.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.IO_X15_Name.ForeColor = System.Drawing.Color.Black;
-            this.IO_X15_Name.Location = new System.Drawing.Point(147, 531);
-            this.IO_X15_Name.Name = "IO_X15_Name";
-            this.IO_X15_Name.Size = new System.Drawing.Size(286, 32);
-            this.IO_X15_Name.TabIndex = 268;
-            this.IO_X15_Name.Tag = "";
-            this.IO_X15_Name.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // IO_X14_Name
-            // 
-            this.IO_X14_Name.BackgroundColor = new Syncfusion.Drawing.BrushInfo(System.Drawing.Color.White);
-            this.IO_X14_Name.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
-            | System.Windows.Forms.Border3DSide.Right) 
-            | System.Windows.Forms.Border3DSide.Bottom)));
-            this.IO_X14_Name.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.IO_X14_Name.ForeColor = System.Drawing.Color.Black;
-            this.IO_X14_Name.Location = new System.Drawing.Point(147, 494);
-            this.IO_X14_Name.Name = "IO_X14_Name";
-            this.IO_X14_Name.Size = new System.Drawing.Size(286, 32);
-            this.IO_X14_Name.TabIndex = 267;
-            this.IO_X14_Name.Tag = "";
-            this.IO_X14_Name.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // IO_X13_Name
-            // 
-            this.IO_X13_Name.BackgroundColor = new Syncfusion.Drawing.BrushInfo(System.Drawing.Color.White);
-            this.IO_X13_Name.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
-            | System.Windows.Forms.Border3DSide.Right) 
-            | System.Windows.Forms.Border3DSide.Bottom)));
-            this.IO_X13_Name.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.IO_X13_Name.ForeColor = System.Drawing.Color.Black;
-            this.IO_X13_Name.Location = new System.Drawing.Point(147, 457);
-            this.IO_X13_Name.Name = "IO_X13_Name";
-            this.IO_X13_Name.Size = new System.Drawing.Size(286, 32);
-            this.IO_X13_Name.TabIndex = 266;
-            this.IO_X13_Name.Tag = "";
-            this.IO_X13_Name.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // IO_X12_Name
-            // 
-            this.IO_X12_Name.BackgroundColor = new Syncfusion.Drawing.BrushInfo(System.Drawing.Color.White);
-            this.IO_X12_Name.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
-            | System.Windows.Forms.Border3DSide.Right) 
-            | System.Windows.Forms.Border3DSide.Bottom)));
-            this.IO_X12_Name.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.IO_X12_Name.ForeColor = System.Drawing.Color.Black;
-            this.IO_X12_Name.Location = new System.Drawing.Point(147, 420);
-            this.IO_X12_Name.Name = "IO_X12_Name";
-            this.IO_X12_Name.Size = new System.Drawing.Size(286, 32);
-            this.IO_X12_Name.TabIndex = 265;
-            this.IO_X12_Name.Tag = "";
-            this.IO_X12_Name.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // IO_X11_Name
-            // 
-            this.IO_X11_Name.BackgroundColor = new Syncfusion.Drawing.BrushInfo(System.Drawing.Color.White);
-            this.IO_X11_Name.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
-            | System.Windows.Forms.Border3DSide.Right) 
-            | System.Windows.Forms.Border3DSide.Bottom)));
-            this.IO_X11_Name.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.IO_X11_Name.ForeColor = System.Drawing.Color.Black;
-            this.IO_X11_Name.Location = new System.Drawing.Point(147, 383);
-            this.IO_X11_Name.Name = "IO_X11_Name";
-            this.IO_X11_Name.Size = new System.Drawing.Size(286, 32);
-            this.IO_X11_Name.TabIndex = 264;
-            this.IO_X11_Name.Tag = "";
-            this.IO_X11_Name.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // IO_X10_Name
-            // 
-            this.IO_X10_Name.BackgroundColor = new Syncfusion.Drawing.BrushInfo(System.Drawing.Color.White);
-            this.IO_X10_Name.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
-            | System.Windows.Forms.Border3DSide.Right) 
-            | System.Windows.Forms.Border3DSide.Bottom)));
-            this.IO_X10_Name.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.IO_X10_Name.ForeColor = System.Drawing.Color.Black;
-            this.IO_X10_Name.Location = new System.Drawing.Point(147, 346);
-            this.IO_X10_Name.Name = "IO_X10_Name";
-            this.IO_X10_Name.Size = new System.Drawing.Size(286, 32);
-            this.IO_X10_Name.TabIndex = 263;
-            this.IO_X10_Name.Tag = "";
-            this.IO_X10_Name.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // IO_X9_Name
-            // 
-            this.IO_X9_Name.BackgroundColor = new Syncfusion.Drawing.BrushInfo(System.Drawing.Color.White);
-            this.IO_X9_Name.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
-            | System.Windows.Forms.Border3DSide.Right) 
-            | System.Windows.Forms.Border3DSide.Bottom)));
-            this.IO_X9_Name.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.IO_X9_Name.ForeColor = System.Drawing.Color.Black;
-            this.IO_X9_Name.Location = new System.Drawing.Point(147, 309);
-            this.IO_X9_Name.Name = "IO_X9_Name";
-            this.IO_X9_Name.Size = new System.Drawing.Size(286, 32);
-            this.IO_X9_Name.TabIndex = 262;
-            this.IO_X9_Name.Tag = "";
-            this.IO_X9_Name.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // IO_X8_Name
-            // 
-            this.IO_X8_Name.BackgroundColor = new Syncfusion.Drawing.BrushInfo(System.Drawing.Color.White);
-            this.IO_X8_Name.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
-            | System.Windows.Forms.Border3DSide.Right) 
-            | System.Windows.Forms.Border3DSide.Bottom)));
-            this.IO_X8_Name.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.IO_X8_Name.ForeColor = System.Drawing.Color.Black;
-            this.IO_X8_Name.Location = new System.Drawing.Point(147, 272);
-            this.IO_X8_Name.Name = "IO_X8_Name";
-            this.IO_X8_Name.Size = new System.Drawing.Size(286, 32);
-            this.IO_X8_Name.TabIndex = 261;
-            this.IO_X8_Name.Tag = "";
-            this.IO_X8_Name.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // IO_X7_Name
-            // 
-            this.IO_X7_Name.BackgroundColor = new Syncfusion.Drawing.BrushInfo(System.Drawing.Color.White);
-            this.IO_X7_Name.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
-            | System.Windows.Forms.Border3DSide.Right) 
-            | System.Windows.Forms.Border3DSide.Bottom)));
-            this.IO_X7_Name.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.IO_X7_Name.ForeColor = System.Drawing.Color.Black;
-            this.IO_X7_Name.Location = new System.Drawing.Point(147, 235);
-            this.IO_X7_Name.Name = "IO_X7_Name";
-            this.IO_X7_Name.Size = new System.Drawing.Size(286, 32);
-            this.IO_X7_Name.TabIndex = 260;
-            this.IO_X7_Name.Tag = "";
-            this.IO_X7_Name.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // IO_X6_Name
-            // 
-            this.IO_X6_Name.BackgroundColor = new Syncfusion.Drawing.BrushInfo(System.Drawing.Color.White);
-            this.IO_X6_Name.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
-            | System.Windows.Forms.Border3DSide.Right) 
-            | System.Windows.Forms.Border3DSide.Bottom)));
-            this.IO_X6_Name.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.IO_X6_Name.ForeColor = System.Drawing.Color.Black;
-            this.IO_X6_Name.Location = new System.Drawing.Point(147, 198);
-            this.IO_X6_Name.Name = "IO_X6_Name";
-            this.IO_X6_Name.Size = new System.Drawing.Size(286, 32);
-            this.IO_X6_Name.TabIndex = 259;
-            this.IO_X6_Name.Tag = "";
-            this.IO_X6_Name.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // IO_X5_Name
-            // 
-            this.IO_X5_Name.BackgroundColor = new Syncfusion.Drawing.BrushInfo(System.Drawing.Color.White);
-            this.IO_X5_Name.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
-            | System.Windows.Forms.Border3DSide.Right) 
-            | System.Windows.Forms.Border3DSide.Bottom)));
-            this.IO_X5_Name.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.IO_X5_Name.ForeColor = System.Drawing.Color.Black;
-            this.IO_X5_Name.Location = new System.Drawing.Point(147, 161);
-            this.IO_X5_Name.Name = "IO_X5_Name";
-            this.IO_X5_Name.Size = new System.Drawing.Size(286, 32);
-            this.IO_X5_Name.TabIndex = 258;
-            this.IO_X5_Name.Tag = "";
-            this.IO_X5_Name.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // IO_X4_Name
-            // 
-            this.IO_X4_Name.BackgroundColor = new Syncfusion.Drawing.BrushInfo(System.Drawing.Color.White);
-            this.IO_X4_Name.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
-            | System.Windows.Forms.Border3DSide.Right) 
-            | System.Windows.Forms.Border3DSide.Bottom)));
-            this.IO_X4_Name.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.IO_X4_Name.ForeColor = System.Drawing.Color.Black;
-            this.IO_X4_Name.Location = new System.Drawing.Point(147, 124);
-            this.IO_X4_Name.Name = "IO_X4_Name";
-            this.IO_X4_Name.Size = new System.Drawing.Size(286, 32);
-            this.IO_X4_Name.TabIndex = 257;
-            this.IO_X4_Name.Tag = "";
-            this.IO_X4_Name.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // IO_X3_Name
-            // 
-            this.IO_X3_Name.BackgroundColor = new Syncfusion.Drawing.BrushInfo(System.Drawing.Color.White);
-            this.IO_X3_Name.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
-            | System.Windows.Forms.Border3DSide.Right) 
-            | System.Windows.Forms.Border3DSide.Bottom)));
-            this.IO_X3_Name.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.IO_X3_Name.ForeColor = System.Drawing.Color.Black;
-            this.IO_X3_Name.Location = new System.Drawing.Point(147, 87);
-            this.IO_X3_Name.Name = "IO_X3_Name";
-            this.IO_X3_Name.Size = new System.Drawing.Size(286, 32);
-            this.IO_X3_Name.TabIndex = 256;
-            this.IO_X3_Name.Tag = "";
-            this.IO_X3_Name.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // IO_X2_Name
-            // 
-            this.IO_X2_Name.BackgroundColor = new Syncfusion.Drawing.BrushInfo(System.Drawing.Color.White);
-            this.IO_X2_Name.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
-            | System.Windows.Forms.Border3DSide.Right) 
-            | System.Windows.Forms.Border3DSide.Bottom)));
-            this.IO_X2_Name.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.IO_X2_Name.ForeColor = System.Drawing.Color.Black;
-            this.IO_X2_Name.Location = new System.Drawing.Point(147, 50);
-            this.IO_X2_Name.Name = "IO_X2_Name";
-            this.IO_X2_Name.Size = new System.Drawing.Size(286, 32);
-            this.IO_X2_Name.TabIndex = 255;
-            this.IO_X2_Name.Tag = "";
-            this.IO_X2_Name.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // Title_IO_X16
-            // 
-            this.Title_IO_X16.BackgroundColor = new Syncfusion.Drawing.BrushInfo(System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(224)))), ((int)(((byte)(192))))));
-            this.Title_IO_X16.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
-            | System.Windows.Forms.Border3DSide.Right) 
-            | System.Windows.Forms.Border3DSide.Bottom)));
-            this.Title_IO_X16.BorderStyle = System.Windows.Forms.Border3DStyle.Raised;
-            this.Title_IO_X16.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.Title_IO_X16.ForeColor = System.Drawing.Color.Black;
-            this.Title_IO_X16.Location = new System.Drawing.Point(47, 568);
-            this.Title_IO_X16.Name = "Title_IO_X16";
-            this.Title_IO_X16.Size = new System.Drawing.Size(94, 32);
-            this.Title_IO_X16.TabIndex = 254;
-            this.Title_IO_X16.Tag = "";
-            this.Title_IO_X16.Text = "X0000";
-            this.Title_IO_X16.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // Title_IO_X15
-            // 
-            this.Title_IO_X15.BackgroundColor = new Syncfusion.Drawing.BrushInfo(System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(224)))), ((int)(((byte)(192))))));
-            this.Title_IO_X15.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
-            | System.Windows.Forms.Border3DSide.Right) 
-            | System.Windows.Forms.Border3DSide.Bottom)));
-            this.Title_IO_X15.BorderStyle = System.Windows.Forms.Border3DStyle.Raised;
-            this.Title_IO_X15.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.Title_IO_X15.ForeColor = System.Drawing.Color.Black;
-            this.Title_IO_X15.Location = new System.Drawing.Point(47, 531);
-            this.Title_IO_X15.Name = "Title_IO_X15";
-            this.Title_IO_X15.Size = new System.Drawing.Size(94, 32);
-            this.Title_IO_X15.TabIndex = 253;
-            this.Title_IO_X15.Tag = "";
-            this.Title_IO_X15.Text = "X0000";
-            this.Title_IO_X15.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // Title_IO_X14
-            // 
-            this.Title_IO_X14.BackgroundColor = new Syncfusion.Drawing.BrushInfo(System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(224)))), ((int)(((byte)(192))))));
-            this.Title_IO_X14.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
-            | System.Windows.Forms.Border3DSide.Right) 
-            | System.Windows.Forms.Border3DSide.Bottom)));
-            this.Title_IO_X14.BorderStyle = System.Windows.Forms.Border3DStyle.Raised;
-            this.Title_IO_X14.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.Title_IO_X14.ForeColor = System.Drawing.Color.Black;
-            this.Title_IO_X14.Location = new System.Drawing.Point(47, 494);
-            this.Title_IO_X14.Name = "Title_IO_X14";
-            this.Title_IO_X14.Size = new System.Drawing.Size(94, 32);
-            this.Title_IO_X14.TabIndex = 252;
-            this.Title_IO_X14.Tag = "";
-            this.Title_IO_X14.Text = "X0000";
-            this.Title_IO_X14.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // Title_IO_X13
-            // 
-            this.Title_IO_X13.BackgroundColor = new Syncfusion.Drawing.BrushInfo(System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(224)))), ((int)(((byte)(192))))));
-            this.Title_IO_X13.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
-            | System.Windows.Forms.Border3DSide.Right) 
-            | System.Windows.Forms.Border3DSide.Bottom)));
-            this.Title_IO_X13.BorderStyle = System.Windows.Forms.Border3DStyle.Raised;
-            this.Title_IO_X13.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.Title_IO_X13.ForeColor = System.Drawing.Color.Black;
-            this.Title_IO_X13.Location = new System.Drawing.Point(47, 457);
-            this.Title_IO_X13.Name = "Title_IO_X13";
-            this.Title_IO_X13.Size = new System.Drawing.Size(94, 32);
-            this.Title_IO_X13.TabIndex = 251;
-            this.Title_IO_X13.Tag = "";
-            this.Title_IO_X13.Text = "X0000";
-            this.Title_IO_X13.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // Title_IO_X12
-            // 
-            this.Title_IO_X12.BackgroundColor = new Syncfusion.Drawing.BrushInfo(System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(224)))), ((int)(((byte)(192))))));
-            this.Title_IO_X12.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
-            | System.Windows.Forms.Border3DSide.Right) 
-            | System.Windows.Forms.Border3DSide.Bottom)));
-            this.Title_IO_X12.BorderStyle = System.Windows.Forms.Border3DStyle.Raised;
-            this.Title_IO_X12.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.Title_IO_X12.ForeColor = System.Drawing.Color.Black;
-            this.Title_IO_X12.Location = new System.Drawing.Point(47, 420);
-            this.Title_IO_X12.Name = "Title_IO_X12";
-            this.Title_IO_X12.Size = new System.Drawing.Size(94, 32);
-            this.Title_IO_X12.TabIndex = 250;
-            this.Title_IO_X12.Tag = "";
-            this.Title_IO_X12.Text = "X0000";
-            this.Title_IO_X12.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // Title_IO_X11
-            // 
-            this.Title_IO_X11.BackgroundColor = new Syncfusion.Drawing.BrushInfo(System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(224)))), ((int)(((byte)(192))))));
-            this.Title_IO_X11.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
-            | System.Windows.Forms.Border3DSide.Right) 
-            | System.Windows.Forms.Border3DSide.Bottom)));
-            this.Title_IO_X11.BorderStyle = System.Windows.Forms.Border3DStyle.Raised;
-            this.Title_IO_X11.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.Title_IO_X11.ForeColor = System.Drawing.Color.Black;
-            this.Title_IO_X11.Location = new System.Drawing.Point(47, 383);
-            this.Title_IO_X11.Name = "Title_IO_X11";
-            this.Title_IO_X11.Size = new System.Drawing.Size(94, 32);
-            this.Title_IO_X11.TabIndex = 249;
-            this.Title_IO_X11.Tag = "";
-            this.Title_IO_X11.Text = "X0000";
-            this.Title_IO_X11.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // Title_IO_X10
-            // 
-            this.Title_IO_X10.BackgroundColor = new Syncfusion.Drawing.BrushInfo(System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(224)))), ((int)(((byte)(192))))));
-            this.Title_IO_X10.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
-            | System.Windows.Forms.Border3DSide.Right) 
-            | System.Windows.Forms.Border3DSide.Bottom)));
-            this.Title_IO_X10.BorderStyle = System.Windows.Forms.Border3DStyle.Raised;
-            this.Title_IO_X10.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.Title_IO_X10.ForeColor = System.Drawing.Color.Black;
-            this.Title_IO_X10.Location = new System.Drawing.Point(47, 346);
-            this.Title_IO_X10.Name = "Title_IO_X10";
-            this.Title_IO_X10.Size = new System.Drawing.Size(94, 32);
-            this.Title_IO_X10.TabIndex = 248;
-            this.Title_IO_X10.Tag = "";
-            this.Title_IO_X10.Text = "X0000";
-            this.Title_IO_X10.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // Title_IO_X9
-            // 
-            this.Title_IO_X9.BackgroundColor = new Syncfusion.Drawing.BrushInfo(System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(224)))), ((int)(((byte)(192))))));
-            this.Title_IO_X9.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
-            | System.Windows.Forms.Border3DSide.Right) 
-            | System.Windows.Forms.Border3DSide.Bottom)));
-            this.Title_IO_X9.BorderStyle = System.Windows.Forms.Border3DStyle.Raised;
-            this.Title_IO_X9.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.Title_IO_X9.ForeColor = System.Drawing.Color.Black;
-            this.Title_IO_X9.Location = new System.Drawing.Point(47, 309);
-            this.Title_IO_X9.Name = "Title_IO_X9";
-            this.Title_IO_X9.Size = new System.Drawing.Size(94, 32);
-            this.Title_IO_X9.TabIndex = 247;
-            this.Title_IO_X9.Tag = "";
-            this.Title_IO_X9.Text = "X0000";
-            this.Title_IO_X9.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // Title_IO_X8
-            // 
-            this.Title_IO_X8.BackgroundColor = new Syncfusion.Drawing.BrushInfo(System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(224)))), ((int)(((byte)(192))))));
-            this.Title_IO_X8.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
-            | System.Windows.Forms.Border3DSide.Right) 
-            | System.Windows.Forms.Border3DSide.Bottom)));
-            this.Title_IO_X8.BorderStyle = System.Windows.Forms.Border3DStyle.Raised;
-            this.Title_IO_X8.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.Title_IO_X8.ForeColor = System.Drawing.Color.Black;
-            this.Title_IO_X8.Location = new System.Drawing.Point(47, 272);
-            this.Title_IO_X8.Name = "Title_IO_X8";
-            this.Title_IO_X8.Size = new System.Drawing.Size(94, 32);
-            this.Title_IO_X8.TabIndex = 246;
-            this.Title_IO_X8.Tag = "";
-            this.Title_IO_X8.Text = "X0000";
-            this.Title_IO_X8.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // Title_IO_X7
-            // 
-            this.Title_IO_X7.BackgroundColor = new Syncfusion.Drawing.BrushInfo(System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(224)))), ((int)(((byte)(192))))));
-            this.Title_IO_X7.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
-            | System.Windows.Forms.Border3DSide.Right) 
-            | System.Windows.Forms.Border3DSide.Bottom)));
-            this.Title_IO_X7.BorderStyle = System.Windows.Forms.Border3DStyle.Raised;
-            this.Title_IO_X7.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.Title_IO_X7.ForeColor = System.Drawing.Color.Black;
-            this.Title_IO_X7.Location = new System.Drawing.Point(47, 235);
-            this.Title_IO_X7.Name = "Title_IO_X7";
-            this.Title_IO_X7.Size = new System.Drawing.Size(94, 32);
-            this.Title_IO_X7.TabIndex = 245;
-            this.Title_IO_X7.Tag = "";
-            this.Title_IO_X7.Text = "X0000";
-            this.Title_IO_X7.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // Title_IO_X6
-            // 
-            this.Title_IO_X6.BackgroundColor = new Syncfusion.Drawing.BrushInfo(System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(224)))), ((int)(((byte)(192))))));
-            this.Title_IO_X6.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
-            | System.Windows.Forms.Border3DSide.Right) 
-            | System.Windows.Forms.Border3DSide.Bottom)));
-            this.Title_IO_X6.BorderStyle = System.Windows.Forms.Border3DStyle.Raised;
-            this.Title_IO_X6.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.Title_IO_X6.ForeColor = System.Drawing.Color.Black;
-            this.Title_IO_X6.Location = new System.Drawing.Point(47, 198);
-            this.Title_IO_X6.Name = "Title_IO_X6";
-            this.Title_IO_X6.Size = new System.Drawing.Size(94, 32);
-            this.Title_IO_X6.TabIndex = 244;
-            this.Title_IO_X6.Tag = "";
-            this.Title_IO_X6.Text = "X0000";
-            this.Title_IO_X6.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // Title_IO_X5
-            // 
-            this.Title_IO_X5.BackgroundColor = new Syncfusion.Drawing.BrushInfo(System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(224)))), ((int)(((byte)(192))))));
-            this.Title_IO_X5.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
-            | System.Windows.Forms.Border3DSide.Right) 
-            | System.Windows.Forms.Border3DSide.Bottom)));
-            this.Title_IO_X5.BorderStyle = System.Windows.Forms.Border3DStyle.Raised;
-            this.Title_IO_X5.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.Title_IO_X5.ForeColor = System.Drawing.Color.Black;
-            this.Title_IO_X5.Location = new System.Drawing.Point(47, 161);
-            this.Title_IO_X5.Name = "Title_IO_X5";
-            this.Title_IO_X5.Size = new System.Drawing.Size(94, 32);
-            this.Title_IO_X5.TabIndex = 243;
-            this.Title_IO_X5.Tag = "";
-            this.Title_IO_X5.Text = "X0000";
-            this.Title_IO_X5.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // Title_IO_X4
-            // 
-            this.Title_IO_X4.BackgroundColor = new Syncfusion.Drawing.BrushInfo(System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(224)))), ((int)(((byte)(192))))));
-            this.Title_IO_X4.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
-            | System.Windows.Forms.Border3DSide.Right) 
-            | System.Windows.Forms.Border3DSide.Bottom)));
-            this.Title_IO_X4.BorderStyle = System.Windows.Forms.Border3DStyle.Raised;
-            this.Title_IO_X4.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.Title_IO_X4.ForeColor = System.Drawing.Color.Black;
-            this.Title_IO_X4.Location = new System.Drawing.Point(47, 124);
-            this.Title_IO_X4.Name = "Title_IO_X4";
-            this.Title_IO_X4.Size = new System.Drawing.Size(94, 32);
-            this.Title_IO_X4.TabIndex = 242;
-            this.Title_IO_X4.Tag = "";
-            this.Title_IO_X4.Text = "X0000";
-            this.Title_IO_X4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // Title_IO_X3
-            // 
-            this.Title_IO_X3.BackgroundColor = new Syncfusion.Drawing.BrushInfo(System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(224)))), ((int)(((byte)(192))))));
-            this.Title_IO_X3.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
-            | System.Windows.Forms.Border3DSide.Right) 
-            | System.Windows.Forms.Border3DSide.Bottom)));
-            this.Title_IO_X3.BorderStyle = System.Windows.Forms.Border3DStyle.Raised;
-            this.Title_IO_X3.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.Title_IO_X3.ForeColor = System.Drawing.Color.Black;
-            this.Title_IO_X3.Location = new System.Drawing.Point(47, 87);
-            this.Title_IO_X3.Name = "Title_IO_X3";
-            this.Title_IO_X3.Size = new System.Drawing.Size(94, 32);
-            this.Title_IO_X3.TabIndex = 241;
-            this.Title_IO_X3.Tag = "";
-            this.Title_IO_X3.Text = "X0000";
-            this.Title_IO_X3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // Title_IO_X2
-            // 
-            this.Title_IO_X2.BackgroundColor = new Syncfusion.Drawing.BrushInfo(System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(224)))), ((int)(((byte)(192))))));
-            this.Title_IO_X2.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
-            | System.Windows.Forms.Border3DSide.Right) 
-            | System.Windows.Forms.Border3DSide.Bottom)));
-            this.Title_IO_X2.BorderStyle = System.Windows.Forms.Border3DStyle.Raised;
-            this.Title_IO_X2.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.Title_IO_X2.ForeColor = System.Drawing.Color.Black;
-            this.Title_IO_X2.Location = new System.Drawing.Point(47, 50);
-            this.Title_IO_X2.Name = "Title_IO_X2";
-            this.Title_IO_X2.Size = new System.Drawing.Size(94, 32);
-            this.Title_IO_X2.TabIndex = 240;
-            this.Title_IO_X2.Tag = "";
-            this.Title_IO_X2.Text = "X0000";
-            this.Title_IO_X2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // Title_IO_X1
-            // 
-            this.Title_IO_X1.BackgroundColor = new Syncfusion.Drawing.BrushInfo(Syncfusion.Drawing.GradientStyle.None, System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224))))), System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(224)))), ((int)(((byte)(192))))));
-            this.Title_IO_X1.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
-            | System.Windows.Forms.Border3DSide.Right) 
-            | System.Windows.Forms.Border3DSide.Bottom)));
-            this.Title_IO_X1.BorderStyle = System.Windows.Forms.Border3DStyle.Raised;
-            this.Title_IO_X1.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.Title_IO_X1.ForeColor = System.Drawing.Color.Black;
-            this.Title_IO_X1.Location = new System.Drawing.Point(47, 13);
-            this.Title_IO_X1.Name = "Title_IO_X1";
-            this.Title_IO_X1.Size = new System.Drawing.Size(94, 32);
-            this.Title_IO_X1.TabIndex = 239;
-            this.Title_IO_X1.Tag = "";
-            this.Title_IO_X1.Text = "X0000";
-            this.Title_IO_X1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // IO_X1_Name
-            // 
-            this.IO_X1_Name.BackgroundColor = new Syncfusion.Drawing.BrushInfo(System.Drawing.Color.White);
-            this.IO_X1_Name.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
-            | System.Windows.Forms.Border3DSide.Right) 
-            | System.Windows.Forms.Border3DSide.Bottom)));
-            this.IO_X1_Name.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.IO_X1_Name.ForeColor = System.Drawing.Color.Black;
-            this.IO_X1_Name.Location = new System.Drawing.Point(147, 13);
-            this.IO_X1_Name.Name = "IO_X1_Name";
-            this.IO_X1_Name.Size = new System.Drawing.Size(286, 32);
-            this.IO_X1_Name.TabIndex = 238;
-            this.IO_X1_Name.Tag = "";
-            this.IO_X1_Name.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
             // BtnNext
             // 
-            this.BtnNext.Font = new System.Drawing.Font("굴림", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.BtnNext.Font = new System.Drawing.Font("Gulim", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.BtnNext.Image = ((System.Drawing.Image)(resources.GetObject("BtnNext.Image")));
             this.BtnNext.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.BtnNext.Location = new System.Drawing.Point(329, 624);
+            this.BtnNext.Location = new System.Drawing.Point(517, 1092);
+            this.BtnNext.Margin = new System.Windows.Forms.Padding(5);
             this.BtnNext.Name = "BtnNext";
-            this.BtnNext.Size = new System.Drawing.Size(129, 61);
+            this.BtnNext.Size = new System.Drawing.Size(203, 107);
             this.BtnNext.TabIndex = 303;
             this.BtnNext.Text = "  Next";
             this.BtnNext.TextImageRelation = System.Windows.Forms.TextImageRelation.TextBeforeImage;
@@ -1162,12 +123,13 @@
             // 
             // BtnPrev
             // 
-            this.BtnPrev.Font = new System.Drawing.Font("굴림", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.BtnPrev.Font = new System.Drawing.Font("Gulim", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.BtnPrev.Image = ((System.Drawing.Image)(resources.GetObject("BtnPrev.Image")));
             this.BtnPrev.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.BtnPrev.Location = new System.Drawing.Point(188, 624);
+            this.BtnPrev.Location = new System.Drawing.Point(295, 1092);
+            this.BtnPrev.Margin = new System.Windows.Forms.Padding(5);
             this.BtnPrev.Name = "BtnPrev";
-            this.BtnPrev.Size = new System.Drawing.Size(129, 61);
+            this.BtnPrev.Size = new System.Drawing.Size(203, 107);
             this.BtnPrev.TabIndex = 302;
             this.BtnPrev.Text = "  Prev";
             this.BtnPrev.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
@@ -1176,12 +138,13 @@
             // 
             // BtnStart
             // 
-            this.BtnStart.Font = new System.Drawing.Font("굴림", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.BtnStart.Font = new System.Drawing.Font("Gulim", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.BtnStart.Image = ((System.Drawing.Image)(resources.GetObject("BtnStart.Image")));
             this.BtnStart.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.BtnStart.Location = new System.Drawing.Point(47, 624);
+            this.BtnStart.Location = new System.Drawing.Point(74, 1092);
+            this.BtnStart.Margin = new System.Windows.Forms.Padding(5);
             this.BtnStart.Name = "BtnStart";
-            this.BtnStart.Size = new System.Drawing.Size(129, 61);
+            this.BtnStart.Size = new System.Drawing.Size(203, 107);
             this.BtnStart.TabIndex = 304;
             this.BtnStart.Text = "  맨앞";
             this.BtnStart.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
@@ -1190,12 +153,13 @@
             // 
             // BtnExit
             // 
-            this.BtnExit.Font = new System.Drawing.Font("굴림", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.BtnExit.Font = new System.Drawing.Font("Gulim", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.BtnExit.Image = ((System.Drawing.Image)(resources.GetObject("BtnExit.Image")));
             this.BtnExit.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.BtnExit.Location = new System.Drawing.Point(706, 624);
+            this.BtnExit.Location = new System.Drawing.Point(1109, 1092);
+            this.BtnExit.Margin = new System.Windows.Forms.Padding(5);
             this.BtnExit.Name = "BtnExit";
-            this.BtnExit.Size = new System.Drawing.Size(129, 61);
+            this.BtnExit.Size = new System.Drawing.Size(203, 107);
             this.BtnExit.TabIndex = 306;
             this.BtnExit.Text = " Exit";
             this.BtnExit.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
@@ -1204,93 +168,896 @@
             // 
             // BtnEnd
             // 
-            this.BtnEnd.Font = new System.Drawing.Font("굴림", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.BtnEnd.Font = new System.Drawing.Font("Gulim", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.BtnEnd.Image = ((System.Drawing.Image)(resources.GetObject("BtnEnd.Image")));
             this.BtnEnd.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.BtnEnd.Location = new System.Drawing.Point(470, 624);
+            this.BtnEnd.Location = new System.Drawing.Point(739, 1092);
+            this.BtnEnd.Margin = new System.Windows.Forms.Padding(5);
             this.BtnEnd.Name = "BtnEnd";
-            this.BtnEnd.Size = new System.Drawing.Size(129, 61);
+            this.BtnEnd.Size = new System.Drawing.Size(203, 107);
             this.BtnEnd.TabIndex = 307;
             this.BtnEnd.Text = "  맨뒤";
             this.BtnEnd.TextImageRelation = System.Windows.Forms.TextImageRelation.TextBeforeImage;
             this.BtnEnd.UseVisualStyleBackColor = true;
             this.BtnEnd.Click += new System.EventHandler(this.BtnEnd_Click);
             // 
+            // lblInputName1
+            // 
+            this.lblInputName1.BackColor = System.Drawing.Color.White;
+            this.lblInputName1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lblInputName1.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.lblInputName1.Font = new System.Drawing.Font("Arial Rounded MT Bold", 9.857143F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblInputName1.Location = new System.Drawing.Point(233, 23);
+            this.lblInputName1.Name = "lblInputName1";
+            this.lblInputName1.Size = new System.Drawing.Size(600, 47);
+            this.lblInputName1.TabIndex = 854;
+            this.lblInputName1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // lblInputX1
+            // 
+            this.lblInputX1.BackColor = System.Drawing.Color.LightBlue;
+            this.lblInputX1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lblInputX1.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.lblInputX1.Font = new System.Drawing.Font("Arial Rounded MT Bold", 9.857143F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblInputX1.Location = new System.Drawing.Point(12, 23);
+            this.lblInputX1.Name = "lblInputX1";
+            this.lblInputX1.Size = new System.Drawing.Size(213, 47);
+            this.lblInputX1.TabIndex = 853;
+            this.lblInputX1.Text = "X0000";
+            this.lblInputX1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lblInputX2
+            // 
+            this.lblInputX2.BackColor = System.Drawing.Color.LightBlue;
+            this.lblInputX2.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lblInputX2.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.lblInputX2.Font = new System.Drawing.Font("Arial Rounded MT Bold", 9.857143F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblInputX2.Location = new System.Drawing.Point(12, 79);
+            this.lblInputX2.Name = "lblInputX2";
+            this.lblInputX2.Size = new System.Drawing.Size(213, 47);
+            this.lblInputX2.TabIndex = 855;
+            this.lblInputX2.Text = "X0000";
+            this.lblInputX2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lblInputX3
+            // 
+            this.lblInputX3.BackColor = System.Drawing.Color.LightBlue;
+            this.lblInputX3.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lblInputX3.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.lblInputX3.Font = new System.Drawing.Font("Arial Rounded MT Bold", 9.857143F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblInputX3.Location = new System.Drawing.Point(12, 135);
+            this.lblInputX3.Name = "lblInputX3";
+            this.lblInputX3.Size = new System.Drawing.Size(213, 47);
+            this.lblInputX3.TabIndex = 856;
+            this.lblInputX3.Text = "X0000";
+            this.lblInputX3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lblInputName2
+            // 
+            this.lblInputName2.BackColor = System.Drawing.Color.White;
+            this.lblInputName2.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lblInputName2.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.lblInputName2.Font = new System.Drawing.Font("Arial Rounded MT Bold", 9.857143F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblInputName2.Location = new System.Drawing.Point(231, 79);
+            this.lblInputName2.Name = "lblInputName2";
+            this.lblInputName2.Size = new System.Drawing.Size(600, 47);
+            this.lblInputName2.TabIndex = 857;
+            this.lblInputName2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // lblInputName3
+            // 
+            this.lblInputName3.BackColor = System.Drawing.Color.White;
+            this.lblInputName3.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lblInputName3.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.lblInputName3.Font = new System.Drawing.Font("Arial Rounded MT Bold", 9.857143F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblInputName3.Location = new System.Drawing.Point(233, 135);
+            this.lblInputName3.Name = "lblInputName3";
+            this.lblInputName3.Size = new System.Drawing.Size(600, 47);
+            this.lblInputName3.TabIndex = 858;
+            this.lblInputName3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // lblInputName6
+            // 
+            this.lblInputName6.BackColor = System.Drawing.Color.White;
+            this.lblInputName6.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lblInputName6.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.lblInputName6.Font = new System.Drawing.Font("Arial Rounded MT Bold", 9.857143F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblInputName6.Location = new System.Drawing.Point(233, 304);
+            this.lblInputName6.Name = "lblInputName6";
+            this.lblInputName6.Size = new System.Drawing.Size(600, 47);
+            this.lblInputName6.TabIndex = 864;
+            this.lblInputName6.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // lblInputName5
+            // 
+            this.lblInputName5.BackColor = System.Drawing.Color.White;
+            this.lblInputName5.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lblInputName5.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.lblInputName5.Font = new System.Drawing.Font("Arial Rounded MT Bold", 9.857143F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblInputName5.Location = new System.Drawing.Point(231, 248);
+            this.lblInputName5.Name = "lblInputName5";
+            this.lblInputName5.Size = new System.Drawing.Size(600, 47);
+            this.lblInputName5.TabIndex = 863;
+            this.lblInputName5.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // lblInputX6
+            // 
+            this.lblInputX6.BackColor = System.Drawing.Color.LightBlue;
+            this.lblInputX6.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lblInputX6.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.lblInputX6.Font = new System.Drawing.Font("Arial Rounded MT Bold", 9.857143F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblInputX6.Location = new System.Drawing.Point(12, 304);
+            this.lblInputX6.Name = "lblInputX6";
+            this.lblInputX6.Size = new System.Drawing.Size(213, 47);
+            this.lblInputX6.TabIndex = 862;
+            this.lblInputX6.Text = "X0000";
+            this.lblInputX6.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lblInputX5
+            // 
+            this.lblInputX5.BackColor = System.Drawing.Color.LightBlue;
+            this.lblInputX5.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lblInputX5.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.lblInputX5.Font = new System.Drawing.Font("Arial Rounded MT Bold", 9.857143F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblInputX5.Location = new System.Drawing.Point(12, 248);
+            this.lblInputX5.Name = "lblInputX5";
+            this.lblInputX5.Size = new System.Drawing.Size(213, 47);
+            this.lblInputX5.TabIndex = 861;
+            this.lblInputX5.Text = "X0000";
+            this.lblInputX5.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lblInputName4
+            // 
+            this.lblInputName4.BackColor = System.Drawing.Color.White;
+            this.lblInputName4.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lblInputName4.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.lblInputName4.Font = new System.Drawing.Font("Arial Rounded MT Bold", 9.857143F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblInputName4.Location = new System.Drawing.Point(233, 192);
+            this.lblInputName4.Name = "lblInputName4";
+            this.lblInputName4.Size = new System.Drawing.Size(600, 47);
+            this.lblInputName4.TabIndex = 860;
+            this.lblInputName4.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // lblInputX4
+            // 
+            this.lblInputX4.BackColor = System.Drawing.Color.LightBlue;
+            this.lblInputX4.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lblInputX4.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.lblInputX4.Font = new System.Drawing.Font("Arial Rounded MT Bold", 9.857143F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblInputX4.Location = new System.Drawing.Point(12, 192);
+            this.lblInputX4.Name = "lblInputX4";
+            this.lblInputX4.Size = new System.Drawing.Size(213, 47);
+            this.lblInputX4.TabIndex = 859;
+            this.lblInputX4.Text = "X0000";
+            this.lblInputX4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lblInputName12
+            // 
+            this.lblInputName12.BackColor = System.Drawing.Color.White;
+            this.lblInputName12.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lblInputName12.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.lblInputName12.Font = new System.Drawing.Font("Arial Rounded MT Bold", 9.857143F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblInputName12.Location = new System.Drawing.Point(233, 639);
+            this.lblInputName12.Name = "lblInputName12";
+            this.lblInputName12.Size = new System.Drawing.Size(600, 47);
+            this.lblInputName12.TabIndex = 876;
+            this.lblInputName12.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // lblInputName11
+            // 
+            this.lblInputName11.BackColor = System.Drawing.Color.White;
+            this.lblInputName11.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lblInputName11.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.lblInputName11.Font = new System.Drawing.Font("Arial Rounded MT Bold", 9.857143F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblInputName11.Location = new System.Drawing.Point(231, 583);
+            this.lblInputName11.Name = "lblInputName11";
+            this.lblInputName11.Size = new System.Drawing.Size(600, 47);
+            this.lblInputName11.TabIndex = 875;
+            this.lblInputName11.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // lblInputX12
+            // 
+            this.lblInputX12.BackColor = System.Drawing.Color.LightBlue;
+            this.lblInputX12.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lblInputX12.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.lblInputX12.Font = new System.Drawing.Font("Arial Rounded MT Bold", 9.857143F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblInputX12.Location = new System.Drawing.Point(12, 639);
+            this.lblInputX12.Name = "lblInputX12";
+            this.lblInputX12.Size = new System.Drawing.Size(213, 47);
+            this.lblInputX12.TabIndex = 874;
+            this.lblInputX12.Text = "X0000";
+            this.lblInputX12.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lblInputX11
+            // 
+            this.lblInputX11.BackColor = System.Drawing.Color.LightBlue;
+            this.lblInputX11.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lblInputX11.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.lblInputX11.Font = new System.Drawing.Font("Arial Rounded MT Bold", 9.857143F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblInputX11.Location = new System.Drawing.Point(12, 583);
+            this.lblInputX11.Name = "lblInputX11";
+            this.lblInputX11.Size = new System.Drawing.Size(213, 47);
+            this.lblInputX11.TabIndex = 873;
+            this.lblInputX11.Text = "X0000";
+            this.lblInputX11.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lblInputName10
+            // 
+            this.lblInputName10.BackColor = System.Drawing.Color.White;
+            this.lblInputName10.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lblInputName10.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.lblInputName10.Font = new System.Drawing.Font("Arial Rounded MT Bold", 9.857143F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblInputName10.Location = new System.Drawing.Point(233, 527);
+            this.lblInputName10.Name = "lblInputName10";
+            this.lblInputName10.Size = new System.Drawing.Size(600, 47);
+            this.lblInputName10.TabIndex = 872;
+            this.lblInputName10.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // lblInputX10
+            // 
+            this.lblInputX10.BackColor = System.Drawing.Color.LightBlue;
+            this.lblInputX10.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lblInputX10.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.lblInputX10.Font = new System.Drawing.Font("Arial Rounded MT Bold", 9.857143F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblInputX10.Location = new System.Drawing.Point(12, 527);
+            this.lblInputX10.Name = "lblInputX10";
+            this.lblInputX10.Size = new System.Drawing.Size(213, 47);
+            this.lblInputX10.TabIndex = 871;
+            this.lblInputX10.Text = "X0000";
+            this.lblInputX10.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lblInputName9
+            // 
+            this.lblInputName9.BackColor = System.Drawing.Color.White;
+            this.lblInputName9.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lblInputName9.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.lblInputName9.Font = new System.Drawing.Font("Arial Rounded MT Bold", 9.857143F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblInputName9.Location = new System.Drawing.Point(233, 470);
+            this.lblInputName9.Name = "lblInputName9";
+            this.lblInputName9.Size = new System.Drawing.Size(600, 47);
+            this.lblInputName9.TabIndex = 870;
+            this.lblInputName9.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // lblInputName8
+            // 
+            this.lblInputName8.BackColor = System.Drawing.Color.White;
+            this.lblInputName8.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lblInputName8.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.lblInputName8.Font = new System.Drawing.Font("Arial Rounded MT Bold", 9.857143F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblInputName8.Location = new System.Drawing.Point(231, 414);
+            this.lblInputName8.Name = "lblInputName8";
+            this.lblInputName8.Size = new System.Drawing.Size(600, 47);
+            this.lblInputName8.TabIndex = 869;
+            this.lblInputName8.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // lblInputX9
+            // 
+            this.lblInputX9.BackColor = System.Drawing.Color.LightBlue;
+            this.lblInputX9.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lblInputX9.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.lblInputX9.Font = new System.Drawing.Font("Arial Rounded MT Bold", 9.857143F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblInputX9.Location = new System.Drawing.Point(12, 470);
+            this.lblInputX9.Name = "lblInputX9";
+            this.lblInputX9.Size = new System.Drawing.Size(213, 47);
+            this.lblInputX9.TabIndex = 868;
+            this.lblInputX9.Text = "X0000";
+            this.lblInputX9.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lblInputX8
+            // 
+            this.lblInputX8.BackColor = System.Drawing.Color.LightBlue;
+            this.lblInputX8.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lblInputX8.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.lblInputX8.Font = new System.Drawing.Font("Arial Rounded MT Bold", 9.857143F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblInputX8.Location = new System.Drawing.Point(12, 414);
+            this.lblInputX8.Name = "lblInputX8";
+            this.lblInputX8.Size = new System.Drawing.Size(213, 47);
+            this.lblInputX8.TabIndex = 867;
+            this.lblInputX8.Text = "X0000";
+            this.lblInputX8.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lblInputName7
+            // 
+            this.lblInputName7.BackColor = System.Drawing.Color.White;
+            this.lblInputName7.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lblInputName7.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.lblInputName7.Font = new System.Drawing.Font("Arial Rounded MT Bold", 9.857143F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblInputName7.Location = new System.Drawing.Point(233, 358);
+            this.lblInputName7.Name = "lblInputName7";
+            this.lblInputName7.Size = new System.Drawing.Size(600, 47);
+            this.lblInputName7.TabIndex = 866;
+            this.lblInputName7.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // lblInputX7
+            // 
+            this.lblInputX7.BackColor = System.Drawing.Color.LightBlue;
+            this.lblInputX7.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lblInputX7.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.lblInputX7.Font = new System.Drawing.Font("Arial Rounded MT Bold", 9.857143F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblInputX7.Location = new System.Drawing.Point(12, 358);
+            this.lblInputX7.Name = "lblInputX7";
+            this.lblInputX7.Size = new System.Drawing.Size(213, 47);
+            this.lblInputX7.TabIndex = 865;
+            this.lblInputX7.Text = "X0000";
+            this.lblInputX7.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lblInputName16
+            // 
+            this.lblInputName16.BackColor = System.Drawing.Color.White;
+            this.lblInputName16.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lblInputName16.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.lblInputName16.Font = new System.Drawing.Font("Arial Rounded MT Bold", 9.857143F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblInputName16.Location = new System.Drawing.Point(231, 864);
+            this.lblInputName16.Name = "lblInputName16";
+            this.lblInputName16.Size = new System.Drawing.Size(600, 47);
+            this.lblInputName16.TabIndex = 885;
+            this.lblInputName16.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // lblInputX16
+            // 
+            this.lblInputX16.BackColor = System.Drawing.Color.LightBlue;
+            this.lblInputX16.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lblInputX16.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.lblInputX16.Font = new System.Drawing.Font("Arial Rounded MT Bold", 9.857143F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblInputX16.Location = new System.Drawing.Point(12, 864);
+            this.lblInputX16.Name = "lblInputX16";
+            this.lblInputX16.Size = new System.Drawing.Size(213, 47);
+            this.lblInputX16.TabIndex = 883;
+            this.lblInputX16.Text = "X0000";
+            this.lblInputX16.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lblInputName15
+            // 
+            this.lblInputName15.BackColor = System.Drawing.Color.White;
+            this.lblInputName15.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lblInputName15.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.lblInputName15.Font = new System.Drawing.Font("Arial Rounded MT Bold", 9.857143F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblInputName15.Location = new System.Drawing.Point(233, 808);
+            this.lblInputName15.Name = "lblInputName15";
+            this.lblInputName15.Size = new System.Drawing.Size(600, 47);
+            this.lblInputName15.TabIndex = 882;
+            this.lblInputName15.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // lblInputX15
+            // 
+            this.lblInputX15.BackColor = System.Drawing.Color.LightBlue;
+            this.lblInputX15.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lblInputX15.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.lblInputX15.Font = new System.Drawing.Font("Arial Rounded MT Bold", 9.857143F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblInputX15.Location = new System.Drawing.Point(12, 808);
+            this.lblInputX15.Name = "lblInputX15";
+            this.lblInputX15.Size = new System.Drawing.Size(213, 47);
+            this.lblInputX15.TabIndex = 881;
+            this.lblInputX15.Text = "X0000";
+            this.lblInputX15.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lblInputName14
+            // 
+            this.lblInputName14.BackColor = System.Drawing.Color.White;
+            this.lblInputName14.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lblInputName14.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.lblInputName14.Font = new System.Drawing.Font("Arial Rounded MT Bold", 9.857143F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblInputName14.Location = new System.Drawing.Point(233, 751);
+            this.lblInputName14.Name = "lblInputName14";
+            this.lblInputName14.Size = new System.Drawing.Size(600, 47);
+            this.lblInputName14.TabIndex = 880;
+            this.lblInputName14.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // lblInputName13
+            // 
+            this.lblInputName13.BackColor = System.Drawing.Color.White;
+            this.lblInputName13.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lblInputName13.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.lblInputName13.Font = new System.Drawing.Font("Arial Rounded MT Bold", 9.857143F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblInputName13.Location = new System.Drawing.Point(231, 695);
+            this.lblInputName13.Name = "lblInputName13";
+            this.lblInputName13.Size = new System.Drawing.Size(600, 47);
+            this.lblInputName13.TabIndex = 879;
+            this.lblInputName13.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // lblInputX14
+            // 
+            this.lblInputX14.BackColor = System.Drawing.Color.LightBlue;
+            this.lblInputX14.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lblInputX14.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.lblInputX14.Font = new System.Drawing.Font("Arial Rounded MT Bold", 9.857143F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblInputX14.Location = new System.Drawing.Point(12, 751);
+            this.lblInputX14.Name = "lblInputX14";
+            this.lblInputX14.Size = new System.Drawing.Size(213, 47);
+            this.lblInputX14.TabIndex = 878;
+            this.lblInputX14.Text = "X0000";
+            this.lblInputX14.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lblInputX13
+            // 
+            this.lblInputX13.BackColor = System.Drawing.Color.LightBlue;
+            this.lblInputX13.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lblInputX13.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.lblInputX13.Font = new System.Drawing.Font("Arial Rounded MT Bold", 9.857143F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblInputX13.Location = new System.Drawing.Point(12, 695);
+            this.lblInputX13.Name = "lblInputX13";
+            this.lblInputX13.Size = new System.Drawing.Size(213, 47);
+            this.lblInputX13.TabIndex = 877;
+            this.lblInputX13.Text = "X0000";
+            this.lblInputX13.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lblOutputName16
+            // 
+            this.lblOutputName16.AccessibleDescription = "16";
+            this.lblOutputName16.BackColor = System.Drawing.Color.White;
+            this.lblOutputName16.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lblOutputName16.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.lblOutputName16.Font = new System.Drawing.Font("Arial Rounded MT Bold", 9.857143F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblOutputName16.Location = new System.Drawing.Point(1058, 864);
+            this.lblOutputName16.Name = "lblOutputName16";
+            this.lblOutputName16.Size = new System.Drawing.Size(600, 47);
+            this.lblOutputName16.TabIndex = 917;
+            this.lblOutputName16.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // lblOutputY16
+            // 
+            this.lblOutputY16.BackColor = System.Drawing.Color.Thistle;
+            this.lblOutputY16.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lblOutputY16.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.lblOutputY16.Font = new System.Drawing.Font("Arial Rounded MT Bold", 9.857143F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblOutputY16.Location = new System.Drawing.Point(839, 864);
+            this.lblOutputY16.Name = "lblOutputY16";
+            this.lblOutputY16.Size = new System.Drawing.Size(213, 47);
+            this.lblOutputY16.TabIndex = 916;
+            this.lblOutputY16.Text = "Y0000";
+            this.lblOutputY16.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lblOutputName15
+            // 
+            this.lblOutputName15.BackColor = System.Drawing.Color.White;
+            this.lblOutputName15.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lblOutputName15.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.lblOutputName15.Font = new System.Drawing.Font("Arial Rounded MT Bold", 9.857143F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblOutputName15.Location = new System.Drawing.Point(1060, 808);
+            this.lblOutputName15.Name = "lblOutputName15";
+            this.lblOutputName15.Size = new System.Drawing.Size(600, 47);
+            this.lblOutputName15.TabIndex = 915;
+            this.lblOutputName15.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // lblOutputY15
+            // 
+            this.lblOutputY15.BackColor = System.Drawing.Color.Thistle;
+            this.lblOutputY15.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lblOutputY15.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.lblOutputY15.Font = new System.Drawing.Font("Arial Rounded MT Bold", 9.857143F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblOutputY15.Location = new System.Drawing.Point(839, 808);
+            this.lblOutputY15.Name = "lblOutputY15";
+            this.lblOutputY15.Size = new System.Drawing.Size(213, 47);
+            this.lblOutputY15.TabIndex = 914;
+            this.lblOutputY15.Text = "Y0000";
+            this.lblOutputY15.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lblOutputName14
+            // 
+            this.lblOutputName14.BackColor = System.Drawing.Color.White;
+            this.lblOutputName14.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lblOutputName14.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.lblOutputName14.Font = new System.Drawing.Font("Arial Rounded MT Bold", 9.857143F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblOutputName14.Location = new System.Drawing.Point(1060, 751);
+            this.lblOutputName14.Name = "lblOutputName14";
+            this.lblOutputName14.Size = new System.Drawing.Size(600, 47);
+            this.lblOutputName14.TabIndex = 913;
+            this.lblOutputName14.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // lblOutputName13
+            // 
+            this.lblOutputName13.BackColor = System.Drawing.Color.White;
+            this.lblOutputName13.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lblOutputName13.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.lblOutputName13.Font = new System.Drawing.Font("Arial Rounded MT Bold", 9.857143F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblOutputName13.Location = new System.Drawing.Point(1058, 695);
+            this.lblOutputName13.Name = "lblOutputName13";
+            this.lblOutputName13.Size = new System.Drawing.Size(600, 47);
+            this.lblOutputName13.TabIndex = 912;
+            this.lblOutputName13.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // lblOutputY14
+            // 
+            this.lblOutputY14.BackColor = System.Drawing.Color.Thistle;
+            this.lblOutputY14.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lblOutputY14.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.lblOutputY14.Font = new System.Drawing.Font("Arial Rounded MT Bold", 9.857143F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblOutputY14.Location = new System.Drawing.Point(839, 751);
+            this.lblOutputY14.Name = "lblOutputY14";
+            this.lblOutputY14.Size = new System.Drawing.Size(213, 47);
+            this.lblOutputY14.TabIndex = 911;
+            this.lblOutputY14.Text = "Y0000";
+            this.lblOutputY14.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lblOutputY13
+            // 
+            this.lblOutputY13.BackColor = System.Drawing.Color.Thistle;
+            this.lblOutputY13.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lblOutputY13.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.lblOutputY13.Font = new System.Drawing.Font("Arial Rounded MT Bold", 9.857143F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblOutputY13.Location = new System.Drawing.Point(839, 695);
+            this.lblOutputY13.Name = "lblOutputY13";
+            this.lblOutputY13.Size = new System.Drawing.Size(213, 47);
+            this.lblOutputY13.TabIndex = 910;
+            this.lblOutputY13.Text = "Y0000";
+            this.lblOutputY13.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lblOutputName12
+            // 
+            this.lblOutputName12.BackColor = System.Drawing.Color.White;
+            this.lblOutputName12.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lblOutputName12.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.lblOutputName12.Font = new System.Drawing.Font("Arial Rounded MT Bold", 9.857143F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblOutputName12.Location = new System.Drawing.Point(1060, 639);
+            this.lblOutputName12.Name = "lblOutputName12";
+            this.lblOutputName12.Size = new System.Drawing.Size(600, 47);
+            this.lblOutputName12.TabIndex = 909;
+            this.lblOutputName12.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // lblOutputName11
+            // 
+            this.lblOutputName11.BackColor = System.Drawing.Color.White;
+            this.lblOutputName11.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lblOutputName11.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.lblOutputName11.Font = new System.Drawing.Font("Arial Rounded MT Bold", 9.857143F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblOutputName11.Location = new System.Drawing.Point(1058, 583);
+            this.lblOutputName11.Name = "lblOutputName11";
+            this.lblOutputName11.Size = new System.Drawing.Size(600, 47);
+            this.lblOutputName11.TabIndex = 908;
+            this.lblOutputName11.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // lblOutputY12
+            // 
+            this.lblOutputY12.BackColor = System.Drawing.Color.Thistle;
+            this.lblOutputY12.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lblOutputY12.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.lblOutputY12.Font = new System.Drawing.Font("Arial Rounded MT Bold", 9.857143F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblOutputY12.Location = new System.Drawing.Point(839, 639);
+            this.lblOutputY12.Name = "lblOutputY12";
+            this.lblOutputY12.Size = new System.Drawing.Size(213, 47);
+            this.lblOutputY12.TabIndex = 907;
+            this.lblOutputY12.Text = "Y0000";
+            this.lblOutputY12.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lblOutputY11
+            // 
+            this.lblOutputY11.BackColor = System.Drawing.Color.Thistle;
+            this.lblOutputY11.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lblOutputY11.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.lblOutputY11.Font = new System.Drawing.Font("Arial Rounded MT Bold", 9.857143F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblOutputY11.Location = new System.Drawing.Point(839, 583);
+            this.lblOutputY11.Name = "lblOutputY11";
+            this.lblOutputY11.Size = new System.Drawing.Size(213, 47);
+            this.lblOutputY11.TabIndex = 906;
+            this.lblOutputY11.Text = "Y0000";
+            this.lblOutputY11.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lblOutputName10
+            // 
+            this.lblOutputName10.BackColor = System.Drawing.Color.White;
+            this.lblOutputName10.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lblOutputName10.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.lblOutputName10.Font = new System.Drawing.Font("Arial Rounded MT Bold", 9.857143F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblOutputName10.Location = new System.Drawing.Point(1060, 527);
+            this.lblOutputName10.Name = "lblOutputName10";
+            this.lblOutputName10.Size = new System.Drawing.Size(600, 47);
+            this.lblOutputName10.TabIndex = 905;
+            this.lblOutputName10.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // lblOutputY10
+            // 
+            this.lblOutputY10.BackColor = System.Drawing.Color.Thistle;
+            this.lblOutputY10.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lblOutputY10.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.lblOutputY10.Font = new System.Drawing.Font("Arial Rounded MT Bold", 9.857143F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblOutputY10.Location = new System.Drawing.Point(839, 527);
+            this.lblOutputY10.Name = "lblOutputY10";
+            this.lblOutputY10.Size = new System.Drawing.Size(213, 47);
+            this.lblOutputY10.TabIndex = 904;
+            this.lblOutputY10.Text = "Y0000";
+            this.lblOutputY10.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lblOutputName9
+            // 
+            this.lblOutputName9.BackColor = System.Drawing.Color.White;
+            this.lblOutputName9.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lblOutputName9.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.lblOutputName9.Font = new System.Drawing.Font("Arial Rounded MT Bold", 9.857143F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblOutputName9.Location = new System.Drawing.Point(1060, 470);
+            this.lblOutputName9.Name = "lblOutputName9";
+            this.lblOutputName9.Size = new System.Drawing.Size(600, 47);
+            this.lblOutputName9.TabIndex = 903;
+            this.lblOutputName9.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // lblOutputName8
+            // 
+            this.lblOutputName8.BackColor = System.Drawing.Color.White;
+            this.lblOutputName8.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lblOutputName8.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.lblOutputName8.Font = new System.Drawing.Font("Arial Rounded MT Bold", 9.857143F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblOutputName8.Location = new System.Drawing.Point(1058, 414);
+            this.lblOutputName8.Name = "lblOutputName8";
+            this.lblOutputName8.Size = new System.Drawing.Size(600, 47);
+            this.lblOutputName8.TabIndex = 902;
+            this.lblOutputName8.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // lblOutputY9
+            // 
+            this.lblOutputY9.BackColor = System.Drawing.Color.Thistle;
+            this.lblOutputY9.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lblOutputY9.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.lblOutputY9.Font = new System.Drawing.Font("Arial Rounded MT Bold", 9.857143F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblOutputY9.Location = new System.Drawing.Point(839, 470);
+            this.lblOutputY9.Name = "lblOutputY9";
+            this.lblOutputY9.Size = new System.Drawing.Size(213, 47);
+            this.lblOutputY9.TabIndex = 901;
+            this.lblOutputY9.Text = "Y0000";
+            this.lblOutputY9.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lblOutputY8
+            // 
+            this.lblOutputY8.BackColor = System.Drawing.Color.Thistle;
+            this.lblOutputY8.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lblOutputY8.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.lblOutputY8.Font = new System.Drawing.Font("Arial Rounded MT Bold", 9.857143F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblOutputY8.Location = new System.Drawing.Point(839, 414);
+            this.lblOutputY8.Name = "lblOutputY8";
+            this.lblOutputY8.Size = new System.Drawing.Size(213, 47);
+            this.lblOutputY8.TabIndex = 900;
+            this.lblOutputY8.Text = "Y0000";
+            this.lblOutputY8.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lblOutputName7
+            // 
+            this.lblOutputName7.BackColor = System.Drawing.Color.White;
+            this.lblOutputName7.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lblOutputName7.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.lblOutputName7.Font = new System.Drawing.Font("Arial Rounded MT Bold", 9.857143F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblOutputName7.Location = new System.Drawing.Point(1060, 358);
+            this.lblOutputName7.Name = "lblOutputName7";
+            this.lblOutputName7.Size = new System.Drawing.Size(600, 47);
+            this.lblOutputName7.TabIndex = 899;
+            this.lblOutputName7.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // lblOutputY7
+            // 
+            this.lblOutputY7.BackColor = System.Drawing.Color.Thistle;
+            this.lblOutputY7.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lblOutputY7.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.lblOutputY7.Font = new System.Drawing.Font("Arial Rounded MT Bold", 9.857143F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblOutputY7.Location = new System.Drawing.Point(839, 358);
+            this.lblOutputY7.Name = "lblOutputY7";
+            this.lblOutputY7.Size = new System.Drawing.Size(213, 47);
+            this.lblOutputY7.TabIndex = 898;
+            this.lblOutputY7.Text = "Y0000";
+            this.lblOutputY7.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lblOutputName6
+            // 
+            this.lblOutputName6.BackColor = System.Drawing.Color.White;
+            this.lblOutputName6.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lblOutputName6.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.lblOutputName6.Font = new System.Drawing.Font("Arial Rounded MT Bold", 9.857143F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblOutputName6.Location = new System.Drawing.Point(1060, 304);
+            this.lblOutputName6.Name = "lblOutputName6";
+            this.lblOutputName6.Size = new System.Drawing.Size(600, 47);
+            this.lblOutputName6.TabIndex = 897;
+            this.lblOutputName6.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // lblOutputName5
+            // 
+            this.lblOutputName5.BackColor = System.Drawing.Color.White;
+            this.lblOutputName5.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lblOutputName5.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.lblOutputName5.Font = new System.Drawing.Font("Arial Rounded MT Bold", 9.857143F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblOutputName5.Location = new System.Drawing.Point(1058, 248);
+            this.lblOutputName5.Name = "lblOutputName5";
+            this.lblOutputName5.Size = new System.Drawing.Size(600, 47);
+            this.lblOutputName5.TabIndex = 896;
+            this.lblOutputName5.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // lblOutputY6
+            // 
+            this.lblOutputY6.BackColor = System.Drawing.Color.Thistle;
+            this.lblOutputY6.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lblOutputY6.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.lblOutputY6.Font = new System.Drawing.Font("Arial Rounded MT Bold", 9.857143F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblOutputY6.Location = new System.Drawing.Point(839, 304);
+            this.lblOutputY6.Name = "lblOutputY6";
+            this.lblOutputY6.Size = new System.Drawing.Size(213, 47);
+            this.lblOutputY6.TabIndex = 895;
+            this.lblOutputY6.Text = "Y0000";
+            this.lblOutputY6.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lblOutputY5
+            // 
+            this.lblOutputY5.BackColor = System.Drawing.Color.Thistle;
+            this.lblOutputY5.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lblOutputY5.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.lblOutputY5.Font = new System.Drawing.Font("Arial Rounded MT Bold", 9.857143F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblOutputY5.Location = new System.Drawing.Point(839, 248);
+            this.lblOutputY5.Name = "lblOutputY5";
+            this.lblOutputY5.Size = new System.Drawing.Size(213, 47);
+            this.lblOutputY5.TabIndex = 894;
+            this.lblOutputY5.Text = "Y0000";
+            this.lblOutputY5.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lblOutputName4
+            // 
+            this.lblOutputName4.BackColor = System.Drawing.Color.White;
+            this.lblOutputName4.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lblOutputName4.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.lblOutputName4.Font = new System.Drawing.Font("Arial Rounded MT Bold", 9.857143F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblOutputName4.Location = new System.Drawing.Point(1060, 192);
+            this.lblOutputName4.Name = "lblOutputName4";
+            this.lblOutputName4.Size = new System.Drawing.Size(600, 47);
+            this.lblOutputName4.TabIndex = 893;
+            this.lblOutputName4.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // lblOutputY4
+            // 
+            this.lblOutputY4.BackColor = System.Drawing.Color.Thistle;
+            this.lblOutputY4.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lblOutputY4.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.lblOutputY4.Font = new System.Drawing.Font("Arial Rounded MT Bold", 9.857143F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblOutputY4.Location = new System.Drawing.Point(839, 192);
+            this.lblOutputY4.Name = "lblOutputY4";
+            this.lblOutputY4.Size = new System.Drawing.Size(213, 47);
+            this.lblOutputY4.TabIndex = 892;
+            this.lblOutputY4.Text = "Y0000";
+            this.lblOutputY4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lblOutputName3
+            // 
+            this.lblOutputName3.BackColor = System.Drawing.Color.White;
+            this.lblOutputName3.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lblOutputName3.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.lblOutputName3.Font = new System.Drawing.Font("Arial Rounded MT Bold", 9.857143F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblOutputName3.Location = new System.Drawing.Point(1060, 135);
+            this.lblOutputName3.Name = "lblOutputName3";
+            this.lblOutputName3.Size = new System.Drawing.Size(600, 47);
+            this.lblOutputName3.TabIndex = 891;
+            this.lblOutputName3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // lblOutputName2
+            // 
+            this.lblOutputName2.BackColor = System.Drawing.Color.White;
+            this.lblOutputName2.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lblOutputName2.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.lblOutputName2.Font = new System.Drawing.Font("Arial Rounded MT Bold", 9.857143F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblOutputName2.Location = new System.Drawing.Point(1058, 79);
+            this.lblOutputName2.Name = "lblOutputName2";
+            this.lblOutputName2.Size = new System.Drawing.Size(600, 47);
+            this.lblOutputName2.TabIndex = 890;
+            this.lblOutputName2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // lblOutputY3
+            // 
+            this.lblOutputY3.BackColor = System.Drawing.Color.Thistle;
+            this.lblOutputY3.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lblOutputY3.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.lblOutputY3.Font = new System.Drawing.Font("Arial Rounded MT Bold", 9.857143F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblOutputY3.Location = new System.Drawing.Point(839, 135);
+            this.lblOutputY3.Name = "lblOutputY3";
+            this.lblOutputY3.Size = new System.Drawing.Size(213, 47);
+            this.lblOutputY3.TabIndex = 889;
+            this.lblOutputY3.Text = "Y0000";
+            this.lblOutputY3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lblOutputY2
+            // 
+            this.lblOutputY2.BackColor = System.Drawing.Color.Thistle;
+            this.lblOutputY2.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lblOutputY2.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.lblOutputY2.Font = new System.Drawing.Font("Arial Rounded MT Bold", 9.857143F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblOutputY2.Location = new System.Drawing.Point(839, 79);
+            this.lblOutputY2.Name = "lblOutputY2";
+            this.lblOutputY2.Size = new System.Drawing.Size(213, 47);
+            this.lblOutputY2.TabIndex = 888;
+            this.lblOutputY2.Text = "Y0000";
+            this.lblOutputY2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lblOutputName1
+            // 
+            this.lblOutputName1.BackColor = System.Drawing.Color.White;
+            this.lblOutputName1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lblOutputName1.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.lblOutputName1.Font = new System.Drawing.Font("Arial Rounded MT Bold", 9.857143F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblOutputName1.Location = new System.Drawing.Point(1060, 23);
+            this.lblOutputName1.Name = "lblOutputName1";
+            this.lblOutputName1.Size = new System.Drawing.Size(600, 47);
+            this.lblOutputName1.TabIndex = 887;
+            this.lblOutputName1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // lblOutputY1
+            // 
+            this.lblOutputY1.BackColor = System.Drawing.Color.Thistle;
+            this.lblOutputY1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lblOutputY1.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.lblOutputY1.Font = new System.Drawing.Font("Arial Rounded MT Bold", 9.857143F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblOutputY1.Location = new System.Drawing.Point(839, 23);
+            this.lblOutputY1.Name = "lblOutputY1";
+            this.lblOutputY1.Size = new System.Drawing.Size(213, 47);
+            this.lblOutputY1.TabIndex = 886;
+            this.lblOutputY1.Text = "Y0000";
+            this.lblOutputY1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // FormIO
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 21F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(884, 716);
+            this.ClientSize = new System.Drawing.Size(1698, 1220);
+            this.Controls.Add(this.lblOutputName16);
+            this.Controls.Add(this.lblOutputY16);
+            this.Controls.Add(this.lblOutputName15);
+            this.Controls.Add(this.lblOutputY15);
+            this.Controls.Add(this.lblOutputName14);
+            this.Controls.Add(this.lblOutputName13);
+            this.Controls.Add(this.lblOutputY14);
+            this.Controls.Add(this.lblOutputY13);
+            this.Controls.Add(this.lblOutputName12);
+            this.Controls.Add(this.lblOutputName11);
+            this.Controls.Add(this.lblOutputY12);
+            this.Controls.Add(this.lblOutputY11);
+            this.Controls.Add(this.lblOutputName10);
+            this.Controls.Add(this.lblOutputY10);
+            this.Controls.Add(this.lblOutputName9);
+            this.Controls.Add(this.lblOutputName8);
+            this.Controls.Add(this.lblOutputY9);
+            this.Controls.Add(this.lblOutputY8);
+            this.Controls.Add(this.lblOutputName7);
+            this.Controls.Add(this.lblOutputY7);
+            this.Controls.Add(this.lblOutputName6);
+            this.Controls.Add(this.lblOutputName5);
+            this.Controls.Add(this.lblOutputY6);
+            this.Controls.Add(this.lblOutputY5);
+            this.Controls.Add(this.lblOutputName4);
+            this.Controls.Add(this.lblOutputY4);
+            this.Controls.Add(this.lblOutputName3);
+            this.Controls.Add(this.lblOutputName2);
+            this.Controls.Add(this.lblOutputY3);
+            this.Controls.Add(this.lblOutputY2);
+            this.Controls.Add(this.lblOutputName1);
+            this.Controls.Add(this.lblOutputY1);
+            this.Controls.Add(this.lblInputName16);
+            this.Controls.Add(this.lblInputX16);
+            this.Controls.Add(this.lblInputName15);
+            this.Controls.Add(this.lblInputX15);
+            this.Controls.Add(this.lblInputName14);
+            this.Controls.Add(this.lblInputName13);
+            this.Controls.Add(this.lblInputX14);
+            this.Controls.Add(this.lblInputX13);
+            this.Controls.Add(this.lblInputName12);
+            this.Controls.Add(this.lblInputName11);
+            this.Controls.Add(this.lblInputX12);
+            this.Controls.Add(this.lblInputX11);
+            this.Controls.Add(this.lblInputName10);
+            this.Controls.Add(this.lblInputX10);
+            this.Controls.Add(this.lblInputName9);
+            this.Controls.Add(this.lblInputName8);
+            this.Controls.Add(this.lblInputX9);
+            this.Controls.Add(this.lblInputX8);
+            this.Controls.Add(this.lblInputName7);
+            this.Controls.Add(this.lblInputX7);
+            this.Controls.Add(this.lblInputName6);
+            this.Controls.Add(this.lblInputName5);
+            this.Controls.Add(this.lblInputX6);
+            this.Controls.Add(this.lblInputX5);
+            this.Controls.Add(this.lblInputName4);
+            this.Controls.Add(this.lblInputX4);
+            this.Controls.Add(this.lblInputName3);
+            this.Controls.Add(this.lblInputName2);
+            this.Controls.Add(this.lblInputX3);
+            this.Controls.Add(this.lblInputX2);
+            this.Controls.Add(this.lblInputName1);
+            this.Controls.Add(this.lblInputX1);
             this.Controls.Add(this.BtnEnd);
             this.Controls.Add(this.BtnExit);
             this.Controls.Add(this.BtnStart);
             this.Controls.Add(this.BtnNext);
             this.Controls.Add(this.BtnPrev);
-            this.Controls.Add(this.IO_Y14_Name);
-            this.Controls.Add(this.IO_Y16_Name);
-            this.Controls.Add(this.IO_Y15_Name);
-            this.Controls.Add(this.IO_Y13_Name);
-            this.Controls.Add(this.IO_Y12_Name);
-            this.Controls.Add(this.IO_Y11_Name);
-            this.Controls.Add(this.IO_Y10_Name);
-            this.Controls.Add(this.IO_Y9_Name);
-            this.Controls.Add(this.IO_Y8_Name);
-            this.Controls.Add(this.IO_Y7_Name);
-            this.Controls.Add(this.IO_Y6_Name);
-            this.Controls.Add(this.IO_Y5_Name);
-            this.Controls.Add(this.IO_Y4_Name);
-            this.Controls.Add(this.IO_Y3_Name);
-            this.Controls.Add(this.IO_Y2_Name);
-            this.Controls.Add(this.Title_IO_Y16);
-            this.Controls.Add(this.Title_IO_Y15);
-            this.Controls.Add(this.Title_IO_Y14);
-            this.Controls.Add(this.Title_IO_Y13);
-            this.Controls.Add(this.Title_IO_Y12);
-            this.Controls.Add(this.Title_IO_Y11);
-            this.Controls.Add(this.Title_IO_Y10);
-            this.Controls.Add(this.Title_IO_Y9);
-            this.Controls.Add(this.Title_IO_Y8);
-            this.Controls.Add(this.Title_IO_Y7);
-            this.Controls.Add(this.Title_IO_Y6);
-            this.Controls.Add(this.Title_IO_Y5);
-            this.Controls.Add(this.Title_IO_Y4);
-            this.Controls.Add(this.Title_IO_Y3);
-            this.Controls.Add(this.Title_IO_Y2);
-            this.Controls.Add(this.Title_IO_Y1);
-            this.Controls.Add(this.IO_Y1_Name);
-            this.Controls.Add(this.IO_X16_Name);
-            this.Controls.Add(this.IO_X15_Name);
-            this.Controls.Add(this.IO_X14_Name);
-            this.Controls.Add(this.IO_X13_Name);
-            this.Controls.Add(this.IO_X12_Name);
-            this.Controls.Add(this.IO_X11_Name);
-            this.Controls.Add(this.IO_X10_Name);
-            this.Controls.Add(this.IO_X9_Name);
-            this.Controls.Add(this.IO_X8_Name);
-            this.Controls.Add(this.IO_X7_Name);
-            this.Controls.Add(this.IO_X6_Name);
-            this.Controls.Add(this.IO_X5_Name);
-            this.Controls.Add(this.IO_X4_Name);
-            this.Controls.Add(this.IO_X3_Name);
-            this.Controls.Add(this.IO_X2_Name);
-            this.Controls.Add(this.Title_IO_X16);
-            this.Controls.Add(this.Title_IO_X15);
-            this.Controls.Add(this.Title_IO_X14);
-            this.Controls.Add(this.Title_IO_X13);
-            this.Controls.Add(this.Title_IO_X12);
-            this.Controls.Add(this.Title_IO_X11);
-            this.Controls.Add(this.Title_IO_X10);
-            this.Controls.Add(this.Title_IO_X9);
-            this.Controls.Add(this.Title_IO_X8);
-            this.Controls.Add(this.Title_IO_X7);
-            this.Controls.Add(this.Title_IO_X6);
-            this.Controls.Add(this.Title_IO_X5);
-            this.Controls.Add(this.Title_IO_X4);
-            this.Controls.Add(this.Title_IO_X3);
-            this.Controls.Add(this.Title_IO_X2);
-            this.Controls.Add(this.Title_IO_X1);
-            this.Controls.Add(this.IO_X1_Name);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+            this.Margin = new System.Windows.Forms.Padding(5);
             this.Name = "FormIO";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "I/O Input Screen";
@@ -1303,74 +1070,74 @@
         #endregion
 
         private System.Windows.Forms.Timer TimerUI;
-        private Syncfusion.Windows.Forms.Tools.GradientLabel IO_Y14_Name;
-        private Syncfusion.Windows.Forms.Tools.GradientLabel IO_Y16_Name;
-        private Syncfusion.Windows.Forms.Tools.GradientLabel IO_Y15_Name;
-        private Syncfusion.Windows.Forms.Tools.GradientLabel IO_Y13_Name;
-        private Syncfusion.Windows.Forms.Tools.GradientLabel IO_Y12_Name;
-        private Syncfusion.Windows.Forms.Tools.GradientLabel IO_Y11_Name;
-        private Syncfusion.Windows.Forms.Tools.GradientLabel IO_Y10_Name;
-        private Syncfusion.Windows.Forms.Tools.GradientLabel IO_Y9_Name;
-        private Syncfusion.Windows.Forms.Tools.GradientLabel IO_Y8_Name;
-        private Syncfusion.Windows.Forms.Tools.GradientLabel IO_Y7_Name;
-        private Syncfusion.Windows.Forms.Tools.GradientLabel IO_Y6_Name;
-        private Syncfusion.Windows.Forms.Tools.GradientLabel IO_Y5_Name;
-        private Syncfusion.Windows.Forms.Tools.GradientLabel IO_Y4_Name;
-        private Syncfusion.Windows.Forms.Tools.GradientLabel IO_Y3_Name;
-        private Syncfusion.Windows.Forms.Tools.GradientLabel IO_Y2_Name;
-        private Syncfusion.Windows.Forms.Tools.GradientLabel Title_IO_Y16;
-        private Syncfusion.Windows.Forms.Tools.GradientLabel Title_IO_Y15;
-        private Syncfusion.Windows.Forms.Tools.GradientLabel Title_IO_Y14;
-        private Syncfusion.Windows.Forms.Tools.GradientLabel Title_IO_Y13;
-        private Syncfusion.Windows.Forms.Tools.GradientLabel Title_IO_Y12;
-        private Syncfusion.Windows.Forms.Tools.GradientLabel Title_IO_Y11;
-        private Syncfusion.Windows.Forms.Tools.GradientLabel Title_IO_Y10;
-        private Syncfusion.Windows.Forms.Tools.GradientLabel Title_IO_Y9;
-        private Syncfusion.Windows.Forms.Tools.GradientLabel Title_IO_Y8;
-        private Syncfusion.Windows.Forms.Tools.GradientLabel Title_IO_Y7;
-        private Syncfusion.Windows.Forms.Tools.GradientLabel Title_IO_Y6;
-        private Syncfusion.Windows.Forms.Tools.GradientLabel Title_IO_Y5;
-        private Syncfusion.Windows.Forms.Tools.GradientLabel Title_IO_Y4;
-        private Syncfusion.Windows.Forms.Tools.GradientLabel Title_IO_Y3;
-        private Syncfusion.Windows.Forms.Tools.GradientLabel Title_IO_Y2;
-        private Syncfusion.Windows.Forms.Tools.GradientLabel Title_IO_Y1;
-        private Syncfusion.Windows.Forms.Tools.GradientLabel IO_Y1_Name;
-        private Syncfusion.Windows.Forms.Tools.GradientLabel IO_X16_Name;
-        private Syncfusion.Windows.Forms.Tools.GradientLabel IO_X15_Name;
-        private Syncfusion.Windows.Forms.Tools.GradientLabel IO_X14_Name;
-        private Syncfusion.Windows.Forms.Tools.GradientLabel IO_X13_Name;
-        private Syncfusion.Windows.Forms.Tools.GradientLabel IO_X12_Name;
-        private Syncfusion.Windows.Forms.Tools.GradientLabel IO_X11_Name;
-        private Syncfusion.Windows.Forms.Tools.GradientLabel IO_X10_Name;
-        private Syncfusion.Windows.Forms.Tools.GradientLabel IO_X9_Name;
-        private Syncfusion.Windows.Forms.Tools.GradientLabel IO_X8_Name;
-        private Syncfusion.Windows.Forms.Tools.GradientLabel IO_X7_Name;
-        private Syncfusion.Windows.Forms.Tools.GradientLabel IO_X6_Name;
-        private Syncfusion.Windows.Forms.Tools.GradientLabel IO_X5_Name;
-        private Syncfusion.Windows.Forms.Tools.GradientLabel IO_X4_Name;
-        private Syncfusion.Windows.Forms.Tools.GradientLabel IO_X3_Name;
-        private Syncfusion.Windows.Forms.Tools.GradientLabel IO_X2_Name;
-        private Syncfusion.Windows.Forms.Tools.GradientLabel Title_IO_X16;
-        private Syncfusion.Windows.Forms.Tools.GradientLabel Title_IO_X15;
-        private Syncfusion.Windows.Forms.Tools.GradientLabel Title_IO_X14;
-        private Syncfusion.Windows.Forms.Tools.GradientLabel Title_IO_X13;
-        private Syncfusion.Windows.Forms.Tools.GradientLabel Title_IO_X12;
-        private Syncfusion.Windows.Forms.Tools.GradientLabel Title_IO_X11;
-        private Syncfusion.Windows.Forms.Tools.GradientLabel Title_IO_X10;
-        private Syncfusion.Windows.Forms.Tools.GradientLabel Title_IO_X9;
-        private Syncfusion.Windows.Forms.Tools.GradientLabel Title_IO_X8;
-        private Syncfusion.Windows.Forms.Tools.GradientLabel Title_IO_X7;
-        private Syncfusion.Windows.Forms.Tools.GradientLabel Title_IO_X6;
-        private Syncfusion.Windows.Forms.Tools.GradientLabel Title_IO_X5;
-        private Syncfusion.Windows.Forms.Tools.GradientLabel Title_IO_X4;
-        private Syncfusion.Windows.Forms.Tools.GradientLabel Title_IO_X3;
-        private Syncfusion.Windows.Forms.Tools.GradientLabel Title_IO_X2;
-        private Syncfusion.Windows.Forms.Tools.GradientLabel Title_IO_X1;
-        private Syncfusion.Windows.Forms.Tools.GradientLabel IO_X1_Name;
         private System.Windows.Forms.Button BtnNext;
         private System.Windows.Forms.Button BtnPrev;
         private System.Windows.Forms.Button BtnStart;
         private System.Windows.Forms.Button BtnExit;
         private System.Windows.Forms.Button BtnEnd;
+        private System.Windows.Forms.Label lblInputName1;
+        private System.Windows.Forms.Label lblInputX1;
+        private System.Windows.Forms.Label lblInputX2;
+        private System.Windows.Forms.Label lblInputX3;
+        private System.Windows.Forms.Label lblInputName2;
+        private System.Windows.Forms.Label lblInputName3;
+        private System.Windows.Forms.Label lblInputName6;
+        private System.Windows.Forms.Label lblInputName5;
+        private System.Windows.Forms.Label lblInputX6;
+        private System.Windows.Forms.Label lblInputX5;
+        private System.Windows.Forms.Label lblInputName4;
+        private System.Windows.Forms.Label lblInputX4;
+        private System.Windows.Forms.Label lblInputName12;
+        private System.Windows.Forms.Label lblInputName11;
+        private System.Windows.Forms.Label lblInputX12;
+        private System.Windows.Forms.Label lblInputX11;
+        private System.Windows.Forms.Label lblInputName10;
+        private System.Windows.Forms.Label lblInputX10;
+        private System.Windows.Forms.Label lblInputName9;
+        private System.Windows.Forms.Label lblInputName8;
+        private System.Windows.Forms.Label lblInputX9;
+        private System.Windows.Forms.Label lblInputX8;
+        private System.Windows.Forms.Label lblInputName7;
+        private System.Windows.Forms.Label lblInputX7;
+        private System.Windows.Forms.Label lblInputName16;
+        private System.Windows.Forms.Label lblInputX16;
+        private System.Windows.Forms.Label lblInputName15;
+        private System.Windows.Forms.Label lblInputX15;
+        private System.Windows.Forms.Label lblInputName14;
+        private System.Windows.Forms.Label lblInputName13;
+        private System.Windows.Forms.Label lblInputX14;
+        private System.Windows.Forms.Label lblInputX13;
+        private System.Windows.Forms.Label lblOutputName16;
+        private System.Windows.Forms.Label lblOutputY16;
+        private System.Windows.Forms.Label lblOutputName15;
+        private System.Windows.Forms.Label lblOutputY15;
+        private System.Windows.Forms.Label lblOutputName14;
+        private System.Windows.Forms.Label lblOutputName13;
+        private System.Windows.Forms.Label lblOutputY14;
+        private System.Windows.Forms.Label lblOutputY13;
+        private System.Windows.Forms.Label lblOutputName12;
+        private System.Windows.Forms.Label lblOutputName11;
+        private System.Windows.Forms.Label lblOutputY12;
+        private System.Windows.Forms.Label lblOutputY11;
+        private System.Windows.Forms.Label lblOutputName10;
+        private System.Windows.Forms.Label lblOutputY10;
+        private System.Windows.Forms.Label lblOutputName9;
+        private System.Windows.Forms.Label lblOutputName8;
+        private System.Windows.Forms.Label lblOutputY9;
+        private System.Windows.Forms.Label lblOutputY8;
+        private System.Windows.Forms.Label lblOutputName7;
+        private System.Windows.Forms.Label lblOutputY7;
+        private System.Windows.Forms.Label lblOutputName6;
+        private System.Windows.Forms.Label lblOutputName5;
+        private System.Windows.Forms.Label lblOutputY6;
+        private System.Windows.Forms.Label lblOutputY5;
+        private System.Windows.Forms.Label lblOutputName4;
+        private System.Windows.Forms.Label lblOutputY4;
+        private System.Windows.Forms.Label lblOutputName3;
+        private System.Windows.Forms.Label lblOutputName2;
+        private System.Windows.Forms.Label lblOutputY3;
+        private System.Windows.Forms.Label lblOutputY2;
+        private System.Windows.Forms.Label lblOutputName1;
+        private System.Windows.Forms.Label lblOutputY1;
     }
 }

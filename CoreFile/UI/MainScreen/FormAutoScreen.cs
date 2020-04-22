@@ -8,10 +8,6 @@ using System.Text;
 using System.Windows.Forms;
 using System.Diagnostics;
 
-using Syncfusion.Windows.Forms;
-using Syncfusion.Windows.Forms.Tools;
-using Syncfusion.Windows.Forms.Grid;
-
 using Core.Layers;
 using static Core.Layers.DEF_Common;
 using static Core.Layers.DEF_Thread;

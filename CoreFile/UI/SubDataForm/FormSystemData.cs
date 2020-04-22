@@ -22,11 +22,7 @@ namespace Core.UI
         {
             SystemData = ObjectExtensions.Copy(CMainFrame.DataManager.SystemData);
             InitializeComponent();
-
-            ComboLanguage.Items.Add("KOREAN");
-            ComboLanguage.Items.Add("ENGLISH");
-            ComboLanguage.Items.Add("CHINESE");
-            ComboLanguage.Items.Add("JAPANESE");
+            
         }
 
         private void BtnExit_Click(object sender, EventArgs e)
@@ -46,24 +42,12 @@ namespace Core.UI
             }
 
             SystemData.Language = (ELanguage)SelLanguage;
-            SystemData.CheckSafety_AutoMode = checkBox_CheckSafety_AutoMode.Checked;
-            SystemData.CheckSafety_ManualMode = checkBox_CheckSafety_ManualMode.Checked;
-            SystemData.EnableCylinderMove_EStop = checkBox_EnableCylinderMove.Checked;
 
             CMainFrame.mCore.SaveSystemData(SystemData);
         }
 
         private void FormSystemData_Load(object sender, EventArgs e)
         {
-            // Model Name
-            LabelModelName.Text = SystemData.ModelName;
-
-            // System Display Language
-            UpdateComboLanguage();
-
-            checkBox_CheckSafety_AutoMode.Checked = SystemData.CheckSafety_AutoMode;
-            checkBox_CheckSafety_ManualMode.Checked = SystemData.CheckSafety_ManualMode;
-            checkBox_EnableCylinderMove.Checked = SystemData.EnableCylinderMove_EStop;
         }
 
         private void ComboLanguage_SelectedIndexChanged(object sender, EventArgs e)
@@ -73,26 +57,5 @@ namespace Core.UI
             SelLanguage = (int)ComboLanguage.SelectedIndex;
         }
 
-        private void UpdateComboLanguage()
-        {
-            switch(SystemData.Language)
-            {
-                case ELanguage.KOREAN:
-                    ComboLanguage.SelectedIndex = (int)ELanguage.KOREAN;
-                    break;
-
-                case ELanguage.ENGLISH:
-                    ComboLanguage.SelectedIndex = (int)ELanguage.ENGLISH;
-                    break;
-
-                case ELanguage.CHINESE:
-                    ComboLanguage.SelectedIndex = (int)ELanguage.CHINESE;
-                    break;
-
-                case ELanguage.JAPANESE:
-                    ComboLanguage.SelectedIndex = (int)ELanguage.JAPANESE;
-                    break;
-            }
-        }
     }
 }

@@ -30,11 +30,9 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormTopScreen));
-            this.TextTime = new System.Windows.Forms.TextBox();
             this.TimerUI = new System.Windows.Forms.Timer(this.components);
             this.BtnUserLogin = new System.Windows.Forms.Button();
             this.btnExit = new System.Windows.Forms.Button();
-            this.textVersion = new System.Windows.Forms.TextBox();
             this.BtnMainPage = new System.Windows.Forms.Button();
             this.ImgList = new System.Windows.Forms.ImageList(this.components);
             this.BtnManualPage = new System.Windows.Forms.Button();
@@ -44,19 +42,9 @@
             this.BtnLogPage = new System.Windows.Forms.Button();
             this.BtnPlayback = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
+            this.lblDateTime = new System.Windows.Forms.Label();
+            this.lblSwVersion = new System.Windows.Forms.Label();
             this.SuspendLayout();
-            // 
-            // TextTime
-            // 
-            this.TextTime.BackColor = System.Drawing.SystemColors.Control;
-            this.TextTime.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.TextTime.Enabled = false;
-            this.TextTime.Font = new System.Drawing.Font("Gulim", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.TextTime.Location = new System.Drawing.Point(1978, 51);
-            this.TextTime.Margin = new System.Windows.Forms.Padding(5);
-            this.TextTime.Name = "TextTime";
-            this.TextTime.Size = new System.Drawing.Size(339, 27);
-            this.TextTime.TabIndex = 1;
             // 
             // TimerUI
             // 
@@ -69,10 +57,10 @@
             this.BtnUserLogin.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.BtnUserLogin.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.BtnUserLogin.Font = new System.Drawing.Font("Malgun Gothic", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.BtnUserLogin.Location = new System.Drawing.Point(2646, 1);
+            this.BtnUserLogin.Location = new System.Drawing.Point(2609, 1);
             this.BtnUserLogin.Margin = new System.Windows.Forms.Padding(5);
             this.BtnUserLogin.Name = "BtnUserLogin";
-            this.BtnUserLogin.Size = new System.Drawing.Size(240, 120);
+            this.BtnUserLogin.Size = new System.Drawing.Size(187, 84);
             this.BtnUserLogin.TabIndex = 3;
             this.BtnUserLogin.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.BtnUserLogin.UseVisualStyleBackColor = false;
@@ -92,27 +80,13 @@
             this.btnExit.UseVisualStyleBackColor = false;
             this.btnExit.Click += new System.EventHandler(this.btnExit_Click);
             // 
-            // textVersion
-            // 
-            this.textVersion.BackColor = System.Drawing.Color.Gold;
-            this.textVersion.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.textVersion.Enabled = false;
-            this.textVersion.Font = new System.Drawing.Font("Gulim", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.textVersion.Location = new System.Drawing.Point(1978, 88);
-            this.textVersion.Margin = new System.Windows.Forms.Padding(5);
-            this.textVersion.Name = "textVersion";
-            this.textVersion.Size = new System.Drawing.Size(291, 27);
-            this.textVersion.TabIndex = 762;
-            this.textVersion.Text = "Version";
-            this.textVersion.TextChanged += new System.EventHandler(this.textVersion_TextChanged);
-            // 
             // BtnMainPage
             // 
             this.BtnMainPage.BackColor = System.Drawing.Color.Transparent;
             this.BtnMainPage.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.BtnMainPage.FlatAppearance.BorderColor = System.Drawing.Color.Gold;
             this.BtnMainPage.ImageList = this.ImgList;
-            this.BtnMainPage.Location = new System.Drawing.Point(793, 3);
+            this.BtnMainPage.Location = new System.Drawing.Point(788, 1);
             this.BtnMainPage.Name = "BtnMainPage";
             this.BtnMainPage.Size = new System.Drawing.Size(120, 120);
             this.BtnMainPage.TabIndex = 763;
@@ -141,7 +115,7 @@
             this.BtnManualPage.BackColor = System.Drawing.Color.Transparent;
             this.BtnManualPage.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.BtnManualPage.FlatAppearance.BorderColor = System.Drawing.Color.Gold;
-            this.BtnManualPage.Location = new System.Drawing.Point(912, 3);
+            this.BtnManualPage.Location = new System.Drawing.Point(907, 1);
             this.BtnManualPage.Name = "BtnManualPage";
             this.BtnManualPage.Size = new System.Drawing.Size(120, 120);
             this.BtnManualPage.TabIndex = 764;
@@ -153,7 +127,7 @@
             this.BtnTeachPage.BackColor = System.Drawing.Color.Transparent;
             this.BtnTeachPage.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.BtnTeachPage.FlatAppearance.BorderColor = System.Drawing.Color.Gold;
-            this.BtnTeachPage.Location = new System.Drawing.Point(1031, 3);
+            this.BtnTeachPage.Location = new System.Drawing.Point(1026, 1);
             this.BtnTeachPage.Name = "BtnTeachPage";
             this.BtnTeachPage.Size = new System.Drawing.Size(120, 120);
             this.BtnTeachPage.TabIndex = 765;
@@ -165,7 +139,7 @@
             this.BtnDataPage.BackColor = System.Drawing.Color.Transparent;
             this.BtnDataPage.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.BtnDataPage.FlatAppearance.BorderColor = System.Drawing.Color.Gold;
-            this.BtnDataPage.Location = new System.Drawing.Point(1150, 3);
+            this.BtnDataPage.Location = new System.Drawing.Point(1145, 1);
             this.BtnDataPage.Name = "BtnDataPage";
             this.BtnDataPage.Size = new System.Drawing.Size(120, 120);
             this.BtnDataPage.TabIndex = 766;
@@ -177,7 +151,7 @@
             this.BtnHelpPage.BackColor = System.Drawing.Color.Transparent;
             this.BtnHelpPage.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.BtnHelpPage.FlatAppearance.BorderColor = System.Drawing.Color.Gold;
-            this.BtnHelpPage.Location = new System.Drawing.Point(1388, 3);
+            this.BtnHelpPage.Location = new System.Drawing.Point(1383, 1);
             this.BtnHelpPage.Name = "BtnHelpPage";
             this.BtnHelpPage.Size = new System.Drawing.Size(120, 120);
             this.BtnHelpPage.TabIndex = 768;
@@ -189,7 +163,7 @@
             this.BtnLogPage.BackColor = System.Drawing.Color.Transparent;
             this.BtnLogPage.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.BtnLogPage.FlatAppearance.BorderColor = System.Drawing.Color.Gold;
-            this.BtnLogPage.Location = new System.Drawing.Point(1269, 3);
+            this.BtnLogPage.Location = new System.Drawing.Point(1264, 1);
             this.BtnLogPage.Name = "BtnLogPage";
             this.BtnLogPage.Size = new System.Drawing.Size(120, 120);
             this.BtnLogPage.TabIndex = 767;
@@ -203,7 +177,7 @@
             this.BtnPlayback.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.BtnPlayback.FlatAppearance.BorderColor = System.Drawing.Color.Gold;
             this.BtnPlayback.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.BtnPlayback.Location = new System.Drawing.Point(2386, -2);
+            this.BtnPlayback.Location = new System.Drawing.Point(2341, 1);
             this.BtnPlayback.Name = "BtnPlayback";
             this.BtnPlayback.Size = new System.Drawing.Size(113, 120);
             this.BtnPlayback.TabIndex = 769;
@@ -217,13 +191,35 @@
             this.button1.FlatAppearance.BorderColor = System.Drawing.Color.Gold;
             this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button1.Font = new System.Drawing.Font("Malgun Gothic", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.button1.Location = new System.Drawing.Point(2509, 1);
+            this.button1.Location = new System.Drawing.Point(2464, 2);
             this.button1.Margin = new System.Windows.Forms.Padding(5);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(120, 120);
             this.button1.TabIndex = 770;
             this.button1.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.button1.UseVisualStyleBackColor = false;
+            // 
+            // lblDateTime
+            // 
+            this.lblDateTime.AutoSize = true;
+            this.lblDateTime.BackColor = System.Drawing.Color.Transparent;
+            this.lblDateTime.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblDateTime.Location = new System.Drawing.Point(2603, 90);
+            this.lblDateTime.Name = "lblDateTime";
+            this.lblDateTime.Size = new System.Drawing.Size(142, 32);
+            this.lblDateTime.TabIndex = 771;
+            this.lblDateTime.Text = "Date-Time";
+            // 
+            // lblSwVersion
+            // 
+            this.lblSwVersion.AutoSize = true;
+            this.lblSwVersion.BackColor = System.Drawing.Color.Transparent;
+            this.lblSwVersion.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblSwVersion.Location = new System.Drawing.Point(534, 77);
+            this.lblSwVersion.Name = "lblSwVersion";
+            this.lblSwVersion.Size = new System.Drawing.Size(162, 32);
+            this.lblSwVersion.TabIndex = 772;
+            this.lblSwVersion.Text = "SW-Version";
             // 
             // FormTopScreen
             // 
@@ -233,6 +229,8 @@
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(3020, 130);
             this.ControlBox = false;
+            this.Controls.Add(this.lblSwVersion);
+            this.Controls.Add(this.lblDateTime);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.BtnPlayback);
             this.Controls.Add(this.BtnHelpPage);
@@ -241,10 +239,8 @@
             this.Controls.Add(this.BtnTeachPage);
             this.Controls.Add(this.BtnManualPage);
             this.Controls.Add(this.BtnMainPage);
-            this.Controls.Add(this.textVersion);
             this.Controls.Add(this.btnExit);
             this.Controls.Add(this.BtnUserLogin);
-            this.Controls.Add(this.TextTime);
             this.DoubleBuffered = true;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Margin = new System.Windows.Forms.Padding(5);
@@ -257,11 +253,9 @@
         }
 
         #endregion
-        private System.Windows.Forms.TextBox TextTime;
         private System.Windows.Forms.Timer TimerUI;
         private System.Windows.Forms.Button BtnUserLogin;
         private System.Windows.Forms.Button btnExit;
-        private System.Windows.Forms.TextBox textVersion;
         private System.Windows.Forms.Button BtnMainPage;
         private System.Windows.Forms.Button BtnManualPage;
         private System.Windows.Forms.Button BtnTeachPage;
@@ -271,5 +265,7 @@
         private System.Windows.Forms.Button BtnLogPage;
         private System.Windows.Forms.Button BtnPlayback;
         private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Label lblDateTime;
+        private System.Windows.Forms.Label lblSwVersion;
     }
 }

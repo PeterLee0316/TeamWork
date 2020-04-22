@@ -74,43 +74,6 @@
       <HintPath>..\packages\Newtonsoft.Json.8.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Syncfusion.Chart.Base, Version=8.303.0.21, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89" />
-    <Reference Include="Syncfusion.Chart.Windows, Version=8.303.0.21, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL" />
-    <Reference Include="Syncfusion.Core, Version=8.303.0.21, Culture=neutral, PublicKeyToken=632609b4d040f6b4, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\SFA\LWDicer\dll\Syncfusion\Syncfusion.Core.dll</HintPath>
-      <EmbedInteropTypes>False</EmbedInteropTypes>
-    </Reference>
-    <Reference Include="Syncfusion.Grid.Base, Version=8.303.0.21, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\SFA\LWDicer\dll\Syncfusion\Syncfusion.Grid.Base.dll</HintPath>
-      <EmbedInteropTypes>False</EmbedInteropTypes>
-    </Reference>
-    <Reference Include="Syncfusion.Grid.Windows, Version=8.303.0.21, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\SFA\LWDicer\dll\Syncfusion\Syncfusion.Grid.Windows.dll</HintPath>
-      <EmbedInteropTypes>False</EmbedInteropTypes>
-    </Reference>
-    <Reference Include="Syncfusion.Shared.Base, Version=8.303.0.21, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\SFA\LWDicer\dll\Syncfusion\Syncfusion.Shared.Base.dll</HintPath>
-      <EmbedInteropTypes>False</EmbedInteropTypes>
-    </Reference>
-    <Reference Include="Syncfusion.Shared.Windows, Version=8.303.0.21, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\SFA\LWDicer\dll\Syncfusion\Syncfusion.Shared.Windows.dll</HintPath>
-      <EmbedInteropTypes>False</EmbedInteropTypes>
-    </Reference>
-    <Reference Include="Syncfusion.Tools.Base, Version=8.303.0.21, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\SFA\LWDicer\dll\Syncfusion\Syncfusion.Tools.Base.dll</HintPath>
-      <EmbedInteropTypes>False</EmbedInteropTypes>
-    </Reference>
-    <Reference Include="Syncfusion.Tools.Windows, Version=8.303.0.21, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\SFA\LWDicer\dll\Syncfusion\Syncfusion.Tools.Windows.dll</HintPath>
-      <EmbedInteropTypes>False</EmbedInteropTypes>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
@@ -156,6 +119,7 @@
     <Compile Include="Common\BaseClass\MWorkerThread.cs" />
     <Compile Include="Common\Util\CUtils.cs" />
     <Compile Include="Common\Util\DBManager.cs" />
+    <Compile Include="Hardware\CGigECamera.cs" />
     <Compile Include="Hardware\Motion\IMotionLib.cs" />
     <Compile Include="Hardware\Motion\MMotionBoard.cs" />
     <Compile Include="Hardware\Motion\MMotion_MMC.cs" />
@@ -274,23 +238,11 @@
     <Compile Include="UI\MainScreen\FormTeachScreen.designer.cs">
       <DependentUpon>FormTeachScreen.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\SubDataForm\FormCreateMaker.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="UI\SubDataForm\FormCreateMaker.designer.cs">
-      <DependentUpon>FormCreateMaker.cs</DependentUpon>
-    </Compile>
     <Compile Include="UI\SubDataForm\FormModelData.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="UI\SubDataForm\FormModelData.Designer.cs">
       <DependentUpon>FormModelData.cs</DependentUpon>
-    </Compile>
-    <Compile Include="UI\SubDataForm\FormModelList.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="UI\SubDataForm\FormModelList.Designer.cs">
-      <DependentUpon>FormModelList.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\SubDataForm\FormMotorData.cs">
       <SubType>Form</SubType>
@@ -322,12 +274,6 @@
     <Compile Include="UI\SubManualForm\FormIO.Designer.cs">
       <DependentUpon>FormIO.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\SubManualForm\FormUnitInit.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="UI\SubManualForm\FormUnitInit.Designer.cs">
-      <DependentUpon>FormUnitInit.cs</DependentUpon>
-    </Compile>
     <Compile Include="UI\SubTeachForm\FormCameraTeach.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -346,18 +292,6 @@
     <Compile Include="UI\SubTeachForm\FormWorkStageTeach.Designer.cs">
       <DependentUpon>FormWorkStageTeach.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\Utility\FormAlarmDisplay.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="UI\Utility\FormAlarmDisplay.Designer.cs">
-      <DependentUpon>FormAlarmDisplay.cs</DependentUpon>
-    </Compile>
-    <Compile Include="UI\Utility\FormAlarmEdit.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="UI\Utility\FormAlarmEdit.Designer.cs">
-      <DependentUpon>FormAlarmEdit.cs</DependentUpon>
-    </Compile>
     <Compile Include="UI\Utility\FormKeyBoard.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -375,18 +309,6 @@
     </Compile>
     <Compile Include="UI\Utility\FormMessageBox.designer.cs">
       <DependentUpon>FormMessageBox.cs</DependentUpon>
-    </Compile>
-    <Compile Include="UI\Utility\FormTest.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="UI\Utility\FormTest.Designer.cs">
-      <DependentUpon>FormTest.cs</DependentUpon>
-    </Compile>
-    <Compile Include="UI\Utility\FormWorkPieceInquiry.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="UI\Utility\FormWorkPieceInquiry.Designer.cs">
-      <DependentUpon>FormWorkPieceInquiry.cs</DependentUpon>
     </Compile>
     <EmbeddedResource Include="CMainFrame.resx">
       <DependentUpon>CMainFrame.cs</DependentUpon>
@@ -433,14 +355,8 @@
     <EmbeddedResource Include="UI\MainScreen\FormTeachScreen.resx">
       <DependentUpon>FormTeachScreen.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\SubDataForm\FormCreateMaker.resx">
-      <DependentUpon>FormCreateMaker.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="UI\SubDataForm\FormModelData.resx">
       <DependentUpon>FormModelData.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="UI\SubDataForm\FormModelList.resx">
-      <DependentUpon>FormModelList.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\SubDataForm\FormMotorData.resx">
       <DependentUpon>FormMotorData.cs</DependentUpon>
@@ -457,9 +373,6 @@
     <EmbeddedResource Include="UI\SubManualForm\FormIO.resx">
       <DependentUpon>FormIO.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\SubManualForm\FormUnitInit.resx">
-      <DependentUpon>FormUnitInit.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="UI\SubTeachForm\FormCameraTeach.resx">
       <DependentUpon>FormCameraTeach.cs</DependentUpon>
     </EmbeddedResource>
@@ -469,12 +382,6 @@
     <EmbeddedResource Include="UI\SubTeachForm\FormWorkStageTeach.resx">
       <DependentUpon>FormWorkStageTeach.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\Utility\FormAlarmDisplay.resx">
-      <DependentUpon>FormAlarmDisplay.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="UI\Utility\FormAlarmEdit.resx">
-      <DependentUpon>FormAlarmEdit.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="UI\Utility\FormKeyBoard.resx">
       <DependentUpon>FormKeyBoard.cs</DependentUpon>
     </EmbeddedResource>
@@ -483,12 +390,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Utility\FormMessageBox.resx">
       <DependentUpon>FormMessageBox.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="UI\Utility\FormTest.resx">
-      <DependentUpon>FormTest.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="UI\Utility\FormWorkPieceInquiry.resx">
-      <DependentUpon>FormWorkPieceInquiry.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="app.config" />
     <None Include="ClassDiagram2.cd" />
@@ -532,29 +433,6 @@
     <Content Include="Common\CAD\WW.GL.dll" />
     <Content Include="Common\CAD\WW.License.dll" />
     <Content Include="Common\CAD\WW.Pdf.dll" />
-    <Content Include="Common\img\arrow-down.png" />
-    <Content Include="Common\img\arrow-left.png" />
-    <Content Include="Common\img\arrow-right.png" />
-    <Content Include="Common\img\arrow-up.png" />
-    <None Include="Common\img\draw.jpg" />
-    <None Include="Common\img\Exit.bmp" />
-    <None Include="Common\img\Arrow0a.ico" />
-    <None Include="Common\img\Arrow0b.ico" />
-    <None Include="Common\img\Arrow0d.ico" />
-    <None Include="Common\img\Arrow0c.ico" />
-    <Content Include="Common\img\export.bmp" />
-    <Content Include="Common\img\import.bmp" />
-    <Content Include="Common\img\MessageBox.png" />
-    <None Include="Common\img\run.bmp" />
-    <None Include="Common\img\stop.bmp" />
-    <None Include="Common\img\nav_up_left_green.bmp" />
-    <None Include="Common\img\nav_up_right_green.bmp" />
-    <None Include="Common\img\nav_up_green.bmp" />
-    <None Include="Common\img\nav_right_green.bmp" />
-    <None Include="Common\img\nav_left_green.bmp" />
-    <None Include="Common\img\nav_down_green.bmp" />
-    <None Include="Common\img\Vision.bmp" />
-    <Content Include="Common\img\wafer.png" />
     <Content Include="Resources\intro.png" />
     <Content Include="System\History.txt" />
   </ItemGroup>

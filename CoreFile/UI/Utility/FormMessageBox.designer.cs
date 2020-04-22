@@ -30,166 +30,144 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormMessageBox));
-            this.BtnCancel = new Syncfusion.Windows.Forms.ButtonAdv();
-            this.gradientLabel1 = new Syncfusion.Windows.Forms.Tools.GradientLabel();
-            this.BtnConfirm = new Syncfusion.Windows.Forms.ButtonAdv();
-            this.TextEng = new Syncfusion.Windows.Forms.Tools.TextBoxExt();
-            this.TextSystem = new Syncfusion.Windows.Forms.Tools.TextBoxExt();
-            this.BtnSave = new Syncfusion.Windows.Forms.ButtonAdv();
-            this.gradientLabel2 = new Syncfusion.Windows.Forms.Tools.GradientLabel();
-            this.Label_System = new Syncfusion.Windows.Forms.Tools.GradientLabel();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
-            ((System.ComponentModel.ISupportInitialize)(this.TextEng)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.TextSystem)).BeginInit();
+            this.BtnSave = new System.Windows.Forms.Button();
+            this.BtnCancel = new System.Windows.Forms.Button();
+            this.BtnConfirm = new System.Windows.Forms.Button();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this.TextEng = new System.Windows.Forms.TextBox();
+            this.TextSystem = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
-            // 
-            // BtnCancel
-            // 
-            this.BtnCancel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
-            this.BtnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.BtnCancel.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.BtnCancel.ForeColor = System.Drawing.Color.Navy;
-            this.BtnCancel.Image = ((System.Drawing.Image)(resources.GetObject("BtnCancel.Image")));
-            this.BtnCancel.Location = new System.Drawing.Point(538, 154);
-            this.BtnCancel.Name = "BtnCancel";
-            this.BtnCancel.Size = new System.Drawing.Size(116, 62);
-            this.BtnCancel.TabIndex = 1;
-            this.BtnCancel.Text = "Cancel";
-            this.BtnCancel.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.BtnCancel.UseVisualStyleBackColor = true;
-            this.BtnCancel.Click += new System.EventHandler(this.BtnCancel_Click);
-            // 
-            // gradientLabel1
-            // 
-            this.gradientLabel1.BackgroundColor = new Syncfusion.Drawing.BrushInfo(Syncfusion.Drawing.GradientStyle.Horizontal, System.Drawing.Color.White, System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255))))));
-            this.gradientLabel1.BorderAppearance = System.Windows.Forms.BorderStyle.None;
-            this.gradientLabel1.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
-            | System.Windows.Forms.Border3DSide.Right) 
-            | System.Windows.Forms.Border3DSide.Bottom)));
-            this.gradientLabel1.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.gradientLabel1.Location = new System.Drawing.Point(3, 2);
-            this.gradientLabel1.Name = "gradientLabel1";
-            this.gradientLabel1.Size = new System.Drawing.Size(660, 228);
-            this.gradientLabel1.TabIndex = 9;
-            this.gradientLabel1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // BtnConfirm
-            // 
-            this.BtnConfirm.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
-            this.BtnConfirm.CustomManagedColor = System.Drawing.Color.White;
-            this.BtnConfirm.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.BtnConfirm.ForeColor = System.Drawing.Color.Navy;
-            this.BtnConfirm.Image = ((System.Drawing.Image)(resources.GetObject("BtnConfirm.Image")));
-            this.BtnConfirm.Location = new System.Drawing.Point(416, 154);
-            this.BtnConfirm.Name = "BtnConfirm";
-            this.BtnConfirm.Size = new System.Drawing.Size(116, 62);
-            this.BtnConfirm.TabIndex = 0;
-            this.BtnConfirm.Text = "Confirm";
-            this.BtnConfirm.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.BtnConfirm.UseVisualStyleBackColor = true;
-            this.BtnConfirm.Click += new System.EventHandler(this.BtnConfirm_Click);
-            // 
-            // TextEng
-            // 
-            this.TextEng.Border3DStyle = System.Windows.Forms.Border3DStyle.Raised;
-            this.TextEng.Font = new System.Drawing.Font("굴림", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.TextEng.Location = new System.Drawing.Point(98, 12);
-            this.TextEng.Multiline = true;
-            this.TextEng.Name = "TextEng";
-            this.TextEng.Size = new System.Drawing.Size(556, 57);
-            this.TextEng.TabIndex = 30;
-            this.TextEng.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // TextSystem
-            // 
-            this.TextSystem.Border3DStyle = System.Windows.Forms.Border3DStyle.Raised;
-            this.TextSystem.Font = new System.Drawing.Font("굴림", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.TextSystem.Location = new System.Drawing.Point(98, 74);
-            this.TextSystem.Multiline = true;
-            this.TextSystem.Name = "TextSystem";
-            this.TextSystem.Size = new System.Drawing.Size(556, 57);
-            this.TextSystem.TabIndex = 31;
-            this.TextSystem.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // BtnSave
-            // 
-            this.BtnSave.BackColor = System.Drawing.Color.LightGray;
-            this.BtnSave.BorderStyleAdv = Syncfusion.Windows.Forms.ButtonAdvBorderStyle.Solid;
-            this.BtnSave.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.BtnSave.Location = new System.Drawing.Point(26, 154);
-            this.BtnSave.Name = "BtnSave";
-            this.BtnSave.Size = new System.Drawing.Size(116, 62);
-            this.BtnSave.TabIndex = 32;
-            this.BtnSave.Text = "Save";
-            this.BtnSave.Click += new System.EventHandler(this.BtnSave_Click);
-            // 
-            // gradientLabel2
-            // 
-            this.gradientLabel2.BackgroundColor = new Syncfusion.Drawing.BrushInfo(System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(224)))), ((int)(((byte)(192))))));
-            this.gradientLabel2.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
-            | System.Windows.Forms.Border3DSide.Right) 
-            | System.Windows.Forms.Border3DSide.Bottom)));
-            this.gradientLabel2.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.gradientLabel2.Location = new System.Drawing.Point(12, 12);
-            this.gradientLabel2.Name = "gradientLabel2";
-            this.gradientLabel2.Size = new System.Drawing.Size(80, 55);
-            this.gradientLabel2.TabIndex = 34;
-            this.gradientLabel2.Text = "[English]";
-            this.gradientLabel2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // Label_System
-            // 
-            this.Label_System.BackgroundColor = new Syncfusion.Drawing.BrushInfo(System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(224)))), ((int)(((byte)(192))))));
-            this.Label_System.BorderSides = ((System.Windows.Forms.Border3DSide)((((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
-            | System.Windows.Forms.Border3DSide.Right) 
-            | System.Windows.Forms.Border3DSide.Bottom)));
-            this.Label_System.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.Label_System.Location = new System.Drawing.Point(12, 74);
-            this.Label_System.Name = "Label_System";
-            this.Label_System.Size = new System.Drawing.Size(80, 56);
-            this.Label_System.TabIndex = 35;
-            this.Label_System.Text = "[System Language]";
-            this.Label_System.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // timer1
             // 
             this.timer1.Tick += new System.EventHandler(this.TimerUI_Tick);
             // 
+            // BtnSave
+            // 
+            this.BtnSave.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("BtnSave.BackgroundImage")));
+            this.BtnSave.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.BtnSave.Font = new System.Drawing.Font("Gulim", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.BtnSave.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.BtnSave.Location = new System.Drawing.Point(17, 210);
+            this.BtnSave.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
+            this.BtnSave.Name = "BtnSave";
+            this.BtnSave.Size = new System.Drawing.Size(114, 110);
+            this.BtnSave.TabIndex = 755;
+            this.BtnSave.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.BtnSave.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.BtnSave.UseVisualStyleBackColor = true;
+            this.BtnSave.Click += new System.EventHandler(this.BtnSave_Click);
+            // 
+            // BtnCancel
+            // 
+            this.BtnCancel.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("BtnCancel.BackgroundImage")));
+            this.BtnCancel.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.BtnCancel.Font = new System.Drawing.Font("Gulim", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.BtnCancel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.BtnCancel.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.BtnCancel.Location = new System.Drawing.Point(709, 228);
+            this.BtnCancel.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
+            this.BtnCancel.Name = "BtnCancel";
+            this.BtnCancel.Size = new System.Drawing.Size(218, 92);
+            this.BtnCancel.TabIndex = 756;
+            this.BtnCancel.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.BtnCancel.UseVisualStyleBackColor = true;
+            this.BtnCancel.Click += new System.EventHandler(this.BtnCancel_Click);
+            // 
+            // BtnConfirm
+            // 
+            this.BtnConfirm.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("BtnConfirm.BackgroundImage")));
+            this.BtnConfirm.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.BtnConfirm.Font = new System.Drawing.Font("Gulim", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.BtnConfirm.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.BtnConfirm.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.BtnConfirm.Location = new System.Drawing.Point(481, 228);
+            this.BtnConfirm.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
+            this.BtnConfirm.Name = "BtnConfirm";
+            this.BtnConfirm.Size = new System.Drawing.Size(218, 92);
+            this.BtnConfirm.TabIndex = 757;
+            this.BtnConfirm.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.BtnConfirm.UseVisualStyleBackColor = true;
+            this.BtnConfirm.Click += new System.EventHandler(this.BtnConfirm_Click);
+            // 
+            // label2
+            // 
+            this.label2.BackColor = System.Drawing.Color.LightBlue;
+            this.label2.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.label2.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.label2.Font = new System.Drawing.Font("Arial Rounded MT Bold", 9.857143F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.Location = new System.Drawing.Point(17, 18);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(114, 84);
+            this.label2.TabIndex = 853;
+            this.label2.Text = "English";
+            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label1
+            // 
+            this.label1.BackColor = System.Drawing.Color.LightBlue;
+            this.label1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.label1.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.label1.Font = new System.Drawing.Font("Arial Rounded MT Bold", 9.857143F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(19, 111);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(114, 84);
+            this.label1.TabIndex = 855;
+            this.label1.Text = "Local";
+            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // TextEng
+            // 
+            this.TextEng.Font = new System.Drawing.Font("Arial", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TextEng.Location = new System.Drawing.Point(140, 18);
+            this.TextEng.Multiline = true;
+            this.TextEng.Name = "TextEng";
+            this.TextEng.Size = new System.Drawing.Size(793, 84);
+            this.TextEng.TabIndex = 856;
+            // 
+            // TextSystem
+            // 
+            this.TextSystem.Font = new System.Drawing.Font("Arial", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TextSystem.Location = new System.Drawing.Point(139, 111);
+            this.TextSystem.Multiline = true;
+            this.TextSystem.Name = "TextSystem";
+            this.TextSystem.Size = new System.Drawing.Size(793, 84);
+            this.TextSystem.TabIndex = 857;
+            // 
             // FormMessageBox
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 18F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Gray;
-            this.ClientSize = new System.Drawing.Size(659, 222);
-            this.Controls.Add(this.Label_System);
-            this.Controls.Add(this.gradientLabel2);
-            this.Controls.Add(this.BtnSave);
+            this.ClientSize = new System.Drawing.Size(941, 333);
             this.Controls.Add(this.TextSystem);
             this.Controls.Add(this.TextEng);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.label2);
             this.Controls.Add(this.BtnConfirm);
             this.Controls.Add(this.BtnCancel);
-            this.Controls.Add(this.gradientLabel1);
+            this.Controls.Add(this.BtnSave);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "FormMessageBox";
             this.ShowIcon = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Messgae Box";
             this.Load += new System.EventHandler(this.FormUtilMsg_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.TextEng)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.TextSystem)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
 
         #endregion
-        private Syncfusion.Windows.Forms.ButtonAdv BtnCancel;
-        private Syncfusion.Windows.Forms.Tools.GradientLabel gradientLabel1;
-        private Syncfusion.Windows.Forms.ButtonAdv BtnConfirm;
-        private Syncfusion.Windows.Forms.Tools.TextBoxExt TextEng;
-        private Syncfusion.Windows.Forms.Tools.TextBoxExt TextSystem;
-        private Syncfusion.Windows.Forms.ButtonAdv BtnSave;
-        private Syncfusion.Windows.Forms.Tools.GradientLabel gradientLabel2;
-        private Syncfusion.Windows.Forms.Tools.GradientLabel Label_System;
         private System.Windows.Forms.Timer timer1;
+        private System.Windows.Forms.Button BtnCancel;
+        private System.Windows.Forms.Button BtnSave;
+        private System.Windows.Forms.Button BtnConfirm;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.TextBox TextSystem;
+        private System.Windows.Forms.TextBox TextEng;
     }
 }

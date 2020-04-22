@@ -10,11 +10,8 @@ using System.Windows.Forms;
 using Core.Layers;
 
 using static Core.Layers.DEF_Common;
-
 using static Core.Layers.MDataManager;
-
 using static Core.Layers.DEF_DataManager;
-
 using static Core.Layers.DEF_Error;
 
 namespace Core.UI
@@ -77,14 +74,16 @@ namespace Core.UI
             TextSystem.Text = MsgInfo.GetMessage(MSysCore.Language);
             this.Text = $"Message : {MsgInfo.Index}";
 
-            Label_System.Text = $"[{MSysCore.Language.ToString()}]";
-            if (MSysCore.Language == ELanguage.ENGLISH)
-            {
-                Label_System.Visible = false;
-                TextSystem.Visible = false;
-            }
+            //Label_System.Text = $"[{MSysCore.Language.ToString()}]";
+            //if (MSysCore.Language == ELanguage.ENGLISH)
+            //{
+            //    Label_System.Visible = false;
+            //    TextSystem.Visible = false;
+            //}
 
             BtnConfirm.Visible = true;
+           
+           
             BtnCancel.Text = "Cancel";
             switch (MsgInfo.Type)
             {
